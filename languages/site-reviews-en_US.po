@@ -1970,7 +1970,7 @@ msgstr ""
 "need to first export them to a CSV file, and then import them using the %s "
 "tool."
 
-#: config/woocommerce.php:9, views/integrations/woocommerce/tools/import-product-reviews.php:24, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:186
+#: config/woocommerce.php:9, views/integrations/woocommerce/tools/import-product-reviews.php:27, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:189
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr "Import Reviews"
@@ -2453,6 +2453,16 @@ msgctxt "admin-text"
 msgid "All plugin migrations have been run successfully, please %s the page."
 msgstr "All plugin migrations have been run successfully, please %s the page."
 
+#: plugin/Commands/RepairPermissions.php:26
+msgctxt "admin-text"
+msgid "You do not have permission to repair permissions."
+msgstr "You do not have permission to repair permissions."
+
+#: plugin/Commands/RepairPermissions.php:36
+msgctxt "admin-text"
+msgid "The permissions have been repaired."
+msgstr "The permissions have been repaired."
+
 #: plugin/Commands/RepairReviewRelations.php:18
 msgctxt "admin-text"
 msgid "You do not have permission to repair the review relationships."
@@ -2472,16 +2482,6 @@ msgstr "You do not have permission to reset the assigned meta values."
 msgctxt "admin-text"
 msgid "The assigned meta values have been reset."
 msgstr "The assigned meta values have been reset."
-
-#: plugin/Commands/ResetPermissions.php:26
-msgctxt "admin-text"
-msgid "You do not have permission to reset permissions."
-msgstr "You do not have permission to reset permissions."
-
-#: plugin/Commands/ResetPermissions.php:36
-msgctxt "admin-text"
-msgid "The permissions have been reset."
-msgstr "The permissions have been reset."
 
 #: plugin/Commands/TogglePinned.php:38
 msgctxt "admin-text"
@@ -2529,7 +2529,7 @@ msgid_plural "%s Reviews"
 msgstr[0] "%s Review"
 msgstr[1] "%s Reviews"
 
-#: plugin/Controllers/AdminController.php:158, views/pages/tools/console.php:50
+#: plugin/Controllers/AdminController.php:158, views/pages/tools/console.php:58
 msgctxt "admin-text"
 msgid "Apply"
 msgstr "Apply"
@@ -2793,7 +2793,7 @@ msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr "Scheduled Actions"
 
-#: plugin/Controllers/MenuController.php:175, views/pages/tools/sync.php:57
+#: plugin/Controllers/MenuController.php:175, views/pages/tools/sync.php:58
 msgctxt "admin-text"
 msgid "Sync Reviews"
 msgstr "Sync Reviews"
@@ -2916,15 +2916,15 @@ msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr "Console reloaded."
 
-#: plugin/Controllers/ToolsController.php:323
+#: plugin/Controllers/ToolsController.php:279
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr "reload the page"
 
-#: plugin/Controllers/ToolsController.php:327
+#: plugin/Controllers/ToolsController.php:283
 msgctxt "admin-text"
-msgid "The permissions have been reset, please %s for them to take effect."
-msgstr "The permissions have been reset, please %s for them to take effect."
+msgid "The permissions have been repaired, please %s for them to take effect."
+msgstr "The permissions have been repaired, please %s for them to take effect."
 
 #: plugin/Controllers/ToolsController.php:363
 msgctxt "admin-text"
@@ -4541,27 +4541,27 @@ msgctxt "admin-text"
 msgid "Download Log"
 msgstr "Download Log"
 
-#: views/pages/tools/console.php:18
+#: views/pages/tools/console.php:20
 msgctxt "admin-text"
 msgid "Reloading..."
 msgstr "Reloading..."
 
-#: views/pages/tools/console.php:18
+#: views/pages/tools/console.php:21
 msgctxt "admin-text"
 msgid "Reload"
 msgstr "Reload"
 
-#: views/pages/tools/console.php:25
+#: views/pages/tools/console.php:30
 msgctxt "admin-text"
 msgid "Clearing..."
 msgstr "Clearing..."
 
-#: views/pages/tools/console.php:25
+#: views/pages/tools/console.php:31
 msgctxt "admin-text"
 msgid "Clear"
 msgstr "Clear"
 
-#: views/pages/tools/console.php:34
+#: views/pages/tools/console.php:40
 msgctxt "admin-text"
 msgid ""
 "Here you can change the <u>minimum</u> log level used by the Console. Site "
@@ -4574,52 +4574,52 @@ msgstr ""
 "plugin. The log level determines the importance of the logged entry: the "
 "higher the level, the more important the entry."
 
-#: views/pages/tools/console.php:36
+#: views/pages/tools/console.php:42
 msgctxt "admin-text"
 msgid "Level 0: Entries used for debugging."
 msgstr "Level 0: Entries used for debugging."
 
-#: views/pages/tools/console.php:37
+#: views/pages/tools/console.php:43
 msgctxt "admin-text"
 msgid "Level 1: Informational entries."
 msgstr "Level 1: Informational entries."
 
-#: views/pages/tools/console.php:38
+#: views/pages/tools/console.php:44
 msgctxt "admin-text"
 msgid "Level 2: Deprecation notices."
 msgstr "Level 2: Deprecation notices."
 
-#: views/pages/tools/console.php:39
+#: views/pages/tools/console.php:45
 msgctxt "admin-text"
 msgid "Level 4: Warnings and errors."
 msgstr "Level 4: Warnings and errors."
 
-#: views/pages/tools/console.php:41
+#: views/pages/tools/console.php:47
 msgctxt "admin-text"
 msgid "Level 0: Debugging"
 msgstr "Level 0: Debugging"
 
-#: views/pages/tools/console.php:42
+#: views/pages/tools/console.php:48
 msgctxt "admin-text"
 msgid "Level 1: Informational"
 msgstr "Level 1: Informational"
 
-#: views/pages/tools/console.php:43
+#: views/pages/tools/console.php:49
 msgctxt "admin-text"
 msgid "Level 2: Notices"
 msgstr "Level 2: Notices"
 
-#: views/pages/tools/console.php:44
+#: views/pages/tools/console.php:50
 msgctxt "admin-text"
 msgid "Level 4: Warnings"
 msgstr "Level 4: Warnings"
 
-#: views/pages/tools/console.php:46
+#: views/pages/tools/console.php:52
 msgctxt "admin-text"
 msgid "Unknown Level"
 msgstr "Unknown Level"
 
-#: views/pages/tools/console.php:50, views/pages/tools/sync.php:43
+#: views/pages/tools/console.php:57, views/pages/tools/sync.php:43
 msgctxt "admin-text"
 msgid "Please wait..."
 msgstr "Please wait..."
@@ -4858,17 +4858,12 @@ msgctxt "admin-text"
 msgid "Common Problems and Solutions"
 msgstr "Common Problems and Solutions"
 
-#: views/partials/notices/migration.php:19, views/pages/tools/general/migrate-plugin.php:21
-msgctxt "admin-text"
-msgid "Run All Migrations"
-msgstr "Run All Migrations"
-
-#: views/partials/notices/migration.php:19, views/pages/tools/general/migrate-plugin.php:21
+#: views/partials/notices/migration.php:20, views/pages/tools/general/migrate-plugin.php:22, views/pages/tools/general/migrate-plugin.php:30
 msgctxt "admin-text"
 msgid "Migrating, please wait..."
 msgstr "Migrating, please wait..."
 
-#: views/partials/notices/migration.php:19, views/pages/tools/general/migrate-plugin.php:21
+#: views/partials/notices/migration.php:21
 msgctxt "admin-text"
 msgid "Run Migration"
 msgstr "Run Migration"
@@ -5155,12 +5150,8 @@ msgstr "Import Product Reviews"
 
 #: views/integrations/woocommerce/tools/import-product-reviews.php:14
 msgctxt "admin-text"
-msgid ""
-"Reviews are only imported once, so it's safe to run this tool multiple "
-"times."
-msgstr ""
-"Reviews are only imported once, so it's safe to run this tool multiple "
-"times."
+msgid "Reviews are only imported once so it's safe to run this tool multiple times."
+msgstr "Reviews are only imported once so it's safe to run this tool multiple times."
 
 #: views/integrations/woocommerce/tools/import-product-reviews.php:18
 msgctxt "admin-text"
@@ -5171,7 +5162,7 @@ msgstr ""
 "This tool will import your WooCommerce Product reviews. Review replies and "
 "comments will be skipped."
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:24, views/pages/tools/general/import-reviews.php:186
+#: views/integrations/woocommerce/tools/import-product-reviews.php:26, views/pages/tools/general/import-reviews.php:188
 msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
 msgstr "Importing reviews, please wait..."
@@ -5423,7 +5414,7 @@ msgctxt "admin-text"
 msgid "Day"
 msgstr "Day"
 
-#: views/pages/tools/general/import-settings.php:7, views/pages/tools/general/import-settings.php:24
+#: views/pages/tools/general/import-settings.php:7, views/pages/tools/general/import-settings.php:26
 msgctxt "admin-text"
 msgid "Import Settings"
 msgstr "Import Settings"
@@ -5439,22 +5430,17 @@ msgstr ""
 "the the %sExport Settings%s tool to export these settings from another "
 "website."
 
-#: views/pages/tools/general/import-settings.php:24
+#: views/pages/tools/general/import-settings.php:25
 msgctxt "admin-text"
 msgid "Importing settings, please wait..."
 msgstr "Importing settings, please wait..."
 
-#: views/pages/tools/general/migrate-plugin.php:7
+#: views/pages/tools/general/migrate-plugin.php:7, views/pages/tools/general/migrate-plugin.php:24
 msgctxt "admin-text"
 msgid "Migrate Plugin"
 msgstr "Migrate Plugin"
 
-#: views/pages/tools/general/migrate-plugin.php:13
-msgctxt "admin-text"
-msgid "Hold down the ALT/Option key to force-run all previous migrations."
-msgstr "Hold down the ALT/Option key to force-run all previous migrations."
-
-#: views/pages/tools/general/migrate-plugin.php:15
+#: views/pages/tools/general/migrate-plugin.php:12
 msgctxt "admin-text"
 msgid ""
 "Run this tool if your reviews stopped working correctly after upgrading the "
@@ -5465,12 +5451,28 @@ msgstr ""
 "plugin to the latest version (i.e. read-only reviews, zero-star ratings, "
 "missing role capabilities, etc.)."
 
+#: views/pages/tools/general/migrate-plugin.php:13
+msgctxt "admin-text"
+msgid ""
+"If Site Reviews stopped working after cloning your website or after "
+"restoring your website from a backup, click the <strong>Hard Reset</strong> "
+"button."
+msgstr ""
+"If Site Reviews stopped working after cloning your website or after "
+"restoring your website from a backup, click the <strong>Hard Reset</strong> "
+"button."
+
+#: views/pages/tools/general/migrate-plugin.php:32, views/pages/tools/general/repair-permissions.php:29
+msgctxt "admin-text"
+msgid "Hard Reset"
+msgstr "Hard Reset"
+
 #: views/pages/tools/general/optimise-db-tables.php:7, views/pages/tools/general/repair-review-relations.php:18
 msgctxt "admin-text"
 msgid "Optimise Your Database Tables"
 msgstr "Optimise Your Database Tables"
 
-#: views/pages/tools/general/optimise-db-tables.php:50
+#: views/pages/tools/general/optimise-db-tables.php:52
 msgctxt "admin-text"
 msgid ""
 "Optimisation is unnecessary because your database tables already use the "
@@ -5515,15 +5517,51 @@ msgctxt "admin-text"
 msgid "Engine"
 msgstr "Engine"
 
-#: views/pages/tools/general/optimise-db-tables.php:40
+#: views/pages/tools/general/optimise-db-tables.php:41
 msgctxt "admin-text"
 msgid "Converting, please wait..."
 msgstr "Converting, please wait..."
 
-#: views/pages/tools/general/optimise-db-tables.php:40
+#: views/pages/tools/general/optimise-db-tables.php:42
 msgctxt "admin-text"
 msgid "Convert table engine to InnoDB"
 msgstr "Convert table engine to InnoDB"
+
+#: views/pages/tools/general/repair-permissions.php:7, views/pages/tools/general/repair-permissions.php:22
+msgctxt "admin-text"
+msgid "Repair Permissions"
+msgstr "Repair Permissions"
+
+#: views/pages/tools/general/repair-permissions.php:12
+msgctxt "admin-text"
+msgid ""
+"Site Reviews provides custom post_type capabilities that mirror the "
+"capabilities of your posts by default. For example, if a user role has "
+"permission to edit others posts, then that role will also have permission "
+"to edit other users reviews."
+msgstr ""
+"Site Reviews provides custom post_type capabilities that mirror the "
+"capabilities of your posts by default. For example, if a user role has "
+"permission to edit others posts, then that role will also have permission "
+"to edit other users reviews."
+
+#: views/pages/tools/general/repair-permissions.php:13
+msgctxt "admin-text"
+msgid ""
+"If you have changed the capabilities of your user roles (Administrator, "
+"Editor, Author, and Contributor) and you suspect that Site Reviews is not "
+"working correctly due to your changes, click the <strong>Hard "
+"Reset</strong> button."
+msgstr ""
+"If you have changed the capabilities of your user roles (Administrator, "
+"Editor, Author, and Contributor) and you suspect that Site Reviews is not "
+"working correctly due to your changes, click the <strong>Hard "
+"Reset</strong> button."
+
+#: views/pages/tools/general/repair-permissions.php:21, views/pages/tools/general/repair-permissions.php:28
+msgctxt "admin-text"
+msgid "Repairing, please wait..."
+msgstr "Repairing, please wait..."
 
 #: views/pages/tools/general/repair-review-relations.php:7
 msgctxt "admin-text"
@@ -5561,12 +5599,12 @@ msgstr ""
 "any review details in the custom database table that do not point to a "
 "valid review."
 
-#: views/pages/tools/general/repair-review-relations.php:30
+#: views/pages/tools/general/repair-review-relations.php:32
 msgctxt "admin-text"
 msgid "Repairing relations, please wait..."
 msgstr "Repairing relations, please wait..."
 
-#: views/pages/tools/general/repair-review-relations.php:30
+#: views/pages/tools/general/repair-review-relations.php:33
 msgctxt "admin-text"
 msgid "Repair Relations"
 msgstr "Repair Relations"
@@ -5589,69 +5627,17 @@ msgstr ""
 "these meta values are incorrect (perhaps you cloned a page that had reviews "
 "assigned to it), you may use this tool to recalculate them."
 
-#: views/pages/tools/general/reset-assigned-meta.php:17
+#: views/pages/tools/general/reset-assigned-meta.php:19
 msgctxt "admin-text"
 msgid "Resetting values, please wait..."
 msgstr "Resetting values, please wait..."
 
-#: views/pages/tools/general/reset-assigned-meta.php:17
+#: views/pages/tools/general/reset-assigned-meta.php:20
 msgctxt "admin-text"
 msgid "Reset Meta Values"
 msgstr "Reset Meta Values"
 
-#: views/pages/tools/general/reset-permissions.php:7, views/pages/tools/general/reset-permissions.php:22
-msgctxt "admin-text"
-msgid "Reset Permissions"
-msgstr "Reset Permissions"
-
-#: views/pages/tools/general/reset-permissions.php:13
-msgctxt "admin-text"
-msgid ""
-"Hold down the ALT/Option key to perform a \"Hard Reset\"; this removes all "
-"Site Reviews capabilites from your Editor, Author, and Contributor roles "
-"before re-adding them."
-msgstr ""
-"Hold down the ALT/Option key to perform a \"Hard Reset\"; this removes all "
-"Site Reviews capabilites from your Editor, Author, and Contributor roles "
-"before re-adding them."
-
-#: views/pages/tools/general/reset-permissions.php:15
-msgctxt "admin-text"
-msgid ""
-"Site Reviews provides custom post_type capabilities that mirror the "
-"capabilities of your posts by default. For example, if a user role has "
-"permission to edit others posts, then that role will also have permission "
-"to edit other users reviews."
-msgstr ""
-"Site Reviews provides custom post_type capabilities that mirror the "
-"capabilities of your posts by default. For example, if a user role has "
-"permission to edit others posts, then that role will also have permission "
-"to edit other users reviews."
-
-#: views/pages/tools/general/reset-permissions.php:16
-msgctxt "admin-text"
-msgid ""
-"If you have changed the capabilities of your user roles (Administrator, "
-"Editor, Author, and Contributor) and you suspect that Site Reviews is not "
-"working correctly due to your changes, you may use this tool to reset the "
-"Site Reviews capabilities for your user roles."
-msgstr ""
-"If you have changed the capabilities of your user roles (Administrator, "
-"Editor, Author, and Contributor) and you suspect that Site Reviews is not "
-"working correctly due to your changes, you may use this tool to reset the "
-"Site Reviews capabilities for your user roles."
-
-#: views/pages/tools/general/reset-permissions.php:22
-msgctxt "admin-text"
-msgid "Hard Reset Permissions"
-msgstr "Hard Reset Permissions"
-
-#: views/pages/tools/general/reset-permissions.php:22
-msgctxt "admin-text"
-msgid "Resetting, please wait..."
-msgstr "Resetting, please wait..."
-
-#: views/pages/tools/general/rollback-plugin.php:7, views/pages/tools/general/rollback-plugin.php:46
+#: views/pages/tools/general/rollback-plugin.php:7, views/pages/tools/general/rollback-plugin.php:47
 msgctxt "admin-text"
 msgid "Rollback Plugin"
 msgstr "Rollback Plugin"
@@ -5708,12 +5694,12 @@ msgstr ""
 "If you are getting an \"unknown\" value for IP addresses in your reviews, "
 "you may use this tool to check the visitor IP address detection."
 
-#: views/pages/tools/general/test-ip-detection.php:17
+#: views/pages/tools/general/test-ip-detection.php:19
 msgctxt "admin-text"
 msgid "Testing, please wait..."
 msgstr "Testing, please wait..."
 
-#: views/pages/tools/general/test-ip-detection.php:17
+#: views/pages/tools/general/test-ip-detection.php:20
 msgctxt "admin-text"
 msgid "Test Detection"
 msgstr "Test Detection"

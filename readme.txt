@@ -183,14 +183,13 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.10.0 (2023-06-20) =
+= 6.10.0 (2023-07-25) =
 
 - Added integration with [myCRED](https://mycred.me/)
 - Added listtable filter for Accepted Terms (All Reviews admin page)
 - Added options to override the Site Reviews shortcode settings for a WooCommerce product (find the options in the "product data" metabox)
 - Added priority option for categories
-- Added string translation support for shortcodes
-- Changed the console log level of validation errors from Warning to Info
+- Changed the console log level for validation errors from Warning to Info
 - Fixed Bulk Edit from removing author assignments
 - Fixed honeypot field IDs
 - Fixed Migrate Plugin tool (force-running plugin migration will fix orphaned foreign constraints related to old database table prefixes)
@@ -199,7 +198,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 = 6.9.5 (2023-06-14) =
 
 - Fixed plugin migration (force-running all migrations should now fix database issues related to foreign constraints)
-- Fixed WP Engine detection in System Info
+- Fixed WPEngine detection in System Info
 - Updated documentation
 
 = 6.9.4 (2023-05-30) =
