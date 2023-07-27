@@ -22,6 +22,7 @@
  * - 'date' => '',
  * - 'email' => '',
  * - 'ip_address' => '',
+ * - 'is_approved' => true,
  * - 'is_pinned' => false,
  * - 'is_verified' => false,
  * - 'name' => '',

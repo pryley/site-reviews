@@ -47,6 +47,7 @@ class CustomFieldsDefaults extends DefaultsAbstract
         'response',
         'review_id',
         'score',
+        'status',
         'terms',
         'terms_exist',
         'title',

@@ -22,7 +22,7 @@ class UpdateReviewDefaults extends DefaultsAbstract
      * @var array
      */
     public $enums = [
-        'status' => ['approved', 'pending', 'publish', 'unapproved'],
+        'status' => ['pending', 'publish'],
     ];
 
     /**
@@ -55,14 +55,12 @@ class UpdateReviewDefaults extends DefaultsAbstract
      * Finalize provided values, this always runs last.
      * @return array
      */
-    protected function finalize(array $values = [])
+    protected function normalize(array $values = [])
     {
-        $mapped = [
-            'approved' => 'publish',
-            'unapproved' => 'pending',
-        ];
-        if (array_key_exists($values['status'], $mapped)) {
-            $values['status'] = $mapped[$values['status']];
+        if (isset($values['is_approved'])) {
+            $values['status'] = wp_validate_boolean($values['is_approved']) ? 'publish' : 'pending';
+        } else {
+            $values['status'] = '';
         }
         return $values;
     }

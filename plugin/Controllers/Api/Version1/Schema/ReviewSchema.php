@@ -190,7 +190,7 @@ class ReviewSchema
                 'type' => 'string',
             ],
             'is_approved' => [
-                'context' => ['view'],
+                'context' => ['edit', 'view'],
                 'description' => _x('If the review has an approved status.', 'admin-text', 'site-reviews'),
                 'readonly' => true,
                 'type' => 'boolean',
@@ -245,12 +245,6 @@ class ReviewSchema
                 'context' => ['edit', 'view'],
                 'description' => _x('The popularity score of the review.', 'admin-text', 'site-reviews'),
                 'type' => 'integer',
-            ],
-            'status' => [
-                'context' => ['edit', 'view'],
-                'description' => _x('A named status for the review.', 'admin-text', 'site-reviews'),
-                'enum' => ['all', 'approved', 'pending', 'publish', 'unapproved'],
-                'type' => 'string',
             ],
             'terms' => [
                 'context' => ['edit', 'view'],

@@ -465,6 +465,10 @@
                         <td>The IP addess of the reviewer.</td>
                     </tr>
                     <tr>
+                        <td><strong>is_approved</strong></td>
+                        <td>The approved status of the review. One of: <code>0</code>, <code>1</code></td>
+                    </tr>
+                    <tr>
                         <td><strong>is_pinned</strong></td>
                         <td>The pinned status of the review. One of: <code>0</code>, <code>1</code></td>
                     </tr>
@@ -487,10 +491,6 @@
                     <tr>
                         <td><strong>score</strong></td>
                         <td>The popularity score of the review. Value must be an whole integer.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>status</strong></td>
-                        <td>A status of the review. One of: <code>approved</code>, <code>upapproved</code></td>
                     </tr>
                     <tr>
                         <td><strong>terms</strong></td>
@@ -557,6 +557,10 @@
                         <td>The IP addess of the reviewer.</td>
                     </tr>
                     <tr>
+                        <td><strong>is_approved</strong></td>
+                        <td>The approved status of the review. One of: <code>0</code>, <code>1</code></td>
+                    </tr>
+                    <tr>
                         <td><strong>is_pinned</strong></td>
                         <td>The pinned status of the review. One of: <code>0</code>, <code>1</code></td>
                     </tr>
@@ -579,10 +583,6 @@
                     <tr>
                         <td><strong>score</strong></td>
                         <td>The popularity score of the review. Value must be an whole integer.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>status</strong></td>
-                        <td>A status of the review. One of: <code>approved</code>, <code>upapproved</code></td>
                     </tr>
                     <tr>
                         <td><strong>terms</strong></td>
