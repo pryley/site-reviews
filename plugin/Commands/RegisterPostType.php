@@ -27,11 +27,9 @@ class RegisterPostType implements Contract
      */
     public function handle()
     {
-        if (!in_array(glsr()->post_type, get_post_types(['_builtin' => true]))) {
-            register_post_type(glsr()->post_type, $this->args);
-            $this->setColumns();
-            $this->setDefaultHiddenColumns();
-        }
+        register_post_type(glsr()->post_type, $this->args);
+        $this->setColumns();
+        $this->setDefaultHiddenColumns();
     }
 
     /**
