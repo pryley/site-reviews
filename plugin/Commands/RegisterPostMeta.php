@@ -17,15 +17,24 @@ class RegisterPostMeta implements Contract
             CountManager::META_RANKING,
             CountManager::META_REVIEWS,
         ];
+        $types = array_keys(get_post_types([
+            '_builtin' => false,
+            'exclude_from_search' => false,
+            'show_in_rest' => true,
+        ]));
+        $types[] = 'page';
+        $types[] = 'post';
         foreach ($metaKeys as $key) {
-            register_post_meta('', $key, [ // register on all post types
-                'auth_callback' => '__return_true',
-                'default' => 0,
-                'sanitize_callback' => 'sanitize_text_field',
-                'show_in_rest' => true,
-                'single' => true,
-                'type' => 'number',
-            ]);
+            foreach ($types as $type) {
+                register_post_meta($type, $key, [
+                    'auth_callback' => '__return_true',
+                    'default' => 0,
+                    'sanitize_callback' => 'sanitize_text_field',
+                    'show_in_rest' => true,
+                    'single' => true,
+                    'type' => 'number',
+                ]);
+            }
         }
     }
 }
