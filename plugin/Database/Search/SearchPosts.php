@@ -49,7 +49,12 @@ class SearchPosts extends AbstractSearch
      */
     protected function postTypes()
     {
-        $types = array_keys(get_post_types(['exclude_from_search' => false]));
+        $types = array_keys(get_post_types([
+            '_builtin' => false,
+            'exclude_from_search' => false,
+        ]));
+        $types[] = 'post';
+        $types[] = 'page';
         $types = glsr()->filterArray('search/posts/post_type', $types);
         return Str::join($types, true);
     }
