@@ -7,15 +7,9 @@ use GeminiLabs\SiteReviews\Modules\Sanitizers\SanitizeTextHtml;
 
 class Text
 {
-    public static function excerpt(string $text, int $limit = 55, bool $splitWords = true): string
+    public static function excerpt(?string $text, int $limit = 55, bool $splitWords = true): string
     {
-        $map = [];
-        $text = static::normalize($text);
-        // replace tags with placeholder
-        $text = preg_replace_callback('|<([a-z+])[^>]*?>.*?</\\1>|siu', function ($match) use (&$map) {
-            $map[] = $match[0];
-            return '⍈';
-        }, $text);
+        [$text, $map] = static::replaceTags(static::normalize($text));
         $excerptLength = $limit;
         if ($splitWords) {
             $excerpt = static::words($text, $limit);
@@ -23,15 +17,10 @@ class Text
         }
         $paragraphs = static::extractParagraphs($text, $excerptLength);
         $text = implode(PHP_EOL, $paragraphs);
-        $i = 0;
-        // replace placeholder with tags
-        $text = preg_replace_callback('|⍈|u', function ($match) use (&$i, $map) {
-            return $map[$i++];
-        }, $text);
-        return $text;
+        return static::restoreTags($text, $map);
     }
 
-    public static function initials(string $name, string $initialPunctuation = ''): string
+    public static function initials(?string $name, string $initialPunctuation = ''): string
     {
         preg_match_all('/(?<=\s|\b)\p{L}/u', (string) $name, $matches); // match the first letter of each word in the name
         $result = (string) array_reduce($matches[0], function ($carry, $word) use ($initialPunctuation) {
@@ -46,9 +35,9 @@ class Text
      * @param string $nameFormat  first|first_initial|last_initial|initials
      * @param string $initialType  period|period_space|space
      */
-    public static function name(string $name, string $nameFormat = '', string $initialType = 'space'): string
+    public static function name(?string $name, string $nameFormat = '', string $initialType = 'space'): string
     {
-        $names = preg_split('/\W/u', $name, 0, PREG_SPLIT_NO_EMPTY);
+        $names = preg_split('/\W/u', (string) $name, 0, PREG_SPLIT_NO_EMPTY);
         $firstName = (string) array_shift($names);
         $lastName = (string) array_pop($names);
         $nameFormat = Str::restrictTo('first,first_initial,last_initial,initials', $nameFormat, '');
@@ -73,7 +62,7 @@ class Text
         return trim((string) Arr::get($nameFormats, $nameFormat, $name));
     }
 
-    public static function normalize(string $text): string
+    public static function normalize(?string $text): string
     {
         $text = (new SanitizeTextHtml($text))->run();
         $text = strip_shortcodes($text);
@@ -90,7 +79,7 @@ class Text
         return $text;
     }
 
-    public static function text(string $text): string
+    public static function text(?string $text): string
     {
         $text = static::normalize($text);
         $text = preg_split('/\R+/um', $text); // split text by line-breaks
@@ -99,9 +88,9 @@ class Text
         return wpautop($text);
     }
 
-    public static function wordCount(string $text): int
+    public static function wordCount(?string $text): int
     {
-        $text = wp_strip_all_tags($text, true);
+        $text = wp_strip_all_tags((string) $text, true);
         if (!extension_loaded('intl')) {
             return count(preg_split('/[^\p{L}\p{N}\']+/u', $text));
         }
@@ -117,12 +106,12 @@ class Text
         return $wordCount;
     }
 
-    public static function words(string $text, int $limit = 0): string
+    public static function words(?string $text, int $limit = 0): string
     {
         $stringLength = extension_loaded('intl')
-            ? static::excerptIntlSplit($text, $limit)
-            : static::excerptSplit($text, $limit);
-        return mb_substr($text, 0, $stringLength);
+            ? static::excerptIntlSplit((string) $text, $limit)
+            : static::excerptSplit((string) $text, $limit);
+        return mb_substr((string) $text, 0, $stringLength);
     }
 
     protected static function excerptIntlSplit(string $text, int $limit): int
@@ -184,5 +173,29 @@ class Text
             ]);
         }
         return $paragraphs;
+    }
+
+    protected static function replaceTags(string $text): array
+    {
+        $map = [];
+        $result = (string) preg_replace_callback('|<([a-z+])[^>]*?>.*?</\\1>|siu', function ($matches) use (&$map) {
+            $map[] = $matches[0];
+            return '⍈';
+        }, $text);
+        return is_null($result)
+            ? [$text, []]
+            : [$result, $map];
+    }
+
+    protected static function restoreTags(string $text, array $map = []): string
+    {
+        if (empty($map)) {
+            return $text;
+        }
+        $i = 0;
+        $result = preg_replace_callback('|⍈|u', function ($matches) use (&$i, $map) {
+            return $map[$i++] ?? '';
+        }, $text);
+        return $result ?? $text;
     }
 }

@@ -29,6 +29,15 @@ class ReviewContentTag extends ReviewTag
     }
 
     /**
+     * @param mixed $value
+     * @return string
+     */
+    protected function value($value = null)
+    {
+        return Cast::toString($value);
+    }
+
+    /**
      * @param string $value
      * @param string $tag
      * @return string
