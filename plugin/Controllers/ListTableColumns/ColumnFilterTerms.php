@@ -18,8 +18,8 @@ class ColumnFilterTerms extends ColumnFilter
     public function options()
     {
         return [
-            0 => _x('Terms not accepted', 'admin-text', 'site-reviews'),
-            1 => _x('Terms accepted', 'admin-text', 'site-reviews'),
+            1 => _x('Terms were accepted', 'admin-text', 'site-reviews'),
+            0 => _x('Terms were not accepted', 'admin-text', 'site-reviews'),
         ];
     }
 
