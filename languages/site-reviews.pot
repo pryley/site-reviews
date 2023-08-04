@@ -1732,7 +1732,7 @@ msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr ""
 
-#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:174
+#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:163
 msgid "Show more"
 msgstr ""
 
@@ -2842,7 +2842,7 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: plugin/Helpers/Text.php:173
+#: plugin/Helpers/Text.php:162
 msgid "Show less"
 msgstr ""
 
@@ -3777,14 +3777,14 @@ msgctxt "admin-text"
 msgid "Filter by terms"
 msgstr ""
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:21
+#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:21, plugin/Integrations/Elementor/ElementorReviewsWidget.php:81, plugin/Integrations/Elementor/ElementorSummaryWidget.php:93
 msgctxt "admin-text"
-msgid "Terms not accepted"
+msgid "Terms were accepted"
 msgstr ""
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:22
+#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:22, plugin/Integrations/Elementor/ElementorReviewsWidget.php:82, plugin/Integrations/Elementor/ElementorSummaryWidget.php:94
 msgctxt "admin-text"
-msgid "Terms accepted"
+msgid "Terms were not accepted"
 msgstr ""
 
 #: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:31
@@ -3860,16 +3860,6 @@ msgstr ""
 #: plugin/Integrations/Elementor/ElementorReviewsWidget.php:78, plugin/Integrations/Elementor/ElementorSummaryWidget.php:90
 msgctxt "admin-text"
 msgid "Limit Reviews to terms"
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:81, plugin/Integrations/Elementor/ElementorSummaryWidget.php:93
-msgctxt "admin-text"
-msgid "Terms were accepted"
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:82, plugin/Integrations/Elementor/ElementorSummaryWidget.php:94
-msgctxt "admin-text"
-msgid "Terms were not accepted"
 msgstr ""
 
 #: plugin/Integrations/Elementor/ElementorReviewsWidget.php:89
@@ -5847,20 +5837,15 @@ msgstr ""
 
 #: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:251
 msgctxt "admin-text"
-msgid "A named status for the review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:257
-msgctxt "admin-text"
 msgid "If the terms were accepted when the review was submitted."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:262
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:256
 msgctxt "admin-text"
 msgid "The title of the review."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:267
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:261
 msgctxt "admin-text"
 msgid "Type of Review for the object."
 msgstr ""
