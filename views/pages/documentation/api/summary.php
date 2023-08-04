@@ -194,6 +194,6 @@
         <h4>Definition</h4>
         <pre><code class="language-bash">GET /site-reviews/v1/summary</code></pre>
         <h4>Example Request</h4>
-        <pre><code class="language-bash">curl https://example.com/wp-json/site-reviews/v1/summary</code></pre>
+        <pre><code class="language-bash">curl --user "USERNAME:PASSWORD" https://example.com/wp-json/site-reviews/v1/summary</code></pre>
     </div>
 </div>

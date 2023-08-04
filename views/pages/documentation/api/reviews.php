@@ -392,7 +392,7 @@
         <h4>Definition</h4>
         <pre><code class="language-bash">GET /site-reviews/v1/reviews</code></pre>
         <h4>Example Request</h4>
-        <pre><code class="language-bash">curl https://example.com/wp-json/site-reviews/v1/reviews</code></pre>
+        <pre><code class="language-bash">curl --user "USERNAME:PASSWORD" https://example.com/wp-json/site-reviews/v1/reviews</code></pre>
 
         <h3>Retrieve a Review</h3>
         <p>Query this endpoint to retrieve a review.</p>
@@ -418,7 +418,7 @@
         <h4>Definition</h4>
         <pre><code class="language-bash">GET /site-reviews/v1/reviews/&lt;id&gt;</code></pre>
         <h4>Example Request</h4>
-        <pre><code class="language-bash">curl https://example.com/wp-json/site-reviews/v1/reviews/&lt;id&gt;</code></pre>
+        <pre><code class="language-bash">curl --user "USERNAME:PASSWORD" https://example.com/wp-json/site-reviews/v1/reviews/&lt;id&gt;</code></pre>
 
         <h3>Create a Review</h3>
         <p>Query this endpoint to create a review.</p>
@@ -510,7 +510,9 @@
         <h4>Definition</h4>
         <pre><code class="language-bash">POST /site-reviews/v1/reviews</code></pre>
         <h4>Example Request</h4>
-        <pre><code class="language-bash">curl -X POST https://example.com/wp-json/site-reviews/v1/reviews -d '{"rating":"5"}'</code></pre>
+        <pre><code class="language-bash">curl --user "USERNAME:PASSWORD" -X POST https://example.com/wp-json/site-reviews/v1/reviews \
+    -H "Content-Type: application/json" \
+    -d '{"rating":"5"}'</code></pre>
 
         <h3>Update a Review</h3>
         <p>Query this endpoint to update a review.</p>
@@ -602,7 +604,9 @@
         <h4>Definition</h4>
         <pre><code class="language-bash">POST /site-reviews/v1/reviews/&lt;id&gt;</code></pre>
         <h4>Example Request</h4>
-        <pre><code class="language-bash">curl -X POST https://example.com/wp-json/site-reviews/v1/reviews/&lt;id&gt; -d '{"rating":"5"}'</code></pre>
+        <pre><code class="language-bash">curl --user "USERNAME:PASSWORD" -X POST https://example.com/wp-json/site-reviews/v1/reviews/&lt;id&gt; \
+    -H "Content-Type: application/json" \
+    -d '{"rating":"5"}'</code></pre>
 
         <h3>Delete a Review</h3>
         <p>Query this endpoint to delete a review.</p>
@@ -628,6 +632,6 @@
         <h4>Definition</h4>
         <pre><code class="language-bash">DELETE /site-reviews/v1/reviews/&lt;id&gt;</code></pre>
         <h4>Example Request</h4>
-        <pre><code class="language-bash">curl -X DELETE https://example.com/wp-json/site-reviews/v1/reviews/&lt;id&gt;</code></pre>
+        <pre><code class="language-bash">curl --user "USERNAME:PASSWORD" -X DELETE https://example.com/wp-json/site-reviews/v1/reviews/&lt;id&gt;</code></pre>
     </div>
 </div>
