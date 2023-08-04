@@ -1,6 +1,6 @@
 == Changelog ==
 
-= 6.10.0 (2023-07-25) =
+= 6.10.0 (2023-08-04) =
 
 - Added integration with [myCRED](https://mycred.me/)
 - Added listtable filter for Accepted Terms (All Reviews admin page)
@@ -8,9 +8,12 @@
 - Added priority option for categories
 - Changed the console log level for validation errors from Warning to Info
 - Fixed Bulk Edit from removing author assignments
+- Fixed excerpt support for Cryllic script
 - Fixed honeypot field IDs
 - Fixed Migrate Plugin tool (force-running plugin migration will fix orphaned foreign constraints related to old database table prefixes)
+- Fixed registration of assignment meta keys
 - Fixed Ultimate Member avatar compatibility
+- Updated API documentation
 
 = 6.9.5 (2023-06-14) =
 

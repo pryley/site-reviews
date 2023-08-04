@@ -8,7 +8,7 @@
         </button>
     </h3>
     <div id="welcome-v6_10_0" class="inside">
-        <p><em>Release Date &mdash; July 25th, 2023</em></p>
+        <p><em>Release Date &mdash; August 4th, 2023</em></p>
 
         <h4>✨ New Features</h4>
         <ul>
@@ -20,12 +20,14 @@
 
         <h4>🐞 Bugs Fixed</h4>
         <ul>
-            <li>Fixed "read more" links in exceprts</li>
-            <li>Fixed <code>{review_assigned_links}</code> template tag in email notifications</li>
             <li>Fixed Bulk Edit from removing author assignments</li>
             <li>Fixed compatibility with WordPress v5.8 and v5.9</li>
+            <li>Fixed excerpt support for Cryllic script</li>
             <li>Fixed honeypot field IDs</li>
             <li>Fixed Migrate Plugin tool (force-running plugin migration will fix orphaned foreign constraints related to old database table prefixes)</li>
+            <li>Fixed "read more" links in exceprts</li>
+            <li>Fixed registration of assignment meta keys</li>
+            <li>Fixed <code>{review_assigned_links}</code> template tag in email notifications</li>
             <li>Fixed Ultimate Member avatar compatibility</li>
             <li>Fixed unicode support for author name in reviews</li>
             <li>Fixed WPEngine detection in System Info</li>
@@ -38,6 +40,7 @@
 
         <h4>📦 Updated</h4>
         <ul>
+            <li>Updated API documentation</li>
             <li>Updated documentation</li>
         </ul>
     </div>
