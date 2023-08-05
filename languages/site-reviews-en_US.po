@@ -88,7 +88,7 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
-#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:167
+#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:168
 msgid "Show more"
 msgstr "Show more"
 
@@ -200,7 +200,7 @@ msgstr ""
 msgid "and"
 msgstr "and"
 
-#: plugin/Helpers/Text.php:166
+#: plugin/Helpers/Text.php:167
 msgid "Show less"
 msgstr "Show less"
 
@@ -362,7 +362,7 @@ msgstr "The review submission failed. Please notify the site administrator."
 msgid "Duplicate review detected. It looks like you already said that!"
 msgstr "Duplicate review detected. It looks like you already said that!"
 
-#: plugin/Modules/Validator/PermissionValidator.php:26
+#: plugin/Modules/Validator/PermissionValidator.php:24
 msgid "You must be logged in to submit a review."
 msgstr "You must be logged in to submit a review."
 

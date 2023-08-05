@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.3
-Stable tag: 6.10.0-beta2
+Stable tag: 6.10.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
