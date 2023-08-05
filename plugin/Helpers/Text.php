@@ -135,13 +135,14 @@ class Text
 
     protected static function excerptSplit(string $text, int $limit): int
     {
+        $length = mb_strlen($text);
         if ($limit < 1) {
-            return mb_strlen($text);
+            return $length;
         }
         preg_match('/^\s*+(?:\S++\s*+){1,'.$limit.'}/u', $text, $matches);
         $match = $matches[0] ?? '';
-        if (mb_strlen($text) === mb_strlen($match)) {
-            return mb_strlen($text);
+        if ($length === mb_strlen($match)) {
+            return $length;
         }
         return mb_strlen(rtrim($match));
     }

@@ -58,7 +58,7 @@ abstract class Tag implements TagContract
         if ($this->isRaw() || glsr()->retrieveAs('bool', 'api', false)) {
             return true;
         }
-        return Cast::toBool(glsr_get_option($path, true));
+        return glsr_get_option($path, true, 'bool');
     }
 
     /**

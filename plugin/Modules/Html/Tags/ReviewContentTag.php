@@ -24,7 +24,7 @@ class ReviewContentTag extends ReviewTag
         if ($this->isRaw() || !$useExcerpts) {
             return Text::text($value);
         }
-        $limit = Cast::toInt(glsr_get_option('reviews.excerpts_length', 55));
+        $limit = glsr_get_option('reviews.excerpts_length', 55, 'int');
         return Text::excerpt($value, $limit);
     }
 
