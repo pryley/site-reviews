@@ -1732,7 +1732,7 @@ msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr ""
 
-#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:163
+#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:167
 msgid "Show more"
 msgstr ""
 
@@ -2842,7 +2842,7 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: plugin/Helpers/Text.php:162
+#: plugin/Helpers/Text.php:166
 msgid "Show less"
 msgstr ""
 

@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.3
-Stable tag: 6.10.0-beta1
+Stable tag: 6.10.0-beta2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -183,7 +183,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.10.0 (2023-08-04) =
+= 6.10.0 (2023-08-05) =
 
 - Added integration with [myCRED](https://mycred.me/)
 - Added listtable filter for Accepted Terms (All Reviews admin page)
@@ -191,7 +191,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Added priority option for categories
 - Changed the console log level for validation errors from Warning to Info
 - Fixed Bulk Edit from removing author assignments
-- Fixed excerpt support for Cryllic script
+- Fixed excerpt fallback when PHP Intl extension is disabled
 - Fixed honeypot field IDs
 - Fixed Migrate Plugin tool (force-running plugin migration will fix orphaned foreign constraints related to old database table prefixes)
 - Fixed registration of assignment meta keys

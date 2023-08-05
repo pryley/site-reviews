@@ -8,7 +8,7 @@
         </button>
     </h3>
     <div id="welcome-v6_10_0" class="inside">
-        <p><em>Release Date &mdash; August 4th, 2023</em></p>
+        <p><em>Release Date &mdash; August 5th, 2023</em></p>
 
         <h4>✨ New Features</h4>
         <ul>
@@ -22,7 +22,7 @@
         <ul>
             <li>Fixed Bulk Edit from removing author assignments</li>
             <li>Fixed compatibility with WordPress v5.8 and v5.9</li>
-            <li>Fixed excerpt support for Cryllic script</li>
+            <li>Fixed excerpt fallback when PHP Intl extension is disabled</li>
             <li>Fixed honeypot field IDs</li>
             <li>Fixed Migrate Plugin tool (force-running plugin migration will fix orphaned foreign constraints related to old database table prefixes)</li>
             <li>Fixed "read more" links in exceprts</li>
