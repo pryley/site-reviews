@@ -135,11 +135,15 @@ class Text
 
     protected static function excerptSplit(string $text, int $limit): int
     {
-        preg_match('/^\s*+(?:\S++\s*+){1,'.$limit.'}/u', $text, $matches);
-        if (mb_strlen($text) === mb_strlen($matches[0] ?? '')) {
+        if ($limit < 1) {
             return mb_strlen($text);
         }
-        return mb_strlen(rtrim($matches[0]));
+        preg_match('/^\s*+(?:\S++\s*+){1,'.$limit.'}/u', $text, $matches);
+        $match = $matches[0] ?? '';
+        if (mb_strlen($text) === mb_strlen($match)) {
+            return mb_strlen($text);
+        }
+        return mb_strlen(rtrim($match));
     }
 
     protected static function extractParagraphs(string $text, int $length): array
