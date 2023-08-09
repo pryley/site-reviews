@@ -82,9 +82,10 @@ class Text
     public static function text(?string $text): string
     {
         $text = static::normalize($text);
-        $text = preg_split('/\R+/um', $text); // split text by line-breaks
-        $text = array_map('trim', $text); // trim paragraphs
-        $text = implode(PHP_EOL.PHP_EOL, $text);
+        if ($paragraphs = preg_split('/\R+/um', $text)) { // split text by line-breaks
+            $paragraphs = array_map('trim', $paragraphs); // trim paragraphs
+            $text = implode(PHP_EOL.PHP_EOL, $paragraphs);
+        }
         return wpautop($text);
     }
 
