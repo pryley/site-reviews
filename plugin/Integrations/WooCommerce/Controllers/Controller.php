@@ -12,6 +12,16 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 class Controller extends BaseController
 {
     /**
+     * @action before_woocommerce_init
+     */
+    public function declareHposCompatibility()
+    {
+        if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
+            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', glsr()->file, true);
+        }
+    }
+
+    /**
      * @filter site-reviews/addon/settings
      */
     public function filterSettings(array $settings): array

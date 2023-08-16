@@ -15,6 +15,7 @@ class Hooks extends AbstractHooks
     public function run(): void
     {
         $this->hook(Controller::class, [
+            ['declareHposCompatibility', 'before_woocommerce_init'],
             ['filterSettings', 'site-reviews/addon/settings'],
             ['filterSettingsCallback', 'site-reviews/settings/sanitize', 10, 2],
             ['filterSubsubsub', 'site-reviews/addon/subsubsub'],
