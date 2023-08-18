@@ -15,9 +15,7 @@ class Hooks extends AbstractHooks
             return;
         }
         $this->hook(Controller::class, [
-            ['displaySettingNotice', 'admin_head'],
-            ['filterSettingsSanitize', 'site-reviews/settings/sanitize', 10, 2],
-            ['filterSchema', 'saswp_modify_schema_output', 20],
+            ['filterSchema', 'saswp_modify_reviews_schema', 20],
         ]);
     }
 }

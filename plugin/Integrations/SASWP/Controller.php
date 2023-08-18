@@ -4,64 +4,49 @@ namespace GeminiLabs\SiteReviews\Integrations\SASWP;
 
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Modules\Schema;
+use GeminiLabs\SiteReviews\Modules\SchemaParser;
 
 class Controller extends BaseController
 {
     /**
-     * @action admin_head
+     * @param array $data
+     * @filter saswp_modify_reviews_schema
      */
-    public function displaySettingNotice()
+    public function filterSchema($data): array
     {
-        if (!$this->isReviewAdminPage()) {
-            return;
-        }
-        $settings = get_option('sd_data');
-        if (1 === (int) Arr::get($settings, 'saswp-markup-footer')) {
-            return;
-        }
-        $message = sprintf(_x('Please go to the %sSchema & Structured Data plugin settings%s page and enable the "%s" option.', 'admin-text', 'site-reviews'),
-            sprintf('<a href="%s" target="_blank">', admin_url('admin.php?page=structured_data_options&tab=tools')),
-            '</a>',
-            '<strong>Add Schema Markup in footer</strong>'
-        );
-        glsr(Notice::class)->addError($message, [
-            _x('The Schema & Structured Data integration with Site Reviews will only work if the schema markup is added to the footer.', 'admin-text', 'site-reviews'),
-        ]);
-    }
-
-    /**
-     * @filter saswp_modify_schema_output
-     */
-    public function filterSchema(array $schema): array
-    {
+        $data = Arr::consolidate($data);
+        $this->generateSchema();
         $schemas = glsr()->filterArray('schema/all', glsr()->retrieve('schemas', []));
         if (empty($schemas)) {
-            return $schema;
+            return $data;
         }
-        $types = Arr::consolidate(glsr_get_option('schema.integration.types'));
-        foreach ($schema as $key => $values) {
-            $type = Arr::get($values, '@type');
-            if (!in_array($type, $types)) {
-                continue;
+        $aggregateRating = Arr::get($schemas, '0.aggregateRating');
+        $review = Arr::get($schemas, '0.review');
+        if (in_array(Arr::get($data, '@type'), ['Review', 'ReviewNewsArticle'])) {
+            if (!empty($aggregateRating)) {
+                $data['itemReviewed']['aggregateRating'] = $aggregateRating;
             }
-            if ($rating = Arr::get($schemas, '0.aggregateRating')) {
-                $schema[$key]['aggregateRating'] = $rating;
+            if (!empty($review)) {
+                $data['itemReviewed']['review'] = $review;
             }
-            if ($review = Arr::get($schemas, '0.review')) {
-                $schema[$key]['review'] = $review;
+        } else {
+            if (!empty($aggregateRating)) {
+                $data['aggregateRating'] = $aggregateRating;
+            }
+            if (!empty($review)) {
+                $data['review'] = $review;
             }
         }
-        return $schema;
+        return $data;
     }
 
-    /**
-     * @filter site-reviews/settings/sanitize
-     */
-    public function filterSettingsSanitize(array $options, array $input): array
+    protected function generateSchema(): void
     {
-        $key = 'settings.schema.integration.types';
-        $options = Arr::set($options, $key, Arr::get($input, $key, []));
-        return $options;
+        if (empty(glsr()->retrieve('schemas', []))) {
+            glsr(Schema::class)->store(
+                glsr(SchemaParser::class)->generate()
+            );
+        }
     }
 }
