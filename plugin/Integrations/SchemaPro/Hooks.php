@@ -16,17 +16,22 @@ class Hooks extends AbstractHooks
         if ('schema_pro' !== glsr_get_option('schema.integration.plugin')) {
             return;
         }
-        $hooks = [
-            ['displaySettingNotice', 'admin_head'],
-            ['filterSettingsSanitize', 'site-reviews/settings/sanitize', 10, 2],
+        $this->hook(Controller::class, [
+            ['filterSchema', 'wp_schema_pro_schema_article'],
+            ['filterSchema', 'wp_schema_pro_schema_book'],
+            ['filterSchema', 'wp_schema_pro_schema_course'],
+            ['filterSchema', 'wp_schema_pro_schema_event'],
+            ['filterSchema', 'wp_schema_pro_schema_faq'],
+            ['filterSchema', 'wp_schema_pro_schema_how_to'],
+            ['filterSchema', 'wp_schema_pro_schema_image_license'],
+            ['filterSchema', 'wp_schema_pro_schema_local_business'],
+            ['filterSchema', 'wp_schema_pro_schema_product'],
+            ['filterSchema', 'wp_schema_pro_schema_recipe'],
+            ['filterSchema', 'wp_schema_pro_schema_service'],
+            ['filterSchema', 'wp_schema_pro_schema_software_application'],
+            ['filterSchema', 'wp_schema_pro_schema_video_object'],
             ['onReviewCreated', 'site-reviews/review/created'],
             ['onSettingsUpdated', 'site-reviews/settings/updated'],
-        ];
-        $types = Arr::consolidate(glsr_get_option('schema.integration.types'));
-        foreach ($types as $type) {
-            $type = Str::snakeCase($type);
-            $hooks[] = ['filterSchema', 'wp_schema_pro_schema_'.$type];
-        }
-        $this->hook(Controller::class, $hooks);
+        ]);
     }
 }
