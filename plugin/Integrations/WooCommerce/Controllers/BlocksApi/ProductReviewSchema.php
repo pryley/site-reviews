@@ -47,10 +47,14 @@ class ProductReviewSchema extends AbstractSchema
     }
 
     /**
+     * @param \GeminiLabs\SiteReviews\Review $review
      * @return array
      */
-    public function get_item_response(Review $review)
+    public function get_item_response($review)
     {
+        if (!is_a($review, Review::class)) {
+            $review = new Review([]);
+        }
         $productId = Arr::getAs('int', $review->assigned_posts, 0);
         $data = [
             'id' => $review->ID,

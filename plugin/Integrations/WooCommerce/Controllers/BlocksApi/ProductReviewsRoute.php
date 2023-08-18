@@ -2,8 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\BlocksApi;
 
-use Automattic\WooCommerce\StoreApi\Utilities\Pagination;
 use Automattic\WooCommerce\StoreApi\Routes\V1\ProductReviews as Route;
+use Automattic\WooCommerce\StoreApi\Utilities\Pagination;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class ProductReviewsRoute extends Route

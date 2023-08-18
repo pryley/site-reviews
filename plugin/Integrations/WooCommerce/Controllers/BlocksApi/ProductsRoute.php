@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\BlocksApi;
 
 use Automattic\WooCommerce\StoreApi\Routes\V1\Products as Route;
 use Automattic\WooCommerce\StoreApi\Utilities\Pagination;
-use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\BlocksApi\ProductQuery;
 
 class ProductsRoute extends Route
 {
@@ -21,7 +20,7 @@ class ProductsRoute extends Route
             $query_results = $product_query->get_objects($request);
             $response_objects = [];
             foreach ($query_results['objects'] as $object) {
-                $data = rest_ensure_response($this->schema->get_item_response($object));// @phpstan-ignore-line
+                $data = rest_ensure_response($this->schema->get_item_response($object)); // @phpstan-ignore-line
                 $response_objects[] = $this->prepare_response_for_collection($data);
             }
             $response->set_data($response_objects);
