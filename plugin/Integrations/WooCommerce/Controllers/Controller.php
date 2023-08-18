@@ -16,7 +16,7 @@ class Controller extends BaseController
      */
     public function declareHposCompatibility()
     {
-        if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
+        if (class_exists('Automattic\WooCommerce\Utilities\FeaturesUtil')) {
             \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', glsr()->file, true);
         }
     }

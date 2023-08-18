@@ -11,10 +11,10 @@ class SchemaParser extends Parser
     public function generate(): array
     {
         if (!class_exists('Elementor\Plugin') 
-            || !\Elementor\Plugin::$instance->documents->get(get_the_ID())->is_built_with_elementor()) { // @phpstan-ignore-line
+            || !\Elementor\Plugin::$instance->documents->get((int) get_the_ID())->is_built_with_elementor()) { // @phpstan-ignore-line
             return [];
         }
-        $widgets = Cast::toString(get_post_meta(get_the_ID(), '_elementor_data', true));
+        $widgets = Cast::toString(get_post_meta((int) get_the_ID(), '_elementor_data', true));
         $widgets = json_decode($widgets, true);
         $widgets = Arr::consolidate($widgets);
         $args = $this->parseElementor($widgets, 'site_reviews');

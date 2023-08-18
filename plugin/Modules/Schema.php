@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use DateTime;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Helper;
@@ -162,8 +161,9 @@ class Schema
             ->doIf(!in_array('excerpt', $this->args['hide']), function ($schema) use ($review) {
                 $schema->reviewBody($review->content);
             })
-            ->datePublished(new DateTime($review->date))
+            ->datePublished(new \DateTime($review->date))
             ->author($this->getSchemaType('Person')->name($review->author()))
+            // ->url($this->getSchemaOptionValue('url').'#review-'.$review->ID)
             ->itemReviewed($this->getSchemaType()->name($this->getSchemaOptionValue('name')));
         if (!empty($review->rating)) {
             $schema->reviewRating(
