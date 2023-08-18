@@ -935,7 +935,17 @@ AND `group_id` = %d
 		$sql           = $wpdb->prepare( "{$update} {$where} {$order} LIMIT %d", $params ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders
 		$rows_affected = $wpdb->query( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		if ( false === $rows_affected ) {
-			throw new \RuntimeException( __( 'Unable to claim actions. Database error.', 'action-scheduler' ) );
+			$error = empty( $wpdb->last_error )
+				? _x( 'unknown', 'database error', 'action-scheduler' )
+				: $wpdb->last_error;
+
+			throw new \RuntimeException(
+				sprintf(
+					/* translators: %s database error. */
+					__( 'Unable to claim actions. Database error: %s.', 'action-scheduler' ),
+					$error
+				)
+			);
 		}
 
 		return (int) $rows_affected;
@@ -986,7 +996,7 @@ AND `group_id` = %d
 		$cut_off     = $before_date->format( 'Y-m-d H:i:s' );
 
 		$sql = $wpdb->prepare(
-			"SELECT action_id, scheduled_date_gmt FROM {$wpdb->actionscheduler_actions} WHERE claim_id = %d ORDER BY priority ASC",
+			"SELECT action_id, scheduled_date_gmt FROM {$wpdb->actionscheduler_actions} WHERE claim_id = %d ORDER BY priority ASC, attempts ASC, scheduled_date_gmt ASC, action_id ASC",
 			$claim_id
 		);
 
@@ -1029,7 +1039,7 @@ AND `group_id` = %d
 		if ( $row_updates < count( $action_ids ) ) {
 			throw new RuntimeException(
 				sprintf(
-					__( 'Unable to release actions from claim id %d.', 'woocommerce' ),
+					__( 'Unable to release actions from claim id %d.', 'action-scheduler' ),
 					$claim->get_id()
 				)
 			);

@@ -1,11 +1,9 @@
 === Action Scheduler ===
 Contributors: Automattic, wpmuguru, claudiosanches, peterfabian1000, vedjain, jamosova, obliviousharmony, konamiman, sadowski, royho, barryhughes-1
 Tags: scheduler, cron
-Requires at least: 5.2
-Tested up to: 6.0
-Stable tag: 3.6.0
+Stable tag: 3.6.2
 License: GPLv3
-Requires PHP: 5.6
+Tested up to: 6.3
 
 Action Scheduler - Job Queue for WordPress
 
@@ -46,6 +44,21 @@ Action Scheduler is developed and maintained by [Automattic](http://automattic.c
 Collaboration is cool. We'd love to work with you to improve Action Scheduler. [Pull Requests](https://github.com/woocommerce/action-scheduler/pulls) welcome.
 
 == Changelog ==
+
+= 3.6.2 - 2023-08-09 =
+* Add guidance about passing arguments.
+* Atomic option locking.
+* Improve bulk delete handling.
+* Include database error in the exception message.
+* Tweak - WP 6.3 compatibility.
+
+= 3.6.1 - 2023-06-14 =
+* Document new optional `$priority` arg for various API functions.
+* Document the new `--exclude-groups` WP CLI option.
+* Document the new `action_scheduler_init` hook.
+* Ensure actions within each claim are executed in the expected order.
+* Fix incorrect text domain.
+* Remove SHOW TABLES usage when checking if tables exist.
 
 = 3.6.0 - 2023-05-10 =
 * Add $unique parameter to function signatures.
