@@ -413,26 +413,6 @@ return [ // order is intentional
         'tooltip' => _x('Integrate Site Reviews with a third-party schema plugin?', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
-    'settings.schema.integration.types' => [
-        'default' => 'LocalBusiness',
-        'depends_on' => [
-            'settings.schema.integration.plugin' => ['rankmath', 'saswp', 'schema_pro'],
-        ],
-        'label' => _x('Schema Types', 'admin-text', 'site-reviews'),
-        'options' => [
-            'Book' => _x('Book', 'schema type (admin-text)', 'site-reviews'),
-            'Course' => _x('Course', 'schema type (admin-text)', 'site-reviews'),
-            'Event' => _x('Event', 'schema type (admin-text)', 'site-reviews'),
-            'HowTo' => _x('How-To', 'schema type (admin-text)', 'site-reviews'),
-            'LocalBusiness' => _x('Local Business', 'schema type (admin-text)', 'site-reviews'),
-            'Product' => _x('Product', 'schema type (admin-text)', 'site-reviews'),
-            'Recipe' => _x('Recipe', 'schema type (admin-text)', 'site-reviews'),
-            'SoftwareApplication' => _x('Software Application', 'schema type (admin-text)', 'site-reviews'),
-        ],
-        'sanitizer' => 'array-string',
-        'tooltip' => _x('Select the schema types that you want to integrate with.', 'admin-text', 'site-reviews'),
-        'type' => 'checkbox',
-    ],
     'settings.schema.type.default' => [
         'class' => 'regular-text',
         'default' => 'LocalBusiness',
