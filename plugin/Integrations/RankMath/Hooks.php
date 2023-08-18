@@ -12,8 +12,7 @@ class Hooks extends AbstractHooks
             return;
         }
         $this->hook(Controller::class, [
-            ['filterSchema', 'rank_math/json_ld', 99],
-            ['filterSchemaPreview', 'rank_math/schema/preview/validate', 20],
+            ['filterSchema', 'rank_math/schema/validated_data', 20],
         ]);
     }
 }

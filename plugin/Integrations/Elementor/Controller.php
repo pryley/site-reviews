@@ -42,6 +42,16 @@ class Controller extends BaseController
     }
 
     /**
+     * @filter site-reviews/schema/generate
+     */
+    public function filterGeneratedSchema(array $schema): array
+    {
+        return empty($schema)
+            ? glsr(SchemaParser::class)->generate()
+            : $schema;
+    }
+
+    /**
      * @param $manager \Elementor\Elements_Manager
      * @return void
      * @action elementor/elements/categories_registered

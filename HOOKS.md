@@ -194,6 +194,7 @@
     site-reviews/scheduler/per-page                             (int $perPage): int
     site-reviews/schema/<schema_type>                           (array $schema, array $args): array
     site-reviews/schema/all                                     (array $schemas): array
+    site-reviews/schema/generate                                (array $schema, Modules\SchemaParser $parser): array
     site-reviews/schema/is-empty                                (bool $isEmpty): bool
     site-reviews/schema/review                                  (array $schema, Review $review, array $args): array
     site-reviews/search/posts/post_status                       (array $postStatuses, string $searchType): array

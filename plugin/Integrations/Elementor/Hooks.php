@@ -11,6 +11,7 @@ class Hooks extends AbstractHooks
         $this->hook(Controller::class, [
             ['filterElementorPublicInlineScript', 'site-reviews/enqueue/public/inline-script/after', 1],
             ['filterElementorStarRatingDefaults', 'site-reviews/defaults/star-rating/defaults'],
+            ['filterGeneratedSchema', 'site-reviews/schema/generate'],
             ['registerElementorCategory', 'elementor/elements/categories_registered'],
             ['registerElementorWidgets', 'elementor/widgets/register'],
             ['registerInlineStyles', 'elementor/editor/after_enqueue_styles'],
