@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\EmailDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
@@ -65,6 +66,11 @@ class Email
         $this->to = $this->email['to'];
         add_action('phpmailer_init', [$this, 'buildPlainTextMessage']);
         return $this;
+    }
+
+    public function data(): Arguments
+    {
+        return glsr()->args($this->data);
     }
 
     /**
