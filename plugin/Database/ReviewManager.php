@@ -21,8 +21,11 @@ class ReviewManager
      * @param int $postId
      * @return int|false
      */
-    public function assignPost(Review $review, $postId)
+    public function assignPost(Review $review, int $postId)
     {
+        if (!glsr()->can('assign_post', $postId)) {
+            return false;
+        }
         $where = [
             'is_published' => $this->isPublishedPost($postId),
             'post_id' => $postId,
@@ -197,8 +200,11 @@ class ReviewManager
      * @param int $postId
      * @return int|false
      */
-    public function unassignPost(Review $review, $postId)
+    public function unassignPost(Review $review, int $postId)
     {
+        if (!glsr()->can('unassign_post', $postId)) {
+            return false;
+        }
         $where = [
             'post_id' => $postId,
             'rating_id' => $review->rating_id,

@@ -22,7 +22,6 @@ use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Request;
-use GeminiLabs\SiteReviews\Role;
 
 class AdminController extends Controller
 {
@@ -68,40 +67,6 @@ class AdminController extends Controller
             ]);
         }
         return $links;
-    }
-
-    /**
-     * @param array $capabilities
-     * @param string $capability
-     * @param int $userId
-     * @param array $args
-     * @return array
-     * @filter map_meta_cap
-     */
-    public function filterCapabilities($capabilities, $capability, $userId, $args)
-    {
-        if ('respond_to_'.glsr()->post_type !== $capability) {
-            return $capabilities;
-        }
-        $review = glsr_get_review(Arr::get($args, 0));
-        if (!$review->isValid()) {
-            return ['do_not_allow'];
-        }
-        $capabilities = [];
-        $respondToReviews = glsr(Role::class)->capability('respond_to_posts');
-        if ($userId == $review->author_id) {
-            $capabilities[] = $respondToReviews; // they are the author of the review
-        }
-        foreach ($review->assignedPosts() as $assignedPost) {
-            if ($userId == $assignedPost->post_author) {
-                $capabilities[] = $respondToReviews;  // they are the author of the post that the review is assigned to
-                break;
-            }
-        }
-        if (!in_array($respondToReviews, $capabilities)) {
-            $capabilities[] = glsr(Role::class)->capability('respond_to_others_posts');
-        }
-        return array_unique($capabilities);
     }
 
     /**

@@ -20,27 +20,28 @@ class ReviewManagerTest extends WP_UnitTestCase
 
     public function test_assign_post()
     {
-        // automatically assign posts
         $posts = self::factory()->post->create_many(2);
+        $postId = self::factory()->post->create();
+        $postId_private = self::factory()->post->create(['post_status' => 'private']);
+        $postId_protected = (int) self::factory()->post->create(['post_status' => 'protected', 'post_password' => '123']);
+        // automatically assign posts
         $review = $this->createReview([
             'assigned_posts' => implode(',', $posts),
         ]);
         $this->assertTrue($review->isValid());
+        $this->assertEquals($review->assigned_posts, $posts);
+        // manually assign posts
+        $posts[] = $postId;
+        glsr(ReviewManager::class)->assignPost($review, $postId);
+        glsr(ReviewManager::class)->assignPost($review, $postId_private); // should fail
+        glsr(ReviewManager::class)->assignPost($review, $postId_protected); // should fail
+        $review = glsr(ReviewManager::class)->get($review->ID);
         $this->assertEquals($review->assigned_posts, $posts);
         foreach ($posts as $postId) {
             $this->assertEquals(get_post_meta($postId, '_glsr_average', true), 5);
             $this->assertTrue(get_post_meta($postId, '_glsr_ranking', true) > 0);
             $this->assertEquals(get_post_meta($postId, '_glsr_reviews', true), 1);
         }
-        // manually assign post
-        $postId = self::factory()->post->create();
-        $posts[] = $postId;
-        glsr(ReviewManager::class)->assignPost($review, $postId);
-        $review = glsr(ReviewManager::class)->get($review->ID);
-        $this->assertEquals($review->assigned_posts, $posts);
-        $this->assertEquals(get_post_meta($postId, '_glsr_average', true), 5);
-        $this->assertTrue(get_post_meta($postId, '_glsr_ranking', true) > 0);
-        $this->assertEquals(get_post_meta($postId, '_glsr_reviews', true), 1);
     }
 
     public function test_assign_term()
@@ -188,7 +189,7 @@ class ReviewManagerTest extends WP_UnitTestCase
 
     public function test_unassign_post()
     {
-        $postId = self::factory()->post->create();
+        $postId = (int) self::factory()->post->create();
         $review = $this->createReview(['assigned_posts' => $postId]);
         $this->assertTrue($review->isValid());
         $this->assertEquals($review->assigned_posts, [$postId]);
