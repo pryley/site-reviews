@@ -17,7 +17,7 @@
         <h3>2. Deactivate Site Reviews and then reactivate it.</h3>
         <p>If you recently cloned your database or restored it from a backup, this should repair any broken database indexes.</p>
         <h3>3. Run the repair tools.</h3>
-        <p>If you recently upgraded to a new version of Site Reviews and your reviews stopped working, try running the <code><a data-expand="#tools-migrate-plugin" href="<?= glsr_admin_url('tools', 'general'); ?>">Migrate Plugin</a></code> and <code><a data-expand="#tools-reset-assigned-meta" href="<?= glsr_admin_url('tools', 'general'); ?>">Reset Assigned Meta Values</a></code> tools. Plugin migrations should run automatically in the background when needed; however, sometimes, you may need to run these tools manually.</p>
+        <p>If you recently upgraded to a new version of Site Reviews and your reviews stopped working, try running the <code><a data-expand="#tools-migrate-plugin" href="<?= glsr_admin_url('tools', 'general'); ?>">Migrate Plugin (Hard Reset)</a></code> and <code><a data-expand="#tools-reset-assigned-meta" href="<?= glsr_admin_url('tools', 'general'); ?>">Reset Assigned Meta Values</a></code> tools. Plugin migrations should run automatically in the background when needed; however, sometimes, you may need to run these tools manually.</p>
         <h3>4. Temporarily switch to an official WordPress Theme.</h3>
         <p>Try switching to an official WordPress Theme (i.e. Twenty Twenty-One) and then see if you are still experiencing problems with the plugin. If this fixes the problem, your theme has a compatibility issue.</p>
         <h3>5. Temporarily deactivate all of your plugins.</h3>
