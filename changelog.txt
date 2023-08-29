@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 6.10.3 (2023-08-29) =
+
+- Fixed a [Broken Access Control vulnerability]() which allowed reviews to be assigned to private or protected pages
+- Fixed RankMath integration to only support rich-snippet-enabled schema types
+- Fixed schema detection on private Elementor pages
+
 = 6.10.2 (2023-08-18) =
 
 - Fixed and simplified Schema plugin integrations
@@ -104,7 +110,7 @@
 
 = 6.7.1 (2023-03-21) =
 
-- Fixed settings sanitization
+- Fixed a [Stored XSS vulnerability](https://patchstack.com/database/vulnerability/site-reviews/wordpress-site-reviews-plugin-6-7-1-admin-stored-xss-vulnerability) related to settings sanitization
 
 = 6.7.0 (2023-03-17) =
 
@@ -130,9 +136,9 @@
 = 6.6.0 (2023-03-10) =
 
 - Added integration with [WooCommerce Loyalty Points and Rewards](https://www.flycart.org/products/wordpress/wployalty)
-- Fixed a [Broken Access Control vulnerability]() which allowed any logged-in user to clear the Site Reviews > Tools > Console.
-- Fixed a [Cross Site Scripting (XSS) vulnerability]() which allowed a logged-in user (with the edit_posts capability) to insert malicious javascript code into a block attribute when adding it to a page.
-- Fixed a [Cross Site Scripting (XSS) vulnerability]() which allowed a logged-in user (with the edit_posts capability) to insert malicious javascript code into a shortcode attribute when adding it to a page.
+- Fixed a [Broken Access Control vulnerability](https://patchstack.com/database/vulnerability/site-reviews/wordpress-site-reviews-plugin-6-5-0-broken-access-control-vulnerability) which allowed any logged-in user to clear the Site Reviews > Tools > Console.
+- Fixed a [Cross Site Scripting (XSS) vulnerability](https://patchstack.com/database/vulnerability/site-reviews/wordpress-site-reviews-plugin-6-5-1-cross-site-scripting-xss-vulnerability) which allowed a logged-in user (with the edit_posts capability) to insert malicious javascript code into a block attribute when adding it to a page.
+- Fixed a [Cross Site Scripting (XSS) vulnerability](https://patchstack.com/database/vulnerability/site-reviews/wordpress-site-reviews-plugin-6-5-1-cross-site-scripting-xss-vulnerability-2) which allowed a logged-in user (with the edit_posts capability) to insert malicious javascript code into a shortcode attribute when adding it to a page.
 - Fixed compatibility with [Perfect Brands for WooCommerce](https://wordpress.org/plugins/perfect-woocommerce-brands/)
 
 = 6.5.1 (2023-02-23) =
@@ -506,7 +512,7 @@
 
 = 5.17.3 (2021-11-15) =
 
-- Fixed a potential XSS vunerability on the Console page (the console wasn't escaping HTML correctly when displaying logged errors)
+- Fixed an [Unauthenticated Stored XSS vulnerability](https://patchstack.com/database/vulnerability/site-reviews/wordpress-site-reviews-plugin-5-17-2-unauthenticated-stored-cross-site-scripting-xss-vulnerability) on the Console page (the console wasn't escaping HTML correctly when displaying logged errors)
 
 = 5.17.2 (2021-11-11) =
 
@@ -593,7 +599,7 @@
 
 = 5.13.1 (2021-08-02) =
 
-- Fixed a possible stored XSS vulnerability which allowed an admin user to add a malicious value when editing a review from the WordPress admin.
+- Fixed an [Authenticated Stored XSS vulnerability](https://patchstack.com/database/vulnerability/site-reviews/wordpress-site-reviews-plugin-5-13-0-authenticated-stored-cross-site-scripting-xss-vulnerability) which allowed an admin user to add a malicious value when editing a review from the WordPress admin.
 - Fixed the terms toggle which broke due to the multi-checkbox fix in a previous update
 
 = 5.13.0 (2021-08-01) =

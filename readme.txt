@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.3
-Stable tag: 6.10.2
+Stable tag: 6.10.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -183,6 +183,12 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
+= 6.10.3 (2023-08-29) =
+
+- Fixed a [Broken Access Control vulnerability]() which allowed reviews to be assigned to private or protected pages
+- Fixed RankMath integration to only support rich-snippet-enabled schema types
+- Fixed schema detection on private Elementor pages
+
 = 6.10.2 (2023-08-18) =
 
 - Fixed and simplified Schema plugin integrations
@@ -208,41 +214,5 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Fixed registration of assignment meta keys
 - Fixed Ultimate Member avatar compatibility
 - Updated API documentation
-
-= 6.9.5 (2023-06-14) =
-
-- Fixed plugin migration (force-running all migrations should now fix database issues related to foreign constraints)
-- Fixed WPEngine detection in System Info
-- Updated documentation
-
-= 6.9.4 (2023-05-30) =
-
-- Fixed unicode support for author name in reviews
-
-= 6.9.3 (2023-05-26) =
-
-- Fixed compatibility with WordPress v5.8 and v5.9
-
-= 6.9.2 (2023-05-22) =
-
-- Fixed "read more" links in exceprts
-
-= 6.9.1 (2023-05-22) =
-
-- Fixed `{review_assigned_links}` template tag in email notifications
-
-= 6.9.0 (2023-05-21) =
-
-- Added support for field descriptions (Review Forms addon required)
-- Deprecated the "site-reviews/slack/compose" hook (use the "site-reviews/slack/notification" hook instead)
-- Fixed a PHP error caused by a bug in several third-party migration plugins
-- Fixed excerpt character split
-- Fixed paragraph spacing in reviews
-- Fixed review caching
-- Fixed settings sanitization
-- Fixed styled SELECT elements
-- Updated Action Scheduler to v3.6.0
-- Updated the Date sanitizer to allow a date format
-- Updated the Slack integration to use block composition
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).

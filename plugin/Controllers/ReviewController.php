@@ -323,7 +323,7 @@ class ReviewController extends Controller
     /**
      * Triggered when a review is edited or trashed.
      * It's unnecessary to trigger a term recount as this is done by the set_object_terms hook
-     * We need to use "edit_post" to support revisions (vs "save_post").
+     * We need to use "post_updated" to support revisions (vs "save_post").
      *
      * @param int $postId
      * @param \WP_Post $post

@@ -26,7 +26,7 @@ class Controller extends BaseController
         $reviewSchema = Arr::get($schemas, '0.review');
         foreach ($data as $key => $values) {
             if (!str_starts_with($key, 'schema-')) {
-                continue; // Alternatively check key with: \RankMath\Schema\DB::get_schemas(get_the_ID());
+                continue; // Alternatively check key with: \RankMath\Schema\DB::get_schemas((int) get_the_ID());
             }
             if (!in_array(Arr::get($values, '@type'), $allowedTypes)) {
                 continue;

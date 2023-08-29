@@ -1657,12 +1657,12 @@ msgctxt "admin-text"
 msgid "Untitled"
 msgstr ""
 
-#: plugin/Addons/Controller.php:77, plugin/Controllers/AdminController.php:61, plugin/Controllers/MenuController.php:54, plugin/Integrations/Elementor/ElementorWidget.php:141, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
+#: plugin/Addons/Controller.php:77, plugin/Controllers/AdminController.php:60, plugin/Controllers/MenuController.php:54, plugin/Integrations/Elementor/ElementorWidget.php:141, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
 msgctxt "admin-text"
 msgid "Settings"
 msgstr ""
 
-#: plugin/Addons/Controller.php:84, plugin/Controllers/AdminController.php:67
+#: plugin/Addons/Controller.php:84, plugin/Controllers/AdminController.php:66
 msgctxt "admin-text"
 msgid "Help"
 msgstr ""
@@ -1980,44 +1980,44 @@ msgctxt "admin-text"
 msgid "Review unverified."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:118
+#: plugin/Controllers/AdminController.php:83
 msgctxt "admin-text"
 msgid "%s Review"
 msgid_plural "%s Reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/AdminController.php:158, views/pages/tools/console.php:58
+#: plugin/Controllers/AdminController.php:123, views/pages/tools/console.php:58
 msgctxt "admin-text"
 msgid "Apply"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:162
+#: plugin/Controllers/AdminController.php:127
 msgctxt "admin-text"
 msgid "Close Panel"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:224, plugin/Integrations/Elementor/ElementorReviewsWidget.php:32
+#: plugin/Controllers/AdminController.php:189, plugin/Integrations/Elementor/ElementorReviewsWidget.php:32
 msgctxt "admin-text"
 msgid "Latest Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:225, plugin/Widgets/SiteReviewWidget.php:52, plugin/Integrations/Elementor/ElementorReviewWidget.php:31
+#: plugin/Controllers/AdminController.php:190, plugin/Widgets/SiteReviewWidget.php:52, plugin/Integrations/Elementor/ElementorReviewWidget.php:31
 msgctxt "admin-text"
 msgid "Single Review"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:226, plugin/Widgets/SiteReviewsFormWidget.php:78, plugin/Integrations/Elementor/ElementorFormWidget.php:28
+#: plugin/Controllers/AdminController.php:191, plugin/Widgets/SiteReviewsFormWidget.php:78, plugin/Integrations/Elementor/ElementorFormWidget.php:28
 msgctxt "admin-text"
 msgid "Review Form"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:227, plugin/Integrations/Elementor/ElementorSummaryWidget.php:30
+#: plugin/Controllers/AdminController.php:192, plugin/Integrations/Elementor/ElementorSummaryWidget.php:30
 msgctxt "admin-text"
 msgid "Rating Summary"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:340, plugin/Controllers/AdminController.php:359, plugin/Controllers/AdminController.php:373
+#: plugin/Controllers/AdminController.php:305, plugin/Controllers/AdminController.php:324, plugin/Controllers/AdminController.php:338
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr ""

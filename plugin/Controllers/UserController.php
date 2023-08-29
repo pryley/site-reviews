@@ -45,11 +45,10 @@ class UserController extends Controller
      * @param bool[] $allcaps
      * @param string[] $caps
      * @param array $args
-     * @param \WP_User $user
      * @return bool[]
      * @filter user_has_cap
      */
-    public function filterUserHasCap($allcaps, $caps, $args, $user)
+    public function filterUserHasCap($allcaps, $caps, $args)
     {
         $capability = Arr::get($args, 0);
         if (!in_array($capability, ['assign_post', 'unassign_post'])) {
