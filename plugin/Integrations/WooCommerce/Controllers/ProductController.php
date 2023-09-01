@@ -153,12 +153,11 @@ class ProductController
     public function filterProductTabs($tabs)
     {
         global $product;
-        if ($product->get_reviews_allowed()) {
-            $ratings = glsr_get_ratings(['assigned_posts' => 'post_id']);
+        if ($product instanceof \WC_Product && $product->get_reviews_allowed()) {
             $tabs['reviews'] = [
                 'callback' => [$this, 'renderReviews'],
                 'priority' => 30,
-                'title' => sprintf(__('Reviews (%d)', 'site-reviews'), $ratings->reviews),
+                'title' => sprintf(__('Reviews (%d)', 'site-reviews'), $product->get_review_count()),
             ];
         }
         return $tabs;
@@ -324,7 +323,7 @@ class ProductController
     public function renderReviews()
     {
         global $product;
-        if ($product->get_reviews_allowed()) {
+        if ($product instanceof \WC_Product && $product->get_reviews_allowed()) {
             $isVerifiedOwner = wc_customer_bought_product('', get_current_user_id(), $product->get_id());
             glsr(Template::class)->render('templates/woocommerce/reviews', [
                 'form' => do_shortcode($this->option($product, 'form')),
