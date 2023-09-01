@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 6.10.4 (2023-08-31) =
+
+- Fixed compatibility with the WooCommerce Tab Manager plugin
+
 = 6.10.3 (2023-08-29) =
 
 - Fixed a [Broken Access Control vulnerability]() which allowed reviews to be assigned to private or protected pages

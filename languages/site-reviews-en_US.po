@@ -374,7 +374,7 @@ msgstr "You have already submitted a review."
 msgid "verified owner"
 msgstr "verified owner"
 
-#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:161
+#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:160
 msgid "Reviews (%d)"
 msgstr "Reviews (%d)"
 
