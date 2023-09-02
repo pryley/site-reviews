@@ -1,6 +1,7 @@
 <?php
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Compatibility;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Paginate;
 
@@ -215,3 +216,27 @@ add_action('site-reviews/addon/update', function ($app) {
         }
     }
 });
+
+/**
+ * This disables OptimizePress v2 assets an notices on Site Reviews admin pages
+ */
+function glsr_remove_optimizepress () {
+    if (!defined('OP_VERSION')) {
+        return;
+    }
+    if (!str_starts_with(glsr_current_screen()->post_type, glsr()->post_type)) {
+        return;
+    }
+    glsr(Compatibility::class)->removeHook('admin_enqueue_scripts', 'print_scripts', '\OptimizePress_Admin_Init');
+    remove_action('admin_notices', 'checkApiKeyValidity');
+    remove_action('admin_notices', 'checkEligibility');
+    remove_action('admin_notices', 'compatibilityCheck');
+    remove_action('admin_notices', 'goToWebinarNewAPI');
+    remove_action('admin_notices', 'pluginAndThemeAreRunning');
+    remove_action('admin_notices', 'update_nag_screen');
+    remove_filter('use_block_editor_for_post_type', 'op2_disable_gutenberg', 100);
+    remove_filter('gutenberg_can_edit_post', 'op2_disable_gutenberg');
+}
+
+add_action('load-post.php', 'glsr_remove_optimizepress');
+add_action('load-post-new.php', 'glsr_remove_optimizepress');

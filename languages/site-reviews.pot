@@ -51,87 +51,87 @@ msgctxt "admin-text"
 msgid "This plugin requires %s or greater in order to work properly."
 msgstr ""
 
-#: compatibility.php:60
+#: compatibility.php:61
 msgctxt "admin-text"
 msgid "Create Reviews"
 msgstr ""
 
-#: compatibility.php:61
+#: compatibility.php:62
 msgctxt "admin-text"
 msgid "Delete Others' Reviews"
 msgstr ""
 
-#: compatibility.php:62
+#: compatibility.php:63
 msgctxt "admin-text"
 msgid "Delete Reviews"
 msgstr ""
 
-#: compatibility.php:63
+#: compatibility.php:64
 msgctxt "admin-text"
 msgid "Delete Private Reviews"
 msgstr ""
 
-#: compatibility.php:64
+#: compatibility.php:65
 msgctxt "admin-text"
 msgid "Delete Approved Reviews"
 msgstr ""
 
-#: compatibility.php:65
+#: compatibility.php:66
 msgctxt "admin-text"
 msgid "Edit Others' Reviews"
 msgstr ""
 
-#: compatibility.php:66
+#: compatibility.php:67
 msgctxt "admin-text"
 msgid "Edit Reviews"
 msgstr ""
 
-#: compatibility.php:67
+#: compatibility.php:68
 msgctxt "admin-text"
 msgid "Edit Private Reviews"
 msgstr ""
 
-#: compatibility.php:68
+#: compatibility.php:69
 msgctxt "admin-text"
 msgid "Edit Approved Reviews"
 msgstr ""
 
-#: compatibility.php:69
+#: compatibility.php:70
 msgctxt "admin-text"
 msgid "Approve Reviews"
 msgstr ""
 
-#: compatibility.php:70
+#: compatibility.php:71
 msgctxt "admin-text"
 msgid "Read Private Reviews"
 msgstr ""
 
-#: compatibility.php:71
+#: compatibility.php:72
 msgctxt "admin-text"
 msgid "Respond To Reviews"
 msgstr ""
 
-#: compatibility.php:72
+#: compatibility.php:73
 msgctxt "admin-text"
 msgid "Respond To Others' Reviews"
 msgstr ""
 
-#: compatibility.php:73
+#: compatibility.php:74
 msgctxt "admin-text"
 msgid "Assign Review Categories"
 msgstr ""
 
-#: compatibility.php:74
+#: compatibility.php:75
 msgctxt "admin-text"
 msgid "Delete Review Categories"
 msgstr ""
 
-#: compatibility.php:75
+#: compatibility.php:76
 msgctxt "admin-text"
 msgid "Edit Review Categories"
 msgstr ""
 
-#: compatibility.php:76
+#: compatibility.php:77
 msgctxt "admin-text"
 msgid "Manage Review Categories"
 msgstr ""

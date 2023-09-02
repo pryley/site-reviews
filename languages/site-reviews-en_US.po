@@ -477,87 +477,87 @@ msgctxt "admin-text"
 msgid "This plugin requires %s or greater in order to work properly."
 msgstr "This plugin requires %s or greater in order to work properly."
 
-#: compatibility.php:60
+#: compatibility.php:61
 msgctxt "admin-text"
 msgid "Create Reviews"
 msgstr "Create Reviews"
 
-#: compatibility.php:61
+#: compatibility.php:62
 msgctxt "admin-text"
 msgid "Delete Others' Reviews"
 msgstr "Delete Others' Reviews"
 
-#: compatibility.php:62
+#: compatibility.php:63
 msgctxt "admin-text"
 msgid "Delete Reviews"
 msgstr "Delete Reviews"
 
-#: compatibility.php:63
+#: compatibility.php:64
 msgctxt "admin-text"
 msgid "Delete Private Reviews"
 msgstr "Delete Private Reviews"
 
-#: compatibility.php:64
+#: compatibility.php:65
 msgctxt "admin-text"
 msgid "Delete Approved Reviews"
 msgstr "Delete Approved Reviews"
 
-#: compatibility.php:65
+#: compatibility.php:66
 msgctxt "admin-text"
 msgid "Edit Others' Reviews"
 msgstr "Edit Others' Reviews"
 
-#: compatibility.php:66
+#: compatibility.php:67
 msgctxt "admin-text"
 msgid "Edit Reviews"
 msgstr "Edit Reviews"
 
-#: compatibility.php:67
+#: compatibility.php:68
 msgctxt "admin-text"
 msgid "Edit Private Reviews"
 msgstr "Edit Private Reviews"
 
-#: compatibility.php:68
+#: compatibility.php:69
 msgctxt "admin-text"
 msgid "Edit Approved Reviews"
 msgstr "Edit Approved Reviews"
 
-#: compatibility.php:69
+#: compatibility.php:70
 msgctxt "admin-text"
 msgid "Approve Reviews"
 msgstr "Approve Reviews"
 
-#: compatibility.php:70
+#: compatibility.php:71
 msgctxt "admin-text"
 msgid "Read Private Reviews"
 msgstr "Read Private Reviews"
 
-#: compatibility.php:71
+#: compatibility.php:72
 msgctxt "admin-text"
 msgid "Respond To Reviews"
 msgstr "Respond To Reviews"
 
-#: compatibility.php:72
+#: compatibility.php:73
 msgctxt "admin-text"
 msgid "Respond To Others' Reviews"
 msgstr "Respond To Others' Reviews"
 
-#: compatibility.php:73
+#: compatibility.php:74
 msgctxt "admin-text"
 msgid "Assign Review Categories"
 msgstr "Assign Review Categories"
 
-#: compatibility.php:74
+#: compatibility.php:75
 msgctxt "admin-text"
 msgid "Delete Review Categories"
 msgstr "Delete Review Categories"
 
-#: compatibility.php:75
+#: compatibility.php:76
 msgctxt "admin-text"
 msgid "Edit Review Categories"
 msgstr "Edit Review Categories"
 
-#: compatibility.php:76
+#: compatibility.php:77
 msgctxt "admin-text"
 msgid "Manage Review Categories"
 msgstr "Manage Review Categories"
