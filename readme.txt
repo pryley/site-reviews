@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.3
-Stable tag: 6.10.4
+Stable tag: 6.10.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -182,6 +182,10 @@ You can report any security bugs found in the source code of this plugin through
 This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after upgrading.
 
 == Changelog ==
+
+= 6.10.5 (2023-09-02) =
+
+- Fixed compatibility with the OptimizePress v2 plugin
 
 = 6.10.4 (2023-08-31) =
 

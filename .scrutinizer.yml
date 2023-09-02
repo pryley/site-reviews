@@ -25,7 +25,7 @@ build:
           - composer config --no-plugins allow-plugins.composer/installers true
           - composer config --no-plugins allow-plugins.johnpbloch/wordpress-core-installer true
           - composer require --dev johnpbloch/wordpress
-          - composer require --dev woocommerce/woocommerce
+          - composer require --dev --no-audit woocommerce/woocommerce
       environment:
         node: false
         php: '7.4'
