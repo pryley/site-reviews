@@ -75,4 +75,28 @@ class NoticeController extends Controller
         $this->dismissNotice($request);
         wp_send_json_success();
     }
+
+    /**
+     * @action admin_notices
+     */
+    public function injectAfterNotices(): void
+    {
+        if (str_contains(glsr_current_screen()->id, glsr()->post_type)) {
+            // Close the hidden div used to prevent notices from flickering before
+            // they are moved elsewhere in the page by WordPress Core.
+            echo '</div>';
+        }
+    }
+
+    /**
+     * @action admin_notices
+     */
+    public function injectBeforeNotices(): void
+    {
+        if (str_contains(glsr_current_screen()->id, glsr()->post_type)) {
+            // Wrap the notices in a hidden div to prevent flickering before
+            // they are moved elsewhere in the page by WordPress Core.
+            echo '<div id="glsr-notice-catcher">';
+        }
+    }
 }

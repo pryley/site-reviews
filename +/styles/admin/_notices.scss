@@ -2,12 +2,13 @@
 // Partials -> Notices
 // =============================================================================
 
-[class*="site-reviews-welcome"] .wrap > .notice:not(.glsr-notice, .settings-error, .notice-error, #message, #local-storage-notice),
-[class*="post-type-site-review"] .wrap > .notice:not(.glsr-notice, .settings-error, .notice-error, #message, #local-storage-notice),
-[class*="site-reviews-welcome"] .wrap > :is(.fs-notice, #setting-error-tgmpa),
-[class*="post-type-site-review"] .wrap > :is(.fs-notice, #setting-error-tgmpa),
-[class*="site-reviews-welcome"] .update-nag,
-[class*="post-type-site-review"] .update-nag {
+#glsr-notice-catcher {
+    display: none;
+}
+[class*="site-reviews-welcome"] .wrap > .notice:not(.glsr-notice, .settings-error, .notice-error, #message, #local-storage-notice, #lost-connection-notice),
+[class*="post-type-site-review"] .wrap > .notice:not(.glsr-notice, .settings-error, .notice-error, #message, #local-storage-notice, #lost-connection-notice),
+[class*="site-reviews-welcome"] .wrap > :is(.fs-notice, #setting-error-tgmpa, .wp-helpers-notice),
+[class*="post-type-site-review"] .wrap > :is(.fs-notice, #setting-error-tgmpa, .wp-helpers-notice) {
     display: none !important;
 }
 [class*="post-type-site-review"] .notice {
