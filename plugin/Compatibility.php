@@ -24,7 +24,7 @@ class Compatibility
             if (!is_a($object, $className) || $method !== $fn) {
                 continue;
             }
-            remove_filter($hook, [$object, $fn], $priority);
+            remove_filter($hook, $callback['function'], $priority);
             return true;
         }
         return false;
