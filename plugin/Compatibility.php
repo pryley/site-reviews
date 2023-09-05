@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
+
 class Compatibility
 {
     public function removeHook(string $hook, string $fn, string $className, int $priority = 10): bool
@@ -14,16 +16,15 @@ class Compatibility
             return false;
         }
         foreach ($wp_filter[$hook]->callbacks[$priority] as $callback) {
-            if (!isset($callback['function'][0]) || !isset($callback['function'][1])) {
+            if (!is_array($callback['function'])) {
                 continue;
             }
-            if (!is_a($callback['function'][0], $className)) {
+            $object = Arr::get($callback['function'], 0);
+            $method = Arr::get($callback['function'], 1);
+            if (!is_a($object, $className) || $method !== $fn) {
                 continue;
             }
-            if ($fn !== $callback['function'][1]) {
-                continue;
-            }
-            remove_filter($hook, [$callback['function'][0], $fn], $priority);
+            remove_filter($hook, [$object, $fn], $priority);
             return true;
         }
         return false;
