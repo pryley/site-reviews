@@ -11,17 +11,7 @@ class SlackDefaults extends DefaultsAbstract
      */
     public $casts = [
         'assigned_links' => 'string',
-        'edit_url' => 'string',
         'header' => 'string',
-    ];
-
-    /**
-     * The values that should be sanitized.
-     * This is done after $casts and before $enums.
-     * @var array
-     */
-    public $sanitize = [
-        'edit_url' => 'url',
     ];
 
     /**
@@ -31,7 +21,6 @@ class SlackDefaults extends DefaultsAbstract
     {
         return [
             'assigned_links' => '',
-            'edit_url' => '',
             'header' => '',
         ];
     }

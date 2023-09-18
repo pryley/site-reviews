@@ -12,6 +12,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Text;
 use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Date;
+use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 
 /**
@@ -213,10 +214,16 @@ class Review extends Arguments
         return date_i18n($format, strtotime($value));
     }
 
+    public function approveUrl(): string
+    {
+        $token = glsr(Encryption::class)->encryptRequest('approve', [$this->id]);
+        return add_query_arg(glsr()->prefix, $token, admin_url());
+    }
+
     public function editUrl(): string
     {
         $obj = get_post_type_object(glsr()->post_type);
-        $link = admin_url(sprintf($obj->_edit_link.'&amp;action=edit', $this->id));
+        $link = admin_url(sprintf($obj->_edit_link.'&action=edit', $this->id));
         $link = apply_filters('get_edit_post_link', $link, $this->id, 'display');
         return Cast::toString($link);
     }

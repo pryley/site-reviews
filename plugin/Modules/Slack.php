@@ -50,6 +50,7 @@ class Slack implements WebhookContract
             $this->assignedLinks(),
             $this->content(),
             $this->fields(),
+            $this->moderationLinks(),
         ];
         $blocks = array_values(array_filter($blocks));
         $notification = compact('blocks');
@@ -143,6 +144,33 @@ class Slack implements WebhookContract
         ];
     }
 
+    protected function moderationLinks(): array
+    {
+        $elements = [];
+        if (!$this->review->is_approved) {
+            $elements[] = [
+                'type' => 'button',
+                'text' => [
+                    'type' => 'plain_text',
+                    'text' => __('Approve Review', 'site-reviews'),
+                ],
+                'url' => $this->review->approveUrl(),
+            ];
+        }
+        $elements[] = [
+            'type' => 'button',
+            'text' => [
+                'type' => 'plain_text',
+                'text' => __('Edit Review', 'site-reviews'),
+            ],
+            'url' => $this->review->editUrl(),
+        ];
+        return [
+            'type' => 'actions',
+            'elements' => $elements,
+        ];
+    }
+
     protected function header(): array
     {
         return [
@@ -172,7 +200,7 @@ class Slack implements WebhookContract
             'type' => 'section',
             'text' => [
                 'type' => 'mrkdwn',
-                'text' => sprintf("<%s|%s>\n%s", $this->args['edit_url'], $title, $this->rating()),
+                'text' => sprintf("*%s*\n%s", $title, $this->rating()),
             ],
         ];
     }

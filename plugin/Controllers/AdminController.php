@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Commands\ApproveReview;
 use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
 use GeminiLabs\SiteReviews\Commands\ExportRatings;
 use GeminiLabs\SiteReviews\Commands\ImportRatings;
@@ -25,6 +26,20 @@ use GeminiLabs\SiteReviews\Request;
 
 class AdminController extends Controller
 {
+    /**
+     * @action site-reviews/route/get/admin/approve
+     */
+    public function approveReview(Request $request): void
+    {
+        $postId = Arr::get($request->data, 0);
+        $review = glsr_get_review($postId);
+        if ($review->isValid() && $this->execute(new ApproveReview($review))) {
+            glsr(Notice::class)->store(); // because of the redirect
+        }
+        wp_redirect(glsr_admin_url());
+        exit;
+    }
+
     /**
      * @param array $data
      * @action in_plugin_update_message-{plugin_basename}

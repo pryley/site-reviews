@@ -6,6 +6,9 @@ use GeminiLabs\SiteReviews\Contracts\WebhookContract;
 use GeminiLabs\SiteReviews\Defaults\DiscordDefaults;
 use GeminiLabs\SiteReviews\Review;
 
+/**
+ * @link https://message.style/app/
+ */
 class Discord implements WebhookContract
 {
     /**
@@ -45,13 +48,15 @@ class Discord implements WebhookContract
         $this->review = $review;
         $notification = [
             'content' => $this->args['header'],
-            'embeds' => [[
-                'color' => $this->args['color'],
-                'description' => $this->description(), // rating and content
-                'fields' => $this->fields(),
-                'title' => $this->title(),
-                'url' => esc_url($this->args['edit_url']),
-            ]],
+            'embeds' => [
+                [
+                    'color' => $this->args['color'],
+                    'description' => $this->description(), // rating and content
+                    'fields' => $this->fields(),
+                    'title' => $this->title(),
+                    // 'url' => '',
+                ],
+            ],
         ];
         $this->notification = glsr()->filterArray('discord/notification', $notification, $this);
         return $this;
@@ -116,7 +121,22 @@ class Discord implements WebhookContract
             ],
         ];
         $fields = glsr()->filterArray('discord/fields', $fields, $this->review);
+        $fields['moderation_links'] = [
+            'name' => ' ', // because a minimum of 1 char is required
+            'value' => $this->moderationLinks(),
+            'inline' => false,
+        ];
         return array_values($fields);
+    }
+
+    protected function moderationLinks(): string
+    {
+        $links = [];
+        if (!$this->review->is_approved) {
+            $links[] = sprintf('[%s](%s)', __('Approve Review', 'site-reviews'), $this->review->approveUrl());
+        }
+        $links[] = sprintf('[%s](%s)', __('Edit Review', 'site-reviews'), $this->review->editUrl());
+        return implode(' | ', $links);
     }
 
     protected function rating(): string

@@ -42,10 +42,11 @@ class Notification
     {
         $assignedTerms = glsr(TemplateTags::class)->tagReviewAssignedTerms($this->review);
         return [
-            'to' => $this->emailAddresses(),
-            'subject' => $this->notificationTitle(true),
+            'to' => $this->recipients(),
+            'subject' => $this->subject(true),
             'template' => 'default',
             'template-tags' => [
+                'approve_url' => sprintf('<a href="%1$s">%1$s</a>', $this->review->approveUrl()),
                 'review_assigned_links' => glsr(TemplateTags::class)->tagReviewAssignedLinks($this->review),
                 'review_assigned_posts' => glsr(TemplateTags::class)->tagReviewAssignedPosts($this->review),
                 'review_assigned_terms' => $assignedTerms,
@@ -64,7 +65,7 @@ class Notification
         ];
     }
 
-    protected function emailAddresses(): array
+    protected function recipients(): array
     {
         $emails = [];
         if (in_array('admin', $this->types)) {
@@ -91,7 +92,33 @@ class Notification
         return $emails;
     }
 
-    protected function notificationTitle(bool $withPostAssignment = false): string
+    protected function sendToDiscord(): void
+    {
+        $notification = glsr(Discord::class)->compose($this->review, [
+            'assigned_links' => glsr(TemplateTags::class)->tagReviewAssignedLinks($this->review, '[%2$s](%1$s)'),
+            'header' => $this->subject(),
+        ]);
+        $notification->send();
+    }
+
+    protected function sendToEmail(): void
+    {
+        $notification = glsr(Email::class)->compose($this->buildEmail(), [
+            'review' => $this->review,
+        ]);
+        $notification->send();
+    }
+
+    protected function sendToSlack(): void
+    {
+        $notification = glsr(Slack::class)->compose($this->review, [
+            'assigned_links' => glsr(TemplateTags::class)->tagReviewAssignedLinks($this->review, '<%s|%s>'),
+            'header' => $this->subject(),
+        ]);
+        $notification->send();
+    }
+
+    protected function subject(bool $withPostAssignment = false): string
     {
         $siteTitle = wp_specialchars_decode(glsr(OptionManager::class)->getWP('blogname'), ENT_QUOTES);
         $title = sprintf(__('New %s-star review', 'site-reviews'), $this->review->rating);
@@ -103,33 +130,5 @@ class Notification
         }
         $title = sprintf('[%s] %s', $siteTitle, $title);
         return glsr()->filterString('notification/title', $title, $this->review);
-    }
-
-    protected function sendToDiscord(): void
-    {
-        $args = [
-            'assigned_links' => glsr(TemplateTags::class)->tagReviewAssignedLinks($this->review, '[%2$s](%1$s)'),
-            'edit_url' => $this->review->editUrl(),
-            'header' => $this->notificationTitle(),
-        ];
-        glsr(Discord::class)->compose($this->review, $args)->send();
-    }
-
-    protected function sendToEmail(): void
-    {
-        $args = [
-            'review' => $this->review,
-        ];
-        glsr(Email::class)->compose($this->buildEmail(), $args)->send();
-    }
-
-    protected function sendToSlack(): void
-    {
-        $args = [
-            'assigned_links' => glsr(TemplateTags::class)->tagReviewAssignedLinks($this->review, '<%s|%s>'),
-            'edit_url' => $this->review->editUrl(),
-            'header' => $this->notificationTitle(),
-        ];
-        glsr(Slack::class)->compose($this->review, $args)->send();
     }
 }

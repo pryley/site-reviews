@@ -14,17 +14,7 @@ class DiscordDefaults extends DefaultsAbstract
     public $casts = [
         'assigned_links' => 'string',
         'color' => 'string',
-        'edit_url' => 'string',
         'header' => 'string',
-    ];
-
-    /**
-     * The values that should be sanitized.
-     * This is done after $casts and before $enums.
-     * @var array
-     */
-    public $sanitize = [
-        'edit_url' => 'url',
     ];
 
     /**
@@ -35,7 +25,6 @@ class DiscordDefaults extends DefaultsAbstract
         return [
             'assigned_links' => '',
             'color' => '#FAF089',
-            'edit_url' => '',
             'header' => '',
         ];
     }

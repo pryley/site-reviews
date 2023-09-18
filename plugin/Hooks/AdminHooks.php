@@ -9,6 +9,7 @@ class AdminHooks extends AbstractHooks
     public function run(): void
     {
         $this->hook(AdminController::class, [
+            ['approveReview', 'site-reviews/route/get/admin/approve'],
             ['displayUpdateWarning', 'in_plugin_update_message-'.$this->basename],
             ['enqueueAssets', 'admin_enqueue_scripts'],
             ['filterActionLinks', 'plugin_action_links_'.$this->basename],
