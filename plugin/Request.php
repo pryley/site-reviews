@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Modules\Encryption;
 
 class Request extends Arguments
 {
@@ -27,11 +27,28 @@ class Request extends Arguments
      */
     public static function inputGet()
     {
-        $values = Arr::consolidate(filter_input_array(INPUT_GET));
-        foreach ($values as &$value) {
-            if (!is_numeric($value)) {
-                $value = sanitize_text_field(trim(Cast::toString($value)));
-            }
+        $values = [];
+        if ($token = filter_input(INPUT_GET, glsr()->prefix)) {
+            $token = sanitize_text_field($token);
+            $values = glsr(Encryption::class)->decryptRequest($token);
+        }
+        return new static($values);
+    }
+
+    /**
+     * @return static
+     */
+    public static function inputPost()
+    {
+        $values = Helper::filterInputArray(glsr()->id);
+        if (Helper::filterInput('action') === glsr()->prefix.'action') {
+            $values['_ajax_request'] = true;
+        }
+        if ('submit-review' === Helper::filterInput('_action', $values)) {
+            $values['_frcaptcha'] = Helper::filterInput('frc-captcha-solution');
+            $values['_hcaptcha'] = Helper::filterInput('h-captcha-response');
+            $values['_recaptcha'] = Helper::filterInput('g-recaptcha-response');
+            $values['_turnstile'] = Helper::filterInput('cf-turnstile-response');
         }
         return new static($values);
     }

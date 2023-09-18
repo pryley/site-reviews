@@ -27,7 +27,7 @@ class SanitizeJson extends ArraySanitizer
         if (is_scalar($this->value) && !Helper::isEmpty($this->value)) {
             $result = trim(Cast::toString($this->value));
             $result = htmlspecialchars_decode($result);
-            $result = json_decode($result, true);
+            $result = json_decode($result, true); // associative array!
             $error = json_last_error();
             if (array_key_exists($error, static::ERROR_CODES)) {
                 glsr_log()->error(static::ERROR_CODES[$error])->debug($this->value);

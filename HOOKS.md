@@ -25,6 +25,8 @@
     site-reviews/review/updated                                 (Review $review, array $submittedValues)
     site-reviews/review/updated/post_ids                        (Review $review, array $assignedPostIds)
     site-reviews/review/updated/user_ids                        (Review $review, array $assignedUserIds)
+    site-reviews/route/request                                  (Request $request, string $hook)
+    site-reviews/route/get/<request_type>/<route_action>        (Request $request)
     site-reviews/route/<request_type>/<route_action>            (Request $request)
     site-reviews/settings/updated                               (array $options, array $settings)
     site-reviews/whip                                           (Vectorface\Whip\Whip $whip)
@@ -187,7 +189,6 @@
     site-reviews/reviews/fallback                               (string $fallback, array $args): string
     site-reviews/reviews/html/<property>                        (mixed $value, Modules\Html\ReviewHtml $reviewHtml): mixed
     site-reviews/roles                                          (array $roles): array
-    site-reviews/route/request                                  (array $request, string $action, string $requestType): array
     site-reviews/router/admin/unguarded-actions                 (array $unguardedActions): array
     site-reviews/router/public/unguarded-actions                (array $unguardedActions): array
     site-reviews/sanitize/allowed-html                          (array $allowedHtml, Modules\Sanitizer $sanitizer): array

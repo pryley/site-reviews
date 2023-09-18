@@ -13,6 +13,7 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
+use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Overrides\ReviewsListTable;
 
 class ListTableController extends Controller
@@ -266,6 +267,9 @@ class ListTableController extends Controller
             add_filter('views_edit-'.glsr()->post_type, function ($views) use ($table) {
                 global $wp_list_table;
                 $wp_list_table = clone $table;
+                echo glsr(Builder::class)->div(glsr(Notice::class)->get(), [
+                    'id' => 'glsr-notices',
+                ]);
                 return $views;
             });
         }

@@ -7,64 +7,87 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 class Router
 {
     /**
-     * @return void
+     * @action wp_ajax_glsr_action
      */
-    public function routeAdminAjaxRequest()
+    public function routeAdminAjaxRequest(): void
     {
-        $request = $this->getRequest();
+        $request = Request::inputPost();
         $this->checkAjaxRequest($request);
-        if (!in_array($request->_action, $this->unguardedAdminActions())) {
-            $this->checkAjaxNonce($request);
-        }
-        $this->routeRequest('ajax', $request);
+        $this->checkAjaxNonce($request, 'admin');
+        $this->post('ajax', $request);
         wp_die();
     }
 
     /**
-     * @return void
+     * A routed admin GET request will look like this: /wp-admin/?glsr_=.
+     * @action admin_init
      */
-    public function routeAdminPostRequest()
+    public function routeAdminGetRequest(): void
     {
-        $request = $this->getRequest();
-        if ($this->isValidPostRequest($request)) {
-            check_admin_referer($request->_action); // die() called if nonce is invalid
-            $this->routeRequest('admin', $request);
+        $request = Request::inputGet();
+        if (!empty($request->action)) {
+            $this->get('admin', $request);
         }
     }
 
     /**
-     * @return void
+     * @action admin_init
      */
-    public function routePublicAjaxRequest()
+    public function routeAdminPostRequest(): void
     {
-        $request = $this->getRequest();
-        $this->checkAjaxRequest($request);
-        if (!in_array($request->_action, $this->unguardedPublicActions())) {
-            $this->checkAjaxNonce($request);
+        $request = Request::inputPost();
+        if ($this->isValidRequest($request)) {
+            check_admin_referer($request->_action); // die() called if nonce is invalid, assumes _wpnonce
+            $this->post('admin', $request);
         }
-        $this->routeRequest('ajax', $request);
+    }
+
+    /**
+     * @action wp_ajax_nopriv_glsr_action
+     */
+    public function routePublicAjaxRequest(): void
+    {
+        $request = Request::inputPost();
+        $this->checkAjaxRequest($request);
+        $this->checkAjaxNonce($request, 'public');
+        $this->post('ajax', $request);
         wp_die();
     }
 
     /**
-     * @return void
+     * A routed public GET request will look like this: ?glsr_=.
+     * @action parse_request
      */
-    public function routePublicPostRequest()
+    public function routePublicGetRequest(): void
+    {
+        $request = Request::inputGet();
+        if (!empty($request->action)) {
+            $this->get('public', $request);
+        }
+    }
+
+    /**
+     * @action init
+     */
+    public function routePublicPostRequest(): void
     {
         if (glsr()->isAdmin()) {
             return;
         }
-        $request = $this->getRequest();
-        if ($this->isValidPostRequest($request) && $this->isValidPublicNonce($request)) {
-            $this->routeRequest('public', $request);
+        $request = Request::inputPost();
+        if ($this->isValidRequest($request) && $this->isValidPublicNonce($request)) {
+            $this->post('public', $request);
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function checkAjaxNonce(Request $request)
+    protected function checkAjaxNonce(Request $request, string $type): void
     {
+        $unguardedActions = 'admin' === $type
+            ? $this->unguardedAdminActions()
+            : $this->unguardedPublicActions();
+        if (in_array($request->_action, $unguardedActions)) {
+            return;
+        }
         if (empty($request->_nonce)) {
             $this->sendAjaxError('AJAX request is missing a nonce', $request, 400, 'Unauthorized request');
         }
@@ -73,10 +96,7 @@ class Router
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function checkAjaxRequest(Request $request)
+    protected function checkAjaxRequest(Request $request): void
     {
         if (empty($request->_action)) {
             $this->sendAjaxError('AJAX request must include an action', $request, 400, 'Invalid request');
@@ -86,41 +106,20 @@ class Router
         }
     }
 
-    /**
-     * All ajax requests in the plugin are triggered by a single action hook: glsr_action,
-     * while each ajax route is determined by $_POST[request][_action].
-     * @return Request
-     */
-    protected function getRequest()
+    protected function get(string $type, Request $request): void
     {
-        $request = Helper::filterInputArray(glsr()->id);
-        if (Helper::filterInput('action') === glsr()->prefix.'action') {
-            $request['_ajax_request'] = true;
+        $hook = "route/get/{$type}/{$request->action}";
+        glsr()->action('route/request', $request, $hook);
+        glsr()->action($hook, $request);
+        if (0 === did_action(glsr()->id.'/'.$hook)) {
+            glsr_log()->warning('Unknown '.$type.' router GET request: '.$request->action);
         }
-        if ('submit-review' === Helper::filterInput('_action', $request)) {
-            $request['_frcaptcha'] = Helper::filterInput('frc-captcha-solution');
-            $request['_hcaptcha'] = Helper::filterInput('h-captcha-response');
-            $request['_recaptcha'] = Helper::filterInput('g-recaptcha-response');
-            $request['_turnstile'] = Helper::filterInput('cf-turnstile-response');
-        }
-        return new Request($request);
     }
 
-    /**
-     * @return bool
-     */
-    protected function isValidPostRequest(Request $request)
-    {
-        return !empty($request->_action) && empty($request->_ajax_request);
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isValidPublicNonce(Request $request)
+    protected function isValidPublicNonce(Request $request): bool
     {
         // only require a nonce for public requests if user is logged in, this avoids
-        // potential caching issues since unauthenticated requests should never be destructive.
+        // potential caching issues since unauthenticated requests should nenever be destructive.
         if (is_user_logged_in() && !wp_verify_nonce($request->_nonce, $request->_action)) {
             glsr_log()->warning('nonce check failed for public request')->debug($request);
             return false;
@@ -128,51 +127,41 @@ class Router
         return true;
     }
 
-    /**
-     * @param string $type
-     * @return void
-     */
-    protected function routeRequest($type, Request $request)
+    protected function isValidRequest(Request $request): bool
     {
-        $actionHook = "route/{$type}/{$request->_action}";
-        $request = glsr()->filterArray('route/request', $request->toArray(), $request->_action, $type);
-        $request = new Request($request);
-        glsr()->action($actionHook, $request);
-        if (0 === did_action(glsr()->id.'/'.$actionHook)) {
-            glsr_log()->warning('Unknown '.$type.' router request: '.$request->_action);
+        return !empty($request->_action) && empty($request->_ajax_request);
+    }
+
+    protected function post(string $type, Request $request): void
+    {
+        $hook = "route/{$type}/{$request->_action}";
+        glsr()->action('route/request', $request, $hook);
+        glsr()->action($hook, $request);
+        if (0 === did_action(glsr()->id.'/'.$hook)) {
+            glsr_log()->warning('Unknown '.$type.' router POST request: '.$request->_action);
         }
     }
 
-    /**
-     * @param string $error
-     * @param int $code
-     * @param string $message
-     * @return void
-     */
-    protected function sendAjaxError($error, Request $request, $code = 400, $message = '')
+    protected function sendAjaxError(string $error, Request $request, int $errCode, string $message): void
     {
-        glsr_log()->error($error)->debug($request->toArray());
-        $notices = '';
+        $data = [
+            'code' => $errCode,
+            'error' => $error,
+            'message' => $error,
+            'notices' => '',
+        ];
+        if ('submit-review' === $request->_action) {
+            $data['message'] = __('The form could not be submitted. Please notify the site administrator.', 'site-reviews');
+        }
         if (glsr()->isAdmin()) {
             glsr(Notice::class)->addError(_x('There was an error (try reloading the page).', 'admin-text', 'site-reviews').' <code>'.$error.'</code>');
-            $notices = glsr(Notice::class)->get();
+            $data['notices'] = glsr(Notice::class)->get();
         }
-        if ('submit-review' === $request->_action) {
-            $message = __('The form could not be submitted. Please notify the site administrator.', 'site-reviews');
-        }
-        wp_send_json_error([
-            'code' => $code,
-            'error' => $error,
-            'message' => $message ?: $error,
-            'notices' => $notices,
-        ]);
+        glsr_log()->error($error)->debug($request->toArray());
+        wp_send_json_error($data);
     }
 
-    /**
-     * Authenticated routes to unguard.
-     * @return array
-     */
-    protected function unguardedAdminActions()
+    protected function unguardedAdminActions(): array
     {
         return glsr()->filterArray('router/admin/unguarded-actions', [
             'dismiss-notice',
@@ -180,11 +169,7 @@ class Router
         ]);
     }
 
-    /**
-     * Unauthenticated routes to unguard.
-     * @return array
-     */
-    protected function unguardedPublicActions()
+    protected function unguardedPublicActions(): array
     {
         return glsr()->filterArray('router/public/unguarded-actions', [
             'dismiss-notice',
