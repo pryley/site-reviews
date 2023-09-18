@@ -213,6 +213,14 @@ class Review extends Arguments
         return date_i18n($format, strtotime($value));
     }
 
+    public function editUrl(): string
+    {
+        $obj = get_post_type_object(glsr()->post_type);
+        $link = admin_url(sprintf($obj->_edit_link.'&amp;action=edit', $this->id));
+        $link = apply_filters('get_edit_post_link', $link, $this->id, 'display');
+        return Cast::toString($link);
+    }
+
     /**
      * @param int|\WP_Post $post
      * @return bool

@@ -127,7 +127,7 @@ class TemplateTags
     public function tagReviewLink(Review $review): string
     {
         return glsr(Builder::class)->a([
-            'href' => admin_url('post.php?post='.$review->ID.'&action=edit'),
+            'href' => $review->editUrl(),
             'text' => _x('View the review in WordPress &rarr;', 'admin-text', 'site-reviews'),
         ]);
     }

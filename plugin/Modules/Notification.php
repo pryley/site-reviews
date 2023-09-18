@@ -55,7 +55,7 @@ class Notification
                 'review_content' => $this->review->content,
                 'review_email' => $this->review->email,
                 'review_ip' => $this->review->ip_address,
-                'review_link' => sprintf('<a href="%1$s">%1$s</a>', $this->permalink()),
+                'review_link' => sprintf('<a href="%1$s">%1$s</a>', $this->review->editUrl()),
                 'review_rating' => $this->review->rating,
                 'review_title' => $this->review->title,
                 'site_title' => get_bloginfo('name'),
@@ -105,16 +105,11 @@ class Notification
         return glsr()->filterString('notification/title', $title, $this->review);
     }
 
-    protected function permalink(): string
-    {
-        return admin_url('post.php?post='.$this->review->ID.'&action=edit');
-    }
-
     protected function sendToDiscord(): void
     {
         $args = [
             'assigned_links' => glsr(TemplateTags::class)->tagReviewAssignedLinks($this->review, '[%2$s](%1$s)'),
-            'edit_url' => $this->permalink(),
+            'edit_url' => $this->review->editUrl(),
             'header' => $this->notificationTitle(),
         ];
         glsr(Discord::class)->compose($this->review, $args)->send();
@@ -132,7 +127,7 @@ class Notification
     {
         $args = [
             'assigned_links' => glsr(TemplateTags::class)->tagReviewAssignedLinks($this->review, '<%s|%s>'),
-            'edit_url' => $this->permalink(),
+            'edit_url' => $this->review->editUrl(),
             'header' => $this->notificationTitle(),
         ];
         glsr(Slack::class)->compose($this->review, $args)->send();
