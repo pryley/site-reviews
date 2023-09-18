@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Notices;
 
-use GeminiLabs\SiteReviews\Database\OptionManager;
-
 class RetiredNotice extends AbstractNotice
 {
     protected function canRender(): bool

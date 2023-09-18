@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Migrations;
 
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
-use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Migrations\Migrate_5_25_0\MigrateDatabase;
 use GeminiLabs\SiteReviews\Migrations\Migrate_5_25_0\MigrateReviews;
 use GeminiLabs\SiteReviews\Migrations\Migrate_5_25_0\MigrateSettings;

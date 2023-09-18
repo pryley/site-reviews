@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use DirectoryIterator;
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
@@ -96,7 +95,7 @@ class Migrate
         $migrations = [];
         $dir = glsr()->path('plugin/Migrations');
         if (is_dir($dir)) {
-            $iterator = new DirectoryIterator($dir);
+            $iterator = new \DirectoryIterator($dir);
             foreach ($iterator as $fileinfo) {
                 if ('file' === $fileinfo->getType()) {
                     $migrations[] = str_replace('.php', '', $fileinfo->getFilename());

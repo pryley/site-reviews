@@ -2,9 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\GamiPress\Commands;
 
-use GeminiLabs\SiteReviews\Integrations\GamiPress\Triggers;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Integrations\GamiPress\Triggers;
 
 class TriggerEvent implements Contract
 {

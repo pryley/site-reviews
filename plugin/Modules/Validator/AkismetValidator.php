@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
-use Akismet;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 
 class AkismetValidator extends ValidatorAbstract
@@ -82,7 +81,7 @@ class AkismetValidator extends ValidatorAbstract
             || !is_callable(['Akismet', 'get_api_key'])
             || !is_callable(['Akismet', 'http_post'])
             ? false
-            : !empty(Akismet::get_api_key());
+            : !empty(\Akismet::get_api_key());
         return glsr()->filterBool('validate/akismet/is-active', $check);
     }
 
@@ -91,7 +90,7 @@ class AkismetValidator extends ValidatorAbstract
      */
     protected function validateAkismet(array $submission)
     {
-        $response = Akismet::http_post($this->buildUrlQuery($submission), 'comment-check');
+        $response = \Akismet::http_post($this->buildUrlQuery($submission), 'comment-check');
         $isValid = 'true' !== $response[1];
         return glsr()->filterBool('validate/akismet', $isValid, $submission, $response);
     }

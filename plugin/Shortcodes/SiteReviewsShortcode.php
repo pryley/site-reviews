@@ -22,7 +22,6 @@ class SiteReviewsShortcode extends Shortcode
         return parent::__call($method, $args);
     }
 
-
     public function buildReviewsHtml(): ReviewsHtml
     {
         $reviews = glsr(ReviewManager::class)->reviews($this->args);

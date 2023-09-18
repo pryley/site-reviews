@@ -223,7 +223,7 @@ final class Application extends Container
             $addon = $reflection->getName();
             if (in_array($addon::ID, $retired)) {
                 $this->append('retired', $addon);
-            } elseif (in_array($addon::ID, $premium) 
+            } elseif (in_array($addon::ID, $premium)
                 && !str_starts_with($reflection->getNamespaceName(), 'GeminiLabs\SiteReviewsPremium')) {
                 $this->append('site-reviews-premium', $addon);
             } else {

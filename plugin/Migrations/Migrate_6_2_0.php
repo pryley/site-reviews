@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Migrations;
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Migrate_6_2_0 implements MigrateContract
 {

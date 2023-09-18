@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Avatars\InitialsAvatar;
 use GeminiLabs\SiteReviews\Modules\Avatars\PixelAvatar;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;

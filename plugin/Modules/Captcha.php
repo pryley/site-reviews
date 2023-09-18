@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class Captcha

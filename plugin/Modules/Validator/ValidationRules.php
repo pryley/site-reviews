@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
 use GeminiLabs\SiteReviews\Helpers\Str;
-use InvalidArgumentException;
 
 /**
  * @see \Illuminate\Validation\Validator (5.3)
@@ -180,12 +179,12 @@ trait ValidationRules
      * @param int $count
      * @param string $rule
      * @return void
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function requireParameterCount($count, array $parameters, $rule)
     {
         if (count($parameters) < $count) {
-            throw new InvalidArgumentException("Validation rule $rule requires at least $count parameters.");
+            throw new \InvalidArgumentException("Validation rule $rule requires at least $count parameters.");
         }
     }
 }

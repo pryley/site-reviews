@@ -4,8 +4,6 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Api;
 use GeminiLabs\SiteReviews\Defaults\TutorialDefaults;
-use GeminiLabs\SiteReviews\Defaults\VideoDefaults;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 

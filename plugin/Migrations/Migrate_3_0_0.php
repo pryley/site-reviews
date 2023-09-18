@@ -60,7 +60,7 @@ class Migrate_3_0_0 implements MigrateContract
     protected $oldSettings;
 
     /**
-     * Run migration
+     * Run migration.
      */
     public function run(): bool
     {

@@ -11,7 +11,7 @@ class Controller extends BaseController
     /**
      * @var \LWS\WOOREWARDS\Events\ProductReview|null
      */
-    public $event = null;
+    public $event;
 
     /**
      * @action site-reviews/review/approved
@@ -36,7 +36,7 @@ class Controller extends BaseController
     /**
      * @return \WP_Comment
      */
-    protected function fakeComment(int $postId,  Review $review)
+    protected function fakeComment(int $postId, Review $review)
     {
         return new \WP_Comment((object) [ // @phpstan-ignore-line
             'comment_approved' => $review->is_approved,
@@ -48,7 +48,7 @@ class Controller extends BaseController
     }
 
     /**
-     * This allows us to invoke a protected method
+     * This allows us to invoke a protected method.
      * @return mixed
      */
     protected function invoke(string $method, array $args = [])

@@ -3,9 +3,6 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\DeactivatePlugin;
-use GeminiLabs\SiteReviews\Database\Cache;
-use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Request;
 
 class DeactivationController extends Controller
@@ -105,7 +102,7 @@ class DeactivationController extends Controller
             [
                 'icon' => file_get_contents(glsr()->path('assets/images/icons/confused.svg')),
                 'id' => 'confused',
-                'placeholder' => _x("If you would like me to help, please include your email so I can contact you.", 'admin-text', 'site-reviews'),
+                'placeholder' => _x('If you would like me to help, please include your email so I can contact you.', 'admin-text', 'site-reviews'),
                 'text' => _x("It's too complicated", 'admin-text', 'site-reviews'),
             ],
             [

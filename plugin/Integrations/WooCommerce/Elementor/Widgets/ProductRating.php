@@ -2,9 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Elementor\Widgets;
 
-use ElementorPro\Modules\Woocommerce\Widgets\Product_Rating;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
+use ElementorPro\Modules\Woocommerce\Widgets\Product_Rating;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Style;
 

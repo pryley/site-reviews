@@ -9,7 +9,7 @@ use GeminiLabs\SiteReviews\Modules\Paginate;
 class Controller extends BaseController
 {
     /**
-     * Fix compatibility with the Divi Dynamic CSS option
+     * Fix compatibility with the Divi Dynamic CSS option.
      * @param array $shortcodes
      * @param string $content
      * @return array
@@ -51,7 +51,7 @@ class Controller extends BaseController
         ]);
         return $link;
     }
- 
+
     /**
      * @filter site-reviews/paginate_links
      */

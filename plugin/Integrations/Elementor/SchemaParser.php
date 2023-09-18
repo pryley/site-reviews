@@ -12,7 +12,7 @@ class SchemaParser extends Parser
     {
         $postId = (int) get_the_ID();
         if (empty($postId)
-            || !class_exists('Elementor\Plugin') 
+            || !class_exists('Elementor\Plugin')
             || !\Elementor\Plugin::$instance->documents->get($postId)->is_built_with_elementor()) { // @phpstan-ignore-line
             return [];
         }

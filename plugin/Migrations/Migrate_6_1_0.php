@@ -20,7 +20,7 @@ class Migrate_6_1_0 implements MigrateContract
     }
 
     /**
-     * Remove invalid settings
+     * Remove invalid settings.
      */
     public function migrateSettings(): void
     {

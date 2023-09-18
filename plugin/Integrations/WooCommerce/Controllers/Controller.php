@@ -5,9 +5,7 @@ namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
 use GeminiLabs\SiteReviews\Gatekeeper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
-use GeminiLabs\SiteReviews\Modules\Notice;
 
 class Controller extends BaseController
 {

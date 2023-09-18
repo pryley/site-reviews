@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Rating;
 

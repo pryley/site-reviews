@@ -4,17 +4,10 @@ namespace GeminiLabs\SiteReviews\Overrides;
 
 use ActionScheduler;
 use ActionScheduler_Abstract_ListTable;
-use ActionScheduler_HybridStore;
-use ActionScheduler_LogEntry;
-use ActionScheduler_LoggerSchema;
-use ActionScheduler_Schedule;
-use ActionScheduler_Store;
-use ActionScheduler_StoreSchema;
-use DateTimezone;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Queue;
 
-class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
+class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
 {
     /**
      * @var array
@@ -85,9 +78,9 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
 
     public function __construct()
     {
-        $this->store = ActionScheduler::store();
-        $this->logger = ActionScheduler::logger();
-        $this->runner = ActionScheduler::runner();
+        $this->store = \ActionScheduler::store();
+        $this->logger = \ActionScheduler::logger();
+        $this->runner = \ActionScheduler::runner();
         $this->items_per_page = glsr()->filterInt('scheduler/per-page', $this->items_per_page);
         $this->bulk_actions = [
             'delete' => _x('Delete', 'admin-text', 'site-reviews'),
@@ -251,7 +244,7 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
                 ),
             ];
         } elseif ($this->store->has_pending_actions_due()) {
-            $async_request_lock_expiration = ActionScheduler::lock()->get_expiration('async-request-runner');
+            $async_request_lock_expiration = \ActionScheduler::lock()->get_expiration('async-request-runner');
             // No lock set or lock expired
             if (false === $async_request_lock_expiration || $async_request_lock_expiration < time()) {
                 $in_progress_url = add_query_arg('status', 'in-progress', remove_query_arg('status'));
@@ -437,7 +430,7 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
      *
      * @return string
      */
-    protected function get_log_entry_html(ActionScheduler_LogEntry $log_entry, DateTimezone $timezone)
+    protected function get_log_entry_html(\ActionScheduler_LogEntry $log_entry, \DateTimezone $timezone)
     {
         $date = $log_entry->get_date();
         $date->setTimezone($timezone);
@@ -483,10 +476,10 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
     /**
      * Get the scheduled date in a human friendly format.
      *
-     * @param ActionScheduler_Schedule $schedule
+     * @param \ActionScheduler_Schedule $schedule
      * @return string
      */
-    protected function get_schedule_display_string(ActionScheduler_Schedule $schedule)
+    protected function get_schedule_display_string(\ActionScheduler_Schedule $schedule)
     {
         $schedule_display_string = '';
         if (!$schedule->get_date()) {
@@ -523,19 +516,19 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
         $actions = $this->row_actions_all;
         $status = strtolower($row['status_name']);
         switch ($status) {
-            case ActionScheduler_Store::STATUS_CANCELED:
-            case ActionScheduler_Store::STATUS_RUNNING:
+            case \ActionScheduler_Store::STATUS_CANCELED:
+            case \ActionScheduler_Store::STATUS_RUNNING:
                 return '';
-            case ActionScheduler_Store::STATUS_COMPLETE:
+            case \ActionScheduler_Store::STATUS_COMPLETE:
                 unset($actions['hook']['cancel']);
                 unset($actions['hook']['retry']);
                 unset($actions['hook']['run']);
                 break;
-            case ActionScheduler_Store::STATUS_FAILED:
+            case \ActionScheduler_Store::STATUS_FAILED:
                 unset($actions['hook']['cancel']);
                 unset($actions['hook']['run']);
                 break;
-            case ActionScheduler_Store::STATUS_PENDING:
+            case \ActionScheduler_Store::STATUS_PENDING:
                 unset($actions['hook']['delete']);
                 unset($actions['hook']['retry']);
                 break;
@@ -587,11 +580,11 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
         if (is_a($this->store, 'ActionScheduler_HybridStore')) {
             $store = $this->store;
         } else {
-            $store = new ActionScheduler_HybridStore();
+            $store = new \ActionScheduler_HybridStore();
         }
         add_action('action_scheduler/created_table', [$store, 'set_autoincrement'], 10, 2);
-        $store_schema = new ActionScheduler_StoreSchema();
-        $logger_schema = new ActionScheduler_LoggerSchema();
+        $store_schema = new \ActionScheduler_StoreSchema();
+        $logger_schema = new \ActionScheduler_LoggerSchema();
         $store_schema->register_tables(true);
         $logger_schema->register_tables(true);
         remove_action('action_scheduler/created_table', [$store, 'set_autoincrement'], 10);

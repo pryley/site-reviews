@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Addons;
 use GeminiLabs\SiteReviews\Contracts\DefaultsContract;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Plugin;
-use ReflectionClass;
 
 /**
  * @property string $file
@@ -34,7 +33,7 @@ abstract class Addon
      */
     public function init()
     {
-        $reflection = new ReflectionClass($this);
+        $reflection = new \ReflectionClass($this);
         $hooks = Str::replaceLast($reflection->getShortname(), 'Hooks', $reflection->getName());
         if (class_exists($hooks)) {
             glsr()->singleton($hooks);

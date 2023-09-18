@@ -4,9 +4,7 @@ namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Api;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
-use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Request;
 
 class DeactivatePlugin implements Contract

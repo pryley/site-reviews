@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Commands;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Assets\AssetCss;
 use GeminiLabs\SiteReviews\Modules\Assets\AssetJs;
 use GeminiLabs\SiteReviews\Modules\Captcha;

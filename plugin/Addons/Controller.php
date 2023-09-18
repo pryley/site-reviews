@@ -37,7 +37,7 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * The CSS registered here will not load in the site editor unless it contains the .wp-block selector
+     * The CSS registered here will not load in the site editor unless it contains the .wp-block selector.
      * @see https://github.com/WordPress/gutenberg/issues/41821
      * @return void
      * @action enqueue_block_editor_assets

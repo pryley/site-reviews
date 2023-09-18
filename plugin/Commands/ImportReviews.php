@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use Exception;
 use GeminiLabs\League\Csv\CharsetConverter;
 use GeminiLabs\League\Csv\Exceptions\UnableToProcessCsv;
 use GeminiLabs\League\Csv\Info;
@@ -19,7 +18,6 @@ use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Upload;
-use OutOfRangeException;
 
 class ImportReviews extends Upload implements Contract
 {
@@ -151,7 +149,7 @@ class ImportReviews extends Upload implements Contract
                 '👉🏼 '._x('Is the CSV file encoded as UTF-8?', 'admin-text', 'site-reviews'),
                 '👉🏼 '._x('Is the selected delimiter correct?', 'admin-text', 'site-reviews'),
             ]);
-        } catch (OutOfRangeException | Exception $e) {
+        } catch (\OutOfRangeException|\Exception $e) {
             glsr(Notice::class)->addError($e->getMessage());
         }
         return false;

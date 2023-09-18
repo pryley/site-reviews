@@ -3,9 +3,9 @@
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\CountProductReviews;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\ImportProductReviews;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Request;
 
 class ImportController extends BaseController

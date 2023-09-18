@@ -6,7 +6,6 @@ use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Defaults\ToggleStatusDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Review;
-use WP_Posts_List_Table;
 
 class ToggleStatus implements Contract
 {
@@ -98,7 +97,7 @@ class ToggleStatus implements Contract
         }
         $hookName = 'edit-'.glsr()->post_type;
         set_current_screen($hookName);
-        $table = new WP_Posts_List_Table(['screen' => $hookName]);
+        $table = new \WP_Posts_List_Table(['screen' => $hookName]);
         $views = apply_filters('views_'.$hookName, $table->get_views()); // get_views() is in the $compat_methods array for public access
         if (empty($views)) {
             return;

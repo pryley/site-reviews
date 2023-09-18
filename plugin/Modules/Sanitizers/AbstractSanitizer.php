@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Sanitizers;
 
-use GeminiLabs\SiteReviews\Helpers\Cast;
-
 abstract class AbstractSanitizer
 {
     public $args;

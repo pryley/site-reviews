@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use DateTime;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
@@ -96,7 +95,7 @@ class Date
      */
     public function isDate($date, $format = 'Y-m-d H:i:s')
     {
-        $datetime = DateTime::createFromFormat($format, $date);
+        $datetime = \DateTime::createFromFormat($format, $date);
         return $datetime && $date == $datetime->format($format);
     }
 

@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\SchemaPro;
 
-use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
 
 class Hooks extends AbstractHooks

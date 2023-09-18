@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class TaxonomyController extends Controller
 {
-    const PRIORITY_META_KEY = 'term_priority';
+    public const PRIORITY_META_KEY = 'term_priority';
 
     /**
      * @param array $columns

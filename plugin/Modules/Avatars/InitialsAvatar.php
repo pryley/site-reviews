@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Modules\Avatars;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Text;
 
 class InitialsAvatar extends SvgAvatar

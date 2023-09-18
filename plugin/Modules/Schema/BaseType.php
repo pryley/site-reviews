@@ -2,16 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Schema;
 
-use ArrayAccess;
-use DateTime;
-use DateTimeInterface;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Schema\Exceptions\InvalidProperty;
-use JsonSerializable;
-use ReflectionClass;
 
-abstract class BaseType implements ArrayAccess, JsonSerializable, Type
+abstract class BaseType implements \ArrayAccess, \JsonSerializable, Type
 {
     /**
      * @var array
@@ -48,7 +43,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
     public function __construct($type = null)
     {
         $this->type = !is_string($type)
-            ? (new ReflectionClass($this))->getShortName()
+            ? (new \ReflectionClass($this))->getShortName()
             : $type;
         $this->setAllowedProperties();
     }
@@ -177,7 +172,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
     public function setProperty($property, $value)
     {
         if (!in_array($property, $this->allowed)
-            && 'UnknownType' != (new ReflectionClass($this))->getShortName()) {
+            && 'UnknownType' != (new \ReflectionClass($this))->getShortName()) {
             glsr_log()->warning($this->getType().' does not allow the "'.$property.'" property');
             return $this;
         }
@@ -270,8 +265,8 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
             $property = $property->toArray();
             unset($property['@context']);
         }
-        if ($property instanceof DateTimeInterface) {
-            $property = $property->format(DateTime::ATOM);
+        if ($property instanceof \DateTimeInterface) {
+            $property = $property->format(\DateTime::ATOM);
         }
         if (is_object($property) && method_exists($property, '__toString')) {
             $property = (string) $property;

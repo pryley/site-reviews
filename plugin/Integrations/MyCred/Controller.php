@@ -5,8 +5,6 @@ namespace GeminiLabs\SiteReviews\Integrations\MyCred;
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Integrations\MyCred\MyCredHook;
-use GeminiLabs\SiteReviews\Integrations\MyCred\MyCredHookWooReviews;
 
 class Controller extends BaseController
 {

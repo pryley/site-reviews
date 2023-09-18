@@ -14,7 +14,6 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Settings;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Notice;
-use GeminiLabs\SiteReviews\Modules\SystemInfo;
 
 class MenuController extends Controller
 {

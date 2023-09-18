@@ -2,13 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce;
 
+use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\Controller;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ExperimentsController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ImportController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\MainController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ProductController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\RestApiController;
-use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
 
 class Hooks extends AbstractHooks
 {

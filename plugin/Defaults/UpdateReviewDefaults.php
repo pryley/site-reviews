@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 /**
- * This is only used when updating the Review Post
+ * This is only used when updating the Review Post.
  */
 class UpdateReviewDefaults extends DefaultsAbstract
 {

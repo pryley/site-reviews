@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
 class Controller extends BaseController
 {
     /**
-     * Adds a warning notice to the Flywheel Migrations page
+     * Adds a warning notice to the Flywheel Migrations page.
      * @action toplevel_page_flywheel
      * @see https://wordpress.org/plugins/flywheel-migrations/
      */

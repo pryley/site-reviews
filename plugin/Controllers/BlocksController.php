@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
 use GeminiLabs\SiteReviews\Commands\RegisterBlocks;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Style;
 
@@ -70,7 +69,7 @@ class BlocksController extends Controller
         wp_add_inline_style(glsr()->id.'/blocks', (new EnqueuePublicAssets())->inlineStyles());
         wp_register_script(
             glsr()->id.'/blocks',
-            glsr()->url('assets/scripts/'.glsr()->id.'-blocks.js'), 
+            glsr()->url('assets/scripts/'.glsr()->id.'-blocks.js'),
             [
                 glsr()->id.'/admin',
                 'wp-block-editor',

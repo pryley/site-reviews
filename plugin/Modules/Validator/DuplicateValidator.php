@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
-use GeminiLabs\SiteReviews\Helpers\Cast;
-
 class DuplicateValidator extends ValidatorAbstract
 {
     /**
@@ -35,7 +33,7 @@ class DuplicateValidator extends ValidatorAbstract
     public function performValidation()
     {
         if (!$this->isValid()) {
-            $this->setErrors(__("Duplicate review detected. It looks like you already said that!", 'site-reviews'));
+            $this->setErrors(__('Duplicate review detected. It looks like you already said that!', 'site-reviews'));
         }
     }
 }

@@ -2,9 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use Closure;
-use ReflectionFunction;
-
 /**
  * @see: https://github.com/jacobstr/dumpling
  */
@@ -58,7 +55,7 @@ class Dump
     protected function inspect($subject)
     {
         ++$this->level;
-        if ($subject instanceof Closure) {
+        if ($subject instanceof \Closure) {
             $this->inspectClosure($subject);
         } elseif (is_object($subject)) {
             $this->inspectObject($subject);
@@ -96,9 +93,9 @@ class Dump
     /**
      * @return void
      */
-    protected function inspectClosure(Closure $subject)
+    protected function inspectClosure(\Closure $subject)
     {
-        $reflection = new ReflectionFunction($subject);
+        $reflection = new \ReflectionFunction($subject);
         $params = array_map(function ($param) {
             return ($param->isPassedByReference() ? '&$' : '$').$param->name;
         }, $reflection->getParameters());

@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews;
 
-use GeminiLabs\SiteReviews\Helper;
-
 class Api
 {
     protected const BASE_URL = 'https://api.site-reviews.com/v1/';
@@ -14,7 +12,7 @@ class Api
             'sslverify' => Helper::isLocalServer(),
         ]);
         return glsr()->filterArray('api/args', $args);
-     }
+    }
 
     public function baseUrl(): string
     {

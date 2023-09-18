@@ -2,13 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use BadMethodCallException;
-use DateTime;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use ReflectionClass;
 
 /**
  * @method static debug($message, $context = [])
@@ -51,7 +48,7 @@ class Console
             $args = Arr::prepend($args, $instance->getConstant($constant));
             return call_user_func_array([$this, 'log'], array_slice($args, 0, 3));
         }
-        throw new BadMethodCallException("Method [$method] does not exist.");
+        throw new \BadMethodCallException("Method [$method] does not exist.");
     }
 
     /**
@@ -110,7 +107,7 @@ class Console
      */
     public function getLevels()
     {
-        $constants = (new ReflectionClass(__CLASS__))->getConstants();
+        $constants = (new \ReflectionClass(__CLASS__))->getConstants();
         return array_map('strtolower', array_flip($constants));
     }
 
@@ -285,7 +282,7 @@ class Console
      */
     protected function normalizeValue($value)
     {
-        if ($value instanceof DateTime) {
+        if ($value instanceof \DateTime) {
             $value = $value->format('Y-m-d H:i:s');
         } elseif (!is_scalar($value)) {
             $value = json_encode($value);

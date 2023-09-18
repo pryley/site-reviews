@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Controllers\Api\Version1;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema\SummaryParameters;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema\SummarySchema;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
-use WP_Error;
 
 class RestSummaryController extends RestReviewController
 {
@@ -58,7 +57,7 @@ class RestSummaryController extends RestReviewController
     {
         if (!is_user_logged_in()) {
             $error = _x('Sorry, you are not allowed to view review summaries.', 'admin-text', 'site-reviews');
-            return new WP_Error('rest_forbidden_context', $error, [
+            return new \WP_Error('rest_forbidden_context', $error, [
                 'status' => rest_authorization_required_code(),
             ]);
         }

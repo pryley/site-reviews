@@ -12,7 +12,7 @@ abstract class ElementorWidget extends Widget_Base
     /**
      * @var \GeminiLabs\SiteReviews\Shortcodes\Shortcode|callable
      */
-    private $_shortcode_instance = null;
+    private $_shortcode_instance;
 
     /**
      * @return array

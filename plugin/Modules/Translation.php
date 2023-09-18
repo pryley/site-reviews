@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use Exception;
 use GeminiLabs\Sepia\PoParser\Parser;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -80,7 +79,7 @@ class Translation
                 $entry['domain'] = $domain; // the text-domain of the entry
                 $entries[html_entity_decode($key, ENT_COMPAT, 'UTF-8')] = $entry;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             glsr_log()->error($e->getMessage());
         }
         return $entries;
@@ -110,7 +109,7 @@ class Translation
     public function isInvalid(array $entry): bool
     {
         return !empty($entry['s1']) && (
-            false === Arr::searchByKey($entry['s1'], $this->entries(), 'msgid') 
+            false === Arr::searchByKey($entry['s1'], $this->entries(), 'msgid')
                 && false === Arr::searchByKey(htmlentities2($entry['s1']), $this->entries(), 'msgid')
         );
     }

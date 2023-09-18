@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\Api\Version1;
 
-use WP_Error;
-
 class RestTypeController extends \WP_REST_Controller
 {
     public function __construct()
@@ -14,7 +12,7 @@ class RestTypeController extends \WP_REST_Controller
 
     /**
      * @param \WP_REST_Request $request
-     * @return \WP_REST_Response|WP_Error
+     * @return \WP_REST_Response|\WP_Error
      */
     public function get_items($request)
     {
@@ -24,7 +22,7 @@ class RestTypeController extends \WP_REST_Controller
         }
         if (empty($data)) {
             $error = _x('There are no review types.', 'admin-text', 'site-reviews');
-            return new WP_Error('rest_review_invalid_types', $error, ['status' => 400]);
+            return new \WP_Error('rest_review_invalid_types', $error, ['status' => 400]);
         }
         return rest_ensure_response($data);
     }
@@ -37,7 +35,7 @@ class RestTypeController extends \WP_REST_Controller
     {
         if (!is_user_logged_in()) {
             $error = _x('Sorry, you are not allowed to view review types.', 'admin-text', 'site-reviews');
-            return new WP_Error('rest_forbidden_context', $error, [
+            return new \WP_Error('rest_forbidden_context', $error, [
                 'status' => rest_authorization_required_code(),
             ]);
         }

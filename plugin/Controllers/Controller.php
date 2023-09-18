@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use WP_Query;
 
 abstract class Controller
 {
@@ -41,7 +40,7 @@ abstract class Controller
     /**
      * @return bool
      */
-    protected function hasQueryPermission(WP_Query $query)
+    protected function hasQueryPermission(\WP_Query $query)
     {
         global $pagenow;
         return glsr()->isAdmin()
