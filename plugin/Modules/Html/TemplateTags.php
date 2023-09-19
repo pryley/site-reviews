@@ -20,19 +20,11 @@ class TemplateTags
         throw new \BadMethodCallException("Method [$method] does not exist.");
     }
 
-    public function description(array $args = []): string
-    {
-        $tags = $this->filteredTags($args);
-        array_walk($tags, function (&$description, $tag) {
-            $description = sprintf('<code>{%s}</code> %s', $tag, $description);
-        });
-        return implode('<br>', $tags);
-    }
-
     public function filteredTags(array $args): array
     {
         $exclude = Arr::consolidate(Arr::get($args, 'exclude'));
         $include = Arr::consolidate(Arr::get($args, 'include'));
+        $insert = Arr::consolidate(Arr::get($args, 'insert'));
         $tags = glsr(TemplateTagsDefaults::class)->defaults();
         if (!empty($exclude)) {
             $tags = array_diff_key($tags, array_flip($exclude));
@@ -40,6 +32,10 @@ class TemplateTags
         if (!empty($include)) {
             $tags = array_intersect_key($tags, array_flip($include));
         }
+        if (!empty($insert)) {
+            $tags = array_merge($tags, $insert);
+        }
+        ksort($tags);
         return $tags;
     }
 

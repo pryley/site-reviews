@@ -15,6 +15,7 @@ class SettingField extends Field
             'is_raw' => false,
             'is_valid' => true,
             'path' => '',
+            'tags' => [],
             'tooltip' => '',
         ]);
         $this->normalize();

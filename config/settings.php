@@ -189,10 +189,12 @@ return [ // order is intentional
         'depends_on' => [
             'settings.general.notifications' => ['admin', 'author', 'custom'],
         ],
-        'description' => glsr('Modules\Html\TemplateTags')->description(['exclude' => ['admin_email']]),
         'label' => _x('Notification Template', 'admin-text', 'site-reviews'),
         'rows' => 10,
-        'sanitizer' => 'text-post',
+        'sanitizer' => 'text-html',
+        'tags' => glsr('Modules\Html\TemplateTags')->filteredTags([
+            'exclude' => ['admin_email', 'verify_url'],
+        ]),
         'tooltip' => _x('To restore the default text, save an empty template. If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href="https://api.slack.com/docs/attachments" target="_blank">Message Attachments</a> have been disabled.', 'admin-text', 'site-reviews'),
         'type' => 'code',
     ],

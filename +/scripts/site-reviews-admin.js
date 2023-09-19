@@ -263,6 +263,34 @@ jQuery(function ($) {
         ev.originalEvent.clipboardData.setData('text/plain', selection.toString());
         ev.preventDefault();
     })
+
+    const addTextAtCursorPosition = (textarea, cursorPosition, text) => {
+        const front = (textarea.value).substring(0, cursorPosition);
+        const back = (textarea.value).substring(textarea.selectionEnd, textarea.value.length);
+        const value = front + text + back;
+        textarea.focus();
+        if (!document.execCommand('selectAll', false, null) || !document.execCommand('insertText', false, value)) {
+            textarea.value = value; // fallback to this which does not support undo
+        }
+    };
+
+    const updateCursorPosition = (cursorPosition, text, textarea) => {
+        cursorPosition = cursorPosition + text.length;
+        textarea.selectionStart = cursorPosition;
+        textarea.selectionEnd = cursorPosition;
+        textarea.focus();
+    };
+
+    $('.glsr-template-editor input').on('click', ev => {
+        ev.preventDefault();
+        const textarea = $(ev.target).closest('.glsr-template-editor').find('textarea')[0];
+        const cursorPosition = textarea.selectionStart;
+        const scrollPos = textarea.scrollTop;
+        const text = '{'+ev.target.dataset.tag+'}';
+        addTextAtCursorPosition(textarea, cursorPosition, text);
+        updateCursorPosition(cursorPosition, text, textarea);
+        textarea.scrollTop = scrollPos;
+    });
 });
 
 const loadYouTube = function (link) {
@@ -310,3 +338,4 @@ Event.on('site-reviews/summary', (response, attributes) => {
         setTextDirection('summary')
     }
 });
+

@@ -62,6 +62,36 @@ class SettingBuilder extends Builder
     }
 
     /**
+     * @return string|void
+     */
+    protected function buildFormTextarea()
+    {
+        $textarea = $this->buildFormLabel().$this->buildDefaultElement(
+            esc_html($this->args->cast('value', 'string'))
+        );
+        if (empty($this->args->tags)) {
+            return $textarea;
+        }
+        $buttons = [];
+        foreach ($this->args->tags as $tag => $label) {
+            $buttons[] = $this->input([
+                'class' => 'button button-small',
+                'data-tag' => $tag,
+                'type' => 'button',
+                'value' => $label,
+            ]);
+        }
+        $toolbar = $this->div([
+            'class' => 'quicktags-toolbar',
+            'text' => implode('', $buttons),
+        ]);
+        return $this->div([
+            'class' => 'glsr-template-editor',
+            'text' => $textarea.$toolbar,
+        ]);
+    }
+
+    /**
      * @return array
      */
     protected function normalize(array $args, $type)
