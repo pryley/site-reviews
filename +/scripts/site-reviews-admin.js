@@ -25,6 +25,7 @@ import Tools from '@/admin/tools.js';
 import tippy, {followCursor} from 'tippy.js';
 import Verified from '@/admin/verified.js';
 
+GLSR.ajax = Ajax;
 GLSR.autosize = autosize;
 GLSR.keys = {
     ALT: 18,

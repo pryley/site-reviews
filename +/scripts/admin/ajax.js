@@ -14,9 +14,9 @@ Ajax.prototype = {
     post: function (callback) { // function|void
         if (this.event) {
             this.postFromEvent_(callback);
-            return;
+        } else {
+            this.doPost_(callback);
         }
-        this.doPost_(callback);
     },
 
     buildData_: function (el) { // HTMLElement|null
@@ -49,16 +49,17 @@ Ajax.prototype = {
         if (el) {
             Button(el).loading()
         }
+        // wp.ajax.post(GLSR.action, this.buildData_(el)).done(response => {
         jQuery.post(GLSR.ajaxurl, this.buildData_(el)).done(response => {
             if (typeof callback === 'function') {
                 callback(response.data, response.success);
             }
         }).always(response => {
             if (!response.data) {
-                GLSR.notices.error('Unknown error.');
+                GLSR.notices.error('Unknown error.'); // triggers scroll
             }
             else if (response.data.notices) {
-                GLSR.notices.add(response.data.notices);
+                GLSR.notices.add(response.data.notices); // triggers scroll
             }
             if (el) {
                 Button(el).loaded()
