@@ -39,7 +39,14 @@ class ImportSettings extends Upload implements Contract
      */
     protected function import()
     {
-        if ($settings = json_decode(file_get_contents($this->file()->tmp_name), true)) {
+        $settings = json_decode(file_get_contents($this->file()->tmp_name), true);
+        if (!empty($settings)) {
+            if (isset($settings['version'])) { // don't import version
+                $settings['version'] = glsr(OptionManager::class)->get('version');
+            }
+            if (isset($settings['version_upgraded_from'])) { // don't import version_upgraded_from
+                $settings['version_upgraded_from'] = glsr(OptionManager::class)->get('version_upgraded_from');
+            }
             glsr(OptionManager::class)->set(
                 glsr(OptionManager::class)->normalize($settings)
             );

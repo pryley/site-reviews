@@ -116,15 +116,21 @@ class OptionManager
     /**
      * Restricts the provided settings keys to the defaults.
      */
-    public function normalize(array $settings = []): array
+    public function normalize(array $data = []): array
     {
-        $settings = shortcode_atts(glsr(DefaultsManager::class)->defaults(), Arr::flatten($settings));
+        $settings = Arr::flatten($data);
         array_walk($settings, function (&$value) {
             if (is_string($value)) {
                 $value = wp_kses($value, wp_kses_allowed_html('post'));
             }
         });
-        return Arr::convertFromDotNotation($settings);
+        $settings = Arr::convertFromDotNotation($settings);
+        $strings = Arr::get($settings, 'settings.strings', []);
+        $settings = Arr::flatten($settings);
+        $settings = shortcode_atts(glsr(DefaultsManager::class)->defaults(), $settings);
+        $settings = Arr::convertFromDotNotation($settings);
+        $settings['settings']['strings'] = $strings;
+        return $settings;
     }
 
     /**

@@ -245,7 +245,8 @@ final class Application extends Container
     public function settings()
     {
         if (empty($this->settings)) {
-            $settings = $this->filterArray('addon/settings', $this->config('settings'));
+            $settings = $this->config('settings');
+            $settings = $this->filterArray('addon/settings', $settings);
             array_walk($settings, function (&$setting) {
                 $setting = wp_parse_args($setting, [
                     'default' => '',
