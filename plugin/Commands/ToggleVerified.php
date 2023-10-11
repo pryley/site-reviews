@@ -30,6 +30,9 @@ class ToggleVerified implements Contract
         if (!glsr()->can('edit_post', $this->review->ID)) {
             return wp_validate_boolean($this->review->is_verified);
         }
+        if (!glsr()->filterBool('enable/verification', true)) {
+            return wp_validate_boolean($this->review->is_verified);
+        }
         if ($this->isVerified !== $this->review->is_verified) {
             glsr(ReviewManager::class)->updateRating($this->review->ID, [
                 'is_verified' => $this->isVerified,

@@ -441,6 +441,9 @@ class ReviewController extends Controller
         if (Arr::get($submittedValues, 'is_editing_review')) {
             $submittedValues['rating'] = Arr::get($submittedValues, 'rating');
             $submittedValues['terms'] = Arr::get($submittedValues, 'terms', 0);
+            if (!glsr()->filterBool('enable/verification', true)) {
+                unset($submittedValues['is_verified']);
+            }
             glsr(ReviewManager::class)->updateRating($review->ID, $submittedValues); // values are sanitized here
             glsr(ReviewManager::class)->updateCustom($review->ID, $submittedValues); // values are sanitized here
         }

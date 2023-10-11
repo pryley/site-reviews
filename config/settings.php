@@ -46,6 +46,28 @@ return [ // order is intentional
         'tooltip' => _x('Site Reviews relies on the CSS of your theme to style the review form. If your theme does not provide proper CSS rules for form elements and you are using a WordPress plugin/theme or CSS Framework listed here, please try selecting it, otherwise choose "Site Reviews (default)".', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
+    'settings.general.request_verification' => [
+        'class' => 'regular-text',
+        'default' => 'no',
+        'label' => _x('Request Verification', 'admin-text', 'site-reviews'),
+        'sanitizer' => 'text',
+        'tooltip' => _x('This will send a verification email to the reviewer when a review is submitted.', 'admin-text', 'site-reviews'),
+        'type' => 'yes_no',
+    ],
+    'settings.general.request_verification_message' => [
+        'default' => glsr('Modules\Html\Template')->build('templates/verify-review'),
+        'depends_on' => [
+            'settings.general.request_verification' => ['yes'],
+        ],
+        'label' => _x('Verification Template', 'admin-text', 'site-reviews'),
+        'rows' => 5,
+        'sanitizer' => 'text-html',
+        'tags' => glsr('Modules\Html\TemplateTags')->filteredTags([
+            'exclude' => ['admin_email', 'approve_url'],
+        ]),
+        'tooltip' => _x('To restore the default text, save an empty template.', 'admin-text', 'site-reviews'),
+        'type' => 'code',
+    ],
     'settings.general.require.approval' => [
         'default' => 'no',
         'label' => _x('Require Approval', 'admin-text', 'site-reviews'),

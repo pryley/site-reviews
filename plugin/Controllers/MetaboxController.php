@@ -65,6 +65,23 @@ class MetaboxController extends Controller
                 'context' => $context,
                 'pinned' => $review->is_pinned,
             ]);
+        }
+    }
+
+    /**
+     * @return void
+     * @action post_submitbox_misc_actions
+     */
+    public function renderVerifiedInPublishMetaBox()
+    {
+        $review = glsr(Query::class)->review(get_post()->ID ?? 0);
+        if ($review->isValid()
+            && glsr()->can('edit_others_posts')
+            && glsr()->filterBool('enable/verification', true)) {
+            $context = [
+                'no' => _x('No', 'admin-text', 'site-reviews'),
+                'yes' => _x('Yes', 'admin-text', 'site-reviews'),
+            ];
             glsr(Template::class)->render('partials/editor/verified', [
                 'context' => $context,
                 'verified' => $review->is_verified,

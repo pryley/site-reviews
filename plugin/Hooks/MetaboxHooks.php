@@ -13,6 +13,7 @@ class MetaboxHooks extends AbstractHooks
             ['registerMetaBoxes', "add_meta_boxes_{$this->type}"],
             ['removeMetaBoxes', 'do_meta_boxes'],
             ['renderPinnedInPublishMetaBox', 'post_submitbox_misc_actions'],
+            ['renderVerifiedInPublishMetaBox', 'post_submitbox_misc_actions'],
         ]);
     }
 }
