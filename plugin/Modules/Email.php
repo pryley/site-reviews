@@ -234,6 +234,13 @@ class Email
     {
         // remove invisible elements
         $string = preg_replace('@<(embed|head|noembed|noscript|object|script|style)[^>]*?>.*?</\\1>@siu', '', $string);
+        // replace link elements
+        $string = preg_replace_callback('@<a[^>]*href=("|\')(.*?)\1[^>]*>(.*?)<\/a>@iu', function ($matches) {
+            $matches = array_map('trim', $matches);
+            return ($matches[2] !== $matches[3])
+                ? sprintf('%s (%s)', $matches[3], $matches[2])
+                : $matches[2];
+        }, $string);
         // replace certain elements with a line-break
         $string = preg_replace('@</(div|h[1-9]|p|pre|tr)@iu', "\r\n\$0", $string);
         // replace other elements with a space
