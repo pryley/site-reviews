@@ -55,7 +55,7 @@ class MetaboxController extends Controller
      */
     public function renderPinnedInPublishMetaBox()
     {
-        $review = glsr(Query::class)->review(get_post()->ID);
+        $review = glsr(Query::class)->review(get_post()->ID ?? 0);
         if ($review->isValid() && glsr()->can('edit_others_posts')) {
             $context = [
                 'no' => _x('No', 'admin-text', 'site-reviews'),

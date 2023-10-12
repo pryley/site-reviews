@@ -41,7 +41,7 @@ class SchemaParser
 
     public function generateFromBlocks(): array
     {
-        $blocks = parse_blocks(Arr::get(get_post(), 'post_content', ''));
+        $blocks = parse_blocks(get_post()->post_content ?? '');
         $args = $this->parseBlocks($blocks, 'site-reviews/reviews');
         if (Arr::getAs('bool', $args, 'schema')) {
             return $this->buildReviewSchema($args);

@@ -95,10 +95,9 @@ class ReviewManager
     }
 
     /**
-     * @param int $postId
      * @return false|Review
      */
-    public function createFromPost($postId, array $data = [])
+    public function createFromPost(int $postId, array $data = [])
     {
         if (!Review::isReview($postId)) {
             return false;

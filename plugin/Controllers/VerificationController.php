@@ -30,7 +30,7 @@ class VerificationController extends Controller
      */
     public function verifyReview(Request $request): void
     {
-        $postId = Arr::get($request->data, 0);
+        $postId = Arr::getAs('int', $request->data, 0);
         $redirectUrl = get_home_url();
         $review = glsr_get_review($postId);
         if ($review->isValid()) {

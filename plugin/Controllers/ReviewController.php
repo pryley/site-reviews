@@ -27,10 +27,9 @@ use GeminiLabs\SiteReviews\Review;
 class ReviewController extends Controller
 {
     /**
-     * @return void
      * @action admin_action_approve
      */
-    public function approve()
+    public function approve(): void
     {
         if (glsr()->id == filter_input(INPUT_GET, 'plugin')) {
             check_admin_referer('approve-review_'.($postId = $this->getPostId()));
@@ -85,11 +84,9 @@ class ReviewController extends Controller
     }
 
     /**
-     * @param string $template
-     * @return string
      * @filter site-reviews/rendered/template/review
      */
-    public function filterReviewTemplate($template, array $data)
+    public function filterReviewTemplate(string $template, array $data): string
     {
         $search = 'id="review-';
         $dataType = Arr::get($data, 'review.type', 'local');
@@ -104,21 +101,18 @@ class ReviewController extends Controller
     }
 
     /**
-     * @param string $operator
-     * @return string
      * @filter site-reviews/query/sql/clause/operator
      */
-    public function filterSqlClauseOperator($operator)
+    public function filterSqlClauseOperator(string $operator): string
     {
         $operators = ['loose' => 'OR', 'strict' => 'AND'];
         return Arr::get($operators, glsr_get_option('reviews.assignment', 'strict', 'string'), $operator);
     }
 
     /**
-     * @return array
      * @filter site-reviews/review/build/after
      */
-    public function filterTemplateTags(array $tags, Review $review, ReviewHtml $reviewHtml)
+    public function filterTemplateTags(array $tags, Review $review, ReviewHtml $reviewHtml): array
     {
         $tags['assigned_links'] = $reviewHtml->buildTemplateTag($review, 'assigned_links', $review->assigned_posts);
         return $tags;
@@ -133,10 +127,9 @@ class ReviewController extends Controller
      * @param string $taxonomy
      * @param bool $append
      * @param array $oldTTIds
-     * @return void
      * @action set_object_terms
      */
-    public function onAfterChangeAssignedTerms($postId, $terms, $newTTIds, $taxonomy, $append, $oldTTIds)
+    public function onAfterChangeAssignedTerms($postId, $terms, $newTTIds, $taxonomy, $append, $oldTTIds): void
     {
         if (Review::isReview($postId)) {
             $review = glsr(Query::class)->review($postId);
@@ -152,10 +145,9 @@ class ReviewController extends Controller
      * @param string $new
      * @param string $old
      * @param \WP_Post $post
-     * @return void
      * @action transition_post_status
      */
-    public function onAfterChangeStatus($new, $old, $post)
+    public function onAfterChangeStatus($new, $old, $post): void
     {
         if (in_array($old, ['new', $new])) {
             return;
@@ -188,11 +180,9 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review's assigned post IDs are updated.
-     *
-     * @return void
      * @action site-reviews/review/updated/post_ids
      */
-    public function onChangeAssignedPosts(Review $review, array $postIds = [])
+    public function onChangeAssignedPosts(Review $review, array $postIds = []): void
     {
         $diff = $this->getAssignedDiffs($review->assigned_posts, $postIds);
         $this->execute(new UnassignPosts($review, $diff['old']));
@@ -214,11 +204,9 @@ class ReviewController extends Controller
 
     /**
      * Triggered after a review is created.
-     *
-     * @return void
      * @action site-reviews/review/created
      */
-    public function onCreatedReview(Review $review, CreateReview $command)
+    public function onCreatedReview(Review $review, CreateReview $command): void
     {
         $this->execute(new AssignPosts($review, $command->assigned_posts));
         $this->execute(new AssignUsers($review, $command->assigned_users));
@@ -226,12 +214,9 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review is created.
-     *
-     * @param int $postId
-     * @return void
      * @action site-reviews/review/create
      */
-    public function onCreateReview($postId, CreateReview $command)
+    public function onCreateReview(int $postId, CreateReview $command): void
     {
         $values = glsr()->args($command->toArray()); // this filters the values
         $data = glsr(RatingDefaults::class)->restrict($values->toArray());
@@ -263,16 +248,14 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review or other post type is deleted and the posts table uses the MyISAM engine.
-     *
      * @param int $postId
      * @param \WP_Post $post
-     * @return void
      * @action deleted_post
      */
-    public function onDeletePost($postId, $post)
+    public function onDeletePost($postId, $post): void
     {
         if (glsr()->post_type === $post->post_type) {
-            $this->onDeleteReview($postId);
+            $this->onDeleteReview((int) $postId);
             return;
         }
         $reviews = glsr(Query::class)->reviews([
@@ -289,24 +272,19 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review is deleted and the posts table uses the MyISAM engine.
-     *
-     * @param int $reviewId
-     * @return void
      * @see $this->onDeletePost()
      */
-    public function onDeleteReview($reviewId)
+    public function onDeleteReview(int $reviewId): void
     {
         glsr(ReviewManager::class)->delete($reviewId);
     }
 
     /**
      * Triggered when a user is deleted and the users table uses the MyISAM engine.
-     *
      * @param int $userId
-     * @return void
      * @action deleted_user
      */
-    public function onDeleteUser($userId)
+    public function onDeleteUser($userId = 0): void
     {
         $reviews = glsr(Query::class)->reviews([
             'assigned_users' => $userId,
@@ -324,14 +302,12 @@ class ReviewController extends Controller
      * Triggered when a review is edited or trashed.
      * It's unnecessary to trigger a term recount as this is done by the set_object_terms hook
      * We need to use "post_updated" to support revisions (vs "save_post").
-     *
      * @param int $postId
      * @param \WP_Post $post
      * @param \WP_Post $oldPost
-     * @return void
      * @action post_updated
      */
-    public function onEditReview($postId, $post, $oldPost)
+    public function onEditReview($postId, $post, $oldPost): void
     {
         if (!glsr()->can('edit_posts') || !$this->isEditedReview($post, $oldPost)) {
             return;
@@ -345,12 +321,9 @@ class ReviewController extends Controller
     }
 
     /**
-     * Triggered after a review is created.
-     *
-     * @return void
      * @action site-reviews/review/created
      */
-    public function sendNotification(Review $review)
+    public function sendNotification(Review $review): void
     {
         if (!defined('WP_IMPORTING') && !empty(glsr_get_option('general.notifications'))) {
             glsr(Queue::class)->async('queue/notification', ['review_id' => $review->ID]);
@@ -358,10 +331,9 @@ class ReviewController extends Controller
     }
 
     /**
-     * @return void
      * @action admin_action_unapprove
      */
-    public function unapprove()
+    public function unapprove(): void
     {
         if (glsr()->id == filter_input(INPUT_GET, 'plugin')) {
             check_admin_referer('unapprove-review_'.($postId = $this->getPostId()));
@@ -374,10 +346,7 @@ class ReviewController extends Controller
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function bulkUpdateReview(Review $review)
+    protected function bulkUpdateReview(Review $review): void
     {
         if ($assignedPostIds = filter_input(INPUT_GET, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY)) {
             glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
@@ -389,10 +358,7 @@ class ReviewController extends Controller
         glsr()->action('review/updated', $review, []); // pass an empty array since review values are unchanged
     }
 
-    /**
-     * @return array
-     */
-    protected function getAssignedDiffs(array $existing, array $replacements)
+    protected function getAssignedDiffs(array $existing, array $replacements): array
     {
         sort($existing);
         sort($replacements);
@@ -411,9 +377,8 @@ class ReviewController extends Controller
     /**
      * @param \WP_Post $post
      * @param \WP_Post $oldPost
-     * @return bool
      */
-    protected function isEditedReview($post, $oldPost)
+    protected function isEditedReview($post, $oldPost): bool
     {
         if (glsr()->post_type !== $post->post_type) {
             return false;
@@ -425,10 +390,7 @@ class ReviewController extends Controller
         return 'glsr_action' !== filter_input($input, 'action'); // abort if not a proper post update (i.e. approve/unapprove)
     }
 
-    /**
-     * @return void
-     */
-    protected function updateReview(Review $review)
+    protected function updateReview(Review $review): void
     {
         $assignedPostIds = filter_input(INPUT_POST, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
         $assignedUserIds = filter_input(INPUT_POST, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);

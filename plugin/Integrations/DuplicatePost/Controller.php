@@ -20,9 +20,12 @@ class Controller extends BaseController
         if (!Review::isReview($post)) {
             return;
         }
+        if (is_wp_error($newPostId)) {
+            return;
+        }
         $review = glsr_get_review($post->ID);
         if ($review->isValid()) {
-            glsr(ReviewManager::class)->createFromPost($newPostId, $review->toArray());
+            glsr(ReviewManager::class)->createFromPost((int) $newPostId, $review->toArray());
         }
     }
 
