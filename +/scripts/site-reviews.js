@@ -101,18 +101,22 @@ const initReview = () => {
             return;
         }
         GLSR.Modal.open('glsr-modal-review', {
+            onClose: (modal) => {
+                url.searchParams.delete('form')
+                url.searchParams.delete('review_id')
+                url.searchParams.delete('theme')
+                url.searchParams.delete('verified')
+                history.pushState({}, '', url.href);
+            },
             onOpen: (modal) => {
-                const message = dom('p', { style: 'background:rgb(240,253,244); border-radius:6px; color:rgb(22,101,52); margin:0; padding:1em;' });
-                const messageEl = dom('div', { style: 'margin:0 1.5em 1.5em;' }, message);
                 const wrapEl = dom('div', response.attributes);
-                message.innerHTML = response.message;
                 wrapEl.innerHTML = response.review;
                 wrapEl.querySelectorAll('[data-expanded="false"]').forEach(el => {
                     el.dataset.expanded = 'true';
                 })
                 modal.content.appendChild(wrapEl)
-                modal.footer.appendChild(messageEl)
-            }
+                modal.footer.innerHTML = response.message;
+            },
         })
     })
 }

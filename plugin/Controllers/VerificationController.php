@@ -45,7 +45,7 @@ class VerificationController extends Controller
             wp_send_json_success([
                 'attributes' => $html->attributes(),
                 'review' => (string) $html,
-                'message' => $message,
+                'message' => sprintf('<p style="background:rgb(240 253 244); border-top:1px solid rgba(22 101 52/.25); color:rgb(22 101 52); margin:0; padding:1em 1.5em;">%s</p>', $message),
             ]);
         }
         wp_send_json_error();
