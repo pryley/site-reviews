@@ -376,9 +376,11 @@ class AdminController extends Controller
      */
     public function togglePinnedAjax(Request $request)
     {
+        $result = $this->execute(new TogglePinned($request->toArray()));
+        glsr()->action('cache/flush');
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
-            'pinned' => $this->execute(new TogglePinned($request->toArray())),
+            'pinned' => $result,
         ]);
     }
 
@@ -388,9 +390,9 @@ class AdminController extends Controller
      */
     public function toggleStatusAjax(Request $request)
     {
-        wp_send_json_success(
-            $this->execute(new ToggleStatus($request->toArray()))
-        );
+        $result = $this->execute(new ToggleStatus($request->toArray()));
+        glsr()->action('cache/flush');
+        wp_send_json_success($result);
     }
 
     /**
@@ -399,9 +401,11 @@ class AdminController extends Controller
      */
     public function toggleVerifiedAjax(Request $request)
     {
+        $result = $this->execute(new ToggleVerified($request->toArray()));
+        glsr()->action('cache/flush');
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
-            'verified' => $this->execute(new ToggleVerified($request->toArray())),
+            'verified' => $result,
         ]);
     }
 }

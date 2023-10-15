@@ -9,12 +9,13 @@ class Hooks extends AbstractHooks
     public function run(): void
     {
         $this->hook(Controller::class, [
+            ['initPurge', 'admin_footer'],
+            ['initPurge', 'wp_footer'],
+            ['purge', 'site-reviews/cache/flush'],
             ['purgeAll', 'site-reviews/migration/end'],
             ['purgeOnCreated', 'site-reviews/review/created', 10, 2],
-            ['purgeOnUpdated', 'site-reviews/review/approved'],
+            ['purgeOnTransitioned', 'site-reviews/review/transitioned', 10, 3],
             ['purgeOnUpdated', 'site-reviews/review/unapproved'],
-            ['purgeOnUpdated', 'site-reviews/review/updated'],
-            ['purge', 'shutdown'],
         ]);
     }
 }

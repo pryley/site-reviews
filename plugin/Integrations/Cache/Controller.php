@@ -10,12 +10,22 @@ use GeminiLabs\SiteReviews\Review;
 class Controller extends BaseController
 {
     /**
-     * @action shutdown
+     * @action admin_footer
+     * @action wp_footer
+     */
+    public function initPurge()
+    {
+        glsr()->action('cache/flush');
+    }
+
+    /**
+     * @action site-reviews/cache/flush
      */
     public function purge()
     {
-        $postIds = glsr()->retrieve('cache/post_ids', false);
+        $postIds = glsr()->retrieve('cache/post_ids');
         if (is_array($postIds)) {
+            glsr_log('cache::flushing')->debug($postIds);
             glsr()->discard('cache/post_ids');
             $postIds = Arr::uniqueInt($postIds);
             $this->purgeEnduranceCache($postIds);
@@ -37,8 +47,8 @@ class Controller extends BaseController
      */
     public function purgeAll()
     {
-        glsr_log('purgeAll');
         glsr()->store('cache/post_ids', []);
+        glsr_log('cache::flush_all');
     }
 
     /**
@@ -51,14 +61,24 @@ class Controller extends BaseController
             $postIds = array_merge($postIds, $review->assigned_posts, [$command->post_id]);
             $postIds = Arr::uniqueInt($postIds);
             glsr()->store('cache/post_ids', $postIds);
-            glsr_log('purgeOnCreated')->debug($postIds);
+            glsr_log('cache::flush_on_created');
         }
     }
 
     /**
-     * @action site-reviews/review/approved
+     * @action site-reviews/review/transitioned
+     */
+    public function purgeOnTransitioned(Review $review, string $new, string $old)
+    {
+        $postIds = glsr()->retrieve('cache/post_ids'); // "site-reviews/review/updated" might have already been triggered
+        if (in_array('publish', [$new, $old]) && is_null($postIds)) {
+            glsr_log('cache::flush_on_transitioned');
+            $this->purgeOnUpdated($review);
+        }
+    }
+
+    /**
      * @action site-reviews/review/updated
-     * @action site-reviews/review/unapproved
      */
     public function purgeOnUpdated(Review $review)
     {
@@ -66,7 +86,7 @@ class Controller extends BaseController
         $postIds = array_merge($postIds, $review->assigned_posts);
         $postIds = Arr::uniqueInt($postIds);
         glsr()->store('cache/post_ids', $postIds);
-        glsr_log('purgeOnUpdated')->debug($postIds);
+        glsr_log('cache::flush_on_updated');
     }
 
     /**
