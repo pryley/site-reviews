@@ -27,6 +27,7 @@ use GeminiLabs\SiteReviews\Review;
 class ReviewController extends Controller
 {
     /**
+     * Fallback action if ajax is not working for any reason
      * @action admin_action_approve
      */
     public function approve(): void
@@ -34,7 +35,7 @@ class ReviewController extends Controller
         if (glsr()->id === filter_input(INPUT_GET, 'plugin')) {
             check_admin_referer('approve-review_'.($postId = $this->getPostId()));
             $this->execute(new ToggleStatus([
-                'id' => $postId,
+                'post_id' => $postId,
                 'status' => 'publish',
             ]));
             wp_safe_redirect(wp_get_referer());
@@ -331,6 +332,7 @@ class ReviewController extends Controller
     }
 
     /**
+     * Fallback action if ajax is not working for any reason
      * @action admin_action_unapprove
      */
     public function unapprove(): void
@@ -338,7 +340,7 @@ class ReviewController extends Controller
         if (glsr()->id === filter_input(INPUT_GET, 'plugin')) {
             check_admin_referer('unapprove-review_'.($postId = $this->getPostId()));
             $this->execute(new ToggleStatus([
-                'id' => $postId,
+                'post_id' => $postId,
                 'status' => 'pending',
             ]));
             wp_safe_redirect(wp_get_referer());
