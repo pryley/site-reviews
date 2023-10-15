@@ -43,7 +43,7 @@ class Backtrace
      */
     public function normalizeLine($line)
     {
-        $search = [
+        $search = array_unique([
             'GeminiLabs\\SiteReviews\\',
             glsr()->path('plugin/'),
             glsr()->path('plugin/', false),
@@ -51,8 +51,8 @@ class Backtrace
             trailingslashit(glsr()->path('', false)),
             WP_CONTENT_DIR,
             ABSPATH,
-        ];
-        return str_replace(array_unique($search), '', $line);
+        ]);
+        return str_replace('/', '\\', str_replace($search, '', $line));
     }
 
     /**
