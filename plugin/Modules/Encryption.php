@@ -58,7 +58,7 @@ class Encryption
         $values = array_values(array_map('sanitize_text_field', $data));
         $message = implode('|', $values);
         $message = sprintf('%s|%s', $action, $message);
-        return $this->encrypt($message);
+        return (string) $this->encrypt($message);
     }
 
     protected function key(): string

@@ -147,7 +147,7 @@ class Router
         $data = [
             'code' => $errCode,
             'error' => $error,
-            'message' => $error,
+            'message' => $message ?: $error,
             'notices' => '',
         ];
         if ('submit-review' === $request->_action) {
