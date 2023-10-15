@@ -26,6 +26,32 @@ class VerificationController extends Controller
     }
 
     /**
+     * @action site-reviews/route/ajax/verified-review
+     */
+    public function verifiedReviewAjax(Request $request): void
+    {
+        $reviewId = $request->cast('post_id', 'int');
+        $token = sanitize_text_field($request->get('token'));
+        $token = (int) glsr(Encryption::class)->decrypt($token);
+        if (empty($reviewId) || $reviewId !== $token) {
+            wp_send_json_error();
+        }
+        $review = glsr_get_review($reviewId);
+        if ($review->isValid()) {
+            $html = $review->build($request->toArray());
+            $message = $review->is_approved
+                ? __('Thank you, your review has been verified.', 'site-reviews')
+                : __('Thank you, your review has been verified and is awaiting approval.', 'site-reviews');
+            wp_send_json_success([
+                'attributes' => $html->attributes(),
+                'review' => (string) $html,
+                'message' => $message,
+            ]);
+        }
+        wp_send_json_error();
+    }
+
+    /**
      * @action site-reviews/route/get/public/verify
      */
     public function verifyReview(Request $request): void
@@ -33,10 +59,10 @@ class VerificationController extends Controller
         $postId = Arr::getAs('int', $request->data, 0);
         $redirectUrl = get_home_url();
         $review = glsr_get_review($postId);
-        if ($review->isValid()) {
+        if ($review->isValid() && $this->execute(new VerifyReview($review))) {
             $queryArgs = [
                 'review_id' => $review->ID,
-                'verified' => $this->execute(new VerifyReview($review)),
+                'verified' => glsr(Encryption::class)->encrypt($review->ID),
             ];
             $path = Arr::get($request->data, 1);
             $redirectUrl = add_query_arg($queryArgs, $redirectUrl.$path);

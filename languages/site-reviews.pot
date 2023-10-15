@@ -1524,7 +1524,7 @@ msgctxt "License Keys (admin-text)"
 msgid "Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account."
 msgstr ""
 
-#: plugin/Application.php:199, plugin/Controllers/SettingsController.php:165
+#: plugin/Application.php:199, plugin/Controllers/SettingsController.php:169
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr ""
@@ -1534,7 +1534,7 @@ msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
 msgstr ""
 
-#: plugin/Review.php:161, plugin/Commands/SendVerificationEmail.php:50, plugin/Modules/Avatar.php:79, plugin/Modules/Notification.php:54
+#: plugin/Review.php:161, plugin/Commands/SendVerificationEmail.php:50, plugin/Modules/Avatar.php:79, plugin/Modules/Notification.php:55
 msgid "Anonymous"
 msgstr ""
 
@@ -2331,27 +2331,27 @@ msgctxt "admin-text"
 msgid "Settings updated."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:138
+#: plugin/Controllers/SettingsController.php:142
 msgctxt "admin-text"
 msgid "Please update the %s plugin to v%s or greater to enable the integration."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:132
+#: plugin/Controllers/SettingsController.php:136
 msgctxt "admin-text"
 msgid "Please install/activate the %s plugin to enable the integration."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:151
+#: plugin/Controllers/SettingsController.php:155
 msgctxt "admin-text"
 msgid "A license you entered could not be verified for the selected addon."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:163
+#: plugin/Controllers/SettingsController.php:167
 msgctxt "admin-text"
 msgid "A license you entered is either invalid or has not yet been authorized for your website."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:164
+#: plugin/Controllers/SettingsController.php:168
 msgctxt "admin-text"
 msgid "To activate your license, please visit the %s page on your Nifty Plugins account and click the \"Manage Sites\" button to activate it for your website."
 msgstr ""
@@ -2479,6 +2479,14 @@ msgstr ""
 #: plugin/Controllers/TranslationController.php:201, plugin/Defaults/PostStatusLabelsDefaults.php:18
 msgctxt "admin-text"
 msgid "Save as Unapproved"
+msgstr ""
+
+#: plugin/Controllers/VerificationController.php:43
+msgid "Thank you, your review has been verified."
+msgstr ""
+
+#: plugin/Controllers/VerificationController.php:44
+msgid "Thank you, your review has been verified and is awaiting approval."
 msgstr ""
 
 #: plugin/Controllers/WelcomeController.php:27
@@ -2634,47 +2642,47 @@ msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:15
 msgctxt "template tag button text"
-msgid "assigned links"
+msgid "edit url"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:16
 msgctxt "template tag button text"
-msgid "assigned posts"
+msgid "assigned links"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:17
 msgctxt "template tag button text"
-msgid "assigned users"
+msgid "assigned posts"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:18
 msgctxt "template tag button text"
-msgid "name"
+msgid "assigned users"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:19
 msgctxt "template tag button text"
-msgid "categories"
+msgid "name"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:20
 msgctxt "template tag button text"
-msgid "content"
+msgid "categories"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:21
 msgctxt "template tag button text"
-msgid "email"
+msgid "content"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:22
 msgctxt "template tag button text"
-msgid "ip address"
+msgid "email"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:23
 msgctxt "template tag button text"
-msgid "edit url"
+msgid "ip address"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:24
@@ -3030,7 +3038,7 @@ msgstr ""
 msgid "Approve Review"
 msgstr ""
 
-#: plugin/Modules/Discord.php:138, plugin/Modules/Slack.php:164
+#: plugin/Modules/Discord.php:138, plugin/Modules/Notification.php:60, plugin/Modules/Slack.php:164
 msgid "Edit Review"
 msgstr ""
 
@@ -3039,11 +3047,11 @@ msgctxt "admin-text"
 msgid "Show more details"
 msgstr ""
 
-#: plugin/Modules/Notification.php:124
+#: plugin/Modules/Notification.php:125
 msgid "New %s-star review"
 msgstr ""
 
-#: plugin/Modules/Notification.php:128
+#: plugin/Modules/Notification.php:129
 msgid "New %s-star review of %s"
 msgstr ""
 

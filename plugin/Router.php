@@ -166,6 +166,7 @@ class Router
         return glsr()->filterArray('router/admin/unguarded-actions', [
             'dismiss-notice',
             'fetch-paged-reviews',
+            'verified-review',
         ]);
     }
 
@@ -175,6 +176,7 @@ class Router
             'dismiss-notice',
             'fetch-paged-reviews',
             'submit-review',
+            'verified-review',
         ]);
     }
 }

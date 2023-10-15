@@ -64,10 +64,15 @@ class ReviewHtml extends \ArrayObject
         ]);
     }
 
-    /**
-     * @return array
-     */
-    public function buildContext(Review $review)
+    public function attributes(): array
+    {
+        if (empty($this->attributes)) {
+            $this->attributes = glsr(SiteReviewsShortcode::class)->attributes($this->args);
+        }
+        return $this->attributes;
+    }
+
+    public function buildContext(Review $review): array
     {
         $context = $this->buildTemplateTags($review);
         return glsr()->filterArray('review/build/context', $context, $review, $this);
@@ -117,10 +122,7 @@ class ReviewHtml extends \ArrayObject
     public function offsetGet($key)
     {
         if ('attributes' === $key) {
-            if (empty($this->attributes)) {
-                $this->attributes = glsr(SiteReviewsShortcode::class)->attributes($this->args);
-            }
-            return glsr(Attributes::class)->div($this->attributes)->toString();
+            return glsr(Attributes::class)->div($this->attributes())->toString();
         }
         if (array_key_exists($key, $this->context)) {
             return $this->context[$key];

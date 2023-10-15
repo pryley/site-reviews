@@ -40,7 +40,7 @@ msgstr[1] "%s stars or less"
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
-#: plugin/Review.php:161, plugin/Commands/SendVerificationEmail.php:50, plugin/Modules/Avatar.php:79, plugin/Modules/Notification.php:54
+#: plugin/Review.php:161, plugin/Commands/SendVerificationEmail.php:50, plugin/Modules/Avatar.php:79, plugin/Modules/Notification.php:55
 msgid "Anonymous"
 msgstr "Anonymous"
 
@@ -115,6 +115,14 @@ msgstr "Close Modal"
 #: plugin/Commands/SendVerificationEmail.php:69
 msgid "Please verify your review"
 msgstr "Please verify your review"
+
+#: plugin/Controllers/VerificationController.php:43
+msgid "Thank you, your review has been verified."
+msgstr "Thank you, your review has been verified."
+
+#: plugin/Controllers/VerificationController.php:44
+msgid "Thank you, your review has been verified and is awaiting approval."
+msgstr "Thank you, your review has been verified and is awaiting approval."
 
 #: plugin/Defaults/PaginationDefaults.php:42
 msgid "Page"
@@ -224,15 +232,15 @@ msgstr "Review of %s"
 msgid "Approve Review"
 msgstr "Approve Review"
 
-#: plugin/Modules/Discord.php:138, plugin/Modules/Slack.php:164
+#: plugin/Modules/Discord.php:138, plugin/Modules/Notification.php:60, plugin/Modules/Slack.php:164
 msgid "Edit Review"
 msgstr "Edit Review"
 
-#: plugin/Modules/Notification.php:124
+#: plugin/Modules/Notification.php:125
 msgid "New %s-star review"
 msgstr "New %s-star review"
 
-#: plugin/Modules/Notification.php:128
+#: plugin/Modules/Notification.php:129
 msgid "New %s-star review of %s"
 msgstr "New %s-star review of %s"
 
@@ -2129,7 +2137,7 @@ msgstr ""
 "This will filter the output of the wp_comments() function when it's used to "
 "query WooCommerce product reviews."
 
-#: plugin/Application.php:199, plugin/Controllers/SettingsController.php:165
+#: plugin/Application.php:199, plugin/Controllers/SettingsController.php:169
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr "License Keys"
@@ -2868,22 +2876,22 @@ msgctxt "admin-text"
 msgid "Settings updated."
 msgstr "Settings updated."
 
-#: plugin/Controllers/SettingsController.php:138
+#: plugin/Controllers/SettingsController.php:142
 msgctxt "admin-text"
 msgid "Please update the %s plugin to v%s or greater to enable the integration."
 msgstr "Please update the %s plugin to v%s or greater to enable the integration."
 
-#: plugin/Controllers/SettingsController.php:132
+#: plugin/Controllers/SettingsController.php:136
 msgctxt "admin-text"
 msgid "Please install/activate the %s plugin to enable the integration."
 msgstr "Please install/activate the %s plugin to enable the integration."
 
-#: plugin/Controllers/SettingsController.php:151
+#: plugin/Controllers/SettingsController.php:155
 msgctxt "admin-text"
 msgid "A license you entered could not be verified for the selected addon."
 msgstr "A license you entered could not be verified for the selected addon."
 
-#: plugin/Controllers/SettingsController.php:163
+#: plugin/Controllers/SettingsController.php:167
 msgctxt "admin-text"
 msgid ""
 "A license you entered is either invalid or has not yet been authorized for "
@@ -2892,7 +2900,7 @@ msgstr ""
 "A license you entered is either invalid or has not yet been authorized for "
 "your website."
 
-#: plugin/Controllers/SettingsController.php:164
+#: plugin/Controllers/SettingsController.php:168
 msgctxt "admin-text"
 msgid ""
 "To activate your license, please visit the %s page on your Nifty Plugins "
@@ -6062,48 +6070,48 @@ msgstr "approve url"
 
 #: plugin/Defaults/TemplateTagsDefaults.php:15
 msgctxt "template tag button text"
+msgid "edit url"
+msgstr "edit url"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:16
+msgctxt "template tag button text"
 msgid "assigned links"
 msgstr "assigned links"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:16
+#: plugin/Defaults/TemplateTagsDefaults.php:17
 msgctxt "template tag button text"
 msgid "assigned posts"
 msgstr "assigned posts"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:17
+#: plugin/Defaults/TemplateTagsDefaults.php:18
 msgctxt "template tag button text"
 msgid "assigned users"
 msgstr "assigned users"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:18
+#: plugin/Defaults/TemplateTagsDefaults.php:19
 msgctxt "template tag button text"
 msgid "name"
 msgstr "name"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:19
+#: plugin/Defaults/TemplateTagsDefaults.php:20
 msgctxt "template tag button text"
 msgid "categories"
 msgstr "categories"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:20
+#: plugin/Defaults/TemplateTagsDefaults.php:21
 msgctxt "template tag button text"
 msgid "content"
 msgstr "content"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:21
+#: plugin/Defaults/TemplateTagsDefaults.php:22
 msgctxt "template tag button text"
 msgid "email"
 msgstr "email"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:22
+#: plugin/Defaults/TemplateTagsDefaults.php:23
 msgctxt "template tag button text"
 msgid "ip address"
 msgstr "ip address"
-
-#: plugin/Defaults/TemplateTagsDefaults.php:23
-msgctxt "template tag button text"
-msgid "edit url"
-msgstr "edit url"
 
 #: plugin/Defaults/TemplateTagsDefaults.php:24
 msgctxt "template tag button text"

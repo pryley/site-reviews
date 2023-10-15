@@ -81,6 +81,42 @@ const initPlugin = () => {
     Event.trigger(events.loaded) // this goes last!
 }
 
+const initReview = () => {
+    let url = new URL(location.href);
+    if (!url.searchParams.has('review_id') || !url.searchParams.has('verified')) return;
+    let request = {
+        [`${GLSR.nameprefix}[_action]`]: 'verified-review',
+        [`${GLSR.nameprefix}[post_id]`]: url.searchParams.get('review_id'),
+        [`${GLSR.nameprefix}[token]`]: url.searchParams.get('verified'),
+    };
+    if (url.searchParams.has('form')) {
+        request[`${GLSR.nameprefix}[form]`] = url.searchParams.get('form');
+    }
+    if (url.searchParams.has('theme')) {
+        request[`${GLSR.nameprefix}[theme]`] = url.searchParams.get('theme');
+    }
+    GLSR.ajax.post(request, (response, success) => {
+        if (!success) {
+            console.error({ request, response })
+            return;
+        }
+        GLSR.Modal.open('glsr-modal-review', {
+            onOpen: (modal) => {
+                const message = dom('p', { style: 'background:rgb(240,253,244); border-radius:6px; color:rgb(22,101,52); margin:0; padding:1em;' });
+                const messageEl = dom('div', { style: 'margin:0 1.5em 1.5em;' }, message);
+                const wrapEl = dom('div', response.attributes);
+                message.innerHTML = response.message;
+                wrapEl.innerHTML = response.review;
+                wrapEl.querySelectorAll('[data-expanded="false"]').forEach(el => {
+                    el.dataset.expanded = 'true';
+                })
+                modal.content.appendChild(wrapEl)
+                modal.footer.appendChild(messageEl)
+            }
+        })
+    })
+}
+
 if (!window.hasOwnProperty('GLSR')) {
     window.GLSR = {};
 }
@@ -105,4 +141,5 @@ Event.on('site-reviews/pagination/handle', (response, pagination) => {
 document.addEventListener('DOMContentLoaded', () => {
     // for some reason, querySelectorAll return double the results in Firefox without this timeout...
     setTimeout(() => Event.trigger(events.init), 5)
+    setTimeout(() => initReview(), 10)
 })
