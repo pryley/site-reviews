@@ -31,7 +31,7 @@ class ReviewController extends Controller
      */
     public function approve(): void
     {
-        if (glsr()->id == filter_input(INPUT_GET, 'plugin')) {
+        if (glsr()->id === filter_input(INPUT_GET, 'plugin')) {
             check_admin_referer('approve-review_'.($postId = $this->getPostId()));
             $this->execute(new ToggleStatus([
                 'id' => $postId,
@@ -335,7 +335,7 @@ class ReviewController extends Controller
      */
     public function unapprove(): void
     {
-        if (glsr()->id == filter_input(INPUT_GET, 'plugin')) {
+        if (glsr()->id === filter_input(INPUT_GET, 'plugin')) {
             check_admin_referer('unapprove-review_'.($postId = $this->getPostId()));
             $this->execute(new ToggleStatus([
                 'id' => $postId,

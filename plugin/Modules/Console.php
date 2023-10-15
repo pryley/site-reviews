@@ -181,8 +181,8 @@ class Console
     {
         $once = glsr()->retrieveAs('array', static::LOG_ONCE_KEY);
         $filtered = array_filter($once, function ($entry) use ($levelName, $handle) {
-            return Arr::get($entry, 'level') == $levelName
-                && Arr::get($entry, 'handle') == $handle;
+            return Arr::get($entry, 'level') === $levelName
+                && Arr::get($entry, 'handle') === $handle;
         });
         if (empty($filtered)) {
             $once[] = [

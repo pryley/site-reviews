@@ -96,7 +96,7 @@ class Date
     public function isDate($date, $format = 'Y-m-d H:i:s')
     {
         $datetime = \DateTime::createFromFormat($format, $date);
-        return $datetime && $date == $datetime->format($format);
+        return $datetime && $date === $datetime->format($format);
     }
 
     /**

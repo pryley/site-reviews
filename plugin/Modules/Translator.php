@@ -21,7 +21,7 @@ class Translator
             return $original;
         }
         $string = current($strings);
-        return 'plural' == $string['type']
+        return 'plural' === $string['type']
             ? $this->translatePlural($domain, $string, $args)
             : $this->translateSingle($domain, $string, $args);
     }
@@ -44,8 +44,8 @@ class Translator
     protected function getTranslationStrings($single, $plural)
     {
         return array_filter(glsr(Translation::class)->strings(), function ($string) use ($single, $plural) {
-            return $string['s1'] == html_entity_decode($single, ENT_COMPAT, 'UTF-8')
-                && $string['p1'] == html_entity_decode($plural, ENT_COMPAT, 'UTF-8');
+            return $string['s1'] === html_entity_decode($single, ENT_COMPAT, 'UTF-8')
+                && $string['p1'] === html_entity_decode($plural, ENT_COMPAT, 'UTF-8');
         });
     }
 

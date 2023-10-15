@@ -124,7 +124,7 @@ function glsr_current_screen()
  */
 function glsr_debug(...$vars)
 {
-    if (1 == count($vars)) {
+    if (1 === count($vars)) {
         $dump = glsr(Dump::class)->dump($vars[0]);
         $value = htmlspecialchars($dump, ENT_QUOTES, 'UTF-8');
         printf('<div class="glsr-debug"><pre>%s</pre></div>', $value);

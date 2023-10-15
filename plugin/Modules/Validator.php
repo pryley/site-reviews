@@ -91,7 +91,7 @@ class Validator
     public function validateAttribute($attribute, $rule)
     {
         [$rule, $parameters] = $this->parseRule($rule);
-        if ('' == $rule) {
+        if ('' === $rule) {
             return;
         }
         $value = $this->getValue($attribute);
@@ -248,7 +248,7 @@ class Validator
      */
     protected function parseParameters($rule, $parameter)
     {
-        return 'regex' == strtolower($rule)
+        return 'regex' === strtolower($rule)
             ? [$parameter]
             : str_getcsv($parameter);
     }

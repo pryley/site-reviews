@@ -80,8 +80,8 @@ abstract class Controller
     protected function isReviewEditor()
     {
         $screen = glsr_current_screen();
-        return ('post' == $screen->base)
-            && glsr()->post_type == $screen->id
-            && glsr()->post_type == $screen->post_type;
+        return ('post' === $screen->base)
+            && glsr()->post_type === $screen->id
+            && glsr()->post_type === $screen->post_type;
     }
 }

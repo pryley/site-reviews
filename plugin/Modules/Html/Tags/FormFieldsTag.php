@@ -153,7 +153,8 @@ class FormFieldsTag extends FormTag
             return;
         }
         if (in_array($field->field['type'], ['radio', 'checkbox'])) {
-            $field->field['checked'] = $field->field['value'] == $this->with->values[$field->field['path']];
+            $isChecked = $field->field['value'] == $this->with->values[$field->field['path']];
+            $field->field['checked'] = $isChecked;
         } else {
             $field->field['value'] = $this->with->values[$field->field['path']];
         }

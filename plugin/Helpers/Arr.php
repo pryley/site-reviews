@@ -149,7 +149,7 @@ class Arr
         $keyPosition = array_search($key, array_keys($array));
         if (false !== $keyPosition) {
             $keyPosition = Cast::toInt($keyPosition);
-            if ('after' == $position) {
+            if ('after' === $position) {
                 ++$keyPosition;
             }
             $result = array_slice($array, 0, $keyPosition);

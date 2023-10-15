@@ -41,7 +41,7 @@ class SiteReviewBlock extends SiteReviewsBlock
     {
         $attributes['class'] = $attributes['className'];
         $shortcode = glsr(SiteReviewShortcode::class);
-        if ('edit' == filter_input(INPUT_GET, 'context')) {
+        if ('edit' === filter_input(INPUT_GET, 'context')) {
             $attributes = $this->normalize($attributes);
             $this->filterShowMoreLinks('content');
             $this->filterShowMoreLinks('response');

@@ -97,7 +97,7 @@ class Email
      */
     public function read($format = '')
     {
-        if ('plaintext' == $format) {
+        if ('plaintext' === $format) {
             $message = $this->stripHtmlTags($this->message);
             return $this->app()->filterString('email/message', $message, 'text', $this);
         }

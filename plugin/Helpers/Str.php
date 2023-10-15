@@ -196,7 +196,7 @@ class Str
      */
     public static function replaceFirst($search, $replace, $subject)
     {
-        if ('' == $search) {
+        if ('' === $search) {
             return $subject;
         }
         $position = strpos($subject, $search);

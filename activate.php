@@ -85,7 +85,7 @@ class GL_Plugin_Check_v6
             return;
         }
         $pluginSlug = plugin_basename($this->file);
-        if ($plugin == $pluginSlug) {
+        if ($plugin === $pluginSlug) {
             $this->redirect(); // exit
         }
         $pluginData = get_file_data($this->file, ['name' => 'Plugin Name'], 'plugin');

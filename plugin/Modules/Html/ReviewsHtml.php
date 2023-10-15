@@ -80,10 +80,10 @@ class ReviewsHtml extends \ArrayObject
             return $html;
         }
         $classes = 'glsr-pagination';
-        if ('ajax' == $this->args->pagination) {
+        if ('ajax' === $this->args->pagination) {
             $classes .= ' glsr-ajax-pagination';
         }
-        if ('loadmore' == $this->args->pagination) {
+        if ('loadmore' === $this->args->pagination) {
             $classes .= ' glsr-ajax-loadmore';
         }
         $dataAttributes = glsr(SiteReviewsDefaults::class)->dataAttributes($this->args->toArray());

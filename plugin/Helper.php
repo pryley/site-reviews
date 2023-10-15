@@ -138,11 +138,11 @@ class Helper
         if ($post instanceof \WP_Post) {
             return $post->ID;
         }
-        if ('parent_id' == $post) {
+        if ('parent_id' === $post) {
             $parentId = (int) wp_get_post_parent_id(intval(get_the_ID()));
             return glsr()->filterInt('assigned_posts/parent_id', $parentId);
         }
-        if ('post_id' == $post) {
+        if ('post_id' === $post) {
             $postId = (int) get_the_ID();
             return glsr()->filterInt('assigned_posts/post_id', $postId);
         }

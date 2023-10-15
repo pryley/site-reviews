@@ -168,7 +168,7 @@ class Settings
         $settings = glsr()->settings();
         if (isset($settings[$path])) {
             $field = $settings[$path];
-            return ('checkbox' == $field['type'] && !empty($field['options']))
+            return ('checkbox' === $field['type'] && !empty($field['options']))
                 || !empty($field['multiple']);
         }
         return false;

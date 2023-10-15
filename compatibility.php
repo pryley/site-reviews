@@ -46,7 +46,7 @@ add_filter('site-reviews/paginate_links', function (string $links, array $args) 
  * @see https://wordpress.org/plugins/classic-editor/
  */
 add_filter('classic_editor_enabled_editors_for_post_type', function ($editors, $postType) {
-    return glsr()->post_type == $postType
+    return glsr()->post_type === $postType
         ? ['block_editor' => false, 'classic_editor' => false]
         : $editors;
 }, 10, 2);
@@ -115,7 +115,7 @@ add_filter('sbp_exclude_defer_scripts', function ($scriptHandles) {
  * @see https://searchandfilter.com/
  */
 add_filter('sf_edit_query_args', function ($query) {
-    if (!empty($query['meta_key']) && '_glsr_ranking' == $query['meta_key']) {
+    if (!empty($query['meta_key']) && '_glsr_ranking' === $query['meta_key']) {
         unset($query['meta_key']);
         $query['meta_query'] = [
             'relation' => 'OR',

@@ -48,7 +48,7 @@ class BlocksController extends Controller
      */
     public function filterUseBlockEditor($bool, $postType)
     {
-        return glsr()->post_type == $postType
+        return glsr()->post_type === $postType
             ? false
             : $bool;
     }

@@ -48,7 +48,7 @@ class Text
             'space' => ' ',
         ];
         $initialPunctuation = $initialTypes[$initialType];
-        if ('initials' == $nameFormat) {
+        if ('initials' === $nameFormat) {
             return static::initials($name, $initialPunctuation);
         }
         $firstNameInitial = static::initials($firstName).$initialPunctuation;

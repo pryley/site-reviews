@@ -38,7 +38,7 @@ $reviews = get_posts([
         <p>Here is a <code>pre_get_posts</code> example:</p>
         <pre><code class="language-php">// OLD CODE
 add_action('pre_get_posts', function ($query) {
-    if ($query->get('post_type') == 'site-review') {
+    if ($query->get('post_type') === 'site-review') {
         $meta = (array) $query->get('meta_query');
         $index = array_search('rating', wp_list_pluck($meta, 'key'));
         // ...
@@ -47,7 +47,7 @@ add_action('pre_get_posts', function ($query) {
 
 // NEW CODE
 add_action('pre_get_posts', function ($query) {
-    if ($query->get('post_type') == 'site-review') {
+    if ($query->get('post_type') === 'site-review') {
         $meta = (array) $query->get('meta_query');
         $index = array_search('_rating', wp_list_pluck($meta, 'key')); // here we changed the meta_key
         // ...
@@ -57,7 +57,7 @@ add_action('pre_get_posts', function ($query) {
         <pre><code class="language-php">// OLD CODE
 add_action('update_postmeta', function ($metaId, $postId, $metaKey) {
     $review = apply_filters('glsr_get_review', null, $postId);
-    if (!empty($review->ID) && 'response' == $metaKey) {
+    if (!empty($review->ID) && 'response' === $metaKey) {
         // ...
     }
 }, 10, 3);
@@ -65,7 +65,7 @@ add_action('update_postmeta', function ($metaId, $postId, $metaKey) {
 // NEW CODE
 add_action('update_postmeta', function ($metaId, $postId, $metaKey) {
     $review = apply_filters('glsr_get_review', null, $postId);
-    if (!empty($review->ID) && '_response' == $metaKey) { // here we changed the meta_key
+    if (!empty($review->ID) && '_response' === $metaKey) { // here we changed the meta_key
         // ...
     }
 }, 10, 3);</code></pre>

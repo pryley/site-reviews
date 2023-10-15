@@ -218,7 +218,7 @@ class EnqueueAdminAssets implements Contract
         ];
         return Str::startsWith($screen->post_type, glsr()->post_type)
             || in_array($screen->id, $screenIds)
-            || 'post' == $screen->base;
+            || 'post' === $screen->base;
     }
 
     /**

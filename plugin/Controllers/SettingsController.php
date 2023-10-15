@@ -77,7 +77,7 @@ class SettingsController extends Controller
         if (!$this->hasMultilingualIntegration(Arr::getAs('string', $inputForm, 'multilingual'))) {
             $options = Arr::set($options, $key.'.multilingual', '');
         }
-        if ('' == trim(Arr::get($inputForm, 'notification_message'))) {
+        if ('' === trim(Arr::get($inputForm, 'notification_message'))) {
             $defaultValue = Arr::get(glsr()->defaults, $key.'.notification_message');
             $options = Arr::set($options, $key.'.notification_message', $defaultValue);
         }

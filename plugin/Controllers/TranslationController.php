@@ -210,7 +210,7 @@ class TranslationController
     protected function canModifyTranslation()
     {
         $screen = glsr_current_screen();
-        return glsr()->post_type == $screen->post_type
+        return glsr()->post_type === $screen->post_type
             && in_array($screen->base, ['edit', 'post']);
     }
 

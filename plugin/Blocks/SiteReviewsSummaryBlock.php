@@ -79,7 +79,7 @@ class SiteReviewsSummaryBlock extends Block
     {
         $attributes['class'] = $attributes['className'];
         $shortcode = glsr(SiteReviewsSummaryShortcode::class);
-        if ('edit' == filter_input(INPUT_GET, 'context')) {
+        if ('edit' === filter_input(INPUT_GET, 'context')) {
             $attributes = $this->normalize($attributes);
             if (!$this->hasVisibleFields($shortcode, $attributes)) {
                 $this->filterInterpolation();
