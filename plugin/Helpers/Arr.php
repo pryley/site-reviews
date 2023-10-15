@@ -254,13 +254,13 @@ class Arr
     /**
      * Search a multidimensional array by key value.
      * @param mixed $needle
-     * @param iterable $haystack
+     * @param array $haystack
      * @param int|string $key
-     * @return iterable|false
+     * @return array|false
      */
     public static function searchByKey($needle, $haystack, $key)
     {
-        if (!is_iterable($haystack) || array_diff_key($haystack, array_filter($haystack, 'is_iterable'))) {
+        if (!is_array($haystack) || array_diff_key($haystack, array_filter($haystack, 'is_iterable'))) {
             return false;
         }
         $index = array_search($needle, wp_list_pluck($haystack, $key));
