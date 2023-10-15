@@ -13,19 +13,17 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 class PublicController extends Controller
 {
     /**
-     * @return void
      * @action wp_enqueue_scripts
      */
-    public function enqueueAssets()
+    public function enqueueAssets(): void
     {
         $this->execute(new EnqueuePublicAssets());
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/fetch-paged-reviews
      */
-    public function fetchPagedReviewsAjax(Request $request)
+    public function fetchPagedReviewsAjax(Request $request): void
     {
         glsr()->store(glsr()->paged_handle, $request);
         $html = glsr(SiteReviewsShortcode::class)
@@ -71,10 +69,9 @@ class PublicController extends Controller
     }
 
     /**
-     * @return array
      * @filter site-reviews/config/forms/review-form
      */
-    public function filterFieldOrder(array $config)
+    public function filterFieldOrder(array $config): array
     {
         $order = array_keys($config);
         $order = glsr()->filterArray('review-form/order', $order);
@@ -82,20 +79,17 @@ class PublicController extends Controller
     }
 
     /**
-     * @param string $view
-     * @return string
      * @filter site-reviews/render/view
      */
-    public function filterRenderView($view)
+    public function filterRenderView(string $view): string
     {
         return glsr(Style::class)->view($view);
     }
 
     /**
-     * @return void
      * @action site-reviews/builder
      */
-    public function modifyBuilder(Builder $builder)
+    public function modifyBuilder(Builder $builder): void
     {
         $reflection = new \ReflectionClass($builder);
         if ('Builder' === $reflection->getShortName()) { // only modify public fields
@@ -104,10 +98,9 @@ class PublicController extends Controller
     }
 
     /**
-     * @return void
      * @action wp_footer
      */
-    public function renderSchema()
+    public function renderSchema(): void
     {
         if (empty(glsr_get_option('schema.integration.plugin'))) {
             glsr(Schema::class)->render();
@@ -115,10 +108,9 @@ class PublicController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/public/submit-review
      */
-    public function submitReview(Request $request)
+    public function submitReview(Request $request): void
     {
         $command = $this->execute(new CreateReview($request));
         if ($command->success()) {
@@ -128,10 +120,9 @@ class PublicController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/submit-review
      */
-    public function submitReviewAjax(Request $request)
+    public function submitReviewAjax(Request $request): void
     {
         $command = $this->execute(new CreateReview($request));
         if ($command->success()) {

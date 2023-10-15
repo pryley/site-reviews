@@ -79,11 +79,9 @@ class ReviewHtml extends \ArrayObject
     }
 
     /**
-     * @param string $tag
      * @param string|array $value
-     * @return string
      */
-    public function buildTemplateTag(Review $review, $tag, $value)
+    public function buildTemplateTag(Review $review, string $tag, $value): string
     {
         $args = $this->args;
         $className = Helper::buildClassName(['review', $tag, 'tag'], 'Modules\Html\Tags');
@@ -94,10 +92,7 @@ class ReviewHtml extends \ArrayObject
         return glsr()->filterString('review/build/tag/'.$tag, $field, $value, $review, $this);
     }
 
-    /**
-     * @return array
-     */
-    public function buildTemplateTags(Review $review)
+    public function buildTemplateTags(Review $review): array
     {
         glsr()->action('review/build/before', $review, $this);
         $templateTags = [];
@@ -131,11 +126,7 @@ class ReviewHtml extends \ArrayObject
         return Helper::ifTrue(property_exists($this, $key), $this->$key);
     }
 
-    /**
-     * @param string $tag
-     * @return string
-     */
-    protected function normalizeTemplateTag($tag)
+    protected function normalizeTemplateTag(string $tag): string
     {
         $mappedTags = [
             'ID' => 'review_id',
