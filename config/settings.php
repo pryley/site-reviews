@@ -60,7 +60,7 @@ return [ // order is intentional
             'settings.general.request_verification' => ['yes'],
         ],
         'label' => _x('Verification Template', 'admin-text', 'site-reviews'),
-        'rows' => 5,
+        'rows' => 8,
         'sanitizer' => 'text-html',
         'tags' => glsr('Modules\Html\TemplateTags')->filteredTags([
             'exclude' => ['admin_email', 'approve_url', 'edit_url', 'review_link'],
