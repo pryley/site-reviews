@@ -46,7 +46,8 @@ class Notification
             'subject' => $this->subject(true),
             'template' => 'default',
             'template-tags' => [
-                'approve_url' => sprintf('<a href="%1$s">%1$s</a>', $this->review->approveUrl()),
+                'approve_url' => $this->review->approveUrl(),
+                'edit_url' => $this->review->editUrl(),
                 'review_assigned_links' => glsr(TemplateTags::class)->tagReviewAssignedLinks($this->review),
                 'review_assigned_posts' => glsr(TemplateTags::class)->tagReviewAssignedPosts($this->review),
                 'review_assigned_terms' => $assignedTerms,
@@ -56,7 +57,7 @@ class Notification
                 'review_content' => $this->review->content,
                 'review_email' => $this->review->email,
                 'review_ip' => $this->review->ip_address,
-                'review_link' => sprintf('<a href="%1$s">%1$s</a>', $this->review->editUrl()),
+                'review_link' => sprintf('<a href="%s">%s</a>', $this->review->editUrl(), __('Edit Review', 'site-reviews')), // @compat
                 'review_rating' => $this->review->rating,
                 'review_title' => $this->review->title,
                 'site_title' => get_bloginfo('name'),

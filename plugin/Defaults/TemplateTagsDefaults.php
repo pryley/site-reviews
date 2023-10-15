@@ -12,6 +12,7 @@ class TemplateTagsDefaults extends DefaultsAbstract
         return [
             'admin_email' => _x('admin email', 'template tag button text', 'site-reviews'),
             'approve_url' => _x('approve url', 'template tag button text', 'site-reviews'),
+            'edit_url' => _x('edit url', 'template tag button text', 'site-reviews'),
             'review_assigned_links' => _x('assigned links', 'template tag button text', 'site-reviews'),
             'review_assigned_posts' => _x('assigned posts', 'template tag button text', 'site-reviews'),
             'review_assigned_users' => _x('assigned users', 'template tag button text', 'site-reviews'),
@@ -20,7 +21,6 @@ class TemplateTagsDefaults extends DefaultsAbstract
             'review_content' => _x('content', 'template tag button text', 'site-reviews'),
             'review_email' => _x('email', 'template tag button text', 'site-reviews'),
             'review_ip' => _x('ip address', 'template tag button text', 'site-reviews'),
-            'review_link' => _x('edit url', 'template tag button text', 'site-reviews'),
             'review_rating' => _x('rating', 'template tag button text', 'site-reviews'),
             'review_response' => _x('response', 'template tag button text', 'site-reviews'),
             'review_title' => _x('title', 'template tag button text', 'site-reviews'),

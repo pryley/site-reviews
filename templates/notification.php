@@ -8,4 +8,4 @@
 
 {review_author} &lt;{review_email}&gt; - {review_ip}
 
-{review_link}
+<a href="{edit_url}">Edit Review</a>

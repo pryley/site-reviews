@@ -63,7 +63,7 @@ return [ // order is intentional
         'rows' => 5,
         'sanitizer' => 'text-html',
         'tags' => glsr('Modules\Html\TemplateTags')->filteredTags([
-            'exclude' => ['admin_email', 'approve_url'],
+            'exclude' => ['admin_email', 'approve_url', 'edit_url', 'review_link'],
         ]),
         'tooltip' => _x('To restore the default text, save an empty template.', 'admin-text', 'site-reviews'),
         'type' => 'code',
@@ -215,7 +215,7 @@ return [ // order is intentional
         'rows' => 10,
         'sanitizer' => 'text-html',
         'tags' => glsr('Modules\Html\TemplateTags')->filteredTags([
-            'exclude' => ['admin_email', 'verify_url'],
+            'exclude' => ['admin_email', 'review_link', 'verify_url'],
         ]),
         'tooltip' => _x('To restore the default text, save an empty template. If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href="https://api.slack.com/docs/attachments" target="_blank">Message Attachments</a> have been disabled.', 'admin-text', 'site-reviews'),
         'type' => 'code',

@@ -2,4 +2,4 @@
 
 Please click the link below to verify your review:
 
-{verify_url}
+<a href="{verify_url}">Verify Review</a>

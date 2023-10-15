@@ -81,6 +81,10 @@ class SettingsController extends Controller
             $defaultValue = Arr::get(glsr()->defaults, $key.'.notification_message');
             $options = Arr::set($options, $key.'.notification_message', $defaultValue);
         }
+        if ('' === trim(Arr::get($inputForm, 'request_verification_message'))) {
+            $defaultValue = Arr::get(glsr()->defaults, $key.'.request_verification_message');
+            $options = Arr::set($options, $key.'.request_verification_message', $defaultValue);
+        }
         $defaultValue = Arr::get($inputForm, 'notifications', []);
         $options = Arr::set($options, $key.'.notifications', $defaultValue);
         return $options;
