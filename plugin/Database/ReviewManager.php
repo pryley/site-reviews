@@ -255,6 +255,7 @@ class ReviewManager
      */
     public function update($reviewId, array $data = [])
     {
+        $oldPost = get_post($reviewId);
         if (false === $this->updateRating($reviewId, $data)) {
             return false;
         }
@@ -271,7 +272,7 @@ class ReviewManager
             glsr()->action('review/updated/user_ids', $review, $assignedUsers); // trigger a recount of assigned posts
         }
         $review = glsr(Query::class)->review($reviewId); // get a fresh copy of the review
-        glsr()->action('review/updated', $review, $data);
+        glsr()->action('review/updated', $review, $data, $oldPost);
         return $review;
     }
 
@@ -364,6 +365,7 @@ class ReviewManager
                 glsr_log()->error($result->get_error_message())->debug($data);
                 return false;
             }
+            return $result;
         }
         return 0;
     }

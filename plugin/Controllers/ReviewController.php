@@ -313,11 +313,17 @@ class ReviewController extends Controller
         if (!glsr()->can('edit_posts') || !$this->isEditedReview($post, $oldPost)) {
             return;
         }
+        if (glsr()->id === filter_input(INPUT_GET, 'plugin')) {
+            return; // the fallback approve/unapprove action is being run
+        }
+        if (!in_array(glsr_current_screen()->base, ['edit', 'post'])) {
+            return; // only trigger this action from the Site Reviews edit/post screens
+        }
         $review = glsr(Query::class)->review($postId);
-        if ('post' === glsr_current_screen()->base) {
-            $this->updateReview($review);
+        if ('edit' === glsr_current_screen()->base) {
+            $this->bulkUpdateReview($review, $oldPost);
         } else {
-            $this->bulkUpdateReview($review);
+            $this->updateReview($review, $oldPost);
         }
     }
 
@@ -348,7 +354,7 @@ class ReviewController extends Controller
         }
     }
 
-    protected function bulkUpdateReview(Review $review): void
+    protected function bulkUpdateReview(Review $review, \WP_Post $oldPost): void
     {
         if ($assignedPostIds = filter_input(INPUT_GET, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY)) {
             glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
@@ -357,7 +363,7 @@ class ReviewController extends Controller
             glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
         }
         $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
-        glsr()->action('review/updated', $review, []); // pass an empty array since review values are unchanged
+        glsr()->action('review/updated', $review, [], $oldPost); // pass an empty array since review values are unchanged
     }
 
     protected function getAssignedDiffs(array $existing, array $replacements): array
@@ -392,7 +398,7 @@ class ReviewController extends Controller
         return 'glsr_action' !== filter_input($input, 'action'); // abort if not a proper post update (i.e. approve/unapprove)
     }
 
-    protected function updateReview(Review $review): void
+    protected function updateReview(Review $review, \WP_Post $oldPost): void
     {
         $assignedPostIds = filter_input(INPUT_POST, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
         $assignedUserIds = filter_input(INPUT_POST, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
@@ -400,18 +406,18 @@ class ReviewController extends Controller
         glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
         glsr(ResponseMetabox::class)->save($review);
         $customDefaults = array_fill_keys(array_keys($review->custom()->toArray()), '');
-        $submittedValues = Helper::filterInputArray(glsr()->id);
-        $submittedValues = wp_parse_args($submittedValues, $customDefaults); // this ensures we save all empty custom values
-        if (Arr::get($submittedValues, 'is_editing_review')) {
-            $submittedValues['rating'] = Arr::get($submittedValues, 'rating');
-            $submittedValues['terms'] = Arr::get($submittedValues, 'terms', 0);
+        $data = Helper::filterInputArray(glsr()->id);
+        $data = wp_parse_args($data, $customDefaults); // this ensures we save all empty custom values
+        if (Arr::get($data, 'is_editing_review')) {
+            $data['rating'] = Arr::get($data, 'rating');
+            $data['terms'] = Arr::get($data, 'terms', 0);
             if (!glsr()->filterBool('enable/verification', true)) {
-                unset($submittedValues['is_verified']);
+                unset($data['is_verified']);
             }
-            glsr(ReviewManager::class)->updateRating($review->ID, $submittedValues); // values are sanitized here
-            glsr(ReviewManager::class)->updateCustom($review->ID, $submittedValues); // values are sanitized here
+            glsr(ReviewManager::class)->updateRating($review->ID, $data); // values are sanitized here
+            glsr(ReviewManager::class)->updateCustom($review->ID, $data); // values are sanitized here
         }
         $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
-        glsr()->action('review/updated', $review, $submittedValues);
+        glsr()->action('review/updated', $review, $data, $oldPost);
     }
 }

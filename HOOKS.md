@@ -22,7 +22,7 @@
     site-reviews/review/transitioned                            (Review $review, string $status, string $prevStatus)
     site-reviews/review/trashed                                 (Review $review, string $prevStatus, string $status)
     site-reviews/review/unapproved                              (Review $review, string $prevStatus, string $status)
-    site-reviews/review/updated                                 (Review $review, array $submittedValues)
+    site-reviews/review/updated                                 (Review $review, array $data, \WP_Post $oldPost)
     site-reviews/review/updated/post_ids                        (Review $review, array $assignedPostIds)
     site-reviews/review/updated/user_ids                        (Review $review, array $assignedUserIds)
     site-reviews/route/request                                  (Request $request, string $hook)
