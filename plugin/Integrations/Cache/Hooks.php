@@ -10,7 +10,11 @@ class Hooks extends AbstractHooks
     {
         $this->hook(Controller::class, [
             ['purgeAll', 'site-reviews/migration/end'],
-            ['purgeForPost', 'site-reviews/review/created', 10, 2],
+            ['purgeOnCreated', 'site-reviews/review/created', 10, 2],
+            ['purgeOnUpdated', 'site-reviews/review/approved'],
+            ['purgeOnUpdated', 'site-reviews/review/unapproved'],
+            ['purgeOnUpdated', 'site-reviews/review/updated'],
+            ['purge', 'shutdown'],
         ]);
     }
 }

@@ -4,38 +4,24 @@ namespace GeminiLabs\SiteReviews\Integrations\Cache;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 
 class Controller extends BaseController
 {
     /**
-     * @action site-reviews/migration/end
+     * @action shutdown
      */
-    public function purgeAll()
+    public function purge()
     {
-        $this->purgeEnduranceCache();
-        $this->purgeHummingbirdCache();
-        $this->purgeLitespeedCache();
-        $this->purgeSiteGroundCache();
-        $this->purgeSwiftPerformanceCache();
-        $this->purgeW3TotalCache();
-        $this->purgeWPFastestCache();
-        $this->purgeWPOptimizeCache();
-        $this->purgeWPRocketCache();
-        $this->purgeWPSuperCache();
-    }
-
-    /**
-     * @action site-reviews/review/created
-     */
-    public function purgeForPost(Review $review, CreateReview $command)
-    {
-        $postIds = array_merge($review->assigned_posts, [$command->post_id]);
-        $postIds = array_values(array_filter(array_unique($postIds)));
-        if (!empty($postIds)) {
+        $postIds = glsr()->retrieve('cache/post_ids', false);
+        if (is_array($postIds)) {
+            glsr()->discard('cache/post_ids');
+            $postIds = Arr::uniqueInt($postIds);
             $this->purgeEnduranceCache($postIds);
             $this->purgeHummingbirdCache($postIds);
             $this->purgeLitespeedCache($postIds);
+            $this->purgeNitropackCache($postIds);
             $this->purgeSiteGroundCache($postIds);
             $this->purgeSwiftPerformanceCache($postIds);
             $this->purgeW3TotalCache($postIds);
@@ -44,6 +30,43 @@ class Controller extends BaseController
             $this->purgeWPRocketCache($postIds);
             $this->purgeWPSuperCache($postIds);
         }
+    }
+
+    /**
+     * @action site-reviews/migration/end
+     */
+    public function purgeAll()
+    {
+        glsr_log('purgeAll');
+        glsr()->store('cache/post_ids', []);
+    }
+
+    /**
+     * @action site-reviews/review/created
+     */
+    public function purgeOnCreated(Review $review, CreateReview $command)
+    {
+        if ($review->is_approved) {
+            $postIds = glsr()->retrieve('cache/post_ids', []);
+            $postIds = array_merge($postIds, $review->assigned_posts, [$command->post_id]);
+            $postIds = Arr::uniqueInt($postIds);
+            glsr()->store('cache/post_ids', $postIds);
+            glsr_log('purgeOnCreated')->debug($postIds);
+        }
+    }
+
+    /**
+     * @action site-reviews/review/approved
+     * @action site-reviews/review/updated
+     * @action site-reviews/review/unapproved
+     */
+    public function purgeOnUpdated(Review $review)
+    {
+        $postIds = glsr()->retrieve('cache/post_ids', []);
+        $postIds = array_merge($postIds, $review->assigned_posts);
+        $postIds = Arr::uniqueInt($postIds);
+        glsr()->store('cache/post_ids', $postIds);
+        glsr_log('purgeOnUpdated')->debug($postIds);
     }
 
     /**
@@ -78,6 +101,32 @@ class Controller extends BaseController
         }
         foreach ($postIds as $postId) {
             do_action('litespeed_purge_post', $postId);
+        }
+    }
+
+    /**
+     * @see https://nitropack.io/
+     */
+    protected function purgeNitropackCache(array $postIds = [])
+    {
+        if (!function_exists('nitropack_invalidate') || !function_exists('nitropack_get_cacheable_object_types')) {
+            return;
+        }
+        if (!get_option('nitropack-autoCachePurge', 1)) {
+            return;
+        }
+        if (empty($postIds)) {
+            nitropack_invalidate(null, null, 'Invalidating all pages after updating one or more unassigned reviews');
+            return;
+        }
+        foreach ($postIds as $postId) {
+            $cacheableTypes = nitropack_get_cacheable_object_types();
+            $post = get_post($postId);
+            $postType = $post->post_type ?? 'post';
+            $postTitle = $post->post_title ?? '';
+            if (in_array($postType, $cacheableTypes)) {
+                nitropack_invalidate(null, 'single:'.$postId, sprintf('Invalidating "%s" after updating assigned review', $postTitle));
+            }
         }
     }
 
