@@ -100,7 +100,7 @@ const initReview = () => {
             console.error({ request, response })
             return;
         }
-        GLSR.Modal.open('glsr-modal-review', {
+        GLSR.Modal.open('glsr-modal-verified', {
             onClose: (modal) => {
                 url.searchParams.delete('form')
                 url.searchParams.delete('review_id')
@@ -109,13 +109,15 @@ const initReview = () => {
                 history.pushState({}, '', url.href);
             },
             onOpen: (modal) => {
+                const messageEl = dom('p');
+                messageEl.innerHTML = response.message;
                 const wrapEl = dom('div', response.attributes);
                 wrapEl.innerHTML = response.review;
                 wrapEl.querySelectorAll('[data-expanded="false"]').forEach(el => {
                     el.dataset.expanded = 'true';
                 })
                 modal.content.appendChild(wrapEl)
-                modal.footer.innerHTML = response.message;
+                modal.footer.appendChild(messageEl)
             },
         })
     })

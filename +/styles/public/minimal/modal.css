@@ -59,6 +59,9 @@
     padding: 1.5em;
     position: relative;
 }
+:root .glsr-modal__footer {
+    position: relative;
+}
 :root .glsr-modal .glsr-button {
     border: none;
 }
@@ -115,6 +118,30 @@
     animation-duration: var(--glsr-duration-fast);
     animation-name: gl-fadeOut;
 }
+
 :root #glsr-modal-review .glsr-read-more  {
     display: none !important;
+}
+
+:root #glsr-modal-verified .glsr-modal__footer {
+    box-shadow: inset 0 .5px 0 var(--glsr-review-verified);
+    color: var(--glsr-review-verified);
+    padding: 1em 1.5em;
+}
+:root #glsr-modal-verified .glsr-modal__footer::after {
+    background: currentColor;
+    content: '';
+    height: 100%;
+    left: 0;
+    opacity: .125;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+}
+:root #glsr-modal-verified .glsr-modal__footer p {
+    color: var(--glsr-review-verified);
+    line-height: 1.5;
+    padding: 0 !important;
+    margin: 0 !important;
 }

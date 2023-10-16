@@ -44,8 +44,8 @@ class VerificationController extends Controller
                 : __('Thank you, your review has been verified and is awaiting approval.', 'site-reviews');
             wp_send_json_success([
                 'attributes' => $html->attributes(),
+                'message' => $message,
                 'review' => (string) $html,
-                'message' => sprintf('<p style="background:rgb(240 253 244); border-top:1px solid rgba(22 101 52/.25); color:rgb(22 101 52); margin:0; padding:1em 1.5em;">%s</p>', $message),
             ]);
         }
         wp_send_json_error();
