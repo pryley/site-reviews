@@ -105,7 +105,8 @@ class Date
      */
     public function isTimestamp($date)
     {
-        return ctype_digit(Cast::toString($date)) ? true : false;
+        $date = Cast::toString($date);
+        return ('0' !== $date && ctype_digit($date)) ? true : false;
     }
 
     /**
