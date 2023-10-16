@@ -32,6 +32,7 @@ class VerifyReview implements Contract
         ]);
         if ($result) {
             update_post_meta($this->review->ID, '_verified_on', current_datetime()->getTimestamp());
+            glsr()->action('review/verified', $this->review);
         }
         return $result;
     }
