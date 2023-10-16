@@ -109,6 +109,14 @@ class Review extends Arguments
         return (string) $this->build();
     }
 
+    public function approveUrl(): string
+    {
+        $token = glsr(Encryption::class)->encryptRequest('approve', [$this->id]);
+        return !empty($token)
+            ? add_query_arg(glsr()->prefix, $token, admin_url())
+            : '';
+    }
+
     /**
      * @return array
      */
@@ -212,12 +220,6 @@ class Review extends Arguments
             ? glsr_get_option('reviews.date.custom', 'M j, Y')
             : glsr(OptionManager::class)->getWP('date_format', 'F j, Y');
         return date_i18n($format, strtotime($value));
-    }
-
-    public function approveUrl(): string
-    {
-        $token = glsr(Encryption::class)->encryptRequest('approve', [$this->id]);
-        return add_query_arg(glsr()->prefix, $token, admin_url());
     }
 
     public function editUrl(): string
@@ -380,6 +382,18 @@ class Review extends Arguments
     public function user()
     {
         return get_user_by('ID', $this->get('author_id'));
+    }
+
+    public function verifyUrl(string $path = ''): string
+    {
+        if ($this->get('is_verified') && !empty($this->meta()->_verified_on)) {
+            return '';
+        }
+        $path = trailingslashit($path);
+        $token = glsr(Encryption::class)->encryptRequest('verify', [$this->id, $path]);
+        return !empty($token)
+            ? add_query_arg(glsr()->prefix, $token, get_home_url())
+            : '';
     }
 
     /**

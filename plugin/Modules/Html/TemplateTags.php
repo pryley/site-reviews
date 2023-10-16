@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Review;
 
@@ -51,6 +52,16 @@ class TemplateTags
     public function tagAdminEmail(): string
     {
         return Cast::toString(get_bloginfo('admin_email'));
+    }
+
+    public function tagApproveUrl(Review $review): string
+    {
+        return $review->approveUrl();
+    }
+
+    public function tagEditUrl(Review $review): string
+    {
+        return $review->editUrl();
     }
 
     public function tagReviewAssignedLinks(Review $review, string $format = '<a href="%s">%s</a>'): string
@@ -115,11 +126,19 @@ class TemplateTags
         return (string) $review->email;
     }
 
+    public function tagReviewId(Review $review): string
+    {
+        return (string) $review->ID;
+    }
+
     public function tagReviewIp(Review $review): string
     {
         return (string) $review->ip_address;
     }
 
+    /**
+     * @compat
+     */
     public function tagReviewLink(Review $review): string
     {
         return glsr(Builder::class)->a([
@@ -165,5 +184,18 @@ class TemplateTags
     public function tagSiteUrl(): string
     {
         return Cast::toString(get_bloginfo('url'));
+    }
+
+    public function tagVerifiedDate(Review $review): string
+    {
+        $timestamp = $review->meta()->_verified_on;
+        return glsr(Date::class)->isTimestamp($timestamp)
+            ? glsr(Date::class)->localized($timestamp)
+            : '';
+    }
+
+    public function tagVerifyUrl(Review $review): string
+    {
+        return $review->verifyUrl();
     }
 }
