@@ -41,22 +41,23 @@ class SendVerificationEmail implements Contract
 
     protected function buildEmail(string $recipient): array
     {
-        $assignedTerms = glsr(TemplateTags::class)->tagReviewAssignedTerms($this->review);
-        $context = [
-            'review_assigned_links' => glsr(TemplateTags::class)->tagReviewAssignedLinks($this->review),
-            'review_assigned_posts' => glsr(TemplateTags::class)->tagReviewAssignedPosts($this->review),
-            'review_assigned_terms' => $assignedTerms,
-            'review_assigned_users' => glsr(TemplateTags::class)->tagReviewAssignedUsers($this->review),
-            'review_author' => $this->review->author ?: __('Anonymous', 'site-reviews'),
-            'review_categories' => $assignedTerms,
-            'review_content' => $this->review->content,
-            'review_email' => $this->review->email,
-            'review_rating' => $this->review->rating,
-            'review_title' => $this->review->title,
-            'site_title' => get_bloginfo('name'),
-            'site_url' => get_bloginfo('url'),
-            'verify_url' => $this->verify_url,
-        ];
+        $context = glsr(TemplateTags::class)->tags($this->review, [
+            'include' => [
+                'review_assigned_links',
+                'review_assigned_posts',
+                'review_assigned_terms',
+                'review_assigned_users',
+                'review_author',
+                'review_categories',
+                'review_content',
+                'review_email',
+                'review_rating',
+                'review_title',
+                'site_title',
+                'site_url',
+            ],
+        ]);
+        $context['verify_url'] = $this->verify_url; // use the provided verify_url with the redirect path
         $template = trim(glsr(OptionManager::class)->get('settings.general.request_verification_message'));
         if (!empty($template)) {
             $templatePathForHook = 'request_verification_message';

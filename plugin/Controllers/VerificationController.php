@@ -58,13 +58,15 @@ class VerificationController extends Controller
         $postId = Arr::getAs('int', $request->data, 0);
         $redirectUrl = get_home_url();
         $review = glsr_get_review($postId);
-        if ($review->isValid() && $this->execute(new VerifyReview($review))) {
-            $queryArgs = [
-                'review_id' => $review->ID,
-                'verified' => glsr(Encryption::class)->encrypt($review->ID),
-            ];
+        if ($review->isValid()) {
+            $isVerified = $this->execute(new VerifyReview($review));
             $path = Arr::get($request->data, 1);
-            $redirectUrl = add_query_arg($queryArgs, $redirectUrl.$path);
+            $redirectUrl .= $path;
+            $redirectUrl = add_query_arg('review_id', $review->ID, $redirectUrl);
+            if ($isVerified) {
+                $token = glsr(Encryption::class)->encrypt($review->ID);
+                $redirectUrl = add_query_arg('verified', $token, $redirectUrl);
+            }
         }
         wp_redirect($redirectUrl);
         exit;

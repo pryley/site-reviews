@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Review;
 
 class VerifyReview implements Contract
@@ -25,7 +26,8 @@ class VerifyReview implements Contract
         if ($this->review->is_verified) {
             return false;
         }
-        if (Cast::toInt(get_post_meta($this->review->ID, '_verified_on', true))) {
+        $verifiedOn = glsr(Database::class)->meta($this->review->ID, 'verified_on');
+        if (glsr(Date::class)->isTimestamp($verifiedOn)) {
             return false;
         }
         $result = (bool) glsr(ReviewManager::class)->updateRating($this->review->ID, [
