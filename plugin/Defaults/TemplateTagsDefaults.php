@@ -24,6 +24,7 @@ class TemplateTagsDefaults extends DefaultsAbstract
             'review_ip' => _x('ip address', 'template tag button text', 'site-reviews'),
             'review_rating' => _x('rating', 'template tag button text', 'site-reviews'),
             'review_response' => _x('response', 'template tag button text', 'site-reviews'),
+            'review_stars' => _x('stars', 'template tag button text', 'site-reviews'),
             'review_title' => _x('title', 'template tag button text', 'site-reviews'),
             'site_title' => _x('site title', 'template tag button text', 'site-reviews'),
             'site_url' => _x('site url', 'template tag button text', 'site-reviews'),

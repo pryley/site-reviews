@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
+use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Review;
 
 class TemplateTags
@@ -155,6 +156,13 @@ class TemplateTags
     public function tagReviewResponse(Review $review): string
     {
         return (string) $review->response;
+    }
+
+    public function tagReviewStars(Review $review): string
+    {
+        $full = str_repeat('★', $review->rating);
+        $empty = str_repeat('☆', Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)) - $review->rating);
+        return $full.$empty;
     }
 
     public function tagReviewTitle(Review $review): string
