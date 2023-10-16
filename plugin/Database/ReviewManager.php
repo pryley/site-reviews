@@ -328,7 +328,7 @@ class ReviewManager
         $response = Cast::toString($response);
         $response = glsr(Sanitizer::class)->sanitizeTextHtml($response);
         $review = glsr_get_review($reviewId);
-        glsr()->action('review/responded', $review, $response);
+        glsr()->action('review/responded', $review, $response); // run before adding "response_by" meta_value!
         if (!empty($response) || !empty($review->response)) {
             glsr(Database::class)->metaSet($review->ID, 'response', $response); // prefixed metakey
             glsr(Database::class)->metaSet($review->ID, 'response_by', get_current_user_id()); // prefixed metakey

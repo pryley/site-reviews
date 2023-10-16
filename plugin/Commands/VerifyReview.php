@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
@@ -31,8 +32,8 @@ class VerifyReview implements Contract
             'is_verified' => true,
         ]);
         if ($result) {
-            update_post_meta($this->review->ID, '_verified_on', current_datetime()->getTimestamp());
-            glsr()->action('review/verified', $this->review);
+            glsr()->action('review/verified', $this->review); // run before adding "verified_on" meta_value!
+            glsr(Database::class)->metaSet($this->review->ID, 'verified_on', current_datetime()->getTimestamp());
         }
         return $result;
     }
