@@ -1534,11 +1534,11 @@ msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
 msgstr ""
 
-#: plugin/Review.php:161, plugin/Commands/SendVerificationEmail.php:50, plugin/Modules/Avatar.php:79, plugin/Modules/Notification.php:55
+#: plugin/Review.php:169, plugin/Modules/Avatar.php:79
 msgid "Anonymous"
 msgstr ""
 
-#: plugin/Review.php:374, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:376, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
@@ -1966,7 +1966,7 @@ msgctxt "admin-text"
 msgid "The assigned meta values have been reset."
 msgstr ""
 
-#: plugin/Commands/SendVerificationEmail.php:69
+#: plugin/Commands/SendVerificationEmail.php:70
 msgid "Please verify your review"
 msgstr ""
 
@@ -2481,11 +2481,11 @@ msgctxt "admin-text"
 msgid "Save as Unapproved"
 msgstr ""
 
-#: plugin/Controllers/VerificationController.php:43
+#: plugin/Controllers/VerificationController.php:42
 msgid "Thank you, your review has been verified."
 msgstr ""
 
-#: plugin/Controllers/VerificationController.php:44
+#: plugin/Controllers/VerificationController.php:43
 msgid "Thank you, your review has been verified and is awaiting approval."
 msgstr ""
 
@@ -2682,37 +2682,52 @@ msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:23
 msgctxt "template tag button text"
-msgid "ip address"
+msgid "review id"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:24
 msgctxt "template tag button text"
-msgid "rating"
+msgid "ip address"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:25
 msgctxt "template tag button text"
-msgid "response"
+msgid "rating"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:26
 msgctxt "template tag button text"
-msgid "title"
+msgid "response"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:27
 msgctxt "template tag button text"
-msgid "site title"
+msgid "stars"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:28
 msgctxt "template tag button text"
-msgid "site url"
+msgid "title"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:29
 msgctxt "template tag button text"
+msgid "site title"
+msgstr ""
+
+#: plugin/Defaults/TemplateTagsDefaults.php:30
+msgctxt "template tag button text"
+msgid "site url"
+msgstr ""
+
+#: plugin/Defaults/TemplateTagsDefaults.php:31
+msgctxt "template tag button text"
 msgid "verify url"
+msgstr ""
+
+#: plugin/Defaults/TemplateTagsDefaults.php:32
+msgctxt "template tag button text"
+msgid "verified date"
 msgstr ""
 
 #: plugin/Defaults/UpdatedMessageDefaults.php:13
@@ -2843,7 +2858,7 @@ msgstr ""
 msgid "Show less"
 msgstr ""
 
-#: plugin/Metaboxes/AssignedPostsMetabox.php:38, plugin/Modules/Discord.php:154, plugin/Modules/Slack.php:197, plugin/Modules/Html/TemplateTags.php:64, plugin/Modules/Html/TemplateTags.php:78
+#: plugin/Metaboxes/AssignedPostsMetabox.php:38, plugin/Modules/Discord.php:154, plugin/Modules/Slack.php:197, plugin/Modules/Html/TemplateTags.php:76, plugin/Modules/Html/TemplateTags.php:90
 msgid "(no title)"
 msgstr ""
 
@@ -3038,7 +3053,7 @@ msgstr ""
 msgid "Approve Review"
 msgstr ""
 
-#: plugin/Modules/Discord.php:138, plugin/Modules/Notification.php:60, plugin/Modules/Slack.php:164
+#: plugin/Modules/Discord.php:138, plugin/Modules/Slack.php:164
 msgid "Edit Review"
 msgstr ""
 
@@ -3047,11 +3062,11 @@ msgctxt "admin-text"
 msgid "Show more details"
 msgstr ""
 
-#: plugin/Modules/Notification.php:125
+#: plugin/Modules/Notification.php:127
 msgid "New %s-star review"
 msgstr ""
 
-#: plugin/Modules/Notification.php:129
+#: plugin/Modules/Notification.php:131
 msgid "New %s-star review of %s"
 msgstr ""
 
@@ -4256,7 +4271,7 @@ msgctxt "admin-text"
 msgid "Unapproved Review (Site Reviews)"
 msgstr ""
 
-#: plugin/Modules/Html/TemplateTags.php:127
+#: plugin/Modules/Html/TemplateTags.php:147
 msgctxt "admin-text"
 msgid "View the review in WordPress &rarr;"
 msgstr ""

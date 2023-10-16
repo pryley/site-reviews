@@ -190,7 +190,7 @@ class ImportReviews extends Upload implements Contract
             number_format_i18n($this->skippedRecords)
         );
         $consoleLink = sprintf(_x('See the %s for more details.', 'admin-text', 'site-reviews'),
-            sprintf('<a href="%s">%s</a>)',
+            sprintf('<a href="%s">%s</a>',
                 glsr_admin_url('tools', 'console'),
                 _x('Console', 'admin-text', 'site-reviews')
             )

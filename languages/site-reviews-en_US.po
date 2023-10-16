@@ -40,7 +40,7 @@ msgstr[1] "%s stars or less"
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
-#: plugin/Review.php:161, plugin/Commands/SendVerificationEmail.php:50, plugin/Modules/Avatar.php:79, plugin/Modules/Notification.php:55
+#: plugin/Review.php:169, plugin/Modules/Avatar.php:79
 msgid "Anonymous"
 msgstr "Anonymous"
 
@@ -112,15 +112,15 @@ msgstr ""
 msgid "Close Modal"
 msgstr "Close Modal"
 
-#: plugin/Commands/SendVerificationEmail.php:69
+#: plugin/Commands/SendVerificationEmail.php:70
 msgid "Please verify your review"
 msgstr "Please verify your review"
 
-#: plugin/Controllers/VerificationController.php:43
+#: plugin/Controllers/VerificationController.php:42
 msgid "Thank you, your review has been verified."
 msgstr "Thank you, your review has been verified."
 
-#: plugin/Controllers/VerificationController.php:44
+#: plugin/Controllers/VerificationController.php:43
 msgid "Thank you, your review has been verified and is awaiting approval."
 msgstr "Thank you, your review has been verified and is awaiting approval."
 
@@ -216,7 +216,7 @@ msgstr "and"
 msgid "Show less"
 msgstr "Show less"
 
-#: plugin/Metaboxes/AssignedPostsMetabox.php:38, plugin/Modules/Discord.php:154, plugin/Modules/Slack.php:197, plugin/Modules/Html/TemplateTags.php:64, plugin/Modules/Html/TemplateTags.php:78
+#: plugin/Metaboxes/AssignedPostsMetabox.php:38, plugin/Modules/Discord.php:154, plugin/Modules/Slack.php:197, plugin/Modules/Html/TemplateTags.php:76, plugin/Modules/Html/TemplateTags.php:90
 msgid "(no title)"
 msgstr "(no title)"
 
@@ -232,15 +232,15 @@ msgstr "Review of %s"
 msgid "Approve Review"
 msgstr "Approve Review"
 
-#: plugin/Modules/Discord.php:138, plugin/Modules/Notification.php:60, plugin/Modules/Slack.php:164
+#: plugin/Modules/Discord.php:138, plugin/Modules/Slack.php:164
 msgid "Edit Review"
 msgstr "Edit Review"
 
-#: plugin/Modules/Notification.php:125
+#: plugin/Modules/Notification.php:127
 msgid "New %s-star review"
 msgstr "New %s-star review"
 
-#: plugin/Modules/Notification.php:129
+#: plugin/Modules/Notification.php:131
 msgid "New %s-star review of %s"
 msgstr "New %s-star review of %s"
 
@@ -2151,7 +2151,7 @@ msgstr ""
 "The [%s] method has been deprecated and will be soon be removed, please use "
 "the [%s] method instead."
 
-#: plugin/Review.php:374, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:376, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr "Unknown"
@@ -4183,7 +4183,7 @@ msgctxt "admin-text"
 msgid "Unapproved Review (Site Reviews)"
 msgstr "Unapproved Review (Site Reviews)"
 
-#: plugin/Modules/Html/TemplateTags.php:127
+#: plugin/Modules/Html/TemplateTags.php:147
 msgctxt "admin-text"
 msgid "View the review in WordPress &rarr;"
 msgstr "View the review in WordPress &rarr;"
@@ -6110,38 +6110,53 @@ msgstr "email"
 
 #: plugin/Defaults/TemplateTagsDefaults.php:23
 msgctxt "template tag button text"
+msgid "review id"
+msgstr "review id"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:24
+msgctxt "template tag button text"
 msgid "ip address"
 msgstr "ip address"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:24
+#: plugin/Defaults/TemplateTagsDefaults.php:25
 msgctxt "template tag button text"
 msgid "rating"
 msgstr "rating"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:25
+#: plugin/Defaults/TemplateTagsDefaults.php:26
 msgctxt "template tag button text"
 msgid "response"
 msgstr "response"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:26
+#: plugin/Defaults/TemplateTagsDefaults.php:27
+msgctxt "template tag button text"
+msgid "stars"
+msgstr "stars"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:28
 msgctxt "template tag button text"
 msgid "title"
 msgstr "title"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:27
+#: plugin/Defaults/TemplateTagsDefaults.php:29
 msgctxt "template tag button text"
 msgid "site title"
 msgstr "site title"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:28
+#: plugin/Defaults/TemplateTagsDefaults.php:30
 msgctxt "template tag button text"
 msgid "site url"
 msgstr "site url"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:29
+#: plugin/Defaults/TemplateTagsDefaults.php:31
 msgctxt "template tag button text"
 msgid "verify url"
 msgstr "verify url"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:32
+msgctxt "template tag button text"
+msgid "verified date"
+msgstr "verified date"
 
 #: plugin/Modules/Date.php:19
 msgctxt "%s: amount of time"

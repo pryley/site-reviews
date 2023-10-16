@@ -40,7 +40,6 @@ class Notification
 
     protected function buildEmail(): array
     {
-        $assignedTerms = glsr(TemplateTags::class)->tagReviewAssignedTerms($this->review);
         return [
             'to' => $this->recipients(),
             'subject' => $this->subject(true),
