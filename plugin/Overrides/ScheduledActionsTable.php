@@ -27,7 +27,7 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
     /**
      * @var int
      */
-    protected $items_per_page = 20;
+    protected $items_per_page = 50;
 
     /**
      * @var \ActionScheduler_Logger
