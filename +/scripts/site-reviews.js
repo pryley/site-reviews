@@ -84,34 +84,27 @@ const initPlugin = () => {
 const initReview = () => {
     let url = new URL(location.href);
     if (!url.searchParams.has('review_id') || !url.searchParams.has('verified')) return;
-    let request = {
-        [`${GLSR.nameprefix}[_action]`]: 'verified-review',
-        [`${GLSR.nameprefix}[post_id]`]: url.searchParams.get('review_id'),
-        [`${GLSR.nameprefix}[token]`]: url.searchParams.get('verified'),
-    };
-    if (url.searchParams.has('form')) {
-        request[`${GLSR.nameprefix}[form]`] = url.searchParams.get('form');
-    }
-    if (url.searchParams.has('theme')) {
-        request[`${GLSR.nameprefix}[theme]`] = url.searchParams.get('theme');
-    }
-    GLSR.ajax.post(request, (response, success) => {
+    let keys = ['form', 'review_id', 'theme', 'verified'];
+    let request = {};
+    keys.forEach(key => {
+        if (url.searchParams.has(key)) {
+            request[key] = url.searchParams.get(key);
+        }
+    })
+    GLSR.ajax.post(GLSR.ajax.data('verified-review', request), (response, success) => {
         if (!success) {
             console.error({ request, response })
             return;
         }
         GLSR.Modal.open('glsr-modal-verified', {
             onClose: (modal) => {
-                url.searchParams.delete('form')
-                url.searchParams.delete('review_id')
-                url.searchParams.delete('theme')
-                url.searchParams.delete('verified')
+                keys.forEach(key => url.searchParams.delete(key))
                 history.pushState({}, '', url.href);
             },
             onOpen: (modal) => {
                 const messageEl = dom('p');
-                messageEl.innerHTML = response.message;
                 const wrapEl = dom('div', response.attributes);
+                messageEl.innerHTML = response.message;
                 wrapEl.innerHTML = response.review;
                 wrapEl.querySelectorAll('[data-expanded="false"]').forEach(el => {
                     el.dataset.expanded = 'true';

@@ -2,6 +2,15 @@
 
 let xhr;
 
+const data = (action, values = {}) => {
+    let data = {}
+    values._action = action;
+    for (let key of Object.keys(values)) {
+        data[`${GLSR.nameprefix}[${key}]`] = values[key];
+    }
+    return data;
+}
+
 const get = (url, callback, headers) => {
     _prepareRequest(callback);
     xhr.open('GET', url, true);
@@ -80,4 +89,4 @@ const _setHeaders = (headers) => {
     }
 }
 
-export default { get, post }
+export default { data, get, post }

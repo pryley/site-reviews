@@ -30,8 +30,8 @@ class VerificationController extends Controller
      */
     public function verifiedReviewAjax(Request $request): void
     {
-        $reviewId = $request->cast('post_id', 'int');
-        $token = sanitize_text_field($request->get('token'));
+        $reviewId = $request->cast('review_id', 'int');
+        $token = sanitize_text_field($request->get('verified'));
         $token = (int) glsr(Encryption::class)->decrypt($token);
         if (empty($reviewId) || $reviewId !== $token) {
             wp_send_json_error();
