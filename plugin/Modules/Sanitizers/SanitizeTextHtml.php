@@ -12,6 +12,6 @@ class SanitizeTextHtml extends StringSanitizer
         $allowedHtml = wp_kses_allowed_html('post');
         $allowedHtml = array_intersect_key($allowedHtml, array_fill_keys($allowed, ''));
         $allowedHtml = glsr()->filterArray('sanitize/allowed-html', $allowedHtml, $this);
-        return wp_kses($this->value(), $allowedHtml);
+        return wp_kses(wp_unslash($this->value()), $allowedHtml);
     }
 }
