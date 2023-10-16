@@ -15,10 +15,10 @@ class SendVerificationEmail implements Contract
     public $review;
     public $verify_url;
 
-    public function __construct(Review $review, string $token)
+    public function __construct(Review $review, string $verify_url)
     {
         $this->review = $review;
-        $this->verify_url = add_query_arg(glsr()->prefix, $token, get_home_url());
+        $this->verify_url = $verify_url;
     }
 
     /**

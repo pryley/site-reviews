@@ -18,10 +18,9 @@ class VerificationController extends Controller
     public function sendVerificationEmail(Review $review, CreateReview $command): void
     {
         $path = wp_parse_url((string) get_permalink($command->post_id), PHP_URL_PATH);
-        $path = trailingslashit($path);
-        $token = glsr(Encryption::class)->encryptRequest('verify', [$review->ID, $path]);
-        if (!empty($token)) {
-            $this->execute(new SendVerificationEmail($review, $token));
+        $verifyUrl = $review->verifyUrl($path);
+        if (!empty($verifyUrl)) {
+            $this->execute(new SendVerificationEmail($review, $verifyUrl));
         }
     }
 
