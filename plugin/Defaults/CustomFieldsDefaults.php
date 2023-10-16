@@ -45,6 +45,7 @@ class CustomFieldsDefaults extends DefaultsAbstract
         'rating',
         'rating_id',
         'response',
+        'response_by',
         'review_id',
         'score',
         'status',
@@ -53,6 +54,7 @@ class CustomFieldsDefaults extends DefaultsAbstract
         'title',
         'type',
         'url',
+        'verified_on',
     ];
 
     /**
