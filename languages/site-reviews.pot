@@ -3055,7 +3055,7 @@ msgstr ""
 msgid "New %s-star review of %s"
 msgstr ""
 
-#: plugin/Modules/Paginate.php:59
+#: plugin/Modules/Paginate.php:65
 msgid "&hellip;"
 msgstr ""
 

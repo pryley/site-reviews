@@ -24,6 +24,12 @@ class Paginate
             foreach ($formatArgs as $arg => $value) {
                 unset($urlQueryArgs[$arg]);
             }
+            $verificationKeys = ['review_id', 'verified']; // remove verification keys from pagination URLs
+            if (empty(array_diff_key(array_fill_keys($verificationKeys, ''), $urlQueryArgs))) {
+                foreach ($verificationKeys as $key) {
+                    unset($urlQueryArgs[$key]);
+                }
+            }
             $args['add_args'] = array_merge($args['add_args'], (array) urlencode_deep($urlQueryArgs));
         }
         $this->args = glsr()->args($args);

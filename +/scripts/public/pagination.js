@@ -69,7 +69,11 @@ class Pagination {
     _data (el) {
         try {
             const dataset = JSON.parse(JSON.stringify(this.paginationEl.dataset));
-            const data = {};
+            const data = {
+                page: el.dataset.page || 1,
+                schema: false,
+                url: el.href || location.href,
+            };
             for (var key of Object.keys(dataset)) {
                 let value;
                 try {
@@ -77,13 +81,9 @@ class Pagination {
                 } catch(e) {
                     value = dataset[key];
                 }
-                data[`${GLSR.nameprefix}[atts][${key}]`] = value;
+                data[`atts][${key}`] = value;
             }
-            data[`${GLSR.nameprefix}[_action]`] = 'fetch-paged-reviews';
-            data[`${GLSR.nameprefix}[page]`] = el.dataset.page || 1;
-            data[`${GLSR.nameprefix}[schema]`] = false;
-            data[`${GLSR.nameprefix}[url]`] = el.href || location.href;
-            return data;
+            return GLSR.ajax.data('fetch-paged-reviews', data);
         } catch(e) {
             console.error('Invalid pagination config.')
             return false;
