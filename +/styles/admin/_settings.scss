@@ -58,6 +58,10 @@
     display: flex;
     flex-shrink: 0;
     justify-content: center;
+    position: relative;
+}
+.glsr-page-header .glsr-page-icon svg {
+    width: 44px;
 }
 .glsr-page-header h1 {
     padding: 0;

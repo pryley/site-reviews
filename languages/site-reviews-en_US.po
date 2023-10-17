@@ -2598,7 +2598,7 @@ msgctxt "admin-text"
 msgid "Rating Summary"
 msgstr "Rating Summary"
 
-#: plugin/Controllers/AdminController.php:320, plugin/Controllers/AdminController.php:339, plugin/Controllers/AdminController.php:353
+#: plugin/Controllers/AdminController.php:319, plugin/Controllers/AdminController.php:338, plugin/Controllers/AdminController.php:352
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr "Nothing found."
@@ -2707,25 +2707,30 @@ msgctxt "admin-text"
 msgid "Publicly responding to third-party %s reviews is disabled."
 msgstr "Publicly responding to third-party %s reviews is disabled."
 
-#: plugin/Controllers/FlyoutmenuController.php:29
+#: plugin/Controllers/FlyoutController.php:36
+msgctxt "admin-text"
+msgid "Upgrade to Premium"
+msgstr "Upgrade to Premium"
+
+#: plugin/Controllers/FlyoutController.php:41
+msgctxt "admin-text"
+msgid "Learn the Basics"
+msgstr "Learn the Basics"
+
+#: plugin/Controllers/FlyoutController.php:46
+msgctxt "admin-text"
+msgid "Watch a Tutorial"
+msgstr "Watch a Tutorial"
+
+#: plugin/Controllers/FlyoutController.php:51
+msgctxt "admin-text"
+msgid "Read the Documentation"
+msgstr "Read the Documentation"
+
+#: plugin/Controllers/FlyoutController.php:56
 msgctxt "admin-text"
 msgid "Ask for Help"
 msgstr "Ask for Help"
-
-#: plugin/Controllers/FlyoutmenuController.php:34, views/pages/tools/sync.php:25
-msgctxt "admin-text"
-msgid "Documentation"
-msgstr "Documentation"
-
-#: plugin/Controllers/FlyoutmenuController.php:39
-msgctxt "admin-text"
-msgid "How to Use"
-msgstr "How to Use"
-
-#: plugin/Controllers/FlyoutmenuController.php:44
-msgctxt "admin-text"
-msgid "Upgrade to Site Reviews Premium"
-msgstr "Upgrade to Site Reviews Premium"
 
 #: plugin/Controllers/ListTableController.php:39
 msgctxt "admin-text"
@@ -3795,10 +3800,10 @@ msgctxt "admin-text"
 msgid "Site Reviews: Unknown Widget"
 msgstr "Site Reviews: Unknown Widget"
 
-#: views/partials/flyoutmenu.php:20
+#: views/partials/flyoutmenu.php:22
 msgctxt "admin-text"
-msgid "See Quick Links"
-msgstr "See Quick Links"
+msgid "Do you need help?"
+msgstr "Do you need help?"
 
 #: views/partials/page-header.php:9
 msgctxt "admin-text"
@@ -4598,6 +4603,11 @@ msgstr "Last Sync"
 msgctxt "admin-text"
 msgid "License"
 msgstr "License"
+
+#: views/pages/tools/sync.php:25
+msgctxt "admin-text"
+msgid "Documentation"
+msgstr "Documentation"
 
 #: views/pages/tools/sync.php:45, views/pages/tools/sync.php:48
 msgctxt "admin-text"

@@ -6,6 +6,12 @@ use GeminiLabs\SiteReviews\Addons\Updater;
 
 class License
 {
+    public function isLicensed(): bool
+    {
+        $status = $this->status();
+        return $status['isValid'] && $status['isSaved'];
+    }
+
     public function status(): array
     {
         $isFree = true; // priority 1

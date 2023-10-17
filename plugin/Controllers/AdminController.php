@@ -218,13 +218,12 @@ class AdminController extends Controller
         if (!Str::startsWith($typenow, glsr()->post_type)) {
             return;
         }
-        $license = glsr(License::class)->status();
         $screen = glsr_current_screen();
         glsr()->render('views/partials/page-header', [
             'hasNewButton' => in_array($screen->base, ['edit', 'post']),
-            'hasPremiumButton' => !$license['isValid'] || !$license['isSaved'],
+            'hasPremiumButton' => !glsr(License::class)->isLicensed(),
             'hasScreenOptions' => in_array($screen->base, ['edit', 'edit-tags']),
-            'logo' => file_get_contents(glsr()->path('assets/images/logo.svg')),
+            'logo' => file_get_contents(glsr()->path('assets/images/mascot.svg')),
             'newText' => Arr::get($post_type_object, 'labels.add_new'),
             'newUrl' => admin_url('post-new.php?post_type='.$typenow),
             'title' => esc_html($title),

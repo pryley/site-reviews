@@ -1,27 +1,25 @@
+const delay = 30;
+
 class Flyoutmenu {
     constructor () {
-        const $flyout = jQuery('#glsr-flyout');
-        if ($flyout.length === 0) return;
-        const $head = $flyout.find('.glsr-flyout-head');
-        const $sullie = $head.find('img');
-        const menu = {
-            state: 'inactive',
-            // srcInactive: $sullie.attr('src'),
-            srcActive: $sullie.data('active'),
-        };
+        this.menu = jQuery('#glsr-flyout');
+        this.items = this.menu.find('.glsr-flyout-item');
+        this.mascot = this.menu.find('.glsr-flyout-mascot');
+        if (this.menu.length) {
+            this.mascot.on('click', this.openMenu.bind(this))
+        }
+    }
 
-        $head.on('click', function (ev) {
-            ev.preventDefault();
-            if ('active' === menu.state) {
-                $flyout.removeClass('opened');
-                // $sullie.attr('src', menu.srcInactive);
-                menu.state = 'inactive';
-            } else {
-                $flyout.addClass('opened');
-                // $sullie.attr('src', menu.srcActive);
-                menu.state = 'active';
+    openMenu (ev) {
+        ev.preventDefault()
+        this.items.each(index => {
+            let time = index * delay;
+            if (!this.menu.hasClass('is-open')) {
+                time = ((this.items.length - 1) * delay) - (index * delay);
             }
-        });
+            this.items[index].setAttribute('style', `transition-delay: ${time}ms;`)
+        })
+        this.menu.toggleClass('is-open')
     }
 }
 
