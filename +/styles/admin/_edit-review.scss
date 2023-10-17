@@ -54,6 +54,10 @@
 	}
 }
 
+body.admin-color-fresh.post-type-site-review :is(.misc-pub-pinned,.misc-pub-verified)::before {
+	color: #8c8f94;
+}
+
 .wp-admin .glsr-response {
 	display: block;
 	height: 6em;
