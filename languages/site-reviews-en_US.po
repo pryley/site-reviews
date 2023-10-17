@@ -2707,6 +2707,26 @@ msgctxt "admin-text"
 msgid "Publicly responding to third-party %s reviews is disabled."
 msgstr "Publicly responding to third-party %s reviews is disabled."
 
+#: plugin/Controllers/FlyoutmenuController.php:29
+msgctxt "admin-text"
+msgid "Ask for Help"
+msgstr "Ask for Help"
+
+#: plugin/Controllers/FlyoutmenuController.php:34, views/pages/tools/sync.php:25
+msgctxt "admin-text"
+msgid "Documentation"
+msgstr "Documentation"
+
+#: plugin/Controllers/FlyoutmenuController.php:39
+msgctxt "admin-text"
+msgid "How to Use"
+msgstr "How to Use"
+
+#: plugin/Controllers/FlyoutmenuController.php:44
+msgctxt "admin-text"
+msgid "Upgrade to Site Reviews Premium"
+msgstr "Upgrade to Site Reviews Premium"
+
 #: plugin/Controllers/ListTableController.php:39
 msgctxt "admin-text"
 msgid "%s is currently editing"
@@ -3775,6 +3795,11 @@ msgctxt "admin-text"
 msgid "Site Reviews: Unknown Widget"
 msgstr "Site Reviews: Unknown Widget"
 
+#: views/partials/flyoutmenu.php:20
+msgctxt "admin-text"
+msgid "See Quick Links"
+msgstr "See Quick Links"
+
 #: views/partials/page-header.php:9
 msgctxt "admin-text"
 msgid "Try Premium"
@@ -4573,11 +4598,6 @@ msgstr "Last Sync"
 msgctxt "admin-text"
 msgid "License"
 msgstr "License"
-
-#: views/pages/tools/sync.php:25
-msgctxt "admin-text"
-msgid "Documentation"
-msgstr "Documentation"
 
 #: views/pages/tools/sync.php:45, views/pages/tools/sync.php:48
 msgctxt "admin-text"

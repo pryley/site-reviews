@@ -183,48 +183,15 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.10.6 (2023-09-04) =
+= 6.11.0 (2023-10-20) =
 
-- Fixed a PHP error triggered when checking compatibility with the OptimizePress v2 plugin
-
-= 6.10.5 (2023-09-02) =
-
-- Fixed compatibility with the OptimizePress v2 plugin
-
-= 6.10.4 (2023-08-31) =
-
-- Fixed compatibility with the WooCommerce Tab Manager plugin
-
-= 6.10.3 (2023-08-29) =
-
-- Fixed a [Broken Access Control vulnerability]() which allowed reviews to be assigned to private or protected pages
-- Fixed RankMath integration to only support rich-snippet-enabled schema types
-- Fixed schema detection on private Elementor pages
-
-= 6.10.2 (2023-08-18) =
-
-- Fixed and simplified Schema plugin integrations
-- Fixed compatibility with the WooCommerce Blocks plugin
-- Fixed compatibility with the WooCommerce [High-Performance Order Storage](https://woocommerce.com/document/high-performance-order-storage/)
-- Updated Action Scheduler to v3.6.2
-
-= 6.10.1 (2023-08-09) =
-
-- Fixed compatibility with WooCommerce v8.0
-
-= 6.10.0 (2023-08-05) =
-
-- Added integration with [myCRED](https://mycred.me/)
-- Added listtable filter for Accepted Terms (All Reviews admin page)
-- Added options to override the Site Reviews shortcode settings for a WooCommerce product (find the options in the "product data" metabox)
-- Added priority option for categories
-- Changed the console log level for validation errors from Warning to Info
-- Fixed Bulk Edit from removing author assignments
-- Fixed excerpt fallback when PHP Intl extension is disabled
-- Fixed honeypot field IDs
-- Fixed Migrate Plugin tool (force-running plugin migration will fix orphaned foreign constraints related to old database table prefixes)
-- Fixed registration of assignment meta keys
-- Fixed Ultimate Member avatar compatibility
-- Updated API documentation
+- Added review verification requests (replaces the previous manual review verification)
+- Added support for the [Nitropack](https://wordpress.org/plugins/nitropack/) cache plugin
+- Added tag buttons to notification message setting
+- Added the ability to approve a review directly from a Discord, Email, or Slack notification
+- Changed number of scheduled actions to 50 per page
+- Fixed conversion (HTML to plain text) of links in notifications
+- Fixed importing of saved strings with the Import Settings tool
+- Removed the ability to manually verify reviews (use the "Request Verification" setting instead). To re-enable manual review verification, see the FAQ page.
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).
