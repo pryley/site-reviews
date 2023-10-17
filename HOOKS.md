@@ -115,6 +115,7 @@
     site-reviews/email/compose                                  (array $email, Modules\Email $mailer): array
     site-reviews/email/headers                                  (array $headers, Modules\Email $mailer): array
     site-reviews/email/message                                  (string $message, string $type, Modules\Email $mailer): string
+    site-reviews/enable/flyoutmenu                              (bool $bool): bool
     site-reviews/enable/verification                            (bool $bool): bool
     site-reviews/enqueue/admin/dependencies                     (array $dependencies): array
     site-reviews/enqueue/admin/inline-script                    (string $optimizedScript, string $script, array $variables): string

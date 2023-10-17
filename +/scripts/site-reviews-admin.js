@@ -6,6 +6,7 @@ import ColorPicker from '@/admin/color-picker.js';
 import Event from '@/public/event.js';
 import Filter from '@/admin/filter.js';
 import Filters from '@/admin/filters.js';
+import Flyoutmenu from '@/admin/flyoutmenu.js';
 import Forms from '@/admin/forms.js';
 import Import from '@/admin/import.js';
 import Metabox from '@/admin/metabox.js';
@@ -84,6 +85,7 @@ jQuery(function ($) {
     $('.glsr-filter').each((index, filterEl) => {
         new Filter(filterEl);
     })
+    new Flyoutmenu();
     new Forms('form.glsr-form');
     new Import();
     new Metabox();
