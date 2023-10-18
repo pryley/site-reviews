@@ -77,7 +77,7 @@ class MetaboxController extends Controller
         $review = glsr(Query::class)->review(get_post()->ID ?? 0);
         if ($review->isValid()
             && glsr()->can('edit_others_posts')
-            && glsr()->filterBool('enable/verification', false)) {
+            && glsr()->filterBool('verification/enabled', false)) {
             $context = [
                 'no' => _x('No', 'admin-text', 'site-reviews'),
                 'yes' => _x('Yes', 'admin-text', 'site-reviews'),

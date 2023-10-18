@@ -20,7 +20,7 @@ class FlyoutController extends Controller
         if (!Str::startsWith($screen->post_type, glsr()->post_type)) {
             return;
         }
-        if (!glsr()->filterBool('enable/flyoutmenu', true)) {
+        if (!glsr()->filterBool('flyoutmenu/enabled', true)) {
             return;
         }
         glsr()->render('views/partials/flyoutmenu', [

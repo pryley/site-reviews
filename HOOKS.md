@@ -115,8 +115,6 @@
     site-reviews/email/compose                                  (array $email, Modules\Email $mailer): array
     site-reviews/email/headers                                  (array $headers, Modules\Email $mailer): array
     site-reviews/email/message                                  (string $message, string $type, Modules\Email $mailer): string
-    site-reviews/enable/flyoutmenu                              (bool $bool): bool
-    site-reviews/enable/verification                            (bool $bool): bool
     site-reviews/enqueue/admin/dependencies                     (array $dependencies): array
     site-reviews/enqueue/admin/inline-script                    (string $optimizedScript, string $script, array $variables): string
     site-reviews/enqueue/admin/inline-script/after              (string $javascript): string
@@ -128,6 +126,7 @@
     site-reviews/enqueue/public/localize                        (array $variables): array
     site-reviews/enqueue/public/localize/ajax-pagination        (array $selectors): array
     site-reviews/field/<field_type>                             (array $field): array
+    site-reviews/flyoutmenu/enabled                             (bool $bool): bool
     site-reviews/flyoutmenu/items                               (array $items): array
     site-reviews/form/build/<tag_or_field_key>                  (string $field, Arguments $with, Modules\Html\Partials\SiteReviewsForm $partial): string
     site-reviews/gamipress/posts/post_types                     (array $postTypes): array
@@ -242,6 +241,7 @@
     site-reviews/validation/rules                               (array $rules, Request $request): array
     site-reviews/validation/rules/normalized                    (array $rules, Request $request, array $defaults): array
     site-reviews/validators                                     (array $validatorClasses): array
+    site-reviews/verification/enabled                           (bool $bool): bool
     site-reviews/views/data                                     (array $data, string $view): array
     site-reviews/views/file                                     (string $filePath, string $view, array $data): string
     site-reviews/whip/methods                                   (int $bitwiseSeparatedConstants): int

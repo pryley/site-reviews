@@ -14,7 +14,7 @@ class ColumnValueIsVerified implements ColumnValueContract
     public function handle(Review $review)
     {
         $classes = $review->is_verified ? 'verified ' : '';
-        if (glsr()->can('edit_others_posts') && glsr()->filterBool('enable/verification', false)) {
+        if (glsr()->can('edit_others_posts') && glsr()->filterBool('verification/enabled', false)) {
             $classes .= 'verify-review ';
         }
         return glsr(Builder::class)->i([

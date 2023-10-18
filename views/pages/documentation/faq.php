@@ -15,7 +15,6 @@ $sections = [ // order is intentional
     trailingslashit(__DIR__).'faq/create-review.php',
     trailingslashit(__DIR__).'faq/customise-stars.php',
     trailingslashit(__DIR__).'faq/custom-post-status.php',
-    trailingslashit(__DIR__).'faq/enable-manual-verification.php',
     trailingslashit(__DIR__).'faq/hide-form-after-submission.php',
     trailingslashit(__DIR__).'faq/limit-review-length.php',
     trailingslashit(__DIR__).'faq/order-query_loop.php',
