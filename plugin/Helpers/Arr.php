@@ -256,7 +256,7 @@ class Arr
      * @param mixed $needle
      * @param array $haystack
      * @param int|string $key
-     * @return array|false
+     * @return array|iterable|false
      */
     public static function searchByKey($needle, $haystack, $key)
     {

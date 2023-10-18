@@ -8,6 +8,24 @@
     display: none !important;
 }
 
+.glsr-setting-field .regular-grid {
+    --grid-gap: 1em;
+    --grid-min-width: 170px;
+    display: grid;
+    column-gap: var(--grid-gap);
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fill, minmax(max-content, var(--grid-min-width)));
+    grid-template-rows: repeat(auto-fit, minmax(0, 1fr));
+}
+@media only screen and (min-width: 1200px) {
+    .glsr-setting-field .regular-grid {
+        grid-template-columns: repeat(4, minmax(max-content, var(--grid-min-width)));
+    }
+}
+.glsr-setting-field .regular-grid br {
+    display: none;
+}
+
 .glsr-page-header-wrap {
     display: flex;
     flex-direction: column;
