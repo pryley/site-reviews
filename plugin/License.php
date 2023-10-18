@@ -8,6 +8,9 @@ class License
 {
     public function isLicensed(): bool
     {
+        if (empty(glsr()->updated)) {
+            return false;
+        }
         $status = $this->status();
         return $status['isValid'] && $status['isSaved'];
     }
