@@ -184,13 +184,14 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 = 6.11.0 (2023-10-20) =
 
-- Added review verification requests (replaces the previous manual review verification)
+- Added a flyout help menu on Site Reviews pages in the WordPress Admin.
+- Added a "Request Verification" setting
 - Added support for the [Nitropack](https://wordpress.org/plugins/nitropack/) cache plugin
 - Added tag buttons to notification message setting
 - Added the ability to approve a review directly from a Discord, Email, or Slack notification
 - Changed number of scheduled actions to 50 per page
 - Fixed conversion (HTML to plain text) of links in notifications
 - Fixed importing of saved strings with the Import Settings tool
-- Removed the ability to manually verify reviews (use the "Request Verification" setting instead). To re-enable manual review verification, see the FAQ page.
+- Removed the ability to manually verify reviews from the WordPress Admin (use the "Request Verification" setting instead!). To re-enable manual verification of reviews use the "site-reviews/verification/enabled" filter hook.
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).
