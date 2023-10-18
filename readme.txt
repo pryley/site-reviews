@@ -159,21 +159,20 @@ You can report any security bugs found in the source code of this plugin through
 == Screenshots ==
 
 1. The "All Reviews" page.
-2. Add-ons provide additional functionality to Site Reviews
-3. The "Edit Review" page.
-4. Site Reviews has full support for the new Blocks Editor and includes custom blocks for each of the shortcodes.
-5. If you are still using the Classic page editor, you can use the Site Reviews  dropdown button to easily add any of the shortcodes.
-6. Site Reviews includes three widgets.
-7. Site Reviews includes a Help page with answers to frequently asked questions and complete documentation for all available shortcode options.
-8. The "General" settings page.
-9. The "Reviews" settings page.
-10. The "Submissions" settings page.
-11. The "Schema" settings page.
-12. Easily add a custom translation for any text in the plugin.
-13. Export/import the plugin settings, and perform various other tasks.
-14. If you experience any issues with the plugin, the console logger is the first pace to look.
-15. View information about the configuration of your server, your website, and the Site Reviews plugin.
-16. This is what the Slack notifications look like.
+2. The "Edit Review" page.
+3. Site Reviews provides Gutenberg blocks, Elementor Widgets, and Shortcodes.
+4. Premioum addons provide additional functionality to Site Reviews
+5. Site Reviews provides a Help page with complete shortcode documentation and answers to frequently asked questions.
+6. General settings.
+7. Settings for displaying reviews.
+8. Settings for review form submissions.
+9. Settings for JSON-LD Schema (rich snippets)
+10. Change any public-facing text of the plugin here.
+11. WooCommerce integration settings
+12. Import/export reviews, plugin settings, and perform various other tasks.
+13. If you experience any issues with the plugin, the plugin Console is the first place to check.
+14. This is what Discord notifications look like.
+15. This is what Slack notifications look like.
 
 == Upgrade Notice ==
 
