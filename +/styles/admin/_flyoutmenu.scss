@@ -120,6 +120,11 @@
   visibility: hidden;
   width: 40px;
 }
+
+#glsr-flyout:not(.is-open) .glsr-flyout-item {
+  pointer-events: none;
+}
+
 #glsr-flyout .glsr-flyout-item:hover {
   background-color: var(--wp-components-color-accent-darker-10, var(--wp-admin-theme-color-darker-10, #2145e6));
   box-shadow: 0 3px 30px rgba(0, 0, 0, 0.25);
