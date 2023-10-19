@@ -10,6 +10,9 @@
   transition: opacity 0.2s ease-in-out;
   z-index: 99999;
 }
+#glsr-flyout:not(.is-open) {
+  pointer-events: none;
+}
 @media (max-width: 959px) {
   #glsr-flyout {
     display: none;
@@ -26,6 +29,7 @@
   align-items: center;
   display: flex;
   position: relative;
+  pointer-events: auto;
 }
 #glsr-flyout .glsr-flyout-mascot::after {
   content: '';
@@ -119,10 +123,6 @@
   transition-timing-function: ease-in-out;
   visibility: hidden;
   width: 40px;
-}
-
-#glsr-flyout:not(.is-open) .glsr-flyout-item {
-  pointer-events: none;
 }
 
 #glsr-flyout .glsr-flyout-item:hover {
