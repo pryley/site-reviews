@@ -136,7 +136,7 @@ class Controller extends BaseController
             return;
         }
         if (empty($postIds)) {
-            nitropack_invalidate(null, null, 'Invalidating all pages after updating one or more unassigned reviews');
+            nitropack_invalidate(null, null, 'Invalidating all pages after creating/updating one or more unassigned reviews');
             return;
         }
         foreach ($postIds as $postId) {
@@ -145,7 +145,7 @@ class Controller extends BaseController
             $postType = $post->post_type ?? 'post';
             $postTitle = $post->post_title ?? '';
             if (in_array($postType, $cacheableTypes)) {
-                nitropack_invalidate(null, 'single:'.$postId, sprintf('Invalidating "%s" after updating assigned review', $postTitle));
+                nitropack_invalidate(null, 'single:'.$postId, sprintf('Invalidating "%s" after creating/updating an assigned review', $postTitle));
             }
         }
     }
