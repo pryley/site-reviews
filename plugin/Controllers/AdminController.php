@@ -375,8 +375,9 @@ class AdminController extends Controller
      */
     public function togglePinnedAjax(Request $request)
     {
-        $result = $this->execute(new TogglePinned($request->toArray()));
-        glsr()->action('cache/flush');
+        $command = new TogglePinned($request->toArray());
+        $result = $this->execute($command);
+        glsr()->action('cache/flush', $command->review);
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
             'pinned' => $result,
@@ -390,7 +391,6 @@ class AdminController extends Controller
     public function toggleStatusAjax(Request $request)
     {
         $result = $this->execute(new ToggleStatus($request->toArray()));
-        glsr()->action('cache/flush');
         wp_send_json_success($result);
     }
 
@@ -400,8 +400,9 @@ class AdminController extends Controller
      */
     public function toggleVerifiedAjax(Request $request)
     {
-        $result = $this->execute(new ToggleVerified($request->toArray()));
-        glsr()->action('cache/flush');
+        $command = new ToggleVerified($request->toArray());
+        $result = $this->execute($command);
+        glsr()->action('cache/flush', $command->review);
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
             'verified' => $result,

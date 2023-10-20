@@ -64,6 +64,7 @@ class VerificationController extends Controller
             $redirectUrl .= $path;
             $redirectUrl = add_query_arg('review_id', $review->ID, $redirectUrl);
             if ($isVerified) {
+                glsr()->action('cache/flush', $review);
                 $token = glsr(Encryption::class)->encrypt($review->ID);
                 $redirectUrl = add_query_arg('verified', $token, $redirectUrl);
             }

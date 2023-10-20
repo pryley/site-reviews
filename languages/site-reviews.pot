@@ -1980,19 +1980,19 @@ msgctxt "admin-text"
 msgid "Review unpinned."
 msgstr ""
 
-#: plugin/Commands/ToggleStatus.php:60, views/partials/editor/pinned.php:7, views/partials/editor/verified.php:7
+#: plugin/Commands/ToggleStatus.php:61, views/partials/editor/pinned.php:7, views/partials/editor/verified.php:7
 msgctxt "admin-text"
 msgid "Edit"
 msgstr ""
 
-#: plugin/Commands/ToggleStatus.php:83
+#: plugin/Commands/ToggleStatus.php:84
 msgctxt "admin-text"
 msgid "Approved <span class=\"count\">(%s)</span>"
 msgid_plural "Approved <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ToggleStatus.php:91
+#: plugin/Commands/ToggleStatus.php:92
 msgctxt "admin-text"
 msgid "Unapproved <span class=\"count\">(%s)</span>"
 msgid_plural "Unapproved <span class=\"count\">(%s)</span>"

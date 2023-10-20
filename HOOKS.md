@@ -3,7 +3,7 @@
     site-reviews/addon/register                                 (Application $app)
     site-reviews/addon/settings/<tab>                           (string $rows)
     site-reviews/builder                                        (Modules\Html\Builder $builder)
-    site-reviews/cache/flush                                    ()
+    site-reviews/cache/flush                                    (Review $review)
     site-reviews/customize/<style>                              (Modules\Html\Builder $builder)
     site-reviews/database/sql                                   (string $sql, string $handle)
     site-reviews/database/sql/<handle>                          (string $sql)

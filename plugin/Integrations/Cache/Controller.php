@@ -4,89 +4,119 @@ namespace GeminiLabs\SiteReviews\Integrations\Cache;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Database\Cache;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 
 class Controller extends BaseController
 {
     /**
-     * @action admin_footer
-     * @action wp_footer
+     * @action site-reviews/review/created
      */
-    public function initPurge()
+    public function flushAfterCreated(Review $review, CreateReview $command)
     {
-        glsr()->action('cache/flush');
-    }
-
-    /**
-     * @action site-reviews/cache/flush
-     */
-    public function purge()
-    {
-        $postIds = glsr()->retrieve('cache/post_ids');
-        if (is_array($postIds)) {
-            glsr_log('cache::flushing')->debug($postIds);
-            glsr()->discard('cache/post_ids');
+        if ($review->is_approved) {
+            glsr_log()->debug('cache::flush_after_review_created');
+            $postIds = array_merge($review->assigned_posts, [$command->post_id]);
             $postIds = Arr::uniqueInt($postIds);
-            $this->purgeEnduranceCache($postIds);
-            $this->purgeHummingbirdCache($postIds);
-            $this->purgeLitespeedCache($postIds);
-            $this->purgeNitropackCache($postIds);
-            $this->purgeSiteGroundCache($postIds);
-            $this->purgeSwiftPerformanceCache($postIds);
-            $this->purgeW3TotalCache($postIds);
-            $this->purgeWPFastestCache($postIds);
-            $this->purgeWPOptimizeCache($postIds);
-            $this->purgeWPRocketCache($postIds);
-            $this->purgeWPSuperCache($postIds);
+            $this->flushCache($postIds);
         }
     }
 
     /**
      * @action site-reviews/migration/end
      */
-    public function purgeAll()
+    public function flushAfterMigrated(): void
     {
-        glsr()->store('cache/post_ids', []);
-        glsr_log('cache::flush_all');
+        glsr_log()->debug('cache::flush_after_plugin_migrated');
+        $this->flushCache();
     }
 
     /**
-     * @action site-reviews/review/created
+     * @action delete_post
      */
-    public function purgeOnCreated(Review $review, CreateReview $command)
+    public function flushBeforeDeleted(int $postId, \WP_Post $post): void
     {
-        if ($review->is_approved) {
-            $postIds = glsr()->retrieve('cache/post_ids', []);
-            $postIds = array_merge($postIds, $review->assigned_posts, [$command->post_id]);
-            $postIds = Arr::uniqueInt($postIds);
-            glsr()->store('cache/post_ids', $postIds);
-            glsr_log('cache::flush_on_created');
+        if (glsr()->post_type !== $post->post_type) {
+            return;
         }
-    }
-
-    /**
-     * @action site-reviews/review/transitioned
-     */
-    public function purgeOnTransitioned(Review $review, string $new, string $old)
-    {
-        $postIds = glsr()->retrieve('cache/post_ids'); // "site-reviews/review/updated" might have already been triggered
-        if (in_array('publish', [$new, $old]) && is_null($postIds)) {
-            glsr_log('cache::flush_on_transitioned');
-            $this->purgeOnUpdated($review);
+        $postIds = glsr_get_review($postId)->assigned_posts;
+        if ($postIds === glsr()->retrieve('cache/post_ids')) {
+            return; // prevent unnecessary flushing
         }
-    }
-
-    /**
-     * @action site-reviews/review/updated
-     */
-    public function purgeOnUpdated(Review $review)
-    {
-        $postIds = glsr()->retrieve('cache/post_ids', []);
-        $postIds = array_merge($postIds, $review->assigned_posts);
-        $postIds = Arr::uniqueInt($postIds);
+        glsr_log()->debug('cache::flush_after_review_deleted');
         glsr()->store('cache/post_ids', $postIds);
-        glsr_log('cache::flush_on_updated');
+        $this->flushCache($postIds);
+    }
+
+    /**
+     * @action wp_trash_post
+     */
+    public function flushBeforeTrashed(int $postId): void
+    {
+        if (glsr()->post_type !== get_post_type($postId)) {
+            return;
+        }
+        $postIds = glsr_get_review($postId)->assigned_posts;
+        if ($postIds === glsr()->retrieve('cache/post_ids')) {
+            return; // prevent unnecessary flushing
+        }
+        glsr_log()->debug('cache::flush_after_review_trashed');
+        glsr()->store('cache/post_ids', $postIds);
+        $this->flushCache($postIds);
+    }
+
+    /**
+     * @action clean_post_cache
+     */
+    public function flushPostCache(int $postId, \WP_Post $post): void
+    {
+        if (glsr()->post_type !== $post->post_type) {
+            return;
+        }
+        $request = Helper::filterInputArray(glsr()->id);
+        if ('submit-review' === Arr::get($request, '_action')) {
+            return; // review was created
+        }
+        if ('trash' === get_post_status($postId)) {
+            return; // review was trashed
+        }
+        if (null === get_post($postId)) {
+            return; // review was deleted
+        }
+        $postIds = glsr_get_review($postId)->assigned_posts;
+        if ($postIds === glsr()->retrieve('cache/post_ids')) {
+            return; // prevent unnecessary flushing
+        }
+        glsr_log()->debug('cache::flush_after_post_cache_cleaned');
+        glsr()->store('cache/post_ids', $postIds);
+        $this->flushCache($postIds);
+    }
+
+    /**
+     * @action site-reviews/cache/flush
+     */
+    public function flushReviewCache(Review $review): void
+    {
+        glsr_log()->debug('cache::flush_after_review_updated');
+        $this->flushCache($review->assigned_posts);
+    }
+
+    protected function flushCache(array $postIds = []): void
+    {
+        glsr_log('cache::flushing')->debug($postIds);
+        $this->purgeEnduranceCache($postIds);
+        $this->purgeHummingbirdCache($postIds);
+        $this->purgeLitespeedCache($postIds);
+        $this->purgeNitropackCache($postIds);
+        $this->purgeSiteGroundCache($postIds);
+        $this->purgeSwiftPerformanceCache($postIds);
+        $this->purgeW3TotalCache($postIds);
+        $this->purgeWPFastestCache($postIds);
+        $this->purgeWPOptimizeCache($postIds);
+        $this->purgeWPRocketCache($postIds);
+        $this->purgeWPSuperCache($postIds);
     }
 
     /**
@@ -136,7 +166,7 @@ class Controller extends BaseController
             return;
         }
         if (empty($postIds)) {
-            nitropack_invalidate(null, null, 'Invalidating all pages after creating/updating one or more unassigned reviews');
+            nitropack_invalidate(null, null, 'Invalidating all pages after creating/updating/deleting one or more unassigned reviews');
             return;
         }
         foreach ($postIds as $postId) {
@@ -145,7 +175,7 @@ class Controller extends BaseController
             $postType = $post->post_type ?? 'post';
             $postTitle = $post->post_title ?? '';
             if (in_array($postType, $cacheableTypes)) {
-                nitropack_invalidate(null, 'single:'.$postId, sprintf('Invalidating "%s" after creating/updating an assigned review', $postTitle));
+                nitropack_invalidate(null, 'single:'.$postId, sprintf('Invalidating "%s" after creating/updating/deleting an assigned review', $postTitle));
             }
         }
     }

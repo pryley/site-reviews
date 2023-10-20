@@ -5,17 +5,18 @@ namespace GeminiLabs\SiteReviews\Commands;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Defaults\ToggleStatusDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Review;
 
 class ToggleStatus implements Contract
 {
     public $postId;
+    public $review;
     public $status;
 
     public function __construct(array $input)
     {
         $args = glsr(ToggleStatusDefaults::class)->restrict($input);
         $this->postId = $args['post_id'];
+        $this->review = glsr_get_review($args['post_id']);
         $this->status = $args['status'];
     }
 
@@ -24,12 +25,12 @@ class ToggleStatus implements Contract
      */
     public function handle()
     {
-        if (!glsr()->can('edit_post', $this->postId)) {
-            glsr_log()->error('Cannot toggle review status: Invalid permission.');
+        if (!$this->review->isValid()) {
+            glsr_log()->error('Cannot toggle review status: Invalid Post Type.');
             return [];
         }
-        if (!Review::isReview($this->postId)) {
-            glsr_log()->error('Cannot toggle review status: Invalid Post Type.');
+        if (!glsr()->can('edit_post', $this->postId)) {
+            glsr_log()->error('Cannot toggle review status: Invalid permission.');
             return [];
         }
         $args = [
