@@ -4,15 +4,11 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Controllers\TranslationController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class Cache
 {
-    /**
-     * @param string $key
-     * @param string $group
-     * @return void
-     */
-    public function delete($key, $group)
+    public function delete(string $key, string $group): void
     {
         global $_wp_suspend_cache_invalidation;
         if (empty($_wp_suspend_cache_invalidation)) {
@@ -22,12 +18,10 @@ class Cache
     }
 
     /**
-     * @param string $key
-     * @param string $group
      * @param \Closure|null $callback
      * @return mixed
      */
-    public function get($key, $group, $callback = null, int $expire = 0)
+    public function get(string $key, string $group, $callback = null, int $expire = 0)
     {
         $group = glsr()->prefix.$group;
         $value = wp_cache_get($key, $group);
@@ -39,13 +33,10 @@ class Cache
         return $value;
     }
 
-    /**
-     * @return array
-     */
-    public function getCloudflareIps()
+    public function getCloudflareIps(): array
     {
         if (false !== ($ipAddresses = get_transient(glsr()->prefix.'cloudflare_ips'))) {
-            return $ipAddresses;
+            return Cast::toArray($ipAddresses);
         }
         $ipAddresses = array_fill_keys(['v4', 'v6'], []);
         foreach (array_keys($ipAddresses) as $version) {
@@ -67,14 +58,11 @@ class Cache
         return $ipAddresses;
     }
 
-    /**
-     * @return array
-     */
-    public function getPluginVersions()
+    public function getPluginVersions(): array
     {
         $versions = get_transient(glsr()->prefix.'rollback_versions');
         if (!empty($versions)) {
-            return $versions;
+            return Cast::toArray($versions);
         }
         include_once ABSPATH.'wp-admin/includes/plugin-install.php';
         $response = plugins_api('plugin_information', [
@@ -109,10 +97,7 @@ class Cache
         return $versions;
     }
 
-    /**
-     * @return string
-     */
-    public function getRemotePostTest()
+    public function getRemotePostTest(): string
     {
         if (false === ($test = get_transient(glsr()->prefix.'remote_post_test'))) {
             $response = wp_remote_post('https://api.wordpress.org/stats/php/1.0/');
@@ -121,7 +106,7 @@ class Cache
                 : 'Does not work';
             set_transient(glsr()->prefix.'remote_post_test', $test, WEEK_IN_SECONDS);
         }
-        return $test;
+        return Cast::toString($test);
     }
 
     public function getSystemInfo(): array
@@ -140,12 +125,10 @@ class Cache
     }
 
     /**
-     * @param string $key
-     * @param string $group
      * @param mixed $value
      * @return mixed
      */
-    public function store($key, $group, $value, int $expire = 0)
+    public function store(string $key, string $group, $value, int $expire = 0)
     {
         $group = glsr()->prefix.$group;
         wp_cache_set($key, $value, $group, $expire);
