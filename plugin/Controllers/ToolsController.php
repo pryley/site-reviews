@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Commands\ChangeLogLevel;
 use GeminiLabs\SiteReviews\Commands\ClearConsole;
 use GeminiLabs\SiteReviews\Commands\ConvertTableEngine;
+use GeminiLabs\SiteReviews\Commands\DownloadCsvTemplate;
 use GeminiLabs\SiteReviews\Commands\ExportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportSettings;
@@ -137,6 +138,14 @@ class ToolsController extends Controller
                 _x('You do not have permission to download the console.', 'admin-text', 'site-reviews')
             );
         }
+    }
+
+    /**
+     * @action site-reviews/route/admin/download-csv-template
+     */
+    public function downloadCsvTemplate(): void
+    {
+        $this->execute(new DownloadCsvTemplate());
     }
 
     /**
