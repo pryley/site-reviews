@@ -29,6 +29,9 @@ tests_add_filter('muplugins_loaded', function () use ($plugin_dir) {
     require $plugin_dir.'/tests/phpstan/stubs/elementor-pro.php';
     require $plugin_dir.'/tests/phpstan/stubs/mycred.php';
     require $plugin_dir.'/tests/phpstan/stubs/woocommerce.php';
+    remove_action('admin_init', '_maybe_update_core');
+    remove_action('admin_init', '_maybe_update_plugins');
+    remove_action('admin_init', '_maybe_update_themes');
 });
 
 tests_add_filter('setup_theme', function () use ($plugin_dir) {
