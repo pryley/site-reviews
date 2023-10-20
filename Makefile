@@ -37,6 +37,8 @@ open: ## Open the development site in the default browser
 
 .PHONY: release
 release: ## Release a new version of Site Reviews
+	make build
+	@git diff --quiet || (echo "\n❌ \033[0;31mYou forgot to commit changes.\033[0m\n"; exit 1;)
 	sh ./release.sh
 
 .PHONY: sync

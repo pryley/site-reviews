@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 6.11.3 (2023-10-20) =
+
+- Fixed cache plugin integrations
+
 = 6.11.0 (2023-10-20) =
 
 - Added a flyout help menu on Site Reviews pages in the WordPress Admin.
