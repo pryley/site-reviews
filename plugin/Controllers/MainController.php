@@ -14,17 +14,6 @@ use GeminiLabs\SiteReviews\Install;
 class MainController extends Controller
 {
     /**
-     * @return bool
-     * @filter site-reviews/devmode
-     */
-    public function filterDevmode()
-    {
-        $parts = explode('.', parse_url(get_home_url(), PHP_URL_HOST));
-        $tld = end($parts);
-        return 'test' === $tld;
-    }
-
-    /**
      * switch_to_blog() was run before this hook was triggered.
      * @param array $tables
      * @return array
@@ -120,7 +109,7 @@ class MainController extends Controller
      */
     public function registerReviewTypes()
     {
-        $types = glsr()->filterArray('addon/types', []);
+        $types = glsr()->filterArray('review/types', []);
         $types = wp_parse_args($types, [
             'local' => _x('Local Review', 'admin-text', 'site-reviews'),
         ]);

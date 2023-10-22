@@ -9,7 +9,6 @@ class MainHooks extends AbstractHooks
     public function run(): void
     {
         $this->hook(MainController::class, [
-            ['filterDevmode', 'site-reviews/devmode', 1],
             ['filterDropTables', 'wpmu_drop_tables', 999], // run last
             ['initDefaults', 'init', 2], // run after updateAddons!
             ['installOnNewSite', 'wp_insert_site'],

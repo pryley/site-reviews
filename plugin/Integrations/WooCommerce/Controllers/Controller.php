@@ -20,7 +20,7 @@ class Controller extends BaseController
     }
 
     /**
-     * @filter site-reviews/addon/settings
+     * @filter site-reviews/settings
      */
     public function filterSettings(array $settings): array
     {
@@ -75,7 +75,7 @@ class Controller extends BaseController
     }
 
     /**
-     * @action site-reviews/addon/settings/woocommerce
+     * @action site-reviews/settings/woocommerce
      */
     public function renderSettings(string $rows): void
     {

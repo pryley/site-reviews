@@ -54,7 +54,7 @@ class SystemInfo
             if (empty(Arr::get($details, 'values'))) {
                 return $carry;
             }
-            $hook = 'system/'.Str::dashCase($key);
+            $hook = 'system-info/section/'.Str::dashCase($key);
             $title = strtoupper(Arr::get($details, 'title'));
             $values = glsr()->filterArray($hook, Arr::get($details, 'values'));
             return $carry.$this->implode($title, $values);
@@ -382,7 +382,7 @@ class SystemInfo
 
     protected function purgeSensitiveData(array $settings): array
     {
-        $keys = glsr()->filterArray('addon/system-info/purge', [
+        $keys = glsr()->filterArray('system-info/purge', [
             'licenses.' => 8,
             'forms.friendlycaptcha.key' => 0,
             'forms.friendlycaptcha.secret' => 0,

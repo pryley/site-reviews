@@ -53,7 +53,7 @@ abstract class Hooks
         add_filter($this->addon->id.'/render/view', [$this->controller, 'filterRenderView']);
         add_filter('site-reviews/roles', [$this->controller, 'filterRoles']);
         add_filter('site-reviews/defer-scripts', [$this->controller, 'filterScriptsDefer']);
-        add_filter('site-reviews/addon/settings', [$this->controller, 'filterSettings']);
+        add_filter('site-reviews/settings', [$this->controller, 'filterSettings']);
         add_filter('site-reviews/addon/subsubsub', [$this->controller, 'filterSubsubsub']);
         add_filter('site-reviews/translation/entries', [$this->controller, 'filterTranslationEntries']);
         add_filter('site-reviews/translator/domains', [$this->controller, 'filterTranslatorDomains']);
@@ -64,7 +64,7 @@ abstract class Hooks
         add_action('init', [$this->controller, 'registerShortcodes']);
         add_action('init', [$this->controller, 'registerTinymcePopups']);
         add_action('widgets_init', [$this->controller, 'registerWidgets']);
-        add_action('site-reviews/addon/settings/'.$this->addon->slug, [$this->controller, 'renderSettings']);
+        add_action('site-reviews/settings/'.$this->addon->slug, [$this->controller, 'renderSettings']);
     }
 
     /**

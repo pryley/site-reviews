@@ -1,7 +1,6 @@
 ## Actions
 
     site-reviews/addon/register                                 (Application $app)
-    site-reviews/addon/settings/<tab>                           (string $rows)
     site-reviews/builder                                        (Modules\Html\Builder $builder)
     site-reviews/cache/flush                                    (Review $review)
     site-reviews/customize/<style>                              (Modules\Html\Builder $builder)
@@ -30,6 +29,7 @@
     site-reviews/route/request                                  (Request $request, string $hook)
     site-reviews/route/get/<request_type>/<route_action>        (Request $request)
     site-reviews/route/<request_type>/<route_action>            (Request $request)
+    site-reviews/settings/<tab>                                 (string $rows)
     site-reviews/settings/updated                               (array $options, array $settings)
     site-reviews/whip                                           (Vectorface\Whip\Whip $whip)
     site-reviews/woocommerce/render/loop/rating                 ()
@@ -42,17 +42,12 @@
     site-reviews/addon/api-url                                  (string $apiUrl): string
     site-reviews/addon/documentation                            (array $documentation): array
     site-reviews/addon/documentation/tabs                       (array $tabs): array
-    site-reviews/addon/settings                                 (array $settings): array
-    site-reviews/addon/settings/tabs                            (array $tabs): array
     site-reviews/addon/submenu/callback                         (callable $callable, string $slug): callable
     site-reviews/addon/submenu/pages                            (array $args): array
     site-reviews/addon/subsubsub                                (array $subsubsub): array
     site-reviews/addon/sync/enable                              (bool $enable): bool
     site-reviews/addon/sync/services                            (array $services): array
-    site-reviews/addon/system-info                              (array $settings): array
-    site-reviews/addon/system-info/purge                        (array $keys): array
     site-reviews/addon/tools/tabs                               (array $tabs): array
-    site-reviews/addon/types                                    (array $types): array
     site-reviews/addon/welcome/tabs                             (array $tabs): array
     site-reviews/api/args                                       (array $args): array
     site-reviews/api/base_url                                   (string $url): string
@@ -130,7 +125,6 @@
     site-reviews/flyoutmenu/items                               (array $items): array
     site-reviews/form/build/<tag_or_field_key>                  (string $field, Arguments $with, Modules\Html\Partials\SiteReviewsForm $partial): string
     site-reviews/gamipress/posts/post_types                     (array $postTypes): array
-    site-reviews/get/defaults                                   (array $defaults): array
     site-reviews/interpolate/<template_path>                    (array $context, string $template, array $data): array
     site-reviews/is-local-server                                (bool $bool): bool
     site-reviews/metabox/fields                                 (array $fields, Review $review): array
@@ -188,6 +182,7 @@
     site-reviews/review/call/<methodName>                       (Review $review, ...$args): void|mixed
     site-reviews/review/redirect                                (string $redirect, Commands\CreateReview $createReview, Review $review): string
     site-reviews/review/tag/<tag>                               (string $className, Modules\Html\ReviewHtml $reviewHtml): string
+    site-reviews/review/types                                   (array $types): array
     site-reviews/review/value/<tag_or_field_key>                (string $value, Contracts\TagContract $tag): string
     site-reviews/review/wrap/<tag_or_field_key>                 (string $value, string $rawValue, Contracts\TagContract $tag): string
     site-reviews/review/wrapped                                 (string $value, string $rawValue, Contracts\TagContract $tag): string
@@ -205,7 +200,10 @@
     site-reviews/schema/review                                  (array $schema, Review $review, array $args): array
     site-reviews/search/posts/post_status                       (array $postStatuses, string $searchType): array
     site-reviews/search/posts/post_type                         (array $postTypes): array
+    site-reviews/settings                                       (array $settings): array
+    site-reviews/settings/defaults                              (array $defaults): array
     site-reviews/settings/sanitize                              (array $options, array $settings): array
+    site-reviews/settings/tabs                                  (array $tabs): array
     site-reviews/shortcode/<shortcode>/attributes               (array $attributes, Shortcodes\Shortcode $shortcode): array
     site-reviews/shortcode/args                                 (array $args, string $shortcodeName): array
     site-reviews/shortcode/display-options                      (array $displayOptions, string $shortcode): array
@@ -223,7 +221,8 @@
     site-reviews/summary/wrap/<tag_or_field_key>                (string $value, string $rawValue, Contracts\TagContract $tag): string
     site-reviews/support/deprecated/v5                          (bool $supportDeprecated): bool
     site-reviews/support/deprecated/v6                          (bool $supportDeprecated): bool
-    site-reviews/system/<key>                                   (array $details): array
+    site-reviews/system-info/purge                              (array $keys): array
+    site-reviews/system-info/section/<key>                      (array $details): array
     site-reviews/taxonomy/disable_term_priority                 (bool $bool): bool
     site-reviews/tinymce/editor-ids                             (array $editorIds, string $editorId): array
     site-reviews/tools/general                                  (array $paths): array

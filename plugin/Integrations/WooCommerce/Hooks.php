@@ -16,11 +16,11 @@ class Hooks extends AbstractHooks
     {
         $this->hook(Controller::class, [
             ['declareHposCompatibility', 'before_woocommerce_init'],
-            ['filterSettings', 'site-reviews/addon/settings'],
+            ['filterSettings', 'site-reviews/settings'],
             ['filterSettingsCallback', 'site-reviews/settings/sanitize', 10, 2],
             ['filterSubsubsub', 'site-reviews/addon/subsubsub'],
             ['renderNotice', 'admin_init'],
-            ['renderSettings', 'site-reviews/addon/settings/woocommerce'],
+            ['renderSettings', 'site-reviews/settings/woocommerce'],
         ]);
         $this->hook(ImportController::class, [
             ['filterTools', 'site-reviews/tools/general'],

@@ -304,7 +304,7 @@ abstract class Controller extends BaseController
 
     /**
      * @return array
-     * @filter site-reviews/addon/settings
+     * @filter site-reviews/settings
      */
     public function filterSettings(array $settings)
     {
@@ -407,7 +407,7 @@ abstract class Controller extends BaseController
     /**
      * @param string $rows
      * @return void
-     * @action site-reviews/addon/settings/{addon_slug}
+     * @action site-reviews/settings/{addon_slug}
      */
     public function renderSettings($rows)
     {

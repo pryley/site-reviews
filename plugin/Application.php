@@ -162,7 +162,7 @@ final class Application extends Container
     {
         if (empty($this->defaults)) {
             $defaults = $this->make(DefaultsManager::class)->get();
-            $this->defaults = $this->filterArray('get/defaults', $defaults);
+            $this->defaults = $this->filterArray('settings/defaults', $defaults);
         }
     }
 
@@ -246,7 +246,7 @@ final class Application extends Container
     {
         if (empty($this->settings)) {
             $settings = $this->config('settings');
-            $settings = $this->filterArray('addon/settings', $settings);
+            $settings = $this->filterArray('settings', $settings);
             array_walk($settings, function (&$setting) {
                 $setting = wp_parse_args($setting, [
                     'default' => '',

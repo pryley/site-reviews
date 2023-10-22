@@ -23,10 +23,8 @@ defined('ABSPATH') || exit;
 /*
  * Alternate method of using the functions without having to use `function_exists()`
  * Example: apply_filters('glsr_get_reviews', [], ['assigned_posts' => 'post_id']);
- * @param mixed ...
- * @return mixed
  */
-add_filter('plugins_loaded', function () {
+add_action('plugins_loaded', function () {
     $hooks = [
         'glsr_create_review' => 2,
         'glsr_debug' => 10,

@@ -27,7 +27,7 @@ class Migrate_6_1_0 implements MigrateContract
         if (6 !== (int) glsr()->version('major')) {
             return;
         }
-        $defaults = glsr()->filterArray('get/defaults', glsr(DefaultsManager::class)->get());
+        $defaults = glsr()->filterArray('settings/defaults', glsr(DefaultsManager::class)->get());
         $settings = Arr::consolidate(get_option(OptionManager::databaseKey(6)));
         if (empty($defaults['settings']) || empty($settings['settings'])) {
             return;
