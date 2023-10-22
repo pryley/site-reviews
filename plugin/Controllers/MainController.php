@@ -87,10 +87,9 @@ class MainController extends Controller
     }
 
     /**
-     * @return void
-     * @action init
+     * @action after_setup_theme
      */
-    public function registerLanguages()
+    public function registerLanguages(): void
     {
         load_plugin_textdomain(glsr()->id, false,
             trailingslashit(plugin_basename(glsr()->path()).'/'.glsr()->languages)

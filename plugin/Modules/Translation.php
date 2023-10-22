@@ -227,8 +227,10 @@ class Translation
     {
         static $strings;
         if (empty($strings)) {
-            $settings = glsr(OptionManager::class)->get('settings.strings');
-            $strings = $this->normalizeSettings(Arr::consolidate($settings));
+            // we need to bypass the filter hooks because this is run before the settings are initiated
+            $settings = get_option(OptionManager::databaseKey());
+            $strings = Arr::getAs('array', $settings, 'settings.strings');
+            $strings = $this->normalizeStrings($strings);
         }
         return $strings;
     }
@@ -275,7 +277,7 @@ class Translation
     /**
      * @return array
      */
-    protected function normalizeSettings(array $strings)
+    protected function normalizeStrings(array $strings)
     {
         $defaultString = array_fill_keys(['id', 's1', 's2', 'p1', 'p2'], '');
         $strings = array_filter($strings, 'is_array');
