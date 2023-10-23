@@ -60,9 +60,9 @@ abstract class Hooks
         add_filter($this->addon->id.'/activate', [$this->controller, 'install']);
         add_action('admin_init', [$this->controller, 'onActivation']);
         add_action('init', [$this->controller, 'registerBlocks'], 9);
-        add_action('init', [$this->controller, 'registerLanguages'], -10);
+        add_action('after_setup_theme', [$this->controller, 'registerLanguages'], -10);
         add_action('init', [$this->controller, 'registerShortcodes']);
-        add_action('init', [$this->controller, 'registerTinymcePopups']);
+        add_action('admin_init', [$this->controller, 'registerTinymcePopups']);
         add_action('widgets_init', [$this->controller, 'registerWidgets']);
         add_action('site-reviews/settings/'.$this->addon->slug, [$this->controller, 'renderSettings']);
     }
