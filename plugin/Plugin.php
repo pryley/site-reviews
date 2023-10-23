@@ -124,9 +124,11 @@ trait Plugin
         $config = file_exists($configFile)
             ? include $configFile
             : [];
-        return $filtered
-            ? $this->filterArray('config/'.$name, $config)
-            : $config;
+        // Don't filter the settings config!
+        // Settings can be filtered with the "site-reviews/settings" filter hook
+        if ($filtered && 'settings' !== $name) {
+            $config = $this->filterArray('config/'.$name, $config);
+        }
     }
 
     /**
