@@ -149,10 +149,9 @@ class MainController extends Controller
     }
 
     /**
-     * @return void
-     * @action init
+     * @action wp_loaded
      */
-    public function updateAddons()
+    public function updateAddons(): void
     {
         glsr()->action('addon/update', glsr());
     }

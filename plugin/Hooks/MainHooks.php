@@ -22,7 +22,7 @@ class MainHooks extends AbstractHooks
             ['registerShortcodes', 'init'],
             ['registerTaxonomy', 'init'],
             ['registerWidgets', 'widgets_init'],
-            ['updateAddons', 'init', 1],
+            ['updateAddons', 'wp_loaded'],
         ]);
     }
 }
