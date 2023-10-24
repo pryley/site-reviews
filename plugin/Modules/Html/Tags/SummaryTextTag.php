@@ -24,6 +24,7 @@ class SummaryTextTag extends SummaryTag
         $max = glsr()->constant('MAX_RATING', Rating::class);
         $num = (int) array_sum($this->ratings);
         $rating = glsr(Rating::class)->average($this->ratings);
+        $rating = glsr(Rating::class)->format($rating);
         $text = $this->args->text;
         if (empty($text)) {
             $text = _nx(
@@ -34,6 +35,7 @@ class SummaryTextTag extends SummaryTag
                 'site-reviews'
             );
         }
+        $num = number_format_i18n($num);
         return str_replace(['{rating}', '{max}', '{num}'], [$rating, $max, $num], $text);
     }
 }

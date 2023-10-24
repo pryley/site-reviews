@@ -41,15 +41,14 @@ class Rating
      */
     public const MIN_RATING = 0;
 
-    /**
-     * @param int $roundBy
-     * @return float
-     */
-    public function average(array $ratingCounts, $roundBy = 1)
+    public function average(array $ratingCounts, ?int $roundBy = null): float
     {
         $average = array_sum($ratingCounts);
         if ($average > 0) {
             $average = $this->totalSum($ratingCounts) / $average;
+        }
+        if (is_null($roundBy)) {
+            $roundBy = glsr()->filterInt('rating/round-by', 1);
         }
         $roundedAverage = round($average, intval($roundBy));
         return glsr()->filterFloat('rating/average', $roundedAverage, $average, $ratingCounts);
@@ -61,6 +60,12 @@ class Rating
     public function emptyArray()
     {
         return array_fill_keys(range(0, glsr()->constant('MAX_RATING', __CLASS__)), 0);
+    }
+
+    public function format(float $rating): string
+    {
+        $roundBy = glsr()->filterInt('rating/round-by', 1);
+        return (string) number_format_i18n($rating, $roundBy);
     }
 
     /**

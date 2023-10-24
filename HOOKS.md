@@ -160,6 +160,7 @@
     site-reviews/query/sql/order-by                             (array $orderBy, string $handle, Database\Query $query): array
     site-reviews/rating/average                                 (float $roundedAverage, array $ratingCounts, int $average): float
     site-reviews/rating/ranking                                 (float $ranking, array $ratingCounts, Modules\Rating $rating): float
+    site-reviews/rating/round-by                                (int $roundBy): int
     site-reviews/ratings                                        (array $ratings, array $args): array
     site-reviews/ratings/grouped                                (array $ratings, string $metaGroup, array $args): array
     site-reviews/render/view                                    (string $view, array $data): string
