@@ -1,6 +1,5 @@
 const { _x } = wp.i18n;
 const { BaseControl, SelectControl, TextControl } = wp.components;
-const { isEmpty } = lodash;
 const { useInstanceId } = wp.compose;
 
 export default function ConditionalSelectControl({
@@ -21,7 +20,7 @@ export default function ConditionalSelectControl({
     // Disable reason: A select with an onchange throws a warning
     /* eslint-disable jsx-a11y/no-onchange */
     return (
-        ! isEmpty( options ) && (
+        (options && options.length > 0) && (
             <BaseControl
                 label={ label }
                 hideLabelFromVision={ hideLabelFromVision }

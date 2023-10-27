@@ -2,59 +2,39 @@
  * External dependencies
  * see: https://github.com/WordPress/gutenberg/blob/trunk/packages/server-side-render/src/server-side-render.js
  */
-import { useMemoOne } from './use-memo-one';
+import fastDeepEqual from 'fast-deep-equal/es6';
 
-const { debounce, isEqual, reduce } = lodash;
-const { usePrevious } = wp.compose;
+const { useDebounce, usePrevious } = wp.compose;
 const { RawHTML, useEffect, useRef, useState } = wp.element;
 const { __, sprintf } = wp.i18n;
 const { apiFetch } = wp;
 const { addQueryArgs } = wp.url;
 const { Placeholder, Spinner } = wp.components;
-const { getBlockType } = wp.blocks;
+const { __experimentalSanitizeBlockAttributes } = wp.blocks;
 
-function __experimentalSanitizeBlockAttributes(name, attributes) {
-    // Get the type definition associated with a registered block.
-    const blockType = getBlockType(name);
-    if (undefined === blockType) {
-        throw new Error(`Block type '${ name }' is not registered.`);
-    }
-    return reduce(blockType.attributes, (accumulator, schema, key) => {
-        const value = attributes[key];
-        if (undefined !== value) {
-            accumulator[key] = value;
-        } else if (schema.hasOwnProperty('default')) {
-            accumulator[key] = schema.default;
-        }
-        if (['node', 'children'].indexOf(schema.source) !== -1) {
-            // Ensure value passed is always an array, which we're expecting in
-            // the RichText component to handle the deprecated value.
-            if (typeof accumulator[key] === 'string') {
-                accumulator[key] = [accumulator[key]];
-            } else if (!Array.isArray(accumulator[key])) {
-                accumulator[key] = [];
-            }
-        }
-        return accumulator;
-    }, {});
-}
+const EMPTY_OBJECT = {};
 
-function useDebounce(fn, wait, options) {
-    const debounced = useMemoOne(() => debounce(fn, wait, options), [
-        fn,
-        wait,
-        options,
-    ]);
-    useEffect(() => () => debounced.cancel(), [debounced]);
-    return debounced;
-}
-
-function rendererPath(block, attributes = null, urlQueryArgs = {}) {
+export function rendererPath(block, attributes = null, urlQueryArgs = {}) {
     return addQueryArgs(`/wp/v2/block-renderer/${ block }`, {
         context: 'edit',
         ...(null !== attributes ? { attributes } : {}),
         ...urlQueryArgs,
     });
+}
+
+export function removeBlockSupportAttributes(attributes) {
+    const {
+        backgroundColor,
+        borderColor,
+        fontFamily,
+        fontSize,
+        gradient,
+        textColor,
+        className,
+        ...restAttributes
+    } = attributes;
+    const { border, color, elements, spacing, typography, ...restStyles } = attributes?.style || EMPTY_OBJECT;
+    return { ...restAttributes, style: restStyles, };
 }
 
 function DefaultEmptyResponsePlaceholder({ className }) {
@@ -74,11 +54,26 @@ function DefaultErrorResponsePlaceholder({ response, className }) {
     return <Placeholder className={ className }>{ errorMessage }</Placeholder>;
 }
 
-function DefaultLoadingResponsePlaceholder({ className }) {
+function DefaultLoadingResponsePlaceholder({ children, showLoader }) {
     return (
-        <Placeholder className={ className }>
-            <Spinner />
-        </Placeholder>
+        <div style={ { position: 'relative' } }>
+            { showLoader && (
+                <div
+                    style={ {
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        marginTop: '-9px',
+                        marginLeft: '-9px',
+                    } }
+                >
+                    <Spinner />
+                </div>
+            ) }
+            <div style={ { opacity: showLoader ? '0.3' : 1 } }>
+                { children }
+            </div>
+        </div>
     );
 }
 
@@ -89,37 +84,45 @@ export default function ServerSideRender(props) {
         className,
         httpMethod = 'GET',
         urlQueryArgs,
+        skipBlockSupportAttributes = false,
         EmptyResponsePlaceholder = DefaultEmptyResponsePlaceholder,
         ErrorResponsePlaceholder = DefaultErrorResponsePlaceholder,
         LoadingResponsePlaceholder = DefaultLoadingResponsePlaceholder,
     } = props;
 
     const isMountedRef = useRef(true);
+    const [showLoader, setShowLoader] = useState(false);
     const fetchRequestRef = useRef();
     const [response, setResponse] = useState(null);
     const prevProps = usePrevious(props);
+    const [isLoading, setIsLoading] = useState(false);
 
     function fetchData() {
         if (!isMountedRef.current) {
             return;
         }
-        if (null !== response) {
-            setResponse(null);
+        setIsLoading(true);
+        let sanitizedAttributes = attributes && __experimentalSanitizeBlockAttributes(block, attributes);
+        if (skipBlockSupportAttributes) {
+            sanitizedAttributes = removeBlockSupportAttributes(sanitizedAttributes);
         }
-        const sanitizedAttributes = (attributes && __experimentalSanitizeBlockAttributes(block, attributes)) ?? null;
         // If httpMethod is 'POST', send the attributes in the request body instead of the URL.
         // This allows sending a larger attributes object than in a GET request, where the attributes are in the URL.
         const isPostRequest = 'POST' === httpMethod;
-        const urlAttributes = isPostRequest ? null : sanitizedAttributes;
+        const urlAttributes = isPostRequest
+            ? null
+            : sanitizedAttributes ?? null;
         const path = rendererPath(block, urlAttributes, urlQueryArgs);
-        const data = isPostRequest ? { attributes: sanitizedAttributes } : null;
+        const data = isPostRequest
+            ? { attributes: sanitizedAttributes ?? null }
+            : null;
         // Store the latest fetch request so that when we process it, we can
         // check if it is the current request, to avoid race conditions on slow networks.
         const fetchRequest = (fetchRequestRef.current = apiFetch({
-                path,
-                data,
-                method: isPostRequest ? 'POST' : 'GET',
-            })
+            path,
+            data,
+            method: isPostRequest ? 'POST' : 'GET',
+        })
             .then((fetchResponse) => {
                 if (isMountedRef.current && fetchRequest === fetchRequestRef.current && fetchResponse) {
                     setResponse(fetchResponse.rendered);
@@ -131,6 +134,11 @@ export default function ServerSideRender(props) {
                         error: true,
                         errorMsg: error.message,
                     });
+                }
+            })
+            .finally(() => {
+                if (isMountedRef.current && fetchRequest === fetchRequestRef.current) {
+                    setIsLoading(false);
                 }
             }));
         return fetchRequest;
@@ -145,26 +153,51 @@ export default function ServerSideRender(props) {
     }, []);
 
     // Don't debounce the first fetch. This ensures that the first render
-    // shows data as soon as possible
+    // shows data as soon as possible.
     useEffect(() => {
         if (prevProps === undefined) {
             fetchData();
-        } else if (!isEqual(prevProps, props)) {
+        } else if (!fastDeepEqual(prevProps, props)) {
             debouncedFetchData();
         }
     });
 
+    // Show the loading placeholder only if there is no previous response or
+    // the request takes more than one second.
     useEffect(() => {
-        if (props.onRender) {
+        if (!isLoading) {
+            return;
+        }
+        const timeout = setTimeout(() => {
+            setShowLoader(true);
+        }, 1000);
+        return () => clearTimeout(timeout);
+    }, [isLoading]);
+
+    // Used by Site Reviews to trigger an event after render
+    useEffect(() => {
+        if (!isLoading && props.onRender) {
             props.onRender(response, block, attributes);
         }
-    }, [response]);
+    }, [isLoading, response]);
 
-    if (response === '') {
+    const hasResponse = !! response;
+    const hasEmptyResponse = response === '';
+    const hasError = response?.error;
+
+    if (isLoading) {
+        return (
+            <LoadingResponsePlaceholder { ...props } showLoader={ showLoader }>
+                { hasResponse && (
+                    <RawHTML className={ className }>{ response }</RawHTML>
+                ) }
+            </LoadingResponsePlaceholder>
+        );
+    }
+    if (hasEmptyResponse || !hasResponse) {
         return <EmptyResponsePlaceholder { ...props } />;
-    } else if (!response) {
-        return <LoadingResponsePlaceholder { ...props } />;
-    } else if (response.error) {
+    }
+    if (hasError) {
         return <ErrorResponsePlaceholder response={ response } { ...props } />;
     }
 
