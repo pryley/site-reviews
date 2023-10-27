@@ -1,6 +1,6 @@
 /** global: editor, GLSR, jQuery, tinymce, tinyMCEPreInit */
 
-import Ajax from './ajax.js';
+import Ajax from '@/admin/ajax.js';
 
 const Shortcode = function (selector) {
     this.current = null; // this.current is used by scForm to trigger the correct popup

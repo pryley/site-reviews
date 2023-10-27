@@ -1,7 +1,7 @@
 /** global: GLSR */
 
-import Button from './button.js';
-import Serializer from './serializer.js';
+import Button from '@/admin/button.js';
+import Serializer from '@/admin/serializer.js';
 
 const Ajax = function (request, ev, form) { // object
     this.event = ev || null;

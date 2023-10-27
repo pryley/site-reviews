@@ -1,6 +1,6 @@
 /** global: GLSR, jQuery */
 
-import Ajax from './ajax.js';
+import Ajax from '@/admin/ajax.js';
 
 const Verified = function () {
     this.el =jQuery('#verified-status-select');

@@ -1,6 +1,6 @@
 /** global: GLSR, jQuery */
 
-import Ajax from './ajax.js';
+import Ajax from '@/admin/ajax.js';
 
 const Tools = function () {
     jQuery('form').on('click', '[data-ajax-click]', this.onAjaxClick_.bind(this));

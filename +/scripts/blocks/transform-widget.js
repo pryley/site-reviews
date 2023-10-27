@@ -1,5 +1,5 @@
-import AssignedTermsOptions from './assigned_terms';
-import AssignedUsersOptions from './assigned_users';
+import AssignedTermsOptions from '@/blocks/assigned_terms';
+import AssignedUsersOptions from '@/blocks/assigned_users';
 
 const transformWidgetAttributes = (instance, attributes) => {
     const attr = { ...instance.raw }

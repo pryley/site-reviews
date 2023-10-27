@@ -1,6 +1,6 @@
 /** global: GLSR, jQuery */
 
-import Ajax from './ajax.js';
+import Ajax from '@/admin/ajax.js';
 
 const Filters = function () {
     this.request = null;

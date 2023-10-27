@@ -1,7 +1,7 @@
 /** global: GLSR, jQuery */
 /* jshint -W014 */
 
-import Ajax from './ajax.js';
+import Ajax from '@/admin/ajax.js';
 
 const Sync = function () {
     this.button = jQuery('button#sync-reviews');

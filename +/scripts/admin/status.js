@@ -1,6 +1,6 @@
 /** global: GLSR, jQuery */
 
-import Ajax from './ajax.js';
+import Ajax from '@/admin/ajax.js';
 
 const Status = function (selector) {
     var elements = document.querySelectorAll(selector);
