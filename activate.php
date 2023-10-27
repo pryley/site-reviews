@@ -4,12 +4,12 @@ defined('ABSPATH') || exit;
 
 /**
  * Check for minimum system requirements on plugin activation.
- * @version 6.0.0
+ * @version 6.1.0
  */
 class GL_Plugin_Check_v6
 {
     const MIN_PHP_VERSION = '7.2';
-    const MIN_WORDPRESS_VERSION = '5.8';
+    const MIN_WORDPRESS_VERSION = '5.9';
 
     /**
      * @var array

@@ -9,4 +9,4 @@ Site Reviews is a WordPress plugin which allows you to receive and display revie
 Minimum plugin requirements:
 
 * PHP 7.2
-* WordPress 5.8
+* WordPress 5.9

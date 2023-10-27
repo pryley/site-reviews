@@ -11,14 +11,13 @@ class BlocksController extends Controller
 {
     /**
      * @param array $blockTypes
-     * @param \WP_Post|\WP_Block_Editor_Context $context
+     * @param \WP_Block_Editor_Context $context
      * @return array
      * @filter allowed_block_types_all
      */
     public function filterAllowedBlockTypes($blockTypes, $context)
     {
-        $fallback = Arr::get($context, 'post_type'); // @compat <5.8
-        $postType = Arr::get($context, 'post.post_type', $fallback);
+        $postType = Arr::get($context, 'post.post_type');
         return glsr()->post_type !== $postType
             ? $blockTypes
             : [];

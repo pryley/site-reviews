@@ -124,7 +124,7 @@ Images adapted from [freepik](https://www.freepik.com).
 
 - MySQL 5.6 or greater
 - PHP 7.2 or greater
-- WordPress 5.8 or greater
+- WordPress 5.9 or greater
 
 = Automatic installation =
 
