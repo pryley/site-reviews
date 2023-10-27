@@ -17,6 +17,12 @@ class VerificationController extends Controller
      */
     public function sendVerificationEmail(Review $review, CreateReview $command): void
     {
+        if (defined('WP_IMPORTING')) {
+            return;
+        }
+        if (!in_array($review->status, ['pending', 'publish'])) {
+            return; // this review is likely a draft made in the wp-admin
+        }
         $path = wp_parse_url((string) get_permalink($command->post_id), PHP_URL_PATH);
         $verifyUrl = $review->verifyUrl($path);
         if (!empty($verifyUrl)) {
