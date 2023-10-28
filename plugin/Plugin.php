@@ -129,6 +129,7 @@ trait Plugin
         if ($filtered && 'settings' !== $name) {
             $config = $this->filterArray('config/'.$name, $config);
         }
+        return $config;
     }
 
     /**

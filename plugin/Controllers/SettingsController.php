@@ -18,7 +18,7 @@ class SettingsController extends Controller
     public function registerSettings(): void
     {
         register_setting(glsr()->id, OptionManager::databaseKey(), [
-            'default' => glsr()->defaults,
+            'default' => glsr()->defaults(),
             'sanitize_callback' => [$this, 'sanitizeSettings'],
             'type' => 'array',
         ]);
@@ -30,7 +30,7 @@ class SettingsController extends Controller
      */
     public function sanitizeSettings($input): array
     {
-        OptionManager::flushCache(); // remove settings from object cache before updating
+        OptionManager::flushSettingsCache(); // remove settings from object cache before updating
         $settings = Arr::consolidate($input);
         if (1 === count($settings) && array_key_exists('settings', $settings)) {
             $options = array_replace_recursive(glsr(OptionManager::class)->all(), $input);
@@ -78,11 +78,11 @@ class SettingsController extends Controller
             $options = Arr::set($options, $key.'.multilingual', '');
         }
         if ('' === trim(Arr::get($inputForm, 'notification_message'))) {
-            $defaultValue = Arr::get(glsr()->defaults, $key.'.notification_message');
+            $defaultValue = Arr::get(glsr()->defaults(), $key.'.notification_message');
             $options = Arr::set($options, $key.'.notification_message', $defaultValue);
         }
         if ('' === trim(Arr::get($inputForm, 'request_verification_message'))) {
-            $defaultValue = Arr::get(glsr()->defaults, $key.'.request_verification_message');
+            $defaultValue = Arr::get(glsr()->defaults(), $key.'.request_verification_message');
             $options = Arr::set($options, $key.'.request_verification_message', $defaultValue);
         }
         $defaultValue = Arr::get($inputForm, 'notifications', []);

@@ -35,16 +35,6 @@ class MainController extends Controller
     }
 
     /**
-     * This cannot be done before plugins_loaded as it uses the gettext functions.
-     * @return void
-     * @action init
-     */
-    public function initDefaults()
-    {
-        glsr()->initDefaults();
-    }
-
-    /**
      * @param \WP_Site $site
      * @return void
      * @action wp_insert_site

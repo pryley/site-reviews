@@ -149,10 +149,10 @@ class MenuController extends Controller
             'addons' => _x('Addons', 'admin-text', 'site-reviews'),
             'licenses' => _x('Licenses', 'admin-text', 'site-reviews'),
         ]);
-        if (empty(Arr::get(glsr()->defaults, 'settings.addons'))) {
+        if (empty(Arr::get(glsr()->defaults(), 'settings.addons'))) {
             unset($tabs['addons']);
         }
-        if (empty(Arr::get(glsr()->defaults, 'settings.licenses'))) {
+        if (empty(Arr::get(glsr()->defaults(), 'settings.licenses'))) {
             unset($tabs['licenses']);
         }
         $this->renderPage('settings', [

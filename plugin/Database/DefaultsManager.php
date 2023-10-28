@@ -6,41 +6,31 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class DefaultsManager
 {
-    /**
-     * @return array
-     */
-    public function defaults()
+    public function defaults(): array
     {
         $settings = glsr()->settings();
-        $defaults = (array) array_combine(array_keys($settings), wp_list_pluck($settings, 'default'));
+        $defaults = array_combine(array_keys($settings), wp_list_pluck($settings, 'default'));
         return wp_parse_args($defaults, [
             'version' => '',
             'version_upgraded_from' => '0.0.0',
         ]);
     }
 
-    /**
-     * @return array
-     */
-    public function get()
+    public function get(): array
     {
         return Arr::convertFromDotNotation($this->defaults());
     }
 
     /**
-     * @param string $path
      * @return mixed
      */
-    public function pluck($path)
+    public function pluck(string $path)
     {
         $settings = Arr::convertFromDotNotation(glsr()->settings());
         return Arr::get($settings, $path);
     }
 
-    /**
-     * @return array
-     */
-    public function set()
+    public function set(): array
     {
         $settings = glsr(OptionManager::class)->all();
         $currentSettings = Arr::removeEmptyValues($settings);

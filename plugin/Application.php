@@ -100,6 +100,15 @@ final class Application extends Container
         $this->make(Install::class)->deactivate($networkDeactivating);
     }
 
+    public function defaults(): array
+    {
+        if (empty($this->defaults)) {
+            $defaults = $this->make(DefaultsManager::class)->get();
+            $this->defaults = $this->filterArray('settings/defaults', $defaults);
+        }
+        return $this->defaults;
+    }
+
     /**
      * @param string $page
      * @param string $tab
@@ -154,17 +163,6 @@ final class Application extends Container
         $this->make(Hooks::class)->run();
     }
 
-    /**
-     * The setting defaults (these are not the saved settings!).
-     * @return void
-     */
-    public function initDefaults()
-    {
-        if (empty($this->defaults)) {
-            $defaults = $this->make(DefaultsManager::class)->get();
-            $this->defaults = $this->filterArray('settings/defaults', $defaults);
-        }
-    }
 
     /**
      * @return bool
@@ -239,8 +237,7 @@ final class Application extends Container
     }
 
     /**
-     * The settings config (these are not the saved settings!).
-     * @return array
+     * These are not the saved settings.
      */
     public function settings()
     {

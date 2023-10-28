@@ -10,9 +10,13 @@ use GeminiLabs\SiteReviews\Modules\Migrate;
 
 class OptionManager
 {
-    /**
-     * Get all of the settings.
-     */
+    public function __call($method, $args)
+    {
+        if ('getWP' === $method) { // @compat
+            return call_user_func_array([$this, 'wp'], $args);
+        }
+    }
+
     public function all(): array
     {
         if ($settings = Arr::consolidate(glsr()->retrieve('settings'))) {
@@ -21,9 +25,9 @@ class OptionManager
         return $this->reset();
     }
 
-    public static function databaseKey(?int $version = null): string
+    public static function databaseKey(int $version = null): string
     {
-        $versions = static::settingKeys();
+        $versions = static::databaseKeys();
         if (null === $version) {
             $version = glsr()->version('major');
         }
@@ -33,16 +37,33 @@ class OptionManager
         return '';
     }
 
+    public static function databaseKeys(): array
+    {
+        $keys = [];
+        $slug = Str::snakeCase(glsr()->id);
+        $version = intval(glsr()->version('major')) + 1;
+        while (--$version) {
+            if (1 === $version) {
+                $keys[$version] = sprintf('geminilabs_%s_settings', $slug);
+            } elseif (2 === $version) {
+                $keys[$version] = sprintf('geminilabs_%s-v%s', $slug, $version);
+            } else {
+                $keys[$version] = sprintf('%s_v%s', $slug, $version);
+            }
+        }
+        return $keys;
+    }
+
     public function delete(string $path): bool
     {
         return $this->set(Arr::remove($this->all(), $path));
     }
 
-    public static function flushCache(): void
+    public static function flushSettingsCache(): void
     {
         $alloptions = wp_load_alloptions(true);
         $flushed = false;
-        foreach (static::settingKeys() as $option) {
+        foreach (static::databaseKeys() as $option) {
             if (isset($alloptions[$option])) {
                 unset($alloptions[$option]);
                 $flushed = true;
@@ -54,12 +75,10 @@ class OptionManager
     }
 
     /**
-     * @param string $path
      * @param mixed $fallback
-     * @param string $cast
      * @return mixed
      */
-    public function get($path = '', $fallback = '', $cast = '')
+    public function get(string $path = '', $fallback = '', string $cast = '')
     {
         $option = Arr::get($this->all(), $path, $fallback);
         $path = ltrim(Str::removePrefix($path, 'settings'), '.');
@@ -70,52 +89,26 @@ class OptionManager
         return Cast::to($cast, $option);
     }
 
-    /**
-     * @param string $path
-     */
-    public function getArray($path, array $fallback = []): array
+    public function getArray(string $path, array $fallback = []): array
     {
         return $this->get($path, $fallback, 'array');
     }
 
-    /**
-     * @param string $path
-     */
-    public function getBool($path, bool $fallback = false): bool
+    public function getBool(string $path, bool $fallback = false): bool
     {
         return $this->get($path, $fallback, 'bool');
     }
 
-    /**
-     * @param string $path
-     */
-    public function getInt($path, int $fallback = 0): int
+    public function getInt(string $path, int $fallback = 0): int
     {
         return $this->get($path, $fallback, 'int');
     }
 
-    /**
-     * @param mixed $fallback
-     * @param string $cast
-     * @return mixed
-     */
-    public function getWP(string $path, $fallback = '', $cast = '')
-    {
-        $option = get_option($path, $fallback);
-        return Cast::to($cast, Helper::ifEmpty($option, $fallback, $strict = true));
-    }
-
-    /**
-     * JSON encoded string of the settings.
-     */
     public function json(): string
     {
         return json_encode($this->all(), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
-    /**
-     * Restricts the provided settings keys to the defaults.
-     */
     public function normalize(array $data = []): array
     {
         $settings = Arr::flatten($data);
@@ -133,13 +126,10 @@ class OptionManager
         return $settings;
     }
 
-    /**
-     * Get the uncached settings of the previously saved version.
-     */
     public function previous(): ?array
     {
-        static::flushCache();
-        foreach (static::settingKeys() as $version => $option) {
+        static::flushSettingsCache();
+        foreach (static::databaseKeys() as $version => $option) {
             if ($settings = Arr::consolidate(get_option($option))) {
                 return $settings;
             }
@@ -147,17 +137,14 @@ class OptionManager
         return null;
     }
 
-    /**
-     * Reset the settings to the defaults.
-     */
     public function reset(): array
     {
-        $settings = Arr::consolidate($this->getWP(static::databaseKey(), []));
+        $settings = Arr::consolidate($this->wp(static::databaseKey(), [], 'array'));
         if (empty($settings)) {
             delete_option(static::databaseKey());
-            $settings = Arr::consolidate(glsr()->defaults);
             glsr(Migrate::class)->reset(); // Do this to migrate any previous version settings
         }
+        $settings = $this->normalize($settings);
         glsr()->store('settings', $settings);
         return $settings;
     }
@@ -181,19 +168,13 @@ class OptionManager
         return false;
     }
 
-    public static function settingKeys(): array
+    /**
+     * @param mixed $fallback
+     * @return mixed
+     */
+    public function wp(string $path, $fallback = '', string $cast = '')
     {
-        $keys = [];
-        $version = intval(glsr()->version('major')) + 1;
-        while (--$version) {
-            if (1 === $version) {
-                $keys[$version] = 'geminilabs_site_reviews_settings';
-            } elseif (2 === $version) {
-                $keys[$version] = 'geminilabs_site_reviews-v2';
-            } else {
-                $keys[$version] = Str::snakeCase(glsr()->id.'-v'.intval($version));
-            }
-        }
-        return $keys;
+        $option = get_option($path, $fallback);
+        return Cast::to($cast, Helper::ifEmpty($option, $fallback, $strict = true));
     }
 }

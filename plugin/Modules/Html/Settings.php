@@ -150,7 +150,7 @@ class Settings
     {
         $optionValue = glsr(OptionManager::class)->get(
             $path,
-            Arr::get(glsr()->defaults, $path)
+            Arr::get(glsr()->defaults(), $path)
         );
         if (is_array($expectedValue)) {
             return is_array($optionValue)

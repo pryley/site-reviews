@@ -52,10 +52,10 @@ class OptionManagerTest extends WP_UnitTestCase
     public function test_get_wp()
     {
         $options = glsr(OptionManager::class);
-        $this->assertEquals($options->getWP('blog_charset'), 'UTF-8');
-        $this->assertEquals($options->getWP('blog_charsets'), '');
-        $this->assertEquals($options->getWP('blog_charsets', 'xyz'), 'xyz');
-        $this->assertEquals($options->getWP('blog_charsets', 'xyz', 'bool'), false);
+        $this->assertEquals($options->wp('blog_charset'), 'UTF-8');
+        $this->assertEquals($options->wp('blog_charset_x'), '');
+        $this->assertEquals($options->wp('blog_charset_x', 'xyz'), 'xyz');
+        $this->assertEquals($options->wp('blog_charset_x', 'xyz', 'bool'), false);
     }
 
     public function test_set()
