@@ -50,9 +50,7 @@ class Str
     public static function convertPathToName($path, $prefix = '')
     {
         $levels = explode('.', $path);
-        return array_reduce($levels, function ($result, $value) {
-            return $result .= '['.$value.']';
-        }, $prefix);
+        return array_reduce($levels, fn ($result, $value) => $result.'['.$value.']', $prefix);
     }
 
     /**

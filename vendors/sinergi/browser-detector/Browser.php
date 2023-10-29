@@ -1,6 +1,6 @@
 <?php
 /**
- * @package sinergi/browser-detector v6.1.2
+ * @package sinergi/browser-detector v6.1.4
  */
 namespace GeminiLabs\Sinergi\BrowserDetector;
 

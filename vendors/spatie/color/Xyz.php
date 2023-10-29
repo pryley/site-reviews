@@ -2,159 +2,133 @@
 
 namespace GeminiLabs\Spatie\Color;
 
-class Xyz extends Color
+class Xyz implements Color
 {
+    use Analysis, Manipulate;
+
     /** @var float */
     protected $x;
     protected $y;
     protected $z;
 
-    /**
-     * @param float $x
-     * @param float $y
-     * @param float $z
-     */
-    public function __construct($x, $y, $z)
+    public function __construct(float $x, float $y, float $z)
     {
         Validate::xyzValue($x, 'x');
         Validate::xyzValue($y, 'y');
         Validate::xyzValue($z, 'z');
+
         $this->x = $x;
         $this->y = $y;
         $this->z = $z;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromString($string)
+    public static function fromString(string $string)
     {
         Validate::xyzColorString($string);
+
         $matches = null;
         preg_match('/xyz\( *(\d{1,2}\.?\d+? *, *\d{1,3}\.?\d+? *, *\d{1,3}\.?\d+?) *\)/i', $string, $matches);
+
         $channels = explode(',', $matches[1]);
-        list($x, $y, $z) = array_map('trim', $channels);
+        [$x, $y, $z] = array_map('trim', $channels);
+
         return new static($x, $y, $z);
     }
 
-    /**
-     * @return float
-     */
-    public function x()
+    public function x(): float
     {
         return $this->x;
     }
 
-    /**
-     * @return float
-     */
-    public function y()
+    public function y(): float
     {
         return $this->y;
     }
 
-    /**
-     * @return float
-     */
-    public function z()
+    public function z(): float
     {
         return $this->z;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function red()
+    public function red(): int
     {
-        return $this->toRgb()->red();
+        $rgb = $this->toRgb();
+
+        return $rgb->red();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function blue()
+    public function blue(): int
     {
-        return $this->toRgb()->blue();
+        $rgb = $this->toRgb();
+
+        return $rgb->blue();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function green()
+    public function green(): int
     {
-        return $this->toRgb()->green();
+        $rgb = $this->toRgb();
+
+        return $rgb->green();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toCIELab()
+    public function toCIELab(): CIELab
     {
-        list($l, $a, $b) = Convert::xyzValueToCIELab(
+        [$l, $a, $b] = Convert::xyzValueToCIELab(
             $this->x,
             $this->y,
             $this->z
         );
+
         return new CIELab($l, $a, $b);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toHex()
+    public function toCmyk(): Cmyk
     {
-        return $this->toRgb()->toHex();
+        return $this->toRgb()->toCmyk();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toHsl()
+    public function toHex(string $alpha = 'ff'): Hex
+    {
+        return $this->toRgb()->toHex($alpha);
+    }
+
+    public function toHsb(): Hsb
+    {
+        return $this->toRgb()->toHsb();
+    }
+
+    public function toHsl(): Hsl
     {
         return $this->toRgb()->toHSL();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toHsla($alpha = 1)
+    public function toHsla(float $alpha = 1): Hsla
     {
         return $this->toRgb()->toHsla($alpha);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toRgb()
+    public function toRgb(): Rgb
     {
-        list($red, $green, $blue) = Convert::xyzValueToRgb(
+        [$red, $green, $blue] = Convert::xyzValueToRgb(
             $this->x,
             $this->y,
             $this->z
         );
+
         return new Rgb($red, $green, $blue);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toRgba($alpha = 1)
+    public function toRgba(float $alpha = 1): Rgba
     {
         return $this->toRgb()->toRgba($alpha);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toXyz()
+    public function toXyz(): self
     {
         return new self($this->x, $this->y, $this->z);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return "xyz({$this->x},{$this->y},{$this->z})";
     }

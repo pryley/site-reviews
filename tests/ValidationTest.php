@@ -66,9 +66,9 @@ class ValidationTest extends WP_Ajax_UnitTestCase
 
     public function test_blacklist_validation()
     {
-        add_filter('site-reviews/validators', function () {
-            return [BlacklistValidator::class];
-        });
+        add_filter('site-reviews/validators', fn () => [
+            BlacklistValidator::class,
+        ]);
         $blacklist = "xxx\n \napple";
         $response = $this->assertJsonSuccess($this->request());
         $this->assertTrue($response->data->review->is_approved);
@@ -103,9 +103,9 @@ class ValidationTest extends WP_Ajax_UnitTestCase
 
     public function test_custom_validation()
     {
-        add_filter('site-reviews/validators', function () {
-            return [CustomValidator::class];
-        });
+        add_filter('site-reviews/validators', fn () => [
+            CustomValidator::class,
+        ]);
         $this->assertJsonSuccess($this->request());
         add_filter('site-reviews/validate/custom', function () {
             return $this->messageFailedCustom;
@@ -119,9 +119,9 @@ class ValidationTest extends WP_Ajax_UnitTestCase
 
     public function test_default_validation()
     {
-        add_filter('site-reviews/validators', function () {
-            return [DefaultValidator::class];
-        });
+        add_filter('site-reviews/validators', fn () => [
+            DefaultValidator::class,
+        ]);
         glsr(OptionManager::class)->set('settings.forms.required', ['rating', 'title', 'content', 'name', 'email', 'terms']);
         $response1 = $this->assertJsonError($this->request());
         $response2 = $this->assertJsonSuccess($this->request([
@@ -139,9 +139,9 @@ class ValidationTest extends WP_Ajax_UnitTestCase
 
     public function test_duplicate_validation()
     {
-        add_filter('site-reviews/validators', function () {
-            return [DuplicateValidator::class];
-        });
+        add_filter('site-reviews/validators', fn () => [
+            DuplicateValidator::class,
+        ]);
         glsr(OptionManager::class)->set('settings.forms.prevent_duplicates', 'yes');
         $response1 = $this->assertJsonSuccess($this->request());
         $response2 = $this->assertJsonError($this->request());
@@ -159,9 +159,9 @@ class ValidationTest extends WP_Ajax_UnitTestCase
 
     public function test_honeypot_validation()
     {
-        add_filter('site-reviews/validators', function () {
-            return [HoneypotValidator::class];
-        });
+        add_filter('site-reviews/validators', fn () => [
+            HoneypotValidator::class,
+        ]);
         $formId = 'glsr-12345678';
         $honeypotHash = glsr(Honeypot::class)->hash($formId);
         $response1 = $this->assertJsonError($this->request());
@@ -174,9 +174,9 @@ class ValidationTest extends WP_Ajax_UnitTestCase
 
     public function test_permission_validation()
     {
-        add_filter('site-reviews/validators', function () {
-            return [PermissionValidator::class];
-        });
+        add_filter('site-reviews/validators', fn () => [
+            PermissionValidator::class,
+        ]);
         $response1 = $this->assertJsonSuccess($this->request());
         glsr(OptionManager::class)->set('settings.general.require.login', 'yes');
         $response2 = $this->assertJsonError($this->request());
@@ -193,9 +193,9 @@ class ValidationTest extends WP_Ajax_UnitTestCase
 
     public function test_review_limits_validation()
     {
-        add_filter('site-reviews/validators', function () {
-            return [ReviewLimitsValidator::class];
-        });
+        add_filter('site-reviews/validators', fn () => [
+            ReviewLimitsValidator::class,
+        ]);
         glsr(OptionManager::class)->set('settings.forms.limit', 'ip_address');
         $this->assertJsonSuccess($this->request());
         $this->assertJsonError($this->request());

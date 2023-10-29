@@ -113,7 +113,7 @@ class Prepare
 
     protected function prepareDate()
     {
-        $this->data['date'] = mysql_to_rfc3339($this->review->date);
+        $this->data['date'] = mysql_to_rfc3339($this->review->date); // phpcs:ignore
     }
 
     protected function prepareDateGmt()
@@ -122,7 +122,7 @@ class Prepare
         if ('0000-00-00 00:00:00' === $date) {
             $date = get_gmt_from_date($this->review->date);
         }
-        $this->data['date_gmt'] = mysql_to_rfc3339($date);
+        $this->data['date_gmt'] = mysql_to_rfc3339($date); // phpcs:ignore
     }
 
     protected function prepareEmail()
@@ -167,12 +167,12 @@ class Prepare
 
     protected function prepareModified()
     {
-        $this->data['modified'] = mysql_to_rfc3339($this->review->post()->post_modified);
+        $this->data['modified'] = mysql_to_rfc3339($this->review->post()->post_modified); // phpcs:ignore
     }
 
     protected function prepareModifiedGmt()
     {
-        $this->data['modified_gmt'] = mysql_to_rfc3339($this->review->post()->post_modified_gmt);
+        $this->data['modified_gmt'] = mysql_to_rfc3339($this->review->post()->post_modified_gmt); // phpcs:ignore
     }
 
     protected function prepareName()

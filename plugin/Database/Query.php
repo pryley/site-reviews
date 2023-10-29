@@ -83,9 +83,9 @@ class Query
     public function review($postId, bool $bypassCache = false): Review
     {
         $reviewId = Cast::toInt($postId);
-        $review = Helper::ifTrue($bypassCache, null, function () use ($reviewId) {
-            return glsr(Cache::class)->get($reviewId, 'reviews');
-        });
+        $review = Helper::ifTrue($bypassCache, null, 
+            fn () => glsr(Cache::class)->get($reviewId, 'reviews')
+        );
         if (!$review instanceof Review) {
             $result = glsr(Database::class)->dbGetRow($this->queryReviews($reviewId), ARRAY_A);
             $review = new Review($result);

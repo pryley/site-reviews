@@ -6,13 +6,10 @@ use GeminiLabs\Spatie\Color\Exceptions\InvalidColorValue;
 
 class Factory
 {
-    /**
-     * @param string $string
-     * @return Color
-     */
-    public static function fromString($string)
+    public static function fromString(string $string): Color
     {
         $colorClasses = static::getColorClasses();
+
         foreach ($colorClasses as $colorClass) {
             try {
                 return $colorClass::fromString($string);
@@ -20,17 +17,17 @@ class Factory
                 // Catch the exception but never throw it.
             }
         }
+
         throw InvalidColorValue::malformedColorString($string);
     }
 
-    /**
-     * @return array
-     */
-    protected static function getColorClasses()
+    protected static function getColorClasses(): array
     {
         return [
             CIELab::class,
+            Cmyk::class,
             Hex::class,
+            Hsb::class,
             Hsl::class,
             Hsla::class,
             Rgb::class,

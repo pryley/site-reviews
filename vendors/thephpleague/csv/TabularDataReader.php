@@ -1,13 +1,15 @@
 <?php
 
 /**
- * League.Csv (https://csv.thephpleague.com).
+ * League.Csv (https://csv.thephpleague.com)
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace GeminiLabs\League\Csv;
 
@@ -26,9 +28,8 @@ interface TabularDataReader extends Countable, IteratorAggregate
     /**
      * Returns the number of records contained in the tabular data structure
      * excluding the header record.
-     * @return int
      */
-    public function count();
+    public function count(): int;
 
     /**
      * Returns the tabular data records as an iterator object.
@@ -41,9 +42,8 @@ interface TabularDataReader extends Countable, IteratorAggregate
      * If the CSV document is inconsistent. Missing record fields are
      * filled with null values while extra record fields are strip from
      * the returned object.
-     * @return Iterator
      */
-    public function getIterator();
+    public function getIterator(): Iterator;
 
     /**
      * Returns the header associated with the tabular data.
@@ -53,7 +53,7 @@ interface TabularDataReader extends Countable, IteratorAggregate
      *
      * @return array<string>
      */
-    public function getHeader();
+    public function getHeader(): array;
 
     /**
      * Returns the tabular data records as an iterator object.
@@ -68,9 +68,8 @@ interface TabularDataReader extends Countable, IteratorAggregate
      * the returned object.
      *
      * @param array<string> $header an optional header to use instead of the CSV document header
-     * @return Iterator
      */
-    public function getRecords(array $header = []);
+    public function getRecords(array $header = []): Iterator;
 
     /**
      * Returns the nth record from the tabular data.
@@ -78,11 +77,10 @@ interface TabularDataReader extends Countable, IteratorAggregate
      * By default if no index is provided the first record of the tabular data is returned
      *
      * @param int $nth_record the tabular data record offset
-     * @return array
      *
      * @throws UnableToProcessCsv if argument is lesser than 0
      */
-    public function fetchOne($nth_record = 0);
+    public function fetchOne(int $nth_record = 0): array;
 
     /**
      * DEPRECATION WARNING! This class will be removed in the next major point release.
@@ -97,11 +95,10 @@ interface TabularDataReader extends Countable, IteratorAggregate
      * By default if no value is supplied the first column is fetch
      *
      * @param string|int $index CSV column index
-     * @return Iterator
      *
      * @throws UnableToProcessCsv if the column index is invalid or not found
      */
-    public function fetchColumn($index = 0);
+    public function fetchColumn($index = 0): Iterator;
 
     /**
      * Returns the next key-value pairs from the tabular data (first
@@ -113,9 +110,8 @@ interface TabularDataReader extends Countable, IteratorAggregate
      *
      * @param string|int $offset_index The column index to serve as offset
      * @param string|int $value_index  The column index to serve as value
-     * @return Iterator
      *
      * @throws UnableToProcessCsv if the column index is invalid or not found
      */
-    public function fetchPairs($offset_index = 0, $value_index = 1);
+    public function fetchPairs($offset_index = 0, $value_index = 1): Iterator;
 }

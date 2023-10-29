@@ -9,11 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace GeminiLabs\League\Csv\Exceptions;
+declare(strict_types=1);
+
+namespace GeminiLabs\League\Csv;
+
+use Exception as PhpException;
 
 /**
  * League Csv Base Exception.
  */
-class UnableToProcessCsv extends \Exception
+class Exception extends PhpException implements UnableToProcessCsv
 {
 }

@@ -53,9 +53,7 @@ class Controller extends BaseController
      */
     protected function invoke(string $method, array $args = [])
     {
-        $fn = function () use ($method, $args) {
-            return $this->$method(...$args);
-        };
+        $fn = fn () => $this->$method(...$args);
         return $fn->bindTo($this->event, $this->event)();
     }
 

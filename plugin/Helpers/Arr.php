@@ -71,9 +71,9 @@ class Arr
         foreach ($array as $key => $value) {
             $newKey = ltrim($prefix.'.'.$key, '.');
             if (static::isIndexedAndFlat($value)) {
-                $value = Helper::ifTrue(!$flattenValue, $value, function () use ($value) {
-                    return '['.implode(', ', $value).']';
-                });
+                $value = Helper::ifTrue(!$flattenValue, $value, 
+                    fn () => '['.implode(', ', $value).']'
+                );
             } elseif (is_array($value)) {
                 $result = array_merge($result, static::flatten($value, $flattenValue, $newKey));
                 continue;
@@ -244,9 +244,9 @@ class Arr
             if (Helper::isEmpty($value)) {
                 continue;
             }
-            $result[$key] = Helper::ifTrue(!is_array($value), $value, function () use ($value) {
-                return static::removeEmptyValues($value);
-            });
+            $result[$key] = Helper::ifTrue(!is_array($value), $value, 
+                fn () => static::removeEmptyValues($value)
+            );
         }
         return $result;
     }
@@ -299,9 +299,9 @@ class Arr
      */
     public static function unique(array $values)
     {
-        return Helper::ifTrue(!static::isIndexedAndFlat($values), $values, function () use ($values) {
-            return array_filter(array_unique($values)); // we do not want to reindex the array!
-        });
+        return Helper::ifTrue(!static::isIndexedAndFlat($values), $values,
+            fn () => array_filter(array_unique($values)) // we do not want to reindex the array!
+        );
     }
 
     /**
@@ -314,9 +314,7 @@ class Arr
         $values = array_filter(static::convertFromString($values), 'is_numeric');
         $values = array_map('intval', $values);
         if ($absint) {
-            $values = array_filter($values, function ($value) {
-                return $value > 0;
-            });
+            $values = array_filter($values, fn ($value) => $value > 0);
         }
         return array_values(array_unique($values));
     }

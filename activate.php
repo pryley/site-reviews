@@ -8,7 +8,7 @@ defined('ABSPATH') || exit;
  */
 class GL_Plugin_Check_v6
 {
-    const MIN_PHP_VERSION = '7.2';
+    const MIN_PHP_VERSION = '7.4';
     const MIN_WORDPRESS_VERSION = '5.9';
 
     /**

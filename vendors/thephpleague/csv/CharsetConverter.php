@@ -1,7 +1,7 @@
 <?php
 
 /**
- * League.Csv (https://csv.thephpleague.com).
+ * League.Csv (https://csv.thephpleague.com)
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
@@ -9,11 +9,28 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace GeminiLabs\League\Csv;
 
 use OutOfRangeException;
 use php_user_filter;
 use Traversable;
+use function array_combine;
+use function array_map;
+use function in_array;
+use function is_numeric;
+use function mb_convert_encoding;
+use function mb_list_encodings;
+use function preg_match;
+use function sprintf;
+use function stream_bucket_append;
+use function stream_bucket_make_writeable;
+use function stream_filter_register;
+use function stream_get_filters;
+use function strpos;
+use function strtolower;
+use function substr;
 
 /**
  * Converts resource stream or tabular data content charset.
@@ -22,18 +39,13 @@ class CharsetConverter extends php_user_filter
 {
     const FILTERNAME = 'convert.league.csv';
 
-    /** @var string */
-    protected $input_encoding = 'UTF-8';
-    /** @var string */
-    protected $output_encoding = 'UTF-8';
+    protected string $input_encoding = 'UTF-8';
+    protected string $output_encoding = 'UTF-8';
 
     /**
      * Static method to add the stream filter to a {@link AbstractCsv} object.
-     * @param string $input_encoding
-     * @param string $output_encoding
-     * @return AbstractCsv
      */
-    public static function addTo(AbstractCsv $csv, $input_encoding, $output_encoding)
+    public static function addTo(AbstractCsv $csv, string $input_encoding, string $output_encoding): AbstractCsv
     {
         self::register();
 
@@ -42,9 +54,8 @@ class CharsetConverter extends php_user_filter
 
     /**
      * Static method to register the class as a stream filter.
-     * @return void
      */
-    public static function register()
+    public static function register(): void
     {
         $filter_name = self::FILTERNAME.'.*';
         if (!in_array($filter_name, stream_get_filters(), true)) {
@@ -54,11 +65,8 @@ class CharsetConverter extends php_user_filter
 
     /**
      * Static method to return the stream filter filtername.
-     * @param string $input_encoding
-     * @param string $output_encoding
-     * @return string
      */
-    public static function getFiltername($input_encoding, $output_encoding)
+    public static function getFiltername(string $input_encoding, string $output_encoding): string
     {
         return sprintf(
             '%s.%s/%s',
@@ -71,11 +79,9 @@ class CharsetConverter extends php_user_filter
     /**
      * Filter encoding charset.
      *
-     * @param string $encoding
-     * @return string
      * @throws OutOfRangeException if the charset is malformed or unsupported
      */
-    protected static function filterEncoding($encoding)
+    protected static function filterEncoding(string $encoding): string
     {
         static $encoding_list;
         if (null === $encoding_list) {
@@ -91,10 +97,7 @@ class CharsetConverter extends php_user_filter
         throw new OutOfRangeException('The submitted charset '.$encoding.' is not supported by the mbstring extension.');
     }
 
-    /**
-     * @return bool
-     */
-    public function onCreate()
+    public function onCreate(): bool
     {
         $prefix = self::FILTERNAME.'.';
         if (0 !== strpos($this->filtername, $prefix)) {
@@ -121,9 +124,8 @@ class CharsetConverter extends php_user_filter
      * @param resource $out
      * @param int      $consumed
      * @param bool     $closing
-     * @return int
      */
-    public function filter($in, $out, &$consumed, $closing)
+    public function filter($in, $out, &$consumed, $closing): int
     {
         while (null !== ($bucket = stream_bucket_make_writeable($in))) {
             $bucket->data = @mb_convert_encoding($bucket->data, $this->output_encoding, $this->input_encoding);
@@ -136,10 +138,8 @@ class CharsetConverter extends php_user_filter
 
     /**
      * Convert Csv records collection into UTF-8.
-     * @param iterable $records
-     * @return iterable
      */
-    public function convert($records)
+    public function convert(iterable $records): iterable
     {
         if ($this->output_encoding === $this->input_encoding) {
             return $records;
@@ -155,9 +155,8 @@ class CharsetConverter extends php_user_filter
 
     /**
      * Enable using the class as a formatter for the {@link Writer}.
-     * @return array
      */
-    public function __invoke(array $record)
+    public function __invoke(array $record): array
     {
         $outputRecord = [];
         foreach ($record as $offset => $value) {
@@ -173,9 +172,8 @@ class CharsetConverter extends php_user_filter
      *
      * @param int|float|string|null $value  can be a scalar type or null
      * @param int|string            $offset can be a string or an int
-     * @return array
      */
-    protected function encodeField($value, $offset)
+    protected function encodeField($value, $offset): array
     {
         if (null !== $value && !is_numeric($value)) {
             $value = mb_convert_encoding($value, $this->output_encoding, $this->input_encoding);
@@ -190,10 +188,8 @@ class CharsetConverter extends php_user_filter
 
     /**
      * Sets the records input encoding charset.
-     * @param string $encoding
-     * @return self
      */
-    public function inputEncoding($encoding)
+    public function inputEncoding(string $encoding): self
     {
         $encoding = self::filterEncoding($encoding);
         if ($encoding === $this->input_encoding) {
@@ -208,10 +204,8 @@ class CharsetConverter extends php_user_filter
 
     /**
      * Sets the records output encoding charset.
-     * @param string $encoding
-     * @return self
      */
-    public function outputEncoding($encoding)
+    public function outputEncoding(string $encoding): self
     {
         $encoding = self::filterEncoding($encoding);
         if ($encoding === $this->output_encoding) {

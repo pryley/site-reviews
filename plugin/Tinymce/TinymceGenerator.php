@@ -195,9 +195,8 @@ abstract class TinymceGenerator
     protected function normalizeField(array $field, array $defaults)
     {
         if ($this->validate($field)) {
-            return array_filter(shortcode_atts($defaults, $field), function ($value) {
-                return '' !== $value;
-            });
+            $field = shortcode_atts($defaults, $field);
+            return array_filter($field, fn ($value) => '' !== $value);
         }
     }
 

@@ -50,9 +50,7 @@ class ReviewController extends Controller
      */
     public function filterPostsToCacheReviews($posts)
     {
-        $reviews = array_filter((array) $posts, function ($post) {
-            return glsr()->post_type === $post->post_type;
-        });
+        $reviews = array_filter((array) $posts, fn ($post) => glsr()->post_type === $post->post_type);
         if ($postIds = wp_list_pluck($reviews, 'ID')) {
             glsr(Query::class)->reviews([], $postIds); // this caches the associated Review objects
         }

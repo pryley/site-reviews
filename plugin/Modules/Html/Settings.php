@@ -48,9 +48,10 @@ class Settings
      */
     protected function getSettingFields($path)
     {
-        return array_filter(glsr()->settings(), function ($key) use ($path) {
-            return Str::startsWith($key, $path);
-        }, ARRAY_FILTER_USE_KEY);
+        return array_filter(glsr()->settings(),
+            fn ($key) => Str::startsWith($key, $path),
+            ARRAY_FILTER_USE_KEY
+        );
     }
 
     /**
@@ -93,9 +94,10 @@ class Settings
         $settingKeys = array_keys($settings['settings']['addons']);
         $results = [];
         foreach ($settingKeys as $key) {
-            $addonFields = array_filter($fields, function ($path) use ($key) {
-                return Str::startsWith($path, 'settings.addons.'.$key);
-            }, ARRAY_FILTER_USE_KEY);
+            $addonFields = array_filter($fields,
+                fn ($path) => Str::startsWith($path, 'settings.addons.'.$key),
+                ARRAY_FILTER_USE_KEY
+            );
             $results[$key] = $this->getSettingRows($addonFields);
         }
         ksort($results);

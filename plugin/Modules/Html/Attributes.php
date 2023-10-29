@@ -147,9 +147,10 @@ class Attributes
         $globalAttributes = $this->filterAttributes(static::GLOBAL_ATTRIBUTES);
         $wildcards = [];
         foreach (static::GLOBAL_WILDCARD_ATTRIBUTES as $wildcard) {
-            $newWildcards = array_filter($this->attributes, function ($key) use ($wildcard) {
-                return Str::startsWith($key, $wildcard);
-            }, ARRAY_FILTER_USE_KEY);
+            $newWildcards = array_filter($this->attributes,
+                fn ($key) => Str::startsWith($key, $wildcard),
+                ARRAY_FILTER_USE_KEY
+            );
             $wildcards = array_merge($wildcards, $newWildcards);
         }
         return array_merge($globalAttributes, $wildcards);

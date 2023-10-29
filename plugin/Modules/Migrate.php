@@ -52,9 +52,10 @@ class Migrate
      */
     public function pendingVersions()
     {
-        $versions = array_map(function ($migration) {
-            return str_replace(['Migrate_', '_'], ['', '.'], $migration);
-        }, $this->pendingMigrations());
+        $versions = array_map(
+            fn ($migration) => str_replace(['Migrate_', '_'], ['', '.'], $migration),
+            $this->pendingMigrations()
+        );
         return implode(', ', $versions);
     }
 
@@ -143,9 +144,7 @@ class Migrate
         if (empty($migrations)) {
             $migrations = $this->storedMigrations();
         }
-        return array_keys(array_filter($migrations, function ($hasRun) {
-            return !$hasRun;
-        }));
+        return array_keys(array_filter($migrations, fn ($hasRun) => !$hasRun));
     }
 
     /**

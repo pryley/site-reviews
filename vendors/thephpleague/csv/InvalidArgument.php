@@ -9,21 +9,23 @@
  * file that was distributed with this source code.
  */
 
-namespace GeminiLabs\League\Csv\Exceptions;
+declare(strict_types=1);
+
+namespace GeminiLabs\League\Csv;
+
+use Throwable;
 
 /**
  * InvalidArgument Exception.
  */
-class InvalidArgument extends UnableToProcessCsv
+class InvalidArgument extends Exception
 {
     /**
      * DEPRECATION WARNING! This class will be removed in the next major point release.
      *
      * @deprecated since version 9.7.0
-     * 
-     * @param null|\Throwable $previous
      */
-    public function __construct(string $message = '', int $code = 0, $previous = null)
+    public function __construct(string $message = '', int $code = 0, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

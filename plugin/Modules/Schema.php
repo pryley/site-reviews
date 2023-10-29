@@ -294,12 +294,8 @@ class Schema
         }
         $className = Helper::buildClassName($type, 'Modules\Schema');
         return Helper::ifTrue(class_exists($className),
-            function () use ($className) {
-                return new $className();
-            },
-            function () use ($type) {
-                return new UnknownType($type);
-            }
+            fn () => new $className(),
+            fn () => new UnknownType($type)
         );
     }
 

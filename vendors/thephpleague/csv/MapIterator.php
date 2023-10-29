@@ -1,7 +1,7 @@
 <?php
 
 /**
- * League.Csv (https://csv.thephpleague.com).
+ * League.Csv (https://csv.thephpleague.com)
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
@@ -9,9 +9,12 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace GeminiLabs\League\Csv;
 
 use IteratorIterator;
+use ReturnTypeWillChange;
 use Traversable;
 
 /**
@@ -24,21 +27,18 @@ final class MapIterator extends IteratorIterator
     /** @var callable The callback to apply on all InnerIterator current value. */
     private $callable;
 
-    /**
-     * @param callable $callable
-     */
-    public function __construct(Traversable $iterator, $callable)
+    public function __construct(Traversable $iterator, callable $callable)
     {
         parent::__construct($iterator);
         $this->callable = $callable;
     }
 
     /**
-     * @return mixed the value of the current element
+     * @return mixed The value of the current element.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function current()
     {
-        return call_user_func($this->callable, parent::current(), parent::key());
+        return ($this->callable)(parent::current(), parent::key());
     }
 }

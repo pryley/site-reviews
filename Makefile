@@ -13,6 +13,10 @@ build: ## Build all assets and languages
 bump: ## Bump to the next minor version
 	npx gulp bump
 
+.PHONY: compat
+compat: ## Run PHP CodeSniffer to check PHP 7.4+ Compatibility
+	./vendor/bin/phpcs --standard=phpcs.xml
+
 .PHONY: db
 db: ## Open the database in TablePlus
 	@open mysql://dev:dev@127.0.0.1/site-reviews?enviroment=local&name=Localhost&safeModeLevel=0&advancedSafeModeLevel=0
@@ -54,8 +58,9 @@ test: ## Run all phpunit tests
 
 .PHONY: testall
 testall: ## Run phpstan analyser and all phpunit tests
-	./vendor/bin/phpstan analyse --memory-limit 1G
-	./vendor/bin/phpunit
+	make analyse
+	make test
+	make compat
 
 .PHONY: update
 update: ## Update Composer and NPM

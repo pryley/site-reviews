@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\League\Csv\CharsetConverter;
-use GeminiLabs\League\Csv\Exceptions\UnableToProcessCsv;
+use GeminiLabs\League\Csv\Exception;
 use GeminiLabs\League\Csv\Info;
 use GeminiLabs\League\Csv\Reader;
 use GeminiLabs\League\Csv\Statement;
@@ -98,7 +98,7 @@ class ImportReviews extends Upload implements Contract
             $delimiters = Info::getDelimiterStats($reader, [',', ';']);
             $delimiters = array_keys(array_filter($delimiters));
             if (1 !== count($delimiters)) {
-                throw new UnableToProcessCsv(_x('Cannot detect the delimiter used in the CSV file (supported delimiters are comma and semicolon).', 'admin-text', 'site-reviews'));
+                throw new Exception(_x('Cannot detect the delimiter used in the CSV file (supported delimiters are comma and semicolon).', 'admin-text', 'site-reviews'));
             }
             $this->delimiter = $delimiters[0];
         }
@@ -130,18 +130,14 @@ class ImportReviews extends Upload implements Contract
             $reader = $this->createReader();
             $header = array_map('trim', $reader->getHeader());
             if (!empty(array_diff(static::REQUIRED_KEYS, $header))) {
-                throw new UnableToProcessCsv(_x('The CSV file could not be imported. Please verify the following details and try again:', 'admin-text', 'site-reviews'));
+                throw new Exception(_x('The CSV file could not be imported. Please verify the following details and try again:', 'admin-text', 'site-reviews'));
             }
             $records = Statement::create()
-                ->where(function (array $record) {
-                    return !empty(array_filter($record, 'trim')); // remove empty rows
-                })
-                ->where(function (array $record) {
-                    return $this->validateRecord($record);
-                })
+                ->where(fn (array $record) => !empty(array_filter($record, 'trim'))) // remove empty rows
+                ->where(fn (array $record) => $this->validateRecord($record))
                 ->process($reader, $header);
             return $this->importRecords($records);
-        } catch (UnableToProcessCsv $e) {
+        } catch (Exception $e) {
             glsr(Notice::class)->addError($e->getMessage(), [
                 '👉🏼 '._x('Does the CSV file include all required columns?', 'admin-text', 'site-reviews'),
                 '👉🏼 '._x('Have you named all of the columns in the CSV file?', 'admin-text', 'site-reviews'),

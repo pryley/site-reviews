@@ -216,8 +216,8 @@ abstract class Container
         $this->with[] = $parameters;
         $concrete = $this->getConcrete($abstract);
         $object = Helper::ifTrue($this->isBuildable($concrete, $abstract),
-            function () use ($concrete) { return $this->construct($concrete); },
-            function () use ($concrete) { return $this->make($concrete); }
+            fn () => $this->construct($concrete),
+            fn () => $this->make($concrete),
         );
         if ($this->isShared($abstract) && empty($parameters)) {
             $this->instances[$abstract] = $object; // store as a singleton
@@ -255,8 +255,8 @@ abstract class Container
                 continue;
             }
             $results[] = Helper::ifTrue(is_null($this->getClass($dependency)),
-                function () use ($dependency) { return $this->resolvePrimitive($dependency); },
-                function () use ($dependency) { return $this->resolveClass($dependency); }
+                fn () => $this->resolvePrimitive($dependency),
+                fn () => $this->resolveClass($dependency),
             );
         }
         return $results;

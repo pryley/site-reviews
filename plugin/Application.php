@@ -46,30 +46,11 @@ final class Application extends Container
     public const PREFIX = 'glsr_';
     public const TAXONOMY = 'site-review-category';
 
-    /**
-     * @var array
-     */
-    protected $addons = [];
-
-    /**
-     * @var array
-     */
-    protected $defaults;
-
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var array
-     */
-    protected $settings;
-
-    /**
-     * @var array
-     */
-    protected $updated = [];
+    protected array $addons = [];
+    protected array $defaults;
+    protected string $name;
+    protected array $settings;
+    protected array $updated = [];
 
     /**
      * @param string $addonId

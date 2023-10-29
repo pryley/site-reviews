@@ -123,7 +123,7 @@ Images adapted from [freepik](https://www.freepik.com).
 = Minimum Requirements =
 
 - MySQL 5.6 or greater
-- PHP 7.2 or greater
+- PHP 7.4 or greater
 - WordPress 5.9 or greater
 
 = Automatic installation =

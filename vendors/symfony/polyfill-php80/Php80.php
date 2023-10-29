@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package symfony/polyfill-php80 v1.26.0
+ * @package symfony/polyfill-php80 v1.28.0
  */
 
 namespace GeminiLabs\Symfony\Polyfill\Php80;

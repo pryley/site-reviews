@@ -43,9 +43,9 @@ class GatekeeperNotice extends AbstractNotice
 
     protected function errors(array $errorKeys): array
     {
-        return array_filter($this->errors, function ($data) use ($errorKeys) {
-            return in_array(Arr::get($data, 'error'), $errorKeys);
-        });
+        return array_filter($this->errors, 
+            fn ($data) => in_array(Arr::get($data, 'error'), $errorKeys)
+        );
     }
 
     protected function hasPermission(): bool

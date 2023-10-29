@@ -194,9 +194,10 @@ class Review extends Arguments
      */
     public function custom()
     {
-        $custom = array_filter($this->meta()->toArray(), function ($key) {
-            return Str::startsWith($key, '_custom');
-        }, ARRAY_FILTER_USE_KEY);
+        $custom = array_filter($this->meta()->toArray(), 
+            fn ($key) => Str::startsWith($key, '_custom'), 
+            ARRAY_FILTER_USE_KEY
+        );
         $custom = Arr::unprefixKeys($custom, '_custom_');
         $custom = Arr::unprefixKeys($custom, '_');
         $custom = glsr(CustomFieldsDefaults::class)->merge($custom);
@@ -265,9 +266,7 @@ class Review extends Arguments
     {
         if (!$this->_meta instanceof Arguments) {
             $meta = Arr::consolidate(get_post_meta($this->id));
-            $meta = array_map(function ($item) {
-                return array_shift($item);
-            }, array_filter($meta));
+            $meta = array_map(fn ($item) => array_shift($item), array_filter($meta));
             $meta = array_filter($meta, '\GeminiLabs\SiteReviews\Helper::isNotEmpty');
             $meta = array_map('maybe_unserialize', $meta);
             $this->_meta = glsr()->args($meta);

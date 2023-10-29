@@ -18,9 +18,7 @@ class AssetCss extends AssetAbstract
         }
         wp_enqueue_style(glsr()->id, $url, $this->dependencies, $hash);
         if (!empty($this->after)) {
-            $styles = array_reduce($this->after, function ($carry, $string) {
-                return $carry.$string;
-            });
+            $styles = array_reduce($this->after, fn ($carry, $string) => $carry.$string);
             wp_add_inline_style(glsr()->id, $styles);
         }
     }

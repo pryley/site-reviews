@@ -1,13 +1,15 @@
 <?php
 
 /**
- * League.Csv (https://csv.thephpleague.com).
+ * League.Csv (https://csv.thephpleague.com)
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace GeminiLabs\League\Csv;
 
@@ -23,38 +25,30 @@ class XMLConverter
 {
     /**
      * XML Root name.
-     * @var string
      */
-    protected $root_name = 'csv';
+    protected string $root_name = 'csv';
 
     /**
      * XML Node name.
-     * @var string
      */
-    protected $record_name = 'row';
+    protected string $record_name = 'row';
 
     /**
      * XML Item name.
-     * @var string
      */
-    protected $field_name = 'cell';
+    protected string $field_name = 'cell';
 
     /**
      * XML column attribute name.
-     * @var string
      */
-    protected $column_attr = '';
+    protected string $column_attr = '';
 
     /**
      * XML offset attribute name.
-     * @var string
      */
-    protected $offset_attr = '';
+    protected string $offset_attr = '';
 
-    /**
-     * @return self
-     */
-    public static function create()
+    public static function create(): self
     {
         return new self();
     }
@@ -71,10 +65,8 @@ class XMLConverter
 
     /**
      * Convert a Record collection into a DOMDocument.
-     * @param iterable $records
-     * @return DOMDocument
      */
-    public function convert($records)
+    public function convert(iterable $records): DOMDocument
     {
         $doc = new DOMDocument('1.0');
         $node = $this->import($records, $doc);
@@ -87,11 +79,8 @@ class XMLConverter
      * Create a new DOMElement related to the given DOMDocument.
      *
      * **DOES NOT** attach to the DOMDocument
-     *
-     * @param iterable $records
-     * @return DOMElement
      */
-    public function import($records, DOMDocument $doc)
+    public function import(iterable $records, DOMDocument $doc): DOMElement
     {
         $root = $doc->createElement($this->root_name);
         foreach ($records as $offset => $record) {
@@ -103,12 +92,10 @@ class XMLConverter
     }
 
     /**
-     * Convert a CSV record into a DOMElement and adds its offset as DOMElement attribute.
-     *
-     * @param int $offset
-     * @return DOMElement
+     * Convert a CSV record into a DOMElement and
+     * adds its offset as DOMElement attribute.
      */
-    protected function recordToElement(DOMDocument $doc, array $record, $offset)
+    protected function recordToElement(DOMDocument $doc, array $record, int $offset): DOMElement
     {
         $node = $doc->createElement($this->record_name);
         foreach ($record as $node_name => $value) {
@@ -129,11 +116,9 @@ class XMLConverter
      * Convert the CSV item into a DOMElement and adds the item offset
      * as attribute to the returned DOMElement
      *
-     * @param string $value
      * @param int|string $node_name
-     * @return DOMElement
      */
-    protected function fieldToElement(DOMDocument $doc, $value, $node_name)
+    protected function fieldToElement(DOMDocument $doc, string $value, $node_name): DOMElement
     {
         $item = $doc->createElement($this->field_name);
         $item->appendChild($doc->createTextNode($value));
@@ -147,10 +132,8 @@ class XMLConverter
 
     /**
      * XML root element setter.
-     * @param string $node_name
-     * @return self
      */
-    public function rootElement($node_name)
+    public function rootElement(string $node_name): self
     {
         $clone = clone $this;
         $clone->root_name = $this->filterElementName($node_name);
@@ -161,22 +144,17 @@ class XMLConverter
     /**
      * Filter XML element name.
      *
-     * @param string $value
-     * @return string
      * @throws DOMException If the Element name is invalid
      */
-    protected function filterElementName($value)
+    protected function filterElementName(string $value): string
     {
         return (new DOMElement($value))->tagName;
     }
 
     /**
      * XML Record element setter.
-     * @param string $node_name
-     * @param string $record_offset_attribute_name
-     * @return self
      */
-    public function recordElement($node_name, $record_offset_attribute_name = '')
+    public function recordElement(string $node_name, string $record_offset_attribute_name = ''): self
     {
         $clone = clone $this;
         $clone->record_name = $this->filterElementName($node_name);
@@ -189,11 +167,10 @@ class XMLConverter
      * Filter XML attribute name.
      *
      * @param string $value Element name
-     * @return string
      *
      * @throws DOMException If the Element attribute name is invalid
      */
-    protected function filterAttributeName($value)
+    protected function filterAttributeName(string $value): string
     {
         if ('' === $value) {
             return $value;
@@ -204,11 +181,8 @@ class XMLConverter
 
     /**
      * XML Field element setter.
-     * @param string $node_name
-     * @param string $fieldname_attribute_name
-     * @return self
      */
-    public function fieldElement($node_name, $fieldname_attribute_name = '')
+    public function fieldElement(string $node_name, string $fieldname_attribute_name = ''): self
     {
         $clone = clone $this;
         $clone->field_name = $this->filterElementName($node_name);

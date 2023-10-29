@@ -1,7 +1,7 @@
 <?php
 
 /**
- * League.Csv (https://csv.thephpleague.com).
+ * League.Csv (https://csv.thephpleague.com)
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
@@ -9,47 +9,47 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace GeminiLabs\League\Csv;
 
-use GeminiLabs\League\Csv\Exceptions\CannotInsertRecord;
-use GeminiLabs\League\Csv\Exceptions\InvalidArgument;
+use function array_reduce;
+use function strlen;
+use const PHP_VERSION_ID;
+use const SEEK_CUR;
+use const STREAM_FILTER_WRITE;
 
 /**
  * A class to insert records into a CSV Document.
  */
 class Writer extends AbstractCsv
 {
-    const STREAM_FILTER_MODE = STREAM_FILTER_WRITE;
+    protected const STREAM_FILTER_MODE = STREAM_FILTER_WRITE;
 
     /** @var array<callable> callable collection to format the record before insertion. */
-    protected $formatters = [];
+    protected array $formatters = [];
     /** @var array<callable> callable collection to validate the record before insertion. */
-    protected $validators = [];
-    /** @var string */
-    protected $newline = "\n";
-    /** @var int */
-    protected $flush_counter = 0;
-    /** @var int|null */
-    protected $flush_threshold = null;
+    protected array $validators = [];
+    protected string $newline = "\n";
+    protected int $flush_counter = 0;
+    protected ?int $flush_threshold = null;
 
-    protected function resetProperties()
+    protected function resetProperties(): void
     {
     }
 
     /**
      * Returns the current newline sequence characters.
-     * @return string
      */
-    public function getNewline()
+    public function getNewline(): string
     {
         return $this->newline;
     }
 
     /**
      * Get the flush threshold.
-     * @return int|null
      */
-    public function getFlushThreshold()
+    public function getFlushThreshold(): ?int
     {
         return $this->flush_threshold;
     }
@@ -57,11 +57,9 @@ class Writer extends AbstractCsv
     /**
      * Adds multiple records to the CSV document.
      *
-     * @param iterable $records
-     * @return int
      * @see Writer::insertOne
      */
-    public function insertAll($records)
+    public function insertAll(iterable $records): int
     {
         $bytes = 0;
         foreach ($records as $record) {
@@ -80,14 +78,11 @@ class Writer extends AbstractCsv
      * A record is an array that can contains scalar types values, NULL values
      * or objects implementing the __toString method.
      *
-     * @return int
      * @throws CannotInsertRecord If the record can not be inserted
      */
-    public function insertOne(array $record)
+    public function insertOne(array $record): int
     {
-        $record = array_reduce($this->formatters, function (array $record, $formatter) {
-            return $formatter($record);
-        }, $record);
+        $record = array_reduce($this->formatters, fn (array $record, callable $formatter): array => $formatter($record), $record);
         $this->validateRecord($record);
         $bytes = $this->addRecord($record);
         if (false === $bytes || 0 >= $bytes) {
@@ -125,11 +120,8 @@ class Writer extends AbstractCsv
      *   - scalar types values,
      *   - NULL values,
      *   - or objects implementing the __toString() method.
-     *
-     * @param callable $formatter
-     * @return array
      */
-    protected function formatRecord(array $record, $formatter)
+    protected function formatRecord(array $record, callable $formatter): array
     {
         return $formatter($record);
     }
@@ -139,7 +131,7 @@ class Writer extends AbstractCsv
      *
      * @throws CannotInsertRecord If the validation failed
      */
-    protected function validateRecord(array $record)
+    protected function validateRecord(array $record): void
     {
         foreach ($this->validators as $name => $validator) {
             if (true !== $validator($record)) {
@@ -150,16 +142,15 @@ class Writer extends AbstractCsv
 
     /**
      * Apply post insertion actions.
-     * @return int
      */
-    protected function consolidate()
+    protected function consolidate(): int
     {
         $bytes = 0;
         if (80100 > PHP_VERSION_ID && "\n" !== $this->newline) {
             $this->document->fseek(-1, SEEK_CUR);
             /** @var int $newlineBytes */
             $newlineBytes = $this->document->fwrite($this->newline, strlen($this->newline));
-            $bytes = $newlineBytes - 1;
+            $bytes =  $newlineBytes - 1;
         }
 
         if (null === $this->flush_threshold) {
@@ -177,10 +168,8 @@ class Writer extends AbstractCsv
 
     /**
      * Adds a record formatter.
-     * @param callable $formatter
-     * @return self
      */
-    public function addFormatter($formatter)
+    public function addFormatter(callable $formatter): self
     {
         $this->formatters[] = $formatter;
 
@@ -189,11 +178,8 @@ class Writer extends AbstractCsv
 
     /**
      * Adds a record validator.
-     * @param callable $formatter
-     * @param string $validator_name
-     * @return self
      */
-    public function addValidator($validator, $validator_name)
+    public function addValidator(callable $validator, string $validator_name): self
     {
         $this->validators[$validator_name] = $validator;
 
@@ -202,10 +188,8 @@ class Writer extends AbstractCsv
 
     /**
      * Sets the newline sequence.
-     * @param string $newline
-     * @return self
      */
-    public function setNewline($newline)
+    public function setNewline(string $newline): self
     {
         $this->newline = $newline;
 
@@ -216,11 +200,10 @@ class Writer extends AbstractCsv
      * Set the flush threshold.
      *
      * @param ?int $threshold
-     * @return self
      *
      * @throws InvalidArgument if the threshold is a integer lesser than 1
      */
-    public function setFlushThreshold($threshold)
+    public function setFlushThreshold(?int $threshold): self
     {
         if ($threshold === $this->flush_threshold) {
             return $this;

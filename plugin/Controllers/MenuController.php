@@ -121,9 +121,7 @@ class MenuController extends Controller
             'addons' => _x('Addons', 'admin-text', 'site-reviews'),
         ]);
         $addons = glsr()->filterArray('addon/documentation', []);
-        uksort($addons, function ($a, $b) {
-            return strnatcasecmp(glsr($a)->name, glsr($b)->name);
-        });
+        uksort($addons, fn ($a, $b) => strnatcasecmp(glsr($a)->name, glsr($b)->name));
         if (empty($addons)) {
             unset($tabs['addons']);
         }

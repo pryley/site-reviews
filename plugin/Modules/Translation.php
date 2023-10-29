@@ -120,10 +120,7 @@ class Translation
      */
     public function render($template, array $entry)
     {
-        $data = array_combine(
-            array_map(function ($key) { return 'data.'.$key; }, array_keys($entry)),
-            $entry
-        );
+        $data = array_combine(array_map(fn ($key) => 'data.'.$key, array_keys($entry)), $entry);
         $data['data.class'] = '';
         $data['data.error'] = '';
         if ($this->isInvalid($entry)) {
@@ -285,8 +282,6 @@ class Translation
             $string['type'] = isset($string['p1']) ? 'plural' : 'single';
             $string = wp_parse_args($string, $defaultString);
         }
-        return array_filter($strings, function ($string) {
-            return !empty($string['id']);
-        });
+        return array_filter($strings, fn ($string) => !empty($string['id']));
     }
 }

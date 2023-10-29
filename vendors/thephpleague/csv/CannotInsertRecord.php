@@ -9,23 +9,24 @@
  * file that was distributed with this source code.
  */
 
-namespace GeminiLabs\League\Csv\Exceptions;
+declare(strict_types=1);
+
+namespace GeminiLabs\League\Csv;
 
 /**
  * Thrown when a data is not added to the Csv Document.
  */
-class CannotInsertRecord extends UnableToProcessCsv
+class CannotInsertRecord extends Exception
 {
-    /** @var array The record submitted for insertion. */
-    protected $record;
-    /** @var string Validator which did not validated the data. */
-    protected $name = '';
+    /** The record submitted for insertion. */
+    protected array $record;
+    /** Validator which did not validated the data. */
+    protected string $name = '';
 
     /**
      * Create an Exception from a record insertion into a stream.
-     * @return self
      */
-    public static function triggerOnInsertion(array $record)
+    public static function triggerOnInsertion(array $record): self
     {
         $exception = new self('Unable to write record to the CSV document');
         $exception->record = $record;
@@ -35,10 +36,8 @@ class CannotInsertRecord extends UnableToProcessCsv
 
     /**
      * Create an Exception from a Record Validation.
-     * @param string $name
-     * @return self
      */
-    public static function triggerOnValidation($name, array $record)
+    public static function triggerOnValidation(string $name, array $record): self
     {
         $exception = new self('Record validation failed');
         $exception->name = $name;
@@ -49,18 +48,18 @@ class CannotInsertRecord extends UnableToProcessCsv
 
     /**
      * return the validator name.
-     * @return string
+     *
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * return the invalid data submitted.
-     * @return array
+     *
      */
-    public function getRecord()
+    public function getRecord(): array
     {
         return $this->record;
     }

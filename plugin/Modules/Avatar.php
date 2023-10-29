@@ -119,9 +119,10 @@ class Avatar
     protected function isUrlOnline(string $url): bool
     {
         $key = md5(strtolower($url));
-        $status = glsr(Cache::class)->get($key, 'avatar', function () use ($url) {
-            return Helper::remoteStatusCheck($url);
-        }, HOUR_IN_SECONDS);
+        $status = glsr(Cache::class)->get($key, 'avatar', 
+            fn () => Helper::remoteStatusCheck($url), 
+            HOUR_IN_SECONDS
+        );
         return 200 === $status;
     }
 

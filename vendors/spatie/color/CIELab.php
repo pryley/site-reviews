@@ -2,154 +2,127 @@
 
 namespace GeminiLabs\Spatie\Color;
 
-class CIELab extends Color
+class CIELab implements Color
 {
+    use Analysis, Manipulate;
+
     /** @var float */
     protected $l;
     protected $a;
     protected $b;
 
-    /**
-     * @param float $l
-     * @param float $a
-     * @param float $b
-     */
-    public function __construct($l, $a, $b)
+    public function __construct(float $l, float $a, float $b)
     {
         Validate::CIELabValue($l, 'l');
         Validate::CIELabValue($a, 'a');
         Validate::CIELabValue($b, 'b');
+
         $this->l = $l;
         $this->a = $a;
         $this->b = $b;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromString($string)
+    public static function fromString(string $string)
     {
         Validate::CIELabColorString($string);
+
         $matches = null;
-        preg_match('/CIELab\( *(\d{1,3}\.?\d+? *, *-?\d{1,3}\.?\d+? *, *-?\d{1,3}\.?\d+?) *\)/i', $string, $matches);
+        preg_match('/CIELab\( *(\d{1,3}\.?\d* *, *-?\d{1,3}\.?\d* *, *-?\d{1,3}\.?\d*) *\)/i', $string, $matches);
+
         $channels = explode(',', $matches[1]);
-        list($l, $a, $b) = array_map('trim', $channels);
+        [$l, $a, $b] = array_map('trim', $channels);
+
         return new static($l, $a, $b);
     }
 
-    /**
-     * @return float
-     */
-    public function l()
+    public function l(): float
     {
         return $this->l;
     }
 
-    /**
-     * @return float
-     */
-    public function a()
+    public function a(): float
     {
         return $this->a;
     }
 
-    /**
-     * @return float
-     */
-    public function b()
+    public function b(): float
     {
         return $this->b;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function red()
+    public function red(): int
     {
-        return $this->toRgb()->red();
+        $rgb = $this->toRgb();
+
+        return $rgb->red();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function blue()
+    public function blue(): int
     {
-        return $this->toRgb()->blue();
+        $rgb = $this->toRgb();
+
+        return $rgb->blue();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function green()
+    public function green(): int
     {
-        return $this->toRgb()->green();
+        $rgb = $this->toRgb();
+
+        return $rgb->green();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toCIELab()
+    public function toCIELab(): self
     {
         return new self($this->l, $this->a, $this->b);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toHex()
+    public function toCmyk(): Cmyk
     {
-        return $this->toRgb()->toHex();
+        return $this->toRgb()->toCmyk();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toHsl()
+    public function toHex(string $alpha = 'ff'): Hex
+    {
+        return $this->toRgb()->toHex($alpha);
+    }
+
+    public function toHsb(): Hsb
+    {
+        return $this->toRgb()->toHsb();
+    }
+
+    public function toHsl(): Hsl
     {
         return $this->toRgb()->toHSL();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toHsla($alpha = 1)
+    public function toHsla(float $alpha = 1): Hsla
     {
         return $this->toRgb()->toHsla($alpha);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toRgb()
+    public function toRgb(): Rgb
     {
         return $this->toXyz()->toRgb();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toRgba($alpha = 1)
+    public function toRgba(float $alpha = 1): Rgba
     {
         return $this->toRgb()->toRgba($alpha);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toXyz()
+    public function toXyz(): Xyz
     {
-        list($x, $y, $z) = Convert::CIELabValueToXyz(
+        [$x, $y, $z] = Convert::CIELabValueToXyz(
             $this->l,
             $this->a,
             $this->b
         );
+
         return new Xyz($x, $y, $z);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return "CIELab({$this->l},{$this->a},{$this->b})";
     }

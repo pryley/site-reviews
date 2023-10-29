@@ -1,7 +1,7 @@
 <?php
 
 /**
- * League.Csv (https://csv.thephpleague.com).
+ * League.Csv (https://csv.thephpleague.com)
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
@@ -9,10 +9,24 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace GeminiLabs\League\Csv;
 
 use InvalidArgumentException;
 use php_user_filter;
+use function array_map;
+use function in_array;
+use function is_string;
+use function str_replace;
+use function strcspn;
+use function stream_bucket_append;
+use function stream_bucket_make_writeable;
+use function stream_filter_register;
+use function stream_get_filters;
+use function strlen;
+use const STREAM_FILTER_READ;
+use const STREAM_FILTER_WRITE;
 
 /**
  * A stream filter to conform the CSV field to RFC4180.
@@ -26,34 +40,32 @@ use php_user_filter;
  */
 class RFC4180Field extends php_user_filter
 {
-    const FILTERNAME = 'convert.league.csv.rfc4180';
+    public const FILTERNAME = 'convert.league.csv.rfc4180';
 
     /**
      * The value being search for.
      *
      * @var string[]
      */
-    protected $search;
+    protected array $search;
 
     /**
      * The replacement value that replace found $search values.
      *
      * @var string[]
      */
-    protected $replace;
+    protected array $replace;
 
     /**
      * Characters that triggers enclosure with PHP fputcsv.
-     * @var string
+     *
      */
-    protected static $force_enclosure = "\n\r\t ";
+    protected static string $force_enclosure = "\n\r\t ";
 
     /**
      * Static method to add the stream filter to a {@link AbstractCsv} object.
-     * @param string $whitespace_replace
-     * @return AbstractCsv
      */
-    public static function addTo(AbstractCsv $csv, $whitespace_replace = '')
+    public static function addTo(AbstractCsv $csv, string $whitespace_replace = ''): AbstractCsv
     {
         self::register();
 
@@ -74,30 +86,24 @@ class RFC4180Field extends php_user_filter
     /**
      * Add a formatter to the {@link Writer} object to format the record
      * field to avoid enclosure around a field with an empty space.
-     * @param string $whitespace_replace
-     * @return Writer
      */
-    public static function addFormatterTo(Writer $csv, $whitespace_replace)
+    public static function addFormatterTo(Writer $csv, string $whitespace_replace): Writer
     {
         if ('' == $whitespace_replace || strlen($whitespace_replace) != strcspn($whitespace_replace, self::$force_enclosure)) {
             throw new InvalidArgumentException('The sequence contains a character that enforces enclosure or is a CSV control character or is the empty string.');
         }
 
-        $mapper = function ($value) use ($whitespace_replace) {
-            return is_string($value)
-                ? str_replace(' ', $whitespace_replace, $value)
-                : $value;
-        };
+        $mapper = fn ($value) => is_string($value)
+            ? str_replace(' ', $whitespace_replace, $value)
+            : $value;
 
-        return $csv->addFormatter(function (array $record) use ($mapper) {
-            return array_map($mapper, $record);
-        });
+        return $csv->addFormatter(fn (array $record): array => array_map($mapper, $record));
     }
 
     /**
      * Static method to register the class as a stream filter.
      */
-    public static function register()
+    public static function register(): void
     {
         if (!in_array(self::FILTERNAME, stream_get_filters(), true)) {
             stream_filter_register(self::FILTERNAME, self::class);
@@ -106,9 +112,8 @@ class RFC4180Field extends php_user_filter
 
     /**
      * Static method to return the stream filter filtername.
-     * @return string
      */
-    public static function getFiltername()
+    public static function getFiltername(): string
     {
         return self::FILTERNAME;
     }
@@ -118,9 +123,8 @@ class RFC4180Field extends php_user_filter
      * @param resource $out
      * @param int      $consumed
      * @param bool     $closing
-     * @return int
      */
-    public function filter($in, $out, &$consumed, $closing)
+    public function filter($in, $out, &$consumed, $closing): int
     {
         while (null !== ($bucket = stream_bucket_make_writeable($in))) {
             $bucket->data = str_replace($this->search, $this->replace, $bucket->data);
@@ -131,10 +135,7 @@ class RFC4180Field extends php_user_filter
         return PSFS_PASS_ON;
     }
 
-    /**
-     * @return bool
-     */
-    public function onCreate()
+    public function onCreate(): bool
     {
         if (!$this->isValidParams($this->params)) {
             return false;
@@ -158,9 +159,8 @@ class RFC4180Field extends php_user_filter
 
     /**
      * Validate params property.
-     * @return bool
      */
-    protected function isValidParams(array $params)
+    protected function isValidParams(array $params): bool
     {
         static $mode_list = [STREAM_FILTER_READ => 1, STREAM_FILTER_WRITE => 1];
 

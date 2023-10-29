@@ -139,14 +139,10 @@ class Notice
             $args['messages'][$lastIndex] .= sprintf(' <button class="button-link bulk-action-errors-collapsed" aria-expanded="false">%s <span class="toggle-indicator" aria-hidden="true"></span></button>',
                 _x('Show more details', 'admin-text', 'site-reviews')
             );
-            $li = array_reduce($args['details'], function ($carry, $text) {
-                return sprintf('%s<li>%s</li>', $carry, $text);
-            });
+            $li = array_reduce($args['details'], fn ($carry, $text) => $carry.'<li>'.$text.'</li>');
             $args['messages'][] = sprintf('<ul class="bulk-action-errors hidden">%s</ul>', $li);
         }
-        $text = array_reduce($args['messages'], function ($carry, $message) {
-            return $carry.wpautop($message);
-        });
+        $text = array_reduce($args['messages'], fn ($carry, $message) => $carry.wpautop($message));
         return compact('class', 'text');
     }
 }

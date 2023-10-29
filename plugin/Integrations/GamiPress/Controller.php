@@ -235,9 +235,9 @@ class Controller extends BaseController
             return;
         }
         $review = glsr_get_review($review->ID); // FIRST get a fresh instance of the review!
-        $assignedPosts = array_filter($review->assignedPosts(), function ($post) {
-            return $post->post_author !== get_current_user_id();
-        });
+        $assignedPosts = array_filter($review->assignedPosts(), 
+            fn ($post) => $post->post_author !== get_current_user_id()
+        );
         $assignedUsers = get_users([
             'include' => array_merge([0], array_diff($review->assigned_users, [get_current_user_id()])),
         ]);

@@ -7,13 +7,13 @@ define('WP_DEBUG', false); // Otherwise tests fail on PHP 8.1 due to deprecation
 
 $plugin_dir = dirname(__DIR__);
 
-if (getenv('WP_CONTENT_DIR') !== false) {
+if (!defined('WP_CONTENT_DIR') && getenv('WP_CONTENT_DIR') !== false) {
     define('WP_CONTENT_DIR', getenv('WP_CONTENT_DIR'));
 }
-if (getenv('WP_PLUGIN_DIR') !== false) {
+if (!defined('WP_PLUGIN_DIR') && getenv('WP_PLUGIN_DIR') !== false) {
     define('WP_PLUGIN_DIR', getenv('WP_PLUGIN_DIR'));
 }
-if (getenv('WP_TESTS_DIR') === false) {
+if (!defined('WP_TESTS_DIR') && getenv('WP_TESTS_DIR') === false) {
     if (!file_exists($tests_dir = $_SERVER['HOME'].'/Sites/wordpress/tests/current')) {
         $tests_dir = rtrim(sys_get_temp_dir(), '/\\').'/wordpress-tests-lib';
     }

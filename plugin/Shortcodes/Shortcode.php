@@ -211,9 +211,9 @@ abstract class Shortcode implements ShortcodeContract
     protected function normalizeHide($value): array
     {
         $hideKeys = array_keys($this->getHideOptions());
-        return array_filter(Cast::toArray($value), function ($value) use ($hideKeys) {
-            return in_array($value, $hideKeys);
-        });
+        return array_filter(Cast::toArray($value), 
+            fn ($value) => in_array($value, $hideKeys)
+        );
     }
 
     /**

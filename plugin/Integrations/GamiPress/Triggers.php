@@ -17,12 +17,10 @@ class Triggers
     public function by($keys)
     {
         $keys = Arr::convertFromString($keys);
-        $keys = array_map(function ($key) {
-            return Str::removePrefix($key, '/');
-        }, $keys);
-        return array_values(array_filter(array_keys($this->triggers()), function ($trigger) use ($keys) {
-            return Str::contains($trigger, $keys);
-        }));
+        $keys = array_map(fn ($key) => Str::removePrefix($key, '/'), $keys);
+        $triggers = array_keys($this->triggers());
+        $triggers = array_filter($triggers, fn ($trigger) => Str::contains($trigger, $keys));
+        return array_values($triggers);
     }
 
     /**
@@ -137,7 +135,7 @@ class Triggers
      */
     public function labels()
     {
-        return array_map(function ($strings) { return $strings['label']; }, $this->triggers());
+        return array_map(fn ($strings) => $strings['label'], $this->triggers());
     }
 
     /**

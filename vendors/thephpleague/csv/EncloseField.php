@@ -1,7 +1,7 @@
 <?php
 
 /**
- * League.Csv (https://csv.thephpleague.com).
+ * League.Csv (https://csv.thephpleague.com)
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
@@ -9,10 +9,21 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace GeminiLabs\League\Csv;
 
 use InvalidArgumentException;
 use php_user_filter;
+use function array_map;
+use function in_array;
+use function str_replace;
+use function strcspn;
+use function stream_bucket_append;
+use function stream_bucket_make_writeable;
+use function stream_filter_register;
+use function stream_get_filters;
+use function strlen;
 
 /**
  * A stream filter to improve enclosure character usage.
@@ -24,16 +35,15 @@ class EncloseField extends php_user_filter
 {
     const FILTERNAME = 'convert.league.csv.enclosure';
 
-    /** @var string Default sequence. */
-    protected $sequence;
-    /** @var string Characters that triggers enclosure in PHP. */
-    protected static $force_enclosure = "\n\r\t ";
+    /** Default sequence. */
+    protected string $sequence;
+    /** Characters that triggers enclosure in PHP. */
+    protected static string $force_enclosure = "\n\r\t ";
 
     /**
      * Static method to return the stream filter filtername.
-     * @return string
      */
-    public static function getFiltername()
+    public static function getFiltername(): string
     {
         return self::FILTERNAME;
     }
@@ -41,7 +51,7 @@ class EncloseField extends php_user_filter
     /**
      * Static method to register the class as a stream filter.
      */
-    public static function register()
+    public static function register(): void
     {
         if (!in_array(self::FILTERNAME, stream_get_filters(), true)) {
             stream_filter_register(self::FILTERNAME, self::class);
@@ -51,12 +61,10 @@ class EncloseField extends php_user_filter
     /**
      * Static method to add the stream filter to a {@link Writer} object.
      *
-     * @param string $sequence
-     * @return Writer
      * @throws InvalidArgumentException if the sequence is malformed
-     * @throws UnableToProcessCsv
+     * @throws Exception
      */
-    public static function addTo(Writer $csv, $sequence)
+    public static function addTo(Writer $csv, string $sequence): Writer
     {
         self::register();
 
@@ -65,11 +73,7 @@ class EncloseField extends php_user_filter
         }
 
         return $csv
-            ->addFormatter(function (array $record) use ($sequence) {
-                return array_map(function ($value) use ($sequence) {
-                    return $sequence.$value;
-                }, $record);
-            })
+            ->addFormatter(fn (array $record): array => array_map(fn (?string $value): string => $sequence.$value, $record))
             ->addStreamFilter(self::FILTERNAME, ['sequence' => $sequence]);
     }
 
@@ -77,18 +81,13 @@ class EncloseField extends php_user_filter
      * Filter type and sequence parameters.
      *
      * The sequence to force enclosure MUST contains one of the following character ("\n\r\t ")
-     * @param string $sequence
-     * @return bool
      */
-    protected static function isValidSequence($sequence)
+    protected static function isValidSequence(string $sequence): bool
     {
         return strlen($sequence) != strcspn($sequence, self::$force_enclosure);
     }
 
-    /**
-     * @return bool
-     */
-    public function onCreate()
+    public function onCreate(): bool
     {
         return isset($this->params['sequence'])
             && self::isValidSequence($this->params['sequence']);
@@ -99,9 +98,8 @@ class EncloseField extends php_user_filter
      * @param resource $out
      * @param int      $consumed
      * @param bool     $closing
-     * @return int
      */
-    public function filter($in, $out, &$consumed, $closing)
+    public function filter($in, $out, &$consumed, $closing): int
     {
         while (null !== ($bucket = stream_bucket_make_writeable($in))) {
             $bucket->data = str_replace($this->params['sequence'], '', $bucket->data);

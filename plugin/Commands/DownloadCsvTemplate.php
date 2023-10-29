@@ -2,8 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
+use GeminiLabs\League\Csv\CannotInsertRecord;
 use GeminiLabs\League\Csv\EscapeFormula;
-use GeminiLabs\League\Csv\Exceptions\CannotInsertRecord;
 use GeminiLabs\League\Csv\Writer;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Modules\Notice;

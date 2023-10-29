@@ -9,21 +9,23 @@
  * file that was distributed with this source code.
  */
 
-namespace GeminiLabs\League\Csv\Exceptions;
+declare(strict_types=1);
 
-final class UnavailableStream extends UnableToProcessCsv
+namespace GeminiLabs\League\Csv;
+
+final class UnavailableStream extends Exception
 {
-    private function __construct($message)
+    private function __construct(string $message)
     {
         parent::__construct($message);
     }
 
-    public static function dueToPathNotFound($path)
+    public static function dueToPathNotFound(string $path): self
     {
         return new self('`'.$path.'`: failed to open stream: No such file or directory.');
     }
 
-    public static function dueToForbiddenCloning($class_name)
+    public static function dueToForbiddenCloning(string $class_name): self
     {
         return new self('An object of class '.$class_name.' cannot be cloned.');
     }

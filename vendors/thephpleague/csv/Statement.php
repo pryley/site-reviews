@@ -1,7 +1,7 @@
 <?php
 
 /**
- * League.Csv (https://csv.thephpleague.com).
+ * League.Csv (https://csv.thephpleague.com)
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
@@ -9,13 +9,15 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace GeminiLabs\League\Csv;
 
 use ArrayIterator;
 use CallbackFilterIterator;
-use GeminiLabs\League\Csv\Exceptions\InvalidArgument;
 use Iterator;
 use LimitIterator;
+use function array_reduce;
 
 /**
  * Criteria to filter a {@link Reader} object.
@@ -23,22 +25,18 @@ use LimitIterator;
 class Statement
 {
     /** @var array<callable> Callables to filter the iterator. */
-    protected $where = [];
+    protected array $where = [];
     /** @var array<callable> Callables to sort the iterator. */
-    protected $order_by = [];
+    protected array $order_by = [];
     /** iterator Offset. */
-    protected $offset = 0;
+    protected int $offset = 0;
     /** iterator maximum length. */
-    protected $limit = -1;
+    protected int $limit = -1;
 
     /**
-     * @param callable $where
-     * @param int $offset
-     * @param int $limit
-     * @return self
-     * @throws UnableToProcessCsv
+     * @throws Exception
      */
-    public static function create($where = null, $offset = 0, $limit = -1)
+    public static function create(callable $where = null, int $offset = 0, int $limit = -1): self
     {
         $stmt = new self();
         if (null !== $where) {
@@ -50,10 +48,8 @@ class Statement
 
     /**
      * Set the Iterator filter method.
-     * @param callable $where
-     * @return self
      */
-    public function where($where)
+    public function where(callable $where): self
     {
         $clone = clone $this;
         $clone->where[] = $where;
@@ -63,10 +59,8 @@ class Statement
 
     /**
      * Set an Iterator sorting callable function.
-     * @param callable $order_by
-     * @return self
      */
-    public function orderBy($order_by)
+    public function orderBy(callable $order_by): self
     {
         $clone = clone $this;
         $clone->order_by[] = $order_by;
@@ -77,11 +71,9 @@ class Statement
     /**
      * Set LimitIterator Offset.
      *
-     * @param int $offset
-     * @return self
-     * @throws UnableToProcessCsv if the offset is lesser than 0
+     * @throws Exception if the offset is lesser than 0
      */
-    public function offset($offset)
+    public function offset(int $offset): self
     {
         if (0 > $offset) {
             throw InvalidArgument::dueToInvalidRecordOffset($offset, __METHOD__);
@@ -100,11 +92,9 @@ class Statement
     /**
      * Set LimitIterator Count.
      *
-     * @param int $limit
-     * @return self
-     * @throws UnableToProcessCsv if the limit is lesser than -1
+     * @throws Exception if the limit is lesser than -1
      */
-    public function limit($limit)
+    public function limit(int $limit): self
     {
         if (-1 > $limit) {
             throw InvalidArgument::dueToInvalidLimit($limit, __METHOD__);
@@ -124,9 +114,8 @@ class Statement
      * Execute the prepared Statement on the {@link Reader} object.
      *
      * @param array<string> $header an optional header to use instead of the CSV document header
-     * @return TabularDataReader
      */
-    public function process(TabularDataReader $tabular_data, array $header = [])
+    public function process(TabularDataReader $tabular_data, array $header = []): TabularDataReader
     {
         if ([] === $header) {
             $header = $tabular_data->getHeader();
@@ -141,32 +130,29 @@ class Statement
 
     /**
      * Filters elements of an Iterator using a callback function.
-     * @param callable $callable
-     * @return CallbackFilterIterator
      */
-    protected function filter(Iterator $iterator, $callable)
+    protected function filter(Iterator $iterator, callable $callable): CallbackFilterIterator
     {
         return new CallbackFilterIterator($iterator, $callable);
     }
 
     /**
      * Sort the Iterator.
-     * @return Iterator
      */
-    protected function buildOrderBy(Iterator $iterator)
+    protected function buildOrderBy(Iterator $iterator): Iterator
     {
         if ([] === $this->order_by) {
             return $iterator;
         }
 
-        $compare = function (array $record_a, array $record_b) {
+        $compare = function (array $record_a, array $record_b): int {
             foreach ($this->order_by as $callable) {
                 if (0 !== ($cmp = $callable($record_a, $record_b))) {
                     return $cmp;
                 }
             }
 
-            return isset($cmp) ? $cmp : 0;
+            return $cmp ?? 0;
         };
 
         $it = new ArrayIterator();

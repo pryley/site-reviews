@@ -16,15 +16,11 @@ class AssetJs extends AssetAbstract
         }
         wp_enqueue_script(glsr()->id, $url, $this->dependencies, $hash, true);
         if (!empty($this->after)) {
-            $script = array_reduce($this->after, function ($carry, $string) {
-                return $carry.$string;
-            });
+            $script = array_reduce($this->after, fn ($carry, $string) => $carry.$string);
             wp_add_inline_script(glsr()->id, $script);
         }
         if (!empty($this->before)) {
-            $script = array_reduce($this->before, function ($carry, $string) {
-                return $carry.$string;
-            });
+            $script = array_reduce($this->before, fn ($carry, $string) => $carry.$string);
             wp_add_inline_script(glsr()->id, $script, 'before');
         }
     }

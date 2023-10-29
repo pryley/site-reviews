@@ -848,7 +848,7 @@ class SanitizerTest extends \WP_UnitTestCase
 
     public function testSanitizeRating()
     {
-        add_filter('site-reviews/const/MAX_RATING', function () { return 5; });
+        add_filter('site-reviews/const/MAX_RATING', fn () => 5);
         add_filter('site-reviews/const/MIN_RATING', '__return_zero');
         $sanitized = $this->sanitize('rating');
         $this->assertEquals($sanitized, [

@@ -6,146 +6,147 @@ use GeminiLabs\Spatie\Color\Exceptions\InvalidColorValue;
 
 class Validate
 {
-    /**
-     * @param float $value
-     * @param string $name
-     */
-    public static function CIELabValue($value, $name)
+    public static function CIELabValue(float $value, string $name): void
     {
         if ($name === 'l' && ($value < 0 || $value > 100)) {
             throw InvalidColorValue::CIELabValueNotInRange($value, $name, 0, 100);
         }
+
         if (($name === 'a' || $name === 'b') && ($value < -110 || $value > 110)) {
             throw InvalidColorValue::CIELabValueNotInRange($value, $name, -110, 110);
         }
     }
 
-    /**
-     * @param string $name
-     */
-    public static function CIELabColorString($string)
+    public static function CIELabColorString($string): void
     {
-        if (! preg_match('/^ *CIELab\( *\d{1,3}\.?\d+? *, *-?\d{1,3}\.?\d+? *, *-?\d{1,3}\.?\d+? *\) *$/i', $string)) {
+        if (! preg_match('/^ *CIELab\( *\d{1,3}\.?\d* *, *-?\d{1,3}\.?\d* *, *-?\d{1,3}\.?\d* *\) *$/i', $string)) {
             throw InvalidColorValue::malformedCIELabColorString($string);
         }
     }
 
-    /**
-     * @param int $value
-     * @param string $channel
-     */
-    public static function rgbChannelValue($value, $channel)
+    public static function cmykValue(float $value, string $name): void
+    {
+        if ($value < 0 || $value > 1) {
+            throw InvalidColorValue::cmykValueNotInRange($value, $name);
+        }
+    }
+
+    public static function rgbChannelValue(int $value, string $channel): void
     {
         if ($value < 0 || $value > 255) {
             throw InvalidColorValue::rgbChannelValueNotInRange($value, $channel);
         }
     }
 
-    /**
-     * @param float $value
-     */
-    public static function alphaChannelValue($value)
+    public static function alphaChannelValue(float $value): void
     {
         if ($value < 0 || $value > 1) {
             throw InvalidColorValue::alphaChannelValueNotInRange($value);
         }
     }
 
-    /**
-     * @param string $value
-     */
-    public static function hexChannelValue($value)
+    public static function hexChannelValue(string $value): void
     {
         if (strlen($value) !== 2) {
             throw InvalidColorValue::hexChannelValueHasInvalidLength($value);
         }
+
         if (! preg_match('/[a-f0-9]{2}/i', $value)) {
             throw InvalidColorValue::hexValueContainsInvalidCharacters($value);
         }
     }
 
-    /**
-     * @param float $value
-     * @param string $name
-     */
-    public static function hslValue($value, $name)
+    public static function hsbValue(float $value, string $name): void
+    {
+        switch ($name) {
+            case 'hue':
+                if ($value < 0 || $value > 360) {
+                    throw InvalidColorValue::hsbValueNotInRange($value, $name);
+                }
+
+                break;
+
+            default:
+                if ($value < 0 || $value > 100) {
+                    throw InvalidColorValue::hsbValueNotInRange($value, $name);
+                }
+
+                break;
+        }
+    }
+
+    public static function hslValue(float $value, string $name): void
     {
         if ($value < 0 || $value > 100) {
             throw InvalidColorValue::hslValueNotInRange($value, $name);
         }
     }
 
-    /**
-     * @param string $string
-     */
-    public static function rgbColorString($string)
+    public static function cmykColorString($string): void
+    {
+        if (! preg_match('/^ *cmyk\( *(\d{1,3})%? *, *(\d{1,3})%? *, *(\d{1,3})%? *, *(\d{1,3})%? *\) *$/i', $string)) {
+            throw InvalidColorValue::malformedCmykColorString($string);
+        }
+    }
+
+    public static function rgbColorString($string): void
     {
         if (! preg_match('/^ *rgb\( *\d{1,3} *, *\d{1,3} *, *\d{1,3} *\) *$/i', $string)) {
             throw InvalidColorValue::malformedRgbColorString($string);
         }
     }
 
-    /**
-     * @param string $string
-     */
-    public static function rgbaColorString($string)
+    public static function rgbaColorString($string): void
     {
-        if (! preg_match('/^ *rgba\( *\d{1,3} *, *\d{1,3} *, *\d{1,3} *, *([0-1]|0?\.\d{1,2}) *\) *$/i', $string)) {
+        if (! preg_match('/^ *rgba\( *\d{1,3} *, *\d{1,3} *, *\d{1,3} *, *[0-1]*(\.\d{1,})? *\) *$/i', $string)) {
             throw InvalidColorValue::malformedRgbaColorString($string);
         }
     }
 
-    /**
-     * @param string $string
-     */
-    public static function hexColorString($string)
+    public static function hexColorString($string): void
     {
-        if (! preg_match('/^#([a-f0-9]{3}|[a-f0-9]{6})$/i', $string)) {
+        if (! preg_match('/^#(?:[a-f0-9]{3}|[a-f0-9]{4}|[a-f0-9]{6}|[a-f0-9]{8})$/i', $string)) {
             throw InvalidColorValue::malformedHexColorString($string);
         }
     }
 
-    /**
-     * @param string $string
-     */
-    public static function hslColorString($string)
+    public static function hsbColorString($string): void
+    {
+        if (! preg_match('/^ *hs[vb]\( *-?\d{1,3} *, *\d{1,3}%? *, *\d{1,3}%? *\) *$/i', $string)) {
+            throw InvalidColorValue::malformedHslColorString($string);
+        }
+    }
+
+    public static function hslColorString($string): void
     {
         if (! preg_match('/^ *hsl\( *-?\d{1,3} *, *\d{1,3}%? *, *\d{1,3}%? *\) *$/i', $string)) {
             throw InvalidColorValue::malformedHslColorString($string);
         }
     }
 
-    /**
-     * @param string $string
-     */
-    public static function hslaColorString($string)
+    public static function hslaColorString($string): void
     {
         if (! preg_match('/^ *hsla\( *\d{1,3} *, *\d{1,3}%? *, *\d{1,3}%? *, *[0-1](\.\d{1,2})? *\) *$/i', $string)) {
             throw InvalidColorValue::malformedHslaColorString($string);
         }
     }
 
-    /**
-     * @param float $value
-     * @param string $name
-     */
-    public static function xyzValue($value, $name)
+    public static function xyzValue(float $value, string $name): void
     {
         if ($name === 'x' && ($value < 0 || $value > 95.047)) {
             throw InvalidColorValue::xyzValueNotInRange($value, $name, 0, 95.047);
         }
+
         if ($name === 'y' && ($value < 0 || $value > 100)) {
             throw InvalidColorValue::xyzValueNotInRange($value, $name, 0, 100);
         }
+
         if ($name === 'z' && ($value < 0 || $value > 108.883)) {
             throw InvalidColorValue::xyzValueNotInRange($value, $name, 0, 108.883);
         }
     }
 
-    /**
-     * @param string $string
-     */
-    public static function xyzColorString($string)
+    public static function xyzColorString($string): void
     {
         if (! preg_match('/^ *xyz\( *\d{1,2}\.?\d+? *, *\d{1,3}\.?\d+? *, *\d{1,3}\.?\d+? *\) *$/i', $string)) {
             throw InvalidColorValue::malformedXyzColorString($string);

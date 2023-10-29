@@ -44,9 +44,7 @@ class Form extends \ArrayObject
      */
     public function __toString()
     {
-        return array_reduce($this->getArrayCopy(), function ($carry, $field) {
-            return $carry.$field;
-        });
+        return array_reduce($this->getArrayCopy(), fn ($carry, $field) => $carry.$field);
     }
 
     /**

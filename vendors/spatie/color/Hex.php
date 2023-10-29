@@ -2,113 +2,133 @@
 
 namespace GeminiLabs\Spatie\Color;
 
-class Hex extends Color
+class Hex implements Color
 {
+    use Analysis, Manipulate;
+
     /** @var string */
     protected $red;
     protected $green;
     protected $blue;
+    protected $alpha = 'ff';
 
-    /**
-     * @param string $red
-     * @param string $green
-     * @param string $blue
-     */
-    public function __construct($red, $green, $blue)
+    public function __construct(string $red, string $green, string $blue, string $alpha = 'ff')
     {
         Validate::hexChannelValue($red, 'red');
         Validate::hexChannelValue($green, 'green');
         Validate::hexChannelValue($blue, 'blue');
+        Validate::hexChannelValue($alpha, 'alpha');
+
         $this->red = strtolower($red);
         $this->green = strtolower($green);
         $this->blue = strtolower($blue);
+        $this->alpha = strtolower($alpha);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromString($string)
+    public static function fromString(string $string)
     {
         Validate::hexColorString($string);
+
         $string = ltrim($string, '#');
-        if (3 === strlen($string)) {
-            list($red, $green, $blue) = str_split($string);
-            $string = $red.$red.$green.$green.$blue.$blue;
+
+        switch (strlen($string)) {
+            case 3:
+                [$red, $green, $blue] = str_split($string);
+                $red .= $red;
+                $green .= $green;
+                $blue .= $blue;
+                $alpha = 'ff';
+
+                break;
+
+            case 4:
+                [$red, $green, $blue, $alpha] = str_split($string);
+                $red .= $red;
+                $green .= $green;
+                $blue .= $blue;
+                $alpha .= $alpha;
+
+                break;
+
+            default:
+            case 6:
+                [$red, $green, $blue] = str_split($string, 2);
+                $alpha = 'ff';
+
+                break;
+
+            case 8:
+                [$red, $green, $blue, $alpha] = str_split($string, 2);
+
+                break;
         }
-        list($red, $green, $blue) = str_split($string, 2);
-        return new static($red, $green, $blue);
+
+        return new static($red, $green, $blue, $alpha);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function red()
+    public function red(): string
     {
         return $this->red;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function green()
+    public function green(): string
     {
         return $this->green;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function blue()
+    public function blue(): string
     {
         return $this->blue;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toCIELab()
+    public function alpha(): string
+    {
+        return $this->alpha;
+    }
+
+    public function toCIELab(): CIELab
     {
         return $this->toRgb()->toCIELab();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toHex()
+    public function toCmyk(): Cmyk
     {
-        return new self($this->red, $this->green, $this->blue);
+        return $this->toRgb()->toCmyk();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toHsl()
+    public function toHex(string $alpha = 'ff'): self
     {
-        list($hue, $saturation, $lightness) = Convert::rgbValueToHsl(
+        return new self($this->red, $this->green, $this->blue, $alpha);
+    }
+
+    public function toHsb(): Hsb
+    {
+        return $this->toRgb()->toHsb();
+    }
+
+    public function toHsl(): Hsl
+    {
+        [$hue, $saturation, $lightness] = Convert::rgbValueToHsl(
             Convert::hexChannelToRgbChannel($this->red),
             Convert::hexChannelToRgbChannel($this->green),
             Convert::hexChannelToRgbChannel($this->blue)
         );
+
         return new Hsl($hue, $saturation, $lightness);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toHsla($alpha = 1)
+    public function toHsla(float $alpha = 1): Hsla
     {
-        list($hue, $saturation, $lightness) = Convert::rgbValueToHsl(
+        [$hue, $saturation, $lightness] = Convert::rgbValueToHsl(
             Convert::hexChannelToRgbChannel($this->red),
             Convert::hexChannelToRgbChannel($this->green),
             Convert::hexChannelToRgbChannel($this->blue)
         );
+
         return new Hsla($hue, $saturation, $lightness, $alpha);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toRgb()
+    public function toRgb(): Rgb
     {
         return new Rgb(
             Convert::hexChannelToRgbChannel($this->red),
@@ -117,27 +137,18 @@ class Hex extends Color
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toRgba($alpha = 1)
+    public function toRgba(float $alpha = 1): Rgba
     {
         return $this->toRgb()->toRgba($alpha);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toXyz()
+    public function toXyz(): Xyz
     {
         return $this->toRgb()->toXyz();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return "#{$this->red}{$this->green}{$this->blue}";
+        return "#{$this->red}{$this->green}{$this->blue}" . ($this->alpha !== 'ff' ? $this->alpha : '');
     }
 }
