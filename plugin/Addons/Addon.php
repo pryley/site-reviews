@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Addons;
 
 use GeminiLabs\SiteReviews\Contracts\DefaultsContract;
+use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Plugin;
 
@@ -17,7 +18,7 @@ use GeminiLabs\SiteReviews\Plugin;
  * @property string $update_url
  * @property string $version
  */
-abstract class Addon
+abstract class Addon implements PluginContract
 {
     use Plugin;
 

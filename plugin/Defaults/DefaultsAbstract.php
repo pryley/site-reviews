@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Contracts\DefaultsContract;
+use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -123,10 +124,7 @@ abstract class DefaultsAbstract implements DefaultsContract
         return $args;
     }
 
-    /**
-     * @return \GeminiLabs\SiteReviews\Application|\GeminiLabs\SiteReviews\Addons\Addon
-     */
-    protected function app()
+    protected function app(): PluginContract
     {
         return glsr();
     }

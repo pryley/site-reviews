@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Arguments;
+use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\EmailDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
@@ -44,10 +45,7 @@ class Email
      */
     public $to;
 
-    /**
-     * @return \GeminiLabs\SiteReviews\Application|\GeminiLabs\SiteReviews\Addons\Addon
-     */
-    public function app()
+    public function app(): PluginContract
     {
         return glsr();
     }

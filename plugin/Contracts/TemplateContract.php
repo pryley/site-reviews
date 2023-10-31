@@ -2,12 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Contracts;
 
+use GeminiLabs\SiteReviews\Contracts\PluginContract;
+
 interface TemplateContract
 {
-    /**
-     * @return \GeminiLabs\SiteReviews\Application|\GeminiLabs\SiteReviews\Addons\Addon
-     */
-    public function app();
+    public function app(): PluginContract;
 
     /**
      * @param string $templatePath

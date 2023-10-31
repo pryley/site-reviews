@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Addons\Updater;
+use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\PermissionDefaults;
@@ -31,7 +32,7 @@ use GeminiLabs\SiteReviews\Modules\Migrate;
  * @property string $version
  * @property string $testedTo;
  */
-final class Application extends Container
+final class Application extends Container implements PluginContract
 {
     use Plugin;
     use Session;
@@ -52,13 +53,9 @@ final class Application extends Container
     protected array $settings;
     protected array $updated = [];
 
-    /**
-     * @param string $addonId
-     * @return false|\GeminiLabs\SiteReviews\Addons\Addon
-     */
-    public function addon($addonId)
+    public function addon(string $addonId): ?PluginContract
     {
-        return $this->addons[$addonId] ?? false;
+        return $this->addons[$addonId] ?? null;
     }
 
     /**
@@ -156,10 +153,9 @@ final class Application extends Container
     }
 
     /**
-     * @param object|string $addon
-     * @return void
+     * @param PluginContract|string $addon
      */
-    public function license($addon)
+    public function license($addon): void
     {
         try {
             $settings = $this->settings(); // populate the initial settings
@@ -188,10 +184,9 @@ final class Application extends Container
     }
 
     /**
-     * @param string|object $addon
-     * @return void
+     * @param PluginContract|string $addon
      */
-    public function register($addon)
+    public function register($addon): void
     {
         $retired = [ // @compat these addons have been retired
             'site-reviews-gamipress',
@@ -238,11 +233,9 @@ final class Application extends Container
     }
 
     /**
-     * @param object|string $addon
-     * @param string $file
-     * @return void
+     * @param PluginContract|string $addon
      */
-    public function update($addon, $file)
+    public function update($addon, string $file): void
     {
         if (!current_user_can('manage_options') && !(defined('DOING_CRON') && DOING_CRON)) {
             return;
