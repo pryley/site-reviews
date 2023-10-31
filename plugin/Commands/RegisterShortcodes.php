@@ -9,9 +9,14 @@ class RegisterShortcodes implements Contract
 {
     public $shortcodes;
 
-    public function __construct($input)
+    public function __construct()
     {
-        $this->shortcodes = $input;
+        $this->shortcodes = [
+            'site_review',
+            'site_reviews',
+            'site_reviews_form',
+            'site_reviews_summary',
+        ];
     }
 
     /**

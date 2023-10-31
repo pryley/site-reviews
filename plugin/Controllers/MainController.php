@@ -112,12 +112,7 @@ class MainController extends Controller
      */
     public function registerShortcodes()
     {
-        $this->execute(new RegisterShortcodes([
-            'site_review',
-            'site_reviews',
-            'site_reviews_form',
-            'site_reviews_summary',
-        ]));
+        $this->execute(new RegisterShortcodes());
     }
 
     /**
