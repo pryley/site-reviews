@@ -4,20 +4,12 @@ namespace GeminiLabs\SiteReviews\Helpers;
 
 class Url
 {
-    /**
-     * @param string $path
-     * @return string
-     */
-    public static function home($path = '')
+    public static function home(string $path = ''): string
     {
         return trailingslashit(network_home_url($path));
     }
 
-    /**
-     * @param string $url
-     * @return string
-     */
-    public static function path($url)
+    public static function path(string $url): string
     {
         return untrailingslashit(parse_url($url, PHP_URL_PATH));
     }

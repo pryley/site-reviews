@@ -8,10 +8,9 @@ use GeminiLabs\Spatie\Color\Factory;
 class Color
 {
     /**
-     * @param string $color
      * @return \GeminiLabs\Spatie\Color\Color|\WP_Error
      */
-    public static function new($color)
+    public static function new(string $color)
     {
         try {
             return Factory::fromString($color);

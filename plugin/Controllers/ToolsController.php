@@ -355,7 +355,7 @@ class ToolsController extends Controller
         }
         $request = Request::inputGet();
         check_admin_referer($request->action);
-        glsr(Rollback::class)->rollback($request->version);
+        glsr(Rollback::class)->rollback($request->cast('string', 'version'));
     }
 
     /**
@@ -365,7 +365,7 @@ class ToolsController extends Controller
     {
         if (current_user_can('update_plugins')) {
             wp_send_json_success(
-                glsr(Rollback::class)->rollbackData($request->version)
+                glsr(Rollback::class)->rollbackData($request->cast('string', 'version'))
             );
         } else {
             wp_send_json_error([

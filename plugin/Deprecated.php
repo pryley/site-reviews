@@ -11,7 +11,7 @@ trait Deprecated
      */
     protected $mappedDeprecatedMethods;
 
-    public function __call($oldMethod, $args)
+    public function __call(string $oldMethod, $args)
     {
         $newMethod = Arr::get(Arr::consolidate($this->mappedDeprecatedMethods), $oldMethod);
         if (empty($newMethod) || !method_exists($this, $newMethod)) {

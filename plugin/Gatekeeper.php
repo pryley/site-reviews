@@ -118,7 +118,7 @@ class Gatekeeper
         $this->dependencies = $results;
     }
 
-    protected function pluginData($plugin): array
+    protected function pluginData(string $plugin): array
     {
         $plugins = $this->isPluginInstalled($plugin)
             ? $this->plugins()

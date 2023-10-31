@@ -7,19 +7,12 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 
 class Upload
 {
-    /**
-     * @return \GeminiLabs\SiteReviews\Arguments
-     */
-    protected function file()
+    protected function file(): Arguments
     {
         return glsr()->args(Arr::get($_FILES, 'import-file', []));
     }
 
-    /**
-     * @param int $errorCode
-     * @return string
-     */
-    protected function getUploadError($errorCode)
+    protected function getUploadError(int $errorCode): string
     {
         $errors = [
             UPLOAD_ERR_INI_SIZE => _x('The uploaded file exceeds the upload_max_filesize directive in php.ini.', 'admin-text', 'site-reviews'),
@@ -33,10 +26,7 @@ class Upload
         return Arr::get($errors, $errorCode, _x('Unknown upload error.', 'admin-text', 'site-reviews'));
     }
 
-    /**
-     * @return bool
-     */
-    protected function validateExtension($extension)
+    protected function validateExtension(string $extension): bool
     {
         if (str_ends_with($this->file()->name, $extension)) {
             return true;
@@ -48,10 +38,7 @@ class Upload
         return false;
     }
 
-    /**
-     * @return bool
-     */
-    protected function validateUpload()
+    protected function validateUpload(): bool
     {
         if (UPLOAD_ERR_OK === $this->file()->error) {
             return true;

@@ -34,10 +34,8 @@ class Database
 
     /**
      * Use this before bulk insert (see: $this->finishTransaction()).
-     * @param string $table
-     * @return void
      */
-    public function beginTransaction($table)
+    public function beginTransaction(string $table): void
     {
         $sql = glsr(Tables::class)->isInnodb($table)
             ? 'START TRANSACTION;'
@@ -86,19 +84,17 @@ class Database
     }
 
     /**
-     * @param string $sql
      * @return int|bool
      */
-    public function dbQuery($sql)
+    public function dbQuery(string $sql)
     {
         return $this->logErrors($this->db->query($sql));
     }
 
     /**
-     * @param string $sql
      * @return int|bool
      */
-    public function dbSafeQuery($sql)
+    public function dbSafeQuery(string $sql)
     {
         $this->db->query("SET GLOBAL foreign_key_checks = 0");
         $result = $this->logErrors($this->db->query($sql));
@@ -107,10 +103,9 @@ class Database
     }
 
     /**
-     * @param string $table
      * @return int|false
      */
-    public function delete($table, array $where)
+    public function delete(string $table, array $where)
     {
         $result = $this->db->delete(glsr(Query::class)->table($table), $where);
         glsr(Query::class)->sql($this->db->last_query); // for logging use only
@@ -213,10 +208,9 @@ class Database
 
     /**
      * @param string|string[] $keys
-     * @param string $table
      * @return int|bool
      */
-    public function deleteMeta($keys, $table = 'postmeta')
+    public function deleteMeta($keys, string $table = 'postmeta')
     {
         $table = glsr(Query::class)->table($table);
         $metaKeys = glsr(Query::class)->escValuesForInsert(Arr::convertFromString($keys));
@@ -228,10 +222,8 @@ class Database
 
     /**
      * Use this after bulk insert (see: $this->beginTransaction()).
-     * @param string $table
-     * @return void
      */
-    public function finishTransaction($table)
+    public function finishTransaction(string $table): void
     {
         $sql = glsr(Tables::class)->isInnodb($table)
             ? 'COMMIT;'
@@ -240,10 +232,9 @@ class Database
     }
 
     /**
-     * @param string $table
      * @return int|bool
      */
-    public function insert($table, array $data)
+    public function insert(string $table, array $data)
     {
         $this->db->insert_id = 0;
         $table = glsr(Query::class)->table($table);
@@ -255,10 +246,9 @@ class Database
     }
 
     /**
-     * @param string $table
      * @return int|false
      */
-    public function insertBulk($table, array $values, array $fields)
+    public function insertBulk(string $table, array $values, array $fields)
     {
         $this->db->insert_id = 0;
         $data = [];
@@ -276,10 +266,7 @@ class Database
         return $this->dbQuery($sql);
     }
 
-    /**
-     * @return bool
-     */
-    public function isMigrationNeeded()
+    public function isMigrationNeeded(): bool
     {
         $table = glsr(Query::class)->table('ratings');
         $postTypes = wp_count_posts(glsr()->post_type);
@@ -305,12 +292,9 @@ class Database
     }
 
     /**
-     * @param int $postId
-     * @param string $key
-     * @param bool $single
      * @return mixed
      */
-    public function meta($postId, $key, $single = true)
+    public function meta(int $postId, string $key, bool $single = true)
     {
         $key = Str::prefix($key, '_');
         $postId = Cast::toInt($postId);
@@ -318,58 +302,37 @@ class Database
     }
 
     /**
-     * @param int $postId
-     * @param string $key
      * @param mixed $value
      * @return int|bool
      */
-    public function metaSet($postId, $key, $value)
+    public function metaSet(int $postId, string $key, $value)
     {
         $key = Str::prefix($key, '_');
         $postId = Cast::toInt($postId);
         return update_metadata('post', $postId, $key, $value); // update_metadata works with revisions
     }
 
-    /**
-     * @param string $searchTerm
-     * @return SearchAssignedPosts
-     */
-    public function searchAssignedPosts($searchTerm)
+    public function searchAssignedPosts(string $searchTerm): SearchAssignedPosts
     {
         return glsr(SearchAssignedPosts::class)->search($searchTerm);
     }
 
-    /**
-     * @param string $searchTerm
-     * @return SearchAssignedUsers
-     */
-    public function searchAssignedUsers($searchTerm)
+    public function searchAssignedUsers(string $searchTerm): SearchAssignedUsers
     {
         return glsr(SearchAssignedUsers::class)->search($searchTerm);
     }
 
-    /**
-     * @param string $searchTerm
-     * @return SearchPosts
-     */
-    public function searchPosts($searchTerm)
+    public function searchPosts(string $searchTerm): SearchPosts
     {
         return glsr(SearchPosts::class)->search($searchTerm);
     }
 
-    /**
-     * @param string $searchTerm
-     * @return SearchUsers
-     */
-    public function searchUsers($searchTerm)
+    public function searchUsers(string $searchTerm): SearchUsers
     {
         return glsr(SearchUsers::class)->search($searchTerm);
     }
 
-    /**
-     * @return array
-     */
-    public function terms(array $args = [])
+    public function terms(array $args = []): array
     {
         $args = wp_parse_args($args, [
             'count' => false,
@@ -387,20 +350,16 @@ class Database
     }
 
     /**
-     * @param string $table
      * @return int|bool
      */
-    public function update($table, array $data, array $where)
+    public function update(string $table, array $data, array $where)
     {
         $result = $this->db->update(glsr(Query::class)->table($table), $data, $where);
         glsr(Query::class)->sql($this->db->last_query); // for logging use only
         return $this->logErrors($result);
     }
 
-    /**
-     * @return array
-     */
-    public function users(array $args = [])
+    public function users(array $args = []): array
     {
         $args = wp_parse_args($args, [
             'fields' => ['ID', 'display_name'],

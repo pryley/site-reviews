@@ -11,10 +11,7 @@ use GeminiLabs\SiteReviews\Modules\Translator;
 
 class Provider implements ProviderContract
 {
-    /**
-     * @return void
-     */
-    public function register(Application $app)
+    public function register(Application $app): void
     {
         $app->bind(Application::class, fn () => $app);
         $app->singleton(Hooks::class);

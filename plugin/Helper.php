@@ -13,10 +13,8 @@ class Helper
 {
     /**
      * @param array|string $name
-     * @param string $path
-     * @return string
      */
-    public static function buildClassName($name, $path = '')
+    public static function buildClassName($name, string $path = ''): string
     {
         if (is_array($name)) {
             $name = implode('-', $name);
@@ -33,11 +31,7 @@ class Helper
         return lcfirst(Str::camelCase(sprintf('%s-%s-%s', $prefix, $name, $suffix)));
     }
 
-    /**
-     * @param string $name
-     * @return string
-     */
-    public static function buildPropertyName($name)
+    public static function buildPropertyName(string $name): string
     {
         return static::buildMethodName($name);
     }
@@ -45,10 +39,8 @@ class Helper
     /**
      * @param int|string $version1
      * @param int|string $version2
-     * @param string $operator
-     * @return bool
      */
-    public static function compareVersions($version1, $version2, $operator = '=')
+    public static function compareVersions($version1, $version2, string $operator = '='): bool
     {
         $version1 = implode('.', array_pad(explode('.', $version1), 3, 0));
         $version2 = implode('.', array_pad(explode('.', $version2), 3, 0));
@@ -56,10 +48,9 @@ class Helper
     }
 
     /**
-     * @param string $key
      * @return mixed
      */
-    public static function filterInput($key, array $request = [])
+    public static function filterInput(string $key, array $request = [])
     {
         if (isset($request[$key])) {
             return $request[$key];
@@ -71,11 +62,7 @@ class Helper
         return $variable;
     }
 
-    /**
-     * @param string $key
-     * @return array
-     */
-    public static function filterInputArray($key)
+    public static function filterInputArray(string $key): array
     {
         $variable = filter_input(INPUT_POST, $key, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
         if (empty($variable) && !empty($_POST[$key]) && is_array($_POST[$key])) {
@@ -84,10 +71,7 @@ class Helper
         return Cast::toArray($variable);
     }
 
-    /**
-     * @return string
-     */
-    public static function getIpAddress()
+    public static function getIpAddress(): string
     {
         $whitelist = [];
         $isUsingCloudflare = !empty(filter_input(INPUT_SERVER, 'CF-Connecting-IP'));
@@ -128,9 +112,8 @@ class Helper
 
     /**
      * @param mixed $post
-     * @return int
      */
-    public static function getPostId($post)
+    public static function getPostId($post): int
     {
         if (is_numeric($post) || $post instanceof \WP_Post) {
             $post = get_post($post);
@@ -163,9 +146,8 @@ class Helper
 
     /**
      * @param mixed $term
-     * @return int
      */
-    public static function getTermTaxonomyId($term)
+    public static function getTermTaxonomyId($term): int
     {
         if ($term instanceof \WP_Term) {
             return $term->term_id;
@@ -179,9 +161,8 @@ class Helper
 
     /**
      * @param mixed $user
-     * @return int
      */
-    public static function getUserId($user)
+    public static function getUserId($user): int
     {
         if ($user instanceof \WP_User) {
             return $user->ID;
@@ -229,12 +210,11 @@ class Helper
     }
 
     /**
-     * @param bool $condition
      * @param mixed $ifTrue
      * @param mixed $ifFalse
      * @return mixed
      */
-    public static function ifTrue($condition, $ifTrue, $ifFalse = null)
+    public static function ifTrue(bool $condition, $ifTrue, $ifFalse = null)
     {
         return $condition ? static::runClosure($ifTrue) : static::runClosure($ifFalse);
     }
@@ -243,9 +223,8 @@ class Helper
      * @param mixed $value
      * @param string|int $min
      * @param string|int $max
-     * @return bool
      */
-    public static function inRange($value, $min, $max)
+    public static function inRange($value, $min, $max): bool
     {
         $inRange = filter_var($value, FILTER_VALIDATE_INT, ['options' => [
             'min_range' => intval($min),
@@ -256,9 +235,8 @@ class Helper
 
     /**
      * @param mixed $value
-     * @return bool
      */
-    public static function isEmpty($value)
+    public static function isEmpty($value): bool
     {
         if (is_string($value)) {
             return '' === trim($value);
@@ -269,9 +247,8 @@ class Helper
     /**
      * @param int|string $value
      * @param int|string $compareWithValue
-     * @return bool
      */
-    public static function isGreaterThan($value, $compareWithValue)
+    public static function isGreaterThan($value, $compareWithValue): bool
     {
         return static::compareVersions($value, $compareWithValue, '>');
     }
@@ -279,9 +256,8 @@ class Helper
     /**
      * @param int|string $value
      * @param int|string $compareWithValue
-     * @return bool
      */
-    public static function isGreaterThanOrEqual($value, $compareWithValue)
+    public static function isGreaterThanOrEqual($value, $compareWithValue): bool
     {
         return static::compareVersions($value, $compareWithValue, '>=');
     }
@@ -289,9 +265,8 @@ class Helper
     /**
      * @param int|string $value
      * @param int|string $compareWithValue
-     * @return bool
      */
-    public static function isLessThan($value, $compareWithValue)
+    public static function isLessThan($value, $compareWithValue): bool
     {
         return static::compareVersions($value, $compareWithValue, '<');
     }
@@ -299,9 +274,8 @@ class Helper
     /**
      * @param int|string $value
      * @param int|string $compareWithValue
-     * @return bool
      */
-    public static function isLessThanOrEqual($value, $compareWithValue)
+    public static function isLessThanOrEqual($value, $compareWithValue): bool
     {
         return static::compareVersions($value, $compareWithValue, '<=');
     }
@@ -321,18 +295,16 @@ class Helper
 
     /**
      * @param mixed $value
-     * @return bool
      */
-    public static function isNotEmpty($value)
+    public static function isNotEmpty($value): bool
     {
         return !static::isEmpty($value);
     }
 
     /**
-     * @param string $url
      * @return int|false
      */
-    public static function remoteStatusCheck($url)
+    public static function remoteStatusCheck(string $url)
     {
         $response = wp_safe_remote_head($url, [
             'sslverify' => !static::isLocalServer(),

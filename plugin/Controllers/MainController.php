@@ -14,10 +14,10 @@ use GeminiLabs\SiteReviews\Install;
 class MainController extends Controller
 {
     /**
-     * switch_to_blog() was run before this hook was triggered.
+     * switch_to_blog() has run before this hook is triggered.
+     * @see http://developer.wordpress.org/reference/functions/wp_uninitialize_site/
      * @param array $tables
      * @return array
-     * @see http://developer.wordpress.org/reference/functions/wp_uninitialize_site/
      * @filter wpmu_drop_tables
      */
     public function filterDropTables($tables)
@@ -36,10 +36,9 @@ class MainController extends Controller
 
     /**
      * @param \WP_Site $site
-     * @return void
      * @action wp_insert_site
      */
-    public function installOnNewSite($site)
+    public function installOnNewSite($site): void
     {
         if (is_plugin_active_for_network(plugin_basename(glsr()->file))) {
             glsr(Install::class)->runOnSite($site->blog_id);
@@ -47,20 +46,18 @@ class MainController extends Controller
     }
 
     /**
-     * @return void
      * @action admin_footer
      * @action wp_footer
      */
-    public function logOnce()
+    public function logOnce(): void
     {
         glsr_log()->logOnce();
     }
 
     /**
-     * @return void
      * @action plugins_loaded
      */
-    public function registerAddons()
+    public function registerAddons(): void
     {
         glsr()->action('addon/register', glsr());
     }
@@ -76,28 +73,25 @@ class MainController extends Controller
     }
 
     /**
-     * @return void
      * @action init
      */
-    public function registerPostMeta()
+    public function registerPostMeta(): void
     {
         $this->execute(new RegisterPostMeta());
     }
 
     /**
-     * @return void
      * @action init
      */
-    public function registerPostType()
+    public function registerPostType(): void
     {
         $this->execute(new RegisterPostType());
     }
 
     /**
-     * @return void
-     * @action plugins_loaded
+     * @action init
      */
-    public function registerReviewTypes()
+    public function registerReviewTypes(): void
     {
         $types = glsr()->filterArray('review/types', []);
         $types = wp_parse_args($types, [
@@ -107,28 +101,25 @@ class MainController extends Controller
     }
 
     /**
-     * @return void
      * @action init
      */
-    public function registerShortcodes()
+    public function registerShortcodes(): void
     {
         $this->execute(new RegisterShortcodes());
     }
 
     /**
-     * @return void
      * @action init
      */
-    public function registerTaxonomy()
+    public function registerTaxonomy(): void
     {
         $this->execute(new RegisterTaxonomy());
     }
 
     /**
-     * @return void
      * @action widgets_init
      */
-    public function registerWidgets()
+    public function registerWidgets(): void
     {
         $this->execute(new RegisterWidgets());
     }

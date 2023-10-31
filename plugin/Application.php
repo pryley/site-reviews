@@ -59,11 +59,9 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * @param string $capability
      * @param mixed ...$args
-     * @return bool
      */
-    public function can($capability, ...$args)
+    public function can(string $capability, ...$args): bool
     {
         return $this->make(Role::class)->can($capability, ...$args);
     }
@@ -87,12 +85,7 @@ final class Application extends Container implements PluginContract
         return $this->defaults;
     }
 
-    /**
-     * @param string $page
-     * @param string $tab
-     * @return string
-     */
-    public function getPermission($page = '', $tab = 'index')
+    public function getPermission(string $page = '', string $tab = 'index'): string
     {
         $fallback = 'edit_posts';
         $permissions = $this->make(PermissionDefaults::class)->defaults();
@@ -106,21 +99,13 @@ final class Application extends Container implements PluginContract
         return $this->make(Role::class)->capability($capability);
     }
 
-    /**
-     * @param string $page
-     * @param string $tab
-     * @return bool
-     */
-    public function hasPermission($page = '', $tab = 'index')
+    public function hasPermission(string $page = '', string $tab = 'index'): bool
     {
         $isAdminScreen = is_admin() || is_network_admin();
         return !$isAdminScreen || $this->can($this->getPermission($page, $tab));
     }
 
-    /**
-     * @return void
-     */
-    public function init()
+    public function init(): void
     {
         // Ensure the custom database tables exist, this is needed in cases
         // where the plugin has been updated instead of activated.
@@ -142,11 +127,7 @@ final class Application extends Container implements PluginContract
         $this->make(Hooks::class)->run();
     }
 
-
-    /**
-     * @return bool
-     */
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         $isAdminScreen = is_admin() || is_network_admin();
         return $isAdminScreen && !wp_doing_ajax();
@@ -216,7 +197,7 @@ final class Application extends Container implements PluginContract
     /**
      * These are not the saved settings.
      */
-    public function settings()
+    public function settings(): array
     {
         if (empty($this->settings)) {
             $settings = $this->config('settings');

@@ -7,10 +7,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 abstract class Controller
 {
-    /**
-     * @return void
-     */
-    public function download($filename, $content)
+    public function download($filename, $content): void
     {
         if (glsr()->can('edit_others_posts')) {
             nocache_headers();
@@ -29,18 +26,12 @@ abstract class Controller
         return $command->handle();
     }
 
-    /**
-     * @return int
-     */
-    protected function getPostId()
+    protected function getPostId(): int
     {
         return intval(filter_input(INPUT_GET, 'post'));
     }
 
-    /**
-     * @return bool
-     */
-    protected function hasQueryPermission(\WP_Query $query)
+    protected function hasQueryPermission(\WP_Query $query): bool
     {
         global $pagenow;
         return glsr()->isAdmin()
@@ -49,35 +40,25 @@ abstract class Controller
             && 'edit.php' === $pagenow;
     }
 
-    /**
-     * @return bool
-     */
-    protected function isNoticeAdminScreen()
+    protected function isNoticeAdminScreen(): bool
     {
         return 'dashboard' === glsr_current_screen()->id || $this->isReviewAdminScreen();
     }
 
-    /**
-     * @return bool
-     */
-    protected function isReviewAdminPage()
+    protected function isReviewAdminPage(): bool
     {
-        return glsr()->isAdmin()
-            && in_array(glsr()->post_type, [get_post_type(), filter_input(INPUT_GET, 'post_type')]);
+        return glsr()->isAdmin() && in_array(glsr()->post_type, [
+            filter_input(INPUT_GET, 'post_type'),
+            get_post_type(),
+        ]);
     }
 
-    /**
-     * @return bool
-     */
-    protected function isReviewAdminScreen()
+    protected function isReviewAdminScreen(): bool
     {
         return str_starts_with(glsr_current_screen()->post_type, glsr()->post_type);
     }
 
-    /**
-     * @return bool
-     */
-    protected function isReviewEditor()
+    protected function isReviewEditor(): bool
     {
         $screen = glsr_current_screen();
         return ('post' === $screen->base)

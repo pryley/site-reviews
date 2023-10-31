@@ -21,20 +21,16 @@ class Arguments extends \ArrayObject
         parent::__construct($args, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return serialize($this->toArray());
     }
 
     /**
      * @param mixed $key
-     * @param string $cast
      * @return mixed
      */
-    public function cast($key, $cast)
+    public function cast($key, string $cast)
     {
         return Cast::to($cast, $this->get($key));
     }
@@ -52,10 +48,7 @@ class Arguments extends \ArrayObject
             : $value;
     }
 
-    /**
-     * @return bool
-     */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return empty($this->getArrayCopy());
     }
@@ -118,9 +111,8 @@ class Arguments extends \ArrayObject
 
     /**
      * @param string|array $args Optional parameter that can be used to change the output
-     * @return array
      */
-    public function toArray($args = [])
+    public function toArray($args = []): array
     {
         return $this->getArrayCopy();
     }

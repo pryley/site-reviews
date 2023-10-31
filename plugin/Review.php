@@ -72,9 +72,8 @@ class Review extends Arguments
 
     /**
      * @param array|object $values
-     * @param bool $init
      */
-    public function __construct($values, $init = true)
+    public function __construct($values, bool $init = true)
     {
         $values = glsr()->args($values);
         $this->id = Cast::toInt($values->review_id);
@@ -91,7 +90,7 @@ class Review extends Arguments
     /**
      * @return mixed
      */
-    public function __call($method, $args)
+    public function __call(string $method, array $args)
     {
         array_unshift($args, $this);
         $result = apply_filters_ref_array(glsr()->id.'/review/call/'.$method, $args);
@@ -100,10 +99,7 @@ class Review extends Arguments
         }
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->build();
     }
@@ -116,10 +112,7 @@ class Review extends Arguments
             : '';
     }
 
-    /**
-     * @return array
-     */
-    public function assignedPosts()
+    public function assignedPosts(): array
     {
         if (empty($this->assigned_posts)) {
             return [];
@@ -131,10 +124,7 @@ class Review extends Arguments
         ]);
     }
 
-    /**
-     * @return array
-     */
-    public function assignedTerms()
+    public function assignedTerms(): array
     {
         if (empty($this->assigned_terms)) {
             return [];
@@ -146,10 +136,7 @@ class Review extends Arguments
         return $terms;
     }
 
-    /**
-     * @return array
-     */
-    public function assignedUsers()
+    public function assignedUsers(): array
     {
         if (empty($this->assigned_users)) {
             return [];
@@ -160,10 +147,7 @@ class Review extends Arguments
         ]);
     }
 
-    /**
-     * @return string
-     */
-    public function author()
+    public function author(): string
     {
         $name = $this->get('author', __('Anonymous', 'site-reviews'));
         $format = glsr_get_option('reviews.name.format', '', 'string');
@@ -171,27 +155,17 @@ class Review extends Arguments
         return Text::name($name, $format, $initial);
     }
 
-    /**
-     * @param int $size
-     * @return string
-     */
-    public function avatar($size = 0)
+    public function avatar(int $size = 0): string
     {
         return glsr(Avatar::class)->img($this, $size);
     }
 
-    /**
-     * @return ReviewHtml
-     */
-    public function build(array $args = [])
+    public function build(array $args = []): ReviewHtml
     {
         return new ReviewHtml($this, $args);
     }
 
-    /**
-     * @return Arguments
-     */
-    public function custom()
+    public function custom(): Arguments
     {
         $custom = array_filter($this->meta()->toArray(),
             fn ($key) => str_starts_with($key, '_custom'),
@@ -203,10 +177,7 @@ class Review extends Arguments
         return glsr()->args($custom);
     }
 
-    /**
-     * @return string
-     */
-    public function date($format = 'F j, Y')
+    public function date(string $format = 'F j, Y'): string
     {
         $value = $this->get('date_gmt');
         if (!empty(func_get_args())) {
@@ -250,18 +221,12 @@ class Review extends Arguments
         return glsr()->post_type === get_post_type($post);
     }
 
-    /**
-     * @return bool
-     */
-    public function isValid()
+    public function isValid(): bool
     {
         return !empty($this->id) && !empty($this->get('rating_id'));
     }
 
-    /**
-     * @return Arguments
-     */
-    public function meta()
+    public function meta(): Arguments
     {
         if (!$this->_meta instanceof Arguments) {
             $meta = Arr::consolidate(get_post_meta($this->id));
@@ -275,10 +240,9 @@ class Review extends Arguments
 
     /**
      * @param mixed $key
-     * @return bool
      */
     #[\ReturnTypeWillChange]
-    public function offsetExists($key)
+    public function offsetExists($key): bool
     {
         return parent::offsetExists($key) || !is_null($this->custom()->$key);
     }
@@ -312,10 +276,9 @@ class Review extends Arguments
 
     /**
      * @param mixed $key
-     * @return void
      */
     #[\ReturnTypeWillChange]
-    public function offsetSet($key, $value)
+    public function offsetSet($key, $value): void
     {
         // This class is read-only, except for custom fields
         if ('custom' === $key) {
@@ -329,10 +292,9 @@ class Review extends Arguments
 
     /**
      * @param mixed $key
-     * @return void
      */
     #[\ReturnTypeWillChange]
-    public function offsetUnset($key)
+    public function offsetUnset($key): void
     {
         // This class is read-only
     }
@@ -348,26 +310,17 @@ class Review extends Arguments
         return $this->_post;
     }
 
-    /**
-     * @return void
-     */
-    public function render(array $args = [])
+    public function render(array $args = []): void
     {
         echo $this->build($args);
     }
 
-    /**
-     * @return string
-     */
-    public function rating()
+    public function rating(): string
     {
         return glsr_star_rating($this->get('rating'));
     }
 
-    /**
-     * @return string
-     */
-    public function type()
+    public function type(): string
     {
         $type = $this->get('type');
         $reviewTypes = glsr()->retrieveAs('array', 'review_types');
@@ -394,10 +347,7 @@ class Review extends Arguments
             : '';
     }
 
-    /**
-     * @return bool
-     */
-    protected function hasRevisions()
+    protected function hasRevisions(): bool
     {
         if (!$this->has_checked_revisions) {
             $modified = glsr(Query::class)->hasRevisions($this->ID);

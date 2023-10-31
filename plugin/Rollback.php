@@ -6,11 +6,7 @@ use GeminiLabs\SiteReviews\Overrides\PluginUpgrader;
 
 class Rollback
 {
-    /**
-     * @param string $version
-     * @return void
-     */
-    public function rollback($version)
+    public function rollback(string $version): void
     {
         global $title, $parent_file;
         $plugin = plugin_basename(glsr()->file);
@@ -27,11 +23,7 @@ class Rollback
         require_once ABSPATH.'wp-admin/admin-footer.php';
     }
 
-    /**
-     * @param string $version
-     * @return array
-     */
-    public function rollbackData($version)
+    public function rollbackData(string $version): array
     {
         set_transient(glsr()->prefix.'rollback_version', $version, MINUTE_IN_SECONDS);
         return [

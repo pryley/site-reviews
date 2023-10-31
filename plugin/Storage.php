@@ -12,12 +12,10 @@ trait Storage
     protected $storage;
 
     /**
-     * @param string $property
      * @param mixed $value
-     * @param string $key
      * @return false|array
      */
-    public function append($property, $value, $key = null)
+    public function append(string $property, $value, ?string $key = null)
     {
         $stored = $this->retrieve($property, []);
         if (!is_array($stored)) {
@@ -32,40 +30,30 @@ trait Storage
         return $stored;
     }
 
-    /**
-     * @param string $property
-     * @return void
-     */
-    public function discard($property)
+    public function discard(string $property): void
     {
         unset($this->storage()->$property);
     }
 
     /**
-     * @param string $property
      * @param mixed $fallback
      * @return mixed
      */
-    public function retrieve($property, $fallback = null)
+    public function retrieve(string $property, $fallback = null)
     {
         return $this->storage()->get($property, $fallback);
     }
 
     /**
-     * @param string $cast
-     * @param string $property
      * @param mixed $fallback
      * @return mixed
      */
-    public function retrieveAs($cast, $property, $fallback = null)
+    public function retrieveAs(string $cast, string $property, $fallback = null)
     {
         return Cast::to($cast, $this->storage()->get($property, $fallback));
     }
 
-    /**
-     * @return Arguments
-     */
-    public function storage()
+    public function storage(): Arguments
     {
         if (!$this->storage instanceof Arguments) {
             $this->storage = new Arguments([]);
@@ -74,11 +62,9 @@ trait Storage
     }
 
     /**
-     * @param string $property
      * @param mixed $value
-     * @return void
      */
-    public function store($property, $value)
+    public function store(string $property, $value): void
     {
         $this->storage()->set($property, $value);
     }

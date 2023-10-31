@@ -13,6 +13,9 @@ class Response
     public $response;
     public $status;
 
+    /**
+     * @param array|\WP_Error $request
+     */
     public function __construct($request = [])
     {
         $body = json_decode(wp_remote_retrieve_body($request), true);
