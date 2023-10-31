@@ -36,7 +36,7 @@ class Hooks extends AbstractHooks
 
     protected function experimentalHooks(): array
     {
-        if ('yes' !== glsr_get_option('addons.woocommerce.wp_comments')) {
+        if ('yes' !== $this->option('addons.woocommerce.wp_comments')) {
             return [];
         }
         return [
@@ -47,7 +47,7 @@ class Hooks extends AbstractHooks
 
     protected function isEnabled(): bool
     {
-        return glsr_get_option('addons.woocommerce.enabled', false, 'bool')
+        return 'yes' === $this->option('addons.woocommerce.enabled')
             && 'yes' === get_option('woocommerce_enable_reviews', 'yes')
             && class_exists('WooCommerce')
             && function_exists('WC');

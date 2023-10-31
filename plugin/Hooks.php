@@ -22,6 +22,8 @@ class Hooks implements HooksContract
                 $reflect = new \ReflectionClass($hooks);
                 if ($reflect->isInstantiable()) {
                     glsr()->singleton($hooks); // make singleton
+                    add_action('init', [glsr($hooks), 'runLate']);
+                    add_action('plugins_loaded', [glsr($hooks), 'runEarly']);
                     glsr($hooks)->run();
                 }
             } catch (\ReflectionException $e) {
@@ -47,6 +49,8 @@ class Hooks implements HooksContract
                 $reflect = new \ReflectionClass($hooks);
                 if ($reflect->isInstantiable()) {
                     glsr()->singleton($hooks);
+                    add_action('init', [glsr($hooks), 'runLate']);
+                    add_action('plugins_loaded', [glsr($hooks), 'runEarly']);
                     glsr($hooks)->run();
                 }
             } catch (\ReflectionException $e) {

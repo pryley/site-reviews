@@ -8,7 +8,7 @@ class Hooks extends AbstractHooks
 {
     public function run(): void
     {
-        if ('rankmath' !== glsr_get_option('schema.integration.plugin')) {
+        if ('rankmath' !== $this->option('schema.integration.plugin')) {
             return;
         }
         $this->hook(Controller::class, [

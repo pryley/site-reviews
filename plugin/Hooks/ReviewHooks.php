@@ -9,7 +9,6 @@ class ReviewHooks extends AbstractHooks
 {
     public function run(): void
     {
-        add_action('plugins_loaded', [$this, 'runMyIsamFallback']);
         $this->hook(ReviewController::class, [
             ['approve', 'admin_action_approve'],
             ['filterPostsToCacheReviews', 'the_posts'],
@@ -29,7 +28,10 @@ class ReviewHooks extends AbstractHooks
         ]);
     }
 
-    public function runMyIsamFallback(): void
+    /**
+     * MyISAM table fallback
+     */
+    public function runEarly(): void
     {
         if (!glsr(Tables::class)->isInnodb('posts')) {
             $this->hook(ReviewController::class, [['onDeletePost', 'deleted_post', 10, 2]]);

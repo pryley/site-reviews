@@ -11,7 +11,7 @@ class Hooks extends AbstractHooks
         if (!defined('SASWP_VERSION')) {
             return;
         }
-        if ('saswp' !== glsr_get_option('schema.integration.plugin')) {
+        if ('saswp' !== $this->option('schema.integration.plugin')) {
             return;
         }
         $this->hook(Controller::class, [

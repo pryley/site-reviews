@@ -11,7 +11,7 @@ class Hooks extends AbstractHooks
         if (!defined('BSF_AIOSRS_PRO_CACHE_KEY') || !class_exists('BSF_AIOSRS_Pro_Helper')) {
             return;
         }
-        if ('schema_pro' !== glsr_get_option('schema.integration.plugin')) {
+        if ('schema_pro' !== $this->option('schema.integration.plugin')) {
             return;
         }
         $this->hook(Controller::class, [

@@ -35,9 +35,6 @@ class ExperimentsController
      */
     public function filterProductCommentsQuery($data, $query)
     {
-        if ('yes' !== glsr_get_option('addons.woocommerce.wp_comments')) {
-            return $data;
-        }
         $vars = glsr()->args($query->query_vars);
         $isProductQuery = 'review' === $vars->type || ('product' === $vars->post_type || 'product' === get_post_type($vars->post_id));
         if (!$isProductQuery) {
