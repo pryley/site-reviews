@@ -13,11 +13,7 @@ class Template implements Contract
         return glsr();
     }
 
-    /**
-     * @param string $templatePath
-     * @return string
-     */
-    public function build($templatePath, array $data = [])
+    public function build(string $templatePath, array $data = []): string
     {
         $data = $this->normalize($data);
         $path = str_replace('templates/', '', $templatePath);
@@ -31,11 +27,8 @@ class Template implements Contract
 
     /**
      * Interpolate context values into template placeholders.
-     * @param string $template
-     * @param string $templatePath
-     * @return string
      */
-    public function interpolate($template, $templatePath, array $data = [])
+    public function interpolate(string $template, string $templatePath, array $data = []): string
     {
         $context = $this->normalizeContext(Arr::get($data, 'context', []));
         $context = $this->app()->filterArray('interpolate/'.$templatePath, $context, $template, $data);
@@ -44,10 +37,8 @@ class Template implements Contract
 
     /**
      * Interpolate context values into template placeholders.
-     * @param string $text
-     * @return string
      */
-    public function interpolateContext($text, array $context = [])
+    public function interpolateContext(string $text, array $context = []): string
     {
         foreach ($context as $key => $value) {
             $text = strtr(
@@ -58,20 +49,12 @@ class Template implements Contract
         return trim($text);
     }
 
-    /**
-     * @param string $templatePath
-     * @return void
-     */
-    public function render($templatePath, array $data = [])
+    public function render(string $templatePath, array $data = []): void
     {
         echo $this->build($templatePath, $data);
     }
 
-    /**
-     * @param string $templatePath
-     * @return void
-     */
-    public function renderMultiple($templatePath, array $dataArr)
+    public function renderMultiple(string $templatePath, array $dataArr): void
     {
         foreach ($dataArr as $data) {
             if (is_array($data)) {
@@ -80,10 +63,7 @@ class Template implements Contract
         }
     }
 
-    /**
-     * @return array
-     */
-    protected function normalize(array $data)
+    protected function normalize(array $data): array
     {
         $arrayKeys = ['context', 'globals'];
         $data = wp_parse_args($data, array_fill_keys($arrayKeys, []));
@@ -95,10 +75,7 @@ class Template implements Contract
         return $data;
     }
 
-    /**
-     * @return array
-     */
-    protected function normalizeContext(array $context)
+    protected function normalizeContext(array $context): array
     {
         $context = Arr::flatten($context);
         $context = array_filter($context, fn ($value) => !is_array($value) && !is_object($value));

@@ -8,30 +8,17 @@ interface TemplateContract
 {
     public function app(): PluginContract;
 
-    /**
-     * @param string $templatePath
-     * @return void|string
-     */
-    public function build($templatePath, array $data = []);
+    public function build(string $templatePath, array $data = []): string;
 
     /**
      * Interpolate context values into template placeholders.
-     * @param string $template
-     * @param string $templatePath
-     * @return string
      */
-    public function interpolate($template, $templatePath, array $data = []);
+    public function interpolate(string $template, string $templatePath, array $data = []): string;
 
     /**
      * Interpolate context values into template placeholders.
-     * @param string $text
-     * @return string
      */
-    public function interpolateContext($text, array $context = []);
+    public function interpolateContext(string $text, array $context = []): string;
 
-    /**
-     * @param string $templatePath
-     * @return void|string
-     */
-    public function render($templatePath, array $data = []);
+    public function render(string $templatePath, array $data = []): void;
 }
