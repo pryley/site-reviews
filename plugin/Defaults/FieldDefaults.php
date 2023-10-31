@@ -35,10 +35,7 @@ class FieldDefaults extends DefaultsAbstract
         'options' => 'array-consolidate',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'class' => '',
@@ -53,10 +50,7 @@ class FieldDefaults extends DefaultsAbstract
         ];
     }
 
-    /**
-     * @return bool
-     */
-    protected function isMultiField(array $args)
+    protected function isMultiField(array $args): bool
     {
         $args = glsr()->args($args);
         if ('checkbox' === $args->type && count($args->cast('options', 'array')) > 1) {
@@ -67,9 +61,8 @@ class FieldDefaults extends DefaultsAbstract
 
     /**
      * Normalize provided values, this always runs first.
-     * @return array
      */
-    protected function normalize(array $values = [])
+    protected function normalize(array $values = []): array
     {
         if ($this->isMultiField($values) && !empty($values['name'])) {
             $values['name'] = Str::suffix($values['name'], '[]');

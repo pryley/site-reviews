@@ -4,10 +4,7 @@ namespace GeminiLabs\SiteReviews\Defaults;
 
 class PostTypeLabelDefaults extends DefaultsAbstract
 {
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         $plural = _x('Reviews', 'admin-text', 'site-reviews');
         $singular = _x('Review', 'admin-text', 'site-reviews');

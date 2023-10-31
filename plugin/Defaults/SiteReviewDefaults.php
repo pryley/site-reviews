@@ -37,10 +37,7 @@ class SiteReviewDefaults extends DefaultsAbstract
         'title' => 'text',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'class' => '',
@@ -55,9 +52,8 @@ class SiteReviewDefaults extends DefaultsAbstract
 
     /**
      * Normalize provided values, this always runs first.
-     * @return array
      */
-    protected function normalize(array $args = [])
+    protected function normalize(array $args = []): array
     {
         if (empty($args['post_id'])) {
             $postIds = get_posts([

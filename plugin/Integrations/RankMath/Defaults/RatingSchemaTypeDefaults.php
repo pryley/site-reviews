@@ -9,9 +9,8 @@ class RatingSchemaTypeDefaults extends DefaultsAbstract
     /**
      * All supported schema.org types which can potentially trigger rich results in search.
      * @see https://developers.google.com/search/blog/2019/09/making-review-rich-results-more-helpful
-     * @return array
      */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'AccountingService',

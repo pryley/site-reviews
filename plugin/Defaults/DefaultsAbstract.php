@@ -105,11 +105,7 @@ abstract class DefaultsAbstract implements DefaultsContract
         $this->defaults = $this->app()->filterArray($hook, $this->defaults());
     }
 
-    /**
-     * @param string $name
-     * @return array
-     */
-    public function __call($name, array $args = [])
+    public function __call(string $name, array $args = []): array
     {
         $this->called = $name;
         $this->method = Helper::buildMethodName(Str::removePrefix($name, 'unguarded'));
@@ -129,7 +125,7 @@ abstract class DefaultsAbstract implements DefaultsContract
         return glsr();
     }
 
-    protected function callMethod(array $args)
+    protected function callMethod(array $args): array
     {
         $this->hook = $this->currentHook();
         $this->app()->action('defaults', $this, $this->hook, $this->method, $args[0]);
@@ -145,10 +141,7 @@ abstract class DefaultsAbstract implements DefaultsContract
         return $this->app()->filterArray('defaults/'.$this->hook, $values, $this->method, $args);
     }
 
-    /**
-     * @return string
-     */
-    protected function currentHook()
+    protected function currentHook(): string
     {
         $hookName = (new \ReflectionClass($this))->getShortName();
         $hookName = Str::replaceLast('Defaults', '', $hookName);
@@ -156,23 +149,26 @@ abstract class DefaultsAbstract implements DefaultsContract
     }
 
     /**
-     * @return string
+     * @param mixed $value
+     * @return mixed
      */
-    protected function concatenate($key, $value)
+    protected function concatenate(string $key, $value)
     {
-        if (in_array($key, $this->property('concatenated'))) {
-            $default = glsr()->args($this->defaults)->$key;
-            return trim($default.$this->glue.$value);
+        if (!in_array($key, $this->property('concatenated'))) {
+            return $value;
         }
-        return $value;
+        if (!is_string($value)) {
+            return $value;
+        }
+        $default = glsr()->args($this->defaults)->$key;
+        return trim($default.$this->glue.$value);
     }
 
     /**
      * Restrict provided values to defaults, remove empty and unchanged values,
      * and return data attribute keys with JSON encoded values.
-     * @return array
      */
-    protected function dataAttributes(array $values = [])
+    protected function dataAttributes(array $values = []): array
     {
         $defaults = $this->flattenArrayValues($this->defaults);
         $values = $this->flattenArrayValues(shortcode_atts($defaults, $values));
@@ -191,35 +187,29 @@ abstract class DefaultsAbstract implements DefaultsContract
 
     /**
      * The default values.
-     * @return array
      */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [];
     }
 
     /**
      * Remove empty values from the provided values and merge with the defaults.
-     * @return array
      */
-    protected function filter(array $values = [])
+    protected function filter(array $values = []): array
     {
         return $this->merge(array_filter($values, Helper::class.'::isNotEmpty'));
     }
 
     /**
      * Finalize provided values, this always runs last.
-     * @return array
      */
-    protected function finalize(array $values = [])
+    protected function finalize(array $values = []): array
     {
         return $values;
     }
 
-    /**
-     * @return array
-     */
-    protected function flattenArrayValues(array $values)
+    protected function flattenArrayValues(array $values): array
     {
         array_walk($values, function (&$value) {
             if (is_array($value)) {
@@ -231,9 +221,8 @@ abstract class DefaultsAbstract implements DefaultsContract
 
     /**
      * Remove guarded keys from the provided values.
-     * @return array
      */
-    protected function guard(array $values)
+    protected function guard(array $values): array
     {
         if (!str_starts_with($this->called, 'unguarded')) {
             return array_diff_key($values, array_flip($this->property('guarded')));
@@ -243,9 +232,8 @@ abstract class DefaultsAbstract implements DefaultsContract
 
     /**
      * Map old or deprecated keys to new keys.
-     * @return array
      */
-    protected function mapKeys(array $values)
+    protected function mapKeys(array $values): array
     {
         foreach ($this->property('mapped') as $old => $new) {
             if (empty($values[$new]) && !empty($values[$old])) { // new always takes precedence
@@ -258,18 +246,16 @@ abstract class DefaultsAbstract implements DefaultsContract
 
     /**
      * Merge provided values with the defaults.
-     * @return array
      */
-    protected function merge(array $values = [])
+    protected function merge(array $values = []): array
     {
         return $this->parse($values, $this->defaults);
     }
 
     /**
      * Normalize provided values, this always runs first.
-     * @return array
      */
-    protected function normalize(array $values = [])
+    protected function normalize(array $values = []): array
     {
         return $values;
     }
@@ -277,9 +263,8 @@ abstract class DefaultsAbstract implements DefaultsContract
     /**
      * @param mixed $values
      * @param mixed $defaults
-     * @return array
      */
-    protected function parse($values, $defaults)
+    protected function parse($values, $defaults): array
     {
         $values = Cast::toArray($values);
         if (!is_array($defaults)) {
@@ -291,16 +276,15 @@ abstract class DefaultsAbstract implements DefaultsContract
                 $parsed[$key] = Arr::unique($this->parse($value, $parsed[$key])); // does not reindex
                 continue;
             }
-            $parsed[$key] = $this->concatenate($key, $value);
+            $parsed[$key] = $this->concatenate((string) $key, $value);
         }
         return $parsed;
     }
 
     /**
      * @param mixed $values
-     * @return array
      */
-    protected function parseRestricted($values)
+    protected function parseRestricted($values): array
     {
         $values = Cast::toArray($values);
         $parsed = [];
@@ -313,7 +297,7 @@ abstract class DefaultsAbstract implements DefaultsContract
                 $parsed[$key] = $this->parse($values[$key], $default);
                 continue;
             }
-            $parsed[$key] = $this->concatenate($key, $values[$key]);
+            $parsed[$key] = $this->concatenate((string) $key, $values[$key]);
         }
         return $parsed;
     }
@@ -338,17 +322,13 @@ abstract class DefaultsAbstract implements DefaultsContract
 
     /**
      * Merge the provided values with the defaults and remove any non-default keys.
-     * @return array
      */
-    protected function restrict(array $values = [])
+    protected function restrict(array $values = []): array
     {
         return $this->parseRestricted($values);
     }
 
-    /**
-     * @return array
-     */
-    protected function sanitize(array $values = [])
+    protected function sanitize(array $values = []): array
     {
         foreach ($this->property('casts') as $key => $cast) {
             if (array_key_exists($key, $values)) {
@@ -364,10 +344,7 @@ abstract class DefaultsAbstract implements DefaultsContract
         return $values;
     }
 
-    /**
-     * @return array
-     */
-    protected function unmapKeys(array $args)
+    protected function unmapKeys(array $args): array
     {
         foreach ($this->property('mapped') as $old => $new) {
             if (array_key_exists($new, $args)) {

@@ -4,10 +4,7 @@ namespace GeminiLabs\SiteReviews\Defaults;
 
 class ValidationStringsDefaults extends DefaultsAbstract
 {
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'accepted' => __('This field must be accepted.', 'site-reviews'),

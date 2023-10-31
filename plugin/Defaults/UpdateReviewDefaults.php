@@ -37,10 +37,7 @@ class UpdateReviewDefaults extends DefaultsAbstract
         'title' => 'text',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'content' => '',
@@ -52,10 +49,9 @@ class UpdateReviewDefaults extends DefaultsAbstract
     }
 
     /**
-     * Finalize provided values, this always runs last.
-     * @return array
+     * Normalize provided values, this always runs first.
      */
-    protected function normalize(array $values = [])
+    protected function normalize(array $values = []): array
     {
         if (isset($values['is_approved'])) {
             $values['status'] = wp_validate_boolean($values['is_approved']) ? 'publish' : 'pending';

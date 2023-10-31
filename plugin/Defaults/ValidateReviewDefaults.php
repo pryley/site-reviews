@@ -4,10 +4,7 @@ namespace GeminiLabs\SiteReviews\Defaults;
 
 class ValidateReviewDefaults extends DefaultsAbstract
 {
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'assign_to' => '',

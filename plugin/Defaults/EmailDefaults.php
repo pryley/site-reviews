@@ -14,10 +14,7 @@ class EmailDefaults extends DefaultsAbstract
         'template-tags' => 'array-consolidate',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'after' => '',
@@ -37,9 +34,8 @@ class EmailDefaults extends DefaultsAbstract
 
     /**
      * Normalize provided values, this always runs first.
-     * @return array
      */
-    protected function normalize(array $values = [])
+    protected function normalize(array $values = []): array
     {
         if (empty($values['from'])) {
             $email = sanitize_email(glsr_get_option('general.notification_from', null, 'string'));

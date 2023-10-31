@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestReviewController;
 
 class PostTypeDefaults extends DefaultsAbstract
 {
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'capabilities' => [

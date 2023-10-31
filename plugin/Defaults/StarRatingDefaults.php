@@ -26,10 +26,7 @@ class StarRatingDefaults extends DefaultsAbstract
         'reviews' => 'min:0',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'args' => [],
@@ -41,9 +38,8 @@ class StarRatingDefaults extends DefaultsAbstract
 
     /**
      * Normalize provided values, this always runs first.
-     * @return array
      */
-    protected function normalize(array $values = [])
+    protected function normalize(array $values = []): array
     {
         $values['rating'] = sprintf('%g', Arr::get($values, 'rating', 0));
         return $values;

@@ -4,10 +4,7 @@ namespace GeminiLabs\SiteReviews\Defaults;
 
 class PermissionDefaults extends DefaultsAbstract
 {
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'addons' => [

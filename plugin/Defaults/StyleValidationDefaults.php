@@ -45,10 +45,7 @@ class StyleValidationDefaults extends DefaultsAbstract
         'input_valid' => 'attr-class',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'field_error' => 'glsr-field-is-invalid',

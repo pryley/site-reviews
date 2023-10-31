@@ -15,10 +15,7 @@ class FlyoutItemDefaults extends DefaultsAbstract
         'url' => 'url',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'icon' => '',

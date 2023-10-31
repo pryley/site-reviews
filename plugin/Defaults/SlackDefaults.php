@@ -14,10 +14,7 @@ class SlackDefaults extends DefaultsAbstract
         'header' => 'string',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'assigned_links' => '',

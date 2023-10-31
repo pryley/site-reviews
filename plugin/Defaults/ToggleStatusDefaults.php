@@ -23,10 +23,7 @@ class ToggleStatusDefaults extends DefaultsAbstract
         'status' => ['approve', 'pending', 'publish', 'unapprove'],
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'post_id' => 0,
@@ -36,9 +33,8 @@ class ToggleStatusDefaults extends DefaultsAbstract
 
     /**
      * Finalize provided values, this always runs last.
-     * @return array
      */
-    protected function finalize(array $values = [])
+    protected function finalize(array $values = []): array
     {
         $values['status'] = in_array($values['status'], ['approve', 'publish'])
             ? 'publish'

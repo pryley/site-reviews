@@ -17,10 +17,7 @@ class DiscordDefaults extends DefaultsAbstract
         'header' => 'string',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'assigned_links' => '',
@@ -29,10 +26,7 @@ class DiscordDefaults extends DefaultsAbstract
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function finalize(array $values = [])
+    protected function finalize(array $values = []): array
     {
         $color = Color::new($values['color']);
         if (is_wp_error($color)) {

@@ -16,10 +16,7 @@ class DependencyDefaults extends DefaultsAbstract
         'untested_version' => 'version',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'minimum_version' => '',

@@ -14,10 +14,7 @@ class ToggleVerifiedDefaults extends DefaultsAbstract
         'verified' => 'int',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'id' => 0,

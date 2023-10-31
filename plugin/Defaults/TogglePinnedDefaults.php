@@ -14,10 +14,7 @@ class TogglePinnedDefaults extends DefaultsAbstract
         'pinned' => 'int',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'id' => 0,

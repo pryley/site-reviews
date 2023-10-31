@@ -49,10 +49,7 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
         'title' => 'text',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'assigned_posts' => '',
@@ -71,9 +68,8 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
 
     /**
      * Finalize provided values, this always runs last.
-     * @return array
      */
-    protected function finalize(array $values = [])
+    protected function finalize(array $values = []): array
     {
         $values['form_id'] = $values['id']; // used for the validation session key and to generate the honeypot hash
         return $values;
@@ -81,9 +77,8 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
 
     /**
      * Normalize provided values, this always runs first.
-     * @return array
      */
-    protected function normalize(array $values = [])
+    protected function normalize(array $values = []): array
     {
         foreach ($this->mapped as $old => $new) {
             if ('custom' === Arr::get($values, $old)) {

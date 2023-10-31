@@ -49,10 +49,7 @@ class StyleClassesDefaults extends DefaultsAbstract
         'textarea' => 'attr-class',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'button' => 'glsr-button',

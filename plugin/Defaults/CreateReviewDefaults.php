@@ -72,10 +72,7 @@ class CreateReviewDefaults extends DefaultsAbstract
         'url' => 'url',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'assigned_posts' => [],
@@ -107,10 +104,7 @@ class CreateReviewDefaults extends DefaultsAbstract
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function normalize(array $values = [])
+    protected function normalize(array $values = []): array
     {
         if (Arr::getAs('bool', $values, 'terms_exist', false)) {
             $values['terms'] = !empty($values['terms']);

@@ -63,10 +63,7 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
         'type' => 'slug',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'assigned_posts' => '',
@@ -89,9 +86,8 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
 
     /**
      * Normalize provided values, this always runs first.
-     * @return array
      */
-    protected function normalize(array $values = [])
+    protected function normalize(array $values = []): array
     {
         foreach ($this->mapped as $old => $new) {
             if ('custom' === Arr::get($values, $old)) {

@@ -15,10 +15,7 @@ class VideoDefaults extends DefaultsAbstract
         'title' => 'text',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'duration' => '',

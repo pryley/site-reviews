@@ -12,10 +12,7 @@ use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterType;
 
 class ListtableFiltersDefaults extends DefaultsAbstract
 {
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [ // display order is intentional
             'rating' => ColumnFilterRating::class,

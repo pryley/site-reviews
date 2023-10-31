@@ -60,10 +60,7 @@ class ReviewDefaults extends DefaultsAbstract
         'url' => 'url',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'assigned_posts' => '',
@@ -97,9 +94,8 @@ class ReviewDefaults extends DefaultsAbstract
 
     /**
      * Normalize provided values, this always runs first.
-     * @return array
      */
-    protected function normalize(array $values = [])
+    protected function normalize(array $values = []): array
     {
         $date = Arr::get($values, 'date');
         if ($date && '0000-00-00 00:00:00' === Arr::get($values, 'date_gmt')) {

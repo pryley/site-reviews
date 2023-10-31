@@ -86,10 +86,7 @@ class ReviewsDefaults extends DefaultsAbstract
         'user__not_in' => 'user-ids',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'assigned_posts' => '',
@@ -119,9 +116,8 @@ class ReviewsDefaults extends DefaultsAbstract
 
     /**
      * Normalize provided values, this always runs first.
-     * @return array
      */
-    protected function normalize(array $values = [])
+    protected function normalize(array $values = []): array
     {
         if ($postIds = Arr::getAs('array', $values, 'assigned_posts')) {
             $values['assigned_posts_types'] = [];
@@ -140,9 +136,8 @@ class ReviewsDefaults extends DefaultsAbstract
 
     /**
      * Finalize provided values, this always runs last.
-     * @return array
      */
-    protected function finalize(array $values = [])
+    protected function finalize(array $values = []): array
     {
         $values['assigned_posts'] = glsr(Multilingual::class)->getPostIds($values['assigned_posts']);
         $values['date'] = $this->finalizeDate($values['date']);

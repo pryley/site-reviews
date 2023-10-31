@@ -31,10 +31,7 @@ class PaginationDefaults extends DefaultsAbstract
         'total' => 'min:0',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'add_args' => [],
@@ -51,10 +48,7 @@ class PaginationDefaults extends DefaultsAbstract
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function sanitize(array $values = [])
+    protected function sanitize(array $values = []): array
     {
         $values = parent::sanitize($values);
         $values['current'] = max(1, min($values['current'], $values['total']));

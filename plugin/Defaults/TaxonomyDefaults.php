@@ -7,10 +7,7 @@ use GeminiLabs\SiteReviews\Metaboxes\TaxonomyMetabox;
 
 class TaxonomyDefaults extends DefaultsAbstract
 {
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'hierarchical' => true,

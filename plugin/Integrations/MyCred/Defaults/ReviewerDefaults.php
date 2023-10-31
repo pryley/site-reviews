@@ -20,10 +20,7 @@ class ReviewerDefaults extends DefaultsAbstract
         'points_deduction' => 'numeric',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'log' => '%plural% for writing a review',

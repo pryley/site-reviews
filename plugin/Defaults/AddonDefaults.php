@@ -29,10 +29,7 @@ class AddonDefaults extends DefaultsAbstract
         'url' => 'url',
     ];
 
-    /**
-     * @return array
-     */
-    protected function defaults()
+    protected function defaults(): array
     {
         return [
             'beta' => false,
@@ -49,9 +46,8 @@ class AddonDefaults extends DefaultsAbstract
 
     /**
      * Finalize provided values, this always runs last.
-     * @return array
      */
-    protected function finalize(array $values = [])
+    protected function finalize(array $values = []): array
     {
         if (!empty($values['link_text'])) {
             return $values;

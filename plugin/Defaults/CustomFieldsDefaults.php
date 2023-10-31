@@ -59,9 +59,8 @@ class CustomFieldsDefaults extends DefaultsAbstract
 
     /**
      * Normalize provided values, this always runs first.
-     * @return array
      */
-    protected function normalize(array $values = [])
+    protected function normalize(array $values = []): array
     {
         $this->guarded[] = glsr(Honeypot::class)->hash(Arr::get($values, 'form_id'));
         $this->sanitize = array_fill_keys(array_keys($this->guard($values)), 'text');
