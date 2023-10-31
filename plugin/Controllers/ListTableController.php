@@ -247,7 +247,9 @@ class ListTableController extends Controller
             printf($message, esc_html($username));
             wp_die();
         }
-        glsr(ReviewManager::class)->updateResponse($postId, filter_input(INPUT_POST, '_response'));
+        glsr(ReviewManager::class)->updateResponse($postId, [
+            'response' => filter_input(INPUT_POST, '_response'),
+        ]);
         glsr()->action('cache/flush', glsr_get_review($postId));
         $mode = Str::restrictTo(['excerpt', 'list'], filter_input(INPUT_POST, 'post_view'), 'list');
         $table = new ReviewsListTable(['screen' => convert_to_screen($screen)]);

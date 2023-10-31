@@ -39,8 +39,9 @@ class ResponseMetabox implements MetaboxContract
     public function save(Review $review)
     {
         if (wp_verify_nonce(Helper::filterInput('_nonce-response'), 'response')) {
-            $response = strval(Helper::filterInput('response'));
-            return glsr(ReviewManager::class)->updateResponse($review->ID, $response);
+            return glsr(ReviewManager::class)->updateResponse($review->ID, [
+                'response' => Helper::filterInput('response'),
+            ]);
         }
     }
 }

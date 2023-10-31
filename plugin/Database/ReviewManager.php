@@ -263,7 +263,7 @@ class ReviewManager
             return false;
         }
         $this->updateCustom($reviewId, $data);
-        $this->updateResponse($reviewId, Arr::get($data, 'response'));
+        $this->updateResponse($reviewId, $data);
         $review = glsr(Query::class)->review($reviewId);
         if ($assignedPosts = Arr::uniqueInt(Arr::get($data, 'assigned_posts'))) {
             glsr()->action('review/updated/post_ids', $review, $assignedPosts); // trigger a recount of assigned posts
@@ -318,13 +318,12 @@ class ReviewManager
         return 0;
     }
 
-    /**
-     * @param int $reviewId
-     * @param string $response
-     * @return bool
-     */
-    public function updateResponse($reviewId, $response = '')
+    public function updateResponse(int $reviewId, array $data): bool
     {
+        if (!array_key_exists('response', $data)) {
+            return false;
+        }
+        $response = Arr::get($data, 'response');
         $response = Cast::toString($response);
         $response = glsr(Sanitizer::class)->sanitizeTextHtml($response);
         $review = glsr_get_review($reviewId);
