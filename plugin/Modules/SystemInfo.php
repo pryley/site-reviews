@@ -241,7 +241,7 @@ class SystemInfo
         ksort($settings);
         $details = [];
         foreach ($settings as $key => $value) {
-            if (Str::startsWith($key, 'strings') && Str::endsWith($key, 'id')) {
+            if (str_starts_with($key, 'strings') && str_ends_with($key, 'id')) {
                 continue;
             }
             $value = htmlspecialchars(trim(preg_replace('/\s\s+/u', '\\n', $value)), ENT_QUOTES, 'UTF-8');
@@ -401,7 +401,7 @@ class SystemInfo
                     $key = $preserve;
                     $preserve = 0;
                 }
-                if (Str::startsWith($setting, $key) && !empty($value)) {
+                if (str_starts_with($setting, $key) && !empty($value)) {
                     $preserve = Cast::toInt($preserve);
                     $value = Str::mask($value, 0, $preserve, 13);
                     break;

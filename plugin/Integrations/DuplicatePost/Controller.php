@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Integrations\DuplicatePost;
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Review;
 
 class Controller extends BaseController
@@ -52,7 +51,7 @@ class Controller extends BaseController
         global $wp_filter;
         $callbacks = Arr::get($wp_filter, 'post_submitbox_start.callbacks.10', []);
         foreach ($callbacks as $key => $value) {
-            if (Str::endsWith($key, 'add_rewrite_and_republish_post_button')) {
+            if (str_ends_with($key, 'add_rewrite_and_republish_post_button')) {
                 remove_action('post_submitbox_start', Arr::get($value, 'function'), 10);
             }
         }

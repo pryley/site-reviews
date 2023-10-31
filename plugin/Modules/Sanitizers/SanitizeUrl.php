@@ -9,7 +9,7 @@ class SanitizeUrl extends StringSanitizer
     public function run(): string
     {
         $value = $this->value();
-        if (!Str::startsWith($value, 'http://, https://')) {
+        if (!Str::startsWith($value, ['http://', 'https://'])) {
             $value = Str::prefix($value, 'https://');
         }
         $url = esc_url_raw($value);

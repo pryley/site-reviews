@@ -29,7 +29,7 @@ class ExportRatings implements Contract
      */
     public function filterExportSkipPostMeta($skip, $metaKey)
     {
-        return !Str::startsWith($metaKey, '_custom,_'.glsr()->prefix);
+        return !Str::startsWith($metaKey, ['_custom', '_'.glsr()->prefix]);
     }
 
     /**

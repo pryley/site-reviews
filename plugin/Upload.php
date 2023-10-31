@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 class Upload
@@ -39,7 +38,7 @@ class Upload
      */
     protected function validateExtension($extension)
     {
-        if (Str::endsWith($this->file()->name, $extension)) {
+        if (str_ends_with($this->file()->name, $extension)) {
             return true;
         }
         glsr(Notice::class)->addError(sprintf(

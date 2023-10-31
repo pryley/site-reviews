@@ -170,7 +170,7 @@ class MigrateSidebars implements MigrateContract
     {
         array_walk($sidebars, function (&$widgets) {
             array_walk($widgets, function (&$widget) {
-                if (Str::startsWith($widget, glsr()->id.'_')) {
+                if (str_starts_with($widget, glsr()->id.'_')) {
                     $widget = Str::replaceFirst(glsr()->id.'_', glsr()->prefix, $widget);
                 }
             });
@@ -188,7 +188,7 @@ class MigrateSidebars implements MigrateContract
         $widgets = call_user_func_array('array_merge', $sidebars);
         $widgets = Arr::consolidate($widgets); // ensure this is an array in case call_user_func_array() errors
         foreach ($widgets as $widget) {
-            if (Str::startsWith($widget, glsr()->id.'_')) {
+            if (str_starts_with($widget, glsr()->id.'_')) {
                 return true;
             }
         }

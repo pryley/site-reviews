@@ -132,7 +132,7 @@ class AdminController extends Controller
     public function filterScreenOptionsButton($showButton)
     {
         global $post_type_object, $title, $typenow;
-        if (!Str::startsWith($typenow, glsr()->post_type)) {
+        if (!str_starts_with($typenow, glsr()->post_type)) {
             return $showButton;
         }
         $submit = get_submit_button(_x('Apply', 'admin-text', 'site-reviews'), 'primary', 'screen-options-apply', false);
@@ -215,7 +215,7 @@ class AdminController extends Controller
     public function renderPageHeader()
     {
         global $post_type_object, $title, $typenow;
-        if (!Str::startsWith($typenow, glsr()->post_type)) {
+        if (!str_starts_with($typenow, glsr()->post_type)) {
             return;
         }
         $screen = glsr_current_screen();

@@ -431,7 +431,7 @@ trait Sql
      */
     protected function clauseJoinOrderBy()
     {
-        return (string) Helper::ifTrue(Str::startsWith($this->args['orderby'], 'p.'),
+        return (string) Helper::ifTrue(str_starts_with($this->args['orderby'], 'p.'),
             "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
         );
     }
@@ -481,7 +481,7 @@ trait Sql
     {
         $clauses = [];
         foreach ($and as $key => $value) {
-            if (Str::startsWith($key, 'assigned_')) {
+            if (str_starts_with($key, 'assigned_')) {
                 $clauses[] = $value;
                 unset($and[$key]);
             }

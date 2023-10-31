@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Addons;
 
-use GeminiLabs\SiteReviews\Helpers\Str;
-
 abstract class Hooks
 {
     protected $addon;
@@ -25,7 +23,7 @@ abstract class Hooks
             if (2 > count($hook)) {
                 continue;
             }
-            $func = Str::startsWith($hook[0], 'filter') ? 'add_filter' : 'add_action';
+            $func = str_starts_with($hook[0], 'filter') ? 'add_filter' : 'add_action';
             $hook = array_pad($hook, 3, 10); // priority
             $hook = array_pad($hook, 4, 1); // allowed args
             call_user_func($func, $hook[1], [$controller, $hook[0]], (int) $hook[2], (int) $hook[3]);

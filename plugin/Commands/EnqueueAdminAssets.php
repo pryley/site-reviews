@@ -6,7 +6,6 @@ use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedPost;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedUser;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAuthor;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
@@ -216,7 +215,7 @@ class EnqueueAdminAssets implements Contract
             'site-editor',
             'widgets',
         ];
-        return Str::startsWith($screen->post_type, glsr()->post_type)
+        return str_starts_with($screen->post_type, glsr()->post_type)
             || in_array($screen->id, $screenIds)
             || 'post' === $screen->base;
     }

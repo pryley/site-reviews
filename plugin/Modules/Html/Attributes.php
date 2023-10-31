@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Attributes
 {
@@ -148,7 +147,7 @@ class Attributes
         $wildcards = [];
         foreach (static::GLOBAL_WILDCARD_ATTRIBUTES as $wildcard) {
             $newWildcards = array_filter($this->attributes,
-                fn ($key) => Str::startsWith($key, $wildcard),
+                fn ($key) => str_starts_with($key, $wildcard),
                 ARRAY_FILTER_USE_KEY
             );
             $wildcards = array_merge($wildcards, $newWildcards);
@@ -174,7 +173,7 @@ class Attributes
      */
     protected function getQuoteChar($attribute)
     {
-        return Str::startsWith($attribute, 'data-') ? '\'' : '"';
+        return str_starts_with($attribute, 'data-') ? '\'' : '"';
     }
 
     /**
@@ -233,7 +232,7 @@ class Attributes
                 $key = $value;
                 $value = '';
             }
-            if (!Str::startsWith($key, 'data-')) {
+            if (!str_starts_with($key, 'data-')) {
                 continue;
             }
             if (is_array($value)) {
@@ -281,7 +280,7 @@ class Attributes
             if (in_array($key, static::BOOLEAN_ATTRIBUTES) && !$value) {
                 unset($attributes[$key]);
             }
-            if (Str::startsWith($key, 'data-')) {
+            if (str_starts_with($key, 'data-')) {
                 $permanentAttributes[$key] = $value;
                 unset($attributes[$key]);
             }

@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Tests;
 
 use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
-use GeminiLabs\SiteReviews\Helpers\Str;
 
 /**
  * Test case for the Plugin.
@@ -93,7 +92,7 @@ class DefaultsTest extends \WP_UnitTestCase
         ];
         $test = glsr(SiteReviewsDefaults::class)->restrict($args);
         $this->assertEquals(count($test), count(glsr(SiteReviewsDefaults::class)->defaults()));
-        $this->assertTrue(Str::startsWith($test['id'], glsr()->prefix));
+        $this->assertTrue(str_starts_with($test['id'], glsr()->prefix));
         unset($test['id']);
         $this->assertEquals($test, [
             'assigned_posts' => $postId,

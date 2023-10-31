@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Modules\Assets;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 
 abstract class AssetAbstract
 {
@@ -203,7 +202,7 @@ abstract class AssetAbstract
         $removedDeps = array_diff($this->handles, [glsr()->id]);
         $this->sources = array_fill_keys($this->handles, ''); // ensure correct order!
         foreach ($this->registered() as $handle => $dependency) {
-            if (Str::startsWith($handle, glsr()->id)) {
+            if (str_starts_with($handle, glsr()->id)) {
                 $dependency->deps = array_diff($dependency->deps, $removedDeps);
             }
             if (!in_array($handle, $this->handles)) {

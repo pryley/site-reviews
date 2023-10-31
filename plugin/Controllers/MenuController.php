@@ -221,7 +221,7 @@ class MenuController extends Controller
      */
     protected function parseWithFilter($hookSuffix, array $args = [])
     {
-        if (Str::endsWith($hookSuffix, '/tabs')) {
+        if (str_ends_with($hookSuffix, '/tabs')) {
             $page = str_replace('/tabs', '', $hookSuffix);
             foreach ($args as $tab => $title) {
                 if (!glsr()->hasPermission($page, $tab)) {

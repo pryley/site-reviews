@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\CountProductReviews;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\ImportProductReviews;
 use GeminiLabs\SiteReviews\Request;
@@ -17,7 +16,7 @@ class ImportController extends BaseController
     {
         $newPaths = [];
         foreach ($paths as $path) {
-            if (Str::endsWith($path, 'import-reviews.php')) {
+            if (str_ends_with($path, 'import-reviews.php')) {
                 $newPaths[] = glsr()->path('views/integrations/woocommerce/tools/import-product-reviews.php');
             }
             $newPaths[] = $path;

@@ -7,7 +7,6 @@ use Automattic\WooCommerce\StoreApi\Schemas\ExtendSchema;
 use Automattic\WooCommerce\StoreApi\Schemas\V1\ProductSchema;
 use Automattic\WooCommerce\StoreApi\StoreApi;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\AdminApi\ProductReviews;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\BlocksApi\ProductReviewSchema;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\BlocksApi\ProductReviewsRoute;
@@ -86,7 +85,7 @@ class RestApiController
     public function filterSqlJoin($join, $handle, $query)
     {
         $orderby = Arr::get($query->args, 'orderby');
-        if (Str::endsWith($orderby, 'rating')) {
+        if (str_ends_with($orderby, 'rating')) {
             $join['woo_orderby_rating'] = "INNER JOIN {$query->db->posts} AS p ON r.review_id = p.ID";
         }
         return $join;
@@ -103,13 +102,13 @@ class RestApiController
     {
         $order = Arr::get($query->args, 'order');
         $orderby = Arr::get($query->args, 'orderby');
-        if (Str::endsWith($orderby, 'rating')) {
+        if (str_ends_with($orderby, 'rating')) {
             return [
                 "r.rating {$order}",
                 "p.post_date_gmt {$order}",
             ];
         }
-        if (Str::endsWith($orderby, 'date_gmt')) {
+        if (str_ends_with($orderby, 'date_gmt')) {
             return [
                 "p.post_date_gmt {$order}", // ignore pinned reviews
             ];

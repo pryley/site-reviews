@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Defaults\FlyoutItemDefaults;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\License;
 
 class FlyoutController extends Controller
@@ -17,7 +16,7 @@ class FlyoutController extends Controller
         if ('post' === $screen->base) {
             return;
         }
-        if (!Str::startsWith($screen->post_type, glsr()->post_type)) {
+        if (!str_starts_with($screen->post_type, glsr()->post_type)) {
             return;
         }
         if (!glsr()->filterBool('flyoutmenu/enabled', true)) {

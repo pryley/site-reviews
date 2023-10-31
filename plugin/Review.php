@@ -8,7 +8,6 @@ use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\ReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Text;
 use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Date;
@@ -194,8 +193,8 @@ class Review extends Arguments
      */
     public function custom()
     {
-        $custom = array_filter($this->meta()->toArray(), 
-            fn ($key) => Str::startsWith($key, '_custom'), 
+        $custom = array_filter($this->meta()->toArray(),
+            fn ($key) => str_starts_with($key, '_custom'),
             ARRAY_FILTER_USE_KEY
         );
         $custom = Arr::unprefixKeys($custom, '_custom_');

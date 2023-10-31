@@ -113,7 +113,7 @@ abstract class AbstractNotice
 
     protected function isNoticeScreen(): bool
     {
-        return Str::startsWith(glsr_current_screen()->post_type, glsr()->post_type);
+        return str_starts_with(glsr_current_screen()->post_type, glsr()->post_type);
     }
 
     protected function storedVersion(): string

@@ -71,7 +71,7 @@ abstract class Controller
      */
     protected function isReviewAdminScreen()
     {
-        return Str::startsWith(glsr_current_screen()->post_type, glsr()->post_type);
+        return str_starts_with(glsr_current_screen()->post_type, glsr()->post_type);
     }
 
     /**
