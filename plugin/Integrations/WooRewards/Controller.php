@@ -9,11 +9,6 @@ use GeminiLabs\SiteReviews\Review;
 class Controller extends BaseController
 {
     /**
-     * @var \LWS\WOOREWARDS\Events\ProductReview|null
-     */
-    public $event;
-
-    /**
      * @action site-reviews/review/approved
      */
     public function onApprovedReview(Review $review): void
@@ -53,8 +48,9 @@ class Controller extends BaseController
      */
     protected function invoke(string $method, array $args = [])
     {
+        $event = glsr()->retrieve('\LWS\WOOREWARDS\Events\ProductReview');
         $fn = fn () => $this->$method(...$args);
-        return $fn->bindTo($this->event, $this->event)();
+        return $fn->bindTo($event, $event)();
     }
 
     protected function processPoints(Review $review): void
