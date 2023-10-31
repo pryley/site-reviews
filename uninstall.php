@@ -19,7 +19,7 @@ function glsr_uninstall() {
     delete_transient('glsr_remote_post_test');
     delete_transient('glsr_system_info');
     // finally, flush the cache
-    if (wp_cache_supports('flush_group')) {
+    if (function_exists('wp_cache_supports') && wp_cache_supports('flush_group')) {
         wp_cache_flush_group('options');
         wp_cache_flush_group('reviews');
     } else {
