@@ -34,10 +34,14 @@ class ReviewHooks extends AbstractHooks
     public function runEarly(): void
     {
         if (!glsr(Tables::class)->isInnodb('posts')) {
-            $this->hook(ReviewController::class, [['onDeletePost', 'deleted_post', 10, 2]]);
+            $this->hook(ReviewController::class, [
+                ['onDeletePost', 'deleted_post', 10, 2],
+            ]);
         }
         if (!glsr(Tables::class)->isInnodb('users')) {
-            $this->hook(ReviewController::class, [['onDeleteUser', 'deleted_user']]);
+            $this->hook(ReviewController::class, [
+                ['onDeleteUser', 'deleted_user'],
+            ]);
         }
     }
 }

@@ -10,9 +10,9 @@ class AdminHooks extends AbstractHooks
     {
         $this->hook(AdminController::class, [
             ['approveReview', 'site-reviews/route/get/admin/approve'],
-            ['displayUpdateWarning', 'in_plugin_update_message-'.$this->basename],
+            ['displayUpdateWarning', "in_plugin_update_message-{$this->basename}"],
             ['enqueueAssets', 'admin_enqueue_scripts'],
-            ['filterActionLinks', 'plugin_action_links_'.$this->basename],
+            ['filterActionLinks', "plugin_action_links_{$this->basename}"],
             ['filterDashboardGlanceItems', 'dashboard_glance_items'],
             ['filterExportArgs', 'export_args', 11],
             ['filterScreenOptionsButton', 'screen_options_show_submit', 20],
