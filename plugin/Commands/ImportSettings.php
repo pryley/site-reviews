@@ -47,7 +47,7 @@ class ImportSettings extends Upload implements Contract
             if (isset($settings['version_upgraded_from'])) { // don't import version_upgraded_from
                 $settings['version_upgraded_from'] = glsr(OptionManager::class)->get('version_upgraded_from');
             }
-            glsr(OptionManager::class)->set(
+            glsr(OptionManager::class)->replace(
                 glsr(OptionManager::class)->normalize($settings)
             );
             glsr(Migrate::class)->runAll(); // migrate the imported settings

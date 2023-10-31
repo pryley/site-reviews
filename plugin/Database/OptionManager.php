@@ -121,7 +121,7 @@ class OptionManager
         return $settings;
     }
 
-    public function previous(): ?array
+    public function previous(): array
     {
         static::flushSettingsCache();
         foreach (static::databaseKeys() as $version => $option) {
@@ -129,12 +129,25 @@ class OptionManager
                 return $settings;
             }
         }
-        return null;
+        return [];
+    }
+
+    public function replace(array $settings): bool
+    {
+        if (empty($settings)) {
+            return false;
+        }
+        $settings = $this->normalize($settings);
+        if (!update_option(static::databaseKey(), $settings)) {
+            return false;
+        }
+        $this->reset();
+        return true;
     }
 
     public function reset(): array
     {
-        $settings = Arr::consolidate($this->wp(static::databaseKey(), [], 'array'));
+        $settings = Arr::consolidate($this->wp(static::databaseKey(), []));
         if (empty($settings)) {
             delete_option(static::databaseKey());
             glsr(Migrate::class)->reset(); // Do this to migrate any previous version settings
@@ -145,22 +158,18 @@ class OptionManager
     }
 
     /**
-     * @param string|array $pathOrArray
      * @param mixed $value
      */
-    public function set($pathOrArray, $value = ''): bool
+    public function set(string $path, $value = ''): bool
     {
-        if (is_string($pathOrArray)) {
-            $pathOrArray = Arr::set($this->reset(), $pathOrArray, $value);
+        $settings = $this->reset();
+        $settings = Arr::set($settings, $path, $value);
+        $settings = $this->normalize($settings);
+        if (!update_option(static::databaseKey(), $settings)) {
+            return false;
         }
-        if ($settings = Arr::consolidate($pathOrArray)) {
-            $result = update_option(static::databaseKey(), $settings);
-        }
-        if (!empty($result)) {
-            $this->reset();
-            return true;
-        }
-        return false;
+        $this->reset();
+        return true;
     }
 
     /**

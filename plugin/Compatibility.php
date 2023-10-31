@@ -6,14 +6,14 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Compatibility
 {
-    public function findCallback(string $hook, string $fn, string $className, int $priority = 10): ?array
+    public function findCallback(string $hook, string $fn, string $className, int $priority = 10): array
     {
         global $wp_filter;
         if (!isset($wp_filter[$hook])) {
-            return;
+            return [];
         }
         if (!isset($wp_filter[$hook]->callbacks[$priority])) {
-            return;
+            return [];
         }
         foreach ($wp_filter[$hook]->callbacks[$priority] as $callback) {
             if (!is_array($callback['function'])) {
@@ -25,11 +25,13 @@ class Compatibility
                 return $callback;
             }
         }
+        return [];
     }
 
     public function removeHook(string $hook, string $fn, string $className, int $priority = 10): bool
     {
-        if ($callback = $this->findCallback($hook, $fn, $className, $priority)) {
+        $callback = $this->findCallback($hook, $fn, $className, $priority);
+        if (!empty($callback['function'])) {
             remove_filter($hook, $callback['function'], $priority);
             return true;
         }

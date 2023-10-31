@@ -132,8 +132,9 @@ final class Application extends Container
         }
         // If this is a new major version, copy over the previous version settings
         if (empty(get_option(OptionManager::databaseKey()))) {
-            if ($settings = $this->make(OptionManager::class)->previous()) {
-                update_option(OptionManager::databaseKey(), $settings);
+            $previous = $this->make(OptionManager::class)->previous();
+            if (!empty($previous)) {
+                update_option(OptionManager::databaseKey(), $previous);
             }
         }
         // Force an immediate plugin migration on database version upgrades
