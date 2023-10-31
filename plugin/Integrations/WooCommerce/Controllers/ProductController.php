@@ -284,6 +284,18 @@ class ProductController
     }
 
     /**
+     * @param string $columnName
+     * @param string $postType
+     * @action bulk_edit_custom_box
+     */
+    public function renderBulkEditField($columnName, $postType): void
+    {
+        if ('price' === $columnName && 'product' === $postType) {
+            glsr()->render('views/integrations/woocommerce/bulk-edit');
+        }
+    }
+
+    /**
      * @return void
      * @action woocommerce_after_shop_loop_item_title
      */
@@ -314,6 +326,18 @@ class ProductController
         glsr(Template::class)->render('views/integrations/woocommerce/product-data-panel', [
             'product' => $product_object,
         ]);
+    }
+
+    /**
+     * @param string $columnName
+     * @param string $postType
+     * @action quick_edit_custom_box
+     */
+    public function renderQuickEditField($columnName, $postType): void
+    {
+        if ('price' === $columnName && 'product' === $postType) {
+            glsr()->render('views/integrations/woocommerce/quick-edit');
+        }
     }
 
     /**
