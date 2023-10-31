@@ -54,11 +54,6 @@ class OptionManager
         return $keys;
     }
 
-    public function delete(string $path): bool
-    {
-        return $this->set(Arr::remove($this->all(), $path));
-    }
-
     public static function flushSettingsCache(): void
     {
         $alloptions = wp_load_alloptions(true);
