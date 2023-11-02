@@ -53,7 +53,7 @@ Site Reviews provides more features and options than almost every other free rev
 - __Review Limits__: Prevent people from submitting more than one review per day (based on IP address, email, or username). Works with review assignments. 
 - __Shortcodes__: Configurable shortcodes complete with full documentation
 - __Slack Integration__: Receive notifications in Slack when a review is submitted
-- __SPAM Protection__: Includes 5 layers of protection from spam! Built-in Honeypot, 4 CAPTCHA options (FriendlyCaptcha, hCaptcha, reCAPTCHA v2 Invisible, and reCAPTCHA v3), Akismet, Blacklist, and Review limits
+- __SPAM Protection__: Includes 5 layers of protection from spam! Built-in Honeypot, 5 CAPTCHA options (Cloudflare Turnstile, FriendlyCaptcha, hCaptcha, reCAPTCHA v2 Invisible, and reCAPTCHA v3), Akismet, Blacklist, and Review limits
 - __Templates__: Use the Site Reviews templates in your theme for full control over the HTML
 - __Translations__: Easily change any text of the plugin to your own in the settings.
 - __Verify Reviews__: Mark reviews as verified
@@ -199,7 +199,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 - Added a flyout help menu on Site Reviews pages in the WordPress Admin.
 - Added a "Request Verification" setting
-- Added support for the [Nitropack](https://wordpress.org/plugins/nitropack/) cache plugin
+- Added support for the [NitroPack](https://wordpress.org/plugins/nitropack/) cache plugin
 - Added tag buttons to notification message setting
 - Added the ability to approve a review directly from a Discord, Email, or Slack notification
 - Changed number of scheduled actions to 50 per page
