@@ -116,11 +116,11 @@ msgstr "Close Modal"
 msgid "Please verify your review"
 msgstr "Please verify your review"
 
-#: plugin/Controllers/VerificationController.php:42
+#: plugin/Controllers/VerificationController.php:48
 msgid "Thank you, your review has been verified."
 msgstr "Thank you, your review has been verified."
 
-#: plugin/Controllers/VerificationController.php:43
+#: plugin/Controllers/VerificationController.php:49
 msgid "Thank you, your review has been verified and is awaiting approval."
 msgstr "Thank you, your review has been verified and is awaiting approval."
 
@@ -424,11 +424,11 @@ msgstr "Loading, please wait..."
 msgid "Load more"
 msgstr "Load more"
 
-#: plugin/Modules/Html/Partials/StarRating.php:28
+#: plugin/Modules/Html/Partials/StarRating.php:29
 msgid "Rated %s out of %s based on %s ratings"
 msgstr "Rated %s out of %s based on %s ratings"
 
-#: plugin/Modules/Html/Partials/StarRating.php:29
+#: plugin/Modules/Html/Partials/StarRating.php:30
 msgid "Rated %s out of %s"
 msgstr "Rated %s out of %s"
 
@@ -2832,7 +2832,7 @@ msgctxt "admin-text"
 msgid "General"
 msgstr "General"
 
-#: plugin/Controllers/MenuController.php:145, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:12, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
+#: plugin/Controllers/MenuController.php:145, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:12, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr "Reviews"
@@ -4327,6 +4327,11 @@ msgstr ""
 msgctxt "admin-text"
 msgid "Enable reviews"
 msgstr "Enable reviews"
+
+#: views/integrations/woocommerce/quick-edit.php:7
+msgctxt "admin-text"
+msgid "Enable Reviews"
+msgstr "Enable Reviews"
 
 #: views/integrations/woocommerce/settings.php:7
 msgctxt "admin-text"
@@ -6550,7 +6555,7 @@ msgctxt "screen reader text"
 msgid "Site Reviews navigation"
 msgstr "Site Reviews navigation"
 
-#: plugin/Modules/Html/Tags/SummaryTextTag.php:29
+#: plugin/Modules/Html/Tags/SummaryTextTag.php:30
 msgctxt "Do not translate {rating}, {max}, and {num}, they are template tags."
 msgid "{rating} out of {max} stars (based on {num} review)"
 msgid_plural "{rating} out of {max} stars (based on {num} reviews)"

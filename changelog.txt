@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 6.11.4 (2023-11-02) =
+
+- Fixed localized rating values.
+- Fixed quick/bulk editing of WooCommerce Products from automatically disabling reviews support.
+- Fixed review responses disappearing when editing reviews on the frontend with the Review Authors addon.
+- Fixed notifications from triggering when a review is auto-saved as a draft.
+- Fixed notifications from triggering when reviews are imported.
+- Fixed WordPress 6.4 compatibility.
+
 = 6.11.3 (2023-10-20) =
 
 - Fixed cache plugin integrations
