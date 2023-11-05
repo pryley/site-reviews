@@ -302,10 +302,7 @@ abstract class DefaultsAbstract implements DefaultsContract
         return $parsed;
     }
 
-    /**
-     * @return array|void
-     */
-    protected function property($key)
+    protected function property($key): array
     {
         try {
             $reflection = new \ReflectionClass($this);
@@ -318,6 +315,7 @@ abstract class DefaultsAbstract implements DefaultsContract
         } catch (\ReflectionException $e) {
             glsr_log()->error("Invalid or protected property [$key].");
         }
+        return [];
     }
 
     /**
