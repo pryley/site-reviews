@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Request;
 
-class NoticeController extends Controller
+class NoticeController extends AbstractController
 {
     /**
      * @action current_screen

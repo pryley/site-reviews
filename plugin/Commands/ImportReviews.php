@@ -8,7 +8,6 @@ use GeminiLabs\League\Csv\Info;
 use GeminiLabs\League\Csv\Reader;
 use GeminiLabs\League\Csv\Statement;
 use GeminiLabs\League\Csv\TabularDataReader;
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -19,8 +18,10 @@ use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Upload;
 
-class ImportReviews extends Upload implements Contract
+class ImportReviews extends AbstractCommand
 {
+    use Upload;
+
     public const ALLOWED_DATE_FORMATS = [
         'd-m-Y', 'd-m-Y H:i', 'd-m-Y H:i:s',
         'd/m/Y', 'd/m/Y H:i', 'd/m/Y H:i:s',
@@ -38,60 +39,49 @@ class ImportReviews extends Upload implements Contract
         'date', 'rating',
     ];
 
-    /**
-     * @var string
-     */
-    protected $date_format = 'Y-m-d';
+    protected string $dateFormat = 'Y-m-d';
 
-    /**
-     * @var string
-     */
-    protected $delimiter = '';
+    protected string $delimiter = '';
 
-    /**
-     * @var string[]
-     */
-    protected $errors = [];
+    /** @var string[] */
+    protected array $errors = [];
 
-    /**
-     * @var int
-     */
-    protected $skippedRecords = 0;
+    protected int $skippedRecords = 0;
+
+    protected bool $success = false;
 
     public function __construct(Request $request)
     {
-        $this->date_format = Str::restrictTo(static::ALLOWED_DATE_FORMATS, $request->date_format, 'Y-m-d');
+        $this->dateFormat = Str::restrictTo(static::ALLOWED_DATE_FORMATS, $request->date_format, 'Y-m-d');
         $this->delimiter = Str::restrictTo(static::ALLOWED_DELIMITERS, $request->delimiter, '');
         $this->errors = [];
     }
 
-    /**
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
         if (!glsr()->hasPermission('tools', 'general')) {
             glsr(Notice::class)->addError(
                 _x('You do not have permission to import reviews.', 'admin-text', 'site-reviews')
             );
+            $this->fail();
             return;
         }
         if (!$this->validateUpload() || !$this->validateExtension('.csv')) {
             glsr(Notice::class)->addWarning(
                 _x('The import file is not a valid CSV file.', 'admin-text', 'site-reviews')
             );
+            $this->fail();
             return;
         }
         $result = $this->import();
-        if (false !== $result) {
-            $this->notify($result);
+        if (-1 === $result) {
+            $this->fail();
+            return;
         }
+        $this->notify($result);
     }
 
-    /**
-     * @return Reader
-     */
-    protected function createReader()
+    protected function createReader(): Reader
     {
         $reader = Reader::createFromPath($this->file()->tmp_name);
         if (empty($this->delimiter)) {
@@ -116,10 +106,7 @@ class ImportReviews extends Upload implements Contract
         return $reader;
     }
 
-    /**
-     * @return int|bool
-     */
-    protected function import()
+    protected function import(): int
     {
         define('WP_IMPORTING', true);
         if (!ini_get('auto_detect_line_endings')) {
@@ -148,17 +135,14 @@ class ImportReviews extends Upload implements Contract
         } catch (\OutOfRangeException|\Exception $e) {
             glsr(Notice::class)->addError($e->getMessage());
         }
-        return false;
+        return -1;
     }
 
-    /**
-     * @return int
-     */
-    protected function importRecords(TabularDataReader $records)
+    protected function importRecords(TabularDataReader $records): int
     {
         foreach ($records as $offset => $record) {
             $record = array_map('trim', $record);
-            $date = \DateTime::createFromFormat($this->date_format, $record['date']);
+            $date = \DateTime::createFromFormat($this->dateFormat, $record['date']);
             $record['date'] = $date->format('Y-m-d H:i:s'); // format the provided date
             $request = new Request($record);
             $command = new CreateReview($request);
@@ -168,10 +152,7 @@ class ImportReviews extends Upload implements Contract
         return count($records);
     }
 
-    /**
-     * @return void
-     */
-    protected function notify($result)
+    protected function notify(int $result): void
     {
         $notice = sprintf(
             _nx('%s review was imported.', '%s reviews were imported.', $result, 'admin-text', 'site-reviews'),
@@ -191,19 +172,20 @@ class ImportReviews extends Upload implements Contract
                 _x('Console', 'admin-text', 'site-reviews')
             )
         );
-        glsr(Notice::class)->addWarning(sprintf('%s (%s)', sprintf('%s %s', $notice, $skipped), $consoleLink));
-        glsr_log()->warning(sprintf('One or more of the following errors were encountered during import: %s', Str::naturalJoin($this->errors)));
+        glsr(Notice::class)->addWarning(
+            sprintf('%s (%s)', sprintf('%s %s', $notice, $skipped), $consoleLink)
+        );
+        glsr_log()->warning(
+            sprintf('One or more of the following errors were encountered during import: %s', Str::naturalJoin($this->errors))
+        );
     }
 
-    /**
-     * @return bool
-     */
-    protected function validateRecord(array $record)
+    protected function validateRecord(array $record): bool
     {
         $record = array_map('trim', $record);
         $required = [
-            'date' => glsr(Date::class)->isDate(Arr::get($record, 'date'), $this->date_format),
-            'rating' => glsr(Rating::class)->isValid(Arr::get($record, 'rating')),
+            'date' => glsr(Date::class)->isDate(Arr::getAs('string', $record, 'date'), $this->dateFormat),
+            'rating' => glsr(Rating::class)->isValid(Arr::getAs('int', $record, 'rating')),
         ];
         if (2 === count(array_filter($required))) {
             return true;

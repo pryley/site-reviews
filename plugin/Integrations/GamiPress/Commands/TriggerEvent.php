@@ -2,26 +2,20 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\GamiPress\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
+use GeminiLabs\SiteReviews\Commands\AbstractCommand;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Integrations\GamiPress\Triggers;
 
-class TriggerEvent implements Contract
+class TriggerEvent extends AbstractCommand
 {
-    /**
-     * @var array
-     */
-    public $event;
+    public array $event = [];
 
     public function __construct(array $event)
     {
         $this->event = $event;
     }
 
-    /**
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
         foreach (glsr(Triggers::class)->triggers() as $trigger => $labels) {
             $this->triggerReceivedPost($trigger);
@@ -30,12 +24,7 @@ class TriggerEvent implements Contract
         }
     }
 
-    /**
-     * @param string $trigger
-     * @param int $userId
-     * @return void
-     */
-    protected function trigger($trigger, $userId)
+    protected function trigger(string $trigger, int $userId): void
     {
         $event = [
             'event' => $trigger,
@@ -44,11 +33,7 @@ class TriggerEvent implements Contract
         gamipress_trigger_event(wp_parse_args($event, $this->event));
     }
 
-    /**
-     * @param string $trigger
-     * @return void
-     */
-    protected function triggerReceivedPost($trigger)
+    protected function triggerReceivedPost(string $trigger): void
     {
         if (Str::contains($trigger, '/received/post')) {
             foreach ($this->event['assigned_posts_authors'] as $userId) {
@@ -57,11 +42,7 @@ class TriggerEvent implements Contract
         }
     }
 
-    /**
-     * @param string $trigger
-     * @return void
-     */
-    protected function triggerReceivedUser($trigger)
+    protected function triggerReceivedUser(string $trigger): void
     {
         if (Str::contains($trigger, '/received/user')) {
             foreach ($this->event['assigned_users'] as $userId) {
@@ -70,11 +51,7 @@ class TriggerEvent implements Contract
         }
     }
 
-    /**
-     * @param string $trigger
-     * @return void
-     */
-    protected function triggerReviewed($trigger)
+    protected function triggerReviewed(string $trigger): void
     {
         if (Str::contains($trigger, '/reviewed')) {
             $this->trigger($trigger, get_current_user_id());

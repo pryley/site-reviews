@@ -3,15 +3,12 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Api;
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Request;
 
-class DeactivatePlugin implements Contract
+class DeactivatePlugin extends AbstractCommand
 {
-    /**
-     * @var Request
-     */
+    /** @var Request */
     public $request;
 
     public function __construct(Request $request)
@@ -19,10 +16,7 @@ class DeactivatePlugin implements Contract
         $this->request = $request;
     }
 
-    /**
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
         $request = array_merge($this->insights(), [
             'details' => $this->request->details,

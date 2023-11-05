@@ -57,13 +57,17 @@ abstract class AbstractHooks implements HooksContract
     {
     }
 
-    public function runEarly(): void
+    /**
+     * @action init:10
+     */
+    public function runInit(): void
     {
-        // This is triggered on plugin_loaded:10
     }
 
-    public function runLate(): void
+    /**
+     * @action plugin_loaded:10
+     */
+    public function runPluginLoaded(): void
     {
-        // This is triggered on init:10
     }
 }

@@ -2,8 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Addons;
 
-use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Contracts\PluginContract;
+use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Assets\AssetCss;
 use GeminiLabs\SiteReviews\Modules\Assets\AssetJs;
@@ -12,23 +14,14 @@ use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Modules\Translator;
 
-abstract class Controller extends BaseController
+abstract class Controller extends AbstractController
 {
-    /**
-     * @var Addon
-     */
-    protected $addon;
-
-    public function __construct()
-    {
-        $this->setAddon();
-    }
+    abstract protected function app(): PluginContract;
 
     /**
-     * @return void
      * @action admin_enqueue_scripts
      */
-    public function enqueueAdminAssets()
+    public function enqueueAdminAssets(): void
     {
         if ($this->isReviewAdminPage()) {
             $this->enqueueAsset('css', ['suffix' => 'admin']);
@@ -39,10 +32,9 @@ abstract class Controller extends BaseController
     /**
      * The CSS registered here will not load in the site editor unless it contains the .wp-block selector.
      * @see https://github.com/WordPress/gutenberg/issues/41821
-     * @return void
      * @action enqueue_block_editor_assets
      */
-    public function enqueueBlockAssets()
+    public function enqueueBlockAssets(): void
     {
         $this->registerAsset('css', ['suffix' => 'blocks']);
         $this->registerAsset('js', [
@@ -52,10 +44,9 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @return void
      * @action wp_enqueue_scripts
      */
-    public function enqueuePublicAssets()
+    public function enqueuePublicAssets(): void
     {
         if (!glsr(AssetCss::class)->canOptimize() || !glsr(AssetCss::class)->isOptimized()) {
             $this->enqueueAsset('css');
@@ -66,25 +57,26 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @return array
-     * @filter plugin_action_links_{addon_id}/{addon_id}.php
+     * @param array $actions
+     * @filter plugin_action_links_{$this->app()->id}/{$this->app()->id}.php
      */
-    public function filterActionLinks(array $links)
+    public function filterActionLinks($actions): array
     {
-        if (glsr()->hasPermission('settings') && !empty($this->addon->config('settings'))) {
-            $links['settings'] = glsr(Builder::class)->a([
-                'href' => glsr_admin_url('settings', 'addons', $this->addon->slug),
+        $actions = Arr::consolidate($actions);
+        if (glsr()->hasPermission('settings') && !empty($this->app()->config('settings'))) {
+            $actions['settings'] = glsr(Builder::class)->a([
+                'href' => glsr_admin_url('settings', 'addons', $this->app()->slug),
                 'text' => _x('Settings', 'admin-text', 'site-reviews'),
             ]);
         }
         if (glsr()->hasPermission('documentation')) {
-            $links['documentation'] = glsr(Builder::class)->a([
-                'data-expand' => '#addon-'.$this->addon->id,
+            $actions['documentation'] = glsr(Builder::class)->a([
+                'data-expand' => "#addon-{$this->app()->id}",
                 'href' => glsr_admin_url('documentation', 'addons'),
                 'text' => _x('Help', 'admin-text', 'site-reviews'),
             ]);
         }
-        return $links;
+        return $actions;
     }
 
     /**
@@ -92,7 +84,7 @@ abstract class Controller extends BaseController
      */
     public function filterCapabilities(array $capabilities): array
     {
-        if (!$this->addon->post_type) { // @phpstan-ignore-line
+        if (!$this->app()->post_type) { // @phpstan-ignore-line
             return $capabilities;
         }
         $defaults = [
@@ -109,77 +101,71 @@ abstract class Controller extends BaseController
             'read_private_posts',
         ];
         foreach ($defaults as $capability) {
-            $capabilities[] = str_replace('post', $this->addon->post_type, $capability);
+            $capabilities[] = str_replace('post', $this->app()->post_type, $capability);
         }
         return $capabilities;
     }
 
     /**
-     * @param string $path
-     * @return string
      * @filter site-reviews/config
      */
-    public function filterConfigPath($path)
+    public function filterConfigPath(string $path): string
     {
-        $addonPrefix = $this->addon->id.'/';
-        return Str::contains($path, $addonPrefix)
-            ? $addonPrefix.str_replace($addonPrefix, '', $path)
+        $prefix = trailingslashit($this->app()->id);
+        return str_contains($path, $prefix)
+            ? $prefix.str_replace($prefix, '', $path)
             : $path;
     }
 
     /**
-     * @return array
      * @filter site-reviews/addon/documentation
      */
-    public function filterDocumentation(array $documentation)
+    public function filterDocumentation(array $documentation): array
     {
         $notice = glsr()->build('views/partials/addons/support-notice', [
-            'addon_id' => $this->addon->id,
+            'addon_id' => $this->app()->id,
         ]);
-        $support = $this->addon->build('views/documentation');
-        $documentation[$this->addon->id] = $notice.$support;
+        $support = $this->app()->build('views/documentation');
+        $documentation[$this->app()->id] = $notice.$support;
         return $documentation;
     }
 
     /**
-     * @param string $path
-     * @param string $file
-     * @return string
      * @filter site-reviews/path
      */
-    public function filterFilePaths($path, $file)
+    public function filterFilePaths(string $path, string $file): string
     {
-        $addonPrefix = $this->addon->id.'/';
+        $addonPrefix = trailingslashit($this->app()->id);
         return str_starts_with($file, $addonPrefix)
-            ? $this->addon->path(Str::replaceFirst($addonPrefix, '', $file))
+            ? $this->app()->path(Str::replaceFirst($addonPrefix, '', $file))
             : $path;
     }
 
     /**
      * @param string $translation
-     * @param string $text
-     * @return string
-     * @filter gettext_{addon_id}
+     * @param string $single
+     * @filter gettext_{$this->app()->id}
      */
-    public function filterGettext($translation, $text)
+    public function filterGettext($translation, $single): string
     {
-        return glsr(Translator::class)->translate($translation, $this->addon->id, [
-            'single' => $text,
+        $translation = Cast::toString($translation);
+        return glsr(Translator::class)->translate($translation, $this->app()->id, [
+            'single' => Cast::toString($single),
         ]);
     }
 
     /**
      * @param string $translation
-     * @param string $text
+     * @param string $single
      * @param string $context
-     * @return string
-     * @filter gettext_with_context_{addon_id}
+     * @filter gettext_with_context_{$this->app()->id}
      */
-    public function filterGettextWithContext($translation, $text, $context)
+    public function filterGettextWithContext($translation, $single, $context): string
     {
-        return glsr(Translator::class)->translate($translation, $this->addon->id, [
-            'context' => $context,
-            'single' => $text,
+        $translation = Cast::toString($translation);
+        return glsr(Translator::class)->translate($translation, $this->app()->id, [
+            'context' => Cast::toString($context),
+            'single' => Cast::toString($single),
         ]);
     }
 
@@ -188,15 +174,15 @@ abstract class Controller extends BaseController
      * @param string $single
      * @param string $plural
      * @param int $number
-     * @return string
-     * @filter ngettext_{addon_id}
+     * @filter ngettext_{$this->app()->id}
      */
-    public function filterNgettext($translation, $single, $plural, $number)
+    public function filterNgettext($translation, $single, $plural, $number): string
     {
-        return glsr(Translator::class)->translate($translation, $this->addon->id, [
-            'number' => $number,
-            'plural' => $plural,
-            'single' => $single,
+        $translation = Cast::toString($translation);
+        return glsr(Translator::class)->translate($translation, $this->app()->id, [
+            'number' => Cast::toInt($number),
+            'plural' => Cast::toString($plural),
+            'single' => Cast::toString($single),
         ]);
     }
 
@@ -206,29 +192,27 @@ abstract class Controller extends BaseController
      * @param string $plural
      * @param int $number
      * @param string $context
-     * @return string
-     * @filter ngettext_with_context_{addon_id}
+     * @filter ngettext_with_context_{$this->app()->id}
      */
-    public function filterNgettextWithContext($translation, $single, $plural, $number, $context)
+    public function filterNgettextWithContext($translation, $single, $plural, $number, $context): string
     {
-        return glsr(Translator::class)->translate($translation, $this->addon->id, [
-            'context' => $context,
-            'number' => $number,
-            'plural' => $plural,
-            'single' => $single,
+        $translation = Cast::toString($translation);
+        return glsr(Translator::class)->translate($translation, $this->app()->id, [
+            'context' => Cast::toString($context),
+            'number' => Cast::toInt($number),
+            'plural' => Cast::toString($plural),
+            'single' => Cast::toString($single),
         ]);
     }
 
     /**
-     * @param string $view
-     * @return string
-     * @filter {addon_id}/render/view
+     * @filter {$this->app()->id}/render/view
      */
-    public function filterRenderView($view)
+    public function filterRenderView(string $view): string
     {
         $style = glsr_get_option('general.style', 'default');
         $styledView = sprintf('views/styles/%s/%s', $style, basename($view));
-        if (file_exists($this->addon->file($styledView))) {
+        if (file_exists($this->app()->file($styledView))) {
             return $styledView;
         }
         return $view;
@@ -239,7 +223,7 @@ abstract class Controller extends BaseController
      */
     public function filterRoles(array $roles): array
     {
-        if (!$this->addon->post_type) { // @phpstan-ignore-line
+        if (!$this->app()->post_type) { // @phpstan-ignore-line
             return $roles;
         }
         $defaults = [
@@ -287,173 +271,181 @@ abstract class Controller extends BaseController
                 continue;
             }
             foreach ($capabilities as $capability) {
-                $roles[$role][] = str_replace('post', $this->addon->post_type, $capability);
+                $roles[$role][] = str_replace('post', $this->app()->post_type, $capability);
             }
         }
         return $roles;
     }
 
     /**
-     * @return array
      * @filter site-reviews/defer-scripts
      */
-    public function filterScriptsDefer(array $handles)
+    public function filterScriptsDefer(array $handles): array
     {
         return $handles;
     }
 
     /**
-     * @return array
      * @filter site-reviews/settings
      */
-    public function filterSettings(array $settings)
+    public function filterSettings(array $settings): array
     {
-        return array_merge($this->addon->config('settings'), $settings);
+        return array_merge($this->app()->config('settings'), $settings);
     }
 
     /**
-     * @return array
      * @filter site-reviews/addon/subsubsub
      */
-    public function filterSubsubsub(array $subsubsub)
+    public function filterSubsubsub(array $subsubsub): array
     {
         return $subsubsub;
     }
 
     /**
-     * @return array
      * @filter site-reviews/translation/entries
      */
-    public function filterTranslationEntries(array $entries)
+    public function filterTranslationEntries(array $entries): array
     {
-        $potFile = $this->addon->path($this->addon->languages.'/'.$this->addon->id.'.pot');
-        return glsr(Translation::class)->extractEntriesFromPotFile($potFile, $this->addon->id, $entries);
+        $potFile = $this->app()->path("{$this->app()->languages}/{$this->app()->id}.pot");
+        return glsr(Translation::class)->extractEntriesFromPotFile($potFile, $this->app()->id, $entries);
     }
 
     /**
-     * @return array
      * @filter site-reviews/translator/domains
      */
-    public function filterTranslatorDomains(array $domains)
+    public function filterTranslatorDomains(array $domains): array
     {
-        $domains[] = $this->addon->id;
-        return $domains;
+        return [...$domains, $this->app()->id];
     }
 
     /**
-     * @return void
-     * @action {addon_id}/activate
+     * @action {$this->app()->id}/activate
      */
-    public function install()
+    public function install(): void
     {
     }
 
     /**
-     * @return void
      * @action admin_init
      */
-    public function onActivation()
+    public function onActivation(): void
     {
-        $activatedOption = glsr()->prefix.'activated_'.$this->addon->id;
+        $activatedOption = glsr()->prefix.'activated_'.$this->app()->id;
         if (empty(get_option($activatedOption))) {
-            $this->addon->action('activate');
+            $this->app()->action('activate');
             update_option($activatedOption, true);
         }
     }
 
     /**
-     * @return void
      * @action init
      */
-    public function registerBlocks()
+    public function registerBlocks(): void
     {
     }
 
     /**
-     * @return void
      * @action init
      */
-    public function registerLanguages()
+    public function registerLanguages(): void
     {
-        load_plugin_textdomain($this->addon->id, false,
-            trailingslashit(plugin_basename($this->addon->path()).'/'.$this->addon->languages)
-        );
+        $path = plugin_basename($this->app()->path());
+        $path = trailingslashit("{$path}/{$this->app()->languages}");
+        load_plugin_textdomain($this->app()->id, false, $path);
     }
 
     /**
-     * @return void
      * @action init
      */
-    public function registerShortcodes()
+    public function registerShortcodes(): void
     {
     }
 
     /**
-     * @return void
      * @action admin_init
      */
-    public function registerTinymcePopups()
+    public function registerTinymcePopups(): void
     {
     }
 
     /**
-     * @return void
      * @action widgets_init
      */
-    public function registerWidgets()
+    public function registerWidgets(): void
     {
     }
 
     /**
-     * @param string $rows
-     * @return void
-     * @action site-reviews/settings/{addon_slug}
+     * @action site-reviews/settings/{$this->app()->slug}
      */
-    public function renderSettings($rows)
+    public function renderSettings(string $rows): void
     {
-        glsr(Template::class)->render($this->addon->id.'/views/settings', [
+        glsr(Template::class)->render("{$this->app()->id}/views/settings", [
             'context' => [
                 'rows' => $rows,
-                'title' => $this->addon->name,
+                'title' => $this->app()->name,
             ],
         ]);
     }
 
     /**
-     * @param string $extension
-     * @return array
+     * @action plugins_loaded
      */
-    protected function buildAssetArgs($extension, array $args = [])
+    public function runIntegrations(): void
+    {
+        $dir = $this->app()->path('plugin/Integrations');
+        if (!is_dir($dir)) {
+            return;
+        }
+        $iterator = new \DirectoryIterator($dir);
+        $namespace = (new \ReflectionClass($this->app()))->getNamespaceName();
+        foreach ($iterator as $fileinfo) {
+            if (!$fileinfo->isDir() || $fileinfo->isDot()) {
+                continue;
+            }
+            try {
+                $hooks = "{$namespace}\Integrations\\{$fileinfo->getBasename()}\Hooks";
+                $reflect = new \ReflectionClass($hooks);
+                if ($reflect->isInstantiable()) {
+                    glsr()->singleton($hooks);
+                    add_action('init', [glsr($hooks), 'runLate']);
+                    add_action('plugins_loaded', [glsr($hooks), 'runEarly']);
+                    glsr($hooks)->run();
+                }
+            } catch (\ReflectionException $e) {
+                glsr_log()->error($e->getMessage());
+            }
+        }
+    }
+
+    protected function buildAssetArgs(string $ext, array $args = []): array
     {
         $args = wp_parse_args($args, [
             'in_footer' => false,
             'suffix' => '',
         ]);
-        $dependencies = Arr::get($args, 'dependencies', [glsr()->id.Str::prefix($args['suffix'], '/')]);
-        $path = 'assets/'.$this->addon->id.Str::prefix($args['suffix'], '-').'.'.$extension;
-        if (!file_exists($this->addon->path($path)) || !in_array($extension, ['css', 'js'])) {
+        $suffix = Str::removePrefix($args['suffix'], '-');
+        $suffix = Str::removePrefix($args['suffix'], '/');
+        $path = "assets/{$this->app()->id}-$suffix.{$ext}";
+        if (!file_exists($this->app()->path($path)) || !in_array($ext, ['css', 'js'])) {
             return [];
         }
+        $dependencies = Arr::get($args, 'dependencies', [glsr()->id.'/'.$suffix]);
         $funcArgs = [
-            $this->addon->id.Str::prefix($args['suffix'], '/'),
-            $this->addon->url($path),
+            $this->app()->id.'/'.$suffix,
+            $this->app()->url($path),
             Arr::consolidate($dependencies),
-            $this->addon->version,
+            $this->app()->version,
         ];
-        if ('js' === $extension && wp_validate_boolean($args['in_footer'])) {
+        if ('js' === $ext && wp_validate_boolean($args['in_footer'])) {
             $funcArgs[] = true; // load script in the footer
         }
         return $funcArgs;
     }
 
-    /**
-     * @param string $extension
-     * @return void
-     */
-    protected function enqueueAsset($extension, array $args = [])
+    protected function enqueueAsset(string $extension, array $args = []): void
     {
-        $args = $this->buildAssetArgs($extension, $args);
-        if (!empty($args)) {
+        if ($args = $this->buildAssetArgs($extension, $args)) {
             $function = 'js' === $extension
                 ? 'wp_enqueue_script'
                 : 'wp_enqueue_style';
@@ -461,11 +453,7 @@ abstract class Controller extends BaseController
         }
     }
 
-    /**
-     * @param string $extension
-     * @return void
-     */
-    protected function registerAsset($extension, array $args = [])
+    protected function registerAsset(string $extension, array $args = []): void
     {
         if ($args = $this->buildAssetArgs($extension, $args)) {
             $function = 'js' === $extension
@@ -474,9 +462,4 @@ abstract class Controller extends BaseController
             call_user_func_array($function, $args);
         }
     }
-
-    /**
-     * @return void
-     */
-    abstract protected function setAddon();
 }

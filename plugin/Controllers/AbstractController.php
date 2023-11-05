@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Contracts\CommandContract;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
-abstract class Controller
+abstract class AbstractController
 {
     public function download($filename, $content): void
     {
@@ -18,12 +18,10 @@ abstract class Controller
         }
     }
 
-    /**
-     * @return mixed
-     */
-    public function execute(CommandContract $command)
+    public function execute(CommandContract $command): CommandContract
     {
-        return $command->handle();
+        $command->handle();
+        return $command;
     }
 
     protected function getPostId(): int

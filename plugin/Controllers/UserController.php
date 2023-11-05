@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Role;
 
-class UserController extends Controller
+class UserController extends AbstractController
 {
     /**
      * @param string[] $capabilities

@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Commands\RegisterBlocks;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Style;
 
-class BlocksController extends Controller
+class BlocksController extends AbstractController
 {
     /**
      * @param array $blockTypes
@@ -86,12 +86,7 @@ class BlocksController extends Controller
      */
     public function registerBlocks()
     {
-        $this->execute(new RegisterBlocks([
-            'site_review',
-            'site_reviews',
-            'site_reviews_form',
-            'site_reviews_summary',
-        ]));
+        $this->execute(new RegisterBlocks());
     }
 
     /**

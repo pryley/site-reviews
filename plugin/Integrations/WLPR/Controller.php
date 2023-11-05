@@ -2,14 +2,14 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\WLPR;
 
-use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 use Wlpr\App\Helpers\Loyalty;
 use Wlpr\App\Models\PointAction;
 
-class Controller extends BaseController
+class Controller extends AbstractController
 {
     /**
      * @action site-reviews/review/approved

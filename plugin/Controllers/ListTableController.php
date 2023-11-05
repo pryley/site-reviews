@@ -16,7 +16,7 @@ use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Overrides\ReviewsListTable;
 
-class ListTableController extends Controller
+class ListTableController extends AbstractController
 {
     /**
      * @param array $response

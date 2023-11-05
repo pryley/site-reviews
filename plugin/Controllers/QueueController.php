@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notification;
 
-class QueueController extends Controller
+class QueueController extends AbstractController
 {
     /**
      * @return void

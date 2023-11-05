@@ -2,12 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\DuplicatePost;
 
-use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 
-class Controller extends BaseController
+class Controller extends AbstractController
 {
     /**
      * @param int|\WP_Error $newPostId

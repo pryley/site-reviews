@@ -13,7 +13,7 @@ use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
 
-class EditorController extends Controller
+class EditorController extends AbstractController
 {
     /**
      * @param array $settings

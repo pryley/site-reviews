@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Defaults\TutorialDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 
-class WelcomeController extends Controller
+class WelcomeController extends AbstractController
 {
     protected $welcomePage;
 

@@ -2,15 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\CountManager;
 
-class RegisterPostMeta implements Contract
+class RegisterPostMeta extends AbstractCommand
 {
-    /**
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
         $metaKeys = [
             CountManager::META_AVERAGE,

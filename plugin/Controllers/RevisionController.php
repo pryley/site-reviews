@@ -9,7 +9,7 @@ use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\RevisionFieldsDefaults;
 use GeminiLabs\SiteReviews\Review;
 
-class RevisionController extends Controller
+class RevisionController extends AbstractController
 {
     /**
      * @param bool $performCheck

@@ -2,14 +2,14 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 
-use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Elementor\Widgets\ProductRating;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Widgets\WidgetRatingFilter;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Widgets\WidgetRecentReviews;
 use GeminiLabs\SiteReviews\Review;
 
-class MainController extends BaseController
+class MainController extends AbstractController
 {
     public const VERIFIED_META_KEY = '_verified';
 

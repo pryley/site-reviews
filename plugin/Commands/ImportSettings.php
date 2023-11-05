@@ -2,42 +2,44 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Upload;
 
-class ImportSettings extends Upload implements Contract
+class ImportSettings extends AbstractCommand
 {
-    /**
-     * @return void
-     */
-    public function handle()
+    use Upload;
+
+    public function handle(): void
     {
         if (!glsr()->hasPermission('settings')) {
             glsr(Notice::class)->addError(
                 _x('You do not have permission to import settings.', 'admin-text', 'site-reviews')
             );
+            $this->fail();
             return;
         }
         if (!$this->validateUpload() || !$this->validateExtension('.json')) {
             glsr(Notice::class)->addWarning(
                 _x('The import file is not a valid JSON file.', 'admin-text', 'site-reviews')
             );
+            $this->fail();
             return;
         }
-        if ($this->import()) {
-            glsr(Notice::class)->addSuccess(
-                _x('Settings imported.', 'admin-text', 'site-reviews')
+        if (!$this->import()) {
+            glsr(Notice::class)->addWarning(
+                _x('There were no settings found to import.', 'admin-text', 'site-reviews')
             );
+            $this->fail();
+            return;
         }
+        glsr(Notice::class)->addSuccess(
+            _x('Settings imported.', 'admin-text', 'site-reviews')
+        );
     }
 
-    /**
-     * @return bool
-     */
-    protected function import()
+    protected function import(): bool
     {
         $settings = json_decode(file_get_contents($this->file()->tmp_name), true);
         if (!empty($settings)) {
@@ -53,9 +55,6 @@ class ImportSettings extends Upload implements Contract
             glsr(Migrate::class)->runAll(); // migrate the imported settings
             return true;
         }
-        glsr(Notice::class)->addWarning(
-            _x('There were no settings found to import.', 'admin-text', 'site-reviews')
-        );
         return false;
     }
 }

@@ -2,43 +2,40 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\TogglePinnedDefaults;
 use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Request;
+use GeminiLabs\SiteReviews\Review;
 
-class TogglePinned implements Contract
+class TogglePinned extends AbstractCommand
 {
-    public $isPinned;
+    /** @var Review */
     public $review;
 
-    public function __construct(array $input)
+    public function __construct(Request $request)
     {
-        $args = glsr()->args(glsr(TogglePinnedDefaults::class)->restrict($input));
-        $this->review = glsr(Query::class)->review($args->id);
-        $this->isPinned = $args->pinned >= 0
-            ? wp_validate_boolean($args->pinned)
-            : !$this->review->is_pinned;
+        $args = glsr(TogglePinnedDefaults::class)->restrict($request->toArray());
+        $review = glsr(Query::class)->review($args['id']);
+        $this->result = $args['pinned'] >= 0 ? wp_validate_boolean($args['pinned']) : !$review->is_pinned;
+        $this->review = $review;
     }
 
-    /**
-     * @return bool
-     */
-    public function handle()
+    public function handle(): void
     {
         if (!glsr()->can('edit_post', $this->review->ID)) {
-            return wp_validate_boolean($this->review->is_pinned);
+            $this->result = wp_validate_boolean($this->review->is_pinned);
+            return;
         }
-        if ($this->isPinned !== $this->review->is_pinned) {
+        if ($this->result !== $this->review->is_pinned) {
             glsr(ReviewManager::class)->updateRating($this->review->ID, [
-                'is_pinned' => $this->isPinned,
+                'is_pinned' => $this->result,
             ]);
-            $notice = $this->isPinned
+            $notice = $this->result
                 ? _x('Review pinned.', 'admin-text', 'site-reviews')
                 : _x('Review unpinned.', 'admin-text', 'site-reviews');
             glsr(Notice::class)->addSuccess($notice);
         }
-        return $this->isPinned;
     }
 }

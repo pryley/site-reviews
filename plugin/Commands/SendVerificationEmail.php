@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Email;
@@ -10,33 +9,35 @@ use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Html\TemplateTags;
 use GeminiLabs\SiteReviews\Review;
 
-class SendVerificationEmail implements Contract
+class SendVerificationEmail extends AbstractCommand
 {
+    /** @var Review */
     public $review;
-    public $verify_url;
+    public $verifyUrl;
 
-    public function __construct(Review $review, string $verify_url)
+    public function __construct(Review $review, string $verifyUrl)
     {
         $this->review = $review;
-        $this->verify_url = $verify_url;
+        $this->verifyUrl = $verifyUrl;
     }
 
-    /**
-     * @return bool
-     */
-    public function handle()
+    public function handle(): void
     {
         if (!glsr(OptionManager::class)->getBool('settings.general.request_verification', false)) {
-            return false;
+            $this->fail();
+            return;
         }
         $recipient = $this->review->email ?: Arr::get($this->review->user(), 'data.user_email');
         if (empty($recipient)) {
-            return false;
+            $this->fail();
+            return;
         }
         $email = glsr(Email::class)->compose($this->buildEmail($recipient), [
             'review' => $this->review,
         ]);
-        return $email->send();
+        if (!$email->send()) {
+            $this->fail();
+        }
     }
 
     protected function buildEmail(string $recipient): array
@@ -57,7 +58,7 @@ class SendVerificationEmail implements Contract
                 'site_url',
             ],
         ]);
-        $context['verify_url'] = $this->verify_url; // use the provided verify_url with the redirect path
+        $context['verify_url'] = $this->verifyUrl; // use the provided verify_url with the redirect path
         $template = trim(glsr(OptionManager::class)->get('settings.general.request_verification_message'));
         if (!empty($template)) {
             $templatePathForHook = 'request_verification_message';

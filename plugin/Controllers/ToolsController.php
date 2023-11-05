@@ -23,7 +23,7 @@ use GeminiLabs\SiteReviews\Modules\SystemInfo;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Rollback;
 
-class ToolsController extends Controller
+class ToolsController extends AbstractController
 {
     /**
      * @action site-reviews/route/admin/console-level
@@ -38,13 +38,12 @@ class ToolsController extends Controller
      */
     public function changeConsoleLevelAjax(Request $request): void
     {
-        $success = $this->execute(new ChangeLogLevel($request));
+        $command = $this->execute(new ChangeLogLevel($request));
         $notices = glsr(Notice::class)->get();
-        if ($success) {
+        if ($command->successful()) {
             wp_send_json_success(compact('notices'));
-        } else {
-            wp_send_json_error(compact('notices'));
         }
+        wp_send_json_error(compact('notices'));
     }
 
     /**
@@ -60,14 +59,13 @@ class ToolsController extends Controller
      */
     public function clearConsoleAjax(): void
     {
-        $success = $this->execute(new ClearConsole());
+        $command = $this->execute(new ClearConsole());
         $notices = glsr(Notice::class)->get();
-        if ($success) {
+        if ($command->successful()) {
             $console = glsr(Console::class)->get();
             wp_send_json_success(compact('console', 'notices'));
-        } else {
-            wp_send_json_error(compact('notices'));
         }
+        wp_send_json_error(compact('notices'));
     }
 
     /**
@@ -83,13 +81,12 @@ class ToolsController extends Controller
      */
     public function convertTableEngineAjax(Request $request): void
     {
-        $success = $this->execute(new ConvertTableEngine($request));
+        $command = $this->execute(new ConvertTableEngine($request));
         $notices = glsr(Notice::class)->get();
-        if ($success) {
+        if ($command->successful()) {
             wp_send_json_success(compact('notices'));
-        } else {
-            wp_send_json_error(compact('notices'));
         }
+        wp_send_json_error(compact('notices'));
     }
 
     /**
@@ -198,17 +195,20 @@ class ToolsController extends Controller
     public function fetchConsoleAjax(): void
     {
         if (glsr()->hasPermission('settings')) {
-            glsr(Notice::class)->addSuccess(_x('Console reloaded.', 'admin-text', 'site-reviews'));
+            glsr(Notice::class)->addSuccess(
+                _x('Console reloaded.', 'admin-text', 'site-reviews')
+            );
             wp_send_json_success([
                 'console' => glsr(Console::class)->getRaw(), // we don't need to esc_html here
                 'notices' => glsr(Notice::class)->get(),
             ]);
-        } else {
-            glsr(Notice::class)->addError(_x('You do not have permission to reload the console.', 'admin-text', 'site-reviews'));
-            wp_send_json_error([
-                'notices' => glsr(Notice::class)->get(),
-            ]);
         }
+        glsr(Notice::class)->addError(
+            _x('You do not have permission to reload the console.', 'admin-text', 'site-reviews')
+        );
+        wp_send_json_error([
+            'notices' => glsr(Notice::class)->get(),
+        ]);
     }
 
     /**
@@ -261,13 +261,12 @@ class ToolsController extends Controller
      */
     public function migratePluginAjax(Request $request): void
     {
-        $success = $this->execute(new MigratePlugin($request));
+        $command = $this->execute(new MigratePlugin($request));
         $notices = glsr(Notice::class)->get();
-        if ($success) {
+        if ($command->successful()) {
             wp_send_json_success(compact('notices'));
-        } else {
-            wp_send_json_error(compact('notices'));
         }
+        wp_send_json_error(compact('notices'));
     }
 
     /**
@@ -283,7 +282,8 @@ class ToolsController extends Controller
      */
     public function repairPermissionsAjax(Request $request): void
     {
-        if ($this->execute(new RepairPermissions($request))) {
+        $command = $this->execute(new RepairPermissions($request));
+        if ($command->successful()) {
             $reloadLink = glsr(Builder::class)->a([
                 'text' => _x('reload the page', 'admin-text', 'site-reviews'),
                 'href' => 'javascript:window.location.reload(1)',
@@ -294,11 +294,10 @@ class ToolsController extends Controller
             wp_send_json_success([
                 'notices' => glsr(Notice::class)->get(),
             ]);
-        } else {
-            wp_send_json_error([
-                'notices' => glsr(Notice::class)->get(),
-            ]);
         }
+        wp_send_json_error([
+            'notices' => glsr(Notice::class)->get(),
+        ]);
     }
 
     /**
@@ -314,13 +313,12 @@ class ToolsController extends Controller
      */
     public function repairReviewRelationsAjax(): void
     {
-        $success = $this->execute(new RepairReviewRelations());
+        $command = $this->execute(new RepairReviewRelations());
         $notices = glsr(Notice::class)->get();
-        if ($success) {
+        if ($command->successful()) {
             wp_send_json_success(compact('notices'));
-        } else {
-            wp_send_json_error(compact('notices'));
         }
+        wp_send_json_error(compact('notices'));
     }
 
     /**
@@ -336,13 +334,12 @@ class ToolsController extends Controller
      */
     public function resetAssignedMetaAjax(): void
     {
-        $success = $this->execute(new ResetAssignedMeta());
+        $command = $this->execute(new ResetAssignedMeta());
         $notices = glsr(Notice::class)->get();
-        if ($success) {
+        if ($command->successful()) {
             wp_send_json_success(compact('notices'));
-        } else {
-            wp_send_json_error(compact('notices'));
         }
+        wp_send_json_error(compact('notices'));
     }
 
     /**
@@ -367,10 +364,9 @@ class ToolsController extends Controller
             wp_send_json_success(
                 glsr(Rollback::class)->rollbackData($request->cast('string', 'version'))
             );
-        } else {
-            wp_send_json_error([
-                'error' => _x('You do not have permission to rollback the plugin.', 'admin-text', 'site-reviews'),
-            ]);
         }
+        wp_send_json_error([
+            'error' => _x('You do not have permission to rollback the plugin.', 'admin-text', 'site-reviews'),
+        ]);
     }
 }

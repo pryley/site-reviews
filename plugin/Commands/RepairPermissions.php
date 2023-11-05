@@ -2,30 +2,27 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Role;
 
-class RepairPermissions implements Contract
+class RepairPermissions extends AbstractCommand
 {
-    public $resetAll;
+    public bool $resetAll = false;
 
     public function __construct(Request $request)
     {
         $this->resetAll = wp_validate_boolean($request->alt);
     }
 
-    /**
-     * @return bool
-     */
-    public function handle()
+    public function handle(): void
     {
         if (!glsr()->can('edit_users')) {
             glsr(Notice::class)->clear()->addError(
                 _x('You do not have permission to repair permissions.', 'admin-text', 'site-reviews')
             );
-            return false;
+            $this->fail();
+            return;
         }
         if ($this->resetAll) {
             glsr(Role::class)->hardResetAll();
@@ -35,6 +32,5 @@ class RepairPermissions implements Contract
         glsr(Notice::class)->clear()->addSuccess(
             _x('The permissions have been repaired.', 'admin-text', 'site-reviews')
         );
-        return true;
     }
 }

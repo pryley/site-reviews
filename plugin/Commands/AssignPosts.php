@@ -2,15 +2,15 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 
-class AssignPosts implements Contract
+class AssignPosts extends AbstractCommand
 {
+    /** @var Review */
     public $review;
-    public $postIds;
+    public array $postIds = [];
 
     public function __construct(Review $review, array $postIds)
     {
@@ -18,10 +18,7 @@ class AssignPosts implements Contract
         $this->postIds = Arr::uniqueInt($postIds);
     }
 
-    /**
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
         foreach ($this->postIds as $postId) {
             glsr(ReviewManager::class)->assignPost($this->review, $postId);

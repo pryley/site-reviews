@@ -2,102 +2,65 @@
 
 namespace GeminiLabs\SiteReviews\Addons;
 
-abstract class Hooks
+use GeminiLabs\SiteReviews\Contracts\PluginContract;
+use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
+
+abstract class Hooks extends AbstractHooks
 {
-    protected $addon;
-    protected $basename;
-    protected $controller;
+    abstract public function app(): PluginContract;
 
-    public function __construct()
+    protected function baseHooks(array $hooks = []): array
     {
-        $this->addon = $this->addon();
-        $this->basename = plugin_basename($this->addon->file);
-        $this->controller = $this->controller();
+        $defaults = [
+            ['enqueueAdminAssets', 'admin_enqueue_scripts'],
+            ['enqueueBlockAssets', 'enqueue_block_editor_assets'],
+            ['enqueuePublicAssets', 'wp_enqueue_scripts'],
+            ['filterActionLinks', "plugin_action_links_{$this->basename()}"],
+            ['filterCapabilities', 'site-reviews/capabilities'],
+            ['filterConfigPath', 'site-reviews/config'],
+            ['filterDocumentation', 'site-reviews/addon/documentation'],
+            ['filterFilePaths', 'site-reviews/path', 10, 2],
+            ['filterGettext', "gettext_{$this->id()}", 10, 2],
+            ['filterGettextWithContext', "gettext_with_context_{$this->id()}", 10, 3],
+            ['filterNgettext', "ngettext_{$this->id()}", 10, 4],
+            ['filterNgettextWithContext', "ngettext_with_context_{$this->id()}", 10, 5],
+            ['filterRenderView', "{$this->id()}/render/view"],
+            ['filterRoles', 'site-reviews/roles'],
+            ['filterScriptsDefer', 'site-reviews/defer-scripts'],
+            ['filterSettings', 'site-reviews/settings'],
+            ['filterSubsubsub', 'site-reviews/addon/subsubsub'],
+            ['filterTranslationEntries', 'site-reviews/translation/entries'],
+            ['filterTranslatorDomains', 'site-reviews/translator/domains'],
+            ['install', "{$this->id()}/activate"],
+            ['onActivation', 'admin_init'],
+            ['registerBlocks', 'init', 9],
+            ['registerLanguages', 'after_setup_theme', -10],
+            ['registerShortcodes', 'init'],
+            ['registerTinymcePopups', 'admin_init'],
+            ['registerWidgets', 'widgets_init'],
+            ['renderSettings', "site-reviews/settings/{$this->slug()}"],
+            ['runIntegrations', 'plugins_loaded', 100],
+        ];
+        return array_merge($defaults, $hooks);
     }
 
-    public function hook(string $classname, array $hooks): void
+    protected function basename(): string
     {
-        glsr()->singleton($classname); // make singleton
-        $controller = glsr($classname);
-        foreach ($hooks as $hook) {
-            if (2 > count($hook)) {
-                continue;
-            }
-            $func = str_starts_with($hook[0], 'filter') ? 'add_filter' : 'add_action';
-            $hook = array_pad($hook, 3, 10); // priority
-            $hook = array_pad($hook, 4, 1); // allowed args
-            call_user_func($func, $hook[1], [$controller, $hook[0]], (int) $hook[2], (int) $hook[3]);
-        }
+        return plugin_basename($this->app()->file);
     }
 
-    /**
-     * @return void
-     */
-    public function run()
+    protected function id(): string
     {
-        $this->runIntegrations();
-        add_action('admin_enqueue_scripts', [$this->controller, 'enqueueAdminAssets']);
-        add_action('enqueue_block_editor_assets', [$this->controller, 'enqueueBlockAssets']);
-        add_action('wp_enqueue_scripts', [$this->controller, 'enqueuePublicAssets']);
-        add_filter('plugin_action_links_'.$this->basename, [$this->controller, 'filterActionLinks']);
-        add_filter('site-reviews/capabilities', [$this->controller, 'filterCapabilities']);
-        add_filter('site-reviews/config', [$this->controller, 'filterConfigPath']);
-        add_filter('site-reviews/addon/documentation', [$this->controller, 'filterDocumentation']);
-        add_filter('gettext_'.$this->addon->id, [$this->controller, 'filterGettext'], 10, 2);
-        add_filter('gettext_with_context_'.$this->addon->id, [$this->controller, 'filterGettextWithContext'], 10, 3);
-        add_filter('ngettext_'.$this->addon->id, [$this->controller, 'filterNgettext'], 10, 4);
-        add_filter('ngettext_with_context_'.$this->addon->id, [$this->controller, 'filterNgettextWithContext'], 10, 5);
-        add_filter('site-reviews/path', [$this->controller, 'filterFilePaths'], 10, 2);
-        add_filter($this->addon->id.'/render/view', [$this->controller, 'filterRenderView']);
-        add_filter('site-reviews/roles', [$this->controller, 'filterRoles']);
-        add_filter('site-reviews/defer-scripts', [$this->controller, 'filterScriptsDefer']);
-        add_filter('site-reviews/settings', [$this->controller, 'filterSettings']);
-        add_filter('site-reviews/addon/subsubsub', [$this->controller, 'filterSubsubsub']);
-        add_filter('site-reviews/translation/entries', [$this->controller, 'filterTranslationEntries']);
-        add_filter('site-reviews/translator/domains', [$this->controller, 'filterTranslatorDomains']);
-        add_filter($this->addon->id.'/activate', [$this->controller, 'install']);
-        add_action('admin_init', [$this->controller, 'onActivation']);
-        add_action('init', [$this->controller, 'registerBlocks'], 9);
-        add_action('after_setup_theme', [$this->controller, 'registerLanguages'], -10);
-        add_action('init', [$this->controller, 'registerShortcodes']);
-        add_action('admin_init', [$this->controller, 'registerTinymcePopups']);
-        add_action('widgets_init', [$this->controller, 'registerWidgets']);
-        add_action('site-reviews/settings/'.$this->addon->slug, [$this->controller, 'renderSettings']);
+        return $this->app()->id;
     }
 
-    /**
-     * @return void
-     */
-    public function runIntegrations()
+    protected function slug(): string
     {
-        $dir = $this->addon->path('plugin/Integrations');
-        if (!is_dir($dir)) {
-            return;
-        }
-        $iterator = new \DirectoryIterator($dir);
-        $namespace = (new \ReflectionClass($this->addon))->getNamespaceName();
-        foreach ($iterator as $fileinfo) {
-            if (!$fileinfo->isDir() || $fileinfo->isDot()) {
-                continue;
-            }
-            $basename = $namespace.'\Integrations\\'.$fileinfo->getBasename();
-            $controller = $basename.'\Controller';
-            $hooks = $basename.'\Hooks';
-            if (class_exists($controller) && class_exists($hooks)) {
-                glsr()->singleton($controller);
-                glsr()->singleton($hooks);
-                glsr($hooks)->run();
-            }
-        }
+        return $this->app()->slug;
     }
 
-    /**
-     * @return mixed
-     */
-    abstract protected function addon();
-
-    /**
-     * @return mixed
-     */
-    abstract protected function controller();
+    protected function type(): string
+    {
+        return $this->app()->post_type;
+    }
 }

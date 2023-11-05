@@ -2,9 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
-use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Controllers\AbstractController;
 
-class Controller extends BaseController
+class Controller extends AbstractController
 {
     /**
      * Fix Star Rating control when review form is used inside an Elementor Pro Popup.

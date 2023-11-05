@@ -2,81 +2,72 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Defaults\ToggleStatusDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Request;
 
-class ToggleStatus implements Contract
+class ToggleStatus extends AbstractCommand
 {
     public $postId;
     public $review;
     public $status;
 
-    public function __construct(array $input)
+    public function __construct(Request $request)
     {
-        $args = glsr(ToggleStatusDefaults::class)->restrict($input);
+        $args = glsr(ToggleStatusDefaults::class)->restrict($request->toArray());
         $this->postId = $args['post_id'];
         $this->review = glsr_get_review($args['post_id']);
         $this->status = $args['status'];
     }
 
-    /**
-     * @return array
-     */
-    public function handle()
+    public function handle(): void
     {
         if (!$this->review->isValid()) {
             glsr_log()->error('Cannot toggle review status: Invalid Post Type.');
-            return [];
+            $this->fail();
+            return;
         }
         if (!glsr()->can('edit_post', $this->postId)) {
             glsr_log()->error('Cannot toggle review status: Invalid permission.');
-            return [];
+            $this->fail();
+            return;
         }
         $args = [
             'ID' => $this->postId,
             'post_status' => $this->status,
         ];
-        $postId = wp_update_post($args, true);
-        if (is_wp_error($postId)) {
-            glsr_log()->error($postId->get_error_message());
+        $result = wp_update_post($args, true);
+        if (is_wp_error($result)) {
+            glsr_log()->error($result->get_error_message());
+            $this->fail();
+        }
+    }
+
+    public function response(): array
+    {
+        if (!$this->successful()) {
             return [];
         }
         return [
             'class' => 'status-'.$this->status,
             'counts' => $this->getStatusLinks(),
-            'link' => $this->getPostLink($postId).$this->getPostState($postId),
+            'link' => $this->getPostLink(),
             'pending' => wp_count_posts(glsr()->post_type, 'readable')->pending,
         ];
     }
 
-    /**
-     * @param int $postId
-     * @return string
-     */
-    protected function getPostLink($postId)
+    protected function getPostLink(): string
     {
-        $title = _draft_or_post_title($postId);
-        return glsr(Builder::class)->a($title, [
+        $title = _draft_or_post_title($this->postId);
+        $link = glsr(Builder::class)->a($title, [
             'aria-label' => '&#8220;'.esc_attr($title).'&#8221; ('._x('Edit', 'admin-text', 'site-reviews').')',
             'class' => 'row-title',
-            'href' => get_edit_post_link($postId),
+            'href' => get_edit_post_link($this->postId),
         ]);
+        return $link._post_states(get_post($this->postId), false);
     }
 
-    /**
-     * @param int $postId
-     * @return string
-     */
-    protected function getPostState($postId)
-    {
-        return _post_states(get_post($postId), false);
-    }
-
-    /**
-     * @return void|string
-     */
-    protected function getStatusLinks()
+    protected function getStatusLinks(): string
     {
         global $avail_post_stati, $wp_post_statuses;
         $avail_post_stati = get_available_post_statuses(glsr()->post_type);
@@ -101,7 +92,7 @@ class ToggleStatus implements Contract
         $table = new \WP_Posts_List_Table(['screen' => $hookName]);
         $views = apply_filters('views_'.$hookName, $table->get_views()); // get_views() is in the $compat_methods array for public access
         if (empty($views)) {
-            return;
+            return '';
         }
         foreach ($views as $class => $view) {
             $views[$class] = sprintf('<li class="%s">%s', $class, $view);

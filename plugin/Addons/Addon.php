@@ -67,7 +67,7 @@ abstract class Addon implements PluginContract
     }
 
     /**
-     * @param string $defaultsClass  The defaults class used to restrict the options
+     * You can pass a Defaults class which will be used to restrict the options
      */
     public function options(string $defaultsClass = ''): Arguments
     {

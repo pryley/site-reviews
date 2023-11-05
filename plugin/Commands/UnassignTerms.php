@@ -2,25 +2,23 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 
-class UnassignTerms implements Contract
+class UnassignTerms extends AbstractCommand
 {
+    /** @var Review */
     public $review;
-    public $termIds;
+    public array $termIds = [];
 
     public function __construct(Review $review, array $termIds)
     {
         $this->review = $review;
-        $this->termIds = $termIds;
+        $this->termIds = Arr::uniqueInt($termIds);
     }
 
-    /**
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
         foreach ($this->termIds as $termId) {
             glsr(ReviewManager::class)->unassignTerm($this->review, $termId);

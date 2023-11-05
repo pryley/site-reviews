@@ -2,11 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\MyCred;
 
-use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
-class Controller extends BaseController
+class Controller extends AbstractController
 {
     /**
      * @param array $installed

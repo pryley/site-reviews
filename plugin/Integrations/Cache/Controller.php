@@ -3,13 +3,13 @@
 namespace GeminiLabs\SiteReviews\Integrations\Cache;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
-use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 
-class Controller extends BaseController
+class Controller extends AbstractController
 {
     /**
      * @action site-reviews/review/created

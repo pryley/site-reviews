@@ -2,13 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\RankMath;
 
-use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Integrations\RankMath\Defaults\RatingSchemaTypeDefaults;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\SchemaParser;
 
-class Controller extends BaseController
+class Controller extends AbstractController
 {
     /**
      * @return array

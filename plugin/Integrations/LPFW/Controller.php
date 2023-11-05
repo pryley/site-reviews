@@ -2,11 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\LPFW;
 
-use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Review;
 
-class Controller extends BaseController
+class Controller extends AbstractController
 {
     /**
      * @return array

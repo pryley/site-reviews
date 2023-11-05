@@ -10,7 +10,7 @@ use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
-class SettingsController extends Controller
+class SettingsController extends AbstractController
 {
     /**
      * @action admin_init

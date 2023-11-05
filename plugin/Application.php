@@ -53,7 +53,7 @@ final class Application extends Container implements PluginContract
     protected array $settings;
     protected array $updated = [];
 
-    public function addon(string $addonId): ?PluginContract
+    public function addon(string $addonId)
     {
         return $this->addons[$addonId] ?? null;
     }

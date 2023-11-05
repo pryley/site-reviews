@@ -31,7 +31,7 @@ class ReviewHooks extends AbstractHooks
     /**
      * MyISAM table fallback
      */
-    public function runEarly(): void
+    public function runPluginLoaded(): void
     {
         if (!glsr(Tables::class)->isInnodb('posts')) {
             $this->hook(ReviewController::class, [

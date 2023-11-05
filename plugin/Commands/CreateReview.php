@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
@@ -19,7 +18,7 @@ use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
-class CreateReview implements Contract
+class CreateReview extends AbstractCommand
 {
     public $assigned_posts;
     public $assigned_terms;
@@ -65,22 +64,14 @@ class CreateReview implements Contract
         $this->avatar = $this->avatar(); // do this last
     }
 
-    /**
-     * @return static
-     */
-    public function handle()
+    public function handle(): void
     {
         if ($this->validate()) {
             $this->create(); // public form submission
         }
-        return $this;
     }
 
-    /**
-     * This only validates the provided values in the Request.
-     * @return bool
-     */
-    public function isValid()
+    public function isRequestValid(): bool
     {
         $options = glsr(DefaultsManager::class)->pluck('settings.forms.required.options');
         $request = clone $this->request;
@@ -99,10 +90,7 @@ class CreateReview implements Contract
         return true;
     }
 
-    /**
-     * @return string
-     */
-    public function referer()
+    public function referer(): string
     {
         if ($referer = $this->redirect($this->referer)) {
             return $referer;
@@ -111,10 +99,7 @@ class CreateReview implements Contract
         return Url::home();
     }
 
-    /**
-     * @return string
-     */
-    public function reloadedReviews()
+    public function reloadedReviews(): string
     {
         $args = $this->request->cast('_reviews_atts', 'array');
         if (!empty($args) && $this->review->is_approved) {
@@ -127,10 +112,7 @@ class CreateReview implements Contract
         return '';
     }
 
-    /**
-     * @return array
-     */
-    public function response()
+    public function response(): array
     {
         return [
             'errors' => $this->errors,
@@ -142,10 +124,7 @@ class CreateReview implements Contract
         ];
     }
 
-    /**
-     * @return bool
-     */
-    public function success()
+    public function successful(): bool
     {
         if (false === $this->errors) {
             glsr()->sessionClear();
@@ -154,20 +133,14 @@ class CreateReview implements Contract
         return false;
     }
 
-    /**
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         $values = get_object_vars($this);
         $values = glsr()->filterArray('create/review-values', $values, $this);
         return glsr(CreateReviewDefaults::class)->merge($values);
     }
 
-    /**
-     * @return bool
-     */
-    public function validate()
+    public function validate(): bool
     {
         $validator = glsr(ValidateReview::class)->validate($this->request);
         $this->blacklisted = $validator->blacklisted;
@@ -176,10 +149,7 @@ class CreateReview implements Contract
         return $validator->isValid();
     }
 
-    /**
-     * @return string
-     */
-    protected function avatar()
+    protected function avatar(): string
     {
         if (!defined('WP_IMPORTING') && empty($this->avatar)) {
             return glsr(Avatar::class)->generate($this->review);
@@ -187,10 +157,7 @@ class CreateReview implements Contract
         return $this->avatar;
     }
 
-    /**
-     * @return void
-     */
-    protected function create()
+    protected function create(): void
     {
         if ($review = glsr(ReviewManager::class)->create($this)) {
             $this->message = $review->is_approved
@@ -203,18 +170,12 @@ class CreateReview implements Contract
         $this->message = __('Your review could not be submitted and the error has been logged. Please notify the site administrator.', 'site-reviews');
     }
 
-    /**
-     * @return array
-     */
-    protected function custom()
+    protected function custom(): array
     {
         return glsr(CustomFieldsDefaults::class)->filter($this->request->toArray());
     }
 
-    /**
-     * @return Request
-     */
-    protected function normalize(Request $request)
+    protected function normalize(Request $request): Request
     {
         $isFormSubmission = !defined('WP_IMPORTING') && !glsr()->retrieve('glsr_create_review', false);
         if ($isFormSubmission || empty($request->ip_address)) {
@@ -232,10 +193,7 @@ class CreateReview implements Contract
         return $request;
     }
 
-    /**
-     * @return string
-     */
-    protected function redirect($fallback = '')
+    protected function redirect(string $fallback = ''): string
     {
         $redirect = trim(strval(get_post_meta($this->post_id, 'redirect_to', true)));
         $redirect = glsr()->filterString('review/redirect', $redirect, $this, $this->review);
@@ -245,10 +203,7 @@ class CreateReview implements Contract
         return sanitize_text_field($redirect);
     }
 
-    /**
-     * @return void
-     */
-    protected function setProperties(array $properties)
+    protected function setProperties(array $properties): void
     {
         $values = glsr(CreateReviewDefaults::class)->restrict($properties);
         foreach ($values as $key => $value) {
@@ -261,10 +216,7 @@ class CreateReview implements Contract
         }
     }
 
-    /**
-     * @return string
-     */
-    protected function type()
+    protected function type(): string
     {
         $reviewTypes = glsr()->retrieveAs('array', 'review_types');
         return array_key_exists($this->type, $reviewTypes) ? $this->type : 'local';

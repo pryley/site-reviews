@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Commands\DeactivatePlugin;
 use GeminiLabs\SiteReviews\Request;
 
-class DeactivationController extends Controller
+class DeactivationController extends AbstractController
 {
     /**
      * @action admin_enqueue_scripts

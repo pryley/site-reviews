@@ -2,18 +2,15 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Helper;
 
-class RegisterWidgets implements Contract
+class RegisterWidgets extends AbstractCommand
 {
-    /**
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
         $dir = glsr()->path('plugin/Widgets');
         if (!is_dir($dir)) {
+            $this->fail();
             return;
         }
         $iterator = new \DirectoryIterator($dir);

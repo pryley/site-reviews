@@ -2,8 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands;
 
+use GeminiLabs\SiteReviews\Commands\AbstractCommand;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
@@ -12,24 +12,26 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Request;
 
-class ImportProductReviews implements Contract
+class ImportProductReviews extends AbstractCommand
 {
     public const PER_PAGE = 25;
 
-    public $offset;
+    public int $offset = 0;
+    /** @var Request */
     public $request;
+    public int $total = 0;
 
     public function __construct(Request $request)
     {
-        $this->offset = max(0, ((int) $request->page - 1) * static::PER_PAGE); // @phpstan-ignore-line
+        $this->offset = max(0, ($request->cast('page', 'int') - 1) * static::PER_PAGE); // @phpstan-ignore-line
         $this->request = $request;
     }
 
-    public function handle()
+    public function handle(): void
     {
         define('WP_IMPORTING', true);
         wp_raise_memory_limit('admin');
-        $processed = 0;
+        $this->total = 0;
         $reviews = $this->reviews();
         foreach ($reviews as $values) {
             $values = array_map('trim', $values);
@@ -37,11 +39,15 @@ class ImportProductReviews implements Contract
             $command = new CreateReview($request);
             if (glsr(ReviewManager::class)->create($command)) {
                 update_comment_meta((int) $values['comment_ID'], 'imported', 1);
-                ++$processed;
+                ++$this->total;
             }
         }
+    }
+
+    public function response(): array
+    {
         return [
-            'processed' => $processed,
+            'processed' => $this->total,
         ];
     }
 

@@ -10,7 +10,7 @@ use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
-class PublicController extends Controller
+class PublicController extends AbstractController
 {
     /**
      * @action wp_enqueue_scripts
@@ -113,7 +113,7 @@ class PublicController extends Controller
     public function submitReview(Request $request): void
     {
         $command = $this->execute(new CreateReview($request));
-        if ($command->success()) {
+        if ($command->successful()) {
             wp_safe_redirect($command->referer()); // @todo add review ID to referer?
             exit;
         }
@@ -125,7 +125,7 @@ class PublicController extends Controller
     public function submitReviewAjax(Request $request): void
     {
         $command = $this->execute(new CreateReview($request));
-        if ($command->success()) {
+        if ($command->successful()) {
             wp_send_json_success($command->response());
         }
         wp_send_json_error($command->response());

@@ -2,11 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Divi;
 
-use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Paginate;
 
-class Controller extends BaseController
+class Controller extends AbstractController
 {
     /**
      * Fix compatibility with the Divi Dynamic CSS option.

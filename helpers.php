@@ -96,7 +96,7 @@ function glsr_create_review($values = [])
     $review = false;
     glsr()->store('glsr_create_review', true);
     $command = new CreateReview($request);
-    if ($command->isValid()) {
+    if ($command->isRequestValid()) {
         $review = glsr(ReviewManager::class)->create($command);
     }
     glsr()->discard('glsr_create_review');

@@ -3,87 +3,55 @@
 namespace GeminiLabs\SiteReviews\Integrations\GamiPress\Commands;
 
 use GeminiLabs\SiteReviews\Arguments;
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
+use GeminiLabs\SiteReviews\Commands\AbstractCommand;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Review;
 
-class AwardAchievement implements Contract
+class AwardAchievement extends AbstractCommand
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     public $assignedPosts;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     public $assignedPostsAuthors;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     public $assignedPostsTypes;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     public $assignedUsers;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     public $assignedUsersRoles;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     public $requiredPostId;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public $requiredPostType;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     public $requiredRating;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public $requiredRatingCondition;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     public $requiredUserId;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public $requiredUserRole;
 
-    /**
-     * @var Review
-     */
+    /** @var Review */
     public $review;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public $trigger;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     public $userId;
 
-    /**
-     * @param string $trigger
-     * @param int $userId
-     */
-    public function __construct($trigger, $userId, Arguments $requirements, Arguments $args)
+    public function __construct(string $trigger, int $userId, Arguments $requirements, Arguments $args)
     {
         $this->assignedPosts = $args->sanitize('assigned_posts', 'array-int');
         $this->assignedPostsAuthors = $args->sanitize('assigned_posts_authors', 'array-int');
@@ -101,131 +69,92 @@ class AwardAchievement implements Contract
         $this->userId = $userId;
     }
 
-    /**
-     * @return bool
-     */
-    public function handle()
+    public function handle(): void
     {
-        $method = Helper::buildMethodName(
-            str_replace(['site_reviews_gamipress', '/'], ['award', '-'], $this->trigger)
-        );
+        $trigger = str_replace(['site_reviews_gamipress', '/'], ['award', '-'], $this->trigger);
+        $method = Helper::buildMethodName($trigger);
         if (method_exists($this, $method)) {
-            return call_user_func([$this, $method]);
+            $this->result = call_user_func([$this, $method]);
+        } else {
+            $this->fail();
         }
-        return false;
     }
 
-    /**
-     * @return bool
-     */
-    protected function awardReceivedPost()
+    protected function awardReceivedPost(): bool
     {
         return in_array($this->userId, $this->assignedPostsAuthors)
             && $this->isRequiredRating();
     }
 
-    /**
-     * @return bool
-     */
-    protected function awardReceivedPostId()
+    protected function awardReceivedPostId(): bool
     {
         return in_array($this->userId, $this->assignedPostsAuthors)
             && in_array($this->requiredPostId, $this->review->assigned_posts)
             && $this->isRequiredRating();
     }
 
-    /**
-     * @return bool
-     */
-    protected function awardReceivedPostType()
+    protected function awardReceivedPostType(): bool
     {
         return in_array($this->userId, $this->assignedPostsAuthors)
             && in_array($this->requiredPostType, $this->assignedPostsTypes)
             && $this->isRequiredRating();
     }
 
-    /**
-     * @return bool
-     */
-    protected function awardReceivedUser()
+    protected function awardReceivedUser(): bool
     {
         return in_array($this->userId, $this->assignedUsers)
             && $this->isRequiredRating();
     }
 
-    /**
-     * @return bool
-     */
-    protected function awardReviewedAny()
+    protected function awardReviewedAny(): bool
     {
         return $this->userId === $this->review->author_id
             && $this->isRequiredRating();
     }
 
-    /**
-     * @return bool
-     */
-    protected function awardReviewedPost()
+    protected function awardReviewedPost(): bool
     {
         return $this->userId === $this->review->author_id
             && !empty($this->assignedPosts)
             && $this->isRequiredRating();
     }
 
-    /**
-     * @return bool
-     */
-    protected function awardReviewedPostId()
+    protected function awardReviewedPostId(): bool
     {
         return $this->userId === $this->review->author_id
             && in_array($this->requiredPostId, $this->assignedPosts)
             && $this->isRequiredRating();
     }
 
-    /**
-     * @return bool
-     */
-    protected function awardReviewedPostType()
+    protected function awardReviewedPostType(): bool
     {
         return $this->userId === $this->review->author_id
             && in_array($this->requiredPostType, $this->assignedPostsTypes)
             && $this->isRequiredRating();
     }
 
-    /**
-     * @return bool
-     */
-    protected function awardReviewedUser()
+    protected function awardReviewedUser(): bool
     {
         return $this->userId === $this->review->author_id
             && !empty($this->assignedUsers)
             && $this->isRequiredRating();
     }
 
-    /**
-     * @return bool
-     */
-    protected function awardReviewedUserId()
+    protected function awardReviewedUserId(): bool
     {
         return $this->userId === $this->review->author_id
             && in_array($this->userId, $this->assignedUsers)
             && $this->isRequiredRating();
     }
 
-    /**
-     * @return bool
-     */
-    protected function awardReviewedUserRole()
+    protected function awardReviewedUserRole(): bool
     {
         return $this->userId === $this->review->author_id
             && in_array($this->requiredUserRole, $this->assignedUsersRoles)
             && $this->isRequiredRating();
     }
 
-    /**
-     * @return bool
-     */
-    protected function isRequiredRating()
+    protected function isRequiredRating(): bool
     {
         if ('exact' === $this->requiredRatingCondition) {
             return $this->review->rating === $this->requiredRating;

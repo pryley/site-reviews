@@ -6,8 +6,5 @@ use GeminiLabs\SiteReviews\Application;
 
 interface ProviderContract
 {
-    /**
-     * @return void
-     */
-    public function register(Application $app);
+    public function register(Application $app): void;
 }

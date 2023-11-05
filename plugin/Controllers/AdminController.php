@@ -13,6 +13,7 @@ use GeminiLabs\SiteReviews\Commands\ToggleVerified;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Install;
 use GeminiLabs\SiteReviews\License;
@@ -24,7 +25,7 @@ use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Request;
 
-class AdminController extends Controller
+class AdminController extends AbstractController
 {
     /**
      * @action site-reviews/route/get/admin/approve
@@ -33,8 +34,11 @@ class AdminController extends Controller
     {
         $postId = Arr::get($request->data, 0);
         $review = glsr_get_review($postId);
-        if ($review->isValid() && $this->execute(new ApproveReview($review))) {
-            glsr(Notice::class)->store(); // because of the redirect
+        if ($review->isValid()) {
+            $command = $this->execute(new ApproveReview($review));
+            if ($command->successful()) {
+                glsr(Notice::class)->store(); // because of the redirect
+            }
         }
         wp_redirect(glsr_admin_url());
         exit;
@@ -55,20 +59,20 @@ class AdminController extends Controller
     }
 
     /**
-     * @return void
      * @action admin_enqueue_scripts
      */
-    public function enqueueAssets()
+    public function enqueueAssets(): void
     {
         $this->execute(new EnqueueAdminAssets());
     }
 
     /**
-     * @return array
+     * @param array $links
      * @filter plugin_action_links_site-reviews/site-reviews.php
      */
-    public function filterActionLinks(array $links)
+    public function filterActionLinks($links): array
     {
+        $links = Arr::consolidate($links);
         if (glsr()->hasPermission('settings')) {
             $links['settings'] = glsr(Builder::class)->a([
                 'href' => glsr_admin_url('settings'),
@@ -86,18 +90,17 @@ class AdminController extends Controller
 
     /**
      * @param array $items
-     * @return array
      * @filter dashboard_glance_items
      */
-    public function filterDashboardGlanceItems($items)
+    public function filterDashboardGlanceItems($items): array
     {
+        $items = Arr::consolidate($items);
         $postCount = wp_count_posts(glsr()->post_type);
         if (empty($postCount->publish)) {
             return $items;
         }
         $text = _nx('%s Review', '%s Reviews', $postCount->publish, 'admin-text', 'site-reviews');
         $text = sprintf($text, number_format_i18n($postCount->publish));
-        $items = Arr::consolidate($items);
         if (glsr()->can('edit_posts')) {
             $items[] = glsr(Builder::class)->a($text, [
                 'class' => 'glsr-review-count',
@@ -113,27 +116,25 @@ class AdminController extends Controller
 
     /**
      * @param array $args
-     * @return array
      * @filter export_args
      */
-    public function filterExportArgs($args)
+    public function filterExportArgs($args): array
     {
         if (in_array(Arr::get($args, 'content'), ['all', glsr()->post_type])) {
             $this->execute(new ExportRatings(glsr()->args($args)));
         }
-        return $args;
+        return Arr::consolidate($args);
     }
 
     /**
      * @param bool $showButton
-     * @return bool
      * @filter screen_options_show_submit
      */
-    public function filterScreenOptionsButton($showButton)
+    public function filterScreenOptionsButton($showButton): bool
     {
         global $post_type_object, $title, $typenow;
         if (!str_starts_with($typenow, glsr()->post_type)) {
-            return $showButton;
+            return Cast::toBool($showButton);
         }
         $submit = get_submit_button(_x('Apply', 'admin-text', 'site-reviews'), 'primary', 'screen-options-apply', false);
         $close = glsr(Builder::class)->button([
@@ -151,23 +152,21 @@ class AdminController extends Controller
 
     /**
      * @param array $plugins
-     * @return array
      * @filter mce_external_plugins
      */
-    public function filterTinymcePlugins($plugins)
+    public function filterTinymcePlugins($plugins): array
     {
+        $plugins = Arr::consolidate($plugins);
         if (glsr()->can('edit_posts')) {
-            $plugins = Arr::consolidate($plugins);
             $plugins['glsr_shortcode'] = glsr()->url('assets/scripts/mce-plugin.js');
         }
         return $plugins;
     }
 
     /**
-     * @return void
      * @action admin_init
      */
-    public function onActivation()
+    public function onActivation(): void
     {
         if (empty(get_option(glsr()->prefix.'activated'))) {
             glsr(Install::class)->run();
@@ -177,42 +176,33 @@ class AdminController extends Controller
     }
 
     /**
-     * @return void
      * @action import_end
      */
-    public function onImportEnd()
+    public function onImportEnd(): void
     {
         $this->execute(new ImportRatings());
     }
 
     /**
-     * @return void
      * @action admin_head
      */
-    public function printInlineStyle()
+    public function printInlineStyle(): void
     {
         echo '<style type="text/css">a[href="edit.php?post_type=site-review&page='.Str::dashCase(glsr()->prefix).'addons"]:not(.current),a[href="edit.php?post_type=site-review&page='.Str::dashCase(glsr()->prefix).'addons"]:focus,a[href="edit.php?post_type=site-review&page='.Str::dashCase(glsr()->prefix).'addons"]:hover{color:#F6E05E!important;}</style>';
     }
 
     /**
-     * @return void
      * @action admin_init
      */
-    public function registerTinymcePopups()
+    public function registerTinymcePopups(): void
     {
-        $this->execute(new RegisterTinymcePopups([
-            'site_reviews' => _x('Latest Reviews', 'admin-text', 'site-reviews'),
-            'site_review' => _x('Single Review', 'admin-text', 'site-reviews'),
-            'site_reviews_form' => _x('Review Form', 'admin-text', 'site-reviews'),
-            'site_reviews_summary' => _x('Rating Summary', 'admin-text', 'site-reviews'),
-        ]));
+        $this->execute(new RegisterTinymcePopups());
     }
 
     /**
-     * @return void
      * @action in_admin_header
      */
-    public function renderPageHeader()
+    public function renderPageHeader(): void
     {
         global $post_type_object, $title, $typenow;
         if (!str_starts_with($typenow, glsr()->post_type)) {
@@ -232,10 +222,9 @@ class AdminController extends Controller
 
     /**
      * @param string $editorId
-     * @return void
      * @action media_buttons
      */
-    public function renderTinymceButton($editorId)
+    public function renderTinymceButton($editorId): void
     {
         $allowedEditors = glsr()->filterArray('tinymce/editor-ids', ['content'], $editorId);
         if ('post' !== glsr_current_screen()->base || !in_array($editorId, $allowedEditors)) {
@@ -254,10 +243,9 @@ class AdminController extends Controller
     }
 
     /**
-     * @return void
      * @action admin_init
      */
-    public function scheduleMigration()
+    public function scheduleMigration(): void
     {
         if ($this->isReviewAdminScreen()
             && !defined('GLSR_UNIT_TESTS')
@@ -269,10 +257,9 @@ class AdminController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/filter-assigned_post
      */
-    public function searchAssignedPostsAjax(Request $request)
+    public function searchAssignedPostsAjax(Request $request): void
     {
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
         $results = glsr(Database::class)->searchAssignedPosts($search)->results();
@@ -282,10 +269,9 @@ class AdminController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/filter-assigned_user
      */
-    public function searchAssignedUsersAjax(Request $request)
+    public function searchAssignedUsersAjax(Request $request): void
     {
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
         $results = glsr(Database::class)->searchAssignedUsers($search)->results();
@@ -295,10 +281,9 @@ class AdminController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/filter-author
      */
-    public function searchAuthorsAjax(Request $request)
+    public function searchAuthorsAjax(Request $request): void
     {
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
         $results = glsr(Database::class)->searchUsers($search)->results();
@@ -308,10 +293,9 @@ class AdminController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/search-posts
      */
-    public function searchPostsAjax(Request $request)
+    public function searchPostsAjax(Request $request): void
     {
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
         $results = glsr(Database::class)->searchPosts($search)->render();
@@ -322,10 +306,9 @@ class AdminController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/search-strings
      */
-    public function searchStringsAjax(Request $request)
+    public function searchStringsAjax(Request $request): void
     {
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
         $exclude = Arr::consolidate($request->exclude);
@@ -341,10 +324,9 @@ class AdminController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/search-users
      */
-    public function searchUsersAjax(Request $request)
+    public function searchUsersAjax(Request $request): void
     {
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
         $results = glsr(Database::class)->searchUsers($search)->render();
@@ -355,10 +337,9 @@ class AdminController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/toggle-filters
      */
-    public function toggleFiltersAjax(Request $request)
+    public function toggleFiltersAjax(Request $request): void
     {
         if ($userId = get_current_user_id()) {
             $filters = array_keys(glsr(ColumnFilterbyDefaults::class)->defaults());
@@ -370,42 +351,37 @@ class AdminController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/toggle-pinned
      */
-    public function togglePinnedAjax(Request $request)
+    public function togglePinnedAjax(Request $request): void
     {
-        $command = new TogglePinned($request->toArray());
-        $result = $this->execute($command);
-        glsr()->action('cache/flush', $command->review);
+        $command = $this->execute(new TogglePinned($request));
+        glsr()->action('cache/flush', $command->review); // @phpstan-ignore-line
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
-            'pinned' => $result,
+            'pinned' => $command->successful(),
         ]);
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/toggle-status
      */
-    public function toggleStatusAjax(Request $request)
+    public function toggleStatusAjax(Request $request): void
     {
-        $result = $this->execute(new ToggleStatus($request->toArray()));
-        wp_send_json_success($result);
+        $command = $this->execute(new ToggleStatus($request));
+        wp_send_json_success($command->response());
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/toggle-verified
      */
-    public function toggleVerifiedAjax(Request $request)
+    public function toggleVerifiedAjax(Request $request): void
     {
-        $command = new ToggleVerified($request->toArray());
-        $result = $this->execute($command);
-        glsr()->action('cache/flush', $command->review);
+        $command = $this->execute(new ToggleVerified($request));
+        glsr()->action('cache/flush', $command->review); // @phpstan-ignore-line
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
-            'verified' => $result,
+            'verified' => $command->successful(),
         ]);
     }
 }

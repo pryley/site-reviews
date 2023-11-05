@@ -2,15 +2,14 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Review;
 
-class VerifyReview implements Contract
+class VerifyReview extends AbstractCommand
 {
+    /** @var Review */
     public $review;
 
     public function __construct(Review $review)
@@ -18,17 +17,16 @@ class VerifyReview implements Contract
         $this->review = $review;
     }
 
-    /**
-     * @return bool
-     */
-    public function handle()
+    public function handle(): void
     {
         if ($this->review->is_verified) {
-            return false;
+            $this->fail();
+            return;
         }
         $verifiedOn = glsr(Database::class)->meta($this->review->ID, 'verified_on');
         if (glsr(Date::class)->isTimestamp($verifiedOn)) {
-            return false;
+            $this->fail();
+            return;
         }
         $result = (bool) glsr(ReviewManager::class)->updateRating($this->review->ID, [
             'is_verified' => true,
@@ -36,7 +34,8 @@ class VerifyReview implements Contract
         if ($result) {
             glsr(Database::class)->metaSet($this->review->ID, 'verified_on', current_datetime()->getTimestamp());
             glsr()->action('review/verified', $this->review);
+        } else {
+            $this->fail();
         }
-        return $result;
     }
 }

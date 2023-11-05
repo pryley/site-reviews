@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
-class Upload
+trait Upload
 {
     protected function file(): Arguments
     {

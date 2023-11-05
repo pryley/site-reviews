@@ -3,19 +3,18 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Arguments;
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Queue;
 
-class ExportRatings implements Contract
+class ExportRatings extends AbstractCommand
 {
-    protected $limit;
+    protected const PER_PAGE = 250;
 
     public function __construct(Arguments $args)
     {
-        $this->limit = 250;
         if (glsr()->post_type === $args->content) {
             add_filter('wxr_export_skip_postmeta', [$this, 'filterExportSkipPostMeta'], 10, 2);
         }
@@ -24,43 +23,33 @@ class ExportRatings implements Contract
     /**
      * @param bool $skip
      * @param string $metaKey
-     * @return bool
      * @filter wxr_export_skip_postmeta
      */
-    public function filterExportSkipPostMeta($skip, $metaKey)
+    public function filterExportSkipPostMeta($skip, $metaKey): bool
     {
-        return !Str::startsWith($metaKey, ['_custom', '_'.glsr()->prefix]);
+        return !Str::startsWith(Cast::toString($metaKey), ['_custom', '_'.glsr()->prefix]);
     }
 
-    /**
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
         glsr(Database::class)->deleteMeta(glsr()->export_key);
         $this->export();
         $this->cleanup();
     }
 
-    /**
-     * @return void
-     */
-    protected function cleanup()
+    protected function cleanup(): void
     {
         $timestamp = time() + (10 * MINUTE_IN_SECONDS);
         glsr(Queue::class)->once($timestamp, 'queue/export/cleanup');
     }
 
-    /**
-     * @return void
-     */
-    protected function export()
+    protected function export(): void
     {
         $page = 1;
         while (true) {
             $values = glsr(Query::class)->export([
                 'page' => $page,
-                'per_page' => $this->limit,
+                'per_page' => static::PER_PAGE,
             ]);
             if (empty($values)) {
                 break;
@@ -75,10 +64,7 @@ class ExportRatings implements Contract
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function prepareMeta(array &$result)
+    protected function prepareMeta(array &$result): void
     {
         $postId = $result['review_id'];
         unset($result['review_id']);

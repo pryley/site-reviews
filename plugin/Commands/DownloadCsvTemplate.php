@@ -5,11 +5,10 @@ namespace GeminiLabs\SiteReviews\Commands;
 use GeminiLabs\League\Csv\CannotInsertRecord;
 use GeminiLabs\League\Csv\EscapeFormula;
 use GeminiLabs\League\Csv\Writer;
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Rating;
 
-class DownloadCsvTemplate implements Contract
+class DownloadCsvTemplate extends AbstractCommand
 {
     public function columns(): array
     {
@@ -61,10 +60,7 @@ class DownloadCsvTemplate implements Contract
         ];
     }
 
-    /**
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
         try {
             $writer = Writer::createFromString('');
@@ -75,6 +71,7 @@ class DownloadCsvTemplate implements Contract
             $writer->output('reviews-template.csv');
             exit;
         } catch (CannotInsertRecord $e) {
+            $this->fail();
             glsr(Notice::class)->addError($e->getMessage());
             glsr_log()
                 ->warning('Unable to insert row into CSV template file')

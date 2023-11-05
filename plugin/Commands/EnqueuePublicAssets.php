@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
 use GeminiLabs\SiteReviews\Modules\Assets\AssetCss;
@@ -10,20 +9,9 @@ use GeminiLabs\SiteReviews\Modules\Assets\AssetJs;
 use GeminiLabs\SiteReviews\Modules\Captcha;
 use GeminiLabs\SiteReviews\Modules\Style;
 
-class EnqueuePublicAssets implements Contract
+class EnqueuePublicAssets extends AbstractCommand
 {
-    /**
-     * @return void
-     */
-    public function handle()
-    {
-        $this->enqueueAssets();
-    }
-
-    /**
-     * @return void
-     */
-    public function enqueueAssets()
+    public function handle(): void
     {
         if (glsr()->filterBool('assets/css', true)) {
             // ensure block styles are loaded on post types with blocks disabled
@@ -49,10 +37,7 @@ class EnqueuePublicAssets implements Contract
         }
     }
 
-    /**
-     * @return string
-     */
-    public function inlineScript()
+    public function inlineScript(): string
     {
         $urlparameter = glsr(OptionManager::class)->getBool('settings.reviews.pagination.url_parameter')
             ? glsr()->constant('PAGED_QUERY_VAR')
@@ -89,15 +74,12 @@ class EnqueuePublicAssets implements Contract
         return $this->buildInlineScript($variables);
     }
 
-    /**
-     * @return string|void
-     */
-    public function inlineStyles()
+    public function inlineStyles(): string
     {
         $inlineStylesheetPath = glsr()->path('assets/styles/inline-styles.css');
         if (!file_exists($inlineStylesheetPath)) {
             glsr_log()->error('Inline stylesheet is missing: '.$inlineStylesheetPath);
-            return;
+            return '';
         }
         $inlineStylesheetValues = glsr()->config('inline-styles');
         $stylesheet = str_replace(
@@ -108,10 +90,7 @@ class EnqueuePublicAssets implements Contract
         return glsr()->filterString('enqueue/public/inline-styles', $stylesheet);
     }
 
-    /**
-     * @return string
-     */
-    protected function buildInlineScript(array $variables)
+    protected function buildInlineScript(array $variables): string
     {
         $script = 'window.hasOwnProperty("GLSR")||(window.GLSR={Event:{on:()=>{}}});';
         foreach ($variables as $key => $value) {
@@ -122,10 +101,7 @@ class EnqueuePublicAssets implements Contract
         return glsr()->filterString('enqueue/public/inline-script', $optimizedScript, $script, $variables);
     }
 
-    /**
-     * @return array
-     */
-    protected function getFixedSelectorsForPagination()
+    protected function getFixedSelectorsForPagination(): array
     {
         $selectors = ['#wpadminbar', '.site-navigation-fixed'];
         return glsr()->filterArray('enqueue/public/localize/ajax-pagination', $selectors);

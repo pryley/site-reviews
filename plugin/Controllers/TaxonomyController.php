@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
-class TaxonomyController extends Controller
+class TaxonomyController extends AbstractController
 {
     public const PRIORITY_META_KEY = 'term_priority';
 

@@ -15,7 +15,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Settings;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
-class MenuController extends Controller
+class MenuController extends AbstractController
 {
     /**
      * @return void

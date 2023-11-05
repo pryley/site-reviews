@@ -2,50 +2,35 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 
-class ImportRatings implements Contract
+class ImportRatings extends AbstractCommand
 {
-    protected $limit;
+    public const PER_PAGE = 250;
 
-    public function __construct()
-    {
-        $this->limit = 250;
-    }
-
-    /**
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
         $this->import();
         $this->cleanup();
     }
 
-    /**
-     * @return void
-     */
-    protected function cleanup()
+    protected function cleanup(): void
     {
         glsr(Database::class)->deleteMeta(glsr()->export_key);
         glsr(Migrate::class)->reset();
     }
 
-    /**
-     * @return void
-     */
-    protected function import()
+    protected function import(): void
     {
         $page = 0;
         while (true) {
             $values = glsr(Query::class)->import([
                 'page' => $page,
-                'per_page' => $this->limit,
+                'per_page' => static::PER_PAGE,
             ]);
             if (empty($values)) {
                 break;
@@ -58,10 +43,7 @@ class ImportRatings implements Contract
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function importAssignedPosts(array $values)
+    protected function importAssignedPosts(array $values): void
     {
         if ($values = $this->prepareAssignedValues($values, 'post')) {
             glsr(Database::class)->insertBulk('assigned_posts', $values, [
@@ -72,10 +54,7 @@ class ImportRatings implements Contract
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function importAssignedUsers(array $values)
+    protected function importAssignedUsers(array $values): void
     {
         if ($values = $this->prepareAssignedValues($values, 'user')) {
             glsr(Database::class)->insertBulk('assigned_users', $values, [
@@ -85,32 +64,25 @@ class ImportRatings implements Contract
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function importRatings(array $values)
+    protected function importRatings(array $values): void
     {
         array_walk($values, [$this, 'prepareRating']);
         $fields = array_keys(glsr(RatingDefaults::class)->unguardedDefaults());
         glsr(Database::class)->insertBulk('ratings', $values, $fields);
     }
 
-    /**
-     * @param string $key
-     * @return array
-     */
-    protected function prepareAssignedValues(array $results, $key)
+    protected function prepareAssignedValues(array $results, string $key): array
     {
         $assignedKey = $key.'_id';
         $values = [];
         foreach ($results as $result) {
             $meta = maybe_unserialize($result['meta_value']);
-            if (!$assignedIds = Arr::uniqueInt(Arr::get($meta, $key.'_ids'))) {
+            if (!$assignedIds = Arr::uniqueInt(Arr::getAs('array', $meta, "{$key}_ids"))) {
                 continue;
             }
             foreach ($assignedIds as $assignedId) {
                 $value = [
-                    'rating_id' => Arr::get($meta, 'ID'),
+                    'rating_id' => Arr::getAs('int', $meta, 'ID'),
                     $assignedKey => $assignedId,
                 ];
                 if ('post' === $key) {
@@ -122,10 +94,7 @@ class ImportRatings implements Contract
         return $values;
     }
 
-    /**
-     * @return void
-     */
-    protected function prepareRating(array &$result)
+    protected function prepareRating(array &$result): void
     {
         $values = maybe_unserialize($result['meta_value']);
         $values['review_id'] = $result['post_id'];

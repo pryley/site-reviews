@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedPost;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedUser;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAuthor;
@@ -12,7 +11,7 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
-class EnqueueAdminAssets implements Contract
+class EnqueueAdminAssets extends AbstractCommand
 {
     public $pointers;
 
@@ -31,20 +30,10 @@ class EnqueueAdminAssets implements Contract
         ]]);
     }
 
-    /**
-     * @return void
-     */
-    public function handle()
-    {
-        $this->enqueueAssets();
-    }
-
-    /**
-     * @return void
-     */
-    public function enqueueAssets()
+    public function handle(): void
     {
         if (!$this->isCurrentScreen()) {
+            $this->fail();
             return;
         }
         wp_enqueue_style('wp-color-picker');
@@ -69,10 +58,7 @@ class EnqueueAdminAssets implements Contract
         wp_add_inline_script(glsr()->id.'/admin', glsr()->filterString('enqueue/admin/inline-script/after', ''));
     }
 
-    /**
-     * @return string
-     */
-    public function inlineScript()
+    public function inlineScript(): string
     {
         $variables = [
             'action' => glsr()->prefix.'action',
@@ -139,10 +125,7 @@ class EnqueueAdminAssets implements Contract
         return $this->buildInlineScript($variables);
     }
 
-    /**
-     * @return string
-     */
-    protected function buildInlineScript(array $variables)
+    protected function buildInlineScript(array $variables): string
     {
         $script = 'window.hasOwnProperty("GLSR")||(window.GLSR={});';
         foreach ($variables as $key => $value) {
@@ -153,10 +136,7 @@ class EnqueueAdminAssets implements Contract
         return glsr()->filterString('enqueue/admin/inline-script', $optimizedScript, $script, $variables);
     }
 
-    /**
-     * @return array
-     */
-    protected function getDependencies()
+    protected function getDependencies(): array
     {
         $dependencies = glsr()->filterArray('enqueue/admin/dependencies', []);
         $dependencies = array_merge($dependencies, [
@@ -165,10 +145,7 @@ class EnqueueAdminAssets implements Contract
         return $dependencies;
     }
 
-    /**
-     * @return array
-     */
-    protected function generatePointer(array $pointer)
+    protected function generatePointer(array $pointer): array
     {
         return [
             'id' => $pointer['id'],
@@ -181,10 +158,7 @@ class EnqueueAdminAssets implements Contract
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function generatePointers(array $pointers)
+    protected function generatePointers(array $pointers): array
     {
         $dismissedPointers = get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true);
         $dismissedPointers = explode(',', (string) $dismissedPointers);
@@ -201,10 +175,7 @@ class EnqueueAdminAssets implements Contract
         return $generatedPointers;
     }
 
-    /**
-     * @return bool
-     */
-    protected function isCurrentScreen()
+    protected function isCurrentScreen(): bool
     {
         $screen = glsr_current_screen();
         $screenIds = [
@@ -220,17 +191,13 @@ class EnqueueAdminAssets implements Contract
             || 'post' === $screen->base;
     }
 
-    /**
-     * @return array
-     */
-    protected function localizeShortcodes()
+    protected function localizeShortcodes(): array
     {
         $variables = [];
         foreach (glsr()->retrieveAs('array', 'mce', []) as $tag => $args) {
-            if (empty($args['required'])) {
-                continue;
+            if (!empty($args['required'])) {
+                $variables[$tag] = $args['required'];
             }
-            $variables[$tag] = $args['required'];
         }
         return $variables;
     }

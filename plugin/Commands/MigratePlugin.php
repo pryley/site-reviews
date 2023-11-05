@@ -2,32 +2,29 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Request;
 
-class MigratePlugin implements Contract
+class MigratePlugin extends AbstractCommand
 {
-    public $runAll;
+    public bool $runAll = false;
 
     public function __construct(Request $request)
     {
         $this->runAll = wp_validate_boolean($request->get('alt', 0));
     }
 
-    /**
-     * @return bool
-     */
-    public function handle()
+    public function handle(): void
     {
         if (!glsr()->hasPermission('settings')) {
             glsr(Notice::class)->clear()->addError(
                 _x('You do not have permission to migrate the plugin.', 'admin-text', 'site-reviews'),
             );
-            return false;
+            $this->fail();
+            return;
         }
         glsr(Queue::class)->cancelAll('queue/migration');
         if ($this->runAll) {
@@ -44,6 +41,5 @@ class MigratePlugin implements Contract
                 sprintf('<a href="javascript:location.reload()">%s</a>', _x('reload', '(admin-text) e.g. please reload the page', 'site-reviews'))
             ));
         }
-        return true;
     }
 }

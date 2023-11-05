@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\GamiPress;
 
-use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -12,7 +12,7 @@ use GeminiLabs\SiteReviews\Integrations\GamiPress\Commands\TriggerEvent;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Review;
 
-class Controller extends BaseController
+class Controller extends AbstractController
 {
     /**
      * @action wp_ajax_site_reviews_gamipress/users
@@ -223,7 +223,13 @@ class Controller extends BaseController
             'user_id' => (int) get_post_meta($requirementId, $this->metaKey('user_id'), true),
             'user_role' => get_post_meta($requirementId, $this->metaKey('user_role'), true),
         ]);
-        return $this->execute(new AwardAchievement($trigger, $userId, $requirements, $params));
+        $command = $this->execute(new AwardAchievement(
+            (string) $trigger,
+            (int) $userId,
+            $requirements,
+            $params
+        ));
+        return $command->successful();
     }
 
     /**

@@ -2,12 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 
-use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Gatekeeper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 
-class Controller extends BaseController
+class Controller extends AbstractController
 {
     /**
      * @action before_woocommerce_init

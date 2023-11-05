@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
 
-class PrivacyController extends Controller
+class PrivacyController extends AbstractController
 {
     protected $itemsRemoved;
     protected $itemsRetained;

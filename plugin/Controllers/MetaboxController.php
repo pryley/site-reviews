@@ -10,7 +10,7 @@ use GeminiLabs\SiteReviews\Metaboxes\DetailsMetabox;
 use GeminiLabs\SiteReviews\Metaboxes\ResponseMetabox;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 
-class MetaboxController extends Controller
+class MetaboxController extends AbstractController
 {
     /**
      * @return array

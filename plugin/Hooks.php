@@ -22,9 +22,9 @@ class Hooks implements HooksContract
                 $reflect = new \ReflectionClass($hooks);
                 if ($reflect->isInstantiable()) {
                     glsr()->singleton($hooks); // make singleton
-                    add_action('init', [glsr($hooks), 'runLate']);
-                    add_action('plugins_loaded', [glsr($hooks), 'runEarly']);
                     glsr($hooks)->run();
+                    add_action('init', [glsr($hooks), 'runInit']);
+                    add_action('plugins_loaded', [glsr($hooks), 'runPluginLoaded']);
                 }
             } catch (\ReflectionException $e) {
                 glsr_log()->error($e->getMessage());
@@ -45,13 +45,13 @@ class Hooks implements HooksContract
                 continue;
             }
             try {
-                $hooks = sprintf('\GeminiLabs\SiteReviews\Integrations\%s\Hooks', $fileinfo->getBasename());
+                $hooks = "\GeminiLabs\SiteReviews\Integrations\\{$fileinfo->getBasename()}\Hooks";
                 $reflect = new \ReflectionClass($hooks);
                 if ($reflect->isInstantiable()) {
                     glsr()->singleton($hooks);
-                    add_action('init', [glsr($hooks), 'runLate']);
-                    add_action('plugins_loaded', [glsr($hooks), 'runEarly']);
                     glsr($hooks)->run();
+                    add_action('init', [glsr($hooks), 'runInit']);
+                    add_action('plugins_loaded', [glsr($hooks), 'runPluginLoaded']);
                 }
             } catch (\ReflectionException $e) {
                 glsr_log()->error($e->getMessage());

@@ -2,16 +2,15 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Defaults\PostTypeColumnDefaults;
 use GeminiLabs\SiteReviews\Defaults\PostTypeDefaults;
 use GeminiLabs\SiteReviews\Defaults\PostTypeLabelDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
-class RegisterPostType implements Contract
+class RegisterPostType extends AbstractCommand
 {
-    public $args;
-    public $columns;
+    public array $args = [];
+    public array $columns = [];
 
     public function __construct(array $input = [])
     {
@@ -22,10 +21,7 @@ class RegisterPostType implements Contract
         $this->columns = glsr(PostTypeColumnDefaults::class)->defaults();
     }
 
-    /**
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
         register_post_type(glsr()->post_type, $this->args);
         $this->setColumns();

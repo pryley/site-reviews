@@ -2,10 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Helper;
 
-class RegisterBlocks implements Contract
+class RegisterBlocks extends AbstractCommand
 {
     public $blocks;
 
@@ -14,10 +13,7 @@ class RegisterBlocks implements Contract
         $this->blocks = $input;
     }
 
-    /**
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
         foreach ($this->blocks as $block) {
             $blockClass = Helper::buildClassName([$block, 'block'], 'Blocks');

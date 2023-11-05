@@ -2,10 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Helper;
 
-class RegisterTinymcePopups implements Contract
+class RegisterTinymcePopups extends AbstractCommand
 {
     public $popups;
 
@@ -14,10 +13,7 @@ class RegisterTinymcePopups implements Contract
         $this->popups = $input;
     }
 
-    /**
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
         foreach ($this->popups as $slug => $label) {
             $tinymceClass = Helper::buildClassName([$slug, 'tinymce'], 'Tinymce');

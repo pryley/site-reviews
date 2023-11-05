@@ -2,10 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Helper;
 
-class RegisterShortcodes implements Contract
+class RegisterShortcodes extends AbstractCommand
 {
     public $shortcodes;
 
@@ -19,10 +18,7 @@ class RegisterShortcodes implements Contract
         ];
     }
 
-    /**
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
         foreach ($this->shortcodes as $shortcode) {
             $shortcodeClass = Helper::buildClassName([$shortcode, 'shortcode'], 'Shortcodes');

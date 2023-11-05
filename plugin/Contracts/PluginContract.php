@@ -6,8 +6,13 @@ use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Request;
 
 /**
+ * @property string $file
  * @property string $id
+ * @property string $languages
  * @property string $name
+ * @property string $post_type
+ * @property string $slug
+ * @property string $version
  * @method array filterArray($hook, ...$args)
  * @method bool filterBool($hook, ...$args)
  * @method float filterFloat($hook, ...$args)

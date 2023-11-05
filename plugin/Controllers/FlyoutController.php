@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Defaults\FlyoutItemDefaults;
 use GeminiLabs\SiteReviews\License;
 
-class FlyoutController extends Controller
+class FlyoutController extends AbstractController
 {
     /**
      * @action admin_footer

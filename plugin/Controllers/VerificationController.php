@@ -10,7 +10,7 @@ use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
 
-class VerificationController extends Controller
+class VerificationController extends AbstractController
 {
     /**
      * @action site-reviews/review/created
@@ -65,11 +65,11 @@ class VerificationController extends Controller
         $redirectUrl = get_home_url();
         $review = glsr_get_review($postId);
         if ($review->isValid()) {
-            $isVerified = $this->execute(new VerifyReview($review));
+            $command = $this->execute(new VerifyReview($review));
             $path = Arr::get($request->data, 1);
             $redirectUrl .= $path;
             $redirectUrl = add_query_arg('review_id', $review->ID, $redirectUrl);
-            if ($isVerified) {
+            if ($command->successful()) {
                 glsr()->action('cache/flush', $review);
                 $token = glsr(Encryption::class)->encrypt($review->ID);
                 $redirectUrl = add_query_arg('verified', $token, $redirectUrl);

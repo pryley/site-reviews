@@ -11,7 +11,7 @@ use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Install;
 
-class MainController extends Controller
+class MainController extends AbstractController
 {
     /**
      * switch_to_blog() has run before this hook is triggered.

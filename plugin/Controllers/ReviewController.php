@@ -22,9 +22,10 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Metaboxes\ResponseMetabox;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 use GeminiLabs\SiteReviews\Modules\Queue;
+use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
 
-class ReviewController extends Controller
+class ReviewController extends AbstractController
 {
     /**
      * Fallback action if ajax is not working for any reason
@@ -34,10 +35,10 @@ class ReviewController extends Controller
     {
         if (glsr()->id === filter_input(INPUT_GET, 'plugin')) {
             check_admin_referer('approve-review_'.($postId = $this->getPostId()));
-            $this->execute(new ToggleStatus([
+            $this->execute(new ToggleStatus(new Request([
                 'post_id' => $postId,
                 'status' => 'publish',
-            ]));
+            ])));
             wp_safe_redirect(wp_get_referer());
             exit;
         }
@@ -350,10 +351,10 @@ class ReviewController extends Controller
     {
         if (glsr()->id === filter_input(INPUT_GET, 'plugin')) {
             check_admin_referer('unapprove-review_'.($postId = $this->getPostId()));
-            $this->execute(new ToggleStatus([
+            $this->execute(new ToggleStatus(new Request([
                 'post_id' => $postId,
-                'status' => 'pending',
-            ]));
+                'status' => 'publish',
+            ])));
             wp_safe_redirect(wp_get_referer());
             exit;
         }
