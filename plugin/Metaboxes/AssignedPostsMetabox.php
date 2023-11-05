@@ -11,9 +11,9 @@ use GeminiLabs\SiteReviews\Review;
 class AssignedPostsMetabox implements MetaboxContract
 {
     /**
-     * {@inheritdoc}
+     * @param \WP_Post $post
      */
-    public function register($post)
+    public function register($post): void
     {
         if (Review::isReview($post)) {
             $id = glsr()->post_type.'-postsdiv';
@@ -23,9 +23,9 @@ class AssignedPostsMetabox implements MetaboxContract
     }
 
     /**
-     * {@inheritdoc}
+     * @param \WP_Post $post
      */
-    public function render($post)
+    public function render($post): void
     {
         $review = glsr(Query::class)->review($post->ID);
         wp_nonce_field('assigned_posts', '_nonce-assigned-posts', false);

@@ -11,9 +11,9 @@ use GeminiLabs\SiteReviews\Review;
 class ResponseMetabox implements MetaboxContract
 {
     /**
-     * {@inheritdoc}
+     * @param \WP_Post $post
      */
-    public function register($post)
+    public function register($post): void
     {
         if (Review::isEditable($post) && glsr()->can('respond_to_post', $post->ID)) {
             $id = glsr()->post_type.'-responsediv';
@@ -23,9 +23,9 @@ class ResponseMetabox implements MetaboxContract
     }
 
     /**
-     * {@inheritdoc}
+     * @param \WP_Post $post
      */
-    public function render($post)
+    public function render($post): void
     {
         wp_nonce_field('response', '_nonce-response', false);
         glsr()->render('partials/editor/metabox-response', [
@@ -33,15 +33,13 @@ class ResponseMetabox implements MetaboxContract
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function save(Review $review)
+    public function save(Review $review): bool
     {
-        if (wp_verify_nonce(Helper::filterInput('_nonce-response'), 'response')) {
-            return glsr(ReviewManager::class)->updateResponse($review->ID, [
-                'response' => Helper::filterInput('response'),
-            ]);
+        if (!wp_verify_nonce(Helper::filterInput('_nonce-response'), 'response')) {
+            return false;
         }
+        return glsr(ReviewManager::class)->updateResponse($review->ID, [
+            'response' => Helper::filterInput('response'),
+        ]);
     }
 }

@@ -10,9 +10,9 @@ use GeminiLabs\SiteReviews\Review;
 class AuthorMetabox implements MetaboxContract
 {
     /**
-     * {@inheritdoc}
+     * @param \WP_Post $post
      */
-    public function register($post)
+    public function register($post): void
     {
         if (!Review::isReview($post) || !glsr()->can('edit_others_posts')) {
             return;
@@ -23,9 +23,9 @@ class AuthorMetabox implements MetaboxContract
     }
 
     /**
-     * {@inheritdoc}
+     * @param \WP_Post $post
      */
-    public function render($post)
+    public function render($post): void
     {
         $placeholder = _x('Author Unknown', 'admin-text', 'site-reviews');
         $selected = $placeholder;

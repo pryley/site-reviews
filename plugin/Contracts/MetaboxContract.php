@@ -6,13 +6,11 @@ interface MetaboxContract
 {
     /**
      * @param \WP_Post $post
-     * @return void
      */
-    public function register($post);
+    public function register($post): void;
 
     /**
      * @param \WP_Post $post
-     * @return void
      */
-    public function render($post);
+    public function render($post): void;
 }

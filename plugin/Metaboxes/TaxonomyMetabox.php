@@ -8,17 +8,17 @@ use GeminiLabs\SiteReviews\Review;
 class TaxonomyMetabox implements MetaboxContract
 {
     /**
-     * {@inheritdoc}
+     * @param \WP_Post $post
      */
-    public function register($post)
+    public function register($post): void
     {
         // This is done with register_taxonomy
     }
 
     /**
-     * {@inheritdoc}
+     * @param \WP_Post $post
      */
-    public function render($post)
+    public function render($post): void
     {
         if (Review::isReview($post)) {
             glsr()->render('partials/editor/metabox-categories', [

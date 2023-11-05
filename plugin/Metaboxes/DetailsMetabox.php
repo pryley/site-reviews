@@ -9,10 +9,7 @@ use GeminiLabs\SiteReviews\Review;
 
 class DetailsMetabox implements MetaboxContract
 {
-    /**
-     * @return array
-     */
-    public function normalize(Review $review)
+    public function normalize(Review $review): array
     {
         $fields = glsr()->config('forms/metabox-fields');
         if (count(glsr()->retrieveAs('array', 'review_types')) < 2) {
@@ -34,9 +31,9 @@ class DetailsMetabox implements MetaboxContract
     }
 
     /**
-     * {@inheritdoc}
+     * @param \WP_Post $post
      */
-    public function register($post)
+    public function register($post): void
     {
         if (!Review::isReview($post)) {
             return;
@@ -47,9 +44,9 @@ class DetailsMetabox implements MetaboxContract
     }
 
     /**
-     * {@inheritdoc}
+     * @param \WP_Post $post
      */
-    public function render($post)
+    public function render($post): void
     {
         $review = glsr(Query::class)->review($post->ID);
         glsr()->render('partials/editor/metabox-details', [
