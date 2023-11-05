@@ -988,9 +988,24 @@ input.glsr-license-key:not(:focus) {
     border: 1px solid #8c8f94;
     border-bottom-color: #dcdcde;
     border-radius: 4px 4px 0 0;
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
 }
 .glsr-template-editor textarea:focus + .quicktags-toolbar {
     border-color: #2271b1;
     box-shadow: 0 0 0 1px #2271b1;
     outline: 2px solid transparent;
+}
+.glsr-template-editor textarea + .quicktags-toolbar > input.button {
+    margin: 0;
+}
+
+@media screen and (min-width: 782px) {
+    .glsr-template-editor textarea + .quicktags-toolbar > input.button-small {
+        font-size: 12px;
+        min-height: 26px;
+        line-height: 2;
+    }
 }
