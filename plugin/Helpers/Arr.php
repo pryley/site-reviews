@@ -29,9 +29,6 @@ class Arr
         return is_array($value) ? $value : $fallback;
     }
 
-    /**
-     * @return array
-     */
     public static function convertFromDotNotation(array $array)
     {
         $results = [];
@@ -190,10 +187,8 @@ class Arr
     /**
      * Unset a value from an array of values using a dot-notation path as reference.
      * @param mixed $data
-     * @param string $path
-     * @return array
      */
-    public static function remove($data, $path = '')
+    public static function remove($data, string $path = ''): array
     {
         $data = static::consolidate($data);
         $keys = explode('.', $path);
@@ -244,11 +239,9 @@ class Arr
     /**
      * Set a value to an array of values using a dot-notation path as reference.
      * @param mixed $data
-     * @param string $path
      * @param mixed $value
-     * @return array
      */
-    public static function set($data, $path, $value)
+    public static function set($data, string $path, $value): array
     {
         $token = strtok($path, '.');
         $ref = &$data;

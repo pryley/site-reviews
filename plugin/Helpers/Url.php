@@ -14,11 +14,7 @@ class Url
         return untrailingslashit(parse_url($url, PHP_URL_PATH));
     }
 
-    /**
-     * @param string $url
-     * @return array
-     */
-    public static function queries($url)
+    public static function queries(?string $url): array
     {
         $queries = [];
         $str = (string) parse_url((string) $url, PHP_URL_QUERY);
@@ -27,12 +23,10 @@ class Url
     }
 
     /**
-     * @param string $url
-     * @param string $param
-     * @param string|int $fallback
-     * @return string
+     * @param string|int|null $fallback
+     * @return mixed
      */
-    public static function query($url, $param, $fallback = null)
+    public static function query(string $url, string $param, $fallback = null)
     {
         return Arr::get(static::queries($url), $param, $fallback);
     }

@@ -174,9 +174,6 @@ class ArrTest extends WP_UnitTestCase
         $this->assertEquals(Arr::set([], 'number.thirteen', '13'),
             ['number' => ['thirteen' => '13']]
         );
-        $this->assertEquals(Arr::set((object) [], 'number.thirteen', '13'),
-            (object) ['number' => ['thirteen' => '13']]
-        );
     }
 
     public function test_unique()

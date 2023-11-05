@@ -58,10 +58,8 @@ class Str
 
     /**
      * @param mixed $value
-     * @param string $fallback
-     * @return string
      */
-    public static function fallback($value, $fallback)
+    public static function fallback($value, string $fallback): string
     {
         return is_scalar($value) && '' !== trim($value)
             ? Cast::toString($value)
@@ -153,12 +151,8 @@ class Str
 
     /**
      * @param string|string[] $restrictions
-     * @param string $value
-     * @param string $fallback
-     * @param bool $strict
-     * @return string
      */
-    public static function restrictTo($restrictions, $value, $fallback = '', $strict = false)
+    public static function restrictTo($restrictions, string $value, string $fallback = '', bool $strict = false): string
     {
         $needle = $value;
         $haystack = Cast::toArray($restrictions);
