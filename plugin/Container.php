@@ -29,22 +29,17 @@ abstract class Container
     protected $with = [];
 
     /**
-     * @param string $alias
      * @param mixed $concrete
-     * @return void
      */
-    public function alias($alias, $concrete)
+    public function alias(string $alias, $concrete): void
     {
         $this->instances[$alias] = $concrete;
     }
 
     /**
-     * @param string $abstract
      * @param mixed $concrete
-     * @param bool $shared
-     * @return void
      */
-    public function bind($abstract, $concrete = null, $shared = false)
+    public function bind(string $abstract, $concrete = null, bool $shared = false): void
     {
         $this->dropStaleInstances($abstract);
         $concrete = Helper::ifTrue(is_null($concrete), $abstract, $concrete);
@@ -68,11 +63,9 @@ abstract class Container
     }
 
     /**
-     * @param string $abstract
      * @param mixed $concrete
-     * @return void
      */
-    public function singleton($abstract, $concrete = null)
+    public function singleton(string $abstract, $concrete = null): void
     {
         $this->bind($abstract, $concrete, true);
     }
@@ -110,20 +103,15 @@ abstract class Container
         return $reflector->newInstanceArgs($instances); // return a new class
     }
 
-    /**
-     * @param string $abstract
-     * @return void
-     */
-    protected function dropStaleInstances($abstract)
+    protected function dropStaleInstances(string $abstract): void
     {
         unset($this->instances[$abstract]);
     }
 
     /**
-     * @param \ReflectionParameter $parameter
      * @return \ReflectionClass|\ReflectionNamedType|\ReflectionType|null
      */
-    protected function getClass($parameter)
+    protected function getClass(\ReflectionParameter $parameter)
     {
         if (version_compare(phpversion(), '8', '<')) {
             return $parameter->getClass(); // @compat PHP < 8
@@ -131,12 +119,7 @@ abstract class Container
         return $parameter->getType();
     }
 
-    /**
-     * @param string $abstract
-     * @param string $concrete
-     * @return \Closure
-     */
-    protected function getClosure($abstract, $concrete)
+    protected function getClosure($abstract, $concrete): \Closure
     {
         return function ($container, $parameters = []) use ($abstract, $concrete) {
             return $abstract == $concrete
@@ -146,10 +129,9 @@ abstract class Container
     }
 
     /**
-     * @param string $abstract
      * @return mixed
      */
-    protected function getConcrete($abstract)
+    protected function getConcrete(string $abstract)
     {
         if (isset($this->bindings[$abstract])) {
             return $this->bindings[$abstract]['concrete'];
@@ -157,58 +139,43 @@ abstract class Container
         return $abstract;
     }
 
-    /**
-     * @return array
-     */
-    protected function getLastParameterOverride()
+    protected function getLastParameterOverride(): array
     {
         return Arr::consolidate(end($this->with));
     }
 
     /**
-     * @param \ReflectionParameter $dependency
      * @return mixed
      */
-    protected function getParameterOverride($dependency)
+    protected function getParameterOverride(\ReflectionParameter $dependency)
     {
         return $this->getLastParameterOverride()[$dependency->name];
     }
 
-    /**
-     * @param \ReflectionParameter $dependency
-     * @return bool
-     */
-    protected function hasParameterOverride($dependency)
+    protected function hasParameterOverride(\ReflectionParameter $dependency): bool
     {
         return array_key_exists($dependency->name, $this->getLastParameterOverride());
     }
 
     /**
      * @param mixed $concrete
-     * @param string $abstract
-     * @return bool
      */
-    protected function isBuildable($concrete, $abstract)
+    protected function isBuildable($concrete, string $abstract): bool
     {
         return $concrete === $abstract || $concrete instanceof \Closure;
     }
 
-    /**
-     * @param string $abstract
-     * @return bool
-     */
-    protected function isShared($abstract)
+    protected function isShared(string $abstract): bool
     {
         return isset($this->instances[$abstract]) || !empty($this->bindings[$abstract]['shared']);
     }
 
     /**
      * @param mixed $abstract
-     * @param array $parameters
      * @return mixed
      * @throws BindingResolutionException
      */
-    protected function resolve($abstract, $parameters = [])
+    protected function resolve($abstract, array $parameters = [])
     {
         if (isset($this->instances[$abstract]) && empty($parameters)) {
             return $this->instances[$abstract]; // return an existing singleton
@@ -243,10 +210,7 @@ abstract class Container
         }
     }
 
-    /**
-     * @return array
-     */
-    protected function resolveDependencies(array $dependencies)
+    protected function resolveDependencies(array $dependencies): array
     {
         $results = [];
         foreach ($dependencies as $dependency) {
@@ -263,7 +227,6 @@ abstract class Container
     }
 
     /**
-     * @param \ReflectionParameter $parameter
      * @return mixed
      * @throws BindingResolutionException
      */
@@ -276,11 +239,9 @@ abstract class Container
     }
 
     /**
-     * @param string $concrete
-     * @return void
      * @throws BindingResolutionException
      */
-    protected function throwNotInstantiable($concrete)
+    protected function throwNotInstantiable(string $concrete): void
     {
         if (empty($this->buildStack)) {
             $message = "Target [$concrete] is not instantiable.";
@@ -292,11 +253,9 @@ abstract class Container
     }
 
     /**
-     * @param \ReflectionParameter $parameter
-     * @return void
      * @throws BindingResolutionException
      */
-    protected function throwUnresolvablePrimitive(\ReflectionParameter $parameter)
+    protected function throwUnresolvablePrimitive(\ReflectionParameter $parameter): void
     {
         throw new BindingResolutionException("Unresolvable dependency resolving [$parameter] in class {$parameter->getDeclaringClass()->getName()}");
     }
