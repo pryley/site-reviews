@@ -2,27 +2,20 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Multilingual;
 
-use GeminiLabs\SiteReviews\Contracts\MultilingualContract as Contract;
+use GeminiLabs\SiteReviews\Contracts\MultilingualContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class Polylang implements Contract
+class Polylang implements MultilingualContract
 {
     public $pluginName = 'Polylang';
     public $supportedVersion = '2.3';
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPostId($postId)
+    public function getPostId(int $postId): int
     {
-        $postId = trim($postId);
-        if (!is_numeric($postId)) {
-            return 0;
-        }
         if ($this->isEnabled()) {
-            $polylangPostId = pll_get_post((int) $postId, pll_get_post_language((int) get_the_ID()));
+            $polylangPostId = pll_get_post($postId, pll_get_post_language((int) get_the_ID()));
         }
         if (!empty($polylangPostId)) {
             $postId = $polylangPostId;
@@ -30,10 +23,7 @@ class Polylang implements Contract
         return intval($postId);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPostIds(array $postIds)
+    public function getPostIds(array $postIds): array
     {
         if (!$this->isEnabled()) {
             return $postIds;
@@ -47,10 +37,7 @@ class Polylang implements Contract
         return Arr::uniqueInt($newPostIds);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isActive()
+    public function isActive(): bool
     {
         return function_exists('PLL')
             && function_exists('pll_get_post')
@@ -58,19 +45,13 @@ class Polylang implements Contract
             && function_exists('pll_get_post_translations');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->isActive()
             && 'polylang' === glsr(OptionManager::class)->get('settings.general.multilingual');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isSupported()
+    public function isSupported(): bool
     {
         return defined('POLYLANG_VERSION')
             && Helper::isGreaterThanOrEqual(POLYLANG_VERSION, $this->supportedVersion);

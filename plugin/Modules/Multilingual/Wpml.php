@@ -2,35 +2,25 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Multilingual;
 
-use GeminiLabs\SiteReviews\Contracts\MultilingualContract as Contract;
+use GeminiLabs\SiteReviews\Contracts\MultilingualContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class Wpml implements Contract
+class Wpml implements MultilingualContract
 {
     public $pluginName = 'WPML';
     public $supportedVersion = '3.3.5';
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPostId($postId)
+    public function getPostId(int $postId): int
     {
-        $postId = trim($postId);
-        if (!is_numeric($postId)) {
-            return 0;
-        }
         if ($this->isEnabled()) {
             $postId = apply_filters('wpml_object_id', $postId, 'any', true);
         }
         return intval($postId);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPostIds(array $postIds)
+    public function getPostIds(array $postIds): array
     {
         if (!$this->isEnabled()) {
             return $postIds;
@@ -53,27 +43,18 @@ class Wpml implements Contract
         return Arr::uniqueInt($newPostIds);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isActive()
+    public function isActive(): bool
     {
         return defined('ICL_SITEPRESS_VERSION');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->isActive()
             && 'wpml' === glsr(OptionManager::class)->get('settings.general.multilingual');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isSupported()
+    public function isSupported(): bool
     {
         return $this->isActive()
             && Helper::isGreaterThanOrEqual(ICL_SITEPRESS_VERSION, $this->supportedVersion);

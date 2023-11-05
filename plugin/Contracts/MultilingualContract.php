@@ -4,29 +4,13 @@ namespace GeminiLabs\SiteReviews\Contracts;
 
 interface MultilingualContract
 {
-    /**
-     * @param int|string $postId
-     * @return int
-     */
-    public function getPostId($postId);
+    public function getPostId(int $postId): int;
 
-    /**
-     * @return array
-     */
-    public function getPostIds(array $postIds);
+    public function getPostIds(array $postIds): array;
 
-    /**
-     * @return bool
-     */
-    public function isActive();
+    public function isActive(): bool;
 
-    /**
-     * @return bool
-     */
-    public function isEnabled();
+    public function isEnabled(): bool;
 
-    /**
-     * @return bool
-     */
-    public function isSupported();
+    public function isSupported(): bool;
 }

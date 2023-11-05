@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Defaults\PostStatusLabelsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Modules\Translator;
@@ -22,10 +23,9 @@ class TranslationController
 
     /**
      * @param array $messages
-     * @return array
      * @filter bulk_post_updated_messages
      */
-    public function filterBulkUpdateMessages($messages, array $counts)
+    public function filterBulkUpdateMessages($messages, array $counts): array
     {
         $messages = Arr::consolidate($messages);
         $messages[glsr()->post_type] = [
@@ -39,44 +39,46 @@ class TranslationController
     }
 
     /**
+     * Used to ensure that System Info is in English
      * @param string $translation
-     * @param string $text
+     * @param string $single
      * @return string
      * @filter gettext_default
      */
-    public function filterEnglishTranslation($translation, $text)
+    public function filterEnglishTranslation($translation, $single)
     {
-        return $text;
+        return $single;
     }
 
     /**
      * @param string $translation
-     * @param string $text
-     * @return string
+     * @param string $single
      * @filter gettext_{glsr()->id}
      */
-    public function filterGettext($translation, $text)
+    public function filterGettext($translation, $single)
     {
+        $translation = Cast::toString($translation);
         return $this->translator->translate($translation, glsr()->id, [
-            'single' => $text,
+            'single' => Cast::toString($single),
         ]);
     }
 
     /**
      * @param string $translation
-     * @param string $text
+     * @param string $single
      * @param string $context
-     * @return string
      * @filter gettext_with_context_{glsr()->id}
      */
-    public function filterGettextWithContext($translation, $text, $context)
+    public function filterGettextWithContext($translation, $single, $context): string
     {
-        if (Str::contains($context, Translation::CONTEXT_ADMIN_KEY)) {
+        $context = Cast::toString($context);
+        $translation = Cast::toString($translation);
+        if (str_contains($context, Translation::CONTEXT_ADMIN_KEY)) {
             return $translation;
         }
         return $this->translator->translate($translation, glsr()->id, [
             'context' => $context,
-            'single' => $text,
+            'single' => Cast::toString($single),
         ]);
     }
 
@@ -85,15 +87,15 @@ class TranslationController
      * @param string $single
      * @param string $plural
      * @param int $number
-     * @return string
      * @filter ngettext_{glsr()->id}
      */
-    public function filterNgettext($translation, $single, $plural, $number)
+    public function filterNgettext($translation, $single, $plural, $number): string
     {
+        $translation = Cast::toString($translation);
         return $this->translator->translate($translation, glsr()->id, [
-            'number' => $number,
-            'plural' => $plural,
-            'single' => $single,
+            'number' => Cast::toInt($number),
+            'plural' => Cast::toString($plural),
+            'single' => Cast::toString($single),
         ]);
     }
 
@@ -103,29 +105,29 @@ class TranslationController
      * @param string $plural
      * @param int $number
      * @param string $context
-     * @return string
      * @filter ngettext_with_context_{glsr()->id}
      */
-    public function filterNgettextWithContext($translation, $single, $plural, $number, $context)
+    public function filterNgettextWithContext($translation, $single, $plural, $number, $context): string
     {
-        if (Str::contains($context, Translation::CONTEXT_ADMIN_KEY)) {
+        $context = Cast::toString($context);
+        $translation = Cast::toString($translation);
+        if (str_contains($context, Translation::CONTEXT_ADMIN_KEY)) {
             return $translation;
         }
         return $this->translator->translate($translation, glsr()->id, [
             'context' => $context,
-            'number' => $number,
-            'plural' => $plural,
-            'single' => $single,
+            'number' => Cast::toInt($number),
+            'plural' => Cast::toString($plural),
+            'single' => Cast::toString($single),
         ]);
     }
 
     /**
      * @param array $states
      * @param \WP_Post $post
-     * @return array
      * @filter display_post_states
      */
-    public function filterPostStates($states, $post)
+    public function filterPostStates($states, $post): array
     {
         $states = Arr::consolidate($states);
         if (get_post_type($post) === glsr()->post_type && array_key_exists('pending', $states)) {
@@ -136,17 +138,17 @@ class TranslationController
 
     /**
      * @param string $translation
-     * @param string $text
-     * @return string
+     * @param string $single
      * @filter gettext_default
      */
-    public function filterPostStatusLabels($translation, $text)
+    public function filterPostStatusLabels($translation, $single): string
     {
+        $translation = Cast::toString($translation);
         if ($this->canModifyTranslation()) {
             $replacements = $this->statusLabels();
-            return array_key_exists($text, $replacements)
-                ? $replacements[$text]
-                : $translation;
+            if (array_key_exists($single, $replacements)) {
+                return $replacements[$single];
+            }
         }
         return $translation;
     }
@@ -156,35 +158,35 @@ class TranslationController
      * @param string $single
      * @param string $plural
      * @param int $number
-     * @return string
      * @filter ngettext_default
      */
-    public function filterPostStatusText($translation, $single, $plural, $number)
+    public function filterPostStatusText($translation, $single, $plural, $number): string
     {
         if ($this->canModifyTranslation()) {
             $strings = [
                 'Published' => _x('Approved', 'admin-text', 'site-reviews'),
                 'Pending' => _x('Unapproved', 'admin-text', 'site-reviews'),
             ];
+            $single = Cast::toString($single);
+            $plural = Cast::toString($plural);
             foreach ($strings as $search => $replace) {
-                if (!Str::contains($single, $search)) {
+                if (!str_contains($single, $search)) {
                     continue;
                 }
                 return $this->translator->getTranslation([
-                    'number' => $number,
+                    'number' => Cast::toInt($number),
                     'plural' => str_replace($search, $replace, $plural),
                     'single' => str_replace($search, $replace, $single),
                 ]);
             }
         }
-        return $translation;
+        return Cast::toString($translation);
     }
 
     /**
-     * @return void
      * @action admin_print_scripts-post.php
      */
-    public function translatePostStatusLabels()
+    public function translatePostStatusLabels(): void
     {
         if (!$this->canModifyTranslation()) {
             return;
@@ -200,25 +202,20 @@ class TranslationController
             $i10n['publishOnPast'] = _x('Approved on:', 'admin-text', 'site-reviews');
             $i10n['savePending'] = _x('Save as Unapproved', 'admin-text', 'site-reviews');
             $script = $matches[1].json_encode($i10n).$matches[3];
-            Arr::set(wp_scripts(), 'registered.post.extra.data', $script);
+            wp_scripts()->registered['post']['extra']['data'] = $script;
         }
     }
 
-    /**
-     * @return bool
-     */
-    protected function canModifyTranslation()
+    protected function canModifyTranslation(): bool
     {
         $screen = glsr_current_screen();
-        return glsr()->post_type === $screen->post_type
-            && in_array($screen->base, ['edit', 'post']);
+        return glsr()->post_type === $screen->post_type && in_array($screen->base, ['edit', 'post']);
     }
 
     /**
      * Store the labels to avoid unnecessary loops.
-     * @return array
      */
-    protected function statusLabels()
+    protected function statusLabels(): array
     {
         static $labels;
         if (empty($labels)) {
