@@ -81,6 +81,9 @@ class Cast
      */
     public static function toString($value, $strict = true): string
     {
+        if (is_scalar($value)) {
+            return (string) $value;
+        }
         if (is_object($value) && in_array('__toString', get_class_methods($value))) {
             return (string) $value->__toString();
         }
@@ -90,9 +93,6 @@ class Cast
         if (Arr::isIndexedAndFlat($value)) {
             return implode(', ', $value);
         }
-        if (!is_scalar($value)) {
-            return $strict ? '' : serialize($value);
-        }
-        return (string) $value;
+        return $strict ? '' : serialize($value);
     }
 }
