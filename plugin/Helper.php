@@ -93,12 +93,7 @@ class Helper
         return 'unknown';
     }
 
-    /**
-     * @param string $fromUrl
-     * @param int $fallback
-     * @return int
-     */
-    public static function getPageNumber($fromUrl = null, $fallback = 1)
+    public static function getPageNumber(?string $fromUrl = null, ?int $fallback = 1): int
     {
         $pagedQueryVar = glsr()->constant('PAGED_QUERY_VAR');
         $pageNum = empty($fromUrl)

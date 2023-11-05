@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 trait Deprecated
 {
-    /**
-     * @var array
-     */
-    protected $mappedDeprecatedMethods;
+    protected array $mappedDeprecatedMethods;
 
     public function __call(string $oldMethod, $args)
     {

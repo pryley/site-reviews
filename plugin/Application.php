@@ -67,11 +67,9 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * @param bool $networkDeactivating
-     * @return void
      * @callback register_deactivation_hook
      */
-    public function deactivate($networkDeactivating)
+    public function deactivate(bool $networkDeactivating): void
     {
         $this->make(Install::class)->deactivate($networkDeactivating);
     }

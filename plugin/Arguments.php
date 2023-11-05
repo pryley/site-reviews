@@ -75,10 +75,9 @@ class Arguments extends \ArrayObject
 
     /**
      * @param mixed $key
-     * @return void
      */
     #[\ReturnTypeWillChange]
-    public function offsetUnset($key)
+    public function offsetUnset($key): void
     {
         $storage = $this->getArrayCopy();
         unset($storage[$key]);
@@ -87,10 +86,9 @@ class Arguments extends \ArrayObject
 
     /**
      * @param mixed $key
-     * @param string $sanitizer
      * @return mixed
      */
-    public function sanitize($key, $sanitizer)
+    public function sanitize($key, string $sanitizer)
     {
         $sanitizers = ['key' => $sanitizer];
         $values = ['key' => $this->get($key)];
@@ -99,11 +97,9 @@ class Arguments extends \ArrayObject
     }
 
     /**
-     * @param string $path
      * @param mixed $value
-     * @return void
      */
-    public function set($path, $value)
+    public function set(string $path, $value): void
     {
         $storage = Arr::set($this->getArrayCopy(), $path, $value);
         $this->exchangeArray($storage);

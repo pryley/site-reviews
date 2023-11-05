@@ -201,22 +201,16 @@ class Review extends Arguments
         return Cast::toString($link);
     }
 
-    /**
-     * @param int|\WP_Post $post
-     * @return bool
-     */
-    public static function isEditable($post)
+    /** @param int|\WP_Post $post */
+    public static function isEditable($post): bool
     {
         $postId = Helper::getPostId($post);
         return static::isReview($postId)
             && in_array(glsr(Query::class)->review($postId)->type, ['', 'local']);
     }
 
-    /**
-     * @param \WP_Post|int|false $post
-     * @return bool
-     */
-    public static function isReview($post)
+    /** @param \WP_Post|int|false $post */
+    public static function isReview($post): bool
     {
         return glsr()->post_type === get_post_type($post);
     }

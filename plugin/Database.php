@@ -43,42 +43,30 @@ class Database
         $this->dbQuery($sql);
     }
 
-    /**
-     * @param string $sql
-     * @return array
-     */
-    public function dbGetCol($sql)
+    public function dbGetCol(string $sql): array
     {
         return $this->logErrors($this->db->get_col($sql));
     }
 
     /**
-     * @param string $sql
-     * @param string $output
      * @return array|object|null
      */
-    public function dbGetResults($sql, $output = 'OBJECT')
+    public function dbGetResults(string $sql, string $output = 'OBJECT')
     {
         $output = Str::restrictTo(['ARRAY_A', 'ARRAY_N', 'OBJECT', 'OBJECT_K'], $output, OBJECT);
         return $this->logErrors($this->db->get_results($sql, $output));
     }
 
     /**
-     * @param string $sql
-     * @param string $output
      * @return array|object|void|null
      */
-    public function dbGetRow($sql, $output)
+    public function dbGetRow(string $sql, string $output)
     {
         $output = Str::restrictTo(['ARRAY_A', 'ARRAY_N', 'OBJECT'], $output, OBJECT);
         return $this->logErrors($this->db->get_row($sql, $output));
     }
 
-    /**
-     * @param string $sql
-     * @return string|null
-     */
-    public function dbGetVar($sql)
+    public function dbGetVar(string $sql): ?string
     {
         return $this->logErrors($this->db->get_var($sql));
     }
@@ -371,10 +359,9 @@ class Database
     }
 
     /**
-     * @param string $compareToVersion
      * @return bool|string
      */
-    public function version($compareToVersion = null)
+    public function version(string $compareToVersion = null)
     {
         $dbVersion = Cast::toString(get_option(glsr()->prefix.'db_version'));
         if (version_compare($dbVersion, Application::DB_VERSION, '>')) { // version should never be higher than plugin database version

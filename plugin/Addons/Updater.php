@@ -38,12 +38,7 @@ class Updater
      */
     protected $plugin;
 
-    /**
-     * @param string $apiUrl
-     * @param string $file
-     * @param string $addonId
-     */
-    public function __construct($apiUrl, $file, $addonId, array $data = [])
+    public function __construct(string $apiUrl, string $file, string $addonId, array $data = [])
     {
         if (!file_exists($file)) {
             return;
@@ -65,26 +60,17 @@ class Updater
         }
     }
 
-    /**
-     * @return object
-     */
-    public function activateLicense(array $data = [])
+    public function activateLicense(array $data = []): \stdClass
     {
         return $this->request('activate_license', $data);
     }
 
-    /**
-     * @return object
-     */
-    public function checkLicense(array $data = [])
+    public function checkLicense(array $data = []): \stdClass
     {
         return $this->request('check_license', $data);
     }
 
-    /**
-     * @return object
-     */
-    public function deactivateLicense(array $data = [])
+    public function deactivateLicense(array $data = []): \stdClass
     {
         return $this->request('deactivate_license', $data);
     }
@@ -98,8 +84,8 @@ class Updater
      */
     public function filterPluginUpdateDetails($result, $action, $args)
     {
-        if ('plugin_information' != $action
-            || Arr::get($this->data, 'TextDomain') != Arr::get($args, 'slug')) {
+        if ('plugin_information' !== $action
+            || Arr::get($this->data, 'TextDomain') !== Arr::get($args, 'slug')) {
             return $result;
         }
         if ($updateInfo = $this->getPluginUpdate($this->forceCheck)) {
@@ -121,18 +107,12 @@ class Updater
         return $transient;
     }
 
-    /**
-     * @return object
-     */
-    public function getLatestVersion(array $data = [])
+    public function getLatestVersion(array $data = []): \stdClass
     {
         return $this->request('get_version', $data);
     }
 
-    /**
-     * @return void
-     */
-    public function init()
+    public function init(): void
     {
         if ($this->isReady) {
             add_filter('plugins_api', [$this, 'filterPluginUpdateDetails'], 10, 3);
@@ -142,10 +122,7 @@ class Updater
         }
     }
 
-    /**
-     * @return bool
-     */
-    public function isLicenseValid()
+    public function isLicenseValid(): bool
     {
         if (empty($this->status)) {
             $result = $this->checkLicense();
@@ -156,10 +133,9 @@ class Updater
     }
 
     /**
-     * @return void
      * @action load-update-core.php
      */
-    public function onForceUpdateCheck()
+    public function onForceUpdateCheck(): void
     {
         if (!filter_input(INPUT_GET, 'force-check')) {
             return;
@@ -172,10 +148,9 @@ class Updater
     }
 
     /**
-     * @return void
      * @action in_plugin_update_message-{$this->plugin}
      */
-    public function renderLicenseMissingLink()
+    public function renderLicenseMissingLink(): void
     {
         if (!$this->isLicenseValid()) {
             glsr()->render('partials/addons/license-missing');
@@ -191,10 +166,9 @@ class Updater
     }
 
     /**
-     * @param bool $force
      * @return false|object
      */
-    protected function getPluginUpdate($force = false)
+    protected function getPluginUpdate(bool $force = false)
     {
         $version = $this->getCachedVersion();
         if (false === $version || false !== $force) {
@@ -208,10 +182,7 @@ class Updater
         return $version;
     }
 
-    /**
-     * @return string
-     */
-    protected function getTransientName()
+    protected function getTransientName(): string
     {
         return glsr()->prefix.md5(Arr::get($this->data, 'TextDomain'));
     }
@@ -304,9 +275,8 @@ class Updater
 
     /**
      * @param object $version
-     * @return void
      */
-    protected function setCachedVersion($version)
+    protected function setCachedVersion($version): void
     {
         if (!isset($version->error)) {
             set_transient($this->getTransientName(), $version, 15 * MINUTE_IN_SECONDS);
