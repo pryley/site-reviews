@@ -19,6 +19,12 @@ class SiteReviewTinymce extends TinymceGenerator
                 'type' => 'textbox',
             ],
             [
+                'label' => _x('Post ID', 'admin-text', 'site-reviews'),
+                'name' => 'post_id',
+                'tooltip' => _x('Enter a the Post ID of the review to display.', 'admin-text', 'site-reviews'),
+                'type' => 'textbox',
+            ],
+            [
                 'label' => _x('Classes', 'admin-text', 'site-reviews'),
                 'name' => 'class',
                 'tooltip' => _x('Add custom CSS classes to the shortcode.', 'admin-text', 'site-reviews'),
