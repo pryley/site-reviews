@@ -4,18 +4,12 @@ namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
 class ColumnFilterAuthor extends ColumnFilterAssignedUser
 {
-    /**
-     * @return string
-     */
-    public function label()
+    public function label(): string
     {
         return _x('Filter by author', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * @return array
-     */
-    public function options()
+    public function options(): array
     {
         return [
             '' => _x('Any author', 'admin-text', 'site-reviews'),
@@ -23,10 +17,7 @@ class ColumnFilterAuthor extends ColumnFilterAssignedUser
         ];
     }
 
-    /**
-     * @return string
-     */
-    public function title()
+    public function title(): string
     {
         return _x('Author', 'admin-text', 'site-reviews');
     }

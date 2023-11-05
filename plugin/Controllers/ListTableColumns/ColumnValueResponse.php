@@ -7,10 +7,7 @@ use GeminiLabs\SiteReviews\Review;
 
 class ColumnValueResponse implements ColumnValueContract
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function handle(Review $review)
+    public function handle(Review $review): string
     {
         return empty($review->response)
             ? _x('No', 'admin-text', 'site-reviews')

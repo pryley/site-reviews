@@ -8,10 +8,7 @@ use GeminiLabs\SiteReviews\Review;
 
 class ColumnValueIsVerified implements ColumnValueContract
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function handle(Review $review)
+    public function handle(Review $review): string
     {
         $classes = $review->is_verified ? 'verified ' : '';
         if (glsr()->can('edit_others_posts') && glsr()->filterBool('verification/enabled', false)) {

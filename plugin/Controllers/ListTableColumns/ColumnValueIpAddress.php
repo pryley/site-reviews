@@ -7,10 +7,7 @@ use GeminiLabs\SiteReviews\Review;
 
 class ColumnValueIpAddress implements ColumnValueContract
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function handle(Review $review)
+    public function handle(Review $review): string
     {
         return $review->ip_address;
     }

@@ -8,10 +8,7 @@ use GeminiLabs\SiteReviews\Review;
 
 class ColumnValueIsPinned implements ColumnValueContract
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function handle(Review $review)
+    public function handle(Review $review): string
     {
         $pinned = $review->is_pinned ? 'pinned ' : '';
         if (glsr()->can('edit_others_posts')) {

@@ -4,20 +4,14 @@ namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
 use GeminiLabs\SiteReviews\Modules\Rating;
 
-class ColumnFilterRating extends ColumnFilter
+class ColumnFilterRating extends AbstractColumnFilter
 {
-    /**
-     * @return string
-     */
-    public function label()
+    public function label(): string
     {
         return _x('Filter by rating', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * @return array
-     */
-    public function options()
+    public function options(): array
     {
         $options = [];
         $max = glsr()->constant('MAX_RATING', Rating::class);
@@ -32,18 +26,12 @@ class ColumnFilterRating extends ColumnFilter
         return $options;
     }
 
-    /**
-     * @return string
-     */
-    public function placeholder()
+    public function placeholder(): string
     {
         return _x('Any rating', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * @return string
-     */
-    public function title()
+    public function title(): string
     {
         return _x('Rating', 'admin-text', 'site-reviews');
     }

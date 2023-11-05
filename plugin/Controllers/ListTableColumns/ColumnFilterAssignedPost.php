@@ -5,20 +5,14 @@ namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
-class ColumnFilterAssignedPost extends ColumnFilter
+class ColumnFilterAssignedPost extends AbstractColumnFilter
 {
-    /**
-     * @return string
-     */
-    public function label()
+    public function label(): string
     {
         return _x('Filter by assigned post', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * @return array
-     */
-    public function options()
+    public function options(): array
     {
         return [
             '' => _x('Any assigned post', 'admin-text', 'site-reviews'),
@@ -26,26 +20,17 @@ class ColumnFilterAssignedPost extends ColumnFilter
         ];
     }
 
-    /**
-     * @return string
-     */
-    public function placeholder()
+    public function placeholder(): string
     {
         return Arr::get($this->options(), '');
     }
 
-    /**
-     * @return string
-     */
-    public function render()
+    public function render(): string
     {
         return $this->filterDynamic();
     }
 
-    /**
-     * @return string
-     */
-    public function selected()
+    public function selected(): string
     {
         $value = $this->value();
         if (is_numeric($value) && 0 === Cast::toInt($value)) {
@@ -57,10 +42,7 @@ class ColumnFilterAssignedPost extends ColumnFilter
         return $this->placeholder();
     }
 
-    /**
-     * @return string
-     */
-    public function title()
+    public function title(): string
     {
         return _x('Assigned Post', 'admin-text', 'site-reviews');
     }

@@ -8,10 +8,7 @@ use GeminiLabs\SiteReviews\Review;
 
 class ColumnValueRating implements ColumnValueContract
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function handle(Review $review)
+    public function handle(Review $review): string
     {
         if ($review->rating <= 5) {
             return wp_star_rating([

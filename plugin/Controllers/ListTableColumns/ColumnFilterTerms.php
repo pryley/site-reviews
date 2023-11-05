@@ -2,20 +2,14 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
-class ColumnFilterTerms extends ColumnFilter
+class ColumnFilterTerms extends AbstractColumnFilter
 {
-    /**
-     * @return string
-     */
-    public function label()
+    public function label(): string
     {
         return _x('Filter by terms', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * @return array
-     */
-    public function options()
+    public function options(): array
     {
         return [
             1 => _x('Terms were accepted', 'admin-text', 'site-reviews'),
@@ -23,18 +17,12 @@ class ColumnFilterTerms extends ColumnFilter
         ];
     }
 
-    /**
-     * @return string
-     */
-    public function placeholder()
+    public function placeholder(): string
     {
         return _x('Any terms', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * @return string
-     */
-    public function title()
+    public function title(): string
     {
         return _x('Terms', 'admin-text', 'site-reviews');
     }

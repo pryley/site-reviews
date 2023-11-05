@@ -9,10 +9,7 @@ use GeminiLabs\SiteReviews\Review;
 
 class ColumnValueAuthorName implements ColumnValueContract
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function handle(Review $review)
+    public function handle(Review $review): string
     {
         if ($userId = (int) $review->author_id) {
             return glsr(Builder::class)->a([

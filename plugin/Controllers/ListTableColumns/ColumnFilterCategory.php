@@ -4,20 +4,14 @@ namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class ColumnFilterCategory extends ColumnFilter
+class ColumnFilterCategory extends AbstractColumnFilter
 {
-    /**
-     * @return string
-     */
-    public function label()
+    public function label(): string
     {
         return _x('Filter by category', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * @return array
-     */
-    public function options()
+    public function options(): array
     {
         $options = get_terms([
             'count' => false,
@@ -32,18 +26,12 @@ class ColumnFilterCategory extends ColumnFilter
         return $options;
     }
 
-    /**
-     * @return string
-     */
-    public function placeholder()
+    public function placeholder(): string
     {
         return _x('Any category', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * @return string
-     */
-    public function title()
+    public function title(): string
     {
         return _x('Category', 'admin-text', 'site-reviews');
     }

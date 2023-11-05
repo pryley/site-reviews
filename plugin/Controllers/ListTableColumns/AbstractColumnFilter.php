@@ -5,23 +5,17 @@ namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
-abstract class ColumnFilter
+abstract class AbstractColumnFilter
 {
     protected $enabledFilters = [];
     protected $name;
 
-    /**
-     * @return string
-     */
-    public function action()
+    public function action(): string
     {
         return sprintf('filter-%s', $this->name());
     }
 
-    /**
-     * @return array
-     */
-    public function data()
+    public function data(): array
     {
         return [
             'class' => ($this->enabled() ? '' : 'is-hidden hidden'), // @compat with other WP filters
@@ -33,28 +27,19 @@ abstract class ColumnFilter
         ];
     }
 
-    /**
-     * @return bool
-     */
-    public function enabled()
+    public function enabled(): bool
     {
         return in_array($this->name(), $this->enabledFilters);
     }
 
-    /**
-     * @return string
-     */
-    public function filter()
+    public function filter(): string
     {
         $filter = glsr(Builder::class)->select($this->data());
         $label = $this->filterLabel();
         return $label.$filter;
     }
 
-    /**
-     * @return string
-     */
-    public function filterDynamic()
+    public function filterDynamic(): string
     {
         $data = wp_parse_args($this->data(), [
             'action' => $this->action(),
@@ -65,10 +50,7 @@ abstract class ColumnFilter
         return $label.$filter;
     }
 
-    /**
-     * @return string
-     */
-    public function filterLabel()
+    public function filterLabel(): string
     {
         return glsr(Builder::class)->label([
             'class' => 'screen-reader-text',
@@ -77,35 +59,23 @@ abstract class ColumnFilter
         ]);
     }
 
-    /**
-     * @return string
-     */
-    public function handle(array $enabledFilters = [])
+    public function handle(array $enabledFilters = []): string
     {
         $this->enabledFilters = $enabledFilters;
         return $this->render();
     }
 
-    /**
-     * @return string
-     */
-    public function id()
+    public function id(): string
     {
         return sprintf('glsr-filter-by-%s', $this->name());
     }
 
-    /**
-     * @return string
-     */
-    public function label()
+    public function label(): string
     {
         return '';
     }
 
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         if (empty($this->name)) {
             $name = (new \ReflectionClass($this))->getShortName();
@@ -116,42 +86,27 @@ abstract class ColumnFilter
         return $this->name;
     }
 
-    /**
-     * @return array
-     */
-    public function options()
+    public function options(): array
     {
         return [];
     }
 
-    /**
-     * @return string
-     */
-    public function placeholder()
+    public function placeholder(): string
     {
         return '';
     }
 
-    /**
-     * @return string
-     */
-    public function render()
+    public function render(): string
     {
         return $this->filter();
     }
 
-    /**
-     * @return string
-     */
-    public function selected()
+    public function selected(): string
     {
         return $this->placeholder();
     }
 
-    /**
-     * @return string
-     */
-    public function title()
+    public function title(): string
     {
         return Str::titleCase($this->name());
     }

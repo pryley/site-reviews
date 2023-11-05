@@ -8,10 +8,7 @@ use GeminiLabs\SiteReviews\Review;
 
 class ColumnValueAssignedPosts implements ColumnValueContract
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function handle(Review $review)
+    public function handle(Review $review): string
     {
         $links = ReviewAssignedLinksTag::assignedLinks($review->assigned_posts);
         return implode(', ', $links);

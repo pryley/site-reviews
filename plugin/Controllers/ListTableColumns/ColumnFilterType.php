@@ -2,36 +2,24 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
-class ColumnFilterType extends ColumnFilter
+class ColumnFilterType extends AbstractColumnFilter
 {
-    /**
-     * @return string
-     */
-    public function label()
+    public function label(): string
     {
         return _x('Filter by review type', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * @return array
-     */
-    public function options()
+    public function options(): array
     {
         return glsr()->retrieveAs('array', 'review_types');
     }
 
-    /**
-     * @return string
-     */
-    public function placeholder()
+    public function placeholder(): string
     {
         return _x('Any review type', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * @return string
-     */
-    public function title()
+    public function title(): string
     {
         return _x('Type', 'admin-text', 'site-reviews');
     }

@@ -8,10 +8,7 @@ use GeminiLabs\SiteReviews\Review;
 
 class ColumnValueAssignedUsers implements ColumnValueContract
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function handle(Review $review)
+    public function handle(Review $review): string
     {
         $links = [];
         foreach ($review->assigned_users as $userId) {
