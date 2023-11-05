@@ -352,7 +352,7 @@ class ToolsController extends AbstractController
         }
         $request = Request::inputGet();
         check_admin_referer($request->action);
-        glsr(Rollback::class)->rollback($request->cast('string', 'version'));
+        glsr(Rollback::class)->rollback($request->cast('version', 'string'));
     }
 
     /**
@@ -362,7 +362,7 @@ class ToolsController extends AbstractController
     {
         if (current_user_can('update_plugins')) {
             wp_send_json_success(
-                glsr(Rollback::class)->rollbackData($request->cast('string', 'version'))
+                glsr(Rollback::class)->rollbackData($request->cast('version', 'string'))
             );
         }
         wp_send_json_error([
