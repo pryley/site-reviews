@@ -6,26 +6,23 @@ use GeminiLabs\SiteReviews\Helper;
 
 class RegisterTinymcePopups extends AbstractCommand
 {
-    public $popups;
-
-    public function __construct($input)
-    {
-        $this->popups = $input;
-    }
-
     public function handle(): void
     {
-        foreach ($this->popups as $slug => $label) {
-            $tinymceClass = Helper::buildClassName([$slug, 'tinymce'], 'Tinymce');
-            if (!class_exists($tinymceClass)) {
-                glsr_log()->error(sprintf('Tinymce Popup class missing (%s)', $tinymceClass));
+        $dir = glsr()->path('plugin/Tinymce');
+        if (!is_dir($dir)) {
+            $this->fail();
+            return;
+        }
+        $iterator = new \DirectoryIterator($dir);
+        foreach ($iterator as $fileinfo) {
+            if ('file' !== $fileinfo->getType()) {
                 continue;
             }
-            $tinymce = glsr($tinymceClass)->register($slug, [
-                'label' => $label,
-                'title' => $label,
-            ]);
-            glsr()->append('mce', $tinymce->properties, $slug);
+            $className = str_replace('.php', '', $fileinfo->getFilename());
+            $tinymceClass = Helper::buildClassName($className, 'Tinymce');
+            if (class_exists($tinymceClass) && !(new \ReflectionClass($tinymceClass))->isAbstract()) {
+                glsr($tinymceClass)->register();
+            }
         }
     }
 }

@@ -7,10 +7,7 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
 class SiteReviewsFormBlock extends Block
 {
-    /**
-     * @return array
-     */
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'assign_to' => [
@@ -56,10 +53,7 @@ class SiteReviewsFormBlock extends Block
         ];
     }
 
-    /**
-     * @return string
-     */
-    public function render(array $attributes)
+    public function render(array $attributes): string
     {
         $attributes['class'] = $attributes['className'];
         $shortcode = glsr(SiteReviewsFormShortcode::class);
@@ -71,10 +65,7 @@ class SiteReviewsFormBlock extends Block
         return $shortcode->buildBlock($attributes);
     }
 
-    /**
-     * @return void
-     */
-    protected function filterInterpolation()
+    protected function filterInterpolation(): void
     {
         add_filter('site-reviews/interpolate/reviews-form', function ($context) {
             $context['class'] = 'block-editor-warning';

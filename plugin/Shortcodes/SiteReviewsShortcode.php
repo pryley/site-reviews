@@ -10,18 +10,6 @@ use GeminiLabs\SiteReviews\Reviews;
 
 class SiteReviewsShortcode extends Shortcode
 {
-    /**
-     * @todo remove in v7.0
-     */
-    public function __call($method, $args)
-    {
-        if ('buildReviewsHtmlFromArgs' === $method) { // @compat for < 6.6.0
-            call_user_func_array([$this, 'normalize'], $args);
-            return $this->buildReviewsHtml();
-        }
-        return parent::__call($method, $args);
-    }
-
     public function buildReviewsHtml(): ReviewsHtml
     {
         $reviews = glsr(ReviewManager::class)->reviews($this->args);
@@ -33,11 +21,7 @@ class SiteReviewsShortcode extends Shortcode
         return new ReviewsHtml($reviews);
     }
 
-    /**
-     * @return string
-     * @todo add return type hint and remove $args in v7.0
-     */
-    public function buildTemplate(array $args = [])
+    public function buildTemplate(): string
     {
         return (string) $this->buildReviewsHtml();
     }
@@ -63,10 +47,7 @@ class SiteReviewsShortcode extends Shortcode
         }
     }
 
-    /**
-     * @return array
-     */
-    protected function hideOptions()
+    protected function hideOptions(): array
     {
         return [ // order is intentional
             'title' => _x('Hide the title', 'admin-text', 'site-reviews'),

@@ -16,11 +16,7 @@ class SiteReviewsSummaryShortcode extends Shortcode
      */
     protected $ratings;
 
-    /**
-     * @return string
-     * @todo add return type hint and remove $args in v7.0
-     */
-    public function buildTemplate(array $args = [])
+    public function buildTemplate(): string
     {
         $this->ratings = glsr(RatingManager::class)->ratings($this->args);
         $this->debug(['ratings' => $this->ratings]);
@@ -69,10 +65,7 @@ class SiteReviewsSummaryShortcode extends Shortcode
         return glsr(Sanitizer::class)->sanitizeAttrClass($classes);
     }
 
-    /**
-     * @return array
-     */
-    protected function hideOptions()
+    protected function hideOptions(): array
     {
         return [
             'rating' => _x('Hide the rating', 'admin-text', 'site-reviews'),

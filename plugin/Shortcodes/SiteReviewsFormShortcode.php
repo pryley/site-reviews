@@ -13,16 +13,10 @@ use GeminiLabs\SiteReviews\Modules\Style;
 
 class SiteReviewsFormShortcode extends Shortcode
 {
-    /**
-     * @var \GeminiLabs\SiteReviews\Arguments
-     */
+    /** @var Arguments */
     protected $with;
 
-    /**
-     * @return string
-     * @todo add return type hint and remove $args in v7.0
-     */
-    public function buildTemplate(array $args = [])
+    public function buildTemplate(): string
     {
         if (!is_user_logged_in() && glsr_get_option('general.require.login', false, 'bool')) {
             $this->debug();
@@ -122,10 +116,7 @@ class SiteReviewsFormShortcode extends Shortcode
         return glsr(Sanitizer::class)->sanitizeAttrClass($classes);
     }
 
-    /**
-     * @return array
-     */
-    protected function hideOptions()
+    protected function hideOptions(): array
     {
         return [
             'rating' => _x('Hide the rating field', 'admin-text', 'site-reviews'),

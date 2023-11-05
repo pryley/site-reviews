@@ -6,24 +6,23 @@ use GeminiLabs\SiteReviews\Helper;
 
 class RegisterBlocks extends AbstractCommand
 {
-    public $blocks;
-
-    public function __construct($input)
-    {
-        $this->blocks = $input;
-    }
-
     public function handle(): void
     {
-        foreach ($this->blocks as $block) {
-            $blockClass = Helper::buildClassName([$block, 'block'], 'Blocks');
-            if (!class_exists($blockClass)) {
-                glsr_log()->error(sprintf('Block class missing (%s)', $blockClass));
+        $dir = glsr()->path('plugin/Blocks');
+        if (!is_dir($dir)) {
+            $this->fail();
+            return;
+        }
+        $iterator = new \DirectoryIterator($dir);
+        foreach ($iterator as $fileinfo) {
+            if ('file' !== $fileinfo->getType()) {
                 continue;
             }
-            glsr($blockClass)->register(
-                str_replace(['site_reviews_', 'site_'], '', $block)
-            );
+            $className = str_replace('.php', '', $fileinfo->getFilename());
+            $blockClass = Helper::buildClassName($className, 'Blocks');
+            if (class_exists($blockClass) && !(new \ReflectionClass($blockClass))->isAbstract()) {
+                glsr($blockClass)->register();
+            }
         }
     }
 }

@@ -16,50 +16,14 @@ use GeminiLabs\SiteReviews\Modules\Style;
 
 abstract class Shortcode implements ShortcodeContract
 {
-    /**
-     * @var array
-     */
-    public $args;
-
-    /**
-     * @var string
-     */
-    public $debug;
-
-    /**
-     * @var string
-     */
-    public $shortcode;
-
-    /**
-     * @var string
-     */
-    public $type;
+    public array $args = [];
+    public string $debug = '';
+    public string $shortcode = '';
+    public string $type = '';
 
     public function __construct()
     {
-        $this->args = [];
         $this->shortcode = $this->shortcodeTag();
-    }
-
-    /**
-     * @todo remove in v7.0
-     */
-    public function __call($method, $args)
-    {
-        if ('normalizeAtts' === $method) { // @compat for < 6.6.0
-            call_user_func_array([$this, 'normalize'], $args);
-            return glsr()->args($this->args);
-        }
-        throw new \BadMethodCallException("Method [$method] does not exist.");
-    }
-
-    /**
-     * @todo remove in v7.0
-     */
-    public function __get($parameter)
-    {
-        // @compat provides backwards compatibility for unsupported addons
     }
 
     public function attributes(array $values, string $source = 'function'): array
@@ -81,26 +45,20 @@ abstract class Shortcode implements ShortcodeContract
     public function build(array $args = [], string $type = 'shortcode'): string
     {
         $this->normalize($args, $type);
-        $template = $this->buildTemplate($this->args); // @compat remove parameter usage in v7.0
+        $template = $this->buildTemplate();
         $attributes = $this->attributes($this->args, $type);
         $html = glsr(Builder::class)->div($template, $attributes);
         return sprintf('%s%s', $this->debug, $html);
     }
 
-    /**
-     * @param string|array $args
-     */
-    public function buildBlock($args = []): string
+    public function buildBlock(array $args = []): string
     {
-        return $this->build(wp_parse_args($args), 'block');
+        return $this->build($args, 'block');
     }
 
-    /**
-     * @param string|array $args
-     */
-    public function buildShortcode($args = []): string
+    public function buildShortcode(array $args = []): string
     {
-        return $this->build(wp_parse_args($args), 'shortcode');
+        return $this->build($args, 'shortcode');
     }
 
     public function getDisplayOptions(): array
@@ -131,6 +89,17 @@ abstract class Shortcode implements ShortcodeContract
         }
         $this->args = $args;
         return $this;
+    }
+
+    public function register(): void
+    {
+        if (!function_exists('add_shortcode')) {
+            return;
+        }
+        $shortcode = (new \ReflectionClass($this))->getShortName();
+        $shortcode = Str::snakeCase($shortcode);
+        $shortcode = str_replace('_shortcode', '', $shortcode);
+        add_shortcode($shortcode, [$this, 'buildShortcode']);
     }
 
     protected function debug(array $data = []): void

@@ -9,10 +9,7 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
 
 class SiteReviewBlock extends SiteReviewsBlock
 {
-    /**
-     * @return array
-     */
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'className' => [
@@ -34,10 +31,7 @@ class SiteReviewBlock extends SiteReviewsBlock
         ];
     }
 
-    /**
-     * @return string
-     */
-    public function render(array $attributes)
+    public function render(array $attributes): string
     {
         $attributes['class'] = $attributes['className'];
         $shortcode = glsr(SiteReviewShortcode::class);
