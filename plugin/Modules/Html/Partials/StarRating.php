@@ -14,10 +14,7 @@ class StarRating implements PartialContract
      */
     public $data;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function build(array $data = [])
+    public function build(array $data = []): string
     {
         $this->data($data);
         $maxRating = glsr()->constant('MAX_RATING', Rating::class);
@@ -43,22 +40,14 @@ class StarRating implements PartialContract
         ]);
     }
 
-    /**
-     * @return static
-     */
-    public function data(array $data = [])
+    public function data(array $data = []): self
     {
         $data = glsr(StarRatingDefaults::class)->merge($data);
         $this->data = glsr()->args($data);
         return $this;
     }
 
-    /**
-     * @param string $templateName
-     * @param int $timesRepeated
-     * @return string
-     */
-    protected function getTemplate($templateName, $timesRepeated)
+    protected function getTemplate(string $templateName, int $timesRepeated): string
     {
         $template = glsr(Template::class)->build('templates/rating/'.$templateName, [
             'args' => $this->data->args,

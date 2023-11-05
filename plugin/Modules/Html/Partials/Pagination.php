@@ -16,41 +16,34 @@ class Pagination implements PartialContract
      */
     protected $args;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function build(array $args = [])
+    public function build(array $args = []): string
     {
         $this->args = $this->normalize($args);
-        if ($this->args['total'] > 1) { // total pages
-            return 'loadmore' === $this->args['type']
-                ? $this->buildLoadMoreButton()
-                : $this->buildPagination();
+        if ($this->args['total'] < 2) { // total pages
+            return '';
         }
+        return 'loadmore' === $this->args['type']
+            ? $this->buildLoadMoreButton()
+            : $this->buildPagination();
     }
 
-    /**
-     * @return string|void
-     */
-    protected function buildLoadMoreButton()
+    protected function buildLoadMoreButton(): string
     {
-        if ($this->args['total'] > $this->args['current']) {
-            return glsr(Template::class)->build('templates/load-more-button', [
-                'context' => [
-                    'class' => sprintf('glsr-button-loadmore %s', glsr(Style::class)->classes('button')),
-                    'loading_text' => __('Loading, please wait...', 'site-reviews'),
-                    'page' => $this->args['current'] + 1,
-                    'screen_reader_text' => _x('Load more reviews', 'screen reader text', 'site-reviews'),
-                    'text' => __('Load more', 'site-reviews'),
-                ],
-            ]);
+        if ($this->args['total'] <= $this->args['current']) {
+            return '';
         }
+        return glsr(Template::class)->build('templates/load-more-button', [
+            'context' => [
+                'class' => sprintf('glsr-button-loadmore %s', glsr(Style::class)->classes('button')),
+                'loading_text' => __('Loading, please wait...', 'site-reviews'),
+                'page' => $this->args['current'] + 1,
+                'screen_reader_text' => _x('Load more reviews', 'screen reader text', 'site-reviews'),
+                'text' => __('Load more', 'site-reviews'),
+            ],
+        ]);
     }
 
-    /**
-     * @return string
-     */
-    protected function buildPagination()
+    protected function buildPagination(): string
     {
         return glsr(Template::class)->build('templates/pagination', [
             'context' => [
@@ -60,20 +53,14 @@ class Pagination implements PartialContract
         ]);
     }
 
-    /**
-     * @return string
-     */
-    protected function paginatedLinks()
+    protected function paginatedLinks(): string
     {
         $links = (new Paginate($this->args))->links();
         $links = wp_list_pluck($links, 'link');
         return implode("\n", $links);
     }
 
-    /**
-     * @return array
-     */
-    protected function normalize(array $args)
+    protected function normalize(array $args): array
     {
         if ($baseUrl = Arr::get($args, 'baseUrl')) {
             $args['base'] = $baseUrl.'%_%';

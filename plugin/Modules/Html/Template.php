@@ -3,10 +3,10 @@
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Contracts\PluginContract;
-use GeminiLabs\SiteReviews\Contracts\TemplateContract as Contract;
+use GeminiLabs\SiteReviews\Contracts\TemplateContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class Template implements Contract
+class Template implements TemplateContract
 {
     public function app(): PluginContract
     {
@@ -25,9 +25,6 @@ class Template implements Contract
         return trim($template);
     }
 
-    /**
-     * Interpolate context values into template placeholders.
-     */
     public function interpolate(string $template, string $templatePath, array $data = []): string
     {
         $context = $this->normalizeContext(Arr::get($data, 'context', []));
@@ -35,9 +32,6 @@ class Template implements Contract
         return $this->interpolateContext($template, $context);
     }
 
-    /**
-     * Interpolate context values into template placeholders.
-     */
     public function interpolateContext(string $text, array $context = []): string
     {
         foreach ($context as $key => $value) {

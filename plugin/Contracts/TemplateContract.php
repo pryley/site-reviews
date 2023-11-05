@@ -10,14 +10,8 @@ interface TemplateContract
 
     public function build(string $templatePath, array $data = []): string;
 
-    /**
-     * Interpolate context values into template placeholders.
-     */
     public function interpolate(string $template, string $templatePath, array $data = []): string;
 
-    /**
-     * Interpolate context values into template placeholders.
-     */
     public function interpolateContext(string $text, array $context = []): string;
 
     public function render(string $templatePath, array $data = []): void;
