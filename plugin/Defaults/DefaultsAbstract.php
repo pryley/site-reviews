@@ -27,77 +27,60 @@ abstract class DefaultsAbstract implements DefaultsContract
     /**
      * The values that should be cast before sanitization is run.
      * This is done before $sanitize and $enums.
-     * @var array
      */
-    public $casts = [];
-
+    public array $casts = [];
     /**
      * The values that should be concatenated.
      * @var string[]
      */
-    public $concatenated = [];
-
+    public array $concatenated = [];
     /**
      * The values that should be constrained after sanitization is run.
      * This is done after $casts and $sanitize.
-     * @var array
      */
-    public $enums = [];
-
+    public array $enums = [];
     /**
      * The values that should be guarded.
      * @var string[]
      */
-    public $guarded = [];
-
+    public array $guarded = [];
     /**
      * The keys that should be mapped to other keys.
      * Keys are mapped before the values are normalized and sanitized.
      * Note: Mapped keys should not be included in the defaults!
-     * @var array
      */
-    public $mapped = [];
-
+    public array $mapped = [];
     /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
-     * @var array
      */
-    public $sanitize = [];
-
+    public array $sanitize = [];
     /**
      * The methods that are callable.
-     * @var array
      */
-    protected $callable = [
+    protected array $callable = [
         'dataAttributes', 'defaults', 'filter', 'merge', 'restrict',
     ];
-
     /**
-     * @var string
+     * The method being called.
      */
-    protected $called;
-
+    protected string $called = '';
     /**
-     * @var array
+     * The default data.
      */
-    protected $defaults = [];
-
+    protected array $defaults = [];
     /**
-     * The string that should be used for concatenation.
-     * @var string
+     * The string used for concatenation.
      */
-    protected $glue = '';
-
+    protected string $glue = ' ';
     /**
-     * @var string
+     * The current filter hook name.
      */
-    protected $hook;
-
+    protected string $hook = '';
     /**
-     * @var string
+     * The unprefixed method being called.
      */
-    protected $method;
+    protected string $method = '';
 
     public function __construct()
     {

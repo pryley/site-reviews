@@ -13,9 +13,8 @@ class FieldDefaults extends DefaultsAbstract
     /**
      * The values that should be cast before sanitization is run.
      * This is done before $sanitize and $enums.
-     * @var array
      */
-    public $casts = [
+    public array $casts = [
         'after' => 'string',
         'description' => 'string',
         'id' => 'string',
@@ -28,9 +27,8 @@ class FieldDefaults extends DefaultsAbstract
     /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
-     * @var array
      */
-    public $sanitize = [
+    public array $sanitize = [
         'class' => 'attr-class',
         'options' => 'array-consolidate',
     ];

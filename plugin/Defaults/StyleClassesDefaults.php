@@ -8,7 +8,7 @@ class StyleClassesDefaults extends DefaultsAbstract
      * The values that should be concatenated.
      * @var string[]
      */
-    public $concatenated = [
+    public array $concatenated = [
         'button',
         'description',
         'field',
@@ -24,17 +24,10 @@ class StyleClassesDefaults extends DefaultsAbstract
     ];
 
     /**
-     * The string that should be used for concatenation.
-     * @var string
-     */
-    protected $glue = ' ';
-
-    /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
-     * @var array
      */
-    public $sanitize = [
+    public array $sanitize = [
         'button' => 'attr-class',
         'description' => 'attr-class',
         'field' => 'attr-class',

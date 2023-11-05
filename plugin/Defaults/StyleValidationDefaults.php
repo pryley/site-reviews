@@ -8,7 +8,7 @@ class StyleValidationDefaults extends DefaultsAbstract
      * The values that should be concatenated.
      * @var string[]
      */
-    public $concatenated = [
+    public array $concatenated = [
         'field_error',
         'field_message',
         'field_required',
@@ -22,17 +22,10 @@ class StyleValidationDefaults extends DefaultsAbstract
     ];
 
     /**
-     * The string that should be used for concatenation.
-     * @var string
-     */
-    protected $glue = ' ';
-
-    /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
-     * @var array
      */
-    public $sanitize = [
+    public array $sanitize = [
         'field_error' => 'attr-class',
         'field_message' => 'attr-class',
         'field_required' => 'attr-class',

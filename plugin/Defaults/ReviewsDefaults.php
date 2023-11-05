@@ -13,18 +13,16 @@ class ReviewsDefaults extends DefaultsAbstract
     /**
      * The values that should be cast before sanitization is run.
      * This is done before $sanitize and $enums.
-     * @var array
      */
-    public $casts = [
+    public array $casts = [
         'terms' => 'string',
     ];
 
     /**
      * The values that should be constrained after sanitization is run.
      * This is done after $casts and $sanitize.
-     * @var array
      */
-    public $enums = [
+    public array $enums = [
         'order' => ['asc', 'desc'],
         'orderby' => [
             'author',
@@ -45,9 +43,8 @@ class ReviewsDefaults extends DefaultsAbstract
      * The keys that should be mapped to other keys.
      * Keys are mapped before the values are normalized and sanitized.
      * Note: Mapped keys should not be included in the defaults!
-     * @var array
      */
-    public $mapped = [
+    public array $mapped = [
         'assigned_to' => 'assigned_posts',
         'author_id' => 'user__in',
         'category' => 'assigned_terms',
@@ -61,9 +58,8 @@ class ReviewsDefaults extends DefaultsAbstract
     /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
-     * @var array
      */
-    public $sanitize = [
+    public array $sanitize = [
         'assigned_posts' => 'post-ids',
         'assigned_posts_types' => 'array-string',
         'assigned_terms' => 'term-ids',

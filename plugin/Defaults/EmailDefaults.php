@@ -7,9 +7,8 @@ class EmailDefaults extends DefaultsAbstract
     /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
-     * @var array
      */
-    public $sanitize = [
+    public array $sanitize = [
         'attachments' => 'array-consolidate',
         'template-tags' => 'array-consolidate',
     ];

@@ -10,27 +10,24 @@ class UpdateReviewDefaults extends DefaultsAbstract
     /**
      * The values that should be cast before sanitization is run.
      * This is done before $sanitize and $enums.
-     * @var array
      */
-    public $casts = [
+    public array $casts = [
         'status' => 'string',
     ];
 
     /**
      * The values that should be constrained after sanitization is run.
      * This is done after $casts and $sanitize.
-     * @var array
      */
-    public $enums = [
+    public array $enums = [
         'status' => ['pending', 'publish'],
     ];
 
     /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
-     * @var array
      */
-    public $sanitize = [
+    public array $sanitize = [
         'content' => 'text-multiline',
         'date' => 'date',
         'date_gmt' => 'date',

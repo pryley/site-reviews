@@ -9,9 +9,8 @@ class ReviewDefaults extends DefaultsAbstract
     /**
      * The values that should be cast before sanitization is run.
      * This is done before $sanitize and $enums.
-     * @var array
      */
-    public $casts = [
+    public array $casts = [
         'author_id' => 'int',
         'is_approved' => 'bool',
         'is_modified' => 'bool',
@@ -26,9 +25,8 @@ class ReviewDefaults extends DefaultsAbstract
      * The keys that should be mapped to other keys.
      * Keys are mapped before the values are normalized and sanitized.
      * Note: Mapped keys should not be included in the defaults!
-     * @var array
      */
-    public $mapped = [
+    public array $mapped = [
         'ID' => 'rating_id',
         'name' => 'author',
         'post_ids' => 'assigned_posts',
@@ -39,9 +37,8 @@ class ReviewDefaults extends DefaultsAbstract
     /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
-     * @var array
      */
-    public $sanitize = [
+    public array $sanitize = [
         'assigned_posts' => 'array-int',
         'assigned_terms' => 'array-int',
         'assigned_users' => 'array-int',

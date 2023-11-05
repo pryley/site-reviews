@@ -9,9 +9,8 @@ class StarRatingDefaults extends DefaultsAbstract
     /**
      * The values that should be cast before sanitization is run.
      * This is done before $sanitize and $enums.
-     * @var array
      */
-    public $casts = [
+    public array $casts = [
         'args' => 'array',
         'prefix' => 'string',
         'rating' => 'float',
@@ -20,9 +19,8 @@ class StarRatingDefaults extends DefaultsAbstract
     /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
-     * @var array
      */
-    public $sanitize = [
+    public array $sanitize = [
         'reviews' => 'min:0',
     ];
 

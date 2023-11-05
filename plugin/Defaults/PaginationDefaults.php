@@ -7,9 +7,8 @@ class PaginationDefaults extends DefaultsAbstract
     /**
      * The values that should be cast before sanitization is run.
      * This is done before $sanitize and $enums.
-     * @var array
      */
-    public $casts = [
+    public array $casts = [
         'add_args' => 'array',
         'base' => 'string',
         'before_page_number' => 'string',
@@ -22,9 +21,8 @@ class PaginationDefaults extends DefaultsAbstract
     /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
-     * @var array
      */
-    public $sanitize = [
+    public array $sanitize = [
         'current' => 'min:1',
         'end_size' => 'min:1',
         'mid_size' => 'min:1',

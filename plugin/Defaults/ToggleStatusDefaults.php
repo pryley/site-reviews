@@ -7,9 +7,8 @@ class ToggleStatusDefaults extends DefaultsAbstract
     /**
      * The values that should be cast before sanitization is run.
      * This is done before $sanitize and $enums.
-     * @var array
      */
-    public $casts = [
+    public array $casts = [
         'post_id' => 'int',
         'status' => 'string',
     ];
@@ -17,9 +16,8 @@ class ToggleStatusDefaults extends DefaultsAbstract
     /**
      * The values that should be constrained after sanitization is run.
      * This is done after $casts and $sanitize.
-     * @var array
      */
-    public $enums = [
+    public array $enums = [
         'status' => ['approve', 'pending', 'publish', 'unapprove'],
     ];
 

@@ -9,9 +9,8 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
     /**
      * The values that should be cast before sanitization is run.
      * This is done before $sanitize and $enums.
-     * @var array
      */
-    public $casts = [
+    public array $casts = [
         'debug' => 'bool',
     ];
 
@@ -19,7 +18,7 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
      * The values that should be guarded.
      * @var string[]
      */
-    public $guarded = [
+    public array $guarded = [
         'description', 'title',
     ];
 
@@ -27,9 +26,8 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
      * The keys that should be mapped to other keys.
      * Keys are mapped before the values are normalized and sanitized.
      * Note: Mapped keys should not be included in the defaults!
-     * @var array
      */
-    public $mapped = [
+    public array $mapped = [
         'assign_to' => 'assigned_posts',
         'category' => 'assigned_terms',
         'user' => 'assigned_users',
@@ -38,9 +36,8 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
     /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
-     * @var array
      */
-    public $sanitize = [
+    public array $sanitize = [
         'class' => 'attr-class',
         'description' => 'text',
         'hide' => 'array-string',

@@ -7,9 +7,8 @@ class VideoDefaults extends DefaultsAbstract
     /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
-     * @var array
      */
-    public $sanitize = [
+    public array $sanitize = [
         'duration' => 'regex:/[^\d\:]/',
         'id' => 'regex:/[^\w\-]/',
         'title' => 'text',

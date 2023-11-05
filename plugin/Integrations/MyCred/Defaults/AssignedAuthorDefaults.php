@@ -9,9 +9,8 @@ class AssignedAuthorDefaults extends DefaultsAbstract
     /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
-     * @var array
      */
-    public $sanitize = [
+    public array $sanitize = [
         'log' => 'text',
         'log_deduction' => 'text',
         'points' => 'numeric',

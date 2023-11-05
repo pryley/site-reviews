@@ -9,9 +9,8 @@ class SiteReviewDefaults extends DefaultsAbstract
     /**
      * The values that should be cast before sanitization is run.
      * This is done before $sanitize and $enums.
-     * @var array
      */
-    public $casts = [
+    public array $casts = [
         'debug' => 'bool',
         'post_id' => 'int',
     ];
@@ -20,16 +19,15 @@ class SiteReviewDefaults extends DefaultsAbstract
      * The values that should be guarded.
      * @var string[]
      */
-    public $guarded = [
+    public array $guarded = [
         'fallback', 'title',
     ];
 
     /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
-     * @var array
      */
-    public $sanitize = [
+    public array $sanitize = [
         'class' => 'attr-class',
         'fallback' => 'text-post',
         'hide' => 'array-string',

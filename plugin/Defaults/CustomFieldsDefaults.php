@@ -11,7 +11,7 @@ class CustomFieldsDefaults extends DefaultsAbstract
      * The values that should be guarded.
      * @var string[]
      */
-    public $guarded = [
+    public array $guarded = [
         '_action',
         '_ajax_request',
         '_frcaptcha',
