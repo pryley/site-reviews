@@ -7,9 +7,9 @@ use GeminiLabs\SiteReviews\Database\Tables;
 
 class Install
 {
-    public function deactivate(bool $isNetworkDeactivating): void
+    public function deactivate(bool $isNetworkDeactivation): void
     {
-        if (!$isNetworkDeactivating) {
+        if (!$isNetworkDeactivation) {
             glsr(Tables::class)->dropForeignConstraints();
             delete_option(glsr()->prefix.'activated');
             return;

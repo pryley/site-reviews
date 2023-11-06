@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Install;
 use GeminiLabs\SiteReviews\Modules\Assets\AssetCss;
 use GeminiLabs\SiteReviews\Modules\Assets\AssetJs;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -16,7 +17,7 @@ use GeminiLabs\SiteReviews\Modules\Translator;
 
 abstract class Controller extends AbstractController
 {
-    abstract protected function app(): PluginContract;
+    abstract public function app(): PluginContract;
 
     /**
      * @action admin_enqueue_scripts
@@ -330,10 +331,27 @@ abstract class Controller extends AbstractController
      */
     public function onActivation(): void
     {
-        $activatedOption = glsr()->prefix.'activated_'.$this->app()->id;
-        if (empty(get_option($activatedOption))) {
+        $option = glsr()->prefix.'activated_'.$this->app()->id;
+        if (empty(get_option($option))) {
             $this->app()->action('activate');
-            update_option($activatedOption, true);
+            update_option($option, true);
+        }
+    }
+
+    /**
+     * @action deactivate_{$this->app()->basename}
+     */
+    public function onDeactivation(bool $isNetworkDeactivation): void
+    {
+        $option = glsr()->prefix.'activated_'.$this->app()->id;
+        if (!$isNetworkDeactivation) {
+            delete_option($option);
+            return;
+        }
+        foreach ($this->sites() as $siteId) {
+            switch_to_blog($siteId);
+            delete_option($option);
+            restore_current_blog();
         }
     }
 

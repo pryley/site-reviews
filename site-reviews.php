@@ -7,7 +7,7 @@
  * Plugin Name:          Site Reviews
  * Plugin URI:           https://wordpress.org/plugins/site-reviews
  * Description:          Receive and display reviews on your website
- * Version:              6.11.4
+ * Version:              7.0.0
  * Author:               Paul Ryley
  * Author URI:           https://geminilabs.io
  * License:              GPL3
@@ -32,7 +32,6 @@ if ((new GL_Plugin_Check_v6(__FILE__))->canProceed()) {
     require_once __DIR__.'/migration.php';
     $app = GeminiLabs\SiteReviews\Application::load();
     $app->make('Provider')->register($app);
-    register_deactivation_hook(__FILE__, [$app, 'deactivate']);
     register_shutdown_function([$app, 'catchFatalError']);
     $app->init();
 }

@@ -176,6 +176,14 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @action deactivate_{glsr()->basename}
+     */
+    public function onDeactivation(bool $isNetworkDeactivation): void
+    {
+        glsr(Install::class)->deactivate($isNetworkDeactivation);
+    }
+
+    /**
      * @action import_end
      */
     public function onImportEnd(): void

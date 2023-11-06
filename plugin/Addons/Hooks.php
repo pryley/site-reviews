@@ -33,6 +33,7 @@ abstract class Hooks extends AbstractHooks
             ['filterTranslatorDomains', 'site-reviews/translator/domains'],
             ['install', "{$this->id()}/activate"],
             ['onActivation', 'admin_init'],
+            ['onDeactivation', "deactivate_{$this->basename()}"],
             ['registerBlocks', 'init', 9],
             ['registerLanguages', 'after_setup_theme', -10],
             ['registerShortcodes', 'init'],
