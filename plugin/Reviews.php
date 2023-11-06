@@ -1,4 +1,4 @@
-<?php
+x<?php
 
 namespace GeminiLabs\SiteReviews;
 
@@ -9,30 +9,19 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
 class Reviews extends \ArrayObject
 {
-    /**
-     * @var array
-     */
-    public $args;
+    public array $args;
 
-    /**
-     * @var int
-     */
-    public $max_num_pages;
+    public int $max_num_pages;
 
-    /**
-     * @var array
-     */
-    public $reviews;
+    public array $reviews;
 
-    /**
-     * @var int
-     */
-    public $total;
+    public int $total;
 
     public function __construct(array $reviews, int $total, array $args)
     {
-        $this->args = glsr(SiteReviewsDefaults::class)->unguardedMerge($args);
-        $this->max_num_pages = Cast::toInt(ceil($total / $this->args['display']));
+        $args = glsr(SiteReviewsDefaults::class)->unguardedMerge($args);
+        $this->args = $args;
+        $this->max_num_pages = Cast::toInt(ceil($total / $args['display']));
         $this->reviews = $reviews;
         $this->total = $total;
         parent::__construct($this->reviews, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);

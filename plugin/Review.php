@@ -50,25 +50,15 @@ use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
  */
 class Review extends Arguments
 {
-    /**
-     * @var Arguments
-     */
+    /** @var Arguments */
     protected $_meta;
 
-    /**
-     * @var \WP_Post
-     */
+    /** @var \WP_Post */
     protected $_post;
 
-    /**
-     * @var bool
-     */
-    protected $has_checked_revisions;
+    protected bool $has_checked_revisions;
 
-    /**
-     * @var int
-     */
-    protected $id;
+    protected int $id;
 
     /**
      * @param array|object $values
