@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\Tables\TableRatings;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 class RepairReviewRelations extends AbstractCommand
@@ -16,7 +17,7 @@ class RepairReviewRelations extends AbstractCommand
             $this->fail();
             return;
         }
-        glsr(Database::class)->deleteInvalidReviews();
+        glsr(TableRatings::class)->removeInvalidRows();
         glsr(Notice::class)->clear()->addSuccess(
             _x('The review relationships have been repaired.', 'admin-text', 'site-reviews')
         );

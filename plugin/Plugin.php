@@ -23,6 +23,7 @@ trait Plugin
      */
     protected static $instance;
 
+    protected $basename;
     protected $file;
     protected $languages;
     protected $testedTo;
@@ -43,6 +44,7 @@ trait Plugin
     {
         $file = wp_normalize_path((new \ReflectionClass($this))->getFileName());
         $this->file = str_replace('plugin/Application', $this->id, $file);
+        $this->basename = plugin_basename($this->file);
         $plugin = get_file_data($this->file, [
             'languages' => 'Domain Path',
             'name' => 'Plugin Name',

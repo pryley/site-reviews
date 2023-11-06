@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Tables;
+use GeminiLabs\SiteReviews\Database\Tables\TableRatings;
 use GeminiLabs\SiteReviews\Install;
 
 class MigrateDatabase implements MigrateContract
@@ -18,7 +19,7 @@ class MigrateDatabase implements MigrateContract
     {
         $this->repairDatabase();
         $this->migrateDatabase();
-        glsr(Database::class)->deleteInvalidReviews();
+        glsr(TableRatings::class)->removeInvalidRows();
         glsr(CountManager::class)->recalculate();
         return true;
     }
@@ -61,7 +62,7 @@ class MigrateDatabase implements MigrateContract
     protected function repairDatabase(): void
     {
         require_once ABSPATH.'/wp-admin/includes/plugin.php';
-        if (!is_plugin_active_for_network(plugin_basename(glsr()->file))) {
+        if (!is_plugin_active_for_network(glsr()->basename)) {
             $this->install();
             return;
         }

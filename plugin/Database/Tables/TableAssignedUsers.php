@@ -8,11 +8,10 @@ use GeminiLabs\SiteReviews\Database\Tables;
 
 class TableAssignedUsers extends AbstractTable
 {
-    public $name = 'assigned_users';
+    public string $name = 'assigned_users';
 
     public function addForeignConstraints(): void
     {
-        glsr(Database::class)->deleteInvalidUserAssignments();
         $this->addForeignConstraint('rating_id', $this->table('ratings'), 'ID');
         $this->addForeignConstraint('user_id', $this->table('users'), 'ID');
     }
@@ -21,6 +20,19 @@ class TableAssignedUsers extends AbstractTable
     {
         $this->dropForeignConstraint('rating_id', $this->table('ratings'));
         $this->dropForeignConstraint('user_id', $this->table('users'));
+    }
+
+    public function removeInvalidRows(): void
+    {
+        glsr(Database::class)->dbSafeQuery(
+            glsr(Query::class)->sql("
+                DELETE t
+                FROM {$this->tablename} AS t
+                LEFT JOIN {$this->table('ratings')} AS r ON t.rating_id = r.ID
+                LEFT JOIN {$this->table('users')} AS u ON t.user_id = u.ID
+                WHERE (r.ID IS NULL OR u.ID IS NULL)
+            ")
+        );
     }
 
     /**

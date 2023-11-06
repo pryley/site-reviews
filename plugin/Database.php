@@ -72,6 +72,9 @@ class Database
     }
 
     /**
+     * Boolean true for CREATE, ALTER, TRUNCATE and DROP queries. 
+     * Number of rows affected/selected for all other queries. 
+     * Boolean false on error.
      * @return int|bool
      */
     public function dbQuery(string $sql)
@@ -98,100 +101,6 @@ class Database
         $result = $this->db->delete(glsr(Query::class)->table($table), $where);
         glsr(Query::class)->sql($this->db->last_query); // for logging use only
         return $this->logErrors($result);
-    }
-
-    /**
-     * @return int|bool
-     */
-    public function deleteInvalidFields()
-    {
-        return $this->dbSafeQuery(
-            glsr(Query::class)->sql(sprintf("
-                DELETE f
-                FROM %s AS f
-                LEFT JOIN %s AS r ON f.rating_id = r.ID
-                WHERE (r.ID IS NULL)
-            ",
-                glsr(Query::class)->table('fields'),
-                glsr(Query::class)->table('ratings')
-            ))
-        );
-    }
-
-    /**
-     * @return int|bool
-     */
-    public function deleteInvalidPostAssignments()
-    {
-        return $this->dbSafeQuery(
-            glsr(Query::class)->sql(sprintf("
-                DELETE ap
-                FROM %s AS ap
-                LEFT JOIN %s AS r ON ap.rating_id = r.ID
-                LEFT JOIN {$this->db->posts} AS p ON ap.post_id = p.ID
-                WHERE (r.ID IS NULL OR p.ID IS NULL)
-            ",
-                glsr(Query::class)->table('assigned_posts'),
-                glsr(Query::class)->table('ratings')
-            ))
-        );
-    }
-
-    /**
-     * @return int|bool
-     */
-    public function deleteInvalidReviews()
-    {
-        return $this->dbSafeQuery(
-            glsr(Query::class)->sql(sprintf("
-                DELETE r
-                FROM %s AS r
-                LEFT JOIN {$this->db->posts} AS p ON r.review_id = p.ID
-                WHERE (p.post_type IS NULL OR p.post_type != '%s')
-            ",
-                glsr(Query::class)->table('ratings'),
-                glsr()->post_type
-            ))
-        );
-    }
-
-    /**
-     * @return int|bool
-     */
-    public function deleteInvalidTermAssignments()
-    {
-        return $this->dbSafeQuery(
-            glsr(Query::class)->sql(sprintf("
-                DELETE at
-                FROM %s AS at
-                LEFT JOIN %s AS r ON at.rating_id = r.ID
-                LEFT JOIN {$this->db->term_taxonomy} AS tt ON at.term_id = tt.term_id
-                WHERE (r.ID IS NULL OR tt.term_id IS NULL) OR tt.taxonomy != '%s'
-            ",
-                glsr(Query::class)->table('assigned_terms'),
-                glsr(Query::class)->table('ratings'),
-                glsr()->taxonomy
-            ))
-        );
-    }
-
-    /**
-     * @return int|bool
-     */
-    public function deleteInvalidUserAssignments()
-    {
-        return $this->dbSafeQuery(
-            glsr(Query::class)->sql(sprintf("
-                DELETE au
-                FROM %s AS au
-                LEFT JOIN %s AS r ON au.rating_id = r.ID
-                LEFT JOIN {$this->db->users} AS u ON au.user_id = u.ID
-                WHERE (r.ID IS NULL OR u.ID IS NULL)
-            ",
-                glsr(Query::class)->table('assigned_users'),
-                glsr(Query::class)->table('ratings')
-            ))
-        );
     }
 
     /**

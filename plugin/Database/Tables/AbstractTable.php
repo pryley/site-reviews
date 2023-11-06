@@ -9,36 +9,11 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 abstract class AbstractTable
 {
-    /**
-     * @var \wpdb
-     */
-    public $db;
-    /**
-     * @var string
-     */
-    public $dbname;
-    /**
-     * @var string
-     */
-    public $dbprefix;
-    /**
-     * @var string
-     */
-    public $name = '';
-    /**
-     * @var string
-     */
-    public $tablename = '';
-
-    abstract public function addForeignConstraints(): void;
-
-    abstract public function dropForeignConstraints(): void;
-
-    /**
-     * WordPress codex says there must be two spaces between PRIMARY KEY and the key definition.
-     * @see https://codex.wordpress.org/Creating_Tables_with_Plugins
-     */
-    abstract public function structure(): string;
+    public \wpdb $db;
+    public string $dbname;
+    public string $dbprefix;
+    public string $name = '';
+    public string $tablename;
 
     public function __construct()
     {
@@ -47,7 +22,7 @@ abstract class AbstractTable
         $this->db = $wpdb;
         $this->dbname = $wpdb->dbname;
         $this->dbprefix = $wpdb->get_blog_prefix();
-        $this->tablename = sprintf('%s%s%s', $this->dbprefix, glsr()->prefix, $this->name);
+        $this->tablename = $wpdb->get_blog_prefix().glsr()->prefix.$this->name;
     }
 
     public function addForeignConstraint(string $column, string $foreignTable, string $foreignColumn): bool
@@ -56,7 +31,7 @@ abstract class AbstractTable
         if ($this->foreignConstraintExists($constraint, $foreignTable)) {
             return false;
         }
-        $this->deleteOrphanedRows($column, $foreignTable, $foreignColumn);
+        $this->removeInvalidRows();
         return (bool) glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
             ALTER TABLE {$this->tablename}
             ADD CONSTRAINT {$constraint}
@@ -66,6 +41,8 @@ abstract class AbstractTable
         "));
     }
 
+    abstract public function addForeignConstraints(): void;
+
     public function create(): bool
     {
         if ($this->exists()) {
@@ -74,16 +51,6 @@ abstract class AbstractTable
         dbDelta($this->structure());
         glsr(Database::class)->logErrors();
         return true;
-    }
-
-    public function deleteOrphanedRows(string $column, string $foreignTable, string $foreignColumn): void
-    {
-        glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
-            DELETE t
-            FROM {$this->tablename} AS t
-            LEFT JOIN {$foreignTable} AS ft ON t.{$column} = ft.{$foreignColumn}
-            WHERE ft.{$foreignColumn} IS NULL
-        "));
     }
 
     public function dropForeignConstraint(string $column, string $foreignTable): bool
@@ -96,6 +63,8 @@ abstract class AbstractTable
             ALTER TABLE {$this->tablename} DROP FOREIGN KEY {$constraint};
         ");
     }
+
+    abstract public function dropForeignConstraints(): void;
 
     public function exists(): bool
     {
@@ -126,6 +95,14 @@ abstract class AbstractTable
         ");
         return in_array($constraint, $constraints);
     }
+
+    abstract public function removeInvalidRows(): void;
+
+    /**
+     * WordPress codex says there must be two spaces between PRIMARY KEY and the key definition.
+     * @see https://codex.wordpress.org/Creating_Tables_with_Plugins
+     */
+    abstract public function structure(): string;
 
     public function table(string $name = ''): string
     {

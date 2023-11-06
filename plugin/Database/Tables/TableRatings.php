@@ -8,17 +8,29 @@ use GeminiLabs\SiteReviews\Database\Tables;
 
 class TableRatings extends AbstractTable
 {
-    public $name = 'ratings';
+    public string $name = 'ratings';
 
     public function addForeignConstraints(): void
     {
-        glsr(Database::class)->deleteInvalidReviews();
         $this->addForeignConstraint('review_id', $this->table('posts'), 'ID');
     }
 
     public function dropForeignConstraints(): void
     {
         $this->dropForeignConstraint('review_id', $this->table('posts'));
+    }
+
+    public function removeInvalidRows(): void
+    {
+        $type = glsr()->post_type;
+        glsr(Database::class)->dbSafeQuery(
+            glsr(Query::class)->sql("
+                DELETE t
+                FROM {$this->tablename} AS t
+                LEFT JOIN {$this->table('posts')} AS p ON t.review_id = p.ID
+                WHERE (p.post_type IS NULL OR p.post_type != '{$type}')
+            ")
+        );
     }
 
     /**

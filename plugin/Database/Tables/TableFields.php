@@ -12,7 +12,6 @@ class TableFields extends AbstractTable
 
     public function addForeignConstraints(): void
     {
-        glsr(Database::class)->deleteInvalidFields();
         $this->addForeignConstraint('rating_id', $this->table('ratings'), 'ID');
     }
 
@@ -27,6 +26,8 @@ class TableFields extends AbstractTable
      */
     public function structure(): string
     {
+        // Indexes have a maximum size of 767 bytes and utf8mb4 uses 4 bytes per character.
+        $maxIndexLength = 191; // floor(767/4) = 191 characters
         return glsr(Query::class)->sql("
             CREATE TABLE {$this->tablename} (
                 ID bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -35,7 +36,7 @@ class TableFields extends AbstractTable
                 field_value longtext DEFAULT NULL,
                 PRIMARY KEY  (ID),
                 KEY glsr_fields_rating_id_index (rating_id),
-                KEY glsr_fields_field_name_index (field_name(191))
+                KEY glsr_fields_field_name_index (field_name($maxIndexLength))
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         ");
     }
