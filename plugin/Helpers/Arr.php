@@ -20,7 +20,7 @@ class Arr
     public static function consolidate($value, array $fallback = []): array
     {
         if ($value instanceof Arguments) {
-            return $value->toArray();
+            return $value->getArrayCopy(); // This ensures we don't convert array values.
         }
         if (is_object($value)) {
             $values = get_object_vars($value);

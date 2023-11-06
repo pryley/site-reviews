@@ -24,20 +24,19 @@ class Cast
      */
     public static function toArray($value, bool $explode = true): array
     {
-        if (is_object($value)) {
-            $reflection = new \ReflectionObject($value);
-            $properties = $reflection->hasMethod('toArray')
-                ? $value->toArray()
-                : get_object_vars($value);
-            return json_decode(json_encode($properties), true);
-        }
         if (is_bool($value)) {
             return [$value];
         }
         if (is_scalar($value) && $explode) {
             return Arr::convertFromString((string) $value);
         }
-        return (array) $value;
+        if (is_object($value)) {
+            $reflection = new \ReflectionObject($value);
+            $value = $reflection->hasMethod('toArray')
+                ? $value->toArray()
+                : get_object_vars($value);
+        }
+        return json_decode(json_encode((array) $value), true);
     }
 
     /**

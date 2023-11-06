@@ -119,7 +119,7 @@ class CreateReview extends AbstractCommand
             'html' => (string) $this->review,
             'message' => $this->message,
             'redirect' => $this->redirect(),
-            'review' => Cast::toArray($this->review),
+            'review' => $this->review->toArray(),
             'reviews' => $this->reloadedReviews(),
         ];
     }

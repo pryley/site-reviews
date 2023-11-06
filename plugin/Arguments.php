@@ -110,6 +110,6 @@ class Arguments extends \ArrayObject
      */
     public function toArray($args = []): array
     {
-        return $this->getArrayCopy();
+        return Cast::toArray($this->getArrayCopy());
     }
 }
