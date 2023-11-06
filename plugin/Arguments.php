@@ -106,10 +106,10 @@ class Arguments extends \ArrayObject
     }
 
     /**
-     * @param string|array $args Optional parameter that can be used to change the output
+     * @param array $args Optional parameter that can be used to change the output
      */
-    public function toArray($args = []): array
+    public function toArray(array $args = []): array
     {
-        return Cast::toArray($this->getArrayCopy());
+        return Cast::toArrayDeep($this->getArrayCopy());
     }
 }

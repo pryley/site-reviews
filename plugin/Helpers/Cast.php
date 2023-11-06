@@ -36,7 +36,15 @@ class Cast
                 ? $value->toArray()
                 : get_object_vars($value);
         }
-        return json_decode(json_encode((array) $value), true);
+        return (array) $value;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public static function toArrayDeep($value, bool $explode = true): array
+    {
+        return json_decode(json_encode(static::toArray($value, $explode)), true);
     }
 
     /**
