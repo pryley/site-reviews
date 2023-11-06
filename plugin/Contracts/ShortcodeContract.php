@@ -12,9 +12,15 @@ interface ShortcodeContract
 {
     public function build(array $args = [], string $type = 'shortcode'): string;
 
-    public function buildBlock(array $args = []): string;
+    /**
+     * @var string|array $args
+     */
+    public function buildBlock($args = []): string;
 
-    public function buildShortcode(array $args = []): string;
+    /**
+     * @var string|array $args
+     */
+    public function buildShortcode($args = []): string;
 
     public function buildTemplate(): string;
 
