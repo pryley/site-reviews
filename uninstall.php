@@ -3,7 +3,7 @@
 defined('WP_UNINSTALL_PLUGIN') || die;
 
 function glsr_uninstall() {
-    $settings = get_option('site_reviews_v6');
+    $settings = get_option('site_reviews_v7');
     $uninstall = isset($settings['settings']['general']['delete_data_on_uninstall'])
         ? $settings['settings']['general']['delete_data_on_uninstall']
         : '';
@@ -107,6 +107,7 @@ function glsr_uninstall_minimal() {
         'site_reviews_v4', // v4 settings
         'site_reviews_v5', // v5 settings
         'site_reviews_v6', // v6 settings
+        'site_reviews_v7', // v7 settings
         'theme_mods_site-reviews',
         'widget_glsr_site-reviews',
         'widget_glsr_site-reviews-form',
@@ -154,7 +155,7 @@ if (!function_exists('get_sites')) {
     global $wpdb;
     $siteIds = $wpdb->get_col("SELECT blog_id FROM {$wpdb->blogs}");
 } else {
-    $siteIds = get_sites(['fields' => 'ids']);
+    $siteIds = get_sites(['count' => false, 'fields' => 'ids']);
 }
 foreach ($siteIds as $siteId) {
     switch_to_blog($siteId);
