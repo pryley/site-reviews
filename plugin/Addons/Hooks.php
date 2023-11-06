@@ -46,7 +46,7 @@ abstract class Hooks extends AbstractHooks
 
     protected function basename(): string
     {
-        return plugin_basename($this->app()->file);
+        return $this->app()->basename;
     }
 
     protected function id(): string

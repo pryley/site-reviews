@@ -40,7 +40,7 @@ class MainController extends AbstractController
      */
     public function installOnNewSite($site): void
     {
-        if (is_plugin_active_for_network(plugin_basename(glsr()->file))) {
+        if (is_plugin_active_for_network(glsr()->basename)) {
             glsr(Install::class)->runOnSite($site->blog_id);
         }
     }

@@ -183,7 +183,7 @@ class SystemInfo
                 'Database Version' => (string) get_option(glsr()->prefix.'db_version'),
                 'Last Migration Run' => glsr(Date::class)->localized(glsr(OptionManager::class)->get('last_migration_run'), 'unknown'),
                 'Merged Assets' => implode('/', Helper::ifEmpty($merged, ['No'])),
-                'Network Activated' => Helper::ifTrue(is_plugin_active_for_network(plugin_basename(glsr()->file)), 'Yes', 'No'),
+                'Network Activated' => Helper::ifTrue(is_plugin_active_for_network(glsr()->basename), 'Yes', 'No'),
                 'Version' => sprintf('%s (%s)', glsr()->version, glsr(OptionManager::class)->get('version_upgraded_from')),
             ],
         ];

@@ -18,7 +18,7 @@ abstract class AbstractHooks implements HooksContract
 
     public function __construct()
     {
-        $this->basename = plugin_basename(glsr()->file);
+        $this->basename = glsr()->basename;
         $this->id = glsr()->id;
         $this->prefix = glsr()->prefix;
         $this->taxonomy = glsr()->taxonomy;

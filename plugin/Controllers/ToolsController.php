@@ -219,14 +219,13 @@ class ToolsController extends AbstractController
     public function filterUpdatePluginsTransient($value)
     {
         if ($version = get_transient(glsr()->prefix.'rollback_version')) {
-            $plugin = plugin_basename(glsr()->file);
             $update = (object) [
                 'new_version' => $version,
                 'package' => sprintf('https://downloads.wordpress.org/plugin/%s.%s.zip', glsr()->id, $version),
                 'slug' => glsr()->id,
             ];
             if (is_object($value)) {
-                $value->response[$plugin] = $update;
+                $value->response[glsr()->basename] = $update;
             }
         }
         return $value;

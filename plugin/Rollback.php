@@ -9,7 +9,7 @@ class Rollback
     public function rollback(string $version): void
     {
         global $title, $parent_file;
-        $plugin = plugin_basename(glsr()->file);
+        $plugin = glsr()->basename;
         $parent_file = 'edit.php?post_type='.glsr()->post_type;
         $title = _x('Rollback Site Reviews', 'admin-text', 'site-reviews');
         $nonce = 'upgrade-plugin_'.$plugin;
@@ -30,7 +30,7 @@ class Rollback
             'data' => [
                 '_ajax_nonce' => wp_create_nonce('updates'),
                 'action' => 'update-plugin',
-                'plugin' => plugin_basename(glsr()->file),
+                'plugin' => glsr()->basename,
                 'slug' => glsr()->id,
             ],
             'url' => glsr_admin_url('welcome'),

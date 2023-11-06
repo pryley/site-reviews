@@ -46,7 +46,7 @@ class AdminController extends AbstractController
 
     /**
      * @param array $data
-     * @action in_plugin_update_message-{plugin_basename}
+     * @action in_plugin_update_message-{glsr()->basename}
      */
     public function displayUpdateWarning($data): void
     {

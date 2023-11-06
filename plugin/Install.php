@@ -44,7 +44,7 @@ class Install
     public function run(): void
     {
         require_once ABSPATH.'/wp-admin/includes/plugin.php';
-        if (is_plugin_active_for_network(plugin_basename(glsr()->file))) {
+        if (is_plugin_active_for_network(glsr()->basename)) {
             foreach ($this->sites() as $siteId) {
                 $this->runOnSite((int) $siteId);
             }
