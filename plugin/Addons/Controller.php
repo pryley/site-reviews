@@ -424,15 +424,15 @@ abstract class Controller extends AbstractController
             'in_footer' => false,
             'suffix' => '',
         ]);
-        $suffix = Str::removePrefix($args['suffix'], '-');
-        $suffix = Str::removePrefix($args['suffix'], '/');
-        $path = "assets/{$this->app()->id}-$suffix.{$ext}";
+        $suffix = Str::prefix($args['suffix'], '-');
+        $path = "assets/{$this->app()->id}{$suffix}.{$ext}";
         if (!file_exists($this->app()->path($path)) || !in_array($ext, ['css', 'js'])) {
             return [];
         }
-        $dependencies = Arr::get($args, 'dependencies', [glsr()->id.'/'.$suffix]);
+        $suffix = Str::prefix($args['suffix'], '/');
+        $dependencies = Arr::get($args, 'dependencies', [glsr()->id.$suffix]);
         $funcArgs = [
-            $this->app()->id.'/'.$suffix,
+            $this->app()->id.$suffix,
             $this->app()->url($path),
             Arr::consolidate($dependencies),
             $this->app()->version,
