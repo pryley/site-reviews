@@ -6,9 +6,7 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 
 trait Storage
 {
-    /**
-     * @var Arguments
-     */
+    /** @var Arguments */
     protected $storage;
 
     /**

@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 trait Session
 {
-    /**
-     * @var array
-     */
-    protected $session = [];
+    protected array $session = [];
 
     public function session(): Arguments
     {

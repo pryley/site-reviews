@@ -9,24 +9,25 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 abstract class Container
 {
     /**
-     * @var array
-     */
-    protected $bindings = [];
-
-    /**
-     * @var array
-     */
-    protected $buildStack = [];
-
-    /**
-     * @var array
-     */
-    protected $instances = [];
-
-    /**
+     * The container's bindings.
      * @var array[]
      */
-    protected $with = [];
+    protected array $bindings = [];
+    /**
+     * The stack of concretions currently being built.
+     * @var array[]
+     */
+    protected array $buildStack = [];
+    /**
+     * The container's shared instances.
+     * @var object[]
+     */
+    protected array $instances = [];
+    /**
+     * The parameter override stack.
+     * @var array[]
+     */
+    protected array $with = [];
 
     /**
      * @param mixed $concrete

@@ -8,35 +8,13 @@ use GeminiLabs\SiteReviews\Helpers\Url;
 
 class Updater
 {
-    /**
-     * @var string
-     */
-    protected $addonId;
-
-    /**
-     * @var string
-     */
-    protected $apiUrl;
-    /**
-     * @var array
-     */
-    protected $data;
-    /**
-     * @var bool
-     */
-    protected $forceCheck = false;
-    /**
-     * @var bool
-     */
-    protected $isReady = false;
-    /**
-     * @var string
-     */
-    protected $status;
-    /**
-     * @var string
-     */
-    protected $plugin;
+    protected string $addonId = '';
+    protected string $apiUrl = '';
+    protected array $data = [];
+    protected bool $forceCheck = false;
+    protected bool $isReady = false;
+    protected string $status = '';
+    protected string $plugin = '';
 
     public function __construct(string $apiUrl, string $file, string $addonId, array $data = [])
     {
