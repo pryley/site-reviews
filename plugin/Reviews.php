@@ -1,4 +1,4 @@
-x<?php
+<?php
 
 namespace GeminiLabs\SiteReviews;
 

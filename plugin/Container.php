@@ -15,7 +15,7 @@ abstract class Container
     protected array $bindings = [];
     /**
      * The stack of concretions currently being built.
-     * @var array[]
+     * @var array
      */
     protected array $buildStack = [];
     /**

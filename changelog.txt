@@ -17,7 +17,7 @@
 
 - Added a flyout help menu on Site Reviews pages in the WordPress Admin.
 - Added a "Request Verification" setting
-- Added support for the [Nitropack](https://wordpress.org/plugins/nitropack/) cache plugin
+- Added support for the [NitroPack](https://wordpress.org/plugins/nitropack/) cache plugin
 - Added tag buttons to notification message setting
 - Added the ability to approve a review directly from a Discord, Email, or Slack notification
 - Changed number of scheduled actions to 50 per page

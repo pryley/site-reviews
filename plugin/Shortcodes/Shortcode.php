@@ -52,7 +52,7 @@ abstract class Shortcode implements ShortcodeContract
     }
 
     /**
-     * @var string|array $args
+     * @param string|array $args
      */
     public function buildBlock($args = []): string
     {
@@ -60,7 +60,7 @@ abstract class Shortcode implements ShortcodeContract
     }
 
     /**
-     * @var string|array $args
+     * @param string|array $args
      */
     public function buildShortcode($args = []): string
     {

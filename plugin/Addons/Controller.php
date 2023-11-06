@@ -348,7 +348,7 @@ abstract class Controller extends AbstractController
             delete_option($option);
             return;
         }
-        foreach ($this->sites() as $siteId) {
+        foreach (glsr(Install::class)->sites() as $siteId) {
             switch_to_blog($siteId);
             delete_option($option);
             restore_current_blog();

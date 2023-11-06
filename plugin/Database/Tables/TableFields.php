@@ -8,7 +8,7 @@ use GeminiLabs\SiteReviews\Database\Tables;
 
 class TableFields extends AbstractTable
 {
-    public $name = 'fields';
+    public string $name = 'fields';
 
     public function addForeignConstraints(): void
     {
@@ -18,6 +18,18 @@ class TableFields extends AbstractTable
     public function dropForeignConstraints(): void
     {
         $this->dropForeignConstraint('rating_id', $this->table('ratings'));
+    }
+
+    public function removeInvalidRows(): void
+    {
+        glsr(Database::class)->dbSafeQuery(
+            glsr(Query::class)->sql("
+                DELETE t
+                FROM {$this->tablename} AS t
+                LEFT JOIN {$this->table('ratings')} AS r ON t.rating_id = r.ID
+                WHERE r.ID IS NULL
+            ")
+        );
     }
 
     /**

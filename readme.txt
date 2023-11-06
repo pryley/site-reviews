@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.4
-Stable tag: 6.11.4
+Stable tag: 7.0.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -87,6 +87,7 @@ Site Reviews is officially compatible with the following plugins:
 - [Members](https://wordpress.org/plugins/members/)
 - [myCRED](https://mycred.me/)
 - [Ninja Forms](https://ninjaforms.com/)
+- [NitroPack](https://wordpress.org/plugins/nitropack/)
 - [Oxygen Builder](https://oxygenbuilder.com)
 - [Perfect Brands for WooCommerce](https://wordpress.org/plugins/perfect-woocommerce-brands/)
 - [Polylang](https://wordpress.org/plugins/polylang/)

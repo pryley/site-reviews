@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Request;
 
 /**
+ * @property string $basename
  * @property string $file
  * @property string $id
  * @property string $languages
