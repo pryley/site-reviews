@@ -10,7 +10,7 @@
     </nav>
     <?php foreach ($tabs as $id => $title) : ?>
     <div class="glsr-nav-view ui-tabs-hide" id="<?= $id; ?>">
-        <?php $template->render('pages/tools/'.$id, $data); ?>
+        <?php glsr('Modules\Html\Template')->render("pages/tools/{$id}", $data); ?>
     </div>
     <?php endforeach; ?>
     <input type="hidden" name="_active_tab">

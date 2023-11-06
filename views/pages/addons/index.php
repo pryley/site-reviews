@@ -17,6 +17,6 @@
     </div>
 
     <div class="glsr-addons">
-        <?php $template->renderMultiple('partials/addons/addon', $addons); ?>
+        <?php glsr('Modules\Html\Template')->renderMultiple('partials/addons/addon', $addons); ?>
     </div>
 </div>

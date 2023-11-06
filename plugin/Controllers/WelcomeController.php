@@ -88,7 +88,6 @@ class WelcomeController extends AbstractController
             'data' => $data,
             'http_referer' => (string) wp_get_referer(),
             'tabs' => $tabs,
-            'template' => glsr(Template::class),
         ]);
     }
 }

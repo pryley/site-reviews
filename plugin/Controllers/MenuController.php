@@ -100,7 +100,6 @@ class MenuController extends AbstractController
         }
         $this->renderPage('addons', [
             'addons' => $addons,
-            'template' => glsr(Template::class),
         ]);
     }
 
@@ -190,7 +189,6 @@ class MenuController extends AbstractController
                 'services' => glsr()->filterArray('addon/sync/services', []),
             ],
             'tabs' => $tabs,
-            'template' => glsr(Template::class),
         ]);
     }
 
