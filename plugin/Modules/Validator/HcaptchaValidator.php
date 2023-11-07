@@ -51,6 +51,6 @@ class HcaptchaValidator extends CaptchaValidator
 
     protected function token(): string
     {
-        return $this->request['_hcaptcha'];
+        return $this->request['_hcaptcha'] ?? '';
     }
 }

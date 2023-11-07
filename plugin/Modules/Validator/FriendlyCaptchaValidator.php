@@ -51,6 +51,6 @@ class FriendlyCaptchaValidator extends CaptchaValidator
 
     protected function token(): string
     {
-        return $this->request['_frcaptcha'];
+        return $this->request['_frcaptcha'] ?? '';
     }
 }

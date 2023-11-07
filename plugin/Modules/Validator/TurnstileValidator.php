@@ -53,6 +53,6 @@ class TurnstileValidator extends CaptchaValidator
 
     protected function token(): string
     {
-        return $this->request['_turnstile'];
+        return $this->request['_turnstile'] ?? '';
     }
 }

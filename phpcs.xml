@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="Custom Standard" namespace="GeminiLabs\Standard">
-    <arg name="basepath" value="/Users/me/Code/GeminiLabs/" />
+    <arg name="basepath" value="/Users/me/Code/GeminiLabs/site-reviews/" />
     <arg name="colors"/>
     <arg name="extensions" value="php" />
     <arg value="sp"/>

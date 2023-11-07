@@ -76,6 +76,6 @@ class Recaptcha3Validator extends CaptchaValidator
 
     protected function token(): string
     {
-        return $this->request['_recaptcha'];
+        return $this->request['_recaptcha'] ?? '';
     }
 }
