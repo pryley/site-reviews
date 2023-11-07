@@ -21,17 +21,14 @@
  */
 defined('ABSPATH') || exit;
 
-if (!class_exists('GL_Plugin_Check_v6')) {
-    require_once __DIR__.'/activate.php';
-}
-if ((new GL_Plugin_Check_v6(__FILE__))->canProceed()) {
-    require_once __DIR__.'/autoload.php';
-    require_once __DIR__.'/compatibility.php';
-    require_once __DIR__.'/deprecated.php';
-    require_once __DIR__.'/helpers.php';
-    require_once __DIR__.'/migration.php';
-    $app = GeminiLabs\SiteReviews\Application::load();
-    $app->make('Provider')->register($app);
-    register_shutdown_function([$app, 'catchFatalError']);
-    $app->init();
-}
+require_once __DIR__.'/autoload.php';
+require_once __DIR__.'/compatibility.php';
+require_once __DIR__.'/deprecated.php';
+require_once __DIR__.'/helpers.php';
+require_once __DIR__.'/migration.php';
+
+$app = GeminiLabs\SiteReviews\Application::load();
+$app->make('Provider')->register($app);
+$app->init();
+
+register_shutdown_function([$app, 'catchFatalError']);
