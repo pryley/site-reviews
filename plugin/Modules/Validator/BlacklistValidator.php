@@ -45,7 +45,7 @@ class BlacklistValidator extends ValidatorAbstract
     protected function blacklist()
     {
         return 'comments' === glsr_get_option('forms.blacklist.integration')
-            ? trim(glsr(OptionManager::class)->getWP('disallowed_keys'))
+            ? trim(glsr(OptionManager::class)->wp('disallowed_keys'))
             : trim(glsr_get_option('forms.blacklist.entries'));
     }
 

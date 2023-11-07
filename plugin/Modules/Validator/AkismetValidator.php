@@ -15,8 +15,8 @@ class AkismetValidator extends ValidatorAbstract
             return true;
         }
         $submission = [
-            'blog' => glsr(OptionManager::class)->getWP('home'),
-            'blog_charset' => glsr(OptionManager::class)->getWP('blog_charset', 'UTF-8'),
+            'blog' => glsr(OptionManager::class)->wp('home'),
+            'blog_charset' => glsr(OptionManager::class)->wp('blog_charset', 'UTF-8'),
             'blog_lang' => get_locale(),
             'comment_author' => $this->request->name,
             'comment_author_email' => $this->request->email,

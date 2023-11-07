@@ -179,7 +179,7 @@ class Review extends Arguments
         }
         $format = 'custom' === $dateFormat
             ? glsr_get_option('reviews.date.custom', 'M j, Y')
-            : glsr(OptionManager::class)->getWP('date_format', 'F j, Y');
+            : glsr(OptionManager::class)->wp('date_format', 'F j, Y');
         return date_i18n($format, strtotime($value));
     }
 

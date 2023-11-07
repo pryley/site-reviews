@@ -10,13 +10,6 @@ use GeminiLabs\SiteReviews\Modules\Migrate;
 
 class OptionManager
 {
-    public function __call($method, $args)
-    {
-        if ('getWP' === $method) { // @compat
-            return call_user_func_array([$this, 'wp'], $args);
-        }
-    }
-
     public function all(): array
     {
         if ($settings = Arr::consolidate(glsr()->retrieve('settings'))) {

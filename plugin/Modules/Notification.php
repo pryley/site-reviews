@@ -72,7 +72,7 @@ class Notification
     {
         $emails = [];
         if (in_array('admin', $this->types)) {
-            $emails[] = glsr(OptionManager::class)->getWP('admin_email');
+            $emails[] = glsr(OptionManager::class)->wp('admin_email');
         }
         if (in_array('author', $this->types)) {
             $posts = $this->review->assignedPosts();
@@ -123,7 +123,7 @@ class Notification
 
     protected function subject(bool $withPostAssignment = false): string
     {
-        $siteTitle = wp_specialchars_decode(glsr(OptionManager::class)->getWP('blogname'), ENT_QUOTES);
+        $siteTitle = wp_specialchars_decode(glsr(OptionManager::class)->wp('blogname'), ENT_QUOTES);
         $title = sprintf(__('New %s-star review', 'site-reviews'), $this->review->rating);
         if ($withPostAssignment) {
             $postAssignments = glsr(TemplateTags::class)->tagReviewAssignedPosts($this->review);
