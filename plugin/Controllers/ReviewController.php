@@ -132,7 +132,7 @@ class ReviewController extends AbstractController
     public function onAfterChangeAssignedTerms($postId, $terms, $newTTIds, $taxonomy, $append, $oldTTIds): void
     {
         if (Review::isReview($postId)) {
-            $review = glsr(Query::class)->review($postId);
+            $review = glsr(ReviewManager::class)->get((int) $postId);
             $diff = $this->getAssignedDiffs($oldTTIds, $newTTIds);
             $this->execute(new UnassignTerms($review, $diff['old']));
             $this->execute(new AssignTerms($review, $diff['new']));
@@ -318,7 +318,7 @@ class ReviewController extends AbstractController
         if (!in_array(glsr_current_screen()->base, ['edit', 'post'])) {
             return; // only trigger this action from the Site Reviews edit/post screens
         }
-        $review = glsr(Query::class)->review($postId);
+        $review = glsr(ReviewManager::class)->get((int) $postId);
         if ('edit' === glsr_current_screen()->base) {
             $this->bulkUpdateReview($review, $oldPost);
         } else {
@@ -368,7 +368,7 @@ class ReviewController extends AbstractController
         if ($assignedUserIds = filter_input(INPUT_GET, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY)) {
             glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
         }
-        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
+        $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
         glsr()->action('review/updated', $review, [], $oldPost); // pass an empty array since review values are unchanged
     }
 
@@ -423,7 +423,7 @@ class ReviewController extends AbstractController
             glsr(ReviewManager::class)->updateRating($review->ID, $data); // values are sanitized here
             glsr(ReviewManager::class)->updateCustom($review->ID, $data); // values are sanitized here
         }
-        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
+        $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
         glsr()->action('review/updated', $review, $data, $oldPost);
     }
 }

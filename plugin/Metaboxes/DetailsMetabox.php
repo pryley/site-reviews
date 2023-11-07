@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Metaboxes;
 
 use GeminiLabs\SiteReviews\Contracts\MetaboxContract;
-use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Modules\Html\MetaboxField;
 use GeminiLabs\SiteReviews\Review;
 
@@ -48,7 +48,7 @@ class DetailsMetabox implements MetaboxContract
      */
     public function render($post): void
     {
-        $review = glsr(Query::class)->review($post->ID);
+        $review = glsr(ReviewManager::class)->get($post->ID);
         glsr()->render('partials/editor/metabox-details', [
             'metabox' => $this->normalize($review),
         ]);

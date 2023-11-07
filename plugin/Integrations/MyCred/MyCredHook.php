@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\MyCred;
 
-use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Integrations\MyCred\Defaults\AssignedAuthorDefaults;
@@ -30,7 +30,7 @@ class MyCredHook extends \myCRED_Hook
      */
     public function onReviewCreated(Review $review): void
     {
-        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
+        $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
         if ($review->is_approved) {
             $this->reviewApproved($review);
         }
@@ -44,7 +44,7 @@ class MyCredHook extends \myCRED_Hook
         if (!in_array('publish', [$new, $old])) {
             return;
         }
-        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
+        $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
         if ('publish' === $new) {
             $this->reviewApproved($review);
         } elseif ('publish' === $old && 'trash' === $new) {

@@ -163,15 +163,9 @@ class ReviewManager
         }
     }
 
-    /**
-     * @param int $reviewId
-     * @return Review
-     */
-    public function get($reviewId)
+    public function get(int $reviewId, bool $bypassCache = false): Review
     {
-        $reviewId = Helper::getPostId($reviewId);
-        $review = glsr(Query::class)->review($reviewId);
-        return $review;
+        return glsr(Query::class)->review($reviewId, $bypassCache);
     }
 
     /**
@@ -264,14 +258,14 @@ class ReviewManager
         }
         $this->updateCustom($reviewId, $data);
         $this->updateResponse($reviewId, $data);
-        $review = glsr(Query::class)->review($reviewId);
+        $review = $this->get($reviewId);
         if ($assignedPosts = Arr::uniqueInt(Arr::get($data, 'assigned_posts'))) {
             glsr()->action('review/updated/post_ids', $review, $assignedPosts); // trigger a recount of assigned posts
         }
         if ($assignedUsers = Arr::uniqueInt(Arr::get($data, 'assigned_users'))) {
             glsr()->action('review/updated/user_ids', $review, $assignedUsers); // trigger a recount of assigned posts
         }
-        $review = glsr(Query::class)->review($reviewId); // get a fresh copy of the review
+        $review = $this->get($reviewId); // get a fresh copy of the review
         glsr()->action('review/updated', $review, $data, $oldPost);
         return $review;
     }

@@ -304,7 +304,7 @@ class ListTableController extends AbstractController
      */
     public function renderColumnValues($column, $postId)
     {
-        $review = glsr(Query::class)->review($postId);
+        $review = glsr(ReviewManager::class)->get((int) $postId);
         if (!$review->isValid()) {
             glsr(Migrate::class)->reset(); // looks like a migration is needed!
             return;

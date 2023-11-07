@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnValueType;
-use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\UpdatedMessageDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -137,7 +137,7 @@ class EditorController extends AbstractController
         if (Review::isReview($post) && !Review::isEditable($post)) {
             glsr(Notice::class)->addWarning(sprintf(
                 _x('Publicly responding to third-party %s reviews is disabled.', 'admin-text', 'site-reviews'),
-                glsr(ColumnValueType::class)->handle(glsr(Query::class)->review($post->ID))
+                glsr(ColumnValueType::class)->handle(glsr(ReviewManager::class)->get($post->ID))
             ));
             glsr(Template::class)->render('partials/editor/notice', [
                 'context' => [

@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\ToggleVerifiedDefaults;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -17,7 +16,7 @@ class ToggleVerified extends AbstractCommand
     public function __construct(Request $request)
     {
         $args = glsr(ToggleVerifiedDefaults::class)->restrict($request->toArray());
-        $review = glsr(Query::class)->review($args['id']);
+        $review = glsr(ReviewManager::class)->get($args['id']);
         $this->result = $args['verified'] >= 0 ? wp_validate_boolean($args['verified']) : !$review->is_pinned;
         $this->review = $review;
     }

@@ -188,7 +188,7 @@ function glsr_get_ratings($args = [])
  */
 function glsr_get_review($postId)
 {
-    return glsr(ReviewManager::class)->get($postId);
+    return glsr(ReviewManager::class)->get(Cast::toInt($postId));
 }
 
 /**

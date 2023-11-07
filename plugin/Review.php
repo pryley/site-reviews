@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\ReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -196,7 +197,7 @@ class Review extends Arguments
     {
         $postId = Helper::getPostId($post);
         return static::isReview($postId)
-            && in_array(glsr(Query::class)->review($postId)->type, ['', 'local']);
+            && in_array(glsr(ReviewManager::class)->get($postId)->type, ['', 'local']);
     }
 
     /** @param \WP_Post|int|false $post */

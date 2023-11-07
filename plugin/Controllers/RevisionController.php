@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\RevisionFieldsDefaults;
 use GeminiLabs\SiteReviews\Review;
@@ -37,7 +36,7 @@ class RevisionController extends AbstractController
         if (!Review::isReview($post)) {
             return $hasChanged;
         }
-        $review = glsr(Query::class)->review($post->ID, true); // bypass the cache
+        $review = glsr(ReviewManager::class)->get($post->ID, true); // bypass the cache
         $revision = glsr(Database::class)->meta($lastRevision->ID, 'review');
         foreach ($revision as $key => $value) {
             if ((string) $review->$key !== (string) $value) {
@@ -95,7 +94,7 @@ class RevisionController extends AbstractController
     {
         $postId = wp_is_post_revision($revisionId);
         if (Review::isReview($postId)) {
-            $review = glsr(Query::class)->review($postId);
+            $review = glsr(ReviewManager::class)->get((int) $postId);
             $revision = glsr(RevisionFieldsDefaults::class)->defaults();
             foreach ($revision as $field => &$value) {
                 $value = $review->$field;
@@ -117,6 +116,6 @@ class RevisionController extends AbstractController
             $meta = glsr(Database::class)->meta($post->ID, 'review');
             return new Review($meta);
         }
-        return glsr(Query::class)->review($post->ID);
+        return glsr(ReviewManager::class)->get($post->ID);
     }
 }

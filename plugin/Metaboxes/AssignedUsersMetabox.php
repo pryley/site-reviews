@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Metaboxes;
 
 use GeminiLabs\SiteReviews\Contracts\MetaboxContract;
-use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Review;
 
@@ -26,7 +26,7 @@ class AssignedUsersMetabox implements MetaboxContract
      */
     public function render($post): void
     {
-        $review = glsr(Query::class)->review($post->ID);
+        $review = glsr(ReviewManager::class)->get($post->ID);
         wp_nonce_field('assigned_users', '_nonce-assigned-users', false);
         $templates = array_reduce($review->assigned_users, function ($carry, $userId) {
             $carry .= glsr(Template::class)->build('partials/editor/assigned-entry', [

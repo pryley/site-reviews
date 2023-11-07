@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\WLPR;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
-use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 use Wlpr\App\Helpers\Loyalty;
@@ -16,7 +16,7 @@ class Controller extends AbstractController
      */
     public function onApprovedReview(Review $review): void
     {
-        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
+        $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
         $this->maybeEarnPoints($review);
     }
 
@@ -25,7 +25,7 @@ class Controller extends AbstractController
      */
     public function onCreatedReview(Review $review): void
     {
-        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
+        $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
         if ($review->is_approved) {
             $this->maybeEarnPoints($review);
         }

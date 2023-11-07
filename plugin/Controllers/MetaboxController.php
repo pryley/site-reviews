@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Metaboxes\AssignedPostsMetabox;
 use GeminiLabs\SiteReviews\Metaboxes\AssignedUsersMetabox;
 use GeminiLabs\SiteReviews\Metaboxes\AuthorMetabox;
@@ -55,7 +55,7 @@ class MetaboxController extends AbstractController
      */
     public function renderPinnedInPublishMetaBox()
     {
-        $review = glsr(Query::class)->review(get_post()->ID ?? 0);
+        $review = glsr(ReviewManager::class)->get(get_post()->ID ?? 0);
         if ($review->isValid() && glsr()->can('edit_others_posts')) {
             $context = [
                 'no' => _x('No', 'admin-text', 'site-reviews'),
@@ -74,7 +74,7 @@ class MetaboxController extends AbstractController
      */
     public function renderVerifiedInPublishMetaBox()
     {
-        $review = glsr(Query::class)->review(get_post()->ID ?? 0);
+        $review = glsr(ReviewManager::class)->get(get_post()->ID ?? 0);
         if ($review->isValid()
             && glsr()->can('edit_others_posts')
             && glsr()->filterBool('verification/enabled', false)) {
