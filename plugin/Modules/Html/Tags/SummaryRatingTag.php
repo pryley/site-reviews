@@ -11,10 +11,11 @@ class SummaryRatingTag extends SummaryTag
      */
     protected function handle($value = null)
     {
-        if (!$this->isHidden()) {
-            $rating = glsr(Rating::class)->average($this->ratings);
-            $rating = glsr(Rating::class)->format($rating);
-            return $this->wrap($rating, 'span');
+        if ($this->isHidden()) {
+            return '';
         }
+        $rating = glsr(Rating::class)->average($this->ratings);
+        $rating = glsr(Rating::class)->format($rating);
+        return $this->wrap($rating, 'span');
     }
 }

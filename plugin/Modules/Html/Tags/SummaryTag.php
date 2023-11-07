@@ -7,15 +7,10 @@ use GeminiLabs\SiteReviews\Modules\Rating;
 
 class SummaryTag extends Tag
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $ratings;
 
-    /**
-     * @return string
-     */
-    protected function hideOption()
+    protected function hideOption(): string
     {
         $mappedTags = [
             'percentages' => 'bars',
@@ -24,11 +19,7 @@ class SummaryTag extends Tag
         return Arr::get($mappedTags, $this->tag, $this->tag);
     }
 
-    /**
-     * @param mixed $with
-     * @return bool
-     */
-    protected function validate($with)
+    protected function validate($with): bool
     {
         if (Arr::isIndexedAndFlat($with) && $with === array_filter($with, 'is_numeric')) {
             if (empty($with)) {

@@ -9,12 +9,13 @@ class ReviewTitleTag extends ReviewTag
      */
     protected function handle($value = null)
     {
-        if (!$this->isHidden()) {
-            $title = trim($value);
-            if (empty($title)) {
-                $title = __('No Title', 'site-reviews');
-            }
-            return $this->wrap($title, 'h4');
+        if ($this->isHidden()) {
+            return '';
         }
+        $title = trim($value);
+        if (empty($title)) {
+            $title = __('No Title', 'site-reviews');
+        }
+        return $this->wrap($title, 'h4');
     }
 }

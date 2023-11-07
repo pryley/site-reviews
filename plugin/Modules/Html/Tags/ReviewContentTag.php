@@ -13,12 +13,13 @@ class ReviewContentTag extends ReviewTag
      */
     protected function handle($value = null)
     {
-        if (!$this->isHidden()) {
-            return $this->wrap($this->textExcerpt($value), 'div');
+        if ($this->isHidden()) {
+            return '';
         }
+        return $this->wrap($this->textExcerpt((string) $value), 'div');
     }
 
-    protected function textExcerpt($value)
+    protected function textExcerpt(string $value): string
     {
         $useExcerpts = glsr_get_option('reviews.excerpts', false, 'bool');
         if ($this->isRaw() || !$useExcerpts) {
@@ -37,12 +38,7 @@ class ReviewContentTag extends ReviewTag
         return Cast::toString($value);
     }
 
-    /**
-     * @param string $value
-     * @param string $tag
-     * @return string
-     */
-    protected function wrapValue($tag, $value)
+    protected function wrapValue(string $tag, string $value): string
     {
         return glsr(Builder::class)->$tag([
             'class' => 'glsr-tag-value',

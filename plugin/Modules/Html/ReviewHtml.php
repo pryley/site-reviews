@@ -102,7 +102,8 @@ class ReviewHtml extends \ArrayObject
             'assigned_users' => $review->assigned_users,
         ]);
         $templateTags['assigned'] = json_encode($assignedTag);
-        foreach ($review as $key => $value) {
+        $values = $review->toArray();
+        foreach ($values as $key => $value) {
             $tag = $this->normalizeTemplateTag($key);
             $templateTags[$tag] = $this->buildTemplateTag($review, $tag, $value);
         }

@@ -9,8 +9,9 @@ class ReviewDateTag extends ReviewTag
      */
     protected function handle($value = null)
     {
-        if (!$this->isHidden()) {
-            return $this->wrap($this->review->date(), 'span');
+        if ($this->isHidden()) {
+            return '';
         }
+        return $this->wrap($this->review->date(), 'span');
     }
 }

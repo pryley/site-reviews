@@ -12,15 +12,13 @@ class SummaryPercentagesTag extends SummaryTag
      */
     protected function handle($value = null)
     {
-        if (!$this->isHidden()) {
-            return $this->wrap($this->percentages());
+        if ($this->isHidden()) {
+            return '';
         }
+        return $this->wrap($this->percentages());
     }
 
-    /**
-     * @return void|string
-     */
-    protected function percentages()
+    protected function percentages(): string
     {
         $percentages = preg_filter('/$/', '%', glsr(Rating::class)->percentages($this->ratings));
         $ratingRange = range(glsr()->constant('MAX_RATING', Rating::class), 1);
@@ -38,14 +36,10 @@ class SummaryPercentagesTag extends SummaryTag
                 'data-level' => $level,
                 'text' => $value,
             ]);
-        });
+        }, '');
     }
 
-    /**
-     * @param int $level
-     * @return string
-     */
-    protected function ratingBar($level, array $percentages)
+    protected function ratingBar(int $level, array $percentages): string
     {
         $background = glsr(Builder::class)->span([
             'class' => 'glsr-bar-background-percent',
@@ -57,11 +51,7 @@ class SummaryPercentagesTag extends SummaryTag
         ]);
     }
 
-    /**
-     * @param int $level
-     * @return string
-     */
-    protected function ratingInfo($level, array $percentages)
+    protected function ratingInfo(int $level, array $percentages): string
     {
         $count = glsr()->filterString('summary/counts', $percentages[$level], $this->ratings[$level]);
         return glsr(Builder::class)->span([
@@ -70,11 +60,7 @@ class SummaryPercentagesTag extends SummaryTag
         ]);
     }
 
-    /**
-     * @param int $level
-     * @return string
-     */
-    protected function ratingLabel($level)
+    protected function ratingLabel(int $level): string
     {
         $label = $this->args->get('labels.'.$level);
         return glsr(Builder::class)->span([

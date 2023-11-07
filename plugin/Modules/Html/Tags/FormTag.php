@@ -8,9 +8,8 @@ class FormTag extends Tag
 {
     /**
      * @param mixed $with
-     * @return bool
      */
-    protected function validate($with)
+    protected function validate($with): bool
     {
         return $with instanceof Arguments;
     }

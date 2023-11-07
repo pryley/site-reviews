@@ -9,8 +9,9 @@ class ReviewAuthorTag extends ReviewTag
      */
     protected function handle($value = null)
     {
-        if (!$this->isHidden()) {
-            return $this->wrap($this->review->author(), 'span');
+        if ($this->isHidden()) {
+            return '';
         }
+        return $this->wrap($this->review->author(), 'span');
     }
 }

@@ -6,16 +6,13 @@ use GeminiLabs\SiteReviews\Review;
 
 class ReviewTag extends Tag
 {
-    /**
-     * @var \GeminiLabs\SiteReviews\Review
-     */
+    /** @var Review */
     public $review;
 
     /**
      * @param mixed $with
-     * @return bool
      */
-    protected function validate($with)
+    protected function validate($with): bool
     {
         if ($with instanceof Review) {
             $this->review = $with;

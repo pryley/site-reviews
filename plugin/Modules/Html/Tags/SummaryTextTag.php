@@ -11,15 +11,13 @@ class SummaryTextTag extends SummaryTag
      */
     protected function handle($value = null)
     {
-        if (!$this->isHidden()) {
-            return $this->wrap($this->text(), 'span');
+        if ($this->isHidden()) {
+            return '';
         }
+        return $this->wrap($this->text(), 'span');
     }
 
-    /**
-     * @return string
-     */
-    protected function text()
+    protected function text(): string
     {
         $max = glsr()->constant('MAX_RATING', Rating::class);
         $num = (int) array_sum($this->ratings);

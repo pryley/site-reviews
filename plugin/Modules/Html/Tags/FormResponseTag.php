@@ -8,10 +8,7 @@ use GeminiLabs\SiteReviews\Modules\Style;
 
 class FormResponseTag extends FormTag
 {
-    /**
-     * @return string|void
-     */
-    protected function contextClass()
+    protected function contextClass(): string
     {
         $classes = [glsr(Style::class)->validation('form_message')];
         if (!empty($this->with->errors)) {
@@ -30,10 +27,7 @@ class FormResponseTag extends FormTag
         return $value;
     }
 
-    /**
-     * @return string
-     */
-    protected function responseTemplate()
+    protected function responseTemplate(): string
     {
         return glsr(Template::class)->build('templates/form/response', [
             'context' => [
