@@ -8,7 +8,6 @@
     <config name="testVersion" value="7.4-"/>
     <description>Coding Standards for PHP CodeSniffer</description>
     <exclude-pattern>*/vendors/symfony/polyfill-iconv/*</exclude-pattern>
-    <file>./activate.php</file>
     <file>./autoload.php</file>
     <file>./compatibility.php</file>
     <file>./config</file>

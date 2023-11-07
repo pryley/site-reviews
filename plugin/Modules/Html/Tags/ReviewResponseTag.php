@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class ReviewResponseTag extends ReviewContentTag
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function handle($value = null)
+    protected function handle(string $value = ''): string
     {
         if ($this->isHidden() || empty(trim((string) $value))) {
             return '';

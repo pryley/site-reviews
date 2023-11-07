@@ -4,10 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
 class ReviewVerifiedTag extends ReviewTag
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function handle($value = null)
+    protected function handle(string $value = ''): string
     {
         if ($this->isHidden() || !$this->review->is_verified) {
             return '';

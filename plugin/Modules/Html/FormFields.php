@@ -1,48 +1,36 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
+namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Honeypot;
-use GeminiLabs\SiteReviews\Modules\Html\Attributes;
-use GeminiLabs\SiteReviews\Modules\Html\Field;
-use GeminiLabs\SiteReviews\Modules\Html\Form;
 
-class FormFieldsTag extends FormTag
+class FormFields
 {
-    /**
-     * @return array
-     */
-    protected function fields()
+    public Arguments $args;
+    public Arguments $with;
+
+    public function __construct(array $args, Arguments $with)
     {
-        $fields = glsr()->config('forms/review-form');
-        $fields = glsr()->filterArray('review-form/fields', $fields, $this->args);
-        foreach ($fields as $name => &$field) {
-            $field = new Field(wp_parse_args($field, ['name' => $name]));
-        }
-        return $this->normalizeFields($fields);
+        $this->args = glsr()->args($args);
+        $this->with = $with;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function handle($value = null)
+    public function form(): Form
     {
-        $fields = $this->fields();
+        $visibleFields = $this->visibleFields();
         $hiddenFields = array_merge($this->hiddenFields(), [
             'honeypot' => glsr(Honeypot::class)->build($this->args->form_id),
         ]);
-        foreach ($fields as $name => $field) {
+        foreach ($visibleFields as $name => $field) {
             unset($hiddenFields[$name]);
         }
-        return new Form($fields, $hiddenFields);
+        return new Form($visibleFields, $hiddenFields);
     }
 
-    /**
-     * @return array
-     */
-    protected function hiddenFields()
+    public function hiddenFields(): array
     {
         $fields = [];
         $referer = filter_input(INPUT_SERVER, 'REQUEST_URI');
@@ -70,10 +58,33 @@ class FormFieldsTag extends FormTag
         return glsr()->filterArray('review-form/fields/hidden', $fields, $this->args);
     }
 
-    /**
-     * @return void
-     */
-    protected function normalizeFieldClasses(Field $field)
+    public function visibleFields(): array
+    {
+        $fields = glsr()->config('forms/review-form');
+        $fields = glsr()->filterArray('review-form/fields', $fields, $this->args);
+        foreach ($fields as $name => &$field) {
+            $field = new Field(wp_parse_args($field, ['name' => $name]));
+        }
+        return $this->normalize($fields);
+    }
+
+    public function normalize($fields): array
+    {
+        $normalizedFields = [];
+        foreach ($fields as $name => $field) {
+            if (!in_array($field->field['path'], $this->args->hide)) {
+                $this->normalizeFieldClasses($field);
+                $this->normalizeFieldErrors($field);
+                $this->normalizeFieldRequired($field);
+                $this->normalizeFieldValue($field);
+                $this->normalizeFieldId($field);
+                $normalizedFields[$name] = $field;
+            }
+        }
+        return glsr()->filterArray('review-form/fields/normalized', $normalizedFields, $this->args);
+    }
+
+    protected function normalizeFieldClasses(Field $field): void
     {
         if ('hidden' === $field->fieldType()) {
             return;
@@ -94,30 +105,21 @@ class FormFieldsTag extends FormTag
         $field->field['class'] = implode(' ', $classes);
     }
 
-    /**
-     * @return void
-     */
-    protected function normalizeFieldId(Field $field)
+    protected function normalizeFieldId(Field $field): void
     {
         if (!empty($this->args->id) && !empty($field->field['id'])) {
             $field->field['id'] .= '-'.$this->args->id;
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function normalizeFieldErrors(Field $field)
+    protected function normalizeFieldErrors(Field $field): void
     {
         if (array_key_exists($field->field['path'], $this->with->errors)) {
             $field->field['errors'] = $this->with->errors[$field->field['path']];
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function normalizeFieldRequired(Field $field)
+    protected function normalizeFieldRequired(Field $field): void
     {
         if (!$field->field['custom'] // do not change custom fields
             && in_array($field->field['path'], $this->with->required)) {
@@ -125,29 +127,7 @@ class FormFieldsTag extends FormTag
         }
     }
 
-    /**
-     * @return array
-     */
-    protected function normalizeFields($fields)
-    {
-        $normalizedFields = [];
-        foreach ($fields as $name => $field) {
-            if (!in_array($field->field['path'], $this->args->hide)) {
-                $this->normalizeFieldClasses($field);
-                $this->normalizeFieldErrors($field);
-                $this->normalizeFieldRequired($field);
-                $this->normalizeFieldValue($field);
-                $this->normalizeFieldId($field);
-                $normalizedFields[$name] = $field;
-            }
-        }
-        return glsr()->filterArray('review-form/fields/normalized', $normalizedFields, $this->args);
-    }
-
-    /**
-     * @return void
-     */
-    protected function normalizeFieldValue(Field $field)
+    protected function normalizeFieldValue(Field $field): void
     {
         if (!array_key_exists($field->field['path'], $this->with->values)) {
             return;

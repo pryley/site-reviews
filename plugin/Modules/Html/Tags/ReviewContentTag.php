@@ -8,10 +8,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class ReviewContentTag extends ReviewTag
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function handle($value = null)
+    protected function handle(string $value = ''): string
     {
         if ($this->isHidden()) {
             return '';
@@ -27,15 +24,6 @@ class ReviewContentTag extends ReviewTag
         }
         $limit = glsr_get_option('reviews.excerpts_length', 55, 'int');
         return Text::excerpt($value, $limit);
-    }
-
-    /**
-     * @param mixed $value
-     * @return string
-     */
-    protected function value($value = null)
-    {
-        return Cast::toString($value);
     }
 
     protected function wrapValue(string $tag, string $value): string

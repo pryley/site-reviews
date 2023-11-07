@@ -6,18 +6,15 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 class ReviewAssignedUsersTag extends ReviewTag
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function handle($value = null)
+    protected function handle(string $value = ''): string
     {
         return $this->wrap($value, 'span');
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $value
      */
-    protected function value($value = null)
+    protected function value($value = ''): string
     {
         $users = wp_list_pluck($this->review->assignedUsers(), 'display_name');
         return !empty($users)

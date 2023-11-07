@@ -32,18 +32,15 @@ class ReviewAssignedLinksTag extends ReviewTag
         return $links;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function handle($value = null)
+    protected function handle(string $value = ''): string
     {
         return $this->wrap($value, 'span');
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $value
      */
-    protected function value($value = null)
+    protected function value($value = ''): string
     {
         if ($this->isHidden('reviews.assigned_links')) {
             return '';

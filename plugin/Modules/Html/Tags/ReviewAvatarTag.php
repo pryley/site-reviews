@@ -20,10 +20,7 @@ class ReviewAvatarTag extends ReviewTag
             && glsr_get_option('reviews.avatars_regenerate', false, 'bool');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function handle($value = null)
+    protected function handle(string $value = ''): string
     {
         if ($this->isHidden('reviews.avatars')) {
             return '';

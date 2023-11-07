@@ -7,10 +7,7 @@ use GeminiLabs\SiteReviews\Modules\Style;
 
 class FormSubmitButtonTag extends FormTag
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function handle($value = null)
+    protected function handle(string $value = ''): string
     {
         return glsr(Template::class)->build('templates/form/submit-button', [
             'context' => [

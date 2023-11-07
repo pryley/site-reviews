@@ -8,18 +8,15 @@ use GeminiLabs\SiteReviews\Modules\Multilingual;
 
 class ReviewAssignedPostsTag extends ReviewTag
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function handle($value = null)
+    protected function handle(string $value = ''): string
     {
         return $this->wrap($value, 'span');
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $value
      */
-    protected function value($value = null)
+    protected function value($value = ''): string
     {
         $postIds = glsr(Multilingual::class)->getPostIds(Arr::consolidate($value));
         if (empty($postIds)) {

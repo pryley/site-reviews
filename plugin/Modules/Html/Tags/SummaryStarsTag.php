@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Modules\Rating;
 
 class SummaryStarsTag extends SummaryTag
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function handle($value = null)
+    protected function handle(string $value = ''): string
     {
         if ($this->isHidden()) {
             return '';

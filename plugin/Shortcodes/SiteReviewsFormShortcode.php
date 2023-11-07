@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Form;
-use GeminiLabs\SiteReviews\Modules\Html\Tags\FormFieldsTag;
+use GeminiLabs\SiteReviews\Modules\Html\FormFields;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Style;
@@ -23,13 +23,13 @@ class SiteReviewsFormShortcode extends Shortcode
             return $this->loginOrRegister();
         }
         $this->with = $this->with();
-        $fields = $this->buildTemplateFieldTags();
+        $fields = (new FormFields($this->args, $this->with))->form();
         $this->debug(compact('fields'));
         return glsr(Template::class)->build('templates/reviews-form', [
             'args' => $this->args,
             'context' => [
                 'class' => $this->getClasses(),
-                'fields' => glsr()->filterString('form/build/fields', $fields, $this->with, $this),
+                'fields' => $this->buildTemplateFieldTags($fields),
                 'id' => '', // @deprecated in v5.0
                 'response' => $this->buildTemplateTag('response'),
                 'submit_button' => $this->buildTemplateTag('submit_button'),
@@ -70,13 +70,10 @@ class SiteReviewsFormShortcode extends Shortcode
         return $url;
     }
 
-    protected function buildTemplateFieldTags(): Form
+    protected function buildTemplateFieldTags(Form $fields): string
     {
-        $parameters = [
-            'args' => $this->args,
-            'tag' => 'fields',
-        ];
-        return glsr(FormFieldsTag::class, $parameters)->handleFor('form', null, $this->with);
+        $rendered = $fields->__toString();
+        return glsr()->filterString('form/build/fields', $rendered, $this->with, $this);
     }
 
     protected function buildTemplateTag(string $tag): string

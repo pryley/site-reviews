@@ -17,10 +17,7 @@ class FormResponseTag extends FormTag
         return trim(implode(' ', array_filter($classes)));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function handle($value = null)
+    protected function handle(string $value = ''): string
     {
         $value = glsr(Captcha::class)->container();
         $value .= $this->responseTemplate();
