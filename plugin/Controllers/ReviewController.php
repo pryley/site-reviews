@@ -276,7 +276,7 @@ class ReviewController extends AbstractController
      */
     public function onDeleteReview(int $reviewId): void
     {
-        glsr(ReviewManager::class)->delete($reviewId);
+        glsr(ReviewManager::class)->deleteRating($reviewId);
     }
 
     /**
