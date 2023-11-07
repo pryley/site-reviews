@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Defaults\UpdateReviewDefaults;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
@@ -17,11 +16,7 @@ use GeminiLabs\SiteReviews\Reviews;
 
 class ReviewManager
 {
-    /**
-     * @param int $postId
-     * @return int|false
-     */
-    public function assignPost(Review $review, int $postId)
+    public function assignPost(Review $review, int $postId): bool
     {
         if (!glsr()->can('assign_post', $postId)) {
             return false;
@@ -37,14 +32,10 @@ class ReviewManager
                 glsr(CountManager::class)->posts($postId);
             }
         }
-        return $result;
+        return Cast::toInt($result) > 0;
     }
 
-    /**
-     * @param int $termId
-     * @return int|false
-     */
-    public function assignTerm(Review $review, $termId)
+    public function assignTerm(Review $review, int $termId): bool
     {
         $where = [
             'rating_id' => $review->rating_id,
@@ -56,14 +47,10 @@ class ReviewManager
                 glsr(CountManager::class)->terms($termId);
             }
         }
-        return $result;
+        return Cast::toInt($result) > 0;
     }
 
-    /**
-     * @param int $userId
-     * @return int|false
-     */
-    public function assignUser(Review $review, $userId)
+    public function assignUser(Review $review, int $userId): bool
     {
         $where = [
             'rating_id' => $review->rating_id,
@@ -75,13 +62,13 @@ class ReviewManager
                 glsr(CountManager::class)->users($userId);
             }
         }
-        return $result;
+        return Cast::toInt($result) > 0;
     }
 
     /**
-     * @return false|Review
+     * @return Review|false
      */
-    public function create(CreateReview $command, $postId = null)
+    public function create(CreateReview $command, int $postId = null)
     {
         if (empty($postId)) {
             $postId = $this->createRaw($command);
@@ -95,7 +82,7 @@ class ReviewManager
     }
 
     /**
-     * @return false|Review
+     * @return Review|false
      */
     public function createFromPost(int $postId, array $data = [])
     {
@@ -108,7 +95,7 @@ class ReviewManager
     }
 
     /**
-     * @return false|int
+     * @return int|false
      */
     public function createRaw(CreateReview $command)
     {
@@ -146,13 +133,9 @@ class ReviewManager
         return Cast::toInt($result) > 0;
     }
 
-    /**
-     * @param int $reviewId
-     * @return void
-     */
-    public function deleteRevisions($reviewId)
+    public function deleteRevisions(int $reviewId): void
     {
-        $revisionIds = glsr(Query::class)->revisionIds($reviewId);
+        $revisionIds = glsr(Query::class)->revisionIds((int) $reviewId);
         foreach ($revisionIds as $revisionId) {
             wp_delete_post_revision($revisionId);
         }
@@ -163,10 +146,7 @@ class ReviewManager
         return glsr(Query::class)->review($reviewId, $bypassCache);
     }
 
-    /**
-     * @return Reviews
-     */
-    public function reviews(array $args = [])
+    public function reviews(array $args = []): Reviews
     {
         $args = (new NormalizePaginationArgs($args))->toArray();
         $results = glsr(Query::class)->reviews($args);
@@ -176,19 +156,12 @@ class ReviewManager
         return $reviews;
     }
 
-    /**
-     * @return int
-     */
-    public function total(array $args = [], array $reviews = [])
+    public function total(array $args = [], array $reviews = []): int
     {
         return glsr(Query::class)->totalReviews($args, $reviews);
     }
 
-    /**
-     * @param int $postId
-     * @return int|false
-     */
-    public function unassignPost(Review $review, int $postId)
+    public function unassignPost(Review $review, int $postId): bool
     {
         if (!glsr()->can('unassign_post', $postId)) {
             return false;
@@ -201,14 +174,10 @@ class ReviewManager
             glsr(Cache::class)->delete($review->ID, 'reviews');
             glsr(CountManager::class)->posts($postId);
         }
-        return $result;
+        return Cast::toInt($result) > 0;
     }
 
-    /**
-     * @param int $termId
-     * @return int|false
-     */
-    public function unassignTerm(Review $review, $termId)
+    public function unassignTerm(Review $review, int $termId): bool
     {
         $where = [
             'rating_id' => $review->rating_id,
@@ -218,14 +187,10 @@ class ReviewManager
             glsr(Cache::class)->delete($review->ID, 'reviews');
             glsr(CountManager::class)->terms($termId);
         }
-        return $result;
+        return Cast::toInt($result) > 0;
     }
 
-    /**
-     * @param int $userId
-     * @return int|false
-     */
-    public function unassignUser(Review $review, $userId)
+    public function unassignUser(Review $review, int $userId): bool
     {
         $where = [
             'rating_id' => $review->rating_id,
@@ -235,14 +200,13 @@ class ReviewManager
             glsr(Cache::class)->delete($review->ID, 'reviews');
             glsr(CountManager::class)->users($userId);
         }
-        return $result;
+        return Cast::toInt($result) > 0;
     }
 
     /**
-     * @param int $reviewId
-     * @return Review|false  Return false on failure
+     * @return Review|false
      */
-    public function update($reviewId, array $data = [])
+    public function update(int $reviewId, array $data = [])
     {
         $oldPost = get_post($reviewId);
         if (false === $this->updateRating($reviewId, $data)) {
@@ -265,46 +229,36 @@ class ReviewManager
         return $review;
     }
 
-    /**
-     * @param int $postId
-     * @return int|bool
-     */
-    public function updateAssignedPost($postId)
+    public function updateAssignedPost(int $postId): bool
     {
-        return glsr(Database::class)->update('assigned_posts',
+        $result = glsr(Database::class)->update('assigned_posts',
             ['is_published' => $this->isPublishedPost($postId)],
             ['post_id' => Cast::toInt($postId)]
         );
+        return Cast::toInt($result) > 0;
     }
 
-    /**
-     * @param int $reviewId
-     * @return array
-     */
-    public function updateCustom($reviewId, array $data = [])
+    public function updateCustom(int $reviewId, array $data = []): void
     {
         $data = glsr(CustomFieldsDefaults::class)->merge($data);
         $data = Arr::prefixKeys($data, 'custom_');
         foreach ($data as $metaKey => $metaValue) {
             glsr(Database::class)->metaSet($reviewId, $metaKey, $metaValue);
         }
-        return $data;
     }
 
-    /**
-     * @param int $reviewId
-     * @return int|false  Returns false on error
-     */
-    public function updateRating($reviewId, array $data = [])
+    public function updateRating(int $reviewId, array $data = []): bool
     {
         glsr(Cache::class)->delete($reviewId, 'reviews');
         $sanitized = glsr(RatingDefaults::class)->restrict($data);
-        if ($data = array_intersect_key($sanitized, $data)) {
-            return glsr(Database::class)->update('ratings', $data, [
-                'review_id' => $reviewId,
-            ]);
+        $data = array_intersect_key($sanitized, $data);
+        if (empty($data)) {
+            return false;
         }
-        return 0;
+        $result = glsr(Database::class)->update('ratings', $data, [
+            'review_id' => $reviewId,
+        ]);
+        return Cast::toInt($result) > 0;
     }
 
     public function updateResponse(int $reviewId, array $data): bool
@@ -317,23 +271,19 @@ class ReviewManager
         $response = glsr(Sanitizer::class)->sanitizeTextHtml($response);
         $review = glsr_get_review($reviewId);
         glsr()->action('review/responded', $review, $response); // run before adding "response_by" meta_value!
-        if (!empty($response) || !empty($review->response)) {
-            glsr(Database::class)->metaSet($review->ID, 'response', $response); // prefixed metakey
-            glsr(Database::class)->metaSet($review->ID, 'response_by', get_current_user_id()); // prefixed metakey
-            glsr(Cache::class)->delete($review->ID, 'reviews');
-            return true;
+        if (empty($response) && empty($review->response)) {
+            return false;
         }
-        return false;
+        glsr(Database::class)->metaSet($review->ID, 'response', $response); // prefixed metakey
+        glsr(Database::class)->metaSet($review->ID, 'response_by', get_current_user_id()); // prefixed metakey
+        glsr(Cache::class)->delete($review->ID, 'reviews');
+        return true;
     }
 
-    /**
-     * @param int $reviewId
-     * @return int|false  Returns false on failure
-     */
-    public function updateReview($reviewId, array $data = [])
+    public function updateReview(int $reviewId, array $data = []): bool
     {
         if (glsr()->post_type !== get_post_type($reviewId)) {
-            return 0;
+            return false;
         }
         glsr(Cache::class)->delete($reviewId, 'reviews');
         $sanitized = glsr(UpdateReviewDefaults::class)->restrict($data);
@@ -346,32 +296,25 @@ class ReviewManager
                 'post_title' => Arr::get($data, 'title'),
             ]);
         }
-        if (!empty($data)) {
-            $data = wp_parse_args(['ID' => $reviewId], $data);
-            $result = wp_update_post($data, true);
-            if (is_wp_error($result)) {
-                glsr_log()->error($result->get_error_message())->debug($data);
-                return false;
-            }
-            return $result;
+        if (empty($data)) {
+            return false;
         }
-        return 0;
+        $data = wp_parse_args(['ID' => $reviewId], $data);
+        $result = wp_update_post($data, true);
+        if (is_wp_error($result)) {
+            glsr_log()->error($result->get_error_message())->debug($data);
+            return false;
+        }
+        return Cast::toInt($result) > 0;
     }
 
-    /**
-     * @param int|\WP_Post $postId
-     * @return bool
-     */
-    protected function isPublishedPost($postId)
+    protected function isPublishedPost(int $postId): bool
     {
         $isPublished = 'publish' === get_post_status($postId);
         return glsr()->filterBool('post/is-published', $isPublished, $postId);
     }
 
-    /**
-     * @return string
-     */
-    protected function postStatus(CreateReview $command)
+    protected function postStatus(CreateReview $command): string
     {
         $isApproved = $command->is_approved;
         $isFormSubmission = !defined('WP_IMPORTING') && !glsr()->retrieve('glsr_create_review', false);

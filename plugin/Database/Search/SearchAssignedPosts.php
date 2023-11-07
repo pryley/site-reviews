@@ -8,10 +8,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 class SearchAssignedPosts extends AbstractSearch
 {
-    /**
-     * @return array
-     */
-    public function posts()
+    public function posts(): array
     {
         $posts = [];
         foreach ($this->results as $result) {
@@ -20,10 +17,7 @@ class SearchAssignedPosts extends AbstractSearch
         return $posts;
     }
 
-    /**
-     * @return string
-     */
-    protected function postStatuses()
+    protected function postStatuses(): string
     {
         $statuses = array_keys(get_post_stati([
             'protected' => true,
@@ -35,14 +29,10 @@ class SearchAssignedPosts extends AbstractSearch
         return Str::join($statuses, true);
     }
 
-    /**
-     * @param int $searchId
-     * @return array
-     */
-    protected function searchById($searchId)
+    protected function searchById(int $searchId): array
     {
         $assignedPosts = glsr(Query::class)->table('assigned_posts');
-        $sql = $this->db->prepare("
+        $sql = "
             SELECT p.ID as id, p.post_title as name
             FROM {$this->db->posts} AS p
             INNER JOIN {$assignedPosts} AS ap ON ap.post_id = p.ID
@@ -50,21 +40,17 @@ class SearchAssignedPosts extends AbstractSearch
             AND ap.post_id = %d
             AND p.post_status IN ({$this->postStatuses()})
             GROUP BY p.ID
-        ", $searchId);
-        return glsr(Database::class)->dbGetResults(
-            glsr(Query::class)->sql($sql)
+        ";
+        return (array) glsr(Database::class)->dbGetResults(
+            glsr(Query::class)->sql($sql, $searchId)
         );
     }
 
-    /**
-     * @param string $searchTerm
-     * @return array
-     */
-    protected function searchByTerm($searchTerm)
+    protected function searchByTerm(string $searchTerm): array
     {
         $assignedPosts = glsr(Query::class)->table('assigned_posts');
         $like = '%'.$this->db->esc_like($searchTerm).'%';
-        $sql = $this->db->prepare("
+        $sql = "
             SELECT p.ID as id, p.post_title as name
             FROM {$this->db->posts} AS p
             INNER JOIN {$assignedPosts} AS ap ON ap.post_id = p.ID
@@ -74,9 +60,9 @@ class SearchAssignedPosts extends AbstractSearch
             GROUP BY p.ID
             ORDER BY p.post_title LIKE %s DESC, p.post_date DESC
             LIMIT 20
-        ", $like, $like);
-        return glsr(Database::class)->dbGetResults(
-            glsr(Query::class)->sql($sql)
+        ";
+        return (array) glsr(Database::class)->dbGetResults(
+            glsr(Query::class)->sql($sql, $like, $like)
         );
     }
 }

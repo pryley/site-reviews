@@ -7,10 +7,7 @@ use GeminiLabs\SiteReviews\Database\Query;
 
 class SearchAssignedUsers extends AbstractSearch
 {
-    /**
-     * @return array
-     */
-    public function users()
+    public function users(): array
     {
         $users = [];
         foreach ($this->results as $result) {
@@ -19,35 +16,27 @@ class SearchAssignedUsers extends AbstractSearch
         return $users;
     }
 
-    /**
-     * @param int $searchId
-     * @return array
-     */
-    protected function searchById($searchId)
+    protected function searchById(int $searchId): array
     {
         $assignedUsers = glsr(Query::class)->table('assigned_users');
-        $sql = $this->db->prepare("
+        $sql = "
             SELECT u.ID AS id, u.user_login AS login, u.display_name AS name
             FROM {$this->db->users} u
             INNER JOIN {$assignedUsers} AS ap ON ap.user_id = u.ID
             WHERE 1=1
             AND ap.user_id = %d
             GROUP BY u.ID
-        ", $searchId);
-        return glsr(Database::class)->dbGetResults(
-            glsr(Query::class)->sql($sql)
+        ";
+        return (array) glsr(Database::class)->dbGetResults(
+            glsr(Query::class)->sql($sql, $searchId)
         );
     }
 
-    /**
-     * @param string $searchTerm
-     * @return array
-     */
-    protected function searchByTerm($searchTerm)
+    protected function searchByTerm(string $searchTerm): array
     {
         $assignedUsers = glsr(Query::class)->table('assigned_users');
         $like = '%'.$this->db->esc_like($searchTerm).'%';
-        $sql = $this->db->prepare("
+        $sql = "
             SELECT u.ID AS id, u.user_login AS login, u.display_name AS name
             FROM {$this->db->users} u
             INNER JOIN {$assignedUsers} AS ap ON ap.user_id = u.ID
@@ -56,9 +45,9 @@ class SearchAssignedUsers extends AbstractSearch
             GROUP BY u.ID
             ORDER BY u.display_name LIKE %s DESC
             LIMIT 20
-        ", $like, $like, $like);
-        return glsr(Database::class)->dbGetResults(
-            glsr(Query::class)->sql($sql)
+        ";
+        return (array) glsr(Database::class)->dbGetResults(
+            glsr(Query::class)->sql($sql, $like, $like, $like)
         );
     }
 }

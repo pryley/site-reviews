@@ -22,10 +22,9 @@ class NormalizePaginationArgs extends Arguments
     }
 
     /**
-     * Get the page number.
-     * @return void
+     * Set the current page number.
      */
-    protected function normalizePage()
+    protected function normalizePage(): void
     {
         $args = glsr()->args(glsr()->retrieve(glsr()->paged_handle));
         $page = $args->get('page', 0);
@@ -35,10 +34,9 @@ class NormalizePaginationArgs extends Arguments
     }
 
     /**
-     * This should return an URL with the query string removed.
-     * @return void
+     * Set the current page URL with the query string removed.
      */
-    protected function normalizePageUrl()
+    protected function normalizePageUrl(): void
     {
         if ($request = glsr()->retrieve(glsr()->paged_handle)) {
             $urlPath = Url::path($request->url);
@@ -51,10 +49,9 @@ class NormalizePaginationArgs extends Arguments
     }
 
     /**
-     * Store the query string of the URL so that we don't lose it in pagination.
-     * @return void
+     * Set the query string of the current page URL.
      */
-    protected function normalizePageUrlParameters()
+    protected function normalizePageUrlParameters(): void
     {
         $args = glsr()->args(glsr()->retrieve(glsr()->paged_handle));
         $parameters = Url::queries($args->url);

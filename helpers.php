@@ -17,6 +17,7 @@ use GeminiLabs\SiteReviews\Modules\Dump;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Request;
+use GeminiLabs\SiteReviews\Review;
 
 defined('ABSPATH') || exit;
 
@@ -182,11 +183,7 @@ function glsr_get_ratings($args = [])
     ]);
 }
 
-/**
- * @param int|\WP_Post $postId
- * @return \GeminiLabs\SiteReviews\Review
- */
-function glsr_get_review($postId)
+function glsr_get_review($postId): Review
 {
     return glsr(ReviewManager::class)->get(Cast::toInt($postId));
 }
@@ -251,7 +248,10 @@ function glsr_trace($limit = 5)
  */
 function glsr_update_review($postId, $values = [])
 {
-    return glsr(ReviewManager::class)->update($postId, Arr::consolidate($values));
+    return glsr(ReviewManager::class)->update(
+        Cast::toInt($postId),
+        Arr::consolidate($values)
+    );
 }
 
 /**

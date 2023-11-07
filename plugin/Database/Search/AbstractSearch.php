@@ -4,37 +4,26 @@ namespace GeminiLabs\SiteReviews\Database\Search;
 
 abstract class AbstractSearch
 {
-    protected $db;
-    protected $results;
+    protected \wpdb $db;
+    protected array $results = [];
 
     public function __construct()
     {
         global $wpdb;
         $this->db = $wpdb;
-        $this->results = [];
     }
 
-    /**
-     * @return string
-     */
-    public function render()
+    public function render(): string
     {
         return '';
     }
 
-    /**
-     * @return array
-     */
-    public function results()
+    public function results(): array
     {
         return $this->results;
     }
 
-    /**
-     * @param string $searchTerm
-     * @return static
-     */
-    public function search($searchTerm)
+    public function search(string $searchTerm): self
     {
         if (empty($searchTerm)) {
             $this->results = [];
@@ -46,15 +35,7 @@ abstract class AbstractSearch
         return $this;
     }
 
-    /**
-     * @param int $searchId
-     * @return array
-     */
-    abstract protected function searchById($searchId);
+    abstract protected function searchById(int $searchId): array;
 
-    /**
-     * @param string $searchTerm
-     * @return array
-     */
-    abstract protected function searchByTerm($searchTerm);
+    abstract protected function searchByTerm(string $searchTerm): array;
 }

@@ -25,26 +25,17 @@ class Export
         $this->ratingsTable = glsr(Query::class)->table('ratings');
     }
 
-    /**
-     * @return array
-     */
-    public function export(array $args = [])
+    public function export(array $args = []): array
     {
-        return glsr(Database::class)->dbGetResults($this->sqlAssignedIds($args), 'ARRAY_A');
+        return (array) glsr(Database::class)->dbGetResults($this->sqlAssignedIds($args), 'ARRAY_A');
     }
 
-    /**
-     * @return array
-     */
-    public function exportWithSlugs(array $args = [])
+    public function exportWithSlugs(array $args = []): array
     {
-        return glsr(Database::class)->dbGetResults($this->sqlAssignedSlugs($args), 'ARRAY_A');
+        return (array) glsr(Database::class)->dbGetResults($this->sqlAssignedSlugs($args), 'ARRAY_A');
     }
 
-    /**
-     * @return string
-     */
-    protected function sqlAssignedIds(array $args)
+    protected function sqlAssignedIds(array $args): string
     {
         return glsr(Query::class)->sql("
             SELECT
@@ -77,10 +68,7 @@ class Export
         ");
     }
 
-    /**
-     * @return string
-     */
-    protected function sqlAssignedSlugs(array $args)
+    protected function sqlAssignedSlugs(array $args): string
     {
         return glsr(Query::class)->sql("
             SELECT
@@ -114,10 +102,7 @@ class Export
         ");
     }
 
-    /**
-     * @return string
-     */
-    protected function where(array $args)
+    protected function where(array $args): string
     {
         $date = glsr(Sanitizer::class)->sanitizeDate(Arr::get($args, 'date'));
         $status = Str::restrictTo('pending,publish', Arr::get($args, 'post_status'), "pending','publish");

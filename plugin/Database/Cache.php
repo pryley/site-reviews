@@ -18,10 +18,9 @@ class Cache
     }
 
     /**
-     * @param \Closure|null $callback
      * @return mixed
      */
-    public function get(string $key, string $group, $callback = null, int $expire = 0)
+    public function get(string $key, string $group, ?\Closure $callback = null, int $expire = 0)
     {
         $group = glsr()->prefix.$group;
         $value = wp_cache_get($key, $group);
@@ -126,12 +125,10 @@ class Cache
 
     /**
      * @param mixed $value
-     * @return mixed
      */
-    public function store(string $key, string $group, $value, int $expire = 0)
+    public function store(string $key, string $group, $value, int $expire = 0): void
     {
         $group = glsr()->prefix.$group;
         wp_cache_set($key, $value, $group, $expire);
-        return $value;
     }
 }

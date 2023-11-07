@@ -8,28 +8,21 @@ use GeminiLabs\SiteReviews\Database\Search\SearchAssignedUsers;
 use GeminiLabs\SiteReviews\Database\Search\SearchPosts;
 use GeminiLabs\SiteReviews\Database\Search\SearchUsers;
 use GeminiLabs\SiteReviews\Database\Tables;
+use GeminiLabs\SiteReviews\Deprecated;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
-/**
- * @property array $mappedDeprecatedMethods
- */
 class Database
 {
     use Deprecated;
 
-    protected $db;
+    protected \wpdb $db;
 
     public function __construct()
     {
         global $wpdb;
         $this->db = $wpdb;
-        $this->mappedDeprecatedMethods = [
-            'get' => 'meta',
-            'getTerms' => 'terms',
-            'set' => 'metaSet',
-        ];
     }
 
     /**
@@ -49,6 +42,7 @@ class Database
     }
 
     /**
+     * Query result in format specified by $output or null on failure.
      * @return array|object|null
      */
     public function dbGetResults(string $sql, string $output = 'OBJECT')
@@ -58,6 +52,7 @@ class Database
     }
 
     /**
+     * Query result in format specified by $output or null on failure.
      * @return array|object|void|null
      */
     public function dbGetRow(string $sql, string $output)
@@ -66,15 +61,18 @@ class Database
         return $this->logErrors($this->db->get_row($sql, $output));
     }
 
+    /**
+     * Query result as string, or null on failure.
+     */
     public function dbGetVar(string $sql): ?string
     {
         return $this->logErrors($this->db->get_var($sql));
     }
 
     /**
-     * Boolean true for CREATE, ALTER, TRUNCATE and DROP queries. 
-     * Number of rows affected/selected for all other queries. 
-     * Boolean false on error.
+     * True for CREATE, ALTER, TRUNCATE and DROP queries.
+     * Number of rows affected/selected for all other queries.
+     * False on error.
      * @return int|bool
      */
     public function dbQuery(string $sql)
@@ -83,17 +81,21 @@ class Database
     }
 
     /**
+     * True for CREATE, ALTER, TRUNCATE and DROP queries.
+     * Number of rows affected/selected for all other queries.
+     * False on error.
      * @return int|bool
      */
     public function dbSafeQuery(string $sql)
     {
-        $this->db->query("SET GLOBAL foreign_key_checks = 0");
+        $this->db->query('SET GLOBAL foreign_key_checks = 0');
         $result = $this->logErrors($this->db->query($sql));
-        $this->db->query("SET GLOBAL foreign_key_checks = 1");
+        $this->db->query('SET GLOBAL foreign_key_checks = 1');
         return $result;
     }
 
     /**
+     * Number of rows deleted. False on error.
      * @return int|false
      */
     public function delete(string $table, array $where)
@@ -104,8 +106,9 @@ class Database
     }
 
     /**
+     * Number of rows deleted. False on error.
      * @param string|string[] $keys
-     * @return int|bool
+     * @return int|false
      */
     public function deleteMeta($keys, string $table = 'postmeta')
     {
@@ -129,7 +132,8 @@ class Database
     }
 
     /**
-     * @return int|bool
+     * Number of rows inserted. False on error.
+     * @return int|false
      */
     public function insert(string $table, array $data)
     {
@@ -139,10 +143,11 @@ class Database
         $values = glsr(Query::class)->escValuesForInsert($data);
         $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}");
         $result = $this->dbQuery($sql);
-        return empty($result) ? false : $result;
+        return $result;
     }
 
     /**
+     * Number of rows inserted. False on error.
      * @return int|false
      */
     public function insertBulk(string $table, array $values, array $fields)
@@ -189,6 +194,10 @@ class Database
     }
 
     /**
+     * An array of values if $single is false.
+     * The value of the meta field if $single is true.
+     * False for an invalid $post_id (non-numeric, zero, or negative value).
+     * An empty string if a valid but non-existing post ID is passed.
      * @return mixed
      */
     public function meta(int $postId, string $key, bool $single = true)
@@ -199,6 +208,9 @@ class Database
     }
 
     /**
+     * The new meta field ID if a field with the given key didn't exist and was therefore added. 
+     * True on successful update. False on failure or if the value passed to the function
+     * is the same as the one that is already in the database.
      * @param mixed $value
      * @return int|bool
      */
@@ -247,7 +259,8 @@ class Database
     }
 
     /**
-     * @return int|bool
+     * Number of rows updated. False on error.
+     * @return int|false
      */
     public function update(string $table, array $data, array $where)
     {

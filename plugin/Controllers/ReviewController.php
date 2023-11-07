@@ -28,7 +28,7 @@ use GeminiLabs\SiteReviews\Review;
 class ReviewController extends AbstractController
 {
     /**
-     * Fallback action if ajax is not working for any reason
+     * Fallback action if ajax is not working for any reason.
      * @action admin_action_approve
      */
     public function approve(): void
@@ -344,7 +344,7 @@ class ReviewController extends AbstractController
     }
 
     /**
-     * Fallback action if ajax is not working for any reason
+     * Fallback action if ajax is not working for any reason.
      * @action admin_action_unapprove
      */
     public function unapprove(): void

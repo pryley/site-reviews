@@ -13,22 +13,10 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Tables
 {
-    /**
-     * @var \wpdb
-     */
-    protected $db;
-    /**
-     * @var string
-     */
-    protected $dbname;
-    /**
-     * @var string
-     */
-    protected $dbprefix;
-    /**
-     * @var array
-     */
-    protected $dbtables;
+    public \wpdb $db;
+    public string $dbname;
+    public string $dbprefix;
+    public array $dbtables;
 
     public function __construct()
     {

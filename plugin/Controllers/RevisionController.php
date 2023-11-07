@@ -72,16 +72,16 @@ class RevisionController extends AbstractController
     /**
      * @param int $reviewId
      * @param int $revisionId
-     * @return void
      * @action wp_restore_post_revision
      */
-    public function restoreRevision($reviewId, $revisionId)
+    public function restoreRevision($reviewId, $revisionId): void
     {
         if (!Review::isReview($reviewId)) {
             return;
         }
-        if (is_array($revision = glsr(Database::class)->meta($revisionId, 'review'))) {
-            glsr(ReviewManager::class)->updateRating($reviewId, $revision);
+        $revision = glsr(Database::class)->meta((int) $revisionId, 'review');
+        if (is_array($revision)) {
+            glsr(ReviewManager::class)->updateRating((int) $reviewId, $revision);
         }
     }
 

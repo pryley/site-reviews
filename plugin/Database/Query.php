@@ -25,48 +25,31 @@ class Query
         $this->db = $wpdb;
     }
 
-    /**
-     * @return array
-     */
-    public function export(array $args = [])
+    public function export(array $args = []): array
     {
         $this->setArgs($args);
         return glsr(Database::class)->dbGetResults($this->queryExport(), ARRAY_A);
     }
 
-    /**
-     * @param int $postId
-     * @return bool
-     */
-    public function hasRevisions($postId)
+    public function hasRevisions(int $postId): bool
     {
         return (int) glsr(Database::class)->dbGetVar($this->queryHasRevisions($postId)) > 0;
     }
 
-    /**
-     * @return array
-     */
-    public function import(array $args = [])
+    public function import(array $args = []): array
     {
         $this->setArgs($args);
         return glsr(Database::class)->dbGetResults($this->queryImport(), ARRAY_A);
     }
 
-    /**
-     * @return array
-     */
-    public function ratings(array $args = [])
+    public function ratings(array $args = []): array
     {
         $this->setArgs($args, $unset = ['orderby']);
         $results = glsr(Database::class)->dbGetResults($this->queryRatings(), ARRAY_A);
         return $this->normalizeRatings($results);
     }
 
-    /**
-     * @param string $metaType
-     * @return array
-     */
-    public function ratingsFor($metaType, array $args = [])
+    public function ratingsFor(string $metaType, array $args = []): array
     {
         $method = Helper::buildMethodName($metaType, 'queryRatingsFor');
         if (!method_exists($this, $method)) {
@@ -77,10 +60,7 @@ class Query
         return $this->normalizeRatingsByAssignedId($results);
     }
 
-    /**
-     * @param int $postId
-     */
-    public function review($postId, bool $bypassCache = false): Review
+    public function review(int $postId, bool $bypassCache = false): Review
     {
         $reviewId = Cast::toInt($postId);
         $review = Helper::ifTrue($bypassCache, null, 
@@ -97,10 +77,7 @@ class Query
         return $review;
     }
 
-    /**
-     * @return array
-     */
-    public function reviews(array $args = [], array $postIds = [])
+    public function reviews(array $args = [], array $postIds = []): array
     {
         $this->setArgs($args);
         if (empty($postIds)) {
@@ -119,19 +96,12 @@ class Query
         return $reviews;
     }
 
-    /**
-     * @param int $postId
-     * @return array
-     */
-    public function revisionIds($postId)
+    public function revisionIds(int $postId): array
     {
         return glsr(Database::class)->dbGetCol($this->queryRevisionIds($postId));
     }
 
-    /**
-     * @return void
-     */
-    public function setArgs(array $args = [], array $unset = [])
+    public function setArgs(array $args = [], array $unset = []): void
     {
         $args = glsr(ReviewsDefaults::class)->restrict($args);
         foreach ($unset as $key) {
@@ -140,10 +110,7 @@ class Query
         $this->args = $args;
     }
 
-    /**
-     * @return int
-     */
-    public function totalReviews(array $args = [], array $reviews = [])
+    public function totalReviews(array $args = [], array $reviews = []): int
     {
         $this->setArgs($args, $unset = ['orderby']);
         if (empty($this->sqlLimit()) && !empty($reviews)) {
@@ -152,10 +119,7 @@ class Query
         return (int) glsr(Database::class)->dbGetVar($this->queryTotalReviews());
     }
 
-    /**
-     * @return array
-     */
-    protected function normalizeRatings(array $ratings = [])
+    protected function normalizeRatings(array $ratings = []): array
     {
         $normalized = [];
         foreach ($ratings as $result) {
@@ -168,10 +132,7 @@ class Query
         return $normalized;
     }
 
-    /**
-     * @return array
-     */
-    protected function normalizeRatingsByAssignedId(array $ratings = [])
+    protected function normalizeRatingsByAssignedId(array $ratings = []): array
     {
         $normalized = [];
         foreach ($ratings as $result) {
@@ -185,10 +146,7 @@ class Query
         return array_map([$this, 'normalizeRatings'], $normalized);
     }
 
-    /**
-     * @return string
-     */
-    protected function queryExport()
+    protected function queryExport(): string
     {
         return $this->sql("
             SELECT r.*,
@@ -204,10 +162,7 @@ class Query
         ");
     }
 
-    /**
-     * @return string
-     */
-    protected function queryHasRevisions($reviewId)
+    protected function queryHasRevisions(int $reviewId): string
     {
         return $this->sql($this->db->prepare("
             SELECT COUNT(*) 
@@ -216,10 +171,7 @@ class Query
         ", $reviewId));
     }
 
-    /**
-     * @return string
-     */
-    protected function queryImport()
+    protected function queryImport(): string
     {
         return $this->sql($this->db->prepare("
             SELECT m.post_id, m.meta_value
@@ -232,10 +184,7 @@ class Query
         ", glsr()->post_type, glsr()->export_key));
     }
 
-    /**
-     * @return string
-     */
-    protected function queryRatings()
+    protected function queryRatings(): string
     {
         return $this->sql("
             SELECT {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
@@ -246,10 +195,7 @@ class Query
         ");
     }
 
-    /**
-     * @return string
-     */
-    public function queryRatingsForPostmeta()
+    public function queryRatingsForPostmeta(): string
     {
         return $this->sql("
             SELECT apt.post_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
@@ -262,10 +208,7 @@ class Query
         ");
     }
 
-    /**
-     * @return string
-     */
-    protected function queryRatingsForTermmeta()
+    protected function queryRatingsForTermmeta(): string
     {
         return $this->sql("
             SELECT att.term_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
@@ -278,10 +221,7 @@ class Query
         ");
     }
 
-    /**
-     * @return string
-     */
-    protected function queryRatingsForUsermeta()
+    protected function queryRatingsForUsermeta(): string
     {
         return $this->sql("
             SELECT aut.user_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
@@ -294,10 +234,7 @@ class Query
         ");
     }
 
-    /**
-     * @return string
-     */
-    protected function queryReviewIds()
+    protected function queryReviewIds(): string
     {
         return $this->sql("
             SELECT r.review_id
@@ -313,9 +250,8 @@ class Query
 
     /**
      * @param int|string $reviewIds
-     * @return string
      */
-    protected function queryReviews($reviewIds)
+    protected function queryReviews($reviewIds): string
     {
         $orderBy = !empty($this->args['order']) ? $this->sqlOrderBy() : '';
         $postType = glsr()->post_type;
@@ -342,10 +278,7 @@ class Query
         ");
     }
 
-    /**
-     * @return string
-     */
-    protected function queryRevisionIds($reviewId)
+    protected function queryRevisionIds(int $reviewId): string
     {
         return $this->sql($this->db->prepare("
             SELECT ID
@@ -354,10 +287,7 @@ class Query
         ", $reviewId));
     }
 
-    /**
-     * @return string
-     */
-    protected function queryTotalReviews()
+    protected function queryTotalReviews(): string
     {
         return $this->sql("
             SELECT COUNT(DISTINCT r.ID) AS count
