@@ -12,6 +12,7 @@ use GeminiLabs\SiteReviews\Modules\Migrate;
 
 /**
  * @property array $addons
+ * @property string $basename
  * @property string $capability
  * @property string $cron_event
  * @property array $db_version

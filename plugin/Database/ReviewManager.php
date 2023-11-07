@@ -73,6 +73,9 @@ class ReviewManager
         if (empty($postId)) {
             $postId = $this->createRaw($command);
         }
+        if (empty($postId)) {
+            return false;
+        }
         $review = $this->get($postId);
         if ($review->isValid()) {
             glsr()->action('review/created', $review, $command);
