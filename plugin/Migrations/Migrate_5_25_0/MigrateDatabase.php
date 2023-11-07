@@ -33,7 +33,7 @@ class MigrateDatabase implements MigrateContract
     protected function isDatabaseVersionUpdated(): bool
     {
         if (glsr(Tables::class)->columnExists('ratings', 'terms')) {
-            if (!glsr(Database::class)->version('1.1')) {
+            if (version_compare(glsr(Database::class)->version(), '1.1', '<')) {
                 update_option(glsr()->prefix.'db_version', '1.1');
             }
             return true;

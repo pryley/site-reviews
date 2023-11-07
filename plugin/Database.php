@@ -267,18 +267,13 @@ class Database
         return wp_list_pluck($users, 'display_name', 'ID');
     }
 
-    /**
-     * @return bool|string
-     */
-    public function version(string $compareToVersion = null)
+    public function version(): string
     {
         $dbVersion = Cast::toString(get_option(glsr()->prefix.'db_version'));
         if (version_compare($dbVersion, Application::DB_VERSION, '>')) { // version should never be higher than plugin database version
-            update_option(glsr()->prefix.'db_version', '1.0');
+            update_option(glsr()->prefix.'db_version', '1.0'); // setting it to a low version will trigger the plugin migration
             $dbVersion = '1.0';
         }
-        return isset($compareToVersion)
-            ? version_compare($dbVersion, Cast::toString($compareToVersion), '>=')
-            : $dbVersion;
+        return $dbVersion;
     }
 }
