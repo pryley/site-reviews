@@ -11,10 +11,7 @@ use GeminiLabs\SiteReviews\Request;
 
 class DefaultValidator extends ValidatorAbstract
 {
-    /**
-     * @return bool
-     */
-    public function isValid()
+    public function isValid(): bool
     {
         $this->errors = glsr(Validator::class)->validate(
             $this->request->toArray(),
@@ -23,10 +20,7 @@ class DefaultValidator extends ValidatorAbstract
         return empty($this->errors);
     }
 
-    /**
-     * @return void
-     */
-    public function performValidation()
+    public function performValidation(): void
     {
         if (!$this->isValid()) {
             glsr_log()->debug($this->errors);
@@ -37,10 +31,7 @@ class DefaultValidator extends ValidatorAbstract
         $this->request = new Request($values);
     }
 
-    /**
-     * @return array
-     */
-    protected function defaultRules()
+    protected function defaultRules(): array
     {
         $maxRating = max(1, (int) glsr()->constant('MAX_RATING', Rating::class));
         $rules = [
@@ -54,10 +45,7 @@ class DefaultValidator extends ValidatorAbstract
         return glsr()->filterArray('validation/rules', $rules, $this->request);
     }
 
-    /**
-     * @return array
-     */
-    protected function normalizedRules()
+    protected function normalizedRules(): array
     {
         $rules = $this->defaultRules();
         $required = glsr_get_option('forms.required', []);
@@ -73,10 +61,7 @@ class DefaultValidator extends ValidatorAbstract
         return $rules;
     }
 
-    /**
-     * @return array
-     */
-    protected function rules()
+    protected function rules(): array
     {
         $defaultRules = $this->normalizedRules();
         $customRules = array_diff_key($defaultRules,

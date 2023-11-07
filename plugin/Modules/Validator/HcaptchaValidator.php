@@ -6,18 +6,12 @@ use GeminiLabs\SiteReviews\Modules\Captcha;
 
 class HcaptchaValidator extends CaptchaValidator
 {
-    /**
-     * @return bool
-     */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return glsr(Captcha::class)->isEnabled('hcaptcha');
     }
 
-    /**
-     * @return array
-     */
-    protected function errorCodes()
+    protected function errorCodes(): array
     {
         return [
             'bad-request' => 'The request is invalid or malformed.',
@@ -32,10 +26,7 @@ class HcaptchaValidator extends CaptchaValidator
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function errors(array $errors)
+    protected function errors(array $errors): array
     {
         if (empty(glsr_get_option('forms.hcaptcha.key'))) {
             $errors[] = 'sitekey_missing';
@@ -43,10 +34,7 @@ class HcaptchaValidator extends CaptchaValidator
         return parent::errors($errors);
     }
 
-    /**
-     * @return array
-     */
-    protected function request()
+    protected function request(): array
     {
         return [
             'remoteip' => $this->request->ip_address,
@@ -56,18 +44,12 @@ class HcaptchaValidator extends CaptchaValidator
         ];
     }
 
-    /**
-     * @return string
-     */
-    protected function siteverifyUrl()
+    protected function siteverifyUrl(): string
     {
         return 'https://hcaptcha.com/siteverify';
     }
 
-    /**
-     * @return string
-     */
-    protected function token()
+    protected function token(): string
     {
         return $this->request['_hcaptcha'];
     }

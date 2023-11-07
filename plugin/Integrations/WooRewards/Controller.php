@@ -28,10 +28,7 @@ class Controller extends AbstractController
         }
     }
 
-    /**
-     * @return \WP_Comment
-     */
-    protected function fakeComment(int $postId, Review $review)
+    protected function fakeComment(int $postId, Review $review): \WP_Comment
     {
         return new \WP_Comment((object) [ // @phpstan-ignore-line
             'comment_approved' => $review->is_approved,

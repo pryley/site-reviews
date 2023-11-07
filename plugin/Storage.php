@@ -11,9 +11,8 @@ trait Storage
 
     /**
      * @param mixed $value
-     * @return false|array
      */
-    public function append(string $property, $value, ?string $key = null)
+    public function append(string $property, $value, ?string $key = null): bool
     {
         $stored = $this->retrieve($property, []);
         if (!is_array($stored)) {
@@ -25,7 +24,7 @@ trait Storage
             $stored[] = $value;
         }
         $this->store($property, $stored);
-        return $stored;
+        return true;
     }
 
     public function discard(string $property): void

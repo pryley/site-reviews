@@ -6,44 +6,24 @@ use GeminiLabs\SiteReviews\Request;
 
 abstract class ValidatorAbstract
 {
-    /**
-     * @var array
-     */
-    protected $errors;
-
-    /**
-     * @var Request
-     */
-    protected $request;
+    protected array $errors = [];
+    protected Request $request;
 
     public function __construct(Request $request)
     {
-        $this->errors = [];
         $this->request = $request;
     }
 
-    /**
-     * @return bool
-     */
-    public function alreadyFailed()
+    public function alreadyFailed(): bool
     {
         return is_array(glsr()->sessionGet('form_errors'));
     }
 
-    /**
-     * @return bool
-     */
-    abstract public function isValid();
+    abstract public function isValid(): bool;
 
-    /**
-     * @return void
-     */
-    abstract public function performValidation();
+    abstract public function performValidation(): void;
 
-    /**
-     * @return Request
-     */
-    public function validate()
+    public function validate(): Request
     {
         if (!$this->alreadyFailed()) {
             $this->performValidation();
@@ -51,12 +31,7 @@ abstract class ValidatorAbstract
         return $this->request;
     }
 
-    /**
-     * @param string $message
-     * @param string $loggedMessage
-     * @return void
-     */
-    protected function setErrors($message, $loggedMessage = null)
+    protected function setErrors(string $message, string $loggedMessage = null): void
     {
         glsr()->sessionSet('form_errors', $this->errors);
         glsr()->sessionSet('form_message', $message);

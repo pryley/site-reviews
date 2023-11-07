@@ -11,7 +11,7 @@ class Controller extends AbstractController
      * @action toplevel_page_flywheel
      * @see https://wordpress.org/plugins/flywheel-migrations/
      */
-    public function renderNotice()
+    public function renderNotice(): void
     {
         global $pagenow;
         if ('admin.php' === $pagenow) {

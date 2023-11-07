@@ -8,11 +8,9 @@ class Controller extends AbstractController
 {
     /**
      * Fix Star Rating control when review form is used inside an Elementor Pro Popup.
-     * @param string $script
-     * @return string
      * @filter site-reviews/enqueue/public/inline-script/after
      */
-    public function filterElementorPublicInlineScript($script)
+    public function filterElementorPublicInlineScript(string $script): string
     {
         if (defined('ELEMENTOR_VERSION')) {
             $script .= 'function glsr_init_elementor(){GLSR.Event.trigger("site-reviews/init")}"undefined"!==typeof jQuery&&(';
@@ -30,10 +28,9 @@ class Controller extends AbstractController
 
     /**
      * Fix Star Rating CSS class prefix in the Elementor editor.
-     * @return array
      * @filter site-reviews/defaults/star-rating/defaults
      */
-    public function filterElementorStarRatingDefaults(array $defaults)
+    public function filterElementorStarRatingDefaults(array $defaults): array
     {
         if ('elementor' === filter_input(INPUT_GET, 'action')) {
             $defaults['prefix'] = 'glsr-';
@@ -53,10 +50,9 @@ class Controller extends AbstractController
 
     /**
      * @param $manager \Elementor\Elements_Manager
-     * @return void
      * @action elementor/elements/categories_registered
      */
-    public function registerElementorCategory($manager)
+    public function registerElementorCategory($manager): void
     {
         $manager->add_category(glsr()->id, [
             'title' => glsr()->name,
@@ -66,10 +62,9 @@ class Controller extends AbstractController
 
     /**
      * @param $manager \Elementor\Widgets_Manager
-     * @return void
      * @action elementor/widgets/register
      */
-    public function registerElementorWidgets($manager)
+    public function registerElementorWidgets($manager): void
     {
         $manager->register(new ElementorFormWidget());
         $manager->register(new ElementorReviewsWidget());
@@ -80,7 +75,7 @@ class Controller extends AbstractController
     /**
      * @action elementor/editor/after_enqueue_styles
      */
-    public function registerInlineStyles()
+    public function registerInlineStyles(): void
     {
         wp_add_inline_style('elementor-editor', "
             .eicon-glsr-review::before,.eicon-glsr-reviews::before {

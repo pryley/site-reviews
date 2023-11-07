@@ -14,7 +14,7 @@ class Controller extends AbstractController
      * @param \WP_Post $post
      * @action duplicate_post_post_copy
      */
-    public function duplicateReview($newPostId, $post)
+    public function duplicateReview($newPostId, $post): void
     {
         if (!Review::isReview($post)) {
             return;
@@ -30,12 +30,26 @@ class Controller extends AbstractController
 
     /**
      * @param string[] $actions
-     * @return array
      * @filter bulk_actions-edit-{Application::POST_TYPE}
      */
-    public function removeRewriteBulkAction($actions)
+    public function filterBulkActions($actions): array
     {
+        $actions = Arr::consolidate($actions);
         unset($actions['duplicate_post_bulk_rewrite_republish']);
+        return $actions;
+    }
+
+    /**
+     * @param string[] $actions
+     * @param \WP_Post $post
+     * @filter post_row_actions
+     */
+    public function filterRowActions($actions, $post): array
+    {
+        $actions = Arr::consolidate($actions);
+        if (Review::isReview($post)) {
+            unset($actions['rewrite']);
+        }
         return $actions;
     }
 
@@ -43,7 +57,7 @@ class Controller extends AbstractController
      * @param \WP_Post|null $post
      * @action post_submitbox_start
      */
-    public function removeRewriteEditorLink($post)
+    public function removeRewriteEditorLink($post): void
     {
         if (!Review::isReview($post)) {
             return;
@@ -55,19 +69,5 @@ class Controller extends AbstractController
                 remove_action('post_submitbox_start', Arr::get($value, 'function'), 10);
             }
         }
-    }
-
-    /**
-     * @param string[] $actions
-     * @param \WP_Post $post
-     * @return array
-     * @filter post_row_actions
-     */
-    public function removeRewriteRowAction($actions, $post)
-    {
-        if (Review::isReview($post)) {
-            unset($actions['rewrite']);
-        }
-        return $actions;
     }
 }

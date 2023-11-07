@@ -10,10 +10,9 @@ class Controller extends AbstractController
 {
     /**
      * @param array $installed
-     * @return array
      * @filter mycred_setup_hooks
      */
-    public function filterHooks($installed)
+    public function filterHooks($installed): array
     {
         $installed = Arr::consolidate($installed);
         $installed[Str::snakeCase(glsr()->id)] = [
@@ -26,11 +25,11 @@ class Controller extends AbstractController
 
     /**
      * @param array $references
-     * @return array
      * @filter mycred_all_references
      */
-    public function filterReferences($references)
+    public function filterReferences($references): array
     {
+        $references = Arr::consolidate($references);
         $references['review_approved'] = _x('Approved Review (Site Reviews)', 'admin-text', 'site-reviews');
         $references['review_trashed'] = _x('Deleted Review (Site Reviews)', 'admin-text', 'site-reviews');
         $references['review_unapproved'] = _x('Unapproved Review (Site Reviews)', 'admin-text', 'site-reviews');
@@ -39,11 +38,11 @@ class Controller extends AbstractController
 
     /**
      * @param array $installed
-     * @return array
      * @filter mycred_setup_hooks
      */
-    public function filterWooreviewHook($installed)
+    public function filterWooreviewHook($installed): array
     {
+        $installed = Arr::consolidate($installed);
         if (!class_exists('myCRED_Hook_WooCommerce_Reviews')) {
             return $installed;
         }

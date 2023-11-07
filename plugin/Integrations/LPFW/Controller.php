@@ -4,16 +4,18 @@ namespace GeminiLabs\SiteReviews\Integrations\LPFW;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 
 class Controller extends AbstractController
 {
     /**
-     * @return array
+     * @param array $types
      * @filter lpfw_get_point_earn_source_types
      */
-    public function filterEarnPointTypes(array $types = [])
+    public function filterEarnPointTypes($types = []): array
     {
+        $types = Arr::consolidate($types);
         $types['product_review'] = [
             'name' => _x('Leaving a product review', '(loyalty-program-for-woocommerce) admin-text', 'site-reviews'),
             'slug' => 'product_review',

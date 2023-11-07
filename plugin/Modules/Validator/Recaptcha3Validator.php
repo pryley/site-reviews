@@ -6,18 +6,12 @@ use GeminiLabs\SiteReviews\Modules\Captcha;
 
 class Recaptcha3Validator extends CaptchaValidator
 {
-    /**
-     * @return bool
-     */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return glsr(Captcha::class)->isEnabled('recaptcha_v3');
     }
 
-    /**
-     * @return bool
-     */
-    public function isTokenValid(array $response)
+    public function isTokenValid(array $response): bool
     {
         $threshold = glsr_get_option('forms.recaptcha_v3.threshold');
         $isValid = $response['success']
@@ -31,10 +25,7 @@ class Recaptcha3Validator extends CaptchaValidator
         return $isValid;
     }
 
-    /**
-     * @return array
-     */
-    protected function errorCodes()
+    protected function errorCodes(): array
     {
         return [
             'bad-request' => 'The request is invalid or malformed.',
@@ -48,10 +39,7 @@ class Recaptcha3Validator extends CaptchaValidator
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function errors(array $errors)
+    protected function errors(array $errors): array
     {
         if (empty(glsr_get_option('forms.recaptcha_v3.secret'))) {
             $errors[] = 'missing-input-secret';
@@ -64,10 +52,7 @@ class Recaptcha3Validator extends CaptchaValidator
         return parent::errors(array_unique($errors));
     }
 
-    /**
-     * @return array
-     */
-    protected function request()
+    protected function request(): array
     {
         $token = $this->token();
         if (array_key_exists($token, $this->errorCodes())) {
@@ -84,18 +69,12 @@ class Recaptcha3Validator extends CaptchaValidator
         ];
     }
 
-    /**
-     * @return string
-     */
-    protected function siteverifyUrl()
+    protected function siteverifyUrl(): string
     {
         return 'https://www.google.com/recaptcha/api/siteverify';
     }
 
-    /**
-     * @return string
-     */
-    protected function token()
+    protected function token(): string
     {
         return $this->request['_recaptcha'];
     }

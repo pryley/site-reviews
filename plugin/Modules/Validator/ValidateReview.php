@@ -68,10 +68,7 @@ class ValidateReview
         ]);
     }
 
-    /**
-     * @return bool
-     */
-    public function isValid()
+    public function isValid(): bool
     {
         return false === $this->errors;
     }

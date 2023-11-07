@@ -4,10 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Validator;
 
 class DuplicateValidator extends ValidatorAbstract
 {
-    /**
-     * @return bool
-     */
-    public function isValid()
+    public function isValid(): bool
     {
         if ('yes' !== glsr_get_option('forms.prevent_duplicates')) {
             return true;
@@ -27,10 +24,7 @@ class DuplicateValidator extends ValidatorAbstract
         return glsr()->filterBool('validate/duplicate', $result, $this->request);
     }
 
-    /**
-     * @return void
-     */
-    public function performValidation()
+    public function performValidation(): void
     {
         if (!$this->isValid()) {
             $this->setErrors(__('Duplicate review detected. It looks like you already said that!', 'site-reviews'));

@@ -22,7 +22,7 @@ class Hooks extends AbstractHooks
             ['filterActivityTriggerLabel', 'gamipress_activity_trigger_label', 10, 3],
             ['filterActivityTriggers', 'gamipress_activity_triggers'],
             ['filterLogEventMetaData', 'gamipress_log_event_trigger_meta_data', 10, 5],
-            ['filterLogExtraDataFields', 'gamipress_log_extra_data_fields', 10, 4],
+            ['filterLogExtraDataFields', 'gamipress_log_extra_data_fields', 10, 2],
             ['filterPostTypeTriggers', 'gamipress_post_type_triggers'],
             ['filterRequirement', 'gamipress_requirement_object', 10, 2],
             ['filterSpecificActivityTriggers', 'gamipress_specific_activity_triggers'],

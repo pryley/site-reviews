@@ -6,11 +6,11 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 trait Deprecated
 {
-    protected array $mappedDeprecatedMethods;
+    protected array $mappedDeprecatedMethods = [];
 
     public function __call(string $oldMethod, $args)
     {
-        $newMethod = Arr::get(Arr::consolidate($this->mappedDeprecatedMethods), $oldMethod);
+        $newMethod = Arr::get($this->mappedDeprecatedMethods, $oldMethod);
         if (empty($newMethod) || !method_exists($this, $newMethod)) {
             throw new \BadMethodCallException("Method [$oldMethod] does not exist.");
         }

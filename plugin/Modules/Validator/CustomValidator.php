@@ -6,18 +6,12 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class CustomValidator extends ValidatorAbstract
 {
-    /**
-     * @return bool
-     */
-    public function isValid()
+    public function isValid(): bool
     {
         return Cast::toBool(glsr()->filter('validate/custom', true, $this->request));
     }
 
-    /**
-     * @return void
-     */
-    public function performValidation()
+    public function performValidation(): void
     {
         $validated = glsr()->filter('validate/custom', true, $this->request); // value may be a string
         if (true === Cast::toBool($validated)) {

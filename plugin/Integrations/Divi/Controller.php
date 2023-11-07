@@ -3,6 +3,8 @@
 namespace GeminiLabs\SiteReviews\Integrations\Divi;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Paginate;
 
@@ -12,12 +14,11 @@ class Controller extends AbstractController
      * Fix compatibility with the Divi Dynamic CSS option.
      * @param array $shortcodes
      * @param string $content
-     * @return array
      * @filter et_dynamic_assets_modules_atf
      */
-    public function filterDynamicAssets($shortcodes, $content)
+    public function filterDynamicAssets($shortcodes, $content): array
     {
-        if (1 === preg_match('/site_reviews/', $content)) {
+        if (1 === preg_match('/site_reviews/', Cast::toString($content))) {
             add_filter('et_required_module_assets', function ($assets) {
                 $assets[] = 'et_pb_contact_form';
                 $assets[] = 'et_pb_gallery';
@@ -25,7 +26,7 @@ class Controller extends AbstractController
                 return array_values(array_unique($assets));
             });
         }
-        return $shortcodes;
+        return Arr::consolidate($shortcodes);
     }
 
     /**
@@ -69,10 +70,9 @@ class Controller extends AbstractController
     }
 
     /**
-     * @return void
      * @action divi_extensions_init
      */
-    public function registerDiviModules()
+    public function registerDiviModules(): void
     {
         // new DiviFormWidget();
         // new DiviReviewsWidget();

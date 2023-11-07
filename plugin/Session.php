@@ -38,6 +38,9 @@ trait Session
         return $value;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function sessionSet(string $key, $value): void
     {
         $this->session[$key] = $value;

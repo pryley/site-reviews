@@ -14,8 +14,9 @@ class Controller extends AbstractController
      * @return array
      * @filter rank_math/schema/validated_data
      */
-    public function filterSchema(array $data)
+    public function filterSchema($data): array
     {
+        $data = Arr::consolidate($data);
         $this->generateSchema();
         $schemas = glsr()->filterArray('schema/all', glsr()->retrieve('schemas', []));
         if (empty($schemas)) {

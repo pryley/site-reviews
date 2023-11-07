@@ -49,7 +49,7 @@ class Controller extends AbstractController
     /**
      * @action site-reviews/review/created
      */
-    public function onReviewCreated(Review $review)
+    public function onReviewCreated(Review $review): void
     {
         foreach ($review->assigned_posts as $postId) {
             delete_post_meta($postId, BSF_AIOSRS_PRO_CACHE_KEY);

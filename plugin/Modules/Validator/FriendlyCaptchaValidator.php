@@ -6,18 +6,12 @@ use GeminiLabs\SiteReviews\Modules\Captcha;
 
 class FriendlyCaptchaValidator extends CaptchaValidator
 {
-    /**
-     * @return bool
-     */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return glsr(Captcha::class)->isEnabled('friendlycaptcha');
     }
 
-    /**
-     * @return array
-     */
-    protected function errorCodes()
+    protected function errorCodes(): array
     {
         return [
             'bad_request' => 'Something else is wrong with your request, e.g. your request body is empty.',
@@ -31,10 +25,7 @@ class FriendlyCaptchaValidator extends CaptchaValidator
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function errors(array $errors)
+    protected function errors(array $errors): array
     {
         if (empty(glsr_get_option('forms.friendlycaptcha.key'))) {
             $errors[] = 'sitekey_missing';
@@ -44,10 +35,7 @@ class FriendlyCaptchaValidator extends CaptchaValidator
         return parent::errors($errors);
     }
 
-    /**
-     * @return array
-     */
-    protected function request()
+    protected function request(): array
     {
         return [
             'secret' => glsr_get_option('forms.friendlycaptcha.secret'),
@@ -56,18 +44,12 @@ class FriendlyCaptchaValidator extends CaptchaValidator
         ];
     }
 
-    /**
-     * @return string
-     */
-    protected function siteverifyUrl()
+    protected function siteverifyUrl(): string
     {
         return 'https://api.friendlycaptcha.com/api/v1/siteverify';
     }
 
-    /**
-     * @return string
-     */
-    protected function token()
+    protected function token(): string
     {
         return $this->request['_frcaptcha'];
     }

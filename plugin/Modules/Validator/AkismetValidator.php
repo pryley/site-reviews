@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 
 class AkismetValidator extends ValidatorAbstract
 {
-    /**
-     * @return bool
-     */
-    public function isValid()
+    public function isValid(): bool
     {
         if (!$this->isActive()) {
             return true;
@@ -37,10 +34,7 @@ class AkismetValidator extends ValidatorAbstract
         return $this->validateAkismet($submission);
     }
 
-    /**
-     * @return void
-     */
-    public function performValidation()
+    public function performValidation(): void
     {
         if (!$this->isValid()) {
             $this->setErrors(
@@ -50,10 +44,7 @@ class AkismetValidator extends ValidatorAbstract
         }
     }
 
-    /**
-     * @return string
-     */
-    protected function buildUrlQuery(array $data)
+    protected function buildUrlQuery(array $data): string
     {
         $query = [];
         foreach ($data as $key => $value) {
@@ -72,10 +63,7 @@ class AkismetValidator extends ValidatorAbstract
         return implode('&', $query);
     }
 
-    /**
-     * @return bool
-     */
-    protected function isActive()
+    protected function isActive(): bool
     {
         $check = !glsr_get_option('forms.akismet', false, 'bool')
             || !is_callable(['Akismet', 'get_api_key'])
@@ -85,10 +73,7 @@ class AkismetValidator extends ValidatorAbstract
         return glsr()->filterBool('validate/akismet/is-active', $check);
     }
 
-    /**
-     * @return bool
-     */
-    protected function validateAkismet(array $submission)
+    protected function validateAkismet(array $submission): bool
     {
         $response = \Akismet::http_post($this->buildUrlQuery($submission), 'comment-check');
         $isValid = 'true' !== $response[1];

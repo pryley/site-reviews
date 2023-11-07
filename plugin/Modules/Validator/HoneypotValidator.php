@@ -6,20 +6,14 @@ use GeminiLabs\SiteReviews\Modules\Honeypot;
 
 class HoneypotValidator extends ValidatorAbstract
 {
-    /**
-     * @return bool
-     */
-    public function isValid()
+    public function isValid(): bool
     {
         $hash = glsr(Honeypot::class)->hash($this->request->form_id);
         $isValid = isset($this->request[$hash]) && empty($this->request[$hash]);
         return glsr()->filterBool('validate/honeypot', $isValid, $this->request);
     }
 
-    /**
-     * @return void
-     */
-    public function performValidation()
+    public function performValidation(): void
     {
         if (!$this->isValid()) {
             $this->setErrors(
