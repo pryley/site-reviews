@@ -407,7 +407,7 @@ class Builder
     }
 
     /**
-     * @param string|array ...$params
+     * @param string|array $params,...
      * @return array
      */
     protected function prepareArgs(...$params)

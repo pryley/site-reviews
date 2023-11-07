@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Helper;
 class Cast
 {
     /**
-     * @param mixed ...$args
+     * @param mixed $args,...
      * @return mixed
      */
     public static function to(string $cast = '', ...$args)

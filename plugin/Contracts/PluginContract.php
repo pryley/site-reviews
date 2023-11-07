@@ -23,7 +23,7 @@ use GeminiLabs\SiteReviews\Request;
  */
 interface PluginContract
 {
-    /** @param mixed ...$args */
+    /** @param mixed $args,... */
     public function action(string $hook, ...$args): void;
 
     /** @param mixed $args */
@@ -39,23 +39,23 @@ interface PluginContract
     public function file(string $view): string;
 
     /**
-     * @param mixed ...$args
+     * @param mixed $args,...
      * @return mixed
      */
     public function filter(string $hook, ...$args);
 
-    /** @param mixed ...$args */
+    /** @param mixed $args,... */
     public function filterArrayUnique(string $hook, ...$args): array;
 
     public function path(string $file = '', bool $realpath = true): string;
 
     public function render(string $view, array $data = []): void;
 
-    /** @param mixed ...$args */
+    /** @param mixed $args,... */
     public function request($args = []): Request;
 
     /**
-     * @param mixed ...$args
+     * @param mixed $args,...
      * @return mixed|false
      */
     public function runIf(string $className, ...$args);

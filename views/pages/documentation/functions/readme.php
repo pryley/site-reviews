@@ -14,7 +14,7 @@
         <pre><code class="language-php">/**
  * @param string $function_name (required) This is the name of the function you want to use
  * @param mixed $fallback (required) This value is returned when the function does not exist
- * @param mixed ...$args (optional) These are the arguments (one or more) required by the function
+ * @param mixed $args,... (optional) These are the arguments (one or more) required by the function
  * @return mixed
  */
 apply_filters($function_name, $fallback, ...$args);</code></pre>

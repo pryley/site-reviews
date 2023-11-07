@@ -117,10 +117,9 @@ function glsr_current_screen()
 }
 
 /**
- * @param mixed ...$vars
- * @return void
+ * @param mixed $vars,...
  */
-function glsr_debug(...$vars)
+function glsr_debug(...$vars): void
 {
     if (1 === count($vars)) {
         $dump = glsr(Dump::class)->dump($vars[0]);
@@ -201,6 +200,7 @@ function glsr_get_reviews($args = [])
 }
 
 /**
+ * @param mixed $args,...
  * @return \GeminiLabs\SiteReviews\Modules\Console
  */
 function glsr_log(...$args)

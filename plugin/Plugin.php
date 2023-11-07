@@ -74,7 +74,7 @@ trait Plugin
     }
 
     /**
-     * @param mixed ...$args
+     * @param mixed $args,...
      */
     public function action(string $hook, ...$args): void
     {
@@ -149,7 +149,7 @@ trait Plugin
     }
 
     /**
-     * @param mixed ...$args
+     * @param mixed $args,...
      * @return mixed
      */
     public function filter(string $hook, ...$args)
@@ -158,7 +158,7 @@ trait Plugin
     }
 
     /**
-     * @param mixed ...$args
+     * @param mixed $args,...
      */
     public function filterArrayUnique(string $hook, ...$args): array
     {

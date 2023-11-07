@@ -59,7 +59,7 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * @param mixed ...$args
+     * @param mixed $args,...
      */
     public function can(string $capability, ...$args): bool
     {
