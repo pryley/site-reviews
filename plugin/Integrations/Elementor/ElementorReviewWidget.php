@@ -38,6 +38,9 @@ class ElementorReviewWidget extends ElementorWidget
         }
     }
 
+    /**
+     * @return array
+     */
     protected function settings_basic()
     {
         $options = [

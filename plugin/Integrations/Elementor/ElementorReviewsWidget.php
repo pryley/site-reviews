@@ -32,6 +32,9 @@ class ElementorReviewsWidget extends ElementorWidget
         return _x('Latest Reviews', 'admin-text', 'site-reviews');
     }
 
+    /**
+     * @return array
+     */
     protected function settings_basic()
     {
         $options = [

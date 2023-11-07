@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Widgets;
 
 use GeminiLabs\SiteReviews\Arguments;
+use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\WidgetBuilder;
@@ -74,11 +75,7 @@ abstract class Widget extends \WP_Widget
         return glsr()->args($args);
     }
 
-    /**
-     * @param string $tag
-     * @return array
-     */
-    protected function normalizeFieldAttributes($tag, array $args)
+    protected function normalizeFieldAttributes(string $tag, array $args): array
     {
         if (empty($args['value'])) {
             $args['value'] = $this->mapped($args['name']);
@@ -91,11 +88,7 @@ abstract class Widget extends \WP_Widget
         return $args;
     }
 
-    /**
-     * @param string $tag
-     * @return void
-     */
-    protected function renderField($tag, array $args = [])
+    protected function renderField(string $tag, array $args = []): void
     {
         $args = $this->normalizeFieldAttributes($tag, $args);
         echo glsr(WidgetBuilder::class)->p([
@@ -103,31 +96,19 @@ abstract class Widget extends \WP_Widget
         ]);
     }
 
-    /**
-     * @return \GeminiLabs\SiteReviews\Shortcodes\Shortcode
-     */
-    abstract protected function shortcode();
+    abstract protected function shortcode(): ShortcodeContract;
 
-    /**
-     * @return string
-     */
-    protected function widgetDescription()
+    protected function widgetDescription(): string
     {
         return '';
     }
 
-    /**
-     * @return string
-     */
-    protected function widgetName()
+    protected function widgetName(): string
     {
         return _x('Site Reviews: Unknown Widget', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * @return array
-     */
-    protected function widgetOptions()
+    protected function widgetOptions(): array
     {
         return [
             'description' => $this->widgetDescription(),

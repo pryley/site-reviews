@@ -130,18 +130,12 @@ abstract class Shortcode implements ShortcodeContract
         return glsr($classname);
     }
 
-    /**
-     * @return array
-     */
-    protected function displayOptions()
+    protected function displayOptions(): array
     {
         return [];
     }
 
-    /**
-     * @return array
-     */
-    protected function hideOptions()
+    protected function hideOptions(): array
     {
         return [];
     }

@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Widgets;
 
+use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
 
 class SiteReviewWidget extends Widget
@@ -28,26 +29,17 @@ class SiteReviewWidget extends Widget
         return ''; // WP_Widget::form should return a string
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function shortcode()
+    protected function shortcode(): ShortcodeContract
     {
         return glsr(SiteReviewShortcode::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function widgetDescription()
+    protected function widgetDescription(): string
     {
         return _x('Site Reviews: Display a single review.', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function widgetName()
+    protected function widgetName(): string
     {
         return _x('Single Review', 'admin-text', 'site-reviews');
     }

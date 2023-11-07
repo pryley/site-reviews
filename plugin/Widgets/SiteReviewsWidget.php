@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Widgets;
 
+use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
@@ -89,26 +90,17 @@ class SiteReviewsWidget extends Widget
         return parent::update($newInstance, $oldInstance);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function shortcode()
+    protected function shortcode(): ShortcodeContract
     {
         return glsr(SiteReviewsShortcode::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function widgetDescription()
+    protected function widgetDescription(): string
     {
         return _x('Site Reviews: Display your recent reviews.', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function widgetName()
+    protected function widgetName(): string
     {
         return _x('Recent Reviews', 'admin-text', 'site-reviews');
     }

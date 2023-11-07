@@ -30,6 +30,9 @@ class ElementorSummaryWidget extends ElementorWidget
         return _x('Rating Summary', 'admin-text', 'site-reviews');
     }
 
+    /**
+     * @return array
+     */
     protected function settings_advanced()
     {
         $settings = parent::settings_advanced();
@@ -44,6 +47,9 @@ class ElementorSummaryWidget extends ElementorWidget
         return $settings;
     }
 
+    /**
+     * @return array
+     */
     protected function settings_basic()
     {
         $options = [

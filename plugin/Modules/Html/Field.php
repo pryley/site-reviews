@@ -133,10 +133,7 @@ class Field
         ]);
     }
 
-    /**
-     * @return string
-     */
-    public function getFieldErrors() // Extended by Review Filters
+    public function getFieldErrors(): string
     {
         return glsr(Template::class)->build('templates/form/field-errors', [
             'context' => [
@@ -272,10 +269,7 @@ class Field
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function normalizeFieldId() // Extended by Review Filters
+    protected function normalizeFieldId(): void
     {
         if (!empty($this->field['id']) || $this->field['is_raw']) {
             return;
@@ -286,10 +280,7 @@ class Field
         );
     }
 
-    /**
-     * @return void
-     */
-    protected function normalizeFieldName() // Extended by Review Filters
+    protected function normalizeFieldName(): void
     {
         $name = Str::convertPathToName($this->field['path'], $this->getFieldPrefix());
         if (count($this->field['options']) > 1 && 'checkbox' === $this->field['type']) {

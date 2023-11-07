@@ -28,6 +28,9 @@ class ElementorFormWidget extends ElementorWidget
         return _x('Review Form', 'admin-text', 'site-reviews');
     }
 
+    /**
+     * @return array
+     */
     protected function settings_advanced()
     {
         $settings = parent::settings_advanced();
@@ -42,6 +45,9 @@ class ElementorFormWidget extends ElementorWidget
         return $settings;
     }
 
+    /**
+     * @return array
+     */
     protected function settings_basic()
     {
         $options = [
