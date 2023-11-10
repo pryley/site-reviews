@@ -22,7 +22,7 @@ class TemplateTags
         throw new \BadMethodCallException("Method [$method] does not exist.");
     }
 
-    public function filteredTags(array $args): array
+    public function filteredTags(array $args = []): array
     {
         $exclude = Arr::consolidate(Arr::get($args, 'exclude'));
         $include = Arr::consolidate(Arr::get($args, 'include'));
@@ -137,10 +137,7 @@ class TemplateTags
         return (string) $review->ip_address;
     }
 
-    /**
-     * @compat
-     */
-    public function tagReviewLink(Review $review): string
+    public function tagReviewLink(Review $review): string // @compat v6
     {
         return glsr(Builder::class)->a([
             'href' => $review->editUrl(),
@@ -179,8 +176,11 @@ class TemplateTags
             if (method_exists($this, $method)) {
                 $content = call_user_func([$this, $method], $review);
             }
-            $content = glsr()->filterString('notification/tag/'.$tag, $content, $review);
+            $content = glsr()->filterString("notification/tag/{$tag}", $content, $review);
         });
+        if (array_key_exists('edit_url', $tags)) {
+            $tags['review_link'] = $tags['edit_url']; // @compat v6
+        }
         return $tags;
     }
 

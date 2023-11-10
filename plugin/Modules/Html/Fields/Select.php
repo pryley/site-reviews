@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Select extends Field
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function defaults($fieldLocation = null)
+    public static function defaults(string $fieldLocation = ''): array
     {
         $classes = [
             'metabox' => '',

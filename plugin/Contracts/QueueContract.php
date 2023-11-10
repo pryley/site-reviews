@@ -13,7 +13,7 @@ interface QueueContract
      *
      * @return int The action ID.
      */
-    public function async($hook, $args = [], $unique = false);
+    public function async(string $hook, array $args = [], bool $unique = false);
 
     /**
      * Cancel the next occurrence of a scheduled action.
@@ -30,7 +30,7 @@ interface QueueContract
      *
      * @return int|null The scheduled action ID if a scheduled action was found, or null if no matching action found.
      */
-    public function cancel($hook, $args = []);
+    public function cancel(string $hook, array $args = []);
 
     /**
      * Cancel a specific action.
@@ -45,7 +45,7 @@ interface QueueContract
      * @param string $hook the hook that the job will trigger
      * @param array $args args that would have been passed to the job
      */
-    public function cancelAll($hook, $args = []);
+    public function cancelAll(string $hook, array $args = []);
 
     /**
      * Schedule an action that recurs on a cron-like schedule.
@@ -53,7 +53,7 @@ interface QueueContract
      * @param int    $timestamp The first instance of the action will be scheduled
      *           to run at a time calculated after this timestamp matching the cron
      *           expression. This can be used to delay the first instance of the action.
-     * @param string $schedule A cron-link schedule string.
+     * @param string $cron A cron-link schedule string.
      * @see http://en.wikipedia.org/wiki/Cron
      *   *    *    *    *    *    *
      *   ┬    ┬    ┬    ┬    ┬    ┬
@@ -70,7 +70,7 @@ interface QueueContract
      *
      * @return int The action ID.
      */
-    public function cron($timestamp, $schedule, $hook, $args = [], $unique = false);
+    public function cron(int $timestamp, string $cron, string $hook, array $args = [], bool $unique = false);
 
     /**
      * @param int|string $actionId  The ID of the action.
@@ -90,7 +90,7 @@ interface QueueContract
      *
      * @return bool True if a matching action is pending or in-progress, false otherwise.
      */
-    public function isPending($hook, $args = []);
+    public function isPending(string $hook, array $args = []): bool;
 
     /**
      * Check if there is an existing action in the queue with a given hook, args and group combination.
@@ -106,7 +106,7 @@ interface QueueContract
      *
      * @return \DateTime|bool The DateTime for the next occurrence of a pending scheduled action, true for an async or in-progress action or false if there is no matching action.
      */
-    public function next($hook, $args = null);
+    public function next(string $hook, array $args = []);
 
     /**
      * Schedule an action to run one time
@@ -118,7 +118,7 @@ interface QueueContract
      *
      * @return int The action ID.
      */
-    public function once($timestamp, $hook, $args = [], $unique = false);
+    public function once(int $timestamp, string $hook, array $args = [], bool $unique = false);
 
     /**
      * Schedule a recurring action
@@ -131,7 +131,7 @@ interface QueueContract
      *
      * @return int The action ID.
      */
-    public function recurring($timestamp, $intervalInSeconds, $hook, $args = [], $unique = false);
+    public function recurring(int $timestamp, int $intervalInSeconds, string $hook, array $args = [], bool $unique = false);
 
     /**
      * Find scheduled actions
@@ -155,5 +155,5 @@ interface QueueContract
      *
      * @return array
      */
-    public function search($args = [], $returnFormat = OBJECT);
+    public function search(array $args = [], string $returnFormat = OBJECT);
 }

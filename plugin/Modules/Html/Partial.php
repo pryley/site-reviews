@@ -12,17 +12,13 @@ class Partial
         return glsr();
     }
 
-    /**
-     * @param string $partialPath
-     * @return string|void
-     */
-    public function build($partialPath, array $args = [])
+    public function build(string $partialPath, array $args = []): string
     {
         $className = Helper::buildClassName($partialPath, 'Modules\Html\Partials');
         $className = $this->app()->filterString('partial/classname', $className, $partialPath, $args);
         if (!class_exists($className)) {
             glsr_log()->error('Partial missing: '.$className);
-            return;
+            return '';
         }
         $args = $this->app()->filterArray('partial/args/'.$partialPath, $args);
         $partial = glsr($className)->build($args);
@@ -31,11 +27,7 @@ class Partial
         return $partial;
     }
 
-    /**
-     * @param string $partialPath
-     * @return void
-     */
-    public function render($partialPath, array $args = [])
+    public function render(string $partialPath, array $args = []): void
     {
         echo $this->build($partialPath, $args);
     }

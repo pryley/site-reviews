@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Arguments;
+use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Defaults\FieldDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -27,7 +29,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
  * @method string textarea(string|array ...$params)
  * @method string ul(string|array ...$params)
  */
-class Builder
+class Builder implements BuilderContract
 {
     public const INPUT_TYPES = [
         'checkbox', 'date', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month',
@@ -52,35 +54,22 @@ class Builder
         'p', 'pre', 'small', 'span',
     ];
 
-    /**
-     * @var \GeminiLabs\SiteReviews\Arguments
-     */
+    /** @var Arguments */
     public $args;
 
-    /**
-     * @var bool
-     */
-    public $render = false;
+    public bool $render = false;
+
+    public string $tag = '';
+
+    public string $type = '';
 
     /**
-     * @var string
-     */
-    public $tag;
-
-    /**
-     * @var string
-     */
-    public $type;
-
-    /**
-     * @param string $method
-     * @param array $methodArgs
      * @return string|void
      */
-    public function __call($method, $methodArgs)
+    public function __call(string $method, array $args = [])
     {
         $instance = new static();
-        $args = call_user_func_array([$instance, 'prepareArgs'], $methodArgs);
+        $args = call_user_func_array([$instance, 'prepareArgs'], $args);
         $tag = Str::dashCase($method);
         $result = $instance->build($tag, $args);
         if (!$instance->render) {
@@ -90,11 +79,9 @@ class Builder
     }
 
     /**
-     * @param string $property
      * @param mixed $value
-     * @return void
      */
-    public function __set($property, $value)
+    public function __set(string $property, $value): void
     {
         $method = Helper::buildMethodName($property, 'set');
         if (method_exists($this, $method)) {
@@ -102,10 +89,7 @@ class Builder
         }
     }
 
-    /**
-     * @return string
-     */
-    public function build($tag, array $args = [])
+    public function build(string $tag, array $args = []): string
     {
         $this->setArgs($args, $tag);
         $this->setTag($tag);
@@ -116,39 +100,27 @@ class Builder
         return glsr()->filterString('builder/result', $result, $this);
     }
 
-    /**
-     * @return void|string
-     */
-    public function buildClosingTag()
+    public function buildClosingTag(): string
     {
         return '</'.$this->tag.'>';
     }
 
-    /**
-     * @param string $tag
-     * @return void|string
-     */
-    public function buildCustom($tag)
+    public function buildCustom(string $tag): string
     {
         if (class_exists($className = $this->getFieldClassName($tag))) {
             return (new $className($this))->build();
         }
         glsr_log()->error("Field [$className] missing.");
+        return '';
     }
 
-    /**
-     * @return string
-     */
-    public function buildDefaultElement($text = '')
+    public function buildDefaultElement(string $text = ''): string
     {
         $text = Helper::ifEmpty($text, $this->args->text, $strict = true);
         return $this->buildOpeningTag().$text.$this->buildClosingTag();
     }
 
-    /**
-     * @return void|string
-     */
-    public function buildElement()
+    public function buildElement(): string
     {
         if (in_array($this->tag, static::TAGS_SINGLE)) {
             return $this->buildOpeningTag();
@@ -159,41 +131,26 @@ class Builder
         return $this->buildDefaultElement();
     }
 
-    /**
-     * @return void|string
-     */
-    public function buildFormElement()
+    public function buildFormElement(): string
     {
         $method = Helper::buildMethodName($this->tag, 'buildForm');
         return $this->$method();
     }
 
-    /**
-     * @return void|string
-     */
-    public function buildOpeningTag()
+    public function buildOpeningTag(): string
     {
         $attributes = glsr(Attributes::class)->{$this->tag}($this->args->toArray())->toString();
         return '<'.trim($this->tag.' '.$attributes).'>';
     }
 
-    /**
-     * @return string
-     */
-    public function raw(array $field)
+    public function raw(array $field): string
     {
         unset($field['label']);
         return $this->{$field['type']}($field);
     }
 
-    /**
-     * @param array $args
-     * @param string $type
-     * @return void
-     */
-    public function setArgs($args = [], $type = '')
+    public function setArgs(array $args = [], string $type = ''): void
     {
-        $args = Arr::consolidate($args);
         if (!empty($args)) {
             $args = $this->normalize($args, $type);
             $options = glsr()->args($args)->options;
@@ -205,33 +162,21 @@ class Builder
                 $args['options'] = $options;
             }
         }
-        $args = glsr()->filterArray('builder/'.$type.'/args', $args, $this);
+        $args = glsr()->filterArray("builder/{$type}/args", $args, $this);
         $this->args = glsr()->args($args);
     }
 
-    /**
-     * @param bool $bool
-     * @return void
-     */
-    public function setRender($bool)
+    public function setRender(bool $bool): void
     {
-        $this->render = Cast::toBool($bool);
+        $this->render = $bool;
     }
 
-    /**
-     * @param string $tag
-     * @return void
-     */
-    public function setTag($tag)
+    public function setTag(string $tag): void
     {
-        $tag = Cast::toString($tag);
         $this->tag = Helper::ifTrue(in_array($tag, static::INPUT_TYPES), 'input', $tag);
     }
 
-    /**
-     * @return string|void
-     */
-    protected function buildFormInput()
+    protected function buildFormInput(): string
     {
         if (!in_array($this->args->type, ['checkbox', 'radio'])) {
             return $this->buildFormLabel().$this->buildOpeningTag();
@@ -241,10 +186,7 @@ class Builder
             : $this->buildFormInputChoices();
     }
 
-    /**
-     * @return string|void
-     */
-    protected function buildFormInputChoice()
+    protected function buildFormInputChoice(): string
     {
         if ($label = Helper::ifEmpty($this->args->text, $this->args->label)) {
             return $this->buildFormLabel([
@@ -254,10 +196,7 @@ class Builder
         return $this->buildOpeningTag();
     }
 
-    /**
-     * @return string|void
-     */
-    protected function buildFormInputChoices()
+    protected function buildFormInputChoices(): string
     {
         $index = 0;
         return array_reduce(array_keys($this->args->options), function ($carry, $value) use (&$index) {
@@ -273,34 +212,26 @@ class Builder
                 'type' => $this->args->type,
                 'value' => $value,
             ]);
-        });
+        }, '');
     }
 
-    /**
-     * @return void|string
-     */
-    protected function buildFormLabel(array $customArgs = [])
+    protected function buildFormLabel(array $customArgs = []): string
     {
-        if (!empty($this->args->label) && 'hidden' !== $this->args->type) {
-            return $this->label(wp_parse_args($customArgs, [
-                'for' => $this->args->id,
-                'text' => $this->args->label,
-            ]));
+        if (empty($this->args->label) || 'hidden' === $this->args->type) {
+            return '';
         }
+        return $this->label(wp_parse_args($customArgs, [
+            'for' => $this->args->id,
+            'text' => $this->args->label,
+        ]));
     }
 
-    /**
-     * @return string|void
-     */
-    protected function buildFormSelect()
+    protected function buildFormSelect(): string
     {
         return $this->buildFormLabel().$this->buildDefaultElement($this->buildFormSelectOptions());
     }
 
-    /**
-     * @return string|void
-     */
-    protected function buildFormSelectOptions()
+    protected function buildFormSelectOptions(): string
     {
         $options = $this->args->cast('options', 'array');
         if ($this->args->placeholder) {
@@ -323,13 +254,10 @@ class Builder
                 'title' => $title ?? '',
                 'value' => $key,
             ]);
-        });
+        }, '');
     }
 
-    /**
-     * @return string
-     */
-    protected function buildFormSelectOptGroup($options, $label)
+    protected function buildFormSelectOptGroup($options, $label): string
     {
         $children = array_reduce(array_keys($options), function ($carry, $key) use ($options) {
             $option = $options[$key];
@@ -350,32 +278,22 @@ class Builder
         ]);
     }
 
-    /**
-     * @return string|void
-     */
-    protected function buildFormTextarea()
+    protected function buildFormTextarea(): string
     {
         return $this->buildFormLabel().$this->buildDefaultElement(
             esc_html($this->args->cast('value', 'string'))
         );
     }
 
-    /**
-     * @return string
-     */
-    protected function indexedId($index)
+    protected function indexedId(int $index): string
     {
         return Helper::ifTrue(count($this->args->options) > 1,
-            $this->args->id.'-'.$index,
+            sprintf('%s-%d', $this->args->id, $index),
             $this->args->id
         );
     }
 
-    /**
-     * @param string $tag
-     * @return bool
-     */
-    protected function isHtmlTag($tag)
+    protected function isHtmlTag(string $tag): bool
     {
         return in_array($tag, array_merge(
             static::TAGS_FORM,
@@ -385,20 +303,13 @@ class Builder
         ));
     }
 
-    /**
-     * @param string $tag
-     * @return string
-     */
-    protected function getFieldClassName($tag)
+    protected function getFieldClassName(string $tag): string
     {
         $className = Helper::buildClassName($tag, __NAMESPACE__.'\Fields');
         return glsr()->filterString('builder/field/'.$tag, $className);
     }
 
-    /**
-     * @return array
-     */
-    protected function normalize(array $args, $type)
+    protected function normalize(array $args, string $type): array
     {
         if (class_exists($className = $this->getFieldClassName($type))) {
             $args = $className::merge($args);
@@ -408,9 +319,8 @@ class Builder
 
     /**
      * @param string|array $params,...
-     * @return array
      */
-    protected function prepareArgs(...$params)
+    protected function prepareArgs(...$params): array
     {
         if (is_array($parameter1 = array_shift($params))) {
             return $parameter1;

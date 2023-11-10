@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Modules\Rating as RatingModule;
 
 class Rating extends Field
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function required($fieldLocation = null)
+    public static function required(string $fieldLocation = ''): array
     {
         $options = glsr(RatingModule::class)->optionsArray(
             _n_noop('%s Star', '%s Stars', 'site-reviews')
@@ -22,10 +19,7 @@ class Rating extends Field
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function tag()
+    public function tag(): string
     {
         return 'select';
     }

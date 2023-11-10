@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Defaults\PaginationDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleClassesDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleValidationDefaults;
@@ -9,7 +10,6 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 /**
  * @method string classes(string $key)
@@ -87,7 +87,7 @@ class Style
         return $this->$property;
     }
 
-    public function modifyField(Builder $instance): void
+    public function modifyField(BuilderContract $instance): void
     {
         if ($this->isPublicInstance($instance)) {
             call_user_func_array([$this, 'customize'], [$instance]);
@@ -153,7 +153,7 @@ class Style
     /**
      * Add custom form classes.
      */
-    protected function customize(Builder $instance): void
+    protected function customize(BuilderContract $instance): void
     {
         if (array_key_exists($instance->tag, $this->__get('classes'))) {
             $key = $instance->tag.'_'.$instance->args->type;
@@ -181,7 +181,7 @@ class Style
         return array_filter($views);
     }
 
-    protected function isPublicInstance(Builder $instance): bool
+    protected function isPublicInstance(BuilderContract $instance): bool
     {
         $args = glsr()->args($instance->args)->merge(['is_raw' => false]);
         return !glsr()->isAdmin() && !Cast::toBool($args->is_raw);

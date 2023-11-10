@@ -47,11 +47,8 @@ class ColumnFilterAssignedPost extends AbstractColumnFilter
         return _x('Assigned Post', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * @return string|int
-     */
-    public function value()
+    public function value(): string
     {
-        return filter_input(INPUT_GET, $this->name(), FILTER_SANITIZE_NUMBER_INT);
+        return (string) filter_input(INPUT_GET, $this->name(), FILTER_SANITIZE_NUMBER_INT);
     }
 }

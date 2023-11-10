@@ -2,10 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Divi;
 
+use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
-use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Paginate;
 
 class Controller extends AbstractController
@@ -33,7 +33,7 @@ class Controller extends AbstractController
      * @see filterPaginationLinks
      * @filter site-reviews/paginate_link
      */
-    public function filterPaginationLink(array $link, array $args, Builder $builder): array
+    public function filterPaginationLink(array $link, array $args, BuilderContract $builder): array
     {
         if ('current' === $link['type']) {
             $args['class'] = 'active';

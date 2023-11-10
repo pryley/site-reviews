@@ -7,10 +7,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Date
 {
-    /**
-     * @var array
-     */
-    protected $timePeriods;
+    protected array $timePeriods;
 
     public function __construct()
     {
@@ -60,13 +57,7 @@ class Date
         ];
     }
 
-    /**
-     * @param int $seconds
-     * @param string $tense
-     * @param int $levels
-     * @return string
-     */
-    public function interval($seconds, $tense = '', $levels = 2)
+    public function interval(int $seconds, string $tense = '', int $levels = 2): string
     {
         $tense = Str::restrictTo(['future', 'past'], $tense, '');
         if ($seconds <= 0) {
@@ -90,20 +81,17 @@ class Date
 
     /**
      * @param mixed $date
-     * @param string $format
-     * @return bool
      */
-    public function isDate($date, $format = 'Y-m-d H:i:s')
+    public function isDate($date, string $format = 'Y-m-d H:i:s'): bool
     {
-        $datetime = \DateTime::createFromFormat($format, $date);
+        $datetime = \DateTime::createFromFormat($format, Cast::toString($date));
         return $datetime && $date === $datetime->format($format);
     }
 
     /**
      * @param mixed $date
-     * @return bool
      */
-    public function isTimestamp($date)
+    public function isTimestamp($date): bool
     {
         $date = Cast::toString($date);
         return ('0' !== $date && ctype_digit($date)) ? true : false;
@@ -111,20 +99,16 @@ class Date
 
     /**
      * @param mixed $date
-     * @param string $format
-     * @return bool
      */
-    public function isValid($date, $format = 'Y-m-d H:i:s')
+    public function isValid($date, string $format = 'Y-m-d H:i:s'): bool
     {
         return $this->isDate($date, $format) || $this->isTimestamp($date);
     }
 
     /**
      * @param mixed $date
-     * @param string $fallback
-     * @return string
      */
-    public function localized($date, $fallback = '')
+    public function localized($date, string $fallback = ''): string
     {
         return $this->isValid($date)
             ? date_i18n('Y-m-d H:i:s', $date)
@@ -133,9 +117,8 @@ class Date
 
     /**
      * @param mixed $date
-     * @return string
      */
-    public function relative($date)
+    public function relative($date): string
     {
         $seconds = time() - $this->toTimestamp($date);
         return $this->interval($seconds, 'past', 1);
@@ -143,9 +126,8 @@ class Date
 
     /**
      * @param mixed $date
-     * @return int
      */
-    public function toTimestamp($date)
+    public function toTimestamp($date): int
     {
         if ($this->isTimestamp($date)) {
             return $date;
@@ -156,10 +138,7 @@ class Date
         return time(); // fallback to the current time
     }
 
-    /**
-     * @return string
-     */
-    protected function intervalLevel(array $args)
+    protected function intervalLevel(array $args): string
     {
         $keys = ['index', 'level', 'levels', 'seconds', 'tense', 'unit'];
         $args = shortcode_atts(array_fill_keys($keys, 0), $args);

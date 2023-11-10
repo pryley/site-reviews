@@ -14,10 +14,7 @@ class Notification
      */
     protected $review;
 
-    /**
-     * @var array
-     */
-    protected $types;
+    protected array $types = [];
 
     public function __construct()
     {

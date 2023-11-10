@@ -11,11 +11,7 @@ use GeminiLabs\SiteReviews\Modules\Translation;
 
 class Settings
 {
-    /**
-     * @param string $id
-     * @return string
-     */
-    public function buildFields($id)
+    public function buildFields(string $id): string
     {
         $method = Helper::buildMethodName($id, 'getTemplateDataFor');
         $data = !method_exists($this, $method)
@@ -25,17 +21,14 @@ class Settings
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     protected function getFieldDefault(array $field)
     {
         return Arr::get($field, 'default');
     }
 
-    /**
-     * @return string
-     */
-    protected function getFieldNameForDependsOn($path)
+    protected function getFieldNameForDependsOn(string $path): string
     {
         $fieldName = Str::convertPathToName($path, OptionManager::databaseKey());
         return $this->isMultiDependency($path)
@@ -43,10 +36,7 @@ class Settings
             : $fieldName;
     }
 
-    /**
-     * @return array
-     */
-    protected function getSettingFields($path)
+    protected function getSettingFields(string $path): array
     {
         return array_filter(glsr()->settings(),
             fn ($key) => str_starts_with($key, $path),
@@ -54,10 +44,7 @@ class Settings
         );
     }
 
-    /**
-     * @return string
-     */
-    protected function getSettingRows(array $fields)
+    protected function getSettingRows(array $fields): string
     {
         $rows = '';
         foreach ($fields as $name => $field) {
@@ -69,11 +56,7 @@ class Settings
         return $rows;
     }
 
-    /**
-     * @param string $id
-     * @return array
-     */
-    protected function getTemplateData($id)
+    protected function getTemplateData(string $id): array
     {
         $fields = $this->getSettingFields($this->normalizeSettingPath($id));
         return [
@@ -83,11 +66,7 @@ class Settings
         ];
     }
 
-    /**
-     * @param string $id
-     * @return array
-     */
-    protected function getTemplateDataForAddons($id)
+    protected function getTemplateDataForAddons(string $id): array
     {
         $fields = $this->getSettingFields($this->normalizeSettingPath($id));
         $settings = Arr::convertFromDotNotation($fields);
@@ -109,11 +88,7 @@ class Settings
         ];
     }
 
-    /**
-     * @param string $id
-     * @return array
-     */
-    protected function getTemplateDataForLicenses($id)
+    protected function getTemplateDataForLicenses(string $id): array
     {
         $fields = $this->getSettingFields($this->normalizeSettingPath($id));
         ksort($fields);
@@ -125,10 +100,7 @@ class Settings
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function getTemplateDataForStrings()
+    protected function getTemplateDataForStrings(): array
     {
         $strings = glsr(Translation::class)->renderAll();
         $class = empty($strings)
@@ -144,14 +116,11 @@ class Settings
     }
 
     /**
-     * @param string $path
      * @param string|array $expectedValue
-     * @return bool
      */
-    protected function isFieldHidden($path, $expectedValue)
+    protected function isFieldHidden(string $path, $expectedValue): bool
     {
-        $optionValue = glsr(OptionManager::class)->get(
-            $path,
+        $optionValue = glsr(OptionManager::class)->get($path,
             Arr::get(glsr()->defaults(), $path)
         );
         if (is_array($expectedValue)) {
@@ -162,10 +131,7 @@ class Settings
         return $optionValue != $expectedValue;
     }
 
-    /**
-     * @return bool
-     */
-    protected function isMultiDependency($path)
+    protected function isMultiDependency(string $path): bool
     {
         $settings = glsr()->settings();
         if (isset($settings[$path])) {
@@ -176,10 +142,7 @@ class Settings
         return false;
     }
 
-    /**
-     * @return array
-     */
-    protected function normalize(array $field)
+    protected function normalize(array $field): array
     {
         $field = $this->normalizeDependsOn($field);
         $field = $this->normalizeLabelAndLegend($field);
@@ -187,10 +150,7 @@ class Settings
         return $field;
     }
 
-    /**
-     * @return array
-     */
-    protected function normalizeDependsOn(array $field)
+    protected function normalizeDependsOn(array $field): array
     {
         if (!empty($field['depends_on']) && is_array($field['depends_on'])) {
             $isFieldHidden = false;
@@ -210,10 +170,7 @@ class Settings
         return $field;
     }
 
-    /**
-     * @return array
-     */
-    protected function normalizeLabelAndLegend(array $field)
+    protected function normalizeLabelAndLegend(array $field): array
     {
         if (!empty($field['label'])) {
             $field['legend'] = $field['label'];
@@ -225,10 +182,7 @@ class Settings
         return $field;
     }
 
-    /**
-     * @return array
-     */
-    protected function normalizeValue(array $field)
+    protected function normalizeValue(array $field): array
     {
         if (!isset($field['value'])) {
             $field['value'] = glsr(OptionManager::class)->get(
@@ -239,10 +193,7 @@ class Settings
         return $field;
     }
 
-    /**
-     * @return string
-     */
-    protected function normalizeSettingPath($path)
+    protected function normalizeSettingPath(string $path): string
     {
         return Str::prefix(rtrim($path, '.'), 'settings.');
     }

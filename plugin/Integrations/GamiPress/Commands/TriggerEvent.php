@@ -35,7 +35,7 @@ class TriggerEvent extends AbstractCommand
 
     protected function triggerReceivedPost(string $trigger): void
     {
-        if (Str::contains($trigger, '/received/post')) {
+        if (str_contains($trigger, '/received/post')) {
             foreach ($this->event['assigned_posts_authors'] as $userId) {
                 $this->trigger($trigger, (int) $userId);
             }
@@ -44,7 +44,7 @@ class TriggerEvent extends AbstractCommand
 
     protected function triggerReceivedUser(string $trigger): void
     {
-        if (Str::contains($trigger, '/received/user')) {
+        if (str_contains($trigger, '/received/user')) {
             foreach ($this->event['assigned_users'] as $userId) {
                 $this->trigger($trigger, (int) $userId);
             }
@@ -53,7 +53,7 @@ class TriggerEvent extends AbstractCommand
 
     protected function triggerReviewed(string $trigger): void
     {
-        if (Str::contains($trigger, '/reviewed')) {
+        if (str_contains($trigger, '/reviewed')) {
             $this->trigger($trigger, get_current_user_id());
         }
     }

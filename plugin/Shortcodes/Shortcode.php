@@ -79,7 +79,10 @@ abstract class Shortcode implements ShortcodeContract
         return glsr()->filterArray('shortcode/hide-options', $options, $this->shortcode, $this);
     }
 
-    public function normalize(array $args, string $type = ''): self
+    /**
+     * @return static
+     */
+    public function normalize(array $args, string $type = '')
     {
         if (!empty($type)) {
             $this->type = $type;

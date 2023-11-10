@@ -20,6 +20,7 @@ class Avatar
      * @var int
      */
     public $size;
+
     /**
      * @var string
      */

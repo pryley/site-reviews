@@ -76,17 +76,12 @@ class Attributes
         'time', 'url', 'week',
     ];
 
-    /**
-     * @var array
-     */
-    protected $attributes = [];
+    protected array $attributes = [];
 
     /**
-     * @param string $method
-     * @param array $args
      * @return static
      */
-    public function __call($method, $args)
+    public function __call(string $method, array $args = [])
     {
         $constant = 'static::ATTRIBUTES_'.strtoupper($method);
         $allowedAttributeKeys = defined($constant)
@@ -106,18 +101,12 @@ class Attributes
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->attributes;
     }
 
-    /**
-     * @return string
-     */
-    public function toString()
+    public function toString(): string
     {
         $attributes = [];
         foreach ($this->attributes as $attribute => $value) {
@@ -130,18 +119,12 @@ class Attributes
         return implode(' ', $attributes);
     }
 
-    /**
-     * @return array
-     */
-    protected function filterAttributes(array $allowedAttributeKeys)
+    protected function filterAttributes(array $allowedAttributeKeys): array
     {
         return array_intersect_key($this->attributes, array_flip($allowedAttributeKeys));
     }
 
-    /**
-     * @return array
-     */
-    protected function filterGlobalAttributes()
+    protected function filterGlobalAttributes(): array
     {
         $globalAttributes = $this->filterAttributes(static::GLOBAL_ATTRIBUTES);
         $wildcards = [];
@@ -155,10 +138,7 @@ class Attributes
         return array_merge($globalAttributes, $wildcards);
     }
 
-    /**
-     * @return array
-     */
-    protected function getPermanentAttributes()
+    protected function getPermanentAttributes(): array
     {
         $permanentAttributes = [];
         if (array_key_exists('value', $this->attributes)) {
@@ -167,31 +147,22 @@ class Attributes
         return $permanentAttributes;
     }
 
-    /**
-     * @param string $attribute
-     * @return string
-     */
-    protected function getQuoteChar($attribute)
+    protected function getQuoteChar(string $attribute): string
     {
         return str_starts_with($attribute, 'data-') ? '\'' : '"';
     }
 
     /**
-     * @param string $key
      * @param mixed $value
-     * @return bool
      */
-    protected function isAttributeKeyNumeric($key, $value)
+    protected function isAttributeKeyNumeric(string $key, $value): bool
     {
         return is_string($value)
             && is_numeric($key)
             && !array_key_exists($value, $this->attributes);
     }
 
-    /**
-     * @return void
-     */
-    protected function normalize(array $args, array $allowedAttributeKeys = [])
+    protected function normalize(array $args, array $allowedAttributeKeys = []): void
     {
         $this->attributes = array_change_key_case($args, CASE_LOWER);
         $this->normalizeBooleanAttributes();
@@ -205,10 +176,7 @@ class Attributes
         );
     }
 
-    /**
-     * @return void
-     */
-    protected function normalizeBooleanAttributes()
+    protected function normalizeBooleanAttributes(): void
     {
         foreach ($this->attributes as $key => $value) {
             if ($this->isAttributeKeyNumeric($key, $value)) {
@@ -222,10 +190,7 @@ class Attributes
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function normalizeDataAttributes()
+    protected function normalizeDataAttributes(): void
     {
         foreach ($this->attributes as $key => $value) {
             if ($this->isAttributeKeyNumeric($key, $value)) {
@@ -242,10 +207,7 @@ class Attributes
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function normalizeStringAttributes()
+    protected function normalizeStringAttributes(): void
     {
         foreach ($this->attributes as $key => $value) {
             if (is_string($value)) {
@@ -254,11 +216,7 @@ class Attributes
         }
     }
 
-    /**
-     * @param string $method
-     * @return void
-     */
-    protected function normalizeInputType($method)
+    protected function normalizeInputType(string $method): void
     {
         if ('input' != $method) {
             return;
@@ -269,10 +227,7 @@ class Attributes
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function removeEmptyAttributes()
+    protected function removeEmptyAttributes(): void
     {
         $attributes = $this->attributes;
         $permanentAttributes = $this->getPermanentAttributes();
@@ -288,10 +243,7 @@ class Attributes
         $this->attributes = array_merge(Arr::removeEmptyValues($attributes), $permanentAttributes);
     }
 
-    /**
-     * @return void
-     */
-    protected function removeIndexedAttributes()
+    protected function removeIndexedAttributes(): void
     {
         $this->attributes = array_diff_key(
             $this->attributes,

@@ -366,9 +366,9 @@ class SystemInfo
     {
         return defined($key)
             || filter_input(INPUT_SERVER, $key)
-            || Str::contains(filter_input(INPUT_SERVER, 'SERVER_NAME'), $key)
-            || Str::contains(DB_HOST, $key)
-            || (function_exists('php_uname') && Str::contains(php_uname(), $key))
+            || str_contains(filter_input(INPUT_SERVER, 'SERVER_NAME'), $key)
+            || str_contains(DB_HOST, $key)
+            || (function_exists('php_uname') && str_contains(php_uname(), $key))
             || ('WPE_APIKEY' === $key && function_exists('is_wpe')); // WP Engine
     }
 

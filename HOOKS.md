@@ -1,9 +1,9 @@
 ## Actions
 
     site-reviews/addon/register                                 (Application $app)
-    site-reviews/builder                                        (Modules\Html\Builder $builder)
+    site-reviews/builder                                        (Contracts\BuilderContract $builder)
     site-reviews/cache/flush                                    (Review $review)
-    site-reviews/customize/<style>                              (Modules\Html\Builder $builder)
+    site-reviews/customize/<style>                              (Contracts\BuilderContract $builder)
     site-reviews/database/sql                                   (string $sql, string $handle)
     site-reviews/database/sql/<handle>                          (string $sql)
     site-reviews/defaults                                       (Contracts\DefaultsContract $defaults, string $hook, string $method, array $values)
@@ -67,11 +67,11 @@
     site-reviews/avatar/id_or_email                             (string $id_or_email, array $reviewValues): string
     site-reviews/block/<block>/attributes                       (array $attributes): array
     site-reviews/build/template/<template_path>                 (string $template, array $data): string
-    site-reviews/builder/<field_type>/args                      (array $args, Modules\Html\Builder $builder): array
-    site-reviews/builder/<tag>/args                             (array $args, Modules\Html\Builder $builder): array
+    site-reviews/builder/<field_type>/args                      (array $args, Contracts\BuilderContract $builder): array
+    site-reviews/builder/<tag>/args                             (array $args, Contracts\BuilderContract $builder): array
     site-reviews/builder/enable/optgroup                        (bool $enable): bool
     site-reviews/builder/field/<field_type>                     (string $className): string
-    site-reviews/builder/result                                 (string $result, Modules\Html\Builder $builder): string
+    site-reviews/builder/result                                 (string $result, Contracts\BuilderContract $builder): string
     site-reviews/capabilities                                   (array $capabilities): array
     site-reviews/captcha/language                               (string $locale): string
     site-reviews/column/<column>                                (string $className): string
@@ -139,7 +139,7 @@
     site-reviews/optimized/scripts                              (array $handles): array
     site-reviews/optimized/styles                               (array $handles): array
     site-reviews/option/<path>                                  (mixed $value): mixed
-    site-reviews/paginate_link                                  (array $link, array $args, Modules\Html\Builder $builder, Modules\Paginate $paginate): array
+    site-reviews/paginate_link                                  (array $link, array $args, Contracts\BuilderContract $builder, Modules\Paginate $paginate): array
     site-reviews/paginate_links                                 (string $links, array $args): string
     site-reviews/partial/args/<partial_path>                    (array $args): array
     site-reviews/partial/classname                              (string $className, string $partialPath, array $args): string

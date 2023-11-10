@@ -40,7 +40,7 @@ class Console
         $this->reset();
     }
 
-    public function __call($method, $args)
+    public function __call(string $method, $args)
     {
         $constant = strtoupper($method);
         $instance = new \ReflectionClass($this);
@@ -51,45 +51,30 @@ class Console
         throw new \BadMethodCallException("Method [$method] does not exist.");
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->get();
     }
 
-    /**
-     * @return void
-     */
-    public function clear()
+    public function clear(): void
     {
         $this->log = '';
         file_put_contents($this->file, $this->log);
     }
 
-    /**
-     * @return string
-     */
-    public function get()
+    public function get(): string
     {
         return esc_html(
             Helper::ifEmpty($this->log, _x('Console is empty', 'admin-text', 'site-reviews'))
         );
     }
 
-    /**
-     * @return string
-     */
-    public function getRaw()
+    public function getRaw(): string
     {
         return htmlspecialchars_decode($this->get(), ENT_QUOTES);
     }
 
-    /**
-     * @return int
-     */
-    public function getLevel()
+    public function getLevel(): int
     {
         $level = Cast::toInt(get_option(static::LOG_LEVEL_KEY, static::INFO));
         $levels = [
@@ -102,40 +87,28 @@ class Console
         return static::INFO;
     }
 
-    /**
-     * @return array
-     */
-    public function getLevels()
+    public function getLevels(): array
     {
         $constants = (new \ReflectionClass(__CLASS__))->getConstants();
         return array_map('strtolower', array_flip($constants));
     }
 
-    /**
-     * @return string
-     */
-    public function humanLevel()
+    public function humanLevel(): string
     {
         $level = $this->getLevel();
         return sprintf('%s (%d)', strtoupper(Arr::get($this->getLevels(), $level, 'unknown')), $level);
     }
 
-    /**
-     * @return string
-     */
-    public function humanSize()
+    public function humanSize(): string
     {
         return Str::replaceLast(' B', ' bytes', Cast::toString(size_format($this->size())));
     }
 
     /**
-     * @param int $level
      * @param mixed $message
-     * @param array $context
-     * @param string $backtraceLine
      * @return static
      */
-    public function log($level, $message, $context = [], $backtraceLine = '')
+    public function log(int $level, $message, array $context = [], string $backtraceLine = '')
     {
         if (empty($backtraceLine)) {
             $backtraceLine = glsr(Backtrace::class)->line();
@@ -152,10 +125,7 @@ class Console
         return $this;
     }
 
-    /**
-     * @return void
-     */
-    public function logOnce()
+    public function logOnce(): void
     {
         $once = glsr()->retrieveAs('array', static::LOG_ONCE_KEY);
         $levels = $this->getLevels();
@@ -172,12 +142,9 @@ class Console
     }
 
     /**
-     * @param string $levelName
-     * @param string $handle
      * @param mixed $data
-     * @return void
      */
-    public function once($levelName, $handle, $data)
+    public function once(string $levelName, string $handle, $data): void
     {
         $once = glsr()->retrieveAs('array', static::LOG_ONCE_KEY);
         $filtered = array_filter($once, function ($entry) use ($levelName, $handle) {
@@ -195,23 +162,14 @@ class Console
         }
     }
 
-    /**
-     * @return int
-     */
-    public function size()
+    public function size(): int
     {
         return file_exists($this->file)
             ? filesize($this->file)
             : 0;
     }
 
-    /**
-     * @param string $levelName
-     * @param mixed $message
-     * @param string $backtraceLine
-     * @return string
-     */
-    protected function buildLogEntry($levelName, $message, $backtraceLine = '')
+    protected function buildLogEntry(string $levelName, string $message, string $backtraceLine = ''): string
     {
         return sprintf('[%s] %s [%s] %s',
             current_time('mysql'),
@@ -221,11 +179,7 @@ class Console
         );
     }
 
-    /**
-     * @param int $level
-     * @return bool
-     */
-    protected function canLogEntry($level, $backtraceLine)
+    protected function canLogEntry(int $level, string $backtraceLine): bool
     {
         $levelExists = array_key_exists($level, $this->getLevels());
         if (!Str::contains($backtraceLine, [glsr()->path(), 'GeminiLabs\SiteReviews'])) {
@@ -235,12 +189,11 @@ class Console
     }
 
     /**
-     * @param mixed $data
-     * @return string
+     * @param mixed|\Throwable $data
      */
-    protected function getMessageFromData($data)
+    protected function getMessageFromData($data): string
     {
-        return ((interface_exists('Throwable') && $data instanceof \Throwable) || $data instanceof \Exception)
+        return ($data instanceof \Throwable)
             ? $this->normalizeThrowableMessage($data->getMessage())
             : glsr(Dump::class)->dump($data);
     }
@@ -248,10 +201,8 @@ class Console
     /**
      * Interpolates context values into the message placeholders.
      * @param mixed $message
-     * @param array $context
-     * @return string
      */
-    protected function interpolate($message, $context = [])
+    protected function interpolate($message, array $context = []): string
     {
         $context = Arr::consolidate($context);
         if (!is_scalar($message) || empty($context)) {
@@ -264,11 +215,7 @@ class Console
         return strtr($message, $replace);
     }
 
-    /**
-     * @param string $message
-     * @return string
-     */
-    protected function normalizeThrowableMessage($message)
+    protected function normalizeThrowableMessage(string $message): string
     {
         $calledIn = strpos($message, ', called in');
         return false !== $calledIn
@@ -278,22 +225,18 @@ class Console
 
     /**
      * @param mixed $value
-     * @return string
      */
-    protected function normalizeValue($value)
+    protected function normalizeValue($value): string
     {
         if ($value instanceof \DateTime) {
             $value = $value->format('Y-m-d H:i:s');
         } elseif (!is_scalar($value)) {
             $value = json_encode($value);
         }
-        return (string) $value;
+        return Cast::toString($value);
     }
 
-    /**
-     * @return void
-     */
-    protected function reset()
+    protected function reset(): void
     {
         if ($this->size() <= wp_convert_hr_to_bytes('512kb')) {
             return;
@@ -306,10 +249,7 @@ class Console
         );
     }
 
-    /**
-     * @return void
-     */
-    protected function setLogFile()
+    protected function setLogFile(): void
     {
         require_once ABSPATH.WPINC.'/pluggable.php';
         $uploads = wp_upload_dir();

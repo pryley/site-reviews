@@ -2,13 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Assets;
 
-class AssetJs extends AssetAbstract
+class AssetJs extends AbstractAsset
 {
-    /**
-     * @param string $url
-     * @param string $hash
-     */
-    protected function enqueue($url, $hash)
+    protected function enqueue(string $url, string $hash): void
     {
         foreach ($this->handles as $handle) {
             wp_dequeue_script($handle);
@@ -25,26 +21,17 @@ class AssetJs extends AssetAbstract
         }
     }
 
-    /**
-     * @return string
-     */
-    protected function originalUrl()
+    protected function originalUrl(): string
     {
         return glsr()->url(sprintf('assets/scripts/%s.js', glsr()->id));
     }
 
-    /**
-     * @return array
-     */
-    protected function registered()
+    protected function registered(): array
     {
         return wp_scripts()->registered;
     }
 
-    /**
-     * @return string
-     */
-    protected function type()
+    protected function type(): string
     {
         return 'js';
     }

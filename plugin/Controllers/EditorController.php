@@ -156,8 +156,8 @@ class EditorController extends AbstractController
     {
         $referer = wp_get_referer();
         $hasReferer = !$referer
-            || Str::contains($referer, 'post.php')
-            || Str::contains($referer, 'post-new.php');
+            || str_contains($referer, 'post.php')
+            || str_contains($referer, 'post-new.php');
         $redirectUri = $hasReferer
             ? remove_query_arg(['deleted', 'ids', 'trashed', 'untrashed'], $referer)
             : get_edit_post_link($postId);

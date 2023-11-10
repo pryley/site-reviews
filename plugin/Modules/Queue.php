@@ -16,10 +16,7 @@ class Queue implements QueueContract
     public const STATUS_PENDING = \ActionScheduler_Store::STATUS_PENDING;
     public const STATUS_RUNNING = \ActionScheduler_Store::STATUS_RUNNING;
 
-    /**
-     * @var bool
-     */
-    protected $isTesting;
+    protected bool $isTesting = false;
 
     public function __construct()
     {
@@ -62,7 +59,7 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
-    public function async($hook, $args = [], $unique = false)
+    public function async(string $hook, array $args = [], bool $unique = false)
     {
         if (!function_exists('as_enqueue_async_action') || $this->isTesting) {
             return 0;
@@ -73,7 +70,7 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
-    public function cancel($hook, $args = [])
+    public function cancel(string $hook, array $args = [])
     {
         if (!function_exists('as_unschedule_action') || $this->isTesting) {
             return null;
@@ -92,7 +89,7 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
-    public function cancelAll($hook, $args = [])
+    public function cancelAll(string $hook, array $args = [])
     {
         if (!\ActionScheduler::is_initialized('Queue::cancelAll') || $this->isTesting) {
             return;
@@ -107,7 +104,7 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
-    public function cron($timestamp, $cron, $hook, $args = [], $unique = false)
+    public function cron(int $timestamp, string $cron, string $hook, array $args = [], bool $unique = false)
     {
         if (!function_exists('as_schedule_cron_action') || $this->isTesting) {
             return 0;
@@ -126,26 +123,26 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
-    public function isPending($hook, $args = [])
+    public function isPending(string $hook, array $args = []): bool
     {
         if (!\ActionScheduler::is_initialized('Queue::isPending') || !function_exists('as_has_scheduled_action') || $this->isTesting) {
             return false;
         }
-        if (empty($args)) {
-            return !empty(
-                glsr(Queue::class)->search([
-                    'hook' => $this->hook($hook),
-                    'status' => static::STATUS_PENDING,
-                ])
-            );
+        if (!empty($args)) {
+            return (bool) as_has_scheduled_action($this->hook($hook), $args, glsr()->id);
         }
-        return as_has_scheduled_action($this->hook($hook), $args, glsr()->id);
+        return !empty(
+            glsr(Queue::class)->search([
+                'hook' => $this->hook($hook),
+                'status' => static::STATUS_PENDING,
+            ])
+        );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function next($hook, $args = null)
+    public function next(string $hook, array $args = [])
     {
         if (!function_exists('as_next_scheduled_action') || $this->isTesting) {
             return false;
@@ -160,7 +157,7 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
-    public function once($timestamp, $hook, $args = [], $unique = false)
+    public function once(int $timestamp, string $hook, array $args = [], bool $unique = false)
     {
         if (!function_exists('as_schedule_single_action') || $this->isTesting) {
             return 0;
@@ -171,7 +168,7 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
-    public function recurring($timestamp, $intervalInSeconds, $hook, $args = [], $unique = false)
+    public function recurring(int $timestamp, int $intervalInSeconds, string $hook, array $args = [], bool $unique = false)
     {
         if (!function_exists('as_schedule_recurring_action') || $this->isTesting) {
             return 0;
@@ -182,7 +179,7 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
-    public function search($args = [], $returnFormat = OBJECT)
+    public function search(array $args = [], string $returnFormat = OBJECT)
     {
         if (!function_exists('as_get_scheduled_actions') || $this->isTesting) {
             return [];
@@ -194,10 +191,7 @@ class Queue implements QueueContract
         return as_get_scheduled_actions($args, $returnFormat);
     }
 
-    /**
-     * @return string
-     */
-    protected function actionStatusDate(string $status, bool $oldest = true, string $format = 'Y-m-d H:i:s')
+    protected function actionStatusDate(string $status, bool $oldest = true, string $format = 'Y-m-d H:i:s'): string
     {
         $order = $oldest ? 'ASC' : 'DESC';
         $action = \ActionScheduler_Store::instance()->query_actions([
@@ -216,11 +210,7 @@ class Queue implements QueueContract
         return $date;
     }
 
-    /**
-     * @param string $hook
-     * @return string
-     */
-    protected function hook($hook)
+    protected function hook(string $hook): string
     {
         return Str::prefix($hook, $this->app()->id.'/');
     }

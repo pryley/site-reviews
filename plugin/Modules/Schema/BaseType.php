@@ -6,6 +6,17 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Schema\Exceptions\InvalidProperty;
 
+/**
+ * @method static author($author)
+ * @method static bestRating($bestRating)
+ * @method static datePublished($datePublished)
+ * @method static itemReviewed($itemReviewed)
+ * @method static name($name)
+ * @method static ratingValue($ratingValue)
+ * @method static reviewCount($reviewCount)
+ * @method static reviewRating($reviewRating)
+ * @method static worstRating($worstRating)
+ */
 abstract class BaseType implements \ArrayAccess, \JsonSerializable, Type
 {
     /**

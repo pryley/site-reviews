@@ -23,7 +23,10 @@ abstract class AbstractSearch
         return $this->results;
     }
 
-    public function search(string $searchTerm): self
+    /**
+     * @return static
+     */
+    public function search(string $searchTerm)
     {
         if (empty($searchTerm)) {
             $this->results = [];

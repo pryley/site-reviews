@@ -6,20 +6,9 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Form extends \ArrayObject
 {
-    /**
-     * @var array
-     */
-    protected $fields;
-
-    /**
-     * @var array
-     */
-    protected $hidden;
-
-    /**
-     * @var array
-     */
-    protected $visible;
+    protected array $fields = [];
+    protected array $hidden = [];
+    protected array $visible = [];
 
     public function __construct(array $visible, array $hidden = [])
     {
@@ -27,16 +16,6 @@ class Form extends \ArrayObject
         $this->hidden = $hidden;
         $this->visible = $visible;
         parent::__construct($this->fields, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function __call($method, $args)
-    {
-        if (method_exists($this, $method)) {
-            return call_user_func_array([$this, $method], $args);
-        }
     }
 
     public function __toString(): string
@@ -47,13 +26,13 @@ class Form extends \ArrayObject
     /**
      * @return \GeminiLabs\SiteReviews\Modules\Html\Field|array|null
      */
-    public function hidden($key = null)
+    public function hidden(?string $key = null)
     {
         return is_null($key) ? $this->hidden : Arr::get($this->hidden, $key, null);
     }
 
     /**
-     * @param mixed $key
+     * @param string $key
      * @return mixed
      */
     #[\ReturnTypeWillChange]
@@ -67,8 +46,10 @@ class Form extends \ArrayObject
     /**
      * @return \GeminiLabs\SiteReviews\Modules\Html\Field|array|null
      */
-    public function visible($key = null)
+    public function visible(?string $key = null)
     {
-        return is_null($key) ? $this->visible : Arr::get($this->visible, $key, null);
+        return is_null($key)
+            ? $this->visible
+            : Arr::get($this->visible, $key, null);
     }
 }

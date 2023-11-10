@@ -4,11 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
 class Checkbox extends Field
 {
-    /**
-     * @param string $fieldLocation
-     * @return array
-     */
-    public static function merge(array $args, $fieldLocation = null)
+    public static function merge(array $args, string $fieldLocation = ''): array
     {
         $field = glsr()->args(parent::merge($args, $fieldLocation));
         $isChecked = $field->get('checked', false);
@@ -28,10 +24,7 @@ class Checkbox extends Field
         return $field->toArray();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function required($fieldLocation = null)
+    public static function required(string $fieldLocation = ''): array
     {
         return [
             'is_multi' => true,
@@ -39,10 +32,7 @@ class Checkbox extends Field
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function tag()
+    public function tag(): string
     {
         return 'input';
     }

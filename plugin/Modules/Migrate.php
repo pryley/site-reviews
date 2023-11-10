@@ -10,20 +10,9 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Migrate
 {
-    /**
-     * @var string
-     */
-    public $currentVersion;
-
-    /**
-     * @var string[]
-     */
-    public $migrations;
-
-    /**
-     * @var string
-     */
-    public $migrationsKey;
+    public string $currentVersion;
+    public array $migrations;
+    public string $migrationsKey;
 
     public function __construct()
     {
@@ -32,10 +21,7 @@ class Migrate
         $this->migrationsKey = glsr()->prefix.'migrations';
     }
 
-    /**
-     * @return bool
-     */
-    public function isMigrationNeeded()
+    public function isMigrationNeeded(): bool
     {
         if (empty($this->migrations)) {
             return false;
@@ -47,10 +33,7 @@ class Migrate
         return false;
     }
 
-    /**
-     * @return string
-     */
-    public function pendingVersions()
+    public function pendingVersions(): string
     {
         $versions = array_map(
             fn ($migration) => str_replace(['Migrate_', '_'], ['', '.'], $migration),
@@ -59,18 +42,12 @@ class Migrate
         return implode(', ', $versions);
     }
 
-    /**
-     * @return void
-     */
-    public function reset()
+    public function reset(): void
     {
         delete_option($this->migrationsKey);
     }
 
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         if (glsr(Database::class)->isMigrationNeeded()) {
             $this->runAll();
@@ -79,19 +56,13 @@ class Migrate
         }
     }
 
-    /**
-     * @return void
-     */
-    public function runAll()
+    public function runAll(): void
     {
         $this->reset();
         $this->runMigrations();
     }
 
-    /**
-     * @return array
-     */
-    protected function availableMigrations()
+    protected function availableMigrations(): array
     {
         $migrations = [];
         $dir = glsr()->path('plugin/Migrations');
@@ -107,10 +78,7 @@ class Migrate
         return Arr::reindex($migrations);
     }
 
-    /**
-     * @return array
-     */
-    protected function createMigrations()
+    protected function createMigrations(): array
     {
         $migrations = [];
         foreach ($this->migrations as $migration) {
@@ -119,10 +87,7 @@ class Migrate
         return $migrations;
     }
 
-    /**
-     * @return string
-     */
-    protected function currentVersion()
+    protected function currentVersion(): string
     {
         $fallback = '0.0.0';
         $majorVersions = range(glsr()->version('major'), 1);
@@ -136,10 +101,7 @@ class Migrate
         return $fallback;
     }
 
-    /**
-     * @return string[]
-     */
-    protected function pendingMigrations(array $migrations = [])
+    protected function pendingMigrations(array $migrations = []): array
     {
         if (empty($migrations)) {
             $migrations = $this->storedMigrations();
@@ -147,10 +109,7 @@ class Migrate
         return array_keys(array_filter($migrations, fn ($hasRun) => !$hasRun));
     }
 
-    /**
-     * @return void
-     */
-    protected function runMigrations()
+    protected function runMigrations(): void
     {
         wp_raise_memory_limit('admin');
         $migrations = $this->storedMigrations();
@@ -178,18 +137,12 @@ class Migrate
         glsr()->action('migration/end', $migrations);
     }
 
-    /**
-     * @return void
-     */
-    protected function storeMigrations(array $migrations)
+    protected function storeMigrations(array $migrations): void
     {
         update_option($this->migrationsKey, $migrations);
     }
 
-    /**
-     * @return array
-     */
-    protected function storedMigrations()
+    protected function storedMigrations(): array
     {
         $migrations = Arr::consolidate(get_option($this->migrationsKey));
         if (!Arr::compare(array_keys($migrations), array_values($this->migrations))) {
@@ -203,11 +156,7 @@ class Migrate
         return array_map('wp_validate_boolean', $migrations);
     }
 
-    /**
-     * @param string $previousVersion
-     * @return void
-     */
-    protected function updateVersionFrom($previousVersion)
+    protected function updateVersionFrom(string $previousVersion): void
     {
         $storedPreviousVersion = glsr(OptionManager::class)->get('version_upgraded_from');
         glsr(OptionManager::class)->set('version', glsr()->version);

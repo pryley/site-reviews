@@ -2,12 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Contracts\BuilderContract;
+
 class MetaboxField extends Field
 {
-    /**
-     * @return SettingBuilder
-     */
-    public function builder()
+    public function builder(): BuilderContract
     {
         return glsr(MetaboxBuilder::class);
     }

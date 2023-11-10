@@ -7,10 +7,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class Captcha
 {
-    /**
-     * @return array
-     */
-    public function config()
+    public function config(): array
     {
         if (!$this->isEnabled()) {
             return [];
@@ -32,24 +29,17 @@ class Captcha
         ]);
     }
 
-    /**
-     * @return string|void
-     */
-    public function container()
+    public function container(): string
     {
         if (!$this->isEnabled()) {
-            return;
+            return '';
         }
         return glsr(Builder::class)->div([
             'class' => 'glsr-captcha-holder',
         ]);
     }
 
-    /**
-     * @param string $service
-     * @return bool
-     */
-    public function isEnabled($service = '')
+    public function isEnabled(string $service = ''): bool
     {
         $integration = glsr_get_option('forms.captcha.integration');
         $usage = glsr_get_option('forms.captcha.usage');
@@ -61,10 +51,9 @@ class Captcha
     }
 
     /**
-     * @return array
      * @see https://docs.friendlycaptcha.com/
      */
-    protected function configFriendlycaptcha()
+    protected function configFriendlycaptcha(): array
     {
         return [
             'class' => 'frc-captcha '.glsr_get_option('forms.captcha.theme'),
@@ -79,10 +68,9 @@ class Captcha
     }
 
     /**
-     * @return array
      * @see https://docs.hcaptcha.com/
      */
-    protected function configHcaptcha()
+    protected function configHcaptcha(): array
     {
         $urlParameters = array_filter([
             'hl' => glsr()->filterString('captcha/language', $this->getLocale()),
@@ -102,10 +90,9 @@ class Captcha
     }
 
     /**
-     * @return array
      * @see https://developers.google.com/recaptcha/docs/invisible
      */
-    protected function configRecaptchaV2Invisible()
+    protected function configRecaptchaV2Invisible(): array
     {
         $urlParameters = array_filter([
             'hl' => glsr()->filterString('captcha/language', $this->getLocale()),
@@ -125,10 +112,9 @@ class Captcha
     }
 
     /**
-     * @return array
      * @see https://developers.google.com/recaptcha/docs/v3
      */
-    protected function configRecaptchaV3()
+    protected function configRecaptchaV3(): array
     {
         $urlParameters = array_filter([
             'hl' => glsr()->filterString('captcha/language', $this->getLocale()),
@@ -148,10 +134,9 @@ class Captcha
     }
 
     /**
-     * @return array
      * @see https://developers.cloudflare.com/turnstile/
      */
-    protected function configTurnstile()
+    protected function configTurnstile(): array
     {
         $urlParameters = array_filter([
             'hl' => glsr()->filterString('captcha/language', $this->getLocale()),

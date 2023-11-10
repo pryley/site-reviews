@@ -4,10 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 
 class MetaboxBuilder extends Builder
 {
-    /**
-     * @return array
-     */
-    protected function normalize(array $args, $type)
+    protected function normalize(array $args, string $type): array
     {
         if (class_exists($className = $this->getFieldClassName($type))) {
             $args = $className::merge($args, 'metabox');

@@ -4,10 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
 class Hidden extends Field
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function required($fieldLocation = null)
+    public static function required(string $fieldLocation = ''): array
     {
         return [
             'is_raw' => true,

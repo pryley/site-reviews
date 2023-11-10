@@ -19,10 +19,11 @@ class StrTest extends WP_UnitTestCase
 
     public function test_contains()
     {
-        $this->assertTrue(Str::contains('abcdef', 'cd'));
-        $this->assertTrue(Str::contains('abcdef', 'abcdef'));
-        $this->assertFalse(Str::contains('abcdef', ''));
-        $this->assertFalse(Str::contains('abcdef', 'z'));
+        $this->assertTrue(Str::contains('abcdef', ['cd']));
+        $this->assertTrue(Str::contains('abcdef', ['abcdef']));
+        $this->assertFalse(Str::contains('abcdef', ['']));
+        $this->assertFalse(Str::contains('abcdef', ['z']));
+        $this->assertFalse(Str::contains('abcdef', []));
     }
 
     public function test_convert_path_to_id()
@@ -48,9 +49,10 @@ class StrTest extends WP_UnitTestCase
 
     public function test_ends_with()
     {
-        $this->assertTrue(Str::endsWith('abcdefg', 'efg'));
-        $this->assertFalse(Str::endsWith('ABCDEFG', 'efg'));
-        $this->assertFalse(Str::endsWith('ABCDEFG', ''));
+        $this->assertTrue(Str::endsWith('abcdefg', ['efg']));
+        $this->assertFalse(Str::endsWith('ABCDEFG', ['efg']));
+        $this->assertFalse(Str::endsWith('ABCDEFG', ['']));
+        $this->assertFalse(Str::endsWith('ABCDEFG', []));
     }
 
     public function test_fallback()
@@ -136,10 +138,11 @@ class StrTest extends WP_UnitTestCase
 
     public function test_starts_with()
     {
-        $this->assertTrue(Str::startsWith('abcdefg', 'abc'));
-        $this->assertTrue(Str::startsWith('defg', ['abc','def']));
-        $this->assertFalse(Str::startsWith('ABCDEFG', 'abc'));
-        $this->assertFalse(Str::startsWith('ABCDEFG', ''));
+        $this->assertTrue(Str::startsWith('abcdefg', ['abc']));
+        $this->assertTrue(Str::startsWith('defg', ['abc', 'def']));
+        $this->assertFalse(Str::startsWith('ABCDEFG', ['abc']));
+        $this->assertFalse(Str::startsWith('ABCDEFG', ['']));
+        $this->assertFalse(Str::startsWith('ABCDEFG', []));
     }
 
     public function test_suffix()

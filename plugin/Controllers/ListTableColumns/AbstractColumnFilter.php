@@ -111,11 +111,8 @@ abstract class AbstractColumnFilter
         return Str::titleCase($this->name());
     }
 
-    /**
-     * @return string|int
-     */
-    public function value()
+    public function value(): string
     {
-        return filter_input(INPUT_GET, $this->name());
+        return (string) filter_input(INPUT_GET, $this->name());
     }
 }

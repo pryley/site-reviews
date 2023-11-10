@@ -4,12 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 class Translator
 {
-    /**
-     * @param string $original
-     * @param string $domain
-     * @return string
-     */
-    public function translate($original, $domain, array $args)
+    public function translate(string $original, string $domain, array $args): string
     {
         $domains = glsr()->filterArray('translator/domains', [glsr()->id]);
         if (!in_array($domain, $domains)) {
@@ -28,20 +23,14 @@ class Translator
 
     /**
      * Used when search/replacing a default text-domain translation.
-     * @return string
      */
-    public function getTranslation(array $args)
+    public function getTranslation(array $args): string
     {
         $args = $this->normalizeTranslationArgs($args);
         return get_translations_for_domain(glsr()->id)->translate_plural($args['single'], $args['plural'], $args['number']);
     }
 
-    /**
-     * @param string $single
-     * @param string $plural
-     * @return array
-     */
-    protected function getTranslationStrings($single, $plural)
+    protected function getTranslationStrings(string $single, string $plural): array
     {
         return array_filter(glsr(Translation::class)->strings(), function ($string) use ($single, $plural) {
             return $string['s1'] === html_entity_decode($single, ENT_COMPAT, 'UTF-8')
@@ -49,10 +38,7 @@ class Translator
         });
     }
 
-    /**
-     * @return array
-     */
-    protected function normalizeTranslationArgs(array $args)
+    protected function normalizeTranslationArgs(array $args): array
     {
         $defaults = [
             'context' => '',
@@ -63,11 +49,7 @@ class Translator
         return shortcode_atts($defaults, $args);
     }
 
-    /**
-     * @param string $domain
-     * @return string
-     */
-    protected function translatePlural($domain, array $string, array $args)
+    protected function translatePlural(string $domain, array $string, array $args): string
     {
         if (!empty($string['s2'])) {
             $args['single'] = $string['s2'];
@@ -83,11 +65,7 @@ class Translator
         );
     }
 
-    /**
-     * @param string $domain
-     * @return string
-     */
-    protected function translateSingle($domain, array $string, array $args)
+    protected function translateSingle(string $domain, array $string, array $args): string
     {
         if (!empty($string['s2'])) {
             $args['single'] = $string['s2'];

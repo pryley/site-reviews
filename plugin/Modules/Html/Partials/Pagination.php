@@ -11,10 +11,7 @@ use GeminiLabs\SiteReviews\Modules\Style;
 
 class Pagination implements PartialContract
 {
-    /**
-     * @var array
-     */
-    protected $args;
+    protected array $args = [];
 
     public function build(array $args = []): string
     {

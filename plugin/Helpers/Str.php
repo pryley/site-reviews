@@ -12,12 +12,9 @@ class Str
         return str_replace(' ', '', $string);
     }
 
-    /**
-     * @param string|string[] $needles
-     */
-    public static function contains(string $haystack, $needles): bool
+    public static function contains(string $haystack, array $needles): bool
     {
-        $needles = array_filter(Cast::toArray($needles), Helper::class.'::isNotEmpty');
+        $needles = array_filter($needles, Helper::class.'::isNotEmpty');
         foreach ($needles as $needle) {
             if ('' !== $needle && str_contains($haystack, $needle)) {
                 return true;
@@ -42,12 +39,9 @@ class Str
         return str_replace('_', '-', static::snakeCase($string));
     }
 
-    /**
-     * @param string|string[] $needles
-     */
-    public static function endsWith(string $haystack, $needles): bool
+    public static function endsWith(string $haystack, array $needles): bool
     {
-        $needles = array_filter(Cast::toArray($needles), Helper::class.'::isNotEmpty');
+        $needles = array_filter($needles, Helper::class.'::isNotEmpty');
         foreach ($needles as $needle) {
             if ('' !== (string) $needle && str_ends_with((string) $haystack, (string) $needle)) {
                 return true;
@@ -116,14 +110,14 @@ class Str
 
     public static function removePrefix(string $string, string $prefix): string
     {
-        return static::startsWith($string, $prefix)
+        return str_starts_with($string, $prefix)
             ? substr($string, strlen($prefix))
             : $string;
     }
 
     public static function removeSuffix(string $string, string $suffix): string
     {
-        return static::endsWith($string, $suffix)
+        return str_ends_with($string, $suffix)
             ? substr($string, 0, strrpos($string, $suffix))
             : $string;
     }
@@ -175,12 +169,9 @@ class Str
         return str_replace('-', '_', $string);
     }
 
-    /**
-     * @param string|string[] $needles
-     */
-    public static function startsWith(string $haystack, $needles): bool
+    public static function startsWith(string $haystack, array $needles): bool
     {
-        $needles = array_filter(Cast::toArray($needles), '\GeminiLabs\SiteReviews\Helper::isNotEmpty');
+        $needles = array_filter($needles, '\GeminiLabs\SiteReviews\Helper::isNotEmpty');
         foreach ($needles as $needle) {
             if ('' !== (string) $needle && str_starts_with((string) $haystack, (string) $needle)) {
                 return true;
@@ -191,7 +182,7 @@ class Str
 
     public static function suffix(string $string, string $suffix): string
     {
-        if (!static::endsWith($string, $suffix)) {
+        if (!str_ends_with($string, $suffix)) {
             return $string.$suffix;
         }
         return $string;

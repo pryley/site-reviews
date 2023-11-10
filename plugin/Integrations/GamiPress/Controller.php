@@ -162,7 +162,7 @@ class Controller extends AbstractController
         $requirement[$this->requirementKey('rating')] = get_post_meta($requirementId, $this->metaKey('rating'), true);
         $requirement[$this->requirementKey('rating_condition')] = get_post_meta($requirementId, $this->metaKey('rating_condition'), true);
         foreach (['post_id', 'post_type', 'user_id', 'user_role'] as $key) {
-            if (Str::contains($trigger, '/'.$key)) {
+            if (str_contains($trigger, "/{$key}")) {
                 $requirement[$this->requirementKey($key)] = get_post_meta($requirementId, $this->metaKey($key), true);
             }
         }
@@ -312,7 +312,7 @@ class Controller extends AbstractController
         update_post_meta($requirementId, $this->metaKey('rating'), Arr::get($requirement, $this->requirementKey('rating')));
         update_post_meta($requirementId, $this->metaKey('rating_condition'), Arr::get($requirement, $this->requirementKey('rating_condition')));
         foreach (['post_id', 'post_type', 'user_id', 'user_role'] as $key) {
-            if (Str::contains($trigger, '/'.$key)) {
+            if (str_contains($trigger, "/{$key}")) {
                 update_post_meta($requirementId, $this->metaKey($key), Arr::get($requirement, $this->requirementKey($key)));
             }
         }

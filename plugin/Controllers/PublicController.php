@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
+use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\Style;
@@ -89,7 +90,7 @@ class PublicController extends AbstractController
     /**
      * @action site-reviews/builder
      */
-    public function modifyBuilder(Builder $builder): void
+    public function modifyBuilder(BuilderContract $builder): void
     {
         $reflection = new \ReflectionClass($builder);
         if ('Builder' === $reflection->getShortName()) { // only modify public fields

@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
@@ -10,30 +11,12 @@ use GeminiLabs\SiteReviews\Reviews;
 
 class ReviewsHtml extends \ArrayObject
 {
-    /**
-     * @var \GeminiLabs\SiteReviews\Arguments
-     */
-    public $args;
+    public Arguments $args;
+    public int $max_num_pages;
+    public Reviews $reviews;
+    public array $rendered;
 
-    /**
-     * @var int
-     */
-    public $max_num_pages;
-
-    /**
-     * @var Reviews
-     */
-    public $reviews;
-
-    /**
-     * @var array
-     */
-    public $rendered;
-
-    /**
-     * @var array
-     */
-    protected $attributes;
+    protected array $attributes = [];
 
     public function __construct(Reviews $reviews)
     {
@@ -44,10 +27,7 @@ class ReviewsHtml extends \ArrayObject
         parent::__construct($this->reviews, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return glsr(Template::class)->build('templates/reviews', [
             'args' => $this->args,
@@ -63,11 +43,7 @@ class ReviewsHtml extends \ArrayObject
         ]);
     }
 
-    /**
-     * @param bool $wrap
-     * @return string
-     */
-    public function getPagination($wrap = true)
+    public function getPagination(bool $wrap = true): string
     {
         $html = glsr(Partial::class)->build('pagination', [
             'add_args' => $this->args->pageUrlParameters,
@@ -94,10 +70,7 @@ class ReviewsHtml extends \ArrayObject
         ], $dataAttributes));
     }
 
-    /**
-     * @return string
-     */
-    public function getReviews()
+    public function getReviews(): string
     {
         return empty($this->rendered)
             ? $this->getReviewsFallback()
@@ -105,7 +78,7 @@ class ReviewsHtml extends \ArrayObject
     }
 
     /**
-     * @param mixed $key
+     * @param string $key
      * @return mixed
      */
     #[\ReturnTypeWillChange]
@@ -128,10 +101,7 @@ class ReviewsHtml extends \ArrayObject
             : glsr()->filter('reviews/html/'.$key, null, $this);
     }
 
-    /**
-     * @return string
-     */
-    protected function getClasses()
+    protected function getClasses(): string
     {
         $classes = ['glsr-reviews'];
         $classes[] = $this->args['class'];
@@ -139,10 +109,7 @@ class ReviewsHtml extends \ArrayObject
         return glsr(Sanitizer::class)->sanitizeAttrClass($classes);
     }
 
-    /**
-     * @return string
-     */
-    protected function getReviewsFallback()
+    protected function getReviewsFallback(): string
     {
         if (empty($this->args->fallback) && glsr(OptionManager::class)->getBool('settings.reviews.fallback')) {
             $this->args->fallback = __('There are no reviews yet. Be the first one to write one.', 'site-reviews');
@@ -154,10 +121,7 @@ class ReviewsHtml extends \ArrayObject
         return glsr()->filterString('reviews/fallback', $fallback, $this->args->toArray());
     }
 
-    /**
-     * @return array
-     */
-    protected function renderReviews(Reviews $reviews)
+    protected function renderReviews(Reviews $reviews): array
     {
         $rendered = [];
         foreach ($reviews as $review) {

@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 /**
- * This is used by Builder  to generate HTML elements.
+ * This is used by Builder to generate HTML elements.
  */
 class FieldDefaults extends DefaultsAbstract
 {

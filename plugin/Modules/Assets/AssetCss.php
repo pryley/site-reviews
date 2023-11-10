@@ -4,13 +4,9 @@ namespace GeminiLabs\SiteReviews\Modules\Assets;
 
 use GeminiLabs\SiteReviews\Modules\Style;
 
-class AssetCss extends AssetAbstract
+class AssetCss extends AbstractAsset
 {
-    /**
-     * @param string $url
-     * @param string $hash
-     */
-    protected function enqueue($url, $hash)
+    protected function enqueue(string $url, string $hash): void
     {
         foreach ($this->handles as $handle) {
             wp_dequeue_style($handle);
@@ -23,26 +19,17 @@ class AssetCss extends AssetAbstract
         }
     }
 
-    /**
-     * @return string
-     */
-    protected function originalUrl()
+    protected function originalUrl(): string
     {
         return glsr(Style::class)->stylesheetUrl();
     }
 
-    /**
-     * @return array
-     */
-    protected function registered()
+    protected function registered(): array
     {
         return wp_styles()->registered;
     }
 
-    /**
-     * @return string
-     */
-    protected function type()
+    protected function type(): string
     {
         return 'css';
     }

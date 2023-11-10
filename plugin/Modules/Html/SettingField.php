@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 
 class SettingField extends Field
@@ -21,10 +22,7 @@ class SettingField extends Field
         $this->normalize();
     }
 
-    /**
-     * @return SettingBuilder
-     */
-    public function builder()
+    public function builder(): BuilderContract
     {
         return glsr(SettingBuilder::class);
     }

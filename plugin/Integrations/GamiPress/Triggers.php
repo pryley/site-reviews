@@ -14,7 +14,7 @@ class Triggers
     {
         $key = Str::removePrefix($key, '/');
         $triggers = array_keys($this->triggers());
-        $triggers = array_filter($triggers, fn ($trigger) => Str::contains($trigger, $key));
+        $triggers = array_filter($triggers, fn ($trigger) => str_contains($trigger, $key));
         return array_values($triggers);
     }
 
@@ -44,12 +44,12 @@ class Triggers
         if (empty($label)) {
             return $fallback;
         }
-        if (Str::contains($label, '%d') && !Str::contains($label, '%s')) {
+        if (str_contains($label, '%d') && !str_contains($label, '%s')) {
             return sprintf($label, $requirements->rating);
         }
         foreach (['post_id', 'post_type', 'user_id', 'user_role'] as $key) {
             $method = Helper::buildMethodName($key, 'labelFor');
-            if (Str::contains($trigger, '/'.$key) && method_exists($this, $method)) {
+            if (str_contains($trigger, "/{$key}") && method_exists($this, $method)) {
                 return call_user_func([$this, $method], $label, $requirements, $fallback);
             }
         }

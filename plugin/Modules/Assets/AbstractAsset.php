@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Assets;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-abstract class AssetAbstract
+abstract class AbstractAsset
 {
     public $abort;
     public $after;
@@ -23,10 +23,7 @@ abstract class AssetAbstract
         }
     }
 
-    /**
-     * @return bool
-     */
-    public function canOptimize()
+    public function canOptimize(): bool
     {
         if ($this->abort) {
             return false;
@@ -37,45 +34,33 @@ abstract class AssetAbstract
         return true;
     }
 
-    /**
-     * @return bool
-     */
-    public function isOptimizationDisabled()
+    public function isOptimizationDisabled(): bool
     {
         return !$this->isOptimizationEnabled();
     }
 
-    /**
-     * @return bool
-     */
-    public function isOptimizationEnabled()
+    public function isOptimizationEnabled(): bool
     {
         return glsr()->filterBool('optimize/'.$this->type(), false);
     }
 
-    /**
-     * @return bool
-     */
-    public function isOptimized()
+    public function isOptimized(): bool
     {
         $hash = $this->hash();
-        $path = (string) $this->file('path');
+        $path = Arr::getAs('string', $this->file(), 'path');
         if (file_exists($path) && $hash === get_transient($this->transient())) {
             return true;
         }
         return false;
     }
 
-    /**
-     * @return void
-     */
-    public function optimize()
+    public function optimize(): void
     {
         if (!$this->canOptimize() || $this->isOptimized()) {
             return;
         }
         $file = $this->file();
-        if (!$file) {
+        if (empty($file)) {
             return;
         }
         $hash = $this->hash();
@@ -93,21 +78,15 @@ abstract class AssetAbstract
         $this->reset();
     }
 
-    /**
-     * @return string
-     */
-    public function url()
+    public function url(): string
     {
         if ($this->canOptimize() && $this->isOptimized()) {
-            return (string) $this->file('url');
+            return Arr::getAs('string', $this->file(), 'url');
         }
         return $this->originalUrl();
     }
 
-    /**
-     * @return string
-     */
-    public function version()
+    public function version(): string
     {
         if ($this->canOptimize() && $this->isOptimized()) {
             return $this->hash();
@@ -115,10 +94,7 @@ abstract class AssetAbstract
         return glsr()->version;
     }
 
-    /**
-     * @return void
-     */
-    protected function combine()
+    protected function combine(): void
     {
         $pluginDirUrl = plugin_dir_url('');
         $pluginDirPath = substr(glsr()->path(), 0, -1 * strlen(glsr()->id.'/'));
@@ -136,16 +112,9 @@ abstract class AssetAbstract
         }
     }
 
-    /**
-     * @param string $url
-     * @param string $hash
-     */
-    abstract protected function enqueue($url, $hash);
+    abstract protected function enqueue(string $url, string $hash): void;
 
-    /**
-     * @return array|string|false
-     */
-    protected function file($key = '')
+    protected function file(): array
     {
         require_once ABSPATH.WPINC.'/pluggable.php';
         $uploads = wp_upload_dir();
@@ -157,21 +126,17 @@ abstract class AssetAbstract
         if (is_ssl()) { // fix SSL just in case...
             $baseurl = str_replace('http://', 'https://', $baseurl);
         }
-        if (wp_mkdir_p($basedir)) {
-            $file = [
-                'path' => sprintf('%s/%s.%s', $basedir, glsr()->id, $this->type()),
-                'url' => sprintf('%s/%s.%s', $baseurl, glsr()->id, $this->type()),
-            ];
-            return Arr::get($file, $key, $file);
+        if (!wp_mkdir_p($basedir)) {
+            glsr_log()->error('Unable to store optimized assets in the uploads directory.');
+            return [];
         }
-        glsr_log()->error('Unable to store optimized assets in the uploads directory.');
-        return false;
+        return [
+            'path' => sprintf('%s/%s.%s', $basedir, glsr()->id, $this->type()),
+            'url' => sprintf('%s/%s.%s', $baseurl, glsr()->id, $this->type()),
+        ];
     }
 
-    /**
-     * @return \WP_Filesystem_Base
-     */
-    protected function filesystem()
+    protected function filesystem(): \WP_Filesystem_Base
     {
         global $wp_filesystem;
         if (empty($wp_filesystem)) {
@@ -181,23 +146,14 @@ abstract class AssetAbstract
         return $wp_filesystem;
     }
 
-    /**
-     * @return string
-     */
-    public function hash()
+    public function hash(): string
     {
         return md5(serialize($this->versions()));
     }
 
-    /**
-     * @return string
-     */
-    abstract protected function originalUrl();
+    abstract protected function originalUrl(): string;
 
-    /**
-     * @return void
-     */
-    protected function prepare()
+    protected function prepare(): void
     {
         $removedDeps = array_diff($this->handles, [glsr()->id]);
         $this->sources = array_fill_keys($this->handles, ''); // ensure correct order!
@@ -224,15 +180,9 @@ abstract class AssetAbstract
         }
     }
 
-    /**
-     * @return array
-     */
-    abstract protected function registered();
+    abstract protected function registered(): array;
 
-    /**
-     * @return void
-     */
-    protected function reset()
+    protected function reset(): void
     {
         $this->abort = false;
         $this->after = [];
@@ -243,11 +193,7 @@ abstract class AssetAbstract
         $this->sources = [];
     }
 
-    /**
-     * @param string $filepath
-     * @return bool
-     */
-    protected function store($filepath)
+    protected function store(string $filepath): bool
     {
         if ($this->abort) {
             return false;
@@ -259,23 +205,14 @@ abstract class AssetAbstract
         return false;
     }
 
-    /**
-     * @return string
-     */
-    protected function transient()
+    protected function transient(): string
     {
         return glsr()->prefix.'optimized_'.$this->type();
     }
 
-    /**
-     * @return string
-     */
-    abstract protected function type();
+    abstract protected function type(): string;
 
-    /**
-     * @return array
-     */
-    protected function versions()
+    protected function versions(): array
     {
         $versions = glsr()->retrieveAs('array', 'addons');
         $versions = Arr::prepend($versions, glsr()->version, glsr()->id);

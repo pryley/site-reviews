@@ -12,16 +12,15 @@ trait ValidationRules
     /**
      * Get the size of an attribute.
      * @param mixed $value
-     * @return mixed
      */
-    abstract protected function getSize(string $attribute, $value);
+    abstract protected function getSize(string $attribute, $value): int;
 
     /**
      * Replace all placeholders.
      */
     protected function replace(string $message, array $parameters): string
     {
-        if (!Str::contains($message, '%s')) {
+        if (!str_contains($message, '%s')) {
             return $message;
         }
         return preg_replace_callback('/(%s)/', function () use (&$parameters) {

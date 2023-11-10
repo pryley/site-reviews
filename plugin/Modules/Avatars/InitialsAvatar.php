@@ -5,13 +5,9 @@ namespace GeminiLabs\SiteReviews\Modules\Avatars;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Text;
 
-class InitialsAvatar extends SvgAvatar
+class InitialsAvatar extends AbstractSvgAvatar
 {
-    /**
-     * @param string $from
-     * @return string
-     */
-    public function generate($from)
+    public function generate(string $from): string
     {
         $colors = [
             ['background' => '#e3effb', 'color' => '#134d92'], // blue
@@ -31,11 +27,7 @@ class InitialsAvatar extends SvgAvatar
         return trim(glsr()->build('avatar', $data));
     }
 
-    /**
-     * @param string $from
-     * @return string
-     */
-    protected function filename($from)
+    protected function filename(string $from): string
     {
         $initials = Text::initials((string) $from);
         if (1 === mb_strlen($initials)) {

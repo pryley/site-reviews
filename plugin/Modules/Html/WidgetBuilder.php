@@ -6,29 +6,21 @@ use GeminiLabs\SiteReviews\Helper;
 
 class WidgetBuilder extends Builder
 {
-    /**
-     * @return void|string
-     */
-    public function buildFormElement()
+    public function buildFormElement(): string
     {
         $method = Helper::buildMethodName($this->tag, 'buildForm');
         return $this->$method().$this->buildFieldDescription();
     }
 
-    /**
-     * @return string|void
-     */
-    protected function buildFieldDescription()
+    protected function buildFieldDescription(): string
     {
-        if (!empty($this->args->description)) {
-            return $this->small($this->args->description);
+        if (empty($this->args->description)) {
+            return '';
         }
+        return $this->small($this->args->description);
     }
 
-    /**
-     * @return string|void
-     */
-    protected function buildFormInputChoices()
+    protected function buildFormInputChoices(): string
     {
         $fields = [];
         $index = 0;
@@ -45,10 +37,7 @@ class WidgetBuilder extends Builder
         return implode('<br>', $fields);
     }
 
-    /**
-     * @return array
-     */
-    protected function normalize(array $args, $type)
+    protected function normalize(array $args, string $type): array
     {
         if (class_exists($className = $this->getFieldClassName($type))) {
             $args = $className::merge($args, 'widget');

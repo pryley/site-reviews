@@ -7,30 +7,20 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Avatars;
 
-class PixelAvatar extends SvgAvatar
+use GeminiLabs\Spatie\Color\Hsl;
+
+class PixelAvatar extends AbstractSvgAvatar
 {
     public const HEIGHT = 11;
     public const WIDTH = 11;
 
-    /**
-     * @var array
-     */
-    public $data;
+    public array $data = [];
 
-    /**
-     * @var string
-     */
-    public $hash;
+    public string $hash = '';
 
-    /**
-     * @var int
-     */
-    public $hashIndex = 0;
+    public int $hashIndex = 0;
 
-    /**
-     * @var array
-     */
-    public $pixels = [
+    public array $pixels = [
         'palette' => [
             'all' => [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 215, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320, 330, 340, 350],
             'skin' => [60, 80, 100, 120, 140, 160, 180, 220, 240, 280, 300, 320, 340],
@@ -312,11 +302,7 @@ class PixelAvatar extends SvgAvatar
         ],
     ];
 
-    /**
-     * @param string $from
-     * @return string
-     */
-    public function generate($from)
+    public function generate(string $from): string
     {
         $this->data = $this->newData();
         $this->hash = $this->filename($from);
@@ -328,10 +314,7 @@ class PixelAvatar extends SvgAvatar
         return $this->draw();
     }
 
-    /**
-     * @return void
-     */
-    protected function addBody()
+    protected function addBody(): void
     {
         $color = $this->getColor(50, 45);
         $pixels = $this->getPixels('body');
@@ -344,10 +327,7 @@ class PixelAvatar extends SvgAvatar
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function addFace()
+    protected function addFace(): void
     {
         $color = $this->getColor(40, 65, 'skin');
         $pixels = $this->getPixels('face');
@@ -361,10 +341,7 @@ class PixelAvatar extends SvgAvatar
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function addHair()
+    protected function addHair(): void
     {
         $color = $this->getColor(70, 45);
         $pixels = $this->getPixels('hair');
@@ -377,10 +354,7 @@ class PixelAvatar extends SvgAvatar
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function addMouth()
+    protected function addMouth(): void
     {
         $color = $this->getColor(60, 30);
         $pixels = $this->getPixels('mouth');
@@ -395,10 +369,7 @@ class PixelAvatar extends SvgAvatar
         }
     }
 
-    /**
-     * @return string
-     */
-    protected function draw()
+    protected function draw(): string
     {
         $paths = [];
         $background = $this->getColor(85, 85);
@@ -422,103 +393,41 @@ class PixelAvatar extends SvgAvatar
         );
     }
 
-    /**
-     * @param string $from
-     * @return string
-     */
-    protected function filename($from)
+    protected function filename(string $from): string
     {
         $hash = md5(strtolower(trim($from)));
         $hash = substr($hash, 0, 15);
         return $hash;
     }
 
-    /**
-     * @param int $saturation
-     * @param int $lightness
-     * @param string $paletteKey
-     * @return array
-     * @see https://www.w3schools.com/colors/colors_hsl.asp
-     */
-    protected function getColor($saturation, $lightness, $paletteKey = 'all')
+    protected function getColor(int $saturation, int $lightness, string $paletteKey = 'all'): array
     {
         $palette = $this->pixels['palette'][$paletteKey];
-        $index = $this->stringVal() % count($palette);
+        $index = $this->indexVal() % count($palette);
         $hue = $palette[$index];
         return [
-            $this->hslToHex($hue, $saturation / 100, $lightness / 100),
-            $this->hslToHex($hue, ($saturation + 10) / 100, ($lightness - 20) / 100),
+            (new Hsl($hue, $saturation / 100, $lightness / 100))->toHex(),
+            (new Hsl($hue, ($saturation + 10) / 100, ($lightness - 20) / 100))->toHex(),
         ];
     }
 
-    /**
-     * @param string $name
-     * @return array
-     */
-    protected function getPixels($name)
+    protected function getPixels(string $name): array
     {
-        $index = $this->stringVal() % count($this->pixels[$name]);
+        $index = $this->indexVal() % count($this->pixels[$name]);
         return $this->pixels[$name][$index];
     }
 
     /**
-     * @param float $hue
-     * @param float $saturation
-     * @param float $lightness
-     * @return string
+     * Get the value of the next character in the hash.
      */
-    protected function hslToHex($hue, $saturation, $lightness)
+    protected function indexVal(): int
     {
-        $hue = $hue / 360;
-        if (0 == $saturation) {
-            $red = $green = $blue = $lightness; // achromatic
-        } else {
-            if ($lightness < 0.5) {
-                $v2 = $lightness * (1 + $saturation);
-            } else {
-                $v2 = ($lightness + $saturation) - ($lightness * $saturation);
-            }
-            $v1 = 2 * $lightness - $v2;
-            $red = $this->hueToRgb($v1, $v2, $hue + (1 / 3));
-            $green = $this->hueToRgb($v1, $v2, $hue);
-            $blue = $this->hueToRgb($v1, $v2, $hue - (1 / 3));
-        }
-        $red = (int) round($red * 255);
-        $green = (int) round($green * 255);
-        $blue = (int) round($blue * 255);
-        return '#'.str_pad(dechex(($red << 16) + ($green << 8) + $blue), 6, '0', STR_PAD_LEFT);
+        ++$this->hashIndex;
+        $this->hashIndex = $this->hashIndex % strlen($this->hash);
+        return ord($this->hash[$this->hashIndex]) + (ord("\0") << 8);
     }
 
-    /**
-     * @param float $v1
-     * @param float $v2
-     * @param float $vH
-     * @return float
-     */
-    protected function hueToRgb($v1, $v2, $vH)
-    {
-        if ($vH < 0) {
-            ++$vH;
-        }
-        if ($vH > 1) {
-            --$vH;
-        }
-        if ($vH < (1 / 6)) {
-            return $v1 + ($v2 - $v1) * 6 * $vH;
-        }
-        if ($vH < (1 / 2)) {
-            return $v2;
-        }
-        if ($vH < (2 / 3)) {
-            return $v1 + ($v2 - $v1) * ((2 / 3) - $vH) * 6;
-        }
-        return $v1;
-    }
-
-    /**
-     * @return array
-     */
-    protected function newData()
+    protected function newData(): array
     {
         $data = [];
         for ($y = 0; $y < static::HEIGHT; ++$y) {
@@ -530,13 +439,7 @@ class PixelAvatar extends SvgAvatar
         return $data;
     }
 
-    /**
-     * @param int $pixel
-     * @param string $current
-     * @param array $palette
-     * @return string
-     */
-    protected function setPixelColour($pixel, $current, $palette)
+    protected function setPixelColour(int $pixel, string $current, array $palette): string
     {
         $color = $current;
         switch ($pixel) {
@@ -554,16 +457,5 @@ class PixelAvatar extends SvgAvatar
                 break;
         }
         return $color;
-    }
-
-    /**
-     * Get the value of the next character in the hash.
-     * @return int
-     */
-    protected function stringVal()
-    {
-        ++$this->hashIndex;
-        $this->hashIndex = $this->hashIndex % strlen($this->hash);
-        return ord($this->hash[$this->hashIndex]) + (ord("\0") << 8);
     }
 }

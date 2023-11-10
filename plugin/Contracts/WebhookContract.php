@@ -6,7 +6,10 @@ use GeminiLabs\SiteReviews\Review;
 
 interface WebhookContract
 {
-    public function compose(Review $review, array $notification): self;
+    /**
+     * @return static
+     */
+    public function compose(Review $review, array $notification);
 
     public function send(): bool;
 }

@@ -28,5 +28,8 @@ interface ShortcodeContract
 
     public function getHideOptions(): array;
 
-    public function normalize(array $args, string $type = ''): self;
+    /**
+     * @return static
+     */
+    public function normalize(array $args, string $type = '');
 }

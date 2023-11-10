@@ -21,25 +21,11 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
  */
 class ReviewHtml extends \ArrayObject
 {
-    /**
-     * @var array
-     */
-    public $args;
+    public array $args;
+    public array $context;
+    public Review $review;
 
-    /**
-     * @var array
-     */
-    public $context;
-
-    /**
-     * @var Review
-     */
-    public $review;
-
-    /**
-     * @var array
-     */
-    protected $attributes;
+    protected array $attributes = [];
 
     public function __construct(Review $review, array $args = [])
     {
@@ -49,10 +35,7 @@ class ReviewHtml extends \ArrayObject
         parent::__construct($this->context, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
     }
 
-    /**
-     * @return string|void
-     */
-    public function __toString()
+    public function __toString(): string
     {
         if (empty($this->context)) {
             return '';
@@ -111,7 +94,7 @@ class ReviewHtml extends \ArrayObject
     }
 
     /**
-     * @param mixed $key
+     * @param string $key
      * @return mixed
      */
     #[\ReturnTypeWillChange]

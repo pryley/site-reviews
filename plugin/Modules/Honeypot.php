@@ -8,11 +8,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Field;
 
 class Honeypot
 {
-    /**
-     * @param string $formId
-     * @return string
-     */
-    public function build($formId)
+    public function build(string $formId): string
     {
         $honeypot = new Field([
             'class' => 'glsr-input glsr-input-text',
@@ -28,11 +24,7 @@ class Honeypot
         ]);
     }
 
-    /**
-     * @param string $formId
-     * @return string
-     */
-    public function hash($formId)
+    public function hash(string $formId): string
     {
         require_once ABSPATH.WPINC.'/pluggable.php';
         if (is_array($formId)) { // @phpstan-ignore-line
@@ -46,12 +38,7 @@ class Honeypot
         return substr(wp_hash($formId, 'nonce'), -12, 8);
     }
 
-    /**
-     * @param string $hash
-     * @param string $formId
-     * @return bool
-     */
-    public function verify($hash, $formId)
+    public function verify(string $hash, string $formId): bool
     {
         return hash_equals($this->hash($formId), $hash);
     }

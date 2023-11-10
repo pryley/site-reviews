@@ -40,7 +40,10 @@ class StarRating implements PartialContract
         ]);
     }
 
-    public function data(array $data = []): self
+    /**
+     * @return static
+     */
+    public function data(array $data = [])
     {
         $data = glsr(StarRatingDefaults::class)->merge($data);
         $this->data = glsr()->args($data);

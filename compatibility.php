@@ -2,7 +2,7 @@
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Compatibility;
-use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Modules\Paginate;
 
 defined('ABSPATH') || exit;
@@ -12,7 +12,7 @@ defined('ABSPATH') || exit;
  * @return array
  * @filter site-reviews/paginate_link
  */
-function glsr_filter_bootstrap_pagination_link(array $link, array $args, Builder $builder) {
+function glsr_filter_bootstrap_pagination_link(array $link, array $args, BuilderContract $builder) {
     $args['class'] = 'page-link';
     if ('current' === $link['type']) {
         $class = 'page-item active';

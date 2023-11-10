@@ -3,46 +3,36 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Arguments;
+use GeminiLabs\SiteReviews\Contracts\EmailContract;
 use GeminiLabs\SiteReviews\Contracts\PluginContract;
+use GeminiLabs\SiteReviews\Contracts\TemplateContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
 use GeminiLabs\SiteReviews\Defaults\EmailDefaults;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 
-class Email
+class Email implements EmailContract
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     public $attachments;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     public $data;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     public $email;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     public $headers;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public $message;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public $subject;
 
-    /**
-     * @var string|array
-     */
+    /** @var string|array */
     public $to;
 
     public function app(): PluginContract
@@ -50,10 +40,7 @@ class Email
         return glsr();
     }
 
-    /**
-     * @return Email
-     */
-    public function compose(array $email, array $data = [])
+    public function compose(array $email, array $data = []): EmailContract
     {
         $this->data = $data;
         $this->normalize($email);
@@ -71,29 +58,19 @@ class Email
         return glsr()->args($this->data);
     }
 
-    /**
-     * @return \GeminiLabs\SiteReviews\Defaults\DefaultsAbstract
-     */
-    public function defaults()
+    public function defaults(): DefaultsAbstract
     {
         return glsr(EmailDefaults::class);
     }
 
-    /**
-     * @param \WP_Error $error
-     * @return void
-     */
-    public function logMailError($error)
+    public function logMailError(\WP_Error $error): void
     {
-        glsr_log()->error('Email was not sent (wp_mail failed)')
-            ->debug(['error' => $error, 'instance' => $this]);
+        glsr_log()
+            ->error('[wp_mail] Email was not sent: '. $error->get_error_message())
+            ->debug(['Email' => $this, 'WP_Error' => $error]);
     }
 
-    /**
-     * @param string $format
-     * @return string
-     */
-    public function read($format = '')
+    public function read(string $format = ''): string
     {
         if ('plaintext' === $format) {
             $message = $this->stripHtmlTags($this->message);
@@ -102,13 +79,16 @@ class Email
         return $this->message;
     }
 
-    /**
-     * @return bool
-     */
-    public function send()
+    public function send(): bool
     {
-        if (!$this->message || !$this->subject || !$this->to) {
-            glsr_log()->warning('The email was not sent because it is missing either the email address, subject, or message.');
+        $required = [
+            'message' => !empty($this->message),
+            'recipient' => !empty($this->to),
+            'subject' => !empty($this->subject),
+        ];
+        $missing = array_keys(array_diff($required, array_filter($required)));
+        if (!empty($missing)) {
+            glsr_log()->warning(sprintf('The email is missing the %s', Str::naturalJoin($missing)));
             return false;
         }
         add_action('wp_mail_failed', [$this, 'logMailError']);
@@ -124,19 +104,15 @@ class Email
         return $sent;
     }
 
-    /**
-     * @return \GeminiLabs\SiteReviews\Contracts\TemplateContract
-     */
-    public function template()
+    public function template(): TemplateContract
     {
         return glsr(Template::class);
     }
 
     /**
-     * @return void
      * @action phpmailer_init
      */
-    public function buildPlainTextMessage($phpmailer)
+    public function buildPlainTextMessage($phpmailer): void
     {
         if (empty($this->email)) {
             return;
@@ -148,10 +124,7 @@ class Email
         $phpmailer->AltBody = $this->app()->filterString('email/message', $message, 'text', $this);
     }
 
-    /**
-     * @return array
-     */
-    protected function buildHeaders()
+    protected function buildHeaders(): array
     {
         $allowed = [
             'bcc', 'cc', 'from', 'reply-to',
@@ -166,10 +139,7 @@ class Email
         return $this->app()->filterArray('email/headers', $headers, $this);
     }
 
-    /**
-     * @return string
-     */
-    protected function buildHtmlMessage()
+    protected function buildHtmlMessage(): string
     {
         $message = $this->buildMessage();
         $message = $this->email['before'].$message.$this->email['after'];
@@ -185,10 +155,7 @@ class Email
         return $this->app()->filterString('email/message', stripslashes($message), 'html', $this);
     }
 
-    /**
-     * @return string
-     */
-    protected function buildMessage()
+    protected function buildMessage(): string
     {
         if (!empty($this->email['message'])) {
             return $this->email['message'];
@@ -202,19 +169,13 @@ class Email
         return '';
     }
 
-    /**
-     * @return void
-     */
-    protected function normalize(array $email = [])
+    protected function normalize(array $email = []): void
     {
         $email = $this->defaults()->restrict($email);
         $this->email = $this->app()->filterArray('email/compose', $email, $this);
     }
 
-    /**
-     * @return void
-     */
-    protected function reset()
+    protected function reset(): void
     {
         $this->attachments = [];
         $this->data = [];
@@ -225,10 +186,7 @@ class Email
         $this->to = '';
     }
 
-    /**
-     * @return string
-     */
-    protected function stripHtmlTags($string)
+    protected function stripHtmlTags($string): string
     {
         // remove invisible elements
         $string = preg_replace('@<(embed|head|noembed|noscript|object|script|style)[^>]*?>.*?</\\1>@siu', '', $string);

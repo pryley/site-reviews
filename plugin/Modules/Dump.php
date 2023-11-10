@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Helpers\Cast;
+
 /**
  * @see: https://github.com/jacobstr/dumpling
  */
@@ -10,16 +12,14 @@ class Dump
     public $depth;
     public $ignore;
 
-    protected $level = 0;
-    protected $result = [];
-    protected $stack = [];
+    protected int $level = 0;
+    protected array $result = [];
+    protected array $stack = [];
 
     /**
      * @param mixed $value
-     * @param int $depth
-     * @return string
      */
-    public function dump($value, $depth = 3, array $ignore = [])
+    public function dump($value, int $depth = 3, array $ignore = []): string
     {
         $this->depth = glsr()->filterInt('console/depth', $depth);
         $this->ignore = $ignore;
@@ -30,15 +30,11 @@ class Dump
         return $result;
     }
 
-    /**
-     * @param string $key
-     * @return string
-     */
-    protected function formatKey($key)
+    protected function formatKey(string $key): string
     {
         $result = [];
         $result[] = str_repeat(' ', $this->level * 4).'[';
-        if (is_string($key) && "\0" === $key[0]) {
+        if ("\0" === $key[0]) {
             $keyParts = explode("\0", $key);
             $result[] = $keyParts[2].(('*' === $keyParts[1]) ? ':protected' : ':private');
         } else {
@@ -50,9 +46,8 @@ class Dump
 
     /**
      * @param mixed $subject
-     * @return void
      */
-    protected function inspect($subject)
+    protected function inspect($subject): void
     {
         ++$this->level;
         if ($subject instanceof \Closure) {
@@ -67,10 +62,7 @@ class Dump
         --$this->level;
     }
 
-    /**
-     * @return void
-     */
-    protected function inspectArray(array $subject)
+    protected function inspectArray(array $subject): void
     {
         if ($this->level > $this->depth) {
             $this->result[] = "Nested Array\n";
@@ -90,10 +82,7 @@ class Dump
         $this->result[] = str_repeat(' ', ($this->level - 1) * 4).")\n";
     }
 
-    /**
-     * @return void
-     */
-    protected function inspectClosure(\Closure $subject)
+    protected function inspectClosure(\Closure $subject): void
     {
         $reflection = new \ReflectionFunction($subject);
         $params = array_map(function ($param) {
@@ -103,10 +92,9 @@ class Dump
     }
 
     /**
-     * @param object $subject
-     * @return void
+     * @param mixed $subject
      */
-    protected function inspectObject($subject)
+    protected function inspectObject($subject): void
     {
         $classname = get_class($subject);
         if ($this->level > $this->depth) {
@@ -121,7 +109,7 @@ class Dump
         }
         foreach ($subject as $key => $val) {
             if (false === $this->isIgnoredKey($key)) {
-                $this->result[] = $this->formatKey($key);
+                $this->result[] = $this->formatKey(Cast::toString($key));
                 $this->inspect($val);
             }
         }
@@ -130,9 +118,8 @@ class Dump
 
     /**
      * @param mixed $subject
-     * @return void
      */
-    protected function inspectPrimitive($subject)
+    protected function inspectPrimitive($subject): void
     {
         if (true === $subject) {
             $subject = '(bool) true';
@@ -144,19 +131,12 @@ class Dump
         $this->result[] = $subject."\n";
     }
 
-    /**
-     * @param string $key
-     * @return bool
-     */
-    protected function isIgnoredKey($key)
+    protected function isIgnoredKey(string $key): bool
     {
         return in_array($key, $this->ignore);
     }
 
-    /**
-     * @return void
-     */
-    protected function reset()
+    protected function reset(): void
     {
         $this->level = 0;
         $this->result = [];

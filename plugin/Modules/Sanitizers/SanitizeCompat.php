@@ -18,6 +18,9 @@ class SanitizeCompat
         $this->values = $values;
     }
 
+    /**
+     * @return mixed
+     */
     public function run()
     {
         if ('array' === $this->cast) {

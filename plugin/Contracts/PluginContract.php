@@ -47,6 +47,12 @@ interface PluginContract
     /** @param mixed $args,... */
     public function filterArrayUnique(string $hook, ...$args): array;
 
+    /**
+     * @param mixed $fallback
+     * @return mixed
+     */
+    public function option(string $path = '', $fallback = '', string $cast = '');
+
     public function path(string $file = '', bool $realpath = true): string;
 
     public function render(string $view, array $data = []): void;

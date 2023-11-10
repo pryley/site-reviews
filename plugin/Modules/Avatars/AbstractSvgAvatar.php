@@ -2,35 +2,18 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Avatars;
 
-abstract class SvgAvatar
+abstract class AbstractSvgAvatar
 {
-    /**
-     * @param string $from
-     * @return string
-     */
-    public function create($from)
+    public function create(string $from): string
     {
         return $this->save($this->generate($from), $this->filename($from));
     }
 
-    /**
-     * @param string $from
-     * @return string
-     */
-    abstract public function generate($from);
+    abstract public function generate(string $from): string;
 
-    /**
-     * @param string $from
-     * @return string
-     */
-    abstract protected function filename($from);
+    abstract protected function filename(string $from): string;
 
-    /**
-     * @param string $contents
-     * @param string $name
-     * @return string
-     */
-    protected function save($contents, $name)
+    protected function save(string $contents, string $name): string
     {
         $uploadsDir = wp_upload_dir();
         $baseDir = trailingslashit($uploadsDir['basedir']);

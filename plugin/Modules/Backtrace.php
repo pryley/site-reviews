@@ -7,28 +7,21 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Backtrace
 {
-    /**
-     * @return string
-     */
-    public function buildLine(array $backtrace)
+    public function buildLine(array $backtrace): string
     {
         return sprintf('%s:%s', $this->getClassName($backtrace), $this->getLineNumber($backtrace));
     }
 
-    /**
-     * @param int $limit
-     * @return void|string
-     */
-    public function line($limit = 10)
+    public function line(int $limit = 10): string
     {
         return $this->buildLine(array_slice($this->trace($limit), 4));
     }
 
     /**
+     * @param mixed $data
      * @param \Throwable|mixed $data
-     * @return string
      */
-    public function lineFromData($data)
+    public function lineFromData($data): string
     {
         $backtrace = ((interface_exists('Throwable') && $data instanceof \Throwable) || $data instanceof \Exception)
             ? $data->getTrace()
@@ -36,11 +29,7 @@ class Backtrace
         return $this->buildLine($backtrace);
     }
 
-    /**
-     * @param string $line
-     * @return string
-     */
-    public function normalizeLine($line)
+    public function normalizeLine(string $line): string
     {
         $search = array_unique([
             'GeminiLabs\\SiteReviews\\',
@@ -54,19 +43,12 @@ class Backtrace
         return str_replace('/', '\\', str_replace($search, '', $line));
     }
 
-    /**
-     * @param int $limit
-     * @return array
-     */
-    public function trace($limit = 6)
+    public function trace(int $limit = 6): array
     {
         return debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $limit);
     }
 
-    /**
-     * @return string
-     */
-    protected function getClassName(array $backtrace)
+    protected function getClassName(array $backtrace): string
     {
         $file = Arr::get($backtrace, '0.file');
         $class = Arr::get($backtrace, '1.class');
@@ -82,10 +64,7 @@ class Backtrace
         return Helper::ifEmpty($class, $file);
     }
 
-    /**
-     * @return string
-     */
-    protected function getLineNumber(array $backtrace)
+    protected function getLineNumber(array $backtrace): string
     {
         $search = Arr::searchByKey('glsr_log', $backtrace, 'function');
         if (false !== $search) {

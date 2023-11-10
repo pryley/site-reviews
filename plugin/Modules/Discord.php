@@ -36,7 +36,10 @@ class Discord implements WebhookContract
         $this->webhook = glsr_get_option('general.notification_discord');
     }
 
-    public function compose(Review $review, array $args): self
+    /**
+     * @return static
+     */
+    public function compose(Review $review, array $args)
     {
         if (empty($this->webhook)) {
             return $this;

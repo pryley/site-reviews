@@ -7,14 +7,10 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class Notice
 {
-    /**
-     * @var array
-     */
-    protected $notices;
+    protected array $notices = [];
 
     public function __construct()
     {
-        $this->notices = [];
         $notices = get_transient(glsr()->prefix.'notices');
         if (is_array($notices)) {
             $this->notices = $notices;
@@ -23,12 +19,11 @@ class Notice
     }
 
     /**
-     * @param string $type
      * @param string|array|\WP_Error $message
      * @param string[] $details
      * @return static
      */
-    public function add($type, $message, array $details = [])
+    public function add(string $type, $message, array $details = [])
     {
         if (is_wp_error($message)) {
             $message = $message->get_error_message();
@@ -90,16 +85,13 @@ class Notice
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function get()
+    public function get(): string
     {
         $this->sort();
         $notices = glsr()->filterArray('notices', $this->notices);
         return array_reduce($notices, function ($carry, $args) {
             return $carry.glsr(Builder::class)->div($this->normalizeArgs($args));
-        });
+        }, '');
     }
 
     /**
@@ -127,10 +119,7 @@ class Notice
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    protected function normalizeArgs(array $args)
+    protected function normalizeArgs(array $args): array
     {
         $class = sprintf('glsr-notice notice notice-%s inline is-dismissible', $args['type']);
         if (!empty($args['details'])) {

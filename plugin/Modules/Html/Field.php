@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Defaults\FieldDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -13,10 +14,7 @@ use GeminiLabs\SiteReviews\Modules\Style;
  */
 class Field
 {
-    /**
-     * @var array
-     */
-    public $field;
+    public array $field = [];
 
     public function __construct(array $field = [])
     {
@@ -32,32 +30,35 @@ class Field
         $this->normalize();
     }
 
-    public function __get($key)
+    /**
+     * @return mixed
+     */
+    public function __get(string $key)
     {
         if (array_key_exists($key, $this->field)) {
             return $this->field[$key];
         }
     }
 
-    public function __set($key, $value)
+    /**
+     * @param mixed $value
+     */
+    public function __set(string $key, $value): void
     {
         if (array_key_exists($key, $this->field)) {
             $this->field[$key] = $value;
         }
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->build();
     }
 
-    /**
-     * @return void|string
-     */
-    public function build()
+    public function build(): string
     {
         if (!$this->field['is_valid']) {
-            return;
+            return '';
         }
         if ($this->field['is_raw']) {
             return $this->builder()->{$this->field['type']}($this->field);
@@ -68,10 +69,7 @@ class Field
         return $this->buildField();
     }
 
-    /**
-     * @return Builder
-     */
-    public function builder()
+    public function builder(): BuilderContract
     {
         return glsr(Builder::class);
     }

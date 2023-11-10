@@ -59,10 +59,10 @@ class Role
 
     public function capability(string $capability): string
     {
-        if (Str::contains($capability, 'post')) {
+        if (str_contains($capability, 'post')) {
             return str_replace('post', glsr()->post_type, $capability);
         }
-        if (Str::contains($capability, 'terms')) {
+        if (str_contains($capability, 'terms')) {
             return str_replace('terms', glsr()->post_type.'_terms', $capability);
         }
         return $capability;

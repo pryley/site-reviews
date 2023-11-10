@@ -6,42 +6,32 @@ use GeminiLabs\SiteReviews\Helper;
 
 class SettingBuilder extends Builder
 {
-    /**
-     * @return void|string
-     */
-    public function buildFormElement()
+    public function buildFormElement(): string
     {
         $method = Helper::buildMethodName($this->tag, 'buildForm');
         return $this->$method().$this->buildAfter().$this->buildFieldDescription();
     }
 
-    /**
-     * @return string|void
-     */
-    protected function buildAfter()
+    protected function buildAfter(): string
     {
-        if (!empty($this->args->after)) {
-            return '&nbsp;'.$this->args->after;
+        if (empty($this->args->after)) {
+            return '';
         }
+        return '&nbsp;'.$this->args->after;
     }
 
-    /**
-     * @return string|void
-     */
-    protected function buildFieldDescription()
+    protected function buildFieldDescription(): string
     {
-        if (!empty($this->args->description)) {
-            return $this->p([
-                'class' => 'description',
-                'text' => $this->args->description,
-            ]);
+        if (empty($this->args->description)) {
+            return '';
         }
+        return $this->p([
+            'class' => 'description',
+            'text' => $this->args->description,
+        ]);
     }
 
-    /**
-     * @return string|void
-     */
-    protected function buildFormInputChoices()
+    protected function buildFormInputChoices(): string
     {
         $fields = [];
         $index = 0;
@@ -61,10 +51,7 @@ class SettingBuilder extends Builder
         ]);
     }
 
-    /**
-     * @return string|void
-     */
-    protected function buildFormTextarea()
+    protected function buildFormTextarea(): string
     {
         $textarea = $this->buildFormLabel().$this->buildDefaultElement(
             esc_html($this->args->cast('value', 'string'))
@@ -91,10 +78,7 @@ class SettingBuilder extends Builder
         ]);
     }
 
-    /**
-     * @return array
-     */
-    protected function normalize(array $args, $type)
+    protected function normalize(array $args, string $type): array
     {
         if (class_exists($className = $this->getFieldClassName($type))) {
             $args = $className::merge($args, 'setting');

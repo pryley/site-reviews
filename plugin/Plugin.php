@@ -99,7 +99,7 @@ trait Plugin
     public function catchFatalError(): void
     {
         $error = error_get_last();
-        if (E_ERROR === Arr::get($error, 'type') && Str::contains(Arr::get($error, 'message'), $this->path())) {
+        if (E_ERROR === Arr::get($error, 'type') && str_contains(Arr::get($error, 'message'), $this->path())) {
             glsr_log()->error($error['message']);
         }
     }
@@ -175,6 +175,15 @@ trait Plugin
             static::$instance = new static();
         }
         return static::$instance;
+    }
+
+    /**
+     * @param mixed $fallback
+     * @return mixed
+     */
+    public function option(string $path = '', $fallback = '', string $cast = '')
+    {
+        return glsr_get_option($path, $fallback, $cast);
     }
 
     public function path(string $file = '', bool $realpath = true): string

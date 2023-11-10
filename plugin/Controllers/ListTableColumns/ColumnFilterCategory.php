@@ -36,15 +36,12 @@ class ColumnFilterCategory extends AbstractColumnFilter
         return _x('Category', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * @return string|int
-     */
-    public function value()
+    public function value(): string
     {
         global $wp_query;
         if ($term = get_term_by('slug', $wp_query->get(glsr()->taxonomy), glsr()->taxonomy)) {
-            return $term->term_taxonomy_id;
+            return (string) $term->term_taxonomy_id;
         }
-        return filter_input(INPUT_GET, $this->name(), FILTER_SANITIZE_NUMBER_INT);
+        return (string) filter_input(INPUT_GET, $this->name(), FILTER_SANITIZE_NUMBER_INT);
     }
 }
