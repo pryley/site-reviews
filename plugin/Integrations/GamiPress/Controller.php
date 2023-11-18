@@ -50,13 +50,11 @@ class Controller extends AbstractController
     public function enqueueAdminAssets(): void
     {
         if ($this->isGamiPressPage()) {
-            wp_enqueue_script(
-                glsr()->id.'/admin/gamipress',
-                glsr()->url('assets/scripts/gamipress.js'),
-                [],
-                glsr()->version,
-                false
-            );
+            $handle = glsr()->id.'/admin/gamipress';
+            $url = glsr()->url('assets/scripts/gamipress.js');
+            wp_enqueue_script($handle, $url, [], glsr()->version, [
+                'strategy' => 'defer'
+            ]);
         }
     }
 

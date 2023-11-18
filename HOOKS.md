@@ -59,7 +59,6 @@
     site-reviews/assigned_users/author_id                       (int $userId): int
     site-reviews/assigned_users/profile_id                      (int $userId): int
     site-reviews/assigned_users/user_id                         (int $userId): int
-    site-reviews/async-scripts                                  (array $scripts): array
     site-reviews/avatar/attributes                              (array $attributes, Review $review): array
     site-reviews/avatar/colors                                  (array $colors): array
     site-reviews/avatar/fallback                                (string $fallbackUrl, Review $review, int $size): string
@@ -96,7 +95,6 @@
     site-reviews/defaults/<defaults_name>/guarded               (array $guarded, string $method): array
     site-reviews/defaults/<defaults_name>/mapped                (array $mapped, string $method): array
     site-reviews/defaults/<defaults_name>/sanitize              (array $sanitize, string $method): array
-    site-reviews/defer-scripts                                  (array $scripts): array
     site-reviews/devmode                                        (bool $bool): bool
     site-reviews/discord/fields                                 (array $fields, Review $review): array
     site-reviews/discord/notification                           (array $notification, Modules\Discord $discord): array

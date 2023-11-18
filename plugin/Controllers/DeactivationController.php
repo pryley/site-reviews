@@ -22,13 +22,12 @@ class DeactivationController extends AbstractController
             ['wp-list-reusable-blocks'], // load the :root admin theme colors
             glsr()->version
         );
-        wp_enqueue_script(
-            glsr()->id.'/deactivate-plugin',
-            glsr()->url('assets/scripts/deactivate-plugin.js'),
-            ['backbone', 'underscore'],
-            glsr()->version,
-            true
-        );
+        $handle = glsr()->id.'/deactivate-plugin';
+        $url = glsr()->url('assets/scripts/deactivate-plugin.js');
+        wp_enqueue_script($handle, $url, ['backbone', 'underscore'], glsr()->version, [
+            'in_footer' => true,
+            'strategy' => 'defer'
+        ]);
         wp_localize_script(glsr()->id.'/deactivate-plugin', '_glsr_deactivate', [
             'ajax' => [
                 'action' => glsr()->prefix.'action',

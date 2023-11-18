@@ -279,14 +279,6 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * @filter site-reviews/defer-scripts
-     */
-    public function filterScriptsDefer(array $handles): array
-    {
-        return $handles;
-    }
-
-    /**
      * @filter site-reviews/settings
      */
     public function filterSettings(array $settings): array
@@ -439,6 +431,7 @@ abstract class Controller extends AbstractController
     protected function buildAssetArgs(string $ext, array $args = []): array
     {
         $args = wp_parse_args($args, [
+            'defer' => true,
             'in_footer' => false,
             'suffix' => '',
         ]);
@@ -449,8 +442,9 @@ abstract class Controller extends AbstractController
         }
         $suffix = Str::prefix($args['suffix'], '/');
         $dependencies = Arr::get($args, 'dependencies', [glsr()->id.$suffix]);
+        $handle = $this->app()->id.$suffix;
         $funcArgs = [
-            $this->app()->id.$suffix,
+            $handle,
             $this->app()->url($path),
             Arr::consolidate($dependencies),
             $this->app()->version,
@@ -463,21 +457,29 @@ abstract class Controller extends AbstractController
 
     protected function enqueueAsset(string $extension, array $args = []): void
     {
+        $defer = Arr::get($args, 'defer', false);
         if ($args = $this->buildAssetArgs($extension, $args)) {
             $function = 'js' === $extension
                 ? 'wp_enqueue_script'
                 : 'wp_enqueue_style';
             call_user_func_array($function, $args);
+            if (wp_validate_boolean($defer)) {
+                wp_script_add_data($args[0], 'strategy', 'defer');
+            }
         }
     }
 
     protected function registerAsset(string $extension, array $args = []): void
     {
+        $defer = Arr::get($args, 'defer', false);
         if ($args = $this->buildAssetArgs($extension, $args)) {
             $function = 'js' === $extension
                 ? 'wp_register_script'
                 : 'wp_register_style';
             call_user_func_array($function, $args);
+            if (wp_validate_boolean($defer)) {
+                wp_script_add_data($args[0], 'strategy', 'defer');
+            }
         }
     }
 }

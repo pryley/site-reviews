@@ -48,7 +48,9 @@ class EnqueueAdminAssets extends AbstractCommand
             glsr()->url('assets/scripts/'.glsr()->id.'-admin.js'),
             $this->getDependencies(),
             glsr()->version,
-            false
+            [
+                'strategy' => 'defer',
+            ]
         );
         if (!empty($this->pointers)) {
             wp_enqueue_style('wp-pointer');

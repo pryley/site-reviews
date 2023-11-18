@@ -66,18 +66,18 @@ class BlocksController extends AbstractController
             glsr()->version
         );
         wp_add_inline_style(glsr()->id.'/blocks', (new EnqueuePublicAssets())->inlineStyles());
-        wp_register_script(
-            glsr()->id.'/blocks',
-            glsr()->url('assets/scripts/'.glsr()->id.'-blocks.js'),
-            [
-                glsr()->id.'/admin',
-                'wp-block-editor',
-                'wp-blocks',
-                'wp-i18n',
-                'wp-element',
-            ],
-            glsr()->version
-        );
+        $handle = glsr()->id.'/blocks';
+        $url = glsr()->url('assets/scripts/'.glsr()->id.'-blocks.js');
+        $deps = [
+            glsr()->id.'/admin',
+            'wp-block-editor',
+            'wp-blocks',
+            'wp-i18n',
+            'wp-element',
+        ];
+        wp_register_script($handle, $url, $deps, glsr()->version, [
+            'strategy' => 'defer',
+        ]);
     }
 
     /**

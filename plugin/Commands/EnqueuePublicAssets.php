@@ -30,7 +30,10 @@ class EnqueuePublicAssets extends AbstractCommand
         }
         if (glsr()->filterBool('assets/js', true)) {
             $dependencies = glsr()->filterArray('enqueue/public/dependencies', []);
-            wp_enqueue_script(glsr()->id, glsr(AssetJs::class)->url(), $dependencies, glsr(AssetJs::class)->version(), true);
+            wp_enqueue_script(glsr()->id, glsr(AssetJs::class)->url(), $dependencies, glsr(AssetJs::class)->version(), [
+                'in_footer' => true,
+                'strategy' => 'defer',
+            ]);
             wp_add_inline_script(glsr()->id, $this->inlineScript(), 'before');
             wp_add_inline_script(glsr()->id, glsr()->filterString('enqueue/public/inline-script/after', ''));
             glsr(AssetJs::class)->optimize();
