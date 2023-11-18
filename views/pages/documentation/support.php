@@ -9,7 +9,7 @@ $sections = [ // order is intentional
     trailingslashit(__DIR__).'support/upgrade-guide.php',
 ];
 $filename = pathinfo(__FILE__, PATHINFO_FILENAME);
-$sections = glsr()->filterArrayUnique('documentation/'.$filename, $sections);
+$sections = glsr()->filterArrayUnique("documentation/{$filename}", $sections);
 foreach ($sections as $section) {
     include $section;
 }

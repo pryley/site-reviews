@@ -39,14 +39,14 @@ class Cache
         }
         $ipAddresses = array_fill_keys(['v4', 'v6'], []);
         foreach (array_keys($ipAddresses) as $version) {
-            $url = 'https://www.cloudflare.com/ips-'.$version;
+            $url = "https://www.cloudflare.com/ips-{$version}";
             $response = wp_remote_get($url);
             if (is_wp_error($response)) {
                 glsr_log()->error($response->get_error_message());
                 continue;
             }
             if ('200' != ($statusCode = wp_remote_retrieve_response_code($response))) {
-                glsr_log()->error(sprintf('Unable to connect to %s [%s]', $url, $statusCode));
+                glsr_log()->error("Unable to connect to {$url} [{$statusCode}]");
                 continue;
             }
             $ipAddresses[$version] = array_filter(

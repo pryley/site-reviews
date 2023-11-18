@@ -12,7 +12,7 @@ foreach ($addons as $addon) {
         'plugin_status' => 'all',
     ];
     $url = add_query_arg($args, self_admin_url('plugins.php'));
-    $url = wp_nonce_url($url, 'deactivate-plugin_'.$plugin);
+    $url = wp_nonce_url($url, "deactivate-plugin_{$plugin}");
     $hasAction = ($screen && $screen->in_admin('network'))
         ? current_user_can('manage_network_plugins')
         : current_user_can('deactivate_plugin', $plugin);

@@ -60,7 +60,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
 
     protected function validateByEmail(): bool
     {
-        glsr_log()->debug('Email is: '.$this->request->email);
+        glsr_log()->debug("Email is: {$this->request->email}");
         return $this->validateLimit('email', $this->request->email, [
             'email' => $this->request->email,
         ]);
@@ -68,7 +68,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
 
     protected function validateByIpAddress(): bool
     {
-        glsr_log()->debug('IP Address is: '.$this->request->ip_address);
+        glsr_log()->debug("IP Address is: {$this->request->ip_address}");
         return $this->validateLimit('ip_address', $this->request->ip_address, [
             'ip_address' => $this->request->ip_address,
         ]);
@@ -80,7 +80,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
         if (!$user->exists()) {
             return true;
         }
-        glsr_log()->debug('Username is: '.$user->user_login);
+        glsr_log()->debug("Username is: {$user->user_login}");
         return $this->validateLimit('username', $user->user_login, [
             'user__in' => $user->ID,
         ]);
@@ -88,8 +88,10 @@ class ReviewLimitsValidator extends ValidatorAbstract
 
     protected function validateLimit(string $key, string $value, array $args): bool
     {
-        if (empty($value)
-            || $this->isWhitelisted($value, glsr_get_option('forms.limit_whitelist.'.$key))) {
+        if (empty($value)) {
+            return true;
+        }
+        if ($this->isWhitelisted($value, glsr_get_option("forms.limit_whitelist.{$key}"))) {
             return true;
         }
         add_filter('query/sql/clause/operator', [$this, 'filterSqlClauseOperator'], 20);

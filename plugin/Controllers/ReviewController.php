@@ -242,7 +242,7 @@ class ReviewController extends AbstractController
             glsr(Database::class)->metaSet($postId, 'response_by', $values->response_by); // @phpstan-ignore-line
         }
         foreach ($values->custom as $key => $value) {
-            glsr(Database::class)->metaSet($postId, 'custom_'.$key, $value);
+            glsr(Database::class)->metaSet($postId, "custom_{$key}", $value);
         }
     }
 

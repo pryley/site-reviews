@@ -92,7 +92,7 @@ class EditorController extends AbstractController
              6 => $strings['published'],
              7 => $strings['saved'],
              8 => $strings['submitted'],
-             9 => sprintf($strings['scheduled'], '<strong>'.$scheduled_date.'</strong>'),
+             9 => sprintf($strings['scheduled'], "<strong>{$scheduled_date}</strong>"),
             10 => $strings['draft_updated'],
             50 => $strings['approved'],
             51 => $strings['unapproved'],
@@ -109,7 +109,7 @@ class EditorController extends AbstractController
     {
         $shortcode = glsr(Sanitizer::class)->sanitizeText($request->shortcode);
         $response = false;
-        if ($data = glsr()->retrieve('mce.'.$shortcode, false)) {
+        if ($data = glsr()->retrieve("mce.{$shortcode}", false)) {
             if (!empty($data['errors'])) {
                 $data['btn_okay'] = [esc_attr_x('Okay', 'admin-text', 'site-reviews')];
             }

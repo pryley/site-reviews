@@ -428,7 +428,7 @@ class ProductController
         if ($override = $product->get_meta($shortcodes[$key])) {
             return $override;
         }
-        return glsr_get_option('addons.woocommerce.'.$key);
+        return glsr_get_option("addons.woocommerce.{$key}");
     }
 
     /**

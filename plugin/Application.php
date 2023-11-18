@@ -139,7 +139,7 @@ final class Application extends Container implements PluginContract
                 return;
             }
             $license = [
-                'settings.licenses.'.$id => [
+                "settings.licenses.{$id}" => [
                     'class' => 'glsr-license-key regular-text',
                     'default' => '',
                     'label' => $name,
@@ -222,7 +222,7 @@ final class Application extends Container implements PluginContract
             $updateUrl = $reflection->getConstant('UPDATE_URL');
             if ($addonId && $updateUrl && !array_key_exists($addonId, $this->updated)) {
                 $this->license($addon);
-                $license = glsr_get_option('licenses.'.$addonId);
+                $license = glsr_get_option("licenses.{$addonId}");
                 $updater = new Updater($updateUrl, $file, $addonId, compact('license'));
                 $updater->init();
                 $this->updated[$addonId] = compact('file', 'licensed', 'updateUrl'); // store details for license verification in settings

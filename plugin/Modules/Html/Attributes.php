@@ -114,7 +114,7 @@ class Attributes
             $value = esc_attr(implode(',', (array) $value));
             $attributes[] = in_array($attribute, static::BOOLEAN_ATTRIBUTES)
                 ? $attribute
-                : $attribute.'='.$quote.$value.$quote;
+                : "{$attribute}={$quote}{$value}{$quote}";
         }
         return implode(' ', $attributes);
     }

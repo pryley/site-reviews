@@ -54,9 +54,10 @@ class SystemInfo
             if (empty(Arr::get($details, 'values'))) {
                 return $carry;
             }
-            $hook = 'system-info/section/'.Str::dashCase($key);
+            $section = Str::dashCase($key);
             $title = strtoupper(Arr::get($details, 'title'));
-            $values = glsr()->filterArray($hook, Arr::get($details, 'values'));
+            $values = Arr::get($details, 'values');
+            $values = glsr()->filterArray("system-info/section/{$section}", $values);
             return $carry.$this->implode($title, $values);
         }));
     }
@@ -342,7 +343,7 @@ class SystemInfo
 
     protected function implode(string $title, array $details): string
     {
-        $strings = ['['.$title.']'];
+        $strings = ["[{$title}]"];
         $padding = max(static::PAD, ...array_map(function ($key) {
             return mb_strlen(html_entity_decode($key, ENT_HTML5), 'UTF-8');
         }, array_keys($details)));

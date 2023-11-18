@@ -144,7 +144,7 @@ class PrivacyController extends AbstractController
             'data' => glsr()->filterArray('personal-data/export', $data, $review),
             'group_id' => glsr()->id,
             'group_label' => _x('Reviews', 'admin-text', 'site-reviews'),
-            'item_id' => glsr()->post_type.'-'.$review->ID,
+            'item_id' => glsr()->post_type."-{$review->ID}",
         ];
     }
 

@@ -55,7 +55,7 @@ class Arr
     {
         $result = [];
         foreach ($array as $key => $value) {
-            $newKey = ltrim($prefix.'.'.$key, '.');
+            $newKey = ltrim("{$prefix}.{$key}", '.');
             if (static::isIndexedAndFlat($value)) {
                 $value = Helper::ifTrue(!$flattenValue, $value, 
                     fn () => '['.implode(', ', $value).']'

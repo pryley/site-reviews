@@ -78,7 +78,7 @@ trait Plugin
      */
     public function action(string $hook, ...$args): void
     {
-        do_action_ref_array($this->id.'/'.$hook, $args);
+        do_action_ref_array("{$this->id}/{$hook}", $args);
     }
 
     /**
@@ -106,7 +106,7 @@ trait Plugin
 
     public function config(string $name, bool $filtered = true): array
     {
-        $path = $this->filterString('config', 'config/'.$name.'.php');
+        $path = $this->filterString('config', "config/{$name}.php");
         $configFile = $this->path($path);
         $config = file_exists($configFile)
             ? include $configFile
@@ -114,7 +114,7 @@ trait Plugin
         // Don't filter the settings config!
         // Settings can be filtered with the "site-reviews/settings" filter hook
         if ($filtered && 'settings' !== $name) {
-            $config = $this->filterArray('config/'.$name, $config);
+            $config = $this->filterArray("config/{$name}", $config);
         }
         return $config;
     }
@@ -125,9 +125,9 @@ trait Plugin
     public function constant(string $property, string $className = 'static')
     {
         $property = strtoupper($property);
-        $constant = $className.'::'.$property;
+        $constant = "{$className}::{$property}";
         return defined($constant)
-            ? $this->filterString('const/'.$property, constant($constant))
+            ? $this->filterString("const/{$property}", constant($constant))
             : '';
     }
 
@@ -139,7 +139,7 @@ trait Plugin
             $filePaths[] = $this->themePath(Str::removePrefix($view, 'templates/'));
         }
         $filePaths[] = $this->path($view);
-        $filePaths[] = $this->path('views/'.$view);
+        $filePaths[] = $this->path("views/{$view}");
         foreach ($filePaths as $file) {
             if (file_exists($file)) {
                 return $file;
@@ -154,7 +154,7 @@ trait Plugin
      */
     public function filter(string $hook, ...$args)
     {
-        return apply_filters_ref_array($this->id.'/'.$hook, $args);
+        return apply_filters_ref_array("{$this->id}/{$hook}", $args);
     }
 
     /**
@@ -162,7 +162,7 @@ trait Plugin
      */
     public function filterArrayUnique(string $hook, ...$args): array
     {
-        $filtered = apply_filters_ref_array($this->id.'/'.$hook, $args);
+        $filtered = apply_filters_ref_array("{$this->id}/{$hook}", $args);
         return array_unique(array_filter(Cast::toArray($filtered)));
     }
 

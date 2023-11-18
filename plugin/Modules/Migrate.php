@@ -115,7 +115,7 @@ class Migrate
         $migrations = $this->storedMigrations();
         glsr()->action('migration/start', $migrations);
         foreach ($this->pendingMigrations($migrations) as $migration) {
-            if (class_exists($classname = '\\GeminiLabs\\SiteReviews\\Migrations\\'.$migration)) {
+            if (class_exists($classname = "\GeminiLabs\SiteReviews\Migrations\\{$migration}")) {
                 $instance = glsr($classname);
                 if (!$instance instanceof MigrateContract) {
                     glsr_log()->debug("[$migration] was skipped");

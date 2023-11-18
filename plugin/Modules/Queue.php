@@ -149,7 +149,7 @@ class Queue implements QueueContract
         }
         $next = as_next_scheduled_action($this->hook($hook), $args, glsr()->id);
         if (is_numeric($next)) {
-            return new \DateTime('@'.$next, new \DateTimeZone('UTC'));
+            return new \DateTime("@{$next}", new \DateTimeZone('UTC'));
         }
         return $next;
     }

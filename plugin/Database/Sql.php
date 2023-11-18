@@ -50,8 +50,8 @@ trait Sql
         if (!empty($args)) {
             $statement = $this->db->prepare($statement, ...$args);
         }
-        $statement = glsr()->filterString('database/sql/'.$handle, $statement);
-        glsr()->action('database/sql/'.$handle, $statement);
+        $statement = glsr()->filterString("database/sql/{$handle}", $statement);
+        glsr()->action("database/sql/{$handle}", $statement);
         glsr()->action('database/sql', $statement, $handle);
         return $statement;
     }

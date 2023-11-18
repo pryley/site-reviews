@@ -13,7 +13,7 @@ class SearchUsers extends AbstractSearch
             return $carry.glsr()->build('partials/editor/search-result', [
                 'ID' => $result->id,
                 'permalink' => esc_url(get_author_posts_url($result->id)),
-                'title' => esc_attr($result->name.' ('.$result->login.')'),
+                'title' => esc_attr("{$result->name} ({$result->login})"),
             ]);
         });
     }

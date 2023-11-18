@@ -136,9 +136,8 @@ class ListTableController extends AbstractController
                 $newActions[$key] = glsr(Builder::class)->a($text, [
                     'aria-label' => esc_attr(sprintf(_x('%s this review', 'Approve the review (admin-text)', 'site-reviews'), $text)),
                     'class' => 'glsr-toggle-status',
-                    'href' => wp_nonce_url(
-                        admin_url('post.php?post='.$post->ID.'&action='.$key.'&plugin='.glsr()->id),
-                        $key.'-review_'.$post->ID
+                    'href' => wp_nonce_url(admin_url("post.php?post={$post->ID}&action={$key}&plugin=".glsr()->id),
+                        "{$key}-review_{$post->ID}"
                     ),
                 ]);
             }
@@ -311,9 +310,9 @@ class ListTableController extends AbstractController
             return;
         }
         $className = Helper::buildClassName(['ColumnValue', $column], 'Controllers\ListTableColumns');
-        $className = glsr()->filterString('column/'.$column, $className);
+        $className = glsr()->filterString("column/{$column}", $className);
         $value = glsr()->runIf($className, $review);
-        $value = glsr()->filterString('columns/'.$column, $value, $postId);
+        $value = glsr()->filterString("columns/{$column}", $value, $postId);
         echo Helper::ifEmpty($value, '&mdash;');
     }
 

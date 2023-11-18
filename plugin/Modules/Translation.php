@@ -102,14 +102,14 @@ class Translation
 
     public function render(string $template, array $entry): string
     {
-        $data = array_combine(array_map(fn ($key) => 'data.'.$key, array_keys($entry)), $entry);
+        $data = array_combine(array_map(fn ($key) => "data.{$key}", array_keys($entry)), $entry);
         $data['data.class'] = '';
         $data['data.error'] = '';
         if ($this->isInvalid($entry)) {
             $data['data.class'] = 'is-invalid';
             $data['data.error'] = _x('This custom translation is no longer valid as the original text has been changed or removed.', 'admin-text', 'site-reviews');
         }
-        return glsr(Template::class)->build('partials/strings/'.$template, [
+        return glsr(Template::class)->build("partials/strings/{$template}", [
             'context' => array_map('esc_html', $data),
         ]);
     }

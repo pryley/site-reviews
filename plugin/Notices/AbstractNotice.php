@@ -47,7 +47,7 @@ abstract class AbstractNotice
     {
         $notices = glsr()->retrieveAs('array', 'notices');
         if (!$this->isIntroverted() || ($this->isIntroverted() && empty($notices))) { // @phpstan-ignore-line
-            glsr()->render('partials/notices/'.$this->key, $this->data());
+            glsr()->render("partials/notices/{$this->key}", $this->data());
         }
     }
 

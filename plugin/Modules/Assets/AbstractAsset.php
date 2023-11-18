@@ -41,7 +41,8 @@ abstract class AbstractAsset
 
     public function isOptimizationEnabled(): bool
     {
-        return glsr()->filterBool('optimize/'.$this->type(), false);
+        $assetType = $this->type();
+        return glsr()->filterBool("optimize/{$assetType}", false);
     }
 
     public function isOptimized(): bool
@@ -207,7 +208,8 @@ abstract class AbstractAsset
 
     protected function transient(): string
     {
-        return glsr()->prefix.'optimized_'.$this->type();
+        $assetType = $this->type();
+        return glsr()->prefix."optimized_{$assetType}";
     }
 
     abstract protected function type(): string;

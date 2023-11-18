@@ -263,7 +263,7 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
         if (is_array($notification)) {
             delete_transient('action_scheduler_admin_notice');
             $action = $this->store->fetch_action($notification['action_id']);
-            $action_hook_html = '<strong><code>'.$action->get_hook().'</code></strong>';
+            $action_hook_html = "<strong><code>{$action->get_hook()}</code></strong>";
             if (1 == $notification['success']) {
                 $class = 'success';
                 switch ($notification['row_action_type']) {

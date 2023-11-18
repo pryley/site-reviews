@@ -111,8 +111,8 @@ class Router
         $hook = "route/get/{$type}/{$request->action}";
         glsr()->action('route/request', $request, $hook);
         glsr()->action($hook, $request);
-        if (0 === did_action(glsr()->id.'/'.$hook)) {
-            glsr_log()->warning('Unknown '.$type.' router GET request: '.$request->action);
+        if (0 === did_action(glsr()->id."/{$hook}")) {
+            glsr_log()->warning("Unknown {$type} router GET request: {$request->action}");
         }
     }
 
@@ -137,8 +137,8 @@ class Router
         $hook = "route/{$type}/{$request->_action}";
         glsr()->action('route/request', $request, $hook);
         glsr()->action($hook, $request);
-        if (0 === did_action(glsr()->id.'/'.$hook)) {
-            glsr_log()->warning('Unknown '.$type.' router POST request: '.$request->_action);
+        if (0 === did_action(glsr()->id."/{$hook}")) {
+            glsr_log()->warning("Unknown {$type} router POST request: {$request->_action}");
         }
     }
 
@@ -154,7 +154,7 @@ class Router
             $data['message'] = __('The form could not be submitted. Please notify the site administrator.', 'site-reviews');
         }
         if (glsr()->isAdmin()) {
-            glsr(Notice::class)->addError(_x('There was an error (try reloading the page).', 'admin-text', 'site-reviews').' <code>'.$error.'</code>');
+            glsr(Notice::class)->addError(_x('There was an error (try reloading the page).', 'admin-text', 'site-reviews')." <code>{$error}</code>");
             $data['notices'] = glsr(Notice::class)->get();
         }
         glsr_log()->error($error)->debug($request->toArray());

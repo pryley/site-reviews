@@ -107,7 +107,8 @@ class ToolsController extends AbstractController
         } else {
             glsr(Notice::class)->addSuccess(sprintf(
                 _x('Your detected IP address is %s. If this looks incorrect, please see the %s.', 'admin-text', 'site-reviews'),
-                '<code>'.$ipAddress.'</code>', $link
+                "<code>{$ipAddress}</code>",
+                $link
             ));
         }
     }

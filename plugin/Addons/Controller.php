@@ -323,7 +323,7 @@ abstract class Controller extends AbstractController
      */
     public function onActivation(): void
     {
-        $option = glsr()->prefix.'activated_'.$this->app()->id;
+        $option = glsr()->prefix."activated_{$this->app()->id}";
         if (empty(get_option($option))) {
             $this->app()->action('activate');
             update_option($option, true);
@@ -335,7 +335,7 @@ abstract class Controller extends AbstractController
      */
     public function onDeactivation(bool $isNetworkDeactivation): void
     {
-        $option = glsr()->prefix.'activated_'.$this->app()->id;
+        $option = glsr()->prefix."activated_{$this->app()->id}";
         if (!$isNetworkDeactivation) {
             delete_option($option);
             return;

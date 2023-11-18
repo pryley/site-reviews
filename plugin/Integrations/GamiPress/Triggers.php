@@ -40,7 +40,7 @@ class Triggers
 
     public function label(string $trigger, Arguments $requirements, string $fallback = ''): string
     {
-        $label = Arr::getAs('string', $this->triggers(), $trigger.'.label_'.$requirements->rating_condition);
+        $label = Arr::getAs('string', $this->triggers(), "{$trigger}.label_{$requirements->rating_condition}");
         if (empty($label)) {
             return $fallback;
         }

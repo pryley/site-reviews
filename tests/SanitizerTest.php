@@ -1268,7 +1268,7 @@ class SanitizerTest extends \WP_UnitTestCase
             26 => 0,
             27 => $userId1,
         ]);
-        $sanitized = $this->sanitize('user-id:'.$userId2, $values);
+        $sanitized = $this->sanitize("user-id:{$userId2}", $values);
         $this->assertEquals($sanitized, [
             0 => $userId2,
             1 => $userId2,

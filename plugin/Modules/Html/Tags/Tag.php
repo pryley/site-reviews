@@ -58,12 +58,12 @@ abstract class Tag implements TagContract
     public function wrap(string $value, string $wrapWith = null): string
     {
         $rawValue = $value;
-        $value = glsr()->filterString($this->for.'/value/'.$this->tag, $value, $this);
+        $value = glsr()->filterString("{$this->for}/value/{$this->tag}", $value, $this);
         if (Helper::isNotEmpty($value)) {
             if (!empty($wrapWith)) {
                 $value = $this->wrapValue($wrapWith, $value);
             }
-            $value = glsr()->filterString($this->for.'/wrapped', $value, $rawValue, $this);
+            $value = glsr()->filterString("{$this->for}/wrapped", $value, $rawValue, $this);
             if (!$this->isRaw()) {
                 $value = glsr(Builder::class)->div([
                     'class' => sprintf('glsr-%s-%s', $this->for, $this->tag),
@@ -71,7 +71,7 @@ abstract class Tag implements TagContract
                 ]);
             }
         }
-        return glsr()->filterString($this->for.'/wrap/'.$this->tag, $value, $rawValue, $this);
+        return glsr()->filterString("{$this->for}/wrap/{$this->tag}", $value, $rawValue, $this);
     }
 
     protected function handle(string $value = ''): string

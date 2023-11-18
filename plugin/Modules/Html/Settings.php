@@ -17,7 +17,7 @@ class Settings
         $data = !method_exists($this, $method)
             ? $this->getTemplateData($id)
             : $this->$method($id);
-        return glsr(Template::class)->build('pages/settings/'.$id, $data);
+        return glsr(Template::class)->build("pages/settings/{$id}", $data);
     }
 
     /**

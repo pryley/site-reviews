@@ -81,7 +81,7 @@ class EnqueuePublicAssets extends AbstractCommand
     {
         $inlineStylesheetPath = glsr()->path('assets/styles/inline-styles.css');
         if (!file_exists($inlineStylesheetPath)) {
-            glsr_log()->error('Inline stylesheet is missing: '.$inlineStylesheetPath);
+            glsr_log()->error("Inline stylesheet is missing: {$inlineStylesheetPath}");
             return '';
         }
         $inlineStylesheetValues = glsr()->config('inline-styles');

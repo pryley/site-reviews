@@ -47,7 +47,7 @@ class RestTypeController extends \WP_REST_Controller
      */
     public function register_routes()
     {
-        register_rest_route($this->namespace, '/'.$this->rest_base, [
+        register_rest_route($this->namespace, "/{$this->rest_base}", [
             [
                 'callback' => [$this, 'get_items'],
                 'methods' => \WP_REST_Server::READABLE,

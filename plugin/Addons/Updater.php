@@ -96,7 +96,7 @@ class Updater
             add_filter('plugins_api', [$this, 'filterPluginUpdateDetails'], 10, 3);
             add_filter('pre_set_site_transient_update_plugins', [$this, 'filterPluginUpdates'], 999);
             add_action('load-update-core.php', [$this, 'onForceUpdateCheck'], 9);
-            add_action('in_plugin_update_message-'.$this->plugin, [$this, 'renderLicenseMissingLink']);
+            add_action("in_plugin_update_message-{$this->plugin}", [$this, 'renderLicenseMissingLink']);
         }
     }
 

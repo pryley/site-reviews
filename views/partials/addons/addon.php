@@ -20,7 +20,7 @@
                 <?= _x('Installed', 'admin-text', 'site-reviews'); ?>
             </span>
         <?php else: ?>
-            <a href="<?= wp_nonce_url(self_admin_url('plugins.php?action=activate&plugin='.$plugin), 'activate-plugin_'.$plugin); ?>" class="glsr-addon-link button button-primary">
+            <a href="<?= wp_nonce_url(self_admin_url("plugins.php?action=activate&plugin={$plugin}"), "activate-plugin_{$plugin}"); ?>" class="glsr-addon-link button button-primary">
                 <?= _x('Activate', 'admin-text', 'site-reviews'); ?>
             </a>
         <?php endif; ?>

@@ -223,7 +223,7 @@ class AdminController extends AbstractController
             'hasScreenOptions' => in_array($screen->base, ['edit', 'edit-tags', 'post']),
             'logo' => file_get_contents(glsr()->path('assets/images/mascot.svg')),
             'newText' => Arr::get($post_type_object, 'labels.add_new'),
-            'newUrl' => admin_url('post-new.php?post_type='.$typenow),
+            'newUrl' => admin_url("post-new.php?post_type={$typenow}"),
             'title' => esc_html($title),
         ]);
     }

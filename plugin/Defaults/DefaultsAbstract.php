@@ -84,8 +84,8 @@ abstract class DefaultsAbstract implements DefaultsContract
 
     public function __construct()
     {
-        $hook = 'defaults/'.$this->currentHook().'/defaults';
-        $this->defaults = $this->app()->filterArray($hook, $this->defaults());
+        $this->hook = $this->currentHook();
+        $this->defaults = $this->app()->filterArray("defaults/{$this->hook}/defaults", $this->defaults());
     }
 
     public function __call(string $name, array $args = []): array
@@ -110,7 +110,6 @@ abstract class DefaultsAbstract implements DefaultsContract
 
     protected function callMethod(array $args): array
     {
-        $this->hook = $this->currentHook();
         $this->app()->action('defaults', $this, $this->hook, $this->method, $args[0]);
         $values = 'defaults' === $this->method
             ? $this->defaults // use the filtered defaults (these have not been normalized!)
@@ -121,7 +120,7 @@ abstract class DefaultsAbstract implements DefaultsContract
             $values = $this->finalize($values);
         }
         $args = array_shift($args);
-        return $this->app()->filterArray('defaults/'.$this->hook, $values, $this->method, $args);
+        return $this->app()->filterArray("defaults/{$this->hook}", $values, $this->method, $args);
     }
 
     protected function currentHook(): string
@@ -161,7 +160,7 @@ abstract class DefaultsAbstract implements DefaultsContract
         $filtered = $this->finalize($filtered);
         $filteredJson = [];
         foreach ($filtered as $key => $value) {
-            $filteredJson['data-'.$key] = !is_scalar($value)
+            $filteredJson["data-{$key}"] = !is_scalar($value)
                 ? json_encode((array) $value, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
                 : $value;
         }
@@ -292,8 +291,7 @@ abstract class DefaultsAbstract implements DefaultsContract
             $property = $reflection->getProperty($key);
             $value = $property->getValue($this);
             if ($property->isPublic()) { // all public properties are expected to be an array
-                $hook = 'defaults/'.$this->hook.'/'.$key;
-                return $this->app()->filterArray($hook, $value, $this->method);
+                return $this->app()->filterArray("defaults/{$this->hook}/{$key}", $value, $this->method);
             }
         } catch (\ReflectionException $e) {
             glsr_log()->error("Invalid or protected property [$key].");

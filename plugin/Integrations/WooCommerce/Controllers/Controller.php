@@ -42,7 +42,7 @@ class Controller extends AbstractController
             'summary' => 'site_reviews_summary',
         ];
         foreach ($shortcodes as $key => $shortcode) {
-            $path = 'settings.addons.woocommerce.'.$key;
+            $path = "settings.addons.woocommerce.{$key}";
             $value = Arr::get($input, $path);
             if (1 !== preg_match("/^\[{$shortcode}(\s[^\]]*\]|\])$/", $value)) {
                 continue;

@@ -16,7 +16,7 @@ class Honeypot
             'name' => $this->hash($formId),
             'type' => 'text',
         ]);
-        $honeypot->id = $honeypot->id.'-'.$formId;
+        $honeypot->id = "{$honeypot->id}-{$formId}";
         return glsr(Builder::class)->div([
             'class' => glsr(Style::class)->classes('field'),
             'style' => 'display:none;',

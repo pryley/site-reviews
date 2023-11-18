@@ -79,7 +79,8 @@ class Dump
                 $this->inspect($val);
             }
         }
-        $this->result[] = str_repeat(' ', ($this->level - 1) * 4).")\n";
+        $spacing = str_repeat(' ', ($this->level - 1) * 4);
+        $this->result[] = "{$spacing})\n";
     }
 
     protected function inspectClosure(\Closure $subject): void
@@ -88,7 +89,8 @@ class Dump
         $params = array_map(function ($param) {
             return ($param->isPassedByReference() ? '&$' : '$').$param->name;
         }, $reflection->getParameters());
-        $this->result[] = 'Closure ('.implode(', ', $params).') { ... }'."\n";
+        $params = implode(', ', $params);
+        $this->result[] = "Closure ({$params}) { ... }\n";
     }
 
     /**
@@ -98,13 +100,13 @@ class Dump
     {
         $classname = get_class($subject);
         if ($this->level > $this->depth) {
-            $this->result[] = 'Nested '.$classname." Object\n";
+            $this->result[] = "Nested {$classname} Object\n";
             return;
         }
         if ($subject instanceof \ArrayObject) {
-            $this->result[] = $classname." ArrayObject (\n";
+            $this->result[] = "{$classname} ArrayObject (\n";
         } else {
-            $this->result[] = $classname." Object (\n";
+            $this->result[] = "{$classname} Object (\n";
             $subject = (array) $subject;
         }
         foreach ($subject as $key => $val) {
@@ -128,7 +130,7 @@ class Dump
         } elseif (null === $subject) {
             $subject = '(null)';
         }
-        $this->result[] = $subject."\n";
+        $this->result[] = "{$subject}\n";
     }
 
     protected function isIgnoredKey(string $key): bool

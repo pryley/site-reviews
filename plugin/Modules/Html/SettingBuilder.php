@@ -17,7 +17,7 @@ class SettingBuilder extends Builder
         if (empty($this->args->after)) {
             return '';
         }
-        return '&nbsp;'.$this->args->after;
+        return "&nbsp;{$this->args->after}";
     }
 
     protected function buildFieldDescription(): string
@@ -38,7 +38,7 @@ class SettingBuilder extends Builder
         foreach ($this->args->options as $value => $label) {
             $fields[] = $this->input([
                 'checked' => in_array($value, $this->args->cast('value', 'array')),
-                'id' => Helper::ifTrue(!empty($this->args->id), $this->args->id.'-'.++$index),
+                'id' => Helper::ifTrue(!empty($this->args->id), "{$this->args->id}-".++$index),
                 'label' => $label,
                 'name' => $this->args->name,
                 'type' => $this->args->type,

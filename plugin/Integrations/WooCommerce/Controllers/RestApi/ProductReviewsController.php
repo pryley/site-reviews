@@ -384,20 +384,21 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
     {
         $links = [
             'self' => [
-                'href' => rest_url(sprintf('/%s/%s/%d', $this->namespace, $this->rest_base, $review->ID)),
+                'href' => rest_url("/{$this->namespace}/{$this->rest_base}/{$review->ID}"),
             ],
             'collection' => [
-                'href' => rest_url(sprintf('/%s/%s', $this->namespace, $this->rest_base)),
+                'href' => rest_url("/{$this->namespace}/{$this->rest_base}"),
             ],
         ];
         if (!empty($review->assigned_posts)) {
+            $postId = Arr::get($review->assigned_posts, 0);
             $links['up'] = [
-                'href' => rest_url(sprintf('/%s/products/%d', $this->namespace, Arr::get($review->assigned_posts, 0))),
+                'href' => rest_url("/{$this->namespace}/products/{$postId}"),
             ];
         }
         if (0 !== $review->author_id) {
             $links['reviewer'] = [
-                'href' => rest_url('wp/v2/users/'.$review->author_id),
+                'href' => rest_url("wp/v2/users/{$review->author_id}"),
                 'embeddable' => true,
             ];
         }

@@ -41,11 +41,11 @@ class SiteReviewsSummaryShortcode extends Shortcode
     {
         $args = $this->args;
         $className = Helper::buildClassName(['summary', $tag, 'tag'], 'Modules\Html\Tags');
-        $className = glsr()->filterString('summary/tag/'.$tag, $className, $this);
+        $className = glsr()->filterString("summary/tag/{$tag}", $className, $this);
         $field = class_exists($className)
             ? glsr($className, compact('tag', 'args'))->handleFor('summary', null, $this->ratings)
             : '';
-        return glsr()->filterString('summary/build/'.$tag, $field, $this->ratings, $this);
+        return glsr()->filterString("summary/build/{$tag}", $field, $this->ratings, $this);
     }
 
     protected function generateSchema(): void

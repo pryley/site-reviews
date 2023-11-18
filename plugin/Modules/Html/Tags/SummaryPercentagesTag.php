@@ -40,7 +40,7 @@ class SummaryPercentagesTag extends SummaryTag
     {
         $background = glsr(Builder::class)->span([
             'class' => 'glsr-bar-background-percent',
-            'style' => 'width:'.$percentages[$level],
+            'style' => "width:{$percentages[$level]}",
         ]);
         return glsr(Builder::class)->span([
             'class' => 'glsr-bar-background',
@@ -59,7 +59,7 @@ class SummaryPercentagesTag extends SummaryTag
 
     protected function ratingLabel(int $level): string
     {
-        $label = $this->args->get('labels.'.$level);
+        $label = $this->args->get("labels.{$level}");
         return glsr(Builder::class)->span([
             'class' => 'glsr-bar-label',
             'text' => $label,

@@ -65,7 +65,7 @@ class SettingsController extends AbstractController
         $multiFields = ['limit_assignments', 'required'];
         foreach ($multiFields as $name) {
             $defaultValue = Arr::get($inputForm, $name, []);
-            $options = Arr::set($options, $key.'.'.$name, $defaultValue);
+            $options = Arr::set($options, "{$key}.{$name}", $defaultValue);
         }
         return $options;
     }
@@ -151,7 +151,7 @@ class SettingsController extends AbstractController
     protected function verifyLicense(string $license, string $addonId): string
     {
         if (empty(glsr()->updated[$addonId])) {
-            glsr_log()->error('Unknown addon: '.$addonId);
+            glsr_log()->error("Unknown addon: {$addonId}");
             glsr(Notice::class)->addError(_x('A license you entered could not be verified for the selected addon.', 'admin-text', 'site-reviews'));
             return '';
         }
@@ -159,7 +159,7 @@ class SettingsController extends AbstractController
             $addon = glsr()->updated[$addonId];
             $updater = new Updater($addon['updateUrl'], $addon['file'], $addonId, compact('license'));
             if (!$updater->isLicenseValid()) {
-                throw new LicenseException('Invalid license: '.$license.' ('.$addonId.')');
+                throw new LicenseException("Invalid license: {$license} ({$addonId})");
             }
         } catch (LicenseException $e) {
             $license = '';

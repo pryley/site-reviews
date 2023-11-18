@@ -19,7 +19,7 @@ class NoticeController extends AbstractController
         if ('activate' !== $action || 'notice' !== $trigger || empty($plugin)) {
             return;
         }
-        check_admin_referer('activate-plugin_'.$plugin);
+        check_admin_referer("activate-plugin_{$plugin}");
         $result = activate_plugin($plugin, '', is_network_admin(), true);
         if (is_wp_error($result)) {
             wp_die($result->get_error_message());

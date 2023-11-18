@@ -72,7 +72,7 @@ class OptionManager
         $path = ltrim(Str::removePrefix($path, 'settings'), '.');
         if (!empty($path)) {
             $path = str_replace('.', '/', $path);
-            $option = glsr()->filter('option/'.$path, $option);
+            $option = glsr()->filter("option/{$path}", $option);
         }
         return Cast::to($cast, $option);
     }

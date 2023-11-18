@@ -35,7 +35,7 @@ class WelcomeController extends AbstractController
      */
     public function filterAdminTitle($title)
     {
-        return 'dashboard_page_'.$this->welcomePage === glsr_current_screen()->id
+        return "dashboard_page_{$this->welcomePage}" === glsr_current_screen()->id
             ? sprintf(_x('Welcome to %s &#8212; WordPress', 'admin-text', 'site-reviews'), glsr()->name)
             : $title;
     }

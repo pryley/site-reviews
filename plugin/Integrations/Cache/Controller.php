@@ -175,7 +175,7 @@ class Controller extends AbstractController
             $postType = $post->post_type ?? 'post';
             $postTitle = $post->post_title ?? '';
             if (in_array($postType, $cacheableTypes)) {
-                nitropack_invalidate(null, 'single:'.$postId, sprintf('Invalidating "%s" after creating/updating/deleting an assigned review', $postTitle));
+                nitropack_invalidate(null, "single:{$postId}", sprintf('Invalidating "%s" after creating/updating/deleting an assigned review', $postTitle));
             }
         }
     }

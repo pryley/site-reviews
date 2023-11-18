@@ -77,7 +77,7 @@ abstract class AbstractTable
         $constraint = Str::prefix($column, glsr()->prefix.$this->name.'_');
         $constraint = Str::suffix($constraint, '_foreign');
         if (is_multisite() && $this->db->blogid > 1) {
-            return Str::suffix($constraint, '_'.$this->db->blogid);
+            return Str::suffix($constraint, "_{$this->db->blogid}");
         }
         return $constraint;
     }

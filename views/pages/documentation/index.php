@@ -11,7 +11,7 @@
     </nav>
     <?php foreach ($tabs as $id => $title) : ?>
     <div class="glsr-nav-view ui-tabs-hide" id="<?= $id; ?>">
-        <?php glsr()->render('pages/documentation/'.$id, $data); ?>
+        <?php glsr()->render("pages/documentation/{$id}", $data); ?>
     </div>
     <?php endforeach; ?>
     <input type="hidden" name="_active_tab">

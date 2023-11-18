@@ -133,7 +133,7 @@ class Email implements EmailContract
         $headers = array_filter($headers);
         foreach ($headers as $key => $value) {
             unset($headers[$key]);
-            $headers[] = $key.': '.$value;
+            $headers[] = "{$key}: {$value}";
         }
         $headers[] = 'Content-Type: text/html';
         return $this->app()->filterArray('email/headers', $headers, $this);
@@ -149,7 +149,8 @@ class Email implements EmailContract
         $message = str_replace('&lt;&gt; ', '', $message);
         $message = str_replace(']]>', ']]&gt;', $message);
         $context = wp_parse_args(['message' => $message], $this->email['template-tags']);
-        $message = $this->template()->build('templates/emails/'.$this->email['template'], [
+        $template = $this->email['template'];
+        $message = $this->template()->build("templates/emails/{$template}", [
             'context' => $context,
         ]);
         return $this->app()->filterString('email/message', stripslashes($message), 'html', $this);

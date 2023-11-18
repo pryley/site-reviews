@@ -12,7 +12,7 @@ abstract class AbstractController
         if (glsr()->can('edit_others_posts')) {
             nocache_headers();
             header('Content-Type: text/plain');
-            header('Content-Disposition: attachment; filename="'.$filename.'"');
+            header("Content-Disposition: attachment; filename=\"{$filename}\"");
             echo html_entity_decode($content);
             exit;
         }

@@ -102,7 +102,7 @@ class Builder implements BuilderContract
 
     public function buildClosingTag(): string
     {
-        return '</'.$this->tag.'>';
+        return "</{$this->tag}>";
     }
 
     public function buildCustom(string $tag): string
@@ -140,7 +140,8 @@ class Builder implements BuilderContract
     public function buildOpeningTag(): string
     {
         $attributes = glsr(Attributes::class)->{$this->tag}($this->args->toArray())->toString();
-        return '<'.trim($this->tag.' '.$attributes).'>';
+        $tagContent = trim("{$this->tag} {$attributes}");
+        return "<{$tagContent}>";
     }
 
     public function raw(array $field): string
@@ -189,8 +190,9 @@ class Builder implements BuilderContract
     protected function buildFormInputChoice(): string
     {
         if ($label = Helper::ifEmpty($this->args->text, $this->args->label)) {
+            $openingTag = $this->buildOpeningTag();
             return $this->buildFormLabel([
-                'text' => $this->buildOpeningTag().' '.$label,
+                'text' => "{$openingTag} {$label}",
             ]);
         }
         return $this->buildOpeningTag();
@@ -306,7 +308,7 @@ class Builder implements BuilderContract
     protected function getFieldClassName(string $tag): string
     {
         $className = Helper::buildClassName($tag, __NAMESPACE__.'\Fields');
-        return glsr()->filterString('builder/field/'.$tag, $className);
+        return glsr()->filterString("builder/field/{$tag}", $className);
     }
 
     protected function normalize(array $args, string $type): array

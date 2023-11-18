@@ -53,7 +53,7 @@ abstract class Block
         $block = (new \ReflectionClass($this))->getShortName();
         $block = Str::snakeCase($block);
         $block = str_replace(['_block', 'site_reviews_', 'site_'], '', $block);
-        register_block_type(glsr()->id.'/'.$block, [
+        register_block_type(glsr()->id."/{$block}", [
             'attributes' => $this->app()->filterArray("block/{$block}/attributes", $this->attributes()),
             'editor_script' => "{$this->app()->id}/blocks",
             'editor_style' => "{$this->app()->id}/blocks",

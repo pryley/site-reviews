@@ -119,9 +119,9 @@ class MainController extends AbstractController
     {
         $style = glsr_get_option('addons.woocommerce.style');
         if (in_array($style, ['black', 'woocommerce'])) {
-            $config[':star-empty'] = glsr()->url('assets/images/stars/'.$style.'/star-empty.svg');
-            $config[':star-full'] = glsr()->url('assets/images/stars/'.$style.'/star-full.svg');
-            $config[':star-half'] = glsr()->url('assets/images/stars/'.$style.'/star-half.svg');
+            $config[':star-empty'] = glsr()->url("assets/images/stars/{$style}/star-empty.svg");
+            $config[':star-full'] = glsr()->url("assets/images/stars/{$style}/star-full.svg");
+            $config[':star-half'] = glsr()->url("assets/images/stars/{$style}/star-half.svg");
         }
         return $config;
     }

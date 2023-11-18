@@ -92,7 +92,7 @@ class Field
     {
         return [
             glsr(Style::class)->classes($key),
-            Str::suffix(glsr(Style::class)->defaultClasses($key), '-'.$this->fieldType()),
+            Str::suffix(glsr(Style::class)->defaultClasses($key), "-{$this->fieldType()}"),
         ];
     }
 
@@ -166,7 +166,8 @@ class Field
 
     protected function buildField(): string
     {
-        $field = glsr(Template::class)->build('templates/form/field_'.$this->field['raw_type'], [
+        $rawFieldType = $this->field['raw_type'];
+        $field = glsr(Template::class)->build("templates/form/field_{$rawFieldType}", [
             'context' => [
                 'class' => $this->getFieldClasses(),
                 'description' => $this->getFieldDescription(),
@@ -189,7 +190,7 @@ class Field
         $index = 0;
         return array_reduce(array_keys($this->field['options']), function ($carry, $value) use (&$index) {
             $args = glsr()->args($this->field);
-            $type = $this->choiceType();
+            $choiceType = $this->choiceType();
             $inputField = [
                 'checked' => in_array($value, $args->cast('value', 'array')),
                 'class' => $args->class,
@@ -200,9 +201,9 @@ class Field
                 'type' => $args->type,
                 'value' => $value,
             ];
-            $html = glsr(Template::class)->build('templates/form/type-'.$type, [
+            $html = glsr(Template::class)->build("templates/form/type-{$choiceType}", [
                 'context' => [
-                    'class' => glsr(Style::class)->defaultClasses('field').'-'.$type, // only use the default class here!
+                    'class' => glsr(Style::class)->defaultClasses('field')."-{$choiceType}", // only use the default class here!
                     'id' => $inputField['id'],
                     'input' => $this->builder()->raw($inputField),
                     'text' => $args->options[$value],
@@ -210,7 +211,7 @@ class Field
                 'field' => $this->field,
                 'input' => $inputField,
             ]);
-            $html = glsr()->filterString('rendered/field', $html, $type, $inputField);
+            $html = glsr()->filterString('rendered/field', $html, $choiceType, $inputField);
             return $carry.$html;
         });
     }
@@ -247,8 +248,9 @@ class Field
 
     protected function normalizeFieldArgs(): void
     {
+        $fieldType = $this->field['type'];
         $className = Helper::buildClassName($this->field['type'], __NAMESPACE__.'\Fields');
-        $className = glsr()->filterString('builder/field/'.$this->field['type'], $className);
+        $className = glsr()->filterString("builder/field/{$fieldType}", $className);
         if (class_exists($className)) {
             $this->field = $this->mergeFieldArgs($className);
         }
@@ -263,7 +265,8 @@ class Field
             $this->normalizeFieldArgs();
             $this->normalizeFieldId();
             $this->normalizeFieldName();
-            $this->field = glsr()->filterArray('field/'.$this->field['raw_type'], $this->field);
+            $rawFieldType = $this->field['raw_type'];
+            $this->field = glsr()->filterArray("field/{$rawFieldType}", $this->field);
         }
     }
 

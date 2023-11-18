@@ -39,12 +39,14 @@ class RegisterPostType extends AbstractCommand
             $this->columns = array_combine($keys, $this->columns);
         }
         if (array_key_exists('is_pinned', $this->columns)) {
-            $this->columns['is_pinned'] = glsr(Builder::class)->span('<span>'.$this->columns['is_pinned'].'</span>',
+            $pinnedValue = $this->columns['is_pinned'];
+            $this->columns['is_pinned'] = glsr(Builder::class)->span("<span>{$pinnedValue}</span>",
                 ['class' => 'pinned-icon']
             );
         }
         if (array_key_exists('is_verified', $this->columns)) {
-            $this->columns['is_verified'] = glsr(Builder::class)->span('<span>'.$this->columns['is_verified'].'</span>',
+            $verifiedValue = $this->columns['is_verified'];
+            $this->columns['is_verified'] = glsr(Builder::class)->span("<span>{$verifiedValue}</span>",
                 ['class' => 'verified-icon']
             );
         }

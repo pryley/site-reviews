@@ -57,7 +57,7 @@ class Text
             'first' => $firstName,
             'first_initial' => $firstNameInitial.$lastName,
             'last' => $lastName,
-            'last_initial' => $firstName.' '.$lastNameInitial,
+            'last_initial' => "{$firstName} {$lastNameInitial}",
         ];
         return trim((string) Arr::get($nameFormats, $nameFormat, $name));
     }

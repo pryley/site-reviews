@@ -152,7 +152,7 @@ class EnqueueAdminAssets extends AbstractCommand
         return [
             'id' => $pointer['id'],
             'options' => [
-                'content' => '<h3>'.$pointer['title'].'</h3><p>'.$pointer['content'].'</p>',
+                'content' => "<h3>{$pointer['title']}</h3><p>{$pointer['content']}</p>",
                 'position' => $pointer['position'],
             ],
             'screen' => $pointer['screen'],

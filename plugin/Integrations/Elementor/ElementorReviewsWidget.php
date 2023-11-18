@@ -137,7 +137,7 @@ class ElementorReviewsWidget extends ElementorWidget
         $hideOptions = $this->get_shortcode_instance()->getHideOptions();
         foreach ($hideOptions as $key => $label) {
             $separator = $key === key(array_slice($hideOptions, 0, 1)) ? 'before' : 'default';
-            $options['hide-'.$key] = [
+            $options["hide-{$key}"] = [
                 'label' => $label,
                 'separator' => $separator,
                 'return_value' => '1',

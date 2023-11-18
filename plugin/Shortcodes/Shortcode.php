@@ -37,7 +37,7 @@ abstract class Shortcode implements ShortcodeContract
         ]);
         unset($attributes['data-id']);
         unset($attributes['data-form_id']);
-        $attributes = glsr()->filterArray('shortcode/'.$this->shortcode.'/attributes', $attributes, $this);
+        $attributes = glsr()->filterArray("shortcode/{$this->shortcode}/attributes", $attributes, $this);
         $attributes = array_map('esc_attr', $attributes);
         return $attributes;
     }

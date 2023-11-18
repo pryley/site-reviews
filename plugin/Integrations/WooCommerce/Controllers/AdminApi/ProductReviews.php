@@ -17,21 +17,22 @@ class ProductReviews extends ProductReviewsController
     {
         $links = [
             'self' => [
-                'href' => rest_url(sprintf('/%s/%s/%d', $this->namespace, $this->rest_base, $review->ID)),
+                'href' => rest_url("/{$this->namespace}/{$this->rest_base}/{$review->ID}"),
             ],
             'collection' => [
-                'href' => rest_url(sprintf('/%s/%s', $this->namespace, $this->rest_base)),
+                'href' => rest_url("/{$this->namespace}/{$this->rest_base}"),
             ],
         ];
         if (!empty($review->assigned_posts)) {
+            $postId = Arr::get($review->assigned_posts, 0);
             $links['up'] = [
-                'href' => rest_url(sprintf('/%s/products/%d', $this->namespace, Arr::get($review->assigned_posts, 0))),
+                'href' => rest_url("/{$this->namespace}/products/{$postId}"),
                 'embeddable' => true,
             ];
         }
         if (0 !== $review->author_id) {
             $links['reviewer'] = [
-                'href' => rest_url('wp/v2/users/'.$review->user_id),
+                'href' => rest_url("wp/v2/users/{$review->user_id}"),
                 'embeddable' => true,
             ];
         }

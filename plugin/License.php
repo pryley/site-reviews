@@ -26,13 +26,13 @@ class License
                 continue; // this is a free addon
             }
             $isFree = false; // there are premium addons installed
-            if (empty(glsr_get_option('licenses.'.$addonId))) {
+            if (empty(glsr_get_option("licenses.{$addonId}"))) {
                 $isSaved = false;
                 continue; // the license has not been saved in the settings
             }
             $licenseStatus = get_option(glsr()->prefix.$addonId);
             if (empty($licenseStatus)) { // the license status has not been stored
-                $license = glsr_get_option('licenses.'.$addonId);
+                $license = glsr_get_option("licenses.{$addonId}");
                 $updater = new Updater($addon['updateUrl'], $addon['file'], $addonId, compact('license'));
                 if (!$updater->isLicenseValid()) {
                     $isValid = false;

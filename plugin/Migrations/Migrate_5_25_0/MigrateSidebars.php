@@ -85,18 +85,18 @@ class MigrateSidebars implements MigrateContract
     protected function migrateUserMeta()
     {
         $postType = glsr()->post_type;
-        $metaKey = 'meta-box-order_'.$postType;
+        $metaKey = "meta-box-order_{$postType}";
         $metaOrder = [
             'side' => [
                 'submitdiv',
-                $postType.'-categorydiv',
-                $postType.'-postsdiv',
-                $postType.'-usersdiv',
-                $postType.'-authordiv',
+                "{$postType}-categorydiv",
+                "{$postType}-postsdiv",
+                "{$postType}-usersdiv",
+                "{$postType}-authordiv",
             ],
             'normal' => [
-                $postType.'-responsediv',
-                $postType.'-detailsdiv',
+                "{$postType}-responsediv",
+                "{$postType}-detailsdiv",
             ],
             'advanced' => [],
         ];
@@ -141,7 +141,7 @@ class MigrateSidebars implements MigrateContract
             'site-reviews-summary',
         ];
         foreach ($widgets as $widget) {
-            $oldWidget = 'widget_'.glsr()->id.'_'.$widget;
+            $oldWidget = 'widget_'.glsr()->id."_{$widget}";
             $newWidget = 'widget_'.glsr()->prefix.$widget;
             if ($option = get_option($oldWidget)) {
                 update_option($newWidget, $this->migrateWidgetData($option));

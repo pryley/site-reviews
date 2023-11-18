@@ -210,7 +210,7 @@ class MyCredHook extends \myCRED_Hook
 
     protected function userLimitExceeded(int $userId, bool $isDeduction, string $key, array $values): bool
     {
-        $limit = Arr::getAs('int', $this->prefs, 'reviewer.'.$key);
+        $limit = Arr::getAs('int', $this->prefs, "reviewer.{$key}");
         if (0 === $limit) {
             return false;
         }

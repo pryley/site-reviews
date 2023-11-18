@@ -108,7 +108,7 @@ class FormFields
     protected function normalizeFieldId(Field $field): void
     {
         if (!empty($this->args->id) && !empty($field->field['id'])) {
-            $field->field['id'] .= '-'.$this->args->id;
+            $field->field['id'] .= "-{$this->args->id}";
         }
     }
 

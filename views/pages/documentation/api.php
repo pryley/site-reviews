@@ -9,7 +9,7 @@ foreach ($iterator as $fileinfo) {
         $files[$filename] = $fileinfo->getPathname();
     }
 }
-$files = glsr()->filterArray('documentation/'.$dir, $files);
+$files = glsr()->filterArray("documentation/{$dir}", $files);
 ksort($files, SORT_NATURAL);
 foreach ($files as $file) {
     include $file;

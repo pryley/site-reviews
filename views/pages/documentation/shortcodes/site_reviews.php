@@ -8,7 +8,7 @@
             $files[$filename] = $fileinfo->getPathname();
         }
     }
-    $files = glsr()->filterArray('documentation/shortcode/'.$dir, $files);
+    $files = glsr()->filterArray("documentation/shortcode/{$dir}", $files);
     ksort($files, SORT_NATURAL);
 ?>
 <div class="glsr-card postbox">

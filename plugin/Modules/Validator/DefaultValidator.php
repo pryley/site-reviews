@@ -38,7 +38,7 @@ class DefaultValidator extends ValidatorAbstract
             'content' => 'required',
             'email' => 'required|email',
             'name' => 'required',
-            'rating' => 'required|between:0,'.$maxRating,
+            'rating' => "required|between:0,{$maxRating}",
             'terms' => 'accepted',
             'title' => 'required',
         ];

@@ -33,9 +33,9 @@ class MenuController extends AbstractController
                 'class' => 'unapproved-count',
             ]);
             $awaitingModeration = glsr(Builder::class)->span($pendingCount, [
-                'class' => 'awaiting-mod count-'.$postCount->pending,
+                'class' => "awaiting-mod count-{$postCount->pending}",
             ]);
-            $menu[$key][0] .= ' '.$awaitingModeration;
+            $menu[$key][0] .= " {$awaitingModeration}";
             if (glsr()->post_type === $typenow) {
                 $menu[$key][4] .= ' current';
             }
@@ -56,7 +56,7 @@ class MenuController extends AbstractController
             'documentation' => _x('Help & Support', 'admin-text', 'site-reviews'),
         ]);
         foreach ($pages as $slug => $title) {
-            $method = Helper::buildMethodName('render-'.$slug.'-menu');
+            $method = Helper::buildMethodName("render-{$slug}-menu");
             if (!method_exists($this, $method)) {
                 continue;
             }
@@ -227,7 +227,7 @@ class MenuController extends AbstractController
                 }
             }
         }
-        return glsr()->filterArray('addon/'.$hookSuffix, $args);
+        return glsr()->filterArray("addon/{$hookSuffix}", $args);
     }
 
     /**
@@ -238,6 +238,6 @@ class MenuController extends AbstractController
     {
         $data['http_referer'] = (string) wp_get_referer();
         $data['notices'] = $this->getNotices();
-        glsr()->render('pages/'.$page.'/index', $data);
+        glsr()->render("pages/{$page}/index", $data);
     }
 }

@@ -123,12 +123,12 @@ class Notice
     {
         $class = sprintf('glsr-notice notice notice-%s inline is-dismissible', $args['type']);
         if (!empty($args['details'])) {
-            $class = 'bulk-action-notice '.$class;
+            $class = "bulk-action-notice {$class}";
             $lastIndex = count($args['messages']) - 1;
             $args['messages'][$lastIndex] .= sprintf(' <button class="button-link bulk-action-errors-collapsed" aria-expanded="false">%s <span class="toggle-indicator" aria-hidden="true"></span></button>',
                 _x('Show more details', 'admin-text', 'site-reviews')
             );
-            $li = array_reduce($args['details'], fn ($carry, $text) => $carry.'<li>'.$text.'</li>');
+            $li = array_reduce($args['details'], fn ($carry, $text) => "{$carry}<li>{$text}</li>");
             $args['messages'][] = sprintf('<ul class="bulk-action-errors hidden">%s</ul>', $li);
         }
         $text = array_reduce($args['messages'], fn ($carry, $message) => $carry.wpautop($message));

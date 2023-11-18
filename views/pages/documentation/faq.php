@@ -28,7 +28,7 @@ $sections = [ // order is intentional
     trailingslashit(__DIR__).'faq/ipaddress-incorrectly-detected.php',
 ];
 $filename = pathinfo(__FILE__, PATHINFO_FILENAME);
-$sections = glsr()->filterArrayUnique('documentation/'.$filename, $sections);
+$sections = glsr()->filterArrayUnique("documentation/{$filename}", $sections);
 foreach ($sections as $section) {
     include $section;
 }

@@ -77,7 +77,7 @@ class Style
         if (!isset($this->$property)) {
             $style = glsr_get_option('general.style', 'default');
             $config = shortcode_atts(array_fill_keys(['classes', 'pagination', 'validation'], []),
-                glsr()->config('styles/'.$style)
+                glsr()->config("styles/{$style}")
             );
             $this->classes = glsr(StyleClassesDefaults::class)->restrict($config['classes']);
             $this->pagination = glsr(PaginationDefaults::class)->restrict($config['pagination']);
@@ -104,7 +104,8 @@ class Style
 
     public function styleClasses(): string
     {
-        $classes = glsr()->filterString('style', 'glsr glsr-'.$this->__get('style'));
+        $style = $this->__get('style');
+        $classes = glsr()->filterString('style', "glsr glsr-{$style}");
         return glsr(Sanitizer::class)->sanitizeAttrClass($classes);
     }
 
@@ -156,12 +157,12 @@ class Style
     protected function customize(BuilderContract $instance): void
     {
         if (array_key_exists($instance->tag, $this->__get('classes'))) {
-            $key = $instance->tag.'_'.$instance->args->type;
+            $key = "{$instance->tag}_{$instance->args->type}";
             $classes = Arr::get($this->classes, $key, Arr::get($this->classes, $instance->tag));
             $classes = trim($instance->args->class.' '.$classes);
             $classes = implode(' ', Arr::unique(explode(' ', $classes))); // remove duplicate classes
             $instance->args->class = $classes;
-            glsr()->action('customize/'.$this->style, $instance);
+            glsr()->action("customize/{$this->style}", $instance);
         }
     }
 
@@ -169,7 +170,8 @@ class Style
     {
         $basename = basename($view);
         $basepath = rtrim($view, $basename);
-        $customPath = 'views/styles/'.$this->__get('style').'/';
+        $style = $this->__get('style');
+        $customPath = "views/styles/{$style}/";
         $parts = explode('_', $basename);
         $views = [
             $customPath.$basename, // styled view

@@ -10,6 +10,6 @@
 
 <?php foreach ($settings as $key => $rows) : ?>
     <div class="glsr-nav-view-section" id="<?= $key; ?>">
-        <?php glsr()->action('settings/'.$key, $rows); ?>
+        <?php glsr()->action("settings/{$key}", $rows); ?>
     </div>
 <?php endforeach; ?>

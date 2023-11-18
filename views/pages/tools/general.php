@@ -14,7 +14,7 @@ $sections = [
     trailingslashit(__DIR__).'general/test-ip-detection.php',
 ];
 $filename = pathinfo(__FILE__, PATHINFO_FILENAME);
-$sections = glsr()->filterArrayUnique('tools/'.$filename, $sections);
+$sections = glsr()->filterArrayUnique("tools/{$filename}", $sections);
 foreach ($sections as $section) {
     include $section;
 }

@@ -184,7 +184,7 @@ abstract class BaseType implements \ArrayAccess, \JsonSerializable, Type
     {
         if (!in_array($property, $this->allowed)
             && 'UnknownType' != (new \ReflectionClass($this))->getShortName()) {
-            glsr_log()->warning($this->getType().' does not allow the "'.$property.'" property');
+            glsr_log()->warning("{$this->getType()} does not allow the \"{$property}\" property");
             return $this;
         }
         if (!Helper::isEmpty($value)) {

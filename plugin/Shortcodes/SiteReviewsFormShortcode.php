@@ -83,7 +83,7 @@ class SiteReviewsFormShortcode extends Shortcode
         $field = class_exists($className)
             ? glsr($className, compact('tag', 'args'))->handleFor('form', null, $this->with)
             : '';
-        return glsr()->filterString('form/build/'.$tag, $field, $this->with, $this);
+        return glsr()->filterString("form/build/{$tag}", $field, $this->with, $this);
     }
 
     protected function debug(array $data = []): void
@@ -129,7 +129,7 @@ class SiteReviewsFormShortcode extends Shortcode
     {
         return glsr(Template::class)->build('templates/login-register', [
             'context' => [
-                'text' => trim($this->loginText().' '.$this->registerText()),
+                'text' => trim("{$this->loginText()} {$this->registerText()}"),
             ],
         ]);
     }

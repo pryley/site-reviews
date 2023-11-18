@@ -84,7 +84,7 @@ class Review extends Arguments
     public function __call(string $method, array $args)
     {
         array_unshift($args, $this);
-        $result = apply_filters_ref_array(glsr()->id.'/review/call/'.$method, $args);
+        $result = apply_filters_ref_array(glsr()->id."/review/call/{$method}", $args);
         if (!is_a($result, get_class($this))) {
             return $result;
         }

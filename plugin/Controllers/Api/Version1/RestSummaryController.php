@@ -69,7 +69,7 @@ class RestSummaryController extends RestReviewController
      */
     public function register_routes()
     {
-        register_rest_route($this->namespace, '/'.$this->rest_base, [
+        register_rest_route($this->namespace, "/{$this->rest_base}", [
             [
                 'args' => $this->get_collection_params(),
                 'callback' => [$this, 'get_items'],

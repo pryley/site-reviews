@@ -62,7 +62,8 @@ class Schema
                     ->worstRating(glsr()->constant('MIN_RATING', Rating::class))
             );
             $schema = $schema->toArray();
-            return glsr()->filterArray("schema/{$schema['@type']}", $schema, $args);
+            $type = $schema['@type'];
+            return glsr()->filterArray("schema/{$type}", $schema, $args);
         }
         return [];
     }
@@ -130,7 +131,7 @@ class Schema
             })
             ->datePublished(new \DateTime($review->date))
             ->author($this->getSchemaType('Person')->name($review->author()))
-            // ->url($this->getSchemaOptionValue('url').'#review-'.$review->ID)
+            // ->url($this->getSchemaOptionValue('url')."#review-{$review->ID}")
             ->itemReviewed($this->getSchemaType()->name($this->getSchemaOptionValue('name')));
         if (!empty($review->rating)) {
             $schema->reviewRating(
@@ -185,10 +186,10 @@ class Schema
     protected function getSchemaOption(string $option, string $fallback): string
     {
         $option = strtolower($option);
-        if ($schemaOption = trim((string) get_post_meta(intval(get_the_ID()), 'schema_'.$option, true))) {
+        if ($schemaOption = trim((string) get_post_meta(intval(get_the_ID()), "schema_{$option}", true))) {
             return $schemaOption;
         }
-        $setting = glsr(OptionManager::class)->get('settings.schema.'.$option);
+        $setting = glsr(OptionManager::class)->get("settings.schema.{$option}");
         if (is_array($setting)) {
             return $this->getSchemaOptionDefault($setting, $fallback);
         }

@@ -49,7 +49,7 @@ class ToggleStatus extends AbstractCommand
             return [];
         }
         return [
-            'class' => 'status-'.$this->status,
+            'class' => "status-{$this->status}",
             'counts' => $this->getStatusLinks(),
             'link' => $this->getPostLink(),
             'pending' => wp_count_posts(glsr()->post_type, 'readable')->pending,
@@ -90,7 +90,7 @@ class ToggleStatus extends AbstractCommand
         $hookName = 'edit-'.glsr()->post_type;
         set_current_screen($hookName);
         $table = new \WP_Posts_List_Table(['screen' => $hookName]);
-        $views = apply_filters('views_'.$hookName, $table->get_views()); // get_views() is in the $compat_methods array for public access
+        $views = apply_filters("views_{$hookName}", $table->get_views()); // get_views() is in the $compat_methods array for public access
         if (empty($views)) {
             return '';
         }

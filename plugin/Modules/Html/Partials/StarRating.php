@@ -52,7 +52,7 @@ class StarRating implements PartialContract
 
     protected function getTemplate(string $templateName, int $timesRepeated): string
     {
-        $template = glsr(Template::class)->build('templates/rating/'.$templateName, [
+        $template = glsr(Template::class)->build("templates/rating/{$templateName}", [
             'args' => $this->data->args,
             'context' => [
                 'prefix' => $this->data->prefix,

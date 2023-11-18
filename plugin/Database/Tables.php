@@ -52,7 +52,7 @@ class Tables
             ALTER TABLE {$this->dbname}.{$table} ENGINE = InnoDB;
         "));
         if (true === $result) {
-            update_option(glsr()->prefix.'engine_'.$table, 'innodb');
+            update_option(glsr()->prefix."engine_{$table}", 'innodb');
             $this->addForeignConstraints(); // apply InnoDB constraints
             return 1;
         }

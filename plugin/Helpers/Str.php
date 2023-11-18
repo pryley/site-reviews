@@ -31,7 +31,7 @@ class Str
     public static function convertPathToName(string $path, string $prefix = ''): string
     {
         $levels = explode('.', $path);
-        return array_reduce($levels, fn ($result, $value) => $result.'['.$value.']', $prefix);
+        return array_reduce($levels, fn ($result, $value) => "{$result}[{$value}]", $prefix);
     }
 
     public static function dashCase(string $string): string
@@ -87,7 +87,7 @@ class Str
     public static function naturalJoin(array $values): string
     {
         $and = __('and', 'site-reviews');
-        $values[] = implode(' '.$and.' ', array_splice($values, -2));
+        $values[] = implode(" {$and} ", array_splice($values, -2));
         return implode(', ', $values);
     }
 
