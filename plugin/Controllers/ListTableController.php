@@ -87,9 +87,10 @@ class ListTableController extends AbstractController
      */
     public function filterDefaultHiddenColumns($hidden, $screen)
     {
-        if (Arr::get($screen, 'id') === 'edit-'.glsr()->post_type) {
+        $hidden = Arr::consolidate($hidden);
+        if ('edit-'.glsr()->post_type === Arr::get($screen, 'id')) {
             $hiddenColumns = glsr()->retrieveAs('array', 'columns_hidden.'.glsr()->post_type, []);
-            return array_unique(array_merge(Arr::consolidate($hidden), $hiddenColumns));
+            return array_unique(array_merge($hidden, $hiddenColumns));
         }
         return $hidden;
     }
