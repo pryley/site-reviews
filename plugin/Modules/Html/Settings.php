@@ -13,7 +13,7 @@ class Settings
 {
     public function buildFields(string $id): string
     {
-        $method = Helper::buildMethodName($id, 'getTemplateDataFor');
+        $method = Helper::buildMethodName('getTemplateDataFor', $id);
         $data = !method_exists($this, $method)
             ? $this->getTemplateData($id)
             : $this->$method($id);

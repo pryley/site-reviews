@@ -65,7 +65,7 @@ class Sanitizer
         $name = trim(Arr::get($parts, 0));
         $args = trim(Arr::get($parts, 1));
         $args = 'regex' === $name ? [$args] : explode(',', $args);
-        $classname = Helper::buildClassName('sanitize-'.$name, 'Modules\Sanitizers');
+        $classname = Helper::buildClassName(['sanitize', $name], 'Modules\Sanitizers');
         if (!class_exists($classname)) {
             $classname = SanitizeText::class;
         }

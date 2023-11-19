@@ -83,7 +83,7 @@ class Builder implements BuilderContract
      */
     public function __set(string $property, $value): void
     {
-        $method = Helper::buildMethodName($property, 'set');
+        $method = Helper::buildMethodName('set', $property);
         if (method_exists($this, $method)) {
             call_user_func([$this, $method], $value);
         }
@@ -133,7 +133,7 @@ class Builder implements BuilderContract
 
     public function buildFormElement(): string
     {
-        $method = Helper::buildMethodName($this->tag, 'buildForm');
+        $method = Helper::buildMethodName('buildForm', $this->tag);
         return $this->$method();
     }
 

@@ -71,7 +71,8 @@ abstract class TinymceGenerator
             if (empty($field)) {
                 return;
             }
-            $method = Helper::buildMethodName(Arr::get($field, 'type'), 'normalize');
+            $type = Arr::getAs('string', $field, 'type');
+            $method = Helper::buildMethodName('normalize', $type);
             if (method_exists($this, $method)) {
                 return call_user_func([$this, $method], $field);
             }

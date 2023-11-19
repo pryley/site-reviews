@@ -46,7 +46,7 @@ class SystemInfo
             'settings',
         ];
         return trim(array_reduce($keys, function ($carry, $key) {
-            $method = Helper::buildMethodName($key, 'get');
+            $method = Helper::buildMethodName('get', $key);
             if (!method_exists($this, $method)) {
                 return $carry;
             }

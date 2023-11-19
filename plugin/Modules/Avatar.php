@@ -36,7 +36,7 @@ class Avatar
     {
         $url = '';
         if (in_array($this->type, ['custom', 'initials', 'none', 'pixels'])) {
-            $method = Helper::buildMethodName($this->type, 'generate');
+            $method = Helper::buildMethodName('generate', $this->type);
             if (method_exists($this, $method)) {
                 $url = call_user_func([$this, $method], $review);
             }

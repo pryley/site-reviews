@@ -172,7 +172,7 @@ class TemplateTags
         $tags = $this->filteredTags($args);
         array_walk($tags, function (&$content, $tag) use ($review) {
             $content = ''; // remove the tag description first!
-            $method = Helper::buildMethodName($tag, 'tag');
+            $method = Helper::buildMethodName('tag', $tag);
             if (method_exists($this, $method)) {
                 $content = call_user_func([$this, $method], $review);
             }

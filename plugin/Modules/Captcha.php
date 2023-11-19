@@ -12,7 +12,7 @@ class Captcha
         if (!$this->isEnabled()) {
             return [];
         }
-        $method = Helper::buildMethodName((string) glsr_get_option('forms.captcha.integration'), 'config');
+        $method = Helper::buildMethodName('config', (string) glsr_get_option('forms.captcha.integration'));
         if (!method_exists($this, $method)) {
             return [];
         }

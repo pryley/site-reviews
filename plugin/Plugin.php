@@ -32,7 +32,8 @@ trait Plugin
     public function __call($method, $args)
     {
         $isFilter = str_starts_with($method, 'filter');
-        $to = Helper::buildMethodName(Str::removePrefix($method, 'filter'), 'to');
+        $cast = Str::removePrefix($method, 'filter');
+        $to = Helper::buildMethodName('to', $cast);
         if ($isFilter && method_exists(Cast::class, $to)) {
             $filtered = call_user_func_array([$this, 'filter'], $args);
             return Cast::$to($filtered);

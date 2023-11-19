@@ -139,7 +139,7 @@ class GatekeeperNotice extends AbstractNotice
         $actions = [];
         foreach ($errors as $plugin => $data) {
             $error = Arr::getAs('string', $data, 'error');
-            $method = Helper::buildMethodName($error, 'pluginAction');
+            $method = Helper::buildMethodName('pluginAction', $error);
             if (method_exists($this, $method)) {
                 $actions[] = call_user_func([$this, $method], $data);
             }

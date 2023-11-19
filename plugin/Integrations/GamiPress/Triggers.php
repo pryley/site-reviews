@@ -48,7 +48,7 @@ class Triggers
             return sprintf($label, $requirements->rating);
         }
         foreach (['post_id', 'post_type', 'user_id', 'user_role'] as $key) {
-            $method = Helper::buildMethodName($key, 'labelFor');
+            $method = Helper::buildMethodName('labelFor', $key);
             if (str_contains($trigger, "/{$key}") && method_exists($this, $method)) {
                 return call_user_func([$this, $method], $label, $requirements, $fallback);
             }

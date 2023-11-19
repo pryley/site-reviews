@@ -26,14 +26,10 @@ class Helper
             : $className;
     }
 
-    public static function buildMethodName(string $name, string $prefix = '', string $suffix = ''): string
+    public static function buildMethodName(string ...$name): string
     {
-        return lcfirst(Str::camelCase(sprintf('%s-%s-%s', $prefix, $name, $suffix)));
-    }
-
-    public static function buildPropertyName(string $name): string
-    {
-        return static::buildMethodName($name);
+        $name = implode('-', $name);
+        return lcfirst(Str::camelCase($name));
     }
 
     /**

@@ -51,7 +51,7 @@ class Query
 
     public function ratingsFor(string $metaType, array $args = []): array
     {
-        $method = Helper::buildMethodName($metaType, 'queryRatingsFor');
+        $method = Helper::buildMethodName('queryRatingsFor', $metaType);
         if (!method_exists($this, $method)) {
             return [];
         }

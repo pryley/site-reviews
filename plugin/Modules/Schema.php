@@ -47,7 +47,7 @@ class Schema
         if (!empty($args)) {
             $this->args = $args;
         }
-        $buildSummary = Helper::buildMethodName($this->getSchemaOptionValue('type'), 'buildSummaryFor');
+        $buildSummary = Helper::buildMethodName('buildSummaryFor', $this->getSchemaOptionValue('type'));
         $count = array_sum($this->getRatingCounts($ratings));
         if (!glsr()->filterBool('schema/is-empty', empty($count))) {
             $schema = Helper::ifTrue(method_exists($this, $buildSummary),
@@ -217,7 +217,7 @@ class Schema
         if ($value !== $fallback) {
             return $this->setAndGetKeyValue($option, $value);
         }
-        $method = Helper::buildMethodName($option, 'getThing');
+        $method = Helper::buildMethodName('getThing', $option);
         if (!method_exists($this, $method)) {
             return '';
         }

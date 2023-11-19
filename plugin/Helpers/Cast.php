@@ -12,7 +12,7 @@ class Cast
      */
     public static function to(string $cast = '', ...$args)
     {
-        $method = Helper::buildMethodName($cast, 'to');
+        $method = Helper::buildMethodName('to', $cast);
         if (!empty($cast) && method_exists(__CLASS__, $method)) {
             return call_user_func_array([static::class, $method], $args);
         }

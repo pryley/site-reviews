@@ -106,7 +106,7 @@ class ListTableController extends AbstractController
         }
         $table = glsr(Query::class)->table('ratings');
         foreach ($clauses as $key => &$clause) {
-            $method = Helper::buildMethodName($key, 'modifyClause');
+            $method = Helper::buildMethodName('modifyClause', $key);
             if (method_exists($this, $method)) {
                 $clause = call_user_func([$this, $method], $clause, $table, $query);
             }

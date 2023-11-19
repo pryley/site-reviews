@@ -68,7 +68,7 @@ class Prepare
         if (!rest_is_field_included($key, $this->fields)) {
             return;
         }
-        $method = Helper::buildMethodName($key, 'prepare');
+        $method = Helper::buildMethodName('prepare', $key);
         if (method_exists($this, $method)) {
             call_user_func_array([$this, $method], $args);
         } else {

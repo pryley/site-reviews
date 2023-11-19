@@ -17,7 +17,7 @@ trait Sql
     {
         $prefix = Str::restrictTo('and,join', $clause);
         foreach ($this->args as $key => $value) {
-            $method = Helper::buildMethodName($key, 'clause-'.$prefix);
+            $method = Helper::buildMethodName('clause', $prefix, $key);
             if (!method_exists($this, $method) || Helper::isEmpty($value)) {
                 continue;
             }

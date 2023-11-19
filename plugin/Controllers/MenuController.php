@@ -56,7 +56,7 @@ class MenuController extends AbstractController
             'documentation' => _x('Help & Support', 'admin-text', 'site-reviews'),
         ]);
         foreach ($pages as $slug => $title) {
-            $method = Helper::buildMethodName("render-{$slug}-menu");
+            $method = Helper::buildMethodName('render', $slug, 'menu');
             if (!method_exists($this, $method)) {
                 continue;
             }

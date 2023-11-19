@@ -22,12 +22,7 @@ class HelperTest extends WP_UnitTestCase
 
     public function test_build_method_name()
     {
-        $this->assertEquals(Helper::buildMethodName('Hello-Doll', 'get'), 'getHelloDoll');
-    }
-
-    public function test_build_property_name()
-    {
-        $this->assertEquals(Helper::buildPropertyName('Hello-Doll'), 'helloDoll');
+        $this->assertEquals(Helper::buildMethodName('get', 'Hello-Doll'), 'getHelloDoll');
     }
 
     public function test_compare_versions()

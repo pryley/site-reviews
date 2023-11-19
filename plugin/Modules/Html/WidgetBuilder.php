@@ -8,7 +8,7 @@ class WidgetBuilder extends Builder
 {
     public function buildFormElement(): string
     {
-        $method = Helper::buildMethodName($this->tag, 'buildForm');
+        $method = Helper::buildMethodName('buildForm', $this->tag);
         return $this->$method().$this->buildFieldDescription();
     }
 

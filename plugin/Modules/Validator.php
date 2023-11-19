@@ -90,7 +90,7 @@ class Validator
             return;
         }
         $value = $this->getValue($attribute);
-        $method = Helper::buildMethodName($rule, 'validate');
+        $method = Helper::buildMethodName('validate', $rule);
         if (!method_exists($this, $method)) {
             throw new \BadMethodCallException("Method [$method] does not exist.");
         }

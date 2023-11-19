@@ -13,7 +13,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
 
     public function isValid(): bool
     {
-        $method = Helper::buildMethodName((string) glsr_get_option('forms.limit'), 'validateBy');
+        $method = Helper::buildMethodName('validateBy', (string) glsr_get_option('forms.limit'));
         return method_exists($this, $method)
             ? call_user_func([$this, $method])
             : true;
