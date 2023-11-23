@@ -295,14 +295,21 @@ class Review extends Arguments
         return $this->_post;
     }
 
+    public function rating(): string
+    {
+        return glsr_star_rating($this->get('rating'));
+    }
+
     public function render(array $args = []): void
     {
         echo $this->build($args);
     }
 
-    public function rating(): string
+    public function toArray(array $excludedKeys = []): array
     {
-        return glsr_star_rating($this->get('rating'));
+        $excludedKeys = Arr::consolidate($excludedKeys);
+        $values = Cast::toArrayDeep($this->getArrayCopy());
+        return array_diff_key($values, array_flip($excludedKeys));
     }
 
     public function type(): string

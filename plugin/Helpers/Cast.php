@@ -44,7 +44,13 @@ class Cast
      */
     public static function toArrayDeep($value, bool $explode = true): array
     {
-        return json_decode(json_encode(static::toArray($value, $explode)), true);
+        $values = static::toArray($value, $explode);
+        foreach ($values as $key => $value) {
+            if (is_object($value)) {
+                $values[$key] = static::toArrayDeep($value, $explode);
+            }
+        }
+        return json_decode(json_encode($values), true);
     }
 
     /**
