@@ -7,11 +7,11 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class Response
 {
-    public $body;
-    public $code;
-    public $message;
-    public $response;
-    public $status;
+    public array $body;
+    public int $code;
+    public bool $error = false;
+    public string $message;
+    public array $response;
 
     /**
      * @param array|\WP_Error $request
@@ -21,12 +21,11 @@ class Response
         $body = json_decode(wp_remote_retrieve_body($request), true);
         $this->body = Cast::toArray($body);
         $this->code = Cast::toInt(wp_remote_retrieve_response_code($request));
-        $this->message = Arr::get($body, 'message', wp_remote_retrieve_response_message($request));
+        $this->message = Arr::getAs('string', $body, 'message', wp_remote_retrieve_response_message($request));
         $this->response = Arr::getAs('array', $request, 'http_response');
-        $this->status = Arr::get($body, 'status');
         if (is_wp_error($request)) {
+            $this->error = true;
             $this->message = $request->get_error_message();
-            $this->status = 'error';
             glsr_log()->error($this->message);
         }
     }
@@ -41,8 +40,16 @@ class Response
         return !$this->successful();
     }
 
+    public function shouldRetry(): bool
+    {
+        return $this->code === 429 // Too-Many-Requests
+            || $this->code >= 500; // Internal errors
+    }
+
     public function successful(): bool
     {
-        return 'success' === $this->status;
+        return false === $this->error
+            && $this->code >= 200
+            && $this->code <= 299;
     }
 }

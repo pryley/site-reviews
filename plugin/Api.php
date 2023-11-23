@@ -2,52 +2,129 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Defaults\ApiDefaults;
+
 class Api
 {
-    protected const BASE_URL = 'https://api.site-reviews.com/v1/';
+    protected const BACKOFF_INITIAL = 1.0;
+    protected const BACKOFF_MAX = 120.0;
+    protected const BACKOFF_JITTER = 0.23;
+    protected const BACKOFF_MULTIPLIER = 1.6;
+    protected const DEFAULT_BASE_URL = 'https://api.site-reviews.com/v1/';
+
+    public string $baseUrl;
+
+    protected int $numRetries = 0;
+    protected float $backoff;
+    protected float $deadline;
+
+    public function __construct(string $url = '')
+    {
+        $this->backoff = self::BACKOFF_INITIAL;
+        $this->baseUrl = trailingslashit($url ?: static::DEFAULT_BASE_URL);
+        $this->deadline = microtime(true) + $this->backoff;
+    }
 
     public function args(array $args = []): array
     {
-        $args = wp_parse_args($args, [
-            'sslverify' => Helper::isLocalServer(),
-        ]);
-        return glsr()->filterArray('api/args', $args);
-    }
-
-    public function baseUrl(): string
-    {
-        return glsr()->filterString('api/base_url', static::BASE_URL);
+        $args = glsr(ApiDefaults::class)->merge($args);
+        $args = glsr()->filterArray('api/args', $args, $this->baseUrl);
+        return $args;
     }
 
     public function get(string $path, array $args = []): Response
     {
-        $args['method'] = 'GET';
-        return $this->request($path, $args);
+        return $this->request($path, wp_parse_args(['method' => 'GET'], $args));
     }
 
     public function post(string $path, array $args = []): Response
     {
-        $args['method'] = 'POST';
-        return $this->request($path, $args);
+        return $this->request($path, wp_parse_args(['method' => 'POST'], $args));
     }
 
     public function request(string $path, array $args = []): Response
     {
         $args = $this->args($args);
-        $transient = sprintf('%sapi_%s', glsr()->prefix, sanitize_key($path));
-        $response = get_transient($transient);
-        if (!empty($response) && empty($args['force'])) { // bypass transient with: $arg['force'] = true
-            return new Response($response);
+        $transientKey = $this->transientKey($path);
+        if (!$args['force']) {
+            $result = get_transient($transientKey);
         }
-        $response = wp_remote_request($this->url($path), $args);
-        if (!is_wp_error($response)) {
-            set_transient($transient, $response, DAY_IN_SECONDS);
+        if (!empty($result)) {
+            return new Response($result);
         }
-        return new Response($response);
+        $this->numRetries = 0;
+        while ($this->numRetries <= $args['max_retries']) {
+            $nextRetry = $this->numRetries + 1;
+            $timeout = max($args['timeout'], $this->timeUntilDeadline());
+            $url = $this->url($path);
+            $result = wp_remote_request($url, wp_parse_args(compact('timeout'), $args));
+            $response = new Response($result);
+            if ($response->successful()) {
+                if (!$args['force']) {
+                    set_transient($transientKey, $result, DAY_IN_SECONDS);
+                }
+                return $response;
+            }
+            if (!$response->shouldRetry() || $nextRetry >= $args['max_retries']) {
+                return $response;
+            }
+            $this->wait();
+            glsr_log("Starting retry {$nextRetry} for {$url} after sleeping for {$this->timeUntilDeadline()} seconds.");
+        }
+    }
+
+    public function transientKey(string $path = ''): string
+    {
+        $url = untrailingslashit($this->url($path));
+        $url = str_replace(['http://', 'https://', '-'], '', $url);
+        $url = str_replace('/', '_', $url);
+        $key = sanitize_key($url);
+        return glsr()->prefix."api_{$key}";
     }
 
     public function url(string $path): string
     {
-        return trailingslashit($this->baseUrl()).ltrim($path, '/');
+        return $this->baseUrl.ltrim($path, '/');
+    }
+
+    /**
+     * Apply multiplier to current backoff time
+     */
+    protected function newBackoff(): float
+    {
+        return min($this->backoff * self::BACKOFF_MULTIPLIER, self::BACKOFF_MAX);
+    }
+
+    /**
+     * Get deadline by applying jitter as a proportion of backoff:
+     * if jitter is 0.1, then multiply backoff by random value in [0.9, 1.1]
+     */
+    protected function newDeadline(): float
+    {
+        $now = microtime(true);
+        $jitter = 1 + self::BACKOFF_JITTER * (2 * (rand() / getrandmax()) - 1);
+        return $now + $this->backoff * $jitter;
+    }
+
+    protected function timeUntilDeadline(): float
+    {
+        $now = microtime(true);
+        return max($this->deadline - $now, 0.0);
+    }
+
+    /**
+     * Note: usleep() with values larger than 1000000 (1 second) may not be supported by the operating system.
+     */
+    protected function wait(): void
+    {
+        $timeUntilDeadline = $this->timeUntilDeadline();
+        if ($timeUntilDeadline > 1.0) {
+            sleep(floor($timeUntilDeadline));
+            $timeUntilDeadline = $this->timeUntilDeadline();
+        }
+        usleep(floor($timeUntilDeadline * 1e6));
+        $this->backoff = $this->newBackoff();
+        $this->deadline = $this->newDeadline();
+        $this->numRetries++;
     }
 }
