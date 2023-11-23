@@ -269,7 +269,7 @@ class Review extends Arguments
         if ('custom' === $key) {
             $value = Arr::consolidate($value);
             $value = Arr::prefixKeys($value, '_custom_');
-            $meta = wp_parse_args($this->_meta->toArray(), $value);
+            $meta = wp_parse_args($value, $this->meta()->toArray());
             $this->_meta = glsr()->args($meta);
             parent::offsetSet($key, $this->custom());
         }
