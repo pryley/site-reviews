@@ -145,3 +145,43 @@
     padding: 0 !important;
     margin: 0 !important;
 }
+
+:root #glsr-modal-error .glsr-modal__dialog {
+    min-height: auto;
+    padding: 1.5em;
+    width: 480px;
+}
+:root #glsr-modal-error .glsr-modal__dialog::before {
+    background-color: var(--glsr-red);
+    content: '';
+    display: block;
+    height: 3.5em;
+    left: 1.125em;
+    mask-size: contain;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='currentColor' d='M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8 3.58-8 8-8zm1.13 9.38l.35-6.46H8.52l.35 6.46h2.26zm-.09 3.36c.24-.23.37-.55.37-.96 0-.42-.12-.74-.36-.97s-.59-.35-1.06-.35-.82.12-1.07.35-.37.55-.37.97c0 .41.13.73.38.96.26.23.61.34 1.06.34s.8-.11 1.05-.34z'/%3E%3C/svg%3E");
+    opacity: .75;
+    position: absolute;
+    top: 1.125em;
+    width: 3.5em;
+}
+:root #glsr-modal-error .glsr-modal__close {
+    height: 3em;
+    margin: 0;
+    width: 3em;
+}
+:root #glsr-modal-error .glsr-modal__close::before {
+    font-size: 1.5em;
+}
+:root #glsr-modal-error .glsr-modal__header {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    font-weight: 700;
+    padding: 0 3em 0 4em;
+}
+:root #glsr-modal-error .glsr-modal__content {
+    padding: .25em 3em .25em 4em;
+}
+:root #glsr-modal-error .glsr-modal__footer {
+    padding: 0 3em 0 4em;
+}
