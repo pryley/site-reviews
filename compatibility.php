@@ -8,6 +8,17 @@ use GeminiLabs\SiteReviews\Modules\Paginate;
 defined('ABSPATH') || exit;
 
 /**
+ * Classic Editor
+ * @return array
+ * @see https://wordpress.org/plugins/classic-editor/
+ */
+add_action('edit_form_top', function ($post) {
+    if (class_exists('Classic_Editor') && glsr()->post_type === get_post_type($post)) {
+        remove_action('edit_form_top', ['Classic_Editor', 'remember_classic_editor']);
+    }
+}, 0);
+
+/**
  * Bootstrap pagination
  * @return array
  * @filter site-reviews/paginate_link
