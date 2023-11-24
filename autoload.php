@@ -47,7 +47,6 @@ spl_autoload_register(function ($className) {
         'GeminiLabs\\SiteReviews\\' => __DIR__.'/plugin/',
         'GeminiLabs\\SiteReviews\\Tests\\' => __DIR__.'/tests/',
         'GeminiLabs\\League\\Csv\\' => __DIR__.'/vendors/thephpleague/csv/',
-        'GeminiLabs\\Nitotm\\Eld\\' => __DIR__.'/vendors/nitotm/efficient-language-detector/src/',
         'GeminiLabs\\Sepia\\PoParser\\' => __DIR__.'/vendors/sepia/po-parser/',
         'GeminiLabs\\Sinergi\\BrowserDetector\\' => __DIR__.'/vendors/sinergi/browser-detector/',
         'GeminiLabs\\Spatie\\Color\\' => __DIR__.'/vendors/spatie/color/',
