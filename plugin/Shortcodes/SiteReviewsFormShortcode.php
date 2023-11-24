@@ -70,6 +70,45 @@ class SiteReviewsFormShortcode extends Shortcode
         return $url;
     }
 
+    public function loginLink(): string
+    {
+        return glsr(Builder::class)->a([
+            'href' => $this->loginUrl(),
+            'text' => __('logged in', 'site-reviews'),
+        ]);
+    }
+
+    public function loginUrl(): string
+    {
+        add_filter('login_url', [$this, 'filterLoginUrl'], 20, 3);
+        $url = wp_login_url(strval(get_permalink()));
+        remove_filter('login_url', [$this, 'filterLoginUrl'], 20);
+        return $url;
+    }
+
+    public function registerLink(): string
+    {
+        $registerUrl = $this->registerUrl();
+        if (empty($registerUrl)) {
+            return '';
+        }
+        return glsr(Builder::class)->a([
+            'href' => $registerUrl,
+            'text' => __('register', 'site-reviews'),
+        ]);
+    }
+
+    public function registerUrl(): string
+    {
+        if (!get_option('users_can_register')) {
+            return '';
+        }
+        add_filter('register_url', [$this, 'filterRegisterUrl'], 20);
+        $url = wp_registration_url();
+        remove_filter('register_url', [$this, 'filterRegisterUrl'], 20);
+        return $url;
+    }
+
     protected function buildTemplateFieldTags(Form $fields): string
     {
         $rendered = $fields->__toString();
@@ -127,23 +166,17 @@ class SiteReviewsFormShortcode extends Shortcode
 
     protected function loginOrRegister(): string
     {
+        $loginText = sprintf(__('You must be %s to submit a review.', 'site-reviews'), $this->loginLink());
+        $registerLink = $this->registerLink();
+        $registerText = '';
+        if (glsr_get_option('general.require.register', false, 'bool') && !empty($registerLink)) {
+            $registerText = sprintf(__('You may also %s for an account.', 'site-reviews'), $registerLink);
+        }
         return glsr(Template::class)->build('templates/login-register', [
             'context' => [
-                'text' => trim("{$this->loginText()} {$this->registerText()}"),
+                'text' => trim("{$loginText} {$registerText}"),
             ],
         ]);
-    }
-
-    protected function loginText(): string
-    {
-        add_filter('login_url', [$this, 'filterLoginUrl'], 20, 3);
-        $loginUrl = wp_login_url(strval(get_permalink()));
-        remove_filter('login_url', [$this, 'filterLoginUrl'], 20);
-        $loginLink = glsr(Builder::class)->a([
-            'href' => $loginUrl,
-            'text' => __('logged in', 'site-reviews'),
-        ]);
-        return sprintf(__('You must be %s to submit a review.', 'site-reviews'), $loginLink);
     }
 
     /**
@@ -155,21 +188,6 @@ class SiteReviewsFormShortcode extends Shortcode
         $postIds = explode(',', $postIds);
         $postIds = array_filter($postIds, 'is_numeric'); // don't use post_types here
         return implode(',', $postIds);
-    }
-
-    protected function registerText(): string
-    {
-        if (get_option('users_can_register') && glsr_get_option('general.require.login', false, 'bool')) {
-            add_filter('register_url', [$this, 'filterRegisterUrl'], 20);
-            $registerUrl = wp_registration_url();
-            remove_filter('register_url', [$this, 'filterRegisterUrl'], 20);
-            $registerLink = glsr(Builder::class)->a([
-                'href' => $registerUrl,
-                'text' => __('register', 'site-reviews'),
-            ]);
-            return sprintf(__('You may also %s for an account.', 'site-reviews'), $registerLink);
-        }
-        return '';
     }
 
     protected function with(): Arguments
