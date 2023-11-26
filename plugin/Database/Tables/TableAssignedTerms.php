@@ -29,8 +29,8 @@ class TableAssignedTerms extends AbstractTable
             glsr(Query::class)->sql("
                 DELETE t
                 FROM {$this->tablename} AS t
-                LEFT JOIN {$this->table('ratings')} AS r ON t.rating_id = r.ID
-                LEFT JOIN {$this->table('term_taxonomy')} AS tt ON t.term_id = tt.term_id
+                LEFT JOIN {$this->table('ratings')} AS r ON r.ID = t.rating_id
+                LEFT JOIN {$this->table('term_taxonomy')} AS tt ON tt.term_id = t.term_id
                 WHERE (r.ID IS NULL OR tt.term_id IS NULL) OR tt.taxonomy != '{$taxonomy}'
             ")
         );

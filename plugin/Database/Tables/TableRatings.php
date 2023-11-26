@@ -27,7 +27,7 @@ class TableRatings extends AbstractTable
             glsr(Query::class)->sql("
                 DELETE t
                 FROM {$this->tablename} AS t
-                LEFT JOIN {$this->table('posts')} AS p ON t.review_id = p.ID
+                LEFT JOIN {$this->table('posts')} AS p ON p.ID = t.review_id
                 WHERE (p.post_type IS NULL OR p.post_type != '{$type}')
             ")
         );

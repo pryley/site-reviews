@@ -75,7 +75,7 @@ class TaxonomyController extends AbstractController
         $meta->get_sql('term', 't', 'term_id');
         if (empty($meta->get_clauses())) {
             global $wpdb;
-            $clauses['join'] .= $wpdb->prepare(" LEFT JOIN {$wpdb->termmeta} AS tm ON (t.term_id = tm.term_id AND tm.meta_key = %s) ", static::PRIORITY_META_KEY);
+            $clauses['join'] .= $wpdb->prepare(" LEFT JOIN {$wpdb->termmeta} AS tm ON (tm.term_id = t.term_id AND tm.meta_key = %s) ", static::PRIORITY_META_KEY);
             $clauses['where'] .= $wpdb->prepare(" AND (tm.term_id IS NULL OR tm.meta_key = %s) ", static::PRIORITY_META_KEY);
             $clauses['orderby'] = str_replace('ORDER BY', 'ORDER BY tm.meta_value DESC, ', $clauses['orderby']);
         }
@@ -179,7 +179,7 @@ class TaxonomyController extends AbstractController
             $result = (int) $wpdb->get_var($wpdb->prepare("
                 SELECT COUNT(*) 
                 FROM {$wpdb->termmeta} AS tm
-                INNER JOIN {$wpdb->term_taxonomy} AS tt ON tm.term_id = tt.term_id
+                INNER JOIN {$wpdb->term_taxonomy} AS tt ON tt.term_id = tm.term_id
                 WHERE tt.taxonomy = %s
                 AND meta_key = %s
             ", glsr()->taxonomy, static::PRIORITY_META_KEY));

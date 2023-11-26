@@ -85,8 +85,8 @@ class MigrateReviews implements MigrateContract
             $sql = glsr(Query::class)->sql($this->db->prepare("
                 SELECT r.ID AS rating_id, m.meta_value AS post_id, CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_published
                 FROM {$table} AS r
-                INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID
-                INNER JOIN {$this->db->postmeta} AS m ON r.review_id = m.post_id
+                INNER JOIN {$this->db->posts} AS p ON p.ID = r.review_id
+                INNER JOIN {$this->db->postmeta} AS m ON m.post_id = r.review_id
                 WHERE m.meta_key = '_assigned_to' AND m.meta_value > 0 
                 ORDER BY r.ID
                 LIMIT %d, %d
@@ -116,8 +116,8 @@ class MigrateReviews implements MigrateContract
             $sql = glsr(Query::class)->sql($this->db->prepare("
                 SELECT m1.post_id, m1.meta_key, m1.meta_value
                 FROM {$this->db->postmeta} AS m1
-                INNER JOIN {$this->db->posts} AS p ON m1.post_id = p.ID
-                LEFT JOIN {$this->db->postmeta} AS m2 ON (m1.post_id = m2.post_id AND m1.meta_key = m2.meta_key AND m1.meta_id < m2.meta_id)
+                INNER JOIN {$this->db->posts} AS p ON p.ID = m1.post_id
+                LEFT JOIN {$this->db->postmeta} AS m2 ON (m2.post_id = m1.post_id AND m2.meta_key = m1.meta_key AND m2.meta_id > m1.meta_id)
                 WHERE m2.meta_id IS NULL
                 AND p.post_type = '%s'
                 AND m1.meta_value != '%s'
@@ -165,7 +165,7 @@ class MigrateReviews implements MigrateContract
             $sql = glsr(Query::class)->sql("
                 SELECT p.ID, m.meta_key AS mk, m.meta_value AS mv, CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_approved
                 FROM {$this->db->posts} AS p
-                LEFT JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
+                LEFT JOIN {$this->db->postmeta} AS m ON m.post_id = p.ID
                 WHERE p.ID IN ({$postIds})
                 AND NOT EXISTS (
                     SELECT r.review_id
@@ -196,8 +196,8 @@ class MigrateReviews implements MigrateContract
             $sql = glsr(Query::class)->sql($this->db->prepare("
                 SELECT r.ID AS rating_id, tt.term_id AS term_id
                 FROM {$table} AS r
-                INNER JOIN {$this->db->term_relationships} AS tr ON r.review_id = tr.object_id
-                INNER JOIN {$this->db->term_taxonomy} AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+                INNER JOIN {$this->db->term_relationships} AS tr ON tr.object_id = r.review_id
+                INNER JOIN {$this->db->term_taxonomy} AS tt ON tt.term_taxonomy_id = tr.term_taxonomy_id
                 ORDER BY r.ID
                 LIMIT %d, %d
             ", $offset, $this->limit));

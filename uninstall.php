@@ -67,17 +67,17 @@ function glsr_uninstall_all_delete_reviews() {
     $wpdb->query("
         DELETE p, pr, tr, pm
         FROM {$wpdb->posts} p
-        LEFT JOIN {$wpdb->posts} pr ON (p.ID = pr.post_parent AND pr.post_type = 'revision')
-        LEFT JOIN {$wpdb->term_relationships} tr ON (p.ID = tr.object_id)
-        LEFT JOIN {$wpdb->postmeta} pm ON (p.ID = pm.post_id)
+        LEFT JOIN {$wpdb->posts} pr ON (pr.post_parent = p.ID AND pr.post_type = 'revision')
+        LEFT JOIN {$wpdb->term_relationships} tr ON (tr.object_id = p.ID)
+        LEFT JOIN {$wpdb->postmeta} pm ON (pm.post_id = p.ID)
         WHERE p.post_type = 'site-review'
     ");
     // delete all review categories
     $wpdb->query("
         DELETE tt, t, tm
         FROM {$wpdb->term_taxonomy} tt
-        LEFT JOIN {$wpdb->terms} t ON (tt.term_id = t.term_id)
-        LEFT JOIN {$wpdb->termmeta} tm ON (tt.term_id = tm.term_id)
+        LEFT JOIN {$wpdb->terms} t ON (t.term_id = tt.term_id)
+        LEFT JOIN {$wpdb->termmeta} tm ON (tm.term_id = tt.term_id)
         WHERE tt.taxonomy = 'site-review-category'
     ");
     // delete all assigned_posts meta

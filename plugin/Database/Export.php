@@ -58,11 +58,11 @@ class Export
                 GROUP_CONCAT(DISTINCT aut.user_id) AS assigned_users,
                 GROUP_CONCAT(DISTINCT pm.meta_value) as response
             FROM {$this->ratingsTable} AS r
-            INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID
-            LEFT JOIN {$this->assignedPostsTable} AS apt ON r.ID = apt.rating_id
-            LEFT JOIN {$this->assignedTermsTable} AS att ON r.ID = att.rating_id
-            LEFT JOIN {$this->assignedUsersTable} AS aut ON r.ID = aut.rating_id
-            LEFT JOIN {$this->db->postmeta} AS pm ON (r.review_id = pm.post_id AND pm.meta_key = '_response')
+            INNER JOIN {$this->db->posts} AS p ON p.ID = r.review_id
+            LEFT JOIN {$this->assignedPostsTable} AS apt ON apt.rating_id = r.ID
+            LEFT JOIN {$this->assignedTermsTable} AS att ON att.rating_id = r.ID
+            LEFT JOIN {$this->assignedUsersTable} AS aut ON aut.rating_id = r.ID
+            LEFT JOIN {$this->db->postmeta} AS pm ON (pm.post_id = r.review_id AND pm.meta_key = '_response')
             {$this->where($args)}
             GROUP BY r.ID
         ");
@@ -91,12 +91,12 @@ class Export
                 GROUP_CONCAT(DISTINCT aut.user_id) AS assigned_users,
                 GROUP_CONCAT(DISTINCT pm.meta_value) as response
             FROM {$this->ratingsTable} AS r
-            INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID
-            LEFT JOIN {$this->assignedPostsTable} AS apt ON r.ID = apt.rating_id
-            LEFT JOIN {$this->assignedTermsTable} AS att ON r.ID = att.rating_id
-            LEFT JOIN {$this->assignedUsersTable} AS aut ON r.ID = aut.rating_id
-            LEFT JOIN {$this->db->posts} AS p1 ON apt.post_id = p1.ID
-            LEFT JOIN {$this->db->postmeta} AS pm ON (r.review_id = pm.post_id AND pm.meta_key = '_response')
+            INNER JOIN {$this->db->posts} AS p ON p.ID = r.review_id
+            LEFT JOIN {$this->assignedPostsTable} AS apt ON apt.rating_id = r.ID
+            LEFT JOIN {$this->assignedTermsTable} AS att ON att.rating_id = r.ID
+            LEFT JOIN {$this->assignedUsersTable} AS aut ON aut.rating_id = r.ID
+            LEFT JOIN {$this->db->posts} AS p1 ON p1.ID = apt.post_id
+            LEFT JOIN {$this->db->postmeta} AS pm ON (pm.post_id = r.review_id AND pm.meta_key = '_response')
             {$this->where($args)}
             GROUP BY r.ID
         ");

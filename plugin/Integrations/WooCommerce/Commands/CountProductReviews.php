@@ -26,7 +26,7 @@ class CountProductReviews extends AbstractCommand
         $sql = $query->sql("
             SELECT COUNT(DISTINCT c.comment_ID)
             FROM {$query->table('comments')} AS c
-            INNER JOIN {$query->table('commentmeta')} AS cm ON c.comment_ID = cm.comment_id
+            INNER JOIN {$query->table('commentmeta')} AS cm ON cm.comment_id = c.comment_ID
             WHERE 1=1
             AND c.comment_type = 'review'
             AND c.comment_approved IN ('0','1')

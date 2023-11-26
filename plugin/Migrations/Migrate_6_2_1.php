@@ -72,7 +72,7 @@ class Migrate_6_2_1 implements MigrateContract
         $sql = glsr(Query::class)->sql($wpdb->prepare("
             DELETE pm 
             FROM {$wpdb->postmeta} AS pm
-            INNER JOIN {$wpdb->posts} AS p ON pm.post_id = p.ID
+            INNER JOIN {$wpdb->posts} AS p ON p.ID = pm.post_id
             WHERE p.post_type = '%s'
             AND pm.meta_key LIKE '_custom_%%'
             AND pm.meta_id NOT IN (

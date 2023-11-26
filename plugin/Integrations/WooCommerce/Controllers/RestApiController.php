@@ -86,7 +86,7 @@ class RestApiController
     {
         $orderby = Arr::get($query->args, 'orderby');
         if (str_ends_with($orderby, 'rating')) {
-            $join['woo_orderby_rating'] = "INNER JOIN {$query->db->posts} AS p ON r.review_id = p.ID";
+            $join['woo_orderby_rating'] = "INNER JOIN {$query->db->posts} AS p ON p.ID = r.review_id";
         }
         return $join;
     }

@@ -87,8 +87,8 @@ class WidgetRatingFilter extends \WC_Widget_Rating_Filter
         $products = $wpdb->get_results("
             SELECT apt.post_id AS product_id, ROUND(AVG(r.rating)) AS average
             FROM {$wpdb->prefix}glsr_ratings AS r 
-            INNER JOIN {$wpdb->prefix}glsr_assigned_posts AS apt ON r.ID = apt.rating_id
-            INNER JOIN {$wpdb->posts} AS p ON (apt.post_id = p.ID AND p.post_type IN ('product'))
+            INNER JOIN {$wpdb->prefix}glsr_assigned_posts AS apt ON apt.rating_id = r.ID
+            INNER JOIN {$wpdb->posts} AS p ON (p.ID = apt.post_id AND p.post_type IN ('product'))
             WHERE 1=1 
             AND apt.is_published = 1 
             AND r.is_approved = 1 
