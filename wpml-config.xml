@@ -3,6 +3,7 @@
 		<key name="site_reviews_v6">
 			<key name="settings">
 				<key name="general">
+					<key name="request_verification_message"/>
 					<key name="notification_message"/>
 				</key>
 				<key name="reviews">
