@@ -44,6 +44,18 @@ class Modal {
         this._reset()
     }
 
+    header (html, attributes) {
+        return this._insertHtml(this.dom.header, html, attributes)
+    }
+
+    content (html, attributes) {
+        return this._insertHtml(this.dom.content, html, attributes)
+    }
+
+    footer (html, attributes) {
+        return this._insertHtml(this.dom.footer, html, attributes)
+    }
+
     _closeModal (event = null) {
         if (event) {
             event.preventDefault()
@@ -51,7 +63,7 @@ class Modal {
         }
         this.root.setAttribute('aria-hidden', 'true')
         this._eventHandler('remove')
-        unlock(this.content)
+        unlock(this.dom.content)
         if (this.trigger && this.trigger.focus) {
             this.trigger.focus()
         }
@@ -60,7 +72,7 @@ class Modal {
             this.root.classList.remove(openClass)
             openModals.pop()
             this.config.onClose(this, event) // triggered after the modal is hidden
-            GLSR.Event.trigger('site-reviews/modal/close', this.root, this.trigger, event)
+            GLSR.Event.trigger('site-reviews/modal/close', this, event)
             debounce(() => this._reset())()
         }
         this.root.addEventListener('animationend', handler, false)
@@ -72,7 +84,7 @@ class Modal {
     }
 
     _eventHandler (action) {
-        this._eventListener(this.close, action, ['keydown'])
+        this._eventListener(this.dom.close, action, ['keydown'])
         this._eventListener(this.root, action, ['mouseup', 'touchstart'])
         this._eventListener(document, action, ['keydown'])
     }
@@ -87,6 +99,18 @@ class Modal {
         return [].slice.call(this.root.querySelectorAll(FOCUSABLE_ELEMENTS))
     }
 
+    _insertHtml (el, html = null, attributes = {}) {
+        if (el && null !== html) {
+            if ('' !== html) {
+                const div = dom('div', attributes);
+                div.innerHTML = html;
+                html = div.outerHTML;
+            }
+            el.innerHTML = html;
+        }
+        return el;
+    }
+
     _insertModal () {
         const close = dom('button', attr('close', { 'aria-label': GLSR.text.closemodal, 'data-glsr-close': '' }));
         const content = dom('div', attr('content', { tabindex: -1 }));
@@ -99,10 +123,7 @@ class Modal {
                 )
             )
         )
-        this.close = close;
-        this.content = content;
-        this.footer = footer;
-        this.header = header;
+        this.dom = { ...this.dom, close, content, footer, header };
         this.root = document.body.appendChild(root);
     }
 
@@ -113,7 +134,7 @@ class Modal {
     }
 
     _onKeydown (event) {
-        if (~[13, 32].indexOf(event.keyCode) && event.target === this.close) { // enter/space
+        if (~[13, 32].indexOf(event.keyCode) && event.target === this.dom.close) { // enter/space
             this._closeModal(event)
         }
         if (event.keyCode === 27 && openModals.slice(-1)[0] === this.id) { // esc
@@ -132,9 +153,9 @@ class Modal {
             this.trigger = event.currentTarget;
         }
         this._insertModal()
-        lock(this.content)
+        lock(this.dom.content)
         this.config.onOpen(this, event) // triggered before the modal is visible
-        GLSR.Event.trigger('site-reviews/modal/open', this.root, this.trigger, event)
+        GLSR.Event.trigger('site-reviews/modal/open', this, event)
         this.root.setAttribute('aria-hidden', 'false')
         this.root.classList.add(openClass)
         this._eventHandler('add')
@@ -162,13 +183,15 @@ class Modal {
     }
 
     _reset () {
+        this.dom = {
+            close: null,
+            content: null,
+            footer: null,
+            header: null,
+        }
         if (this.root) {
             this.root.remove()
         }
-        this.close = null;
-        this.content = null;
-        this.footer = null;
-        this.header = null;
         this.root = null;
         this.trigger = null;
     }

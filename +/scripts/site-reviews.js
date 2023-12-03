@@ -43,15 +43,15 @@ const initForms = () => {
 
 const initModal = () => {
     GLSR.Modal.init('glsr-modal-review', {
-        onOpen: (modal) => {
-            const baseEl = modal.trigger.closest('.glsr').cloneNode(true);
-            const reviewEl = modal.trigger.closest('.glsr-review').cloneNode(true);
+        onOpen: (Modal) => {
+            const baseEl = Modal.trigger.closest('.glsr').cloneNode(true);
+            const reviewEl = Modal.trigger.closest('.glsr-review').cloneNode(true);
             reviewEl.querySelectorAll('[data-expanded="false"]').forEach(el => {
                 el.dataset.expanded = 'true';
             })
             baseEl.innerHTML = '';
             baseEl.appendChild(reviewEl);
-            modal.content.appendChild(baseEl);
+            Modal.dom.content.appendChild(baseEl);
         },
     })
 }
@@ -97,20 +97,18 @@ const initReview = () => {
             return;
         }
         GLSR.Modal.open('glsr-modal-verified', {
-            onClose: (modal) => {
+            onClose: (Modal) => {
                 keys.forEach(key => url.searchParams.delete(key))
                 history.pushState({}, '', url.href);
             },
-            onOpen: (modal) => {
+            onOpen: (Modal) => {
                 const messageEl = dom('p');
-                const wrapEl = dom('div', response.attributes);
                 messageEl.innerHTML = response.message;
-                wrapEl.innerHTML = response.review;
-                wrapEl.querySelectorAll('[data-expanded="false"]').forEach(el => {
+                Modal.footer(messageEl.outerHTML)
+                Modal.content(response.review, response.attributes)
+                Modal.dom.content.querySelectorAll('[data-expanded="false"]').forEach(el => {
                     el.dataset.expanded = 'true';
                 })
-                modal.content.appendChild(wrapEl)
-                modal.footer.appendChild(messageEl)
             },
         })
     })

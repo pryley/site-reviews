@@ -9,7 +9,7 @@ const appendChild = (element, child) => {
             child.map(subChild => appendChild(element, subChild));
         } else {
             if (!dom[isNodeString](child)) {
-                child = document.createTextNode(child);
+                child = document.createTextNode(child); // escape HTML characters
             }
             element.appendChild(child);
         }
