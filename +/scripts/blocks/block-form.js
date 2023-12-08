@@ -49,6 +49,7 @@ const edit = props => {
                 placeholder={ _x('Enter the Post IDs', 'admin-text', 'site-reviews') }
                 type="text"
                 value={ assigned_posts }
+                __next40pxDefaultSize
                 __nextHasNoMarginBottom
             />
         </ConditionalSelectControl>,
@@ -70,6 +71,7 @@ const edit = props => {
                 placeholder={ _x('Enter the Category IDs or slugs', 'admin-text', 'site-reviews') }
                 type="text"
                 value={ assigned_terms }
+                __next40pxDefaultSize
                 __nextHasNoMarginBottom
             />
         </ConditionalSelectControl>,
@@ -91,6 +93,7 @@ const edit = props => {
                 placeholder={ _x('Enter the User IDs or usernames', 'admin-text', 'site-reviews') }
                 type="text"
                 value={ assigned_users }
+                __next40pxDefaultSize
                 __nextHasNoMarginBottom
             />
         </ConditionalSelectControl>,
@@ -106,6 +109,7 @@ const edit = props => {
             label={ _x('Custom ID', 'admin-text', 'site-reviews') }
             onChange={ id => setAttributes({ id }) }
             value={ id }
+            __next40pxDefaultSize
             __nextHasNoMarginBottom
         />,
         reviews_id: <TextControl
@@ -113,6 +117,7 @@ const edit = props => {
             label={ _x('Custom Reviews ID', 'admin-text', 'site-reviews') }
             onChange={ reviews_id => setAttributes({ reviews_id }) }
             value={ reviews_id }
+            __next40pxDefaultSize
             __nextHasNoMarginBottom
         />,
     };

@@ -58,6 +58,7 @@ const edit = props => {
                 placeholder={ _x('Enter the Post IDs', 'admin-text', 'site-reviews') }
                 type="text"
                 value={ assigned_posts }
+                __next40pxDefaultSize
                 __nextHasNoMarginBottom
             />
         </ConditionalSelectControl>,
@@ -79,6 +80,7 @@ const edit = props => {
                 placeholder={ _x('Enter the Category IDs or slugs', 'admin-text', 'site-reviews') }
                 type="text"
                 value={ assigned_terms }
+                __next40pxDefaultSize
                 __nextHasNoMarginBottom
             />
         </ConditionalSelectControl>,
@@ -100,6 +102,7 @@ const edit = props => {
                 placeholder={ _x('Enter the User IDs or usernames', 'admin-text', 'site-reviews') }
                 type="text"
                 value={ assigned_users }
+                __next40pxDefaultSize
                 __nextHasNoMarginBottom
             />
         </ConditionalSelectControl>,
@@ -110,6 +113,7 @@ const edit = props => {
             options={ TermOptions }
             value={ terms }
             __next36pxDefaultSize
+            __next40pxDefaultSize
             __nextHasNoMarginBottom
         />,
         pagination: <SelectControl
@@ -124,6 +128,7 @@ const edit = props => {
             ]}
             value={ pagination }
             __next36pxDefaultSize
+            __next40pxDefaultSize
             __nextHasNoMarginBottom
         />,
         type: <SelectControl
@@ -133,6 +138,7 @@ const edit = props => {
             options={ TypeOptions }
             value={ type }
             __next36pxDefaultSize
+            __next40pxDefaultSize
             __nextHasNoMarginBottom
         />,
         display: <RangeControl
@@ -142,6 +148,7 @@ const edit = props => {
             max={ 50 }
             onChange={ display => setAttributes({ display }) }
             value={ display }
+            __next40pxDefaultSize
             __nextHasNoMarginBottom
         />,
         rating: <RangeControl
@@ -151,6 +158,7 @@ const edit = props => {
             max={ GLSR.maxrating }
             onChange={ rating => setAttributes({ rating }) }
             value={ rating }
+            __next40pxDefaultSize
             __nextHasNoMarginBottom
         />,
         schema: <ToggleControl
@@ -173,6 +181,7 @@ const edit = props => {
             label={ _x('Custom ID', 'admin-text', 'site-reviews') }
             onChange={ id => setAttributes({ id }) }
             value={ id }
+            __next40pxDefaultSize
             __nextHasNoMarginBottom
         />,
     };

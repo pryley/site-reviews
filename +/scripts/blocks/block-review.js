@@ -27,6 +27,7 @@ const edit = props => {
             onChange={ post_id => setAttributes({ post_id }) }
             placeholder={ _x('Enter a Review Post ID', 'admin-text', 'site-reviews') }
             value={ post_id }
+            __next40pxDefaultSize
             __nextHasNoMarginBottom
         />,
         hide: CheckboxControlList(GLSR.hideoptions.site_review, hide, setAttributes),
@@ -41,6 +42,7 @@ const edit = props => {
             label={ _x('Custom ID', 'admin-text', 'site-reviews') }
             onChange={ id => setAttributes({ id }) }
             value={ id }
+            __next40pxDefaultSize
             __nextHasNoMarginBottom
         />,
     };

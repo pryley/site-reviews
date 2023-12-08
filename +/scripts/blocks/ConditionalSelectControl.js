@@ -37,6 +37,7 @@ export default function ConditionalSelectControl({
                     options={ options }
                     { ...props }
                     __next36pxDefaultSize
+                    __next40pxDefaultSize
                     __nextHasNoMarginBottom
                 />
                 { custom_value === value && children }
