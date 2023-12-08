@@ -17,7 +17,15 @@ class ReviewsListTable extends \WP_Posts_List_Table
         if (glsr()->can('respond_to_post', $post->ID)) {
             $this->renderInlineData($post);
         }
+        ob_start();
         parent::column_title($post);
+        $value = ob_get_clean();
+        $value = str_replace(
+            ['<strong>','</strong>'],
+            ['<div class="review-title"><strong>','</strong></div>'],
+            $value
+        );
+        echo $value;
     }
 
     /**
