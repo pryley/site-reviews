@@ -67,6 +67,13 @@ abstract class Shortcode implements ShortcodeContract
         return $this->build(wp_parse_args($args), 'shortcode');
     }
 
+    public function defaults(): DefaultsAbstract
+    {
+        $classname = str_replace('Shortcodes\\', 'Defaults\\', get_class($this));
+        $classname = str_replace('Shortcode', 'Defaults', $classname);
+        return glsr($classname);
+    }
+
     public function getDisplayOptions(): array
     {
         $options = $this->displayOptions();
@@ -124,13 +131,6 @@ abstract class Shortcode implements ShortcodeContract
         ob_start();
         glsr_debug($data);
         $this->debug = ob_get_clean();
-    }
-
-    protected function defaults(): DefaultsAbstract
-    {
-        $classname = str_replace('Shortcodes\\', 'Defaults\\', get_class($this));
-        $classname = str_replace('Shortcode', 'Defaults', $classname);
-        return glsr($classname);
     }
 
     protected function displayOptions(): array

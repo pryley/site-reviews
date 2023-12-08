@@ -171,7 +171,7 @@ final class Application extends Container implements PluginContract
             if (in_array($addon::ID, $retired)) {
                 $this->append('retired', $addon);
             } elseif (in_array($addon::ID, $premium)
-                && !str_starts_with($reflection->getNamespaceName(), 'GeminiLabs\SiteReviewsPremium')) {
+                && !str_starts_with($reflection->getNamespaceName(), 'GeminiLabs\SiteReviews\Premium')) {
                 $this->append('site-reviews-premium', $addon);
             } else {
                 $this->addons[$addon::ID] = $addon;

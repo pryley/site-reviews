@@ -103,6 +103,21 @@ abstract class DefaultsAbstract implements DefaultsContract
         return $args;
     }
 
+    public function property($key): array
+    {
+        try {
+            $reflection = new \ReflectionClass($this);
+            $property = $reflection->getProperty($key);
+            $value = $property->getValue($this);
+            if ($property->isPublic()) { // all public properties are expected to be an array
+                return $this->app()->filterArray("defaults/{$this->hook}/{$key}", $value, $this->method);
+            }
+        } catch (\ReflectionException $e) {
+            glsr_log()->error("Invalid or protected property [$key].");
+        }
+        return [];
+    }
+
     protected function app(): PluginContract
     {
         return glsr();
@@ -282,21 +297,6 @@ abstract class DefaultsAbstract implements DefaultsContract
             $parsed[$key] = $this->concatenate((string) $key, $values[$key]);
         }
         return $parsed;
-    }
-
-    protected function property($key): array
-    {
-        try {
-            $reflection = new \ReflectionClass($this);
-            $property = $reflection->getProperty($key);
-            $value = $property->getValue($this);
-            if ($property->isPublic()) { // all public properties are expected to be an array
-                return $this->app()->filterArray("defaults/{$this->hook}/{$key}", $value, $this->method);
-            }
-        } catch (\ReflectionException $e) {
-            glsr_log()->error("Invalid or protected property [$key].");
-        }
-        return [];
     }
 
     /**

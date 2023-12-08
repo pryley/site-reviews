@@ -63,7 +63,7 @@ GLSR.Event.on('site-reviews/modal/init', () => {
 This event is fired after a modal is opened.
 
 ```js
-GLSR.Event.on('site-reviews/modal/open', (modal, event) => {
+GLSR.Event.on('site-reviews/modal/open', (Modal, event) => {
     // do something here...
 })
 ```
@@ -73,7 +73,7 @@ GLSR.Event.on('site-reviews/modal/open', (modal, event) => {
 This event is fired after a modal is closed.
 
 ```js
-GLSR.Event.on('site-reviews/modal/close', (modal, event) => {
+GLSR.Event.on('site-reviews/modal/close', (Modal, event) => {
     // do something here...
 })
 ```

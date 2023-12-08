@@ -197,7 +197,7 @@ class Review extends Arguments
     {
         $postId = Helper::getPostId($post);
         return static::isReview($postId)
-            && in_array(glsr(ReviewManager::class)->get($postId)->type, ['', 'local']);
+            && in_array(glsr_get_review($postId)->type, ['', 'local']);
     }
 
     /** @param \WP_Post|int|false $post */

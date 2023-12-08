@@ -52,10 +52,9 @@ class ListTableController extends AbstractController
 
     /**
      * @param array $columns
-     * @return array
      * @filter manage_{glsr()->post_type}_posts_columns
      */
-    public function filterColumnsForPostType($columns)
+    public function filterColumnsForPostType($columns): array
     {
         $columns = Arr::consolidate($columns);
         $postTypeColumns = glsr()->retrieveAs('array', 'columns.'.glsr()->post_type, []);
@@ -82,10 +81,9 @@ class ListTableController extends AbstractController
     /**
      * @param array $hidden
      * @param \WP_Screen $screen
-     * @return array
      * @filter default_hidden_columns
      */
-    public function filterDefaultHiddenColumns($hidden, $screen)
+    public function filterDefaultHiddenColumns($hidden, $screen): array
     {
         $hidden = Arr::consolidate($hidden);
         if ('edit-'.glsr()->post_type === Arr::get($screen, 'id')) {

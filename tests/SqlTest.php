@@ -20,10 +20,10 @@ class SqlTest extends WP_Ajax_UnitTestCase
         ]);
         $clauses = array_unique(array_filter($query->clauses('join')));
         $this->assertCount(4, $clauses);
-        $this->assertTrue(in_array('INNER JOIN wptests_glsr_assigned_posts AS apt ON r.ID = apt.rating_id', $clauses));
-        $this->assertTrue(in_array('INNER JOIN wptests_glsr_assigned_terms AS att ON r.ID = att.rating_id', $clauses));
-        $this->assertTrue(in_array('INNER JOIN wptests_glsr_assigned_users AS aut ON r.ID = aut.rating_id', $clauses));
-        $this->assertTrue(in_array('INNER JOIN wptests_posts AS p ON r.review_id = p.ID', $clauses));
+        $this->assertTrue(in_array('INNER JOIN wptests_glsr_assigned_posts AS apt ON apt.rating_id = r.ID', $clauses));
+        $this->assertTrue(in_array('INNER JOIN wptests_glsr_assigned_terms AS att ON att.rating_id = r.ID', $clauses));
+        $this->assertTrue(in_array('INNER JOIN wptests_glsr_assigned_users AS aut ON aut.rating_id = r.ID', $clauses));
+        $this->assertTrue(in_array('INNER JOIN wptests_posts AS p ON p.ID = r.review_id', $clauses));
     }
 
     public function _test_sql_order_by()
