@@ -18,6 +18,8 @@ class TaxonomyController extends AbstractController
     {
         if ($this->termPriorityEnabled()) {
             $columns[static::PRIORITY_META_KEY] = _x('Priority', 'admin-text', 'site-reviews');
+            $columns['term_id'] = _x('TID', 'admin-text', 'site-reviews');
+            $columns['term_taxonomy_id'] = _x('TTID', 'admin-text', 'site-reviews');
         }
         return $columns;
     }
@@ -31,10 +33,33 @@ class TaxonomyController extends AbstractController
      */
     public function filterColumnValue($value, $column, $termId)
     {
+        if ('term_id' === $column) {
+            return (string) $termId;
+        }
+        if ('term_taxonomy_id' === $column) {
+            return get_term_by('term_id', $termId, glsr()->taxonomy)->term_taxonomy_id;
+        }
         if (static::PRIORITY_META_KEY !== $column || !$this->termPriorityEnabled()) {
             return $value;
         }
         return (string) $this->termPriority($termId);
+    }
+
+    /**
+     * @param array $hidden
+     * @param \WP_Screen $screen
+     * @filter default_hidden_columns
+     */
+    public function filterDefaultHiddenColumns($hidden, $screen): array
+    {
+        $hidden = Arr::consolidate($hidden);
+        if ('edit-'.glsr()->taxonomy !== Arr::get($screen, 'id')) {
+            return $hidden;
+        }
+        return array_unique(array_merge($hidden, [
+            'term_id',
+            'term_taxonomy_id',
+        ]));
     }
 
     /**

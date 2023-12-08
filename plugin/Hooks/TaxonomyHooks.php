@@ -11,6 +11,7 @@ class TaxonomyHooks extends AbstractHooks
         $this->hook(TaxonomyController::class, [
             ['filterColumns', "manage_edit-{$this->taxonomy}_columns"],
             ['filterColumnValue', "manage_{$this->taxonomy}_custom_column", 10, 3],
+            ['filterDefaultHiddenColumns', 'default_hidden_columns', 10, 2],
             ['filterRowActions', "{$this->taxonomy}_row_actions", 10, 2],
             ['filterTermsClauses', 'terms_clauses', 10, 3],
             ['renderAddFields', "{$this->taxonomy}_add_form_fields"],
