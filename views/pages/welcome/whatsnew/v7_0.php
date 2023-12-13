@@ -3,7 +3,7 @@
 <div class="glsr-card postbox is-fullwidth open">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="true" aria-controls="welcome-v7_0_0">
-            <span class="title">Version 6.12</span>
+            <span class="title">Version 7.0</span>
             <span class="icon"></span>
         </button>
     </h3>

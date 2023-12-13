@@ -188,7 +188,8 @@ class Field
     protected function buildFieldChoiceOptions(): string
     {
         $index = 0;
-        return array_reduce(array_keys($this->field['options']), function ($carry, $value) use (&$index) {
+        $optionKeys = array_keys($this->field['options']);
+        return array_reduce($optionKeys, function ($carry, $value) use (&$index) {
             $args = glsr()->args($this->field);
             $choiceType = $this->choiceType();
             $inputField = [

@@ -16,20 +16,17 @@ const Verified = function () {
 };
 
 Verified.prototype = {
-    /** @return void */
     restoreEditLink_: function () {
         this.el.slideUp('fast');
         this.edit.show().focus();
     },
 
-    /** @return void */
     onClickCancel_: function (ev) { // MouseEvent
         ev.preventDefault();
         this.restoreEditLink_();
         this.el.find('select').val(jQuery('#hidden-verified-status').val() === '0' ? 1 : 0);
     },
 
-    /** @return void */
     onClickEdit_: function (ev) { // MouseEvent
         ev.preventDefault();
         if (!this.el.is(':hidden')) return;
@@ -39,7 +36,6 @@ Verified.prototype = {
         this.edit.hide();
     },
 
-    /** @return void */
     onClickSave_: function (ev) { // MouseEvent
         ev.preventDefault();
         this.restoreEditLink_();
@@ -52,7 +48,6 @@ Verified.prototype = {
         (new Ajax(request)).post(this.save_.bind(this));
     },
 
-    /** @return void */
     onClickToggle_: function (ev) { // MouseEvent
         ev.preventDefault();
         this.target = ev.currentTarget;
@@ -65,7 +60,6 @@ Verified.prototype = {
         (new Ajax(request)).post(this.toggleVerified_.bind(this));
     },
 
-    /** @return void */
     save_: function (response) {
        jQuery('#verified-status').val(!response.verified|0);
        jQuery('#hidden-verified-status').val(response.verified|0);
@@ -73,7 +67,6 @@ Verified.prototype = {
         GLSR.notices.add(response.notices);
     },
 
-    /** @return void */
     toggleVerified_: function (response) {
         this.target.classList[response.verified ? 'add' : 'remove']('verified');
        jQuery(this.target).removeClass('spinner is-active').addClass('dashicons-sticky');
