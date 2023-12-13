@@ -73,13 +73,14 @@ class ListTableController extends AbstractController
     /**
      * @param string $status
      * @param \WP_Post $post
-     * @return string
      * @filter post_date_column_status
      */
-    public function filterDateColumnStatus($status, $post)
+    public function filterDateColumnStatus($status, $post): string
     {
-        $isReview = glsr()->post_type === Arr::get($post, 'post_type');
-        return Helper::ifTrue(!$isReview, $status, _x('Submitted', 'admin-text', 'site-reviews'));
+        if (glsr()->post_type === Arr::get($post, 'post_type')) {
+            return _x('Submitted', 'admin-text', 'site-reviews');
+        }
+        return Cast::toString($status);
     }
 
     /**
