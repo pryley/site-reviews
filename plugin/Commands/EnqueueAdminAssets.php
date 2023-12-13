@@ -58,6 +58,7 @@ class EnqueueAdminAssets extends AbstractCommand
         }
         wp_add_inline_script(glsr()->id.'/admin', $this->inlineScript(), 'before');
         wp_add_inline_script(glsr()->id.'/admin', glsr()->filterString('enqueue/admin/inline-script/after', ''));
+        wp_add_inline_style(glsr()->id.'/admin', glsr()->filterString('enqueue/admin/inline-styles', ''));
     }
 
     public function inlineScript(): string

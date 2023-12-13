@@ -111,6 +111,7 @@
     site-reviews/enqueue/admin/dependencies                     (array $dependencies): array
     site-reviews/enqueue/admin/inline-script                    (string $optimizedScript, string $script, array $variables): string
     site-reviews/enqueue/admin/inline-script/after              (string $javascript): string
+    site-reviews/enqueue/admin/inline-styles                    (string $css): string
     site-reviews/enqueue/admin/localize                         (array $variables): array
     site-reviews/enqueue/public/dependencies                    (array $dependencies): array
     site-reviews/enqueue/public/inline-script                   (string $optimizedScript, string $script, array $variables): string
