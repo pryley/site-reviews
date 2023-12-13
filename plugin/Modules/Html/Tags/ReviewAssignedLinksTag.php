@@ -21,7 +21,8 @@ class ReviewAssignedLinksTag extends ReviewTag
             if (!empty($postId) && !array_key_exists($postId, $links)) {
                 $title = get_the_title($postId);
                 if (empty(trim($title))) {
-                    $title = _x('No title', 'admin-text', 'site-reviews');
+                    $post = get_post($postId);
+                    $title = $post->post_name ?: $post->ID;
                 }
                 $links[$postId] = glsr(Builder::class)->a([
                     'href' => get_the_permalink($postId),
