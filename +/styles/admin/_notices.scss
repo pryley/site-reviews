@@ -15,6 +15,16 @@
     border-radius: 3px;
 }
 
+.glsr-notice.notice-error .dashicons-before::before {
+    color: #d63638;
+}
+.glsr-notice.notice-warning .dashicons-before::before {
+    color: #dba617;
+}
+.glsr-notice.notice-success .dashicons-before::before {
+    color: #00a32a;
+}
+
 .glsr-notice:not(.notice-info, .notice-success, .notice-warning, .notice-error) {
     border-color: var(--wp-admin-theme-color-darker-10);
     border-left-color: var(--wp-admin-theme-color);
