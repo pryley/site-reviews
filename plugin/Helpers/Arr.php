@@ -29,15 +29,6 @@ class Arr
         return is_array($value) ? $value : $fallback;
     }
 
-    public static function convertFromDotNotation(array $array)
-    {
-        $results = [];
-        foreach ($array as $path => $value) {
-            $results = static::set($results, $path, $value);
-        }
-        return $results;
-    }
-
     /**
      * @param mixed $value
      * @param mixed $callback
