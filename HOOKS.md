@@ -173,7 +173,7 @@
     site-reviews/review-form/fields/normalized                  (array $fields, Arguments $args): array
     site-reviews/review-form/order                              (array $order): array
     site-reviews/review-form/referer                            (string $referer): string
-    site-reviews/review-table/clauses                           (array $clauses, string $ratingTable, \WP_Query $query): array
+    site-reviews/review-table/clauses                           (array $clauses, array $postClauses, \WP_Query $query): array
     site-reviews/review/build/after                             (array $templateTags, Review $review, Modules\Html\ReviewHtml $reviewHtml): array
     site-reviews/review/build/context                           (array $context, Review $review, Modules\Html\ReviewHtml $reviewHtml): array
     site-reviews/review/build/tag/<tag_or_field_key>            (string $field, string $value, Review $review, Modules\Html\ReviewHtml $reviewHtml): string
