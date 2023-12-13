@@ -55,7 +55,7 @@ add_action('plugins_loaded', function () {
      * @since 6.5.0
      */
     add_filter('site-reviews/reviews/html/style', function ($value, $html) {
-        return glsr_get($html->reviews->attributes(), 'class'); // @todo show a deprecation notice in v7.0!
+        return glsr_get($html->reviews->attributes(), 'class'); // @todo show a deprecation notice?
     }, 10, 2);
 
     /**

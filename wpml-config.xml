@@ -1,6 +1,6 @@
 <wpml-config>
 	<admin-texts>
-		<key name="site_reviews_v6">
+		<key name="site_reviews_v7">
 			<key name="settings">
 				<key name="general">
 					<key name="request_verification_message"/>
