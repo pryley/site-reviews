@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Modules;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Sanitizers\SanitizeCompat;
 use GeminiLabs\SiteReviews\Modules\Sanitizers\SanitizeText;
 
 class Sanitizer
@@ -28,15 +27,11 @@ class Sanitizer
 
     public function __call(string $method, array $args)
     {
+        $name = Str::dashcase(Str::removePrefix($method, 'sanitize'));
         $value = array_shift($args);
-        // @todo remove in v7.0.0
-        $name = lcfirst(Str::removePrefix($method, 'sanitize'));
-        if (in_array($name, ['array', 'bool', 'int'])) {
-            return (new SanitizeCompat($value, $name, $this->values))->run();
-        }
-        $classname = Helper::buildClassName($method, 'Modules\Sanitizers');
-        if (class_exists($classname)) {
-            return (new $classname($value, $args, $this->values))->run();
+        $className = Helper::buildClassName($method, 'Modules\Sanitizers');
+        if (class_exists($className)) {
+            return (new $className($value, $args, $this->values))->run();
         }
         glsr_log()->error("Sanitizer method [$method] not found.");
         return array_shift($args);
@@ -51,8 +46,8 @@ class Sanitizer
             }
             foreach ($this->sanitizers[$key] as $sanitizer) {
                 $args = $sanitizer['args'];
-                $classname = $sanitizer['sanitizer'];
-                $value = (new $classname($value, $args, $this->values))->run();
+                $className = $sanitizer['sanitizer'];
+                $value = (new $className($value, $args, $this->values))->run();
             }
             $results[$key] = $value;
         }
@@ -65,17 +60,13 @@ class Sanitizer
         $name = trim(Arr::get($parts, 0));
         $args = trim(Arr::get($parts, 1));
         $args = 'regex' === $name ? [$args] : explode(',', $args);
-        $classname = Helper::buildClassName(['sanitize', $name], 'Modules\Sanitizers');
-        if (!class_exists($classname)) {
-            $classname = SanitizeText::class;
-        }
-        if (in_array($name, ['array', 'bool', 'int'])) { // @todo remove in v7.0.0
-            $args = $name;
-            $classname = SanitizeCompat::class;
+        $className = Helper::buildClassName(['sanitize', $name], 'Modules\Sanitizers');
+        if (!class_exists($className)) {
+            $className = SanitizeText::class;
         }
         return [
             'args' => $args,
-            'sanitizer' => $classname,
+            'sanitizer' => $className,
         ];
     }
 
