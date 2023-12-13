@@ -39,7 +39,7 @@ final class Application extends Container implements PluginContract
     use Session;
     use Storage;
 
-    public const DB_VERSION = '1.2';
+    public const DB_VERSION = '1.3';
     public const EXPORT_KEY = '_glsr_export';
     public const ID = 'site-reviews';
     public const PAGED_HANDLE = 'pagination_request';
