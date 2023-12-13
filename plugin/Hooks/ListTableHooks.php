@@ -9,7 +9,7 @@ class ListTableHooks extends AbstractHooks
     public function run(): void
     {
         $this->hook(ListTableController::class, [
-            ['filterCheckLockedReviews', 'heartbeat_received', 20, 3],
+            ['filterCheckLockedReviews', 'heartbeat_received', 20, 2],
             ['filterColumnsForPostType', "manage_{$this->type}_posts_columns"],
             ['filterDateColumnStatus', 'post_date_column_status', 10, 2],
             ['filterDefaultHiddenColumns', 'default_hidden_columns', 10, 2],

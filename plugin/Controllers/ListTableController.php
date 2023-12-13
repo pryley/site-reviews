@@ -21,28 +21,32 @@ class ListTableController extends AbstractController
     /**
      * @param array $response
      * @param array $data
-     * @param string $screenId
-     * @return array
      * @filter heartbeat_received
      */
-    public function filterCheckLockedReviews($response, $data, $screenId)
+    public function filterCheckLockedReviews($response, $data): array
     {
         $checked = [];
-        if (!is_array(Arr::get($data, 'wp-check-locked-posts'))) {
-            return $response;
-        }
-        foreach ($data['wp-check-locked-posts'] as $key) {
+        $response = Arr::consolidate($response);
+        $postIds = Arr::consolidate(Arr::get($data, 'wp-check-locked-posts'));
+        foreach ($postIds as $key) {
             $postId = absint(substr($key, 5));
             $userId = (int) wp_check_post_lock($postId);
             $user = get_userdata($userId);
-            if ($user && !glsr()->can('edit_post', $postId) && glsr()->can('respond_to_post', $postId)) {
-                $send = ['text' => sprintf(_x('%s is currently editing', 'admin-text', 'site-reviews'), $user->display_name)];
-                if (get_option('show_avatars')) {
-                    $send['avatar_src'] = get_avatar_url($user->ID, ['size' => 18]);
-                    $send['avatar_src_2x'] = get_avatar_url($user->ID, ['size' => 36]);
-                }
-                $checked[$key] = $send;
+            if (!$user) {
+                continue;
             }
+            if (glsr()->can('edit_post', $postId)) {
+                continue;
+            }
+            if (!glsr()->can('respond_to_post', $postId)) {
+                continue;
+            }
+            $send = ['text' => sprintf(_x('%s is currently editing', 'admin-text', 'site-reviews'), $user->display_name)];
+            if (get_option('show_avatars')) {
+                $send['avatar_src'] = get_avatar_url($user->ID, ['size' => 18]);
+                $send['avatar_src_2x'] = get_avatar_url($user->ID, ['size' => 36]);
+            }
+            $checked[$key] = $send;
         }
         if (!empty($checked)) {
             $response['wp-check-locked-posts'] = $checked;
