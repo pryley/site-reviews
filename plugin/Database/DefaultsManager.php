@@ -29,15 +29,4 @@ class DefaultsManager
         $settings = Arr::unflatten(glsr()->settings());
         return Arr::get($settings, $path);
     }
-
-    public function set(): array
-    {
-        $settings = glsr(OptionManager::class)->all();
-        $currentSettings = Arr::removeEmptyValues($settings);
-        $defaultSettings = array_replace_recursive($this->get(), $currentSettings);
-        $updatedSettings = array_replace_recursive($settings, $defaultSettings);
-        update_option(OptionManager::databaseKey(), $updatedSettings);
-        glsr(OptionManager::class)->reset();
-        return $defaultSettings;
-    }
 }
