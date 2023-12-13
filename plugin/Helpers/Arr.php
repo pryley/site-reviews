@@ -258,6 +258,15 @@ class Arr
         return $data;
     }
 
+    public static function unflatten(array $array): array
+    {
+        $results = [];
+        foreach ($array as $path => $value) {
+            $results = static::set($results, $path, $value);
+        }
+        return $results;
+    }
+
     public static function unique(array $values): array
     {
         return Helper::ifTrue(!static::isIndexedAndFlat($values), $values,

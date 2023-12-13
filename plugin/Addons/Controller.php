@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Addons;
 
 use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -211,7 +212,7 @@ abstract class Controller extends AbstractController
      */
     public function filterRenderView(string $view): string
     {
-        $style = glsr_get_option('general.style', 'default');
+        $style = glsr(OptionManager::class)->get('general.style', 'default');
         $styledView = sprintf('views/styles/%s/%s', $style, basename($view));
         if (file_exists($this->app()->file($styledView))) {
             return $styledView;

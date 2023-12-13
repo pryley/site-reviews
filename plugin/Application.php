@@ -67,11 +67,15 @@ final class Application extends Container implements PluginContract
         return $this->make(Role::class)->can($capability, ...$args);
     }
 
+    /**
+     * The settings configuration defaults.
+     */
     public function defaults(): array
     {
         if (empty($this->defaults)) {
             $defaults = $this->make(DefaultsManager::class)->get();
-            $this->defaults = $this->filterArray('settings/defaults', $defaults);
+            $defaults = $this->filterArray('settings/defaults', $defaults);
+            $this->defaults = $defaults;
         }
         return $this->defaults;
     }
@@ -125,6 +129,7 @@ final class Application extends Container implements PluginContract
     }
 
     /**
+     * this is triggered by $this->update() on wp_loaded
      * @param PluginContract|string $addon
      */
     public function license($addon): void
@@ -156,6 +161,7 @@ final class Application extends Container implements PluginContract
     }
 
     /**
+     * This is triggered by "site-reviews/addon/register" on plugins_loaded
      * @param PluginContract|string $addon
      */
     public function register($addon): void
@@ -186,7 +192,7 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * These are not the saved settings.
+     * The settings configuration.
      */
     public function settings(): array
     {
@@ -205,6 +211,7 @@ final class Application extends Container implements PluginContract
     }
 
     /**
+     * This is triggered by "site-reviews/addon/update" on wp_loaded
      * @param PluginContract|string $addon
      */
     public function update($addon, string $file): void

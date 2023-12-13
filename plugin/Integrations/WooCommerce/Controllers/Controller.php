@@ -24,7 +24,7 @@ class Controller extends AbstractController
      */
     public function filterSettings(array $settings): array
     {
-        return array_merge(glsr()->config('woocommerce'), $settings);
+        return array_merge(glsr()->config('integrations/woocommerce'), $settings);
     }
 
     /**

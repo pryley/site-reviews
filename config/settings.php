@@ -55,7 +55,7 @@ return [ // order is intentional
         'type' => 'yes_no',
     ],
     'settings.general.request_verification_message' => [
-        'default' => glsr('Modules\Html\Template')->build('templates/verify-review'),
+        'default' => glsr()->build('templates/verify-review'),
         'depends_on' => [
             'settings.general.request_verification' => ['yes'],
         ],
@@ -65,7 +65,7 @@ return [ // order is intentional
         'tags' => glsr('Modules\Html\TemplateTags')->filteredTags([
             'exclude' => ['admin_email', 'approve_url', 'edit_url', 'review_link', 'verified_date'],
         ]),
-        'tooltip' => _x('To restore the default text, save an empty template.', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('The verification email sent to the reviewer when a review is submitted. To restore the default text, save an empty template.', 'admin-text', 'site-reviews'),
         'type' => 'code',
     ],
     'settings.general.require.approval' => [
@@ -207,7 +207,7 @@ return [ // order is intentional
         'type' => 'text',
     ],
     'settings.general.notification_message' => [
-        'default' => glsr('Modules\Html\Template')->build('templates/notification'),
+        'default' => glsr()->build('templates/notification'),
         'depends_on' => [
             'settings.general.notifications' => ['admin', 'author', 'custom'],
         ],

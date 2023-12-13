@@ -112,9 +112,10 @@ trait Plugin
         $config = file_exists($configFile)
             ? include $configFile
             : [];
+        $config = Arr::consolidate($config);
         // Don't filter the settings config!
-        // Settings can be filtered with the "site-reviews/settings" filter hook
-        if ($filtered && 'settings' !== $name) {
+        // They can be filtered with the "site-reviews/settings" filter hook
+        if ($filtered && !Str::contains($name, ['integrations', 'settings'])) {
             $config = $this->filterArray("config/{$name}", $config);
         }
         return $config;

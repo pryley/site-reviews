@@ -8,14 +8,39 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 
+/**
+ * @method array getArray(string $path = '', $fallback = [])
+ * @method bool getBool(string $path = '', $fallback = false)
+ * @method float getFloat(string $path = '', $fallback = 0.0)
+ * @method int getInt(string $path = '', $fallback = 0)
+ * @method string getString(string $path = '', $fallback = '')
+ */
 class OptionManager
 {
+    /**
+     * @return mixed
+     */
+    public function __call(string $method, array $args = [])
+    {
+        if (!str_starts_with($method, 'get')) {
+            throw new \BadMethodCallException("Method [$method] does not exist.");
+        }
+        $cast = strtolower((string) substr($method, 3));
+        if (!in_array($cast, ['array', 'bool', 'float', 'int', 'string'])) {
+            throw new \BadMethodCallException("Method [$method] does not exist.");
+        }
+        $path = Arr::getAs('string', $args, 0);
+        $fallback = Arr::get($args, 1);
+        return call_user_func([$this, 'get'], $path, $fallback, $cast);
+    }
+
     public function all(): array
     {
-        if ($settings = Arr::consolidate(glsr()->retrieve('settings'))) {
-            return $settings;
+        $settings = Arr::consolidate(glsr()->retrieve('settings'));
+        if (empty($settings)) {
+            $settings = $this->reset();
         }
-        return $this->reset();
+        return $settings;
     }
 
     public static function databaseKey(int $version = null): string
@@ -77,21 +102,6 @@ class OptionManager
         return Cast::to($cast, $option);
     }
 
-    public function getArray(string $path, array $fallback = []): array
-    {
-        return $this->get($path, $fallback, 'array');
-    }
-
-    public function getBool(string $path, bool $fallback = false): bool
-    {
-        return $this->get($path, $fallback, 'bool');
-    }
-
-    public function getInt(string $path, int $fallback = 0): int
-    {
-        return $this->get($path, $fallback, 'int');
-    }
-
     public function json(): string
     {
         return json_encode($this->all(), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
@@ -99,18 +109,14 @@ class OptionManager
 
     public function normalize(array $data = []): array
     {
-        $settings = Arr::flatten($data);
-        array_walk($settings, function (&$value) {
-            if (is_string($value)) {
-                $value = wp_kses($value, wp_kses_allowed_html('post'));
-            }
-        });
-        $settings = Arr::convertFromDotNotation($settings);
+        $settings = $this->kses($data);
         $strings = Arr::get($settings, 'settings.strings', []);
-        $settings = Arr::flatten($settings);
-        $settings = shortcode_atts(glsr(DefaultsManager::class)->defaults(), $settings);
-        $settings = Arr::convertFromDotNotation($settings);
-        $settings['settings']['strings'] = $strings;
+        if (!empty(glsr()->settings)) { // prevents a possible infinite loop
+            $settings = Arr::flatten($settings);
+            $settings = shortcode_atts(glsr(DefaultsManager::class)->defaults(), $settings);
+            $settings = Arr::unflatten($settings);
+        }
+        $settings = Arr::set($settings, 'settings.strings', $strings);
         return $settings;
     }
 
@@ -155,13 +161,13 @@ class OptionManager
      */
     public function set(string $path, $value = ''): bool
     {
-        $settings = $this->reset();
+        $settings = $this->all();
         $settings = Arr::set($settings, $path, $value);
         $settings = $this->normalize($settings);
         if (!update_option(static::databaseKey(), $settings)) {
             return false;
         }
-        $this->reset();
+        glsr()->store('settings', $settings);
         return true;
     }
 
@@ -173,5 +179,17 @@ class OptionManager
     {
         $option = get_option($path, $fallback);
         return Cast::to($cast, Helper::ifEmpty($option, $fallback, $strict = true));
+    }
+
+    public function kses(array $data): array
+    {
+        $data = Arr::flatten($data);
+        array_walk($data, function (&$value) {
+            if (is_string($value)) {
+                $value = wp_kses($value, wp_kses_allowed_html('post'));
+            }
+        });
+        $data = Arr::unflatten($data);
+        return $data;
     }
 }
