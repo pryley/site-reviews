@@ -7,6 +7,28 @@ use GeminiLabs\SiteReviews\Database\Tables;
 
 class ReviewHooks extends AbstractHooks
 {
+    public function hasPluginsLoaded(): bool
+    {
+        return true;
+    }
+
+    /**
+     * MyISAM table fallback
+     */
+    public function onPluginsLoaded(): void
+    {
+        if (!glsr(Tables::class)->isInnodb('posts')) {
+            $this->hook(ReviewController::class, [
+                ['onDeletePost', 'deleted_post', 10, 2],
+            ]);
+        }
+        if (!glsr(Tables::class)->isInnodb('users')) {
+            $this->hook(ReviewController::class, [
+                ['onDeleteUser', 'deleted_user'],
+            ]);
+        }
+    }
+
     public function run(): void
     {
         $this->hook(ReviewController::class, [
@@ -26,22 +48,5 @@ class ReviewHooks extends AbstractHooks
             ['sendNotification', 'site-reviews/review/created', 50],
             ['unapprove', 'admin_action_unapprove'],
         ]);
-    }
-
-    /**
-     * MyISAM table fallback
-     */
-    public function runPluginLoaded(): void
-    {
-        if (!glsr(Tables::class)->isInnodb('posts')) {
-            $this->hook(ReviewController::class, [
-                ['onDeletePost', 'deleted_post', 10, 2],
-            ]);
-        }
-        if (!glsr(Tables::class)->isInnodb('users')) {
-            $this->hook(ReviewController::class, [
-                ['onDeleteUser', 'deleted_user'],
-            ]);
-        }
     }
 }

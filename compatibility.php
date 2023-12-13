@@ -188,7 +188,8 @@ add_filter('tcb_post_types', function ($blacklist) {
 });
 
 /**
- * This will check updates for any addons which do not yet use the "site-reviews/addon/update" hook
+ * This is run on wp_loaded.
+ * Checks for updates for outdated addons which don't use the "site-reviews/addon/update" hook
  * @param \GeminiLabs\SiteReviews\Application $app
  */
 add_action('site-reviews/addon/update', function ($app) {
@@ -211,7 +212,7 @@ add_action('site-reviews/addon/update', function ($app) {
             // Fail silently
         }
     }
-});
+}, 20);
 
 /**
  * This disables OptimizePress v2 assets an notices on Site Reviews admin pages

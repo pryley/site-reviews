@@ -4,9 +4,6 @@ namespace GeminiLabs\SiteReviews\Hooks;
 
 use GeminiLabs\SiteReviews\Contracts\HooksContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
-use GeminiLabs\SiteReviews\Helpers\Str;
 
 abstract class AbstractHooks implements HooksContract
 {
@@ -25,6 +22,16 @@ abstract class AbstractHooks implements HooksContract
         $this->type = glsr()->post_type;
     }
 
+    public function hasInit(): bool
+    {
+        return false;
+    }
+
+    public function hasPluginsLoaded(): bool
+    {
+        return false;
+    }
+
     public function hook(string $classname, array $hooks): void
     {
         glsr()->singleton($classname); // make singleton
@@ -41,33 +48,39 @@ abstract class AbstractHooks implements HooksContract
     }
 
     /**
-     * The method gets an option directly from the database and is safe to use in Hook classes.
+     * @action init:10
+     */
+    public function onInit(): void
+    {
+    }
+
+    /**
+     * @action plugins_loaded:10
+     */
+    public function onPluginsLoaded(): void
+    {
+    }
+
+    /**
      * @param mixed $fallback
      * @return mixed
      */
     public function option(string $path, $fallback = '', string $cast = '')
     {
-        $data = glsr(OptionManager::class)->wp(OptionManager::databaseKey(), [], 'array');
-        $path = Str::prefix($path, 'settings.');
-        $value = Arr::get($data, $path, $fallback);
-        return Cast::to($cast, $value);
+        return glsr(OptionManager::class)->get($path, $fallback, $cast);
     }
 
     public function run(): void
     {
     }
 
-    /**
-     * @action init:10
-     */
-    public function runInit(): void
+    public function runDeferred(): void
     {
-    }
-
-    /**
-     * @action plugin_loaded:10
-     */
-    public function runPluginLoaded(): void
-    {
+        if ($this->hasInit()) {
+            add_action('init', [$this, 'onInit']);
+        }
+        if ($this->hasPluginsLoaded()) {
+            add_action('plugins_loaded', [$this, 'onPluginsLoaded']);
+        }
     }
 }

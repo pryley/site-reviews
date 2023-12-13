@@ -419,9 +419,8 @@ abstract class Controller extends AbstractController
                 $reflect = new \ReflectionClass($hooks);
                 if ($reflect->isInstantiable()) {
                     glsr()->singleton($hooks);
-                    add_action('init', [glsr($hooks), 'runInit']);
-                    add_action('plugins_loaded', [glsr($hooks), 'runPluginLoaded']);
                     glsr($hooks)->run();
+                    glsr($hooks)->runDeferred();
                 }
             } catch (\ReflectionException $e) {
                 glsr_log()->error($e->getMessage());
