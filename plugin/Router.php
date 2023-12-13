@@ -142,14 +142,13 @@ class Router
         if (!in_array($request->_action, $this->mutexActions())) {
             return true;
         }
-        $data = serialize($request);
         $ipAddress = Helper::getIpAddress();
-        $hash = substr(wp_hash("{$data}|{$ipAddress}"), 0, 13);
+        $hash = substr(wp_hash($ipAddress), 0, 13);
         $lock = glsr()->prefix.$hash;
         if (get_transient($lock)) {
             return false; // is parallel request
         }
-        $expiration = glsr()->filterInt('router/mutex/expiration', 3, $ipAddress);
+        $expiration = glsr()->filterInt('router/mutex/expiration', 5, $ipAddress);
         $transient = set_transient($lock, 1, $expiration);
         if (!$transient) {
             return false; // parallel requests cannot set transient
