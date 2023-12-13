@@ -193,6 +193,7 @@
     site-reviews/router/mutex/expiration                        (int $seconds, string $ipAddress): int
     site-reviews/router/public/unguarded-actions                (array $unguardedActions): array
     site-reviews/sanitize/allowed-html                          (array $allowedHtml, Modules\Sanitizer $sanitizer): array
+    site-reviews/sanitizer/<name>                               (string $className): string
     site-reviews/scheduler/per-page                             (int $perPage): int
     site-reviews/schema/<schema_type>                           (array $schema, array $args): array
     site-reviews/schema/all                                     (array $schemas): array

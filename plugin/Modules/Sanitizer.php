@@ -30,6 +30,7 @@ class Sanitizer
         $name = Str::dashcase(Str::removePrefix($method, 'sanitize'));
         $value = array_shift($args);
         $className = Helper::buildClassName($method, 'Modules\Sanitizers');
+        $className = glsr()->filterString("sanitizer/{$name}", $className);
         if (class_exists($className)) {
             return (new $className($value, $args, $this->values))->run();
         }
@@ -61,6 +62,7 @@ class Sanitizer
         $args = trim(Arr::get($parts, 1));
         $args = 'regex' === $name ? [$args] : explode(',', $args);
         $className = Helper::buildClassName(['sanitize', $name], 'Modules\Sanitizers');
+        $className = glsr()->filterString("sanitizer/{$name}", $className);
         if (!class_exists($className)) {
             $className = SanitizeText::class;
         }
