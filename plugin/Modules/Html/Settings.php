@@ -69,7 +69,7 @@ class Settings
     protected function getTemplateDataForAddons(string $id): array
     {
         $fields = $this->getSettingFields($this->normalizeSettingPath($id));
-        $settings = Arr::convertFromDotNotation($fields);
+        $settings = Arr::unflatten($fields);
         $settingKeys = array_keys($settings['settings']['addons']);
         $results = [];
         foreach ($settingKeys as $key) {

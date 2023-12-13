@@ -79,8 +79,8 @@ class Migrate_3_0_0 implements MigrateContract
         $this->migrateNotificationSettings();
         $this->migrateRecaptchaSettings();
         $this->migrateRequiredSettings();
-        $oldSettings = Arr::convertFromDotNotation($this->oldSettings);
-        $newSettings = Arr::convertFromDotNotation($this->newSettings);
+        $oldSettings = Arr::unflatten($this->oldSettings);
+        $newSettings = Arr::unflatten($this->newSettings);
         if (isset($oldSettings['settings']['strings']) && is_array($oldSettings['settings']['strings'])) {
             $newSettings['settings']['strings'] = $oldSettings['settings']['strings'];
         }

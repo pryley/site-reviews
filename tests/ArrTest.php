@@ -32,13 +32,6 @@ class ArrTest extends WP_UnitTestCase
         $this->assertEquals(Arr::consolidate((object)[1]), [1]);
     }
 
-    public function test_convert_from_dot_notation()
-    {
-        $original = ['parent.child' => 'toys'];
-        $converted = ['parent' => ['child' => 'toys']];
-        $this->assertEquals(Arr::convertFromDotNotation($original), $converted);
-    }
-
     public function test_convert_from_string()
     {
         $this->assertEquals(Arr::convertFromString(',a,,b,c,1,,'), ['a','b','c','1']);
@@ -174,6 +167,13 @@ class ArrTest extends WP_UnitTestCase
         $this->assertEquals(Arr::set([], 'number.thirteen', '13'),
             ['number' => ['thirteen' => '13']]
         );
+    }
+
+    public function test_unflatten()
+    {
+        $original = ['parent.child' => 'toys'];
+        $converted = ['parent' => ['child' => 'toys']];
+        $this->assertEquals(Arr::unflatten($original), $converted);
     }
 
     public function test_unique()

@@ -18,7 +18,7 @@ class DefaultsManager
 
     public function get(): array
     {
-        return Arr::convertFromDotNotation($this->defaults());
+        return Arr::unflatten($this->defaults());
     }
 
     /**
@@ -26,7 +26,7 @@ class DefaultsManager
      */
     public function pluck(string $path)
     {
-        $settings = Arr::convertFromDotNotation(glsr()->settings());
+        $settings = Arr::unflatten(glsr()->settings());
         return Arr::get($settings, $path);
     }
 

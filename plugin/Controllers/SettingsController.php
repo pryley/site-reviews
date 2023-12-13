@@ -55,7 +55,7 @@ class SettingsController extends AbstractController
         $values = Arr::flatten($options);
         $sanitizers = wp_list_pluck(glsr()->settings(), 'sanitizer');
         $options = (new Sanitizer($values, $sanitizers))->run();
-        return Arr::convertFromDotNotation($options);
+        return Arr::unflatten($options);
     }
 
     protected function sanitizeForms(array $options, array $input): array

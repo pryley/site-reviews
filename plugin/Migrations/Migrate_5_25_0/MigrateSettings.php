@@ -56,7 +56,7 @@ class MigrateSettings implements MigrateContract
         unset($settings['settings.submissions.recaptcha.position']);
         unset($settings['counts']);
         unset($settings['last_review_count']);
-        $settings = Arr::convertFromDotNotation($settings);
+        $settings = Arr::unflatten($settings);
         update_option(OptionManager::databaseKey(5), $settings);
     }
 }
