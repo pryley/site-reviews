@@ -4,9 +4,11 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Commands\SendVerificationEmail;
+use GeminiLabs\SiteReviews\Commands\ToggleVerified;
 use GeminiLabs\SiteReviews\Commands\VerifyReview;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Encryption;
+use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
 
@@ -28,6 +30,19 @@ class VerificationController extends AbstractController
         if (!empty($verifyUrl)) {
             $this->execute(new SendVerificationEmail($review, $verifyUrl));
         }
+    }
+
+    /**
+     * @action site-reviews/route/ajax/toggle-verified
+     */
+    public function toggleVerifiedAjax(Request $request): void
+    {
+        $command = $this->execute(new ToggleVerified($request));
+        glsr()->action('cache/flush', $command->review); // @phpstan-ignore-line
+        wp_send_json_success([
+            'notices' => glsr(Notice::class)->get(),
+            'verified' => $command->successful(),
+        ]);
     }
 
     /**
