@@ -18,7 +18,7 @@ class MainController extends AbstractController
      * @see http://developer.wordpress.org/reference/functions/wp_uninitialize_site/
      * @param array $tables
      * @return array
-     * @filter wpmu_drop_tables
+     * @filter wpmu_drop_tables:999
      */
     public function filterDropTables($tables)
     {
@@ -36,7 +36,7 @@ class MainController extends AbstractController
 
     /**
      * @param \WP_Site $site
-     * @action wp_insert_site
+     * @action wp_initialize_site:999
      */
     public function installOnNewSite($site): void
     {

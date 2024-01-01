@@ -10,7 +10,7 @@ class MainHooks extends AbstractHooks
     {
         $this->hook(MainController::class, [
             ['filterDropTables', 'wpmu_drop_tables', 999], // run last
-            ['installOnNewSite', 'wp_insert_site'],
+            ['installOnNewSite', 'wp_initialize_site', 999], // run last
             ['logOnce', 'admin_footer'],
             ['logOnce', 'wp_footer'],
             ['registerAddons', 'plugins_loaded'],
