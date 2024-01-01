@@ -91,6 +91,26 @@ class Date
     /**
      * @param mixed $date
      */
+    public function isThisMonth($date): bool
+    {
+        return $this->isValid($date)
+            ? date('Y', $this->toTimestamp($date)) === date('Y')
+            : false;
+    }
+
+    /**
+     * @param mixed $date
+     */
+    public function isThisYear($date): bool
+    {
+        return $this->isValid($date)
+            ? date('m', $this->toTimestamp($date)) === date('m')
+            : false;
+    }
+
+    /**
+     * @param mixed $date
+     */
     public function isTimestamp($date): bool
     {
         $date = Cast::toString($date);

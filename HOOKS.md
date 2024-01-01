@@ -81,6 +81,7 @@
     site-reviews/console/level                                  (int $level): int
     site-reviews/const/<constant>                               (string $constantName): string
     site-reviews/create/review-values                           (array $reviewValues, Commands\CreateReview $command): array
+    site-reviews/dashboard/widget/data                          (array $data): array
     site-reviews/database/sql/<handle>                          (string $sql): string
     site-reviews/database/tables.                               (array $tables): array
     site-reviews/deactivate/insight                             (array $insight): array
