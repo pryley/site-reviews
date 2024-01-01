@@ -25,7 +25,17 @@
     color: #00a32a;
 }
 
-.glsr-notice:not(.notice-info, .notice-success, .notice-warning, .notice-error) {
+.glsr-notice.is-error .dashicons-before::before {
+    color: #cc1818;
+}
+.glsr-notice.is-warning .dashicons-before::before {
+    color: #f0b849;
+}
+.glsr-notice.is-success .dashicons-before::before {
+    color: #4ab866;
+}
+
+.glsr-notice:not(.is-info, .is-success, .is-warning, .is-error, .notice-info, .notice-success, .notice-warning, .notice-error) {
     border-color: var(--wp-admin-theme-color-darker-10);
     border-left-color: var(--wp-admin-theme-color);
 }
