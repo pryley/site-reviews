@@ -212,7 +212,7 @@ abstract class Controller extends AbstractController
      */
     public function filterRenderView(string $view): string
     {
-        $style = glsr(OptionManager::class)->get('general.style', 'default');
+        $style = glsr(OptionManager::class)->get('settings.general.style', 'default');
         $styledView = sprintf('views/styles/%s/%s', $style, basename($view));
         if (file_exists($this->app()->file($styledView))) {
             return $styledView;

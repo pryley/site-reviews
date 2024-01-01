@@ -67,7 +67,7 @@ abstract class AbstractHooks implements HooksContract
      */
     public function option(string $path, $fallback = '', string $cast = '')
     {
-        return glsr(OptionManager::class)->get($path, $fallback, $cast);
+        return glsr_get_option($path, $fallback, $cast);
     }
 
     public function run(): void

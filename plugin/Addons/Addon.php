@@ -62,7 +62,6 @@ abstract class Addon implements PluginContract
     {
         $path = Str::removePrefix($path, 'settings.');
         $path = Str::prefix($path, 'addons.'.static::SLUG.'.');
-        $path = Str::prefix($path, 'settings.');
         return glsr_get_option($path, $fallback, $cast);
     }
 
