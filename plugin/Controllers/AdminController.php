@@ -88,32 +88,6 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @param array $items
-     * @filter dashboard_glance_items
-     */
-    public function filterDashboardGlanceItems($items): array
-    {
-        $items = Arr::consolidate($items);
-        $postCount = wp_count_posts(glsr()->post_type);
-        if (empty($postCount->publish)) {
-            return $items;
-        }
-        $text = _nx('%s Review', '%s Reviews', $postCount->publish, 'admin-text', 'site-reviews');
-        $text = sprintf($text, number_format_i18n($postCount->publish));
-        if (glsr()->can('edit_posts')) {
-            $items[] = glsr(Builder::class)->a($text, [
-                'class' => 'glsr-review-count',
-                'href' => glsr_admin_url(),
-            ]);
-        } else {
-            $items[] = glsr(Builder::class)->span($text, [
-                'class' => 'glsr-review-count',
-            ]);
-        }
-        return $items;
-    }
-
-    /**
      * @param array $args
      * @filter export_args
      */

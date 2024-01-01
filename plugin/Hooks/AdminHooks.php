@@ -13,7 +13,6 @@ class AdminHooks extends AbstractHooks
             ['displayUpdateWarning', "in_plugin_update_message-{$this->basename}"],
             ['enqueueAssets', 'admin_enqueue_scripts'],
             ['filterActionLinks', "plugin_action_links_{$this->basename}"],
-            ['filterDashboardGlanceItems', 'dashboard_glance_items'],
             ['filterExportArgs', 'export_args', 11],
             ['filterScreenOptionsButton', 'screen_options_show_submit', 20],
             ['filterTinymcePlugins', 'mce_external_plugins', 15],
