@@ -37,7 +37,7 @@ class TaxonomyController extends AbstractController
             return (string) $termId;
         }
         if ('term_taxonomy_id' === $column) {
-            return get_term_by('term_id', $termId, glsr()->taxonomy)->term_taxonomy_id;
+            return (string) get_term_by('term_id', $termId, glsr()->taxonomy)->term_taxonomy_id;
         }
         if (static::PRIORITY_META_KEY !== $column || !$this->termPriorityEnabled()) {
             return $value;
