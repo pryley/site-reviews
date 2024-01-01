@@ -18,6 +18,7 @@ class CountManager
         update_post_meta($postId, static::META_AVERAGE, $counts->average);
         update_post_meta($postId, static::META_RANKING, $counts->ranking);
         update_post_meta($postId, static::META_REVIEWS, $counts->reviews);
+        glsr()->action('ratings/count/post', $postId, $counts);
     }
 
     public function recalculate(): void
@@ -25,6 +26,7 @@ class CountManager
         $this->recalculateFor('post');
         $this->recalculateFor('term');
         $this->recalculateFor('user');
+        glsr()->action('ratings/count/all');
     }
 
     public function recalculateFor(string $metaGroup): void
@@ -48,6 +50,7 @@ class CountManager
         update_term_meta($termId, static::META_AVERAGE, $counts->average);
         update_term_meta($termId, static::META_RANKING, $counts->ranking);
         update_term_meta($termId, static::META_REVIEWS, $counts->reviews);
+        glsr()->action('ratings/count/term', $termId, $counts);
     }
 
     public function users(int $userId): void
@@ -56,16 +59,17 @@ class CountManager
         update_user_meta($userId, static::META_AVERAGE, $counts->average);
         update_user_meta($userId, static::META_RANKING, $counts->ranking);
         update_user_meta($userId, static::META_REVIEWS, $counts->reviews);
+        glsr()->action('ratings/count/user', $userId, $counts);
     }
 
     protected function metaId(string $metaGroup): string
     {
-        return sprintf('%s_id', $metaGroup);
+        return "{$metaGroup}_id";
     }
 
     protected function metaTable(string $metaGroup): string
     {
-        return sprintf('%smeta', $metaGroup);
+        return "{$metaGroup}meta";
     }
 
     protected function ratingValuesForInsert(string $metaGroup): array
