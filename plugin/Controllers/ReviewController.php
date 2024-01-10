@@ -258,14 +258,14 @@ class ReviewController extends AbstractController
             $this->onDeleteReview((int) $postId);
             return;
         }
-        $reviews = glsr(Query::class)->reviews([
+        $reviewIds = glsr(Query::class)->reviewIds([
             'assigned_posts' => $postId,
             'per_page' => -1,
             'status' => 'all',
         ]);
         if (glsr(Database::class)->delete('assigned_posts', ['post_id' => $postId])) {
-            array_walk($reviews, function ($review) {
-                glsr(Cache::class)->delete($review->ID, 'reviews');
+            array_walk($reviewIds, function ($reviewId) {
+                glsr(Cache::class)->delete($reviewId, 'reviews');
             });
         }
     }
@@ -286,14 +286,14 @@ class ReviewController extends AbstractController
      */
     public function onDeleteUser($userId = 0): void
     {
-        $reviews = glsr(Query::class)->reviews([
+        $reviewIds = glsr(Query::class)->reviewIds([
             'assigned_users' => $userId,
             'per_page' => -1,
             'status' => 'all',
         ]);
         if (glsr(Database::class)->delete('assigned_users', ['user_id' => $userId])) {
-            array_walk($reviews, function ($review) {
-                glsr(Cache::class)->delete($review->ID, 'reviews');
+            array_walk($reviewIds, function ($reviewId) {
+                glsr(Cache::class)->delete($reviewId, 'reviews');
             });
         }
     }

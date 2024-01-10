@@ -77,15 +77,24 @@ class Query
         return $review;
     }
 
-    public function reviews(array $args = [], array $postIds = []): array
+    public function reviewIds(array $args = []): array
     {
         $this->setArgs($args);
-        if (empty($postIds)) {
+        $postIds = glsr(Database::class)->dbGetCol($this->queryReviewIds());
+        return array_map('intval', $postIds);
+    }
+
+    public function reviews(array $args = [], array $postIds = []): array
+    {
+        if (!empty($postIds)) {
+            $this->setArgs($args);
+            $reviewIds = Arr::uniqueInt(Cast::toArray($postIds));
+        } else {
             // We previously used a subquery here, but MariaDB doesn't support LIMIT in subqueries
             // https://mariadb.com/kb/en/subquery-limitations/
-            $postIds = glsr(Database::class)->dbGetCol($this->queryReviewIds());
+            $reviewIds = $this->reviewIds($args);
         }
-        $reviewIds = implode(',', Arr::uniqueInt(Cast::toArray($postIds)));
+        $reviewIds = implode(',', $reviewIds);
         $reviewIds = Str::fallback($reviewIds, '0'); // if there are no review IDs, default to 0
         $reviews = glsr(Database::class)->dbGetResults($this->queryReviews($reviewIds), ARRAY_A);
         foreach ($reviews as &$review) {
