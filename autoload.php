@@ -44,17 +44,19 @@ spl_autoload_register(function ($className) {
         require_once $classMap[$className];
     }
     $namespaces = [
-        'GeminiLabs\\SiteReviews\\' => __DIR__.'/plugin/',
-        'GeminiLabs\\SiteReviews\\Tests\\' => __DIR__.'/tests/',
-        'GeminiLabs\\League\\Csv\\' => __DIR__.'/vendors/thephpleague/csv/',
-        'GeminiLabs\\Sepia\\PoParser\\' => __DIR__.'/vendors/sepia/po-parser/',
-        'GeminiLabs\\Sinergi\\BrowserDetector\\' => __DIR__.'/vendors/sinergi/browser-detector/',
-        'GeminiLabs\\Spatie\\Color\\' => __DIR__.'/vendors/spatie/color/',
-        'GeminiLabs\\Symfony\\Polyfill\\Ctype\\' => __DIR__.'/vendors/symfony/polyfill-ctype/',
-        'GeminiLabs\\Symfony\\Polyfill\\Iconv\\' => __DIR__.'/vendors/symfony/polyfill-iconv/',
-        'GeminiLabs\\Symfony\\Polyfill\\Mbstring\\' => __DIR__.'/vendors/symfony/polyfill-mbstring/',
-        'GeminiLabs\\Symfony\\Polyfill\\Php80\\' => __DIR__.'/vendors/symfony/polyfill-php80/',
-        'GeminiLabs\\Vectorface\\Whip\\' => __DIR__.'/vendors/vectorface/whip/',
+        'GeminiLabs\SiteReviews\\' => __DIR__.'/plugin/',
+        'GeminiLabs\SiteReviews\Tests\\' => __DIR__.'/tests/',
+        'GeminiLabs\Laravel\SerializableClosure\\' => __DIR__.'/vendors/laravel/serializable-closure/',
+        'GeminiLabs\League\Csv\\' => __DIR__.'/vendors/thephpleague/csv/',
+        'GeminiLabs\Sepia\PoParser\\' => __DIR__.'/vendors/sepia/po-parser/',
+        'GeminiLabs\Sinergi\BrowserDetector\\' => __DIR__.'/vendors/sinergi/browser-detector/',
+        'GeminiLabs\Spatie\Color\\' => __DIR__.'/vendors/spatie/color/',
+        'GeminiLabs\Symfony\Component\Process\\' => __DIR__.'/vendors/symfony/process/',
+        'GeminiLabs\Symfony\Polyfill\Ctype\\' => __DIR__.'/vendors/symfony/polyfill-ctype/',
+        'GeminiLabs\Symfony\Polyfill\Iconv\\' => __DIR__.'/vendors/symfony/polyfill-iconv/',
+        'GeminiLabs\Symfony\Polyfill\Mbstring\\' => __DIR__.'/vendors/symfony/polyfill-mbstring/',
+        'GeminiLabs\Symfony\Polyfill\Php80\\' => __DIR__.'/vendors/symfony/polyfill-php80/',
+        'GeminiLabs\Vectorface\Whip\\' => __DIR__.'/vendors/vectorface/whip/',
     ];
     foreach ($namespaces as $prefix => $baseDir) {
         $len = strlen($prefix);
