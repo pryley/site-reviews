@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -377,6 +378,21 @@ class ProductController
             'style' => 'glsr glsr-'.glsr(Style::class)->styleClasses(),
             'theme' => glsr_get_option('addons.woocommerce.style'),
         ]);
+    }
+
+    /**
+     * This updates the product_visibility rated-* categories.
+     * @action site-reviews/ratings/count/post
+     */
+    public function updateProductRatingCounts(int $postId, Arguments $counts): void
+    {
+        if ('product' === get_post_type($postId)) {
+            $product = wc_get_product($postId);
+            $product->set_rating_counts($counts->ratings);
+            $product->set_average_rating($counts->average);
+            $product->set_review_count($counts->reviews);
+            $product->save();
+        }
     }
 
     /**

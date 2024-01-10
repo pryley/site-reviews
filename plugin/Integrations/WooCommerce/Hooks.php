@@ -25,6 +25,7 @@ class Hooks extends AbstractHooks
         $this->hook(ImportController::class, [
             ['filterTools', 'site-reviews/tools/general'],
             ['importProductReviewsAjax', 'site-reviews/route/ajax/import-product-reviews'],
+            ['repairProductRatingsAjax', 'site-reviews/route/ajax/repair-product-ratings'],
         ]);
         if ($this->isEnabled()) {
             $this->hook(ExperimentsController::class, $this->experimentalHooks());
@@ -103,6 +104,7 @@ class Hooks extends AbstractHooks
             ['renderReviews', 'site-reviews/woocommerce/render/product/reviews'],
             ['renderTitleRating', 'woocommerce_single_product_summary'],
             ['updateProductData', 'woocommerce_admin_process_product_object'],
+            ['updateProductRatingCounts', 'site-reviews/ratings/count/post', 10, 2],
         ];
     }
 
