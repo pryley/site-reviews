@@ -247,6 +247,7 @@
     site-reviews/validate/review-limits                         (bool $isValid, Reviews $reviews, Request $request, string $key): bool
     site-reviews/validation/rules                               (array $rules, Request $request): array
     site-reviews/validation/rules/normalized                    (array $rules, Request $request, array $defaults): array
+    site-reviews/validation/type/<attribute>                    (string $type): string
     site-reviews/validators                                     (array $validatorClasses): array
     site-reviews/verification/enabled                           (bool $bool): bool
     site-reviews/views/data                                     (array $data, string $view): array

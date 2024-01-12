@@ -62,7 +62,8 @@ class Validator
     ];
 
     /**
-     * Run the validator's rules against its data.
+     * Run the validator's rules against its data
+     * @throws \BadMethodCallException
      */
     public function validate(array $data, array $rules = []): array
     {
@@ -122,9 +123,8 @@ class Validator
      */
     protected function getAttributeType(string $attribute): string
     {
-        return !$this->hasRule($attribute, $this->numericRules)
-            ? 'length'
-            : '';
+        $type = $this->hasRule($attribute, $this->numericRules) ? '' : 'length';
+        return glsr()->filterString("validation/type/{$attribute}", $type, $attribute);
     }
 
     /**
@@ -166,8 +166,12 @@ class Validator
         $hasNumeric = $this->hasRule($attribute, $this->numericRules);
         if (is_numeric($value) && $hasNumeric) {
             return (int) $value;
-        } elseif (is_array($value)) {
+        }
+        if (is_array($value)) {
             return count($value);
+        }
+        if (is_array($json = json_decode($value))) {
+            return count($json);
         }
         return mb_strlen((string) $value);
     }
@@ -259,9 +263,7 @@ class Validator
     protected function translator($key, array $parameters): string
     {
         $strings = glsr(ValidationStringsDefaults::class)->defaults();
-        if (isset($strings[$key])) {
-            return $this->replace($strings[$key], $parameters);
-        }
-        return 'error';
+        $string = $strings[$key] ?? 'error';
+        return $this->replace($string, $parameters);
     }
 }

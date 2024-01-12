@@ -10,27 +10,6 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 trait ValidationRules
 {
     /**
-     * Get the size of an attribute.
-     * @param mixed $value
-     */
-    abstract protected function getSize(string $attribute, $value): int;
-
-    /**
-     * Replace all placeholders.
-     */
-    protected function replace(string $message, array $parameters): string
-    {
-        if (!str_contains($message, '%s')) {
-            return $message;
-        }
-        return preg_replace_callback('/(%s)/', function () use (&$parameters) {
-            foreach ($parameters as $key => $value) {
-                return array_shift($parameters);
-            }
-        }, $message);
-    }
-
-    /**
      * Validate that an attribute value was "accepted".
      * This validation rule implies the attribute is "required".
      * @param mixed $value
@@ -44,6 +23,7 @@ trait ValidationRules
     /**
      * Validate the size of an attribute is between a set of values.
      * @param mixed $value
+     * @throws \InvalidArgumentException
      */
     public function validateBetween($value, string $attribute, array $parameters): bool
     {
@@ -64,6 +44,7 @@ trait ValidationRules
     /**
      * Validate the size of an attribute is less than a maximum value.
      * @param mixed $value
+     * @throws \InvalidArgumentException
      */
     public function validateMax($value, string $attribute, array $parameters): bool
     {
@@ -74,6 +55,7 @@ trait ValidationRules
     /**
      * Validate the size of an attribute is greater than a minimum value.
      * @param mixed $value
+     * @throws \InvalidArgumentException
      */
     public function validateMin($value, string $attribute, array $parameters): bool
     {
@@ -93,6 +75,7 @@ trait ValidationRules
     /**
      * Validate that an attribute passes a regular expression check.
      * @param mixed $value
+     * @throws \InvalidArgumentException
      */
     public function validateRegex($value, string $attribute, array $parameters): bool
     {
@@ -109,11 +92,16 @@ trait ValidationRules
      */
     public function validateRequired($value): bool
     {
-        return is_null($value)
-            || (is_string($value) && in_array(trim($value), ['', '[]']))
-            || (is_array($value) && empty($value))
-            ? false
-            : true;
+        if (is_null($value)) {
+            return false;
+        }
+        if (is_string($value) && in_array(trim($value), ['', '[]'])) {
+            return false;
+        }
+        if (is_countable($value) && count($value) < 1) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -154,6 +142,27 @@ trait ValidationRules
             (?:\# (?:[\pL\pN\-._\~!$&\'()*+,;=:@/?]|%[0-9A-Fa-f]{2})* )?        # a fragment (optional)
         $~ixu';
         return preg_match($pattern, $value) > 0;
+    }
+
+    /**
+     * Get the size of an attribute.
+     * @param mixed $value
+     */
+    abstract protected function getSize(string $attribute, $value): int;
+
+    /**
+     * Replace all placeholders.
+     */
+    protected function replace(string $message, array $parameters): string
+    {
+        if (!str_contains($message, '%s')) {
+            return $message;
+        }
+        return preg_replace_callback('/(%s)/', function () use (&$parameters) {
+            foreach ($parameters as $key => $value) {
+                return array_shift($parameters);
+            }
+        }, $message);
     }
 
     /**
