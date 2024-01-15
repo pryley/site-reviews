@@ -6,6 +6,6 @@ class SanitizeTextMultiline extends StringSanitizer
 {
     public function run(): string
     {
-        return sanitize_textarea_field($this->value());
+        return $this->kses(sanitize_textarea_field($this->value()));
     }
 }
