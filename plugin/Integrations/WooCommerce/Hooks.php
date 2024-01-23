@@ -97,6 +97,7 @@ class Hooks extends AbstractHooks
             ['filterWoocommerceTemplate', 'wc_get_template', 20, 2],
             ['modifyProductQuery', 'pre_get_posts'],
             ['printInlineStyle', 'admin_head'],
+            ['registerMetaboxes', 'add_meta_boxes_product', 20],
             ['renderBulkEditField', 'bulk_edit_custom_box', 10, 2],
             ['renderLoopRating', 'site-reviews/woocommerce/render/loop/rating', 5],
             ['renderProductDataPanel', 'woocommerce_product_data_panels'],

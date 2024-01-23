@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Metaboxes\ReviewsMetabox;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Rating;
@@ -19,25 +20,23 @@ class ProductController
 {
     /**
      * @param string $template
-     * @return string
      * @filter comments_template
      */
-    public function filterCommentsTemplate($template)
+    public function filterCommentsTemplate($template): string
     {
         if (current_theme_supports('woocommerce') && 'product' === get_post_type()) {
             return glsr()->path('views/integrations/woocommerce/overrides/single-product-reviews.php');
         }
-        return $template;
+        return Cast::toString($template);
     }
 
     /**
      * @param string $html
      * @param int $rating
      * @param int $count
-     * @return string
      * @filter woocommerce_product_get_rating_html
      */
-    public function filterGetRatingHtml($html, $rating, $count)
+    public function filterGetRatingHtml($html, $rating, $count): string
     {
         return glsr(Builder::class)->div([
             'class' => 'glsr glsr-'.glsr(Style::class)->styleClasses(),
@@ -49,10 +48,9 @@ class ProductController
      * @param string $html
      * @param int $rating
      * @param int $count
-     * @return string
      * @filter woocommerce_get_star_rating_html
      */
-    public function filterGetStarRatingHtml($html, $rating, $count)
+    public function filterGetStarRatingHtml($html, $rating, $count): string
     {
         return glsr_star_rating($rating, $count, ['theme' => glsr_get_option('addons.woocommerce.style')]);
     }
@@ -60,21 +58,20 @@ class ProductController
     /**
      * @param mixed $value
      * @param \WC_Product $product
-     * @return float
      * @filter woocommerce_product_get_average_rating
      */
-    public function filterProductAverageRating($value, $product)
+    public function filterProductAverageRating($value, $product): float
     {
         return Cast::toFloat(get_post_meta($product->get_id(), CountManager::META_AVERAGE, true));
     }
 
     /**
      * @param array $tabs
-     * @return array
      * @filter woocommerce_product_data_tabs
      */
-    public function filterProductDataTabs($tabs)
+    public function filterProductDataTabs($tabs): array
     {
+        $tabs = Arr::consolidate($tabs);
         $tabs[glsr()->id] = [
             'label' => glsr()->name,
             'target' => glsr()->id,
@@ -86,12 +83,12 @@ class ProductController
 
     /**
      * @param array $metaQuery
-     * @return array
      * @filter woocommerce_product_query_meta_query
      */
-    public function filterProductMetaQuery($metaQuery)
+    public function filterProductMetaQuery($metaQuery): array
     {
         global $wp_query;
+        $metaQuery = Arr::consolidate($metaQuery);
         $orderby = filter_input(INPUT_GET, 'orderby');
         if (!$orderby && !is_search()) {
             $orderby = apply_filters('woocommerce_default_catalog_orderby', get_option('woocommerce_default_catalog_orderby'));
@@ -113,11 +110,11 @@ class ProductController
     /**
      * @param array $args
      * @param string $orderby
-     * @return array
      * @filter woocommerce_get_catalog_ordering_args
      */
-    public function filterProductPostClauses($args, $orderby)
+    public function filterProductPostClauses($args, $orderby): array
     {
+        $args = Arr::consolidate($args);
         if ('rating' === $orderby) {
             remove_filter('posts_clauses', [WC()->query, 'order_by_rating_post_clauses']);
         }
@@ -127,10 +124,9 @@ class ProductController
     /**
      * @param mixed $value
      * @param \WC_Product $product
-     * @return array
      * @filter woocommerce_product_get_rating_counts
      */
-    public function filterProductRatingCounts($value, $product)
+    public function filterProductRatingCounts($value, $product): array
     {
         return glsr_get_ratings(['assigned_posts' => $product->get_id()])->ratings;
     }
@@ -138,22 +134,21 @@ class ProductController
     /**
      * @param mixed $value
      * @param \WC_Product $product
-     * @return int
      * @filter woocommerce_product_get_review_count
      */
-    public function filterProductReviewCount($value, $product)
+    public function filterProductReviewCount($value, $product): int
     {
         return Cast::toInt(get_post_meta($product->get_id(), CountManager::META_REVIEWS, true));
     }
 
     /**
      * @param array $tabs
-     * @return array
      * @filter woocommerce_product_tabs
      */
-    public function filterProductTabs($tabs)
+    public function filterProductTabs($tabs): array
     {
         global $product;
+        $tabs = Arr::consolidate($tabs);
         if ($product instanceof \WC_Product && $product->get_reviews_allowed()) {
             $tabs['reviews'] = [
                 'callback' => [$this, 'renderReviews'],
@@ -166,11 +161,11 @@ class ProductController
 
     /**
      * @param array $taxQuery
-     * @return array
      * @filter woocommerce_product_query_tax_query
      */
-    public function filterProductTaxQuery($taxQuery)
+    public function filterProductTaxQuery($taxQuery): array
     {
+        $taxQuery = Arr::consolidate($taxQuery);
         foreach ($taxQuery as $key => $query) {
             if (!empty($query['rating_filter'])) {
                 $filteredRatings = [];
@@ -193,16 +188,16 @@ class ProductController
     /**
      * @param array $markup
      * @param \WC_Product $product
-     * @return array
      * @filter woocommerce_structured_data_product
      */
-    public function filterStructuredData($markup, $product)
+    public function filterStructuredData($markup, $product): array
     {
         $args = glsr(SiteReviewsDefaults::class)->merge([
             'assigned_posts' => $product->get_id(),
             'display' => 5, // only get the latest 5 reviews
             'rating' => 1, // minimum rating
         ]);
+        $markup = Arr::consolidate($markup);
         $schema = glsr(Schema::class)->build($args, glsr_get_reviews($args));
         if (array_key_exists('review', $schema)) {
             $markup['review'] = $schema['review'];
@@ -214,11 +209,11 @@ class ProductController
 
     /**
      * @param array $args
-     * @return array
      * @filter woocommerce_top_rated_products_widget_args
      */
-    public function filterWidgetArgsTopRatedProducts($args)
+    public function filterWidgetArgsTopRatedProducts($args): array
     {
+        $args = Arr::consolidate($args);
         if ('bayesian' === glsr_get_option('addons.woocommerce.sorting')) {
             $args['meta_query'][] = $this->buildMetaQuery('glsr_ranking', CountManager::META_RANKING);
             $args['orderby'] = ['glsr_ranking' => 'DESC'];
@@ -233,10 +228,9 @@ class ProductController
     /**
      * @param string $template
      * @param string $templateName
-     * @return string
      * @filter wc_get_template
      */
-    public function filterWoocommerceTemplate($template, $templateName)
+    public function filterWoocommerceTemplate($template, $templateName): string
     {
         if ('loop/rating.php' === $templateName) {
             return glsr()->path('views/integrations/woocommerce/overrides/loop-rating.php');
@@ -244,15 +238,14 @@ class ProductController
         if ('single-product-reviews.php' === $templateName) {
             return glsr()->path('views/integrations/woocommerce/overrides/single-product-reviews.php');
         }
-        return $template;
+        return Cast::toString($template);
     }
 
     /**
      * @param \WP_Query $query
-     * @return void
      * @action pre_get_posts
      */
-    public function modifyProductQuery($query)
+    public function modifyProductQuery($query): void
     {
         if (!is_a($query, 'Automattic\WooCommerce\Blocks\Utils\BlocksWpQuery')) {
             return;
@@ -285,6 +278,15 @@ class ProductController
     }
 
     /**
+     * @param \WP_Post $post
+     * @action add_meta_boxes_product
+     */
+    public function registerMetaBoxes($post): void
+    {
+        glsr(ReviewsMetabox::class)->register($post);
+    }
+
+    /**
      * @param string $columnName
      * @param string $postType
      * @action bulk_edit_custom_box
@@ -297,10 +299,9 @@ class ProductController
     }
 
     /**
-     * @return void
      * @action woocommerce_after_shop_loop_item_title
      */
-    public function renderLoopRating()
+    public function renderLoopRating(): void
     {
         global $product;
         if (!wc_review_ratings_enabled()) {
@@ -342,10 +343,9 @@ class ProductController
     }
 
     /**
-     * @return void
-     * @see $this->filterProductTabs()
+     * @callback filterProductTabs
      */
-    public function renderReviews()
+    public function renderReviews(): void
     {
         global $product;
         if ($product instanceof \WC_Product && $product->get_reviews_allowed()) {
@@ -362,10 +362,9 @@ class ProductController
     }
 
     /**
-     * @return void
      * @action woocommerce_single_product_summary
      */
-    public function renderTitleRating()
+    public function renderTitleRating(): void
     {
         global $product;
         $ratings = glsr_get_ratings(['assigned_posts' => 'post_id']);
