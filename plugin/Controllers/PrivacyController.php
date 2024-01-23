@@ -135,7 +135,7 @@ class PrivacyController extends AbstractController
         foreach ($fields as $field => $name) {
             if ($value = $review->$field) {
                 if ('terms' === $field && Cast::toBool($value)) {
-                    $value = $review->date_gmt;
+                    $value = $review->date;
                 }
                 $data[] = ['name' => $name, 'value' => $value];
             }

@@ -162,13 +162,13 @@ class ReviewSchema
             ],
             'date' => [
                 'context' => ['edit', 'view'],
-                'description' => _x('The date the review was published, in the site\'s timezone.', 'admin-text', 'site-reviews'),
+                'description' => _x('The date the review was published.', 'admin-text', 'site-reviews'),
                 'format' => 'date-time',
                 'type' => ['null', 'string'],
             ],
             'date_gmt' => [
                 'context' => ['edit', 'view'],
-                'description' => _x('The date the review was published, as GMT.', 'admin-text', 'site-reviews'),
+                'description' => _x('The date the review was published, in the site\'s timezone.', 'admin-text', 'site-reviews'),
                 'format' => 'date-time',
                 'type' => ['null', 'string'],
             ],

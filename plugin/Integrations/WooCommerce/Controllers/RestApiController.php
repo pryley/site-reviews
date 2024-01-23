@@ -105,7 +105,12 @@ class RestApiController
         if (str_ends_with($orderby, 'rating')) {
             return [
                 "r.rating {$order}",
-                "p.post_date_gmt {$order}",
+                "p.post_date {$order}",
+            ];
+        }
+        if (str_ends_with($orderby, 'date')) {
+            return [
+                "p.post_date {$order}", // ignore pinned reviews
             ];
         }
         if (str_ends_with($orderby, 'date_gmt')) {

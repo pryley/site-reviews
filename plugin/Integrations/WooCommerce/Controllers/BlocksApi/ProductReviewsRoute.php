@@ -18,7 +18,7 @@ class ProductReviewsRoute extends Route
             'assigned_posts' => Arr::uniqueInt($request['product_id']),
             'offset' => $request['offset'],
             'order' => $request['order'], // asc|desc
-            'orderby' => $request['orderby'], // rating|date_gmt
+            'orderby' => $request['orderby'], // rating|date|date_gmt
             'per_page' => $request['per_page'],
         ];
         if ($categoryIds = Arr::uniqueInt($request['category_id'])) {

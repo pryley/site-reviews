@@ -170,9 +170,9 @@ class Review extends Arguments
 
     public function date(string $format = 'F j, Y'): string
     {
-        $value = $this->get('date_gmt');
+        $value = $this->get('date');
         if (!empty(func_get_args())) {
-            return date_i18n($format, strtotime($value));
+            return mysql2date($format, $value);
         }
         $dateFormat = glsr_get_option('reviews.date.format', 'default');
         if ('relative' === $dateFormat) {
@@ -181,7 +181,7 @@ class Review extends Arguments
         $format = 'custom' === $dateFormat
             ? glsr_get_option('reviews.date.custom', 'M j, Y')
             : glsr(OptionManager::class)->wp('date_format', 'F j, Y');
-        return date_i18n($format, strtotime($value));
+        return mysql2date($format, $value);
     }
 
     public function editUrl(): string
