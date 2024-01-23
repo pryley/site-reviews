@@ -21,4 +21,11 @@ class ResetAssignedMeta extends AbstractCommand
             _x('The assigned meta values have been reset.', 'admin-text', 'site-reviews')
         );
     }
+
+    public function response(): array
+    {
+        return [
+            'notices' => glsr(Notice::class)->get(),
+        ];
+    }
 }

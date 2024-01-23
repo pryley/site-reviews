@@ -33,4 +33,11 @@ class RepairPermissions extends AbstractCommand
             _x('The permissions have been repaired.', 'admin-text', 'site-reviews')
         );
     }
+
+    public function response(): array
+    {
+        return [
+            'notices' => glsr(Notice::class)->get(),
+        ];
+    }
 }

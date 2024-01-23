@@ -22,4 +22,11 @@ class RepairReviewRelations extends AbstractCommand
             _x('The review relationships have been repaired.', 'admin-text', 'site-reviews')
         );
     }
+
+    public function response(): array
+    {
+        return [
+            'notices' => glsr(Notice::class)->get(),
+        ];
+    }
 }

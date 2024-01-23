@@ -44,4 +44,11 @@ class ChangeLogLevel extends AbstractCommand
             sprintf(_x('Console logging has been set to: Level %s', 'admin-text', 'site-reviews'), $this->level)
         );
     }
+
+    public function response(): array
+    {
+        return [
+            'notices' => glsr(Notice::class)->get(),
+        ];
+    }
 }

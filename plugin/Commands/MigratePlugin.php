@@ -42,4 +42,11 @@ class MigratePlugin extends AbstractCommand
             ));
         }
     }
+
+    public function response(): array
+    {
+        return [
+            'notices' => glsr(Notice::class)->get(),
+        ];
+    }
 }

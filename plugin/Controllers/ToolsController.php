@@ -39,11 +39,10 @@ class ToolsController extends AbstractController
     public function changeConsoleLevelAjax(Request $request): void
     {
         $command = $this->execute(new ChangeLogLevel($request));
-        $notices = glsr(Notice::class)->get();
-        if ($command->successful()) {
-            wp_send_json_success(compact('notices'));
-        }
-        wp_send_json_error(compact('notices'));
+        wp_send_json([
+            'data' => $command->response(),
+            'success' => $command->successful(),
+        ]);
     }
 
     /**
@@ -60,12 +59,10 @@ class ToolsController extends AbstractController
     public function clearConsoleAjax(): void
     {
         $command = $this->execute(new ClearConsole());
-        $notices = glsr(Notice::class)->get();
-        if ($command->successful()) {
-            $console = glsr(Console::class)->get();
-            wp_send_json_success(compact('console', 'notices'));
-        }
-        wp_send_json_error(compact('notices'));
+        wp_send_json([
+            'data' => $command->response(),
+            'success' => $command->successful(),
+        ]);
     }
 
     /**
@@ -82,11 +79,10 @@ class ToolsController extends AbstractController
     public function convertTableEngineAjax(Request $request): void
     {
         $command = $this->execute(new ConvertTableEngine($request));
-        $notices = glsr(Notice::class)->get();
-        if ($command->successful()) {
-            wp_send_json_success(compact('notices'));
-        }
-        wp_send_json_error(compact('notices'));
+        wp_send_json([
+            'data' => $command->response(),
+            'success' => $command->successful(),
+        ]);
     }
 
     /**
@@ -262,11 +258,10 @@ class ToolsController extends AbstractController
     public function migratePluginAjax(Request $request): void
     {
         $command = $this->execute(new MigratePlugin($request));
-        $notices = glsr(Notice::class)->get();
-        if ($command->successful()) {
-            wp_send_json_success(compact('notices'));
-        }
-        wp_send_json_error(compact('notices'));
+        wp_send_json([
+            'data' => $command->response(),
+            'success' => $command->successful(),
+        ]);
     }
 
     /**
@@ -291,12 +286,10 @@ class ToolsController extends AbstractController
             glsr(Notice::class)->clear()->addSuccess(
                 sprintf(_x('The permissions have been repaired, please %s for them to take effect.', 'admin-text', 'site-reviews'), $reloadLink)
             );
-            wp_send_json_success([
-                'notices' => glsr(Notice::class)->get(),
-            ]);
         }
-        wp_send_json_error([
-            'notices' => glsr(Notice::class)->get(),
+        wp_send_json([
+            'data' => $command->response(),
+            'success' => $command->successful(),
         ]);
     }
 
@@ -314,11 +307,10 @@ class ToolsController extends AbstractController
     public function repairReviewRelationsAjax(): void
     {
         $command = $this->execute(new RepairReviewRelations());
-        $notices = glsr(Notice::class)->get();
-        if ($command->successful()) {
-            wp_send_json_success(compact('notices'));
-        }
-        wp_send_json_error(compact('notices'));
+        wp_send_json([
+            'data' => $command->response(),
+            'success' => $command->successful(),
+        ]);
     }
 
     /**
@@ -335,11 +327,10 @@ class ToolsController extends AbstractController
     public function resetAssignedMetaAjax(): void
     {
         $command = $this->execute(new ResetAssignedMeta());
-        $notices = glsr(Notice::class)->get();
-        if ($command->successful()) {
-            wp_send_json_success(compact('notices'));
-        }
-        wp_send_json_error(compact('notices'));
+        wp_send_json([
+            'data' => $command->response(),
+            'success' => $command->successful(),
+        ]);
     }
 
     /**

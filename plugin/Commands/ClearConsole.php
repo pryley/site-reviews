@@ -19,4 +19,16 @@ class ClearConsole extends AbstractCommand
         glsr(Console::class)->clear();
         glsr(Notice::class)->addSuccess(_x('Console cleared.', 'admin-text', 'site-reviews'));
     }
+
+    public function response(): array
+    {
+        $data = [
+            'console' => '',
+            'notices' => glsr(Notice::class)->get(),
+        ];
+        if ($this->successful()) {
+            $data['console'] = glsr(Console::class)->get();
+        }
+        return $data;
+    }
 }
