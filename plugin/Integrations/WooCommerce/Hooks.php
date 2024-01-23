@@ -25,7 +25,7 @@ class Hooks extends AbstractHooks
         $this->hook(ImportController::class, [
             ['filterTools', 'site-reviews/tools/general'],
             ['importProductReviewsAjax', 'site-reviews/route/ajax/import-product-reviews'],
-            ['repairProductRatingsAjax', 'site-reviews/route/ajax/repair-product-ratings'],
+            ['migrateProductRatingsAjax', 'site-reviews/route/ajax/migrate-product-ratings'],
         ]);
         if ($this->isEnabled()) {
             $this->hook(ExperimentsController::class, $this->experimentalHooks());

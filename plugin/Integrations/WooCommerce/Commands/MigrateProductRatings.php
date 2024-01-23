@@ -7,44 +7,56 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Request;
 
-class RepairProductRatings extends AbstractCommand
+class MigrateProductRatings extends AbstractCommand
 {
     public const PER_PAGE = 50;
 
     public \wpdb $db;
+    public bool $revert = false;
 
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->db = glsr(Query::class)->db;
+        $this->revert = wp_validate_boolean($request->alt);
     }
 
     public function handle(): void
     {
         if ('yes' !== glsr_get_option('addons.woocommerce.enabled')) {
+            glsr(Notice::class)->addWarning(
+                esc_html_x('Skipped migrating of WooCommerce product ratings because the integration is disabled.', 'admin-text', 'site-reviews')
+            );
             return;
         }
         $ttids = $this->termIds();
         if (!empty($ttids)) {
             $this->deleteTerms($ttids);
             $this->insertTerms($ttids);
-            clean_term_cache($ttids, 'product_visibility');
-            if (function_exists('flrt_get_post_ids_transient_key')) {
+            wp_update_term_count_now($ttids, 'product_visibility');
+            if  (function_exists('flrt_get_post_ids_transient_key')) {
                 $key = flrt_get_post_ids_transient_key('rated');
                 delete_transient($key);
             }
         }
+        $notice = $this->revert
+            ? esc_html_x('Reverted the WooCommerce product ratings.', 'admin-text', 'site-reviews')
+            : esc_html_x('Migrated the product ratings.', 'admin-text', 'site-reviews');
+        glsr(Notice::class)->addSuccess($notice);
     }
 
     public function response(): array
     {
-        $notice = esc_html_x('Repaired WooCommerce product ratings', 'admin-text', 'site-reviews');
-        if ('yes' !== glsr_get_option('addons.woocommerce.enabled')) {
-            $notice = esc_html_x('Skipped the repair of WooCommerce product ratings because the integration is disabled.', 'admin-text', 'site-reviews');
-        }
-        return compact('notice');
+        return [
+            'notices' => glsr(Notice::class)->get(),
+        ];
     }
 
+    /**
+     * Delete all existing "rated-*"" product_visibility terms from Products.
+     */
     protected function deleteTerms(array $ttids): int
     {
         $in = implode(',', $ttids);
@@ -60,10 +72,13 @@ class RepairProductRatings extends AbstractCommand
         return Cast::toInt($results);
     }
 
-    // @todo optimize this for cases when a site has thousands of products...
+    /**
+     * Bulk-insert the "rated-*"" product_visibility terms for Products.
+     * @todo optimize this for cases when a site has thousands of products...
+     */
     protected function insertTerms(array $ttids): int
     {
-        $metaKey = '_glsr_average'; // _wc_average_rating
+        $metaKey = $this->revert ? '_wc_average_rating' : '_glsr_average';
         $sql = glsr(Query::class)->sql("
             SELECT p.ID as object_id, CONCAT('rated-', ROUND(pm.meta_value, 0)) AS term_taxonomy_id
             FROM {$this->db->posts} AS p

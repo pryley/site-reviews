@@ -15,16 +15,43 @@
             </p>
         </div>
         <p>
-            <?= _x('This tool will import your WooCommerce Product reviews. Review replies and comments will be skipped.', 'admin-text', 'site-reviews'); ?>
+            <strong><?= _x('Step 1:', 'admin-text', 'site-reviews'); ?></strong>
+            <?= _x('Import your WooCommerce product reviews. Review replies and comments will be skipped.', 'admin-text', 'site-reviews'); ?>
         </p>
         <form method="post" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
             <?php wp_nonce_field('import-product-reviews', '{{ id }}[_nonce]'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="import-product-reviews">
             <button type="submit" class="glsr-button components-button is-primary"
                 data-ajax-import
-                data-remove-notice="import-product-reviews"
                 data-loading="<?= esc_attr_x('Importing reviews, please wait...', 'admin-text', 'site-reviews'); ?>"
             ><?= _x('Import Reviews', 'admin-text', 'site-reviews'); ?>
+            </button>
+        </form>
+        <p>
+            <strong><?= _x('Step 2:', 'admin-text', 'site-reviews'); ?></strong>
+            <?= _x('Migrate your product ratings. This step is optional and it allows third-party plugins to filter your products by rating.', 'admin-text', 'site-reviews'); ?>
+        </p>
+        <p>
+            <?= _x('If you decide later to revert back to using WooCommerce reviews, you will need to click the "Revert" button to restore your previous product ratings.', 'admin-text', 'site-reviews'); ?>
+        </p>
+        <form method="post" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
+            <?php wp_nonce_field('migrate-product-ratings'); ?>
+            <input type="hidden" name="{{ id }}[_action]" value="migrate-product-ratings">
+            <input type="hidden" name="{{ id }}[alt]" value="0" data-alt>
+            <button type="submit" class="glsr-button components-button is-primary"
+                data-ajax-click
+                data-ajax-scroll
+                data-loading="<?= esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"
+                data-remove-notice="migrate-product-ratings"
+            ><?= _x('Migrate Product Ratings', 'admin-text', 'site-reviews'); ?>
+            </button>
+            <button type="submit" class="glsr-button components-button is-secondary"
+                data-ajax-click
+                data-ajax-scroll
+                data-alt
+                data-loading="<?= esc_attr_x('Reverting, please wait...', 'admin-text', 'site-reviews'); ?>"
+                data-remove-notice="migrate-product-ratings"
+            ><?= _x('Revert', 'admin-text', 'site-reviews'); ?>
             </button>
         </form>
     </div>
