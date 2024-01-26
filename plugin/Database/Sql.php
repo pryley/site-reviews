@@ -50,6 +50,7 @@ trait Sql
         if (!empty($args)) {
             $statement = $this->db->prepare($statement, ...$args);
         }
+        $statement = preg_replace('/ {12}/', '', $statement);
         $statement = glsr()->filterString("database/sql/{$handle}", $statement);
         glsr()->action("database/sql/{$handle}", $statement);
         glsr()->action('database/sql', $statement, $handle);
