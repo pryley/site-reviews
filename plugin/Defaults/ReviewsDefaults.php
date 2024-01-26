@@ -135,7 +135,8 @@ class ReviewsDefaults extends DefaultsAbstract
      */
     protected function finalize(array $values = []): array
     {
-        $values['assigned_posts'] = glsr(Multilingual::class)->getPostIds($values['assigned_posts']);
+        $values['assigned_posts'] = glsr(Multilingual::class)->getPostIdsForAllLanguages($values['assigned_posts']);
+        $values['assigned_terms'] = glsr(Multilingual::class)->getTermIdsForAllLanguages($values['assigned_terms']);
         $values['date'] = $this->finalizeDate($values['date']);
         $values['order'] = $this->finalizeOrder($values['order']);
         $values['orderby'] = $this->finalizeOrderby($values['orderby']);

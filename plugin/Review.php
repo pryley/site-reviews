@@ -14,6 +14,7 @@ use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
+use GeminiLabs\SiteReviews\Modules\Multilingual;
 
 /**
  * @property bool $approved  This property is mapped to $is_approved
@@ -103,26 +104,37 @@ class Review extends Arguments
             : '';
     }
 
-    public function assignedPosts(): array
+    public function assignedPosts(bool $multilingual = true): array
     {
-        if (empty($this->assigned_posts)) {
+        $postIds = $this->assigned_posts;
+        if ($multilingual) {
+            $postIds = glsr(Multilingual::class)->getPostIds($postIds);
+        }
+        if (empty($postIds)) {
             return [];
         }
         return get_posts([
-            'post__in' => $this->assigned_posts,
+            'post__in' => $postIds,
             'post_type' => 'any',
             'posts_per_page' => -1,
         ]);
     }
 
-    public function assignedTerms(): array
+    public function assignedTerms(bool $multilingual = true): array
     {
-        if (empty($this->assigned_terms)) {
+        $termIds = $this->assigned_terms;
+        if ($multilingual) {
+            $termIds = glsr(Multilingual::class)->getTermIds($termIds);
+        }
+        if (empty($termIds)) {
             return [];
         }
-        $terms = get_terms(glsr()->taxonomy, ['include' => $this->assigned_terms]);
+        $terms = get_terms([
+            'include' => $termIds,
+            'taxonomy' => glsr()->taxonomy,
+        ]);
         if (is_wp_error($terms)) {
-            return $this->assigned_terms;
+            return [];
         }
         return $terms;
     }

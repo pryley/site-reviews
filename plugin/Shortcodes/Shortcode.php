@@ -156,7 +156,7 @@ abstract class Shortcode implements ShortcodeContract
             }
         }
         $values = glsr(Sanitizer::class)->sanitizePostIds($values);
-        $values = glsr(Multilingual::class)->getPostIds($values);
+        $values = glsr(Multilingual::class)->getPostIdsForAllLanguages($values);
         $values = array_merge($values, $postTypes);
         return implode(',', $values);
     }
@@ -166,7 +166,9 @@ abstract class Shortcode implements ShortcodeContract
      */
     protected function normalizeAssignedTerms($value): string
     {
-        return implode(',', glsr(Sanitizer::class)->sanitizeTermIds($value));
+        $values = glsr(Sanitizer::class)->sanitizeTermIds($value);
+        $values = glsr(Multilingual::class)->getTermIdsForAllLanguages($values);
+        return implode(',', $values);
     }
 
     /**

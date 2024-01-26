@@ -68,15 +68,11 @@ class TemplateTags
     public function tagReviewAssignedLinks(Review $review, string $format = '<a href="%s">%s</a>'): string
     {
         $links = [];
-        foreach ($review->assigned_posts as $postId) {
-            $postId = glsr(Multilingual::class)->getPostId(Helper::getPostId($postId));
-            if (!empty($postId) && !array_key_exists($postId, $links)) {
-                $title = get_the_title($postId);
-                if (empty(trim($title))) {
-                    $title = __('(no title)', 'site-reviews');
-                }
-                $links[$postId] = sprintf($format, (string) get_the_permalink($postId), $title);
-            }
+        $posts = $review->assignedPosts();
+        foreach ($posts as $post) {
+            $title = trim(get_the_title($post->ID));
+            $title = $title ?: $post->post_name ?: $post->ID;
+            $links[$post->ID] = sprintf($format, (string) get_the_permalink($post->ID), $title);
         }
         return Str::naturalJoin($links);
     }
@@ -84,20 +80,16 @@ class TemplateTags
     public function tagReviewAssignedPosts(Review $review): string
     {
         $posts = $review->assignedPosts();
-        $titles = wp_list_pluck($posts, 'post_title');
-        array_walk($titles, function (&$title) {
-            if (empty(trim($title))) {
-                $title = __('(no title)', 'site-reviews');
-            }
-        });
+        $titles = wp_list_pluck($posts, 'post_title', 'ID');
+        $titles = array_map(fn ($title) => trim($title) ?: __('(no title)', 'site-reviews'), $titles);
         return Str::naturalJoin($titles);
     }
 
     public function tagReviewAssignedTerms(Review $review): string
     {
         $terms = $review->assignedTerms();
-        $termNames = array_filter(wp_list_pluck($terms, 'name'));
-        return Str::naturalJoin($termNames);
+        $names = array_filter(wp_list_pluck($terms, 'name', 'term_taxonomy_id'));
+        return Str::naturalJoin($names);
     }
 
     public function tagReviewAssignedUsers(Review $review): string

@@ -2,11 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
-use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Multilingual;
+use GeminiLabs\SiteReviews\Modules\Html\TemplateTags;
 
 class ReviewAssignedLinksTag extends ReviewTag
 {
@@ -15,22 +12,7 @@ class ReviewAssignedLinksTag extends ReviewTag
      */
     public static function assignedLinks($value): array
     {
-        $links = [];
-        foreach (Arr::consolidate($value) as $postId) {
-            $postId = glsr(Multilingual::class)->getPostId(Helper::getPostId($postId));
-            if (!empty($postId) && !array_key_exists($postId, $links)) {
-                $title = get_the_title($postId);
-                if (empty(trim($title))) {
-                    $post = get_post($postId);
-                    $title = $post->post_name ?: $post->ID;
-                }
-                $links[$postId] = glsr(Builder::class)->a([
-                    'href' => get_the_permalink($postId),
-                    'text' => $title,
-                ]);
-            }
-        }
-        return $links;
+        return glsr(TemplateTags::class)->tagReviewAssignedLinks($this->review);
     }
 
     protected function handle(string $value = ''): string
@@ -46,7 +28,7 @@ class ReviewAssignedLinksTag extends ReviewTag
         if ($this->isHidden('reviews.assigned_links')) {
             return '';
         }
-        $links = static::assignedLinks($value);
+        $links = glsr(TemplateTags::class)->tagReviewAssignedLinks($this->review);
         return !empty($links)
             ? sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($links))
             : '';
