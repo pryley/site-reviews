@@ -52,7 +52,7 @@ testall: ## Run phpstan analyser and all phpunit tests
 	make compat
 
 update: ## Update Composer and NPM
-	valet composer update
+	composer update
 	npm-check -u
 
 watch: ## Build all plugin assets and run Browsersync
