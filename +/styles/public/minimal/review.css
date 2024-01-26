@@ -79,6 +79,9 @@
     margin-bottom: var(--glsr-text-md);
     margin-top: 0;
 }
+:--namespace .glsr-tag-label {
+    font-weight: var(--glsr-tag-label-weight);
+}
 :--namespace .glsr-review-assigned_links,
 :--namespace .glsr-review-assigned_posts,
 :--namespace .glsr-review-assigned_terms,

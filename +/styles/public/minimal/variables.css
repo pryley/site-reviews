@@ -36,6 +36,7 @@
     /* Review */
     --glsr-review-star: 1.25em;
     --glsr-review-verified: var(--glsr-green);
+    --glsr-tag-label-weight: 600;
 
     /* Summary */
     --glsr-bar-bg: var(--glsr-yellow);
