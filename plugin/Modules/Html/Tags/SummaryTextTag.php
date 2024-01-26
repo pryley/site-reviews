@@ -6,15 +6,15 @@ use GeminiLabs\SiteReviews\Modules\Rating;
 
 class SummaryTextTag extends SummaryTag
 {
-    protected function handle(string $value = ''): string
+    protected function handle(): string
     {
         if ($this->isHidden()) {
             return '';
         }
-        return $this->wrap($this->text(), 'span');
+        return $this->wrap($this->value(), 'span');
     }
 
-    protected function text(): string
+    protected function value(): string
     {
         $max = glsr()->constant('MAX_RATING', Rating::class);
         $num = (int) array_sum($this->ratings);

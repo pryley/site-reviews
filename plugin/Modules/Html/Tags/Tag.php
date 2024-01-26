@@ -14,6 +14,8 @@ abstract class Tag implements TagContract
     public string $for = '';
     public string $tag;
     /** @var mixed */
+    public $value;
+    /** @var mixed */
     public $with;
 
     public function __construct($tag, array $args = [])
@@ -32,8 +34,9 @@ abstract class Tag implements TagContract
         if (!$this->validate($with)) {
             return '';
         }
+        $this->value = trim(Cast::toString($value, false));
         $this->with = $with;
-        return $this->handle($this->value($value));
+        return $this->handle();
     }
 
     public function isEnabled(string $path): bool
@@ -74,9 +77,9 @@ abstract class Tag implements TagContract
         return glsr()->filterString("{$this->for}/wrap/{$this->tag}", $value, $rawValue, $this);
     }
 
-    protected function handle(string $value = ''): string
+    protected function handle(): string
     {
-        return $value;
+        return $this->value();
     }
 
     protected function hideOption(): string
@@ -92,12 +95,9 @@ abstract class Tag implements TagContract
         return true;
     }
 
-    /**
-     * @param mixed $value
-     */
-    protected function value($value = ''): string
+    protected function value(): string
     {
-        return Cast::toString($value, false);
+        return $this->value;
     }
 
     protected function wrapValue(string $tag, string $value): string

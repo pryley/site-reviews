@@ -6,18 +6,23 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class ReviewResponseTag extends ReviewContentTag
 {
-    protected function handle(string $value = ''): string
+    protected function handle(): string
     {
-        if ($this->isHidden() || empty(trim((string) $value))) {
+        if ($this->isHidden() || empty($this->value)) {
             return '';
         }
+        return $this->wrap($this->value(), 'div');
+    }
+
+    protected function value(): string
+    {
         $responseBy = glsr()->filterString('review/build/tag/response/by', get_bloginfo('name'), $this->review);
-        $text = $this->textExcerpt($value);
         $title = sprintf(__('Response from %s', 'site-reviews'), $responseBy);
-        $response = glsr(Builder::class)->div([
+        $value = parent::value();
+        return glsr(Builder::class)->div([
             'class' => 'glsr-review-response-inner',
-            'text' => sprintf('<p><strong>%s</strong></p>%s', $title, $text),
+            'text' => sprintf('<p><strong>%s</strong></p>%s', $title, $value),
         ]);
-        return $this->wrap($response, 'div');
+
     }
 }

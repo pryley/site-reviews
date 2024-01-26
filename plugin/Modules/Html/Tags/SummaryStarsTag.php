@@ -6,13 +6,17 @@ use GeminiLabs\SiteReviews\Modules\Rating;
 
 class SummaryStarsTag extends SummaryTag
 {
-    protected function handle(string $value = ''): string
+    protected function handle(): string
     {
         if ($this->isHidden()) {
             return '';
         }
-        $value = glsr(Rating::class)->average($this->ratings);
-        $rating = glsr_star_rating($value, 0, $this->args->toArray());
-        return $this->wrap($rating);
+        return $this->wrap($this->value());
+    }
+
+    protected function value(): string
+    {
+        $rating = glsr(Rating::class)->average($this->ratings);
+        return glsr_star_rating($rating, 0, $this->args->toArray());
     }
 }

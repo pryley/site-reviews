@@ -7,15 +7,12 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 class ReviewAssignedPostsTag extends ReviewTag
 {
-    protected function handle(string $value = ''): string
+    protected function handle(): string
     {
-        return $this->wrap($value, 'span');
+        return $this->wrap($this->value(), 'span');
     }
 
-    /**
-     * @param mixed $value
-     */
-    protected function value($value = ''): string
+    protected function value(): string
     {
         $titles = wp_list_pluck($this->review->assignedPosts(), 'post_title');
         $titles = Arr::unique($titles);

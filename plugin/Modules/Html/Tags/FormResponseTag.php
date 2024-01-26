@@ -17,13 +17,6 @@ class FormResponseTag extends FormTag
         return trim(implode(' ', array_filter($classes)));
     }
 
-    protected function handle(string $value = ''): string
-    {
-        $value = glsr(Captcha::class)->container();
-        $value .= $this->responseTemplate();
-        return $value;
-    }
-
     protected function responseTemplate(): string
     {
         return glsr(Template::class)->build('templates/form/response', [
@@ -33,5 +26,12 @@ class FormResponseTag extends FormTag
             ],
             'has_errors' => !empty($this->with->errors),
         ]);
+    }
+
+    protected function value(): string
+    {
+        $value = glsr(Captcha::class)->container();
+        $value .= $this->responseTemplate();
+        return $value;
     }
 }

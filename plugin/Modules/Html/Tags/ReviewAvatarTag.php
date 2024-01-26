@@ -20,12 +20,12 @@ class ReviewAvatarTag extends ReviewTag
             && glsr_get_option('reviews.avatars_regenerate', false, 'bool');
     }
 
-    protected function handle(string $value = ''): string
+    protected function handle(): string
     {
         if ($this->isHidden('reviews.avatars')) {
             return '';
         }
-        $this->review->set('avatar', $this->regenerateAvatar($value));
+        $this->review->set('avatar', $this->regenerateAvatar($this->value()));
         return $this->wrap(
             glsr(Avatar::class)->img($this->review)
         );

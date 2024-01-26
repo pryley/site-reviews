@@ -4,12 +4,16 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
 class ReviewRatingTag extends ReviewTag
 {
-    protected function handle(string $value = ''): string
+    protected function handle(): string
     {
         if ($this->isHidden()) {
             return '';
         }
-        $stars = glsr_star_rating($value, 0, $this->args->toArray());
-        return $this->wrap($stars);
+        return $this->wrap($this->value());
+    }
+
+    protected function value(): string
+    {
+        return glsr_star_rating($this->value, 0, $this->args->toArray());
     }
 }

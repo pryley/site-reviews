@@ -7,33 +7,12 @@ use GeminiLabs\SiteReviews\Modules\Rating;
 
 class SummaryPercentagesTag extends SummaryTag
 {
-    protected function handle(string $value = ''): string
+    protected function handle(): string
     {
         if ($this->isHidden()) {
             return '';
         }
-        return $this->wrap($this->percentages());
-    }
-
-    protected function percentages(): string
-    {
-        $percentages = preg_filter('/$/', '%', glsr(Rating::class)->percentages($this->ratings));
-        $ratingRange = range(glsr()->constant('MAX_RATING', Rating::class), 1);
-        return array_reduce($ratingRange, function ($carry, $level) use ($percentages) {
-            $label = $this->ratingLabel($level);
-            $bar = $this->ratingBar($level, $percentages);
-            $info = $this->ratingInfo($level, $percentages);
-            $value = $label.$bar.$info;
-            $value = glsr()->filterString('summary/wrap/bar', $value, $this->args, [
-                'info' => wp_strip_all_tags($info, true),
-                'rating' => $level,
-            ]);
-            return $carry.glsr(Builder::class)->div([
-                'class' => 'glsr-bar',
-                'data-level' => $level,
-                'text' => $value,
-            ]);
-        }, '');
+        return $this->wrap($this->value());
     }
 
     protected function ratingBar(int $level, array $percentages): string
@@ -64,5 +43,26 @@ class SummaryPercentagesTag extends SummaryTag
             'class' => 'glsr-bar-label',
             'text' => $label,
         ]);
+    }
+
+    protected function value(): string
+    {
+        $percentages = preg_filter('/$/', '%', glsr(Rating::class)->percentages($this->ratings));
+        $ratingRange = range(glsr()->constant('MAX_RATING', Rating::class), 1);
+        return array_reduce($ratingRange, function ($carry, $level) use ($percentages) {
+            $label = $this->ratingLabel($level);
+            $bar = $this->ratingBar($level, $percentages);
+            $info = $this->ratingInfo($level, $percentages);
+            $value = $label.$bar.$info;
+            $value = glsr()->filterString('summary/wrap/bar', $value, $this->args, [
+                'info' => wp_strip_all_tags($info, true),
+                'rating' => $level,
+            ]);
+            return $carry.glsr(Builder::class)->div([
+                'class' => 'glsr-bar',
+                'data-level' => $level,
+                'text' => $value,
+            ]);
+        }, '');
     }
 }
