@@ -18,7 +18,6 @@
             <button type="submit" class="glsr-button components-button is-primary" 
                 data-ajax-click
                 data-ajax-scroll
-                data-alt
                 data-loading="<?= esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"
                 data-remove-notice="migrate"
             ><?= _x('Migrate Plugin', 'admin-text', 'site-reviews'); ?>
