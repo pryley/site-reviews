@@ -25,8 +25,8 @@ Tools.prototype = {
                 .fadeOut('normal', function() {
                     jQuery(this).remove();
                 });
-            jQuery('.glsr-notice a').on('click', self.onExpand_);
             jQuery('.glsr-notice[data-notice="' + el.data('remove-notice') + '"]').remove();
+            jQuery('.glsr-notice a').on('click', self.onExpand_);
         });
     },
     onExpand_: function (ev) {

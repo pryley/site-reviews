@@ -14,7 +14,7 @@ class Controller extends AbstractController
     {
         if (defined('ELEMENTOR_VERSION')) {
             $script .= 'function glsr_init_elementor(){GLSR.Event.trigger("site-reviews/init")}"undefined"!==typeof jQuery&&(';
-            if (defined('ELEMENTOR_PRO_VERSION') && 0 > version_compare('2.7.0', ELEMENTOR_PRO_VERSION)) {
+            if (defined('ELEMENTOR_PRO_VERSION') && version_compare(ELEMENTOR_PRO_VERSION, '2.7.0', '>=')) {
                 $script .= 'jQuery(document).on("elementor/popup/show",glsr_init_elementor),';
             }
             $script .= 'jQuery(window).on("elementor/frontend/init",function(){';

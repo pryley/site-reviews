@@ -11,7 +11,8 @@ abstract class StringSanitizer extends AbstractSanitizer
     protected function kses(string $value): string
     {
         $regex = '/on(beforeprint|beforeunload|blur|error|focus|hashchange|languagechange|load|message|offline|online|popstate|redo|resize|storage|undo|unload)\s*=/i';
-        return preg_replace($regex, '', $value);
+        $value = preg_replace($regex, '', $value); // remove all function attributes
+        return $value;
     }
 
     protected function value(): string
