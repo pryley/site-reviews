@@ -449,6 +449,7 @@ class ListTableController extends AbstractController
             'replace' => false,
         ]);
         $ratings = glsr(Query::class)->table('ratings');
+        $posts = glsr(Query::class)->table('posts');
         foreach ($this->filterByValues() as $key => $value) {
             if (in_array($key, ['assigned_post', 'assigned_user'])) {
                 $assignedTable = glsr(Query::class)->table($key.'s');
@@ -464,7 +465,7 @@ class ListTableController extends AbstractController
             } elseif ('author' === $key && '0' === $value) {
                 // Filtering by the "author" URL parameter is automatically done
                 // by WordPress when the value is not empty
-                $clause['clauses'][] = "AND {$wpdb->posts}.post_author IN (0)";
+                $clause['clauses'][] = "AND {$posts}.post_author IN (0)";
             }
         }
         return $clause;
