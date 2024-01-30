@@ -123,7 +123,6 @@ class Wpml implements MultilingualContract
      */
     public function getTermIdsForAllLanguages(array $termIds): array
     {
-    {
         if (!$this->isEnabled()) {
             return $termIds;
         }

@@ -130,10 +130,11 @@ class Review extends Arguments
             return [];
         }
         $terms = get_terms([
+            'hide_empty' => !$multilingual,
             'include' => $termIds,
             'taxonomy' => glsr()->taxonomy,
         ]);
-        if (is_wp_error($terms)) {
+        if (!is_array($terms)) {
             return [];
         }
         return $terms;

@@ -12,6 +12,9 @@ if (!defined('ICL_SITEPRESS_VERSION')) {
 if (!defined('MYCRED_DEFAULT_TYPE_KEY')) {
     define('MYCRED_DEFAULT_TYPE_KEY', 'mycred_default');
 }
+if (!defined('POLYLANG_VERSION')) {
+    define('POLYLANG_VERSION', '0.0.0');
+}
 if (!defined('WP_CONTENT_DIR')) {
     define('WP_CONTENT_DIR', '.');
 }
