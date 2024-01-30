@@ -1,4 +1,4 @@
-# Copyright (C) 2023 site-reviews
+# Copyright (C) 2024 site-reviews
 # This file is distributed under the same license as the site-reviews package.
 msgid ""
 msgstr ""
@@ -325,1036 +325,1041 @@ msgctxt "admin-text"
 msgid "Site Reviews uses the %s function to get the registration URL. If you would like to use a custom registration URL, enter it here."
 msgstr ""
 
-#: config/settings.php:139
+#: config/settings.php:139, config/settings.php:147
+msgctxt "admin-text"
+msgid "If you are assigning reviews to your pages, this integration will tell Site Reviews to assign reviews to all languages of the assigned page instead of only the page the review was submitted on."
+msgstr ""
+
+#: config/settings.php:140
 msgctxt "admin-text"
 msgid "Multilingual"
 msgstr ""
 
-#: config/settings.php:141, config/settings.php:431
+#: config/settings.php:142, config/settings.php:432
 msgctxt "admin-text"
 msgid "No Integration"
 msgstr ""
 
-#: config/settings.php:142
+#: config/settings.php:143
 msgctxt "admin-text"
 msgid "Integrate with Polylang"
 msgstr ""
 
-#: config/settings.php:143
+#: config/settings.php:144
 msgctxt "admin-text"
 msgid "Integrate with WPML"
 msgstr ""
 
-#: config/settings.php:146
-msgctxt "admin-text"
-msgid "Integrate with a multilingual plugin to calculate the combined ratings for all languages of a page; and if you are assigning reviews to your pages, display reviews assigned to all languages of that page."
-msgstr ""
-
-#: config/settings.php:151
+#: config/settings.php:152
 msgctxt "admin-text"
 msgid "Notifications"
 msgstr ""
 
-#: config/settings.php:153
+#: config/settings.php:154
 msgctxt "admin-text"
 msgid "Send to administrator"
 msgstr ""
 
-#: config/settings.php:154
+#: config/settings.php:155
 msgctxt "admin-text"
 msgid "Send to author of the page that the review is assigned to"
 msgstr ""
 
-#: config/settings.php:155
+#: config/settings.php:156
 msgctxt "admin-text"
 msgid "Send to one or more email addresses"
 msgstr ""
 
-#: config/settings.php:156
+#: config/settings.php:157
 msgctxt "admin-text"
 msgid "Send to <a href=\"https://discord.com/\" target=\"_blank\">Discord</a> channel"
 msgstr ""
 
-#: config/settings.php:157
+#: config/settings.php:158
 msgctxt "admin-text"
 msgid "Send to <a href=\"https://slack.com/\" target=\"_blank\">Slack</a>"
 msgstr ""
 
-#: config/settings.php:160
+#: config/settings.php:161
 msgctxt "admin-text"
 msgid "Select the notification recipients."
 msgstr ""
 
-#: config/settings.php:168
+#: config/settings.php:169
 msgctxt "admin-text"
 msgid "Discord Webhook URL"
 msgstr ""
 
-#: config/settings.php:170
+#: config/settings.php:171
 msgctxt "admin-text"
 msgid "To send notifications to a Discord channel, %s and then paste the URL in the field."
 msgstr ""
 
-#: config/settings.php:171
+#: config/settings.php:172
 msgctxt "admin-text"
 msgid "create a webhook"
 msgstr ""
 
-#: config/settings.php:180
+#: config/settings.php:181
 msgctxt "admin-text"
 msgid "Slack Webhook URL"
 msgstr ""
 
-#: config/settings.php:182
+#: config/settings.php:183
 msgctxt "admin-text"
 msgid "To send notifications to a Slack channel, %s and then paste the URL in the field."
 msgstr ""
 
-#: config/settings.php:183
+#: config/settings.php:184
 msgctxt "admin-text"
 msgid "create an Incoming Webhook"
 msgstr ""
 
-#: config/settings.php:192
+#: config/settings.php:193
 msgctxt "admin-text"
 msgid "Send Emails From"
 msgstr ""
 
-#: config/settings.php:195
+#: config/settings.php:196
 msgctxt "admin-text"
 msgid "If emails are not sending, make sure that this email address uses the same domain as your website."
 msgstr ""
 
-#: config/settings.php:203
+#: config/settings.php:204
 msgctxt "admin-text"
 msgid "Send Emails To"
 msgstr ""
 
-#: config/settings.php:204, config/settings.php:206
+#: config/settings.php:205, config/settings.php:207
 msgctxt "admin-text"
 msgid "Separate multiple emails with a comma"
 msgstr ""
 
-#: config/settings.php:214
+#: config/settings.php:215
 msgctxt "admin-text"
 msgid "Notification Template"
 msgstr ""
 
-#: config/settings.php:220
+#: config/settings.php:221
 msgctxt "admin-text"
 msgid "To restore the default text, save an empty template. If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href=\"https://api.slack.com/docs/attachments\" target=\"_blank\">Message Attachments</a> have been disabled."
 msgstr ""
 
-#: config/settings.php:226, views/pages/tools/general/import-reviews.php:78
+#: config/settings.php:227, views/pages/tools/general/import-reviews.php:78
 msgctxt "admin-text"
 msgid "Date Format"
 msgstr ""
 
-#: config/settings.php:228
+#: config/settings.php:229
 msgctxt "admin-text"
 msgid "Use the default date format"
 msgstr ""
 
-#: config/settings.php:229
+#: config/settings.php:230
 msgctxt "admin-text"
 msgid "Use a relative date format"
 msgstr ""
 
-#: config/settings.php:230
+#: config/settings.php:231
 msgctxt "admin-text"
 msgid "Use a custom date format"
 msgstr ""
 
-#: config/settings.php:233
+#: config/settings.php:234
 msgctxt "admin-text"
 msgid "The default date format is the one set in your %s."
 msgstr ""
 
-#: config/settings.php:234
+#: config/settings.php:235
 msgctxt "admin-text"
 msgid "WordPress settings"
 msgstr ""
 
-#: config/settings.php:243
+#: config/settings.php:244
 msgctxt "admin-text"
 msgid "Custom Date Format"
 msgstr ""
 
-#: config/settings.php:245
+#: config/settings.php:246
 msgctxt "admin-text"
 msgid "Enter a custom date format (<a href=\"https://wordpress.org/support/article/formatting-date-and-time/\" target=\"_blank\">documentation on date and time formatting</a>)."
 msgstr ""
 
-#: config/settings.php:251
+#: config/settings.php:252
 msgctxt "admin-text"
 msgid "Name Format"
 msgstr ""
 
-#: config/settings.php:253
+#: config/settings.php:254
 msgctxt "admin-text"
 msgid "Use the name as given"
 msgstr ""
 
-#: config/settings.php:254
+#: config/settings.php:255
 msgctxt "admin-text"
 msgid "Use the first name only"
 msgstr ""
 
-#: config/settings.php:255
+#: config/settings.php:256
 msgctxt "admin-text"
 msgid "Convert first name to an initial"
 msgstr ""
 
-#: config/settings.php:256
+#: config/settings.php:257
 msgctxt "admin-text"
 msgid "Convert last name to an initial"
 msgstr ""
 
-#: config/settings.php:257
+#: config/settings.php:258
 msgctxt "admin-text"
 msgid "Convert to all initials"
 msgstr ""
 
-#: config/settings.php:260
+#: config/settings.php:261
 msgctxt "admin-text"
 msgid "Choose how author names are shown in your reviews."
 msgstr ""
 
-#: config/settings.php:269
+#: config/settings.php:270
 msgctxt "admin-text"
 msgid "Initial Format"
 msgstr ""
 
-#: config/settings.php:271
+#: config/settings.php:272
 msgctxt "admin-text"
 msgid "Initial with a space"
 msgstr ""
 
-#: config/settings.php:272
+#: config/settings.php:273
 msgctxt "admin-text"
 msgid "Initial with a period"
 msgstr ""
 
-#: config/settings.php:273
+#: config/settings.php:274
 msgctxt "admin-text"
 msgid "Initial with a period and a space"
 msgstr ""
 
-#: config/settings.php:276
+#: config/settings.php:277
 msgctxt "admin-text"
 msgid "Choose how the initial is displayed."
 msgstr ""
 
-#: config/settings.php:283
+#: config/settings.php:284
 msgctxt "admin-text"
 msgid "Loose Assignment displays reviews that are assigned to this <code>OR</code> that."
 msgstr ""
 
-#: config/settings.php:284
+#: config/settings.php:285
 msgctxt "admin-text"
 msgid "Strict Assignment displays reviews that are assigned to this <code>AND</code> that."
 msgstr ""
 
-#: config/settings.php:286
+#: config/settings.php:287
 msgctxt "admin-text"
 msgid "Review Assignment"
 msgstr ""
 
-#: config/settings.php:288
+#: config/settings.php:289
 msgctxt "admin-text"
 msgid "Loose Assignment (slower database queries)"
 msgstr ""
 
-#: config/settings.php:289
+#: config/settings.php:290
 msgctxt "admin-text"
 msgid "Strict Assignment (faster database queries)"
 msgstr ""
 
-#: config/settings.php:292
+#: config/settings.php:293
 msgctxt "admin-text"
 msgid "This setting determines how the assigned options work in the reviews and summary shortcodes and blocks."
 msgstr ""
 
-#: config/settings.php:297
+#: config/settings.php:298
 msgctxt "admin-text"
 msgid "Enable Assigned Links"
 msgstr ""
 
-#: config/settings.php:299
+#: config/settings.php:300
 msgctxt "admin-text"
 msgid "This will display a link to the assigned posts of a review."
 msgstr ""
 
-#: config/settings.php:304
+#: config/settings.php:305
 msgctxt "admin-text"
 msgid "Enable Avatars"
 msgstr ""
 
-#: config/settings.php:306
+#: config/settings.php:307
 msgctxt "admin-text"
 msgid "The avatars are generated from the email address of the reviewer using <a href=\"https://gravatar.com\" target=\"_blank\">Gravatar</a>."
 msgstr ""
 
-#: config/settings.php:315
+#: config/settings.php:316
 msgctxt "admin-text"
 msgid "Fallback Avatar"
 msgstr ""
 
-#: config/settings.php:317, config/settings.php:579
+#: config/settings.php:318, config/settings.php:581
 msgctxt "admin-text"
 msgid "Custom Image URL"
 msgstr ""
 
-#: config/settings.php:318
+#: config/settings.php:319
 msgctxt "admin-text"
 msgid "Identicon (geometric patterns)"
 msgstr ""
 
-#: config/settings.php:319
+#: config/settings.php:320
 msgctxt "admin-text"
 msgid "Initials (initials of reviewer's name)"
 msgstr ""
 
-#: config/settings.php:320
+#: config/settings.php:321
 msgctxt "admin-text"
 msgid "Monster (monsters with generated faces)"
 msgstr ""
 
-#: config/settings.php:321
+#: config/settings.php:322
 msgctxt "admin-text"
 msgid "Mystery (silhouetted outline of a person)"
 msgstr ""
 
-#: config/settings.php:322
+#: config/settings.php:323
 msgctxt "admin-text"
 msgid "None (select this if you want an avatar plugin to manage the fallback avatar)"
 msgstr ""
 
-#: config/settings.php:323
+#: config/settings.php:324
 msgctxt "admin-text"
 msgid "Pixel Avatars (locally generated)"
 msgstr ""
 
-#: config/settings.php:324
+#: config/settings.php:325
 msgctxt "admin-text"
 msgid "Retro (8-bit arcade-style pixelated faces)"
 msgstr ""
 
-#: config/settings.php:325
+#: config/settings.php:326
 msgctxt "admin-text"
 msgid "Robohash (robots with generated faces)"
 msgstr ""
 
-#: config/settings.php:326
+#: config/settings.php:327
 msgctxt "admin-text"
 msgid "Wavatar (faces with generated features)"
 msgstr ""
 
-#: config/settings.php:329
+#: config/settings.php:330
 msgctxt "admin-text"
 msgid "This image is displayed when there is no avatar."
 msgstr ""
 
-#: config/settings.php:338
+#: config/settings.php:339
 msgctxt "admin-text"
 msgid "Fallback Avatar URL"
 msgstr ""
 
-#: config/settings.php:340
+#: config/settings.php:341
 msgctxt "admin-text"
 msgid "Enter a custom image URL to use as the fallback avatar."
 msgstr ""
 
-#: config/settings.php:348
+#: config/settings.php:349
 msgctxt "admin-text"
 msgid "Regenerate Avatars"
 msgstr ""
 
-#: config/settings.php:350
+#: config/settings.php:351
 msgctxt "admin-text"
 msgid "This will regenerate the avatar whenever a local review is shown."
 msgstr ""
 
-#: config/settings.php:354
+#: config/settings.php:355
 msgctxt "avatar size (admin-text)"
 msgid "pixels"
 msgstr ""
 
-#: config/settings.php:359
+#: config/settings.php:360
 msgctxt "admin-text"
 msgid "Avatar Size"
 msgstr ""
 
-#: config/settings.php:362
+#: config/settings.php:363
 msgctxt "admin-text"
 msgid "Set the height/width of the avatar in pixels."
 msgstr ""
 
-#: config/settings.php:367
+#: config/settings.php:368
 msgctxt "admin-text"
 msgid "Enable Excerpts"
 msgstr ""
 
-#: config/settings.php:369
+#: config/settings.php:370
 msgctxt "admin-text"
 msgid "Display an excerpt instead of the full review."
 msgstr ""
 
-#: config/settings.php:378
+#: config/settings.php:379
 msgctxt "admin-text"
 msgid "Excerpt Action"
 msgstr ""
 
-#: config/settings.php:380
+#: config/settings.php:381
 msgctxt "admin-text"
 msgid "Collapse/Expand the review"
 msgstr ""
 
-#: config/settings.php:381
+#: config/settings.php:382
 msgctxt "admin-text"
 msgid "Display the review in a modal"
 msgstr ""
 
-#: config/settings.php:388
+#: config/settings.php:389
 msgctxt "exceprt length (admin-text)"
 msgid "words"
 msgstr ""
 
-#: config/settings.php:393
+#: config/settings.php:394
 msgctxt "admin-text"
 msgid "Excerpt Length"
 msgstr ""
 
-#: config/settings.php:395
+#: config/settings.php:396
 msgctxt "admin-text"
 msgid "Set the excerpt word length."
 msgstr ""
 
-#: config/settings.php:400
+#: config/settings.php:401
 msgctxt "admin-text"
 msgid "The default text is: %s"
 msgstr ""
 
-#: config/settings.php:401, plugin/Modules/Html/ReviewsHtml.php:115
+#: config/settings.php:402, plugin/Modules/Html/ReviewsHtml.php:115
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr ""
 
-#: config/settings.php:403
+#: config/settings.php:404
 msgctxt "admin-text"
 msgid "Enable Fallback Text"
 msgstr ""
 
-#: config/settings.php:405
+#: config/settings.php:406
 msgctxt "admin-text"
 msgid "Display the fallback text when there are no reviews to display. This can be changed on the %s page. You may also override this by using the \"fallback\" option on the shortcode."
 msgstr ""
 
-#: config/settings.php:406, plugin/Controllers/MenuController.php:145
+#: config/settings.php:407, plugin/Controllers/MenuController.php:145
 msgctxt "admin-text"
 msgid "Strings"
 msgstr ""
 
-#: config/settings.php:413
+#: config/settings.php:414
 msgctxt "admin-text"
 msgid "If you would like to keep the pagination links but prevent search engines from indexing them, add the following lines to your %s file: %s"
 msgstr ""
 
-#: config/settings.php:419
+#: config/settings.php:420
 msgctxt "admin-text"
 msgid "Enable Paginated URLs"
 msgstr ""
 
-#: config/settings.php:421
+#: config/settings.php:422
 msgctxt "admin-text"
 msgid "Paginated URLs include the %s URL parameter."
 msgstr ""
 
-#: config/settings.php:429
+#: config/settings.php:430
 msgctxt "admin-text"
 msgid "Integrate with plugin"
 msgstr ""
 
-#: config/settings.php:432
+#: config/settings.php:433
 msgctxt "plugin name (admin-text)"
 msgid "RankMath Pro"
 msgstr ""
 
-#: config/settings.php:433
+#: config/settings.php:434
 msgctxt "plugin name (admin-text)"
 msgid "Schema & Structured Data for WP & AMP"
 msgstr ""
 
-#: config/settings.php:434
+#: config/settings.php:435
 msgctxt "plugin name (admin-text)"
 msgid "Schema Pro"
 msgstr ""
 
-#: config/settings.php:437
+#: config/settings.php:436
+msgctxt "plugin name (admin-text)"
+msgid "SEOPress"
+msgstr ""
+
+#: config/settings.php:439
 msgctxt "admin-text"
 msgid "Integrate Site Reviews with a third-party schema plugin?"
 msgstr ""
 
-#: config/settings.php:446
+#: config/settings.php:448
 msgctxt "admin-text"
 msgid "Default Schema Type"
 msgstr ""
 
-#: config/settings.php:448
+#: config/settings.php:450
 msgctxt "admin-text"
 msgid "Local Business"
 msgstr ""
 
-#: config/settings.php:449
+#: config/settings.php:451
 msgctxt "admin-text"
 msgid "Product"
 msgstr ""
 
-#: config/settings.php:450
+#: config/settings.php:452
 msgctxt "admin-text"
 msgid "Custom"
 msgstr ""
 
-#: config/settings.php:453, config/settings.php:484, config/settings.php:512, config/settings.php:540, config/settings.php:568, config/settings.php:593, config/settings.php:607, config/settings.php:621, config/settings.php:639, config/settings.php:654, config/settings.php:669, config/settings.php:684, config/settings.php:698
+#: config/settings.php:455, config/settings.php:486, config/settings.php:514, config/settings.php:542, config/settings.php:570, config/settings.php:595, config/settings.php:609, config/settings.php:623, config/settings.php:641, config/settings.php:656, config/settings.php:671, config/settings.php:686, config/settings.php:700
 msgctxt "admin-text"
 msgid "You can use the %s to override this value on your page. The Custom Field name to use is:"
 msgstr ""
 
-#: config/settings.php:454, config/settings.php:485, config/settings.php:513, config/settings.php:541, config/settings.php:569, config/settings.php:594, config/settings.php:608, config/settings.php:622, config/settings.php:640, config/settings.php:655, config/settings.php:670, config/settings.php:685, config/settings.php:699, views/pages/settings/schema.php:28
+#: config/settings.php:456, config/settings.php:487, config/settings.php:515, config/settings.php:543, config/settings.php:571, config/settings.php:596, config/settings.php:610, config/settings.php:624, config/settings.php:642, config/settings.php:657, config/settings.php:672, config/settings.php:687, config/settings.php:701, views/pages/settings/schema.php:28
 msgctxt "admin-text"
 msgid "Custom Fields metabox"
 msgstr ""
 
-#: config/settings.php:464
+#: config/settings.php:466
 msgctxt "admin-text"
 msgid "Custom Schema Type"
 msgstr ""
 
-#: config/settings.php:466, views/pages/settings/schema.php:13
+#: config/settings.php:468, views/pages/settings/schema.php:13
 msgctxt "admin-text"
 msgid "Google limits the schema types that can trigger review rich results in search. To learn more, please %sread this%s."
 msgstr ""
 
-#: config/settings.php:478
+#: config/settings.php:480
 msgctxt "admin-text"
 msgid "Default Name"
 msgstr ""
 
-#: config/settings.php:480
+#: config/settings.php:482
 msgctxt "admin-text"
 msgid "Use the assigned or current page title"
 msgstr ""
 
-#: config/settings.php:481, config/settings.php:497
+#: config/settings.php:483, config/settings.php:499
 msgctxt "admin-text"
 msgid "Enter a custom title"
 msgstr ""
 
-#: config/settings.php:495
+#: config/settings.php:497
 msgctxt "admin-text"
 msgid "Custom Name"
 msgstr ""
 
-#: config/settings.php:506
+#: config/settings.php:508
 msgctxt "admin-text"
 msgid "Default Description"
 msgstr ""
 
-#: config/settings.php:508
+#: config/settings.php:510
 msgctxt "admin-text"
 msgid "Use the assigned or current page excerpt"
 msgstr ""
 
-#: config/settings.php:509, config/settings.php:525
+#: config/settings.php:511, config/settings.php:527
 msgctxt "admin-text"
 msgid "Enter a custom description"
 msgstr ""
 
-#: config/settings.php:523
+#: config/settings.php:525
 msgctxt "admin-text"
 msgid "Custom Description"
 msgstr ""
 
-#: config/settings.php:534
+#: config/settings.php:536
 msgctxt "admin-text"
 msgid "Default URL"
 msgstr ""
 
-#: config/settings.php:536
+#: config/settings.php:538
 msgctxt "admin-text"
 msgid "Use the assigned or current page URL"
 msgstr ""
 
-#: config/settings.php:537, config/settings.php:553
+#: config/settings.php:539, config/settings.php:555
 msgctxt "admin-text"
 msgid "Enter a custom URL"
 msgstr ""
 
-#: config/settings.php:551
+#: config/settings.php:553
 msgctxt "admin-text"
 msgid "Custom URL"
 msgstr ""
 
-#: config/settings.php:562
+#: config/settings.php:564
 msgctxt "admin-text"
 msgid "Default Image"
 msgstr ""
 
-#: config/settings.php:564
+#: config/settings.php:566
 msgctxt "admin-text"
 msgid "Use the featured image of the assigned or current page"
 msgstr ""
 
-#: config/settings.php:565, config/settings.php:581
+#: config/settings.php:567, config/settings.php:583
 msgctxt "admin-text"
 msgid "Enter a custom image URL"
 msgstr ""
 
-#: config/settings.php:590
+#: config/settings.php:592
 msgctxt "admin-text"
 msgid "Address"
 msgstr ""
 
-#: config/settings.php:591
+#: config/settings.php:593
 msgctxt "admin-text"
 msgid "60 29th Street #343, San Francisco, CA 94110, US"
 msgstr ""
 
-#: config/settings.php:604
+#: config/settings.php:606
 msgctxt "admin-text"
 msgid "Telephone Number"
 msgstr ""
 
-#: config/settings.php:605
+#: config/settings.php:607
 msgctxt "admin-text"
 msgid "+1 (877) 273-3049"
 msgstr ""
 
-#: config/settings.php:618
+#: config/settings.php:620
 msgctxt "admin-text"
 msgid "Price Range"
 msgstr ""
 
-#: config/settings.php:619
+#: config/settings.php:621
 msgctxt "admin-text"
 msgid "$$-$$$"
 msgstr ""
 
-#: config/settings.php:633
+#: config/settings.php:635
 msgctxt "admin-text"
 msgid "Offer Type"
 msgstr ""
 
-#: config/settings.php:635
+#: config/settings.php:637
 msgctxt "admin-text"
 msgid "AggregateOffer"
 msgstr ""
 
-#: config/settings.php:636
+#: config/settings.php:638
 msgctxt "admin-text"
 msgid "Offer"
 msgstr ""
 
-#: config/settings.php:651
+#: config/settings.php:653
 msgctxt "admin-text"
 msgid "Price"
 msgstr ""
 
-#: config/settings.php:666
+#: config/settings.php:668
 msgctxt "admin-text"
 msgid "Low Price"
 msgstr ""
 
-#: config/settings.php:681
+#: config/settings.php:683
 msgctxt "admin-text"
 msgid "High Price"
 msgstr ""
 
-#: config/settings.php:695
+#: config/settings.php:697
 msgctxt "admin-text"
 msgid "Price Currency"
 msgstr ""
 
-#: config/settings.php:696
+#: config/settings.php:698
 msgctxt "admin-text"
 msgid "USD"
 msgstr ""
 
-#: config/settings.php:705
+#: config/settings.php:707
 msgctxt "admin-text"
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:707, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Tinymce/SiteReviewsTinymce.php:31, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/GamiPress/Controller.php:122
+#: config/settings.php:709, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Tinymce/SiteReviewsTinymce.php:31, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/GamiPress/Controller.php:122
 msgctxt "admin-text"
 msgid "Rating"
 msgstr ""
 
-#: config/settings.php:708, plugin/Tinymce/SiteReviewsFormTinymce.php:15, plugin/Tinymce/SiteReviewsSummaryTinymce.php:16, plugin/Tinymce/SiteReviewsTinymce.php:16, plugin/Tinymce/SiteReviewTinymce.php:16, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21, plugin/Widgets/SiteReviewWidget.php:18
+#: config/settings.php:710, plugin/Tinymce/SiteReviewsFormTinymce.php:15, plugin/Tinymce/SiteReviewsSummaryTinymce.php:16, plugin/Tinymce/SiteReviewsTinymce.php:16, plugin/Tinymce/SiteReviewTinymce.php:16, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21, plugin/Widgets/SiteReviewWidget.php:18
 msgctxt "admin-text"
 msgid "Title"
 msgstr ""
 
-#: config/settings.php:709, plugin/Defaults/PostTypeLabelDefaults.php:22
+#: config/settings.php:711, plugin/Defaults/PostTypeLabelDefaults.php:22
 msgctxt "admin-text"
 msgid "Review"
 msgstr ""
 
-#: config/settings.php:710, config/forms/metabox-fields.php:14, plugin/Controllers/PrivacyController.php:130, plugin/Defaults/PostTypeColumnDefaults.php:15, plugin/Defaults/RevisionFieldsDefaults.php:13
+#: config/settings.php:712, config/forms/metabox-fields.php:14, plugin/Controllers/PrivacyController.php:130, plugin/Defaults/PostTypeColumnDefaults.php:15, plugin/Defaults/RevisionFieldsDefaults.php:13
 msgctxt "admin-text"
 msgid "Name"
 msgstr ""
 
-#: config/settings.php:711, config/forms/metabox-fields.php:18, plugin/Controllers/PrivacyController.php:131, plugin/Defaults/PostTypeColumnDefaults.php:16, plugin/Defaults/RevisionFieldsDefaults.php:14
+#: config/settings.php:713, config/forms/metabox-fields.php:18, plugin/Controllers/PrivacyController.php:131, plugin/Defaults/PostTypeColumnDefaults.php:16, plugin/Defaults/RevisionFieldsDefaults.php:14
 msgctxt "admin-text"
 msgid "Email"
 msgstr ""
 
-#: config/settings.php:712, config/forms/metabox-fields.php:30, plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:27
+#: config/settings.php:714, config/forms/metabox-fields.php:30, plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:27
 msgctxt "admin-text"
 msgid "Terms"
 msgstr ""
 
-#: config/settings.php:715
+#: config/settings.php:717
 msgctxt "admin-text"
 msgid "Choose which fields should be required in the review form."
 msgstr ""
 
-#: config/settings.php:721
+#: config/settings.php:723
 msgctxt "admin-text"
 msgid "Limit Reviews"
 msgstr ""
 
-#: config/settings.php:723
+#: config/settings.php:725
 msgctxt "admin-text"
 msgid "No Limit"
 msgstr ""
 
-#: config/settings.php:724
+#: config/settings.php:726
 msgctxt "admin-text"
 msgid "By Email Address"
 msgstr ""
 
-#: config/settings.php:725
+#: config/settings.php:727
 msgctxt "admin-text"
 msgid "By IP Address"
 msgstr ""
 
-#: config/settings.php:726
+#: config/settings.php:728
 msgctxt "admin-text"
 msgid "By Username (will only work for registered users)"
 msgstr ""
 
-#: config/settings.php:729
+#: config/settings.php:731
 msgctxt "admin-text"
 msgid "Limits the number of reviews that can be submitted to one-per-person."
 msgstr ""
 
-#: config/settings.php:733
+#: config/settings.php:735
 msgctxt "limit time (admin-text)"
 msgid "days"
 msgstr ""
 
-#: config/settings.php:738
+#: config/settings.php:740
 msgctxt "admin-text"
 msgid "Limit Reviews For"
 msgstr ""
 
-#: config/settings.php:741
+#: config/settings.php:743
 msgctxt "admin-text"
 msgid "Set the amount of days that the review limits apply for. \"0\" means the limit applies forever."
 msgstr ""
 
-#: config/settings.php:749
+#: config/settings.php:751
 msgctxt "admin-text"
 msgid "Restrict Limits To"
 msgstr ""
 
-#: config/settings.php:751, plugin/Metaboxes/AssignedPostsMetabox.php:20, plugin/Tinymce/SiteReviewsSummaryTinymce.php:24, plugin/Tinymce/SiteReviewsTinymce.php:58, views/partials/screen/inline-edit.php:105
+#: config/settings.php:753, plugin/Defaults/PostTypeColumnDefaults.php:13, plugin/Metaboxes/AssignedPostsMetabox.php:20, plugin/Tinymce/SiteReviewsSummaryTinymce.php:24, plugin/Tinymce/SiteReviewsTinymce.php:58, views/partials/screen/inline-edit.php:105
 msgctxt "admin-text"
 msgid "Assigned Posts"
 msgstr ""
 
-#: config/settings.php:752
+#: config/settings.php:754
 msgctxt "admin-text"
 msgid "Assigned Terms"
 msgstr ""
 
-#: config/settings.php:753, plugin/Defaults/PostTypeColumnDefaults.php:14, plugin/Metaboxes/AssignedUsersMetabox.php:19, views/integrations/mycred/preferences.php:186, views/partials/screen/inline-edit.php:116
+#: config/settings.php:755, plugin/Defaults/PostTypeColumnDefaults.php:14, plugin/Metaboxes/AssignedUsersMetabox.php:19, views/integrations/mycred/preferences.php:186, views/partials/screen/inline-edit.php:116
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr ""
 
-#: config/settings.php:757
+#: config/settings.php:759
 msgctxt "admin-text"
 msgid "Select which assignments the review limits should be restricted to."
 msgstr ""
 
-#: config/settings.php:758
+#: config/settings.php:760
 msgctxt "admin-text"
 msgid "The review limits use strict assignment, i.e. <code>restrict limits to reviews assigned to this AND this</code>."
 msgstr ""
 
-#: config/settings.php:767
+#: config/settings.php:769
 msgctxt "admin-text"
 msgid "Email Whitelist"
 msgstr ""
 
-#: config/settings.php:770
+#: config/settings.php:772
 msgctxt "admin-text"
 msgid "One Email per line. All emails in the whitelist will be excluded from the review submission limit."
 msgstr ""
 
-#: config/settings.php:778
+#: config/settings.php:780
 msgctxt "admin-text"
 msgid "IP Address Whitelist"
 msgstr ""
 
-#: config/settings.php:781
+#: config/settings.php:783
 msgctxt "admin-text"
 msgid "One IP Address per line. All IP Addresses in the whitelist will be excluded from the review submission limit.."
 msgstr ""
 
-#: config/settings.php:789
+#: config/settings.php:791
 msgctxt "admin-text"
 msgid "Username Whitelist"
 msgstr ""
 
-#: config/settings.php:792
+#: config/settings.php:794
 msgctxt "admin-text"
 msgid "One Username per line. All registered users with a Username in the whitelist will be excluded from the review submission limit."
 msgstr ""
 
-#: config/settings.php:798
+#: config/settings.php:800
 msgctxt "admin-text"
 msgid "CAPTCHA"
 msgstr ""
 
-#: config/settings.php:800
+#: config/settings.php:802
 msgctxt "admin-text"
 msgid "Do not use"
 msgstr ""
 
-#: config/settings.php:801
+#: config/settings.php:803
 msgctxt "admin-text"
 msgid "Use Cloudflare Turnstile"
 msgstr ""
 
-#: config/settings.php:802
+#: config/settings.php:804
 msgctxt "admin-text"
 msgid "Use Friendly Captcha"
 msgstr ""
 
-#: config/settings.php:803
+#: config/settings.php:805
 msgctxt "admin-text"
 msgid "Use hCaptcha"
 msgstr ""
 
-#: config/settings.php:804
+#: config/settings.php:806
 msgctxt "admin-text"
 msgid "Use reCAPTCHA v2 Invisible"
 msgstr ""
 
-#: config/settings.php:805
+#: config/settings.php:807
 msgctxt "admin-text"
 msgid "Use reCAPTCHA v3"
 msgstr ""
 
-#: config/settings.php:808
+#: config/settings.php:810
 msgctxt "admin-text"
 msgid "CAPTCHAs (Completely Automated Public Turing test to tell Computers and Humans Apart) are anti-bot solutions that protect forms from spam."
 msgstr ""
 
-#: config/settings.php:816, config/settings.php:836, config/settings.php:856, config/settings.php:876, config/settings.php:910
+#: config/settings.php:818, config/settings.php:838, config/settings.php:858, config/settings.php:878, config/settings.php:912
 msgctxt "admin-text"
 msgid "Site Key"
 msgstr ""
 
-#: config/settings.php:818, config/settings.php:828
+#: config/settings.php:820, config/settings.php:830
 msgctxt "admin-text"
 msgid "<a href=\"https://friendlycaptcha.com/signup\" target=\"_blank\">Friendly Captcha</a> is privacy-first Schrems II and GDPR compliant anti-bot solution."
 msgstr ""
 
-#: config/settings.php:826
+#: config/settings.php:828
 msgctxt "admin-text"
 msgid "API Key"
 msgstr ""
 
-#: config/settings.php:838, config/settings.php:848
+#: config/settings.php:840, config/settings.php:850
 msgctxt "admin-text"
 msgid "hCaptcha is an anti-bot solution that protects user privacy. It is the most popular reCAPTCHA alternative. To use it, you will need to <a href=\"https://dashboard.hcaptcha.com/\" target=\"_blank\">sign up</a> for an API key pair for your site."
 msgstr ""
 
-#: config/settings.php:846, config/settings.php:866, config/settings.php:886, config/settings.php:920
+#: config/settings.php:848, config/settings.php:868, config/settings.php:888, config/settings.php:922
 msgctxt "admin-text"
 msgid "Secret Key"
 msgstr ""
 
-#: config/settings.php:858, config/settings.php:868
+#: config/settings.php:860, config/settings.php:870
 msgctxt "admin-text"
 msgid "reCAPTCHA v2 Invisible is a free anti-spam service from Google. To use it, you will need to <a href=\"https://www.google.com/recaptcha/admin\" target=\"_blank\">sign up</a> for an API key pair for your site."
 msgstr ""
 
-#: config/settings.php:878, config/settings.php:888
+#: config/settings.php:880, config/settings.php:890
 msgctxt "admin-text"
 msgid "reCAPTCHA v3 is a free anti-spam service from Google. To use it, you will need to <a href=\"https://www.google.com/recaptcha/admin\" target=\"_blank\">sign up</a> for an API key pair for your site."
 msgstr ""
 
-#: config/settings.php:896
+#: config/settings.php:898
 msgctxt "admin-text"
 msgid "Score threshold should be a value between 0 and 1, default: 0.5"
 msgstr ""
 
-#: config/settings.php:897
+#: config/settings.php:899
 msgctxt "admin-text"
 msgid "Score Threshold"
 msgstr ""
 
-#: config/settings.php:902
+#: config/settings.php:904
 msgctxt "admin-text"
 msgid "Where 0 is a robot and 1 is a human"
 msgstr ""
 
-#: config/settings.php:912, config/settings.php:922
+#: config/settings.php:914, config/settings.php:924
 msgctxt "admin-text"
 msgid "Turnstile is Cloudflare’s privacy-first CAPTCHA alternative. To use it, you will need to <a href=\"https://dash.cloudflare.com/?to=/:account/turnstile\" target=\"_blank\">obtain</a> a site key and a secret key."
 msgstr ""
 
-#: config/settings.php:931
+#: config/settings.php:933
 msgctxt "admin-text"
 msgid "CAPTCHA Badge"
 msgstr ""
 
-#: config/settings.php:933
+#: config/settings.php:935
 msgctxt "admin-text"
 msgid "Bottom Left"
 msgstr ""
 
-#: config/settings.php:934
+#: config/settings.php:936
 msgctxt "admin-text"
 msgid "Bottom Right"
 msgstr ""
 
-#: config/settings.php:935
+#: config/settings.php:937
 msgctxt "admin-text"
 msgid "Inline"
 msgstr ""
 
-#: config/settings.php:938
+#: config/settings.php:940
 msgctxt "admin-text"
 msgid "Set the position of the CAPTCHA widget. This option may not work consistently if another plugin is loading reCAPTCHA on the same page as Site Reviews."
 msgstr ""
 
-#: config/settings.php:953
+#: config/settings.php:955
 msgctxt "admin-text"
 msgid "CAPTCHA Theme"
 msgstr ""
 
-#: config/settings.php:955
+#: config/settings.php:957
 msgctxt "admin-text"
 msgid "Light"
 msgstr ""
 
-#: config/settings.php:956
+#: config/settings.php:958
 msgctxt "admin-text"
 msgid "Dark"
 msgstr ""
 
-#: config/settings.php:959
+#: config/settings.php:961
 msgctxt "admin-text"
 msgid "Set the color theme of the CAPTCHA widget."
 msgstr ""
 
-#: config/settings.php:974
+#: config/settings.php:976
 msgctxt "admin-text"
 msgid "CAPTCHA Usage"
 msgstr ""
 
-#: config/settings.php:976
+#: config/settings.php:978
 msgctxt "admin-text"
 msgid "Use for everyone"
 msgstr ""
 
-#: config/settings.php:977
+#: config/settings.php:979
 msgctxt "admin-text"
 msgid "Use only for guest users"
 msgstr ""
 
-#: config/settings.php:980
+#: config/settings.php:982
 msgctxt "admin-text"
 msgid "Choose who you want to load the CAPTCHA for."
 msgstr ""
 
-#: config/settings.php:985
+#: config/settings.php:987
 msgctxt "admin-text"
 msgid "Enable Akismet"
 msgstr ""
 
-#: config/settings.php:987
+#: config/settings.php:989
 msgctxt "admin-text"
 msgid "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> integration provides spam-filtering for your reviews. In order for this setting to have any affect, you will need to first install and activate the Akismet plugin and set up a WordPress.com API key."
 msgstr ""
 
-#: config/settings.php:993
+#: config/settings.php:995
 msgctxt "admin-text"
 msgid "Prevent Duplicates"
 msgstr ""
 
-#: config/settings.php:995
+#: config/settings.php:997
 msgctxt "admin-text"
 msgid "This will prevent people from submitting multiple reviews with the same content."
 msgstr ""
 
-#: config/settings.php:1001
+#: config/settings.php:1003
 msgctxt "admin-text"
 msgid "Blacklist"
 msgstr ""
 
-#: config/settings.php:1003
+#: config/settings.php:1005
 msgctxt "admin-text"
 msgid "Use the Site Reviews Blacklist"
 msgstr ""
 
-#: config/settings.php:1004
+#: config/settings.php:1006
 msgctxt "admin-text"
 msgid "Use the WordPress Disallowed Comment Keys"
 msgstr ""
 
-#: config/settings.php:1007
+#: config/settings.php:1009
 msgctxt "admin-text"
 msgid "Choose which Blacklist you would prefer to use for reviews. The %s option can be found in the WordPress Discussion Settings page."
 msgstr ""
 
-#: config/settings.php:1008
+#: config/settings.php:1010
 msgctxt "admin-text"
 msgid "Disallowed Comment Keys"
 msgstr ""
 
-#: config/settings.php:1017
+#: config/settings.php:1019
 msgctxt "admin-text"
 msgid "Review Blacklist"
 msgstr ""
 
-#: config/settings.php:1020
+#: config/settings.php:1022
 msgctxt "admin-text"
 msgid "One entry or IP address per line. When a review contains any of these entries in its title, content, name, email, or IP address, it will be rejected. It is case-insensitive and will match partial words, so \"press\" will match \"WordPress\"."
 msgstr ""
 
-#: config/settings.php:1026
+#: config/settings.php:1028
 msgctxt "admin-text"
 msgid "Blacklist Action"
 msgstr ""
 
-#: config/settings.php:1028
+#: config/settings.php:1030
 msgctxt "admin-text"
 msgid "Require approval"
 msgstr ""
 
-#: config/settings.php:1029
+#: config/settings.php:1031
 msgctxt "admin-text"
 msgid "Reject submission"
 msgstr ""
 
-#: config/settings.php:1032
+#: config/settings.php:1034
 msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr ""
@@ -1374,11 +1379,11 @@ msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
 msgstr ""
 
-#: plugin/Review.php:143, plugin/Modules/Avatar.php:80
+#: plugin/Review.php:156, plugin/Modules/Avatar.php:80
 msgid "Anonymous"
 msgstr ""
 
-#: plugin/Review.php:319, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:17
+#: plugin/Review.php:332, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:17
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
@@ -1637,7 +1642,7 @@ msgctxt "admin-text"
 msgid "This will filter the output of the wp_comments() function when it's used to query WooCommerce product reviews."
 msgstr ""
 
-#: plugin/Addons/Addon.php:101
+#: plugin/Addons/Addon.php:100
 msgctxt "admin-text"
 msgid "Untitled"
 msgstr ""
@@ -1647,7 +1652,7 @@ msgctxt "admin-text"
 msgid "Settings"
 msgstr ""
 
-#: plugin/Addons/Controller.php:78, plugin/Controllers/AdminController.php:84
+#: plugin/Addons/Controller.php:78, plugin/Controllers/AdminController.php:84, views/partials/dashboard-widget.php:28
 msgctxt "admin-text"
 msgid "Help"
 msgstr ""
@@ -1667,7 +1672,7 @@ msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr ""
 
-#: plugin/Blocks/SiteReviewsBlock.php:113, plugin/Helpers/Text.php:166
+#: plugin/Blocks/SiteReviewsBlock.php:112, plugin/Helpers/Text.php:166
 msgid "Show more"
 msgstr ""
 
@@ -2064,24 +2069,17 @@ msgctxt "admin-text"
 msgid "Review unverified."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:101
-msgctxt "admin-text"
-msgid "%s Review"
-msgid_plural "%s Reviews"
-msgstr[0] ""
-msgstr[1] ""
-
-#: plugin/Controllers/AdminController.php:138, views/pages/tools/console.php:58
+#: plugin/Controllers/AdminController.php:112, views/pages/tools/console.php:58
 msgctxt "admin-text"
 msgid "Apply"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:142
+#: plugin/Controllers/AdminController.php:116
 msgctxt "admin-text"
 msgid "Close Panel"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:310, plugin/Controllers/AdminController.php:328, plugin/Controllers/AdminController.php:341
+#: plugin/Controllers/AdminController.php:284, plugin/Controllers/AdminController.php:302, plugin/Controllers/AdminController.php:315
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr ""
@@ -2296,7 +2294,7 @@ msgctxt "admin-text"
 msgid "Support"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:115, plugin/Controllers/ToolsController.php:100
+#: plugin/Controllers/MenuController.php:115, plugin/Controllers/ToolsController.php:96
 msgctxt "admin-text"
 msgid "FAQ"
 msgstr ""
@@ -2326,7 +2324,7 @@ msgctxt "admin-text"
 msgid "General"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:142, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:17, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
+#: plugin/Controllers/MenuController.php:142, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:17, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31, plugin/Integrations/WooCommerce/Metaboxes/ReviewsMetabox.php:15
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr ""
@@ -2421,57 +2419,57 @@ msgctxt "admin-text"
 msgid "TTID"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:109
+#: plugin/Controllers/ToolsController.php:105
 msgctxt "admin-text"
 msgid "Your detected IP address is %s. If this looks incorrect, please see the %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:104
+#: plugin/Controllers/ToolsController.php:100
 msgctxt "admin-text"
 msgid "Site Reviews was unable to detect an IP address. To fix this, please see the %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:136
+#: plugin/Controllers/ToolsController.php:132
 msgctxt "admin-text"
 msgid "You do not have permission to download the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:158
+#: plugin/Controllers/ToolsController.php:154
 msgctxt "admin-text"
 msgid "You do not have permission to download the system info report."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:180
+#: plugin/Controllers/ToolsController.php:176
 msgctxt "admin-text"
 msgid "You do not have permission to export the settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:200
+#: plugin/Controllers/ToolsController.php:196
 msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:208
+#: plugin/Controllers/ToolsController.php:204
 msgctxt "admin-text"
 msgid "You do not have permission to reload the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:288
+#: plugin/Controllers/ToolsController.php:283
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:292
+#: plugin/Controllers/ToolsController.php:287
 msgctxt "admin-text"
 msgid "The permissions have been repaired, please %s for them to take effect."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:351
+#: plugin/Controllers/ToolsController.php:342
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:369
+#: plugin/Controllers/ToolsController.php:360
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr ""
@@ -2606,9 +2604,9 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
-#: plugin/Defaults/PostTypeColumnDefaults.php:13
-msgctxt "siteadmin-text"
-msgid "Assigned Posts"
+#: plugin/Defaults/PostTypeColumnDefaults.php:12
+msgctxt "admin-text"
+msgid "Categories"
 msgstr ""
 
 #: plugin/Defaults/PostTypeColumnDefaults.php:18, plugin/Defaults/RevisionFieldsDefaults.php:10
@@ -2688,6 +2686,26 @@ msgstr ""
 
 #: plugin/Defaults/SiteReviewDefaults.php:43
 msgid "Review not found."
+msgstr ""
+
+#: plugin/Defaults/TaxonomyDefaults.php:15
+msgctxt "admin-text"
+msgid "Review Category Link"
+msgstr ""
+
+#: plugin/Defaults/TaxonomyDefaults.php:16
+msgctxt "admin-text"
+msgid "A link to a review category."
+msgstr ""
+
+#: plugin/Defaults/TaxonomyDefaults.php:17
+msgctxt "Admin menu name (admin-text)"
+msgid "Categories"
+msgstr ""
+
+#: plugin/Defaults/TaxonomyDefaults.php:18
+msgctxt "admin-text"
+msgid "Review Categories"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:10
@@ -2875,38 +2893,46 @@ msgid "Maximum value for this field is %s."
 msgstr ""
 
 #: plugin/Defaults/ValidationStringsDefaults.php:16
-msgid "This field allows a maximum of %s characters."
+msgid "This field allows a maximum of %s files."
 msgstr ""
 
 #: plugin/Defaults/ValidationStringsDefaults.php:17
-msgid "Minimum value for this field is %s."
+msgid "This field allows a maximum of %s characters."
 msgstr ""
 
 #: plugin/Defaults/ValidationStringsDefaults.php:18
-msgid "This field requires a minimum of %s characters."
+msgid "Minimum value for this field is %s."
 msgstr ""
 
 #: plugin/Defaults/ValidationStringsDefaults.php:19
+msgid "This field requires a minimum of %s files."
+msgstr ""
+
+#: plugin/Defaults/ValidationStringsDefaults.php:20
+msgid "This field requires a minimum of %s characters."
+msgstr ""
+
+#: plugin/Defaults/ValidationStringsDefaults.php:21
 msgid "This field requires a number."
 msgstr ""
 
-#: plugin/Defaults/ValidationStringsDefaults.php:20, plugin/Defaults/ValidationStringsDefaults.php:21
+#: plugin/Defaults/ValidationStringsDefaults.php:22, plugin/Defaults/ValidationStringsDefaults.php:23
 msgid "Please match the requested format."
 msgstr ""
 
-#: plugin/Defaults/ValidationStringsDefaults.php:22
+#: plugin/Defaults/ValidationStringsDefaults.php:24
 msgid "This field is required."
 msgstr ""
 
-#: plugin/Defaults/ValidationStringsDefaults.php:23
+#: plugin/Defaults/ValidationStringsDefaults.php:25
 msgid "This field requires a valid telephone number."
 msgstr ""
 
-#: plugin/Defaults/ValidationStringsDefaults.php:24
+#: plugin/Defaults/ValidationStringsDefaults.php:26
 msgid "This field requires a valid website URL (make sure it starts with http or https)."
 msgstr ""
 
-#: plugin/Defaults/ValidationStringsDefaults.php:25
+#: plugin/Defaults/ValidationStringsDefaults.php:27
 msgid "The review could not be submitted because this browser is too old. Please try again with a modern browser."
 msgstr ""
 
@@ -2918,13 +2944,28 @@ msgstr ""
 msgid "Show less"
 msgstr ""
 
-#: plugin/Metaboxes/AssignedPostsMetabox.php:38, plugin/Modules/Discord.php:154, plugin/Modules/Slack.php:197, plugin/Modules/Html/TemplateTags.php:76, plugin/Modules/Html/TemplateTags.php:90
+#: plugin/Metaboxes/AssignedPostsMetabox.php:38, plugin/Modules/Discord.php:154, plugin/Modules/Slack.php:197, plugin/Modules/Html/TemplateTags.php:84
 msgid "(no title)"
 msgstr ""
 
 #: plugin/Metaboxes/AuthorMetabox.php:21, plugin/Metaboxes/AuthorMetabox.php:39, plugin/Controllers/ListTableColumns/ColumnFilterAuthor.php:22, views/partials/screen/inline-edit.php:76
 msgctxt "admin-text"
 msgid "Author"
+msgstr ""
+
+#: plugin/Metaboxes/DashboardMetabox.php:35
+msgctxt "admin-text"
+msgid "in total"
+msgstr ""
+
+#: plugin/Metaboxes/DashboardMetabox.php:41
+msgctxt "admin-text"
+msgid "this month"
+msgstr ""
+
+#: plugin/Metaboxes/DashboardMetabox.php:47
+msgctxt "admin-text"
+msgid "awaiting approval"
 msgstr ""
 
 #: plugin/Metaboxes/DetailsMetabox.php:42
@@ -3105,7 +3146,7 @@ msgid_plural "Now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Discord.php:90, plugin/Modules/Slack.php:90, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:51, plugin/Modules/Html/Tags/ReviewAssignedPostsTag.php:33, plugin/Modules/Html/Tags/ReviewAssignedTermsTag.php:21, plugin/Modules/Html/Tags/ReviewAssignedUsersTag.php:21
+#: plugin/Modules/Discord.php:90, plugin/Modules/Slack.php:90, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:21, plugin/Modules/Html/Tags/ReviewAssignedPostsTag.php:20, plugin/Modules/Html/Tags/ReviewAssignedTermsTag.php:18, plugin/Modules/Html/Tags/ReviewAssignedUsersTag.php:18
 msgid "Review of %s"
 msgstr ""
 
@@ -3292,23 +3333,23 @@ msgctxt "%s: time interval (admin-text)"
 msgid "Every %s"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:197
+#: plugin/Shortcodes/Shortcode.php:200
 msgid "Excellent"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:198
+#: plugin/Shortcodes/Shortcode.php:201
 msgid "Very good"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:199
+#: plugin/Shortcodes/Shortcode.php:202
 msgid "Average"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:200
+#: plugin/Shortcodes/Shortcode.php:203
 msgid "Poor"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:201
+#: plugin/Shortcodes/Shortcode.php:204
 msgid "Terrible"
 msgstr ""
 
@@ -3758,6 +3799,28 @@ msgstr ""
 #: plugin/Widgets/Widget.php:108
 msgctxt "admin-text"
 msgid "Site Reviews: Unknown Widget"
+msgstr ""
+
+#: views/partials/dashboard-widget.php:6
+msgctxt "admin-text"
+msgid "%d review"
+msgid_plural "%d reviews"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/partials/dashboard-widget.php:23
+msgctxt "admin-text"
+msgid "Version"
+msgstr ""
+
+#: views/partials/dashboard-widget.php:33
+msgctxt "admin-text"
+msgid "Support Forum"
+msgstr ""
+
+#: views/partials/dashboard-widget.php:35
+msgctxt "admin-text"
+msgid "(opens in a new tab)"
 msgstr ""
 
 #: views/partials/flyoutmenu.php:22
@@ -4361,7 +4424,7 @@ msgctxt "admin-text"
 msgid "Unapproved Review (Site Reviews)"
 msgstr ""
 
-#: plugin/Modules/Html/TemplateTags.php:144
+#: plugin/Modules/Html/TemplateTags.php:136
 msgctxt "admin-text"
 msgid "View the review in WordPress &rarr;"
 msgstr ""
@@ -4471,6 +4534,23 @@ msgstr ""
 #: views/integrations/mycred/wooprefs.php:10
 msgctxt "admin-text"
 msgid "Site Reviews WooCommerce"
+msgstr ""
+
+#: views/integrations/woocommerce/metabox-reviews.php:5
+msgctxt "admin-text"
+msgid "Your product reviews are being managed by Site Reviews."
+msgstr ""
+
+#: views/integrations/woocommerce/metabox-reviews.php:13
+msgctxt "admin-text"
+msgid "View %s product review"
+msgid_plural "View %s product reviews"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/integrations/woocommerce/metabox-reviews.php:9
+msgctxt "admin-text"
+msgid "This product has no reviews."
 msgstr ""
 
 #: views/integrations/woocommerce/product-data-panel.php:8
@@ -4902,7 +4982,7 @@ msgctxt "admin-text"
 msgid "Common Problems and Solutions"
 msgstr ""
 
-#: views/partials/notices/migration.php:20, views/pages/tools/general/migrate-plugin.php:22, views/pages/tools/general/migrate-plugin.php:30
+#: views/partials/notices/migration.php:20, views/integrations/woocommerce/tools/import-product-reviews.php:44, views/pages/tools/general/migrate-plugin.php:21, views/pages/tools/general/migrate-plugin.php:29
 msgctxt "admin-text"
 msgid "Migrating, please wait..."
 msgstr ""
@@ -5162,6 +5242,21 @@ msgctxt "admin-text"
 msgid "Imported %d Product Reviews"
 msgstr ""
 
+#: plugin/Integrations/WooCommerce/Commands/MigrateProductRatings.php:30
+msgctxt "admin-text"
+msgid "Skipped migrating of WooCommerce product ratings because the integration is disabled."
+msgstr ""
+
+#: plugin/Integrations/WooCommerce/Commands/MigrateProductRatings.php:45
+msgctxt "admin-text"
+msgid "Reverted the WooCommerce product ratings."
+msgstr ""
+
+#: plugin/Integrations/WooCommerce/Commands/MigrateProductRatings.php:46
+msgctxt "admin-text"
+msgid "Migrated the product ratings."
+msgstr ""
+
 #: plugin/Integrations/WooCommerce/Controllers/MainController.php:64
 msgctxt "admin-text"
 msgid "managed by Site Reviews"
@@ -5171,7 +5266,7 @@ msgstr ""
 msgid "verified owner"
 msgstr ""
 
-#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:160
+#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:156
 msgid "Reviews (%d)"
 msgstr ""
 
@@ -5227,15 +5322,15 @@ msgstr ""
 msgid "Submit your review"
 msgstr ""
 
-#: plugin/Modules/Html/Tags/ReviewResponseTag.php:16, views/pages/documentation/faq/change-response-name.php:11
+#: plugin/Modules/Html/Tags/ReviewResponseTag.php:20, views/pages/documentation/faq/change-response-name.php:11
 msgid "Response from %s"
 msgstr ""
 
-#: plugin/Modules/Html/Tags/ReviewTitleTag.php:14
+#: plugin/Modules/Html/Tags/ReviewTitleTag.php:19
 msgid "No Title"
 msgstr ""
 
-#: plugin/Modules/Html/Tags/ReviewVerifiedTag.php:13
+#: plugin/Modules/Html/Tags/ReviewVerifiedTag.php:18
 msgid "Verified"
 msgstr ""
 
@@ -5268,12 +5363,47 @@ msgstr ""
 
 #: views/integrations/woocommerce/tools/import-product-reviews.php:18
 msgctxt "admin-text"
-msgid "This tool will import your WooCommerce Product reviews. Review replies and comments will be skipped."
+msgid "Step 1:"
+msgstr ""
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:19
+msgctxt "admin-text"
+msgid "Import your WooCommerce product reviews. Review replies and comments will be skipped."
 msgstr ""
 
 #: views/integrations/woocommerce/tools/import-product-reviews.php:26, views/pages/tools/general/import-reviews.php:110
 msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
+msgstr ""
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:31
+msgctxt "admin-text"
+msgid "Step 2:"
+msgstr ""
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:32
+msgctxt "admin-text"
+msgid "Migrate your product ratings. This step is optional and it allows third-party plugins to filter your products by rating."
+msgstr ""
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:35
+msgctxt "admin-text"
+msgid "If you decide later to revert back to using WooCommerce reviews, you will need to click the \"Revert\" button to restore your previous product ratings."
+msgstr ""
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:46
+msgctxt "admin-text"
+msgid "Migrate Product Ratings"
+msgstr ""
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:52
+msgctxt "admin-text"
+msgid "Reverting, please wait..."
+msgstr ""
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:54
+msgctxt "admin-text"
+msgid "Revert"
 msgstr ""
 
 #: views/pages/documentation/support/common-problems-and-solutions.php:123
@@ -5460,7 +5590,7 @@ msgctxt "admin-text"
 msgid "Importing settings, please wait..."
 msgstr ""
 
-#: views/pages/tools/general/migrate-plugin.php:7, views/pages/tools/general/migrate-plugin.php:24
+#: views/pages/tools/general/migrate-plugin.php:7, views/pages/tools/general/migrate-plugin.php:23
 msgctxt "admin-text"
 msgid "Migrate Plugin"
 msgstr ""
@@ -5475,7 +5605,7 @@ msgctxt "admin-text"
 msgid "If Site Reviews stopped working after cloning your website or after restoring your website from a backup, click the <strong>Hard Reset</strong> button."
 msgstr ""
 
-#: views/pages/tools/general/migrate-plugin.php:32, views/pages/tools/general/repair-permissions.php:29
+#: views/pages/tools/general/migrate-plugin.php:31, views/pages/tools/general/repair-permissions.php:29
 msgctxt "admin-text"
 msgid "Hard Reset"
 msgstr ""
@@ -5807,12 +5937,12 @@ msgstr ""
 
 #: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:165
 msgctxt "admin-text"
-msgid "The date the review was published, in the site's timezone."
+msgid "The date the review was published."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:171
 msgctxt "admin-text"
-msgid "The date the review was published, as GMT."
+msgid "The date the review was published, in the site's timezone."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:177

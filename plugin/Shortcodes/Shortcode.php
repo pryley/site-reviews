@@ -176,7 +176,8 @@ abstract class Shortcode implements ShortcodeContract
      */
     protected function normalizeAssignedUsers($value): string
     {
-        return implode(',', glsr(Sanitizer::class)->sanitizeUserIds($value));
+        $values = glsr(Sanitizer::class)->sanitizeUserIds($value);
+        return implode(',', $values);
     }
 
     /**

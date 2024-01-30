@@ -136,6 +136,7 @@ return [ // order is intentional
     'settings.general.multilingual' => [
         'class' => 'regular-text',
         'default' => '',
+        'description' => _x('If you are assigning reviews to your pages, this integration will tell Site Reviews to assign reviews to all languages of the assigned page instead of only the page the review was submitted on.', 'admin-text', 'site-reviews'),
         'label' => _x('Multilingual', 'admin-text', 'site-reviews'),
         'options' => [
             '' => _x('No Integration', 'admin-text', 'site-reviews'),
@@ -143,7 +144,7 @@ return [ // order is intentional
             'wpml' => _x('Integrate with WPML', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'text',
-        'tooltip' => _x('Integrate with a multilingual plugin to calculate the combined ratings for all languages of a page; and if you are assigning reviews to your pages, display reviews assigned to all languages of that page.', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('If you are assigning reviews to your pages, this integration will tell Site Reviews to assign reviews to all languages of the assigned page instead of only the page the review was submitted on.', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
     'settings.general.notifications' => [
