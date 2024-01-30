@@ -119,10 +119,10 @@ class Api
     {
         $timeUntilDeadline = $this->timeUntilDeadline();
         if ($timeUntilDeadline > 1.0) {
-            sleep(floor($timeUntilDeadline));
+            sleep((int) floor($timeUntilDeadline));
             $timeUntilDeadline = $this->timeUntilDeadline();
         }
-        usleep(floor($timeUntilDeadline * 1e6));
+        usleep((int) floor($timeUntilDeadline * 1e6));
         $this->backoff = $this->newBackoff();
         $this->deadline = $this->newDeadline();
         $this->numRetries++;

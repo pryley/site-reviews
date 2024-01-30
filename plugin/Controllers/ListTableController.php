@@ -68,7 +68,7 @@ class ListTableController extends AbstractController
                 $value = $columns[$key];
             }
         }
-        return array_filter($postTypeColumns, 'strlen');
+        return array_filter($postTypeColumns, 'strlen'); // @phpstan-ignore-line
     }
 
     /**
@@ -337,7 +337,7 @@ class ListTableController extends AbstractController
      * @return void
      * @action pre_get_posts
      */
-    public function setQueryForTable(\WP_Query $query)
+    public function setQueryForTable(\WP_Query $query): void
     {
         if (!$this->hasQueryPermission($query)) {
             return;

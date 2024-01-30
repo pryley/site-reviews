@@ -120,7 +120,7 @@ class ImportReviews extends AbstractCommand
                 throw new Exception(_x('The CSV file could not be imported. Please verify the following details and try again:', 'admin-text', 'site-reviews'));
             }
             $records = Statement::create()
-                ->where(fn (array $record) => !empty(array_filter($record, 'trim'))) // remove empty rows
+                ->where(fn (array $record) => !empty(array_filter($record, 'trim'))) // @phpstan-ignore-line remove empty rows
                 ->where(fn (array $record) => $this->validateRecord($record))
                 ->process($reader, $header);
             return $this->importRecords($records);

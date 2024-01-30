@@ -186,9 +186,10 @@ class Text
         if (extension_loaded('intl')) {
             $iterator = \IntlRuleBasedBreakIterator::createWordInstance('');
         }
-        if (!empty($iterator)) {
-            $normalizedText = \Normalizer::normalize($text);
+        if (empty($iterator)) {
+            return null;
         }
+        $normalizedText = \Normalizer::normalize($text);
         if (empty($normalizedText)) {
             return null;
         }

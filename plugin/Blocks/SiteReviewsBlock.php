@@ -108,11 +108,9 @@ class SiteReviewsBlock extends Block
     protected function filterShowMoreLinks(string $field): void
     {
         add_filter("site-reviews/review/wrap/{$field}", function ($value) {
-            $value = preg_replace(
-                '/(.*)(<span class="glsr-hidden)(.*)(<\/span>)(.*)/us',
-                '$1... <a href="#" tabindex="-1">'.__('Show more', 'site-reviews').'</a>$5',
-                $value
-            );
+            $pattern = '/(.*)(<span class="glsr-hidden)(.*)(<\/span>)(.*)/us';
+            $replace = '$1... <a href="#" tabindex="-1">'.__('Show more', 'site-reviews').'</a>$5';
+            $value = preg_replace($pattern, $replace, $value);
             return $value;
         });
     }
