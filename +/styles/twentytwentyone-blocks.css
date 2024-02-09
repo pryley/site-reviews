@@ -83,7 +83,7 @@
     color: var(--global--color-primary);
     font-size: 1.5rem;
     font-weight: normal;
-    margin-top: var(--gl-gap-md);
+    margin-top: var(--glsr-gap-md);
     margin-left: calc(20px * 0.66);
     margin-right: calc(20px * 0.66);
     min-width: 44px;

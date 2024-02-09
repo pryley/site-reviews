@@ -1,11 +1,11 @@
-:root {
+:root body {
     --filter-font-size: 14px;
     --filter-height: 30px;
     --filter-padding-y: 0px;
     --filter-padding-x: 8px;
 }
 @media screen and (max-width: 782px) {
-    :root {
+    :root body {
         --filter-font-size: 16px;
         --filter-height: 40px;
         --filter-padding-y: 3px;

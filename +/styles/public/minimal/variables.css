@@ -1,4 +1,4 @@
-:root {
+:root body {
     /* Colours */
     --glsr-white   : #fff;
     --glsr-gray-100: #f5f5f5;
@@ -44,7 +44,7 @@
     --glsr-bar-opacity: 0.1;
     --glsr-max-w: 48ch;
     --glsr-summary-star: 1.5em;
-    --glsr-summary-text:  var(--gl-text-sm);
+    --glsr-summary-text:  var(--glsr-text-sm);
 
     /* Form */
     --glsr-choice-h: 1.125em;

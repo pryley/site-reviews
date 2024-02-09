@@ -1,6 +1,6 @@
 @import "minimal";
 
-:root {
+:root body {
     --glsr-choice-h: 25px;
     --glsr-choice-w: 25px;
     --glsr-input-b: var(--form--border-width) solid var(--form--border-color);
@@ -14,7 +14,7 @@
     --glsr-toggle-h: 25px;
     --glsr-toggle-opacity-0: 1;
 }
-:root .is-dark-theme {
+:root body.is-dark-theme {
     --glsr-toggle-bg-0: var(--global--color-background);
     --glsr-toggle-color: var(--global--color-background);
     --glsr-toggle-opacity-0: 0.25;

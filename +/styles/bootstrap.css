@@ -12,7 +12,7 @@
 @import "public/minimal/modal";
 @import "public/minimal/debug";
 
-:root {
+:root body {
     --glsr-text-base: 1rem;
 }
 :--namespace form.glsr-hide-form {

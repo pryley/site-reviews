@@ -1,4 +1,5 @@
-:root {
+code[class*="language-"],
+pre[class*="language-"] {
     /* base00 - Default Background */
     /* base01 - Lighter Background (Used for status bars) */
     /* base02 - Selection Background */
@@ -30,10 +31,6 @@
     --base0D: #8fa1b3;
     --base0E: #b48ead;
     --base0F: #ab7967;
-}
-
-code[class*="language-"],
-pre[class*="language-"] {
     background-color: var(--base00);
     color: var(--base05);
     font-family: "Operator Mono Lig", "Fira Code", Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;

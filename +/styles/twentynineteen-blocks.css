@@ -44,7 +44,7 @@
     font-family: var(--glsr-font);
 }
 :--namespace .glsr-modal__dialog {
-    --gl-text-base: 0.88889em;
+    --glsr-text-base: 0.88889em;
  }
 :--namespace form.glsr-form input.glsr-input,
 :--namespace form.glsr-form select.glsr-select,

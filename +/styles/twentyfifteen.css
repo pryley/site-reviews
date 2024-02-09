@@ -1,12 +1,12 @@
 @import "minimal";
 
-:root {
+:root body {
     --glsr-gray-300: #eaeaea;
     --glsr-gray-400: #707070;
     --glsr-gray-500: #333;
     --glsr-red: #c0392b;
     --glsr-blue: #21759b;
-    --glsr-form-success: var(--gl-blue);
+    --glsr-form-success: var(--glsr-blue);
     --glsr-font: "Noto Sans", sans-serif;
 }
 

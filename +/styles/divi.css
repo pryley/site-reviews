@@ -12,7 +12,7 @@
 @import "public/minimal/modal";
 @import "public/minimal/debug";
 
-:root {
+:root body {
     --glsr-red: red;
     --glsr-blue: #2ea3f2;
     --glsr-toggle-bg-1: var(--glsr-blue);

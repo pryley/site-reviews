@@ -1,6 +1,6 @@
 @import "minimal";
 
-:root {
+:root body {
     --glsr-gray-300: #ccc;
     --glsr-gray-400: #767676;
     --glsr-blue: #0073aa;
@@ -41,7 +41,7 @@
     font-family: var(--glsr-font);
 }
 :--namespace .glsr-modal__dialog {
-    --gl-text-base: 0.88889em;
+    --glsr-text-base: 0.88889em;
  }
 :--namespace form.glsr-form select.glsr-select {
     background: var(--glsr-white);

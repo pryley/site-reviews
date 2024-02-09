@@ -1,6 +1,6 @@
 @import "minimal";
 
-:root {
+:root body {
     --glsr-gray-300: #f7f7f7;
     --glsr-gray-400: #d1d1d1;
     --glsr-gray-500: #686868;

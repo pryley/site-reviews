@@ -1,6 +1,6 @@
 @import "minimal";
 
-:root {
+:root body {
     --glsr-radius: 0;
 }
 :root .glsr-button {
