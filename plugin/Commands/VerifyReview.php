@@ -28,10 +28,10 @@ class VerifyReview extends AbstractCommand
             $this->fail();
             return;
         }
-        $result = (bool) glsr(ReviewManager::class)->updateRating($this->review->ID, [
+        $result = glsr(ReviewManager::class)->updateRating($this->review->ID, [
             'is_verified' => true,
         ]);
-        if ($result) {
+        if ($result > 0) {
             glsr(Database::class)->metaSet($this->review->ID, 'verified_on', current_datetime()->getTimestamp());
             glsr()->action('review/verified', $this->review);
         } else {

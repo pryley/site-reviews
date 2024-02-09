@@ -38,7 +38,7 @@ class ResponseMetabox implements MetaboxContract
         if (!wp_verify_nonce(Helper::filterInput('_nonce-response'), 'response')) {
             return false;
         }
-        return glsr(ReviewManager::class)->updateResponse($review->ID, [
+        return (bool) glsr(ReviewManager::class)->updateResponse($review->ID, [
             'response' => Helper::filterInput('response'),
         ]);
     }

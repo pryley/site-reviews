@@ -212,10 +212,12 @@ class ReviewManager
     public function update(int $reviewId, array $data = [])
     {
         $oldPost = get_post($reviewId);
-        if (false === $this->updateRating($reviewId, $data)) {
+        if (-1 === $this->updateRating($reviewId, $data)) {
+            glsr_log('update rating failed');
             return false;
         }
-        if (false === $this->updateReview($reviewId, $data)) {
+        if (-1 === $this->updateReview($reviewId, $data)) {
+            glsr_log('update review failed');
             return false;
         }
         $this->updateCustom($reviewId, $data);
@@ -250,24 +252,27 @@ class ReviewManager
         }
     }
 
-    public function updateRating(int $reviewId, array $data = []): bool
+    public function updateRating(int $reviewId, array $data = []): int
     {
         glsr(Cache::class)->delete($reviewId, 'reviews');
         $sanitized = glsr(RatingDefaults::class)->restrict($data);
         $data = array_intersect_key($sanitized, $data);
         if (empty($data)) {
-            return false;
+            return 0;
         }
         $result = glsr(Database::class)->update('ratings', $data, [
             'review_id' => $reviewId,
         ]);
-        return Cast::toInt($result) > 0;
+        if (false === $result) {
+            return -1;
+        }
+        return Cast::toInt($result);
     }
 
-    public function updateResponse(int $reviewId, array $data): bool
+    public function updateResponse(int $reviewId, array $data): int
     {
         if (!array_key_exists('response', $data)) {
-            return false;
+            return 0;
         }
         $response = Arr::get($data, 'response');
         $response = Cast::toString($response);
@@ -275,18 +280,18 @@ class ReviewManager
         $review = glsr_get_review($reviewId);
         glsr()->action('review/responded', $review, $response); // run before adding "response_by" meta_value!
         if (empty($response) && empty($review->response)) {
-            return false;
+            return 0;
         }
         glsr(Database::class)->metaSet($review->ID, 'response', $response); // prefixed metakey
         glsr(Database::class)->metaSet($review->ID, 'response_by', get_current_user_id()); // prefixed metakey
         glsr(Cache::class)->delete($review->ID, 'reviews');
-        return true;
+        return 1;
     }
 
-    public function updateReview(int $reviewId, array $data = []): bool
+    public function updateReview(int $reviewId, array $data = []): int
     {
         if (glsr()->post_type !== get_post_type($reviewId)) {
-            return false;
+            return -1;
         }
         glsr(Cache::class)->delete($reviewId, 'reviews');
         $sanitized = glsr(UpdateReviewDefaults::class)->restrict($data);
@@ -300,15 +305,15 @@ class ReviewManager
             ]);
         }
         if (empty($data)) {
-            return false;
+            return 0;
         }
         $data = wp_parse_args(['ID' => $reviewId], $data);
         $result = wp_update_post($data, true);
         if (is_wp_error($result)) {
             glsr_log()->error($result->get_error_message())->debug($data);
-            return false;
+            return -1;
         }
-        return Cast::toInt($result) > 0;
+        return Cast::toInt($result);
     }
 
     protected function isPublishedPost(int $postId): bool
