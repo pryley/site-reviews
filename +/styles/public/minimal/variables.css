@@ -76,7 +76,7 @@
     --glsr-toggle-w: calc(calc(var(--glsr-toggle-h) * 2) - calc(var(--glsr-toggle-p) * 2));
 
     /* Modal */
-    --glsr-modal-bg: var(--glsr-white);
+    --glsr-modal-bg: var(--wp--preset--color--base, var(--glsr-white));
     --glsr-modal-radius: 3px;
 
     /* Rating Tooltip */
