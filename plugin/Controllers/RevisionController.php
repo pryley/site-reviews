@@ -5,6 +5,8 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\RevisionFieldsDefaults;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Review;
 
 class RevisionController extends AbstractController
@@ -57,6 +59,10 @@ class RevisionController extends AbstractController
             $diff = wp_text_diff($old, $new, [
                 'show_split_view' => true,
             ]);
+            if ('rating' === $field) {
+                $callback = fn ($matches) => $this->ratingValueForDiff((int) $matches[1]);
+                $diff = preg_replace_callback('|(\d)</td>|', $callback, $diff);
+            }
             if ($diff) {
                 $return[] = [
                     'diff' => $diff,
@@ -96,6 +102,17 @@ class RevisionController extends AbstractController
             }
             glsr(Database::class)->metaSet($revisionId, 'review', $revision);
         }
+    }
+
+    protected function ratingValueForDiff(int $rating): string
+    {
+        $max = glsr()->constant('MAX_RATING', Rating::class);
+        $empty = max(0, $max - $rating);
+        $stars = str_repeat('★', $rating).str_repeat('☆', $empty);
+        return glsr(Builder::class)->span([
+            'style' => 'font-family:system-ui;font-size:16px;line-height:1.375;',
+            'text' => $stars,
+        ]);
     }
 
     /**
