@@ -28,23 +28,6 @@ use GeminiLabs\SiteReviews\Review;
 class ReviewController extends AbstractController
 {
     /**
-     * Fallback action if ajax is not working for any reason.
-     * @action admin_action_approve
-     */
-    public function approve(): void
-    {
-        if (glsr()->id === filter_input(INPUT_GET, 'plugin')) {
-            check_admin_referer('approve-review_'.($postId = $this->getPostId()));
-            $this->execute(new ToggleStatus(new Request([
-                'post_id' => $postId,
-                'status' => 'publish',
-            ])));
-            wp_safe_redirect(wp_get_referer());
-            exit;
-        }
-    }
-
-    /**
      * @param \WP_Post[] $posts
      * @return \WP_Post[]
      * @filter the_posts
@@ -167,6 +150,23 @@ class ReviewController extends AbstractController
             glsr()->action('review/transitioned', $review, $new, $old);
         } else {
             glsr(ReviewManager::class)->updateAssignedPost($post->ID);
+        }
+    }
+
+    /**
+     * Fallback action if ajax is not working for any reason.
+     * @action admin_action_approve
+     */
+    public function onApprove(): void
+    {
+        if (glsr()->id === filter_input(INPUT_GET, 'plugin')) {
+            check_admin_referer('approve-review_'.($postId = $this->getPostId()));
+            $this->execute(new ToggleStatus(new Request([
+                'post_id' => $postId,
+                'status' => 'publish',
+            ])));
+            wp_safe_redirect(wp_get_referer());
+            exit;
         }
     }
 
@@ -311,6 +311,24 @@ class ReviewController extends AbstractController
     }
 
     /**
+     * Fallback action if ajax is not working for any reason.
+     * @action admin_action_unapprove
+     */
+    public function onUnapprove(): void
+    {
+        if (glsr()->id === filter_input(INPUT_GET, 'plugin')) {
+            $postId = $this->getPostId();
+            check_admin_referer("unapprove-review_{$postId}");
+            $this->execute(new ToggleStatus(new Request([
+                'post_id' => $postId,
+                'status' => 'publish',
+            ])));
+            wp_safe_redirect(wp_get_referer());
+            exit;
+        }
+    }
+
+    /**
      * @action site-reviews/review/created
      */
     public function sendNotification(Review $review): void
@@ -325,23 +343,6 @@ class ReviewController extends AbstractController
             return; // this review is likely a draft made in the wp-admin
         }
         glsr(Queue::class)->async('queue/notification', ['review_id' => $review->ID]);
-    }
-
-    /**
-     * Fallback action if ajax is not working for any reason.
-     * @action admin_action_unapprove
-     */
-    public function unapprove(): void
-    {
-        if (glsr()->id === filter_input(INPUT_GET, 'plugin')) {
-            check_admin_referer('unapprove-review_'.($postId = $this->getPostId()));
-            $this->execute(new ToggleStatus(new Request([
-                'post_id' => $postId,
-                'status' => 'publish',
-            ])));
-            wp_safe_redirect(wp_get_referer());
-            exit;
-        }
     }
 
     protected function bulkUpdateReview(Review $review, \WP_Post $oldPost): void
