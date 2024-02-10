@@ -105,7 +105,11 @@ class Controller extends AbstractController
 
     protected function flushCache(array $postIds = []): void
     {
-        glsr_log('cache::flushing')->debug($postIds);
+        if (empty($postIds)) {
+            glsr_log('cache::flushing [all]');
+        } else {
+            glsr_log('cache::flushing ['.implode(', ', $postIds).']');
+        }
         $this->purgeEnduranceCache($postIds);
         $this->purgeHummingbirdCache($postIds);
         $this->purgeLitespeedCache($postIds);

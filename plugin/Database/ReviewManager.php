@@ -291,6 +291,7 @@ class ReviewManager
     public function updateReview(int $reviewId, array $data = []): int
     {
         if (glsr()->post_type !== get_post_type($reviewId)) {
+            glsr_log()->error("Review update failed: Post ID [{$reviewId}] is not a review.");
             return -1;
         }
         glsr(Cache::class)->delete($reviewId, 'reviews');
