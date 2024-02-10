@@ -40,6 +40,12 @@ abstract class AbstractController
             && 'edit.php' === $pagenow;
     }
 
+    protected function isListTable(): bool
+    {
+        $screen = glsr_current_screen();
+        return 'edit' === $screen->base && $this->isReviewAdminScreen();
+    }
+
     protected function isNoticeAdminScreen(): bool
     {
         return 'dashboard' === glsr_current_screen()->id || $this->isReviewAdminScreen();
