@@ -29,7 +29,7 @@ class Hooks implements HooksContract
                 glsr_log()->error($e->getMessage());
             }
         }
-        add_action('plugins_loaded', [$this, 'runIntegrations'], 100); // run after all addons have loaded
+        $this->runIntegrations();
     }
 
     public function runIntegrations(): void
@@ -48,7 +48,9 @@ class Hooks implements HooksContract
                 $reflect = new \ReflectionClass($hooks);
                 if ($reflect->isInstantiable()) {
                     glsr()->singleton($hooks);
-                    glsr($hooks)->run();
+                    add_action('plugins_loaded', function () use ($hooks) {
+                        glsr($hooks)->run();
+                    }, 100); // run integrations late
                     glsr($hooks)->runDeferred();
                 }
             } catch (\ReflectionException $e) {

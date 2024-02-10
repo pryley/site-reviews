@@ -64,7 +64,7 @@ abstract class AbstractHooks implements HooksContract
     }
 
     /**
-     * @action plugins_loaded:10
+     * @action plugins_loaded:0
      */
     public function onPluginsLoaded(): void
     {
@@ -89,7 +89,7 @@ abstract class AbstractHooks implements HooksContract
             add_action('init', [$this, 'onInit']);
         }
         if ($this->hasPluginsLoaded()) {
-            add_action('plugins_loaded', [$this, 'onPluginsLoaded']);
+            add_action('plugins_loaded', [$this, 'onPluginsLoaded'], -10);
         }
     }
 }
