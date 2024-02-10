@@ -10,38 +10,33 @@ use GeminiLabs\SiteReviews\Modules\Notification;
 class QueueController extends AbstractController
 {
     /**
-     * @return void
      * @action site-reviews/queue/export/cleanup
      */
-    public function cleanupAfterExport()
+    public function cleanupAfterExport(): void
     {
         glsr(Database::class)->deleteMeta(glsr()->export_key);
     }
 
     /**
-     * @return void
      * @action site-reviews/queue/recalculate-meta
      */
-    public function recalculateAssignmentMeta()
+    public function recalculateAssignmentMeta(): void
     {
         glsr(CountManager::class)->recalculate();
     }
 
     /**
-     * @return void
      * @action site-reviews/queue/migration
      */
-    public function runMigration()
+    public function runMigration(): void
     {
         glsr(Migrate::class)->run();
     }
 
     /**
-     * @param int $reviewId
-     * @return void
      * @action site-reviews/queue/notification
      */
-    public function sendNotification($reviewId)
+    public function sendNotification(int $reviewId): void
     {
         $review = glsr_get_review($reviewId);
         if ($review->isValid()) {

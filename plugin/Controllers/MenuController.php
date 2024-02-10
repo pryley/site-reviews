@@ -12,16 +12,14 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Settings;
-use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 class MenuController extends AbstractController
 {
     /**
-     * @return void
      * @action admin_menu
      */
-    public function registerMenuCount()
+    public function registerMenuCount(): void
     {
         global $menu, $typenow;
         foreach ($menu as $key => $value) {
@@ -44,10 +42,9 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @return void
      * @action admin_menu
      */
-    public function registerSubMenus()
+    public function registerSubMenus(): void
     {
         $pages = $this->parseWithFilter('submenu/pages', [
             'settings' => _x('Settings', 'admin-text', 'site-reviews'),
@@ -56,7 +53,7 @@ class MenuController extends AbstractController
             'documentation' => _x('Help & Support', 'admin-text', 'site-reviews'),
         ]);
         foreach ($pages as $slug => $title) {
-            $method = Helper::buildMethodName('render', $slug, 'menu');
+            $method = Helper::buildMethodName('render', $slug, 'menu', 'callback');
             if (!method_exists($this, $method)) {
                 continue;
             }
@@ -71,10 +68,9 @@ class MenuController extends AbstractController
     /**
      * We don't use admin_menu because it breaks the privilege check which runs
      * after the admin_menu hook is triggered in wp-admin/includes/menu.php.
-     * @return void
      * @action admin_init
      */
-    public function removeSubMenu()
+    public function removeSubMenu(): void
     {
         if (!function_exists('remove_submenu_page')) {
             require_once ABSPATH.'wp-admin/includes/plugin.php';
@@ -86,11 +82,9 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @return void
-     * @see $this->registerSubMenus()
-     * @callback add_submenu_page
+     * @see registerSubMenus
      */
-    public function renderAddonsMenu()
+    public function renderAddonsMenuCallback(): void
     {
         $addons = [];
         $data = glsr(Api::class)->get('addons')->data();
@@ -104,11 +98,9 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @return void
-     * @see $this->registerSubMenus()
-     * @callback add_submenu_page
+     * @see registerSubMenus
      */
-    public function renderDocumentationMenu()
+    public function renderDocumentationMenuCallback(): void
     {
         $tabs = $this->parseWithFilter('documentation/tabs', [
             'support' => _x('Support', 'admin-text', 'site-reviews'),
@@ -131,11 +123,9 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @return void
-     * @see $this->registerSubMenus()
-     * @callback add_submenu_page
+     * @see registerSubMenus
      */
-    public function renderSettingsMenu()
+    public function renderSettingsMenuCallback(): void
     {
         $tabs = $this->parseWithFilter('settings/tabs', [ // order is intentional
             'general' => _x('General', 'admin-text', 'site-reviews'),
@@ -159,11 +149,9 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @return void
-     * @see $this->registerSubMenus()
-     * @callback add_submenu_page
+     * @see registerSubMenus
      */
-    public function renderToolsMenu()
+    public function renderToolsMenuCallback(): void
     {
         $tabs = $this->parseWithFilter('tools/tabs', [
             'general' => _x('General', 'admin-text', 'site-reviews'),
@@ -193,31 +181,23 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @return void
      * @action admin_init
      */
-    public function setCustomPermissions()
+    public function setCustomPermissions(): void
     {
         foreach (wp_roles()->roles as $role => $value) {
             wp_roles()->remove_cap($role, 'create_'.glsr()->post_type);
         }
     }
 
-    /**
-     * @return string
-     */
-    protected function getNotices()
+    protected function getNotices(): string
     {
         return glsr(Builder::class)->div(glsr(Notice::class)->get(), [
             'id' => 'glsr-notices',
         ]);
     }
 
-    /**
-     * @param string $hookSuffix
-     * @return array
-     */
-    protected function parseWithFilter($hookSuffix, array $args = [])
+    protected function parseWithFilter(string $hookSuffix, array $args = []): array
     {
         if (str_ends_with($hookSuffix, '/tabs')) {
             $page = str_replace('/tabs', '', $hookSuffix);
@@ -230,11 +210,7 @@ class MenuController extends AbstractController
         return glsr()->filterArray("addon/{$hookSuffix}", $args);
     }
 
-    /**
-     * @param string $page
-     * @return void
-     */
-    protected function renderPage($page, array $data = [])
+    protected function renderPage(string $page, array $data = []): void
     {
         $data['http_referer'] = (string) wp_get_referer();
         $data['notices'] = $this->getNotices();

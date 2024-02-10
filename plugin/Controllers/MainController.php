@@ -16,11 +16,11 @@ class MainController extends AbstractController
     /**
      * switch_to_blog() has run before this hook is triggered.
      * @see http://developer.wordpress.org/reference/functions/wp_uninitialize_site/
-     * @param array $tables
-     * @return array
+     * @param string[] $tables
+     * @return string[]
      * @filter wpmu_drop_tables:999
      */
-    public function filterDropTables($tables)
+    public function filterDropTables(array $tables): array
     {
         $customTables = [ // order is intentional
             glsr()->prefix.'ratings' => glsr(Query::class)->table('ratings'),
@@ -35,10 +35,9 @@ class MainController extends AbstractController
     }
 
     /**
-     * @param \WP_Site $site
      * @action wp_initialize_site:999
      */
-    public function installOnNewSite($site): void
+    public function installOnNewSite(\WP_Site $site): void
     {
         if (is_plugin_active_for_network(glsr()->basename)) {
             glsr(Install::class)->runOnSite($site->blog_id);

@@ -26,7 +26,7 @@ class DeactivationController extends AbstractController
         $url = glsr()->url('assets/scripts/deactivate-plugin.js');
         wp_enqueue_script($handle, $url, ['backbone', 'underscore'], glsr()->version, [
             'in_footer' => true,
-            'strategy' => 'defer'
+            'strategy' => 'defer',
         ]);
         wp_localize_script(glsr()->id.'/deactivate-plugin', '_glsr_deactivate', [
             'ajax' => [

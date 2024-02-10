@@ -13,10 +13,9 @@ use GeminiLabs\SiteReviews\Modules\Html\Template;
 class MetaboxController extends AbstractController
 {
     /**
-     * @return array
      * @filter site-reviews/config/forms/metabox-fields
      */
-    public function filterFieldOrder(array $config)
+    public function filterFieldOrder(array $config): array
     {
         $order = array_keys($config);
         $order = glsr()->filterArray('metabox/fields/order', $order);
@@ -24,11 +23,9 @@ class MetaboxController extends AbstractController
     }
 
     /**
-     * @param \WP_Post $post
-     * @return void
      * @action add_meta_boxes_{glsr()->post_type}
      */
-    public function registerMetaBoxes($post)
+    public function registerMetaBoxes(\WP_Post $post): void
     {
         glsr(AssignedPostsMetabox::class)->register($post);
         glsr(AssignedUsersMetabox::class)->register($post);
@@ -38,10 +35,9 @@ class MetaboxController extends AbstractController
     }
 
     /**
-     * @return void
      * @action do_meta_boxes
      */
-    public function removeMetaBoxes()
+    public function removeMetaBoxes(): void
     {
         if ($this->isReviewEditor()) {
             remove_meta_box('authordiv', glsr()->post_type, 'normal');
@@ -50,10 +46,9 @@ class MetaboxController extends AbstractController
     }
 
     /**
-     * @return void
      * @action post_submitbox_misc_actions
      */
-    public function renderPinnedInPublishMetaBox()
+    public function renderPinnedInPublishMetaBox(): void
     {
         $review = glsr(ReviewManager::class)->get(get_post()->ID ?? 0);
         if ($review->isValid() && glsr()->can('edit_others_posts')) {
@@ -69,10 +64,9 @@ class MetaboxController extends AbstractController
     }
 
     /**
-     * @return void
      * @action post_submitbox_misc_actions
      */
-    public function renderVerifiedInPublishMetaBox()
+    public function renderVerifiedInPublishMetaBox(): void
     {
         $review = glsr(ReviewManager::class)->get(get_post()->ID ?? 0);
         if ($review->isValid()

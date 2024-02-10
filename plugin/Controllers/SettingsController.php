@@ -19,16 +19,16 @@ class SettingsController extends AbstractController
     {
         register_setting(glsr()->id, OptionManager::databaseKey(), [
             'default' => glsr()->defaults(),
-            'sanitize_callback' => [$this, 'sanitizeSettings'],
+            'sanitize_callback' => [$this, 'sanitizeSettingsCallback'],
             'type' => 'array',
         ]);
     }
 
     /**
      * @param mixed $input
-     * @callback register_setting
+     * @see registerSettings
      */
-    public function sanitizeSettings($input): array
+    public function sanitizeSettingsCallback($input): array
     {
         OptionManager::flushSettingsCache(); // remove settings from object cache before updating
         $settings = Arr::consolidate($input);

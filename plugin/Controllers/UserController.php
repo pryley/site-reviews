@@ -8,47 +8,43 @@ use GeminiLabs\SiteReviews\Role;
 class UserController extends AbstractController
 {
     /**
-     * @param string[] $capabilities
-     * @param string $capability
-     * @param int $userId
-     * @param array $args
+     * @param string[] $caps
      * @return string[]
      * @filter map_meta_cap
      */
-    public function filterMapMetaCap($capabilities, $capability, $userId, $args)
+    public function filterMapMetaCap(array $caps, string $cap, int $userId, array $args): array
     {
-        if ('respond_to_'.glsr()->post_type !== $capability) {
-            return $capabilities;
+        if ('respond_to_'.glsr()->post_type !== $cap) {
+            return $caps;
         }
         $review = glsr_get_review(Arr::get($args, 0));
         if (!$review->isValid()) {
             return ['do_not_allow'];
         }
-        $capabilities = [];
+        $caps = [];
         $respondToReviews = glsr(Role::class)->capability('respond_to_posts');
         if ($userId == $review->author_id) {
-            $capabilities[] = $respondToReviews; // they are the author of the review
+            $caps[] = $respondToReviews; // they are the author of the review
         }
         foreach ($review->assignedPosts() as $assignedPost) {
             if ($userId == $assignedPost->post_author) {
-                $capabilities[] = $respondToReviews;  // they are the author of the post that the review is assigned to
+                $caps[] = $respondToReviews; // they are the author of the post that the review is assigned to
                 break;
             }
         }
-        if (!in_array($respondToReviews, $capabilities)) {
-            $capabilities[] = glsr(Role::class)->capability('respond_to_others_posts');
+        if (!in_array($respondToReviews, $caps)) {
+            $caps[] = glsr(Role::class)->capability('respond_to_others_posts');
         }
-        return array_unique($capabilities);
+        return array_unique($caps);
     }
 
     /**
      * @param bool[] $allcaps
      * @param string[] $caps
-     * @param array $args
      * @return bool[]
      * @filter user_has_cap
      */
-    public function filterUserHasCap($allcaps, $caps, $args)
+    public function filterUserHasCap(array $allcaps, array $caps, array $args): array
     {
         $capability = Arr::get($args, 0);
         if (!in_array($capability, ['assign_post', 'unassign_post'])) {

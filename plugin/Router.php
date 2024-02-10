@@ -7,6 +7,8 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 
 class Router
 {
+    use HookProxy;
+
     /**
      * @action wp_ajax_glsr_action
      */

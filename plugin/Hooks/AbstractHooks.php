@@ -42,8 +42,17 @@ abstract class AbstractHooks implements HooksContract
             }
             $func = str_starts_with($hook[0], 'filter') ? 'add_filter' : 'add_action';
             $hook = array_pad($hook, 3, 10); // priority
-            $hook = array_pad($hook, 4, 1); // allowed args
-            call_user_func($func, $hook[1], [$controller, $hook[0]], (int) $hook[2], (int) $hook[3]);
+            $hook = array_pad($hook, 4, 1); // accepted args
+            $args = [ // order is intentional!
+                'hook' => $hook[1],
+                'callback' => [$controller, $hook[0]],
+                'priority' => (int) $hook[2],
+                'args' => (int) $hook[3],
+            ];
+            if (!str_starts_with($args['hook'], glsr()->id)) {
+                $args['callback'] = [$controller, "proxy_{$hook[0]}"];
+            }
+            call_user_func_array($func, array_values($args));
         }
     }
 

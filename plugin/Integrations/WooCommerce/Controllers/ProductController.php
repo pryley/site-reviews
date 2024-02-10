@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\HookProxy;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Metaboxes\ReviewsMetabox;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
@@ -18,6 +19,8 @@ use GeminiLabs\SiteReviews\Modules\Style;
 
 class ProductController
 {
+    use HookProxy;
+
     /**
      * @param string $template
      * @filter comments_template

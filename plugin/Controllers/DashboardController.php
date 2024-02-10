@@ -8,12 +8,9 @@ use GeminiLabs\SiteReviews\Metaboxes\DashboardMetabox;
 class DashboardController extends AbstractController
 {
     /**
-     * @param string $newStatus
-     * @param string $oldStatus
-     * @param \WP_Post $post
      * @action transition_post_status:5
      */
-    public function flushMonthlyCountCache($newStatus, $oldStatus, $post): void
+    public function flushMonthlyCountCache(string $newStatus, string $oldStatus, \WP_Post $post): void
     {
         if (glsr()->post_type !== $post->post_type) {
             return;

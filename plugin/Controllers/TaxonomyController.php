@@ -10,11 +10,11 @@ class TaxonomyController extends AbstractController
     public const PRIORITY_META_KEY = 'term_priority';
 
     /**
-     * @param array $columns
-     * @return array
+     * @param string[] $columns
+     * @return string[]
      * @filter manage_edit-{glsr()->taxonomy}_columns
      */
-    public function filterColumns($columns)
+    public function filterColumns(array $columns): array
     {
         if ($this->termPriorityEnabled()) {
             $columns[static::PRIORITY_META_KEY] = _x('Priority', 'admin-text', 'site-reviews');
@@ -25,13 +25,9 @@ class TaxonomyController extends AbstractController
     }
 
     /**
-     * @param string $value
-     * @param string $column
-     * @param int $termId
-     * @return string
      * @filter manage_{glsr()->taxonomy}_custom_column
      */
-    public function filterColumnValue($value, $column, $termId)
+    public function filterColumnValue(string $value, string $column, int $termId): string
     {
         if ('term_id' === $column) {
             return (string) $termId;
@@ -46,13 +42,12 @@ class TaxonomyController extends AbstractController
     }
 
     /**
-     * @param array $hidden
-     * @param \WP_Screen $screen
+     * @param string[] $hidden
+     * @return string[]
      * @filter default_hidden_columns
      */
-    public function filterDefaultHiddenColumns($hidden, $screen): array
+    public function filterDefaultHiddenColumns(array $hidden, \WP_Screen $screen): array
     {
-        $hidden = Arr::consolidate($hidden);
         if ('edit-'.glsr()->taxonomy !== Arr::get($screen, 'id')) {
             return $hidden;
         }
@@ -64,11 +59,10 @@ class TaxonomyController extends AbstractController
 
     /**
      * @param string[] $actions
-     * @param \WP_Term $term
-     * @return array
+     * @return string[]
      * @filter {glsr()->taxonomy}_row_actions
      */
-    public function filterRowActions($actions, $term)
+    public function filterRowActions(array $actions, \WP_Term $term): array
     {
         $action = ['id' => sprintf('<span>ID: %d</span>', $term->term_id)];
         return array_merge($action, $actions);
@@ -77,11 +71,10 @@ class TaxonomyController extends AbstractController
     /**
      * @param string[] $clauses
      * @param string[] $taxonomies
-     * @param array $args
-     * @return array
+     * @return string[]
      * @filter terms_clauses
      */
-    public function filterTermsClauses($clauses, $taxonomies, $args)
+    public function filterTermsClauses(array $clauses, array $taxonomies, array $args): array
     {
         if (is_admin()) {
             return $clauses;
@@ -120,10 +113,9 @@ class TaxonomyController extends AbstractController
     }
 
     /**
-     * @param \WP_Term $term
      * @action {glsr()->taxonomy}_edit_form_fields
      */
-    public function renderEditFields($term): void
+    public function renderEditFields(\WP_Term $term): void
     {
         if ($this->termPriorityEnabled()) {
             glsr()->render('views/partials/taxonomy/edit-term_priority', [
@@ -134,12 +126,9 @@ class TaxonomyController extends AbstractController
     }
 
     /**
-     * @param string $column
-     * @param string $type
-     * @param string $taxonomy
      * @action quick_edit_custom_box
      */
-    public function renderQuickEditFields($column, $type, $taxonomy): void
+    public function renderQuickEditFields(string $column, string $type, string $taxonomy): void
     {
         if ('edit-tags' !== $type || $taxonomy !== glsr()->taxonomy || static::PRIORITY_META_KEY !== $column) {
             return;
@@ -153,11 +142,9 @@ class TaxonomyController extends AbstractController
 
     /**
      * @param string[] $metaIds
-     * @param int $termId
-     * @param string $metaKey
      * @action deleted_term_meta
      */
-    public function termPriorityDeleted($metaIds, $termId, $metaKey): void
+    public function termPriorityDeleted(array $metaIds, int $termId, string $metaKey): void
     {
         $term = get_term((int) $termId, glsr()->taxonomy);
         if (is_a($term, \WP_Term::class) && static::PRIORITY_META_KEY === $metaKey) {
@@ -166,12 +153,9 @@ class TaxonomyController extends AbstractController
     }
 
     /**
-     * @param int $termId
-     * @param int $ttId
-     * @param array $args
      * @action edit_{glsr()->taxonomy}
      */
-    public function termPriorityUpdated($termId, $ttId, $args): void
+    public function termPriorityUpdated(int $termId, int $ttId, array $args): void
     {
         if (!$this->termPriorityEnabled()) {
             return;

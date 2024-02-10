@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\RevisionFieldsDefaults;
@@ -11,13 +10,9 @@ use GeminiLabs\SiteReviews\Review;
 class RevisionController extends AbstractController
 {
     /**
-     * @param bool $performCheck
-     * @param \WP_Post $lastRevision
-     * @param \WP_Post $post
-     * @return bool
      * @filter wp_save_post_revision_check_for_changes
      */
-    public function filterCheckForChanges($performCheck, $lastRevision, $post)
+    public function filterCheckForChanges(bool $performCheck, \WP_Post $lastRevision, \WP_Post $post): bool
     {
         return !Review::isReview($post)
             ? $performCheck
@@ -25,13 +20,9 @@ class RevisionController extends AbstractController
     }
 
     /**
-     * @param bool $hasChanged
-     * @param \WP_Post $lastRevision
-     * @param \WP_Post $post
-     * @return bool
      * @filter wp_save_post_revision_post_has_changed
      */
-    public function filterReviewHasChanged($hasChanged, $lastRevision, $post)
+    public function filterReviewHasChanged(bool $hasChanged, \WP_Post $lastRevision, \WP_Post $post): bool
     {
         if (!Review::isReview($post)) {
             return $hasChanged;
@@ -47,18 +38,26 @@ class RevisionController extends AbstractController
     }
 
     /**
-     * @param \WP_Post|null $compareFrom
-     * @param \WP_Post|null $compareTo
-     * @return array
+     * @param array[] $return
+     * @param \WP_Post|false $compareFrom
+     * @return array[]
      * @filter wp_get_revision_ui_diff
      */
-    public function filterRevisionUiDiff(array $return, $compareFrom, $compareTo)
+    public function filterRevisionUiDiff(array $return, $compareFrom, \WP_Post $compareTo): array
     {
+        if (!Review::isReview($compareTo->post_parent)) {
+            return $return;
+        }
         $fields = glsr(RevisionFieldsDefaults::class)->defaults();
         $oldReview = $this->reviewFromRevision($compareFrom);
         $newReview = $this->reviewFromRevision($compareTo);
         foreach ($fields as $field => $name) {
-            if ($diff = wp_text_diff($oldReview->$field, $newReview->$field, ['show_split_view' => true])) {
+            $old = $oldReview->$field;
+            $new = $newReview->$field;
+            $diff = wp_text_diff($old, $new, [
+                'show_split_view' => true,
+            ]);
+            if ($diff) {
                 $return[] = [
                     'diff' => $diff,
                     'id' => $field,
@@ -70,27 +69,23 @@ class RevisionController extends AbstractController
     }
 
     /**
-     * @param int $reviewId
-     * @param int $revisionId
      * @action wp_restore_post_revision
      */
-    public function restoreRevision($reviewId, $revisionId): void
+    public function restoreRevision(int $reviewId, int $revisionId): void
     {
         if (!Review::isReview($reviewId)) {
             return;
         }
-        $revision = glsr(Database::class)->meta((int) $revisionId, 'review');
+        $revision = glsr(Database::class)->meta($revisionId, 'review');
         if (is_array($revision)) {
-            glsr(ReviewManager::class)->updateRating((int) $reviewId, $revision);
+            glsr(ReviewManager::class)->updateRating($reviewId, $revision);
         }
     }
 
     /**
-     * @param int $revisionId
-     * @return void
      * @action _wp_put_post_revision
      */
-    public function saveRevision($revisionId)
+    public function saveRevision(int $revisionId): void
     {
         $postId = wp_is_post_revision($revisionId);
         if (Review::isReview($postId)) {
@@ -104,13 +99,12 @@ class RevisionController extends AbstractController
     }
 
     /**
-     * @param \WP_Post|null $post
-     * @return Arguments|Review
+     * @param \WP_Post|false $post
      */
-    protected function reviewFromRevision($post)
+    protected function reviewFromRevision($post): Review
     {
-        if (!get_post($post)) {
-            return new Arguments([]);
+        if (!is_a($post, \WP_Post::class)) {
+            return new Review([], false);
         }
         if (wp_is_post_revision($post->ID)) {
             $meta = glsr(Database::class)->meta($post->ID, 'review');

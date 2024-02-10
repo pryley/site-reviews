@@ -27,15 +27,12 @@ class PrivacyController extends AbstractController
     }
 
     /**
-     * @param string $email
-     * @param int $page
-     * @return array
-     * @callback $this->filterPersonalDataErasers
+     * @see filterPersonalDataErasers
      */
-    public function erasePersonalData($email, $page = 1)
+    public function erasePersonalDataCallback(string $email, int $page = 1): array
     {
         $reviews = $this->reviews($email, $page);
-        array_walk($reviews, [$this, 'erase']);
+        array_walk($reviews, [$this, 'erasePersonalData']);
         return [
             'done' => count($reviews) < $this->perPage,
             'items_removed' => $this->itemsRemoved,
@@ -45,15 +42,12 @@ class PrivacyController extends AbstractController
     }
 
     /**
-     * @param string $email
-     * @param int $page
-     * @return array
-     * @callback $this->filterPersonalDataExporters
+     * @see filterPersonalDataExporters
      */
-    public function exportPersonalData($email, $page = 1)
+    public function exportPersonalDataCallback(string $email, int $page = 1): array
     {
         $reviews = $this->reviews($email, $page);
-        $data = array_map([$this, 'export'], $reviews);
+        $data = array_map([$this, 'exportPersonalData'], $reviews);
         return [
             'data' => $data,
             'done' => count($reviews) < $this->perPage,
@@ -61,47 +55,39 @@ class PrivacyController extends AbstractController
     }
 
     /**
-     * @param array $erasers
-     * @return array
      * @filter wp_privacy_personal_data_erasers
      */
-    public function filterPersonalDataErasers($erasers)
+    public function filterPersonalDataErasers(array $erasers): array
     {
         $erasers[glsr()->id] = [
-            'callback' => [$this, 'erasePersonalData'],
+            'callback' => [$this, 'erasePersonalDataCallback'],
             'eraser_friendly_name' => glsr()->name,
         ];
         return $erasers;
     }
 
     /**
-     * @param array $exporters
-     * @return array
      * @filter wp_privacy_personal_data_exporters
      */
-    public function filterPersonalDataExporters($exporters)
+    public function filterPersonalDataExporters(array $exporters): array
     {
         $exporters[glsr()->id] = [
-            'callback' => [$this, 'exportPersonalData'],
+            'callback' => [$this, 'exportPersonalDataCallback'],
             'exporter_friendly_name' => glsr()->name,
         ];
         return $exporters;
     }
 
     /**
-     * @return void
      * @action admin_init
      */
-    public function privacyPolicyContent()
+    public function privacyPolicyContent(): void
     {
         $content = glsr()->build('partials/privacy-policy');
         wp_add_privacy_policy_content(glsr()->name, wp_kses_post($content));
     }
 
-    /**
-     * @return void
-     */
-    protected function erase(Review $review)
+    protected function erasePersonalData(Review $review): void
     {
         glsr()->action('personal-data/erase', $review, $this->itemsRetained);
         if (!$this->itemsRetained) {
@@ -118,10 +104,7 @@ class PrivacyController extends AbstractController
         $this->itemsRemoved = true;
     }
 
-    /**
-     * @return array
-     */
-    protected function export(Review $review)
+    protected function exportPersonalData(Review $review): array
     {
         $data = [];
         $fields = [ // order is intentional
@@ -148,12 +131,7 @@ class PrivacyController extends AbstractController
         ];
     }
 
-    /**
-     * @param string $email
-     * @param int $page
-     * @return array
-     */
-    protected function reviews($email, $page)
+    protected function reviews(string $email, int $page): array
     {
         return glsr(Query::class)->reviews([
             'email' => $email,

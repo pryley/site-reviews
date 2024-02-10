@@ -20,14 +20,11 @@ use GeminiLabs\SiteReviews\Overrides\ReviewsListTable;
 class ListTableController extends AbstractController
 {
     /**
-     * @param array $response
-     * @param array $data
      * @filter heartbeat_received
      */
-    public function filterCheckLockedReviews($response, $data): array
+    public function filterCheckLockedReviews(array $response, array $data): array
     {
         $checked = [];
-        $response = Arr::consolidate($response);
         $postIds = Arr::consolidate(Arr::get($data, 'wp-check-locked-posts'));
         foreach ($postIds as $key) {
             $postId = absint(substr($key, 5));
@@ -56,12 +53,11 @@ class ListTableController extends AbstractController
     }
 
     /**
-     * @param array $columns
+     * @param string[] $columns
      * @filter manage_{glsr()->post_type}_posts_columns
      */
-    public function filterColumnsForPostType($columns): array
+    public function filterColumnsForPostType(array $columns): array
     {
-        $columns = Arr::consolidate($columns);
         $postTypeColumns = glsr()->retrieveAs('array', 'columns.'.glsr()->post_type, []);
         foreach ($postTypeColumns as $key => &$value) {
             if (array_key_exists($key, $columns) && empty($value)) {
@@ -72,26 +68,22 @@ class ListTableController extends AbstractController
     }
 
     /**
-     * @param string $status
-     * @param \WP_Post $post
      * @filter post_date_column_status
      */
-    public function filterDateColumnStatus($status, $post): string
+    public function filterDateColumnStatus(string $status, \WP_Post $post): string
     {
         if (glsr()->post_type === Arr::get($post, 'post_type')) {
             return _x('Submitted', 'admin-text', 'site-reviews');
         }
-        return Cast::toString($status);
+        return $status;
     }
 
     /**
-     * @param array $hidden
-     * @param \WP_Screen $screen
+     * @param string[] $hidden
      * @filter default_hidden_columns
      */
-    public function filterDefaultHiddenColumns($hidden, $screen): array
+    public function filterDefaultHiddenColumns(array $hidden, \WP_Screen $screen): array
     {
-        $hidden = Arr::consolidate($hidden);
         if ('edit-'.glsr()->post_type === Arr::get($screen, 'id')) {
             $hiddenColumns = glsr()->retrieveAs('array', 'columns_hidden.'.glsr()->post_type, []);
             return array_unique(array_merge($hidden, $hiddenColumns));
@@ -132,12 +124,10 @@ class ListTableController extends AbstractController
     }
 
     /**
-     * @param array $actions
-     * @param \WP_Post $post
-     * @return array
+     * @param string[] $actions
      * @filter post_row_actions
      */
-    public function filterRowActions($actions, $post)
+    public function filterRowActions(array $actions, \WP_Post $post): array
     {
         if (glsr()->post_type !== Arr::get($post, 'post_type') || 'trash' === $post->post_status) {
             return $actions;
@@ -168,15 +158,13 @@ class ListTableController extends AbstractController
                 'type' => 'button',
             ]);
         }
-        return $newActions + Arr::consolidate($actions);
+        return $newActions + $actions;
     }
 
     /**
-     * @param \WP_Screen $screen
-     * @return string
      * @filter screen_settings
      */
-    public function filterScreenFilters($settings, $screen)
+    public function filterScreenFilters(string $settings, \WP_Screen $screen): string
     {
         if ('edit-'.glsr()->post_type === $screen->id) {
             $userId = get_current_user_id();
@@ -204,11 +192,9 @@ class ListTableController extends AbstractController
     }
 
     /**
-     * @param string $search
-     * @return string
      * @action posts_search
      */
-    public function filterSearchQuery($search, \WP_Query $query)
+    public function filterSearchQuery(string $search, \WP_Query $query): string
     {
         if (!$this->hasQueryPermission($query)) {
             return $search;
@@ -222,13 +208,10 @@ class ListTableController extends AbstractController
     }
 
     /**
-     * @param array $columns
-     * @return array
      * @filter manage_edit-{glsr()->post_type}_sortable_columns
      */
-    public function filterSortableColumns($columns)
+    public function filterSortableColumns(array $columns): array
     {
-        $columns = Arr::consolidate($columns);
         $postTypeColumns = glsr()->retrieveAs('array', 'columns.'.glsr()->post_type, []);
         unset($postTypeColumns['cb']);
         foreach ($postTypeColumns as $key => $value) {
@@ -240,10 +223,9 @@ class ListTableController extends AbstractController
     }
 
     /**
-     * @return void
      * @action wp_ajax_inline_save
      */
-    public function overrideInlineSaveAjax()
+    public function overrideInlineSaveAjax(): void
     {
         $screen = filter_input(INPUT_POST, 'screen');
         if ('edit-'.glsr()->post_type !== $screen) {
@@ -275,10 +257,9 @@ class ListTableController extends AbstractController
     }
 
     /**
-     * @return void
      * @action load-edit.php
      */
-    public function overridePostsListTable()
+    public function overridePostsListTable(): void
     {
         if ('edit-'.glsr()->post_type === glsr_current_screen()->id
             && glsr()->can('respond_to_posts')) {
@@ -296,11 +277,9 @@ class ListTableController extends AbstractController
     }
 
     /**
-     * @param string $postType
-     * @return void
      * @action restrict_manage_posts
      */
-    public function renderColumnFilters($postType)
+    public function renderColumnFilters(string $postType): void
     {
         if (glsr()->post_type === $postType) {
             $filters = glsr(ListtableFiltersDefaults::class)->defaults();
@@ -314,12 +293,9 @@ class ListTableController extends AbstractController
     }
 
     /**
-     * @param string $column
-     * @param int $postId
-     * @return void
      * @action manage_{glsr()->post_type}_posts_custom_column
      */
-    public function renderColumnValues($column, $postId)
+    public function renderColumnValues(string $column, int $postId): void
     {
         $review = glsr(ReviewManager::class)->get((int) $postId);
         if (!$review->isValid()) {
@@ -334,7 +310,6 @@ class ListTableController extends AbstractController
     }
 
     /**
-     * @return void
      * @action pre_get_posts
      */
     public function setQueryForTable(\WP_Query $query): void
@@ -358,38 +333,26 @@ class ListTableController extends AbstractController
         }
     }
 
-    /**
-     * @return array
-     * */
-    protected function filterByValues()
+    protected function filterByValues(): array
     {
         $filterBy = glsr(ColumnFilterbyDefaults::class)->defaults();
         $filterBy = filter_input_array(INPUT_GET, $filterBy);
         return Arr::removeEmptyValues(Arr::consolidate($filterBy));
     }
 
-    /**
-     * @return bool
-     */
-    protected function isListFiltered()
+    protected function isListFiltered(): bool
     {
         return !empty($this->filterByValues());
     }
 
-    /**
-     * @return bool
-     */
-    protected function isListOrdered()
+    protected function isListOrdered(): bool
     {
         $columns = glsr(ColumnOrderbyDefaults::class)->defaults();
         $column = Cast::toString(get_query_var('orderby')); // get_query_var output is unpredictable
         return array_key_exists($column, $columns);
     }
 
-    /**
-     * @return bool
-     */
-    protected function isOrderbyWithIsNull($column)
+    protected function isOrderbyWithIsNull(string $column): bool
     {
         $columns = [
             'email', 'name', 'ip_address', 'type',

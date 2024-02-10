@@ -3,11 +3,13 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract;
-use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\HookProxy;
 
 abstract class AbstractController
 {
-    public function download($filename, $content): void
+    use HookProxy;
+
+    public function download(string $filename, string $content): void
     {
         if (glsr()->can('edit_others_posts')) {
             nocache_headers();

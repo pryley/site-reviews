@@ -4,11 +4,14 @@ namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\HookProxy;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Reviews;
 
 class ExperimentsController
 {
+    use HookProxy;
+
     /**
      * @param mixed $value
      * @param int $objectId

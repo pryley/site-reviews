@@ -12,7 +12,6 @@ use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Install;
 use GeminiLabs\SiteReviews\License;
@@ -44,10 +43,9 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @param array $data
      * @action in_plugin_update_message-{glsr()->basename}
      */
-    public function displayUpdateWarning($data): void
+    public function displayUpdateWarning(array $data): void
     {
         $version = Arr::get($data, 'new_version');
         $parts = explode('.', $version);
@@ -66,12 +64,10 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @param array $links
      * @filter plugin_action_links_site-reviews/site-reviews.php
      */
-    public function filterActionLinks($links): array
+    public function filterActionLinks(array $links): array
     {
-        $links = Arr::consolidate($links);
         if (glsr()->hasPermission('settings')) {
             $links['settings'] = glsr(Builder::class)->a([
                 'href' => glsr_admin_url('settings'),
@@ -88,26 +84,24 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @param array $args
      * @filter export_args
      */
-    public function filterExportArgs($args): array
+    public function filterExportArgs(array $args): array
     {
         if (in_array(Arr::get($args, 'content'), ['all', glsr()->post_type])) {
             $this->execute(new ExportRatings(glsr()->args($args)));
         }
-        return Arr::consolidate($args);
+        return $args;
     }
 
     /**
-     * @param bool $showButton
      * @filter screen_options_show_submit
      */
-    public function filterScreenOptionsButton($showButton): bool
+    public function filterScreenOptionsButton(bool $showButton): bool
     {
         global $post_type_object, $title, $typenow;
         if (!str_starts_with($typenow, glsr()->post_type)) {
-            return Cast::toBool($showButton);
+            return $showButton;
         }
         $submit = get_submit_button(_x('Apply', 'admin-text', 'site-reviews'), 'primary', 'screen-options-apply', false);
         $close = glsr(Builder::class)->button([
@@ -124,12 +118,10 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @param array $plugins
      * @filter mce_external_plugins
      */
-    public function filterTinymcePlugins($plugins): array
+    public function filterTinymcePlugins(array $plugins): array
     {
-        $plugins = Arr::consolidate($plugins);
         if (glsr()->can('edit_posts')) {
             $plugins['glsr_shortcode'] = glsr()->url('assets/scripts/mce-plugin.js');
         }
@@ -202,10 +194,9 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @param string $editorId
      * @action media_buttons
      */
-    public function renderTinymceButton($editorId): void
+    public function renderTinymceButton(string $editorId): void
     {
         $allowedEditors = glsr()->filterArray('tinymce/editor-ids', ['content'], $editorId);
         if ('post' !== glsr_current_screen()->base || !in_array($editorId, $allowedEditors)) {

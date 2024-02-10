@@ -45,13 +45,13 @@ class ReviewController extends AbstractController
     }
 
     /**
-     * @param array $posts
-     * @return array
+     * @param \WP_Post[] $posts
+     * @return \WP_Post[]
      * @filter the_posts
      */
-    public function filterPostsToCacheReviews($posts)
+    public function filterPostsToCacheReviews(array $posts): array
     {
-        $reviews = array_filter((array) $posts, fn ($post) => glsr()->post_type === $post->post_type);
+        $reviews = array_filter($posts, fn ($post) => glsr()->post_type === $post->post_type);
         if ($postIds = wp_list_pluck($reviews, 'ID')) {
             glsr(Query::class)->reviews([], $postIds); // this caches the associated Review objects
         }
@@ -59,12 +59,9 @@ class ReviewController extends AbstractController
     }
 
     /**
-     * @param array $data
-     * @param array $sanitized
-     * @return array
      * @filter wp_insert_post_data
      */
-    public function filterReviewPostData($data, $sanitized)
+    public function filterReviewPostData(array $data, array $sanitized): array
     {
         if (empty($sanitized['ID']) || empty($sanitized['action']) || glsr()->post_type !== Arr::get($sanitized, 'post_type')) {
             return $data;
@@ -120,19 +117,18 @@ class ReviewController extends AbstractController
 
     /**
      * Triggered when one or more categories are added or removed from a review.
-     *
-     * @param int $postId
-     * @param array $terms
-     * @param array $newTTIds
-     * @param string $taxonomy
-     * @param bool $append
-     * @param array $oldTTIds
      * @action set_object_terms
      */
-    public function onAfterChangeAssignedTerms($postId, $terms, $newTTIds, $taxonomy, $append, $oldTTIds): void
-    {
+    public function onAfterChangeAssignedTerms(
+        int $postId,
+        array $terms,
+        array $newTTIds,
+        string $taxonomy,
+        bool $append,
+        array $oldTTIds
+    ): void {
         if (Review::isReview($postId)) {
-            $review = glsr(ReviewManager::class)->get((int) $postId);
+            $review = glsr(ReviewManager::class)->get($postId);
             $diff = $this->getAssignedDiffs($oldTTIds, $newTTIds);
             $this->execute(new UnassignTerms($review, $diff['old']));
             $this->execute(new AssignTerms($review, $diff['new']));
@@ -141,13 +137,9 @@ class ReviewController extends AbstractController
 
     /**
      * Triggered when a post status changes or when a review is approved|unapproved|trashed.
-     *
-     * @param string $new
-     * @param string $old
-     * @param \WP_Post $post
      * @action transition_post_status
      */
-    public function onAfterChangeStatus($new, $old, $post): void
+    public function onAfterChangeStatus(string $new, string $old, \WP_Post $post): void
     {
         if (in_array($old, ['new', $new])) {
             return;
@@ -191,11 +183,9 @@ class ReviewController extends AbstractController
 
     /**
      * Triggered when a review's assigned users IDs are updated.
-     *
-     * @return void
      * @action site-reviews/review/updated/user_ids
      */
-    public function onChangeAssignedUsers(Review $review, array $userIds = [])
+    public function onChangeAssignedUsers(Review $review, array $userIds = []): void
     {
         $diff = $this->getAssignedDiffs($review->assigned_users, $userIds);
         $this->execute(new UnassignUsers($review, $diff['old']));
@@ -248,14 +238,12 @@ class ReviewController extends AbstractController
 
     /**
      * Triggered when a review or other post type is deleted and the posts table uses the MyISAM engine.
-     * @param int $postId
-     * @param \WP_Post $post
      * @action deleted_post
      */
-    public function onDeletePost($postId, $post): void
+    public function onDeletePost(int $postId, \WP_Post $post): void
     {
         if (glsr()->post_type === $post->post_type) {
-            $this->onDeleteReview((int) $postId);
+            $this->onDeleteReview($postId);
             return;
         }
         $reviewIds = glsr(Query::class)->reviewIds([
@@ -281,10 +269,9 @@ class ReviewController extends AbstractController
 
     /**
      * Triggered when a user is deleted and the users table uses the MyISAM engine.
-     * @param int $userId
      * @action deleted_user
      */
-    public function onDeleteUser($userId = 0): void
+    public function onDeleteUser(int $userId = 0): void
     {
         $reviewIds = glsr(Query::class)->reviewIds([
             'assigned_users' => $userId,
@@ -302,12 +289,9 @@ class ReviewController extends AbstractController
      * Triggered when a review is edited or trashed.
      * It's unnecessary to trigger a term recount as this is done by the set_object_terms hook
      * We need to use "post_updated" to support revisions (vs "save_post").
-     * @param int $postId
-     * @param \WP_Post $post
-     * @param \WP_Post $oldPost
      * @action post_updated
      */
-    public function onEditReview($postId, $post, $oldPost): void
+    public function onEditReview(int $postId, \WP_Post $post, \WP_Post $oldPost): void
     {
         if (!glsr()->can('edit_posts') || !$this->isEditedReview($post, $oldPost)) {
             return;
@@ -318,7 +302,7 @@ class ReviewController extends AbstractController
         if (!in_array(glsr_current_screen()->base, ['edit', 'post'])) {
             return; // only trigger this action from the Site Reviews edit/post screens
         }
-        $review = glsr(ReviewManager::class)->get((int) $postId);
+        $review = glsr(ReviewManager::class)->get($postId);
         if ('edit' === glsr_current_screen()->base) {
             $this->bulkUpdateReview($review, $oldPost);
         } else {
@@ -388,11 +372,7 @@ class ReviewController extends AbstractController
         ];
     }
 
-    /**
-     * @param \WP_Post $post
-     * @param \WP_Post $oldPost
-     */
-    protected function isEditedReview($post, $oldPost): bool
+    protected function isEditedReview(\WP_Post $post, \WP_Post $oldPost): bool
     {
         if (glsr()->post_type !== $post->post_type) {
             return false;
