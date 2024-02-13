@@ -134,24 +134,15 @@ class Controller extends AbstractController
      */
     public function onRelateReview(RelationshipContext $context, Request $request): void
     {
-        @parse_str($request->body(), $body);
-
         if (!Review::isReview($context->remotePostId())) {
             return;
         }
-
-        // switch_to_blog($context->sourceSiteId());
-        // $review = glsr_get_review($context->sourcePostId());
-        // $data = glsr(RatingDefaults::class)->restrict($review->toArray());
-        // $data['name'] = $review->name;
-        // $data['review_id'] = $context->remotePostId();
-        // $data['is_approved'] = 'publish' === $context->remotePost()->post_status;
-        // restore_current_blog();
-
-        glsr_log('onRelateReview');
-        glsr_log($body);
-        glsr_log($body['multilingualpress']);
-        glsr_log($data);
-        glsr_log($context);
+        $data = Arr::consolidate($request->bodyValue(glsr()->ID));
+        $postIds = Arr::consolidate($request->bodyValue('post_ids'));
+        $userIds = Arr::consolidate($request->bodyValue('user_ids'));
+        $relationHelper = new RelationSaveHelper($context, $request);
+        $relationHelper->syncRating($data);
+        $relationHelper->syncAssignedPosts($postIds);
+        $relationHelper->syncAssignedUsers($userIds);
     }
 }

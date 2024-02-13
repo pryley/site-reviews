@@ -322,6 +322,7 @@ class Review extends Arguments
     {
         $excludedKeys = Arr::consolidate($excludedKeys);
         $values = Cast::toArrayDeep($this->getArrayCopy());
+        $values['name'] = $this->get('author'); // fallback
         return array_diff_key($values, array_flip($excludedKeys));
     }
 

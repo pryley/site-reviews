@@ -53,7 +53,7 @@ class Hooks extends AbstractHooks
 
             // ['onBulkAssignPosts', 'site-reviews/review/updated/post_ids', 20, 2],
             // ['onBulkAssignUsers', 'site-reviews/review/updated/user_ids', 20, 2],
-
+            // ['onCreatedReview', 'site-reviews/review/created', 20, 2],
         ]);
     }
 
