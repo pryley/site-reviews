@@ -25,7 +25,7 @@ class SearchPosts extends AbstractSearch
                 'permalink' => esc_url((string) get_permalink($post->ID)),
                 'title' => esc_attr(get_the_title($post->ID)),
             ]);
-        });
+        }, '');
     }
 
     protected function postStatuses(): string

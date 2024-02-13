@@ -20,7 +20,7 @@ class Form extends \ArrayObject
 
     public function __toString(): string
     {
-        return array_reduce($this->getArrayCopy(), fn ($carry, $field) => $carry.$field);
+        return array_reduce($this->getArrayCopy(), fn ($carry, $field) => $carry.$field, '');
     }
 
     /**

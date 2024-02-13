@@ -216,8 +216,8 @@ class Updater
     protected function normalizeResponse($response)
     {
         $body = wp_remote_retrieve_body($response);
-        if ($data = json_decode($body)) {
-            $data = array_map('maybe_unserialize', (array) $data);
+        if ($data = json_decode($body, true)) {
+            $data = array_map('maybe_unserialize', $data);
             return (object) $data;
         }
         $error = is_wp_error($response)

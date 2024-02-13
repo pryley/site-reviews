@@ -273,7 +273,7 @@ class Builder implements BuilderContract
                 'title' => $title ?? '',
                 'value' => $key,
             ]);
-        });
+        }, '');
         return glsr(Builder::class)->optgroup([
             'label' => $label,
             'text' => $children,

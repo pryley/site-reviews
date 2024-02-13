@@ -214,7 +214,7 @@ class Field
             ]);
             $html = glsr()->filterString('rendered/field', $html, $choiceType, $inputField);
             return $carry.$html;
-        });
+        }, '');
     }
 
     protected function buildMultiField(): string

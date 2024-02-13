@@ -15,7 +15,7 @@ class SearchUsers extends AbstractSearch
                 'permalink' => esc_url(get_author_posts_url($result->id)),
                 'title' => esc_attr("{$result->name} ({$result->login})"),
             ]);
-        });
+        }, '');
     }
 
     public function users(): array

@@ -2,8 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\Api\Version1;
 
+use GeminiLabs\SiteReviews\HookProxy;
+
 class RestController
 {
+    use HookProxy;
+
     /**
      * @action rest_api_init
      */
