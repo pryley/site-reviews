@@ -14,10 +14,8 @@ class Controller extends AbstractController
     {
         if (defined('ELEMENTOR_VERSION')) {
             $script .= 'function glsr_init_elementor(){GLSR.Event.trigger("site-reviews/init")}"undefined"!==typeof jQuery&&(';
-            if (defined('ELEMENTOR_PRO_VERSION') && version_compare(ELEMENTOR_PRO_VERSION, '2.7.0', '>=')) {
-                $script .= 'jQuery(document).on("elementor/popup/show",glsr_init_elementor),';
-            }
             $script .= 'jQuery(window).on("elementor/frontend/init",function(){';
+            $script .= 'elementorFrontend.elements.$window.on("elementor/popup/show",glsr_init_elementor);';
             $script .= 'elementorFrontend.hooks.addAction("frontend/element_ready/site_review.default",glsr_init_elementor);';
             $script .= 'elementorFrontend.hooks.addAction("frontend/element_ready/site_reviews.default",glsr_init_elementor);';
             $script .= 'elementorFrontend.hooks.addAction("frontend/element_ready/site_reviews_form.default",glsr_init_elementor);';
