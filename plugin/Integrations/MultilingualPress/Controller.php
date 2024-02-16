@@ -5,11 +5,11 @@ namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\RelationSaveHelper;
 use GeminiLabs\SiteReviews\Review;
-use Inpsyde\MultilingualPress\Framework\Http\Request;
-use Inpsyde\MultilingualPress\Framework\Service\ServiceProvidersCollection;
+use Inpsyde\MultilingualPress\Framework\Http\ServerRequest;
 use Inpsyde\MultilingualPress\TranslationUi\Post\RelationshipContext;
 
 class Controller extends AbstractController
@@ -95,7 +95,7 @@ class Controller extends AbstractController
         global $wp_post_statuses;
         $wp_post_statuses['pending']->label = _x('Unapproved', 'admin-text', 'site-reviews');
         $wp_post_statuses['publish']->label = _x('Approved', 'admin-text', 'site-reviews');
-        return ['pending', 'publish'];
+        return ['draft', 'pending', 'publish'];
     }
 
     /**
@@ -110,29 +110,117 @@ class Controller extends AbstractController
     }
 
     /**
-     * @action site-reviews/review/updated/post_ids
+     * @param int[] $updatedPostIds
+     * @action bulk_edit_posts
      */
-    public function onBulkAssignPosts(Review $review, array $postIds = []): void
+    public function onBulkEditReviews(array $updatedPostIds, array $data): void
     {
-        if ('edit' !== glsr_current_screen()->base) {
+        if (!$this->isReviewListTable()) {
             return;
+        }
+        $postIds = Arr::getAs('array', $data, 'post_ids');
+        $userIds = Arr::getAs('array', $data, 'user_ids');
+        $sourceSiteId = get_current_blog_id();
+        foreach ($updatedPostIds as $sourcePostId) {
+            $copier = new ReviewCopier($sourcePostId, $sourceSiteId);
+            $copier->run(function ($context) use ($postIds, $termIds, $userIds) {
+                $relationHelper = new RelationSaveHelper($context);
+                $relationHelper->syncAssignedPosts($postIds);
+                $relationHelper->syncAssignedTerms();
+                $relationHelper->syncAssignedUsers($userIds);
+            });
         }
     }
 
     /**
-     * @action site-reviews/review/updated/user_ids
+     * @action site-reviews/review/created
      */
-    public function onBulkAssignUsers(Review $review, array $userIds = []): void
+    public function onCreatedReview(Review $review, CreateReview $command): void
     {
-        if ('edit' !== glsr_current_screen()->base) {
+        if (glsr()->isAdmin()) {
             return;
         }
+        // @parse_str(\Inpsyde\MultilingualPress\resolve(ServerRequest::class)->body(), $body);
+        // glsr(ReviewConnector::class)->copyReview($review->ID, $command);
+    }
+
+    /**
+     * @action site-reviews/review/pinned
+     */
+    public function onPinned(int $sourcePostId, bool $isPinned): void
+    {
+        if (!Review::isReview($sourcePostId)) {
+            return;
+        }
+        $sourceSiteId = get_current_blog_id();
+        $copier = new ReviewCopier($sourcePostId, $sourceSiteId);
+        $copier->run(function ($context) use ($isPinned) {
+            $relationHelper = new RelationSaveHelper($context);
+            $relationHelper->syncRating(['is_pinned' => $isPinned]);
+        });
+    }
+
+    /**
+     * @action site-reviews/review/transitioned
+     */
+    public function onTransitioned(Review $review, string $status, string $prevStatus): void
+    {
+        if ($this->isReviewEditor()) {
+            return;
+        }
+        if (!empty(array_diff([$status, $prevStatus], ['pending', 'publish']))) {
+            return;
+        }
+        $sourcePostId = $review->ID;
+        $sourceSiteId = get_current_blog_id();
+        $copier = new ReviewCopier($sourcePostId, $sourceSiteId);
+        $copier->run(function ($context) use ($prevStatus) {
+            if ($prevStatus !== get_post_status($remotePostId)) {
+                return;
+            }
+            wp_update_post([
+                'ID' => $remotePostId,
+                'post_status' => $status,
+            ]);
+        });
+    }
+
+    /**
+     * @action site-reviews/review/updated
+     */
+    public function onUpdatedReview(Review $review, array $data): void
+    {
+        if (glsr()->isAdmin()) {
+            return;
+        }
+        // glsr()->action('review/updated', $review, [], $oldPost); // pass an empty array since review values are unchanged
+        // glsr()->action('review/updated', $review, $data, $oldPost);
+
+        // @parse_str(\Inpsyde\MultilingualPress\resolve(ServerRequest::class)->body(), $body);
+        // glsr(ReviewConnector::class)->copyReview($review->ID, $command);
+    }
+
+    /**
+     * @action site-reviews/review/verified
+     */
+    public function onVerified(int $sourcePostId): void
+    {
+        if (!Review::isReview($sourcePostId)) {
+            return;
+        }
+        $timestamp = Cast::toInt(glsr(Database::class)->meta(sourcePostId, 'verified_on'));
+        $sourceSiteId = get_current_blog_id();
+        $copier = new ReviewCopier($sourcePostId, $sourceSiteId);
+        $copier->run(function ($context) use ($timestamp) {
+            $relationHelper = new RelationSaveHelper($context);
+            $relationHelper->syncVerified($timestamp);
+        });
     }
 
     /**
      * @action multilingualpress.metabox_after_relate_posts
      */
-    public function onRelateReview(RelationshipContext $context, Request $request): void
+    public function onRelateReview(RelationshipContext $context, ServerRequest $request): void
     {
         if (!Review::isReview($context->remotePostId())) {
             return;
@@ -140,7 +228,7 @@ class Controller extends AbstractController
         $data = Arr::consolidate($request->bodyValue(glsr()->ID));
         $postIds = Arr::consolidate($request->bodyValue('post_ids'));
         $userIds = Arr::consolidate($request->bodyValue('user_ids'));
-        $relationHelper = new RelationSaveHelper($context, $request);
+        $relationHelper = new RelationSaveHelper($context);
         $relationHelper->syncRating($data);
         $relationHelper->syncAssignedPosts($postIds);
         $relationHelper->syncAssignedUsers($userIds);

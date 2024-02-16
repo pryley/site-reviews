@@ -7,11 +7,15 @@ use GeminiLabs\SiteReviews\Review;
 
 class ApproveReview extends AbstractCommand
 {
+    /** @var string */
+    public $prevStatus;
+
     /** @var Review */
     public $review;
 
     public function __construct(Review $review)
     {
+        $this->prevStatus = $review->status;
         $this->review = $review;
     }
 

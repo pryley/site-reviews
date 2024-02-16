@@ -71,4 +71,10 @@ abstract class AbstractController
             && glsr()->post_type === $screen->id
             && glsr()->post_type === $screen->post_type;
     }
+
+    protected function isReviewListTable(): bool
+    {
+        $screen = glsr_current_screen();
+        return 'edit' === $screen->base && glsr()->post_type === $screen->post_type;
+    }
 }

@@ -22,10 +22,9 @@ class Hooks extends AbstractHooks
     public function onPluginsLoaded(): void
     {
         add_filter('multilingualpress.modules', function (array $modules): array {
-            if (!$this->isVersionSupported()) {
-                return $modules;
+            if ($this->isVersionSupported()) {
+                $modules[] = new ServiceProvider();
             }
-            $modules[] = new ServiceProvider();
             return $modules;
         });
     }
@@ -49,11 +48,13 @@ class Hooks extends AbstractHooks
             ['filterGettext', 'gettext_multilingualpress', 10, 2],
             ['filterPostStatuses', 'multilingualpress.translation_ui_post_statuses'], // ['pending', 'publish']
             ['filterTaxonomiesIsChecked', 'multilingualpress.copy_taxonomies_is_checked'],
-            ['onRelateReview', 'multilingualpress.metabox_after_relate_posts', 10, 2],
-
-            // ['onBulkAssignPosts', 'site-reviews/review/updated/post_ids', 20, 2],
-            // ['onBulkAssignUsers', 'site-reviews/review/updated/user_ids', 20, 2],
+            ['onBulkEditReviews', 'bulk_edit_posts', 10, 2],
             // ['onCreatedReview', 'site-reviews/review/created', 20, 2],
+            ['onRelateReview', 'multilingualpress.metabox_after_relate_posts', 10, 2],
+            ['onPinned', 'site-reviews/review/pinned', 10, 2],
+            ['onTransitioned', 'site-reviews/review/transitioned', 10, 3],
+            // ['onUpdatedReview', 'site-reviews/review/updated', 20, 2],
+            ['onVerified', 'site-reviews/review/verified'],
         ]);
     }
 

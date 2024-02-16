@@ -329,10 +329,7 @@ class AdminController extends AbstractController
     {
         $command = $this->execute(new TogglePinned($request));
         glsr()->action('cache/flush', $command->review); // @phpstan-ignore-line
-        wp_send_json_success([
-            'notices' => glsr(Notice::class)->get(),
-            'pinned' => $command->successful(),
-        ]);
+        wp_send_json_success($command->response());
     }
 
     /**

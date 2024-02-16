@@ -7,11 +7,13 @@ use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Metabox\MetaboxFields;
+use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Review;
 use Inpsyde\MultilingualPress\Framework\Api\ContentRelations;
-use Inpsyde\MultilingualPress\Framework\Http\Request;
+use Inpsyde\MultilingualPress\Framework\Http\ServerRequest;
 use Inpsyde\MultilingualPress\TranslationUi\MetaboxFieldsHelper;
+use Inpsyde\MultilingualPress\TranslationUi\Post\PostRelationSaveHelper;
 use Inpsyde\MultilingualPress\TranslationUi\Post\RelationshipContext;
 
 use function Inpsyde\MultilingualPress\resolve;
@@ -30,7 +32,7 @@ class RelationSaveHelper
     protected $context;
 
     /**
-     * @var Request
+     * @var ServerRequest
      */
     protected $request;
 
@@ -39,11 +41,11 @@ class RelationSaveHelper
      */
     protected $review;
 
-    public function __construct(RelationshipContext $context, Request $request)
+    public function __construct(RelationshipContext $context)
     {
         $this->contentRelations = resolve(ContentRelations::class);
         $this->context = $context;
-        $this->request = $request;
+        $this->request = resolve(ServerRequest::class);
         $this->review = glsr_get_review($context->remotePostId());
     }
 
@@ -60,7 +62,13 @@ class RelationSaveHelper
         }
     }
 
-    public function syncAssignedUsers(array $userIds)
+    public function syncAssignedTerms()
+    {
+        $helper = new PostRelationSaveHelper($this->contentRelations);
+        $helper->syncTaxonomyTerms($this->context);
+    }
+
+    public function syncAssignedUsers(array $userIds, $bulkEdit = false)
     {
         if (!$this->canSync()) {
             return;
@@ -95,6 +103,32 @@ class RelationSaveHelper
         }
     }
 
+    public function syncVerified(int $timestamp)
+    {
+        if (!$this->canSync()) {
+            return;
+        }
+        if (!$this->review->isValid()) {
+            return;
+        }
+        if ($this->review->is_verified) {
+            return;
+        }
+        if (!glsr(Date::class)->isTimestamp($timestamp)) {
+            return;
+        }
+        $result = glsr(ReviewManager::class)->updateRating($this->review->ID, [
+            'is_verified' => true,
+        ]);
+        if ($result > 0) {
+            glsr(Database::class)->metaSet($this->review->ID, 'verified_on', $timestamp);
+            return;
+        }
+        glsr_log()->error('MLP: sync review verification failed')
+            ->debug(compact('timestamp'))
+            ->debug($this->context);
+    }
+
     protected function canSync(): bool
     {
         $sourceSiteId = $this->context->sourceSiteId();
@@ -110,6 +144,9 @@ class RelationSaveHelper
 
     protected function canSyncAssignment(string $key): bool
     {
+        if (!empty($this->request->bodyValue('bulk_edit'))) {
+            return true;
+        }
         $siteId = $this->context->remoteSiteId();
         $values = $this->request->bodyValue(MetaboxFieldsHelper::NAME_PREFIX);
         return Arr::getAs('bool', $values, "site-{$siteId}.{$key}");
@@ -153,6 +190,12 @@ class RelationSaveHelper
             $assignedPosts[] = $remotePostId;
         }
         return $assignedPosts;
+    }
+
+    protected function remoteAssignedTerms(array $termIds): array
+    {
+        $termIds = glsr(Sanitizer::class)->sanitizeArrayInt($termIds);
+        return $termIds;
     }
 
     protected function remoteAssignedUsers(array $userIds): array

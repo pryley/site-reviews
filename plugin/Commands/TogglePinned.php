@@ -10,6 +10,9 @@ use GeminiLabs\SiteReviews\Review;
 
 class TogglePinned extends AbstractCommand
 {
+    /** @var bool */
+    public $isPinned;
+
     /** @var Review */
     public $review;
 
@@ -17,24 +20,33 @@ class TogglePinned extends AbstractCommand
     {
         $args = glsr(TogglePinnedDefaults::class)->restrict($request->toArray());
         $review = glsr(ReviewManager::class)->get($args['id']);
-        $this->result = $args['pinned'] >= 0 ? wp_validate_boolean($args['pinned']) : !$review->is_pinned;
+        $this->isPinned = $args['pinned'] >= 0 ? wp_validate_boolean($args['pinned']) : !$review->is_pinned;
         $this->review = $review;
     }
 
     public function handle(): void
     {
         if (!glsr()->can('edit_post', $this->review->ID)) {
-            $this->result = wp_validate_boolean($this->review->is_pinned);
+            $this->isPinned = wp_validate_boolean($this->review->is_pinned);
             return;
         }
-        if ($this->result !== $this->review->is_pinned) {
+        if ($this->isPinned !== $this->review->is_pinned) {
             glsr(ReviewManager::class)->updateRating($this->review->ID, [
-                'is_pinned' => $this->result,
+                'is_pinned' => $this->isPinned,
             ]);
-            $notice = $this->result
+            glsr()->action('review/pinned', $this->review->ID, $this->isPinned);
+            $notice = $this->isPinned
                 ? _x('Review pinned.', 'admin-text', 'site-reviews')
                 : _x('Review unpinned.', 'admin-text', 'site-reviews');
             glsr(Notice::class)->addSuccess($notice);
         }
+    }
+
+    public function response(): array
+    {
+        return [
+            'notices' => glsr(Notice::class)->get(),
+            'pinned' => $this->isPinned,
+        ];
     }
 }

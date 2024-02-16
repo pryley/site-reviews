@@ -15,8 +15,10 @@ class ToggleStatus extends AbstractCommand
     public function __construct(Request $request)
     {
         $args = glsr(ToggleStatusDefaults::class)->restrict($request->toArray());
+        $review = glsr_get_review($args['post_id']);
         $this->postId = $args['post_id'];
-        $this->review = glsr_get_review($args['post_id']);
+        $this->prevStatus = $review->status;
+        $this->review = $review;
         $this->status = $args['status'];
     }
 
@@ -36,9 +38,9 @@ class ToggleStatus extends AbstractCommand
             'ID' => $this->postId,
             'post_status' => $this->status,
         ];
-        $result = wp_update_post($args, true);
-        if (is_wp_error($result)) {
-            glsr_log()->error($result->get_error_message());
+        $postId = wp_update_post($args, true);
+        if (is_wp_error($postId)) {
+            glsr_log()->error($postId->get_error_message());
             $this->fail();
         }
     }
