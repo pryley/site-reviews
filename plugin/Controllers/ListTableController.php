@@ -72,7 +72,7 @@ class ListTableController extends AbstractController
      */
     public function filterDateColumnStatus(string $status, \WP_Post $post): string
     {
-        if (glsr()->post_type === Arr::get($post, 'post_type')) {
+        if (glsr()->post_type === $post->post_type) {
             return _x('Submitted', 'admin-text', 'site-reviews');
         }
         return $status;
@@ -84,11 +84,26 @@ class ListTableController extends AbstractController
      */
     public function filterDefaultHiddenColumns(array $hidden, \WP_Screen $screen): array
     {
-        if ('edit-'.glsr()->post_type === Arr::get($screen, 'id')) {
+        if ('edit-'.glsr()->post_type === $screen->id) {
             $hiddenColumns = glsr()->retrieveAs('array', 'columns_hidden.'.glsr()->post_type, []);
             return array_unique(array_merge($hidden, $hiddenColumns));
         }
         return $hidden;
+    }
+
+    /**
+     * @filter wp_list_table_class_name
+     */
+    public function filterListTableClass(string $className): string
+    {
+        $screen = glsr_current_screen();
+        if (glsr()->post_type !== $screen->post_type) {
+            return $className;
+        }
+        if ('edit' !== $screen->base) {
+            return $className;
+        }
+        return ReviewsListTable::class;
     }
 
     /**
@@ -133,21 +148,21 @@ class ListTableController extends AbstractController
             return $actions;
         }
         unset($actions['inline hide-if-no-js']);
+        $baseurl = admin_url("post.php?post={$post->ID}&plugin=".glsr()->id);
         $newActions = ['id' => sprintf('<span>ID: %d</span>', $post->ID)];
         if (glsr()->can('publish_post', $post->ID)) {
-            $rowActions = [
-                'approve' => _x('Approve', 'admin-text', 'site-reviews'),
-                'unapprove' => _x('Unapprove', 'admin-text', 'site-reviews'),
-            ];
-            foreach ($rowActions as $key => $text) {
-                $newActions[$key] = glsr(Builder::class)->a($text, [
-                    'aria-label' => esc_attr(sprintf(_x('%s this review', 'Approve the review (admin-text)', 'site-reviews'), $text)),
-                    'class' => 'glsr-toggle-status',
-                    'href' => wp_nonce_url(admin_url("post.php?post={$post->ID}&action={$key}&plugin=".glsr()->id),
-                        "{$key}-review_{$post->ID}"
-                    ),
-                ]);
-            }
+            $newActions['approve'] = glsr(Builder::class)->a([
+                'aria-label' => esc_attr(_x('Approve this review', 'admin-text', 'site-reviews')),
+                'class' => 'glsr-toggle-status',
+                'href' => wp_nonce_url(add_query_arg('action', 'approve', $baseurl), "approve-review_{$post->ID}"),
+                'text' => _x('Approve', 'admin-text', 'site-reviews'),
+            ]);
+            $newActions['unapprove'] = glsr(Builder::class)->a([
+                'aria-label' => esc_attr(_x('Unapprove this review', 'admin-text', 'site-reviews')),
+                'class' => 'glsr-toggle-status',
+                'href' => wp_nonce_url(add_query_arg('action', 'unapprove', $baseurl), "unapprove-review_{$post->ID}"),
+                'text' => _x('Unapprove', 'admin-text', 'site-reviews'),
+            ]);
         }
         if (glsr()->can('respond_to_post', $post->ID)) {
             $newActions['respond hide-if-no-js'] = glsr(Builder::class)->button([
@@ -254,26 +269,6 @@ class ListTableController extends AbstractController
         $table = new ReviewsListTable(['screen' => convert_to_screen($screen)]);
         $table->display_rows([get_post($postId)], 0);
         wp_die();
-    }
-
-    /**
-     * @action load-edit.php
-     */
-    public function overridePostsListTable(): void
-    {
-        if ('edit-'.glsr()->post_type === glsr_current_screen()->id
-            && glsr()->can('respond_to_posts')) {
-            $table = new ReviewsListTable();
-            $table->prepare_items();
-            add_filter('views_edit-'.glsr()->post_type, function ($views) use ($table) {
-                global $wp_list_table;
-                $wp_list_table = clone $table;
-                echo glsr(Builder::class)->div(glsr(Notice::class)->get(), [
-                    'id' => 'glsr-notices',
-                ]);
-                return $views;
-            });
-        }
     }
 
     /**
