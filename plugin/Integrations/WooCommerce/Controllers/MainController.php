@@ -192,7 +192,7 @@ class MainController extends AbstractController
      */
     public function verifyProductOwner(Review $review)
     {
-        $review = glsr_get_review($review->ID); // load a fresh instance of the review
+        $review->refresh(); // refresh the review first!
         $verified = false;
         foreach ($review->assigned_posts as $postId) {
             if ('product' === get_post_type($postId)) {

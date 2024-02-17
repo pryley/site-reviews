@@ -86,7 +86,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
                 return new \WP_Error('woocommerce_rest_already_trashed', __('The object has already been trashed.', 'woocommerce'), ['status' => 410]);
             }
             $result = wp_trash_post($review->ID);
-            $review = glsr_get_review($review->ID);
+            $review->refresh(); // refresh the review!
             $response = $this->prepare_item_for_response($review, $request);
         }
         if (!$result) {
@@ -220,7 +220,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
         }
         // update rating entry
         glsr(ReviewManager::class)->update($review->ID, $this->prepare_item_for_database($request));
-        $review = glsr_get_review($review->ID);
+        $review->refresh(); // refresh the review!
         glsr()->action('woocommerce/rest-api/insert_product_review', $review, $request, false);
         $updateAdditionalFields = $this->update_additional_fields_for_object($review, $request);
         if (is_wp_error($updateAdditionalFields)) {

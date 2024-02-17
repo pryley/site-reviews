@@ -237,7 +237,7 @@ class Controller extends AbstractController
         if (!is_user_logged_in()) {
             return;
         }
-        $review = glsr_get_review($review->ID); // FIRST get a fresh instance of the review!
+        $review->refresh(); // refresh the review first!
         $assignedPosts = array_filter($review->assignedPosts(), 
             fn ($post) => $post->post_author !== get_current_user_id()
         );

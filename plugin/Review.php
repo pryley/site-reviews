@@ -58,7 +58,7 @@ class Review extends Arguments
     /** @var \WP_Post */
     protected $_post;
 
-    protected bool $has_checked_revisions;
+    protected bool $has_checked_revisions = false;
 
     protected int $id;
 
@@ -311,6 +311,19 @@ class Review extends Arguments
     public function rating(): string
     {
         return glsr_star_rating($this->get('rating'));
+    }
+
+    public function refresh(): Review
+    {
+        $values = glsr(ReviewManager::class)->get($this->id, true)->toArray();
+        $this->merge($values);
+        $this->_meta = null;
+        $this->_post = null;
+        $this->has_checked_revisions = false;
+        $this->set('avatar', glsr(Avatar::class)->url($this));
+        $this->set('custom', $this->custom());
+        $this->set('response', $this->meta()->_response);
+        return $this;
     }
 
     public function render(array $args = []): void
