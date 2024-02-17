@@ -49,11 +49,11 @@ class Hooks extends AbstractHooks
             ['filterPostStatuses', 'multilingualpress.translation_ui_post_statuses'], // ['pending', 'publish']
             ['filterTaxonomiesIsChecked', 'multilingualpress.copy_taxonomies_is_checked'],
             ['onBulkEditReviews', 'bulk_edit_posts', 10, 2],
-            // ['onCreatedReview', 'site-reviews/review/created', 20, 2],
-            ['onRelateReview', 'multilingualpress.metabox_after_relate_posts', 10, 2],
+            ['onCreatedReview', 'site-reviews/review/created', 20],
             ['onPinned', 'site-reviews/review/pinned', 10, 2],
+            ['onRelateReview', 'multilingualpress.metabox_after_relate_posts', 10, 2],
             ['onTransitioned', 'site-reviews/review/transitioned', 10, 3],
-            // ['onUpdatedReview', 'site-reviews/review/updated', 20, 2],
+            ['onUpdatedReview', 'site-reviews/review/updated', 20],
             ['onVerified', 'site-reviews/review/verified'],
         ]);
     }

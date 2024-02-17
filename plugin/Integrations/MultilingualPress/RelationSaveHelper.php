@@ -32,11 +32,6 @@ class RelationSaveHelper
     protected $context;
 
     /**
-     * @var ServerRequest
-     */
-    protected $request;
-
-    /**
      * @var Review
      */
     protected $review;
@@ -45,16 +40,34 @@ class RelationSaveHelper
     {
         $this->contentRelations = resolve(ContentRelations::class);
         $this->context = $context;
-        $this->request = resolve(ServerRequest::class);
         $this->review = glsr_get_review($context->remotePostId());
     }
 
-    public function syncAssignedPosts(array $postIds)
+    public function relateReviews(): void
+    {
+        $siteToReviewIdMap = [
+            $this->context->sourceSiteId() => $this->context->sourcePostId(),
+            $this->context->remoteSiteId() => $this->context->remotePostId(),
+        ];
+        $relationshipId = $this->contentRelations->relationshipId(
+            $siteToReviewIdMap,
+            ContentRelations::CONTENT_TYPE_POST,
+            true
+        );
+        foreach ($siteToReviewIdMap as $siteId => $postId) {
+            if (!$this->contentRelations->saveRelation($relationshipId, $siteId, $postId)) {
+                glsr_log()->error('MLP: relate reviews failed')
+                    ->debug($this->context);
+            }
+        }
+    }
+
+    public function syncAssignedPosts(array $postIds, bool $force = false)
     {
         if (!$this->canSync()) {
             return;
         }
-        if (!$this->canSyncAssignment(MetaboxFields::FIELD_COPY_ASSIGNED_POSTS)) {
+        if (!$force && !$this->canSyncAssignment(MetaboxFields::FIELD_COPY_ASSIGNED_POSTS)) {
             return;
         }
         if ($postIds = $this->remoteAssignedPosts($postIds)) {
@@ -68,12 +81,12 @@ class RelationSaveHelper
         $helper->syncTaxonomyTerms($this->context);
     }
 
-    public function syncAssignedUsers(array $userIds, $bulkEdit = false)
+    public function syncAssignedUsers(array $userIds, bool $force = false)
     {
         if (!$this->canSync()) {
             return;
         }
-        if (!$this->canSyncAssignment(MetaboxFields::FIELD_COPY_ASSIGNED_USERS)) {
+        if (!$force && !$this->canSyncAssignment(MetaboxFields::FIELD_COPY_ASSIGNED_USERS)) {
             return;
         }
         if ($userIds = $this->remoteAssignedUsers($userIds)) {
@@ -133,10 +146,13 @@ class RelationSaveHelper
     {
         $sourceSiteId = $this->context->sourceSiteId();
         $remoteSiteId = $this->context->remoteSiteId();
-        if ($sourceSiteId === $remoteSiteId || !$this->context->hasRemotePost()) {
+        if ($sourceSiteId === $remoteSiteId) {
             return false;
         }
-        if (!Review::isReview($this->context->remotePostId())) {
+        if (!$this->context->hasRemotePost()) {
+            return false;
+        }
+        if (glsr()->post_type !== $this->context->remotePost()->post_type) {
             return false;
         }
         return true;
@@ -144,35 +160,9 @@ class RelationSaveHelper
 
     protected function canSyncAssignment(string $key): bool
     {
-        if (!empty($this->request->bodyValue('bulk_edit'))) {
-            return true;
-        }
         $siteId = $this->context->remoteSiteId();
-        $values = $this->request->bodyValue(MetaboxFieldsHelper::NAME_PREFIX);
+        $values = resolve(ServerRequest::class)->bodyValue(MetaboxFieldsHelper::NAME_PREFIX);
         return Arr::getAs('bool', $values, "site-{$siteId}.{$key}");
-    }
-
-    protected function maybeRestoreSite(int $originalSiteId): bool
-    {
-        if ($originalSiteId < 0) {
-            return false;
-        }
-        restore_current_blog();
-        $currentSite = get_current_blog_id();
-        if ($currentSite !== $originalSiteId) {
-            switch_to_blog($originalSiteId);
-        }
-        return true;
-    }
-
-    protected function maybeSwitchSite(int $remoteSiteId): int
-    {
-        $currentSite = get_current_blog_id();
-        if ($currentSite !== $remoteSiteId) {
-            switch_to_blog($remoteSiteId);
-            return $currentSite;
-        }
-        return -1;
     }
 
     protected function remoteAssignedPosts(array $postIds): array

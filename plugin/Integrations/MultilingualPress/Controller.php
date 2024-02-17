@@ -125,9 +125,9 @@ class Controller extends AbstractController
             $copier = new ReviewCopier($sourcePostId, $sourceSiteId);
             $copier->run(function ($context) use ($postIds, $termIds, $userIds) {
                 $relationHelper = new RelationSaveHelper($context);
-                $relationHelper->syncAssignedPosts($postIds);
+                $relationHelper->syncAssignedPosts($postIds, true);
                 $relationHelper->syncAssignedTerms();
-                $relationHelper->syncAssignedUsers($userIds);
+                $relationHelper->syncAssignedUsers($userIds, true);
             });
         }
     }
@@ -135,13 +135,18 @@ class Controller extends AbstractController
     /**
      * @action site-reviews/review/created
      */
-    public function onCreatedReview(Review $review, CreateReview $command): void
+    public function onCreatedReview(Review $review): void
     {
         if (glsr()->isAdmin()) {
             return;
         }
-        // @parse_str(\Inpsyde\MultilingualPress\resolve(ServerRequest::class)->body(), $body);
-        // glsr(ReviewConnector::class)->copyReview($review->ID, $command);
+        if (glsr()->retrieve('glsr_create_review', false)) {
+            return;
+        }
+        $sourcePostId = $review->ID;
+        $sourceSiteId = get_current_blog_id();
+        $copier = new ReviewCopier($sourcePostId, $sourceSiteId);
+        $copier->copy();
     }
 
     /**
@@ -188,16 +193,18 @@ class Controller extends AbstractController
     /**
      * @action site-reviews/review/updated
      */
-    public function onUpdatedReview(Review $review, array $data): void
+    public function onUpdatedReview(Review $review): void
     {
         if (glsr()->isAdmin()) {
             return;
         }
-        // glsr()->action('review/updated', $review, [], $oldPost); // pass an empty array since review values are unchanged
-        // glsr()->action('review/updated', $review, $data, $oldPost);
-
-        // @parse_str(\Inpsyde\MultilingualPress\resolve(ServerRequest::class)->body(), $body);
-        // glsr(ReviewConnector::class)->copyReview($review->ID, $command);
+        if (glsr()->retrieve('glsr_update_review', false)) {
+            return;
+        }
+        $sourcePostId = $review->ID;
+        $sourceSiteId = get_current_blog_id();
+        $copier = new ReviewCopier($sourcePostId, $sourceSiteId);
+        $copier->sync();
     }
 
     /**
