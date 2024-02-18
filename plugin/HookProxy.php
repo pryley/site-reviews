@@ -19,15 +19,16 @@ trait HookProxy
         }
         $reflection = new \ReflectionMethod($this, $method);
         if (!$reflection->isPublic()) {
-            throw new BadMethodCallException("Method [{$method}] is either not public or does not exist.");
+            throw new \BadMethodCallException("Method [{$method}] is either not public or does not exist.");
         }
         try {
             return call_user_func_array([$this, $method], $args);
         } catch (\TypeError $error) {
             glsr_log()->error($error->getMessage())->debug($error);
-            if (false) { // @todo check for debug mode here...
-                throw $error;
-            }
+            // @todo check for debug mode here...
+            // if (false) {
+            //     throw $error;
+            // }
             if (str_starts_with($method, 'filter')) {
                 return array_shift($args); // return the unmodified first argument
             }

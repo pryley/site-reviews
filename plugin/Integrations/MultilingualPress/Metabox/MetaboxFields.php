@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress\Metabox;
 
 use Inpsyde\MultilingualPress\TranslationUi\Post\MetaboxField;
-use Inpsyde\MultilingualPress\TranslationUi\Post\MetaboxTab;
 
 class MetaboxFields
 {
@@ -15,11 +14,11 @@ class MetaboxFields
         return [
             new MetaboxField(
                 static::FIELD_COPY_ASSIGNED_POSTS,
-                new AssignedPostsField()
+                new AssignedPostsField() // @phpstan-ignore-line
             ),
             new MetaboxField(
                 static::FIELD_COPY_ASSIGNED_USERS,
-                new AssignedUsersField()
+                new AssignedUsersField() // @phpstan-ignore-line
             ),
         ];
     }

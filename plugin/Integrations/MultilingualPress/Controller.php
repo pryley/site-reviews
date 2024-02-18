@@ -2,12 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress;
 
-use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
-use GeminiLabs\SiteReviews\Integrations\MultilingualPress\RelationSaveHelper;
 use GeminiLabs\SiteReviews\Review;
 use Inpsyde\MultilingualPress\Framework\Http\ServerRequest;
 use Inpsyde\MultilingualPress\TranslationUi\Post\RelationshipContext;
@@ -123,7 +121,7 @@ class Controller extends AbstractController
         $sourceSiteId = get_current_blog_id();
         foreach ($updatedPostIds as $sourcePostId) {
             $copier = new ReviewCopier($sourcePostId, $sourceSiteId);
-            $copier->run(function ($context) use ($postIds, $termIds, $userIds) {
+            $copier->run(function ($context) use ($postIds, $userIds) {
                 $relationHelper = new RelationSaveHelper($context);
                 $relationHelper->syncAssignedPosts($postIds, true);
                 $relationHelper->syncAssignedTerms();
@@ -179,12 +177,12 @@ class Controller extends AbstractController
         $sourcePostId = $review->ID;
         $sourceSiteId = get_current_blog_id();
         $copier = new ReviewCopier($sourcePostId, $sourceSiteId);
-        $copier->run(function ($context) use ($prevStatus) {
-            if ($prevStatus !== get_post_status($remotePostId)) {
+        $copier->run(function ($context) use ($prevStatus, $status) {
+            if ($prevStatus !== get_post_status($context->remotePostId())) {
                 return;
             }
             wp_update_post([
-                'ID' => $remotePostId,
+                'ID' => $context->remotePostId(),
                 'post_status' => $status,
             ]);
         });
@@ -215,7 +213,7 @@ class Controller extends AbstractController
         if (!Review::isReview($sourcePostId)) {
             return;
         }
-        $timestamp = Cast::toInt(glsr(Database::class)->meta(sourcePostId, 'verified_on'));
+        $timestamp = Cast::toInt(glsr(Database::class)->meta($sourcePostId, 'verified_on'));
         $sourceSiteId = get_current_blog_id();
         $copier = new ReviewCopier($sourcePostId, $sourceSiteId);
         $copier->run(function ($context) use ($timestamp) {
@@ -232,7 +230,7 @@ class Controller extends AbstractController
         if (!Review::isReview($context->remotePostId())) {
             return;
         }
-        $data = Arr::consolidate($request->bodyValue(glsr()->ID));
+        $data = Arr::consolidate($request->bodyValue(glsr()->id));
         $postIds = Arr::consolidate($request->bodyValue('post_ids'));
         $userIds = Arr::consolidate($request->bodyValue('user_ids'));
         $relationHelper = new RelationSaveHelper($context);

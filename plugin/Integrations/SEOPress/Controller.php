@@ -29,7 +29,7 @@ class Controller extends AbstractController
     {
         $data = Arr::consolidate($data);
         $schema = $this->filterSchemas([$data]);
-        return Arr::get($schema, 0);
+        return Arr::getAs('array', $schema, 0);
     }
 
     /**

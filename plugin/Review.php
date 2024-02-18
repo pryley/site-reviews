@@ -52,10 +52,10 @@ use GeminiLabs\SiteReviews\Modules\Multilingual;
  */
 class Review extends Arguments
 {
-    /** @var Arguments */
+    /** @var Arguments|null */
     protected $_meta;
 
-    /** @var \WP_Post */
+    /** @var \WP_Post|null */
     protected $_post;
 
     protected bool $has_checked_revisions = false;

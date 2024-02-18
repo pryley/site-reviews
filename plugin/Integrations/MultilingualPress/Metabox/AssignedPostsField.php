@@ -7,7 +7,7 @@ use Inpsyde\MultilingualPress\TranslationUi\Post\RelationshipContext;
 
 class AssignedPostsField
 {
-    const FIELD_COPY_ASSIGNED_POSTS_IS_CHECKED = 'copy_assigned_posts_is_checked';
+    public const FIELD_COPY_ASSIGNED_POSTS_IS_CHECKED = 'copy_assigned_posts_is_checked';
 
     public function __invoke(MetaboxFieldsHelper $helper, RelationshipContext $context)
     {

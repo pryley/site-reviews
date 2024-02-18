@@ -3,7 +3,7 @@ VERSION ?= $(shell perl -lne 'm{Stable tag: .*?(.+)} and print $$1' readme.txt)
 
 # Targets
 analyse: ## Run phpstan analyser
-	./vendor/bin/phpstan analyse --memory-limit 1G
+	XDEBUG_MODE=off ./vendor/bin/phpstan analyse --memory-limit 1G
 
 build: ## Build all assets and languages
 	npx gulp
@@ -44,7 +44,7 @@ sync: ## Sync plugin files to development site
 	. ~/Sites/site-reviews/public/app/plugins/site-reviews/
 
 test: ## Run all phpunit tests
-	./vendor/bin/phpunit
+	XDEBUG_MODE=coverage ./vendor/bin/phpunit
 
 testall: ## Run phpstan analyser and all phpunit tests
 	make analyse

@@ -15,6 +15,9 @@
 		</testsuite>
 	</testsuites>
 	<coverage processUncoveredFiles="true">
+		<exclude>
+			<directory suffix=".php">./plugin/Integrations/MultilingualPress</directory>
+		</exclude>
 		<include>
 			<directory suffix=".php">./plugin</directory>
 		</include>

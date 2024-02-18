@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Request;
 class ToggleStatus extends AbstractCommand
 {
     public $postId;
+    public $prevStatus;
     public $review;
     public $status;
 

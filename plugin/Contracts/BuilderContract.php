@@ -7,6 +7,7 @@ namespace GeminiLabs\SiteReviews\Contracts;
  * @property bool $render
  * @property string $tag
  * @property string $type
+ * 
  * @method string a(string|array ...$params)
  * @method string button(string|array ...$params)
  * @method string div(string|array ...$params)

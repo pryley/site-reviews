@@ -65,12 +65,16 @@ class Api
                 }
                 return $response;
             }
-            if (!$response->shouldRetry() || $nextRetry >= $args['max_retries']) {
+            if (!$response->shouldRetry()) {
+                return $response;
+            }
+            if ($nextRetry < $args['max_retries']) {
                 return $response;
             }
             $this->wait();
             glsr_log("Starting retry {$nextRetry} for {$url} after sleeping for {$this->timeUntilDeadline()} seconds.");
         }
+        return new Response(new \WP_Error('', "API request failed after {$this->numRetries} attempts.")); // this should never be the result
     }
 
     public function transientKey(string $path = ''): string

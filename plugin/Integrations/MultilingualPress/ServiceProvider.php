@@ -2,11 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress;
 
-use GeminiLabs\SiteReviews\Database\CountManager;
-use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Metabox\AssignedPostsField;
-use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Metabox\AssignedUsersField;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Metabox\MetaboxFields;
-use Inpsyde\MultilingualPress\Attachment\Copier;
 use Inpsyde\MultilingualPress\Core\PostTypeRepository;
 use Inpsyde\MultilingualPress\Core\TaxonomyRepository;
 use Inpsyde\MultilingualPress\Framework\Module\Module;
@@ -19,6 +15,9 @@ class ServiceProvider implements ModuleServiceProvider
 {
     public const MODULE_ID = 'site-reviews';
 
+    /**
+     * @param Container $container
+     */
     public function activateModule(Container $container)
     {
         $this->addMetaboxes();
@@ -70,7 +69,7 @@ class ServiceProvider implements ModuleServiceProvider
                 );
             }
             return $tabs;
-        }, 10, 2);
+        });
     }
 
     protected function removeGlobalSettings(): void
