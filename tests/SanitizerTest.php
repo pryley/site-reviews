@@ -138,7 +138,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => ['李祖阳 xx xx'],
             18 => ['#ax+dex(tomorrow) $200 200% @peter'],
             19 => ['this is true'],
-            20 => ['single-review full-width" onmouseover="alert(69)'],
+            20 => ['single-review full-width" "alert(69)'],
             21 => ['matt@wordpress.org'],
             22 => ['https//wordpress.org'],
             23 => ['wordpress.org'],
@@ -428,7 +428,7 @@ class SanitizerTest extends \WP_UnitTestCase
         $this->assertEquals($sanitized[17], 'xxxx');
         $this->assertEquals($sanitized[18], 'axdextomorrow200200peter');
         $this->assertEquals($sanitized[19], 'thisistrue');
-        $this->assertEquals($sanitized[20], 'single-reviewfull-widthonmouseov');
+        $this->assertEquals($sanitized[20], 'single-reviewfull-widthalert69');
         $this->assertEquals($sanitized[21], 'mattwordpressorg');
         $this->assertEquals($sanitized[22], 'httpswordpressorg');
         $this->assertEquals($sanitized[23], 'wordpressorg');
@@ -461,7 +461,7 @@ class SanitizerTest extends \WP_UnitTestCase
         $this->assertEquals($sanitized[17], 'xxxx');
         $this->assertEquals($sanitized[18], 'axdextomorrow200200peter');
         $this->assertEquals($sanitized[19], 'thisistrue');
-        $this->assertEquals($sanitized[20], 'single-reviewfull-widthonmouseov');
+        $this->assertEquals($sanitized[20], 'single-reviewfull-widthalert69');
         $this->assertEquals($sanitized[21], 'mattwordpressorg');
         $this->assertEquals($sanitized[22], 'httpswordpressorg');
         $this->assertEquals($sanitized[23], 'wordpressorg');
@@ -528,7 +528,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => 'xxxx',
             18 => 'axdextomorrow200200peter',
             19 => 'thisistrue',
-            20 => 'single_reviewfull_widthonmouseov',
+            20 => 'single_reviewfull_widthalert69',
             21 => 'mattwordpressorg',
             22 => 'httpswordpressorg',
             23 => 'wordpressorg',
@@ -664,7 +664,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => 'xxxx',
             18 => 'axdextomorrowpeter',
             19 => 'thisistrue',
-            20 => 'single-reviewfull-widthonmouseoveralert',
+            20 => 'single-reviewfull-widthalert',
             21 => 'mattwordpressorg',
             22 => 'httpswordpressorg',
             23 => 'wordpressorg',
@@ -876,7 +876,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => '%e6%9d%8e%e7%a5%96%e9%98%b3-xx-xx',
             18 => 'axdextomorrow-200-200-peter',
             19 => 'this-is-true',
-            20 => 'single-review-full-width-onmouseoveralert69',
+            20 => 'single-review-full-width-alert69',
             21 => 'mattwordpress-org',
             22 => 'https-wordpress-org',
             23 => 'wordpress-org',
@@ -954,7 +954,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => '李祖阳 xx xx',
             18 => '#ax+dex(tomorrow) $200 200% @peter',
             19 => 'this is true',
-            20 => 'single-review full-width" onmouseover="alert(69)',
+            20 => 'single-review full-width" "alert(69)',
             21 => 'matt@wordpress.org',
             22 => 'https//wordpress.org',
             23 => 'wordpress.org',
@@ -990,7 +990,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => '李祖阳 xx xx',
             18 => '#ax+dex(tomorrow) $200 200% @peter',
             19 => 'this is true',
-            20 => 'single-review full-width" onmouseover="alert(69)',
+            20 => 'single-review full-width" "alert(69)',
             21 => 'matt@wordpress.org',
             22 => 'https//wordpress.org',
             23 => 'wordpress.org',
@@ -1025,7 +1025,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => '李祖阳 xx xx',
             18 => '#ax+dex(tomorrow) $200 200% @peter',
             19 => 'this is true',
-            20 => 'single-review full-width" onmouseover="alert(69)',
+            20 => 'single-review full-width" "alert(69)',
             21 => 'matt@wordpress.org',
             22 => 'https//wordpress.org',
             23 => 'wordpress.org',
@@ -1059,7 +1059,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => '李祖阳 xx xx',
             18 => '#ax+dex(tomorrow) $200 200% @peter',
             19 => 'this is true',
-            20 => 'single-review full-width\" onmouseover=\"alert(69)',
+            20 => 'single-review full-width\" \"alert(69)',
             21 => 'matt@wordpress.org',
             22 => 'https//wordpress.org',
             23 => 'wordpress.org',

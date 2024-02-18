@@ -27,6 +27,8 @@ class ValidationTest extends WP_Ajax_UnitTestCase
     protected $messageFailed;
     protected $messageFailedBlacklist;
     protected $messageFailedCustom;
+    protected $messageFailedDuplicate;
+    protected $messageFailedHoneypot;
     protected $messageFailedPermission;
     protected $messageFailedReviewLimits;
     protected $messageFailedValidation;
@@ -125,7 +127,7 @@ class ValidationTest extends WP_Ajax_UnitTestCase
         glsr(OptionManager::class)->set('settings.forms.required', ['rating', 'title', 'content', 'name', 'email', 'terms']);
         $response1 = $this->assertJsonError($this->request());
         $response2 = $this->assertJsonSuccess($this->request([
-            'content' => $this->faker->text,
+            'content' => $this->faker->sentence,
             'email' => $this->faker->email,
             'name' => $this->faker->name,
             'rating' => 5,
@@ -142,11 +144,14 @@ class ValidationTest extends WP_Ajax_UnitTestCase
         add_filter('site-reviews/validators', fn () => [
             DuplicateValidator::class,
         ]);
+        $request = $this->request([
+            'content' => $this->faker->sentence,
+        ]);
         glsr(OptionManager::class)->set('settings.forms.prevent_duplicates', 'yes');
-        $response1 = $this->assertJsonSuccess($this->request());
-        $response2 = $this->assertJsonError($this->request());
+        $response1 = $this->assertJsonSuccess($request);
+        $response2 = $this->assertJsonError($request);
         glsr(OptionManager::class)->set('settings.forms.prevent_duplicates', 'no');
-        $response3 = $this->assertJsonSuccess($this->request());
+        $response3 = $this->assertJsonSuccess($request);
         $this->assertEquals($response1->data->message, $this->messageSuccess);
         $this->assertEquals($response2->data->message, $this->messageFailedDuplicate);
         $this->assertEquals($response3->data->message, $this->messageSuccess);
@@ -196,14 +201,17 @@ class ValidationTest extends WP_Ajax_UnitTestCase
         add_filter('site-reviews/validators', fn () => [
             ReviewLimitsValidator::class,
         ]);
-        glsr(OptionManager::class)->set('settings.forms.limit', 'ip_address');
         $this->assertJsonSuccess($this->request());
+        glsr(OptionManager::class)->set('settings.forms.limit', 'ip_address');
         $this->assertJsonError($this->request());
         glsr(OptionManager::class)->set('settings.forms.limit', 'email');
-        $this->assertJsonSuccess($this->request(['email' => 'john@apple.com']));
-        $this->assertJsonError($this->request(['email' => 'john@apple.com']));
-        glsr(OptionManager::class)->set('settings.forms.limit_whitelist.email', 'john@apple.com');
-        $this->assertJsonSuccess($this->request(['email' => 'john@apple.com']));
+        $request = $this->request([
+            'email' => $this->faker->email,
+        ]);
+        $this->assertJsonSuccess($request);
+        $this->assertJsonError($request);
+        glsr(OptionManager::class)->set('settings.forms.limit_whitelist.email', $request['email']);
+        $this->assertJsonSuccess($request);
         glsr(OptionManager::class)->set('settings.forms.limit', 'username');
         $this->assertJsonSuccess($this->request());
         wp_set_current_user(self::factory()->user->create([
@@ -245,6 +253,7 @@ class ValidationTest extends WP_Ajax_UnitTestCase
      */
     protected function performAjaxRequest($request)
     {
+        // error_log(print_r($request, 1));
         $action = glsr()->prefix.'action';
         $_POST['_ajax_request'] = true;
         $_POST[glsr()->id] = $request;
@@ -264,7 +273,7 @@ class ValidationTest extends WP_Ajax_UnitTestCase
     /**
      * @return array
      */
-    protected function request(array $mergeWith = [])
+    protected function request(array $mergeWith = []): array
     {
         $request = clone $this->request;
         return $request->merge($mergeWith)->toArray();
