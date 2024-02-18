@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
-use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Defaults\UpdateReviewDefaults;
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Defaults\SyncReviewDefaults;
 use GeminiLabs\SiteReviews\Review;
 use Inpsyde\MultilingualPress\Core\TaxonomyRepository;
 use Inpsyde\MultilingualPress\Framework\Api\ContentRelations;
@@ -84,7 +84,8 @@ class ReviewCopier
     {
         $review = glsr_get_review($this->sourcePostId);
         $data = $review->toArray();
-        $data = glsr(UpdateReviewDefaults::class)->merge($data);
+        $data = wp_parse_args($data, $review->custom()->toArray());
+        $data = glsr(SyncReviewDefaults::class)->merge($data);
         $this->run(function ($context) use ($data, $review) {
             $remoteReview = glsr_update_review($context->remotePostId(), $data);
             $helper = new RelationSaveHelper($context);

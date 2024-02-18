@@ -2,30 +2,26 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\UpdateReviewDefaults as Defaults;
+use GeminiLabs\SiteReviews\Defaults\UpdateReviewDefaults;
 
-class UpdateReviewDefaults extends Defaults
+class SyncReviewDefaults extends UpdateReviewDefaults
 {
     /**
-     * The values that should be cast before sanitization is run.
-     * This is done before $sanitize and $enums.
+     * The values that should be guarded.
+     * @var string[]
      */
     public array $guarded = [
         'assigned_posts',
         'assigned_terms',
         'assigned_users',
-        'author_id',
         'content',
+        'custom',
         'date',
         'date_gmt',
-        'edit_url',
-        'ID',
         'ip_address',
         'is_approved',
-        'is_modified',
         'is_pinned',
         'is_verified',
-        'rating_id',
         'response',
         'score',
         'status',
