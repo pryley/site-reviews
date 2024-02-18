@@ -78,6 +78,7 @@
 :--namespace .glsr-review p {
     margin-bottom: var(--glsr-text-md);
     margin-top: 0;
+    padding: 0;
 }
 :--namespace .glsr-tag-label {
     font-weight: var(--glsr-tag-label-weight);
