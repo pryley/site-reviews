@@ -145,7 +145,7 @@ class Rating
      */
     public function rankingUsingZScores(array $ratingCounts, int $confidencePercentage = 90): float
     {
-        $ratingCountsSum = array_sum($ratingCounts) + glsr()->constant('MAX_RATING', __CLASS__);
+        $ratingCountsSum = (float) array_sum($ratingCounts) + glsr()->constant('MAX_RATING', __CLASS__);
         $weight = $this->weight($ratingCounts, $ratingCountsSum);
         $weightPow2 = $this->weight($ratingCounts, $ratingCountsSum, true);
         $zScore = static::CONFIDENCE_LEVEL_Z_SCORES[$confidencePercentage];
@@ -185,7 +185,7 @@ class Rating
         }, 0);
     }
 
-    protected function weight(array $ratingCounts, int $ratingCountsSum, bool $powerOf2 = false): float
+    protected function weight(array $ratingCounts, float $ratingCountsSum, bool $powerOf2 = false): float
     {
         return (float) array_reduce(array_keys($ratingCounts),
             function ($count, $rating) use ($ratingCounts, $ratingCountsSum, $powerOf2) {
