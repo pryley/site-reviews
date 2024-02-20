@@ -16,12 +16,12 @@ class Translation
     /**
      * @var array
      */
-    protected $entries;
+    protected array $entries = [];
 
     /**
      * @var array
      */
-    protected $results;
+    protected array $results = [];
 
     /**
      * Returns all saved custom strings with translation context.
@@ -40,7 +40,7 @@ class Translation
 
     public function entries(): array
     {
-        if (!isset($this->entries)) {
+        if (empty($this->entries)) {
             $potFile = glsr()->path(glsr()->languages.'/'.glsr()->id.'.pot');
             $entries = $this->extractEntriesFromPotFile($potFile, glsr()->id);
             $entries = glsr()->filterArray('translation/entries', $entries);

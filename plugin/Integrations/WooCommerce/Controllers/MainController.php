@@ -16,17 +16,20 @@ class MainController extends AbstractController
     /**
      * @filter site-reviews/enqueue/public/inline-styles
      */
-    public function filterInlineStyles(string $style): string
+    public function filterInlineStyles(string $css): string
     {
-        $style .= 'ul.glsr li a{display:flex;justify-content:space-between;}'; // fix rating filter widget
-        $style .= '.glsr.woocommerce-product-rating{align-items:center;display:inline-flex;gap:.5em;}.glsr.woocommerce-product-rating .woocommerce-review-link{top:-1px!important;}'; // fix product title rating position
-        if ('black' === glsr_get_option('addons.woocommerce.style')) {
-            $style .= '.glsr:not([data-theme]) .glsr-bar-background-percent{color:#212121!important;}';
+        $css .= 'ul.glsr li a{display:flex;justify-content:space-between;}'; // fix rating filter widget
+        $css .= '.glsr.woocommerce-product-rating{align-items:center;display:inline-flex;gap:.5em;}.glsr.woocommerce-product-rating .woocommerce-review-link{top:-1px!important;}'; // fix product title rating position
+        $style = glsr_get_option('addons.woocommerce.style');
+        if ('black' === $style) {
+            $css .= '.glsr:not([data-theme]) .glsr-bar-background-percent{--glsr-bar-bg:#212121;}';
+            $css .= '.glsr:not([data-theme]) .glsr-star{background:#212121!important;}';
         }
-        if ('woocommerce' === glsr_get_option('addons.woocommerce.style')) {
-            $style .= '.glsr:not([data-theme]) .glsr-bar-background-percent{color:#96588A!important;}';
+        if ('woocommerce' === $style) {
+            $css .= '.glsr:not([data-theme]) .glsr-bar-background-percent{--glsr-bar-bg:#96588A;}';
+            $css .= '.glsr:not([data-theme]) .glsr-star{background:#96588A!important;}';
         }
-        return $style;
+        return $css;
     }
 
     /**
@@ -110,20 +113,6 @@ class MainController extends AbstractController
             $value = sprintf('%s <em class="woocommerce-review__verified verified">(%s)</em>', $value, $text);
         }
         return $value;
-    }
-
-    /**
-     * @filter site-reviews/config/inline-styles
-     */
-    public function filterStarImages(array $config): array
-    {
-        $style = glsr_get_option('addons.woocommerce.style');
-        if (in_array($style, ['black', 'woocommerce'])) {
-            $config[':star-empty'] = glsr()->url("assets/images/stars/{$style}/star-empty.svg");
-            $config[':star-full'] = glsr()->url("assets/images/stars/{$style}/star-full.svg");
-            $config[':star-half'] = glsr()->url("assets/images/stars/{$style}/star-half.svg");
-        }
-        return $config;
     }
 
     /**

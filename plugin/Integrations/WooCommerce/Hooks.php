@@ -68,7 +68,6 @@ class Hooks extends AbstractHooks
             ['filterRatingOption', 'option_woocommerce_review_rating_required'],
             ['filterReviewAuthorTagValue', 'site-reviews/review/value/author', 10, 2],
             ['filterReviewProductMethod', 'site-reviews/review/call/product'],
-            ['filterStarImages', 'site-reviews/config/inline-styles', 20],
             ['hasVerifiedOwner', 'site-reviews/review/call/hasVerifiedOwner'],
             ['registerElementorWidgets', 'elementor/widgets/register', 20],
             ['registerWidgets', 'widgets_init', 20],

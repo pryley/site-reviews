@@ -82,6 +82,7 @@ Site Reviews is officially compatible with the following plugins:
 - [GeneratePress](https://generatepress.com/)
 - [hCaptcha](https://wordpress.org/plugins/hcaptcha-for-forms-and-more/)
 - [Hummingbird Performance](https://wordpress.org/plugins/hummingbird-performance/)
+- [JetWooBuilder For Elementor](https://crocoblock.com/plugins/jetwoobuilder/)
 - [Litespeed Cache](https://wordpress.org/plugins/litespeed-cache/)
 - [Loyalty Program for WooCommerce](https://advancedcouponsplugin.com/woocommerce-loyalty-program/)
 - [Members](https://wordpress.org/plugins/members/)
