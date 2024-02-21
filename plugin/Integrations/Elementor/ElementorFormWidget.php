@@ -131,7 +131,7 @@ class ElementorFormWidget extends ElementorWidget
                 'condition' => [
                     'theme!' => '',
                 ],
-                'content' => esc_html_x('This widget is using the rating style of the custom theme selected in the widget\'s Content settings.', 'admin-text', 'site-reviews'),
+                'content' => esc_html_x('This widget is using the rating color of the custom theme selected in the widget\'s Content settings.', 'admin-text', 'site-reviews'),
                 'type' => Controls_Manager::ALERT,
             ],
             'rating_color' => [
@@ -146,9 +146,6 @@ class ElementorFormWidget extends ElementorWidget
                 'type' => Controls_Manager::COLOR,
             ],
             'rating_size' => [
-                'condition' => [
-                    'theme' => '',
-                ],
                 'default' => [
                     'unit' => 'em',
                     'size' => 2,
@@ -163,9 +160,30 @@ class ElementorFormWidget extends ElementorWidget
                     ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .glsr:not([data-theme]) form.glsr-form .glsr-star-rating--stars > span' => '--glsr-form-star: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} form.glsr-form .glsr-field-rating' => '--glsr-form-star: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .glsr[data-theme] .glsr-field-rating [data-stars]' => 'font-size: initial;',
+                    '{{WRAPPER}} .glsr[data-theme] .glsr-field-rating [data-stars] > span' => 'font-size: initial; height: var(--glsr-form-star); width: var(--glsr-form-star);',
                 ],
                 'size_units' => $this->set_custom_size_unit(['em']),
+                'type' => Controls_Manager::SLIDER,
+            ],
+            'rating_spacing' => [
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 2,
+                ],
+                'is_responsive' => true,
+                'label' => esc_html_x('Star Spacing', 'admin-text', 'site-reviews'),
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 10,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} form.glsr-form .glsr-field-rating span[data-rating]' => 'column-gap: {{SIZE}}{{UNIT}};',
+                ],
+                'size_units' => ['px'],
                 'type' => Controls_Manager::SLIDER,
             ],
         ];

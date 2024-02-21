@@ -4025,9 +4025,9 @@ msgctxt "admin-text"
 msgid "Field Spacing"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:134, plugin/Integrations/Elementor/ElementorReviewsWidget.php:213, plugin/Integrations/Elementor/ElementorReviewWidget.php:109, plugin/Integrations/Elementor/ElementorSummaryWidget.php:229
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:134
 msgctxt "admin-text"
-msgid "This widget is using the rating style of the custom theme selected in the widget's Content settings."
+msgid "This widget is using the rating color of the custom theme selected in the widget's Content settings."
 msgstr ""
 
 #: plugin/Integrations/Elementor/ElementorFormWidget.php:141, plugin/Integrations/Elementor/ElementorReviewsWidget.php:220, plugin/Integrations/Elementor/ElementorReviewWidget.php:116, plugin/Integrations/Elementor/ElementorSummaryWidget.php:236
@@ -4035,9 +4035,14 @@ msgctxt "admin-text"
 msgid "Color"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:157, plugin/Integrations/Elementor/ElementorReviewsWidget.php:235, plugin/Integrations/Elementor/ElementorReviewWidget.php:131, plugin/Integrations/Elementor/ElementorSummaryWidget.php:252
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:154, plugin/Integrations/Elementor/ElementorReviewsWidget.php:235, plugin/Integrations/Elementor/ElementorReviewWidget.php:131, plugin/Integrations/Elementor/ElementorSummaryWidget.php:252
 msgctxt "admin-text"
 msgid "Star Size"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:176
+msgctxt "admin-text"
+msgid "Star Spacing"
 msgstr ""
 
 #: plugin/Integrations/Elementor/ElementorReviewsWidget.php:41, plugin/Integrations/Elementor/ElementorSummaryWidget.php:53
@@ -4128,6 +4133,11 @@ msgstr ""
 #: plugin/Integrations/Elementor/ElementorReviewsWidget.php:189
 msgctxt "admin-text"
 msgid "Review Spacing"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:213, plugin/Integrations/Elementor/ElementorReviewWidget.php:109, plugin/Integrations/Elementor/ElementorSummaryWidget.php:229
+msgctxt "admin-text"
+msgid "This widget is using the rating style of the custom theme selected in the widget's Content settings."
 msgstr ""
 
 #: plugin/Integrations/Elementor/ElementorReviewWidget.php:47
