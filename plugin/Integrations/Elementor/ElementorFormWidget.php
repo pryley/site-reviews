@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
+use Elementor\Controls_Manager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
@@ -28,10 +29,7 @@ class ElementorFormWidget extends ElementorWidget
         return _x('Review Form', 'admin-text', 'site-reviews');
     }
 
-    /**
-     * @return array
-     */
-    protected function settings_advanced()
+    protected function settings_advanced(): array
     {
         $settings = parent::settings_advanced();
         $settings = Arr::insertAfter('shortcode_id', $settings, [
@@ -45,10 +43,7 @@ class ElementorFormWidget extends ElementorWidget
         return $settings;
     }
 
-    /**
-     * @return array
-     */
-    protected function settings_basic()
+    protected function settings_basic(): array
     {
         $options = [
             'assigned_posts' => [
@@ -101,5 +96,78 @@ class ElementorFormWidget extends ElementorWidget
             ];
         }
         return $options;
+    }
+
+    protected function settings_layout(): array
+    {
+        return [
+            'spacing' => [
+                'default' => [
+                    'unit' => 'em',
+                    'size' => 0.75,
+                ],
+                'is_responsive' => true,
+                'label' => esc_html_x('Field Spacing', 'admin-text', 'site-reviews'),
+                'range' => [
+                    'em'  => [
+                        'min' => 0,
+                        'max' => 2,
+                        'step' => 0.125,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} form.glsr-form' => '--glsr-gap-md: {{SIZE}}{{UNIT}};',
+                ],
+                'size_units' => $this->set_custom_size_unit(['em']),
+                'type' => Controls_Manager::SLIDER,
+            ],
+        ];
+    }
+
+    protected function settings_rating(): array
+    {
+        return [
+            'rating_alert' => [
+                'condition' => [
+                    'theme!' => '',
+                ],
+                'content' => esc_html_x('This widget is using the rating style of the custom theme selected in the widget\'s Content settings.', 'admin-text', 'site-reviews'),
+                'type' => Controls_Manager::ALERT,
+            ],
+            'rating_color' => [
+                'condition' => [
+                    'theme' => '',
+                ],
+                'label' => esc_html_x('Color', 'admin-text', 'site-reviews'),
+                'selectors' => [
+                    '{{WRAPPER}} .glsr:not([data-theme]) .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars > span' => 'background: {{VALUE}} !important;',
+                    '{{WRAPPER}} .glsr:not([data-theme]) .glsr-field-is-invalid .glsr-star-rating--stars > span.gl-active' => 'background: {{VALUE}} !important;',
+                ],
+                'type' => Controls_Manager::COLOR,
+            ],
+            'rating_size' => [
+                'condition' => [
+                    'theme' => '',
+                ],
+                'default' => [
+                    'unit' => 'em',
+                    'size' => 2,
+                ],
+                'is_responsive' => true,
+                'label' => esc_html_x('Star Size', 'admin-text', 'site-reviews'),
+                'range' => [
+                    'em' => [
+                        'min' => 1,
+                        'max' => 3,
+                        'step' => 0.125,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .glsr:not([data-theme]) form.glsr-form .glsr-star-rating--stars > span' => '--glsr-form-star: {{SIZE}}{{UNIT}};',
+                ],
+                'size_units' => $this->set_custom_size_unit(['em']),
+                'type' => Controls_Manager::SLIDER,
+            ],
+        ];
     }
 }

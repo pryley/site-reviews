@@ -749,7 +749,7 @@ msgctxt "admin-text"
 msgid "Display the fallback text when there are no reviews to display. This can be changed on the %s page. You may also override this by using the \"fallback\" option on the shortcode."
 msgstr ""
 
-#: config/settings.php:407, plugin/Controllers/MenuController.php:145
+#: config/settings.php:407, plugin/Controllers/MenuController.php:135
 msgctxt "admin-text"
 msgid "Strings"
 msgstr ""
@@ -989,7 +989,7 @@ msgctxt "admin-text"
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:709, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Tinymce/SiteReviewsTinymce.php:31, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/GamiPress/Controller.php:122
+#: config/settings.php:709, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Tinymce/SiteReviewsTinymce.php:31, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/Elementor/ElementorWidget.php:141, plugin/Integrations/GamiPress/Controller.php:122
 msgctxt "admin-text"
 msgid "Rating"
 msgstr ""
@@ -1004,12 +1004,12 @@ msgctxt "admin-text"
 msgid "Review"
 msgstr ""
 
-#: config/settings.php:712, config/forms/metabox-fields.php:14, plugin/Controllers/PrivacyController.php:130, plugin/Defaults/PostTypeColumnDefaults.php:15, plugin/Defaults/RevisionFieldsDefaults.php:13
+#: config/settings.php:712, config/forms/metabox-fields.php:14, plugin/Controllers/PrivacyController.php:113, plugin/Defaults/PostTypeColumnDefaults.php:15, plugin/Defaults/RevisionFieldsDefaults.php:13
 msgctxt "admin-text"
 msgid "Name"
 msgstr ""
 
-#: config/settings.php:713, config/forms/metabox-fields.php:18, plugin/Controllers/PrivacyController.php:131, plugin/Defaults/PostTypeColumnDefaults.php:16, plugin/Defaults/RevisionFieldsDefaults.php:14
+#: config/settings.php:713, config/forms/metabox-fields.php:18, plugin/Controllers/PrivacyController.php:114, plugin/Defaults/PostTypeColumnDefaults.php:16, plugin/Defaults/RevisionFieldsDefaults.php:14
 msgctxt "admin-text"
 msgid "Email"
 msgstr ""
@@ -1383,7 +1383,7 @@ msgstr ""
 msgid "Anonymous"
 msgstr ""
 
-#: plugin/Review.php:332, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:17
+#: plugin/Review.php:346, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:17
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
@@ -1393,11 +1393,11 @@ msgctxt "admin-text"
 msgid "Rollback Site Reviews"
 msgstr ""
 
-#: plugin/Router.php:201, views/pages/documentation/support/common-problems-and-solutions.php:61
+#: plugin/Router.php:206, views/pages/documentation/support/common-problems-and-solutions.php:62
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Router.php:204
+#: plugin/Router.php:209
 msgctxt "admin-text"
 msgid "There was an error (try reloading the page)."
 msgstr ""
@@ -1462,7 +1462,7 @@ msgctxt "admin-text"
 msgid "Type"
 msgstr ""
 
-#: config/forms/metabox-fields.php:22, plugin/Controllers/PrivacyController.php:132, plugin/Defaults/PostTypeColumnDefaults.php:17, plugin/Defaults/RevisionFieldsDefaults.php:15
+#: config/forms/metabox-fields.php:22, plugin/Controllers/PrivacyController.php:115, plugin/Defaults/PostTypeColumnDefaults.php:17, plugin/Defaults/RevisionFieldsDefaults.php:15
 msgctxt "admin-text"
 msgid "IP Address"
 msgstr ""
@@ -1472,7 +1472,7 @@ msgctxt "admin-text"
 msgid "Avatar"
 msgstr ""
 
-#: config/forms/metabox-fields.php:31, plugin/Controllers/PrivacyController.php:133
+#: config/forms/metabox-fields.php:31, plugin/Controllers/PrivacyController.php:116
 msgctxt "admin-text"
 msgid "Terms Accepted"
 msgstr ""
@@ -1647,12 +1647,12 @@ msgctxt "admin-text"
 msgid "Untitled"
 msgstr ""
 
-#: plugin/Addons/Controller.php:71, plugin/Controllers/AdminController.php:78, plugin/Controllers/MenuController.php:53, plugin/Integrations/Elementor/ElementorWidget.php:141, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
+#: plugin/Addons/Controller.php:71, plugin/Controllers/AdminController.php:74, plugin/Controllers/MenuController.php:50, plugin/Integrations/Elementor/ElementorWidget.php:131, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
 msgctxt "admin-text"
 msgid "Settings"
 msgstr ""
 
-#: plugin/Addons/Controller.php:78, plugin/Controllers/AdminController.php:84, views/partials/dashboard-widget.php:28
+#: plugin/Addons/Controller.php:78, plugin/Controllers/AdminController.php:80, views/partials/dashboard-widget.php:28
 msgctxt "admin-text"
 msgid "Help"
 msgstr ""
@@ -1676,7 +1676,7 @@ msgstr ""
 msgid "Show more"
 msgstr ""
 
-#: plugin/Commands/ApproveReview.php:39
+#: plugin/Commands/ApproveReview.php:43
 msgctxt "admin-text"
 msgid "The %sreview%s was approved successfully."
 msgstr ""
@@ -1734,7 +1734,7 @@ msgstr ""
 msgid "Your review has been submitted and is pending approval."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:170, views/pages/documentation/support/common-problems-and-solutions.php:87
+#: plugin/Commands/CreateReview.php:170, views/pages/documentation/support/common-problems-and-solutions.php:88
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
@@ -1818,12 +1818,12 @@ msgctxt "admin-text"
 msgid "The title of the review"
 msgstr ""
 
-#: plugin/Commands/DownloadCsvTemplate.php:94, plugin/Controllers/MetaboxController.php:62, plugin/Controllers/MetaboxController.php:83, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:14
+#: plugin/Commands/DownloadCsvTemplate.php:94, plugin/Controllers/MetaboxController.php:57, plugin/Controllers/MetaboxController.php:77, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:14
 msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
 
-#: plugin/Commands/DownloadCsvTemplate.php:95, plugin/Controllers/MetaboxController.php:61, plugin/Controllers/MetaboxController.php:82, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/Elementor/ElementorReviewsWidget.php:96
+#: plugin/Commands/DownloadCsvTemplate.php:95, plugin/Controllers/MetaboxController.php:56, plugin/Controllers/MetaboxController.php:76, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/Elementor/ElementorReviewsWidget.php:94
 msgctxt "admin-text"
 msgid "No"
 msgstr ""
@@ -1838,12 +1838,12 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:81, plugin/Overrides/ReviewsListTable.php:68, views/partials/screen/inline-edit.php:68, views/partials/screen/inline-edit.php:86, views/partials/screen/inline-edit.php:96
+#: plugin/Commands/EnqueueAdminAssets.php:81, plugin/Overrides/ReviewsListTable.php:81, views/partials/screen/inline-edit.php:68, views/partials/screen/inline-edit.php:86, views/partials/screen/inline-edit.php:96
 msgctxt "admin-text"
 msgid "No Change"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:82, plugin/Overrides/ReviewsListTable.php:76
+#: plugin/Commands/EnqueueAdminAssets.php:82, plugin/Overrides/ReviewsListTable.php:89
 msgctxt "admin-text"
 msgid "No Author"
 msgstr ""
@@ -1941,7 +1941,7 @@ msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:172, plugin/Controllers/MenuController.php:172
+#: plugin/Commands/ImportReviews.php:172, plugin/Controllers/MenuController.php:160
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
@@ -2030,29 +2030,29 @@ msgstr ""
 msgid "Please verify your review"
 msgstr ""
 
-#: plugin/Commands/TogglePinned.php:35
+#: plugin/Commands/TogglePinned.php:39
 msgctxt "admin-text"
 msgid "Review pinned."
 msgstr ""
 
-#: plugin/Commands/TogglePinned.php:36
+#: plugin/Commands/TogglePinned.php:40
 msgctxt "admin-text"
 msgid "Review unpinned."
 msgstr ""
 
-#: plugin/Commands/ToggleStatus.php:63, views/partials/editor/pinned.php:7, views/partials/editor/verified.php:7
+#: plugin/Commands/ToggleStatus.php:66, views/partials/editor/pinned.php:7, views/partials/editor/verified.php:7
 msgctxt "admin-text"
 msgid "Edit"
 msgstr ""
 
-#: plugin/Commands/ToggleStatus.php:75
+#: plugin/Commands/ToggleStatus.php:78
 msgctxt "admin-text"
 msgid "Approved <span class=\"count\">(%s)</span>"
 msgid_plural "Approved <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ToggleStatus.php:83
+#: plugin/Commands/ToggleStatus.php:86
 msgctxt "admin-text"
 msgid "Unapproved <span class=\"count\">(%s)</span>"
 msgid_plural "Unapproved <span class=\"count\">(%s)</span>"
@@ -2069,17 +2069,17 @@ msgctxt "admin-text"
 msgid "Review unverified."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:112, views/pages/tools/console.php:58
+#: plugin/Controllers/AdminController.php:106, views/pages/tools/console.php:58
 msgctxt "admin-text"
 msgid "Apply"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:116
+#: plugin/Controllers/AdminController.php:110
 msgctxt "admin-text"
 msgid "Close Panel"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:284, plugin/Controllers/AdminController.php:302, plugin/Controllers/AdminController.php:315
+#: plugin/Controllers/AdminController.php:275, plugin/Controllers/AdminController.php:293, plugin/Controllers/AdminController.php:306
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr ""
@@ -2184,12 +2184,12 @@ msgctxt "admin-text"
 msgid "Other Reason"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:114
+#: plugin/Controllers/EditorController.php:102
 msgctxt "admin-text"
 msgid "Okay"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:139
+#: plugin/Controllers/EditorController.php:125
 msgctxt "admin-text"
 msgid "Publicly responding to third-party %s reviews is disabled."
 msgstr ""
@@ -2219,142 +2219,147 @@ msgctxt "admin-text"
 msgid "Ask for Help"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:45
+#: plugin/Controllers/ListTableController.php:42
 msgctxt "admin-text"
 msgid "%s is currently editing"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:82
+#: plugin/Controllers/ListTableController.php:76
 msgctxt "admin-text"
 msgid "Submitted"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:149, plugin/Controllers/TranslationController.php:199, plugin/Defaults/PostStatusLabelsDefaults.php:13
+#: plugin/Controllers/ListTableController.php:155
+msgctxt "admin-text"
+msgid "Approve this review"
+msgstr ""
+
+#: plugin/Controllers/ListTableController.php:158, plugin/Controllers/TranslationController.php:167, plugin/Defaults/PostStatusLabelsDefaults.php:13
 msgctxt "admin-text"
 msgid "Approve"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:150
+#: plugin/Controllers/ListTableController.php:161
+msgctxt "admin-text"
+msgid "Unapprove this review"
+msgstr ""
+
+#: plugin/Controllers/ListTableController.php:164
 msgctxt "admin-text"
 msgid "Unapprove"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:154
-msgctxt "Approve the review (admin-text)"
-msgid "%s this review"
-msgstr ""
-
-#: plugin/Controllers/ListTableController.php:165
+#: plugin/Controllers/ListTableController.php:170
 msgctxt "admin-text"
 msgid "Respond inline to &#8220;%s&#8221;"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:167
+#: plugin/Controllers/ListTableController.php:172
 msgctxt "admin-text"
 msgid "Respond"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:258
+#: plugin/Controllers/ListTableController.php:255
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to respond to this review."
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:262
+#: plugin/Controllers/ListTableController.php:259
 msgctxt "admin-text"
 msgid "Someone"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:263
+#: plugin/Controllers/ListTableController.php:260
 msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr ""
 
-#: plugin/Controllers/MainController.php:98
+#: plugin/Controllers/MainController.php:97
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:54
+#: plugin/Controllers/MenuController.php:51
 msgctxt "admin-text"
 msgid "Tools"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:55, plugin/Controllers/MenuController.php:120, plugin/Controllers/MenuController.php:146
+#: plugin/Controllers/MenuController.php:52, plugin/Controllers/MenuController.php:112, plugin/Controllers/MenuController.php:136
 msgctxt "admin-text"
 msgid "Addons"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:56
+#: plugin/Controllers/MenuController.php:53
 msgctxt "admin-text"
 msgid "Help & Support"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:114, plugin/Controllers/WelcomeController.php:85
+#: plugin/Controllers/MenuController.php:106, plugin/Controllers/WelcomeController.php:78
 msgctxt "admin-text"
 msgid "Support"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:115, plugin/Controllers/ToolsController.php:96
+#: plugin/Controllers/MenuController.php:107, plugin/Controllers/ToolsController.php:96
 msgctxt "admin-text"
 msgid "FAQ"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:116
+#: plugin/Controllers/MenuController.php:108
 msgctxt "admin-text"
 msgid "Shortcodes"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:117
+#: plugin/Controllers/MenuController.php:109
 msgctxt "admin-text"
 msgid "Hooks"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:118
+#: plugin/Controllers/MenuController.php:110
 msgctxt "admin-text"
 msgid "Functions"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:119
+#: plugin/Controllers/MenuController.php:111
 msgctxt "admin-text"
 msgid "API"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:141, plugin/Controllers/MenuController.php:169
+#: plugin/Controllers/MenuController.php:131, plugin/Controllers/MenuController.php:157
 msgctxt "admin-text"
 msgid "General"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:142, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:17, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31, plugin/Integrations/WooCommerce/Metaboxes/ReviewsMetabox.php:15
+#: plugin/Controllers/MenuController.php:132, plugin/Controllers/PrivacyController.php:129, plugin/Defaults/PostTypeLabelDefaults.php:17, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31, plugin/Integrations/WooCommerce/Metaboxes/ReviewsMetabox.php:15
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:143
+#: plugin/Controllers/MenuController.php:133
 msgctxt "admin-text"
 msgid "Forms"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:144, plugin/Tinymce/SiteReviewsSummaryTinymce.php:36, plugin/Tinymce/SiteReviewsTinymce.php:70
+#: plugin/Controllers/MenuController.php:134, plugin/Tinymce/SiteReviewsSummaryTinymce.php:36, plugin/Tinymce/SiteReviewsTinymce.php:70
 msgctxt "admin-text"
 msgid "Schema"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:147
+#: plugin/Controllers/MenuController.php:137
 msgctxt "admin-text"
 msgid "Licenses"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:170
+#: plugin/Controllers/MenuController.php:158
 msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:171, views/pages/tools/sync.php:58
+#: plugin/Controllers/MenuController.php:159, views/pages/tools/sync.php:58
 msgctxt "admin-text"
 msgid "Sync Reviews"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:173
+#: plugin/Controllers/MenuController.php:161
 msgctxt "admin-text"
 msgid "System Info"
 msgstr ""
@@ -2364,12 +2369,12 @@ msgctxt "admin-text"
 msgid "The email and associated name and IP address has been removed from all reviews, but the reviews themselves were not removed."
 msgstr ""
 
-#: plugin/Controllers/PrivacyController.php:128
+#: plugin/Controllers/PrivacyController.php:111
 msgctxt "admin-text"
 msgid "Review Title"
 msgstr ""
 
-#: plugin/Controllers/PrivacyController.php:129
+#: plugin/Controllers/PrivacyController.php:112
 msgctxt "admin-text"
 msgid "Review Content"
 msgstr ""
@@ -2474,67 +2479,67 @@ msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:32
+#: plugin/Controllers/TranslationController.php:34
 msgctxt "admin-text"
 msgid "%s review updated."
 msgid_plural "%s reviews updated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:33
+#: plugin/Controllers/TranslationController.php:35
 msgctxt "admin-text"
 msgid "%s review not updated, somebody is editing it."
 msgid_plural "%s reviews not updated, somebody is editing them."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:34
+#: plugin/Controllers/TranslationController.php:36
 msgctxt "admin-text"
 msgid "%s review permanently deleted."
 msgid_plural "%s reviews permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:35
+#: plugin/Controllers/TranslationController.php:37
 msgctxt "admin-text"
 msgid "%s review moved to the Trash."
 msgid_plural "%s reviews moved to the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:36
+#: plugin/Controllers/TranslationController.php:38
 msgctxt "admin-text"
 msgid "%s review restored from the Trash."
 msgid_plural "%s reviews restored from the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:134, plugin/Controllers/TranslationController.php:168, plugin/Defaults/PostStatusLabelsDefaults.php:10, plugin/Defaults/PostStatusLabelsDefaults.php:11, views/partials/screen/inline-edit.php:72
+#: plugin/Controllers/TranslationController.php:111, plugin/Controllers/TranslationController.php:138, plugin/Defaults/PostStatusLabelsDefaults.php:10, plugin/Defaults/PostStatusLabelsDefaults.php:11, plugin/Integrations/MultilingualPress/Controller.php:94, views/partials/screen/inline-edit.php:72
 msgctxt "admin-text"
 msgid "Unapproved"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:167, plugin/Controllers/TranslationController.php:200, plugin/Defaults/PostStatusLabelsDefaults.php:14, views/partials/screen/inline-edit.php:70
+#: plugin/Controllers/TranslationController.php:137, plugin/Controllers/TranslationController.php:168, plugin/Defaults/PostStatusLabelsDefaults.php:14, plugin/Integrations/MultilingualPress/Controller.php:95, views/partials/screen/inline-edit.php:70
 msgctxt "admin-text"
 msgid "Approved"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:198, plugin/Defaults/PostStatusLabelsDefaults.php:12
+#: plugin/Controllers/TranslationController.php:166, plugin/Defaults/PostStatusLabelsDefaults.php:12
 msgctxt "admin-text"
 msgid "Privately Approved"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:201
+#: plugin/Controllers/TranslationController.php:169
 msgctxt "admin-text"
 msgid "Approve on:"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:202
+#: plugin/Controllers/TranslationController.php:170
 msgctxt "admin-text"
 msgid "Approved on:"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:203, plugin/Defaults/PostStatusLabelsDefaults.php:15
+#: plugin/Controllers/TranslationController.php:171, plugin/Defaults/PostStatusLabelsDefaults.php:15
 msgctxt "admin-text"
 msgid "Save as Unapproved"
 msgstr ""
@@ -2547,32 +2552,32 @@ msgstr ""
 msgid "Thank you, your review has been verified and is awaiting approval."
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:27
+#: plugin/Controllers/WelcomeController.php:25
 msgctxt "admin-text"
 msgid "About"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:39
+#: plugin/Controllers/WelcomeController.php:36
 msgctxt "admin-text"
 msgid "Welcome to %s &#8212; WordPress"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:50
+#: plugin/Controllers/WelcomeController.php:46
 msgctxt "admin-text"
 msgid "Welcome to %s"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:82
+#: plugin/Controllers/WelcomeController.php:75
 msgctxt "admin-text"
 msgid "Getting Started"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:83
+#: plugin/Controllers/WelcomeController.php:76
 msgctxt "admin-text"
 msgid "What's New"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:84
+#: plugin/Controllers/WelcomeController.php:77
 msgctxt "admin-text"
 msgid "Upgrade Guide"
 msgstr ""
@@ -3524,7 +3529,7 @@ msgctxt "admin-text"
 msgid "Hide"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:66, plugin/Widgets/SiteReviewsFormWidget.php:70, plugin/Integrations/Elementor/ElementorFormWidget.php:28
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:66, plugin/Widgets/SiteReviewsFormWidget.php:70, plugin/Integrations/Elementor/ElementorFormWidget.php:29
 msgctxt "admin-text"
 msgid "Review Form"
 msgstr ""
@@ -3564,7 +3569,7 @@ msgctxt "admin-text"
 msgid "Rich snippets are disabled by default."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:64, plugin/Integrations/Elementor/ElementorSummaryWidget.php:30
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:64, plugin/Integrations/Elementor/ElementorSummaryWidget.php:31
 msgctxt "admin-text"
 msgid "Rating Summary"
 msgstr ""
@@ -3626,7 +3631,7 @@ msgctxt "admin-text"
 msgid "Which type of review would you like to display?"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:103, plugin/Integrations/Elementor/ElementorReviewsWidget.php:32
+#: plugin/Tinymce/SiteReviewsTinymce.php:103, plugin/Integrations/Elementor/ElementorReviewsWidget.php:33
 msgctxt "admin-text"
 msgid "Latest Reviews"
 msgstr ""
@@ -3641,7 +3646,7 @@ msgctxt "admin-text"
 msgid "Enter a the Post ID of the review to display."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewTinymce.php:51, plugin/Widgets/SiteReviewWidget.php:44, plugin/Integrations/Elementor/ElementorReviewWidget.php:31
+#: plugin/Tinymce/SiteReviewTinymce.php:51, plugin/Widgets/SiteReviewWidget.php:44, plugin/Integrations/Elementor/ElementorReviewWidget.php:32
 msgctxt "admin-text"
 msgid "Single Review"
 msgstr ""
@@ -3950,12 +3955,12 @@ msgctxt "admin-text"
 msgid "Filter by terms"
 msgstr ""
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:15, plugin/Integrations/Elementor/ElementorReviewsWidget.php:84, plugin/Integrations/Elementor/ElementorSummaryWidget.php:99
+#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:15, plugin/Integrations/Elementor/ElementorReviewsWidget.php:82, plugin/Integrations/Elementor/ElementorSummaryWidget.php:94
 msgctxt "admin-text"
 msgid "Terms were accepted"
 msgstr ""
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:16, plugin/Integrations/Elementor/ElementorReviewsWidget.php:85, plugin/Integrations/Elementor/ElementorSummaryWidget.php:100
+#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:16, plugin/Integrations/Elementor/ElementorReviewsWidget.php:83, plugin/Integrations/Elementor/ElementorSummaryWidget.php:95
 msgctxt "admin-text"
 msgid "Terms were not accepted"
 msgstr ""
@@ -3975,177 +3980,247 @@ msgctxt "admin-text"
 msgid "Any review type"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:39
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:37
 msgctxt "admin-text"
 msgid "Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:41
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:39
 msgctxt "admin-text"
 msgid "Custom Reviews ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:56
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:51
 msgctxt "admin-text"
 msgid "Assign Reviews to a Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:63, plugin/Integrations/Elementor/ElementorFormWidget.php:86, plugin/Integrations/Elementor/ElementorReviewsWidget.php:50, plugin/Integrations/Elementor/ElementorReviewsWidget.php:73, plugin/Integrations/Elementor/ElementorSummaryWidget.php:65, plugin/Integrations/Elementor/ElementorSummaryWidget.php:88
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:58, plugin/Integrations/Elementor/ElementorFormWidget.php:81, plugin/Integrations/Elementor/ElementorReviewsWidget.php:48, plugin/Integrations/Elementor/ElementorReviewsWidget.php:71, plugin/Integrations/Elementor/ElementorSummaryWidget.php:60, plugin/Integrations/Elementor/ElementorSummaryWidget.php:83
 msgctxt "admin-text"
 msgid "Separate values with a comma."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:65, plugin/Integrations/Elementor/ElementorReviewsWidget.php:52, plugin/Integrations/Elementor/ElementorSummaryWidget.php:67
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:60, plugin/Integrations/Elementor/ElementorReviewsWidget.php:50, plugin/Integrations/Elementor/ElementorSummaryWidget.php:62
 msgctxt "admin-text"
 msgid "Enter the Post IDs"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:71
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:66
 msgctxt "admin-text"
 msgid "Assign Reviews to a Category"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:79
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:74
 msgctxt "admin-text"
 msgid "Assign Reviews to a User"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:88, plugin/Integrations/Elementor/ElementorReviewsWidget.php:75, plugin/Integrations/Elementor/ElementorSummaryWidget.php:90
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:83, plugin/Integrations/Elementor/ElementorReviewsWidget.php:73, plugin/Integrations/Elementor/ElementorSummaryWidget.php:85
 msgctxt "admin-text"
 msgid "Enter the User IDs"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:43, plugin/Integrations/Elementor/ElementorSummaryWidget.php:58
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:110
+msgctxt "admin-text"
+msgid "Field Spacing"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:134, plugin/Integrations/Elementor/ElementorReviewsWidget.php:213, plugin/Integrations/Elementor/ElementorReviewWidget.php:109, plugin/Integrations/Elementor/ElementorSummaryWidget.php:229
+msgctxt "admin-text"
+msgid "This widget is using the rating style of the custom theme selected in the widget's Content settings."
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:141, plugin/Integrations/Elementor/ElementorReviewsWidget.php:220, plugin/Integrations/Elementor/ElementorReviewWidget.php:116, plugin/Integrations/Elementor/ElementorSummaryWidget.php:236
+msgctxt "admin-text"
+msgid "Color"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:157, plugin/Integrations/Elementor/ElementorReviewsWidget.php:235, plugin/Integrations/Elementor/ElementorReviewWidget.php:131, plugin/Integrations/Elementor/ElementorSummaryWidget.php:252
+msgctxt "admin-text"
+msgid "Star Size"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:41, plugin/Integrations/Elementor/ElementorSummaryWidget.php:53
 msgctxt "admin-text"
 msgid "Limit Reviews to an Assigned Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:58, plugin/Integrations/Elementor/ElementorSummaryWidget.php:73
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:56, plugin/Integrations/Elementor/ElementorSummaryWidget.php:68
 msgctxt "admin-text"
 msgid "Limit Reviews to an Assigned Category"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:66, plugin/Integrations/Elementor/ElementorSummaryWidget.php:81
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:64, plugin/Integrations/Elementor/ElementorSummaryWidget.php:76
 msgctxt "admin-text"
 msgid "Limit Reviews to an Assigned User"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:81, plugin/Integrations/Elementor/ElementorSummaryWidget.php:96
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:79, plugin/Integrations/Elementor/ElementorSummaryWidget.php:91
 msgctxt "admin-text"
 msgid "Limit Reviews to terms"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:92
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:90
 msgctxt "admin-text"
 msgid "Enable Pagination"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:100
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:98
 msgctxt "admin-text"
 msgid "Yes (AJAX load more)"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:104
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:102
 msgctxt "admin-text"
 msgid "Yes (AJAX pagination)"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:108
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:106
 msgctxt "admin-text"
 msgid "Yes (page reload)"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:116
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:114
 msgctxt "admin-text"
 msgid "Reviews Per Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:123, plugin/Integrations/Elementor/ElementorSummaryWidget.php:107
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:121, plugin/Integrations/Elementor/ElementorSummaryWidget.php:102
 msgctxt "admin-text"
 msgid "Minimum Rating"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:130, plugin/Integrations/Elementor/ElementorSummaryWidget.php:114
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:128, plugin/Integrations/Elementor/ElementorSummaryWidget.php:109
 msgctxt "admin-text"
 msgid "The schema should only be enabled once per page."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:131, plugin/Integrations/Elementor/ElementorSummaryWidget.php:115
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:129, plugin/Integrations/Elementor/ElementorSummaryWidget.php:110
 msgctxt "admin-text"
 msgid "Enable the schema?"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewWidget.php:49
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:155, plugin/Integrations/Elementor/ElementorReviewWidget.php:71
+msgctxt "admin-text"
+msgid "This widget is using the layout style of the custom theme selected in the widget's Content settings."
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:161, plugin/Integrations/Elementor/ElementorReviewWidget.php:77, plugin/Integrations/Elementor/ElementorSummaryWidget.php:135
+msgctxt "admin-text"
+msgid "Alignment"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:164, plugin/Integrations/Elementor/ElementorReviewWidget.php:80, plugin/Integrations/Elementor/ElementorSummaryWidget.php:138, plugin/Integrations/JetWooBuilder/Controller.php:48
+msgctxt "admin-text"
+msgid "Start"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:168, plugin/Integrations/Elementor/ElementorReviewWidget.php:84, plugin/Integrations/Elementor/ElementorSummaryWidget.php:142, plugin/Integrations/JetWooBuilder/Controller.php:52
+msgctxt "admin-text"
+msgid "Center"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:172, plugin/Integrations/Elementor/ElementorReviewWidget.php:88, plugin/Integrations/Elementor/ElementorSummaryWidget.php:146, plugin/Integrations/JetWooBuilder/Controller.php:56
+msgctxt "admin-text"
+msgid "End"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:189
+msgctxt "admin-text"
+msgid "Review Spacing"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorReviewWidget.php:47
 msgctxt "admin-text"
 msgid "Review Post ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:41
+#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:39
 msgctxt "admin-text"
 msgid "Use the Review Forms addon to add custom rating fields."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:43
+#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:41
 msgctxt "admin-text"
 msgid "Custom Rating Field Name"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:89
+#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:162
+msgctxt "admin-text"
+msgid "Max Width"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:185
+msgctxt "admin-text"
+msgid "Percentage Bar Height"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:205
+msgctxt "admin-text"
+msgid "Percentage Bar Spacing"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorWidget.php:87
 msgctxt "admin-text"
 msgid "Specific Post ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:90
+#: plugin/Integrations/Elementor/ElementorWidget.php:88
 msgctxt "admin-text"
 msgid "The Current Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:91
+#: plugin/Integrations/Elementor/ElementorWidget.php:89
 msgctxt "admin-text"
 msgid "The Parent Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:109
+#: plugin/Integrations/Elementor/ElementorWidget.php:101
 msgctxt "admin-text"
 msgid "Specific User ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:110
+#: plugin/Integrations/Elementor/ElementorWidget.php:102
 msgctxt "admin-text"
 msgid "The Logged-in user"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:111
+#: plugin/Integrations/Elementor/ElementorWidget.php:103
 msgctxt "admin-text"
 msgid "The Page author"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:112
+#: plugin/Integrations/Elementor/ElementorWidget.php:104
 msgctxt "admin-text"
 msgid "The Profile user (BuddyPress/Ultimate Member)"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:125
+#: plugin/Integrations/Elementor/ElementorWidget.php:114
 msgctxt "admin-text"
 msgid "Limit the Type of Reviews"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:145
+#: plugin/Integrations/Elementor/ElementorWidget.php:136
 msgctxt "admin-text"
 msgid "Advanced"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:191
+#: plugin/Integrations/Elementor/ElementorWidget.php:146
+msgctxt "admin-text"
+msgid "Layout"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorWidget.php:196
 msgctxt "admin-text"
 msgid "Custom ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:195
+#: plugin/Integrations/Elementor/ElementorWidget.php:200
 msgctxt "admin-text"
 msgid "Separate multiple classes with spaces."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:197
+#: plugin/Integrations/Elementor/ElementorWidget.php:202
 msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr ""
@@ -4404,6 +4479,51 @@ msgctxt "(loyalty-program-for-woocommerce) admin-text"
 msgid "View Product"
 msgstr ""
 
+#: plugin/Integrations/MultilingualPress/Controller.php:71
+msgctxt "multilingualpress text (admin-text)"
+msgid "Overwrite the content of the translated review with the content of the source review."
+msgstr ""
+
+#: plugin/Integrations/MultilingualPress/Controller.php:72
+msgctxt "multilingualpress text (admin-text)"
+msgid "Overwrite the Categories of the target review with the translated Categories of the source review."
+msgstr ""
+
+#: plugin/Integrations/MultilingualPress/Controller.php:73
+msgctxt "multilingualpress text (admin-text)"
+msgid "Review Slug:"
+msgstr ""
+
+#: plugin/Integrations/MultilingualPress/Controller.php:74
+msgctxt "multilingualpress text (admin-text)"
+msgid "Review Status:"
+msgstr ""
+
+#: plugin/Integrations/MultilingualPress/Controller.php:75
+msgctxt "multilingualpress text (admin-text)"
+msgid "Review Title:"
+msgstr ""
+
+#: plugin/Integrations/MultilingualPress/Controller.php:76
+msgctxt "multilingualpress text (admin-text)"
+msgid "Send all translations to trash when this review is trashed."
+msgstr ""
+
+#: plugin/Integrations/MultilingualPress/Controller.php:77
+msgctxt "multilingualpress text (admin-text)"
+msgid "Synchronize Categories"
+msgstr ""
+
+#: plugin/Integrations/MultilingualPress/Hooks.php:93
+msgctxt "admin-text"
+msgid "Please update MultilingualPress to the latest version to enable the Site Reviews integration."
+msgstr ""
+
+#: plugin/Integrations/MultilingualPress/ServiceProvider.php:55
+msgctxt "admin-text"
+msgid "Enable Site Reviews Support for MultilingualPress."
+msgstr ""
+
 #: plugin/Integrations/MyCred/Controller.php:20
 msgctxt "admin-text"
 msgid "Awards %_plural% for reviews. Supports awarding %_plural% to authors of assigned posts, assigned users, and users submitting a review."
@@ -4429,11 +4549,11 @@ msgctxt "admin-text"
 msgid "View the review in WordPress &rarr;"
 msgstr ""
 
-#: plugin/Modules/Validator/AkismetValidator.php:41, plugin/Modules/Validator/HoneypotValidator.php:20, views/pages/documentation/support/common-problems-and-solutions.php:81
+#: plugin/Modules/Validator/AkismetValidator.php:41, plugin/Modules/Validator/HoneypotValidator.php:20, views/pages/documentation/support/common-problems-and-solutions.php:82
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr ""
 
-#: plugin/Modules/Validator/BlacklistValidator.php:30, views/pages/documentation/support/common-problems-and-solutions.php:75
+#: plugin/Modules/Validator/BlacklistValidator.php:30, views/pages/documentation/support/common-problems-and-solutions.php:76
 msgid "Your review cannot be submitted at this time."
 msgstr ""
 
@@ -4445,7 +4565,7 @@ msgstr ""
 msgid "The CAPTCHA verification failed, please try again."
 msgstr ""
 
-#: plugin/Modules/Validator/CustomValidator.php:21, views/pages/documentation/support/common-problems-and-solutions.php:117
+#: plugin/Modules/Validator/CustomValidator.php:21, views/pages/documentation/support/common-problems-and-solutions.php:118
 msgid "The review submission failed. Please notify the site administrator."
 msgstr ""
 
@@ -4459,6 +4579,26 @@ msgstr ""
 
 #: plugin/Modules/Validator/ReviewLimitsValidator.php:25
 msgid "You have already submitted a review."
+msgstr ""
+
+#: views/integrations/multilingualpress/assigned_posts-field.php:5
+msgctxt "admin-text"
+msgid "Synchronize Assigned Posts"
+msgstr ""
+
+#: views/integrations/multilingualpress/assigned_posts-field.php:16
+msgctxt "admin-text"
+msgid "Overwrite the Assigned Posts of the target review with the translated Assigned Posts of the source review."
+msgstr ""
+
+#: views/integrations/multilingualpress/assigned_users-field.php:5
+msgctxt "admin-text"
+msgid "Synchronize Assigned Users"
+msgstr ""
+
+#: views/integrations/multilingualpress/assigned_users-field.php:16
+msgctxt "admin-text"
+msgid "Overwrite the Assigned Users of the target review with the Assigned Users of the source review."
 msgstr ""
 
 #: views/integrations/mycred/preferences.php:4
@@ -4780,7 +4920,7 @@ msgstr ""
 
 #: views/pages/tools/scheduled.php:5
 msgctxt "admin-text"
-msgid "Site Reviews uses a versatile library called <a href=\"https://actionscheduler.org\" target=\"_blank\">Action Scheduler</a> to manage and schedule cron jobs in WordPress. Action Scheduler improves your site’s overall ability to process large tasks. Many other popular WordPress plugins like WooCommerce, RankMath, WPForms, and All in One SEO also rely on Action Scheduler to help execute actions more efficiently."
+msgid "Site Reviews includes and uses the versatile <a href=\"https://actionscheduler.org\" target=\"_blank\">Action Scheduler</a> library to manage and schedule cron jobs in WordPress and improve your site’s overall ability to process large tasks. Many other popular WordPress plugins like WooCommerce, RankMath, WPForms, and All in One SEO also rely on Action Scheduler to execute actions more efficiently."
 msgstr ""
 
 #: views/pages/tools/sync.php:9
@@ -5257,16 +5397,16 @@ msgctxt "admin-text"
 msgid "Migrated the product ratings."
 msgstr ""
 
-#: plugin/Integrations/WooCommerce/Controllers/MainController.php:64
+#: plugin/Integrations/WooCommerce/Controllers/MainController.php:67
 msgctxt "admin-text"
 msgid "managed by Site Reviews"
 msgstr ""
 
-#: plugin/Integrations/WooCommerce/Controllers/MainController.php:109
+#: plugin/Integrations/WooCommerce/Controllers/MainController.php:112
 msgid "verified owner"
 msgstr ""
 
-#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:156
+#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:159
 msgid "Reviews (%d)"
 msgstr ""
 
@@ -5406,7 +5546,7 @@ msgctxt "admin-text"
 msgid "Revert"
 msgstr ""
 
-#: views/pages/documentation/support/common-problems-and-solutions.php:123
+#: views/pages/documentation/support/common-problems-and-solutions.php:124
 msgid "Service Unavailable."
 msgstr ""
 

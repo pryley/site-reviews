@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
+use Elementor\Controls_Manager;
 use Elementor\Widget_Base;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -80,10 +81,7 @@ abstract class ElementorWidget extends Widget_Base
         return $this->_shortcode_instance;
     }
 
-    /**
-     * @return array
-     */
-    protected function assigned_posts_options()
+    protected function assigned_posts_options(): array
     {
         return [ // order is intentional
             'custom' => _x('Specific Post ID', 'admin-text', 'site-reviews'),
@@ -92,18 +90,12 @@ abstract class ElementorWidget extends Widget_Base
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function assigned_terms_options()
+    protected function assigned_terms_options(): array
     {
         return glsr(Database::class)->terms();
     }
 
-    /**
-     * @return array
-     */
-    protected function assigned_users_options()
+    protected function assigned_users_options(): array
     {
         return [ // order is intentional
             'custom' => _x('Specific User ID', 'admin-text', 'site-reviews'),
@@ -113,10 +105,7 @@ abstract class ElementorWidget extends Widget_Base
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function get_review_types()
+    protected function get_review_types(): array
     {
         $types = glsr()->retrieveAs('array', 'review_types', []);
         if (count($types) > 2) {
@@ -125,7 +114,7 @@ abstract class ElementorWidget extends Widget_Base
                 'label' => _x('Limit the Type of Reviews', 'admin-text', 'site-reviews'),
                 'label_block' => true,
                 'options' => $types,
-                'type' => \Elementor\Controls_Manager::SELECT,
+                'type' => Controls_Manager::SELECT,
             ];
         }
         return [];
@@ -136,38 +125,49 @@ abstract class ElementorWidget extends Widget_Base
      */
     protected function register_controls()
     {
-        $controls = [
+        $sections = [
             'settings' => [
+                'controls' => $this->settings_basic(),
                 'label' => _x('Settings', 'admin-text', 'site-reviews'),
-                'options' => $this->settings_basic(),
+                'tab' => Controls_Manager::TAB_CONTENT,
             ],
             'advanced' => [
+                'controls' => $this->settings_advanced(),
                 'label' => _x('Advanced', 'admin-text', 'site-reviews'),
-                'options' => $this->settings_advanced(),
+                'tab' => Controls_Manager::TAB_CONTENT,
+            ],
+            'style_rating' => [
+                'controls' => $this->settings_rating(),
+                'label' => _x('Rating', 'admin-text', 'site-reviews'),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ],
+            'style_layout' => [
+                'controls' => $this->settings_layout(),
+                'label' => _x('Layout', 'admin-text', 'site-reviews'),
+                'tab' => Controls_Manager::TAB_STYLE,
             ],
         ];
-        $controls = glsr()->filterArray('elementor/register/controls', $controls, $this);
-        array_walk($controls, function ($control, $key) {
-            $options = array_filter($control['options']);
-            if (!empty($options)) {
-                $this->register_shortcode_options($options, $key, $control['label']);
+        $sections = glsr()->filterArray('elementor/register/controls', $sections, $this);
+        foreach ($sections as $key => $args) {
+            $controls = array_filter($args['controls'] ?? []);
+            if (empty($controls)) {
+                continue;
             }
-        });
+            $this->start_controls_section($key, $args);
+            $this->register_controls_for_section($controls);
+            $this->end_controls_section();
+        }
     }
 
-    /**
-     * @return void
-     */
-    protected function register_shortcode_options($options, $tabKey, $tabLabel)
+    protected function register_controls_for_section(array $controls): void
     {
-        $this->start_controls_section($tabKey, [
-            'label' => $tabLabel,
-            'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
-        ]);
-        foreach ($options as $key => $settings) {
-            $this->add_control($key, $settings);
+        foreach ($controls as $key => $args) {
+            if ($args['is_responsive'] ?? false) {
+                $this->add_responsive_control($key, $args);
+                continue;
+            }
+            $this->add_control($key, $args);
         }
-        $this->end_controls_section();
     }
 
     /**
@@ -180,30 +180,42 @@ abstract class ElementorWidget extends Widget_Base
         echo $shortcode;
     }
 
-    /**
-     * @return array
-     */
-    protected function settings_advanced()
+    protected function set_custom_size_unit(array $units): array
+    {
+        if (version_compare(ELEMENTOR_VERSION, '3.10.0', '>=')) {
+            $units[] = 'custom';
+        }
+        return $units;
+    }
+
+    protected function settings_advanced(): array
     {
         return [
             'shortcode_id' => [
                 'label_block' => true,
-                'label' => _x('Custom ID', 'admin-text', 'site-reviews'),
-                'type' => \Elementor\Controls_Manager::TEXT,
+                'label' => esc_html_x('Custom ID', 'admin-text', 'site-reviews'),
+                'type' => Controls_Manager::TEXT,
             ],
             'shortcode_class' => [
-                'description' => _x('Separate multiple classes with spaces.', 'admin-text', 'site-reviews'),
+                'description' => esc_html_x('Separate multiple classes with spaces.', 'admin-text', 'site-reviews'),
                 'label_block' => true,
-                'label' => _x('Additional CSS classes', 'admin-text', 'site-reviews'),
-                'type' => \Elementor\Controls_Manager::TEXT,
+                'label' => esc_html_x('Additional CSS classes', 'admin-text', 'site-reviews'),
+                'type' => Controls_Manager::TEXT,
             ],
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function settings_basic()
+    protected function settings_basic(): array
+    {
+        return [];
+    }
+
+    protected function settings_layout(): array
+    {
+        return [];
+    }
+
+    protected function settings_rating(): array
     {
         return [];
     }
