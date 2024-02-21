@@ -177,18 +177,33 @@ class AdminController extends AbstractController
      */
     public function renderPageHeader(): void
     {
-        global $post_type_object, $title, $typenow;
-        if (!str_starts_with($typenow, glsr()->post_type)) {
+        global $post_type_object, $title;
+        if (!$this->isReviewAdminScreen()) {
             return;
         }
+        $buttons = [];
         $screen = glsr_current_screen();
+        if (glsr()->post_type === $screen->post_type && !glsr(License::class)->isLicensed()) {
+            $buttons['premium'] = [
+                'class' => 'components-button is-primary glsr-try-premium',
+                'href' => 'https://niftyplugins.com/plugins/site-reviews-premium/',
+                'target' => '_blank',
+                'text' =>  _x('Try Premium', 'admin-text', 'site-reviews'),
+            ];
+        }
+        if (in_array($screen->base, ['edit', 'post'])) {
+            $buttons['new'] = [
+                'class' => 'components-button is-secondary glsr-new-post',
+                'data-new' => '',
+                'href' => admin_url("post-new.php?post_type={$screen->post_type}"),
+                'text' => Arr::get($post_type_object, 'labels.add_new'),
+            ];
+        }
+        $buttons = glsr()->filterArray('page-header/buttons', $buttons);
         glsr()->render('views/partials/page-header', [
-            'hasNewButton' => in_array($screen->base, ['edit', 'post']),
-            'hasPremiumButton' => !glsr(License::class)->isLicensed(),
+            'buttons' => $buttons,
             'hasScreenOptions' => in_array($screen->base, ['edit', 'edit-tags', 'post']),
             'logo' => file_get_contents(glsr()->path('assets/images/mascot.svg')),
-            'newText' => Arr::get($post_type_object, 'labels.add_new'),
-            'newUrl' => admin_url("post-new.php?post_type={$typenow}"),
             'title' => esc_html($title),
         ]);
     }

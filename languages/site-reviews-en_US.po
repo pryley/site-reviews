@@ -2644,7 +2644,12 @@ msgctxt "admin-text"
 msgid "Close Panel"
 msgstr "Close Panel"
 
-#: plugin/Controllers/AdminController.php:275, plugin/Controllers/AdminController.php:293, plugin/Controllers/AdminController.php:306
+#: plugin/Controllers/AdminController.php:191
+msgctxt "admin-text"
+msgid "Try Premium"
+msgstr "Try Premium"
+
+#: plugin/Controllers/AdminController.php:290, plugin/Controllers/AdminController.php:308, plugin/Controllers/AdminController.php:321
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr "Nothing found."
@@ -3943,17 +3948,12 @@ msgctxt "admin-text"
 msgid "Do you need help?"
 msgstr "Do you need help?"
 
-#: views/partials/page-header.php:9
-msgctxt "admin-text"
-msgid "Try Premium"
-msgstr "Try Premium"
-
-#: views/partials/page-header.php:16
+#: views/partials/page-header.php:15
 msgctxt "admin-text"
 msgid "Screen Options"
 msgstr "Screen Options"
 
-#: views/partials/page-header.php:20
+#: views/partials/page-header.php:19
 msgctxt "admin-text"
 msgid "Welcome to Site Reviews"
 msgstr "Welcome to Site Reviews"

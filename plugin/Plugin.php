@@ -208,7 +208,7 @@ trait Plugin
             glsr_log()->error(sprintf('File not found: (%s) %s', $view, $file));
             return;
         }
-        $data = $this->filterArray('views/data', $data, $view);
+        $data = $this->filterArray('views/data', $data, $view, $file);
         extract($data);
         include $file;
     }

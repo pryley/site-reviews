@@ -5,12 +5,11 @@
         <div class="glsr-page-icon"><?= $logo; ?></div>
         <h1 class="wp-heading-inline"><?= $title; ?></h1>
         <div>
-            <?php if ($hasPremiumButton) { ?>
-                <a class="components-button is-primary glsr-try-premium" href="https://niftyplugins.com/plugins/site-reviews-premium/" target="_blank"><?= _x('Try Premium', 'admin-text', 'site-reviews'); ?></a>
-            <?php } ?>
-            <?php if ($hasNewButton) { ?>
-                <a class="components-button is-secondary" href="<?= $newUrl; ?>"><?= $newText; ?></a>
-            <?php } ?>
+            <?php
+                foreach ($buttons as $button) {
+                    echo glsr('Modules\Html\Builder')->a($button);
+                }
+            ?>
             <div>
                 <?php if ($hasScreenOptions) { ?>
                     <button type="button" class="glsr-screen-meta-toggle components-button has-icon" aria-controls="screen-options-wrap" aria-label="<?= _x('Screen Options', 'admin-text', 'site-reviews'); ?>">

@@ -145,6 +145,7 @@
     site-reviews/optimized/scripts                              (array $handles): array
     site-reviews/optimized/styles                               (array $handles): array
     site-reviews/option/<path>                                  (mixed $value): mixed
+    site-reviews/page-header/buttons                            (array $buttons): array
     site-reviews/paginate_link                                  (array $link, array $args, Contracts\BuilderContract $builder, Modules\Paginate $paginate): array
     site-reviews/paginate_links                                 (string $links, array $args): string
     site-reviews/partial/args/<partial_path>                    (array $args): array
@@ -253,7 +254,7 @@
     site-reviews/validation/type/<attribute>                    (string $type): string
     site-reviews/validators                                     (array $validatorClasses): array
     site-reviews/verification/enabled                           (bool $bool): bool
-    site-reviews/views/data                                     (array $data, string $view): array
+    site-reviews/views/data                                     (array $data, string $view, string $file): array
     site-reviews/views/file                                     (string $filePath, string $view, array $data): string
     site-reviews/whip/methods                                   (int $bitwiseSeparatedConstants): int
     site-reviews/whip/whitelist                                 (array $whitelist): array

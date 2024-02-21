@@ -2079,7 +2079,12 @@ msgctxt "admin-text"
 msgid "Close Panel"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:275, plugin/Controllers/AdminController.php:293, plugin/Controllers/AdminController.php:306
+#: plugin/Controllers/AdminController.php:191
+msgctxt "admin-text"
+msgid "Try Premium"
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:290, plugin/Controllers/AdminController.php:308, plugin/Controllers/AdminController.php:321
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr ""
@@ -3837,17 +3842,12 @@ msgstr ""
 msgid "Close modal"
 msgstr ""
 
-#: views/partials/page-header.php:9
-msgctxt "admin-text"
-msgid "Try Premium"
-msgstr ""
-
-#: views/partials/page-header.php:16
+#: views/partials/page-header.php:15
 msgctxt "admin-text"
 msgid "Screen Options"
 msgstr ""
 
-#: views/partials/page-header.php:20
+#: views/partials/page-header.php:19
 msgctxt "admin-text"
 msgid "Welcome to Site Reviews"
 msgstr ""
