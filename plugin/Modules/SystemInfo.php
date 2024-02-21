@@ -65,20 +65,24 @@ class SystemInfo
     public function getActionScheduler(): array
     {
         $counts = glsr(Queue::class)->actionCounts();
+        $counts = shortcode_atts(array_fill_keys(['complete', 'pending', 'failed'], []), $counts);
         $values = [];
         foreach ($counts as $key => $value) {
-            $label = sprintf('Action (%s)', $key);
+            $label = sprintf('Actions (%s)', $key);
+            $value = wp_parse_args($value, array_fill_keys(['count', 'latest', 'oldest'], 0));
             if ($value['count'] > 1) {
                 $values[$label] = sprintf('%s (latest: %s, oldest: %s)',
                     $value['count'],
                     $value['latest'],
                     $value['oldest']
                 );
-            } else {
+            } elseif (!empty($value['latest'])) {
                 $values[$label] = sprintf('%s (latest: %s)',
                     $value['count'],
                     $value['latest']
                 );
+            } else {
+                $values[$label] = $value['count'];
             }
         }
         $values['Data Store'] = get_class(\ActionScheduler_Store::instance());
