@@ -1,5 +1,6 @@
 ## Actions
 
+    site-reviews/action                                         (string $hook, array $args)
     site-reviews/addon/register                                 (Application $app)
     site-reviews/builder                                        (Contracts\BuilderContract $builder)
     site-reviews/cache/flush                                    (Review $review)
@@ -8,6 +9,7 @@
     site-reviews/database/sql/<handle>                          (string $sql)
     site-reviews/defaults                                       (Contracts\DefaultsContract $defaults, string $hook, string $method, array $values)
     site-reviews/export/cleanup                                 ()
+    site-reviews/filter                                         (string $hook, array $args)
     site-reviews/get/review                                     (Review $review, int $reviewId)
     site-reviews/get/reviews                                    (array $reviews, array $args)
     site-reviews/migration/end                                  (array $migrations)

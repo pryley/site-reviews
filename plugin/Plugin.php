@@ -79,6 +79,7 @@ trait Plugin
      */
     public function action(string $hook, ...$args): void
     {
+        do_action("{$this->id}/action", $hook, $args);
         do_action_ref_array("{$this->id}/{$hook}", $args);
     }
 
@@ -156,6 +157,7 @@ trait Plugin
      */
     public function filter(string $hook, ...$args)
     {
+        do_action("{$this->id}/filter", $hook, $args);
         return apply_filters_ref_array("{$this->id}/{$hook}", $args);
     }
 
