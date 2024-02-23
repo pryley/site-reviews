@@ -8,9 +8,14 @@
         </button>
     </h3>
     <div id="faq-plugin-templates" class="inside">
+        <div class="glsr-notice-inline components-notice is-warning">
+            <p class="components-notice__content">
+                Make sure to use these template files in a <a href="https://wpengine.com/resources/create-child-theme-wordpress/#The_Plugin_Method" target="_blank">child theme</a> to prevent changes from being overwritten when your parent theme is updated.
+            </p>
+        </div>
         <p>Site Reviews uses a custom templating system which makes it easy to customize the HTML of the widgets and shortcodes to meet your needs.</p>
         <ol>
-            <li>Create a folder in your theme called "site-reviews".</li>
+            <li>Create a folder in your child theme called "site-reviews".</li>
             <li>Copy the template files that you would like to customise from <code>/wp-content/plugins/site-reviews/templates/</code> into this new folder, keeping the subdirectories the same.</li>
             <li>Open the template files that you copied over in a text editor and make your changes.</li>
         </ol>

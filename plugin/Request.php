@@ -25,7 +25,7 @@ class Request extends Arguments
      * @return static
      * @todo support array values
      */
-    public static function inputGet()
+    public static function inputGet(): Request
     {
         $values = [];
         if ($token = filter_input(INPUT_GET, glsr()->prefix)) {
@@ -38,7 +38,7 @@ class Request extends Arguments
     /**
      * @return static
      */
-    public static function inputPost()
+    public static function inputPost(): Request
     {
         $values = Helper::filterInputArray(glsr()->id);
         if (Helper::filterInput('action') === glsr()->prefix.'action') {
