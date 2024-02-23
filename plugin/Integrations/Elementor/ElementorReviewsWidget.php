@@ -41,7 +41,7 @@ class ElementorReviewsWidget extends ElementorWidget
                 'label' => _x('Limit Reviews to an Assigned Page', 'admin-text', 'site-reviews'),
                 'label_block' => true,
                 'options' => $this->assigned_posts_options(),
-                'type' => \Elementor\Controls_Manager::SELECT2,
+                'type' => Controls_Manager::SELECT2,
             ],
             'assigned_posts_custom' => [
                 'condition' => ['assigned_posts' => 'custom'],
@@ -49,7 +49,7 @@ class ElementorReviewsWidget extends ElementorWidget
                 'label_block' => true,
                 'placeholder' => _x('Enter the Post IDs', 'admin-text', 'site-reviews'),
                 'show_label' => false,
-                'type' => \Elementor\Controls_Manager::TEXT,
+                'type' => Controls_Manager::TEXT,
             ],
             'assigned_terms' => [
                 'default' => '',
@@ -57,14 +57,14 @@ class ElementorReviewsWidget extends ElementorWidget
                 'label_block' => true,
                 'multiple' => true,
                 'options' => $this->assigned_terms_options(),
-                'type' => \Elementor\Controls_Manager::SELECT2,
+                'type' => Controls_Manager::SELECT2,
             ],
             'assigned_users' => [
                 'default' => '',
                 'label' => _x('Limit Reviews to an Assigned User', 'admin-text', 'site-reviews'),
                 'label_block' => true,
                 'options' => $this->assigned_users_options(),
-                'type' => \Elementor\Controls_Manager::SELECT2,
+                'type' => Controls_Manager::SELECT2,
             ],
             'assigned_users_custom' => [
                 'condition' => ['assigned_users' => 'custom'],
@@ -72,7 +72,7 @@ class ElementorReviewsWidget extends ElementorWidget
                 'label_block' => true,
                 'placeholder' => _x('Enter the User IDs', 'admin-text', 'site-reviews'),
                 'show_label' => false,
-                'type' => \Elementor\Controls_Manager::TEXT,
+                'type' => Controls_Manager::TEXT,
             ],
             'terms' => [
                 'default' => '',
@@ -82,7 +82,7 @@ class ElementorReviewsWidget extends ElementorWidget
                     'true' => _x('Terms were accepted', 'admin-text', 'site-reviews'),
                     'false' => _x('Terms were not accepted', 'admin-text', 'site-reviews'),
                 ],
-                'type' => \Elementor\Controls_Manager::SELECT2,
+                'type' => Controls_Manager::SELECT2,
             ],
             'type' => $this->get_review_types(),
             'pagination' => [
@@ -107,14 +107,14 @@ class ElementorReviewsWidget extends ElementorWidget
                     ],
                 ],
                 'separator' => 'before',
-                'type' => \Elementor\Controls_Manager::CHOOSE,
+                'type' => Controls_Manager::CHOOSE,
             ],
             'display' => [
                 'default' => 10,
                 'label' => _x('Reviews Per Page', 'admin-text', 'site-reviews'),
                 'max' => 50,
                 'min' => 1,
-                'type' => \Elementor\Controls_Manager::NUMBER,
+                'type' => Controls_Manager::NUMBER,
             ],
             'rating' => [
                 'default' => 0,
@@ -122,14 +122,14 @@ class ElementorReviewsWidget extends ElementorWidget
                 'max' => Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)),
                 'min' => Cast::toInt(glsr()->constant('MIN_RATING', Rating::class)),
                 'separator' => 'before',
-                'type' => \Elementor\Controls_Manager::NUMBER,
+                'type' => Controls_Manager::NUMBER,
             ],
             'schema' => [
                 'description' => _x('The schema should only be enabled once per page.', 'admin-text', 'site-reviews'),
                 'label' => _x('Enable the schema?', 'admin-text', 'site-reviews'),
                 'return_value' => 'true',
                 'separator' => 'before',
-                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'type' => Controls_Manager::SWITCHER,
             ],
         ];
         $hideOptions = $this->get_shortcode_instance()->getHideOptions();
@@ -139,7 +139,7 @@ class ElementorReviewsWidget extends ElementorWidget
                 'label' => $label,
                 'separator' => $separator,
                 'return_value' => '1',
-                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'type' => Controls_Manager::SWITCHER,
             ];
         }
         return $options;

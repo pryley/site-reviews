@@ -45,7 +45,7 @@ class ElementorReviewWidget extends ElementorWidget
             'post_id' => [
                 'default' => '',
                 'label' => _x('Review Post ID', 'admin-text', 'site-reviews'),
-                'type' => \Elementor\Controls_Manager::TEXT,
+                'type' => Controls_Manager::TEXT,
             ],
         ];
         $hideOptions = $this->get_shortcode_instance()->getHideOptions();
@@ -55,7 +55,7 @@ class ElementorReviewWidget extends ElementorWidget
                 'label' => $label,
                 'separator' => $separator,
                 'return_value' => '1',
-                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'type' => Controls_Manager::SWITCHER,
             ];
         }
         return $options;

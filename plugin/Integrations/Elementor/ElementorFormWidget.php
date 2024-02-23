@@ -37,7 +37,7 @@ class ElementorFormWidget extends ElementorWidget
                 'description' => _x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
                 'label_block' => true,
                 'label' => _x('Custom Reviews ID', 'admin-text', 'site-reviews'),
-                'type' => \Elementor\Controls_Manager::TEXT,
+                'type' => Controls_Manager::TEXT,
             ],
         ]);
         return $settings;
@@ -51,7 +51,7 @@ class ElementorFormWidget extends ElementorWidget
                 'label' => _x('Assign Reviews to a Page', 'admin-text', 'site-reviews'),
                 'label_block' => true,
                 'options' => $this->assigned_posts_options(),
-                'type' => \Elementor\Controls_Manager::SELECT2,
+                'type' => Controls_Manager::SELECT2,
             ],
             'assigned_posts_custom' => [
                 'condition' => ['assigned_posts' => 'custom'],
@@ -59,7 +59,7 @@ class ElementorFormWidget extends ElementorWidget
                 'label_block' => true,
                 'placeholder' => _x('Enter the Post IDs', 'admin-text', 'site-reviews'),
                 'show_label' => false,
-                'type' => \Elementor\Controls_Manager::TEXT,
+                'type' => Controls_Manager::TEXT,
             ],
             'assigned_terms' => [
                 'default' => '',
@@ -67,14 +67,14 @@ class ElementorFormWidget extends ElementorWidget
                 'label_block' => true,
                 'multiple' => true,
                 'options' => $this->assigned_terms_options(),
-                'type' => \Elementor\Controls_Manager::SELECT2,
+                'type' => Controls_Manager::SELECT2,
             ],
             'assigned_users' => [
                 'default' => '',
                 'label' => _x('Assign Reviews to a User', 'admin-text', 'site-reviews'),
                 'label_block' => true,
                 'options' => $this->assigned_users_options(),
-                'type' => \Elementor\Controls_Manager::SELECT2,
+                'type' => Controls_Manager::SELECT2,
             ],
             'assigned_users_custom' => [
                 'condition' => ['assigned_users' => 'custom'],
@@ -82,7 +82,7 @@ class ElementorFormWidget extends ElementorWidget
                 'label_block' => true,
                 'placeholder' => _x('Enter the User IDs', 'admin-text', 'site-reviews'),
                 'show_label' => false,
-                'type' => \Elementor\Controls_Manager::TEXT,
+                'type' => Controls_Manager::TEXT,
             ],
         ];
         $hideOptions = $this->get_shortcode_instance()->getHideOptions();
@@ -92,7 +92,7 @@ class ElementorFormWidget extends ElementorWidget
                 'label' => $label,
                 'separator' => $separator,
                 'return_value' => '1',
-                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'type' => Controls_Manager::SWITCHER,
             ];
         }
         return $options;

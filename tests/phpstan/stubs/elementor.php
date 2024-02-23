@@ -3684,9 +3684,17 @@ namespace Elementor {
          */
         const RAW_HTML = 'raw_html';
         /**
+         * Notice control.
+         */
+        const NOTICE = 'notice';
+        /**
          * Deprecated Notice control.
          */
         const DEPRECATED_NOTICE = 'deprecated_notice';
+        /**
+         * Alert control.
+         */
+        const ALERT = 'alert';
         /**
          * Popover Toggle control.
          */

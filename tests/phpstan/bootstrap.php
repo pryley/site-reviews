@@ -6,6 +6,9 @@ if (!defined('BSF_AIOSRS_PRO_CACHE_KEY')) {
 if (!defined('DB_HOST')) {
     define('DB_HOST', 'localhost');
 }
+if (!defined('ELEMENTOR_VERSION')) {
+    define('ELEMENTOR_VERSION', '3.19.0');
+}
 if (!defined('ICL_SITEPRESS_VERSION')) {
     define('ICL_SITEPRESS_VERSION', '0.0.0');
 }
