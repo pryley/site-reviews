@@ -12,6 +12,7 @@ use GeminiLabs\SiteReviews\Reviews;
 class ReviewsHtml extends \ArrayObject
 {
     public Arguments $args;
+    public string $fallback;
     public int $max_num_pages;
     public Reviews $reviews;
     public array $rendered;
@@ -21,6 +22,7 @@ class ReviewsHtml extends \ArrayObject
     public function __construct(Reviews $reviews)
     {
         $this->args = glsr()->args($reviews->args);
+        $this->fallback = $this->getReviewsFallback();
         $this->max_num_pages = $reviews->max_num_pages;
         $this->reviews = $reviews;
         $this->rendered = $this->renderReviews($reviews);
@@ -39,6 +41,7 @@ class ReviewsHtml extends \ArrayObject
                 'pagination' => Helper::ifTrue(!empty($this->args->pagination), $this->getPagination()),
                 'reviews' => $this->getReviews(),
             ],
+            'fallback' => $this->fallback,
             'reviews' => $this->reviews,
         ]);
     }
@@ -73,7 +76,7 @@ class ReviewsHtml extends \ArrayObject
     public function getReviews(): string
     {
         return empty($this->rendered)
-            ? $this->getReviewsFallback()
+            ? $this->fallback
             : implode(PHP_EOL, $this->rendered);
     }
 
