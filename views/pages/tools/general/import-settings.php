@@ -18,7 +18,7 @@
             <?php wp_nonce_field('import-settings'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="import-settings">
             <p>
-                <input type="file" name="import-file" accept="application/json">
+                <input type="file" name="import-files" accept="application/json">
             </p>
             <button type="submit" class="glsr-button components-button is-primary"
                 data-expand="#tools-import-plugin-settings"

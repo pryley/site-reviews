@@ -3,9 +3,12 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Exceptions\FileException;
+use GeminiLabs\SiteReviews\Exceptions\FileNotFoundException;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Upload;
+use GeminiLabs\SiteReviews\UploadedFile;
 
 class ImportSettings extends AbstractCommand
 {
@@ -20,14 +23,26 @@ class ImportSettings extends AbstractCommand
             $this->fail();
             return;
         }
-        if (!$this->validateUpload() || !$this->validateExtension('.json')) {
-            glsr(Notice::class)->addWarning(
+        try {
+            $file = $this->file();
+        } catch (FileNotFoundException $e) {
+            glsr(Notice::class)->addError($e->getMessage());
+            $this->fail();
+            return;
+        }
+        if (!$file->isValid()) {
+            glsr(Notice::class)->addError($file->getErrorMessage());
+            $this->fail();
+            return;
+        }
+        if (!$file->hasMimeType('application/json')) {
+            glsr(Notice::class)->addError(
                 _x('The import file is not a valid JSON file.', 'admin-text', 'site-reviews')
             );
             $this->fail();
             return;
         }
-        if (!$this->import()) {
+        if (!$this->import($file)) {
             glsr(Notice::class)->addWarning(
                 _x('There were no settings found to import.', 'admin-text', 'site-reviews')
             );
@@ -39,9 +54,15 @@ class ImportSettings extends AbstractCommand
         );
     }
 
-    protected function import(): bool
+    protected function import(UploadedFile $file): bool
     {
-        $settings = json_decode(file_get_contents($this->file()->tmp_name), true);
+        try {
+            $content = $file->getContent();
+            $settings = json_decode($content, true);
+        } catch (FileException $e) {
+            glsr(Notice::class)->addError($e->getMessage());
+            return false;
+        }
         if (!empty($settings)) {
             if (isset($settings['version'])) { // don't import version
                 $settings['version'] = glsr(OptionManager::class)->get('version');

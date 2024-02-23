@@ -64,7 +64,7 @@
             <?php wp_nonce_field('import-reviews'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="import-reviews">
             <p>
-                <input type="file" name="import-file" accept="text/csv">
+                <input type="file" name="import-files" accept="text/csv">
             </p>
             <p>
                 <label for="csv_delimiter"><strong><?= esc_html_x('Delimiter', 'admin-text', 'site-reviews'); ?></strong></label><br>

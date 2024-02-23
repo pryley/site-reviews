@@ -9,6 +9,7 @@ use GeminiLabs\League\Csv\Reader;
 use GeminiLabs\League\Csv\Statement;
 use GeminiLabs\League\Csv\TabularDataReader;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Exceptions\FileNotFoundException;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Date;
@@ -17,6 +18,7 @@ use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Upload;
+use GeminiLabs\SiteReviews\UploadedFile;
 
 class ImportReviews extends AbstractCommand
 {
@@ -66,14 +68,26 @@ class ImportReviews extends AbstractCommand
             $this->fail();
             return;
         }
-        if (!$this->validateUpload() || !$this->validateExtension('.csv')) {
-            glsr(Notice::class)->addWarning(
+        try {
+            $file = $this->file();
+        } catch (FileNotFoundException $e) {
+            glsr(Notice::class)->addError($e->getMessage());
+            $this->fail();
+            return;
+        }
+        if (!$file->isValid()) {
+            glsr(Notice::class)->addError($file->getErrorMessage());
+            $this->fail();
+            return;
+        }
+        if (!$file->hasMimeType('text/csv')) {
+            glsr(Notice::class)->addError(
                 _x('The import file is not a valid CSV file.', 'admin-text', 'site-reviews')
             );
             $this->fail();
             return;
         }
-        $result = $this->import();
+        $result = $this->import($file);
         if (-1 === $result) {
             $this->fail();
             return;
@@ -81,9 +95,9 @@ class ImportReviews extends AbstractCommand
         $this->notify($result);
     }
 
-    protected function createReader(): Reader
+    protected function createReader(string $filepath): Reader
     {
-        $reader = Reader::createFromPath($this->file()->tmp_name);
+        $reader = Reader::createFromPath($filepath);
         if (empty($this->delimiter)) {
             $delimiters = Info::getDelimiterStats($reader, [',', ';']);
             $delimiters = array_keys(array_filter($delimiters));
@@ -106,7 +120,7 @@ class ImportReviews extends AbstractCommand
         return $reader;
     }
 
-    protected function import(): int
+    protected function import(UploadedFile $file): int
     {
         define('WP_IMPORTING', true);
         if (!ini_get('auto_detect_line_endings')) {
@@ -114,7 +128,7 @@ class ImportReviews extends AbstractCommand
         }
         try {
             wp_raise_memory_limit('admin');
-            $reader = $this->createReader();
+            $reader = $this->createReader($file->getPathname());
             $header = array_map('trim', $reader->getHeader());
             if (!empty(array_diff(static::REQUIRED_KEYS, $header))) {
                 throw new Exception(_x('The CSV file could not be imported. Please verify the following details and try again:', 'admin-text', 'site-reviews'));

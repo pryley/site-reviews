@@ -4,46 +4,62 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\UploadedFile;
+use GeminiLabs\SiteReviews\Exceptions\FileNotFoundException;
 
 trait Upload
 {
-    protected function file(): Arguments
+    /**
+     * @throws FileNotFoundException
+     */
+    protected function file(): UploadedFile
     {
-        return glsr()->args(Arr::get($_FILES, 'import-file', []));
+        $files = Arr::get($_FILES, 'import-files', []);
+        $files = $this->fixPhpFilesArray($files);
+        return new UploadedFile(Arr::get($files, 0, []));
     }
 
-    protected function getUploadError(int $errorCode): string
+    /**
+     * This skips any files that don't exist and logs the error.
+     * @return UploadedFile[]
+     */
+    protected function files(): array
     {
-        $errors = [
-            UPLOAD_ERR_INI_SIZE => _x('The uploaded file exceeds the upload_max_filesize directive in php.ini.', 'admin-text', 'site-reviews'),
-            UPLOAD_ERR_FORM_SIZE => _x('The uploaded file is too big.', 'admin-text', 'site-reviews'),
-            UPLOAD_ERR_PARTIAL => _x('The uploaded file was only partially uploaded.', 'admin-text', 'site-reviews'),
-            UPLOAD_ERR_NO_FILE => _x('No file was uploaded.', 'admin-text', 'site-reviews'),
-            UPLOAD_ERR_NO_TMP_DIR => _x('Missing a temporary folder.', 'admin-text', 'site-reviews'),
-            UPLOAD_ERR_CANT_WRITE => _x('Failed to write file to disk.', 'admin-text', 'site-reviews'),
-            UPLOAD_ERR_EXTENSION => _x('A PHP extension stopped the file upload.', 'admin-text', 'site-reviews'),
-        ];
-        return Arr::get($errors, $errorCode, _x('Unknown upload error.', 'admin-text', 'site-reviews'));
-    }
-
-    protected function validateExtension(string $extension): bool
-    {
-        if (str_ends_with($this->file()->name, $extension)) {
-            return true;
+        $files = [];
+        $importFiles = Arr::get($_FILES, 'import-files', []);
+        $importFiles = $this->fixPhpFilesArray($importFiles);
+        foreach ($importFiles as $data) {
+            try {
+                $files[] = new UploadedFile($data);
+            } catch (FileNotFoundException $e) {
+                glsr_log()->error($e->getMessage());
+            }
         }
-        glsr(Notice::class)->addError(sprintf(
-            _x('Please upload a valid %s file.', 'admin-text', 'site-reviews'),
-            strtoupper($extension)
-        ));
-        return false;
+        return $files;
     }
 
-    protected function validateUpload(): bool
+    protected function fixPhpFilesArray(array $data): array
     {
-        if (UPLOAD_ERR_OK === $this->file()->error) {
-            return true;
+        unset($data['full_path']); // Remove extra key added by PHP 8.1.
+        $fileKeys = ['error', 'name', 'size', 'tmp_name', 'type'];
+        $keys = array_keys($data);
+        sort($keys);
+        if ($fileKeys !== $keys || !isset($data['name']) || !is_array($data['name'])) {
+            return $data;
         }
-        glsr(Notice::class)->addError($this->getUploadError($this->file()->error));
-        return false;
+        $files = $data;
+        foreach ($fileKeys as $k) {
+            unset($files[$k]);
+        }
+        foreach ($data['name'] as $key => $name) {
+            $files[$key] = $this->fixPhpFilesArray([
+                'error' => $data['error'][$key],
+                'name' => $name,
+                'type' => $data['type'][$key],
+                'tmp_name' => $data['tmp_name'][$key],
+                'size' => $data['size'][$key],
+            ]);
+        }
+        return $files;
     }
 }
