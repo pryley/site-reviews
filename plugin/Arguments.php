@@ -85,6 +85,15 @@ class Arguments extends \ArrayObject
     }
 
     /**
+     * @return self
+     */
+    public function replace(array $data = [])
+    {
+        $this->exchangeArray($data);
+        return $this;
+    }
+
+    /**
      * @param mixed $key
      * @return mixed
      */
