@@ -13,7 +13,7 @@ bump: ## Bump to the next minor version
 	npx gulp bump
 
 compat: ## Run PHP CodeSniffer to check PHP 7.4+ Compatibility
-	./vendor/bin/phpcs --standard=phpcs.xml
+	XDEBUG_MODE=off ./vendor/bin/phpcs --standard=phpcs.xml
 
 db: ## Open the database in TablePlus
 	@open mysql://dev:dev@127.0.0.1/site-reviews?enviroment=local&name=Localhost&safeModeLevel=0&advancedSafeModeLevel=0
