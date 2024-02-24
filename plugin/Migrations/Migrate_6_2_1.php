@@ -68,23 +68,24 @@ class Migrate_6_2_1 implements MigrateContract
      */
     protected function removeDuplicateCustomFields(): void
     {
-        global $wpdb;
-        $sql = glsr(Query::class)->sql($wpdb->prepare("
+        $sql = "
             DELETE pm 
-            FROM {$wpdb->postmeta} AS pm
-            INNER JOIN {$wpdb->posts} AS p ON p.ID = pm.post_id
+            FROM table|postmeta AS pm
+            INNER JOIN table|posts AS p ON p.ID = pm.post_id
             WHERE p.post_type = '%s'
             AND pm.meta_key LIKE '_custom_%%'
             AND pm.meta_id NOT IN (
                 SELECT *
                 FROM (
                     SELECT MAX(meta_id)
-                    FROM {$wpdb->postmeta}
+                    FROM table|postmeta
                     WHERE meta_key LIKE '_custom_%%'
                     GROUP BY post_id, meta_key
                 ) AS x
             )
-        ", glsr()->post_type));
-        glsr(Database::class)->dbQuery($sql);
+        ";
+        glsr(Database::class)->dbQuery(
+            glsr(Query::class)->sql($sql, glsr()->post_type)
+        );
     }
 }

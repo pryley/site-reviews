@@ -31,7 +31,7 @@ class SearchUsers extends AbstractSearch
     {
         $sql = "
             SELECT u.ID AS id, u.user_login AS login, u.display_name AS name
-            FROM {$this->db->users} u
+            FROM table|users u
             WHERE 1=1
             AND u.ID = %d
         ";
@@ -45,7 +45,7 @@ class SearchUsers extends AbstractSearch
         $like = '%'.$this->db->esc_like($searchTerm).'%';
         $sql = "
             SELECT u.ID AS id, u.user_login AS login, u.display_name AS name
-            FROM {$this->db->users} u
+            FROM table|users u
             WHERE 1=1
             AND (u.user_login LIKE %s OR u.display_name LIKE %s)
             ORDER BY u.display_name LIKE %s DESC

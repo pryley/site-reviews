@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
@@ -184,14 +186,16 @@ class TaxonomyController extends AbstractController
     {
         $result = get_transient(glsr()->prefix.static::PRIORITY_META_KEY);
         if (false === $result) {
-            global $wpdb;
-            $result = (int) $wpdb->get_var($wpdb->prepare("
+            $sql = "
                 SELECT COUNT(*) 
-                FROM {$wpdb->termmeta} AS tm
-                INNER JOIN {$wpdb->term_taxonomy} AS tt ON tt.term_id = tm.term_id
+                FROM table|termmeta AS tm
+                INNER JOIN table|term_taxonomy AS tt ON tt.term_id = tm.term_id
                 WHERE tt.taxonomy = %s
                 AND meta_key = %s
-            ", glsr()->taxonomy, static::PRIORITY_META_KEY));
+            ";
+            $result = (int) glsr(Database::class)->dbGetVar(
+                glsr(Query::class)->sql($sql, glsr()->taxonomy, static::PRIORITY_META_KEY)
+            );
             set_transient(glsr()->prefix.static::PRIORITY_META_KEY, $result);
         }
         return (int) $result > 0;

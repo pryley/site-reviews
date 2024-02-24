@@ -161,9 +161,9 @@ class Query
             SELECT r.*,
                 GROUP_CONCAT(DISTINCT apt.post_id) AS post_ids,
                 GROUP_CONCAT(DISTINCT aut.user_id) AS user_ids
-            FROM {$this->table('ratings')} AS r
-            LEFT JOIN {$this->table('assigned_posts')} AS apt ON apt.rating_id = r.ID
-            LEFT JOIN {$this->table('assigned_users')} AS aut ON aut.rating_id = r.ID
+            FROM table|ratings AS r
+            LEFT JOIN table|assigned_posts AS apt ON apt.rating_id = r.ID
+            LEFT JOIN table|assigned_users AS aut ON aut.rating_id = r.ID
             GROUP BY r.ID
             ORDER BY r.ID
             {$this->sqlLimit()}
@@ -173,31 +173,33 @@ class Query
 
     protected function queryHasRevisions(int $reviewId): string
     {
-        return $this->sql($this->db->prepare("
-            SELECT COUNT(*) 
-            FROM {$this->db->posts}
+        $sql = "
+            SELECT COUNT(*)
+            FROM table|posts
             WHERE post_type = 'revision' AND post_parent = %d
-        ", $reviewId));
+        ";
+        return $this->sql($sql, $reviewId);
     }
 
     protected function queryImport(): string
     {
-        return $this->sql($this->db->prepare("
+        $sql = "
             SELECT m.post_id, m.meta_value
-            FROM {$this->db->postmeta} AS m
-            INNER JOIN {$this->db->posts} AS p ON p.ID = m.post_id
+            FROM table|postmeta AS m
+            INNER JOIN table|posts AS p ON p.ID = m.post_id
             WHERE p.post_type = %s AND m.meta_key = %s
             ORDER BY m.meta_id
             {$this->sqlLimit()}
             {$this->sqlOffset()}
-        ", glsr()->post_type, glsr()->export_key));
+        ";
+        return $this->sql($sql, glsr()->post_type, glsr()->export_key);
     }
 
     protected function queryRatings(): string
     {
         return $this->sql("
             SELECT {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
-            FROM {$this->table('ratings')} AS r
+            FROM table|ratings AS r
             {$this->sqlJoin()}
             {$this->sqlWhere()}
             GROUP BY r.type, {$this->ratingColumn()}
@@ -208,8 +210,8 @@ class Query
     {
         return $this->sql("
             SELECT apt.post_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
-            FROM {$this->table('ratings')} AS r
-            INNER JOIN {$this->table('assigned_posts')} AS apt ON apt.rating_id = r.ID
+            FROM table|ratings AS r
+            INNER JOIN table|assigned_posts AS apt ON apt.rating_id = r.ID
             WHERE 1=1
             {$this->clauseAndStatus()}
             {$this->clauseAndType()}
@@ -221,8 +223,8 @@ class Query
     {
         return $this->sql("
             SELECT att.term_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
-            FROM {$this->table('ratings')} AS r
-            INNER JOIN {$this->table('assigned_terms')} AS att ON att.rating_id = r.ID
+            FROM table|ratings AS r
+            INNER JOIN table|assigned_terms AS att ON att.rating_id = r.ID
             WHERE 1=1
             {$this->clauseAndStatus()}
             {$this->clauseAndType()}
@@ -234,8 +236,8 @@ class Query
     {
         return $this->sql("
             SELECT aut.user_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
-            FROM {$this->table('ratings')} AS r
-            INNER JOIN {$this->table('assigned_users')} AS aut ON aut.rating_id = r.ID
+            FROM table|ratings AS r
+            INNER JOIN table|assigned_users AS aut ON aut.rating_id = r.ID
             WHERE 1=1
             {$this->clauseAndStatus()}
             {$this->clauseAndType()}
@@ -247,7 +249,7 @@ class Query
     {
         return $this->sql("
             SELECT r.review_id
-            FROM {$this->table('ratings')} AS r
+            FROM table|ratings AS r
             {$this->sqlJoin()}
             {$this->sqlWhere()}
             GROUP BY r.review_id
@@ -276,11 +278,11 @@ class Query
                 GROUP_CONCAT(DISTINCT apt.post_id) AS post_ids,
                 GROUP_CONCAT(DISTINCT att.term_id) AS term_ids,
                 GROUP_CONCAT(DISTINCT aut.user_id) AS user_ids
-            FROM {$this->table('ratings')} AS r
-            INNER JOIN {$this->db->posts} AS p ON p.ID = r.review_id
-            LEFT JOIN {$this->table('assigned_posts')} AS apt ON apt.rating_id = r.ID
-            LEFT JOIN {$this->table('assigned_terms')} AS att ON att.rating_id = r.ID
-            LEFT JOIN {$this->table('assigned_users')} AS aut ON aut.rating_id = r.ID
+            FROM table|ratings AS r
+            INNER JOIN table|posts AS p ON p.ID = r.review_id
+            LEFT JOIN table|assigned_posts AS apt ON apt.rating_id = r.ID
+            LEFT JOIN table|assigned_terms AS att ON att.rating_id = r.ID
+            LEFT JOIN table|assigned_users AS aut ON aut.rating_id = r.ID
             WHERE r.review_id IN ({$reviewIds}) AND p.post_type = '{$postType}'
             GROUP BY r.ID
             {$orderBy}
@@ -289,18 +291,19 @@ class Query
 
     protected function queryRevisionIds(int $reviewId): string
     {
-        return $this->sql($this->db->prepare("
+        $sql = "
             SELECT ID
-            FROM {$this->db->posts}
+            FROM table|posts
             WHERE post_type = 'revision' AND post_parent = %d
-        ", $reviewId));
+        ";
+        return $this->sql($sql, $reviewId);
     }
 
     protected function queryTotalReviews(): string
     {
         return $this->sql("
             SELECT COUNT(DISTINCT r.ID) AS count
-            FROM {$this->table('ratings')} AS r
+            FROM table|ratings AS r
             {$this->sqlJoin()}
             {$this->sqlWhere()}
         ");

@@ -11,13 +11,10 @@ use GeminiLabs\SiteReviews\Install;
 
 class MigrateReviews implements MigrateContract
 {
-    public $db;
     public $limit;
 
     public function __construct()
     {
-        global $wpdb;
-        $this->db = $wpdb;
         $this->limit = 200;
     }
 
@@ -80,18 +77,20 @@ class MigrateReviews implements MigrateContract
     {
         glsr(Database::class)->beginTransaction('assigned_posts');
         $offset = 0;
-        $table = glsr(Query::class)->table('ratings');
         while (true) {
-            $sql = glsr(Query::class)->sql($this->db->prepare("
+            $sql = "
                 SELECT r.ID AS rating_id, m.meta_value AS post_id, CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_published
-                FROM {$table} AS r
-                INNER JOIN {$this->db->posts} AS p ON p.ID = r.review_id
-                INNER JOIN {$this->db->postmeta} AS m ON m.post_id = r.review_id
+                FROM table|ratings AS r
+                INNER JOIN table|posts AS p ON p.ID = r.review_id
+                INNER JOIN table|postmeta AS m ON m.post_id = r.review_id
                 WHERE m.meta_key = '_assigned_to' AND m.meta_value > 0 
                 ORDER BY r.ID
                 LIMIT %d, %d
-            ", $offset, $this->limit));
-            $results = glsr(Database::class)->dbGetResults($sql, ARRAY_A);
+            ";
+            $results = glsr(Database::class)->dbGetResults(
+                glsr(Query::class)->sql($sql, $offset, $this->limit),
+                ARRAY_A
+            );
             if (empty($results)) {
                 break;
             }
@@ -113,19 +112,22 @@ class MigrateReviews implements MigrateContract
         glsr(Database::class)->beginTransaction('postmeta');
         $offset = 0;
         while (true) {
-            $sql = glsr(Query::class)->sql($this->db->prepare("
+            $sql = "
                 SELECT m1.post_id, m1.meta_key, m1.meta_value
-                FROM {$this->db->postmeta} AS m1
-                INNER JOIN {$this->db->posts} AS p ON p.ID = m1.post_id
-                LEFT JOIN {$this->db->postmeta} AS m2 ON (m2.post_id = m1.post_id AND m2.meta_key = m1.meta_key AND m2.meta_id > m1.meta_id)
+                FROM table|postmeta AS m1
+                INNER JOIN table|posts AS p ON p.ID = m1.post_id
+                LEFT JOIN table|postmeta AS m2 ON (m2.post_id = m1.post_id AND m2.meta_key = m1.meta_key AND m2.meta_id > m1.meta_id)
                 WHERE m2.meta_id IS NULL
                 AND p.post_type = '%s'
                 AND m1.meta_value != '%s'
                 AND m1.meta_key = '_custom'
                 ORDER BY m1.meta_id
                 LIMIT %d, %d
-            ", glsr()->post_type, serialize([]), $offset, $this->limit));
-            $results = glsr(Database::class)->dbGetResults($sql, OBJECT);
+            ";
+            $results = glsr(Database::class)->dbGetResults(
+                glsr(Query::class)->sql($sql, glsr()->post_type, serialize([]), $offset, $this->limit),
+                OBJECT
+            );
             if (empty($results)) {
                 break;
             }
@@ -148,28 +150,29 @@ class MigrateReviews implements MigrateContract
     {
         glsr(Database::class)->beginTransaction('ratings');
         $offset = 0;
-        $table = glsr(Query::class)->table('ratings');
         while (true) {
-            $postIdSql = glsr(Query::class)->sql($this->db->prepare("
+            $postIdSql = "
                 SELECT ID
-                FROM {$this->db->posts}
+                FROM table|posts
                 WHERE post_type = '%s'
                 ORDER BY ID
                 LIMIT %d, %d
-            ", glsr()->post_type, $offset, $this->limit));
-            $postIds = glsr(Database::class)->dbGetCol($postIdSql);
+            ";
+            $postIds = glsr(Database::class)->dbGetCol(
+                glsr(Query::class)->sql($postIdSql, glsr()->post_type, $offset, $this->limit),
+            );
             if (empty($postIds)) {
                 break;
             }
             $postIds = implode(',', $postIds);
             $sql = glsr(Query::class)->sql("
                 SELECT p.ID, m.meta_key AS mk, m.meta_value AS mv, CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_approved
-                FROM {$this->db->posts} AS p
-                LEFT JOIN {$this->db->postmeta} AS m ON m.post_id = p.ID
+                FROM table|posts AS p
+                LEFT JOIN table|postmeta AS m ON m.post_id = p.ID
                 WHERE p.ID IN ({$postIds})
                 AND NOT EXISTS (
                     SELECT r.review_id
-                    FROM {$table} AS r
+                    FROM table|ratings AS r
                     WHERE r.review_id = p.ID
                 )
             ");
@@ -191,17 +194,19 @@ class MigrateReviews implements MigrateContract
     {
         glsr(Database::class)->beginTransaction('assigned_terms');
         $offset = 0;
-        $table = glsr(Query::class)->table('ratings');
         while (true) {
-            $sql = glsr(Query::class)->sql($this->db->prepare("
+            $sql = "
                 SELECT r.ID AS rating_id, tt.term_id AS term_id
-                FROM {$table} AS r
-                INNER JOIN {$this->db->term_relationships} AS tr ON tr.object_id = r.review_id
-                INNER JOIN {$this->db->term_taxonomy} AS tt ON tt.term_taxonomy_id = tr.term_taxonomy_id
+                FROM table|ratings AS r
+                INNER JOIN table|term_relationships AS tr ON tr.object_id = r.review_id
+                INNER JOIN table|term_taxonomy AS tt ON tt.term_taxonomy_id = tr.term_taxonomy_id
                 ORDER BY r.ID
                 LIMIT %d, %d
-            ", $offset, $this->limit));
-            $results = glsr(Database::class)->dbGetResults($sql, ARRAY_A);
+            ";
+            $results = glsr(Database::class)->dbGetResults(
+                glsr(Query::class)->sql($sql, $offset, $this->limit),
+                ARRAY_A
+            );
             if (empty($results)) {
                 break;
             }

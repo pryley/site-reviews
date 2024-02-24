@@ -22,11 +22,10 @@ class CountProductReviews extends AbstractCommand
 
     public function handle(): void
     {
-        $query = glsr(Query::class);
-        $sql = $query->sql("
+        $sql = glsr(Query::class)->sql("
             SELECT COUNT(DISTINCT c.comment_ID)
-            FROM {$query->table('comments')} AS c
-            INNER JOIN {$query->table('commentmeta')} AS cm ON cm.comment_id = c.comment_ID
+            FROM table|comments AS c
+            INNER JOIN table|commentmeta AS cm ON cm.comment_id = c.comment_ID
             WHERE 1=1
             AND c.comment_type = 'review'
             AND c.comment_approved IN ('0','1')
@@ -34,7 +33,7 @@ class CountProductReviews extends AbstractCommand
             AND cm.meta_key = 'rating'
             AND NOT EXISTS (
                 SELECT NULL
-                FROM {$query->table('commentmeta')} AS cm2
+                FROM table|commentmeta AS cm2
                 WHERE 1=1
                 AND cm2.comment_id = c.comment_ID
                 AND cm2.meta_key = 'imported'

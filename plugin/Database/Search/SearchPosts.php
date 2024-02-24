@@ -51,7 +51,7 @@ class SearchPosts extends AbstractSearch
     {
         $sql = "
             SELECT p.ID AS id, p.post_title AS name
-            FROM {$this->db->posts} AS p
+            FROM table|posts AS p
             WHERE 1=1
             AND p.ID = %d
             AND p.post_type IN ({$this->postTypes()})
@@ -67,7 +67,7 @@ class SearchPosts extends AbstractSearch
         $like = '%'.$this->db->esc_like($searchTerm).'%';
         $sql = "
             SELECT p.ID AS id, p.post_title AS name
-            FROM {$this->db->posts} AS p
+            FROM table|posts AS p
             WHERE 1=1
             AND p.post_title LIKE %s
             AND p.post_type IN ({$this->postTypes()})

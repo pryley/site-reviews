@@ -29,8 +29,8 @@ class TableAssignedPosts extends AbstractTable
             glsr(Query::class)->sql("
                 DELETE t
                 FROM {$this->tablename} AS t
-                LEFT JOIN {$this->table('ratings')} AS r ON r.ID = t.rating_id
-                LEFT JOIN {$this->table('posts')} AS p ON p.ID = t.post_id
+                LEFT JOIN table|ratings AS r ON r.ID = t.rating_id
+                LEFT JOIN table|posts AS p ON p.ID = t.post_id
                 WHERE (r.ID IS NULL OR p.ID IS NULL) OR p.post_type != '{$type}'
             ")
         );

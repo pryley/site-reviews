@@ -62,8 +62,8 @@ class MigrateProductRatings extends AbstractCommand
         $in = implode(',', $ttids);
         $sql = glsr(Query::class)->sql("
             DELETE tr
-            FROM {$this->db->term_relationships} AS tr
-            INNER JOIN {$this->db->posts} AS p ON (p.ID = tr.object_id)
+            FROM table|term_relationships AS tr
+            INNER JOIN table|posts AS p ON (p.ID = tr.object_id)
             WHERE 1=1
             AND p.post_type = 'product'
             AND tr.term_taxonomy_id IN ({$in})
@@ -79,17 +79,20 @@ class MigrateProductRatings extends AbstractCommand
     protected function insertTerms(array $ttids): int
     {
         $metaKey = $this->revert ? '_wc_average_rating' : '_glsr_average';
-        $sql = glsr(Query::class)->sql("
+        $sql = "
             SELECT p.ID as object_id, CONCAT('rated-', ROUND(pm.meta_value, 0)) AS term_taxonomy_id
-            FROM {$this->db->posts} AS p
-            INNER JOIN {$this->db->postmeta} AS pm ON (p.ID = pm.post_id)
+            FROM table|posts AS p
+            INNER JOIN table|postmeta AS pm ON (p.ID = pm.post_id)
             WHERE 1=1
             AND p.post_type = 'product'
             AND pm.meta_key = %s
             AND pm.meta_value > 0
             AND pm.meta_value < 6
-        ", $metaKey);
-        $rows = glsr(Database::class)->dbGetResults($sql, ARRAY_A);
+        ";
+        $rows = glsr(Database::class)->dbGetResults(
+            glsr(Query::class)->sql($sql, $metaKey),
+            ARRAY_A
+        );
         $values = [];
         foreach ($rows as $row) {
             $rating = $row['term_taxonomy_id'];
@@ -112,8 +115,8 @@ class MigrateProductRatings extends AbstractCommand
     {
         $sql = glsr(Query::class)->sql("
             SELECT tt.term_taxonomy_id AS ttid, t.name
-            FROM {$this->db->term_taxonomy} AS tt
-            INNER JOIN {$this->db->terms} AS t ON (t.term_id = tt.term_id)
+            FROM table|term_taxonomy AS tt
+            INNER JOIN table|terms AS t ON (t.term_id = tt.term_id)
             WHERE 1=1
             AND tt.taxonomy = 'product_visibility'
             AND t.name LIKE 'rated-%'

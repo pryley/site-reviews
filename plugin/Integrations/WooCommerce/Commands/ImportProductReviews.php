@@ -53,12 +53,10 @@ class ImportProductReviews extends AbstractCommand
 
     public function reviewIds(): array
     {
-        $limit = static::PER_PAGE;
-        $query = glsr(Query::class);
-        $sql = $query->sql("
+        $sql = "
             SELECT DISTINCT c.comment_ID
-            FROM {$query->table('comments')} AS c
-            INNER JOIN {$query->table('commentmeta')} AS cm ON cm.comment_id = c.comment_ID
+            FROM table|comments AS c
+            INNER JOIN table|commentmeta AS cm ON cm.comment_id = c.comment_ID
             WHERE 1=1
             AND c.comment_type = 'review'
             AND c.comment_approved IN ('0','1')
@@ -66,15 +64,17 @@ class ImportProductReviews extends AbstractCommand
             AND cm.meta_key = 'rating'
             AND NOT EXISTS (
                 SELECT NULL
-                FROM {$query->table('commentmeta')} AS cm2
+                FROM table|commentmeta AS cm2
                 WHERE 1=1
                 AND cm2.comment_id = c.comment_ID
                 AND cm2.meta_key = 'imported'
             )
-            LIMIT {$limit}
-            OFFSET {$this->offset}
-        ");
-        return glsr(Database::class)->dbGetCol($sql);
+            LIMIT %d
+            OFFSET %d
+        ";
+        return glsr(Database::class)->dbGetCol(
+            glsr(Query::class)->sql($sql, static::PER_PAGE, $this->offset)
+        );
     }
 
     public function reviews(): array
@@ -82,8 +82,7 @@ class ImportProductReviews extends AbstractCommand
         $reviewIds = $this->reviewIds();
         $reviewIds = implode(',', Arr::uniqueInt(Cast::toArray($reviewIds)));
         $reviewIds = Str::fallback($reviewIds, '0'); // if there are no comment IDs, default to 0
-        $query = glsr(Query::class);
-        $sql = $query->sql("
+        $sql = glsr(Query::class)->sql("
             SELECT 
                 c.comment_ID,
                 c.comment_date as date,
@@ -96,8 +95,8 @@ class ImportProductReviews extends AbstractCommand
                 c.comment_approved as is_approved,
                 c.comment_post_ID as assigned_posts,
                 c.user_id as user_id
-            FROM {$query->table('comments')} AS c
-            INNER JOIN {$query->table('commentmeta')} AS cm ON cm.comment_id = c.comment_ID
+            FROM table|comments AS c
+            INNER JOIN table|commentmeta AS cm ON cm.comment_id = c.comment_ID
             WHERE 1=1
             AND c.comment_ID IN ({$reviewIds})
             AND cm.meta_key = 'rating'

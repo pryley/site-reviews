@@ -170,13 +170,12 @@ class Database
 
     public function isMigrationNeeded(): bool
     {
-        $table = glsr(Query::class)->table('ratings');
         $postTypes = wp_count_posts(glsr()->post_type);
         $postCount = Arr::get($postTypes, 'publish');
         if (empty($postCount)) {
             return false;
         }
-        $sql = glsr(Query::class)->sql("SELECT COUNT(*) FROM {$table} WHERE is_approved = 1");
+        $sql = glsr(Query::class)->sql("SELECT COUNT(*) FROM table|ratings WHERE is_approved = 1");
         return empty($this->dbGetVar($sql));
     }
 

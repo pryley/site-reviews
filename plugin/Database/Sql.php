@@ -47,6 +47,13 @@ trait Sql
     public function sql(string $statement, ...$args): string
     {
         $handle = $this->sqlHandle();
+        // Allow the following syntax:
+        // - FROM table|<table_name>
+        // - JOIN table|<table_name>
+        $statement = preg_replace_callback('/(FROM|JOIN)(\s+)(table\|)([^\s]+)/',
+            fn ($m) => $m[1].$m[2].$this->table($m[4]),
+            $statement
+        );
         if (!empty($args)) {
             $statement = $this->db->prepare($statement, ...$args);
         }

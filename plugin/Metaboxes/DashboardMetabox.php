@@ -59,19 +59,20 @@ class DashboardMetabox
         if (glsr(Date::class)->isThisMonth(Arr::get($count, 'timestamp'))) {
             return Arr::getAs('int', $count, 'count');
         }
-        $table = glsr(Query::class)->table('posts');
         $month = (int) date('m');
         $year = (int) date('Y');
-        $sql = glsr(Query::class)->sql("
+        $sql = "
             SELECT COUNT(DISTINCT ID) AS count
-            FROM {$table}
+            FROM table|posts
             WHERE 1=1
             AND post_type = %s
             AND post_status IN ('pending','publish')
             AND YEAR(post_date) = %d
             AND MONTH(post_date) = %d
-        ", glsr()->post_type, $year, $month);
-        $result = (int) glsr(Database::class)->dbGetVar($sql);
+        ";
+        $result = (int) glsr(Database::class)->dbGetVar(
+            glsr(Query::class)->sql($sql, glsr()->post_type, $year, $month)
+        );
         glsr(Cache::class)->store('monthly', 'count', [
             'count' => $result,
             'timestamp' => current_time('timestamp'),
