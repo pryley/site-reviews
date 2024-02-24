@@ -8,6 +8,8 @@ interface CommandContract
 
     public function handle(): void;
 
+    public function pass(): void;
+
     public function referer(): string;
 
     public function response(): array;

@@ -14,6 +14,11 @@ abstract class AbstractCommand implements CommandContract
         $this->result = false;
     }
 
+    public function pass(): void
+    {
+        $this->result = true;
+    }
+
     public function referer(): string
     {
         return Url::home();
