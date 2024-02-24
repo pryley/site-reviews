@@ -16,6 +16,9 @@ trait Upload
     {
         $files = Arr::get($_FILES, 'import-files', []);
         $files = $this->fixPhpFilesArray($files);
+        if (!wp_is_numeric_array($files)) {
+            return new UploadedFile($files);
+        }
         return new UploadedFile(Arr::get($files, 0, []));
     }
 
@@ -28,6 +31,9 @@ trait Upload
         $files = [];
         $importFiles = Arr::get($_FILES, 'import-files', []);
         $importFiles = $this->fixPhpFilesArray($importFiles);
+        if (!wp_is_numeric_array($files)) {
+            $importFiles = [$importFiles];
+        }
         foreach ($importFiles as $data) {
             try {
                 $files[] = new UploadedFile($data);
