@@ -247,8 +247,8 @@ class Builder implements BuilderContract
                 if (array_diff(array_keys($value), ['title', 'value'])) {
                     return $carry.$this->buildFormSelectOptGroup($value, $key);
                 }
-                $title = $options[$key]['title'];
-                $value = $options[$key]['value'];
+                $title = $options[$key]['title'] ?? '';
+                $value = $options[$key]['value'] ?? '';
             }
             return $carry.$this->option([
                 'selected' => $this->args->cast('value', 'string') === Cast::toString($key),
