@@ -189,6 +189,9 @@ class EnqueueAdminAssets extends AbstractCommand
             'site-editor',
             'widgets',
         ];
+        if ('admin' === $screen->base && str_starts_with(filter_input(INPUT_GET, 'import'), glsr()->post_type)) {
+            return true;
+        }
         return str_starts_with($screen->post_type, glsr()->post_type)
             || in_array($screen->id, $screenIds)
             || 'post' === $screen->base;
