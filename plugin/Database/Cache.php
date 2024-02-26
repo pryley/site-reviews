@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
-use GeminiLabs\SiteReviews\Controllers\TranslationController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
@@ -17,9 +16,6 @@ class Cache
         }
     }
 
-    /**
-     * @return mixed
-     */
     public function get(string $key, string $group, ?\Closure $callback = null, int $expire = 0)
     {
         $group = glsr()->prefix.$group;
@@ -111,21 +107,19 @@ class Cache
     public function getSystemInfo(): array
     {
         if (false === ($data = get_transient(glsr()->prefix.'system_info'))) {
-            add_filter('gettext_default', [glsr(TranslationController::class), 'filterEnglishTranslation'], 10, 2);
+            $callback = fn ($translation, $single) => $single;
+            add_filter('gettext_default', $callback, 10, 2);
             try { // prevent badly made migration plugins from breaking Site Reviews...
                 $data = \WP_Debug_Data::debug_data(); // get the WordPress debug data in English
                 set_transient(glsr()->prefix.'system_info', $data, 12 * HOUR_IN_SECONDS);
             } catch (\TypeError $error) {
                 $data = [];
             }
-            remove_filter('gettext_default', [glsr(TranslationController::class), 'filterEnglishTranslation'], 10);
+            remove_filter('gettext_default', $callback, 10);
         }
         return Arr::consolidate($data);
     }
 
-    /**
-     * @param mixed $value
-     */
     public function store(string $key, string $group, $value, int $expire = 0): void
     {
         $group = glsr()->prefix.$group;

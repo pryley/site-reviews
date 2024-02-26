@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Defaults\PostStatusLabelsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\HookProxy;
 use GeminiLabs\SiteReviews\Modules\Translation;
@@ -23,8 +22,8 @@ class TranslationController
     }
 
     /**
-     * @param array[] $messages
-     * @param int[] $counts
+     * @param  array[] $messages
+     * @param  int[]   $counts
      * @return array[]
      * @filter bulk_post_updated_messages
      */
@@ -38,15 +37,6 @@ class TranslationController
             'untrashed' => _nx('%s review restored from the Trash.', '%s reviews restored from the Trash.', $counts['untrashed'], 'admin-text', 'site-reviews'),
         ];
         return $messages;
-    }
-
-    /**
-     * Used to ensure that System Info is in English.
-     * @filter gettext_default
-     */
-    public function filterEnglishTranslation(string $translation, string $single): string
-    {
-        return $single;
     }
 
     /**
@@ -107,7 +97,10 @@ class TranslationController
      */
     public function filterPostStates(array $states, \WP_Post $post): array
     {
-        if (get_post_type($post) === glsr()->post_type && array_key_exists('pending', $states)) {
+        if (!$this->canModifyTranslation()) {
+            return $states;
+        }
+        if (array_key_exists('pending', $states)) {
             $states['pending'] = _x('Unapproved', 'admin-text', 'site-reviews');
         }
         return $states;
@@ -118,43 +111,53 @@ class TranslationController
      */
     public function filterPostStatusLabels(string $translation, string $single): string
     {
-        if ($this->canModifyTranslation()) {
-            $replacements = $this->statusLabels();
-            if (array_key_exists($single, $replacements)) {
-                return $replacements[$single];
-            }
+        if (!$this->canModifyTranslation()) {
+            return $translation;
+        }
+        $replacements = [
+            'Pending' => _x('Unapproved', 'admin-text', 'site-reviews'),
+            'Pending Review' => _x('Unapproved', 'admin-text', 'site-reviews'),
+            'Published' => _x('Approved', 'admin-text', 'site-reviews'),
+            'Save as Pending' => _x('Save as Unapproved', 'admin-text', 'site-reviews'),
+        ];
+        if (array_key_exists($single, $replacements)) {
+            return $replacements[$single];
         }
         return $translation;
     }
 
     /**
-     * @filter ngettext_default
+     * @action current_screen
      */
-    public function filterPostStatusText(string $translation, string $single, string $plural, int $number): string
+    public function translatePostStatusLabels(): void
     {
-        if ($this->canModifyTranslation()) {
-            $strings = [
-                'Published' => _x('Approved', 'admin-text', 'site-reviews'),
-                'Pending' => _x('Unapproved', 'admin-text', 'site-reviews'),
-            ];
-            foreach ($strings as $search => $replace) {
-                if (!str_contains($single, $search)) {
-                    continue;
-                }
-                return $this->translator->getTranslation([
-                    'number' => $number,
-                    'plural' => str_replace($search, $replace, $plural),
-                    'single' => str_replace($search, $replace, $single),
-                ]);
-            }
+        if (!$this->canModifyTranslation()) {
+            return;
         }
-        return $translation;
+        global $wp_post_statuses;
+        $labels = [
+            'pending' => [
+                'label' => _x('Unapproved', 'admin-text', 'site-reviews'),
+                'label_count' => _x('Unapproved <span class="count">(%s)</span>', 'admin-text', 'site-reviews'),
+            ],
+            'publish' => [
+                'label' => _x('Approved', 'admin-text', 'site-reviews'),
+                'label_count' => _x('Approved <span class="count">(%s)</span>', 'admin-text', 'site-reviews'),
+            ],
+        ];
+        foreach ($labels as $key => $values) {
+            $wp_post_statuses[$key]->label = $values['label'];
+            $wp_post_statuses[$key]->label_count[0] = $values['label_count'];
+            $wp_post_statuses[$key]->label_count[1] = $values['label_count'];
+            $wp_post_statuses[$key]->label_count['singular'] = $values['label_count'];
+            $wp_post_statuses[$key]->label_count['plural'] = $values['label_count'];
+        }
     }
 
     /**
      * @action admin_print_scripts-post.php
      */
-    public function translatePostStatusLabels(): void
+    public function translatePostStatusLabelsInScripts(): void
     {
         if (!$this->canModifyTranslation()) {
             return;
@@ -178,17 +181,5 @@ class TranslationController
     {
         $screen = glsr_current_screen();
         return glsr()->post_type === $screen->post_type && in_array($screen->base, ['edit', 'post']);
-    }
-
-    /**
-     * Store the labels to avoid unnecessary loops.
-     */
-    protected function statusLabels(): array
-    {
-        static $labels;
-        if (empty($labels)) {
-            $labels = glsr(PostStatusLabelsDefaults::class)->defaults();
-        }
-        return $labels;
     }
 }

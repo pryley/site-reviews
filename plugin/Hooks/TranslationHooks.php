@@ -7,26 +7,16 @@ use GeminiLabs\SiteReviews\Modules\Translation;
 
 class TranslationHooks extends AbstractHooks
 {
-    public function translateAdminEditPage(): void
+    public function run(): void
     {
-        if (glsr()->post_type === glsr_current_screen()->post_type) {
-            $this->hook(TranslationController::class, [
-                ['filterBulkUpdateMessages', 'bulk_post_updated_messages', 10, 2],
-                ['filterPostStates', 'display_post_states', 10, 2],
-                ['filterPostStatusLabels', 'gettext_default', 10, 2],
-                ['filterPostStatusText', 'ngettext_default', 10, 4],
-            ]);
-        }
-    }
-
-    public function translateAdminPostPage(): void
-    {
-        if (glsr()->post_type === glsr_current_screen()->post_type) {
-            $this->hook(TranslationController::class, [
-                ['filterPostStatusLabels', 'gettext_default', 10, 2],
-                ['translatePostStatusLabels', 'admin_print_scripts-post.php'],
-            ]);
-        }
+        add_action('after_setup_theme', [$this, 'translatePlugin'], 20);
+        $this->hook(TranslationController::class, [
+            ['filterBulkUpdateMessages', 'bulk_post_updated_messages', 10, 2],
+            ['filterPostStates', 'display_post_states', 10, 2],
+            ['filterPostStatusLabels', 'gettext_default', 10, 2],
+            ['translatePostStatusLabels', 'current_screen'],
+            ['translatePostStatusLabelsInScripts', 'admin_print_scripts-post.php'],
+        ]);
     }
 
     public function translatePlugin(): void
@@ -39,12 +29,5 @@ class TranslationHooks extends AbstractHooks
                 ['filterNgettextWithContext', "ngettext_with_context_{$this->id}", 20, 5],
             ]);
         }
-    }
-
-    public function run(): void
-    {
-        add_action('load-edit.php', [$this, 'translateAdminEditPage']);
-        add_action('load-post.php', [$this, 'translateAdminPostPage']);
-        add_action('after_setup_theme', [$this, 'translatePlugin'], 20);
     }
 }
