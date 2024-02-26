@@ -735,7 +735,7 @@ msgctxt "admin-text"
 msgid "The default text is: %s"
 msgstr ""
 
-#: config/settings.php:402, plugin/Modules/Html/ReviewsHtml.php:115
+#: config/settings.php:402, plugin/Modules/Html/ReviewsHtml.php:118
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr ""
 
@@ -1402,49 +1402,39 @@ msgctxt "admin-text"
 msgid "There was an error (try reloading the page)."
 msgstr ""
 
-#: plugin/Upload.php:18
-msgctxt "admin-text"
-msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
+#: plugin/UploadedFile.php:92
+msgctxt "file error (admin-text)"
+msgid "The file \"%s\" exceeds the upload_max_filesize ini directive (limit is %d KiB)."
 msgstr ""
 
-#: plugin/Upload.php:19
-msgctxt "admin-text"
-msgid "The uploaded file is too big."
+#: plugin/UploadedFile.php:93
+msgctxt "file error (admin-text)"
+msgid "The file \"%s\" exceeds the upload limit defined in your form."
 msgstr ""
 
-#: plugin/Upload.php:20
-msgctxt "admin-text"
-msgid "The uploaded file was only partially uploaded."
+#: plugin/UploadedFile.php:94
+msgctxt "file error (admin-text)"
+msgid "The file \"%s\" was only partially uploaded."
 msgstr ""
 
-#: plugin/Upload.php:21
-msgctxt "admin-text"
+#: plugin/UploadedFile.php:95
+msgctxt "file error (admin-text)"
 msgid "No file was uploaded."
 msgstr ""
 
-#: plugin/Upload.php:22
-msgctxt "admin-text"
-msgid "Missing a temporary folder."
+#: plugin/UploadedFile.php:96
+msgctxt "file error (admin-text)"
+msgid "The file \"%s\" could not be written on disk."
 msgstr ""
 
-#: plugin/Upload.php:23
-msgctxt "admin-text"
-msgid "Failed to write file to disk."
+#: plugin/UploadedFile.php:97
+msgctxt "file error (admin-text)"
+msgid "File could not be uploaded: missing temporary directory."
 msgstr ""
 
-#: plugin/Upload.php:24
-msgctxt "admin-text"
-msgid "A PHP extension stopped the file upload."
-msgstr ""
-
-#: plugin/Upload.php:26
-msgctxt "admin-text"
-msgid "Unknown upload error."
-msgstr ""
-
-#: plugin/Upload.php:35
-msgctxt "admin-text"
-msgid "Please upload a valid %s file."
+#: plugin/UploadedFile.php:98
+msgctxt "file error (admin-text)"
+msgid "File upload was stopped by a PHP extension."
 msgstr ""
 
 #: views/tmpl-deactivate-plugin.php:31
@@ -1877,101 +1867,101 @@ msgctxt "admin-text"
 msgid "No reviews found."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:64
+#: plugin/Commands/ImportReviews.php:66
 msgctxt "admin-text"
 msgid "You do not have permission to import reviews."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:71
+#: plugin/Commands/ImportReviews.php:85
 msgctxt "admin-text"
 msgid "The import file is not a valid CSV file."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:91
+#: plugin/Commands/ImportReviews.php:105
 msgctxt "admin-text"
 msgid "Cannot detect the delimiter used in the CSV file (supported delimiters are comma and semicolon)."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:120
+#: plugin/Commands/ImportReviews.php:134
 msgctxt "admin-text"
 msgid "The CSV file could not be imported. Please verify the following details and try again:"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:129
+#: plugin/Commands/ImportReviews.php:143
 msgctxt "admin-text"
 msgid "Does the CSV file include all required columns?"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:130
+#: plugin/Commands/ImportReviews.php:144
 msgctxt "admin-text"
 msgid "Have you named all of the columns in the CSV file?"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:131
+#: plugin/Commands/ImportReviews.php:145
 msgctxt "admin-text"
 msgid "Have you removed all empty columns from the CSV file?"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:132
+#: plugin/Commands/ImportReviews.php:146
 msgctxt "admin-text"
 msgid "Is the CSV file encoded as UTF-8?"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:133
+#: plugin/Commands/ImportReviews.php:147
 msgctxt "admin-text"
 msgid "Is the selected delimiter correct?"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:158
+#: plugin/Commands/ImportReviews.php:172
 msgctxt "admin-text"
 msgid "%s review was imported."
 msgid_plural "%s reviews were imported."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ImportReviews.php:166
+#: plugin/Commands/ImportReviews.php:180
 msgctxt "admin-text"
 msgid "%s entry was skipped."
 msgid_plural "%s entries were skipped."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ImportReviews.php:169
+#: plugin/Commands/ImportReviews.php:183
 msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:172, plugin/Controllers/MenuController.php:160
+#: plugin/Commands/ImportReviews.php:186, plugin/Controllers/MenuController.php:160
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:194
+#: plugin/Commands/ImportReviews.php:208
 msgctxt "admin-text"
 msgid "wrong date format"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:195
+#: plugin/Commands/ImportReviews.php:209
 msgctxt "admin-text"
 msgid "empty or invalid rating"
 msgstr ""
 
-#: plugin/Commands/ImportSettings.php:18
+#: plugin/Commands/ImportSettings.php:21
 msgctxt "admin-text"
 msgid "You do not have permission to import settings."
 msgstr ""
 
-#: plugin/Commands/ImportSettings.php:25
+#: plugin/Commands/ImportSettings.php:40
 msgctxt "admin-text"
 msgid "The import file is not a valid JSON file."
 msgstr ""
 
-#: plugin/Commands/ImportSettings.php:32
+#: plugin/Commands/ImportSettings.php:47
 msgctxt "admin-text"
 msgid "There were no settings found to import."
 msgstr ""
 
-#: plugin/Commands/ImportSettings.php:38
+#: plugin/Commands/ImportSettings.php:53
 msgctxt "admin-text"
 msgid "Settings imported."
 msgstr ""
@@ -2045,14 +2035,14 @@ msgctxt "admin-text"
 msgid "Edit"
 msgstr ""
 
-#: plugin/Commands/ToggleStatus.php:78
+#: plugin/Commands/ToggleStatus.php:78, plugin/Controllers/TranslationController.php:145
 msgctxt "admin-text"
 msgid "Approved <span class=\"count\">(%s)</span>"
 msgid_plural "Approved <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ToggleStatus.php:86
+#: plugin/Commands/ToggleStatus.php:86, plugin/Controllers/TranslationController.php:141
 msgctxt "admin-text"
 msgid "Unapproved <span class=\"count\">(%s)</span>"
 msgid_plural "Unapproved <span class=\"count\">(%s)</span>"
@@ -2239,7 +2229,7 @@ msgctxt "admin-text"
 msgid "Approve this review"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:158, plugin/Controllers/TranslationController.php:167, plugin/Defaults/PostStatusLabelsDefaults.php:13
+#: plugin/Controllers/ListTableController.php:158, plugin/Controllers/TranslationController.php:170
 msgctxt "admin-text"
 msgid "Approve"
 msgstr ""
@@ -2414,17 +2404,17 @@ msgctxt "admin-text"
 msgid "To activate your license, please visit the %s page on your Nifty Plugins account and click the \"Manage Sites\" button to activate it for your website."
 msgstr ""
 
-#: plugin/Controllers/TaxonomyController.php:20, views/partials/taxonomy/add-term_priority.php:5, views/partials/taxonomy/edit-term_priority.php:6, views/partials/taxonomy/quickedit-term_priority.php:6
+#: plugin/Controllers/TaxonomyController.php:22, views/partials/taxonomy/add-term_priority.php:5, views/partials/taxonomy/edit-term_priority.php:6, views/partials/taxonomy/quickedit-term_priority.php:6
 msgctxt "admin-text"
 msgid "Priority"
 msgstr ""
 
-#: plugin/Controllers/TaxonomyController.php:21
+#: plugin/Controllers/TaxonomyController.php:23
 msgctxt "admin-text"
 msgid "TID"
 msgstr ""
 
-#: plugin/Controllers/TaxonomyController.php:22
+#: plugin/Controllers/TaxonomyController.php:24
 msgctxt "admin-text"
 msgid "TTID"
 msgstr ""
@@ -2484,69 +2474,69 @@ msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:34
+#: plugin/Controllers/TranslationController.php:33
 msgctxt "admin-text"
 msgid "%s review updated."
 msgid_plural "%s reviews updated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:35
+#: plugin/Controllers/TranslationController.php:34
 msgctxt "admin-text"
 msgid "%s review not updated, somebody is editing it."
 msgid_plural "%s reviews not updated, somebody is editing them."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:36
+#: plugin/Controllers/TranslationController.php:35
 msgctxt "admin-text"
 msgid "%s review permanently deleted."
 msgid_plural "%s reviews permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:37
+#: plugin/Controllers/TranslationController.php:36
 msgctxt "admin-text"
 msgid "%s review moved to the Trash."
 msgid_plural "%s reviews moved to the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:38
+#: plugin/Controllers/TranslationController.php:37
 msgctxt "admin-text"
 msgid "%s review restored from the Trash."
 msgid_plural "%s reviews restored from the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:111, plugin/Controllers/TranslationController.php:138, plugin/Defaults/PostStatusLabelsDefaults.php:10, plugin/Defaults/PostStatusLabelsDefaults.php:11, plugin/Integrations/MultilingualPress/Controller.php:94, views/partials/screen/inline-edit.php:72
+#: plugin/Controllers/TranslationController.php:104, plugin/Controllers/TranslationController.php:118, plugin/Controllers/TranslationController.php:119, plugin/Controllers/TranslationController.php:140, views/partials/screen/inline-edit.php:72
 msgctxt "admin-text"
 msgid "Unapproved"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:137, plugin/Controllers/TranslationController.php:168, plugin/Defaults/PostStatusLabelsDefaults.php:14, plugin/Integrations/MultilingualPress/Controller.php:95, views/partials/screen/inline-edit.php:70
+#: plugin/Controllers/TranslationController.php:120, plugin/Controllers/TranslationController.php:144, plugin/Controllers/TranslationController.php:171, views/partials/screen/inline-edit.php:70
 msgctxt "admin-text"
 msgid "Approved"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:166, plugin/Defaults/PostStatusLabelsDefaults.php:12
+#: plugin/Controllers/TranslationController.php:121, plugin/Controllers/TranslationController.php:174
 msgctxt "admin-text"
-msgid "Privately Approved"
+msgid "Save as Unapproved"
 msgstr ""
 
 #: plugin/Controllers/TranslationController.php:169
 msgctxt "admin-text"
+msgid "Privately Approved"
+msgstr ""
+
+#: plugin/Controllers/TranslationController.php:172
+msgctxt "admin-text"
 msgid "Approve on:"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:170
+#: plugin/Controllers/TranslationController.php:173
 msgctxt "admin-text"
 msgid "Approved on:"
-msgstr ""
-
-#: plugin/Controllers/TranslationController.php:171, plugin/Defaults/PostStatusLabelsDefaults.php:15
-msgctxt "admin-text"
-msgid "Save as Unapproved"
 msgstr ""
 
 #: plugin/Controllers/VerificationController.php:63
@@ -4235,6 +4225,11 @@ msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr ""
 
+#: plugin/Integrations/Elementor/Hooks.php:46
+msgctxt "admin-text"
+msgid "Update Elementor to v3.19.0 or higher to enable integration with Site Reviews."
+msgstr ""
+
 #: plugin/Integrations/GamiPress/Controller.php:120
 msgctxt "admin-text"
 msgid "The rating of the review which triggered this event."
@@ -4487,51 +4482,6 @@ msgstr ""
 #: plugin/Integrations/LPFW/Controller.php:25
 msgctxt "(loyalty-program-for-woocommerce) admin-text"
 msgid "View Product"
-msgstr ""
-
-#: plugin/Integrations/MultilingualPress/Controller.php:71
-msgctxt "multilingualpress text (admin-text)"
-msgid "Overwrite the content of the translated review with the content of the source review."
-msgstr ""
-
-#: plugin/Integrations/MultilingualPress/Controller.php:72
-msgctxt "multilingualpress text (admin-text)"
-msgid "Overwrite the Categories of the target review with the translated Categories of the source review."
-msgstr ""
-
-#: plugin/Integrations/MultilingualPress/Controller.php:73
-msgctxt "multilingualpress text (admin-text)"
-msgid "Review Slug:"
-msgstr ""
-
-#: plugin/Integrations/MultilingualPress/Controller.php:74
-msgctxt "multilingualpress text (admin-text)"
-msgid "Review Status:"
-msgstr ""
-
-#: plugin/Integrations/MultilingualPress/Controller.php:75
-msgctxt "multilingualpress text (admin-text)"
-msgid "Review Title:"
-msgstr ""
-
-#: plugin/Integrations/MultilingualPress/Controller.php:76
-msgctxt "multilingualpress text (admin-text)"
-msgid "Send all translations to trash when this review is trashed."
-msgstr ""
-
-#: plugin/Integrations/MultilingualPress/Controller.php:77
-msgctxt "multilingualpress text (admin-text)"
-msgid "Synchronize Categories"
-msgstr ""
-
-#: plugin/Integrations/MultilingualPress/Hooks.php:93
-msgctxt "admin-text"
-msgid "Please update MultilingualPress to the latest version to enable the Site Reviews integration."
-msgstr ""
-
-#: plugin/Integrations/MultilingualPress/ServiceProvider.php:55
-msgctxt "admin-text"
-msgid "Enable Site Reviews Support for MultilingualPress."
 msgstr ""
 
 #: plugin/Integrations/MyCred/Controller.php:20
@@ -5387,7 +5337,7 @@ msgctxt "admin-text"
 msgid "Sorry, you are not allowed to view review types."
 msgstr ""
 
-#: plugin/Integrations/WooCommerce/Commands/CountProductReviews.php:49
+#: plugin/Integrations/WooCommerce/Commands/CountProductReviews.php:48
 msgctxt "admin-text"
 msgid "Imported %d Product Reviews"
 msgstr ""
