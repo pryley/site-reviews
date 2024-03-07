@@ -988,9 +988,13 @@ input.glsr-license-key:not(:focus) {
     border: 1px solid #8c8f94;
     border-bottom-color: #dcdcde;
     border-radius: 4px 4px 0 0;
+    padding: 3px;
 }
 .glsr-template-editor textarea:focus + .quicktags-toolbar {
     border-color: #2271b1;
     box-shadow: 0 0 0 1px #2271b1;
     outline: 2px solid transparent;
+}
+.glsr-template-editor .quicktags-toolbar .button-small {
+    margin: 2px;
 }
