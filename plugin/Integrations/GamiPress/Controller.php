@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Integrations\GamiPress\Commands\AwardAchievement;
 use GeminiLabs\SiteReviews\Integrations\GamiPress\Commands\TriggerEvent;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Review;
 
 class Controller extends BaseController
@@ -33,6 +34,9 @@ class Controller extends BaseController
             ORDER BY display_name ASC 
             LIMIT {$offset}, {$limit}
         ", $searchName, $searchId));
+        array_walk($results, function ($user) {
+            $user->display_name = glsr(Sanitizer::class)->sanitizeUserName($user->display_name);
+        });
         $count = absint($wpdb->get_var($wpdb->prepare("
             SELECT COUNT(*)
             FROM {$wpdb->users}
@@ -263,7 +267,8 @@ class Controller extends BaseController
         $userId = Cast::toInt(get_post_meta($requirementId, $this->metaKey('user_id'), true));
         $rating = Cast::toInt(get_post_meta($requirementId, $this->metaKey('rating'), true));
         if ($user = get_user_by('id', $userId)) {
-            $options[$user->ID] = sprintf('%s (#%d)', $user->display_name, $user->ID);
+            $displayName = glsr(Sanitizer::class)->sanitizeUserName($user->display_name);
+            $options[$user->ID] = sprintf('%s (#%d)', $displayName, $user->ID);
         }
         echo PHP_EOL.glsr(Builder::class)->select([
             'class' => sprintf('%1$s %1$s-%2$s', $this->requirementKey('user_id'), $requirementId),

@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class ColumnFilterAssignedUser extends ColumnFilter
 {
@@ -49,7 +50,7 @@ class ColumnFilterAssignedUser extends ColumnFilter
     {
         $value = $this->value();
         if ($user = get_user_by('ID', $value)) {
-            return $user->display_name;
+            return glsr(Sanitizer::class)->sanitizeUserName($user->display_name);
         }
         if (is_numeric($value) && 0 === Cast::toInt($value)) {
             return Arr::get($this->options(), 0);

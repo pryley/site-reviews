@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Metaboxes;
 use GeminiLabs\SiteReviews\Contracts\MetaboxContract;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\MetaboxBuilder;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Review;
 
 class AuthorMetabox implements MetaboxContract
@@ -27,11 +28,11 @@ class AuthorMetabox implements MetaboxContract
      */
     public function render($post)
     {
-        $placeholder = _x('Author Unknown', 'admin-text', 'site-reviews');
+        $placeholder = esc_html_x('Author Unknown', 'admin-text', 'site-reviews');
         $selected = $placeholder;
         $value = (empty($post->ID) ? get_current_user_id() : $post->post_author);
         if ($user = get_user_by('id', $value)) {
-            $selected = $user->display_name;
+            $selected = glsr(Sanitizer::class)->sanitizeUserName($user->display_name);
         }
         echo glsr(MetaboxBuilder::class)->label([
             'class' => 'screen-reader-text',
@@ -45,7 +46,7 @@ class AuthorMetabox implements MetaboxContract
             'name' => 'post_author_override',
             'options' => [0 => $placeholder],
             'placeholder' => $placeholder,
-            'selected' => $selected,
+            'selected' => esc_attr($selected),
             'value' => Cast::toInt($value),
         ]);
     }

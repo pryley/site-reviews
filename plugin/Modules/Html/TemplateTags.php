@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Rating;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Review;
 
 class TemplateTags
@@ -103,8 +104,11 @@ class TemplateTags
     public function tagReviewAssignedUsers(Review $review): string
     {
         $users = $review->assignedUsers();
-        $userNames = array_filter(wp_list_pluck($users, 'display_name'));
-        return Str::naturalJoin($userNames);
+        $displayNames = array_filter(wp_list_pluck($users, 'display_name'));
+        array_walk($displayNames, function (&$displayName) {
+            $displayName = glsr(Sanitizer::class)->sanitizeUserName($displayName);
+        });
+        return Str::naturalJoin($displayNames);
     }
 
     public function tagReviewAuthor(Review $review): string

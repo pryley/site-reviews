@@ -14,6 +14,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Overrides\ReviewsListTable;
 
 class ListTableController extends Controller
@@ -36,7 +37,10 @@ class ListTableController extends Controller
             $userId = (int) wp_check_post_lock($postId);
             $user = get_userdata($userId);
             if ($user && !glsr()->can('edit_post', $postId) && glsr()->can('respond_to_post', $postId)) {
-                $send = ['text' => sprintf(_x('%s is currently editing', 'admin-text', 'site-reviews'), $user->display_name)];
+                $displayName = glsr(Sanitizer::class)->sanitizeUserName($user->display_name);
+                $send = [
+                    'text' => sprintf(_x('%s is currently editing', 'admin-text', 'site-reviews'), $displayName),
+                ];
                 if (get_option('show_avatars')) {
                     $send['avatar_src'] = get_avatar_url($user->ID, ['size' => 18]);
                     $send['avatar_src_2x'] = get_avatar_url($user->ID, ['size' => 36]);
@@ -242,9 +246,10 @@ class ListTableController extends Controller
         }
         if ($last = wp_check_post_lock($postId)) {
             $user = get_userdata($last);
-            $username = Arr::get($user, 'display_name', _x('Someone', 'admin-text', 'site-reviews'));
-            $message = _x('Saving is disabled: %s is currently editing this review.', 'admin-text', 'site-reviews');
-            printf($message, esc_html($username));
+            $displayName = Arr::get($user, 'display_name', _x('Someone', 'admin-text', 'site-reviews'));
+            $displayName = glsr(Sanitizer::class)->sanitizeUserName($displayName);
+            $message = esc_html_x('Saving is disabled: %s is currently editing this review.', 'admin-text', 'site-reviews');
+            printf($message, $displayName);
             wp_die();
         }
         glsr(ReviewManager::class)->updateResponse($postId, [
