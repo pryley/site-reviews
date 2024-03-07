@@ -184,6 +184,10 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
+= 6.11.5 (2024-03-07) =
+
+- Fixed a Cross Site Scripting (XSS) vulnerability which allowed authenticated admin users to insert javascript into review content from the admin side.
+
 = 6.11.4 (2023-11-02) =
 
 - Fixed localized rating values.
