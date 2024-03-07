@@ -1,10 +1,10 @@
 <?php defined('ABSPATH') || exit; ?>
 
 <fieldset class="metabox-prefs">
-    <legend><?= _x('Filters', 'admin-text', 'site-reviews'); ?></legend>
+    <legend><?= esc_html_x('Filters', 'admin-text', 'site-reviews'); ?></legend>
     <?php foreach ($filters as $name => $filter) : ?>
         <label>
-            <input class="enable-filter-tog" name="<?= $setting; ?>[]" type="checkbox" value="<?= $name; ?>" <?php checked(in_array($name, $enabled), true); ?> />
+            <input class="enable-filter-tog" name="<?= esc_attr($setting); ?>[]" type="checkbox" value="<?= esc_attr($name); ?>" <?php checked(in_array($name, $enabled), true); ?> />
             <?= $filter; ?>
         </label>
     <?php endforeach; ?>

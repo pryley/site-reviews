@@ -12,7 +12,7 @@
                     id="<?= esc_attr($hook->field_id(['reviewer' => 'points'])); ?>"
                     min="0"
                     name="<?= esc_attr($hook->field_name(['reviewer' => 'points'])); ?>"
-                    step="<?= $step; ?>"
+                    step="<?= esc_attr($step); ?>"
                     value="<?= esc_attr($hook->core->number($hook->prefs['reviewer']['points'])); ?>"
                 />
                 <span class="description">
@@ -47,7 +47,7 @@
                     id="<?= esc_attr($hook->field_id(['reviewer' => 'points_deduction'])); ?>"
                     min="0"
                     name="<?= esc_attr($hook->field_name(['reviewer' => 'points_deduction'])); ?>"
-                    step="<?= $step; ?>"
+                    step="<?= esc_attr($step); ?>"
                     value="<?= esc_attr($hook->core->number($hook->prefs['reviewer']['points_deduction'])); ?>"
                 />
                 <span class="description">
@@ -120,7 +120,7 @@
                     id="<?= esc_attr($hook->field_id(['assigned_author' => 'points'])); ?>"
                     min="0"
                     name="<?= esc_attr($hook->field_name(['assigned_author' => 'points'])); ?>"
-                    step="<?= $step; ?>"
+                    step="<?= esc_attr($step); ?>"
                     value="<?= esc_attr($hook->core->number($hook->prefs['assigned_author']['points'])); ?>"
                 />
                 <span class="description">
@@ -155,7 +155,7 @@
                     id="<?= esc_attr($hook->field_id(['assigned_author' => 'points_deduction'])); ?>"
                     min="0"
                     name="<?= esc_attr($hook->field_name(['assigned_author' => 'points_deduction'])); ?>"
-                    step="<?= $step; ?>"
+                    step="<?= esc_attr($step); ?>"
                     value="<?= esc_attr($hook->core->number($hook->prefs['assigned_author']['points_deduction'])); ?>"
                 />
                 <span class="description">
@@ -194,7 +194,7 @@
                     id="<?= esc_attr($hook->field_id(['assigned_user' => 'points'])); ?>"
                     min="0"
                     name="<?= esc_attr($hook->field_name(['assigned_user' => 'points'])); ?>"
-                    step="<?= $step; ?>"
+                    step="<?= esc_attr($step); ?>"
                     value="<?= esc_attr($hook->core->number($hook->prefs['assigned_user']['points'])); ?>"
                 />
                 <span class="description">
@@ -229,7 +229,7 @@
                     id="<?= esc_attr($hook->field_id(['assigned_user' => 'points_deduction'])); ?>"
                     min="0"
                     name="<?= esc_attr($hook->field_name(['assigned_user' => 'points_deduction'])); ?>"
-                    step="<?= $step; ?>"
+                    step="<?= esc_attr($step); ?>"
                     value="<?= esc_attr($hook->core->number($hook->prefs['assigned_user']['points_deduction'])); ?>"
                 />
                 <span class="description">
