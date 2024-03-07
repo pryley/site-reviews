@@ -125,13 +125,13 @@ class ToolsController extends AbstractController
      */
     public function downloadConsole(): void
     {
-        if (glsr()->hasPermission('tools', 'console')) {
-            $this->download(glsr()->id.'-console.txt', glsr(Console::class)->get());
-        } else {
+        if (!glsr()->hasPermission('tools', 'console')) {
             glsr(Notice::class)->addError(
                 _x('You do not have permission to download the console.', 'admin-text', 'site-reviews')
             );
+            return;
         }
+        $this->download(glsr()->id.'-console.txt', glsr(Console::class)->get());
     }
 
     /**
@@ -147,13 +147,13 @@ class ToolsController extends AbstractController
      */
     public function downloadSystemInfo(): void
     {
-        if (glsr()->hasPermission('tools', 'system-info')) {
-            $this->download(glsr()->id.'-system-info.txt', glsr(SystemInfo::class)->get());
-        } else {
+        if (!glsr()->hasPermission('tools', 'system-info')) {
             glsr(Notice::class)->addError(
                 _x('You do not have permission to download the system info report.', 'admin-text', 'site-reviews')
             );
+            return;
         }
+        $this->download(glsr()->id.'-system-info.txt', glsr(SystemInfo::class)->get());
     }
 
     /**
@@ -169,13 +169,14 @@ class ToolsController extends AbstractController
      */
     public function exportSettings(): void
     {
-        if (glsr()->hasPermission('settings')) {
-            $this->download(glsr()->id.'-settings.json', glsr(OptionManager::class)->json());
-        } else {
+        if (!glsr()->hasPermission('settings')) {
             glsr(Notice::class)->addError(
-                _x('You do not have permission to export the settings.', 'admin-text', 'site-reviews')
+                _x('You do not have permission to export settings.', 'admin-text', 'site-reviews')
             );
+            return;
         }
+        $settings = glsr(OptionManager::class)->json();
+        $this->download(glsr()->id.'-settings.json', $settings);
     }
 
     /**
@@ -191,19 +192,19 @@ class ToolsController extends AbstractController
      */
     public function fetchConsoleAjax(): void
     {
-        if (glsr()->hasPermission('settings')) {
-            glsr(Notice::class)->addSuccess(
-                _x('Console reloaded.', 'admin-text', 'site-reviews')
+        if (!glsr()->hasPermission('settings')) {
+            glsr(Notice::class)->addError(
+                _x('You do not have permission to reload the console.', 'admin-text', 'site-reviews')
             );
-            wp_send_json_success([
-                'console' => glsr(Console::class)->getRaw(), // we don't need to esc_html here
+            wp_send_json_error([
                 'notices' => glsr(Notice::class)->get(),
             ]);
         }
-        glsr(Notice::class)->addError(
-            _x('You do not have permission to reload the console.', 'admin-text', 'site-reviews')
+        glsr(Notice::class)->addSuccess(
+            _x('Console reloaded.', 'admin-text', 'site-reviews')
         );
-        wp_send_json_error([
+        wp_send_json_success([
+            'console' => glsr(Console::class)->getRaw(), // we don't need to esc_html here
             'notices' => glsr(Notice::class)->get(),
         ]);
     }
@@ -241,6 +242,12 @@ class ToolsController extends AbstractController
      */
     public function importSettings(): void
     {
+        if (!glsr()->hasPermission('settings')) {
+            glsr(Notice::class)->addError(
+                _x('You do not have permission to import settings.', 'admin-text', 'site-reviews')
+            );
+            return;
+        }
         $this->execute(new ImportSettings());
     }
 
@@ -351,13 +358,13 @@ class ToolsController extends AbstractController
      */
     public function rollbackPluginAjax(Request $request): void
     {
-        if (current_user_can('update_plugins')) {
-            wp_send_json_success(
-                glsr(Rollback::class)->rollbackData($request->cast('version', 'string'))
-            );
+        if (!current_user_can('update_plugins')) {
+            wp_send_json_error([
+                'error' => _x('You do not have permission to rollback the plugin.', 'admin-text', 'site-reviews'),
+            ]);
         }
-        wp_send_json_error([
-            'error' => _x('You do not have permission to rollback the plugin.', 'admin-text', 'site-reviews'),
-        ]);
+        wp_send_json_success(
+            glsr(Rollback::class)->rollbackData($request->cast('version', 'string'))
+        );
     }
 }
