@@ -12,6 +12,7 @@ use GeminiLabs\SiteReviews\Deprecated;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Database
 {
@@ -276,7 +277,11 @@ class Database
             'orderby' => 'display_name',
         ]);
         $users = get_users($args);
-        return wp_list_pluck($users, 'display_name', 'ID');
+        $users = wp_list_pluck($users, 'display_name', 'ID');
+        array_walk($users, function (&$displayName) {
+            $displayName = glsr(Sanitizer::class)->sanitizeUserName($displayName);
+        });
+        return $users;
     }
 
     public function version(): string

@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Review;
 
 class Triggers
@@ -75,7 +76,8 @@ class Triggers
     public function labelForUserId(string $label, Arguments $requirements, string $fallback = ''): string
     {
         if ($user = get_user_by('id', $requirements->user_id)) {
-            return sprintf($label, $user->display_name, $requirements->rating);
+            $displayName = glsr(Sanitizer::class)->sanitizeUserName($user->display_name);
+            return sprintf($label, $displayName, $requirements->rating);
         }
         return $fallback;
     }
