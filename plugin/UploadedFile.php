@@ -103,6 +103,15 @@ class UploadedFile extends \SplFileInfo
         return sprintf($message, $this->getClientOriginalName(), $maxFilesize);
     }
 
+    public function getExtensionFromMimeType(): string
+    {
+        $mimetypes = wp_parse_args(get_allowed_mime_types(), [
+            'json' => 'application/json',
+        ]);
+        $extensions = explode('|', array_search($this->getClientMimeType(), $mimetypes, true));
+        return $extensions[0] ?? $this->getExtension() ?? $this->getClientOriginalExtension();
+    }
+
     /**
      * Checks against the file mime type extracted from the file upload request.
      * This should not be considered as a safe check.

@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Commands;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Exceptions\FileException;
 use GeminiLabs\SiteReviews\Exceptions\FileNotFoundException;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Upload;
@@ -16,66 +17,36 @@ class ImportSettings extends AbstractCommand
 
     public function handle(): void
     {
-        if (!glsr()->hasPermission('settings')) {
-            glsr(Notice::class)->addError(
-                _x('You do not have permission to import settings.', 'admin-text', 'site-reviews')
-            );
-            $this->fail();
+        $this->fail();
+        if (!$file = $this->getImportFile('application/json')) {
             return;
         }
-        try {
-            $file = $this->file();
-        } catch (FileNotFoundException $e) {
-            glsr(Notice::class)->addError($e->getMessage());
-            $this->fail();
+        if (!$data = $this->getImportFileData($file)) {
             return;
         }
-        if (!$file->isValid()) {
-            glsr(Notice::class)->addError($file->getErrorMessage());
-            $this->fail();
+        if (!$this->import($data)) {
             return;
         }
-        if (!$file->hasMimeType('application/json')) {
-            glsr(Notice::class)->addError(
-                _x('The import file is not a valid JSON file.', 'admin-text', 'site-reviews')
-            );
-            $this->fail();
-            return;
-        }
-        if (!$this->import($file)) {
-            glsr(Notice::class)->addWarning(
-                _x('There were no settings found to import.', 'admin-text', 'site-reviews')
-            );
-            $this->fail();
-            return;
-        }
+        $this->pass();
         glsr(Notice::class)->addSuccess(
             _x('Settings imported.', 'admin-text', 'site-reviews')
         );
     }
 
-    protected function import(UploadedFile $file): bool
+    protected function import(array $data): bool
     {
-        try {
-            $content = $file->getContent();
-            $settings = json_decode($content, true);
-        } catch (FileException $e) {
-            glsr(Notice::class)->addError($e->getMessage());
+        if (empty($data)) {
             return false;
         }
-        if (!empty($settings)) {
-            if (isset($settings['version'])) { // don't import version
-                $settings['version'] = glsr(OptionManager::class)->get('version');
-            }
-            if (isset($settings['version_upgraded_from'])) { // don't import version_upgraded_from
-                $settings['version_upgraded_from'] = glsr(OptionManager::class)->get('version_upgraded_from');
-            }
-            glsr(OptionManager::class)->replace(
-                glsr(OptionManager::class)->normalize($settings)
-            );
-            glsr(Migrate::class)->runAll(); // migrate the imported settings
-            return true;
+        if (isset($data['version'])) { // don't import version
+            $data['version'] = glsr(OptionManager::class)->get('version');
         }
-        return false;
+        if (isset($data['version_upgraded_from'])) { // don't import version_upgraded_from
+            $data['version_upgraded_from'] = glsr(OptionManager::class)->get('version_upgraded_from');
+        }
+        $settings = glsr(OptionManager::class)->normalize($data);
+        glsr(OptionManager::class)->replace($settings);
+        glsr(Migrate::class)->runAll(); // migrate the imported settings
+        return true;
     }
 }

@@ -2,13 +2,54 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Exceptions\FileException;
+use GeminiLabs\SiteReviews\Exceptions\FileNotFoundException;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\UploadedFile;
-use GeminiLabs\SiteReviews\Exceptions\FileNotFoundException;
 
 trait Upload
 {
+    protected function getImportFile(string $expectedMimeType): ?UploadedFile
+    {
+        try {
+            $file = $this->file();
+        } catch (FileNotFoundException $e) {
+            glsr(Notice::class)->addError($e->getMessage());
+            return null;
+        }
+        if (!$file->isValid()) {
+            glsr(Notice::class)->addError($file->getErrorMessage());
+            return null;
+        }
+        if (!$file->hasMimeType($expectedMimeType)) {
+            glsr(Notice::class)->addError(
+                sprintf(_x('The file you uploaded is not a valid %s file.', '%s: uploaded file extension (admin-text)', 'site-reviews'),
+                    strtoupper($file->getExtensionFromMimeType())
+                )
+            );
+            return null;
+        }
+        return $file;
+    }
+
+    protected function getImportFileData(UploadedFile $file): array
+    {
+        try {
+            $data = json_decode($file->getContent(), true);
+            $data = Arr::consolidate($data);
+        } catch (FileException $e) {
+            glsr(Notice::class)->addError($e->getMessage());
+            return [];
+        }
+        if (empty($data)) {
+            glsr(Notice::class)->addWarning(
+                _x('There was nothing found to import.', 'admin-text', 'site-reviews')
+            );
+        }
+        return $data;
+    }
+
     /**
      * @throws FileNotFoundException
      */
