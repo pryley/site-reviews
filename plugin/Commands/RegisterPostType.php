@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Commands;
 use GeminiLabs\SiteReviews\Defaults\PostTypeColumnDefaults;
 use GeminiLabs\SiteReviews\Defaults\PostTypeDefaults;
 use GeminiLabs\SiteReviews\Defaults\PostTypeLabelDefaults;
-use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class RegisterPostType extends AbstractCommand
 {
@@ -40,15 +39,11 @@ class RegisterPostType extends AbstractCommand
         }
         if (array_key_exists('is_pinned', $this->columns)) {
             $pinnedValue = $this->columns['is_pinned'];
-            $this->columns['is_pinned'] = glsr(Builder::class)->span("<span>{$pinnedValue}</span>",
-                ['class' => 'pinned-icon']
-            );
+            $this->columns['is_pinned'] = sprintf('<span class="pinned-icon"><span>%s</span></span>', $pinnedValue);
         }
         if (array_key_exists('is_verified', $this->columns)) {
             $verifiedValue = $this->columns['is_verified'];
-            $this->columns['is_verified'] = glsr(Builder::class)->span("<span>{$verifiedValue}</span>",
-                ['class' => 'verified-icon']
-            );
+            $this->columns['is_verified'] = sprintf('<span class="verified-icon"><span>%s</span></span>', $verifiedValue);
         }
         if (count(glsr()->retrieveAs('array', 'review_types')) < 2) {
             unset($this->columns['type']);
