@@ -184,6 +184,10 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
+= 6.11.6 (2024-03-07) =
+
+- Fixed a Cross Site Scripting (XSS) vulnerability caused by users saving malicious javascript text to their first/last/display name in their WordPress user profile.
+
 = 6.11.5 (2024-03-07) =
 
 - Fixed a Cross Site Scripting (XSS) vulnerability which allowed authenticated admin users to insert javascript into review content.
