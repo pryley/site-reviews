@@ -36,3 +36,12 @@ export const extend = () => { // ...object
 
 /** @return bool */
 export const isEmpty = obj => [Object, Array].includes((obj || {}).constructor) && !Object.entries((obj || {})).length;
+
+/** @return array */
+export const parseJson = (str) => {
+    try {
+        return [null, JSON.parse(str)];
+    } catch (err) {
+        return [err, str];
+    }
+}
