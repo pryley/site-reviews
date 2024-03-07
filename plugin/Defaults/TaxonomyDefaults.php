@@ -14,6 +14,12 @@ class TaxonomyDefaults extends DefaultsAbstract
     {
         return [
             'hierarchical' => true,
+            'labels' => [
+                'item_link' => _x('Review Category Link', 'admin-text', 'site-reviews'),
+                'item_link_description' => _x('A link to a review category.', 'admin-text', 'site-reviews'),
+                'menu_name' => _x('Categories', 'Admin menu name (admin-text)', 'site-reviews'),
+                'name' => _x('Review Categories', 'admin-text', 'site-reviews'),
+            ],
             'meta_box_cb' => [glsr(TaxonomyMetabox::class), 'render'],
             'public' => false,
             'rest_controller_class' => RestCategoryController::class,
