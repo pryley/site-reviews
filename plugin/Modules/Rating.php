@@ -26,9 +26,10 @@ class Rating
 
     public function average(array $ratingCounts, ?int $roundBy = null): float
     {
-        $average = array_sum($ratingCounts);
-        if ($average > 0) {
-            $average = $this->totalSum($ratingCounts) / $average;
+        $average = 0;
+        $total = $this->totalCount($ratingCounts);
+        if ($total > 0) {
+            $average = $this->totalSum($ratingCounts) / $total;
         }
         if (is_null($roundBy)) {
             $roundBy = glsr()->filterInt('rating/round-by', 1);
@@ -129,7 +130,7 @@ class Rating
         $bayesMean = ($confidencePercentage / 100) * glsr()->constant('MAX_RATING', __CLASS__); // prior, 70% = 3.5
         // Represents the number of ratings expected to begin observing a pattern that would put confidence in the prior.
         $bayesMinimal = 10; // confidence
-        $numOfReviews = array_sum($ratingCounts);
+        $numOfReviews = $this->totalCount($ratingCounts);
         return $avgRating > 0
             ? (float) (($bayesMinimal * $bayesMean) + ($avgRating * $numOfReviews)) / ($bayesMinimal + $numOfReviews)
             : (float) 0;
@@ -145,7 +146,7 @@ class Rating
      */
     public function rankingUsingZScores(array $ratingCounts, int $confidencePercentage = 90): float
     {
-        $ratingCountsSum = (float) array_sum($ratingCounts) + glsr()->constant('MAX_RATING', __CLASS__);
+        $ratingCountsSum = (float) $this->totalCount($ratingCounts) + glsr()->constant('MAX_RATING', __CLASS__);
         $weight = $this->weight($ratingCounts, $ratingCountsSum);
         $weightPow2 = $this->weight($ratingCounts, $ratingCountsSum, true);
         $zScore = static::CONFIDENCE_LEVEL_Z_SCORES[$confidencePercentage];
@@ -178,11 +179,21 @@ class Rating
         return array_combine($indexes, wp_list_pluck($percentages, 'percent'));
     }
 
+    protected function totalCount(array $ratingCounts): int
+    {
+        if (isset($ratingCounts[0]) && glsr()->filterBool('rating/ignore-zero-stars', true)) {
+            $ratingCounts[0] = 0; // ignore 0-star ratings when calculating the average and ranking
+        }
+        return array_sum($ratingCounts);
+    }
+
     protected function totalSum(array $ratingCounts): int
     {
-        return array_reduce(array_keys($ratingCounts), function ($carry, $index) use ($ratingCounts) {
-            return $carry + ($index * $ratingCounts[$index]);
-        }, 0);
+        return array_reduce(
+            array_keys($ratingCounts),
+            fn ($carry, $i) => $carry + ($i * $ratingCounts[$i]),
+            0
+        );
     }
 
     protected function weight(array $ratingCounts, float $ratingCountsSum, bool $powerOf2 = false): float

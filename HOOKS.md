@@ -163,6 +163,7 @@
     site-reviews/query/sql/offset                               (string $offset, string $handle, Database\Query $query): string
     site-reviews/query/sql/order-by                             (array $orderBy, string $handle, Database\Query $query): array
     site-reviews/rating/average                                 (float $roundedAverage, array $ratingCounts, int $average): float
+    site-reviews/rating/ignore-zero-stars                       (bool $ignore): bool
     site-reviews/rating/ranking                                 (float $ranking, array $ratingCounts, Modules\Rating $rating): float
     site-reviews/rating/round-by                                (int $roundBy): int
     site-reviews/ratings                                        (array $ratings, array $args): array
