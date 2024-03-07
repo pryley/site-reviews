@@ -138,7 +138,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => ['李祖阳 xx xx'],
             18 => ['#ax+dex(tomorrow) $200 200% @peter'],
             19 => ['this is true'],
-            20 => ['single-review full-width" "alert(69)'],
+            20 => ['single-review full-width" onmouseover="alert(69)'],
             21 => ['matt@wordpress.org'],
             22 => ['https//wordpress.org'],
             23 => ['wordpress.org'],
@@ -307,6 +307,100 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
+    public function testSanitizeCompat()
+    {
+        $sanitized = $this->sanitize('array');
+        $this->assertEquals($sanitized, [
+            0 => [],
+            1 => [],
+            2 => ['1'],
+            3 => ['a' => false],
+            4 => [13],
+            5 => [0],
+            6 => [1 => 13],
+            7 => ['b' => true],
+            8 => [],
+            9 => [],
+            10 => [],
+            11 => [],
+            12 => [],
+            13 => [],
+            14 => [],
+            15 => [],
+            16 => [],
+            17 => [],
+            18 => [],
+            19 => [],
+            20 => [],
+            21 => [],
+            22 => [],
+            23 => [],
+            24 => [],
+            25 => [],
+            26 => [],
+        ]);
+        $sanitized = $this->sanitize('bool');
+        $this->assertEquals($sanitized, [
+            0 => false,
+            1 => false,
+            2 => false,
+            3 => false,
+            4 => false,
+            5 => false,
+            6 => false,
+            7 => false,
+            8 => true,
+            9 => false,
+            10 => false,
+            11 => false,
+            12 => false,
+            13 => false,
+            14 => false,
+            15 => false,
+            16 => false,
+            17 => false,
+            18 => false,
+            19 => false,
+            20 => false,
+            21 => false,
+            22 => false,
+            23 => false,
+            24 => false,
+            25 => false,
+            26 => false,
+        ]);
+        $sanitized = $this->sanitize('int');
+        $this->assertEquals($sanitized, [
+            0 => 0,
+            1 => 0,
+            2 => 0,
+            3 => 0,
+            4 => 0,
+            5 => 0,
+            6 => 0,
+            7 => 0,
+            8 => 1,
+            9 => 0,
+            10 => 0,
+            11 => 0,
+            12 => 0,
+            13 => 0,
+            14 => 0,
+            15 => 0,
+            16 => 2020,
+            17 => 0,
+            18 => 0,
+            19 => 0,
+            20 => 0,
+            21 => 0,
+            22 => 0,
+            23 => 0,
+            24 => 0,
+            25 => 0,
+            26 => -1,
+        ]);
+    }
+
     public function testSanitizeDate()
     {
         $sanitized = $this->sanitize('date');
@@ -428,7 +522,7 @@ class SanitizerTest extends \WP_UnitTestCase
         $this->assertEquals($sanitized[17], 'xxxx');
         $this->assertEquals($sanitized[18], 'axdextomorrow200200peter');
         $this->assertEquals($sanitized[19], 'thisistrue');
-        $this->assertEquals($sanitized[20], 'single-reviewfull-widthalert69');
+        $this->assertEquals($sanitized[20], 'single-reviewfull-widthonmouseov');
         $this->assertEquals($sanitized[21], 'mattwordpressorg');
         $this->assertEquals($sanitized[22], 'httpswordpressorg');
         $this->assertEquals($sanitized[23], 'wordpressorg');
@@ -461,7 +555,7 @@ class SanitizerTest extends \WP_UnitTestCase
         $this->assertEquals($sanitized[17], 'xxxx');
         $this->assertEquals($sanitized[18], 'axdextomorrow200200peter');
         $this->assertEquals($sanitized[19], 'thisistrue');
-        $this->assertEquals($sanitized[20], 'single-reviewfull-widthalert69');
+        $this->assertEquals($sanitized[20], 'single-reviewfull-widthonmouseov');
         $this->assertEquals($sanitized[21], 'mattwordpressorg');
         $this->assertEquals($sanitized[22], 'httpswordpressorg');
         $this->assertEquals($sanitized[23], 'wordpressorg');
@@ -528,7 +622,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => 'xxxx',
             18 => 'axdextomorrow200200peter',
             19 => 'thisistrue',
-            20 => 'single_reviewfull_widthalert69',
+            20 => 'single_reviewfull_widthonmouseov',
             21 => 'mattwordpressorg',
             22 => 'httpswordpressorg',
             23 => 'wordpressorg',
@@ -664,7 +758,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => 'xxxx',
             18 => 'axdextomorrowpeter',
             19 => 'thisistrue',
-            20 => 'single-reviewfull-widthalert',
+            20 => 'single-reviewfull-widthonmouseoveralert',
             21 => 'mattwordpressorg',
             22 => 'httpswordpressorg',
             23 => 'wordpressorg',
@@ -754,7 +848,7 @@ class SanitizerTest extends \WP_UnitTestCase
 
     public function testSanitizeRating()
     {
-        add_filter('site-reviews/const/MAX_RATING', fn () => 5);
+        add_filter('site-reviews/const/MAX_RATING', function () { return 5; });
         add_filter('site-reviews/const/MIN_RATING', '__return_zero');
         $sanitized = $this->sanitize('rating');
         $this->assertEquals($sanitized, [
@@ -876,7 +970,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => '%e6%9d%8e%e7%a5%96%e9%98%b3-xx-xx',
             18 => 'axdextomorrow-200-200-peter',
             19 => 'this-is-true',
-            20 => 'single-review-full-width-alert69',
+            20 => 'single-review-full-width-onmouseoveralert69',
             21 => 'mattwordpress-org',
             22 => 'https-wordpress-org',
             23 => 'wordpress-org',
@@ -954,7 +1048,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => '李祖阳 xx xx',
             18 => '#ax+dex(tomorrow) $200 200% @peter',
             19 => 'this is true',
-            20 => 'single-review full-width" "alert(69)',
+            20 => 'single-review full-width" onmouseover="alert(69)',
             21 => 'matt@wordpress.org',
             22 => 'https//wordpress.org',
             23 => 'wordpress.org',
@@ -990,7 +1084,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => '李祖阳 xx xx',
             18 => '#ax+dex(tomorrow) $200 200% @peter',
             19 => 'this is true',
-            20 => 'single-review full-width" "alert(69)',
+            20 => 'single-review full-width" onmouseover="alert(69)',
             21 => 'matt@wordpress.org',
             22 => 'https//wordpress.org',
             23 => 'wordpress.org',
@@ -1025,7 +1119,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => '李祖阳 xx xx',
             18 => '#ax+dex(tomorrow) $200 200% @peter',
             19 => 'this is true',
-            20 => 'single-review full-width" "alert(69)',
+            20 => 'single-review full-width" onmouseover="alert(69)',
             21 => 'matt@wordpress.org',
             22 => 'https//wordpress.org',
             23 => 'wordpress.org',
@@ -1059,7 +1153,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => '李祖阳 xx xx',
             18 => '#ax+dex(tomorrow) $200 200% @peter',
             19 => 'this is true',
-            20 => 'single-review full-width\" \"alert(69)',
+            20 => 'single-review full-width\" onmouseover=\"alert(69)',
             21 => 'matt@wordpress.org',
             22 => 'https//wordpress.org',
             23 => 'wordpress.org',
@@ -1174,7 +1268,7 @@ class SanitizerTest extends \WP_UnitTestCase
             26 => 0,
             27 => $userId1,
         ]);
-        $sanitized = $this->sanitize("user-id:{$userId2}", $values);
+        $sanitized = $this->sanitize('user-id:'.$userId2, $values);
         $this->assertEquals($sanitized, [
             0 => $userId2,
             1 => $userId2,

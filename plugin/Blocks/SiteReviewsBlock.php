@@ -105,12 +105,18 @@ class SiteReviewsBlock extends Block
         });
     }
 
-    protected function filterShowMoreLinks(string $field): void
+    /**
+     * @param string $field
+     * @return void
+     */
+    protected function filterShowMoreLinks($field)
     {
-        add_filter("site-reviews/review/wrap/{$field}", function ($value) { // @phpstan-ignore-line
-            $pattern = '/(.*)(<span class="glsr-hidden)(.*)(<\/span>)(.*)/us';
-            $replace = '$1... <a href="#" tabindex="-1">'.__('Show more', 'site-reviews').'</a>$5';
-            $value = preg_replace($pattern, $replace, $value);
+        add_filter('site-reviews/review/wrap/'.$field, function ($value) {
+            $value = preg_replace(
+                '/(.*)(<span class="glsr-hidden)(.*)(<\/span>)(.*)/us',
+                '$1... <a href="#" tabindex="-1">'.__('Show more', 'site-reviews').'</a>$5',
+                $value
+            );
             return $value;
         });
     }
