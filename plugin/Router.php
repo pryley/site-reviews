@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 class Router
@@ -14,6 +15,7 @@ class Router
         $request = Request::inputPost();
         $this->checkAjaxRequest($request);
         $this->checkAjaxNonce($request, 'admin');
+        $this->checkMutexRequest($request);
         $this->post('ajax', $request);
         wp_die();
     }
@@ -36,10 +38,14 @@ class Router
     public function routeAdminPostRequest(): void
     {
         $request = Request::inputPost();
-        if ($this->isValidRequest($request)) {
-            check_admin_referer($request->_action); // die() called if nonce is invalid, assumes _wpnonce
-            $this->post('admin', $request);
+        if (!$this->isValidRequest($request)) {
+            return;
         }
+        check_admin_referer($request->_action); // die() called if nonce is invalid, assumes _wpnonce
+        if (!$this->isValidMutexRequest($request)) {
+            return;
+        }
+        $this->post('admin', $request);
     }
 
     /**
@@ -50,6 +56,7 @@ class Router
         $request = Request::inputPost();
         $this->checkAjaxRequest($request);
         $this->checkAjaxNonce($request, 'public');
+        $this->checkMutexRequest($request);
         $this->post('ajax', $request);
         wp_die();
     }
@@ -75,9 +82,16 @@ class Router
             return;
         }
         $request = Request::inputPost();
-        if ($this->isValidRequest($request) && $this->isValidPublicNonce($request)) {
-            $this->post('public', $request);
+        if (!$this->isValidRequest($request)) {
+            return;
         }
+        if (!$this->isValidPublicNonce($request)) {
+            return;
+        }
+        if (!$this->isValidMutexRequest($request)) {
+            return;
+        }
+        $this->post('public', $request);
     }
 
     protected function checkAjaxNonce(Request $request, string $type): void
@@ -99,10 +113,17 @@ class Router
     protected function checkAjaxRequest(Request $request): void
     {
         if (empty($request->_action)) {
-            $this->sendAjaxError('AJAX request must include an action', $request, 400, 'Invalid request');
+            $this->sendAjaxError('AJAX request must include an action', $request, 400, 'Bad Request');
         }
         if (empty($request->_ajax_request)) {
-            $this->sendAjaxError('AJAX request is invalid', $request, 400, 'Invalid request');
+            $this->sendAjaxError('AJAX request is invalid', $request, 400, 'Bad Request');
+        }
+    }
+
+    protected function checkMutexRequest(Request $request): void
+    {
+        if (!$this->isValidMutexRequest($request)) {
+            $this->sendAjaxError('Parallel AJAX request (possible single-packet attack)', $request, 429, 'Too Many Requests');
         }
     }
 
@@ -111,9 +132,31 @@ class Router
         $hook = "route/get/{$type}/{$request->action}";
         glsr()->action('route/request', $request, $hook);
         glsr()->action($hook, $request);
-        if (0 === did_action(glsr()->id.'/'.$hook)) {
-            glsr_log()->warning('Unknown '.$type.' router GET request: '.$request->action);
+        if (0 === did_action(glsr()->id."/{$hook}")) {
+            glsr_log()->warning("Unknown {$type} router GET request: {$request->action}");
         }
+    }
+
+    protected function isValidMutexRequest(Request $request): bool
+    {
+        if (defined('GLSR_UNIT_TESTS')) {
+            return true;
+        }
+        if (!in_array($request->_action, $this->mutexActions())) {
+            return true;
+        }
+        $ipAddress = Helper::getIpAddress();
+        $hash = substr(wp_hash($ipAddress), 0, 13);
+        $lock = glsr()->prefix.$hash;
+        if (get_transient($lock)) {
+            return false; // is parallel request
+        }
+        $expiration = glsr()->filterInt('router/mutex/expiration', 5, $ipAddress);
+        $transient = set_transient($lock, 1, $expiration);
+        if (!$transient) {
+            return false; // parallel requests cannot set transient
+        }
+        return true;
     }
 
     protected function isValidPublicNonce(Request $request): bool
@@ -132,13 +175,20 @@ class Router
         return !empty($request->_action) && empty($request->_ajax_request);
     }
 
+    protected function mutexActions(): array
+    {
+        return glsr()->filterArray('router/mutex/actions', [
+            'submit-review',
+        ]);
+    }
+
     protected function post(string $type, Request $request): void
     {
         $hook = "route/{$type}/{$request->_action}";
         glsr()->action('route/request', $request, $hook);
         glsr()->action($hook, $request);
-        if (0 === did_action(glsr()->id.'/'.$hook)) {
-            glsr_log()->warning('Unknown '.$type.' router POST request: '.$request->_action);
+        if (0 === did_action(glsr()->id."/{$hook}")) {
+            glsr_log()->warning("Unknown {$type} router POST request: {$request->_action}");
         }
     }
 
@@ -154,10 +204,13 @@ class Router
             $data['message'] = __('The form could not be submitted. Please notify the site administrator.', 'site-reviews');
         }
         if (glsr()->isAdmin()) {
-            glsr(Notice::class)->addError(_x('There was an error (try reloading the page).', 'admin-text', 'site-reviews').' <code>'.$error.'</code>');
+            glsr(Notice::class)->addError(_x('There was an error (try reloading the page).', 'admin-text', 'site-reviews')." <code>{$error}</code>");
             $data['notices'] = glsr(Notice::class)->get();
         }
-        glsr_log()->error($error)->debug($request->toArray());
+        glsr_log($error);
+        if (429 !== $errCode) {
+            glsr_log()->debug($request->toArray());
+        }
         wp_send_json_error($data);
     }
 
