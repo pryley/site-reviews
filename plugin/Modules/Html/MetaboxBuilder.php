@@ -2,13 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Contracts\FieldContract;
+
 class MetaboxBuilder extends Builder
 {
-    protected function normalize(array $args, string $type): array
+    public function field(array $args): FieldContract
     {
-        if (class_exists($className = $this->getFieldClassName($type))) {
-            $args = $className::merge($args, 'metabox');
-        }
-        return $args;
+        return new MetaboxField($args);
     }
 }

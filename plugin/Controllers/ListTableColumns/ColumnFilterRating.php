@@ -19,8 +19,8 @@ class ColumnFilterRating extends AbstractColumnFilter
             $empty = $max - $rating;
             $title = _x('%s star rating', 'admin-text', 'site-reviews');
             $options[$rating] = [
+                'text' => str_repeat('★', $rating).str_repeat('☆', $empty),
                 'title' => sprintf($title, $rating),
-                'value' => str_repeat('★', $rating).str_repeat('☆', $empty),
             ];
         }
         return $options;

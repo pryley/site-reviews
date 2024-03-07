@@ -34,6 +34,42 @@ class Attributes
         'value', 'webkitdirectory', 'width',
     ];
 
+    public const ATTRIBUTES_INPUT_EXCLUDED = [
+        'autocapitalize' => ['url', 'email', 'password'],
+        'autocomplete' => ['checkbox', 'radio', 'button'],
+        'list' => ['hidden', 'password', 'checkbox', 'radio', 'button'],
+        'readonly' => ['hidden', 'range', 'color', 'checkbox', 'radio', 'button'],
+        'required' => ['hidden', 'range', 'color', 'button'],
+        'value' => ['image'],
+    ];
+
+    public const ATTRIBUTES_INPUT_INCLUDED = [
+        'accept' => ['file'],
+        'alt' => ['image'],
+        'capture' => ['file'],
+        'checked' => ['checkbox', 'radio'],
+        'dirname' => ['hidden', 'text', 'search', 'url', 'tel', 'email'],
+        'formaction' => ['image', 'submit'],
+        'formenctype' => ['image', 'submit'],
+        'formmethod' => ['image', 'submit'],
+        'formnovalidate' => ['image', 'submit'],
+        'formtarget' => ['image', 'submit'],
+        'height' => ['image'],
+        'max' => ['date', 'month', 'week', 'time', 'datetime-local', 'number', 'range'],
+        'maxlength' => ['text', 'search', 'url', 'tel', 'email', 'password'],
+        'min' => ['date', 'month', 'week', 'time', 'datetime-local', 'number', 'range'],
+        'minlength' => ['text', 'search', 'url', 'tel', 'email', 'password'],
+        'multiple' => ['email', 'file'],
+        'pattern' => ['text', 'search', 'url', 'tel', 'email', 'password'],
+        'placeholder' => ['text', 'search', 'url', 'tel', 'email', 'password', 'number'],
+        'popovertarget' => ['button'],
+        'popovertargetaction' => ['button'],
+        'size' => ['text', 'search', 'url', 'tel', 'email', 'password'],
+        'src' => ['image'],
+        'step' => ['date', 'month', 'week', 'time', 'datetime-local', 'number', 'range'],
+        'width' => ['image'],
+    ];
+
     public const ATTRIBUTES_LABEL = [
         'for',
     ];
@@ -61,9 +97,9 @@ class Attributes
         'webkitdirectory',
     ];
 
-    public const GLOBAL_ATTRIBUTES = [ // ie-style is used by https://github.com/nuxodin/ie11CustomProperties
+    public const GLOBAL_ATTRIBUTES = [
         'accesskey', 'class', 'contenteditable', 'contextmenu', 'dir', 'draggable', 'dropzone',
-        'hidden', 'id', 'ie-style', 'lang', 'spellcheck', 'style', 'tabindex', 'title',
+        'hidden', 'id', 'lang', 'spellcheck', 'style', 'tabindex', 'title',
     ];
 
     public const GLOBAL_WILDCARD_ATTRIBUTES = [
@@ -84,12 +120,19 @@ class Attributes
     public function __call(string $method, array $args = [])
     {
         $constant = 'static::ATTRIBUTES_'.strtoupper($method);
-        $allowedAttributeKeys = defined($constant)
+        $allowedAttributes = defined($constant)
             ? constant($constant)
             : [];
-        $this->normalize(Arr::consolidate(Arr::get($args, 0)), $allowedAttributeKeys);
-        $this->normalizeInputType($method);
+        $this->normalize(Arr::consolidate(Arr::get($args, 0)), $allowedAttributes);
+        if ('input' === $method) {
+            $this->normalizeInput();
+        }
         return $this;
+    }
+
+    public function isInputType(string $type): bool
+    {
+        return in_array($type, Attributes::INPUT_TYPES);
     }
 
     /**
@@ -119,9 +162,9 @@ class Attributes
         return implode(' ', $attributes);
     }
 
-    protected function filterAttributes(array $allowedAttributeKeys): array
+    protected function filterAttributes(array $allowedAttributes): array
     {
-        return array_intersect_key($this->attributes, array_flip($allowedAttributeKeys));
+        return array_intersect_key($this->attributes, array_flip($allowedAttributes));
     }
 
     protected function filterGlobalAttributes(): array
@@ -162,7 +205,7 @@ class Attributes
             && !array_key_exists($value, $this->attributes);
     }
 
-    protected function normalize(array $args, array $allowedAttributeKeys = []): void
+    protected function normalize(array $args, array $allowedAttributes = []): void
     {
         $this->attributes = array_change_key_case($args, CASE_LOWER);
         $this->normalizeBooleanAttributes();
@@ -172,7 +215,7 @@ class Attributes
         $this->removeIndexedAttributes();
         $this->attributes = array_merge(
             $this->filterGlobalAttributes(),
-            $this->filterAttributes($allowedAttributeKeys)
+            $this->filterAttributes($allowedAttributes)
         );
     }
 
@@ -207,23 +250,33 @@ class Attributes
         }
     }
 
+    protected function normalizeInput(): void
+    {
+        $attributes = wp_parse_args($this->attributes, ['type' => '']);
+        if (!in_array($attributes['type'], static::INPUT_TYPES)) {
+            $attributes['type'] = 'text';
+        }
+        $included = array_intersect_key(static::ATTRIBUTES_INPUT_INCLUDED, $attributes);
+        foreach ($included as $attribute => $types) {
+            if (!in_array($attributes['type'], $types)) {
+                unset($attributes[$attribute]);
+            }
+        }
+        $excluded = array_intersect_key(static::ATTRIBUTES_INPUT_EXCLUDED, $attributes);
+        foreach ($excluded as $attribute => $types) {
+            if (in_array($attributes['type'], $types)) {
+                unset($attributes[$attribute]);
+            }
+        }
+        $this->attributes = $attributes;
+    }
+
     protected function normalizeStringAttributes(): void
     {
         foreach ($this->attributes as $key => $value) {
             if (is_string($value)) {
                 $this->attributes[$key] = esc_attr(trim($value));
             }
-        }
-    }
-
-    protected function normalizeInputType(string $method): void
-    {
-        if ('input' != $method) {
-            return;
-        }
-        $attributes = wp_parse_args($this->attributes, ['type' => '']);
-        if (!in_array($attributes['type'], static::INPUT_TYPES)) {
-            $this->attributes['type'] = 'text';
         }
     }
 

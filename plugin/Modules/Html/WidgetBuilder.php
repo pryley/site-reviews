@@ -2,46 +2,45 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Contracts\FieldContract;
 use GeminiLabs\SiteReviews\Helper;
 
 class WidgetBuilder extends Builder
 {
-    public function buildFormElement(): string
+    public function field(array $args): FieldContract
     {
-        $method = Helper::buildMethodName('buildForm', $this->tag);
-        return $this->$method().$this->buildFieldDescription();
+        return new WidgetField($args);
     }
 
     protected function buildFieldDescription(): string
     {
-        if (empty($this->args->description)) {
+        if (empty($this->args()->description)) {
             return '';
         }
-        return $this->small($this->args->description);
+        return $this->small($this->args()->description);
     }
 
-    protected function buildFormInputChoices(): string
+    protected function buildFieldElement(): string
+    {
+        $method = Helper::buildMethodName('build', 'field', $this->tag(), 'element');
+        $element = call_user_func([$this, $method]);
+        return $element.$this->buildFieldDescription();
+    }
+
+    protected function buildFieldInputChoices(): string
     {
         $fields = [];
         $index = 0;
-        foreach ($this->args->options as $value => $label) {
+        foreach ($this->args()->options as $value => $label) {
             $fields[] = $this->input([
-                'checked' => in_array($value, $this->args->cast('value', 'array')),
-                'id' => Helper::ifTrue(!empty($this->args->id), $this->args->id.'-'.++$index),
+                'checked' => in_array($value, $this->args()->cast('value', 'array')),
+                'id' => $this->indexedId(++$index),
                 'label' => $label,
-                'name' => $this->args->name,
-                'type' => $this->args->type,
+                'name' => $this->args()->name,
+                'type' => $this->args()->type,
                 'value' => $value,
             ]);
         }
         return implode('<br>', $fields);
-    }
-
-    protected function normalize(array $args, string $type): array
-    {
-        if (class_exists($className = $this->getFieldClassName($type))) {
-            $args = $className::merge($args, 'widget');
-        }
-        return $args;
     }
 }

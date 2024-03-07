@@ -2,87 +2,84 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Contracts\FieldContract;
 use GeminiLabs\SiteReviews\Helper;
 
 class SettingBuilder extends Builder
 {
-    public function buildFormElement(): string
+    public function field(array $args): FieldContract
     {
-        $method = Helper::buildMethodName('buildForm', $this->tag);
-        return $this->$method().$this->buildAfter().$this->buildFieldDescription();
+        return new SettingField($args);
     }
 
     protected function buildAfter(): string
     {
-        if (empty($this->args->after)) {
+        if (empty($this->args()->after)) {
             return '';
         }
-        return "&nbsp;{$this->args->after}";
+        return "&nbsp;{$this->args()->after}";
     }
 
     protected function buildFieldDescription(): string
     {
-        if (empty($this->args->description)) {
+        if (empty($this->args()->description)) {
             return '';
         }
         return $this->p([
             'class' => 'description',
-            'text' => $this->args->description,
+            'text' => $this->args()->description,
         ]);
     }
 
-    protected function buildFormInputChoices(): string
+    protected function buildFieldElement(): string
+    {
+        $method = Helper::buildMethodName('build', 'field', $this->tag(), 'element');
+        $element = call_user_func([$this, $method]);
+        return $element.$this->buildAfter().$this->buildFieldDescription();
+    }
+
+    protected function buildFieldInputChoices(): string
     {
         $fields = [];
         $index = 0;
-        foreach ($this->args->options as $value => $label) {
+        foreach ($this->args()->options as $value => $label) {
             $fields[] = $this->input([
-                'checked' => in_array($value, $this->args->cast('value', 'array')),
-                'id' => Helper::ifTrue(!empty($this->args->id), "{$this->args->id}-".++$index),
+                'checked' => in_array($value, $this->args()->cast('value', 'array')),
+                'id' => $this->indexedId(++$index),
                 'label' => $label,
-                'name' => $this->args->name,
-                'type' => $this->args->type,
+                'name' => $this->args()->name,
+                'type' => $this->args()->type,
                 'value' => $value,
             ]);
         }
         return $this->div([
-            'class' => $this->args->class,
+            'class' => $this->args()->class,
             'text' => implode('<br>', $fields),
         ]);
     }
 
-    protected function buildFormTextarea(): string
+    protected function buildFieldTextarea(): string
     {
-        $textarea = $this->buildFormLabel().$this->buildDefaultElement(
-            esc_html($this->args->cast('value', 'string'))
-        );
-        if (empty($this->args->tags)) {
+        $text = esc_html($this->args()->cast('value', 'string'));
+        $textarea = $this->buildTagStart().$text.$this->buildTagEnd();
+        $textarea = $this->buildFieldLabel().$textarea;
+        if (empty($this->args()->tags)) {
             return $textarea;
         }
-        $buttons = [];
-        foreach ($this->args->tags as $tag => $label) {
-            $buttons[] = $this->input([
-                'class' => 'button button-small',
-                'data-tag' => $tag,
-                'type' => 'button',
-                'value' => $label,
-            ]);
-        }
+        $tags = array_keys($this->args()->tags);
+        $buttons = array_reduce($tags, fn ($carry, $tag) => $carry.$this->input([
+            'class' => 'button button-small',
+            'data-tag' => esc_attr($tag),
+            'type' => 'button',
+            'value' => esc_attr($tags[$tag]),
+        ]), '');
         $toolbar = $this->div([
             'class' => 'quicktags-toolbar',
-            'text' => implode('', $buttons),
+            'text' => $buttons,
         ]);
         return $this->div([
             'class' => 'glsr-template-editor',
             'text' => $textarea.$toolbar,
         ]);
-    }
-
-    protected function normalize(array $args, string $type): array
-    {
-        if (class_exists($className = $this->getFieldClassName($type))) {
-            $args = $className::merge($args, 'setting');
-        }
-        return $args;
     }
 }

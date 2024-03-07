@@ -2,12 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Helpers\Cast;
-use GeminiLabs\SiteReviews\Helpers\Str;
-
-/**
- * This is used by Builder to generate HTML elements.
- */
 class FieldDefaults extends DefaultsAbstract
 {
     /**
@@ -19,7 +13,9 @@ class FieldDefaults extends DefaultsAbstract
         'description' => 'string',
         'id' => 'string',
         'label' => 'string',
+        'multiple' => 'bool',
         'name' => 'string',
+        'required' => 'bool',
         'text' => 'string',
         'type' => 'string',
     ];
@@ -36,35 +32,18 @@ class FieldDefaults extends DefaultsAbstract
     protected function defaults(): array
     {
         return [
+            'after' => '',
             'class' => '',
             'description' => '',
             'id' => '',
             'label' => '',  // this value is likely a generated HTML string
+            'multiple' => false,
             'name' => '',
             'options' => [],
+            'required' => false,
             'text' => '', // this value is likely a generated HTML string
             'type' => '',
             'value' => '', // this value can also be an array
         ];
-    }
-
-    protected function isMultiField(array $args): bool
-    {
-        $args = glsr()->args($args);
-        if ('checkbox' === $args->type && count($args->cast('options', 'array')) > 1) {
-            return true;
-        }
-        return Cast::toBool($args->multiple ?? false);
-    }
-
-    /**
-     * Normalize provided values, this always runs first.
-     */
-    protected function normalize(array $values = []): array
-    {
-        if ($this->isMultiField($values) && !empty($values['name'])) {
-            $values['name'] = Str::suffix($values['name'], '[]');
-        }
-        return $values;
     }
 }

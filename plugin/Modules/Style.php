@@ -154,15 +154,15 @@ class Style
     /**
      * Add custom form classes.
      */
-    protected function customize(BuilderContract $instance): void
+    protected function customize(BuilderContract $builder): void
     {
-        if (array_key_exists($instance->tag, $this->__get('classes'))) {
-            $key = "{$instance->tag}_{$instance->args->type}";
-            $classes = Arr::get($this->classes, $key, Arr::get($this->classes, $instance->tag));
-            $classes = trim($instance->args->class.' '.$classes);
+        if (array_key_exists($builder->tag(), $this->__get('classes'))) {
+            $key = "{$builder->tag()}_{$builder->args()->type}";
+            $classes = Arr::get($this->classes, $key, Arr::get($this->classes, $builder->tag()));
+            $classes = trim($builder->args()->class.' '.$classes);
             $classes = implode(' ', Arr::unique(explode(' ', $classes))); // remove duplicate classes
-            $instance->args->class = $classes;
-            glsr()->action("customize/{$this->style}", $instance);
+            $builder->set('class', $classes);
+            glsr()->action("customize/{$this->style}", $builder);
         }
     }
 
@@ -183,9 +183,11 @@ class Style
         return array_filter($views);
     }
 
-    protected function isPublicInstance(BuilderContract $instance): bool
+    protected function isPublicInstance(BuilderContract $builder): bool
     {
-        $args = glsr()->args($instance->args)->merge(['is_raw' => false]);
+        $args = glsr()
+            ->args($builder->args()->toArray())
+            ->merge(['is_raw' => false]);
         return !glsr()->isAdmin() && !Cast::toBool($args->is_raw);
     }
 }
