@@ -64,7 +64,7 @@ class ListTableController extends Controller
                 $value = $columns[$key];
             }
         }
-        return array_filter($postTypeColumns, 'strlen');
+        return array_filter($postTypeColumns, 'strlen'); // @phpstan-ignore-line
     }
 
     /**

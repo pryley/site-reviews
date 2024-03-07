@@ -195,6 +195,8 @@
     site-reviews/reviews/html/<property>                        (mixed $value, Modules\Html\ReviewHtml $reviewHtml): mixed
     site-reviews/roles                                          (array $roles): array
     site-reviews/router/admin/unguarded-actions                 (array $unguardedActions): array
+    site-reviews/router/mutex/actions                           (array $mutexActions): array
+    site-reviews/router/mutex/expiration                        (int $seconds, string $ipAddress): int
     site-reviews/router/public/unguarded-actions                (array $unguardedActions): array
     site-reviews/sanitize/allowed-html                          (array $allowedHtml, Modules\Sanitizer $sanitizer): array
     site-reviews/scheduler/per-page                             (int $perPage): int

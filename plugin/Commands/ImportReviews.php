@@ -134,7 +134,7 @@ class ImportReviews extends Upload implements Contract
             }
             $records = Statement::create()
                 ->where(function (array $record) {
-                    return !empty(array_filter($record, 'trim')); // remove empty rows
+                    return !empty(array_filter($record, 'trim')); // @phpstan-ignore-line remove empty rows
                 })
                 ->where(function (array $record) {
                     return $this->validateRecord($record);
