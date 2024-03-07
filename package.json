@@ -7,7 +7,7 @@
     "prismjs": "^1.29.0",
     "star-rating.js": "^4.3.0",
     "tippy.js": "^6.3.7",
-    "tua-body-scroll-lock": "^1.4.0"
+    "tua-body-scroll-lock": "^1.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",

@@ -186,8 +186,9 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 = 6.11.5 (2024-03-07) =
 
-- Fixed Cross Site Scripting (XSS) vulnerability which allowed authenticated admin users to insert javascript into review content from the admin side.
-- Fixed race-time vulnerability from single-packet attacks (this should improve spam protection)
+- Fixed a Cross Site Scripting (XSS) vulnerability which allowed authenticated admin users to insert javascript into review content.
+- Fixed a race-time vulnerability from single-packet attacks (this should improve spam protection)
+- Fixed the "new item" labels for the Site Reviews post_type and taxonomy
 - Fixed unicode support for names in reviews
 
 = 6.11.4 (2023-11-02) =
