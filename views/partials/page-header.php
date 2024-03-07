@@ -9,7 +9,7 @@
                 <a class="components-button is-primary glsr-try-premium" href="https://niftyplugins.com/plugins/site-reviews-premium/" target="_blank"><?= _x('Try Premium', 'admin-text', 'site-reviews'); ?></a>
             <?php } ?>
             <?php if ($hasNewButton) { ?>
-                <a class="components-button is-secondary" href="<?= $newUrl; ?>"><?= $newText; ?></a>
+                <a class="components-button is-secondary" href="<?= esc_url($newUrl); ?>"><?= $newText; ?></a>
             <?php } ?>
             <div>
                 <?php if ($hasScreenOptions) { ?>

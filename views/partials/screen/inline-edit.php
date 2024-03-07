@@ -4,7 +4,7 @@
     <table style="display:none">
         <tbody id="inlineedit">
             <tr id="inline-edit" style="display:none" class="inline-edit-row inline-edit-row-post quick-edit-row quick-edit-row-post inline-edit-<?= glsr()->post_type; ?>">
-                <td colspan="<?= $columns; ?>" class="colspanchange">
+                <td colspan="<?= esc_attr($columns); ?>" class="colspanchange">
                     <div class="inline-edit-wrapper" role="region" aria-labelledby="quick-edit-legend">
                         <fieldset class="glsr-inline-edit-col-left">
                             <legend id="quick-edit-legend"  class="inline-edit-legend">
@@ -27,7 +27,7 @@
                         </fieldset>
                         <div class="submit inline-edit-save">
                             <?php wp_nonce_field('inlineeditnonce', '_inline_edit', false); ?>
-                            <input type="hidden" name="screen" value="<?= $screen_id; ?>" />
+                            <input type="hidden" name="screen" value="<?= esc_attr($screen_id); ?>" />
                             <button type="button" class="button cancel alignleft"><?= _x('Cancel', 'admin-text', 'site-reviews'); ?></button>
                             <button type="button" class="button button-primary save alignright"><?= _x('Update', 'admin-text', 'site-reviews'); ?></button>
                             <span class="spinner"></span>
@@ -40,7 +40,7 @@
                 </td>
             </tr>
             <tr id="bulk-edit" style="display:none" class="inline-edit-row inline-edit-row-post bulk-edit-row bulk-edit-row-post bulk-edit-<?= glsr()->post_type; ?>">
-                <td colspan="<?= $columns; ?>" class="colspanchange">
+                <td colspan="<?= esc_attr($columns); ?>" class="colspanchange">
                     <div class="inline-edit-wrapper" role="region" aria-labelledby="bulk-edit-legend" tabindex="-1">
                         <fieldset class="inline-edit-col-left">
                             <legend id="bulk-edit-legend" class="inline-edit-legend"><?= _x('Bulk Edit', 'admin-text', 'site-reviews'); ?></legend>
@@ -129,8 +129,8 @@
                         <div class="submit inline-edit-save">
                             <button type="button" class="button cancel alignleft"><?= _x('Cancel', 'admin-text', 'site-reviews'); ?></button>
                             <input type="submit" name="bulk_edit" id="bulk_edit" class="button button-primary alignright" value="<?= esc_attr_x('Update', 'admin-text', 'site-reviews'); ?>">
-                            <input type="hidden" name="post_view" value="<?= $mode; ?>" />
-                            <input type="hidden" name="screen" value="<?= $screen_id; ?>" />
+                            <input type="hidden" name="post_view" value="<?= esc_attr($mode); ?>" />
+                            <input type="hidden" name="screen" value="<?= esc_attr($screen_id); ?>" />
                             <br class="clear">
                             <div class="notice notice-error notice-alt inline hidden">
                                 <p class="error"></p>
