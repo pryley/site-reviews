@@ -51,7 +51,7 @@ mix.options({
 mix.webpackConfig({
   target: ['web', 'es5'],
   resolve: {
-    alias: {'@': path.resolve(__dirname, '+/scripts/')},
+    alias: {'@': path.resolve(__dirname, '+/scripts')},
     modules: ['node_modules'],
   },
   // stats: {

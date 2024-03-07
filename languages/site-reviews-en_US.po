@@ -1,4 +1,4 @@
-# Copyright (C) 2023 site-reviews
+# Copyright (C) 2024 site-reviews
 # This file is distributed under the same license as the site-reviews package.
 msgid ""
 msgstr ""
@@ -30,6 +30,22 @@ msgstr ""
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 
+#: site-reviews.php:47
+msgid ""
+"Security update - Future Site Reviews versions will require PHP 7.4 and "
+"WordPress 6.1"
+msgstr ""
+"Security update - Future Site Reviews versions will require PHP 7.4 and "
+"WordPress 6.1"
+
+#: site-reviews.php:48
+msgid ""
+"The next Site Reviews update will change the PHP version requirement from "
+"7.2 to 7.4 and the WordPress version requirement from 5.8 to 6.1."
+msgstr ""
+"The next Site Reviews update will change the PHP version requirement from "
+"7.2 to 7.4 and the WordPress version requirement from 5.8 to 6.1."
+
 #: config/settings.php:86
 msgid "%s star or less"
 msgid_plural "%s stars or less"
@@ -44,7 +60,7 @@ msgstr "There are no reviews yet. Be the first one to write one."
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: plugin/Router.php:154, views/pages/documentation/support/common-problems-and-solutions.php:61
+#: plugin/Router.php:204, views/pages/documentation/support/common-problems-and-solutions.php:61
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr "The form could not be submitted. Please notify the site administrator."
 
@@ -88,7 +104,7 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
-#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:169
+#: plugin/Blocks/SiteReviewsBlock.php:121, plugin/Helpers/Text.php:169
 msgid "Show more"
 msgstr "Show more"
 
@@ -1538,7 +1554,7 @@ msgctxt "admin-text"
 msgid "Title"
 msgstr "Title"
 
-#: config/settings.php:709, plugin/Defaults/PostTypeLabelDefaults.php:13
+#: config/settings.php:709, plugin/Defaults/PostTypeLabelDefaults.php:25
 msgctxt "admin-text"
 msgid "Review"
 msgstr "Review"
@@ -2161,7 +2177,7 @@ msgctxt "admin-text"
 msgid "Rollback Site Reviews"
 msgstr "Rollback Site Reviews"
 
-#: plugin/Router.php:157
+#: plugin/Router.php:207
 msgctxt "admin-text"
 msgid "There was an error (try reloading the page)."
 msgstr "There was an error (try reloading the page)."
@@ -2832,7 +2848,7 @@ msgctxt "admin-text"
 msgid "General"
 msgstr "General"
 
-#: plugin/Controllers/MenuController.php:145, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:12, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
+#: plugin/Controllers/MenuController.php:145, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:20, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr "Reviews"
@@ -3124,6 +3140,21 @@ msgstr "Verified"
 msgctxt "admin-text"
 msgid "Url"
 msgstr "Url"
+
+#: plugin/Defaults/TaxonomyDefaults.php:18
+msgctxt "admin-text"
+msgid "Review Category Link"
+msgstr "Review Category Link"
+
+#: plugin/Defaults/TaxonomyDefaults.php:19
+msgctxt "admin-text"
+msgid "A link to a review category."
+msgstr "A link to a review category."
+
+#: plugin/Defaults/TaxonomyDefaults.php:21
+msgctxt "admin-text"
+msgid "Review Categories"
+msgstr "Review Categories"
 
 #: plugin/Defaults/UpdatedMessageDefaults.php:13
 msgctxt "admin-text"
@@ -6038,60 +6069,65 @@ msgctxt "siteadmin-text"
 msgid "Assigned Posts"
 msgstr "Assigned Posts"
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:15
+#: plugin/Defaults/PostTypeLabelDefaults.php:13, plugin/Defaults/PostTypeLabelDefaults.php:14
 msgctxt "Add New Post (admin-text)"
-msgid "Add New %s"
-msgstr "Add New %s"
+msgid "Add New Review"
+msgstr "Add New Review"
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:15
+msgctxt "All Posts (admin-text)"
+msgid "All Reviews"
+msgstr "All Reviews"
 
 #: plugin/Defaults/PostTypeLabelDefaults.php:16
-msgctxt "All Posts (admin-text)"
-msgid "All %s"
-msgstr "All %s"
+msgctxt "Post Archives (admin-text)"
+msgid "Review Archives"
+msgstr "Review Archives"
 
 #: plugin/Defaults/PostTypeLabelDefaults.php:17
-msgctxt "Post Archives (admin-text)"
-msgid "%s Archives"
-msgstr "%s Archives"
+msgctxt "Edit Post (admin-text)"
+msgid "Edit Review"
+msgstr "Edit Review"
 
 #: plugin/Defaults/PostTypeLabelDefaults.php:18
-msgctxt "Edit Post (admin-text)"
-msgid "Edit %s"
-msgstr "Edit %s"
-
-#: plugin/Defaults/PostTypeLabelDefaults.php:19
 msgctxt "Insert into Post (admin-text)"
-msgid "Insert into %s"
-msgstr "Insert into %s"
+msgid "Insert into Review"
+msgstr "Insert into Review"
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:21
+msgctxt "New Post (admin-text)"
+msgid "New Review"
+msgstr "New Review"
 
 #: plugin/Defaults/PostTypeLabelDefaults.php:22
-msgctxt "New Post (admin-text)"
-msgid "New %s"
-msgstr "New %s"
+msgctxt "No Posts found (admin-text)"
+msgid "No Reviews found"
+msgstr "No Reviews found"
 
 #: plugin/Defaults/PostTypeLabelDefaults.php:23
-msgctxt "No Posts found (admin-text)"
-msgid "No %s found"
-msgstr "No %s found"
+msgctxt "No Posts found in Trash (admin-text)"
+msgid "No Reviews found in Trash"
+msgstr "No Reviews found in Trash"
 
 #: plugin/Defaults/PostTypeLabelDefaults.php:24
-msgctxt "No Posts found in Trash (admin-text)"
-msgid "No %s found in Trash"
-msgstr "No %s found in Trash"
-
-#: plugin/Defaults/PostTypeLabelDefaults.php:25
 msgctxt "Search Posts (admin-text)"
-msgid "Search %s"
-msgstr "Search %s"
+msgid "Search Reviews"
+msgstr "Search Reviews"
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:26
+msgctxt "Uploaded to this Post (admin-text)"
+msgid "Uploaded to this Review"
+msgstr "Uploaded to this Review"
 
 #: plugin/Defaults/PostTypeLabelDefaults.php:27
-msgctxt "Uploaded to this Post (admin-text)"
-msgid "Uploaded to this %s"
-msgstr "Uploaded to this %s"
-
-#: plugin/Defaults/PostTypeLabelDefaults.php:28
 msgctxt "View Post (admin-text)"
-msgid "View %s"
-msgstr "View %s"
+msgid "View Review"
+msgstr "View Review"
+
+#: plugin/Defaults/TaxonomyDefaults.php:20
+msgctxt "Admin menu name (admin-text)"
+msgid "Categories"
+msgstr "Categories"
 
 #: plugin/Defaults/TemplateTagsDefaults.php:13
 msgctxt "template tag button text"

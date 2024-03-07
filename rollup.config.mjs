@@ -4,12 +4,20 @@ import filesize from 'rollup-plugin-filesize';
 import postcss from 'rollup-plugin-postcss'
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const pluginsJavascript = () => [
   alias({
-    entries: {
-      '@': './+/scripts/',
-    },
+    entries: [
+      {
+        find: '@',
+        replacement: path.resolve(__dirname, '+/scripts'),
+      },
+    ],
   }),
   resolve(),
   filesize(),
