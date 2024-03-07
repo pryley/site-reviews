@@ -9,6 +9,6 @@ class SanitizeText extends StringSanitizer
 {
     public function run(): string
     {
-        return sanitize_text_field($this->value());
+        return $this->kses(sanitize_text_field($this->value()));
     }
 }

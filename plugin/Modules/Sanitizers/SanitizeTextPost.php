@@ -9,6 +9,6 @@ class SanitizeTextPost extends StringSanitizer
 {
     public function run(): string
     {
-        return wp_filter_post_kses(wp_unslash($this->value()));
+        return $this->kses(wp_filter_post_kses(wp_unslash($this->value())));
     }
 }
