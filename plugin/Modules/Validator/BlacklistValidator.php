@@ -51,7 +51,7 @@ class BlacklistValidator extends ValidatorAbstract
             if (empty($line) || 256 < strlen($line)) {
                 continue;
             }
-            $pattern = sprintf('#%s#i', preg_quote($line, '#'));
+            $pattern = sprintf('#%s#iu', preg_quote($line, '#'));
             if (preg_match($pattern, $target)) {
                 return false;
             }
