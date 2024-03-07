@@ -10,6 +10,7 @@
     site-reviews/defaults                                       (Contracts\DefaultsContract $defaults, string $hook, string $method, array $values)
     site-reviews/export/cleanup                                 ()
     site-reviews/filter                                         (string $hook, array $args)
+    site-reviews/import/settings/extra                          (array $extra)
     site-reviews/get/review                                     (Review $review, int $reviewId)
     site-reviews/get/reviews                                    (array $reviews, array $args)
     site-reviews/migration/end                                  (array $migrations)
@@ -128,6 +129,7 @@
     site-reviews/enqueue/public/localize                        (array $variables): array
     site-reviews/enqueue/public/localize/ajax-pagination        (array $selectors): array
     site-reviews/field/<field_type>                             (array $field): array
+    site-reviews/export/settings/extra                          (array $extra): array
     site-reviews/flyoutmenu/enabled                             (bool $bool): bool
     site-reviews/flyoutmenu/items                               (array $items): array
     site-reviews/form/build/<tag_or_field_key>                  (string $field, Arguments $with, Modules\Html\Partials\SiteReviewsForm $partial): string

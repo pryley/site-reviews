@@ -102,9 +102,14 @@ class OptionManager
         return Cast::to($cast, $option);
     }
 
+    /**
+     * This is used when exporting the settings.
+     */
     public function json(): string
     {
-        return json_encode($this->all(), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $all = $this->all();
+        $all['extra'] = glsr()->filterArray('export/settings/extra', []); // allow addons to export additional data
+        return json_encode($all, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     public function normalize(array $data = []): array

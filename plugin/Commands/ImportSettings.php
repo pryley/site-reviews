@@ -46,6 +46,7 @@ class ImportSettings extends AbstractCommand
         }
         $settings = glsr(OptionManager::class)->normalize($data);
         glsr(OptionManager::class)->replace($settings);
+        glsr()->action('import/settings/extra', Arr::consolidate($data['extra'] ?? [])); // allow addons to import additional data
         glsr(Migrate::class)->runAll(); // migrate the imported settings
         return true;
     }
