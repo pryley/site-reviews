@@ -36,9 +36,10 @@
     "php": ">=7.2"
   },
   "require-dev": {
-    "fakerphp/faker": "1.21.0",
+    "fakerphp/faker": "^1.23.1",
+    "phpcompatibility/php-compatibility": "*",
     "phpstan/phpstan": "^1.9.4",
     "szepeviktor/phpstan-wordpress": "^1.1.6",
-    "yoast/phpunit-polyfills": "^1.0.4"
+    "yoast/phpunit-polyfills": "^2.0.0"
   }
 }

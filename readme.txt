@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.4
-Stable tag: 6.11.6
+Stable tag: 6.11.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -182,12 +182,9 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.11.6 (2024-03-07) =
+= 6.11.7 (2024-03-09) =
 
 - Fixed a Cross Site Scripting (XSS) vulnerability caused by users saving malicious javascript text to their first/last/display name in their WordPress user profile.
-
-= 6.11.5 (2024-03-07) =
-
 - Fixed a Cross Site Scripting (XSS) vulnerability which allowed authenticated admin users to insert javascript into review content.
 - Fixed a race-time vulnerability from single-packet attacks (this should improve spam protection)
 - Fixed the "new item" labels for the Site Reviews post_type and taxonomy

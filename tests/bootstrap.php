@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'on');
 
-define('WP_DEBUG', false); // Otherwise tests fail on PHP 8.1 due to deprecation notices
+// define('WP_DEBUG', false); // Otherwise tests fail on PHP 8.1 due to deprecation notices
 
 $plugin_dir = dirname(__DIR__);
 
