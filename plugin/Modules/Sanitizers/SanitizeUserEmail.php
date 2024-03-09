@@ -13,7 +13,7 @@ class SanitizeUserEmail extends StringSanitizer
         if (empty($value)) {
             $user = wp_get_current_user();
             if ($user->exists()) {
-                return $user->user_email;
+                return sanitize_email($user->user_email);
             }
         }
         return $value;

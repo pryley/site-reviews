@@ -52,7 +52,7 @@ class ReviewDefaults extends DefaultsAbstract
         'date_gmt' => 'date',
         'email' => 'email',
         'ip_address' => 'text',
-        'response' => 'text-multiline',
+        'response' => 'text-html',
         'score' => 'min:0',
         'status' => 'text',
         'title' => 'text',

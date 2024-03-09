@@ -29,6 +29,7 @@ class SanitizeUserName extends StringSanitizer
      */
     protected function sanitizeDisplayName(string $value): string
     {
+        $value = html_entity_decode($value);
         $value = wp_strip_all_tags($value);
         $value = $this->kses($value);
         $value = preg_replace('/%([a-fA-F0-9][a-fA-F0-9])/', '', $value); // Remove percent-encoded characters.

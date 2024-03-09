@@ -6,6 +6,9 @@ class SanitizeTextMultiline extends StringSanitizer
 {
     public function run(): string
     {
-        return $this->kses(sanitize_textarea_field($this->value()));
+        $value = html_entity_decode($this->value());
+        $value = wp_strip_all_tags($value);
+        $value = sanitize_textarea_field($value);
+        return $this->kses($value);
     }
 }
