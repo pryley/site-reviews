@@ -1527,12 +1527,12 @@ msgctxt "admin-text"
 msgid "This will filter the output of the wp_comments() function when it's used to query WooCommerce product reviews."
 msgstr ""
 
-#: plugin/Application.php:198
+#: plugin/Application.php:199
 msgctxt "License Keys (admin-text)"
 msgid "Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account."
 msgstr ""
 
-#: plugin/Application.php:199, plugin/Controllers/SettingsController.php:169
+#: plugin/Application.php:200, plugin/Controllers/SettingsController.php:169
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr ""

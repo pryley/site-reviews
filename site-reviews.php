@@ -7,7 +7,7 @@
  * Plugin Name:          Site Reviews
  * Plugin URI:           https://wordpress.org/plugins/site-reviews
  * Description:          Receive and display reviews on your website
- * Version:              6.11.7
+ * Version:              6.11.8
  * Author:               Paul Ryley
  * Author URI:           https://geminilabs.io
  * License:              GPL3
@@ -43,7 +43,7 @@ if ((new GL_Plugin_Check_v6(__FILE__))->canProceed()) {
  * @todo Remove this after the release.
  */
 $pluginBasename = plugin_basename(__FILE__);
-add_action("in_plugin_update_message-{$pluginBasename}", static function (): void {
+add_action("in_plugin_update_message-{$pluginBasename}", function () {
     $title = __('Security update - Future Site Reviews versions will require PHP 7.4 and WordPress 6.1', 'site-reviews');
     $message = __('The next Site Reviews update will change the PHP version requirement from 7.2 to 7.4 and the WordPress version requirement from 5.8 to 6.1.', 'site-reviews');
     echo '<strong>'.esc_html($title).'</strong>';
