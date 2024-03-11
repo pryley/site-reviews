@@ -187,7 +187,7 @@ class ReviewSchema
                 'context' => ['edit'],
                 'description' => _x('The IP address of the person who submitted the review.', 'admin-text', 'site-reviews'),
                 'format' => 'ip',
-                'type' => 'string',
+                'type' => ['null', 'string'],
             ],
             'is_approved' => [
                 'context' => ['edit', 'view'],
@@ -196,7 +196,7 @@ class ReviewSchema
                 'type' => 'boolean',
             ],
             'is_modified' => [
-                'context' => ['view'],
+                'context' => ['edit', 'view'],
                 'description' => _x('If the review has been modified.', 'admin-text', 'site-reviews'),
                 'readonly' => true,
                 'type' => 'boolean',
@@ -261,6 +261,11 @@ class ReviewSchema
                 'description' => _x('Type of Review for the object.', 'admin-text', 'site-reviews'),
                 'enum' => glsr()->retrieveAs('array', 'review_types', []),
                 'type' => 'string',
+            ],
+            'url' => [
+                'context' => ['edit', 'view'],
+                'description' => _x('The external URL of the review when the review source is from a third-party.', 'admin-text', 'site-reviews'),
+                'type' => ['null', 'string'],
             ],
         ];
         $properties = glsr()->filterArray('rest-api/reviews/schema/properties', $properties);

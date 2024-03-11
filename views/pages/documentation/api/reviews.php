@@ -30,73 +30,73 @@
                     <tr>
                         <td><strong>assigned_posts</strong></td>
                         <td>array</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The post IDs (of any public post type) assigned to the review.</td>
                     </tr>
                     <tr>
                         <td><strong>assigned_terms</strong></td>
                         <td>array</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The term IDs assigned to the review in the <code>site-reviews-category</code> taxonomy.</td>
                     </tr>
                     <tr>
                         <td><strong>assigned_users</strong></td>
                         <td>array</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The user IDs assigned to the review.</td>
                     </tr>
                     <tr>
                         <td><strong>author</strong></td>
                         <td>integer</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The ID for the author of the review Post Type.</td>
                     </tr>
                     <tr>
                         <td><strong>avatar</strong></td>
                         <td>string</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The avatar URL of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>content</strong></td>
                         <td>string</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The content field of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>custom</strong></td>
                         <td>object</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>Custom field values.</td>
                     </tr>
                     <tr>
                         <td><strong>date</strong></td>
                         <td>string or null, datetime</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The date the review was published, in the site's timezone.</td>
                     </tr>
                     <tr>
                         <td><strong>date_gmt</strong></td>
                         <td>string or null, datetime</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The date the review was published, as GMT.</td>
                     </tr>
                     <tr>
                         <td><strong>email</strong></td>
                         <td>string or null</td>
-                        <td>view, edit</td>
+                        <td>edit</td>
                         <td>The email field of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>id</strong></td>
                         <td>integer</td>
-                        <td>view</td>
+                        <td>edit, view</td>
                         <td>Unique identifier for the review. (read only)</td>
                     </tr>
                     <tr>
                         <td><strong>images</strong></td>
                         <td>array</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>
                             The array of image objects attached to the review.
                             <br>
@@ -106,103 +106,103 @@
                     <tr>
                         <td><strong>ip_address</strong></td>
                         <td>string or null</td>
-                        <td>view, edit</td>
+                        <td>edit</td>
                         <td>The IP address submitted with the review.</td>
                     </tr>
                     <tr>
                         <td><strong>is_approved</strong></td>
                         <td>boolean</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The approval status of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>is_modified</strong></td>
                         <td>boolean</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The modified status of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>is_pinned</strong></td>
                         <td>boolean</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The pinned status of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>is_verified</strong></td>
                         <td>boolean</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The verified status of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>meta</strong></td>
                         <td>object</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>Registered Meta fields of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>modified</strong></td>
                         <td>string or null, datetime</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The date the review was last modified, in the site's timezone.</td>
                     </tr>
                     <tr>
                         <td><strong>modified_gmt</strong></td>
                         <td>string or null, datetime</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The date the review was last modified, as GMT.</td>
                     </tr>
                     <tr>
                         <td><strong>name</strong></td>
                         <td>string</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The name field of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>rating</strong></td>
                         <td>integer</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The rating field of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>response</strong></td>
                         <td>string</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The response given for a review.</td>
                     </tr>
                     <tr>
                         <td><strong>score</strong></td>
                         <td>integer</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The popularity score field of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>status</strong></td>
                         <td>string</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>A named Post Status for the review. One of: <code>publish</code>, <code>future</code>, <code>draft</code>, <code>pending</code>, <code>private</code></td>
                     </tr>
                     <tr>
                         <td><strong>terms</strong></td>
                         <td>boolean</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The accepted terms field of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>title</strong></td>
                         <td>string</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The title of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>type</strong></td>
                         <td>string or null</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The review type, default value is <code>local</code>.</td>
                     </tr>
                     <tr>
                         <td><strong>url</strong></td>
                         <td>string or null</td>
-                        <td>view, edit</td>
+                        <td>edit, view</td>
                         <td>The external URL of the review when the review source is from a third-party.</td>
                     </tr>
                 </tbody>
