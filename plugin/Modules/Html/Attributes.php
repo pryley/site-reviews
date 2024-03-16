@@ -99,7 +99,7 @@ class Attributes
 
     public const GLOBAL_ATTRIBUTES = [
         'accesskey', 'class', 'contenteditable', 'contextmenu', 'dir', 'draggable', 'dropzone',
-        'hidden', 'id', 'lang', 'spellcheck', 'style', 'tabindex', 'title',
+        'hidden', 'id', 'lang', 'role', 'spellcheck', 'style', 'tabindex', 'title',
     ];
 
     public const GLOBAL_WILDCARD_ATTRIBUTES = [
@@ -153,11 +153,15 @@ class Attributes
     {
         $attributes = [];
         foreach ($this->attributes as $attribute => $value) {
-            $quote = $this->getQuoteChar($attribute);
             $value = esc_attr(implode(',', (array) $value));
-            $attributes[] = in_array($attribute, static::BOOLEAN_ATTRIBUTES)
-                ? $attribute
-                : "{$attribute}={$quote}{$value}{$quote}";
+            if (in_array($attribute, static::BOOLEAN_ATTRIBUTES)) {
+                $attributes[] = $attribute;
+                continue;
+            }
+            if (str_starts_with($attribute, 'data-')) {
+                $value = esc_js($value);
+            }
+            $attributes[] = "{$attribute}=\"{$value}\"";
         }
         return implode(' ', $attributes);
     }
@@ -188,11 +192,6 @@ class Attributes
             $permanentAttributes['value'] = $this->attributes['value'];
         }
         return $permanentAttributes;
-    }
-
-    protected function getQuoteChar(string $attribute): string
-    {
-        return str_starts_with($attribute, 'data-') ? '\'' : '"';
     }
 
     /**
@@ -246,7 +245,7 @@ class Attributes
             if (is_array($value)) {
                 $value = json_encode($value, JSON_HEX_APOS | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
             }
-            $this->attributes[$key] = $value;
+            $this->attributes[$key] = esc_js($value);
         }
     }
 
