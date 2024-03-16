@@ -30,7 +30,8 @@
 ├── form                        This folder contains the template files for the form fields
 │   ├── field-description.php   This template displays the form field description.
 │   ├── field-errors.php        This template displays the form field validation errors.
-│   ├── field.php               This template displays a form field.
+│   ├── field-label.php         This template displays the form field label.
+│   ├── field.php               This template displays the form field element.
 │   ├── field_{type}.php        To target a specific field type, duplicate the field.php file and append the type with an underscore (i.e. field_email.php, field_textarea.php)
 │   ├── response.php            This template displays the form submission response
 │   ├── submit-button.php       This template displays the submit button

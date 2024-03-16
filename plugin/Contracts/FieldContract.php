@@ -2,14 +2,17 @@
 
 namespace GeminiLabs\SiteReviews\Contracts;
 
-use GeminiLabs\SiteReviews\Contracts\BuilderContract;
-use GeminiLabs\SiteReviews\Contracts\FieldElementContract;
-
 interface FieldContract
 {
     public function build(): string;
 
     public function builder(): BuilderContract;
+
+    public function buildField(): string;
+
+    public function buildFieldElement(): string;
+
+    public function buildFieldLabel(): string;
 
     public function exchangeTag(string $tag): void;
 

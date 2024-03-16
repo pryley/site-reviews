@@ -18,6 +18,5 @@
         </div>
     </div>
 </div>
-<?php foreach ($metabox as $field) : ?>
-    <?= $field; ?>
-<?php endforeach; ?>
+
+<?php echo $fields;

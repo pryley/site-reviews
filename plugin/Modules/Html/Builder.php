@@ -286,7 +286,7 @@ class Builder implements BuilderContract
 
     protected function indexedId(int $index): string
     {
-        if (count($this->args()->options) > 1 && !empty($this->args()->id)) {
+        if (!empty($this->args()->id)) {
             return "{$this->args()->id}-{$index}";
         }
         return $this->args()->id;

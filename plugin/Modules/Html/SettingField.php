@@ -4,22 +4,33 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
+/**
+ * @property mixed  $default
+ * @property array  $depends_on
+ * @property string $group
+ * @property bool   $is_hidden
+ * @property array  $tags
+ * @property string $tooltip
+ * 
+ * @todo fix checked/selected attribute values...
+ */
 class SettingField extends Field
 {
-    public function __construct(array $field = [])
+    public function __construct(array $args = [])
     {
-        $this->field = wp_parse_args($field, [
-            'errors' => false,
-            'is_hidden' => false,
-            'is_multi' => false,
-            'is_raw' => false,
-            'is_valid' => true,
-            'path' => '',
+        $field = wp_parse_args($args, [
+            'default' => '',
+            'depends_on' => [],
+            'group' => '', // the setting group the field belongs to
+            'is_hidden' => false, // the field is visibly hidden based on the values of its dependancies
             'tags' => [],
             'tooltip' => '',
         ]);
-        $this->normalize();
+        parent::__construct($field);
     }
 
     public function builder(): BuilderContract
@@ -27,81 +38,67 @@ class SettingField extends Field
         return glsr(SettingBuilder::class);
     }
 
-    public function getFieldClasses(): string
+    public function buildField(): string
     {
-        $classes = [];
-        if ($this->field['is_hidden']) {
-            $classes[] = 'hidden';
+        $data = [
+            'context' => [
+                'class' => $this->classAttrField(),
+                'depends_on' => esc_js($this->offsetGet('data-depends') ?? ''),
+                'field' => $this->buildFieldElement(),
+                'label' => $this->buildFieldLabel(),
+                'legend' => $this->label,
+            ],
+            'field' => $this,
+        ];
+        return $this->isChoiceField()
+            ? glsr(Template::class)->build('partials/form/table-row-multiple', $data)
+            : glsr(Template::class)->build('partials/form/table-row', $data);
+    }
+
+    public function buildFieldLabel(): string
+    {
+        return $this->builder()->label([
+            'for' => !$this->isChoiceField() ? $this->id : '',
+            'text' => $this->label.$this->buildFieldTooltip(),
+        ]);
+    }
+
+    public function buildFieldTooltip(): string
+    {
+        if (empty($this->tooltip)) {
+            return '';
         }
-        $classes = glsr()->filterArray('rendered/field/classes', $classes, $this->field);
-        return implode(' ', $classes);
+        return $this->builder()->span([
+            'class' => 'glsr-tooltip dashicons-before dashicons-editor-help',
+            'data-tippy-allowHTML' => true,
+            'data-tippy-content' => $this->tooltip,
+            'data-tippy-delay' => [200, null],
+            'data-tippy-interactive' => true,
+            'data-tippy-offset' => [-10, 10],
+            'data-tippy-placement' => 'top-start',
+            // 'data-tippy-animation' => 'scale',
+            // 'data-tippy-inertia' => true,
+            // 'data-tippy-trigger' => 'click',
+        ]);
     }
 
-    public function getFieldDependsOn(): string
+    public function location(): string
     {
-        return !empty($this->field['data-depends'])
-            ? $this->field['data-depends']
-            : '';
+        return 'setting';
     }
 
-    public function getFieldPrefix(): string
+    public function namePrefix(): string
     {
         return OptionManager::databaseKey();
     }
 
-    protected function buildField(): string
+    protected function classAttrField(): string
     {
-        return glsr(Template::class)->build('partials/form/table-row', [
-            'context' => [
-                'class' => $this->getFieldClasses(),
-                'field' => $this->builder()->{$this->field['type']}($this->field),
-                'label' => $this->buildLabelWithTooltip(),
-            ],
-            'field' => $this->field,
-        ]);
-    }
-
-    protected function buildLabelWithTooltip(): string
-    {
-        $text = $this->field['legend'];
-        if (!empty($this->field['tooltip'])) {
-            $text .= $this->builder()->span([
-                'class' => 'glsr-tooltip dashicons-before dashicons-editor-help',
-                'data-tippy-allowHTML' => true,
-                // 'data-tippy-animation' => 'scale',
-                'data-tippy-content' => $this->field['tooltip'],
-                'data-tippy-delay' => [200, null],
-                // 'data-tippy-inertia' => true,
-                'data-tippy-interactive' => true,
-                'data-tippy-offset' => [-10, 10],
-                'data-tippy-placement' => 'top-start',
-                // 'data-tippy-trigger' => 'click',
-            ]);
+        $classes = ['glsr-setting-field'];
+        if ($this->is_hidden) {
+            $classes[] = 'hidden';
         }
-        return $this->builder()->label([
-            'for' => $this->field['id'],
-            'text' => $text,
-        ]);
-    }
-
-    protected function buildMultiField(): string
-    {
-        $dependsOn = $this->getFieldDependsOn();
-        unset($this->field['data-depends']);
-        return glsr(Template::class)->build('partials/form/table-row-multiple', [
-            'context' => [
-                'class' => $this->getFieldClasses(),
-                'depends_on' => $dependsOn,
-                'field' => $this->builder()->{$this->field['type']}($this->field),
-                'label' => $this->buildLabelWithTooltip(),
-                'legend' => $this->field['legend'],
-            ],
-            'field' => $this->field,
-        ]);
-    }
-
-    protected function mergeFieldArgs(string $className): array
-    {
-        return $className::merge($this->field, 'setting');
+        $classes = implode(' ', $classes);
+        return glsr(Sanitizer::class)->sanitizeAttrClass($classes);
     }
 }

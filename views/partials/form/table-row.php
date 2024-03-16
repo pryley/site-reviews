@@ -1,6 +1,6 @@
 <?php defined('ABSPATH') || exit; ?>
 
-<tr class="glsr-setting-field {{ class }}">
+<tr class="{{ class }}">
     <th scope="row">{{ label }}</th>
     <td>
         {{ field }}

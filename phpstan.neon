@@ -22,7 +22,7 @@ parameters:
   checkMissingIterableValueType: false
   ignoreErrors:
     # These are ArrayObject classes
-    - '#Access to an undefined property WP_|GeminiLabs\\SiteReviews\\(Arguments|Request)::(.+)#'
+    - '#Access to an undefined property WP_|GeminiLabs\\SiteReviews\\(Arguments|Contracts\\FieldContract|Modules\\Html\\Field|Request)::(.+)#'
     # Technically, these errors are correct. However, since this is a third-party package we will ignore them for now
     - '#Call to an undefined method ActionScheduler_Schedule::(get_recurrence|get_date)\(\).#'
     # get_views() is in the $compat_methods array for public access, leave this for now

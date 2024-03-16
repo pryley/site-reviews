@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Helpers;
 
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Str
 {
@@ -23,15 +24,24 @@ class Str
         return false;
     }
 
-    public static function convertPathToId(string $path, string $prefix = ''): string
+    /**
+     * Returns an unsanitized id attribute;
+     */
+    public static function convertNameToId(string $string, string $prefix = ''): string
     {
-        return str_replace(['[', ']'], ['-', ''], static::convertPathToName($path, $prefix));
+        $string = preg_replace('/[^a-z\d\[_]+/', '[', strtolower($string));
+        $parts = explode('[', $string);
+        $parts = array_filter([$prefix, ...$parts]);
+        return implode('-', $parts);
     }
 
     public static function convertPathToName(string $path, string $prefix = ''): string
     {
         $levels = explode('.', $path);
-        return array_reduce($levels, fn ($result, $value) => "{$result}[{$value}]", $prefix);
+        $levels = array_filter($levels);
+        return array_reduce($levels, function ($carry, $value) {
+            return empty($carry) ? $value : "{$carry}[{$value}]";
+        }, $prefix);
     }
 
     public static function dashCase(string $string): string

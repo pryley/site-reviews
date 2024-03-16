@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Contracts\FieldContract;
-use GeminiLabs\SiteReviews\Helper;
 
 class SettingBuilder extends Builder
 {
@@ -33,8 +32,7 @@ class SettingBuilder extends Builder
 
     protected function buildFieldElement(): string
     {
-        $method = Helper::buildMethodName('build', 'field', $this->tag(), 'element');
-        $element = call_user_func([$this, $method]);
+        $element = parent::buildFieldElement();
         return $element.$this->buildAfter().$this->buildFieldDescription();
     }
 
@@ -45,9 +43,12 @@ class SettingBuilder extends Builder
         foreach ($this->args()->options as $value => $label) {
             $fields[] = $this->input([
                 'checked' => in_array($value, $this->args()->cast('value', 'array')),
+                'disabled' => $this->args()->disabled,
                 'id' => $this->indexedId(++$index),
                 'label' => $label,
                 'name' => $this->args()->name,
+                'required' => $this->args()->required,
+                'tabindex' => $this->args()->tabindex,
                 'type' => $this->args()->type,
                 'value' => $value,
             ]);
@@ -58,20 +59,18 @@ class SettingBuilder extends Builder
         ]);
     }
 
-    protected function buildFieldTextarea(): string
+    protected function buildFieldTextareaElement(): string
     {
-        $text = esc_html($this->args()->cast('value', 'string'));
-        $textarea = $this->buildTagStart().$text.$this->buildTagEnd();
-        $textarea = $this->buildFieldLabel().$textarea;
+        $element = parent::buildFieldTextareaElement();
         if (empty($this->args()->tags)) {
-            return $textarea;
+            return $element;
         }
         $tags = array_keys($this->args()->tags);
         $buttons = array_reduce($tags, fn ($carry, $tag) => $carry.$this->input([
             'class' => 'button button-small',
             'data-tag' => esc_attr($tag),
             'type' => 'button',
-            'value' => esc_attr($tags[$tag]),
+            'value' => esc_attr($this->args()->tags[$tag]),
         ]), '');
         $toolbar = $this->div([
             'class' => 'quicktags-toolbar',
@@ -79,7 +78,7 @@ class SettingBuilder extends Builder
         ]);
         return $this->div([
             'class' => 'glsr-template-editor',
-            'text' => $textarea.$toolbar,
+            'text' => $element.$toolbar,
         ]);
     }
 }

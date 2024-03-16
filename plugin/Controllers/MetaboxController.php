@@ -14,12 +14,12 @@ use GeminiLabs\SiteReviews\Review;
 class MetaboxController extends AbstractController
 {
     /**
-     * @filter site-reviews/config/forms/metabox-fields
+     * @filter site-reviews/metabox-form/fields
      */
     public function filterFieldOrder(array $config): array
     {
         $order = array_keys($config);
-        $order = glsr()->filterArray('metabox/fields/order', $order);
+        $order = glsr()->filterArray('metabox-form/fields/order', $order);
         $order = array_intersect_key(array_merge(array_flip($order), $config), $config);
         return $order;
     }

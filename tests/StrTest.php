@@ -26,20 +26,27 @@ class StrTest extends WP_UnitTestCase
         $this->assertFalse(Str::contains('abcdef', []));
     }
 
-    public function test_convert_path_to_id()
+    public function test_convert_name_to_id()
     {
-        $this->assertEquals(Str::convertPathToId('abc.d.e'), '-abc-d-e');
-        $this->assertEquals(Str::convertPathToId('d.e', 'abc'), 'abc-d-e');
-        $this->assertEquals(Str::convertPathToId('d.e.', 'abc'), 'abc-d-e-');
-        $this->assertEquals(Str::convertPathToId('.d.e', 'abc'), 'abc--d-e');
+        $this->assertEquals(Str::convertNameToId('a'), 'a');
+        $this->assertEquals(Str::convertNameToId('a_b_c'), 'a_b_c');
+        $this->assertEquals(Str::convertNameToId('a.b.c'), 'a-b-c');
+        $this->assertEquals(Str::convertNameToId('a[b][c]'), 'a-b-c');
+        $this->assertEquals(Str::convertNameToId('a[b][c][]'), 'a-b-c');
+        $this->assertEquals(Str::convertNameToId('b.c', 'a'), 'a-b-c');
+        $this->assertEquals(Str::convertNameToId('b[c]', 'a'), 'a-b-c');
+        $this->assertEquals(Str::convertNameToId('b[c][]', 'a'), 'a-b-c');
+        $this->assertEquals(Str::convertNameToId('[b][c][]', 'a'), 'a-b-c');
     }
 
     public function test_convert_path_to_name()
     {
-        $this->assertEquals(Str::convertPathToName('abc.d.e'), '[abc][d][e]');
-        $this->assertEquals(Str::convertPathToName('d.e', 'abc'), 'abc[d][e]');
-        $this->assertEquals(Str::convertPathToName('d.e.', 'abc'), 'abc[d][e][]');
-        $this->assertEquals(Str::convertPathToName('.d.e', 'abc'), 'abc[][d][e]');
+        $this->assertEquals(Str::convertPathToName('a'), 'a');
+        $this->assertEquals(Str::convertPathToName('a.b.c'), 'a[b][c]');
+        $this->assertEquals(Str::convertPathToName('b.c', 'a'), 'a[b][c]');
+        $this->assertEquals(Str::convertPathToName('b.c.', 'a'), 'a[b][c]');
+        $this->assertEquals(Str::convertPathToName('.b.c', 'a'), 'a[b][c]');
+        $this->assertEquals(Str::convertPathToName('.b.c.', 'a'), 'a[b][c]');
     }
 
     public function test_dash_case()

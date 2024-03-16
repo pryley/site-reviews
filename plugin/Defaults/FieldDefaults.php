@@ -9,15 +9,11 @@ class FieldDefaults extends DefaultsAbstract
      * This is done before $sanitize and $enums.
      */
     public array $casts = [
-        'after' => 'string',
-        'description' => 'string',
-        'id' => 'string',
-        'label' => 'string',
+        'checked' => 'bool',
         'multiple' => 'bool',
-        'name' => 'string',
         'required' => 'bool',
+        'selected' => 'bool',
         'text' => 'string',
-        'type' => 'string',
     ];
 
     /**
@@ -25,25 +21,33 @@ class FieldDefaults extends DefaultsAbstract
      * This is done after $casts and before $enums.
      */
     public array $sanitize = [
+        'after' => 'text',
         'class' => 'attr-class',
+        'description' => 'text-html:a,br,code,span',
+        'id' => 'attr',
+        'label' => 'text-html:a,code',
+        'name' => 'attr',
         'options' => 'array-consolidate',
+        'type' => 'attr',
     ];
 
     protected function defaults(): array
     {
         return [
             'after' => '',
+            'checked' => false,
             'class' => '',
             'description' => '',
             'id' => '',
-            'label' => '',  // this value is likely a generated HTML string
+            'label' => '',
             'multiple' => false,
             'name' => '',
             'options' => [],
             'required' => false,
-            'text' => '', // this value is likely a generated HTML string
+            'selected' => false,
+            'text' => '', // this value could be a HTML string
             'type' => '',
-            'value' => '', // this value can also be an array
+            'value' => '', // this value could be either an array or string
         ];
     }
 }

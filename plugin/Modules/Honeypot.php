@@ -11,17 +11,17 @@ class Honeypot
 {
     public function build(string $formId): string
     {
-        $honeypot = new Field([
+        $field = new Field([
             'class' => 'glsr-input glsr-input-text',
             'label' => esc_html__('Your review', 'site-reviews'),
             'name' => $this->hash($formId),
             'type' => 'text',
         ]);
-        $honeypot->id = "{$honeypot->id}-{$formId}";
-        return glsr(Builder::class)->div([
+        $field->id = "{$field->id}-{$formId}";
+        return $field->builder()->div([
             'class' => glsr(Style::class)->classes('field'),
             'style' => 'display:none;',
-            'text' => $honeypot->getFieldLabel().$honeypot->getField(),
+            'text' => $field->buildFieldLabel().$field->buildFieldElement(),
         ]);
     }
 

@@ -13,14 +13,14 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
  */
 class BuilderTest extends \WP_UnitTestCase
 {
-    public function set_up()
+    public function set_up(): void
     {
         parent::set_up();
         // Remove styled element classes
-        glsr(Compatibility::class)->removeHook('site-reviews/builder', 'modifyBuilder', PublicController::class);
+        // glsr(Compatibility::class)->removeHook('site-reviews/builder', 'modifyBuilder', PublicController::class);
     }
 
-    public function test_build_html_element()
+    public function test_build_html_element(): void
     {
         $this->assertEquals('<span></span>', $this->builder()->span());
         $this->assertEquals('<span>foo</span>', $this->builder()->span('foo'));
@@ -46,7 +46,7 @@ class BuilderTest extends \WP_UnitTestCase
         );
     }
 
-    public function test_build_input()
+    public function test_build_input(): void
     {
         $this->assertEquals(
             '<input type="text" value="" />',
@@ -72,7 +72,7 @@ class BuilderTest extends \WP_UnitTestCase
         );
     }
 
-    public function test_build_input_choice()
+    public function test_build_input_choice(): void
     {
         $this->assertEquals(
             '<input type="checkbox" id="foo" name="foo" value="" />',
@@ -97,11 +97,11 @@ class BuilderTest extends \WP_UnitTestCase
         );
     }
 
-    public function test_build_input_choices()
+    public function test_build_input_choices(): void
     {
         $this->assertEquals(
-            '<label for="foo">'.
-                '<input type="checkbox" id="foo" name="foo" value="a" /> A'.
+            '<label for="foo-1">'.
+                '<input type="checkbox" id="foo-1" name="foo" value="a" /> A'.
             '</label>',
             $this->builder()->input([
                 'id' => 'foo',
@@ -131,11 +131,11 @@ class BuilderTest extends \WP_UnitTestCase
         );
     }
 
-    public function test_build_input_choices_where_value_determines_checked()
+    public function test_build_input_choices_where_value_determines_checked(): void
     {
         $this->assertEquals(
-            '<label for="foo">'.
-                '<input type="checkbox" id="foo" name="foo" value="a" /> A'.
+            '<label for="foo-1">'.
+                '<input type="checkbox" id="foo-1" name="foo" value="a" /> A'.
             '</label>',
             $this->builder()->input([
                 'id' => 'foo',
@@ -188,7 +188,7 @@ class BuilderTest extends \WP_UnitTestCase
         );
     }
 
-    public function test_build_input_with_invalid_type()
+    public function test_build_input_with_invalid_type(): void
     {
         $this->assertEquals(
             '<label for="foo">bar</label>'.
@@ -203,7 +203,7 @@ class BuilderTest extends \WP_UnitTestCase
         );
     }
 
-    public function test_build_select()
+    public function test_build_select(): void
     {
         $this->assertEquals(
             '<label for="foo">Select one</label>'.
@@ -253,7 +253,7 @@ class BuilderTest extends \WP_UnitTestCase
         );
     }
 
-    public function test_build_textarea()
+    public function test_build_textarea(): void
     {
         $this->assertEquals(
             '<label for="foo">bar</label>'.

@@ -49,7 +49,7 @@ abstract class Tag implements TagContract
 
     public function isHidden(string $path = ''): bool
     {
-        $isHidden = in_array($this->hideOption(), $this->args->hide);
+        $isHidden = in_array($this->hideOption(), $this->args->cast('hide', 'array'));
         return ($isHidden && !$this->isRaw()) || !$this->isEnabled($path);
     }
 

@@ -2,46 +2,27 @@
 
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
-use GeminiLabs\SiteReviews\Arguments;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Html\Form;
-use GeminiLabs\SiteReviews\Modules\Html\FormFields;
+use GeminiLabs\SiteReviews\Modules\Html\ReviewForm;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
-use GeminiLabs\SiteReviews\Modules\Sanitizer;
-use GeminiLabs\SiteReviews\Modules\Style;
 
 class SiteReviewsFormShortcode extends Shortcode
 {
-    /** @var Arguments */
-    protected $with;
-
     public function buildTemplate(): string
     {
         if (!is_user_logged_in() && glsr_get_option('general.require.login', false, 'bool')) {
             $this->debug();
             return $this->loginOrRegister();
         }
-        $this->with = $this->with();
-        $fields = (new FormFields($this->args, $this->with))->form();
-        $this->debug(compact('fields'));
-        return glsr(Template::class)->build('templates/reviews-form', [
-            'args' => $this->args,
-            'context' => [
-                'class' => $this->getClasses(),
-                'fields' => $this->buildTemplateFieldTags($fields),
-                'id' => '', // @deprecated in v5.0
-                'response' => $this->buildTemplateTag('response'),
-                'submit_button' => $this->buildTemplateTag('submit_button'),
-            ],
-            'form' => $fields,
-        ]);
+        $form = new ReviewForm($this->args);
+        $this->debug(compact('form'));
+        return $form->build();
     }
 
     /**
      * @param string $url
      * @param string $redirect
-     * @param bool $forceReauth
+     * @param bool   $forceReauth
      * @filter login_url
      */
     public function filterLoginUrl($url, $redirect, $forceReauth): string
@@ -109,47 +90,19 @@ class SiteReviewsFormShortcode extends Shortcode
         return $url;
     }
 
-    protected function buildTemplateFieldTags(Form $fields): string
-    {
-        $rendered = $fields->__toString();
-        return glsr()->filterString('form/build/fields', $rendered, $this->with, $this);
-    }
-
-    protected function buildTemplateTag(string $tag): string
-    {
-        $args = $this->args;
-        $className = Helper::buildClassName(['form', $tag, 'tag'], 'Modules\Html\Tags');
-        $field = class_exists($className)
-            ? glsr($className, compact('tag', 'args'))->handleFor('form', null, $this->with)
-            : '';
-        return glsr()->filterString("form/build/{$tag}", $field, $this->with, $this);
-    }
-
     protected function debug(array $data = []): void
     {
-        if (!empty($this->args['debug']) && !empty($data['fields'])) {
-            $fields = $data['fields'];
+        if (!empty($this->args['debug']) && !empty($data['form'])) {
+            $form = $data['form'];
             $data = [
                 'fields' => [
-                    'hidden' => $fields->hidden(),
-                    'visible' => $fields->visible(),
+                    'hidden' => $form->hidden(),
+                    'visible' => $form->visible(),
                 ],
-                'with' => $this->with->toArray(),
+                'session' => $form->session()->toArray(),
             ];
         }
         parent::debug($data);
-    }
-
-    protected function getClasses(): string
-    {
-        $classes = ['glsr-review-form'];
-        $classes[] = glsr(Style::class)->classes('form');
-        $classes[] = $this->args['class'];
-        if (!empty($this->with->errors)) {
-            $classes[] = glsr(Style::class)->validation('form_error');
-        }
-        $classes = implode(' ', $classes);
-        return glsr(Sanitizer::class)->sanitizeAttrClass($classes);
     }
 
     protected function hideOptions(): array
@@ -188,15 +141,5 @@ class SiteReviewsFormShortcode extends Shortcode
         $postIds = explode(',', $postIds);
         $postIds = array_filter($postIds, 'is_numeric'); // don't use post_types here
         return implode(',', $postIds);
-    }
-
-    protected function with(): Arguments
-    {
-        return glsr()->args([
-            'errors' => glsr()->sessionPluck('form_errors', []),
-            'message' => glsr()->sessionPluck('form_message', ''),
-            'required' => glsr_get_option('forms.required', []),
-            'values' => glsr()->sessionPluck('form_values', []),
-        ]);
     }
 }

@@ -9,13 +9,9 @@
         <?php endforeach; ?>
     </nav>
     <form class="glsr-form" action="options.php" enctype="multipart/form-data" method="post">
-        <?php foreach ($tabs as $id => $title) : ?>
-        <div class="glsr-nav-view ui-tabs-hide" id="<?= $id; ?>">
-            <?= $settings->buildFields($id); ?>
-        </div>
-        <?php endforeach; ?>
-        <input type="hidden" name="_active_tab">
+        <input type="hidden" name="_active_tab" />
         <?php settings_fields(glsr()->id); ?>
+        <?php echo $fields; ?>
         <?php submit_button(); ?>
     </form>
 </div>

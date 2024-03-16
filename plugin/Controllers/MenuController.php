@@ -11,7 +11,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Html\Settings;
+use GeminiLabs\SiteReviews\Modules\Html\SettingForm;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 class MenuController extends AbstractController
@@ -143,7 +143,7 @@ class MenuController extends AbstractController
             unset($tabs['licenses']);
         }
         $this->renderPage('settings', [
-            'settings' => glsr(Settings::class),
+            'fields' => glsr(SettingForm::class, ['groups' => $tabs])->build(),
             'tabs' => $tabs,
         ]);
     }

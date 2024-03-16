@@ -23,6 +23,24 @@ add_filter('site-reviews/build/template/review', function ($template) {
 });
 
 add_action('plugins_loaded', function () {
+    if (!glsr()->filterBool('support/deprecated/v7', true)) {
+        return;
+    }
+
+    /**
+     * @since 7.0.0
+     */
+    add_filter('site-reviews/review-form/fields/all', function ($fields, $args) {
+        if (has_filter('site-reviews/review-form/fields/normalized')) {
+            $message = 'The "site-reviews/review-form/fields/normalized" hook has been deprecated. Please use the "site-reviews/review-form/fields/all" hook instead.';
+            glsr()->append('deprecated', $message);
+            return apply_filters('site-reviews/review-form/fields/normalized', $fields, $args);
+        }
+        return $fields;
+    }, 10, 2);
+});
+
+add_action('plugins_loaded', function () {
     if (!glsr()->filterBool('support/deprecated/v6', true)) {
         return;
     }

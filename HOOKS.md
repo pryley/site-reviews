@@ -9,6 +9,7 @@
     site-reviews/database/sql/<handle>                          (string $sql)
     site-reviews/defaults                                       (Contracts\DefaultsContract $defaults, string $hook, string $method, array $values)
     site-reviews/export/cleanup                                 ()
+    site-reviews/field/<original_type>                          (Modules\Html\Field $field)
     site-reviews/filter                                         (string $hook, array $args)
     site-reviews/import/settings/extra                          (array $extra)
     site-reviews/get/review                                     (Review $review, int $reviewId)
@@ -76,7 +77,7 @@
     site-reviews/builder/<field_type>/args                      (array $args, Contracts\BuilderContract $builder): array
     site-reviews/builder/<tag>/args                             (array $args, Contracts\BuilderContract $builder): array
     site-reviews/builder/enable/optgroup                        (bool $enable): bool
-    site-reviews/builder/field/<field_type>                     (string $className): string
+    site-reviews/builder/field/<field_type>                     (string $className, Contracts\FieldContract $field): string
     site-reviews/builder/result                                 (string $result, Contracts\BuilderContract $builder): string
     site-reviews/capabilities                                   (array $capabilities): array
     site-reviews/captcha/language                               (string $locale): string
@@ -91,7 +92,7 @@
     site-reviews/create/review-values                           (array $reviewValues, Commands\CreateReview $command): array
     site-reviews/dashboard/widget/data                          (array $data): array
     site-reviews/database/sql/<handle>                          (string $sql): string
-    site-reviews/database/tables.                               (array $tables): array
+    site-reviews/database/tables                                (array $tables): array
     site-reviews/deactivate/insight                             (array $insight): array
     site-reviews/deactivate/insight/display                     (array $insight): array
     site-reviews/deactivate/plugins                             (array $plugins): array
@@ -128,16 +129,20 @@
     site-reviews/enqueue/public/inline-styles                   (string $css): string
     site-reviews/enqueue/public/localize                        (array $variables): array
     site-reviews/enqueue/public/localize/ajax-pagination        (array $selectors): array
-    site-reviews/field/<field_type>                             (array $field): array
     site-reviews/export/settings/extra                          (array $extra): array
     site-reviews/flyoutmenu/enabled                             (bool $bool): bool
     site-reviews/flyoutmenu/items                               (array $items): array
-    site-reviews/form/build/<tag_or_field_key>                  (string $field, Arguments $with, Modules\Html\Partials\SiteReviewsForm $partial): string
+    site-reviews/form/build/fields                              (string $rendered, Modules\Html\Form $form): string
+    site-reviews/form/build/response                            (string $rendered, Modules\Html\Form $form): string
+    site-reviews/form/build/submit_button                       (string $rendered, Modules\Html\Form $form): string
     site-reviews/gamipress/posts/post_types                     (array $postTypes): array
     site-reviews/interpolate/<template_path>                    (array $context, string $template, array $data): array
     site-reviews/is-local-server                                (bool $bool): bool
-    site-reviews/metabox/fields                                 (array $fields, Review $review): array
-    site-reviews/metabox/fields/order                           (array $order): array
+    site-reviews/metabox-form/fields                            (array $fields, Contracts\FormContract $form, Review $review): array
+    site-reviews/metabox-form/fields/all                        (Contracts\FieldContract[] $fields, Contracts\FormContract $form): array
+    site-reviews/metabox-form/fields/hidden                     (Contracts\FieldContract[] $fields, Contracts\FormContract $form): array
+    site-reviews/metabox-form/fields/order                      (array $order): array
+    site-reviews/metabox-form/fields/visible                    (Contracts\FieldContract[] $fields, Contracts\FormContract $form): array
     site-reviews/notices                                        (array $notices): array
     site-reviews/notification/emails                            (array $emails, Review $review): array
     site-reviews/notification/tag/<tag>                         (string $value, Review $review): string
@@ -170,7 +175,7 @@
     site-reviews/ratings/grouped                                (array $ratings, string $metaGroup, array $args): array
     site-reviews/render/view                                    (string $view, array $data): string
     site-reviews/rendered/field                                 (string $field, string $fieldType, array $field): string
-    site-reviews/rendered/field/classes                         (array $classes, array $field): array
+    site-reviews/rendered/field/classes                         (array $classes, Modules\Html\Field $field): array
     site-reviews/rendered/partial                               (string $partial, string $partialPath, array $args): string
     site-reviews/rendered/partial/<partial_path>                (string $partial, array $args): string
     site-reviews/rendered/template                              (string $template, string $templatePath, array $data): string
@@ -180,9 +185,10 @@
     site-reviews/rest-api/reviews/schema/properties             (array $properties): array
     site-reviews/rest-api/summary/parameters                    (array $parameters): array
     site-reviews/rest-api/summary/schema/properties             (array $properties): array
-    site-reviews/review-form/fields                             (array $fields, Arguments $args): array
-    site-reviews/review-form/fields/hidden                      (array $fields, Arguments $args): array
-    site-reviews/review-form/fields/normalized                  (array $fields, Arguments $args): array
+    site-reviews/review-form/fields                             (array[] $fields, Contracts\FormContract $form): array
+    site-reviews/review-form/fields/all                         (Modules\Html\Field[] $fields, Contracts\FormContract $form): array
+    site-reviews/review-form/fields/hidden                      (Modules\Html\Field[] $fields, Contracts\FormContract $form): array
+    site-reviews/review-form/fields/visible                     (Modules\Html\Field[] $fields, Contracts\FormContract $form): array
     site-reviews/review-form/order                              (array $order): array
     site-reviews/review-form/referer                            (string $referer): string
     site-reviews/review-table/clauses                           (array $clauses, array $postClauses, \WP_Query $query): array
