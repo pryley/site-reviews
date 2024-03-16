@@ -11,7 +11,7 @@ abstract class AbstractSanitizer
     public function __construct($value, array $args = [], array $values = [])
     {
         $args = array_pad($args, 2, ''); // minimum of 2 args
-        $this->args = array_splice($args, 0, 2); // maximum of 2 args
+        $this->args = $args;
         $this->value = $value;
         $this->values = $values;
     }

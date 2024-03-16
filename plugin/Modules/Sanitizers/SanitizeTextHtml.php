@@ -6,7 +6,7 @@ class SanitizeTextHtml extends StringSanitizer
 {
     public function run(): string
     {
-        $allowed = [
+        $allowed = array_filter($this->args) ?: [
             'a', 'em', 'mark', 'strong',
         ];
         $allowedHtml = wp_kses_allowed_html('post');
