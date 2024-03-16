@@ -4,13 +4,7 @@ namespace GeminiLabs\SiteReviews\Contracts;
 
 interface MetaboxContract
 {
-    /**
-     * @param \WP_Post $post
-     */
-    public function register($post): void;
+    public function register(\WP_Post $post): void;
 
-    /**
-     * @param \WP_Post $post
-     */
-    public function render($post): void;
+    public function render(\WP_Post $post): void;
 }

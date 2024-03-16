@@ -10,12 +10,12 @@ use GeminiLabs\SiteReviews\Review;
 
 class AuthorMetabox implements MetaboxContract
 {
-    /**
-     * @param \WP_Post $post
-     */
-    public function register($post): void
+    public function register(\WP_Post $post): void
     {
-        if (!Review::isReview($post) || !glsr()->can('edit_others_posts')) {
+        if (!Review::isReview($post)) {
+            return;
+        }
+        if (!glsr()->can('edit_others_posts')) {
             return;
         }
         $id = glsr()->post_type.'-authordiv';
@@ -23,30 +23,24 @@ class AuthorMetabox implements MetaboxContract
         add_meta_box($id, $title, [$this, 'render'], null, 'side');
     }
 
-    /**
-     * @param \WP_Post $post
-     */
-    public function render($post): void
+    public function render(\WP_Post $post): void
     {
-        $placeholder = esc_html_x('Author Unknown', 'admin-text', 'site-reviews');
-        $selected = $placeholder;
-        $value = (empty($post->ID) ? get_current_user_id() : $post->post_author);
+        $selected = esc_html_x('Author Unknown', 'admin-text', 'site-reviews');
+        $value = $post->post_author ?: get_current_user_id();
         if ($user = get_user_by('id', $value)) {
             $selected = glsr(Sanitizer::class)->sanitizeUserName($user->display_name);
         }
         echo glsr(MetaboxBuilder::class)->label([
             'class' => 'screen-reader-text',
             'for' => 'post_author_override',
-            'text' => _x('Author', 'admin-text', 'site-reviews'),
+            'text' => esc_html_x('Author', 'admin-text', 'site-reviews'),
         ]);
         echo glsr()->build('partials/listtable/filter', [
             'action' => 'filter-author',
             'class' => '',
             'id' => 'post_author_override',
             'name' => 'post_author_override',
-            'options' => [0 => $placeholder],
-            'placeholder' => $placeholder,
-            'selected' => esc_attr($selected),
+            'selected' => $selected,
             'value' => Cast::toInt($value),
         ]);
     }

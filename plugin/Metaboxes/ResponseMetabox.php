@@ -10,22 +10,20 @@ use GeminiLabs\SiteReviews\Review;
 
 class ResponseMetabox implements MetaboxContract
 {
-    /**
-     * @param \WP_Post $post
-     */
-    public function register($post): void
+    public function register(\WP_Post $post): void
     {
-        if (Review::isEditable($post) && glsr()->can('respond_to_post', $post->ID)) {
-            $id = glsr()->post_type.'-responsediv';
-            $title = _x('Respond Publicly', 'admin-text', 'site-reviews');
-            add_meta_box($id, $title, [$this, 'render'], null, 'normal', 'high');
+        if (!Review::isEditable($post)) {
+            return;
         }
+        if (!glsr()->can('respond_to_post', $post->ID)) {
+            return;
+        }
+        $id = glsr()->post_type.'-responsediv';
+        $title = _x('Respond Publicly', 'admin-text', 'site-reviews');
+        add_meta_box($id, $title, [$this, 'render'], null, 'normal', 'high');
     }
 
-    /**
-     * @param \WP_Post $post
-     */
-    public function render($post): void
+    public function render(\WP_Post $post): void
     {
         wp_nonce_field('response', '_nonce-response', false);
         glsr()->render('partials/editor/metabox-response', [

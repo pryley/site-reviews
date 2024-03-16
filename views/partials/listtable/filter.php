@@ -1,15 +1,19 @@
 <?php defined('ABSPATH') || exit; ?>
 
-<div id="<?= esc_attr($id); ?>" class="glsr-filter <?= sanitize_html_class($class); ?>" role="combobox" aria-haspopup="true" aria-expanded="false" data-action="<?= esc_attr($action); ?>">
-    <input class="glsr-filter__value" type="hidden" name="<?= esc_attr($name); ?>" value="<?= esc_attr($value); ?>">
-    <span class="glsr-filter__selected" role="textbox" aria-readonly="true" tabindex="0" title="<?= esc_attr($selected); ?>"><?= esc_html($selected); ?></span>
+<div id="<?php echo esc_attr($id); ?>" class="glsr-filter <?php echo sanitize_html_class($class); ?>" role="combobox" aria-haspopup="true" aria-expanded="false" data-action="<?php echo esc_attr($action); ?>">
+    <input type="hidden" class="glsr-filter__value" 
+        name="<?php echo esc_attr($name); ?>" 
+        value="<?php echo esc_attr($value); ?>"
+    />
+    <span class="glsr-filter__selected" role="textbox" aria-readonly="true" tabindex="0" title="<?php echo esc_attr($selected); ?>"><?php echo esc_html($selected); ?></span>
     <div class="glsr-filter__dropdown">
-        <input class="glsr-filter__search" type="search" role="searchbox"
-            aria-autocomplete="list" aria-controls="<?= esc_attr($id); ?>-listbox" aria-label="<?= esc_attr_x('Search', 'admin-text', 'site-reviews'); ?>"
+        <input type="search" class="glsr-filter__search"
+            aria-autocomplete="list" aria-controls="<?php echo esc_attr($id); ?>-listbox" aria-label="<?php echo esc_attr_x('Search', 'admin-text', 'site-reviews'); ?>"
             autocapitalize="none" autocomplete="off" autocorrect="off" spellcheck="false"
-            placeholder="<?= esc_attr_x('Search...', 'admin-text', 'site-reviews'); ?>"
+            placeholder="<?php echo esc_attr_x('Search...', 'admin-text', 'site-reviews'); ?>"
+            role="searchbox"
             tabindex="0"
-        >
-        <div id="<?= esc_attr($id); ?>-listbox" class="glsr-filter__results" role="listbox" aria-expanded="false" aria-hidden="true"></div>
+        />
+        <div id="<?php echo esc_attr($id); ?>-listbox" class="glsr-filter__results" role="listbox" aria-expanded="false" aria-hidden="true"></div>
     </div>
 </div>

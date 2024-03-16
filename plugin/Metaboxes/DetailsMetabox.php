@@ -30,10 +30,7 @@ class DetailsMetabox implements MetaboxContract
         return array_values($fields);
     }
 
-    /**
-     * @param \WP_Post $post
-     */
-    public function register($post): void
+    public function register(\WP_Post $post): void
     {
         if (!Review::isReview($post)) {
             return;
@@ -43,10 +40,7 @@ class DetailsMetabox implements MetaboxContract
         add_meta_box($id, $title, [$this, 'render'], null, 'normal', 'high');
     }
 
-    /**
-     * @param \WP_Post $post
-     */
-    public function render($post): void
+    public function render(\WP_Post $post): void
     {
         $review = glsr(ReviewManager::class)->get($post->ID);
         glsr()->render('partials/editor/metabox-details', [

@@ -7,25 +7,19 @@ use GeminiLabs\SiteReviews\Review;
 
 class TaxonomyMetabox implements MetaboxContract
 {
-    /**
-     * @param \WP_Post $post
-     */
-    public function register($post): void
+    public function register(\WP_Post $post): void
     {
         // This is done with register_taxonomy
     }
 
-    /**
-     * @param \WP_Post $post
-     */
-    public function render($post): void
+    public function render(\WP_Post $post): void
     {
-        if (Review::isReview($post)) {
-            glsr()->render('partials/editor/metabox-categories', [
-                'post' => $post,
-                'tax_name' => glsr()->taxonomy,
-                'taxonomy' => get_taxonomy(glsr()->taxonomy),
-            ]);
+        if (!Review::isReview($post)) {
+            return;
         }
+        glsr()->render('partials/editor/metabox-categories', [
+            'post' => $post,
+            'taxonomy' => get_taxonomy(glsr()->taxonomy),
+        ]);
     }
 }
