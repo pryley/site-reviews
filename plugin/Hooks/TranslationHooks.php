@@ -12,7 +12,7 @@ class TranslationHooks extends AbstractHooks
         add_action('after_setup_theme', [$this, 'translatePlugin'], 20);
         $this->hook(TranslationController::class, [
             ['filterBulkUpdateMessages', 'bulk_post_updated_messages', 10, 2],
-            ['filterPostStates', 'display_post_states', 10, 2],
+            ['filterPostStates', 'display_post_states'],
             ['filterPostStatusLabels', 'gettext_default', 10, 2],
             ['translatePostStatusLabels', 'current_screen'],
             ['translatePostStatusLabelsInScripts', 'admin_print_scripts-post.php'],

@@ -182,7 +182,7 @@ abstract class ElementorWidget extends Widget_Base
 
     protected function set_custom_size_unit(array $units): array
     {
-        if (version_compare(ELEMENTOR_VERSION, '3.10.0', '>=')) {
+        if (version_compare(\ELEMENTOR_VERSION, '3.10.0', '>=')) {
             $units[] = 'custom';
         }
         return $units;

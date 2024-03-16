@@ -95,7 +95,7 @@ class TranslationController
      * @param string[] $states
      * @filter display_post_states
      */
-    public function filterPostStates(array $states, \WP_Post $post): array
+    public function filterPostStates(array $states): array
     {
         if (!$this->canModifyTranslation()) {
             return $states;

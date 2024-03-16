@@ -101,6 +101,11 @@ class Field extends \ArrayObject implements FieldContract
         ]);
     }
 
+    public function exchangeArgs(array $args): void
+    {
+        $this->exchangeArray($args);
+    }
+
     public function exchangeTag(string $tag): void
     {
         $this->tag = $tag;

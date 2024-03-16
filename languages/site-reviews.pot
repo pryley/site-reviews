@@ -2953,6 +2953,10 @@ msgctxt "admin-text"
 msgid "Author"
 msgstr ""
 
+#: plugin/Metaboxes/DashboardMetabox.php:17
+msgid "Site Reviews Overview"
+msgstr ""
+
 #: plugin/Metaboxes/DashboardMetabox.php:35
 msgctxt "admin-text"
 msgid "in total"
@@ -4105,17 +4109,17 @@ msgctxt "admin-text"
 msgid "Alignment"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:164, plugin/Integrations/Elementor/ElementorReviewWidget.php:80, plugin/Integrations/Elementor/ElementorSummaryWidget.php:138, plugin/Integrations/JetWooBuilder/Controller.php:48
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:164, plugin/Integrations/Elementor/ElementorReviewWidget.php:80, plugin/Integrations/Elementor/ElementorSummaryWidget.php:138, plugin/Integrations/JetWooBuilder/Controller.php:47
 msgctxt "admin-text"
 msgid "Start"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:168, plugin/Integrations/Elementor/ElementorReviewWidget.php:84, plugin/Integrations/Elementor/ElementorSummaryWidget.php:142, plugin/Integrations/JetWooBuilder/Controller.php:52
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:168, plugin/Integrations/Elementor/ElementorReviewWidget.php:84, plugin/Integrations/Elementor/ElementorSummaryWidget.php:142, plugin/Integrations/JetWooBuilder/Controller.php:51
 msgctxt "admin-text"
 msgid "Center"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:172, plugin/Integrations/Elementor/ElementorReviewWidget.php:88, plugin/Integrations/Elementor/ElementorSummaryWidget.php:146, plugin/Integrations/JetWooBuilder/Controller.php:56
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:172, plugin/Integrations/Elementor/ElementorReviewWidget.php:88, plugin/Integrations/Elementor/ElementorSummaryWidget.php:146, plugin/Integrations/JetWooBuilder/Controller.php:55
 msgctxt "admin-text"
 msgid "End"
 msgstr ""

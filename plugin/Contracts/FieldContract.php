@@ -41,6 +41,8 @@ interface FieldContract
 
     public function buildFieldLabel(): string;
 
+    public function exchangeArgs(array $args): void;
+
     public function exchangeTag(string $tag): void;
 
     public function fieldElement(): FieldElementContract;

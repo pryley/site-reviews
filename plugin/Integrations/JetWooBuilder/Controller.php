@@ -24,7 +24,6 @@ class Controller extends AbstractController
      */
     public function modifyWidgetControls(Widget_Base $widget): void
     {
-        $stars = $this->stars();
         $widget->get_controls();
         $widget->remove_control('tab_rating_all');
         $widget->remove_control('tab_rating_rated');
@@ -62,14 +61,5 @@ class Controller extends AbstractController
                 ],
             ]);
         }
-    }
-
-    protected function stars(): array
-    {
-        $config = glsr()->config('inline-styles');
-        $empty = $config[':star-empty'] ?? glsr()->url('assets/images/stars/default/star-empty.svg');
-        $half = $config[':star-half'] ?? glsr()->url('assets/images/stars/default/star-half.svg');
-        $full = $config[':star-full'] ?? glsr()->url('assets/images/stars/default/star-full.svg');
-        return compact('empty', 'half', 'full');
     }
 }

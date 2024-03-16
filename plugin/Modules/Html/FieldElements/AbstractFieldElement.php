@@ -2,20 +2,20 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\FieldElements;
 
+use GeminiLabs\SiteReviews\Contracts\FieldContract;
 use GeminiLabs\SiteReviews\Contracts\FieldElementContract;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Attributes;
-use GeminiLabs\SiteReviews\Modules\Html\Field;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 abstract class AbstractFieldElement implements FieldElementContract
 {
-    protected Field $field;
+    protected FieldContract $field;
 
-    public function __construct(Field $field)
+    public function __construct(FieldContract $field)
     {
         $this->field = $field;
     }
@@ -41,7 +41,7 @@ abstract class AbstractFieldElement implements FieldElementContract
         $merged = array_merge(wp_parse_args($args, $this->defaults()), $this->required());
         $merged['class'] = implode(' ', $this->mergeAttribute('class', ' '));
         $merged['style'] = implode(';', $this->mergeAttribute('style', ';'));
-        $this->field->exchangeArray($merged);
+        $this->field->exchangeArgs($merged);
         $this->field->exchangeTag($this->tag());
         $this->normalize();
     }

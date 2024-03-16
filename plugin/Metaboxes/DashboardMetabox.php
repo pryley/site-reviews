@@ -14,7 +14,7 @@ class DashboardMetabox
     public function register(): void
     {
         $id = glsr()->prefix.'dashboard_widget';
-        $title = __('Site Reviews Overview', 'site-reviews-actions');
+        $title = __('Site Reviews Overview', 'site-reviews');
         wp_add_dashboard_widget($id, $title, [$this, 'render']);
     }
 

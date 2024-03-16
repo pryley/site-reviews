@@ -184,7 +184,7 @@ class Rating
         if (isset($ratingCounts[0]) && glsr()->filterBool('rating/ignore-zero-stars', true)) {
             $ratingCounts[0] = 0; // ignore 0-star ratings when calculating the average and ranking
         }
-        return array_sum($ratingCounts);
+        return (int) array_sum($ratingCounts);
     }
 
     protected function totalSum(array $ratingCounts): int
