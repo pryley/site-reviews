@@ -20,7 +20,7 @@ class Color extends AbstractFieldElement
                 'type' => 'text',
             ],
         ];
-        return array_filter($locations[$this->field->location()] ?? []);
+        return $locations[$this->field->location()] ?? [];
     }
 
     public function tag(): string

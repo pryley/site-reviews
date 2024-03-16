@@ -84,7 +84,7 @@ class BuilderTest extends \WP_UnitTestCase
         );
         $this->assertEquals(
             '<label for="foo">'.
-                '<input type="checkbox" id="foo" name="foo" value="1" checked /> bar'.
+                '<input type="checkbox" id="foo" checked name="foo" value="1" /> bar'.
             '</label>',
             $this->builder()->input([
                 'checked' => true,
@@ -150,7 +150,7 @@ class BuilderTest extends \WP_UnitTestCase
         );
         $this->assertEquals(
             '<label for="foo-1">'.
-                '<input type="checkbox" id="foo-1" name="foo" value="a" checked /> A'.
+                '<input type="checkbox" id="foo-1" checked name="foo" value="a" /> A'.
             '</label>'.
             '<label for="foo-2">'.
                 '<input type="checkbox" id="foo-2" name="foo" value="b" /> B'.
@@ -169,10 +169,10 @@ class BuilderTest extends \WP_UnitTestCase
         );
         $this->assertEquals(
             '<label for="foo-1">'.
-                '<input type="checkbox" id="foo-1" name="foo" value="a" checked /> A'.
+                '<input type="checkbox" id="foo-1" checked name="foo" value="a" /> A'.
             '</label>'.
             '<label for="foo-2">'.
-                '<input type="checkbox" id="foo-2" name="foo" value="b" checked /> B'.
+                '<input type="checkbox" id="foo-2" checked name="foo" value="b" /> B'.
             '</label>',
             $this->builder()->input([
                 'id' => 'foo',

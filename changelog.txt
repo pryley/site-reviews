@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 6.11.8 (2024-03-10) =
+
+- Fixed license key sanitization
+- Fixed WooRewards integration
+
 = 6.11.7 (2024-03-09) =
 
 - Fixed a Cross Site Scripting (XSS) vulnerability caused by users saving malicious javascript text to their first/last/display name in their WordPress user profile.
