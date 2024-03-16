@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Sanitizers;
 
+use GeminiLabs\SiteReviews\Helpers\Str;
+
 /**
  * This allows lowercase alphannumeric characters, dashes, and underscores.
  * A value is generated if result is empty.
@@ -12,8 +14,8 @@ class SanitizeIdHash extends StringSanitizer
     {
         $value = $this->value();
         if (empty($value)) {
-            require_once ABSPATH.WPINC.'/pluggable.php';
-            $value = glsr()->prefix.substr(wp_hash(serialize($this->values), 'nonce'), -12, 8);
+            $value = Str::hash(serialize($this->values), 8);
+            $value = Str::prefix($value, glsr()->prefix);
         }
         return $value;
     }

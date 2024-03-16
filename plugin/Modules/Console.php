@@ -251,13 +251,12 @@ class Console
 
     protected function setLogFile(): void
     {
-        require_once ABSPATH.WPINC.'/pluggable.php';
         $uploads = wp_upload_dir();
         if (!file_exists($uploads['basedir'])) {
             $uploads = wp_upload_dir(null, true, true); // maybe the site has been moved, so refresh the cached uploads path
         }
         $base = trailingslashit($uploads['basedir'].'/'.glsr()->id);
-        $this->file = $base.'logs/'.sanitize_file_name('console-'.wp_hash(glsr()->id).'.log');
+        $this->file = $base.'logs/'.sanitize_file_name('console-'.Str::hash(glsr()->id).'.log');
         $files = [
             $base.'index.php' => '<?php',
             $base.'logs/.htaccess' => 'deny from all',

@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 class Router
@@ -148,8 +149,8 @@ class Router
             return true;
         }
         $ipAddress = Helper::getIpAddress();
-        $hash = substr(wp_hash($ipAddress), 0, 13);
-        $lock = glsr()->prefix.$hash;
+        $hash = Str::hash($ipAddress, 13);
+        $lock = Str::prefix($hash, glsr()->prefix);
         if (get_transient($lock)) {
             return false; // is parallel request
         }

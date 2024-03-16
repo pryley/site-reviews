@@ -63,6 +63,16 @@ class StrTest extends WP_UnitTestCase
         $this->assertEquals(Str::fallback([], '2'), '2');
     }
 
+    public function test_hash()
+    {
+        require_once ABSPATH.WPINC.'/pluggable.php';
+        $hash = wp_hash('123', 'nonce');
+        $this->assertEquals(Str::hash('123'), $hash);
+        $this->assertEquals(Str::hash('123', 0), substr($hash, 0, 8));
+        $this->assertEquals(Str::hash('123', 8), substr($hash, 0, 8));
+        $this->assertEquals(Str::hash('123', 12), substr($hash, 0, 12));
+    }
+
     public function test_join()
     {
         $this->assertEquals(Str::join(['1']), '1');

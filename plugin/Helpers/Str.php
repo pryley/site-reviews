@@ -60,6 +60,12 @@ class Str
             : Cast::toString($fallback);
     }
 
+    public static function hash(string $value, int $maxLength = 32): string
+    {
+        require_once ABSPATH.WPINC.'/pluggable.php';
+        return substr(wp_hash($value, 'nonce'), 0, max(8, $maxLength));
+    }
+
     public static function join(array $values, bool $quoted = false): string
     {
         return $quoted
