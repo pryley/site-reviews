@@ -219,34 +219,46 @@ class SanitizerTest extends \WP_UnitTestCase
     public function testSanitizeAttrStyle()
     {
         $sanitized = $this->sanitize('attr-style');
+        $sanitized[] = 'color:red';
+        $sanitized[] = 'color:red;';
+        $sanitized[] = 'color: red;';
+        $sanitized[] = 'color: #000';
+        $sanitized[] = 'color: #000;';
+        $sanitized[] = 'color: #000 !important;';
         $this->assertEquals($sanitized, [
             0 => '',
-            1 => 'abc',
-            2 => '1',
+            1 => '',
+            2 => '',
             3 => '',
-            4 => '13',
-            5 => '0',
-            6 => '13',
+            4 => '',
+            5 => '',
+            6 => '',
             7 => '',
-            8 => '1',
+            8 => '',
             9 => '',
-            10 => 'scriptvar x  23;/script',
-            11 => 'h3this is a title/h3',
-            12 => ';(nslookup hit-gx_wgukmocpc5c8dddd.comperl -e gethostbyname(&#039;hissstgxwgukmocpc5c80.me&#039;))',
-            13 => 'june 13, 1989',
-            14 => '03-12-2020',
-            15 => '0-0-2020',
-            16 => '2020',
-            17 => ' xx xx',
-            18 => '#axdex(tomorrow) 200 200% peter',
-            19 => 'this is true',
-            20 => 'single-review full-width&quot; onmouseover&quot;alert(69)',
-            21 => 'mattwordpress.org',
-            22 => 'https//wordpress.org',
-            23 => 'wordpress.org',
-            24 => 'www.wordpress.org',
+            10 => '',
+            11 => '',
+            12 => '',
+            13 => '',
+            14 => '',
+            15 => '',
+            16 => '',
+            17 => '',
+            18 => '',
+            19 => '',
+            20 => '',
+            21 => '',
+            22 => '',
+            23 => '',
+            24 => '',
             25 => 'https://wordpress.org',
-            26 => '-1',
+            26 => '',
+            27 => 'color:red',
+            28 => 'color:red;',
+            29 => 'color: red;',
+            30 => 'color: #000',
+            31 => 'color: #000;',
+            32 => 'color: #000 !important;',
         ]);
     }
 
@@ -1003,6 +1015,11 @@ class SanitizerTest extends \WP_UnitTestCase
             28 => '&lt;img src=x alert(55)&gt;',
             29 => '&lt;script src=https://attackersite.com/test.js&gt;',
         ]);
+        $sanitized = $this->sanitize('text-html:a,img', [$values[27], $values[28]]);
+        $this->assertEquals($sanitized, [
+            '<a id="xxx" href="https://apple.com" title="hello" target="_blank">Hello</a> this is a link and a link',
+            '&lt;img sr<img src="x">c=x alert(55)&gt;',
+        ]);
     }
 
     public function testSanitizeTextMultiline()
@@ -1275,6 +1292,7 @@ class SanitizerTest extends \WP_UnitTestCase
     {
         $values = $this->testValues;
         $values[] = 'Łukasz';
+        $values[] = 'မောင်မောင် အောင်မျိုး ကိုကိုဦး မိုးမြင့်သန္တာ';
         $sanitized = $this->sanitize('user-name', $values);
         $this->assertEquals($sanitized, [
             0 => '',
@@ -1305,6 +1323,7 @@ class SanitizerTest extends \WP_UnitTestCase
             25 => 'httpswordpress.org',
             26 => '-1',
             27 => 'Łukasz',
+            28 => 'မောင်မောင် အောင်မျိုး ကိုကိုဦး မိုးမြင့်သန္တာ',
         ]);
     }
 
