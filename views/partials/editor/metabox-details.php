@@ -1,6 +1,6 @@
 <?php defined('ABSPATH') || exit; ?>
 
-<div class="glsr-metabox-field">
+<div class="glsr-metabox-field" data-toggle="edit-details">
     <div class="glsr-label">
         <label><?php echo esc_html_x('Edit Details', 'admin-text', 'site-reviews'); ?></label>
     </div>

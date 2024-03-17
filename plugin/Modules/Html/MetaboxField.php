@@ -41,7 +41,7 @@ class MetaboxField extends Field
 
     protected function classAttrField(): string
     {
-        $type = $this->isChoiceField() ? '-choice' : "-{$this->original_type}";
+        $type = $this->isChoiceField() ? 'choice' : $this->original_type;
         return glsr(Sanitizer::class)->sanitizeAttrClass(
             "glsr-metabox-field glsr-field-{$type}"
         );

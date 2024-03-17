@@ -20,8 +20,8 @@ class MetaboxController extends AbstractController
     {
         $order = array_keys($config);
         $order = glsr()->filterArray('metabox-form/fields/order', $order);
-        $order = array_intersect_key(array_merge(array_flip($order), $config), $config);
-        return $order;
+        $ordered = array_intersect_key(array_merge(array_flip($order), $config), $config);
+        return $ordered;
     }
 
     /**
