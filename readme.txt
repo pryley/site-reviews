@@ -184,6 +184,29 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
+= 7.0.0 (2024-03-??) =
+
+- 🚨 Requires all installed addons to be updated!
+- 🚨 Requires at least PHP v7.4
+- 🚨 Requires at least WordPress v6.1
+- 🚨 Moved CSS variables from `:root {}` to `body {}`.
+- Added "Migrate Product Ratings" to the Import Roduct Reviews tool (allows third-party plugins to filter products by rating)
+- Added an example CSV file that can be downloaded on the Import Reviews tool
+- Added Dashboard widget
+- Added exponential-backoff strategy to API calls
+- Added JetWooBuilder integration
+- Added Reviews metabox to WooCommerce product pages
+- Added SEOPress integration
+- Added style controls to Elementor widgets
+- Added support for multilingual categories
+- Fixed display of rating stars in review revisions
+- Fixed excerpts when PHP INTL feature is broken
+- Fixed review dates from converting the date to the site's timezone
+- Fixed SQL error when filtering reviews by "No author"
+- Fixed validation message setting with WPML/Polylang
+- Removed the email and IP address values from the review in javascript responses
+- Updated documentation
+
 = 6.11.8 (2024-03-10) =
 
 - Fixed license key sanitization
