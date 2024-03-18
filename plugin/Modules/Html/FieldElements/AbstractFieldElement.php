@@ -93,8 +93,7 @@ abstract class AbstractFieldElement implements FieldElementContract
         $name = $this->field->original_name;
         $prefix = $this->field->namePrefix();
         if (!empty($prefix) && !str_starts_with($name, $prefix)) {
-            $name = Str::convertNameToId($name); // this uses a dash as the glue in implode.
-            $name = str_replace('-', '.', $name); // see note above.
+            $path = Str::convertNameToPath($name);
             $name = Str::convertPathToName($name, $prefix);
         }
         if ($this->field->isMultiField()) {

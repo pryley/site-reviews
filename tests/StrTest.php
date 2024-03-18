@@ -28,7 +28,7 @@ class StrTest extends WP_UnitTestCase
 
     public function test_convert_name_to_id()
     {
-        $this->assertEquals(Str::convertNameToId('a'), 'a');
+        $this->assertEquals(Str::convertNameToId('a--b'), 'a-b');
         $this->assertEquals(Str::convertNameToId('a_b_c'), 'a_b_c');
         $this->assertEquals(Str::convertNameToId('a.b.c'), 'a-b-c');
         $this->assertEquals(Str::convertNameToId('a[b][c]'), 'a-b-c');
@@ -37,6 +37,21 @@ class StrTest extends WP_UnitTestCase
         $this->assertEquals(Str::convertNameToId('b[c]', 'a'), 'a-b-c');
         $this->assertEquals(Str::convertNameToId('b[c][]', 'a'), 'a-b-c');
         $this->assertEquals(Str::convertNameToId('[b][c][]', 'a'), 'a-b-c');
+        $this->assertEquals(Str::convertNameToId('[b][c-d]', 'a'), 'a-b-c-d');
+    }
+
+    public function test_convert_name_to_path()
+    {
+        $this->assertEquals(Str::convertNameToPath('a-b'), 'a-b');
+        $this->assertEquals(Str::convertNameToPath('a_b_c'), 'a_b_c');
+        $this->assertEquals(Str::convertNameToPath('a.b.c'), 'a.b.c');
+        $this->assertEquals(Str::convertNameToPath('a[b][c]'), 'a.b.c');
+        $this->assertEquals(Str::convertNameToPath('a[b][c][]'), 'a.b.c');
+        $this->assertEquals(Str::convertNameToPath('b.c'), 'b.c');
+        $this->assertEquals(Str::convertNameToPath('b[c]'), 'b.c');
+        $this->assertEquals(Str::convertNameToPath('b[c][]'), 'b.c');
+        $this->assertEquals(Str::convertNameToPath('[b][c][]'), 'b.c');
+        $this->assertEquals(Str::convertNameToPath('[b][c-d]'), 'b.c-d');
     }
 
     public function test_convert_path_to_name()

@@ -35,6 +35,13 @@ class Str
         return implode('-', $parts);
     }
 
+    public static function convertNameToPath(string $name): string
+    {
+        $parts = preg_split('/\[|\]/', $name);
+        $parts = array_values(array_filter($parts));
+        return implode('.', $parts);
+    }
+
     public static function convertPathToName(string $path, string $prefix = ''): string
     {
         $levels = explode('.', $path);
