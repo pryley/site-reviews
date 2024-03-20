@@ -13,7 +13,7 @@
                 <div class="glsr-flyout-label">
                     <div><?php echo esc_html($item['title']); ?></div>
                 </div>
-                <i class="dashicons <?php echo sanitize_html_class($item['icon']); ?>"></i>
+                <i class="dashicons <?php echo esc_attr($item['icon']); ?>"></i>
             </a>
         <?php } ?>
     </div>
