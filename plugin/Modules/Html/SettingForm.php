@@ -119,7 +119,7 @@ class SettingForm extends Form
                 }
             }
             if (!empty($dependencies)) {
-                $field->offsetSet('data-depends', json_encode($dependencies, JSON_HEX_APOS | JSON_HEX_QUOT));
+                $field->offsetSet('data-depends', wp_json_encode($dependencies, JSON_HEX_APOS | JSON_HEX_QUOT));
             }
         }
     }

@@ -231,7 +231,7 @@ class Console
         if ($value instanceof \DateTime) {
             $value = $value->format('Y-m-d H:i:s');
         } elseif (!is_scalar($value)) {
-            $value = json_encode($value);
+            $value = wp_json_encode($value);
         }
         return Cast::toString($value);
     }

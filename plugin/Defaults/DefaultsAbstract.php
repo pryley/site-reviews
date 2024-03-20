@@ -176,7 +176,7 @@ abstract class DefaultsAbstract implements DefaultsContract
         $filteredJson = [];
         foreach ($filtered as $key => $value) {
             $filteredJson["data-{$key}"] = !is_scalar($value)
-                ? json_encode((array) $value, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
+                ? wp_json_encode((array) $value, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
                 : $value;
         }
         return $filteredJson;

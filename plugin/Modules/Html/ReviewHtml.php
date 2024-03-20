@@ -84,7 +84,7 @@ class ReviewHtml extends \ArrayObject
             'assigned_terms' => $review->assigned_terms,
             'assigned_users' => $review->assigned_users,
         ]);
-        $templateTags['assigned'] = json_encode($assignedTag);
+        $templateTags['assigned'] = wp_json_encode($assignedTag);
         $values = $review->toArray();
         foreach ($values as $key => $value) {
             $tag = $this->normalizeTemplateTag($key);

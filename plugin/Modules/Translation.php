@@ -143,7 +143,7 @@ class Translation
                 : $data['s1'];
             $rendered .= $this->render('result', [
                 'domain' => $this->getEntryString($entry, 'domain'),
-                'entry' => json_encode($data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
+                'entry' => wp_json_encode($data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
                 'text' => wp_strip_all_tags($text),
             ]);
         }

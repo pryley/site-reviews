@@ -243,7 +243,7 @@ class Attributes
                 continue;
             }
             if (is_array($value)) {
-                $value = json_encode($value, JSON_HEX_APOS | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+                $value = wp_json_encode($value, JSON_HEX_APOS | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
             }
             $this->attributes[$key] = esc_js($value);
         }
