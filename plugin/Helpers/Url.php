@@ -11,13 +11,13 @@ class Url
 
     public static function path(string $url): string
     {
-        return untrailingslashit(parse_url($url, PHP_URL_PATH));
+        return untrailingslashit(wp_parse_url($url, PHP_URL_PATH));
     }
 
     public static function queries(?string $url): array
     {
         $queries = [];
-        $str = (string) parse_url((string) $url, PHP_URL_QUERY);
+        $str = (string) wp_parse_url((string) $url, PHP_URL_QUERY);
         parse_str($str, $queries);
         return $queries;
     }
