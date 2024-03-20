@@ -39,7 +39,7 @@
             <li>Replaced the <code>assign_to</code> and <code>assigned_to</code> shortcode options with the <code>assigned_posts</code> option</li>
             <li>Replaced the <code>category</code> shortcode option with <code>assigned_terms</code> option</li>
             <li>Review limit validation now performs strict checking for assigned posts, categories and users (AND instead of OR).</li>
-            <li>The <code>site-reviews/rating/average</code> filter hook argument order has changed (see the <a data-expand="#upgrade-v5_0_0" href="<?= glsr_admin_url('welcome', 'upgrade-guide'); ?>">Upgrade Guide</a>).</li>
+            <li>The <code>site-reviews/rating/average</code> filter hook argument order has changed (see the <a data-expand="#upgrade-v5_0_0" href="<?php echo glsr_admin_url('welcome', 'upgrade-guide'); ?>">Upgrade Guide</a>).</li>
             <li>The Translations Settings search results are now restricted to public text that is actually shown on your website, if you would like to change plugin text shown in the WordPress admin, you should use the Loco Translate plugin instead.</li>
         </ul>
 

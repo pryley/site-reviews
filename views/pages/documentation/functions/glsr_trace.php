@@ -10,7 +10,7 @@
     </h3>
     <div id="fn-glsr_trace" class="inside">
         <div class="glsr-notice-inline components-notice is-warning">
-            <p class="components-notice__content">This function will only work if the logging level is set to "Level 0: Debugging", you can change the logging level on the <a href="<?= glsr_admin_url('tools', 'console'); ?>">Console</a> page.</p>
+            <p class="components-notice__content">This function will only work if the logging level is set to "Level 0: Debugging", you can change the logging level on the <a href="<?php echo glsr_admin_url('tools', 'console'); ?>">Console</a> page.</p>
         </div>
         <pre><code class="language-php">/**
  * @param int $limit
@@ -24,6 +24,6 @@ glsr_trace($limit = 5);</code></pre>
 // OR:
 
 apply_filters('glsr_trace', null, 10);</code></pre>
-    <p>The logged backtrace will be found in the <code><a href="<?= glsr_admin_url('tools', 'console'); ?>">Tools &rarr; Console</a></code>.</p>
+    <p>The logged backtrace will be found in the <code><a href="<?php echo glsr_admin_url('tools', 'console'); ?>">Tools &rarr; Console</a></code>.</p>
     </div>
 </div>

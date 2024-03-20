@@ -32,7 +32,7 @@
             <li>Fixed support for GMT dates when importing reviews</li>
             <li>Fixed the hCaptcha integration, it no longer tries to submit the review after solving the captcha unless the submit button was previously clicked.</li>
             <li>Fixed the reCAPTCHA integrations</li>
-            <li>Fixed the <a data-expand="#tools-rollback-plugin" href="<?= glsr_admin_url('tools'); ?>">Rollback Plugin</a> tool</li>
+            <li>Fixed the <a data-expand="#tools-rollback-plugin" href="<?php echo glsr_admin_url('tools'); ?>">Rollback Plugin</a> tool</li>
         </ul>
     </div>
 </div>

@@ -2,7 +2,7 @@
 
 <p class="glsr-heading">rating_field</p>
 <div class="glsr-notice-inline components-notice is-warning">
-    <p class="components-notice__content">The <a href="<?= glsr_admin_url('addons'); ?>">Review Forms</a> add-on is required to use this shortcode option.</p>
+    <p class="components-notice__content">The <a href="<?php echo glsr_admin_url('addons'); ?>">Review Forms</a> add-on is required to use this shortcode option.</p>
 </div>
 <p>Include the "rating_field" option to make the "rating" option apply to the value of a custom rating field. Use the custom rating Field Name as the value.</p>
 <div class="shortcode-example">

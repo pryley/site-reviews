@@ -11,7 +11,7 @@
 
         <div class="glsr-notice-inline components-notice is-warning">
             <p class="components-notice__content">
-                Site Reviews should automatically migrate itself after updating to v6.0. However, if you are experiencing problems after updating, you may need to manually run the <a href="<?= glsr_admin_url('tools', 'general'); ?>" data-expand="#tools-migrate-plugin">Migrate Plugin</a> tool.
+                Site Reviews should automatically migrate itself after updating to v6.0. However, if you are experiencing problems after updating, you may need to manually run the <a href="<?php echo glsr_admin_url('tools', 'general'); ?>" data-expand="#tools-migrate-plugin">Migrate Plugin</a> tool.
             </p>
         </div>
 
@@ -21,11 +21,11 @@
             <li>
                 <p><strong>The dash has been removed from the author name when the avatar is hidden.</strong></p>
                 <p>In earlier versions of Site Reviews, a "dash" character appeared in front of the author's name if you disabled avatars in the settings, hid the avatar, or changed the order of the review fields.</p>
-                <p>If you want to add the dash back, please see the <a data-expand="#faq-add-name-dash" href="<?= glsr_admin_url('documentation', 'faq'); ?>">FAQ</a> help page.
+                <p>If you want to add the dash back, please see the <a data-expand="#faq-add-name-dash" href="<?php echo glsr_admin_url('documentation', 'faq'); ?>">FAQ</a> help page.
             </li>
             <li>
                 <p><strong>The review title HTML tag has been changed from &lt;h3&gt; to &lt;h4&gt;.</strong></p>
-                <p>If you need to change it back to &lt;h3&gt;, please see the <a data-expand="#faq-change-review-title-tag" href="<?= glsr_admin_url('documentation', 'faq'); ?>">FAQ</a> help page.</p>
+                <p>If you need to change it back to &lt;h3&gt;, please see the <a data-expand="#faq-change-review-title-tag" href="<?php echo glsr_admin_url('documentation', 'faq'); ?>">FAQ</a> help page.</p>
             </li>
             <li>
                 <p><strong>The <code>.glsr-star-rating</code> class was removed from the star rating SELECT element.</strong></p>
@@ -40,7 +40,7 @@
         <ol>
             <li>
                 <p><strong>The "← Previous" and "Next →" strings were changed to "Previous" and "Next" (the arrows were removed).</strong></p>
-                <p>If you have customised these strings in the settings, please <a href="<?= glsr_admin_url('settings', 'strings'); ?>">update them</a>.</p>
+                <p>If you have customised these strings in the settings, please <a href="<?php echo glsr_admin_url('settings', 'strings'); ?>">update them</a>.</p>
             </li>
         </ol>
 

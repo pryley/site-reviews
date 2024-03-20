@@ -11,8 +11,8 @@
         <p><em>Release Date &mdash; February 21st, 2023</em></p>
         <h4>✨ New Features</h4>
         <ul>
-            <li>Added date and status options to the <a data-expand="#tools-export-reviews" href="<?= glsr_admin_url('tools'); ?>">Export Reviews</a> tool</li>
-            <li>Added new <a data-expand="#shortcode-site_review" href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>">[site_review]</a> shortcode to display a single review</li>
+            <li>Added date and status options to the <a data-expand="#tools-export-reviews" href="<?php echo glsr_admin_url('tools'); ?>">Export Reviews</a> tool</li>
+            <li>Added new <a data-expand="#shortcode-site_review" href="<?php echo glsr_admin_url('documentation', 'shortcodes'); ?>">[site_review]</a> shortcode to display a single review</li>
             <li>Added new "Single Review" block to display a single review</li>
             <li>Added new "Single Review" widget to display a single review</li>
             <li>Added new "Single Review" Elementor widget to display a single review</li>

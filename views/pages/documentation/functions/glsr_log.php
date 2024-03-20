@@ -24,6 +24,6 @@ glsr_log()->error($var4)->debug($var5);
 // OR:
 
 apply_filters('glsr_log', null, $var1);</code></pre>
-    <p>Logged entries will be found in the <code><a href="<?= glsr_admin_url('tools', 'console'); ?>">Tools &rarr; Console</a></code>.</p>
+    <p>Logged entries will be found in the <code><a href="<?php echo glsr_admin_url('tools', 'console'); ?>">Tools &rarr; Console</a></code>.</p>
     </div>
 </div>

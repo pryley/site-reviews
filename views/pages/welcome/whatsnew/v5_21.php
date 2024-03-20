@@ -12,8 +12,8 @@
 
         <h4>✨ New Features</h4>
         <ul>
-            <li>Added a basic GamiPress integration to award points when someone writes or receives a review. For more advanced GamiPress events, use the new <a href="<?= glsr_admin_url('addons'); ?>">GamiPress Reviews</a> addon.</li>
-            <li>Added the <a href="<?= glsr_admin_url('addons'); ?>">GamiPress Reviews</a> addon!</li>
+            <li>Added a basic GamiPress integration to award points when someone writes or receives a review. For more advanced GamiPress events, use the new <a href="<?php echo glsr_admin_url('addons'); ?>">GamiPress Reviews</a> addon.</li>
+            <li>Added the <a href="<?php echo glsr_admin_url('addons'); ?>">GamiPress Reviews</a> addon!</li>
             <li>Added "profile_id" as an accepted value in the "assigned_users" shortcode option</li>
         </ul>
 

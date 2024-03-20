@@ -1,6 +1,8 @@
-<?php defined('WPINC') || die;
+<?php
 
-/**
+defined('WPINC') || exit;
+
+/*
  * Display single product reviews
  *
  * @see https://docs.woocommerce.com/document/template-structure/

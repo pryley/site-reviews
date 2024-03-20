@@ -10,7 +10,7 @@
     </h3>
     <div id="fn-glsr_update_review" class="inside">
         <div class="glsr-notice-inline components-notice is-warning">
-            <p class="components-notice__content">This function uses basic validation on the provided values. If validation fails, the function will return false and the validation errors will be logged to the <a href="<?= glsr_admin_url('tools', 'console'); ?>">Plugin Console</a>.</p>
+            <p class="components-notice__content">This function uses basic validation on the provided values. If validation fails, the function will return false and the validation errors will be logged to the <a href="<?php echo glsr_admin_url('tools', 'console'); ?>">Plugin Console</a>.</p>
         </div>
         <pre><code class="language-php">/**
  * Default values in the $reviewValues array:
@@ -50,7 +50,7 @@ $review = apply_filters('glsr_update_review', false, 13, [
     'xyz' => 'This is a custom field!'
 ]);</code></pre>
         <p><strong>Helpful Tip:</strong></p>
-        <p>You can use the <code><a href="<?= glsr_admin_url('documentation', 'functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to view the review object that is returned.</p>
+        <p>You can use the <code><a href="<?php echo glsr_admin_url('documentation', 'functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to view the review object that is returned.</p>
         <pre><code class="language-php">glsr_debug($review);</code></pre>
     </div>
 </div>

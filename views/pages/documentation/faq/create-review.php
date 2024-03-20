@@ -8,7 +8,7 @@
         </button>
     </h3>
     <div id="faq-create-review" class="inside">
-        <p>Site Reviews provides a <code><a href="<?= glsr_admin_url('documentation', 'functions'); ?>" data-expand="#fn-glsr_create_review">glsr_create_review()</a></code> helper function to easily create a review.</p>
+        <p>Site Reviews provides a <code><a href="<?php echo glsr_admin_url('documentation', 'functions'); ?>" data-expand="#fn-glsr_create_review">glsr_create_review()</a></code> helper function to easily create a review.</p>
         <p>Here is an example:</p>
         <pre><code class="language-php">if (function_exists('glsr_create_review')) {
     $review = glsr_create_review([

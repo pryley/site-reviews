@@ -47,7 +47,7 @@ $ratingInfo->ratings // An array, the key is the rating level, the value is the 
         <p><strong>Helpful Tips:</strong></p>
         <ol>
             <li>
-                <p>You can use the <code><a href="<?= glsr_admin_url('documentation', 'functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to print the rating info to the screen:</p>
+                <p>You can use the <code><a href="<?php echo glsr_admin_url('documentation', 'functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to print the rating info to the screen:</p>
                 <pre><code class="language-php">glsr_debug($ratingInfo);</code></pre>
             </li>
         </ol>

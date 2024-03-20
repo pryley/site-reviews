@@ -1,7 +1,7 @@
 <?php defined('ABSPATH') || exit; ?>
 
 <p class="about-description">
-    Still need help with <?= glsr()->name; ?>? We offer excellent support, but don't forget to check our <a href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>">documentation</a> first.
+    Still need help with <?php echo glsr()->name; ?>? We offer excellent support, but don't forget to check our <a href="<?php echo glsr_admin_url('documentation', 'shortcodes'); ?>">documentation</a> first.
 </p>
 <div class="is-fullwidth">
     <div class="glsr-flex-row glsr-has-2-columns">

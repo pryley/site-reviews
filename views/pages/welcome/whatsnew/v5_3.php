@@ -12,8 +12,8 @@
 
         <h4>✨ New Features</h4>
         <ul>
-            <li>Added <a href="<?= glsr_admin_url('addons'); ?>">Site Reviews Premium</a></li>
-            <li>Added the <a href="<?= glsr_admin_url('addons'); ?>">Review Forms</a> addon</li>
+            <li>Added <a href="<?php echo glsr_admin_url('addons'); ?>">Site Reviews Premium</a></li>
+            <li>Added the <a href="<?php echo glsr_admin_url('addons'); ?>">Review Forms</a> addon</li>
             <li>Added debug logging for validation errors</li>
             <li>Added error logging for database table creation errors</li>
             <li>Added support for PHP 8</li>

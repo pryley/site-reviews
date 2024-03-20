@@ -18,14 +18,14 @@ foreach ($addons as $addon) {
 ?>
 <div class="notice notice-warning is-dismissible glsr-notice" data-dismiss="premium">
     <p>
-        <?= sprintf(_x('The %s addon is included in the Site Reviews Premium plugin. Please deactivate it.', 'admin-text', 'site-reviews'),
+        <?php echo sprintf(_x('The %s addon is included in the Site Reviews Premium plugin. Please deactivate it.', 'admin-text', 'site-reviews'),
             '<strong>'.$addon::NAME.'</strong>'
         ); ?>
     </p>
     <?php if ($hasAction) { ?>
         <p class="glsr-notice-buttons">
-            <a class="button button-primary" href="<?= $url; ?>">
-                <?= sprintf(_x('Deactivate %s', 'admin-text', 'site-reviews'), $addon::NAME); ?>
+            <a class="button button-primary" href="<?php echo $url; ?>">
+                <?php echo sprintf(_x('Deactivate %s', 'admin-text', 'site-reviews'), $addon::NAME); ?>
             </a>
         </p>
     <?php } ?>

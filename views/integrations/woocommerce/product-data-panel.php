@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('WPINC') || exit; ?>
 
 <div id="site-reviews" class="panel woocommerce_options_panel hidden">
     <div class="options_group">

@@ -59,7 +59,7 @@ echo $reviewHtml;
 echo '&lt;/div&gt;';</code></pre>
             </li>
             <li>
-                <p>You can also use the <code><a href="<?= glsr_admin_url('documentation', 'functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to print both arrayable objects to the screen:</p>
+                <p>You can also use the <code><a href="<?php echo glsr_admin_url('documentation', 'functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to print both arrayable objects to the screen:</p>
                 <pre><code class="language-php">glsr_debug($review, $reviewHtml);</code></pre>
             </li>
         </ol>

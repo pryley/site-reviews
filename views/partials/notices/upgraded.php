@@ -9,10 +9,10 @@
     </p>
     <p class="glsr-notice-buttons">
         <?php if (glsr()->hasPermission('welcome', 'whatsnew')) { ?>
-            <a class="button" href="<?= glsr_admin_url('welcome', 'whatsnew'); ?>"><?= _x("See What's New", 'admin-text', 'site-reviews'); ?></a>
+            <a class="button" href="<?php echo glsr_admin_url('welcome', 'whatsnew'); ?>"><?php echo _x("See What's New", 'admin-text', 'site-reviews'); ?></a>
         <?php } ?>
         <?php if (glsr()->hasPermission('welcome', 'upgrade-guide')) { ?>
-            <a class="button button-link" href="<?= glsr_admin_url('welcome', 'upgrade-guide'); ?>"><?= _x('Read the Upgrade Guide', 'admin-text', 'site-reviews'); ?> →</a>
+            <a class="button button-link" href="<?php echo glsr_admin_url('welcome', 'upgrade-guide'); ?>"><?php echo _x('Read the Upgrade Guide', 'admin-text', 'site-reviews'); ?> →</a>
         <?php } ?>
     </p>
 </div>

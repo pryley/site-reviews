@@ -9,6 +9,6 @@
     </h3>
     <div id="support-get-started" class="inside">
         <p>The Getting Started guide provides a quick overview of Site Reviews and demonstrates how to use it.</p>
-        <p><a class="components-button is-secondary" href="<?= glsr_admin_url('welcome'); ?>">Read the Getting Started Guide</a></p>
+        <p><a class="components-button is-secondary" href="<?php echo glsr_admin_url('welcome'); ?>">Read the Getting Started Guide</a></p>
     </div>
 </div>

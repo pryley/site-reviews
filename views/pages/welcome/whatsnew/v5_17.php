@@ -12,7 +12,7 @@
 
         <h4>✨ New Features</h4>
         <ul>
-            <li>Added the <a href="<?= glsr_admin_url('addons'); ?>">Review Notifications</a> addon</li>
+            <li>Added the <a href="<?php echo glsr_admin_url('addons'); ?>">Review Notifications</a> addon</li>
             <li>Added a setting to restrict the "Require Approval" setting to a minimum rating</li>
             <li>Added support for additional date formats and columns in the "Import Third Party Reviews" tool</li>
             <li>Added the Accepted Terms field to the privacy export (using the review creation date as the value if the terms were accepted)</li>
@@ -26,13 +26,13 @@
 
         <h4>💅🏼 Improved</h4>
         <ul>
-            <li>Updated the <a data-expand="#support-common-problems-and-solutions" href="<?= glsr_admin_url('documentation', 'support'); ?>">Common Problems and Solutions</a> documentation</li>
+            <li>Updated the <a data-expand="#support-common-problems-and-solutions" href="<?php echo glsr_admin_url('documentation', 'support'); ?>">Common Problems and Solutions</a> documentation</li>
         </ul>
 
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed HTML sanitization in review values</li>
-            <li>Fixed importing of IP Addresses in the <a data-expand="#tools-import-reviews" href="<?= glsr_admin_url('tools', 'general'); ?>">Import Third Party Reviews</a> tool</li>
+            <li>Fixed importing of IP Addresses in the <a data-expand="#tools-import-reviews" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Import Third Party Reviews</a> tool</li>
             <li>Fixed importing to skip empty CSV rows</li>
             <li>Fixed non-ajax pagination when paginated URLs are disabled in the settings</li>
             <li>Fixed potential page collisions with other plugins due to a WordPress bug</li>

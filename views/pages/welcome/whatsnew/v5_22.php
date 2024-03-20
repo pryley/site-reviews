@@ -13,7 +13,7 @@
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a debug option to the shortcodes</li>
-            <li>Added <a data-expand="#support-get-started" href="<?= glsr_admin_url('documentation', 'support'); ?>">Getting Started</a> videos to the Help page</li>
+            <li>Added <a data-expand="#support-get-started" href="<?php echo glsr_admin_url('documentation', 'support'); ?>">Getting Started</a> videos to the Help page</li>
             <li>Added the ability to rollback Site Reviews to a previous version</li>
         </ul>
 

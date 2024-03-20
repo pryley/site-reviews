@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('WPINC') || exit; ?>
 
 <div class="card" style="
     background-color: #fef8ee;

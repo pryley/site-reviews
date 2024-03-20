@@ -27,7 +27,7 @@ add_filter('site-reviews/enqueue/public/inline-script/after', function ($javascr
     });";
 });</code></pre>
         <p>You can also hide the form from registered users who have already submitted a review.</p>
-        <p>To do this, you will need to first make sure that the "Limit Reviews" setting on the <code><a href="<?= glsr_admin_url('settings', 'forms'); ?>">Settings &rarr; Forms</a></code> page is set to "By Username". Once that is done, you can use the following code snippet:</p>
+        <p>To do this, you will need to first make sure that the "Limit Reviews" setting on the <code><a href="<?php echo glsr_admin_url('settings', 'forms'); ?>">Settings &rarr; Forms</a></code> page is set to "By Username". Once that is done, you can use the following code snippet:</p>
         <pre><code class="language-php">/**
  * Hides the review form from registered users who have already submitted a review
  * Paste this in your active theme's functions.php file

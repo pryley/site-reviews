@@ -15,7 +15,7 @@
     </p>
     <?php if (!empty($actions)) { ?>
         <p class="glsr-notice-buttons">
-            <?= $actions; ?>
+            <?php echo $actions; ?>
         </p>
     <?php } ?>
 </div>

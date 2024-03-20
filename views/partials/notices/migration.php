@@ -12,13 +12,13 @@
     <?php if (glsr()->hasPermission('tools', 'general')) { ?>
         <form method="post">
             <?php wp_nonce_field('migrate-plugin'); ?>
-            <input type="hidden" name="<?= glsr()->id; ?>[_action]" value="migrate-plugin">
+            <input type="hidden" name="<?php echo glsr()->id; ?>[_action]" value="migrate-plugin">
             <p class="glsr-notice-buttons">
                 <button type="submit" class="glsr-button button button-primary"
                     data-ajax-click
                     data-remove-notice="migration"
-                    data-loading="<?= esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"
-                ><?= _x('Run Migration', 'admin-text', 'site-reviews'); ?>
+                    data-loading="<?php echo esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"
+                ><?php echo _x('Run Migration', 'admin-text', 'site-reviews'); ?>
                 </button>
             </p>
         </form>

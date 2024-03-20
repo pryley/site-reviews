@@ -13,7 +13,7 @@
         <p>Here is a workaround to fix the problem:</p>
         <ol>
             <li>
-                <p>Go to the <a href="<?= admin_url('options-general.php?page=ccs_reference&tab=settings'); ?>">Custom Content Shortcodes settings</a> page.</p>
+                <p>Go to the <a href="<?php echo admin_url('options-general.php?page=ccs_reference&tab=settings'); ?>">Custom Content Shortcodes settings</a> page.</p>
             </li>
             <li>
                 <p>Disable the <code>[raw] shortcode</code> setting.</p>

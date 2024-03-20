@@ -25,7 +25,7 @@ glsr_get_option($path = '', $fallback = '', $castTo = '');</code></pre>
 
 $requireApproval = apply_filters('glsr_get_option', false, 'general.require.approval', 'no', 'bool');</code></pre>
         <p><strong>Helpful Tip:</strong></p>
-        <p>You can use the <code><a href="<?= glsr_admin_url('documentation', 'functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to view the whole plugin settings array, this will help you figure out which dot-notation path to use.</p>
+        <p>You can use the <code><a href="<?php echo glsr_admin_url('documentation', 'functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to view the whole plugin settings array, this will help you figure out which dot-notation path to use.</p>
         <pre><code class="language-php">glsr_debug(glsr_get_options());</code></pre>
     </div>
 </div>

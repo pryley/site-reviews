@@ -1,12 +1,12 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('WPINC') || exit; ?>
 
-<ul class="<?= $style; ?>">
-    <?php foreach ($filters as $filter): ?>
-        <li class="<?= $filter->classes; ?>">
-            <a href="<?= $filter->permalink; ?>">
-                <?= $filter->stars; ?>
-                <span><?= $filter->count; ?></span>
+<ul class="<?php echo esc_attr($style); ?>">
+    <?php foreach ($filters as $filter) { ?>
+        <li class="<?php echo esc_attr($filter->classes); ?>">
+            <a href="<?php echo esc_url($filter->permalink); ?>">
+                <?php echo $filter->stars; ?>
+                <span><?php echo $filter->count; ?></span>
             </a>
         </li>
-    <?php endforeach; ?>
+    <?php } ?>
 </ul>

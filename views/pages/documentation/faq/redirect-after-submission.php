@@ -36,7 +36,7 @@ add_filter('site-reviews/review/redirect', function ($redirectUrl, $command, $re
 if ($review) {
     glsr_debug($review);
 }</code></pre>
-                <p>To learn more about the <code><a href="<?= glsr_admin_url('documentation', 'functions'); ?>" data-expand="#fn-glsr_get_review">glsr_get_review()</a></code> function, please refer to the Functions documentation page.</p>
+                <p>To learn more about the <code><a href="<?php echo glsr_admin_url('documentation', 'functions'); ?>" data-expand="#fn-glsr_get_review">glsr_get_review()</a></code> function, please refer to the Functions documentation page.</p>
             </li>
         </ol>
     </div>

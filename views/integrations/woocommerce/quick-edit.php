@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('WPINC') || exit; ?>
 
 <fieldset class="inline-edit-col-right">
     <div class="inline-edit-group wp-clearfix">

@@ -23,36 +23,36 @@
         </p>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-2" class="glsr-support-step">
-            <label for="step-2">I have read the <code><a href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>">Shortcodes</a></code> help page and it does not answer my question.</label>
+            <label for="step-2">I have read the <code><a href="<?php echo glsr_admin_url('documentation', 'shortcodes'); ?>">Shortcodes</a></code> help page and it does not answer my question.</label>
         </p>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-3" class="glsr-support-step">
-            <label for="step-3">I have read the <code><a data-expand="#support-common-problems-and-solutions" href="<?= glsr_admin_url('documentation', 'support'); ?>">Common Problems and Solutions</a></code> section provided above and it does not answer my question.</label>
+            <label for="step-3">I have read the <code><a data-expand="#support-common-problems-and-solutions" href="<?php echo glsr_admin_url('documentation', 'support'); ?>">Common Problems and Solutions</a></code> section provided above and it does not answer my question.</label>
         </p>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-4" class="glsr-support-step">
-            <label for="step-4">I have read the <code><a href="<?= glsr_admin_url('documentation', 'faq'); ?>">FAQ</a></code> help page and it does not answer my question.</label>
+            <label for="step-4">I have read the <code><a href="<?php echo glsr_admin_url('documentation', 'faq'); ?>">FAQ</a></code> help page and it does not answer my question.</label>
         </p>
         <?php if (glsr()->hasPermission('documentation', 'hooks')) : ?>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-5" class="glsr-support-step">
-            <label for="step-5">I have read the <code><a href="<?= glsr_admin_url('documentation', 'hooks'); ?>">Hooks</a></code> help page and it does not answer my question.</label>
+            <label for="step-5">I have read the <code><a href="<?php echo glsr_admin_url('documentation', 'hooks'); ?>">Hooks</a></code> help page and it does not answer my question.</label>
         </p>
         <?php endif; ?>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-6" class="glsr-support-step">
-            <label for="step-6">I have completed each step in the <code><a data-expand="#support-basic-troubleshooting" href="<?= glsr_admin_url('documentation', 'support'); ?>">Basic Troubleshooting Steps</a></code> section provided above.</label>
+            <label for="step-6">I have completed each step in the <code><a data-expand="#support-basic-troubleshooting" href="<?php echo glsr_admin_url('documentation', 'support'); ?>">Basic Troubleshooting Steps</a></code> section provided above.</label>
         </p>
         <div class="glsr-card-result hidden">
             <p><strong>Please send an email to <a href="mailto:site-reviews@geminilabs.io?subject=Support%20request">site-reviews@geminilabs.io</a> and include the following details:</strong></p>
             <ul>
                 <li>A detailed description of the problem you are having and the steps to reproduce it.</li>
-                <li>Download and attach the Site Reviews <code><a href="<?= glsr_admin_url('tools', 'console'); ?>">Tools &rarr; Console</a></code> log file to the email.</li>
-                <li>Download and attach the Site Reviews <code><a href="<?= glsr_admin_url('tools', 'system-info'); ?>">Tools &rarr; System Info</a></code> report to the email.</li>
+                <li>Download and attach the Site Reviews <code><a href="<?php echo glsr_admin_url('tools', 'console'); ?>">Tools &rarr; Console</a></code> log file to the email.</li>
+                <li>Download and attach the Site Reviews <code><a href="<?php echo glsr_admin_url('tools', 'system-info'); ?>">Tools &rarr; System Info</a></code> report to the email.</li>
                 <li>Please also include screenshots if they will help explain the problem.</li>
             </ul>
             <div class="glsr-notice-inline components-notice is-error">
-                <p class="components-notice__content">If your email does not include the <a href="<?= glsr_admin_url('tools', 'console'); ?>">Console</a> and <a href="<?= glsr_admin_url('tools', 'system-info'); ?>">System Info</a> files, the response may be delayed or even ignored.</p>
+                <p class="components-notice__content">If your email does not include the <a href="<?php echo glsr_admin_url('tools', 'console'); ?>">Console</a> and <a href="<?php echo glsr_admin_url('tools', 'system-info'); ?>">System Info</a> files, the response may be delayed or even ignored.</p>
             </div>
         </div>
     </div>

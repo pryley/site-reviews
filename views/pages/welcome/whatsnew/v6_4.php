@@ -18,8 +18,8 @@
             <li>Added compatibility with <a href="https://wordpress.org/plugins/woorewards/" target="_blank">WooRewards</a></li>
             <li>Added FAQ documentation which explains how to sort a Query Loop block by average rating, ranking, or number of reviews.</li>
             <li>Added GamiPress integration</li>
-            <li>Added <a data-expand="#tools-import-product-reviews" href="<?= glsr_admin_url('tools'); ?>">Import Product Reviews</a> tool</li>
-            <li>Added <a href="<?= glsr_admin_url('settings', 'addons', 'woocommerce'); ?>">WooCommerce integration</a></li>
+            <li>Added <a data-expand="#tools-import-product-reviews" href="<?php echo glsr_admin_url('tools'); ?>">Import Product Reviews</a> tool</li>
+            <li>Added <a href="<?php echo glsr_admin_url('settings', 'addons', 'woocommerce'); ?>">WooCommerce integration</a></li>
         </ul>
 
         <h4>🚫 Removed</h4>

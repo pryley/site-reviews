@@ -4,12 +4,12 @@
 <div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="tools-import-plugin-settings">
-            <span class="title dashicons-before dashicons-admin-tools"><?= _x('Import Settings', 'admin-text', 'site-reviews'); ?></span>
+            <span class="title dashicons-before dashicons-admin-tools"><?php echo _x('Import Settings', 'admin-text', 'site-reviews'); ?></span>
             <span class="icon"></span>
         </button>
     </h3>
     <div id="tools-import-plugin-settings" class="inside">
-        <p><?= sprintf(
+        <p><?php echo sprintf(
             _x('Here you can import the Site Reviews settings from a %s file. You can use the the %sExport Settings%s tool to export these settings from another website.', 'admin-text', 'site-reviews'),
             '<code>*.json</code>',
             '<a data-expand="#tools-export-plugin-settings" href="'.glsr_admin_url('tools', 'general').'">', '</a>'
@@ -22,8 +22,8 @@
             </p>
             <button type="submit" class="glsr-button components-button is-primary"
                 data-expand="#tools-import-plugin-settings"
-                data-loading="<?= esc_attr_x('Importing settings, please wait...', 'admin-text', 'site-reviews'); ?>"
-            ><?= _x('Import Settings', 'admin-text', 'site-reviews'); ?>
+                data-loading="<?php echo esc_attr_x('Importing settings, please wait...', 'admin-text', 'site-reviews'); ?>"
+            ><?php echo _x('Import Settings', 'admin-text', 'site-reviews'); ?>
             </button>
         </form>
     </div>

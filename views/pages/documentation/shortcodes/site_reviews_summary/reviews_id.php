@@ -1,6 +1,6 @@
 <p class="glsr-heading">reviews_id</p>
 <div class="components-notice is-warning">
-    <p class="components-notice__content">The <a href="<?= glsr_admin_url('addons'); ?>">Review Filters</a> add-on is required to use this shortcode option.</p>
+    <p class="components-notice__content">The <a href="<?php echo glsr_admin_url('addons'); ?>">Review Filters</a> add-on is required to use this shortcode option.</p>
 </div>
 <p>Include the "reviews_id" option to enable filtering the reviews by clicking the rating bars. Accepted values are <code>true</code> and <code>false</code>. Using this option will also enable AJAX filtering.</p>
 <div class="shortcode-example">

@@ -12,7 +12,7 @@
 
         <h4>✨ New Features</h4>
         <ul>
-            <li>Added an <a data-expand="#tools-export-reviews" href="<?= glsr_admin_url('tools', 'general'); ?>">Export Reviews</a> tool</li>
+            <li>Added an <a data-expand="#tools-export-reviews" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Export Reviews</a> tool</li>
         </ul>
 
         <h4>💅🏼 Improved</h4>

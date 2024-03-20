@@ -1,6 +1,8 @@
-<?php defined('WPINC') || die;
+<?php
 
-/**
+defined('WPINC') || exit;
+
+/*
  * Loop Rating
  *
  * @see https://docs.woocommerce.com/document/template-structure/

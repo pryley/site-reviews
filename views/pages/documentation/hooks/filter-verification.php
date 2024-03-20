@@ -10,7 +10,7 @@
     </h3>
     <div id="hooks-manual-verification" class="inside">
         <div class="glsr-notice-inline components-notice is-warning">
-            <p class="components-notice__content">The recommended method for verifying reviews is to enable the <code><a href="<?= glsr_admin_url('settings', 'general'); ?>">Request Verification</a></code> setting which automatically sends an email to reviewers asking them to verify their review.</p>
+            <p class="components-notice__content">The recommended method for verifying reviews is to enable the <code><a href="<?php echo glsr_admin_url('settings', 'general'); ?>">Request Verification</a></code> setting which automatically sends an email to reviewers asking them to verify their review.</p>
         </div>
         <p>Use this hook to enable the ability to manually verify reviews from the WordPress Admin.</p>
         <pre><code class="language-php">/**

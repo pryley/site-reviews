@@ -8,10 +8,10 @@
     </p>
     <p class="glsr-notice-buttons">
         <?php if (glsr()->hasPermission('welcome')) { ?>
-            <a class="button button-primary" href="<?= glsr_admin_url('welcome'); ?>"><?= _x("Start Here", 'admin-text', 'site-reviews'); ?></a>
+            <a class="button button-primary" href="<?php echo glsr_admin_url('welcome'); ?>"><?php echo _x("Start Here", 'admin-text', 'site-reviews'); ?></a>
         <?php } ?>
         <?php if (glsr()->hasPermission('documentation', 'shortcodes')) { ?>
-            <a class="button button-link" href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>"><?= _x('Read the Shortcode Documentation', 'admin-text', 'site-reviews'); ?> →</a>
+            <a class="button button-link" href="<?php echo glsr_admin_url('documentation', 'shortcodes'); ?>"><?php echo _x('Read the Shortcode Documentation', 'admin-text', 'site-reviews'); ?> →</a>
         <?php } ?>
     </p>
 </div>

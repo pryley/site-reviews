@@ -9,6 +9,6 @@
     ?>
     </p>
     <p>
-        <a class="button button-primary" href="<?= glsr_admin_url('tools'); ?>"><?= esc_html_x('Import your WooCommerce product reviews', 'admin-text', 'site-reviews'); ?></a>
+        <a class="button button-primary" href="<?php echo glsr_admin_url('tools'); ?>"><?php echo esc_html_x('Import your WooCommerce product reviews', 'admin-text', 'site-reviews'); ?></a>
     </p>
 </div>
