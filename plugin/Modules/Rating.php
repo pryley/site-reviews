@@ -24,6 +24,9 @@ class Rating
     public const MAX_RATING = 5;
     public const MIN_RATING = 0;
 
+    /**
+     * @param int[] $ratingCounts
+     */
     public function average(array $ratingCounts, ?int $roundBy = null): float
     {
         $average = 0;
@@ -57,6 +60,7 @@ class Rating
     /**
      * Get the lower bound for up/down ratings
      * Method receives an up/down ratings array: [1, -1, -1, 1, 1, -1].
+     *
      * @see http://www.evanmiller.org/how-not-to-sort-by-average-rating.html
      * @see https://news.ycombinator.com/item?id=10481507
      * @see https://dataorigami.net/blogs/napkin-folding/79030467-an-algorithm-to-sort-top-comments
@@ -85,26 +89,34 @@ class Rating
         return $options;
     }
 
+    /**
+     * @param int[] $ratingCounts
+     */
     public function overallPercentage(array $ratingCounts): float
     {
         return round($this->average($ratingCounts) * 100 / glsr()->constant('MAX_RATING', __CLASS__), 2);
     }
 
+    /**
+     * @param int[] $ratingCounts
+     */
     public function percentages(array $ratingCounts): array
     {
         if (empty($ratingCounts)) {
             $ratingCounts = $this->emptyArray();
         }
+        $percentages = [];
         $total = array_sum($ratingCounts);
         foreach ($ratingCounts as $index => $count) {
-            if (empty($count)) {
-                continue;
-            }
-            $ratingCounts[$index] = $count / $total * 100;
+            $percentage = empty($count) ? 0 : $count / $total * 100;
+            $percentages[$index] = (float) $percentage;
         }
-        return $this->roundedPercentages($ratingCounts);
+        return $this->roundedPercentages($percentages);
     }
 
+    /**
+     * @param int[] $ratingCounts
+     */
     public function ranking(array $ratingCounts): float
     {
         return glsr()->filterFloat('rating/ranking',
@@ -117,6 +129,7 @@ class Rating
     /**
      * Get the bayesian ranking for an array of reviews
      * This formula is the same one used by IMDB to rank their top 250 films.
+     *
      * @see https://www.xkcd.com/937/
      * @see https://districtdatalabs.silvrback.com/computing-a-bayesian-estimate-of-star-rating-means
      * @see http://fulmicoton.com/posts/bayesian_rating/
@@ -140,9 +153,12 @@ class Rating
      * The quality of a 5 star rating depends not only on the average number of stars but also on
      * the number of reviews. This method calculates the bayesian ranking of a page by its number
      * of reviews and their rating.
+     *
      * @see http://www.evanmiller.org/ranking-items-with-star-ratings.html
      * @see https://stackoverflow.com/questions/1411199/what-is-a-better-way-to-sort-by-a-5-star-rating/1411268
      * @see http://julesjacobs.github.io/2015/08/17/bayesian-scoring-of-ratings.html
+     *
+     * @param int[] $ratingCounts
      */
     public function rankingUsingZScores(array $ratingCounts, int $confidencePercentage = 90): float
     {
@@ -154,7 +170,22 @@ class Rating
     }
 
     /**
+     * @param int[] $ratingCounts
+     */
+    public function totalCount(array $ratingCounts): int
+    {
+        $values = array_filter($ratingCounts, 'is_numeric');
+        $values = array_map('intval', $values);
+        if (isset($values[0]) && glsr()->filterBool('rating/ignore-zero-stars', true)) {
+            $values[0] = 0; // ignore 0-star ratings when calculating the average and ranking
+        }
+        return (int) array_sum($values);
+    }
+
+    /**
      * Returns array sorted by key DESC.
+     *
+     * @param float[] $percentages
      */
     protected function roundedPercentages(array $percentages, int $totalPercent = 100): array
     {
@@ -179,23 +210,21 @@ class Rating
         return array_combine($indexes, wp_list_pluck($percentages, 'percent'));
     }
 
-    protected function totalCount(array $ratingCounts): int
-    {
-        if (isset($ratingCounts[0]) && glsr()->filterBool('rating/ignore-zero-stars', true)) {
-            $ratingCounts[0] = 0; // ignore 0-star ratings when calculating the average and ranking
-        }
-        return (int) array_sum($ratingCounts);
-    }
-
+    /**
+     * @param int[] $ratingCounts
+     */
     protected function totalSum(array $ratingCounts): int
     {
-        return array_reduce(
+        return (int) array_reduce(
             array_keys($ratingCounts),
             fn ($carry, $i) => $carry + ($i * $ratingCounts[$i]),
             0
         );
     }
 
+    /**
+     * @param int[] $ratingCounts
+     */
     protected function weight(array $ratingCounts, float $ratingCountsSum, bool $powerOf2 = false): float
     {
         return (float) array_reduce(array_keys($ratingCounts),

@@ -2,63 +2,58 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Contracts\PartialContract;
 use GeminiLabs\SiteReviews\Defaults\StarRatingDefaults;
-use GeminiLabs\SiteReviews\Modules\Html\Template;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Rating;
 
 class StarRating implements PartialContract
 {
-    /**
-     * @var \GeminiLabs\SiteReviews\Arguments
-     */
-    public $data;
+    protected Arguments $data;
 
-    public function build(array $data = []): string
+    public function build(array $args = []): string
     {
-        $this->data($data);
+        $this->data = glsr()->args(
+            glsr(StarRatingDefaults::class)->restrict($args)
+        );
+        return glsr(Builder::class)->div([
+            'aria-label' => $this->label(),
+            'class' => glsr()->isAdmin() ? 'star-rating stars' : 'glsr-star-rating glsr-stars',
+            'data-rating' => $this->data->rating,
+            'data-reviews' => $this->data->reviews,
+            'text' => $this->stars(),
+        ]);
+    }
+
+    protected function label()
+    {
         $maxRating = glsr()->constant('MAX_RATING', Rating::class);
-        $numFull = intval(floor($this->data->rating));
-        $numHalf = intval(ceil($this->data->rating - $numFull));
-        $numEmpty = max(0, $maxRating - $numFull - $numHalf);
-        $rating = glsr(Rating::class)->format($this->data->rating);
+        $rating = $this->data->rating;
         $title = $this->data->reviews > 0
-            ? __('Rated %s out of %s based on %s ratings', 'site-reviews')
-            : __('Rated %s out of %s', 'site-reviews');
-        return glsr(Template::class)->build('templates/rating/stars', [
-            'args' => glsr()->args($this->data->args),
-            'context' => [
-                'empty_stars' => $this->getTemplate('empty-star', $numEmpty),
-                'full_stars' => $this->getTemplate('full-star', $numFull),
-                'half_stars' => $this->getTemplate('half-star', $numHalf),
-                'prefix' => $this->data->prefix,
-                'rating' => $rating,
-                'reviews' => $this->data->reviews,
-                'title' => sprintf($title, $rating, $maxRating, $this->data->reviews),
-            ],
-            'partial' => $this,
-        ]);
+            ? __('Rated %s out of %s stars based on %s ratings', 'site-reviews')
+            : __('Rated %s out of %s stars', 'site-reviews');
+        if (0 !== $this->data->num_half) {
+            $rating = glsr(Rating::class)->format($rating);
+        }
+        return sprintf($title, $rating, $maxRating, $this->data->reviews);
     }
 
-    /**
-     * @return static
-     */
-    public function data(array $data = [])
+    protected function stars(): string
     {
-        $data = glsr(StarRatingDefaults::class)->merge($data);
-        $this->data = glsr()->args($data);
-        return $this;
-    }
-
-    protected function getTemplate(string $templateName, int $timesRepeated): string
-    {
-        $template = glsr(Template::class)->build("templates/rating/{$templateName}", [
-            'args' => $this->data->args,
-            'context' => [
-                'prefix' => $this->data->prefix,
-            ],
-            'partial' => $this,
-        ]);
-        return str_repeat($template, $timesRepeated);
+        $types = [ // order is intentional
+            'full' => $this->data->num_full,
+            'half' => $this->data->num_half,
+            'empty' => $this->data->num_empty,
+        ];
+        $results = [];
+        foreach ($types as $type => $repeat) {
+            $template = glsr(Builder::class)->span([
+                'aria-hidden' => 'true',
+                'class' => glsr()->isAdmin() ? "star star-{$type}" : "glsr-star glsr-star-{$type}",
+            ]);
+            $results[] = str_repeat($template, $repeat);
+        }
+        return implode('', $results);
     }
 }

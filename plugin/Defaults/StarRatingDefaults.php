@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Rating;
 
 class StarRatingDefaults extends DefaultsAbstract
 {
@@ -12,7 +12,6 @@ class StarRatingDefaults extends DefaultsAbstract
      */
     public array $casts = [
         'args' => 'array',
-        'prefix' => 'string',
         'rating' => 'float',
     ];
 
@@ -28,18 +27,32 @@ class StarRatingDefaults extends DefaultsAbstract
     {
         return [
             'args' => [],
-            'prefix' => glsr()->isAdmin() ? '' : 'glsr-',
+            'max_rating' => 0,
+            'num_empty' => 0,
+            'num_full' => 0,
+            'num_half' => 0,
             'rating' => 0,
             'reviews' => 0,
         ];
     }
 
     /**
-     * Normalize provided values, this always runs first.
+     * Finalize provided values, this always runs last.
      */
-    protected function normalize(array $values = []): array
+    protected function finalize(array $values = []): array
     {
-        $values['rating'] = sprintf('%g', Arr::get($values, 'rating', 0));
+        $rating = $values['rating'] ?? 0;
+        $reviews = $values['reviews'] ?? 0;
+        $maxRating = glsr()->constant('MAX_RATING', Rating::class);
+        $numFull = intval(floor($rating));
+        $numHalf = intval(ceil($rating - $numFull));
+        $numEmpty = max(0, $maxRating - $numFull - $numHalf);
+        $values['num_empty'] = $numEmpty;
+        $values['num_full'] = $numFull;
+        $values['num_half'] = $numHalf;
+        if (0 === $reviews && 0 === $numHalf) {
+            $values['rating'] = $numFull; // integer
+        }
         return $values;
     }
 }

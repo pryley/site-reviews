@@ -41,9 +41,12 @@ class ProductController
      */
     public function filterGetRatingHtml($html, $rating, $count): string
     {
+        $starsHtml = glsr_star_rating($rating, $count, [
+            'theme' => glsr_get_option('addons.woocommerce.style'),
+        ]);
         return glsr(Builder::class)->div([
             'class' => 'glsr glsr-'.glsr(Style::class)->styleClasses(),
-            'text' => glsr_star_rating($rating, $count, ['theme' => glsr_get_option('addons.woocommerce.style')]),
+            'text' => $starsHtml,
         ]);
     }
 
@@ -55,7 +58,9 @@ class ProductController
      */
     public function filterGetStarRatingHtml($html, $rating, $count): string
     {
-        return glsr_star_rating($rating, $count, ['theme' => glsr_get_option('addons.woocommerce.style')]);
+        return glsr_star_rating($rating, $count, [
+            'theme' => glsr_get_option('addons.woocommerce.style'),
+        ]);
     }
 
     /**

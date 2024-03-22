@@ -17,6 +17,7 @@ class SummaryStarsTag extends SummaryTag
     protected function value(): string
     {
         $rating = glsr(Rating::class)->average($this->ratings);
-        return glsr_star_rating($rating, 0, $this->args->toArray());
+        $total = glsr(Rating::class)->totalCount($this->ratings);
+        return glsr_star_rating($rating, $total, $this->args->toArray());
     }
 }
