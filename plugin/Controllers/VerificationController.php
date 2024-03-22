@@ -39,10 +39,7 @@ class VerificationController extends AbstractController
     {
         $command = $this->execute(new ToggleVerified($request));
         glsr()->action('cache/flush', $command->review); // @phpstan-ignore-line
-        wp_send_json_success([
-            'notices' => glsr(Notice::class)->get(),
-            'verified' => $command->successful(),
-        ]);
+        wp_send_json_success($command->response());
     }
 
     /**

@@ -72,7 +72,7 @@ class Migrate_6_2_1 implements MigrateContract
             DELETE pm 
             FROM table|postmeta AS pm
             INNER JOIN table|posts AS p ON p.ID = pm.post_id
-            WHERE p.post_type = '%s'
+            WHERE p.post_type = %s
             AND pm.meta_key LIKE '_custom_%%'
             AND pm.meta_id NOT IN (
                 SELECT *

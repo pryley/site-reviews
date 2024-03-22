@@ -3,6 +3,11 @@ $color: #2c3338;
 $link_color: #72aee6;
 $link_color_hover: #4f94d4;
 
+.glsr-tooltip {
+    color: #646970;
+    cursor: help;
+}
+
 body[class*="type-site-review"] [data-tippy-root] {
   max-width: calc(100vw - 10px);
 }

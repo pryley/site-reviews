@@ -3,13 +3,13 @@
 import Ajax from '@/admin/ajax.js';
 
 const Verified = function () {
-    this.el =jQuery('#verified-status-select');
+    this.el = jQuery('#verified-status-select');
     if (this.el) {
-        this.cancel =jQuery('a.cancel-verified-status');
+        this.cancel = jQuery('a.cancel-verified-status');
+        this.edit = jQuery('a.edit-verified-status');
+        this.save = jQuery('a.save-verified-status');
         this.cancel.on('click', this.onClickCancel_.bind(this));
-        this.edit =jQuery('a.edit-verified-status');
         this.edit.on('click', this.onClickEdit_.bind(this));
-        this.save =jQuery('a.save-verified-status');
         this.save.on('click', this.onClickSave_.bind(this));
     }
    jQuery('td.column-is_verified i.verify-review').on('click', this.onClickToggle_.bind(this));
@@ -54,7 +54,7 @@ Verified.prototype = {
         var request = {
             _action: 'toggle-verified',
             id: ev.currentTarget.getAttribute('data-id'),
-            verified:-1,
+            verified: -1,
         };
        jQuery(this.target).addClass('spinner is-active').removeClass('dashicons-sticky');
         (new Ajax(request)).post(this.toggleVerified_.bind(this));

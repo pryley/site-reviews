@@ -18,7 +18,7 @@ abstract class AbstractColumnFilter
     public function data(): array
     {
         return [
-            'class' => ($this->enabled() ? '' : 'is-hidden hidden'), // @compat with other WP filters
+            'class' => ($this->enabled() ? 'glsr-filter' : 'glsr-filter is-hidden hidden'), // @compat with other WP filters
             'id' => $this->id(),
             'name' => $this->name(),
             'options' => $this->options(),

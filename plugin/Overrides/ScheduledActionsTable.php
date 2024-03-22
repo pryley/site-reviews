@@ -376,7 +376,7 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
      */
     public function single_row($item)
     {
-        printf('<tr class="action-%s">', $item['status_name']);
+        printf('<tr class="action-%s">', esc_attr($item['status_name']));
         $this->single_row_columns($item);
         echo '</tr>';
     }

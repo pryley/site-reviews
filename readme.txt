@@ -178,9 +178,9 @@ You can report any security bugs found in the source code of this plugin through
 
 == Upgrade Notice ==
 
-= 6.0 =
+= 7.0.0 =
 
-This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after upgrading.
+This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
 
@@ -200,49 +200,11 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Added style controls to Elementor widgets
 - Added support for multilingual categories
 - Fixed display of rating stars in review revisions
-- Fixed excerpts when PHP INTL feature is broken
+- Fixed excerpts when PHP multibyte feature is broken
 - Fixed review dates from converting the date to the site's timezone
 - Fixed SQL error when filtering reviews by "No author"
 - Fixed validation message setting with WPML/Polylang
 - Removed the email and IP address values from the review in javascript responses
 - Updated documentation
-
-= 6.11.8 (2024-03-10) =
-
-- Fixed license key sanitization
-- Fixed WooRewards integration
-
-= 6.11.7 (2024-03-09) =
-
-- Fixed a Cross Site Scripting (XSS) vulnerability caused by users saving malicious javascript text to their first/last/display name in their WordPress user profile.
-- Fixed a Cross Site Scripting (XSS) vulnerability which allowed authenticated admin users to insert javascript into review content.
-- Fixed a race-time vulnerability from single-packet attacks (this should improve spam protection)
-- Fixed the "new item" labels for the Site Reviews post_type and taxonomy
-- Fixed unicode support for names in reviews
-
-= 6.11.4 (2023-11-02) =
-
-- Fixed localized rating values.
-- Fixed quick/bulk editing of WooCommerce Products from automatically disabling reviews support.
-- Fixed review responses disappearing when editing reviews on the frontend with the Review Authors addon.
-- Fixed notifications from triggering when a review is auto-saved as a draft.
-- Fixed notifications from triggering when reviews are imported.
-- Fixed WordPress 6.4 compatibility.
-
-= 6.11.3 (2023-10-20) =
-
-- Fixed cache plugin integrations
-
-= 6.11.0 (2023-10-20) =
-
-- Added a flyout help menu on Site Reviews pages in the WordPress Admin.
-- Added a "Request Verification" setting
-- Added support for the [NitroPack](https://wordpress.org/plugins/nitropack/) cache plugin
-- Added tag buttons to notification message setting
-- Added the ability to approve a review directly from a Discord, Email, or Slack notification
-- Changed number of scheduled actions to 50 per page
-- Fixed conversion (HTML to plain text) of links in notifications
-- Fixed importing of saved strings with the Import Settings tool
-- Removed the ability to manually verify reviews from the WordPress Admin (use the "Request Verification" setting instead!). To re-enable manual verification of reviews use the "site-reviews/verification/enabled" filter hook.
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).

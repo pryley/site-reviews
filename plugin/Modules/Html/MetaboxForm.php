@@ -9,10 +9,10 @@ class MetaboxForm extends Form
 {
     protected Review $review;
 
-    public function __construct()
+    public function __construct(Review $review, array $args = [])
     {
-        $this->review = glsr_get_review(get_the_ID()); // review is cached
-        parent::__construct();
+        $this->review = $review;
+        parent::__construct($args);
     }
 
     /**
@@ -25,10 +25,7 @@ class MetaboxForm extends Form
 
     public function field(string $name, array $args): FieldContract
     {
-        $args = wp_parse_args($args, [
-            'name' => $name,
-        ]);
-        $field = new MetaboxField($args);
+        $field = new MetaboxField(wp_parse_args($args, compact('name')));
         $this->normalizeField($field);
         return $field;
     }

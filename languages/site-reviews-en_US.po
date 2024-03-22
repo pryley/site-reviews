@@ -216,7 +216,7 @@ msgstr ""
 "The review could not be submitted because this browser is too old. Please "
 "try again with a modern browser."
 
-#: plugin/Helpers/Str.php:105
+#: plugin/Helpers/Str.php:112
 msgid "and"
 msgstr "and"
 
@@ -374,7 +374,7 @@ msgstr "Write review of a specific user"
 msgid "Submit Form"
 msgstr "Submit Form"
 
-#: plugin/Modules/Html/Form.php:161
+#: plugin/Modules/Html/Form.php:26
 msgid "Submitting, please wait..."
 msgstr "Submitting, please wait..."
 

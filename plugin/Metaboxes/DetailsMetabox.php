@@ -21,8 +21,9 @@ class DetailsMetabox implements MetaboxContract
 
     public function render(\WP_Post $post): void
     {
+        $review = glsr_get_review($post->ID);
         glsr()->render('partials/editor/metabox-details', [
-            'fields' => (new MetaboxForm())->build(),
+            'fields' => (new MetaboxForm($review))->build(),
         ]);
     }
 }

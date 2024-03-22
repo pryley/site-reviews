@@ -10,11 +10,8 @@ use GeminiLabs\SiteReviews\Review;
 
 class TogglePinned extends AbstractCommand
 {
-    /** @var bool */
-    public $isPinned;
-
-    /** @var Review */
-    public $review;
+    public bool $isPinned;
+    public Review $review;
 
     public function __construct(Request $request)
     {
@@ -28,6 +25,7 @@ class TogglePinned extends AbstractCommand
     {
         if (!glsr()->can('edit_post', $this->review->ID)) {
             $this->isPinned = wp_validate_boolean($this->review->is_pinned);
+            $this->fail();
             return;
         }
         if ($this->isPinned !== $this->review->is_pinned) {

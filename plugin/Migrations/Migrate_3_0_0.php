@@ -139,7 +139,7 @@ class Migrate_3_0_0 implements MigrateContract
             $this->newSettings['settings.submissions.recaptcha.integration'] = 'all';
         }
         if ('invisible-recaptcha' === $this->oldSettings['settings.reviews-form.recaptcha.integration']) {
-            $recaptcha = wp_parse_args((array) get_site_option('ic-settings', [], false), $recaptcha);
+            $recaptcha = wp_parse_args((array) get_site_option('ic-settings', []), $recaptcha);
         }
         $this->newSettings['settings.submissions.recaptcha.key'] = $recaptcha['SiteKey'];
         $this->newSettings['settings.submissions.recaptcha.secret'] = $recaptcha['SecretKey'];

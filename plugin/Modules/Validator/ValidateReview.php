@@ -45,7 +45,7 @@ class ValidateReview
         }
         $this->blacklisted = Cast::toBool($this->request->blacklisted);
         $this->errors = glsr()->sessionPluck('form_errors', false);
-        $this->message = glsr()->sessionPluck('form_message');
+        $this->message = Cast::toString(glsr()->sessionPluck('form_message'));
         return $this;
     }
 

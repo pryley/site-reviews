@@ -10,35 +10,45 @@ use GeminiLabs\SiteReviews\Review;
 
 class ToggleVerified extends AbstractCommand
 {
-    /** @var Review */
-    public $review;
+    public bool $isVerified;
+    public Review $review;
 
     public function __construct(Request $request)
     {
         $args = glsr(ToggleVerifiedDefaults::class)->restrict($request->toArray());
         $review = glsr(ReviewManager::class)->get($args['id']);
-        $this->result = $args['verified'] >= 0 ? wp_validate_boolean($args['verified']) : !$review->is_verified;
+        $this->isVerified = $args['verified'] >= 0 ? wp_validate_boolean($args['verified']) : !$review->is_verified;
         $this->review = $review;
     }
 
     public function handle(): void
     {
         if (!glsr()->can('edit_post', $this->review->ID)) {
-            $this->result = wp_validate_boolean($this->review->is_verified);
+            $this->isVerified = wp_validate_boolean($this->review->is_verified);
+            $this->fail();
             return;
         }
         if (!glsr()->filterBool('verification/enabled', false)) {
-            $this->result = wp_validate_boolean($this->review->is_verified);
+            $this->isVerified = wp_validate_boolean($this->review->is_verified);
+            $this->fail();
             return;
         }
-        if ($this->result !== $this->review->is_verified) {
+        if ($this->isVerified !== $this->review->is_verified) {
             glsr(ReviewManager::class)->updateRating($this->review->ID, [
-                'is_verified' => $this->result,
+                'is_verified' => $this->isVerified,
             ]);
-            $notice = $this->result
+            $notice = $this->isVerified
                 ? _x('Review verified.', 'admin-text', 'site-reviews')
                 : _x('Review unverified.', 'admin-text', 'site-reviews');
             glsr(Notice::class)->addSuccess($notice);
         }
+    }
+
+    public function response(): array
+    {
+        return [
+            'notices' => glsr(Notice::class)->get(),
+            'verified' => $this->isVerified,
+        ];
     }
 }

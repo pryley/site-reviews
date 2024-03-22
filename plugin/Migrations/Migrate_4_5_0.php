@@ -38,13 +38,13 @@ class Migrate_4_5_0 implements MigrateContract
     protected function migrateMetaKeys(): void
     {
         global $wpdb;
-        $wpdb->query("
+        $wpdb->query($wpdb->prepare("
             UPDATE {$wpdb->postmeta} pm
             INNER JOIN {$wpdb->posts} p ON p.id = pm.post_id
             SET pm.meta_key = CONCAT('_', pm.meta_key)
             WHERE pm.meta_key IN ('assigned_to','author','avatar','content','custom','date','email','ip_address','pinned','rating','response','review_id','review_type','title','url')
-            AND p.post_type = '".glsr()->post_type."'
-        ");
+            AND p.post_type = %s
+        ", glsr()->post_type));
     }
 
     protected function migratePermissions(): void

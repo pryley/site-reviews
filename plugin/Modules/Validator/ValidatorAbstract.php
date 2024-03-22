@@ -31,7 +31,7 @@ abstract class ValidatorAbstract
         return $this->request;
     }
 
-    protected function setErrors(string $message, string $loggedMessage = null): void
+    protected function setErrors(string $message, ?string $loggedMessage = null): void
     {
         glsr()->sessionSet('form_errors', $this->errors);
         glsr()->sessionSet('form_message', $message);

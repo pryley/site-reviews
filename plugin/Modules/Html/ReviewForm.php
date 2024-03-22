@@ -9,8 +9,10 @@ class ReviewForm extends Form
 {
     public function __construct(array $args = [], array $requiredKeys = [])
     {
-        $args['class'] = 'glsr-review-form';
-        $args['button_text'] = __('Submit Review', 'site-reviews');
+        $args = wp_parse_args([
+            'button_text' => __('Submit Review', 'site-reviews'),
+            'class' => 'glsr-review-form',
+        ], $args);
         if (empty($requiredKeys)) {
             $requiredKeys = glsr_get_option('forms.required', []);
         }
@@ -19,9 +21,7 @@ class ReviewForm extends Form
 
     public function field(string $name, array $args): FieldContract
     {
-        $field = new ReviewField(wp_parse_args($args, [
-            'name' => $name,
-        ]));
+        $field = new ReviewField(wp_parse_args($args, compact('name')));
         $this->normalizeField($field);
         return $field;
     }

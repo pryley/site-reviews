@@ -23,6 +23,7 @@ class Form extends \ArrayObject implements FormContract
     {
         $this->args = glsr()->args(wp_parse_args($args, [
             'button_text' => __('Submit Form', 'site-reviews'),
+            'button_text_loading' => __('Submitting, please wait...', 'site-reviews'),
             'id' => glsr(Sanitizer::class)->sanitizeIdHash(''),
         ]));
         $this->required = $requiredKeys;
@@ -51,9 +52,7 @@ class Form extends \ArrayObject implements FormContract
 
     public function field(string $name, array $args): FieldContract
     {
-        $field = new Field(wp_parse_args($args, [
-            'name' => $name,
-        ]));
+        $field = new Field(wp_parse_args($args, compact('name')));
         $this->normalizeField($field);
         return $field;
     }
@@ -158,7 +157,7 @@ class Form extends \ArrayObject implements FormContract
         $rendered = glsr(Template::class)->build('templates/form/submit-button', [
             'context' => [
                 'class' => $this->classAttrSubmitButton(),
-                'loading_text' => __('Submitting, please wait...', 'site-reviews'),
+                'loading_text' => $this->args->button_text_loading,
                 'text' => $this->args->button_text,
             ],
         ]);

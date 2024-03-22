@@ -448,11 +448,6 @@ td.glsr-string-td1 .row-actions.visible {
 /* Field
  ------------------------- */
 
-.glsr-tooltip {
-    color: #646970;
-    cursor: help;
-    margin-left: 6px;
-}
 tr.glsr-setting-field .glsr-tooltip {
     margin-right: 6px;
     margin-left: 0;
@@ -472,7 +467,7 @@ tr.glsr-setting-field th .tippy-box {
 }
 
 @media only screen and (min-width: 783px) {
-    .glsr-tooltip {
+    tr.glsr-setting-field .glsr-tooltip {
         float: left;
         margin-left: 0;
         margin-right: 6px;
