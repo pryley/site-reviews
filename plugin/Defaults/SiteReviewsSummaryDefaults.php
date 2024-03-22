@@ -54,7 +54,7 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
         'labels' => 'text',
         'rating' => 'rating',
         'rating_field' => 'name',
-        'text' => 'text',
+        'text' => 'text-html:a',
         'title' => 'text',
         'type' => 'slug',
     ];
