@@ -2579,7 +2579,7 @@ msgstr ""
 
 #: plugin/Defaults/AddonDefaults.php:57
 msgctxt "admin-text"
-msgid "View Add-on"
+msgid "View addon"
 msgstr ""
 
 #: plugin/Defaults/AddonDefaults.php:54
@@ -4746,7 +4746,7 @@ msgstr ""
 
 #: views/pages/settings/licenses.php:3
 msgctxt "admin-text"
-msgid "Add-on Licenses"
+msgid "Addon Licenses"
 msgstr ""
 
 #: views/pages/settings/licenses.php:8

@@ -54,7 +54,7 @@ class AddonDefaults extends DefaultsAbstract
             $values['link_text'] = _x('Premium members only', 'admin-text', 'site-reviews');
             $values['title'] = sprintf('%s (%s)', $values['title'], _x('beta', 'admin-text', 'site-reviews'));
         } else {
-            $values['link_text'] = _x('View Add-on', 'admin-text', 'site-reviews');
+            $values['link_text'] = _x('View addon', 'admin-text', 'site-reviews');
         }
         return $values;
     }

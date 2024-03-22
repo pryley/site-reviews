@@ -1,6 +1,6 @@
 <?php defined('ABSPATH') || exit; ?>
 
-<h2 class="title"><?php echo _x('Add-on Licenses', 'admin-text', 'site-reviews'); ?></h2>
+<h2 class="title"><?php echo _x('Addon Licenses', 'admin-text', 'site-reviews'); ?></h2>
 
 <?php if (!$license['isSaved']) { ?>
 <div class="components-notice is-info" style="margin-left:0;">

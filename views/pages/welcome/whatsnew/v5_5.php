@@ -27,7 +27,7 @@
 
         <h4>🐞 Bugs Fixed</h4>
         <ul>
-            <li>Fixed Add-on support notice</li>
+            <li>Fixed Addon support notice</li>
             <li>Fixed CSV importing when header values contain trailing spaces</li>
             <li>Fixed email and IP address review limits to include all reviews (not just approved reviews)</li>
             <li>Fixed line breaks in excerpts</li>

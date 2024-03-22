@@ -221,7 +221,7 @@ final class Application extends Container implements PluginContract
             return;
         }
         if (!file_exists($file)) {
-            glsr_log()->error("Add-on does not exist: $file")->debug($addon);
+            glsr_log()->error("Addon does not exist: $file")->debug($addon);
         }
         try {
             $reflection = new \ReflectionClass($addon);

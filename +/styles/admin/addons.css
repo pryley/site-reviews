@@ -114,6 +114,8 @@
   }
 }
 .glsr-addon-link {
+  align-items: center;
+  display: inline-flex;
   margin: 3px !important;
 }
 .glsr-addon-link.glsr-external::after {

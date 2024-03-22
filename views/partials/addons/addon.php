@@ -25,9 +25,7 @@
             </a>
         <?php endif; ?>
     <?php else: ?>
-        <a href="{{ url }}" class="glsr-addon-link glsr-external button button-secondary">
-            {{ link_text }}
-        </a>
+        <a href="{{ url }}" class="glsr-addon-link glsr-external button button-secondary">{{ link_text }}</a>
     <?php endif; ?>
     </div>
 </div>

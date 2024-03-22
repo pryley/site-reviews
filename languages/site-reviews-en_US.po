@@ -3111,8 +3111,8 @@ msgstr "Upgrade Guide"
 
 #: plugin/Defaults/AddonDefaults.php:57
 msgctxt "admin-text"
-msgid "View Add-on"
-msgstr "View Add-on"
+msgid "View addon"
+msgstr "View addon"
 
 #: plugin/Defaults/AddonDefaults.php:54
 msgctxt "admin-text"
@@ -4628,8 +4628,8 @@ msgstr "General Settings"
 
 #: views/pages/settings/licenses.php:3
 msgctxt "admin-text"
-msgid "Add-on Licenses"
-msgstr "Add-on Licenses"
+msgid "Addon Licenses"
+msgstr "Addon Licenses"
 
 #: views/pages/settings/reviews.php:3
 msgctxt "admin-text"
