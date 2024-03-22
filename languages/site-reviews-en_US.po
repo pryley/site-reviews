@@ -116,11 +116,11 @@ msgstr "Close Modal"
 msgid "Please verify your review"
 msgstr "Please verify your review"
 
-#: plugin/Controllers/VerificationController.php:63
+#: plugin/Controllers/VerificationController.php:60
 msgid "Thank you, your review has been verified."
 msgstr "Thank you, your review has been verified."
 
-#: plugin/Controllers/VerificationController.php:64
+#: plugin/Controllers/VerificationController.php:61
 msgid "Thank you, your review has been verified and is awaiting approval."
 msgstr "Thank you, your review has been verified and is awaiting approval."
 
@@ -418,7 +418,7 @@ msgstr "You have already submitted a review."
 msgid "verified owner"
 msgstr "verified owner"
 
-#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:159
+#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:164
 msgid "Reviews (%d)"
 msgstr "Reviews (%d)"
 
@@ -448,13 +448,13 @@ msgstr "Loading, please wait..."
 msgid "Load more"
 msgstr "Load more"
 
-#: plugin/Modules/Html/Partials/StarRating.php:26
-msgid "Rated %s out of %s based on %s ratings"
-msgstr "Rated %s out of %s based on %s ratings"
+#: plugin/Modules/Html/Partials/StarRating.php:34
+msgid "Rated %s out of %s stars based on %s ratings"
+msgstr "Rated %s out of %s stars based on %s ratings"
 
-#: plugin/Modules/Html/Partials/StarRating.php:27
-msgid "Rated %s out of %s"
-msgstr "Rated %s out of %s"
+#: plugin/Modules/Html/Partials/StarRating.php:35
+msgid "Rated %s out of %s stars"
+msgstr "Rated %s out of %s stars"
 
 #: plugin/Modules/Html/Tags/ReviewResponseTag.php:20, views/pages/documentation/faq/change-response-name.php:11
 msgid "Response from %s"
@@ -2548,12 +2548,12 @@ msgctxt "admin-text"
 msgid "The assigned meta values have been reset."
 msgstr "The assigned meta values have been reset."
 
-#: plugin/Commands/TogglePinned.php:39
+#: plugin/Commands/TogglePinned.php:37
 msgctxt "admin-text"
 msgid "Review pinned."
 msgstr "Review pinned."
 
-#: plugin/Commands/TogglePinned.php:40
+#: plugin/Commands/TogglePinned.php:38
 msgctxt "admin-text"
 msgid "Review unpinned."
 msgstr "Review unpinned."
@@ -2577,12 +2577,12 @@ msgid_plural "Unapproved <span class=\"count\">(%s)</span>"
 msgstr[0] "Unapproved <span class=\"count\">(%s)</span>"
 msgstr[1] "Unapproved <span class=\"count\">(%s)</span>"
 
-#: plugin/Commands/ToggleVerified.php:39
+#: plugin/Commands/ToggleVerified.php:41
 msgctxt "admin-text"
 msgid "Review verified."
 msgstr "Review verified."
 
-#: plugin/Commands/ToggleVerified.php:40
+#: plugin/Commands/ToggleVerified.php:42
 msgctxt "admin-text"
 msgid "Review unverified."
 msgstr "Review unverified."

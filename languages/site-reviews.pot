@@ -2015,12 +2015,12 @@ msgstr ""
 msgid "Please verify your review"
 msgstr ""
 
-#: plugin/Commands/TogglePinned.php:39
+#: plugin/Commands/TogglePinned.php:37
 msgctxt "admin-text"
 msgid "Review pinned."
 msgstr ""
 
-#: plugin/Commands/TogglePinned.php:40
+#: plugin/Commands/TogglePinned.php:38
 msgctxt "admin-text"
 msgid "Review unpinned."
 msgstr ""
@@ -2044,12 +2044,12 @@ msgid_plural "Unapproved <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ToggleVerified.php:39
+#: plugin/Commands/ToggleVerified.php:41
 msgctxt "admin-text"
 msgid "Review verified."
 msgstr ""
 
-#: plugin/Commands/ToggleVerified.php:40
+#: plugin/Commands/ToggleVerified.php:42
 msgctxt "admin-text"
 msgid "Review unverified."
 msgstr ""
@@ -2539,11 +2539,11 @@ msgctxt "admin-text"
 msgid "Approved on:"
 msgstr ""
 
-#: plugin/Controllers/VerificationController.php:63
+#: plugin/Controllers/VerificationController.php:60
 msgid "Thank you, your review has been verified."
 msgstr ""
 
-#: plugin/Controllers/VerificationController.php:64
+#: plugin/Controllers/VerificationController.php:61
 msgid "Thank you, your review has been verified and is awaiting approval."
 msgstr ""
 
@@ -5382,7 +5382,7 @@ msgstr ""
 msgid "verified owner"
 msgstr ""
 
-#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:159
+#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:164
 msgid "Reviews (%d)"
 msgstr ""
 
@@ -5422,12 +5422,12 @@ msgctxt "screen reader text"
 msgid "Site Reviews navigation"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/StarRating.php:26
-msgid "Rated %s out of %s based on %s ratings"
+#: plugin/Modules/Html/Partials/StarRating.php:34
+msgid "Rated %s out of %s stars based on %s ratings"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/StarRating.php:27
-msgid "Rated %s out of %s"
+#: plugin/Modules/Html/Partials/StarRating.php:35
+msgid "Rated %s out of %s stars"
 msgstr ""
 
 #: plugin/Modules/Html/Tags/ReviewResponseTag.php:20, views/pages/documentation/faq/change-response-name.php:11
