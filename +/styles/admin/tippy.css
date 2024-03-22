@@ -1,7 +1,9 @@
-$arrow-size: 16px;
-$color: #2c3338;
-$link_color: #72aee6;
-$link_color_hover: #4f94d4;
+[data-tippy-root] {
+  --arrow-size: 16px;
+  --color: #2c3338;
+  --link-color: #72aee6;
+  --link-color-hover: #4f94d4;
+}
 
 .glsr-tooltip {
     color: #646970;
@@ -13,7 +15,7 @@ body[class*="type-site-review"] [data-tippy-root] {
 }
 
 body[class*="type-site-review"] .tippy-box {
-  background-color: $color;
+  background-color: var(--color);
   border-radius: 4px;
   color: white;
   font-size: 14px;
@@ -23,10 +25,10 @@ body[class*="type-site-review"] .tippy-box {
   transition-property: transform, visibility, opacity;
 }
 body[class*="type-site-review"] .tippy-box a {
-  color: $link_color;
+  color: var(--link-color);
 }
 body[class*="type-site-review"] .tippy-box a:hover {
-  color: $link_color_hover;
+  color: var(--link-color-hover);
 }
 body[class*="type-site-review"] .tippy-box code {
     background-color: rgba(255,255,255,.25);
@@ -102,11 +104,10 @@ body[class*="type-site-review"] .tippy-box[data-inertia][data-state='visible'] {
 }
 
 body[class*="type-site-review"] .tippy-arrow {
-  color: $color;
-  height: $arrow-size;
-  width: $arrow-size;
+  color: var(--color);
+  height: var(--arrow-size);
+  width: var(--arrow-size);
 }
-
 body[class*="type-site-review"] .tippy-arrow::before {
   border-color: transparent;
   border-style: solid;

@@ -1,154 +1,154 @@
-// =============================================================================
-// Partials -> Notices
-// =============================================================================
-
 #glsr-notice-catcher {
-    display: none;
+  display: none;
 }
 [class*="site-reviews-welcome"] .wrap > .notice:not(.glsr-notice, .settings-error, .notice-error, #message, #local-storage-notice, #lost-connection-notice),
 [class*="post-type-site-review"] .wrap > .notice:not(.glsr-notice, .settings-error, .notice-error, #message, #local-storage-notice, #lost-connection-notice),
 [class*="site-reviews-welcome"] .wrap > :is(.fs-notice, #setting-error-tgmpa, .wp-helpers-notice),
 [class*="post-type-site-review"] .wrap > :is(.fs-notice, #setting-error-tgmpa, .wp-helpers-notice) {
-    display: none !important;
+  display: none !important;
 }
 [class*="post-type-site-review"] .notice {
-    border-radius: 3px;
+  border-radius: 3px;
 }
 
 .glsr-notice.notice-error .dashicons-before::before {
-    color: #d63638;
+  color: #d63638;
 }
 .glsr-notice.notice-warning .dashicons-before::before {
-    color: #dba617;
+  color: #dba617;
 }
 .glsr-notice.notice-success .dashicons-before::before {
-    color: #00a32a;
+  color: #00a32a;
 }
 
 .glsr-notice.is-error .dashicons-before::before {
-    color: #cc1818;
+  color: #cc1818;
 }
 .glsr-notice.is-warning .dashicons-before::before {
-    color: #f0b849;
+  color: #f0b849;
 }
 .glsr-notice.is-success .dashicons-before::before {
-    color: #4ab866;
+  color: #4ab866;
 }
 
 .glsr-notice:not(.is-info, .is-success, .is-warning, .is-error, .notice-info, .notice-success, .notice-warning, .notice-error) {
-    border-color: var(--wp-admin-theme-color-darker-10);
-    border-left-color: var(--wp-admin-theme-color);
+  border-color: var(--wp-admin-theme-color-darker-10);
+  border-left-color: var(--wp-admin-theme-color);
 }
 .glsr-notice-buttons {
-    gap: 6px;
-    display: flex;
-    flex-wrap: wrap;
+  gap: 6px;
+  display: flex;
+  flex-wrap: wrap;
 }
 .glsr-notice-buttons .button {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 .glsr-notice-buttons .button-link {
-    padding: 0 6px;
+  padding: 0 6px;
 }
 .glsr-notice-buttons .button-link:active,
 .glsr-notice-buttons .button-link:focus,
 .glsr-notice-buttons .button-link:hover {
-    background-color: transparent;
+  background-color: transparent;
 }
 .glsr-notice-footer {
-    background: #fff;
-    border-style: solid;
-    border-radius: 3px;
-    border-width: 1px;
-    border-left-width: 4px;
-    box-shadow: 0 1px 1px rgba(0,0,0,.04);
-    padding: 1px 12px;
-    margin: 10px 0;
+  background: #fff;
+  border-style: solid;
+  border-radius: 3px;
+  border-width: 1px;
+  border-left-width: 4px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.04);
+  padding: 1px 12px;
+  margin: 10px 0;
 }
 .glsr-notice-footer .button-link {
-    line-height: inherit;
-    min-height: auto;
+  line-height: inherit;
+  min-height: auto;
 }
 #wpfooter .glsr-notice-footer p {
-    margin: .5em 0;
-    padding: 2px;
+  margin: .5em 0;
+  padding: 2px;
 }
 
 .glsr-notice-top-of-page {
-    background-color: var(--wp-admin-theme-color);
-    border-width: 0;
-    border-radius: 0;
-    box-shadow: inset 0 -1px var(--wp-admin-theme-color-darker-20);
-    color: #fff;
-    display: none;
-    font-size: 15px;
-    line-height: 1.4;
-    padding: 12px 60px 16px 20px;
-    position: relative;
+  background-color: var(--wp-admin-theme-color);
+  border-width: 0;
+  border-radius: 0;
+  box-shadow: inset 0 -1px var(--wp-admin-theme-color-darker-20);
+  color: #fff;
+  display: none;
+  font-size: 15px;
+  line-height: 1.4;
+  padding: 12px 60px 16px 20px;
+  position: relative;
 }
 @media screen and (min-width: 783px) {
-    .glsr-notice-top-of-page {
-        padding-top: 10px;
-        padding-bottom: 12px;
-    }
+  .glsr-notice-top-of-page {
+    padding-top: 10px;
+    padding-bottom: 12px;
+  }
 }
 @media screen and (min-width: 1440px) {
-    .glsr-notice-top-of-page {
-        text-align: center;
-    }
+  .glsr-notice-top-of-page {
+    text-align: center;
+  }
 }
 .glsr-notice-top-of-page a {
-    color: #fff;
+  color: #fff;
 }
 .glsr-notice-top-of-page a:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 .glsr-notice-top-of-page .notice-dismiss::before {
-    color: #fff;
-    text-shadow: 0px -1px 0px #4E426C;
-    content: "\f335";
-    font: normal 24px/24px dashicons;
-    height: 24px;
-    width: 24px;
+  color: #fff;
+  text-shadow: 0px -1px 0px #4E426C;
+  content: "\f335";
+  font: normal 24px/24px dashicons;
+  height: 24px;
+  width: 24px;
 }
 @media screen and (min-width: 783px) {
-    .glsr-notice-top-of-page .notice-dismiss {
-        right: 10px;
-    }
+  .glsr-notice-top-of-page .notice-dismiss {
+    right: 10px;
+  }
 }
 
 .glsr-responsive-table td .glsr-notice-inline.is-warning {
-    background-color: #fff8e5;
-    border-left: 4px solid #f0b849;
-    display: inline-block;
-    padding: 2px 8px;
-    margin-top: 4px;
+  background-color: #fff8e5;
+  border-left: 4px solid #f0b849;
+  display: inline-block;
+  padding: 2px 8px;
+  margin-top: 4px;
 }
 
 .glsr-card .components-notice,
 .glsr-notice-inline.components-notice {
-    margin: 0;
+  margin: 0;
 }
 .postbox .glsr-notice-inline.components-notice {
-    margin: 12px 0;
+  margin: 12px 0;
 }
 .glsr-card .components-notice.is-info,
 .glsr-notice-inline.components-notice.is-info {
-    background-color: #E5F5FA;
+  background-color: #E5F5FA;
 }
 .glsr-card .components-notice.is-error,
 .glsr-notice-inline.components-notice.is-error {
-    background-color: #FBEAEA;
+  background-color: #FBEAEA;
 }
 .glsr-card .components-notice.is-success,
 .glsr-notice-inline.components-notice.is-success {
-    background-color: #ECF7ED;
+  background-color: #ECF7ED;
 }
 .glsr-card .components-notice.is-warning,
 .glsr-notice-inline.components-notice.is-warning {
-    background-color: #FFF8E5;
+  background-color: #FFF8E5;
 }
 .glsr-card .glsr-notice-inline .components-notice__content,
 .glsr-notice-inline .components-notice__content {
-    margin: 4px 0;
+  margin: 4px 0;
+}
+
+.glsr-notice .glsr-tooltip {
+  
 }

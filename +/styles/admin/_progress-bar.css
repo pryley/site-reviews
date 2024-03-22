@@ -1,7 +1,3 @@
-// =============================================================================
-// Partials -> Progress Bar
-// =============================================================================
-
 .glsr-progress {
 	position: relative;
 	display: block;
@@ -43,7 +39,7 @@
 	color: #fff;
 	background-color: hsl(210, 9%, 42%);
 	background-image: linear-gradient(-45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
-	// box-shadow: 0 1px 0 hsl(210, 9%, 32%);
+	/*box-shadow: 0 1px 0 hsl(210, 9%, 32%);*/
 	border-width: 1px;
 	border-style: solid;
 	border-color: hsl(210, 9%, 42%) hsl(210, 9%, 32%) hsl(210, 9%, 32%);
@@ -110,7 +106,7 @@
 
 .glsr-progress .glsr-progress-bar {
 	background-color: hsl(277, 70%, 35%);
-	// box-shadow: 0 1px 0 hsl(277, 70%, 30%);
+	/*box-shadow: 0 1px 0 hsl(277, 70%, 30%);*/
 	border-color: hsl(277, 70%, 35%) hsl(277, 70%, 30%) hsl(277, 70%, 30%);
 }
 

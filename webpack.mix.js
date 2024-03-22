@@ -64,11 +64,10 @@ mix
   .babel('+/scripts/deactivate-plugin.js', 'assets/scripts/deactivate-plugin.js')
   .babel('+/scripts/mce-plugin.js', 'assets/scripts/mce-plugin.js')
   .babel('+/scripts/rollback.js', 'assets/scripts/rollback.js')
-  // .js('+/scripts/site-reviews.js', 'assets/scripts')
   .js('+/scripts/gamipress.js', 'assets/scripts')
   .js('+/scripts/site-reviews-admin.js', 'assets/scripts')
   .js('+/scripts/site-reviews-blocks.js', 'assets/scripts')
-  .sass('+/styles/admin.scss', 'assets/styles/admin')
+  .postCss('+/styles/admin.css', 'assets/styles/admin')
   .postCss('+/styles/deactivate-plugin.css', 'assets/styles')
   .postCss('+/styles/inline-styles.css', 'assets/styles', postCss())
   .postCss('+/styles/bootstrap.css', 'assets/styles', postCss('.glsr-bootstrap'))
@@ -100,14 +99,14 @@ mix
   .postCss('+/styles/twentytwentytwo-blocks.css', 'assets/styles/blocks', postCss('.wp-block'))
   .postCss('+/styles/wpforms-blocks.css', 'assets/styles/blocks', postCss('.wp-block'))
   // .version()
-  .browserSync({
-    files: [
-        '+/**/*.(css|js)', 
-        'plugin/(views|templates)/**/*.php', 
-    ],
-    notify: false,
-    proxy: 'https://site-reviews.test',
-  })
+  // .browserSync({
+  //   files: [
+  //       '+/**/*.(css|js)', 
+  //       'plugin/(views|templates)/**/*.php', 
+  //   ],
+  //   notify: false,
+  //   proxy: 'https://site-reviews.test',
+  // })
 
 if (mix.inProduction()) {
   // mix.bundleAnalyzer()

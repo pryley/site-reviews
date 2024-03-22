@@ -1,0 +1,201 @@
+code[class*="language-"], pre[class*="language-"] {
+  --base00: #2b303b; /* Default Background */
+  --base01: #343d46; /* Lighter Background (Used for status bars) */
+  --base02: #4f5b66; /* Selection Background */
+  --base03: #65737e; /* Comments, Invisibles, Line Highlighting */
+  --base04: #a7adba; /* Dark Foreground (Used for status bars) */
+  --base05: #c0c5ce; /* Default Foreground, Caret, Delimiters, Operators */
+  --base06: #dfe1e8; /* Light Foreground (Not often used) */
+  --base07: #eff1f5; /* Light Background (Not often used) */
+  --base08: #bf616a; /* Variables, XML Tags, Markup Link Text, Markup Lists, Diff Deleted */
+  --base09: #d08770; /* Integers, Boolean, Constants, XML Attributes, Markup Link Url */
+  --base0A: #ebcb8b; /* Classes, Markup Bold, Search Text Background */
+  --base0B: #a3be8c; /* Strings, Inherited Class, Markup Code, Diff Inserted */
+  --base0C: #96b5b4; /* Support, Regular Expressions, Escape Characters, Markup Quotes */
+  --base0D: #8fa1b3; /* Functions, Methods, Attribute IDs, Headings */
+  --base0E: #b48ead; /* Keywords, Storage, Selector, Markup Italic, Diff Changed */
+  --base0F: #ab7967; 
+  background-color: var(--base00);
+  border-radius: 2px;
+  color: var(--base05);
+  font-family: "Operator Mono Lig", "Fira Code", Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 13px;
+  hyphens: none;
+  line-height: 1.5;
+  tab-size: 4;
+  text-align: left;
+  white-space: pre;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  display: block;
+  padding: 1em;
+  position: relative;
+  margin: .5em 0;
+  overflow: auto;
+}
+pre[class*="language-"] > code {
+  margin: 0;
+  padding: 0;
+}
+pre[class*="language-"]::after {
+  background-color: var(--base02);
+  color: #fff;
+  display: block;
+  font-weight: 300;
+  margin: 12px;
+  opacity: 0;
+  padding: 1px 6px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: opacity .15s ease-in-out;
+  z-index: 10;
+}
+pre[class*="language-"]:hover::after {
+  opacity: 1;
+}
+pre.language-bash::after {
+  content: 'Bash';
+}
+pre.language-css::after {
+  content: 'CSS';
+}
+pre.language-html::after {
+  content: 'HTML';
+}
+pre.language-js::after {
+  content: 'Javascript';
+}
+pre.language-php::after {
+  content: 'PHP';
+}
+
+/* Inline code */
+*:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+}
+
+/* Global */
+.token.comment,
+.token.block-comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: var(--base03);
+}
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+
+/* Shortcode */
+.language-shortcode .tag,
+.language-shortcode .punctuation {
+  color: var(--base08);
+}
+.language-shortcode .variable {
+  color: var(--base0E);
+}
+.language-shortcode .string {
+  color: var(--base0B);
+}
+
+/* CSS */
+.language-css .comment {
+  color: var(--base03);
+}
+.language-css .selector,
+.language-css .important {
+  color: var(--base0E);
+}
+.language-css .property,
+.language-css .function,
+.language-css .url .function {
+  color: var(--base0D);
+}
+.language-css .string,
+.language-css .url {
+  color: var(--base0B);
+}
+.language-css .atrule,
+.language-css .atrule .punctuation,
+.language-css .url .punctuation {
+  color: var(--base05);
+}
+.language-css .atrule .rule {
+  color: var(--base0A);
+}
+.language-css .atrule .keyword {
+  color: var(--base08);
+}
+
+/* HTML */
+.language-html .tag {
+  color: var(--base08);
+}
+.language-html .attr-name {
+  color: var(--base0E);
+}
+.language-html .attr-value {
+  color: var(--base0B);
+}
+.language-html .attr-equals {
+  color: var(--base05);
+}
+
+/* Javascript */
+.language-js .constant {
+  color: var(--base0D);
+}
+.language-js .string {
+  color: var(--base0B);
+}
+.language-js .operator {
+  color: var(--base0E);
+}
+
+/* PHP */
+.language-php .punctuation,
+.language-php .package .punctuation,
+.language-php .attr-value,
+.language-php .char,
+.language-php .regex,
+.language-php .variable,
+.language-php .property,
+.language-php .constant {
+  color: var(--base05);
+}
+.language-php .cdata,
+.language-php .comment,
+.language-php .block-comment,
+.language-php .doctype,
+.language-php .prolog {
+  color: var(--base03);
+}
+.language-php .string {
+  color: var(--base0B);
+}
+.language-php .keyword,
+.language-php .selector,
+.language-php .important {
+  color: var(--base0E);
+}
+.language-php .number,
+.language-php .operator {
+  color: var(--base08);
+}
+.language-php .boolean,
+.language-php .function,
+.language-php .class-name,
+.language-php .package {
+  color: var(--base0D);
+}

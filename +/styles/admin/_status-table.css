@@ -1,7 +1,3 @@
-// =============================================================================
-// Partials -> Status table
-// =============================================================================
-
 .glsr-status {
 	max-width: 750px;
 }
@@ -14,9 +10,9 @@
 	position: relative;
 	font-size: 14px !important;
 	font-weight: 600;
-	span {
-		font-weight: 400;
-	}
+}
+.glsr-status td.column-primary span {
+	font-weight: 400;
 }
 
 .glsr-status .toggle-row {
