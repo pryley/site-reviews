@@ -13,12 +13,12 @@ class Hooks extends AbstractHooks
             return;
         }
         add_action('lws_woorewards_abstracts_event_installed', function () {
-            $callback = glsr(Compatibility::class)->findCallback('comment_post', 'trigger', '\LWS\WOOREWARDS\Events\ProductReview');
-            if (empty($callback)) {
+            $callback = glsr(Compatibility::class)->findCallback('wp_insert_comment', 'review', '\LWS\WOOREWARDS\Events\ProductReview');
+            if (!isset($callback['function'][0])) {
                 return;
             }
-            glsr()->store('\LWS\WOOREWARDS\Events\ProductReview', $callback);
-            glsr(Compatibility::class)->removeHook('comment_post', 'trigger', '\LWS\WOOREWARDS\Events\ProductReview');
+            glsr()->store('\LWS\WOOREWARDS\Events\ProductReview', $callback['function'][0]);
+            glsr(Compatibility::class)->removeHook('comment_post', 'trigger', '\LWS\WOOREWARDS\Events\ProductReview'); // this is commented out in WooRewards, but it's here just in case
             glsr(Compatibility::class)->removeHook('comment_unapproved_to_approved', 'delayedApproval', '\LWS\WOOREWARDS\Events\ProductReview');
             glsr(Compatibility::class)->removeHook('wp_insert_comment', 'review', '\LWS\WOOREWARDS\Events\ProductReview');
             $this->hook(Controller::class, [
