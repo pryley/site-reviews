@@ -19,7 +19,7 @@ class Role
     }
 
     /**
-     * @param mixed $args,...
+     * @param mixed ...$args
      */
     public function can(string $capability, ...$args): bool
     {

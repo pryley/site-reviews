@@ -6,6 +6,7 @@ class UnknownType extends BaseType
 {
     /**
      * @var array
+     *
      * @see http://schema.org/{property_name}
      */
     public $allowed = [
@@ -14,6 +15,7 @@ class UnknownType extends BaseType
 
     /**
      * @var array
+     *
      * @see http://schema.org/{property_name}
      */
     public $parents = [

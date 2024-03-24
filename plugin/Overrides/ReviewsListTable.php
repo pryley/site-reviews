@@ -12,6 +12,7 @@ class ReviewsListTable extends \WP_Posts_List_Table
 {
     /**
      * @param \WP_Post $post
+     *
      * @return void
      */
     public function column_title($post)
@@ -23,8 +24,8 @@ class ReviewsListTable extends \WP_Posts_List_Table
         parent::column_title($post);
         $value = ob_get_clean();
         $value = str_replace(
-            ['<strong>','</strong>'],
-            ['<div class="review-title"><strong>','</strong></div>'],
+            ['<strong>', '</strong>'],
+            ['<div class="review-title"><strong>', '</strong></div>'],
             $value
         );
         echo $value;

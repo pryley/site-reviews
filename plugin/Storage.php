@@ -34,6 +34,7 @@ trait Storage
 
     /**
      * @param mixed $fallback
+     *
      * @return mixed
      */
     public function retrieve(string $property, $fallback = null)
@@ -43,6 +44,7 @@ trait Storage
 
     /**
      * @param mixed $fallback
+     *
      * @return mixed
      */
     public function retrieveAs(string $cast, string $property, $fallback = null)

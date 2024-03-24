@@ -192,6 +192,7 @@ class Helper
     /**
      * @param mixed $value
      * @param mixed $fallback
+     *
      * @return mixed
      */
     public static function ifEmpty($value, $fallback, $strict = false)
@@ -203,6 +204,7 @@ class Helper
     /**
      * @param mixed $ifTrue
      * @param mixed $ifFalse
+     *
      * @return mixed
      */
     public static function ifTrue(bool $condition, $ifTrue, $ifFalse = null)
@@ -211,7 +213,7 @@ class Helper
     }
 
     /**
-     * @param mixed $value
+     * @param mixed      $value
      * @param string|int $min
      * @param string|int $max
      */
@@ -308,6 +310,7 @@ class Helper
 
     /**
      * @param mixed $value
+     *
      * @return mixed
      */
     public static function runClosure($value)

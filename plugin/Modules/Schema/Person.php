@@ -4,7 +4,9 @@ namespace GeminiLabs\SiteReviews\Modules\Schema;
 
 /**
  * A person (alive, dead, undead, or fictional).
+ *
  * @see http://schema.org/Person
+ *
  * @method static additionalName(string|string[] $additionalName)
  * @method static address(PostalAddress|PostalAddress[]|string|string[] $address)
  * @method static affiliation(Organization|Organization[] $affiliation)
@@ -66,6 +68,7 @@ class Person extends BaseType
 {
     /**
      * @var array
+     *
      * @see http://schema.org/{property_name}
      */
     public $allowed = [
@@ -82,6 +85,7 @@ class Person extends BaseType
 
     /**
      * @var array
+     *
      * @see http://schema.org/{property_name}
      */
     public $parents = [

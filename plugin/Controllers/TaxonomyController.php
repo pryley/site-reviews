@@ -13,7 +13,9 @@ class TaxonomyController extends AbstractController
 
     /**
      * @param string[] $columns
+     *
      * @return string[]
+     *
      * @filter manage_edit-{glsr()->taxonomy}_columns
      */
     public function filterColumns(array $columns): array
@@ -45,7 +47,9 @@ class TaxonomyController extends AbstractController
 
     /**
      * @param string[] $hidden
+     *
      * @return string[]
+     *
      * @filter default_hidden_columns
      */
     public function filterDefaultHiddenColumns(array $hidden, \WP_Screen $screen): array
@@ -61,7 +65,9 @@ class TaxonomyController extends AbstractController
 
     /**
      * @param string[] $actions
+     *
      * @return string[]
+     *
      * @filter {glsr()->taxonomy}_row_actions
      */
     public function filterRowActions(array $actions, \WP_Term $term): array
@@ -73,7 +79,9 @@ class TaxonomyController extends AbstractController
     /**
      * @param string[] $clauses
      * @param string[] $taxonomies
+     *
      * @return string[]
+     *
      * @filter terms_clauses
      */
     public function filterTermsClauses(array $clauses, array $taxonomies, array $args): array
@@ -144,6 +152,7 @@ class TaxonomyController extends AbstractController
 
     /**
      * @param string[] $metaIds
+     *
      * @action deleted_term_meta
      */
     public function termPriorityDeleted(array $metaIds, int $termId, string $metaKey): void
@@ -164,8 +173,7 @@ class TaxonomyController extends AbstractController
         }
         $value = Arr::getAs('int', $args, static::PRIORITY_META_KEY);
         if (0 === $value) {
-            delete_term_meta($termId, static::PRIORITY_META_KEY);
-            // transient deleted with "deleted_term_meta" hook
+            delete_term_meta($termId, static::PRIORITY_META_KEY); // transient deleted with "deleted_term_meta" hook
         } else {
             update_term_meta($termId, static::PRIORITY_META_KEY, $value);
             delete_transient(glsr()->prefix.static::PRIORITY_META_KEY);

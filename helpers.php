@@ -70,6 +70,7 @@ function glsr($alias = null, array $parameters = [])
  * @param string $page
  * @param string $tab
  * @param string $sub
+ *
  * @return string
  */
 function glsr_admin_url($page = '', $tab = '', $sub = '')
@@ -88,7 +89,7 @@ function glsr_admin_url($page = '', $tab = '', $sub = '')
 }
 
 /**
- * @return \GeminiLabs\SiteReviews\Review|false
+ * @return Review|false
  */
 function glsr_create_review($values = [])
 {
@@ -105,7 +106,7 @@ function glsr_create_review($values = [])
 }
 
 /**
- * @return \WP_Screen|object
+ * @return WP_Screen|object
  */
 function glsr_current_screen()
 {
@@ -118,7 +119,7 @@ function glsr_current_screen()
 }
 
 /**
- * @param mixed $vars,...
+ * @param mixed ...$vars
  */
 function glsr_debug(...$vars): void
 {
@@ -136,9 +137,9 @@ function glsr_debug(...$vars): void
 }
 
 /**
- * @param array $data
  * @param string|int $path
- * @param mixed $fallback
+ * @param mixed      $fallback
+ *
  * @return mixed
  */
 function glsr_get($array, $path = '', $fallback = '')
@@ -148,8 +149,9 @@ function glsr_get($array, $path = '', $fallback = '')
 
 /**
  * @param string $path
- * @param mixed $fallback
+ * @param mixed  $fallback
  * @param string $cast
+ *
  * @return mixed
  */
 function glsr_get_option($path = '', $fallback = '', $cast = '')
@@ -168,7 +170,7 @@ function glsr_get_options()
 }
 
 /**
- * @return \GeminiLabs\SiteReviews\Arguments
+ * @return Arguments
  */
 function glsr_get_ratings($args = [])
 {
@@ -189,7 +191,7 @@ function glsr_get_review($postId): Review
 }
 
 /**
- * @return \GeminiLabs\SiteReviews\Reviews
+ * @return GeminiLabs\SiteReviews\Reviews
  */
 function glsr_get_reviews($args = [])
 {
@@ -197,8 +199,9 @@ function glsr_get_reviews($args = [])
 }
 
 /**
- * @param mixed $args,...
- * @return \GeminiLabs\SiteReviews\Modules\Console
+ * @param mixed ...$args
+ *
+ * @return Console
  */
 function glsr_log(...$args)
 {
@@ -209,9 +212,9 @@ function glsr_log(...$args)
 }
 
 /**
- * @param array $array
  * @param string $path
- * @param mixed $value
+ * @param mixed  $value
+ *
  * @return array
  */
 function glsr_set(array $data, $path, $value)
@@ -220,8 +223,9 @@ function glsr_set(array $data, $path, $value)
 }
 
 /**
- * @param mixed $rating
+ * @param mixed    $rating
  * @param int|null $reviews
+ *
  * @return string
  */
 function glsr_star_rating($rating, $reviews = 0, array $args = [])
@@ -235,6 +239,7 @@ function glsr_star_rating($rating, $reviews = 0, array $args = [])
 
 /**
  * @param int $limit
+ *
  * @return void
  */
 function glsr_trace($limit = 5)
@@ -244,7 +249,8 @@ function glsr_trace($limit = 5)
 
 /**
  * @param int $postId
- * @return \GeminiLabs\SiteReviews\Review|false
+ *
+ * @return Review|false
  */
 function glsr_update_review($postId, $values = [])
 {

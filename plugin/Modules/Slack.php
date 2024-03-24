@@ -84,11 +84,11 @@ class Slack implements WebhookContract
             return [];
         }
         return [
-           'type' => 'section',
-           'text' => [
-               'type' => 'mrkdwn',
-               'text' => sprintf(__('Review of %s', 'site-reviews'), $this->args['assigned_links']),
-           ],
+            'type' => 'section',
+            'text' => [
+                'type' => 'mrkdwn',
+                'text' => sprintf(__('Review of %s', 'site-reviews'), $this->args['assigned_links']),
+            ],
         ];
     }
 

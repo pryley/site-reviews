@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Metaboxes;
 
 use GeminiLabs\SiteReviews\Contracts\MetaboxContract;
-use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Modules\Html\MetaboxForm;
 use GeminiLabs\SiteReviews\Review;
 

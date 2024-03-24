@@ -9,10 +9,11 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 /**
  * @property string $id
  * @property string $name
- * @method array filterArray($hook, ...$args)
- * @method bool filterBool($hook, ...$args)
- * @method float filterFloat($hook, ...$args)
- * @method int filterInt($hook, ...$args)
+ *
+ * @method array  filterArray($hook, ...$args)
+ * @method bool   filterBool($hook, ...$args)
+ * @method float  filterFloat($hook, ...$args)
+ * @method int    filterInt($hook, ...$args)
  * @method object filterObject($hook, ...$args)
  * @method string filterString($hook, ...$args)
  */
@@ -75,7 +76,7 @@ trait Plugin
     }
 
     /**
-     * @param mixed $args,...
+     * @param mixed ...$args
      */
     public function action(string $hook, ...$args): void
     {
@@ -152,7 +153,8 @@ trait Plugin
     }
 
     /**
-     * @param mixed $args,...
+     * @param mixed ...$args
+     *
      * @return mixed
      */
     public function filter(string $hook, ...$args)
@@ -162,7 +164,7 @@ trait Plugin
     }
 
     /**
-     * @param mixed $args,...
+     * @param mixed ...$args
      */
     public function filterArrayUnique(string $hook, ...$args): array
     {
@@ -183,6 +185,7 @@ trait Plugin
 
     /**
      * @param mixed $fallback
+     *
      * @return mixed
      */
     public function option(string $path = '', $fallback = '', string $cast = '')

@@ -33,7 +33,9 @@ abstract class Controller extends AbstractController
 
     /**
      * The CSS registered here will not load in the site editor unless it contains the .wp-block selector.
+     *
      * @see https://github.com/WordPress/gutenberg/issues/41821
+     *
      * @action enqueue_block_editor_assets
      */
     public function enqueueBlockAssets(): void
@@ -60,6 +62,7 @@ abstract class Controller extends AbstractController
 
     /**
      * @param array $actions
+     *
      * @filter plugin_action_links_{$this->app()->id}/{$this->app()->id}.php
      */
     public function filterActionLinks($actions): array
@@ -146,6 +149,7 @@ abstract class Controller extends AbstractController
     /**
      * @param string $translation
      * @param string $single
+     *
      * @filter gettext_{$this->app()->id}
      */
     public function filterGettext($translation, $single): string
@@ -160,6 +164,7 @@ abstract class Controller extends AbstractController
      * @param string $translation
      * @param string $single
      * @param string $context
+     *
      * @filter gettext_with_context_{$this->app()->id}
      */
     public function filterGettextWithContext($translation, $single, $context): string
@@ -175,7 +180,8 @@ abstract class Controller extends AbstractController
      * @param string $translation
      * @param string $single
      * @param string $plural
-     * @param int $number
+     * @param int    $number
+     *
      * @filter ngettext_{$this->app()->id}
      */
     public function filterNgettext($translation, $single, $plural, $number): string
@@ -192,8 +198,9 @@ abstract class Controller extends AbstractController
      * @param string $translation
      * @param string $single
      * @param string $plural
-     * @param int $number
+     * @param int    $number
      * @param string $context
+     *
      * @filter ngettext_with_context_{$this->app()->id}
      */
     public function filterNgettextWithContext($translation, $single, $plural, $number, $context): string

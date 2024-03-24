@@ -24,6 +24,7 @@ class Url
 
     /**
      * @param string|int|null $fallback
+     *
      * @return mixed
      */
     public static function query(string $url, string $param, $fallback = null)

@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Integrations\GamiPress\Commands;
 
 use GeminiLabs\SiteReviews\Commands\AbstractCommand;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Integrations\GamiPress\Triggers;
 
 class TriggerEvent extends AbstractCommand

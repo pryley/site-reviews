@@ -32,6 +32,7 @@ class EditorController extends AbstractController
 
     /**
      * Modify the WP_Editor html to allow autosizing without breaking the `editor-expand` script.
+     *
      * @filter the_editor
      */
     public function filterEditorTextarea(string $output): string
@@ -60,6 +61,7 @@ class EditorController extends AbstractController
 
     /**
      * @param array[] $messages
+     *
      * @filter post_updated_messages
      */
     public function filterUpdateMessages(array $messages): array
@@ -75,13 +77,13 @@ class EditorController extends AbstractController
         }
         $scheduled_date = date_i18n('M j, Y @ H:i', strtotime($post->post_date));
         $messages[glsr()->post_type] = [
-             1 => $strings['updated'],
-             4 => $strings['updated'],
-             5 => $restored,
-             6 => $strings['published'],
-             7 => $strings['saved'],
-             8 => $strings['submitted'],
-             9 => sprintf($strings['scheduled'], "<strong>{$scheduled_date}</strong>"),
+            1 => $strings['updated'],
+            4 => $strings['updated'],
+            5 => $restored,
+            6 => $strings['published'],
+            7 => $strings['saved'],
+            8 => $strings['submitted'],
+            9 => sprintf($strings['scheduled'], "<strong>{$scheduled_date}</strong>"),
             10 => $strings['draft_updated'],
             50 => $strings['approved'],
             51 => $strings['unapproved'],

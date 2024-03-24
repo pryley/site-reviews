@@ -41,6 +41,7 @@ class Controller extends AbstractController
 
     /**
      * This allows us to invoke a protected method.
+     *
      * @return mixed
      */
     protected function invoke(string $method, array $args = [])

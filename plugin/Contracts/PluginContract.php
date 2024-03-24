@@ -14,16 +14,17 @@ use GeminiLabs\SiteReviews\Request;
  * @property string $post_type
  * @property string $slug
  * @property string $version
- * @method array filterArray($hook, ...$args)
- * @method bool filterBool($hook, ...$args)
- * @method float filterFloat($hook, ...$args)
- * @method int filterInt($hook, ...$args)
+ *
+ * @method array  filterArray($hook, ...$args)
+ * @method bool   filterBool($hook, ...$args)
+ * @method float  filterFloat($hook, ...$args)
+ * @method int    filterInt($hook, ...$args)
  * @method object filterObject($hook, ...$args)
  * @method string filterString($hook, ...$args)
  */
 interface PluginContract
 {
-    /** @param mixed $args,... */
+    /** @param mixed ...$args */
     public function action(string $hook, ...$args): void;
 
     /** @param mixed $args */
@@ -39,16 +40,18 @@ interface PluginContract
     public function file(string $view): string;
 
     /**
-     * @param mixed $args,...
+     * @param mixed ...$args
+     *
      * @return mixed
      */
     public function filter(string $hook, ...$args);
 
-    /** @param mixed $args,... */
+    /** @param mixed ...$args */
     public function filterArrayUnique(string $hook, ...$args): array;
 
     /**
      * @param mixed $fallback
+     *
      * @return mixed
      */
     public function option(string $path = '', $fallback = '', string $cast = '');
@@ -57,11 +60,12 @@ interface PluginContract
 
     public function render(string $view, array $data = []): void;
 
-    /** @param mixed $args,... */
+    /** @param mixed ...$args */
     public function request($args = []): Request;
 
     /**
-     * @param mixed $args,...
+     * @param mixed ...$args
+     *
      * @return mixed|false
      */
     public function runIf(string $className, ...$args);

@@ -31,6 +31,7 @@ abstract class DefaultsAbstract implements DefaultsContract
     public array $casts = [];
     /**
      * The values that should be concatenated.
+     *
      * @var string[]
      */
     public array $concatenated = [];
@@ -41,6 +42,7 @@ abstract class DefaultsAbstract implements DefaultsContract
     public array $enums = [];
     /**
      * The values that should be guarded.
+     *
      * @var string[]
      */
     public array $guarded = [];
@@ -147,6 +149,7 @@ abstract class DefaultsAbstract implements DefaultsContract
 
     /**
      * @param mixed $value
+     *
      * @return mixed
      */
     protected function concatenate(string $key, $value)

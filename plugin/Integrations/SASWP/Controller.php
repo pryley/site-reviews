@@ -11,6 +11,7 @@ class Controller extends AbstractController
 {
     /**
      * @param array $data
+     *
      * @filter saswp_modify_reviews_schema
      */
     public function filterSchema($data): array

@@ -21,24 +21,28 @@ class Validator
 
     /**
      * The data under validation.
+     *
      * @var array
      */
     protected $data = [];
 
     /**
      * The failed validation rules.
+     *
      * @var array
      */
     protected $failedRules = [];
 
     /**
      * The rules to be applied to the data.
+     *
      * @var array
      */
     protected $rules = [];
 
     /**
      * The size related validation rules.
+     *
      * @var array
      */
     protected $sizeRules = [
@@ -47,6 +51,7 @@ class Validator
 
     /**
      * The validation rules that imply the field is required.
+     *
      * @var array
      */
     protected $implicitRules = [
@@ -55,6 +60,7 @@ class Validator
 
     /**
      * The numeric related validation rules.
+     *
      * @var array
      */
     protected $numericRules = [
@@ -62,7 +68,8 @@ class Validator
     ];
 
     /**
-     * Run the validator's rules against its data
+     * Run the validator's rules against its data.
+     *
      * @throws \BadMethodCallException
      */
     public function validate(array $data, array $rules = []): array
@@ -82,6 +89,7 @@ class Validator
 
     /**
      * Validate a given attribute against a rule.
+     *
      * @throws \BadMethodCallException
      */
     public function validateAttribute(string $attribute, string $rule): void
@@ -159,6 +167,7 @@ class Validator
 
     /**
      * Get the size of an attribute.
+     *
      * @param mixed $value
      */
     protected function getSize(string $attribute, $value): int
@@ -188,6 +197,7 @@ class Validator
 
     /**
      * Get the value of a given attribute.
+     *
      * @return mixed
      */
     protected function getValue(string $attribute)

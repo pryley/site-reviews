@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Hooks;
 
 use GeminiLabs\SiteReviews\Contracts\HooksContract;
-use GeminiLabs\SiteReviews\Database\OptionManager;
 
 abstract class AbstractHooks implements HooksContract
 {
@@ -72,6 +71,7 @@ abstract class AbstractHooks implements HooksContract
 
     /**
      * @param mixed $fallback
+     *
      * @return mixed
      */
     public function option(string $path, $fallback = '', string $cast = '')

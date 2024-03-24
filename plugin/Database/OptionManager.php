@@ -9,10 +9,10 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 
 /**
- * @method array getArray(string $path = '', $fallback = [])
- * @method bool getBool(string $path = '', $fallback = false)
- * @method float getFloat(string $path = '', $fallback = 0.0)
- * @method int getInt(string $path = '', $fallback = 0)
+ * @method array  getArray(string $path = '', $fallback = [])
+ * @method bool   getBool(string $path = '', $fallback = false)
+ * @method float  getFloat(string $path = '', $fallback = 0.0)
+ * @method int    getInt(string $path = '', $fallback = 0)
  * @method string getString(string $path = '', $fallback = '')
  */
 class OptionManager
@@ -43,7 +43,7 @@ class OptionManager
         return $settings;
     }
 
-    public static function databaseKey(int $version = null): string
+    public static function databaseKey(?int $version = null): string
     {
         $versions = static::databaseKeys();
         if (null === $version) {
@@ -89,6 +89,7 @@ class OptionManager
 
     /**
      * @param mixed $fallback
+     *
      * @return mixed
      */
     public function get(string $path = '', $fallback = '', string $cast = '')
@@ -178,6 +179,7 @@ class OptionManager
 
     /**
      * @param mixed $fallback
+     *
      * @return mixed
      */
     public function wp(string $path, $fallback = '', string $cast = '')

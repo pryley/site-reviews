@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Helpers;
 
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Str
 {
@@ -25,7 +24,7 @@ class Str
     }
 
     /**
-     * Returns an unsanitized id attribute;
+     * Returns an unsanitized id attribute.
      */
     public static function convertNameToId(string $string, string $prefix = ''): string
     {

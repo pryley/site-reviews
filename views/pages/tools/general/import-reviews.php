@@ -104,7 +104,6 @@
                     </optgroup>
                 </select>
             </p>
-            </button>
             <button type="submit" class="glsr-button components-button is-primary"
                 data-expand="#tools-import-reviews"
                 data-loading="<?php echo esc_attr_x('Importing reviews, please wait...', 'admin-text', 'site-reviews'); ?>"

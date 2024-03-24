@@ -55,9 +55,11 @@ class Updater
 
     /**
      * @param false|object|array $result
-     * @param string $action
-     * @param object $args
+     * @param string             $action
+     * @param object             $args
+     *
      * @return mixed
+     *
      * @filter plugins_api
      */
     public function filterPluginUpdateDetails($result, $action, $args)
@@ -74,7 +76,9 @@ class Updater
 
     /**
      * @param object $transient
+     *
      * @return object
+     *
      * @filter pre_set_site_transient_update_plugins
      */
     public function filterPluginUpdates($transient)
@@ -168,6 +172,7 @@ class Updater
     /**
      * @param object $transient
      * @param object $updateInfo
+     *
      * @return object
      */
     protected function modifyPluginUpdates($transient, $updateInfo)
@@ -195,6 +200,7 @@ class Updater
 
     /**
      * @param object $updateInfo
+     *
      * @return object
      */
     protected function modifyUpdateDetails($updateInfo)
@@ -211,6 +217,7 @@ class Updater
 
     /**
      * @param \WP_Error|array $response
+     *
      * @return object
      */
     protected function normalizeResponse($response)
@@ -228,6 +235,7 @@ class Updater
 
     /**
      * @param string $action activate_license|check_license|deactivate_license|get_version
+     *
      * @return object
      */
     protected function request($action, array $data = [])

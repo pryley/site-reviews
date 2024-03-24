@@ -4,7 +4,9 @@ namespace GeminiLabs\SiteReviews\Modules\Schema;
 
 /**
  * An organization such as a school, NGO, corporation, club, etc.
+ *
  * @see http://schema.org/Organization
+ *
  * @method static address(PostalAddress|PostalAddress[]|string|string[] $address)
  * @method static aggregateRating(AggregateRating|AggregateRating[] $aggregateRating)
  * @method static areaServed(AdministrativeArea|AdministrativeArea[]|GeoShape|GeoShape[]|Place|Place[]|string|string[] $areaServed)
@@ -61,6 +63,7 @@ class Organization extends BaseType
      * The schema.org Actions mechanism benefited from extensive discussions across the Web
      * standards community around W3C, in particular from the [Hydra project](http://purl.org/hydra/)
      * community group.
+     *
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_ActionCollabClass
      */
     public const ActionCollabClass = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_ActionCollabClass';
@@ -70,6 +73,7 @@ class Organization extends BaseType
      * see [www.automotive-ontology.org](http://www.automotive-ontology.org) for details.
      * Many class and property definitions are inspired by or based on abstracts from Wikipedia,
      * the free encyclopedia.
+     *
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#Automotive_Ontology_Working_Group
      */
     public const AutomotiveOntologyWGClass = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#Automotive_Ontology_Working_Group';
@@ -80,6 +84,7 @@ class Organization extends BaseType
      * articles and multi-volume works. The design was inspired in places (e.g. [[pageStart]],
      * [[pageEnd]], [[pagination]]) by the [Bibliographic Ontology](http://bibliontology.com/),
      * 'bibo'.
+     *
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_bibex
      */
     public const BibExTerm = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_bibex';
@@ -88,6 +93,7 @@ class Organization extends BaseType
      * This class is based upon W3C DCAT work, and benefits from collaboration around the DCAT, ADMS
      * and VoID vocabularies. See http://www.w3.org/wiki/WebSchemas/Datasets for full details and
      * mappings.
+     *
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_DatasetClass
      */
     public const DatasetClass = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_DatasetClass';
@@ -98,6 +104,7 @@ class Organization extends BaseType
      * Financial Industry Business Ontology Community Group
      * ([http://www.fibo.org/community](http://www.fibo.org/community)). Many class and property
      * definitions are inspired by or based on [http://www.fibo.org](http://www.fibo.org).
+     *
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#FIBO
      */
     public const FIBO = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#FIBO';
@@ -105,6 +112,7 @@ class Organization extends BaseType
     /**
      * The implementation and use of Legal Entity Identifier (LEI) is supported by Global Legal
      * Entity Identifier Foundation [https://www.gleif.org](https://www.gleif.org).
+     *
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#GLEIF
      */
     public const GLEIF = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#GLEIF';
@@ -115,6 +123,7 @@ class Organization extends BaseType
      * expressed in a variety of syntaxes, including RDFa and HTML5 Microdata. More information
      * about GoodRelations can be found at
      * [http://purl.org/goodrelations/](http://purl.org/goodrelations/).
+     *
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_GoodRelationsClass
      */
     public const GoodRelationsClass = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_GoodRelationsClass';
@@ -125,6 +134,7 @@ class Organization extends BaseType
      * GoodRelations is a data model for sharing e-commerce data on the Web. More information about
      * GoodRelations can be found at
      * [http://purl.org/goodrelations/](http://purl.org/goodrelations/).
+     *
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_GoodRelationsTerms
      */
     public const GoodRelationsTerms = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_GoodRelationsTerms';
@@ -132,12 +142,14 @@ class Organization extends BaseType
     /**
      * This element is based on work by the Web Applications for the Future Internet Lab, Institute
      * of Informatics and Telematics, Pisa, Italy.
+     *
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#IIT-CNR.it
      */
     public const IITCNRit = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#IIT-CNR.it';
 
     /**
      * This class is based on the work of the LRMI project, see lrmi.net for details.
+     *
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_LRMIClass
      */
     public const LRMIClass = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_LRMIClass';
@@ -147,6 +159,7 @@ class Organization extends BaseType
      *     ([www.musicbrainz.org](http://www.musicbrainz.org)), and is partially inspired by the
      * MusicBrainz and
      *     [Music Ontology](http://musicontology.com/docs/getting-started.html) schemas.
+     *
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#MBZ
      */
     public const MBZ = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#MBZ';
@@ -157,6 +170,7 @@ class Organization extends BaseType
      * for details.
      *     Many class and property definitions are inspired by or based on abstracts from Wikipedia,
      * the free encyclopedia.
+     *
      * @see https://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#STI_Accommodation_Ontology
      */
     public const STI_Accommodation_Ontology = 'https://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#STI_Accommodation_Ontology';
@@ -164,6 +178,7 @@ class Organization extends BaseType
     /**
      * The Question/Answer types were [based
      * on](https://www.w3.org/wiki/WebSchemas/QASchemaResearch) the Stack Overflow API.
+     *
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_QAStackExchange
      */
     public const Stack_Exchange = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_QAStackExchange';
@@ -171,6 +186,7 @@ class Organization extends BaseType
     /**
      * This term and associated definitions draws upon the work of [The Trust
      * Project](http://thetrustproject.org/).
+     *
      * @see https://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#TP-draws
      */
     public const The_Trust_Project = 'https://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#TP-draws';
@@ -178,6 +194,7 @@ class Organization extends BaseType
     /**
      * This element is based on the work of the [Tourism Structured Web Data Community
      * Group](https://www.w3.org/community/tourismdata).
+     *
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#Tourism
      */
     public const Tourism = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#Tourism';
@@ -185,6 +202,7 @@ class Organization extends BaseType
     /**
      * This class contains information contributed by
      * [http://wikidoc.org>WikiDoc](http://wikidoc.org>WikiDoc).
+     *
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_WikiDoc
      */
     public const WikiDoc = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_WikiDoc';
@@ -193,12 +211,14 @@ class Organization extends BaseType
      * This class contains derivatives of IPTC rNews properties. rNews is a data model of publishing
      * metadata with serializations currently available for RDFa as well as HTML5 Microdata. More
      * information about the IPTC and rNews can be found at [rnews.org](http://rnews.org).
+     *
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_rNews
      */
     public const rNews = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_rNews';
 
     /**
      * @var array
+     *
      * @see http://schema.org/{property_name}
      */
     public $allowed = [
@@ -214,6 +234,7 @@ class Organization extends BaseType
 
     /**
      * @var array
+     *
      * @see http://schema.org/{property_name}
      */
     public $parents = [

@@ -43,7 +43,7 @@ class GatekeeperNotice extends AbstractNotice
 
     protected function errors(array $errorKeys): array
     {
-        return array_filter($this->errors, 
+        return array_filter($this->errors,
             fn ($data) => in_array(Arr::get($data, 'error'), $errorKeys)
         );
     }

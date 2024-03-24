@@ -14,7 +14,6 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
-use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Overrides\ReviewsListTable;
 
@@ -63,6 +62,7 @@ class ListTableController extends AbstractController
 
     /**
      * @param string[] $columns
+     *
      * @filter manage_{glsr()->post_type}_posts_columns
      */
     public function filterColumnsForPostType(array $columns): array
@@ -89,6 +89,7 @@ class ListTableController extends AbstractController
 
     /**
      * @param string[] $hidden
+     *
      * @filter default_hidden_columns
      */
     public function filterDefaultHiddenColumns(array $hidden, \WP_Screen $screen): array
@@ -149,6 +150,7 @@ class ListTableController extends AbstractController
 
     /**
      * @param string[] $actions
+     *
      * @filter post_row_actions
      */
     public function filterRowActions(array $actions, \WP_Post $post): array

@@ -188,7 +188,7 @@ class AdminController extends AbstractController
                 'class' => 'components-button is-primary glsr-try-premium',
                 'href' => 'https://niftyplugins.com/plugins/site-reviews-premium/',
                 'target' => '_blank',
-                'text' =>  _x('Try Premium', 'admin-text', 'site-reviews'),
+                'text' => _x('Try Premium', 'admin-text', 'site-reviews'),
             ];
         }
         if (in_array($screen->base, ['edit', 'post'])) {

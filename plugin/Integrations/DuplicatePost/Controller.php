@@ -11,7 +11,8 @@ class Controller extends AbstractController
 {
     /**
      * @param int|\WP_Error $newPostId
-     * @param \WP_Post $post
+     * @param \WP_Post      $post
+     *
      * @action duplicate_post_post_copy
      */
     public function duplicateReview($newPostId, $post): void
@@ -30,6 +31,7 @@ class Controller extends AbstractController
 
     /**
      * @param string[] $actions
+     *
      * @filter bulk_actions-edit-{Application::POST_TYPE}
      */
     public function filterBulkActions($actions): array
@@ -42,6 +44,7 @@ class Controller extends AbstractController
     /**
      * @param string[] $actions
      * @param \WP_Post $post
+     *
      * @filter post_row_actions
      */
     public function filterRowActions($actions, $post): array
@@ -55,6 +58,7 @@ class Controller extends AbstractController
 
     /**
      * @param \WP_Post|null $post
+     *
      * @action post_submitbox_start
      */
     public function removeRewriteEditorLink($post): void

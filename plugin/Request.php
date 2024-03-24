@@ -10,6 +10,7 @@ class Request extends Arguments
     /**
      * @param mixed $key
      * @param mixed $fallback
+     *
      * @return mixed
      */
     public function get($key, $fallback = null)
@@ -23,6 +24,7 @@ class Request extends Arguments
 
     /**
      * @return static
+     *
      * @todo support array values
      */
     public static function inputGet(): Request

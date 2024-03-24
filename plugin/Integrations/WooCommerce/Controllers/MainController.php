@@ -36,7 +36,9 @@ class MainController extends AbstractController
      * @param string $status
      * @param string $postType
      * @param string $commentType
+     *
      * @return string
+     *
      * @filter get_default_comment_status
      */
     public function filterProductCommentStatus($status, $postType, $commentType)
@@ -48,9 +50,11 @@ class MainController extends AbstractController
     }
 
     /**
-     * @param array $settings
+     * @param array  $settings
      * @param string $section
+     *
      * @return array
+     *
      * @filter woocommerce_get_settings_products
      */
     public function filterProductSettings($settings, $section)
@@ -82,6 +86,7 @@ class MainController extends AbstractController
 
     /**
      * @return string
+     *
      * @filter option_woocommerce_enable_review_rating
      * @filter option_woocommerce_review_rating_required
      */
@@ -92,6 +97,7 @@ class MainController extends AbstractController
 
     /**
      * @return \WC_Product|false
+     *
      * @filter site-reviews/review/call/product
      */
     public function filterReviewProductMethod(Review $review)
@@ -104,6 +110,7 @@ class MainController extends AbstractController
 
     /**
      * @param \GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewAuthorTag $tag
+     *
      * @filter site-reviews/review/value/author
      */
     public function filterReviewAuthorTagValue(string $value, $tag): string
@@ -151,7 +158,9 @@ class MainController extends AbstractController
 
     /**
      * @param array $args
+     *
      * @return array
+     *
      * @action woocommerce_register_post_type_product
      */
     public function removeWoocommerceReviews($args)
@@ -176,7 +185,9 @@ class MainController extends AbstractController
 
     /**
      * @return void|bool
+     *
      * @see $this->hasVerifiedOwner()
+     *
      * @action site-reviews/review/created
      */
     public function verifyProductOwner(Review $review)

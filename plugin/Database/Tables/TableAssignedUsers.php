@@ -37,6 +37,7 @@ class TableAssignedUsers extends AbstractTable
 
     /**
      * WordPress codex says there must be two spaces between PRIMARY KEY and the key definition.
+     *
      * @see https://codex.wordpress.org/Creating_Tables_with_Plugins
      */
     public function structure(): string

@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews;
 
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
@@ -25,6 +24,7 @@ class Router
 
     /**
      * A routed admin GET request will look like this: /wp-admin/?glsr_=.
+     *
      * @action admin_init
      */
     public function routeAdminGetRequest(): void
@@ -66,6 +66,7 @@ class Router
 
     /**
      * A routed public GET request will look like this: ?glsr_=.
+     *
      * @action parse_request
      */
     public function routePublicGetRequest(): void

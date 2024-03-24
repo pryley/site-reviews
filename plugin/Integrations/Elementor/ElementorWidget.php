@@ -41,6 +41,7 @@ abstract class ElementorWidget extends Widget_Base
 
     /**
      * @param string $settingKey
+     *
      * @return mixed
      */
     public function get_settings_for_display($settingKey = null)

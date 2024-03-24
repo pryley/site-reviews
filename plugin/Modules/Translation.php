@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Modules;
 use GeminiLabs\Sepia\PoParser\Parser;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 
 class Translation
@@ -13,14 +12,8 @@ class Translation
     public const CONTEXT_ADMIN_KEY = 'admin-text';
     public const SEARCH_THRESHOLD = 3;
 
-    /**
-     * @var array
-     */
     protected array $entries = [];
 
-    /**
-     * @var array
-     */
     protected array $results = [];
 
     /**

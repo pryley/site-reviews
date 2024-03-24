@@ -4,8 +4,6 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 /**
@@ -15,7 +13,7 @@ use GeminiLabs\SiteReviews\Modules\Sanitizer;
  * @property bool   $is_hidden
  * @property array  $tags
  * @property string $tooltip
- * 
+ *
  * @todo fix checked/selected attribute values...
  */
 class SettingField extends Field

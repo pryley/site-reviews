@@ -14,6 +14,7 @@ class RestCategoryController extends \WP_REST_Terms_Controller
 
     /**
      * @param string $taxonomy
+     *
      * @return bool
      */
     protected function check_is_taxonomy_allowed($taxonomy)

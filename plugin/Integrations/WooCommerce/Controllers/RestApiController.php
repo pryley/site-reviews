@@ -21,6 +21,7 @@ class RestApiController
 
     /**
      * @param array $endpoints
+     *
      * @filter rest_endpoints
      */
     public function filterRestEndpoints($endpoints)
@@ -44,6 +45,7 @@ class RestApiController
 
     /**
      * @param array $namespaces
+     *
      * @filter woocommerce_rest_api_get_rest_namespaces
      */
     public function filterRestNamespaces($namespaces)
@@ -54,11 +56,13 @@ class RestApiController
     }
 
     /**
-     * @param bool $hasPermission
+     * @param bool   $hasPermission
      * @param string $context
-     * @param int $objectId
+     * @param int    $objectId
      * @param string $permissionType
+     *
      * @return bool
+     *
      * @filter woocommerce_rest_check_permissions
      */
     public function filterRestPermissions($hasPermission, $context, $objectId, $permissionType)
@@ -79,10 +83,12 @@ class RestApiController
     }
 
     /**
-     * @param array $join
-     * @param string $handle
+     * @param array                                  $join
+     * @param string                                 $handle
      * @param \GeminiLabs\SiteReviews\Database\Query $query
+     *
      * @return array
+     *
      * @filter site-reviews/query/sql/join
      */
     public function filterSqlJoin($join, $handle, $query)
@@ -95,10 +101,12 @@ class RestApiController
     }
 
     /**
-     * @param array $orderBy
-     * @param string $handle
+     * @param array                                  $orderBy
+     * @param string                                 $handle
      * @param \GeminiLabs\SiteReviews\Database\Query $query
+     *
      * @return array
+     *
      * @filter site-reviews/query/sql/order-by
      */
     public function filterSqlOrderBy($orderBy, $handle, $query)
@@ -126,6 +134,7 @@ class RestApiController
 
     /**
      * @param array $endpoint
+     *
      * @return void
      */
     protected function modifyAnalyticsBatchEndpoint(&$endpoint)
@@ -144,6 +153,7 @@ class RestApiController
 
     /**
      * @param array $endpoint
+     *
      * @return void
      */
     protected function modifyAnalyticsReviewEndpoint(&$endpoint)
@@ -170,6 +180,7 @@ class RestApiController
 
     /**
      * @param array $endpoint
+     *
      * @return void
      */
     protected function modifyAnalyticsReviewsEndpoint(&$endpoint)
@@ -192,6 +203,7 @@ class RestApiController
 
     /**
      * @param array $endpoint
+     *
      * @return void
      */
     protected function modifyStoreEndpoints(&$endpoint)

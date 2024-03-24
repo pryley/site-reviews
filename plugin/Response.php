@@ -42,7 +42,7 @@ class Response
 
     public function shouldRetry(): bool
     {
-        return $this->code === 429 // Too-Many-Requests
+        return 429 === $this->code // Too-Many-Requests
             || $this->code >= 500; // Internal errors
     }
 

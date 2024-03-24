@@ -57,6 +57,7 @@ class PublicController extends AbstractController
 
     /**
      * @action site-reviews/builder
+     *
      * @todo remove this
      */
     public function modifyBuilder(BuilderContract $builder): void

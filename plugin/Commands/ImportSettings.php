@@ -3,13 +3,10 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Exceptions\FileException;
-use GeminiLabs\SiteReviews\Exceptions\FileNotFoundException;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Upload;
-use GeminiLabs\SiteReviews\UploadedFile;
 
 class ImportSettings extends AbstractCommand
 {

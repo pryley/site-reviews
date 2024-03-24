@@ -23,6 +23,7 @@ class ProductController
 
     /**
      * @param string $template
+     *
      * @filter comments_template
      */
     public function filterCommentsTemplate($template): string
@@ -35,8 +36,9 @@ class ProductController
 
     /**
      * @param string $html
-     * @param int $rating
-     * @param int $count
+     * @param int    $rating
+     * @param int    $count
+     *
      * @filter woocommerce_product_get_rating_html
      */
     public function filterGetRatingHtml($html, $rating, $count): string
@@ -52,8 +54,9 @@ class ProductController
 
     /**
      * @param string $html
-     * @param int $rating
-     * @param int $count
+     * @param int    $rating
+     * @param int    $count
+     *
      * @filter woocommerce_get_star_rating_html
      */
     public function filterGetStarRatingHtml($html, $rating, $count): string
@@ -64,8 +67,9 @@ class ProductController
     }
 
     /**
-     * @param mixed $value
+     * @param mixed       $value
      * @param \WC_Product $product
+     *
      * @filter woocommerce_product_get_average_rating
      */
     public function filterProductAverageRating($value, $product): float
@@ -75,6 +79,7 @@ class ProductController
 
     /**
      * @param array $tabs
+     *
      * @filter woocommerce_product_data_tabs
      */
     public function filterProductDataTabs($tabs): array
@@ -91,6 +96,7 @@ class ProductController
 
     /**
      * @param array $metaQuery
+     *
      * @filter woocommerce_product_query_meta_query
      */
     public function filterProductMetaQuery($metaQuery): array
@@ -116,8 +122,9 @@ class ProductController
     }
 
     /**
-     * @param array $args
+     * @param array  $args
      * @param string $orderby
+     *
      * @filter woocommerce_get_catalog_ordering_args
      */
     public function filterProductPostClauses($args, $orderby): array
@@ -130,8 +137,9 @@ class ProductController
     }
 
     /**
-     * @param mixed $value
+     * @param mixed       $value
      * @param \WC_Product $product
+     *
      * @filter woocommerce_product_get_rating_counts
      */
     public function filterProductRatingCounts($value, $product): array
@@ -140,8 +148,9 @@ class ProductController
     }
 
     /**
-     * @param mixed $value
+     * @param mixed       $value
      * @param \WC_Product $product
+     *
      * @filter woocommerce_product_get_review_count
      */
     public function filterProductReviewCount($value, $product): int
@@ -151,6 +160,7 @@ class ProductController
 
     /**
      * @param array $tabs
+     *
      * @filter woocommerce_product_tabs
      */
     public function filterProductTabs($tabs): array
@@ -169,6 +179,7 @@ class ProductController
 
     /**
      * @param array $taxQuery
+     *
      * @filter woocommerce_product_query_tax_query
      */
     public function filterProductTaxQuery($taxQuery): array
@@ -194,8 +205,9 @@ class ProductController
     }
 
     /**
-     * @param array $markup
+     * @param array       $markup
      * @param \WC_Product $product
+     *
      * @filter woocommerce_structured_data_product
      */
     public function filterStructuredData($markup, $product): array
@@ -217,6 +229,7 @@ class ProductController
 
     /**
      * @param array $args
+     *
      * @filter woocommerce_top_rated_products_widget_args
      */
     public function filterWidgetArgsTopRatedProducts($args): array
@@ -236,6 +249,7 @@ class ProductController
     /**
      * @param string $template
      * @param string $templateName
+     *
      * @filter wc_get_template
      */
     public function filterWoocommerceTemplate($template, $templateName): string
@@ -251,6 +265,7 @@ class ProductController
 
     /**
      * @param \WP_Query $query
+     *
      * @action pre_get_posts
      */
     public function modifyProductQuery($query): void
@@ -287,6 +302,7 @@ class ProductController
 
     /**
      * @param \WP_Post $post
+     *
      * @action add_meta_boxes_product
      */
     public function registerMetaBoxes($post): void
@@ -297,6 +313,7 @@ class ProductController
     /**
      * @param string $columnName
      * @param string $postType
+     *
      * @action bulk_edit_custom_box
      */
     public function renderBulkEditField($columnName, $postType): void
@@ -341,6 +358,7 @@ class ProductController
     /**
      * @param string $columnName
      * @param string $postType
+     *
      * @action quick_edit_custom_box
      */
     public function renderQuickEditField($columnName, $postType): void
@@ -389,6 +407,7 @@ class ProductController
 
     /**
      * This updates the product_visibility rated-* categories.
+     *
      * @action site-reviews/ratings/count/post
      */
     public function updateProductRatingCounts(int $postId, Arguments $counts): void

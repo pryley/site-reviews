@@ -26,6 +26,7 @@ class SettingsController extends AbstractController
 
     /**
      * @param mixed $input
+     *
      * @see registerSettings
      */
     public function sanitizeSettingsCallback($input): array

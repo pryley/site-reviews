@@ -33,7 +33,7 @@ class Prepare
     public $request;
 
     /**
-     * @var \GeminiLabs\SiteReviews\Review
+     * @var Review
      */
     public $review;
 
@@ -60,6 +60,7 @@ class Prepare
 
     /**
      * @param string $method
+     *
      * @return void
      */
     public function __call($method, array $args = [])

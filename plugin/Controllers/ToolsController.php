@@ -211,7 +211,9 @@ class ToolsController extends AbstractController
 
     /**
      * @param mixed $value
+     *
      * @return mixed
+     *
      * @filter site_transient_update_plugins
      */
     public function filterUpdatePluginsTransient($value)

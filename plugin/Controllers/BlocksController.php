@@ -11,7 +11,9 @@ class BlocksController extends AbstractController
 {
     /**
      * @param bool|string[] $blockTypes
+     *
      * @return bool|string[]
+     *
      * @filter allowed_block_types_all
      */
     public function filterAllowedBlockTypes($blockTypes, \WP_Block_Editor_Context $context)
@@ -24,6 +26,7 @@ class BlocksController extends AbstractController
 
     /**
      * @param array[] $categories
+     *
      * @filter block_categories_all
      */
     public function filterBlockCategories(array $categories): array
@@ -81,7 +84,9 @@ class BlocksController extends AbstractController
 
     /**
      * @param string[] $widgets
+     *
      * @filter widget_types_to_hide_from_legacy_widget_block
+     *
      * @todo Use this?
      */
     public function replaceLegacyWidgets(array $widgets): array

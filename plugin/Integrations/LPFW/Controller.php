@@ -11,6 +11,7 @@ class Controller extends AbstractController
 {
     /**
      * @param array $types
+     *
      * @filter lpfw_get_point_earn_source_types
      */
     public function filterEarnPointTypes($types = []): array
@@ -52,6 +53,7 @@ class Controller extends AbstractController
 
     /**
      * @param int $reviewId
+     *
      * @see $this->filterEarnPointTypes()
      */
     public function productUrl($reviewId): string

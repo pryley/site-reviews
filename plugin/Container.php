@@ -10,21 +10,23 @@ abstract class Container
 {
     /**
      * The container's bindings.
+     *
      * @var array[]
      */
     protected array $bindings = [];
     /**
      * The stack of concretions currently being built.
-     * @var array
      */
     protected array $buildStack = [];
     /**
      * The container's shared instances.
+     *
      * @var object[]
      */
     protected array $instances = [];
     /**
      * The parameter override stack.
+     *
      * @var array[]
      */
     protected array $with = [];
@@ -52,6 +54,7 @@ abstract class Container
 
     /**
      * @param mixed $abstract
+     *
      * @return mixed
      */
     public function make($abstract, array $parameters = [])
@@ -73,7 +76,9 @@ abstract class Container
 
     /**
      * @param \Closure|string $concrete
+     *
      * @return mixed
+     *
      * @throws BindingResolutionException
      */
     protected function construct($concrete)
@@ -173,7 +178,9 @@ abstract class Container
 
     /**
      * @param mixed $abstract
+     *
      * @return mixed
+     *
      * @throws BindingResolutionException
      */
     protected function resolve($abstract, array $parameters = [])
@@ -196,7 +203,9 @@ abstract class Container
 
     /**
      * Resolve a class based dependency from the container.
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     protected function resolveClass(\ReflectionParameter $parameter)
@@ -229,6 +238,7 @@ abstract class Container
 
     /**
      * @return mixed
+     *
      * @throws BindingResolutionException
      */
     protected function resolvePrimitive(\ReflectionParameter $parameter)

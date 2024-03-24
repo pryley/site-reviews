@@ -109,7 +109,7 @@ class ElementorFormWidget extends ElementorWidget
                 'is_responsive' => true,
                 'label' => esc_html_x('Field Spacing', 'admin-text', 'site-reviews'),
                 'range' => [
-                    'em'  => [
+                    'em' => [
                         'min' => 0,
                         'max' => 2,
                         'step' => 0.125,

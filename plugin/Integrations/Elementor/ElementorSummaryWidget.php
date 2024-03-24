@@ -161,7 +161,7 @@ class ElementorSummaryWidget extends ElementorWidget
                 'is_responsive' => true,
                 'label' => esc_html_x('Max Width', 'admin-text', 'site-reviews'),
                 'range' => [
-                    '%'  => [
+                    '%' => [
                         'min' => 50,
                         'max' => 100,
                     ],

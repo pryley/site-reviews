@@ -4,7 +4,9 @@ namespace GeminiLabs\SiteReviews\Modules\Schema;
 
 /**
  * Entities that have a somewhat fixed, physical extension.
+ *
  * @see http://schema.org/Place
+ *
  * @method static additionalProperty(PropertyValue|PropertyValue[] $additionalProperty)
  * @method static address(PostalAddress|PostalAddress[]|string|string[] $address)
  * @method static aggregateRating(AggregateRating|AggregateRating[] $aggregateRating)
@@ -39,6 +41,7 @@ class Place extends BaseType
 {
     /**
      * @var array
+     *
      * @see http://schema.org/{property_name}
      */
     public $allowed = [
@@ -51,6 +54,7 @@ class Place extends BaseType
 
     /**
      * @var array
+     *
      * @see http://schema.org/{property_name}
      */
     public $parents = [

@@ -13,7 +13,7 @@ class ReviewHooks extends AbstractHooks
     }
 
     /**
-     * MyISAM table fallback
+     * MyISAM table fallback.
      */
     public function onPluginsLoaded(): void
     {

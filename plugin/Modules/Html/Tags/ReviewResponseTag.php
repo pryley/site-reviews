@@ -23,6 +23,5 @@ class ReviewResponseTag extends ReviewContentTag
             'class' => 'glsr-review-response-inner',
             'text' => sprintf('<p><strong>%s</strong></p>%s', $title, $value),
         ]);
-
     }
 }

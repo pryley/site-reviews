@@ -36,7 +36,7 @@ class MigrateProductRatings extends AbstractCommand
             $this->deleteTerms($ttids);
             $this->insertTerms($ttids);
             wp_update_term_count_now($ttids, 'product_visibility');
-            if  (function_exists('flrt_get_post_ids_transient_key')) {
+            if (function_exists('flrt_get_post_ids_transient_key')) {
                 $key = flrt_get_post_ids_transient_key('rated');
                 delete_transient($key);
             }
@@ -74,6 +74,7 @@ class MigrateProductRatings extends AbstractCommand
 
     /**
      * Bulk-insert the "rated-*"" product_visibility terms for Products.
+     *
      * @todo optimize this for cases when a site has thousands of products...
      */
     protected function insertTerms(array $ttids): int

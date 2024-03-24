@@ -11,27 +11,27 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 
 /**
- * @property array $addons
- * @property string $basename
- * @property string $capability
- * @property string $cron_event
- * @property array $db_version
- * @property array $defaults
- * @property string $export_key
- * @property string $file
- * @property string $id
- * @property string $languages
- * @property string $name
- * @property string $paged_handle
- * @property string $paged_query_var
- * @property string $post_type
- * @property string $prefix
- * @property array $session
- * @property \GeminiLabs\SiteReviews\Arguments $storage
- * @property string $taxonomy
- * @property array $updated
- * @property string $version
- * @property string $testedTo;
+ * @property array     $addons
+ * @property string    $basename
+ * @property string    $capability
+ * @property string    $cron_event
+ * @property array     $db_version
+ * @property array     $defaults
+ * @property string    $export_key
+ * @property string    $file
+ * @property string    $id
+ * @property string    $languages
+ * @property string    $name
+ * @property string    $paged_handle
+ * @property string    $paged_query_var
+ * @property string    $post_type
+ * @property string    $prefix
+ * @property array     $session
+ * @property Arguments $storage
+ * @property string    $taxonomy
+ * @property array     $updated
+ * @property string    $version
+ * @property string    $testedTo;
  */
 final class Application extends Container implements PluginContract
 {
@@ -60,7 +60,7 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * @param mixed $args,...
+     * @param mixed ...$args
      */
     public function can(string $capability, ...$args): bool
     {
@@ -129,7 +129,8 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * this is triggered by $this->update() on wp_loaded
+     * this is triggered by $this->update() on wp_loaded.
+     *
      * @param PluginContract|string $addon
      */
     public function license($addon): void
@@ -162,7 +163,8 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * This is triggered by "site-reviews/addon/register" on plugins_loaded
+     * This is triggered by "site-reviews/addon/register" on plugins_loaded.
+     *
      * @param PluginContract|string $addon
      */
     public function register($addon): void
@@ -212,7 +214,8 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * This is triggered by "site-reviews/addon/update" on wp_loaded
+     * This is triggered by "site-reviews/addon/update" on wp_loaded.
+     *
      * @param PluginContract|string $addon
      */
     public function update($addon, string $file): void

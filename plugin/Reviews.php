@@ -44,6 +44,7 @@ class Reviews extends \ArrayObject
 
     /**
      * @param mixed $key
+     *
      * @return mixed
      */
     #[\ReturnTypeWillChange]

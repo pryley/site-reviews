@@ -4,7 +4,9 @@ namespace GeminiLabs\SiteReviews\Modules\Schema;
 
 /**
  * The most generic type of item.
+ *
  * @see http://schema.org/Thing
+ *
  * @method static additionalType(string|string[] $additionalType)
  * @method static alternateName(string|string[] $alternateName)
  * @method static description(string|string[] $description)
@@ -21,6 +23,7 @@ class Thing extends BaseType
 {
     /**
      * @var array
+     *
      * @see http://schema.org/{property_name}
      */
     public $allowed = [

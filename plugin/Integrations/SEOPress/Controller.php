@@ -12,7 +12,7 @@ class Controller extends AbstractController
 {
     /**
      * @param array $data
-     * @return array
+     *
      * @filter seopress_schemas_auto_course_json
      * @filter seopress_schemas_auto_event_json
      * @filter seopress_schemas_auto_faq_json
@@ -23,6 +23,7 @@ class Controller extends AbstractController
      * @filter seopress_schemas_auto_service_json
      * @filter seopress_schemas_auto_softwareapp_json
      * @filter seopress_schemas_auto_video_json
+     *
      * @see https://www.seopress.org/wordpress-seo-plugins/free/
      */
     public function filterSchema($data): array
@@ -34,8 +35,9 @@ class Controller extends AbstractController
 
     /**
      * @param array $data
-     * @return array
+     *
      * @filter seopress_json_schema_generator_get_jsons
+     *
      * @see https://www.seopress.org/wordpress-seo-plugins/pro/
      */
     public function filterSchemas($data): array

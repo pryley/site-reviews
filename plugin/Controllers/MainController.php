@@ -15,9 +15,13 @@ class MainController extends AbstractController
 {
     /**
      * switch_to_blog() has run before this hook is triggered.
+     *
      * @see http://developer.wordpress.org/reference/functions/wp_uninitialize_site/
+     *
      * @param string[] $tables
+     *
      * @return string[]
+     *
      * @filter wpmu_drop_tables:999
      */
     public function filterDropTables(array $tables): array

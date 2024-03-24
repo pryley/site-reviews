@@ -11,7 +11,6 @@ use GeminiLabs\SiteReviews\Modules\SchemaParser;
 class Controller extends AbstractController
 {
     /**
-     * @return array
      * @filter rank_math/schema/validated_data
      */
     public function filterSchema($data): array

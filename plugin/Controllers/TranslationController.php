@@ -22,9 +22,11 @@ class TranslationController
     }
 
     /**
-     * @param  array[] $messages
-     * @param  int[]   $counts
+     * @param array[] $messages
+     * @param int[]   $counts
+     *
      * @return array[]
+     *
      * @filter bulk_post_updated_messages
      */
     public function filterBulkUpdateMessages(array $messages, array $counts): array
@@ -93,6 +95,7 @@ class TranslationController
 
     /**
      * @param string[] $states
+     *
      * @filter display_post_states
      */
     public function filterPostStates(array $states): array

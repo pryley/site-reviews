@@ -10,7 +10,7 @@
     </h3>
     <div id="fn-glsr_debug" class="inside">
         <pre><code class="language-php">/**
- * @param mixed $variable,...
+ * @param mixed ...$variable
  * @return void
  */
 glsr_debug(...$variable);</code></pre>

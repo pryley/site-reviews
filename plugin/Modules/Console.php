@@ -106,6 +106,7 @@ class Console
 
     /**
      * @param mixed $message
+     *
      * @return static
      */
     public function log(int $level, $message, array $context = [], string $backtraceLine = '')
@@ -200,6 +201,7 @@ class Console
 
     /**
      * Interpolates context values into the message placeholders.
+     *
      * @param mixed $message
      */
     protected function interpolate($message, array $context = []): string

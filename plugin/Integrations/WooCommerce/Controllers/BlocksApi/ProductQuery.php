@@ -10,6 +10,7 @@ class ProductQuery extends Query
      * Prepare query args to pass to WP_Query for a REST API request.
      *
      * @param \WP_REST_Request $request request data
+     *
      * @return array
      */
     public function prepare_objects_query($request)
@@ -35,6 +36,7 @@ class ProductQuery extends Query
     /**
      * @param string $orderbyKey
      * @param string $metaKey
+     *
      * @return array
      */
     protected function buildMetaQuery($orderbyKey, $metaKey)

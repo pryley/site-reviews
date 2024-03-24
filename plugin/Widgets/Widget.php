@@ -37,6 +37,7 @@ abstract class Widget extends \WP_Widget
     /**
      * @param array $args
      * @param array $instance
+     *
      * @return void
      */
     public function widget($args, $instance)
@@ -52,6 +53,7 @@ abstract class Widget extends \WP_Widget
 
     /**
      * @param string $key
+     *
      * @return mixed
      */
     protected function mapped($key)

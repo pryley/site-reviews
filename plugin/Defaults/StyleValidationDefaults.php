@@ -6,6 +6,7 @@ class StyleValidationDefaults extends DefaultsAbstract
 {
     /**
      * The values that should be concatenated.
+     *
      * @var string[]
      */
     public array $concatenated = [

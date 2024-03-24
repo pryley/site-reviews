@@ -8,7 +8,6 @@ use Automattic\WooCommerce\StoreApi\Utilities\Pagination;
 class ProductsRoute extends Route
 {
     /**
-     * @param \WP_REST_Request $request
      * @return \WP_REST_Response
      */
     protected function get_route_response(\WP_REST_Request $request)

@@ -14,10 +14,9 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
  * @property string $content
  * @property string $date
  * @property string $author
- * @property int $rating
+ * @property int    $rating
  * @property string $response
  * @property string $title
- * etc.
  */
 class ReviewHtml extends \ArrayObject
 {
@@ -95,6 +94,7 @@ class ReviewHtml extends \ArrayObject
 
     /**
      * @param string $key
+     *
      * @return mixed
      */
     #[\ReturnTypeWillChange]

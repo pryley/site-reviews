@@ -20,7 +20,8 @@ class Notice
 
     /**
      * @param string|array|\WP_Error $message
-     * @param string[] $details
+     * @param string[]               $details
+     *
      * @return static
      */
     public function add(string $type, $message, array $details = [])
@@ -38,7 +39,8 @@ class Notice
 
     /**
      * @param string|array|\WP_Error $message
-     * @param string[] $details
+     * @param string[]               $details
+     *
      * @return static
      */
     public function addError($message, array $details = [])
@@ -48,7 +50,8 @@ class Notice
 
     /**
      * @param string|array|\WP_Error $message
-     * @param string[] $details
+     * @param string[]               $details
+     *
      * @return static
      */
     public function addInfo($message, array $details = [])
@@ -58,7 +61,8 @@ class Notice
 
     /**
      * @param string|array|\WP_Error $message
-     * @param string[] $details
+     * @param string[]               $details
+     *
      * @return static
      */
     public function addSuccess($message, array $details = [])
@@ -68,7 +72,8 @@ class Notice
 
     /**
      * @param string|array|\WP_Error $message
-     * @param string[] $details
+     * @param string[]               $details
+     *
      * @return static
      */
     public function addWarning($message, array $details = [])

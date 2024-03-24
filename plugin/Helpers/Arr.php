@@ -48,7 +48,7 @@ class Arr
         foreach ($array as $key => $value) {
             $newKey = ltrim("{$prefix}.{$key}", '.');
             if (static::isIndexedAndFlat($value)) {
-                $value = Helper::ifTrue(!$flattenValue, $value, 
+                $value = Helper::ifTrue(!$flattenValue, $value,
                     fn () => '['.implode(', ', $value).']'
                 );
             } elseif (is_array($value)) {
@@ -62,9 +62,11 @@ class Arr
 
     /**
      * Get a value from an array of values using a dot-notation path as reference.
-     * @param mixed $data
+     *
+     * @param mixed      $data
      * @param string|int $path
-     * @param mixed $fallback
+     * @param mixed      $fallback
+     *
      * @return mixed
      */
     public static function get($data, $path = '', $fallback = '')
@@ -88,9 +90,10 @@ class Arr
     }
 
     /**
-     * @param mixed $data
+     * @param mixed      $data
      * @param string|int $path
-     * @param mixed $fallback
+     * @param mixed      $fallback
+     *
      * @return mixed
      */
     public static function getAs(string $cast, $data, $path = '', $fallback = '')
@@ -177,6 +180,7 @@ class Arr
 
     /**
      * Unset a value from an array of values using a dot-notation path as reference.
+     *
      * @param mixed $data
      */
     public static function remove($data, string $path = ''): array
@@ -201,7 +205,7 @@ class Arr
             if (Helper::isEmpty($value)) {
                 continue;
             }
-            $result[$key] = Helper::ifTrue(!is_array($value), $value, 
+            $result[$key] = Helper::ifTrue(!is_array($value), $value,
                 fn () => static::removeEmptyValues($value)
             );
         }
@@ -210,9 +214,11 @@ class Arr
 
     /**
      * Search a multidimensional array by key value.
-     * @param mixed $needle
-     * @param array $haystack
+     *
+     * @param mixed      $needle
+     * @param array      $haystack
      * @param int|string $key
+     *
      * @return array|iterable|false
      */
     public static function searchByKey($needle, $haystack, $key)
@@ -229,6 +235,7 @@ class Arr
 
     /**
      * Set a value to an array of values using a dot-notation path as reference.
+     *
      * @param mixed $data
      * @param mixed $value
      */
@@ -267,6 +274,7 @@ class Arr
 
     /**
      * This reindexes the array!
+     *
      * @param array|string $values
      */
     public static function uniqueInt($values, bool $absint = true): array

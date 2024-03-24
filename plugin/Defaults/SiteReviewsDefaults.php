@@ -28,6 +28,7 @@ class SiteReviewsDefaults extends DefaultsAbstract
 
     /**
      * The values that should be guarded.
+     *
      * @var string[]
      */
     public array $guarded = [

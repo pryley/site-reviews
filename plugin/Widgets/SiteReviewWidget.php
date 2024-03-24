@@ -9,6 +9,7 @@ class SiteReviewWidget extends Widget
 {
     /**
      * @param array $instance
+     *
      * @return string
      */
     public function form($instance)

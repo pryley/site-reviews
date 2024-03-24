@@ -8,7 +8,9 @@ class Controller extends AbstractController
 {
     /**
      * Adds a warning notice to the Flywheel Migrations page.
+     *
      * @action toplevel_page_flywheel
+     *
      * @see https://wordpress.org/plugins/flywheel-migrations/
      */
     public function renderNotice(): void

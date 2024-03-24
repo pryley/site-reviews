@@ -8,7 +8,6 @@ use GeminiLabs\SiteReviews\Database\Search\SearchAssignedUsers;
 use GeminiLabs\SiteReviews\Database\Search\SearchPosts;
 use GeminiLabs\SiteReviews\Database\Search\SearchUsers;
 use GeminiLabs\SiteReviews\Database\Tables;
-use GeminiLabs\SiteReviews\Deprecated;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -44,6 +43,7 @@ class Database
 
     /**
      * Query result in format specified by $output or null on failure.
+     *
      * @return array|object|null
      */
     public function dbGetResults(string $sql, string $output = 'OBJECT')
@@ -54,6 +54,7 @@ class Database
 
     /**
      * Query result in format specified by $output or null on failure.
+     *
      * @return array|object|void|null
      */
     public function dbGetRow(string $sql, string $output)
@@ -74,6 +75,7 @@ class Database
      * True for CREATE, ALTER, TRUNCATE and DROP queries.
      * Number of rows affected/selected for all other queries.
      * False on error.
+     *
      * @return int|bool
      */
     public function dbQuery(string $sql)
@@ -85,6 +87,7 @@ class Database
      * True for CREATE, ALTER, TRUNCATE and DROP queries.
      * Number of rows affected/selected for all other queries.
      * False on error.
+     *
      * @return int|bool
      */
     public function dbSafeQuery(string $sql)
@@ -97,6 +100,7 @@ class Database
 
     /**
      * Number of rows deleted. False on error.
+     *
      * @return int|false
      */
     public function delete(string $table, array $where)
@@ -108,7 +112,9 @@ class Database
 
     /**
      * Number of rows deleted. False on error.
+     *
      * @param string|string[] $keys
+     *
      * @return int|false
      */
     public function deleteMeta($keys, string $table = 'postmeta')
@@ -134,6 +140,7 @@ class Database
 
     /**
      * Number of rows inserted. False on error.
+     *
      * @return int|false
      */
     public function insert(string $table, array $data)
@@ -149,6 +156,7 @@ class Database
 
     /**
      * Number of rows inserted. False on error.
+     *
      * @return int|false
      */
     public function insertBulk(string $table, array $values, array $fields)
@@ -182,6 +190,7 @@ class Database
 
     /**
      * @param mixed $result
+     *
      * @return mixed
      */
     public function logErrors($result = null)
@@ -198,6 +207,7 @@ class Database
      * The value of the meta field if $single is true.
      * False for an invalid $post_id (non-numeric, zero, or negative value).
      * An empty string if a valid but non-existing post ID is passed.
+     *
      * @return mixed
      */
     public function meta(int $postId, string $key, bool $single = true)
@@ -208,10 +218,12 @@ class Database
     }
 
     /**
-     * The new meta field ID if a field with the given key didn't exist and was therefore added. 
+     * The new meta field ID if a field with the given key didn't exist and was therefore added.
      * True on successful update. False on failure or if the value passed to the function
      * is the same as the one that is already in the database.
+     *
      * @param mixed $value
+     *
      * @return int|bool
      */
     public function metaSet(int $postId, string $key, $value)
@@ -260,6 +272,7 @@ class Database
 
     /**
      * Number of rows updated. False on error.
+     *
      * @return int|false
      */
     public function update(string $table, array $data, array $where)

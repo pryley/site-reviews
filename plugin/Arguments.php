@@ -28,6 +28,7 @@ class Arguments extends \ArrayObject
 
     /**
      * @param mixed $key
+     *
      * @return mixed
      */
     public function cast($key, string $cast)
@@ -38,6 +39,7 @@ class Arguments extends \ArrayObject
     /**
      * @param mixed $key
      * @param mixed $fallback
+     *
      * @return mixed
      */
     public function get($key, $fallback = null)
@@ -65,6 +67,7 @@ class Arguments extends \ArrayObject
 
     /**
      * @param mixed $key
+     *
      * @return mixed
      */
     #[\ReturnTypeWillChange]
@@ -95,6 +98,7 @@ class Arguments extends \ArrayObject
 
     /**
      * @param mixed $key
+     *
      * @return mixed
      */
     public function sanitize($key, string $sanitizer)

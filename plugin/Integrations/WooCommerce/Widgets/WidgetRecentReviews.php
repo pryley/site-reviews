@@ -10,6 +10,7 @@ class WidgetRecentReviews extends \WC_Widget_Recent_Reviews
     /**
      * @param array $args
      * @param array $instance
+     *
      * @see \WP_Widget
      */
     public function widget($args, $instance)

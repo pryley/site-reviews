@@ -8,6 +8,7 @@ class Controller extends AbstractController
 {
     /**
      * Fix Star Rating control when review form is used inside an Elementor Pro Popup.
+     *
      * @filter site-reviews/enqueue/public/inline-script/after
      */
     public function filterElementorPublicInlineScript(string $script): string
@@ -26,6 +27,7 @@ class Controller extends AbstractController
 
     /**
      * Fix Star Rating CSS class prefix in the Elementor editor.
+     *
      * @filter site-reviews/defaults/star-rating/defaults
      */
     public function filterElementorStarRatingDefaults(array $defaults): array
@@ -48,6 +50,7 @@ class Controller extends AbstractController
 
     /**
      * @param $manager \Elementor\Elements_Manager
+     *
      * @action elementor/elements/categories_registered
      */
     public function registerElementorCategory($manager): void
@@ -60,6 +63,7 @@ class Controller extends AbstractController
 
     /**
      * @param $manager \Elementor\Widgets_Manager
+     *
      * @action elementor/widgets/register
      */
     public function registerElementorWidgets($manager): void

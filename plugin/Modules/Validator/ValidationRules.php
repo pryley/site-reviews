@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
-use GeminiLabs\SiteReviews\Helpers\Str;
-
 /**
  * @see \Illuminate\Validation\Validator (5.3)
  */
@@ -12,6 +10,7 @@ trait ValidationRules
     /**
      * Validate that an attribute value was "accepted".
      * This validation rule implies the attribute is "required".
+     *
      * @param mixed $value
      */
     public function validateAccepted($value): bool
@@ -22,7 +21,9 @@ trait ValidationRules
 
     /**
      * Validate the size of an attribute is between a set of values.
+     *
      * @param mixed $value
+     *
      * @throws \InvalidArgumentException
      */
     public function validateBetween($value, string $attribute, array $parameters): bool
@@ -34,6 +35,7 @@ trait ValidationRules
 
     /**
      * Validate that an attribute value is a valid e-mail address.
+     *
      * @param mixed $value
      */
     public function validateEmail($value): bool
@@ -43,7 +45,9 @@ trait ValidationRules
 
     /**
      * Validate the size of an attribute is less than a maximum value.
+     *
      * @param mixed $value
+     *
      * @throws \InvalidArgumentException
      */
     public function validateMax($value, string $attribute, array $parameters): bool
@@ -54,7 +58,9 @@ trait ValidationRules
 
     /**
      * Validate the size of an attribute is greater than a minimum value.
+     *
      * @param mixed $value
+     *
      * @throws \InvalidArgumentException
      */
     public function validateMin($value, string $attribute, array $parameters): bool
@@ -65,6 +71,7 @@ trait ValidationRules
 
     /**
      * Validate that an attribute is numeric.
+     *
      * @param mixed $value
      */
     public function validateNumber($value): bool
@@ -74,7 +81,9 @@ trait ValidationRules
 
     /**
      * Validate that an attribute passes a regular expression check.
+     *
      * @param mixed $value
+     *
      * @throws \InvalidArgumentException
      */
     public function validateRegex($value, string $attribute, array $parameters): bool
@@ -88,6 +97,7 @@ trait ValidationRules
 
     /**
      * Validate that a required attribute exists.
+     *
      * @param mixed $value
      */
     public function validateRequired($value): bool
@@ -106,6 +116,7 @@ trait ValidationRules
 
     /**
      * Validate that a value is a valid(ish) telephone number.
+     *
      * @param mixed $value
      */
     public function validateTel($value): bool
@@ -120,6 +131,7 @@ trait ValidationRules
 
     /**
      * Validate that a value is a valid URL.
+     *
      * @param mixed $value
      */
     public function validateUrl($value): bool
@@ -146,6 +158,7 @@ trait ValidationRules
 
     /**
      * Get the size of an attribute.
+     *
      * @param mixed $value
      */
     abstract protected function getSize(string $attribute, $value): int;
@@ -167,6 +180,7 @@ trait ValidationRules
 
     /**
      * Require a certain number of parameters to be present.
+     *
      * @throws \InvalidArgumentException
      */
     protected function requireParameterCount(int $count, array $parameters, string $rule): void

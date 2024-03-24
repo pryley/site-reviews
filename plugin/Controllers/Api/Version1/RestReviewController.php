@@ -28,6 +28,7 @@ class RestReviewController extends \WP_REST_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_REST_Response|\WP_Error
      */
     public function create_item($request)
@@ -50,6 +51,7 @@ class RestReviewController extends \WP_REST_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return true|\WP_Error
      */
     public function create_item_permissions_check($request)
@@ -75,6 +77,7 @@ class RestReviewController extends \WP_REST_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_REST_Response|\WP_Error
      */
     public function delete_item($request)
@@ -101,6 +104,7 @@ class RestReviewController extends \WP_REST_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return true|\WP_Error
      */
     public function delete_item_permissions_check($request)
@@ -129,6 +133,7 @@ class RestReviewController extends \WP_REST_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_REST_Response|\WP_Error
      */
     public function get_item($request)
@@ -143,6 +148,7 @@ class RestReviewController extends \WP_REST_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return true|\WP_Error
      */
     public function get_item_permissions_check($request)
@@ -172,6 +178,7 @@ class RestReviewController extends \WP_REST_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_REST_Response|\WP_Error
      */
     public function get_items($request)
@@ -200,6 +207,7 @@ class RestReviewController extends \WP_REST_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return true|\WP_Error
      */
     public function get_items_permissions_check($request)
@@ -219,8 +227,9 @@ class RestReviewController extends \WP_REST_Controller
     }
 
     /**
-     * @param Review $review
+     * @param Review           $review
      * @param \WP_REST_Request $request
+     *
      * @return \WP_REST_Response
      */
     public function prepare_item_for_response($review, $request)
@@ -305,6 +314,7 @@ class RestReviewController extends \WP_REST_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_REST_Response|\WP_Error
      */
     public function update_item($request)
@@ -325,6 +335,7 @@ class RestReviewController extends \WP_REST_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return true|\WP_Error
      */
     public function update_item_permissions_check($request)
@@ -351,6 +362,7 @@ class RestReviewController extends \WP_REST_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return bool
      */
     protected function check_assign_terms_permission($request)
@@ -369,6 +381,7 @@ class RestReviewController extends \WP_REST_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_REST_Response|\WP_Error
      */
     public function forceDeleteItem($request)

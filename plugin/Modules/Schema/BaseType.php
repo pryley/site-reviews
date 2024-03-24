@@ -41,6 +41,7 @@ abstract class BaseType implements \ArrayAccess, \JsonSerializable, Type
 
     /**
      * @param string $method
+     *
      * @return static
      */
     public function __call($method, array $arguments)
@@ -96,7 +97,8 @@ abstract class BaseType implements \ArrayAccess, \JsonSerializable, Type
 
     /**
      * @param string $property
-     * @param mixed $default
+     * @param mixed  $default
+     *
      * @return mixed
      */
     public function getProperty($property, $default = null)
@@ -113,8 +115,9 @@ abstract class BaseType implements \ArrayAccess, \JsonSerializable, Type
     }
 
     /**
-     * @param bool $condition
+     * @param bool  $condition
      * @param mixed $callback
+     *
      * @return static
      */
     public function doIf($condition, $callback)
@@ -136,6 +139,7 @@ abstract class BaseType implements \ArrayAccess, \JsonSerializable, Type
 
     /**
      * @param mixed $offset
+     *
      * @return bool
      */
     #[\ReturnTypeWillChange]
@@ -146,6 +150,7 @@ abstract class BaseType implements \ArrayAccess, \JsonSerializable, Type
 
     /**
      * @param string $offset
+     *
      * @return mixed
      */
     #[\ReturnTypeWillChange]
@@ -156,7 +161,8 @@ abstract class BaseType implements \ArrayAccess, \JsonSerializable, Type
 
     /**
      * @param string $offset
-     * @param mixed $value
+     * @param mixed  $value
+     *
      * @return void
      */
     #[\ReturnTypeWillChange]
@@ -167,6 +173,7 @@ abstract class BaseType implements \ArrayAccess, \JsonSerializable, Type
 
     /**
      * @param string $offset
+     *
      * @return void
      */
     #[\ReturnTypeWillChange]
@@ -177,7 +184,8 @@ abstract class BaseType implements \ArrayAccess, \JsonSerializable, Type
 
     /**
      * @param string $property
-     * @param mixed $value
+     * @param mixed  $value
+     *
      * @return static
      */
     public function setProperty($property, $value)
@@ -221,6 +229,7 @@ abstract class BaseType implements \ArrayAccess, \JsonSerializable, Type
 
     /**
      * @param array|null $parents
+     *
      * @return array
      */
     protected function getParents($parents = null)
@@ -265,6 +274,7 @@ abstract class BaseType implements \ArrayAccess, \JsonSerializable, Type
 
     /**
      * @param mixed $property
+     *
      * @return array|string
      */
     protected function serializeProperty($property)

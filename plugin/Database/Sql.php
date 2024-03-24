@@ -42,7 +42,7 @@ trait Sql
     }
 
     /**
-     * @param string|int $args,... Additional parameters will be passed to $wpdb->prepare()
+     * @param string|int ...$args Additional parameters will be passed to $wpdb->prepare()
      */
     public function sql(string $statement, ...$args): string
     {

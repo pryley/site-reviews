@@ -133,6 +133,7 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
      * Serializes the argument of an action to render it in a human friendly format.
      *
      * @param array $row The array representation of the current row of the table
+     *
      * @return string
      */
     public function column_args(array $row)
@@ -171,12 +172,13 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
      * Prints the logs entries inline. We do so to avoid loading Javascript and other hacks to show it in a modal.
      *
      * @param array $row action array
+     *
      * @return string
      */
     public function column_log_entries(array $row)
     {
         $log_entries_html = '<ol>';
-        $timezone = new \DateTimezone('UTC');
+        $timezone = new \DateTimeZone('UTC');
         foreach ($row['log_entries'] as $log_entry) {
             $log_entries_html .= $this->get_log_entry_html($log_entry, $timezone);
         }
@@ -190,6 +192,7 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
      * Prints the scheduled date in a human friendly format.
      *
      * @param array $row The array representation of the current row of the table
+     *
      * @return string
      */
     public function column_schedule($row)
@@ -311,7 +314,7 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function prepare_items()
     {
@@ -387,7 +390,6 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
      * Deletes actions based on their ID. This is the handler for the bulk delete. It assumes the data
      * properly validated by the callee and it will delete the actions without any extra validation.
      *
-     * @param array $ids
      * @param string $ids_sql Inherited and unused
      */
     protected function bulk_delete(array $ids, $ids_sql)
@@ -430,7 +432,7 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
      *
      * @return string
      */
-    protected function get_log_entry_html(\ActionScheduler_LogEntry $log_entry, \DateTimezone $timezone)
+    protected function get_log_entry_html(\ActionScheduler_LogEntry $log_entry, \DateTimeZone $timezone)
     {
         $date = $log_entry->get_date();
         $date->setTimezone($timezone);
@@ -441,6 +443,7 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
      * Returns the recurrence of an action or 'Non-repeating'. The output is human readable.
      *
      * @param \ActionScheduler_Action $action
+     *
      * @return string
      */
     protected function get_recurrence($action)
@@ -476,7 +479,6 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
     /**
      * Get the scheduled date in a human friendly format.
      *
-     * @param \ActionScheduler_Schedule $schedule
      * @return string
      */
     protected function get_schedule_display_string(\ActionScheduler_Schedule $schedule)
@@ -509,6 +511,7 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
      *
      * @param array  $row         Row to render
      * @param string $column_name Current row
+     *
      * @return string
      */
     protected function maybe_render_actions($row, $column_name)
@@ -540,7 +543,7 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
     /**
      * Implements the logic behind processing an action once an action link is clicked on the list table.
      *
-     * @param int $action_id
+     * @param int    $action_id
      * @param string $row_action_type the type of action to perform on the action
      */
     protected function process_row_action($action_id, $row_action_type)

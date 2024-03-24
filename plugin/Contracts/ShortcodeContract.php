@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Contracts;
 
 /**
- * @property array $args
+ * @property array  $args
  * @property string $debug
  * @property string $shortcode
  * @property string $type

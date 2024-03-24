@@ -58,7 +58,7 @@ abstract class Tag implements TagContract
         return Cast::toBool($this->args->raw);
     }
 
-    public function wrap(string $value, string $wrapWith = null): string
+    public function wrap(string $value, ?string $wrapWith = null): string
     {
         $rawValue = $value;
         $value = glsr()->filterString("{$this->for}/value/{$this->tag}", $value, $this);

@@ -12,5 +12,5 @@ class Textarea extends AbstractFieldElement
         return array_filter([
             'class' => $locations[$this->field->location()] ?? '',
         ]);
-   }
+    }
 }

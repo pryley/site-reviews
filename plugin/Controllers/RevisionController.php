@@ -40,9 +40,11 @@ class RevisionController extends AbstractController
     }
 
     /**
-     * @param array[] $return
+     * @param array[]        $return
      * @param \WP_Post|false $compareFrom
+     *
      * @return array[]
+     *
      * @filter wp_get_revision_ui_diff
      */
     public function filterRevisionUiDiff(array $return, $compareFrom, \WP_Post $compareTo): array

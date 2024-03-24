@@ -29,7 +29,9 @@ class ReviewController extends AbstractController
 {
     /**
      * @param \WP_Post[] $posts
+     *
      * @return \WP_Post[]
+     *
      * @filter the_posts
      */
     public function filterPostsToCacheReviews(array $posts): array
@@ -100,6 +102,7 @@ class ReviewController extends AbstractController
 
     /**
      * Triggered when one or more categories are added or removed from a review.
+     *
      * @action set_object_terms
      */
     public function onAfterChangeAssignedTerms(
@@ -120,6 +123,7 @@ class ReviewController extends AbstractController
 
     /**
      * Triggered when a post status changes or when a review is approved|unapproved|trashed.
+     *
      * @action transition_post_status
      */
     public function onAfterChangeStatus(string $new, string $old, \WP_Post $post): void
@@ -155,6 +159,7 @@ class ReviewController extends AbstractController
 
     /**
      * Fallback action if ajax is not working for any reason.
+     *
      * @action admin_action_approve
      */
     public function onApprove(): void
@@ -172,6 +177,7 @@ class ReviewController extends AbstractController
 
     /**
      * Triggered when a review's assigned post IDs are updated.
+     *
      * @action site-reviews/review/updated/post_ids
      */
     public function onChangeAssignedPosts(Review $review, array $postIds = []): void
@@ -183,6 +189,7 @@ class ReviewController extends AbstractController
 
     /**
      * Triggered when a review's assigned users IDs are updated.
+     *
      * @action site-reviews/review/updated/user_ids
      */
     public function onChangeAssignedUsers(Review $review, array $userIds = []): void
@@ -194,6 +201,7 @@ class ReviewController extends AbstractController
 
     /**
      * Triggered after a review is created.
+     *
      * @action site-reviews/review/created
      */
     public function onCreatedReview(Review $review, CreateReview $command): void
@@ -204,6 +212,7 @@ class ReviewController extends AbstractController
 
     /**
      * Triggered when a review is created.
+     *
      * @action site-reviews/review/create
      */
     public function onCreateReview(int $postId, CreateReview $command): void
@@ -238,6 +247,7 @@ class ReviewController extends AbstractController
 
     /**
      * Triggered when a review or other post type is deleted and the posts table uses the MyISAM engine.
+     *
      * @action deleted_post
      */
     public function onDeletePost(int $postId, \WP_Post $post): void
@@ -260,6 +270,7 @@ class ReviewController extends AbstractController
 
     /**
      * Triggered when a review is deleted and the posts table uses the MyISAM engine.
+     *
      * @see $this->onDeletePost()
      */
     public function onDeleteReview(int $reviewId): void
@@ -269,6 +280,7 @@ class ReviewController extends AbstractController
 
     /**
      * Triggered when a user is deleted and the users table uses the MyISAM engine.
+     *
      * @action deleted_user
      */
     public function onDeleteUser(int $userId = 0): void
@@ -289,6 +301,7 @@ class ReviewController extends AbstractController
      * Triggered when a review is edited or trashed.
      * It's unnecessary to trigger a term recount as this is done by the set_object_terms hook
      * We need to use "post_updated" to support revisions (vs "save_post").
+     *
      * @action post_updated
      */
     public function onEditReview(int $postId, \WP_Post $post, \WP_Post $oldPost): void
@@ -312,6 +325,7 @@ class ReviewController extends AbstractController
 
     /**
      * Fallback action if ajax is not working for any reason.
+     *
      * @action admin_action_unapprove
      */
     public function onUnapprove(): void

@@ -12,6 +12,7 @@ class Controller extends AbstractController
 {
     /**
      * @param array $data
+     *
      * @filter wp_schema_pro_schema_article
      * @filter wp_schema_pro_schema_book
      * @filter wp_schema_pro_schema_course

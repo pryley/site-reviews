@@ -11,6 +11,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 {
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_Error|bool
      */
     public function batch_items_permissions_check($request)
@@ -20,6 +21,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_Error|\WP_REST_Response
      */
     public function create_item($request)
@@ -50,6 +52,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_Error|bool
      */
     public function create_item_permissions_check($request)
@@ -59,6 +62,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_Error|\WP_REST_Response
      */
     public function delete_item($request)
@@ -98,6 +102,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_Error|bool
      */
     public function delete_item_permissions_check($request)
@@ -107,6 +112,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_Error|bool
      */
     public function get_item_permissions_check($request)
@@ -116,6 +122,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_Error|\WP_REST_Response
      */
     public function get_items($request)
@@ -157,6 +164,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_Error|bool
      */
     public function get_items_permissions_check($request)
@@ -165,8 +173,9 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
     }
 
     /**
-     * @param Review $review
+     * @param Review           $review
      * @param \WP_REST_Request $request
+     *
      * @return \WP_REST_Response $response
      */
     public function prepare_item_for_response($review, $request) // @phpstan-ignore-line
@@ -200,6 +209,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_Error|\WP_REST_Response
      */
     public function update_item($request)
@@ -233,6 +243,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return \WP_Error|bool
      */
     public function update_item_permissions_check($request)
@@ -242,7 +253,8 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 
     /**
      * @param string $context
-     * @param int $reviewId
+     * @param int    $reviewId
+     *
      * @return bool
      */
     protected function checkPermissionForProductReview($context = 'read', $reviewId = 0)
@@ -268,8 +280,9 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
     }
 
     /**
-     * @param string $action
+     * @param string           $action
      * @param \WP_REST_Request $request
+     *
      * @return bool|\WP_Error
      */
     protected function checkPermissions($action, $request)
@@ -300,6 +313,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 
     /**
      * @param int $id
+     *
      * @return Review|\WP_Error
      */
     protected function get_review($id)
@@ -319,6 +333,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return array
      */
     protected function prepare_item_for_database($request)
@@ -342,6 +357,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 
     /**
      * @param \WP_REST_Request $request
+     *
      * @return array|\WP_Error
      */
     protected function prepare_item_for_update($request)
@@ -378,6 +394,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 
     /**
      * @param Review $review
+     *
      * @return array
      */
     protected function prepare_links($review) // @phpstan-ignore-line
@@ -407,6 +424,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
 
     /**
      * @param string|int $status
+     *
      * @return string
      */
     protected function prepare_status_response($status)

@@ -11,6 +11,7 @@ class SiteReviewsWidget extends Widget
 {
     /**
      * @param array $instance
+     *
      * @return string
      */
     public function form($instance)
@@ -79,6 +80,7 @@ class SiteReviewsWidget extends Widget
     /**
      * @param array $newInstance
      * @param array $oldInstance
+     *
      * @return array
      */
     public function update($newInstance, $oldInstance)

@@ -8,7 +8,6 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Html\Attributes;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 abstract class AbstractFieldElement implements FieldElementContract
@@ -83,7 +82,7 @@ abstract class AbstractFieldElement implements FieldElementContract
             return;
         }
         $this->field->id = Str::convertNameToId(
-            $this->field->original_name, 
+            $this->field->original_name,
             $this->field->namePrefix()
         );
     }

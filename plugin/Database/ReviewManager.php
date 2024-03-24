@@ -68,7 +68,7 @@ class ReviewManager
     /**
      * @return Review|false
      */
-    public function create(CreateReview $command, int $postId = null)
+    public function create(CreateReview $command, ?int $postId = null)
     {
         if (empty($postId)) {
             $postId = $this->createRaw($command);

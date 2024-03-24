@@ -21,6 +21,7 @@ class Style
 {
     /**
      * The properties that are accessible.
+     *
      * @var array
      */
     protected $accessible = [
@@ -29,6 +30,7 @@ class Style
 
     /**
      * The methods that are callable.
+     *
      * @var array
      */
     protected $callable = [

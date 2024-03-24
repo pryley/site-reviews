@@ -54,6 +54,7 @@ class WelcomeController extends AbstractController
     /**
      * We don't use admin_menu because it breaks the privilege check which runs
      * after the admin_menu hook is triggered in wp-admin/includes/menu.php.
+     *
      * @action admin_init
      */
     public function removeSubMenu(): void

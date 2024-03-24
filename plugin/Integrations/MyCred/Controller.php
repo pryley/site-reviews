@@ -10,6 +10,7 @@ class Controller extends AbstractController
 {
     /**
      * @param array $installed
+     *
      * @filter mycred_setup_hooks
      */
     public function filterHooks($installed): array
@@ -25,6 +26,7 @@ class Controller extends AbstractController
 
     /**
      * @param array $references
+     *
      * @filter mycred_all_references
      */
     public function filterReferences($references): array
@@ -38,6 +40,7 @@ class Controller extends AbstractController
 
     /**
      * @param array $installed
+     *
      * @filter mycred_setup_hooks
      */
     public function filterWooreviewHook($installed): array

@@ -2,9 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\JetWooBuilder;
 
-use GeminiLabs\SiteReviews\Controllers\AbstractController;
-
 use Elementor\Widget_Base;
+use GeminiLabs\SiteReviews\Controllers\AbstractController;
 
 class Controller extends AbstractController
 {

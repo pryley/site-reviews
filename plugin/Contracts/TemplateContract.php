@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Contracts;
 
-use GeminiLabs\SiteReviews\Contracts\PluginContract;
-
 interface TemplateContract
 {
     public function app(): PluginContract;

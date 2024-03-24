@@ -2,6 +2,7 @@
 
 /**
  * Adapted from: https://github.com/BinaryMoon/wp-toolbelt/tree/master/modules/avatars.
+ *
  * @see: https://www.binarymoon.co.uk/2020/08/pixel-avatars-a-privacy-first-gravatar-replacement/
  */
 

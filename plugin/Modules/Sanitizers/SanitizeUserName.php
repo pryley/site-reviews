@@ -25,6 +25,7 @@ class SanitizeUserName extends StringSanitizer
      * \p{M} = any character intended to be combined with another character (e.g. accents, umlauts, enclosing boxes, etc.).
      * \p{N} = any kind of numeric character in any script.
      * \p{Pf} = any kind of closing quote.
+     *
      * @see https://www.regular-expressions.info/unicode.html
      */
     protected function sanitizeDisplayName(string $value): string

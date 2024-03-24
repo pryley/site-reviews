@@ -5,7 +5,9 @@ namespace GeminiLabs\SiteReviews\Modules\Schema;
 /**
  * The most generic kind of creative work, including books, movies, photographs, software programs,
  * etc.
+ *
  * @see http://schema.org/CreativeWork
+ *
  * @method static about(Thing|Thing[] $about)
  * @method static accessMode(string|string[] $accessMode)
  * @method static accessModeSufficient(string|string[] $accessModeSufficient)
@@ -94,6 +96,7 @@ class CreativeWork extends BaseType
 {
     /**
      * @var array
+     *
      * @see http://schema.org/{property_name}
      */
     public $allowed = [
@@ -117,6 +120,7 @@ class CreativeWork extends BaseType
 
     /**
      * @var array
+     *
      * @see http://schema.org/{property_name}
      */
     public $parents = [

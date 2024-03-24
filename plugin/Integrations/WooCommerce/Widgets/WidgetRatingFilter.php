@@ -13,6 +13,7 @@ class WidgetRatingFilter extends \WC_Widget_Rating_Filter
     /**
      * @param array $args
      * @param array $instance
+     *
      * @return void
      */
     public function widget($args, $instance)

@@ -12,7 +12,7 @@ use GeminiLabs\SiteReviews\Plugin;
  * @property string $file
  * @property string $id
  * @property string $languages
- * @property bool $licensed
+ * @property bool   $licensed
  * @property string $name
  * @property string $slug
  * @property string $testedTo
@@ -56,6 +56,7 @@ abstract class Addon implements PluginContract
 
     /**
      * @param mixed $fallback
+     *
      * @return mixed
      */
     public function option(string $path = '', $fallback = '', string $cast = '')
@@ -66,7 +67,7 @@ abstract class Addon implements PluginContract
     }
 
     /**
-     * You can pass a Defaults class which will be used to restrict the options
+     * You can pass a Defaults class which will be used to restrict the options.
      */
     public function options(string $defaultsClass = ''): Arguments
     {

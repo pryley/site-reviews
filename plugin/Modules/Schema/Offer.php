@@ -10,7 +10,9 @@ namespace GeminiLabs\SiteReviews\Modules\Schema;
  * see [Check Digit calculator](http://www.gs1.org/barcodes/support/check_digit_calculator)
  * and [validation guide](http://www.gs1us.org/resources/standards/gtin-validation-guide)
  * from [GS1](http://www.gs1.org/).
+ *
  * @see http://schema.org/Offer
+ *
  * @method static acceptedPaymentMethod(LoanOrCredit|LoanOrCredit[]|PaymentMethod|PaymentMethod[] $acceptedPaymentMethod)
  * @method static addOn(Offer|Offer[] $addOn)
  * @method static advanceBookingRequirement(QuantitativeValue|QuantitativeValue[] $advanceBookingRequirement)
@@ -56,6 +58,7 @@ class Offer extends BaseType
 {
     /**
      * @var array
+     *
      * @see http://schema.org/{property_name}
      */
     public $allowed = [
@@ -71,6 +74,7 @@ class Offer extends BaseType
 
     /**
      * @var array
+     *
      * @see http://schema.org/{property_name}
      */
     public $parents = [

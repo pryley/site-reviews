@@ -6,7 +6,6 @@ use GeminiLabs\SiteReviews\Exceptions\FileException;
 use GeminiLabs\SiteReviews\Exceptions\FileNotFoundException;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Notice;
-use GeminiLabs\SiteReviews\UploadedFile;
 
 trait Upload
 {
@@ -65,6 +64,7 @@ trait Upload
 
     /**
      * This skips any files that don't exist and logs the error.
+     *
      * @return UploadedFile[]
      */
     protected function files(): array

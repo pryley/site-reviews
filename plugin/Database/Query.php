@@ -63,7 +63,7 @@ class Query
     public function review(int $postId, bool $bypassCache = false): Review
     {
         $reviewId = Cast::toInt($postId);
-        $review = Helper::ifTrue($bypassCache, null, 
+        $review = Helper::ifTrue($bypassCache, null,
             fn () => glsr(Cache::class)->get($reviewId, 'reviews')
         );
         if (!$review instanceof Review) {

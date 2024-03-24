@@ -57,15 +57,16 @@ class Controller extends AbstractController
             $handle = glsr()->id.'/admin/gamipress';
             $url = glsr()->url('assets/scripts/gamipress.js');
             wp_enqueue_script($handle, $url, [], glsr()->version, [
-                'strategy' => 'defer'
+                'strategy' => 'defer',
             ]);
         }
     }
 
     /**
      * @param string $label
-     * @param int $requirementId
-     * @param array $requirement
+     * @param int    $requirementId
+     * @param array  $requirement
+     *
      * @filter gamipress_activity_trigger_label
      */
     public function filterActivityTriggerLabel($label, $requirementId, $requirement): string
@@ -84,6 +85,7 @@ class Controller extends AbstractController
 
     /**
      * @param array $triggers
+     *
      * @filter gamipress_activity_triggers
      */
     public function filterActivityTriggers($triggers): array
@@ -94,10 +96,11 @@ class Controller extends AbstractController
     }
 
     /**
-     * @param int $userId
+     * @param int    $userId
      * @param string $trigger
-     * @param int $siteId
-     * @param array $args
+     * @param int    $siteId
+     * @param array  $args
+     *
      * @filter gamipress_log_event_trigger_meta_data
      */
     public function filterLogEventMetaData($meta, $userId, $trigger, $siteId, $args = []): array
@@ -113,7 +116,8 @@ class Controller extends AbstractController
 
     /**
      * @param array $fields
-     * @param int $logId
+     * @param int   $logId
+     *
      * @filter gamipress_log_extra_data_fields
      */
     public function filterLogExtraDataFields($fields, $logId): array
@@ -140,6 +144,7 @@ class Controller extends AbstractController
 
     /**
      * @param array $triggers
+     *
      * @filter gamipress_post_type_triggers
      */
     public function filterPostTypeTriggers($triggers): array
@@ -151,7 +156,8 @@ class Controller extends AbstractController
 
     /**
      * @param array $requirement
-     * @param int $requirementId
+     * @param int   $requirementId
+     *
      * @filter gamipress_requirement_object
      */
     public function filterRequirement($requirement, $requirementId): array
@@ -183,6 +189,7 @@ class Controller extends AbstractController
 
     /**
      * These triggers use the post selector in the ui.
+     *
      * @filter gamipress_specific_activity_triggers
      */
     public function filterSpecificActivityTriggers($triggers): array
@@ -197,12 +204,13 @@ class Controller extends AbstractController
     }
 
     /**
-     * @param bool $result  The default return value
-     * @param int $userId  The given user's ID
-     * @param int $requirementId  The given requirement's post ID
-     * @param string $trigger  The trigger triggered
-     * @param int $siteId  The site id
-     * @param array $args  Arguments of this trigger
+     * @param bool   $result        The default return value
+     * @param int    $userId        The given user's ID
+     * @param int    $requirementId The given requirement's post ID
+     * @param string $trigger       The trigger triggered
+     * @param int    $siteId        The site id
+     * @param array  $args          Arguments of this trigger
+     *
      * @filter user_has_access_to_achievement
      */
     public function filterUserHasAccessToAchievement($result, $userId, $requirementId, $trigger, $siteId, $args): bool
@@ -242,7 +250,7 @@ class Controller extends AbstractController
             return;
         }
         $review->refresh(); // refresh the review first!
-        $assignedPosts = array_filter($review->assignedPosts(), 
+        $assignedPosts = array_filter($review->assignedPosts(),
             fn ($post) => $post->post_author !== get_current_user_id()
         );
         $assignedUsers = get_users([
@@ -260,8 +268,10 @@ class Controller extends AbstractController
 
     /**
      * Using PHP_EOL fixes inline-block layout with the other gamipress fields.
+     *
      * @param int $requirementId
      * @param int $postId
+     *
      * @action gamipress_requirement_ui_html_after_achievement_post
      */
     public function renderRequirementFields($requirementId, $postId): void
@@ -302,8 +312,9 @@ class Controller extends AbstractController
     }
 
     /**
-     * @param int $requirementId
+     * @param int   $requirementId
      * @param array $requirement
+     *
      * @action gamipress_ajax_update_requirement
      */
     public function updateRequirement($requirementId, $requirement): void

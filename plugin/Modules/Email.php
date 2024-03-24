@@ -66,7 +66,7 @@ class Email implements EmailContract
     public function logMailError(\WP_Error $error): void
     {
         glsr_log()
-            ->error('[wp_mail] Email was not sent: '. $error->get_error_message())
+            ->error('[wp_mail] Email was not sent: '.$error->get_error_message())
             ->debug(['Email' => $this, 'WP_Error' => $error]);
     }
 

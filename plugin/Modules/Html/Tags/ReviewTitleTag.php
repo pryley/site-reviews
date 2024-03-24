@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
-use GeminiLabs\SiteReviews\Helpers\Cast;
-
 class ReviewTitleTag extends ReviewTag
 {
     protected function handle(): string

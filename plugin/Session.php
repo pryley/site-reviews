@@ -20,6 +20,7 @@ trait Session
 
     /**
      * @param mixed $fallback
+     *
      * @return mixed
      */
     public function sessionGet(string $key, $fallback = '')
@@ -29,6 +30,7 @@ trait Session
 
     /**
      * @param mixed $fallback
+     *
      * @return mixed
      */
     public function sessionPluck(string $key, $fallback = '')

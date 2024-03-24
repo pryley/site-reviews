@@ -9,7 +9,6 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 class ProductReviewsRoute extends Route
 {
     /**
-     * @param \WP_REST_Request $request
      * @return \WP_REST_Response
      */
     protected function get_route_response(\WP_REST_Request $request)
@@ -49,6 +48,7 @@ class ProductReviewsRoute extends Route
 
     /**
      * @param string $param
+     *
      * @return string
      */
     protected function normalize_query_param($param)

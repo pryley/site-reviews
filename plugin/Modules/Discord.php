@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Defaults\DiscordDefaults;
 use GeminiLabs\SiteReviews\Review;
 
 /**
- * @link https://message.style/app/
+ * @see https://message.style/app/
  */
 class Discord implements WebhookContract
 {

@@ -11,6 +11,7 @@ class ProductReviews extends ProductReviewsController
 
     /**
      * @param \GeminiLabs\SiteReviews\Review $review
+     *
      * @return array
      */
     protected function prepare_links($review)

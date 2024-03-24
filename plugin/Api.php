@@ -92,7 +92,7 @@ class Api
     }
 
     /**
-     * Apply multiplier to current backoff time
+     * Apply multiplier to current backoff time.
      */
     protected function newBackoff(): float
     {
@@ -129,6 +129,6 @@ class Api
         usleep((int) floor($timeUntilDeadline * 1e6));
         $this->backoff = $this->newBackoff();
         $this->deadline = $this->newDeadline();
-        $this->numRetries++;
+        ++$this->numRetries;
     }
 }

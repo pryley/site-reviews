@@ -82,6 +82,7 @@ class ReviewsHtml extends \ArrayObject
 
     /**
      * @param string $key
+     *
      * @return mixed
      */
     #[\ReturnTypeWillChange]

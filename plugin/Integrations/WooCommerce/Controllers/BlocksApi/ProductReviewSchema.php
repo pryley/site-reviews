@@ -37,7 +37,7 @@ class ProductReviewSchema extends AbstractSchema
     /**
      * Constructor.
      *
-     * @param ExtendSchema     $extend rest Extending instance
+     * @param ExtendSchema     $extend     rest Extending instance
      * @param SchemaController $controller schema Controller instance
      */
     public function __construct(ExtendSchema $extend, SchemaController $controller)
@@ -47,7 +47,8 @@ class ProductReviewSchema extends AbstractSchema
     }
 
     /**
-     * @param \GeminiLabs\SiteReviews\Review $review
+     * @param Review $review
+     *
      * @return array
      */
     public function get_item_response($review)

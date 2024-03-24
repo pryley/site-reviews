@@ -33,7 +33,7 @@ class Text
 
     /**
      * @param string $nameFormat  first|first_initial|last_initial|initials
-     * @param string $initialType  period|period_space|space
+     * @param string $initialType period|period_space|space
      */
     public static function name(?string $name, string $nameFormat = '', string $initialType = 'space'): string
     {

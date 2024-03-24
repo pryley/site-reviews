@@ -12,8 +12,10 @@ class Controller extends AbstractController
 {
     /**
      * Fix compatibility with the Divi Dynamic CSS option.
-     * @param array $shortcodes
+     *
+     * @param array  $shortcodes
      * @param string $content
+     *
      * @filter et_dynamic_assets_modules_atf
      */
     public function filterDynamicAssets($shortcodes, $content): array
@@ -31,6 +33,7 @@ class Controller extends AbstractController
 
     /**
      * @see filterPaginationLinks
+     *
      * @filter site-reviews/paginate_link
      */
     public function filterPaginationLink(array $link, array $args, BuilderContract $builder): array

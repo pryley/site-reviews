@@ -115,6 +115,7 @@ class MigrateSidebars implements MigrateContract
 
     /**
      * @param mixed $option
+     *
      * @return string|array
      */
     protected function migrateWidgetData($option)
@@ -163,7 +164,6 @@ class MigrateSidebars implements MigrateContract
     }
 
     /**
-     * @param array $sidebars
      * @return array
      */
     protected function updateWidgetNames(array $sidebars)

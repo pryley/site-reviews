@@ -21,8 +21,9 @@ class ExportRatings extends AbstractCommand
     }
 
     /**
-     * @param bool $skip
+     * @param bool   $skip
      * @param string $metaKey
+     *
      * @filter wxr_export_skip_postmeta
      */
     public function filterExportSkipPostMeta($skip, $metaKey): bool

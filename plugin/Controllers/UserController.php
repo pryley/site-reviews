@@ -9,7 +9,9 @@ class UserController extends AbstractController
 {
     /**
      * @param string[] $caps
+     *
      * @return string[]
+     *
      * @filter map_meta_cap
      */
     public function filterMapMetaCap(array $caps, string $cap, int $userId, array $args): array
@@ -39,9 +41,11 @@ class UserController extends AbstractController
     }
 
     /**
-     * @param bool[] $allcaps
+     * @param bool[]   $allcaps
      * @param string[] $caps
+     *
      * @return bool[]
+     *
      * @filter user_has_cap
      */
     public function filterUserHasCap(array $allcaps, array $caps, array $args): array

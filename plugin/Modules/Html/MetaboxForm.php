@@ -112,7 +112,7 @@ class MetaboxForm extends Form
      */
     protected function normalizeFieldDisabled(FieldContract $field): void
     {
-        $field->disabled = 'add' !== glsr_current_screen()->action 
+        $field->disabled = 'add' !== glsr_current_screen()->action
             && !wp_doing_ajax();
     }
 }
