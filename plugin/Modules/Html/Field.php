@@ -17,7 +17,7 @@ use GeminiLabs\SiteReviews\Modules\Html\FieldElements\UnknownElement;
  * @property bool         $checked
  * @property string       $class
  * @property string       $description
- * @property false|array  $errors
+ * @property array        $errors
  * @property string       $id
  * @property bool         $is_custom
  * @property bool         $is_raw
@@ -43,7 +43,7 @@ class Field extends \ArrayObject implements FieldContract
     {
         $field = glsr(FieldDefaults::class)->merge($args);
         $field = wp_parse_args($field, [
-            'errors' => false, // @todo stick to an array
+            'errors' => [],
             'is_custom' => false,  // @todo what does this do?
             'is_raw' => false, // Only build the field element, and use the builder instance..
             'is_valid' => false, // Does the field include required parameters (i.e. name, type)?

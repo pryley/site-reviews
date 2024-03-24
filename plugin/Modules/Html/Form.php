@@ -263,9 +263,6 @@ class Form extends \ArrayObject implements FormContract
     protected function normalizeFieldErrors(FieldContract $field): void
     {
         $errors = $this->session->errors[$field->original_name] ?? [];
-        if (empty($errors)) {
-            return;
-        }
         $field->errors = Arr::consolidate($errors);
     }
 

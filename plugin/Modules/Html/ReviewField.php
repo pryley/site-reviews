@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
-use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Style;
@@ -56,7 +56,7 @@ class ReviewField extends Field
         return glsr(Template::class)->build('templates/form/field-errors', [
             'context' => [
                 'class' => $this->classAttrErrors(),
-                'errors' => implode('<br>', Cast::toArray($this->errors)), // because <br> is used in validation.js
+                'errors' => implode('<br>', Arr::consolidate($this->errors)), // because <br> is used in validation.js
             ],
             'field' => $this,
         ]);
