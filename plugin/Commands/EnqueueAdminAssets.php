@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Commands;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedPost;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedUser;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAuthor;
+use GeminiLabs\SiteReviews\Defaults\PointerDefaults;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
@@ -13,36 +14,25 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
 class EnqueueAdminAssets extends AbstractCommand
 {
-    public $pointers;
+    public array $pointers;
 
     public function __construct()
     {
-        $this->pointers = $this->generatePointers([[
-            'content' => _x('You can pin exceptional reviews so that they are always shown first.', 'admin-text', 'site-reviews'),
-            'id' => 'glsr-pointer-pinned',
-            'position' => [
-                'edge' => 'right',
-                'align' => 'middle',
+        $this->generatePointers([
+            [
+                'content' => _x('You can pin exceptional reviews so that they are always shown first.', 'admin-text', 'site-reviews'),
+                'id' => 'glsr-pointer-pinned',
+                'target' => '#misc-pub-pinned',
+                'title' => _x('Pin Your Reviews', 'admin-text', 'site-reviews'),
             ],
-            'screen' => glsr()->post_type,
-            'target' => '#misc-pub-pinned',
-            'title' => _x('Pin Your Reviews', 'admin-text', 'site-reviews'),
-        ]]);
+        ]);
     }
 
-    public function handle(): void
+    public function enqueueScripts(): void
     {
-        if (!$this->isCurrentScreen()) {
-            $this->fail();
-            return;
+        if (!empty($this->pointers)) {
+            wp_enqueue_script('wp-pointer');
         }
-        wp_enqueue_style('wp-color-picker');
-        wp_enqueue_style(
-            glsr()->id.'/admin',
-            glsr()->url('assets/styles/admin/admin.css'),
-            ['wp-list-reusable-blocks'], // load the :root admin theme colors
-            glsr()->version
-        );
         wp_enqueue_script(
             glsr()->id.'/admin',
             glsr()->url('assets/scripts/'.glsr()->id.'-admin.js'),
@@ -52,13 +42,33 @@ class EnqueueAdminAssets extends AbstractCommand
                 'strategy' => 'defer',
             ]
         );
-        if (!empty($this->pointers)) {
-            wp_enqueue_style('wp-pointer');
-            wp_enqueue_script('wp-pointer');
-        }
         wp_add_inline_script(glsr()->id.'/admin', $this->inlineScript(), 'before');
         wp_add_inline_script(glsr()->id.'/admin', glsr()->filterString('enqueue/admin/inline-script/after', ''));
-        wp_add_inline_style(glsr()->id.'/admin', glsr()->filterString('enqueue/admin/inline-styles', ''));
+    }
+
+    public function enqueueStyles(): void
+    {
+        if (!empty($this->pointers)) {
+            wp_enqueue_style('wp-pointer');
+        }
+        wp_enqueue_style('wp-color-picker');
+        wp_enqueue_style(
+            glsr()->id.'/admin',
+            glsr()->url('assets/styles/admin/admin.css'),
+            ['wp-list-reusable-blocks'], // load the :root admin theme colors
+            glsr()->version
+        );
+        wp_add_inline_style(glsr()->id.'/admin', $this->inlineStyles());
+    }
+
+    public function handle(): void
+    {
+        if (!$this->isCurrentScreen()) {
+            $this->fail();
+            return;
+        }
+        $this->enqueueStyles();
+        $this->enqueueScripts();
     }
 
     public function inlineScript(): string
@@ -128,6 +138,11 @@ class EnqueueAdminAssets extends AbstractCommand
         return $this->buildInlineScript($variables);
     }
 
+    public function inlineStyles(): string
+    {
+        return glsr()->filterString('enqueue/admin/inline-styles', '');
+    }
+
     protected function buildInlineScript(array $variables): string
     {
         $script = 'window.hasOwnProperty("GLSR")||(window.GLSR={});';
@@ -153,7 +168,7 @@ class EnqueueAdminAssets extends AbstractCommand
         return [
             'id' => $pointer['id'],
             'options' => [
-                'content' => "<h3>{$pointer['title']}</h3><p>{$pointer['content']}</p>",
+                'content' => "<h3>{$pointer['title']}</h3>".wpautop($pointer['content']),
                 'position' => $pointer['position'],
             ],
             'screen' => $pointer['screen'],
@@ -161,21 +176,25 @@ class EnqueueAdminAssets extends AbstractCommand
         ];
     }
 
-    protected function generatePointers(array $pointers): array
+    /**
+     * @param array[] $args
+     */
+    protected function generatePointers(array $args): void
     {
-        $dismissedPointers = get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true);
-        $dismissedPointers = explode(',', (string) $dismissedPointers);
-        $generatedPointers = [];
-        foreach ($pointers as $pointer) {
-            if ($pointer['screen'] != glsr_current_screen()->id) {
+        $dismissed = get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true);
+        $dismissed = explode(',', (string) $dismissed);
+        $pointers = [];
+        foreach ($args as $pointer) {
+            $pointer = glsr(PointerDefaults::class)->restrict($pointer);
+            if ($pointer['screen'] !== glsr_current_screen()->id) {
                 continue;
             }
-            if (in_array($pointer['id'], $dismissedPointers)) {
+            if (in_array($pointer['id'], $dismissed)) {
                 continue;
             }
-            $generatedPointers[] = $this->generatePointer($pointer);
+            $pointers[] = $this->generatePointer($pointer);
         }
-        return $generatedPointers;
+        $this->pointers = $pointers;
     }
 
     protected function isCurrentScreen(): bool

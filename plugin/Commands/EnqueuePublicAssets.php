@@ -11,33 +11,45 @@ use GeminiLabs\SiteReviews\Modules\Style;
 
 class EnqueuePublicAssets extends AbstractCommand
 {
+    public function enqueueScripts(): void
+    {
+        if (!glsr()->filterBool('assets/js', true)) {
+            return;
+        }
+        $dependencies = glsr()->filterArray('enqueue/public/dependencies', []);
+        wp_enqueue_script(glsr()->id, glsr(AssetJs::class)->url(), $dependencies, glsr(AssetJs::class)->version(), [
+            'in_footer' => true,
+            'strategy' => 'defer',
+        ]);
+        wp_add_inline_script(glsr()->id, $this->inlineScript(), 'before');
+        wp_add_inline_script(glsr()->id, glsr()->filterString('enqueue/public/inline-script/after', ''));
+        glsr(AssetJs::class)->optimize();
+    }
+
+    public function enqueueStyles(): void
+    {
+        if (!glsr()->filterBool('assets/css', true)) {
+            return;
+        }
+        // ensure block styles are loaded on post types with blocks disabled
+        $blocks = \WP_Block_Type_Registry::get_instance();
+        if ($blocks->is_registered('core/button')) {
+            // $blocks->get_registered('core/button')->style_handles;
+            wp_enqueue_style('wp-block-button');
+        }
+        if ($blocks->is_registered('core/search')) {
+            // $blocks->get_registered('core/search')->style_handles;
+            wp_enqueue_style('wp-block-search');
+        }
+        wp_enqueue_style(glsr()->id, glsr(AssetCss::class)->url(), [], glsr(AssetCss::class)->version());
+        wp_add_inline_style(glsr()->id, $this->inlineStyles());
+        glsr(AssetCss::class)->optimize();
+    }
+
     public function handle(): void
     {
-        if (glsr()->filterBool('assets/css', true)) {
-            // ensure block styles are loaded on post types with blocks disabled
-            $blocks = \WP_Block_Type_Registry::get_instance();
-            if ($blocks->is_registered('core/button')) {
-                // $blocks->get_registered('core/button')->style_handles;
-                wp_enqueue_style('wp-block-button');
-            }
-            if ($blocks->is_registered('core/search')) {
-                // $blocks->get_registered('core/search')->style_handles;
-                wp_enqueue_style('wp-block-search');
-            }
-            wp_enqueue_style(glsr()->id, glsr(AssetCss::class)->url(), [], glsr(AssetCss::class)->version());
-            wp_add_inline_style(glsr()->id, $this->inlineStyles());
-            glsr(AssetCss::class)->optimize();
-        }
-        if (glsr()->filterBool('assets/js', true)) {
-            $dependencies = glsr()->filterArray('enqueue/public/dependencies', []);
-            wp_enqueue_script(glsr()->id, glsr(AssetJs::class)->url(), $dependencies, glsr(AssetJs::class)->version(), [
-                'in_footer' => true,
-                'strategy' => 'defer',
-            ]);
-            wp_add_inline_script(glsr()->id, $this->inlineScript(), 'before');
-            wp_add_inline_script(glsr()->id, glsr()->filterString('enqueue/public/inline-script/after', ''));
-            glsr(AssetJs::class)->optimize();
-        }
+        $this->enqueueStyles();
+        $this->enqueueScripts();
     }
 
     public function inlineScript(): string
