@@ -3,8 +3,12 @@
 import Ajax from '@/admin/ajax.js';
 
 const Tools = function () {
-    jQuery('form').on('click', '[data-ajax-click]', this.onAjaxClick_.bind(this));
-    jQuery('.glsr-button').on('click', this.onExpand_);
+    jQuery('form').on('click', '[data-ajax-click]', this.onAjaxClick_.bind(this))
+    jQuery('.glsr-button').on('click', this.onExpand_)
+    jQuery('form.wp-upload-form').each((index, formEl) => {
+        jQuery(formEl).find('input[type="file"]').on('change', () => this.toggleUploadButton_(formEl))
+        this.toggleUploadButton_(formEl)
+    });
 };
 
 Tools.prototype = {
@@ -35,6 +39,14 @@ Tools.prototype = {
             localStorage.setItem('glsr-expand', el.data('expand'));
         }
     },
+    toggleUploadButton_: function (formEl) {
+        const input = jQuery(formEl).find('input[type="file"]');
+        const submit = jQuery(formEl).find('[type="submit"]');
+        submit.prop('disabled', '' === input.map(function () {
+            return jQuery(this).val();
+        }).get().join(''));
+    },
 };
 
 export default Tools;
+

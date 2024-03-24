@@ -60,7 +60,7 @@
         </div>
 
         <h4><?php echo esc_html_x('Step 3: Upload the CSV file', 'admin-text', 'site-reviews'); ?></h4>
-        <form method="post" enctype="multipart/form-data" onsubmit="submit.classList.add('is-busy'); submit.disabled = true;">
+        <form method="post" class="wp-upload-form" enctype="multipart/form-data" onsubmit="submit.classList.add('is-busy'); submit.disabled = true;">
             <?php wp_nonce_field('import-reviews'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="import-reviews">
             <p>

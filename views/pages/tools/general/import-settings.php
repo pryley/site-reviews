@@ -14,7 +14,7 @@
             '<code>*.json</code>',
             '<a data-expand="#tools-export-plugin-settings" href="'.glsr_admin_url('tools', 'general').'">', '</a>'
         ); ?></p>
-        <form method="post" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
+        <form method="post" class="wp-upload-form" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
             <?php wp_nonce_field('import-settings'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="import-settings">
             <p>
