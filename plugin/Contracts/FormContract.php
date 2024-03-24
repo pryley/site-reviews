@@ -2,8 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Contracts;
 
+use GeminiLabs\SiteReviews\Arguments;
+
 interface FormContract
 {
+    public function args(): Arguments;
+
     public function build(): string;
 
     public function field(string $name, array $args): FieldContract;
@@ -22,6 +26,10 @@ interface FormContract
      * @return FieldContract[]
      */
     public function hidden(): array;
+
+    public function loadSession(): void;
+
+    public function session(): Arguments;
 
     /**
      * @return FieldContract[]

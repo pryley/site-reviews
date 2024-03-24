@@ -21,11 +21,12 @@ class Form extends \ArrayObject implements FormContract
 
     public function __construct(array $args = [], array $requiredKeys = [])
     {
-        $this->args = glsr()->args(wp_parse_args($args, [
+        $defaults = [
             'button_text' => __('Submit Form', 'site-reviews'),
             'button_text_loading' => __('Submitting, please wait...', 'site-reviews'),
             'id' => glsr(Sanitizer::class)->sanitizeIdHash(''),
-        ]));
+        ];
+        $this->args = glsr()->args(wp_parse_args($args, $defaults));
         $this->required = $requiredKeys;
         $this->loadSession();
         parent::__construct($this->fieldsAll(), \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);

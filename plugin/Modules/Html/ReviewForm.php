@@ -9,14 +9,14 @@ class ReviewForm extends Form
 {
     public function __construct(array $args = [], array $requiredKeys = [])
     {
-        $args = wp_parse_args([
+        $overrides = [
             'button_text' => __('Submit Review', 'site-reviews'),
             'class' => 'glsr-review-form',
-        ], $args);
+        ];
         if (empty($requiredKeys)) {
             $requiredKeys = glsr_get_option('forms.required', []);
         }
-        parent::__construct($args, $requiredKeys);
+        parent::__construct(wp_parse_args($overrides, $args), $requiredKeys);
     }
 
     public function field(string $name, array $args): FieldContract
