@@ -11,6 +11,7 @@ namespace GeminiLabs\SiteReviews\Contracts;
  * @property string       $class
  * @property string       $description
  * @property array        $errors
+ * @property string       $group
  * @property string       $id
  * @property bool         $is_custom
  * @property bool         $is_raw
@@ -27,7 +28,6 @@ namespace GeminiLabs\SiteReviews\Contracts;
  * @property string       $text
  * @property string       $type
  * @property string|array $value
- * @property int          $wizard_step
  */
 interface FieldContract
 {

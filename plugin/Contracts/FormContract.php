@@ -16,6 +16,11 @@ interface FormContract
     /**
      * @return FieldContract[]
      */
+    public function fieldsFor(string $group): array;
+
+    /**
+     * @return FieldContract[]
+     */
     public function hidden(): array;
 
     /**

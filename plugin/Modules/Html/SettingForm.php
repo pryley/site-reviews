@@ -81,14 +81,6 @@ class SettingForm extends Form
     /**
      * @return FieldContract[]
      */
-    protected function fieldsFor(string $group): array
-    {
-        return array_filter($this->fields(), fn ($field) => $group === $field->group);
-    }
-
-    /**
-     * @return FieldContract[]
-     */
     protected function fieldsVisible(): array
     {
         $config = glsr()->settings();

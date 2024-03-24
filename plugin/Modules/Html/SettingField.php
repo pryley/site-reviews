@@ -9,7 +9,6 @@ use GeminiLabs\SiteReviews\Modules\Sanitizer;
 /**
  * @property mixed  $default
  * @property array  $depends_on
- * @property string $group
  * @property bool   $is_hidden
  * @property array  $tags
  * @property string $tooltip
@@ -23,7 +22,6 @@ class SettingField extends Field
         $field = wp_parse_args($args, [
             'default' => '',
             'depends_on' => [],
-            'group' => '', // the setting group the field belongs to
             'is_hidden' => false, // the field is visibly hidden based on the values of its dependancies
             'tags' => [],
             'tooltip' => '',

@@ -68,6 +68,14 @@ class Form extends \ArrayObject implements FormContract
     /**
      * @return FieldContract[]
      */
+    public function fieldsFor(string $group): array
+    {
+        return array_filter($this->fields(), fn ($field) => $group === $field->group);
+    }
+
+    /**
+     * @return FieldContract[]
+     */
     public function hidden(): array
     {
         $fields = [];

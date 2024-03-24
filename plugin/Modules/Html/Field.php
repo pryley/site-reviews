@@ -18,6 +18,7 @@ use GeminiLabs\SiteReviews\Modules\Html\FieldElements\UnknownElement;
  * @property string       $class
  * @property string       $description
  * @property array        $errors
+ * @property string       $group
  * @property string       $id
  * @property bool         $is_custom
  * @property bool         $is_raw
@@ -33,7 +34,6 @@ use GeminiLabs\SiteReviews\Modules\Html\FieldElements\UnknownElement;
  * @property string       $text
  * @property string       $type
  * @property string|array $value
- * @property int          $wizard_step
  */
 class Field extends \ArrayObject implements FieldContract
 {
@@ -49,7 +49,6 @@ class Field extends \ArrayObject implements FieldContract
             'is_valid' => false, // Does the field include required parameters (i.e. name, type)?
             'original_name' => $field['name'],
             'original_type' => $field['type'],
-            'wizard_step' => 1, // @todo this is currently unused
         ]);
         parent::__construct($field, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
         $this->normalize(); // this sets the initial field tag property.
