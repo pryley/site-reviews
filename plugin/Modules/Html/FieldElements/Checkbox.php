@@ -62,14 +62,29 @@ class Checkbox extends AbstractFieldElement
 
     protected function normalizeOptions(): void
     {
-        if (!empty($this->field->options)) {
+        if (empty($this->field->options)) {
+            $label = $this->field->label ?: $this->field->text;
+            $value = $this->field->value ?: 1;
+            $this->field->label = ''; // clear the label
+            $this->field->text = ''; // clear the text
+            $this->field->options = [$value => $label];
             return;
         }
-        $label = $this->field->label ?: $this->field->text;
-        $value = $this->field->value ?: 1;
-        $this->field->label = ''; // clear the label
-        $this->field->text = ''; // clear the text
-        $this->field->options = [$value => $label];
+        $options = [];
+        foreach ($this->field->options as $key => $values) {
+            if (!is_array($values)) {
+                $options[$key] = $values;
+                continue;
+            }
+            $values = array_slice(array_filter($values, 'is_string'), 0, 2);
+            if (1 === count($values)) {
+                $options[$key] = Cast::toString($values);
+            } elseif (2 === count($values)) {
+                $values = array_reduce($values, fn ($carry, $val) => $carry.$this->field->builder()->span($val), '');
+                $options[$key] = $values;
+            }
+        }
+        $this->field->options = $options;
     }
 
     protected function normalizeValue(): void

@@ -13,13 +13,6 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
  */
 class BuilderTest extends \WP_UnitTestCase
 {
-    public function set_up(): void
-    {
-        parent::set_up();
-        // Remove styled element classes
-        // glsr(Compatibility::class)->removeHook('site-reviews/builder', 'modifyBuilder', PublicController::class);
-    }
-
     public function test_build_html_element(): void
     {
         $this->assertEquals('<span></span>', $this->builder()->span());
@@ -125,6 +118,23 @@ class BuilderTest extends \WP_UnitTestCase
                 'options' => [
                     'a' => 'A',
                     'b' => 'B',
+                ],
+                'type' => 'checkbox',
+            ])
+        );
+        $this->assertEquals(
+            '<label for="foo-1">'.
+                '<input type="checkbox" id="foo-1" name="foo" value="a" /> A, description'.
+            '</label>'.
+            '<label for="foo-2">'.
+                '<input type="checkbox" id="foo-2" name="foo" value="b" /> B, description'.
+            '</label>',
+            $this->builder()->input([
+                'id' => 'foo',
+                'name' => 'foo',
+                'options' => [
+                    'a' => ['A', 'description'],
+                    'b' => ['B', 'description'],
                 ],
                 'type' => 'checkbox',
             ])

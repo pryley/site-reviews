@@ -64,6 +64,45 @@ class ReviewFieldTest extends \WP_UnitTestCase
         );
     }
 
+    public function test_build_checkboxes_with_descriptions(): void
+    {
+        $this->assertEquals(
+            '<div class="glsr-field glsr-field-choice" data-field="foobar">'.
+                '<label class="glsr-label" for="">'.
+                    '<span>Foobar</span>'.
+                '</label>'.
+                '<span class="glsr-field-checkbox">'.
+                    '<label for="site-reviews-foobar-1">'.
+                        '<span><input type="checkbox" id="site-reviews-foobar-1" name="site-reviews[foobar][]" value="foo" />&#8203;</span> <!-- zero-space character used for alignment -->'.
+                        '<span>'.
+                            '<span>Foo</span>'.
+                            '<span>this is foo</span>'.
+                        '</span>'.
+                    '</label>'.
+                '</span>'.
+                '<span class="glsr-field-checkbox">'.
+                    '<label for="site-reviews-foobar-2">'.
+                        '<span><input type="checkbox" id="site-reviews-foobar-2" name="site-reviews[foobar][]" value="bar" />&#8203;</span> <!-- zero-space character used for alignment -->'.
+                        '<span>'.
+                            '<span>Bar</span>'.
+                            '<span>this is bar</span>'.
+                        '</span>'.
+                    '</label>'.
+                '</span>'.
+                '<div class="glsr-field-error"></div>'.
+            '</div>',
+            $this->build([
+                'label' => 'Foobar',
+                'name' => 'foobar',
+                'type' => 'checkbox',
+                'options' => [
+                    'foo' => ['Foo', 'this is foo'],
+                    'bar' => ['Bar', 'this is bar'],
+                ],
+            ])
+        );
+    }
+
     public function test_build_code(): void
     {
         $this->assertEquals(
