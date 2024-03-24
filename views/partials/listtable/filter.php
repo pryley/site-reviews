@@ -1,6 +1,6 @@
 <?php defined('ABSPATH') || exit; ?>
 
-<div id="<?php echo esc_attr($id); ?>" class="<?php echo esc_attr($class); ?>" role="combobox" aria-haspopup="true" aria-expanded="false" data-action="<?php echo esc_attr($action); ?>">
+<div id="<?php echo esc_attr($id); ?>" class="glsr-filter <?php echo esc_attr($class); ?>" role="combobox" aria-haspopup="true" aria-expanded="false" data-action="<?php echo esc_attr($action); ?>">
     <input type="hidden" class="glsr-filter__value" 
         name="<?php echo esc_attr($name); ?>" 
         value="<?php echo esc_attr($value); ?>"
