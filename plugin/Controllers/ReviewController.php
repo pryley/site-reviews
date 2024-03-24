@@ -20,6 +20,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Metaboxes\ResponseMetabox;
+use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Request;
@@ -399,6 +400,20 @@ class ReviewController extends AbstractController
         return 'glsr_action' !== filter_input($input, 'action'); // abort if not a proper post update (i.e. approve/unapprove)
     }
 
+    protected function refreshAvatar(array $data, Review $review): string
+    {
+        $avatarUrl = Cast::toString($data['avatar'] ?? '');
+        if ($review->author === ($data['name'] ?? false)) {
+            return $avatarUrl;
+        }
+        $url = preg_replace('/(.*)\/site-reviews\/avatars\/[\p{L&}]+\.svg$/u', '', $avatarUrl);
+        if (empty($url)) { // only update the initials fallback avatar
+            $review->set('author', $data['name'] ?? '');
+            $avatarUrl = glsr(Avatar::class)->generateInitials($review);
+        }
+        return $avatarUrl;
+    }
+
     protected function updateReview(Review $review, \WP_Post $oldPost): void
     {
         $assignedPostIds = filter_input(INPUT_POST, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
@@ -410,6 +425,7 @@ class ReviewController extends AbstractController
         $data = Helper::filterInputArray(glsr()->id);
         $data = wp_parse_args($data, $customDefaults); // this ensures we save all empty custom values
         if (Arr::get($data, 'is_editing_review')) {
+            $data['avatar'] = $this->refreshAvatar($data, $review);
             $data['rating'] = Arr::get($data, 'rating');
             $data['terms'] = Arr::get($data, 'terms', 0);
             if (!glsr()->filterBool('verification/enabled', false)) {
