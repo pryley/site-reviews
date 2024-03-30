@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Date;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Review;
@@ -174,7 +175,10 @@ class TemplateTags
             $content = glsr()->filterString("notification/tag/{$tag}", $content, $review);
         });
         if (array_key_exists('edit_url', $tags)) {
-            $tags['review_link'] = $tags['edit_url']; // @compat v6
+            $tags['review_link'] = glsr(Builder::class)->a([ // @compat v6
+                'href' => esc_url($tags['edit_url']),
+                'text' => __('Edit Review', 'site-reviews'),
+            ]);
         }
         return $tags;
     }
