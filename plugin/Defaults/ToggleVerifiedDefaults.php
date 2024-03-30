@@ -9,14 +9,14 @@ class ToggleVerifiedDefaults extends DefaultsAbstract
      * This is done before $sanitize and $enums.
      */
     public array $casts = [
-        'id' => 'int',
+        'post_id' => 'int',
         'verified' => 'int',
     ];
 
     protected function defaults(): array
     {
         return [
-            'id' => 0,
+            'post_id' => 0,
             'verified' => -1,
         ];
     }

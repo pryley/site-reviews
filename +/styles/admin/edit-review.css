@@ -14,49 +14,36 @@
   -webkit-font-smoothing: antialiased !important;
   overflow-wrap: break-word;
 }
-.post-type-site-review .misc-pub-pinned::before {
-  top: 0;
-  left: -1px;
-  color: currentColor;
-  padding: 0 2px 0 0;
-  display: inline-block;
-  position: relative;
-  content: "\f537";
-  font: normal 20px/1 dashicons;
-  speak: none;
-  vertical-align: top;
-  -webkit-font-smoothing: antialiased;
+.post-type-site-review .misc-pub-section[data-action]::before {
   -moz-osx-font-smoothing: grayscale;
-}
-.post-type-site-review .misc-pub-pinned .pinned-status-text {
-  font-weight: 600;
-}
-.post-type-site-review .misc-pub-pinned .pinned-status-select {
-  margin-top: 3px;
-}
-.post-type-site-review .misc-pub-verified::before {
-  top: 0;
-  left: -1px;
-  color: currentColor;
-  padding: 0 2px 0 0;
-  display: inline-block;
-  position: relative;
-  content: "\f12a";
-  font: normal 20px/1 dashicons;
-  speak: none;
-  vertical-align: top;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: currentColor;
+  display: inline-block;
+  font: normal 20px/1 dashicons;
+  left: -1px;
+  padding: 0 2px 0 0;
+  position: relative;
+  speak: none;
+  top: 0;
+  vertical-align: top;
 }
-.post-type-site-review .misc-pub-verified .verified-status-text {
-  font-weight: 600;
-}
-.post-type-site-review .misc-pub-verified .verified-status-select {
-  margin-top: 3px;
-}
-
-body.admin-color-fresh.post-type-site-review :is(.misc-pub-pinned,.misc-pub-verified)::before {
+body.admin-color-fresh.post-type-site-review .misc-pub-section[data-action]::before {
   color: #8c8f94;
+}
+.post-type-site-review .misc-pub-section[data-action="toggle-pinned"]::before {
+  content: "\f537";
+}
+.post-type-site-review .misc-pub-section[data-action="toggle-verified"]::before {
+  content: "\f12a";
+}
+.post-type-site-review .misc-pub-text {
+  font-weight: 600;
+}
+.post-type-site-review .misc-pub-select {
+  margin-top: 3px;
+}
+.post-type-site-review #side-sortables .misc-pub-select select {
+  max-width: 150px;
 }
 
 .wp-admin .glsr-response {

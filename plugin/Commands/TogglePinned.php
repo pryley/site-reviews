@@ -16,7 +16,7 @@ class TogglePinned extends AbstractCommand
     public function __construct(Request $request)
     {
         $args = glsr(TogglePinnedDefaults::class)->restrict($request->toArray());
-        $review = glsr(ReviewManager::class)->get($args['id']);
+        $review = glsr(ReviewManager::class)->get($args['post_id']);
         $this->isPinned = $args['pinned'] >= 0 ? wp_validate_boolean($args['pinned']) : !$review->is_pinned;
         $this->review = $review;
     }
@@ -44,7 +44,7 @@ class TogglePinned extends AbstractCommand
     {
         return [
             'notices' => glsr(Notice::class)->get(),
-            'pinned' => $this->isPinned,
+            'value' => (int) $this->isPinned,
         ];
     }
 }

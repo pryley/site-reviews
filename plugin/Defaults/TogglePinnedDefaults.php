@@ -9,15 +9,15 @@ class TogglePinnedDefaults extends DefaultsAbstract
      * This is done before $sanitize and $enums.
      */
     public array $casts = [
-        'id' => 'int',
         'pinned' => 'int',
+        'post_id' => 'int',
     ];
 
     protected function defaults(): array
     {
         return [
-            'id' => 0,
             'pinned' => -1,
+            'post_id' => 0,
         ];
     }
 }

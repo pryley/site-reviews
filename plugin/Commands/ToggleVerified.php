@@ -16,7 +16,7 @@ class ToggleVerified extends AbstractCommand
     public function __construct(Request $request)
     {
         $args = glsr(ToggleVerifiedDefaults::class)->restrict($request->toArray());
-        $review = glsr(ReviewManager::class)->get($args['id']);
+        $review = glsr(ReviewManager::class)->get($args['post_id']);
         $this->isVerified = $args['verified'] >= 0 ? wp_validate_boolean($args['verified']) : !$review->is_verified;
         $this->review = $review;
     }
@@ -48,7 +48,7 @@ class ToggleVerified extends AbstractCommand
     {
         return [
             'notices' => glsr(Notice::class)->get(),
-            'verified' => $this->isVerified,
+            'value' => (int) $this->isVerified,
         ];
     }
 }

@@ -11,9 +11,9 @@ import Forms from '@/admin/forms.js';
 import Import from '@/admin/import.js';
 import Metabox from '@/admin/metabox.js';
 import Notices from '@/admin/notices.js';
-import Pinned from '@/admin/pinned.js';
 import Pointers from '@/admin/pointers.js';
 import Prism from 'prismjs';
+import PublishAction from '@/admin/publish-action.js';
 import Search from '@/admin/search.js';
 import Sections from '@/admin/sections.js';
 import Shortcode from '@/admin/shortcode.js';
@@ -22,9 +22,10 @@ import Status from '@/admin/status.js';
 import Sync from '@/admin/sync.js';
 import Tabs from '@/admin/tabs.js';
 import TextareaResize from '@/admin/textarea-resize.js';
+import TogglePinned from '@/admin/toggle-pinned.js';
+import ToggleVerified from '@/admin/toggle-verified.js';
 import Tools from '@/admin/tools.js';
 import tippy, {followCursor} from 'tippy.js';
-import Verified from '@/admin/verified.js';
 
 GLSR.ajax = Ajax;
 GLSR.autosize = autosize;
@@ -89,9 +90,8 @@ jQuery(function ($) {
     new Forms('form.glsr-form');
     new Import();
     new Metabox();
-    new Pinned();
-    new Verified();
     new Pointers();
+    new PublishAction();
     new Search('#glsr-search-posts', {
         action: 'search-posts',
         onInit: function () {
@@ -161,10 +161,12 @@ jQuery(function ($) {
     });
     new Status('a.glsr-toggle-status');
     new Sections(); // this comes before Tabs
+    new Sync();
     new Tabs();
     new TextareaResize();
+    new TogglePinned();
+    new ToggleVerified();
     new Tools();
-    new Sync();
 
     var trackValue = function () {
         this.dataset.glsrTrack = this.value;
