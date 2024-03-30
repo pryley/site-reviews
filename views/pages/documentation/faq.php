@@ -20,6 +20,7 @@ $sections = [ // order is intentional
     trailingslashit(__DIR__).'faq/limit-review-length.php',
     trailingslashit(__DIR__).'faq/order-query_loop.php',
     trailingslashit(__DIR__).'faq/order-wp_query.php',
+    trailingslashit(__DIR__).'faq/order-elementor-posts.php',
     trailingslashit(__DIR__).'faq/dont-store-ipaddress.php',
     trailingslashit(__DIR__).'faq/redirect-after-submission.php',
     trailingslashit(__DIR__).'faq/remove-nonce-check.php',
