@@ -11,7 +11,7 @@ use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
  */
 class DefaultsTest extends \WP_UnitTestCase
 {
-    public function testReviewsRestrict()
+    public function test_reviews_restrict()
     {
         $postId = self::factory()->post->create();
         $termId = self::factory()->term->create(['taxonomy' => glsr()->taxonomy]);
@@ -69,7 +69,7 @@ class DefaultsTest extends \WP_UnitTestCase
         $this->assertEquals($test->toArray(), $expected);
     }
 
-    public function testSiteReviewsRestrict()
+    public function test_site_reviews_restrict()
     {
         $postId = self::factory()->post->create();
         $termId = self::factory()->term->create(['taxonomy' => glsr()->taxonomy]);

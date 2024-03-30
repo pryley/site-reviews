@@ -46,7 +46,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ];
     }
 
-    public function testSanitizeArrayConsolidate()
+    public function test_sanitize_array_consolidate()
     {
         $sanitized = $this->sanitize('array-consolidate');
         $this->assertEquals($sanitized, [
@@ -80,7 +80,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeArrayInt()
+    public function test_sanitize_array_int()
     {
         $sanitized = $this->sanitize('array-int');
         $this->assertEquals($sanitized, [
@@ -114,7 +114,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeArrayString()
+    public function test_sanitize_array_string()
     {
         $sanitized = $this->sanitize('array-string');
         $this->assertEquals($sanitized, [
@@ -148,7 +148,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeAttr()
+    public function test_sanitize_attr()
     {
         $sanitized = $this->sanitize('attr');
         $this->assertEquals($sanitized, [
@@ -182,7 +182,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeAttrClass()
+    public function test_sanitize_attr_class()
     {
         $sanitized = $this->sanitize('attr-class');
         $this->assertEquals($sanitized, [
@@ -216,15 +216,16 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeAttrStyle()
+    public function test_sanitize_attr_style()
     {
-        $sanitized = $this->sanitize('attr-style');
-        $sanitized[] = 'color:red';
-        $sanitized[] = 'color:red;';
-        $sanitized[] = 'color: red;';
-        $sanitized[] = 'color: #000';
-        $sanitized[] = 'color: #000;';
-        $sanitized[] = 'color: #000 !important;';
+        $values = $this->testValues;
+        $values[] = 'color:red';
+        $values[] = 'color:red;';
+        $values[] = 'color: red; margin:0';
+        $values[] = 'color: #000';
+        $values[] = 'color: #000;margin';
+        $values[] = 'color: #000 !important;';
+        $sanitized = $this->sanitize('attr-style', $values);
         $this->assertEquals($sanitized, [
             0 => '',
             1 => '',
@@ -251,18 +252,18 @@ class SanitizerTest extends \WP_UnitTestCase
             22 => '',
             23 => '',
             24 => '',
-            25 => 'https://wordpress.org',
+            25 => '',
             26 => '',
-            27 => 'color:red',
-            28 => 'color:red;',
-            29 => 'color: red;',
-            30 => 'color: #000',
+            27 => 'color: red;',
+            28 => 'color: red;',
+            29 => 'color: red; margin: 0;',
+            30 => 'color: #000;',
             31 => 'color: #000;',
             32 => 'color: #000 !important;',
         ]);
     }
 
-    public function testSanitizeColor()
+    public function test_sanitize_color()
     {
         $values = $this->testValues;
         $values[] = '#';
@@ -319,7 +320,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeDate()
+    public function test_sanitize_date()
     {
         $sanitized = $this->sanitize('date');
         $this->assertEquals($sanitized, [
@@ -383,7 +384,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeEmail()
+    public function test_sanitize_email()
     {
         $sanitized = $this->sanitize('email');
         $this->assertEquals($sanitized, [
@@ -417,7 +418,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeId()
+    public function test_sanitize_id()
     {
         $sanitized = $this->sanitize('id');
         $this->assertEquals($sanitized[0], '');
@@ -449,7 +450,7 @@ class SanitizerTest extends \WP_UnitTestCase
         $this->assertEquals($sanitized[26], '-1');
     }
 
-    public function testSanitizeIdHash()
+    public function test_sanitize_id_hash()
     {
         $sanitized = $this->sanitize('id-hash');
         $pattern = '/glsr_([a-z0-9]{8})/';
@@ -482,7 +483,7 @@ class SanitizerTest extends \WP_UnitTestCase
         $this->assertEquals($sanitized[26], '-1');
     }
 
-    public function testSanitizeIpAddress()
+    public function test_sanitize_ip_address()
     {
         $values = $this->testValues;
         $values[27] = '127*';
@@ -533,7 +534,7 @@ class SanitizerTest extends \WP_UnitTestCase
         $this->assertEquals($sanitized[35], '');
     }
 
-    public function testSanitizeJson()()
+    public function test_sanitize_json()
     {
         $sanitized = $this->sanitize('json');
         $this->assertEquals($sanitized, [
@@ -567,7 +568,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeKey()
+    public function test_sanitize_key()
     {
         $sanitized = $this->sanitize('key');
         $this->assertEquals($sanitized, [
@@ -601,7 +602,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeMax()
+    public function test_sanitize_max()
     {
         $sanitized = $this->sanitize('max:21');
         $this->assertEquals($sanitized, [
@@ -635,7 +636,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeMin()
+    public function test_sanitize_min()
     {
         $sanitized = $this->sanitize('min:13');
         $this->assertEquals($sanitized, [
@@ -669,7 +670,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeMinMax()
+    public function test_sanitize_min_max()
     {
         $sanitized = $this->sanitize('min:3|max:50');
         $this->assertEquals($sanitized, [
@@ -703,7 +704,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeName()
+    public function test_sanitize_name()
     {
         $sanitized = $this->sanitize('name');
         $this->assertEquals($sanitized, [
@@ -737,7 +738,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeNumeric()
+    public function test_sanitize_numeric()
     {
         $sanitized = $this->sanitize('numeric');
         $this->assertEquals($sanitized, [
@@ -771,7 +772,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizePostIds()
+    public function test_sanitize_post_ids()
     {
         $posts = self::factory()->post->create_many(2);
         $values = $this->testValues;
@@ -815,7 +816,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeRating()
+    public function test_sanitize_rating()
     {
         add_filter('site-reviews/const/MAX_RATING', fn () => 5);
         add_filter('site-reviews/const/MIN_RATING', '__return_zero');
@@ -851,7 +852,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeRegex()
+    public function test_sanitize_regex()
     {
         $sanitized = $this->sanitize('regex');
         $this->assertEquals($sanitized, [
@@ -915,7 +916,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeSlug()
+    public function test_sanitize_slug()
     {
         $sanitized = $this->sanitize('slug');
         $this->assertEquals($sanitized, [
@@ -949,7 +950,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeTermIds()
+    public function test_sanitize_term_ids()
     {
         $terms = self::factory()->term->create_many(2, ['taxonomy' => glsr()->taxonomy]);
         $values = $this->testValues;
@@ -993,7 +994,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeText()
+    public function test_sanitize_text()
     {
         $sanitized = $this->sanitize('text');
         $this->assertEquals($sanitized, [
@@ -1027,7 +1028,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeTextHtml()
+    public function test_sanitize_text_html()
     {
         $values = $this->testValues;
         $values[] = '<div><span><a id="xxx" href="https://apple.com" title="hello" target="_blank"><span>Hello</span></a> this is <em>a link</em> and a <strong>link</strong></span></div><ul><li></li></ul>';
@@ -1073,7 +1074,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeTextMultiline()
+    public function test_sanitize_text_multiline()
     {
         $values = $this->testValues;
         $values[] = '<div><span><a id="xxx" href="https://apple.com" title="hello" target="_blank"><span>Hello</span></a> this is <em>a link</em> and a <strong>link</strong></span></div><ul><li></li></ul>';
@@ -1091,7 +1092,7 @@ class SanitizerTest extends \WP_UnitTestCase
             7 => '',
             8 => '1',
             9 => '',
-            10 => '',
+            10 => 'var x = 23;',
             11 => "This is a\n title!",
             12 => ";(nslookup hit-gx_wgukmocpc5c8dddd.com||perl -e gethostbyname('hissstgxwgukmocpc5c80.me'))",
             13 => 'June 13, 1989',
@@ -1109,12 +1110,12 @@ class SanitizerTest extends \WP_UnitTestCase
             25 => 'https://wordpress.org',
             26 => '-1',
             27 => 'Hello this is a link and a link',
-            28 => '',
-            29 => '',
+            28 => '&lt;img src=x alert(55)&gt;',
+            29 => '&lt;script src=https://attackersite.com/test.js&gt;',
         ]);
     }
 
-    public function testSanitizeTextPost()
+    public function test_sanitize_text_post()
     {
         $values = $this->testValues;
         $values[] = '<div><span><a id="xxx" href="https://apple.com" title="hello" target="_blank"><span>Hello</span></a> this is <em>a link</em> and a <strong>link</strong></span></div><ul><li></li></ul>';
@@ -1155,7 +1156,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeUrl()
+    public function test_sanitize_url()
     {
         $sanitized = $this->sanitize('url');
         $this->assertEquals($sanitized, [
@@ -1189,7 +1190,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeUserEmail()
+    public function test_sanitize_user_email()
     {
         $sanitized = $this->sanitize('user-email');
         $this->assertEquals($sanitized, [
@@ -1223,7 +1224,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeUserId()
+    public function test_sanitize_user_id()
     {
         $userId1 = self::factory()->user->create();
         $userId2 = self::factory()->user->create();
@@ -1293,7 +1294,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeUserIds()
+    public function test_sanitize_user_ids()
     {
         self::factory()->user->create_many(2);
         $users = get_users(['fields' => 'ID']);
@@ -1339,7 +1340,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeUserName()
+    public function test_sanitize_user_name()
     {
         $values = $this->testValues;
         $values[] = 'Łukasz';
@@ -1378,7 +1379,7 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeVersion()
+    public function test_sanitize_version()
     {
         $values = $this->testValues;
         $values[] = 'v1.1.1';
