@@ -11,6 +11,19 @@ class TurnstileValidator extends CaptchaValidator
         return glsr(Captcha::class)->isEnabled('turnstile');
     }
 
+    protected function data(): array
+    {
+        return [
+            'remoteip' => $this->request->ip_address,
+            'response' => $this->token(),
+            'secret' => glsr_get_option('forms.turnstile.secret'),
+            // The sitekey does not need to be sent in the request, but it's here
+            // so we can return a better error response to the form.
+            // @see CaptchaValidator::verifyToken()
+            'sitekey' => glsr_get_option('forms.turnstile.key'),
+        ];
+    }
+
     protected function errorCodes(): array
     {
         return [
@@ -31,19 +44,6 @@ class TurnstileValidator extends CaptchaValidator
             $errors[] = 'sitekey_missing';
         }
         return parent::errors($errors);
-    }
-
-    protected function request(): array
-    {
-        return [
-            'remoteip' => $this->request->ip_address,
-            'response' => $this->token(),
-            'secret' => glsr_get_option('forms.turnstile.secret'),
-            // The sitekey does not need to be sent in the request, but it's here
-            // so we can return a better error response to the form.
-            // @see CaptchaValidator::verifyToken()
-            'sitekey' => glsr_get_option('forms.turnstile.key'),
-        ];
     }
 
     protected function siteverifyUrl(): string

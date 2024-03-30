@@ -62,7 +62,7 @@ class ValidationTest extends WP_Ajax_UnitTestCase
         $this->messageFailedCustom = 'Bad review.';
         $this->messageFailedPermission = 'You must be logged in to submit a review.';
         $this->messageFailedReviewLimits = 'You have already submitted a review.';
-        $this->messageFailedValidation = 'Please fix the submission errors.';
+        $this->messageFailedValidation = 'Please fix the form errors.';
         $this->messageSuccess = 'Your review has been submitted!';
     }
 

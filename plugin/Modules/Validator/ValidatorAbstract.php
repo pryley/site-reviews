@@ -21,14 +21,22 @@ abstract class ValidatorAbstract
 
     abstract public function isValid(): bool;
 
+    public function request(): Request
+    {
+        return $this->request;
+    }
+
     abstract public function performValidation(): void;
 
-    public function validate(): Request
+    /**
+     * @return static
+     */
+    public function validate()
     {
         if (!$this->alreadyFailed()) {
             $this->performValidation();
         }
-        return $this->request;
+        return $this;
     }
 
     protected function setErrors(string $message, ?string $loggedMessage = null): void

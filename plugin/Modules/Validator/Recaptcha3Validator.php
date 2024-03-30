@@ -25,6 +25,23 @@ class Recaptcha3Validator extends CaptchaValidator
         return $isValid;
     }
 
+    protected function data(): array
+    {
+        $token = $this->token();
+        if (array_key_exists($token, $this->errorCodes())) {
+            $token = '';
+        }
+        return [
+            'remoteip' => $this->request->ip_address,
+            'response' => $token,
+            'secret' => glsr_get_option('forms.recaptcha_v3.secret'),
+            // The sitekey does not need to be sent in the request, but it's here
+            // so we can return a better error response to the form.
+            // @see CaptchaValidator::verifyToken()
+            'sitekey' => glsr_get_option('forms.recaptcha_v3.key'),
+        ];
+    }
+
     protected function errorCodes(): array
     {
         return [
@@ -50,23 +67,6 @@ class Recaptcha3Validator extends CaptchaValidator
             $errors[] = 'sitekey_invalid';
         }
         return parent::errors(array_unique($errors));
-    }
-
-    protected function request(): array
-    {
-        $token = $this->token();
-        if (array_key_exists($token, $this->errorCodes())) {
-            $token = '';
-        }
-        return [
-            'remoteip' => $this->request->ip_address,
-            'response' => $token,
-            'secret' => glsr_get_option('forms.recaptcha_v3.secret'),
-            // The sitekey does not need to be sent in the request, but it's here
-            // so we can return a better error response to the form.
-            // @see CaptchaValidator::verifyToken()
-            'sitekey' => glsr_get_option('forms.recaptcha_v3.key'),
-        ];
     }
 
     protected function siteverifyUrl(): string

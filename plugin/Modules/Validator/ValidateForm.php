@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Validator;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Request;
 
-class ValidateReview
+class ValidateForm
 {
     /**
      * @var bool
@@ -36,11 +36,12 @@ class ValidateReview
         if (empty($validators)) {
             $validators = $this->validators();
         }
-        foreach ($validators as $validator) {
-            if (class_exists($validator)) {
-                $this->request = glsr($validator, ['request' => $this->request])->validate();
+        foreach ($validators as $validatorClass) {
+            if (class_exists($validatorClass)) {
+                $validator = glsr($validatorClass, ['request' => $this->request])->validate();
+                $this->request = $validator->request();
             } else {
-                glsr_log()->warning("Class [$validator] not found.");
+                glsr_log()->warning("Class [$validatorClass] not found.");
             }
         }
         $this->blacklisted = Cast::toBool($this->request->blacklisted);

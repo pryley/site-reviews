@@ -22,13 +22,33 @@ class DefaultValidator extends ValidatorAbstract
 
     public function performValidation(): void
     {
-        if (!$this->isValid()) {
-            glsr_log()->debug($this->errors);
-            $this->setErrors(__('Please fix the submission errors.', 'site-reviews'));
+        if ($this->isValid()) {
             return;
         }
+        $this->setErrors(__('Please fix the form errors.', 'site-reviews'));
+    }
+
+    public function request(): Request
+    {
         $values = glsr(ValidateReviewDefaults::class)->merge($this->request->toArray());
-        $this->request = new Request($values);
+        return new Request($values);
+    }
+
+    public function rules(): array
+    {
+        $defaultRules = $this->normalizedRules();
+        $customRules = array_diff_key($defaultRules,
+            glsr(DefaultsManager::class)->pluck('settings.forms.required.options')
+        );
+        $excluded = Arr::convertFromString($this->request->cast('excluded', 'string')); // these fields were ommited with the hide option
+        $rules = array_merge($defaultRules, $customRules);
+        $rules = array_diff_key($rules, array_flip($excluded));
+        return glsr()->filterArray('validation/rules/normalized', $rules, $this->request, $defaultRules);
+    }
+
+    protected function defaultRequired(): array
+    {
+        return glsr_get_option('forms.required', []);
     }
 
     protected function defaultRules(): array
@@ -48,7 +68,7 @@ class DefaultValidator extends ValidatorAbstract
     protected function normalizedRules(): array
     {
         $rules = $this->defaultRules();
-        $required = glsr_get_option('forms.required', []);
+        $required = $this->defaultRequired();
         array_walk($rules, function (&$value, $key) use ($required) {
             if (!in_array($key, $required)) {
                 // remove the accepted and required rules from validation
@@ -59,17 +79,5 @@ class DefaultValidator extends ValidatorAbstract
             }
         });
         return $rules;
-    }
-
-    protected function rules(): array
-    {
-        $defaultRules = $this->normalizedRules();
-        $customRules = array_diff_key($defaultRules,
-            glsr(DefaultsManager::class)->pluck('settings.forms.required.options')
-        );
-        $excluded = Arr::convertFromString($this->request->cast('excluded', 'string')); // these fields were ommited with the hide option
-        $rules = array_merge($defaultRules, $customRules);
-        $rules = array_diff_key($rules, array_flip($excluded));
-        return glsr()->filterArray('validation/rules/normalized', $rules, $this->request, $defaultRules);
     }
 }

@@ -11,6 +11,20 @@ class Recaptcha2Validator extends CaptchaValidator
         return glsr(Captcha::class)->isEnabled('recaptcha_v2_invisible');
     }
 
+    protected function data(): array
+    {
+        $token = $this->token();
+        if (array_key_exists($token, $this->errorCodes())) {
+            $token = '';
+        }
+        return [
+            'remoteip' => $this->request->ip_address,
+            'response' => $token,
+            'secret' => glsr_get_option('forms.recaptcha.secret'),
+            'sitekey' => glsr_get_option('forms.recaptcha.key'),
+        ];
+    }
+
     protected function errorCodes(): array
     {
         return [
@@ -33,20 +47,6 @@ class Recaptcha2Validator extends CaptchaValidator
             $errors[] = 'sitekey_invalid';
         }
         return parent::errors($errors);
-    }
-
-    protected function request(): array
-    {
-        $token = $this->token();
-        if (array_key_exists($token, $this->errorCodes())) {
-            $token = '';
-        }
-        return [
-            'remoteip' => $this->request->ip_address,
-            'response' => $token,
-            'secret' => glsr_get_option('forms.recaptcha.secret'),
-            'sitekey' => glsr_get_option('forms.recaptcha.key'),
-        ];
     }
 
     protected function siteverifyUrl(): string

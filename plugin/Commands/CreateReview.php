@@ -12,7 +12,7 @@ use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Validator\CustomValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\DefaultValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\DuplicateValidator;
-use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
+use GeminiLabs\SiteReviews\Modules\Validator\ValidateForm;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
@@ -77,7 +77,7 @@ class CreateReview extends AbstractCommand
         $request->merge([
             'excluded' => array_keys(array_diff_key($options, $this->request->toArray())),
         ]);
-        $validator = glsr(ValidateReview::class)->validate($request, [ // order is intentional
+        $validator = glsr(ValidateForm::class)->validate($request, [ // order is intentional
             DefaultValidator::class,
             DuplicateValidator::class,
             CustomValidator::class,
@@ -141,7 +141,7 @@ class CreateReview extends AbstractCommand
 
     public function validate(): bool
     {
-        $validator = glsr(ValidateReview::class)->validate($this->request);
+        $validator = glsr(ValidateForm::class)->validate($this->request);
         $this->blacklisted = $validator->blacklisted;
         $this->errors = $validator->errors;
         $this->message = $validator->message;
