@@ -28,7 +28,10 @@
     ]
   },
   "config": {
-    "preferred-install": "dist"
+    "preferred-install": "dist",
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -36,8 +39,9 @@
     "php": ">=7.4"
   },
   "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
     "fakerphp/faker": "^1.23.1",
-    "phpcompatibility/php-compatibility": "*",
+    "phpcompatibility/php-compatibility": "dev-develop",
     "phpstan/phpstan": "^1.9.4",
     "szepeviktor/phpstan-wordpress": "^1.1.6",
     "yoast/phpunit-polyfills": "^2.0.0"
