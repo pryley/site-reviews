@@ -49,6 +49,7 @@ const initModal = () => {
             reviewEl.querySelectorAll('[data-expanded="false"]').forEach(el => {
                 el.dataset.expanded = 'true';
             })
+            reviewEl.removeAttribute('id')
             baseEl.innerHTML = '';
             baseEl.appendChild(reviewEl);
             Modal.dom.content.appendChild(baseEl);

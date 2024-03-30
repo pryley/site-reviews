@@ -72,7 +72,7 @@ class Form {
     }
 
     _handleResponse (response, success) {
-        const wasSuccessful = success === true;
+        const wasSuccessful = true === success;
         this.captcha.reset()
         if (wasSuccessful) {
             this.form.reset()
