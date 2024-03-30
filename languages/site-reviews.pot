@@ -1706,6 +1706,11 @@ msgctxt "admin-text"
 msgid "Console cleared."
 msgstr ""
 
+#: plugin/Commands/ConfigureIpAddressProxy.php:29
+msgctxt "admin-text"
+msgid "The proxy HTTP header has been saved."
+msgstr ""
+
 #: plugin/Commands/ConvertTableEngine.php:23
 msgctxt "admin-text"
 msgid "You do not have permission to modify the database."
@@ -1736,6 +1741,21 @@ msgstr ""
 
 #: plugin/Commands/CreateReview.php:169, views/pages/documentation/support/common-problems-and-solutions.php:88
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
+msgstr ""
+
+#: plugin/Commands/DetectIpAddress.php:17, plugin/Controllers/MenuController.php:108
+msgctxt "admin-text"
+msgid "FAQ"
+msgstr ""
+
+#: plugin/Commands/DetectIpAddress.php:21
+msgctxt "admin-text"
+msgid "Site Reviews was unable to detect an IP address. To fix this, please see the %s."
+msgstr ""
+
+#: plugin/Commands/DetectIpAddress.php:27
+msgctxt "admin-text"
+msgid "Your detected IP address is %s. If this looks incorrect, please see the %s."
 msgstr ""
 
 #: plugin/Commands/DownloadCsvTemplate.php:16
@@ -1818,12 +1838,12 @@ msgctxt "admin-text"
 msgid "The title of the review"
 msgstr ""
 
-#: plugin/Commands/DownloadCsvTemplate.php:94, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:14, views/partials/editor/pinned.php:8, views/partials/editor/pinned.php:22, views/partials/editor/verified.php:8, views/partials/editor/verified.php:22
+#: plugin/Commands/DownloadCsvTemplate.php:94, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:14, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:18, views/partials/editor/verified.php:6, views/partials/editor/verified.php:18
 msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
 
-#: plugin/Commands/DownloadCsvTemplate.php:95, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/Elementor/ElementorReviewsWidget.php:94, views/partials/editor/pinned.php:8, views/partials/editor/pinned.php:21, views/partials/editor/verified.php:8, views/partials/editor/verified.php:21
+#: plugin/Commands/DownloadCsvTemplate.php:95, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/Elementor/ElementorReviewsWidget.php:94, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:21, views/partials/editor/verified.php:6, views/partials/editor/verified.php:21
 msgctxt "admin-text"
 msgid "No"
 msgstr ""
@@ -2025,7 +2045,7 @@ msgctxt "admin-text"
 msgid "Review unpinned."
 msgstr ""
 
-#: plugin/Commands/ToggleStatus.php:66, views/partials/editor/pinned.php:11, views/partials/editor/verified.php:11
+#: plugin/Commands/ToggleStatus.php:66, views/partials/editor/pinned.php:9, views/partials/editor/verified.php:9
 msgctxt "admin-text"
 msgid "Edit"
 msgstr ""
@@ -2289,11 +2309,6 @@ msgctxt "admin-text"
 msgid "Support"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:108, plugin/Controllers/ToolsController.php:96
-msgctxt "admin-text"
-msgid "FAQ"
-msgstr ""
-
 #: plugin/Controllers/MenuController.php:109
 msgctxt "admin-text"
 msgid "Shortcodes"
@@ -2414,62 +2429,52 @@ msgctxt "admin-text"
 msgid "TTID"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:105
-msgctxt "admin-text"
-msgid "Your detected IP address is %s. If this looks incorrect, please see the %s."
-msgstr ""
-
-#: plugin/Controllers/ToolsController.php:100
-msgctxt "admin-text"
-msgid "Site Reviews was unable to detect an IP address. To fix this, please see the %s."
-msgstr ""
-
-#: plugin/Controllers/ToolsController.php:130
+#: plugin/Controllers/ToolsController.php:97
 msgctxt "admin-text"
 msgid "You do not have permission to download the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:152
+#: plugin/Controllers/ToolsController.php:119
 msgctxt "admin-text"
 msgid "You do not have permission to download the system info report."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:174
+#: plugin/Controllers/ToolsController.php:141
 msgctxt "admin-text"
 msgid "You do not have permission to export settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:197
+#: plugin/Controllers/ToolsController.php:164
 msgctxt "admin-text"
 msgid "You do not have permission to reload the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:204
+#: plugin/Controllers/ToolsController.php:171
 msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:249
+#: plugin/Controllers/ToolsController.php:216
 msgctxt "admin-text"
 msgid "You do not have permission to import settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:292
+#: plugin/Controllers/ToolsController.php:282
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:296
+#: plugin/Controllers/ToolsController.php:286
 msgctxt "admin-text"
 msgid "The permissions have been repaired, please %s for them to take effect."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:351
+#: plugin/Controllers/ToolsController.php:341
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:365
+#: plugin/Controllers/ToolsController.php:355
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr ""
@@ -2614,12 +2619,12 @@ msgctxt "admin-text"
 msgid "Response"
 msgstr ""
 
-#: plugin/Defaults/PostTypeColumnDefaults.php:21, views/partials/editor/pinned.php:5
+#: plugin/Defaults/PostTypeColumnDefaults.php:21, views/partials/editor/pinned.php:4
 msgctxt "admin-text"
 msgid "Pinned"
 msgstr ""
 
-#: plugin/Defaults/PostTypeColumnDefaults.php:22, views/partials/editor/verified.php:5
+#: plugin/Defaults/PostTypeColumnDefaults.php:22, views/partials/editor/verified.php:4
 msgctxt "admin-text"
 msgid "Verified"
 msgstr ""
@@ -2884,7 +2889,7 @@ msgstr ""
 msgid "This field requires a valid e-mail address."
 msgstr ""
 
-#: plugin/Defaults/ValidationStringsDefaults.php:14, plugin/Modules/Validator/DefaultValidator.php:27
+#: plugin/Defaults/ValidationStringsDefaults.php:14
 msgid "Please fix the submission errors."
 msgstr ""
 
@@ -2944,7 +2949,7 @@ msgstr ""
 msgid "Show less"
 msgstr ""
 
-#: plugin/Metaboxes/AssignedPostsMetabox.php:28, plugin/Modules/Discord.php:154, plugin/Modules/Slack.php:197, plugin/Modules/Html/TemplateTags.php:84
+#: plugin/Metaboxes/AssignedPostsMetabox.php:28, plugin/Modules/Discord.php:154, plugin/Modules/Slack.php:197, plugin/Modules/Html/TemplateTags.php:85
 msgid "(no title)"
 msgstr ""
 
@@ -3158,7 +3163,7 @@ msgstr ""
 msgid "Approve Review"
 msgstr ""
 
-#: plugin/Modules/Discord.php:138, plugin/Modules/Slack.php:164
+#: plugin/Modules/Discord.php:138, plugin/Modules/Slack.php:164, plugin/Modules/Html/TemplateTags.php:180
 msgid "Edit Review"
 msgstr ""
 
@@ -3264,7 +3269,7 @@ msgctxt "admin-text"
 msgid "Process the action now as if it were run as part of a queue"
 msgstr ""
 
-#: plugin/Overrides/ScheduledActionsTable.php:114, views/partials/editor/pinned.php:27, views/partials/editor/verified.php:27, views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:130
+#: plugin/Overrides/ScheduledActionsTable.php:114, views/partials/editor/pinned.php:29, views/partials/editor/verified.php:29, views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:130
 msgctxt "admin-text"
 msgid "Cancel"
 msgstr ""
@@ -4520,7 +4525,7 @@ msgstr ""
 msgid "Submit Review"
 msgstr ""
 
-#: plugin/Modules/Html/TemplateTags.php:139
+#: plugin/Modules/Html/TemplateTags.php:140
 msgctxt "admin-text"
 msgid "View the review in WordPress &rarr;"
 msgstr ""
@@ -4543,6 +4548,10 @@ msgstr ""
 
 #: plugin/Modules/Validator/CustomValidator.php:21, views/pages/documentation/support/common-problems-and-solutions.php:118
 msgid "The review submission failed. Please notify the site administrator."
+msgstr ""
+
+#: plugin/Modules/Validator/DefaultValidator.php:28
+msgid "Please fix the form errors."
 msgstr ""
 
 #: plugin/Modules/Validator/DuplicateValidator.php:30
@@ -5014,37 +5023,47 @@ msgctxt "admin-text"
 msgid "If you need to publicly respond to this review, enter your response here."
 msgstr ""
 
-#: views/partials/editor/pinned.php:12
+#: views/partials/editor/pinned.php:10
 msgctxt "admin-text"
 msgid "Edit pinned status"
 msgstr ""
 
-#: views/partials/editor/pinned.php:17
+#: views/partials/editor/pinned.php:15
+msgctxt "admin-text"
+msgid "Set pinned status"
+msgstr ""
+
+#: views/partials/editor/pinned.php:19
 msgctxt "admin-text"
 msgid "Pin review"
 msgstr ""
 
-#: views/partials/editor/pinned.php:18
+#: views/partials/editor/pinned.php:22
 msgctxt "admin-text"
 msgid "Unpin review"
 msgstr ""
 
-#: views/partials/editor/pinned.php:24, views/partials/editor/verified.php:24
+#: views/partials/editor/pinned.php:26, views/partials/editor/verified.php:26
 msgctxt "admin-text"
 msgid "OK"
 msgstr ""
 
-#: views/partials/editor/verified.php:12
+#: views/partials/editor/verified.php:10
 msgctxt "admin-text"
 msgid "Edit verified status"
 msgstr ""
 
-#: views/partials/editor/verified.php:17
+#: views/partials/editor/verified.php:15
+msgctxt "admin-text"
+msgid "Set verified status"
+msgstr ""
+
+#: views/partials/editor/verified.php:19
 msgctxt "admin-text"
 msgid "Verify review"
 msgstr ""
 
-#: views/partials/editor/verified.php:18
+#: views/partials/editor/verified.php:22
 msgctxt "admin-text"
 msgid "Unverify review"
 msgstr ""
@@ -5518,6 +5537,66 @@ msgstr ""
 msgid "Service Unavailable."
 msgstr ""
 
+#: views/pages/tools/general/configure-ip-detection.php:18
+msgctxt "admin-text"
+msgid "Configure IP Address Detection"
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:25
+msgctxt "admin-text"
+msgid "Be careful when enabling a proxy HTTP header if you do not have a front-end proxy configuration because it may allow visitors to spoof their IP address."
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:30
+msgctxt "admin-text"
+msgid "If you are unsure which proxy HTTP header to use, contact the technical support staff of your hosting provider and read their documentation to determine the correct configuration for your website."
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:33
+msgctxt "admin-text"
+msgid "When a review is submitted on your website, Site Reviews detects the IP address of the person submitting it and saves it to the review. Site Reviews uses the IP address in the review limits and blacklist settings, and the Akismet and Captcha integrations to catch spam submissions."
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:34
+msgctxt "admin-text"
+msgid "If you get incorrect IP address values in your reviews, there might be a reverse proxy, load balancer, cache, Cloudflare, CDN, or any other type of proxy in front of your web server that \"proxies\" traffic to your website. If so, select the proxy HTTP header that contains the real visitor IP address."
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:41
+msgctxt "admin-text"
+msgid "Proxy HTTP Header"
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:59
+msgctxt "admin-text"
+msgid "Trusted Proxies"
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:64
+msgctxt "admin-text"
+msgid "These IPs (or CIDR ranges) will be ignored when determining the requesting IP via the selected proxy HTTP header. Enter one IP or CIDR range per line."
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:70
+msgctxt "admin-text"
+msgid "Saving, please wait..."
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:71
+msgctxt "admin-text"
+msgid "Save"
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:77
+msgctxt "admin-text"
+msgid "Testing, please wait..."
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:78
+msgctxt "admin-text"
+msgid "Test IP Address Detection"
+msgstr ""
+
 #: views/pages/tools/general/export-reviews.php:6, views/pages/tools/general/export-reviews.php:53
 msgctxt "admin-text"
 msgid "Export Reviews"
@@ -5851,31 +5930,6 @@ msgstr ""
 #: views/pages/tools/general/rollback-plugin.php:15
 msgctxt "wordpress.org (admin-text)"
 msgid "Unable to connect to %s to get the available plugin versions."
-msgstr ""
-
-#: views/pages/tools/general/test-ip-detection.php:6
-msgctxt "admin-text"
-msgid "Test IP Address Detection"
-msgstr ""
-
-#: views/pages/tools/general/test-ip-detection.php:11
-msgctxt "admin-text"
-msgid "When reviews are submitted on your website, Site Reviews detects the IP address of the person submitting the review and saves it to the submitted review. This allows you to limit review submissions or to blacklist reviewers based on their IP address. The IP address is also used by Akismet (if you have enabled the integration) to catch spam submissions."
-msgstr ""
-
-#: views/pages/tools/general/test-ip-detection.php:12
-msgctxt "admin-text"
-msgid "If you are getting an \"unknown\" value for IP addresses in your reviews, you may use this tool to check the visitor IP address detection."
-msgstr ""
-
-#: views/pages/tools/general/test-ip-detection.php:19
-msgctxt "admin-text"
-msgid "Testing, please wait..."
-msgstr ""
-
-#: views/pages/tools/general/test-ip-detection.php:20
-msgctxt "admin-text"
-msgid "Test Detection"
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:14, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:14
