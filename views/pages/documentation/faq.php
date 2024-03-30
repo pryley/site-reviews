@@ -26,7 +26,7 @@ $sections = [ // order is intentional
     trailingslashit(__DIR__).'faq/replace-avatar-with-featured-image.php',
     trailingslashit(__DIR__).'faq/notify-author-when-responding.php',
     trailingslashit(__DIR__).'faq/plugin-templates.php',
-    trailingslashit(__DIR__).'faq/ipaddress-incorrectly-detected.php',
+    trailingslashit(__DIR__).'faq/ipaddress-incorrect.php',
 ];
 $filename = pathinfo(__FILE__, PATHINFO_FILENAME);
 $sections = glsr()->filterArrayUnique("documentation/{$filename}", $sections);

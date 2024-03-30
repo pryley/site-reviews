@@ -4,7 +4,9 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\ChangeLogLevel;
 use GeminiLabs\SiteReviews\Commands\ClearConsole;
+use GeminiLabs\SiteReviews\Commands\ConfigureIpAddressProxy;
 use GeminiLabs\SiteReviews\Commands\ConvertTableEngine;
+use GeminiLabs\SiteReviews\Commands\DetectIpAddress;
 use GeminiLabs\SiteReviews\Commands\DownloadCsvTemplate;
 use GeminiLabs\SiteReviews\Commands\ExportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportReviews;
@@ -82,41 +84,6 @@ class ToolsController extends AbstractController
         wp_send_json([
             'data' => $command->response(),
             'success' => $command->successful(),
-        ]);
-    }
-
-    /**
-     * @action site-reviews/route/admin/detect-ip-address
-     */
-    public function detectIpAddress(): void
-    {
-        $link = glsr(Builder::class)->a([
-            'data-expand' => '#faq-ipaddress-incorrectly-detected',
-            'href' => glsr_admin_url('documentation', 'faq'),
-            'text' => _x('FAQ', 'admin-text', 'site-reviews'),
-        ]);
-        if ('unknown' === $ipAddress = Helper::getIpAddress()) {
-            glsr(Notice::class)->addWarning(sprintf(
-                _x('Site Reviews was unable to detect an IP address. To fix this, please see the %s.', 'admin-text', 'site-reviews'),
-                $link
-            ));
-        } else {
-            glsr(Notice::class)->addSuccess(sprintf(
-                _x('Your detected IP address is %s. If this looks incorrect, please see the %s.', 'admin-text', 'site-reviews'),
-                "<code>{$ipAddress}</code>",
-                $link
-            ));
-        }
-    }
-
-    /**
-     * @action site-reviews/route/ajax/detect-ip-address
-     */
-    public function detectIpAddressAjax(): void
-    {
-        $this->detectIpAddress();
-        wp_send_json_success([
-            'notices' => glsr(Notice::class)->get(),
         ]);
     }
 
@@ -251,6 +218,29 @@ class ToolsController extends AbstractController
             return;
         }
         $this->execute(new ImportSettings());
+    }
+
+    /**
+     * @action site-reviews/route/admin/ip-address-detection
+     */
+    public function ipAddressDetection(Request $request): void
+    {
+        if (wp_validate_boolean($request->get('alt', 0))) {
+            $this->execute(new DetectIpAddress());
+            return;
+        }
+        $this->execute(new ConfigureIpAddressProxy($request));
+    }
+
+    /**
+     * @action site-reviews/route/ajax/ip-address-detection
+     */
+    public function ipAddressDetectionAjax(Request $request): void
+    {
+        $command = wp_validate_boolean($request->get('alt', 0))
+            ? $this->execute(new DetectIpAddress())
+            : $this->execute(new ConfigureIpAddressProxy($request));
+        wp_send_json_success($command->response());
     }
 
     /**

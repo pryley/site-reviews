@@ -482,7 +482,58 @@ class SanitizerTest extends \WP_UnitTestCase
         $this->assertEquals($sanitized[26], '-1');
     }
 
-    public function testSanitizeJson()
+    public function testSanitizeIpAddress()
+    {
+        $values = $this->testValues;
+        $values[27] = '127*';
+        $values[28] = '127.*';
+        $values[29] = '127.0.*';
+        $values[30] = '127.0.0.*';
+        $values[31] = '127.0.0.1';
+        $values[32] = '103.21.244.0/22';
+        $values[33] = '2400:cb00';
+        $values[34] = '2400:cb00::';
+        $values[35] = '2400:cb00::/32';
+        $sanitized = $this->sanitize('ip-address', $values);
+        $this->assertEquals($sanitized[0], '');
+        $this->assertEquals($sanitized[1], '');
+        $this->assertEquals($sanitized[2], '');
+        $this->assertEquals($sanitized[3], '');
+        $this->assertEquals($sanitized[4], '');
+        $this->assertEquals($sanitized[5], '');
+        $this->assertEquals($sanitized[6], '');
+        $this->assertEquals($sanitized[7], '');
+        $this->assertEquals($sanitized[8], '');
+        $this->assertEquals($sanitized[9], '');
+        $this->assertEquals($sanitized[10], '');
+        $this->assertEquals($sanitized[11], '');
+        $this->assertEquals($sanitized[12], '');
+        $this->assertEquals($sanitized[13], '');
+        $this->assertEquals($sanitized[14], '');
+        $this->assertEquals($sanitized[15], '');
+        $this->assertEquals($sanitized[16], '');
+        $this->assertEquals($sanitized[17], '');
+        $this->assertEquals($sanitized[18], '');
+        $this->assertEquals($sanitized[19], '');
+        $this->assertEquals($sanitized[20], '');
+        $this->assertEquals($sanitized[21], '');
+        $this->assertEquals($sanitized[22], '');
+        $this->assertEquals($sanitized[23], '');
+        $this->assertEquals($sanitized[24], '');
+        $this->assertEquals($sanitized[25], '');
+        $this->assertEquals($sanitized[26], '');
+        $this->assertEquals($sanitized[27], '');
+        $this->assertEquals($sanitized[28], '');
+        $this->assertEquals($sanitized[29], '');
+        $this->assertEquals($sanitized[30], '');
+        $this->assertEquals($sanitized[31], '127.0.0.1');
+        $this->assertEquals($sanitized[32], '');
+        $this->assertEquals($sanitized[33], '');
+        $this->assertEquals($sanitized[34], '2400:cb00::');
+        $this->assertEquals($sanitized[35], '');
+    }
+
+    public function testSanitizeJson()()
     {
         $sanitized = $this->sanitize('json');
         $this->assertEquals($sanitized, [

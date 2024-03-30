@@ -8,7 +8,11 @@ const Tools = function () {
     jQuery('form.wp-upload-form').each((index, formEl) => {
         jQuery(formEl).find('input[type="file"]').on('change', () => this.toggleUploadButton_(formEl))
         this.toggleUploadButton_(formEl)
-    });
+    })
+    jQuery('#proxy_http_header').on('change', function (ev) {
+        const val = jQuery(this).val();
+        jQuery('#trusted_proxies').closest('p')['' === val ? 'addClass' : 'removeClass']('hidden')
+    })
 };
 
 Tools.prototype = {

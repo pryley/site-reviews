@@ -58,7 +58,7 @@ class CreateReviewDefaults extends DefaultsAbstract
         'date_gmt' => 'date',
         'email' => 'user-email',
         'form_id' => 'id',
-        'ip_address' => 'text',
+        'ip_address' => 'ip-address',
         'name' => 'user-name',
         'rating' => 'rating',
         'referer' => 'text',

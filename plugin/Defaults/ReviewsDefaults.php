@@ -66,7 +66,7 @@ class ReviewsDefaults extends DefaultsAbstract
         'assigned_users' => 'user-ids',
         'content' => 'text-multiline',
         'email' => 'email',
-        'ip_address' => 'text',
+        'ip_address' => 'ip-address',
         'offset' => 'min:0',
         'order' => 'name',
         'orderby' => 'name',

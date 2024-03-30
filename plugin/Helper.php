@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews;
 
-use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -69,18 +68,30 @@ class Helper
 
     public static function getIpAddress(): string
     {
+        $setting = glsr()->args(get_option(glsr()->prefix.'ip_proxy'));
+        $proxyHeader = $setting->sanitize('proxy_http_header', 'id');
+        $trustedProxies = $setting->sanitize('trusted_proxies', 'text-multiline');
+        $trustedProxies = explode("\n", $trustedProxies);
         $whitelist = [];
-        $isUsingCloudflare = !empty(filter_input(INPUT_SERVER, 'CF-Connecting-IP'));
-        if (glsr()->filterBool('whip/whitelist/cloudflare', $isUsingCloudflare)) {
-            $cloudflareIps = glsr(Cache::class)->getCloudflareIps();
-            $whitelist[Whip::CLOUDFLARE_HEADERS] = [Whip::IPV4 => $cloudflareIps['v4']];
-            if (defined('AF_INET6')) {
-                $whitelist[Whip::CLOUDFLARE_HEADERS][Whip::IPV6] = $cloudflareIps['v6'];
-            }
+        if (!empty($proxyHeader)) {
+            $ipv4 = array_filter($trustedProxies, function ($range) {
+                [$ip] = explode('/', $range);
+                return !empty(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4));
+            });
+            $ipv6 = array_filter($trustedProxies, function ($range) {
+                [$ip] = explode('/', $range);
+                return !empty(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6));
+            });
+            $whitelist[$proxyHeader] = [
+                Whip::IPV4 => $ipv4,
+                Whip::IPV6 => $ipv6,
+            ];
         }
         $whitelist = glsr()->filterArray('whip/whitelist', $whitelist);
-        $methods = glsr()->filterInt('whip/methods', Whip::ALL_METHODS);
-        $whip = new Whip($methods, $whitelist);
+        $whip = new Whip(Whip::REMOTE_ADDR | Whip::CUSTOM_HEADERS, $whitelist);
+        if (!empty($proxyHeader)) {
+            $whip->addCustomHeader($proxyHeader);
+        }
         glsr()->action('whip', $whip);
         if (false !== ($clientAddress = $whip->getValidIpAddress())) {
             return (string) $clientAddress;

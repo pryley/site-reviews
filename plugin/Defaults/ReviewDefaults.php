@@ -48,7 +48,7 @@ class ReviewDefaults extends DefaultsAbstract
         'date' => 'date',
         'date_gmt' => 'date',
         'email' => 'email',
-        'ip_address' => 'text',
+        'ip_address' => 'ip-address',
         'response' => 'text-html',
         'score' => 'min:0',
         'status' => 'text',

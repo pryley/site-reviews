@@ -33,7 +33,7 @@ class RatingDefaults extends DefaultsAbstract
     public array $sanitize = [
         'avatar' => 'url',
         'email' => 'email',
-        'ip_address' => 'text',
+        'ip_address' => 'ip-address',
         'name' => 'text',
         'rating' => 'rating',
         'score' => 'min:0',

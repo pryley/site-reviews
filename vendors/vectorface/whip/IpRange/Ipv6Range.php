@@ -70,7 +70,7 @@ class Ipv6Range implements IpRange
             $this->rangeSubstring = substr(
                 $this->convertToBinaryString($network),
                 0,
-                $this->mask
+                (int) $this->mask
             );
         } else {
             // handle a single IP address

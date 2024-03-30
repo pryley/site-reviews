@@ -28,31 +28,6 @@ class Cache
         return $value;
     }
 
-    public function getCloudflareIps(): array
-    {
-        if (false !== ($ipAddresses = get_transient(glsr()->prefix.'cloudflare_ips'))) {
-            return Cast::toArray($ipAddresses);
-        }
-        $ipAddresses = array_fill_keys(['v4', 'v6'], []);
-        foreach (array_keys($ipAddresses) as $version) {
-            $url = "https://www.cloudflare.com/ips-{$version}";
-            $response = wp_remote_get($url);
-            if (is_wp_error($response)) {
-                glsr_log()->error($response->get_error_message());
-                continue;
-            }
-            if ('200' != ($statusCode = wp_remote_retrieve_response_code($response))) {
-                glsr_log()->error("Unable to connect to {$url} [{$statusCode}]");
-                continue;
-            }
-            $ipAddresses[$version] = array_filter(
-                (array) preg_split('/\R/', wp_remote_retrieve_body($response))
-            );
-        }
-        set_transient(glsr()->prefix.'cloudflare_ips', $ipAddresses, WEEK_IN_SECONDS);
-        return $ipAddresses;
-    }
-
     public function getPluginVersions(): array
     {
         $versions = get_transient(glsr()->prefix.'rollback_versions');

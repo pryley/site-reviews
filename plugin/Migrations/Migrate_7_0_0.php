@@ -10,6 +10,7 @@ class Migrate_7_0_0 implements MigrateContract
 {
     public function run(): bool
     {
+        delete_transient(glsr()->prefix.'cloudflare_ips');
         $this->migrateDatabase();
         return true;
     }

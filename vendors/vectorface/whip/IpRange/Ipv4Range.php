@@ -103,6 +103,7 @@ class Ipv4Range implements IpRange
     private function parseCidrRange(string $range): array
     {
         [$address, $mask] = explode('/', $range);
+        $mask = (int) $mask;
         $longAddress = ip2long($address);
         return [
             $longAddress & (((1 << $mask) - 1) << (32 - $mask)),
