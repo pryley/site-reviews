@@ -78,6 +78,7 @@
     /* Modal */
     --glsr-modal-bg: var(--wp--preset--color--base, var(--glsr-white));
     --glsr-modal-radius: 3px;
+    --glsr-modal-padding: 1.5em;
 
     /* Rating Tooltip */
     --glsr-tooltip-border-radius: 4px;

@@ -59,11 +59,12 @@
 :root .glsr-modal__header,
 :root .glsr-modal__footer {
     align-items: center;
-    box-shadow: 0 0 1em 0 rgba(0,0,0,0.25);
+    box-shadow: 0 0 1px 0 color-mix(in srgb, currentColor 10%, transparent),
+                0 0 1em 0 hsl(0 0% 0% / 10%);
     display: flex;
     flex-shrink: 0;
     gap: var(--glsr-gap-md);
-    padding: 0 1.5em;
+    padding: 0 var(--glsr-modal-padding);
     position: relative;
     z-index: 1;
 }
@@ -78,7 +79,7 @@
 :root .glsr-modal__content {
     -webkit-overflow-scrolling: touch;
     overflow-y: auto;
-    padding: 1.5em;
+    padding: var(--glsr-modal-padding);
     position: relative;
 }
 :root .glsr-modal .glsr-button {
@@ -136,6 +137,31 @@
 :root .glsr-modal[aria-hidden="true"] .glsr-modal__overlay {
     animation-duration: var(--glsr-duration-fast);
     animation-name: gl-fadeOut;
+}
+
+:root .glsr-modal-error .glsr-modal__content,
+:root .glsr-modal-success .glsr-modal__content {
+    display: flex;
+    gap: var(--glsr-gap-md);
+}
+:root .glsr-modal-error .glsr-modal__content::before,
+:root .glsr-modal-success .glsr-modal__content::before {
+    content: '';
+    display: block;
+    flex-shrink: 0;
+    height: 2em;
+    margin-top: -.25em;
+    mask-repeat: no-repeat;
+    opacity: .75;
+    width: 2em;
+}
+:root .glsr-modal-error .glsr-modal__content::before {
+    background-color: var(--glsr-red);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 2a8 8 0 1 1 0 16 8 8 0 1 1 0-16zm1.13 9.38l.35-6.46H8.52l.35 6.46h2.26zm-.09 3.36c.24-.23.37-.55.37-.96 0-.42-.12-.74-.36-.97s-.59-.35-1.06-.35-.82.12-1.07.35-.37.55-.37.97c0 .41.13.73.38.96.26.23.61.34 1.06.34s.8-.11 1.05-.34z'/%3E%3C/svg%3E%0A");
+}
+:root .glsr-modal-success .glsr-modal__content::before {
+    background-color: var(--glsr-green);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 2a8 8 0 1 0 0 16 8 8 0 1 0 0-16zm-.615 12.66h-1.34l-3.24-4.54 1.341-1.25 2.569 2.4 5.141-5.931 1.34.94-5.811 8.381z'/%3E%3C/svg%3E%0A");
 }
 
 :root #glsr-modal-review .glsr-read-more  {

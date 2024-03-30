@@ -61,21 +61,21 @@ class Modal {
             event.preventDefault()
             event.stopPropagation()
         }
+        const handler = () => {
+            this.root.removeEventListener('animationend', handler, false)
+            this.root.classList.remove(openClass)
+            modals.open.pop()
+            this.config.onClose(this, event) // triggered after the modal is hidden
+            GLSR.Event.trigger('site-reviews/modal/close', this, event)
+            debounce(() => this._reset())()
+        }
+        this.root.addEventListener('animationend', handler, false)
         this.root.setAttribute('aria-hidden', 'true')
         this._eventHandler('remove')
         unlock(this.dom.content)
         if (this.trigger && this.trigger.focus) {
             this.trigger.focus()
         }
-        const handler = () => {
-            this.root.removeEventListener('animationend', handler, false)
-            this.root.classList.remove(openClass)
-            openModals.pop()
-            this.config.onClose(this, event) // triggered after the modal is hidden
-            GLSR.Event.trigger('site-reviews/modal/close', this, event)
-            debounce(() => this._reset())()
-        }
-        this.root.addEventListener('animationend', handler, false)
     }
 
     _config (config) {
@@ -116,14 +116,13 @@ class Modal {
         const content = dom('div', attr('content', { tabindex: -1 }));
         const header = dom('div', attr('header'));
         const footer = dom('div', attr('footer'));
+        const dialog = dom('div', attr('dialog', { 'aria-modal': true, role: 'dialog' }),
+            close, header, content, footer
+        );
         const root = dom('div', { class: modalClass, id: this.id, 'aria-hidden': true },
-            dom('div', attr('overlay', { tabindex: -1, 'data-glsr-close': '' }),
-                dom('div', attr('dialog', { 'aria-modal': true, role: 'dialog' }),
-                    close, header, content, footer
-                )
-            )
-        )
-        this.dom = { ...this.dom, close, content, footer, header };
+            dom('div', attr('overlay', { tabindex: -1, 'data-glsr-close': '' }), dialog)
+        );
+        this.dom = { ...this.dom, close, content, dialog, footer, header };
         this.root = document.body.appendChild(root);
     }
 
@@ -137,7 +136,7 @@ class Modal {
         if (~[13, 32].indexOf(event.keyCode) && event.target === this.dom.close) { // enter/space
             this._closeModal(event)
         }
-        if (event.keyCode === 27 && openModals.slice(-1)[0] === this.id) { // esc
+        if (event.keyCode === 27 && modals.open.slice(-1)[0] === this.id) { // esc
             this._closeModal(event)
         }
         if (event.keyCode === 9) {
@@ -146,7 +145,7 @@ class Modal {
     }
 
     _openModal (event) {
-        openModals.push(this.id)
+        modals.open.push(this.id)
         this.trigger = document.activeElement;
         if (event) {
             event.preventDefault()
@@ -227,23 +226,25 @@ class Modal {
     }
 }
 
-const activeModals = {};
-const openModals = [];
+const modals = {
+    active: {},
+    open: [],
+};
 
 const close = (id) => {
     if (!id) {
-        for (let key in activeModals) {
-            activeModals[key]._closeModal()
+        for (let key in modals.active) {
+            modals.active[key]._closeModal()
         }
-    } else if (activeModals[id]) {
-        activeModals[id]._closeModal()
+    } else if (modals.active[id]) {
+        modals.active[id]._closeModal()
     }
 }
 
 const init = (id, config) => {
     let modal;
-    if (activeModals[id]) {
-        modal = activeModals[id];
+    if (modals.active[id]) {
+        modal = modals.active[id];
         modal._removeTriggers()
         if (config) {
             modal._config(config)
@@ -256,14 +257,20 @@ const init = (id, config) => {
             modal._registerTrigger(el)
         }
     })
-    activeModals[id] = modal;
-    return activeModals
+    modals.active[id] = modal;
+    return modals.active
+}
+
+const modify = (id, callback) => {
+    if (id && modals.active[id]) {
+        callback(modals.active[id])
+    }
 }
 
 const open = (id, config) => {
     let modal;
-    if (activeModals[id]) {
-        modal = activeModals[id];
+    if (modals.active[id]) {
+        modal = modals.active[id];
         if (modal.root) {
             modal._eventHandler('remove')
         }
@@ -273,8 +280,8 @@ const open = (id, config) => {
     } else {
         modal = new Modal(id, config);
     }
-    activeModals[id] = modal;
+    modals.active[id] = modal;
     modal._openModal()
 }
 
-export default { close, init, open }
+export default { close, init, modals, modify, open }
