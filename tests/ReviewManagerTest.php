@@ -151,10 +151,10 @@ class ReviewManagerTest extends WP_UnitTestCase
 
     public function test_ip_address_is_unprotected_when_using_helper_fn()
     {
-        $request = $this->request(['ip_address' => '111.222.333.444']);
+        $request = $this->request(['ip_address' => '11.22.33.44']);
         $review = glsr_create_review($request->toArray());
         $this->assertTrue($review->isValid());
-        $this->assertEquals($review->ip_address, '111.222.333.444');
+        $this->assertEquals($review->ip_address, '11.22.33.44');
     }
 
     public function test_is_pinned_is_protected()
