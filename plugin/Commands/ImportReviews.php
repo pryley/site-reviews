@@ -123,9 +123,6 @@ class ImportReviews extends AbstractCommand
     protected function import(UploadedFile $file): int
     {
         define('WP_IMPORTING', true);
-        if (!ini_get('auto_detect_line_endings')) {
-            ini_set('auto_detect_line_endings', '1');
-        }
         try {
             wp_raise_memory_limit('admin');
             $reader = $this->createReader($file->getPathname());
