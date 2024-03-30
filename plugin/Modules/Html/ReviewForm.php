@@ -19,6 +19,13 @@ class ReviewForm extends Form
         parent::__construct(wp_parse_args($overrides, $args), $requiredKeys);
     }
 
+    public function config(): array
+    {
+        $config = glsr()->config('forms/review-form');
+        $config = glsr()->filterArray('review-form/fields', $config, $this);
+        return $config;
+    }
+
     public function field(string $name, array $args): FieldContract
     {
         $field = new ReviewField(wp_parse_args($args, compact('name')));
@@ -74,15 +81,8 @@ class ReviewForm extends Form
      */
     protected function fieldsVisible(): array
     {
-        $config = glsr()->config('forms/review-form');
-        $config = glsr()->filterArray('review-form/fields', $config, $this);
-        $fields = [];
-        foreach ($config as $key => $args) {
-            $field = $this->field($key, $args);
-            if ($field->isValid()) {
-                $fields[$key] = $field;
-            }
-        }
+        $fields = parent::fieldsVisible();
+        $fields = array_filter($fields, fn ($field) => !in_array($field->original_name, $this->args->hide));
         $fields = glsr()->filterArray('review-form/fields/visible', $fields, $this);
         return $fields;
     }

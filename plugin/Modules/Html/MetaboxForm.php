@@ -23,6 +23,22 @@ class MetaboxForm extends Form
         return $this->buildFields();
     }
 
+    public function config(): array
+    {
+        $config = glsr()->config('forms/metabox-fields');
+        $config = glsr()->filterArray('metabox-form/fields', $config, $this, $this->review); // @todo update hook in addons
+        if (2 > count(glsr()->retrieveAs('array', 'review_types'))) {
+            unset($config['type']);
+        }
+        foreach ($config as $key => $values) {
+            $config[$key] = wp_parse_args($values, [
+                'class' => 'glsr-input-value',
+                'data-value' => $this->review->get($key),
+            ]);
+        }
+        return $config;
+    }
+
     public function field(string $name, array $args): FieldContract
     {
         $field = new MetaboxField(wp_parse_args($args, compact('name')));
@@ -76,21 +92,7 @@ class MetaboxForm extends Form
      */
     protected function fieldsVisible(): array
     {
-        $config = glsr()->config('forms/metabox-fields');
-        $config = glsr()->filterArray('metabox-form/fields', $config, $this, $this->review); // @todo update hook in addons
-        if (2 > count(glsr()->retrieveAs('array', 'review_types'))) {
-            unset($config['type']);
-        }
-        $fields = [];
-        foreach ($config as $key => $args) {
-            $field = $this->field($key, wp_parse_args($args, [
-                'class' => 'glsr-input-value',
-                'data-value' => $this->review->get($key),
-            ]));
-            if ($field->isValid()) {
-                $fields[$key] = $field;
-            }
-        }
+        $fields = parent::fieldsVisible();
         $fields = glsr()->filterArray('metabox-form/fields/visible', $fields, $this);
         return $fields;
     }

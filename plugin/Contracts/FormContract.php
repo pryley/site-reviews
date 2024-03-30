@@ -10,6 +10,8 @@ interface FormContract
 
     public function build(): string;
 
+    public function config(): array;
+
     public function field(string $name, array $args): FieldContract;
 
     /**

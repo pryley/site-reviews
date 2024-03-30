@@ -51,6 +51,11 @@ class Form extends \ArrayObject implements FormContract
         ]);
     }
 
+    public function config(): array
+    {
+        return [];
+    }
+
     public function field(string $name, array $args): FieldContract
     {
         $field = new Field(wp_parse_args($args, compact('name')));
@@ -231,7 +236,14 @@ class Form extends \ArrayObject implements FormContract
      */
     protected function fieldsVisible(): array
     {
-        return [];
+        $fields = [];
+        foreach ($this->config() as $key => $args) {
+            $field = $this->field($key, $args);
+            if ($field->isValid()) {
+                $fields[$key] = $field;
+            }
+        }
+        return $fields;
     }
 
     /**

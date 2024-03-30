@@ -32,6 +32,11 @@ class SettingForm extends Form
         return $this->buildFields();
     }
 
+    public function config(): array
+    {
+        return glsr()->settings();
+    }
+
     public function field(string $name, array $args): FieldContract
     {
         $args = wp_parse_args($args, [
@@ -76,22 +81,6 @@ class SettingForm extends Form
         }
         $rendered = implode("\n", $fields);
         return $rendered;
-    }
-
-    /**
-     * @return FieldContract[]
-     */
-    protected function fieldsVisible(): array
-    {
-        $config = glsr()->settings();
-        $fields = [];
-        foreach ($config as $key => $args) {
-            $field = $this->field($key, $args);
-            if ($field->isValid()) {
-                $fields[$key] = $field;
-            }
-        }
-        return $fields;
     }
 
     /**
