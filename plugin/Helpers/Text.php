@@ -75,7 +75,7 @@ class Text
         $text = convert_chars($text); // converts lone & characters into &#038;
         $text = convert_invalid_entities($text); // convert invalid Unicode references range to valid range.
         $text = convert_smilies($text); // convert text smilies to emojis.
-        $text = html_entity_decode($text);
+        $text = wp_specialchars_decode($text);
         return $text;
     }
 

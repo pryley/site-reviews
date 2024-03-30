@@ -12,7 +12,7 @@ class Paginate
 
     public function __construct(array $args = [])
     {
-        $base = html_entity_decode(get_pagenum_link());
+        $base = wp_specialchars_decode(get_pagenum_link());
         $args = wp_parse_args($args, compact('base'));
         $args = glsr(PaginationDefaults::class)->restrict($args);
         $parts = explode('?', $base);
