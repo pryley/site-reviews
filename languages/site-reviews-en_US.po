@@ -1969,7 +1969,7 @@ msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
 
-#: plugin/Application.php:154, plugin/Controllers/SettingsController.php:170
+#: plugin/Application.php:153, plugin/Controllers/SettingsController.php:170
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr "License Keys"
@@ -2244,7 +2244,7 @@ msgctxt "admin-text"
 msgid "Console cleared."
 msgstr "Console cleared."
 
-#: plugin/Commands/ConfigureIpAddressProxy.php:29
+#: plugin/Commands/ConfigureIpAddressProxy.php:31
 msgctxt "admin-text"
 msgid "The proxy HTTP header has been saved."
 msgstr "The proxy HTTP header has been saved."
@@ -2458,7 +2458,7 @@ msgstr ""
 "Cannot detect the delimiter used in the CSV file (supported delimiters are "
 "comma and semicolon)."
 
-#: plugin/Commands/ImportReviews.php:134
+#: plugin/Commands/ImportReviews.php:131
 msgctxt "admin-text"
 msgid ""
 "The CSV file could not be imported. Please verify the following details and "
@@ -2467,61 +2467,61 @@ msgstr ""
 "The CSV file could not be imported. Please verify the following details and "
 "try again:"
 
-#: plugin/Commands/ImportReviews.php:143
+#: plugin/Commands/ImportReviews.php:140
 msgctxt "admin-text"
 msgid "Does the CSV file include all required columns?"
 msgstr "Does the CSV file include all required columns?"
 
-#: plugin/Commands/ImportReviews.php:144
+#: plugin/Commands/ImportReviews.php:141
 msgctxt "admin-text"
 msgid "Have you named all of the columns in the CSV file?"
 msgstr "Have you named all of the columns in the CSV file?"
 
-#: plugin/Commands/ImportReviews.php:145
+#: plugin/Commands/ImportReviews.php:142
 msgctxt "admin-text"
 msgid "Have you removed all empty columns from the CSV file?"
 msgstr "Have you removed all empty columns from the CSV file?"
 
-#: plugin/Commands/ImportReviews.php:146
+#: plugin/Commands/ImportReviews.php:143
 msgctxt "admin-text"
 msgid "Is the CSV file encoded as UTF-8?"
 msgstr "Is the CSV file encoded as UTF-8?"
 
-#: plugin/Commands/ImportReviews.php:147
+#: plugin/Commands/ImportReviews.php:144
 msgctxt "admin-text"
 msgid "Is the selected delimiter correct?"
 msgstr "Is the selected delimiter correct?"
 
-#: plugin/Commands/ImportReviews.php:172
+#: plugin/Commands/ImportReviews.php:169
 msgctxt "admin-text"
 msgid "%s review was imported."
 msgid_plural "%s reviews were imported."
 msgstr[0] "%s review was imported."
 msgstr[1] "%s reviews were imported."
 
-#: plugin/Commands/ImportReviews.php:180
+#: plugin/Commands/ImportReviews.php:177
 msgctxt "admin-text"
 msgid "%s entry was skipped."
 msgid_plural "%s entries were skipped."
 msgstr[0] "%s entry was skipped."
 msgstr[1] "%s entries were skipped."
 
-#: plugin/Commands/ImportReviews.php:183
+#: plugin/Commands/ImportReviews.php:180
 msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr "See the %s for more details."
 
-#: plugin/Commands/ImportReviews.php:186, plugin/Controllers/MenuController.php:161
+#: plugin/Commands/ImportReviews.php:183, plugin/Controllers/MenuController.php:161
 msgctxt "admin-text"
 msgid "Console"
 msgstr "Console"
 
-#: plugin/Commands/ImportReviews.php:208
+#: plugin/Commands/ImportReviews.php:205
 msgctxt "admin-text"
 msgid "wrong date format"
 msgstr "wrong date format"
 
-#: plugin/Commands/ImportReviews.php:209
+#: plugin/Commands/ImportReviews.php:206
 msgctxt "admin-text"
 msgid "empty or invalid rating"
 msgstr "empty or invalid rating"
@@ -5357,6 +5357,16 @@ msgctxt "admin-text"
 msgid "managed by Site Reviews"
 msgstr "managed by Site Reviews"
 
+#: plugin/Modules/Html/FieldElements/Secret.php:23, plugin/Modules/Html/FieldElements/Secret.php:26
+msgctxt "admin-text"
+msgid "Show value"
+msgstr "Show value"
+
+#: plugin/Modules/Html/FieldElements/Secret.php:25
+msgctxt "admin-text"
+msgid "Hide value"
+msgstr "Hide value"
+
 #: views/integrations/woocommerce/notices/reviews.php:6
 msgctxt "admin-text"
 msgid ""
@@ -6309,7 +6319,7 @@ msgctxt "limit time (admin-text)"
 msgid "days"
 msgstr "days"
 
-#: plugin/Application.php:153
+#: plugin/Application.php:152
 msgctxt "License Keys (admin-text)"
 msgid ""
 "Enter the license key here. Your license can be found on the %s page of "

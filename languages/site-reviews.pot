@@ -1364,12 +1364,12 @@ msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr ""
 
-#: plugin/Application.php:153
+#: plugin/Application.php:152
 msgctxt "License Keys (admin-text)"
 msgid "Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account."
 msgstr ""
 
-#: plugin/Application.php:154, plugin/Controllers/SettingsController.php:170
+#: plugin/Application.php:153, plugin/Controllers/SettingsController.php:170
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr ""
@@ -1706,7 +1706,7 @@ msgctxt "admin-text"
 msgid "Console cleared."
 msgstr ""
 
-#: plugin/Commands/ConfigureIpAddressProxy.php:29
+#: plugin/Commands/ConfigureIpAddressProxy.php:31
 msgctxt "admin-text"
 msgid "The proxy HTTP header has been saved."
 msgstr ""
@@ -1912,66 +1912,66 @@ msgctxt "admin-text"
 msgid "Cannot detect the delimiter used in the CSV file (supported delimiters are comma and semicolon)."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:134
+#: plugin/Commands/ImportReviews.php:131
 msgctxt "admin-text"
 msgid "The CSV file could not be imported. Please verify the following details and try again:"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:143
+#: plugin/Commands/ImportReviews.php:140
 msgctxt "admin-text"
 msgid "Does the CSV file include all required columns?"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:144
+#: plugin/Commands/ImportReviews.php:141
 msgctxt "admin-text"
 msgid "Have you named all of the columns in the CSV file?"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:145
+#: plugin/Commands/ImportReviews.php:142
 msgctxt "admin-text"
 msgid "Have you removed all empty columns from the CSV file?"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:146
+#: plugin/Commands/ImportReviews.php:143
 msgctxt "admin-text"
 msgid "Is the CSV file encoded as UTF-8?"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:147
+#: plugin/Commands/ImportReviews.php:144
 msgctxt "admin-text"
 msgid "Is the selected delimiter correct?"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:172
+#: plugin/Commands/ImportReviews.php:169
 msgctxt "admin-text"
 msgid "%s review was imported."
 msgid_plural "%s reviews were imported."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ImportReviews.php:180
+#: plugin/Commands/ImportReviews.php:177
 msgctxt "admin-text"
 msgid "%s entry was skipped."
 msgid_plural "%s entries were skipped."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ImportReviews.php:183
+#: plugin/Commands/ImportReviews.php:180
 msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:186, plugin/Controllers/MenuController.php:161
+#: plugin/Commands/ImportReviews.php:183, plugin/Controllers/MenuController.php:161
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:208
+#: plugin/Commands/ImportReviews.php:205
 msgctxt "admin-text"
 msgid "wrong date format"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:209
+#: plugin/Commands/ImportReviews.php:206
 msgctxt "admin-text"
 msgid "empty or invalid rating"
 msgstr ""
@@ -5413,6 +5413,16 @@ msgstr[1] ""
 
 #: plugin/Modules/Html/FieldElements/Rating.php:15
 msgid "Select a Rating"
+msgstr ""
+
+#: plugin/Modules/Html/FieldElements/Secret.php:23, plugin/Modules/Html/FieldElements/Secret.php:26
+msgctxt "admin-text"
+msgid "Show value"
+msgstr ""
+
+#: plugin/Modules/Html/FieldElements/Secret.php:25
+msgctxt "admin-text"
+msgid "Hide value"
 msgstr ""
 
 #: plugin/Modules/Html/FieldElements/YesNo.php:22

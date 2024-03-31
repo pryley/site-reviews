@@ -131,7 +131,7 @@ class FieldTest extends \WP_UnitTestCase
         $this->assertEquals(
             '<div>'.
                 '<label for="site-reviews-foobar">Foobar</label>'.
-                '<input type="password" id="site-reviews-foobar" name="site-reviews[foobar]" value="" />'.
+                '<input type="password" id="site-reviews-foobar" name="site-reviews[foobar]" autocomplete="off" value="" />'.
             '</div>',
             $this->build([
                 'label' => 'Foobar',

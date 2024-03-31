@@ -1334,7 +1334,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews_v7-settings-forms-friendlycaptcha-key">Site Key</label>'.
                 '</th>'.
                 '<td>'.
-                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-friendlycaptcha-key" name="site_reviews_v7[settings][forms][friendlycaptcha][key]" value="" />'.
+                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-friendlycaptcha-key" name="site_reviews_v7[settings][forms][friendlycaptcha][key]" autocomplete="off" value="" />'.
                 '</td>'.
             '</tr>'
         );
@@ -1349,7 +1349,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews_v7-settings-forms-friendlycaptcha-secret">API Key</label>'.
                 '</th>'.
                 '<td>'.
-                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-friendlycaptcha-secret" name="site_reviews_v7[settings][forms][friendlycaptcha][secret]" value="" />'.
+                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-friendlycaptcha-secret" name="site_reviews_v7[settings][forms][friendlycaptcha][secret]" autocomplete="off" value="" />'.
                 '</td>'.
             '</tr>'
         );
@@ -1364,7 +1364,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews_v7-settings-forms-hcaptcha-key">Site Key</label>'.
                 '</th>'.
                 '<td>'.
-                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-hcaptcha-key" name="site_reviews_v7[settings][forms][hcaptcha][key]" value="" />'.
+                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-hcaptcha-key" name="site_reviews_v7[settings][forms][hcaptcha][key]" autocomplete="off" value="" />'.
                 '</td>'.
             '</tr>'
         );
@@ -1379,7 +1379,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews_v7-settings-forms-hcaptcha-secret">Secret Key</label>'.
                 '</th>'.
                 '<td>'.
-                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-hcaptcha-secret" name="site_reviews_v7[settings][forms][hcaptcha][secret]" value="" />'.
+                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-hcaptcha-secret" name="site_reviews_v7[settings][forms][hcaptcha][secret]" autocomplete="off" value="" />'.
                 '</td>'.
             '</tr>'
         );
@@ -1394,7 +1394,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews_v7-settings-forms-recaptcha-key">Site Key</label>'.
                 '</th>'.
                 '<td>'.
-                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-recaptcha-key" name="site_reviews_v7[settings][forms][recaptcha][key]" value="" />'.
+                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-recaptcha-key" name="site_reviews_v7[settings][forms][recaptcha][key]" autocomplete="off" value="" />'.
                 '</td>'.
             '</tr>'
         );
@@ -1409,7 +1409,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews_v7-settings-forms-recaptcha-secret">Secret Key</label>'.
                 '</th>'.
                 '<td>'.
-                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-recaptcha-secret" name="site_reviews_v7[settings][forms][recaptcha][secret]" value="" />'.
+                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-recaptcha-secret" name="site_reviews_v7[settings][forms][recaptcha][secret]" autocomplete="off" value="" />'.
                 '</td>'.
             '</tr>'
         );
@@ -1424,7 +1424,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews_v7-settings-forms-recaptcha_v3-key">Site Key</label>'.
                 '</th>'.
                 '<td>'.
-                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-recaptcha_v3-key" name="site_reviews_v7[settings][forms][recaptcha_v3][key]" value="" />'.
+                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-recaptcha_v3-key" name="site_reviews_v7[settings][forms][recaptcha_v3][key]" autocomplete="off" value="" />'.
                 '</td>'.
             '</tr>'
         );
@@ -1439,7 +1439,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews_v7-settings-forms-recaptcha_v3-secret">Secret Key</label>'.
                 '</th>'.
                 '<td>'.
-                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-recaptcha_v3-secret" name="site_reviews_v7[settings][forms][recaptcha_v3][secret]" value="" />'.
+                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-recaptcha_v3-secret" name="site_reviews_v7[settings][forms][recaptcha_v3][secret]" autocomplete="off" value="" />'.
                 '</td>'.
             '</tr>'
         );
@@ -1470,7 +1470,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews_v7-settings-forms-turnstile-key">Site Key</label>'.
                 '</th>'.
                 '<td>'.
-                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-turnstile-key" name="site_reviews_v7[settings][forms][turnstile][key]" value="" />'.
+                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-turnstile-key" name="site_reviews_v7[settings][forms][turnstile][key]" autocomplete="off" value="" />'.
                 '</td>'.
             '</tr>'
         );
@@ -1485,7 +1485,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews_v7-settings-forms-turnstile-secret">Secret Key</label>'.
                 '</th>'.
                 '<td>'.
-                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-turnstile-secret" name="site_reviews_v7[settings][forms][turnstile][secret]" value="" />'.
+                    '<input type="text" class="regular-text" id="site_reviews_v7-settings-forms-turnstile-secret" name="site_reviews_v7[settings][forms][turnstile][secret]" autocomplete="off" value="" />'.
                 '</td>'.
             '</tr>'
         );

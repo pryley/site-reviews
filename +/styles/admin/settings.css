@@ -954,12 +954,48 @@ tr.glsr-setting-field td .inline label::after {
       url(text-security-disc-compat.ttf) format('truetype');
   }
 }
-input.glsr-license-key:not(:focus) {
-  font-family: text-security-disc;
-  -webkit-text-security: disc;
-  letter-spacing: 2px;
+.glsr-setting-field .wp-pwd {
+  display: inline-flex;
+  margin-top: 0;
 }
-
+.glsr-setting-field .wp-pwd input {
+  padding-right: 2.5rem;
+}
+.glsr-setting-field .wp-pwd:has(.dashicons-visibility) input {
+  font-family: text-security-disc;
+  letter-spacing: 2px;
+  -webkit-text-security: disc;
+}
+.glsr-setting-field .wp-pwd button.wp-hide-pw {
+  background: 0 0;
+  border: 1px solid transparent;
+  box-shadow: none;
+  font-size: 14px;
+  line-height: 2;
+  margin: 0;
+  min-width: 40px;
+  padding: 0 9px;
+  position: absolute;
+  right: 1px;
+  top: 0;
+  width: 2.5rem;
+  &:hover {
+    background: 0 0;
+    border-color: transparent;
+  }
+  &:focus {
+    background:0 0;
+    border-color:#3582c4;
+    border-radius:4px;
+    box-shadow:0 0 0 1px #3582c4;
+    outline:2px solid transparent
+  }
+  &:active {
+    background: 0 0;
+    box-shadow: none;
+    transform: none;
+  }
+}
 
 .glsr-template-editor {
   display: flex;

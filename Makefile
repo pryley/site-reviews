@@ -3,7 +3,7 @@ VERSION ?= $(shell perl -lne 'm{Stable tag: .*?(.+)} and print $$1' readme.txt)
 
 # Targets
 analyse: ## Run phpstan analyser
-	XDEBUG_MODE=off ./vendor/bin/phpstan analyse --memory-limit 1G
+	XDEBUG_MODE=off ./vendor/bin/phpstan analyse --memory-limit 2G
 
 build: ## Build all assets and languages
 	npx gulp

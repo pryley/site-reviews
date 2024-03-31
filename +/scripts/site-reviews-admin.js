@@ -296,6 +296,16 @@ jQuery(function ($) {
         updateCursorPosition(cursorPosition, text, textarea);
         textarea.scrollTop = scrollPos;
     });
+
+    $('.glsr-setting-field .wp-pwd button').each((index, el) => {
+        const $btn = $(el);
+        $btn.on('click', () => {
+            const $icon = $btn.find('.dashicons');
+            const label = $icon.hasClass('dashicons-visibility') ? $btn.data('show') : $btn.data('hide');
+            $btn.attr('aria-label', label)
+            $icon.toggleClass('dashicons-hidden').toggleClass('dashicons-visibility')
+        })
+    })
 });
 
 const loadYouTube = function (link) {

@@ -818,7 +818,7 @@ return [ // order is intentional
         'label' => _x('Site Key', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('<a href="https://friendlycaptcha.com/signup" target="_blank">Friendly Captcha</a> is privacy-first Schrems II and GDPR compliant anti-bot solution.', 'admin-text', 'site-reviews'),
-        'type' => 'text',
+        'type' => 'secret',
     ],
     'settings.forms.friendlycaptcha.secret' => [
         'default' => '',
@@ -828,7 +828,7 @@ return [ // order is intentional
         'label' => _x('API Key', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('<a href="https://friendlycaptcha.com/signup" target="_blank">Friendly Captcha</a> is privacy-first Schrems II and GDPR compliant anti-bot solution.', 'admin-text', 'site-reviews'),
-        'type' => 'text',
+        'type' => 'secret',
     ],
     'settings.forms.hcaptcha.key' => [
         'default' => '',
@@ -838,7 +838,7 @@ return [ // order is intentional
         'label' => _x('Site Key', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('hCaptcha is an anti-bot solution that protects user privacy. It is the most popular reCAPTCHA alternative. To use it, you will need to <a href="https://dashboard.hcaptcha.com/" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
-        'type' => 'text',
+        'type' => 'secret',
     ],
     'settings.forms.hcaptcha.secret' => [
         'default' => '',
@@ -848,7 +848,7 @@ return [ // order is intentional
         'label' => _x('Secret Key', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('hCaptcha is an anti-bot solution that protects user privacy. It is the most popular reCAPTCHA alternative. To use it, you will need to <a href="https://dashboard.hcaptcha.com/" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
-        'type' => 'text',
+        'type' => 'secret',
     ],
     'settings.forms.recaptcha.key' => [
         'default' => '',
@@ -858,7 +858,7 @@ return [ // order is intentional
         'label' => _x('Site Key', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('reCAPTCHA v2 Invisible is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
-        'type' => 'text',
+        'type' => 'secret',
     ],
     'settings.forms.recaptcha.secret' => [
         'default' => '',
@@ -868,7 +868,7 @@ return [ // order is intentional
         'label' => _x('Secret Key', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('reCAPTCHA v2 Invisible is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
-        'type' => 'text',
+        'type' => 'secret',
     ],
     'settings.forms.recaptcha_v3.key' => [
         'default' => '',
@@ -878,7 +878,7 @@ return [ // order is intentional
         'label' => _x('Site Key', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('reCAPTCHA v3 is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
-        'type' => 'text',
+        'type' => 'secret',
     ],
     'settings.forms.recaptcha_v3.secret' => [
         'default' => '',
@@ -888,7 +888,7 @@ return [ // order is intentional
         'label' => _x('Secret Key', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('reCAPTCHA v3 is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
-        'type' => 'text',
+        'type' => 'secret',
     ],
     'settings.forms.recaptcha_v3.threshold' => [
         'default' => 0.5,
@@ -912,7 +912,7 @@ return [ // order is intentional
         'label' => _x('Site Key', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('Turnstile is Cloudflare’s privacy-first CAPTCHA alternative. To use it, you will need to <a href="https://dash.cloudflare.com/?to=/:account/turnstile" target="_blank">obtain</a> a site key and a secret key.', 'admin-text', 'site-reviews'),
-        'type' => 'text',
+        'type' => 'secret',
     ],
     'settings.forms.turnstile.secret' => [
         'default' => '',
@@ -922,7 +922,7 @@ return [ // order is intentional
         'label' => _x('Secret Key', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('Turnstile is Cloudflare’s privacy-first CAPTCHA alternative. To use it, you will need to <a href="https://dash.cloudflare.com/?to=/:account/turnstile" target="_blank">obtain</a> a site key and a secret key.', 'admin-text', 'site-reviews'),
-        'type' => 'text',
+        'type' => 'secret',
     ],
     'settings.forms.captcha.position' => [
         'class' => 'regular-text',

@@ -51,6 +51,35 @@ class SettingField extends Field
             : glsr(Template::class)->build('partials/form/table-row', $data);
     }
 
+    public function buildFieldAfter(): string
+    {
+        if (empty($this->after)) {
+            return '';
+        }
+        return "&nbsp;{$this->after}";
+    }
+
+    public function buildFieldDescription(): string
+    {
+        if (empty($this->description)) {
+            return '';
+        }
+        return $this->builder()->p([
+            'class' => 'description',
+            'text' => $this->description,
+        ]);
+    }
+
+    public function buildFieldElement(): string
+    {
+        $element = $this->fieldElement()->build([
+            'label' => '', // prevent the field label from being built
+        ]);
+        $after = $this->buildFieldAfter();
+        $description = $this->buildFieldDescription();
+        return $element.$after.$description;
+    }
+
     public function buildFieldLabel(): string
     {
         return $this->builder()->label([

@@ -11,31 +11,6 @@ class SettingBuilder extends Builder
         return new SettingField($args);
     }
 
-    protected function buildAfter(): string
-    {
-        if (empty($this->args()->after)) {
-            return '';
-        }
-        return "&nbsp;{$this->args()->after}";
-    }
-
-    protected function buildFieldDescription(): string
-    {
-        if (empty($this->args()->description)) {
-            return '';
-        }
-        return $this->p([
-            'class' => 'description',
-            'text' => $this->args()->description,
-        ]);
-    }
-
-    protected function buildFieldElement(): string
-    {
-        $element = parent::buildFieldElement();
-        return $element.$this->buildAfter().$this->buildFieldDescription();
-    }
-
     protected function buildFieldInputChoices(): string
     {
         $fields = [];

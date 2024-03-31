@@ -197,7 +197,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
                 '<label class="glsr-label" for="site-reviews-foobar">'.
                     '<span>Foobar</span>'.
                 '</label>'.
-                '<input type="password" class="glsr-input glsr-input-password" id="site-reviews-foobar" name="site-reviews[foobar]" value="" />'.
+                '<input type="password" class="glsr-input glsr-input-password" id="site-reviews-foobar" name="site-reviews[foobar]" autocomplete="off" value="" />'.
                 '<div class="glsr-field-error"></div>'.
             '</div>',
             $this->build([
