@@ -387,32 +387,15 @@ class SystemInfo
 
     protected function purgeSensitiveData(array $settings): array
     {
-        $keys = glsr()->filterArray('system-info/purge', [
-            'licenses.' => 8,
-            'forms.friendlycaptcha.key' => 0,
-            'forms.friendlycaptcha.secret' => 0,
-            'forms.hcaptcha.key' => 0,
-            'forms.hcaptcha.secret' => 0,
-            'forms.recaptcha.key' => 0,
-            'forms.recaptcha.secret' => 0,
-            'forms.recaptcha_v3.key' => 0,
-            'forms.recaptcha_v3.secret' => 0,
-            'forms.turnstile.key' => 0,
-            'forms.turnstile.secret' => 0,
-        ]);
-        array_walk($settings, function (&$value, $setting) use ($keys) {
-            foreach ($keys as $key => $preserve) {
-                if (!is_string($key)) { // @compat for older addons
-                    $key = $preserve;
-                    $preserve = 0;
-                }
-                if (str_starts_with($setting, $key) && !empty($value)) {
-                    $preserve = Cast::toInt($preserve);
-                    $value = Str::mask($value, 0, $preserve, 13);
-                    break;
-                }
+        $config = glsr()->settings();
+        $config = array_filter($config, fn ($field) => 'secret' === ($field['type'] ?? ''));
+        $keys = array_keys($config);
+        $keys = array_map(fn ($key) => Str::removePrefix($key, 'settings.'), $keys);
+        foreach ($settings as $key => &$value) {
+            if (in_array($key, $keys)) {
+                $value = Str::mask($value, 0, 8, 24);
             }
-        });
+        }
         return $settings;
     }
 
