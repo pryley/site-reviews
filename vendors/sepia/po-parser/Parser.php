@@ -1,4 +1,5 @@
-<?php
+<?php // phpcs:ignoreFile
+
 /**
  * @package qcubed/i18n dev-master f73451a
  */

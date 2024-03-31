@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignoreFile
 
 namespace Inpsyde\MultilingualPress\Framework\Setting\Site {
     /**

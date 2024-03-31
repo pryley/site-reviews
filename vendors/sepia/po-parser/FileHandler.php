@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignoreFile
 
 namespace GeminiLabs\Sepia\PoParser;
 
