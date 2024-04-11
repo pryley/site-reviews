@@ -11,6 +11,7 @@ class StyleValidationDefaults extends DefaultsAbstract
      */
     public array $concatenated = [
         'field_error',
+        'field_hidden',
         'field_message',
         'field_required',
         'field_valid',
@@ -28,6 +29,7 @@ class StyleValidationDefaults extends DefaultsAbstract
      */
     public array $sanitize = [
         'field_error' => 'attr-class',
+        'field_hidden' => 'attr-class',
         'field_message' => 'attr-class',
         'field_required' => 'attr-class',
         'field_valid' => 'attr-class',
@@ -43,6 +45,7 @@ class StyleValidationDefaults extends DefaultsAbstract
     {
         return [
             'field_error' => 'glsr-field-is-invalid',
+            'field_hidden' => 'glsr-hidden',
             'field_message' => 'glsr-field-error',
             'field_required' => 'glsr-required',
             'field_valid' => 'glsr-field-is-valid',

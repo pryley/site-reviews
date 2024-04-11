@@ -1,0 +1,28 @@
+.glsr-criteria {
+  display: flex;
+  flex-direction: column;
+}
+.glsr-criteria button.glsr-add-condition,
+.glsr-criteria button.glsr-remove-condition {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0;
+  min-width: 30px;
+  width: 30px;
+}
+.glsr-criteria-option,
+.glsr-criteria-condition {
+  align-items: center;
+  column-gap: 6px;
+  display: flex;
+  flex-direction: row;
+}
+.glsr-criteria-conditions {
+  display: flex;
+  flex-direction: column;
+  row-gap: 6px;
+}
+.glsr-criteria-conditions > :first-child {
+  margin-top: 6px;
+}

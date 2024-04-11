@@ -2,13 +2,25 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Defaults\FieldConditionDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Style;
 
+/**
+ * @property string $conditions
+ */
 class ReviewField extends Field
 {
+    public function __construct(array $args = [])
+    {
+        $field = wp_parse_args($args, [
+            'conditions' => 'always',
+        ]);
+        parent::__construct($field);
+    }
+
     public function buildField(): string
     {
         if ($this->is_raw) {
@@ -77,6 +89,22 @@ class ReviewField extends Field
         ]);
     }
 
+    public function conditions(): array
+    {
+        $conditions = explode('|', $this->conditions);
+        $criteria = array_shift($conditions);
+        $conditions = array_map(fn ($parts) => explode(':', $parts), $conditions);
+        $conditions = array_map(fn ($parts) => array_slice(array_pad($parts, 3, ''), 0, 3), $conditions);
+        $conditions = array_map(fn ($parts) => array_combine(['name', 'operator', 'value'], $parts), $conditions);
+        foreach ($conditions as &$condition) {
+            $condition = glsr(FieldConditionDefaults::class)->restrict($condition);
+        }
+        if (empty($conditions)) {
+            return [];
+        }
+        return compact('criteria', 'conditions');
+    }
+
     public function location(): string
     {
         return 'review';
@@ -125,6 +153,9 @@ class ReviewField extends Field
         ];
         if (!empty($this->errors)) {
             $classes[] = glsr(Style::class)->validation('field_error');
+        }
+        if ($this->is_hidden) {
+            $classes[] = glsr(Style::class)->validation('field_hidden');
         }
         if (!empty($this->required)) {
             $classes[] = glsr(Style::class)->validation('field_required');

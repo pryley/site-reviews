@@ -21,6 +21,7 @@ use GeminiLabs\SiteReviews\Modules\Html\FieldElements\UnknownElement;
  * @property string       $group
  * @property string       $id
  * @property bool         $is_custom
+ * @property bool         $is_hidden
  * @property bool         $is_raw
  * @property bool         $is_valid
  * @property string       $label
@@ -45,6 +46,7 @@ class Field extends \ArrayObject implements FieldContract
         $field = wp_parse_args($field, [
             'errors' => [],
             'is_custom' => false,  // @todo what does this do?
+            'is_hidden' => false, // visibly hidden based on field conditions
             'is_raw' => false, // Only build the field element, and use the builder instance..
             'is_valid' => false, // Does the field include required parameters (i.e. name, type)?
             'original_name' => $field['name'],

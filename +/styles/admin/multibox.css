@@ -1,0 +1,172 @@
+.glsr-search-multibox {
+  display: flex;
+  margin: 0;
+  position: relative;
+}
+.glsr-search-multibox.is-active .spinner {
+  visibility: visible;
+}
+.glsr-search-multibox.is-active .glsr-search-input::-webkit-search-cancel-button {
+  display: none !important;
+}
+.glsr-search-multibox .glsr-remove-button {
+  background: 0 0;
+  border: none;
+  cursor: pointer;
+  height: 20px;
+  left: 2px;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  text-indent: 0;
+  width: 20px;
+  &::before {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    background: 0 0;
+    border-radius: 50%;
+    color: #757575;
+    content: "\f153";
+    display: block;
+    font: 400 16px/20px dashicons;
+    height: 20px;
+    line-height: 1.28;
+    margin-left: 0;
+    speak: none;
+    text-align: center;
+    width: 20px;
+  }
+  &:hover::before,
+  &:focus::before {
+    color: #1e1e1e;
+  }
+}
+.glsr-search-multibox .glsr-search-input {
+  background: transparent;
+  border: none;
+  flex-grow: 1;
+  font-size: 14px;
+  height: 30px;
+  margin: 0;
+  width: auto;
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+.glsr-search-multibox .glsr-search-multibox-entries {
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #7e8993;
+  box-shadow: 0 0 0 transparent;
+  color: #32373c;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  position: relative;
+  width: 100%;
+  z-index: 2;
+}
+.glsr-search-multibox .glsr-search-multibox-entries:focus-within {
+  border-color: var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));
+  box-shadow: 0 0 0 1px var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));
+  outline: 2px solid transparent;
+  z-index: 20;
+}
+.glsr-search-multibox .glsr-search-multibox-entries:focus-within + .glsr-search-results {
+  border-color: var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));
+  box-shadow: 1px 1px 0 0 var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9)),
+             -1px 1px 0 0 var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));
+  z-index: 25;
+}
+.glsr-search-multibox .glsr-selected-entries {
+  column-gap: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 6px;
+}
+.glsr-search-multibox .glsr-selected-entries a {
+  color: inherit;
+  pointer-events: none;
+}
+.glsr-search-multibox .glsr-selected-entries > span {
+  align-items: center;
+  background: rgba(0,0,0,.07);
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: flex;
+  font-size: 12px;
+  font-style: normal;
+  height: 24px;
+  line-height: 1;
+  padding: 0 8px 0 24px;
+  position: relative;
+  margin: 6px 0 0;
+}
+.glsr-search-multibox .glsr-search-results {
+  max-height: calc(calc(10 * 32px) - 6px);
+  padding-top: 0;
+  top: calc(100% - 4px);
+  &::before {
+    content: '';
+    box-sizing: content-box;
+    display: block;
+    height: 4px;
+    position: relative;
+    width: 100%;
+  }
+}
+.glsr-search-multibox .glsr-search-results > span {
+  align-items: center;
+  display: flex;
+  font-size: 14px;
+  height: 32px;
+  line-height: 32px;
+  margin-left: 0;
+  padding: 0 8px;
+  &:hover {
+    background-color: inherit;
+    color: inherit;
+  }
+}
+.glsr-search-multibox .glsr-search-results > span.is-highlighted {
+  background-color: var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));
+  color: #fff;
+}
+.glsr-search-multibox .glsr-multibox-entry {
+  color: #444;
+  display: block;
+  margin-left: 20px;
+}
+.glsr-search-multibox .glsr-spinner {
+  top: auto;
+  bottom: 5px;
+  right: 7px;
+}
+
+@media screen and (max-width: 782px) {
+  .glsr-search-multibox .glsr-remove-button {
+    left: 6px;
+  }
+  .glsr-search-multibox .glsr-selected-entries {
+    column-gap: 8px;
+    padding: 0 8px;
+  }
+  .glsr-search-multibox .glsr-selected-entries > span {
+    margin: 8px 0 0;
+    font-size: 14px;
+    height: 32px;
+    padding: 8px 10px 8px 30px;
+  }
+  .glsr-search-multibox .glsr-search-input,
+  .glsr-search-multibox .glsr-search-results > span {
+    font-size: 16px;
+    height: 40px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+  .glsr-search-multibox .glsr-spinner {
+    bottom: 10px;
+    right: 10px;
+  }
+}

@@ -139,6 +139,10 @@
   line-height: 1.5;
   min-height: 30px;
 }
+.glsr-metabox-field input[type="number"].small-text {
+  padding: 0 6px;
+  max-width: 100px;
+}
 .glsr-metabox-field .glsr-input label,
 .glsr-metabox-field input:disabled,
 .glsr-metabox-field select:disabled,
@@ -150,6 +154,26 @@
   background-color: #eee !important;
   border-color: #7e8993 !important;
   opacity: 1;
+}
+
+@media screen and (max-width: 782px) {
+    .glsr-metabox-field input.glsr-input-value,
+    .glsr-metabox-field textarea {
+        font-size: 16px;
+        min-height: 40px;
+        padding: 3px 10px;
+    }
+    .glsr-metabox-field textarea {
+        font-size: 16px;
+        min-height: 40px;
+        padding: 6px 10px;
+    }
+    .glsr-metabox-field select {
+        font-size: 16px;
+        line-height: 1.625;
+        min-height: 40px;
+        padding: 6px 24px 6px 10px;
+    }
 }
 
 @media screen and (min-width: 641px) {
@@ -298,7 +322,11 @@
   content: ""
 }
 
-
+.glsr-metabox-field .glsr-number-field {
+    align-items: center;
+    display: flex;
+    gap: .5em;
+}
 
 .glsr-metabox-field [data-star-rating] > select {
   clip: rect(1px, 1px, 1px, 1px) !important; /*IE/Edge*/

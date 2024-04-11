@@ -12,6 +12,9 @@
 :--namespace .glsr-field {
     position: relative;
 }
+:--namespace .glsr-field.glsr-hidden {
+    display: none;
+}
 :--namespace .glsr-field:not(.glsr-field-is-invalid) .glsr-field-error,
 :--namespace .glsr-form-message:not(.glsr-form-failed):not(.glsr-form-success) {
     display: none;

@@ -35,6 +35,7 @@
     site-reviews/review/updated/post_ids                        (Review $review, array $assignedPostIds)
     site-reviews/review/updated/user_ids                        (Review $review, array $assignedUserIds)
     site-reviews/review/verified                                (int $reviewId)
+    site-reviews/review-form                                    (Contracts\FormContract $form)
     site-reviews/route/request                                  (Request $request, string $hook)
     site-reviews/route/get/<request_type>/<route_action>        (Request $request)
     site-reviews/route/<request_type>/<route_action>            (Request $request)

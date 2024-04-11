@@ -2,6 +2,7 @@
 
 import Button from '@/public/button.js';
 import Captcha from '@/public/captcha.js';
+import Conditions from '@/public/conditions.js';
 import StarRating from '@/public/starrating.js';
 import Validation from '@/public/validation.js';
 import { addRemoveClass, classListSelector } from '@/public/helpers.js';
@@ -11,6 +12,7 @@ class Form {
         this.button = Button(buttonEl);
         this.config = GLSR.validationconfig;
         this.events = {
+            reset: this._onReset.bind(this),
             submit: this._onSubmit.bind(this),
         };
         this.form = formEl;
@@ -18,6 +20,7 @@ class Form {
         this.stars = StarRating();
         this.strings = GLSR.validationstrings;
         this.captcha = new Captcha(this);
+        this.conditions = new Conditions(this);
         this.validation = new Validation(formEl);
         this.reviewsEl = document.getElementById(formEl.closest('.glsr')?.dataset?.reviews_id);
     }
@@ -66,8 +69,10 @@ class Form {
     }
 
     _destroyForm () {
+        this.form.removeEventListener('reset', this.events.reset)
         this.form.removeEventListener('submit', this.events.submit)
         this._resetErrors()
+        this.conditions.destroy()
         this.validation.destroy()
     }
 
@@ -100,8 +105,15 @@ class Form {
 
     _initForm () {
         this._destroyForm()
+        this.form.addEventListener('reset', this.events.reset)
         this.form.addEventListener('submit', this.events.submit)
+        this.conditions.init()
         this.validation.init()
+    }
+
+    _onReset (ev) {
+        this.conditions.destroy()
+        this.conditions.init()
     }
 
     _onSubmit (ev) {

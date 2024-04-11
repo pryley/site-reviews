@@ -22,7 +22,6 @@ class SettingField extends Field
         $field = wp_parse_args($args, [
             'default' => '',
             'depends_on' => [],
-            'is_hidden' => false, // the field is visibly hidden based on the values of its dependancies
             'tags' => [],
             'tooltip' => '',
         ]);

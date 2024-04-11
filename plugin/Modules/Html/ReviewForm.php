@@ -17,6 +17,7 @@ class ReviewForm extends Form
             $requiredKeys = glsr_get_option('forms.required', []);
         }
         parent::__construct(wp_parse_args($overrides, $args), $requiredKeys);
+        glsr()->action('review-form', $this);
     }
 
     public function config(): array
@@ -85,5 +86,23 @@ class ReviewForm extends Form
         $fields = array_filter($fields, fn ($field) => !in_array($field->original_name, $this->args->hide));
         $fields = glsr()->filterArray('review-form/fields/visible', $fields, $this);
         return $fields;
+    }
+
+    /**
+     * Normalize the field with the form's session data.
+     * Any normalization that is not specific to the form or session data
+     * should be done in the field itself.
+     */
+    protected function normalizeField(FieldContract $field): void
+    {
+        parent::normalizeField($field);
+        $this->normalizeFieldConditions($field);
+    }
+
+    protected function normalizeFieldConditions(FieldContract $field): void
+    {
+        if ($conditions = $field->conditions()) {
+            $field['data-conditions'] = wp_json_encode($conditions);
+        }
     }
 }
