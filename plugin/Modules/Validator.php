@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidationRules;
 
@@ -202,9 +203,7 @@ class Validator
      */
     protected function getValue(string $attribute)
     {
-        if (isset($this->data[$attribute])) {
-            return $this->data[$attribute];
-        }
+        return $this->data[$attribute] ?? '';
     }
 
     /**
@@ -245,9 +244,8 @@ class Validator
     protected function setRules(array $rules): void
     {
         foreach ($rules as $key => $rule) {
-            $validationRules = is_string($rule)
-                ? explode('|', $rule)
-                : $rule;
+            $validationRules = is_string($rule) ? explode('|', $rule) : $rule;
+            $validationRules = array_filter(Arr::consolidate($validationRules));
             // unset rules if the attribute is not required and the value is an empty string
             if (empty(array_intersect(['accepted', 'required'], $validationRules)) && '' === $this->getValue($key)) {
                 $validationRules = [];

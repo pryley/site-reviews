@@ -1,30 +1,35 @@
 import { classListSelector, parseJson } from '@/public/helpers.js';
 
-// @todo how do we deal with multi fields when adding observes and triggers?
+const checks = {
+    contains: (value, conditionVal) => {
+        return value.includes(conditionVal)
+    },
+    equals: (value, conditionVal) => {
+        if (Array.isArray(value)) {
+            let values = conditionVal.split(/\s*(?:,|$)\s*/);
+            return value.sort().toString() === values.sort().toString()
+        }
+        if (isNumber(conditionVal)) {
+            return intval(value) === +conditionVal
+        }
+        return value === conditionVal
+    },
+    greater: (value, conditionVal) => {
+        return isNumber(conditionVal) ? intval(value) > +conditionVal : false
+    },
+    less: (value, conditionVal) => {
+        return isNumber(conditionVal) ? intval(value) < +conditionVal : false
+    },
+    not: (value, conditionVal) => {
+        return !checks.equals(value, conditionVal)
+    },
+}
+
+const fieldtype = (el) => String(el.getAttribute('type') || el.nodeName).toLowerCase();
 
 const intval = (value) => isNaN(value) ? value.length : +value;
 
-const checks = {
-    contains: (condition) => {
-        const value = new String(condition.el.value);
-        return value.includes(condition.value);
-    },
-    equals: (condition) => {
-        if (isNaN(condition.value)) {
-            return condition.el.value === condition.value
-        }
-        return intval(condition.el.value) === intval(condition.value)
-    },
-    greater: (condition) => {
-        return intval(condition.el.value) > intval(condition.value);
-    },
-    less: (condition) => {
-        return intval(condition.el.value) < intval(condition.value);
-    },
-    not: (condition) => {
-        return !checks.equals(condition)
-    },
-}
+const isNumber = (value) => !isNaN(parseInt(value));
 
 class Conditions {
     constructor (Form) {
@@ -38,8 +43,8 @@ class Conditions {
         this.eventListeners('add')
         this.elements.forEach(el => (el.conditions = {
             criteria: 'always',
-            observes: [],
-            triggers: [],
+            observes: [], // verb
+            triggers: [], // verb
         }));
         this._setConditionObserves()
         this._setConditionTriggers()
@@ -55,8 +60,7 @@ class Conditions {
     }
 
     eventName (el) {
-        const type = el.getAttribute('type') || el.nodeName;
-        return !!~['radio', 'checkbox', 'SELECT'].indexOf(type) ? 'change' : 'input';
+        return ['radio', 'checkbox', 'select'].includes(fieldtype(el)) ? 'change' : 'input';
     }
 
     onChange (ev) {
@@ -84,35 +88,50 @@ class Conditions {
 
     test (condition) {
         if (checks.hasOwnProperty(condition.operator)) {
-            return checks[condition.operator](condition)
+            return checks[condition.operator](this.value(condition.el), condition.value)
         }
         return true
     }
 
+    value (el) {
+        const name = el.getAttribute('name');
+        const type = fieldtype(el);
+        if (!['checkbox', 'radio', 'select'].includes(type)) {
+            return new String(el.value)
+        }
+        let elements = this.Form.form.elements[name];
+        if ('radio' === type) {
+            return elements.value
+        }
+        return Array
+            .from(elements.length ? elements : [elements])
+            .filter(el => el['checkbox' === type ? 'checked' : 'selected'])
+            .map(el => el.value);
+    }
+
     _setConditionObserves () {
-        this.elements.filter(el => el.dataset.conditions)
-            .forEach(el => {
-                let [err, data] = parseJson(el.dataset.conditions);
-                if (null !== err || !data?.conditions?.length) return;
-                data.conditions.forEach(field => {
-                    const observedEl = this.elements.filter(el => el.closest(`[data-field="${field.name}"]`)).shift();
-                    if (!observedEl) return;
-                    // @todo check for existing observedEl...
-                    el.conditions.observes.push({ el: observedEl, ...field });
-                })
-                if (el.conditions.observes.length) {
-                    el.conditions.criteria = data.criteria;
-                }
+        this.elements.filter(el => el.dataset.conditions).forEach(el => {
+            let [err, data] = parseJson(el.dataset.conditions);
+            if (null !== err || !data?.conditions?.length) return;
+            data.conditions.forEach(field => {
+                const observedEl = this.elements.filter(el => el.closest(`[data-field="${field.name}"]`)).shift();
+                if (!observedEl) return;
+                // @todo check for existing observedEl?
+                el.conditions.observes.push({ el: observedEl, ...field });
             })
+            if (el.conditions.observes.length) {
+                el.conditions.criteria = data.criteria;
+            }
+        })
     }
 
     _setConditionTriggers () {
-        this.elements.forEach(el => { // rating
-            this.elements.filter(el => el.dataset.conditions).forEach(triggeredEl => { // xxx
-                triggeredEl.conditions.observes.forEach(field => {
-                    if (field.el !== el) return;
-                    // @todo check for existing triggerEl...
-                    el.conditions.triggers.push(triggeredEl)
+        this.elements.forEach(el => {
+            this.elements.filter(el => el.dataset.conditions).forEach(triggerEl => {
+                triggerEl.conditions.observes.forEach(field => {
+                    if (field.el.getAttribute('name') !== el.getAttribute('name')) return;
+                    // @todo check for existing triggerEl?
+                    el.conditions.triggers.push(triggerEl)
                 })
             })
         })
