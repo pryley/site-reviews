@@ -129,7 +129,7 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * this is triggered by $this->update() on wp_loaded.
+     * This is triggered by $this->update() on wp_loaded.
      *
      * @param PluginContract|string $addon
      */

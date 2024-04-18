@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Contracts\FieldContract;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Modules\Encryption;
 
 class ReviewForm extends Form
 {
@@ -59,7 +60,7 @@ class ReviewForm extends Form
             'assigned_posts' => $this->args->assigned_posts,
             'assigned_terms' => $this->args->assigned_terms,
             'assigned_users' => $this->args->assigned_users,
-            'excluded' => $this->args->hide,
+            'excluded' => glsr(Encryption::class)->encrypt($this->args->cast('hide', 'string')),
             'form_id' => $this->args->id,
             'terms_exist' => Cast::toInt(!in_array('terms', $this->args->cast('hide', 'array'))),
         ];

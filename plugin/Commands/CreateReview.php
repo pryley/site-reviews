@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Avatar;
+use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Validator\CustomValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\DefaultValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\DuplicateValidator;
@@ -70,12 +71,19 @@ class CreateReview extends AbstractCommand
         }
     }
 
+    /**
+     * This method is used to validate the request instead of the "validate" method
+     * when creating a review with the "glsr_create_review" function.
+     */
     public function isRequestValid(): bool
     {
-        $options = glsr(DefaultsManager::class)->pluck('settings.forms.required.options');
         $request = clone $this->request;
+        $excluded = array_keys(array_diff_key(
+            glsr(DefaultsManager::class)->pluck('settings.forms.required.options'),
+            $this->request->toArray(),
+        ));
         $request->merge([
-            'excluded' => array_keys(array_diff_key($options, $this->request->toArray())),
+            'excluded' => glsr(Encryption::class)->encrypt(implode(',', $excluded)),
         ]);
         $validator = glsr(ValidateForm::class)->validate($request, [ // order is intentional
             DefaultValidator::class,

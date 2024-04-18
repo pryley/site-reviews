@@ -3,10 +3,17 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Encryption;
 
 class Request extends Arguments
 {
+    public function decrypt(string $key): string
+    {
+        $value = glsr(Encryption::class)->decrypt($this->cast($key, 'string'));
+        return Cast::toString($value);
+    }
+
     /**
      * @param mixed $key
      * @param mixed $fallback

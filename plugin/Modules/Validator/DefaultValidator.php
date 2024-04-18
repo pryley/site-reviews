@@ -40,8 +40,9 @@ class DefaultValidator extends ValidatorAbstract
         $customRules = array_diff_key($defaultRules,
             glsr(DefaultsManager::class)->pluck('settings.forms.required.options')
         );
-        $excluded = Arr::convertFromString($this->request->cast('excluded', 'string')); // these fields were ommited with the hide option
         $rules = array_merge($defaultRules, $customRules);
+        // exclude fields omitted with the hide option
+        $excluded = Cast::toArray($this->request->decrypt('excluded'));
         $rules = array_diff_key($rules, array_flip($excluded));
         return glsr()->filterArray('validation/rules/normalized', $rules, $this->request, $defaultRules);
     }
