@@ -15,7 +15,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.delete_data_on_uninstall'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.delete_data_on_uninstall">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-general-delete_data_on_uninstall">Delete data on uninstall</label>'.
                 '</th>'.
@@ -34,7 +34,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.style'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.style">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-general-style">Plugin Style</label>'.
                 '</th>'.
@@ -71,7 +71,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.request_verification'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.request_verification">'.
                 '<th scope="row">'.
                     '<label>Request Verification</label>'.
                 '</th>'.
@@ -99,7 +99,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.request_verification_message'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.request_verification_message">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-general-request_verification_message">'.
                         'Verification Template'.
@@ -141,7 +141,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.require.approval'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.require.approval">'.
                 '<th scope="row">'.
                     '<label>'.
                         'Require Approval'.
@@ -171,7 +171,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.require.approval_for'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.require.approval_for">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-general-require-approval_for">'.
                         'Require Approval For'.
@@ -198,7 +198,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.require.login'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.require.login">'.
                 '<th scope="row">'.
                     '<label>Require Login</label>'.
                 '</th>'.
@@ -226,7 +226,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.require.login_url'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.require.login_url">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-general-require-login_url">Custom Login URL</label>'.
                 '</th>'.
@@ -248,7 +248,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.require.register'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.require.register">'.
                 '<th scope="row">'.
                     '<label>Show Registration Link</label>'.
                 '</th>'.
@@ -276,7 +276,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.require.register_url'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.require.register_url">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-general-require-register_url">Custom Registration URL</label>'.
                 '</th>'.
@@ -298,7 +298,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.multilingual'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.multilingual">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-general-multilingual">Multilingual</label>'.
                 '</th>'.
@@ -318,7 +318,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.notifications'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.notifications">'.
                 '<th scope="row">'.
                     '<label>Notifications</label>'.
                 '</th>'.
@@ -358,7 +358,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.notification_discord'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.notification_discord">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-general-notification_discord">'.
                         'Discord Webhook URL'.
@@ -380,7 +380,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.notification_slack'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.notification_slack">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-general-notification_slack">'.
                         'Slack Webhook URL'.
@@ -402,7 +402,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.notification_from'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.notification_from">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-general-notification_from">Send Emails From</label>'.
                 '</th>'.
@@ -424,7 +424,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.notification_email'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.notification_email">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-general-notification_email">Send Emails To</label>'.
                 '</th>'.
@@ -445,7 +445,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.general.notification_message'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.general.notification_message">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-general-notification_message">'.
                         'Notification Template'.
@@ -489,7 +489,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.date.format'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.date.format">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-reviews-date-format">Date Format</label>'.
                 '</th>'.
@@ -508,7 +508,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.date.custom'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.date.custom">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-reviews-date-custom">Custom Date Format</label>'.
                 '</th>'.
@@ -523,7 +523,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.name.format'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.name.format">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-reviews-name-format">Name Format</label>'.
                 '</th>'.
@@ -544,7 +544,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.name.initial'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.name.initial">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-reviews-name-initial">Initial Format</label>'.
                 '</th>'.
@@ -563,7 +563,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.assignment'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.assignment">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-reviews-assignment">Review Assignment</label>'.
                 '</th>'.
@@ -582,7 +582,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.assigned_links'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.assigned_links">'.
                 '<th scope="row">'.
                     '<label>Enable Assigned Links</label>'.
                 '</th>'.
@@ -610,7 +610,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.avatars'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.avatars">'.
                 '<th scope="row">'.
                     '<label>Enable Avatars</label>'.
                 '</th>'.
@@ -638,7 +638,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.avatars_fallback'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.avatars_fallback">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-reviews-avatars_fallback">Fallback Avatar</label>'.
                 '</th>'.
@@ -664,7 +664,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.avatars_fallback_url'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.avatars_fallback_url">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-reviews-avatars_fallback_url">Fallback Avatar URL</label>'.
                 '</th>'.
@@ -679,7 +679,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.avatars_regenerate'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.avatars_regenerate">'.
                 '<th scope="row">'.
                     '<label>Regenerate Avatars</label>'.
                 '</th>'.
@@ -707,7 +707,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.avatars_size'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.avatars_size">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-reviews-avatars_size">Avatar Size</label>'.
                 '</th>'.
@@ -722,7 +722,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.excerpts'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.excerpts">'.
                 '<th scope="row">'.
                     '<label>Enable Excerpts</label>'.
                 '</th>'.
@@ -750,7 +750,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.excerpts_action'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.excerpts_action">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-reviews-excerpts_action">Excerpt Action</label>'.
                 '</th>'.
@@ -768,7 +768,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.excerpts_length'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.excerpts_length">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-reviews-excerpts_length">Excerpt Length</label>'.
                 '</th>'.
@@ -783,7 +783,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.fallback'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.fallback">'.
                 '<th scope="row">'.
                     '<label>Enable Fallback Text</label>'.
                 '</th>'.
@@ -812,7 +812,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.reviews.pagination.url_parameter'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.reviews.pagination.url_parameter">'.
                 '<th scope="row">'.
                     '<label>Enable Paginated URLs</label>'.
                 '</th>'.
@@ -841,7 +841,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.integration.plugin'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.integration.plugin">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-integration-plugin">Integrate with plugin</label>'.
                 '</th>'.
@@ -862,7 +862,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.type.default'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.type.default">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-type-default">Default Schema Type</label>'.
                 '</th>'.
@@ -881,7 +881,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.type.custom'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.type.custom">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-type-custom">Custom Schema Type</label>'.
                 '</th>'.
@@ -896,7 +896,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.name.default'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.name.default">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-name-default">Default Name</label>'.
                 '</th>'.
@@ -914,7 +914,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.name.custom'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.name.custom">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-name-custom">Custom Name</label>'.
                 '</th>'.
@@ -929,7 +929,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.description.default'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.description.default">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-description-default">Default Description</label>'.
                 '</th>'.
@@ -947,7 +947,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.description.custom'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.description.custom">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-description-custom">Custom Description</label>'.
                 '</th>'.
@@ -962,7 +962,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.url.default'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.url.default">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-url-default">Default URL</label>'.
                 '</th>'.
@@ -980,7 +980,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.url.custom'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.url.custom">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-url-custom">Custom URL</label>'.
                 '</th>'.
@@ -995,7 +995,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.image.default'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.image.default">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-image-default">Default Image</label>'.
                 '</th>'.
@@ -1013,7 +1013,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.image.custom'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.image.custom">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-image-custom">Custom Image URL</label>'.
                 '</th>'.
@@ -1028,7 +1028,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.address'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.address">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-address">Address</label>'.
                 '</th>'.
@@ -1043,7 +1043,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.telephone'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.telephone">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-telephone">Telephone Number</label>'.
                 '</th>'.
@@ -1058,7 +1058,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.pricerange'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.pricerange">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-pricerange">Price Range</label>'.
                 '</th>'.
@@ -1073,7 +1073,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.offertype'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.offertype">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-offertype">Offer Type</label>'.
                 '</th>'.
@@ -1091,7 +1091,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.price'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.price">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-price">Price</label>'.
                 '</th>'.
@@ -1106,7 +1106,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.lowprice'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.lowprice">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-lowprice">Low Price</label>'.
                 '</th>'.
@@ -1121,7 +1121,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.highprice'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.highprice">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-highprice">High Price</label>'.
                 '</th>'.
@@ -1136,7 +1136,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.schema.pricecurrency'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.schema.pricecurrency">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-schema-pricecurrency">Price Currency</label>'.
                 '</th>'.
@@ -1151,7 +1151,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.required'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.required">'.
                 '<th scope="row">'.
                     '<label>Required Fields</label>'.
                 '</th>'.
@@ -1195,7 +1195,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.limit'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.limit">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-limit">Limit Reviews</label>'.
                 '</th>'.
@@ -1215,7 +1215,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.limit_time'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.limit_time">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-limit_time">Limit Reviews For</label>'.
                 '</th>'.
@@ -1230,7 +1230,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.limit_assignments'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.limit_assignments">'.
                 '<th scope="row">'.
                     '<label>Restrict Limits To</label>'.
                 '</th>'.
@@ -1262,7 +1262,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.limit_whitelist.email'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.limit_whitelist.email">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-limit_whitelist-email">Email Whitelist</label>'.
                 '</th>'.
@@ -1277,7 +1277,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.limit_whitelist.ip_address'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.limit_whitelist.ip_address">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-limit_whitelist-ip_address">IP Address Whitelist</label>'.
                 '</th>'.
@@ -1292,7 +1292,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.limit_whitelist.username'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.limit_whitelist.username">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-limit_whitelist-username">Username Whitelist</label>'.
                 '</th>'.
@@ -1307,7 +1307,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.captcha.integration'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.captcha.integration">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-captcha-integration">CAPTCHA</label>'.
                 '</th>'.
@@ -1329,7 +1329,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.friendlycaptcha.key'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.friendlycaptcha.key">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-friendlycaptcha-key">Site Key</label>'.
                 '</th>'.
@@ -1344,7 +1344,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.friendlycaptcha.secret'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.friendlycaptcha.secret">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-friendlycaptcha-secret">API Key</label>'.
                 '</th>'.
@@ -1359,7 +1359,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.hcaptcha.key'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.hcaptcha.key">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-hcaptcha-key">Site Key</label>'.
                 '</th>'.
@@ -1374,7 +1374,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.hcaptcha.secret'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.hcaptcha.secret">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-hcaptcha-secret">Secret Key</label>'.
                 '</th>'.
@@ -1389,7 +1389,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.recaptcha.key'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.recaptcha.key">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-recaptcha-key">Site Key</label>'.
                 '</th>'.
@@ -1404,7 +1404,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.recaptcha.secret'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.recaptcha.secret">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-recaptcha-secret">Secret Key</label>'.
                 '</th>'.
@@ -1419,7 +1419,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.recaptcha_v3.key'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.recaptcha_v3.key">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-recaptcha_v3-key">Site Key</label>'.
                 '</th>'.
@@ -1434,7 +1434,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.recaptcha_v3.secret'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.recaptcha_v3.secret">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-recaptcha_v3-secret">Secret Key</label>'.
                 '</th>'.
@@ -1449,7 +1449,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.recaptcha_v3.threshold'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.recaptcha_v3.threshold">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-recaptcha_v3-threshold">Score Threshold</label>'.
                 '</th>'.
@@ -1465,7 +1465,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.turnstile.key'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.turnstile.key">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-turnstile-key">Site Key</label>'.
                 '</th>'.
@@ -1480,7 +1480,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.turnstile.secret'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.turnstile.secret">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-turnstile-secret">Secret Key</label>'.
                 '</th>'.
@@ -1495,7 +1495,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.captcha.position'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.captcha.position">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-captcha-position">CAPTCHA Badge</label>'.
                 '</th>'.
@@ -1514,7 +1514,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.captcha.theme'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.captcha.theme">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-captcha-theme">CAPTCHA Theme</label>'.
                 '</th>'.
@@ -1532,7 +1532,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.captcha.usage'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.captcha.usage">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-captcha-usage">CAPTCHA Usage</label>'.
                 '</th>'.
@@ -1550,7 +1550,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.akismet'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.akismet">'.
                 '<th scope="row">'.
                     '<label>Enable Akismet</label>'.
                 '</th>'.
@@ -1578,7 +1578,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.prevent_duplicates'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.prevent_duplicates">'.
                 '<th scope="row">'.
                     '<label>Prevent Duplicates</label>'.
                 '</th>'.
@@ -1606,7 +1606,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.blacklist.integration'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.blacklist.integration">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-blacklist-integration">Blacklist</label>'.
                 '</th>'.
@@ -1624,7 +1624,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.blacklist.entries'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.blacklist.entries">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-blacklist-entries">Review Blacklist</label>'.
                 '</th>'.
@@ -1639,7 +1639,7 @@ class SettingFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             $this->buildSetting('settings.forms.blacklist.action'),
-            '<tr class="glsr-setting-field">'.
+            '<tr class="glsr-setting-field" data-field="settings.forms.blacklist.action">'.
                 '<th scope="row">'.
                     '<label for="site_reviews_v7-settings-forms-blacklist-action">Blacklist Action</label>'.
                 '</th>'.
