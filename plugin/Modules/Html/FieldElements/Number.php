@@ -15,6 +15,13 @@ class Number extends AbstractFieldElement
         ]);
     }
 
+    public function required(): array
+    {
+        return [
+            'validation' => 'number',
+        ];
+    }
+
     public function tag(): string
     {
         return 'input';

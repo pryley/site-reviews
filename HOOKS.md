@@ -139,7 +139,7 @@
     site-reviews/gamipress/posts/post_types                     (array $postTypes): array
     site-reviews/interpolate/<template_path>                    (array $context, string $template, array $data): array
     site-reviews/is-local-server                                (bool $bool): bool
-    site-reviews/metabox-form/fields                            (array $fields, Contracts\FormContract $form, Review $review): array
+    site-reviews/metabox-form/fields                            (array $fields, Contracts\FormContract $form): array
     site-reviews/metabox-form/fields/all                        (Contracts\FieldContract[] $fields, Contracts\FormContract $form): array
     site-reviews/metabox-form/fields/hidden                     (Contracts\FieldContract[] $fields, Contracts\FormContract $form): array
     site-reviews/metabox-form/fields/order                      (array $order): array
@@ -259,7 +259,6 @@
     site-reviews/validate/honeypot                              (bool $isValid, Request $request): bool
     site-reviews/validate/review-limits                         (bool $isValid, Reviews $reviews, Request $request, string $key): bool
     site-reviews/validation/rules                               (array $rules, Request $request): array
-    site-reviews/validation/rules/normalized                    (array $rules, Request $request, array $defaults): array
     site-reviews/validation/type/<attribute>                    (string $type): string
     site-reviews/validators                                     (array $validatorClasses): array
     site-reviews/verification/enabled                           (bool $bool): bool

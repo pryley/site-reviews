@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Contracts\FieldContract;
 use GeminiLabs\SiteReviews\Contracts\FieldElementContract;
 use GeminiLabs\SiteReviews\Defaults\FieldDefaults;
+use GeminiLabs\SiteReviews\Defaults\FieldRuleDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\FieldElements\UnknownElement;
 
@@ -34,6 +35,7 @@ use GeminiLabs\SiteReviews\Modules\Html\FieldElements\UnknownElement;
  * @property string       $tag
  * @property string       $text
  * @property string       $type
+ * @property string       $validation
  * @property string|array $value
  */
 class Field extends \ArrayObject implements FieldContract
@@ -171,6 +173,18 @@ class Field extends \ArrayObject implements FieldContract
     public function render(): void
     {
         echo $this->build();
+    }
+
+    public function rules(): array
+    {
+        $rules = explode('|', $this->validation);
+        $rules = array_filter($rules);
+        $rules = array_map(fn ($val) => explode(':', $val), $rules);
+        $rules = array_map(fn ($val) => array_slice(array_pad($val, 2, ''), 0, 2), $rules);
+        $rules = array_map(fn ($val) => array_combine(['rule', 'parameters'], $val), $rules);
+        $rules = array_map(fn ($val) => glsr(FieldRuleDefaults::class)->restrict($val), $rules);
+        $rules = array_filter($rules, fn ($val) => !empty($val['rule']));
+        return $rules;
     }
 
     public function tag(): string

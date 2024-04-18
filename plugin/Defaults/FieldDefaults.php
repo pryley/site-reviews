@@ -30,6 +30,7 @@ class FieldDefaults extends DefaultsAbstract
         'name' => 'attr',
         'options' => 'array-consolidate',
         'type' => 'attr',
+        'validation' => 'text',
     ];
 
     protected function defaults(): array
@@ -50,6 +51,7 @@ class FieldDefaults extends DefaultsAbstract
             'text' => '', // this value could be a HTML string
             'type' => '',
             'value' => '', // this value could be either an array or string
+            'validation' => '',
         ];
     }
 }

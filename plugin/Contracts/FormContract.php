@@ -29,7 +29,7 @@ interface FormContract
      */
     public function hidden(): array;
 
-    public function loadSession(): void;
+    public function loadSession(array $values): void;
 
     public function session(): Arguments;
 

@@ -20,7 +20,10 @@ class SettingForm extends Form
     public function __construct(array $groups = [])
     {
         $this->groups = $groups;
-        parent::__construct();
+        $values = glsr(OptionManager::class)->all();
+        $values = array_intersect_key($values, ['settings' => []]);
+        $values = Arr::flatten($values);
+        parent::__construct([], $values);
         $this->normalizeDependencies();
     }
 
@@ -49,16 +52,6 @@ class SettingForm extends Form
         $field = new SettingField($args);
         $this->normalizeField($field);
         return $field;
-    }
-
-    public function loadSession(): void
-    {
-        $options = glsr(OptionManager::class)->all();
-        $options = array_intersect_key($options, ['settings' => []]);
-        $this->session = glsr()->args([
-            'errors' => [],
-            'values' => Arr::flatten($options),
-        ]);
     }
 
     protected function buildFields(): string
@@ -116,7 +109,6 @@ class SettingForm extends Form
         $this->normalizeFieldErrors($field);
         $this->normalizeFieldId($field);
         $this->normalizeFieldIsHidden($field);
-        $this->normalizeFieldRequired($field);
         $this->normalizeFieldValue($field);
     }
 

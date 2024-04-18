@@ -3,21 +3,19 @@
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Contracts\FieldContract;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Encryption;
 
 class ReviewForm extends Form
 {
-    public function __construct(array $args = [], array $requiredKeys = [])
+    public function __construct(array $args = [], array $values = [])
     {
         $overrides = [
             'button_text' => __('Submit Review', 'site-reviews'),
             'class' => 'glsr-review-form',
         ];
-        if (empty($requiredKeys)) {
-            $requiredKeys = glsr_get_option('forms.required', []);
-        }
-        parent::__construct(wp_parse_args($overrides, $args), $requiredKeys);
+        parent::__construct(wp_parse_args($overrides, $args), $values);
         glsr()->action('review-form', $this);
     }
 
@@ -33,6 +31,15 @@ class ReviewForm extends Form
         $field = new ReviewField(wp_parse_args($args, compact('name')));
         $this->normalizeField($field);
         return $field;
+    }
+
+    public function loadSession(array $values): void
+    {
+        $this->session = glsr()->args([
+            'errors' => Arr::consolidate(glsr()->sessionGet('form_errors', [])),
+            'message' => Cast::toString(glsr()->sessionGet('form_message', '')),
+            'values' => $values ?: Arr::consolidate(glsr()->sessionGet('form_values', [])),
+        ]);
     }
 
     /**
@@ -65,13 +72,13 @@ class ReviewForm extends Form
             'terms_exist' => Cast::toInt(!in_array('terms', $this->args->cast('hide', 'array'))),
         ];
         $fields = [];
-        foreach ($config as $key => $value) {
-            $field = $this->field($key, [
+        foreach ($config as $name => $value) {
+            $field = $this->field($name, [
                 'type' => 'hidden',
                 'value' => $value,
             ]);
             if ($field->isValid()) {
-                $fields[$key] = $field;
+                $fields[$name] = $field;
             }
         }
         $fields = glsr()->filterArray('review-form/fields/hidden', $fields, $this);
@@ -84,20 +91,9 @@ class ReviewForm extends Form
     protected function fieldsVisible(): array
     {
         $fields = parent::fieldsVisible();
-        $fields = array_filter($fields, fn ($field) => !in_array($field->original_name, $this->args->hide));
+        $fields = array_filter($fields, fn ($field) => !in_array($field->original_name, $this->args->cast('hide', 'array')));
         $fields = glsr()->filterArray('review-form/fields/visible', $fields, $this);
         return $fields;
-    }
-
-    /**
-     * Normalize the field with the form's session data.
-     * Any normalization that is not specific to the form or session data
-     * should be done in the field itself.
-     */
-    protected function normalizeField(FieldContract $field): void
-    {
-        parent::normalizeField($field);
-        $this->normalizeFieldConditions($field);
     }
 
     protected function normalizeFieldConditions(FieldContract $field): void

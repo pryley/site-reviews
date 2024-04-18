@@ -2,12 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\FieldElements;
 
-class Email extends Text
+class Tel extends Text
 {
     public function required(): array
     {
         return [
-            'validation' => 'email',
+            'validation' => 'tel',
         ];
     }
 }

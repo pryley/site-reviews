@@ -13,14 +13,6 @@ use GeminiLabs\SiteReviews\Modules\Style;
  */
 class ReviewField extends Field
 {
-    public function __construct(array $args = [])
-    {
-        $field = wp_parse_args($args, [
-            'conditions' => 'always',
-        ]);
-        parent::__construct($field);
-    }
-
     public function buildField(): string
     {
         if ($this->is_raw) {
@@ -177,5 +169,34 @@ class ReviewField extends Field
         ];
         $classes = implode(' ', $classes);
         return glsr(Sanitizer::class)->sanitizeAttrClass($classes);
+    }
+
+    protected function normalize(): void
+    {
+        parent::normalize();
+        $this->normalizeRequired(); // do this before normalizing validation
+        $this->normalizeValidation();
+    }
+
+    protected function normalizeRequired(): void
+    {
+        if ($this->is_custom) {
+            return; // don't modify the required attribute in custom fields
+        }
+        if (!in_array($this->original_name, glsr_get_option('forms.required', [], 'array'))) {
+            return;
+        }
+        $this->required = true;
+    }
+
+    protected function normalizeValidation(): void
+    {
+        $rules = explode('|', $this->validation);
+        $rules = array_filter(array_diff($rules, ['accepted', 'required']));
+        if ($this->required) {
+            $rule = 'terms' === $this->original_name ? 'accepted' : 'required';
+            array_unshift($rules, $rule);
+        }
+        $this->validation = implode('|', $rules);
     }
 }

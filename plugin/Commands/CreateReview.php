@@ -94,6 +94,7 @@ class CreateReview extends AbstractCommand
             glsr_log()->warning($validator->errors);
             return false;
         }
+        glsr()->sessionClear();
         return true;
     }
 

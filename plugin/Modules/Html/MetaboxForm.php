@@ -7,12 +7,15 @@ use GeminiLabs\SiteReviews\Review;
 
 class MetaboxForm extends Form
 {
-    protected Review $review;
+    public Review $review;
 
     public function __construct(Review $review, array $args = [])
     {
         $this->review = $review;
-        parent::__construct($args);
+        parent::__construct($args, array_merge(
+            $review->toArray(),
+            $review->custom()->toArray(),
+        ));
     }
 
     /**
@@ -26,14 +29,18 @@ class MetaboxForm extends Form
     public function config(): array
     {
         $config = glsr()->config('forms/metabox-fields');
-        $config = glsr()->filterArray('metabox-form/fields', $config, $this, $this->review); // @todo update hook in addons
+        $config = glsr()->filterArray('metabox-form/fields', $config, $this);
         if (2 > count(glsr()->retrieveAs('array', 'review_types'))) {
             unset($config['type']);
         }
         foreach ($config as $key => $values) {
+            $value = $this->session->values[$key] ?? '';
+            if (is_array($value)) {
+                $value = wp_json_encode($value);
+            }
             $config[$key] = wp_parse_args($values, [
                 'class' => 'glsr-input-value',
-                'data-value' => $this->review->get($key),
+                'data-value' => esc_js($value),
             ]);
         }
         return $config;
@@ -44,14 +51,6 @@ class MetaboxForm extends Form
         $field = new MetaboxField(wp_parse_args($args, compact('name')));
         $this->normalizeField($field);
         return $field;
-    }
-
-    public function loadSession(): void
-    {
-        $this->session = glsr()->args([
-            'errors' => [],
-            'values' => $this->review->toArray(),
-        ]);
     }
 
     protected function buildFields(): string

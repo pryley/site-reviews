@@ -16,10 +16,9 @@ use GeminiLabs\SiteReviews\Modules\Style;
 class Form extends \ArrayObject implements FormContract
 {
     protected Arguments $args;
-    protected array $required;
     protected Arguments $session;
 
-    public function __construct(array $args = [], array $requiredKeys = [])
+    public function __construct(array $args = [], array $values = [])
     {
         $defaults = [
             'button_text' => __('Submit Form', 'site-reviews'),
@@ -27,8 +26,7 @@ class Form extends \ArrayObject implements FormContract
             'id' => glsr(Sanitizer::class)->sanitizeIdHash(''),
         ];
         $this->args = glsr()->args(wp_parse_args($args, $defaults));
-        $this->required = $requiredKeys;
-        $this->loadSession();
+        $this->loadSession($values);
         parent::__construct($this->fieldsAll(), \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
     }
 
@@ -93,12 +91,12 @@ class Form extends \ArrayObject implements FormContract
         return $fields;
     }
 
-    public function loadSession(): void
+    public function loadSession(array $values): void
     {
         $this->session = glsr()->args([
-            'errors' => Arr::consolidate(glsr()->sessionPluck('form_errors', [])),
-            'message' => Cast::toString(glsr()->sessionPluck('form_message', '')),
-            'values' => Arr::consolidate(glsr()->sessionPluck('form_values', [])),
+            'errors' => [],
+            'message' => '',
+            'values' => $values,
         ]);
     }
 
@@ -237,10 +235,10 @@ class Form extends \ArrayObject implements FormContract
     protected function fieldsVisible(): array
     {
         $fields = [];
-        foreach ($this->config() as $key => $args) {
-            $field = $this->field($key, $args);
+        foreach ($this->config() as $name => $args) {
+            $field = $this->field($name, $args);
             if ($field->isValid()) {
-                $fields[$key] = $field;
+                $fields[$name] = $field;
             }
         }
         return $fields;
@@ -256,7 +254,6 @@ class Form extends \ArrayObject implements FormContract
         $this->normalizeFieldChecked($field);
         $this->normalizeFieldErrors($field);
         $this->normalizeFieldId($field);
-        $this->normalizeFieldRequired($field);
         $this->normalizeFieldValue($field);
     }
 
@@ -269,7 +266,7 @@ class Form extends \ArrayObject implements FormContract
             return;
         }
         if (!is_scalar($field->value)) {
-            return; // @todo make this work with multiple values.
+            return;
         }
         $value = Cast::toString($this->session->values[$field->original_name] ?? '');
         if (empty($value)) {
@@ -307,28 +304,15 @@ class Form extends \ArrayObject implements FormContract
     }
 
     /**
-     * Set the required attribute of the field from the form's required keys.
-     */
-    protected function normalizeFieldRequired(FieldContract $field): void
-    {
-        if ($field->is_custom) {
-            return; // don't modify the required attribute in custom fields
-        }
-        if (!in_array($field->original_name, $this->required)) {
-            return;
-        }
-        $field->required = true;
-    }
-
-    /**
      * Set the value attribute of the field from the session.
      */
     protected function normalizeFieldValue(FieldContract $field): void
     {
         if ($field->isChoiceField()) {
-            return;
+            $value = Cast::toArray($this->session->values[$field->original_name] ?? []);
+        } else {
+            $value = Cast::toString($this->session->values[$field->original_name] ?? '');
         }
-        $value = Cast::toString($this->session->values[$field->original_name] ?? '');
         if (empty($value)) {
             return;
         }

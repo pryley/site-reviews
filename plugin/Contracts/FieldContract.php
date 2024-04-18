@@ -59,6 +59,8 @@ interface FieldContract
 
     public function render(): void;
 
+    public function rules(): array;
+
     public function tag(): string;
 
     public function toArray(): array;

@@ -29,56 +29,67 @@ abstract class DefaultsAbstract implements DefaultsContract
      * This is done before $sanitize and $enums.
      */
     public array $casts = [];
+
     /**
      * The values that should be concatenated.
      *
      * @var string[]
      */
     public array $concatenated = [];
+
     /**
      * The values that should be constrained after sanitization is run.
      * This is done after $casts and $sanitize.
      */
     public array $enums = [];
+
     /**
      * The values that should be guarded.
      *
      * @var string[]
      */
     public array $guarded = [];
+
     /**
      * The keys that should be mapped to other keys.
      * Keys are mapped before the values are normalized and sanitized.
      * Note: Mapped keys should not be included in the defaults!
      */
     public array $mapped = [];
+
     /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
      */
     public array $sanitize = [];
+
     /**
      * The methods that are callable.
      */
     protected array $callable = [
         'dataAttributes', 'defaults', 'filter', 'merge', 'restrict',
     ];
+
     /**
      * The method being called.
      */
     protected string $called = '';
+
     /**
      * The default data.
      */
     protected array $defaults = [];
+
     /**
      * The string used for concatenation.
      */
     protected string $glue = ' ';
+
     /**
      * The current filter hook name.
      */
     protected string $hook = '';
+
     /**
      * The unprefixed method being called.
      */
