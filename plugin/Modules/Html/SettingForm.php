@@ -82,19 +82,18 @@ class SettingForm extends Form
      */
     protected function normalizeDependencies(): void
     {
-        $fields = $this->fields();
-        foreach ($fields as $field) {
+        foreach ($this->fields() as $field) {
             $dependencies = [];
             foreach (Arr::consolidate($field->depends_on) as $path => $value) {
-                $index = array_search($path, array_column($fields, 'original_name'));
-                if (false !== $index) {
-                    $name = $fields[$index]->name;
+                if ($triggerField = $this->offsetGet($path)) {
+                    $name = $triggerField->name;
                     $dependencies[] = compact('name', 'value');
                 }
             }
-            if (!empty($dependencies)) {
-                $field->offsetSet('data-depends', wp_json_encode($dependencies, JSON_HEX_APOS | JSON_HEX_QUOT));
+            if (empty($dependencies)) {
+                continue;
             }
+            $field['data-depends'] = wp_json_encode($dependencies, JSON_HEX_APOS | JSON_HEX_QUOT);
         }
     }
 

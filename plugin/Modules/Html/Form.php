@@ -28,6 +28,7 @@ class Form extends \ArrayObject implements FormContract
         $this->args = glsr()->args(wp_parse_args($args, $defaults));
         $this->loadSession($values);
         parent::__construct($this->fieldsAll(), \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
+        array_map([$this, 'normalizeConditions'], $this->fields());
     }
 
     public function args(): Arguments
@@ -242,6 +243,33 @@ class Form extends \ArrayObject implements FormContract
             }
         }
         return $fields;
+    }
+
+    /**
+     * @todo Should this be done manually? This shouldn't be run when getting field rules for validation
+     */
+    protected function normalizeConditions(FieldContract $field): void
+    {
+        if (!$conditions = $field->conditions()) {
+            return;
+        }
+        $results = [];
+        foreach ($conditions['conditions'] as $args) {
+            if (!$triggerField = $this->offsetGet($args['name'])) {
+                $results[] = true; // ignore if the condition's field does not exist
+                continue;
+            }
+            $results[] = (new FieldCondition($args, $triggerField))->isValid();
+        }
+        $results = array_filter($results);
+        if (count($results) === count($conditions['conditions'])) {
+            return; // all conditions valid
+        }
+        if ('any' === $conditions['criteria'] && !empty($results)) {
+            return; // some conditions valid
+        }
+        $field->is_hidden = true;
+        // reset value
     }
 
     /**

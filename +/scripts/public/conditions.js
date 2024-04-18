@@ -23,7 +23,7 @@ const checks = {
     not: (value, conditionVal) => {
         return !checks.equals(value, conditionVal)
     },
-}
+};
 
 const fieldtype = (el) => String(el.getAttribute('type') || el.nodeName).toLowerCase();
 
@@ -79,11 +79,23 @@ class Conditions {
                 if (el.validation) {
                     this.Form.validation.destroyField(el.validation) // remove validation from the hidden field
                 }
-                el.value = '';
-                el.dispatchEvent(new Event(this.eventName(el))) // trigger the input/change event
+                this.resetValue(el);
                 field.classList.add(this.config.field_hidden)
             }
         })
+    }
+
+    resetValue (el) {
+        const type = fieldtype(el);
+        if ('select' === type) {
+            Array.from(el.options).forEach(o => (o.selected = o.defaultSelected))
+        } else if (['checkbox', 'radio'].includes(type)) {
+            let elements = this.Form.form.elements[el.name];
+            Array.from(elements.length ? elements : [elements]).forEach(e => (e.checked = e.defaultChecked))
+        } else {
+            el.value = el.defaultValue || '';
+        }
+        el.dispatchEvent(new Event(this.eventName(el))) // trigger the input/change event
     }
 
     test (condition) {
@@ -96,17 +108,16 @@ class Conditions {
     value (el) {
         const name = el.getAttribute('name');
         const type = fieldtype(el);
-        if (!['checkbox', 'radio', 'select'].includes(type)) {
-            return new String(el.value)
-        }
-        let elements = this.Form.form.elements[name];
+        const elements = this.Form.form.elements[name];
         if ('radio' === type) {
             return elements.value
         }
-        return Array
-            .from(elements.length ? elements : [elements])
+        if (!['checkbox', 'select'].includes(type)) {
+            return new String(el.value)
+        }
+        return Array.from(elements.length ? elements : [elements])
             .filter(el => el['checkbox' === type ? 'checked' : 'selected'])
-            .map(el => el.value);
+            .map(el => el.value)
     }
 
     _setConditionObserves () {

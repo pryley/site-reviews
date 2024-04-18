@@ -8,6 +8,16 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 class FieldConditionDefaults extends Defaults
 {
     /**
+     * The values that should be constrained after sanitization is run.
+     * This is done after $casts and $sanitize.
+     */
+    public array $enums = [
+        'operator' => [
+            'contains', 'equals', 'greater', 'less', 'not',
+        ],
+    ];
+
+    /**
      * The keys that should be mapped to other keys.
      * Keys are mapped before the values are normalized and sanitized.
      * Note: Mapped keys should not be included in the defaults!

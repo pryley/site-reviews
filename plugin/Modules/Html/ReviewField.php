@@ -2,15 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
-use GeminiLabs\SiteReviews\Defaults\FieldConditionDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Style;
 
-/**
- * @property string $conditions
- */
 class ReviewField extends Field
 {
     public function buildField(): string
@@ -79,22 +75,6 @@ class ReviewField extends Field
             ],
             'field' => $this,
         ]);
-    }
-
-    public function conditions(): array
-    {
-        $conditions = explode('|', $this->conditions);
-        $criteria = array_shift($conditions);
-        $conditions = array_map(fn ($parts) => explode(':', $parts), $conditions);
-        $conditions = array_map(fn ($parts) => array_slice(array_pad($parts, 3, ''), 0, 3), $conditions);
-        $conditions = array_map(fn ($parts) => array_combine(['name', 'operator', 'value'], $parts), $conditions);
-        foreach ($conditions as &$condition) {
-            $condition = glsr(FieldConditionDefaults::class)->restrict($condition);
-        }
-        if (empty($conditions)) {
-            return [];
-        }
-        return compact('criteria', 'conditions');
     }
 
     public function location(): string
@@ -174,8 +154,24 @@ class ReviewField extends Field
     protected function normalize(): void
     {
         parent::normalize();
+        $this->normalizeDataConditions();
         $this->normalizeRequired(); // do this before normalizing validation
         $this->normalizeValidation();
+    }
+
+    protected function normalizeDataConditions(): void
+    {
+        $conditions = wp_parse_args($this->conditions(), [
+            'criteria' => '',
+            'conditions' => [],
+        ]);
+        if (in_array($conditions['criteria'], ['', 'always'])) {
+            return;
+        }
+        if (empty($conditions['conditions'])) {
+            return;
+        }
+        $this['data-conditions'] = wp_json_encode($conditions);
     }
 
     protected function normalizeRequired(): void

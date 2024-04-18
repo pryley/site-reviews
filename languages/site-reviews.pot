@@ -1731,15 +1731,15 @@ msgctxt "admin-text"
 msgid "The <code>%s</code> table was successly converted to InnoDB."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:163
+#: plugin/Commands/CreateReview.php:172
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:164
+#: plugin/Commands/CreateReview.php:173
 msgid "Your review has been submitted and is pending approval."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:169, views/pages/documentation/support/common-problems-and-solutions.php:88
+#: plugin/Commands/CreateReview.php:178, views/pages/documentation/support/common-problems-and-solutions.php:88
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
@@ -4513,15 +4513,15 @@ msgctxt "admin-text"
 msgid "Unapproved Review (Site Reviews)"
 msgstr ""
 
-#: plugin/Modules/Html/Form.php:25
+#: plugin/Modules/Html/Form.php:24
 msgid "Submit Form"
 msgstr ""
 
-#: plugin/Modules/Html/Form.php:26
+#: plugin/Modules/Html/Form.php:25
 msgid "Submitting, please wait..."
 msgstr ""
 
-#: plugin/Modules/Html/ReviewForm.php:13
+#: plugin/Modules/Html/ReviewForm.php:15
 msgid "Submit Review"
 msgstr ""
 
@@ -4550,7 +4550,7 @@ msgstr ""
 msgid "The review submission failed. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Modules/Validator/DefaultValidator.php:28
+#: plugin/Modules/Validator/DefaultValidator.php:27
 msgid "Please fix the form errors."
 msgstr ""
 
@@ -5405,13 +5405,13 @@ msgstr ""
 msgid "Reviews (%d)"
 msgstr ""
 
-#: plugin/Modules/Html/FieldElements/Rating.php:11
+#: plugin/Modules/Html/FieldElements/Rating.php:12
 msgid "%s Star"
 msgid_plural "%s Stars"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Html/FieldElements/Rating.php:15
+#: plugin/Modules/Html/FieldElements/Rating.php:16
 msgid "Select a Rating"
 msgstr ""
 

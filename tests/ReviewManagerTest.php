@@ -112,6 +112,7 @@ class ReviewManagerTest extends WP_UnitTestCase
         $setting = $options->get($path, 'no');
         $options->set($path, 'yes');
         $review = glsr_create_review($this->request()->toArray());
+        $this->assertNotEquals(false, $review);
         $this->assertTrue($review->isValid());
         $this->assertTrue($review->is_approved);
         $this->assertFalse($review->terms);
@@ -153,6 +154,7 @@ class ReviewManagerTest extends WP_UnitTestCase
     {
         $request = $this->request(['ip_address' => '11.22.33.44']);
         $review = glsr_create_review($request->toArray());
+        $this->assertNotEquals(false, $review);
         $this->assertTrue($review->isValid());
         $this->assertEquals($review->ip_address, '11.22.33.44');
     }
@@ -168,6 +170,7 @@ class ReviewManagerTest extends WP_UnitTestCase
     {
         $request = $this->request(['is_pinned' => true]);
         $review = glsr_create_review($request->toArray());
+        $this->assertNotEquals(false, $review);
         $this->assertTrue($review->isValid());
         $this->assertTrue($review->is_pinned);
     }
@@ -183,6 +186,7 @@ class ReviewManagerTest extends WP_UnitTestCase
     {
         $request = $this->request(['is_verified' => true]);
         $review = glsr_create_review($request->toArray());
+        $this->assertNotEquals(false, $review);
         $this->assertTrue($review->isValid());
         $this->assertTrue($review->is_verified);
     }
@@ -232,7 +236,7 @@ class ReviewManagerTest extends WP_UnitTestCase
         $this->assertEquals(get_user_meta($userId, '_glsr_reviews', true), 0);
     }
 
-    protected function createReview(array $values = [])
+    protected function createReview(array $values = []): Review
     {
         $request = $this->request($values);
         if ($review = glsr(ReviewManager::class)->create(new CreateReview($request))) {

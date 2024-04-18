@@ -95,11 +95,4 @@ class ReviewForm extends Form
         $fields = glsr()->filterArray('review-form/fields/visible', $fields, $this);
         return $fields;
     }
-
-    protected function normalizeFieldConditions(FieldContract $field): void
-    {
-        if ($conditions = $field->conditions()) {
-            $field['data-conditions'] = wp_json_encode($conditions);
-        }
-    }
 }

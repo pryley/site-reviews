@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Contracts\FieldContract;
 use GeminiLabs\SiteReviews\Contracts\FieldElementContract;
+use GeminiLabs\SiteReviews\Defaults\FieldConditionDefaults;
 use GeminiLabs\SiteReviews\Defaults\FieldDefaults;
 use GeminiLabs\SiteReviews\Defaults\FieldRuleDefaults;
 use GeminiLabs\SiteReviews\Helper;
@@ -17,6 +18,7 @@ use GeminiLabs\SiteReviews\Modules\Html\FieldElements\UnknownElement;
  * @property string       $after
  * @property bool         $checked
  * @property string       $class
+ * @property string       $conditions
  * @property string       $description
  * @property array        $errors
  * @property string       $group
@@ -102,6 +104,21 @@ class Field extends \ArrayObject implements FieldContract
             'for' => !$this->isChoiceField() ? $this->id : '',
             'text' => $this->label,
         ]);
+    }
+
+    public function conditions(): array
+    {
+        $conditions = explode('|', $this->conditions);
+        $criteria = array_shift($conditions) ?: 'always';
+        if ('always' === $criteria) {
+            $conditions = [];
+        }
+        $conditions = array_map(fn ($val) => explode(':', $val), $conditions);
+        $conditions = array_map(fn ($val) => array_slice(array_pad($val, 3, ''), 0, 3), $conditions);
+        $conditions = array_map(fn ($val) => array_combine(['name', 'operator', 'value'], $val), $conditions);
+        $conditions = array_map(fn ($val) => glsr(FieldConditionDefaults::class)->restrict($val), $conditions);
+        $conditions = array_filter($conditions, fn ($val) => !empty($val['name']));
+        return compact('criteria', 'conditions');
     }
 
     public function exchangeArgs(array $args): void
