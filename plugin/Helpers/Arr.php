@@ -212,6 +212,11 @@ class Arr
         return $result;
     }
 
+    public static function restrictKeys(array $array, array $allowedKeys): array
+    {
+        return array_intersect_key($array, array_fill_keys($allowedKeys, ''));
+    }
+
     /**
      * Search a multidimensional array by key value.
      *

@@ -2,15 +2,16 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Sanitizers;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
+
 class SanitizeTextHtml extends StringSanitizer
 {
     public function run(): string
     {
-        $allowed = array_filter($this->args) ?: [
+        $allowedKeys = array_filter($this->args) ?: [
             'a', 'em', 'mark', 'strong',
         ];
-        $allowedHtml = wp_kses_allowed_html('post');
-        $allowedHtml = array_intersect_key($allowedHtml, array_fill_keys($allowed, ''));
+        $allowedHtml = Arr::restrictKeys(wp_kses_allowed_html('post'), $allowedKeys);
         $allowedHtml = glsr()->filterArray('sanitize/allowed-html', $allowedHtml, $this);
         $value = wp_specialchars_decode($this->value());
         $value = wp_kses(wp_unslash($value), $allowedHtml);
