@@ -41,7 +41,7 @@ class Migrate_6_2_1 implements MigrateContract
             $constraints = glsr(Database::class)->dbGetCol("
                 SELECT CONSTRAINT_NAME
                 FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
-                WHERE CONSTRAINT_SCHEMA = '{$table->dbname}' AND TABLE_NAME = '{$table->tablename}'
+                WHERE CONSTRAINT_SCHEMA = '{$table->database}' AND TABLE_NAME = '{$table->tablename}'
             ");
             // 1. Drop foreign constraints
             $table->dropForeignConstraints();
