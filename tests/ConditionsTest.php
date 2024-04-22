@@ -286,14 +286,14 @@ class ConditionsTest extends \WP_UnitTestCase
     {
         $this->config = fn () => $config;
         $this->required = glsr(OptionManager::class)->getArray('settings.forms.required');
-        add_filter('site-reviews/review-form/fields', $this->config);
+        add_filter('site-reviews/review-form/fields', $this->config, 10);
         glsr(OptionManager::class)->set('settings.forms.required', []);
     }
 
     protected function restoreConfig(): void
     {
         if ($this->config) {
-            remove_filter('site-reviews/review-form/fields', $this->config);
+            remove_filter('site-reviews/review-form/fields', $this->config, 10);
         }
         if (isset($this->required)) {
             glsr(OptionManager::class)->set('settings.forms.required', $this->required);
