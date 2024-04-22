@@ -55,11 +55,10 @@ Ajax.prototype = {
                 callback(response.data, response.success);
             }
         }).always(response => {
-            if (!response.data) {
-                GLSR.notices.error('Unknown error.'); // triggers scroll
-            }
-            else if (response.data.notices) {
+            if (response?.data?.notices) {
                 GLSR.notices.add(response.data.notices); // triggers scroll
+            } else if (!response.success) {
+                GLSR.notices.error('Unknown error.'); // triggers scroll
             }
             if (el) {
                 Button(el).loaded()
