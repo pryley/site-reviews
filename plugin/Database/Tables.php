@@ -25,7 +25,7 @@ class Tables
         global $wpdb;
         $this->database = $wpdb->dbname ?: \DB_NAME;
         $this->db = $wpdb;
-        $this->engine = defined('DB_ENGINE') && 'sqlite' === DB_ENGINE ? 'sqlite' : 'mysql';
+        $this->engine = defined('DB_ENGINE') && 'sqlite' === \DB_ENGINE ? 'sqlite' : 'mysql';
         $this->prefix = $wpdb->get_blog_prefix();
         $this->tables = wp_parse_args($this->customTables(), $wpdb->tables());
     }

@@ -224,7 +224,7 @@ msgstr "and"
 msgid "Show less"
 msgstr "Show less"
 
-#: plugin/Metaboxes/AssignedPostsMetabox.php:28, plugin/Modules/Discord.php:154, plugin/Modules/Slack.php:197, plugin/Modules/Html/TemplateTags.php:85
+#: plugin/Metaboxes/AssignedPostsMetabox.php:28, plugin/Modules/Discord.php:160, plugin/Modules/Slack.php:197, plugin/Modules/Html/TemplateTags.php:85
 msgid "(no title)"
 msgstr "(no title)"
 
@@ -240,11 +240,11 @@ msgstr "Avatar for %s"
 msgid "Review of %s"
 msgstr "Review of %s"
 
-#: plugin/Modules/Discord.php:136, plugin/Modules/Slack.php:155
+#: plugin/Modules/Discord.php:142, plugin/Modules/Slack.php:155
 msgid "Approve Review"
 msgstr "Approve Review"
 
-#: plugin/Modules/Discord.php:138, plugin/Modules/Slack.php:164, plugin/Modules/Html/TemplateTags.php:180
+#: plugin/Modules/Discord.php:144, plugin/Modules/Slack.php:164, plugin/Modules/Html/TemplateTags.php:180
 msgid "Edit Review"
 msgstr "Edit Review"
 
@@ -2819,7 +2819,7 @@ msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr "Saving is disabled: %s is currently editing this review."
 
-#: plugin/Controllers/MainController.php:101
+#: plugin/Controllers/MainController.php:98
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr "Local Review"
@@ -5633,7 +5633,7 @@ msgstr ""
 "Here you can export your Site Reviews settings to a %s file. You can use "
 "the the %sImport Settings%s tool to import the settings on another website."
 
-#: views/pages/tools/general/import-reviews.php:14, views/pages/tools/general/optimise-db-tables.php:15
+#: views/pages/tools/general/import-reviews.php:14, views/pages/tools/general/optimise-db-tables.php:17
 msgctxt "admin-text"
 msgid ""
 "Please backup your database before running this tool! You can use the %s "
@@ -5783,12 +5783,12 @@ msgctxt "admin-text"
 msgid "Hard Reset"
 msgstr "Hard Reset"
 
-#: views/pages/tools/general/optimise-db-tables.php:7, views/pages/tools/general/repair-review-relations.php:18
+#: views/pages/tools/general/optimise-db-tables.php:9, views/pages/tools/general/repair-review-relations.php:18
 msgctxt "admin-text"
 msgid "Optimise Your Database Tables"
 msgstr "Optimise Your Database Tables"
 
-#: views/pages/tools/general/optimise-db-tables.php:52
+#: views/pages/tools/general/optimise-db-tables.php:54
 msgctxt "admin-text"
 msgid ""
 "Optimisation is unnecessary because your database tables already use the "
@@ -5797,7 +5797,7 @@ msgstr ""
 "Optimisation is unnecessary because your database tables already use the "
 "InnoDB engine!"
 
-#: views/pages/tools/general/optimise-db-tables.php:19
+#: views/pages/tools/general/optimise-db-tables.php:21
 msgctxt "admin-text"
 msgid ""
 "The old MyISAM table engine in MySQL was replaced by the InnoDB engine as "
@@ -5810,7 +5810,7 @@ msgstr ""
 "engine, you are missing out on substantial performance and reliability "
 "gains that the InnoDB engine provides."
 
-#: views/pages/tools/general/optimise-db-tables.php:20
+#: views/pages/tools/general/optimise-db-tables.php:22
 msgctxt "admin-text"
 msgid ""
 "Site Reviews makes use of specific InnoDB engine features in order to "
@@ -5823,22 +5823,22 @@ msgstr ""
 "(shown below) are still using the old MyISAM engine. If you convert these "
 "tables to use the InnoDB engine, it will make Site Reviews perform faster."
 
-#: views/pages/tools/general/optimise-db-tables.php:24
+#: views/pages/tools/general/optimise-db-tables.php:26
 msgctxt "admin-text"
 msgid "Table"
 msgstr "Table"
 
-#: views/pages/tools/general/optimise-db-tables.php:25
+#: views/pages/tools/general/optimise-db-tables.php:27
 msgctxt "admin-text"
 msgid "Engine"
 msgstr "Engine"
 
-#: views/pages/tools/general/optimise-db-tables.php:41
+#: views/pages/tools/general/optimise-db-tables.php:43
 msgctxt "admin-text"
 msgid "Converting, please wait..."
 msgstr "Converting, please wait..."
 
-#: views/pages/tools/general/optimise-db-tables.php:42
+#: views/pages/tools/general/optimise-db-tables.php:44
 msgctxt "admin-text"
 msgid "Convert table engine to InnoDB"
 msgstr "Convert table engine to InnoDB"

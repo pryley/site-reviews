@@ -147,7 +147,7 @@ class EnqueueAdminAssets extends AbstractCommand
     {
         $script = 'window.hasOwnProperty("GLSR")||(window.GLSR={});';
         foreach ($variables as $key => $value) {
-            $script .= sprintf('GLSR.%s=%s;', $key, wp_json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+            $script .= sprintf('GLSR.%s=%s;', $key, (string) wp_json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
         }
         $pattern = '/\"([a-zA-Z]+)\"(:[{\[\"])/'; // remove unnecessary quotes surrounding object keys
         $optimizedScript = preg_replace($pattern, '$1$2', $script);

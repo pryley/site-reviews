@@ -2,7 +2,7 @@
 
 <h2 class="title"><?php echo _x('JSON-LD Schema Settings', 'admin-text', 'site-reviews'); ?></h2>
 
-<div class="components-notice is-info" style="margin-left:0;">
+<div class="components-notice is-info" style="margin-bottom: 12px;margin-left:0;">
     <p class="components-notice__content">
         <?php echo _x('<strong>The schema is disabled by default.</strong> Use the schema option in your blocks or shortcodes to enable it.', 'admin-text', 'site-reviews'); ?>
     </p>

@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 6.4
-Stable tag: 7.0.0
+Stable tag: 7.0.0-RC1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -184,7 +184,7 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 == Changelog ==
 
-= 7.0.0 (2024-03-??) =
+= 7.0.0-RC1 (2024-04-22) =
 
 - 🚨 Requires all installed addons to be updated!
 - 🚨 Requires at least PHP v7.4
@@ -194,16 +194,21 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 - Added an example CSV file that can be downloaded on the Import Reviews tool
 - Added Dashboard widget
 - Added exponential-backoff strategy to API calls
+- Added IP address detection tool settings
 - Added JetWooBuilder integration
 - Added Reviews metabox to WooCommerce product pages
 - Added SEOPress integration
 - Added style controls to Elementor widgets
 - Added support for multilingual categories
+- Added support for SQLite databases
+- Fixed Discord notifications for reviews with more than 2000 characters
 - Fixed display of rating stars in review revisions
 - Fixed excerpts when PHP multibyte feature is broken
 - Fixed review dates from converting the date to the site's timezone
+- Fixed {review_link} notification tag
 - Fixed SQL error when filtering reviews by "No author"
 - Fixed validation message setting with WPML/Polylang
+- Fixed WooRewards integration
 - Removed the email and IP address values from the review in javascript responses
 - Updated documentation
 

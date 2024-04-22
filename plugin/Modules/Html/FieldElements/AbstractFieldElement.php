@@ -93,7 +93,7 @@ abstract class AbstractFieldElement implements FieldElementContract
         $prefix = $this->field->namePrefix();
         if (!empty($prefix) && !str_starts_with($name, $prefix)) {
             $path = Str::convertNameToPath($name);
-            $name = Str::convertPathToName($name, $prefix);
+            $name = Str::convertPathToName($path, $prefix);
         }
         if ($this->field->isMultiField()) {
             $name = Str::suffix($name, '[]');

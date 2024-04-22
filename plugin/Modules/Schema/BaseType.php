@@ -223,7 +223,7 @@ abstract class BaseType implements \ArrayAccess, \JsonSerializable, Type
     public function toScript()
     {
         return sprintf('<script type="application/ld+json">%s</script>',
-            wp_json_encode($this->toArray(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+            (string) wp_json_encode($this->toArray(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
         );
     }
 

@@ -102,7 +102,7 @@ class Schema
         if ($schemas = glsr()->retrieve('schemas', [])) {
             printf('<script type="application/ld+json" class="%s-schema">%s</script>',
                 glsr()->id,
-                wp_json_encode(
+                (string) wp_json_encode(
                     glsr()->filterArray('schema/all', $schemas),
                     JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
                 )

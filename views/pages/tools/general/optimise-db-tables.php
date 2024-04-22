@@ -1,5 +1,7 @@
 <?php defined('ABSPATH') || exit; ?>
 
+<?php if (glsr('Database\Tables')->isSqlite()) return; ?>
+
 <?php if (glsr()->hasPermission('settings')): ?>
 <div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
