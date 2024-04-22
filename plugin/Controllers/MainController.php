@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
 use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
 use GeminiLabs\SiteReviews\Commands\RegisterWidgets;
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Install;
 
@@ -26,14 +27,10 @@ class MainController extends AbstractController
      */
     public function filterDropTables(array $tables): array
     {
-        $customTables = [ // order is intentional
-            glsr()->prefix.'ratings' => glsr(Query::class)->table('ratings'),
-            glsr()->prefix.'assigned_posts' => glsr(Query::class)->table('assigned_posts'),
-            glsr()->prefix.'assigned_terms' => glsr(Query::class)->table('assigned_terms'),
-            glsr()->prefix.'assigned_users' => glsr(Query::class)->table('assigned_users'),
-        ];
-        foreach ($customTables as $key => $table) {
-            $tables = Arr::prepend($tables, $table, $key); // Custom tables have foreign indexes so they must be removed first!
+        // Custom tables have foreign indexes so they must be removed first!
+        foreach (glsr(Tables::class)->tables() as $classname) {
+            $table = glsr($classname);
+            $tables = Arr::prepend($tables, $table->tablename, $table->name($prefixName = true));
         }
         return $tables;
     }

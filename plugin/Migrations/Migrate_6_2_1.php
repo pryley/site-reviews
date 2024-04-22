@@ -69,7 +69,7 @@ class Migrate_6_2_1 implements MigrateContract
     protected function removeDuplicateCustomFields(): void
     {
         $sql = "
-            DELETE pm 
+            DELETE pm
             FROM table|postmeta AS pm
             INNER JOIN table|posts AS p ON p.ID = pm.post_id
             WHERE p.post_type = %s

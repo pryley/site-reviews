@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Widgets;
 
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -87,14 +88,11 @@ class WidgetRatingFilter extends \WC_Widget_Rating_Filter
      */
     protected function productAverages()
     {
-        global $wpdb;
-        $ratingsTable = glsr(Query::class)->table('ratings');
-        $assignedPostsTable = glsr(Query::class)->table('assigned_posts');
-        $products = $wpdb->get_results("
+        $sql = glsr(Query::class)->sql("
             SELECT apt.post_id AS product_id, ROUND(AVG(r.rating)) AS average
-            FROM {$ratingsTable} AS r 
-            INNER JOIN {$assignedPostsTable} AS apt ON apt.rating_id = r.ID
-            INNER JOIN {$wpdb->posts} AS p ON (p.ID = apt.post_id AND p.post_type IN ('product'))
+            FROM table|ratings AS r 
+            INNER JOIN table|assigned_posts AS apt ON apt.rating_id = r.ID
+            INNER JOIN table|posts AS p ON (p.ID = apt.post_id AND p.post_type IN ('product'))
             WHERE 1=1 
             AND apt.is_published = 1 
             AND r.is_approved = 1 
@@ -102,6 +100,7 @@ class WidgetRatingFilter extends \WC_Widget_Rating_Filter
             AND r.type = 'local'
             GROUP BY apt.post_id
         ");
+        $products = glsr(Database::class)->dbGetResults($sql);
         $averages = array_reverse(glsr(Rating::class)->emptyArray(), true); // preserve keys
         foreach ($products as $product) {
             ++$averages[$product->average];

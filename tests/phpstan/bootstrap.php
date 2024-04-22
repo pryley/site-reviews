@@ -6,6 +6,9 @@ if (!defined('BSF_AIOSRS_PRO_CACHE_KEY')) {
 if (!defined('DB_HOST')) {
     define('DB_HOST', 'localhost');
 }
+if (!defined('DB_NAME')) {
+    define('DB_NAME', 'wptests');
+}
 if (!defined('ELEMENTOR_VERSION')) {
     define('ELEMENTOR_VERSION', '3.19.0');
 }

@@ -2,8 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
 use GeminiLabs\SiteReviews\Defaults\ColumnOrderbyDefaults;
 use GeminiLabs\SiteReviews\Defaults\ListtableFiltersDefaults;
@@ -374,14 +374,14 @@ class ListTableController extends AbstractController
             'clauses' => [],
             'replace' => false,
         ]);
-        $posts = glsr(Query::class)->table('posts');
-        $ratings = glsr(Query::class)->table('ratings');
+        $posts = glsr(Tables::class)->table('posts');
+        $ratings = glsr(Tables::class)->table('ratings');
         $clause['clauses'][] = "INNER JOIN {$ratings} ON {$ratings}.review_id = {$posts}.ID";
         foreach ($this->filterByValues() as $key => $value) {
             if (!in_array($key, ['assigned_post', 'assigned_user'])) {
                 continue;
             }
-            $assignedTable = glsr(Query::class)->table($key.'s');
+            $assignedTable = glsr(Tables::class)->table($key.'s');
             $value = Cast::toInt($value);
             if (0 === $value) {
                 $clause['clauses'][] = "LEFT JOIN {$assignedTable} ON {$assignedTable}.rating_id = {$ratings}.ID";
@@ -403,7 +403,7 @@ class ListTableController extends AbstractController
         if (empty($column)) {
             return $clause;
         }
-        $ratings = glsr(Query::class)->table('ratings');
+        $ratings = glsr(Tables::class)->table('ratings');
         if ($this->isOrderbyWithIsNull($column)) {
             $clause['clauses'][] = "NULLIF({$ratings}.{$column}, '') IS NULL, {$orderby}";
         } else {
@@ -418,11 +418,11 @@ class ListTableController extends AbstractController
             'clauses' => [],
             'replace' => false,
         ]);
-        $ratings = glsr(Query::class)->table('ratings');
-        $posts = glsr(Query::class)->table('posts');
+        $ratings = glsr(Tables::class)->table('ratings');
+        $posts = glsr(Tables::class)->table('posts');
         foreach ($this->filterByValues() as $key => $value) {
             if (in_array($key, ['assigned_post', 'assigned_user'])) {
-                $assignedTable = glsr(Query::class)->table($key.'s');
+                $assignedTable = glsr(Tables::class)->table($key.'s');
                 $column = Str::suffix(Str::removePrefix($key, 'assigned_'), '_id');
                 $value = Cast::toInt($value);
                 if (0 === $value) {

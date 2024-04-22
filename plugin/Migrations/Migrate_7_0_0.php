@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Migrations;
 
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Tables;
 
 class Migrate_7_0_0 implements MigrateContract
@@ -18,7 +19,7 @@ class Migrate_7_0_0 implements MigrateContract
     public function migrateDatabase(): void
     {
         $result = true;
-        if (!$this->insertTableColumnFlagged()) {
+        if (!$this->insertTableColumn('is_flagged', 'is_pinned')) {
             $result = false;
         }
         if ($result) {
@@ -26,18 +27,25 @@ class Migrate_7_0_0 implements MigrateContract
         }
     }
 
-    protected function insertTableColumnFlagged(): bool
+    protected function insertTableColumn(string $column, string $afterColumn): bool
     {
-        $table = glsr(Tables::class)->table('ratings');
-        if (!glsr(Tables::class)->columnExists('ratings', 'is_flagged')) {
-            glsr(Database::class)->dbQuery("
-                ALTER TABLE {$table}
-                ADD is_flagged tinyint(1) NOT NULL DEFAULT '0'
-                AFTER is_pinned
+        if (glsr(Tables::class)->columnExists('ratings', $column)) {
+            return true;
+        }
+        if (glsr(Tables::class)->isSqlite()) {
+            $sql = glsr(Query::class)->sql("
+                ALTER TABLE table|ratings
+                ADD {$column} tinyint(1) NOT NULL DEFAULT '0'
+            ");
+        } else {
+            $sql = glsr(Query::class)->sql("
+                ALTER TABLE table|ratings
+                ADD {$column} tinyint(1) NOT NULL DEFAULT '0'
+                AFTER {$afterColumn}
             ");
         }
-        if (!glsr(Tables::class)->columnExists('ratings', 'is_flagged')) {
-            glsr_log()->error(sprintf('Database table [%s] could not be altered, column [is_flagged] was not added.', $table));
+        if (false === glsr(Database::class)->dbQuery($sql)) {
+            glsr_log()->error("The ratings table could not be altered, the [{$column}] column was not added.");
             return false;
         }
         return true;

@@ -9,24 +9,27 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 abstract class AbstractTable
 {
+    public string $database;
     public \wpdb $db;
-    public string $dbname;
-    public string $dbprefix;
     public string $name = '';
+    public string $prefix;
     public string $tablename;
 
     public function __construct()
     {
         require_once ABSPATH.'wp-admin/includes/upgrade.php'; // used for dbDelta()
         global $wpdb;
+        $this->database = $wpdb->dbname ?: \DB_NAME;
         $this->db = $wpdb;
-        $this->dbname = $wpdb->dbname;
-        $this->dbprefix = $wpdb->get_blog_prefix();
+        $this->prefix = $wpdb->get_blog_prefix();
         $this->tablename = $wpdb->get_blog_prefix().glsr()->prefix.$this->name;
     }
 
     public function addForeignConstraint(string $column, string $foreignTable, string $foreignColumn): bool
     {
+        if (!glsr(Tables::class)->isInnodb($foreignTable)) {
+            return false;
+        }
         $constraint = $this->foreignConstraint($column);
         if ($this->foreignConstraintExists($constraint, $foreignTable)) {
             return false;
@@ -68,8 +71,7 @@ abstract class AbstractTable
 
     public function exists(): bool
     {
-        $query = $this->db->prepare('SHOW TABLES LIKE %s', $this->db->esc_like($this->tablename));
-        return $this->tablename === $this->db->get_var($query);
+        return glsr(Tables::class)->tableExists($this->tablename);
     }
 
     public function foreignConstraint(string $column): string
@@ -84,16 +86,26 @@ abstract class AbstractTable
 
     public function foreignConstraintExists(string $constraint, string $foreignTable = ''): bool
     {
-        if (!empty($foreignTable) && !glsr(Tables::class)->isInnodb($foreignTable)) {
-            glsr_log()->debug("Cannot check for a foreign constraint because [{$foreignTable}] does not use the InnoDB engine.");
-            return true; // we cannot create foreign contraints on MyISAM tables
+        if (!glsr(Tables::class)->tableExists($foreignTable)) {
+            return false;
+        }
+        if (!glsr(Tables::class)->isInnodb($foreignTable)) {
+            return false;
         }
         $constraints = $this->db->get_col("
             SELECT CONSTRAINT_NAME
             FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
-            WHERE CONSTRAINT_SCHEMA = '{$this->dbname}'
+            WHERE CONSTRAINT_SCHEMA = '{$this->database}'
         ");
         return in_array($constraint, $constraints);
+    }
+
+    public function name(bool $prefixName = false): string
+    {
+        if (!$prefixName) {
+            return $this->name;
+        }
+        return Str::prefix($this->name, glsr()->prefix);
     }
 
     abstract public function removeInvalidRows(): void;
@@ -107,9 +119,6 @@ abstract class AbstractTable
 
     public function table(string $name = ''): string
     {
-        if (empty($name)) {
-            $name = $this->name;
-        }
-        return glsr(Tables::class)->table($name);
+        return glsr(Tables::class)->table($name ?: $this->name);
     }
 }

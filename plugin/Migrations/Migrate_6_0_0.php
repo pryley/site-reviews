@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Migrations;
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Database\Tables\TableFields;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -32,34 +33,34 @@ class Migrate_6_0_0 implements MigrateContract
     public function migrateAddonBlocks(): void
     {
         if (glsr()->addon('site-reviews-filters')) {
-            global $wpdb;
-            glsr(Database::class)->dbQuery("
-                UPDATE {$wpdb->posts} p
+            $sql = glsr(Query::class)->sql("
+                UPDATE table|posts p
                 SET p.post_content = REPLACE(p.post_content, '<!-- wp:site-reviews/filter ', '<!-- wp:site-reviews/filters ')
                 WHERE p.post_status = 'publish'
             ");
+            glsr(Database::class)->dbQuery($sql);
         }
     }
 
     public function migrateAddonReviewImages(): void
     {
         if (glsr()->addon('site-reviews-images')) {
-            global $wpdb;
-            glsr(Database::class)->dbQuery("
-                UPDATE {$wpdb->posts} p
+            $sql = glsr(Query::class)->sql("
+                UPDATE table|posts p
                 SET p.post_status = 'inherit'
                 WHERE p.post_type = 'attachment' AND p.post_name LIKE 'site-reviews-image%'
             ");
+            glsr(Database::class)->dbQuery($sql);
         }
     }
 
     public function migrateDatabase(): void
     {
         $result = true;
-        if (!$this->insertTableColumnIsVerified()) {
+        if (!$this->insertTableColumn('is_verified', 'is_pinned')) {
             $result = false;
         }
-        if (!$this->insertTableColumnScore()) {
+        if (!$this->insertTableColumn('score', 'terms')) {
             $result = false;
         }
         // @todo migrate custom fields to the fields table
@@ -109,35 +110,25 @@ class Migrate_6_0_0 implements MigrateContract
         glsr(OptionManager::class)->reset();
     }
 
-    protected function insertTableColumnIsVerified(): bool
+    protected function insertTableColumn(string $column, string $afterColumn): bool
     {
-        $table = glsr(Tables::class)->table('ratings');
-        if (!glsr(Tables::class)->columnExists('ratings', 'is_verified')) {
-            glsr(Database::class)->dbQuery("
-                ALTER TABLE {$table}
-                ADD is_verified tinyint(1) NOT NULL DEFAULT '0'
-                AFTER is_pinned
+        if (glsr(Tables::class)->columnExists('ratings', $column)) {
+            return true;
+        }
+        if (glsr(Tables::class)->isSqlite()) {
+            $sql = glsr(Query::class)->sql("
+                ALTER TABLE table|ratings
+                ADD {$column} tinyint(1) NOT NULL DEFAULT '0'
+            ");
+        } else {
+            $sql = glsr(Query::class)->sql("
+                ALTER TABLE table|ratings
+                ADD {$column} tinyint(1) NOT NULL DEFAULT '0'
+                AFTER {$afterColumn}
             ");
         }
-        if (!glsr(Tables::class)->columnExists('ratings', 'is_verified')) {
-            glsr_log()->error(sprintf('Database table [%s] could not be altered, column [is_verified] was not added.', $table));
-            return false;
-        }
-        return true;
-    }
-
-    protected function insertTableColumnScore(): bool
-    {
-        $table = glsr(Tables::class)->table('ratings');
-        if (!glsr(Tables::class)->columnExists('ratings', 'score')) {
-            glsr(Database::class)->dbQuery("
-                ALTER TABLE {$table}
-                ADD score tinyint(1) NOT NULL DEFAULT '0'
-                AFTER terms
-            ");
-        }
-        if (!glsr(Tables::class)->columnExists('ratings', 'score')) {
-            glsr_log()->error(sprintf('Database table [%s] could not be altered, column [score] was not added.', $table));
+        if (false === glsr(Database::class)->dbQuery($sql)) {
+            glsr_log()->error("The ratings table could not be altered, the [{$column}] column was not added.");
             return false;
         }
         return true;

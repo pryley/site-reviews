@@ -40,6 +40,9 @@ function glsr_uninstall_all_cleanup() {
     // delete any remaining options
     $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '%glsr_%'");
     $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE 'site-review-category%'");
+    if (defined('DB_ENGINE') && 'sqlite' === DB_ENGINE) {
+        return;
+    }
     // optimise affected database tables
     $wpdb->query("OPTIMIZE TABLE {$wpdb->options}");
     $wpdb->query("OPTIMIZE TABLE {$wpdb->postmeta}");
@@ -122,6 +125,9 @@ function glsr_uninstall_minimal() {
 
 function glsr_uninstall_minimal_drop_foreign_keys() {
     global $wpdb;
+    if (defined('DB_ENGINE') && 'sqlite' === DB_ENGINE) {
+        return;
+    }
     $constraints = $wpdb->get_results("
         SELECT CONSTRAINT_NAME, TABLE_NAME
         FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS

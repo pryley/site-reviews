@@ -133,20 +133,28 @@ class SystemInfo
 
     public function getDatabase(): array
     {
-        $engines = glsr(Tables::class)->tableEngines($removeDBPrefix = true);
-        foreach ($engines as $engine => $tables) {
-            $engines[$engine] = sprintf('%s (%s)', $engine, implode('|', $tables));
-        }
-        return [
-            'title' => 'Database Details',
-            'values' => [
+        if (glsr(Tables::class)->isSqlite()) {
+            $values = [
+                'Database Engine' => $this->value('wp-database.db_engine'),
+                'Database Version' => $this->value('wp-database.database_version'),
+            ];
+        } else {
+            $engines = glsr(Tables::class)->tableEngines($removePrefix = true);
+            foreach ($engines as $engine => $tables) {
+                $engines[$engine] = sprintf('%s (%s)', $engine, implode('|', $tables));
+            }
+            $values = [
                 'Charset' => $this->value('wp-database.database_charset'),
                 'Collation' => $this->value('wp-database.database_collate'),
                 'Extension' => $this->value('wp-database.extension'),
                 'Table Engines' => implode(', ', $engines),
                 'Version (client)' => $this->value('wp-database.client_version'),
                 'Version (server)' => $this->value('wp-database.server_version'),
-            ],
+            ];
+        }
+        return [
+            'title' => 'Database Details',
+            'values' => $values,
         ];
     }
 

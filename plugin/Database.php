@@ -30,10 +30,13 @@ class Database
      */
     public function beginTransaction(string $table): void
     {
-        $sql = glsr(Tables::class)->isInnodb($table)
-            ? 'START TRANSACTION;'
-            : 'SET autocommit = 0;';
-        $this->dbQuery($sql);
+        if (glsr(Tables::class)->isSqlite()) {
+            $this->dbQuery("BEGIN TRANSACTION;");
+        } elseif (glsr(Tables::class)->isInnodb($table)) {
+            $this->dbQuery("START TRANSACTION;");
+        } elseif (glsr(Tables::class)->isMyisam($table)) {
+            $this->dbQuery("SET autocommit = 0;");
+        }
     }
 
     public function dbGetCol(string $sql): array
@@ -92,6 +95,9 @@ class Database
      */
     public function dbSafeQuery(string $sql)
     {
+        if (glsr(Tables::class)->isSqlite()) {
+            return $this->dbQuery($sql);
+        }
         $this->db->query('SET GLOBAL foreign_key_checks = 0');
         $result = $this->logErrors($this->db->query($sql));
         $this->db->query('SET GLOBAL foreign_key_checks = 1');
@@ -105,7 +111,7 @@ class Database
      */
     public function delete(string $table, array $where)
     {
-        $result = $this->db->delete(glsr(Query::class)->table($table), $where);
+        $result = $this->db->delete(glsr(Tables::class)->table($table), $where);
         glsr(Query::class)->sql($this->db->last_query); // for logging use only
         return $this->logErrors($result);
     }
@@ -119,7 +125,7 @@ class Database
      */
     public function deleteMeta($keys, string $table = 'postmeta')
     {
-        $table = glsr(Query::class)->table($table);
+        $table = glsr(Tables::class)->table($table);
         $metaKeys = glsr(Query::class)->escValuesForInsert(Arr::convertFromString($keys));
         $sql = glsr(Query::class)->sql("
             DELETE FROM {$table} WHERE meta_key IN {$metaKeys}
@@ -132,10 +138,13 @@ class Database
      */
     public function finishTransaction(string $table): void
     {
-        $sql = glsr(Tables::class)->isInnodb($table)
-            ? 'COMMIT;'
-            : 'SET autocommit = 1;';
-        $this->dbQuery($sql);
+        if (glsr(Tables::class)->isSqlite()) {
+            $this->dbQuery("COMMIT;");
+        } elseif (glsr(Tables::class)->isInnodb($table)) {
+            $this->dbQuery("COMMIT;");
+        } elseif (glsr(Tables::class)->isMyisam($table)) {
+            $this->dbQuery("SET autocommit = 1;");
+        }
     }
 
     /**
@@ -146,10 +155,14 @@ class Database
     public function insert(string $table, array $data)
     {
         $this->db->insert_id = 0;
-        $table = glsr(Query::class)->table($table);
+        $table = glsr(Tables::class)->table($table);
         $fields = glsr(Query::class)->escFieldsForInsert(array_keys($data));
         $values = glsr(Query::class)->escValuesForInsert($data);
-        $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}");
+        if (glsr(Tables::class)->isSqlite()) {
+            $sql = glsr(Query::class)->sql("INSERT OR IGNORE INTO {$table} {$fields} VALUES {$values}");
+        } else {
+            $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}");
+        }
         $result = $this->dbQuery($sql);
         return $result;
     }
@@ -170,10 +183,14 @@ class Database
                 $data[] = glsr(Query::class)->escValuesForInsert($value);
             }
         }
-        $table = glsr(Query::class)->table($table);
+        $table = glsr(Tables::class)->table($table);
         $fields = glsr(Query::class)->escFieldsForInsert($fields);
         $values = implode(',', $data);
-        $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}");
+        if (glsr(Tables::class)->isSqlite()) {
+            $sql = glsr(Query::class)->sql("INSERT OR IGNORE INTO {$table} {$fields} VALUES {$values}");
+        } else {
+            $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}");
+        }
         return $this->dbQuery($sql);
     }
 
@@ -277,7 +294,7 @@ class Database
      */
     public function update(string $table, array $data, array $where)
     {
-        $result = $this->db->update(glsr(Query::class)->table($table), $data, $where);
+        $result = $this->db->update(glsr(Tables::class)->table($table), $data, $where);
         glsr(Query::class)->sql($this->db->last_query); // for logging use only
         return $this->logErrors($result);
     }

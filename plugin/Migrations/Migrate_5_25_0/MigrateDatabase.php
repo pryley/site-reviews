@@ -43,19 +43,26 @@ class MigrateDatabase implements MigrateContract
 
     protected function migrateDatabase(): bool
     {
-        $table = glsr(Tables::class)->table('ratings');
         if ($this->isDatabaseVersionUpdated()) {
             return true;
         }
-        glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
-            ALTER TABLE {$table}
-            ADD terms tinyint(1) NOT NULL DEFAULT '1'
-            AFTER url
-        "));
+        if (glsr(Tables::class)->isSqlite()) {
+            $sql = glsr(Query::class)->sql("
+                ALTER TABLE table|ratings
+                ADD terms tinyint(1) NOT NULL DEFAULT '1'
+            ");
+        } else {
+            $sql = glsr(Query::class)->sql("
+                ALTER TABLE table|ratings
+                ADD terms tinyint(1) NOT NULL DEFAULT '1'
+                AFTER url
+            ");
+        }
+        glsr(Database::class)->dbQuery($sql);
         if ($this->isDatabaseVersionUpdated()) { // @phpstan-ignore-line
             return true; // check again after updating the database
         }
-        glsr_log()->error(sprintf('Database table [%s] could not be altered, column [terms] was not added.', $table));
+        glsr_log()->error("The ratings table could not be altered, the [terms] column was not added.");
         return false;
     }
 

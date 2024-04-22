@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Tables\TableAssignedPosts;
 use GeminiLabs\SiteReviews\Database\Tables\TableAssignedTerms;
 use GeminiLabs\SiteReviews\Database\Tables\TableAssignedUsers;
@@ -13,18 +14,20 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Tables
 {
+    public string $database;
     public \wpdb $db;
-    public string $dbname;
-    public string $dbprefix;
-    public array $dbtables;
+    public string $engine;
+    public string $prefix;
+    public array $tables;
 
     public function __construct()
     {
         global $wpdb;
+        $this->database = $wpdb->dbname ?: \DB_NAME;
         $this->db = $wpdb;
-        $this->dbname = $wpdb->dbname;
-        $this->dbprefix = $wpdb->get_blog_prefix();
-        $this->dbtables = wp_parse_args($this->customTables(), $wpdb->tables());
+        $this->engine = defined('DB_ENGINE') && 'sqlite' === DB_ENGINE ? 'sqlite' : 'mysql';
+        $this->prefix = $wpdb->get_blog_prefix();
+        $this->tables = wp_parse_args($this->customTables(), $wpdb->tables());
     }
 
     public function addForeignConstraints(): void
@@ -36,21 +39,27 @@ class Tables
 
     public function columnExists(string $table, string $column): bool
     {
-        $result = glsr(Database::class)->dbQuery(
-            glsr(Query::class)->sql("SHOW COLUMNS FROM {$this->table($table)} LIKE '{$column}'")
+        if ($this->isSqlite()) {
+            $result = $this->db->get_col(
+                glsr(Query::class)->sql("SHOW COLUMNS FROM table|{$table}")
+            );
+            return in_array($column, $result);
+        }
+        $result = $this->db->query(
+            glsr(Query::class)->sql("SHOW COLUMNS FROM table|{$table} LIKE %s", $column)
         );
         return Cast::toBool($result);
     }
 
     public function convertTableEngine(string $table): int
     {
-        $table = $this->table($table);
         if (!$this->isMyisam($table)) {
             return -1;
         }
-        $result = glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
-            ALTER TABLE {$this->dbname}.{$table} ENGINE = InnoDB;
-        "));
+        $table = $this->table($table);
+        $result = glsr(Database::class)->dbQuery(
+            glsr(Query::class)->sql("ALTER TABLE {$this->database}.{$table} ENGINE = InnoDB;")
+        );
         if (true === $result) {
             update_option(glsr()->prefix."engine_{$table}", 'innodb');
             $this->addForeignConstraints(); // apply InnoDB constraints
@@ -61,9 +70,7 @@ class Tables
 
     public function createTables(): void
     {
-        foreach ($this->tables() as $table) {
-            glsr($table)->create();
-        }
+        array_map(fn ($table) => glsr($table)->create(), $this->tables());
     }
 
     public function customTables(): array
@@ -77,10 +84,13 @@ class Tables
 
     public function dropForeignConstraints(): void
     {
+        if ($this->isSqlite()) {
+            return;
+        }
         $constraints = $this->db->get_results("
             SELECT CONSTRAINT_NAME, TABLE_NAME
             FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
-            WHERE CONSTRAINT_SCHEMA = '{$this->dbname}'
+            WHERE CONSTRAINT_SCHEMA = '{$this->database}'
         ");
         foreach ($this->tables() as $table) {
             $tablename = glsr($table)->tablename;
@@ -97,27 +107,26 @@ class Tables
 
     public function isInnodb(string $table): bool
     {
-        if (defined('GLSR_UNIT_TESTS')) {
-            return false;
-        }
         return 'innodb' === $this->tableEngine($table);
     }
 
     public function isMyisam(string $table): bool
     {
-        if (defined('GLSR_UNIT_TESTS')) {
-            return true;
-        }
         return 'myisam' === $this->tableEngine($table);
+    }
+
+    public function isSqlite(): bool
+    {
+        return 'sqlite' === $this->engine;
     }
 
     public function table(string $name = ''): string
     {
-        if (in_array($name, $this->dbtables)) {
+        if (in_array($name, $this->tables)) {
             return $name;
         }
-        if (array_key_exists($name, $this->dbtables)) {
-            return $this->dbtables[$name];
+        if (array_key_exists($name, $this->tables)) {
+            return $this->tables[$name];
         }
         glsr_log()->error("The [{$name}] table was not found.");
         return $name; // @todo maybe throw an exception here instead?
@@ -125,17 +134,20 @@ class Tables
 
     public function tableEngine(string $table): string
     {
+        if (defined('GLSR_UNIT_TESTS') || $this->isSqlite()) {
+            return '';
+        }
         $table = $this->table($table);
         $option = sprintf('%sengine_%s', glsr()->prefix, $table);
-        $engine = get_option($option);
-        if (empty($engine)) {
-            $engine = $this->db->get_var("
+        if (empty($engine = get_option($option))) {
+            $sql = "
                 SELECT ENGINE
                 FROM INFORMATION_SCHEMA.TABLES
-                WHERE TABLE_SCHEMA = '{$this->dbname}' AND TABLE_NAME = '{$table}'
-            ");
+                WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s
+            ";
+            $engine = $this->db->get_var($this->db->prepare($sql, $this->database, $table));
             if (empty($engine)) {
-                glsr_log()->warning(sprintf('DB Table Engine: The %s table does not exist in %s.', $table, $this->dbname));
+                glsr_log()->warning("DB Table Engine: The {$table} table does not exist in {$this->database}.");
                 return '';
             }
             $engine = strtolower($engine);
@@ -144,44 +156,52 @@ class Tables
         return $engine;
     }
 
-    public function tableEngines(bool $removeDBPrefix = false): array
+    public function tableEngines(bool $removePrefix = false): array
     {
+        if ($this->isSqlite()) {
+            return [];
+        }
         $results = $this->db->get_results("
-            SELECT TABLE_NAME, ENGINE
+            SELECT TABLE_NAME as table_name, ENGINE as engine
             FROM INFORMATION_SCHEMA.TABLES
-            WHERE TABLE_SCHEMA = '{$this->dbname}'
+            WHERE TABLE_SCHEMA = '{$this->database}'
             AND TABLE_NAME IN ('{$this->db->options}','{$this->db->posts}','{$this->db->terms}','{$this->db->users}')
         ");
         $engines = [];
         foreach ($results as $result) {
-            if (!array_key_exists($result->ENGINE, $engines)) {
-                $engines[$result->ENGINE] = [];
+            if (!array_key_exists($result->engine, $engines)) {
+                $engines[$result->engine] = [];
             }
-            if ($removeDBPrefix) {
-                $result->TABLE_NAME = Str::removePrefix($result->TABLE_NAME, $this->dbprefix);
+            if ($removePrefix) {
+                $result->table_name = Str::removePrefix((string) $result->table_name, $this->prefix);
             }
-            $engines[$result->ENGINE][] = $result->TABLE_NAME;
+            $engines[$result->engine][] = $result->table_name;
         }
         return $engines;
     }
 
+    public function tableExists(string $table): bool
+    {
+        $query = $this->db->prepare('SHOW TABLES LIKE %s', $this->db->esc_like($this->table($table)));
+        return !empty($this->db->get_var($query));
+    }
+
     public function tables(): array
     {
-        // @todo add the fields table
         return glsr()->filterArray('database/tables', [ // order is intentional
             TableAssignedPosts::class,
             TableAssignedTerms::class,
             TableAssignedUsers::class,
-            // TableFields::class,
+            // TableFields::class, // @todo add the fields table
             TableRatings::class,
         ]);
     }
 
     public function tablesExist(): bool
     {
-        $prefix = $this->dbprefix.glsr()->prefix;
+        $prefix = $this->db->esc_like($this->prefix.glsr()->prefix);
         $tables = $this->db->get_col(
-            $this->db->prepare('SHOW TABLES LIKE %s', $this->db->esc_like($prefix).'%')
+            $this->db->prepare("SHOW TABLES LIKE %s", "{$prefix}%")
         );
         foreach ($this->tables() as $table) {
             if (!in_array(glsr($table)->tablename, $tables)) {
