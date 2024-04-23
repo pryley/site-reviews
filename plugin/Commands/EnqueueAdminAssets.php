@@ -199,6 +199,9 @@ class EnqueueAdminAssets extends AbstractCommand
 
     protected function isCurrentScreen(): bool
     {
+        if (is_customize_preview()) {
+            return false; // don't load assets in the Customizer preview
+        }
         $screen = glsr_current_screen();
         $screenIds = [
             'customize',

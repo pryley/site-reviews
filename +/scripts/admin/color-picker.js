@@ -2,7 +2,7 @@
 
 const ColorPicker = function () {
     if (typeof jQuery.wp !== 'object' || typeof jQuery.wp.wpColorPicker !== 'function') return;
-    jQuery(document).find('input[type=text].color-picker-hex').each(function () {
+    jQuery('.glsr-setting-field').find('input[type=text].color-picker-hex').each(function () {
         const el = jQuery(this);
         const options = jQuery.extend({}, el.data('colorpicker') || {}, {
             change: (ev, ui) => {
