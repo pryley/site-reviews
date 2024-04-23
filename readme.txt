@@ -199,11 +199,13 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 - Added Reviews metabox to WooCommerce product pages
 - Added SEOPress integration
 - Added style controls to Elementor widgets
+- Added support for conditional fields in review forms (Review Forms addon required)
 - Added support for multilingual categories
 - Added support for SQLite databases
+- Fixed compatibility with the Cookie Cracker plugin
 - Fixed Discord notifications for reviews with more than 2000 characters
 - Fixed display of rating stars in review revisions
-- Fixed excerpts when PHP multibyte feature is broken
+- Fixed excerpts in cases when the PHP Intl extension is misconfigured
 - Fixed review dates from converting the date to the site's timezone
 - Fixed {review_link} notification tag
 - Fixed SQL error when filtering reviews by "No author"
