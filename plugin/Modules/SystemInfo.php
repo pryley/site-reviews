@@ -429,11 +429,14 @@ class SystemInfo
     protected function reviewCounts(): array
     {
         $reviews = array_filter((array) wp_count_posts(glsr()->post_type));
-        $counts = array_sum($reviews);
-        foreach ($reviews as $status => &$num) {
-            $num = sprintf('%s: %d', $status, $num);
+        $results = array_sum($reviews);
+        if (0 < $results) {
+            foreach ($reviews as $status => &$num) {
+                $num = sprintf('%s: %d', $status, $num);
+            }
+            $details = implode(', ', $reviews);
+            $results = "{$results} ({$details})";
         }
-        $results = $counts.' ('.implode(', ', $reviews).')';
         return ['Reviews' => $results];
     }
 
