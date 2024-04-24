@@ -49,12 +49,12 @@ class MigrateDatabase implements MigrateContract
         if (glsr(Tables::class)->isSqlite()) {
             $sql = glsr(Query::class)->sql("
                 ALTER TABLE table|ratings
-                ADD terms tinyint(1) NOT NULL DEFAULT '1'
+                ADD COLUMN terms tinyint(1) NOT NULL DEFAULT '1'
             ");
         } else {
             $sql = glsr(Query::class)->sql("
                 ALTER TABLE table|ratings
-                ADD terms tinyint(1) NOT NULL DEFAULT '1'
+                ADD COLUMN terms tinyint(1) NOT NULL DEFAULT '1'
                 AFTER url
             ");
         }

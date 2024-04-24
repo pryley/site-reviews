@@ -118,12 +118,12 @@ class Migrate_6_0_0 implements MigrateContract
         if (glsr(Tables::class)->isSqlite()) {
             $sql = glsr(Query::class)->sql("
                 ALTER TABLE table|ratings
-                ADD {$column} tinyint(1) NOT NULL DEFAULT '0'
+                ADD COLUMN {$column} tinyint(1) NOT NULL DEFAULT '0'
             ");
         } else {
             $sql = glsr(Query::class)->sql("
                 ALTER TABLE table|ratings
-                ADD {$column} tinyint(1) NOT NULL DEFAULT '0'
+                ADD COLUMN {$column} tinyint(1) NOT NULL DEFAULT '0'
                 AFTER {$afterColumn}
             ");
         }
