@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Contracts\PluginContract;
-use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\PermissionDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -68,12 +67,18 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * The settings configuration defaults.
+     * The default plugin settings.
      */
     public function defaults(): array
     {
         if (empty($this->defaults)) {
-            $defaults = $this->make(DefaultsManager::class)->get();
+            $settings = $this->settings();
+            $defaults = array_combine(array_keys($settings), wp_list_pluck($settings, 'default'));
+            $defaults = wp_parse_args($defaults, [
+                'version' => '',
+                'version_upgraded_from' => '0.0.0',
+            ]);
+            $defaults = Arr::unflatten($defaults);
             $defaults = $this->filterArray('settings/defaults', $defaults);
             $this->defaults = $defaults;
         }
@@ -100,8 +105,13 @@ final class Application extends Container implements PluginContract
         return !$isAdminScreen || $this->can($this->getPermission($page, $tab));
     }
 
+    /**
+     * This is the entry point to the plugin, it runs before "plugins_loaded".
+     * If this is a new major version, settings are copied over here if needed.
+     */
     public function init(): void
     {
+        $migrated = false;
         // Ensure the custom database tables exist, this is needed in cases
         // where the plugin has been updated instead of activated.
         if (empty(get_option(static::PREFIX.'db_version'))) {
@@ -110,14 +120,16 @@ final class Application extends Container implements PluginContract
         // If this is a new major version, copy over the previous version settings
         if (empty(get_option(OptionManager::databaseKey()))) {
             $previous = $this->make(OptionManager::class)->previous();
-            if (!empty($previous)) {
+            $settings = array_filter(Arr::getAs('array', $previous, 'settings'));
+            if (!empty($settings)) {
                 update_option(OptionManager::databaseKey(), $previous);
+                add_action('init', [$this->make(Migrate::class), 'run'], 1);
+                $migrated = true;
             }
         }
         // Force an immediate plugin migration on database version upgrades
-        if (static::DB_VERSION !== get_option(static::PREFIX.'db_version')) {
-            $migrate = $this->make(Migrate::class);
-            add_action('plugins_loaded', [$migrate, 'run'], 1); // use plugins_loaded!
+        if (static::DB_VERSION !== get_option(static::PREFIX.'db_version') && !$migrated) {
+            add_action('init', [$this->make(Migrate::class), 'run'], 1);
         }
         $this->make(Hooks::class)->run();
     }
@@ -129,14 +141,14 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * This is triggered by $this->update() on wp_loaded.
+     * This is triggered by $this->update() on "wp_loaded".
      *
      * @param PluginContract|string $addon
      */
     public function license($addon): void
     {
         try {
-            $settings = $this->settings(); // populate the initial settings
+            $settings = $this->settings();
             $reflection = new \ReflectionClass($addon);
             $id = $reflection->getConstant('ID');
             $licensed = $reflection->getConstant('LICENSED');
@@ -162,7 +174,7 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * This is triggered by "site-reviews/addon/register" on plugins_loaded.
+     * This is triggered by "site-reviews/addon/register" on "plugins_loaded".
      *
      * @param PluginContract|string $addon
      */
@@ -194,9 +206,12 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * The settings configuration.
+     * The plugin settings configuration.
+     * This is first triggered on "wp_loaded" in MainController::updateAddons.
+     * 
+     * @return mixed
      */
-    public function settings(): array
+    public function settings(string $path = '')
     {
         if (empty($this->settings)) {
             $settings = $this->config('settings');
@@ -204,22 +219,26 @@ final class Application extends Container implements PluginContract
             array_walk($settings, function (&$setting) {
                 $setting = wp_parse_args($setting, [
                     'default' => '',
-                    'sanitizer' => '',
+                    'sanitizer' => 'text',
                 ]);
             });
             $this->settings = $settings;
         }
-        return $this->settings;
+        if (empty($path)) {
+            return $this->settings;
+        }
+        $settings = Arr::unflatten($this->settings);
+        return Arr::get($settings, $path);
     }
 
     /**
-     * This is triggered by "site-reviews/addon/update" on wp_loaded.
+     * This is triggered on "wp_loaded" by "site-reviews/addon/update" in MainController::updateAddons.
      *
      * @param PluginContract|string $addon
      */
     public function update($addon, string $file): void
     {
-        if (!current_user_can('manage_options') && !(defined('DOING_CRON') && DOING_CRON)) {
+        if (!current_user_can('manage_options') && !wp_doing_cron()) {
             return;
         }
         if (!file_exists($file)) {

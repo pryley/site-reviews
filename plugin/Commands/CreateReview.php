@@ -2,11 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Encryption;
@@ -79,7 +79,7 @@ class CreateReview extends AbstractCommand
     {
         $request = clone $this->request;
         $excluded = array_keys(array_diff_key(
-            glsr(DefaultsManager::class)->pluck('settings.forms.required.options'),
+            Arr::consolidate(glsr()->settings('settings.forms.required.options')),
             $this->request->toArray(),
         ));
         $request->merge([

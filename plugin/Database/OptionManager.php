@@ -61,7 +61,9 @@ class OptionManager
         $slug = Str::snakeCase(glsr()->id);
         $version = intval(glsr()->version('major')) + 1;
         while (--$version) {
-            if (1 === $version) {
+            if ($version >= 7) {
+                $keys[$version] = $slug; // remove version from settings key in versions >= 7.0
+            } elseif (1 === $version) {
                 $keys[$version] = sprintf('geminilabs_%s_settings', $slug);
             } elseif (2 === $version) {
                 $keys[$version] = sprintf('geminilabs_%s-v%s', $slug, $version);
@@ -117,9 +119,11 @@ class OptionManager
     {
         $settings = $this->kses($data);
         $strings = Arr::get($settings, 'settings.strings', []);
-        if (!empty(glsr()->settings)) { // prevents a possible infinite loop
+        if (!empty(glsr()->settings)) { // access the property directly to prevent an infinite loop
+            $defaults = glsr()->defaults(); // @phpstan-ignore-line
+            $defaults = Arr::flatten($defaults);
             $settings = Arr::flatten($settings);
-            $settings = shortcode_atts(glsr(DefaultsManager::class)->defaults(), $settings);
+            $settings = shortcode_atts($defaults, $settings);
             $settings = Arr::unflatten($settings);
         }
         $settings = Arr::set($settings, 'settings.strings', $strings);

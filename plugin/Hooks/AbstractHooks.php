@@ -4,6 +4,18 @@ namespace GeminiLabs\SiteReviews\Hooks;
 
 use GeminiLabs\SiteReviews\Contracts\HooksContract;
 
+/**
+ * Trigger order of primary WP hooks:
+ * 
+ * 1. plugins_loaded     Fires once activated plugins have loaded.
+ * 2. load_textdomain    Fires before the MO translation file is loaded.
+ * 3. after_setup_theme  Fires after the theme is loaded.
+ * 4. init               Fires after WordPress has finished loading but before any headers are sent.
+ * 5. wp_loaded          Fires after WordPress, all plugins, and the theme are fully loaded and instantiated.
+ * 6. admin_init         Fires as an admin screen or script is being initialized.
+ * 7. current_screen     Fires after the current screen has been set.
+ * 8. load-{$page_hook}  Fires before a particular screen is loaded.
+ */
 abstract class AbstractHooks implements HooksContract
 {
     protected $basename;

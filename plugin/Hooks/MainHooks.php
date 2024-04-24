@@ -13,6 +13,8 @@ class MainHooks extends AbstractHooks
             ['installOnNewSite', 'wp_initialize_site', 999], // run last
             ['logOnce', 'admin_footer'],
             ['logOnce', 'wp_footer'],
+            ['onInit', 'init', 1],
+            ['onLoaded', 'wp_loaded'],
             ['registerAddons', 'plugins_loaded'],
             ['registerLanguages', 'after_setup_theme'],
             ['registerPostMeta', 'init'],
@@ -21,7 +23,6 @@ class MainHooks extends AbstractHooks
             ['registerShortcodes', 'init'],
             ['registerTaxonomy', 'init'],
             ['registerWidgets', 'widgets_init'],
-            ['updateAddons', 'wp_loaded'],
         ]);
     }
 }

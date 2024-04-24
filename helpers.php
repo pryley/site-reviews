@@ -54,15 +54,14 @@ add_action('plugins_loaded', function () {
  */
 function glsr($alias = null, array $parameters = [])
 {
-    $app = Application::load();
     if (is_null($alias)) {
-        return $app;
+        return Application::load();
     }
     try {
-        return $app->make($alias, $parameters);
+        return Application::load()->make($alias, $parameters);
     } catch (BindingResolutionException $e) {
         glsr_log()->error($e->getMessage());
-        return $app->make(BlackHole::class, compact('alias'));
+        return Application::load()->make(BlackHole::class, compact('alias'));
     }
 }
 

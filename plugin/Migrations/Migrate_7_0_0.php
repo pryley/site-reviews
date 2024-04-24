@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Migrations;
 
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Tables;
 
@@ -11,6 +12,7 @@ class Migrate_7_0_0 implements MigrateContract
 {
     public function run(): bool
     {
+        delete_option(OptionManager::databaseKey(5));
         delete_transient(glsr()->prefix.'cloudflare_ips');
         $this->migrateDatabase();
         return true;
@@ -18,11 +20,7 @@ class Migrate_7_0_0 implements MigrateContract
 
     public function migrateDatabase(): void
     {
-        $result = true;
-        if (!$this->insertTableColumn('is_flagged', 'is_pinned')) {
-            $result = false;
-        }
-        if ($result) {
+        if ($this->insertTableColumn('is_flagged', 'is_pinned')) {
             update_option(glsr()->prefix.'db_version', '1.3');
         }
     }

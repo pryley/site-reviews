@@ -134,7 +134,7 @@ class AdminController extends AbstractController
     public function onActivation(): void
     {
         if (empty(get_option(glsr()->prefix.'activated'))) {
-            glsr(Install::class)->run();
+            glsr(Install::class)->run(); // this hard-resets role permissions
             glsr(Migrate::class)->run();
             update_option(glsr()->prefix.'activated', true);
         }
@@ -234,13 +234,19 @@ class AdminController extends AbstractController
      */
     public function scheduleMigration(): void
     {
-        if ($this->isReviewAdminScreen()
-            && !defined('GLSR_UNIT_TESTS')
-            && !glsr(Queue::class)->isPending('queue/migration')) {
-            if (glsr(Migrate::class)->isMigrationNeeded() || glsr(Database::class)->isMigrationNeeded()) {
-                glsr(Queue::class)->once(time() + MINUTE_IN_SECONDS, 'queue/migration');
-            }
+        if (defined('GLSR_UNIT_TESTS')) {
+            return;
         }
+        if (!$this->isReviewAdminScreen()) {
+            return;
+        }
+        if (glsr(Queue::class)->isPending('queue/migration')) {
+            return;
+        }
+        if (!glsr(Migrate::class)->isMigrationNeeded() && !glsr(Database::class)->isMigrationNeeded()) {
+            return;
+        }
+        glsr(Queue::class)->once(time() + MINUTE_IN_SECONDS, 'queue/migration');
     }
 
     /**
