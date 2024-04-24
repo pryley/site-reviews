@@ -23,6 +23,9 @@ class Migrate_6_10_2 implements MigrateContract
     public function migrateSettings(): void
     {
         $settings = Arr::consolidate(get_option(OptionManager::databaseKey(6)));
+        if (empty($settings)) {
+            return;
+        }
         unset($settings['settings']['schema']['integration']['types']);
         update_option(OptionManager::databaseKey(6), $settings);
         glsr(OptionManager::class)->reset();

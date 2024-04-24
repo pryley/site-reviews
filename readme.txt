@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 6.4
-Stable tag: 7.0.0-RC1
+Stable tag: 7.0.0-RC2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -184,7 +184,7 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 == Changelog ==
 
-= 7.0.0-RC1 (2024-04-22) =
+= 7.0.0-RC2 (2024-04-24) =
 
 - 🚨 Requires all installed addons to be updated!
 - 🚨 Requires at least PHP v7.4

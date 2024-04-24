@@ -68,6 +68,7 @@ final class Application extends Container implements PluginContract
 
     /**
      * The default plugin settings.
+     * This is first triggered on "init:5" in MainController::onInit.
      */
     public function defaults(): array
     {
@@ -111,7 +112,7 @@ final class Application extends Container implements PluginContract
      */
     public function init(): void
     {
-        $migrated = false;
+        $migrate = false;
         // Ensure the custom database tables exist, this is needed in cases
         // where the plugin has been updated instead of activated.
         if (empty(get_option(static::PREFIX.'db_version'))) {
@@ -120,15 +121,12 @@ final class Application extends Container implements PluginContract
         // If this is a new major version, copy over the previous version settings
         if (empty(get_option(OptionManager::databaseKey()))) {
             $previous = $this->make(OptionManager::class)->previous();
-            $settings = array_filter(Arr::getAs('array', $previous, 'settings'));
-            if (!empty($settings)) {
-                update_option(OptionManager::databaseKey(), $previous);
-                add_action('init', [$this->make(Migrate::class), 'run'], 1);
-                $migrated = true;
+            if (!empty($previous)) {
+                $migrate = true;
             }
         }
         // Force an immediate plugin migration on database version upgrades
-        if (static::DB_VERSION !== get_option(static::PREFIX.'db_version') && !$migrated) {
+        if (static::DB_VERSION !== get_option(static::PREFIX.'db_version') || $migrate) {
             add_action('init', [$this->make(Migrate::class), 'run'], 1);
         }
         $this->make(Hooks::class)->run();
@@ -141,7 +139,7 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * This is triggered by $this->update() on "wp_loaded".
+     * This is triggered on "init:5" by $this->update().
      *
      * @param PluginContract|string $addon
      */
@@ -207,7 +205,7 @@ final class Application extends Container implements PluginContract
 
     /**
      * The plugin settings configuration.
-     * This is first triggered on "wp_loaded" in MainController::updateAddons.
+     * This is first triggered on "init:5" in MainController::onInit.
      * 
      * @return mixed
      */
@@ -232,7 +230,7 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * This is triggered on "wp_loaded" by "site-reviews/addon/update" in MainController::updateAddons.
+     * This is triggered on "init:5" by "site-reviews/addon/update" in MainController::onInit.
      *
      * @param PluginContract|string $addon
      */

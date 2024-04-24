@@ -1364,12 +1364,12 @@ msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr ""
 
-#: plugin/Application.php:164
+#: plugin/Application.php:162
 msgctxt "License Keys (admin-text)"
 msgid "Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account."
 msgstr ""
 
-#: plugin/Application.php:165, plugin/Controllers/SettingsController.php:170
+#: plugin/Application.php:163, plugin/Controllers/SettingsController.php:170
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr ""
@@ -2284,7 +2284,7 @@ msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr ""
 
-#: plugin/Controllers/MainController.php:127
+#: plugin/Controllers/MainController.php:114
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr ""

@@ -115,6 +115,21 @@ class OptionManager
         return (string) wp_json_encode($all, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
+    public function mergeDefaults(array $defaults): void
+    {
+        $saved = Arr::consolidate($this->wp(static::databaseKey(), []));
+        $defaults = Arr::flatten(Arr::getAs('array', $defaults, 'settings'));
+        $settings = Arr::flatten(Arr::getAs('array', $saved, 'settings'));
+        if (empty($defaults) || empty(array_diff_key($defaults, $settings))) {
+            return;
+        }
+        $settings = shortcode_atts($defaults, $settings);
+        $settings = Arr::unflatten($settings);
+        $settings['strings'] = Arr::consolidate(Arr::get($saved, 'settings.strings'));
+        $saved['settings'] = $settings;
+        $this->replace($saved);
+    }
+
     public function normalize(array $data = []): array
     {
         $settings = $this->kses($data);
@@ -133,8 +148,9 @@ class OptionManager
     public function previous(): array
     {
         static::flushSettingsCache();
-        foreach (static::databaseKeys() as $version => $option) {
-            if ($settings = Arr::consolidate(get_option($option))) {
+        foreach (static::databaseKeys() as $version => $databaseKey) {
+            $settings = Arr::consolidate(get_option($databaseKey));
+            if (!empty(array_filter(Arr::getAs('array', $settings, 'settings')))) {
                 return $settings;
             }
         }
@@ -159,7 +175,7 @@ class OptionManager
         $settings = Arr::consolidate($this->wp(static::databaseKey(), []));
         if (empty($settings)) {
             delete_option(static::databaseKey());
-            glsr(Migrate::class)->reset(); // Do this to migrate any previous version settings
+            // glsr(Migrate::class)->reset(); // Do this to migrate any previous version settings
         }
         $settings = $this->normalize($settings);
         glsr()->store('settings', $settings);

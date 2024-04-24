@@ -13,8 +13,7 @@ class MainHooks extends AbstractHooks
             ['installOnNewSite', 'wp_initialize_site', 999], // run last
             ['logOnce', 'admin_footer'],
             ['logOnce', 'wp_footer'],
-            ['onInit', 'init', 1],
-            ['onLoaded', 'wp_loaded'],
+            ['onInit', 'init', 5], // run after possible init:1 migration
             ['registerAddons', 'plugins_loaded'],
             ['registerLanguages', 'after_setup_theme'],
             ['registerPostMeta', 'init'],

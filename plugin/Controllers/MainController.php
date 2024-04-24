@@ -57,28 +57,15 @@ class MainController extends AbstractController
 
     /**
      * Initialize the Application settings config and defaults.
+     * Check addons for updates and add license field to settings.
      * 
-     * @action init:1
+     * @action init:5
      */
     public function onInit(): void
     {
         $defaults = glsr()->defaults();
-        $settings = glsr(OptionManager::class)->wp(OptionManager::databaseKey(), [], 'array');
-        $settings = array_filter(Arr::get($settings, 'settings'));
-        if (empty($settings)) {
-            $settings = glsr(OptionManager::class)->all();
-            update_option(OptionManager::databaseKey(), $settings);
-        }
-    }
-
-    /**
-     * Update addons.
-     * 
-     * @action wp_loaded
-     */
-    public function onLoaded(): void
-    {
         glsr()->action('addon/update', glsr());
+        glsr(OptionManager::class)->mergeDefaults($defaults);
     }
 
     /**
