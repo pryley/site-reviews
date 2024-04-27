@@ -208,11 +208,15 @@ class Router
         if ('submit-review' === $request->_action) {
             $data['message'] = __('The form could not be submitted. Please notify the site administrator.', 'site-reviews');
         }
-        if (glsr()->isAdmin()) {
-            glsr(Notice::class)->addError(_x('There was an error (try reloading the page).', 'admin-text', 'site-reviews')." <code>{$error}</code>");
+        if (glsr()->prefix.'admin_action' === Helper::filterInput('action')) {
+            $message = _x('There was an error', 'admin-text', 'site-reviews');
+            $advice = sprintf(
+                _x('Try %s the page.', 'try reloading the page (admin-text)', 'site-reviews'),
+                sprintf('<a href="javascript:location.reload()">%s</a>', _x('reloading', '(admin-text) e.g. try reloading the page', 'site-reviews')),
+            );
+            glsr(Notice::class)->addError("{$message}: <code>{$error}</code>, {$advice}");
             $data['notices'] = glsr(Notice::class)->get();
         }
-        glsr_log($error);
         if (429 !== $errCode) {
             glsr_log()->debug($request->toArray());
         }
