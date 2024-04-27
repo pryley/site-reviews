@@ -44,7 +44,7 @@ msgstr "There are no reviews yet. Be the first one to write one."
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: plugin/Router.php:208, views/pages/documentation/support/common-problems-and-solutions.php:62
+#: plugin/Router.php:209, views/pages/documentation/support/common-problems-and-solutions.php:62
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr "The form could not be submitted. Please notify the site administrator."
 
@@ -1993,10 +1993,10 @@ msgctxt "admin-text"
 msgid "Rollback Site Reviews"
 msgstr "Rollback Site Reviews"
 
-#: plugin/Router.php:211
+#: plugin/Router.php:212
 msgctxt "admin-text"
-msgid "There was an error (try reloading the page)."
-msgstr "There was an error (try reloading the page)."
+msgid "There was an error"
+msgstr "There was an error"
 
 #: plugin/Upload.php:46
 msgctxt "admin-text"
@@ -6327,6 +6327,16 @@ msgid ""
 msgstr ""
 "Enter the license key here. Your license can be found on the %s page of "
 "your Nifty Plugins account."
+
+#: plugin/Router.php:214
+msgctxt "try reloading the page (admin-text)"
+msgid "Try %s the page."
+msgstr "Try %s the page."
+
+#: plugin/Router.php:215
+msgctxt "(admin-text) e.g. try reloading the page"
+msgid "reloading"
+msgstr "reloading"
 
 #: plugin/Upload.php:26
 msgctxt "%s: uploaded file extension (admin-text)"

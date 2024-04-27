@@ -31,7 +31,7 @@ class VerifyReview extends AbstractCommand
             if (!glsr(Date::class)->isTimestamp($verifiedOn)) {
                 glsr(Database::class)->metaSet($this->review->ID, 'verified_on', current_datetime()->getTimestamp());
             }
-            glsr()->action('review/verified', $this->review->ID);
+            glsr()->action('review/verified', $this->review);
         } else {
             $this->fail();
         }
