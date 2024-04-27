@@ -120,7 +120,7 @@ class Validation {
     }
 
     initField (inputEl) {
-        if (this.fields.find(field => field.input.name === inputEl.name && !inputEl.name.endsWith('[]'))) return; // prevent duplicates
+        if (this.fields.find(field => field.input.name === inputEl.name && 'radio' !== inputEl.type && !inputEl.name.endsWith('[]'))) return; // prevent duplicates
         const fieldEl = inputEl.closest(classListSelector(this.config.field));
         if (!fieldEl?.offsetParent) return; // make sure field is visible
         this.fields.push(this._initField(inputEl))

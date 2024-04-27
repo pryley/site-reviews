@@ -45,6 +45,9 @@ class Checkbox extends AbstractFieldElement
                 'type' => $this->field->type,
                 'value' => $value,
             ];
+            if (!empty($this->field['data-conditions'])) {
+                $inputField['data-conditions'] = $this->field['data-conditions'];
+            }
             $html = glsr(Template::class)->build("templates/form/type-{$type}", [
                 'context' => [
                     'class' => glsr(Style::class)->defaultClasses('field')."-{$type}", // only use the default class here!
