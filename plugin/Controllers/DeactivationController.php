@@ -30,7 +30,7 @@ class DeactivationController extends AbstractController
         ]);
         wp_localize_script(glsr()->id.'/deactivate-plugin', '_glsr_deactivate', [
             'ajax' => [
-                'action' => glsr()->prefix.'action',
+                'action' => glsr()->prefix.'admin_action',
                 'nonce' => wp_create_nonce('deactivate'),
                 'prefix' => glsr()->id,
             ],

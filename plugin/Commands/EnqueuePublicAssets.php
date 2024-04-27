@@ -58,7 +58,7 @@ class EnqueuePublicAssets extends AbstractCommand
             ? glsr()->constant('PAGED_QUERY_VAR')
             : false;
         $variables = [
-            'action' => glsr()->prefix.'action',
+            'action' => glsr()->prefix.'public_action',
             'addons' => [],
             'ajaxpagination' => $this->getFixedSelectorsForPagination(),
             'ajaxurl' => admin_url('admin-ajax.php'),

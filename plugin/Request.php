@@ -49,8 +49,9 @@ class Request extends Arguments
      */
     public static function inputPost(): Request
     {
+        $action = Helper::filterInput('action');
         $values = Helper::filterInputArray(glsr()->id);
-        if (Helper::filterInput('action') === glsr()->prefix.'action') {
+        if (in_array($action, [glsr()->prefix.'admin_action', glsr()->prefix.'public_action'])) {
             $values['_ajax_request'] = true;
         }
         if ('submit-review' === Helper::filterInput('_action', $values)) {

@@ -397,7 +397,7 @@ class ReviewController extends AbstractController
             return false; // trashed posts cannot be edited
         }
         $input = 'edit' === glsr_current_screen()->base ? INPUT_GET : INPUT_POST;
-        return 'glsr_action' !== filter_input($input, 'action'); // abort if not a proper post update (i.e. approve/unapprove)
+        return filter_input($input, 'action') !== glsr()->prefix.'admin_action'; // abort if not a proper post update (i.e. approve/unapprove)
     }
 
     protected function refreshAvatar(array $data, Review $review): string

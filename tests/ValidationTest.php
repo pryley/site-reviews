@@ -254,7 +254,7 @@ class ValidationTest extends WP_Ajax_UnitTestCase
     protected function performAjaxRequest($request)
     {
         // error_log(print_r($request, 1));
-        $action = glsr()->prefix.'action';
+        $action = glsr()->prefix.'public_action';
         $_POST['_ajax_request'] = true;
         $_POST[glsr()->id] = $request;
         try {

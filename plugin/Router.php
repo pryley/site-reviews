@@ -10,7 +10,7 @@ class Router
     use HookProxy;
 
     /**
-     * @action wp_ajax_glsr_action
+     * @action wp_ajax_glsr_admin_action
      */
     public function routeAdminAjaxRequest(): void
     {
@@ -52,7 +52,8 @@ class Router
     }
 
     /**
-     * @action wp_ajax_nopriv_glsr_action
+     * @action wp_ajax_glsr_public_action
+     * @action wp_ajax_nopriv_glsr_public_action
      */
     public function routePublicAjaxRequest(): void
     {

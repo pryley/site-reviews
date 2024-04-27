@@ -74,7 +74,7 @@ class EnqueueAdminAssets extends AbstractCommand
     public function inlineScript(): string
     {
         $variables = [
-            'action' => glsr()->prefix.'action',
+            'action' => glsr()->prefix.'admin_action',
             'addons' => [],
             'addonsurl' => glsr_admin_url('addons'),
             'ajaxurl' => admin_url('admin-ajax.php'),
