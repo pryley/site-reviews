@@ -8,6 +8,7 @@ parameters:
     - tests/phpstan/stubs/akismet.php
     - tests/phpstan/stubs/elementor.php
     - tests/phpstan/stubs/elementorpro.php
+    - tests/phpstan/stubs/fusion-builder.php
     - tests/phpstan/stubs/gamipress.php
     - tests/phpstan/stubs/lpfw.php
     - tests/phpstan/stubs/mycred.php

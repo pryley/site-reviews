@@ -12,6 +12,9 @@ if (!defined('DB_NAME')) {
 if (!defined('ELEMENTOR_VERSION')) {
     define('ELEMENTOR_VERSION', '3.19.0');
 }
+if (!defined('FUSION_BUILDER_VERSION')) {
+    define('FUSION_BUILDER_VERSION', '3.11.0');
+}
 if (!defined('ICL_SITEPRESS_VERSION')) {
     define('ICL_SITEPRESS_VERSION', '0.0.0');
 }

@@ -137,6 +137,7 @@ class AdminController extends AbstractController
             glsr(Install::class)->run(); // this hard-resets role permissions
             glsr(Migrate::class)->run();
             update_option(glsr()->prefix.'activated', true);
+            glsr()->action('activated');
         }
     }
 
@@ -146,6 +147,7 @@ class AdminController extends AbstractController
     public function onDeactivation(bool $isNetworkDeactivation): void
     {
         glsr(Install::class)->deactivate($isNetworkDeactivation);
+        glsr()->action('deactivated');
     }
 
     /**

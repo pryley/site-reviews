@@ -1,12 +1,14 @@
 ## Actions
 
     site-reviews/action                                         (string $hook, array $args)
+    site-reviews/activated                                      ()
     site-reviews/addon/register                                 (Application $app)
     site-reviews/builder                                        (Contracts\BuilderContract $builder)
     site-reviews/cache/flush                                    (Review $review)
     site-reviews/customize/<style>                              (Contracts\BuilderContract $builder)
     site-reviews/database/sql                                   (string $sql, string $handle)
     site-reviews/database/sql/<handle>                          (string $sql)
+    site-reviews/deactivated                                    ()
     site-reviews/defaults                                       (Contracts\DefaultsContract $defaults, string $hook, string $method, array $values)
     site-reviews/export/cleanup                                 ()
     site-reviews/field/<original_type>                          (Modules\Html\Field $field)
@@ -136,6 +138,10 @@
     site-reviews/form/build/fields                              (string $rendered, Modules\Html\Form $form): string
     site-reviews/form/build/response                            (string $rendered, Modules\Html\Form $form): string
     site-reviews/form/build/submit_button                       (string $rendered, Modules\Html\Form $form): string
+    site-reviews/fusion-builder/controls/site_review            (array $parameters): array
+    site-reviews/fusion-builder/controls/site_reviews           (array $parameters): array
+    site-reviews/fusion-builder/controls/site_reviews_form      (array $parameters): array
+    site-reviews/fusion-builder/controls/site_reviews_summary   (array $parameters): array
     site-reviews/gamipress/posts/post_types                     (array $postTypes): array
     site-reviews/interpolate/<template_path>                    (array $context, string $template, array $data): array
     site-reviews/is-local-server                                (bool $bool): bool
