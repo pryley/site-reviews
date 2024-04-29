@@ -376,7 +376,7 @@ class ListTableController extends AbstractController
         ]);
         $posts = glsr(Tables::class)->table('posts');
         $ratings = glsr(Tables::class)->table('ratings');
-        $clause['clauses'][] = "INNER JOIN {$ratings} ON {$ratings}.review_id = {$posts}.ID";
+        $clause['clauses'][] = "INNER JOIN {$ratings} ON ({$ratings}.review_id = {$posts}.ID)";
         foreach ($this->filterByValues() as $key => $value) {
             if (!in_array($key, ['assigned_post', 'assigned_user'])) {
                 continue;
@@ -384,9 +384,9 @@ class ListTableController extends AbstractController
             $assignedTable = glsr(Tables::class)->table($key.'s');
             $value = Cast::toInt($value);
             if (0 === $value) {
-                $clause['clauses'][] = "LEFT JOIN {$assignedTable} ON {$assignedTable}.rating_id = {$ratings}.ID";
+                $clause['clauses'][] = "LEFT JOIN {$assignedTable} ON ({$assignedTable}.rating_id = {$ratings}.ID)";
             } else {
-                $clause['clauses'][] = "INNER JOIN {$assignedTable} ON {$assignedTable}.rating_id = {$ratings}.ID";
+                $clause['clauses'][] = "INNER JOIN {$assignedTable} ON ({$assignedTable}.rating_id = {$ratings}.ID)";
             }
         }
         return $clause;

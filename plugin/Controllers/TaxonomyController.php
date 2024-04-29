@@ -197,7 +197,7 @@ class TaxonomyController extends AbstractController
             $sql = "
                 SELECT COUNT(*) 
                 FROM table|termmeta AS tm
-                INNER JOIN table|term_taxonomy AS tt ON tt.term_id = tm.term_id
+                INNER JOIN table|term_taxonomy AS tt ON (tt.term_id = tm.term_id)
                 WHERE tt.taxonomy = %s
                 AND meta_key = %s
             ";

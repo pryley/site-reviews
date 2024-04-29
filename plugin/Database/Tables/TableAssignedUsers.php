@@ -28,8 +28,8 @@ class TableAssignedUsers extends AbstractTable
             glsr(Query::class)->sql("
                 DELETE t
                 FROM {$this->tablename} AS t
-                LEFT JOIN table|ratings AS r ON r.ID = t.rating_id
-                LEFT JOIN table|users AS u ON u.ID = t.user_id
+                LEFT JOIN table|ratings AS r ON (r.ID = t.rating_id)
+                LEFT JOIN table|users AS u ON (u.ID = t.user_id)
                 WHERE (r.ID IS NULL OR u.ID IS NULL)
             ")
         );

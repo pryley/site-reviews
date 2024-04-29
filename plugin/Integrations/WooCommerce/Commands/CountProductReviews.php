@@ -25,7 +25,7 @@ class CountProductReviews extends AbstractCommand
         $sql = glsr(Query::class)->sql("
             SELECT COUNT(DISTINCT c.comment_ID)
             FROM table|comments AS c
-            INNER JOIN table|commentmeta AS cm ON cm.comment_id = c.comment_ID
+            INNER JOIN table|commentmeta AS cm ON (cm.comment_id = c.comment_ID)
             WHERE 1=1
             AND c.comment_type = 'review'
             AND c.comment_approved IN ('0','1')

@@ -40,7 +40,7 @@ class Migrate_4_5_0 implements MigrateContract
         global $wpdb;
         $wpdb->query($wpdb->prepare("
             UPDATE {$wpdb->postmeta} pm
-            INNER JOIN {$wpdb->posts} p ON p.id = pm.post_id
+            INNER JOIN {$wpdb->posts} p ON (p.ID = pm.post_id)
             SET pm.meta_key = CONCAT('_', pm.meta_key)
             WHERE pm.meta_key IN ('assigned_to','author','avatar','content','custom','date','email','ip_address','pinned','rating','response','review_id','review_type','title','url')
             AND p.post_type = %s

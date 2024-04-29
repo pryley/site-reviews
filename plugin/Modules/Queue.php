@@ -36,7 +36,7 @@ class Queue implements QueueContract
         $sql = glsr(Query::class)->sql("
             SELECT a.status, count(a.status) as 'count'
             FROM {$wpdb->actionscheduler_actions} a
-            INNER JOIN {$wpdb->actionscheduler_groups} g ON g.group_id = a.group_id
+            INNER JOIN {$wpdb->actionscheduler_groups} g ON (g.group_id = a.group_id)
             WHERE g.slug = '%s'
             GROUP BY a.status
         ");

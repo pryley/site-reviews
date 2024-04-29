@@ -34,7 +34,7 @@ class SearchAssignedPosts extends AbstractSearch
         $sql = "
             SELECT p.ID as id, p.post_title as name
             FROM table|posts AS p
-            INNER JOIN table|assigned_posts AS ap ON ap.post_id = p.ID
+            INNER JOIN table|assigned_posts AS ap ON (ap.post_id = p.ID)
             WHERE 1=1
             AND ap.post_id = %d
             AND p.post_status IN ({$this->postStatuses()})
@@ -51,7 +51,7 @@ class SearchAssignedPosts extends AbstractSearch
         $sql = "
             SELECT p.ID as id, p.post_title as name
             FROM table|posts AS p
-            INNER JOIN table|assigned_posts AS ap ON ap.post_id = p.ID
+            INNER JOIN table|assigned_posts AS ap ON (ap.post_id = p.ID)
             WHERE 1=1
             AND p.post_title LIKE %s
             AND p.post_status IN ({$this->postStatuses()})

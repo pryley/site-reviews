@@ -50,10 +50,10 @@ class Export
                 GROUP_CONCAT(DISTINCT aut.user_id) AS assigned_users,
                 GROUP_CONCAT(DISTINCT pm.meta_value) as response
             FROM table|ratings AS r
-            INNER JOIN table|posts AS p ON p.ID = r.review_id
-            LEFT JOIN table|assigned_posts AS apt ON apt.rating_id = r.ID
-            LEFT JOIN table|assigned_terms AS att ON att.rating_id = r.ID
-            LEFT JOIN table|assigned_users AS aut ON aut.rating_id = r.ID
+            INNER JOIN table|posts AS p ON (p.ID = r.review_id)
+            LEFT JOIN table|assigned_posts AS apt ON (apt.rating_id = r.ID)
+            LEFT JOIN table|assigned_terms AS att ON (att.rating_id = r.ID)
+            LEFT JOIN table|assigned_users AS aut ON (aut.rating_id = r.ID)
             LEFT JOIN table|postmeta AS pm ON (pm.post_id = r.review_id AND pm.meta_key = '_response')
             {$this->where($args)}
             GROUP BY r.ID
@@ -83,11 +83,11 @@ class Export
                 GROUP_CONCAT(DISTINCT aut.user_id) AS assigned_users,
                 GROUP_CONCAT(DISTINCT pm.meta_value) as response
             FROM table|ratings AS r
-            INNER JOIN table|posts AS p ON p.ID = r.review_id
-            LEFT JOIN table|assigned_posts AS apt ON apt.rating_id = r.ID
-            LEFT JOIN table|assigned_terms AS att ON att.rating_id = r.ID
-            LEFT JOIN table|assigned_users AS aut ON aut.rating_id = r.ID
-            LEFT JOIN table|posts AS p1 ON p1.ID = apt.post_id
+            INNER JOIN table|posts AS p ON (p.ID = r.review_id)
+            LEFT JOIN table|assigned_posts AS apt ON (apt.rating_id = r.ID)
+            LEFT JOIN table|assigned_terms AS att ON (att.rating_id = r.ID)
+            LEFT JOIN table|assigned_users AS aut ON (aut.rating_id = r.ID)
+            LEFT JOIN table|posts AS p1 ON (p1.ID = apt.post_id)
             LEFT JOIN table|postmeta AS pm ON (pm.post_id = r.review_id AND pm.meta_key = '_response')
             {$this->where($args)}
             GROUP BY r.ID

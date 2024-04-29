@@ -162,8 +162,8 @@ class Query
                 GROUP_CONCAT(DISTINCT apt.post_id) AS post_ids,
                 GROUP_CONCAT(DISTINCT aut.user_id) AS user_ids
             FROM table|ratings AS r
-            LEFT JOIN table|assigned_posts AS apt ON apt.rating_id = r.ID
-            LEFT JOIN table|assigned_users AS aut ON aut.rating_id = r.ID
+            LEFT JOIN table|assigned_posts AS apt ON (apt.rating_id = r.ID)
+            LEFT JOIN table|assigned_users AS aut ON (aut.rating_id = r.ID)
             GROUP BY r.ID
             ORDER BY r.ID
             {$this->sqlLimit()}
@@ -186,7 +186,7 @@ class Query
         $sql = "
             SELECT m.post_id, m.meta_value
             FROM table|postmeta AS m
-            INNER JOIN table|posts AS p ON p.ID = m.post_id
+            INNER JOIN table|posts AS p ON (p.ID = m.post_id)
             WHERE p.post_type = %s AND m.meta_key = %s
             ORDER BY m.meta_id
             {$this->sqlLimit()}
@@ -211,7 +211,7 @@ class Query
         return $this->sql("
             SELECT apt.post_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
             FROM table|ratings AS r
-            INNER JOIN table|assigned_posts AS apt ON apt.rating_id = r.ID
+            INNER JOIN table|assigned_posts AS apt ON (apt.rating_id = r.ID)
             WHERE 1=1
             {$this->clauseAndStatus()}
             {$this->clauseAndType()}
@@ -224,7 +224,7 @@ class Query
         return $this->sql("
             SELECT att.term_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
             FROM table|ratings AS r
-            INNER JOIN table|assigned_terms AS att ON att.rating_id = r.ID
+            INNER JOIN table|assigned_terms AS att ON (att.rating_id = r.ID)
             WHERE 1=1
             {$this->clauseAndStatus()}
             {$this->clauseAndType()}
@@ -237,7 +237,7 @@ class Query
         return $this->sql("
             SELECT aut.user_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
             FROM table|ratings AS r
-            INNER JOIN table|assigned_users AS aut ON aut.rating_id = r.ID
+            INNER JOIN table|assigned_users AS aut ON (aut.rating_id = r.ID)
             WHERE 1=1
             {$this->clauseAndStatus()}
             {$this->clauseAndType()}
@@ -279,10 +279,10 @@ class Query
                 GROUP_CONCAT(DISTINCT att.term_id) AS term_ids,
                 GROUP_CONCAT(DISTINCT aut.user_id) AS user_ids
             FROM table|ratings AS r
-            INNER JOIN table|posts AS p ON p.ID = r.review_id
-            LEFT JOIN table|assigned_posts AS apt ON apt.rating_id = r.ID
-            LEFT JOIN table|assigned_terms AS att ON att.rating_id = r.ID
-            LEFT JOIN table|assigned_users AS aut ON aut.rating_id = r.ID
+            INNER JOIN table|posts AS p ON (p.ID = r.review_id)
+            LEFT JOIN table|assigned_posts AS apt ON (apt.rating_id = r.ID)
+            LEFT JOIN table|assigned_terms AS att ON (att.rating_id = r.ID)
+            LEFT JOIN table|assigned_users AS aut ON (aut.rating_id = r.ID)
             WHERE r.review_id IN ({$reviewIds}) AND p.post_type = '{$postType}'
             GROUP BY r.ID
             {$orderBy}

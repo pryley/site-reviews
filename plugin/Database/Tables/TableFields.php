@@ -26,7 +26,7 @@ class TableFields extends AbstractTable
             glsr(Query::class)->sql("
                 DELETE t
                 FROM {$this->tablename} AS t
-                LEFT JOIN table|ratings AS r ON r.ID = t.rating_id
+                LEFT JOIN table|ratings AS r ON (r.ID = t.rating_id)
                 WHERE r.ID IS NULL
             ")
         );

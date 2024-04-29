@@ -252,7 +252,7 @@ trait Sql
     protected function clauseJoinAssignedPosts(): string
     {
         return $this->clauseIfValueNotEmpty(
-            "{$this->joinMethod()} table|assigned_posts AS apt ON apt.rating_id = r.ID",
+            "{$this->joinMethod()} table|assigned_posts AS apt ON (apt.rating_id = r.ID)",
             $this->args['assigned_posts'],
             $prepare = false
         );
@@ -260,7 +260,7 @@ trait Sql
 
     protected function clauseJoinAssignedPostsTypes(): string
     {
-        $clause1 = "{$this->joinMethod()} table|assigned_posts AS apt ON apt.rating_id = r.ID";
+        $clause1 = "{$this->joinMethod()} table|assigned_posts AS apt ON (apt.rating_id = r.ID)";
         $clause2 = "INNER JOIN table|posts AS pt ON (pt.ID = apt.post_id AND pt.post_type IN ('%s'))";
         $values = Arr::unique($this->args['assigned_posts_types']);
         $values = array_map('esc_sql', $values);
@@ -272,7 +272,7 @@ trait Sql
     protected function clauseJoinAssignedTerms(): string
     {
         return $this->clauseIfValueNotEmpty(
-            "{$this->joinMethod()} table|assigned_terms AS att ON att.rating_id = r.ID",
+            "{$this->joinMethod()} table|assigned_terms AS att ON (att.rating_id = r.ID)",
             $this->args['assigned_terms'],
             $prepare = false
         );
@@ -281,7 +281,7 @@ trait Sql
     protected function clauseJoinAssignedUsers(): string
     {
         return $this->clauseIfValueNotEmpty(
-            "{$this->joinMethod()} table|assigned_users AS aut ON aut.rating_id = r.ID",
+            "{$this->joinMethod()} table|assigned_users AS aut ON (aut.rating_id = r.ID)",
             $this->args['assigned_users'],
             $prepare = false
         );
@@ -290,7 +290,7 @@ trait Sql
     protected function clauseJoinContent(): string
     {
         return $this->clauseIfValueNotEmpty(
-            "INNER JOIN table|posts AS p ON p.ID = r.review_id",
+            "INNER JOIN table|posts AS p ON (p.ID = r.review_id)",
             $this->args['content'],
             $prepare = false
         );
@@ -299,7 +299,7 @@ trait Sql
     protected function clauseJoinDate(): string
     {
         return $this->clauseIfValueNotEmpty(
-            "INNER JOIN table|posts AS p ON p.ID = r.review_id",
+            "INNER JOIN table|posts AS p ON (p.ID = r.review_id)",
             array_filter($this->args['date']),
             $prepare = false
         );
@@ -308,7 +308,7 @@ trait Sql
     protected function clauseJoinUserIn(): string
     {
         return $this->clauseIfValueNotEmpty(
-            "INNER JOIN table|posts AS p ON p.ID = r.review_id",
+            "INNER JOIN table|posts AS p ON (p.ID = r.review_id)",
             $this->args['user__in'],
             $prepare = false
         );
@@ -317,7 +317,7 @@ trait Sql
     protected function clauseJoinUserNotIn(): string
     {
         return $this->clauseIfValueNotEmpty(
-            "INNER JOIN table|posts AS p ON p.ID = r.review_id",
+            "INNER JOIN table|posts AS p ON (p.ID = r.review_id)",
             $this->args['user__not_in'],
             $prepare = false
         );
@@ -326,21 +326,21 @@ trait Sql
     protected function clauseJoinOrderBy(): string
     {
         return (string) Helper::ifTrue(str_starts_with($this->args['orderby'], 'p.'),
-            "INNER JOIN table|posts AS p ON p.ID = r.review_id"
+            "INNER JOIN table|posts AS p ON (p.ID = r.review_id)"
         );
     }
 
     protected function clauseJoinRatingField(): string
     {
         return (string) Helper::ifTrue($this->isCustomRatingField(),
-            "INNER JOIN table|postmeta AS pm ON pm.post_id = r.review_id"
+            "INNER JOIN table|postmeta AS pm ON (pm.post_id = r.review_id)"
         );
     }
 
     protected function clauseJoinStatus(): string
     {
         return (string) Helper::ifTrue(-1 === $this->args['status'],
-            "INNER JOIN table|posts AS p ON p.ID = r.review_id"
+            "INNER JOIN table|posts AS p ON (p.ID = r.review_id)"
         );
     }
 

@@ -91,7 +91,7 @@ class WidgetRatingFilter extends \WC_Widget_Rating_Filter
         $sql = glsr(Query::class)->sql("
             SELECT apt.post_id AS product_id, ROUND(AVG(r.rating)) AS average
             FROM table|ratings AS r 
-            INNER JOIN table|assigned_posts AS apt ON apt.rating_id = r.ID
+            INNER JOIN table|assigned_posts AS apt ON (apt.rating_id = r.ID)
             INNER JOIN table|posts AS p ON (p.ID = apt.post_id AND p.post_type IN ('product'))
             WHERE 1=1 
             AND apt.is_published = 1 

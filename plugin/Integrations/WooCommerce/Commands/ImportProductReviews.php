@@ -56,7 +56,7 @@ class ImportProductReviews extends AbstractCommand
         $sql = "
             SELECT DISTINCT c.comment_ID
             FROM table|comments AS c
-            INNER JOIN table|commentmeta AS cm ON cm.comment_id = c.comment_ID
+            INNER JOIN table|commentmeta AS cm ON (cm.comment_id = c.comment_ID)
             WHERE 1=1
             AND c.comment_type = 'review'
             AND c.comment_approved IN ('0','1')
@@ -96,7 +96,7 @@ class ImportProductReviews extends AbstractCommand
                 c.comment_post_ID as assigned_posts,
                 c.user_id as user_id
             FROM table|comments AS c
-            INNER JOIN table|commentmeta AS cm ON cm.comment_id = c.comment_ID
+            INNER JOIN table|commentmeta AS cm ON (cm.comment_id = c.comment_ID)
             WHERE 1=1
             AND c.comment_ID IN ({$reviewIds})
             AND cm.meta_key = 'rating'

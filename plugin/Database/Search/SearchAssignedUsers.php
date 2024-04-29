@@ -21,7 +21,7 @@ class SearchAssignedUsers extends AbstractSearch
         $sql = "
             SELECT u.ID AS id, u.user_login AS login, u.display_name AS name
             FROM table|users u
-            INNER JOIN table|assigned_users AS ap ON ap.user_id = u.ID
+            INNER JOIN table|assigned_users AS ap ON (ap.user_id = u.ID)
             WHERE 1=1
             AND ap.user_id = %d
             GROUP BY u.ID
@@ -37,7 +37,7 @@ class SearchAssignedUsers extends AbstractSearch
         $sql = "
             SELECT u.ID AS id, u.user_login AS login, u.display_name AS name
             FROM table|users u
-            INNER JOIN table|assigned_users AS ap ON ap.user_id = u.ID
+            INNER JOIN table|assigned_users AS ap ON (ap.user_id = u.ID)
             WHERE 1=1
             AND (u.user_login LIKE %s OR u.display_name LIKE %s)
             GROUP BY u.ID
