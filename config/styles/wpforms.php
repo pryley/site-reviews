@@ -2,7 +2,7 @@
 
 return [
     'classes' => [
-        'button' => 'wpforms-submit',
+        'button' => 'wpforms-submit wp-block-button__link',
         'description' => 'wpforms-field-description',
         'field' => 'wpforms-field',
         'form' => 'wpforms-form',

@@ -333,8 +333,8 @@ abstract class Controller extends AbstractController
     {
         $option = glsr()->prefix."activated_{$this->app()->id}";
         if (empty(get_option($option))) {
-            $this->app()->action('activate');
             update_option($option, true);
+            $this->app()->action('activated');
         }
     }
 
@@ -346,11 +346,13 @@ abstract class Controller extends AbstractController
         $option = glsr()->prefix."activated_{$this->app()->id}";
         if (!$isNetworkDeactivation) {
             delete_option($option);
+            $this->app()->action('deactivated');
             return;
         }
         foreach (glsr(Install::class)->sites() as $siteId) {
             switch_to_blog($siteId);
             delete_option($option);
+            $this->app()->action('deactivated');
             restore_current_blog();
         }
     }

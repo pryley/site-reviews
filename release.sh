@@ -1,14 +1,12 @@
 #!/bin/sh
 # By Paul Ryley, based on work by Mike Jolley
 # License: GPLv3
-# Version: 2.0.0
+# Version: 2.1.0
 
 # ----- START EDITING HERE -----
 
 ASSETS_DIR="+/assets"
 GIT_BRANCH="main"
-MIN_PHP_VERSION="7.2"
-MIN_WORDPRESS_VERSION="5.8"
 PLUGIN_SLUG="site-reviews"
 
 # ----- STOP EDITING HERE -----
@@ -18,11 +16,23 @@ clear
 
 # VARS
 ROOT_PATH=$(pwd)"/"
+MIN_PHP_VERSION=`perl -lne 'm{Requires PHP:?\s+(.+)} and print $1' ${ROOT_PATH}${PLUGIN_SLUG}.php`
+MIN_WORDPRESS_VERSION=`perl -lne 'm{Requires at least:?\s+(.+)} and print $1' ${ROOT_PATH}${PLUGIN_SLUG}.php`
 PLUGIN_VERSION=`grep "Version:" $ROOT_PATH$PLUGIN_SLUG.php | awk -F' ' '{print $NF}' | tr -d '\r'`
 STABLE_VERSION=`grep "^Stable tag:" ${ROOT_PATH}readme.txt | awk -F' ' '{print $NF}' | tr -d '\r'`
 SVN_REPO="https://plugins.svn.wordpress.org/"${PLUGIN_SLUG}"/"
 SVN_REPO_DIR=".svn"
 TEMP_GITHUB_REPO=${PLUGIN_SLUG}"-git"
+TESTED_UP_TO_VERSION=`perl -lne 'm{Tested up to:?\s+(.+)} and print $1' ${ROOT_PATH}readme.txt`
+CHANGELOG_DATE=`grep -e "^= ${PLUGIN_VERSION} (.*) =" ${ROOT_PATH}readme.txt | grep -o '....-..-..' | awk -F' ' '{print $NF}' | tr -d '\r'`
+
+# CHECK GIT STATUS
+make build
+clear
+if [[ ! -z $(git status --porcelain=v2 2>/dev/null) ]]; then
+	echo "\n❌ \033[0;31mYou forgot to commit changes.\033[0m\n"
+	exit 1;
+fi
 
 # ASK INFO
 echo "--------------------------------------------"
@@ -42,16 +52,19 @@ else
 fi
 
 echo ""
-read -p " - Updated the readme.txt changelog for "${PLUGIN_VERSION}" and prepended it to changelog.txt?"
-read -p " - Updated the What's New page for major/minor version updates?"
-read -p " - Updated the POT file?"
+read -p " - Updated the 'Minimum plugin requirements' in readme.txt?"
+read -p " - Updated the 'Requires at least: ${MIN_WORDPRESS_VERSION}' in ${PLUGIN_SLUG}.php?"
+read -p " - Updated the 'Requires PHP: ${MIN_PHP_VERSION}' in ${PLUGIN_SLUG}.php?"
+read -p " - Updated the 'Tested up to: ${TESTED_UP_TO_VERSION}' in readme.txt?"
+read -p " - Updated the 'What's New' page for major/minor version updates?"
+read -p " - Updated the readme.txt changelog and prepended it to changelog.txt?"
 read -p " - Updated the screenshots?"
-read -p " - Updated the major version in wpml-config.xml?"
+read -p " - Updated wpml-config.xml?"
 read -p " - Verified compatibility with PHP v${MIN_PHP_VERSION} -> latest?"
 read -p " - Verified compatibility with Wordpress v${MIN_WORDPRESS_VERSION} -> latest?"
-read -p " - Verified the changelog release date?"
+read -p " - Verified the changelog release date ($CHANGELOG_DATE)?"
 read -p " - Verified that all addons work correctly with the update?"
-read -p " - Committed all changes to the main branch on GITHUB?"
+read -p " - Committed all changes to the ${GIT_BRANCH} branch on GITHUB?"
 read -p " - PHPUnit and PHPStan has passed all inspections?"
 read -p " - Scrutinizer has passed all inspections?"
 echo ""

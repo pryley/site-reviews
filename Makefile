@@ -33,8 +33,6 @@ open: ## Open the development site in the default browser
 	@open http://site-reviews.test/wp/wp-admin/edit.php?post_type=site-review
 
 release: ## Release a new version of Site Reviews
-	make build
-	@git diff --quiet || (echo "\n❌ \033[0;31mYou forgot to commit changes.\033[0m\n"; exit 1;)
 	sh ./release.sh
 
 sync: ## Sync plugin files to development site

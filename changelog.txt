@@ -1,6 +1,6 @@
 == Changelog ==
 
-= 7.0.0-RC2 (2024-04-24) =
+= 7.0.0-RC4 (2024-04-29) =
 
 - 🚨 Requires all installed addons to be updated!
 - 🚨 Requires at least PHP v7.4
@@ -8,6 +8,7 @@
 - 🚨 Moved CSS variables from `:root {}` to `body {}`.
 - Added "Migrate Product Ratings" to the Import Roduct Reviews tool (allows third-party plugins to filter products by rating)
 - Added an example CSV file that can be downloaded on the Import Reviews tool
+- Added Avada Fusion Builder Elements
 - Added Dashboard widget
 - Added exponential-backoff strategy to API calls
 - Added IP address detection tool settings

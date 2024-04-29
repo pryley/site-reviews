@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 6.5
-Stable tag: 7.0.0-RC3
+Stable tag: 7.0.0-RC4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -25,6 +25,7 @@ Site Reviews provides more features and options than almost every other free rev
 - __Actively Developed and Supported__
 - __Asian Language Support for Excerpts__
 - __Assign Reviews__: Reviews can be assigned to Categories, Posts, Pages, Custom Post Types, and Users.
+- __Avada Support__: Use the native Avada Fusion Builder elements in the Fusion Builder.
 - __Avatars__: Provided by the WordPress Gravatar service
 - __Backup and Restore__: Export/Import your settings and custom text strings, and use the WordPress Export and Import tools to backup your reviews.
 - __Bayesian Ranking__: Easily sort pages with assigned reviews by rank (using the bayesian algorithm) in your custom WP_Query
@@ -75,6 +76,7 @@ If you need even more features, [Site Reviews Premium](https://niftyplugins.com/
 Site Reviews is officially compatible with the following plugins:
 
 - [Akismet](https://wordpress.org/plugins/akismet/)
+- [Avada](https://avada.com/)
 - [Divi](https://www.elegantthemes.com/gallery/divi/)
 - [Elementor](https://elementor.com/)
 - [Endurance Cache](https://github.com/bluehost/endurance-page-cache/)
@@ -184,18 +186,19 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 == Changelog ==
 
-= 7.0.0-RC3 (2024-04-27) =
+= 7.0.0-RC4 (2024-04-29) =
 
 - 🚨 Requires all installed addons to be updated!
 - 🚨 Requires at least PHP v7.4
 - 🚨 Requires at least WordPress v6.1
 - 🚨 Moved CSS variables from `:root {}` to `body {}`.
-- Added "Migrate Product Ratings" to the Import Roduct Reviews tool (allows third-party plugins to filter products by rating)
 - Added an example CSV file that can be downloaded on the Import Reviews tool
+- Added Avada Fusion Builder Elements
 - Added Dashboard widget
 - Added exponential-backoff strategy to API calls
 - Added IP address detection tool settings
 - Added JetWooBuilder integration
+- Added Migrate Product Ratings to the Import Roduct Reviews tool (allows third-party plugins to filter products by rating)
 - Added Reviews metabox to WooCommerce product pages
 - Added SEOPress integration
 - Added style controls to Elementor widgets

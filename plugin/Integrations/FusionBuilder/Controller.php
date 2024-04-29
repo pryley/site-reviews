@@ -7,6 +7,21 @@ use GeminiLabs\SiteReviews\Controllers\AbstractController;
 class Controller extends AbstractController
 {
     /**
+     * @filter site-reviews/defaults/style-classes/defaults
+     */
+    public function filterButtonClass(array $defaults): array
+    {
+        if ('default' !== glsr_get_option('general.style')) {
+            return $defaults;
+        }
+        if (!defined('AVADA_VERSION')) {
+            return $defaults;
+        }
+        $defaults['button'] = 'glsr-button fusion-button fusion-button-default fusion-button-default-size fusion-button-default-span fusion-button-default-type';
+        return $defaults;
+    }
+
+    /**
      * @filter site-reviews/enqueue/public/inline-script/after
      */
     public function filterPublicInlineScript(string $script): string

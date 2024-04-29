@@ -6121,6 +6121,593 @@ namespace Automattic\WooCommerce\Internal\Traits {
 }
 namespace {
     /**
+     * Emails class.
+     */
+    class WC_Emails
+    {
+        /**
+         * Array of email notification classes
+         *
+         * @var WC_Email[]
+         */
+        public $emails = array();
+        /**
+         * The single instance of the class
+         *
+         * @var WC_Emails
+         */
+        protected static $_instance = \null;
+        /**
+         * Background emailer class.
+         *
+         * @var WC_Background_Emailer
+         */
+        protected static $background_emailer = \null;
+        /**
+         * Main WC_Emails Instance.
+         *
+         * Ensures only one instance of WC_Emails is loaded or can be loaded.
+         *
+         * @since 2.1
+         * @static
+         * @return WC_Emails Main instance
+         */
+        public static function instance()
+        {
+        }
+        /**
+         * Cloning is forbidden.
+         *
+         * @since 2.1
+         */
+        public function __clone()
+        {
+        }
+        /**
+         * Unserializing instances of this class is forbidden.
+         *
+         * @since 2.1
+         */
+        public function __wakeup()
+        {
+        }
+        /**
+         * Hook in all transactional emails.
+         */
+        public static function init_transactional_emails()
+        {
+        }
+        /**
+         * Queues transactional email so it's not sent in current request if enabled,
+         * otherwise falls back to send now.
+         *
+         * @param mixed ...$args Optional arguments.
+         */
+        public static function queue_transactional_email(...$args)
+        {
+        }
+        /**
+         * Init the mailer instance and call the notifications for the current filter.
+         *
+         * @internal
+         *
+         * @param string $filter Filter name.
+         * @param array  $args Email args (default: []).
+         */
+        public static function send_queued_transactional_email($filter = '', $args = array())
+        {
+        }
+        /**
+         * Init the mailer instance and call the notifications for the current filter.
+         *
+         * @internal
+         *
+         * @param array $args Email args (default: []).
+         */
+        public static function send_transactional_email($args = array())
+        {
+        }
+        /**
+         * Constructor for the email class hooks in all emails that can be sent.
+         */
+        public function __construct()
+        {
+        }
+        /**
+         * Init email classes.
+         */
+        public function init()
+        {
+        }
+        /**
+         * Return the email classes - used in admin to load settings.
+         *
+         * @return WC_Email[]
+         */
+        public function get_emails()
+        {
+        }
+        /**
+         * Get from name for email.
+         *
+         * @return string
+         */
+        public function get_from_name()
+        {
+        }
+        /**
+         * Get from email address.
+         *
+         * @return string
+         */
+        public function get_from_address()
+        {
+        }
+        /**
+         * Get the email header.
+         *
+         * @param mixed $email_heading Heading for the email.
+         */
+        public function email_header($email_heading)
+        {
+        }
+        /**
+         * Get the email footer.
+         */
+        public function email_footer()
+        {
+        }
+        /**
+         * Replace placeholder text in strings.
+         *
+         * @since  3.7.0
+         * @param  string $string Email footer text.
+         * @return string         Email footer text with any replacements done.
+         */
+        public function replace_placeholders($string)
+        {
+        }
+        /**
+         * Filter callback to replace {site_title} in email footer
+         *
+         * @since  3.3.0
+         * @deprecated 3.7.0
+         * @param  string $string Email footer text.
+         * @return string         Email footer text with any replacements done.
+         */
+        public function email_footer_replace_site_title($string)
+        {
+        }
+        /**
+         * Wraps a message in the woocommerce mail template.
+         *
+         * @param string $email_heading Heading text.
+         * @param string $message       Email message.
+         * @param bool   $plain_text    Set true to send as plain text. Default to false.
+         *
+         * @return string
+         */
+        public function wrap_message($email_heading, $message, $plain_text = \false)
+        {
+        }
+        /**
+         * Send the email.
+         *
+         * @param mixed  $to          Receiver.
+         * @param mixed  $subject     Email subject.
+         * @param mixed  $message     Message.
+         * @param string $headers     Email headers (default: "Content-Type: text/html\r\n").
+         * @param string $attachments Attachments (default: "").
+         * @return bool
+         */
+        public function send($to, $subject, $message, $headers = "Content-Type: text/html\r\n", $attachments = '')
+        {
+        }
+        /**
+         * Prepare and send the customer invoice email on demand.
+         *
+         * @param int|WC_Order $order Order instance or ID.
+         */
+        public function customer_invoice($order)
+        {
+        }
+        /**
+         * Customer new account welcome email.
+         *
+         * @param int   $customer_id        Customer ID.
+         * @param array $new_customer_data  New customer data.
+         * @param bool  $password_generated If password is generated.
+         */
+        public function customer_new_account($customer_id, $new_customer_data = array(), $password_generated = \false)
+        {
+        }
+        /**
+         * Show the order details table
+         *
+         * @param WC_Order $order         Order instance.
+         * @param bool     $sent_to_admin If should sent to admin.
+         * @param bool     $plain_text    If is plain text email.
+         * @param string   $email         Email address.
+         */
+        public function order_details($order, $sent_to_admin = \false, $plain_text = \false, $email = '')
+        {
+        }
+        /**
+         * Show order downloads in a table.
+         *
+         * @since 3.2.0
+         * @param WC_Order $order         Order instance.
+         * @param bool     $sent_to_admin If should sent to admin.
+         * @param bool     $plain_text    If is plain text email.
+         * @param string   $email         Email address.
+         */
+        public function order_downloads($order, $sent_to_admin = \false, $plain_text = \false, $email = '')
+        {
+        }
+        /**
+         * Add order meta to email templates.
+         *
+         * @param WC_Order $order         Order instance.
+         * @param bool     $sent_to_admin If should sent to admin.
+         * @param bool     $plain_text    If is plain text email.
+         */
+        public function order_meta($order, $sent_to_admin = \false, $plain_text = \false)
+        {
+        }
+        /**
+         * Is customer detail field valid?
+         *
+         * @param  array $field Field data to check if is valid.
+         * @return boolean
+         */
+        public function customer_detail_field_is_valid($field)
+        {
+        }
+        /**
+         * Allows developers to add additional customer details to templates.
+         *
+         * In versions prior to 3.2 this was used for notes, phone and email but this data has moved.
+         *
+         * @param WC_Order $order         Order instance.
+         * @param bool     $sent_to_admin If should sent to admin.
+         * @param bool     $plain_text    If is plain text email.
+         */
+        public function customer_details($order, $sent_to_admin = \false, $plain_text = \false)
+        {
+        }
+        /**
+         * Get the email addresses.
+         *
+         * @param WC_Order $order         Order instance.
+         * @param bool     $sent_to_admin If should sent to admin.
+         * @param bool     $plain_text    If is plain text email.
+         */
+        public function email_addresses($order, $sent_to_admin = \false, $plain_text = \false)
+        {
+        }
+        /**
+         * Renders any additional fields captured during block based checkout.
+         *
+         * @param WC_Order $order         Order instance.
+         * @param bool     $sent_to_admin If email is sent to admin.
+         * @param bool     $plain_text    If this is a plain text email.
+         */
+        public function additional_checkout_fields($order, $sent_to_admin = \false, $plain_text = \false)
+        {
+        }
+        /**
+         * Renders any additional address fields captured during block based checkout.
+         *
+         * @param string   $address_type Address type.
+         * @param WC_Order $order         Order instance.
+         * @param bool     $sent_to_admin If email is sent to admin.
+         * @param bool     $plain_text    If this is a plain text email.
+         */
+        public function additional_address_fields($address_type, $order, $sent_to_admin = \false, $plain_text = \false)
+        {
+        }
+        /**
+         * Get blog name formatted for emails.
+         *
+         * @return string
+         */
+        private function get_blogname()
+        {
+        }
+        /**
+         * Low stock notification email.
+         *
+         * @param WC_Product $product Product instance.
+         */
+        public function low_stock($product)
+        {
+        }
+        /**
+         * No stock notification email.
+         *
+         * @param WC_Product $product Product instance.
+         */
+        public function no_stock($product)
+        {
+        }
+        /**
+         * Backorder notification email.
+         *
+         * @param array $args Arguments.
+         */
+        public function backorder($args)
+        {
+        }
+        /**
+         * Adds Schema.org markup for order in JSON-LD format.
+         *
+         * @deprecated 3.0.0
+         * @see WC_Structured_Data::generate_order_data()
+         *
+         * @since 2.6.0
+         * @param WC_Order $order         Order instance.
+         * @param bool     $sent_to_admin If should sent to admin.
+         * @param bool     $plain_text    If is plain text email.
+         */
+        public function order_schema_markup($order, $sent_to_admin = \false, $plain_text = \false)
+        {
+        }
+    }
+    /**
+     * Order item class.
+     */
+    class WC_Order_Item extends \WC_Data implements \ArrayAccess
+    {
+        /**
+         * Legacy cart item values.
+         *
+         * @deprecated 4.4.0 For legacy actions.
+         * @var array
+         */
+        public $legacy_values;
+        /**
+         * Legacy cart item keys.
+         *
+         * @deprecated 4.4.0 For legacy actions.
+         * @var string
+         */
+        public $legacy_cart_item_key;
+        /**
+         * Order Data array. This is the core order data exposed in APIs since 3.0.0.
+         *
+         * @since 3.0.0
+         * @var array
+         */
+        protected $data = array('order_id' => 0, 'name' => '');
+        /**
+         * Stores meta in cache for future reads.
+         * A group must be set to to enable caching.
+         *
+         * @var string
+         */
+        protected $cache_group = 'order-items';
+        /**
+         * Meta type. This should match up with
+         * the types available at https://developer.wordpress.org/reference/functions/add_metadata/.
+         * WP defines 'post', 'user', 'comment', and 'term'.
+         *
+         * @var string
+         */
+        protected $meta_type = 'order_item';
+        /**
+         * This is the name of this object type.
+         *
+         * @var string
+         */
+        protected $object_type = 'order_item';
+        /**
+         * Legacy package key.
+         *
+         * @deprecated 4.4.0 For legacy actions.
+         * @var string
+         */
+        public $legacy_package_key;
+        /**
+         * Constructor.
+         *
+         * @param int|object|array $item ID to load from the DB, or WC_Order_Item object.
+         */
+        public function __construct($item = 0)
+        {
+        }
+        /**
+         * Merge changes with data and clear.
+         * Overrides WC_Data::apply_changes.
+         * array_replace_recursive does not work well for order items because it merges taxes instead
+         * of replacing them.
+         *
+         * @since 3.2.0
+         */
+        public function apply_changes()
+        {
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | Getters
+        |--------------------------------------------------------------------------
+        */
+        /**
+         * Get order ID this meta belongs to.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return int
+         */
+        public function get_order_id($context = 'view')
+        {
+        }
+        /**
+         * Get order item name.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_name($context = 'view')
+        {
+        }
+        /**
+         * Get order item type. Overridden by child classes.
+         *
+         * @return string
+         */
+        public function get_type()
+        {
+        }
+        /**
+         * Get quantity.
+         *
+         * @return int
+         */
+        public function get_quantity()
+        {
+        }
+        /**
+         * Get tax status.
+         *
+         * @return string
+         */
+        public function get_tax_status()
+        {
+        }
+        /**
+         * Get tax class.
+         *
+         * @return string
+         */
+        public function get_tax_class()
+        {
+        }
+        /**
+         * Get parent order object.
+         *
+         * @return WC_Order
+         */
+        public function get_order()
+        {
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | Setters
+        |--------------------------------------------------------------------------
+        */
+        /**
+         * Set order ID.
+         *
+         * @param int $value Order ID.
+         */
+        public function set_order_id($value)
+        {
+        }
+        /**
+         * Set order item name.
+         *
+         * @param string $value Item name.
+         */
+        public function set_name($value)
+        {
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | Other Methods
+        |--------------------------------------------------------------------------
+        */
+        /**
+         * Type checking.
+         *
+         * @param  string|array $type Type.
+         * @return boolean
+         */
+        public function is_type($type)
+        {
+        }
+        /**
+         * Calculate item taxes.
+         *
+         * @since  3.2.0
+         * @param  array $calculate_tax_for Location data to get taxes for. Required.
+         * @return bool  True if taxes were calculated.
+         */
+        public function calculate_taxes($calculate_tax_for = array())
+        {
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | Meta Data Handling
+        |--------------------------------------------------------------------------
+        */
+        /**
+         * Wrapper for get_formatted_meta_data that includes all metadata by default. See https://github.com/woocommerce/woocommerce/pull/30948
+         *
+         * @param string $hideprefix  Meta data prefix, (default: _).
+         * @param bool   $include_all Include all meta data, this stop skip items with values already in the product name.
+         * @return array
+         */
+        public function get_all_formatted_meta_data($hideprefix = '_', $include_all = \true)
+        {
+        }
+        /**
+         * Expands things like term slugs before return.
+         *
+         * @param string $hideprefix  Meta data prefix, (default: _).
+         * @param bool   $include_all Include all meta data, this stop skip items with values already in the product name.
+         * @return array
+         */
+        public function get_formatted_meta_data($hideprefix = '_', $include_all = \false)
+        {
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | Array Access Methods
+        |--------------------------------------------------------------------------
+        |
+        | For backwards compatibility with legacy arrays.
+        |
+        */
+        /**
+         * OffsetSet for ArrayAccess.
+         *
+         * @param string $offset Offset.
+         * @param mixed  $value  Value.
+         */
+        #[\ReturnTypeWillChange]
+        public function offsetSet($offset, $value)
+        {
+        }
+        /**
+         * OffsetUnset for ArrayAccess.
+         *
+         * @param string $offset Offset.
+         */
+        #[\ReturnTypeWillChange]
+        public function offsetUnset($offset)
+        {
+        }
+        /**
+         * OffsetExists for ArrayAccess.
+         *
+         * @param string $offset Offset.
+         * @return bool
+         */
+        #[\ReturnTypeWillChange]
+        public function offsetExists($offset)
+        {
+        }
+        /**
+         * OffsetGet for ArrayAccess.
+         *
+         * @param string $offset Offset.
+         * @return mixed
+         */
+        #[\ReturnTypeWillChange]
+        public function offsetGet($offset)
+        {
+        }
+    }
+    /**
      * WC_Query Class.
      */
     class WC_Query

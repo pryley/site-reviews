@@ -19,7 +19,7 @@ mix.disableSuccessNotifications()
 
 let pureFuncs = Object
   .keys(console)
-  .filter(key => !~['info', 'warn', 'error'].indexOf(key))
+  .filter(key => !~['warn', 'error'].indexOf(key))
   .map(key => `console.${key}`);
 
 mix.options({

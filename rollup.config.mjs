@@ -34,7 +34,7 @@ const pluginsJavascript = () => [
   terser({
     compress: {
       pure_funcs: Object.keys(console)
-        .filter(key => !~['info', 'warn', 'error'].indexOf(key))
+        .filter(key => !~['warn', 'error'].indexOf(key))
         .map(key => `console.${key}`),
     },
     format: { comments: false },

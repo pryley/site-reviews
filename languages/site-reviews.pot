@@ -1853,7 +1853,7 @@ msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
 
-#: plugin/Commands/DownloadCsvTemplate.php:95, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/Elementor/ElementorReviewsWidget.php:94, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:74, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:86, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:117, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:74, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:96, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:21, views/partials/editor/verified.php:6, views/partials/editor/verified.php:21
+#: plugin/Commands/DownloadCsvTemplate.php:95, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/Elementor/ElementorReviewsWidget.php:94, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:74, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:117, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:74, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:96, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:21, views/partials/editor/verified.php:6, views/partials/editor/verified.php:21
 msgctxt "admin-text"
 msgid "No"
 msgstr ""
@@ -2094,12 +2094,12 @@ msgctxt "admin-text"
 msgid "Close Panel"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:193
+#: plugin/Controllers/AdminController.php:192
 msgctxt "admin-text"
 msgid "Try Premium"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:304, plugin/Controllers/AdminController.php:322, plugin/Controllers/AdminController.php:335
+#: plugin/Controllers/AdminController.php:303, plugin/Controllers/AdminController.php:321, plugin/Controllers/AdminController.php:334
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr ""
@@ -2249,47 +2249,47 @@ msgctxt "admin-text"
 msgid "Submitted"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:166
+#: plugin/Controllers/ListTableController.php:167
 msgctxt "admin-text"
 msgid "Approve this review"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:169, plugin/Controllers/TranslationController.php:172
+#: plugin/Controllers/ListTableController.php:170, plugin/Controllers/TranslationController.php:172
 msgctxt "admin-text"
 msgid "Approve"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:172
+#: plugin/Controllers/ListTableController.php:173
 msgctxt "admin-text"
 msgid "Unapprove this review"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:175
+#: plugin/Controllers/ListTableController.php:176
 msgctxt "admin-text"
 msgid "Unapprove"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:181
+#: plugin/Controllers/ListTableController.php:182
 msgctxt "admin-text"
 msgid "Respond inline to &#8220;%s&#8221;"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:183
+#: plugin/Controllers/ListTableController.php:184
 msgctxt "admin-text"
 msgid "Respond"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:266
+#: plugin/Controllers/ListTableController.php:267
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to respond to this review."
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:270
+#: plugin/Controllers/ListTableController.php:271
 msgctxt "admin-text"
 msgid "Someone"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:272
+#: plugin/Controllers/ListTableController.php:273
 msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr ""
@@ -4079,17 +4079,17 @@ msgctxt "admin-text"
 msgid "Enable Pagination"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:98, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:87
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:98
 msgctxt "admin-text"
 msgid "Yes (AJAX load more)"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:102, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:88
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:102
 msgctxt "admin-text"
 msgid "Yes (AJAX pagination)"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:106, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:89
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:106
 msgctxt "admin-text"
 msgid "Yes (page reload)"
 msgstr ""
@@ -4276,7 +4276,27 @@ msgstr ""
 
 #: plugin/Integrations/FusionBuilder/FusionLatestReviews.php:82
 msgctxt "admin-text"
-msgid "Enable Pagination?"
+msgid "Pagination Type "
+msgstr ""
+
+#: plugin/Integrations/FusionBuilder/FusionLatestReviews.php:86
+msgctxt "admin-text"
+msgid "No Pagination"
+msgstr ""
+
+#: plugin/Integrations/FusionBuilder/FusionLatestReviews.php:87
+msgctxt "admin-text"
+msgid "Load More Button"
+msgstr ""
+
+#: plugin/Integrations/FusionBuilder/FusionLatestReviews.php:88
+msgctxt "admin-text"
+msgid "Pagination (AJAX)"
+msgstr ""
+
+#: plugin/Integrations/FusionBuilder/FusionLatestReviews.php:89
+msgctxt "admin-text"
+msgid "Pagination (with page reload)"
 msgstr ""
 
 #: plugin/Integrations/FusionBuilder/FusionLatestReviews.php:123, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:102, plugin/Integrations/FusionBuilder/FusionReviewForm.php:68, plugin/Integrations/FusionBuilder/FusionSingleReview.php:20
@@ -4334,7 +4354,7 @@ msgctxt "admin-text"
 msgid "Enter the CSS ID of a Latest Reviews element where the review should be displayed after submission."
 msgstr ""
 
-#: plugin/Integrations/FusionBuilder/Hooks.php:43
+#: plugin/Integrations/FusionBuilder/Hooks.php:44
 msgctxt "admin-text"
 msgid "Update Fusion Builder to v3.11.0 or higher to enable integration with Site Reviews."
 msgstr ""

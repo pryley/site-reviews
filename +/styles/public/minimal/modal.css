@@ -82,9 +82,11 @@
     padding: var(--glsr-modal-padding);
     position: relative;
 }
+/*
 :root .glsr-modal .glsr-button {
     border: none;
 }
+*/
 :root .glsr-modal button.glsr-modal__close,
 :root .glsr-modal button.glsr-modal__close:hover,
 :root .glsr-modal button.glsr-modal__close:focus {

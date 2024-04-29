@@ -46,7 +46,7 @@ class StyleClassesDefaults extends DefaultsAbstract
     protected function defaults(): array
     {
         return [
-            'button' => 'glsr-button',
+            'button' => 'glsr-button wp-block-button__link',
             'description' => 'glsr-description',
             'field' => 'glsr-field',
             'form' => 'glsr-form',

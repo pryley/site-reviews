@@ -12,12 +12,14 @@ class Install
         if (!$isNetworkDeactivation) {
             glsr(Tables::class)->dropForeignConstraints();
             delete_option(glsr()->prefix.'activated');
+            glsr()->action('deactivated');
             return;
         }
         foreach ($this->sites() as $siteId) {
             switch_to_blog($siteId);
             glsr(Tables::class)->dropForeignConstraints();
             delete_option(glsr()->prefix.'activated');
+            glsr()->action('deactivated');
             restore_current_blog();
         }
     }

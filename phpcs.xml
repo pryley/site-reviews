@@ -5,7 +5,7 @@
     <arg name="extensions" value="php" />
     <arg value="sp"/>
     <config name="installed_paths" value="vendor/phpcompatibility/php-compatibility" />
-    <config name="testVersion" value="7.4-"/>
+    <config name="testVersion" value="7.4-8.3"/>
     <description>Coding Standards for PHP CodeSniffer</description>
     <exclude-pattern>*/vendors/symfony/*</exclude-pattern>
     <file>./autoload.php</file>

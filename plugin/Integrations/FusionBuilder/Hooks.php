@@ -17,6 +17,7 @@ class Hooks extends AbstractHooks
             return;
         }
         $this->hook(Controller::class, [
+            ['filterButtonClass', 'site-reviews/defaults/style-classes/defaults'],
             ['filterPublicInlineScript', 'site-reviews/enqueue/public/inline-script/after'],
             ['onActivated', 'site-reviews/activated'],
             ['registerFusionElements', 'fusion_builder_before_init'],
