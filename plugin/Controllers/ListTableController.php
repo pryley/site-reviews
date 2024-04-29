@@ -139,11 +139,12 @@ class ListTableController extends AbstractController
             if (empty($clause['clauses'])) {
                 continue;
             }
-            $value = implode(' ', $clause['clauses']);
+            $values = array_values(array_unique($clause['clauses']));
+            $values = implode(' ', $values);
             if (!$clause['replace']) {
-                $value = trim($postClauses[$key])." {$value}";
+                $values = trim($postClauses[$key])." {$values}";
             }
-            $postClauses[$key] = " {$value} ";
+            $postClauses[$key] = " {$values} ";
         }
         return $postClauses;
     }
