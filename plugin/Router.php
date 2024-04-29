@@ -227,15 +227,12 @@ class Router
     {
         return glsr()->filterArray('router/admin/unguarded-actions', [
             'dismiss-notice',
-            'fetch-paged-reviews',
-            'verified-review',
         ]);
     }
 
     protected function unguardedPublicActions(): array
     {
         return glsr()->filterArray('router/public/unguarded-actions', [
-            'dismiss-notice',
             'fetch-paged-reviews',
             'submit-review',
             'verified-review',

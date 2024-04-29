@@ -110,6 +110,8 @@ class TranslationController
     }
 
     /**
+     * Used to modify the post status text in the Publish metabox.
+     * 
      * @filter gettext_default
      */
     public function filterPostStatusLabels(string $translation, string $single): string
@@ -123,10 +125,7 @@ class TranslationController
             'Published' => _x('Approved', 'admin-text', 'site-reviews'),
             'Save as Pending' => _x('Save as Unapproved', 'admin-text', 'site-reviews'),
         ];
-        if (array_key_exists($single, $replacements)) {
-            return $replacements[$single];
-        }
-        return $translation;
+        return $replacements[$single] ?? $translation;
     }
 
     /**
