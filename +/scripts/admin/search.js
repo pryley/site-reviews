@@ -15,7 +15,7 @@ Search.prototype = {
         onResultClick: null,
         results: {},
         selected: -1,
-        selectedClass: 'glsr-selected-result',
+        selectedClass: 'is-highlighted',
         selectorEntries: '.glsr-strings-table tbody',
         selectorResults: '.glsr-search-results',
         selectorSearch: '.glsr-search-input',

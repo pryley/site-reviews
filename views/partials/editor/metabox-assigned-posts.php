@@ -9,8 +9,8 @@
         />
         <span class="glsr-search-results"></span>
     </div>
-    <p><?php echo _x('Search for a Page, Post, or <abbr title="Custom Post Type">CPT</abbr> that you would like to assign this review to.', 'admin-text', 'site-reviews'); ?></p>
-    <span class="glsr-selected-entries description"><?php echo $templates; ?></span>
+    <p class="description"><?php echo _x('Search for a Page, Post, or <abbr title="Custom Post Type">CPT</abbr> that you would like to assign this review to.', 'admin-text', 'site-reviews'); ?></p>
+    <span class="glsr-selected-entries"><?php echo $templates; ?></span>
 </div>
 
 <script type="text/html" id="tmpl-glsr-assigned-posts">

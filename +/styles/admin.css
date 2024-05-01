@@ -1,3 +1,4 @@
+@import "admin/variables";
 @import "admin/addons";
 @import "admin/button";
 @import "admin/criteria";
@@ -11,6 +12,7 @@
 @import "admin/notices";
 @import "admin/panels";
 @import "admin/prismjs";
+@import "admin/searchbox";
 @import "admin/settings";
 @import "admin/tabs";
 @import 'admin/tippy';

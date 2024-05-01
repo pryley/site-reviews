@@ -9,7 +9,7 @@
         />
         <span class="glsr-search-results"></span>
     </div>
-    <p><?php echo _x('Search for a user that you would like to assign this review to.', 'admin-text', 'site-reviews'); ?></p>
+    <p class="description"><?php echo _x('Search for a user that you would like to assign this review to.', 'admin-text', 'site-reviews'); ?></p>
     <span class="glsr-selected-entries description"><?php echo $templates; ?></span>
 </div>
 

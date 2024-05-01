@@ -68,15 +68,15 @@
   z-index: 2;
 }
 .glsr-search-multibox .glsr-search-multibox-entries:focus-within {
-  border-color: var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));
-  box-shadow: 0 0 0 1px var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));
+  border-color: var(--glsr-theme-color);
+  box-shadow: 0 0 0 1px var(--glsr-theme-color);
   outline: 2px solid transparent;
   z-index: 20;
 }
 .glsr-search-multibox .glsr-search-multibox-entries:focus-within + .glsr-search-results {
-  border-color: var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));
-  box-shadow: 1px 1px 0 0 var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9)),
-             -1px 1px 0 0 var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));
+  border-color: var(--glsr-theme-color);
+  box-shadow: 1px 1px 0 0 var(--glsr-theme-color),
+             -1px 1px 0 0 var(--glsr-theme-color);
   z-index: 25;
 }
 .glsr-search-multibox .glsr-selected-entries {
@@ -104,34 +104,65 @@
   margin: 6px 0 0;
 }
 .glsr-search-multibox .glsr-search-results {
+  -webkit-overflow-scrolling: touch;
+  background-color: #fff;
+  border-radius: 0 0 4px 4px;
+  border: 1px solid #7e8993;
+  border-top: none;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+  box-sizing: border-box;
+  left: 0;
   max-height: calc(calc(10 * 32px) - 6px);
+  overflow-x: hidden;
+  overflow-y: scroll;
   padding-top: 0;
+  position: absolute;
   top: calc(100% - 4px);
+  width: 100%;
+  z-index: 3;
+  &:not(.is-active) {
+    display: none;
+  }
   &::before {
-    content: '';
+    background: #fff;
+    border-left: 1px solid #7e8993;
+    border-right: 1px solid #7e8993;
     box-sizing: content-box;
+    content: "";
     display: block;
     height: 4px;
+    left: -1px;
     position: relative;
+    right: -1px;
+    top: 0;
     width: 100%;
   }
 }
 .glsr-search-multibox .glsr-search-results > span {
   align-items: center;
+  box-sizing: border-box;
   display: flex;
   font-size: 14px;
+  gap: 10px;
   height: 32px;
+  justify-content: space-between;
   line-height: 32px;
   margin-left: 0;
+  margin-top: -1px;
+  overflow: hidden;
   padding: 0 8px;
-  &:hover {
-    background-color: inherit;
-    color: inherit;
+  position: relative;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  &:hover,
+  &:active,
+  &:focus,
+  &.is-highlighted {
+    background-color: var(--glsr-theme-color);
+    color: #fff;
+    cursor: pointer;
+    outline: none;
   }
-}
-.glsr-search-multibox .glsr-search-results > span.is-highlighted {
-  background-color: var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));
-  color: #fff;
 }
 .glsr-search-multibox .glsr-multibox-entry {
   color: #444;
