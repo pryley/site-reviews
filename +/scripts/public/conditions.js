@@ -40,7 +40,7 @@ class Conditions {
     }
 
     init () {
-        console.info('conditions:init');
+        console.log('conditions:init');
         this.eventListeners('add')
         this.elements.forEach(el => (el.conditions = {
             criteria: 'always',
@@ -52,7 +52,7 @@ class Conditions {
     }
 
     destroy () {
-        console.info('conditions:destroy');
+        console.log('conditions:destroy');
         this.eventListeners('remove')
         this.elements.forEach(el => (delete el.conditions));
     }

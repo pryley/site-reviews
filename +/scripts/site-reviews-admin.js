@@ -237,7 +237,6 @@ jQuery(function ($) {
         const playlist = $(this).closest('.glsr-videos__playlist');
         const style = window.getComputedStyle(playlist[0]);
         const transform = style.transform || style.webkitTransform || style.mozTransform;
-        console.info(transform);
         if (!~['none','matrix(1, 0, 0, 1, 0, 0)'].indexOf(transform)) {
             // do nothing if the playlist is collapsed, this allows touch devices to expand the playlist without triggering the link
             return false;

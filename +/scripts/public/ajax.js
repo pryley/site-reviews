@@ -50,7 +50,7 @@ const _handleSuccess = function (callback) {
             const response = JSON.parse(this.response);
             return callback(response.data, response.success);
         }
-        console.info(this);
+        console.log(this);
     }
     else {
         _handleError.bind(this, callback);

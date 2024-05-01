@@ -101,7 +101,7 @@ class Validation {
     }
 
     destroy () {
-        console.info('validation:destroy');
+        console.log('validation:destroy');
         while (this.fields.length) {
             this.destroyField(this.fields[0])
         }
@@ -115,7 +115,7 @@ class Validation {
     }
 
     init () {
-        console.info('validation:init');
+        console.log('validation:init');
         this.form.querySelectorAll(selector).forEach(inputEl => this.initField(inputEl))
     }
 
@@ -173,7 +173,7 @@ class Validation {
     }
 
     validate (inputEl) {
-        console.info('validation:validate');
+        console.log('validation:validate');
         let isValid = true;
         let fields = this.fields;
         if (inputEl instanceof HTMLElement && inputEl.hasOwnProperty('validation')) {
