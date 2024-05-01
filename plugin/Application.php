@@ -139,7 +139,7 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * This is triggered on "init:5" by $this->update().
+     * This is triggered on init:5 by $this->settings().
      *
      * @param PluginContract|string $addon
      */
@@ -172,7 +172,7 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * This is triggered by "site-reviews/addon/register" on "plugins_loaded".
+     * This is triggered on "plugins_loaded" by "site-reviews/addon/register".
      *
      * @param PluginContract|string $addon
      */
@@ -205,7 +205,7 @@ final class Application extends Container implements PluginContract
 
     /**
      * The plugin settings configuration.
-     * This is first triggered on "init:5" in MainController::onInit.
+     * This is first triggered on "init:5" by MainController::onInit.
      * 
      * @return mixed
      */
@@ -220,7 +220,8 @@ final class Application extends Container implements PluginContract
                     'sanitizer' => 'text',
                 ]);
             });
-            $this->settings = $settings;
+            $this->settings = $settings; // do this before adding license settings!
+            array_walk($this->addons, fn ($addon) => $this->license($addon));
         }
         if (empty($path)) {
             return $this->settings;
@@ -248,7 +249,6 @@ final class Application extends Container implements PluginContract
             $licensed = $reflection->getConstant('LICENSED');
             $updateUrl = $reflection->getConstant('UPDATE_URL');
             if ($addonId && $updateUrl && !array_key_exists($addonId, $this->updated)) {
-                $this->license($addon);
                 $license = glsr_get_option("licenses.{$addonId}");
                 $updater = new Updater($updateUrl, $file, $addonId, compact('license'));
                 $updater->init();

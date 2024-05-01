@@ -28,6 +28,7 @@ trait Plugin
     protected $file;
     protected $languages;
     protected $testedTo;
+    protected $uri;
     protected $version;
 
     public function __call($method, $args)
@@ -51,6 +52,7 @@ trait Plugin
             'languages' => 'Domain Path',
             'name' => 'Plugin Name',
             'testedTo' => 'Tested up to',
+            'uri' => 'Plugin URI',
             'version' => 'Version',
         ], 'plugin');
         array_walk($plugin, function ($value, $key) {
