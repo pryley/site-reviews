@@ -159,8 +159,11 @@ class ImportReviews extends AbstractCommand
             $command = new CreateReview($request);
             glsr(ReviewManager::class)->create($command);
         }
-        glsr(Queue::class)->async('queue/recalculate-meta');
-        return count($records);
+        $result = count($records);
+        if (0 < $result) {
+            glsr(Queue::class)->async('queue/recalculate-meta');
+        }
+        return $result;
     }
 
     protected function notify(int $result): void
@@ -177,17 +180,14 @@ class ImportReviews extends AbstractCommand
             _nx('%s entry was skipped.', '%s entries were skipped.', $this->skippedRecords, 'admin-text', 'site-reviews'),
             number_format_i18n($this->skippedRecords)
         );
-        $consoleLink = sprintf(_x('See the %s for more details.', 'admin-text', 'site-reviews'),
-            sprintf('<a href="%s">%s</a>',
-                glsr_admin_url('tools', 'console'),
-                _x('Console', 'admin-text', 'site-reviews')
-            )
-        );
-        glsr(Notice::class)->addWarning(
-            sprintf('%s (%s)', sprintf('%s %s', $notice, $skipped), $consoleLink)
-        );
+        natsort($this->errors);
+        $errorDetail = _x('One or more errors occured during import: %s', 'admin-text', 'site-reviews');
+        $errors = array_map(fn ($error) => "<mark>{$error}</mark>", $this->errors);
+        glsr(Notice::class)->addWarning(sprintf('<strong>%s</strong> %s', $notice, $skipped), [
+            sprintf($errorDetail, Str::naturalJoin($errors))
+        ]);
         glsr_log()->warning(
-            sprintf('One or more of the following errors were encountered during import: %s', Str::naturalJoin($this->errors))
+            sprintf($errorDetail, Str::naturalJoin($this->errors))
         );
     }
 
@@ -202,8 +202,8 @@ class ImportReviews extends AbstractCommand
             return true;
         }
         $errorMessages = [
-            'date' => _x('wrong date format', 'admin-text', 'site-reviews'),
-            'rating' => _x('empty or invalid rating', 'admin-text', 'site-reviews'),
+            'date' => _x('Incorrect date format', 'admin-text', 'site-reviews'),
+            'rating' => _x('Empty or invalid rating', 'admin-text', 'site-reviews'),
         ];
         $errors = array_intersect_key($errorMessages, array_diff_key($required, array_filter($required)));
         $this->errors = array_merge($this->errors, $errors);

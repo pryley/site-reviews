@@ -2492,39 +2492,34 @@ msgctxt "admin-text"
 msgid "Is the selected delimiter correct?"
 msgstr "Is the selected delimiter correct?"
 
-#: plugin/Commands/ImportReviews.php:169
+#: plugin/Commands/ImportReviews.php:172
 msgctxt "admin-text"
 msgid "%s review was imported."
 msgid_plural "%s reviews were imported."
 msgstr[0] "%s review was imported."
 msgstr[1] "%s reviews were imported."
 
-#: plugin/Commands/ImportReviews.php:177
+#: plugin/Commands/ImportReviews.php:180
 msgctxt "admin-text"
 msgid "%s entry was skipped."
 msgid_plural "%s entries were skipped."
 msgstr[0] "%s entry was skipped."
 msgstr[1] "%s entries were skipped."
 
-#: plugin/Commands/ImportReviews.php:180
+#: plugin/Commands/ImportReviews.php:184
 msgctxt "admin-text"
-msgid "See the %s for more details."
-msgstr "See the %s for more details."
-
-#: plugin/Commands/ImportReviews.php:183, plugin/Controllers/MenuController.php:161
-msgctxt "admin-text"
-msgid "Console"
-msgstr "Console"
+msgid "One or more errors occured during import: %s"
+msgstr "One or more errors occured during import: %s"
 
 #: plugin/Commands/ImportReviews.php:205
 msgctxt "admin-text"
-msgid "wrong date format"
-msgstr "wrong date format"
+msgid "Incorrect date format"
+msgstr "Incorrect date format"
 
 #: plugin/Commands/ImportReviews.php:206
 msgctxt "admin-text"
-msgid "empty or invalid rating"
-msgstr "empty or invalid rating"
+msgid "Empty or invalid rating"
+msgstr "Empty or invalid rating"
 
 #: plugin/Commands/ImportSettings.php:29
 msgctxt "admin-text"
@@ -2898,6 +2893,11 @@ msgstr "Scheduled Actions"
 msgctxt "admin-text"
 msgid "Sync Reviews"
 msgstr "Sync Reviews"
+
+#: plugin/Controllers/MenuController.php:161
+msgctxt "admin-text"
+msgid "Console"
+msgstr "Console"
 
 #: plugin/Controllers/MenuController.php:162
 msgctxt "admin-text"
