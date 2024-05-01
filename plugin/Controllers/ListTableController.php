@@ -258,7 +258,6 @@ class ListTableController extends AbstractController
         if ('edit-'.glsr()->post_type !== $screen) {
             return; // don't override
         }
-        global $mode;
         check_ajax_referer('inlineeditnonce', '_inline_edit');
         if (empty($postId = filter_input(INPUT_POST, 'post_ID', FILTER_VALIDATE_INT))) {
             wp_die();
@@ -274,11 +273,11 @@ class ListTableController extends AbstractController
             printf($message, $displayName);
             wp_die();
         }
-        glsr(ReviewManager::class)->updateResponse($postId, [
-            'response' => filter_input(INPUT_POST, '_response'),
-        ]);
+        $response = (string) filter_input(INPUT_POST, '_response');
+        glsr(ReviewManager::class)->updateResponse($postId, compact('response'));
         glsr()->action('cache/flush', glsr_get_review($postId));
-        $mode = Str::restrictTo(['excerpt', 'list'], filter_input(INPUT_POST, 'post_view'), 'list');
+        global $mode;
+        $mode = Str::restrictTo(['excerpt', 'list'], (string) filter_input(INPUT_POST, 'post_view'), 'list');
         $table = new ReviewsListTable(['screen' => convert_to_screen($screen)]);
         $table->display_rows([get_post($postId)], 0);
         wp_die();
