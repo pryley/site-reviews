@@ -42,12 +42,13 @@ class SiteReviewsTinymce extends TinymceGenerator
                 'type' => 'listbox',
             ],
             [
-                'label' => _x('Pagination', 'admin-text', 'site-reviews'),
+                'label' => _x('Pagination Type', 'admin-text', 'site-reviews'),
                 'name' => 'pagination',
                 'options' => [
-                    'true' => _x('Enable', 'admin-text', 'site-reviews'),
-                    'ajax' => _x('Enable (using ajax)', 'admin-text', 'site-reviews'),
-                    'false' => _x('Disable', 'admin-text', 'site-reviews'),
+                    '' => esc_attr_x('No Pagination', 'admin-text', 'site-reviews'),
+                    'loadmore' => esc_attr_x('Load More Button', 'admin-text', 'site-reviews'),
+                    'ajax' => esc_attr_x('Pagination (AJAX)', 'admin-text', 'site-reviews'),
+                    'true' => esc_attr_x('Pagination (with page reload)', 'admin-text', 'site-reviews'),
                 ],
                 'tooltip' => _x('When using pagination this shortcode can only be used once on a page. (default: disable)', 'admin-text', 'site-reviews'),
                 'type' => 'listbox',

@@ -118,13 +118,13 @@ const edit = props => {
         />,
         pagination: <SelectControl
             key={ 'pagination' }
-            label={ _x('Enable Pagination', 'admin-text', 'site-reviews') }
+            label={ _x('Pagination Type', 'admin-text', 'site-reviews') }
             onChange={ pagination => setAttributes({ pagination }) }
             options={[
-                { label: '- ' + _x('Select', 'admin-text', 'site-reviews') + ' -', value: '' },
-                { label: _x('Yes (AJAX load more)', 'admin-text', 'site-reviews'), value: 'loadmore' },
-                { label: _x('Yes (AJAX pagination)', 'admin-text', 'site-reviews'), value: 'ajax' },
-                { label: _x('Yes (page reload)', 'admin-text', 'site-reviews'), value: 'true' },
+                { label: _x('No Pagination', 'admin-text', 'site-reviews'), value: '' },
+                { label: _x('Load More Button', 'admin-text', 'site-reviews'), value: 'loadmore' },
+                { label: _x('Pagination (AJAX)', 'admin-text', 'site-reviews'), value: 'ajax' },
+                { label: _x('Pagination (page reload)', 'admin-text', 'site-reviews'), value: 'true' },
             ]}
             value={ pagination }
             __next36pxDefaultSize

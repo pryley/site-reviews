@@ -87,23 +87,23 @@ class ElementorReviewsWidget extends ElementorWidget
             'type' => $this->get_review_types(),
             'pagination' => [
                 'default' => '',
-                'label' => _x('Enable Pagination', 'admin-text', 'site-reviews'),
+                'label' => _x('Pagination Type', 'admin-text', 'site-reviews'),
                 'options' => [
                     '' => [
                         'icon' => 'eicon eicon-close',
-                        'title' => _x('No', 'admin-text', 'site-reviews'),
+                        'title' => esc_attr_x('No Pagination', 'admin-text', 'site-reviews'),
                     ],
                     'loadmore' => [
                         'icon' => 'eicon eicon-spinner',
-                        'title' => _x('Yes (AJAX load more)', 'admin-text', 'site-reviews'),
+                        'title' => esc_attr_x('Load More Button', 'admin-text', 'site-reviews'),
                     ],
                     'ajax' => [
                         'icon' => 'eicon eicon-spinner',
-                        'title' => _x('Yes (AJAX pagination)', 'admin-text', 'site-reviews'),
+                        'title' => esc_attr_x('Pagination (AJAX)', 'admin-text', 'site-reviews'),
                     ],
                     'true' => [
                         'icon' => 'eicon eicon-redo',
-                        'title' => _x('Yes (page reload)', 'admin-text', 'site-reviews'),
+                        'title' => esc_attr_x('Pagination (with page reload)', 'admin-text', 'site-reviews'),
                     ],
                 ],
                 'separator' => 'before',
