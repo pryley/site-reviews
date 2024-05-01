@@ -1074,7 +1074,7 @@ msgctxt "admin-text"
 msgid "Restrict Limits To"
 msgstr ""
 
-#: config/settings.php:753, plugin/Defaults/PostTypeColumnDefaults.php:13, plugin/Metaboxes/AssignedPostsMetabox.php:19, plugin/Tinymce/SiteReviewsSummaryTinymce.php:24, plugin/Tinymce/SiteReviewsTinymce.php:58, views/partials/screen/inline-edit.php:105
+#: config/settings.php:753, plugin/Defaults/PostTypeColumnDefaults.php:13, plugin/Metaboxes/AssignedPostsMetabox.php:19, plugin/Tinymce/SiteReviewsSummaryTinymce.php:24, plugin/Tinymce/SiteReviewsTinymce.php:59, views/partials/screen/inline-edit.php:105
 msgctxt "admin-text"
 msgid "Assigned Posts"
 msgstr ""
@@ -1853,7 +1853,7 @@ msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
 
-#: plugin/Commands/DownloadCsvTemplate.php:95, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/Elementor/ElementorReviewsWidget.php:94, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:74, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:117, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:74, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:96, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:21, views/partials/editor/verified.php:6, views/partials/editor/verified.php:21
+#: plugin/Commands/DownloadCsvTemplate.php:95, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:74, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:117, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:74, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:96, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:21, views/partials/editor/verified.php:6, views/partials/editor/verified.php:21
 msgctxt "admin-text"
 msgid "No"
 msgstr ""
@@ -2274,17 +2274,17 @@ msgctxt "admin-text"
 msgid "Respond"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:267
+#: plugin/Controllers/ListTableController.php:266
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to respond to this review."
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:271
+#: plugin/Controllers/ListTableController.php:270
 msgctxt "admin-text"
 msgid "Someone"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:273
+#: plugin/Controllers/ListTableController.php:272
 msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr ""
@@ -2349,7 +2349,7 @@ msgctxt "admin-text"
 msgid "Forms"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:135, plugin/Tinymce/SiteReviewsSummaryTinymce.php:36, plugin/Tinymce/SiteReviewsTinymce.php:70
+#: plugin/Controllers/MenuController.php:135, plugin/Tinymce/SiteReviewsSummaryTinymce.php:36, plugin/Tinymce/SiteReviewsTinymce.php:71
 msgctxt "admin-text"
 msgid "Schema"
 msgstr ""
@@ -3518,7 +3518,7 @@ msgctxt "admin-text"
 msgid "Automatically assign reviews to a Post ID. You may also enter \"%s\" to use the Post ID of the current page."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:37, plugin/Tinymce/SiteReviewsSummaryTinymce.php:30, plugin/Tinymce/SiteReviewsTinymce.php:64
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:37, plugin/Tinymce/SiteReviewsSummaryTinymce.php:30, plugin/Tinymce/SiteReviewsTinymce.php:65
 msgctxt "admin-text"
 msgid "Assign to User ID"
 msgstr ""
@@ -3528,17 +3528,17 @@ msgctxt "admin-text"
 msgid "Automatically assign reviews to a User ID. You may also enter \"%s\" to use the ID of the logged-in user."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:43, plugin/Tinymce/SiteReviewsSummaryTinymce.php:46, plugin/Tinymce/SiteReviewsTinymce.php:80, plugin/Tinymce/SiteReviewTinymce.php:28
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:43, plugin/Tinymce/SiteReviewsSummaryTinymce.php:46, plugin/Tinymce/SiteReviewsTinymce.php:81, plugin/Tinymce/SiteReviewTinymce.php:28
 msgctxt "admin-text"
 msgid "Classes"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:45, plugin/Tinymce/SiteReviewsSummaryTinymce.php:48, plugin/Tinymce/SiteReviewsTinymce.php:82, plugin/Tinymce/SiteReviewTinymce.php:30
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:45, plugin/Tinymce/SiteReviewsSummaryTinymce.php:48, plugin/Tinymce/SiteReviewsTinymce.php:83, plugin/Tinymce/SiteReviewTinymce.php:30
 msgctxt "admin-text"
 msgid "Add custom CSS classes to the shortcode."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:51, plugin/Tinymce/SiteReviewsSummaryTinymce.php:54, plugin/Tinymce/SiteReviewsTinymce.php:88, plugin/Tinymce/SiteReviewTinymce.php:36
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:51, plugin/Tinymce/SiteReviewsSummaryTinymce.php:54, plugin/Tinymce/SiteReviewsTinymce.php:89, plugin/Tinymce/SiteReviewTinymce.php:36
 msgctxt "admin-text"
 msgid "Hide"
 msgstr ""
@@ -3553,32 +3553,32 @@ msgctxt "admin-text"
 msgid "Which type of review would you like to use?"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:22, plugin/Tinymce/SiteReviewsTinymce.php:56
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:22, plugin/Tinymce/SiteReviewsTinymce.php:57
 msgctxt "admin-text"
 msgid "Limit reviews to this category."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:26, plugin/Tinymce/SiteReviewsTinymce.php:60
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:26, plugin/Tinymce/SiteReviewsTinymce.php:61
 msgctxt "admin-text"
 msgid "Limit reviews to those assigned to a Post ID. You may also enter \"%s\" to use the Post ID of the current page."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:32, plugin/Tinymce/SiteReviewsTinymce.php:66
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:32, plugin/Tinymce/SiteReviewsTinymce.php:67
 msgctxt "admin-text"
 msgid "Limit reviews to those assigned to a User ID. You may also enter \"%s\" to use the ID of the logged-in user."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:39, plugin/Tinymce/SiteReviewsTinymce.php:73
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:39, plugin/Tinymce/SiteReviewsTinymce.php:74
 msgctxt "admin-text"
 msgid "Enable rich snippets"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:40, plugin/Tinymce/SiteReviewsTinymce.php:74
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:40, plugin/Tinymce/SiteReviewsTinymce.php:75
 msgctxt "admin-text"
 msgid "Disable rich snippets"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:42, plugin/Tinymce/SiteReviewsTinymce.php:76
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:42, plugin/Tinymce/SiteReviewsTinymce.php:77
 msgctxt "admin-text"
 msgid "Rich snippets are disabled by default."
 msgstr ""
@@ -3615,37 +3615,42 @@ msgctxt "admin-text"
 msgid "What is the minimum rating to display (default: 1 star)?"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:45
+#: plugin/Tinymce/SiteReviewsTinymce.php:45, plugin/Integrations/Elementor/ElementorReviewsWidget.php:90
 msgctxt "admin-text"
-msgid "Pagination"
+msgid "Pagination Type"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:48
+#: plugin/Tinymce/SiteReviewsTinymce.php:48, plugin/Integrations/Elementor/ElementorReviewsWidget.php:94, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:86
 msgctxt "admin-text"
-msgid "Enable"
+msgid "No Pagination"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:49
+#: plugin/Tinymce/SiteReviewsTinymce.php:49, plugin/Integrations/Elementor/ElementorReviewsWidget.php:98, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:87
 msgctxt "admin-text"
-msgid "Enable (using ajax)"
+msgid "Load More Button"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:50
+#: plugin/Tinymce/SiteReviewsTinymce.php:50, plugin/Integrations/Elementor/ElementorReviewsWidget.php:102, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:88
 msgctxt "admin-text"
-msgid "Disable"
+msgid "Pagination (AJAX)"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:52
+#: plugin/Tinymce/SiteReviewsTinymce.php:51, plugin/Integrations/Elementor/ElementorReviewsWidget.php:106, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:89
+msgctxt "admin-text"
+msgid "Pagination (with page reload)"
+msgstr ""
+
+#: plugin/Tinymce/SiteReviewsTinymce.php:53
 msgctxt "admin-text"
 msgid "When using pagination this shortcode can only be used once on a page. (default: disable)"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:55, plugin/Widgets/SiteReviewsWidget.php:45
+#: plugin/Tinymce/SiteReviewsTinymce.php:56, plugin/Widgets/SiteReviewsWidget.php:45
 msgctxt "admin-text"
 msgid "Which type of review would you like to display?"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:103, plugin/Integrations/Elementor/ElementorReviewsWidget.php:33, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:151
+#: plugin/Tinymce/SiteReviewsTinymce.php:104, plugin/Integrations/Elementor/ElementorReviewsWidget.php:33, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:151
 msgctxt "admin-text"
 msgid "Latest Reviews"
 msgstr ""
@@ -4074,26 +4079,6 @@ msgctxt "admin-text"
 msgid "Limit Reviews to terms"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:90
-msgctxt "admin-text"
-msgid "Enable Pagination"
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:98
-msgctxt "admin-text"
-msgid "Yes (AJAX load more)"
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:102
-msgctxt "admin-text"
-msgid "Yes (AJAX pagination)"
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:106
-msgctxt "admin-text"
-msgid "Yes (page reload)"
-msgstr ""
-
 #: plugin/Integrations/Elementor/ElementorReviewsWidget.php:114, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:94
 msgctxt "admin-text"
 msgid "Reviews Per Page"
@@ -4277,26 +4262,6 @@ msgstr ""
 #: plugin/Integrations/FusionBuilder/FusionLatestReviews.php:82
 msgctxt "admin-text"
 msgid "Pagination Type "
-msgstr ""
-
-#: plugin/Integrations/FusionBuilder/FusionLatestReviews.php:86
-msgctxt "admin-text"
-msgid "No Pagination"
-msgstr ""
-
-#: plugin/Integrations/FusionBuilder/FusionLatestReviews.php:87
-msgctxt "admin-text"
-msgid "Load More Button"
-msgstr ""
-
-#: plugin/Integrations/FusionBuilder/FusionLatestReviews.php:88
-msgctxt "admin-text"
-msgid "Pagination (AJAX)"
-msgstr ""
-
-#: plugin/Integrations/FusionBuilder/FusionLatestReviews.php:89
-msgctxt "admin-text"
-msgid "Pagination (with page reload)"
 msgstr ""
 
 #: plugin/Integrations/FusionBuilder/FusionLatestReviews.php:123, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:102, plugin/Integrations/FusionBuilder/FusionReviewForm.php:68, plugin/Integrations/FusionBuilder/FusionSingleReview.php:20
@@ -5138,7 +5103,7 @@ msgctxt "admin-text"
 msgid "Edit Details"
 msgstr ""
 
-#: views/partials/editor/metabox-response.php:10
+#: views/partials/editor/metabox-response.php:8
 msgctxt "admin-text"
 msgid "If you need to publicly respond to this review, enter your response here."
 msgstr ""
