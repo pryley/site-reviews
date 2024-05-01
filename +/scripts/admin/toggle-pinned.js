@@ -10,12 +10,12 @@ class TogglePinned {
         const $el = jQuery(this);
         const data = {
             _action: 'toggle-pinned',
-            id: $el.data('id'),
             pinned: -1,
+            post_id: $el.data('id'),
         };
-        $el.addClass('spinner is-active').removeClass('dashicons-sticky')
+        $el.addClass('spinner is-active').removeClass('dashicons-sticky');
         (new Ajax(data)).post(response => {
-            $el.classList[response.pinned ? 'add' : 'remove']('pinned')
+            $el[1 === response.value ? 'addClass' : 'removeClass']('pinned')
             $el.removeClass('spinner is-active').addClass('dashicons-sticky')
         })
     }

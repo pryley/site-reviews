@@ -10,12 +10,12 @@ class ToggleVerified {
         const $el = jQuery(this);
         const data = {
             _action: 'toggle-verified',
-            id: $el.data('id'),
             verified: -1,
+            post_id: $el.data('id'),
         };
-        $el.addClass('spinner is-active').removeClass('dashicons-sticky')
+        $el.addClass('spinner is-active').removeClass('dashicons-sticky');
         (new Ajax(data)).post(response => {
-            $el.classList[response.verified ? 'add' : 'remove']('verified')
+            $el[1 === response.value ? 'addClass' : 'removeClass']('verified')
             $el.removeClass('spinner is-active').addClass('dashicons-sticky')
         })
     }
