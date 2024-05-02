@@ -61,11 +61,29 @@
   }
 }
 
-
-
-
-
-
+/**
+ * Metabox footer
+ */
+.glsr-metabox-footer {
+  background-color: #f7f7f7;
+  border-top: 1px solid #ccd0d4;
+  box-shadow: 0 1px 1px rgba(0,0,0,.04);
+  box-sizing: border-box;
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 2px 12px;
+  width: calc(100% + 24px);
+  margin: 0 -12px -12px;
+}
+.glsr-metabox-footer p {
+  margin: 6px 0;
+}
+.glsr-metabox-footer code {
+  border-radius: 3px;
+  font-size: 12px;
+  margin: 0;
+  padding: 4px;
+}
 
 /**
  * Fix select focus color to match admin color theme

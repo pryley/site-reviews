@@ -46,9 +46,9 @@ body.admin-color-fresh.post-type-site-review .misc-pub-section[data-action]::bef
   max-width: 150px;
 }
 
-.wp-admin .glsr-response {
+.post-type-site-review .glsr-response {
   display: block;
   height: 6em;
+  margin: 12px 0;
   width: 100%;
-  margin: 12px 0 0;
 }
