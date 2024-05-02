@@ -2,13 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use GeminiLabs\SiteReviews\Contracts\BuilderContract;
+use GeminiLabs\SiteReviews\Contracts\FieldContract;
 use GeminiLabs\SiteReviews\Defaults\PaginationDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleClassesDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleValidationDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 /**
@@ -89,11 +88,15 @@ class Style
         return $this->$property;
     }
 
-    public function modifyField(BuilderContract $instance): void
+    public function fieldClass(FieldContract $field): string
     {
-        if ($this->isPublicInstance($instance)) {
-            call_user_func_array([$this, 'customize'], [$instance]);
+        if (!array_key_exists($field->tag(), $this->__get('classes'))) {
+            return $field->class;
         }
+        $key = "{$field->tag()}_{$field->type}";
+        $fallback = Arr::get($this->classes, $field->tag());
+        $class = Arr::getAs('string', $this->classes, $key, $fallback);
+        return trim("{$class} {$field->class}");
     }
 
     /**
@@ -153,21 +156,6 @@ class Style
         return $view;
     }
 
-    /**
-     * Add custom form classes.
-     */
-    protected function customize(BuilderContract $builder): void
-    {
-        if (array_key_exists($builder->tag(), $this->__get('classes'))) {
-            $key = "{$builder->tag()}_{$builder->args()->type}";
-            $classes = Arr::get($this->classes, $key, Arr::get($this->classes, $builder->tag()));
-            $classes = trim($builder->args()->class.' '.$classes);
-            $classes = implode(' ', Arr::unique(explode(' ', $classes))); // remove duplicate classes
-            $builder->set('class', $classes);
-            glsr()->action("customize/{$this->style}", $builder);
-        }
-    }
-
     protected function generatePossibleViews(string $view): array
     {
         $basename = basename($view);
@@ -183,13 +171,5 @@ class Style
         ];
         $views = glsr()->filterArray('style/views', $views, $view);
         return array_filter($views);
-    }
-
-    protected function isPublicInstance(BuilderContract $builder): bool
-    {
-        $args = glsr()
-            ->args($builder->args()->toArray())
-            ->merge(['is_raw' => false]);
-        return !glsr()->isAdmin() && !Cast::toBool($args->is_raw);
     }
 }

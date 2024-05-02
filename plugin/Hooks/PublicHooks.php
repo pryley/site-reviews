@@ -13,7 +13,6 @@ class PublicHooks extends AbstractHooks
             ['fetchPagedReviewsAjax', 'site-reviews/route/ajax/fetch-paged-reviews'],
             ['filterFieldOrder', 'site-reviews/config/forms/review-form', 11],
             ['filterRenderView', 'site-reviews/render/view'],
-            ['modifyBuilder', 'site-reviews/builder'],
             ['renderSchema', 'wp_footer'],
             ['submitReview', 'site-reviews/route/public/submit-review'],
             ['submitReviewAjax', 'site-reviews/route/ajax/submit-review'],

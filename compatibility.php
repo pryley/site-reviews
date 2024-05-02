@@ -145,22 +145,19 @@ function glsr_is_ninja_forms_compatible() {
         && method_exists('Ninja_Forms', 'get_setting')
         && method_exists('NF_Display_Render', 'enqueue_styles_display');
 }
-add_action('enqueue_block_editor_assets', function () {
+function glsr_load_ninja_forms_css() {
     if ('ninja_forms' === glsr_get_option('general.style') && glsr_is_ninja_forms_compatible()) {
         NF_Display_Render::enqueue_styles_display(Ninja_Forms::$url.'assets/css/');
     }
-});
+}
+add_action('enqueue_block_editor_assets', 'glsr_load_ninja_forms_css');
+add_action('wp_enqueue_scripts', 'glsr_load_ninja_forms_css');
 add_filter('site-reviews/config/styles/ninja_forms', function ($config) {
     if (glsr_is_ninja_forms_compatible()) {
         $formClass = 'nf-style-'.Ninja_Forms()->get_setting('opinionated_styles');
         $config = glsr_set($config, 'classes.form', $formClass);
     }
     return $config;
-});
-add_action('site-reviews/customize/ninja_forms', function () {
-    if (glsr_is_ninja_forms_compatible()) {
-        NF_Display_Render::enqueue_styles_display(Ninja_Forms::$url.'assets/css/');
-    }
 });
 
 /**

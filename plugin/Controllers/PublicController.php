@@ -56,19 +56,6 @@ class PublicController extends AbstractController
     }
 
     /**
-     * @action site-reviews/builder
-     *
-     * @todo remove this
-     */
-    public function modifyBuilder(BuilderContract $builder): void
-    {
-        $reflection = new \ReflectionClass($builder);
-        if ('Builder' === $reflection->getShortName()) { // only modify public fields
-            // call_user_func_array([glsr(Style::class), 'modifyField'], [$builder]);
-        }
-    }
-
-    /**
      * @action wp_footer
      */
     public function renderSchema(): void

@@ -94,7 +94,9 @@ class ReviewField extends Field
 
     protected function classAttrElement(): string
     {
-        $classes = [$this->class];
+        $classes = [
+            glsr(Style::class)->fieldClass($this),
+        ];
         if ('yes_no' === $this->original_type) {
             $classes[] = "glsr-input-{$this->type}";
         } elseif ($this->isChoiceField()) {
