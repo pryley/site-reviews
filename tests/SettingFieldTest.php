@@ -370,6 +370,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                         'class="regular-text" '.
                         'id="site_reviews-settings-general-notification_discord" '.
                         'name="site_reviews[settings][general][notification_discord]" '.
+                        'autocomplete="off" '.
                         'value="" />'.
                 '</td>'.
             '</tr>'
@@ -392,6 +393,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                         'class="regular-text" '.
                         'id="site_reviews-settings-general-notification_slack" '.
                         'name="site_reviews[settings][general][notification_slack]" '.
+                        'autocomplete="off" '.
                         'value="" />'.
                 '</td>'.
             '</tr>'
@@ -458,7 +460,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                             'code" '.
                             'id="site_reviews-settings-general-notification_message" '.
                             'name="site_reviews[settings][general][notification_message]" '.
-                            'rows="10">'.
+                            'rows="9">'.
                         '</textarea>'.
                         '<div class="quicktags-toolbar">'.
                             '<input type="button" class="button button-small" data-tag="approve_url" value="approve url" />'.
