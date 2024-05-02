@@ -213,7 +213,7 @@ return [ // order is intentional
             'settings.general.notifications' => ['admin', 'author', 'custom'],
         ],
         'label' => _x('Notification Template', 'admin-text', 'site-reviews'),
-        'rows' => 10,
+        'rows' => 9,
         'sanitizer' => 'text-html',
         'tags' => glsr('Modules\Html\TemplateTags')->filteredTags([
             'exclude' => ['admin_email', 'review_link', 'verified_date', 'verify_url'],
