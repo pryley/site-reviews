@@ -13,14 +13,10 @@ class Migrate_7_0_0 implements MigrateContract
 {
     public function run(): bool
     {
-        $settings = get_option(OptionManager::databaseKey());
-        if (isset($settings['last_migration_run'])) {
-            unset($settings['last_migration_run']);
-            update_option(OptionManager::databaseKey(), $settings);
-        }
         delete_option(OptionManager::databaseKey(5));
         delete_transient(glsr()->prefix.'cloudflare_ips');
         $this->migrateDatabase();
+        $this->migrateSettings();
         return true;
     }
 
@@ -29,6 +25,29 @@ class Migrate_7_0_0 implements MigrateContract
         if ($this->insertTableColumn('is_flagged', 'is_pinned')) {
             update_option(glsr()->prefix.'db_version', '1.3');
         }
+    }
+
+    public function migrateSettings(): void
+    {
+        $settings = get_option(OptionManager::databaseKey());
+        // remove last_migration_run from settings
+        if (isset($settings['last_migration_run'])) {
+            unset($settings['last_migration_run']);
+        }
+        // fix notification message
+        if (isset($settings['settings']['general']['notification_message'])) {
+            $search = [
+                '{review_author}  - {review_ip}',
+                '{review_link}',
+            ];
+            $replace = [
+                '{review_author} ({review_email}) - {review_ip}',
+                '<a href="{edit_url}">Edit Review</a>',
+            ];
+            $notification = str_replace($search, $replace, $settings['settings']['general']['notification_message']);
+            $settings['settings']['general']['notification_message'] = $notification;
+        }
+        update_option(OptionManager::databaseKey(), $settings);
     }
 
     protected function insertTableColumn(string $column, string $afterColumn): bool

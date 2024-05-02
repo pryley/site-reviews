@@ -171,7 +171,7 @@ return [ // order is intentional
         'tooltip' => sprintf(_x('To send notifications to a Discord channel, %s and then paste the URL in the field.', 'admin-text', 'site-reviews'),
             '<a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank">'._x('create a webhook', 'admin-text', 'site-reviews').'</a>'
         ),
-        'type' => 'text',
+        'type' => 'secret',
     ],
     'settings.general.notification_slack' => [
         'default' => '',
@@ -183,7 +183,7 @@ return [ // order is intentional
         'tooltip' => sprintf(_x('To send notifications to a Slack channel, %s and then paste the URL in the field.', 'admin-text', 'site-reviews'),
             '<a href="https://api.slack.com/incoming-webhooks" target="_blank">'._x('create an Incoming Webhook', 'admin-text', 'site-reviews').'</a>'
         ),
-        'type' => 'text',
+        'type' => 'secret',
     ],
     'settings.general.notification_from' => [
         'default' => '',

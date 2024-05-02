@@ -6,6 +6,6 @@
 
 {review_content}
 
-{review_author} &lt;{review_email}&gt; - {review_ip}
+{review_author} ({review_email}) - {review_ip}
 
 <a href="{edit_url}">Edit Review</a>
