@@ -116,7 +116,8 @@ class ElementorFormWidget extends ElementorWidget
                     ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} form.glsr-form' => '--glsr-gap-md: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .glsr-review-form' => '--glsr-gap-md: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .elementor-form .elementor-form-fields-wrapper .glsr-field' => 'margin-bottom: {{SIZE}}{{UNIT}};',
                 ],
                 'size_units' => $this->set_custom_size_unit(['em']),
                 'type' => Controls_Manager::SLIDER,

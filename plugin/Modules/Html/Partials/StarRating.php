@@ -19,7 +19,7 @@ class StarRating implements PartialContract
         );
         return glsr(Builder::class)->div([
             'aria-label' => $this->label(),
-            'class' => glsr()->isAdmin() ? 'star-rating stars' : 'glsr-star-rating glsr-stars',
+            'class' => 'glsr-star-rating glsr-stars',
             'data-rating' => $this->data->rating,
             'data-reviews' => $this->data->reviews,
             'text' => $this->stars(),
@@ -50,7 +50,7 @@ class StarRating implements PartialContract
         foreach ($types as $type => $repeat) {
             $template = glsr(Builder::class)->span([
                 'aria-hidden' => 'true',
-                'class' => glsr()->isAdmin() ? "star star-{$type}" : "glsr-star glsr-star-{$type}",
+                'class' => "glsr-star glsr-star-{$type}",
             ]);
             $results[] = str_repeat($template, $repeat);
         }
