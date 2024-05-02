@@ -2289,7 +2289,7 @@ msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr ""
 
-#: plugin/Controllers/MainController.php:114
+#: plugin/Controllers/MainController.php:115
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr ""
@@ -5103,7 +5103,7 @@ msgctxt "admin-text"
 msgid "Edit Details"
 msgstr ""
 
-#: views/partials/editor/metabox-response.php:8
+#: views/partials/editor/metabox-response.php:9
 msgctxt "admin-text"
 msgid "If you need to publicly respond to this review, enter your response here."
 msgstr ""

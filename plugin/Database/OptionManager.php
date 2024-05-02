@@ -197,6 +197,15 @@ class OptionManager
         return true;
     }
 
+    public function updateVersion(): void
+    {
+        $version = $this->get('version', '0.0.0');
+        if (glsr()->version !== $version) {
+            $this->set('version', glsr()->version);
+            $this->set('version_upgraded_from', $version);
+        }
+    }
+
     /**
      * @param mixed $fallback
      *

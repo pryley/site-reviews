@@ -5,20 +5,23 @@ namespace GeminiLabs\SiteReviews\Modules;
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
+/**
+ * Do not use OptionManager non-static methods here!
+ */
 class Migrate
 {
-    public string $currentVersion;
     public array $migrations;
     public string $migrationsKey;
+    public string $migrationsLastRun;
 
     public function __construct()
     {
-        $this->currentVersion = $this->currentVersion();
-        $this->migrations = $this->availableMigrations();
+        $this->migrations = $this->allMigrations();
         $this->migrationsKey = glsr()->prefix.'migrations';
+        $this->migrationsLastRun = glsr()->prefix.'last_migration_run';
     }
 
     public function isMigrationNeeded(): bool
@@ -28,11 +31,22 @@ class Migrate
         }
         if (!empty($this->pendingMigrations())) {
             // check if this is a fresh install of the plugin
-            return '0.0.0' !== glsr(OptionManager::class)->get('version_upgraded_from');
+            return '0.0.0' !== $this->versionUpgradedFrom();
         }
         return false;
     }
 
+    /**
+     * Returns a UNIX timestamp
+     */
+    public function lastRun(): int
+    {
+        return Cast::toInt(get_option($this->migrationsLastRun));
+    }
+
+    /**
+     * Used by Notices\MigrationNotice::class.
+     */
     public function pendingVersions(): string
     {
         $versions = array_map(
@@ -62,7 +76,7 @@ class Migrate
         $this->runMigrations();
     }
 
-    protected function availableMigrations(): array
+    protected function allMigrations(): array
     {
         $migrations = [];
         $dir = glsr()->path('plugin/Migrations');
@@ -78,33 +92,23 @@ class Migrate
         return Arr::reindex($migrations);
     }
 
-    protected function createMigrations(): array
+    protected function migrations(): array
     {
-        $migrations = [];
-        foreach ($this->migrations as $migration) {
-            $migrations[$migration] = false;
-        }
-        return $migrations;
-    }
-
-    protected function currentVersion(): string
-    {
-        $fallback = '0.0.0';
-        $majorVersions = range(glsr()->version('major'), 1);
-        foreach ($majorVersions as $majorVersion) {
-            $settings = get_option(OptionManager::databaseKey($majorVersion));
-            $version = Arr::get($settings, 'version', $fallback);
-            if (Helper::isGreaterThan($version, $fallback)) {
-                return $version;
+        $storedMigrations = Arr::consolidate(get_option($this->migrationsKey));
+        if (!Arr::compare(array_keys($storedMigrations), array_values($this->migrations))) {
+            $migrations = [];
+            foreach ($this->migrations as $migration) {
+                $migrations[$migration] = Arr::get($storedMigrations, $migration, false);
             }
+            $storedMigrations = $migrations;
         }
-        return $fallback;
+        return array_map('wp_validate_boolean', $storedMigrations);
     }
 
     protected function pendingMigrations(array $migrations = []): array
     {
         if (empty($migrations)) {
-            $migrations = $this->storedMigrations();
+            $migrations = $this->migrations();
         }
         return array_keys(array_filter($migrations, fn ($hasRun) => !$hasRun));
     }
@@ -112,7 +116,7 @@ class Migrate
     protected function runMigrations(): void
     {
         wp_raise_memory_limit('admin');
-        $migrations = $this->storedMigrations();
+        $migrations = $this->migrations();
         glsr()->action('migration/start', $migrations);
         foreach ($this->pendingMigrations($migrations) as $migration) {
             if (class_exists($classname = "\GeminiLabs\SiteReviews\Migrations\\{$migration}")) {
@@ -129,39 +133,20 @@ class Migrate
                 glsr_log()->error("[$migration] was unsuccessful");
             }
         }
-        $this->storeMigrations($migrations);
-        if ($this->currentVersion !== glsr()->version) {
-            $this->updateVersionFrom($this->currentVersion);
-        }
-        glsr(OptionManager::class)->set('last_migration_run', current_time('timestamp'));
+        $this->updateMigrationStatus($migrations);
         glsr()->action('migration/end', $migrations);
     }
 
-    protected function storeMigrations(array $migrations): void
+    protected function updateMigrationStatus(array $migrations): void
     {
         update_option($this->migrationsKey, $migrations);
+        update_option($this->migrationsLastRun, current_time('timestamp'));
     }
 
-    protected function storedMigrations(): array
+    protected function versionUpgradedFrom(): string
     {
-        $migrations = Arr::consolidate(get_option($this->migrationsKey));
-        if (!Arr::compare(array_keys($migrations), array_values($this->migrations))) {
-            $newMigrations = $this->createMigrations();
-            foreach ($newMigrations as $migration => &$hasRun) {
-                $hasRun = Arr::get($migrations, $migration, false);
-            }
-            $migrations = $newMigrations;
-            $this->storeMigrations($migrations);
-        }
-        return array_map('wp_validate_boolean', $migrations);
-    }
-
-    protected function updateVersionFrom(string $previousVersion): void
-    {
-        $storedPreviousVersion = glsr(OptionManager::class)->get('version_upgraded_from');
-        glsr(OptionManager::class)->set('version', glsr()->version);
-        if ('0.0.0' !== $previousVersion || empty($storedPreviousVersion)) {
-            glsr(OptionManager::class)->set('version_upgraded_from', $previousVersion);
-        }
+        $settings = get_option(OptionManager::databaseKey());
+        $version = Arr::getAs('string', $settings, 'version_upgraded_from');
+        return $version ?: '0.0.0';
     }
 }

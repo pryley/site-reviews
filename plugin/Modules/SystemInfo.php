@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Migrate;
 
 class SystemInfo
 {
@@ -194,7 +195,7 @@ class SystemInfo
                 'Console Level' => glsr(Console::class)->humanLevel(),
                 'Console Size' => glsr(Console::class)->humanSize(),
                 'Database Version' => (string) get_option(glsr()->prefix.'db_version'),
-                'Last Migration Run' => glsr(Date::class)->localized(glsr(OptionManager::class)->get('last_migration_run'), 'unknown'),
+                'Last Migration Run' => glsr(Date::class)->localized(glsr(Migrate::class)->lastRun(), 'unknown'),
                 'Merged Assets' => implode('/', Helper::ifEmpty($merged, ['No'])),
                 'Network Activated' => Helper::ifTrue(is_plugin_active_for_network(glsr()->basename), 'Yes', 'No'),
                 'Version' => sprintf('%s (%s)', glsr()->version, glsr(OptionManager::class)->get('version_upgraded_from')),
@@ -379,7 +380,7 @@ class SystemInfo
     {
         return defined($key)
             || filter_input(INPUT_SERVER, $key)
-            || str_contains(filter_input(INPUT_SERVER, 'SERVER_NAME'), $key)
+            || str_contains((string) filter_input(INPUT_SERVER, 'SERVER_NAME'), $key)
             || str_contains(DB_HOST, $key)
             || (function_exists('php_uname') && str_contains(php_uname(), $key))
             || ('WPE_APIKEY' === $key && function_exists('is_wpe')); // WP Engine

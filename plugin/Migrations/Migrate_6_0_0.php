@@ -107,7 +107,6 @@ class Migrate_6_0_0 implements MigrateContract
         }
         unset($newSettings['settings']['submissions']);
         update_option(OptionManager::databaseKey(6), $newSettings);
-        glsr(OptionManager::class)->reset();
     }
 
     protected function insertTableColumn(string $column, string $afterColumn): bool

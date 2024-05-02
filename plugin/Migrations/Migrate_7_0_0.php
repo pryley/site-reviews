@@ -7,11 +7,17 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Tables;
+use GeminiLabs\SiteReviews\Modules\Migrate;
 
 class Migrate_7_0_0 implements MigrateContract
 {
     public function run(): bool
     {
+        $settings = get_option(OptionManager::databaseKey());
+        if (isset($settings['last_migration_run'])) {
+            unset($settings['last_migration_run']);
+            update_option(OptionManager::databaseKey(), $settings);
+        }
         delete_option(OptionManager::databaseKey(5));
         delete_transient(glsr()->prefix.'cloudflare_ips');
         $this->migrateDatabase();

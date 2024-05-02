@@ -28,6 +28,5 @@ class Migrate_6_10_2 implements MigrateContract
         }
         unset($settings['settings']['schema']['integration']['types']);
         update_option(OptionManager::databaseKey(6), $settings);
-        glsr(OptionManager::class)->reset();
     }
 }

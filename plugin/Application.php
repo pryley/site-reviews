@@ -108,7 +108,7 @@ final class Application extends Container implements PluginContract
 
     /**
      * This is the entry point to the plugin, it runs before "plugins_loaded".
-     * If this is a new major version, settings are copied over here if needed.
+     * If this is a new major version, settings are copied over here and a migration is run.
      */
     public function init(): void
     {

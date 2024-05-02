@@ -72,9 +72,9 @@ abstract class AbstractNotice
 
     protected function futureTime(): int
     {
-        $time = !glsr(Migrate::class)->isMigrationNeeded()
-            ? glsr(OptionManager::class)->get('last_migration_run', time())
-            : time();
+        $time = glsr(Migrate::class)->isMigrationNeeded()
+            ? time() // now
+            : glsr(Migrate::class)->lastRun();
         return $time + WEEK_IN_SECONDS;
     }
 

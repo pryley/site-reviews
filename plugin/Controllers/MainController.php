@@ -66,6 +66,7 @@ class MainController extends AbstractController
         $defaults = glsr()->defaults();
         glsr()->action('addon/update', glsr());
         glsr(OptionManager::class)->mergeDefaults($defaults);
+        glsr(OptionManager::class)->updateVersion();
     }
 
     /**
