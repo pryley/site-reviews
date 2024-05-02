@@ -86,12 +86,10 @@ class BlocksController extends AbstractController
      * @param string[] $widgets
      *
      * @filter widget_types_to_hide_from_legacy_widget_block
-     *
-     * @todo Use this?
      */
-    public function replaceLegacyWidgets(array $widgets): array
+    public function removeLegacyWidgets(array $widgets): array
     {
-        // array_push($types, 'glsr_site-reviews', 'glsr_site-reviews-form', 'glsr_site-reviews-summary');
+        array_push($widgets, 'glsr_site-review', 'glsr_site-reviews', 'glsr_site-reviews-form', 'glsr_site-reviews-summary');
         return $widgets;
     }
 }

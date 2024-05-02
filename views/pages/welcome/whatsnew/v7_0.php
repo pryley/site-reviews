@@ -33,7 +33,12 @@
             <li>⚠️ Changed the minimum required version of PHP to v7.4</li>
             <li>⚠️ Changed the minimum required version of WordPress to v6.1</li>
             <li>⚠️ Moved all CSS variables from <code>:root {}</code> to <code>body {}</code></li>
+        </ul>
+
+        <h4>🚫 Removed</h4>
+        <ul>
             <li>Removed the email and IP address values from the review in javascript responses</li>
+            <li>Removed the Site Reviews widgets from the Legacy Widget block</li>
         </ul>
 
         <h4>🐞 Bugs Fixed</h4>

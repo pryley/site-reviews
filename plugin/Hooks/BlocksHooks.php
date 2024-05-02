@@ -14,7 +14,7 @@ class BlocksHooks extends AbstractHooks
             ['filterUseBlockEditor', 'use_block_editor_for_post_type', 10, 2],
             ['registerAssets', 'init', 9], // This must be done before the blocks are registered
             ['registerBlocks', 'init'],
-            ['replaceLegacyWidgets', 'widget_types_to_hide_from_legacy_widget_block'],
+            ['removeLegacyWidgets', 'widget_types_to_hide_from_legacy_widget_block'],
         ]);
     }
 }
