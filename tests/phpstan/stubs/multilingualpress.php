@@ -349,8 +349,6 @@ namespace Inpsyde\MultilingualPress\SiteFlags\Flag {
     }
     /**
      * Class Svg
-     *
-     * @todo Convert to SVG markup
      */
     final class Svg implements \Inpsyde\MultilingualPress\SiteFlags\Flag\Flag
     {

@@ -7355,8 +7355,6 @@ namespace {
          *
          * Legacy REST requests should still run some extra code for backwards compatibility.
          *
-         * @todo: replace this function once core WP function is available: https://core.trac.wordpress.org/ticket/42061.
-         *
          * @return bool
          */
         public function is_rest_api_request()
