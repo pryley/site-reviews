@@ -48,6 +48,7 @@ class DefaultsTest extends \WP_UnitTestCase
                 'year' => '',
             ],
             'email' => '',
+            'integration' => '',
             'ip_address' => '',
             'offset' => 0,
             'order' => 'DESC',
