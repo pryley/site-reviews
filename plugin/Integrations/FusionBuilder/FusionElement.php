@@ -11,7 +11,11 @@ abstract class FusionElement extends \Fusion_Element
     public static function optionAssignedTerms(string $heading, string $description = ''): array
     {
         $isFusionEditor = function_exists('is_fusion_editor') && is_fusion_editor();
-        $terms = $isFusionEditor ? fusion_builder_shortcodes_categories(glsr()->taxonomy, false, '', 26) : [];
+        if ($isFusionEditor && function_exists('fusion_builder_shortcodes_categories')) {
+            $terms = fusion_builder_shortcodes_categories(glsr()->taxonomy, false, '', 26);
+        } else {
+            $terms = [];
+        }
         $option = [
             'default' => '',
             'heading' => $heading,

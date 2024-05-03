@@ -1,6 +1,6 @@
 == Changelog ==
 
-= 7.0.0 (2024-05-01) =
+= 7.0.0 (2024-05-03) =
 
 - ✨ Added the Review Actions addon
 - 🚨 Requires all installed addons to be updated!
@@ -8,31 +8,34 @@
 - 🚨 Requires at least WordPress v6.1
 - 🚨 Moved CSS variables from `:root {}` to `body {}`.
 - Added an example CSV file that can be downloaded on the Import Reviews tool
-- Added Avada Fusion Builder Elements
+- Added [Avada](https://avada.com/) Fusion Builder Elements
 - Added Dashboard widget
 - Added exponential-backoff strategy to API calls
 - Added IP address detection tool settings
-- Added JetWooBuilder integration
+- Added [JetWooBuilder](https://crocoblock.com/plugins/jetwoobuilder/) integration
 - Added Migrate Product Ratings to the Import Roduct Reviews tool (allows third-party plugins to filter products by rating)
 - Added Reviews metabox to WooCommerce product pages
-- Added SEOPress integration
+- Added [SEOPress](https://wordpress.org/plugins/wp-seopress/) integration
 - Added style controls to Elementor widgets
 - Added support for conditional fields in review forms (Review Forms addon required)
 - Added support for multilingual categories
 - Added support for SQLite databases
+- Fixed bulk-delete of scheduled actions
 - Fixed compatibility with the Cookie Cracker plugin
 - Fixed Discord notifications for reviews with more than 2000 characters
 - Fixed display of rating stars in review revisions
+- Fixed Divi button style
 - Fixed excerpts in cases when the PHP Intl extension is misconfigured
 - Fixed pinned reviews when the WooCommerce integration is enabled
 - Fixed review dates from converting the date to the site's timezone
 - Fixed {review_link} notification tag
 - Fixed SQL error when filtering reviews by "No author"
 - Fixed validation message setting with WPML/Polylang
-- Fixed WooRewards integration
+- Fixed [WooRewards](https://wordpress.org/plugins/woorewards/) integration
 - Removed the email and IP address values from the review in javascript responses
-- Updated documentation
+- Removed the Site Reviews widgets from the Legacy Widget block
 - Updated Action Scheduler to v3.7.4
+- Updated plugin documentation
 
 = 6.11.8 (2024-03-10) =
 

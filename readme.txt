@@ -7,18 +7,24 @@ Stable tag: 7.0.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Site Reviews is a complete review management solution for your website that is designed to work in a similar way to Amazon, TripAdvisor, and Yelp.
+Site Reviews is a complete review management solution for your website that is designed to work in a similar way to Amazon, Tripadvisor, and Yelp.
 
 == Description ==
 
-Site Reviews is a complete review management solution for your website that is designed to work in a similar way to Amazon, TripAdvisor, and Yelp. The plugin provides blocks, shortcodes, and widgets, along with full documentation.
+Site Reviews is a complete review management solution for your website that is designed to work in a similar way to Amazon, Tripadvisor, and Yelp. The plugin provides blocks, shortcodes, and widgets, along with full documentation.
 
-You can pin your best reviews so that they are always shown first, mark reviews as verified, require approval before new reviews are published, require visitors to be logged-in in order to write a review, send a custom notification when reviews are submitted, respond to reviews, and a lot more!
+You can pin your best reviews so that they are always shown first, request review verification, require approval before new reviews are published, require visitors to be logged-in in order to write a review, send a custom notification when reviews are submitted, respond to reviews, and a lot more!
 
 Site Reviews provides more features and options than almost every other free review plugin, and the support provided on the WordPress forum is excellent.
 
-1. [Try Site Reviews](https://tastewp.com/plugins/site-reviews/?ni=true&redirect=index.php%3Fpage=site-reviews-welcome%26tab=getting-started) for yourself on a demo website.
-2. [View a live demo](https://demo.site-reviews.com)
+= Try a Live Demo =
+
+1. [Try Site Reviews](https://tastewp.com/plugins/site-reviews/?ni=true&redirect=index.php%3Fpage=site-reviews-welcome%26tab=getting-started) for yourself on a demo server.
+2. [View a demo website](https://demo.site-reviews.com)
+
+= Watch a Tutorial =
+
+https://www.youtube.com/watch?v=H5HdMCXvuq8
 
 = Current Features =
 
@@ -57,26 +63,27 @@ Site Reviews provides more features and options than almost every other free rev
 - __SPAM Protection__: Includes 5 layers of protection from spam! Built-in Honeypot, 5 CAPTCHA options (Cloudflare Turnstile, FriendlyCaptcha, hCaptcha, reCAPTCHA v2 Invisible, and reCAPTCHA v3), Akismet, Blacklist, and Review limits
 - __Templates__: Use the Site Reviews templates in your theme for full control over the HTML
 - __Translations__: Easily change any text of the plugin to your own in the settings.
-- __Verify Reviews__: Mark reviews as verified
+- __Verify Reviews__: Automatically request verification of new reviews
 - __WooCommerce Support__: Site Reviews integrates with your WooCommerce Products
 
 = Site Reviews Premium =
 
 If you need even more features, [Site Reviews Premium](https://niftyplugins.com/plugins/site-reviews-premium/) gives you access to all of our paid addons, and offers faster and more personalised support. Premium addons include:
 
+- __[Review Actions](https://niftyplugins.com/plugins/site-reviews-actions/)__: Allow people to upvote, report, and translate your reviews.
 - __[Review Authors](https://niftyplugins.com/plugins/site-reviews-authors/)__: Update your reviews from the frontend.
 - __[Review Filters](https://niftyplugins.com/plugins/site-reviews-filters/)__: Sort, filter, and search your reviews.
-- __[Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/)__: Create custom review forms with over 20 field types and individual review templates.
+- __[Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/)__: Create custom review forms with over 20 field types, field conditions, and individual review templates.
 - __[Review Images](https://niftyplugins.com/plugins/site-reviews-images/)__: Add images with captions to your reviews, and display a gallery of your review images.
-- __[Review Notifications](https://niftyplugins.com/plugins/site-reviews-notifications/)__: Create and schedule custom review notifications with conditions, and send reminder emails for WooCommerce Product purchases.
-- __[Review Themes](https://niftyplugins.com/plugins/site-reviews-themes/)__: Create custom review designs with a drag-and-drop builder, and display your reviews in a carousel or grid.
+- __[Review Notifications](https://niftyplugins.com/plugins/site-reviews-notifications/)__: Create and schedule custom review notifications with conditions, and send reminder emails for WooCommerce purchases.
+- __[Review Themes](https://niftyplugins.com/plugins/site-reviews-themes/)__: Display your reviews in a carousel or grid and create custom review designs with a drag-and-drop builder.
 
 = Third Party Plugin Support =
 
 Site Reviews is officially compatible with the following plugins:
 
 - [Akismet](https://wordpress.org/plugins/akismet/)
-- [Avada](https://avada.com/)
+- [Avada Fusion Builder](https://avada.com/)
 - [Divi](https://www.elegantthemes.com/gallery/divi/)
 - [Elementor](https://elementor.com/)
 - [Endurance Cache](https://github.com/bluehost/endurance-page-cache/)
@@ -97,6 +104,7 @@ Site Reviews is officially compatible with the following plugins:
 - [RankMath Pro](https://rankmath.com/)
 - [Schema and Structured Data for WP](https://structured-data-for-wp.com/)
 - [Schema Pro](https://wpschema.com/)
+- [SEOPress](https://wordpress.org/plugins/wp-seopress/)
 - [Search & Filter Pro](https://searchandfilter.com/)
 - [SiteGround Optimizer](https://wordpress.org/plugins/sg-cachepress/)
 - [Speed Booster Pack](https://wordpress.org/plugins/speed-booster-pack/)
@@ -124,7 +132,7 @@ Images adapted from [freepik](https://www.freepik.com).
 
 == Installation ==
 
-= Minimum Requirements =
+= Minimum Plugin Requirements =
 
 - MySQL 5.6 or greater
 - PHP 7.4 or greater
@@ -186,7 +194,7 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 == Changelog ==
 
-= 7.0.0 (2024-05-01) =
+= 7.0.0 (2024-05-03) =
 
 - ✨ Added the Review Actions addon
 - 🚨 Requires all installed addons to be updated!
@@ -194,31 +202,33 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 - 🚨 Requires at least WordPress v6.1
 - 🚨 Moved CSS variables from `:root {}` to `body {}`.
 - Added an example CSV file that can be downloaded on the Import Reviews tool
-- Added Avada Fusion Builder Elements
+- Added [Avada](https://avada.com/) Fusion Builder Elements
 - Added Dashboard widget
 - Added exponential-backoff strategy to API calls
 - Added IP address detection tool settings
-- Added JetWooBuilder integration
+- Added [JetWooBuilder](https://crocoblock.com/plugins/jetwoobuilder/) integration
 - Added Migrate Product Ratings to the Import Roduct Reviews tool (allows third-party plugins to filter products by rating)
 - Added Reviews metabox to WooCommerce product pages
-- Added SEOPress integration
+- Added [SEOPress](https://wordpress.org/plugins/wp-seopress/) integration
 - Added style controls to Elementor widgets
 - Added support for conditional fields in review forms (Review Forms addon required)
 - Added support for multilingual categories
 - Added support for SQLite databases
+- Fixed bulk-delete of scheduled actions
 - Fixed compatibility with the Cookie Cracker plugin
 - Fixed Discord notifications for reviews with more than 2000 characters
 - Fixed display of rating stars in review revisions
+- Fixed Divi button style
 - Fixed excerpts in cases when the PHP Intl extension is misconfigured
 - Fixed pinned reviews when the WooCommerce integration is enabled
 - Fixed review dates from converting the date to the site's timezone
 - Fixed {review_link} notification tag
 - Fixed SQL error when filtering reviews by "No author"
 - Fixed validation message setting with WPML/Polylang
-- Fixed WooRewards integration
+- Fixed [WooRewards](https://wordpress.org/plugins/woorewards/) integration
 - Removed the email and IP address values from the review in javascript responses
 - Removed the Site Reviews widgets from the Legacy Widget block
-- Updated documentation
 - Updated Action Scheduler to v3.7.4
+- Updated plugin documentation
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).

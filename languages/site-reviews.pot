@@ -4234,12 +4234,12 @@ msgctxt "admin-text"
 msgid "Update Elementor to v3.19.0 or higher to enable integration with Site Reviews."
 msgstr ""
 
-#: plugin/Integrations/FusionBuilder/FusionElement.php:19, plugin/Integrations/FusionBuilder/FusionElement.php:48, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:19, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:45, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:19, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:45, plugin/Integrations/FusionBuilder/FusionReviewForm.php:17, plugin/Integrations/FusionBuilder/FusionReviewForm.php:43
+#: plugin/Integrations/FusionBuilder/FusionElement.php:23, plugin/Integrations/FusionBuilder/FusionElement.php:52, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:19, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:45, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:19, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:45, plugin/Integrations/FusionBuilder/FusionReviewForm.php:17, plugin/Integrations/FusionBuilder/FusionReviewForm.php:43
 msgctxt "admin-text"
 msgid "Select or Leave Blank"
 msgstr ""
 
-#: plugin/Integrations/FusionBuilder/FusionElement.php:46
+#: plugin/Integrations/FusionBuilder/FusionElement.php:50
 msgctxt "admin-text"
 msgid "Limit the Review Type"
 msgstr ""

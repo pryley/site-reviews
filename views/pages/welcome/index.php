@@ -6,8 +6,8 @@
     <div class="badge">Version <?php echo glsr()->version; ?></div>
     <p class="about-buttons">
         <a class="components-button is-primary dashicon dashicons-book" href="<?php echo glsr_admin_url('documentation'); ?>">Read the Documentation</a>
-        <a class="components-button is-secondary dashicon dashicons-facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//geminilabs.io/site-reviews">Share</a>
-        <a class="components-button is-secondary dashicon dashicons-twitter" target="_blank" href="https://twitter.com/intent/tweet?text=Site Reviews is a fantastic WordPress review plugin with advanced features that makes it easy to manage reviews on your website.&url=https://geminilabs.io/site-reviews&hashtags=WordPress,reviewplugins,">Tweet</a>
+        <a class="components-button is-secondary dashicon dashicons-facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//wordpress.org/plugins/site-reviews/">Share</a>
+        <a class="components-button is-secondary dashicon dashicons-twitter" target="_blank" href="https://twitter.com/intent/tweet?text=Site Reviews is a fantastic WordPress review plugin with advanced features that makes it easy to manage reviews on your website.&url=https://wordpress.org/plugins/site-reviews/&hashtags=WordPress,reviewplugins,">Tweet</a>
     </p>
     <nav class="glsr-nav-tab-wrapper nav-tab-wrapper">
         <?php foreach ($tabs as $id => $title) : ?>

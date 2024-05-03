@@ -8,7 +8,7 @@
         </button>
     </h3>
     <div id="welcome-v7_0_0" class="inside">
-        <p><em>Release Date &mdash; May 1st, 2024</em></p>
+        <p><em>Release Date &mdash; May 3rd, 2024</em></p>
 
         <h4>✨ New Features</h4>
         <ul>
@@ -47,10 +47,12 @@
             <li>Fixed a Cross Site Scripting (XSS) vulnerability caused by users saving malicious javascript text to their first/last/display name in their WordPress user profile.</li>
             <li>Fixed a Cross Site Scripting (XSS) vulnerability which allowed authenticated admin users to insert javascript into review content.</li>
             <li>Fixed a race-time vulnerability from single-packet attacks (this should improve spam protection)</li>
+            <li>Fixed bulk-delete of scheduled actions</li>
             <li>Fixed cache plugin integrations</li>
             <li>Fixed compatibility with the <a href="https://marketpress.com/shop/plugins/cookie-cracker/" target="_blank">Cookie Cracker</a> plugin</li>
             <li>Fixed Discord notifications for reviews with more than 2000 characters</li>
             <li>Fixed display of rating stars in review revisions</li>
+            <li>Fixed Divi button style</li>
             <li>Fixed license key sanitization</li>
             <li>Fixed localized rating values</li>
             <li>Fixed notifications from triggering when a review is auto-saved as a draft</li>

@@ -15,6 +15,18 @@
             </p>
         </div>
 
+        <h2>Changes to IP Address detection</h2>
+        <p><em>Likelihood Of Impact: <span class="impact-high">High</span></em></p>
+        <ol>
+            <li>
+                <p><strong>Site Reviews no longer looks for proxy HTTP headers when detecting the IP address.</strong></p>
+                <p>Proxy HTTP headers are sometimes used by visitors to spoof their IP address so Site Reviews now disables this by default.</p>
+                <p>If you get incorrect IP address values in your reviews, there might be a reverse proxy, load balancer, cache, Cloudflare, CDN, or any other type of proxy in front of your web server that "proxies" traffic to your website.</p>
+                <p>Please use the <a data-expand="#tools-ip-detection" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Configure IP Address Detection</a> tool to test IP Address detection on your website and if needed, select the correct proxy HTTP header used by your server that contains the real visitor IP address.</p>
+                <p>
+            </li>
+        </ol>
+
         <h2>Changes to CSS Variables</h2>
         <p><em>Likelihood Of Impact: <span class="impact-medium">Medium</span></em></p>
         <ol>
