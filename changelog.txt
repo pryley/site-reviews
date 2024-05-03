@@ -32,6 +32,7 @@
 - Fixed WooRewards integration
 - Removed the email and IP address values from the review in javascript responses
 - Updated documentation
+- Updated Action Scheduler to v3.7.4
 
 = 6.11.8 (2024-03-10) =
 

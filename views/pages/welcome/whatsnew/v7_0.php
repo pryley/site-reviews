@@ -33,6 +33,7 @@
             <li>⚠️ Changed the minimum required version of PHP to v7.4</li>
             <li>⚠️ Changed the minimum required version of WordPress to v6.1</li>
             <li>⚠️ Moved all CSS variables from <code>:root {}</code> to <code>body {}</code></li>
+            <li>Updated Action Scheduler to v3.7.4</li>
         </ul>
 
         <h4>🚫 Removed</h4>

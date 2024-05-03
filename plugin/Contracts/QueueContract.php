@@ -5,13 +5,13 @@ namespace GeminiLabs\SiteReviews\Contracts;
 interface QueueContract
 {
     /**
-     * Enqueue an action to run one time, as soon as possible
+     * Enqueue an action to run one time, as soon as possible.
      *
-     * @param string $hook The hook to trigger.
-     * @param array  $args Arguments to pass when the hook triggers.
-     * @param bool   $unique Whether the action should be unique.
+     * @param string $hook   the hook to trigger
+     * @param array  $args   arguments to pass when the hook triggers
+     * @param bool   $unique Whether the action should be unique. It will not be scheduled if another pending or running action has the same hook and group parameters.
      *
-     * @return int The action ID.
+     * @return int The action ID. Zero if there was an error scheduling the action.
      */
     public function async(string $hook, array $args = [], bool $unique = false);
 
@@ -25,17 +25,17 @@ interface QueueContract
      * then the following instance will never be scheduled (or exist), which is effectively the same as being unscheduled
      * by this method also.
      *
-     * @param string $hook The hook that the job will trigger.
-     * @param array  $args Args that would have been passed to the job.
+     * @param string $hook the hook that the job will trigger
+     * @param array  $args args that would have been passed to the job
      *
-     * @return int|null The scheduled action ID if a scheduled action was found, or null if no matching action found.
+     * @return int|null the scheduled action ID if a scheduled action was found, or null if no matching action found
      */
     public function cancel(string $hook, array $args = []);
 
     /**
      * Cancel a specific action.
-     * 
-     * @param int|string $actionId  The ID of the action.
+     *
+     * @param int|string $actionId the ID of the action
      */
     public function cancelAction($actionId);
 
@@ -43,7 +43,7 @@ interface QueueContract
      * Cancel all occurrences of a scheduled action.
      *
      * @param string $hook the hook that the job will trigger
-     * @param array $args args that would have been passed to the job
+     * @param array  $args args that would have been passed to the job
      */
     public function cancelAll(string $hook, array $args = []);
 
@@ -51,9 +51,10 @@ interface QueueContract
      * Schedule an action that recurs on a cron-like schedule.
      *
      * @param int    $timestamp The first instance of the action will be scheduled
-     *           to run at a time calculated after this timestamp matching the cron
-     *           expression. This can be used to delay the first instance of the action.
-     * @param string $cron A cron-link schedule string.
+     *                          to run at a time calculated after this timestamp matching the cron
+     *                          expression. This can be used to delay the first instance of the action.
+     * @param string $schedule  a cron-link schedule string
+     *
      * @see http://en.wikipedia.org/wiki/Cron
      *   *    *    *    *    *    *
      *   ┬    ┬    ┬    ┬    ┬    ┬
@@ -64,16 +65,17 @@ interface QueueContract
      *   |    |    +--------------- day of month (1 - 31)
      *   |    +-------------------- hour (0 - 23)
      *   +------------------------- min (0 - 59)
-     * @param string $hook The hook to trigger.
-     * @param array  $args Arguments to pass when the hook triggers.
-     * @param bool   $unique Whether the action should be unique.
      *
-     * @return int The action ID.
+     * @param string $hook   the hook to trigger
+     * @param array  $args   arguments to pass when the hook triggers
+     * @param bool   $unique Whether the action should be unique. It will not be scheduled if another pending or running action has the same hook and group parameters.
+     *
+     * @return int The action ID. Zero if there was an error scheduling the action.
      */
-    public function cron(int $timestamp, string $cron, string $hook, array $args = [], bool $unique = false);
+    public function cron(int $timestamp, string $schedule, string $hook, array $args = [], bool $unique = false);
 
     /**
-     * @param int|string $actionId  The ID of the action.
+     * @param int|string $actionId the ID of the action
      *
      * @return \ActionScheduler_Action
      */
@@ -85,10 +87,12 @@ interface QueueContract
      * It's recommended to use this function when you need to know whether a specific action is currently scheduled
      * (pending or in-progress).
      *
-     * @param string $hook  The hook of the action.
-     * @param array  $args  Args that have been passed to the action. Null will matches any args.
+     * @since 3.3.0
      *
-     * @return bool True if a matching action is pending or in-progress, false otherwise.
+     * @param string $hook the hook of the action
+     * @param array  $args Args that have been passed to the action. Null will matches any args.
+     *
+     * @return bool true if a matching action is pending or in-progress, false otherwise
      */
     public function isPending(string $hook, array $args = []): bool;
 
@@ -101,57 +105,55 @@ interface QueueContract
      * returned. Or there may be no async, in-progress or pending action for this hook, in which case,
      * boolean false will be the return value.
      *
-     * @param string $hook Name of the hook to search for.
-     * @param array  $args Arguments of the action to be searched.
+     * @param string $hook name of the hook to search for
+     * @param array  $args arguments of the action to be searched
      *
-     * @return \DateTime|bool The DateTime for the next occurrence of a pending scheduled action, true for an async or in-progress action or false if there is no matching action.
+     * @return int|bool the timestamp for the next occurrence of a pending scheduled action, true for an async or in-progress action or false if there is no matching action
      */
     public function next(string $hook, array $args = []);
 
     /**
-     * Schedule an action to run one time
+     * Schedule an action to run one time.
      *
-     * @param int    $timestamp When the job will run.
-     * @param string $hook The hook to trigger.
-     * @param array  $args Arguments to pass when the hook triggers.
-     * @param bool   $unique Whether the action should be unique.
+     * @param int    $timestamp when the job will run
+     * @param string $hook      the hook to trigger
+     * @param array  $args      arguments to pass when the hook triggers
+     * @param bool   $unique    Whether the action should be unique. It will not be scheduled if another pending or running action has the same hook and group parameters.
      *
-     * @return int The action ID.
+     * @return int The action ID. Zero if there was an error scheduling the action.
      */
     public function once(int $timestamp, string $hook, array $args = [], bool $unique = false);
 
     /**
-     * Schedule a recurring action
+     * Schedule a recurring action.
      *
-     * @param int    $timestamp When the first instance of the job will run.
-     * @param int    $intervalInSeconds How long to wait between runs.
-     * @param string $hook The hook to trigger.
-     * @param array  $args Arguments to pass when the hook triggers.
-     * @param bool   $unique Whether the action should be unique.
+     * @param int    $timestamp         when the first instance of the job will run
+     * @param int    $intervalInSeconds how long to wait between runs
+     * @param string $hook              the hook to trigger
+     * @param array  $args              arguments to pass when the hook triggers
+     * @param bool   $unique            Whether the action should be unique. It will not be scheduled if another pending or running action has the same hook and group parameters.
      *
-     * @return int The action ID.
+     * @return int The action ID. Zero if there was an error scheduling the action.
      */
     public function recurring(int $timestamp, int $intervalInSeconds, string $hook, array $args = [], bool $unique = false);
 
     /**
-     * Find scheduled actions
+     * Find scheduled actions.
      *
-     * @param array  $args Possible arguments, with their default values.
-     *         'hook' => '' - the name of the action that will be triggered.
-     *         'args' => NULL - the args array that will be passed with the action.
-     *         'date' => NULL - the scheduled date of the action. Expects a DateTime object, a unix timestamp, or a string that can parsed with strtotime(). Used in UTC timezone.
-     *         'date_compare' => '<=' - operator for testing "date". accepted values are '!=', '>', '>=', '<', '<=', '='.
-     *         'modified' => NULL - the date the action was last updated. Expects a DateTime object, a unix timestamp, or a string that can parsed with strtotime(). Used in UTC timezone.
-     *         'modified_compare' => '<=' - operator for testing "modified". accepted values are '!=', '>', '>=', '<', '<=', '='.
-     *         'group' => '' - the group the action belongs to.
-     *         'status' => '' - ActionScheduler_Store::STATUS_COMPLETE or ActionScheduler_Store::STATUS_PENDING.
-     *         'claimed' => NULL - TRUE to find claimed actions, FALSE to find unclaimed actions, a string to find a specific claim ID.
-     *         'per_page' => 5 - Number of results to return.
-     *         'offset' => 0.
-     *         'orderby' => 'date' - accepted values are 'hook', 'group', 'modified', 'date' or 'none'.
-     *         'order' => 'ASC'.
-     *
-     * @param string $returnFormat OBJECT, ARRAY_A, or ids.
+     * @param array $args Possible arguments, with their default values.
+     *                    'hook' => '' - the name of the action that will be triggered.
+     *                    'args' => NULL - the args array that will be passed with the action.
+     *                    'date' => NULL - the scheduled date of the action. Expects a DateTime object, a unix timestamp, or a string that can parsed with strtotime(). Used in UTC timezone.
+     *                    'date_compare' => '<=' - operator for testing "date". accepted values are '!=', '>', '>=', '<', '<=', '='.
+     *                    'modified' => NULL - the date the action was last updated. Expects a DateTime object, a unix timestamp, or a string that can parsed with strtotime(). Used in UTC timezone.
+     *                    'modified_compare' => '<=' - operator for testing "modified". accepted values are '!=', '>', '>=', '<', '<=', '='.
+     *                    'group' => '' - the group the action belongs to.
+     *                    'status' => '' - ActionScheduler_Store::STATUS_COMPLETE or ActionScheduler_Store::STATUS_PENDING.
+     *                    'claimed' => NULL - TRUE to find claimed actions, FALSE to find unclaimed actions, a string to find a specific claim ID.
+     *                    'per_page' => 5 - Number of results to return.
+     *                    'offset' => 0.
+     *                    'orderby' => 'date' - accepted values are 'hook', 'group', 'modified', 'date' or 'none'.
+     *                    'order' => 'ASC'.
      *
      * @return array
      */

@@ -219,5 +219,6 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 - Removed the email and IP address values from the review in javascript responses
 - Removed the Site Reviews widgets from the Legacy Widget block
 - Updated documentation
+- Updated Action Scheduler to v3.7.4
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).

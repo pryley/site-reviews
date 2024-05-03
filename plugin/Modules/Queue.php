@@ -104,7 +104,7 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
-    public function cron(int $timestamp, string $cron, string $hook, array $args = [], bool $unique = false)
+    public function cron(int $timestamp, string $schedule, string $hook, array $args = [], bool $unique = false)
     {
         if (!function_exists('as_schedule_cron_action') || $this->isTesting) {
             return 0;

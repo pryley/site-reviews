@@ -396,7 +396,7 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
     {
         foreach ($ids as $action_id) {
             try {
-                $this->store->delete_action($action_id);
+                $this->store->delete_action((string) $action_id);
             } catch (\Exception $e) {
                 glsr_log()->error($e->getMessage());
             }
@@ -474,6 +474,23 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
             return 'DESC';
         }
         return 'ASC';
+    }
+
+    /**
+     * Querystring arguments to persist between form submissions.
+     *
+     * @since 3.7.3
+     *
+     * @return string[]
+     */
+    protected function get_request_query_args_to_persist()
+    {
+        return array_merge($this->sort_by, [
+            'page',
+            'post_type',
+            'status',
+            'tab',
+        ]);
     }
 
     /**
