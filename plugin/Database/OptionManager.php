@@ -149,6 +149,9 @@ class OptionManager
     {
         static::flushSettingsCache();
         foreach (static::databaseKeys() as $version => $databaseKey) {
+            if ($version === intval(glsr()->version('major'))) {
+                continue;
+            }
             $settings = Arr::consolidate(get_option($databaseKey));
             if (!empty(array_filter(Arr::getAs('array', $settings, 'settings')))) {
                 return $settings;

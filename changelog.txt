@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 7.0.1 (2024-05-04) =
+
+- Fixed settings migration
+
 = 7.0.0 (2024-05-03) =
 
 - ✨ Added the Review Actions addon
