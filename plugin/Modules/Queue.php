@@ -109,7 +109,7 @@ class Queue implements QueueContract
         if (!function_exists('as_schedule_cron_action') || $this->isTesting) {
             return 0;
         }
-        return as_schedule_cron_action($timestamp, $cron, $this->hook($hook), $args, glsr()->id, $unique);
+        return as_schedule_cron_action($timestamp, $schedule, $this->hook($hook), $args, glsr()->id, $unique);
     }
 
     /**

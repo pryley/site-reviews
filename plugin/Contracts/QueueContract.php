@@ -108,7 +108,7 @@ interface QueueContract
      * @param string $hook name of the hook to search for
      * @param array  $args arguments of the action to be searched
      *
-     * @return int|bool the timestamp for the next occurrence of a pending scheduled action, true for an async or in-progress action or false if there is no matching action
+     * @return \DateTime|bool The DateTime for the next occurrence of a pending scheduled action, true for an async or in-progress action or false if there is no matching action.
      */
     public function next(string $hook, array $args = []);
 
