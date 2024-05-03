@@ -123,7 +123,8 @@ class Modal {
             dom('div', attr('overlay', { tabindex: -1, 'data-glsr-close': '' }), dialog)
         );
         this.dom = { ...this.dom, close, content, dialog, footer, header };
-        this.root = document.body.appendChild(root);
+        const docBody = document.querySelector('body > #page.site') ?? document.body;
+        this.root = docBody.appendChild(root);
     }
 
     _onClick (event) {
