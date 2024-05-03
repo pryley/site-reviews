@@ -15,7 +15,7 @@ class SanitizeIdHash extends StringSanitizer
         $value = $this->value();
         if (empty($value)) {
             $value = Str::hash(serialize($this->values), 8);
-            $value = Str::prefix($value, glsr()->prefix);
+            $value = Str::prefix($value, $this->args[0] ?: glsr()->prefix);
         }
         return $value;
     }

@@ -452,6 +452,8 @@ class SanitizerTest extends \WP_UnitTestCase
 
     public function test_sanitize_id_hash()
     {
+        $sanitized = glsr(Sanitizer::class)->sanitizeIdHash('', 'form_');
+        $this->assertMatchesRegularExpression('/form_([a-z0-9]{8})/', $sanitized);
         $sanitized = $this->sanitize('id-hash');
         $pattern = '/glsr_([a-z0-9]{8})/';
         $this->assertMatchesRegularExpression($pattern, $sanitized[0]);

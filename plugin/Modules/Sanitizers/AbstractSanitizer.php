@@ -4,9 +4,9 @@ namespace GeminiLabs\SiteReviews\Modules\Sanitizers;
 
 abstract class AbstractSanitizer
 {
-    public $args;
+    public array $args;
     public $value;
-    public $values;
+    public array $values;
 
     public function __construct($value, array $args = [], array $values = [])
     {
