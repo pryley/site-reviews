@@ -1,7 +1,7 @@
 <?php defined('ABSPATH') || exit; ?>
 
 <div class="glsr-form-wrap">
-    <form class="{{ class }}" id="{{ id }}" method="post" enctype="multipart/form-data">
+    <form class="{{ class }}" method="post" enctype="multipart/form-data">
         <div class="elementor-form-fields-wrapper elementor-labels-above">
             {{ fields }}
             {{ submit_button }}
