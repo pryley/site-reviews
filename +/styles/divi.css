@@ -19,10 +19,16 @@
     --glsr-toggle-h: 20px;
 }
 
-:root .et-db:not(.et_button_left) .glsr-divi .et_pb_button::after {
+:root .et-db:not(.et_button_left).et_button_icon_visible .glsr-divi .et_pb_button {
+    padding-right: 2em;
+}
+:root .et-db:not(.et_button_left).et_button_icon_visible .glsr-divi .et_pb_button::after {
+    right: .3em;
+}
+:root .et-db:not(.et_button_left):not(.et_button_icon_visible) .glsr-divi .et_pb_button::after {
     right: 1em;
 }
-:root .et-db:not(.et_button_left) .glsr-divi .et_pb_button:hover::after {
+:root .et-db:not(.et_button_left):not(.et_button_icon_visible) .glsr-divi .et_pb_button:hover::after {
     right: .15em;
 }
 
