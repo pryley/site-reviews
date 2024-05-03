@@ -35,6 +35,7 @@ class ProductReviewsRoute extends Route
         if (empty($args['assigned_posts'])) {
             $args['assigned_posts'] = 'product';
         }
+        $args['integration'] = 'woocommerce';
         $results = glsr_get_reviews($args);
         $reviews = [];
         foreach ($results->reviews as $review) {

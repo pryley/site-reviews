@@ -54,6 +54,7 @@
             <li>Fixed localized rating values</li>
             <li>Fixed notifications from triggering when a review is auto-saved as a draft</li>
             <li>Fixed notifications from triggering when reviews are imported</li>
+            <li>Fixed pinned reviews when the WooCommerce integration is enabled</li>
             <li>Fixed quick/bulk editing of WooCommerce Products from automatically disabling reviews support</li>
             <li>Fixed review dates from converting the date to the site's timezone</li>
             <li>Fixed review excerpts in cases when the PHP Intl extension is misconfigured</li>

@@ -66,6 +66,7 @@ class ReviewsDefaults extends DefaultsAbstract
         'assigned_users' => 'user-ids',
         'content' => 'text-multiline',
         'email' => 'email',
+        'integration' => 'slug',
         'ip_address' => 'ip-address',
         'offset' => 'min:0',
         'order' => 'name',
@@ -92,6 +93,7 @@ class ReviewsDefaults extends DefaultsAbstract
             'content' => '',
             'date' => '', // can be an array or string
             'email' => '',
+            'integration' => '', // the slug of the integration querying the reviews
             'ip_address' => '',
             'offset' => 0,
             'order' => 'desc',

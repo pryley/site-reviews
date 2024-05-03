@@ -83,16 +83,15 @@ class RestApiController
     }
 
     /**
-     * @param array                                  $join
-     * @param string                                 $handle
      * @param \GeminiLabs\SiteReviews\Database\Query $query
-     *
-     * @return array
      *
      * @filter site-reviews/query/sql/join
      */
-    public function filterSqlJoin($join, $handle, $query)
+    public function filterSqlJoin(array $join, string $handle, $query): array
     {
+        if ('woocommerce' !== ($query->args['integration'] ?? '')) {
+            return $join;
+        }
         $orderby = Arr::get($query->args, 'orderby');
         if (str_ends_with($orderby, 'rating')) {
             $join['woo_orderby_rating'] = "INNER JOIN {$query->db->posts} AS p ON (p.ID = r.review_id)";
@@ -101,16 +100,15 @@ class RestApiController
     }
 
     /**
-     * @param array                                  $orderBy
-     * @param string                                 $handle
      * @param \GeminiLabs\SiteReviews\Database\Query $query
-     *
-     * @return array
      *
      * @filter site-reviews/query/sql/order-by
      */
-    public function filterSqlOrderBy($orderBy, $handle, $query)
+    public function filterSqlOrderBy(array $orderBy, string $handle, $query): array
     {
+        if ('woocommerce' !== ($query->args['integration'] ?? '')) {
+            return $orderBy;
+        }
         $order = Arr::get($query->args, 'order');
         $orderby = Arr::get($query->args, 'orderby');
         if (str_ends_with($orderby, 'rating')) {

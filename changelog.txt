@@ -24,6 +24,7 @@
 - Fixed Discord notifications for reviews with more than 2000 characters
 - Fixed display of rating stars in review revisions
 - Fixed excerpts in cases when the PHP Intl extension is misconfigured
+- Fixed pinned reviews when the WooCommerce integration is enabled
 - Fixed review dates from converting the date to the site's timezone
 - Fixed {review_link} notification tag
 - Fixed SQL error when filtering reviews by "No author"
