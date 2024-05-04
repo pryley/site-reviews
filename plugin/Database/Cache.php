@@ -58,6 +58,7 @@ class Cache
             return [];
         }
         $versions = Arr::consolidate(Arr::get($response, 'versions'));
+        ksort($versions, \SORT_NATURAL);
         unset($versions['trunk']);
         $versions = array_keys(array_reverse($versions));
         $index = array_search(glsr()->version, $versions);
