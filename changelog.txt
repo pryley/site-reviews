@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 7.0.5 (2024-05-04) =
+
+- Fixed rollback tool
+- Queued plugin migration instead of running it immediately. Hopefully this will fix the update issues people are experiencing.
+
 = 7.0.4 (2024-05-04) =
 
 - Fixed database permission error

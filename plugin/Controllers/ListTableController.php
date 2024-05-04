@@ -215,7 +215,7 @@ class ListTableController extends AbstractController
                 'setting' => $setting,
             ]);
         }
-        return $settings;
+        return (string) $settings;
     }
 
     /**

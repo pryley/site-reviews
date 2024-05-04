@@ -1969,7 +1969,7 @@ msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
 
-#: plugin/Application.php:164, plugin/Controllers/SettingsController.php:170
+#: plugin/Application.php:169, plugin/Controllers/SettingsController.php:170
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr "License Keys"
@@ -6402,7 +6402,7 @@ msgctxt "limit time (admin-text)"
 msgid "days"
 msgstr "days"
 
-#: plugin/Application.php:163
+#: plugin/Application.php:168
 msgctxt "License Keys (admin-text)"
 msgid ""
 "Enter the license key here. Your license can be found on the %s page of "
