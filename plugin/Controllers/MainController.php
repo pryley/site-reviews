@@ -8,7 +8,6 @@ use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
 use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
 use GeminiLabs\SiteReviews\Commands\RegisterWidgets;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Install;
@@ -47,18 +46,22 @@ class MainController extends AbstractController
     }
 
     /**
+     * @param ?string $data We are not enforcing the type because the "wp_footer" hook does not have a parameter
+     *
      * @action admin_footer
      * @action wp_footer
      */
-    public function logOnce(): void
+    public function logOnce($data = ''): void
     {
-        glsr_log()->logOnce();
+        if ('update.php' !== $data) {
+            glsr_log()->logOnce();
+        }
     }
 
     /**
      * Initialize the Application settings config and defaults.
      * Check addons for updates and add license field to settings.
-     * 
+     *
      * @action init:5
      */
     public function onInit(): void
@@ -79,7 +82,7 @@ class MainController extends AbstractController
 
     /**
      * Languages are loaded before "init" because the setting config uses translated strings.
-     * 
+     *
      * @action after_setup_theme
      */
     public function registerLanguages(): void
