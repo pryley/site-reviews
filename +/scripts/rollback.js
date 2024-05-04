@@ -1,12 +1,29 @@
-/** global: GLSR */
 jQuery($ => {
     const __ = wp.i18n.__;
     const form = document.querySelector('#rollback-plugin');
-    const $button = $(form).find('button');
-    const $loading = $button.find('span');
+    const $btn = $(form).find('button');
+    const loaded = () => {
+        if ('true' === $btn.attr('aria-busy')) {
+            $btn.text($btn.data('text'))
+               .data('text', '')
+               .attr('aria-busy', false)
+               .prop('disabled', false)
+               .removeClass('is-busy');
+        }
+    }
+    const loading = () => {
+        if (['false', void(0)].includes($btn.attr('aria-busy'))) {
+            let text = ($btn.data('loading') || $btn.data('text')).replace('%s', 'v' + form.version.value);
+            $btn.addClass('is-busy')
+               .prop('disabled', true)
+               .attr('aria-busy', true)
+               .data('text', $btn.text())
+               .text(text);
+        }
+    }
     const onError = (response) => {
+        loaded();
         GLSR.notices.error(response.error ?? GLSR.text.rollback_error);
-        $button.removeClass('is-busy').prop('disabled', 0);
         console.error(response);
     }
     const onRollbackError = (response) => {
@@ -33,7 +50,7 @@ jQuery($ => {
             error: onRollbackError,
             success: () => (window.location = response.url),
         }).always(response => {
-            $button.removeClass('is-busy').prop('disabled', 0);
+            loaded();
             if ('undefined' !== typeof response.debug) {
                 _.map(response.debug, message => console.info(message));
             }
@@ -48,8 +65,7 @@ jQuery($ => {
             version: form.version.value,
         };
         data[GLSR.nameprefix] = request;
-        $loading.attr('data-loading', $loading.data('loading').replace('%s', 'v' + request.version));
-        $button.addClass('is-busy').prop('disabled', 1);
+        loading();
         wp.ajax.send({
             data,
             error: onError,
