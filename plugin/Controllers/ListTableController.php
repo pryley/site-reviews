@@ -191,7 +191,7 @@ class ListTableController extends AbstractController
     /**
      * @filter screen_settings
      */
-    public function filterScreenFilters(string $settings, \WP_Screen $screen): string
+    public function filterScreenFilters(?string $settings, \WP_Screen $screen): string
     {
         if ('edit-'.glsr()->post_type === $screen->id) {
             $userId = get_current_user_id();
