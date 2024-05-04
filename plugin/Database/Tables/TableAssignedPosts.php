@@ -24,14 +24,13 @@ class TableAssignedPosts extends AbstractTable
 
     public function removeInvalidRows(): void
     {
-        $type = glsr()->post_type;
         glsr(Database::class)->dbSafeQuery(
             glsr(Query::class)->sql("
                 DELETE t
                 FROM {$this->tablename} AS t
                 LEFT JOIN table|ratings AS r ON (r.ID = t.rating_id)
                 LEFT JOIN table|posts AS p ON (p.ID = t.post_id)
-                WHERE (r.ID IS NULL OR p.ID IS NULL) OR p.post_type != '{$type}'
+                WHERE (r.ID IS NULL OR p.ID IS NULL)
             ")
         );
     }

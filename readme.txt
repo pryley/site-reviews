@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 6.5
-Stable tag: 7.0.1
+Stable tag: 7.0.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -194,8 +194,9 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 == Changelog ==
 
-= 7.0.1 (2024-05-04) =
+= 7.0.2 (2024-05-04) =
 
+- Fixed Hard Reset migration button
 - Fixed settings migration
 
 = 7.0.0 (2024-05-03) =

@@ -83,9 +83,16 @@ class Migrate
         if (is_dir($dir)) {
             $iterator = new \DirectoryIterator($dir);
             foreach ($iterator as $fileinfo) {
-                if ('file' === $fileinfo->getType()) {
-                    $migrations[] = str_replace('.php', '', $fileinfo->getFilename());
+                if ('file' !== $fileinfo->getType()) {
+                    continue;
                 }
+                if ('php' !== $fileinfo->getExtension()) {
+                    continue;
+                }
+                if (!str_starts_with($fileinfo->getFilename(), 'Migrate_')) {
+                    continue;
+                }
+                $migrations[] = str_replace('.php', '', $fileinfo->getFilename());
             }
             natsort($migrations);
         }
