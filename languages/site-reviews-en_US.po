@@ -2814,7 +2814,7 @@ msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr "Saving is disabled: %s is currently editing this review."
 
-#: plugin/Controllers/MainController.php:115
+#: plugin/Controllers/MainController.php:118
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr "Local Review"
