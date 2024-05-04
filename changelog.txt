@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 7.0.4 (2024-05-04) =
+
+- Fixed database permission error
+- Fixed list of available rollback plugin versions
+
 = 7.0.3 (2024-05-04) =
 
 - Fixed Pixel avatar generation
