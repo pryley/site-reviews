@@ -407,8 +407,8 @@ class PixelAvatar extends AbstractSvgAvatar
         $index = $this->indexVal() % count($palette);
         $hue = $palette[$index];
         return [
-            (new Hsl($hue, $saturation / 100, $lightness / 100))->toHex(),
-            (new Hsl($hue, ($saturation + 10) / 100, ($lightness - 20) / 100))->toHex(),
+            (string) (new Hsl($hue, $saturation, $lightness))->toHex(),
+            (string) (new Hsl($hue, ($saturation + 10), ($lightness - 20)))->toHex(),
         ];
     }
 
@@ -440,9 +440,9 @@ class PixelAvatar extends AbstractSvgAvatar
         return $data;
     }
 
-    protected function setPixelColour(int $pixel, string $current, array $palette): string
+    protected function setPixelColour(int $pixel, ?string $current, array $palette): string
     {
-        $color = $current;
+        $color = (string) $current;
         switch ($pixel) {
             case 1:
                 $color = $palette[0];
