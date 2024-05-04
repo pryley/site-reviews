@@ -98,9 +98,9 @@ class Database
         if (glsr(Tables::class)->isSqlite()) {
             return $this->dbQuery($sql);
         }
-        $this->db->query('SET GLOBAL foreign_key_checks = 0');
+        $this->db->query('SET foreign_key_checks = 0');
         $result = $this->logErrors($this->db->query($sql));
-        $this->db->query('SET GLOBAL foreign_key_checks = 1');
+        $this->db->query('SET foreign_key_checks = 1');
         return $result;
     }
 
