@@ -91,7 +91,7 @@ class Queue implements QueueContract
      */
     public function cancelAll(string $hook, array $args = [])
     {
-        if (!\ActionScheduler::is_initialized('Queue::cancelAll') || $this->isTesting) {
+        if (!function_exists('as_unschedule_all_actions') || $this->isTesting) {
             return;
         }
         if (empty($args)) {
@@ -125,7 +125,7 @@ class Queue implements QueueContract
      */
     public function isPending(string $hook, array $args = []): bool
     {
-        if (!\ActionScheduler::is_initialized('Queue::isPending') || !function_exists('as_has_scheduled_action') || $this->isTesting) {
+        if (!function_exists('as_has_scheduled_action') || $this->isTesting) {
             return false;
         }
         if (!empty($args)) {

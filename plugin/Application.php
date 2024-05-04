@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\PermissionDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Modules\Migrate;
+use GeminiLabs\SiteReviews\Modules\Queue;
 
 /**
  * @property array     $addons
@@ -112,7 +112,7 @@ final class Application extends Container implements PluginContract
      */
     public function init(): void
     {
-        $migrate = false;
+        $args = [];
         // Ensure the custom database tables exist, this is needed in cases
         // where the plugin has been updated instead of activated.
         if (empty(get_option(static::PREFIX.'db_version'))) {
@@ -123,12 +123,17 @@ final class Application extends Container implements PluginContract
             $previous = $this->make(OptionManager::class)->previous();
             if (!empty($previous)) {
                 update_option(OptionManager::databaseKey(), $previous);
-                $migrate = true;
+                $args['settings'] = true;
             }
         }
-        // Force an immediate plugin migration on database version upgrades
-        if (static::DB_VERSION !== get_option(static::PREFIX.'db_version') || $migrate) {
-            add_action('init', [$this->make(Migrate::class), 'run'], 1);
+        // Force a plugin migration on database version upgrades
+        if (static::DB_VERSION !== get_option(static::PREFIX.'db_version')) {
+            $args['database'] = true;
+        }
+        if (!empty($args)) {
+            add_action('init', function () use ($args) {
+                glsr(Queue::class)->once(time() + 15, 'queue/migration', $args, true);
+            });
         }
         $this->make(Hooks::class)->run();
     }
@@ -207,7 +212,7 @@ final class Application extends Container implements PluginContract
     /**
      * The plugin settings configuration.
      * This is first triggered on "init:5" by MainController::onInit.
-     * 
+     *
      * @return mixed
      */
     public function settings(string $path = '')

@@ -13,6 +13,9 @@ class MigrationNotice extends AbstractNotice
         if (!parent::canRender()) {
             return false;
         }
+        if (glsr(Queue::class)->isPending('queue/migration')) {
+            return true;
+        }
         $args = []; // informational only
         if (glsr(Database::class)->isMigrationNeeded()) {
             $args['database'] = true;
@@ -23,9 +26,7 @@ class MigrationNotice extends AbstractNotice
         if (empty($args)) {
             return false;
         }
-        if (!glsr(Queue::class)->isPending('queue/migration')) {
-            glsr(Queue::class)->once(time() + MINUTE_IN_SECONDS, 'queue/migration', $args);
-        }
+        glsr(Queue::class)->once(time() + 30, 'queue/migration', $args);
         return true;
     }
 

@@ -117,6 +117,9 @@ class Helper
      */
     public static function getPostId($post): int
     {
+        if (empty($post)) {
+            return 0;
+        }
         if (is_numeric($post) || $post instanceof \WP_Post) {
             $post = get_post($post);
         }
