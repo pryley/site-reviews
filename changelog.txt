@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 7.0.6 (2024-05-05) =
+
+- Fixed compatibility with [FacetWP](https://facetwp.com/) debug mode
+
 = 7.0.5 (2024-05-04) =
 
 - Fixed rollback tool

@@ -44,7 +44,7 @@ msgstr "There are no reviews yet. Be the first one to write one."
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: plugin/Router.php:209, views/pages/documentation/support/common-problems-and-solutions.php:62
+#: plugin/Router.php:210, views/pages/documentation/support/common-problems-and-solutions.php:62
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr "The form could not be submitted. Please notify the site administrator."
 
@@ -422,7 +422,7 @@ msgstr "You have already submitted a review."
 msgid "verified owner"
 msgstr "verified owner"
 
-#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:174
+#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:175
 msgid "Reviews (%d)"
 msgstr "Reviews (%d)"
 
@@ -1993,7 +1993,7 @@ msgctxt "admin-text"
 msgid "Rollback Site Reviews"
 msgstr "Rollback Site Reviews"
 
-#: plugin/Router.php:212
+#: plugin/Router.php:213
 msgctxt "admin-text"
 msgid "There was an error"
 msgstr "There was an error"
@@ -2586,14 +2586,14 @@ msgctxt "admin-text"
 msgid "Edit"
 msgstr "Edit"
 
-#: plugin/Commands/ToggleStatus.php:78, plugin/Controllers/TranslationController.php:147
+#: plugin/Commands/ToggleStatus.php:78, plugin/Controllers/TranslationController.php:148
 msgctxt "admin-text"
 msgid "Approved <span class=\"count\">(%s)</span>"
 msgid_plural "Approved <span class=\"count\">(%s)</span>"
 msgstr[0] "Approved <span class=\"count\">(%s)</span>"
 msgstr[1] "Approved <span class=\"count\">(%s)</span>"
 
-#: plugin/Commands/ToggleStatus.php:86, plugin/Controllers/TranslationController.php:143
+#: plugin/Commands/ToggleStatus.php:86, plugin/Controllers/TranslationController.php:144
 msgctxt "admin-text"
 msgid "Unapproved <span class=\"count\">(%s)</span>"
 msgid_plural "Unapproved <span class=\"count\">(%s)</span>"
@@ -2774,7 +2774,7 @@ msgctxt "admin-text"
 msgid "Approve this review"
 msgstr "Approve this review"
 
-#: plugin/Controllers/ListTableController.php:170, plugin/Controllers/TranslationController.php:172
+#: plugin/Controllers/ListTableController.php:170, plugin/Controllers/TranslationController.php:173
 msgctxt "admin-text"
 msgid "Approve"
 msgstr "Approve"
@@ -3023,67 +3023,67 @@ msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr "You do not have permission to rollback the plugin."
 
-#: plugin/Controllers/TranslationController.php:35
+#: plugin/Controllers/TranslationController.php:36
 msgctxt "admin-text"
 msgid "%s review updated."
 msgid_plural "%s reviews updated."
 msgstr[0] "%s review updated."
 msgstr[1] "%s reviews updated."
 
-#: plugin/Controllers/TranslationController.php:36
+#: plugin/Controllers/TranslationController.php:37
 msgctxt "admin-text"
 msgid "%s review not updated, somebody is editing it."
 msgid_plural "%s reviews not updated, somebody is editing them."
 msgstr[0] "%s review not updated, somebody is editing it."
 msgstr[1] "%s reviews not updated, somebody is editing them."
 
-#: plugin/Controllers/TranslationController.php:37
+#: plugin/Controllers/TranslationController.php:38
 msgctxt "admin-text"
 msgid "%s review permanently deleted."
 msgid_plural "%s reviews permanently deleted."
 msgstr[0] "%s review permanently deleted."
 msgstr[1] "%s reviews permanently deleted."
 
-#: plugin/Controllers/TranslationController.php:38
+#: plugin/Controllers/TranslationController.php:39
 msgctxt "admin-text"
 msgid "%s review moved to the Trash."
 msgid_plural "%s reviews moved to the Trash."
 msgstr[0] "%s review moved to the Trash."
 msgstr[1] "%s reviews moved to the Trash."
 
-#: plugin/Controllers/TranslationController.php:39
+#: plugin/Controllers/TranslationController.php:40
 msgctxt "admin-text"
 msgid "%s review restored from the Trash."
 msgid_plural "%s reviews restored from the Trash."
 msgstr[0] "%s review restored from the Trash."
 msgstr[1] "%s reviews restored from the Trash."
 
-#: plugin/Controllers/TranslationController.php:107, plugin/Controllers/TranslationController.php:123, plugin/Controllers/TranslationController.php:124, plugin/Controllers/TranslationController.php:142, views/partials/screen/inline-edit.php:72
+#: plugin/Controllers/TranslationController.php:108, plugin/Controllers/TranslationController.php:124, plugin/Controllers/TranslationController.php:125, plugin/Controllers/TranslationController.php:143, views/partials/screen/inline-edit.php:72
 msgctxt "admin-text"
 msgid "Unapproved"
 msgstr "Unapproved"
 
-#: plugin/Controllers/TranslationController.php:125, plugin/Controllers/TranslationController.php:146, plugin/Controllers/TranslationController.php:173, views/partials/screen/inline-edit.php:70
+#: plugin/Controllers/TranslationController.php:126, plugin/Controllers/TranslationController.php:147, plugin/Controllers/TranslationController.php:174, views/partials/screen/inline-edit.php:70
 msgctxt "admin-text"
 msgid "Approved"
 msgstr "Approved"
 
-#: plugin/Controllers/TranslationController.php:126, plugin/Controllers/TranslationController.php:176
+#: plugin/Controllers/TranslationController.php:127, plugin/Controllers/TranslationController.php:177
 msgctxt "admin-text"
 msgid "Save as Unapproved"
 msgstr "Save as Unapproved"
 
-#: plugin/Controllers/TranslationController.php:171
+#: plugin/Controllers/TranslationController.php:172
 msgctxt "admin-text"
 msgid "Privately Approved"
 msgstr "Privately Approved"
 
-#: plugin/Controllers/TranslationController.php:174
+#: plugin/Controllers/TranslationController.php:175
 msgctxt "admin-text"
 msgid "Approve on:"
 msgstr "Approve on:"
 
-#: plugin/Controllers/TranslationController.php:175
+#: plugin/Controllers/TranslationController.php:176
 msgctxt "admin-text"
 msgid "Approved on:"
 msgstr "Approved on:"
@@ -6411,12 +6411,12 @@ msgstr ""
 "Enter the license key here. Your license can be found on the %s page of "
 "your Nifty Plugins account."
 
-#: plugin/Router.php:214
+#: plugin/Router.php:215
 msgctxt "try reloading the page (admin-text)"
 msgid "Try %s the page."
 msgstr "Try %s the page."
 
-#: plugin/Router.php:215
+#: plugin/Router.php:216
 msgctxt "(admin-text) e.g. try reloading the page"
 msgid "reloading"
 msgstr "reloading"
