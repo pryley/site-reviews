@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 
 use GeminiLabs\SiteReviews\Arguments;
+use GeminiLabs\SiteReviews\Contracts\ControllerContract;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -17,7 +18,7 @@ use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\Style;
 
-class ProductController
+class ProductController implements ControllerContract
 {
     use HookProxy;
 

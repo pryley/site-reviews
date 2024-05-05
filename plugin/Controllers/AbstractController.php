@@ -3,9 +3,10 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract;
+use GeminiLabs\SiteReviews\Contracts\ControllerContract;
 use GeminiLabs\SiteReviews\HookProxy;
 
-abstract class AbstractController
+abstract class AbstractController implements ControllerContract
 {
     use HookProxy;
 

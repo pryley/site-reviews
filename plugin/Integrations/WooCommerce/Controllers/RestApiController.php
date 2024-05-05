@@ -6,6 +6,7 @@ use Automattic\WooCommerce\StoreApi\SchemaController;
 use Automattic\WooCommerce\StoreApi\Schemas\ExtendSchema;
 use Automattic\WooCommerce\StoreApi\Schemas\V1\ProductSchema;
 use Automattic\WooCommerce\StoreApi\StoreApi;
+use GeminiLabs\SiteReviews\Contracts\ControllerContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\HookProxy;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\AdminApi\ProductReviews;
@@ -15,7 +16,7 @@ use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\BlocksApi\Produc
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\RestApi\ProductReviewsController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\RestApi\ReportReviewsTotalsController;
 
-class RestApiController
+class RestApiController implements ControllerContract
 {
     use HookProxy;
 

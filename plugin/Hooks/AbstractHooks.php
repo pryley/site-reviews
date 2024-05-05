@@ -60,8 +60,8 @@ abstract class AbstractHooks implements HooksContract
                 'priority' => (int) $hook[2],
                 'args' => (int) $hook[3],
             ];
-            if (!str_starts_with($args['hook'], glsr()->id)) {
-                $args['callback'] = [$controller, "proxy_{$hook[0]}"];
+            if (!str_starts_with($args['hook'], glsr()->id) && method_exists($controller, 'proxy')) {
+                $args['callback'] = $controller->proxy($hook[0]);
             }
             call_user_func_array($func, array_values($args));
         }

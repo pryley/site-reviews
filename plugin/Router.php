@@ -2,10 +2,11 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Contracts\ControllerContract;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
-class Router
+class Router implements ControllerContract
 {
     use HookProxy;
 

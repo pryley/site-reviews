@@ -2,12 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Contracts\ControllerContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\HookProxy;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Modules\Translator;
 
-class TranslationController
+class TranslationController implements ControllerContract
 {
     use HookProxy;
 

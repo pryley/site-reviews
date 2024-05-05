@@ -2,9 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\Api\Version1;
 
+use GeminiLabs\SiteReviews\Contracts\ControllerContract;
 use GeminiLabs\SiteReviews\HookProxy;
 
-class RestController
+class RestController implements ControllerContract
 {
     use HookProxy;
 

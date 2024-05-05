@@ -3,12 +3,13 @@
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 
 use GeminiLabs\SiteReviews\Arguments;
+use GeminiLabs\SiteReviews\Contracts\ControllerContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\HookProxy;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Reviews;
 
-class ExperimentsController
+class ExperimentsController implements ControllerContract
 {
     use HookProxy;
 
