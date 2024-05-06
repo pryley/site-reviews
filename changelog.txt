@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 7.0.7 (2024-05-06) =
+
+- Fixed filter hooks for custom fields
+
 = 7.0.6 (2024-05-05) =
 
 - Fixed compatibility with [FacetWP](https://facetwp.com/) debug mode
