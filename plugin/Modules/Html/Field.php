@@ -134,11 +134,15 @@ class Field extends \ArrayObject implements FieldContract
     public function fieldElement(): FieldElementContract
     {
         $className = Helper::buildClassName($this->original_type, __NAMESPACE__.'\FieldElements');
-        $className = glsr()->filterString("field/field_{$this->original_type}", $className, $this);
+        $className = glsr()->filterString("field/element/{$this->original_type}", $className, $this);
         if (!class_exists($className)) {
             return new UnknownElement($this);
         }
         if (!(new \ReflectionClass($className))->isInstantiable()) {
+            return new UnknownElement($this);
+        }
+        if (!(new \ReflectionClass($className))->implementsInterface(FieldElementContract::class)) {
+            glsr_log()->error("Field Elements must implement FieldElementContract [{$className}]");
             return new UnknownElement($this);
         }
         return new $className($this);

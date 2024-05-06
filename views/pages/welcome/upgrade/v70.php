@@ -49,5 +49,14 @@
             </li>
         </ol>
 
+        <h2>Action and Filter Hook changes</h2>
+        <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
+        <ol>
+            <li>
+                <p><strong>The <code>site-reviews/builder/&lt;field_type&gt;</code> filter hook has been removed.</strong></p>
+                <p>If you were previously using this hook to change the PHP class used for the field element, you should change it to: <code>site-reviews/field/element/&lt;field_element_type&gt;</code>.</p>
+            </li>
+        </ol>
+
     </div>
 </div>
