@@ -6,9 +6,14 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Role
 {
-    public function addCapabilities(string $role): void
+    /**
+     * @param array[] $roles
+     */
+    public function addCapabilities(string $role, array $roles = []): void
     {
-        $roles = $this->roles();
+        if (empty($roles)) {
+            $roles = $this->roles();
+        }
         $wpRole = get_role($role);
         if (empty($wpRole) || !array_key_exists($role, $roles)) {
             return;
@@ -28,6 +33,9 @@ class Role
             : current_user_can($capability, ...$args);
     }
 
+    /**
+     * @return string[]
+     */
     public function capabilities(): array
     {
         $capabilities = [
@@ -70,9 +78,9 @@ class Role
 
     public function hardResetAll(): void
     {
-        $roles = array_keys($this->roles());
-        array_walk($roles, [$this, 'removeCapabilities']);
-        array_walk($roles, [$this, 'addCapabilities']);
+        $roles = $this->roles();
+        array_walk($roles, fn ($caps, $role) => $this->removeCapabilities($role));
+        array_walk($roles, fn ($caps, $role) => $this->addCapabilities($role, $roles));
     }
 
     public function removeCapabilities(string $role): void
@@ -86,12 +94,26 @@ class Role
         }
     }
 
-    public function resetAll(): void
+    /**
+     * @param array[] $roles
+     */
+    public function reset(array $roles): void
     {
-        $roles = array_keys($this->roles());
-        array_walk($roles, [$this, 'addCapabilities']);
+        if (empty($roles)) {
+            return;
+        }
+        array_walk($roles, fn ($caps, $role) => $this->addCapabilities($role, $roles));
     }
 
+    public function resetAll(): void
+    {
+        $roles = $this->roles();
+        array_walk($roles, fn ($caps, $role) => $this->addCapabilities($role, $roles));
+    }
+
+    /**
+     * @return array[]
+     */
     public function roles(): array
     {
         $roles = [

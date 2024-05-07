@@ -15,6 +15,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Modules\Translator;
+use GeminiLabs\SiteReviews\Role;
 
 abstract class Controller extends AbstractController
 {
@@ -334,6 +335,14 @@ abstract class Controller extends AbstractController
         $option = glsr()->prefix."activated_{$this->app()->id}";
         if (empty(get_option($option))) {
             update_option($option, true);
+            if ($this->app()->post_type) { // @phpstan-ignore-line
+                glsr(Role::class)->reset($this->filterRoles([
+                    'administrator' => [],
+                    'author' => [],
+                    'contributor' => [],
+                    'editor' => [],
+                ]));
+            }
             $this->app()->action('activated');
         }
     }
