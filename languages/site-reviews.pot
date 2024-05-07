@@ -1657,12 +1657,12 @@ msgctxt "admin-text"
 msgid "Untitled"
 msgstr ""
 
-#: plugin/Addons/Controller.php:74, plugin/Controllers/AdminController.php:74, plugin/Controllers/MenuController.php:50, plugin/Integrations/Elementor/ElementorWidget.php:132, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
+#: plugin/Addons/Controller.php:75, plugin/Controllers/AdminController.php:74, plugin/Controllers/MenuController.php:50, plugin/Integrations/Elementor/ElementorWidget.php:132, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
 msgctxt "admin-text"
 msgid "Settings"
 msgstr ""
 
-#: plugin/Addons/Controller.php:81, plugin/Controllers/AdminController.php:80, views/partials/dashboard-widget.php:28
+#: plugin/Addons/Controller.php:82, plugin/Controllers/AdminController.php:80, views/partials/dashboard-widget.php:28
 msgctxt "admin-text"
 msgid "Help"
 msgstr ""
