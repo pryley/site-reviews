@@ -182,7 +182,7 @@ final class Application extends Container implements PluginContract
      *
      * @param PluginContract|string $addon
      */
-    public function register($addon): void
+    public function register($addon, bool $authorized = true): void
     {
         $retired = [ // @compat these addons have been retired
             'site-reviews-gamipress',
@@ -192,12 +192,19 @@ final class Application extends Container implements PluginContract
         try {
             $reflection = new \ReflectionClass($addon); // make sure that the class exists
             $addon = $reflection->getName();
-            if (in_array($addon::ID, $retired)) {
+            if (in_array($reflection->getConstant('ID'), $retired)) {
                 $this->append('retired', $addon);
-            } elseif (in_array($addon::ID, $premium)
+                return;
+            }
+            if (in_array($reflection->getConstant('ID'), $premium)
                 && !str_starts_with($reflection->getNamespaceName(), 'GeminiLabs\SiteReviews\Premium')) {
                 $this->append('site-reviews-premium', $addon);
-            } else {
+                return;
+            }
+            if (true === $reflection->getConstant('LICENSED')) {
+                $this->append('licensed', $addon);
+            }
+            if (true === $authorized) {
                 $this->addons[$addon::ID] = $addon;
                 $this->singleton($addon); // this goes first!
                 $this->alias($addon::ID, $this->make($addon)); // @todo for some reason we have to link an alias to an instantiated class
@@ -227,7 +234,8 @@ final class Application extends Container implements PluginContract
                 ]);
             });
             $this->settings = $settings; // do this before adding license settings!
-            array_walk($this->addons, fn ($addon) => $this->license($addon));
+            $licensedAddons = $this->retrieveAs('array', 'licensed', []);
+            array_walk($licensedAddons, fn ($addon) => $this->license($addon));
         }
         if (empty($path)) {
             return $this->settings;
@@ -249,6 +257,7 @@ final class Application extends Container implements PluginContract
         if (!file_exists($file)) {
             glsr_log()->error("Addon does not exist: $file")->debug($addon);
         }
+        $this->license($addon);
         try {
             $reflection = new \ReflectionClass($addon);
             $addonId = $reflection->getConstant('ID');
