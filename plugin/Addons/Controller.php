@@ -321,7 +321,7 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * @action {$this->app()->id}/activate
+     * @action {$this->app()->id}/activated
      */
     public function install(): void
     {

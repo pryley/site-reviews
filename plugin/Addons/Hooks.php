@@ -30,7 +30,7 @@ abstract class Hooks extends AbstractHooks
             ['filterSubsubsub', 'site-reviews/addon/subsubsub'],
             ['filterTranslationEntries', 'site-reviews/translation/entries'],
             ['filterTranslatorDomains', 'site-reviews/translator/domains'],
-            ['install', "{$this->id()}/activate"],
+            ['install', "{$this->id()}/activated"],
             ['onActivation', 'admin_init'],
             ['onDeactivation', "deactivate_{$this->basename()}"],
             ['registerBlocks', 'init'],
