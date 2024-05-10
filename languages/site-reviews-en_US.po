@@ -378,7 +378,7 @@ msgstr "Submit Form"
 msgid "Submitting, please wait..."
 msgstr "Submitting, please wait..."
 
-#: plugin/Modules/Html/ReviewForm.php:15
+#: plugin/Modules/Html/ReviewForm.php:16
 msgid "Submit Review"
 msgstr "Submit Review"
 
