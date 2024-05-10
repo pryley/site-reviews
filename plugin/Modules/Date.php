@@ -114,7 +114,9 @@ class Date
     public function isTimestamp($date): bool
     {
         $date = Cast::toString($date);
-        return ('0' !== $date && ctype_digit($date)) ? true : false;
+        return ctype_digit($date)
+            && 10 === strlen($date)
+            && false !== strtotime($date);
     }
 
     /**
