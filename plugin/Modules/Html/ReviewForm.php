@@ -11,9 +11,10 @@ class ReviewForm extends Form
 {
     public function __construct(array $args = [], array $values = [])
     {
+        $class = $args['class'] ?? ''; // keep the class option from the review form settings
         $overrides = [
             'button_text' => __('Submit Review', 'site-reviews'),
-            'class' => 'glsr-review-form',
+            'class' => "{$class} glsr-review-form",
         ];
         parent::__construct(wp_parse_args($overrides, $args), $values);
         glsr()->action('review-form', $this);
