@@ -8,7 +8,7 @@ class License
 {
     public function isLicensed(): bool
     {
-        $addons = glsr()->addons;
+        $addons = glsr()->retrieveAs('array', 'licensed', []);
         $status = $this->status();
         if (empty($addons)) {
             return false;

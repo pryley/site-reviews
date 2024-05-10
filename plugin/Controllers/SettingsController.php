@@ -95,9 +95,9 @@ class SettingsController extends AbstractController
     {
         $key = 'settings.licenses';
         $licenses = Arr::consolidate(Arr::get($input, $key));
-        foreach ($licenses as $slug => &$license) {
+        foreach ($licenses as $addonId => &$license) {
             if (!empty($license)) {
-                $license = $this->verifyLicense((string) $license, (string) $slug);
+                $license = $this->verifyLicense((string) $license, (string) $addonId);
             }
         }
         $options = Arr::set($options, $key, $licenses);
