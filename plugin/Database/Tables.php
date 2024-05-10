@@ -58,7 +58,7 @@ class Tables
         }
         $table = $this->table($table);
         $result = glsr(Database::class)->dbQuery(
-            glsr(Query::class)->sql("ALTER TABLE {$this->database}.{$table} ENGINE = InnoDB;")
+            glsr(Query::class)->sql("ALTER TABLE {$table} ENGINE = InnoDB;")
         );
         if (true === $result) {
             update_option(glsr()->prefix."engine_{$table}", 'innodb');
