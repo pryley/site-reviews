@@ -16,14 +16,22 @@ class Compatibility
             return [];
         }
         foreach ($wp_filter[$hook]->callbacks[$priority] as $callback) {
-            if (!is_array($callback['function'])) {
+            $callbackFn = [];
+            $function = $callback['function'] ?? null;
+            if (is_a($function, 'Closure')) {
+                $ref = new \ReflectionFunction($function);
+                $callbackFn = Arr::getAs('array', $ref->getStaticVariables(), 'callback');
+            } elseif (is_array($function)) {
+                $callbackFn = $function;
+            }
+            if (2 !== count($callbackFn)) {
                 continue;
             }
-            $object = Arr::get($callback['function'], 0);
-            $method = Arr::get($callback['function'], 1);
-            if (is_a($object, $className) && $method === $fn) {
-                return $callback;
+            list($object, $method) = $callbackFn;
+            if (!is_a($object, $className) || $method !== $fn) {
+                continue;
             }
+            return $callback;
         }
         return [];
     }
