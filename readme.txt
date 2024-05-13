@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 6.5
-Stable tag: 7.0.9
+Stable tag: 7.0.10
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -194,6 +194,10 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 == Changelog ==
 
+= 7.0.10 (2024-05-13) =
+
+- Fixed the "Contact Form 7" plugin style
+
 = 7.0.9 (2024-05-10) =
 
 - Fixed addon activation
@@ -214,22 +218,13 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 = 7.0.5 (2024-05-04) =
 
-- Fixed rollback tool
-- Queued plugin migration instead of running it immediately. Hopefully this will fix the update issues people are experiencing.
-
-= 7.0.4 (2024-05-04) =
-
 - Fixed database permission error
-- Fixed list of available rollback plugin versions
-
-= 7.0.3 (2024-05-04) =
-
-- Fixed Pixel avatar generation
-
-= 7.0.2 (2024-05-04) =
-
 - Fixed Hard Reset migration button
+- Fixed list of available rollback plugin versions
+- Fixed Pixel avatar generation
+- Fixed rollback tool
 - Fixed settings migration
+- Queued plugin migration instead of running it immediately. Hopefully this will fix the update issues people are experiencing.
 
 = 7.0.0 (2024-05-03) =
 
