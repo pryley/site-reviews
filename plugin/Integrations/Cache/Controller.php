@@ -111,6 +111,7 @@ class Controller extends AbstractController
             glsr_log('cache::flushing ['.implode(', ', $postIds).']');
         }
         $this->purgeEnduranceCache($postIds);
+        $this->purgeFlyingPressCache($postIds);
         $this->purgeHummingbirdCache($postIds);
         $this->purgeLitespeedCache($postIds);
         $this->purgeNitropackCache($postIds);
@@ -130,6 +131,23 @@ class Controller extends AbstractController
     {
         // This is a sloppy plugin, the only option we have is to purge the entire cache...
         do_action('epc_purge');
+    }
+
+    /**
+     * @see https://flyingpress.com/
+     */
+    protected function purgeFlyingPressCache(array $postIds = []): void
+    {
+        if (!class_exists('FlyingPress\Purge')) {
+            return;
+        }
+        if (is_callable(['FlyingPress\Purge', 'purge_pages']) && empty($postIds)) {
+            \FlyingPress\Purge::purge_pages();
+        } elseif (is_callable(['FlyingPress\Purge', 'purge_url'])) {
+            foreach ($postIds as $postId) {
+                \FlyingPress\Purge::purge_url(get_permalink($postId));
+            }
+        }
     }
 
     /**
