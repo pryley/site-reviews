@@ -51,7 +51,13 @@ class Cast
                 $values[$key] = static::toArrayDeep($value, $explode);
             }
         }
-        return json_decode(json_encode($values), true);
+        try {
+            $json = json_encode($values, \JSON_INVALID_UTF8_IGNORE|\JSON_THROW_ON_ERROR);
+            return json_decode($json, true, 512, \JSON_INVALID_UTF8_IGNORE|\JSON_THROW_ON_ERROR);
+        } catch (\JsonException $error) {
+            glsr_log()->error($error->getMessage());
+            return [];
+        }
     }
 
     /**

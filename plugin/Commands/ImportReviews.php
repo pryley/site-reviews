@@ -143,7 +143,7 @@ class ImportReviews extends AbstractCommand
                 '👉🏼 '._x('Is the CSV file encoded as UTF-8?', 'admin-text', 'site-reviews'),
                 '👉🏼 '._x('Is the selected delimiter correct?', 'admin-text', 'site-reviews'),
             ]);
-        } catch (\OutOfRangeException|\Exception $e) {
+        } catch (\OutOfRangeException|\Exception|\TypeError $e) {
             glsr(Notice::class)->addError($e->getMessage());
         }
         return -1;
