@@ -201,6 +201,7 @@
     site-reviews/review/build/tag/<tag_or_field_key>            (string $field, string $value, Review $review, Modules\Html\ReviewHtml $reviewHtml): string
     site-reviews/review/build/tag/response/by                   (string $responseBy, Review $review): string
     site-reviews/review/call/<methodName>                       (Review $review, ...$args): void|mixed
+    site-reviews/review/create/post_data                        (array $values, Commands\CreateReview $createReview): array
     site-reviews/review/redirect                                (string $redirect, Commands\CreateReview $createReview, Review $review): string
     site-reviews/review/tag/<tag>                               (string $className, Modules\Html\ReviewHtml $reviewHtml): string
     site-reviews/review/types                                   (array $types): array

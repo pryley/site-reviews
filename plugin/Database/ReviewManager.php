@@ -103,9 +103,12 @@ class ReviewManager
     public function createRaw(CreateReview $command)
     {
         $values = glsr()->args($command->toArray()); // this filters the values
-        $postValues = [
+        $metaInput = [
+            '_submitted' => $command->request->toArray(), // save the original submitted request in metadata
+        ];
+        $values = [
             'comment_status' => 'closed',
-            'meta_input' => ['_submitted' => $command->request->toArray()], // save the original submitted request in metadata
+            'meta_input' => $metaInput,
             'ping_status' => 'closed',
             'post_author' => $values->author_id,
             'post_content' => $values->content,
@@ -118,9 +121,10 @@ class ReviewManager
             'post_title' => $values->title,
             'post_type' => glsr()->post_type,
         ];
-        $postId = wp_insert_post($postValues, true);
+        $values = glsr()->filterArray('review/create/post_data', $values, $command);
+        $postId = wp_insert_post($values, true);
         if (is_wp_error($postId)) {
-            glsr_log()->error($postId->get_error_message())->debug($postValues);
+            glsr_log()->error($postId->get_error_message())->debug($values);
             return false;
         }
         glsr()->action('review/create', $postId, $command);
