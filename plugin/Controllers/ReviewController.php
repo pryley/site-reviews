@@ -416,11 +416,6 @@ class ReviewController extends AbstractController
 
     protected function updateReview(Review $review, \WP_Post $oldPost): void
     {
-        $assignedPostIds = filter_input(INPUT_POST, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
-        $assignedUserIds = filter_input(INPUT_POST, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
-        glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
-        glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
-        glsr(ResponseMetabox::class)->save($review);
         $customDefaults = array_fill_keys(array_keys($review->custom()->toArray()), '');
         $data = Helper::filterInputArray(glsr()->id);
         $data = wp_parse_args($data, $customDefaults); // this ensures we save all empty custom values
@@ -433,7 +428,13 @@ class ReviewController extends AbstractController
             }
             glsr(ReviewManager::class)->updateRating($review->ID, $data); // values are sanitized here
             glsr(ReviewManager::class)->updateCustom($review->ID, $data); // values are sanitized here
+            $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
         }
+        $assignedPostIds = filter_input(INPUT_POST, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
+        $assignedUserIds = filter_input(INPUT_POST, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
+        glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
+        glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
+        glsr(ResponseMetabox::class)->save($review);
         $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
         glsr()->action('review/updated', $review, $data, $oldPost);
     }

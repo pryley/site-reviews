@@ -258,6 +258,7 @@ class ReviewManager
 
     public function updateRating(int $reviewId, array $data = []): int
     {
+        $review = $this->get($reviewId);
         glsr(Cache::class)->delete($reviewId, 'reviews');
         $sanitized = glsr(RatingDefaults::class)->restrict($data);
         $data = array_intersect_key($sanitized, $data);
@@ -269,6 +270,10 @@ class ReviewManager
         ]);
         if (false === $result) {
             return -1;
+        }
+        $rating = $data['rating'] ?? '';
+        if (is_numeric($rating) && $review->rating !== $data['rating']) {
+            glsr(CountManager::class)->recalculate();
         }
         return Cast::toInt($result);
     }
