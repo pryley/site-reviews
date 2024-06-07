@@ -53,15 +53,17 @@ class Excerpts {
         el.dataset.text = oldText;
         el.innerText = newText;
         el.removeEventListener('click', this.events.click);
-        if (wrapEl.dataset.expanded === 'false') {
+        if ('false' === wrapEl.dataset.expanded) {
             wrapEl.querySelector('p:last-of-type').appendChild(readmoreEl)
-            wrapEl.dataset.expanded = true;
+            wrapEl.dataset.expanded = 'true';
         } else {
             parentEl.appendChild(readmoreEl)
-            wrapEl.dataset.expanded = false;
+            wrapEl.dataset.expanded = 'false';
         }
         el.addEventListener('click', this.events.click);
-        el.focus();
+        if ('false' === wrapEl.dataset.expanded) {
+            el.focus();
+        }
     }
 }
 
