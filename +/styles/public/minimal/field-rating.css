@@ -56,6 +56,14 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+    background-image: var(--glsr-star-empty);
+}
+:root form.glsr-form .glsr-field-is-invalid .glsr-star-rating--stars[class*=" s"] > span {
+    background-image: var(--glsr-star-error);
+}
+:root form.glsr-form .glsr-star-rating--stars[class*=" s"] > span.gl-active,
+:root form.glsr-form .glsr-star-rating--stars[class*=" s"] > span.gl-active.gl-selected {
+    background-image: var(--glsr-star-full);
 }
 
 

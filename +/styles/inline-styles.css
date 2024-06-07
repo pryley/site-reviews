@@ -1,19 +1,6 @@
-:root .glsr-star-empty,
-:root .glsr-star-rating--stars[class*=" s"] > span {
-	background-image: url(:star-empty)!important;
-	mask-image: url(:star-empty)!important;
-}
-:root .glsr-field-is-invalid .glsr-star-rating--stars[class*=" s"] > span {
-	background-image: url(:star-error)!important;
-	mask-image: url(:star-error)!important;
-}
-:root .glsr-star-half {
-	background-image: url(:star-half)!important;
-	mask-image: url(:star-half)!important;
-}
-:root .glsr-star-full,
-:root .glsr-star-rating--stars[class*=" s"] > span.gl-active,
-:root .glsr-star-rating--stars[class*=" s"] > span.gl-active.gl-selected {
-	background-image: url(:star-full)!important;
-	mask: url(:star-full)!important;
+:root {
+  --glsr-star-empty: url(:star-empty);
+  --glsr-star-error: url(:star-error);
+  --glsr-star-full: url(:star-full);
+  --glsr-star-half: url(:star-half);
 }

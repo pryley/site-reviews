@@ -18,3 +18,13 @@
     height: var(--glsr-summary-star);
     width: var(--glsr-summary-star);
 }
+
+:root .glsr-star-empty {
+    background-image: var(--glsr-star-empty);
+}
+:root .glsr-star-full {
+    background-image: var(--glsr-star-full);
+}
+:root .glsr-star-half {
+    background-image: var(--glsr-star-half);
+}
