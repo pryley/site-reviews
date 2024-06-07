@@ -82,7 +82,7 @@ class ImportReviews extends AbstractCommand
         }
         if (!$file->hasMimeType('text/csv')) {
             glsr(Notice::class)->addError(
-                _x('The import file is not a valid CSV file.', 'admin-text', 'site-reviews')
+                sprintf(_x('The import file is not a valid CSV file (detected: %s).', 'admin-text', 'site-reviews'), $file->getClientMimeType())
             );
             $this->fail();
             return;
