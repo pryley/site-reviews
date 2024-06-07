@@ -853,7 +853,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                         '<option value="rankmath">RankMath Pro</option>'.
                         '<option value="saswp">Schema & Structured Data for WP & AMP</option>'.
                         '<option value="schema_pro">Schema Pro</option>'.
-                        '<option value="seopress">SEOPress</option>'.
+                        '<option value="seopress">SEOPress Pro</option>'.
                     '</select>'.
                 '</td>'.
             '</tr>'

@@ -791,7 +791,7 @@ msgstr ""
 
 #: config/settings.php:436
 msgctxt "plugin name (admin-text)"
-msgid "SEOPress"
+msgid "SEOPress Pro"
 msgstr ""
 
 #: config/settings.php:439
@@ -1914,7 +1914,7 @@ msgstr ""
 
 #: plugin/Commands/ImportReviews.php:85
 msgctxt "admin-text"
-msgid "The import file is not a valid CSV file."
+msgid "The import file is not a valid CSV file (detected: %s)."
 msgstr ""
 
 #: plugin/Commands/ImportReviews.php:105
@@ -4049,12 +4049,12 @@ msgctxt "admin-text"
 msgid "Color"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:155, plugin/Integrations/Elementor/ElementorReviewsWidget.php:235, plugin/Integrations/Elementor/ElementorReviewWidget.php:131, plugin/Integrations/Elementor/ElementorSummaryWidget.php:252
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:156, plugin/Integrations/Elementor/ElementorReviewsWidget.php:237, plugin/Integrations/Elementor/ElementorReviewWidget.php:133, plugin/Integrations/Elementor/ElementorSummaryWidget.php:254
 msgctxt "admin-text"
 msgid "Star Size"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:177
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:178
 msgctxt "admin-text"
 msgid "Star Spacing"
 msgstr ""

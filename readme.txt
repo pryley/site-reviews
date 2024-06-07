@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 6.5
-Stable tag: 7.0.10
+Stable tag: 7.0.11
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -193,6 +193,16 @@ You can report any security bugs found in the source code of this plugin through
 This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
+
+= 7.0.11 (2024-06-07) =
+
+- Fixed average rating and ranking values of assigned posts/terms/users when a review's rating is changed
+- Fixed CSS for custom rating star images
+- Fixed CSV import when file contains malformed UTF-8 characters
+- Fixed execution order of the "site-reviews/review/responded" hook
+- Fixed FlyingPress compatibility
+- Fixed page scroll when expanding excerpts of long reviews
+- Fixed "verified owner" value when importing WooCommerce Product reviews
 
 = 7.0.10 (2024-05-13) =
 

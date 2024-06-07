@@ -1,5 +1,15 @@
 == Changelog ==
 
+= 7.0.11 (2024-06-07) =
+
+- Fixed average rating and ranking values of assigned posts/terms/users when a review's rating is changed
+- Fixed CSS for custom rating star images
+- Fixed CSV import when file contains malformed UTF-8 characters
+- Fixed execution order of the "site-reviews/review/responded" hook
+- Fixed FlyingPress compatibility
+- Fixed page scroll when expanding excerpts of long reviews
+- Fixed "verified owner" value when importing WooCommerce Product reviews
+
 = 7.0.10 (2024-05-13) =
 
 - Fixed the "Contact Form 7" plugin style
