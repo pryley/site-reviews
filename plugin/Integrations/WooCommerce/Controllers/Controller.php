@@ -93,7 +93,7 @@ class Controller extends AbstractController
                 'minimum_version' => '6.4',
                 'name' => 'WooCommerce',
                 'plugin_uri' => 'https://wordpress.org/plugins/woocommerce/',
-                'untested_version' => '9.0',
+                'untested_version' => '10.0',
             ],
         ]);
     }
