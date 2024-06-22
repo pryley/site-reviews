@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 7.0.12 (2024-06-23) =
+
+- Updated the maximum supported WooCommerce version
+
 = 7.0.11 (2024-06-07) =
 
 - Fixed average rating and ranking values of assigned posts/terms/users when a review's rating is changed
