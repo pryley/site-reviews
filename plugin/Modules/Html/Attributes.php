@@ -37,6 +37,7 @@ class Attributes
     public const ATTRIBUTES_INPUT_EXCLUDED = [
         'autocapitalize' => ['url', 'email', 'password'],
         'autocomplete' => ['checkbox', 'radio', 'button'],
+        'hidden' => ['hidden'],
         'list' => ['hidden', 'password', 'checkbox', 'radio', 'button'],
         'readonly' => ['hidden', 'range', 'color', 'checkbox', 'radio', 'button'],
         'required' => ['hidden', 'range', 'color', 'button'],
