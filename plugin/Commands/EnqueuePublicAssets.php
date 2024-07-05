@@ -96,13 +96,13 @@ class EnqueuePublicAssets extends AbstractCommand
             glsr_log()->error("Inline stylesheet is missing: {$inlineStylesheetPath}");
             return '';
         }
-        $inlineStylesheetValues = glsr()->config('inline-styles');
-        $stylesheet = str_replace(
-            array_keys($inlineStylesheetValues),
-            array_values($inlineStylesheetValues),
+        $inlineConfig = glsr()->config('inline-styles');
+        $inlineCss = str_replace(
+            array_keys($inlineConfig),
+            array_values($inlineConfig),
             file_get_contents($inlineStylesheetPath)
         );
-        return glsr()->filterString('enqueue/public/inline-styles', $stylesheet);
+        return glsr()->filterString('enqueue/public/inline-styles', $inlineCss, $inlineConfig);
     }
 
     protected function buildInlineScript(array $variables): string

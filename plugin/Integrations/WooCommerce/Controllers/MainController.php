@@ -16,19 +16,21 @@ class MainController extends AbstractController
     /**
      * @filter site-reviews/enqueue/public/inline-styles
      */
-    public function filterInlineStyles(string $css): string
+    public function filterInlineStyles(string $css, array $config): string
     {
         $css .= 'ul.glsr li a{display:flex;justify-content:space-between;}'; // fix rating filter widget
-        $css .= '.glsr.woocommerce-product-rating{align-items:center;display:inline-flex;gap:.5em;}.glsr.woocommerce-product-rating .woocommerce-review-link{top:-1px!important;}'; // fix product title rating position
+        $css .= '.glsr.woocommerce-product-rating{align-items:center;display:inline-flex;gap:.5em;}';
+        $css .= '.glsr.woocommerce-product-rating .woocommerce-review-link{top:-1px!important;}'; // fix product title rating position
         $style = glsr_get_option('addons.woocommerce.style');
-        if ('black' === $style) {
-            $css .= '.glsr:not([data-theme]) .glsr-bar-background-percent{--glsr-bar-bg:#212121;}';
-            $css .= '.glsr:not([data-theme]) .glsr-star{background:#212121!important;}';
+        $colors = [
+            'black' => '#212121',
+            'woocommerce' => '#96588A',
+        ];
+        if (!array_key_exists($style, $colors)) {
+            return $css;
         }
-        if ('woocommerce' === $style) {
-            $css .= '.glsr:not([data-theme]) .glsr-bar-background-percent{--glsr-bar-bg:#96588A;}';
-            $css .= '.glsr:not([data-theme]) .glsr-star{background:#96588A!important;}';
-        }
+        $css = str_replace('assets/images/stars/default/', "assets/images/stars/{$style}/", $css);
+        $css .= ".glsr:not([data-theme]) .glsr-bar-background-percent{--glsr-bar-bg:{$colors[$style]};}";
         return $css;
     }
 

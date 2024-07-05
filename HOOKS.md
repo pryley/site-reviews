@@ -125,7 +125,7 @@
     site-reviews/enqueue/public/dependencies                    (array $dependencies): array
     site-reviews/enqueue/public/inline-script                   (string $optimizedScript, string $script, array $variables): string
     site-reviews/enqueue/public/inline-script/after             (string $javascript): string
-    site-reviews/enqueue/public/inline-styles                   (string $css): string
+    site-reviews/enqueue/public/inline-styles                   (string $inlineCss, array $inlineConfig): string
     site-reviews/enqueue/public/localize                        (array $variables): array
     site-reviews/enqueue/public/localize/ajax-pagination        (array $selectors): array
     site-reviews/export/settings/extra                          (array $extra): array
