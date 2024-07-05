@@ -84,7 +84,7 @@ class Migrate_3_0_0 implements MigrateContract
         if (isset($oldSettings['settings']['strings']) && is_array($oldSettings['settings']['strings'])) {
             $newSettings['settings']['strings'] = $oldSettings['settings']['strings'];
         }
-        update_option(OptionManager::databaseKey(3), $newSettings);
+        update_option(OptionManager::databaseKey(3), $newSettings, true);
     }
 
     protected function getNewSettings(): array

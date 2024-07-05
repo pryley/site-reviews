@@ -166,7 +166,7 @@ class OptionManager
             return false;
         }
         $settings = $this->normalize($settings);
-        if (!update_option(static::databaseKey(), $settings)) {
+        if (!update_option(static::databaseKey(), $settings, true)) {
             return false;
         }
         $this->reset();
@@ -193,7 +193,7 @@ class OptionManager
         $settings = $this->all();
         $settings = Arr::set($settings, $path, $value);
         $settings = $this->normalize($settings);
-        if (!update_option(static::databaseKey(), $settings)) {
+        if (!update_option(static::databaseKey(), $settings, true)) {
             return false;
         }
         glsr()->store('settings', $settings);

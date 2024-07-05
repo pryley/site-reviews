@@ -122,7 +122,7 @@ final class Application extends Container implements PluginContract
         if (empty(get_option(OptionManager::databaseKey()))) {
             $previous = $this->make(OptionManager::class)->previous();
             if (!empty($previous)) {
-                update_option(OptionManager::databaseKey(), $previous);
+                update_option(OptionManager::databaseKey(), $previous, true);
                 $args['settings'] = true;
             }
         }

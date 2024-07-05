@@ -47,7 +47,7 @@ class Migrate_7_0_0 implements MigrateContract
             $notification = str_replace($search, $replace, $settings['settings']['general']['notification_message']);
             $settings['settings']['general']['notification_message'] = $notification;
         }
-        update_option(OptionManager::databaseKey(), $settings);
+        update_option(OptionManager::databaseKey(), $settings, true);
     }
 
     protected function insertTableColumn(string $column, string $afterColumn): bool

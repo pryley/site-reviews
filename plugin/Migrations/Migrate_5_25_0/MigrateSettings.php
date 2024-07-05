@@ -57,6 +57,6 @@ class MigrateSettings implements MigrateContract
         unset($settings['counts']);
         unset($settings['last_review_count']);
         $settings = Arr::unflatten($settings);
-        update_option(OptionManager::databaseKey(5), $settings);
+        update_option(OptionManager::databaseKey(5), $settings, true);
     }
 }

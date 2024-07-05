@@ -33,6 +33,6 @@ class Migrate_6_2_0 implements MigrateContract
         unset($woocommerce['experiments']);
         unset($woocommerce['experiment']);
         $settings['settings']['addons']['woocommerce'] = $woocommerce;
-        update_option(OptionManager::databaseKey(6), $settings);
+        update_option(OptionManager::databaseKey(6), $settings, true);
     }
 }

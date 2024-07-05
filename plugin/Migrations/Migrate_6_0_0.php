@@ -106,7 +106,7 @@ class Migrate_6_0_0 implements MigrateContract
             $newSettings = Arr::set($newSettings, 'settings.general.style', 'bootstrap');
         }
         unset($newSettings['settings']['submissions']);
-        update_option(OptionManager::databaseKey(6), $newSettings);
+        update_option(OptionManager::databaseKey(6), $newSettings, true);
     }
 
     protected function insertTableColumn(string $column, string $afterColumn): bool

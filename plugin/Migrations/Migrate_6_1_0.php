@@ -45,7 +45,7 @@ class Migrate_6_1_0 implements MigrateContract
         }
         if (!empty($cleanSettings)) {
             $settings['settings'] = Arr::unflatten($cleanSettings);
-            update_option(OptionManager::databaseKey(6), $settings);
+            update_option(OptionManager::databaseKey(6), $settings, true);
         }
     }
 }

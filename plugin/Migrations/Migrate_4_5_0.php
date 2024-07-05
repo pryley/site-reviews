@@ -85,7 +85,7 @@ class Migrate_4_5_0 implements MigrateContract
         unset($newSettings['settings.general.rebusify_email']);
         unset($newSettings['settings.general.rebusify_serial']);
         $newSettings = Arr::unflatten($newSettings);
-        update_option(OptionManager::databaseKey(4), $newSettings);
+        update_option(OptionManager::databaseKey(4), $newSettings, true);
     }
 
     protected function migrateUserMeta(): void
