@@ -114,6 +114,10 @@ class Avatar
 
     protected function isUrl(string $url): bool
     {
+        $path = parse_url($url, PHP_URL_PATH);
+        $encodedPath = array_map('urlencode', explode('/', $path));
+        $encodedPath = implode('/', $encodedPath);
+        $url = str_replace($path, $encodedPath, $url);
         return !empty(filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED));
     }
 
