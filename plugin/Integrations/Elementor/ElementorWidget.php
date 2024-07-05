@@ -193,6 +193,7 @@ abstract class ElementorWidget extends Widget_Base
     {
         return [
             'shortcode_id' => [
+                'description' => esc_html_x('This should be a unique value.', 'admin-text', 'site-reviews'),
                 'label_block' => true,
                 'label' => esc_html_x('Custom ID', 'admin-text', 'site-reviews'),
                 'type' => Controls_Manager::TEXT,

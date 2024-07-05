@@ -106,6 +106,7 @@ const edit = props => {
     };
     const inspectorAdvancedControls = {
         id: <TextControl
+            help={ _x('This should be a unique value.', 'admin-text', 'site-reviews') }
             label={ _x('Custom ID', 'admin-text', 'site-reviews') }
             onChange={ id => setAttributes({ id }) }
             value={ id }
