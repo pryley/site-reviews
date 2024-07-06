@@ -8,8 +8,10 @@ use GeminiLabs\SiteReviews\Modules\Paginate;
 defined('ABSPATH') || exit;
 
 /**
- * Classic Editor
+ * Classic Editor.
+ * 
  * @return array
+ * 
  * @see https://wordpress.org/plugins/classic-editor/
  */
 add_action('edit_form_top', function ($post) {
@@ -19,11 +21,12 @@ add_action('edit_form_top', function ($post) {
 }, 0);
 
 /**
- * Bootstrap pagination
- * @return array
+ * Bootstrap pagination.
+ *
  * @filter site-reviews/paginate_link
  */
-function glsr_filter_bootstrap_pagination_link(array $link, array $args, BuilderContract $builder) {
+function glsr_filter_bootstrap_pagination_link(array $link, array $args, BuilderContract $builder): array
+{
     $args['class'] = 'page-link';
     if ('current' === $link['type']) {
         $class = 'page-item active';
@@ -38,7 +41,8 @@ function glsr_filter_bootstrap_pagination_link(array $link, array $args, Builder
     ]);
     return $link;
 }
-add_filter('site-reviews/paginate_links', function (string $links, array $args) {
+add_filter('site-reviews/paginate_links', function (string $links, array $args): string
+{
     if ('bootstrap' !== glsr_get_option('general.style')) {
         return $links;
     }
@@ -53,7 +57,9 @@ add_filter('site-reviews/paginate_links', function (string $links, array $args) 
 /**
  * @param array $editors
  * @param string $postType
+ * 
  * @return array
+ * 
  * @see https://wordpress.org/plugins/classic-editor/
  */
 add_filter('classic_editor_enabled_editors_for_post_type', function ($editors, $postType) {
@@ -63,8 +69,10 @@ add_filter('classic_editor_enabled_editors_for_post_type', function ($editors, $
 }, 10, 2);
 
 /**
- * Add human-readable capability names
+ * Add human-readable capability names.
+ * 
  * @return void
+ * 
  * @see https://wordpress.org/plugins/members/
  */
 add_action('members_register_caps', function () {
@@ -93,7 +101,8 @@ add_action('members_register_caps', function () {
 });
 
 /**
- * Remove Oxygen Builder metabox from reviews
+ * Remove Oxygen Builder metabox from reviews.
+ * 
  * @see https://oxygenbuilder.com
  */
 add_action('plugins_loaded', function () {
@@ -105,9 +114,12 @@ add_action('plugins_loaded', function () {
 });
 
 /**
- * Fix to display all reviews when sorting by rank
+ * Fix to display all reviews when sorting by rank.
+ * 
  * @param array $query
+ * 
  * @return array
+ * 
  * @see https://searchandfilter.com/
  */
 add_filter('sf_edit_query_args', function ($query) {
@@ -123,9 +135,12 @@ add_filter('sf_edit_query_args', function ($query) {
 }, 20);
 
 /**
- * Prevent SG Optimizer from breaking the Site Reviews javascript file
+ * Prevent SG Optimizer from breaking the Site Reviews javascript file.
+ * 
  * @param array $excluded
+ * 
  * @return array
+ * 
  * @see https://wordpress.org/plugins/sg-cachepress/
  */
 add_filter('sgo_js_minify_exclude', function ($excluded) {
@@ -137,22 +152,26 @@ add_filter('sgo_js_minify_exclude', function ($excluded) {
 
 /**
  * Load the Ninja Forms (v3) CSS if the plugin style is selected.
+ *
  * @see https://ninjaforms.com/
  */
-function glsr_is_ninja_forms_compatible() {
+function glsr_is_ninja_forms_compatible(): bool
+{
     return class_exists('Ninja_Forms')
         && class_exists('NF_Display_Render')
         && method_exists('Ninja_Forms', 'get_setting')
         && method_exists('NF_Display_Render', 'enqueue_styles_display');
 }
-function glsr_load_ninja_forms_css() {
+function glsr_load_ninja_forms_css(): void
+{
     if ('ninja_forms' === glsr_get_option('general.style') && glsr_is_ninja_forms_compatible()) {
         NF_Display_Render::enqueue_styles_display(Ninja_Forms::$url.'assets/css/');
     }
 }
 add_action('enqueue_block_editor_assets', 'glsr_load_ninja_forms_css');
 add_action('wp_enqueue_scripts', 'glsr_load_ninja_forms_css');
-add_filter('site-reviews/config/styles/ninja_forms', function ($config) {
+add_filter('site-reviews/config/styles/ninja_forms', function (array $config): array
+{
     if (glsr_is_ninja_forms_compatible()) {
         $formClass = 'nf-style-'.Ninja_Forms()->get_setting('opinionated_styles');
         $config = glsr_set($config, 'classes.form', $formClass);
@@ -161,12 +180,12 @@ add_filter('site-reviews/config/styles/ninja_forms', function ($config) {
 });
 
 /**
- * Load the WPForms stylesheet when using the WPForms plugin style
- * @param string $template
- * @return string
+ * Load the WPForms stylesheet when using the WPForms plugin style.
+ * 
  * @see https://wordpress.org/plugins/wpforms-lite/
  */
-add_filter('site-reviews/build/template/reviews-form', function ($template) {
+add_filter('site-reviews/build/template/reviews-form', function (string $template): string
+{
     if ('wpforms' === glsr_get_option('general.style')) {
         add_filter('wpforms_frontend_missing_assets_error_js_disable', '__return_true', PHP_INT_MAX);
         add_filter('wpforms_global_assets', '__return_true');
@@ -175,8 +194,10 @@ add_filter('site-reviews/build/template/reviews-form', function ($template) {
 });
 
 /**
- * Remove the "Launch Thrive Architect" button from reviews
+ * Remove the "Launch Thrive Architect" button from reviews.
+ * 
  * @return array
+ * 
  * @see https://thrivethemes.com/architect/
  */
 add_filter('tcb_post_types', function ($blacklist) {
@@ -212,9 +233,10 @@ add_action('site-reviews/addon/update', function ($app) {
 }, 20);
 
 /**
- * This disables OptimizePress v2 assets an notices on Site Reviews admin pages
+ * This disables OptimizePress v2 assets an notices on Site Reviews admin pages.
  */
-function glsr_remove_optimizepress () {
+function glsr_remove_optimizepress()
+{
     if (!defined('OP_VERSION')) {
         return;
     }
