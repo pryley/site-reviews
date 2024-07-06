@@ -118,10 +118,10 @@ class UploadedFile extends \SplFileInfo
      */
     public function hasMimeType(string $mimeType): bool
     {
-        if ($mimeType !== $this->getClientMimeType()) {
-            return false;
+        if (function_exists('mime_content_type')) {
+            return $mimeType === mime_content_type($this->getPathname());
         }
-        return true;
+        return $mimeType === $this->getClientMimeType();
     }
 
     /**
