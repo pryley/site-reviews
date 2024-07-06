@@ -30,6 +30,13 @@ class Response
         }
     }
 
+    public function body(): array
+    {
+        $body = Arr::consolidate($this->body);
+        $body = array_map('maybe_unserialize', $body);
+        return $body;
+    }
+
     public function data(): array
     {
         return Arr::getAs('array', $this->body, 'data');
