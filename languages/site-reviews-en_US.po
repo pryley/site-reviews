@@ -418,7 +418,7 @@ msgstr "You must be logged in to submit a review."
 msgid "You have already submitted a review."
 msgstr "You have already submitted a review."
 
-#: plugin/Integrations/WooCommerce/Controllers/MainController.php:119
+#: plugin/Integrations/WooCommerce/Controllers/MainController.php:121
 msgid "verified owner"
 msgstr "verified owner"
 
@@ -476,87 +476,87 @@ msgstr "Verified"
 msgid "Service Unavailable."
 msgstr "Service Unavailable."
 
-#: compatibility.php:72
+#: compatibility.php:80
 msgctxt "admin-text"
 msgid "Create Reviews"
 msgstr "Create Reviews"
 
-#: compatibility.php:73
+#: compatibility.php:81
 msgctxt "admin-text"
 msgid "Delete Others' Reviews"
 msgstr "Delete Others' Reviews"
 
-#: compatibility.php:74
+#: compatibility.php:82
 msgctxt "admin-text"
 msgid "Delete Reviews"
 msgstr "Delete Reviews"
 
-#: compatibility.php:75
+#: compatibility.php:83
 msgctxt "admin-text"
 msgid "Delete Private Reviews"
 msgstr "Delete Private Reviews"
 
-#: compatibility.php:76
+#: compatibility.php:84
 msgctxt "admin-text"
 msgid "Delete Approved Reviews"
 msgstr "Delete Approved Reviews"
 
-#: compatibility.php:77
+#: compatibility.php:85
 msgctxt "admin-text"
 msgid "Edit Others' Reviews"
 msgstr "Edit Others' Reviews"
 
-#: compatibility.php:78
+#: compatibility.php:86
 msgctxt "admin-text"
 msgid "Edit Reviews"
 msgstr "Edit Reviews"
 
-#: compatibility.php:79
+#: compatibility.php:87
 msgctxt "admin-text"
 msgid "Edit Private Reviews"
 msgstr "Edit Private Reviews"
 
-#: compatibility.php:80
+#: compatibility.php:88
 msgctxt "admin-text"
 msgid "Edit Approved Reviews"
 msgstr "Edit Approved Reviews"
 
-#: compatibility.php:81
+#: compatibility.php:89
 msgctxt "admin-text"
 msgid "Approve Reviews"
 msgstr "Approve Reviews"
 
-#: compatibility.php:82
+#: compatibility.php:90
 msgctxt "admin-text"
 msgid "Read Private Reviews"
 msgstr "Read Private Reviews"
 
-#: compatibility.php:83
+#: compatibility.php:91
 msgctxt "admin-text"
 msgid "Respond To Reviews"
 msgstr "Respond To Reviews"
 
-#: compatibility.php:84
+#: compatibility.php:92
 msgctxt "admin-text"
 msgid "Respond To Others' Reviews"
 msgstr "Respond To Others' Reviews"
 
-#: compatibility.php:85
+#: compatibility.php:93
 msgctxt "admin-text"
 msgid "Assign Review Categories"
 msgstr "Assign Review Categories"
 
-#: compatibility.php:86
+#: compatibility.php:94
 msgctxt "admin-text"
 msgid "Delete Review Categories"
 msgstr "Delete Review Categories"
 
-#: compatibility.php:87
+#: compatibility.php:95
 msgctxt "admin-text"
 msgid "Edit Review Categories"
 msgstr "Edit Review Categories"
 
-#: compatibility.php:88
+#: compatibility.php:96
 msgctxt "admin-text"
 msgid "Manage Review Categories"
 msgstr "Manage Review Categories"
@@ -4286,17 +4286,22 @@ msgctxt "admin-text"
 msgid "Layout"
 msgstr "Layout"
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:197
+#: plugin/Integrations/Elementor/ElementorWidget.php:196
+msgctxt "admin-text"
+msgid "This should be a unique value."
+msgstr "This should be a unique value."
+
+#: plugin/Integrations/Elementor/ElementorWidget.php:198
 msgctxt "admin-text"
 msgid "Custom ID"
 msgstr "Custom ID"
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:201
+#: plugin/Integrations/Elementor/ElementorWidget.php:202
 msgctxt "admin-text"
 msgid "Separate multiple classes with spaces."
 msgstr "Separate multiple classes with spaces."
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:203
+#: plugin/Integrations/Elementor/ElementorWidget.php:204
 msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr "Additional CSS classes"
@@ -5435,7 +5440,7 @@ msgctxt "admin-text"
 msgid "Migrated the product ratings."
 msgstr "Migrated the product ratings."
 
-#: plugin/Integrations/WooCommerce/Controllers/MainController.php:71
+#: plugin/Integrations/WooCommerce/Controllers/MainController.php:73
 msgctxt "admin-text"
 msgid "managed by Site Reviews"
 msgstr "managed by Site Reviews"

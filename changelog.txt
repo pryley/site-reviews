@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 7.0.13 (2024-07-06) =
+
+- Fixed autoload of settings
+- Fixed Date fields
+- Fixed Initials avatars with Cyrillic letters
+- Fixed WooCommerce rating styles
+- Improved mimetype check for uploaded files
+
 = 7.0.12 (2024-06-23) =
 
 - Updated the maximum supported WooCommerce version

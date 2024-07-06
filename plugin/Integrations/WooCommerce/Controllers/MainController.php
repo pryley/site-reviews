@@ -16,7 +16,7 @@ class MainController extends AbstractController
     /**
      * @filter site-reviews/enqueue/public/inline-styles
      */
-    public function filterInlineStyles(string $css, array $config): string
+    public function filterInlineStyles(string $css): string
     {
         $css .= 'ul.glsr li a{display:flex;justify-content:space-between;}'; // fix rating filter widget
         $css .= '.glsr.woocommerce-product-rating{align-items:center;display:inline-flex;gap:.5em;}';

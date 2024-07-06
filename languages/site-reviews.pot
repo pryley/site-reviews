@@ -16,87 +16,87 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: compatibility.php:72
+#: compatibility.php:80
 msgctxt "admin-text"
 msgid "Create Reviews"
 msgstr ""
 
-#: compatibility.php:73
+#: compatibility.php:81
 msgctxt "admin-text"
 msgid "Delete Others' Reviews"
 msgstr ""
 
-#: compatibility.php:74
+#: compatibility.php:82
 msgctxt "admin-text"
 msgid "Delete Reviews"
 msgstr ""
 
-#: compatibility.php:75
+#: compatibility.php:83
 msgctxt "admin-text"
 msgid "Delete Private Reviews"
 msgstr ""
 
-#: compatibility.php:76
+#: compatibility.php:84
 msgctxt "admin-text"
 msgid "Delete Approved Reviews"
 msgstr ""
 
-#: compatibility.php:77
+#: compatibility.php:85
 msgctxt "admin-text"
 msgid "Edit Others' Reviews"
 msgstr ""
 
-#: compatibility.php:78
+#: compatibility.php:86
 msgctxt "admin-text"
 msgid "Edit Reviews"
 msgstr ""
 
-#: compatibility.php:79
+#: compatibility.php:87
 msgctxt "admin-text"
 msgid "Edit Private Reviews"
 msgstr ""
 
-#: compatibility.php:80
+#: compatibility.php:88
 msgctxt "admin-text"
 msgid "Edit Approved Reviews"
 msgstr ""
 
-#: compatibility.php:81
+#: compatibility.php:89
 msgctxt "admin-text"
 msgid "Approve Reviews"
 msgstr ""
 
-#: compatibility.php:82
+#: compatibility.php:90
 msgctxt "admin-text"
 msgid "Read Private Reviews"
 msgstr ""
 
-#: compatibility.php:83
+#: compatibility.php:91
 msgctxt "admin-text"
 msgid "Respond To Reviews"
 msgstr ""
 
-#: compatibility.php:84
+#: compatibility.php:92
 msgctxt "admin-text"
 msgid "Respond To Others' Reviews"
 msgstr ""
 
-#: compatibility.php:85
+#: compatibility.php:93
 msgctxt "admin-text"
 msgid "Assign Review Categories"
 msgstr ""
 
-#: compatibility.php:86
+#: compatibility.php:94
 msgctxt "admin-text"
 msgid "Delete Review Categories"
 msgstr ""
 
-#: compatibility.php:87
+#: compatibility.php:95
 msgctxt "admin-text"
 msgid "Edit Review Categories"
 msgstr ""
 
-#: compatibility.php:88
+#: compatibility.php:96
 msgctxt "admin-text"
 msgid "Manage Review Categories"
 msgstr ""
@@ -4214,17 +4214,22 @@ msgctxt "admin-text"
 msgid "Layout"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:197
+#: plugin/Integrations/Elementor/ElementorWidget.php:196
+msgctxt "admin-text"
+msgid "This should be a unique value."
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorWidget.php:198
 msgctxt "admin-text"
 msgid "Custom ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:201
+#: plugin/Integrations/Elementor/ElementorWidget.php:202
 msgctxt "admin-text"
 msgid "Separate multiple classes with spaces."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:203
+#: plugin/Integrations/Elementor/ElementorWidget.php:204
 msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr ""
@@ -5477,12 +5482,12 @@ msgctxt "admin-text"
 msgid "Migrated the product ratings."
 msgstr ""
 
-#: plugin/Integrations/WooCommerce/Controllers/MainController.php:71
+#: plugin/Integrations/WooCommerce/Controllers/MainController.php:73
 msgctxt "admin-text"
 msgid "managed by Site Reviews"
 msgstr ""
 
-#: plugin/Integrations/WooCommerce/Controllers/MainController.php:119
+#: plugin/Integrations/WooCommerce/Controllers/MainController.php:121
 msgid "verified owner"
 msgstr ""
 

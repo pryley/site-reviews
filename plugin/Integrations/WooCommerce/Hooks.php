@@ -61,7 +61,7 @@ class Hooks extends AbstractHooks
         remove_action('wp_update_comment_count', ['WC_Comments', 'clear_transients'], 10);
         remove_filter('comments_open', ['WC_Comments', 'comments_open'], 10);
         return [
-            ['filterInlineStyles', 'site-reviews/enqueue/public/inline-styles', 20, 2],
+            ['filterInlineStyles', 'site-reviews/enqueue/public/inline-styles', 20],
             ['filterProductCommentStatus', 'get_default_comment_status', 10, 3],
             ['filterProductSettings', 'woocommerce_get_settings_products', 10, 2],
             ['filterPublicInlineScript', 'site-reviews/enqueue/public/inline-script/after'],
