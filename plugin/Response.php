@@ -39,7 +39,9 @@ class Response
 
     public function data(): array
     {
-        return Arr::getAs('array', $this->body, 'data');
+        $data = Arr::getAs('array', $this->body, 'data');
+        $data = array_map('maybe_unserialize', $data);
+        return $data;
     }
 
     public function failed(): bool
