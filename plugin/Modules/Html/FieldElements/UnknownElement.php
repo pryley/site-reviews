@@ -2,31 +2,16 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\FieldElements;
 
-use GeminiLabs\SiteReviews\Contracts\FieldElementContract;
 use GeminiLabs\SiteReviews\Modules\Html\Attributes;
-use GeminiLabs\SiteReviews\Modules\Html\Field;
 
-class UnknownElement implements FieldElementContract
+class UnknownElement extends AbstractFieldElement
 {
-    protected Field $field;
-
-    public function __construct(Field $field)
-    {
-        $this->field = $field;
-    }
-
     public function build(array $overrideArgs = []): string
     {
         if (empty($this->tag())) {
             return '';
         }
-        $args = wp_parse_args($overrideArgs, $this->field->toArray());
-        return $this->field->builder()->build($this->tag(), $args);
-    }
-
-    public function defaults(): array
-    {
-        return [];
+        return parent::build($overrideArgs);
     }
 
     public function merge(): void
@@ -35,12 +20,7 @@ class UnknownElement implements FieldElementContract
             $this->field->is_valid = false;
             return;
         }
-        $this->field->exchangeTag($this->tag());
-    }
-
-    public function required(): array
-    {
-        return [];
+        parent::merge();
     }
 
     public function tag(): string
