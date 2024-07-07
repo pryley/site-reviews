@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 7.0.14 (2024-07-08) =
+
+- Fixed Assigned Users metabox value when the user's display name is empty
+- Fixed Author metabox value when the author is anonymous
+
 = 7.0.13 (2024-07-06) =
 
 - Fixed autoload of settings

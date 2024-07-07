@@ -193,7 +193,7 @@ class Helper
             return glsr()->filterInt('assigned_users/user_id', get_current_user_id());
         }
         if (is_numeric($user)) {
-            $user = get_user_by('ID', $user);
+            $user = get_user_by('id', $user);
             return Arr::getAs('int', $user, 'ID');
         }
         if (is_string($user)) {

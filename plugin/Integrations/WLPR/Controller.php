@@ -69,7 +69,7 @@ class Controller extends AbstractController
             if ('product' !== get_post_type($postId)) {
                 continue;
             }
-            if ($user = get_user_by('ID', $review->author_id)) {
+            if ($user = get_user_by('id', $review->author_id)) {
                 if ($this->isFirstReviewForPost($postId, $review)) {
                     $this->earnPoints(sanitize_email($user->user_email), $postId);
                 }

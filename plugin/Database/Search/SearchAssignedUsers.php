@@ -11,7 +11,7 @@ class SearchAssignedUsers extends AbstractSearch
     {
         $users = [];
         foreach ($this->results as $result) {
-            $users[] = get_user_by('ID', $result->id);
+            $users[] = get_user_by('id', $result->id);
         }
         return $users;
     }

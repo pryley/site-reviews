@@ -351,7 +351,7 @@ class Review extends Arguments
      */
     public function user()
     {
-        return get_user_by('ID', $this->get('author_id'));
+        return get_user_by('id', $this->get('author_id'));
     }
 
     public function verifyUrl(string $path = ''): string
