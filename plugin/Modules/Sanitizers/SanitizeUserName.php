@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Sanitizers;
 
+use GeminiLabs\SiteReviews\Helpers\Cast;
+
 class SanitizeUserName extends StringSanitizer
 {
     public function run(): string
@@ -10,14 +12,18 @@ class SanitizeUserName extends StringSanitizer
         if (defined('WP_IMPORTING')) {
             return $value;
         }
-        if (!empty($value)) {
+        if ('' !== $value) {
             return $value;
         }
-        $user = wp_get_current_user();
-        if (!$user->exists()) {
-            return $value;
+        $value = Cast::toString($this->args[0]); // try the fallback value
+        if ('current_user' === $value) {
+            $user = wp_get_current_user();
+            if (!$user->exists()) {
+                return '';
+            }
+            $value = $user->display_name ?: $user->user_nicename;
         }
-        return $this->sanitizeDisplayName($user->display_name);
+        return $this->sanitizeDisplayName($value);
     }
 
     /**
@@ -30,6 +36,9 @@ class SanitizeUserName extends StringSanitizer
      */
     protected function sanitizeDisplayName(string $value): string
     {
+        if ('' === $value) {
+            return $value;
+        }
         $value = wp_specialchars_decode($value);
         $value = wp_strip_all_tags($value);
         $value = $this->kses($value);

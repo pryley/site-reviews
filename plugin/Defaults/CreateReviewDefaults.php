@@ -59,7 +59,7 @@ class CreateReviewDefaults extends DefaultsAbstract
         'email' => 'user-email',
         'form_id' => 'id',
         'ip_address' => 'ip-address',
-        'name' => 'user-name',
+        'name' => 'user-name:current_user',
         'rating' => 'rating',
         'referer' => 'text',
         'response' => 'text-html',

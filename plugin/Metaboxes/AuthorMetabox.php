@@ -26,9 +26,15 @@ class AuthorMetabox implements MetaboxContract
     public function render(\WP_Post $post): void
     {
         $selected = esc_html_x('Author Unknown', 'admin-text', 'site-reviews');
-        $value = $post->post_author ?? get_current_user_id();
+        $value = $post->post_author;
+        if (empty($post->ID)) {
+            $value = get_current_user_id(); // This is an unsaved review draft
+        }
         if ($user = get_user_by('id', $value)) {
-            $selected = glsr(Sanitizer::class)->sanitizeUserName($user->display_name);
+            $selected = glsr(Sanitizer::class)->sanitizeUserName(
+                $user->display_name,
+                $user->user_nicename
+            );
         }
         echo glsr(MetaboxBuilder::class)->label([
             'class' => 'screen-reader-text',

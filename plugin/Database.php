@@ -302,16 +302,20 @@ class Database
     public function users(array $args = []): array
     {
         $args = wp_parse_args($args, [
-            'fields' => ['ID', 'display_name'],
+            'fields' => ['ID', 'display_name', 'user_nicename'],
             'number' => 50, // only get the first 50 users!
             'orderby' => 'display_name',
         ]);
+        $results = [];
         $users = get_users($args);
-        $users = wp_list_pluck($users, 'display_name', 'ID');
-        array_walk($users, function (&$displayName) {
-            $displayName = glsr(Sanitizer::class)->sanitizeUserName($displayName);
-        });
-        return $users;
+        foreach ($users as $user) {
+            $name = glsr(Sanitizer::class)->sanitizeUserName(
+                $user->display_name,
+                $user->user_nicename
+            );
+            $results[$user->ID] = $name;
+        }
+        return $results;
     }
 
     public function version(): string

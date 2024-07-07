@@ -14,13 +14,18 @@ class ReviewAssignedUsersTag extends ReviewTag
 
     protected function value(): string
     {
-        $displayNames = wp_list_pluck($this->review->assignedUsers(), 'display_name');
-        if (empty($displayNames)) {
+        $users = $this->review->assignedUsers();
+        $names = [];
+        foreach ($users as $user) {
+            $name = glsr(Sanitizer::class)->sanitizeUserName(
+                $user->display_name,
+                $user->user_nicename
+            );
+            $names[] = $name;
+        }
+        if (empty($names)) {
             return '';
         }
-        array_walk($displayNames, function (&$displayName) {
-            $displayName = glsr(Sanitizer::class)->sanitizeUserName($displayName);
-        });
-        return sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($displayNames));
+        return sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($names));
     }
 }

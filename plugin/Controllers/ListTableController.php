@@ -30,10 +30,16 @@ class ListTableController extends AbstractController
             $postId = absint(substr($key, 5));
             $userId = (int) wp_check_post_lock($postId);
             $user = get_userdata($userId);
-            if ($user && !glsr()->can('edit_post', $postId) && glsr()->can('respond_to_post', $postId)) {
-                $displayName = glsr(Sanitizer::class)->sanitizeUserName($user->display_name);
+            if (!$user) {
+                continue;
+            }
+            $name = glsr(Sanitizer::class)->sanitizeUserName(
+                $user->display_name,
+                $user->user_nicename
+            );
+            if (!glsr()->can('edit_post', $postId) && glsr()->can('respond_to_post', $postId)) {
                 $send = [
-                    'text' => sprintf(_x('%s is currently editing', 'admin-text', 'site-reviews'), $displayName),
+                    'text' => sprintf(_x('%s is currently editing', 'admin-text', 'site-reviews'), $name),
                 ];
                 if (get_option('show_avatars')) {
                     $send['avatar_src'] = get_avatar_url($user->ID, ['size' => 18]);
@@ -47,7 +53,7 @@ class ListTableController extends AbstractController
             if (!glsr()->can('respond_to_post', $postId)) {
                 continue;
             }
-            $send = ['text' => sprintf(_x('%s is currently editing', 'admin-text', 'site-reviews'), $user->display_name)];
+            $send = ['text' => sprintf(_x('%s is currently editing', 'admin-text', 'site-reviews'), $name)];
             if (get_option('show_avatars')) {
                 $send['avatar_src'] = get_avatar_url($user->ID, ['size' => 18]);
                 $send['avatar_src_2x'] = get_avatar_url($user->ID, ['size' => 36]);
@@ -266,11 +272,16 @@ class ListTableController extends AbstractController
             wp_die(_x('Sorry, you are not allowed to respond to this review.', 'admin-text', 'site-reviews'));
         }
         if ($last = wp_check_post_lock($postId)) {
+            $name = _x('Someone', 'admin-text', 'site-reviews');
             $user = get_userdata($last);
-            $displayName = Arr::get($user, 'display_name', _x('Someone', 'admin-text', 'site-reviews'));
-            $displayName = glsr(Sanitizer::class)->sanitizeUserName($displayName);
+            if ($user) {
+                $name = glsr(Sanitizer::class)->sanitizeUserName(
+                    $user->display_name,
+                    $user->user_nicename
+                );
+            }
             $message = esc_html_x('Saving is disabled: %s is currently editing this review.', 'admin-text', 'site-reviews');
-            printf($message, $displayName);
+            printf($message, $name);
             wp_die();
         }
         $response = (string) filter_input(INPUT_POST, '_response');

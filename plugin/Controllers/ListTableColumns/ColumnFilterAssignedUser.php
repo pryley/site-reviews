@@ -35,7 +35,10 @@ class ColumnFilterAssignedUser extends AbstractColumnFilter
     {
         $value = $this->value();
         if ($user = get_user_by('ID', $value)) {
-            return glsr(Sanitizer::class)->sanitizeUserName($user->display_name);
+            return glsr(Sanitizer::class)->sanitizeUserName(
+                $user->display_name,
+                $user->user_nicename
+            );
         }
         if (is_numeric($value) && 0 === Cast::toInt($value)) {
             return Arr::get($this->options(), 0);

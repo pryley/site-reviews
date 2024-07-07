@@ -28,20 +28,23 @@ class Controller extends AbstractController
         $searchId = '%%'.absint(filter_input(INPUT_POST, 'q')).'%%';
         $searchName = '%%'.$wpdb->esc_like(trim(filter_input(INPUT_POST, 'q'))).'%%';
         $results = $wpdb->get_results($wpdb->prepare("
-            SELECT ID, display_name 
+            SELECT ID, display_name, user_nicename
             FROM {$wpdb->users}
-            WHERE (display_name LIKE %s OR ID LIKE %s)
+            WHERE (display_name LIKE %s OR user_nicename LIKE %s OR ID LIKE %s)
             ORDER BY display_name ASC 
             LIMIT {$offset}, {$limit}
-        ", $searchName, $searchId));
+        ", $searchName, $searchName, $searchId));
         array_walk($results, function ($user) {
-            $user->display_name = glsr(Sanitizer::class)->sanitizeUserName($user->display_name);
+            $user->display_name = glsr(Sanitizer::class)->sanitizeUserName(
+                $user->display_name,
+                $user->user_nicename
+            );
         });
         $count = absint($wpdb->get_var($wpdb->prepare("
             SELECT COUNT(*)
             FROM {$wpdb->users}
-            WHERE (display_name LIKE %s OR ID LIKE %s)
-        ", $searchName, $searchId)));
+            WHERE (display_name LIKE %s OR user_nicename LIKE %s OR ID LIKE %s)
+        ", $searchName, $searchName, $searchId)));
         wp_send_json_success([
             'results' => $results,
             'more_results' => $count > $limit && $count > $offset,
@@ -280,8 +283,11 @@ class Controller extends AbstractController
         $userId = Cast::toInt(get_post_meta($requirementId, $this->metaKey('user_id'), true));
         $rating = Cast::toInt(get_post_meta($requirementId, $this->metaKey('rating'), true));
         if ($user = get_user_by('id', $userId)) {
-            $displayName = glsr(Sanitizer::class)->sanitizeUserName($user->display_name);
-            $options[$user->ID] = sprintf('%s (#%d)', $displayName, $user->ID);
+            $name = glsr(Sanitizer::class)->sanitizeUserName(
+                $user->display_name,
+                $user->user_nicename
+            );
+            $options[$user->ID] = sprintf('%s (#%d)', $name, $user->ID);
         }
         echo PHP_EOL.glsr(Builder::class)->select([
             'class' => sprintf('%1$s %1$s-%2$s', $this->requirementKey('user_id'), $requirementId),

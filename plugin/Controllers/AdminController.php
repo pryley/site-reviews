@@ -270,7 +270,7 @@ class AdminController extends AbstractController
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
         $results = glsr(Database::class)->searchAssignedUsers($search)->results();
         array_walk($results, function ($user) {
-            $user->name = glsr(Sanitizer::class)->sanitizeUserName($user->name);
+            $user->name = glsr(Sanitizer::class)->sanitizeUserName($user->name, $user->nickname);
         });
         wp_send_json_success([
             'items' => $results,
@@ -285,7 +285,7 @@ class AdminController extends AbstractController
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
         $results = glsr(Database::class)->searchUsers($search)->results();
         array_walk($results, function ($user) {
-            $user->name = glsr(Sanitizer::class)->sanitizeUserName($user->name);
+            $user->name = glsr(Sanitizer::class)->sanitizeUserName($user->name, $user->nickname);
         });
         wp_send_json_success([
             'items' => $results,

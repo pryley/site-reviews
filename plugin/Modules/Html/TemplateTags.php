@@ -96,11 +96,15 @@ class TemplateTags
     public function tagReviewAssignedUsers(Review $review): string
     {
         $users = $review->assignedUsers();
-        $displayNames = array_filter(wp_list_pluck($users, 'display_name'));
-        array_walk($displayNames, function (&$displayName) {
-            $displayName = glsr(Sanitizer::class)->sanitizeUserName($displayName);
-        });
-        return Str::naturalJoin($displayNames);
+        $names = [];
+        foreach ($users as $user) {
+            $name = glsr(Sanitizer::class)->sanitizeUserName(
+                $user->display_name,
+                $user->user_nicename
+            );
+            $names[] = $name;
+        }
+        return Str::naturalJoin($names);
     }
 
     public function tagReviewAuthor(Review $review): string
