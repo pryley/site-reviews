@@ -452,11 +452,11 @@ msgstr "Loading, please wait..."
 msgid "Load more"
 msgstr "Load more"
 
-#: plugin/Modules/Html/Partials/StarRating.php:34
+#: plugin/Modules/Html/Partials/StarRating.php:35
 msgid "Rated %s out of %s stars based on %s ratings"
 msgstr "Rated %s out of %s stars based on %s ratings"
 
-#: plugin/Modules/Html/Partials/StarRating.php:35
+#: plugin/Modules/Html/Partials/StarRating.php:36
 msgid "Rated %s out of %s stars"
 msgstr "Rated %s out of %s stars"
 

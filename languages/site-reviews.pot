@@ -5541,11 +5541,11 @@ msgctxt "screen reader text"
 msgid "Site Reviews navigation"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/StarRating.php:34
+#: plugin/Modules/Html/Partials/StarRating.php:35
 msgid "Rated %s out of %s stars based on %s ratings"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/StarRating.php:35
+#: plugin/Modules/Html/Partials/StarRating.php:36
 msgid "Rated %s out of %s stars"
 msgstr ""
 

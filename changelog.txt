@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 7.0.15 (2024-07-09) =
+
+- Fixed aria-label usage on star ratings (fixes Google PageSpeed report errors)
+- Fixed mime_type check of CSV files
+
 = 7.0.14 (2024-07-08) =
 
 - Fixed Assigned Users metabox value when the user's display name is empty
