@@ -114,12 +114,23 @@ class UploadedFile extends \SplFileInfo
 
     /**
      * Checks against the file mime type extracted from the file upload request.
-     * This should not be considered as a safe check.
+     * This should not be considered a safe check.
      */
     public function hasMimeType(string $mimeType): bool
     {
         if (function_exists('mime_content_type')) {
-            return $mimeType === mime_content_type($this->getPathname());
+            $inconclusiveMimeTypes = [
+                'application/octet-stream',
+                'application/x-empty',
+                'text/plain',
+            ];
+            $detectedMimeType = mime_content_type($this->getPathname());
+            if (!in_array($detectedMimeType, $inconclusiveMimeTypes)) {
+                return $mimeType === $detectedMimeType;
+            }
+        }
+        if ('text/csv' === $mimeType && 'application/vnd.ms-excel' === $this->getClientMimeType()) {
+            return 'csv' === ($this->getExtension() ?? $this->getClientOriginalExtension());
         }
         return $mimeType === $this->getClientMimeType();
     }
