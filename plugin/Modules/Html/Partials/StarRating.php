@@ -22,6 +22,7 @@ class StarRating implements PartialContract
             'class' => 'glsr-star-rating glsr-stars',
             'data-rating' => $this->data->rating,
             'data-reviews' => $this->data->reviews,
+            'role' => 'img',
             'text' => $this->stars(),
         ]);
     }
