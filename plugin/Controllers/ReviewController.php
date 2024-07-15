@@ -127,8 +127,11 @@ class ReviewController extends AbstractController
      *
      * @action transition_post_status
      */
-    public function onAfterChangeStatus(string $new, string $old, \WP_Post $post): void
+    public function onAfterChangeStatus(string $new, string $old, ?\WP_Post $post): void
     {
+        if (is_null($post)) {
+            return; // This should never happen, but some plugins are bad actors so...
+        }
         if (in_array($old, ['new', $new])) {
             return;
         }
@@ -305,8 +308,11 @@ class ReviewController extends AbstractController
      *
      * @action post_updated
      */
-    public function onEditReview(int $postId, \WP_Post $post, \WP_Post $oldPost): void
+    public function onEditReview(int $postId, ?\WP_Post $post, ?\WP_Post $oldPost): void
     {
+        if (is_null($post) || is_null($oldPost)) {
+            return; // This should never happen, but some plugins are bad actors so...
+        }
         if (!glsr()->can('edit_posts') || !$this->isEditedReview($post, $oldPost)) {
             return;
         }

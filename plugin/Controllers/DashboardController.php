@@ -10,8 +10,11 @@ class DashboardController extends AbstractController
     /**
      * @action transition_post_status:5
      */
-    public function flushMonthlyCountCache(string $newStatus, string $oldStatus, \WP_Post $post): void
+    public function flushMonthlyCountCache(string $newStatus, string $oldStatus, ?\WP_Post $post): void
     {
+        if (is_null($post)) {
+            return; // This should never happen, but some plugins are bad actors so...
+        }
         if (glsr()->post_type !== $post->post_type) {
             return;
         }
