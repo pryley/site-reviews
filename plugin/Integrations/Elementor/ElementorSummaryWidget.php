@@ -223,6 +223,9 @@ class ElementorSummaryWidget extends ElementorWidget
     {
         return [
             'rating_color' => [
+                'global' => [
+                    'active' => false,
+                ],
                 'label' => esc_html_x('Color', 'admin-text', 'site-reviews'),
                 'selectors' => [
                     '{{WRAPPER}} .glsr:not([data-theme]) .glsr-bar-background-percent' => '--glsr-bar-bg: {{VALUE}} !important',

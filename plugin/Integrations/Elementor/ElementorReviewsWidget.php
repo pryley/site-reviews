@@ -200,6 +200,9 @@ class ElementorReviewsWidget extends ElementorWidget
     {
         return [
             'rating_color' => [
+                'global' => [
+                    'active' => false,
+                ],
                 'label' => esc_html_x('Color', 'admin-text', 'site-reviews'),
                 'selectors' => [
                     '{{WRAPPER}} .glsr:not([data-theme]) .glsr-review .glsr-star-empty' => 'background: {{VALUE}} !important; mask-image: var(--glsr-star-empty); mask-size: 100%;',
