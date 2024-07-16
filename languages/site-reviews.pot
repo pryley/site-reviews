@@ -4039,22 +4039,17 @@ msgctxt "admin-text"
 msgid "Field Spacing"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:135
-msgctxt "admin-text"
-msgid "This widget is using the rating color of the custom theme selected in the widget's Content settings."
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:142, plugin/Integrations/Elementor/ElementorReviewsWidget.php:220, plugin/Integrations/Elementor/ElementorReviewWidget.php:116, plugin/Integrations/Elementor/ElementorSummaryWidget.php:236
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:135, plugin/Integrations/Elementor/ElementorReviewsWidget.php:206, plugin/Integrations/Elementor/ElementorReviewWidget.php:102, plugin/Integrations/Elementor/ElementorSummaryWidget.php:229
 msgctxt "admin-text"
 msgid "Color"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:156, plugin/Integrations/Elementor/ElementorReviewsWidget.php:237, plugin/Integrations/Elementor/ElementorReviewWidget.php:133, plugin/Integrations/Elementor/ElementorSummaryWidget.php:254
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:149, plugin/Integrations/Elementor/ElementorReviewsWidget.php:220, plugin/Integrations/Elementor/ElementorReviewWidget.php:116, plugin/Integrations/Elementor/ElementorSummaryWidget.php:244
 msgctxt "admin-text"
 msgid "Star Size"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:178
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:171
 msgctxt "admin-text"
 msgid "Star Spacing"
 msgstr ""
@@ -4099,39 +4094,29 @@ msgctxt "admin-text"
 msgid "Enable the schema?"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:155, plugin/Integrations/Elementor/ElementorReviewWidget.php:71
-msgctxt "admin-text"
-msgid "This widget is using the layout style of the custom theme selected in the widget's Content settings."
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:161, plugin/Integrations/Elementor/ElementorReviewWidget.php:77, plugin/Integrations/Elementor/ElementorSummaryWidget.php:135
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:154, plugin/Integrations/Elementor/ElementorReviewWidget.php:70, plugin/Integrations/Elementor/ElementorSummaryWidget.php:135
 msgctxt "admin-text"
 msgid "Alignment"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:164, plugin/Integrations/Elementor/ElementorReviewWidget.php:80, plugin/Integrations/Elementor/ElementorSummaryWidget.php:138, plugin/Integrations/JetWooBuilder/Controller.php:46
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:157, plugin/Integrations/Elementor/ElementorReviewWidget.php:73, plugin/Integrations/Elementor/ElementorSummaryWidget.php:138, plugin/Integrations/JetWooBuilder/Controller.php:46
 msgctxt "admin-text"
 msgid "Start"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:168, plugin/Integrations/Elementor/ElementorReviewWidget.php:84, plugin/Integrations/Elementor/ElementorSummaryWidget.php:142, plugin/Integrations/JetWooBuilder/Controller.php:50
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:161, plugin/Integrations/Elementor/ElementorReviewWidget.php:77, plugin/Integrations/Elementor/ElementorSummaryWidget.php:142, plugin/Integrations/JetWooBuilder/Controller.php:50
 msgctxt "admin-text"
 msgid "Center"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:172, plugin/Integrations/Elementor/ElementorReviewWidget.php:88, plugin/Integrations/Elementor/ElementorSummaryWidget.php:146, plugin/Integrations/JetWooBuilder/Controller.php:54
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:165, plugin/Integrations/Elementor/ElementorReviewWidget.php:81, plugin/Integrations/Elementor/ElementorSummaryWidget.php:146, plugin/Integrations/JetWooBuilder/Controller.php:54
 msgctxt "admin-text"
 msgid "End"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:189
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:182
 msgctxt "admin-text"
 msgid "Review Spacing"
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:213, plugin/Integrations/Elementor/ElementorReviewWidget.php:109, plugin/Integrations/Elementor/ElementorSummaryWidget.php:229
-msgctxt "admin-text"
-msgid "This widget is using the rating style of the custom theme selected in the widget's Content settings."
 msgstr ""
 
 #: plugin/Integrations/Elementor/ElementorReviewWidget.php:47, plugin/Integrations/FusionBuilder/FusionSingleReview.php:13
