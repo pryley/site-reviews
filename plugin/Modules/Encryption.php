@@ -66,8 +66,7 @@ class Encryption
         if (!defined('NONCE_KEY')) {
             return '';
         }
-        $key = str_replace(' ', '', \NONCE_KEY);
-        $key = substr($key, 0, \SODIUM_CRYPTO_SECRETBOX_KEYBYTES);
+        $key = substr(\NONCE_KEY, 0, \SODIUM_CRYPTO_SECRETBOX_KEYBYTES);
         return str_pad($key, \SODIUM_CRYPTO_SECRETBOX_KEYBYTES, '#');
     }
 
@@ -76,8 +75,7 @@ class Encryption
         if (!defined('NONCE_SALT')) {
             return '';
         }
-        $nonce = str_replace(' ', '', \NONCE_SALT);
-        $nonce = substr($nonce, 0, \SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
+        $nonce = substr(\NONCE_SALT, 0, \SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
         return str_pad($nonce, \SODIUM_CRYPTO_SECRETBOX_NONCEBYTES, '#');
     }
 }
