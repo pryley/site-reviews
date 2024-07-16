@@ -128,17 +128,7 @@ class ElementorFormWidget extends ElementorWidget
     protected function settings_rating(): array
     {
         return [
-            'rating_alert' => [
-                'condition' => [
-                    'theme!' => '',
-                ],
-                'content' => esc_html_x('This widget is using the rating color of the custom theme selected in the widget\'s Content settings.', 'admin-text', 'site-reviews'),
-                'type' => Controls_Manager::ALERT,
-            ],
             'rating_color' => [
-                'condition' => [
-                    'theme' => '',
-                ],
                 'label' => esc_html_x('Color', 'admin-text', 'site-reviews'),
                 'selectors' => [
                     '{{WRAPPER}} .glsr:not([data-theme]) .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars > span' => 'background: {{VALUE}} !important; mask-image: var(--glsr-star-empty); mask-size: 100%;',

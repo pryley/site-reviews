@@ -148,13 +148,6 @@ class ElementorReviewsWidget extends ElementorWidget
     protected function settings_layout(): array
     {
         return [
-            'layout_alert' => [
-                'condition' => [
-                    'theme!' => '',
-                ],
-                'content' => esc_html_x('This widget is using the layout style of the custom theme selected in the widget\'s Content settings.', 'admin-text', 'site-reviews'),
-                'type' => Controls_Manager::ALERT,
-            ],
             'alignment' => [
                 'default' => 'start',
                 'is_responsive' => true,
@@ -206,17 +199,7 @@ class ElementorReviewsWidget extends ElementorWidget
     protected function settings_rating(): array
     {
         return [
-            'rating_alert' => [
-                'condition' => [
-                    'theme!' => '',
-                ],
-                'content' => esc_html_x('This widget is using the rating style of the custom theme selected in the widget\'s Content settings.', 'admin-text', 'site-reviews'),
-                'type' => Controls_Manager::ALERT,
-            ],
             'rating_color' => [
-                'condition' => [
-                    'theme' => '',
-                ],
                 'label' => esc_html_x('Color', 'admin-text', 'site-reviews'),
                 'selectors' => [
                     '{{WRAPPER}} .glsr:not([data-theme]) .glsr-review .glsr-star-empty' => 'background: {{VALUE}} !important; mask-image: var(--glsr-star-empty); mask-size: 100%;',
@@ -226,9 +209,6 @@ class ElementorReviewsWidget extends ElementorWidget
                 'type' => Controls_Manager::COLOR,
             ],
             'rating_size' => [
-                'condition' => [
-                    'theme' => '',
-                ],
                 'default' => [
                     'unit' => 'em',
                     'size' => 1.25,
