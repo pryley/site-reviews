@@ -1677,7 +1677,7 @@ msgctxt "admin-text"
 msgid "Enter a valid Review Post ID to display a review."
 msgstr ""
 
-#: plugin/Blocks/SiteReviewsBlock.php:102, plugin/Blocks/SiteReviewsFormBlock.php:74, plugin/Blocks/SiteReviewsSummaryBlock.php:91
+#: plugin/Blocks/SiteReviewsBlock.php:102, plugin/Blocks/SiteReviewsFormBlock.php:74, plugin/Blocks/SiteReviewsSummaryBlock.php:95
 msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr ""

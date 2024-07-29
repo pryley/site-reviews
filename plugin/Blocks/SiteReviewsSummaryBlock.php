@@ -38,6 +38,10 @@ class SiteReviewsSummaryBlock extends Block
                 'default' => '',
                 'type' => 'string',
             ],
+            'id' => [
+                'default' => '',
+                'type' => 'string',
+            ],
             'post_id' => [
                 'default' => '',
                 'type' => 'string',
