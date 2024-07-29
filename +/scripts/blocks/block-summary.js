@@ -25,6 +25,7 @@ const attributes = {
     category: { default: '', type: 'string' },
     className: { default: '', type: 'string' },
     hide: { default: '', type: 'string' },
+    id: { default: '', type: 'string' },
     post_id: { default: '', type: 'string' },
     rating: { default: 0, type: 'number' },
     rating_field: { default: '', type: 'string' },
