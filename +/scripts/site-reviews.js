@@ -103,7 +103,7 @@ const initReview = () => {
                 history.pushState({}, '', url.href);
             },
             onOpen: (Modal) => {
-                const messageEl = dom('p');
+                const messageEl = dom('p', { style: 'margin:0;padding:0;' });
                 messageEl.innerHTML = response.message;
                 Modal.footer(messageEl.outerHTML)
                 Modal.content(response.review, response.attributes)

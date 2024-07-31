@@ -1848,12 +1848,12 @@ msgctxt "admin-text"
 msgid "The title of the review"
 msgstr ""
 
-#: plugin/Commands/DownloadCsvTemplate.php:94, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:14, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:118, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:97, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:18, views/partials/editor/verified.php:6, views/partials/editor/verified.php:18
+#: plugin/Commands/DownloadCsvTemplate.php:94, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:14, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:118, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:97, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:18, views/partials/editor/verified.php:7, views/partials/editor/verified.php:19
 msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
 
-#: plugin/Commands/DownloadCsvTemplate.php:95, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:74, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:117, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:74, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:96, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:21, views/partials/editor/verified.php:6, views/partials/editor/verified.php:21
+#: plugin/Commands/DownloadCsvTemplate.php:95, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:74, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:117, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:74, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:96, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:21, views/partials/editor/verified.php:7, views/partials/editor/verified.php:22
 msgctxt "admin-text"
 msgid "No"
 msgstr ""
@@ -2036,7 +2036,37 @@ msgctxt "admin-text"
 msgid "The assigned meta values have been reset."
 msgstr ""
 
-#: plugin/Commands/SendVerificationEmail.php:71
+#: plugin/Commands/SendVerificationEmail.php:30
+msgctxt "admin-text"
+msgid "The email could not be sent because the review is invalid."
+msgstr ""
+
+#: plugin/Commands/SendVerificationEmail.php:37
+msgctxt "admin-text"
+msgid "The email could not be sent because the Request Verification setting is disabled."
+msgstr ""
+
+#: plugin/Commands/SendVerificationEmail.php:45
+msgctxt "admin-text"
+msgid "The email could not be sent because the review does not have a valid email."
+msgstr ""
+
+#: plugin/Commands/SendVerificationEmail.php:55
+msgctxt "admin-text"
+msgid "The email could not be sent, check the Site Reviews console for errors."
+msgstr ""
+
+#: plugin/Commands/SendVerificationEmail.php:62
+msgctxt "admin-text"
+msgid "The verification request email was sent."
+msgstr ""
+
+#: plugin/Commands/SendVerificationEmail.php:70, plugin/Controllers/VerificationController.php:35
+msgctxt "admin-text"
+msgid "Resend Verification Request"
+msgstr ""
+
+#: plugin/Commands/SendVerificationEmail.php:102
 msgid "Please verify your review"
 msgstr ""
 
@@ -2050,7 +2080,7 @@ msgctxt "admin-text"
 msgid "Review unpinned."
 msgstr ""
 
-#: plugin/Commands/ToggleStatus.php:66, views/partials/editor/pinned.php:9, views/partials/editor/verified.php:9
+#: plugin/Commands/ToggleStatus.php:66, views/partials/editor/pinned.php:9, views/partials/editor/verified.php:10
 msgctxt "admin-text"
 msgid "Edit"
 msgstr ""
@@ -2554,11 +2584,16 @@ msgctxt "admin-text"
 msgid "Approved on:"
 msgstr ""
 
-#: plugin/Controllers/VerificationController.php:59
+#: plugin/Controllers/VerificationController.php:34
+msgctxt "admin-text"
+msgid "Send Verification Request"
+msgstr ""
+
+#: plugin/Controllers/VerificationController.php:98
 msgid "Thank you, your review has been verified."
 msgstr ""
 
-#: plugin/Controllers/VerificationController.php:60
+#: plugin/Controllers/VerificationController.php:99
 msgid "Thank you, your review has been verified and is awaiting approval."
 msgstr ""
 
@@ -2634,7 +2669,7 @@ msgctxt "admin-text"
 msgid "Pinned"
 msgstr ""
 
-#: plugin/Defaults/PostTypeColumnDefaults.php:22, views/partials/editor/verified.php:4
+#: plugin/Defaults/PostTypeColumnDefaults.php:22, views/partials/editor/verified.php:5
 msgctxt "admin-text"
 msgid "Verified"
 msgstr ""
@@ -3279,7 +3314,7 @@ msgctxt "admin-text"
 msgid "Process the action now as if it were run as part of a queue"
 msgstr ""
 
-#: plugin/Overrides/ScheduledActionsTable.php:114, views/partials/editor/pinned.php:29, views/partials/editor/verified.php:29, views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:130
+#: plugin/Overrides/ScheduledActionsTable.php:114, views/partials/editor/pinned.php:29, views/partials/editor/verified.php:30, views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:130
 msgctxt "admin-text"
 msgid "Cancel"
 msgstr ""
@@ -5118,27 +5153,27 @@ msgctxt "admin-text"
 msgid "Unpin review"
 msgstr ""
 
-#: views/partials/editor/pinned.php:26, views/partials/editor/verified.php:26
+#: views/partials/editor/pinned.php:26, views/partials/editor/verified.php:27
 msgctxt "admin-text"
 msgid "OK"
 msgstr ""
 
-#: views/partials/editor/verified.php:10
+#: views/partials/editor/verified.php:11
 msgctxt "admin-text"
 msgid "Edit verified status"
 msgstr ""
 
-#: views/partials/editor/verified.php:15
+#: views/partials/editor/verified.php:16
 msgctxt "admin-text"
 msgid "Set verified status"
 msgstr ""
 
-#: views/partials/editor/verified.php:19
+#: views/partials/editor/verified.php:20
 msgctxt "admin-text"
 msgid "Verify review"
 msgstr ""
 
-#: views/partials/editor/verified.php:22
+#: views/partials/editor/verified.php:23
 msgctxt "admin-text"
 msgid "Unverify review"
 msgstr ""

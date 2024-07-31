@@ -6,13 +6,52 @@ use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Commands\SendVerificationEmail;
 use GeminiLabs\SiteReviews\Commands\ToggleVerified;
 use GeminiLabs\SiteReviews\Commands\VerifyReview;
+use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Encryption;
+use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
 
 class VerificationController extends AbstractController
 {
+    /**
+     * @action post_submitbox_misc_actions
+     */
+    public function renderVerifyAction(\WP_Post $post): void
+    {
+        if (!Review::isReview($post)) {
+            return;
+        }
+        $review = glsr(ReviewManager::class)->get($post->ID);
+        if (!$review->isValid()) {
+            return;
+        }
+        $text = empty(glsr(Database::class)->meta($review->ID, 'verified_requested'))
+            ? esc_html_x('Send Verification Request', 'admin-text', 'site-reviews')
+            : esc_html_x('Resend Verification Request', 'admin-text', 'site-reviews');
+        glsr(Template::class)->render('partials/editor/verified', [
+            'is_verification_enabled' => glsr(OptionManager::class)->getBool('settings.general.request_verification', false),
+            'is_verified' => $review->is_verified,
+            'text' => $text,
+        ]);
+    }
+
+    /**
+     * @action site-reviews/route/ajax/request-verification
+     */
+    public function resendVerificationEmailAjax(Request $request): void
+    {
+        $review = glsr(ReviewManager::class)->get($request->cast('post_id', 'int'));
+        $pathPostId = $review->meta()->cast('_submitted._post_id', 'int');
+        $path = wp_parse_url((string) get_permalink($pathPostId), PHP_URL_PATH);
+        $command = $this->execute(new SendVerificationEmail($review, $review->verifyUrl($path)));
+        wp_send_json_success($command->response());
+    }
+
     /**
      * @action site-reviews/review/created
      */

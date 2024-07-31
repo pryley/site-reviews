@@ -51,7 +51,7 @@ class MetaboxController extends AbstractController
     /**
      * @action post_submitbox_misc_actions
      */
-    public function renderMiscActions(\WP_Post $post): void
+    public function renderPinnedAction(\WP_Post $post): void
     {
         if (!Review::isReview($post)) {
             return;
@@ -60,24 +60,8 @@ class MetaboxController extends AbstractController
         if (!$review->isValid()) {
             return;
         }
-        $this->renderPinnedAction($review);
-        $this->renderVerifiedAction($review);
-    }
-
-    protected function renderPinnedAction(Review $review): void
-    {
         glsr(Template::class)->render('partials/editor/pinned', [
             'is_pinned' => $review->is_pinned,
-        ]);
-    }
-
-    protected function renderVerifiedAction(Review $review): void
-    {
-        if (!glsr()->filterBool('verification/enabled', false)) {
-            return;
-        }
-        glsr(Template::class)->render('partials/editor/verified', [
-            'is_verified' => $review->is_verified,
         ]);
     }
 }
