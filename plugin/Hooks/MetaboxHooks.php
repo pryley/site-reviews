@@ -12,7 +12,7 @@ class MetaboxHooks extends AbstractHooks
             ['filterFieldOrder', 'site-reviews/metabox-form/fields', 30],
             ['registerMetaBoxes', "add_meta_boxes_{$this->type}"],
             ['removeMetaBoxes', 'do_meta_boxes'],
-            ['renderMiscActions', 'post_submitbox_misc_actions'],
+            ['renderPinnedAction', 'post_submitbox_misc_actions'],
         ]);
     }
 }

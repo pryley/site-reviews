@@ -2,11 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Email;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Html\TemplateTags;
+use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Review;
 
 class SendVerificationEmail extends AbstractCommand
@@ -23,12 +25,25 @@ class SendVerificationEmail extends AbstractCommand
 
     public function handle(): void
     {
+        if (!$this->review->isValid()) {
+            glsr(Notice::class)->addError(
+                _x('The email could not be sent because the review is invalid.', 'admin-text', 'site-reviews')
+            );
+            $this->fail();
+            return;
+        }
         if (!glsr(OptionManager::class)->getBool('settings.general.request_verification', false)) {
+            glsr(Notice::class)->addError(
+                _x('The email could not be sent because the Request Verification setting is disabled.', 'admin-text', 'site-reviews')
+            );
             $this->fail();
             return;
         }
         $recipient = $this->review->email ?: Arr::get($this->review->user(), 'data.user_email');
         if (empty($recipient)) {
+            glsr(Notice::class)->addError(
+                _x('The email could not be sent because the review does not have a valid email.', 'admin-text', 'site-reviews')
+            );
             $this->fail();
             return;
         }
@@ -36,8 +51,24 @@ class SendVerificationEmail extends AbstractCommand
             'review' => $this->review,
         ]);
         if (!$email->send()) {
+            glsr(Notice::class)->addError(
+                _x('The email could not be sent, check the Site Reviews console for errors.', 'admin-text', 'site-reviews')
+            );
             $this->fail();
+            return;
         }
+        glsr(Database::class)->metaSet($this->review->ID, 'verified_requested', 1);
+        glsr(Notice::class)->addSuccess(
+            _x('The verification request email was sent.', 'admin-text', 'site-reviews')
+        );
+    }
+
+    public function response(): array
+    {
+        return [
+            'notices' => glsr(Notice::class)->get(),
+            'text' => esc_html_x('Resend Verification Request', 'admin-text', 'site-reviews'),
+        ];
     }
 
     protected function buildEmail(string $recipient): array
