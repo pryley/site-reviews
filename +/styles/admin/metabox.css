@@ -1,3 +1,6 @@
+[class*="post-type-site-review"] .metabox-holder .components-panel__header {
+  padding: 0;
+}
 #site-review-detailsdiv.postbox .inside {
   padding: 0;
   margin: 0;
