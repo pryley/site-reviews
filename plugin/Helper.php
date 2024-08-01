@@ -159,9 +159,12 @@ class Helper
         }
         if (is_numeric($term)) {
             $term = Cast::toInt($term);
+        } else {
+            $term = Cast::toString($term);
         }
         $tt = term_exists($term, glsr()->taxonomy);
-        return Arr::getAs('int', $tt, 'term_id');
+        $ttid = Arr::getAs('int', $tt, 'term_id');
+        return glsr()->filterInt('assigned_terms/term_id', $ttid, $term, glsr()->taxonomy);
     }
 
     /**

@@ -66,6 +66,7 @@
     site-reviews/assets/js                                      (bool $loadJs): bool
     site-reviews/assigned_posts/parent_id                       (int $postId): int
     site-reviews/assigned_posts/post_id                         (int $postId): int
+    site-reviews/assigned_terms/term_id                         (int $termTaxonomyId, string|int $termIdSlug, string $taxonomy): int
     site-reviews/assigned_users/author_id                       (int $userId): int
     site-reviews/assigned_users/profile_id                      (int $userId): int
     site-reviews/assigned_users/user_id                         (int $userId): int
