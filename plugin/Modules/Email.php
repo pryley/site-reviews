@@ -67,7 +67,11 @@ class Email implements EmailContract
     {
         glsr_log()
             ->error('[wp_mail] Email was not sent: '.$error->get_error_message())
-            ->debug(['Email' => $this, 'WP_Error' => $error]);
+            ->debug([
+                'headers' => $this->headers,
+                'attachments' => $this->attachments,
+                'email' => $this->email,
+            ]);
     }
 
     public function read(string $format = ''): string
