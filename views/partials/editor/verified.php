@@ -36,7 +36,8 @@
 <?php if (!$is_verified && $is_verification_enabled) { ?>
     <div id="misc-pub-request-verification" class="misc-pub-section">
         <div id="request-verification-action">
-            <button type="button" id="glsr-request-verification" class="glsr-button button"
+            <!-- The "position:sticky" style fixes the ".is-busy" animation when an ancestor element has a white background -->
+            <button type="button" id="glsr-request-verification" class="glsr-button button" style="position:sticky;"
                 aria-busy="false"
                 data-_action="request-verification"
                 data-_nonce="<?php echo wp_create_nonce('request-verification'); ?>"
