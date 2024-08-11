@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 6.6
-Stable tag: 7.0.16
+Stable tag: 7.0.17
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -193,6 +193,12 @@ You can report any security bugs found in the source code of this plugin through
 This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
+
+= 7.0.17 (2024-08-11) =
+
+- Fixed a PHP deprecated notice
+- Fixed metabox styling
+- Fixed the Custom ID option in Rating Summary block
 
 = 7.0.16 (2024-07-16) =
 

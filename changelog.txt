@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 7.0.17 (2024-08-11) =
+
+- Fixed a PHP deprecated notice
+- Fixed metabox styling
+- Fixed the Custom ID option in Rating Summary block
+
 = 7.0.16 (2024-07-16) =
 
 - Fixed Elementor widget style settings

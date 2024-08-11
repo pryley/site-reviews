@@ -11,7 +11,7 @@ class Url
 
     public static function path(string $url): string
     {
-        return untrailingslashit(wp_parse_url($url, PHP_URL_PATH));
+        return untrailingslashit((string) wp_parse_url($url, PHP_URL_PATH));
     }
 
     public static function queries(?string $url): array
