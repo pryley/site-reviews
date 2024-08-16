@@ -167,6 +167,9 @@ class ArrTest extends WP_UnitTestCase
         $this->assertEquals(Arr::set([], 'number.thirteen', '13'),
             ['number' => ['thirteen' => '13']]
         );
+        $this->assertEquals(Arr::set([], '', '13'),
+            []
+        );
     }
 
     public function test_unflatten()

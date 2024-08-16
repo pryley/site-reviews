@@ -241,12 +241,14 @@ class Arr
     /**
      * Set a value to an array of values using a dot-notation path as reference.
      *
-     * @param mixed $data
      * @param mixed $value
      */
-    public static function set($data, string $path, $value): array
+    public static function set(array $data, string $path, $value): array
     {
         $token = strtok($path, '.');
+        if (false === $token) {
+            return $data; // abort since no path was given
+        }
         $ref = &$data;
         while (false !== $token) {
             if (is_object($ref)) {
