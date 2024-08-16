@@ -132,11 +132,15 @@ class Query
     {
         $normalized = [];
         foreach ($ratings as $result) {
-            $type = $result['type'];
+            $count = $result['count'] ?? 0;
+            $rating = $result['rating'] ?? 0;
+            $type = $result['type'] ?? 'local';
             if (!array_key_exists($type, $normalized)) {
                 $normalized[$type] = glsr(Rating::class)->emptyArray();
             }
-            $normalized[$type] = Arr::set($normalized[$type], $result['rating'], $result['count']);
+            if (array_key_exists($rating, $normalized[$type])) {
+                $normalized[$type][$rating] = $count;
+            }
         }
         return $normalized;
     }
