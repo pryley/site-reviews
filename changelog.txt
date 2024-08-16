@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 7.0.18 (2024-08-16) =
+
+- Fixed a potential PHP error when normalizing rating arrays
+
 = 7.0.17 (2024-08-11) =
 
 - Fixed a PHP deprecated notice
