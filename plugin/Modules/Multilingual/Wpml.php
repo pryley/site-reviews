@@ -29,9 +29,13 @@ class Wpml implements MultilingualContract
             return $postId;
         }
         $postType = get_post_type($postId);
-        if (!empty($postType)) {
-            $wpmlPostId = apply_filters('wpml_object_id', $postId, $postType, true);
+        if (empty($postType)) {
+            return $postId;
         }
+        if (!apply_filters('wpml_is_translated_post_type', false, $postType)) {
+            return $postId;
+        }
+        $wpmlPostId = apply_filters('wpml_object_id', $postId, $postType, true);
         if (!empty($wpmlPostId)) {
             $postId = $wpmlPostId;
         }
@@ -62,6 +66,10 @@ class Wpml implements MultilingualContract
         foreach (Arr::uniqueInt($postIds) as $postId) {
             $postType = get_post_type($postId);
             if (!$postType) {
+                continue;
+            }
+            if (!apply_filters('wpml_is_translated_post_type', false, $postType)) {
+                $newPostIds[] = $postId;
                 continue;
             }
             $elementType = "post_{$postType}";
@@ -96,6 +104,9 @@ class Wpml implements MultilingualContract
         if (!$this->isEnabled()) {
             return $termId;
         }
+        if (!apply_filters('wpml_is_translated_taxonomy', false, glsr()->taxonomy)) {
+            return $termId;
+        }
         $term = get_term($termId, glsr()->taxonomy);
         if (is_a($term, '\WP_Term')) {
             $wpmlTermId = apply_filters('wpml_object_id', $termId, glsr()->taxonomy, true);
@@ -124,6 +135,9 @@ class Wpml implements MultilingualContract
     public function getTermIdsForAllLanguages(array $termIds): array
     {
         if (!$this->isEnabled()) {
+            return $termIds;
+        }
+        if (!apply_filters('wpml_is_translated_taxonomy', false, glsr()->taxonomy)) {
             return $termIds;
         }
         $newTermIds = [];

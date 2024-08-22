@@ -29,9 +29,13 @@ class Polylang implements MultilingualContract
             return $postId;
         }
         $postType = get_post_type($postId);
-        if (!empty($postType)) {
-            $polylangPostId = pll_get_post($postId, pll_get_post_language($postId));
+        if (empty($postType)) {
+            return $postId;
         }
+        if (!pll_is_translated_post_type($postType)) {
+            return $postId;
+        }
+        $polylangPostId = pll_get_post($postId, pll_get_post_language($postId));
         if (!empty($polylangPostId)) {
             $postId = $polylangPostId;
         }
@@ -60,6 +64,14 @@ class Polylang implements MultilingualContract
         }
         $newPostIds = [];
         foreach (Arr::uniqueInt($postIds) as $postId) {
+            $postType = get_post_type($postId);
+            if (!$postType) {
+                continue;
+            }
+            if (!pll_is_translated_post_type($postType)) {
+                $newPostIds[] = $postId;
+                continue;
+            }
             $newPostIds = array_merge($newPostIds,
                 array_values(pll_get_post_translations($postId))
             );
@@ -85,6 +97,9 @@ class Polylang implements MultilingualContract
     public function getTermId(int $termId): int
     {
         if (!$this->isEnabled()) {
+            return $termId;
+        }
+        if (!pll_is_translated_taxonomy(glsr()->taxonomy)) {
             return $termId;
         }
         $term = get_term($termId, glsr()->taxonomy);
@@ -115,6 +130,9 @@ class Polylang implements MultilingualContract
     public function getTermIdsForAllLanguages(array $termIds): array
     {
         if (!$this->isEnabled()) {
+            return $termIds;
+        }
+        if (!pll_is_translated_taxonomy(glsr()->taxonomy)) {
             return $termIds;
         }
         $newTermIds = [];

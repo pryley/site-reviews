@@ -2,6 +2,28 @@
 
 namespace {
     /**
+     * Returns true if Polylang manages languages and translations for this post type.
+     *
+     * @api
+     * @since 1.0.1
+     *
+     * @param string $post_type Post type name.
+     * @return bool
+     */
+    function pll_is_translated_post_type($post_type)
+    {}
+    /**
+     * Returns true if Polylang manages languages and translations for this taxonomy.
+     *
+     * @api
+     * @since 1.0.1
+     *
+     * @param string $tax Taxonomy name.
+     * @return bool
+     */
+    function pll_is_translated_taxonomy($tax)
+    {}
+    /**
      * Among the post and its translations, returns the id of the post which is in the language represented by $lang.
      *
      * @api
