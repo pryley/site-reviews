@@ -49,8 +49,8 @@ class Field extends \ArrayObject implements FieldContract
         $field = glsr(FieldDefaults::class)->merge($args);
         $field = wp_parse_args($field, [
             'errors' => [],
-            'is_custom' => false,  // this is a custom field
-            'is_hidden' => false, // visibly hidden based on field conditions
+            'is_custom' => false, // is this a custom field?
+            'is_hidden' => false, // is this visibly hidden based on field conditions?
             'is_raw' => false, // Only build the field element, and use the builder instance..
             'is_valid' => false, // Does the field include required parameters (i.e. name, type)?
             'original_name' => $field['name'],
