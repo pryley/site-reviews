@@ -141,6 +141,8 @@
     site-reviews/fusion-builder/controls/site_reviews_form      (array $parameters): array
     site-reviews/fusion-builder/controls/site_reviews_summary   (array $parameters): array
     site-reviews/gamipress/posts/post_types                     (array $postTypes): array
+    site-reviews/import/review/attachments                      (int $attachmentUrls, Request $request, Review $review, bool $isNewReview): int
+    site-reviews/import/reviews/attachments                     (array $result, int $limit, int $offset): array
     site-reviews/interpolate/<template_path>                    (array $context, string $template, array $data): array
     site-reviews/is-local-server                                (bool $bool): bool
     site-reviews/metabox-form/fields                            (array $fields, Contracts\FormContract $form): array

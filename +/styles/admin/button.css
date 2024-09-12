@@ -1,3 +1,9 @@
+.wp-admin .glsr-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
 .wp-admin .glsr-button {
   position: relative;
   white-space: nowrap;
@@ -10,7 +16,7 @@
 }
 .wp-admin .glsr-button.button.is-busy,
 .wp-admin .glsr-button.button.is-busy[disabled] {
-  position: relative;
+  position: sticky;
   background-color: transparent !important;
   border-color: #8f98a1 !important;
   color: #6c7781 !important;

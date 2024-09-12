@@ -10,18 +10,21 @@ use GeminiLabs\SiteReviews\Commands\DetectIpAddress;
 use GeminiLabs\SiteReviews\Commands\DownloadCsvTemplate;
 use GeminiLabs\SiteReviews\Commands\ExportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportReviews;
+use GeminiLabs\SiteReviews\Commands\ImportReviewsAttachments;
+use GeminiLabs\SiteReviews\Commands\ImportReviewsCleanup;
 use GeminiLabs\SiteReviews\Commands\ImportSettings;
 use GeminiLabs\SiteReviews\Commands\MigratePlugin;
+use GeminiLabs\SiteReviews\Commands\ProcessCsvFile;
 use GeminiLabs\SiteReviews\Commands\RepairPermissions;
 use GeminiLabs\SiteReviews\Commands\RepairReviewRelations;
 use GeminiLabs\SiteReviews\Commands\ResetAssignedMeta;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\SystemInfo;
+use GeminiLabs\SiteReviews\Notices\Notices;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Rollback;
 
@@ -199,11 +202,30 @@ class ToolsController extends AbstractController
     }
 
     /**
-     * @action site-reviews/route/admin/import-reviews
+     * @action site-reviews/route/ajax/import-reviews
      */
-    public function importReviews(Request $request): void
+    public function importReviewsAjax(Request $request): void
     {
-        $this->execute(new ImportReviews($request));
+        if (!glsr()->hasPermission('tools', 'general')) {
+            glsr(Notice::class)->addError(
+                _x('You do not have permission to import reviews.', 'admin-text', 'site-reviews')
+            );
+            wp_send_json_error([
+                'notices' => glsr(Notice::class)->get(),
+            ]);
+        }
+        $stages = [
+            1 => ProcessCsvFile::class,
+            2 => ImportReviews::class,
+            3 => ImportReviewsAttachments::class,
+            4 => ImportReviewsCleanup::class,
+        ];
+        $stage = $request->cast('stage', 'int');
+        if (array_key_exists($stage, $stages)) {
+            $command = $this->execute(new $stages[$stage]($request));
+            $command->sendJsonResponse();
+        }
+        wp_send_json_success();
     }
 
     /**

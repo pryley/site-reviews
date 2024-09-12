@@ -12,6 +12,7 @@
 @import "admin/notices";
 @import "admin/panels";
 @import "admin/prismjs";
+@import "admin/progress-bar";
 @import "admin/searchbox";
 @import "admin/settings";
 @import "admin/tabs";

@@ -124,6 +124,8 @@ class EnqueueAdminAssets extends AbstractCommand
             'pointers' => $this->pointers,
             'shortcodes' => [],
             'text' => [
+                'cancel' => _x('Cancel', 'admin-text', 'site-reviews'),
+                'cancelling' => _x('Cancelling, please wait...', 'admin-text', 'site-reviews'),
                 'rollback_error' => _x('Rollback failed', 'admin-text', 'site-reviews'),
                 'searching' => _x('Searching...', 'admin-text', 'site-reviews'),
             ],

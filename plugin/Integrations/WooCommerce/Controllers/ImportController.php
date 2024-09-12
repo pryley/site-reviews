@@ -3,10 +3,14 @@
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
+use GeminiLabs\SiteReviews\Commands\ImportReviewsCleanup;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\CountProductReviews;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\ImportProductReviews;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\ImportProductReviewsAttachments;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\ImportProductReviewsCleanup;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\MigrateProductRatings;
+use GeminiLabs\SiteReviews\Notices\Notices;
 use GeminiLabs\SiteReviews\Request;
 
 class ImportController extends AbstractController
@@ -42,14 +46,18 @@ class ImportController extends AbstractController
      */
     public function importProductReviewsAjax(Request $request): void
     {
-        if ('prepare' === $request->stage) { // @phpstan-ignore-line
-            $command = $this->execute(new CountProductReviews($request));
-            wp_send_json_success($command->response());
+        $stages = [
+            1 => CountProductReviews::class,
+            2 => ImportProductReviews::class,
+            3 => ImportProductReviewsAttachments::class,
+            4 => ImportProductReviewsCleanup::class,
+        ];
+        $stage = $request->cast('stage', 'int');
+        if (array_key_exists($stage, $stages)) {
+            $command = $this->execute(new $stages[$stage]($request));
+            $command->sendJsonResponse();
         }
-        if ('import' === $request->stage) {
-            $command = $this->execute(new ImportProductReviews($request));
-            wp_send_json_success($command->response());
-        }
+        wp_send_json_success();
     }
 
     /**

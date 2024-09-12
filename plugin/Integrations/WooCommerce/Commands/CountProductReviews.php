@@ -9,11 +9,9 @@ use GeminiLabs\SiteReviews\Request;
 
 class CountProductReviews extends AbstractCommand
 {
-    public const PER_PAGE = 25;
+    public Request $request;
 
-    /** @var Request */
-    public $request;
-    public int $total = 0;
+    protected int $total;
 
     public function __construct(Request $request)
     {
@@ -45,8 +43,6 @@ class CountProductReviews extends AbstractCommand
     public function response(): array
     {
         return [
-            'notice' => esc_html_x('Imported %d Product Reviews', 'admin-text', 'site-reviews'),
-            'pages' => (int) ceil($this->total / static::PER_PAGE),
             'total' => $this->total,
         ];
     }

@@ -51,8 +51,9 @@ trait Sql
         // - ALTER TABLE table|<table_name>
         // - FROM table|<table_name>
         // - JOIN table|<table_name>
+        // - TRUNCATE TABLE table|<table_name>
         // - UPDATE table|<table_name>
-        $statement = preg_replace_callback('/(ALTER TABLE|FROM|JOIN|UPDATE)(\s+)(table\|)([^\s]+)/',
+        $statement = preg_replace_callback('/(ALTER TABLE|FROM|JOIN|TRUNCATE TABLE|UPDATE)(\s+)(table\|)([^\s]+)/',
             fn ($m) => $m[1].$m[2].glsr(Tables::class)->table($m[4]),
             $statement
         );

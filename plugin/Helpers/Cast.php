@@ -114,6 +114,6 @@ class Cast
         if (Arr::isIndexedAndFlat($value)) {
             return implode(', ', $value);
         }
-        return $strict ? '' : serialize($value);
+        return $strict ? '' : maybe_serialize($value);
     }
 }

@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Database\Tables\TableAssignedTerms;
 use GeminiLabs\SiteReviews\Database\Tables\TableAssignedUsers;
 use GeminiLabs\SiteReviews\Database\Tables\TableFields;
 use GeminiLabs\SiteReviews\Database\Tables\TableRatings;
+use GeminiLabs\SiteReviews\Database\Tables\TableTmp;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
@@ -194,6 +195,7 @@ class Tables
             TableAssignedUsers::class,
             // TableFields::class, // @todo add the fields table
             TableRatings::class,
+            TableTmp::class,
         ]);
     }
 

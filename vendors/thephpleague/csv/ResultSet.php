@@ -84,6 +84,37 @@ class ResultSet implements TabularDataReader, JsonSerializable
         return $this->getRecords();
     }
 
+    /**
+     * @param positive-int $recordsCount
+     *
+     * @throws InvalidArgument
+     *
+     * @return iterable<TabularDataReader>
+     */
+    public function chunkBy(int $recordsCount): iterable
+    {
+        if ($recordsCount < 1) {
+            throw InvalidArgument::dueToInvalidChunkSize($recordsCount, __METHOD__);
+        }
+
+        $header = $this->getHeader();
+        $records = [];
+        $nbRecords = 0;
+        foreach ($this->getRecords() as $record) {
+            $records[] = $record;
+            ++$nbRecords;
+            if ($nbRecords === $recordsCount) {
+                yield new self(new \ArrayIterator($records), $header);
+                $records = [];
+                $nbRecords = 0;
+            }
+        }
+
+        if ([] !== $records) {
+            yield new self(new \ArrayIterator($records), $header);
+        }
+    }
+
     public function getRecords(array $header = []): Iterator
     {
         $this->validateHeader($header);

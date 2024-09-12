@@ -19,7 +19,6 @@ import Sections from '@/admin/sections.js';
 import Shortcode from '@/admin/shortcode.js';
 import StarRating from '@/public/starrating.js';
 import Status from '@/admin/status.js';
-import Sync from '@/admin/sync.js';
 import Tabs from '@/admin/tabs.js';
 import TextareaResize from '@/admin/textarea-resize.js';
 import TogglePinned from '@/admin/toggle-pinned.js';
@@ -161,7 +160,6 @@ jQuery(function ($) {
     });
     new Status('a.glsr-toggle-status');
     new Sections(); // this comes before Tabs
-    new Sync();
     new Tabs();
     new TextareaResize();
     new TogglePinned();

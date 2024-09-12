@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Encryption;
 
 class Request extends Arguments
@@ -20,10 +21,16 @@ class Request extends Arguments
      *
      * @return mixed
      */
-    public function get($key, $fallback = null)
+    public function get($key, $fallback = null, array $restrictTo = [])
     {
         $value = Arr::get($this->getArrayCopy(), $key, null);
-        if (is_null($fallback) || !Helper::isEmpty($value)) {
+        if (!empty($restrictTo)) {
+            $value = Str::restrictTo($restrictTo, $value, $fallback);
+        }
+        if (is_null($fallback)) {
+            return $value;
+        }
+        if (!Helper::isEmpty($value)) {
             return $value;
         }
         return Helper::runClosure($fallback);

@@ -22,6 +22,7 @@ use IteratorAggregate;
  *
  * @method Iterator fetchColumnByName(string $name)  returns a column from its name
  * @method Iterator fetchColumnByOffset(int $offset) returns a column from its offset
+ * @method iterable<int, TabularDataReader> chunkBy(int $length) Chunk the TabulaDataReader into smaller TabularDataReader instance of the given size or less.
  */
 interface TabularDataReader extends Countable, IteratorAggregate
 {

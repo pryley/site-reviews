@@ -7,6 +7,12 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ * 
+ * v9.8.0 - 2022-01-04
+ * 
+ * - Added: Reader::addFormatter (from v9.16.0)
+ * - Added: Reader::chunkBy (from v9.16.0)
+ * - Added: ResultSet::chunkBy (from v9.16.0)
  */
 
 declare(strict_types=1);

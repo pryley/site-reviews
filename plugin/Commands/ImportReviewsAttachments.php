@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Database\ImportManager;
 use GeminiLabs\SiteReviews\Defaults\ImportResultDefaults;
 use GeminiLabs\SiteReviews\Request;
 
-class ImportReviews extends AbstractCommand
+class ImportReviewsAttachments extends AbstractCommand
 {
     protected int $limit;
     protected int $offset;
@@ -21,13 +21,13 @@ class ImportReviews extends AbstractCommand
 
     public function handle(): void
     {
-        $this->importResult = glsr(ImportManager::class)->import($this->limit, $this->offset);
+        $this->importResult = glsr(ImportManager::class)->importAttachments($this->limit, $this->offset);
     }
 
     public function response(): array
     {
         return wp_parse_args($this->importResult, [
-            'message' => _x('Processed %d of %d reviews', 'admin-text', 'site-reviews'),
+            'message' => _x('Processed %d attachments', 'admin-text', 'site-reviews'),
         ]);
     }
 }

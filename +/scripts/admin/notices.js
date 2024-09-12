@@ -4,6 +4,7 @@ class Notices {
     constructor () {
         jQuery('.glsr-notice[data-dismiss]').on('click.wp-dismiss-notice', this.onDismiss.bind(this))
         jQuery('.glsr-notice-footer').on('click', this.onDismiss.bind(this))
+        jQuery('.glsr-notice-footer').on('click', this.onDismiss.bind(this))
         this.showBanner()
     }
 
@@ -16,6 +17,7 @@ class Notices {
         jQuery('#glsr-notices').html(notices)
         jQuery(document).trigger('wp-updates-notice-added')
         jQuery('html').animate({ scrollTop: 0 }, 500)
+        this.initBulkActions();
     }
 
     dismissNotice ($el, $notice) {
@@ -37,6 +39,15 @@ class Notices {
         if ($notice.hasClass('glsr-notice-top-of-page')) {
             $notice.slideUp()
         }
+    }
+
+    initBulkActions () {
+        const $notice = jQuery('#glsr-notices .bulk-action-notice').on('click', 'button.button-link', function () {
+            jQuery(this)
+                .toggleClass('bulk-action-errors-collapsed')
+                .attr('aria-expanded', !jQuery(this).hasClass('bulk-action-errors-collapsed'))
+            $notice.find('.bulk-action-errors').toggleClass('hidden')
+        });
     }
 
     onDismiss (ev) {

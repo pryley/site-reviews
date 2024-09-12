@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Arguments extends \ArrayObject
@@ -42,12 +43,16 @@ class Arguments extends \ArrayObject
      *
      * @return mixed
      */
-    public function get($key, $fallback = null)
+    public function get($key, $fallback = null, array $restrictTo = [])
     {
         $value = Arr::get($this->getArrayCopy(), $key, null);
-        return !is_null($fallback)
-            ? Helper::ifEmpty($value, $fallback)
-            : $value;
+        if (!empty($restrictTo)) {
+            $value = Str::restrictTo($restrictTo, $value, $fallback);
+        }
+        if (is_null($fallback)) {
+            return $value;
+        }
+        return Helper::ifEmpty($value, $fallback);
     }
 
     public function isEmpty(): bool

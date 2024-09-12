@@ -14,5 +14,7 @@ interface CommandContract
 
     public function response(): array;
 
+    public function sendJsonResponse(): void;
+
     public function successful(): bool;
 }

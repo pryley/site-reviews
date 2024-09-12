@@ -23,7 +23,7 @@ class ToolsHooks extends AbstractHooks
             ['fetchConsole', 'site-reviews/route/admin/fetch-console'],
             ['fetchConsoleAjax', 'site-reviews/route/ajax/fetch-console'],
             ['filterUpdatePluginsTransient', 'site_transient_update_plugins'],
-            ['importReviews', 'site-reviews/route/admin/import-reviews'],
+            ['importReviewsAjax', 'site-reviews/route/ajax/import-reviews'],
             ['importSettings', 'site-reviews/route/admin/import-settings'],
             ['ipAddressDetection', 'site-reviews/route/admin/ip-address-detection'],
             ['ipAddressDetectionAjax', 'site-reviews/route/ajax/ip-address-detection'],
