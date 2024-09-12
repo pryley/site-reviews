@@ -3,9 +3,26 @@
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Compatibility;
 use GeminiLabs\SiteReviews\Contracts\BuilderContract;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Modules\Paginate;
+use GeminiLabs\SiteReviews\Review;
 
 defined('ABSPATH') || exit;
+
+/**
+ * This fixes the Duplicate option provided by the Enfold theme.
+ * 
+ * @see https://kriesi.at/themes/enfold-overview/
+ */
+add_action('avf_duplicate_post_added', function ($newPostId, $post) {
+    if (!Review::isReview($post)) {
+        return;
+    }
+    $review = glsr_get_review($post->ID);
+    if ($review->isValid()) {
+        glsr(ReviewManager::class)->createFromPost((int) $newPostId, $review->toArray());
+    }
+}, 10, 2);
 
 /**
  * Classic Editor.
