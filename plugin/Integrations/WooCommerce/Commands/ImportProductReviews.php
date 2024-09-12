@@ -80,7 +80,7 @@ class ImportProductReviews extends AbstractCommand
             LIMIT %d
             OFFSET %d
         ";
-        $sql = glsr(Query::class)->sql($sql, static::PER_PAGE, $this->offset);
+        $sql = glsr(Query::class)->sql($sql, $this->limit, $this->offset);
         $results = glsr(Database::class)->dbGetCol($sql);
         return Arr::uniqueInt($results);
     }
