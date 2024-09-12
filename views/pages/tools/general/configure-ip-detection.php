@@ -36,48 +36,52 @@ $trustedProxies = implode("\n", $trustedProxies);
             <?php wp_nonce_field('ip-address-detection'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="ip-address-detection">
             <input type="hidden" name="{{ id }}[alt]" value="0" data-alt>
-            <p>
-                <label for="proxy_http_header">
-                    <strong><?php echo _x('Proxy HTTP Header', 'admin-text', 'site-reviews'); ?></strong>
-                </label>
-                <br />
-                <select id="proxy_http_header" name="{{ id }}[proxy_http_header]">
-                    <option value=""<?php selected('', $proxyHeader); ?>'>None</option>
-                    <option value="cf-connecting-ip"<?php selected('cf-connecting-ip', $proxyHeader); ?>'>CF-Connecting-IP</option>
-                    <option value="client-ip"<?php selected('client-ip', $proxyHeader); ?>'>Client-IP</option>
-                    <option value="forwarded"<?php selected('forwarded', $proxyHeader); ?>'>Forwarded</option>
-                    <option value="forwarded-for"<?php selected('forwarded-for', $proxyHeader); ?>'>Forwarded-For</option>
-                    <option value="incap-client-ip"<?php selected('incap-client-ip', $proxyHeader); ?>'>Incap-Client-IP</option>
-                    <option value="x-cluster-client-ip"<?php selected('x-cluster-client-ip', $proxyHeader); ?>'>X-Cluster-Client-IP</option>
-                    <option value="x-forwarded"<?php selected('x-forwarded', $proxyHeader); ?>'>X-Forwarded</option>
-                    <option value="x-forwarded-for"<?php selected('x-forwarded-for', $proxyHeader); ?>'>X-Forwarded-For</option>
-                    <option value="x-real-ip"<?php selected('x-real-ip', $proxyHeader); ?>'>X-Real-IP</option>
-                </select>
-            </p>
-            <p class="<?php echo empty($proxyHeader) ? 'hidden' : ''; ?>">
-                <label for="trusted_proxies">
-                    <strong><?php echo _x('Trusted Proxies', 'admin-text', 'site-reviews'); ?></strong>
-                </label>
-                <br />
-                <textarea id="trusted_proxies" name="{{ id }}[trusted_proxies]" class="large-text code" rows="5"><?php echo $trustedProxies; ?></textarea>
-                <br />
-                <span class="description"><?php echo _x('These IPs (or CIDR ranges) will be ignored when determining the requesting IP via the selected proxy HTTP header. Enter one IP or CIDR range per line.', 'admin-text', 'site-reviews'); ?></span>
-            </p>
-            <p>
-                <button type="submit" class="glsr-button components-button is-primary"
-                    data-ajax-click
-                    data-ajax-scroll
-                    data-loading="<?php echo esc_attr_x('Saving, please wait...', 'admin-text', 'site-reviews'); ?>"
-                ><?php echo _x('Save', 'admin-text', 'site-reviews'); ?>
-                </button>
-                <button type="submit" class="glsr-button components-button is-secondary"
-                    data-ajax-click
-                    data-ajax-scroll
-                    data-alt
-                    data-loading="<?php echo esc_attr_x('Testing, please wait...', 'admin-text', 'site-reviews'); ?>"
-                ><?php echo _x('Test IP Address Detection', 'admin-text', 'site-reviews'); ?>
-                </button>
-            </p>
+            <div>
+                <p>
+                    <label for="proxy_http_header">
+                        <strong><?php echo _x('Proxy HTTP Header', 'admin-text', 'site-reviews'); ?></strong>
+                    </label>
+                    <br />
+                    <select id="proxy_http_header" name="{{ id }}[proxy_http_header]">
+                        <option value=""<?php selected('', $proxyHeader); ?>'>None</option>
+                        <option value="cf-connecting-ip"<?php selected('cf-connecting-ip', $proxyHeader); ?>'>CF-Connecting-IP</option>
+                        <option value="client-ip"<?php selected('client-ip', $proxyHeader); ?>'>Client-IP</option>
+                        <option value="forwarded"<?php selected('forwarded', $proxyHeader); ?>'>Forwarded</option>
+                        <option value="forwarded-for"<?php selected('forwarded-for', $proxyHeader); ?>'>Forwarded-For</option>
+                        <option value="incap-client-ip"<?php selected('incap-client-ip', $proxyHeader); ?>'>Incap-Client-IP</option>
+                        <option value="x-cluster-client-ip"<?php selected('x-cluster-client-ip', $proxyHeader); ?>'>X-Cluster-Client-IP</option>
+                        <option value="x-forwarded"<?php selected('x-forwarded', $proxyHeader); ?>'>X-Forwarded</option>
+                        <option value="x-forwarded-for"<?php selected('x-forwarded-for', $proxyHeader); ?>'>X-Forwarded-For</option>
+                        <option value="x-real-ip"<?php selected('x-real-ip', $proxyHeader); ?>'>X-Real-IP</option>
+                    </select>
+                </p>
+                <p class="<?php echo empty($proxyHeader) ? 'hidden' : ''; ?>">
+                    <label for="trusted_proxies">
+                        <strong><?php echo _x('Trusted Proxies', 'admin-text', 'site-reviews'); ?></strong>
+                    </label>
+                    <br />
+                    <textarea id="trusted_proxies" name="{{ id }}[trusted_proxies]" class="large-text code" rows="5"><?php echo $trustedProxies; ?></textarea>
+                    <br />
+                    <span class="description"><?php echo _x('These IPs (or CIDR ranges) will be ignored when determining the requesting IP via the selected proxy HTTP header. Enter one IP or CIDR range per line.', 'admin-text', 'site-reviews'); ?></span>
+                </p>
+            </div>
+            <div>
+                <p>
+                    <button type="submit" class="glsr-button button button-large button-primary"
+                        data-ajax-click
+                        data-ajax-scroll
+                        data-loading="<?php echo esc_attr_x('Saving, please wait...', 'admin-text', 'site-reviews'); ?>"
+                    ><?php echo _x('Save', 'admin-text', 'site-reviews'); ?>
+                    </button>
+                    <button type="submit" class="glsr-button button button-large button-secondary"
+                        data-ajax-click
+                        data-ajax-scroll
+                        data-alt
+                        data-loading="<?php echo esc_attr_x('Testing, please wait...', 'admin-text', 'site-reviews'); ?>"
+                    ><?php echo _x('Test IP Address Detection', 'admin-text', 'site-reviews'); ?>
+                    </button>
+                </p>
+            </div>
         </form>
     </div>
 </div>

@@ -32,22 +32,23 @@
                     glsr()->name
                 ); ?>
             </p>
+            <script><?php echo $rollback_script; ?></script>
             <form id="rollback-plugin" method="get" action="<?php echo admin_url('update.php'); ?>">
                 <input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce('rollback-'.glsr()->id); ?>">
                 <input type="hidden" name="action" value="<?php echo 'rollback-'.glsr()->id; ?>">
                 <p>
-                    <select name="version">
+                    <label for="rollback_version"><strong><?php echo _x('Rollback Version To', 'admin-text', 'site-reviews'); ?></strong></label><br>
+                    <select name="version" id="rollback_version">
                         <?php foreach ($rollback_versions as $version) : ?>
                             <option value="<?php echo $version; ?>"><?php echo glsr()->name; ?> <?php echo $version; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </p>
-                <button type="submit" class="glsr-button components-button is-primary"
+                <button type="submit" class="glsr-button button button-large button-primary"
                     data-loading="<?php echo esc_attr_x('Rolling back to %s, please wait...', 'admin-text', 'site-reviews'); ?>"
                 ><?php echo _x('Rollback Plugin', 'admin-text', 'site-reviews'); ?>
                 </button>
             </form>
-            <script><?php echo $rollback_script; ?></script>
         <?php endif; ?>
     </div>
 </div>

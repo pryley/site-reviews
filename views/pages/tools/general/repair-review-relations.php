@@ -26,7 +26,7 @@
         <form method="post">
             <?php wp_nonce_field('repair-review-relations'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="repair-review-relations">
-            <button type="submit" class="glsr-button components-button is-primary"
+            <button type="submit" class="glsr-button button button-large button-primary"
                 data-ajax-click
                 data-ajax-scroll
                 data-loading="<?php echo esc_attr_x('Repairing relations, please wait...', 'admin-text', 'site-reviews'); ?>"

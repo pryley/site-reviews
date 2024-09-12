@@ -31,7 +31,7 @@
         <form method="post">
             <?php wp_nonce_field('download-csv-template'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="download-csv-template">
-            <button type="submit" class="glsr-button components-button is-secondary">
+            <button type="submit" class="glsr-button button button-large button-secondary">
                 <?php echo esc_html_x('Download', 'admin-text', 'site-reviews'); ?>
             </button>
         </form>

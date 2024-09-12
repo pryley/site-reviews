@@ -20,7 +20,7 @@
             <p>
                 <input type="file" name="import-files" accept="application/json">
             </p>
-            <button type="submit" class="glsr-button components-button is-primary"
+            <button type="submit" class="glsr-button button button-large button-primary"
                 data-expand="#tools-import-plugin-settings"
                 data-loading="<?php echo esc_attr_x('Importing settings, please wait...', 'admin-text', 'site-reviews'); ?>"
             ><?php echo _x('Import Settings', 'admin-text', 'site-reviews'); ?>
