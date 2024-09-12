@@ -14,7 +14,8 @@ const selectors = {
 };
 
 export default (el) => {
-    const bar = dom(selectors.bar);
+    const bar1 = dom(selectors.bar);
+    const bar2 = dom(selectors.bar);
     const cancel = $('<button type="button" data-ajax-cancel disabled>')
         .addClass(cls.cancel)
         .text(GLSR.text.cancel);
@@ -28,7 +29,7 @@ export default (el) => {
           .removeClass('is-busy')
           .addClass(selectors.el)
           .text('')
-          .append(bar, status)
+          .append(bar1, bar2, status)
           .promise()
           .done(() => {
             cancel.prop('disabled', false).fadeIn('fast', () => cancel.on('click', onCancel))
@@ -37,7 +38,8 @@ export default (el) => {
           })
         $(document).on(events.doc, resize)
         $(window).on(events.win, resize)
-        percent()
+        percent(0, 1)
+        percent(0, 2)
         text(value)
     };
 
@@ -61,13 +63,19 @@ export default (el) => {
         text(GLSR.text.cancelling)
     };
 
-    const percent = (value = 0) => {
-        bar.css('max-width', Math.min(100, Math.max(0, value)) + '%')
+    const percent = (value = 0, barNum = 1) => {
+        if (1 === barNum) {
+            bar1.css('max-width', Math.min(100, Math.max(0, value)) + '%')
+        }
+        if (2 === barNum) {
+            bar2.css('max-width', Math.min(100, Math.max(0, value)) + '%')
+        }
         resize()
     };
 
     const resize = () => {
-        bar.width(el.outerWidth())
+        bar1.width(el.outerWidth())
+        bar2.width(el.outerWidth())
     };
 
     const run = (cb) => {
@@ -77,13 +85,14 @@ export default (el) => {
     };
 
     const text = (value = '') => {
-        bar.attr('data-text', value)
+        bar1.attr('data-text', value)
+        bar2.attr('data-text', value)
         status.text(value)
         resize()
     };
 
     return {
-        dom: { bar, status },
+        dom: { bar1, bar2, status },
         destroy,
         init,
         percent,

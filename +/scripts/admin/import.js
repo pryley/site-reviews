@@ -109,7 +109,7 @@ class Import {
                 const response = await this.fetch({ page, per_page, stage, total });
                 const percent = Math.round((++current / pages) * 100);
                 processed += (response.data.imported + response.data.skipped);
-                this.progressbar.percent(percent)
+                this.progressbar.percent(percent, stage-1)
                 this.progressbar.text(wp.i18n.sprintf(response.data.message, processed, total))
                 return response
             }));
