@@ -83,9 +83,6 @@ class PublicController extends AbstractController
     public function submitReviewAjax(Request $request): void
     {
         $command = $this->execute(new CreateReview($request));
-        if ($command->successful()) {
-            wp_send_json_success($command->response());
-        }
-        wp_send_json_error($command->response());
+        $command->sendJsonResponse();
     }
 }
