@@ -61,9 +61,15 @@ class Cache
         ksort($versions, \SORT_NATURAL);
         unset($versions['trunk']);
         $versions = array_keys(array_reverse($versions));
+        $prevMajorVersion = Cast::toInt(glsr()->version('major')) - 1;
+        $prevVersions = preg_grep("/^{$prevMajorVersion}\./", $versions);
+        $prevVersion = array_shift($prevVersions);
         $index = array_search(glsr()->version, $versions);
         $startIndex = (false === $index) ? 0 : ++$index;
         $versions = array_slice($versions, $startIndex, 10);
+        if (!in_array($prevVersion, $versions)) {
+            $versions[] = $prevVersion;
+        }
         set_transient(glsr()->prefix.'rollback_versions', $versions, HOUR_IN_SECONDS);
         return $versions;
     }
