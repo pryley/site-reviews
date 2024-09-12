@@ -186,7 +186,7 @@ class FieldTest extends \WP_UnitTestCase
         $this->assertEquals(
             '<div>'.
                 '<label for="site-reviews-foobar">Your overall rating</label>'.
-                '<select class="browser-default no_wrap no-wrap" id="site-reviews-foobar" name="site-reviews[foobar]">'.
+                '<select class="browser-default disable-select no_wrap no-wrap" id="site-reviews-foobar" name="site-reviews[foobar]">'.
                     '<option value="">Select a Rating</option>'.
                     '<option value="5">5 Stars</option>'.
                     '<option value="4">4 Stars</option>'.
