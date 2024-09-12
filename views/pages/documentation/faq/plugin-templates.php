@@ -38,11 +38,6 @@
 │   ├── type-checkbox.php       This template is used by the field_checkbox.php template to display each checkbox
 │   ├── type-radio.php          This template is used by the field_radio.php template to display each radio
 │   └── type-toggle.php         This template is used by the field_toggle.php template to display each toggle switch
-├── rating                      This folder contains the template files for the stars
-│   ├── empty-star.php          This template displays the empty star
-│   ├── full-star.php           This template displays the full star
-│   ├── half-star.php           This template displays the half star
-│   └── stars.php               This template displays the combined stars
 ├── load-more-button.php        This template displays the Load More button
 ├── login-register.php          This template displays the login/register message
 ├── notification.php            This template contains the default message contents of the notification email
@@ -51,5 +46,7 @@
 ├── reviews-form.php            This template displays the review form
 ├── reviews-summary.php         This template displays the review summary
 └── reviews.php                 This template displays the reviews</code></pre>
+└── reviews.php                 This template displays the reviews</code></pre>
+└── verify-review.php           This template contains the default message contents of the verify review email
     </div>
 </div>
