@@ -42,17 +42,20 @@ trait Sql
     }
 
     /**
+     * This method allows the following SQL syntax:
+     *  - ALTER TABLE table|<unprefixed_table_name>
+     *  - FROM table|<unprefixed_table_name>
+     *  - JOIN table|<unprefixed_table_name>
+     *  - TRUNCATE TABLE table|<unprefixed_table_name>
+     *  - UPDATE table|<unprefixed_table_name>
+     *
      * @param string|int ...$args Additional parameters will be passed to $wpdb->prepare()
      */
     public function sql(string $statement, ...$args): string
     {
         $handle = $this->sqlHandle();
-        // Allow the following syntax:
-        // - ALTER TABLE table|<table_name>
-        // - FROM table|<table_name>
-        // - JOIN table|<table_name>
-        // - TRUNCATE TABLE table|<table_name>
-        // - UPDATE table|<table_name>
+        $statement = preg_replace('/ {12}/', '', $statement);
+        $statement = glsr()->filterString("database/sql/{$handle}", $statement);
         $statement = preg_replace_callback('/(ALTER TABLE|FROM|JOIN|TRUNCATE TABLE|UPDATE)(\s+)(table\|)([^\s]+)/',
             fn ($m) => $m[1].$m[2].glsr(Tables::class)->table($m[4]),
             $statement
@@ -60,8 +63,6 @@ trait Sql
         if (!empty($args)) {
             $statement = $this->db->prepare($statement, ...$args);
         }
-        $statement = preg_replace('/ {12}/', '', $statement);
-        $statement = glsr()->filterString("database/sql/{$handle}", $statement);
         glsr()->action("database/sql/{$handle}", $statement);
         glsr()->action('database/sql', $statement, $handle);
         return $statement;

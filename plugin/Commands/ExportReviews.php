@@ -55,7 +55,7 @@ class ExportReviews extends AbstractCommand
     public function results(): array
     {
         if ('id' === $this->request->assigned_posts) {
-            $results = glsr(Export::class)->export($this->request->toArray());
+            $results = glsr(Export::class)->exportWithIds($this->request->toArray());
         }
         if ('slug' === $this->request->assigned_posts) {
             $results = glsr(Export::class)->exportWithSlugs($this->request->toArray());
