@@ -10,24 +10,26 @@ class ImportReviews extends AbstractCommand
 {
     protected int $limit;
     protected int $offset;
-    protected array $importResult;
+    protected array $response;
 
     public function __construct(Request $request)
     {
         $this->limit = max(1, $request->cast('per_page', 'int'));
         $this->offset = $this->limit * (max(1, $request->cast('page', 'int')) - 1);
-        $this->importResult = glsr(ImportResultDefaults::class)->defaults();
+        $this->response = [];
     }
 
     public function handle(): void
     {
-        $this->importResult = glsr(ImportManager::class)->import($this->limit, $this->offset);
+        $this->response = glsr(ImportManager::class)->import($this->limit, $this->offset);
     }
 
     public function response(): array
     {
-        return wp_parse_args($this->importResult, [
-            'message' => _x('Processed %d of %d reviews', 'admin-text', 'site-reviews'),
-        ]);
+        return glsr(ImportResultDefaults::class)->restrict(
+            wp_parse_args([
+                'message' => _x('Imported %d of %d reviews', 'admin-text', 'site-reviews'),
+            ], $this->response)
+        );
     }
 }

@@ -55,6 +55,7 @@ class ImportManager
         wp_defer_term_counting(false);
         wp_suspend_cache_invalidation(false);
         unset($reader, $records);
+        return glsr(ImportResultDefaults::class)->restrict($result);
         return $result;
     }
 

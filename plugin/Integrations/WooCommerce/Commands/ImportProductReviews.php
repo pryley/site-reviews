@@ -16,13 +16,13 @@ class ImportProductReviews extends AbstractCommand
 {
     protected int $limit;
     protected int $offset;
-    protected array $importResult;
+    protected array $response;
 
     public function __construct(Request $request)
     {
         $this->limit = max(1, $request->cast('per_page', 'int'));
         $this->offset = $this->limit * (max(1, $request->cast('page', 'int')) - 1);
-        $this->importResult = glsr(ImportResultDefaults::class)->defaults();
+        $this->response = [];
     }
 
     public function handle(): void
@@ -39,10 +39,10 @@ class ImportProductReviews extends AbstractCommand
             $command = new CreateReview($request);
             if (glsr(ReviewManager::class)->create($command)) {
                 update_comment_meta((int) $commentId, 'imported', 1);
-                ++$this->importResult['imported'];
+                ++$this->response['imported'];
                 continue;
             }
-            ++$this->importResult['skipped'];
+            ++$this->response['skipped'];
         }
         unset($reviews);
         wp_defer_term_counting(false);
@@ -51,9 +51,11 @@ class ImportProductReviews extends AbstractCommand
 
     public function response(): array
     {
-        return wp_parse_args($this->importResult, [
-            'message' => _x('Imported %d of %d reviews', 'admin-text', 'site-reviews'),
-        ]);
+        return glsr(ImportResultDefaults::class)->restrict(
+            wp_parse_args([
+                'message' => _x('Imported %d of %d reviews', 'admin-text', 'site-reviews'),
+            ], $this->response)
+        );
     }
 
     /**
