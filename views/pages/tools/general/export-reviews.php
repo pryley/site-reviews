@@ -40,7 +40,7 @@
                 </p>
                 <p>
                     <label for="export_date"><strong><?php echo _x('Export Reviews After', 'admin-text', 'site-reviews'); ?></strong></label><br>
-                    <input name="{{ id }}[date]" type="datetime-local" id="export_date">
+                    <input name="{{ id }}[date]" type="date" id="export_date">
                 </p>
                 <p>
                     <label for="export_post_status"><strong><?php echo _x('Export Reviews With Status', 'admin-text', 'site-reviews'); ?></strong></label><br>
