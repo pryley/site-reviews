@@ -42,6 +42,7 @@ class CustomFieldsDefaults extends DefaultsAbstract
         'is_modified',
         'is_pinned',
         'is_verified',
+        'language',
         'name',
         'rating',
         'rating_id',
@@ -57,6 +58,7 @@ class CustomFieldsDefaults extends DefaultsAbstract
         'url',
         'verified',
         'verified_on',
+        'verified_requested',
     ];
 
     /**

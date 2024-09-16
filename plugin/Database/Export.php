@@ -2,37 +2,57 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Export
 {
-    protected $db;
-
-    public function __construct()
+    public function customHeader(Arguments $args): array
     {
-        global $wpdb;
-        $this->db = $wpdb;
+        $this->args = $args;
+        $sql = glsr(Query::class)->sql("
+            SELECT DISTINCT pm.meta_key
+            FROM table|postmeta AS pm
+            INNER JOIN table|posts AS p ON (p.ID = pm.post_id)
+            {$this->sqlWhere()}
+            AND pm.meta_key LIKE '_custom_%%'
+        ");
+        $fieldnames = glsr(Database::class)->dbGetCol($sql);
+        $fieldnames = array_map(fn ($name) => Str::removePrefix($name, '_custom_'), $fieldnames);
+        natsort($fieldnames);
+        return array_values($fieldnames);
     }
 
-    public function exportWithIds(array $args = []): array
+    public function export(Arguments $args): array
     {
-        $sql = glsr(Query::class)->sql($this->sqlAssignedIds($args));
+        $this->args = $args;
+        if ('id' === $args->assigned_posts) {
+            return $this->exportWithIds();
+        }
+        if ('slug' === $args->assigned_posts) {
+            return $this->exportWithSlugs();
+        }
+        return [];
+    }
+
+    protected function exportWithIds(): array
+    {
+        $sql = glsr(Query::class)->sql($this->sqlAssignedIds());
         return (array) glsr(Database::class)->dbGetResults($sql, 'ARRAY_A');
     }
 
-    public function exportWithSlugs(array $args = []): array
+    protected function exportWithSlugs(): array
     {
-        $sql = glsr(Query::class)->sql($this->sqlAssignedSlugs($args));
+        $sql = glsr(Query::class)->sql($this->sqlAssignedSlugs());
         return (array) glsr(Database::class)->dbGetResults($sql, 'ARRAY_A');
     }
 
-    protected function sqlAssignedIds(array $args): string
+    protected function sqlAssignedIds(): string
     {
         return "
             SELECT
+                p.ID,
                 p.post_date AS date,
                 p.post_date_gmt AS date_gmt,
                 p.post_title AS title,
@@ -49,23 +69,23 @@ class Export
                 r.terms,
                 GROUP_CONCAT(DISTINCT apt.post_id) AS assigned_posts,
                 GROUP_CONCAT(DISTINCT att.term_id) AS assigned_terms,
-                GROUP_CONCAT(DISTINCT aut.user_id) AS assigned_users,
-                GROUP_CONCAT(DISTINCT pm.meta_value) AS response
+                GROUP_CONCAT(DISTINCT aut.user_id) AS assigned_users
             FROM table|ratings AS r
             INNER JOIN table|posts AS p ON (p.ID = r.review_id)
             LEFT JOIN table|assigned_posts AS apt ON (apt.rating_id = r.ID)
             LEFT JOIN table|assigned_terms AS att ON (att.rating_id = r.ID)
             LEFT JOIN table|assigned_users AS aut ON (aut.rating_id = r.ID)
-            LEFT JOIN table|postmeta AS pm ON (pm.post_id = r.review_id AND pm.meta_key = '_response')
-            {$this->where($args)}
+            {$this->sqlWhere()}
             GROUP BY r.ID
+            {$this->sqlLimit()}
         ";
     }
 
-    protected function sqlAssignedSlugs(array $args): string
+    protected function sqlAssignedSlugs(): string
     {
         return "
             SELECT
+                p.ID,
                 p.post_date AS date,
                 p.post_date_gmt AS date_gmt,
                 p.post_title AS title,
@@ -80,34 +100,48 @@ class Export
                 r.is_verified,
                 r.score,
                 r.terms,
-                GROUP_CONCAT(DISTINCT CONCAT(p1.post_type, ':', p1.post_name)) AS assigned_posts,
+                GROUP_CONCAT(DISTINCT CONCAT(ap.post_type, ':', ap.post_name)) AS assigned_posts,
                 GROUP_CONCAT(DISTINCT att.term_id) AS assigned_terms,
-                GROUP_CONCAT(DISTINCT aut.user_id) AS assigned_users,
-                GROUP_CONCAT(DISTINCT pm.meta_value) as response
+                GROUP_CONCAT(DISTINCT aut.user_id) AS assigned_users
             FROM table|ratings AS r
             INNER JOIN table|posts AS p ON (p.ID = r.review_id)
             LEFT JOIN table|assigned_posts AS apt ON (apt.rating_id = r.ID)
             LEFT JOIN table|assigned_terms AS att ON (att.rating_id = r.ID)
             LEFT JOIN table|assigned_users AS aut ON (aut.rating_id = r.ID)
-            LEFT JOIN table|posts AS p1 ON (p1.ID = apt.post_id)
-            LEFT JOIN table|postmeta AS pm ON (pm.post_id = r.review_id AND pm.meta_key = '_response')
-            {$this->where($args)}
+            LEFT JOIN table|posts AS ap ON (ap.ID = apt.post_id)
+            {$this->sqlWhere()}
             GROUP BY r.ID
+            {$this->sqlLimit()}
         ";
     }
 
-    protected function where(array $args): string
+    protected function sqlLimit(): string
     {
-        $date = glsr(Sanitizer::class)->sanitizeDate(Arr::get($args, 'date'));
-        $status = Str::restrictTo('pending,publish', Arr::get($args, 'post_status'), "pending','publish");
-        $postType = glsr()->post_type;
+        global $wpdb;
+        if ($limit = $this->args->cast('limit', 'int', 1000)) {
+            return $wpdb->prepare('LIMIT %d', $limit);
+        }
+        return '';
+    }
+
+    protected function sqlWhere(): string
+    {
+        global $wpdb;
+        $date = $this->args->sanitize('date', 'date');
+        $postId = $this->args->cast('post_id', 'int', 0);
+        $postStatus = Str::restrictTo(['pending', 'publish'], $this->args->cast('post_status', 'string'),
+            "pending','publish"
+        );
         $where = [
             "WHERE 1=1",
-            "AND p.post_type = '{$postType}'",
-            "AND p.post_status IN ('{$status}')",
         ];
+        if (!empty($postId)) {
+            $where[] = $wpdb->prepare('AND p.ID > %d', $postId);
+        }
+        $where[] = $wpdb->prepare('AND p.post_type = %s', glsr()->post_type);
+        $where[] = "AND p.post_status IN ('{$postStatus}')";
         if (!empty($date)) {
-            $where[] = $this->db->prepare('AND p.post_date > %s', $date);
+            $where[] = $wpdb->prepare('AND p.post_date > %s', $date);
         }
         return implode(' ', $where);
     }

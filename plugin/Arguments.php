@@ -32,9 +32,9 @@ class Arguments extends \ArrayObject
      *
      * @return mixed
      */
-    public function cast($key, string $cast)
+    public function cast($key, string $cast, $fallback = null)
     {
-        return Cast::to($cast, $this->get($key));
+        return Cast::to($cast, $this->get($key, $fallback));
     }
 
     /**
