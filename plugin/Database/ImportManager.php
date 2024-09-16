@@ -56,7 +56,6 @@ class ImportManager
         wp_suspend_cache_invalidation(false);
         unset($reader, $records);
         return glsr(ImportResultDefaults::class)->restrict($result);
-        return $result;
     }
 
     public function importAttachments(int $limit = 1, int $offset = 0): array

@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Encryption;
@@ -180,7 +181,12 @@ class CreateReview extends AbstractCommand
 
     protected function custom(): array
     {
-        return glsr(CustomFieldsDefaults::class)->filter($this->request->toArray());
+        $fields = [];
+        foreach ($this->request->toArray() as $key => $value) {
+            $key = Str::removePrefix($key, 'custom_');
+            $fields[$key] = $value;
+        }
+        return glsr(CustomFieldsDefaults::class)->filter($fields);
     }
 
     protected function normalize(Request $request): Request

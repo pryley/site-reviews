@@ -247,7 +247,7 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
      */
     protected function prepareHeader($header = []): array
     {
-        if ($header !== (array_filter($header, is_string(...)))) {
+        if ($header !== array_filter($header, 'is_string')) {
             throw SyntaxError::dueToInvalidHeaderColumnNames();
         }
         return $this->computeHeader($header);
@@ -309,7 +309,7 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
         );
 
         if ([] === $header) {
-            return new MapIterator($iterator, $formatter(...));
+            return new MapIterator($iterator, $formatter);
         }
 
         $field_count = count($header);

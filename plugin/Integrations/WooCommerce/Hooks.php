@@ -23,7 +23,6 @@ class Hooks extends AbstractHooks
             ['renderSettings', 'site-reviews/settings/woocommerce'],
         ]);
         $this->hook(ImportController::class, [
-            ['filterReviewPostData', 'site-reviews/review/create/post_data', 10, 2],
             ['filterTools', 'site-reviews/tools/general'],
             ['importProductReviewsAjax', 'site-reviews/route/ajax/import-product-reviews'],
             ['migrateProductRatingsAjax', 'site-reviews/route/ajax/migrate-product-ratings'],

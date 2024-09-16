@@ -16,17 +16,6 @@ use GeminiLabs\SiteReviews\Request;
 class ImportController extends AbstractController
 {
     /**
-     * @filter site-reviews/review/create/post_data
-     */
-    public function filterReviewPostData(array $data, CreateReview $command): array
-    {
-        if ($command->request->cast('verified', 'bool')) {
-            $data['meta_input']['_verified'] = 1;
-        }
-        return $data;
-    }
-
-    /**
      * @filter site-reviews/tools/general
      */
     public function filterTools(array $paths): array

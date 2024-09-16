@@ -6,8 +6,10 @@ use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
-class Export
+class ExportManager
 {
+    protected Arguments $args;
+
     public function customHeader(Arguments $args): array
     {
         $this->args = $args;
@@ -19,7 +21,7 @@ class Export
             AND pm.meta_key LIKE '_custom_%%'
         ");
         $fieldnames = glsr(Database::class)->dbGetCol($sql);
-        $fieldnames = array_map(fn ($name) => Str::removePrefix($name, '_custom_'), $fieldnames);
+        $fieldnames = array_map(fn ($name) => Str::removePrefix($name, '_'), $fieldnames);
         natsort($fieldnames);
         return array_values($fieldnames);
     }

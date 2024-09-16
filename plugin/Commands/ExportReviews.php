@@ -5,8 +5,9 @@ namespace GeminiLabs\SiteReviews\Commands;
 use GeminiLabs\League\Csv\CannotInsertRecord;
 use GeminiLabs\League\Csv\EscapeFormula;
 use GeminiLabs\League\Csv\Writer;
-use GeminiLabs\SiteReviews\Database\Export;
-use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Arguments;
+use GeminiLabs\SiteReviews\Database\ExportManager;
+use GeminiLabs\SiteReviews\Defaults\AdditionalFieldsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
@@ -54,16 +55,6 @@ class ExportReviews extends AbstractCommand
         }
     }
 
-    protected function countReviews(): int
-    {
-        return glsr(ReviewManager::class)->total([
-            'date' => [
-                'after' => $this->request->sanitize('date', 'date'),
-            ],
-            'status' => $this->request->post_status,
-        ]);
-    }
-
     protected function fetchReviews(): \Generator
     {
         $args = glsr()->args([
@@ -75,7 +66,7 @@ class ExportReviews extends AbstractCommand
         $header = [];
         $postId = 0;
         while (true) {
-            $reviews = glsr(Export::class)->export($args->merge([
+            $reviews = glsr(ExportManager::class)->export($args->merge([
                 'post_id' => $postId,
             ]));
             if (empty($reviews)) {
@@ -97,15 +88,8 @@ class ExportReviews extends AbstractCommand
 
     protected function headerValues(Arguments $args, array $record): array
     {
-        $additionalHeader = [
-            'language',
-            'response',
-            'response_by',
-            'verified',
-            'verified_on',
-            'verified_requested',
-        ];
-        $customHeader = glsr(Export::class)->customHeader($args);
+        $additionalHeader = array_keys(glsr(AdditionalFieldsDefaults::class)->defaults());
+        $customHeader = glsr(ExportManager::class)->customHeader($args);
         $header = array_merge(array_keys($record), $additionalHeader, $customHeader);
         return $header;
     }
@@ -116,21 +100,15 @@ class ExportReviews extends AbstractCommand
         if (!is_array($meta)) {
             return [];
         }
+        $additionalKeys = array_keys(glsr(AdditionalFieldsDefaults::class)->defaults());
+        $additionalKeys = array_map(fn ($key) => Str::prefix($key, '_'), $additionalKeys);
         $meta = array_map(fn ($val) => $val[0] ?? '', $meta);
-        $meta = array_filter($meta, function ($key) {
-            return str_starts_with($key, '_custom_') || in_array($key, [
-                '_language',
-                '_response',
-                '_response_by',
-                '_verified',
-                '_verified_on',
-                '_verified_requested',
-            ]);
+        $meta = array_filter($meta, function ($key) use ($additionalKeys) {
+            return str_starts_with($key, '_custom_') || in_array($key, $additionalKeys);
         }, ARRAY_FILTER_USE_KEY);
         $results = [];
         foreach ($meta as $key => $value) {
             $key = Str::removePrefix($key, '_');
-            $key = Str::removePrefix($key, 'custom_');
             $results[$key] = $value;
         }
         return $results;
