@@ -26,7 +26,7 @@ class ImportReviewsCleanup extends AbstractCommand
     {
         wp_cache_flush();
         if (0 < $this->imported) {
-            glsr(ImportManager::class)->flush(); // flush the temporary table in the database
+            glsr(ImportManager::class)->flush(); // drop the temporary table in the database
             glsr(ImportManager::class)->unlinkTempFile(); //.delete the temporary import file if it exists
             glsr(Queue::class)->async('queue/recalculate-meta');
         }

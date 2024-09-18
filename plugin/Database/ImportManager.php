@@ -7,6 +7,7 @@ use GeminiLabs\League\Csv\Statement;
 use GeminiLabs\League\Csv\TabularDataReader;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\Tables\TableTmp;
 use GeminiLabs\SiteReviews\Defaults\ImportResultDefaults;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Request;
@@ -16,9 +17,7 @@ class ImportManager
 {
     public function flush(): void
     {
-        glsr(Database::class)->dbQuery(
-            glsr(Query::class)->sql("TRUNCATE TABLE table|tmp")
-        );
+        glsr(TableTmp::class)->drop();
     }
 
     public function import(int $limit = 1, int $offset = 0): array
@@ -37,6 +36,7 @@ class ImportManager
             ->limit(max(1, $limit))
             ->process($reader);
         $result = glsr(ImportResultDefaults::class)->defaults();
+        glsr(TableTmp::class)->create(); // create a temporary table for importing
         foreach ($records as $values) {
             $request = new Request($values);
             $command = new CreateReview($request);
@@ -118,60 +118,4 @@ class ImportManager
         unlink($path); // delete the temporary import file
         return true;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function chunkIt(\Iterator $records, int $chunkSize): \Generator
-    {
-        $records->rewind();
-        $chunk = [];
-        for ($i = 0; $records->valid(); ++$i) {
-            $chunk[] = $records->current();
-            $records->next();
-            if (count($chunk) === $chunkSize) {
-                yield $chunk;
-                $chunk = [];
-            }
-        }
-        if (count($chunk) > 0) {
-            yield $chunk;
-        }
-    }
-
-    /**
-     * Temporarily store the CSV rows to the database for later processing.
-     */
-    public function store(TabularDataReader $records, int $chunkSize = 50): int
-    {
-        $this->flush();
-        $chunks = $this->chunkIt($records->getIterator(), $chunkSize);
-        $stored = 0;
-        foreach ($chunks as $index => $chunk) {
-            $values = array_map(fn ($row) => ['data' => maybe_serialize($row)], $chunk);
-            $result = glsr(Database::class)->insertBulk('tmp', $values, ['data']);
-            $stored += (int) $result;
-            unset($values);
-        }
-        return $stored;
-    }
-
-
 }

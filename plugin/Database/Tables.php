@@ -195,7 +195,6 @@ class Tables
             TableAssignedUsers::class,
             // TableFields::class, // @todo add the fields table
             TableRatings::class,
-            TableTmp::class,
         ]);
     }
 
