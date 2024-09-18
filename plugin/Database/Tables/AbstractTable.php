@@ -56,6 +56,15 @@ abstract class AbstractTable
         return true;
     }
 
+    public function drop(): bool
+    {
+        if ($this->exists()) {
+            $this->dropForeignConstraints();
+            return (bool) glsr(Database::class)->dbQuery("DROP TABLE IF EXISTS {$this->tablename}");
+        }
+        return false;
+    }
+
     public function dropForeignConstraint(string $column, string $foreignTable): bool
     {
         $constraint = $this->foreignConstraint($column);
@@ -68,6 +77,14 @@ abstract class AbstractTable
     }
 
     abstract public function dropForeignConstraints(): void;
+
+    public function empty(): bool
+    {
+        if ($this->exists()) {
+            return (bool) glsr(Database::class)->dbQuery("TRUNCATE TABLE {$this->tablename}");
+        }
+        return false;
+    }
 
     public function exists(): bool
     {
