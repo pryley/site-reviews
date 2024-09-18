@@ -86,11 +86,12 @@ class CreateReview extends AbstractCommand
         $request->merge([
             'excluded' => glsr(Encryption::class)->encrypt(implode(',', $excluded)),
         ]);
-        $validator = glsr(ValidateForm::class)->validate($request, [ // order is intentional
+        $validators = glsr()->filterArray('validators', [ // order is intentional
             DefaultValidator::class,
             DuplicateValidator::class,
             CustomValidator::class,
         ]);
+        $validator = glsr(ValidateForm::class)->validate($request, $validators);
         if (!$validator->isValid()) {
             glsr_log()->warning($validator->errors);
             return false;
