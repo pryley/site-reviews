@@ -8,9 +8,8 @@ class License
 {
     public function isLicensed(): bool
     {
-        $addons = glsr()->retrieveAs('array', 'licensed', []);
         $status = $this->status();
-        if (empty($addons)) {
+        if (empty(glsr()->retrieveAs('array', 'licensed', []))) {
             return false;
         }
         return $status['isValid'] && $status['isSaved'];
@@ -33,11 +32,14 @@ class License
             $licenseStatus = get_option(glsr()->prefix.$addonId);
             if (empty($licenseStatus)) { // the license status has not been stored
                 $license = glsr_get_option("licenses.{$addonId}");
-                $updater = new Updater($addon['updateUrl'], $addon['file'], $addonId, compact('license'));
-                if (!$updater->isLicenseValid()) {
-                    $isValid = false;
-                    break;
-                }
+                $updater = new Updater($addonId, [
+                    'license' => $license,
+                    'url' => $addon['updateUrl'],
+                ]);
+                // if (!$updater->isLicenseValid()) {
+                //     $isValid = false;
+                //     break;
+                // }
             }
         }
         return compact('isFree', 'isSaved', 'isValid');

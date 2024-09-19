@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -28,6 +29,7 @@ trait Plugin
     protected $file;
     protected $languages;
     protected $testedTo;
+    protected $updateUrl;
     protected $uri;
     protected $version;
 
@@ -53,6 +55,7 @@ trait Plugin
             'name' => 'Plugin Name',
             'testedTo' => 'Tested up to',
             'uri' => 'Plugin URI',
+            'updateUrl' => 'Update URI',
             'version' => 'Version',
         ], 'plugin');
         array_walk($plugin, function ($value, $key) {
@@ -249,21 +252,6 @@ trait Plugin
 
     public function version(string $versionLevel = ''): string
     {
-        $pattern = '/^v?(\d{1,5})(\.\d++)?(\.\d++)?(.+)?$/i';
-        preg_match($pattern, $this->version, $matches);
-        switch ($versionLevel) {
-            case 'major':
-                $version = Arr::get($matches, 1);
-                break;
-            case 'minor':
-                $version = Arr::get($matches, 1).Arr::get($matches, 2);
-                break;
-            case 'patch':
-                $version = Arr::get($matches, 1).Arr::get($matches, 2).Arr::get($matches, 3);
-                break;
-        }
-        return empty($version)
-            ? $this->version
-            : $version;
+        return Helper::version($this->version, $versionLevel);
     }
 }

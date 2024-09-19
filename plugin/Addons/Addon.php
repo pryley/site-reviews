@@ -16,7 +16,6 @@ use GeminiLabs\SiteReviews\Plugin;
  * @property string $name
  * @property string $slug
  * @property string $testedTo
- * @property string $update_url
  * @property string $version
  */
 abstract class Addon implements PluginContract
@@ -28,7 +27,6 @@ abstract class Addon implements PluginContract
     public const NAME = '';
     public const POST_TYPE = '';
     public const SLUG = '';
-    public const UPDATE_URL = 'https://niftyplugins.com';
 
     /**
      * @return static

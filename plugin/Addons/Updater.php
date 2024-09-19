@@ -2,270 +2,120 @@
 
 namespace GeminiLabs\SiteReviews\Addons;
 
-use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Api;
+use GeminiLabs\SiteReviews\Defaults\Updater\ActivateLicenseDefaults;
+use GeminiLabs\SiteReviews\Defaults\Updater\CheckLicenseDefaults;
+use GeminiLabs\SiteReviews\Defaults\Updater\DeactivateLicenseDefaults;
+use GeminiLabs\SiteReviews\Defaults\Updater\VersionDefaults;
+use GeminiLabs\SiteReviews\Defaults\Updater\VersionDetailsDefaults;
+use GeminiLabs\SiteReviews\Defaults\Updater\VersionUpdateDefaults;
 use GeminiLabs\SiteReviews\Helpers\Url;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Updater
 {
-    protected string $addonId = '';
-    protected string $apiUrl = '';
-    protected array $data = [];
-    protected bool $forceCheck = false;
-    protected bool $isReady = false;
-    protected string $status = '';
-    protected string $plugin = '';
+    public const DEFAULT_API_URL = 'https://niftyplugins.com';
 
-    public function __construct(string $apiUrl, string $file, string $addonId, array $data = [])
+    public string $addonId;
+    public string $apiUrl;
+    public bool $force;
+    public string $license;
+
+    public function __construct(string $addonId, array $args = [])
     {
-        if (!file_exists($file)) {
-            return;
-        }
-        if (!function_exists('get_plugin_data')) {
-            require_once ABSPATH.WPINC.'/plugin.php';
+        $args = wp_parse_args($args, [
+            'force' => true,
+            'license' => '',
+            'url' => '',
+        ]);
+        if (empty($args['license'])) {
+            $args['license'] = glsr_get_option("licenses.{$addonId}");
         }
         $this->addonId = $addonId;
-        $this->apiUrl = trailingslashit(glsr()->filterString('addon/api-url', $apiUrl));
-        if ($this->apiUrl === Url::home()) {
-            return;
-        }
-        $this->data = wp_parse_args($data, get_plugin_data($file));
-        $this->plugin = plugin_basename($file);
-        $this->isReady = true;
-        if (glsr()->filterBool('updater/force-check', false)
-            || !glsr()->addon(Arr::get($this->data, 'TextDomain'))) {
-            $this->forceCheck = true; // don't cache the version details if the addon is not fully active
-        }
+        $this->apiUrl = $this->updateUri($addonId, $args['url']);
+        $this->force = wp_validate_boolean($args['force']);
+        $this->license = $args['license'];
     }
 
-    public function activateLicense(array $data = []): \stdClass
+    public function activateLicense(): array
     {
-        return $this->request('activate_license', $data);
+        $this->flushCachedVersion();
+        $results = $this->request('activate_license');
+        return glsr(ActivateLicenseDefaults::class)->restrict($results);
     }
 
-    public function checkLicense(array $data = []): \stdClass
+    public function checkLicense(): array
     {
-        return $this->request('check_license', $data);
+        $this->flushCachedVersion();
+        $results = $this->request('check_license');
+        return glsr(CheckLicenseDefaults::class)->restrict($results);
     }
 
-    public function deactivateLicense(array $data = []): \stdClass
+    public function deactivateLicense(): array
     {
-        return $this->request('deactivate_license', $data);
+        $this->flushCachedVersion();
+        $results = $this->request('deactivate_license');
+        return glsr(DeactivateLicenseDefaults::class)->restrict($results);
     }
 
-    /**
-     * @param false|object|array $result
-     * @param string             $action
-     * @param object             $args
-     *
-     * @return mixed
-     *
-     * @filter plugins_api
-     */
-    public function filterPluginUpdateDetails($result, $action, $args)
+    public function flushCachedVersion(): void
     {
-        if ('plugin_information' !== $action
-            || Arr::get($this->data, 'TextDomain') !== Arr::get($args, 'slug')) {
-            return $result;
-        }
-        if ($updateInfo = $this->getPluginUpdate($this->forceCheck)) {
-            return $this->modifyUpdateDetails($updateInfo);
-        }
-        return $result;
+        glsr(Api::class, ['url' => $this->apiUrl])->flushAll('get_version');
     }
 
-    /**
-     * @param object $transient
-     *
-     * @return object
-     *
-     * @filter pre_set_site_transient_update_plugins
-     */
-    public function filterPluginUpdates($transient)
+    public function version(): array
     {
-        if ($updateInfo = $this->getPluginUpdate($this->forceCheck)) {
-            return $this->modifyPluginUpdates($transient, $updateInfo);
-        }
-        return $transient;
+        $results = $this->request('get_version');
+        return glsr(VersionDefaults::class)->restrict($results);
     }
 
-    public function getLatestVersion(array $data = []): \stdClass
+    public function versionDetails(): array
     {
-        return $this->request('get_version', $data);
+        $results = $this->request('get_version');
+        return glsr(VersionDetailsDefaults::class)->restrict($results);
     }
 
-    public function init(): void
+    public function versionUpdate(): array
     {
-        if ($this->isReady) {
-            add_filter('plugins_api', [$this, 'filterPluginUpdateDetails'], 10, 3);
-            add_filter('pre_set_site_transient_update_plugins', [$this, 'filterPluginUpdates'], 999);
-            add_action('load-update-core.php', [$this, 'onForceUpdateCheck'], 9);
-            add_action("in_plugin_update_message-{$this->plugin}", [$this, 'renderLicenseMissingLink']);
-        }
-    }
-
-    public function isLicenseValid(): bool
-    {
-        if (empty($this->status)) {
-            $result = $this->checkLicense();
-            $this->status = Arr::get($result, 'license');
-            update_option(glsr()->prefix.$this->addonId, $this->status); // store the license status
-        }
-        return 'valid' === $this->status;
-    }
-
-    /**
-     * @action load-update-core.php
-     */
-    public function onForceUpdateCheck(): void
-    {
-        if (!filter_input(INPUT_GET, 'force-check')) {
-            return;
-        }
-        try {
-            $this->getPluginUpdate(true);
-        } catch (\Exception $e) {
-            glsr_log()->error($e->getMessage());
-        }
-    }
-
-    /**
-     * @action in_plugin_update_message-{$this->plugin}
-     */
-    public function renderLicenseMissingLink(): void
-    {
-        if (!$this->isLicenseValid()) {
-            glsr()->render('partials/addons/license-missing');
-        }
-    }
-
-    /**
-     * @return false|object
-     */
-    protected function getCachedVersion()
-    {
-        return get_transient($this->getTransientName());
-    }
-
-    /**
-     * @return false|object
-     */
-    protected function getPluginUpdate(bool $force = false)
-    {
-        $version = $this->getCachedVersion();
-        if (false === $version || false !== $force) {
-            $version = $this->getLatestVersion();
-            $this->setCachedVersion($version);
-        }
-        if (isset($version->error)) {
-            glsr_log()->error($version->error);
-            return false;
-        }
-        return $version;
-    }
-
-    protected function getTransientName(): string
-    {
-        return glsr()->prefix.md5(Arr::get($this->data, 'TextDomain'));
-    }
-
-    /**
-     * @param object $transient
-     * @param object $updateInfo
-     *
-     * @return object
-     */
-    protected function modifyPluginUpdates($transient, $updateInfo)
-    {
-        $updateInfo->id = glsr()->id.'/'.Arr::get($this->data, 'TextDomain');
-        $updateInfo->plugin = $this->plugin;
-        // $updateInfo->requires_php = Arr::get($this->data, 'RequiresPHP');
-        // $updateInfo->tested = Arr::get($this->data, 'testedTo');
-        unset($updateInfo->upgrade_notice); // @todo for some reason, this is returned as an array
-        $transient->checked[$this->plugin] = Arr::get($this->data, 'Version');
-        $transient->last_checked = time();
-        if (Helper::isGreaterThan($updateInfo->new_version, Arr::get($this->data, 'Version'))) {
-            unset($transient->no_update[$this->plugin]);
-            $updateInfo->update = true;
-            if (!$this->isLicenseValid()) {
-                $updateInfo->upgrade_notice = _x('A valid license key is required to download this update.', 'admin-text', 'site-reviews');
-            }
-            $transient->response[$this->plugin] = $updateInfo;
-        } else {
-            unset($transient->response[$this->plugin]);
-            $transient->no_update[$this->plugin] = $updateInfo;
-        }
-        return $transient;
-    }
-
-    /**
-     * @param object $updateInfo
-     *
-     * @return object
-     */
-    protected function modifyUpdateDetails($updateInfo)
-    {
-        $updateInfo->author = Arr::get($this->data, 'Author');
-        $updateInfo->author_profile = Arr::get($this->data, 'AuthorURI');
-        // $updateInfo->requires = Arr::get($this->data, 'RequiresWP');
-        // $updateInfo->requires_php = Arr::get($this->data, 'RequiresPHP');
-        // $updateInfo->tested = Arr::get($this->data, 'testedTo');
-        $updateInfo->version = $updateInfo->new_version;
-        unset($updateInfo->contributors); // @todo for some reason, this is not being parsed as an array
-        return $updateInfo;
-    }
-
-    /**
-     * @param \WP_Error|array $response
-     *
-     * @return object
-     */
-    protected function normalizeResponse($response)
-    {
-        $body = wp_remote_retrieve_body($response);
-        if ($data = json_decode($body, true)) {
-            $data = array_map('maybe_unserialize', $data);
-            return (object) $data;
-        }
-        $error = is_wp_error($response)
-            ? $response->get_error_message()
-            : 'Update server not responding ('.Arr::get($this->data, 'TextDomain').')';
-        return (object) ['error' => $error];
+        $results = $this->request('get_version');
+        return glsr(VersionUpdateDefaults::class)->restrict($results);
     }
 
     /**
      * @param string $action activate_license|check_license|deactivate_license|get_version
-     *
-     * @return object
      */
-    protected function request($action, array $data = [])
+    protected function request(string $action): array
     {
-        $data = wp_parse_args($data, $this->data);
         $body = [
             'edd_action' => $action,
             'item_id' => '', // we don't have access to the download ID which is why this is empty
-            'item_name' => Arr::get($data, 'TextDomain'), // we are using the slug for the name
-            'license' => Arr::get($data, 'license'),
-            'slug' => Arr::get($data, 'TextDomain'),
+            'item_name' => $this->addonId,
+            'license' => $this->license,
+            'slug' => $this->addonId,
             'url' => Url::home(),
         ];
-        $response = wp_remote_post($this->apiUrl, [
+        $response = glsr(Api::class, ['url' => $this->apiUrl])->post('/', [
             'body' => $body,
+            'force' => $this->force,
             'timeout' => 15,
+            'transient_key' => $action,
         ]);
-        if ('check_license' === $action) {
+        if ($response->failed()) {
+            glsr_log()->error($response);
+        } elseif (str_ends_with($action, '_license') && false === ($response->body['success'] ?? false)) {
             glsr_log()->debug($body);
         }
-        return $this->normalizeResponse($response);
+        return $response->body();
     }
 
-    /**
-     * @param object $version
-     */
-    protected function setCachedVersion($version): void
+    protected function updateUri(string $addonId, string $url = ''): string
     {
-        if (!isset($version->error)) {
-            set_transient($this->getTransientName(), $version, 15 * MINUTE_IN_SECONDS);
+        if (empty($url)) {
+            $plugins = get_plugins();
+            $plugins = array_filter($plugins, fn ($plugin) => str_contains($plugin, "/{$addonId}.php"), \ARRAY_FILTER_USE_KEY);
+            $plugin = array_shift($plugins) ?? [];
+            $url = ($plugin['UpdateURI'] ?? '') ?: static::DEFAULT_API_URL;
         }
+        return glsr(Sanitizer::class)->sanitizeUrl($url);
     }
 }

@@ -223,33 +223,6 @@ add_filter('tcb_post_types', function ($blacklist) {
 });
 
 /**
- * This is run on wp_loaded.
- * Checks for updates for outdated addons which don't use the "site-reviews/addon/update" hook
- * @param \GeminiLabs\SiteReviews\Application $app
- */
-add_action('site-reviews/addon/update', function ($app) {
-    $addons = [
-        'site-reviews-filters/site-reviews-filters.php' => 'GeminiLabs\SiteReviews\Addon\Filters\Application',
-        'site-reviews-forms/site-reviews-forms.php' => 'GeminiLabs\SiteReviews\Addon\Forms\Application',
-        'site-reviews-images/site-reviews-images.php' => 'GeminiLabs\SiteReviews\Addon\Images\Application',
-        'site-reviews-notifications/site-reviews-notifications.php' => 'GeminiLabs\SiteReviews\Addon\Notifications\Application',
-        'site-reviews-themes/site-reviews-themes.php' => 'GeminiLabs\SiteReviews\Addon\Themes\Application',
-    ];
-    foreach ($addons as $basename => $addon) {
-        $file = trailingslashit(WP_PLUGIN_DIR).$basename;
-        try {
-            $reflection = new \ReflectionClass($addon);
-            $addonId = $reflection->getConstant('ID');
-            if (file_exists($file) && !array_key_exists($addonId, $app->updated)) {
-                $app->update($addon, $file);
-            }
-        } catch (\ReflectionException $e) {
-            // Fail silently
-        }
-    }
-}, 20);
-
-/**
  * This disables OptimizePress v2 assets an notices on Site Reviews admin pages.
  */
 function glsr_remove_optimizepress()

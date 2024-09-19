@@ -337,4 +337,25 @@ class Helper
         }
         return $value;
     }
+
+    public static function version(string $version, string $versionLevel = ''): string
+    {
+        $pattern = '/^v?(\d{1,5})(\.\d++)?(\.\d++)?(.+)?$/i';
+        preg_match($pattern, $version, $matches);
+        switch ($versionLevel) {
+            case 'major':
+                $result = Arr::get($matches, 1);
+                break;
+            case 'minor':
+                $result = Arr::get($matches, 1).Arr::get($matches, 2);
+                break;
+            case 'patch':
+                $result = Arr::get($matches, 1).Arr::get($matches, 2).Arr::get($matches, 3);
+                break;
+            default:
+                $result = $version;
+                break;
+        }
+        return $result;
+    }
 }

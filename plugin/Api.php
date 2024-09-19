@@ -2,7 +2,11 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\ApiDefaults;
+use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Api
 {
@@ -32,6 +36,29 @@ class Api
         return $args;
     }
 
+    public function flush(string $transientKey, string $path = '', array $body = []): void
+    {
+        $transient = $this->transientKey($path, $transientKey, $body);
+        delete_site_transient($transient);
+    }
+
+    public function flushAll(string $transientKey, string $path = ''): void
+    {
+        $transient = $this->transientKey($path, $transientKey);
+        $transient = "_site_transient_{$transient}%";
+        $sql = "
+            SELECT option_name
+            FROM table|options
+            WHERE option_name LIKE %s
+        ";
+        $transientKeys = glsr(Database::class)->dbGetCol(
+            glsr(Query::class)->sql($sql, $transient)
+        );
+        foreach ($transientKeys as $transient) {
+            delete_site_transient($transient);
+        }
+    }
+
     public function get(string $path, array $args = []): Response
     {
         return $this->request($path, wp_parse_args(['method' => 'GET'], $args));
@@ -45,10 +72,11 @@ class Api
     public function request(string $path, array $args = []): Response
     {
         $args = $this->args($args);
-        $transientKey = $this->transientKey($path);
-        if (!$args['force']) {
-            $result = get_transient($transientKey);
+        $transientKey = $this->transientKey($path, $args['transient_key'], $args['body'] ?: []);
+        if ($args['force']) {
+            delete_site_transient($transientKey);
         }
+        $result = get_site_transient($transientKey);
         if (!empty($result)) {
             return new Response($result);
         }
@@ -60,9 +88,7 @@ class Api
             $result = wp_remote_request($url, wp_parse_args(compact('timeout'), $args));
             $response = new Response($result);
             if ($response->successful()) {
-                if (!$args['force']) {
-                    set_transient($transientKey, $result, DAY_IN_SECONDS);
-                }
+                set_site_transient($transientKey, $result, $args['expiration']);
                 return $response;
             }
             if (!$response->shouldRetry()) {
@@ -77,18 +103,22 @@ class Api
         return new Response(new \WP_Error('', "API request failed after {$this->numRetries} attempts.")); // this should never be the result
     }
 
-    public function transientKey(string $path = ''): string
+    public function transientKey(string $path = '', string $transientKey = 'request', array $body = []): string
     {
-        $url = untrailingslashit($this->url($path));
-        $url = str_replace(['http://', 'https://', '-'], '', $url);
-        $url = str_replace('/', '_', $url);
-        $key = sanitize_key($url);
+        if (!empty($body)) {
+            $body = Str::hash((string) maybe_serialize($body), 8);
+        }
+        $url = Str::hash($this->url($path), 8);
+        $key = sanitize_key($transientKey);
+        $key = trim("{$key}_{$url}_{$body}", '_');
         return glsr()->prefix."api_{$key}";
     }
 
     public function url(string $path): string
     {
-        return $this->baseUrl.ltrim($path, '/');
+        $path = trailingslashit(ltrim($path, '/'));
+        $url = $this->baseUrl.$path;
+        return glsr(Sanitizer::class)->sanitizeUrl($url);
     }
 
     /**

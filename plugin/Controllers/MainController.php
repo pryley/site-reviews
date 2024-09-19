@@ -60,14 +60,12 @@ class MainController extends AbstractController
 
     /**
      * Initialize the Application settings config and defaults.
-     * Check addons for updates and add license field to settings.
      *
      * @action init:5
      */
     public function onInit(): void
     {
         $defaults = glsr()->defaults();
-        glsr()->action('addon/update', glsr());
         glsr(OptionManager::class)->mergeDefaults($defaults);
         glsr(OptionManager::class)->updateVersion();
     }

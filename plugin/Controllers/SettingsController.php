@@ -32,16 +32,15 @@ class SettingsController extends AbstractController
     public function sanitizeSettingsCallback($input): array
     {
         OptionManager::flushSettingsCache(); // remove settings from object cache before updating
-        $settings = Arr::consolidate($input);
-        if (1 === count($settings) && array_key_exists('settings', $settings)) {
+        $input = Arr::consolidate($input);
+        if (1 === count($input) && array_key_exists('settings', $input)) {
             $options = array_replace_recursive(glsr(OptionManager::class)->all(), $input);
             $options = $this->sanitizeForms($options, $input);
             $options = $this->sanitizeGeneral($options, $input);
-            $options = $this->sanitizeLicenses($options, $input);
             $options = $this->sanitizeStrings($options, $input);
             $options = $this->sanitizeAll($options);
-            $options = glsr()->filterArray('settings/sanitize', $options, $settings);
-            glsr()->action('settings/updated', $options, $settings);
+            $options = glsr()->filterArray('settings/sanitize', $options, $input);
+            glsr()->action('settings/updated', $options, $input);
             if (filter_input(INPUT_POST, 'option_page') === glsr()->id) {
                 glsr(Notice::class)->addSuccess(_x('Settings updated.', 'admin-text', 'site-reviews'));
             }
@@ -91,19 +90,6 @@ class SettingsController extends AbstractController
         return $options;
     }
 
-    protected function sanitizeLicenses(array $options, array $input): array
-    {
-        $key = 'settings.licenses';
-        $licenses = Arr::consolidate(Arr::get($input, $key));
-        foreach ($licenses as $addonId => &$license) {
-            if (!empty($license)) {
-                $license = $this->verifyLicense((string) $license, (string) $addonId);
-            }
-        }
-        $options = Arr::set($options, $key, $licenses);
-        return $options;
-    }
-
     protected function sanitizeStrings(array $options, array $input): array
     {
         $key = 'settings.strings';
@@ -147,30 +133,5 @@ class SettingsController extends AbstractController
             return false;
         }
         return true;
-    }
-
-    protected function verifyLicense(string $license, string $addonId): string
-    {
-        if (empty(glsr()->updated[$addonId])) {
-            glsr_log()->error("Unknown addon: {$addonId}");
-            glsr(Notice::class)->addError(_x('A license you entered could not be verified for the selected addon.', 'admin-text', 'site-reviews'));
-            return '';
-        }
-        try {
-            $addon = glsr()->updated[$addonId];
-            $updater = new Updater($addon['updateUrl'], $addon['file'], $addonId, compact('license'));
-            if (!$updater->isLicenseValid()) {
-                throw new LicenseException("Invalid license: {$license} ({$addonId})");
-            }
-        } catch (LicenseException $e) {
-            $license = '';
-            glsr_log()->error($e->getMessage());
-            $error = _x('A license you entered is either invalid or has not yet been authorized for your website.', 'admin-text', 'site-reviews');
-            $message = sprintf(_x('To activate your license, please visit the %s page on your Nifty Plugins account and click the "Manage Sites" button to activate it for your website.', 'admin-text', 'site-reviews'),
-                sprintf('<a href="https://niftyplugins.com/account/license-keys/" target="_blank">%s</a>', _x('License Keys', 'admin-text', 'site-reviews'))
-            );
-            glsr(Notice::class)->addError(sprintf('<strong>%s</strong><br>%s', $error, $message));
-        }
-        return $license;
     }
 }

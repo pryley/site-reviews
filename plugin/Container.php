@@ -71,6 +71,9 @@ abstract class Container
      */
     public function singleton(string $abstract, $concrete = null): void
     {
+        if (isset($this->bindings[$abstract]['shared']) && $this->bindings[$abstract]['shared']) {
+            return; // Singleton already exists
+        }
         $this->bind($abstract, $concrete, true);
     }
 

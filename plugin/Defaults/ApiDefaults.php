@@ -15,6 +15,7 @@ class ApiDefaults extends DefaultsAbstract
         'compress' => 'bool',
         'cookies' => 'array',
         'decompress' => 'bool',
+        'expiration' => 'int',
         'force' => 'bool',
         'headers' => 'array',
         'max_retries' => 'int',
@@ -37,7 +38,9 @@ class ApiDefaults extends DefaultsAbstract
      * This is done after $casts and before $enums.
      */
     public array $sanitize = [
+        'expiration' => 'min:1', // ensure that there is a transient expiration
         'max_retries' => 'min:1|max:10',
+        'transient_key' => 'slug',
     ];
 
     protected function defaults(): array
@@ -48,6 +51,7 @@ class ApiDefaults extends DefaultsAbstract
             'compress' => false,
             'cookies' => [],
             'decompress' => true,
+            'expiration' => DAY_IN_SECONDS,
             'force' => false,
             'headers' => [],
             'max_retries' => 5,
@@ -55,6 +59,7 @@ class ApiDefaults extends DefaultsAbstract
             'redirection' => 5,
             'sslverify' => Helper::isLocalServer(),
             'timeout' => 5,
+            'transient_key' => 'request',
         ];
     }
 }
