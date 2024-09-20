@@ -1741,16 +1741,12 @@ msgctxt "admin-text"
 msgid "The <code>%s</code> table was successly converted to InnoDB."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:174
+#: plugin/Commands/CreateReview.php:168
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:175
+#: plugin/Commands/CreateReview.php:169
 msgid "Your review has been submitted and is pending approval."
-msgstr ""
-
-#: plugin/Commands/CreateReview.php:180, views/pages/documentation/support/common-problems-and-solutions.php:88
-msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
 #: plugin/Commands/DetectIpAddress.php:17, plugin/Controllers/MenuController.php:110
@@ -2499,57 +2495,57 @@ msgctxt "admin-text"
 msgid "TTID"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:100
+#: plugin/Controllers/ToolsController.php:99
 msgctxt "admin-text"
 msgid "You do not have permission to download the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:122
+#: plugin/Controllers/ToolsController.php:121
 msgctxt "admin-text"
 msgid "You do not have permission to download the system info report."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:144
+#: plugin/Controllers/ToolsController.php:143
 msgctxt "admin-text"
 msgid "You do not have permission to export settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:167
+#: plugin/Controllers/ToolsController.php:166
 msgctxt "admin-text"
 msgid "You do not have permission to reload the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:174
+#: plugin/Controllers/ToolsController.php:173
 msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:211
+#: plugin/Controllers/ToolsController.php:210
 msgctxt "admin-text"
 msgid "You do not have permission to import reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:238
+#: plugin/Controllers/ToolsController.php:237
 msgctxt "admin-text"
 msgid "You do not have permission to import settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:304
+#: plugin/Controllers/ToolsController.php:303
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:308
+#: plugin/Controllers/ToolsController.php:307
 msgctxt "admin-text"
 msgid "The permissions have been repaired, please %s for them to take effect."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:363
+#: plugin/Controllers/ToolsController.php:362
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:377
+#: plugin/Controllers/ToolsController.php:376
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr ""
@@ -4910,7 +4906,7 @@ msgstr ""
 
 #: views/pages/settings/licenses.php:7
 msgctxt "<a>|</a> (admin-text)"
-msgid "Make sure to authorize your website with the license before saving it here. To do this, go to the %sLicense Keys%s page on your Nifty Plugins account and click the \"Manage Sites\" button."
+msgid "To authorize a license key to work on your website, go to the %sLicense Keys%s page on your Nifty Plugins account and click the \"Manage Sites\" button."
 msgstr ""
 
 #: views/pages/settings/reviews.php:3
@@ -5686,6 +5682,10 @@ msgstr ""
 #: views/integrations/woocommerce/tools/import-product-reviews.php:58
 msgctxt "admin-text"
 msgid "Revert"
+msgstr ""
+
+#: views/pages/documentation/support/common-problems-and-solutions.php:88
+msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
 #: views/pages/documentation/support/common-problems-and-solutions.php:124
