@@ -50,7 +50,7 @@ class UpdateController extends AbstractController
      *
      * @filter update_plugins_niftyplugins.com
      */
-    public function filterUpdatePlugins($pluginUpdate, array $pluginData, string $pluginFile)
+    public function filterUpdatePlugins($pluginUpdate, array $pluginData)
     {
         $addonId = $pluginData['TextDomain'] ?? '';
         $url = $pluginData['UpdateURI'] ?? '';

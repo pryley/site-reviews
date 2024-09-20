@@ -42,7 +42,7 @@
                 data-_action="request-verification"
                 data-_nonce="<?php echo wp_create_nonce('request-verification'); ?>"
                 data-loading="Sending email..."
-                data-post_id="<?php echo get_the_ID(); ?>"
+                data-post_id="<?php echo (int) get_the_ID(); ?>"
             ><?php echo $text; ?></button>
         </div>
     </div>

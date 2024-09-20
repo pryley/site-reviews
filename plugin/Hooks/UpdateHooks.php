@@ -28,7 +28,7 @@ class UpdateHooks extends AbstractHooks
     {
         $this->hook(UpdateController::class, [
             ['filterPluginsApi', 'plugins_api', 10, 3],
-            ['filterUpdatePlugins', 'update_plugins_niftyplugins.com', 10, 3],
+            ['filterUpdatePlugins', 'update_plugins_niftyplugins.com', 10, 2],
             ['filterUpdatePluginsTransient', 'site_transient_update_plugins', 50],
             // ['onDeleteUpdatePluginsTransient', 'delete_site_transient_update_plugins'],
             // ['onUpgraderProcessComplete', 'upgrader_process_complete'],

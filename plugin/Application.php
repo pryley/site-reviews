@@ -177,10 +177,8 @@ final class Application extends Container implements PluginContract
 
     /**
      * This is triggered on "plugins_loaded" by "site-reviews/addon/register".
-     *
-     * @param PluginContract|string $addon
      */
-    public function register($addon, bool $isAuthorized = true): void
+    public function register(string $addon, bool $isAuthorized = true): void
     {
         $retired = [ // @compat these addons have been retired
             'site-reviews-gamipress',

@@ -28,7 +28,6 @@ class TableTmp extends AbstractTable
      */
     public function structure(): string
     {
-        $max_index_length = 191;
         return glsr(Query::class)->sql("
             CREATE TABLE {$this->tablename} (
                 ID bigint(20) unsigned NOT NULL AUTO_INCREMENT,

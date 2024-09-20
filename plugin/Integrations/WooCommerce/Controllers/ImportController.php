@@ -10,7 +10,6 @@ use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\ImportProductReview
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\ImportProductReviewsAttachments;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\ImportProductReviewsCleanup;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\MigrateProductRatings;
-use GeminiLabs\SiteReviews\Notices\Notices;
 use GeminiLabs\SiteReviews\Request;
 
 class ImportController extends AbstractController

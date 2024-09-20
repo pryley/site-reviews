@@ -24,7 +24,6 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\SystemInfo;
-use GeminiLabs\SiteReviews\Notices\Notices;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Rollback;
 
