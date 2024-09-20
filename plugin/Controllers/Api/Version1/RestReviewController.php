@@ -199,7 +199,7 @@ class RestReviewController extends \WP_REST_Controller
             return new \WP_Error('rest_invalid_page_number', $error, ['status' => 400]);
         }
         $response = rest_ensure_response($reviews);
-        if (is_wp_error($response)) {
+        if (is_wp_error($response)) { // @phpstan-ignore-line
             return $response;
         }
         return $this->prepareResponse($response, $request, $results);

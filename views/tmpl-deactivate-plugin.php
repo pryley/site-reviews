@@ -1,6 +1,6 @@
 <?php defined('ABSPATH') || exit; ?>
 
-<div id="glsr-dp-overlay" tabindex="0" role="dialog" aria-label="{{ data.l10n.overlayLabel }}"></div>
+<div id="glsr-dp-overlay" tabindex="0" role="dialog" aria-label="<?php echo _x('Deactivation Details', 'admin-text', 'site-reviews'); ?>"></div>
 <script id="tmpl-glsr-deativate" type="text/template">
     <div class="glsr-dp-backdrop"></div>
     <div class="glsr-dp-wrap" role="document">

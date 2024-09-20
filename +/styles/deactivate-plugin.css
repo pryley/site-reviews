@@ -24,6 +24,7 @@ p.glsr-update-warning::before {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1;
 }
 .glsr-dp-backdrop {
     position: fixed;

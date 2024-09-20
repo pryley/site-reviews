@@ -42,7 +42,6 @@ class DeactivationController extends AbstractController
                 'dialogText' => _x('If you have a moment, please tell me how we can improve.', 'admin-text', 'site-reviews'),
                 'dialogTextExtra' => _x('%s to see the additional data that will be submitted. This non-sensitive data will help me troubleshoot problems and make improvements to the plugin.', 'Click here (admin-text)', 'site-reviews'),
                 'dialogTitle' => _x('Deactivating %s', 'Plugin name (admin-text)', 'site-reviews'),
-                'overlayLabel' => _x('Deactivation Details', 'admin-text', 'site-reviews'),
                 'processing' => _x('Processing...', 'admin-text', 'site-reviews'),
             ],
             'insight' => $this->deactivateInsight(),

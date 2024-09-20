@@ -161,7 +161,7 @@ class CreateReview extends AbstractCommand
 
     protected function create(): void
     {
-        $message = __('Your review could not be updated and the error has been logged. Please notify the site administrator.', 'site-reviews-authors');
+        $message = __('Your review could not be submitted and the error has been logged. Please notify the site administrator.', 'site-reviews');
         if ($review = glsr(ReviewManager::class)->create($this)) {
             $this->review = $review; // overwrite the dummy review with the submitted review
             $message = $review->is_approved

@@ -194,16 +194,16 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 == Changelog ==
 
-= 7.1.0 (2024-09-16) =
+= 7.1.0 (2024-09-23) =
 
-- Added "Resend Verification Email" button to reviews
-- Added the previous major version to the Rollback tool (i.e. you can now rollback from v7 to v6)
-- Updated the plugin update check for addons: it now uses the WordPress update routines and is more reliable.
-- Updated the review exporter: it now supports images (Review Images addon required) and custom fields (Review Forms addon required).
-- Updated the review importer: it now supports images (Review Images addon required), custom fields (Review Forms addon required), and skips already imported reviews.
-- Fixed compatibility with the Enfold theme's duplicate post feature
-- Fixed multilingual taxonomy integration
-- Fixed some visual inconsistancies in the admin
+- Added "Resend Verification Email" button to reviews.
+- Added the previous major version to the Rollback tool (i.e. you can now rollback from v7 to v6).
+- Updated the addon update checker to use the WordPress update hooks.
+- Updated the review exporter to support images (Review Images addon required) and custom fields (Review Forms addon required).
+- Updated the review importer to support images (Review Images addon required), custom fields (Review Forms addon required), and skip already imported reviews.
+- Fixed compatibility with the Enfold theme's duplicate post feature.
+- Fixed multilingual taxonomy integration.
+- Fixed some visual inconsistancies in the admin.
 
 = 7.0.18 (2024-08-16) =
 

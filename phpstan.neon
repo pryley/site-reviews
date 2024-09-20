@@ -19,9 +19,11 @@ parameters:
     - tests/phpstan/stubs/woorewards.php
     - helpers.php
     - autoload.php
-  checkGenericClassInNonGenericObjectType: false
-  checkMissingIterableValueType: false
   ignoreErrors:
+    - 
+      identifier: missingType.iterableValue
+    -
+      identifier: missingType.generics
     # These are ArrayObject classes
     - '#Access to an undefined property WP_|GeminiLabs\\SiteReviews\\(Arguments|Contracts\\FieldContract|Modules\\Html\\Field|Request)::(.+)#'
     # Technically, these errors are correct. However, since this is a third-party package we will ignore them for now
@@ -34,6 +36,8 @@ parameters:
     - '#Unsafe usage of new static\(\).#'
     # PHPstan has trouble with wp_parse_args|shortcode_atts combined with extract
     - '#Variable \$(index|level|levels|seconds|tense|unit) might not be defined.#'
+    - '#Path in (include|require)_once\(\) "\./wp-(admin|includes)/(.+)\.php" is not a file or it does not exist\.#'
+    - '#PHPDoc tag @method for method GeminiLabs\\SiteReviews\\Modules\\Schema\\(.+)#'
   level: 5
   paths:
     - config

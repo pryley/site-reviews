@@ -23,7 +23,6 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Review Sharing
 - [ ] Review Snitch (flag reviews as inappropriate)
 - [ ] Review Summaries (single positive/negative ratings, summary styles, etc.)
-- [ ] Review Upvotes
 
 ### Integrations
 

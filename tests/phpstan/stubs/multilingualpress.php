@@ -6207,6 +6207,7 @@ namespace Inpsyde\MultilingualPress\Framework\Nonce {
         /**
          * @inheritdoc
          */
+        #[\ReturnTypeWillChange]
         public function offsetGet($offset)
         {
         }

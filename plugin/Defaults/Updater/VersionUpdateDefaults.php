@@ -37,6 +37,7 @@ class VersionUpdateDefaults extends DefaultsAbstract
         'requires_php' => 'version',
         'slug' => 'slug',
         'tested' => 'version',
+        'upgrade_notice' => 'text',
         'url' => 'url',
         'version' => 'version',
     ];
@@ -53,6 +54,7 @@ class VersionUpdateDefaults extends DefaultsAbstract
             'slug' => '',
             'tested' => '',
             'translations' => '',
+            'upgrade_notice' => '',
             'url' => '',
             'version' => '',
         ];
@@ -71,6 +73,10 @@ class VersionUpdateDefaults extends DefaultsAbstract
         $wp = Helper::version($wp_version, 'minor');
         if (version_compare($tested, $wp, '=')) {
             $values['tested'] = $wp_version;
+        }
+        if (empty($values['package']) && empty($values['upgrade_notice'])) {
+            $notice = _x('A valid license key is required to update this plugin.', 'admin-text', 'site-reviews');
+            $values['upgrade_notice'] = sprintf('‼️ %s', $notice);
         }
         return $values;
     }

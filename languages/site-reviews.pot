@@ -1457,6 +1457,11 @@ msgctxt "file error (admin-text)"
 msgid "File upload was stopped by a PHP extension."
 msgstr ""
 
+#: views/tmpl-deactivate-plugin.php:3
+msgctxt "admin-text"
+msgid "Deactivation Details"
+msgstr ""
+
 #: views/tmpl-deactivate-plugin.php:31
 msgctxt "admin-text"
 msgid "Did you read the %sGetting Started%s guide?"
@@ -1739,6 +1744,10 @@ msgstr ""
 #: plugin/Commands/ConvertTableEngine.php:45
 msgctxt "admin-text"
 msgid "The <code>%s</code> table was successly converted to InnoDB."
+msgstr ""
+
+#: plugin/Commands/CreateReview.php:164, views/pages/documentation/support/common-problems-and-solutions.php:88
+msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
 #: plugin/Commands/CreateReview.php:168
@@ -2182,65 +2191,60 @@ msgstr ""
 
 #: plugin/Controllers/DeactivationController.php:45
 msgctxt "admin-text"
-msgid "Deactivation Details"
-msgstr ""
-
-#: plugin/Controllers/DeactivationController.php:46
-msgctxt "admin-text"
 msgid "Processing..."
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:104
+#: plugin/Controllers/DeactivationController.php:103
 msgctxt "admin-text"
 msgid "If you would like me to help, please include your email so I can contact you."
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:105
+#: plugin/Controllers/DeactivationController.php:104
 msgctxt "admin-text"
 msgid "It's too complicated"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:110
+#: plugin/Controllers/DeactivationController.php:109
 msgctxt "admin-text"
 msgid "Which plugin is better?"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:111
+#: plugin/Controllers/DeactivationController.php:110
 msgctxt "admin-text"
 msgid "I found something better"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:116
+#: plugin/Controllers/DeactivationController.php:115
 msgctxt "admin-text"
 msgid "What isn't working? Please let me know so I can fix it."
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:117
+#: plugin/Controllers/DeactivationController.php:116
 msgctxt "admin-text"
 msgid "It's not working for me"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:123
+#: plugin/Controllers/DeactivationController.php:122
 msgctxt "admin-text"
 msgid "It's only temporary"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:128
+#: plugin/Controllers/DeactivationController.php:127
 msgctxt "admin-text"
 msgid "Which feature are you looking for?"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:129
+#: plugin/Controllers/DeactivationController.php:128
 msgctxt "admin-text"
 msgid "Missing a specific feature"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:134
+#: plugin/Controllers/DeactivationController.php:133
 msgctxt "admin-text"
 msgid "Could you tell me a bit more?"
 msgstr ""
 
-#: plugin/Controllers/DeactivationController.php:135
+#: plugin/Controllers/DeactivationController.php:134
 msgctxt "admin-text"
 msgid "Other Reason"
 msgstr ""
@@ -2617,7 +2621,7 @@ msgstr ""
 
 #: plugin/Controllers/UpdateController.php:137
 msgctxt "admin-text"
-msgid "A valid <a href=\"%s\">license key</a> is required to update."
+msgid "A valid <a href=\"%s\">license key</a> is required to update this plugin."
 msgstr ""
 
 #: plugin/Controllers/VerificationController.php:34
@@ -4063,6 +4067,11 @@ msgstr ""
 #: plugin/Controllers/ListTableColumns/ColumnFilterType.php:19
 msgctxt "admin-text"
 msgid "Any review type"
+msgstr ""
+
+#: plugin/Defaults/Updater/VersionUpdateDefaults.php:78
+msgctxt "admin-text"
+msgid "A valid license key is required to update this plugin."
 msgstr ""
 
 #: plugin/Integrations/Elementor/ElementorFormWidget.php:37
@@ -5682,10 +5691,6 @@ msgstr ""
 #: views/integrations/woocommerce/tools/import-product-reviews.php:58
 msgctxt "admin-text"
 msgid "Revert"
-msgstr ""
-
-#: views/pages/documentation/support/common-problems-and-solutions.php:88
-msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
 #: views/pages/documentation/support/common-problems-and-solutions.php:124

@@ -21,7 +21,7 @@ class SystemInfo
 
     public function __construct()
     {
-        require_once ABSPATH.'/wp-admin/includes/plugin.php';
+        require_once ABSPATH.'wp-admin/includes/plugin.php';
     }
 
     public function __toString()

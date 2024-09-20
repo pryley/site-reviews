@@ -54,7 +54,7 @@ function glsr_uninstall_all_cleanup() {
 }
 
 function glsr_uninstall_all_delete_logs() {
-    require_once ABSPATH.'/wp-admin/includes/file.php';
+    require_once ABSPATH.'wp-admin/includes/file.php';
     global $wp_filesystem;
     // delete the Site Reviews logs directory
     if (WP_Filesystem()) {

@@ -134,7 +134,7 @@ class UpdateController extends AbstractController
             return;
         }
         $url = $pluginData['PluginURI'] ?? Updater::DEFAULT_API_URL;
-        $message = _x('A valid <a href="%s">license key</a> is required to update.', 'admin-text', 'site-reviews');
+        $message = _x('A valid <a href="%s">license key</a> is required to update this plugin.', 'admin-text', 'site-reviews');
         printf(" {$message}", $url);
     }
 
