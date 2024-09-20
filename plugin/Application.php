@@ -28,7 +28,6 @@ use GeminiLabs\SiteReviews\Modules\Queue;
  * @property array     $session
  * @property Arguments $storage
  * @property string    $taxonomy
- * @property array     $updated
  * @property string    $version
  * @property string    $testedTo;
  */
@@ -51,7 +50,6 @@ final class Application extends Container implements PluginContract
     protected array $defaults;
     protected string $name;
     protected array $settings;
-    protected array $updated = [];
 
     public function addon(string $addonId)
     {

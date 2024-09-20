@@ -2,12 +2,12 @@
 
 <div class="glsr-notice glsr-notice-top-of-page" data-dismiss="license">
 <?php
-    if ($isFree) {
+    if (!$licensed) {
         printf(_x('You are using the free version of Site Reviews. %sPurchase premium%s to support future development and get images, filters, themes, custom forms, and more!', 'admin-text', 'site-reviews'),
             '<a href="https://niftyplugins.com/plugins/site-reviews-premium/" target="_blank">',
             '</a>'
         );
-    } elseif (!$isValid) {
+    } elseif ($expired) {
         printf(
             _x('One or more of your licenses have expired. %sRenew your license%s to get the latest updates and priority support.', 'admin-text', 'site-reviews'),
             '<a href="https://niftyplugins.com/account/license-keys/" target="_blank">',

@@ -9,10 +9,10 @@ class LicenseNotice extends AbstractNotice
     public function render(): void
     {
         $licensing = glsr(License::class)->status();
-        if ($licensing['isSaved'] && $licensing['isValid']) {
-            return;
+        if ($licensing['licensed'] && !$licensing['invalid'] && !$licensing['missing']) {
+            return; // license is valid and saved
         }
-        if ($this->isDismissed() && $licensing['isValid']) {
+        if ($this->isDismissed()) {
             return;
         }
         glsr()->render('partials/notices/license', $licensing);

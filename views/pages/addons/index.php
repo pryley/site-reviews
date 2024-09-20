@@ -3,6 +3,7 @@
 <div class="wrap">
     <hr class="wp-header-end" />
     <?php echo $notices; ?>
+    <?php if (!$is_premium) { ?>
     <div class="glsr-premium-hero">
         <div class="glsr-premium-hero-image"></div>
         <div class="glsr-premium-hero-content">
@@ -15,7 +16,7 @@
             <a href="https://niftyplugins.com/plugins/site-reviews-premium/" class="button button-hero button-primary" target="_blank"><?php echo _x('Check it out!', 'admin-text', 'site-reviews'); ?></a>
         </div>
     </div>
-
+    <?php } ?>
     <div class="glsr-addons">
         <?php glsr('Modules\Html\Template')->renderMultiple('partials/addons/addon', $addons); ?>
     </div>

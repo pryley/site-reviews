@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Defaults\AddonDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\License;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\SettingForm;
@@ -95,6 +96,7 @@ class MenuController extends AbstractController
         }
         $this->renderPage('addons', [
             'addons' => $addons,
+            'is_premium' => glsr(License::class)->isPremium(),
         ]);
     }
 

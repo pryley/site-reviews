@@ -6,42 +6,37 @@ use GeminiLabs\SiteReviews\Addons\Updater;
 
 class License
 {
-    public function isLicensed(): bool
+    public function isPremium(): bool
     {
-        $status = $this->status();
-        if (empty(glsr()->retrieveAs('array', 'licensed', []))) {
-            return false;
-        }
-        return $status['isValid'] && $status['isSaved'];
+        return $this->status()['premium'];
     }
 
     public function status(): array
     {
-        $isFree = true; // priority 1
-        $isValid = true; // priority 2
-        $isSaved = true; // priority 3
-        foreach (glsr()->updated as $addonId => $addon) {
-            if (!$addon['licensed']) {
-                continue; // this is a free addon
+        $licensed = glsr()->retrieveAs('array', 'licensed', []);
+        $status = array_fill_keys(['expired', 'invalid', 'licensed', 'missing', 'premium'], false);
+        foreach ($licensed as $addonId => $addon) {
+            $license = glsr_get_option("licenses.{$addonId}");
+            $status['licensed'] = true;
+            if (empty($license)) {
+                $status['missing'] = true;
+                continue;
             }
-            $isFree = false; // there are premium addons installed
-            if (empty(glsr_get_option("licenses.{$addonId}"))) {
-                $isSaved = false;
-                continue; // the license has not been saved in the settings
+            $updater = new Updater($addonId, [
+                'force' => false, // cached once per day
+                'license' => $license,
+            ]);
+            $check = $updater->checkLicense();
+            if ('expired' === $check['license']) {
+                $status['expired'] = true;
             }
-            $licenseStatus = get_option(glsr()->prefix.$addonId);
-            if (empty($licenseStatus)) { // the license status has not been stored
-                $license = glsr_get_option("licenses.{$addonId}");
-                $updater = new Updater($addonId, [
-                    'license' => $license,
-                    'url' => $addon['updateUrl'],
-                ]);
-                // if (!$updater->isLicenseValid()) {
-                //     $isValid = false;
-                //     break;
-                // }
+            if ('valid' !== $check['license']) {
+                $status['invalid'] = true;
+            }
+            if ($check['is_premium_license']) {
+                $status['premium'] = true;
             }
         }
-        return compact('isFree', 'isSaved', 'isValid');
+        return $status;
     }
 }

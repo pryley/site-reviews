@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\License;
 use GeminiLabs\SiteReviews\Modules\Translation;
 
 class SettingForm extends Form
@@ -197,7 +196,6 @@ class SettingForm extends Form
         $rows = array_reduce($fields, fn ($carry, $field) => $carry.$field->build(), '');
         return [
             'context' => compact('rows'),
-            'license' => glsr(License::class)->status(),
         ];
     }
 

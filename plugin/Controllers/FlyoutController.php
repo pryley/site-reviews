@@ -56,7 +56,7 @@ class FlyoutController extends AbstractController
                 'url' => 'https://wordpress.org/support/plugin/site-reviews/',
             ],
         ];
-        if (glsr(License::class)->isLicensed()) {
+        if (glsr(License::class)->isPremium()) {
             array_shift($items);
         }
         $items = glsr()->filterArray('flyoutmenu/items', $items);

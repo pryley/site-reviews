@@ -12,9 +12,24 @@ class CheckLicenseDefaults extends DefaultsAbstract
      */
     public array $casts = [
         'activations_left' => 'int',
+        'is_premium_license' => 'bool',
         'license_limit' => 'int',
         'site_count' => 'int',
         'success' => 'bool',
+    ];
+
+    /**
+     * The values that should be constrained after sanitization is run.
+     * This is done after $casts and $sanitize.
+     */
+    public array $enums = [
+        'license' => [
+            'disabled',
+            'expired',
+            'inactive',
+            'site_inactive',
+            'valid',
+        ],
     ];
 
     /**
@@ -35,7 +50,8 @@ class CheckLicenseDefaults extends DefaultsAbstract
             'checksum' => '',
             'expires' => '',
             'item_name' => '',
-            'license' => '',
+            'is_premium_license' => false,
+            'license' => 'invalid',
             'license_limit' => 0,
             'site_count' => 0,
             'success' => false,

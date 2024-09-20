@@ -184,7 +184,7 @@ class AdminController extends AbstractController
         }
         $buttons = [];
         $screen = glsr_current_screen();
-        if (glsr()->post_type === $screen->post_type && !glsr(License::class)->isLicensed()) {
+        if (glsr()->post_type === $screen->post_type && !glsr(License::class)->isPremium()) {
             $buttons['premium'] = [
                 'class' => 'components-button is-primary glsr-try-premium',
                 'href' => 'https://niftyplugins.com/plugins/site-reviews-premium/',
