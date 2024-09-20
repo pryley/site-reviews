@@ -21,12 +21,9 @@ class Request extends Arguments
      *
      * @return mixed
      */
-    public function get($key, $fallback = null, array $restrictTo = [])
+    public function get($key, $fallback = null)
     {
         $value = Arr::get($this->getArrayCopy(), $key, null);
-        if (!empty($restrictTo)) {
-            $value = Str::restrictTo($restrictTo, $value, $fallback);
-        }
         if (is_null($fallback)) {
             return $value;
         }
