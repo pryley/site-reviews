@@ -16,7 +16,7 @@ class HoneypotValidator extends ValidatorAbstract
     public function performValidation(): void
     {
         if (!$this->isValid()) {
-            $this->setErrors(
+            $this->fail(
                 __('This review has been flagged as possible spam and cannot be submitted.', 'site-reviews'),
                 'The Honeypot caught a bad submission.'
             );

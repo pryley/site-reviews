@@ -20,6 +20,6 @@ class CustomValidator extends ValidatorAbstract
         if (!is_string($validated)) {
             $validated = __('The review submission failed. Please notify the site administrator.', 'site-reviews');
         }
-        $this->setErrors($validated);
+        $this->fail($validated);
     }
 }

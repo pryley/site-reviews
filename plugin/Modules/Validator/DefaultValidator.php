@@ -24,7 +24,7 @@ class DefaultValidator extends ValidatorAbstract
         if ($this->isValid()) {
             return;
         }
-        $this->setErrors(__('Please fix the form errors.', 'site-reviews'));
+        $this->fail(__('Please fix the form errors.', 'site-reviews'));
     }
 
     public function request(): Request

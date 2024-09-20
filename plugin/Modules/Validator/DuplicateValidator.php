@@ -27,7 +27,7 @@ class DuplicateValidator extends ValidatorAbstract
     public function performValidation(): void
     {
         if (!$this->isValid()) {
-            $this->setErrors(__('Duplicate review detected. It looks like you already said that!', 'site-reviews'));
+            $this->fail(__('Duplicate review detected. It looks like you already said that!', 'site-reviews'));
         }
     }
 }

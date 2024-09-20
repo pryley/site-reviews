@@ -45,7 +45,7 @@ class CaptchaValidator extends ValidatorAbstract
             __('The CAPTCHA failed to load, please refresh the page and try again.', 'site-reviews'),
             __('The CAPTCHA verification failed, please try again.', 'site-reviews')
         );
-        $this->setErrors($error);
+        $this->fail($error);
     }
 
     protected function data(): array

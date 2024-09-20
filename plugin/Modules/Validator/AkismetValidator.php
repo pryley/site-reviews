@@ -37,7 +37,7 @@ class AkismetValidator extends ValidatorAbstract
     public function performValidation(): void
     {
         if (!$this->isValid()) {
-            $this->setErrors(
+            $this->fail(
                 __('This review has been flagged as possible spam and cannot be submitted.', 'site-reviews'),
                 'Akismet caught a spam submission (consider adding the IP address to the blacklist).'
             );

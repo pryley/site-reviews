@@ -15,7 +15,7 @@ class PermissionValidator extends ValidatorAbstract
     public function performValidation(): void
     {
         if (!$this->isValid()) {
-            $this->setErrors(__('You must be logged in to submit a review.', 'site-reviews'));
+            $this->fail(__('You must be logged in to submit a review.', 'site-reviews'));
         }
     }
 }

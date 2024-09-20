@@ -26,7 +26,7 @@ class BlacklistValidator extends ValidatorAbstract
                 $this->request->set('blacklisted', true);
                 return;
             }
-            $this->setErrors(
+            $this->fail(
                 __('Your review cannot be submitted at this time.', 'site-reviews'),
                 'Blacklisted submission detected.'
             );

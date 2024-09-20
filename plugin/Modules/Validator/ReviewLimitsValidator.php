@@ -22,7 +22,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
     public function performValidation(): void
     {
         if (!$this->isValid()) {
-            $this->setErrors(__('You have already submitted a review.', 'site-reviews'));
+            $this->fail(__('You have already submitted a review.', 'site-reviews'));
         }
     }
 
