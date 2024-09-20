@@ -29,6 +29,14 @@ class Arguments extends \ArrayObject
 
     /**
      * @param mixed $key
+     */
+    public function array($key, array $fallback = []): array
+    {
+        return Arr::consolidate($this->get($key, $fallback));
+    }
+
+    /**
+     * @param mixed $key
      *
      * @return mixed
      */

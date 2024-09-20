@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
@@ -26,7 +27,6 @@ class CreateReview extends AbstractCommand
     public $assigned_users;
     public $author_id;
     public $avatar;
-    public $blacklisted;
     public $content;
     public $custom;
     public $date;
@@ -50,15 +50,15 @@ class CreateReview extends AbstractCommand
     public $type;
     public $url;
 
-    protected $errors;
-    protected $message;
-    protected $review;
+    protected Review $review;
+    protected Arguments $validation;
 
     public function __construct(Request $request)
     {
         $this->request = $this->normalize($request); // IP address is set here
         $this->setProperties(); // do this after setting the request
         $this->review = new Review($this->toArray(), $init = false);
+        $this->validation = new Arguments();
         $this->custom = $this->custom();
         $this->type = $this->type();
         $this->avatar = $this->avatar(); // do this last
@@ -92,10 +92,9 @@ class CreateReview extends AbstractCommand
         ]);
         $validator = glsr(ValidateForm::class)->validate($request, $validators);
         if ($validator->isValid()) {
-            glsr()->sessionClear();
             return true;
         }
-        glsr_log()->warning($validator->errors);
+        glsr_log()->warning($validator->result()->errors);
         return false;
     }
 
@@ -124,9 +123,9 @@ class CreateReview extends AbstractCommand
     public function response(): array
     {
         return [
-            'errors' => $this->errors,
+            'errors' => $this->validation->array('errors'),
             'html' => (string) $this->review,
-            'message' => $this->message,
+            'message' => $this->validation->cast('message', 'string'),
             'redirect' => $this->redirect(),
             'review' => $this->review->toArray(['email', 'ip_address']),
             'reviews' => $this->reloadedReviews(),
@@ -135,11 +134,7 @@ class CreateReview extends AbstractCommand
 
     public function successful(): bool
     {
-        if (false === $this->errors) {
-            glsr()->sessionClear();
-            return true;
-        }
-        return false;
+        return false === $this->validation->failed;
     }
 
     public function toArray(): array
@@ -152,14 +147,8 @@ class CreateReview extends AbstractCommand
     public function validate(): bool
     {
         $validator = glsr(ValidateForm::class)->validate($this->request);
-        $this->blacklisted = $validator->blacklisted;
-        $this->errors = $validator->errors;
-        $this->message = $validator->message;
-        if ($validator->isValid()) {
-            glsr()->sessionClear();
-            return true;
-        }
-        return false;
+        $this->validation = $validator->result();
+        return $validator->isValid();
     }
 
     protected function avatar(): string
@@ -172,15 +161,14 @@ class CreateReview extends AbstractCommand
 
     protected function create(): void
     {
+        $message = __('Your review could not be updated and the error has been logged. Please notify the site administrator.', 'site-reviews-authors');
         if ($review = glsr(ReviewManager::class)->create($this)) {
-            $this->message = $review->is_approved
+            $this->review = $review; // overwrite the dummy review with the submitted review
+            $message = $review->is_approved
                 ? __('Your review has been submitted!', 'site-reviews')
                 : __('Your review has been submitted and is pending approval.', 'site-reviews');
-            $this->review = $review; // overwrite the dummy review with the submitted review
-            return;
         }
-        $this->errors = [];
-        $this->message = __('Your review could not be submitted and the error has been logged. Please notify the site administrator.', 'site-reviews');
+        $this->validation->set('message', $message);
     }
 
     protected function custom(): array

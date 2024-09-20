@@ -15,9 +15,22 @@ abstract class ValidatorAbstract implements ValidatorContract
         $this->request = $request;
     }
 
+    /**
+     * @compat < v7.1
+     * @todo remove in v8
+     */
+    public function __call(string $method, array $args = [])
+    {
+        if ('setErrors' === $method) {
+            call_user_func_array([$this, 'fail'], $args);
+            return;
+        }
+        throw new \BadMethodCallException("Method [$method] does not exist.");
+    }
+
     public function alreadyFailed(): bool
     {
-        return is_array(glsr()->sessionGet('form_errors'));
+        return glsr()->session()->cast('form_invalid', 'bool');
     }
 
     public function fail(string $message, ?string $loggedMessage = null): void
@@ -34,15 +47,6 @@ abstract class ValidatorAbstract implements ValidatorContract
     public function request(): Request
     {
         return $this->request;
-    }
-
-    /**
-     * @compat < v7.1
-     * @todo remove in v8
-     */
-    public function setErrors(string $message, ?string $loggedMessage = null): void
-    {
-        $this->fail($message, $loggedMessage);
     }
 
     /**

@@ -345,7 +345,7 @@ class ReviewManager
             $requireApprovalForRating = glsr(OptionManager::class)->getInt('settings.general.require.approval_for', 5);
             $isApproved = !$requireApproval || $command->rating > $requireApprovalForRating;
         }
-        return !$isApproved || ('local' === $command->type && $command->blacklisted)
+        return !$isApproved || ('local' === $command->type && $command->request->cast('blacklisted', 'bool'))
             ? 'pending'
             : 'publish';
     }

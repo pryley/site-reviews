@@ -96,6 +96,7 @@ class Form extends \ArrayObject implements FormContract
     {
         $this->session = glsr()->args([
             'errors' => [],
+            'failed' => false,
             'message' => '',
             'values' => $values,
         ]);

@@ -37,9 +37,10 @@ class ReviewForm extends Form
     public function loadSession(array $values): void
     {
         $this->session = glsr()->args([
-            'errors' => Arr::consolidate(glsr()->sessionGet('form_errors', [])),
-            'message' => Cast::toString(glsr()->sessionGet('form_message', '')),
-            'values' => $values ?: Arr::consolidate(glsr()->sessionGet('form_values', [])),
+            'errors' => glsr()->session()->array('form_errors'),
+            'failed' => glsr()->session()->cast('form_invalid', 'bool'),
+            'message' => glsr()->session()->cast('form_message', 'string'),
+            'values' => $values ?: glsr()->session()->array('form_values'),
         ]);
     }
 

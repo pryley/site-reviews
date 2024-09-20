@@ -2,31 +2,67 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
-use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Contracts\ValidatorContract;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Request;
 
 class ValidateForm
 {
-    /**
-     * @var bool
-     */
-    public $blacklisted;
+    protected Request $request;
+
+    public function __construct()
+    {
+        glsr()->sessionPluck('form_errors');
+        glsr()->sessionPluck('form_invalid');
+        glsr()->sessionPluck('form_message');
+    }
 
     /**
-     * @var array|false
+     * @compat
+     * @todo remove in v8
      */
-    public $errors;
+    public function __get($property)
+    {
+        $result = $this->result();
+        if ('blacklisted' === $property) {
+            if (isset($this->request)) {
+                return $this->request->cast('blacklisted', 'bool');
+            }
+            return false;
+        }
+        if ('message' === $property) {
+            return $result->$property;
+        }
+        if ('errors' !== $property) {
+            return;
+        }
+        if (!empty($result->errors)) {
+            return $result->errors;
+        }
+        if (!$result->failed) {
+            return false; // validation success
+        }
+        return []; // validation fail
+    }
 
-    /**
-     * @var string
-     */
-    public $message;
+    public function result(): Arguments
+    {
+        return glsr()->args([
+            'errors' => glsr()->session()->array('form_errors'),
+            'failed' => glsr()->session()->cast('form_invalid', 'bool'),
+            'message' => glsr()->session()->cast('form_message', 'string'),
+        ]);
+    }
 
-    /**
-     * @var Request
-     */
-    public $request;
+    public function isValid(): bool
+    {
+        if (false === $this->result()->failed) {
+            glsr()->sessionClear();
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @return static
@@ -39,9 +75,6 @@ class ValidateForm
             $validator = glsr($validatorClass, ['request' => $this->request])->validate();
             $this->request = $validator->request();
         }
-        $this->blacklisted = Cast::toBool($this->request->blacklisted);
-        $this->errors = glsr()->sessionPluck('form_errors', false);
-        $this->message = Cast::toString(glsr()->sessionPluck('form_message'));
         return $this;
     }
 
@@ -81,10 +114,5 @@ class ValidateForm
             $validators[] = $validatorClass;
         }
         return $validators;
-    }
-
-    public function isValid(): bool
-    {
-        return false === $this->errors;
     }
 }
