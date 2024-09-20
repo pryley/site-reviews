@@ -253,9 +253,9 @@ function glsr_trace($limit = 5)
  */
 function glsr_update_review($postId, $values = [])
 {
-    glsr()->store('glsr_update_review', true);
     $postId = Cast::toInt($postId);
     $values = Arr::consolidate($values);
+    glsr()->store('glsr_update_review', true);
     $result = glsr(ReviewManager::class)->update($postId, $values);
     glsr()->discard('glsr_update_review');
     return $result;

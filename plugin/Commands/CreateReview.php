@@ -56,9 +56,8 @@ class CreateReview extends AbstractCommand
 
     public function __construct(Request $request)
     {
-        $request = $this->normalize($request); // IP address is set here
-        $this->setProperties($request->toArray());
-        $this->request = $request;
+        $this->request = $this->normalize($request); // IP address is set here
+        $this->setProperties(); // do this after setting the request
         $this->review = new Review($this->toArray(), $init = false);
         $this->custom = $this->custom();
         $this->type = $this->type();
@@ -92,12 +91,12 @@ class CreateReview extends AbstractCommand
             CustomValidator::class,
         ]);
         $validator = glsr(ValidateForm::class)->validate($request, $validators);
-        if (!$validator->isValid()) {
-            glsr_log()->warning($validator->errors);
-            return false;
+        if ($validator->isValid()) {
+            glsr()->sessionClear();
+            return true;
         }
-        glsr()->sessionClear();
-        return true;
+        glsr_log()->warning($validator->errors);
+        return false;
     }
 
     public function referer(): string
@@ -156,7 +155,11 @@ class CreateReview extends AbstractCommand
         $this->blacklisted = $validator->blacklisted;
         $this->errors = $validator->errors;
         $this->message = $validator->message;
-        return $validator->isValid();
+        if ($validator->isValid()) {
+            glsr()->sessionClear();
+            return true;
+        }
+        return false;
     }
 
     protected function avatar(): string
@@ -218,12 +221,14 @@ class CreateReview extends AbstractCommand
         return sanitize_text_field($redirect);
     }
 
-    protected function setProperties(array $properties): void
+    protected function setProperties(): void
     {
-        $values = glsr(CreateReviewDefaults::class)->restrict($properties);
-        foreach ($values as $key => $value) {
-            if (property_exists($this, $key)) {
-                $this->{$key} = $value;
+        $properties = (new \ReflectionClass($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
+        $values = glsr(CreateReviewDefaults::class)->restrict($this->request->toArray());
+        foreach ($properties as $property) {
+            $key = $property->getName();
+            if (array_key_exists($key, $values)) {
+                $property->setValue($this, $values[$key]);
             }
         }
         if (!empty($this->date) && empty($this->date_gmt)) {
