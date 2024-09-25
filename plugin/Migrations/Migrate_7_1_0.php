@@ -16,31 +16,27 @@ class Migrate_7_1_0 implements MigrateContract
 
     public function migrateDatabase(): void
     {
-        $indexedColumns = [
-            'is_approved',
-            'is_flagged',
-        ];
+        $isDirty = false;
         $indexes = glsr(Database::class)->dbGetResults(
             glsr(Query::class)->sql("SHOW INDEXES FROM table|ratings")
         );
-        $isDirty = false;
-        foreach ($indexedColumns as $column) {
-            $indexExists = false;
-            foreach ($indexes as $index) {
-                if ("glsr_ratings_{$column}_index" === $index->Key_name && $column === $index->Column_name) {
-                    $indexExists = true;
-                    break;
-                }
-            }
-            if ($indexExists) {
-                continue;
-            }
+        $keyNames = wp_list_pluck($indexes, 'Key_name');
+        if (!in_array('glsr_ratings_rating_type_is_approved_index', $keyNames)) {
             $sql = glsr(Query::class)->sql("
-                ALTER TABLE table|ratings ADD INDEX glsr_ratings_{$column}_index ({$column})
+                ALTER TABLE table|ratings ADD INDEX glsr_ratings_rating_type_is_approved_index (rating,type,is_approved)
             ");
             if (false === glsr(Database::class)->dbQuery($sql)) {
                 $isDirty = true;
-                glsr_log()->error("The ratings table could not be altered, the [is_approved] index was not added.");
+                glsr_log()->error("The ratings table could not be altered, the [rating_type_is_approved] index was not added.");
+            }
+        }
+        if (!in_array('glsr_ratings_is_flagged_index', $keyNames)) {
+            $sql = glsr(Query::class)->sql("
+                ALTER TABLE table|ratings ADD INDEX glsr_ratings_is_flagged_index (is_flagged)
+            ");
+            if (false === glsr(Database::class)->dbQuery($sql)) {
+                $isDirty = true;
+                glsr_log()->error("The ratings table could not be altered, the [is_flagged] index was not added.");
             }
         }
         if (!$isDirty) {

@@ -60,7 +60,7 @@ class TableRatings extends AbstractTable
                 PRIMARY KEY  (ID),
                 UNIQUE KEY glsr_ratings_review_id_unique (review_id),
                 KEY glsr_ratings_rating_type_is_pinned_index (rating,type,is_pinned),
-                KEY glsr_ratings_is_approved_index (is_approved),
+                KEY glsr_ratings_rating_type_is_approved_index (rating,type,is_approved),
                 KEY glsr_ratings_is_flagged_index (is_flagged)
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         ");
