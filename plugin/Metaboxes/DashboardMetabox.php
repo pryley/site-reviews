@@ -62,7 +62,7 @@ class DashboardMetabox
         $month = (int) date('m');
         $year = (int) date('Y');
         $sql = "
-            SELECT COUNT(DISTINCT ID) AS count
+            SELECT COUNT(*) AS count
             FROM table|posts
             WHERE 1=1
             AND post_type = %s

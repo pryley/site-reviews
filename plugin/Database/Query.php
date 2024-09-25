@@ -202,7 +202,7 @@ class Query
     protected function queryRatings(): string
     {
         return $this->sql("
-            SELECT {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
+            SELECT {$this->ratingColumn()} AS rating, r.type, COUNT(*) AS count
             FROM table|ratings AS r
             {$this->sqlJoin()}
             {$this->sqlWhere()}
@@ -213,7 +213,7 @@ class Query
     public function queryRatingsForPostmeta(): string
     {
         return $this->sql("
-            SELECT apt.post_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
+            SELECT apt.post_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(*) AS count
             FROM table|ratings AS r
             INNER JOIN table|assigned_posts AS apt ON (apt.rating_id = r.ID)
             WHERE 1=1
@@ -226,7 +226,7 @@ class Query
     protected function queryRatingsForTermmeta(): string
     {
         return $this->sql("
-            SELECT att.term_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
+            SELECT att.term_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(*) AS count
             FROM table|ratings AS r
             INNER JOIN table|assigned_terms AS att ON (att.rating_id = r.ID)
             WHERE 1=1
@@ -239,7 +239,7 @@ class Query
     protected function queryRatingsForUsermeta(): string
     {
         return $this->sql("
-            SELECT aut.user_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
+            SELECT aut.user_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(*) AS count
             FROM table|ratings AS r
             INNER JOIN table|assigned_users AS aut ON (aut.rating_id = r.ID)
             WHERE 1=1
@@ -306,7 +306,7 @@ class Query
     protected function queryTotalReviews(): string
     {
         return $this->sql("
-            SELECT COUNT(DISTINCT r.ID) AS count
+            SELECT COUNT(*) AS count
             FROM table|ratings AS r
             {$this->sqlJoin()}
             {$this->sqlWhere()}
