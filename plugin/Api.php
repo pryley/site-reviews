@@ -105,12 +105,14 @@ class Api
 
     public function transientKey(string $path = '', string $transientKey = 'request', array $body = []): string
     {
-        if (!empty($body)) {
-            $body = Str::hash((string) maybe_serialize($body), 8);
+        if (empty($body)) {
+            $bodyHash = '';
+        } else {
+            $bodyHash = Str::hash((string) maybe_serialize($body), 8);
         }
         $url = Str::hash($this->url($path), 8);
         $key = sanitize_key($transientKey);
-        $key = trim("{$key}_{$url}_{$body}", '_');
+        $key = trim("{$key}_{$url}_{$bodyHash}", '_');
         return glsr()->prefix."api_{$key}";
     }
 
