@@ -10,6 +10,20 @@ use GeminiLabs\SiteReviews\Review;
 defined('ABSPATH') || exit;
 
 /**
+ * This fixes the button classes in themes using the Avia framework.
+ *
+ * @see https://kriesi.at/themes/enfold-overview/
+ */
+function glsr_filter_avia_button_classes(array $defaults): array
+{
+    $defaults['button'] = 'glsr-button avia-button avia-color-theme-color';
+    return $defaults;
+}
+add_action('avia_action_before_framework_init', function () {
+    add_filter('site-reviews/defaults/style-classes/defaults', 'glsr_filter_avia_button_classes');
+});
+
+/**
  * This fixes the Duplicate option provided by the Enfold theme.
  * 
  * @see https://kriesi.at/themes/enfold-overview/
