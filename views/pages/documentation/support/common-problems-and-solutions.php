@@ -92,7 +92,7 @@
                 <ul>
                     <li><p>Check for any invalid code snippets or custom functions you may have added to your theme's <code>functions.php</code> file that might be triggered after a review is created.</p></li>
                     <li><p>Deactivate Site Reviews and then reactivate it (this should fix any broken database table indexes).</p></li>
-                    <li><p>Hold down the ALT key (Option key if using a Mac) and run the <code><a data-expand="#tools-migrate-plugin" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Migrate Plugin</a></code> tool.</p></li>
+                    <li><p>Run the <code><a data-expand="#tools-migrate-plugin" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Migrate Plugin</a></code> tool by clicking the <strong>Hard Reset</strong> button.</p></li>
                     <li><p>Run the <code><a data-expand="#tools-repair-review-relations" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Repair Review Relations</a></code> tool.</p></li>
                     <li>
                         <p>Finally, there is the "Nuclear" option:</p>

@@ -48,6 +48,7 @@ class TableRatings extends AbstractTable
                 type varchar(20) DEFAULT 'local',
                 is_approved tinyint(1) NOT NULL DEFAULT '0',
                 is_pinned tinyint(1) NOT NULL DEFAULT '0',
+                is_flagged tinyint(1) NOT NULL DEFAULT '0',
                 is_verified tinyint(1) NOT NULL DEFAULT '0',
                 name varchar(250) DEFAULT NULL,
                 email varchar(100) DEFAULT NULL,
@@ -58,7 +59,9 @@ class TableRatings extends AbstractTable
                 score int(11) NOT NULL DEFAULT '0',
                 PRIMARY KEY  (ID),
                 UNIQUE KEY glsr_ratings_review_id_unique (review_id),
-                KEY glsr_ratings_rating_type_is_pinned_index (rating,type,is_pinned)
+                KEY glsr_ratings_rating_type_is_pinned_index (rating,type,is_pinned),
+                KEY glsr_ratings_is_approved_index (is_approved),
+                KEY glsr_ratings_is_flagged_index (is_flagged)
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         ");
     }
