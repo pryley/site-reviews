@@ -169,9 +169,11 @@ add_action('plugins_loaded', function () {
 
 /**
  * @return void
+ *
  * @since 5.0.0
  */
-function glsr_calculate_ratings() {
+function glsr_calculate_ratings()
+{
     _deprecated_function('glsr_calculate_ratings', '5.0 (of Site Reviews)');
     glsr_log()->error(sprintf(
         __('%s is <strong>deprecated</strong> since version %s with no alternative available.', 'site-reviews'),
@@ -182,9 +184,11 @@ function glsr_calculate_ratings() {
 
 /**
  * @return object
+ *
  * @since 5.0.0
  */
-function glsr_get_rating($args = []) {
+function glsr_get_rating($args = [])
+{
     _deprecated_function('glsr_get_rating', '5.0 (of Site Reviews)', 'glsr_get_ratings');
     glsr_log()->notice(sprintf(
         __('%s is <strong>deprecated</strong> since version %s! Use %s instead.', 'site-reviews'),
@@ -195,7 +199,8 @@ function glsr_get_rating($args = []) {
     return glsr_get_ratings($args);
 }
 
-function glsr_log_deprecated_notices() {
+function glsr_log_deprecated_notices()
+{
     $notices = glsr()->retrieveAs('array', 'deprecated', []);
     $notices = array_keys(array_flip(array_filter($notices)));
     natsort($notices);

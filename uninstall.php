@@ -1,8 +1,9 @@
 <?php
 
-defined('WP_UNINSTALL_PLUGIN') || die;
+defined('WP_UNINSTALL_PLUGIN') || exit;
 
-function glsr_uninstall() {
+function glsr_uninstall()
+{
     $settings = get_option('site_reviews_v7');
     $uninstall = isset($settings['settings']['general']['delete_data_on_uninstall'])
         ? $settings['settings']['general']['delete_data_on_uninstall']
@@ -27,7 +28,8 @@ function glsr_uninstall() {
     }
 }
 
-function glsr_uninstall_all() {
+function glsr_uninstall_all()
+{
     glsr_uninstall_minimal();
     glsr_uninstall_all_delete_reviews();
     glsr_uninstall_all_delete_tables();
@@ -35,7 +37,8 @@ function glsr_uninstall_all() {
     glsr_uninstall_all_cleanup();
 }
 
-function glsr_uninstall_all_cleanup() {
+function glsr_uninstall_all_cleanup()
+{
     global $wpdb;
     // delete any remaining options
     $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '%glsr_%'");
@@ -53,7 +56,8 @@ function glsr_uninstall_all_cleanup() {
     $wpdb->query("OPTIMIZE TABLE {$wpdb->usermeta}");
 }
 
-function glsr_uninstall_all_delete_logs() {
+function glsr_uninstall_all_delete_logs()
+{
     require_once ABSPATH.'wp-admin/includes/file.php';
     global $wp_filesystem;
     // delete the Site Reviews logs directory
@@ -64,7 +68,8 @@ function glsr_uninstall_all_delete_logs() {
     }
 }
 
-function glsr_uninstall_all_delete_reviews() {
+function glsr_uninstall_all_delete_reviews()
+{
     global $wpdb;
     // delete all reviews and revisions
     $wpdb->query("
@@ -92,7 +97,8 @@ function glsr_uninstall_all_delete_reviews() {
     ");
 }
 
-function glsr_uninstall_all_delete_tables() {
+function glsr_uninstall_all_delete_tables()
+{
     global $wpdb;
     // order is intentional
     $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_assigned_users");
@@ -101,7 +107,8 @@ function glsr_uninstall_all_delete_tables() {
     $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_ratings");
 }
 
-function glsr_uninstall_minimal() {
+function glsr_uninstall_minimal()
+{
     global $wpdb;
     $options = [
         'geminilabs_site_reviews-v2', // v2 settings
@@ -123,7 +130,8 @@ function glsr_uninstall_minimal() {
     $wpdb->query("DELETE FROM {$wpdb->usermeta} WHERE meta_key = '_glsr_notices'");
 }
 
-function glsr_uninstall_minimal_drop_foreign_keys() {
+function glsr_uninstall_minimal_drop_foreign_keys()
+{
     global $wpdb;
     if (defined('DB_ENGINE') && 'sqlite' === DB_ENGINE) {
         return;

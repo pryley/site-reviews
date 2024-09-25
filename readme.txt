@@ -194,7 +194,7 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 == Changelog ==
 
-= 7.1.0 (2024-09-23) =
+= 7.1.0 (2024-09-25) =
 
 - Added "Resend Verification Email" button to reviews.
 - Added the previous major version to the Rollback tool (i.e. you can now rollback from v7 to v6).

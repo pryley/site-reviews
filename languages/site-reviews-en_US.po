@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: en_US\n"
 
-#: deprecated.php:177
+#: deprecated.php:179
 msgid ""
 "%s is <strong>deprecated</strong> since version %s with no alternative "
 "available."
@@ -26,7 +26,7 @@ msgstr ""
 "%s is <strong>deprecated</strong> since version %s with no alternative "
 "available."
 
-#: deprecated.php:190
+#: deprecated.php:194
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 
@@ -476,87 +476,87 @@ msgstr "Verified"
 msgid "Service Unavailable."
 msgstr "Service Unavailable."
 
-#: compatibility.php:97
+#: compatibility.php:110
 msgctxt "admin-text"
 msgid "Create Reviews"
 msgstr "Create Reviews"
 
-#: compatibility.php:98
+#: compatibility.php:111
 msgctxt "admin-text"
 msgid "Delete Others' Reviews"
 msgstr "Delete Others' Reviews"
 
-#: compatibility.php:99
+#: compatibility.php:112
 msgctxt "admin-text"
 msgid "Delete Reviews"
 msgstr "Delete Reviews"
 
-#: compatibility.php:100
+#: compatibility.php:113
 msgctxt "admin-text"
 msgid "Delete Private Reviews"
 msgstr "Delete Private Reviews"
 
-#: compatibility.php:101
+#: compatibility.php:114
 msgctxt "admin-text"
 msgid "Delete Approved Reviews"
 msgstr "Delete Approved Reviews"
 
-#: compatibility.php:102
+#: compatibility.php:115
 msgctxt "admin-text"
 msgid "Edit Others' Reviews"
 msgstr "Edit Others' Reviews"
 
-#: compatibility.php:103
+#: compatibility.php:116
 msgctxt "admin-text"
 msgid "Edit Reviews"
 msgstr "Edit Reviews"
 
-#: compatibility.php:104
+#: compatibility.php:117
 msgctxt "admin-text"
 msgid "Edit Private Reviews"
 msgstr "Edit Private Reviews"
 
-#: compatibility.php:105
+#: compatibility.php:118
 msgctxt "admin-text"
 msgid "Edit Approved Reviews"
 msgstr "Edit Approved Reviews"
 
-#: compatibility.php:106
+#: compatibility.php:119
 msgctxt "admin-text"
 msgid "Approve Reviews"
 msgstr "Approve Reviews"
 
-#: compatibility.php:107
+#: compatibility.php:120
 msgctxt "admin-text"
 msgid "Read Private Reviews"
 msgstr "Read Private Reviews"
 
-#: compatibility.php:108
+#: compatibility.php:121
 msgctxt "admin-text"
 msgid "Respond To Reviews"
 msgstr "Respond To Reviews"
 
-#: compatibility.php:109
+#: compatibility.php:122
 msgctxt "admin-text"
 msgid "Respond To Others' Reviews"
 msgstr "Respond To Others' Reviews"
 
-#: compatibility.php:110
+#: compatibility.php:123
 msgctxt "admin-text"
 msgid "Assign Review Categories"
 msgstr "Assign Review Categories"
 
-#: compatibility.php:111
+#: compatibility.php:124
 msgctxt "admin-text"
 msgid "Delete Review Categories"
 msgstr "Delete Review Categories"
 
-#: compatibility.php:112
+#: compatibility.php:125
 msgctxt "admin-text"
 msgid "Edit Review Categories"
 msgstr "Edit Review Categories"
 
-#: compatibility.php:113
+#: compatibility.php:126
 msgctxt "admin-text"
 msgid "Manage Review Categories"
 msgstr "Manage Review Categories"
@@ -2363,42 +2363,51 @@ msgctxt "admin-text"
 msgid "The IP address of the reviewer"
 msgstr "The IP address of the reviewer"
 
-#: plugin/Commands/DownloadCsvTemplate.php:26, plugin/Commands/DownloadCsvTemplate.php:27, plugin/Commands/DownloadCsvTemplate.php:28, plugin/Commands/DownloadCsvTemplate.php:33
+#: plugin/Commands/DownloadCsvTemplate.php:27
+msgctxt "admin-text"
+msgid ""
+"The URLs of the review images (separate multiple URLs with a pipe \"|\" "
+"character)"
+msgstr ""
+"The URLs of the review images (separate multiple URLs with a pipe \"|\" "
+"character)"
+
+#: plugin/Commands/DownloadCsvTemplate.php:30, plugin/Commands/DownloadCsvTemplate.php:31, plugin/Commands/DownloadCsvTemplate.php:32, plugin/Commands/DownloadCsvTemplate.php:37
 msgctxt "admin-text"
 msgid "%s or %s"
 msgstr "%s or %s"
 
-#: plugin/Commands/DownloadCsvTemplate.php:29
+#: plugin/Commands/DownloadCsvTemplate.php:33
 msgctxt "admin-text"
 msgid "The reviewer's name"
 msgstr "The reviewer's name"
 
-#: plugin/Commands/DownloadCsvTemplate.php:30
+#: plugin/Commands/DownloadCsvTemplate.php:34
 msgctxt "admin-text"
 msgid "A number from %d-%d"
 msgstr "A number from %d-%d"
 
-#: plugin/Commands/DownloadCsvTemplate.php:31
+#: plugin/Commands/DownloadCsvTemplate.php:35
 msgctxt "admin-text"
 msgid "The review response"
 msgstr "The review response"
 
-#: plugin/Commands/DownloadCsvTemplate.php:32
+#: plugin/Commands/DownloadCsvTemplate.php:36
 msgctxt "admin-text"
 msgid "A positive or negative whole number"
 msgstr "A positive or negative whole number"
 
-#: plugin/Commands/DownloadCsvTemplate.php:34
+#: plugin/Commands/DownloadCsvTemplate.php:38
 msgctxt "admin-text"
 msgid "The title of the review"
 msgstr "The title of the review"
 
-#: plugin/Commands/DownloadCsvTemplate.php:94, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:14, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:118, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:97, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:18, views/partials/editor/verified.php:7, views/partials/editor/verified.php:19
+#: plugin/Commands/DownloadCsvTemplate.php:98, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:14, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:118, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:97, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:18, views/partials/editor/verified.php:7, views/partials/editor/verified.php:19
 msgctxt "admin-text"
 msgid "Yes"
 msgstr "Yes"
 
-#: plugin/Commands/DownloadCsvTemplate.php:95, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:74, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:117, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:74, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:96, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:21, views/partials/editor/verified.php:7, views/partials/editor/verified.php:22
+#: plugin/Commands/DownloadCsvTemplate.php:99, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:74, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:117, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:74, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:96, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:21, views/partials/editor/verified.php:7, views/partials/editor/verified.php:22
 msgctxt "admin-text"
 msgid "No"
 msgstr "No"
@@ -2440,10 +2449,15 @@ msgstr "Cancelling, please wait..."
 
 #: plugin/Commands/EnqueueAdminAssets.php:129
 msgctxt "admin-text"
+msgid "Your server restricts file uploads to less than %s in size."
+msgstr "Your server restricts file uploads to less than %s in size."
+
+#: plugin/Commands/EnqueueAdminAssets.php:130
+msgctxt "admin-text"
 msgid "Rollback failed"
 msgstr "Rollback failed"
 
-#: plugin/Commands/EnqueueAdminAssets.php:130
+#: plugin/Commands/EnqueueAdminAssets.php:131
 msgctxt "admin-text"
 msgid "Searching..."
 msgstr "Searching..."
@@ -2507,7 +2521,7 @@ msgctxt "admin-text"
 msgid "All plugin migrations have been run successfully, please %s the page."
 msgstr "All plugin migrations have been run successfully, please %s the page."
 
-#: plugin/Commands/ProcessCsvFile.php:114
+#: plugin/Commands/ProcessCsvFile.php:113
 msgctxt "admin-text"
 msgid ""
 "The CSV file could not be imported. Please verify the following details and "
@@ -2516,37 +2530,37 @@ msgstr ""
 "The CSV file could not be imported. Please verify the following details and "
 "try again:"
 
-#: plugin/Commands/ProcessCsvFile.php:130
+#: plugin/Commands/ProcessCsvFile.php:131
 msgctxt "admin-text"
 msgid "Unable to process a row in the CSV document:"
 msgstr "Unable to process a row in the CSV document:"
 
-#: plugin/Commands/ProcessCsvFile.php:135
+#: plugin/Commands/ProcessCsvFile.php:136
 msgctxt "admin-text"
 msgid "Does the CSV file include all required columns?"
 msgstr "Does the CSV file include all required columns?"
 
-#: plugin/Commands/ProcessCsvFile.php:136
+#: plugin/Commands/ProcessCsvFile.php:137
 msgctxt "admin-text"
 msgid "Have you named all of the columns in the CSV file?"
 msgstr "Have you named all of the columns in the CSV file?"
 
-#: plugin/Commands/ProcessCsvFile.php:137
+#: plugin/Commands/ProcessCsvFile.php:138
 msgctxt "admin-text"
 msgid "Have you removed all empty columns from the CSV file?"
 msgstr "Have you removed all empty columns from the CSV file?"
 
-#: plugin/Commands/ProcessCsvFile.php:138
+#: plugin/Commands/ProcessCsvFile.php:139
 msgctxt "admin-text"
 msgid "Have you selected the correct delimiter?"
 msgstr "Have you selected the correct delimiter?"
 
-#: plugin/Commands/ProcessCsvFile.php:139
+#: plugin/Commands/ProcessCsvFile.php:140
 msgctxt "admin-text"
 msgid "Is the CSV file encoded as UTF-8?"
 msgstr "Is the CSV file encoded as UTF-8?"
 
-#: plugin/Commands/ProcessCsvFile.php:158
+#: plugin/Commands/ProcessCsvFile.php:159
 msgctxt "admin-text"
 msgid ""
 "Cannot detect the delimiter used in the CSV file (supported delimiters are "
@@ -2555,17 +2569,17 @@ msgstr ""
 "Cannot detect the delimiter used in the CSV file (supported delimiters are "
 "comma and semicolon)."
 
-#: plugin/Commands/ProcessCsvFile.php:185
+#: plugin/Commands/ProcessCsvFile.php:186
 msgctxt "admin-text"
 msgid "The import file is not a valid CSV file (detected: %s)."
 msgstr "The import file is not a valid CSV file (detected: %s)."
 
-#: plugin/Commands/ProcessCsvFile.php:203
+#: plugin/Commands/ProcessCsvFile.php:204
 msgctxt "admin-text"
 msgid "Incorrect date format"
 msgstr "Incorrect date format"
 
-#: plugin/Commands/ProcessCsvFile.php:204
+#: plugin/Commands/ProcessCsvFile.php:205
 msgctxt "admin-text"
 msgid "Empty or invalid rating"
 msgstr "Empty or invalid rating"
@@ -6534,6 +6548,11 @@ msgstr "File could not be uploaded: missing temporary directory."
 msgctxt "file error (admin-text)"
 msgid "File upload was stopped by a PHP extension."
 msgstr "File upload was stopped by a PHP extension."
+
+#: plugin/Commands/DownloadCsvTemplate.php:28
+msgctxt "the plugin name (admin-text)"
+msgid "%s addon required."
+msgstr "%s addon required."
 
 #: plugin/Commands/MigratePlugin.php:41, plugin/Commands/MigratePlugin.php:35
 msgctxt "(admin-text) e.g. please reload the page"

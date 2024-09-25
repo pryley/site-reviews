@@ -25,7 +25,7 @@ add_action('avia_action_before_framework_init', function () {
 
 /**
  * This fixes the Duplicate option provided by the Enfold theme.
- * 
+ *
  * @see https://kriesi.at/themes/enfold-overview/
  */
 add_action('avf_duplicate_post_added', function ($newPostId, $post) {
@@ -40,9 +40,9 @@ add_action('avf_duplicate_post_added', function ($newPostId, $post) {
 
 /**
  * Classic Editor.
- * 
+ *
  * @return array
- * 
+ *
  * @see https://wordpress.org/plugins/classic-editor/
  */
 add_action('edit_form_top', function ($post) {
@@ -72,8 +72,7 @@ function glsr_filter_bootstrap_pagination_link(array $link, array $args, Builder
     ]);
     return $link;
 }
-add_filter('site-reviews/paginate_links', function (string $links, array $args): string
-{
+add_filter('site-reviews/paginate_links', function (string $links, array $args): string {
     if ('bootstrap' !== glsr_get_option('general.style')) {
         return $links;
     }
@@ -88,9 +87,9 @@ add_filter('site-reviews/paginate_links', function (string $links, array $args):
 /**
  * @param array $editors
  * @param string $postType
- * 
+ *
  * @return array
- * 
+ *
  * @see https://wordpress.org/plugins/classic-editor/
  */
 add_filter('classic_editor_enabled_editors_for_post_type', function ($editors, $postType) {
@@ -101,9 +100,9 @@ add_filter('classic_editor_enabled_editors_for_post_type', function ($editors, $
 
 /**
  * Add human-readable capability names.
- * 
+ *
  * @return void
- * 
+ *
  * @see https://wordpress.org/plugins/members/
  */
 add_action('members_register_caps', function () {
@@ -133,7 +132,7 @@ add_action('members_register_caps', function () {
 
 /**
  * Remove Oxygen Builder metabox from reviews.
- * 
+ *
  * @see https://oxygenbuilder.com
  */
 add_action('plugins_loaded', function () {
@@ -146,11 +145,11 @@ add_action('plugins_loaded', function () {
 
 /**
  * Fix to display all reviews when sorting by rank.
- * 
+ *
  * @param array $query
- * 
+ *
  * @return array
- * 
+ *
  * @see https://searchandfilter.com/
  */
 add_filter('sf_edit_query_args', function ($query) {
@@ -167,11 +166,11 @@ add_filter('sf_edit_query_args', function ($query) {
 
 /**
  * Prevent SG Optimizer from breaking the Site Reviews javascript file.
- * 
+ *
  * @param array $excluded
- * 
+ *
  * @return array
- * 
+ *
  * @see https://wordpress.org/plugins/sg-cachepress/
  */
 add_filter('sgo_js_minify_exclude', function ($excluded) {
@@ -201,8 +200,7 @@ function glsr_load_ninja_forms_css(): void
 }
 add_action('enqueue_block_editor_assets', 'glsr_load_ninja_forms_css');
 add_action('wp_enqueue_scripts', 'glsr_load_ninja_forms_css');
-add_filter('site-reviews/config/styles/ninja_forms', function (array $config): array
-{
+add_filter('site-reviews/config/styles/ninja_forms', function (array $config): array {
     if (glsr_is_ninja_forms_compatible()) {
         $formClass = 'nf-style-'.Ninja_Forms()->get_setting('opinionated_styles');
         $config = glsr_set($config, 'classes.form', $formClass);
@@ -212,11 +210,10 @@ add_filter('site-reviews/config/styles/ninja_forms', function (array $config): a
 
 /**
  * Load the WPForms stylesheet when using the WPForms plugin style.
- * 
+ *
  * @see https://wordpress.org/plugins/wpforms-lite/
  */
-add_filter('site-reviews/build/template/reviews-form', function (string $template): string
-{
+add_filter('site-reviews/build/template/reviews-form', function (string $template): string {
     if ('wpforms' === glsr_get_option('general.style')) {
         add_filter('wpforms_frontend_missing_assets_error_js_disable', '__return_true', PHP_INT_MAX);
         add_filter('wpforms_global_assets', '__return_true');
@@ -226,9 +223,9 @@ add_filter('site-reviews/build/template/reviews-form', function (string $templat
 
 /**
  * Remove the "Launch Thrive Architect" button from reviews.
- * 
+ *
  * @return array
- * 
+ *
  * @see https://thrivethemes.com/architect/
  */
 add_filter('tcb_post_types', function ($blacklist) {

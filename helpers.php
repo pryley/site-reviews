@@ -21,7 +21,7 @@ use GeminiLabs\SiteReviews\Review;
 
 defined('ABSPATH') || exit;
 
-/*
+/**
  * Alternate method of using the functions without having to use `function_exists()`
  * Example: apply_filters('glsr_get_reviews', [], ['assigned_posts' => 'post_id']);
  */
