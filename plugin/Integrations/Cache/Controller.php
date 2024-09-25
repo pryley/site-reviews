@@ -16,6 +16,9 @@ class Controller extends AbstractController
      */
     public function flushAfterCreated(Review $review, CreateReview $command): void
     {
+        if (defined('WP_IMPORTING')) {
+            return;
+        }
         if ($review->is_approved) {
             glsr_log()->debug('cache::flush_after_review_created');
             $postIds = array_merge($review->assigned_posts, [$command->post_id]);

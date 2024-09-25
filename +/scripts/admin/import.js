@@ -26,7 +26,14 @@ class Import {
 
     async import () {
         console.info('run import');
-        const stage1 = await this.fetch({ stage: 1 });
+        let stage1;
+        try {
+            stage1 = await this.fetch({ stage: 1 });
+        } catch(error) {
+            console.error(error)
+            GLSR.notices.error(GLSR.text.import_error)
+            return {}
+        }
         console.info('stage 1 complete', stage1);
         this.data = stage1.data;
         if (!stage1.success) {
@@ -42,7 +49,7 @@ class Import {
         const stage4 = await this.fetch({
             errors: this.data.errors || [],
             imported: stage2.imported,
-            skipped: stage2.skipped,
+            skipped: stage2.skipped + (this.data.skipped ?? 0),
             stage: 4,
         });
         console.info('stage 4 complete', stage4);
@@ -64,7 +71,13 @@ class Import {
             fd.delete('import-files') // don't upload files on later stages
         }
         for (let key in data) {
-            fd.set(`${GLSR.nameprefix}[${key}]`, data[key]);
+            if (data[key] !== Object(data[key])) {
+                fd.set(`${GLSR.nameprefix}[${key}]`, data[key]);
+                continue;
+            }
+            for (let subkey in data[key]) {
+                fd.set(`${GLSR.nameprefix}[${key}][${subkey}]`, data[key][subkey]);
+            }
         }
         fd.set('action', GLSR.action);
         return fd;
@@ -115,6 +128,7 @@ class Import {
             }));
         return (async () => {
             const data = await Promise.allSettled(promises);
+            this.progressbar.percent(100, stage-1) // just in case...
             this.abortController = null;
             return this.results(data)
         })()

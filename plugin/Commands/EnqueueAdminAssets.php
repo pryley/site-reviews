@@ -126,6 +126,7 @@ class EnqueueAdminAssets extends AbstractCommand
             'text' => [
                 'cancel' => _x('Cancel', 'admin-text', 'site-reviews'),
                 'cancelling' => _x('Cancelling, please wait...', 'admin-text', 'site-reviews'),
+                'import_error' => sprintf(_x('Your server restricts file uploads to less than %s in size.', 'admin-text', 'site-reviews'), size_format(wp_max_upload_size())),
                 'rollback_error' => _x('Rollback failed', 'admin-text', 'site-reviews'),
                 'searching' => _x('Searching...', 'admin-text', 'site-reviews'),
             ],

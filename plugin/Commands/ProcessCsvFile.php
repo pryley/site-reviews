@@ -54,7 +54,7 @@ class ProcessCsvFile extends AbstractCommand
 
     public function __construct(Request $request)
     {
-        $this->dateFormat = Str::restrictTo(static::ALLOWED_DATE_FORMATS, $request->date_format, 'Y-m-d');
+        $this->dateFormat = Str::restrictTo(static::ALLOWED_DATE_FORMATS, $request->date_format, 'Y-m-d', true);
         $this->delimiter = Str::restrictTo(static::ALLOWED_DELIMITERS, $request->delimiter, '');
         $this->errors = [];
         $this->skipped = 0;
@@ -91,7 +91,6 @@ class ProcessCsvFile extends AbstractCommand
 
     protected function formatRecord(array $record): array
     {
-        $record = array_map('trim', $record);
         if (!empty($record['date'])) {
             $date = \DateTime::createFromFormat($this->dateFormat, $record['date']);
             $record['date'] = $date->format('Y-m-d H:i:s'); // format the provided date
@@ -105,7 +104,7 @@ class ProcessCsvFile extends AbstractCommand
             define('WP_IMPORTING', true);
         }
         glsr(ImportManager::class)->flush(); // flush the temporary table in the database
-        glsr(ImportManager::class)->unlinkTempFile(); //.delete the temporary import file if it exists
+        glsr(ImportManager::class)->unlinkTempFile(); // delete the temporary import file if it exists
         try {
             wp_raise_memory_limit('admin');
             $reader = $this->reader($file->getPathname());
@@ -116,6 +115,7 @@ class ProcessCsvFile extends AbstractCommand
             $filePath = glsr(ImportManager::class)->tempFilePath();
             $writer = Writer::createFromPath($filePath, 'w+');
             $writer->insertOne($header);
+            $writer->addFormatter(fn (array $record) => $this->formatRecord($record));
             $chunks = $reader->chunkBy(1000);
             foreach ($chunks as $chunk) {
                 $records = Statement::create()
@@ -125,6 +125,7 @@ class ProcessCsvFile extends AbstractCommand
                 $writer->insertAll($records);
                 $this->total += count($records);
             }
+            glsr(ImportManager::class)->prepare(); // create a temporary table for importing
             return true;
         } catch (CannotInsertRecord $e) {
             glsr(Notice::class)->addError(_x('Unable to process a row in the CSV document:', 'admin-text', 'site-reviews'), [
@@ -162,7 +163,7 @@ class ProcessCsvFile extends AbstractCommand
         $reader->setDelimiter($this->delimiter);
         $reader->setHeaderOffset(0);
         $reader->skipEmptyRecords();
-        $reader->addFormatter(fn (array $record) => $this->formatRecord($record));
+        $reader->addFormatter(fn (array $record) => array_map('trim', $record));
         if ($reader->supportsStreamFilterOnRead()) {
             $inputBom = $reader->getInputBOM();
             if (in_array($inputBom, [Reader::BOM_UTF16_LE, Reader::BOM_UTF16_BE], true)) {

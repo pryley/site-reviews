@@ -4,7 +4,6 @@ class Notices {
     constructor () {
         jQuery('.glsr-notice[data-dismiss]').on('click.wp-dismiss-notice', this.onDismiss.bind(this))
         jQuery('.glsr-notice-footer').on('click', this.onDismiss.bind(this))
-        jQuery('.glsr-notice-footer').on('click', this.onDismiss.bind(this))
         this.showBanner()
     }
 
@@ -32,7 +31,7 @@ class Notices {
     }
 
     error (message) {
-        this.add('<div class="notice notice-error inline is-dismissible"><p>' + message + '</p></div>')
+        this.notice('error', message)
     }
 
     hideBanner ($notice) {
@@ -48,6 +47,10 @@ class Notices {
                 .attr('aria-expanded', !jQuery(this).hasClass('bulk-action-errors-collapsed'))
             $notice.find('.bulk-action-errors').toggleClass('hidden')
         });
+    }
+
+    notice (level, message) {
+        this.add(`<div class="notice notice-${level} inline is-dismissible"><p>${message}</p></div>`)
     }
 
     onDismiss (ev) {
@@ -69,7 +72,11 @@ class Notices {
     }
 
     success (message) {
-        this.add('<div class="notice notice-success inline is-dismissible"><p>' + message + '</p></div>')
+        this.notice('success', message)
+    }
+
+    warning (message) {
+        this.notice('warning', message)
     }
 }
 

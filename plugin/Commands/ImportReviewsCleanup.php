@@ -61,7 +61,7 @@ class ImportReviewsCleanup extends AbstractCommand
             $errorDetail = _x('One or more warnings were triggered during import: %s', 'admin-text', 'site-reviews');
             $errors = array_map(fn ($error) => "<mark>{$error}</mark>", $this->errors);
             $errors = sprintf($errorDetail, Str::naturalJoin($errors));
-            glsr_log()->warning($errors);
+            glsr_log()->warning($this->errors);
             $details[] = $errors;
         }
         glsr(Notice::class)->addWarning($notice, $details);

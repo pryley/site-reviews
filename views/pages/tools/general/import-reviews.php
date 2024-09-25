@@ -50,9 +50,9 @@
                 <tbody>
                     <?php foreach (glsr('Commands\DownloadCsvTemplate')->tableData() as $data) { ?>
                         <tr>
-                            <td><strong><?php echo $data['name']; ?></strong></td>
-                            <td><?php echo $data['required']; ?></td>
-                            <td><?php echo $data['description']; ?></td>
+                            <td><strong><?php echo esc_html($data['name']); ?></strong></td>
+                            <td><?php echo wp_kses_post($data['required']); ?></td>
+                            <td><?php echo wp_kses_post($data['description']); ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -82,7 +82,7 @@
                         <optgroup label="<?php echo sprintf('%s %s %s', _x('Year', 'admin-text', 'site-reviews'), _x('Month', 'admin-text', 'site-reviews'), _x('Day', 'admin-text', 'site-reviews')); ?>">
                             <option value="Y-m-d">2021-01-13</option>
                             <option value="Y-m-d H:i">2021-01-13 12:00</option>
-                            <option value="Y-m-d H:i:s" selected>2021-01-13 12:00:00</option>
+                            <option value="Y-m-d H:i:s">2021-01-13 12:00:00 (used by the Export Reviews tool)</option>
                             <option value="Y/m/d">2021/01/13</option>
                             <option value="Y/m/d H:i">2021/01/13 12:00</option>
                             <option value="Y/m/d H:i:s">2021/01/13 12:00:00</option>

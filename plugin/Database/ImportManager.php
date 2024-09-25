@@ -29,6 +29,7 @@ class ImportManager
         wp_raise_memory_limit('admin');
         wp_defer_term_counting(true);
         wp_suspend_cache_invalidation(true);
+        $this->prepare(); // create a temporary table for importing
         $reader = Reader::createFromPath($this->tempFilePath());
         $reader->setHeaderOffset(0);
         $records = Statement::create()
@@ -36,7 +37,6 @@ class ImportManager
             ->limit(max(1, $limit))
             ->process($reader);
         $result = glsr(ImportResultDefaults::class)->defaults();
-        glsr(TableTmp::class)->create(); // create a temporary table for importing
         foreach ($records as $values) {
             $request = new Request($values);
             $command = new CreateReview($request);
@@ -94,6 +94,11 @@ class ImportManager
             return null;
         }
         return $review;
+    }
+
+    public function prepare(): void
+    {
+        glsr(TableTmp::class)->create(); // create a temporary table for importing
     }
 
     public function tempFilePath(): string

@@ -121,7 +121,7 @@ class Tables
         return 'sqlite' === $this->engine;
     }
 
-    public function table(string $name = ''): string
+    public function table(string $name = '', bool $logError = true): string
     {
         if (in_array($name, $this->tables)) {
             return $name;
@@ -129,7 +129,9 @@ class Tables
         if (array_key_exists($name, $this->tables)) {
             return $this->tables[$name];
         }
-        glsr_log()->error("The [{$name}] table was not found.");
+        if ($logError) {
+            glsr_log()->error("The [{$name}] table was not found.");
+        }
         return $name; // @todo maybe throw an exception here instead?
     }
 
@@ -183,7 +185,8 @@ class Tables
 
     public function tableExists(string $table): bool
     {
-        $query = $this->db->prepare('SHOW TABLES LIKE %s', $this->db->esc_like($this->table($table)));
+        $tablename = $this->table($table, false);
+        $query = $this->db->prepare('SHOW TABLES LIKE %s', $this->db->esc_like($tablename));
         return !empty($this->db->get_var($query));
     }
 
@@ -195,6 +198,7 @@ class Tables
             TableAssignedUsers::class,
             // TableFields::class, // @todo add the fields table
             TableRatings::class,
+            TableTmp::class,
         ]);
     }
 

@@ -23,6 +23,10 @@ class DownloadCsvTemplate extends AbstractCommand
             'date_gmt' => _x('The review GMT date', 'admin-text', 'site-reviews'),
             'email' => _x('The reviewer\'s email', 'admin-text', 'site-reviews'),
             'ip_address' => _x('The IP address of the reviewer', 'admin-text', 'site-reviews'),
+            'images' => sprintf('%s<br><span class="glsr-notice-inline is-warning">%s</span>',
+                _x('The URLs of the review images (separate multiple URLs with a pipe "|" character)', 'admin-text', 'site-reviews'),
+                sprintf(_x('%s addon required.', 'the plugin name (admin-text)', 'site-reviews'), '<a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a>')
+            ),
             'is_approved' => sprintf(_x('%s or %s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
             'is_pinned' => sprintf(_x('%s or %s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
             'is_verified' => sprintf(_x('%s or %s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
