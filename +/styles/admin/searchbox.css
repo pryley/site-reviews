@@ -155,7 +155,7 @@
   content: attr(data-domain);
   display: inline-flex;
   flex: 0;
-  font-family: Consolas,Monaco,monospace;
+  font-family: "Fira Code", Consolas, Monaco, monospace;
   font-size: 11px;
   line-height: 1.2;
   padding: 4px 6px;

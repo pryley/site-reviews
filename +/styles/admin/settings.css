@@ -433,7 +433,7 @@ td.glsr-string-td1 .row-actions.visible {
 
 .glsr-code[readonly] {
   width: 100%;
-  font-family: "Operator Mono", "Fira Code", monaco, monospace;
+  font-family: "Fira Code", Consolas, Monaco, monospace;
   font-weight: 300;
   white-space: pre;
   -webkit-font-smoothing: antialiased !important;
@@ -514,7 +514,7 @@ tr.glsr-setting-field td .inline label::after {
   }
 
   textarea.code {
-    font-family: "Operator Mono", "Fira Code", monaco, monospace;
+    font-family: "Fira Code", Consolas, Monaco, monospace;
   }
 
   .glsr-experimental {
@@ -531,7 +531,7 @@ tr.glsr-setting-field td .inline label::after {
 
 .post-type-site-review code,
 .post-type-site-review .code {
-  font-family: "Operator Mono", "Fira Code", monaco, monospace;
+  font-family: "Fira Code", Consolas, Monaco, monospace;
 }
 
 /* Translations page

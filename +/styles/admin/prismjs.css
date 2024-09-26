@@ -18,7 +18,7 @@ code[class*="language-"], pre[class*="language-"] {
   background-color: var(--base00);
   border-radius: 2px;
   color: var(--base05);
-  font-family: "Operator Mono Lig", "Fira Code", Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-family: "Fira Code", Consolas, Monaco, monospace;
   font-size: 13px;
   hyphens: none;
   line-height: 1.5;
