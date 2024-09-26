@@ -3,7 +3,7 @@
 <ul class="glsr-dashboard__items">
     <?php
     foreach ($data as $key => $values) {
-        $label = _nx_noop('%d review', '%d reviews', 'admin-text', 'site-reviews');
+        $label = _nx_noop('%s review', '%s reviews', 'admin-text', 'site-reviews');
         $label = translate_nooped_plural($label, $values['value'], 'site-reviews');
     ?>
     <li class="glsr-dashboard__item">
