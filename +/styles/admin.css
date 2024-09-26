@@ -53,6 +53,16 @@
     margin: 0 !important;
 }
 
+a[data-expand] {
+  background: rgba(0,0,0,.07);
+  font-family: "Fira Code", Consolas, Monaco, monospace;
+  hyphens: none;
+  margin: 0 1px;
+  padding: 3px 5px 2px;
+  word-break: normal;
+  word-spacing: normal;
+}
+
 ::placeholder {
     color: #72777c !important;
     font-size: inherit !important;

@@ -60,15 +60,15 @@
                 <p>This function is no longer needed so it has been removed. If you are using this function in your PHP code, you should remove it as otherwise it will generate a PHP deprecated notice in your PHP Error log.</p>
             </li>
             <li>
-                <p><strong>The <code><a data-expand="#fn-glsr_create_review" href="<?php echo glsr_admin_url('documentation', 'functions'); ?>">glsr_create_review()</a></code> arguments have been updated to use the new shortcode options.</strong></p>
+                <p><strong>The <a data-expand="#fn-glsr_create_review" href="<?php echo glsr_admin_url('documentation', 'functions'); ?>">glsr_create_review()</a> arguments have been updated to use the new shortcode options.</strong></p>
                 <p>If you are using this function in your PHP code, you should update the key names used in the function argument array. The old key names will continue to work, but this may change in a future version.</p>
             </li>
             <li>
-                <p><strong>The <code><a data-expand="#fn-glsr_get_option" href="<?php echo glsr_admin_url('documentation', 'functions'); ?>">glsr_get_option()</a></code> function now allows you to automatically cast the returned value to a specific type.</strong></p>
+                <p><strong>The <a data-expand="#fn-glsr_get_option" href="<?php echo glsr_admin_url('documentation', 'functions'); ?>">glsr_get_option()</a> function now allows you to automatically cast the returned value to a specific type.</strong></p>
                 <p>Please refer to the documentation for more details.</p>
             </li>
             <li>
-                <p><strong>The <code><a data-expand="#fn-glsr_get_review" href="<?php echo glsr_admin_url('documentation', 'functions'); ?>">glsr_get_review()</a></code> function now allows you to iterate over custom field data.</strong></p>
+                <p><strong>The <a data-expand="#fn-glsr_get_review" href="<?php echo glsr_admin_url('documentation', 'functions'); ?>">glsr_get_review()</a> function now allows you to iterate over custom field data.</strong></p>
                 <pre><code class="language-php">$review = glsr_get_review(13);
 foreach ($review->custom as $key =&gt; $value) {
     glsr_debug($key, $value);
@@ -78,11 +78,11 @@ glsr_debug($review->custom->custom_field_key);
 </code></pre>
             </li>
             <li>
-                <p><strong>The <code><a data-expand="#fn-glsr_get_reviews" href="<?php echo glsr_admin_url('documentation', 'functions'); ?>">glsr_get_reviews()</a></code> arguments have been updated to use the new shortcode options.</strong></p>
+                <p><strong>The <a data-expand="#fn-glsr_get_reviews" href="<?php echo glsr_admin_url('documentation', 'functions'); ?>">glsr_get_reviews()</a> arguments have been updated to use the new shortcode options.</strong></p>
                 <p>If you are using this function in your PHP code, you should update the key names used in the function argument array. The old key names will continue to work, but this may change in a future version.</p>
             </li>
             <li>
-                <p><strong>The <code>glsr_get_rating()</code> has been renamed to <code><a data-expand="#fn-glsr_get_ratings" href="<?php echo glsr_admin_url('documentation', 'functions'); ?>">glsr_get_ratings()</a></code>.</strong></p>
+                <p><strong>The <code>glsr_get_rating()</code> has been renamed to <a data-expand="#fn-glsr_get_ratings" href="<?php echo glsr_admin_url('documentation', 'functions'); ?>">glsr_get_ratings()</a>.</strong></p>
                 <p>This function has been renamed to better reflect it's purpose; its function arguments also use the new shortcode options. If you are using this function in your PHP code, you should update it as otherwise it will generate a PHP deprecated notice in your PHP Error log. You should also verify how you are using the value that is returned as this has also been updated:</p>
                 <pre><code class="language-php">[ // this is the array value that is returned by the function
     'average' => '', // this contains the average rating number
@@ -99,6 +99,6 @@ glsr_debug($review->custom->custom_field_key);
         <h2>Review meta data</h2>
         <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
         <p>Site Reviews now saves review values in a custom database table and they are no longer stored as meta data; however, this does not apply to custom form field data which is still stored as meta data.</p>
-        <p>To access your review data with PHP (including custom field data), use the provided <code><a data-expand="#fn-glsr_get_review" href="<?php echo glsr_admin_url('documentation', 'functions'); ?>">glsr_get_review()</a></code> helper function instead of the <code>get_post_meta()</code> function. </p>
+        <p>To access your review data with PHP (including custom field data), use the provided <a data-expand="#fn-glsr_get_review" href="<?php echo glsr_admin_url('documentation', 'functions'); ?>">glsr_get_review()</a> helper function instead of the <code>get_post_meta()</code> function. </p>
     </div>
 </div>

@@ -69,7 +69,7 @@
                     <li>The Form Request is invalid</li>
                 </ul>
                 <p>To fix the nonce errors, ensure you are not caching the review page for logged-in users because Site Reviews adds a <a href="https://www.bynicolas.com/code/wordpress-nonce/" target="_blank">WordPress Nonce</a> token to the form if the user is logged in. Nonces are a standard WordPress security feature that helps to prevent malicious form submissions. Still, they will not work if your web pages are cached because the nonce tokens are time-sensitive, and their validity expires after 12 hours.</p>
-                <p>Alternatively, you may remove the Nonce check as shown on the FAQ page: <code><a data-expand="#faq-remove-nonce-check" href="<?php echo glsr_admin_url('documentation', 'faq'); ?>">How do I remove the WordPress Nonce check for logged-in users?</a></code>.</p>
+                <p>Alternatively, you may remove the Nonce check as shown on the FAQ page: <a data-expand="#faq-remove-nonce-check" href="<?php echo glsr_admin_url('documentation', 'faq'); ?>">How do I remove the WordPress Nonce check for logged-in users?</a>.</p>
             </li>
             <li>
                 <h4 class="components-notice is-error" style="font-size:15px;">
@@ -92,8 +92,8 @@
                 <ul>
                     <li><p>Check for any invalid code snippets or custom functions you may have added to your theme's <code>functions.php</code> file that might be triggered after a review is created.</p></li>
                     <li><p>Deactivate Site Reviews and then reactivate it (this should fix any broken database table indexes).</p></li>
-                    <li><p>Run the <code><a data-expand="#tools-migrate-plugin" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Migrate Plugin</a></code> tool by clicking the <strong>Hard Reset</strong> button.</p></li>
-                    <li><p>Run the <code><a data-expand="#tools-repair-review-relations" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Repair Review Relations</a></code> tool.</p></li>
+                    <li><p>Use the <a data-expand="#tools-migrate-plugin" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Migrate Plugin</a> tool and click the <strong>Hard Reset</strong> button.</p></li>
+                    <li><p>Run the <a data-expand="#tools-repair-review-relations" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Repair Review Relations</a> tool.</p></li>
                     <li>
                         <p>Finally, there is the "Nuclear" option:</p>
                         <p class="components-notice is-warning" style="margin-bottom:1em;">
@@ -101,13 +101,13 @@
                             Only use this "Nuclear" option as a last resort because it will delete all your reviews and settings!
                         </p>
                         <ol>
-                            <li>Run the <code><a data-expand="#tools-export-reviews" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Export Reviews</a></code> tool.</li>
-                            <li>Run the <code><a data-expand="#tools-export-plugin-settings" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Export Settings</a></code> tool.</li>
+                            <li>Run the <a data-expand="#tools-export-reviews" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Export Reviews</a> tool.</li>
+                            <li>Run the <a data-expand="#tools-export-plugin-settings" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Export Settings</a> tool.</li>
                             <li>Go to the Site Reviews settings and change the "Delete data on uninstall" option to "Delete everything".</li>
                             <li>Uninstall Site Reviews.</li>
                             <li>Install a new copy of Site Reviews.</li>
-                            <li>Run the <code><a data-expand="#tools-import-reviews" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Import Reviews</a></code> tool using the CSV file from step #1.</li>
-                            <li>Run the <code><a data-expand="#tools-import-plugin-settings" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Import Settings</a></code> tool using the JSON file from step #2.</li>
+                            <li>Run the <a data-expand="#tools-import-reviews" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Import Reviews</a> tool using the CSV file from step #1.</li>
+                            <li>Run the <a data-expand="#tools-import-plugin-settings" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Import Settings</a> tool using the JSON file from step #2.</li>
                         </ol>
                     </li>
                 </ul>

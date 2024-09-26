@@ -8,7 +8,7 @@
         </button>
     </h3>
     <div id="faq-add-schema-values" class="inside">
-        <p>To add additional values to the generated schema, use the <code><a data-expand="#hooks-filter-schema" href="<?php echo glsr_admin_url('documentation', 'hooks'); ?>">site-reviews/schema/&lt;schema_type&gt;</a></code> hook in your theme's functions.php file.</p>
+        <p>To add additional values to the generated schema, use the <a data-expand="#hooks-filter-schema" href="<?php echo glsr_admin_url('documentation', 'hooks'); ?>">site-reviews/schema/&lt;schema_type&gt;</a> hook in your theme's functions.php file.</p>
         <p>Make sure to use Google's <a href="https://search.google.com/test/rich-results" target="_blank">Rich Results</a> tool to test the schema after any custom modifications have been made.</p>
         <pre><code class="language-php">/**
  * Modifies the schema created by Site Reviews.

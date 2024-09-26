@@ -10,7 +10,7 @@
     </h3>
     <div id="hooks-filter-star-images" class="inside">
         <p>Use this hook to customise the star images used by Site Reviews.</p>
-        <p>See the <code><a data-expand="#faq-customise-stars" href="<?php echo glsr_admin_url('documentation', 'faq'); ?>">FAQ</a></code> for a detailed example of how to use this hook.</p>
+        <p>See the <a data-expand="#faq-customise-stars" href="<?php echo glsr_admin_url('documentation', 'faq'); ?>">FAQ</a> for a detailed example of how to use this hook.</p>
         <pre><code class="language-php">/**
  * Customises the stars used by Site Reviews.
  * Paste this in your active theme's functions.php file.

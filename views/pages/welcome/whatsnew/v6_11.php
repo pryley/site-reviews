@@ -26,7 +26,7 @@
 
         <h4>🚫 Removed</h4>
         <ul>
-            <li>Removed the ability to manually verify reviews from the WordPress Admin (use the <a href="<?php echo glsr_admin_url('settings', 'general'); ?>">Request Verification</a> setting instead!). To re-enable manual verification of reviews use the <code><a data-expand="#hooks-manual-verification" href="<?php echo glsr_admin_url('documentation', 'hooks'); ?>">site-reviews/verification/enabled</a></code> filter hook.</li>
+            <li>Removed the ability to manually verify reviews from the WordPress Admin (use the <a href="<?php echo glsr_admin_url('settings', 'general'); ?>">Request Verification</a> setting instead!). To re-enable manual verification of reviews use the <a data-expand="#hooks-manual-verification" href="<?php echo glsr_admin_url('documentation', 'hooks'); ?>">site-reviews/verification/enabled</a> filter hook.</li>
         </ul>
 
         <h4>🐞 Bugs Fixed</h4>
