@@ -194,7 +194,7 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 == Changelog ==
 
-= 7.1.0 (2024-09-25) =
+= 7.1.0 (2024-09-26) =
 
 - Added "Resend Verification Email" button to reviews.
 - Added the previous major version to the Rollback tool (i.e. you can now rollback from v7 to v6).
@@ -204,6 +204,7 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 - Fixed compatibility with the Enfold theme's duplicate post feature.
 - Fixed multilingual taxonomy integration.
 - Fixed some visual inconsistancies in the admin.
+- Fixed the review count in the dashboard widget.
 
 = 7.0.18 (2024-08-16) =
 

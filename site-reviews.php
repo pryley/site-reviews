@@ -2,7 +2,7 @@
 /**
  * ╔═╗╔═╗╔╦╗╦╔╗╔╦  ╦  ╔═╗╔╗ ╔═╗
  * ║ ╦║╣ ║║║║║║║║  ║  ╠═╣╠╩╗╚═╗
- * ╚═╝╚═╝╩ ╩╩╝╚╝╩  ╩═╝╩ ╩╚═╝╚═╝
+ * ╚═╝╚═╝╩ ╩╩╝╚╝╩  ╩═╝╩ ╩╚═╝╚═╝.
  *
  * Plugin Name:          Site Reviews
  * Plugin URI:           https://wordpress.org/plugins/site-reviews
