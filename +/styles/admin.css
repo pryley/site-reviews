@@ -22,35 +22,35 @@
 @import "admin/wp-list-table";
 
 #available-widgets [class*="site-reviews"] .widget-title::before {
-    content: "\f459";
+  content: "\f459";
 }
 
 .star-rating .glsr-star {
-    width: 16px;
-    font-size: 16px;
-    line-height: 20px;
-    color: #555;
+  width: 16px;
+  font-size: 16px;
+  line-height: 20px;
+  color: #555;
 }
 
 .glsr-tag {
-    background-color: #dcdcde;
-    border-radius: 3px;
-    color: #3c434a;
-    display: inline-block;
-    font-size: 11px;
-    line-height: 1;
-    margin-top: -1px;
-    margin-bottom: -1px;
-    padding: 4px 6px;
-    text-transform: uppercase;
+  background-color: #dcdcde;
+  border-radius: 3px;
+  color: #3c434a;
+  display: inline-block;
+  font-size: 11px;
+  line-height: 1;
+  margin-top: -1px;
+  margin-bottom: -1px;
+  padding: 4px 6px;
+  text-transform: uppercase;
 }
 .glsr-tag.glsr-tag-required {
-    background-color: #d63638;
-    color: #fff;
+  background-color: #d63638;
+  color: #fff;
 }
 
 .glsr-no-margins {
-    margin: 0 !important;
+  margin: 0 !important;
 }
 
 a[data-expand] {
@@ -64,8 +64,8 @@ a[data-expand] {
 }
 
 ::placeholder {
-    color: #72777c !important;
-    font-size: inherit !important;
-    line-height: inherit !important;
-    opacity: 1;
+  color: #72777c !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  opacity: 1;
 }

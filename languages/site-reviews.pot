@@ -3917,8 +3917,8 @@ msgstr ""
 
 #: views/partials/dashboard-widget.php:6
 msgctxt "admin-text"
-msgid "%d review"
-msgid_plural "%d reviews"
+msgid "%s review"
+msgid_plural "%s reviews"
 msgstr[0] ""
 msgstr[1] ""
 

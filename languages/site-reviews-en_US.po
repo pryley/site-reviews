@@ -3996,10 +3996,10 @@ msgstr "Site Reviews: Unknown Widget"
 
 #: views/partials/dashboard-widget.php:6
 msgctxt "admin-text"
-msgid "%d review"
-msgid_plural "%d reviews"
-msgstr[0] "%d review"
-msgstr[1] "%d reviews"
+msgid "%s review"
+msgid_plural "%s reviews"
+msgstr[0] "%s review"
+msgstr[1] "%s reviews"
 
 #: views/partials/dashboard-widget.php:23
 msgctxt "admin-text"

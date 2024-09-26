@@ -1,22 +1,22 @@
 :root .glsr-debug {
-    position: relative;
+  position: relative;
 }
 :root .glsr-debug::before {
-    background-color: currentColor;
-    content: '';
-    height: 100%;
-    left: 0;
-    opacity: .15;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    width: 100%;
+  background-color: currentColor;
+  content: '';
+  height: 100%;
+  left: 0;
+  opacity: .15;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 :root .glsr-debug pre {
-    font-size: 12px;
-    line-height: 1.25;
-    padding: 10px;
-    position: relative;
-    z-index: 1;
   font-family: "Fira Code", Consolas, Monaco, monospace;
+  font-size: 12px;
+  line-height: 1.25;
+  padding: 10px;
+  position: relative;
+  z-index: 1;
 }
