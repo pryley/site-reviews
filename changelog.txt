@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 7.1.1 (2024-09-27) =
+
+- Fixed the review count in pagination and the rating summary when multiple post assignments are used
+
 = 7.1.0 (2024-09-26) =
 
 - Added "Resend Verification Email" button to reviews.
