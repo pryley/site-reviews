@@ -390,11 +390,11 @@ msgstr "This review has been flagged as possible spam and cannot be submitted."
 msgid "Your review cannot be submitted at this time."
 msgstr "Your review cannot be submitted at this time."
 
-#: plugin/Modules/Validator/CaptchaValidator.php:45
+#: plugin/Modules/Validator/CaptchaValidatorAbstract.php:47
 msgid "The CAPTCHA failed to load, please refresh the page and try again."
 msgstr "The CAPTCHA failed to load, please refresh the page and try again."
 
-#: plugin/Modules/Validator/CaptchaValidator.php:46
+#: plugin/Modules/Validator/CaptchaValidatorAbstract.php:48
 msgid "The CAPTCHA verification failed, please try again."
 msgstr "The CAPTCHA verification failed, please try again."
 

@@ -4708,11 +4708,11 @@ msgstr ""
 msgid "Your review cannot be submitted at this time."
 msgstr ""
 
-#: plugin/Modules/Validator/CaptchaValidator.php:45
+#: plugin/Modules/Validator/CaptchaValidatorAbstract.php:47
 msgid "The CAPTCHA failed to load, please refresh the page and try again."
 msgstr ""
 
-#: plugin/Modules/Validator/CaptchaValidator.php:46
+#: plugin/Modules/Validator/CaptchaValidatorAbstract.php:48
 msgid "The CAPTCHA verification failed, please try again."
 msgstr ""
 
