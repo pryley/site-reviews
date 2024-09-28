@@ -22,6 +22,7 @@ abstract class Hooks extends AbstractHooks
             ['filterFilePaths', 'site-reviews/path', 10, 2],
             ['filterGettext', "gettext_{$this->id()}", 10, 2],
             ['filterGettextWithContext', "gettext_with_context_{$this->id()}", 10, 3],
+            ['filterLocalizedPublicVariables', 'site-reviews/enqueue/public/localize'],
             ['filterNgettext', "ngettext_{$this->id()}", 10, 4],
             ['filterNgettextWithContext', "ngettext_with_context_{$this->id()}", 10, 5],
             ['filterRenderView', "{$this->id()}/render/view"],
