@@ -2,10 +2,35 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
+use GeminiLabs\SiteReviews\Defaults\CaptchaConfigDefaults;
 use GeminiLabs\SiteReviews\Modules\Captcha;
 
-class HcaptchaValidator extends CaptchaValidator
+class HcaptchaValidator extends CaptchaValidatorAbstract
 {
+    /**
+     * @see https://docs.hcaptcha.com/
+     */
+    public function config(): array
+    {
+        $language = $this->getLocale();
+        $urlParameters = array_filter([
+            'hl' => $language,
+            'render' => 'explicit',
+        ]);
+        return glsr(CaptchaConfigDefaults::class)->merge([
+            'badge' => glsr_get_option('forms.captcha.position'),
+            'class' => 'glsr-h-captcha', // @compat
+            'language' => $language,
+            'sitekey' => glsr_get_option('forms.hcaptcha.key'),
+            'size' => 'normal',
+            'theme' => glsr_get_option('forms.captcha.theme'),
+            'type' => 'hcaptcha',
+            'urls' => [
+                'nomodule' => add_query_arg($urlParameters, 'https://js.hcaptcha.com/1/api.js'),
+            ],
+        ]);
+    }
+
     public function isEnabled(): bool
     {
         return glsr(Captcha::class)->isEnabled('hcaptcha');

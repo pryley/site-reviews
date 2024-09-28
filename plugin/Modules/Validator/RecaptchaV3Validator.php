@@ -2,10 +2,35 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
+use GeminiLabs\SiteReviews\Defaults\CaptchaConfigDefaults;
 use GeminiLabs\SiteReviews\Modules\Captcha;
 
-class Recaptcha3Validator extends CaptchaValidator
+class RecaptchaV3Validator extends CaptchaValidatorAbstract
 {
+    /**
+     * @see https://developers.google.com/recaptcha/docs/v3
+     */
+    public function config(): array
+    {
+        $language = $this->getLocale();
+        $urlParameters = array_filter([
+            'hl' => $language,
+            'render' => 'explicit',
+        ]);
+        return glsr(CaptchaConfigDefaults::class)->merge([
+            'badge' => glsr_get_option('forms.captcha.position'),
+            'class' => 'glsr-g-recaptcha',
+            'language' => $language,
+            'sitekey' => glsr_get_option('forms.recaptcha_v3.key'),
+            'size' => 'invisible',
+            'theme' => glsr_get_option('forms.captcha.theme'),
+            'type' => 'recaptcha_v3',
+            'urls' => [
+                'nomodule' => add_query_arg($urlParameters, 'https://www.google.com/recaptcha/api.js'),
+            ],
+        ]);
+    }
+
     public function isEnabled(): bool
     {
         return glsr(Captcha::class)->isEnabled('recaptcha_v3');
@@ -37,7 +62,7 @@ class Recaptcha3Validator extends CaptchaValidator
             'secret' => glsr_get_option('forms.recaptcha_v3.secret'),
             // The sitekey does not need to be sent in the request, but it's here
             // so we can return a better error response to the form.
-            // @see CaptchaValidator::verifyToken()
+            // @see CaptchaValidatorAbstract::verifyToken()
             'sitekey' => glsr_get_option('forms.recaptcha_v3.key'),
         ];
     }

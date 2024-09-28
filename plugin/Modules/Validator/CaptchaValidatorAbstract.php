@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Captcha;
 
-class CaptchaValidator extends ValidatorAbstract
+abstract class CaptchaValidatorAbstract extends ValidatorAbstract
 {
     public const CAPTCHA_DISABLED = 0;
     // public const CAPTCHA_EMPTY = 1;
@@ -16,6 +16,8 @@ class CaptchaValidator extends ValidatorAbstract
     public const CAPTCHA_VALID = 4;
 
     protected $status;
+
+    abstract public function config(): array;
 
     public function isEnabled(): bool
     {
@@ -68,8 +70,21 @@ class CaptchaValidator extends ValidatorAbstract
         return [];
     }
 
+    protected function getLocale(): string
+    {
+        $locale = '';
+        if (function_exists('locale_parse')) {
+            $values = locale_parse(get_locale());
+            if (!empty($values['language'])) {
+                $locale = $values['language'];
+            }
+        }
+        return glsr()->filterString('captcha/language', $locale);
+    }
+
     protected function makeRequest(array $data): array
     {
+        glsr_log($data);
         $response = wp_remote_post($this->siteverifyUrl(), [
             'body' => $data,
         ]);

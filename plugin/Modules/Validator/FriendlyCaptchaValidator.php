@@ -2,10 +2,29 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
+use GeminiLabs\SiteReviews\Defaults\CaptchaConfigDefaults;
 use GeminiLabs\SiteReviews\Modules\Captcha;
 
-class FriendlyCaptchaValidator extends CaptchaValidator
+class FriendlycaptchaValidator extends CaptchaValidatorAbstract
 {
+    /**
+     * @see https://docs.friendlycaptcha.com/
+     */
+    public function config(): array
+    {
+        return glsr(CaptchaConfigDefaults::class)->merge([
+            'class' => glsr_get_option('forms.captcha.theme').' frc-captcha',
+            'language' => $this->getLocale(),
+            'sitekey' => glsr_get_option('forms.friendlycaptcha.key'),
+            'theme' => glsr_get_option('forms.captcha.theme'),
+            'type' => 'friendlycaptcha',
+            'urls' => [ // order is intentional, module should always load first
+                'module' => 'https://unpkg.com/friendly-challenge@0.9.4/widget.module.min.js',
+                'nomodule' => 'https://unpkg.com/friendly-challenge@0.9.4/widget.min.js',
+            ],
+        ]);
+    }
+
     public function isEnabled(): bool
     {
         return glsr(Captcha::class)->isEnabled('friendlycaptcha');

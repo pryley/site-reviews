@@ -2,10 +2,33 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
+use GeminiLabs\SiteReviews\Defaults\CaptchaConfigDefaults;
 use GeminiLabs\SiteReviews\Modules\Captcha;
 
-class TurnstileValidator extends CaptchaValidator
+class TurnstileValidator extends CaptchaValidatorAbstract
 {
+    /**
+     * @see https://developers.google.com/recaptcha/docs/v3
+     */
+    public function config(): array
+    {
+        $language = $this->getLocale();
+        $urlParameters = array_filter([
+            'hl' => $language,
+            'render' => 'explicit',
+        ]);
+        return glsr(CaptchaConfigDefaults::class)->merge([
+            'class' => 'glsr-cf-turnstile',
+            'language' => $language,
+            'sitekey' => glsr_get_option('forms.turnstile.key'),
+            'theme' => glsr_get_option('forms.captcha.theme'),
+            'type' => 'turnstile',
+            'urls' => [
+                'nomodule' => add_query_arg($urlParameters, 'https://challenges.cloudflare.com/turnstile/v0/api.js'),
+            ],
+        ]);
+    }
+
     public function isEnabled(): bool
     {
         return glsr(Captcha::class)->isEnabled('turnstile');
@@ -19,7 +42,7 @@ class TurnstileValidator extends CaptchaValidator
             'secret' => glsr_get_option('forms.turnstile.secret'),
             // The sitekey does not need to be sent in the request, but it's here
             // so we can return a better error response to the form.
-            // @see CaptchaValidator::verifyToken()
+            // @see CaptchaValidatorAbstract::verifyToken()
             'sitekey' => glsr_get_option('forms.turnstile.key'),
         ];
     }

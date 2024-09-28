@@ -2,10 +2,35 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
+use GeminiLabs\SiteReviews\Defaults\CaptchaConfigDefaults;
 use GeminiLabs\SiteReviews\Modules\Captcha;
 
-class Recaptcha2Validator extends CaptchaValidator
+class RecaptchaV2InvisibleValidator extends CaptchaValidatorAbstract
 {
+    /**
+     * @see https://developers.google.com/recaptcha/docs/invisible
+     */
+    public function config(): array
+    {
+        $language = $this->getLocale();
+        $urlParameters = array_filter([
+            'hl' => $language,
+            'render' => 'explicit',
+        ]);
+        return glsr(CaptchaConfigDefaults::class)->merge([
+            'badge' => glsr_get_option('forms.captcha.position'),
+            'class' => 'glsr-g-recaptcha',
+            'language' => $language,
+            'sitekey' => glsr_get_option('forms.recaptcha.key'),
+            'size' => 'invisible',
+            'theme' => glsr_get_option('forms.captcha.theme'),
+            'type' => 'recaptcha_v2_invisible',
+            'urls' => [
+                'nomodule' => add_query_arg($urlParameters, 'https://www.google.com/recaptcha/api.js'),
+            ],
+        ]);
+    }
+
     public function isEnabled(): bool
     {
         return glsr(Captcha::class)->isEnabled('recaptcha_v2_invisible');

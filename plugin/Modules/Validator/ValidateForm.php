@@ -89,10 +89,10 @@ class ValidateForm
             ReviewLimitsValidator::class,
             BlacklistValidator::class,
             AkismetValidator::class,
-            FriendlyCaptchaValidator::class,
+            FriendlycaptchaValidator::class,
             HcaptchaValidator::class,
-            Recaptcha2Validator::class,
-            Recaptcha3Validator::class,
+            RecaptchaV2InvisibleValidator::class,
+            RecaptchaV3Validator::class,
             TurnstileValidator::class,
         ];
         if (empty($validatorClasses)) {

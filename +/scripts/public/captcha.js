@@ -100,7 +100,7 @@ class Captcha {
         return !~[-1, null, undefined].indexOf(this.widget)
     }
 
-    load (src) {
+    load (src, type) {
         return new Promise((resolve, reject) => {
             if ('undefined' === typeof src || this.isLoaded(src)) {
                 resolve()
@@ -109,14 +109,11 @@ class Captcha {
                 script.onload = resolve;
                 script.onerror = reject;
                 script.src = src;
-                script.type = 'text/javascript';
-                if (GLSR.captcha.urls.length > 1) {
-                    if (-1 !== src.indexOf('module')) {
-                        script.type = 'module';
-                    } else {
-                        script.setAttribute('nomodule', '')
-                    }
+                script.type = 'module' === type ? 'module' : 'text/javascript';
+                if ('module' !== type && 'undefined' !== typeof GLSR.captcha.urls['module']) {
+                    script.setAttribute('nomodule', '')
                 }
+                script.setAttribute('async', '')
                 script.setAttribute('defer', '')
                 document.head.append(script)
             }
@@ -128,9 +125,9 @@ class Captcha {
         if (!this.containerEl || this.isWidgetLoaded()) return;
         if ('undefined' === typeof window[this.captcha]) {
             if (!this.loaded) {
-                this.load(GLSR.captcha.urls[0])
+                this.load(GLSR.captcha.urls['module'], 'module')
                     .then(() => {
-                        this.load(GLSR.captcha.urls[1]) // don't wait for nomodule scripts
+                        this.load(GLSR.captcha.urls['nomodule'], 'nomodule') // don't wait for nomodule scripts
                     })
                     .then(() => this.loaded = true)
                     .then(() => setTimeout(() => this.render(), 100))
@@ -224,11 +221,13 @@ class Captcha {
         this.captchaEl = dom('div', {
             class: GLSR.captcha.class,
             'data-badge': GLSR.captcha.badge,
+            'data-captcha-type': GLSR.captcha.captcha_type,
             'data-lang': GLSR.captcha.language,
             'data-isolated': true,
             'data-sitekey': GLSR.captcha.sitekey,
             'data-size': GLSR.captcha.size,
             'data-theme': GLSR.captcha.theme,
+            'data-type': GLSR.captcha.type,
         });
         this.containerEl.appendChild(this.captchaEl);
     }
