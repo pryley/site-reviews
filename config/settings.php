@@ -803,6 +803,7 @@ return [ // order is intentional
             'turnstile' => _x('Use Cloudflare Turnstile', 'admin-text', 'site-reviews'),
             'friendlycaptcha' => _x('Use Friendly Captcha', 'admin-text', 'site-reviews'),
             'hcaptcha' => _x('Use hCaptcha', 'admin-text', 'site-reviews'),
+            'procaptcha' => _x('Use Prosopo Procaptcha', 'admin-text', 'site-reviews'),
             'recaptcha_v2_invisible' => _x('Use reCAPTCHA v2 Invisible', 'admin-text', 'site-reviews'),
             'recaptcha_v3' => _x('Use reCAPTCHA v3', 'admin-text', 'site-reviews'),
         ],
@@ -849,6 +850,41 @@ return [ // order is intentional
         'sanitizer' => 'text',
         'tooltip' => _x('hCaptcha is an anti-bot solution that protects user privacy. It is the most popular reCAPTCHA alternative. To use it, you will need to <a href="https://dashboard.hcaptcha.com/" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
         'type' => 'secret',
+    ],
+    'settings.forms.procaptcha.key' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.forms.captcha.integration' => ['procaptcha'],
+        ],
+        'label' => _x('Site Key', 'admin-text', 'site-reviews'),
+        'sanitizer' => 'text',
+        'tooltip' => _x('<a href="https://prosopo.io/" target="_blank">Prosopo Procaptcha</a> is a GDPR compliant and privacy friendly anti-bot solution. To use it, you will need to <a href="https://portal.prosopo.io/" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
+        'type' => 'secret',
+    ],
+    'settings.forms.procaptcha.secret' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.forms.captcha.integration' => ['procaptcha'],
+        ],
+        'label' => _x('Secret Key', 'admin-text', 'site-reviews'),
+        'sanitizer' => 'text',
+        'tooltip' => _x('<a href="https://prosopo.io/" target="_blank">Prosopo Procaptcha</a> is a GDPR compliant and privacy friendly anti-bot solution. To use it, you will need to <a href="https://portal.prosopo.io/" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
+        'type' => 'secret',
+    ],
+    'settings.forms.procaptcha.type' => [
+        'default' => 'frictionless',
+        'depends_on' => [
+            'settings.forms.captcha.integration' => ['procaptcha'],
+        ],
+        'label' => _x('CAPTCHA Type', 'admin-text', 'site-reviews'),
+        'options' => [
+            'frictionless' => _x('Frictionless (invisible to the user)', 'admin-text', 'site-reviews'),
+            'image' => _x('Image (solve a simple image CAPTCHA)', 'admin-text', 'site-reviews'),
+            'pow' => _x('Proof of Work (solve a cryptographic puzzle)', 'admin-text', 'site-reviews'),
+        ],
+        'sanitizer' => 'text',
+        'tooltip' => _x('The type of CAPTCHA to render.', 'admin-text', 'site-reviews'),
+        'type' => 'select',
     ],
     'settings.forms.recaptcha.key' => [
         'default' => '',
@@ -947,6 +983,7 @@ return [ // order is intentional
             'settings.forms.captcha.integration' => [
                 'friendlycaptcha',
                 'hcaptcha',
+                'procaptcha',
                 'recaptcha_v2_invisible',
                 'recaptcha_v3',
                 'turnstile',

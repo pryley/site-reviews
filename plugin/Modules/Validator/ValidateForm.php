@@ -91,6 +91,7 @@ class ValidateForm
             AkismetValidator::class,
             FriendlycaptchaValidator::class,
             HcaptchaValidator::class,
+            ProcaptchaValidator::class,
             RecaptchaV2InvisibleValidator::class,
             RecaptchaV3Validator::class,
             TurnstileValidator::class,

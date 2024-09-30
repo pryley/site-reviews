@@ -61,6 +61,7 @@ class Request extends Arguments
         if ('submit-review' === Helper::filterInput('_action', $values)) {
             $values['_frcaptcha'] = Helper::filterInput('frc-captcha-solution');
             $values['_hcaptcha'] = Helper::filterInput('h-captcha-response');
+            $values['_procaptcha'] = Helper::filterInput('procaptcha-response');
             $values['_recaptcha'] = Helper::filterInput('g-recaptcha-response');
             $values['_turnstile'] = Helper::filterInput('cf-turnstile-response');
         }

@@ -6,6 +6,7 @@ class Captcha {
         this.captcha = {
             friendlycaptcha: 'friendlyChallenge',
             hcaptcha: 'hcaptcha',
+            procaptcha: 'procaptcha',
             recaptcha_v2_invisible: 'grecaptcha',
             recaptcha_v3: 'grecaptcha',
             turnstile: 'turnstile',
@@ -55,6 +56,16 @@ class Captcha {
             }).catch(err => {
                 console.error(err);
             });
+        }
+    }
+
+    execute_procaptcha () {
+        if (1 === +this.captchaEl.dataset.error) {
+            this._submitFormWithToken('sitekey_invalid')
+        } else if (this.token) {
+            this.Form.submitForm();
+        } else {
+            setTimeout(() => this.execute_procaptcha(), 100)
         }
     }
 
@@ -168,6 +179,21 @@ class Captcha {
             'close-callback': () => this.Form.button.loaded(),
             'error-callback': () => (this.captchaEl.dataset.error = 1),
             'expired-callback': () => this.reset(),
+        });
+    }
+
+    render_procaptcha () {
+        this.widget = window[this.captcha].render(this.captchaEl, {
+            callback: (token) => (this.token = token),
+            captchaType: GLSR.captcha.captcha_type,
+            language: GLSR.captcha.language,
+            siteKey: GLSR.captcha.sitekey, // data-attributes are not working with the render fn
+            theme: GLSR.captcha.theme, // data-attributes are not working with the render fn
+            'chalexpired-callback': () => this.reset(),
+            'close-callback': () => this.Form.button.loaded(),
+            'error-callback': () => (this.captchaEl.dataset.error = 1),
+            'expired-callback': () => this.reset(),
+            // 'open-callback': () => false,
         });
     }
 

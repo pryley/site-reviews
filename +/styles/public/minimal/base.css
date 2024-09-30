@@ -26,7 +26,7 @@
     bottom: 0;
     position: absolute;
 }
-:root .glsr-captcha-holder > div {
+:root .glsr-captcha-holder > div:not([data-type="procaptcha"]) {
     display: flex;
 }
 :root .glsr-fade-out {

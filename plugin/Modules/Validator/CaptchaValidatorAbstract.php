@@ -84,7 +84,6 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
 
     protected function makeRequest(array $data): array
     {
-        glsr_log($data);
         $response = wp_remote_post($this->siteverifyUrl(), [
             'body' => $data,
         ]);

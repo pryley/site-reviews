@@ -19,6 +19,7 @@ class CustomFieldsDefaults extends DefaultsAbstract
         '_hcaptcha',
         '_nonce',
         '_post_id',
+        '_procaptcha',
         '_recaptcha',
         '_referer',
         '_turnstile',
