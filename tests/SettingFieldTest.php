@@ -1319,6 +1319,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                         '<option value="turnstile">Use Cloudflare Turnstile</option>'.
                         '<option value="friendlycaptcha">Use Friendly Captcha</option>'.
                         '<option value="hcaptcha">Use hCaptcha</option>'.
+                        '<option value="procaptcha">Use Prosopo Procaptcha</option>'.
                         '<option value="recaptcha_v2_invisible">Use reCAPTCHA v2 Invisible</option>'.
                         '<option value="recaptcha_v3">Use reCAPTCHA v3</option>'.
                     '</select>'.
@@ -1382,6 +1383,55 @@ class SettingFieldTest extends \WP_UnitTestCase
                 '</th>'.
                 '<td>'.
                     '<input type="text" class="regular-text" id="site_reviews-settings-forms-hcaptcha-secret" name="site_reviews[settings][forms][hcaptcha][secret]" autocomplete="off" value="" />'.
+                '</td>'.
+            '</tr>'
+        );
+    }
+
+    public function test_build_forms_procaptcha_key(): void
+    {
+        $this->assertEquals(
+            $this->buildSetting('settings.forms.procaptcha.key'),
+            '<tr class="glsr-setting-field" data-field="settings.forms.procaptcha.key">'.
+                '<th scope="row">'.
+                    '<label for="site_reviews-settings-forms-procaptcha-key">Site Key</label>'.
+                '</th>'.
+                '<td>'.
+                    '<input type="text" class="regular-text" id="site_reviews-settings-forms-procaptcha-key" name="site_reviews[settings][forms][procaptcha][key]" autocomplete="off" value="" />'.
+                '</td>'.
+            '</tr>'
+        );
+    }
+
+    public function test_build_forms_procaptcha_secret(): void
+    {
+        $this->assertEquals(
+            $this->buildSetting('settings.forms.procaptcha.secret'),
+            '<tr class="glsr-setting-field" data-field="settings.forms.procaptcha.secret">'.
+                '<th scope="row">'.
+                    '<label for="site_reviews-settings-forms-procaptcha-secret">Secret Key</label>'.
+                '</th>'.
+                '<td>'.
+                    '<input type="text" class="regular-text" id="site_reviews-settings-forms-procaptcha-secret" name="site_reviews[settings][forms][procaptcha][secret]" autocomplete="off" value="" />'.
+                '</td>'.
+            '</tr>'
+        );
+    }
+
+    public function test_build_forms_procaptcha_type(): void
+    {
+        $this->assertEquals(
+            $this->buildSetting('settings.forms.procaptcha.type'),
+            '<tr class="glsr-setting-field" data-field="settings.forms.procaptcha.type">'.
+                '<th scope="row">'.
+                    '<label for="site_reviews-settings-forms-procaptcha-type">CAPTCHA Type</label>'.
+                '</th>'.
+                '<td>'.
+                    '<select class="regular-text" id="site_reviews-settings-forms-procaptcha-type" name="site_reviews[settings][forms][procaptcha][type]">'.
+                        '<option value="frictionless">Frictionless (invisible to the user)</option>'.
+                        '<option value="image">Image (solve a simple image CAPTCHA)</option>'.
+                        '<option value="pow">Proof of Work (solve a cryptographic puzzle)</option>'.
+                    '</select>'.
                 '</td>'.
             '</tr>'
         );

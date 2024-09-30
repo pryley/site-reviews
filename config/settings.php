@@ -872,6 +872,7 @@ return [ // order is intentional
         'type' => 'secret',
     ],
     'settings.forms.procaptcha.type' => [
+        'class' => 'regular-text',
         'default' => 'frictionless',
         'depends_on' => [
             'settings.forms.captcha.integration' => ['procaptcha'],

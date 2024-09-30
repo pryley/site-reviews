@@ -1715,7 +1715,7 @@ msgstr ""
 "CAPTCHAs (Completely Automated Public Turing test to tell Computers and "
 "Humans Apart) are anti-bot solutions that protect forms from spam."
 
-#: config/settings.php:819, config/settings.php:839, config/settings.php:859, config/settings.php:894, config/settings.php:914, config/settings.php:948
+#: config/settings.php:819, config/settings.php:839, config/settings.php:859, config/settings.php:895, config/settings.php:915, config/settings.php:949
 msgctxt "admin-text"
 msgid "Site Key"
 msgstr "Site Key"
@@ -1749,7 +1749,7 @@ msgstr ""
 "href=\"https://dashboard.hcaptcha.com/\" target=\"_blank\">sign up</a> for "
 "an API key pair for your site."
 
-#: config/settings.php:849, config/settings.php:869, config/settings.php:904, config/settings.php:924, config/settings.php:958
+#: config/settings.php:849, config/settings.php:869, config/settings.php:905, config/settings.php:925, config/settings.php:959
 msgctxt "admin-text"
 msgid "Secret Key"
 msgstr "Secret Key"
@@ -1767,32 +1767,32 @@ msgstr ""
 "will need to <a href=\"https://portal.prosopo.io/\" target=\"_blank\">sign "
 "up</a> for an API key pair for your site."
 
-#: config/settings.php:879
+#: config/settings.php:880
 msgctxt "admin-text"
 msgid "CAPTCHA Type"
 msgstr "CAPTCHA Type"
 
-#: config/settings.php:881
+#: config/settings.php:882
 msgctxt "admin-text"
 msgid "Frictionless (invisible to the user)"
 msgstr "Frictionless (invisible to the user)"
 
-#: config/settings.php:882
+#: config/settings.php:883
 msgctxt "admin-text"
 msgid "Image (solve a simple image CAPTCHA)"
 msgstr "Image (solve a simple image CAPTCHA)"
 
-#: config/settings.php:883
+#: config/settings.php:884
 msgctxt "admin-text"
 msgid "Proof of Work (solve a cryptographic puzzle)"
 msgstr "Proof of Work (solve a cryptographic puzzle)"
 
-#: config/settings.php:886
+#: config/settings.php:887
 msgctxt "admin-text"
 msgid "The type of CAPTCHA to render."
 msgstr "The type of CAPTCHA to render."
 
-#: config/settings.php:896, config/settings.php:906
+#: config/settings.php:897, config/settings.php:907
 msgctxt "admin-text"
 msgid ""
 "reCAPTCHA v2 Invisible is a free anti-spam service from Google. To use it, "
@@ -1803,7 +1803,7 @@ msgstr ""
 "you will need to <a href=\"https://www.google.com/recaptcha/admin\" "
 "target=\"_blank\">sign up</a> for an API key pair for your site."
 
-#: config/settings.php:916, config/settings.php:926
+#: config/settings.php:917, config/settings.php:927
 msgctxt "admin-text"
 msgid ""
 "reCAPTCHA v3 is a free anti-spam service from Google. To use it, you will "
@@ -1814,22 +1814,22 @@ msgstr ""
 "need to <a href=\"https://www.google.com/recaptcha/admin\" "
 "target=\"_blank\">sign up</a> for an API key pair for your site."
 
-#: config/settings.php:934
+#: config/settings.php:935
 msgctxt "admin-text"
 msgid "Score threshold should be a value between 0 and 1, default: 0.5"
 msgstr "Score threshold should be a value between 0 and 1, default: 0.5"
 
-#: config/settings.php:935
+#: config/settings.php:936
 msgctxt "admin-text"
 msgid "Score Threshold"
 msgstr "Score Threshold"
 
-#: config/settings.php:940
+#: config/settings.php:941
 msgctxt "admin-text"
 msgid "Where 0 is a robot and 1 is a human"
 msgstr "Where 0 is a robot and 1 is a human"
 
-#: config/settings.php:950, config/settings.php:960
+#: config/settings.php:951, config/settings.php:961
 msgctxt "admin-text"
 msgid ""
 "Turnstile is Cloudflare’s privacy-first CAPTCHA alternative. To use it, you "
@@ -1842,27 +1842,27 @@ msgstr ""
 "href=\"https://dash.cloudflare.com/?to=/:account/turnstile\" "
 "target=\"_blank\">obtain</a> a site key and a secret key."
 
-#: config/settings.php:969
+#: config/settings.php:970
 msgctxt "admin-text"
 msgid "CAPTCHA Badge"
 msgstr "CAPTCHA Badge"
 
-#: config/settings.php:971
+#: config/settings.php:972
 msgctxt "admin-text"
 msgid "Bottom Left"
 msgstr "Bottom Left"
 
-#: config/settings.php:972
+#: config/settings.php:973
 msgctxt "admin-text"
 msgid "Bottom Right"
 msgstr "Bottom Right"
 
-#: config/settings.php:973
+#: config/settings.php:974
 msgctxt "admin-text"
 msgid "Inline"
 msgstr "Inline"
 
-#: config/settings.php:976
+#: config/settings.php:977
 msgctxt "admin-text"
 msgid ""
 "Set the position of the CAPTCHA widget. This option may not work "
@@ -1873,52 +1873,52 @@ msgstr ""
 "consistently if another plugin is loading reCAPTCHA on the same page as "
 "Site Reviews."
 
-#: config/settings.php:992
+#: config/settings.php:993
 msgctxt "admin-text"
 msgid "CAPTCHA Theme"
 msgstr "CAPTCHA Theme"
 
-#: config/settings.php:994
+#: config/settings.php:995
 msgctxt "admin-text"
 msgid "Light"
 msgstr "Light"
 
-#: config/settings.php:995
+#: config/settings.php:996
 msgctxt "admin-text"
 msgid "Dark"
 msgstr "Dark"
 
-#: config/settings.php:998
+#: config/settings.php:999
 msgctxt "admin-text"
 msgid "Set the color theme of the CAPTCHA widget."
 msgstr "Set the color theme of the CAPTCHA widget."
 
-#: config/settings.php:1013
+#: config/settings.php:1014
 msgctxt "admin-text"
 msgid "CAPTCHA Usage"
 msgstr "CAPTCHA Usage"
 
-#: config/settings.php:1015
+#: config/settings.php:1016
 msgctxt "admin-text"
 msgid "Use for everyone"
 msgstr "Use for everyone"
 
-#: config/settings.php:1016
+#: config/settings.php:1017
 msgctxt "admin-text"
 msgid "Use only for guest users"
 msgstr "Use only for guest users"
 
-#: config/settings.php:1019
+#: config/settings.php:1020
 msgctxt "admin-text"
 msgid "Choose who you want to load the CAPTCHA for."
 msgstr "Choose who you want to load the CAPTCHA for."
 
-#: config/settings.php:1024
+#: config/settings.php:1025
 msgctxt "admin-text"
 msgid "Enable Akismet"
 msgstr "Enable Akismet"
 
-#: config/settings.php:1026
+#: config/settings.php:1027
 msgctxt "admin-text"
 msgid ""
 "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> "
@@ -1931,12 +1931,12 @@ msgstr ""
 "setting to have any affect, you will need to first install and activate the "
 "Akismet plugin and set up a WordPress.com API key."
 
-#: config/settings.php:1032
+#: config/settings.php:1033
 msgctxt "admin-text"
 msgid "Prevent Duplicates"
 msgstr "Prevent Duplicates"
 
-#: config/settings.php:1034
+#: config/settings.php:1035
 msgctxt "admin-text"
 msgid ""
 "This will prevent people from submitting multiple reviews with the same "
@@ -1945,22 +1945,22 @@ msgstr ""
 "This will prevent people from submitting multiple reviews with the same "
 "content."
 
-#: config/settings.php:1040
+#: config/settings.php:1041
 msgctxt "admin-text"
 msgid "Blacklist"
 msgstr "Blacklist"
 
-#: config/settings.php:1042
+#: config/settings.php:1043
 msgctxt "admin-text"
 msgid "Use the Site Reviews Blacklist"
 msgstr "Use the Site Reviews Blacklist"
 
-#: config/settings.php:1043
+#: config/settings.php:1044
 msgctxt "admin-text"
 msgid "Use the WordPress Disallowed Comment Keys"
 msgstr "Use the WordPress Disallowed Comment Keys"
 
-#: config/settings.php:1046
+#: config/settings.php:1047
 msgctxt "admin-text"
 msgid ""
 "Choose which Blacklist you would prefer to use for reviews. The %s option "
@@ -1969,17 +1969,17 @@ msgstr ""
 "Choose which Blacklist you would prefer to use for reviews. The %s option "
 "can be found in the WordPress Discussion Settings page."
 
-#: config/settings.php:1047
+#: config/settings.php:1048
 msgctxt "admin-text"
 msgid "Disallowed Comment Keys"
 msgstr "Disallowed Comment Keys"
 
-#: config/settings.php:1056
+#: config/settings.php:1057
 msgctxt "admin-text"
 msgid "Review Blacklist"
 msgstr "Review Blacklist"
 
-#: config/settings.php:1059
+#: config/settings.php:1060
 msgctxt "admin-text"
 msgid ""
 "One entry or IP address per line. When a review contains any of these "
@@ -1992,22 +1992,22 @@ msgstr ""
 "rejected. It is case-insensitive and will match partial words, so \"press\" "
 "will match \"WordPress\"."
 
-#: config/settings.php:1065
+#: config/settings.php:1066
 msgctxt "admin-text"
 msgid "Blacklist Action"
 msgstr "Blacklist Action"
 
-#: config/settings.php:1067
+#: config/settings.php:1068
 msgctxt "admin-text"
 msgid "Require approval"
 msgstr "Require approval"
 
-#: config/settings.php:1068
+#: config/settings.php:1069
 msgctxt "admin-text"
 msgid "Reject submission"
 msgstr "Reject submission"
 
-#: config/settings.php:1071
+#: config/settings.php:1072
 msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
