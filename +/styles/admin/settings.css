@@ -723,6 +723,12 @@ tr.glsr-setting-field td .inline label::after {
   display: inline-flex;
   margin-top: 0;
 }
+@media screen and (max-width: 782px) {
+  .glsr-setting-field .wp-pwd {
+    display: block;
+    width: 100%;
+  }
+}
 .glsr-setting-field .wp-pwd input {
   padding-right: 2.5rem;
 }
@@ -759,6 +765,11 @@ tr.glsr-setting-field td .inline label::after {
     background: 0 0;
     box-shadow: none;
     transform: none;
+  }
+}
+@media screen and (max-width: 782px) {
+  .glsr-setting-field .wp-pwd button.wp-hide-pw {
+    right: -1px;
   }
 }
 
