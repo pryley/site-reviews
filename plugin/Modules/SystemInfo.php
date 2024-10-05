@@ -397,7 +397,9 @@ class SystemInfo
     protected function purgeSensitiveData(array $settings): array
     {
         $config = glsr()->settings();
-        $config = array_filter($config, fn ($field) => 'secret' === ($field['type'] ?? ''));
+        $config = array_filter($config, function ($field, $key) {
+            return str_starts_with($key, 'settings.licenses.') || 'secret' === ($field['type'] ?? '');
+        }, ARRAY_FILTER_USE_BOTH);
         $keys = array_keys($config);
         $keys = array_map(fn ($key) => Str::removePrefix($key, 'settings.'), $keys);
         foreach ($settings as $key => &$value) {
