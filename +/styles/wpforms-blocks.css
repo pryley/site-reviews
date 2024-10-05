@@ -3,6 +3,7 @@
 @import "public/minimal/review";
 @import "public/minimal/summary";
 @import "public/minimal/field-toggle";
+@import "public/minimal/field-range";
 @import "public/minimal/field-rating";
 @import "blocks/base";
 

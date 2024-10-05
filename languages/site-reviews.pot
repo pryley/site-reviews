@@ -5605,6 +5605,10 @@ msgstr ""
 msgid "Reviews (%d)"
 msgstr ""
 
+#: plugin/Modules/Html/FieldElements/Range.php:57
+msgid "Please select"
+msgstr ""
+
 #: plugin/Modules/Html/FieldElements/Rating.php:12
 msgid "%s Star"
 msgid_plural "%s Stars"

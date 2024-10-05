@@ -15,7 +15,7 @@
     display: flex;
 }
 :--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
-:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+:--namespace form.glsr-form input[type=radio]:is(.glsr-input-radio,.glsr-input-range) {
     box-sizing: border-box;
     display: inline-block;
     flex-shrink: 0;

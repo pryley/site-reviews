@@ -158,8 +158,14 @@ class Validation {
 
     toggleError (field, hasError) {
         let fieldEl = field.input.closest(classListSelector(this.config.field));
-        addRemoveClass(field.input, this.config.input_error, hasError)
-        addRemoveClass(field.input, this.config.input_valid, !hasError)
+        let inputs = [field.input];
+        if (undefined !== field.input.form) {
+            inputs = field.input.form.querySelectorAll(`[name="${field.input.name}"]`);
+        }
+        inputs.forEach(input => { // support radio/checkbox fields
+            addRemoveClass(input, this.config.input_error, hasError)
+            addRemoveClass(input, this.config.input_valid, !hasError)
+        })
         if (fieldEl) {
             addRemoveClass(fieldEl, this.config.field_error, hasError)
             addRemoveClass(fieldEl, this.config.field_valid, !hasError)

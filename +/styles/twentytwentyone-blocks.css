@@ -48,7 +48,7 @@
     border-radius: var(--form--border-radius);
 }
 :--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
-:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+:--namespace form.glsr-form input[type=radio]:is(.glsr-input-radio,.glsr-input-range) {
     border: var(--form--border-width) solid var(--form--border-color);
     height: var(--glsr-choice-h);
     width: var(--glsr-choice-w);

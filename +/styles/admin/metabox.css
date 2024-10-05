@@ -126,6 +126,17 @@
   padding: 0;
   text-overflow: ellipsis;
 }
+.glsr-metabox-field .glsr-input-group {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+  margin: 12px 0;
+  padding: 0 12px;
+  position: relative;
+  width: 100%;
+}
 .glsr-metabox-field .glsr-input {
   box-sizing: border-box;
   width: 100%;
@@ -226,12 +237,15 @@
   .glsr-metabox-field .glsr-label label {
     font-weight: 600;
   }
+  .glsr-metabox-field .glsr-input-group {
+    flex-direction: row;
+    margin: 6px 0;
+  }
   .glsr-metabox-field .glsr-input {
+    display: flex;
     flex-direction: column;
     justify-content: center;
-    display: flex;
     padding: 6px 12px;
-    vertical-align: top;
   }
 }
 @media screen and (min-width: 783px) {

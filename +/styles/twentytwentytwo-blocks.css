@@ -23,7 +23,7 @@
     padding-left: var(--glsr-input-px);
 }
 :--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
-:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+:--namespace form.glsr-form input[type=radio]:is(.glsr-input-radio,.glsr-input-range) {
     height: var(--glsr-text-lg);
     width: var(--glsr-text-lg);
 }

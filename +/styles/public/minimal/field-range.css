@@ -1,0 +1,63 @@
+:--namespace form.glsr-form .glsr-range-labels {
+  display: grid;
+  font-size: var(--glsr-text-sm);
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  line-height: 1.5;
+  text-align: center;
+  :first-child {
+    text-align: start;
+  }
+  :last-child {
+    text-align: end;
+  }
+}
+:--namespace form.glsr-form .glsr-field-range {
+  align-items: center;
+  display: flex;
+  font-size: var(--glsr-text-base);
+  gap: var(--glsr-gap-lg);
+  justify-content: space-between;
+  margin-bottom: calc(var(--glsr-text-sm) * 1.5);
+  padding-top: var(--glsr-gap-xs);
+  padding-bottom: var(--glsr-gap-xs);
+  position: relative;
+  &::before {
+    background-color: var(--glsr-gray-400);
+    content: '';
+    display: block;
+    height: 1px;
+    position: absolute;
+    width: 100%;
+  }
+}
+:--namespace form.glsr-form .glsr-field-range:has(.glsr-is-invalid)::before {
+  background-color: var(--glsr-form-error);
+}
+:--namespace form.glsr-form .glsr-field-range-input {
+  display: flex;
+  z-index: 1;
+}
+:--namespace form.glsr-form .glsr-field-range input[type="radio"].glsr-input-range {
+  flex-shrink: 0;
+  height: var(--glsr-range-size);
+  width: var(--glsr-range-size);
+}
+:--namespace form.glsr-form .glsr-field-range label {
+  display: none;
+}
+:--namespace form.glsr-form .glsr-field-range input[type="radio"]:checked + label {
+  display: flex;
+  font-size: var(--glsr-text-sm);
+  left: 0;
+  line-height: 1.5;
+  position: absolute;
+  top: 100%;
+}
+:--namespace form.glsr-form .glsr-field-range:not(:has(input[type="radio"]:checked))::after {
+  content: attr(data-placeholder);
+  display: flex;
+  font-size: var(--glsr-text-sm);
+  left: 0;
+  position: absolute;
+  top: 100%;
+}

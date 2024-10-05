@@ -8,6 +8,7 @@
 @import "public/minimal/summary";
 @import "public/minimal/form";
 @import "public/minimal/field-toggle";
+@import "public/minimal/field-range";
 @import "public/minimal/field-rating";
 @import "public/minimal/button";
 @import "public/minimal/modal";

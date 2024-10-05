@@ -11,6 +11,7 @@
 @import "public/minimal/field-input";
 @import "public/minimal/field-choice";
 @import "public/minimal/field-toggle";
+@import "public/minimal/field-range";
 @import "public/minimal/field-rating";
 @import "public/minimal/button";
 @import "public/minimal/modal";

@@ -10,6 +10,7 @@ namespace GeminiLabs\SiteReviews\Contracts;
  * @property bool         $checked
  * @property string       $class
  * @property string       $description
+ * @property bool         $disabled
  * @property array        $errors
  * @property string       $group
  * @property string       $id
@@ -17,6 +18,7 @@ namespace GeminiLabs\SiteReviews\Contracts;
  * @property bool         $is_raw
  * @property bool         $is_valid
  * @property string       $label
+ * @property array        $labels
  * @property bool         $multiple
  * @property string       $name
  * @property array        $options
@@ -24,6 +26,7 @@ namespace GeminiLabs\SiteReviews\Contracts;
  * @property string       $original_type
  * @property bool         $required
  * @property bool         $selected
+ * @property int          $tabindex
  * @property string       $tag
  * @property string       $text
  * @property string       $type

@@ -71,7 +71,8 @@
     &::after {
         background-color: var(--glsr-toggle-color);
         border-radius: calc(var(--glsr-toggle-radius) - var(--glsr-toggle-p));
-        box-shadow: 0 calc(var(--glsr-toggle-h) * 0.125) calc(var(--glsr-toggle-h) * .25) var(--glsr-toggle-shadow-color);
+        box-shadow: 0 calc(var(--glsr-toggle-h)*.05) calc(var(--glsr-toggle-h)*.1) var(--glsr-toggle-shadow-color),
+                    0 calc(var(--glsr-toggle-h)*.05) calc(var(--glsr-toggle-h)*.15) var(--glsr-toggle-shadow-color);
         box-sizing: border-box;
         content: '';
         display: block;

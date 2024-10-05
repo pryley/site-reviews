@@ -22,7 +22,7 @@
     opacity: .75;
 }
 :--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
-:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+:--namespace form.glsr-form input[type=radio]:is(.glsr-input-radio,.glsr-input-range) {
     appearance: none;
     background-color: var(--glsr-white);
     background-origin: border-box;
@@ -41,7 +41,7 @@
 :--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox {
     border-radius: var(--glsr-input-radius);
 }
-:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+:--namespace form.glsr-form input[type=radio]:is(.glsr-input-radio,.glsr-input-range) {
     border-radius: 100%;
 }
 :--namespace form.glsr-form .glsr-toggle label {

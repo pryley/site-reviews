@@ -28,6 +28,7 @@ use GeminiLabs\SiteReviews\Modules\Html\FieldElements\UnknownElement;
  * @property bool         $is_raw
  * @property bool         $is_valid
  * @property string       $label
+ * @property array        $labels
  * @property bool         $multiple
  * @property string       $name
  * @property array        $options

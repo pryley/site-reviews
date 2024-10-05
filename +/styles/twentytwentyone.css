@@ -26,11 +26,11 @@
 }
 :--namespace form.glsr-form input.glsr-input,
 :--namespace form.glsr-form input.glsr-input-checkbox,
-:--namespace form.glsr-form input.glsr-input-radio:not(:checked) {
+:--namespace form.glsr-form input:is(.glsr-input-radio,.glsr-input-range):not(:checked) {
     border: var(--glsr-input-b);
 }
 :--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
-:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+:--namespace form.glsr-form input[type=radio]:is(.glsr-input-radio,.glsr-input-range) {
     height: var(--glsr-choice-h);
     width: var(--glsr-choice-w);
 }
