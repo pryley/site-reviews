@@ -19,6 +19,7 @@ class Checkbox extends AbstractFieldElement
     public function required(): array
     {
         return [
+            'class' => 'glsr-input-checkbox',
             'type' => 'checkbox',
         ];
     }
