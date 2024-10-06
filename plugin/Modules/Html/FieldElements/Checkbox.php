@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\FieldElements;
 
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
@@ -16,10 +17,16 @@ class Checkbox extends AbstractFieldElement
         ];
     }
 
+    public function inputType(): string
+    {
+        return in_array($this->field->original_type, ['checkbox', 'radio'])
+            ? $this->field->type
+            : $this->field->original_type;
+    }
+
     public function required(): array
     {
         return [
-            'class' => 'glsr-input-checkbox',
             'type' => 'checkbox',
         ];
     }
@@ -29,39 +36,44 @@ class Checkbox extends AbstractFieldElement
         return 'input';
     }
 
-    protected function buildReviewField(): string
+    protected function buildInput(string $value, int $index, Arguments $args): string
+    {
+        $type = $this->inputType();
+        $input = [
+            'checked' => in_array($value, Cast::toArray($args->value)),
+            'class' => $args->class,
+            'disabled' => $args->disabled,
+            'id' => Helper::ifTrue(!empty($args->id), "{$args->id}-{$index}"),
+            'name' => $args->name,
+            'required' => $args->required,
+            'tabindex' => $args->tabindex,
+            'type' => $args->type,
+            'value' => $value,
+        ];
+        if (!empty($args['data-conditions'])) {
+            $input['data-conditions'] = $args['data-conditions'];
+        }
+        $html = glsr(Template::class)->build("templates/form/type-{$type}", [
+            'context' => [
+                'class' => glsr(Style::class)->defaultClasses('field')."-{$type}", // only use the default class here!
+                'id' => $input['id'],
+                'input' => $this->field->builder()->input($input),
+                'text' => $args->options[$value],
+            ],
+            'field' => $this->field,
+            'input' => $input,
+        ]);
+        return glsr()->filterString('rendered/field', $html, $type, $input);
+    }
+
+    protected function buildReviewField(Arguments $args): string
     {
         $index = 0;
-        $optionKeys = array_keys($this->field->options);
-        $type = 'toggle' === $this->field->original_type ? $this->field->original_type : $this->field->type;
-        return array_reduce($optionKeys, function ($carry, $value) use (&$index, $type) {
-            $inputField = [
-                'checked' => in_array($value, Cast::toArray($this->field->value)),
-                'class' => $this->field->class,
-                'disabled' => $this->field->disabled,
-                'id' => Helper::ifTrue(!empty($this->field->id), $this->field->id.'-'.++$index),
-                'name' => $this->field->name,
-                'required' => $this->field->required,
-                'tabindex' => $this->field->tabindex,
-                'type' => $this->field->type,
-                'value' => $value,
-            ];
-            if (!empty($this->field['data-conditions'])) {
-                $inputField['data-conditions'] = $this->field['data-conditions'];
-            }
-            $html = glsr(Template::class)->build("templates/form/type-{$type}", [
-                'context' => [
-                    'class' => glsr(Style::class)->defaultClasses('field')."-{$type}", // only use the default class here!
-                    'id' => $inputField['id'],
-                    'input' => $this->field->builder()->input($inputField),
-                    'text' => $this->field->options[$value],
-                ],
-                'field' => $this->field,
-                'input' => $inputField,
-            ]);
-            $html = glsr()->filterString('rendered/field', $html, $type, $inputField);
-            return $carry.$html;
-        }, '');
+        $optionKeys = array_keys($args->options);
+        return array_reduce($optionKeys,
+            fn ($carry, $value) => $carry.$this->buildInput((string) $value, ++$index, $args),
+            ''
+        );
     }
 
     protected function normalizeOptions(): void

@@ -11,7 +11,7 @@
     text-align: end;
   }
 }
-:--namespace form.glsr-form .glsr-field-range {
+:--namespace form.glsr-form .glsr-range-options {
   align-items: center;
   display: flex;
   font-size: var(--glsr-text-base);
@@ -30,22 +30,22 @@
     width: 100%;
   }
 }
-:--namespace form.glsr-form .glsr-field-range:has(.glsr-is-invalid)::before {
+:--namespace form.glsr-form .glsr-range-options:has(.glsr-is-invalid)::before {
   background-color: var(--glsr-form-error);
 }
-:--namespace form.glsr-form .glsr-field-range-input {
+:--namespace form.glsr-form .glsr-field-range {
   display: flex;
   z-index: 1;
 }
-:--namespace form.glsr-form .glsr-field-range input[type="radio"].glsr-input-range {
+:--namespace form.glsr-form .glsr-range-options input[type="radio"].glsr-input-range {
   flex-shrink: 0;
   height: var(--glsr-range-size);
   width: var(--glsr-range-size);
 }
-:--namespace form.glsr-form .glsr-field-range label {
+:--namespace form.glsr-form .glsr-range-options label {
   display: none;
 }
-:--namespace form.glsr-form .glsr-field-range input[type="radio"]:checked + label {
+:--namespace form.glsr-form .glsr-range-options input[type="radio"]:checked + label {
   display: flex;
   font-size: var(--glsr-text-sm);
   left: 0;
@@ -53,7 +53,7 @@
   position: absolute;
   top: 100%;
 }
-:--namespace form.glsr-form .glsr-field-range:not(:has(input[type="radio"]:checked))::after {
+:--namespace form.glsr-form .glsr-range-options:not(:has(input[type="radio"]:checked))::after {
   content: attr(data-placeholder);
   display: flex;
   font-size: var(--glsr-text-sm);

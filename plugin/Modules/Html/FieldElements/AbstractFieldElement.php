@@ -24,7 +24,7 @@ abstract class AbstractFieldElement implements FieldElementContract
         $args = wp_parse_args($overrideArgs, $this->field->toArray());
         $method = Helper::buildMethodName('build', $this->field->location(), 'field');
         if (method_exists($this, $method)) {
-            return call_user_func([$this, $method], $args);
+            return call_user_func([$this, $method], glsr()->args($args));
         }
         return $this->field->builder()->build($this->tag(), $args);
     }

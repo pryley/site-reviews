@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\FieldElements;
 
+use GeminiLabs\SiteReviews\Arguments;
+
 class Secret extends Text
 {
     public function required(): array
@@ -13,9 +15,9 @@ class Secret extends Text
         ];
     }
 
-    protected function buildSettingField(array $args = []): string
+    protected function buildSettingField(Arguments $args): string
     {
-        $input = $this->field->builder()->build($this->tag(), $args);
+        $input = $this->field->builder()->build($this->tag(), $args->toArray());
         if (empty($this->field->value)) {
             return $input;
         }
