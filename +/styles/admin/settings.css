@@ -793,8 +793,8 @@ tr.glsr-setting-field td .inline label::after {
   padding: 3px;
 }
 .glsr-template-editor textarea:focus + .quicktags-toolbar {
-  border-color: #2271b1;
-  box-shadow: 0 0 0 1px #2271b1;
+  border-color: var(--wp-admin-theme-color, #2271b1);
+  box-shadow: 0 0 0 1px var(--wp-admin-theme-color, #2271b1);
   outline: 2px solid transparent;
 }
 .glsr-template-editor .quicktags-toolbar .button-small {

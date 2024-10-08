@@ -426,7 +426,7 @@ msgstr "verified owner"
 msgid "Reviews (%d)"
 msgstr "Reviews (%d)"
 
-#: plugin/Modules/Html/FieldElements/Range.php:57
+#: plugin/Modules/Html/FieldElements/Range.php:25
 msgid "Please select"
 msgstr "Please select"
 
@@ -5566,12 +5566,12 @@ msgctxt "admin-text"
 msgid "managed by Site Reviews"
 msgstr "managed by Site Reviews"
 
-#: plugin/Modules/Html/FieldElements/Secret.php:23, plugin/Modules/Html/FieldElements/Secret.php:26
+#: plugin/Modules/Html/FieldElements/Secret.php:25, plugin/Modules/Html/FieldElements/Secret.php:28
 msgctxt "admin-text"
 msgid "Show value"
 msgstr "Show value"
 
-#: plugin/Modules/Html/FieldElements/Secret.php:25
+#: plugin/Modules/Html/FieldElements/Secret.php:27
 msgctxt "admin-text"
 msgid "Hide value"
 msgstr "Hide value"

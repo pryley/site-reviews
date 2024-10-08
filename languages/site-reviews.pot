@@ -5605,7 +5605,7 @@ msgstr ""
 msgid "Reviews (%d)"
 msgstr ""
 
-#: plugin/Modules/Html/FieldElements/Range.php:57
+#: plugin/Modules/Html/FieldElements/Range.php:25
 msgid "Please select"
 msgstr ""
 
@@ -5619,12 +5619,12 @@ msgstr[1] ""
 msgid "Select a Rating"
 msgstr ""
 
-#: plugin/Modules/Html/FieldElements/Secret.php:23, plugin/Modules/Html/FieldElements/Secret.php:26
+#: plugin/Modules/Html/FieldElements/Secret.php:25, plugin/Modules/Html/FieldElements/Secret.php:28
 msgctxt "admin-text"
 msgid "Show value"
 msgstr ""
 
-#: plugin/Modules/Html/FieldElements/Secret.php:25
+#: plugin/Modules/Html/FieldElements/Secret.php:27
 msgctxt "admin-text"
 msgid "Hide value"
 msgstr ""

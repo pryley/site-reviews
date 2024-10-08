@@ -24,7 +24,7 @@ import TextareaResize from '@/admin/textarea-resize.js';
 import TogglePinned from '@/admin/toggle-pinned.js';
 import ToggleVerified from '@/admin/toggle-verified.js';
 import Tools from '@/admin/tools.js';
-import tippy, {followCursor} from 'tippy.js';
+import tippy, { followCursor } from 'tippy.js';
 
 GLSR.ajax = Ajax;
 GLSR.autosize = autosize;
