@@ -8,7 +8,11 @@ class SanitizeAttrClass extends StringSanitizer
     {
         $classes = explode(' ', $this->value());
         foreach ($classes as $index => $value) {
-            $value = sanitize_html_class($value);
+            // Strip out any percent-encoded characters.
+            $value = preg_replace('|%[a-fA-F0-9][a-fA-F0-9]|', '', $value);
+            // Limit characters
+            $value = preg_replace('/[^\:\w-]/', '', $value);
+            // Ensure value does not begins with a number
             $value = preg_replace('/^(\d+)(.*)$/', '$2', $value);
             $classes[$index] = trim($value);
         }
