@@ -1,13 +1,13 @@
 :--namespace form.glsr-hide-form {
-    max-height: 0 !important;
-    opacity: 0;
-    overflow: hidden;
+  max-height: 0 !important;
+  opacity: 0;
+  overflow: hidden;
 }
 :--namespace form.glsr-form {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    position: relative;
-    row-gap: var(--glsr-gap-md);
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  position: relative;
+  row-gap: var(--glsr-gap-md);
 }
 :--namespace .glsr-field {
     position: relative;
@@ -32,4 +32,70 @@
 }
 :--namespace .glsr-is-invalid {
     border-color: var(--glsr-form-error) !important;
+}
+/* Responsive Form Grid */
+:--namespace form.glsr-form-responsive {
+  gap: var(--glsr-gap-md);
+  grid-template-columns: repeat(12, 1fr);
+}
+:root .glsr-form-responsive > * {
+  grid-column: span 12;
+}
+:root .glsr-form-responsive > .sm\:gl-col-25 {
+  grid-column: span 3;
+}
+:root .glsr-form-responsive > .sm\:gl-col-33 {
+  grid-column: span 4;
+}
+:root .glsr-form-responsive > .sm\:gl-col-50 {
+  grid-column: span 6;
+}
+:root .glsr-form-responsive > .sm\:gl-col-66 {
+  grid-column: span 8;
+}
+:root .glsr-form-responsive > .sm\:gl-col-75 {
+  grid-column: span 9;
+}
+:root .glsr-form-responsive > .sm\:gl-col-100 {
+  grid-column: span 12;
+}
+@media (min-width: 768px) {
+  :root .glsr-form-responsive > .md\:gl-col-25 {
+    grid-column: span 3;
+  }
+  :root .glsr-form-responsive > .md\:gl-col-33 {
+    grid-column: span 4;
+  }
+  :root .glsr-form-responsive > .md\:gl-col-50 {
+    grid-column: span 6;
+  }
+  :root .glsr-form-responsive > .md\:gl-col-66 {
+    grid-column: span 8;
+  }
+  :root .glsr-form-responsive > .md\:gl-col-75 {
+    grid-column: span 9;
+  }
+  :root .glsr-form-responsive > .md\:gl-col-100 {
+    grid-column: span 12;
+  }
+}
+@media (min-width: 1024px) {
+  :root .glsr-form-responsive > .lg\:gl-col-25 {
+    grid-column: span 3;
+  }
+  :root .glsr-form-responsive > .lg\:gl-col-33 {
+    grid-column: span 4;
+  }
+  :root .glsr-form-responsive > .lg\:gl-col-50 {
+    grid-column: span 6;
+  }
+  :root .glsr-form-responsive > .lg\:gl-col-66 {
+    grid-column: span 8;
+  }
+  :root .glsr-form-responsive > .lg\:gl-col-75 {
+    grid-column: span 9;
+  }
+  :root .glsr-form-responsive > .lg\:gl-col-100 {
+    grid-column: span 12;
+  }
 }
