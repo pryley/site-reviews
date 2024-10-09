@@ -54,6 +54,14 @@ class Hooks extends AbstractHooks
             && function_exists('WC');
     }
 
+    protected function isWooBlockTheme(): bool
+    {
+        if (!class_exists('Automattic\WooCommerce\Blocks\Utils\BlockTemplateUtils')) {
+            return false;
+        }
+        return \Automattic\WooCommerce\Blocks\Utils\BlockTemplateUtils::supports_block_templates();
+    }
+
     protected function mainHooks(): array
     {
         remove_action('comment_post', ['WC_Comments', 'add_comment_purchase_verification'], 10);
@@ -79,9 +87,9 @@ class Hooks extends AbstractHooks
 
     protected function productHooks(): array
     {
-        return [
+        $hooks = [
             ['filterCommentsTemplate', 'comments_template', 50],
-            ['filterGetRatingHtml', 'woocommerce_product_get_rating_html', 10, 3],
+            ['filterGetRatingHtml', 'woocommerce_product_get_rating_html', 20, 3],
             ['filterGetStarRatingHtml', 'woocommerce_get_star_rating_html', 10, 3],
             ['filterProductAverageRating', 'woocommerce_product_get_average_rating', 10, 2],
             ['filterProductDataTabs', 'woocommerce_product_data_tabs'],
@@ -102,10 +110,13 @@ class Hooks extends AbstractHooks
             ['renderProductDataPanel', 'woocommerce_product_data_panels'],
             ['renderQuickEditField', 'quick_edit_custom_box', 5, 2],
             ['renderReviews', 'site-reviews/woocommerce/render/product/reviews'],
-            ['renderTitleRating', 'woocommerce_single_product_summary'],
             ['updateProductData', 'woocommerce_admin_process_product_object'],
             ['updateProductRatingCounts', 'site-reviews/ratings/count/post', 10, 2],
         ];
+        if (!$this->isWooBlockTheme()) {
+            $hooks[] = ['renderTitleRating', 'woocommerce_single_product_summary'];
+        }
+        return $hooks;
     }
 
     protected function restApiHooks(): array

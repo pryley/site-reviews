@@ -44,11 +44,15 @@ class ProductController implements ControllerContract
      */
     public function filterGetRatingHtml($html, $rating, $count): string
     {
+        if (str_contains($html, 'wc-block')) {
+            $html = str_replace('wc-block-grid__product-rating__stars', '', $html);
+            return $html;
+        }
         $starsHtml = glsr_star_rating($rating, $count, [
             'theme' => glsr_get_option('addons.woocommerce.style'),
         ]);
         return glsr(Builder::class)->div([
-            'class' => 'glsr glsr-'.glsr(Style::class)->styleClasses(),
+            'class' => glsr(Style::class)->styleClasses(),
             'text' => $starsHtml,
         ]);
     }
@@ -340,7 +344,7 @@ class ProductController implements ControllerContract
         glsr(Template::class)->render('templates/woocommerce/loop/rating', [
             'product' => $product,
             'ratings' => $ratings,
-            'style' => 'glsr glsr-'.glsr(Style::class)->styleClasses(),
+            'style' => glsr(Style::class)->styleClasses(),
             'theme' => glsr_get_option('addons.woocommerce.style'),
         ]);
     }
@@ -401,7 +405,7 @@ class ProductController implements ControllerContract
         glsr(Template::class)->render('templates/woocommerce/rating', [
             'product' => $product,
             'ratings' => $ratings,
-            'style' => 'glsr glsr-'.glsr(Style::class)->styleClasses(),
+            'style' => glsr(Style::class)->styleClasses(),
             'theme' => glsr_get_option('addons.woocommerce.style'),
         ]);
     }
