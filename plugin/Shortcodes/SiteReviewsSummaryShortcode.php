@@ -21,7 +21,7 @@ class SiteReviewsSummaryShortcode extends Shortcode
         $this->ratings = glsr(RatingManager::class)->ratings($this->args);
         $this->debug(['ratings' => $this->ratings]);
         if ($this->isEmpty()) {
-            return '';
+            return glsr()->filterString('summary/if_empty', '');
         }
         $this->generateSchema();
         return glsr(Template::class)->build('templates/reviews-summary', [
