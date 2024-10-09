@@ -1577,7 +1577,7 @@ msgctxt "admin-text"
 msgid "This will completely replace the default WooCommerce review system with Site Reviews. If you have existing WooCommerce comment reviews, you may need to first export them to a CSV file, and then import them using the %s tool."
 msgstr ""
 
-#: config/integrations/woocommerce.php:9, views/integrations/woocommerce/tools/import-product-reviews.php:29, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:113
+#: config/integrations/woocommerce.php:9, views/integrations/woocommerce/tools/import-product-reviews.php:34, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:113
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr ""
@@ -5332,7 +5332,7 @@ msgctxt "admin-text"
 msgid "Common Problems and Solutions"
 msgstr ""
 
-#: views/partials/notices/migration.php:20, views/integrations/woocommerce/tools/import-product-reviews.php:48, views/pages/tools/general/migrate-plugin.php:21, views/pages/tools/general/migrate-plugin.php:29
+#: views/partials/notices/migration.php:20, views/integrations/woocommerce/tools/import-product-reviews.php:50, views/pages/tools/general/migrate-plugin.php:21, views/pages/tools/general/migrate-plugin.php:29
 msgctxt "admin-text"
 msgid "Migrating, please wait..."
 msgstr ""
@@ -5582,12 +5582,12 @@ msgctxt "admin-text"
 msgid "Skipped migrating of WooCommerce product ratings because the integration is disabled."
 msgstr ""
 
-#: plugin/Integrations/WooCommerce/Commands/MigrateProductRatings.php:45
+#: plugin/Integrations/WooCommerce/Commands/MigrateProductRatings.php:46
 msgctxt "admin-text"
 msgid "Reverted the WooCommerce product ratings."
 msgstr ""
 
-#: plugin/Integrations/WooCommerce/Commands/MigrateProductRatings.php:46
+#: plugin/Integrations/WooCommerce/Commands/MigrateProductRatings.php:47
 msgctxt "admin-text"
 msgid "Migrated the product ratings."
 msgstr ""
@@ -5601,7 +5601,7 @@ msgstr ""
 msgid "verified owner"
 msgstr ""
 
-#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:175
+#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:179
 msgid "Reviews (%d)"
 msgstr ""
 
@@ -5704,45 +5704,45 @@ msgstr ""
 
 #: views/integrations/woocommerce/tools/import-product-reviews.php:19
 msgctxt "admin-text"
+msgid "If you decide to return to using WooCommerce reviews, you will need to click the \"Revert\" button to restore the previous product rating counts."
+msgstr ""
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:24
+msgctxt "admin-text"
 msgid "Step 1:"
 msgstr ""
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:20
+#: views/integrations/woocommerce/tools/import-product-reviews.php:25
 msgctxt "admin-text"
 msgid "Import your WooCommerce product reviews. Review replies and comments will be skipped."
 msgstr ""
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:28, views/pages/tools/general/import-reviews.php:112
+#: views/integrations/woocommerce/tools/import-product-reviews.php:33, views/pages/tools/general/import-reviews.php:112
 msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
 msgstr ""
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:35
+#: views/integrations/woocommerce/tools/import-product-reviews.php:40
 msgctxt "admin-text"
 msgid "Step 2:"
 msgstr ""
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:36
+#: views/integrations/woocommerce/tools/import-product-reviews.php:41
 msgctxt "admin-text"
-msgid "Migrate your product ratings. This step is optional and it allows third-party plugins to filter your products by rating."
+msgid "Migrate the product rating counts. This allows third-party plugins to filter your products by rating."
 msgstr ""
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:39
-msgctxt "admin-text"
-msgid "If you decide later to revert back to using WooCommerce reviews, you will need to click the \"Revert\" button to restore your previous product ratings."
-msgstr ""
-
-#: views/integrations/woocommerce/tools/import-product-reviews.php:50
+#: views/integrations/woocommerce/tools/import-product-reviews.php:52
 msgctxt "admin-text"
 msgid "Migrate Product Ratings"
 msgstr ""
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:56
+#: views/integrations/woocommerce/tools/import-product-reviews.php:58
 msgctxt "admin-text"
 msgid "Reverting, please wait..."
 msgstr ""
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:58
+#: views/integrations/woocommerce/tools/import-product-reviews.php:60
 msgctxt "admin-text"
 msgid "Revert"
 msgstr ""
