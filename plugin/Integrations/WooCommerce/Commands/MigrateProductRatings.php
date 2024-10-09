@@ -25,7 +25,7 @@ class MigrateProductRatings extends AbstractCommand
 
     public function handle(): void
     {
-        if ('yes' !== glsr_get_option('addons.woocommerce.enabled')) {
+        if ('yes' !== glsr_get_option('addons.woocommerce.enabled') && false === $this->revert) {
             glsr(Notice::class)->addWarning(
                 esc_html_x('Skipped migrating of WooCommerce product ratings because the integration is disabled.', 'admin-text', 'site-reviews')
             );
@@ -41,6 +41,7 @@ class MigrateProductRatings extends AbstractCommand
                 delete_transient($key);
             }
         }
+        $this->fixProductReviewCount();
         $notice = $this->revert
             ? esc_html_x('Reverted the WooCommerce product ratings.', 'admin-text', 'site-reviews')
             : esc_html_x('Migrated the product ratings.', 'admin-text', 'site-reviews');
@@ -70,6 +71,20 @@ class MigrateProductRatings extends AbstractCommand
         ");
         $results = glsr(Database::class)->dbQuery($sql);
         return Cast::toInt($results);
+    }
+
+    protected function fixProductReviewCount(): void
+    {
+        if (!$this->revert) {
+            return;
+        }
+        if (!defined('WC_ABSPATH')) {
+            return;
+        }
+        if (file_exists(WC_ABSPATH.'includes/wc-update-functions.php')) {
+            include_once WC_ABSPATH.'includes/wc-update-functions.php';
+            wc_update_500_fix_product_review_count();
+        }
     }
 
     /**
