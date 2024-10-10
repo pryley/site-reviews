@@ -80,9 +80,12 @@ class Rating
     /**
      * @param array $noopedPlural The result of _n_noop()
      */
-    public function optionsArray(array $noopedPlural, int $minRating = 1): array
+    public function optionsArray(array $noopedPlural = [], int $minRating = 1): array
     {
         $options = [];
+        if (empty($noopedPlural)) {
+            $noopedPlural = _n_noop('%s Star', '%s Stars', 'site-reviews');
+        }
         foreach (range(glsr()->constant('MAX_RATING', __CLASS__), $minRating) as $rating) {
             $options[$rating] = sprintf(translate_nooped_plural($noopedPlural, $rating, 'site-reviews'), $rating);
         }
