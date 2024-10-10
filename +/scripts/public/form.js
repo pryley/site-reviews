@@ -77,13 +77,13 @@ class Form {
     }
 
     _handleResponse (response, success) {
-        const wasSuccessful = true === success;
+        const wasSuccessful = true === success && undefined !== response;
         this.captcha.reset()
         if (wasSuccessful) {
             this.form.reset()
         }
-        this._showFieldErrors(response.errors)
-        this._showResults(response.message, wasSuccessful)
+        this._showFieldErrors(response?.errors)
+        this._showResults(response?.message, wasSuccessful)
         this.button.loaded()
         GLSR.Event.trigger('site-reviews/form/handle', response, this.form)
         if (wasSuccessful) {
@@ -148,6 +148,7 @@ class Form {
     }
 
     _showResults (message, success) {
+        if (!message) return;
         const resultsEl = this.form.querySelector(classListSelector(this.config.form_message));
         if (null !== resultsEl) {
             addRemoveClass(this.form, this.config.form_error, false === success)
