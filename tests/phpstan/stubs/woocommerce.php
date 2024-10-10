@@ -10293,3 +10293,8 @@ namespace Automattic\WooCommerce\Blocks\Utils {
         }
     }
 }
+namespace {
+    function wc_update_500_fix_product_review_count()
+    {
+    }
+}

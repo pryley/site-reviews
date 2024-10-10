@@ -211,7 +211,7 @@ class SanitizerTest extends \WP_UnitTestCase
             22 => 'httpswordpressorg',
             23 => 'wordpressorg',
             24 => 'wwwwordpressorg',
-            25 => 'httpswordpressorg',
+            25 => 'https:wordpressorg',
             26 => '-1',
         ]);
     }

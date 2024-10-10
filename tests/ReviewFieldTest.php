@@ -17,7 +17,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
             '<div class="glsr-field glsr-field-choice" data-field="foobar">'.
                 '<span class="glsr-field-checkbox">'.
                     '<label for="site-reviews-foobar-1">'.
-                        '<span><input type="checkbox" id="site-reviews-foobar-1" name="site-reviews[foobar]" value="1" />&#8203;</span> <!-- zero-space character used for alignment -->'.
+                        '<span><input type="checkbox" class="glsr-input-checkbox" id="site-reviews-foobar-1" name="site-reviews[foobar]" value="1" />&#8203;</span> <!-- zero-space character used for alignment -->'.
                         '<span>Foobar</span>'.
                     '</label>'.
                 '</span>'.
@@ -40,13 +40,13 @@ class ReviewFieldTest extends \WP_UnitTestCase
                 '</label>'.
                 '<span class="glsr-field-checkbox">'.
                     '<label for="site-reviews-foobar-1">'.
-                        '<span><input type="checkbox" id="site-reviews-foobar-1" name="site-reviews[foobar][]" value="foo" />&#8203;</span> <!-- zero-space character used for alignment -->'.
+                        '<span><input type="checkbox" class="glsr-input-checkbox" id="site-reviews-foobar-1" name="site-reviews[foobar][]" value="foo" />&#8203;</span> <!-- zero-space character used for alignment -->'.
                         '<span>Foo</span>'.
                     '</label>'.
                 '</span>'.
                 '<span class="glsr-field-checkbox">'.
                     '<label for="site-reviews-foobar-2">'.
-                        '<span><input type="checkbox" id="site-reviews-foobar-2" name="site-reviews[foobar][]" value="bar" />&#8203;</span> <!-- zero-space character used for alignment -->'.
+                        '<span><input type="checkbox" class="glsr-input-checkbox" id="site-reviews-foobar-2" name="site-reviews[foobar][]" value="bar" />&#8203;</span> <!-- zero-space character used for alignment -->'.
                         '<span>Bar</span>'.
                     '</label>'.
                 '</span>'.
@@ -73,7 +73,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
                 '</label>'.
                 '<span class="glsr-field-checkbox">'.
                     '<label for="site-reviews-foobar-1">'.
-                        '<span><input type="checkbox" id="site-reviews-foobar-1" name="site-reviews[foobar][]" value="foo" />&#8203;</span> <!-- zero-space character used for alignment -->'.
+                        '<span><input type="checkbox" class="glsr-input-checkbox" id="site-reviews-foobar-1" name="site-reviews[foobar][]" value="foo" />&#8203;</span> <!-- zero-space character used for alignment -->'.
                         '<span>'.
                             '<span>Foo</span>'.
                             '<span>this is foo</span>'.
@@ -82,7 +82,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
                 '</span>'.
                 '<span class="glsr-field-checkbox">'.
                     '<label for="site-reviews-foobar-2">'.
-                        '<span><input type="checkbox" id="site-reviews-foobar-2" name="site-reviews[foobar][]" value="bar" />&#8203;</span> <!-- zero-space character used for alignment -->'.
+                        '<span><input type="checkbox" class="glsr-input-checkbox" id="site-reviews-foobar-2" name="site-reviews[foobar][]" value="bar" />&#8203;</span> <!-- zero-space character used for alignment -->'.
                         '<span>'.
                             '<span>Bar</span>'.
                             '<span>this is bar</span>'.
@@ -214,7 +214,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
             '<div class="glsr-field glsr-field-choice" data-field="foobar">'.
                 '<span class="glsr-field-radio">'.
                     '<label for="site-reviews-foobar-1">'.
-                        '<span><input type="radio" id="site-reviews-foobar-1" name="site-reviews[foobar]" value="1" />&#8203;</span> <!-- zero-space character used for alignment -->'.
+                        '<span><input type="radio" class="glsr-input-radio" id="site-reviews-foobar-1" name="site-reviews[foobar]" value="1" />&#8203;</span> <!-- zero-space character used for alignment -->'.
                         '<span>Foobar</span>'.
                     '</label>'.
                 '</span>'.
@@ -237,13 +237,13 @@ class ReviewFieldTest extends \WP_UnitTestCase
                 '</label>'.
                 '<span class="glsr-field-radio">'.
                     '<label for="site-reviews-foobar-1">'.
-                        '<span><input type="radio" id="site-reviews-foobar-1" name="site-reviews[foobar]" value="foo" />&#8203;</span> <!-- zero-space character used for alignment -->'.
+                        '<span><input type="radio" class="glsr-input-radio" id="site-reviews-foobar-1" name="site-reviews[foobar]" value="foo" />&#8203;</span> <!-- zero-space character used for alignment -->'.
                         '<span>Foo</span>'.
                     '</label>'.
                 '</span>'.
                 '<span class="glsr-field-radio">'.
                     '<label for="site-reviews-foobar-2">'.
-                        '<span><input type="radio" id="site-reviews-foobar-2" name="site-reviews[foobar]" value="bar" />&#8203;</span> <!-- zero-space character used for alignment -->'.
+                        '<span><input type="radio" class="glsr-input-radio" id="site-reviews-foobar-2" name="site-reviews[foobar]" value="bar" />&#8203;</span> <!-- zero-space character used for alignment -->'.
                         '<span>Bar</span>'.
                     '</label>'.
                 '</span>'.
@@ -253,6 +253,78 @@ class ReviewFieldTest extends \WP_UnitTestCase
                 'label' => 'Foobar',
                 'name' => 'foobar',
                 'type' => 'radio',
+                'options' => [
+                    'foo' => 'Foo',
+                    'bar' => 'Bar',
+                ],
+            ])
+        );
+    }
+
+    public function test_build_range(): void
+    {
+        $this->assertEquals(
+            '<div class="glsr-field glsr-field-choice" data-field="foobar">'.
+                '<label class="glsr-label" for="">'.
+                    '<span>Foobar</span>'.
+                '</label>'.
+                '<div class="glsr-range-options" data-placeholder="Please select">'.
+                    '<span class="glsr-field-range">'.
+                        '<input type="radio" class="glsr-input-range" id="site-reviews-foobar-1" name="site-reviews[foobar]" value="1" />'.
+                        '<label for="site-reviews-foobar-1">Foo</label>'.
+                    '</span>'.
+                    '<span class="glsr-field-range">'.
+                        '<input type="radio" class="glsr-input-range" id="site-reviews-foobar-2" name="site-reviews[foobar]" value="2" />'.
+                        '<label for="site-reviews-foobar-2">Bar</label>'.
+                    '</span>'.
+                '</div>'.
+                '<div class="glsr-field-error"></div>'.
+            '</div>',
+            $this->build([
+                'label' => 'Foobar',
+                'name' => 'foobar',
+                'type' => 'range',
+                'options' => [
+                    'foo' => 'Foo',
+                    'bar' => 'Bar',
+                ],
+            ])
+        );
+    }
+
+    public function test_build_range_with_labels(): void
+    {
+        $this->assertEquals(
+            '<div class="glsr-field glsr-field-choice" data-field="foobar">'.
+                '<label class="glsr-label" for="">'.
+                    '<span>Foobar</span>'.
+                '</label>'.
+                '<div class="glsr-range-labels">'.
+                    '<span>Left</span>'.
+                    '<span>Middle</span>'.
+                    '<span>Right</span>'.
+                '</div>'.
+                '<div class="glsr-range-options" data-placeholder="Please select">'.
+                    '<span class="glsr-field-range">'.
+                        '<input type="radio" class="glsr-input-range" id="site-reviews-foobar-1" name="site-reviews[foobar]" value="1" />'.
+                        '<label for="site-reviews-foobar-1">Foo</label>'.
+                    '</span>'.
+                    '<span class="glsr-field-range">'.
+                        '<input type="radio" class="glsr-input-range" id="site-reviews-foobar-2" name="site-reviews[foobar]" value="2" />'.
+                        '<label for="site-reviews-foobar-2">Bar</label>'.
+                    '</span>'.
+                '</div>'.
+                '<div class="glsr-field-error"></div>'.
+            '</div>',
+            $this->build([
+                'label' => 'Foobar',
+                'labels' => [
+                    'Left',
+                    'Middle',
+                    'Right',
+                ],
+                'name' => 'foobar',
+                'type' => 'range',
                 'options' => [
                     'foo' => 'Foo',
                     'bar' => 'Bar',
@@ -360,7 +432,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
                     '<span class="glsr-toggle">'.
                         '<label for="site-reviews-foobar-1">Foobar</label>'.
                         '<span class="glsr-toggle-switch">'.
-                            '<input type="checkbox" id="site-reviews-foobar-1" name="site-reviews[foobar]" required value="1" /> &#8203; <!-- zero-space character used for alignment -->'.
+                            '<input type="checkbox" class="glsr-input-toggle" id="site-reviews-foobar-1" name="site-reviews[foobar]" required value="1" /> &#8203; <!-- zero-space character used for alignment -->'.
                             '<span class="glsr-toggle-track"></span>'.
                         '</span>'.
                     '</span>'.
@@ -387,7 +459,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
                     '<span class="glsr-toggle">'.
                         '<label for="site-reviews-foobar-1">Foo</label>'.
                         '<span class="glsr-toggle-switch">'.
-                            '<input type="checkbox" id="site-reviews-foobar-1" name="site-reviews[foobar][]" value="foo" /> &#8203; <!-- zero-space character used for alignment -->'.
+                            '<input type="checkbox" class="glsr-input-toggle" id="site-reviews-foobar-1" name="site-reviews[foobar][]" value="foo" /> &#8203; <!-- zero-space character used for alignment -->'.
                             '<span class="glsr-toggle-track"></span>'.
                         '</span>'.
                     '</span>'.
@@ -396,7 +468,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
                     '<span class="glsr-toggle">'.
                         '<label for="site-reviews-foobar-2">Bar</label>'.
                         '<span class="glsr-toggle-switch">'.
-                            '<input type="checkbox" id="site-reviews-foobar-2" name="site-reviews[foobar][]" value="bar" /> &#8203; <!-- zero-space character used for alignment -->'.
+                            '<input type="checkbox" class="glsr-input-toggle" id="site-reviews-foobar-2" name="site-reviews[foobar][]" value="bar" /> &#8203; <!-- zero-space character used for alignment -->'.
                             '<span class="glsr-toggle-track"></span>'.
                         '</span>'.
                     '</span>'.

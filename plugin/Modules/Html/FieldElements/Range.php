@@ -14,16 +14,10 @@ class Range extends Radio
 {
     protected function buildReviewField(Arguments $args): string
     {
-        $index = 0;
-        $optionKeys = array_keys($args->options);
-        $inputs = array_reduce($optionKeys,
-            fn ($carry, $value) => $carry.$this->buildInput((string) $value, ++$index, $args),
-            ''
-        );
         $field = glsr(Builder::class)->div([
             'class' => 'glsr-range-options',
             'data-placeholder' => __('Please select', 'site-reviews'),
-            'text' => $inputs,
+            'text' => parent::buildReviewField($args),
         ]);
         if (empty($args->labels)) {
             return $field;
@@ -42,5 +36,15 @@ class Range extends Radio
             'text' => $labels,
         ]);
         return $labels.$field;
+    }
+
+    protected function normalizeOptions(): void
+    {
+        if (!empty($this->field->options)) {
+            $keys = range(1, count($this->field->options));
+            $values = array_values($this->field->options);
+            $values = array_map(fn ($value) => Cast::toString($value), $values);
+            $this->field->options = array_combine($keys, $values);
+        }
     }
 }

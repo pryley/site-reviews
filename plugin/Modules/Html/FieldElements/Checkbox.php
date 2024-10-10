@@ -70,10 +70,9 @@ class Checkbox extends AbstractFieldElement
     {
         $index = 0;
         $optionKeys = array_keys($args->options);
-        return array_reduce($optionKeys,
-            fn ($carry, $value) => $carry.$this->buildInput((string) $value, ++$index, $args),
-            ''
-        );
+        return array_reduce($optionKeys, function ($carry, $value) use (&$index, $args) {
+            return $carry.$this->buildInput((string) $value, ++$index, $args);
+        }, '');
     }
 
     protected function normalizeOptions(): void
