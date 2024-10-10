@@ -10,7 +10,7 @@ use GeminiLabs\SiteReviews\Modules\Captcha;
 abstract class CaptchaValidatorAbstract extends ValidatorAbstract
 {
     public const CAPTCHA_DISABLED = 0;
-    // public const CAPTCHA_EMPTY = 1;
+    public const CAPTCHA_EMPTY = 1;
     public const CAPTCHA_FAILED = 2;
     public const CAPTCHA_INVALID = 3;
     public const CAPTCHA_VALID = 4;
@@ -84,7 +84,7 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
 
     protected function makeRequest(array $data): array
     {
-        $response = wp_remote_post($this->siteverifyUrl(), [
+        $response = wp_remote_post($this->siteVerifyUrl(), [
             'body' => $data,
         ]);
         if (is_wp_error($response)) {
@@ -101,7 +101,17 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
         ];
     }
 
-    protected function siteverifyUrl(): string
+    protected function siteKey(): string
+    {
+        return '';
+    }
+
+    protected function siteSecret(): string
+    {
+        return '';
+    }
+
+    protected function siteVerifyUrl(): string
     {
         return '';
     }
@@ -121,6 +131,9 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
 
     protected function verifyToken(): int
     {
+        if (empty($this->token())) {
+            return static::CAPTCHA_EMPTY; // fail early
+        }
         $data = $this->data();
         $response = $this->makeRequest($data);
         if (empty($response)) {
@@ -130,8 +143,8 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
             return static::CAPTCHA_VALID;
         }
         if (!empty($response['errors'])) {
-            $data['secret'] = Str::mask($data['secret'], 4, 4, 20);
-            $data['sitekey'] = Str::mask($data['sitekey'], 4, 4, 20);
+            $data['secret'] = Str::mask($this->siteSecret(), 4, 4, 20);
+            $data['sitekey'] = Str::mask($this->siteKey(), 4, 4, 20);
             glsr_log()->error($response)->debug($data);
         }
         if (empty($data['secret']) || empty($data['sitekey'])) {

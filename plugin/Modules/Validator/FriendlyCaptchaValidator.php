@@ -15,7 +15,7 @@ class FriendlycaptchaValidator extends CaptchaValidatorAbstract
         return glsr(CaptchaConfigDefaults::class)->merge([
             'class' => glsr_get_option('forms.captcha.theme').' frc-captcha',
             'language' => $this->getLocale(),
-            'sitekey' => glsr_get_option('forms.friendlycaptcha.key'),
+            'sitekey' => $this->siteKey(),
             'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'friendlycaptcha',
             'urls' => [ // order is intentional, module should always load first
@@ -33,8 +33,8 @@ class FriendlycaptchaValidator extends CaptchaValidatorAbstract
     protected function data(): array
     {
         return [
-            'secret' => glsr_get_option('forms.friendlycaptcha.secret'),
-            'sitekey' => glsr_get_option('forms.friendlycaptcha.key'),
+            'secret' => $this->siteSecret(),
+            'sitekey' => $this->siteKey(),
             'solution' => $this->token(),
         ];
     }
@@ -55,7 +55,7 @@ class FriendlycaptchaValidator extends CaptchaValidatorAbstract
 
     protected function errors(array $errors): array
     {
-        if (empty(glsr_get_option('forms.friendlycaptcha.key'))) {
+        if (empty($this->siteKey())) {
             $errors[] = 'sitekey_missing';
         } elseif ('sitekey_invalid' === $this->token()) {
             $errors[] = 'sitekey_invalid';
@@ -63,7 +63,17 @@ class FriendlycaptchaValidator extends CaptchaValidatorAbstract
         return parent::errors($errors);
     }
 
-    protected function siteverifyUrl(): string
+    protected function siteKey(): string
+    {
+        return glsr_get_option('forms.friendlycaptcha.key');
+    }
+
+    protected function siteSecret(): string
+    {
+        return glsr_get_option('forms.friendlycaptcha.secret');
+    }
+
+    protected function siteVerifyUrl(): string
     {
         return 'https://api.friendlycaptcha.com/api/v1/siteverify';
     }

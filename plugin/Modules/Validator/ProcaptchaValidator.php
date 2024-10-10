@@ -16,7 +16,7 @@ class ProcaptchaValidator extends CaptchaValidatorAbstract
             'class' => glsr_get_option('forms.captcha.theme').' procaptcha',
             'captcha_type' => glsr_get_option('forms.procaptcha.type', 'frictionless'),
             'language' => $this->getLocale(),
-            'sitekey' => glsr_get_option('forms.procaptcha.key'),
+            'sitekey' => $this->siteKey(),
             'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'procaptcha',
             'urls' => [ // order is intentional, the module always loads first
@@ -30,11 +30,16 @@ class ProcaptchaValidator extends CaptchaValidatorAbstract
         return glsr(Captcha::class)->isEnabled('procaptcha');
     }
 
+    public function isTokenValid(array $response): bool
+    {
+        return $response['success'];
+    }
+
     protected function data(): array
     {
         return [
             'token' => $this->token(),
-            'secret' => glsr_get_option('forms.procaptcha.secret'),
+            'secret' => $this->siteSecret(),
         ];
     }
 
@@ -48,7 +53,7 @@ class ProcaptchaValidator extends CaptchaValidatorAbstract
 
     protected function errors(array $errors): array
     {
-        if (empty(glsr_get_option('forms.procaptcha.key'))) {
+        if (empty($this->siteKey())) {
             $errors[] = 'sitekey_missing';
         }
         return parent::errors($errors);
@@ -56,11 +61,11 @@ class ProcaptchaValidator extends CaptchaValidatorAbstract
 
     protected function makeRequest(array $data): array
     {
-        $response = wp_remote_post($this->siteverifyUrl(), [
+        $response = wp_remote_post($this->siteVerifyUrl(), [
+            'body' => wp_json_encode($data),
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
-            'body' => wp_json_encode($data),
         ]);
         if (is_wp_error($response)) {
             glsr_log()->error($response->get_error_message());
@@ -68,18 +73,29 @@ class ProcaptchaValidator extends CaptchaValidatorAbstract
         }
         $body = json_decode(wp_remote_retrieve_body($response));
         $body = wp_parse_args($body, [
+            'error' => '',
             'status' => '',
             'verified' => false,
         ]);
         return [
             'action' => '', // unused
-            'errors' => $this->errors([]),
+            'errors' => [$body['error']],
             'score' => 0, // unused
             'success' => ('ok' === $body['status'] && wp_validate_boolean($body['verified'])),
         ];
     }
 
-    protected function siteverifyUrl(): string
+    protected function siteKey(): string
+    {
+        return glsr_get_option('forms.procaptcha.key');
+    }
+
+    protected function siteSecret(): string
+    {
+        return glsr_get_option('forms.procaptcha.secret');
+    }
+
+    protected function siteVerifyUrl(): string
     {
         return 'https://api.prosopo.io/siteverify';
     }

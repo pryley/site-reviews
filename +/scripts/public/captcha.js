@@ -233,8 +233,6 @@ class Captcha {
         if (this.isWidgetLoaded()) {
             if ('friendlycaptcha' === GLSR.captcha.type) {
                 this.widget.reset()
-            } else if ('procaptcha' === GLSR.captcha.type) {
-                this.Form.form['procaptcha-response']?.remove()
             } else {
                 window[this.captcha].reset(this.widget)
             }

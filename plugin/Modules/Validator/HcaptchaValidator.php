@@ -21,7 +21,7 @@ class HcaptchaValidator extends CaptchaValidatorAbstract
             'badge' => glsr_get_option('forms.captcha.position'),
             'class' => 'glsr-h-captcha', // @compat
             'language' => $language,
-            'sitekey' => glsr_get_option('forms.hcaptcha.key'),
+            'sitekey' => $this->siteKey(),
             'size' => 'normal',
             'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'hcaptcha',
@@ -41,8 +41,8 @@ class HcaptchaValidator extends CaptchaValidatorAbstract
         return [
             'remoteip' => $this->request->ip_address,
             'response' => $this->token(),
-            'secret' => glsr_get_option('forms.hcaptcha.secret'),
-            'sitekey' => glsr_get_option('forms.hcaptcha.key'),
+            'secret' => $this->siteSecret(),
+            'sitekey' => $this->siteKey(),
         ];
     }
 
@@ -63,13 +63,23 @@ class HcaptchaValidator extends CaptchaValidatorAbstract
 
     protected function errors(array $errors): array
     {
-        if (empty(glsr_get_option('forms.hcaptcha.key'))) {
+        if (empty($this->siteKey())) {
             $errors[] = 'sitekey_missing';
         }
         return parent::errors($errors);
     }
 
-    protected function siteverifyUrl(): string
+    protected function siteKey(): string
+    {
+        return glsr_get_option('forms.hcaptcha.key');
+    }
+
+    protected function siteSecret(): string
+    {
+        return glsr_get_option('forms.hcaptcha.secret');
+    }
+
+    protected function siteVerifyUrl(): string
     {
         return 'https://hcaptcha.com/siteverify';
     }

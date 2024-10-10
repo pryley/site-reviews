@@ -20,7 +20,7 @@ class TurnstileValidator extends CaptchaValidatorAbstract
         return glsr(CaptchaConfigDefaults::class)->merge([
             'class' => 'glsr-cf-turnstile',
             'language' => $language,
-            'sitekey' => glsr_get_option('forms.turnstile.key'),
+            'sitekey' => $this->siteKey(),
             'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'turnstile',
             'urls' => [
@@ -39,11 +39,7 @@ class TurnstileValidator extends CaptchaValidatorAbstract
         return [
             'remoteip' => $this->request->ip_address,
             'response' => $this->token(),
-            'secret' => glsr_get_option('forms.turnstile.secret'),
-            // The sitekey does not need to be sent in the request, but it's here
-            // so we can return a better error response to the form.
-            // @see CaptchaValidatorAbstract::verifyToken()
-            'sitekey' => glsr_get_option('forms.turnstile.key'),
+            'secret' => $this->siteSecret(),
         ];
     }
 
@@ -63,13 +59,23 @@ class TurnstileValidator extends CaptchaValidatorAbstract
 
     protected function errors(array $errors): array
     {
-        if (empty(glsr_get_option('forms.turnstile.key'))) {
+        if (empty($this->siteKey())) {
             $errors[] = 'sitekey_missing';
         }
         return parent::errors($errors);
     }
 
-    protected function siteverifyUrl(): string
+    protected function siteKey(): string
+    {
+        return glsr_get_option('forms.turnstile.key');
+    }
+
+    protected function siteSecret(): string
+    {
+        return glsr_get_option('forms.turnstile.secret');
+    }
+
+    protected function siteVerifyUrl(): string
     {
         return 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
     }

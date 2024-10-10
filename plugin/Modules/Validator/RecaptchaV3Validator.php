@@ -21,7 +21,7 @@ class RecaptchaV3Validator extends CaptchaValidatorAbstract
             'badge' => glsr_get_option('forms.captcha.position'),
             'class' => 'glsr-g-recaptcha',
             'language' => $language,
-            'sitekey' => glsr_get_option('forms.recaptcha_v3.key'),
+            'sitekey' => $this->siteKey(),
             'size' => 'invisible',
             'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'recaptcha_v3',
@@ -59,11 +59,7 @@ class RecaptchaV3Validator extends CaptchaValidatorAbstract
         return [
             'remoteip' => $this->request->ip_address,
             'response' => $token,
-            'secret' => glsr_get_option('forms.recaptcha_v3.secret'),
-            // The sitekey does not need to be sent in the request, but it's here
-            // so we can return a better error response to the form.
-            // @see CaptchaValidatorAbstract::verifyToken()
-            'sitekey' => glsr_get_option('forms.recaptcha_v3.key'),
+            'secret' => $this->siteSecret(),
         ];
     }
 
@@ -83,10 +79,10 @@ class RecaptchaV3Validator extends CaptchaValidatorAbstract
 
     protected function errors(array $errors): array
     {
-        if (empty(glsr_get_option('forms.recaptcha_v3.secret'))) {
+        if (empty($this->siteSecret())) {
             $errors[] = 'missing-input-secret';
         }
-        if (empty(glsr_get_option('forms.recaptcha_v3.key'))) {
+        if (empty($this->siteKey())) {
             $errors[] = 'sitekey_missing';
         } elseif ('sitekey_invalid' === $this->token()) {
             $errors[] = 'sitekey_invalid';
@@ -94,7 +90,17 @@ class RecaptchaV3Validator extends CaptchaValidatorAbstract
         return parent::errors(array_unique($errors));
     }
 
-    protected function siteverifyUrl(): string
+    protected function siteKey(): string
+    {
+        return glsr_get_option('forms.recaptcha_v3.key');
+    }
+
+    protected function siteSecret(): string
+    {
+        return glsr_get_option('forms.recaptcha_v3.secret');
+    }
+
+    protected function siteVerifyUrl(): string
     {
         return 'https://www.google.com/recaptcha/api/siteverify';
     }

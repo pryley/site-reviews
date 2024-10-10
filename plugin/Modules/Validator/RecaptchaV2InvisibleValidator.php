@@ -21,7 +21,7 @@ class RecaptchaV2InvisibleValidator extends CaptchaValidatorAbstract
             'badge' => glsr_get_option('forms.captcha.position'),
             'class' => 'glsr-g-recaptcha',
             'language' => $language,
-            'sitekey' => glsr_get_option('forms.recaptcha.key'),
+            'sitekey' => $this->siteKey(),
             'size' => 'invisible',
             'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'recaptcha_v2_invisible',
@@ -45,8 +45,8 @@ class RecaptchaV2InvisibleValidator extends CaptchaValidatorAbstract
         return [
             'remoteip' => $this->request->ip_address,
             'response' => $token,
-            'secret' => glsr_get_option('forms.recaptcha.secret'),
-            'sitekey' => glsr_get_option('forms.recaptcha.key'),
+            'secret' => $this->siteSecret(),
+            'sitekey' => $this->siteKey(),
         ];
     }
 
@@ -66,7 +66,7 @@ class RecaptchaV2InvisibleValidator extends CaptchaValidatorAbstract
 
     protected function errors(array $errors): array
     {
-        if (empty(glsr_get_option('forms.recaptcha.key'))) {
+        if (empty($this->siteKey())) {
             $errors[] = 'sitekey_missing';
         } elseif ('sitekey_invalid' === $this->token()) {
             $errors[] = 'sitekey_invalid';
@@ -74,7 +74,17 @@ class RecaptchaV2InvisibleValidator extends CaptchaValidatorAbstract
         return parent::errors($errors);
     }
 
-    protected function siteverifyUrl(): string
+    protected function siteKey(): string
+    {
+        return glsr_get_option('forms.recaptcha.key');
+    }
+
+    protected function siteSecret(): string
+    {
+        return glsr_get_option('forms.recaptcha.secret');
+    }
+
+    protected function siteVerifyUrl(): string
     {
         return 'https://www.google.com/recaptcha/api/siteverify';
     }

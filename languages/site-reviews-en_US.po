@@ -92,7 +92,7 @@ msgstr "This review is based on my own experience and is my genuine opinion."
 msgid "Show more"
 msgstr "Show more"
 
-#: plugin/Commands/CreateReview.php:164, views/pages/documentation/support/common-problems-and-solutions.php:88
+#: plugin/Commands/CreateReview.php:164, views/pages/documentation/support/common-problems-and-solutions.php:89
 msgid ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
@@ -392,11 +392,11 @@ msgstr "Submitting, please wait..."
 msgid "Submit Review"
 msgstr "Submit Review"
 
-#: plugin/Modules/Validator/AkismetValidator.php:41, plugin/Modules/Validator/HoneypotValidator.php:20, views/pages/documentation/support/common-problems-and-solutions.php:82
+#: plugin/Modules/Validator/AkismetValidator.php:41, plugin/Modules/Validator/HoneypotValidator.php:20, views/pages/documentation/support/common-problems-and-solutions.php:83
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr "This review has been flagged as possible spam and cannot be submitted."
 
-#: plugin/Modules/Validator/BlacklistValidator.php:30, views/pages/documentation/support/common-problems-and-solutions.php:76
+#: plugin/Modules/Validator/BlacklistValidator.php:30, views/pages/documentation/support/common-problems-and-solutions.php:77
 msgid "Your review cannot be submitted at this time."
 msgstr "Your review cannot be submitted at this time."
 
@@ -408,7 +408,7 @@ msgstr "The CAPTCHA failed to load, please refresh the page and try again."
 msgid "The CAPTCHA verification failed, please try again."
 msgstr "The CAPTCHA verification failed, please try again."
 
-#: plugin/Modules/Validator/CustomValidator.php:21, views/pages/documentation/support/common-problems-and-solutions.php:118
+#: plugin/Modules/Validator/CustomValidator.php:21, views/pages/documentation/support/common-problems-and-solutions.php:119
 msgid "The review submission failed. Please notify the site administrator."
 msgstr "The review submission failed. Please notify the site administrator."
 
@@ -476,7 +476,7 @@ msgstr "No Title"
 msgid "Verified"
 msgstr "Verified"
 
-#: views/pages/documentation/support/common-problems-and-solutions.php:124
+#: views/pages/documentation/support/common-problems-and-solutions.php:125
 msgid "Service Unavailable."
 msgstr "Service Unavailable."
 
