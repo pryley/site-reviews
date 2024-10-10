@@ -5605,7 +5605,7 @@ msgstr ""
 msgid "Reviews (%d)"
 msgstr ""
 
-#: plugin/Modules/Html/FieldElements/Range.php:25
+#: plugin/Modules/Html/FieldElements/Range.php:19
 msgid "Please select"
 msgstr ""
 
