@@ -66,7 +66,7 @@ class EnqueuePublicAssets extends AbstractCommand
             'nameprefix' => glsr()->id,
             'starsconfig' => [
                 'clearable' => false,
-                'tooltip' => false, // 'Select a Rating'
+                'tooltip' => __('Select a Rating', 'site-reviews'),
             ],
             'state' => [
                 'popstate' => false,

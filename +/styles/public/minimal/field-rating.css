@@ -65,66 +65,16 @@
 :root form.glsr-form .glsr-star-rating--stars[class*=" s"] > span.gl-active.gl-selected {
     background-image: var(--glsr-star-full);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-:root form.glsr-form [data-rating][aria-label]::before,
-:root form.glsr-form [data-rating][aria-label]::after {
-    backface-visibility: hidden;
-    bottom: auto;
-    box-sizing: border-box;
-    left: 100%;
-    pointer-events: none;
-    position: absolute;
-    top: 50%;
-    opacity: .9;
-    transform-origin: top;
-    transform: translate3d(0,-50%,0);
-    white-space: nowrap;
-    z-index: 10;
-}
-:root form.glsr-form [data-rating][aria-label]::before {
-    background-size: 100% auto !important;
-    background-position: 50% !important;
-    background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 31"%3E%3Cpath fill="%23111" d="M12.002 31C12.002 25 0 19.838 0 15.5 0 11.24 12 6 12 0l.002 31z"/%3E%3C/svg%3E') no-repeat;
-    content: '';
-    height: 18px;
-    margin-bottom: 0;
-    margin-left: var(--glsr-tooltip-size);
-    width: var(--glsr-tooltip-size);
-}
-:root form.glsr-form  [data-rating][aria-label]::after {
-    background: #111;
-    border-radius: var(--glsr-tooltip-border-radius);
-    color: #fff;
-    content: attr(aria-label);
-    font-size: var(--glsr-tooltip-font-size);
-    font-weight: normal;
-    margin-left: var(--glsr-tooltip-margin);
-    padding: var(--glsr-tooltip-padding);
-    text-transform: none;
-}
-:root form.glsr-form .glsr-star-rating--rtl [data-rating][aria-label]::before,
-:root form.glsr-form .glsr-star-rating--rtl [data-rating][aria-label]::after {
-    left: auto;
-    right: 100%;
-}
-:root form.glsr-form .glsr-star-rating--rtl [data-rating][aria-label]::before {
-    transform: scaleX(-1) translate3d(0,-50%,0);
-    margin-left: 0;
-    margin-right: var(--glsr-tooltip-size);
-}
-:root form.glsr-form .glsr-star-rating--rtl [data-rating][aria-label]::after {
-    margin-left: 0;
-    margin-right: var(--glsr-tooltip-margin);
+:root form.glsr-form .glsr-has-rating-labels .glsr-star-rating--stars[aria-label] {
+    margin-bottom: calc(var(--glsr-text-sm) * 1.5);
+    padding-bottom: var(--glsr-gap-xs);
+    &::after {
+        content: attr(aria-label);
+        display: flex;
+        font-size: var(--glsr-text-sm);
+        line-height: 1.5;
+        left: 0;
+        position: absolute;
+        top: 100%;
+    }
 }
