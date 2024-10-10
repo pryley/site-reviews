@@ -1,5 +1,15 @@
 == Changelog ==
 
+= 7.2.0 (2024-10-14) =
+
+- Added [Prosopo Procaptcha](https://prosopo.io/) integration.
+- Added support for Range fields ([Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/) addon required).
+- Added support for responsive custom fields ([Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/) addon required).
+- Fixed compatibility with WooCommerce block themes.
+- Fixed license key masking when an addon is deactivated.
+- Fixed responsive setting fields.
+- Fixed WooCommerce product rating counts when using the Import Product Reviews tool to revert a product ratings migration.
+
 = 7.1.1 (2024-09-27) =
 
 - Fixed the review count in pagination and the rating summary when multiple post assignments are used
