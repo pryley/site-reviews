@@ -108,6 +108,10 @@ msgstr "Your review has been submitted!"
 msgid "Your review has been submitted and is pending approval."
 msgstr "Your review has been submitted and is pending approval."
 
+#: plugin/Commands/EnqueuePublicAssets.php:69, plugin/Modules/Html/FieldElements/Rating.php:15
+msgid "Select a Rating"
+msgstr "Select a Rating"
+
 #: plugin/Commands/EnqueuePublicAssets.php:75
 msgid "Close Modal"
 msgstr "Close Modal"
@@ -259,6 +263,12 @@ msgstr "New %s-star review of %s"
 #: plugin/Modules/Paginate.php:65
 msgid "&hellip;"
 msgstr "&hellip;"
+
+#: plugin/Modules/Rating.php:87
+msgid "%s Star"
+msgid_plural "%s Stars"
+msgstr[0] "%s Star"
+msgstr[1] "%s Stars"
 
 #: plugin/Overrides/ScheduledActionsTable.php:240
 msgid ""
@@ -429,16 +439,6 @@ msgstr "Reviews (%d)"
 #: plugin/Modules/Html/FieldElements/Range.php:19
 msgid "Please select"
 msgstr "Please select"
-
-#: plugin/Modules/Html/FieldElements/Rating.php:12
-msgid "%s Star"
-msgid_plural "%s Stars"
-msgstr[0] "%s Star"
-msgstr[1] "%s Stars"
-
-#: plugin/Modules/Html/FieldElements/Rating.php:16
-msgid "Select a Rating"
-msgstr "Select a Rating"
 
 #: plugin/Modules/Html/FieldElements/YesNo.php:22
 msgid "No"

@@ -1958,6 +1958,10 @@ msgctxt "admin-text"
 msgid "Searching..."
 msgstr ""
 
+#: plugin/Commands/EnqueuePublicAssets.php:69, plugin/Modules/Html/FieldElements/Rating.php:15
+msgid "Select a Rating"
+msgstr ""
+
 #: plugin/Commands/EnqueuePublicAssets.php:75
 msgid "Close Modal"
 msgstr ""
@@ -3323,6 +3327,12 @@ msgstr ""
 #: plugin/Modules/Paginate.php:65
 msgid "&hellip;"
 msgstr ""
+
+#: plugin/Modules/Rating.php:87
+msgid "%s Star"
+msgid_plural "%s Stars"
+msgstr[0] ""
+msgstr[1] ""
 
 #: plugin/Modules/Translation.php:103
 msgctxt "admin-text"
@@ -5607,16 +5617,6 @@ msgstr ""
 
 #: plugin/Modules/Html/FieldElements/Range.php:19
 msgid "Please select"
-msgstr ""
-
-#: plugin/Modules/Html/FieldElements/Rating.php:12
-msgid "%s Star"
-msgid_plural "%s Stars"
-msgstr[0] ""
-msgstr[1] ""
-
-#: plugin/Modules/Html/FieldElements/Rating.php:16
-msgid "Select a Rating"
 msgstr ""
 
 #: plugin/Modules/Html/FieldElements/Secret.php:25, plugin/Modules/Html/FieldElements/Secret.php:28

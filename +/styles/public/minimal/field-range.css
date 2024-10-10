@@ -57,6 +57,7 @@
   content: attr(data-placeholder);
   display: flex;
   font-size: var(--glsr-text-sm);
+  line-height: 1.5;
   left: 0;
   position: absolute;
   top: 100%;
