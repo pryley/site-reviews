@@ -353,12 +353,14 @@
 
 .glsr-metabox-field .glsr-icon-select {
   align-items: center;
+  background-color: #fff;
   border-radius: 3px;
   box-shadow: inset 0 0 0 1px #8c8f94;
   display: flex;
   &:has(select:focus) {
     box-shadow: 0 0 0 1px inset var(--wp-admin-theme-color, #2271b1),
                 0 0 0 1px var(--wp-admin-theme-color, #2271b1);
+    color: var(--wp-admin-theme-color-darker-20);
   }
 }
 .glsr-metabox-field .glsr-icon-select i {
@@ -367,7 +369,9 @@
 }
 .glsr-metabox-field .glsr-icon-select select {
   border-bottom-left-radius: 0;
+  border-left-width: 0;
   border-top-left-radius: 0;
+  padding-inline-start: 0;
   &:focus {
     box-shadow: none;
   }
