@@ -62,7 +62,7 @@ class SiteReviewsTinymce extends TinymceGenerator
                 'type' => 'textbox',
             ],
             [
-                'label' => _x('Assign to User ID', 'admin-text', 'site-reviews'),
+                'label' => _x('Assigned Users', 'admin-text', 'site-reviews'),
                 'name' => 'assigned_users',
                 'tooltip' => sprintf(_x('Limit reviews to those assigned to a User ID. You may also enter "%s" to use the ID of the logged-in user.', 'admin-text', 'site-reviews'), 'user_id'),
                 'type' => 'textbox',

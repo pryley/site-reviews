@@ -147,6 +147,93 @@ namespace Elementor\Core\Base {
         }
     }
 }
+namespace Elementor\Core\Files {
+    abstract class Base
+    {
+    }
+}
+namespace Elementor\Core\Files\CSS {
+    /**
+     * Elementor post CSS file.
+     *
+     * Elementor CSS file handler class is responsible for generating the single
+     * post CSS file.
+     *
+     * @since 1.2.0
+     */
+    class Post extends Base
+    {
+        /**
+         * Get unique element selector.
+         *
+         * Retrieve the unique selector for any given element.
+         *
+         * @since 1.2.0
+         * @access public
+         *
+         * @param \Elementor\Element_Base $element The element.
+         *
+         * @return string Unique element selector.
+         */
+        public function get_element_unique_selector(\Elementor\Element_Base $element)
+        {
+        }
+    }
+    /**
+     * Elementor CSS file.
+     *
+     * Elementor CSS file handler class is responsible for generating CSS files.
+     *
+     * @since 1.2.0
+     * @abstract
+     */
+    abstract class Base extends \Elementor\Core\Files\Base
+    {
+        /**
+         * Get stylesheet.
+         *
+         * Retrieve the CSS file stylesheet instance.
+         *
+         * @since 1.2.0
+         * @access public
+         *
+         * @return \Elementor\Stylesheet The stylesheet object.
+         */
+        public function get_stylesheet()
+        {
+        }
+    }
+}
+namespace Elementor {
+    /**
+     * Elementor stylesheet.
+     *
+     * Elementor stylesheet handler class responsible for setting up CSS rules and
+     * properties, and all the CSS `@media` rule with supported viewport width.
+     *
+     * @since 1.0.0
+     */
+    class Stylesheet
+    {
+        /**
+         * Add rules.
+         *
+         * Add a new CSS rule to the rules list.
+         *
+         * @since 1.0.0
+         * @access public
+         *
+         * @param string       $selector    CSS selector.
+         * @param array|string $style_rules Optional. Style rules. Default is `null`.
+         * @param array        $query       Optional. Media query. Default is `null`.
+         *
+         * @return \Elementor\Stylesheet The current stylesheet class instance.
+         */
+        public function add_rules($selector, $style_rules = null, array $query = null)
+        {
+        }
+    }
+}
 namespace Elementor {
     /**
      * Elementor controls stack.

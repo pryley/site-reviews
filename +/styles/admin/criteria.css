@@ -18,6 +18,9 @@
   display: flex;
   flex-direction: row;
 }
+.glsr-criteria-condition > div {
+  flex: 1;
+}
 .glsr-criteria-conditions {
   display: flex;
   flex-direction: column;

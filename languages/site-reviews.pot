@@ -989,7 +989,7 @@ msgctxt "admin-text"
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:709, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Tinymce/SiteReviewsTinymce.php:31, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/Elementor/ElementorWidget.php:142, plugin/Integrations/GamiPress/Controller.php:133
+#: config/settings.php:709, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Tinymce/SiteReviewsTinymce.php:31, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/Elementor/ElementorWidget.php:129, plugin/Integrations/GamiPress/Controller.php:133
 msgctxt "admin-text"
 msgid "Rating"
 msgstr ""
@@ -1084,7 +1084,7 @@ msgctxt "admin-text"
 msgid "Assigned Terms"
 msgstr ""
 
-#: config/settings.php:755, plugin/Defaults/PostTypeColumnDefaults.php:14, plugin/Metaboxes/AssignedUsersMetabox.php:19, views/integrations/mycred/preferences.php:186, views/partials/screen/inline-edit.php:116
+#: config/settings.php:755, plugin/Defaults/PostTypeColumnDefaults.php:14, plugin/Metaboxes/AssignedUsersMetabox.php:19, plugin/Tinymce/SiteReviewsSummaryTinymce.php:30, plugin/Tinymce/SiteReviewsTinymce.php:65, views/integrations/mycred/preferences.php:186, views/partials/screen/inline-edit.php:116
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr ""
@@ -1697,7 +1697,7 @@ msgctxt "admin-text"
 msgid "Untitled"
 msgstr ""
 
-#: plugin/Addons/Controller.php:75, plugin/Controllers/AdminController.php:74, plugin/Controllers/MenuController.php:51, plugin/Integrations/Elementor/ElementorWidget.php:132, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
+#: plugin/Addons/Controller.php:75, plugin/Controllers/AdminController.php:74, plugin/Controllers/MenuController.php:51, plugin/Integrations/Elementor/ElementorWidget.php:119, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
 msgctxt "admin-text"
 msgid "Settings"
 msgstr ""
@@ -3487,23 +3487,23 @@ msgctxt "%s: time interval (admin-text)"
 msgid "Every %s"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:200
+#: plugin/Shortcodes/Shortcode.php:212
 msgid "Excellent"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:201
+#: plugin/Shortcodes/Shortcode.php:213
 msgid "Very good"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:202
+#: plugin/Shortcodes/Shortcode.php:214
 msgid "Average"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:203
+#: plugin/Shortcodes/Shortcode.php:215
 msgid "Poor"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:204
+#: plugin/Shortcodes/Shortcode.php:216
 msgid "Terrible"
 msgstr ""
 
@@ -3653,7 +3653,7 @@ msgctxt "admin-text"
 msgid "Automatically assign reviews to a Post ID. You may also enter \"%s\" to use the Post ID of the current page."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:37, plugin/Tinymce/SiteReviewsSummaryTinymce.php:30, plugin/Tinymce/SiteReviewsTinymce.php:65
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:37
 msgctxt "admin-text"
 msgid "Assign to User ID"
 msgstr ""
@@ -3750,27 +3750,27 @@ msgctxt "admin-text"
 msgid "What is the minimum rating to display (default: 1 star)?"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:45, plugin/Integrations/Elementor/ElementorReviewsWidget.php:90
+#: plugin/Tinymce/SiteReviewsTinymce.php:45, plugin/Integrations/Elementor/ElementorReviewsWidget.php:95
 msgctxt "admin-text"
 msgid "Pagination Type"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:48, plugin/Integrations/Elementor/ElementorReviewsWidget.php:94, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:86
+#: plugin/Tinymce/SiteReviewsTinymce.php:48, plugin/Integrations/Elementor/ElementorReviewsWidget.php:99, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:86
 msgctxt "admin-text"
 msgid "No Pagination"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:49, plugin/Integrations/Elementor/ElementorReviewsWidget.php:98, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:87
+#: plugin/Tinymce/SiteReviewsTinymce.php:49, plugin/Integrations/Elementor/ElementorReviewsWidget.php:103, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:87
 msgctxt "admin-text"
 msgid "Load More Button"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:50, plugin/Integrations/Elementor/ElementorReviewsWidget.php:102, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:88
+#: plugin/Tinymce/SiteReviewsTinymce.php:50, plugin/Integrations/Elementor/ElementorReviewsWidget.php:107, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:88
 msgctxt "admin-text"
 msgid "Pagination (AJAX)"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:51, plugin/Integrations/Elementor/ElementorReviewsWidget.php:106, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:89
+#: plugin/Tinymce/SiteReviewsTinymce.php:51, plugin/Integrations/Elementor/ElementorReviewsWidget.php:111, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:89
 msgctxt "admin-text"
 msgid "Pagination (with page reload)"
 msgstr ""
@@ -4104,12 +4104,12 @@ msgctxt "admin-text"
 msgid "Filter by terms"
 msgstr ""
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:15, plugin/Integrations/Elementor/ElementorReviewsWidget.php:82, plugin/Integrations/Elementor/ElementorSummaryWidget.php:94, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:75, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:75
+#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:15, plugin/Integrations/Elementor/ElementorReviewsWidget.php:87, plugin/Integrations/Elementor/ElementorSummaryWidget.php:99, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:75, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:75
 msgctxt "admin-text"
 msgid "Terms were accepted"
 msgstr ""
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:16, plugin/Integrations/Elementor/ElementorReviewsWidget.php:83, plugin/Integrations/Elementor/ElementorSummaryWidget.php:95, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:76, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:76
+#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:16, plugin/Integrations/Elementor/ElementorReviewsWidget.php:88, plugin/Integrations/Elementor/ElementorSummaryWidget.php:100, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:76, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:76
 msgctxt "admin-text"
 msgid "Terms were not accepted"
 msgstr ""
@@ -4134,157 +4134,157 @@ msgctxt "admin-text"
 msgid "A valid license key is required to update this plugin."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:37
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:42
 msgctxt "admin-text"
 msgid "Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:39
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:44
 msgctxt "admin-text"
 msgid "Custom Reviews ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:51
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:56
 msgctxt "admin-text"
 msgid "Assign Reviews to a Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:58, plugin/Integrations/Elementor/ElementorFormWidget.php:81, plugin/Integrations/Elementor/ElementorReviewsWidget.php:48, plugin/Integrations/Elementor/ElementorReviewsWidget.php:71, plugin/Integrations/Elementor/ElementorSummaryWidget.php:60, plugin/Integrations/Elementor/ElementorSummaryWidget.php:83, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:28, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:56, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:28, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:56, plugin/Integrations/FusionBuilder/FusionReviewForm.php:26, plugin/Integrations/FusionBuilder/FusionReviewForm.php:54
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:63, plugin/Integrations/Elementor/ElementorFormWidget.php:86, plugin/Integrations/Elementor/ElementorReviewsWidget.php:53, plugin/Integrations/Elementor/ElementorReviewsWidget.php:76, plugin/Integrations/Elementor/ElementorSummaryWidget.php:65, plugin/Integrations/Elementor/ElementorSummaryWidget.php:88, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:28, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:56, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:28, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:56, plugin/Integrations/FusionBuilder/FusionReviewForm.php:26, plugin/Integrations/FusionBuilder/FusionReviewForm.php:54
 msgctxt "admin-text"
 msgid "Separate values with a comma."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:60, plugin/Integrations/Elementor/ElementorReviewsWidget.php:50, plugin/Integrations/Elementor/ElementorSummaryWidget.php:62
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:65, plugin/Integrations/Elementor/ElementorReviewsWidget.php:55, plugin/Integrations/Elementor/ElementorSummaryWidget.php:67
 msgctxt "admin-text"
 msgid "Enter the Post IDs"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:66
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:71
 msgctxt "admin-text"
 msgid "Assign Reviews to a Category"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:74
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:79
 msgctxt "admin-text"
 msgid "Assign Reviews to a User"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:83, plugin/Integrations/Elementor/ElementorReviewsWidget.php:73, plugin/Integrations/Elementor/ElementorSummaryWidget.php:85
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:88, plugin/Integrations/Elementor/ElementorReviewsWidget.php:78, plugin/Integrations/Elementor/ElementorSummaryWidget.php:90
 msgctxt "admin-text"
 msgid "Enter the User IDs"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:110
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:115
 msgctxt "admin-text"
 msgid "Field Spacing"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:135, plugin/Integrations/Elementor/ElementorReviewsWidget.php:206, plugin/Integrations/Elementor/ElementorReviewWidget.php:102, plugin/Integrations/Elementor/ElementorSummaryWidget.php:229
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:140, plugin/Integrations/Elementor/ElementorReviewsWidget.php:211, plugin/Integrations/Elementor/ElementorReviewWidget.php:107, plugin/Integrations/Elementor/ElementorSummaryWidget.php:234
 msgctxt "admin-text"
 msgid "Color"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:149, plugin/Integrations/Elementor/ElementorReviewsWidget.php:220, plugin/Integrations/Elementor/ElementorReviewWidget.php:116, plugin/Integrations/Elementor/ElementorSummaryWidget.php:244
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:153, plugin/Integrations/Elementor/ElementorReviewsWidget.php:225, plugin/Integrations/Elementor/ElementorReviewWidget.php:121, plugin/Integrations/Elementor/ElementorSummaryWidget.php:249
 msgctxt "admin-text"
 msgid "Star Size"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:171
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:175
 msgctxt "admin-text"
 msgid "Star Spacing"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:41, plugin/Integrations/Elementor/ElementorSummaryWidget.php:53, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:16, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:16
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:46, plugin/Integrations/Elementor/ElementorSummaryWidget.php:58, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:16, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:16
 msgctxt "admin-text"
 msgid "Limit Reviews to an Assigned Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:56, plugin/Integrations/Elementor/ElementorSummaryWidget.php:68, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:40, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:40
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:61, plugin/Integrations/Elementor/ElementorSummaryWidget.php:73, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:40, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:40
 msgctxt "admin-text"
 msgid "Limit Reviews to an Assigned Category"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:64, plugin/Integrations/Elementor/ElementorSummaryWidget.php:76, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:43, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:43
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:69, plugin/Integrations/Elementor/ElementorSummaryWidget.php:81, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:43, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:43
 msgctxt "admin-text"
 msgid "Limit Reviews to an Assigned User"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:79, plugin/Integrations/Elementor/ElementorSummaryWidget.php:91
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:84, plugin/Integrations/Elementor/ElementorSummaryWidget.php:96
 msgctxt "admin-text"
 msgid "Limit Reviews to terms"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:114, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:94
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:119, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:94
 msgctxt "admin-text"
 msgid "Reviews Per Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:121, plugin/Integrations/Elementor/ElementorSummaryWidget.php:102, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:103, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:82
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:126, plugin/Integrations/Elementor/ElementorSummaryWidget.php:107, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:103, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:82
 msgctxt "admin-text"
 msgid "Minimum Rating"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:128, plugin/Integrations/Elementor/ElementorSummaryWidget.php:109, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:112, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:91
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:133, plugin/Integrations/Elementor/ElementorSummaryWidget.php:114, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:112, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:91
 msgctxt "admin-text"
 msgid "The schema should only be enabled once per page."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:129, plugin/Integrations/Elementor/ElementorSummaryWidget.php:110, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:113, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:92
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:134, plugin/Integrations/Elementor/ElementorSummaryWidget.php:115, plugin/Integrations/FusionBuilder/FusionLatestReviews.php:113, plugin/Integrations/FusionBuilder/FusionRatingSummary.php:92
 msgctxt "admin-text"
 msgid "Enable the schema?"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:154, plugin/Integrations/Elementor/ElementorReviewWidget.php:70, plugin/Integrations/Elementor/ElementorSummaryWidget.php:135
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:159, plugin/Integrations/Elementor/ElementorReviewWidget.php:75, plugin/Integrations/Elementor/ElementorSummaryWidget.php:140
 msgctxt "admin-text"
 msgid "Alignment"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:157, plugin/Integrations/Elementor/ElementorReviewWidget.php:73, plugin/Integrations/Elementor/ElementorSummaryWidget.php:138, plugin/Integrations/JetWooBuilder/Controller.php:46
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:162, plugin/Integrations/Elementor/ElementorReviewWidget.php:78, plugin/Integrations/Elementor/ElementorSummaryWidget.php:143, plugin/Integrations/JetWooBuilder/Controller.php:46
 msgctxt "admin-text"
 msgid "Start"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:161, plugin/Integrations/Elementor/ElementorReviewWidget.php:77, plugin/Integrations/Elementor/ElementorSummaryWidget.php:142, plugin/Integrations/JetWooBuilder/Controller.php:50
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:166, plugin/Integrations/Elementor/ElementorReviewWidget.php:82, plugin/Integrations/Elementor/ElementorSummaryWidget.php:147, plugin/Integrations/JetWooBuilder/Controller.php:50
 msgctxt "admin-text"
 msgid "Center"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:165, plugin/Integrations/Elementor/ElementorReviewWidget.php:81, plugin/Integrations/Elementor/ElementorSummaryWidget.php:146, plugin/Integrations/JetWooBuilder/Controller.php:54
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:170, plugin/Integrations/Elementor/ElementorReviewWidget.php:86, plugin/Integrations/Elementor/ElementorSummaryWidget.php:151, plugin/Integrations/JetWooBuilder/Controller.php:54
 msgctxt "admin-text"
 msgid "End"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:182
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:187
 msgctxt "admin-text"
 msgid "Review Spacing"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewWidget.php:47, plugin/Integrations/FusionBuilder/FusionSingleReview.php:13
+#: plugin/Integrations/Elementor/ElementorReviewWidget.php:52, plugin/Integrations/FusionBuilder/FusionSingleReview.php:13
 msgctxt "admin-text"
 msgid "Review Post ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:39
+#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:44
 msgctxt "admin-text"
 msgid "Use the Review Forms addon to add custom rating fields."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:41
+#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:46
 msgctxt "admin-text"
 msgid "Custom Rating Field Name"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:162
+#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:167
 msgctxt "admin-text"
 msgid "Max Width"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:185
+#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:190
 msgctxt "admin-text"
 msgid "Percentage Bar Height"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:205
+#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:210
 msgctxt "admin-text"
 msgid "Percentage Bar Spacing"
 msgstr ""
@@ -4324,42 +4324,42 @@ msgctxt "admin-text"
 msgid "The Profile user (BuddyPress/Ultimate Member)"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:115
-msgctxt "admin-text"
-msgid "Limit the Type of Reviews"
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorWidget.php:137
+#: plugin/Integrations/Elementor/ElementorWidget.php:124
 msgctxt "admin-text"
 msgid "Advanced"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:147
+#: plugin/Integrations/Elementor/ElementorWidget.php:134
 msgctxt "admin-text"
 msgid "Layout"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:196
+#: plugin/Integrations/Elementor/ElementorWidget.php:146
+msgctxt "admin-text"
+msgid "Limit the Type of Reviews"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorWidget.php:216
 msgctxt "admin-text"
 msgid "This should be a unique value."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:198
+#: plugin/Integrations/Elementor/ElementorWidget.php:218
 msgctxt "admin-text"
 msgid "Custom ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:202
+#: plugin/Integrations/Elementor/ElementorWidget.php:222
 msgctxt "admin-text"
 msgid "Separate multiple classes with spaces."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:204
+#: plugin/Integrations/Elementor/ElementorWidget.php:224
 msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr ""
 
-#: plugin/Integrations/Elementor/Hooks.php:46
+#: plugin/Integrations/Elementor/Hooks.php:49
 msgctxt "admin-text"
 msgid "Update Elementor to v3.19.0 or higher to enable integration with Site Reviews."
 msgstr ""

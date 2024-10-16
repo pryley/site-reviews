@@ -82,11 +82,6 @@ abstract class ElementorWidget extends Widget_Base
         return $this->_shortcode_instance;
     }
 
-    protected function hide_if_all_fields_hidden(): bool
-    {
-        return false;
-    }
-
     protected function assigned_posts_options(): array
     {
         return [ // order is intentional
@@ -109,6 +104,11 @@ abstract class ElementorWidget extends Widget_Base
             'author_id' => _x('The Page author', 'admin-text', 'site-reviews'),
             'profile_id' => _x('The Profile user (BuddyPress/Ultimate Member)', 'admin-text', 'site-reviews'),
         ];
+    }
+
+    protected function hide_if_all_fields_hidden(): bool
+    {
+        return false;
     }
 
     protected function get_control_sections(): array
