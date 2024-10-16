@@ -97,13 +97,14 @@
     site-reviews/deactivate/insight/display                     (array $insight): array
     site-reviews/deactivate/plugins                             (array $plugins): array
     site-reviews/deactivate/reasons                             (array $reasons): array
-    site-reviews/defaults/<defaults_name>                       (array $defaults, string $method, array $args): array
-    site-reviews/defaults/<defaults_name>/casts                 (array $casts, string $method): array
-    site-reviews/defaults/<defaults_name>/concatenated          (array $concatenated, string $method): array
-    site-reviews/defaults/<defaults_name>/defaults              (array $defaults): array
-    site-reviews/defaults/<defaults_name>/guarded               (array $guarded, string $method): array
-    site-reviews/defaults/<defaults_name>/mapped                (array $mapped, string $method): array
-    site-reviews/defaults/<defaults_name>/sanitize              (array $sanitize, string $method): array
+    site-reviews/defaults/<defaults_name>                       (array $defaults, string $method, array $args, string $defaultsName): array
+    site-reviews/defaults/<defaults_name>/casts                 (array $casts, string $method, string $defaultsName): array
+    site-reviews/defaults/<defaults_name>/concatenated          (array $concatenated, string $method, string $defaultsName): array
+    site-reviews/defaults/<defaults_name>/defaults              (array $defaults, string $defaultsName): array
+    site-reviews/defaults/<defaults_name>/enums                 (array $enums, string $method, string $defaultsName): array
+    site-reviews/defaults/<defaults_name>/guarded               (array $guarded, string $method, string $defaultsName): array
+    site-reviews/defaults/<defaults_name>/mapped                (array $mapped, string $method, string $defaultsName): array
+    site-reviews/defaults/<defaults_name>/sanitize              (array $sanitize, string $method, string $defaultsName): array
     site-reviews/devmode                                        (bool $bool): bool
     site-reviews/discord/fields                                 (array $fields, Review $review): array
     site-reviews/discord/notification                           (array $notification, Modules\Discord $discord): array

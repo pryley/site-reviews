@@ -98,7 +98,7 @@ abstract class DefaultsAbstract implements DefaultsContract
     public function __construct()
     {
         $this->hook = $this->currentHook();
-        $this->defaults = $this->app()->filterArray("defaults/{$this->hook}/defaults", $this->defaults());
+        $this->defaults = $this->app()->filterArray("defaults/{$this->hook}/defaults", $this->defaults(), $this->hook);
     }
 
     public function __call(string $name, array $args = []): array
@@ -123,7 +123,7 @@ abstract class DefaultsAbstract implements DefaultsContract
             $property = $reflection->getProperty($key);
             $value = $property->getValue($this);
             if ($property->isPublic()) { // all public properties are expected to be an array
-                return $this->app()->filterArray("defaults/{$this->hook}/{$key}", $value, $this->method);
+                return $this->app()->filterArray("defaults/{$this->hook}/{$key}", $value, $this->method, $this->hook);
             }
         } catch (\ReflectionException $e) {
             glsr_log()->error("Invalid or protected property [$key].");
@@ -148,7 +148,7 @@ abstract class DefaultsAbstract implements DefaultsContract
             $values = $this->finalize($values);
         }
         $args = array_shift($args);
-        return $this->app()->filterArray("defaults/{$this->hook}", $values, $this->method, $args);
+        return $this->app()->filterArray("defaults/{$this->hook}", $values, $this->method, $args, $this->hook);
     }
 
     protected function currentHook(): string
