@@ -111,27 +111,9 @@ abstract class ElementorWidget extends Widget_Base
         ];
     }
 
-    protected function get_review_types(): array
+    protected function get_control_sections(): array
     {
-        $types = glsr()->retrieveAs('array', 'review_types', []);
-        if (count($types) > 2) {
-            return [
-                'default' => 'local',
-                'label' => _x('Limit the Type of Reviews', 'admin-text', 'site-reviews'),
-                'label_block' => true,
-                'options' => $types,
-                'type' => Controls_Manager::SELECT,
-            ];
-        }
-        return [];
-    }
-
-    /**
-     * @return void
-     */
-    protected function register_controls()
-    {
-        $sections = [
+        return [
             'settings' => [
                 'controls' => $this->settings_basic(),
                 'label' => _x('Settings', 'admin-text', 'site-reviews'),
@@ -153,6 +135,29 @@ abstract class ElementorWidget extends Widget_Base
                 'tab' => Controls_Manager::TAB_STYLE,
             ],
         ];
+    }
+
+    protected function get_review_types(): array
+    {
+        $types = glsr()->retrieveAs('array', 'review_types', []);
+        if (count($types) > 2) {
+            return [
+                'default' => 'local',
+                'label' => _x('Limit the Type of Reviews', 'admin-text', 'site-reviews'),
+                'label_block' => true,
+                'options' => $types,
+                'type' => Controls_Manager::SELECT,
+            ];
+        }
+        return [];
+    }
+
+    /**
+     * @return void
+     */
+    protected function register_controls()
+    {
+        $sections = $this->get_control_sections();
         $sections = glsr()->filterArray('elementor/register/controls', $sections, $this);
         foreach ($sections as $key => $args) {
             $controls = array_filter($args['controls'] ?? []);
