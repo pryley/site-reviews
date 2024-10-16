@@ -201,13 +201,13 @@ class ElementorReviewsWidget extends ElementorWidget
         return [
             'rating_color' => [
                 'global' => [
-                    'active' => false,
+                    'default' => '',
                 ],
                 'label' => esc_html_x('Color', 'admin-text', 'site-reviews'),
                 'selectors' => [
-                    '{{WRAPPER}} .glsr:not([data-theme]) .glsr-review .glsr-star-empty' => 'background: {{VALUE}} !important; mask-image: var(--glsr-star-empty); mask-size: 100%;',
-                    '{{WRAPPER}} .glsr:not([data-theme]) .glsr-review .glsr-star-full' => 'background: {{VALUE}} !important; mask-image: var(--glsr-star-full); mask-size: 100%;',
-                    '{{WRAPPER}} .glsr:not([data-theme]) .glsr-review .glsr-star-half' => 'background: {{VALUE}} !important; mask-image: var(--glsr-star-half); mask-size: 100%;',
+                    '{{WRAPPER}} .glsr:not([data-theme]) .glsr-review .glsr-star-empty' => 'background: {{VALUE}} !important;',
+                    '{{WRAPPER}} .glsr:not([data-theme]) .glsr-review .glsr-star-full' => 'background: {{VALUE}} !important;',
+                    '{{WRAPPER}} .glsr:not([data-theme]) .glsr-review .glsr-star-half' => 'background: {{VALUE}} !important;',
                 ],
                 'type' => Controls_Manager::COLOR,
             ],

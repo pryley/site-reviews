@@ -64,6 +64,7 @@ mix
   .babel('+/scripts/deactivate-plugin.js', 'assets/scripts/deactivate-plugin.js')
   .babel('+/scripts/mce-plugin.js', 'assets/scripts/mce-plugin.js')
   .babel('+/scripts/rollback.js', 'assets/scripts/rollback.js')
+  .js('+/integrations/elementor/scripts/elementor-editor.js', 'assets')
   .js('+/scripts/gamipress.js', 'assets/scripts')
   .js('+/scripts/site-reviews-admin.js', 'assets/scripts')
   .js('+/scripts/site-reviews-blocks.js', 'assets/scripts')

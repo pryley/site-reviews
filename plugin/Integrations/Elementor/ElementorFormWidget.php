@@ -130,13 +130,12 @@ class ElementorFormWidget extends ElementorWidget
         return [
             'rating_color' => [
                 'global' => [
-                    'active' => false,
+                    'default' => '',
                 ],
                 'label' => esc_html_x('Color', 'admin-text', 'site-reviews'),
                 'selectors' => [
-                    '{{WRAPPER}} .glsr:not([data-theme]) .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars > span' => 'background: {{VALUE}} !important; mask-image: var(--glsr-star-empty); mask-size: 100%;',
-                    '{{WRAPPER}} .glsr:not([data-theme]) .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars > span:is(.gl-active,.gl-selected)' => 'mask-image: var(--glsr-star-full);',
-                    '{{WRAPPER}} .glsr:not([data-theme]) .glsr-field-is-invalid .glsr-star-rating--stars > span.gl-active' => 'background: {{VALUE}} !important; mask-image: var(--glsr-star-error); mask-size: 100%;',
+                    '{{WRAPPER}} .glsr:not([data-theme]) .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars > span' => 'background: {{VALUE}} !important;',
+                    '{{WRAPPER}} .glsr:not([data-theme]) .glsr-field-is-invalid .glsr-star-rating--stars > span.gl-active' => 'background: {{VALUE}} !important;',
                 ],
                 'type' => Controls_Manager::COLOR,
             ],
