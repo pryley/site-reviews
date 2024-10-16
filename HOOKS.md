@@ -75,7 +75,7 @@
     site-reviews/avatar/fallback                                (string $fallbackUrl, Review $review, int $size): string
     site-reviews/avatar/generate                                (string $avatarUrl, Review $review, int $size): string
     site-reviews/avatar/id_or_email                             (string $id_or_email, array $reviewValues): string
-    site-reviews/block/<block>/attributes                       (array $attributes): array
+    site-reviews/block/<block>/attributes                       (array $attributes, string $block): array
     site-reviews/build/template/<template_path>                 (string $template, array $data): string
     site-reviews/builder/enable/optgroup                        (bool $enable): bool
     site-reviews/builder/result                                 (string $result, Contracts\BuilderContract $builder): string

@@ -54,7 +54,7 @@ abstract class Block
         $block = Str::snakeCase($block);
         $block = str_replace(['_block', 'site_reviews_', 'site_'], '', $block);
         register_block_type(glsr()->id."/{$block}", [
-            'attributes' => $this->app()->filterArray("block/{$block}/attributes", $this->attributes()),
+            'attributes' => $this->app()->filterArray("block/{$block}/attributes", $this->attributes(), $block),
             'editor_script' => "{$this->app()->id}/blocks",
             'editor_style' => "{$this->app()->id}/blocks",
             'render_callback' => [$this, 'render'],
