@@ -24,6 +24,7 @@ class Hooks extends AbstractHooks
             ['registerElementorCategory', 'elementor/elements/categories_registered'],
             ['registerElementorWidgets', 'elementor/widgets/register'],
             ['registerInlineStyles', 'elementor/editor/after_enqueue_styles'],
+            ['registerInlineStyles', 'elementor/preview/enqueue_styles'],
             ['registerScripts', 'elementor/editor/after_enqueue_scripts'],
         ]);
     }
