@@ -13,7 +13,7 @@ class Template implements TemplateContract
         return glsr();
     }
 
-    public function build(string $templatePath, array $data = []): string
+    public function build(string $templatePath, array $data = [], bool $minify = false): string
     {
         $data = $this->normalize($data);
         $path = str_replace('templates/', '', $templatePath);
@@ -22,7 +22,10 @@ class Template implements TemplateContract
         $template = $this->interpolate($template, $path, $data);
         $template = $this->app()->filterString('rendered/template', $template, $templatePath, $data);
         $template = $this->app()->filterString("rendered/template/{$path}", $template, $data);
-        return trim($template);
+        if ($minify) {
+            return $this->minify($template);
+        }
+        return $template;
     }
 
     public function interpolate(string $template, string $templatePath, array $data = []): string
@@ -41,6 +44,17 @@ class Template implements TemplateContract
             );
         }
         return trim($text);
+    }
+
+    /**
+     * This provides support for :empty in CSS rules
+     */
+    public function minify(string $html): string
+    {
+        $html = trim($html);
+        $html = preg_replace('/\v+/u', '', $html);
+        $html = preg_replace('/>\s+</u', '><', $html);
+        return $html;
     }
 
     public function render(string $templatePath, array $data = []): void
