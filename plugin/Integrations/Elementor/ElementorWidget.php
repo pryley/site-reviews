@@ -173,6 +173,11 @@ abstract class ElementorWidget extends Widget_Base
     protected function register_controls_for_section(array $controls): void
     {
         foreach ($controls as $key => $args) {
+            if ($args['group_control_type'] ?? false) {
+                $args['name'] = $key;
+                $this->add_group_control($args['group_control_type'], $args);
+                continue;
+            }
             if ($args['is_responsive'] ?? false) {
                 $this->add_responsive_control($key, $args);
                 continue;
