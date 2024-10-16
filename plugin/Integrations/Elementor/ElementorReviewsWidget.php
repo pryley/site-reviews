@@ -33,6 +33,11 @@ class ElementorReviewsWidget extends ElementorWidget
         return _x('Latest Reviews', 'admin-text', 'site-reviews');
     }
 
+    protected function hide_if_all_fields_hidden(): bool
+    {
+        return true;
+    }
+
     protected function settings_basic(): array
     {
         $options = [

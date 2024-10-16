@@ -32,6 +32,11 @@ class ElementorReviewWidget extends ElementorWidget
         return _x('Single Review', 'admin-text', 'site-reviews');
     }
 
+    protected function hide_if_all_fields_hidden(): bool
+    {
+        return true;
+    }
+
     protected function print_content()
     {
         if (Review::isReview($this->get_settings_for_display('post_id'))) {

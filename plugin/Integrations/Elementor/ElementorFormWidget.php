@@ -29,6 +29,11 @@ class ElementorFormWidget extends ElementorWidget
         return _x('Review Form', 'admin-text', 'site-reviews');
     }
 
+    protected function hide_if_all_fields_hidden(): bool
+    {
+        return true;
+    }
+
     protected function settings_advanced(): array
     {
         $settings = parent::settings_advanced();

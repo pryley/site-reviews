@@ -86,6 +86,18 @@ abstract class Shortcode implements ShortcodeContract
         return glsr()->filterArray('shortcode/hide-options', $options, $this->shortcode, $this);
     }
 
+    public function hasVisibleFields(array $args = []): bool
+    {
+        if (empty($args)) {
+            $args = $this->args;
+        }
+        $defaults = $this->getHideOptions();
+        $hide = $args['hide'] ?? [];
+        $hide = array_flip($hide);
+        unset($defaults['if_empty'], $hide['if_empty']);
+        return !empty(array_diff_key($defaults, $hide));
+    }
+
     /**
      * @return static
      */

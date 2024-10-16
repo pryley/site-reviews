@@ -82,6 +82,11 @@ abstract class ElementorWidget extends Widget_Base
         return $this->_shortcode_instance;
     }
 
+    protected function hide_if_all_fields_hidden(): bool
+    {
+        return false;
+    }
+
     protected function assigned_posts_options(): array
     {
         return [ // order is intentional
@@ -176,9 +181,14 @@ abstract class ElementorWidget extends Widget_Base
      */
     protected function render()
     {
-        $shortcode = $this->get_shortcode_instance()->build($this->get_settings_for_display(), 'elementor');
-        $shortcode = str_replace('class="glsr-fallback">', 'class="glsr-fallback" style="display:none;">', $shortcode);
-        echo $shortcode;
+        $args = $this->get_settings_for_display();
+        $shortcode = $this->get_shortcode_instance();
+        if ($this->hide_if_all_fields_hidden() && !$shortcode->hasVisibleFields($args)) {
+            return;
+        }
+        $html = $shortcode->build($args, 'elementor');
+        $html = str_replace('class="glsr-fallback">', 'class="glsr-fallback" style="display:none;">', $html);
+        echo $html;
     }
 
     protected function set_custom_size_unit(array $units): array

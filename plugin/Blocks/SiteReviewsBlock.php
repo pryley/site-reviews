@@ -85,7 +85,7 @@ class SiteReviewsBlock extends Block
             $attributes = $this->normalize($attributes);
             $this->filterShowMoreLinks('content');
             $this->filterShowMoreLinks('response');
-            if (!$this->hasVisibleFields($shortcode, $attributes)) {
+            if (!$shortcode->hasVisibleFields($attributes)) {
                 $attributes['pagination'] = false;
                 $this->filterInterpolation();
             }
