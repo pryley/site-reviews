@@ -108,7 +108,7 @@ class Captcha {
     }
 
     isWidgetLoaded () {
-        return !~[-1, null, undefined].indexOf(this.widget)
+        return !~[-1, null, undefined].indexOf(this.widget);
     }
 
     load (src, type) {
@@ -193,8 +193,9 @@ class Captcha {
             'close-callback': () => this.Form.button.loaded(),
             'error-callback': () => (this.captchaEl.dataset.error = 1),
             'expired-callback': () => this.reset(),
+            // 'failed-callback': () => this.reset(),
             // 'open-callback': () => false,
-        });
+        }) || 1; // because procaptcha doesn't set a widget id.
     }
 
     render_recaptcha_v2_invisible () {

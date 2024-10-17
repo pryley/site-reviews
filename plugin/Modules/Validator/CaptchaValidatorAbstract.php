@@ -92,6 +92,11 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
             return [];
         }
         $body = json_decode(wp_remote_retrieve_body($response));
+        return $this->response($body);
+    }
+
+    protected function response(array $body): array
+    {
         $errors = Arr::consolidate(Arr::get($body, 'error-codes', Arr::get($body, 'errors')));
         return [
             'action' => Arr::get($body, 'action'),

@@ -59,19 +59,8 @@ class ProcaptchaValidator extends CaptchaValidatorAbstract
         return parent::errors($errors);
     }
 
-    protected function makeRequest(array $data): array
+    protected function response(array $body): array
     {
-        $response = wp_remote_post($this->siteVerifyUrl(), [
-            'body' => wp_json_encode($data),
-            'headers' => [
-                'Content-Type' => 'application/json',
-            ],
-        ]);
-        if (is_wp_error($response)) {
-            glsr_log()->error($response->get_error_message());
-            return [];
-        }
-        $body = json_decode(wp_remote_retrieve_body($response));
         $body = wp_parse_args($body, [
             'error' => '',
             'status' => '',
