@@ -83,26 +83,15 @@ class SiteReviewsBlock extends Block
         $shortcode = glsr(SiteReviewsShortcode::class);
         if ('edit' === filter_input(INPUT_GET, 'context')) {
             $attributes = $this->normalize($attributes);
+            if (!$shortcode->hasVisibleFields($attributes)) {
+                return $this->buildEmptyBlock(
+                    _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews')
+                );
+            }
             $this->filterShowMoreLinks('content');
             $this->filterShowMoreLinks('response');
-            if (!$shortcode->hasVisibleFields($attributes)) {
-                $attributes['pagination'] = false;
-                $this->filterInterpolation();
-            }
         }
         return $shortcode->buildBlock($attributes);
-    }
-
-    protected function filterInterpolation(): void
-    {
-        add_filter('site-reviews/interpolate/reviews', function ($context) {
-            $context['class'] = 'block-editor-warning';
-            $context['reviews'] = glsr(Builder::class)->p([
-                'class' => 'block-editor-warning__message',
-                'text' => _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews'),
-            ]);
-            return $context;
-        });
     }
 
     protected function filterShowMoreLinks(string $field): void

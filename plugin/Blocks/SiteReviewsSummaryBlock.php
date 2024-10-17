@@ -80,21 +80,11 @@ class SiteReviewsSummaryBlock extends Block
         if ('edit' === filter_input(INPUT_GET, 'context')) {
             $attributes = $this->normalize($attributes);
             if (!$this->hasVisibleFields($shortcode, $attributes)) {
-                $this->filterInterpolation();
+                return $this->buildEmptyBlock(
+                    _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews')
+                );
             }
         }
         return $shortcode->buildBlock($attributes);
-    }
-
-    protected function filterInterpolation(): void
-    {
-        add_filter('site-reviews/interpolate/reviews-summary', function ($context) {
-            $context['class'] = 'block-editor-warning';
-            $context['text'] = glsr(Builder::class)->p([
-                'class' => 'block-editor-warning__message',
-                'text' => _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews'),
-            ]);
-            return $context;
-        });
     }
 }

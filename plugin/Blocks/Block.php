@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 abstract class Block
 {
@@ -63,6 +64,17 @@ abstract class Block
     }
 
     abstract public function render(array $attributes): string;
+
+    protected function buildEmptyBlock(string $text): string
+    {
+        return glsr(Builder::class)->div([
+            'class' => 'block-editor-warning',
+            'text' => glsr(Builder::class)->p([
+                'class' => 'block-editor-warning__message',
+                'text' => $text,
+            ]),
+        ]);
+    }
 
     protected function hasVisibleFields(ShortcodeContract $shortcode, array $attributes): bool
     {

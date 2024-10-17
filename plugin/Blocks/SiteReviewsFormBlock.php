@@ -59,23 +59,11 @@ class SiteReviewsFormBlock extends Block
         $shortcode = glsr(SiteReviewsFormShortcode::class);
         if ('edit' === filter_input(INPUT_GET, 'context')) {
             if (!$this->hasVisibleFields($shortcode, $attributes)) {
-                $this->filterInterpolation();
+                return $this->buildEmptyBlock(
+                    _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews')
+                );
             }
         }
         return $shortcode->buildBlock($attributes);
-    }
-
-    protected function filterInterpolation(): void
-    {
-        add_filter('site-reviews/interpolate/reviews-form', function ($context) {
-            $context['class'] = 'block-editor-warning';
-            $context['fields'] = glsr(Builder::class)->p([
-                'class' => 'block-editor-warning__message',
-                'text' => _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews'),
-            ]);
-            $context['response'] = '';
-            $context['submit_button'] = '';
-            return $context;
-        });
     }
 }

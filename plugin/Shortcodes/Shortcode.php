@@ -93,7 +93,7 @@ abstract class Shortcode implements ShortcodeContract
         }
         $defaults = $this->getHideOptions();
         $hide = $args['hide'] ?? [];
-        $hide = array_flip($hide);
+        $hide = array_flip(Arr::consolidate($hide));
         unset($defaults['if_empty'], $hide['if_empty']);
         return !empty(array_diff_key($defaults, $hide));
     }

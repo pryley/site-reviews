@@ -40,23 +40,15 @@ class SiteReviewBlock extends SiteReviewsBlock
             $this->filterShowMoreLinks('content');
             $this->filterShowMoreLinks('response');
             if (0 !== Cast::toInt($attributes['post_id']) && !Review::isReview($attributes['post_id'])) {
-                $this->filterInterpolationForPostId();
+                return $this->buildEmptyBlock(
+                    _x('Enter a valid Review Post ID to display a review.', 'admin-text', 'site-reviews')
+                );
             } elseif (!$this->hasVisibleFields($shortcode, $attributes)) {
-                $this->filterInterpolation();
+                return $this->buildEmptyBlock(
+                    _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews')
+                );
             }
         }
         return $shortcode->buildBlock($attributes);
-    }
-
-    protected function filterInterpolationForPostId(): void
-    {
-        add_filter('site-reviews/interpolate/reviews', function ($context) {
-            $context['class'] = 'block-editor-warning';
-            $context['reviews'] = glsr(Builder::class)->p([
-                'class' => 'block-editor-warning__message',
-                'text' => _x('Enter a valid Review Post ID to display a review.', 'admin-text', 'site-reviews'),
-            ]);
-            return $context;
-        });
     }
 }
