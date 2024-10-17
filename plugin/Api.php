@@ -72,7 +72,8 @@ class Api
     public function request(string $path, array $args = []): Response
     {
         $args = $this->args($args);
-        $transientKey = $this->transientKey($path, $args['transient_key'], $args['body'] ?: []);
+        $body = glsr(Sanitizer::class)->sanitizeJson($args['body'] ?: []);
+        $transientKey = $this->transientKey($path, $args['transient_key'], $body);
         if ($args['force']) {
             delete_site_transient($transientKey);
         }
@@ -118,7 +119,7 @@ class Api
 
     public function url(string $path): string
     {
-        $path = trailingslashit(ltrim($path, '/'));
+        $path = ltrim($path, '/');
         $url = $this->baseUrl.$path;
         return glsr(Sanitizer::class)->sanitizeUrl($url);
     }
