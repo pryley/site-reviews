@@ -62,10 +62,8 @@ class Captcha {
     execute_procaptcha () {
         if (1 === +this.captchaEl.dataset.error) {
             this._submitFormWithToken('sitekey_invalid')
-        } else if (this.token) {
-            this.Form.submitForm();
         } else {
-            setTimeout(() => this.execute_procaptcha(), 100)
+            this.Form.submitForm();
         }
     }
 

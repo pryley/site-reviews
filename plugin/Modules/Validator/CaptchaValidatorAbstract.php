@@ -91,7 +91,7 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
             glsr_log()->error($response->get_error_message());
             return [];
         }
-        $body = json_decode(wp_remote_retrieve_body($response));
+        $body = json_decode(wp_remote_retrieve_body($response), true);
         return $this->response($body);
     }
 
