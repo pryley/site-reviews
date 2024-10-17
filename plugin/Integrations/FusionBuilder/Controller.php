@@ -39,9 +39,6 @@ class Controller extends AbstractController
      */
     public function onActivated(): void
     {
-        if (!function_exists('fusion_builder_auto_activate_element')) {
-            return;
-        }
         fusion_builder_auto_activate_element('site_review');
         fusion_builder_auto_activate_element('site_reviews');
         fusion_builder_auto_activate_element('site_reviews_form');
@@ -53,11 +50,6 @@ class Controller extends AbstractController
      */
     public function registerFusionElements(): void
     {
-        if (!class_exists('Fusion_Element')
-            || !function_exists('fusion_builder_frontend_data')
-            || !function_exists('fusion_builder_map')) {
-            return;
-        }
         FusionLatestReviews::registerElement();
         FusionRatingSummary::registerElement();
         FusionReviewForm::registerElement();

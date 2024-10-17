@@ -88,7 +88,7 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
-#: plugin/Blocks/SiteReviewsBlock.php:112, plugin/Helpers/Text.php:166
+#: plugin/Blocks/SiteReviewsBlock.php:101, plugin/Helpers/Text.php:166
 msgid "Show more"
 msgstr "Show more"
 
@@ -2251,15 +2251,15 @@ msgctxt "admin-text"
 msgid "Help"
 msgstr "Help"
 
-#: plugin/Blocks/SiteReviewBlock.php:57
-msgctxt "admin-text"
-msgid "Enter a valid Review Post ID to display a review."
-msgstr "Enter a valid Review Post ID to display a review."
-
-#: plugin/Blocks/SiteReviewsBlock.php:102, plugin/Blocks/SiteReviewsFormBlock.php:74, plugin/Blocks/SiteReviewsSummaryBlock.php:95
+#: plugin/Blocks/SiteReviewBlock.php:48, plugin/Blocks/SiteReviewsBlock.php:88, plugin/Blocks/SiteReviewsFormBlock.php:63, plugin/Blocks/SiteReviewsSummaryBlock.php:84
 msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr "You have hidden all of the fields for this block."
+
+#: plugin/Blocks/SiteReviewBlock.php:44
+msgctxt "admin-text"
+msgid "Enter a valid Review Post ID to display a review."
+msgstr "Enter a valid Review Post ID to display a review."
 
 #: plugin/Commands/AbstractCommand.php:41
 msgctxt "admin-text"
@@ -4530,7 +4530,7 @@ msgstr ""
 "Enter the CSS ID of a Latest Reviews element where the review should be "
 "displayed after submission."
 
-#: plugin/Integrations/FusionBuilder/Hooks.php:44
+#: plugin/Integrations/FusionBuilder/Hooks.php:48
 msgctxt "admin-text"
 msgid ""
 "Update Fusion Builder to v3.11.0 or higher to enable integration with Site "

@@ -4,7 +4,6 @@
  * https://elementor.com
  * https://github.com/arifpavel/elementor-stubs
  */
-
 namespace Elementor\Core\Base {
     /**
      * Base Object
@@ -202,6 +201,30 @@ namespace Elementor\Core\Files\CSS {
         public function get_stylesheet()
         {
         }
+    }
+}
+namespace Elementor {
+    /**
+     * Elementor sub controls stack.
+     *
+     * An abstract class that can be used to divide a large ControlsStack into small parts.
+     *
+     * @abstract
+     */
+    abstract class Sub_Controls_Stack
+    {
+    }
+}
+namespace Elementor\Core\Kits\Documents\Tabs {
+    abstract class Tab_Base extends \Elementor\Sub_Controls_Stack
+    {
+    }
+    class Global_Typography extends \Elementor\Core\Kits\Documents\Tabs\Tab_Base
+    {
+        const TYPOGRAPHY_PRIMARY = 'globals/typography?id=primary';
+        const TYPOGRAPHY_SECONDARY = 'globals/typography?id=secondary';
+        const TYPOGRAPHY_TEXT = 'globals/typography?id=text';
+        const TYPOGRAPHY_ACCENT = 'globals/typography?id=accent';
     }
 }
 namespace Elementor {

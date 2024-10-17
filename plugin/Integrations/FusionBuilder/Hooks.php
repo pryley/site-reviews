@@ -26,7 +26,11 @@ class Hooks extends AbstractHooks
 
     protected function isInstalled(): bool
     {
-        return class_exists('FusionBuilder');
+        return class_exists('FusionBuilder')
+            && class_exists('Fusion_Element')
+            && function_exists('fusion_builder_auto_activate_element')
+            && function_exists('fusion_builder_frontend_data')
+            && function_exists('fusion_builder_map');
     }
 
     protected function isVersionSupported(): bool
