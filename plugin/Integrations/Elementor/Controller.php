@@ -90,7 +90,7 @@ class Controller extends AbstractController
             $stylesheet->add_rules("{$selector} .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars > span", $fn($stars['empty']));
             $stylesheet->add_rules("{$selector} .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars > span:is(.gl-active,.gl-selected)", $fn($stars['full']));
             $stylesheet->add_rules("{$selector} .glsr-field-is-invalid .glsr-star-rating--stars > span.gl-active", $fn($stars['error']));
-        } elseif ('site_review_summary' === $shortcode) {
+        } elseif ('site_reviews_summary' === $shortcode) {
             $stylesheet->add_rules("{$selector} .glsr-star-empty", $fn($stars['empty']));
             $stylesheet->add_rules("{$selector} .glsr-star-full", $fn($stars['full']));
             $stylesheet->add_rules("{$selector} .glsr-star-half", $fn($stars['half']));
