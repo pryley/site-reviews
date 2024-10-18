@@ -6,6 +6,7 @@ parameters:
     - tests/phpstan/bootstrap.php
     - tests/phpstan/stubs/action-scheduler.php
     - tests/phpstan/stubs/akismet.php
+    - tests/phpstan/stubs/buddyboss.php
     - tests/phpstan/stubs/elementor.php
     - tests/phpstan/stubs/elementorpro.php
     - tests/phpstan/stubs/fusion-builder.php
@@ -14,6 +15,7 @@ parameters:
     - tests/phpstan/stubs/mycred.php
     - tests/phpstan/stubs/multilingualpress.php
     - tests/phpstan/stubs/polylang.php
+    - tests/phpstan/stubs/ultimate-member.php
     - tests/phpstan/stubs/wlpr.php
     - tests/phpstan/stubs/woocommerce.php
     - tests/phpstan/stubs/woorewards.php

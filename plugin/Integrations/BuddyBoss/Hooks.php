@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\UltimateMember;
+namespace GeminiLabs\SiteReviews\Integrations\BuddyBoss;
 
 use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
 
@@ -12,14 +12,12 @@ class Hooks extends AbstractHooks
             return;
         }
         $this->hook(Controller::class, [
-            ['filterAvatarUrl', 'site-reviews/avatar/generate', 10, 2],
             ['filterProfileId', 'site-reviews/assigned_users/profile_id', 5],
         ]);
     }
 
     protected function isInstalled(): bool
     {
-        return function_exists('um_get_default_avatar_uri')
-            && function_exists('um_get_requested_user');
+        return function_exists('bp_displayed_user_id');
     }
 }

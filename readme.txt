@@ -84,6 +84,8 @@ Site Reviews is officially compatible with the following plugins:
 
 - [Akismet](https://wordpress.org/plugins/akismet/)
 - [Avada Fusion Builder](https://avada.com/)
+- [BuddyBoss](https://www.buddyboss.com/)
+- [BuddyPress](https://buddypress.org/)
 - [Divi](https://www.elegantthemes.com/gallery/divi/)
 - [Elementor](https://elementor.com/)
 - [Endurance Cache](https://github.com/bluehost/endurance-page-cache/)

@@ -8,7 +8,7 @@ use GeminiLabs\SiteReviews\Review;
 class Controller extends AbstractController
 {
     /**
-     * @action site-reviews/avatar/generate
+     * @filter site-reviews/avatar/generate
      */
     public function filterAvatarUrl(string $url, Review $review): string
     {
@@ -21,5 +21,16 @@ class Controller extends AbstractController
             return '';
         }
         return $url;
+    }
+
+    /**
+     * @filter site-reviews/assigned_users/profile_id
+     */
+    public function filterProfileId(int $profileId): int
+    {
+        if (empty($profileId)) {
+            return (int) um_get_requested_user();
+        }
+        return $profileId;
     }
 }

@@ -180,17 +180,11 @@ class Helper
             return glsr()->filterInt('assigned_users/author_id', $authorId);
         }
         if ('profile_id' === $user) {
-            $profileId = 0;
-            if (function_exists('bp_displayed_user_id')) {
-                $profileId = (int) bp_displayed_user_id(); // BuddyPress
-            }
-            if (empty($profileId) && function_exists('um_get_requested_user')) {
-                $profileId = (int) um_get_requested_user(); // Ultimate Member
-            }
+            $profileId = glsr()->filterInt('assigned_users/profile_id', 0);
             if (empty($profileId) && is_author()) {
                 $profileId = get_queried_object_id(); // is_author() ensures this is a User ID
             }
-            return glsr()->filterInt('assigned_users/profile_id', $profileId);
+            return $profileId;
         }
         if ('user_id' === $user) {
             return glsr()->filterInt('assigned_users/user_id', get_current_user_id());
