@@ -133,15 +133,15 @@ class OptionManager
     public function normalize(array $data = []): array
     {
         $settings = $this->kses($data);
-        $strings = Arr::get($settings, 'settings.strings', []);
         if (!empty(glsr()->settings)) { // access the property directly to prevent an infinite loop
+            $savedSettings = $settings;
             $defaults = glsr()->defaults(); // @phpstan-ignore-line
             $defaults = Arr::flatten($defaults);
             $settings = Arr::flatten($settings);
             $settings = shortcode_atts($defaults, $settings);
             $settings = Arr::unflatten($settings);
+            $settings = $this->restoreOrphanedSettings($settings, $savedSettings);
         }
-        $settings = Arr::set($settings, 'settings.strings', $strings);
         return $settings;
     }
 
@@ -230,5 +230,30 @@ class OptionManager
         });
         $data = Arr::unflatten($data);
         return $data;
+    }
+
+    /**
+     * This restores orphaned settings in cases where addons have been deactivated, etc.
+     */
+    protected function restoreOrphanedSettings(array $settings, array $saved): array
+    {
+        $defaults = glsr()->defaults();
+        $settings = Arr::set($settings, 'settings.strings', Arr::get($saved, 'settings.strings', []));
+        foreach (Arr::get($saved, 'settings.addons', []) as $addon => $values) {
+            if (!isset($defaults['settings']['addons'][$addon])) {
+                $settings['settings']['addons'][$addon] = $values;
+            }
+        }
+        foreach (Arr::get($saved, 'settings.integrations', []) as $integration => $values) {
+            if (!isset($defaults['settings']['integrations'][$integration])) {
+                $settings['settings']['integrations'][$integration] = $values;
+            }
+        }
+        foreach (Arr::get($saved, 'settings.licenses', []) as $addon => $value) {
+            if (!isset($defaults['settings']['licenses'][$addon])) {
+                $settings['settings']['licenses'][$addon] = $value;
+            }
+        }
+        return $settings;
     }
 }
