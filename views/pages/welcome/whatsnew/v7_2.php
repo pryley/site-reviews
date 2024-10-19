@@ -14,6 +14,7 @@
         <ul>
             <li>Added global color support to the Elementor widgets.</li>
             <li>Added <a href="https://prosopo.io/" target="_blank">Prosopo Procaptcha</a> integration</li>
+            <li>Added <a href="https://ultimatemember.com/" target="_blank">Ultimate Member</a> integration</li>
             <li>Added support for Range fields (<a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">Review Forms</a> addon required)</li>
             <li>Added support for responsive custom fields (<a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">Review Forms</a> addon required)</li>
         </ul>

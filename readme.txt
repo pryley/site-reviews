@@ -200,6 +200,7 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 - Added global color support to the Elementor widgets.
 - Added [Prosopo Procaptcha](https://prosopo.io/) integration.
+- Added [Ultimate Member](https://ultimatemember.com/) integration.
 - Added support for Range fields ([Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/) addon required).
 - Added support for responsive custom fields ([Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/) addon required).
 - Fixed compatibility with WooCommerce block themes.
