@@ -4,7 +4,6 @@ const Tabs = function (options) {
     this.options = jQuery.extend({}, this.defaults, options);
     this.active = document.querySelector('input[name=_active_tab]');
     this.refererInputs = jQuery('input[name=_wp_http_referer]');
-    this.subsubsub = document.querySelectorAll(this.options.viewSubsubsub);
     this.tabs = document.querySelectorAll(this.options.tabSelector);
     this.views = document.querySelectorAll(this.options.viewSelector);
     if (!this.active || !this.refererInputs.length || !this.tabs || !this.views) return;
@@ -14,7 +13,7 @@ const Tabs = function (options) {
 Tabs.prototype = {
     defaults: {
         smartLinks: '.glsr-card a, #glsr-notices a',
-        tabSelector: '.glsr-nav-tab',
+        tabSelector: 'a.glsr-nav-tab',
         viewSelector: '.glsr-nav-view',
         viewSectionSelector: '.glsr-nav-view-section',
         viewSubsubsub: '.glsr-subsubsub a',
@@ -103,10 +102,11 @@ Tabs.prototype = {
         }
     },
 
-    setSubsubsub_: function () {
+    setSubsubsub_: function (viewId) {
         let activeIndex = 0;
-        let view;
-        [].forEach.call(this.subsubsub, (el, index) => {
+        const view = document.querySelector(`#${viewId}`) || document;
+        const subsubsub = view.querySelectorAll(this.options.viewSubsubsub);
+        [].forEach.call(subsubsub, (el, index) => {
             el.classList.remove('current');
             const currentSub = this.queryHref_(el, 'sub')
             const sub = this.queryLocation_('sub')
@@ -114,12 +114,8 @@ Tabs.prototype = {
                 activeIndex = index;
             }
         });
-        if (this.subsubsub[activeIndex]) {
-            this.subsubsub[activeIndex].classList.add('current');
-            view = this.subsubsub[activeIndex].closest(this.options.viewSelector)
-        }
-        if (!view) {
-            view = document;
+        if (subsubsub[activeIndex]) {
+            subsubsub[activeIndex].classList.add('current');
         }
         const sections = view.querySelectorAll(this.options.viewSectionSelector);
         [].forEach.call(sections, (el, index) => {
@@ -133,17 +129,17 @@ Tabs.prototype = {
             var action = this.getAction_(tab === el);
             if (action === 'add') {
                 this.active.value = this.views[index].id;
-                this.setView_(index);
+                this.setView_(index, el.dataset.id);
             }
             tab.classList[action]('nav-tab-active');
         });
     },
 
-    setView_: function (tabIndex) {
+    setView_: function (tabIndex, viewId) {
         [].forEach.call(this.views, (view, viewIndex) => {
             let action = this.getAction_(viewIndex !== tabIndex);
             view.classList[action]('ui-tabs-hide');
-            this.setSubsubsub_();
+            this.setSubsubsub_(viewId);
         });
     },
 };
