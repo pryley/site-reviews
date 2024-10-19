@@ -4070,13 +4070,23 @@ msgstr "Do you need help?"
 
 #: views/partials/page-header.php:15
 msgctxt "admin-text"
+msgid "Open the Screen Options"
+msgstr "Open the Screen Options"
+
+#: views/partials/page-header.php:15
+msgctxt "admin-text"
 msgid "Screen Options"
 msgstr "Screen Options"
 
 #: views/partials/page-header.php:19
 msgctxt "admin-text"
-msgid "Welcome to Site Reviews"
-msgstr "Welcome to Site Reviews"
+msgid "Open the Getting Started page"
+msgstr "Open the Getting Started page"
+
+#: views/partials/page-header.php:19
+msgctxt "admin-text"
+msgid "Read the Getting Started Guide"
+msgstr "Read the Getting Started Guide"
 
 #: views/partials/rollback.php:5
 msgctxt "admin-text"

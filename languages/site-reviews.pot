@@ -3993,12 +3993,22 @@ msgstr ""
 
 #: views/partials/page-header.php:15
 msgctxt "admin-text"
+msgid "Open the Screen Options"
+msgstr ""
+
+#: views/partials/page-header.php:15
+msgctxt "admin-text"
 msgid "Screen Options"
 msgstr ""
 
 #: views/partials/page-header.php:19
 msgctxt "admin-text"
-msgid "Welcome to Site Reviews"
+msgid "Open the Getting Started page"
+msgstr ""
+
+#: views/partials/page-header.php:19
+msgctxt "admin-text"
+msgid "Read the Getting Started Guide"
 msgstr ""
 
 #: views/partials/rollback.php:5

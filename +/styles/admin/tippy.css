@@ -5,7 +5,7 @@
   --link-color-hover: #4f94d4;
 }
 
-.glsr-tooltip {
+.glsr-tooltip:not(.has-icon) {
     color: #646970;
     cursor: help;
 }
