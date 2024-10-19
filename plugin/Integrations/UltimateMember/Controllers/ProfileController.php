@@ -26,6 +26,18 @@ class ProfileController extends AbstractController
     }
 
     /**
+     * @filter site-reviews/review/value/author
+     */
+    public function filterReviewAuthorValue(string $value, TagContract $tag): string
+    {
+        if ($user = $tag->review->user()) { // @phpstan-ignore-line
+            $url = um_user_profile_url($user->ID);
+            return sprintf('<a href="%s">%s</a>', $url, $value);
+        }
+        return $value;
+    }
+
+    /**
      * @filter site-reviews/reviews/fallback
      */
     public function filterReviewsFallback(string $fallback, array $args): string
@@ -47,7 +59,7 @@ class ProfileController extends AbstractController
      */
     public function filterSummaryPercentagesValue(string $value, TagContract $tag): string
     {
-        if (!empty(array_sum($tag->ratings))) {
+        if (!empty(array_sum($tag->ratings))) { // @phpstan-ignore-line
             return $value;
         }
         return '';
@@ -69,7 +81,7 @@ class ProfileController extends AbstractController
      */
     public function filterSummaryTextValue(string $value, TagContract $tag): string
     {
-        if (!empty(array_sum($tag->ratings))) {
+        if (!empty(array_sum($tag->ratings))) { // @phpstan-ignore-line
             return $value;
         }
         if (get_current_user_id() === um_get_requested_user()) {
@@ -117,8 +129,10 @@ class ProfileController extends AbstractController
 
     protected function shortcodeReviews(): string
     {
+        add_filter('site-reviews/review/value/author', [$this, 'filterReviewAuthorValue'], 20, 2);
         add_filter('site-reviews/reviews/fallback', [$this, 'filterReviewsFallback'], 20, 2);
         $shortcode = do_shortcode(glsr_get_option('integrations.ultimatemember.reviews'));
+        remove_filter('site-reviews/review/value/author', [$this, 'filterReviewAuthorValue'], 20);
         remove_filter('site-reviews/reviews/fallback', [$this, 'filterReviewsFallback'], 20);
         return $shortcode;
     }
