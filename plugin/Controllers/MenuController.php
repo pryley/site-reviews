@@ -136,6 +136,7 @@ class MenuController extends AbstractController
             'forms' => _x('Forms', 'admin-text', 'site-reviews'),
             'schema' => _x('Schema', 'admin-text', 'site-reviews'),
             'strings' => _x('Strings', 'admin-text', 'site-reviews'),
+            'integrations' => _x('Integrations', 'admin-text', 'site-reviews'),
             'addons' => _x('Addons', 'admin-text', 'site-reviews'),
             'licenses' => _x('Licenses', 'admin-text', 'site-reviews'),
         ]);

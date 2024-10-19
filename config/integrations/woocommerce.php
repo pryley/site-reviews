@@ -1,7 +1,7 @@
 <?php
 
 return [ // order is intentional
-    'settings.addons.woocommerce.enabled' => [
+    'settings.integrations.woocommerce.enabled' => [
         'default' => 'no',
         'label' => _x('Enable Integration?', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
@@ -10,11 +10,11 @@ return [ // order is intentional
         ),
         'type' => 'yes_no',
     ],
-    'settings.addons.woocommerce.style' => [
+    'settings.integrations.woocommerce.style' => [
         'class' => 'regular-text',
         'default' => '',
         'depends_on' => [
-            'settings.addons.woocommerce.enabled' => ['yes'],
+            'settings.integrations.woocommerce.enabled' => ['yes'],
         ],
         'label' => _x('Rating Style', 'admin-text', 'site-reviews'),
         'options' => [
@@ -26,44 +26,44 @@ return [ // order is intentional
         'tooltip' => _x('This changes the colour of the stars and the summary bars', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
-    'settings.addons.woocommerce.summary' => [
+    'settings.integrations.woocommerce.summary' => [
         'class' => 'large-text',
         'default' => '[site_reviews_summary assigned_posts="post_id" hide="rating"]',
         'depends_on' => [
-            'settings.addons.woocommerce.enabled' => ['yes'],
+            'settings.integrations.woocommerce.enabled' => ['yes'],
         ],
         'label' => _x('Summary Shortcode', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('Enter the summary shortcode used on the product page (the schema option is unnecessary)', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
-    'settings.addons.woocommerce.reviews' => [
+    'settings.integrations.woocommerce.reviews' => [
         'class' => 'large-text',
         'default' => '[site_reviews assigned_posts="post_id" hide="assigned_links,title" pagination="ajax" schema="true"]',
         'depends_on' => [
-            'settings.addons.woocommerce.enabled' => ['yes'],
+            'settings.integrations.woocommerce.enabled' => ['yes'],
         ],
         'label' => _x('Reviews Shortcode', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('Enter the reviews shortcode used on the product page (the schema option is unnecessary)', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
-    'settings.addons.woocommerce.form' => [
+    'settings.integrations.woocommerce.form' => [
         'class' => 'large-text',
         'default' => '[site_reviews_form assigned_posts="post_id" hide="title"]',
         'depends_on' => [
-            'settings.addons.woocommerce.enabled' => ['yes'],
+            'settings.integrations.woocommerce.enabled' => ['yes'],
         ],
         'label' => _x('Form Shortcode', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('Enter the form shortcode used on the product page', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
-    'settings.addons.woocommerce.sorting' => [
+    'settings.integrations.woocommerce.sorting' => [
         'class' => 'regular-text',
         'default' => '',
         'depends_on' => [
-            'settings.addons.woocommerce.enabled' => ['yes'],
+            'settings.integrations.woocommerce.enabled' => ['yes'],
         ],
         'description' => sprintf('<span class="dashicons dashicons-arrow-right"></span> %s<br><span class="dashicons dashicons-arrow-right"></span> %s',
             sprintf('<a href="https://www.xkcd.com/937/" target="_blank">%s</a>', _x('The problem with averaging star ratings', 'admin-text', 'site-reviews')),
@@ -78,20 +78,20 @@ return [ // order is intentional
         'tooltip' => _x('This is the method used to sort products by rating on the shop page.', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
-    'settings.addons.woocommerce.display_empty' => [
+    'settings.integrations.woocommerce.display_empty' => [
         'default' => 'no',
         'depends_on' => [
-            'settings.addons.woocommerce.enabled' => ['yes'],
+            'settings.integrations.woocommerce.enabled' => ['yes'],
         ],
         'label' => _x('Display empty ratings?', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('This will display the rating stars even if the product has no reviews.', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',
     ],
-    'settings.addons.woocommerce.wp_comments' => [
+    'settings.integrations.woocommerce.wp_comments' => [
         'default' => 'no',
         'depends_on' => [
-            'settings.addons.woocommerce.enabled' => ['yes'],
+            'settings.integrations.woocommerce.enabled' => ['yes'],
         ],
         'description' => _x('This may fix issues with other plugins which query WooCommerce product reviews. Keep in mind that enabling this option may also cause conflicts with incompatible plugins.', 'admin-text', 'site-reviews'),
         'label' => _x('Filter Comment Queries', 'admin-text', 'site-reviews'),

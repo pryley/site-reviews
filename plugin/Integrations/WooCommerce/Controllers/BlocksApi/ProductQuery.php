@@ -22,7 +22,7 @@ class ProductQuery extends Query
         if (empty($args['meta_query'])) {
             $args['meta_query'] = [];
         }
-        if ('bayesian' === glsr_get_option('addons.woocommerce.sorting')) {
+        if ('bayesian' === glsr_get_option('integrations.woocommerce.sorting')) {
             $args['meta_query'][] = $this->buildMetaQuery('glsr_ranking', '_glsr_ranking');
             $args['orderby'] = ['glsr_ranking' => 'DESC'];
         } else {

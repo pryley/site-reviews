@@ -4,7 +4,6 @@ const Tabs = function (options) {
     this.options = jQuery.extend({}, this.defaults, options);
     this.active = document.querySelector('input[name=_active_tab]');
     this.refererInputs = jQuery('input[name=_wp_http_referer]');
-    this.sections = document.querySelectorAll(this.options.viewSectionSelector);
     this.subsubsub = document.querySelectorAll(this.options.viewSubsubsub);
     this.tabs = document.querySelectorAll(this.options.tabSelector);
     this.views = document.querySelectorAll(this.options.viewSelector);
@@ -106,6 +105,7 @@ Tabs.prototype = {
 
     setSubsubsub_: function () {
         let activeIndex = 0;
+        let view;
         [].forEach.call(this.subsubsub, (el, index) => {
             el.classList.remove('current');
             const currentSub = this.queryHref_(el, 'sub')
@@ -116,8 +116,13 @@ Tabs.prototype = {
         });
         if (this.subsubsub[activeIndex]) {
             this.subsubsub[activeIndex].classList.add('current');
+            view = this.subsubsub[activeIndex].closest(this.options.viewSelector)
         }
-        [].forEach.call(this.sections, (el, index) => {
+        if (!view) {
+            view = document;
+        }
+        const sections = view.querySelectorAll(this.options.viewSectionSelector);
+        [].forEach.call(sections, (el, index) => {
             var action = this.getAction_(index !== activeIndex);
             el.classList[action]('ui-tabs-hide');
         });

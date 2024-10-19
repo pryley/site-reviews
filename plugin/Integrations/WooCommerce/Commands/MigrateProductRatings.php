@@ -25,7 +25,7 @@ class MigrateProductRatings extends AbstractCommand
 
     public function handle(): void
     {
-        if ('yes' !== glsr_get_option('addons.woocommerce.enabled') && false === $this->revert) {
+        if ('yes' !== glsr_get_option('integrations.woocommerce.enabled') && false === $this->revert) {
             glsr(Notice::class)->addWarning(
                 esc_html_x('Skipped migrating of WooCommerce product ratings because the integration is disabled.', 'admin-text', 'site-reviews')
             );

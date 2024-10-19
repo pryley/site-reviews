@@ -21,7 +21,7 @@ class MainController extends AbstractController
         $css .= 'ul.glsr li a{display:flex;justify-content:space-between;}'; // fix rating filter widget
         $css .= '.glsr.woocommerce-product-rating{align-items:center;display:inline-flex;gap:.5em;}';
         $css .= '.glsr.woocommerce-product-rating .woocommerce-review-link{top:-1px!important;}'; // fix product title rating position
-        $style = glsr_get_option('addons.woocommerce.style');
+        $style = glsr_get_option('integrations.woocommerce.style');
         $colors = [
             'black' => '#212121',
             'woocommerce' => '#96588A',

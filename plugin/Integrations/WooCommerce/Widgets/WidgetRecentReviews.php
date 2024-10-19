@@ -30,7 +30,7 @@ class WidgetRecentReviews extends \WC_Widget_Recent_Reviews
                 'args' => $args,
                 'reviews' => $reviews,
                 'style' => 'glsr glsr-'.glsr(Style::class)->styleClasses(),
-                'theme' => glsr_get_option('addons.woocommerce.style'),
+                'theme' => glsr_get_option('integrations.woocommerce.style'),
             ]);
             $this->widget_end($args);
         }

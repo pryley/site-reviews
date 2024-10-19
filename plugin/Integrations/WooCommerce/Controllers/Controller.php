@@ -32,9 +32,9 @@ class Controller extends AbstractController
      */
     public function filterSettingsCallback(array $settings, array $input): array
     {
-        $enabled = Arr::get($input, 'settings.addons.woocommerce.enabled');
+        $enabled = Arr::get($input, 'settings.integrations.woocommerce.enabled');
         if ('yes' === $enabled && !$this->gatekeeper()->allows()) { // this renders any error notices
-            $settings = Arr::set($settings, 'settings.addons.woocommerce.enabled', 'no');
+            $settings = Arr::set($settings, 'settings.integrations.woocommerce.enabled', 'no');
         }
         $shortcodes = [
             'form' => 'site_reviews_form',
@@ -42,7 +42,7 @@ class Controller extends AbstractController
             'summary' => 'site_reviews_summary',
         ];
         foreach ($shortcodes as $key => $shortcode) {
-            $path = "settings.addons.woocommerce.{$key}";
+            $path = "settings.integrations.woocommerce.{$key}";
             $value = Arr::get($input, $path);
             if (1 !== preg_match("/^\[{$shortcode}(\s[^\]]*\]|\])$/", $value)) {
                 continue;
@@ -56,7 +56,7 @@ class Controller extends AbstractController
     }
 
     /**
-     * @filter site-reviews/addon/subsubsub
+     * @filter site-reviews/integration/subsubsub
      */
     public function filterSubsubsub(array $subsubsub): array
     {
@@ -69,7 +69,7 @@ class Controller extends AbstractController
      */
     public function renderNotice(): void
     {
-        if (glsr_get_option('addons.woocommerce.enabled', false, 'bool')) {
+        if (glsr_get_option('integrations.woocommerce.enabled', false, 'bool')) {
             $this->gatekeeper()->allows(); // this renders any error notices
         }
     }

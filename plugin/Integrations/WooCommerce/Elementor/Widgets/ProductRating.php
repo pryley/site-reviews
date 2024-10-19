@@ -116,7 +116,7 @@ class ProductRating extends Product_Rating
                 'product' => $product,
                 'ratings' => glsr_get_ratings(['assigned_posts' => 'post_id']),
                 'style' => 'glsr glsr-'.glsr(Style::class)->styleClasses(),
-                'theme' => glsr_get_option('addons.woocommerce.style'),
+                'theme' => glsr_get_option('integrations.woocommerce.style'),
             ]);
         }
     }

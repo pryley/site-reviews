@@ -57,7 +57,7 @@ class WidgetRatingFilter extends \WC_Widget_Rating_Filter
             $countHtml = apply_filters('woocommerce_rating_filter_count', "({$count})", $count, $rating);
             $countHtml = wp_kses($countHtml, ['em' => [], 'span' => [], 'strong' => []]);
             $starsHtml = glsr_star_rating($rating, $count, [
-                'theme' => glsr_get_option('addons.woocommerce.style'),
+                'theme' => glsr_get_option('integrations.woocommerce.style'),
             ]);
             $filters[] = glsr()->args([
                 'classes' => esc_attr('wc-layered-nav-rating'.($isFiltered ? ' chosen' : '')),

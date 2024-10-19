@@ -18,7 +18,7 @@ class Hooks extends AbstractHooks
             ['declareHposCompatibility', 'before_woocommerce_init'],
             ['filterSettings', 'site-reviews/settings'],
             ['filterSettingsCallback', 'site-reviews/settings/sanitize', 10, 2],
-            ['filterSubsubsub', 'site-reviews/addon/subsubsub'],
+            ['filterSubsubsub', 'site-reviews/integration/subsubsub'],
             ['renderNotice', 'admin_init'],
             ['renderSettings', 'site-reviews/settings/woocommerce'],
         ]);
@@ -37,7 +37,7 @@ class Hooks extends AbstractHooks
 
     protected function experimentalHooks(): array
     {
-        if ('yes' !== $this->option('addons.woocommerce.wp_comments')) {
+        if ('yes' !== $this->option('integrations.woocommerce.wp_comments')) {
             return [];
         }
         return [
@@ -48,7 +48,7 @@ class Hooks extends AbstractHooks
 
     protected function isEnabled(): bool
     {
-        return 'yes' === $this->option('addons.woocommerce.enabled')
+        return 'yes' === $this->option('integrations.woocommerce.enabled')
             && 'yes' === get_option('woocommerce_enable_reviews', 'yes')
             && class_exists('WooCommerce')
             && function_exists('WC');

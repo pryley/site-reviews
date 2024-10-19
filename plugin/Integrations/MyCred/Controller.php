@@ -52,7 +52,7 @@ class Controller extends AbstractController
         if (!isset($installed['wooreview']['callback'])) {
             return $installed;
         }
-        if (!glsr_get_option('addons.woocommerce.enabled', false, 'bool')) {
+        if (!glsr_get_option('integrations.woocommerce.enabled', false, 'bool')) {
             return $installed;
         }
         $installed['wooreview']['callback'] = [MyCredHookWooReviews::class];

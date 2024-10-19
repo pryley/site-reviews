@@ -189,6 +189,25 @@ class SettingForm extends Form
         ];
     }
 
+    protected function templateDataForIntegrations(string $group): array
+    {
+        $fields = $this->fieldsFor($group);
+        $results = [];
+        foreach ($fields as $field) {
+            $parts = explode('.', $field->original_name);
+            $integration = $parts[2] ?? '';
+            $results[$integration] ??= '';
+            $results[$integration] .= $field->build();
+        }
+        ksort($results);
+        $subsubsub = array_map('ucfirst', array_keys($results));
+        $subsubsub = glsr()->filterArray('integration/subsubsub', $subsubsub);
+        return [
+            'settings' => $results,
+            'subsubsub' => $subsubsub,
+        ];
+    }
+
     protected function templateDataForLicenses(string $group): array
     {
         $fields = $this->fieldsFor($group);
