@@ -338,7 +338,7 @@ class ProductController implements ControllerContract
             return;
         }
         $ratings = glsr_get_ratings(['assigned_posts' => 'post_id']);
-        if (0 >= $ratings->average && 'no' === glsr_get_option('integrations.woocommerce.display_empty')) {
+        if (0 >= $ratings->average && !glsr_get_option('integrations.woocommerce.display_empty', false, 'bool')) {
             return;
         }
         glsr(Template::class)->render('templates/woocommerce/loop/rating', [
@@ -399,7 +399,7 @@ class ProductController implements ControllerContract
     {
         global $product;
         $ratings = glsr_get_ratings(['assigned_posts' => 'post_id']);
-        if (0 >= $ratings->average && 'no' === glsr_get_option('integrations.woocommerce.display_empty')) {
+        if (0 >= $ratings->average && !glsr_get_option('integrations.woocommerce.display_empty', false, 'bool')) {
             return;
         }
         glsr(Template::class)->render('templates/woocommerce/rating', [

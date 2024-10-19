@@ -72,7 +72,7 @@ return [ // order is intentional
         'label' => _x('Product Sorting', 'admin-text', 'site-reviews'),
         'options' => [
             '' => _x('Average Rating', 'admin-text', 'site-reviews'),
-            'bayesian' => _x('Bayesian Average Rating', 'admin-text', 'site-reviews'),
+            'bayesian' => _x('Bayesian Ranking', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'text',
         'tooltip' => _x('This is the method used to sort products by rating on the shop page.', 'admin-text', 'site-reviews'),
@@ -83,7 +83,7 @@ return [ // order is intentional
         'depends_on' => [
             'settings.integrations.woocommerce.enabled' => ['yes'],
         ],
-        'label' => _x('Display empty ratings?', 'admin-text', 'site-reviews'),
+        'label' => _x('Display Empty Ratings?', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('This will display the rating stars even if the product has no reviews.', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',

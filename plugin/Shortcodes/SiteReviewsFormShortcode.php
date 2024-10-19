@@ -61,6 +61,21 @@ class SiteReviewsFormShortcode extends Shortcode
         ]);
     }
 
+    public function loginOrRegister(): string
+    {
+        $loginText = sprintf(__('You must be %s to submit a review.', 'site-reviews'), $this->loginLink());
+        $registerLink = $this->registerLink();
+        $registerText = '';
+        if (glsr_get_option('general.require.register', false, 'bool') && !empty($registerLink)) {
+            $registerText = sprintf(__('You may also %s for an account.', 'site-reviews'), $registerLink);
+        }
+        return glsr(Template::class)->build('templates/login-register', [
+            'context' => [
+                'text' => trim("{$loginText} {$registerText}"),
+            ],
+        ]);
+    }
+
     public function loginUrl(): string
     {
         add_filter('login_url', [$this, 'filterLoginUrl'], 20, 3);
@@ -117,21 +132,6 @@ class SiteReviewsFormShortcode extends Shortcode
             'email' => _x('Hide the email field', 'admin-text', 'site-reviews'),
             'terms' => _x('Hide the terms field', 'admin-text', 'site-reviews'),
         ];
-    }
-
-    protected function loginOrRegister(): string
-    {
-        $loginText = sprintf(__('You must be %s to submit a review.', 'site-reviews'), $this->loginLink());
-        $registerLink = $this->registerLink();
-        $registerText = '';
-        if (glsr_get_option('general.require.register', false, 'bool') && !empty($registerLink)) {
-            $registerText = sprintf(__('You may also %s for an account.', 'site-reviews'), $registerLink);
-        }
-        return glsr(Template::class)->build('templates/login-register', [
-            'context' => [
-                'text' => trim("{$loginText} {$registerText}"),
-            ],
-        ]);
     }
 
     /**
