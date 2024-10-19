@@ -7,8 +7,7 @@ use GeminiLabs\SiteReviews\Modules\Rating;
 
 class SummaryTag extends Tag
 {
-    /** @var array */
-    protected $ratings;
+    public array $ratings = [];
 
     protected function hideOption(): string
     {

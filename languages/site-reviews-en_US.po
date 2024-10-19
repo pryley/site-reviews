@@ -2085,10 +2085,20 @@ msgctxt "admin-text"
 msgid "Terms Accepted"
 msgstr "Terms Accepted"
 
-#: config/integrations/woocommerce.php:6
+#: config/integrations/ultimatemember.php:6, config/integrations/woocommerce.php:6
 msgctxt "admin-text"
 msgid "Enable Integration?"
 msgstr "Enable Integration?"
+
+#: config/integrations/ultimatemember.php:8
+msgctxt "admin-text"
+msgid "This will enable the Ultimate Member integration with Site Reviews."
+msgstr "This will enable the Ultimate Member integration with Site Reviews."
+
+#: config/integrations/ultimatemember.php:9, config/integrations/woocommerce.php:9, views/integrations/woocommerce/tools/import-product-reviews.php:34, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:113
+msgctxt "admin-text"
+msgid "Import Reviews"
+msgstr "Import Reviews"
 
 #: config/integrations/woocommerce.php:8
 msgctxt "admin-text"
@@ -2102,11 +2112,6 @@ msgstr ""
 "Site Reviews. If you have existing WooCommerce comment reviews, you may "
 "need to first export them to a CSV file, and then import them using the %s "
 "tool."
-
-#: config/integrations/woocommerce.php:9, views/integrations/woocommerce/tools/import-product-reviews.php:34, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:113
-msgctxt "admin-text"
-msgid "Import Reviews"
-msgstr "Import Reviews"
 
 #: config/integrations/woocommerce.php:19
 msgctxt "admin-text"
@@ -2982,7 +2987,7 @@ msgctxt "admin-text"
 msgid "Tools"
 msgstr "Tools"
 
-#: plugin/Controllers/MenuController.php:53, plugin/Controllers/MenuController.php:115, plugin/Controllers/MenuController.php:139
+#: plugin/Controllers/MenuController.php:53, plugin/Controllers/MenuController.php:115, plugin/Controllers/MenuController.php:140
 msgctxt "admin-text"
 msgid "Addons"
 msgstr "Addons"
@@ -3017,7 +3022,7 @@ msgctxt "admin-text"
 msgid "API"
 msgstr "API"
 
-#: plugin/Controllers/MenuController.php:134, plugin/Controllers/MenuController.php:160
+#: plugin/Controllers/MenuController.php:134, plugin/Controllers/MenuController.php:161
 msgctxt "admin-text"
 msgid "General"
 msgstr "General"
@@ -3037,27 +3042,32 @@ msgctxt "admin-text"
 msgid "Schema"
 msgstr "Schema"
 
-#: plugin/Controllers/MenuController.php:140
+#: plugin/Controllers/MenuController.php:139
+msgctxt "admin-text"
+msgid "Integrations"
+msgstr "Integrations"
+
+#: plugin/Controllers/MenuController.php:141
 msgctxt "admin-text"
 msgid "Licenses"
 msgstr "Licenses"
 
-#: plugin/Controllers/MenuController.php:161
+#: plugin/Controllers/MenuController.php:162
 msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr "Scheduled Actions"
 
-#: plugin/Controllers/MenuController.php:162, views/pages/tools/sync.php:58
+#: plugin/Controllers/MenuController.php:163, views/pages/tools/sync.php:58
 msgctxt "admin-text"
 msgid "Sync Reviews"
 msgstr "Sync Reviews"
 
-#: plugin/Controllers/MenuController.php:163
+#: plugin/Controllers/MenuController.php:164
 msgctxt "admin-text"
 msgid "Console"
 msgstr "Console"
 
-#: plugin/Controllers/MenuController.php:164
+#: plugin/Controllers/MenuController.php:165
 msgctxt "admin-text"
 msgid "System Info"
 msgstr "System Info"
@@ -4642,6 +4652,21 @@ msgstr "Deleted Review (Site Reviews)"
 msgctxt "admin-text"
 msgid "Unapproved Review (Site Reviews)"
 msgstr "Unapproved Review (Site Reviews)"
+
+#: plugin/Integrations/UltimateMember/DirectoryController.php:38, plugin/Integrations/UltimateMember/ProfileController.php:38
+msgctxt "admin-text"
+msgid "Site Reviews: Display User Rating"
+msgstr "Site Reviews: Display User Rating"
+
+#: plugin/Integrations/UltimateMember/DirectoryController.php:49, plugin/Integrations/UltimateMember/ProfileController.php:49
+msgctxt "admin-text"
+msgid "Site Reviews: Highest rated first"
+msgstr "Site Reviews: Highest rated first"
+
+#: plugin/Integrations/UltimateMember/DirectoryController.php:50, plugin/Integrations/UltimateMember/ProfileController.php:50
+msgctxt "admin-text"
+msgid "Site Reviews: Lowest rated first"
+msgstr "Site Reviews: Lowest rated first"
 
 #: plugin/Modules/Html/TemplateTags.php:144
 msgctxt "admin-text"

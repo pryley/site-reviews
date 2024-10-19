@@ -1567,19 +1567,24 @@ msgstr ""
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr ""
 
-#: config/integrations/woocommerce.php:6
+#: config/integrations/ultimatemember.php:6, config/integrations/woocommerce.php:6
 msgctxt "admin-text"
 msgid "Enable Integration?"
+msgstr ""
+
+#: config/integrations/ultimatemember.php:8
+msgctxt "admin-text"
+msgid "This will enable the Ultimate Member integration with Site Reviews."
+msgstr ""
+
+#: config/integrations/ultimatemember.php:9, config/integrations/woocommerce.php:9, views/integrations/woocommerce/tools/import-product-reviews.php:34, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:113
+msgctxt "admin-text"
+msgid "Import Reviews"
 msgstr ""
 
 #: config/integrations/woocommerce.php:8
 msgctxt "admin-text"
 msgid "This will completely replace the default WooCommerce review system with Site Reviews. If you have existing WooCommerce comment reviews, you may need to first export them to a CSV file, and then import them using the %s tool."
-msgstr ""
-
-#: config/integrations/woocommerce.php:9, views/integrations/woocommerce/tools/import-product-reviews.php:34, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:113
-msgctxt "admin-text"
-msgid "Import Reviews"
 msgstr ""
 
 #: config/integrations/woocommerce.php:19
@@ -2428,7 +2433,7 @@ msgctxt "admin-text"
 msgid "Tools"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:53, plugin/Controllers/MenuController.php:115, plugin/Controllers/MenuController.php:139
+#: plugin/Controllers/MenuController.php:53, plugin/Controllers/MenuController.php:115, plugin/Controllers/MenuController.php:140
 msgctxt "admin-text"
 msgid "Addons"
 msgstr ""
@@ -2463,7 +2468,7 @@ msgctxt "admin-text"
 msgid "API"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:134, plugin/Controllers/MenuController.php:160
+#: plugin/Controllers/MenuController.php:134, plugin/Controllers/MenuController.php:161
 msgctxt "admin-text"
 msgid "General"
 msgstr ""
@@ -2483,27 +2488,32 @@ msgctxt "admin-text"
 msgid "Schema"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:140
+#: plugin/Controllers/MenuController.php:139
+msgctxt "admin-text"
+msgid "Integrations"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:141
 msgctxt "admin-text"
 msgid "Licenses"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:161
+#: plugin/Controllers/MenuController.php:162
 msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:162, views/pages/tools/sync.php:58
+#: plugin/Controllers/MenuController.php:163, views/pages/tools/sync.php:58
 msgctxt "admin-text"
 msgid "Sync Reviews"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:163
+#: plugin/Controllers/MenuController.php:164
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:164
+#: plugin/Controllers/MenuController.php:165
 msgctxt "admin-text"
 msgid "System Info"
 msgstr ""
@@ -4736,6 +4746,21 @@ msgstr ""
 #: plugin/Integrations/MyCred/Controller.php:37
 msgctxt "admin-text"
 msgid "Unapproved Review (Site Reviews)"
+msgstr ""
+
+#: plugin/Integrations/UltimateMember/DirectoryController.php:38, plugin/Integrations/UltimateMember/ProfileController.php:38
+msgctxt "admin-text"
+msgid "Site Reviews: Display User Rating"
+msgstr ""
+
+#: plugin/Integrations/UltimateMember/DirectoryController.php:49, plugin/Integrations/UltimateMember/ProfileController.php:49
+msgctxt "admin-text"
+msgid "Site Reviews: Highest rated first"
+msgstr ""
+
+#: plugin/Integrations/UltimateMember/DirectoryController.php:50, plugin/Integrations/UltimateMember/ProfileController.php:50
+msgctxt "admin-text"
+msgid "Site Reviews: Lowest rated first"
 msgstr ""
 
 #: plugin/Modules/Html/Form.php:24
