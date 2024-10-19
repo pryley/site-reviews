@@ -2,7 +2,6 @@
     align-items: center;
     display: flex;
     flex-wrap: wrap;
-    font-size: var(--glsr-summary-text);
     gap: var(--glsr-gap-sm);
     max-width: var(--glsr-max-w);
     position: relative;
@@ -13,9 +12,12 @@
     font-weight: 700;
     line-height: 1;
 }
+:root .glsr-summary-stars {
+    font-size: var(--glsr-summary-text);
+}
 :root .glsr-summary-text {
+    font-size: var(--glsr-summary-text);
     flex: 1 1 100%;
-    /* flex: 1 1 auto; */
 }
 :root .glsr-summary-percentages {
     position: relative;
@@ -31,6 +33,7 @@
     vertical-align: middle;
 }
 :root .glsr-summary .glsr-bar-label {
+    font-size: var(--glsr-summary-text);
     padding-left: 0;
     padding-right: var(--glsr-gap-sm);
 }
@@ -61,6 +64,7 @@
     position: relative;
 }
 :root .glsr-summary .glsr-bar-percent {
+    font-size: var(--glsr-summary-text);
     padding-left: var(--glsr-gap-sm);
     padding-right: 0;
     text-align: right;
