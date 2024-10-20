@@ -26,6 +26,9 @@ class Migrate_6_2_0 implements MigrateContract
         if (empty($settings['settings']['addons']['woocommerce'])) {
             return;
         }
+        if (!empty($settings['settings']['integrations']['woocommerce'])) {
+            return;
+        }
         $woocommerce = $settings['settings']['addons']['woocommerce'];
         if ('yes' === Arr::get($woocommerce, 'experiments') && 'active' === Arr::get($woocommerce, 'experiment.wp_comments')) {
             $woocommerce['wp_comments'] = 'yes';

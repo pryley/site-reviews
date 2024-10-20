@@ -6,7 +6,7 @@
             <p style="margin: .5em 0; padding: 2px; font-size: 13px; line-height: 1.5;">
                 <?php
                     printf(_x('Here you can override the Site Reviews shortcodes for this product. To change the shortcodes for all products, %sClick here%s.', '<a>Click here</a> (admin-text)', 'site-reviews'),
-                        sprintf('<a href="%s">', glsr_admin_url('settings', 'addons', 'woocommerce')), '</a>'
+                        sprintf('<a href="%s">', glsr_admin_url('settings', 'integrations', 'woocommerce')), '</a>'
                     );
                 ?>
             </p>

@@ -16,6 +16,14 @@ class Hooks extends AbstractHooks
     {
         $this->hook(Controller::class, [
             ['declareHposCompatibility', 'before_woocommerce_init'],
+            ['filterOrphanedOptions', 'site-reviews/option/addon/woocommerce/enabled', 10, 3],
+            ['filterOrphanedOptions', 'site-reviews/option/addon/woocommerce/style', 10, 3],
+            ['filterOrphanedOptions', 'site-reviews/option/addon/woocommerce/summary', 10, 3],
+            ['filterOrphanedOptions', 'site-reviews/option/addon/woocommerce/reviews', 10, 3],
+            ['filterOrphanedOptions', 'site-reviews/option/addon/woocommerce/form', 10, 3],
+            ['filterOrphanedOptions', 'site-reviews/option/addon/woocommerce/sorting', 10, 3],
+            ['filterOrphanedOptions', 'site-reviews/option/addon/woocommerce/display_empty', 10, 3],
+            ['filterOrphanedOptions', 'site-reviews/option/addon/woocommerce/wp_comments', 10, 3],
             ['filterSettings', 'site-reviews/settings'],
             ['filterSettingsCallback', 'site-reviews/settings/sanitize', 10, 2],
             ['filterSubsubsub', 'site-reviews/integration/subsubsub'],

@@ -44,6 +44,14 @@ class Migrate
         return Cast::toInt(get_option($this->migrationsLastRun));
     }
 
+    public function pendingMigrations(array $migrations = []): array
+    {
+        if (empty($migrations)) {
+            $migrations = $this->migrations();
+        }
+        return array_keys(array_filter($migrations, fn ($hasRun) => !$hasRun));
+    }
+
     /**
      * Used by Notices\MigrationNotice::class.
      */
@@ -110,14 +118,6 @@ class Migrate
             $storedMigrations = $migrations;
         }
         return array_map('wp_validate_boolean', $storedMigrations);
-    }
-
-    protected function pendingMigrations(array $migrations = []): array
-    {
-        if (empty($migrations)) {
-            $migrations = $this->migrations();
-        }
-        return array_keys(array_filter($migrations, fn ($hasRun) => !$hasRun));
     }
 
     protected function runMigrations(): void

@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Gatekeeper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
+use GeminiLabs\SiteReviews\Modules\Migrate;
 
 class Controller extends AbstractController
 {
@@ -17,6 +18,30 @@ class Controller extends AbstractController
         if (class_exists('Automattic\WooCommerce\Utilities\FeaturesUtil')) {
             \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', glsr()->file, true);
         }
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @return mixed
+     *
+     * @filter site-reviews/option/addon/woocommerce/enabled
+     * @filter site-reviews/option/addon/woocommerce/style
+     * @filter site-reviews/option/addon/woocommerce/summary
+     * @filter site-reviews/option/addon/woocommerce/reviews
+     * @filter site-reviews/option/addon/woocommerce/form
+     * @filter site-reviews/option/addon/woocommerce/sorting
+     * @filter site-reviews/option/addon/woocommerce/display_empty
+     * @filter site-reviews/option/addon/woocommerce/wp_comments
+     */
+    public function filterOrphanedOptions($value, array $settings, string $path)
+    {
+        $pendingMigrations = glsr(Migrate::class)->pendingMigrations();
+        if (!in_array('Migrate_7_2_0', $pendingMigrations)) {
+            $path = str_replace('addons.', 'integrations.', $path);
+            return Arr::get($settings, $path);
+        }
+        return $value;
     }
 
     /**

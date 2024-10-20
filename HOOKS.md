@@ -160,7 +160,7 @@
     site-reviews/optimize/js                                    (bool $bool): bool
     site-reviews/optimized/scripts                              (array $handles): array
     site-reviews/optimized/styles                               (array $handles): array
-    site-reviews/option/<path>                                  (mixed $value): mixed
+    site-reviews/option/<path>                                  (mixed $value, array $settings, string $path): mixed
     site-reviews/page-header/buttons                            (array $buttons): array
     site-reviews/paginate_link                                  (array $link, array $args, Contracts\BuilderContract $builder, Modules\Paginate $paginate): array
     site-reviews/paginate_links                                 (string $links, array $args): string
