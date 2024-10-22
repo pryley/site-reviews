@@ -80,6 +80,7 @@
     site-reviews/builder/enable/optgroup                        (bool $enable): bool
     site-reviews/builder/result                                 (string $result, Contracts\BuilderContract $builder): string
     site-reviews/capabilities                                   (array $capabilities): array
+    site-reviews/captcha/actions                                (array $actions): array
     site-reviews/captcha/language                               (string $locale): string
     site-reviews/column/<column>                                (string $className): string
     site-reviews/columns/<column_slug>                          (string $value, int $postId): string
