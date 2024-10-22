@@ -1776,7 +1776,7 @@ msgstr ""
 msgid "Show more"
 msgstr ""
 
-#: plugin/Commands/AbstractCommand.php:41
+#: plugin/Commands/AbstractCommand.php:50
 msgctxt "admin-text"
 msgid "Something went wrong, check the <a href=\"%s\">Site Reviews &rarr; Tools &rarr; Console</a> page for errors."
 msgstr ""
@@ -1836,15 +1836,15 @@ msgctxt "admin-text"
 msgid "The <code>%s</code> table was successly converted to InnoDB."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:164, views/pages/documentation/support/common-problems-and-solutions.php:89
+#: plugin/Commands/CreateReview.php:165, views/pages/documentation/support/common-problems-and-solutions.php:89
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:168
+#: plugin/Commands/CreateReview.php:169
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:169
+#: plugin/Commands/CreateReview.php:170
 msgid "Your review has been submitted and is pending approval."
 msgstr ""
 
@@ -5672,35 +5672,35 @@ msgctxt "admin-text"
 msgid "Site Reviews: Lowest rated first"
 msgstr ""
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:23
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:41
 msgid "Reviews"
 msgstr ""
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:37
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:67
 msgid "You have not received any reviews."
 msgstr ""
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:38
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:68
 msgid "This person has not received any reviews."
 msgstr ""
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:62
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:92
 msgid "Your rating"
 msgstr ""
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:63
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:93
 msgid "User rating"
 msgstr ""
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:76
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:106
 msgid "No one has reviewed you yet."
 msgstr ""
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:78
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:108
 msgid "No one has reviewed this person yet."
 msgstr ""
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:101
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:131
 msgid "You must be %s to review this person."
 msgstr ""
 
