@@ -240,6 +240,9 @@ class ReviewController extends AbstractController
         if (is_wp_error($termIds)) {
             glsr_log()->error($termIds->get_error_message());
         }
+        if ($excluded = Cast::toArray($command->request()->decrypt('excluded'))) {
+            glsr(Database::class)->metaSet($postId, 'excluded', $excluded); // save the fields hidden in the review form
+        }
         if (!empty($values->response)) { // save the response if one is provided
             glsr(Database::class)->metaSet($postId, 'response', $values->response);
             glsr(Database::class)->metaSet($postId, 'response_by', $values->response_by); // @phpstan-ignore-line
