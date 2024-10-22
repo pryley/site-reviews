@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Commands;
 use GeminiLabs\SiteReviews\Contracts\CommandContract;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Request;
 
 abstract class AbstractCommand implements CommandContract
 {
@@ -23,6 +24,14 @@ abstract class AbstractCommand implements CommandContract
     public function referer(): string
     {
         return Url::home();
+    }
+
+    public function request(): ?Request
+    {
+        if (isset($this->request) && is_a($this->request, Request::class)) {
+            return $this->request;
+        }
+        return null;
     }
 
     public function response(): array
