@@ -78,14 +78,14 @@ return [ // order is intentional
             'settings.integrations.ultimatemember.display_reviews_tab' => ['yes'],
         ],
         'label' => _x('Reviews Shortcode', 'admin-text', 'site-reviews'),
-        'placeholder' => '[site_reviews assigned_users="profile_id" hide="assigned_links" pagination="loadmore"]',
+        'placeholder' => '[site_reviews assigned_users="profile_id" hide="assigned_links" pagination="loadmore" id="user_reviews"]',
         'sanitizer' => 'text',
         'tooltip' => _x('Enter the latest reviews shortcode used on the profile page', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
     'settings.integrations.ultimatemember.form' => [
         'class' => 'large-text',
-        'default' => '[site_reviews_form assigned_users="profile_id" hide="name,email,images"]',
+        'default' => '[site_reviews_form assigned_users="profile_id" hide="name,email,images" reviews_id="user_reviews"]',
         'depends_on' => [
             'settings.integrations.ultimatemember.enabled' => ['yes'],
             'settings.integrations.ultimatemember.display_reviews_tab' => ['yes'],

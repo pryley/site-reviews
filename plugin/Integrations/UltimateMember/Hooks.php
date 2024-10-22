@@ -38,6 +38,7 @@ class Hooks extends AbstractHooks
                 ['modifyTmpl', 'um_members_list_after_user_name_tmpl', 1],
             ]);
             $this->hook(ProfileController::class, [
+                ['filterInlineScript', 'site-reviews/enqueue/public/inline-script/after'],
                 ['filterProfileTabs', 'um_user_profile_tabs', 100],
                 ['renderReviewsTab', 'um_profile_content_user_reviews'],
             ]);

@@ -11,6 +11,24 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 class ProfileController extends AbstractController
 {
     /**
+     * @filter site-reviews/enqueue/public/inline-script/after
+     */
+    public function filterInlineScript(string $javascript): string
+    {
+        if (!um_is_core_page('user')) {
+            return $javascript;
+        }
+        return $javascript.'document.addEventListener("DOMContentLoaded", () => {'.
+            'GLSR.Event.on("site-reviews/form/handle", (response, form) => {'.
+                'if (true !== response.success || "undefined" === typeof response.html) return;'.
+                'form.classList.add("glsr-hide-form");'.
+                'form.insertAdjacentHTML("afterend", "<p class=\"glsr-no-margins glsr-form-success\">"+response.message+"</p>");'.
+                'form.remove()'.
+            '})'.
+        '})';
+    }
+
+    /**
      * @filter um_user_profile_tabs
      */
     public function filterProfileTabs(array $tabs): array
