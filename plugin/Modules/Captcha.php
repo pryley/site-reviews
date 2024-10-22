@@ -7,6 +7,13 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class Captcha
 {
+    public function actions(): array
+    {
+        return glsr()->filterArray('captcha/actions', [
+            'submit-review',
+        ]);
+    }
+
     public function config(): array
     {
         if (!$this->isEnabled()) {
