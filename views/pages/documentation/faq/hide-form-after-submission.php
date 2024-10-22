@@ -20,7 +20,7 @@ add_filter('site-reviews/enqueue/public/inline-script/after', function ($javascr
     return $javascript."
     document.addEventListener('DOMContentLoaded', function () {
         GLSR.Event.on('site-reviews/form/handle', function (response, form) {
-            if (false !== response.errors) return;
+            if (true !== response.success || 0 !== response.errors.length) return;
             form.classList.add('glsr-hide-form');
             form.insertAdjacentHTML('afterend', '&lt;p&gt;' + response.message + '&lt;/p&gt;');
         });

@@ -129,6 +129,7 @@ class CreateReview extends AbstractCommand
             'redirect' => $this->redirect(),
             'review' => $this->review->toArray(['email', 'ip_address']),
             'reviews' => $this->reloadedReviews(),
+            'success' => $this->successful(),
         ];
     }
 
