@@ -1006,6 +1006,7 @@ return [ // order is intentional
             'settings.forms.captcha.integration' => [
                 'friendlycaptcha',
                 'hcaptcha',
+                'procaptcha',
                 'recaptcha_v2_invisible',
                 'recaptcha_v3',
                 'turnstile',
