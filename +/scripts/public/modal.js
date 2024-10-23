@@ -57,6 +57,7 @@ class Modal {
     }
 
     _closeModal (event = null) {
+        if (!modals.open.includes(this.id)) return;
         if (event) {
             event.preventDefault()
             event.stopPropagation()
