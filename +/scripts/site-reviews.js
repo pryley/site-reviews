@@ -5,7 +5,7 @@ import Form from '@/public/form.js';
 import Modal from '@/public/modal.js';
 import Pagination from '@/public/pagination.js';
 import dom from '@/public/dom.js';
-import { debounce, isEmpty, parseJson } from '@/public/helpers.js';
+import { debounce, fadeIn, fadeOut, isEmpty, parseJson } from '@/public/helpers.js';
 
 const events = {
     excerpts: 'site-reviews/excerpts/init',
@@ -123,7 +123,7 @@ window.GLSR.forms = [];
 window.GLSR.pagination = [];
 window.GLSR.Event = Event;
 window.GLSR.Modal = Modal;
-window.GLSR.Utils = { debounce, dom, isEmpty, parseJson };
+window.GLSR.Utils = { debounce, dom, fadeIn, fadeOut, isEmpty, parseJson };
 
 Event.on(events.excerpts, initExcerpts)
 Event.on(events.forms, initForms)
