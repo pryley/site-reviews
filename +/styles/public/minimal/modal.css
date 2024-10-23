@@ -48,10 +48,10 @@
     width: 480px;
 }
 :root [aria-hidden="false"] .glsr-modal__dialog {
-  animation: gl-zoomIn var(--glsr-duration-slow) cubic-bezier(0,0,.2,1);
+  animation: gl-zoomIn var(--glsr-duration-slow) cubic-bezier(0,0,0.2,1);
 }
 :root [aria-hidden="true"] .glsr-modal__dialog {
-  animation: gl-zoomOut var(--glsr-duration-fast) cubic-bezier(0,0,.2,1);
+  animation: gl-zoomOut var(--glsr-duration-fast) cubic-bezier(0,0,0.2,1);
 }
 :root .glsr-modal__header {
     font-weight: 600;
@@ -130,7 +130,7 @@
 }
 
 :root .glsr-modal .glsr-modal__overlay {
-    animation-timing-function: cubic-bezier(0,0,.2,1);
+    animation-timing-function: cubic-bezier(0,0,0.2,1);
 }
 :root .glsr-modal[aria-hidden="false"] .glsr-modal__overlay {
     animation-duration: var(--glsr-duration-slow);
