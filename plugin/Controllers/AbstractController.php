@@ -4,11 +4,17 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract;
 use GeminiLabs\SiteReviews\Contracts\ControllerContract;
+use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\HookProxy;
 
 abstract class AbstractController implements ControllerContract
 {
     use HookProxy;
+
+    public function app(): PluginContract
+    {
+        return glsr();
+    }
 
     public function download(string $filename, string $content): void
     {
@@ -32,12 +38,12 @@ abstract class AbstractController implements ControllerContract
         return intval(filter_input(INPUT_GET, 'post'));
     }
 
-    protected function hasQueryPermission(\WP_Query $query): bool
+    protected function hasQueryPermission(\WP_Query $query, string $postType = ''): bool
     {
         global $pagenow;
         return glsr()->isAdmin()
             && $query->is_main_query()
-            && glsr()->post_type === $query->get('post_type')
+            && $query->get('post_type') === ($postType ?: glsr()->post_type)
             && 'edit.php' === $pagenow;
     }
 

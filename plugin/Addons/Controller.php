@@ -19,8 +19,6 @@ use GeminiLabs\SiteReviews\Role;
 
 abstract class Controller extends AbstractController
 {
-    abstract public function app(): PluginContract;
-
     /**
      * @action admin_enqueue_scripts
      */
