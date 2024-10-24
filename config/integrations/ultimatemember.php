@@ -1,13 +1,18 @@
 <?php
 
+if (!function_exists('get_editable_roles')) {
+    require_once ABSPATH.'wp-admin/includes/user.php';
+}
+
+$roles = array_map('translate_user_role', wp_list_pluck(get_editable_roles(), 'name'));
+ksort($roles);
+
 return [ // order is intentional
     'settings.integrations.ultimatemember.enabled' => [
         'default' => 'no',
         'label' => _x('Enable Integration?', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
-        'tooltip' => sprintf(_x('This will enable the Ultimate Member integration with Site Reviews.', 'admin-text', 'site-reviews'),
-            sprintf('<a data-expand="#tools-import-reviews" href="%s">%s</a>', glsr_admin_url('tools', 'general'), _x('Import Reviews', 'admin-text', 'site-reviews'))
-        ),
+        'tooltip' => _x('This will enable the Ultimate Member integration with Site Reviews.', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',
     ],
     'settings.integrations.ultimatemember.display_directory_ratings' => [
@@ -17,7 +22,7 @@ return [ // order is intentional
         ],
         'label' => _x('Display Directory Ratings?', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
-        'tooltip' => _x('This will display the rating of each person in the Member Directory.', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('This will display the average rating of each person in the Member Directory.', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',
     ],
     'settings.integrations.ultimatemember.display_empty' => [
@@ -67,7 +72,7 @@ return [ // order is intentional
         'label' => _x('Summary Shortcode', 'admin-text', 'site-reviews'),
         'placeholder' => '[site_reviews_summary assigned_users="profile_id"]',
         'sanitizer' => 'text',
-        'tooltip' => _x('Enter the rating summary shortcode used on the profile page', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('Enter the rating summary shortcode used on the member profile page', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
     'settings.integrations.ultimatemember.reviews' => [
@@ -80,7 +85,7 @@ return [ // order is intentional
         'label' => _x('Reviews Shortcode', 'admin-text', 'site-reviews'),
         'placeholder' => '[site_reviews assigned_users="profile_id" hide="assigned_links" pagination="loadmore" id="user_reviews"]',
         'sanitizer' => 'text',
-        'tooltip' => _x('Enter the latest reviews shortcode used on the profile page', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('Enter the latest reviews shortcode used on the member profile page', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
     'settings.integrations.ultimatemember.form' => [
@@ -93,7 +98,41 @@ return [ // order is intentional
         'label' => _x('Form Shortcode', 'admin-text', 'site-reviews'),
         'placeholder' => '[site_reviews_form assigned_users="profile_id" hide="name,email,images"]',
         'sanitizer' => 'text',
-        'tooltip' => _x('Enter the form shortcode used on the profile page', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('Enter the form shortcode used on the member profile page', 'admin-text', 'site-reviews'),
         'type' => 'text',
+    ],
+    'settings.integrations.ultimatemember.reviews_tab_visibility' => [
+        'class' => 'regular-text',
+        'default' => '',
+        'depends_on' => [
+            'settings.integrations.ultimatemember.enabled' => ['yes'],
+            'settings.integrations.ultimatemember.display_reviews_tab' => ['yes'],
+        ],
+        'label' => _x('Reviews Tab Visibility', 'admin-text', 'site-reviews'),
+        'options' => [
+            '' => _x('Anyone', 'admin-text', 'site-reviews'),
+            'guest' => _x('Only Guests', 'admin-text', 'site-reviews'),
+            'member' => _x('Only Members', 'admin-text', 'site-reviews'),
+            'roles' => _x('Only Specific Roles', 'admin-text', 'site-reviews'),
+            'owner' => _x('Only the Profile Owner', 'admin-text', 'site-reviews'),
+            'owner_roles' => _x('Only the Profile Owner and Specific Roles', 'admin-text', 'site-reviews'),
+        ],
+        'sanitizer' => 'text',
+        'tooltip' => _x('Choose who can view the reviews tab on member profiles.', 'admin-text', 'site-reviews'),
+        'type' => 'select',
+    ],
+    'settings.integrations.ultimatemember.reviews_tab_roles' => [
+        'class' => 'regular-grid',
+        'default' => ['administrator'],
+        'depends_on' => [
+            'settings.integrations.ultimatemember.enabled' => ['yes'],
+            'settings.integrations.ultimatemember.display_reviews_tab' => ['yes'],
+            'settings.integrations.ultimatemember.reviews_tab_visibility' => ['owner_roles', 'roles'],
+        ],
+        'label' => _x('Reviews Tab Visibility Roles', 'admin-text', 'site-reviews'),
+        'options' => $roles,
+        'sanitizer' => 'array-string',
+        'tooltip' => _x('Choose which user roles are allowed to view the reviews tab on member profiles.', 'admin-text', 'site-reviews'),
+        'type' => 'checkbox',
     ],
 ];

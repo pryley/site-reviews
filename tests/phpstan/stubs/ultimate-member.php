@@ -138,4 +138,27 @@ namespace {
     function um_get_requested_user()
     {
     }
+    /**
+     * Check if we are on a UM Core Page or not
+     *
+     * Default um core pages slugs
+     * 'user', 'login', 'register', 'members', 'logout', 'account', 'password-reset'
+     *
+     * @param string $page UM core page slug
+     *
+     * @return bool
+     */
+    function um_is_core_page($page)
+    {
+    }
+    /**
+     * Display a link to profile page
+     *
+     * @param int|bool $user_id
+     *
+     * @return bool|string
+     */
+    function um_user_profile_url($user_id = false)
+    {
+    }
 }

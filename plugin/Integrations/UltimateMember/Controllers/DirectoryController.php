@@ -113,10 +113,10 @@ class DirectoryController extends AbstractController
             ? CountManager::META_RANKING
             : CountManager::META_AVERAGE;
         $query->joins[] = glsr(Query::class)->sql(
-            "LEFT JOIN table|usermeta AS glsr_user_meta ON (glsr_user_meta.user_id = u.ID AND glsr_user_meta.meta_key = %s)",
+            "LEFT JOIN table|usermeta AS glsr_usermeta ON (glsr_usermeta.user_id = u.ID AND glsr_usermeta.meta_key = %s)",
             $sortKey
         );
-        $query->sql_order = " ORDER BY CAST(glsr_user_meta.meta_value AS SIGNED) {$order}, u.user_registered DESC";
+        $query->sql_order = " ORDER BY CAST(glsr_usermeta.meta_value AS SIGNED) {$order}, u.user_registered DESC";
     }
 
     /**

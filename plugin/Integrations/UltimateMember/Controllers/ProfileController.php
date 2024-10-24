@@ -15,7 +15,7 @@ class ProfileController extends AbstractController
      */
     public function filterInlineScript(string $javascript): string
     {
-        if (!um_is_core_page('user')) {
+        if (!$this->hasVisibilityPermission()) {
             return $javascript;
         }
         return $javascript.'document.addEventListener("DOMContentLoaded", () => {'.
@@ -33,7 +33,7 @@ class ProfileController extends AbstractController
      */
     public function filterProfileTabs(array $tabs): array
     {
-        if (!glsr_get_option('integrations.ultimatemember.display_reviews_tab', false, 'bool')) {
+        if (!$this->hasVisibilityPermission()) {
             return $tabs;
         }
         $tabs['user_reviews'] = [
@@ -113,7 +113,7 @@ class ProfileController extends AbstractController
      */
     public function renderReviewsTab(): void
     {
-        if (!glsr_get_option('integrations.ultimatemember.display_reviews_tab', false, 'bool')) {
+        if (!$this->hasVisibilityPermission()) {
             return;
         }
         glsr(Template::class)->render('templates/ultimatemember/reviews', [
@@ -123,6 +123,37 @@ class ProfileController extends AbstractController
                 'summary' => $this->shortcodeSummary(),
             ],
         ]);
+    }
+
+    protected function hasVisibilityPermission(): bool
+    {
+        if (!glsr_get_option('integrations.ultimatemember.display_reviews_tab', false, 'bool')) {
+            return false;
+        }
+        if (!um_is_core_page('user')) {
+            return false;
+        }
+        $roles = glsr_get_option('integrations.ultimatemember.reviews_tab_roles');
+        $visibility = glsr_get_option('integrations.ultimatemember.reviews_tab_visibility');
+        $user = wp_get_current_user();
+        $userHasRole = !empty(array_intersect($roles, (array) $user->roles));
+        $userIsOwner = $user->ID === um_get_requested_user();
+        if ('guest' === $visibility && $user->ID) {
+            return false;
+        }
+        if ('member' === $visibility && !$user->ID) {
+            return false;
+        }
+        if ('owner' === $visibility && !$userIsOwner) {
+            return false;
+        }
+        if ('roles' === $visibility && !$userHasRole) {
+            return false;
+        }
+        if ('owner_roles' === $visibility && !$userIsOwner && !$userHasRole) {
+            return false;
+        }
+        return true;
     }
 
     protected function shortcodeForm(): string

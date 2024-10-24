@@ -55,6 +55,8 @@ class Hooks extends AbstractHooks
     {
         return function_exists('UM')
             && function_exists('um_get_default_avatar_uri')
-            && function_exists('um_get_requested_user');
+            && function_exists('um_get_requested_user')
+            && function_exists('um_is_core_page')
+            && function_exists('um_user_profile_url');
     }
 }
