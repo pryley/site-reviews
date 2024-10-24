@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 6.6
-Stable tag: 7.2.0-beta1
+Stable tag: 7.2.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -196,7 +196,7 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 == Changelog ==
 
-= 7.2.0 (2024-10-18) =
+= 7.2.1 (2024-10-24) =
 
 - Added global color support to the Elementor widgets.
 - Added [Prosopo Procaptcha](https://prosopo.io/) integration.

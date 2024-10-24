@@ -1,6 +1,6 @@
 == Changelog ==
 
-= 7.2.0 (2024-10-18) =
+= 7.2.1 (2024-10-24) =
 
 - Added global color support to the Elementor widgets.
 - Added [Prosopo Procaptcha](https://prosopo.io/) integration.

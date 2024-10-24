@@ -1567,104 +1567,154 @@ msgstr ""
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr ""
 
-#: config/integrations/ultimatemember.php:6, config/integrations/woocommerce.php:6
+#: config/integrations/ultimatemember.php:13, config/integrations/woocommerce.php:6
 msgctxt "admin-text"
 msgid "Enable Integration?"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:8
+#: config/integrations/ultimatemember.php:15
 msgctxt "admin-text"
 msgid "This will enable the Ultimate Member integration with Site Reviews."
 msgstr ""
 
-#: config/integrations/ultimatemember.php:9, config/integrations/woocommerce.php:9, views/integrations/woocommerce/tools/import-product-reviews.php:34, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:113
-msgctxt "admin-text"
-msgid "Import Reviews"
-msgstr ""
-
-#: config/integrations/ultimatemember.php:18
+#: config/integrations/ultimatemember.php:23
 msgctxt "admin-text"
 msgid "Display Directory Ratings?"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:20
+#: config/integrations/ultimatemember.php:25
 msgctxt "admin-text"
-msgid "This will display the rating of each person in the Member Directory."
+msgid "This will display the average rating of each person in the Member Directory."
 msgstr ""
 
-#: config/integrations/ultimatemember.php:29, config/integrations/woocommerce.php:86
+#: config/integrations/ultimatemember.php:34, config/integrations/woocommerce.php:86
 msgctxt "admin-text"
 msgid "Display Empty Ratings?"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:31
+#: config/integrations/ultimatemember.php:36
 msgctxt "admin-text"
 msgid "This will display the rating stars even if the member has no reviews."
 msgstr ""
 
-#: config/integrations/ultimatemember.php:41
+#: config/integrations/ultimatemember.php:46
 msgctxt "admin-text"
 msgid "Member Sorting"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:43, config/integrations/woocommerce.php:74
+#: config/integrations/ultimatemember.php:48, config/integrations/woocommerce.php:74
 msgctxt "admin-text"
 msgid "Average Rating"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:44, config/integrations/woocommerce.php:75
+#: config/integrations/ultimatemember.php:49, config/integrations/woocommerce.php:75
 msgctxt "admin-text"
 msgid "Bayesian Ranking"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:47
+#: config/integrations/ultimatemember.php:52
 msgctxt "admin-text"
 msgid "This is the method used when sorting members by rating on the Members Directory page."
 msgstr ""
 
-#: config/integrations/ultimatemember.php:55
+#: config/integrations/ultimatemember.php:60
 msgctxt "admin-text"
 msgid "Display Reviews Tab?"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:57
+#: config/integrations/ultimatemember.php:62
 msgctxt "admin-text"
 msgid "This will display the reviews tab in member profiles."
 msgstr ""
 
-#: config/integrations/ultimatemember.php:67, config/integrations/woocommerce.php:35, views/integrations/woocommerce/product-data-panel.php:19
+#: config/integrations/ultimatemember.php:72, config/integrations/woocommerce.php:35, views/integrations/woocommerce/product-data-panel.php:19
 msgctxt "admin-text"
 msgid "Summary Shortcode"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:70
+#: config/integrations/ultimatemember.php:75
 msgctxt "admin-text"
-msgid "Enter the rating summary shortcode used on the profile page"
+msgid "Enter the rating summary shortcode used on the member profile page"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:80, config/integrations/woocommerce.php:46, views/integrations/woocommerce/product-data-panel.php:25
+#: config/integrations/ultimatemember.php:85, config/integrations/woocommerce.php:46, views/integrations/woocommerce/product-data-panel.php:25
 msgctxt "admin-text"
 msgid "Reviews Shortcode"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:83
+#: config/integrations/ultimatemember.php:88
 msgctxt "admin-text"
-msgid "Enter the latest reviews shortcode used on the profile page"
+msgid "Enter the latest reviews shortcode used on the member profile page"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:93, config/integrations/woocommerce.php:57, views/integrations/woocommerce/product-data-panel.php:31
+#: config/integrations/ultimatemember.php:98, config/integrations/woocommerce.php:57, views/integrations/woocommerce/product-data-panel.php:31
 msgctxt "admin-text"
 msgid "Form Shortcode"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:96
+#: config/integrations/ultimatemember.php:101
 msgctxt "admin-text"
-msgid "Enter the form shortcode used on the profile page"
+msgid "Enter the form shortcode used on the member profile page"
+msgstr ""
+
+#: config/integrations/ultimatemember.php:111
+msgctxt "admin-text"
+msgid "Reviews Tab Visibility"
+msgstr ""
+
+#: config/integrations/ultimatemember.php:113
+msgctxt "admin-text"
+msgid "Anyone"
+msgstr ""
+
+#: config/integrations/ultimatemember.php:114
+msgctxt "admin-text"
+msgid "Only Guests"
+msgstr ""
+
+#: config/integrations/ultimatemember.php:115
+msgctxt "admin-text"
+msgid "Only Members"
+msgstr ""
+
+#: config/integrations/ultimatemember.php:116
+msgctxt "admin-text"
+msgid "Only Specific Roles"
+msgstr ""
+
+#: config/integrations/ultimatemember.php:117
+msgctxt "admin-text"
+msgid "Only the Profile Owner"
+msgstr ""
+
+#: config/integrations/ultimatemember.php:118
+msgctxt "admin-text"
+msgid "Only the Profile Owner and Specific Roles"
+msgstr ""
+
+#: config/integrations/ultimatemember.php:121
+msgctxt "admin-text"
+msgid "Choose who can view the reviews tab on member profiles."
+msgstr ""
+
+#: config/integrations/ultimatemember.php:132
+msgctxt "admin-text"
+msgid "Reviews Tab Visibility Roles"
+msgstr ""
+
+#: config/integrations/ultimatemember.php:135
+msgctxt "admin-text"
+msgid "Choose which user roles are allowed to view the reviews tab on member profiles."
 msgstr ""
 
 #: config/integrations/woocommerce.php:8
 msgctxt "admin-text"
 msgid "This will completely replace the default WooCommerce review system with Site Reviews. If you have existing WooCommerce comment reviews, you may need to first export them to a CSV file, and then import them using the %s tool."
+msgstr ""
+
+#: config/integrations/woocommerce.php:9, views/integrations/woocommerce/tools/import-product-reviews.php:34, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:113
+msgctxt "admin-text"
+msgid "Import Reviews"
 msgstr ""
 
 #: config/integrations/woocommerce.php:19
@@ -5700,7 +5750,7 @@ msgstr ""
 msgid "No one has reviewed this person yet."
 msgstr ""
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:131
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:162
 msgid "You must be %s to review this person."
 msgstr ""
 
