@@ -72,7 +72,7 @@ trait Upload
         $files = [];
         $importFiles = Arr::get($_FILES, 'import-files', []);
         $importFiles = $this->fixPhpFilesArray($importFiles);
-        if (!wp_is_numeric_array($files)) {
+        if (!wp_is_numeric_array($importFiles)) {
             $importFiles = [$importFiles];
         }
         foreach ($importFiles as $data) {
