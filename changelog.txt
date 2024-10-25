@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 7.2.2 (2024-10-25) =
+
+- Fixed form validation to catch manually modified hidden fields
+
 = 7.2.1 (2024-10-24) =
 
 - Added global color support to the Elementor widgets.

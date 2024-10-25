@@ -26,7 +26,7 @@ class SignatureValidator extends ValidatorAbstract
     {
         if (!$this->isValid()) {
             $this->fail(
-                __('This review cannot be submitted because the form was modified.', 'site-reviews'),
+                __('This review cannot be submitted, please refresh the page and try again.', 'site-reviews'),
                 'The form signature could not be verified.'
             );
         }

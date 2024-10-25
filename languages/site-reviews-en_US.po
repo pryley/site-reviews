@@ -92,7 +92,7 @@ msgstr "This review is based on my own experience and is my genuine opinion."
 msgid "Show more"
 msgstr "Show more"
 
-#: plugin/Commands/CreateReview.php:162, views/pages/documentation/support/common-problems-and-solutions.php:89
+#: plugin/Commands/CreateReview.php:162, views/pages/documentation/support/common-problems-and-solutions.php:95
 msgid ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
@@ -408,7 +408,7 @@ msgstr "The CAPTCHA failed to load, please refresh the page and try again."
 msgid "The CAPTCHA verification failed, please try again."
 msgstr "The CAPTCHA verification failed, please try again."
 
-#: plugin/Modules/Validator/CustomValidator.php:21, views/pages/documentation/support/common-problems-and-solutions.php:119
+#: plugin/Modules/Validator/CustomValidator.php:21, views/pages/documentation/support/common-problems-and-solutions.php:125
 msgid "The review submission failed. Please notify the site administrator."
 msgstr "The review submission failed. Please notify the site administrator."
 
@@ -428,9 +428,9 @@ msgstr "You must be logged in to submit a review."
 msgid "You have already submitted a review."
 msgstr "You have already submitted a review."
 
-#: plugin/Modules/Validator/SignatureValidator.php:29
-msgid "This review cannot be submitted because the form was modified."
-msgstr "This review cannot be submitted because the form was modified."
+#: plugin/Modules/Validator/SignatureValidator.php:29, views/pages/documentation/support/common-problems-and-solutions.php:89
+msgid "This review cannot be submitted, please refresh the page and try again."
+msgstr "This review cannot be submitted, please refresh the page and try again."
 
 #: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:41
 msgid "Reviews"
@@ -512,7 +512,7 @@ msgstr "No Title"
 msgid "Verified"
 msgstr "Verified"
 
-#: views/pages/documentation/support/common-problems-and-solutions.php:125
+#: views/pages/documentation/support/common-problems-and-solutions.php:131
 msgid "Service Unavailable."
 msgstr "Service Unavailable."
 

@@ -86,6 +86,12 @@
             </li>
             <li>
                 <h4 class="components-notice is-error" style="font-size:15px;">
+                    <?php echo __('This review cannot be submitted, please refresh the page and try again.', 'site-reviews'); ?>
+                </h4>
+                <p>This error is shown when the hidden input values in the Form have been modified.</p>
+            </li>
+            <li>
+                <h4 class="components-notice is-error" style="font-size:15px;">
                     <?php echo __('Your review could not be submitted and the error has been logged. Please notify the site administrator.', 'site-reviews'); ?>
                 </h4>
                 <p>This error is triggered when WordPress encounters an error when saving the review to the database.</p>

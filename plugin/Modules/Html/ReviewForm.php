@@ -23,11 +23,14 @@ class ReviewForm extends Form
     public function config(): array
     {
         $config = glsr()->config('forms/review-form');
+        if (!wp_is_numeric_array($config)) {
+            $order = array_keys($config);
+            $order = glsr()->filterArray('review-form/order', $order);
+            $ordered = array_intersect_key(array_merge(array_flip($order), $config), $config);
+            $config = $ordered;
+        }
         $config = glsr()->filterArray('review-form/fields', $config, $this);
-        $order = array_keys($config);
-        $order = glsr()->filterArray('review-form/order', $order);
-        $ordered = array_intersect_key(array_merge(array_flip($order), $config), $config);
-        return $ordered;
+        return $config;
     }
 
     public function configHidden(): array
