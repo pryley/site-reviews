@@ -41,16 +41,16 @@ class SettingForm extends Form
 
     public function field(string $name, array $args): FieldContract
     {
-        $args = wp_parse_args($args, [
-            'name' => $name,
-        ]);
         if (str_starts_with($name, 'settings.')) {
             $parts = explode('.', $name);
             $args['group'] = count($parts) > 2 ? $parts[1] : '';
         }
-        $field = new SettingField($args);
-        $this->normalizeField($field);
-        return $field;
+        return parent::field($name, $args);
+    }
+
+    public function fieldClass(): string
+    {
+        return SettingField::class;
     }
 
     protected function buildFields(): string

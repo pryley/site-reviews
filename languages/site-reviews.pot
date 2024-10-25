@@ -1886,15 +1886,15 @@ msgctxt "admin-text"
 msgid "The <code>%s</code> table was successly converted to InnoDB."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:165, views/pages/documentation/support/common-problems-and-solutions.php:89
+#: plugin/Commands/CreateReview.php:162, views/pages/documentation/support/common-problems-and-solutions.php:89
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:169
+#: plugin/Commands/CreateReview.php:166
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:170
+#: plugin/Commands/CreateReview.php:167
 msgid "Your review has been submitted and is pending approval."
 msgstr ""
 
@@ -4848,11 +4848,11 @@ msgctxt "admin-text"
 msgid "Unapproved Review (Site Reviews)"
 msgstr ""
 
-#: plugin/Modules/Html/Form.php:24
+#: plugin/Modules/Html/Form.php:26
 msgid "Submit Form"
 msgstr ""
 
-#: plugin/Modules/Html/Form.php:25
+#: plugin/Modules/Html/Form.php:27
 msgid "Submitting, please wait..."
 msgstr ""
 
@@ -4885,7 +4885,7 @@ msgstr ""
 msgid "The review submission failed. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Modules/Validator/DefaultValidator.php:27
+#: plugin/Modules/Validator/DefaultValidator.php:28
 msgid "Please fix the form errors."
 msgstr ""
 
@@ -4899,6 +4899,10 @@ msgstr ""
 
 #: plugin/Modules/Validator/ReviewLimitsValidator.php:25
 msgid "You have already submitted a review."
+msgstr ""
+
+#: plugin/Modules/Validator/SignatureValidator.php:29
+msgid "This review cannot be submitted because the form was modified."
 msgstr ""
 
 #: views/integrations/multilingualpress/assigned_posts-field.php:5

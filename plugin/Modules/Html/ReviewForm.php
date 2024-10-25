@@ -24,14 +24,34 @@ class ReviewForm extends Form
     {
         $config = glsr()->config('forms/review-form');
         $config = glsr()->filterArray('review-form/fields', $config, $this);
+        $order = array_keys($config);
+        $order = glsr()->filterArray('review-form/order', $order);
+        $ordered = array_intersect_key(array_merge(array_flip($order), $config), $config);
+        return $ordered;
+    }
+
+    public function configHidden(): array
+    {
+        do_action('litespeed_nonce', 'submit-review'); // @litespeedcache
+        $referer = glsr()->filterString('review-form/referer', wp_get_referer());
+        $config = [
+            '_action' => 'submit-review',
+            '_nonce' => wp_create_nonce('submit-review'),
+            '_post_id' => get_the_ID(),
+            '_referer' => wp_unslash($referer),
+            'assigned_posts' => $this->args->assigned_posts,
+            'assigned_terms' => $this->args->assigned_terms,
+            'assigned_users' => $this->args->assigned_users,
+            'excluded' => $this->args->cast('hide', 'string'),
+            'form_id' => $this->args->id,
+            'terms_exist' => Cast::toInt(!in_array('terms', $this->args->cast('hide', 'array'))),
+        ];
         return $config;
     }
 
-    public function field(string $name, array $args): FieldContract
+    public function fieldClass(): string
     {
-        $field = new ReviewField(wp_parse_args($args, compact('name')));
-        $this->normalizeField($field);
-        return $field;
+        return ReviewField::class;
     }
 
     public function loadSession(array $values): void
@@ -47,54 +67,10 @@ class ReviewForm extends Form
     /**
      * @return FieldContract[]
      */
-    protected function fieldsAll(): array
-    {
-        $fields = parent::fieldsAll();
-        $fields = glsr()->filterArray('review-form/fields/all', $fields, $this);
-        return $fields;
-    }
-
-    /**
-     * @return FieldContract[]
-     */
-    protected function fieldsHidden(): array
-    {
-        do_action('litespeed_nonce', 'submit-review'); // @litespeedcache
-        $referer = glsr()->filterString('review-form/referer', wp_get_referer());
-        $config = [
-            '_action' => 'submit-review',
-            '_nonce' => wp_create_nonce('submit-review'),
-            '_post_id' => get_the_ID(),
-            '_referer' => wp_unslash($referer),
-            'assigned_posts' => $this->args->assigned_posts,
-            'assigned_terms' => $this->args->assigned_terms,
-            'assigned_users' => $this->args->assigned_users,
-            'excluded' => glsr(Encryption::class)->encrypt($this->args->cast('hide', 'string')),
-            'form_id' => $this->args->id,
-            'terms_exist' => Cast::toInt(!in_array('terms', $this->args->cast('hide', 'array'))),
-        ];
-        $fields = [];
-        foreach ($config as $name => $value) {
-            $field = $this->field($name, [
-                'type' => 'hidden',
-                'value' => $value,
-            ]);
-            if ($field->isValid()) {
-                $fields[$name] = $field;
-            }
-        }
-        $fields = glsr()->filterArray('review-form/fields/hidden', $fields, $this);
-        return $fields;
-    }
-
-    /**
-     * @return FieldContract[]
-     */
     protected function fieldsVisible(): array
     {
         $fields = parent::fieldsVisible();
         $fields = array_filter($fields, fn ($field) => !in_array($field->original_name, $this->args->cast('hide', 'array')));
-        $fields = glsr()->filterArray('review-form/fields/visible', $fields, $this);
         return $fields;
     }
 }

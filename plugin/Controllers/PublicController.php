@@ -38,16 +38,6 @@ class PublicController extends AbstractController
     }
 
     /**
-     * @filter site-reviews/config/forms/review-form
-     */
-    public function filterFieldOrder(array $config): array
-    {
-        $order = array_keys($config);
-        $order = glsr()->filterArray('review-form/order', $order);
-        return array_intersect_key(array_merge(array_flip($order), $config), $config);
-    }
-
-    /**
      * @filter site-reviews/render/view
      */
     public function filterRenderView(string $view): string

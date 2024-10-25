@@ -11,7 +11,6 @@ class PublicHooks extends AbstractHooks
         $this->hook(PublicController::class, [
             ['enqueueAssets', 'wp_enqueue_scripts', 999], // run after all addons
             ['fetchPagedReviewsAjax', 'site-reviews/route/ajax/fetch-paged-reviews'],
-            ['filterFieldOrder', 'site-reviews/config/forms/review-form', 11],
             ['filterRenderView', 'site-reviews/render/view'],
             ['renderSchema', 'wp_footer'],
             ['submitReview', 'site-reviews/route/public/submit-review'],

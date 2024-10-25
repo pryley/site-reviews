@@ -92,7 +92,7 @@ msgstr "This review is based on my own experience and is my genuine opinion."
 msgid "Show more"
 msgstr "Show more"
 
-#: plugin/Commands/CreateReview.php:165, views/pages/documentation/support/common-problems-and-solutions.php:89
+#: plugin/Commands/CreateReview.php:162, views/pages/documentation/support/common-problems-and-solutions.php:89
 msgid ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
@@ -100,11 +100,11 @@ msgstr ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
 
-#: plugin/Commands/CreateReview.php:169
+#: plugin/Commands/CreateReview.php:166
 msgid "Your review has been submitted!"
 msgstr "Your review has been submitted!"
 
-#: plugin/Commands/CreateReview.php:170
+#: plugin/Commands/CreateReview.php:167
 msgid "Your review has been submitted and is pending approval."
 msgstr "Your review has been submitted and is pending approval."
 
@@ -380,11 +380,11 @@ msgstr "Write review of a user of a role"
 msgid "Write review of a specific user"
 msgstr "Write review of a specific user"
 
-#: plugin/Modules/Html/Form.php:24
+#: plugin/Modules/Html/Form.php:26
 msgid "Submit Form"
 msgstr "Submit Form"
 
-#: plugin/Modules/Html/Form.php:25
+#: plugin/Modules/Html/Form.php:27
 msgid "Submitting, please wait..."
 msgstr "Submitting, please wait..."
 
@@ -412,7 +412,7 @@ msgstr "The CAPTCHA verification failed, please try again."
 msgid "The review submission failed. Please notify the site administrator."
 msgstr "The review submission failed. Please notify the site administrator."
 
-#: plugin/Modules/Validator/DefaultValidator.php:27
+#: plugin/Modules/Validator/DefaultValidator.php:28
 msgid "Please fix the form errors."
 msgstr "Please fix the form errors."
 
@@ -427,6 +427,10 @@ msgstr "You must be logged in to submit a review."
 #: plugin/Modules/Validator/ReviewLimitsValidator.php:25
 msgid "You have already submitted a review."
 msgstr "You have already submitted a review."
+
+#: plugin/Modules/Validator/SignatureValidator.php:29
+msgid "This review cannot be submitted because the form was modified."
+msgstr "This review cannot be submitted because the form was modified."
 
 #: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:41
 msgid "Reviews"

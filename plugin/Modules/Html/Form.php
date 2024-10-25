@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Captcha;
+use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Honeypot;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Style;
@@ -16,6 +17,7 @@ use GeminiLabs\SiteReviews\Modules\Style;
 class Form extends \ArrayObject implements FormContract
 {
     protected Arguments $args;
+    protected array $config;
     protected Arguments $session;
 
     public function __construct(array $args = [], array $values = [])
@@ -28,9 +30,12 @@ class Form extends \ArrayObject implements FormContract
             $args['id'] = glsr(Sanitizer::class, ['values' => $args])->sanitizeIdHash('');
         }
         $this->args = glsr()->args($args);
+        $this->config = $this->mergeconfig();
         $this->loadSession($values);
         parent::__construct($this->fieldsAll(), \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
         array_map([$this, 'normalizeConditions'], $this->fields());
+        glsr()->action("{$this->formName()}/form", $this);
+        $this->signForm();
     }
 
     public function args(): Arguments
@@ -57,11 +62,22 @@ class Form extends \ArrayObject implements FormContract
         return [];
     }
 
+    public function configHidden(): array
+    {
+        return [];
+    }
+
     public function field(string $name, array $args): FieldContract
     {
-        $field = new Field(wp_parse_args($args, compact('name')));
+        $className = $this->fieldClass();
+        $field = new $className(wp_parse_args($args, compact('name')));
         $this->normalizeField($field);
         return $field;
+    }
+
+    public function fieldClass(): string
+    {
+        return Field::class;
     }
 
     /**
@@ -78,6 +94,13 @@ class Form extends \ArrayObject implements FormContract
     public function fieldsFor(string $group): array
     {
         return array_filter($this->fields(), fn ($field) => $group === $field->group);
+    }
+
+    public function formName(): string
+    {
+        $formName = (new \ReflectionClass($this))->getShortName();
+        $formName = Str::dashCase($formName);
+        return $formName;
     }
 
     /**
@@ -149,7 +172,7 @@ class Form extends \ArrayObject implements FormContract
             $fields[] = $field->build();
         }
         $rendered = implode("\n", $fields);
-        $rendered = glsr()->filterString('form/build/fields', $rendered, $this);
+        $rendered = glsr()->filterString("{$this->formName()}/build/fields", $rendered, $this);
         return $rendered;
     }
 
@@ -164,7 +187,7 @@ class Form extends \ArrayObject implements FormContract
             'has_errors' => !empty($this->session->errors),
         ]);
         $rendered = $captcha.$response;
-        $rendered = glsr()->filterString('form/build/response', $rendered, $this);
+        $rendered = glsr()->filterString("{$this->formName()}/build/response", $rendered, $this);
         return $rendered;
     }
 
@@ -177,7 +200,7 @@ class Form extends \ArrayObject implements FormContract
                 'text' => $this->args->button_text,
             ],
         ]);
-        $rendered = glsr()->filterString('form/build/submit_button', $rendered, $this);
+        $rendered = glsr()->filterString("{$this->formName()}/build/submit_button", $rendered, $this);
         return $rendered;
     }
 
@@ -220,8 +243,8 @@ class Form extends \ArrayObject implements FormContract
      */
     protected function fieldsAll(): array
     {
-        $fields = array_merge($this->fieldsHidden(), $this->fieldsVisible());
-        $fields = array_values($fields);
+        $fields = array_values(array_merge($this->fieldsHidden(), $this->fieldsVisible()));
+        $fields = glsr()->filterArray("{$this->formName()}/fields/all", $fields, $this);
         return $fields;
     }
 
@@ -230,7 +253,18 @@ class Form extends \ArrayObject implements FormContract
      */
     protected function fieldsHidden(): array
     {
-        return [];
+        $fields = [];
+        foreach ($this->config as $name => $args) {
+            if ('hidden' !== $args['type']) {
+                continue;
+            }
+            $field = $this->field($name, $args);
+            if ($field->isValid()) {
+                $fields[$name] = $field;
+            }
+        }
+        $fields = glsr()->filterArray("{$this->formName()}/fields/hidden", $fields, $this);
+        return $fields;
     }
 
     /**
@@ -239,13 +273,34 @@ class Form extends \ArrayObject implements FormContract
     protected function fieldsVisible(): array
     {
         $fields = [];
-        foreach ($this->config() as $name => $args) {
+        foreach ($this->config as $name => $args) {
+            if ('hidden' === $args['type']) {
+                continue;
+            }
             $field = $this->field($name, $args);
             if ($field->isValid()) {
                 $fields[$name] = $field;
             }
         }
+        $fields = glsr()->filterArray("{$this->formName()}/fields/visible", $fields, $this);
         return $fields;
+    }
+
+    protected function mergeConfig(): array
+    {
+        $assignmentKeys = ['assigned_posts', 'assigned_terms', 'assigned_users'];
+        $config = $this->config();
+        foreach ($this->configHidden() as $name => $value) {
+            if (in_array($name, $assignmentKeys) && array_key_exists($name, $config)) {
+                continue; // allow visible assignment fields
+            }
+            $config[$name] = [
+                'type' => 'hidden',
+                'value' => $value,
+            ];
+        }
+        $config = array_filter($config, fn ($args) => !empty($args['type']));
+        return $config;
     }
 
     /**
@@ -348,5 +403,20 @@ class Form extends \ArrayObject implements FormContract
             return;
         }
         $field->value = $value;
+    }
+
+    protected function signForm(): void
+    {
+        $hidden = $this->hidden();
+        $values = [];
+        foreach ($hidden as $field) {
+            $values[$field->original_name] = $field->value;
+        }
+        $signatureField = $this->field('form_signature', [
+            'type' => 'hidden',
+            'value' => glsr(Encryption::class)->encrypt(maybe_serialize($values)),
+        ]);
+        $fields = array_values(array_merge($hidden, [$signatureField], $this->visible()));
+        $this->exchangeArray($fields);
     }
 }

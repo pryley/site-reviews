@@ -14,17 +14,6 @@ use GeminiLabs\SiteReviews\Review;
 class MetaboxController extends AbstractController
 {
     /**
-     * @filter site-reviews/metabox-form/fields
-     */
-    public function filterFieldOrder(array $config): array
-    {
-        $order = array_keys($config);
-        $order = glsr()->filterArray('metabox-form/fields/order', $order);
-        $ordered = array_intersect_key(array_merge(array_flip($order), $config), $config);
-        return $ordered;
-    }
-
-    /**
      * @action add_meta_boxes_{glsr()->post_type}
      */
     public function registerMetaBoxes(\WP_Post $post): void

@@ -11,7 +11,6 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Avatar;
-use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Validator\CustomValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\DefaultValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\DuplicateValidator;
@@ -82,9 +81,7 @@ class CreateReview extends AbstractCommand
             Arr::consolidate(glsr()->settings('settings.forms.required.options')),
             $this->request->toArray(),
         ));
-        $request->merge([
-            'excluded' => glsr(Encryption::class)->encrypt(implode(',', $excluded)),
-        ]);
+        $request->merge(compact('excluded'));
         $validators = glsr()->filterArray('validators', [ // order is intentional
             DefaultValidator::class,
             DuplicateValidator::class,

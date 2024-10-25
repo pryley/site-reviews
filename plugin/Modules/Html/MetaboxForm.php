@@ -43,14 +43,15 @@ class MetaboxForm extends Form
                 'data-value' => esc_js($value),
             ]);
         }
-        return $config;
+        $order = array_keys($config);
+        $order = glsr()->filterArray('metabox-form/fields/order', $order);
+        $ordered = array_intersect_key(array_merge(array_flip($order), $config), $config);
+        return $ordered;
     }
 
-    public function field(string $name, array $args): FieldContract
+    public function fieldClass(): string
     {
-        $field = new MetaboxField(wp_parse_args($args, compact('name')));
-        $this->normalizeField($field);
-        return $field;
+        return MetaboxField::class;
     }
 
     protected function buildFields(): string
@@ -64,36 +65,6 @@ class MetaboxForm extends Form
         }
         $rendered = implode("\n", $fields);
         return $rendered;
-    }
-
-    /**
-     * @return FieldContract[]
-     */
-    protected function fieldsAll(): array
-    {
-        $fields = parent::fieldsAll();
-        $fields = glsr()->filterArray('metabox-form/fields/all', $fields, $this);
-        return $fields;
-    }
-
-    /**
-     * @return FieldContract[]
-     */
-    protected function fieldsHidden(): array
-    {
-        $fields = [];
-        $fields = glsr()->filterArray('metabox-form/fields/hidden', $fields, $this);
-        return $fields;
-    }
-
-    /**
-     * @return FieldContract[]
-     */
-    protected function fieldsVisible(): array
-    {
-        $fields = parent::fieldsVisible();
-        $fields = glsr()->filterArray('metabox-form/fields/visible', $fields, $this);
-        return $fields;
     }
 
     /**

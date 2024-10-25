@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
 use GeminiLabs\SiteReviews\Defaults\ValidateReviewDefaults;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewForm;
 use GeminiLabs\SiteReviews\Modules\Validator;
@@ -35,12 +36,12 @@ class DefaultValidator extends ValidatorAbstract
 
     public function rules(): array
     {
-        // exclude fields omitted with the hide option
-        $excluded = Cast::toArray($this->request->decrypt('excluded'));
         $form = new ReviewForm([], $this->request->toArray());
         // skip fields which are conditionally hidden
         $fields = array_filter($form->visible(), fn ($field) => !$field->is_hidden);
         $rules = array_filter(wp_list_pluck($fields, 'validation', 'original_name'));
+        // exclude fields omitted with the hide option
+        $excluded = Arr::convertFromString($this->request->cast('excluded', 'string'));
         $rules = array_diff_key($rules, array_flip($excluded));
         return glsr()->filterArray('validation/rules', $rules, $this->request);
     }

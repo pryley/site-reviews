@@ -36,6 +36,7 @@ class CustomFieldsDefaults extends DefaultsAbstract
         'email',
         'excluded',
         'form_id',
+        'form_signature',
         'ID',
         'ip_address',
         'is_approved',
