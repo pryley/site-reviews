@@ -49,8 +49,9 @@ class ProfileController extends AbstractController
     public function filterReviewAuthorValue(string $value, TagContract $tag): string
     {
         if ($user = $tag->review->user()) { // @phpstan-ignore-line
-            $url = um_user_profile_url($user->ID);
-            return sprintf('<a href="%s">%s</a>', $url, $value);
+            if ($url = um_user_profile_url($user->ID)) {
+                return sprintf('<a href="%s">%s</a>', $url, $value);
+            }
         }
         return $value;
     }
@@ -86,7 +87,7 @@ class ProfileController extends AbstractController
     /**
      * @filter site-reviews/summary/value/text
      */
-    public function filterSummaryRatingValue(string $value, TagContract $tag): string
+    public function filterSummaryRatingValue(): string
     {
         $value = get_current_user_id() === um_get_requested_user()
             ? __('Your rating', 'site-reviews')
@@ -189,7 +190,7 @@ class ProfileController extends AbstractController
     protected function shortcodeSummary(): string
     {
         add_filter('site-reviews/summary/value/percentages', [$this, 'filterSummaryPercentagesValue'], 20, 2);
-        add_filter('site-reviews/summary/value/rating', [$this, 'filterSummaryRatingValue'], 20, 2);
+        add_filter('site-reviews/summary/value/rating', [$this, 'filterSummaryRatingValue'], 20);
         add_filter('site-reviews/summary/value/text', [$this, 'filterSummaryTextValue'], 20, 2);
         $shortcode = do_shortcode(glsr_get_option('integrations.ultimatemember.summary'));
         remove_filter('site-reviews/summary/value/percentages', [$this, 'filterSummaryPercentagesValue'], 20);

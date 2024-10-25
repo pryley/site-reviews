@@ -344,7 +344,6 @@ class Form extends \ArrayObject implements FormContract
         } else {
             $value = Cast::toString($this->session->values[$field->original_name] ?? '');
         }
-        glsr_log($this->session->values);
         if (empty($value)) {
             return;
         }

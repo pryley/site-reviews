@@ -432,31 +432,31 @@ msgstr "You have already submitted a review."
 msgid "Reviews"
 msgstr "Reviews"
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:67
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:68
 msgid "You have not received any reviews."
 msgstr "You have not received any reviews."
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:68
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:69
 msgid "This person has not received any reviews."
 msgstr "This person has not received any reviews."
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:92
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:93
 msgid "Your rating"
 msgstr "Your rating"
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:93
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:94
 msgid "User rating"
 msgstr "User rating"
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:106
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:107
 msgid "No one has reviewed you yet."
 msgstr "No one has reviewed you yet."
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:108
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:109
 msgid "No one has reviewed this person yet."
 msgstr "No one has reviewed this person yet."
 
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:162
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:163
 msgid "You must be %s to review this person."
 msgstr "You must be %s to review this person."
 
@@ -2048,7 +2048,7 @@ msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
 
-#: plugin/Application.php:167, plugin/Controllers/LicensingController.php:74, plugin/Controllers/LicensingController.php:83
+#: plugin/Application.php:168, plugin/Controllers/LicensingController.php:74, plugin/Controllers/LicensingController.php:83
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr "License Keys"
@@ -2386,12 +2386,12 @@ msgctxt "admin-text"
 msgid "Untitled"
 msgstr "Untitled"
 
-#: plugin/Addons/Controller.php:75, plugin/Controllers/AdminController.php:74, plugin/Controllers/MenuController.php:51, plugin/Integrations/Elementor/ElementorWidget.php:119, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
+#: plugin/Addons/Controller.php:73, plugin/Controllers/AdminController.php:74, plugin/Controllers/MenuController.php:51, plugin/Integrations/Elementor/ElementorWidget.php:119, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
 msgctxt "admin-text"
 msgid "Settings"
 msgstr "Settings"
 
-#: plugin/Addons/Controller.php:82, plugin/Controllers/AdminController.php:80, views/partials/dashboard-widget.php:28
+#: plugin/Addons/Controller.php:80, plugin/Controllers/AdminController.php:80, views/partials/dashboard-widget.php:28
 msgctxt "admin-text"
 msgid "Help"
 msgstr "Help"
@@ -6706,7 +6706,7 @@ msgctxt "limit time (admin-text)"
 msgid "days"
 msgstr "days"
 
-#: plugin/Application.php:166
+#: plugin/Application.php:167
 msgctxt "License Keys (admin-text)"
 msgid ""
 "Enter the license key here. Your license can be found on the %s page of "

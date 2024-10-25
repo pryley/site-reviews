@@ -26,6 +26,7 @@ use GeminiLabs\SiteReviews\Modules\Queue;
  * @property string    $post_type
  * @property string    $prefix
  * @property array     $session
+ * @property array     $settings
  * @property Arguments $storage
  * @property string    $taxonomy
  * @property string    $version
