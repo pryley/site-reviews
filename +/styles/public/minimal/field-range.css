@@ -48,8 +48,11 @@
 :--namespace form.glsr-form .glsr-range-options input[type="radio"]:checked + label {
   display: flex;
   font-size: var(--glsr-text-sm);
+  font-weight: 400;
   left: 0;
   line-height: 1.5;
+  margin: 0;
+  padding: 0;
   position: absolute;
   top: 100%;
 }

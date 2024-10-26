@@ -51,3 +51,11 @@
 :--namespace form.glsr-form .glsr-description {
     font-size: var(--glsr-description-text);
 }
+
+/* Range field */
+:--namespace form.glsr-form .glsr-range-options input[type="radio"]::after {
+    height: calc(var(--glsr-range-size) - 20px);
+    width: calc(var(--glsr-range-size) - 20px);
+    left: 6px;
+    top: 6px;
+}

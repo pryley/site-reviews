@@ -7,6 +7,7 @@
     --glsr-input-radius: var(--form--border-radius);
     --glsr-leading: var(--wp--typography--line-height, var(--global--line-height-body));
     --glsr-modal-bg: var(--global--color-background);
+    --glsr-range-size: 35px;
     --glsr-text-base: var(--global--font-size-base);
     --glsr-toggle-bg-0: var(--global--color-white);
     --glsr-toggle-bg-1: var(--form--border-color);
