@@ -25,28 +25,36 @@
             <code>/wp-content/themes/&lt;your-child-theme&gt;/site-reviews/form/field.php</code>
         </p>
         <pre><code class="language-text">wp-content/plugins/site-reviews/templates
-├── emails                      This folder contains the email template files
-│   └── default.php             This is the default template for HTML emails
-├── form                        This folder contains the template files for the form fields
+├── emails                      This folder contains the email template files.
+│   └── default.php             This is the default template for HTML emails.
+├── form                        This folder contains the template files for the form fields.
 │   ├── field-description.php   This template displays the form field description.
 │   ├── field-errors.php        This template displays the form field validation errors.
 │   ├── field-label.php         This template displays the form field label.
 │   ├── field.php               This template displays the form field element.
-│   ├── field_{type}.php        To target a specific field type, duplicate the field.php file and append the type with an underscore (i.e. field_email.php, field_textarea.php)
-│   ├── response.php            This template displays the form submission response
-│   ├── submit-button.php       This template displays the submit button
-│   ├── type-checkbox.php       This template is used by the field_checkbox.php template to display each checkbox
-│   ├── type-radio.php          This template is used by the field_radio.php template to display each radio
-│   └── type-toggle.php         This template is used by the field_toggle.php template to display each toggle switch
-├── load-more-button.php        This template displays the Load More button
-├── login-register.php          This template displays the login/register message
-├── notification.php            This template contains the default message contents of the notification email
-├── pagination.php              This template displays the review pagination
-├── review.php                  This template displays a single review
-├── reviews-form.php            This template displays the review form
-├── reviews-summary.php         This template displays the review summary
-└── reviews.php                 This template displays the reviews</code></pre>
-└── reviews.php                 This template displays the reviews</code></pre>
-└── verify-review.php           This template contains the default message contents of the verify review email
+│   ├── field_{type}.php        To target a specific field type, duplicate the field.php file and append the type with an underscore (i.e. field_email.php, field_textarea.php).
+│   ├── response.php            This template displays the form submission response.
+│   ├── submit-button.php       This template displays the submit button.
+│   ├── type-checkbox.php       This template is used by the field_checkbox.php template to display each checkbox.
+│   ├── type-radio.php          This template is used by the field_radio.php template to display each radio.
+│   └── type-toggle.php         This template is used by the field_toggle.php template to display each toggle switch.
+├── woocommerce                 This folder contains the template files for the WooCommerce integration.
+│   ├── loop
+│   │   └── rating.php          This template displays the form field description.
+│   ├── widgets
+│   │   ├── rating-filter.php   This template is used by the WooCommerce Rating Filter widget.
+│   │   └── recent-reviews.php  This template is used by the WooCommerce Recent Reviews widget.
+│   ├── rating.php              This template displays the rating underneath the page title on product pages.
+│   └── reviews.php             This template displays the reviews in the reviews tab on product pages.
+├── load-more-button.php        This template displays the Load More button.
+├── login-register.php          This template displays the login/register message.
+├── notification.php            This template contains the default message contents of the notification email.
+├── pagination.php              This template displays the review pagination.
+├── review.php                  This template displays a single review.
+├── reviews-form.php            This template displays the review form.
+├── reviews-summary.php         This template displays the review summary.
+└── reviews.php                 This template displays the reviews.
+└── reviews.php                 This template displays the reviews.
+└── verify-review.php           This template contains the default message contents of the verify review email.</code></pre>
     </div>
 </div>
