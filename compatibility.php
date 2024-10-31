@@ -10,6 +10,18 @@ use GeminiLabs\SiteReviews\Review;
 defined('ABSPATH') || exit;
 
 /**
+ * This fixes the Site Reviews settings when the User Activity Log plugin is enabled.
+ * 
+ * @see https://wordpress.org/support/topic/this-breaks-the-wordpress-color-picker/
+ */
+add_action('admin_enqueue_scripts', function () {
+    $screen = get_current_screen();
+    if (str_starts_with($screen->post_type, glsr()->post_type)) {
+        wp_dequeue_script('chats-js');
+    }
+}, 20);
+
+/**
  * This fixes the button classes in themes using the Avia framework.
  *
  * @see https://kriesi.at/themes/enfold-overview/
