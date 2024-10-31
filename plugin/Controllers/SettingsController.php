@@ -33,21 +33,23 @@ class SettingsController extends AbstractController
     {
         OptionManager::flushSettingsCache(); // remove settings from object cache before updating
         $input = Arr::consolidate($input);
-        if (1 === count($input) && array_key_exists('settings', $input)) {
-            $options = array_replace_recursive(glsr(OptionManager::class)->all(), $input);
-            $options = $this->sanitizeForms($options, $input);
-            $options = $this->sanitizeGeneral($options, $input);
-            $options = $this->sanitizeStrings($options, $input);
-            $options = $this->sanitizeAll($options);
-            $options = glsr()->filterArray('settings/sanitize', $options, $input);
-            glsr()->action('settings/updated', $options, $input);
-            if (filter_input(INPUT_POST, 'option_page') === glsr()->id) {
-                glsr(Notice::class)->addSuccess(_x('Settings updated.', 'admin-text', 'site-reviews'));
-            }
-            glsr(Notice::class)->store(); // store the notices before the page reloads
-            return $options;
+        if (!array_key_exists('settings', $input)) {
+            return $input;
         }
-        return $input;
+        $options = array_replace_recursive(glsr(OptionManager::class)->all(), [
+            'settings' => $input['settings'],
+        ]);
+        $options = $this->sanitizeForms($options, $input);
+        $options = $this->sanitizeGeneral($options, $input);
+        $options = $this->sanitizeStrings($options, $input);
+        $options = $this->sanitizeAll($options);
+        $options = glsr()->filterArray('settings/sanitize', $options, $input);
+        glsr()->action('settings/updated', $options, $input);
+        if (filter_input(INPUT_POST, 'option_page') === glsr()->id) {
+            glsr(Notice::class)->addSuccess(_x('Settings updated.', 'admin-text', 'site-reviews'));
+        }
+        glsr(Notice::class)->store(); // store the notices before the page reloads
+        return $options;
     }
 
     protected function sanitizeAll(array $options): array
