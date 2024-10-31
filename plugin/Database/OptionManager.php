@@ -43,6 +43,21 @@ class OptionManager
         return $settings;
     }
 
+    public function clean(array $data = []): array
+    {
+        $settings = $this->kses($data);
+        if (!empty(glsr()->settings)) { // access the property directly to prevent an infinite loop
+            $settings = $savedSettings;
+            $defaults = glsr()->defaults(); // @phpstan-ignore-line
+            $defaults = Arr::flatten($defaults);
+            $settings = Arr::flatten($settings);
+            $settings = shortcode_atts($defaults, $settings);
+            $settings = Arr::unflatten($settings);
+            $settings = $this->restoreOrphanedSettings($settings, $savedSettings);
+        }
+        return $settings;
+    }
+
     public static function databaseKey(?int $version = null): string
     {
         $versions = static::databaseKeys();
@@ -135,13 +150,11 @@ class OptionManager
     {
         $settings = $this->kses($data);
         if (!empty(glsr()->settings)) { // access the property directly to prevent an infinite loop
-            $savedSettings = $settings;
             $defaults = glsr()->defaults(); // @phpstan-ignore-line
             $defaults = Arr::flatten($defaults);
             $settings = Arr::flatten($settings);
-            $settings = shortcode_atts($defaults, $settings);
+            $settings = wp_parse_args($settings, $defaults);
             $settings = Arr::unflatten($settings);
-            $settings = $this->restoreOrphanedSettings($settings, $savedSettings);
         }
         return $settings;
     }

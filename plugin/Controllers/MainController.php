@@ -71,6 +71,16 @@ class MainController extends AbstractController
     }
 
     /**
+     * @action site-reviews/migration/end
+     */
+    public function onMigrationEnd(): void
+    {
+        $settings = glsr(OptionManager::class)->wp(OptionManager::databaseKey(), []);
+        $settings = glsr(OptionManager::class)->clean($settings);
+        update_option(OptionManager::databaseKey(), $settings, true);
+    }
+
+    /**
      * @action plugins_loaded
      */
     public function registerAddons(): void
