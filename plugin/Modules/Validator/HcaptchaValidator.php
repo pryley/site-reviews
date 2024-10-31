@@ -18,7 +18,6 @@ class HcaptchaValidator extends CaptchaValidatorAbstract
             'render' => 'explicit',
         ]);
         return glsr(CaptchaConfigDefaults::class)->merge([
-            'badge' => glsr_get_option('forms.captcha.position'),
             'class' => 'glsr-h-captcha', // @compat
             'language' => $language,
             'sitekey' => $this->siteKey(),

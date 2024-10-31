@@ -1543,19 +1543,20 @@ class SettingFieldTest extends \WP_UnitTestCase
         );
     }
 
-    public function test_build_forms_captcha_position(): void
+    public function test_build_forms_captcha_badge(): void
     {
         $this->assertEquals(
-            $this->buildSetting('settings.forms.captcha.position'),
-            '<tr class="glsr-setting-field" data-field="settings.forms.captcha.position">'.
+            $this->buildSetting('settings.forms.captcha.badge'),
+            '<tr class="glsr-setting-field" data-field="settings.forms.captcha.badge">'.
                 '<th scope="row">'.
-                    '<label for="site_reviews-settings-forms-captcha-position">CAPTCHA Badge</label>'.
+                    '<label for="site_reviews-settings-forms-captcha-badge">CAPTCHA Badge</label>'.
                 '</th>'.
                 '<td>'.
-                    '<select class="regular-text" id="site_reviews-settings-forms-captcha-position" name="site_reviews[settings][forms][captcha][position]">'.
+                    '<select class="regular-text" id="site_reviews-settings-forms-captcha-badge" name="site_reviews[settings][forms][captcha][badge]">'.
                         '<option value="bottomleft">Bottom Left</option>'.
                         '<option value="bottomright">Bottom Right</option>'.
-                        '<option value="inline">Inline</option>'.
+                        '<option value="inline_above">Inline (Above Submit Button)</option>'.
+                        '<option value="inline_below">Inline (Below Submit Button)</option>'.
                     '</select>'.
                 '</td>'.
             '</tr>'
