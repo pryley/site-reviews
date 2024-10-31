@@ -178,21 +178,20 @@ class Form extends \ArrayObject implements FormContract
 
     protected function buildResponse(): string
     {
-        $captcha = glsr(Captcha::class)->container();
-        $response = glsr(Template::class)->build('templates/form/response', [
+        $rendered = glsr(Template::class)->build('templates/form/response', [
             'context' => [
                 'class' => $this->classAttrResponse(),
                 'message' => wpautop($this->session->message),
             ],
             'has_errors' => !empty($this->session->errors),
         ]);
-        $rendered = $captcha.$response;
         $rendered = glsr()->filterString("{$this->formName()}/build/response", $rendered, $this);
         return $rendered;
     }
 
     protected function buildSubmitButton(): string
     {
+        $captcha = glsr(Captcha::class)->container();
         $rendered = glsr(Template::class)->build('templates/form/submit-button', [
             'context' => [
                 'class' => $this->classAttrSubmitButton(),
@@ -201,6 +200,11 @@ class Form extends \ArrayObject implements FormContract
             ],
         ]);
         $rendered = glsr()->filterString("{$this->formName()}/build/submit_button", $rendered, $this);
+        if ('above' === glsr_get_option('forms.captcha.placement')) {
+            $rendered = $captcha.$rendered;
+        } else {
+            $rendered = $rendered.$captcha;
+        }
         return $rendered;
     }
 

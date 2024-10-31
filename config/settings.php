@@ -961,7 +961,7 @@ return [ // order is intentional
         'tooltip' => _x('Turnstile is Cloudflare’s privacy-first CAPTCHA alternative. To use it, you will need to <a href="https://dash.cloudflare.com/?to=/:account/turnstile" target="_blank">obtain</a> a site key and a secret key.', 'admin-text', 'site-reviews'),
         'type' => 'secret',
     ],
-    'settings.forms.captcha.position' => [
+    'settings.forms.captcha.badge' => [
         'class' => 'regular-text',
         'default' => 'bottomleft',
         'depends_on' => [
@@ -971,10 +971,31 @@ return [ // order is intentional
         'options' => [
             'bottomleft' => _x('Bottom Left', 'admin-text', 'site-reviews'),
             'bottomright' => _x('Bottom Right', 'admin-text', 'site-reviews'),
-            'inline' => _x('Inline', 'admin-text', 'site-reviews'),
+            'inline_above' => _x('Inline (Above Submit Button)', 'admin-text', 'site-reviews'),
+            'inline_below' => _x('Inline (Below Submit Button)', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'text',
-        'tooltip' => _x('Set the position of the CAPTCHA widget. This option may not work consistently if another plugin is loading reCAPTCHA on the same page as Site Reviews.', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('Set the position of the CAPTCHA badge. This option may not work consistently if another plugin is loading reCAPTCHA on the same page as Site Reviews.', 'admin-text', 'site-reviews'),
+        'type' => 'select',
+    ],
+    'settings.forms.captcha.placement' => [
+        'class' => 'regular-text',
+        'default' => 'below',
+        'depends_on' => [
+            'settings.forms.captcha.integration' => [
+                'friendlycaptcha',
+                'hcaptcha',
+                'procaptcha',
+                'turnstile',
+            ],
+        ],
+        'label' => _x('CAPTCHA Placement', 'admin-text', 'site-reviews'),
+        'options' => [
+            'above' => _x('Above Submit Button', 'admin-text', 'site-reviews'),
+            'below' => _x('Below Submit Button', 'admin-text', 'site-reviews'),
+        ],
+        'sanitizer' => 'text',
+        'tooltip' => _x('Set the placement of the CAPTCHA widget in the form.', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
     'settings.forms.captcha.theme' => [
