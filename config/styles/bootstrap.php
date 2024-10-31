@@ -8,6 +8,7 @@ return [
         'input' => 'form-control',
         'input_checkbox' => 'form-check-input',
         'input_radio' => 'form-check-input',
+        'input_range' => 'form-check-input',
         'input_toggle' => 'form-check-input',
         'label' => 'form-label',
         'label_checkbox' => 'form-check-label',

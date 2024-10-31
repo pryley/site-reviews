@@ -2,26 +2,30 @@
 
 :root body {
     --glsr-radius: 0;
+    --glsr-black: var(--wp--preset--color--black);
+    --glsr-input-border-color: var(--wp--preset--color--black);
+    --glsr-input-radius: 0;
+    --glsr-input-px: calc(0.667em + 2px);
+    --glsr-input-py: calc(0.667em + 2px);
+    --glsr-range-size: var(--wp--preset--font-size--large);
+    --glsr-toggle-bg-1: var(--wp--preset--color--primary);
+    --glsr-text-base: var(--wp--preset--font-size--medium);
+    --glsr-text-sm: var(--wp--preset--font-size--small);
+    --glsr-text-md: var(--wp--preset--font-size--medium);
+    --glsr-text-lg: var(--wp--preset--font-size--large);
 }
 :root .glsr-button {
     border-width: 0;
 }
 :root .glsr-modal input {
-    border: 1px solid var(--glsr-black);
-}
-:--namespace {
-    --glsr-black: var(--wp--preset--color--black);
-    --glsr-input-radius: 0;
-    --glsr-input-px: calc(0.667em + 2px);
-    --glsr-input-py: calc(0.667em + 2px);
-    --glsr-toggle-bg-1: var(--wp--preset--color--primary);
+    border: var(--glsr-input-b);
 }
 :--namespace form.glsr-form input.glsr-input,
 :--namespace form.glsr-form select.glsr-select,
 :--namespace form.glsr-form textarea.glsr-textarea {
     background-color: var(--glsr-white);
+    border: var(--glsr-input-b);
     border-radius: var(--glsr-input-radius);
-    border: 1px solid var(--glsr-black);
     font-family: var(--wp--preset--font-family--inter);
     font-size: var(--glsr-text-md);
     line-height: var(--glsr-leading);
@@ -45,9 +49,9 @@
     text-align: right;
 }
 :--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
-:--namespace form.glsr-form input[type=radio]:is(.glsr-input-radio,.glsr-input-range) {
-    height: var(--glsr-text-lg);
-    width: var(--glsr-text-lg);
+:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+    height: var(--glsr-text-md);
+    width: var(--glsr-text-md);
 }
 :--namespace form.glsr-form .glsr-description {
     font-size: var(--glsr-description-text);

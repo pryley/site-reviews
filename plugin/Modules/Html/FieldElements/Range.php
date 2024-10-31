@@ -14,7 +14,7 @@ class Range extends Radio
 {
     protected function buildReviewField(Arguments $args): string
     {
-        $field = glsr(Builder::class)->div([
+        $field = glsr(Builder::class)->span([
             'class' => 'glsr-range-options',
             'data-placeholder' => __('Please select', 'site-reviews'),
             'text' => parent::buildReviewField($args),
@@ -31,7 +31,7 @@ class Range extends Radio
             fn ($carry, $label) => $carry.glsr(Builder::class)->span($label),
             ''
         );
-        $labels = glsr(Builder::class)->div([
+        $labels = glsr(Builder::class)->span([
             'class' => 'glsr-range-labels',
             'text' => $labels,
         ]);
