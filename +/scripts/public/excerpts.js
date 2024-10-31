@@ -61,9 +61,7 @@ class Excerpts {
             wrapEl.dataset.expanded = 'false';
         }
         el.addEventListener('click', this.events.click);
-        if ('false' === wrapEl.dataset.expanded) {
-            el.focus();
-        }
+        el.focus();
     }
 }
 
