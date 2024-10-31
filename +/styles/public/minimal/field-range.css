@@ -22,10 +22,11 @@
   padding-bottom: var(--glsr-gap-xs);
   position: relative;
   &::before {
-    background-color: var(--glsr-gray-400);
+    background-color: var(--glsr-input-border-color);
     content: '';
     display: block;
-    height: 1px;
+    height: var(--glsr-input-border-width);
+    min-height: 1px;
     position: absolute;
     width: 100%;
   }
@@ -35,9 +36,12 @@
 }
 :--namespace form.glsr-form .glsr-field-range {
   display: flex;
+  position: initial;
   z-index: 1;
 }
 :--namespace form.glsr-form .glsr-range-options input[type="radio"].glsr-input-range {
+  border-radius: 50%;
+  display: block;
   flex-shrink: 0;
   height: var(--glsr-range-size);
   width: var(--glsr-range-size);

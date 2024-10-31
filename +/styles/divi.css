@@ -56,6 +56,9 @@
 }
 :--namespace .glsr-field-rating label,
 :--namespace .et_pb_contact_field_options_title label,
+:--namespace .glsr-field.glsr-hidden {
+    display: none !important;
+}
 :root .glsr-divi[data-form] form.glsr-form .glsr-field > label {
     display: block;
     font-weight: 600;
@@ -83,4 +86,41 @@
     border-top-color: #666;
     margin-top: 3px;
     pointer-events: none;
+}
+
+:--namespace form.glsr-form .glsr-input-range:checked::before {
+    background: #2ea3f2;
+    border-radius: 50%;
+    content: '';
+    display: flex;
+    height: 8px;
+    left: 50%;
+    margin-left: -4px;
+    margin-top: -4px;
+    position: relative;
+    top: 50%;
+    width: 8px;
+}
+
+:--namespace form.glsr-form-responsive {
+    column-gap: 3%;
+    row-gap: 0;
+    display: grid;
+    margin-left: 0;
+}
+:--namespace form.glsr-form-responsive p.et_pb_contact_field {
+    padding-left: 0;
+}
+
+:--namespace .glsr-captcha-holder {
+    clear: both;
+    padding-left: 3%;
+}
+:--namespace .glsr-captcha-holder:not(:has(.glsr-g-recaptcha[data-badge^="bottom"])) {
+    padding-top: 1.5%;
+    margin-bottom: 3%;
+}
+body :--namespace .glsr-captcha-holder .grecaptcha-badge {
+    visibility: initial;
+    z-index: 9999;
 }

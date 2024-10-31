@@ -3,16 +3,30 @@
 :root body {
     --glsr-choice-h: 25px;
     --glsr-choice-w: 25px;
-    --glsr-input-b: var(--form--border-width) solid var(--form--border-color);
+    --glsr-gap-xs: 0.25rem;
+    --glsr-gap-sm: 0.5rem;
+    --glsr-gap-md: 0.75rem;
+    --glsr-gap-lg: 1rem;
+    --glsr-gap-xl: 2rem;
+    --glsr-input-border-color: var(--form--border-color);
+    --glsr-input-border-width: var(--form--border-width);
     --glsr-input-radius: var(--form--border-radius);
+    --glsr-label-weight: var(--form--label-weight);
     --glsr-leading: var(--wp--typography--line-height, var(--global--line-height-body));
     --glsr-modal-bg: var(--global--color-background);
+    --glsr-px: var(--global--spacing-unit);
+    --glsr-py: var(--global--spacing-unit);
     --glsr-text-base: var(--global--font-size-base);
+    --glsr-text-sm: var(--global--font-size-xs);
+    --glsr-text-md: var(--global--font-size-md);
+    --glsr-text-lg: var(--global--font-size-lg);
     --glsr-toggle-bg-0: var(--global--color-white);
     --glsr-toggle-bg-1: var(--form--border-color);
     --glsr-toggle-color: var(--global--color-white);
     --glsr-toggle-h: 25px;
     --glsr-toggle-opacity-0: 1;
+    --glsr-toggle-size: 19px;
+    --glsr-toggle-w: 44px;
 }
 :root body.is-dark-theme {
     --glsr-toggle-bg-0: var(--global--color-background);
@@ -54,8 +68,8 @@
 
 /* Range field */
 :--namespace form.glsr-form .glsr-range-options input[type="radio"]::after {
-    height: calc(var(--glsr-range-size) - 20px);
-    width: calc(var(--glsr-range-size) - 20px);
-    left: 6px;
-    top: 6px;
+    height: calc(var(--glsr-range-size) - 18px);
+    width: calc(var(--glsr-range-size) - 18px);
+    left: 5px;
+    top: 5px;
 }

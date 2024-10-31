@@ -138,6 +138,7 @@ class Style
             'templates/form/submit-button',
             'templates/form/type-checkbox',
             'templates/form/type-radio',
+            'templates/form/type-range',
             'templates/form/type-toggle',
             'templates/load-more-button',
             'templates/pagination',

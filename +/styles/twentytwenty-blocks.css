@@ -59,6 +59,10 @@
     line-height: var(--glsr-leading);
     padding: var(--glsr-input-py) var(--glsr-input-px);
 }
+:--namespace form.glsr-form .glsr-range-labels {
+    font-family: var(--glsr-font);
+    font-size: var(--glsr-text-sm);
+}
 :--namespace .glsr-pagination .nav-links {
     align-items: baseline;
     display: flex;

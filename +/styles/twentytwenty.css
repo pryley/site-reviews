@@ -11,13 +11,14 @@
     --glsr-input-px: 1em;
     --glsr-input-py: 0.83333333em;
     --glsr-text-base: 1.8rem;
-    --glsr-text-sm: 0.88888889em;
-    --glsr-summary-text: 0.88888889em;
+    --glsr-text-sm: 0.77777778em;
+    --glsr-summary-text: 1em;
     --glsr-toggle-h: 1em;
     --glsr-description-text: 1.6rem;
 
     @media (min-width: 700px) {
         --glsr-text-base: 2.1rem;
+        --glsr-summary-text: 0.83333333em;
     }
 }
 :root .glsr-modal,
@@ -26,19 +27,17 @@
 }
 :--namespace .glsr-toggle,
 :--namespace .glsr-toggle > label {
-    font-size: var(--glsr-text-sm);
-    font-family: var(--glsr-font);
+    font-size: 1.6rem;
 }
-:--namespace form.glsr-form .glsr-field-checkbox label,
-:--namespace form.glsr-form .glsr-field-radio label {
+:--namespace form.glsr-form .glsr-field,
+:--namespace form.glsr-form .glsr-field label {
     font-family: var(--glsr-font);
 }
 :--namespace form.glsr-form label.glsr-label {
-    font-family: var(--glsr-font);
+    font-weight: var(--glsr-label-weight);
     margin-bottom: var(--glsr-gap-sm);
 }
 :--namespace form.glsr-form .glsr-description {
-    font-family: var(--glsr-font);
     font-size: var(--glsr-description-text);
     margin-bottom: var(--glsr-gap-sm);
 }
@@ -46,7 +45,7 @@
     background: var(--glsr-white);
     border: solid 0.1rem var(--glsr-gray-300);
     border-radius: var(--glsr-input-radius);
-    font-size: var(--glsr-text-sm);
+    font-size: 1.6rem;
     letter-spacing: -0.015em;
     padding: var(--glsr-input-py) var(--glsr-input-px);
     &:focus {

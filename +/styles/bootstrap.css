@@ -31,3 +31,17 @@
 :--namespace .glsr-pagination ul.pagination {
     margin-bottom: 0;
 }
+:--namespace form.glsr-form .glsr-field:has(.glsr-label + .glsr-description) .glsr-label {
+    margin-bottom: .25rem;
+}
+:--namespace form.glsr-form .glsr-label + .glsr-description {
+    margin-top: 0;
+    margin-bottom: .25rem;
+}
+:--namespace .glsr-summary .glsr-bar-label {
+    display: flex;
+    column-gap: var(--glsr-gap-sm);
+}
+:--namespace .glsr-summary .glsr-bar-label label {
+    font-size: inherit !important;
+}
