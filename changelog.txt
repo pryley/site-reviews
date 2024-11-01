@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 7.2.3 (2024-10-31) =
+
+- Fixed broken HTML in FAQ documentation.
+- Fixed compatibility with the User Activity Log plugin.
+- Fixed validation of plugin settings which prevented some addon settings from saving correctly.
+
 = 7.2.2 (2024-10-25) =
 
 - Fixed form validation to catch manually modified hidden fields

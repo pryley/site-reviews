@@ -516,87 +516,87 @@ msgstr "Verified"
 msgid "Service Unavailable."
 msgstr "Service Unavailable."
 
-#: compatibility.php:110
+#: compatibility.php:122
 msgctxt "admin-text"
 msgid "Create Reviews"
 msgstr "Create Reviews"
 
-#: compatibility.php:111
+#: compatibility.php:123
 msgctxt "admin-text"
 msgid "Delete Others' Reviews"
 msgstr "Delete Others' Reviews"
 
-#: compatibility.php:112
+#: compatibility.php:124
 msgctxt "admin-text"
 msgid "Delete Reviews"
 msgstr "Delete Reviews"
 
-#: compatibility.php:113
+#: compatibility.php:125
 msgctxt "admin-text"
 msgid "Delete Private Reviews"
 msgstr "Delete Private Reviews"
 
-#: compatibility.php:114
+#: compatibility.php:126
 msgctxt "admin-text"
 msgid "Delete Approved Reviews"
 msgstr "Delete Approved Reviews"
 
-#: compatibility.php:115
+#: compatibility.php:127
 msgctxt "admin-text"
 msgid "Edit Others' Reviews"
 msgstr "Edit Others' Reviews"
 
-#: compatibility.php:116
+#: compatibility.php:128
 msgctxt "admin-text"
 msgid "Edit Reviews"
 msgstr "Edit Reviews"
 
-#: compatibility.php:117
+#: compatibility.php:129
 msgctxt "admin-text"
 msgid "Edit Private Reviews"
 msgstr "Edit Private Reviews"
 
-#: compatibility.php:118
+#: compatibility.php:130
 msgctxt "admin-text"
 msgid "Edit Approved Reviews"
 msgstr "Edit Approved Reviews"
 
-#: compatibility.php:119
+#: compatibility.php:131
 msgctxt "admin-text"
 msgid "Approve Reviews"
 msgstr "Approve Reviews"
 
-#: compatibility.php:120
+#: compatibility.php:132
 msgctxt "admin-text"
 msgid "Read Private Reviews"
 msgstr "Read Private Reviews"
 
-#: compatibility.php:121
+#: compatibility.php:133
 msgctxt "admin-text"
 msgid "Respond To Reviews"
 msgstr "Respond To Reviews"
 
-#: compatibility.php:122
+#: compatibility.php:134
 msgctxt "admin-text"
 msgid "Respond To Others' Reviews"
 msgstr "Respond To Others' Reviews"
 
-#: compatibility.php:123
+#: compatibility.php:135
 msgctxt "admin-text"
 msgid "Assign Review Categories"
 msgstr "Assign Review Categories"
 
-#: compatibility.php:124
+#: compatibility.php:136
 msgctxt "admin-text"
 msgid "Delete Review Categories"
 msgstr "Delete Review Categories"
 
-#: compatibility.php:125
+#: compatibility.php:137
 msgctxt "admin-text"
 msgid "Edit Review Categories"
 msgstr "Edit Review Categories"
 
-#: compatibility.php:126
+#: compatibility.php:138
 msgctxt "admin-text"
 msgid "Manage Review Categories"
 msgstr "Manage Review Categories"
@@ -3121,7 +3121,7 @@ msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr "Saving is disabled: %s is currently editing this review."
 
-#: plugin/Controllers/MainController.php:116
+#: plugin/Controllers/MainController.php:126
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr "Local Review"
@@ -3235,17 +3235,17 @@ msgctxt "admin-text"
 msgid "Review Content"
 msgstr "Review Content"
 
-#: plugin/Controllers/SettingsController.php:45
+#: plugin/Controllers/SettingsController.php:49
 msgctxt "admin-text"
 msgid "Settings updated."
 msgstr "Settings updated."
 
-#: plugin/Controllers/SettingsController.php:129
+#: plugin/Controllers/SettingsController.php:131
 msgctxt "admin-text"
 msgid "Please update the %s plugin to v%s or greater to enable the integration."
 msgstr "Please update the %s plugin to v%s or greater to enable the integration."
 
-#: plugin/Controllers/SettingsController.php:123
+#: plugin/Controllers/SettingsController.php:125
 msgctxt "admin-text"
 msgid "Please install/activate the %s plugin to enable the integration."
 msgstr "Please install/activate the %s plugin to enable the integration."

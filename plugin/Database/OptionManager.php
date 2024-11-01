@@ -47,7 +47,7 @@ class OptionManager
     {
         $settings = $this->kses($data);
         if (!empty(glsr()->settings)) { // access the property directly to prevent an infinite loop
-            $settings = $savedSettings;
+            $savedSettings = $settings;
             $defaults = glsr()->defaults(); // @phpstan-ignore-line
             $defaults = Arr::flatten($defaults);
             $settings = Arr::flatten($settings);
