@@ -108,8 +108,21 @@ class UploadedFile extends \SplFileInfo
         $mimetypes = wp_parse_args(get_allowed_mime_types(), [
             'json' => 'application/json',
         ]);
-        $extensions = explode('|', array_search($this->getClientMimeType(), $mimetypes, true));
+        $extensions = explode('|', array_search($this->getMimeType(), $mimetypes, true));
         return $extensions[0] ?? $this->getExtension() ?? $this->getClientOriginalExtension();
+    }
+
+    /**
+     * This should not be considered a safe value.
+     */
+    public function getMimeType(): string
+    {
+        if (function_exists('mime_content_type')) {
+            if ($mimeType = mime_content_type($this->getPathname())) {
+                return $mimeType;
+            }
+        }
+        return $this->getClientMimeType();
     }
 
     /**
@@ -118,21 +131,19 @@ class UploadedFile extends \SplFileInfo
      */
     public function hasMimeType(string $mimeType): bool
     {
-        if (function_exists('mime_content_type')) {
-            $inconclusiveMimeTypes = [
-                'application/octet-stream',
-                'application/x-empty',
-                'text/plain',
-            ];
-            $detectedMimeType = mime_content_type($this->getPathname());
-            if (!in_array($detectedMimeType, $inconclusiveMimeTypes)) {
-                return $mimeType === $detectedMimeType;
-            }
-        }
-        if ('text/csv' === $mimeType && 'application/vnd.ms-excel' === $this->getClientMimeType()) {
+        $detectedMimeType = $this->getMimeType();
+        if ('text/csv' === $mimeType && 'application/vnd.ms-excel' === $detectedMimeType) {
             return 'csv' === ($this->getExtension() ?? $this->getClientOriginalExtension());
         }
-        return $mimeType === $this->getClientMimeType();
+        $inconclusiveMimeTypes = [
+            'application/octet-stream',
+            'application/x-empty',
+            'text/plain',
+        ];
+        if (in_array($detectedMimeType, $inconclusiveMimeTypes)) {
+            return true;
+        }
+        return $mimeType === $detectedMimeType;
     }
 
     /**

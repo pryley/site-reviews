@@ -182,9 +182,10 @@ class ProcessCsvFile extends AbstractCommand
             return false;
         }
         if (!$file->hasMimeType('text/csv')) {
-            glsr(Notice::class)->addError(
-                sprintf(_x('The import file is not a valid CSV file (detected: %s).', 'admin-text', 'site-reviews'), $file->getClientMimeType())
-            );
+            glsr(Notice::class)->addError(sprintf(
+                _x('The import file does not look like a valid CSV file (detected: %s). If this is incorrect, make sure that your server is configured to detect mime types.', 'admin-text', 'site-reviews'),
+                $file->getMimeType()
+            ));
             return false;
         }
         return true;
