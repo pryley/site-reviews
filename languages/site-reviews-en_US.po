@@ -1899,66 +1899,91 @@ msgstr "Bottom Right"
 
 #: config/settings.php:974
 msgctxt "admin-text"
-msgid "Inline"
-msgstr "Inline"
+msgid "Inline (Above Submit Button)"
+msgstr "Inline (Above Submit Button)"
 
-#: config/settings.php:977
+#: config/settings.php:975
+msgctxt "admin-text"
+msgid "Inline (Below Submit Button)"
+msgstr "Inline (Below Submit Button)"
+
+#: config/settings.php:978
 msgctxt "admin-text"
 msgid ""
-"Set the position of the CAPTCHA widget. This option may not work "
+"Set the position of the CAPTCHA badge. This option may not work "
 "consistently if another plugin is loading reCAPTCHA on the same page as "
 "Site Reviews."
 msgstr ""
-"Set the position of the CAPTCHA widget. This option may not work "
+"Set the position of the CAPTCHA badge. This option may not work "
 "consistently if another plugin is loading reCAPTCHA on the same page as "
 "Site Reviews."
 
-#: config/settings.php:993
+#: config/settings.php:992
+msgctxt "admin-text"
+msgid "CAPTCHA Placement"
+msgstr "CAPTCHA Placement"
+
+#: config/settings.php:994
+msgctxt "admin-text"
+msgid "Above Submit Button"
+msgstr "Above Submit Button"
+
+#: config/settings.php:995
+msgctxt "admin-text"
+msgid "Below Submit Button"
+msgstr "Below Submit Button"
+
+#: config/settings.php:998
+msgctxt "admin-text"
+msgid "Set the placement of the CAPTCHA widget in the form."
+msgstr "Set the placement of the CAPTCHA widget in the form."
+
+#: config/settings.php:1014
 msgctxt "admin-text"
 msgid "CAPTCHA Theme"
 msgstr "CAPTCHA Theme"
 
-#: config/settings.php:995
+#: config/settings.php:1016
 msgctxt "admin-text"
 msgid "Light"
 msgstr "Light"
 
-#: config/settings.php:996
+#: config/settings.php:1017
 msgctxt "admin-text"
 msgid "Dark"
 msgstr "Dark"
 
-#: config/settings.php:999
+#: config/settings.php:1020
 msgctxt "admin-text"
 msgid "Set the color theme of the CAPTCHA widget."
 msgstr "Set the color theme of the CAPTCHA widget."
 
-#: config/settings.php:1015
+#: config/settings.php:1036
 msgctxt "admin-text"
 msgid "CAPTCHA Usage"
 msgstr "CAPTCHA Usage"
 
-#: config/settings.php:1017
+#: config/settings.php:1038
 msgctxt "admin-text"
 msgid "Use for everyone"
 msgstr "Use for everyone"
 
-#: config/settings.php:1018
+#: config/settings.php:1039
 msgctxt "admin-text"
 msgid "Use only for guest users"
 msgstr "Use only for guest users"
 
-#: config/settings.php:1021
+#: config/settings.php:1042
 msgctxt "admin-text"
 msgid "Choose who you want to load the CAPTCHA for."
 msgstr "Choose who you want to load the CAPTCHA for."
 
-#: config/settings.php:1026
+#: config/settings.php:1047
 msgctxt "admin-text"
 msgid "Enable Akismet"
 msgstr "Enable Akismet"
 
-#: config/settings.php:1028
+#: config/settings.php:1049
 msgctxt "admin-text"
 msgid ""
 "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> "
@@ -1971,12 +1996,12 @@ msgstr ""
 "setting to have any affect, you will need to first install and activate the "
 "Akismet plugin and set up a WordPress.com API key."
 
-#: config/settings.php:1034
+#: config/settings.php:1055
 msgctxt "admin-text"
 msgid "Prevent Duplicates"
 msgstr "Prevent Duplicates"
 
-#: config/settings.php:1036
+#: config/settings.php:1057
 msgctxt "admin-text"
 msgid ""
 "This will prevent people from submitting multiple reviews with the same "
@@ -1985,22 +2010,22 @@ msgstr ""
 "This will prevent people from submitting multiple reviews with the same "
 "content."
 
-#: config/settings.php:1042
+#: config/settings.php:1063
 msgctxt "admin-text"
 msgid "Blacklist"
 msgstr "Blacklist"
 
-#: config/settings.php:1044
+#: config/settings.php:1065
 msgctxt "admin-text"
 msgid "Use the Site Reviews Blacklist"
 msgstr "Use the Site Reviews Blacklist"
 
-#: config/settings.php:1045
+#: config/settings.php:1066
 msgctxt "admin-text"
 msgid "Use the WordPress Disallowed Comment Keys"
 msgstr "Use the WordPress Disallowed Comment Keys"
 
-#: config/settings.php:1048
+#: config/settings.php:1069
 msgctxt "admin-text"
 msgid ""
 "Choose which Blacklist you would prefer to use for reviews. The %s option "
@@ -2009,17 +2034,17 @@ msgstr ""
 "Choose which Blacklist you would prefer to use for reviews. The %s option "
 "can be found in the WordPress Discussion Settings page."
 
-#: config/settings.php:1049
+#: config/settings.php:1070
 msgctxt "admin-text"
 msgid "Disallowed Comment Keys"
 msgstr "Disallowed Comment Keys"
 
-#: config/settings.php:1058
+#: config/settings.php:1079
 msgctxt "admin-text"
 msgid "Review Blacklist"
 msgstr "Review Blacklist"
 
-#: config/settings.php:1061
+#: config/settings.php:1082
 msgctxt "admin-text"
 msgid ""
 "One entry or IP address per line. When a review contains any of these "
@@ -2032,22 +2057,22 @@ msgstr ""
 "rejected. It is case-insensitive and will match partial words, so \"press\" "
 "will match \"WordPress\"."
 
-#: config/settings.php:1067
+#: config/settings.php:1088
 msgctxt "admin-text"
 msgid "Blacklist Action"
 msgstr "Blacklist Action"
 
-#: config/settings.php:1069
+#: config/settings.php:1090
 msgctxt "admin-text"
 msgid "Require approval"
 msgstr "Require approval"
 
-#: config/settings.php:1070
+#: config/settings.php:1091
 msgctxt "admin-text"
 msgid "Reject submission"
 msgstr "Reject submission"
 
-#: config/settings.php:1073
+#: config/settings.php:1094
 msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
@@ -2767,15 +2792,19 @@ msgstr ""
 
 #: plugin/Commands/ProcessCsvFile.php:186
 msgctxt "admin-text"
-msgid "The import file is not a valid CSV file (detected: %s)."
-msgstr "The import file is not a valid CSV file (detected: %s)."
+msgid ""
+"The import file does not look like a valid CSV file (detected: %s). If this "
+"is incorrect, make sure that your server is configured to detect mime types."
+msgstr ""
+"The import file does not look like a valid CSV file (detected: %s). If this "
+"is incorrect, make sure that your server is configured to detect mime types."
 
-#: plugin/Commands/ProcessCsvFile.php:204
+#: plugin/Commands/ProcessCsvFile.php:205
 msgctxt "admin-text"
 msgid "Incorrect date format"
 msgstr "Incorrect date format"
 
-#: plugin/Commands/ProcessCsvFile.php:205
+#: plugin/Commands/ProcessCsvFile.php:206
 msgctxt "admin-text"
 msgid "Empty or invalid rating"
 msgstr "Empty or invalid rating"

@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 7.3.0 (2024-11-03) =
+
+- Added an option to change the position of the Catcha (above or below the submit button in the review form).
+- Fixed link focus when expanding exceprts with the keyboard.
+- Improved CSS of plugin styles for some themes.
+
 = 7.2.3 (2024-10-31) =
 
 - Fixed broken HTML in FAQ documentation.

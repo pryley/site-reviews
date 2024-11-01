@@ -268,7 +268,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
                 '<label class="glsr-label" for="">'.
                     '<span>Foobar</span>'.
                 '</label>'.
-                '<div class="glsr-range-options" data-placeholder="Please select">'.
+                '<span class="glsr-range-options" data-placeholder="Please select">'.
                     '<span class="glsr-field-range">'.
                         '<input type="radio" class="glsr-input-range" id="site-reviews-foobar-1" name="site-reviews[foobar]" value="1" />'.
                         '<label for="site-reviews-foobar-1">Foo</label>'.
@@ -277,7 +277,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
                         '<input type="radio" class="glsr-input-range" id="site-reviews-foobar-2" name="site-reviews[foobar]" value="2" />'.
                         '<label for="site-reviews-foobar-2">Bar</label>'.
                     '</span>'.
-                '</div>'.
+                '</span>'.
                 '<div class="glsr-field-error"></div>'.
             '</div>',
             $this->build([
@@ -299,12 +299,12 @@ class ReviewFieldTest extends \WP_UnitTestCase
                 '<label class="glsr-label" for="">'.
                     '<span>Foobar</span>'.
                 '</label>'.
-                '<div class="glsr-range-labels">'.
+                '<span class="glsr-range-labels">'.
                     '<span>Left</span>'.
                     '<span>Middle</span>'.
                     '<span>Right</span>'.
-                '</div>'.
-                '<div class="glsr-range-options" data-placeholder="Please select">'.
+                '</span>'.
+                '<span class="glsr-range-options" data-placeholder="Please select">'.
                     '<span class="glsr-field-range">'.
                         '<input type="radio" class="glsr-input-range" id="site-reviews-foobar-1" name="site-reviews[foobar]" value="1" />'.
                         '<label for="site-reviews-foobar-1">Foo</label>'.
@@ -313,7 +313,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
                         '<input type="radio" class="glsr-input-range" id="site-reviews-foobar-2" name="site-reviews[foobar]" value="2" />'.
                         '<label for="site-reviews-foobar-2">Bar</label>'.
                     '</span>'.
-                '</div>'.
+                '</span>'.
                 '<div class="glsr-field-error"></div>'.
             '</div>',
             $this->build([

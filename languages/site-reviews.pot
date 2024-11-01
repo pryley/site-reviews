@@ -1276,125 +1276,150 @@ msgstr ""
 
 #: config/settings.php:974
 msgctxt "admin-text"
-msgid "Inline"
+msgid "Inline (Above Submit Button)"
 msgstr ""
 
-#: config/settings.php:977
+#: config/settings.php:975
 msgctxt "admin-text"
-msgid "Set the position of the CAPTCHA widget. This option may not work consistently if another plugin is loading reCAPTCHA on the same page as Site Reviews."
+msgid "Inline (Below Submit Button)"
 msgstr ""
 
-#: config/settings.php:993
+#: config/settings.php:978
 msgctxt "admin-text"
-msgid "CAPTCHA Theme"
+msgid "Set the position of the CAPTCHA badge. This option may not work consistently if another plugin is loading reCAPTCHA on the same page as Site Reviews."
+msgstr ""
+
+#: config/settings.php:992
+msgctxt "admin-text"
+msgid "CAPTCHA Placement"
+msgstr ""
+
+#: config/settings.php:994
+msgctxt "admin-text"
+msgid "Above Submit Button"
 msgstr ""
 
 #: config/settings.php:995
 msgctxt "admin-text"
+msgid "Below Submit Button"
+msgstr ""
+
+#: config/settings.php:998
+msgctxt "admin-text"
+msgid "Set the placement of the CAPTCHA widget in the form."
+msgstr ""
+
+#: config/settings.php:1014
+msgctxt "admin-text"
+msgid "CAPTCHA Theme"
+msgstr ""
+
+#: config/settings.php:1016
+msgctxt "admin-text"
 msgid "Light"
-msgstr ""
-
-#: config/settings.php:996
-msgctxt "admin-text"
-msgid "Dark"
-msgstr ""
-
-#: config/settings.php:999
-msgctxt "admin-text"
-msgid "Set the color theme of the CAPTCHA widget."
-msgstr ""
-
-#: config/settings.php:1015
-msgctxt "admin-text"
-msgid "CAPTCHA Usage"
 msgstr ""
 
 #: config/settings.php:1017
 msgctxt "admin-text"
-msgid "Use for everyone"
+msgid "Dark"
 msgstr ""
 
-#: config/settings.php:1018
+#: config/settings.php:1020
 msgctxt "admin-text"
-msgid "Use only for guest users"
-msgstr ""
-
-#: config/settings.php:1021
-msgctxt "admin-text"
-msgid "Choose who you want to load the CAPTCHA for."
-msgstr ""
-
-#: config/settings.php:1026
-msgctxt "admin-text"
-msgid "Enable Akismet"
-msgstr ""
-
-#: config/settings.php:1028
-msgctxt "admin-text"
-msgid "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> integration provides spam-filtering for your reviews. In order for this setting to have any affect, you will need to first install and activate the Akismet plugin and set up a WordPress.com API key."
-msgstr ""
-
-#: config/settings.php:1034
-msgctxt "admin-text"
-msgid "Prevent Duplicates"
+msgid "Set the color theme of the CAPTCHA widget."
 msgstr ""
 
 #: config/settings.php:1036
 msgctxt "admin-text"
-msgid "This will prevent people from submitting multiple reviews with the same content."
+msgid "CAPTCHA Usage"
+msgstr ""
+
+#: config/settings.php:1038
+msgctxt "admin-text"
+msgid "Use for everyone"
+msgstr ""
+
+#: config/settings.php:1039
+msgctxt "admin-text"
+msgid "Use only for guest users"
 msgstr ""
 
 #: config/settings.php:1042
 msgctxt "admin-text"
-msgid "Blacklist"
+msgid "Choose who you want to load the CAPTCHA for."
 msgstr ""
 
-#: config/settings.php:1044
+#: config/settings.php:1047
 msgctxt "admin-text"
-msgid "Use the Site Reviews Blacklist"
-msgstr ""
-
-#: config/settings.php:1045
-msgctxt "admin-text"
-msgid "Use the WordPress Disallowed Comment Keys"
-msgstr ""
-
-#: config/settings.php:1048
-msgctxt "admin-text"
-msgid "Choose which Blacklist you would prefer to use for reviews. The %s option can be found in the WordPress Discussion Settings page."
+msgid "Enable Akismet"
 msgstr ""
 
 #: config/settings.php:1049
 msgctxt "admin-text"
-msgid "Disallowed Comment Keys"
+msgid "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> integration provides spam-filtering for your reviews. In order for this setting to have any affect, you will need to first install and activate the Akismet plugin and set up a WordPress.com API key."
 msgstr ""
 
-#: config/settings.php:1058
+#: config/settings.php:1055
 msgctxt "admin-text"
-msgid "Review Blacklist"
+msgid "Prevent Duplicates"
 msgstr ""
 
-#: config/settings.php:1061
+#: config/settings.php:1057
 msgctxt "admin-text"
-msgid "One entry or IP address per line. When a review contains any of these entries in its title, content, name, email, or IP address, it will be rejected. It is case-insensitive and will match partial words, so \"press\" will match \"WordPress\"."
+msgid "This will prevent people from submitting multiple reviews with the same content."
 msgstr ""
 
-#: config/settings.php:1067
+#: config/settings.php:1063
 msgctxt "admin-text"
-msgid "Blacklist Action"
+msgid "Blacklist"
+msgstr ""
+
+#: config/settings.php:1065
+msgctxt "admin-text"
+msgid "Use the Site Reviews Blacklist"
+msgstr ""
+
+#: config/settings.php:1066
+msgctxt "admin-text"
+msgid "Use the WordPress Disallowed Comment Keys"
 msgstr ""
 
 #: config/settings.php:1069
 msgctxt "admin-text"
-msgid "Require approval"
+msgid "Choose which Blacklist you would prefer to use for reviews. The %s option can be found in the WordPress Discussion Settings page."
 msgstr ""
 
 #: config/settings.php:1070
 msgctxt "admin-text"
+msgid "Disallowed Comment Keys"
+msgstr ""
+
+#: config/settings.php:1079
+msgctxt "admin-text"
+msgid "Review Blacklist"
+msgstr ""
+
+#: config/settings.php:1082
+msgctxt "admin-text"
+msgid "One entry or IP address per line. When a review contains any of these entries in its title, content, name, email, or IP address, it will be rejected. It is case-insensitive and will match partial words, so \"press\" will match \"WordPress\"."
+msgstr ""
+
+#: config/settings.php:1088
+msgctxt "admin-text"
+msgid "Blacklist Action"
+msgstr ""
+
+#: config/settings.php:1090
+msgctxt "admin-text"
+msgid "Require approval"
+msgstr ""
+
+#: config/settings.php:1091
+msgctxt "admin-text"
 msgid "Reject submission"
 msgstr ""
 
-#: config/settings.php:1073
+#: config/settings.php:1094
 msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr ""
@@ -2177,15 +2202,15 @@ msgstr ""
 
 #: plugin/Commands/ProcessCsvFile.php:186
 msgctxt "admin-text"
-msgid "The import file is not a valid CSV file (detected: %s)."
+msgid "The import file does not look like a valid CSV file (detected: %s). If this is incorrect, make sure that your server is configured to detect mime types."
 msgstr ""
 
-#: plugin/Commands/ProcessCsvFile.php:204
+#: plugin/Commands/ProcessCsvFile.php:205
 msgctxt "admin-text"
 msgid "Incorrect date format"
 msgstr ""
 
-#: plugin/Commands/ProcessCsvFile.php:205
+#: plugin/Commands/ProcessCsvFile.php:206
 msgctxt "admin-text"
 msgid "Empty or invalid rating"
 msgstr ""
