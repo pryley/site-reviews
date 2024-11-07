@@ -333,6 +333,33 @@ class Helper
         return $value;
     }
 
+    public static function svg(string $path, bool $encode = false): string
+    {
+        if (!file_exists($path)) {
+            $path = glsr()->path($path);
+        }
+        if (!file_exists($path)) {
+            glsr_log()->error("Invalid SVG filepath: $path");
+            return '';
+        }
+        $check = wp_check_filetype($path, [
+            'svg' => 'image/svg+xml',
+        ]);
+        if ('svg' !== $check['ext'] || 'image/svg+xml' !== $check['type']) {
+            glsr_log()->error("Invalid SVG file: $path");
+            return '';
+        }
+        $svg = (string) file_get_contents($path);
+        $svg = preg_replace('/\s+/', ' ', $svg);
+        $svg = trim($svg);
+        if ($encode) {
+            $svg = str_replace('"', "'", $svg);
+            $svg = base64_encode($svg);
+            $svg = "data:image/svg+xml;base64,{$svg}";
+        }
+        return $svg;
+    }
+
     public static function version(string $version, string $versionLevel = ''): string
     {
         $pattern = '/^v?(\d{1,5})(\.\d++)?(\.\d++)?(.+)?$/i';
