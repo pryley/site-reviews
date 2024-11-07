@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Install;
@@ -204,7 +205,7 @@ class AdminController extends AbstractController
         glsr()->render('views/partials/page-header', [
             'buttons' => $buttons,
             'hasScreenOptions' => in_array($screen->base, ['edit', 'edit-tags', 'post']),
-            'logo' => file_get_contents(glsr()->path('assets/images/mascot.svg')),
+            'logo' => Helper::svg('assets/images/mascot.svg', false),
             'title' => esc_html($title),
         ]);
     }
