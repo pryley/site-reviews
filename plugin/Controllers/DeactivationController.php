@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\DeactivatePlugin;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Request;
 
 class DeactivationController extends AbstractController
@@ -98,37 +99,37 @@ class DeactivationController extends AbstractController
     {
         $reasons = [ // order is intentional
             [
-                'icon' => file_get_contents(glsr()->path('assets/images/icons/confused.svg')),
+                'icon' => Helper::svg('assets/images/icons/confused.svg', false),
                 'id' => 'confused',
                 'placeholder' => _x('If you would like me to help, please include your email so I can contact you.', 'admin-text', 'site-reviews'),
                 'text' => _x("It's too complicated", 'admin-text', 'site-reviews'),
             ],
             [
-                'icon' => file_get_contents(glsr()->path('assets/images/icons/found-better.svg')),
+                'icon' => Helper::svg('assets/images/icons/found-better.svg', false),
                 'id' => 'found-better',
                 'placeholder' => _x('Which plugin is better?', 'admin-text', 'site-reviews'),
                 'text' => _x('I found something better', 'admin-text', 'site-reviews'),
             ],
             [
-                'icon' => file_get_contents(glsr()->path('assets/images/icons/not-working.svg')),
+                'icon' => Helper::svg('assets/images/icons/not-working.svg', false),
                 'id' => 'not-working',
                 'placeholder' => _x("What isn't working? Please let me know so I can fix it.", 'admin-text', 'site-reviews'),
                 'text' => _x("It's not working for me", 'admin-text', 'site-reviews'),
             ],
             [
-                'icon' => file_get_contents(glsr()->path('assets/images/icons/temporary.svg')),
+                'icon' => Helper::svg('assets/images/icons/temporary.svg', false),
                 'id' => 'temporary',
                 'placeholder' => '', // don't show the textarea
                 'text' => _x("It's only temporary", 'admin-text', 'site-reviews'),
             ],
             [
-                'icon' => file_get_contents(glsr()->path('assets/images/icons/feature-missing.svg')),
+                'icon' => Helper::svg('assets/images/icons/feature-missing.svg', false),
                 'id' => 'feature-missing',
                 'placeholder' => _x('Which feature are you looking for?', 'admin-text', 'site-reviews'),
                 'text' => _x('Missing a specific feature', 'admin-text', 'site-reviews'),
             ],
             [
-                'icon' => file_get_contents(glsr()->path('assets/images/icons/other-reason.svg')),
+                'icon' => Helper::svg('assets/images/icons/other-reason.svg', false),
                 'id' => 'other-reason',
                 'placeholder' => _x('Could you tell me a bit more?', 'admin-text', 'site-reviews'),
                 'text' => _x('Other Reason', 'admin-text', 'site-reviews'),

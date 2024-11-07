@@ -21,6 +21,6 @@
         <div class="glsr-flyout-label">
             <div><?php echo _x('Do you need help?', 'admin-text', 'site-reviews'); ?></div>
         </div>
-        <?php echo file_get_contents(glsr()->path('assets/images/mascot-alt.svg')); ?>
+        <?php echo \GeminiLabs\SiteReviews\Helper::svg('assets/images/mascot-alt.svg', false); ?>
     </a>
 </div>
