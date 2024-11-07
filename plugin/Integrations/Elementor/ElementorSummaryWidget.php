@@ -15,7 +15,7 @@ class ElementorSummaryWidget extends ElementorWidget
      */
     public function get_icon()
     {
-        return 'eicon-rating';
+        return 'eicon-glsr-summary';
     }
 
     /**

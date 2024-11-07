@@ -13,7 +13,7 @@ class ElementorFormWidget extends ElementorWidget
      */
     public function get_icon()
     {
-        return 'eicon-form-horizontal';
+        return 'eicon-glsr-form';
     }
 
     /**
