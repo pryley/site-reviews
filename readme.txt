@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 6.7
-Stable tag: 7.2.6
+Stable tag: 8.0.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -196,9 +196,11 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 == Changelog ==
 
-= 7.2.6 (2025-02-16) =
+= 8.0.0 (2025-03-??) =
 
-- Fixed a PHP Error triggered when the "%s Star | %s Stars" text is missing the placeholder tags in the Settings > Strings page.
+- Added an option to change the position of the Catcha (above or below the submit button in the review form).
+- Fixed link focus when expanding exceprts with the keyboard.
+- Improved CSS of plugin styles for some themes.
 
 = 7.2.5 (2025-02-12) =
 
