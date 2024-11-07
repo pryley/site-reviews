@@ -250,6 +250,33 @@ class Database
         return update_metadata('post', $postId, $key, $value); // update_metadata works with revisions
     }
 
+    public function posts(array $args = []): array
+    {
+        $postTypes = get_post_types([
+            '_builtin' => false,
+            'exclude_from_search' => true,
+            'public' => true,
+            'show_in_rest' => true,
+            'show_ui' => true,
+        ]);
+        $postTypes[] = 'post';
+        $postTypes[] = 'page';
+        $args = wp_parse_args($args, [
+            'ignore_sticky_posts' => true,
+            'numberposts' => 50,
+            'order' => 'ASC',
+            'orderby' => 'title',
+            'post_type' => array_values($postTypes),
+        ]);
+        $posts = get_posts($args);
+        $results = [];
+        foreach ($posts as $post) {
+            $title = sanitize_text_field($post->post_title);
+            $results[$post->ID] = trim("{$title} ({$post->ID})");
+        }
+        return $results;
+    }
+
     public function searchAssignedPosts(string $searchTerm): SearchAssignedPosts
     {
         return glsr(SearchAssignedPosts::class)->search($searchTerm);
