@@ -106,7 +106,6 @@ abstract class Shortcode implements ShortcodeContract
         if (!empty($type)) {
             $this->type = $type;
         }
-        $args = wp_parse_args($args);
         $args = glsr()->filterArray('shortcode/args', $args, $this->shortcode);
         $args = $this->defaults()->unguardedRestrict($args);
         foreach ($args as $key => &$value) {
