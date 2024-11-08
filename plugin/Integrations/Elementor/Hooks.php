@@ -23,6 +23,7 @@ class Hooks extends AbstractHooks
             ['parseElementCss', 'elementor/element/parse_css', 10, 2],
             ['registerElementorCategory', 'elementor/elements/categories_registered'],
             ['registerElementorWidgets', 'elementor/widgets/register'],
+            ['registerInlineStyles', 'admin_enqueue_scripts', 20],
             ['registerInlineStyles', 'elementor/editor/after_enqueue_styles'],
             ['registerInlineStyles', 'elementor/preview/enqueue_styles'],
             ['registerScripts', 'elementor/editor/after_enqueue_scripts'],
