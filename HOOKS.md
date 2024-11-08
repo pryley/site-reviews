@@ -140,6 +140,7 @@
     site-reviews/enqueue/public/localize/ajax-pagination        (array $selectors): array
     site-reviews/export/settings/extra                          (array $extra): array
     site-reviews/field/element/<field_element_type>             (string $className, Contracts\FieldContract $field): string
+    site-reviews/flatsome/shortcode/args                        (array $args, string $shortcode): array
     site-reviews/flyoutmenu/enabled                             (bool $bool): bool
     site-reviews/flyoutmenu/items                               (array $items): array
     site-reviews/fusion-builder/controls/site_review            (array $parameters): array

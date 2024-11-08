@@ -10,7 +10,13 @@ class FlatsomeSiteReviewsForm extends FlatsomeShortcode
     public function options(): array
     {
         return [
-            'assignment_group' => [
+            'reviews_id' => [
+                'type' => 'textfield',
+                'heading' => esc_html_x('Reviews ID', 'admin-text', 'site-reviews'),
+                'description' => esc_html_x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
+                'full_width' => true,
+            ],
+            'glsr_group_assignment' => [
                 'type' => 'group',
                 'heading' => esc_html_x('Review Assignment', 'admin-text', 'site-reviews'),
                 'options' => [
@@ -21,7 +27,7 @@ class FlatsomeSiteReviewsForm extends FlatsomeShortcode
                         'full_width' => true,
                         'config' => [
                             'multiple' => true,
-                            'placeholder' => esc_html_x('Select...', 'admin-text', 'site-reviews'),
+                            'placeholder' => esc_html_x('Select a Page...', 'admin-text', 'site-reviews'),
                             'postSelect' => 'assigned_posts_query',
                         ],
                     ],
@@ -32,7 +38,7 @@ class FlatsomeSiteReviewsForm extends FlatsomeShortcode
                         'full_width' => true,
                         'config' => [
                             'multiple' => true,
-                            'placeholder' => esc_html_x('Select...', 'admin-text', 'site-reviews'),
+                            'placeholder' => esc_html_x('Select a Category...', 'admin-text', 'site-reviews'),
                             'termSelect' => [
                                 'taxonomies' => glsr()->taxonomy,
                             ],
@@ -45,27 +51,21 @@ class FlatsomeSiteReviewsForm extends FlatsomeShortcode
                         'full_width' => true,
                         'config' => [
                             'multiple' => true,
-                            'placeholder' => esc_html_x('Select...', 'admin-text', 'site-reviews'),
+                            'placeholder' => esc_html_x('Select a User...', 'admin-text', 'site-reviews'),
                             'postSelect' => 'assigned_users_query',
                         ],
                     ],
                 ],
             ],
-            'hide_group' => [
+            'glsr_group_hide' => [
                 'type' => 'group',
-                'heading' => esc_html_x('Hide Fields', 'admin-text', 'site-reviews'),
+                'heading' => esc_html_x('Hide Options', 'admin-text', 'site-reviews'),
                 'options' => $this->hideOptions(),
             ],
-            'advanced_group' => [
+            'glsr_group_advanced' => [
                 'type' => 'group',
                 'heading' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
                 'options' => [
-                    'reviews_id' => [
-                        'type' => 'textfield',
-                        'heading' => esc_html_x('Custom Reviews ID', 'admin-text', 'site-reviews'),
-                        'description' => esc_html_x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
-                        'full_width' => true,
-                    ],
                     'id' => [
                         'type' => 'textfield',
                         'heading' => esc_html_x('Custom ID', 'admin-text', 'site-reviews'),
