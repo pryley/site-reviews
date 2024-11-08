@@ -2,18 +2,16 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder;
 
-use GeminiLabs\SiteReviews\Helpers\Cast;
-use GeminiLabs\SiteReviews\Modules\Rating;
-use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
-class FusionRatingSummary extends FusionElement
+class FusionSiteReviewsForm extends FusionElement
 {
     public static function elementParameters(): array
     {
         return [
             'assigned_posts' => [
                 'default' => '',
-                'heading' => esc_attr_x('Limit Reviews to an Assigned Page', 'admin-text', 'site-reviews'),
+                'heading' => esc_attr_x('Assign Review to a Page', 'admin-text', 'site-reviews'),
                 'param_name' => 'assigned_posts',
                 'type' => 'multiple_select',
                 'placeholder_text' => esc_attr_x('Select or Leave Blank', 'admin-text', 'site-reviews'),
@@ -37,10 +35,10 @@ class FusionRatingSummary extends FusionElement
                     ],
                 ],
             ],
-            'assigned_terms' => static::optionAssignedTerms(esc_attr_x('Limit Reviews to an Assigned Category', 'admin-text', 'site-reviews')),
+            'assigned_terms' => static::optionAssignedTerms(esc_attr_x('Assign Review to Categories', 'admin-text', 'site-reviews')),
             'assigned_users' => [
                 'default' => '',
-                'heading' => esc_attr_x('Limit Reviews to an Assigned User', 'admin-text', 'site-reviews'),
+                'heading' => esc_attr_x('Assign Review to a User', 'admin-text', 'site-reviews'),
                 'param_name' => 'assigned_users',
                 'placeholder_text' => esc_attr_x('Select or Leave Blank', 'admin-text', 'site-reviews'),
                 'type' => 'multiple_select',
@@ -65,45 +63,13 @@ class FusionRatingSummary extends FusionElement
                     ],
                 ],
             ],
-            'terms' => [
-                'default' => '',
-                'heading' => esc_attr_x('Limit Reviews to Terms?', 'admin-text', 'site-reviews'),
-                'param_name' => 'terms',
-                'type' => 'select',
-                'value' => [
-                    '' => esc_attr_x('No', 'admin-text', 'site-reviews'),
-                    'true' => esc_attr_x('Terms were accepted', 'admin-text', 'site-reviews'),
-                    'false' => esc_attr_x('Terms were not accepted', 'admin-text', 'site-reviews'),
-                ],
-            ],
-            'type' => static::optionReviewTypes(),
-            'rating' => [
-                'default' => 0,
-                'heading' => esc_html_x('Minimum Rating', 'admin-text', 'site-reviews'),
-                'max' => Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)),
-                'min' => Cast::toInt(glsr()->constant('MIN_RATING', Rating::class)),
-                'param_name' => 'rating',
-                'type' => 'range',
-                'value' => 0,
-            ],
-            'schema' => [
-                'default' => 0,
-                'description' => _x('The schema should only be enabled once per page.', 'admin-text', 'site-reviews'),
-                'heading' => esc_html_x('Enable the schema?', 'admin-text', 'site-reviews'),
-                'param_name' => 'schema',
-                'type' => 'radio_button_set',
-                'value' => [
-                    0 => esc_html_x('No', 'admin-text', 'site-reviews'),
-                    1 => esc_html_x('Yes', 'admin-text', 'site-reviews'),
-                ],
-            ],
             'hide' => [
                 'default' => '',
                 'heading' => esc_html_x('Hide Fields', 'admin-text', 'site-reviews'),
                 'param_name' => 'hide',
                 'placeholder_text' => esc_attr_x('Select Fields to Hide', 'admin-text', 'site-reviews'),
                 'type' => 'multiple_select',
-                'value' => glsr(SiteReviewsSummaryShortcode::class)->getHideOptions(),
+                'value' => glsr(SiteReviewsFormShortcode::class)->getHideOptions(),
             ],
             'class' => [
                 'heading' => esc_attr_x('CSS Class', 'admin-text', 'site-reviews'),
@@ -119,17 +85,30 @@ class FusionRatingSummary extends FusionElement
                 'type' => 'textfield',
                 'value' => '',
             ],
+            'reviews_id' => [
+                'heading' => esc_attr_x('Reviews CSS ID', 'admin-text', 'site-reviews'),
+                'description' => esc_attr_x('Enter the CSS ID of a Latest Reviews element where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
+                'param_name' => 'reviews_id',
+                'type' => 'textfield',
+                'value' => '',
+            ],
         ];
     }
 
     public static function registerElement(): void
     {
+        if (!function_exists('fusion_builder_map')) {
+            return;
+        }
+        if (!function_exists('fusion_builder_frontend_data')) {
+            return;
+        }
         $parameters = static::elementParameters();
-        $parameters = glsr()->filterArray('fusion-builder/controls/site_reviews_summary', $parameters);
+        $parameters = glsr()->filterArray('fusion-builder/controls/site_reviews_form', $parameters);
         fusion_builder_map(fusion_builder_frontend_data(static::class, [
-            'name' => esc_attr_x('Rating Summary', 'admin-text', 'site-reviews'),
-            'shortcode' => 'site_reviews_summary',
-            'icon' => 'fusiona-af-rating',
+            'name' => esc_attr_x('Review Form', 'admin-text', 'site-reviews'),
+            'shortcode' => 'site_reviews_form',
+            'icon' => 'fusion-glsr-form',
             'params' => $parameters,
         ]));
     }

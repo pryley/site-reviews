@@ -17,6 +17,7 @@ class Hooks extends AbstractHooks
             return;
         }
         $this->hook(Controller::class, [
+            ['enqueueBuilderStyles', 'fusion_builder_enqueue_live_scripts'],
             ['filterButtonClass', 'site-reviews/defaults/style-classes/defaults'],
             ['filterPublicInlineScript', 'site-reviews/enqueue/public/inline-script/after'],
             ['onActivated', 'site-reviews/activated'],
@@ -26,11 +27,7 @@ class Hooks extends AbstractHooks
 
     protected function isInstalled(): bool
     {
-        return class_exists('FusionBuilder')
-            && class_exists('Fusion_Element')
-            && function_exists('fusion_builder_auto_activate_element')
-            && function_exists('fusion_builder_frontend_data')
-            && function_exists('fusion_builder_map');
+        return class_exists('FusionBuilder') && defined('FUSION_BUILDER_VERSION');
     }
 
     protected function isVersionSupported(): bool

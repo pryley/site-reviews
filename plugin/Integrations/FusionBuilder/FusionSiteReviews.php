@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
-class FusionLatestReviews extends FusionElement
+class FusionSiteReviews extends FusionElement
 {
     public static function elementParameters(): array
     {
@@ -145,12 +145,18 @@ class FusionLatestReviews extends FusionElement
 
     public static function registerElement(): void
     {
+        if (!function_exists('fusion_builder_map')) {
+            return;
+        }
+        if (!function_exists('fusion_builder_frontend_data')) {
+            return;
+        }
         $parameters = static::elementParameters();
         $parameters = glsr()->filterArray('fusion-builder/controls/site_reviews', $parameters);
         fusion_builder_map(fusion_builder_frontend_data(static::class, [
             'name' => esc_attr_x('Latest Reviews', 'admin-text', 'site-reviews'),
             'shortcode' => 'site_reviews',
-            'icon' => 'fusiona-af-rating',
+            'icon' => 'fusion-glsr-reviews',
             'params' => $parameters,
         ]));
     }
