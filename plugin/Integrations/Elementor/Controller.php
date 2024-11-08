@@ -125,6 +125,7 @@ class Controller extends AbstractController
     }
 
     /**
+     * @action admin_enqueue_scripts
      * @action elementor/editor/after_enqueue_styles
      * @action elementor/preview/enqueue_styles
      */
@@ -139,6 +140,7 @@ class Controller extends AbstractController
                 background-color: currentColor;
                 content: '.';
                 display: block;
+                mask-size: contain;
                 width: 1em;
             }
             .eicon-glsr-form::before {
@@ -158,6 +160,7 @@ class Controller extends AbstractController
                 -webkit-mask-repeat: no-repeat;mask-repeat: no-repeat;
             }
         ";
+        wp_add_inline_style('elementor-admin', $css);
         wp_add_inline_style('elementor-editor', $css);
         wp_add_inline_style('elementor-frontend', $css."
             [class*=\"eicon-glsr-\"]::before {
