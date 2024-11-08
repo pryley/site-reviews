@@ -56,7 +56,7 @@ class Controller extends AbstractController
         check_ajax_referer("ux-builder-{$postId}", 'security');
         $query = sanitize_text_field((string) filter_input(INPUT_GET, 'query'));
         $posts = glsr(Database::class)->posts([
-            'numberposts' => 25,
+            'posts_per_page' => 25,
             's' => $query,
         ]);
         $callback = fn ($id, $title) => compact('id', 'title');

@@ -60,16 +60,16 @@ class FlatsomeSiteReviewsForm extends FlatsomeShortcode
                 'type' => 'group',
                 'heading' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
                 'options' => [
-                    'id' => [
-                        'type' => 'textfield',
-                        'heading' => esc_html_x('Custom ID', 'admin-text', 'site-reviews'),
-                        'description' => esc_html_x('This should be a unique value.', 'admin-text', 'site-reviews'),
-                        'full_width' => true,
-                    ],
                     'reviews_id' => [
                         'type' => 'textfield',
                         'heading' => esc_html_x('Custom Reviews ID', 'admin-text', 'site-reviews'),
                         'description' => esc_html_x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
+                        'full_width' => true,
+                    ],
+                    'id' => [
+                        'type' => 'textfield',
+                        'heading' => esc_html_x('Custom ID', 'admin-text', 'site-reviews'),
+                        'description' => esc_html_x('This should be a unique value.', 'admin-text', 'site-reviews'),
                         'full_width' => true,
                     ],
                     'class' => [

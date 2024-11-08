@@ -252,28 +252,33 @@ class Database
 
     public function posts(array $args = []): array
     {
-        $postTypes = get_post_types([
-            '_builtin' => false,
-            'exclude_from_search' => true,
-            'public' => true,
-            'show_in_rest' => true,
-            'show_ui' => true,
-        ]);
-        $postTypes[] = 'post';
-        $postTypes[] = 'page';
         $args = wp_parse_args($args, [
             'ignore_sticky_posts' => true,
-            'numberposts' => 50,
+            'no_found_rows' => true, // skip counting the total rows found
             'order' => 'ASC',
             'orderby' => 'title',
-            'post_type' => array_values($postTypes),
+            'posts_per_page' => 50,
+            'suppress_filters' => true,
         ]);
+        if (empty($args['post_type'])) {
+            $postTypes = get_post_types([
+                '_builtin' => false,
+                'exclude_from_search' => true,
+                'public' => true,
+                'show_in_rest' => true,
+                'show_ui' => true,
+            ]);
+            $postTypes[] = 'post';
+            $postTypes[] = 'page';
+            $args['post_type'] = array_values($postTypes);
+        }
         $posts = get_posts($args);
         $results = [];
         foreach ($posts as $post) {
             $title = sanitize_text_field($post->post_title);
             $results[$post->ID] = trim("{$title} ({$post->ID})");
         }
+        natcasesort($results);
         return $results;
     }
 
