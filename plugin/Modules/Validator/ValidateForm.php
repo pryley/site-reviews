@@ -82,8 +82,8 @@ class ValidateForm
     {
         $defaults = [ // order is intentional
             DefaultValidator::class,
-            SignatureValidator::class,
             CustomValidator::class,
+            SignatureValidator::class,
             PermissionValidator::class,
             DuplicateValidator::class,
             HoneypotValidator::class,
