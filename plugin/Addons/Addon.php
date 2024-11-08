@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Addons;
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Contracts\DefaultsContract;
 use GeminiLabs\SiteReviews\Contracts\PluginContract;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Plugin;
 
@@ -81,26 +82,11 @@ abstract class Addon implements PluginContract
         if (empty(static::POST_TYPE)) {
             return [];
         }
-        $query = [
-            'no_found_rows' => true, // skip counting the total rows found
-            'post_type' => static::POST_TYPE,
+        $results = glsr(Database::class)->posts([
             'post_status' => 'publish',
+            'post_type' => static::POST_TYPE,
             'posts_per_page' => $perPage,
-            'suppress_filters' => true,
-        ];
-        if ($perPage > 0) {
-            $query['order'] = 'ASC';
-            $query['orderby'] = 'post_title';
-        }
-        $posts = get_posts($query);
-        $results = wp_list_pluck($posts, 'post_title', 'ID');
-        foreach ($results as $id => &$title) {
-            if (empty(trim($title))) {
-                $title = _x('Untitled', 'admin-text', 'site-reviews');
-            }
-            $title = sprintf('%s (ID: %s)', $title, $id);
-        }
-        natcasesort($results);
+        ]);
         if (!empty($placeholder)) {
             return ['' => $placeholder] + $results;
         }
