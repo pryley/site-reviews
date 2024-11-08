@@ -45,3 +45,6 @@
 :--namespace .glsr-form-message {
     display: none;
 }
+:--namespace .glsr-captcha-holder {
+    display: none;
+}
