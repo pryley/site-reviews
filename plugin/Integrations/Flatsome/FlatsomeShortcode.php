@@ -43,6 +43,7 @@ abstract class FlatsomeShortcode
         if (!empty($args['visibility'])) {
             $args['class'] = ($args['class'] ?? '').' '.$args['visibility'];
         }
+        $args = glsr()->filterArray('flatsome/shortcode/args', $args, $this->uxShortcode());
         return $this->shortcode()->build($args, 'flatsome');
     }
 

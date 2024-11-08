@@ -12,7 +12,7 @@ class FlatsomeSiteReviews extends FlatsomeShortcode
     public function options(): array
     {
         $options = [
-            'limit_group' => [
+            'glsr_group_limit' => [
                 'type' => 'group',
                 'heading' => esc_html_x('Limit Reviews By', 'admin-text', 'site-reviews'),
                 'options' => [
@@ -22,7 +22,7 @@ class FlatsomeSiteReviews extends FlatsomeShortcode
                         'full_width' => true,
                         'config' => [
                             'multiple' => true,
-                            'placeholder' => esc_html_x('Select...', 'admin-text', 'site-reviews'),
+                            'placeholder' => esc_html_x('Select a Page...', 'admin-text', 'site-reviews'),
                             'postSelect' => 'assigned_posts_query',
                         ],
                     ],
@@ -33,7 +33,7 @@ class FlatsomeSiteReviews extends FlatsomeShortcode
                         'full_width' => true,
                         'config' => [
                             'multiple' => true,
-                            'placeholder' => esc_html_x('Select...', 'admin-text', 'site-reviews'),
+                            'placeholder' => esc_html_x('Select a Category...', 'admin-text', 'site-reviews'),
                             'termSelect' => [
                                 'taxonomies' => glsr()->taxonomy,
                             ],
@@ -46,7 +46,7 @@ class FlatsomeSiteReviews extends FlatsomeShortcode
                         'full_width' => true,
                         'config' => [
                             'multiple' => true,
-                            'placeholder' => esc_html_x('Select...', 'admin-text', 'site-reviews'),
+                            'placeholder' => esc_html_x('Select a User...', 'admin-text', 'site-reviews'),
                             'postSelect' => 'assigned_users_query',
                         ],
                     ],
@@ -56,14 +56,14 @@ class FlatsomeSiteReviews extends FlatsomeShortcode
                         'default' => '',
                         'full_width' => true,
                         'options' => [
-                            '' => esc_html_x('Select...', 'admin-text', 'site-reviews'),
+                            '' => esc_html_x('Select Terms...', 'admin-text', 'site-reviews'),
                             'true' => esc_html_x('Terms were accepted', 'admin-text', 'site-reviews'),
                             'false' => esc_html_x('Terms were not accepted', 'admin-text', 'site-reviews'),
                         ],
                     ],
                 ],
             ],
-            'display_group' => [
+            'glsr_group_display' => [
                 'type' => 'group',
                 'heading' => esc_html_x('Display Options', 'admin-text', 'site-reviews'),
                 'options' => [
@@ -85,6 +85,7 @@ class FlatsomeSiteReviews extends FlatsomeShortcode
                         'default' => 10,
                         'max' => 50,
                         'min' => 1,
+                        'full_width' => true,
                     ],
                     'rating' => [
                         'type' => 'slider',
@@ -92,20 +93,27 @@ class FlatsomeSiteReviews extends FlatsomeShortcode
                         'default' => 0,
                         'max' => Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)),
                         'min' => Cast::toInt(glsr()->constant('MIN_RATING', Rating::class)),
+                        'full_width' => true,
                     ],
                     'schema' => [
-                        'type' => 'checkbox',
+                        'type' => 'radio-buttons',
                         'heading' => esc_html_x('Enable the schema?', 'admin-text', 'site-reviews'),
-                        'description' => esc_html_x('The schema should only be enabled once per page.', 'admin-text', 'site-reviews'),
+                        'description' => esc_html_x('The schema should only be enabled once on your page.', 'admin-text', 'site-reviews'),
+                        'default' => '',
+                        'full_width' => true,
+                        'options' => [
+                            '' => ['title' => _x('No', 'admin-text', 'site-reviews')],
+                            'true' => ['title' => _x('Yes', 'admin-text', 'site-reviews')],
+                        ],
                     ],
                 ],
             ],
-            'hide_group' => [
+            'glsr_group_hide' => [
                 'type' => 'group',
                 'heading' => esc_html_x('Hide Options', 'admin-text', 'site-reviews'),
                 'options' => $this->hideOptions(),
             ],
-            'advanced_group' => [
+            'glsr_group_advanced' => [
                 'type' => 'group',
                 'heading' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
                 'options' => [
@@ -139,7 +147,7 @@ class FlatsomeSiteReviews extends FlatsomeShortcode
             ],
         ];
         if ($types = $this->typeOptions()) {
-            $options['limit_group']['options']['type'] = $types;
+            $options['glsr_group_limit']['options']['type'] = $types;
         }
         return $options;
     }

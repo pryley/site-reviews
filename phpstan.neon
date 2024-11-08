@@ -28,7 +28,11 @@ parameters:
     -
       identifier: missingType.generics
     # These are ArrayObject classes
-    - '#Access to an undefined property WP_|GeminiLabs\\SiteReviews\\(Arguments|Contracts\\FieldContract|Modules\\Html\\Field|Request)::(.+)#'
+    - '#Access to an undefined property WP_|GeminiLabs\\SiteReviews\\(Arguments|Request|Review)::(.+)#'
+    - '#Access to an undefined property GeminiLabs\\SiteReviews\\Contracts\\(Field|Plugin|Shortcode)Contract::(.+)#'
+    - '#Access to an undefined property GeminiLabs\\SiteReviews\\Database\\NormalizePaginationArgs::(.+)#'
+    - '#Access to an undefined property GeminiLabs\\SiteReviews\\Modules\\Html\\(Field|FieldCondition|(Metabox|Review|Setting)Field)::(.+)#'
+    - '#Access to an undefined property \$this\(GeminiLabs\\SiteReviews\\Modules\\Html\\(Field|(Metabox|Review|Setting)Field)\)::(.+)#'
     # Technically, these errors are correct. However, since this is a third-party package we will ignore them for now
     - '#Call to an undefined method ActionScheduler_Schedule::(get_recurrence|get_date)\(\).#'
     # get_views() is in the $compat_methods array for public access, leave this for now

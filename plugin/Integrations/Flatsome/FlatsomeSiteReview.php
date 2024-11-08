@@ -16,12 +16,12 @@ class FlatsomeSiteReview extends FlatsomeShortcode
                 'description' => esc_html_x('Enter the Post ID of the review you want to display.', 'admin-text', 'site-reviews'),
                 'full_width' => true,
             ],
-            'hide_group' => [
+            'glsr_group_hide' => [
                 'type' => 'group',
-                'heading' => esc_html_x('Hide Fields', 'admin-text', 'site-reviews'),
+                'heading' => esc_html_x('Hide Options', 'admin-text', 'site-reviews'),
                 'options' => $this->hideOptions(),
             ],
-            'advanced_group' => [
+            'glsr_group_advanced' => [
                 'type' => 'group',
                 'heading' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
                 'options' => [
