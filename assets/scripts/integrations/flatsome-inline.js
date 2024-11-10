@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",(function(){UxBuilder.on("shortcode-attached",(function(t){if(t.tag.startsWith("ux_site_review")){var e=t.$scope.$ctrl.targets.$iframe().get(0);(e.contentWindow||e).GLSR.Event.trigger("site-reviews/init"),t.$element.find(".glsr :input,.glsr a").attr("tabindex",-1).css("pointerEvents","none")}}))}));

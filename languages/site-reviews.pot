@@ -4459,12 +4459,12 @@ msgctxt "admin-text"
 msgid "Specific Post ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:89, plugin/Integrations/Flatsome/Controller.php:68, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:22, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:20, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:22
+#: plugin/Integrations/Elementor/ElementorWidget.php:89, plugin/Integrations/Flatsome/Controller.php:63, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:22, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:20, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:22
 msgctxt "admin-text"
 msgid "The Current Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:90, plugin/Integrations/Flatsome/Controller.php:72, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:23, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:21, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:23
+#: plugin/Integrations/Elementor/ElementorWidget.php:90, plugin/Integrations/Flatsome/Controller.php:67, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:23, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:21, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:23
 msgctxt "admin-text"
 msgid "The Parent Page"
 msgstr ""
@@ -4474,17 +4474,17 @@ msgctxt "admin-text"
 msgid "Specific User ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:103, plugin/Integrations/Flatsome/Controller.php:98, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:49, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:47, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:49
+#: plugin/Integrations/Elementor/ElementorWidget.php:103, plugin/Integrations/Flatsome/Controller.php:93, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:49, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:47, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:49
 msgctxt "admin-text"
 msgid "The Logged-in user"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:104, plugin/Integrations/Flatsome/Controller.php:102, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:50, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:48, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:50
+#: plugin/Integrations/Elementor/ElementorWidget.php:104, plugin/Integrations/Flatsome/Controller.php:97, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:50, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:48, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:50
 msgctxt "admin-text"
 msgid "The Page author"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:105, plugin/Integrations/Flatsome/Controller.php:106, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:51, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:49, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:51
+#: plugin/Integrations/Elementor/ElementorWidget.php:105, plugin/Integrations/Flatsome/Controller.php:101, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:51, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:49, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:51
 msgctxt "admin-text"
 msgid "The Profile user (BuddyPress/Ultimate Member)"
 msgstr ""

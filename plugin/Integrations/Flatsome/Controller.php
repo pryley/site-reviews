@@ -12,11 +12,10 @@ class Controller extends AbstractController
      */
     public function printInlineScripts(string $page = ''): void
     {
-        if ('editor' !== $page) {
-            return;
+        if ('editor' === $page) {
+            $script = file_get_contents(glsr()->path('assets/scripts/integrations/flatsome-inline.js'));
+            wp_add_inline_script('ux-builder-core', $script);
         }
-        $script = 'var glsr_ux_builder=t=>{if(t.tag.startsWith("ux_site_review")){var r=t.$scope.$ctrl.targets.$iframe().get(0);let e=r.contentWindow||r;e.GLSR.Event.trigger("site-reviews/init"),t.$element.find(":input,a").attr("tabindex",-1).css({"pointer-events":"none"})}};UxBuilder.on("shortcode-attached",glsr_ux_builder);';
-        wp_add_inline_script('ux-builder-core', $script);
     }
 
     /**
@@ -24,14 +23,10 @@ class Controller extends AbstractController
      */
     public function printInlineStyles(string $page = ''): void
     {
-        if ('editor' !== $page) {
-            return;
+        if ('editor' === $page) {
+            $css = file_get_contents(glsr()->path('assets/styles/integrations/flatsome-inline.css'));
+            wp_add_inline_style('ux-builder-core', $css);
         }
-        $css = '';
-        $css .= '.add-shortcode-items ul .add-shortcode-box .add-shortcode-box-button:has(img[src*="/icons/flatsome/flatsome-"]){display:flex;flex-wrap:wrap;justify-content:center;}';
-        $css .= '.add-shortcode-items ul .add-shortcode-box img[src*="/icons/flatsome/flatsome-"]{height:36px;margin-top:13px;}';
-        $css .= 'ux-option[class*="-glsr_group_"] ux-options ux-option.option-checkbox:not(.is-full-width,:has(.option-description)){.option-header{max-width:unset;}.option-body{flex:0;}.option-template{min-width:unset;}}';
-        wp_add_inline_style('ux-builder-core', $css);
     }
 
     /**
