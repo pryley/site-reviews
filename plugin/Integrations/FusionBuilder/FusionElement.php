@@ -64,12 +64,13 @@ abstract class FusionElement extends \Fusion_Element
         if (!function_exists('fusion_builder_frontend_data')) {
             return;
         }
+        $instance = static::feShortcode();
         $parameters = static::elementParameters();
-        $parameters = glsr()->filterArray("fusion-builder/controls/{$this->feShortcode()->shortcode}", $parameters);
+        $parameters = glsr()->filterArray("fusion-builder/controls/{$instance->shortcode}", $parameters);
         fusion_builder_map(fusion_builder_frontend_data(static::class, [
-            'name' => $this->feShortcode()->name,
-            'shortcode' => $this->feShortcode()->shortcode,
-            'icon' => $this->feIcon(),
+            'name' => $instance->name,
+            'shortcode' => $instance->shortcode,
+            'icon' => static::feIcon(),
             'params' => $parameters,
         ]));
     }
