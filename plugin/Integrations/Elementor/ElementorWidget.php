@@ -82,6 +82,11 @@ abstract class ElementorWidget extends Widget_Base
         return $this->_shortcode_instance;
     }
 
+    public function get_title()
+    {
+        return $this->get_shortcode_instance()->name;
+    }
+
     protected function assigned_posts_options(): array
     {
         return [ // order is intentional
