@@ -144,4 +144,14 @@ class SiteReviewsFormShortcode extends Shortcode
         $postIds = array_filter($postIds, 'is_numeric'); // don't use post_types here
         return implode(',', $postIds);
     }
+
+    protected function shortcodeDescription(): string
+    {
+        return esc_html_x('Display a review form', 'admin-text', 'site-reviews');
+    }
+
+    protected function shortcodeName(): string
+    {
+        return esc_html_x('Review Form', 'admin-text', 'site-reviews');
+    }
 }
