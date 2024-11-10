@@ -39,4 +39,14 @@ class SiteReviewShortcode extends Shortcode
             'response' => _x('Hide the response', 'admin-text', 'site-reviews'),
         ];
     }
+
+    protected function shortcodeDescription(): string
+    {
+        return esc_html_x('Display a single review', 'admin-text', 'site-reviews');
+    }
+
+    protected function shortcodeName(): string
+    {
+        return esc_html_x('Single Review', 'admin-text', 'site-reviews');
+    }
 }

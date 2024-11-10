@@ -18,11 +18,15 @@ abstract class Shortcode implements ShortcodeContract
 {
     public array $args = [];
     public string $debug = '';
-    public string $shortcode = '';
+    public string $description;
+    public string $name;
+    public string $shortcode;
     public string $type = '';
 
     public function __construct()
     {
+        $this->description = $this->shortcodeDescription();
+        $this->name = $this->shortcodeName();
         $this->shortcode = $this->shortcodeTag();
     }
 
@@ -223,6 +227,22 @@ abstract class Shortcode implements ShortcodeContract
             }
         }
         return array_combine(range($maxRating, 1), $defaults);
+    }
+
+    /**
+     * @todo make this an abstract method in v8
+     */
+    protected function shortcodeDescription(): string
+    {
+        return '';
+    }
+
+    /**
+     * @todo make this an abstract method in v8
+     */
+    protected function shortcodeName(): string
+    {
+        return '';
     }
 
     protected function shortcodeTag(): string

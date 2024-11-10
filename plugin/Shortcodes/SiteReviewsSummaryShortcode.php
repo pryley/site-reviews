@@ -80,4 +80,14 @@ class SiteReviewsSummaryShortcode extends Shortcode
     {
         return !array_sum($this->ratings) && in_array('if_empty', $this->args['hide']);
     }
+
+    protected function shortcodeDescription(): string
+    {
+        return esc_html_x('Display a rating summary', 'admin-text', 'site-reviews');
+    }
+
+    protected function shortcodeName(): string
+    {
+        return esc_html_x('Rating Summary', 'admin-text', 'site-reviews');
+    }
 }
