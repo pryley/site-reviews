@@ -20,6 +20,7 @@ parameters:
     - tests/phpstan/stubs/wlpr.php
     - tests/phpstan/stubs/woocommerce.php
     - tests/phpstan/stubs/woorewards.php
+    - tests/phpstan/stubs/wpbakery.php
     - helpers.php
     - autoload.php
   ignoreErrors:

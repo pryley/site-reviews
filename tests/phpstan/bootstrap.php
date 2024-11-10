@@ -33,6 +33,9 @@ if (!defined('WP_MEMORY_LIMIT')) {
 if (!defined('WP_PLUGIN_DIR')) {
     define('WP_PLUGIN_DIR', '.');
 }
+if (!defined('WPB_VC_VERSION')) {
+    define('WPB_VC_VERSION', '7.9.0');
+}
 if (!defined('WPINC')) {
     define('WPINC', 'wp-includes');
 }
