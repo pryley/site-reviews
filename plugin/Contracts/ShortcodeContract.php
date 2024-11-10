@@ -5,6 +5,8 @@ namespace GeminiLabs\SiteReviews\Contracts;
 /**
  * @property array  $args
  * @property string $debug
+ * @property string $description
+ * @property string $name
  * @property string $shortcode
  * @property string $type
  */
