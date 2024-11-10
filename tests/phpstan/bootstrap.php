@@ -16,13 +16,13 @@ if (!defined('FUSION_BUILDER_VERSION')) {
     define('FUSION_BUILDER_VERSION', '3.11.0');
 }
 if (!defined('ICL_SITEPRESS_VERSION')) {
-    define('ICL_SITEPRESS_VERSION', '0.0.0');
+    define('ICL_SITEPRESS_VERSION', '3.3.5');
 }
 if (!defined('MYCRED_DEFAULT_TYPE_KEY')) {
     define('MYCRED_DEFAULT_TYPE_KEY', 'mycred_default');
 }
 if (!defined('POLYLANG_VERSION')) {
-    define('POLYLANG_VERSION', '0.0.0');
+    define('POLYLANG_VERSION', '2.3');
 }
 if (!defined('WP_CONTENT_DIR')) {
     define('WP_CONTENT_DIR', '.');
