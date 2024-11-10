@@ -35,8 +35,9 @@ class EditorController extends AbstractController
      *
      * @filter the_editor
      */
-    public function filterEditorTextarea(string $output): string
+    public function filterEditorTextarea(?string $output): string
     {
+        $output = (string) $output;
         if ($this->isReviewEditor()) {
             $output = str_replace('<textarea', '<div id="ed_toolbar"></div><textarea', $output);
         }
