@@ -157,11 +157,6 @@ class FlatsomeSiteReviews extends FlatsomeShortcode
         return glsr()->url('assets/images/icons/flatsome/flatsome-reviews.svg');
     }
 
-    protected function name(): string
-    {
-        return esc_attr_x('Latest Reviews', 'admin-text', 'site-reviews');
-    }
-
     protected function shortcode(): ShortcodeContract
     {
         return glsr(SiteReviewsShortcode::class);

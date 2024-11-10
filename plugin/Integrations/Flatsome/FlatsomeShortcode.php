@@ -47,10 +47,6 @@ abstract class FlatsomeShortcode
         return $this->shortcode()->build($args, 'flatsome');
     }
 
-    abstract protected function icon(): string;
-
-    abstract protected function name(): string;
-
     protected function hideOptions(): array
     {
         $options = [];
@@ -61,6 +57,13 @@ abstract class FlatsomeShortcode
             ];
         }
         return $options;
+    }
+
+    abstract protected function icon(): string;
+
+    protected function name(): string
+    {
+        return $this->shortcode()->name;
     }
 
     abstract protected function shortcode(): ShortcodeContract;
