@@ -25,14 +25,6 @@ class ElementorReviewsWidget extends ElementorWidget
         return SiteReviewsShortcode::class;
     }
 
-    /**
-     * @return string
-     */
-    public function get_title()
-    {
-        return _x('Latest Reviews', 'admin-text', 'site-reviews');
-    }
-
     protected function hide_if_all_fields_hidden(): bool
     {
         return true;

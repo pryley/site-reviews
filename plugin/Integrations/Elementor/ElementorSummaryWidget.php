@@ -26,11 +26,6 @@ class ElementorSummaryWidget extends ElementorWidget
         return SiteReviewsSummaryShortcode::class;
     }
 
-    public function get_title()
-    {
-        return _x('Rating Summary', 'admin-text', 'site-reviews');
-    }
-
     protected function hide_if_all_fields_hidden(): bool
     {
         return true;
