@@ -51,10 +51,16 @@ class Controller extends AbstractController
         $postId = (string) filter_input(INPUT_GET, 'id');
         check_ajax_referer("ux-builder-{$postId}", 'security');
         $query = sanitize_text_field((string) filter_input(INPUT_GET, 'query'));
-        $posts = glsr(Database::class)->posts([
+        $args = [
+            'post__in' => [],
             'posts_per_page' => 25,
-            's' => $query,
-        ]);
+        ];
+        if (is_numeric($query)) {
+            $args['post__in'][] = (int) $query;
+        } else {
+            $args['s'] = $query;
+        }
+        $posts = glsr(Database::class)->posts($args);
         $callback = fn ($id, $title) => compact('id', 'title');
         $items = array_map($callback, array_keys($posts), array_values($posts));
         array_unshift($items,
@@ -83,7 +89,7 @@ class Controller extends AbstractController
         $query = sanitize_text_field((string) filter_input(INPUT_GET, 'query'));
         $users = glsr(Database::class)->users([
             'number' => 25,
-            'search' => $query,
+            'search_wild' => $query,
         ]);
         $callback = fn ($id, $title) => compact('id', 'title');
         $items = array_map($callback, array_keys($users), array_values($users));

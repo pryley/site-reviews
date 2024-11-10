@@ -258,6 +258,9 @@ class Database
             'order' => 'ASC',
             'orderby' => 'title',
             'posts_per_page' => 50,
+            'search_columns' => [
+                'post_title',
+            ],
             'suppress_filters' => true,
         ]);
         if (empty($args['post_type'])) {
@@ -337,7 +340,13 @@ class Database
             'fields' => ['ID', 'display_name', 'user_nicename'],
             'number' => 50, // only get the first 50 users!
             'orderby' => 'display_name',
+            'search' => '',
+            'search_columns' => ['display_name', 'user_nicename'],
+            'search_wild' => '',
         ]);
+        if (!empty($args['search_wild'])) {
+            $args['search'] = "*{$args['search_wild']}*";
+        }
         $results = [];
         $users = get_users($args);
         foreach ($users as $user) {
