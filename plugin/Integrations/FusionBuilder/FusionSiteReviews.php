@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder;
 
+use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
@@ -124,7 +125,7 @@ class FusionSiteReviews extends FusionElement
                 'param_name' => 'hide',
                 'placeholder_text' => esc_attr_x('Select Fields to Hide', 'admin-text', 'site-reviews'),
                 'type' => 'multiple_select',
-                'value' => $this->feShortcode()->getHideOptions(),
+                'value' => static::feShortcode()->getHideOptions(),
             ],
             'class' => [
                 'heading' => esc_attr_x('CSS Class', 'admin-text', 'site-reviews'),
