@@ -34,14 +34,4 @@ class SiteReviewWidget extends Widget
     {
         return glsr(SiteReviewShortcode::class);
     }
-
-    protected function widgetDescription(): string
-    {
-        return _x('Site Reviews: Display a single review.', 'admin-text', 'site-reviews');
-    }
-
-    protected function widgetName(): string
-    {
-        return _x('Single Review', 'admin-text', 'site-reviews');
-    }
 }

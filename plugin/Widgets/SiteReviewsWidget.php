@@ -96,14 +96,4 @@ class SiteReviewsWidget extends Widget
     {
         return glsr(SiteReviewsShortcode::class);
     }
-
-    protected function widgetDescription(): string
-    {
-        return _x('Site Reviews: Display your recent reviews.', 'admin-text', 'site-reviews');
-    }
-
-    protected function widgetName(): string
-    {
-        return _x('Recent Reviews', 'admin-text', 'site-reviews');
-    }
 }

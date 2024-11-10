@@ -31,7 +31,11 @@ abstract class Widget extends \WP_Widget
         $className = (new \ReflectionClass($this))->getShortName();
         $className = str_replace('Widget', '', $className);
         $baseId = glsr()->prefix.Str::dashCase($className);
-        parent::__construct($baseId, $this->widgetName(), $this->widgetOptions());
+        parent::__construct($baseId, $this->shortcode()->name, [
+            'description' => sprintf('%s: %s', glsr()->name, $this->shortcode()->description),
+            'name' => $this->shortcode()->name,
+            'show_instance_in_rest' => true,
+        ]);
     }
 
     /**
@@ -99,23 +103,4 @@ abstract class Widget extends \WP_Widget
     }
 
     abstract protected function shortcode(): ShortcodeContract;
-
-    protected function widgetDescription(): string
-    {
-        return '';
-    }
-
-    protected function widgetName(): string
-    {
-        return _x('Site Reviews: Unknown Widget', 'admin-text', 'site-reviews');
-    }
-
-    protected function widgetOptions(): array
-    {
-        return [
-            'description' => $this->widgetDescription(),
-            'name' => $this->widgetName(),
-            'show_instance_in_rest' => true,
-        ];
-    }
 }
