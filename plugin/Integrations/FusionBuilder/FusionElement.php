@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder;
 
 use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
+use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 
 abstract class FusionElement extends \Fusion_Element
 {
@@ -55,5 +56,37 @@ abstract class FusionElement extends \Fusion_Element
         ];
     }
 
-    abstract public static function registerElement(): void;
+    public static function registerElement(): void
+    {
+        if (!function_exists('fusion_builder_map')) {
+            return;
+        }
+        if (!function_exists('fusion_builder_frontend_data')) {
+            return;
+        }
+        $parameters = static::elementParameters();
+        $parameters = glsr()->filterArray("fusion-builder/controls/{$this->feShortcode()->shortcode}", $parameters);
+        fusion_builder_map(fusion_builder_frontend_data(static::class, [
+            'name' => $this->feShortcode()->name,
+            'shortcode' => $this->feShortcode()->shortcode,
+            'icon' => $this->feIcon(),
+            'params' => $parameters,
+        ]));
+    }
+
+    /**
+     * @todo use abstract method in v8
+     */
+    protected static function feIcon(): string
+    {
+        return '';
+    }
+
+    /**
+     * @todo remove null return type and use abstract method in v8
+     */
+    protected static function feShortcode(): ?ShortcodeContract
+    {
+        return null;
+    }
 }

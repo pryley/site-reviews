@@ -103,7 +103,7 @@ class FusionSiteReviewsSummary extends FusionElement
                 'param_name' => 'hide',
                 'placeholder_text' => esc_attr_x('Select Fields to Hide', 'admin-text', 'site-reviews'),
                 'type' => 'multiple_select',
-                'value' => glsr(SiteReviewsSummaryShortcode::class)->getHideOptions(),
+                'value' => $this->feShortcode()->getHideOptions(),
             ],
             'class' => [
                 'heading' => esc_attr_x('CSS Class', 'admin-text', 'site-reviews'),
@@ -122,21 +122,13 @@ class FusionSiteReviewsSummary extends FusionElement
         ];
     }
 
-    public static function registerElement(): void
+    protected static function feIcon(): string
     {
-        if (!function_exists('fusion_builder_map')) {
-            return;
-        }
-        if (!function_exists('fusion_builder_frontend_data')) {
-            return;
-        }
-        $parameters = static::elementParameters();
-        $parameters = glsr()->filterArray('fusion-builder/controls/site_reviews_summary', $parameters);
-        fusion_builder_map(fusion_builder_frontend_data(static::class, [
-            'name' => esc_attr_x('Rating Summary', 'admin-text', 'site-reviews'),
-            'shortcode' => 'site_reviews_summary',
-            'icon' => 'fusion-glsr-summary',
-            'params' => $parameters,
-        ]));
+        return 'fusion-glsr-summary';
+    }
+
+    protected static function feShortcode(): ?ShortcodeContract
+    {
+        return glsr(SiteReviewsSummaryShortcode::class);
     }
 }
