@@ -2,10 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\WPBakery;
 
-use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
-use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 
-class Hooks extends AbstractHooks
+class Hooks extends IntegrationHooks
 {
     public function run(): void
     {
@@ -13,7 +12,7 @@ class Hooks extends AbstractHooks
             return;
         }
         if (!$this->isVersionSupported()) {
-            $this->unsupportedVersionNotice();
+            $this->notify('WPBakery Page Builder');
             return;
         }
         $this->hook(Controller::class, [
@@ -44,20 +43,15 @@ class Hooks extends AbstractHooks
             && defined('WPB_VC_VERSION');
     }
 
-    protected function isVersionSupported(): bool
+    protected function supportedVersion(): string
     {
-        return defined('WPB_VC_VERSION') && version_compare(\WPB_VC_VERSION, '7.9', '>=');
+        return '8.0';
     }
 
-    protected function unsupportedVersionNotice(): void
+    protected function version(): string
     {
-        add_action('admin_notices', function () {
-            if (!str_starts_with(glsr_current_screen()->post_type, glsr()->post_type)) {
-                return;
-            }
-            glsr(Notice::class)->addWarning(
-                _x('Update WPBakery Page Builder to v7.9 or higher to enable integration with Site Reviews.', 'admin-text', 'site-reviews')
-            );
-        });
+        return defined('WPB_VC_VERSION')
+            ? (string) \WPB_VC_VERSION
+            : '';
     }
 }

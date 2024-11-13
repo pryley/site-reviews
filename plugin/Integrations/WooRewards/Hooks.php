@@ -3,13 +3,13 @@
 namespace GeminiLabs\SiteReviews\Integrations\WooRewards;
 
 use GeminiLabs\SiteReviews\Compatibility;
-use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
+use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 
-class Hooks extends AbstractHooks
+class Hooks extends IntegrationHooks
 {
     public function run(): void
     {
-        if (!class_exists('\LWS_WooRewards') || !class_exists('\LWS\WOOREWARDS\Core\Trace')) {
+        if (!$this->isInstalled()) {
             return;
         }
         add_action('lws_woorewards_abstracts_event_installed', function () {
@@ -26,5 +26,11 @@ class Hooks extends AbstractHooks
                 ['onCreatedReview', 'site-reviews/review/created', 20],
             ]);
         });
+    }
+
+    protected function isInstalled(): bool
+    {
+        return class_exists('\LWS_WooRewards')
+            && class_exists('\LWS\WOOREWARDS\Core\Trace');
     }
 }

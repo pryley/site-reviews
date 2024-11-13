@@ -2,18 +2,17 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\GamiPress;
 
-use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
+use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 
-class Hooks extends AbstractHooks
+class Hooks extends IntegrationHooks
 {
     public function run(): void
     {
-        if (!defined('GAMIPRESS_VER')
-            || !function_exists('ct_get_object_meta')
-            || !function_exists('gamipress_get_achievement_types_slugs')
-            || !function_exists('gamipress_get_rank_types_slugs')
-            || !function_exists('gamipress_get_requirement_types_slugs')
-            || !function_exists('gamipress_trigger_event')) {
+        if (!$this->isInstalled()) {
+            return;
+        }
+        if (!$this->isVersionSupported()) {
+            $this->notify('GamiPress');
             return;
         }
         $this->hook(Controller::class, [
@@ -32,5 +31,27 @@ class Hooks extends AbstractHooks
             ['renderRequirementFields', 'gamipress_requirement_ui_html_after_achievement_post', 10, 2],
             ['updateRequirement', 'gamipress_ajax_update_requirement', 10, 2],
         ]);
+    }
+
+    protected function isInstalled(): bool
+    {
+        return defined('GAMIPRESS_VER')
+            && function_exists('ct_get_object_meta')
+            && function_exists('gamipress_get_achievement_types_slugs')
+            && function_exists('gamipress_get_rank_types_slugs')
+            && function_exists('gamipress_get_requirement_types_slugs')
+            && function_exists('gamipress_trigger_event');
+    }
+
+    protected function supportedVersion(): string
+    {
+        return '7.0';
+    }
+
+    protected function version(): string
+    {
+        return defined('GAMIPRESS_VER')
+            ? (string) \GAMIPRESS_VER
+            : '';
     }
 }

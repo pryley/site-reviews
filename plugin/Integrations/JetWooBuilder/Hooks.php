@@ -2,13 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\JetWooBuilder;
 
-use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
+use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 
-class Hooks extends AbstractHooks
+class Hooks extends IntegrationHooks
 {
     public function run(): void
     {
-        if (!function_exists('jet_woo_builder')) {
+        if (!$this->isInstalled()) {
             return;
         }
         $this->hook(Controller::class, [
@@ -16,5 +16,10 @@ class Hooks extends AbstractHooks
             ['modifyWidgetControls', 'elementor/widget/jet-woo-products/skins_init'],
             ['modifyWidgetControls', 'elementor/widget/jet-woo-products-list/skins_init'],
         ]);
+    }
+
+    protected function isInstalled(): bool
+    {
+        return function_exists('jet_woo_builder');
     }
 }

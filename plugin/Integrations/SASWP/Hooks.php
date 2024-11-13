@@ -2,20 +2,30 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\SASWP;
 
-use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
+use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 
-class Hooks extends AbstractHooks
+class Hooks extends IntegrationHooks
 {
     public function run(): void
     {
-        if (!defined('SASWP_VERSION')) {
+        if (!$this->isInstalled()) {
             return;
         }
-        if ('saswp' !== $this->option('schema.integration.plugin')) {
+        if (!$this->isEnabled()) {
             return;
         }
         $this->hook(Controller::class, [
             ['filterSchema', 'saswp_modify_reviews_schema', 20],
         ]);
+    }
+
+    protected function isEnabled(): bool
+    {
+        return 'saswp' === $this->option('schema.integration.plugin');
+    }
+
+    protected function isInstalled(): bool
+    {
+        return defined('SASWP_VERSION');
     }
 }

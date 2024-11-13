@@ -2,10 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Flatsome;
 
-use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
-use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 
-class Hooks extends AbstractHooks
+class Hooks extends IntegrationHooks
 {
     public function run(): void
     {
@@ -13,7 +12,7 @@ class Hooks extends AbstractHooks
             return;
         }
         if (!$this->isVersionSupported()) {
-            $this->unsupportedVersionNotice();
+            $this->notify('Flatsome');
             return;
         }
         $this->hook(Controller::class, [
@@ -30,20 +29,16 @@ class Hooks extends AbstractHooks
         return 'flatsome' === wp_get_theme(get_template())->get('TextDomain');
     }
 
-    protected function isVersionSupported(): bool
+    protected function supportedVersion(): string
     {
-        return version_compare(wp_get_theme(get_template())->get('Version'), '3.19.0', '>=');
+        return '3.19.0';
     }
 
-    protected function unsupportedVersionNotice(): void
+    protected function version(): string
     {
-        add_action('admin_notices', function () {
-            if (!str_starts_with(glsr_current_screen()->post_type, glsr()->post_type)) {
-                return;
-            }
-            glsr(Notice::class)->addWarning(
-                _x('Update the Flatsome theme to v3.19.0 or higher to enable integration with Site Reviews.', 'admin-text', 'site-reviews')
-            );
-        });
+        if ($this->isInstalled()) {
+            return (string) wp_get_theme(get_template())->get('Version');
+        }
+        return '';
     }
 }

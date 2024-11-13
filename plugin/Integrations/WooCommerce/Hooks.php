@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce;
 
-use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
+use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\Controller;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ExperimentsController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ImportController;
@@ -10,7 +10,7 @@ use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\MainController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ProductController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\RestApiController;
 
-class Hooks extends AbstractHooks
+class Hooks extends IntegrationHooks
 {
     public function run(): void
     {
@@ -56,9 +56,14 @@ class Hooks extends AbstractHooks
 
     protected function isEnabled(): bool
     {
-        return 'yes' === $this->option('integrations.woocommerce.enabled')
-            && 'yes' === get_option('woocommerce_enable_reviews', 'yes')
-            && class_exists('WooCommerce')
+        return $this->isInstalled()
+            && 'yes' === $this->option('integrations.woocommerce.enabled')
+            && 'yes' === get_option('woocommerce_enable_reviews', 'yes');
+    }
+
+    protected function isInstalled(): bool
+    {
+        return class_exists('WooCommerce')
             && function_exists('WC');
     }
 
