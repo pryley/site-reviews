@@ -4,7 +4,7 @@
     justify-content: center;
 }
 .add-shortcode-items ul .add-shortcode-box img[src*="/icons/flatsome/flatsome-"] {
-    height: 36px;
+    height: 40px;
     margin-top: 13px;
 }
 ux-option[class*="-glsr_group_"] ux-options ux-option.option-checkbox:not(.is-full-width,:has(.option-description)) {

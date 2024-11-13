@@ -1,18 +1,22 @@
-[data-vc-shortcode*="site_review"] .vc_checkbox-label {
-  align-items: center;
-  column-gap: .25em;
-  display: inline-flex;
-  line-height: 1.5;
-}
-[data-vc-shortcode*="site_review"] input[type="checkbox"]:checked::before {
-  margin: -3px -3px -3px -4px;
+[data-vc-shortcode*="site_review"] {
+  .vc_checkbox-label {
+    align-items: center;
+    column-gap: .25em;
+    display: inline-flex;
+    line-height: 1.5;
+  }
+  input[type="checkbox"]:checked::before {
+    margin: -3px -3px -3px -4px;
+  }
 }
 @media screen and (max-width: 782px) {
-  [data-vc-shortcode*="site_review"] .vc_checkbox-label {
-    line-height: 2;
-  }
-  [data-vc-shortcode*="site_review"] input[type="checkbox"] {
-    height: 1.5625rem;
-    width: 1.5625rem;
+  [data-vc-shortcode*="site_review"] {
+    .vc_checkbox-label {
+      line-height: 2;
+    }
+    input[type="checkbox"] {
+      height: 1.5625rem;
+      width: 1.5625rem;
+    }
   }
 }
