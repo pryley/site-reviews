@@ -32,6 +32,15 @@ class Controller extends AbstractController
     }
 
     /**
+     * @action site-reviews/enqueue/public/inline-styles
+     */
+    public function filterInlineWooStyles(string $css): string
+    {
+        $css .= file_get_contents(glsr()->path('assets/styles/integrations/divi-woo-inline.css'));
+        return $css;
+    }
+
+    /**
      * @see filterPaginationLinks
      *
      * @filter site-reviews/paginate_link
