@@ -71,6 +71,7 @@ mix
   .js('+/integrations/wpbakery/wpbakery-inline.js', 'assets/scripts/integrations')
   .js('+/scripts/site-reviews-admin.js', 'assets/scripts')
   .js('+/scripts/site-reviews-blocks.js', 'assets/scripts')
+  .postCss('+/integrations/divi/divi-woo-inline.css', 'assets/styles/integrations')
   .postCss('+/integrations/flatsome/flatsome-inline.css', 'assets/styles/integrations')
   .postCss('+/integrations/wpbakery/wpbakery-inline.css', 'assets/styles/integrations')
   .postCss('+/styles/admin.css', 'assets/styles/admin')
