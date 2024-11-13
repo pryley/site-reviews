@@ -26,6 +26,18 @@ class Controller extends AbstractController
     public function enqueueInlineStyles(): void
     {
         $css = file_get_contents(glsr()->path('assets/styles/integrations/wpbakery-inline.css'));
+        $keys = [
+            'site_review' => 'review',
+            'site_reviews' => 'reviews',
+            'site_reviews_form' => 'form',
+            'site_reviews_summary' => 'summary',
+        ];
+        foreach ($keys as $shortcode => $icon) {
+            $css .= sprintf('#%s .vc_element-icon{background-image:url(%s);}',
+                $shortcode,
+                glsr()->url("assets/images/icons/wpbakery/wpbakery-{$icon}.svg")
+            );
+        }
         wp_add_inline_style('js_composer', $css);
         wp_add_inline_style('vc_inline_css', $css);
     }
