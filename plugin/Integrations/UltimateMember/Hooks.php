@@ -2,12 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\UltimateMember;
 
-use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
+use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 use GeminiLabs\SiteReviews\Integrations\UltimateMember\Controllers\Controller;
 use GeminiLabs\SiteReviews\Integrations\UltimateMember\Controllers\DirectoryController;
 use GeminiLabs\SiteReviews\Integrations\UltimateMember\Controllers\ProfileController;
 
-class Hooks extends AbstractHooks
+class Hooks extends IntegrationHooks
 {
     public function run(): void
     {
@@ -47,8 +47,8 @@ class Hooks extends AbstractHooks
 
     protected function isEnabled(): bool
     {
-        return 'yes' === $this->option('integrations.ultimatemember.enabled')
-            && $this->isInstalled();
+        return $this->isInstalled()
+            && 'yes' === $this->option('integrations.ultimatemember.enabled');
     }
 
     protected function isInstalled(): bool

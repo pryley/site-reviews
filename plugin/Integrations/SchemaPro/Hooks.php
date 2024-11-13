@@ -2,16 +2,16 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\SchemaPro;
 
-use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
+use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 
-class Hooks extends AbstractHooks
+class Hooks extends IntegrationHooks
 {
     public function run(): void
     {
-        if (!defined('BSF_AIOSRS_PRO_CACHE_KEY') || !class_exists('BSF_AIOSRS_Pro_Helper')) {
+        if (!$this->isInstalled()) {
             return;
         }
-        if ('schema_pro' !== $this->option('schema.integration.plugin')) {
+        if (!$this->isEnabled()) {
             return;
         }
         $this->hook(Controller::class, [
@@ -31,5 +31,16 @@ class Hooks extends AbstractHooks
             ['onReviewCreated', 'site-reviews/review/created'],
             ['onSettingsUpdated', 'site-reviews/settings/updated'],
         ]);
+    }
+
+    protected function isEnabled(): bool
+    {
+        return 'schema_pro' === $this->option('schema.integration.plugin');
+    }
+
+    protected function isInstalled(): bool
+    {
+        return class_exists('BSF_AIOSRS_Pro_Helper')
+            && defined('BSF_AIOSRS_PRO_CACHE_KEY');
     }
 }

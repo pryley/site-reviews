@@ -2,13 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\SEOPress;
 
-use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
+use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 
-class Hooks extends AbstractHooks
+class Hooks extends IntegrationHooks
 {
     public function run(): void
     {
-        if ('seopress' !== $this->option('schema.integration.plugin')) {
+        if (!$this->isEnabled()) {
             return;
         }
         $this->hook(Controller::class, [
@@ -24,5 +24,10 @@ class Hooks extends AbstractHooks
             ['filterSchema', 'seopress_schemas_auto_video_json'],
             ['filterSchemas', 'seopress_json_schema_generator_get_jsons'],
         ]);
+    }
+
+    protected function isEnabled(): bool
+    {
+        return 'seopress' === $this->option('schema.integration.plugin');
     }
 }

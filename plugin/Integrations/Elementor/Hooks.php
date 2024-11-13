@@ -2,10 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
-use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
-use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 
-class Hooks extends AbstractHooks
+class Hooks extends IntegrationHooks
 {
     public function run(): void
     {
@@ -13,7 +12,7 @@ class Hooks extends AbstractHooks
             return;
         }
         if (!$this->isVersionSupported()) {
-            $this->unsupportedVersionNotice();
+            $this->notify('Elementor');
             return;
         }
         $this->hook(Controller::class, [
@@ -35,20 +34,15 @@ class Hooks extends AbstractHooks
         return class_exists('Elementor\Plugin');
     }
 
-    protected function isVersionSupported(): bool
+    protected function supportedVersion(): string
     {
-        return defined('ELEMENTOR_VERSION') && version_compare(\ELEMENTOR_VERSION, '3.19.0', '>=');
+        return '3.19.0';
     }
 
-    protected function unsupportedVersionNotice(): void
+    protected function version(): string
     {
-        add_action('admin_notices', function () {
-            if (!str_starts_with(glsr_current_screen()->post_type, glsr()->post_type)) {
-                return;
-            }
-            glsr(Notice::class)->addWarning(
-                _x('Update Elementor to v3.19.0 or higher to enable integration with Site Reviews.', 'admin-text', 'site-reviews')
-            );
-        });
+        return defined('ELEMENTOR_VERSION')
+            ? (string) \ELEMENTOR_VERSION
+            : '';
     }
 }
