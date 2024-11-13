@@ -2658,12 +2658,17 @@ msgctxt "admin-text"
 msgid "Settings updated."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:131
+#: plugin/Controllers/SettingsController.php:129
+msgctxt "admin-text"
+msgid "You forgot to include the %s placeholder tags in your Custom Text."
+msgstr ""
+
+#: plugin/Controllers/SettingsController.php:153
 msgctxt "admin-text"
 msgid "Please update the %s plugin to v%s or greater to enable the integration."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:125
+#: plugin/Controllers/SettingsController.php:147
 msgctxt "admin-text"
 msgid "Please install/activate the %s plugin to enable the integration."
 msgstr ""
@@ -3221,6 +3226,11 @@ msgstr ""
 
 #: plugin/Helpers/Text.php:165
 msgid "Show less"
+msgstr ""
+
+#: plugin/Integrations/IntegrationHooks.php:33
+msgctxt "admin-text"
+msgid "Update %s to v%s or higher to enable the integration with Site Reviews."
 msgstr ""
 
 #: plugin/Metaboxes/AssignedPostsMetabox.php:28, plugin/Modules/Discord.php:160, plugin/Modules/Slack.php:197, plugin/Modules/Html/TemplateTags.php:85
@@ -4419,12 +4429,12 @@ msgctxt "admin-text"
 msgid "Specific Post ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:94, plugin/Integrations/Flatsome/Controller.php:69, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:23, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:21, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:23, plugin/Integrations/WPBakery/Controller.php:54
+#: plugin/Integrations/Elementor/ElementorWidget.php:94, plugin/Integrations/Flatsome/Controller.php:69, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:23, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:21, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:23, plugin/Integrations/WPBakery/Controller.php:66
 msgctxt "admin-text"
 msgid "The Current Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:95, plugin/Integrations/Flatsome/Controller.php:73, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:24, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:22, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:24, plugin/Integrations/WPBakery/Controller.php:58
+#: plugin/Integrations/Elementor/ElementorWidget.php:95, plugin/Integrations/Flatsome/Controller.php:73, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:24, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:22, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:24, plugin/Integrations/WPBakery/Controller.php:70
 msgctxt "admin-text"
 msgid "The Parent Page"
 msgstr ""
@@ -4434,17 +4444,17 @@ msgctxt "admin-text"
 msgid "Specific User ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:108, plugin/Integrations/Flatsome/Controller.php:99, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:50, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:48, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:50, plugin/Integrations/WPBakery/Controller.php:96
+#: plugin/Integrations/Elementor/ElementorWidget.php:108, plugin/Integrations/Flatsome/Controller.php:99, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:50, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:48, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:50, plugin/Integrations/WPBakery/Controller.php:108
 msgctxt "admin-text"
 msgid "The Logged-in user"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:109, plugin/Integrations/Flatsome/Controller.php:103, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:51, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:49, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:51, plugin/Integrations/WPBakery/Controller.php:100
+#: plugin/Integrations/Elementor/ElementorWidget.php:109, plugin/Integrations/Flatsome/Controller.php:103, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:51, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:49, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:51, plugin/Integrations/WPBakery/Controller.php:112
 msgctxt "admin-text"
 msgid "The Page author"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:110, plugin/Integrations/Flatsome/Controller.php:107, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:52, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:50, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:52, plugin/Integrations/WPBakery/Controller.php:104
+#: plugin/Integrations/Elementor/ElementorWidget.php:110, plugin/Integrations/Flatsome/Controller.php:107, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:52, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:50, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:52, plugin/Integrations/WPBakery/Controller.php:116
 msgctxt "admin-text"
 msgid "The Profile user (BuddyPress/Ultimate Member)"
 msgstr ""
@@ -4482,11 +4492,6 @@ msgstr ""
 #: plugin/Integrations/Elementor/ElementorWidget.php:229, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:36, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:128, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:77, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:108, plugin/Integrations/WPBakery/VcSiteReview.php:44, plugin/Integrations/WPBakery/VcSiteReviews.php:115, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:71, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:95
 msgctxt "admin-text"
 msgid "Additional CSS classes"
-msgstr ""
-
-#: plugin/Integrations/Elementor/Hooks.php:50
-msgctxt "admin-text"
-msgid "Update Elementor to v3.19.0 or higher to enable integration with Site Reviews."
 msgstr ""
 
 #: plugin/Integrations/Flatsome/FlatsomeShortcode.php:79, plugin/Integrations/WPBakery/VcShortcode.php:53
@@ -4624,11 +4629,6 @@ msgctxt "admin-text"
 msgid "Assign New Reviews to Users"
 msgstr ""
 
-#: plugin/Integrations/Flatsome/Hooks.php:45
-msgctxt "admin-text"
-msgid "Update the Flatsome theme to v3.19.0 or higher to enable integration with Site Reviews."
-msgstr ""
-
 #: plugin/Integrations/FusionBuilder/FusionElement.php:24, plugin/Integrations/FusionBuilder/FusionElement.php:53, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:20, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:46, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:18, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:44, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:20, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:46
 msgctxt "admin-text"
 msgid "Select or Leave Blank"
@@ -4712,11 +4712,6 @@ msgstr ""
 #: plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:91
 msgctxt "admin-text"
 msgid "Enter the CSS ID of a Latest Reviews element where the review should be displayed after submission."
-msgstr ""
-
-#: plugin/Integrations/FusionBuilder/Hooks.php:45
-msgctxt "admin-text"
-msgid "Update Fusion Builder to v3.11.0 or higher to enable integration with Site Reviews."
 msgstr ""
 
 #: plugin/Integrations/GamiPress/Controller.php:131
@@ -4986,11 +4981,6 @@ msgstr ""
 #: plugin/Integrations/MyCred/Controller.php:37
 msgctxt "admin-text"
 msgid "Unapproved Review (Site Reviews)"
-msgstr ""
-
-#: plugin/Integrations/WPBakery/Hooks.php:59
-msgctxt "admin-text"
-msgid "Update WPBakery Page Builder to v7.9 or higher to enable integration with Site Reviews."
 msgstr ""
 
 #: plugin/Integrations/WPBakery/VcSiteReviews.php:35, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:35

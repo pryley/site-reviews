@@ -196,11 +196,18 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 == Changelog ==
 
-= 7.3.0 (2024-11-03) =
+= 7.3.0 (2024-11-18) =
 
+- Added [Flatsome Page Builder](https://themeforest.net/item/flatsome-multipurpose-responsive-woocommerce-theme/5484319) integration.
+- Added [WPBakery Page Builder](https://wpbakery.com/) integration.
 - Added an option to change the position of the Catcha (above or below the submit button in the review form).
 - Fixed link focus when expanding exceprts with the keyboard.
+- Fixed the "Delete data on uninstall" setting.
+- Fixed the Rating field in the review form when an invalid "%s Star" string is saved in the settings.
 - Improved CSS of plugin styles for some themes.
+- Refreshed the Elementor widget icons.
+- Refreshed the Fusion Builder widget icons.
+- Refreshed the Gutenberg block icons.
 
 = 7.2.3 (2024-10-31) =
 
