@@ -252,7 +252,7 @@
     site-reviews/summary/wrap/<tag_or_field_key>                (string $value, string $rawValue, Contracts\TagContract $tag): string
     site-reviews/support/deprecated/v5                          (bool $supportDeprecated): bool
     site-reviews/support/deprecated/v6                          (bool $supportDeprecated): bool
-    site-reviews/system-info/section/<key>                      (array $details): array
+    site-reviews/system-info/section/<key>                      (array $details, array $systemData): array
     site-reviews/taxonomy/disable_term_priority                 (bool $bool): bool
     site-reviews/tinymce/editor-ids                             (array $editorIds, string $editorId): array
     site-reviews/tools/general                                  (array $paths): array
