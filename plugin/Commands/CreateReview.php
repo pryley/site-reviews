@@ -139,7 +139,7 @@ class CreateReview extends AbstractCommand
     {
         $values = get_object_vars($this);
         $values = glsr()->filterArray('create/review-values', $values, $this);
-        return glsr(CreateReviewDefaults::class)->merge($values);
+        return glsr(CreateReviewDefaults::class)->merge($values); // don't restrict values
     }
 
     public function validate(): bool
