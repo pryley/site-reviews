@@ -15,10 +15,10 @@ abstract class FlatsomeShortcode
      */
     public function register(): void
     {
-        add_shortcode($this->uxShortcode(), [$this, 'renderShortcode']);
         add_action('ux_builder_setup', function () {
-            add_ux_builder_shortcode($this->uxShortcode(), [
+            add_ux_builder_shortcode($this->shortcode()->shortcode, [
                 'category' => glsr()->name,
+                // 'inline' => true,
                 'name' => $this->name(),
                 'options' => $this->options(),
                 'thumbnail' => $this->icon(),
@@ -27,36 +27,22 @@ abstract class FlatsomeShortcode
         });
     }
 
-    /**
-     * @param array|string $atts
-     */
-    public function renderShortcode($atts = []): string
-    {
-        $args = wp_parse_args($atts);
-        $hide = [];
-        foreach ($atts as $key => $value) {
-            if (str_starts_with((string) $key, 'hide_') && Cast::toBool($value)) {
-                $hide[] = substr($key, 5);
-            }
-        }
-        $args['hide'] = array_filter($hide);
-        if (!empty($args['visibility'])) {
-            $args['class'] = ($args['class'] ?? '').' '.$args['visibility'];
-        }
-        $args = glsr()->filterArray('flatsome/shortcode/args', $args, $this->uxShortcode());
-        return $this->shortcode()->build($args, 'flatsome');
-    }
-
     protected function hideOptions(): array
     {
-        $options = [];
-        foreach ($this->shortcode()->getHideOptions() as $key => $label) {
-            $options["hide_{$key}"] = [
-                'heading' => $label,
-                'type' => 'checkbox',
-            ];
-        }
-        return $options;
+        return [
+            'hide' => [
+                'type' => 'select',
+                'heading' => esc_html_x('Hide Fields', 'admin-text', 'site-reviews'),
+                'description' => esc_html_x('Flatsome UX Builder does not support multiple checkboxes here so instead please use the dropdown to select fields that you want to hide.', 'admin-text', 'site-reviews'),
+                'full_width' => true,
+                'config' => [
+                    'multiple' => true,
+                    'options' => $this->shortcode()->getHideOptions(),
+                    'placeholder' => esc_html_x('Select...', 'admin-text', 'site-reviews'),
+                    'sortable' => false,
+                ],
+            ],
+        ];
     }
 
     abstract protected function icon(): string;
@@ -81,10 +67,5 @@ abstract class FlatsomeShortcode
             'default' => 'local',
             'options' => $types,
         ];
-    }
-
-    protected function uxShortcode(): string
-    {
-        return "ux_{$this->shortcode()->shortcode}";
     }
 }
