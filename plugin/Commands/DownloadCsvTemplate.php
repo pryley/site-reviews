@@ -33,7 +33,10 @@ class DownloadCsvTemplate extends AbstractCommand
             'name' => _x('The reviewer\'s name', 'admin-text', 'site-reviews'),
             'rating' => sprintf(_x('A number from %d-%d', 'admin-text', 'site-reviews'), glsr()->constant('MIN_RATING', Rating::class), glsr()->constant('MAX_RATING', Rating::class)),
             'response' => _x('The review response', 'admin-text', 'site-reviews'),
-            'score' => _x('A positive or negative whole number', 'admin-text', 'site-reviews'),
+            'score' => sprintf('%s<br><span class="glsr-notice-inline is-warning">%s</span>',
+                _x('A whole number which represents the number of times the review was upvoted.', 'admin-text', 'site-reviews'),
+                sprintf(_x('%s addon required.', 'the plugin name (admin-text)', 'site-reviews'), '<a href="https://niftyplugins.com/plugins/site-reviews-actions/" target="_blank">Review Actions</a>')
+            ),
             'terms' => sprintf(_x('%s or %s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
             'title' => _x('The title of the review', 'admin-text', 'site-reviews'),
         ];
