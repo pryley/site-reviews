@@ -58,7 +58,7 @@ class SystemInfo
             $section = Str::dashCase($key);
             $title = strtoupper(Arr::get($details, 'title'));
             $values = Arr::get($details, 'values');
-            $values = glsr()->filterArray("system-info/section/{$section}", $values);
+            $values = glsr()->filterArray("system-info/section/{$section}", $values, $this->data);
             return $carry.$this->implode($title, $values);
         }));
     }
@@ -222,9 +222,9 @@ class SystemInfo
                 'Display Errors' => $this->ini('display_errors', 'No'),
                 'File Uploads' => $this->value('wp-media.file_uploads'),
                 'GD version' => $this->value('wp-media.gd_version'),
-                'Ghostscript version' => $this->value('wp-media.ghostscript_version'),
+                'Ghostscript Version' => $this->value('wp-media.ghostscript_version'),
                 'Host Name' => $this->hostname(),
-                'ImageMagick version' => $this->value('wp-media.imagemagick_version'),
+                'ImageMagick Version' => $this->value('wp-media.imagemagick_version'),
                 'Intl' => Helper::ifEmpty(phpversion('intl'), 'No'),
                 'IPv6' => var_export(defined('AF_INET6'), true),
                 'Max Effective File Size' => $this->value('wp-media.max_effective_size'),
