@@ -4,28 +4,14 @@ namespace GeminiLabs\SiteReviews\Widgets;
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\WidgetBuilder;
+use GeminiLabs\SiteReviews\Modules\Html\WidgetField;
 
 abstract class Widget extends \WP_Widget
 {
-    /**
-     * @var array
-     */
-    protected $mapped = [ // @compat 4.0
-        'assign_to' => 'assigned_posts',
-        'assigned_to' => 'assigned_posts',
-        'category' => 'assigned_terms',
-        'per_page' => 'display',
-        'user' => 'assigned_users',
-    ];
-
-    /**
-     * @var array
-     */
-    protected $widgetArgs;
-
     public function __construct()
     {
         $className = (new \ReflectionClass($this))->getShortName();
@@ -36,6 +22,45 @@ abstract class Widget extends \WP_Widget
             'name' => $this->shortcode()->name,
             'show_instance_in_rest' => true,
         ]);
+    }
+
+    /**
+     * @param array $instance
+     *
+     * @return string
+     */
+    public function form($instance)
+    {
+        $instance = $this->normalizeInstance($instance);
+        $notice = _x('This is a legacy widget with limited options, consider switching to the shortcode or block.', 'admin-text', 'site-reviews');
+        echo glsr(WidgetBuilder::class)->div([
+            'class' => 'notice notice-alt notice-warning inline',
+            'style' => 'margin:1em 0;',
+            'text' => glsr(WidgetBuilder::class)->p($notice),
+        ]);
+        $config = wp_parse_args($this->widgetConfig(), [
+            'title' => [
+                'label' => _x('Widget Title', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+        ]);
+        foreach ($config as $name => $args) {
+            if ('type' === $name && empty($args['options'])) {
+                continue;
+            }
+            $this->renderField($name, $args, $instance);
+        }
+        return '';
+    }
+
+    /**
+     * @param array $oldInstance
+     *
+     * @return array
+     */
+    public function update($instance, $oldInstance)
+    {
+        return $this->normalizeInstance($instance);
     }
 
     /**
@@ -55,15 +80,22 @@ abstract class Widget extends \WP_Widget
         echo $args->before_widget.$title.$html.$args->after_widget;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return mixed
-     */
-    protected function mapped($key)
+    protected function fieldAssignedTermsOptions(): array
     {
-        $key = Arr::get($this->mapped, $key, $key);
-        return Arr::get($this->widgetArgs, $key);
+        return Arr::prepend(
+            glsr(Database::class)->terms(),
+            esc_html_x('— Select —', 'admin-text', 'site-reviews'),
+            ''
+        );
+    }
+
+    protected function fieldTypeOptions(): array
+    {
+        $types = glsr()->retrieveAs('array', 'review_types');
+        if (count($types) > 1) {
+            return $types;
+        }
+        return [];
     }
 
     /**
@@ -81,26 +113,37 @@ abstract class Widget extends \WP_Widget
         return glsr()->args($args);
     }
 
-    protected function normalizeFieldAttributes(string $tag, array $args): array
+    protected function normalizeInstance(array $instance): array
     {
-        if (empty($args['value'])) {
-            $args['value'] = $this->mapped($args['name']);
-        }
-        if (empty($this->mapped('options')) && in_array($tag, ['checkbox', 'radio'])) {
-            $args['checked'] = in_array($args['value'], (array) $this->mapped($args['name']));
-        }
-        $args['id'] = $this->get_field_id($args['name']);
-        $args['name'] = $this->get_field_name($args['name']);
-        return $args;
+        $pairs = array_fill_keys(array_keys($instance), '');
+        $title = $instance['title'] ?? '';
+        $instance = $this->shortcode()->defaults()->merge($instance);
+        $instance['title'] = sanitize_text_field($title);
+        return shortcode_atts($pairs, $instance);
     }
 
-    protected function renderField(string $tag, array $args = []): void
+    protected function renderField($name, array $args, array $instance = []): void
     {
-        $args = $this->normalizeFieldAttributes($tag, $args);
-        echo glsr(WidgetBuilder::class)->p([
-            'text' => glsr(WidgetBuilder::class)->$tag($args),
-        ]);
+        if (isset($args['name']) && !isset($args['type'])) {
+            $args['type'] = $name; // @todo remove in v8.0
+        }
+        $field = new WidgetField(wp_parse_args($args, compact('name')));
+        if (!$field->isValid()) {
+            return;
+        }
+        $value = Arr::get($instance, $field->original_name);
+        if ('' !== $value) {
+            $field->value = $value;
+        }
+        $field->id = $this->get_field_id($field->name);
+        $field->name = $this->get_field_name($field->name);
+        $field->render();
     }
 
     abstract protected function shortcode(): ShortcodeContract;
+
+    protected function widgetConfig(): array
+    {
+        return [];
+    }
 }

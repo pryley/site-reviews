@@ -7,31 +7,33 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
 
 class SiteReviewWidget extends Widget
 {
-    /**
-     * @param array $instance
-     *
-     * @return string
-     */
-    public function form($instance)
-    {
-        $this->widgetArgs = $this->shortcode()->normalize($instance)->args;
-        $this->renderField('text', [
-            'label' => _x('Title', 'admin-text', 'site-reviews'),
-            'name' => 'title',
-        ]);
-        $this->renderField('text', [
-            'label' => _x('Enter any custom CSS classes here', 'admin-text', 'site-reviews'),
-            'name' => 'class',
-        ]);
-        $this->renderField('checkbox', [
-            'name' => 'hide',
-            'options' => $this->shortcode()->getHideOptions(),
-        ]);
-        return ''; // WP_Widget::form should return a string
-    }
-
     protected function shortcode(): ShortcodeContract
     {
         return glsr(SiteReviewShortcode::class);
+    }
+
+    protected function widgetConfig(): array
+    {
+        return [
+            'post_id' => [
+                'label' => esc_html_x('Review ID', 'admin-text', 'site-reviews'),
+                'description' => esc_html_x('Enter the Post ID of the review you want to display.', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+            'hide' => [
+                'options' => $this->shortcode()->getHideOptions(),
+                'type' => 'checkbox',
+            ],
+            'id' => [
+                'label' => esc_html_x('Custom ID', 'admin-text', 'site-reviews'),
+                'description' => esc_html_x('This should be a unique value.', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+            'class' => [
+                'label' => esc_html_x('Additional CSS classes', 'admin-text', 'site-reviews'),
+                'description' => esc_html_x('Separate multiple classes with spaces.', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+        ];
     }
 }

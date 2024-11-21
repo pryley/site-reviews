@@ -22,8 +22,7 @@ class WidgetBuilder extends Builder
 
     protected function buildFieldElement(): string
     {
-        $method = Helper::buildMethodName('build', 'field', $this->tag(), 'element');
-        $element = call_user_func([$this, $method]);
+        $element = parent::buildFieldElement();
         return $element.$this->buildFieldDescription();
     }
 
