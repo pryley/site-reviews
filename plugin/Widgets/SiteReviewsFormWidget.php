@@ -3,61 +3,47 @@
 namespace GeminiLabs\SiteReviews\Widgets;
 
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
-use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
 class SiteReviewsFormWidget extends Widget
 {
-    /**
-     * @param array $instance
-     *
-     * @return string
-     */
-    public function form($instance)
-    {
-        $this->widgetArgs = $this->shortcode()->normalize($instance)->args;
-        $terms = glsr(Database::class)->terms();
-        $this->renderField('text', [
-            'label' => _x('Title', 'admin-text', 'site-reviews'),
-            'name' => 'title',
-        ]);
-        $this->renderField('textarea', [
-            'label' => _x('Description', 'admin-text', 'site-reviews'),
-            'name' => 'description',
-        ]);
-        if (!empty($terms)) {
-            $this->renderField('select', [
-                'label' => _x('Automatically assign a category', 'admin-text', 'site-reviews'),
-                'name' => 'assigned_terms',
-                'options' => Arr::prepend($terms, _x('Do not assign a category', 'admin-text', 'site-reviews'), ''),
-            ]);
-        }
-        $this->renderField('text', [
-            'default' => '',
-            'description' => sprintf(_x('You may also enter %s to use the Post ID of the current page.', 'admin-text', 'site-reviews'), '<code>post_id</code>'),
-            'label' => _x('Automatically assign reviews to a Post ID', 'admin-text', 'site-reviews'),
-            'name' => 'assigned_posts',
-        ]);
-        $this->renderField('text', [
-            'default' => '',
-            'description' => sprintf(esc_html_x('You may also enter %s to use the ID of the logged-in user.', 'admin-text', 'site-reviews'), '<code>user_id</code>'),
-            'label' => _x('Automatically assign reviews to a User ID', 'admin-text', 'site-reviews'),
-            'name' => 'assigned_users',
-        ]);
-        $this->renderField('text', [
-            'label' => _x('Enter any custom CSS classes here', 'admin-text', 'site-reviews'),
-            'name' => 'class',
-        ]);
-        $this->renderField('checkbox', [
-            'name' => 'hide',
-            'options' => $this->shortcode()->getHideOptions(),
-        ]);
-        return ''; // WP_Widget::form should return a string
-    }
-
     protected function shortcode(): ShortcodeContract
     {
         return glsr(SiteReviewsFormShortcode::class);
+    }
+
+    protected function widgetConfig(): array
+    {
+        return [
+            'assigned_posts' => [
+                'label' => esc_html_x('Assign New Reviews to Pages', 'admin-text', 'site-reviews'),
+                'description' => esc_html_x('Enter "post_id" to use the Post ID of the current page.', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+            'assigned_users' => [
+                'label' => esc_html_x('Assign New Reviews to Users', 'admin-text', 'site-reviews'),
+                'description' => esc_html_x('Enter "user_id" to use the ID of the logged-in user.', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+            'assigned_terms' => [
+                'label' => esc_html_x('Assign New Reviews to Categories', 'admin-text', 'site-reviews'),
+                'options' => $this->fieldAssignedTermsOptions(),
+                'type' => 'select',
+            ],
+            'hide' => [
+                'options' => $this->shortcode()->getHideOptions(),
+                'type' => 'checkbox',
+            ],
+            'id' => [
+                'label' => esc_html_x('Custom ID', 'admin-text', 'site-reviews'),
+                'description' => esc_html_x('This should be a unique value.', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+            'class' => [
+                'label' => esc_html_x('Additional CSS classes', 'admin-text', 'site-reviews'),
+                'description' => esc_html_x('Separate multiple classes with spaces.', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+        ];
     }
 }
