@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -28,6 +29,20 @@ abstract class Shortcode implements ShortcodeContract
         $this->description = $this->shortcodeDescription();
         $this->name = $this->shortcodeName();
         $this->shortcode = $this->shortcodeTag();
+    }
+
+    public function apiFetchResponse(\WP_REST_Request $request): array
+    {
+        $option = $request['option'] ?? '';
+        $method = Helper::buildMethodName('get', $option, 'options');
+        if (method_exists($this, $method)) {
+            $results = [];
+            foreach ($this->$method($request) as $id => $title) {
+                $results[] = compact('id', 'title');
+            }
+            return $results;
+        }
+        return [];
     }
 
     public function attributes(array $values, string $source = 'function'): array
@@ -78,6 +93,76 @@ abstract class Shortcode implements ShortcodeContract
         return glsr($classname);
     }
 
+    public function getConfig(): array
+    {
+        $config = $this->config();
+        return glsr()->filterArray('shortcode/config', $config, $this->shortcode, $this);
+    }
+
+    public function getAssignedPostsOptions(\WP_REST_Request $request): array
+    {
+        $args = [
+            'post__in' => [],
+            'posts_per_page' => 25,
+        ];
+        $query = $request['search'] ?? '';
+        if (is_numeric($query)) {
+            $args['post__in'][] = (int) $query;
+        } else {
+            $args['s'] = $query;
+        }
+        $results = glsr(Database::class)->posts($args);
+        $include = Cast::toArray($request['include'] ?? []);
+        $include = array_filter($include, fn ($id) => !array_key_exists($id, $results));
+        if (!empty($include)) {
+            $results += glsr(Database::class)->posts([
+                'post__in' => $include,
+            ]);
+        }
+        $results = [
+            'post_id' => esc_html_x('The Current Page', 'admin-text', 'site-reviews').' (post_id)',
+            'parent_id' => esc_html_x('The Parent Page', 'admin-text', 'site-reviews').' (parent_id)',
+        ] + $results;
+        return $results;
+    }
+
+    public function getAssignedTermsOptions(\WP_REST_Request $request): array
+    {
+        $results = glsr(Database::class)->terms([
+            'number' => 25,
+            'search' => $request['search'] ?? '',
+        ]);
+        $include = Cast::toArray($request['include'] ?? []);
+        $include = array_filter($include, fn ($id) => !array_key_exists($id, $results));
+        if (!empty($include)) {
+            $results += glsr(Database::class)->terms([
+                'term_taxonomy_id' => $include,
+            ]);
+        }
+        return $results;
+    }
+
+    public function getAssignedUsersOptions(\WP_REST_Request $request): array
+    {
+        $results = glsr(Database::class)->users([
+            'number' => 25,
+            'search_wild' => $request['search'] ?? '',
+        ]);
+        $include = Cast::toArray($request['include'] ?? []);
+        $include = array_filter($include, fn ($id) => !array_key_exists($id, $results));
+        if (!empty($include)) {
+            $results += glsr(Database::class)->users([
+                'include' => $include,
+            ]);
+        }
+        $results = [
+            'user_id' => esc_html_x('The Logged In User', 'admin-text', 'site-reviews').' (user_id)',
+            'author_id' => esc_html_x('The Page Author', 'admin-text', 'site-reviews').' (author_id)',
+            'profile_id' => esc_html_x('The Profile User', 'admin-text', 'site-reviews').' (profile_id)',
+        ] + $results;
+        return $results;
+    }
+
     public function getDisplayOptions(): array
     {
         $options = $this->displayOptions();
@@ -90,13 +175,18 @@ abstract class Shortcode implements ShortcodeContract
         return glsr()->filterArray('shortcode/hide-options', $options, $this->shortcode, $this);
     }
 
+    public function getTypeOptions(): array
+    {
+        return glsr()->retrieveAs('array', 'review_types', []);
+    }
+
     public function hasVisibleFields(array $args = []): bool
     {
-        if (empty($args)) {
-            $args = $this->args;
+        if (!empty($args)) {
+            $this->normalize($args);
         }
         $defaults = $this->getHideOptions();
-        $hide = $args['hide'] ?? [];
+        $hide = $this->args['hide'] ?? [];
         $hide = array_flip(Arr::consolidate($hide));
         unset($defaults['if_empty'], $hide['if_empty']);
         return !empty(array_diff_key($defaults, $hide));
@@ -131,6 +221,12 @@ abstract class Shortcode implements ShortcodeContract
         $shortcode = Str::snakeCase($shortcode);
         $shortcode = str_replace('_shortcode', '', $shortcode);
         add_shortcode($shortcode, [$this, 'buildShortcode']);
+        glsr()->append('shortcodes', get_class($this), $shortcode);
+    }
+
+    protected function config(): array
+    {
+        return [];
     }
 
     protected function debug(array $data = []): void
@@ -156,6 +252,16 @@ abstract class Shortcode implements ShortcodeContract
     protected function hideOptions(): array
     {
         return [];
+    }
+
+    protected function maxRating(): int
+    {
+        return Cast::toInt(glsr()->constant('MAX_RATING', Rating::class));
+    }
+
+    protected function minRating(): int
+    {
+        return Cast::toInt(glsr()->constant('MIN_RATING', Rating::class));
     }
 
     /**
@@ -218,7 +324,7 @@ abstract class Shortcode implements ShortcodeContract
             __('Poor', 'site-reviews'),
             __('Terrible', 'site-reviews'),
         ];
-        $maxRating = (int) glsr()->constant('MAX_RATING', Rating::class);
+        $maxRating = $this->maxRating();
         $defaults = array_pad(array_slice($defaults, 0, $maxRating), $maxRating, '');
         $labels = array_map('trim', explode(',', $value));
         foreach ($defaults as $i => $label) {

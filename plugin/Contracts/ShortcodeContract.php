@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Contracts;
 
+use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
+
 /**
  * @property array  $args
  * @property string $debug
@@ -26,9 +28,17 @@ interface ShortcodeContract
 
     public function buildTemplate(): string;
 
+    public function defaults(): DefaultsAbstract;
+
+    public function getConfig(): array;
+
     public function getDisplayOptions(): array;
 
     public function getHideOptions(): array;
+
+    public function getTypeOptions(): array;
+
+    public function hasVisibleFields(array $args = []): bool;
 
     /**
      * @return static

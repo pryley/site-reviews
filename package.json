@@ -19,6 +19,7 @@
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@wordpress/babel-preset-default": "^8.10.0",
+    "@wordpress/scripts": "^30.5.1",
     "autoprefixer": "^10.4.20",
     "babel-plugin-prismjs": "^2.1.0",
     "browser-sync": "^3.0.3",
@@ -48,7 +49,10 @@
   },
   "private": true,
   "scripts": {
+    "blocks": "wp-scripts build --webpack-src-dir=+/blocks --output-path=assets/blocks",
+    "blocks:watch": "wp-scripts start --webpack-src-dir=+/blocks --output-path=assets/blocks",
     "build": "gulp && mix --production",
+    "check": "wp-scripts check-engines",
     "development": "mix",
     "lang": "gulp",
     "watch": "mix watch",

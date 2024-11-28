@@ -5,7 +5,7 @@ VERSION ?= $(shell perl -lne 'm{Stable tag: .*?(.+)} and print $$1' readme.txt)
 analyse: ## Run phpstan analyser
 	XDEBUG_MODE=off ./vendor/bin/phpstan analyse --memory-limit 2G
 
-build: ## Build all assets and languages
+build: ## Build all assets, blocks, and languages
 	npx gulp
 	make mix
 
@@ -24,6 +24,8 @@ help:  ## Display help
 mix: ## Build all assets
 	npx mix --production
 	npx rollup -c
+	npm run check
+	npm run blocks
 
 mixsync: ## Build all assets and sync
 	make mix

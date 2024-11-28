@@ -1,0 +1,86 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "site-reviews/reviews",
+    "version": "2.0.0",
+    "title": "Latest Reviews",
+    "description": "Display your reviews.",
+    "category": "site-reviews",
+    "example": {},
+    "textdomain": "site-reviews",
+    "attributes": {
+        "assigned_posts": {
+            "default": [],
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "assigned_terms": {
+            "default": [],
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "assigned_users": {
+            "default": [],
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "className": {
+            "default": "",
+            "type": "string"
+        },
+        "display": {
+            "default": 5,
+            "type": "number"
+        },
+        "hide": {
+            "default": [],
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "id": {
+            "default": "",
+            "type": "string"
+        },
+        "pagination": {
+            "default": "",
+            "type": "string"
+        },
+        "post_id": {
+            "default": "",
+            "type": "string"
+        },
+        "rating": {
+            "default": 0,
+            "type": "number"
+        },
+        "schema": {
+            "default": false,
+            "type": "boolean"
+        },
+        "terms": {
+            "default": "",
+            "type": "string"
+        },
+        "type": {
+            "default": "local",
+            "type": "string"
+        }
+    },
+    "editorScript": "file:./index.jsx",
+    "script": "site-reviews",
+    "keywords": [
+        "reviews",
+        "site reviews"
+    ],
+    "supports": {
+        "html": false
+    }
+}

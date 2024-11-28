@@ -344,33 +344,3 @@ const loadYouTube = function (link) {
     ytFrame.prepend(iframe);
 }
 
-const setTextDirection = (type) => {
-    [].forEach.call(document.querySelectorAll(`[data-type="site-reviews/${type}"] .glsr`), el => {
-        const direction = 'glsr-' + window.getComputedStyle(el, null).getPropertyValue('direction');
-        el.classList.add(direction);
-    })
-}
-
-Event.on('site-reviews/form', (response, attributes) => {
-    if (!_.isEmpty(response) && !response.error) {
-        setTextDirection('form')
-        GLSR.stars.destroy();
-        GLSR.stars.init('.glsr-field-rating select', { clearable: true });
-    }
-});
-Event.on('site-reviews/review', (response, attributes) => {
-    if (!_.isEmpty(response) && !response.error) {
-        setTextDirection('review')
-    }
-});
-Event.on('site-reviews/reviews', (response, attributes) => {
-    if (!_.isEmpty(response) && !response.error) {
-        setTextDirection('reviews')
-    }
-});
-Event.on('site-reviews/summary', (response, attributes) => {
-    if (!_.isEmpty(response) && !response.error) {
-        setTextDirection('summary')
-    }
-});
-

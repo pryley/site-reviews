@@ -1,0 +1,82 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "site-reviews/summary",
+    "version": "2.0.0",
+    "title": "Rating Summary",
+    "description": "Display a rating summary of your reviews.",
+    "category": "site-reviews",
+    "example": {},
+    "textdomain": "site-reviews",
+    "attributes": {
+        "assigned_posts": {
+            "default": [],
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "assigned_terms": {
+            "default": [],
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "assigned_users": {
+            "default": [],
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "className": {
+            "default": "",
+            "type": "string"
+        },
+        "hide": {
+            "default": [],
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "id": {
+            "default": "",
+            "type": "string"
+        },
+        "post_id": {
+            "default": "",
+            "type": "string"
+        },
+        "rating": {
+            "default": 1,
+            "type": "number"
+        },
+        "rating_field": {
+            "default": "",
+            "type": "string"
+        },
+        "schema": {
+            "default": false,
+            "type": "boolean"
+        },
+        "terms": {
+            "default": "",
+            "type": "string"
+        },
+        "type": {
+            "default": "local",
+            "type": "string"
+        }
+    },
+    "editorScript": "file:./index.jsx",
+    "script": "site-reviews",
+    "keywords": [
+        "rating summary",
+        "site reviews"
+    ],
+    "supports": {
+        "html": false
+    }
+}

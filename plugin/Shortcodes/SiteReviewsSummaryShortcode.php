@@ -48,6 +48,83 @@ class SiteReviewsSummaryShortcode extends Shortcode
         return glsr()->filterString("summary/build/{$tag}", $field, $this->ratings, $this);
     }
 
+    protected function config(): array
+    {
+        return [
+            'assigned_posts' => [
+                'label' => esc_html_x('Limit Reviews by Assigned Pages', 'admin-text', 'site-reviews'),
+                'placeholder' => esc_html_x('Select a Page...', 'admin-text', 'site-reviews'),
+                'type' => 'select',
+            ],
+            'assigned_terms' => [
+                'label' => esc_html_x('Limit Reviews by Categories', 'admin-text', 'site-reviews'),
+                'placeholder' => esc_html_x('Select a Category...', 'admin-text', 'site-reviews'),
+                'type' => 'select',
+            ],
+            'assigned_users' => [
+                'label' => esc_html_x('Limit Reviews by Assigned Users', 'admin-text', 'site-reviews'),
+                'placeholder' => esc_html_x('Select a User...', 'admin-text', 'site-reviews'),
+                'type' => 'select',
+            ],
+            'terms' => [
+                'label' => esc_html_x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews'),
+                'options' => [
+                    'true' => esc_html_x('Terms were accepted', 'admin-text', 'site-reviews'),
+                    'false' => esc_html_x('Terms were not accepted', 'admin-text', 'site-reviews'),
+                ],
+                'placeholder' => esc_html_x('Select Review Terms...', 'admin-text', 'site-reviews'),
+                'type' => 'select',
+            ],
+            'type' => [
+                'label' => esc_html_x('Limit Reviews by Type', 'admin-text', 'site-reviews'),
+                'options' => $this->getTypeOptions(),
+                'placeholder' => esc_html_x('Select a Review Type...', 'admin-text', 'site-reviews'),
+                'type' => 'select',
+            ],
+            'rating' => [
+                'default' => (string) $this->minRating(),
+                'group' => 'display',
+                'label' => esc_html_x('Minimum Rating', 'admin-text', 'site-reviews'),
+                'max' => $this->maxRating(),
+                'min' => $this->minRating(),
+                'placeholder' => (string) $this->minRating(),
+                'step' => 1,
+                'type' => 'number',
+            ],
+            'rating_field' => [
+                'description' => sprintf(_x('Use the %sReview Forms%s addon to add custom rating fields.', 'admin-text', 'site-reviews'),
+                    '<a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">', '</a>'
+                ),
+                'label' => esc_html_x('Custom Rating Field Name', 'admin-text', 'site-reviews'),
+                'group' => 'display',
+                'type' => 'text',
+            ],
+            'schema' => [
+                'description' => esc_html_x('The schema should only be enabled once on your page.', 'admin-text', 'site-reviews'),
+                'group' => 'schema',
+                'label' => esc_html_x('Enable the schema?', 'admin-text', 'site-reviews'),
+                'type' => 'checkbox',
+            ],
+            'hide' => [
+                'group' => 'hide',
+                'options' => $this->getHideOptions(),
+                'type' => 'checkbox',
+            ],
+            'id' => [
+                'description' => esc_html_x('This should be a unique value.', 'admin-text', 'site-reviews'),
+                'group' => 'advanced',
+                'label' => esc_html_x('Custom ID', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+            'class' => [
+                'description' => esc_html_x('Separate multiple classes with spaces.', 'admin-text', 'site-reviews'),
+                'group' => 'advanced',
+                'label' => esc_html_x('Additional CSS classes', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+        ];
+    }
+
     protected function generateSchema(): void
     {
         if (Cast::toBool($this->args['schema'])) {

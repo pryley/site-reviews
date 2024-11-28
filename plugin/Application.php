@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Contracts\PluginContract;
+use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\PermissionDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -250,5 +251,18 @@ final class Application extends Container implements PluginContract
         }
         $settings = Arr::unflatten($this->settings);
         return Arr::get($settings, $path);
+    }
+
+    public function shortcode(string $shortcode): ?ShortcodeContract
+    {
+        $shortcodes = glsr()->retrieveAs('array', 'shortcodes');
+        $className = $shortcodes[$shortcode] ?? '';
+        if (!class_exists($className)) {
+            return null;
+        }
+        if (!(new \ReflectionClass($className))->implementsInterface(ShortcodeContract::class)) {
+            return null;
+        }
+        return $this->make($className);
     }
 }
