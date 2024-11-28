@@ -14,6 +14,7 @@ class RestController implements ControllerContract
      */
     public function registerRoutes(): void
     {
+        (new RestShortcodeController())->register_routes();
         (new RestSummaryController())->register_routes();
         (new RestTypeController())->register_routes();
     }

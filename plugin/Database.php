@@ -266,7 +266,6 @@ class Database
         if (empty($args['post_type'])) {
             $postTypes = get_post_types([
                 '_builtin' => false,
-                'exclude_from_search' => true,
                 'public' => true,
                 'show_in_rest' => true,
                 'show_ui' => true,

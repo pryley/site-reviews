@@ -25,6 +25,35 @@ class SiteReviewShortcode extends Shortcode
         return (string) $html;
     }
 
+    protected function config(): array
+    {
+        return [
+            'post_id' => [
+                'label' => esc_attr_x('Review Post ID', 'admin-text', 'site-reviews'),
+                'description' => esc_html_x('Select the review you want to display.', 'admin-text', 'site-reviews'),
+                'placeholder' => esc_html_x('Select a review...', 'admin-text', 'site-reviews'),
+                'type' => 'select',
+            ],
+            'hide' => [
+                'group' => 'hide',
+                'options' => $this->getHideOptions(),
+                'type' => 'checkbox',
+            ],
+            'id' => [
+                'description' => esc_html_x('This should be a unique value.', 'admin-text', 'site-reviews'),
+                'group' => 'advanced',
+                'label' => esc_html_x('Custom ID', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+            'class' => [
+                'description' => esc_html_x('Separate multiple classes with spaces.', 'admin-text', 'site-reviews'),
+                'group' => 'advanced',
+                'label' => esc_html_x('Additional CSS classes', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+        ];
+    }
+
     protected function hideOptions(): array
     {
         return [ // order is intentional

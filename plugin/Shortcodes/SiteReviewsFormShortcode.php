@@ -107,6 +107,50 @@ class SiteReviewsFormShortcode extends Shortcode
         return $url;
     }
 
+    protected function config(): array
+    {
+        return [
+            'assigned_posts' => [
+                'label' => esc_html_x('Assign Reviews to Pages', 'admin-text', 'site-reviews'),
+                'placeholder' => esc_html_x('Select a Page...', 'admin-text', 'site-reviews'),
+                'type' => 'select',
+            ],
+            'assigned_terms' => [
+                'label' => esc_html_x('Assign Reviews to Categories', 'admin-text', 'site-reviews'),
+                'placeholder' => esc_html_x('Select a Category...', 'admin-text', 'site-reviews'),
+                'type' => 'select',
+            ],
+            'assigned_users' => [
+                'label' => esc_html_x('Assign Reviews to Users', 'admin-text', 'site-reviews'),
+                'placeholder' => esc_html_x('Select a User...', 'admin-text', 'site-reviews'),
+                'type' => 'select',
+            ],
+            'hide' => [
+                'group' => 'hide',
+                'options' => $this->getHideOptions(),
+                'type' => 'checkbox',
+            ],
+            'reviews_id' => [
+                'description' => esc_html_x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Reviews ID', 'admin-text', 'site-reviews'),
+                'group' => 'advanced',
+                'type' => 'text',
+            ],
+            'id' => [
+                'description' => esc_html_x('This should be a unique value.', 'admin-text', 'site-reviews'),
+                'group' => 'advanced',
+                'label' => esc_html_x('Custom ID', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+            'class' => [
+                'description' => esc_html_x('Separate multiple classes with spaces.', 'admin-text', 'site-reviews'),
+                'group' => 'advanced',
+                'label' => esc_html_x('Additional CSS classes', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+        ];
+    }
+
     protected function debug(array $data = []): void
     {
         if (!empty($this->args['debug']) && !empty($data['form'])) {

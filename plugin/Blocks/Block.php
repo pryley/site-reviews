@@ -52,18 +52,29 @@ abstract class Block
             return;
         }
         $block = (new \ReflectionClass($this))->getShortName();
-        $block = Str::snakeCase($block);
-        $block = str_replace(['_block', 'site_reviews_', 'site_'], '', $block);
-        register_block_type(glsr()->id."/{$block}", [
-            'attributes' => $this->app()->filterArray("block/{$block}/attributes", $this->attributes(), $block),
-            'editor_script' => "{$this->app()->id}/blocks",
+        $block = str_replace('_block', '', Str::snakeCase($block));
+        register_block_type_from_metadata(glsr()->path("assets/blocks/{$block}"), [
             'editor_style' => "{$this->app()->id}/blocks",
             'render_callback' => [$this, 'render'],
             'style' => $this->app()->id,
         ]);
     }
 
-    abstract public function render(array $attributes): string;
+    public function render(array $attributes): string
+    {
+        $attributes['class'] = $attributes['className'];
+        if ('edit' === filter_input(INPUT_GET, 'context')) {
+            $attributes = $this->normalize($attributes);
+            if (!$this->hasVisibleFields($attributes)) {
+                return $this->buildEmptyBlock(
+                    _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews')
+                );
+            }
+        }
+        return $this->shortcode()->buildBlock($attributes);
+    }
+
+    abstract public function shortcode(): ShortcodeContract;
 
     protected function buildEmptyBlock(string $text): string
     {
@@ -76,12 +87,8 @@ abstract class Block
         ]);
     }
 
-    protected function hasVisibleFields(ShortcodeContract $shortcode, array $attributes): bool
+    protected function hasVisibleFields(array $attributes): bool
     {
-        $shortcode->normalize($attributes);
-        $defaults = $shortcode->getHideOptions();
-        $hide = array_flip($shortcode->args['hide']);
-        unset($defaults['if_empty'], $hide['if_empty']);
-        return !empty(array_diff_key($defaults, $hide));
+        return $this->shortcode()->hasVisibleFields($attributes);
     }
 }

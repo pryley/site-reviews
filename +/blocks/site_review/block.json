@@ -1,0 +1,41 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "site-reviews/review",
+    "version": "2.0.0",
+    "title": "Single Review",
+    "description": "Display a single review.",
+    "category": "site-reviews",
+    "example": {},
+    "textdomain": "site-reviews",
+    "attributes": {
+        "className": {
+            "default": "",
+            "type": "string"
+        },
+        "hide": {
+            "default": [],
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "id": {
+            "default": "",
+            "type": "string"
+        },
+        "post_id": {
+            "default": "",
+            "type": "string"
+        }
+    },
+    "editorScript": "file:./index.jsx",
+    "script": "site-reviews",
+    "keywords": [
+        "review",
+        "site reviews"
+    ],
+    "supports": {
+        "html": false
+    }
+}
