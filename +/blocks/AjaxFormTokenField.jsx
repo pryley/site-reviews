@@ -21,7 +21,6 @@ import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
  * @version 1.1
  */
 const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraProps }) => {
-    const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [options, setOptions] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
@@ -48,12 +47,9 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
         return map;
     }, {});
 
-
-
     // Fetch the suggestions from the endpoint
     const fetchSuggestions = async () => {
         // if (options && options.length > 0) return;
-        setError(null);
         setIsLoading(true)
         try {
             if (abortControllerRef.current) {
@@ -89,7 +85,6 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
         } catch (error) {
             if (error.name !== 'AbortError') {
                 console.error('Error fetching options', error);
-                setError(error.message);
             }
         } finally {
             if (!abortControllerRef.current.signal.aborted) {
@@ -194,7 +189,6 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
                     : []}
                 {...safeProps}
             />
-            {error && <Text className="components-error-text">{error}</Text>}
         </BaseControl>
     )
 };
