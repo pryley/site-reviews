@@ -25,13 +25,6 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
     const [options, setOptions] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const abortControllerRef = useRef(null); // Ref to track the AbortController
-    // const { setOptions } = useDispatch('site-reviews');
-
-    // Retrieve options from the cache
-    // const options = useSelect(
-    //     (select) => select('site-reviews').getOptions(endpointUrl),
-    //     [endpointUrl]
-    // );
 
     // Update the endpoint URL when the search query or value array changes
     const endpointUrl = useMemo(() => {
@@ -49,7 +42,6 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
 
     // Fetch the suggestions from the endpoint
     const fetchSuggestions = async () => {
-        // if (options && options.length > 0) return;
         setIsLoading(true)
         try {
             if (abortControllerRef.current) {
@@ -81,7 +73,6 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
                     : option.title,
             }));
             setOptions(processedOptions);
-            // setOptions(endpointUrl, processedOptions);
         } catch (error) {
             if (error.name !== 'AbortError') {
                 console.error('Error fetching options', error);
