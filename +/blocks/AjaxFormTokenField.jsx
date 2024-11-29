@@ -22,17 +22,17 @@ import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
  */
 const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraProps }) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [search, setSearch] = useState('');
     const { setOptions } = useDispatch('site-reviews');
-    const abortControllerRef = useRef(null); // Ref to track the AbortController
+    const debouncedSearch = useDebounce(setSearch, 500);
 
     // Update the endpoint URL when the search query or value array changes
     const endpointUrl = useMemo(() => {
         const url = new URL(endpoint, window.location.origin);
         url.searchParams.set('include', value.join(','));
-        url.searchParams.set('search', searchQuery);
+        url.searchParams.set('search', search);
         return url.pathname + url.search;
-    }, [searchQuery, value]);
+    }, [search, value]);
 
     // Retrieve options from the cache
     const options = useSelect(
@@ -51,19 +51,7 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
         if (options && options.length > 0) return;
         setIsLoading(true)
         try {
-            if (abortControllerRef.current) {
-                abortControllerRef.current.abort(); // Cancel any previous request
-            }
-            // Create a new AbortController instance for this fetch
-            const controller = new AbortController();
-            abortControllerRef.current = controller;
-            const response = await apiFetch({
-                path: endpointUrl,
-                signal: controller.signal, // Pass the signal to fetch to cancel if needed
-            });
-            // Only update the state if the request is not aborted
-            if (controller.signal.aborted) return;
-
+            const response = await apiFetch({ path: endpointUrl });
             if (!Array.isArray(response) || response.length === 0) {
                 throw new Error('Invalid or empty response from API');
             }
@@ -85,9 +73,7 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
                 console.error('Error fetching options', error);
             }
         } finally {
-            if (!abortControllerRef.current.signal.aborted) {
-                setIsLoading(false)
-            }
+            setIsLoading(false)
         }
     };
 
@@ -111,7 +97,7 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
     };
 
     const computeSuggestionMatch = (suggestion) => {
-        const matchText = searchQuery.toLocaleLowerCase();
+        const matchText = search.toLocaleLowerCase();
         if (matchText.length === 0) {
             return null;
         }
@@ -125,7 +111,11 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
 
     const renderItem = ({ item }) => {
         // Ensure options is available before calling .find
-        if (!options || !Array.isArray(options)) return null;
+        if (!options || !Array.isArray(options)) {
+            return (
+                <Text color="inherit">Loading...</Text>
+            );
+        }
 
         const { id, title } = options.find((option) => option.displayTitle === item);
         const matchText = computeSuggestionMatch(title);
@@ -159,11 +149,6 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
     // Fetch suggestions whenever endpointUrl changes
     useEffect(() => {
         fetchSuggestions()
-        return () => {
-            if (abortControllerRef.current) {
-                abortControllerRef.current.abort(); // Abort any ongoing request when unmounting
-            }
-        };
     }, [endpointUrl]);
 
     return (
@@ -175,7 +160,7 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
                 __next40pxDefaultSize
                 __nextHasNoMarginBottom
                 onChange={handleTokenChange}
-                onInputChange={setSearchQuery}
+                onInputChange={debouncedSearch}
                 placeholder={isLoading
                     ? _x('Loading...', 'admin-text', 'site-reviews')
                     : (placeholder || _x('Select...', 'admin-text', 'site-reviews'))}
