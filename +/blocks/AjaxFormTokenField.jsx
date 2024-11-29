@@ -22,8 +22,8 @@ import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
  */
 const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraProps }) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [options, setOptions] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const { setOptions } = useDispatch('site-reviews');
     const abortControllerRef = useRef(null); // Ref to track the AbortController
 
     // Update the endpoint URL when the search query or value array changes
@@ -34,6 +34,12 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
         return url.pathname + url.search;
     }, [searchQuery, value]);
 
+    // Retrieve options from the cache
+    const options = useSelect(
+        (select) => select('site-reviews').getOptions(endpointUrl),
+        [endpointUrl]
+    );
+
     // Preprocess options into a dictionary for quick lookups
     const optionsMap = options?.reduce((map, option) => {
         map[option.displayTitle] = option;
@@ -42,6 +48,7 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
 
     // Fetch the suggestions from the endpoint
     const fetchSuggestions = async () => {
+        if (options && options.length > 0) return;
         setIsLoading(true)
         try {
             if (abortControllerRef.current) {
@@ -72,7 +79,7 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
                     ? `${option.id}: ${option.title}`
                     : option.title,
             }));
-            setOptions(processedOptions);
+            setOptions(endpointUrl, processedOptions);
         } catch (error) {
             if (error.name !== 'AbortError') {
                 console.error('Error fetching options', error);
