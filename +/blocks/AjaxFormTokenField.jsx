@@ -82,9 +82,11 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
 
     // Convert selected IDs to their titles for the FormTokenField
     const getTokenTitles = () => {
-        if (!Array.isArray(options)) return [];
         return value
             .map((id) => {
+                if (!Array.isArray(options)) {
+                    return id;
+                }
                 const item = options.find((option) => option.id === id);
                 return item ? item.displayTitle : '';
             })
@@ -170,9 +172,7 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
                 suggestions={options 
                     ? options.map((option) => option.displayTitle) 
                     : []}
-                value={options 
-                    ? getTokenTitles() 
-                    : []}
+                value={getTokenTitles()}
                 {...safeProps}
             />
         </BaseControl>
