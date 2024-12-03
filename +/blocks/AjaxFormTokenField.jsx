@@ -41,10 +41,13 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
     );
 
     // Preprocess options into a dictionary for quick lookups
-    const optionsMap = options?.reduce((map, option) => {
-        map[option.displayTitle] = option;
-        return map;
-    }, {});
+    // Memoize: recompute only if options change
+    const optionsMap = useMemo(() => {
+        return options?.reduce((map, option) => {
+            map[option.displayTitle] = option;
+            return map;
+        }, {});
+    }, [options]); 
 
     // Fetch the suggestions from the endpoint
     const fetchSuggestions = async () => {
