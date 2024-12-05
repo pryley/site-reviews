@@ -6,6 +6,7 @@ import {
     BaseControl,
     FormTokenField,
 } from '@wordpress/components';
+import { addQueryArgs } from '@wordpress/url';
 import { useDebounce } from '@wordpress/compose';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
@@ -28,19 +29,18 @@ const AjaxSearch = ({ endpoint, label, onChange, placeholder, value }) => {
     const [suggestedValues, setSuggestedValues] = useState([]);
     const hasFetchedData = useRef(false);
 
+    const req = () => ({
+        path: addQueryArgs(endpoint, {
+            include: value.join(','),
+            search,
+        }),
+    });
+
     const debouncedSearch = useDebounce(searchText => {
         if (searchText.length > 1) {
             setSearch(searchText)
         }
     }, 500);
-
-    // Update the endpoint URL when the search query or value array changes
-    const endpointUrl = useMemo(() => {
-        const url = new URL(endpoint, window.location.origin);
-        url.searchParams.set('include', value.join(','));
-        url.searchParams.set('search', search);
-        return url.pathname + url.search;
-    }, [search, value]);
 
     const transformItem = (item) => ({
         id: item.id,
@@ -51,7 +51,7 @@ const AjaxSearch = ({ endpoint, label, onChange, placeholder, value }) => {
     const initValues = async () => {
         if (hasFetchedData.current || 0 === value.length) return
         setIsLoading(true)
-        apiFetch({ path: endpointUrl }).then(response => {
+        apiFetch(req()).then(response => {
             hasFetchedData.current = true; // Mark that we've fetched the data
             const initialValues = [];
             response.forEach(item => initialValues.push(transformItem(item)))
@@ -63,7 +63,7 @@ const AjaxSearch = ({ endpoint, label, onChange, placeholder, value }) => {
     const performSearch = async () => {
         if (!hasFetchedData.current) return
         setIsSearching(true)
-        return apiFetch({ path: endpointUrl }).then(response => {
+        apiFetch(req()).then(response => {
             const suggestedResults = [];
             response.forEach(item => suggestedResults.push(transformItem(item)))
             setSuggestedValues(suggestedResults)
@@ -128,8 +128,8 @@ const AjaxSearch = ({ endpoint, label, onChange, placeholder, value }) => {
     // Runs only once on mount due to empty dependency array
     useEffect(() => { initValues() }, [])
 
-    // Fetch suggestions whenever endpointUrl changes
-    useEffect(() => { performSearch() }, [endpointUrl])
+    // Fetch suggestions whenever search changes
+    useEffect(() => { performSearch() }, [search])
 
     return (
         <BaseControl __nextHasNoMarginBottom>
@@ -147,6 +147,9 @@ const AjaxSearch = ({ endpoint, label, onChange, placeholder, value }) => {
                 suggestions={ suggestedValues.map(suggestion => suggestion.value) }
                 value={ selectedValues }
             />
+            {isSearching && (
+                <Text variant="muted" size="small">Searching...</Text>
+            )}
         </BaseControl>
     )
 };
