@@ -45,7 +45,7 @@ const AjaxSearch = ({ endpoint, label, onChange, placeholder, value }) => {
     const transformItem = (item) => ({
         id: item.id,
         title: item.title,
-        value: item.title + ' (' + item.id + ')',
+        value: (!isNaN(parseFloat(item.id)) ? `${item.title} (${item.id})` : item.title),
     });
 
     const initValues = async () => {
