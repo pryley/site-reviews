@@ -100,7 +100,8 @@ const AjaxSearch = ({ endpoint, label, onChange, placeholder, value }) => {
     };
 
     const renderItem = ({ item }) => {
-        const { id, title, value } = suggestedValues.find(suggestion => suggestion.value === item);
+        const { id, title, value } = suggestedValues.find(suggestion => suggestion.value === item) || {};
+        if (!id) return null; // In case we can't find an item
         const matchText = computeSuggestionMatch(title);
         return (
             <HStack>
@@ -120,6 +121,10 @@ const AjaxSearch = ({ endpoint, label, onChange, placeholder, value }) => {
         )
     };
 
+    const validateInput = (input) => {
+        return suggestedValues.some(item => item.value === input)
+    };
+
     // Runs only once on mount due to empty dependency array
     useEffect(() => { initValues() }, [])
 
@@ -129,10 +134,10 @@ const AjaxSearch = ({ endpoint, label, onChange, placeholder, value }) => {
     return (
         <BaseControl __nextHasNoMarginBottom>
             <FormTokenField
-                __experimentalAutoSelectFirstMatch
                 __experimentalExpandOnFocus
                 __experimentalRenderItem={ renderItem }
                 __experimentalShowHowTo={ false }
+                __experimentalValidateInput={ validateInput }
                 __next40pxDefaultSize
                 __nextHasNoMarginBottom
                 label={ label }
