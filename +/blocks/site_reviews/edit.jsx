@@ -20,7 +20,7 @@ export default function Edit (props) {
             key='assigned_posts'
             label={ _x('Limit Reviews by Assigned Pages', 'admin-text', 'site-reviews') }
             onChange={ (assigned_posts) => setAttributes({ assigned_posts }) }
-            placeholder={ _x('Select a Page...', 'admin-text', 'site-reviews') }
+            placeholder={ _x('Search Pages...', 'admin-text', 'site-reviews') }
             value={ attributes.assigned_posts }
         />,
         assigned_terms: <AjaxFormTokenField
@@ -28,7 +28,7 @@ export default function Edit (props) {
             key='assigned_terms'
             label={ _x('Limit Reviews by Categories', 'admin-text', 'site-reviews') }
             onChange={ (assigned_terms) => setAttributes({ assigned_terms }) }
-            placeholder={ _x('Select a Category...', 'admin-text', 'site-reviews') }
+            placeholder={ _x('Search Categories...', 'admin-text', 'site-reviews') }
             value={ attributes.assigned_terms }
         />,
         assigned_users: <AjaxFormTokenField
@@ -36,7 +36,7 @@ export default function Edit (props) {
             key='assigned_users'
             label={ _x('Limit Reviews by Assigned Users', 'admin-text', 'site-reviews') }
             onChange={ (assigned_users) => setAttributes({ assigned_users }) }
-            placeholder={ _x('Select a User...', 'admin-text', 'site-reviews') }
+            placeholder={ _x('Search Users...', 'admin-text', 'site-reviews') }
             value={ attributes.assigned_users }
         />,
         terms: <SelectControl

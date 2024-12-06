@@ -1,29 +1,61 @@
-import { registerStore, select } from '@wordpress/data';
+import { createReduxStore, register, select } from '@wordpress/data';
 
-const DEFAULT_STATE = {
-    cachedOptions: {}, // Object to store cached options per endpoint
+const STORE_NAME = 'site-reviews';
+
+const initialState = {
+    options: {},
+    selectedValues: {},
+    suggestedValues: {},
 };
 
-// Actions
 const actions = {
-    setOptions(endpoint, options) {
+    setOptions: (endpoint, options) => {
         return {
             type: 'SET_OPTIONS',
             endpoint,
             options,
         };
     },
+    setSelectedValues: (endpoint, selectedValues) => {
+        return {
+            type: 'SET_SELECTED_VALUES',
+            endpoint,
+            selectedValues,
+        };
+    },
+    setSuggestedValues: (endpoint, suggestedValues) => {
+        return {
+            type: 'SET_SUGGESTED_VALUES',
+            endpoint,
+            suggestedValues,
+        };
+    },
 };
 
-// Reducer
-const reducer = (state = DEFAULT_STATE, action) => {
+const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_OPTIONS':
             return {
                 ...state,
-                cachedOptions: {
-                    ...state.cachedOptions,
+                options: {
+                    ...state.options,
                     [action.endpoint]: action.options,
+                },
+            };
+        case 'SET_SELECTED_VALUES':
+            return {
+                ...state,
+                selectedValues: {
+                    ...state.selectedValues,
+                    [action.endpoint]: action.selectedValues,
+                },
+            };
+        case 'SET_SUGGESTED_VALUES':
+            return {
+                ...state,
+                suggestedValues: {
+                    ...state.suggestedValues,
+                    [action.endpoint]: action.suggestedValues,
                 },
             };
         default:
@@ -31,14 +63,18 @@ const reducer = (state = DEFAULT_STATE, action) => {
     }
 };
 
-// Selectors
-const selectors = {
-    getOptions(state, endpoint) {
-        return state.cachedOptions[endpoint] || null;
-    },
-};
+// Check if the store is not already registered before creating and registering it
+if (!select(STORE_NAME)) {
+    const store = createReduxStore(STORE_NAME, {
+        reducer,
+        actions,
+        selectors: {
+            getOptions: (state, endpoint) => state.options[endpoint] || [],
+            getSelectedValues: (state, endpoint) => state.selectedValues[endpoint] || [],
+            getSuggestedValues: (state, endpoint) => state.suggestedValues[endpoint] || [],
+        },
+        controls: {},
+    });
 
-// Register the store only if not already registered
-if (!select('site-reviews')) {
-    registerStore('site-reviews', { actions, reducer, selectors });
+    register(store);
 }
