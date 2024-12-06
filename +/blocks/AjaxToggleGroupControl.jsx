@@ -33,9 +33,10 @@ const AjaxToggleGroupControl = ({ endpoint, onChange, value, ...props }) => {
         apiFetch({ path: endpoint }).then(response => {
             const initialOptions = response.map((item) => ({
                 label: item.title,
-                value: item.id,
+                value: String(item.id),
             }));
             setOptions(endpoint, initialOptions)
+        }).finally(() => {
             setIsLoading(false)
         })
     }, []);

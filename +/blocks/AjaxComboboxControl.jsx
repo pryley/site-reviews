@@ -14,7 +14,7 @@ import { useEffect, useState } from '@wordpress/element';
  * 
  * @version 1.0
  */
-const AjaxComboboxControl = ({ endpoint, hideIfEmpty = false, ...props }) => {
+const AjaxComboboxControl = ({ endpoint, hideIfEmpty = false, placeholder, ...props }) => {
     const [isLoading, setIsLoading] = useState(false);
     const options = useSelect(select => select(storeName).getOptions(endpoint), []);
     const { options: _, ...extraProps } = props;
@@ -26,9 +26,10 @@ const AjaxComboboxControl = ({ endpoint, hideIfEmpty = false, ...props }) => {
         apiFetch({ path: endpoint }).then(response => {
             const initialOptions = response.map((item) => ({
                 label: item.title,
-                value: item.id,
+                value: String(item.id),
             }));
             setOptions(endpoint, initialOptions)
+        }).finally(() => {
             setIsLoading(false)
         })
     }, [])
@@ -46,6 +47,7 @@ const AjaxComboboxControl = ({ endpoint, hideIfEmpty = false, ...props }) => {
                             className={ className }
                             expandOnFocus={ false }
                             options={ options }
+                            placeholder={ placeholder || _x('Select...', 'admin-text', 'site-reviews') }
                             { ...extraProps }
                         />
                     </BaseControl>
