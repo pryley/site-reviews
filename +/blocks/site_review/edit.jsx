@@ -1,5 +1,5 @@
-import AjaxToggleGroupControl from '../AjaxToggleGroupControl.jsx';
-import RenderedBlock from '../RenderedBlock.jsx';
+import AjaxToggleGroupControl from '../AjaxToggleGroupControl';
+import RenderedBlock from '../RenderedBlock';
 import { _x } from '@wordpress/i18n';
 import { TextControl } from '@wordpress/components';
 

@@ -1,15 +1,10 @@
-import AjaxFormTokenField from '../AjaxFormTokenField.jsx';
-// import AjaxSelectControl from '../AjaxSelectControl.jsx';
-import AjaxToggleGroupControl from '../AjaxToggleGroupControl.jsx';
-import RenderedBlock from '../RenderedBlock.jsx';
+import AjaxComboboxControl from '../AjaxComboboxControl';
+import AjaxFormTokenField from '../AjaxFormTokenField';
+import AjaxToggleGroupControl from '../AjaxToggleGroupControl';
+import NoYesControl from '../NoYesControl';
+import RenderedBlock from '../RenderedBlock';
 import { _x } from '@wordpress/i18n';
-import {
-    __experimentalToggleGroupControl as ToggleGroupControl,
-    __experimentalToggleGroupControlOption as ToggleGroupControlOption,
-    RangeControl,
-    SelectControl,
-    TextControl,
-} from '@wordpress/components';
+import { RangeControl, TextControl } from '@wordpress/components';
 
 export default function Edit (props) {
     const { attributes, setAttributes } = props;
@@ -21,6 +16,7 @@ export default function Edit (props) {
             label={ _x('Limit Reviews by Assigned Pages', 'admin-text', 'site-reviews') }
             onChange={ (assigned_posts) => setAttributes({ assigned_posts }) }
             placeholder={ _x('Search Pages...', 'admin-text', 'site-reviews') }
+            prefetch={ true }
             value={ attributes.assigned_posts }
         />,
         assigned_terms: <AjaxFormTokenField
@@ -37,50 +33,32 @@ export default function Edit (props) {
             label={ _x('Limit Reviews by Assigned Users', 'admin-text', 'site-reviews') }
             onChange={ (assigned_users) => setAttributes({ assigned_users }) }
             placeholder={ _x('Search Users...', 'admin-text', 'site-reviews') }
+            prefetch={ true }
             value={ attributes.assigned_users }
         />,
-        terms: <SelectControl
-            __next40pxDefaultSize
-            __nextHasNoMarginBottom
+        terms: <AjaxComboboxControl
+            endpoint='/site-reviews/v1/shortcode/site_reviews?option=terms'
             key='terms'
             label={ _x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews') }
             onChange={ (terms) => setAttributes({ terms }) }
-            options={[
-                {
-                    label: _x('Select Review Terms...', 'admin-text', 'site-reviews'),
-                    value: '',
-                },
-                {
-                    label: _x('Terms were accepted', 'admin-text', 'site-reviews'),
-                    value: 'true',
-                },
-                {
-                    label: _x('Terms were not accepted', 'admin-text', 'site-reviews'),
-                    value: 'false',
-                },
-            ]}
+            placeholder={ _x('Select Review Terms...', 'admin-text', 'site-reviews') }
             value={ attributes.terms }
         />,
-        // type: <AjaxSelectControl
-        //     endpoint='/site-reviews/v1/shortcode/site_reviews?option=type'
-        //     key='type'
-        //     label={ _x('Limit Reviews by Type', 'admin-text', 'site-reviews') }
-        //     onChange={ (type) => setAttributes({ type }) }
-        //     placeholder={ _x('Select a Review Type...', 'admin-text', 'site-reviews') }
-        //     value={ attributes.type }
-        // />,
-        pagination: <SelectControl
-            __next40pxDefaultSize
-            __nextHasNoMarginBottom
+        type: <AjaxComboboxControl
+            endpoint='/site-reviews/v1/shortcode/site_reviews?option=type'
+            hideIfEmpty={ true }
+            key='type'
+            label={ _x('Limit Reviews by Type', 'admin-text', 'site-reviews') }
+            onChange={ (type) => setAttributes({ type }) }
+            placeholder={ _x('Select a Review Type...', 'admin-text', 'site-reviews') }
+            value={ attributes.type }
+        />,
+        pagination: <AjaxComboboxControl
+            endpoint='/site-reviews/v1/shortcode/site_reviews?option=pagination'
             key='pagination'
             label={ _x('Pagination Type', 'admin-text', 'site-reviews') }
             onChange={ (pagination) => setAttributes({ pagination }) }
-            options={[
-                { label: _x('No Pagination', 'admin-text', 'site-reviews'), value: '' },
-                { label: _x('Load More Button', 'admin-text', 'site-reviews'), value: 'loadmore' },
-                { label: _x('Pagination Links (AJAX)', 'admin-text', 'site-reviews'), value: 'ajax' },
-                { label: _x('Pagination Links (with page reload)', 'admin-text', 'site-reviews'), value: 'true' },
-            ]}
+            placeholder={ _x('Select Pagination...', 'admin-text', 'site-reviews') }
             value={ attributes.pagination }
         />,
         display: <RangeControl
@@ -103,18 +81,13 @@ export default function Edit (props) {
             onChange={ (rating) => setAttributes({ rating }) }
             value={ attributes.rating }
         />,
-        schema: <ToggleGroupControl
-            __next40pxDefaultSize
-            __nextHasNoMarginBottom
+        schema: <NoYesControl
             help={ _x('The schema should only be enabled once on your page.', 'admin-text', 'site-reviews') }
             key='schema'
             onChange={ (schema) => setAttributes({ schema }) }
             label={ _x('Enable the Schema?', 'admin-text', 'site-reviews') }
             value={ attributes.schema }
-        >
-            <ToggleGroupControlOption value={ false } label={ _x('No', 'admin-text', 'site-reviews') } />
-            <ToggleGroupControlOption value={ true } label={ _x('Yes', 'admin-text', 'site-reviews') } />
-        </ToggleGroupControl>,
+        />,
         hide: <AjaxToggleGroupControl
             endpoint='/site-reviews/v1/shortcode/site_reviews?option=hide'
             key='hide'

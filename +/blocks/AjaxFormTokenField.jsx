@@ -1,8 +1,10 @@
 import apiFetch from '@wordpress/api-fetch';
+import storeName from './Store';
 import { _x } from '@wordpress/i18n';
 import {
     __experimentalHStack as HStack,
     __experimentalText as Text,
+    Animate,
     BaseControl,
     FormTokenField,
 } from '@wordpress/components';
@@ -13,22 +15,24 @@ import { useEffect, useRef, useState } from '@wordpress/element';
 
 /**
  * <AjaxFormTokenField
- *     endpoint="/site-reviews/v1/shortcode/site_review?option=assigned_posts"
+ *     endpoint="/site-reviews/v1/shortcode/site_reviews?option=assigned_posts"
  *     onChange={(assigned_posts) => setAttributes({ assigned_posts })}
+*      prefetch={ true }
  *     value={attributes.assigned_posts}
  * />
  * 
- * @version 1.2
+ * @version 1.0
  */
-const AjaxFormTokenField = ({ endpoint, label, onChange, placeholder, value }) => {
+const AjaxFormTokenField = ({ endpoint, help, label, onChange, placeholder, prefetch = false, value }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isSearching, setIsSearching] = useState(false);
     const [search, setSearch] = useState('');
+    const [suggestionMap, setSuggestionMap] = useState(new Map());
     const isFirstRun = useRef(true);
     const hasFetchedData = useRef(false);
-    const selectedValues = useSelect(select => select('site-reviews').getSelectedValues(endpoint), []);
-    const suggestedValues = useSelect(select => select('site-reviews').getSuggestedValues(endpoint), []);
-    const {setSelectedValues, setSuggestedValues} = useDispatch('site-reviews');
+    const selectedValues = useSelect(select => select(storeName).getSelectedValues(endpoint), []);
+    const suggestedValues = useSelect(select => select(storeName).getSuggestedValues(endpoint), []);
+    const { setSelectedValues, setSuggestedValues } = useDispatch(storeName);
 
     const req = () => ({
         path: addQueryArgs(endpoint, {
@@ -51,7 +55,7 @@ const AjaxFormTokenField = ({ endpoint, label, onChange, placeholder, value }) =
 
     const initValues = async () => {
         if (hasFetchedData.current) return
-        if (suggestedValues.length) {
+        if (suggestedValues.length || (!value.length && prefetch === false)) {
             hasFetchedData.current = true; // Mark that we've fetched the data
             return
         }
@@ -87,15 +91,15 @@ const AjaxFormTokenField = ({ endpoint, label, onChange, placeholder, value }) =
     };
 
     const handleValueChange = (nextValues) => {
-        nextValues.map((value, index) => {
-            // If value is a string then it is a new entry and we need to replace with an object.
-            if (typeof value === 'string') {
-                const suggestedValue = suggestedValues.find(suggestion => suggestion.value === value);
+        nextValues.map((nextValue, index) => {
+            // If nextValue is a string then it is a new entry and we need to replace with an object.
+            if (typeof nextValue === 'string') {
+                const suggestedValue = suggestedValues.find(suggestion => suggestion.value === nextValue);
                 if (suggestedValue) {
                     nextValues[index] = suggestedValue;
                 }
             }
-            return value;
+            return nextValue;
         });
         setSelectedValues(endpoint, nextValues)
         onChange(nextValues.map(selected => selected.id))
@@ -115,13 +119,14 @@ const AjaxFormTokenField = ({ endpoint, label, onChange, placeholder, value }) =
     };
 
     const renderItem = ({ item }) => {
-        const { id, title, value } = suggestedValues.find(suggestion => suggestion.value === item) || {};
-        if (!id) return null; // In case we can't find an item
+        const suggestion = suggestionMap.get(item);
+        if (!suggestion) return null; // Item not found
+        const { id, title } = suggestion;
         const matchText = computeSuggestionMatch(title);
         return (
             <HStack>
-                {matchText ? (
-                    <span aria-label={title}>
+                { matchText ? (
+                    <span aria-label={ title }>
                         { matchText.beforeMatch }
                         <strong className="components-form-token-field__suggestion-match">
                             { matchText.match }
@@ -129,9 +134,9 @@ const AjaxFormTokenField = ({ endpoint, label, onChange, placeholder, value }) =
                         { matchText.afterMatch }
                     </span>
                 ) : (
-                    <Text color="inherit">{title}</Text>
-                )}
-                <Text color="inherit" size="small" style={{ opacity: '0.5' }}>{String(id)}</Text>
+                    <Text color="inherit">{ title }</Text>
+                ) }
+                <Text color="inherit" size="small" style={{ opacity: '0.5' }}>{ String(id) }</Text>
             </HStack>
         )
     };
@@ -140,33 +145,42 @@ const AjaxFormTokenField = ({ endpoint, label, onChange, placeholder, value }) =
         return suggestedValues.some(item => item.value === input)
     };
 
-    // Runs only once on mount due to empty dependency array
+    // Run only on mount
     useEffect(() => { initValues() }, [])
 
     // Fetch suggestions whenever search changes
     useEffect(() => { performSearch() }, [search])
 
+    // Use a Map for faster lookups when rendering suggestions
+    useEffect(() => {
+        setSuggestionMap(new Map(suggestedValues.map(item => [item.value, item])));
+    }, [suggestedValues]);
+
     return (
         <BaseControl __nextHasNoMarginBottom>
-            <FormTokenField
-                __experimentalAutoSelectFirstMatch
-                __experimentalExpandOnFocus
-                __experimentalRenderItem={ renderItem }
-                __experimentalShowHowTo={ false }
-                __experimentalValidateInput={ validateInput }
-                __next40pxDefaultSize
-                __nextHasNoMarginBottom
-                disabled={ isLoading }
-                label={ label || '' }
-                onChange={ handleValueChange }
-                onInputChange={ debouncedSearch }
-                placeholder={ placeholder || _x('Search...', 'admin-text', 'site-reviews') }
-                suggestions={ suggestedValues.map(suggestion => suggestion.value) }
-                value={ selectedValues }
-            />
-            {isSearching && (
-                <Text variant="muted" size="small">{ _x('Searching...', 'admin-text', 'site-reviews') }</Text>
-            )}
+            <Animate type={ (isLoading || isSearching) && 'loading' }>
+                { ({ className }) => (
+                    <FormTokenField
+                        __experimentalExpandOnFocus
+                        __experimentalRenderItem={ renderItem }
+                        __experimentalShowHowTo={ false }
+                        __experimentalValidateInput={ validateInput }
+                        __next40pxDefaultSize
+                        __nextHasNoMarginBottom
+                        className={ className }
+                        disabled={ isLoading }
+                        label={ label || '' }
+                        onChange={ handleValueChange }
+                        onInputChange={ debouncedSearch }
+                        placeholder={ placeholder || _x('Search...', 'admin-text', 'site-reviews') }
+                        suggestions={ suggestedValues.map(suggestion => suggestion.value) }
+                        value={ selectedValues }
+                    />
+                ) }
+            </Animate>
+            { help && (
+                <Text variant="muted" size="small">{ help }</Text>
+            ) }
         </BaseControl>
     )
 };
