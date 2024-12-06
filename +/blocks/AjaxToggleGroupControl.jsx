@@ -1,4 +1,5 @@
 import apiFetch from '@wordpress/api-fetch';
+import storeName from './Store';
 import { BaseControl, ToggleControl, Spinner, useBaseControlProps } from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
@@ -6,81 +7,52 @@ import { useEffect, useState } from '@wordpress/element';
 /**
  * <AjaxToggleGroupControl
  *     endpoint="/site-reviews/v1/shortcode/site_review?option=hide"
- *     key="hide"
  *     onChange={(hide) => setAttributes({ hide })}
  *     value={attributes.hide}
  * />
  * 
  * @version 1.0
  */
-const AjaxToggleGroupControl = ({ endpoint, onChange, value = [], ...extraProps }) => {
+const AjaxToggleGroupControl = ({ endpoint, onChange, value, ...props }) => {
     const [isLoading, setIsLoading] = useState(false);
-    const { baseControlProps, controlProps } = useBaseControlProps(extraProps);
-    const { setOptions } = useDispatch('site-reviews');
+    const options = useSelect(select => select(storeName).getOptions(endpoint), []);
+    const { baseControlProps, controlProps } = useBaseControlProps(props);
+    const { checked: _, label: __, ...extraProps } = controlProps;
+    const { setOptions } = useDispatch(storeName);
 
-    // Retrieve options from the cache
-    const options = useSelect(
-        (select) => select('site-reviews').getOptions(endpoint),
-        []
-    );
-
-    // Handle checkbox changes
-    const handleCheckboxChange = (optionValue, isChecked) => {
+    const handleIsChecked = (optionValue, isChecked) => {
         const newValue = isChecked
             ? [...value, optionValue]
             : value.filter((v) => v !== optionValue);
         onChange(newValue);
     };
 
-    // Exclude critical props from controlProps
-    const safeProps = Object.fromEntries(
-        Object.entries(controlProps).filter(([key]) => ![
-            'label',
-            'checked',
-            'onChange',
-            'value',
-        ].includes(key))
-    );
-
     useEffect(() => {
-        if (options.length) {
-            return; // Options are already cached, no need to fetch
-        }
-        (async () => {
-            setIsLoading(true);
-            try {
-                const url = new URL(endpoint, window.location.origin);
-                const response = await apiFetch({ path: url.pathname + url.search });
-                if (!Array.isArray(response) || response.length === 0) {
-                    throw new Error('Invalid or empty response from API');
-                }
-                const fetchedOptions = response.map((item) => ({
-                    label: item.title,
-                    value: item.id,
-                }));
-                // Cache the fetched options in the store
-                setOptions(endpoint, fetchedOptions);
-            } catch (error) {
-                console.error('Error fetching options:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        })();
+        if (options.length) return;
+        setIsLoading(true)
+        apiFetch({ path: endpoint }).then(response => {
+            const initialOptions = response.map((item) => ({
+                label: item.title,
+                value: item.id,
+            }));
+            setOptions(endpoint, initialOptions)
+            setIsLoading(false)
+        })
     }, []);
 
     return (
         <BaseControl __nextHasNoMarginBottom {...baseControlProps}>
-            {isLoading && <Spinner />}
-            {!isLoading && options && options.map((option) => (
+            { !isLoading && options.map(option => (
                 <ToggleControl
                     __nextHasNoMarginBottom
-                    key={option.value}
-                    label={option.label}
-                    checked={value.includes(option.value)}
-                    onChange={(isChecked) => handleCheckboxChange(option.value, isChecked)}
-                    {...safeProps}
+                    key={ option.value }
+                    label={ option.label }
+                    checked={ value.includes(option.value) }
+                    onChange={ (isChecked) => handleIsChecked(option.value, isChecked) }
+                    { ...extraProps }
                 />
-            ))}
+            )) }
+            { isLoading && <Spinner /> }
         </BaseControl>
     )
 };

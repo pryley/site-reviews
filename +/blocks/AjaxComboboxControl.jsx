@@ -1,12 +1,12 @@
 import apiFetch from '@wordpress/api-fetch';
 import storeName from './Store';
 import { _x } from '@wordpress/i18n';
-import { Animate, BaseControl, SelectControl } from '@wordpress/components';
+import { Animate, BaseControl, ComboboxControl } from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 
 /**
- * <AjaxSelectControl
+ * <AjaxComboboxControl
  *     endpoint="/site-reviews/v1/shortcode/site_review?option=type"
  *     onChange={(type) => setAttributes({ type })}
  *     value={attributes.type}
@@ -14,7 +14,7 @@ import { useEffect, useState } from '@wordpress/element';
  * 
  * @version 1.0
  */
-const AjaxSelectControl = ({ endpoint, hideIfEmpty = false, placeholder, ...props }) => {
+const AjaxComboboxControl = ({ endpoint, hideIfEmpty = false, ...props }) => {
     const [isLoading, setIsLoading] = useState(false);
     const options = useSelect(select => select(storeName).getOptions(endpoint), []);
     const { options: _, ...extraProps } = props;
@@ -24,16 +24,10 @@ const AjaxSelectControl = ({ endpoint, hideIfEmpty = false, placeholder, ...prop
         if (options.length) return;
         setIsLoading(true)
         apiFetch({ path: endpoint }).then(response => {
-            const initialOptions = [
-                {
-                    label: (placeholder || _x('Select...', 'admin-text', 'site-reviews')),
-                    value: '',
-                },
-                ...response.map(item => ({
-                    label: item.title,
-                    value: item.id,
-                })),
-            ];
+            const initialOptions = response.map((item) => ({
+                label: item.title,
+                value: item.id,
+            }));
             setOptions(endpoint, initialOptions)
             setIsLoading(false)
         })
@@ -45,11 +39,12 @@ const AjaxSelectControl = ({ endpoint, hideIfEmpty = false, placeholder, ...prop
             <Animate type={ isLoading && 'loading' }>
                 { ({ className }) => (
                     <BaseControl __nextHasNoMarginBottom>
-                        <SelectControl
+                        <ComboboxControl
                             __next40pxDefaultSize
                             __nextHasNoMarginBottom
+                            allowReset
                             className={ className }
-                            disabled={ isLoading }
+                            expandOnFocus={ false }
                             options={ options }
                             { ...extraProps }
                         />
@@ -61,4 +56,4 @@ const AjaxSelectControl = ({ endpoint, hideIfEmpty = false, placeholder, ...prop
     )
 };
 
-export default AjaxSelectControl;
+export default AjaxComboboxControl;
