@@ -25,15 +25,10 @@ const AjaxFormTokenField = ({ endpoint, label, onChange, placeholder, value }) =
     const [isLoading, setIsLoading] = useState(false);
     const [isSearching, setIsSearching] = useState(false);
     const [search, setSearch] = useState('');
-    const [selectedValues, setSelectedValues] = useState([]);
-    const [suggestedValues, setSuggestedValues] = useState([]);
     const hasFetchedData = useRef(false);
-
-    // const selectedValues = useSelect(
-    //     select => select('site-reviews').getSelectedValues(endpoint),
-    //     [value]
-    // );
-    // const {setSelectedValues} = useDispatch('site-reviews');
+    const selectedValues = useSelect(select => select('site-reviews').getSelectedValues(endpoint), []);
+    const suggestedValues = useSelect(select => select('site-reviews').getSuggestedValues(endpoint), []);
+    const {setSelectedValues, setSuggestedValues} = useDispatch('site-reviews');
 
     const req = () => ({
         path: addQueryArgs(endpoint, {
@@ -56,6 +51,10 @@ const AjaxFormTokenField = ({ endpoint, label, onChange, placeholder, value }) =
 
     const initValues = async () => {
         if (hasFetchedData.current) return
+        if (suggestedValues.length) {
+            hasFetchedData.current = true; // Mark that we've fetched the data
+            return
+        }
         setIsLoading(true)
         apiFetch(req()).then(response => {
             hasFetchedData.current = true; // Mark that we've fetched the data
@@ -67,9 +66,8 @@ const AjaxFormTokenField = ({ endpoint, label, onChange, placeholder, value }) =
                     initialValues.push(transformItem(item))
                 }
             })
-            setSelectedValues(initialValues)
-            setSuggestedValues(initialSuggestions)
-            // setSelectedValues(endpoint, initialValues) // Store initial values for this endpoint
+            setSelectedValues(endpoint, initialValues)
+            setSuggestedValues(endpoint, initialSuggestions)
             setIsLoading(false)
         })
     };
@@ -80,7 +78,7 @@ const AjaxFormTokenField = ({ endpoint, label, onChange, placeholder, value }) =
         apiFetch(req()).then(response => {
             const suggestedResults = [];
             response.forEach(item => suggestedResults.push(transformItem(item)))
-            setSuggestedValues(suggestedResults)
+            setSuggestedValues(endpoint, suggestedResults)
             setIsSearching(false)
         })
     };
@@ -96,8 +94,7 @@ const AjaxFormTokenField = ({ endpoint, label, onChange, placeholder, value }) =
             }
             return value;
         });
-        setSelectedValues(nextValues)
-        // setSelectedValues(endpoint, nextValues); // Update the store with the endpoint-specific values
+        setSelectedValues(endpoint, nextValues)
         onChange(nextValues.map(selected => selected.id))
     };
 
