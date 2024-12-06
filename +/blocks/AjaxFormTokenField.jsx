@@ -28,8 +28,8 @@ const AjaxFormTokenField = ({ endpoint, help, label, onChange, placeholder, pref
     const [isSearching, setIsSearching] = useState(false);
     const [search, setSearch] = useState('');
     const [suggestionMap, setSuggestionMap] = useState(new Map());
-    const isFirstRun = useRef(true);
     const hasFetchedData = useRef(false);
+    const isFirstRun = useRef(true);
     const selectedValues = useSelect(select => select(storeName).getSelectedValues(endpoint), []);
     const suggestedValues = useSelect(select => select(storeName).getSuggestedValues(endpoint), []);
     const { setSelectedValues, setSuggestedValues } = useDispatch(storeName);
@@ -41,11 +41,7 @@ const AjaxFormTokenField = ({ endpoint, help, label, onChange, placeholder, pref
         }),
     });
 
-    const debouncedSearch = useDebounce(searchText => {
-        if (searchText.length > 1) {
-            setSearch(searchText)
-        }
-    }, 500);
+    const debouncedSearch = useDebounce(setSearch, 500);
 
     const transformItem = (item) => ({
         id: item.id,
@@ -72,20 +68,23 @@ const AjaxFormTokenField = ({ endpoint, help, label, onChange, placeholder, pref
             })
             setSelectedValues(endpoint, initialValues)
             setSuggestedValues(endpoint, initialSuggestions)
+        }).finally(() => {
             setIsLoading(false)
         })
     };
 
     const performSearch = async () => {
+        if (search.length < 2) {
+            return
+        }
         if (isFirstRun.current) {
             isFirstRun.current = false;
             return
         }
         setIsSearching(true)
         apiFetch(req()).then(response => {
-            const suggestedResults = [];
-            response.forEach(item => suggestedResults.push(transformItem(item)))
-            setSuggestedValues(endpoint, suggestedResults)
+            setSuggestedValues(endpoint, response.map(transformItem))
+        }).finally(() => {
             setIsSearching(false)
         })
     };

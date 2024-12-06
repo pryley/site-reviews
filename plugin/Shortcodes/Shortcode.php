@@ -178,9 +178,48 @@ abstract class Shortcode implements ShortcodeContract
         return glsr()->filterArray('shortcode/hide-options', $options, $this->shortcode, $this);
     }
 
+    public function getPaginationOptions(): array
+    {
+        return [
+            'loadmore' => _x('Load More Button', 'admin-text', 'site-reviews'),
+            'ajax' => _x('Pagination Links (AJAX)', 'admin-text', 'site-reviews'),
+            '1' => _x('Pagination Links (with page reload)', 'admin-text', 'site-reviews'),
+        ];
+    }
+
+    public function getPostIdOptions(Arguments $args): array
+    {
+        glsr_log($args);
+        $results = [];
+        if (!empty($args->search)) {
+            $results += glsr(Database::class)->posts([
+                'post_type' => glsr()->post_type,
+                'posts_per_page' => 50,
+                's' => $args->search,
+            ]);
+        }
+        $include = array_filter($args->include, fn ($id) => !array_key_exists($id, $results));
+        if (!empty($include)) {
+            $results += glsr(Database::class)->posts([
+                'post_type' => glsr()->post_type,
+                'post__in' => $include,
+            ]);
+        }
+        return $results;
+    }
+
+    public function getTermsOptions(): array
+    {
+        return [
+            '1' => _x('Terms were accepted', 'admin-text', 'site-reviews'),
+            '0' => _x('Terms were not accepted', 'admin-text', 'site-reviews'),
+        ];
+    }
+
     public function getTypeOptions(): array
     {
-        return glsr()->retrieveAs('array', 'review_types', []);
+        $types = glsr()->retrieveAs('array', 'review_types', []);
+        return 1 < count($types) ? $types : [];
     }
 
     public function hasVisibleFields(array $args = []): bool

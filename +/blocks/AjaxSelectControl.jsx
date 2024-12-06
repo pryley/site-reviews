@@ -31,10 +31,11 @@ const AjaxSelectControl = ({ endpoint, hideIfEmpty = false, placeholder, ...prop
                 },
                 ...response.map(item => ({
                     label: item.title,
-                    value: item.id,
+                    value: String(item.id),
                 })),
             ];
             setOptions(endpoint, initialOptions)
+        }).finally(() => {
             setIsLoading(false)
         })
     }, [])
