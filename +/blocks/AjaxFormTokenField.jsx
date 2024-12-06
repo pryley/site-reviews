@@ -6,9 +6,10 @@ import {
     BaseControl,
     FormTokenField,
 } from '@wordpress/components';
+import { addQueryArgs } from '@wordpress/url';
 import { useDebounce } from '@wordpress/compose';
 import { useDispatch, useSelect } from '@wordpress/data';
-import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
+import { useEffect, useRef, useState } from '@wordpress/element';
 
 /**
  * <AjaxFormTokenField
@@ -18,87 +19,86 @@ import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
  *     value={attributes.assigned_posts}
  * />
  * 
- * @version 1.1
+ * @version 1.2
  */
-const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraProps }) => {
+const AjaxFormTokenField = ({ endpoint, label, onChange, placeholder, value }) => {
     const [isLoading, setIsLoading] = useState(false);
+    const [isSearching, setIsSearching] = useState(false);
     const [search, setSearch] = useState('');
-    const { setOptions } = useDispatch('site-reviews');
-    const debouncedSearch = useDebounce(setSearch, 500);
+    const [selectedValues, setSelectedValues] = useState([]);
+    const [suggestedValues, setSuggestedValues] = useState([]);
+    const hasFetchedData = useRef(false);
 
-    // Update the endpoint URL when the search query or value array changes
-    const endpointUrl = useMemo(() => {
-        const url = new URL(endpoint, window.location.origin);
-        url.searchParams.set('include', value.join(','));
-        url.searchParams.set('search', search);
-        return url.pathname + url.search;
-    }, [search, value]);
+    // const selectedValues = useSelect(
+    //     select => select('site-reviews').getSelectedValues(endpoint),
+    //     [value]
+    // );
+    // const {setSelectedValues} = useDispatch('site-reviews');
 
-    // Retrieve options from the cache
-    const options = useSelect(
-        (select) => select('site-reviews').getOptions(endpointUrl),
-        [endpointUrl]
-    );
+    const req = () => ({
+        path: addQueryArgs(endpoint, {
+            include: value.join(','),
+            search,
+        }),
+    });
 
-    // Preprocess options into a dictionary for quick lookups
-    // Memoize: recompute only if options change
-    const optionsMap = useMemo(() => {
-        return options?.reduce((map, option) => {
-            map[option.displayTitle] = option;
-            return map;
-        }, {});
-    }, [options]); 
-
-    // Fetch the suggestions from the endpoint
-    const fetchSuggestions = async () => {
-        if (options && options.length > 0) return;
-        setIsLoading(true)
-        try {
-            const response = await apiFetch({ path: endpointUrl });
-            if (!Array.isArray(response) || response.length === 0) {
-                throw new Error('Invalid or empty response from API');
-            }
-            // Detect duplicate titles
-            const titleCounts = response.reduce((counts, item) => {
-                counts[item.title] = (counts[item.title] || 0) + 1;
-                return counts;
-            }, {});
-            // Append ID only to duplicate titles
-            const processedOptions = response.map((option) => ({
-                ...option,
-                displayTitle: titleCounts[option.title] > 1
-                    ? `${option.id}: ${option.title}`
-                    : option.title,
-            }));
-            setOptions(endpointUrl, processedOptions);
-        } catch (error) {
-            if (error.name !== 'AbortError') {
-                console.error('Error fetching options', error);
-            }
-        } finally {
-            setIsLoading(false)
+    const debouncedSearch = useDebounce(searchText => {
+        if (searchText.length > 1) {
+            setSearch(searchText)
         }
-    };
+    }, 500);
 
-    // Convert selected IDs to their titles for the FormTokenField
-    const getTokenTitles = () => {
-        return value
-            .map((id) => {
-                if (!Array.isArray(options)) {
-                    return id;
+    const transformItem = (item) => ({
+        id: item.id,
+        title: item.title,
+        value: (!isNaN(parseFloat(item.id)) ? `${item.title} (${item.id})` : item.title),
+    });
+
+    const initValues = async () => {
+        if (hasFetchedData.current) return
+        setIsLoading(true)
+        apiFetch(req()).then(response => {
+            hasFetchedData.current = true; // Mark that we've fetched the data
+            const initialSuggestions = [];
+            const initialValues = [];
+            response.forEach(item => {
+                initialSuggestions.push(transformItem(item))
+                if (value.includes(item.id)) {
+                    initialValues.push(transformItem(item))
                 }
-                const item = options.find((option) => option.id === id);
-                return item ? item.displayTitle : '';
             })
-            .filter((title) => '' !== title);
+            setSelectedValues(initialValues)
+            setSuggestedValues(initialSuggestions)
+            // setSelectedValues(endpoint, initialValues) // Store initial values for this endpoint
+            setIsLoading(false)
+        })
     };
 
-    // Handle token field changes
-    const handleTokenChange = (tokens) => {
-        const selectedIds = tokens
-            .map((token) => optionsMap?.[token]?.id || null)
-            .filter((id) => id !== null);
-        onChange(selectedIds);
+    const performSearch = async () => {
+        if (!hasFetchedData.current) return
+        setIsSearching(true)
+        apiFetch(req()).then(response => {
+            const suggestedResults = [];
+            response.forEach(item => suggestedResults.push(transformItem(item)))
+            setSuggestedValues(suggestedResults)
+            setIsSearching(false)
+        })
+    };
+
+    const handleValueChange = (nextValues) => {
+        nextValues.map((value, index) => {
+            // If value is a string then it is a new entry and we need to replace with an object.
+            if (typeof value === 'string') {
+                const suggestedValue = suggestedValues.find(suggestion => suggestion.value === value);
+                if (suggestedValue) {
+                    nextValues[index] = suggestedValue;
+                }
+            }
+            return value;
+        });
+        setSelectedValues(nextValues)
+        // setSelectedValues(endpoint, nextValues); // Update the store with the endpoint-specific values
+        onChange(nextValues.map(selected => selected.id))
     };
 
     const computeSuggestionMatch = (suggestion) => {
@@ -108,73 +108,64 @@ const AjaxFormTokenField = ({ endpoint, onChange, placeholder, value, ...extraPr
         }
         const indexOfMatch = suggestion.toLocaleLowerCase().indexOf(matchText);
         return {
-            suggestionBeforeMatch: suggestion.substring(0, indexOfMatch),
-            suggestionMatch: suggestion.substring(indexOfMatch, indexOfMatch + matchText.length),
-            suggestionAfterMatch: suggestion.substring(indexOfMatch + matchText.length),
+            afterMatch: suggestion.substring(indexOfMatch + matchText.length),
+            beforeMatch: suggestion.substring(0, indexOfMatch),
+            match: suggestion.substring(indexOfMatch, indexOfMatch + matchText.length),
         }
     };
 
     const renderItem = ({ item }) => {
-        // Ensure options is available before calling .find
-        if (!options || !Array.isArray(options)) {
-            return (
-                <Text color="inherit">Loading...</Text>
-            );
-        }
-
-        const { id, title } = options.find((option) => option.displayTitle === item);
+        const { id, title, value } = suggestedValues.find(suggestion => suggestion.value === item) || {};
+        if (!id) return null; // In case we can't find an item
         const matchText = computeSuggestionMatch(title);
         return (
             <HStack>
                 {matchText ? (
                     <span aria-label={title}>
-                        { matchText.suggestionBeforeMatch }
+                        { matchText.beforeMatch }
                         <strong className="components-form-token-field__suggestion-match">
-                            { matchText.suggestionMatch }
+                            { matchText.match }
                         </strong>
-                        { matchText.suggestionAfterMatch }
+                        { matchText.afterMatch }
                     </span>
                 ) : (
-                    <Text color="inherit">{title || item}</Text>
+                    <Text color="inherit">{title}</Text>
                 )}
                 <Text color="inherit" size="small" style={{ opacity: '0.5' }}>{String(id)}</Text>
             </HStack>
         )
     };
 
-    // Exclude critical props from extraProps
-    const safeProps = Object.fromEntries(
-        Object.entries(extraProps).filter(([key]) => ![
-            'onChange',
-            'placeholder',
-            'value',
-        ].includes(key))
-    );
+    const validateInput = (input) => {
+        return suggestedValues.some(item => item.value === input)
+    };
 
-    // Fetch suggestions whenever endpointUrl changes
-    useEffect(() => {
-        fetchSuggestions()
-    }, [endpointUrl]);
+    // Runs only once on mount due to empty dependency array
+    useEffect(() => { initValues() }, [])
+
+    // Fetch suggestions whenever search changes
+    useEffect(() => { performSearch() }, [search])
 
     return (
         <BaseControl __nextHasNoMarginBottom>
             <FormTokenField
+                __experimentalAutoSelectFirstMatch
                 __experimentalExpandOnFocus
-                __experimentalRenderItem={renderItem}
-                __experimentalShowHowTo={false}
+                __experimentalRenderItem={ renderItem }
+                __experimentalShowHowTo={ false }
+                __experimentalValidateInput={ validateInput }
                 __next40pxDefaultSize
                 __nextHasNoMarginBottom
-                onChange={handleTokenChange}
-                onInputChange={debouncedSearch}
-                placeholder={isLoading
-                    ? _x('Loading...', 'admin-text', 'site-reviews')
-                    : (placeholder || _x('Select...', 'admin-text', 'site-reviews'))}
-                suggestions={options 
-                    ? options.map((option) => option.displayTitle) 
-                    : []}
-                value={getTokenTitles()}
-                {...safeProps}
+                label={ label || '' }
+                onChange={ handleValueChange }
+                onInputChange={ debouncedSearch }
+                placeholder={ placeholder || _x('Search...', 'admin-text', 'site-reviews') }
+                suggestions={ suggestedValues.map(suggestion => suggestion.value) }
+                value={ selectedValues }
             />
+            {isSearching && (
+                <Text variant="muted" size="small">{ _x('Searching...', 'admin-text', 'site-reviews') }</Text>
+            )}
         </BaseControl>
     )
 };
