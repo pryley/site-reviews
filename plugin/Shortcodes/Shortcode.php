@@ -2,9 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
+use GeminiLabs\SiteReviews\Defaults\ShortcodeApiFetchDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -33,16 +35,19 @@ abstract class Shortcode implements ShortcodeContract
 
     public function apiFetchResponse(\WP_REST_Request $request): array
     {
-        $option = $request['option'] ?? '';
-        $method = Helper::buildMethodName('get', $option, 'options');
+        $args = glsr(ShortcodeApiFetchDefaults::class)->merge($request->get_params());
+        $args = glsr()->args($args);
+        $method = Helper::buildMethodName('get', $args->option, 'options');
         if (method_exists($this, $method)) {
-            $results = [];
-            foreach ($this->$method($request) as $id => $title) {
-                $results[] = compact('id', 'title');
-            }
-            return $results;
+            $values = $this->$method($args);
+        } else {
+            $values = glsr()->filterArray('shortcode/api-fetch', [], $args, $request);
         }
-        return [];
+        $results = [];
+        foreach ($values as $id => $title) {
+            $results[] = compact('id', 'title');
+        }
+        return $results;
     }
 
     public function attributes(array $values, string $source = 'function'): array
@@ -99,68 +104,66 @@ abstract class Shortcode implements ShortcodeContract
         return glsr()->filterArray('shortcode/config', $config, $this->shortcode, $this);
     }
 
-    public function getAssignedPostsOptions(\WP_REST_Request $request): array
+    public function getAssignedPostsOptions(Arguments $args): array
     {
-        $args = [
-            'post__in' => [],
-            'posts_per_page' => 25,
-        ];
-        $query = $request['search'] ?? '';
-        if (is_numeric($query)) {
-            $args['post__in'][] = (int) $query;
-        } else {
-            $args['s'] = $query;
+        $results = [];
+        if (!empty($args->search)
+            && !in_array($args->search, ['post_id', 'parent_id'])) {
+            $results += glsr(Database::class)->posts([
+                'posts_per_page' => 50,
+                's' => $args->search,
+            ]);
         }
-        $results = glsr(Database::class)->posts($args);
-        $include = Cast::toArray($request['include'] ?? []);
-        $include = array_filter($include, fn ($id) => !array_key_exists($id, $results));
+        $include = array_filter($args->include, fn ($id) => !array_key_exists($id, $results));
         if (!empty($include)) {
             $results += glsr(Database::class)->posts([
                 'post__in' => $include,
             ]);
         }
-        $results = [
-            'post_id' => esc_html_x('The Current Page', 'admin-text', 'site-reviews').' (post_id)',
-            'parent_id' => esc_html_x('The Parent Page', 'admin-text', 'site-reviews').' (parent_id)',
+        return [
+            'post_id' => esc_html_x('The Current Page', 'admin-text', 'site-reviews'),
+            'parent_id' => esc_html_x('The Parent Page', 'admin-text', 'site-reviews'),
         ] + $results;
-        return $results;
     }
 
-    public function getAssignedTermsOptions(\WP_REST_Request $request): array
+    public function getAssignedTermsOptions(Arguments $args): array
     {
-        $results = glsr(Database::class)->terms([
-            'number' => 25,
-            'search' => $request['search'] ?? '',
-        ]);
-        $include = Cast::toArray($request['include'] ?? []);
-        $include = array_filter($include, fn ($id) => !array_key_exists($id, $results));
-        if (!empty($include)) {
+        $results = [];
+        if (!empty($args->search)) {
             $results += glsr(Database::class)->terms([
-                'term_taxonomy_id' => $include,
+                'number' => 50,
+                'search' => $args->search,
+            ]);
+        }
+        if (!empty($args->include)) {
+            $results += glsr(Database::class)->terms([
+                'term_taxonomy_id' => $args->include,
             ]);
         }
         return $results;
     }
 
-    public function getAssignedUsersOptions(\WP_REST_Request $request): array
+    public function getAssignedUsersOptions(Arguments $args): array
     {
-        $results = glsr(Database::class)->users([
-            'number' => 25,
-            'search_wild' => $request['search'] ?? '',
-        ]);
-        $include = Cast::toArray($request['include'] ?? []);
-        $include = array_filter($include, fn ($id) => !array_key_exists($id, $results));
+        $results = [];
+        if (!empty($args->search)
+            && !in_array($args->search, ['author_id', 'profile_id', 'user_id'])) {
+            $results += glsr(Database::class)->users([
+                'number' => 50,
+                'search_wild' => $args->search,
+            ]);
+        }
+        $include = array_filter($args->include, fn ($id) => !array_key_exists($id, $results));
         if (!empty($include)) {
             $results += glsr(Database::class)->users([
                 'include' => $include,
             ]);
         }
-        $results = [
-            'user_id' => esc_html_x('The Logged In User', 'admin-text', 'site-reviews').' (user_id)',
-            'author_id' => esc_html_x('The Page Author', 'admin-text', 'site-reviews').' (author_id)',
-            'profile_id' => esc_html_x('The Profile User', 'admin-text', 'site-reviews').' (profile_id)',
+        return [
+            'user_id' => esc_html_x('The Logged In User', 'admin-text', 'site-reviews'),
+            'author_id' => esc_html_x('The Page Author', 'admin-text', 'site-reviews'),
+            'profile_id' => esc_html_x('The Profile User', 'admin-text', 'site-reviews'),
         ] + $results;
-        return $results;
     }
 
     public function getDisplayOptions(): array

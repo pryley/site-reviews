@@ -21,7 +21,7 @@ const AjaxToggleGroupControl = ({ endpoint, onChange, value = [], ...extraProps 
     // Retrieve options from the cache
     const options = useSelect(
         (select) => select('site-reviews').getOptions(endpoint),
-        [endpoint]
+        []
     );
 
     // Handle checkbox changes
@@ -43,7 +43,7 @@ const AjaxToggleGroupControl = ({ endpoint, onChange, value = [], ...extraProps 
     );
 
     useEffect(() => {
-        if (options) {
+        if (options.length) {
             return; // Options are already cached, no need to fetch
         }
         (async () => {
@@ -66,7 +66,7 @@ const AjaxToggleGroupControl = ({ endpoint, onChange, value = [], ...extraProps 
                 setIsLoading(false);
             }
         })();
-    }, [endpoint, options, setOptions]);
+    }, []);
 
     return (
         <BaseControl __nextHasNoMarginBottom {...baseControlProps}>

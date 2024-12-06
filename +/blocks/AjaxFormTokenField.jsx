@@ -14,7 +14,6 @@ import { useEffect, useRef, useState } from '@wordpress/element';
 /**
  * <AjaxFormTokenField
  *     endpoint="/site-reviews/v1/shortcode/site_review?option=assigned_posts"
- *     key="assigned_posts"
  *     onChange={(assigned_posts) => setAttributes({ assigned_posts })}
  *     value={attributes.assigned_posts}
  * />
@@ -25,6 +24,7 @@ const AjaxFormTokenField = ({ endpoint, label, onChange, placeholder, value }) =
     const [isLoading, setIsLoading] = useState(false);
     const [isSearching, setIsSearching] = useState(false);
     const [search, setSearch] = useState('');
+    const isFirstRun = useRef(true);
     const hasFetchedData = useRef(false);
     const selectedValues = useSelect(select => select('site-reviews').getSelectedValues(endpoint), []);
     const suggestedValues = useSelect(select => select('site-reviews').getSuggestedValues(endpoint), []);
@@ -73,7 +73,10 @@ const AjaxFormTokenField = ({ endpoint, label, onChange, placeholder, value }) =
     };
 
     const performSearch = async () => {
-        if (!hasFetchedData.current) return
+        if (isFirstRun.current) {
+            isFirstRun.current = false;
+            return
+        }
         setIsSearching(true)
         apiFetch(req()).then(response => {
             const suggestedResults = [];
@@ -153,6 +156,7 @@ const AjaxFormTokenField = ({ endpoint, label, onChange, placeholder, value }) =
                 __experimentalValidateInput={ validateInput }
                 __next40pxDefaultSize
                 __nextHasNoMarginBottom
+                disabled={ isLoading }
                 label={ label || '' }
                 onChange={ handleValueChange }
                 onInputChange={ debouncedSearch }
