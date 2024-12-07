@@ -111,7 +111,6 @@ export default function Edit (props) {
         <RenderedBlock
             inspectorControls={inspectorControls}
             inspectorAdvancedControls={inspectorAdvancedControls}
-            name='reviews'
             props={props}
         />
     )

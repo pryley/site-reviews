@@ -40,7 +40,7 @@ const AjaxSearchControl = ({ endpoint, onChange, placeholder, value, ...props })
         }),
     });
 
-    const debouncedSearch = useDebounce(setSearch, 500);
+    const debouncedSearch = useDebounce(setSearch, 250);
 
     const transformItem = (item) => ({
         label: `${item.id}: ${item.title}`,
