@@ -41,7 +41,7 @@ const AjaxFormTokenField = ({ endpoint, help, label, onChange, placeholder, pref
         }),
     });
 
-    const debouncedSearch = useDebounce(setSearch, 500);
+    const debouncedSearch = useDebounce(setSearch, 250);
 
     const transformItem = (item) => ({
         id: item.id,
