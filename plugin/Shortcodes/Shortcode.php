@@ -296,16 +296,6 @@ abstract class Shortcode implements ShortcodeContract
         return [];
     }
 
-    protected function maxRating(): int
-    {
-        return Cast::toInt(glsr()->constant('MAX_RATING', Rating::class));
-    }
-
-    protected function minRating(): int
-    {
-        return Cast::toInt(glsr()->constant('MIN_RATING', Rating::class));
-    }
-
     /**
      * @param string $value
      */
@@ -366,7 +356,7 @@ abstract class Shortcode implements ShortcodeContract
             __('Poor', 'site-reviews'),
             __('Terrible', 'site-reviews'),
         ];
-        $maxRating = $this->maxRating();
+        $maxRating = Rating::max();
         $defaults = array_pad(array_slice($defaults, 0, $maxRating), $maxRating, '');
         $labels = array_map('trim', explode(',', $value));
         foreach ($defaults as $i => $label) {

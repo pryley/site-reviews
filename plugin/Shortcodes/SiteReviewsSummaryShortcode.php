@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
+use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Schema;
 
@@ -82,13 +83,12 @@ class SiteReviewsSummaryShortcode extends Shortcode
                 'type' => 'select',
             ],
             'rating' => [
-                'default' => (string) $this->minRating(),
+                'default' => (string) Rating::min(),
                 'group' => 'display',
                 'label' => esc_html_x('Minimum Rating', 'admin-text', 'site-reviews'),
-                'max' => $this->maxRating(),
-                'min' => $this->minRating(),
-                'placeholder' => (string) $this->minRating(),
-                'step' => 1,
+                'max' => Rating::max(),
+                'min' => Rating::min(),
+                'placeholder' => (string) Rating::min(),
                 'type' => 'number',
             ],
             'rating_field' => [

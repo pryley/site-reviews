@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Integrations\Flatsome;
 
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
@@ -90,9 +89,9 @@ class FlatsomeSiteReviews extends FlatsomeShortcode
                     'rating' => [
                         'type' => 'slider',
                         'heading' => esc_html_x('Minimum Rating', 'admin-text', 'site-reviews'),
-                        'default' => 0,
-                        'max' => Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)),
-                        'min' => Cast::toInt(glsr()->constant('MIN_RATING', Rating::class)),
+                        'default' => Rating::min(),
+                        'max' => Rating::max(),
+                        'min' => Rating::min(),
                         'full_width' => true,
                     ],
                     'schema' => [

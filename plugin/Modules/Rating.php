@@ -43,7 +43,7 @@ class Rating
 
     public function emptyArray(): array
     {
-        return array_fill_keys(range(0, glsr()->constant('MAX_RATING', __CLASS__)), 0);
+        return array_fill_keys(range(0, static::max()), 0);
     }
 
     public function format(float $rating): string
@@ -77,6 +77,16 @@ class Rating
         return (float) ($phat + $z * $z / (2 * $numRatings) - $z * sqrt(($phat * (1 - $phat) + $z * $z / (4 * $numRatings)) / $numRatings)) / (1 + $z * $z / $numRatings);
     }
 
+    public static function max(): int
+    {
+        return max(1, glsr()->filterInt('const/MAX_RATING', static::MAX_RATING));
+    }
+
+    public static function min(): int
+    {
+        return max(0, glsr()->filterInt('const/MIN_RATING', static::MIN_RATING));
+    }
+
     /**
      * @param array $noopedPlural The result of _n_noop()
      */
@@ -86,7 +96,8 @@ class Rating
         if (empty($noopedPlural)) {
             $noopedPlural = _n_noop('%s Star', '%s Stars', 'site-reviews');
         }
-        foreach (range(glsr()->constant('MAX_RATING', __CLASS__), $minRating) as $rating) {
+        $min = max($minRating, static::min());
+        foreach (range(static::max(), $min) as $rating) {
             $title = translate_nooped_plural($noopedPlural, $rating, 'site-reviews');
             if (!str_contains($title, '%s')) {
                 $title = "%s {$title}"; // because Arr::unique() is used for array values when defaults are merged.
@@ -101,7 +112,7 @@ class Rating
      */
     public function overallPercentage(array $ratingCounts): float
     {
-        return round($this->average($ratingCounts) * 100 / glsr()->constant('MAX_RATING', __CLASS__), 2);
+        return round($this->average($ratingCounts) * 100 / static::max(), 2);
     }
 
     /**
@@ -147,7 +158,7 @@ class Rating
         $avgRating = $this->average($ratingCounts);
         // Represents a prior (your prior opinion without data) for the average star rating. A higher prior also means a higher margin for error.
         // This could also be the average score of all items instead of a fixed value.
-        $bayesMean = ($confidencePercentage / 100) * glsr()->constant('MAX_RATING', __CLASS__); // prior, 70% = 3.5
+        $bayesMean = ($confidencePercentage / 100) * static::max(); // prior, 70% = 3.5
         // Represents the number of ratings expected to begin observing a pattern that would put confidence in the prior.
         $bayesMinimal = 10; // confidence
         $numOfReviews = $this->totalCount($ratingCounts);
@@ -169,7 +180,7 @@ class Rating
      */
     public function rankingUsingZScores(array $ratingCounts, int $confidencePercentage = 90): float
     {
-        $ratingCountsSum = (float) $this->totalCount($ratingCounts) + glsr()->constant('MAX_RATING', __CLASS__);
+        $ratingCountsSum = (float) $this->totalCount($ratingCounts) + static::max();
         $weight = $this->weight($ratingCounts, $ratingCountsSum);
         $weightPow2 = $this->weight($ratingCounts, $ratingCountsSum, true);
         $zScore = static::CONFIDENCE_LEVEL_Z_SCORES[$confidencePercentage];

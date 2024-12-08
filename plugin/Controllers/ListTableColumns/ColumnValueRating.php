@@ -18,7 +18,7 @@ class ColumnValueRating implements ColumnValueContract
         }
         return sprintf('<span style="background:#787c82;border-radius:4px;color:#fff;padding:4px 8px;">%s / %s',
             $review->rating,
-            glsr()->constant('MAX_RATING', Rating::class)
+            Rating::max()
         );
     }
 }

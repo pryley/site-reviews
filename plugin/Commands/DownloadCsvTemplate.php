@@ -31,7 +31,7 @@ class DownloadCsvTemplate extends AbstractCommand
             'is_pinned' => sprintf(_x('%s or %s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
             'is_verified' => sprintf(_x('%s or %s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
             'name' => _x('The reviewer\'s name', 'admin-text', 'site-reviews'),
-            'rating' => sprintf(_x('A number from %d-%d', 'admin-text', 'site-reviews'), glsr()->constant('MIN_RATING', Rating::class), glsr()->constant('MAX_RATING', Rating::class)),
+            'rating' => sprintf(_x('A number from %d-%d', 'admin-text', 'site-reviews'), Rating::min(), Rating::max()),
             'response' => _x('The review response', 'admin-text', 'site-reviews'),
             'score' => sprintf('%s<br><span class="glsr-notice-inline is-warning">%s</span>',
                 _x('A whole number which represents the number of times the review was upvoted.', 'admin-text', 'site-reviews'),

@@ -16,7 +16,7 @@ class SummaryTextTag extends SummaryTag
 
     protected function value(): string
     {
-        $max = glsr()->constant('MAX_RATING', Rating::class);
+        $max = Rating::max();
         $num = glsr(Rating::class)->totalCount($this->ratings);
         $rating = glsr(Rating::class)->average($this->ratings);
         $rating = glsr(Rating::class)->format($rating);

@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema;
 
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Rating;
 
 class SummaryParameters
@@ -73,8 +72,8 @@ class SummaryParameters
             ],
             'rating' => [
                 'description' => _x('Limit result set to reviews containing a given minimum rating.', 'admin-text', 'site-reviews'),
-                'maximum' => Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)),
-                'minimum' => 0,
+                'maximum' => Rating::max(),
+                'minimum' => Rating::min(),
                 'sanitize_callback' => 'absint',
                 'type' => 'integer',
             ],

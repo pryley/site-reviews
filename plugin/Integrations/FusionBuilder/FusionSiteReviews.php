@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder;
 
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
@@ -100,13 +99,13 @@ class FusionSiteReviews extends FusionElement
                 'value' => 10,
             ],
             'rating' => [
-                'default' => 0,
+                'default' => Rating::min(),
                 'heading' => esc_html_x('Minimum Rating', 'admin-text', 'site-reviews'),
-                'max' => Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)),
-                'min' => Cast::toInt(glsr()->constant('MIN_RATING', Rating::class)),
+                'max' => Rating::max(),
+                'min' => Rating::min(),
                 'param_name' => 'rating',
                 'type' => 'range',
-                'value' => 0,
+                'value' => Rating::min(),
             ],
             'schema' => [
                 'default' => 0,

@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Widgets;
 
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
@@ -56,10 +55,10 @@ class SiteReviewsWidget extends Widget
             ],
             'rating' => [
                 'label' => esc_html_x('The minimum rating to display', 'admin-text', 'site-reviews'),
-                'max' => Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)),
-                'min' => Cast::toInt(glsr()->constant('MIN_RATING', Rating::class)),
+                'max' => Rating::max(),
+                'min' => Rating::min(),
                 'type' => 'number',
-                'value' => 0,
+                'value' => Rating::min(),
             ],
             'hide' => [
                 'options' => $this->shortcode()->getHideOptions(),

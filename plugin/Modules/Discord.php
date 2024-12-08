@@ -147,10 +147,11 @@ class Discord implements WebhookContract
 
     protected function rating(): string
     {
+        $max = Rating::max();
         $solidStars = str_repeat('★', $this->review->rating);
-        $emptyStars = str_repeat('☆', max(0, glsr()->constant('MAX_RATING', Rating::class) - $this->review->rating));
+        $emptyStars = str_repeat('☆', max(0, $max - $this->review->rating));
         $stars = $solidStars.$emptyStars;
-        return glsr()->filterString('discord/stars', $stars, $this->review->rating, glsr()->constant('MAX_RATING', Rating::class));
+        return glsr()->filterString('discord/stars', $stars, $this->review->rating, $max);
     }
 
     protected function title(): string

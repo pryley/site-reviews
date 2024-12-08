@@ -29,7 +29,6 @@ class StarRating implements PartialContract
 
     protected function label()
     {
-        $maxRating = glsr()->constant('MAX_RATING', Rating::class);
         $rating = $this->data->rating;
         $title = $this->data->reviews > 0
             ? __('Rated %s out of %s stars based on %s ratings', 'site-reviews')
@@ -37,7 +36,7 @@ class StarRating implements PartialContract
         if (0 !== $this->data->num_half) {
             $rating = glsr(Rating::class)->format($rating);
         }
-        return sprintf($title, $rating, $maxRating, $this->data->reviews);
+        return sprintf($title, $rating, Rating::max(), $this->data->reviews);
     }
 
     protected function stars(): string

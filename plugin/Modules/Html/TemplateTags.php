@@ -158,7 +158,7 @@ class TemplateTags
     public function tagReviewStars(Review $review): string
     {
         $full = str_repeat('★', $review->rating);
-        $empty = str_repeat('☆', Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)) - $review->rating);
+        $empty = str_repeat('☆', Rating::max() - $review->rating);
         return $full.$empty;
     }
 

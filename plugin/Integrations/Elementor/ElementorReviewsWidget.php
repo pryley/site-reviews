@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
 use Elementor\Controls_Manager;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
@@ -114,10 +113,10 @@ class ElementorReviewsWidget extends ElementorWidget
                 'type' => Controls_Manager::NUMBER,
             ],
             'rating' => [
-                'default' => 0,
+                'default' => Rating::min(),
                 'label' => _x('Minimum Rating', 'admin-text', 'site-reviews'),
-                'max' => Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)),
-                'min' => Cast::toInt(glsr()->constant('MIN_RATING', Rating::class)),
+                'max' => Rating::max(),
+                'min' => Rating::min(),
                 'separator' => 'before',
                 'type' => Controls_Manager::NUMBER,
             ],

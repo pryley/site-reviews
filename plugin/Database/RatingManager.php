@@ -29,12 +29,12 @@ class RatingManager
 
     protected function maxRating(array $args): int
     {
-        return Arr::getAs('int', $args, 'max', glsr()->constant('MAX_RATING', Rating::class));
+        return Arr::getAs('int', $args, 'max', Rating::max());
     }
 
     protected function minRating(array $args): int
     {
-        return Arr::getAs('int', $args, 'min', glsr()->constant('MIN_RATING', Rating::class));
+        return Arr::getAs('int', $args, 'min', Rating::min());
     }
 
     /**

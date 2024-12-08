@@ -108,7 +108,7 @@ class RevisionController extends AbstractController
 
     protected function ratingValueForDiff(int $rating): string
     {
-        $max = glsr()->constant('MAX_RATING', Rating::class);
+        $max = Rating::max();
         $empty = max(0, $max - $rating);
         $stars = str_repeat('★', $rating).str_repeat('☆', $empty);
         return glsr(Builder::class)->span([

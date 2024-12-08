@@ -14,7 +14,7 @@ class ColumnFilterRating extends AbstractColumnFilter
     public function options(): array
     {
         $options = [];
-        $max = glsr()->constant('MAX_RATING', Rating::class);
+        $max = Rating::max();
         foreach (range($max, 0) as $rating) {
             $empty = $max - $rating;
             $title = _x('%s star rating', 'admin-text', 'site-reviews');

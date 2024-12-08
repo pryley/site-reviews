@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\WPBakery;
 
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
@@ -63,10 +62,10 @@ class VcSiteReviewsSummary extends VcShortcode
             'rating' => [
                 'type' => 'glsr_type_range',
                 'heading' => esc_html_x('Minimum Rating', 'admin-text', 'site-reviews'),
-                'max' => Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)),
-                'min' => Cast::toInt(glsr()->constant('MIN_RATING', Rating::class)),
+                'max' => Rating::max(),
+                'min' => Rating::min(),
                 'param_name' => 'rating',
-                'std' => 0,
+                'std' => Rating::min(),
             ],
             'schema' => [
                 'type' => 'checkbox',

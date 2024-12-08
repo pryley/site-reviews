@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Tinymce;
 
+use GeminiLabs\SiteReviews\Modules\Rating;
 class SiteReviewsSummaryTinymce extends TinymceGenerator
 {
     public function fields(): array
@@ -31,6 +32,13 @@ class SiteReviewsSummaryTinymce extends TinymceGenerator
                 'name' => 'assigned_users',
                 'tooltip' => sprintf(_x('Limit reviews to those assigned to a User ID. You may also enter "%s" to use the ID of the logged-in user.', 'admin-text', 'site-reviews'), 'user_id'),
                 'type' => 'textbox',
+            ],
+            [
+                'label' => _x('Rating', 'admin-text', 'site-reviews'),
+                'name' => 'rating',
+                'options' => glsr(Rating::class)->optionsArray([], 1),
+                'tooltip' => _x('What is the minimum rating to use?', 'admin-text', 'site-reviews'),
+                'type' => 'listbox',
             ],
             [
                 'label' => _x('Schema', 'admin-text', 'site-reviews'),

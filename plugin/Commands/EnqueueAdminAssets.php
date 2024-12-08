@@ -101,8 +101,8 @@ class EnqueueAdminAssets extends AbstractCommand
                 'site_reviews_form' => glsr(SiteReviewsFormShortcode::class)->getHideOptions(),
                 'site_reviews_summary' => glsr(SiteReviewsSummaryShortcode::class)->getHideOptions(),
             ],
-            'maxrating' => glsr()->constant('MAX_RATING', Rating::class),
-            'minrating' => glsr()->constant('MIN_RATING', Rating::class),
+            'maxrating' => Rating::max(),
+            'minrating' => Rating::min(),
             'nameprefix' => glsr()->id,
             'nonce' => [
                 'clear-console' => wp_create_nonce('clear-console'),

@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Rating;
 
 class SiteReviewsDefaults extends DefaultsAbstract
 {
@@ -81,7 +82,7 @@ class SiteReviewsDefaults extends DefaultsAbstract
             'offset' => 0,
             'page' => 1,
             'pagination' => '',
-            'rating' => 0,
+            'rating' => Rating::min(),
             'rating_field' => 'rating', // used for custom rating fields
             'schema' => false,
             'terms' => '',

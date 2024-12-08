@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Tinymce;
 
+use GeminiLabs\SiteReviews\Modules\Rating;
 class SiteReviewsTinymce extends TinymceGenerator
 {
     public function fields(): array
@@ -30,14 +31,7 @@ class SiteReviewsTinymce extends TinymceGenerator
             [
                 'label' => _x('Rating', 'admin-text', 'site-reviews'),
                 'name' => 'rating',
-                'options' => [
-                    '5' => sprintf(_nx('%s star', '%s stars', 5, 'admin-text', 'site-reviews'), 5),
-                    '4' => sprintf(_nx('%s star', '%s stars', 4, 'admin-text', 'site-reviews'), 4),
-                    '3' => sprintf(_nx('%s star', '%s stars', 3, 'admin-text', 'site-reviews'), 3),
-                    '2' => sprintf(_nx('%s star', '%s stars', 2, 'admin-text', 'site-reviews'), 2),
-                    '1' => sprintf(_nx('%s star', '%s stars', 1, 'admin-text', 'site-reviews'), 1),
-                    '0' => _x('Unrated', 'admin-text', 'site-reviews'),
-                ],
+                'options' => glsr(Rating::class)->optionsArray(),
                 'tooltip' => _x('What is the minimum rating to display (default: 1 star)?', 'admin-text', 'site-reviews'),
                 'type' => 'listbox',
             ],

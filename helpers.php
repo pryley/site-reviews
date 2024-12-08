@@ -176,8 +176,8 @@ function glsr_get_ratings($args = [])
     $counts = glsr(RatingManager::class)->ratings(Arr::consolidate($args));
     return new Arguments([
         'average' => glsr(Rating::class)->average($counts),
-        'maximum' => Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)),
-        'minimum' => Cast::toInt(glsr()->constant('MIN_RATING', Rating::class)),
+        'maximum' => Rating::max(),
+        'minimum' => Rating::min(),
         'ranking' => glsr(Rating::class)->ranking($counts),
         'ratings' => $counts,
         'reviews' => array_sum($counts),

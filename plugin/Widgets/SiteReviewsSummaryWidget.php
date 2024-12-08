@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Widgets;
 
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
+use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
 class SiteReviewsSummaryWidget extends Widget
@@ -44,6 +45,13 @@ class SiteReviewsSummaryWidget extends Widget
                 'options' => $this->fieldTypeOptions(),
                 'type' => 'select',
                 'value' => 'local',
+            ],
+            'rating' => [
+                'label' => esc_html_x('The minimum rating to display', 'admin-text', 'site-reviews'),
+                'max' => Rating::max(),
+                'min' => max(1, Rating::min()),
+                'type' => 'number',
+                'value' => max(1, Rating::min()),
             ],
             'hide' => [
                 'options' => $this->shortcode()->getHideOptions(),
