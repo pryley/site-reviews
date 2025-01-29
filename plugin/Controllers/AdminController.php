@@ -163,7 +163,13 @@ class AdminController extends AbstractController
      */
     public function printInlineStyle(): void
     {
-        echo '<style type="text/css">a[href="edit.php?post_type=site-review&page='.Str::dashCase(glsr()->prefix).'addons"]:not(.current),a[href="edit.php?post_type=site-review&page='.Str::dashCase(glsr()->prefix).'addons"]:focus,a[href="edit.php?post_type=site-review&page='.Str::dashCase(glsr()->prefix).'addons"]:hover{color:#F6E05E!important;}</style>';
+        $url = sprintf('edit.php?post_type=site-review&page=%saddons', Str::dashCase(glsr()->prefix));
+        echo ''.
+        '<style type="text/css">'.
+            "a[href=\"{$url}\"]:not(.current),a[href=\"{$url}\"]:focus,a[href=\"{$url}\"]:hover{".
+                'color:#e8ff5e!important;'.
+            '}'.
+        '</style>';
     }
 
     /**
@@ -205,7 +211,7 @@ class AdminController extends AbstractController
         glsr()->render('views/partials/page-header', [
             'buttons' => $buttons,
             'hasScreenOptions' => in_array($screen->base, ['edit', 'edit-tags', 'post']),
-            'logo' => Helper::svg('assets/images/mascot.svg', false),
+            'logo' => Helper::svg('assets/images/icon.svg', false),
             'title' => esc_html($title),
         ]);
     }

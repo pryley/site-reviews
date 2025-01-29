@@ -353,7 +353,7 @@ class Helper
         $svg = preg_replace('/\s+/', ' ', $svg);
         $svg = trim($svg);
         if ($encode) {
-            $svg = str_replace('"', "'", $svg);
+            // $svg = str_replace('"', "'", $svg);
             $svg = base64_encode($svg);
             $svg = "data:image/svg+xml;base64,{$svg}";
         }
