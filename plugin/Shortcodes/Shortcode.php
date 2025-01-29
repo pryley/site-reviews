@@ -2,11 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
-use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
-use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\ShortcodeOptionManager;
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
-use GeminiLabs\SiteReviews\Defaults\ShortcodeApiFetchDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -19,58 +17,44 @@ use GeminiLabs\SiteReviews\Modules\Style;
 
 abstract class Shortcode implements ShortcodeContract
 {
-    public array $args = [];
-    public string $debug = '';
+    public array $args;
+    public string $debug;
     public string $description;
+    public string $from;
     public string $name;
-    public string $shortcode;
-    public string $type = '';
+    public string $tag;
 
     public function __construct()
     {
-        $this->description = $this->shortcodeDescription();
-        $this->name = $this->shortcodeName();
-        $this->shortcode = $this->shortcodeTag();
+        $this->args = [];
+        $this->debug = '';
+        $this->description = $this->description();
+        $this->from = '';
+        $this->name = $this->name();
+        $this->tag = $this->tag();
     }
 
-    public function apiFetchResponse(\WP_REST_Request $request): array
-    {
-        $args = glsr(ShortcodeApiFetchDefaults::class)->merge($request->get_params());
-        $args = glsr()->args($args);
-        $method = Helper::buildMethodName('get', $args->option, 'options');
-        if (method_exists($this, $method)) {
-            $values = $this->$method($args);
-        } else {
-            $values = glsr()->filterArray('shortcode/api-fetch', [], $args, $request);
-        }
-        $results = [];
-        foreach ($values as $id => $title) {
-            $results[] = compact('id', 'title');
-        }
-        return $results;
-    }
-
-    public function attributes(array $values, string $source = 'function'): array
+    public function attributes(array $values, string $from = 'function'): array
     {
         $attributes = $this->defaults()->dataAttributes($values);
         $attributes = wp_parse_args($attributes, [
             'class' => glsr(Style::class)->styleClasses(),
-            'data-from' => $source,
-            'data-shortcode' => $this->shortcode,
+            'data-from' => $from,
+            'data-shortcode' => $this->tag,
             'id' => Arr::get($values, 'id'),
         ]);
         unset($attributes['data-id']);
         unset($attributes['data-form_id']);
-        $attributes = glsr()->filterArray("shortcode/{$this->shortcode}/attributes", $attributes, $this);
+        $attributes = glsr()->filterArray("shortcode/{$this->tag}/attributes", $attributes, $this);
         $attributes = array_map('esc_attr', $attributes);
         return $attributes;
     }
 
-    public function build($args = [], string $type = 'shortcode'): string
+    public function build($args = [], string $from = 'shortcode'): string
     {
-        $this->normalize($args, $type);
+        $this->normalize(wp_parse_args($args), $from);
         $template = $this->buildTemplate();
-        $attributes = $this->attributes($this->args, $type);
+        $attributes = $this->attributes($this->args, $from);
         $html = glsr(Builder::class)->div($template, $attributes);
         return sprintf('%s%s', $this->debug, $html);
     }
@@ -98,151 +82,24 @@ abstract class Shortcode implements ShortcodeContract
         return glsr($classname);
     }
 
-    public function getConfig(): array
-    {
-        $config = $this->config();
-        return glsr()->filterArray('shortcode/config', $config, $this->shortcode, $this);
-    }
-
-    public function getAssignedPostsOptions(Arguments $args): array
-    {
-        $results = [];
-        if (!empty($args->search)
-            && !in_array($args->search, ['post_id', 'parent_id'])) {
-            $results += glsr(Database::class)->posts([
-                'posts_per_page' => 50,
-                's' => $args->search,
-            ]);
-        }
-        $include = array_filter($args->include, fn ($id) => !array_key_exists($id, $results));
-        if (!empty($include)) {
-            $results += glsr(Database::class)->posts([
-                'post__in' => $include,
-            ]);
-        }
-        return [
-            'post_id' => esc_html_x('The Current Page', 'admin-text', 'site-reviews'),
-            'parent_id' => esc_html_x('The Parent Page', 'admin-text', 'site-reviews'),
-        ] + $results;
-    }
-
-    public function getAssignedTermsOptions(Arguments $args): array
-    {
-        $results = [];
-        if (!empty($args->search)) {
-            $results += glsr(Database::class)->terms([
-                'number' => 50,
-                'search' => $args->search,
-            ]);
-        }
-        if (!empty($args->include)) {
-            $results += glsr(Database::class)->terms([
-                'term_taxonomy_id' => $args->include,
-            ]);
-        }
-        return $results;
-    }
-
-    public function getAssignedUsersOptions(Arguments $args): array
-    {
-        $results = [];
-        if (!empty($args->search)
-            && !in_array($args->search, ['author_id', 'profile_id', 'user_id'])) {
-            $results += glsr(Database::class)->users([
-                'number' => 50,
-                'search_wild' => $args->search,
-            ]);
-        }
-        $include = array_filter($args->include, fn ($id) => !array_key_exists($id, $results));
-        if (!empty($include)) {
-            $results += glsr(Database::class)->users([
-                'include' => $include,
-            ]);
-        }
-        return [
-            'user_id' => esc_html_x('The Logged In User', 'admin-text', 'site-reviews'),
-            'author_id' => esc_html_x('The Page Author', 'admin-text', 'site-reviews'),
-            'profile_id' => esc_html_x('The Profile User', 'admin-text', 'site-reviews'),
-        ] + $results;
-    }
-
-    public function getDisplayOptions(): array
-    {
-        $options = $this->displayOptions();
-        return glsr()->filterArray('shortcode/display-options', $options, $this->shortcode, $this);
-    }
-
-    public function getHideOptions(): array
-    {
-        $options = $this->hideOptions();
-        return glsr()->filterArray('shortcode/hide-options', $options, $this->shortcode, $this);
-    }
-
-    public function getPaginationOptions(): array
-    {
-        return [
-            'loadmore' => _x('Load More Button', 'admin-text', 'site-reviews'),
-            'ajax' => _x('Pagination Links (AJAX)', 'admin-text', 'site-reviews'),
-            '1' => _x('Pagination Links (with page reload)', 'admin-text', 'site-reviews'),
-        ];
-    }
-
-    public function getPostIdOptions(Arguments $args): array
-    {
-        glsr_log($args);
-        $results = [];
-        if (!empty($args->search)) {
-            $results += glsr(Database::class)->posts([
-                'post_type' => glsr()->post_type,
-                'posts_per_page' => 50,
-                's' => $args->search,
-            ]);
-        }
-        $include = array_filter($args->include, fn ($id) => !array_key_exists($id, $results));
-        if (!empty($include)) {
-            $results += glsr(Database::class)->posts([
-                'post_type' => glsr()->post_type,
-                'post__in' => $include,
-            ]);
-        }
-        return $results;
-    }
-
-    public function getTermsOptions(): array
-    {
-        return [
-            '1' => _x('Terms were accepted', 'admin-text', 'site-reviews'),
-            '0' => _x('Terms were not accepted', 'admin-text', 'site-reviews'),
-        ];
-    }
-
-    public function getTypeOptions(): array
-    {
-        $types = glsr()->retrieveAs('array', 'review_types', []);
-        return 1 < count($types) ? $types : [];
-    }
-
     public function hasVisibleFields(array $args = []): bool
     {
         if (!empty($args)) {
             $this->normalize($args);
         }
-        $defaults = $this->getHideOptions();
+        $defaults = $this->options('hide');
         $hide = $this->args['hide'] ?? [];
         $hide = array_flip(Arr::consolidate($hide));
         unset($defaults['if_empty'], $hide['if_empty']);
         return !empty(array_diff_key($defaults, $hide));
     }
 
-    /**
-     * @return static
-     */
-    public function normalize(array $args, string $type = '')
+    public function normalize(array $args, string $from = ''): ShortcodeContract
     {
-        if (!empty($type)) {
-            $this->type = $type;
+        if (!empty($from)) {
+            $this->from = $from;
         }
-        $args = glsr()->filterArray('shortcode/args', $args, $this->shortcode);
+        $args = glsr()->filterArray('shortcode/args', $args, $this->tag);
         $args = $this->defaults()->unguardedRestrict($args);
         foreach ($args as $key => &$value) {
             $method = Helper::buildMethodName('normalize', $key);
@@ -254,6 +111,17 @@ abstract class Shortcode implements ShortcodeContract
         return $this;
     }
 
+    /**
+     * Returns the options for a shortcode setting. Results are filtered
+     * by the "site-reviews/shortcode/options/{$options}" hook.
+     */
+    public function options(string $option, array $args = []): array
+    {
+        $args['option'] = $option;
+        $args['shortcode'] = $this->tag;
+        return call_user_func([glsr(ShortcodeOptionManager::class), $option], $args);
+    }
+
     public function register(): void
     {
         if (!function_exists('add_shortcode')) {
@@ -262,23 +130,41 @@ abstract class Shortcode implements ShortcodeContract
         $shortcode = (new \ReflectionClass($this))->getShortName();
         $shortcode = Str::snakeCase($shortcode);
         $shortcode = str_replace('_shortcode', '', $shortcode);
-        add_shortcode($shortcode, [$this, 'buildShortcode']);
+        add_shortcode($shortcode, fn ($atts) => $this->build($atts));
         glsr()->append('shortcodes', get_class($this), $shortcode);
     }
 
-    protected function config(): array
+    /**
+     * Returns the filtered shortcode settings configuration.
+     */
+    public function settings(): array
     {
-        return [];
+        $config = $this->config();
+        $config = glsr()->filterArray("shortcode/{$this->tag}/config", $config, $this);
+        $config = glsr()->filterArray('shortcode/config', $config, $this->tag, $this);
+        return $config;
     }
+
+    public function tag(): string
+    {
+        return Str::snakeCase(
+            str_replace('Shortcode', '', (new \ReflectionClass($this))->getShortName())
+        );
+    }
+
+    /**
+     * Returns the unfiltered shortcode settings configuration.
+     */
+    abstract protected function config(): array;
 
     protected function debug(array $data = []): void
     {
-        if (empty($this->args['debug']) || 'shortcode' !== $this->type) {
+        if (empty($this->args['debug']) || 'shortcode' !== $this->from) {
             return;
         }
         $data = wp_parse_args($data, [
             'args' => $this->args,
-            'shortcode' => $this->shortcode,
+            'shortcode' => $this->tag,
         ]);
         ksort($data);
         ob_start();
@@ -338,7 +224,7 @@ abstract class Shortcode implements ShortcodeContract
      */
     protected function normalizeHide($value): array
     {
-        $hideKeys = array_keys($this->getHideOptions());
+        $hideKeys = array_keys($this->options('hide'));
         return array_filter(Cast::toArray($value),
             fn ($value) => in_array($value, $hideKeys)
         );
@@ -365,28 +251,5 @@ abstract class Shortcode implements ShortcodeContract
             }
         }
         return array_combine(range($maxRating, 1), $defaults);
-    }
-
-    /**
-     * @todo make this an abstract method in v8
-     */
-    protected function shortcodeDescription(): string
-    {
-        return '';
-    }
-
-    /**
-     * @todo make this an abstract method in v8
-     */
-    protected function shortcodeName(): string
-    {
-        return '';
-    }
-
-    protected function shortcodeTag(): string
-    {
-        return Str::snakeCase(
-            str_replace('Shortcode', '', (new \ReflectionClass($this))->getShortName())
-        );
     }
 }

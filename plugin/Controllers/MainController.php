@@ -81,6 +81,27 @@ class MainController extends AbstractController
     }
 
     /**
+     * @action parse_query
+     */
+    public function parseAssignedPostTypesInQuery(\WP_Query $query): void
+    {
+        if (glsr()->prefix.'assigned_posts' !== $query->get('post_type')) {
+            return;
+        }
+        $postTypes = get_post_types([
+            '_builtin' => false,
+            'public' => true,
+            'show_in_rest' => true,
+            'show_ui' => true,
+        ]);
+        $postTypes[] = 'post';
+        $postTypes[] = 'page';
+        $query->is_archive = false;
+        $query->is_post_type_archive = false;
+        $query->set('post_type', array_map('sanitize_key', array_values($postTypes)));
+    }
+
+    /**
      * @action plugins_loaded
      */
     public function registerAddons(): void

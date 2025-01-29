@@ -253,32 +253,19 @@ class Database
     public function posts(array $args = []): array
     {
         $args = wp_parse_args($args, [
-            'ignore_sticky_posts' => true,
-            'no_found_rows' => true, // skip counting the total rows found
             'order' => 'ASC',
             'orderby' => 'title',
+            'post_type' => glsr()->prefix.'assigned_posts',
             'posts_per_page' => 50,
             'search_columns' => [
                 'post_title',
             ],
             'suppress_filters' => true,
         ]);
-        if (empty($args['post_type'])) {
-            $postTypes = get_post_types([
-                '_builtin' => false,
-                'public' => true,
-                'show_in_rest' => true,
-                'show_ui' => true,
-            ]);
-            $postTypes[] = 'post';
-            $postTypes[] = 'page';
-            $args['post_type'] = array_values($postTypes);
-        }
         $posts = get_posts($args);
         $results = [];
         foreach ($posts as $post) {
-            $title = sanitize_text_field($post->post_title);
-            $results[$post->ID] = trim("{$title} ({$post->ID})");
+            $results[$post->ID] = sanitize_text_field($post->post_title) ?: _x('(no title)', 'admin-text', 'site-reviews');
         }
         natcasesort($results);
         return $results;

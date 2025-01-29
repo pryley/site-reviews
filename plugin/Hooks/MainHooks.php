@@ -15,6 +15,7 @@ class MainHooks extends AbstractHooks
             ['logOnce', 'wp_footer'],
             ['onInit', 'init', 5], // run after possible init:1 migration
             ['onMigrationEnd', 'site-reviews/migration/end'],
+            ['parseAssignedPostTypesInQuery', 'parse_query'],
             ['registerAddons', 'plugins_loaded'],
             ['registerLanguages', 'after_setup_theme'],
             ['registerPostMeta', 'init'],

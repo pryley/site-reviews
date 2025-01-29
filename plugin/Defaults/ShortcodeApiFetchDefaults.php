@@ -21,6 +21,7 @@ class ShortcodeApiFetchDefaults extends DefaultsAbstract
     public array $sanitize = [
         'include' => 'array-int',
         'option' => 'name',
+        'placeholder' => 'text',
         'search' => 'text',
         'shortcode' => 'name',
     ];
@@ -30,6 +31,7 @@ class ShortcodeApiFetchDefaults extends DefaultsAbstract
         return [
             'include' => '',
             'option' => '',
+            'placeholder' => '',
             'search' => '',
             'shortcode' => '',
         ];

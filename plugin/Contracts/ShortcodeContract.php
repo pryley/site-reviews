@@ -16,32 +16,30 @@ interface ShortcodeContract
 {
     public function build(array $args = [], string $type = 'shortcode'): string;
 
-    /**
-     * @param string|array $args
-     */
-    public function buildBlock($args = []): string;
-
-    /**
-     * @param string|array $args
-     */
-    public function buildShortcode($args = []): string;
-
     public function buildTemplate(): string;
 
     public function defaults(): DefaultsAbstract;
 
-    public function getConfig(): array;
-
-    public function getDisplayOptions(): array;
-
-    public function getHideOptions(): array;
-
-    public function getTypeOptions(): array;
+    public function description(): string;
 
     public function hasVisibleFields(array $args = []): bool;
 
+    public function name(): string;
+
+    public function normalize(array $args, string $type = ''): ShortcodeContract;
+
     /**
-     * @return static
+     * Returns the options for a shortcode setting. Results are filtered
+     * by the "site-reviews/shortcode/options/{$options}" hook.
      */
-    public function normalize(array $args, string $type = '');
+    public function options(string $option, array $args = []): array;
+
+    public function register(): void;
+
+    /**
+     * Returns the filtered shortcode settings configuration.
+     */
+    public function settings(): array;
+
+    public function tag(): string;
 }

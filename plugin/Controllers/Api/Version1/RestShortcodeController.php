@@ -2,7 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\Api\Version1;
 
-use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
+use GeminiLabs\SiteReviews\Database\ShortcodeOptionManager;
+use GeminiLabs\SiteReviews\Defaults\ShortcodeApiFetchDefaults;
 
 class RestShortcodeController extends \WP_REST_Controller
 {
@@ -19,10 +20,16 @@ class RestShortcodeController extends \WP_REST_Controller
      */
     public function get_items($request)
     {
-        $shortcode = glsr()->shortcode($request['shortcode']);
-        return rest_ensure_response(
-            $shortcode->apiFetchResponse($request)
-        );
+        $args = glsr(ShortcodeApiFetchDefaults::class)->merge($request->get_params());
+        $results = [];
+        if (!empty($args['option'])) {
+            $manager = glsr(ShortcodeOptionManager::class);
+            $values = call_user_func([$manager, $args['option']], $args);
+            foreach ($values as $id => $title) {
+                $results[] = compact('id', 'title');
+            }
+        }
+        return rest_ensure_response($results);
     }
 
     /**

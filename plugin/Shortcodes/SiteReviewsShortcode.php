@@ -27,6 +27,11 @@ class SiteReviewsShortcode extends Shortcode
         return (string) $this->buildReviewsHtml();
     }
 
+    public function description(): string
+    {
+        return esc_html_x('Display your reviews', 'admin-text', 'site-reviews');
+    }
+
     public function generateSchema(Reviews $reviews): void
     {
         if (Cast::toBool($this->args['schema'])) {
@@ -36,36 +41,41 @@ class SiteReviewsShortcode extends Shortcode
         }
     }
 
+    public function name(): string
+    {
+        return esc_html_x('Latest Reviews', 'admin-text', 'site-reviews');
+    }
+
     protected function config(): array
     {
         return [
             'assigned_posts' => [
                 'label' => esc_html_x('Limit Reviews by Assigned Pages', 'admin-text', 'site-reviews'),
+                'multiple' => true,
                 'placeholder' => esc_html_x('Select a Page...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
             'assigned_terms' => [
                 'label' => esc_html_x('Limit Reviews by Categories', 'admin-text', 'site-reviews'),
+                'multiple' => true,
                 'placeholder' => esc_html_x('Select a Category...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
             'assigned_users' => [
                 'label' => esc_html_x('Limit Reviews by Assigned Users', 'admin-text', 'site-reviews'),
+                'multiple' => true,
                 'placeholder' => esc_html_x('Select a User...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
             'terms' => [
                 'label' => esc_html_x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews'),
-                'options' => [
-                    'true' => esc_html_x('Terms were accepted', 'admin-text', 'site-reviews'),
-                    'false' => esc_html_x('Terms were not accepted', 'admin-text', 'site-reviews'),
-                ],
+                'options' => $this->options('terms'),
                 'placeholder' => esc_html_x('Select Review Terms...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
             'type' => [
                 'label' => esc_html_x('Limit Reviews by Type', 'admin-text', 'site-reviews'),
-                'options' => $this->getTypeOptions(),
+                'options' => $this->options('type'),
                 'placeholder' => esc_html_x('Select a Review Type...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
@@ -84,18 +94,12 @@ class SiteReviewsShortcode extends Shortcode
                 'label' => esc_html_x('Reviews Per Page', 'admin-text', 'site-reviews'),
                 'max' => 50,
                 'min' => 1,
-                // 'placeholder' => 10,
-                'step' => 1,
                 'type' => 'number',
             ],
             'pagination' => [
                 'label' => esc_html_x('Pagination Type', 'admin-text', 'site-reviews'),
                 'group' => 'display',
-                'options' => [
-                    'loadmore' => esc_attr_x('Load More Button', 'admin-text', 'site-reviews'),
-                    'ajax' => esc_attr_x('Pagination Links (AJAX)', 'admin-text', 'site-reviews'),
-                    'true' => esc_attr_x('Pagination Links (with page reload)', 'admin-text', 'site-reviews'),
-                ],
+                'options' => $this->options('pagination'),
                 'placeholder' => esc_attr_x('No Pagination', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
@@ -107,7 +111,7 @@ class SiteReviewsShortcode extends Shortcode
             ],
             'hide' => [
                 'group' => 'hide',
-                'options' => $this->getHideOptions(),
+                'options' => $this->options('hide'),
                 'type' => 'checkbox',
             ],
             'id' => [
@@ -150,15 +154,5 @@ class SiteReviewsShortcode extends Shortcode
             'verified' => _x('Hide the verified badge', 'admin-text', 'site-reviews'),
             'response' => _x('Hide the response', 'admin-text', 'site-reviews'),
         ];
-    }
-
-    protected function shortcodeDescription(): string
-    {
-        return esc_html_x('Display your reviews', 'admin-text', 'site-reviews');
-    }
-
-    protected function shortcodeName(): string
-    {
-        return esc_html_x('Latest Reviews', 'admin-text', 'site-reviews');
     }
 }

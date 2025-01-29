@@ -19,6 +19,11 @@ class SiteReviewsFormShortcode extends Shortcode
         return $form->build();
     }
 
+    public function description(): string
+    {
+        return esc_html_x('Display a review form', 'admin-text', 'site-reviews');
+    }
+
     /**
      * @param string $url
      * @param string $redirect
@@ -84,6 +89,11 @@ class SiteReviewsFormShortcode extends Shortcode
         return $url;
     }
 
+    public function name(): string
+    {
+        return esc_html_x('Review Form', 'admin-text', 'site-reviews');
+    }
+
     public function registerLink(): string
     {
         $registerUrl = $this->registerUrl();
@@ -110,24 +120,32 @@ class SiteReviewsFormShortcode extends Shortcode
     protected function config(): array
     {
         return [
+            // 'form' => [
+            //     'label' => esc_html_x('Use a Custom Form', 'admin-text', 'site-reviews-forms'),
+            //     'placeholder' => esc_html_x('Select a Form...', 'admin-text', 'site-reviews-forms'),
+            //     'type' => 'select',
+            // ],
             'assigned_posts' => [
                 'label' => esc_html_x('Assign Reviews to Pages', 'admin-text', 'site-reviews'),
+                'multiple' => true,
                 'placeholder' => esc_html_x('Select a Page...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
             'assigned_terms' => [
                 'label' => esc_html_x('Assign Reviews to Categories', 'admin-text', 'site-reviews'),
+                'multiple' => true,
                 'placeholder' => esc_html_x('Select a Category...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
             'assigned_users' => [
                 'label' => esc_html_x('Assign Reviews to Users', 'admin-text', 'site-reviews'),
+                'multiple' => true,
                 'placeholder' => esc_html_x('Select a User...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
             'hide' => [
                 'group' => 'hide',
-                'options' => $this->getHideOptions(),
+                'options' => $this->options('hide'),
                 'type' => 'checkbox',
             ],
             'reviews_id' => [
@@ -187,15 +205,5 @@ class SiteReviewsFormShortcode extends Shortcode
         $postIds = explode(',', $postIds);
         $postIds = array_filter($postIds, 'is_numeric'); // don't use post_types here
         return implode(',', $postIds);
-    }
-
-    protected function shortcodeDescription(): string
-    {
-        return esc_html_x('Display a review form', 'admin-text', 'site-reviews');
-    }
-
-    protected function shortcodeName(): string
-    {
-        return esc_html_x('Review Form', 'admin-text', 'site-reviews');
     }
 }

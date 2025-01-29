@@ -25,6 +25,16 @@ class SiteReviewShortcode extends Shortcode
         return (string) $html;
     }
 
+    public function description(): string
+    {
+        return esc_html_x('Display a single review', 'admin-text', 'site-reviews');
+    }
+
+    public function name(): string
+    {
+        return esc_html_x('Single Review', 'admin-text', 'site-reviews');
+    }
+
     protected function config(): array
     {
         return [
@@ -36,7 +46,7 @@ class SiteReviewShortcode extends Shortcode
             ],
             'hide' => [
                 'group' => 'hide',
-                'options' => $this->getHideOptions(),
+                'options' => $this->options('hide'),
                 'type' => 'checkbox',
             ],
             'id' => [
@@ -67,15 +77,5 @@ class SiteReviewShortcode extends Shortcode
             'verified' => _x('Hide the verified badge', 'admin-text', 'site-reviews'),
             'response' => _x('Hide the response', 'admin-text', 'site-reviews'),
         ];
-    }
-
-    protected function shortcodeDescription(): string
-    {
-        return esc_html_x('Display a single review', 'admin-text', 'site-reviews');
-    }
-
-    protected function shortcodeName(): string
-    {
-        return esc_html_x('Single Review', 'admin-text', 'site-reviews');
     }
 }
