@@ -12,33 +12,30 @@ class Controller extends AbstractController
      */
     public function enqueueBuilderStyles(): void
     {
-        $iconForm = Helper::svg('assets/images/icons/fusion/fusion-form.svg', true);
-        $iconReview = Helper::svg('assets/images/icons/fusion/fusion-review.svg', true);
-        $iconReviews = Helper::svg('assets/images/icons/fusion/fusion-reviews.svg', true);
-        $iconSummary = Helper::svg('assets/images/icons/fusion/fusion-summary.svg', true);
+        $iconForm = Helper::svg('assets/images/icons/fusion/icon-form.svg', true);
+        $iconReview = Helper::svg('assets/images/icons/fusion/icon-review.svg', true);
+        $iconReviews = Helper::svg('assets/images/icons/fusion/icon-reviews.svg', true);
+        $iconSummary = Helper::svg('assets/images/icons/fusion/icon-summary.svg', true);
         $css = "
             [class*=\"fusion-glsr-\"]::before {
                 background-color: currentColor;
                 content: '.';
                 display: block;
                 mask-position: center;
+                mask-repeat: no-repeat;
                 mask-size: 36px;
             }
             .fusion-glsr-form::before {
-                -webkit-mask-image: url(\"{$iconForm}\");mask-image: url(\"{$iconForm}\");
-                -webkit-mask-repeat: no-repeat;mask-repeat: no-repeat;
+                mask-image: url(\"{$iconForm}\");
             }
             .fusion-glsr-review::before {
-                -webkit-mask-image: url(\"{$iconReview}\");mask-image: url(\"{$iconReview}\");
-                -webkit-mask-repeat: no-repeat;mask-repeat: no-repeat;
+                mask-image: url(\"{$iconReview}\");
             }
             .fusion-glsr-reviews::before {
-                -webkit-mask-image: url(\"{$iconReviews}\");mask-image: url(\"{$iconReviews}\");
-                -webkit-mask-repeat: no-repeat;mask-repeat: no-repeat;
+                mask-image: url(\"{$iconReviews}\");
             }
             .fusion-glsr-summary::before {
-                -webkit-mask-image: url(\"{$iconSummary}\");mask-image: url(\"{$iconSummary}\");
-                -webkit-mask-repeat: no-repeat;mask-repeat: no-repeat;
+                mask-image: url(\"{$iconSummary}\");
             }
         ";
         wp_add_inline_style('fusion-builder-frame-builder-css', $css);
