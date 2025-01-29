@@ -131,33 +131,30 @@ class Controller extends AbstractController
      */
     public function registerInlineStyles(): void
     {
-        $iconForm = Helper::svg('assets/images/icons/elementor/elementor-form.svg', true);
-        $iconReview = Helper::svg('assets/images/icons/elementor/elementor-review.svg', true);
-        $iconReviews = Helper::svg('assets/images/icons/elementor/elementor-reviews.svg', true);
-        $iconSummary = Helper::svg('assets/images/icons/elementor/elementor-summary.svg', true);
+        $iconForm = Helper::svg('assets/images/icons/elementor/icon-form.svg', true);
+        $iconReview = Helper::svg('assets/images/icons/elementor/icon-review.svg', true);
+        $iconReviews = Helper::svg('assets/images/icons/elementor/icon-reviews.svg', true);
+        $iconSummary = Helper::svg('assets/images/icons/elementor/icon-summary.svg', true);
         $css = "
             [class*=\"eicon-glsr-\"]::before {
                 background-color: currentColor;
                 content: '.';
                 display: block;
+                mask-repeat: no-repeat;
                 mask-size: contain;
                 width: 1em;
             }
             .eicon-glsr-form::before {
-                -webkit-mask-image: url(\"{$iconForm}\");mask-image: url(\"{$iconForm}\");
-                -webkit-mask-repeat: no-repeat;mask-repeat: no-repeat;
+                mask-image: url(\"{$iconForm}\");
             }
             .eicon-glsr-review::before {
-                -webkit-mask-image: url(\"{$iconReview}\");mask-image: url(\"{$iconReview}\");
-                -webkit-mask-repeat: no-repeat;mask-repeat: no-repeat;
+                mask-image: url(\"{$iconReview}\");
             }
             .eicon-glsr-reviews::before {
-                -webkit-mask-image: url(\"{$iconReviews}\");mask-image: url(\"{$iconReviews}\");
-                -webkit-mask-repeat: no-repeat;mask-repeat: no-repeat;
+                mask-image: url(\"{$iconReviews}\");
             }
             .eicon-glsr-summary::before {
-                -webkit-mask-image: url(\"{$iconSummary}\");mask-image: url(\"{$iconSummary}\");
-                -webkit-mask-repeat: no-repeat;mask-repeat: no-repeat;
+                mask-image: url(\"{$iconSummary}\");
             }
         ";
         wp_add_inline_style('elementor-admin', $css);
