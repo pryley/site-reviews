@@ -153,7 +153,7 @@ class FlatsomeSiteReviews extends FlatsomeShortcode
 
     protected function icon(): string
     {
-        return glsr()->url('assets/images/icons/flatsome/flatsome-reviews.svg');
+        return glsr()->url('assets/images/icons/flatsome/icon-reviews.svg');
     }
 
     protected function shortcode(): ShortcodeContract

@@ -99,7 +99,7 @@ class FlatsomeSiteReviewsForm extends FlatsomeShortcode
 
     protected function icon(): string
     {
-        return glsr()->url('assets/images/icons/flatsome/flatsome-form.svg');
+        return glsr()->url('assets/images/icons/flatsome/icon-form.svg');
     }
 
     protected function shortcode(): ShortcodeContract
