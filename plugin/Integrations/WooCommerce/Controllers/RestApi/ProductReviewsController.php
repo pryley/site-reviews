@@ -146,8 +146,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
             }
         }
         if (empty($args['assigned_posts'])) {
-            // @todo use the post_type once Site Reviews supports it!
-            $args['assigned_posts'] = 'product';
+            $args['assigned_posts_types'] = ['product'];
         }
         $results = glsr_get_reviews($args); // @todo only return product reviews!
         $reviews = [];
@@ -182,11 +181,14 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
     {
         $context = Arr::get($request, 'context', 'view');
         $fields = $this->get_fields_for_response($request);
+        $productId = Arr::get($review->assigned_posts, 0);
         $data = [
             'id' => $review->ID,
             'date_created' => wc_rest_prepare_date_response($review->date),
             'date_created_gmt' => wc_rest_prepare_date_response($review->date_gmt),
-            'product_id' => Arr::get($review->assigned_posts, 0),
+            'product_id' => $productId,
+            'product_name' => get_the_title($productId),
+            'product_permalink' => get_permalink($productId),
             'status' => $this->prepare_status_response($review->status),
             'reviewer' => $review->author,
             'reviewer_email' => $review->email,

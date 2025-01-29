@@ -69,7 +69,7 @@ class ProductReviewSchema extends AbstractSchema
             'reviewer' => $review->author,
             'review' => wpautop($review->content),
             'rating' => $review->rating,
-            'verified' => wc_review_is_from_verified_owner($review->hasVerifiedOwner()), // @phpstan-ignore-line
+            'verified' => $review->hasVerifiedOwner(), // @phpstan-ignore-line
             'reviewer_avatar_urls' => rest_get_avatar_urls($review->email),
         ];
         return $data;

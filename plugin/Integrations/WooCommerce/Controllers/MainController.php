@@ -14,6 +14,15 @@ class MainController extends AbstractController
     public const VERIFIED_META_KEY = '_verified';
 
     /**
+     * @action admin_enqueue_scripts
+     */
+    public function enqueueInlineAdminStyles(): void
+    {
+        $css = '.woocommerce-review-activity-card .woocommerce-activity-card__actions button.is-tertiary:not(.is-destructive) {display:none}';
+        wp_add_inline_style('wc-admin-app', $css);
+    }
+
+    /**
      * @filter site-reviews/enqueue/public/inline-styles
      */
     public function filterInlineStyles(string $css): string
@@ -32,6 +41,16 @@ class MainController extends AbstractController
         $css = str_replace('assets/images/stars/default/', "assets/images/stars/{$style}/", $css);
         $css .= ".glsr:not([data-theme]) .glsr-bar-background-percent{--glsr-bar-bg:{$colors[$style]};}";
         return $css;
+    }
+
+    /**
+     * @return int
+     *
+     * @filter woocommerce_product_reviews_pending_count
+     */
+    public function filterMenuPendingCount()
+    {
+        return 0;
     }
 
     /**
@@ -136,6 +155,20 @@ class MainController extends AbstractController
     }
 
     /**
+     * @action admin_init
+     */
+    public function redirectProductReviews(): void
+    {
+        global $pagenow;
+        if ('edit.php' === $pagenow
+            && 'product' === filter_input(INPUT_GET, 'post_type')
+            && 'product-reviews' === filter_input(INPUT_GET, 'page')) {
+            wp_redirect(add_query_arg('notice', 'product-reviews', glsr_admin_url()), 301);
+            exit;
+        }
+    }
+
+    /**
      * @action elementor/widgets/register
      */
     public function registerElementorWidgets(): void
@@ -179,7 +212,10 @@ class MainController extends AbstractController
     public function renderNotice(): void
     {
         $screen = glsr_current_screen();
-        if ('product_page_product-reviews' !== $screen->base || 'edit.php?post_type=product' !== Arr::get($screen, 'parent_file')) {
+        if ('edit' !== $screen->base || 'edit-site-review' !== $screen->id) {
+            return;
+        }
+        if ('product-reviews' !== filter_input(INPUT_GET, 'notice')) {
             return;
         }
         glsr()->render('integrations/woocommerce/notices/reviews');
