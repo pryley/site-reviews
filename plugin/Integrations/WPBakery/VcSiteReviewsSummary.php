@@ -14,7 +14,7 @@ class VcSiteReviewsSummary extends VcShortcode
 
     public static function vcShortcodeIcon(): string
     {
-        return glsr()->url('assets/images/icons/wpbakery/wpbakery-summary.svg');
+        return glsr()->url('assets/images/icons/wpbakery/icon-summary.svg');
     }
 
     public static function vcShortcodeSettings(): array

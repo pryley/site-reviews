@@ -13,7 +13,7 @@ class VcSiteReviewsForm extends VcShortcode
 
     public static function vcShortcodeIcon(): string
     {
-        return glsr()->url('assets/images/icons/wpbakery/wpbakery-form.svg');
+        return glsr()->url('assets/images/icons/wpbakery/icon-form.svg');
     }
 
     public static function vcShortcodeSettings(): array

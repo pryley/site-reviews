@@ -35,7 +35,7 @@ class Controller extends AbstractController
         foreach ($keys as $shortcode => $icon) {
             $css .= sprintf('#%s .vc_element-icon{background-image:url(%s);}',
                 $shortcode,
-                glsr()->url("assets/images/icons/wpbakery/wpbakery-{$icon}.svg")
+                glsr()->url("assets/images/icons/wpbakery/icon-{$icon}.svg")
             );
         }
         wp_add_inline_style('js_composer', $css);
