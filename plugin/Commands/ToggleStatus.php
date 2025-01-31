@@ -30,7 +30,7 @@ class ToggleStatus extends AbstractCommand
             $this->fail();
             return;
         }
-        if (!glsr()->can('edit_post', $this->postId)) {
+        if (!glsr()->can('publish_post', $this->postId)) {
             glsr_log()->error('Cannot toggle review status: Invalid permission.');
             $this->fail();
             return;

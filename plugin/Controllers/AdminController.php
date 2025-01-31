@@ -199,7 +199,7 @@ class AdminController extends AbstractController
                 'text' => _x('Try Premium', 'admin-text', 'site-reviews'),
             ];
         }
-        if (in_array($screen->base, ['edit', 'post'])) {
+        if (glsr()->can('create_posts') && in_array($screen->base, ['edit', 'post'])) {
             $buttons['new'] = [
                 'class' => 'components-button is-secondary glsr-new-post',
                 'data-new' => '',
