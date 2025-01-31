@@ -115,6 +115,16 @@ const initReview = () => {
     })
 }
 
+Event.on(events.excerpts, initExcerpts)
+Event.on(events.forms, initForms)
+Event.on(events.modal, initModal)
+Event.on(events.pagination, initPagination)
+Event.on(events.init, initPlugin)
+Event.on('site-reviews/pagination/handle', (response, pagination) => {
+    // Modal init event is triggered in excerpts
+    Event.trigger(events.excerpts, pagination.wrapperEl)
+})
+
 if (!window.hasOwnProperty('GLSR')) {
     window.GLSR = {};
 }
@@ -125,16 +135,7 @@ window.GLSR.Event = Event;
 window.GLSR.Modal = Modal;
 window.GLSR.Utils = { debounce, dom, fadeIn, fadeOut, isEmpty, parseJson };
 
-Event.on(events.excerpts, initExcerpts)
-Event.on(events.forms, initForms)
-Event.on(events.modal, initModal)
-Event.on(events.pagination, initPagination)
-Event.on(events.init, initPlugin)
-
-Event.on('site-reviews/pagination/handle', (response, pagination) => {
-    Event.trigger(events.excerpts, pagination.wrapperEl)
-    // Modal init event is triggered in excerpts
-})
+window.GLSR_init = () => Event.trigger(events.init);
 
 document.addEventListener('DOMContentLoaded', () => {
     // for some reason, querySelectorAll return double the results in Firefox without this timeout...
