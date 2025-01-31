@@ -233,8 +233,10 @@
     site-reviews/settings/defaults                              (array $defaults): array
     site-reviews/settings/sanitize                              (array $options, array $settings): array
     site-reviews/settings/tabs                                  (array $tabs): array
+    site-reviews/shortcode/<shortcode>/config                   (array $config, Shortcodes\Shortcode $shortcode): array
     site-reviews/shortcode/<shortcode>/attributes               (array $attributes, Shortcodes\Shortcode $shortcode): array
-    site-reviews/shortcode/api-fetch                            (array $results, Arguments $args, \WP_REST_Request $request): array
+    site-reviews/shortcode/config                               (array $config, string $shortcodeTag, Shortcodes\Shortcode $shortcode): array
+    site-reviews/shortcode/options                              (array $results, Arguments $args): array
     site-reviews/shortcode/args                                 (array $args, string $shortcodeName): array
     site-reviews/shortcode/display-options                      (array $displayOptions, string $shortcode): array
     site-reviews/shortcode/hide-options                         (array $hideOptions, string $shortcode): array
