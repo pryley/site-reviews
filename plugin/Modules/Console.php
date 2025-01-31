@@ -114,15 +114,22 @@ class Console
         if (empty($backtraceLine)) {
             $backtraceLine = glsr(Backtrace::class)->line();
         }
-        if ($this->canLogEntry($level, $backtraceLine)) {
-            $levelName = Arr::get($this->getLevels(), $level);
-            $backtraceLine = glsr(Backtrace::class)->normalizeLine($backtraceLine);
-            $message = $this->interpolate($message, $context);
-            $entry = $this->buildLogEntry($levelName, $message, $backtraceLine);
-            file_put_contents($this->file, $entry.PHP_EOL, FILE_APPEND | LOCK_EX);
-            apply_filters('console', $message, $levelName, $backtraceLine); // Show in Blackbar plugin if installed
-            $this->reset();
+        if (!$this->canLogEntry($level, $backtraceLine)) {
+            return $this;
         }
+        if (is_string($message)) {
+            $message = $this->interpolate($message, $context);
+        }
+        $backtraceLine = glsr(Backtrace::class)->normalizeLine($backtraceLine);
+        $levelName = Arr::get($this->getLevels(), $level, 'unknown');
+        $entry = $this->buildLogEntry(
+            $levelName,
+            glsr(Dump::class)->dump($message),
+            $backtraceLine
+        );
+        file_put_contents($this->file, $entry.PHP_EOL, FILE_APPEND | LOCK_EX);
+        apply_filters('console', $message, $levelName, $backtraceLine); // Show in Blackbar plugin if installed
+        $this->reset();
         return $this;
     }
 
@@ -201,14 +208,12 @@ class Console
 
     /**
      * Interpolates context values into the message placeholders.
-     *
-     * @param mixed $message
      */
-    protected function interpolate($message, array $context = []): string
+    protected function interpolate(string $message, array $context = []): string
     {
         $context = Arr::consolidate($context);
-        if (!is_scalar($message) || empty($context)) {
-            return glsr(Dump::class)->dump($message);
+        if (empty($context)) {
+            return $message;
         }
         $replace = [];
         foreach ($context as $key => $value) {
