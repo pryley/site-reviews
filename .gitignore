@@ -5,7 +5,7 @@
 !.jshintrc
 !.scrutinizer.yml
 !.travis.yml
-*.js.LICENSE.txt
+*.LICENSE.txt
 *.log
 *.map
 coverage.xml
@@ -16,4 +16,3 @@ node_modules
 
 /tests/coverage
 /vendor
-assets/scripts/site-reviews-blocks.js.LICENSE.txt

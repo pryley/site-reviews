@@ -163,7 +163,8 @@ class AdminController extends AbstractController
      */
     public function printInlineStyle(): void
     {
-        $url = sprintf('edit.php?post_type=site-review&page=%saddons', Str::dashCase(glsr()->prefix));
+        $prefix = Str::dashCase(glsr()->prefix);
+        $url = "edit.php?post_type=site-review&page={$prefix}addons";
         echo ''.
         '<style type="text/css">'.
             "a[href=\"{$url}\"]:not(.current),a[href=\"{$url}\"]:focus,a[href=\"{$url}\"]:hover{".
