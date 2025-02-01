@@ -26,14 +26,14 @@
 }
 #glsr-flyout .glsr-flyout-mascot {
   align-items: center;
-  border-radius: 6px;
+  border-radius: 2px;
   display: flex;
   position: relative;
   pointer-events: auto;
 }
 #glsr-flyout .glsr-flyout-mascot::after {
   background-color: var(--glsr-brand-color);
-  border-radius: 6px;
+  border-radius: 2px;
   bottom: 0;
   box-shadow:
     0 0 0 1.25px rgba(44 51 56/.9),
@@ -44,11 +44,11 @@
   ;
   content: '';
   display: block;
-  height: 60px;
+  height: 54px;
   left: 0;
   position: absolute;
   transition: all 0.2s ease-in-out;
-  width: 60px;
+  width: 54px;
   z-index: -1;
 }
 #glsr-flyout .glsr-flyout-mascot:hover::after {
@@ -63,7 +63,7 @@
 #glsr-flyout .glsr-flyout-mascot svg {
   display: block;
   transform: scale(75%);
-  width: 60px;
+  width: 54px;
 }
 #glsr-flyout path.glsr-icon-svg__bg {
   fill: #fff;
