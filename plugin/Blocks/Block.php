@@ -71,7 +71,7 @@ abstract class Block
                 );
             }
         }
-        return $this->shortcode()->buildBlock($attributes);
+        return $this->shortcode()->build($attributes, 'block');
     }
 
     abstract public function shortcode(): ShortcodeContract;

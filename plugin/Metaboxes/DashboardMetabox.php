@@ -6,16 +6,28 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\DashboardDataDefaults;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Date;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class DashboardMetabox
 {
     public function register(): void
     {
         $id = glsr()->prefix.'dashboard_widget';
-        $title = __('Site Reviews Overview', 'site-reviews');
+        $icon = Helper::svg('assets/images/icon.svg');
+        $title = glsr(Builder::class)->span([
+            'text' => $icon.__('Site Reviews Overview', 'site-reviews'),
+        ]);
         wp_add_dashboard_widget($id, $title, [$this, 'render']);
+        // Ensure the widget title in screen options is text only.
+        global $wp_meta_boxes;
+        if (isset($wp_meta_boxes['dashboard']['normal']['core'][$id])) {
+            $wp_meta_boxes['dashboard']['normal']['core'][$id]['args'] = [
+                '__widget_basename' => __('Site Reviews Overview', 'site-reviews'),
+            ];
+        }
     }
 
     public function render(): void

@@ -2,6 +2,10 @@
   padding: 0;
   margin: 0;
 }
+#glsr_dashboard_widget .glsr-icon-svg {
+  margin: -5px 4px -5px -1px;
+  width: 22px;
+}
 .glsr-dashboard__items {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -25,7 +25,7 @@ class SiteReviewBlock extends SiteReviewsBlock
                 );
             }
         }
-        return $this->shortcode()->buildBlock($attributes);
+        return $this->shortcode()->build($attributes, 'block');
     }
 
     public function shortcode(): ShortcodeContract
