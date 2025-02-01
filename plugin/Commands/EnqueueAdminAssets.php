@@ -78,11 +78,6 @@ class EnqueueAdminAssets extends AbstractCommand
             'addons' => [],
             'addonsurl' => glsr_admin_url('addons'),
             'ajaxurl' => admin_url('admin-ajax.php'),
-            'displayoptions' => [
-                'site_reviews' => glsr(SiteReviewsShortcode::class)->getDisplayOptions(),
-                'site_reviews_form' => glsr(SiteReviewsFormShortcode::class)->getDisplayOptions(),
-                'site_reviews_summary' => glsr(SiteReviewsSummaryShortcode::class)->getDisplayOptions(),
-            ],
             'filters' => [
                 'assigned_post' => glsr(ColumnFilterAssignedPost::class)->options(),
                 'assigned_user' => glsr(ColumnFilterAssignedUser::class)->options(),
@@ -94,12 +89,6 @@ class EnqueueAdminAssets extends AbstractCommand
                 'post_author_override' => (object) [
                     0 => _x('Author Unknown', 'admin-text', 'site-reviews'),
                 ],
-            ],
-            'hideoptions' => [
-                'site_review' => glsr(SiteReviewShortcode::class)->getHideOptions(),
-                'site_reviews' => glsr(SiteReviewsShortcode::class)->getHideOptions(),
-                'site_reviews_form' => glsr(SiteReviewsFormShortcode::class)->getHideOptions(),
-                'site_reviews_summary' => glsr(SiteReviewsSummaryShortcode::class)->getHideOptions(),
             ],
             'maxrating' => Rating::max(),
             'minrating' => Rating::min(),
