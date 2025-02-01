@@ -1,3 +1,6 @@
+[class*=post-type-site-review] #screen-meta {
+  border-top: 1px solid #b5bfc9;
+}
 
 .taxonomy-site-review-category .column-term_id,
 .taxonomy-site-review-category .column-term_priority,
