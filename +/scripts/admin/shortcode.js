@@ -96,13 +96,13 @@ Shortcode.prototype = {
     },
 
     /** @return void */
-    normalize_: function (attributes) {
+    normalize_: function (attributes, response) {
         this.attributes_ = attributes;
         this.hiddenKeys_ = [];
         for (var key in attributes) {
             if (!attributes.hasOwnProperty(key)) continue;
             this.normalizeDisplay_(key);
-            this.normalizeHide_(key);
+            this.normalizeHide_(key, response.hideOptions);
             this.normalizeId_(key);
         }
         this.attributes_.hide = this.hiddenKeys_.join(',');
@@ -115,19 +115,19 @@ Shortcode.prototype = {
     },
 
     /** @return void */
-    normalizeHide_: function (key) {
-        if (!GLSR.hideoptions.hasOwnProperty(this.current)) return;
-        var value = key.substring('hide_'.length);
-        if (Object.keys(GLSR.hideoptions[this.current]).indexOf(value) === -1) return;
-        if (this.attributes_[key]) {
-            this.hiddenKeys_.push(value);
+    normalizeHide_: function (key, hideOptions) {
+        let prefix = 'hide_';
+        if (!key.startsWith(prefix)) return;
+        let hideKey = key.substring(prefix.length);
+        if (hideKey in hideOptions && this.attributes_[key]) {
+            this.hiddenKeys_.push(hideKey);
         }
         delete this.attributes_[key];
     },
 
     /** @return void */
     normalizeId_: function (key) {
-        if (key !== 'id') return;
+        if ('id' !== key) return;
         this.attributes_[key] = (+new Date()).toString(36);
     },
 
@@ -197,7 +197,7 @@ Shortcode.prototype = {
     /** @return void */
     sendToEditor_: function (response, ev) {
         var attributes = '';
-        this.normalize_(ev.data);
+        this.normalize_(ev.data, response);
         for (var key in this.attributes_) {
             if (this.attributes_.hasOwnProperty(key) && this.attributes_[key] !== '') {
                 attributes += ' ' + key + '="' + this.attributes_[key] + '"';
@@ -217,7 +217,7 @@ Shortcode.prototype = {
     validateAttributes_: function (currentWindow) {
         var field;
         var is_valid = true;
-        var requiredAttributes = GLSR.shortcodes[this.current];
+        var requiredAttributes = GLSR.shortcodes[this.current] ?? {};
         for (var id in requiredAttributes) {
             if (!requiredAttributes.hasOwnProperty(id)) continue;
             field = currentWindow.find('#' + id)[0];

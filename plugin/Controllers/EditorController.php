@@ -94,28 +94,6 @@ class EditorController extends AbstractController
     }
 
     /**
-     * @action site-reviews/route/ajax/mce-shortcode
-     */
-    public function mceShortcodeAjax(Request $request): void
-    {
-        $shortcode = glsr(Sanitizer::class)->sanitizeText($request->shortcode);
-        $response = false;
-        if ($data = glsr()->retrieve("mce.{$shortcode}", false)) {
-            if (!empty($data['errors'])) {
-                $data['btn_okay'] = [esc_attr_x('Okay', 'admin-text', 'site-reviews')];
-            }
-            $response = [
-                'body' => $data['fields'],
-                'close' => $data['btn_close'],
-                'ok' => $data['btn_okay'],
-                'shortcode' => $shortcode,
-                'title' => $data['title'],
-            ];
-        }
-        wp_send_json_success($response);
-    }
-
-    /**
      * @action edit_form_top
      */
     public function renderReviewNotice(\WP_Post $post): void

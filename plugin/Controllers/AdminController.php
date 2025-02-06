@@ -6,7 +6,6 @@ use GeminiLabs\SiteReviews\Commands\ApproveReview;
 use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
 use GeminiLabs\SiteReviews\Commands\ExportRatings;
 use GeminiLabs\SiteReviews\Commands\ImportRatings;
-use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
 use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Database;
@@ -174,14 +173,6 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @action admin_init
-     */
-    public function registerTinymcePopups(): void
-    {
-        $this->execute(new RegisterTinymcePopups());
-    }
-
-    /**
      * @action in_admin_header
      */
     public function renderPageHeader(): void
@@ -215,27 +206,6 @@ class AdminController extends AbstractController
             'logo' => Helper::svg('assets/images/icon.svg', false),
             'title' => esc_html($title),
         ]);
-    }
-
-    /**
-     * @action media_buttons
-     */
-    public function renderTinymceButton(string $editorId): void
-    {
-        $allowedEditors = glsr()->filterArray('tinymce/editor-ids', ['content'], $editorId);
-        if ('post' !== glsr_current_screen()->base || !in_array($editorId, $allowedEditors)) {
-            return;
-        }
-        $shortcodes = [];
-        foreach (glsr()->retrieveAs('array', 'mce', []) as $shortcode => $values) {
-            $shortcodes[$shortcode] = $values;
-        }
-        if (!empty($shortcodes)) {
-            $shortcodes = wp_list_sort($shortcodes, 'label', 'ASC', true); // preserve keys
-            glsr()->render('partials/editor/tinymce', [
-                'shortcodes' => $shortcodes,
-            ]);
-        }
     }
 
     /**

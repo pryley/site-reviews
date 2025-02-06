@@ -147,6 +147,14 @@ class ShortcodeOptionManager
         return $results;
     }
 
+    protected function schema(): array
+    {
+        return [
+            'true' => _x('Enable rich snippets', 'admin-text', 'site-reviews'),
+            'false' => _x('Disable rich snippets', 'admin-text', 'site-reviews'),
+        ];
+    }
+
     protected function terms(): array
     {
         return [

@@ -112,7 +112,6 @@ class EnqueueAdminAssets extends AbstractCommand
                 'toggle-verified' => wp_create_nonce('toggle-verified'),
             ],
             'pointers' => $this->pointers,
-            'shortcodes' => [],
             'text' => [
                 'cancel' => _x('Cancel', 'admin-text', 'site-reviews'),
                 'cancelling' => _x('Cancelling, please wait...', 'admin-text', 'site-reviews'),
@@ -127,13 +126,7 @@ class EnqueueAdminAssets extends AbstractCommand
                     admin_url('site-health.php?tab=debug')
                 ),
             ],
-            'tinymce' => [
-                'glsr_shortcode' => glsr()->url('assets/scripts/mce-plugin.js'),
-            ],
         ];
-        if (user_can_richedit()) {
-            $variables['shortcodes'] = $this->localizeShortcodes();
-        }
         $variables = glsr()->filterArray('enqueue/admin/localize', $variables);
         return $this->buildInlineScript($variables);
     }
@@ -217,16 +210,5 @@ class EnqueueAdminAssets extends AbstractCommand
         return str_starts_with($screen->post_type, glsr()->post_type)
             || in_array($screen->id, $screenIds)
             || 'post' === $screen->base;
-    }
-
-    protected function localizeShortcodes(): array
-    {
-        $variables = [];
-        foreach (glsr()->retrieveAs('array', 'mce', []) as $tag => $args) {
-            if (!empty($args['required'])) {
-                $variables[$tag] = $args['required'];
-            }
-        }
-        return $variables;
     }
 }

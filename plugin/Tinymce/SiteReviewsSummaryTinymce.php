@@ -2,7 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Tinymce;
 
+use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Modules\Rating;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
+
 class SiteReviewsSummaryTinymce extends TinymceGenerator
 {
     public function fields(): array
@@ -14,17 +17,15 @@ class SiteReviewsSummaryTinymce extends TinymceGenerator
                 'type' => 'container',
             ],
             [
-                'label' => _x('Title', 'admin-text', 'site-reviews'),
-                'name' => 'title',
-                'tooltip' => _x('Enter a custom shortcode title.', 'admin-text', 'site-reviews'),
-                'type' => 'textbox',
-            ],
-            $this->fieldTypes(_x('Which type of review would you like to use?', 'admin-text', 'site-reviews')),
-            $this->fieldCategories(_x('Limit reviews to this category.', 'admin-text', 'site-reviews')),
-            [
                 'label' => _x('Assigned Posts', 'admin-text', 'site-reviews'),
                 'name' => 'assigned_posts',
                 'tooltip' => sprintf(_x('Limit reviews to those assigned to a Post ID. You may also enter "%s" to use the Post ID of the current page.', 'admin-text', 'site-reviews'), 'post_id'),
+                'type' => 'textbox',
+            ],
+            [
+                'label' => _x('Assigned Categories', 'admin-text', 'site-reviews'),
+                'name' => 'assigned_terms',
+                'tooltip' => esc_html_x('Limit reviews to those assigned to a category. You may enter a Term ID or slug.', 'admin-text', 'site-reviews'),
                 'type' => 'textbox',
             ],
             [
@@ -34,11 +35,34 @@ class SiteReviewsSummaryTinymce extends TinymceGenerator
                 'type' => 'textbox',
             ],
             [
+                'label' => esc_html_x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews'),
+                'name' => 'terms',
+                'options' => $this->shortcode->options('terms', [
+                    'placeholder' => _x('— Select —', 'admin-text', 'site-reviews'),
+                ]),
+                'type' => 'listbox',
+            ],
+            [
+                'label' => esc_html_x('Review Type', 'admin-text', 'site-reviews'),
+                'name' => 'type',
+                'options' => $this->shortcode->options('type'),
+                'tooltip' => esc_html_x('Limit Reviews by Type', 'admin-text', 'site-reviews'),
+                'type' => 'listbox',
+            ],
+            [
                 'label' => _x('Rating', 'admin-text', 'site-reviews'),
                 'name' => 'rating',
                 'options' => glsr(Rating::class)->optionsArray([], 1),
                 'tooltip' => _x('What is the minimum rating to use?', 'admin-text', 'site-reviews'),
                 'type' => 'listbox',
+            ],
+            [
+                'label' => esc_html_x('Custom Rating Field Name', 'admin-text', 'site-reviews'),
+                'name' => 'rating_field',
+                'tooltip' => sprintf(_x('Use the %sReview Forms%s addon to add custom rating fields.', 'admin-text', 'site-reviews'),
+                    '<a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">', '</a>'
+                ),
+                'type' => 'textbox',
             ],
             [
                 'label' => _x('Schema', 'admin-text', 'site-reviews'),
@@ -51,9 +75,15 @@ class SiteReviewsSummaryTinymce extends TinymceGenerator
                 'type' => 'listbox',
             ],
             [
-                'label' => _x('Classes', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Custom ID', 'admin-text', 'site-reviews'),
+                'name' => 'id',
+                'tooltip' => esc_html_x('This should be a unique value.', 'admin-text', 'site-reviews'),
+                'type' => 'textbox',
+            ],
+            [
+                'label' => esc_html_x('Additional CSS classes', 'admin-text', 'site-reviews'),
                 'name' => 'class',
-                'tooltip' => _x('Add custom CSS classes to the shortcode.', 'admin-text', 'site-reviews'),
+                'tooltip' => esc_html_x('Separate multiple classes with spaces.', 'admin-text', 'site-reviews'),
                 'type' => 'textbox',
             ],
             [
@@ -67,8 +97,8 @@ class SiteReviewsSummaryTinymce extends TinymceGenerator
         ];
     }
 
-    public function title(): string
+    public function shortcode(): ShortcodeContract
     {
-        return _x('Rating Summary', 'admin-text', 'site-reviews');
+        return glsr(SiteReviewsSummaryShortcode::class);
     }
 }

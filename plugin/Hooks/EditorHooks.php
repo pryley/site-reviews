@@ -13,7 +13,6 @@ class EditorHooks extends AbstractHooks
             ['filterEditorTextarea', 'the_editor'],
             ['filterIsProtectedMeta', 'is_protected_meta', 10, 3],
             ['filterUpdateMessages', 'post_updated_messages'],
-            ['mceShortcodeAjax', 'site-reviews/route/ajax/mce-shortcode'],
             ['renderReviewNotice', 'edit_form_top'],
         ]);
     }

@@ -2,14 +2,14 @@
 
 namespace GeminiLabs\SiteReviews\Tinymce;
 
-use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 
 abstract class TinymceGenerator
 {
     public array $properties = [];
+    public ShortcodeContract $shortcode;
     public string $tag = '';
     protected array $errors = [];
     protected array $required = [];
@@ -18,52 +18,22 @@ abstract class TinymceGenerator
 
     public function register(): void
     {
-        $tinymce = (new \ReflectionClass($this))->getShortName();
-        $tinymce = Str::snakeCase($tinymce);
-        $tinymce = str_replace('_tinymce', '', $tinymce);
-        $this->tag = $tinymce;
+        $this->shortcode = $this->shortcode();
+        $this->tag = $this->shortcode->tag;
+        $fields = $this->getFields();
         $this->properties = [
             'btn_close' => _x('Close', 'admin-text', 'site-reviews'),
             'btn_okay' => _x('Insert Shortcode', 'admin-text', 'site-reviews'),
             'errors' => $this->errors,
-            'fields' => $this->getFields(),
-            'label' => $this->title(),
+            'fields' => $fields,
+            'label' => $this->shortcode->name,
             'required' => $this->required,
-            'title' => $this->title(),
+            'title' => $this->shortcode->name,
         ];
-        glsr()->append('mce', $this->properties, $tinymce);
+        glsr()->append('mce', $this->properties, $this->tag);
     }
 
-    abstract public function title(): string;
-
-    protected function fieldCategories(string $tooltip = ''): array
-    {
-        $terms = glsr(Database::class)->terms();
-        if (empty($terms)) {
-            return [];
-        }
-        return [
-            'label' => _x('Category', 'admin-text', 'site-reviews'),
-            'name' => 'assigned_terms',
-            'options' => $terms,
-            'tooltip' => $tooltip,
-            'type' => 'listbox',
-        ];
-    }
-
-    protected function fieldTypes(string $tooltip = ''): array
-    {
-        if (count($options = glsr()->retrieveAs('array', 'review_types')) < 2) {
-            return [];
-        }
-        return [
-            'label' => _x('Type', 'admin-text', 'site-reviews'),
-            'name' => 'type',
-            'options' => $options,
-            'tooltip' => $tooltip,
-            'type' => 'listbox',
-        ];
-    }
+    abstract public function shortcode(): ShortcodeContract;
 
     protected function generateFields(array $fields): array
     {
@@ -71,7 +41,7 @@ abstract class TinymceGenerator
             if (empty($field)) {
                 return;
             }
-            $type = Arr::getAs('string', $field, 'type');
+            $type = Arr::getAs('string', $field, 'type', 'textbox');
             $method = Helper::buildMethodName('normalize', $type);
             if (method_exists($this, $method)) {
                 return call_user_func([$this, $method], $field);
@@ -99,9 +69,7 @@ abstract class TinymceGenerator
 
     protected function hideOptions(): array
     {
-        $classname = str_replace('Tinymce\\', 'Shortcodes\\', get_class($this));
-        $classname = str_replace('Tinymce', 'Shortcode', $classname);
-        $hideOptions = glsr($classname)->getHideOptions();
+        $hideOptions = $this->shortcode->options('hide');
         $options = [];
         foreach ($hideOptions as $name => $tooltip) {
             $options[] = [
@@ -153,12 +121,15 @@ abstract class TinymceGenerator
             'minWidth' => '',
             'name' => false,
             'options' => [],
-            'placeholder' => esc_attr_x('- Select -', 'admin-text', 'site-reviews'),
+            'placeholder' => esc_attr_x('— Select —', 'admin-text', 'site-reviews'),
             'tooltip' => '',
-            'type' => '',
+            'type' => 'listbox',
             'value' => '',
         ]);
         if (empty($listbox)) {
+            return [];
+        }
+        if (empty($listbox['options'])) {
             return [];
         }
         if (!array_key_exists('', $listbox['options'])) {
@@ -186,7 +157,7 @@ abstract class TinymceGenerator
             'size' => '',
             'text' => '',
             'tooltip' => '',
-            'type' => '',
+            'type' => 'textbox',
             'value' => '',
         ]);
     }
