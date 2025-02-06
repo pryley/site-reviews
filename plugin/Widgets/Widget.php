@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Widgets;
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
-use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\WidgetBuilder;
@@ -12,14 +11,16 @@ use GeminiLabs\SiteReviews\Modules\Html\WidgetField;
 
 abstract class Widget extends \WP_Widget
 {
+    public ShortcodeContract $shortcode;
+
     public function __construct()
     {
-        $className = (new \ReflectionClass($this))->getShortName();
-        $className = str_replace('Widget', '', $className);
-        $baseId = glsr()->prefix.Str::dashCase($className);
-        parent::__construct($baseId, $this->shortcode()->name, [
-            'description' => sprintf('%s: %s', glsr()->name, $this->shortcode()->description),
-            'name' => $this->shortcode()->name,
+        $this->shortcode = $this->widgetShortcode();
+        $baseId = glsr()->prefix.Str::dashCase($this->shortcode->tag);
+        $description = $this->shortcode->description ?: $this->shortcode->name;
+        parent::__construct($baseId, $this->shortcode->name, [
+            'description' => sprintf('%s: %s', glsr()->name, $description),
+            'name' => $this->shortcode->name,
             'show_instance_in_rest' => true,
         ]);
     }
@@ -31,16 +32,28 @@ abstract class Widget extends \WP_Widget
      */
     public function form($instance)
     {
-        $instance = $this->normalizeInstance($instance);
+        $instance = $this->normalizeInstance(wp_parse_args($instance));
         $notice = _x('This is a legacy widget with limited options, consider switching to the shortcode or block.', 'admin-text', 'site-reviews');
         echo glsr(WidgetBuilder::class)->div([
             'class' => 'notice notice-alt notice-warning inline',
             'style' => 'margin:1em 0;',
             'text' => glsr(WidgetBuilder::class)->p($notice),
         ]);
-        $config = wp_parse_args($this->widgetConfig(), [
+        $config = wp_parse_args($this->widgetConfig(), [ // prepend
             'title' => [
                 'label' => _x('Widget Title', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+        ]);
+        $config = array_merge($config, [ // append
+            'id' => [
+                'description' => esc_html_x('This should be a unique value.', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Custom ID', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+            'class' => [
+                'description' => esc_html_x('Separate multiple classes with spaces.', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Additional CSS classes', 'admin-text', 'site-reviews'),
                 'type' => 'text',
             ],
         ]);
@@ -60,7 +73,7 @@ abstract class Widget extends \WP_Widget
      */
     public function update($instance, $oldInstance)
     {
-        return $this->normalizeInstance($instance);
+        return $this->normalizeInstance(wp_parse_args($instance));
     }
 
     /**
@@ -71,37 +84,15 @@ abstract class Widget extends \WP_Widget
      */
     public function widget($args, $instance)
     {
-        $shortcode = $this->shortcode();
-        $args = $this->normalizeArgs($args);
-        $html = $shortcode->build($instance, 'widget');
-        $title = !empty($shortcode->args['title'])
-            ? $args->before_title.$shortcode->args['title'].$args->after_title
+        $args = $this->normalizeArgs(wp_parse_args($args));
+        $html = $this->shortcode->build($instance, 'widget');
+        $title = !empty($this->shortcode->args['title'])
+            ? $args->before_title.$this->shortcode->args['title'].$args->after_title
             : '';
         echo $args->before_widget.$title.$html.$args->after_widget;
     }
 
-    protected function fieldAssignedTermsOptions(): array
-    {
-        return Arr::prepend(
-            glsr(Database::class)->terms(),
-            esc_html_x('— Select —', 'admin-text', 'site-reviews'),
-            ''
-        );
-    }
-
-    protected function fieldTypeOptions(): array
-    {
-        $types = glsr()->retrieveAs('array', 'review_types');
-        if (count($types) > 1) {
-            return $types;
-        }
-        return [];
-    }
-
-    /**
-     * @param array|string $args
-     */
-    protected function normalizeArgs($args): Arguments
+    protected function normalizeArgs(array $args): Arguments
     {
         $args = wp_parse_args($args, [
             'before_widget' => '',
@@ -109,20 +100,18 @@ abstract class Widget extends \WP_Widget
             'before_title' => '<h2 class="glsr-title">',
             'after_title' => '</h2>',
         ]);
-        $args = glsr()->filterArray('widget/args', $args, $this->shortcode()->shortcode);
+        $args = glsr()->filterArray('widget/args', $args, $this->shortcode->tag);
         return glsr()->args($args);
     }
 
     protected function normalizeInstance(array $instance): array
     {
+        $atts = $this->shortcode->defaults()->unguardedMerge($instance);
         $pairs = array_fill_keys(array_keys($instance), '');
-        $title = $instance['title'] ?? '';
-        $instance = $this->shortcode()->defaults()->merge($instance);
-        $instance['title'] = sanitize_text_field($title);
-        return shortcode_atts($pairs, $instance);
+        return shortcode_atts($pairs, $atts);
     }
 
-    protected function renderField($name, array $args, array $instance = []): void
+    protected function renderField(string $name, array $args, array $instance = []): void
     {
         if (isset($args['name']) && !isset($args['type'])) {
             $args['type'] = $name; // @todo remove in v8.0
@@ -140,10 +129,7 @@ abstract class Widget extends \WP_Widget
         $field->render();
     }
 
-    abstract protected function shortcode(): ShortcodeContract;
+    abstract protected function widgetConfig(): array;
 
-    protected function widgetConfig(): array
-    {
-        return [];
-    }
+    abstract protected function widgetShortcode(): ShortcodeContract;
 }
