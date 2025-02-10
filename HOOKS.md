@@ -257,6 +257,7 @@
     site-reviews/system-info/section/<key>                      (array $details, array $systemData): array
     site-reviews/taxonomy/disable_term_priority                 (bool $bool): bool
     site-reviews/tinymce/editor-ids                             (array $editorIds, string $editorId): array
+    site-reviews/tinymce/fields/<shortcode>                     (array $fields): array
     site-reviews/tools/general                                  (array $paths): array
     site-reviews/translation/entries                            (array $entries): array
     site-reviews/translator/domains                             (array $domains): array

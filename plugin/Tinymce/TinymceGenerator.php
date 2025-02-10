@@ -52,7 +52,9 @@ abstract class TinymceGenerator
 
     protected function getFields(): array
     {
-        $fields = $this->generateFields($this->fields());
+        $fields = $this->fields();
+        $fields = glsr()->filterArray("tinymce/fields/{$this->shortcode->tag}", $fields);
+        $fields = $this->generateFields($fields);
         if (!empty($this->errors)) {
             $errors = [];
             foreach ($this->required as $name => $alert) {

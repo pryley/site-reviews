@@ -11,26 +11,30 @@ class SiteReviewsFormTinymce extends TinymceGenerator
     {
         return [
             [
-                'type' => 'container',
-                'html' => '<p class="strong">'._x('All settings are optional.', 'admin-text', 'site-reviews').'</p>',
-            ],
-            [
-                'label' => esc_html_x('Assign Reviews to Pages', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Assign Pages', 'admin-text', 'site-reviews'),
                 'name' => 'assigned_posts',
-                'tooltip' => sprintf(_x('Automatically assign reviews to a Post ID. You may also enter "%s" to use the Post ID of the current page.', 'admin-text', 'site-reviews'), 'post_id'),
+                'tooltip' => sprintf(esc_html_x('Automatically assign reviews to a Post ID. You may also enter %s to use the Post ID of the current page.', 'admin-text', 'site-reviews'), '"post_id"'),
                 'type' => 'textbox',
             ],
             [
-                'label' => esc_html_x('Assign Reviews to Categories', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Assign Categories', 'admin-text', 'site-reviews'),
                 'name' => 'assigned_terms',
                 'tooltip' => esc_html_x('Automatically assign reviews to a category. You may enter a Term ID or slug.', 'admin-text', 'site-reviews'),
                 'type' => 'textbox',
             ],
             [
-                'label' => esc_html_x('Assign Reviews to Users', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Assign Users', 'admin-text', 'site-reviews'),
                 'name' => 'assigned_users',
-                'tooltip' => sprintf(_x('Automatically assign reviews to a User ID. You may also enter "%s" to use the ID of the logged-in user.', 'admin-text', 'site-reviews'), 'user_id'),
+                'tooltip' => sprintf(esc_html_x('Automatically assign reviews to a User ID. You may also enter %s to use the ID of the logged-in user.', 'admin-text', 'site-reviews'), '"user_id"'),
                 'type' => 'textbox',
+            ],
+            [
+                'columns' => 2,
+                'items' => $this->hideOptions(),
+                'label' => esc_html_x('Hide', 'admin-text', 'site-reviews'),
+                'layout' => 'grid',
+                'spacing' => 5,
+                'type' => 'container',
             ],
             [
                 'label' => esc_html_x('Reviews ID', 'admin-text', 'site-reviews'),
@@ -49,14 +53,6 @@ class SiteReviewsFormTinymce extends TinymceGenerator
                 'name' => 'class',
                 'tooltip' => esc_html_x('Separate multiple classes with spaces.', 'admin-text', 'site-reviews'),
                 'type' => 'textbox',
-            ],
-            [
-                'columns' => 2,
-                'items' => $this->hideOptions(),
-                'label' => _x('Hide', 'admin-text', 'site-reviews'),
-                'layout' => 'grid',
-                'spacing' => 5,
-                'type' => 'container',
             ],
         ];
     }

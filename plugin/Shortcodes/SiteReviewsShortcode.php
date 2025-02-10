@@ -56,7 +56,7 @@ class SiteReviewsShortcode extends Shortcode
                 'type' => 'select',
             ],
             'assigned_terms' => [
-                'label' => esc_html_x('Limit Reviews by Categories', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Limit Reviews by Assigned Categories', 'admin-text', 'site-reviews'),
                 'multiple' => true,
                 'placeholder' => esc_html_x('Select a Category...', 'admin-text', 'site-reviews'),
                 'type' => 'select',

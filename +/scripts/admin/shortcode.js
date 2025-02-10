@@ -128,7 +128,10 @@ Shortcode.prototype = {
     /** @return void */
     normalizeId_: function (key) {
         if ('id' !== key) return;
-        this.attributes_[key] = (+new Date()).toString(36);
+        let id = this.attributes_[key].toLowerCase();
+        id = id.replace(/\s+/g, '_');
+        id = id.replace(/[^a-z_]/g, '');
+        this.attributes_[key] = id;
     },
 
     /** @return void */

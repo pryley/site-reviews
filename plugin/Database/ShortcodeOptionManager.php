@@ -122,8 +122,8 @@ class ShortcodeOptionManager
     {
         return [
             'loadmore' => _x('Load More Button', 'admin-text', 'site-reviews'),
+            'true' => _x('Pagination Links', 'admin-text', 'site-reviews'),
             'ajax' => _x('Pagination Links (AJAX)', 'admin-text', 'site-reviews'),
-            'true' => _x('Pagination Links (with page reload)', 'admin-text', 'site-reviews'),
         ];
     }
 
