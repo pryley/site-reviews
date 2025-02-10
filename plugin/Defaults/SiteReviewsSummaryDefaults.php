@@ -82,6 +82,15 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
     }
 
     /**
+     * Finalize provided values, this always runs last.
+     */
+    protected function finalize(array $values = []): array
+    {
+        $values['rating'] = max(1, $values['rating']);
+        return $values;
+    }
+
+    /**
      * Normalize provided values, this always runs first.
      */
     protected function normalize(array $values = []): array
