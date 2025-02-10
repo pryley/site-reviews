@@ -101,17 +101,17 @@ const css = (id, namespace = '', dir = 'assets/styles') => ({
   }
 })
 
-const js = (id) => ({
-  input: `+/scripts/${id}.js`,
+const js = (input, output = '') => ({
+  input: `+/${input}.js`,
   plugins: pluginsJavascript(),
   output: {
-    dir: 'assets/scripts',
+    dir: `assets/scripts/${output}`,
     format: 'iife',
   },
 })
 
 export default [
-  js('site-reviews'),
+  js('scripts/site-reviews'),
   // css('inline-styles'),
   // css('bootstrap_4', '.glsr-bootstrap_4'),
   // css('bootstrap_4_custom', '.glsr-bootstrap_4_custom'),
