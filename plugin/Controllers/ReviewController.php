@@ -102,7 +102,7 @@ class ReviewController extends AbstractController
     }
 
     /**
-     * Triggered when one or more categories are added or removed from a review.
+     * Triggered after one or more categories are added or removed from a review.
      *
      * @action set_object_terms
      */
