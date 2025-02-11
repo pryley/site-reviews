@@ -1,4 +1,4 @@
-# Copyright (C) 2024 site-reviews
+# Copyright (C) 2025 site-reviews
 # This file is distributed under the same license as the site-reviews package.
 msgid ""
 msgstr ""
@@ -2038,29 +2038,44 @@ msgctxt "admin-text"
 msgid "Author Unknown"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:127, plugin/Overrides/ScheduledActionsTable.php:114, views/partials/editor/pinned.php:29, views/partials/editor/verified.php:30, views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:130
+#: plugin/Commands/EnqueueAdminAssets.php:128, plugin/Overrides/ScheduledActionsTable.php:114, views/partials/editor/pinned.php:29, views/partials/editor/verified.php:30, views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:130
 msgctxt "admin-text"
 msgid "Cancel"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:128
+#: plugin/Commands/EnqueueAdminAssets.php:129
 msgctxt "admin-text"
 msgid "Cancelling, please wait..."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:129
+#: plugin/Commands/EnqueueAdminAssets.php:130
 msgctxt "admin-text"
 msgid "Your server restricts file uploads to less than %s in size."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:130
+#: plugin/Commands/EnqueueAdminAssets.php:133
 msgctxt "admin-text"
 msgid "Rollback failed"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:131
+#: plugin/Commands/EnqueueAdminAssets.php:134
 msgctxt "admin-text"
 msgid "Searching..."
+msgstr ""
+
+#: plugin/Commands/EnqueueAdminAssets.php:135
+msgctxt "admin-text"
+msgid "Site Reviews was unable to fetch the System Info because your server threw an error: %s %s"
+msgstr ""
+
+#: plugin/Commands/EnqueueAdminAssets.php:136
+msgctxt "admin-text"
+msgid "Unable to fetch the System Info."
+msgstr ""
+
+#: plugin/Commands/EnqueueAdminAssets.php:137
+msgctxt "admin-text"
+msgid "Site Reviews was unable to fetch the System Info because WordPress crashed when getting the <a href=\"%s\">Site Health Info</a>."
 msgstr ""
 
 #: plugin/Commands/EnqueuePublicAssets.php:69, plugin/Modules/Html/FieldElements/Rating.php:15
@@ -2177,15 +2192,15 @@ msgstr ""
 
 #: plugin/Commands/ProcessCsvFile.php:186
 msgctxt "admin-text"
-msgid "The import file is not a valid CSV file (detected: %s)."
+msgid "The import file does not look like a valid CSV file (detected: %s). If this is incorrect, make sure that your server is configured to detect mime types."
 msgstr ""
 
-#: plugin/Commands/ProcessCsvFile.php:204
+#: plugin/Commands/ProcessCsvFile.php:205
 msgctxt "admin-text"
 msgid "Incorrect date format"
 msgstr ""
 
-#: plugin/Commands/ProcessCsvFile.php:205
+#: plugin/Commands/ProcessCsvFile.php:206
 msgctxt "admin-text"
 msgid "Empty or invalid rating"
 msgstr ""
@@ -2638,12 +2653,17 @@ msgctxt "admin-text"
 msgid "Settings updated."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:131
+#: plugin/Controllers/SettingsController.php:129
+msgctxt "admin-text"
+msgid "You forgot to include the %s placeholder tags in your Custom Text."
+msgstr ""
+
+#: plugin/Controllers/SettingsController.php:153
 msgctxt "admin-text"
 msgid "Please update the %s plugin to v%s or greater to enable the integration."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:125
+#: plugin/Controllers/SettingsController.php:147
 msgctxt "admin-text"
 msgid "Please install/activate the %s plugin to enable the integration."
 msgstr ""
@@ -2688,32 +2708,37 @@ msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:210
+#: plugin/Controllers/ToolsController.php:188
+msgctxt "admin-text"
+msgid "Your user role does not have permission to view the system info."
+msgstr ""
+
+#: plugin/Controllers/ToolsController.php:229
 msgctxt "admin-text"
 msgid "You do not have permission to import reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:237
+#: plugin/Controllers/ToolsController.php:256
 msgctxt "admin-text"
 msgid "You do not have permission to import settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:303
+#: plugin/Controllers/ToolsController.php:322
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:307
+#: plugin/Controllers/ToolsController.php:326
 msgctxt "admin-text"
 msgid "The permissions have been repaired, please %s for them to take effect."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:362
+#: plugin/Controllers/ToolsController.php:381
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:376
+#: plugin/Controllers/ToolsController.php:395
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr ""
@@ -5287,7 +5312,12 @@ msgctxt "admin-text"
 msgid "Syncing..."
 msgstr ""
 
-#: views/pages/tools/system-info.php:11
+#: views/pages/tools/system-info.php:5
+msgctxt "admin-text"
+msgid "Loading, please wait..."
+msgstr ""
+
+#: views/pages/tools/system-info.php:8
 msgctxt "admin-text"
 msgid "Download System Info"
 msgstr ""

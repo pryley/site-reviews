@@ -45,6 +45,11 @@ class Arguments extends \ArrayObject
         return Cast::to($cast, $this->get($key, $fallback));
     }
 
+    public function exists(string $key): bool
+    {
+        return $this->offsetExists($key);
+    }
+
     /**
      * @param mixed $key
      * @param mixed $fallback
