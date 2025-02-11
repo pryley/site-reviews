@@ -26,7 +26,8 @@ class SanitizeJson extends ArraySanitizer
         $result = $this->value;
         if (is_scalar($this->value) && !Helper::isEmpty($this->value)) {
             $result = trim(Cast::toString($this->value));
-            $result = wp_specialchars_decode($result);
+            $result = html_entity_decode($result, ENT_QUOTES, 'UTF-8'); // &amp;lt => &lt;
+            $result = wp_specialchars_decode($result); // &lt; => <
             $result = json_decode($result, true); // associative array!
             $error = json_last_error();
             if (array_key_exists($error, static::ERROR_CODES)) {

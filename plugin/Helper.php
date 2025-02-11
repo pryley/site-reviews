@@ -135,6 +135,7 @@ class Helper
             return glsr()->filterInt('assigned_posts/post_id', $postId);
         }
         if (is_string($post)) {
+            $post = sanitize_text_field($post);
             $parts = explode(':', $post);
             if (2 === count($parts)) {
                 $posts = get_posts([
@@ -160,7 +161,7 @@ class Helper
         if (is_numeric($term)) {
             $term = Cast::toInt($term);
         } else {
-            $term = Cast::toString($term);
+            $term = sanitize_text_field(Cast::toString($term));
         }
         $tt = term_exists($term, glsr()->taxonomy);
         $ttid = Arr::getAs('int', $tt, 'term_id');

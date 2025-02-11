@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Sanitizers;
 
 /**
- * This allows lowercase alpha characters and underscores.
+ * This allows lowercase alpha characters, dashes, underscores, and brackets.
  */
 class SanitizeName extends StringSanitizer
 {
