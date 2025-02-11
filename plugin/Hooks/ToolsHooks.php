@@ -22,6 +22,7 @@ class ToolsHooks extends AbstractHooks
             ['exportSettings', 'site-reviews/route/admin/export-settings'],
             ['fetchConsole', 'site-reviews/route/admin/fetch-console'],
             ['fetchConsoleAjax', 'site-reviews/route/ajax/fetch-console'],
+            ['fetchSystemInfoAjax', 'site-reviews/route/ajax/system-info'],
             ['filterUpdatePluginsTransient', 'site_transient_update_plugins'],
             ['importReviewsAjax', 'site-reviews/route/ajax/import-reviews'],
             ['importSettings', 'site-reviews/route/admin/import-settings'],

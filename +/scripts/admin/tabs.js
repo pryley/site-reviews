@@ -98,6 +98,7 @@ Tabs.prototype = {
         for (var i = 0; i < this.views.length; i++) {
             if (id !== this.views[i].id) continue;
             this.setTab_(this.tabs[i]);
+            jQuery(this.tabs[i]).trigger('click:tab', [id, jQuery(this.views[i])]);
             break;
         }
     },

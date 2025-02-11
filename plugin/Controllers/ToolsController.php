@@ -179,6 +179,25 @@ class ToolsController extends AbstractController
     }
 
     /**
+     * @action site-reviews/route/ajax/system-info
+     */
+    public function fetchSystemInfoAjax(): void
+    {
+        if (!glsr()->hasPermission('tools', 'system-info')) {
+            glsr(Notice::class)->addError(
+                _x('Your user role does not have permission to view the system info.', 'admin-text', 'site-reviews')
+            );
+            wp_send_json_error([
+                'notices' => glsr(Notice::class)->get(),
+            ]);
+        }
+        $systemInfo = glsr(SystemInfo::class)->get();
+        wp_send_json_success([
+            'data' => esc_html($systemInfo),
+        ]);
+    }
+
+    /**
      * @param mixed $value
      *
      * @return mixed

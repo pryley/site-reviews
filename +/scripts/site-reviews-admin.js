@@ -80,6 +80,28 @@ jQuery(function ($) {
         }
     });
 
+    $('.glsr-nav-tab').on('click:tab', (ev, id, $view) => {
+        if ('system-info' !== id || 1 === $view.data('isLoaded')) return;
+        const request = wp.ajax.post(GLSR.action, {
+            [GLSR.nameprefix]: {
+                _action: id,
+                _nonce: GLSR.nonce[id],
+            },
+        }).done(response => {
+            $view.data('isLoaded', 1)
+            $view.find('textarea').val(response.data);
+        }).fail((response, textStatus, errorThrown) => {
+            $view.find('textarea').val(GLSR.text.system_info_failed);
+            if (response?.notices) {
+                GLSR.notices.error(response.notices);
+                return;
+            }
+            const error = (500 === response.status) ? GLSR.text.system_info_500 : wp.i18n.sprintf(GLSR.text.system_info_error, response.status, response.responseText);
+            GLSR.notices.error(error);
+            console.error({ response, textStatus, errorThrown });
+        })
+    })
+
     ColorPicker();
     new Filters();
     $('.glsr-filter').each((index, filterEl) => {
@@ -292,7 +314,7 @@ jQuery(function ($) {
         addTextAtCursorPosition(textarea, cursorPosition, text);
         updateCursorPosition(cursorPosition, text, textarea);
         textarea.scrollTop = scrollPos;
-    });
+    })
 
     $('.glsr-setting-field .wp-pwd button').each((index, el) => {
         const $btn = $(el);
