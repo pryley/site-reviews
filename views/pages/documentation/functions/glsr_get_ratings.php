@@ -43,7 +43,8 @@ $ratingInfo = apply_filters('glsr_get_ratings', null, [
 $ratingInfo->maximum // The maximum rating
 $ratingInfo->minimum // The minimum rating
 $ratingInfo->ranking // The ranking number
-$ratingInfo->ratings // An array, the key is the rating level, the value is the number of reviews for the rating level</code></pre>
+$ratingInfo->ratings // An array, the key is the rating level, the value is the number of reviews for the rating level
+$ratingInfo->reviews // The total number of reviews</code></pre>
         <p><strong>Helpful Tips:</strong></p>
         <ol>
             <li>

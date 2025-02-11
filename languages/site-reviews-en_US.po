@@ -3023,12 +3023,12 @@ msgctxt "admin-text"
 msgid "Other Reason"
 msgstr "Other Reason"
 
-#: plugin/Controllers/EditorController.php:104
+#: plugin/Controllers/EditorController.php:105
 msgctxt "admin-text"
 msgid "Okay"
 msgstr "Okay"
 
-#: plugin/Controllers/EditorController.php:127
+#: plugin/Controllers/EditorController.php:128
 msgctxt "admin-text"
 msgid "Publicly responding to third-party %s reviews is disabled."
 msgstr "Publicly responding to third-party %s reviews is disabled."

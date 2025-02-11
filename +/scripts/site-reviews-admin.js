@@ -90,6 +90,7 @@ jQuery(function ($) {
         }).done(response => {
             $view.data('isLoaded', 1)
             $view.find('textarea').val(response.data);
+            $view.find('button').removeAttr('disabled');
         }).fail((response, textStatus, errorThrown) => {
             $view.find('textarea').val(GLSR.text.system_info_failed);
             if (response?.notices) {

@@ -1,5 +1,20 @@
 == Changelog ==
 
+= 7.2.4 (2025-02-11) =
+
+- Fixed a PHP notice that could be triggered when other plugins use the gettext_default filter hook incorrectly.
+- Fixed a PHP notice that could be triggered when other plugins use the the_editor filter hook incorrectly.
+- Fixed a XSS vulnerability in the review form.
+- Fixed mimetype checking for some server configurations.
+- Fixed the "Delete data on uninstall" setting.
+- Fixed the documentation for the `glsr_get_ratings` function.
+- Fixed the `glsr_update_review` function to allow updating assigned_terms.
+- Fixed the form signature validator when hooks are used to modify the request before a review is created.
+- Fixed the Friendlycaptcha validator.
+- Fixed the number of stars in the rating field when an invalid text translation is used.
+- Fixed the Settings defaults fallback.
+- Fixed the Site Reviews > Tools page from throwing an error when the WordPress Site Health > Info page crashes (this can happen on a misconfigured server or a server which runs out of available processes).
+
 = 7.2.3 (2024-10-31) =
 
 - Fixed broken HTML in FAQ documentation.
