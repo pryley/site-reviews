@@ -181,12 +181,14 @@ abstract class DefaultsAbstract implements DefaultsContract
      */
     protected function dataAttributes(array $values = []): array
     {
-        $defaults = $this->flattenArrayValues($this->defaults);
-        $values = $this->flattenArrayValues(shortcode_atts($defaults, $values));
-        $filtered = array_filter(array_diff_assoc($values, $defaults)); // remove all empty values
-        $filtered = $this->sanitize($filtered);
-        $filtered = $this->guard($filtered); // this after sanitize for a more unique id
-        $filtered = $this->finalize($filtered);
+        $values = shortcode_atts($this->defaults, $values);
+        $values = $this->sanitize($values);
+        $values = $this->guard($values); // this after sanitize for a more unique id
+        $values = $this->finalize($values);
+        $filtered = array_filter(array_diff_assoc(
+            $this->flattenArrayValues($values),
+            $this->flattenArrayValues($this->defaults)
+        ));
         $filteredJson = [];
         foreach ($filtered as $key => $value) {
             $filteredJson["data-{$key}"] = !is_scalar($value)
