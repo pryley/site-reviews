@@ -102,14 +102,36 @@ class SettingsController extends AbstractController
                 'a' => ['class' => [], 'href' => [], 'target' => []],
                 'span' => ['class' => []],
             ];
-            array_walk($options['settings']['strings'], function (&$string) use ($allowedTags) {
-                if (isset($string['s2'])) {
-                    $string['s2'] = wp_kses($string['s2'], $allowedTags);
-                }
-                if (isset($string['p2'])) {
-                    $string['p2'] = wp_kses($string['p2'], $allowedTags);
+            $errors = [
+                '%d' => [],
+                '%s' => [],
+            ];
+            array_walk($options['settings']['strings'], function (&$string) use ($allowedTags, &$errors) {
+                $string = wp_parse_args($string, [
+                    'p1' => '',
+                    'p2' => '',
+                    's1' => '',
+                    's2' => '',
+                ]);
+                $string['s2'] = wp_kses($string['s2'], $allowedTags);
+                $string['p2'] = wp_kses($string['p2'], $allowedTags);
+                foreach ($errors as $needle => $values) {
+                    if (str_contains($string['s1'], $needle) && !str_contains($string['s2'], $needle)) {
+                        $errors[$needle][] = $string['s2'];
+                    }
+                    if (str_contains($string['p1'], $needle) && !str_contains($string['p2'], $needle)) {
+                        $errors[$needle][] = $string['p2'];
+                    }
                 }
             });
+            foreach ($errors as $needle => $values) {
+                if (!empty($errors[$needle])) {
+                    $notice = sprintf(_x('You forgot to include the %s placeholder tags in your Custom Text.', 'admin-text', 'site-reviews'),
+                        "<code>{$needle}</code>"
+                    );
+                    glsr(Notice::class)->addError($notice, $errors[$needle]);
+                }
+            }
         }
         return $options;
     }

@@ -87,7 +87,11 @@ class Rating
             $noopedPlural = _n_noop('%s Star', '%s Stars', 'site-reviews');
         }
         foreach (range(glsr()->constant('MAX_RATING', __CLASS__), $minRating) as $rating) {
-            $options[$rating] = sprintf(translate_nooped_plural($noopedPlural, $rating, 'site-reviews'), $rating);
+            $title = translate_nooped_plural($noopedPlural, $rating, 'site-reviews');
+            if (!str_contains($title, '%s')) {
+                $title = "%s {$title}"; // because Arr::unique() is used for array values when defaults are merged.
+            }
+            $options[$rating] = sprintf($title, $rating);
         }
         return $options;
     }
