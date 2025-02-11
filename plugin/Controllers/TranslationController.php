@@ -115,10 +115,10 @@ class TranslationController implements ControllerContract
      * 
      * @filter gettext_default
      */
-    public function filterPostStatusLabels(string $translation, string $single): string
+    public function filterPostStatusLabels(?string $translation, ?string $single): string
     {
         if (!$this->canModifyTranslation()) {
-            return $translation;
+            return (string) $translation;
         }
         $replacements = [
             'Pending' => _x('Unapproved', 'admin-text', 'site-reviews'),
@@ -126,7 +126,7 @@ class TranslationController implements ControllerContract
             'Published' => _x('Approved', 'admin-text', 'site-reviews'),
             'Save as Pending' => _x('Save as Unapproved', 'admin-text', 'site-reviews'),
         ];
-        return $replacements[$single] ?? $translation;
+        return (string) ($replacements[$single] ?? $translation);
     }
 
     /**
