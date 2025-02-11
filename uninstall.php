@@ -4,7 +4,7 @@ defined('WP_UNINSTALL_PLUGIN') || exit;
 
 function glsr_uninstall()
 {
-    $settings = get_option('site_reviews_v7');
+    $settings = get_option('site_reviews');
     $uninstall = isset($settings['settings']['general']['delete_data_on_uninstall'])
         ? $settings['settings']['general']['delete_data_on_uninstall']
         : '';
@@ -118,6 +118,7 @@ function glsr_uninstall_minimal()
         'site_reviews_v5', // v5 settings
         'site_reviews_v6', // v6 settings
         'site_reviews_v7', // v7 settings
+        'site_reviews', // v7+ settings
         'theme_mods_site-reviews',
         'widget_glsr_site-reviews',
         'widget_glsr_site-reviews-form',
