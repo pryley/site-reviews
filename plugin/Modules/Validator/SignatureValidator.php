@@ -19,7 +19,7 @@ class SignatureValidator extends ValidatorAbstract
                 break;
             }
         }
-        return glsr()->filterBool('validate/signature', $isValid, $this->request);
+        return glsr()->filterBool('validate/signature', $isValid, $values, $this->request);
     }
 
     public function performValidation(): void

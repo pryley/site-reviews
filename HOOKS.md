@@ -57,6 +57,7 @@
     site-reviews/<form_name>/fields/all                         (Contracts\FieldContract[] $fields, Contracts\FormContract $form): array
     site-reviews/<form_name>/fields/hidden                      (Contracts\FieldContract[] $fields, Contracts\FormContract $form): array
     site-reviews/<form_name>/fields/visible                     (Contracts\FieldContract[] $fields, Contracts\FormContract $form): array
+    site-reviews/<form_name>/signature/values                   (array $values, Contracts\FormContract $form): array
     site-reviews/addon/api-url                                  (string $apiUrl): string
     site-reviews/addon/documentation                            (array $documentation): array
     site-reviews/addon/documentation/tabs                       (array $tabs): array
@@ -266,6 +267,7 @@
     site-reviews/validate/duplicate                             (bool $isValid, Request $request): bool
     site-reviews/validate/honeypot                              (bool $isValid, Request $request): bool
     site-reviews/validate/review-limits                         (bool $isValid, Reviews $reviews, Request $request, string $key): bool
+    site-reviews/validate/signature                             (bool $isValid, array $values, Request $request): bool
     site-reviews/validation/rules                               (array $rules, Request $request): array
     site-reviews/validation/type/<attribute>                    (string $type): string
     site-reviews/validators                                     (array $validatorClasses): array

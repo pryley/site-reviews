@@ -412,6 +412,7 @@ class Form extends \ArrayObject implements FormContract
         foreach ($hidden as $field) {
             $values[$field->original_name] = $field->value;
         }
+        $values = glsr()->filterArray("{$this->formName()}/signature/values", $values, $this);
         $signatureField = $this->field('form_signature', [
             'type' => 'hidden',
             'value' => glsr(Encryption::class)->encrypt(maybe_serialize($values)),

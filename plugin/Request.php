@@ -69,4 +69,23 @@ class Request extends Arguments
         }
         return new static($values);
     }
+
+    /**
+     * @param mixed $value
+     */
+    public function set(string $path, $value): void
+    {
+        $storage = Arr::set($this->getArrayCopy(), $path, $value);
+        $this->exchangeArray($storage);
+        if (!$this->exists('form_signature') || 'form_signature' === $path) {
+            return;
+        }
+        $values = $this->decrypt('form_signature');
+        $values = wp_parse_args(maybe_unserialize($values));
+        if (array_key_exists($path, $values)) {
+            $values[$path] = $value;
+            $storage['form_signature'] = glsr(Encryption::class)->encrypt(maybe_serialize($values));
+            $this->exchangeArray($storage);
+        }
+    }
 }
