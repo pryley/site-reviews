@@ -39,10 +39,10 @@ class SanitizeUserName extends StringSanitizer
         if ('' === $value) {
             return $value;
         }
+        $value = $this->kses($value);
         $value = html_entity_decode($value, ENT_QUOTES, 'UTF-8'); // &amp;lt => &lt;
         $value = wp_specialchars_decode($value); // &lt; => <
         $value = wp_strip_all_tags($value);
-        $value = $this->kses($value);
         $value = preg_replace('/%([a-fA-F0-9][a-fA-F0-9])/', '', $value); // Remove percent-encoded characters.
         $value = preg_replace('/&.+?;/', '', $value); // Remove HTML entities.
         $value = preg_replace('/[^\p{L}\p{M}\p{N}\p{Pf}\'\.\,\- ]/u', '', $value);

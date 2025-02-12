@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 /**
  * Test case for the Plugin.
+ *
  * @group plugin
  */
 class SanitizerTest extends \WP_UnitTestCase
@@ -50,6 +51,8 @@ class SanitizerTest extends \WP_UnitTestCase
             '&amp;lt;script src=https://attackersite.com/test.js&amp;gt;',
             '&amp;lt;iframe src=javascript:alert(1)&amp;gt;',
             '<noscript> &amp;lt;p title=" &lt;/noscript&gt;&lt;style onload= alert(document.domain)//&quot;&gt; *{/*all*/color/*all*/:/*all*/#f78fb3/*all*/;} &lt;/style&gt;',
+            '&amp;amp;amp;amp;amp;amp;amp;amp;lt;img src ooooonerror=nerror=nerror=nerror=nerror=alert(/XSS-Img/)&amp;amp;amp;amp;amp;amp;amp;amp;gt;',
+            '&amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe src=javascript:alert(/XSS-iFrame)&amp;amp;amp;amp;amp;amp;amp;amp;gt;',
         ];
     }
 
@@ -65,6 +68,8 @@ class SanitizerTest extends \WP_UnitTestCase
             [0],
             ['1' => 13],
             ['b' => true],
+            [],
+            [],
             [],
             [],
             [],
@@ -132,6 +137,8 @@ class SanitizerTest extends \WP_UnitTestCase
             [],
             [],
             [],
+            [],
+            [],
         ]);
     }
 
@@ -167,6 +174,8 @@ class SanitizerTest extends \WP_UnitTestCase
             ['https://wordpress.org'],
             ['-1'],
             ['Hello this is a link and a link'],
+            [''],
+            [''],
             [''],
             [''],
             [''],
@@ -214,6 +223,8 @@ class SanitizerTest extends \WP_UnitTestCase
             '&amp;lt;script src=https://attackersite.com/test.js&amp;gt;',
             '&amp;lt;iframe src=javascript:alert(1)&amp;gt;',
             '&lt;noscript&gt; &amp;lt;p title=&quot; &lt;/noscript&gt;&lt;style onload= alert(document.domain)//&quot;&gt; *{/*all*/color/*all*/:/*all*/#f78fb3/*all*/;} &lt;/style&gt;',
+            '&amp;amp;amp;amp;amp;amp;amp;amp;lt;img src ooooonerror=nerror=nerror=nerror=nerror=alert(/XSS-Img/)&amp;amp;amp;amp;amp;amp;amp;amp;gt;',
+            '&amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe src=javascript:alert(/XSS-iFrame)&amp;amp;amp;amp;amp;amp;amp;amp;gt;',
         ]);
     }
 
@@ -255,6 +266,8 @@ class SanitizerTest extends \WP_UnitTestCase
             'ampltscript srchttps:attackersitecomtestjsampgt',
             'ampltiframe srcjavascript:alert1ampgt',
             'noscript ampltp title ltnoscriptgtltstyle onload alertdocumentdomainquotgt allcolorall:allf78fb3all ltstylegt',
+            'ampampampampampampampampltimg src ooooonerrornerrornerrornerrornerroralertXSS-Imgampampampampampampampampgt',
+            'ampampampampampampampampltiframe srcjavascript:alertXSS-iFrameampampampampampampampampgt',
         ]);
     }
 
@@ -270,6 +283,8 @@ class SanitizerTest extends \WP_UnitTestCase
         $values[] = 'color: #000 !important;';
         $sanitized = $this->sanitize('attr-style', $values);
         $this->assertEquals($sanitized, [
+            '',
+            '',
             '',
             '',
             '',
@@ -367,6 +382,8 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
             '',
+            '',
+            '',
             '#111',
             '',
             '',
@@ -416,6 +433,8 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
             '',
+            '',
+            '',
         ]);
         $sanitized = $this->sanitize('date:Y-m-d');
         $this->assertEquals($sanitized, [
@@ -453,6 +472,8 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
             '',
+            '',
+            '',
         ]);
     }
 
@@ -482,6 +503,8 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
             'matt@wordpress.org',
+            '',
+            '',
             '',
             '',
             '',
@@ -535,6 +558,8 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
             '',
+            '',
+            '',
         ]);
     }
 
@@ -578,6 +603,8 @@ class SanitizerTest extends \WP_UnitTestCase
         $this->assertMatchesRegularExpression($pattern, $sanitized[31]);
         $this->assertMatchesRegularExpression($pattern, $sanitized[32]);
         $this->assertMatchesRegularExpression($pattern, $sanitized[33]);
+        $this->assertMatchesRegularExpression($pattern, $sanitized[34]);
+        $this->assertMatchesRegularExpression($pattern, $sanitized[35]);
     }
 
     public function test_sanitize_ip_address()
@@ -594,6 +621,8 @@ class SanitizerTest extends \WP_UnitTestCase
         $values[] = '2400:cb00::/32';
         $sanitized = $this->sanitize('ip-address', $values);
         $this->assertEquals($sanitized, [
+            '',
+            '',
             '',
             '',
             '',
@@ -678,6 +707,8 @@ class SanitizerTest extends \WP_UnitTestCase
             [],
             [],
             [],
+            [],
+            [],
         ]);
     }
 
@@ -713,6 +744,8 @@ class SanitizerTest extends \WP_UnitTestCase
             'httpswordpressorg',
             '_1',
             'hellothisisalinkandalink',
+            '',
+            '',
             '',
             '',
             '',
@@ -760,6 +793,8 @@ class SanitizerTest extends \WP_UnitTestCase
             0,
             0,
             0,
+            0,
+            0,
         ]);
     }
 
@@ -784,6 +819,8 @@ class SanitizerTest extends \WP_UnitTestCase
             13,
             13,
             2020,
+            13,
+            13,
             13,
             13,
             13,
@@ -842,6 +879,8 @@ class SanitizerTest extends \WP_UnitTestCase
             3,
             3,
             3,
+            3,
+            3,
         ]);
     }
 
@@ -877,6 +916,8 @@ class SanitizerTest extends \WP_UnitTestCase
             'httpswordpressorg',
             '',
             'hellothisisalinkandalink',
+            '',
+            '',
             '',
             '',
             '',
@@ -924,6 +965,8 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
             '',
+            '',
+            '',
         ]);
     }
 
@@ -934,9 +977,11 @@ class SanitizerTest extends \WP_UnitTestCase
         $values[] = $posts[0];
         $values[] = $posts;
         $values[] = implode(',', $posts);
-        $values[] = array_diff([1,2,3,4,5,6,7,8,9], $posts);
+        $values[] = array_diff([1, 2, 3, 4, 5, 6, 7, 8, 9], $posts);
         $sanitized = $this->sanitize('post-ids', $values);
         $this->assertEquals($sanitized, [
+            [],
+            [],
             [],
             [],
             [],
@@ -1018,6 +1063,8 @@ class SanitizerTest extends \WP_UnitTestCase
             0,
             0,
             0,
+            0,
+            0,
         ]);
     }
 
@@ -1025,34 +1072,6 @@ class SanitizerTest extends \WP_UnitTestCase
     {
         $sanitized = $this->sanitize('regex');
         $this->assertEquals(array_filter($sanitized), []);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         $sanitized = $this->sanitize('regex:/[^\w\-]/');
         $this->assertEquals($sanitized, [
             '',
@@ -1089,6 +1108,8 @@ class SanitizerTest extends \WP_UnitTestCase
             'ampltscriptsrchttpsattackersitecomtestjsampgt',
             'ampltiframesrcjavascriptalert1ampgt',
             'noscriptampltptitleltnoscriptgtltstyleonloadalertdocumentdomainquotgtallcolorallallf78fb3allltstylegt',
+            'ampampampampampampampampltimgsrcooooonerrornerrornerrornerrornerroralertXSS-Imgampampampampampampampampgt',
+            'ampampampampampampampampltiframesrcjavascriptalertXSS-iFrameampampampampampampampampgt',
         ]);
     }
 
@@ -1130,6 +1151,8 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
             '',
+            '',
+            '',
         ]);
     }
 
@@ -1140,9 +1163,11 @@ class SanitizerTest extends \WP_UnitTestCase
         $values[] = $terms[0];
         $values[] = $terms;
         $values[] = implode(',', $terms);
-        $values[] = array_diff([1,2,3,4,5,6,7,8,9], $terms);
+        $values[] = array_diff([1, 2, 3, 4, 5, 6, 7, 8, 9], $terms);
         $sanitized = $this->sanitize('term-ids', $values);
         $this->assertEquals($sanitized, [
+            [],
+            [],
             [],
             [],
             [],
@@ -1222,49 +1247,14 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
             '',
+            '',
+            '',
         ]);
     }
 
     public function test_sanitize_text_html()
     {
         $sanitized = $this->sanitize('text-html');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         $this->assertEquals($sanitized, [
             '',
             'abc',
@@ -1294,12 +1284,14 @@ class SanitizerTest extends \WP_UnitTestCase
             'https://wordpress.org',
             '-1',
             '<a id="xxx" href="https://apple.com" title="hello" target="_blank">Hello</a> this is <em>a link</em> and a <strong>link</strong>',
-            '&lt;img src=x alert(55)&gt;',
-            '&lt;script src=https://attackersite.com/test.js&gt;',
+            '',
+            '',
             '',
             '',
             '',
             ' &lt;p title=&quot;  *{/*all*/color/*all*/:/*all*/#f78fb3/*all*/;} ',
+            '',
+            '',
         ]);
         $sanitized = $this->sanitize('text-html:a,img');
         $this->assertEquals($sanitized[27], '<a id="xxx" href="https://apple.com" title="hello" target="_blank">Hello</a> this is a link and a link');
@@ -1310,10 +1302,6 @@ class SanitizerTest extends \WP_UnitTestCase
     public function test_sanitize_text_multiline()
     {
         $sanitized = $this->sanitize('text-multiline');
-
-
-
-
         $this->assertEquals($sanitized, [
             '',
             'abc',
@@ -1325,7 +1313,7 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '1',
             '',
-            'var x = 23;',
+            '',
             "This is a\n title!",
             ";(nslookup hit-gx_wgukmocpc5c8dddd.com||perl -e gethostbyname('hissstgxwgukmocpc5c80.me'))",
             'June 13, 1989',
@@ -1343,22 +1331,20 @@ class SanitizerTest extends \WP_UnitTestCase
             'https://wordpress.org',
             '-1',
             'Hello this is a link and a link',
-            '&lt;img src=x alert(55)&gt;',
-            '&lt;script src=https://attackersite.com/test.js&gt;',
             '',
             '',
             '',
-            ' &lt;p title=&quot;  *{/*all*/color/*all*/:/*all*/#f78fb3/*all*/;} ',
+            '',
+            '',
+            '',
+            '',
+            '',
         ]);
     }
 
     public function test_sanitize_text_post()
     {
         $sanitized = $this->sanitize('text-post');
-
-
-
-
         $this->assertEquals($sanitized, [
             '',
             'abc',
@@ -1394,6 +1380,8 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
             ' &lt;p title=&quot;  *{/*all*/color/*all*/:/*all*/#f78fb3/*all*/;} ',
+            '<img src>',
+            '',
         ]);
     }
 
@@ -1427,6 +1415,8 @@ class SanitizerTest extends \WP_UnitTestCase
             'https://wordpress.org',
             'https://www.wordpress.org',
             'https://wordpress.org',
+            '',
+            '',
             '',
             '',
             '',
@@ -1476,6 +1466,8 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
             '',
+            '',
+            '',
         ]);
     }
 
@@ -1487,6 +1479,8 @@ class SanitizerTest extends \WP_UnitTestCase
         $values[] = $userId1;
         $sanitized = $this->sanitize('user-id', $values);
         $this->assertEquals($sanitized, [
+            0,
+            0,
             0,
             0,
             0,
@@ -1559,6 +1553,8 @@ class SanitizerTest extends \WP_UnitTestCase
             $userId2,
             $userId2,
             $userId2,
+            $userId2,
+            $userId2,
             $userId1,
         ]);
     }
@@ -1571,7 +1567,7 @@ class SanitizerTest extends \WP_UnitTestCase
         $values[] = $users[0];
         $values[] = $users;
         $values[] = implode(',', $users);
-        $values[] = array_diff([1,2,3,4,5,6,7,8,9], $users);
+        $values[] = array_diff([1, 2, 3, 4, 5, 6, 7, 8, 9], $users);
         $sanitized = $this->sanitize('user-ids', $values);
         $this->assertEquals($sanitized, [
             [],
@@ -1581,6 +1577,8 @@ class SanitizerTest extends \WP_UnitTestCase
             array_intersect($values[4], $users),
             [],
             array_intersect($values[6], $users),
+            [],
+            [],
             [],
             [],
             [],
@@ -1656,6 +1654,8 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
             '',
+            '',
+            '',
             'Łukasz',
             'မောင်မောင် အောင်မျိုး ကိုကိုဦး မိုးမြင့်သန္တာ',
         ]);
@@ -1694,6 +1694,8 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
             '2020',
+            '',
+            '',
             '',
             '',
             '',

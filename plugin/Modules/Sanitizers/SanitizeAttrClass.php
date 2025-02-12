@@ -2,6 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Sanitizers;
 
+/**
+ * Not using sanitize_html_class() because:
+ * - allow ":" in class names
+ * - ensure class name does not begin with a number
+ */
 class SanitizeAttrClass extends StringSanitizer
 {
     public function run(): string
