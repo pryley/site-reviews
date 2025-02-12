@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\SchemaParser;
 use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
 use GeminiLabs\SiteReviews\Modules\Schema\UnknownType;
 use GeminiLabs\SiteReviews\Review;
@@ -97,23 +98,37 @@ class Schema
         });
     }
 
+    public function exists(): bool
+    {
+        return !empty($this->retrieve());
+    }
+
+    public function generate(): array
+    {
+        $schema = glsr(SchemaParser::class)->generate();
+        $this->store($schema);
+        return $schema;
+    }
+
     public function render(): void
     {
-        if ($schemas = glsr()->retrieve('schemas', [])) {
-            printf('<script type="application/ld+json" class="%s-schema">%s</script>',
-                glsr()->id,
-                (string) wp_json_encode(
-                    glsr()->filterArray('schema/all', $schemas),
-                    JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-                )
-            );
+        if ($schema = $this->retrieve()) {
+            $json = (string) wp_json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            printf('<script type="application/ld+json" class="%s-schema">%s</script>', glsr()->id, $json);
         }
+    }
+
+    public function retrieve(): array
+    {
+        $schema = glsr()->retrieve('schemas', []);
+        $schema = Arr::consolidate($schema);
+        return glsr()->filterArray('schema/all', $schema);
     }
 
     public function store(array $schema): void
     {
         if (!empty($schema)) {
-            $schemas = Arr::consolidate(glsr()->retrieve('schemas'));
+            $schemas = $this->retrieve();
             $schemas[] = $schema;
             $schemas = array_map('unserialize', array_unique(array_map('serialize', $schemas)));
             glsr()->store('schemas', $schemas);

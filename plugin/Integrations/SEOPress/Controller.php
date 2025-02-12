@@ -6,7 +6,6 @@ use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Integrations\RankMath\Defaults\RatingSchemaTypeDefaults;
 use GeminiLabs\SiteReviews\Modules\Schema;
-use GeminiLabs\SiteReviews\Modules\SchemaParser;
 
 class Controller extends AbstractController
 {
@@ -43,8 +42,7 @@ class Controller extends AbstractController
     public function filterSchemas($data): array
     {
         $data = Arr::consolidate($data);
-        $this->generateSchema();
-        $schemas = glsr()->filterArray('schema/all', glsr()->retrieve('schemas', []));
+        $schemas = glsr(Schema::class)->generate();
         if (empty($schemas)) {
             return $data;
         }
@@ -63,14 +61,5 @@ class Controller extends AbstractController
             }
         }
         return $data;
-    }
-
-    protected function generateSchema(): void
-    {
-        if (empty(glsr()->retrieve('schemas', []))) {
-            glsr(Schema::class)->store(
-                glsr(SchemaParser::class)->generate()
-            );
-        }
     }
 }
