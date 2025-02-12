@@ -1,10 +1,13 @@
 == Changelog ==
 
+= 7.2.5 (2025-02-12) =
+
+- Fixed a XSS vulnerability in the review form.
+
 = 7.2.4 (2025-02-11) =
 
 - Fixed a PHP notice that could be triggered when other plugins use the gettext_default filter hook incorrectly.
 - Fixed a PHP notice that could be triggered when other plugins use the the_editor filter hook incorrectly.
-- Fixed a XSS vulnerability in the review form.
 - Fixed mimetype checking for some server configurations.
 - Fixed the "Delete data on uninstall" setting.
 - Fixed the documentation for the `glsr_get_ratings` function.

@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 6.7
-Stable tag: 7.2.4
+Stable tag: 7.2.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -196,11 +196,14 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 == Changelog ==
 
+= 7.2.5 (2025-02-12) =
+
+- Fixed a XSS vulnerability in the review form.
+
 = 7.2.4 (2025-02-11) =
 
 - Fixed a PHP notice that could be triggered when other plugins use the gettext_default filter hook incorrectly.
 - Fixed a PHP notice that could be triggered when other plugins use the the_editor filter hook incorrectly.
-- Fixed a XSS vulnerability in the review form.
 - Fixed mimetype checking for some server configurations.
 - Fixed the "Delete data on uninstall" setting.
 - Fixed the documentation for the `glsr_get_ratings` function.
