@@ -71,7 +71,6 @@ class ImportManager
         $result = glsr()->filterArray('import/reviews/attachments', [], $limit, $offset);
         wp_suspend_cache_invalidation(false);
         return glsr(ImportResultDefaults::class)->restrict($result);
-
     }
 
     public function importedReview(Request $request): ?Review
