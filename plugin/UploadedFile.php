@@ -132,7 +132,12 @@ class UploadedFile extends \SplFileInfo
     public function hasMimeType(string $mimeType): bool
     {
         $detectedMimeType = $this->getMimeType();
-        if ('text/csv' === $mimeType && 'application/vnd.ms-excel' === $detectedMimeType) {
+        $csvMimeTypes = [
+            'application/csv',
+            'application/vnd.ms-excel',
+            'text/csv',
+        ];
+        if ('text/csv' === $mimeType && in_array($detectedMimeType, $csvMimeTypes)) {
             return 'csv' === ($this->getExtension() ?? $this->getClientOriginalExtension());
         }
         $inconclusiveMimeTypes = [
