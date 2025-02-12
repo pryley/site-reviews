@@ -111,6 +111,14 @@ const js = (input, output = '') => ({
 })
 
 export default [
+  // js('integrations/elementor/elementor-editor', 'integrations'),
+  // js('integrations/flatsome/flatsome-inline', 'integrations'),
+  // js('integrations/gamipress/gamipress', 'integrations'),
+  // js('integrations/wpbakery/wpbakery-editor', 'integrations'),
+  // js('integrations/wpbakery/wpbakery-inline', 'integrations'),
+  // js('scripts/deactivate-plugin'),
+  // js('scripts/mce-plugin'),
+  // js('scripts/rollback'),
   js('scripts/site-reviews'),
   // css('inline-styles'),
   // css('bootstrap_4', '.glsr-bootstrap_4'),

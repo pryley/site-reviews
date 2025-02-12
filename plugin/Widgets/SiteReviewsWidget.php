@@ -27,7 +27,7 @@ class SiteReviewsWidget extends Widget
                 'type' => 'text',
             ],
             'terms' => [
-                'label' => esc_html_x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Limit Reviews by terms accepted', 'admin-text', 'site-reviews'),
                 'options' => $this->shortcode->options('terms', [
                     'placeholder' => _x('— Select —', 'admin-text', 'site-reviews'),
                 ]),

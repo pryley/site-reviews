@@ -81,7 +81,7 @@ class SiteReviewsSummaryShortcode extends Shortcode
                 'type' => 'select',
             ],
             'terms' => [
-                'label' => esc_html_x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Limit Reviews by terms accepted', 'admin-text', 'site-reviews'),
                 'options' => $this->options('terms'),
                 'placeholder' => esc_html_x('Select Review Terms...', 'admin-text', 'site-reviews'),
                 'type' => 'select',

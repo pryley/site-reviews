@@ -44,6 +44,7 @@
     "phpcompatibility/php-compatibility": "dev-develop",
     "phpstan/phpstan": "^1.9.4",
     "szepeviktor/phpstan-wordpress": "^1.1.6",
-    "yoast/phpunit-polyfills": "^2.0.0"
+    "yoast/phpunit-polyfills": "^2.0.0",
+    "php-stubs/generator": "dev-szepeviktor-patch-1"
   }
 }

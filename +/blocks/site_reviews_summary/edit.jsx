@@ -39,7 +39,7 @@ export default function Edit (props) {
         terms: <AjaxComboboxControl
             endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=terms'
             key='terms'
-            label={ _x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews') }
+            label={ _x('Limit Reviews by terms accepted', 'admin-text', 'site-reviews') }
             onChange={ (terms) => setAttributes({ terms }) }
             placeholder={ _x('Select Review Terms...', 'admin-text', 'site-reviews') }
             value={ attributes.terms }
