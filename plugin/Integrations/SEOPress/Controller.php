@@ -42,8 +42,8 @@ class Controller extends AbstractController
     public function filterSchemas($data): array
     {
         $data = Arr::consolidate($data);
-        $schemas = glsr(Schema::class)->generate();
-        if (empty($schemas)) {
+        $schema = glsr(Schema::class)->generate();
+        if (empty($schema)) {
             return $data;
         }
         $allowedTypes = glsr(RatingSchemaTypeDefaults::class)->defaults();
@@ -51,8 +51,8 @@ class Controller extends AbstractController
             if (!in_array(Arr::get($values, '@type'), $allowedTypes)) {
                 continue;
             }
-            $aggregateRatingSchema = Arr::get($schemas, '0.aggregateRating');
-            $reviewSchema = Arr::get($schemas, '0.review');
+            $aggregateRatingSchema = Arr::get($schema, 'aggregateRating');
+            $reviewSchema = Arr::get($schema, 'review');
             if ($aggregateRatingSchema) {
                 $data[$key]['aggregateRating'] = $aggregateRatingSchema;
             }

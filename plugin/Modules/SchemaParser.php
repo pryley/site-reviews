@@ -21,7 +21,7 @@ class SchemaParser
     {
         $shortcode = glsr(SiteReviewsSummaryShortcode::class)->normalize($args);
         $ratings = glsr(RatingManager::class)->ratings($shortcode->args);
-        return glsr(Schema::class)->build($shortcode->args, $ratings);
+        return glsr(Schema::class)->buildSummary($shortcode->args, $ratings);
     }
 
     public function generate(): array
@@ -67,7 +67,7 @@ class SchemaParser
         return [];
     }
 
-    protected function parseBlocks(array $blocks, string $name = 'site-reviews/reviews', array $result = []): array
+    public function parseBlocks(array $blocks, string $name = 'site-reviews/reviews', array $result = []): array
     {
         foreach ($blocks as $block) {
             $children = $block['innerBlocks'];
@@ -83,20 +83,22 @@ class SchemaParser
         return [];
     }
 
-    protected function parseShortcodes(string $content, string $name = 'site_reviews'): array
+    public function parseShortcodes(string $content, string $name = 'site_reviews'): array
     {
+        $content = wp_specialchars_decode($content, ENT_QUOTES);
         if (false === strpos($content, '[')) {
             return [];
         }
-        preg_match_all('/'.get_shortcode_regex().'/', $content, $matches, PREG_SET_ORDER);
+        preg_match_all('/'.get_shortcode_regex([$name]).'/', $content, $matches, PREG_SET_ORDER);
         if (empty($matches)) {
             return [];
         }
         foreach ($matches as $shortcode) {
-            if ($name !== $shortcode[2]) {
+            if ($name !== ($shortcode[2] ?? false)) {
                 continue;
             }
-            $attributes = shortcode_parse_atts($shortcode[3]);
+            $attributes = $shortcode[3] ?? '';
+            $attributes = shortcode_parse_atts($attributes);
             if (is_array($attributes)) {
                 return $attributes;
             }

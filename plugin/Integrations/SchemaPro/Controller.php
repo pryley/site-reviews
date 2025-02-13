@@ -32,14 +32,14 @@ class Controller extends AbstractController
         if (empty($data) || !empty($data['custom-markup'])) {
             return $data; // don't integrate with the custom markup option
         }
-        $schemas = glsr(Schema::class)->generate();
-        if (empty($schemas)) {
+        $schema = glsr(Schema::class)->generate();
+        if (empty($schema)) {
             return $data;
         }
-        if ($rating = Arr::get($schemas, '0.aggregateRating')) {
+        if ($rating = Arr::get($schema, 'aggregateRating')) {
             $data['aggregateRating'] = $rating;
         }
-        if ($review = Arr::get($schemas, '0.review')) {
+        if ($review = Arr::get($schema, 'review')) {
             $data['review'] = $review;
         }
         return $data;

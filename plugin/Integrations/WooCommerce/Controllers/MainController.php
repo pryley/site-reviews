@@ -4,9 +4,11 @@ namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Elementor\Widgets\ProductRating;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Widgets\WidgetRatingFilter;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Widgets\WidgetRecentReviews;
+use GeminiLabs\SiteReviews\Modules\SchemaParser;
 use GeminiLabs\SiteReviews\Review;
 
 class MainController extends AbstractController
@@ -103,6 +105,31 @@ class MainController extends AbstractController
     {
         $script .= '"undefined"!==typeof jQuery&&(jQuery(".wc-tabs .reviews_tab a").on("click",function(){setTimeout(function(){GLSR.Event.trigger("site-reviews-themes/swiper/resize")},25)}));';
         return $script;
+    }
+
+    /**
+     * @filter site-reviews/schema/generate
+     */
+    public function filterRankmathSchema(array $data, SchemaParser $parser): array
+    {
+        if (!did_action('rank_math/json_ld/preview')) {
+            return $data;
+        }
+        if (!$url = wp_get_referer()) {
+            return $data;
+        }
+        $urlQuery = (string) wp_parse_url($url, \PHP_URL_QUERY);
+        $query = wp_parse_args($urlQuery);
+        $postId = Cast::toInt($query['post'] ?? 0);
+        if (!$product = wc_get_product($postId)) {
+            return $data;
+        }
+        if (!$product->get_reviews_allowed()) {
+            return $data;
+        }
+        return glsr(SchemaParser::class)->buildReviewSchema([
+            'assigned_posts' => $postId,
+        ]);
     }
 
     /**

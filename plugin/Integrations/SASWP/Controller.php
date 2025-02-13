@@ -16,12 +16,12 @@ class Controller extends AbstractController
     public function filterSchema($data): array
     {
         $data = Arr::consolidate($data);
-        $schemas = glsr(Schema::class)->generate();
-        if (empty($schemas)) {
+        $schema = glsr(Schema::class)->generate();
+        if (empty($schema)) {
             return $data;
         }
-        $aggregateRating = Arr::get($schemas, '0.aggregateRating');
-        $review = Arr::get($schemas, '0.review');
+        $aggregateRating = Arr::get($schema, 'aggregateRating');
+        $review = Arr::get($schema, 'review');
         if (in_array(Arr::get($data, '@type'), ['Review', 'ReviewNewsArticle'])) {
             if (!empty($aggregateRating)) {
                 $data['itemReviewed']['aggregateRating'] = $aggregateRating;
