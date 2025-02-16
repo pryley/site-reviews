@@ -87,10 +87,61 @@ class Translation
 
     public function isInvalid(array $entry): bool
     {
-        return !empty($entry['s1']) && (
-            false === Arr::searchByKey($entry['s1'], $this->entries(), 'msgid')
-                && false === Arr::searchByKey(htmlentities2($entry['s1']), $this->entries(), 'msgid')
-        );
+        $s1 = $entry['s1'] ?? '';
+        $s2 = $entry['s2'] ?? '';
+        $p1 = $entry['p1'] ?? '';
+        $p2 = $entry['p2'] ?? '';
+        if ($s1 === $s2 && $p1 === $p2) {
+            return false;
+        }
+        if ($this->placeholders($s1) !== $this->placeholders($s2)) {
+            return true;
+        }
+        if ($this->placeholders($p1) !== $this->placeholders($p2)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function isMissing(array $entry): bool
+    {
+        if (empty($entry['s1'])) {
+            return false;
+        }
+        $s1 = $entry['s1'];
+        return false === Arr::searchByKey($s1, $this->entries(), 'msgid')
+            && false === Arr::searchByKey(htmlentities2($s1), $this->entries(), 'msgid');
+    }
+
+    public function placeholders(string $format): int
+    {
+        $count = $i = 0;
+        $len = strlen($format);
+        $specifiers = 'sducfxXeE';
+        while ($i < $len) {
+            if ('%' !== $format[$i++]) {
+                continue;
+            }
+            if ($i === $len || '%' === $format[$i]) {
+                ++$i;
+                continue;
+            }
+            if (false !== strpos($specifiers, $format[$i])) {
+                ++$count;
+            } elseif ('.' === $format[$i] || ctype_digit($format[$i])) {
+                // check for float specifiers
+                $idx = $i;
+                while ($idx < $len && ('.' === $format[$idx] || ctype_digit($format[$idx]))) {
+                    ++$idx;
+                }
+                if ($idx < $len && false !== strpos('fFeE', $format[$idx])) {
+                    ++$count;
+                    $i = $idx;
+                }
+            }
+            ++$i;
+        }
+        return $count;
     }
 
     public function render(string $template, array $entry): string
@@ -98,9 +149,12 @@ class Translation
         $data = array_combine(array_map(fn ($key) => "data.{$key}", array_keys($entry)), $entry);
         $data['data.class'] = '';
         $data['data.error'] = '';
-        if ($this->isInvalid($entry)) {
+        if ($this->isMissing($entry)) {
             $data['data.class'] = 'is-invalid';
-            $data['data.error'] = _x('This custom translation is no longer valid as the original text has been changed or removed.', 'admin-text', 'site-reviews');
+            $data['data.error'] = _x('This custom text is invalid because the original text has been changed or removed.', 'admin-text', 'site-reviews');
+        } elseif ($this->isInvalid($entry)) {
+            $data['data.class'] = 'is-invalid';
+            $data['data.error'] = _x('The placeholder tags are missing in your custom text.', 'admin-text', 'site-reviews');
         }
         return glsr(Template::class)->build("partials/strings/{$template}", [
             'context' => array_map('esc_html', $data),
