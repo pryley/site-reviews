@@ -12,8 +12,8 @@ coverage.xml
 mix-manifest.json
 stats.html
 
+coverage
 node_modules
+vendor
 
-/tests/coverage
-/vendor
 Icon?
