@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 7.2.6 (2025-02-16) =
+
+- Fixed a PHP Error triggered when the "%s Star | %s Stars" text is missing the placeholder tags in the Settings > Strings page.
+
 = 7.2.5 (2025-02-12) =
 
 - Fixed a XSS vulnerability in the review form.
