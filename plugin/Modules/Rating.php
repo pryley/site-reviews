@@ -91,7 +91,7 @@ class Rating
             if (!str_contains($title, '%s')) {
                 $title = "%s {$title}"; // because Arr::unique() is used for array values when defaults are merged.
             }
-            $options[$rating] = sprintf($title, $rating);
+            $options[$rating] = wp_sprintf($title, $rating);
         }
         return $options;
     }
