@@ -77,6 +77,7 @@ mix
   .postCss('+/styles/deactivate-plugin.css', 'assets/styles')
   .postCss('+/styles/inline-styles.css', 'assets/styles', postCss())
   .postCss('+/styles/bootstrap.css', 'assets/styles', postCss('.glsr-bootstrap'))
+  .postCss('+/styles/breakdance.css', 'assets/styles', postCss('.glsr-breakdance'))
   .postCss('+/styles/contact_form_7.css', 'assets/styles', postCss('.glsr-contact_form_7'))
   .postCss('+/styles/default.css', 'assets/styles', postCss('.glsr-default'))
   .postCss('+/styles/divi.css', 'assets/styles', postCss('.et-db #et-main-area .glsr-divi, .et-db #et-boc .glsr-divi, .glsr-divi'))

@@ -7,6 +7,7 @@ language:
   team: Gemini Labs <support@geminilabs.io>
   translator: Paul Ryley <paul@geminilabs.io>
   watch:
+    - assets/breakdance/**/*.php
     - config/**/*.php
     - plugin/**/*.php
     - templates/**/*.php

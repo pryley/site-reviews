@@ -32,6 +32,7 @@ return [ // order is intentional
             ],
             _x('Themes', 'admin-text', 'site-reviews') => [
                 'bootstrap' => _x('Bootstrap (v5)', 'admin-text', 'site-reviews'),
+                'breakdance' => _x('Breakdance (v2)', 'admin-text', 'site-reviews'),
                 'divi' => _x('Divi (v4)', 'admin-text', 'site-reviews'),
                 'twentyfifteen' => _x('Twenty Fifteen', 'admin-text', 'site-reviews'),
                 'twentysixteen' => _x('Twenty Sixteen', 'admin-text', 'site-reviews'),
