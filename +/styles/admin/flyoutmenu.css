@@ -26,34 +26,18 @@
 }
 #glsr-flyout .glsr-flyout-mascot {
   align-items: center;
+  background-color: var(--glsr-primary);
   border-radius: 2px;
+  box-shadow: 0 0 0 1.5px var(--glsr-primary-800);
   display: flex;
   position: relative;
   pointer-events: auto;
+  transition: box-shadow 0.2s ease-in-out;
 }
-#glsr-flyout .glsr-flyout-mascot::after {
-  background-color: var(--glsr-brand-color);
-  border-radius: 2px;
-  bottom: 0;
+#glsr-flyout .glsr-flyout-mascot:hover,
+#glsr-flyout.is-open .glsr-flyout-mascot {
   box-shadow:
-    0 0 0 1.25px rgba(44 51 56/.9),
-    0 0 0.5px rgba(0 0 0/.07),
-    0 0 1.3px rgba(0 0 0/.1),
-    0 0 3px rgba(0 0 0/.13),
-    0 0 10px rgba(0 0 0/.2)
-  ;
-  content: '';
-  display: block;
-  height: 54px;
-  left: 0;
-  position: absolute;
-  transition: all 0.2s ease-in-out;
-  width: 54px;
-  z-index: -1;
-}
-#glsr-flyout .glsr-flyout-mascot:hover::after {
-  box-shadow:
-    0 0 0 1.25px rgba(44 51 56/1),
+    0 0 0 1.5px var(--glsr-primary-950),
     0 0 0.5px rgba(0 0 0/.07),
     0 0 1.3px rgba(0 0 0/.1),
     0 0 3px rgba(0 0 0/.13),
@@ -61,6 +45,7 @@
   ;
 }
 #glsr-flyout .glsr-flyout-mascot svg {
+  color: var(--glsr-primary-950);
   display: block;
   transform: scale(75%);
   width: 54px;
@@ -68,33 +53,14 @@
 #glsr-flyout path.glsr-icon-svg__bg {
   fill: #fff;
 }
-#glsr-flyout path:is(.glsr-icon-svg__left-eye,.glsr-icon-svg__right-eye) {
+#glsr-flyout path:is(.glsr-icon-svg__eye_l,.glsr-icon-svg__eye_r) {
   transform: translateY(0);
   transition: transform 0.2s ease-in-out;
 }
-#glsr-flyout.is-open path:is(.glsr-icon-svg__left-eye,.glsr-icon-svg__right-eye) {
+#glsr-flyout.is-open path:is(.glsr-icon-svg__eye_l,.glsr-icon-svg__eye_r) {
   animation: none;
   transform: translateY(-4%);
-}
-path.glsr-icon-svg__left-eye {
-  transform-origin: 50% 40%;
-}
-path.glsr-icon-svg__right-eye {
-  transform-origin: 60% 40%;
-}
-.glsr-icon-svg:hover path:is(.glsr-icon-svg__left-eye,.glsr-icon-svg__right-eye) {
-  animation: 2s infinite blink;
-}
-@keyframes blink {
-  12% {
-    transform: scale(1);
-  }
-  16% {
-    transform: scaleY(.25) scaleX(2.25);
-  }
-  20% {
-    transform: scale(1);
-  }
+  transition: transform 0.2s ease-in-out;
 }
 
 #glsr-flyout .glsr-flyout-label {
@@ -162,7 +128,7 @@ path.glsr-icon-svg__right-eye {
 }
 #glsr-flyout .glsr-flyout-item.glsr-flyout-premium i {
   align-items: center;
-  color: var(--glsr-brand-color);
+  color: var(--glsr-primary);
   display: flex;
   justify-content: center;
   position: relative;

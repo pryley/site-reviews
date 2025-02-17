@@ -20,7 +20,7 @@
     </div>
     <a href="javascript:void(0);" class="glsr-flyout-button glsr-flyout-mascot" tabindex="0">
         <div class="glsr-flyout-label">
-            <div><?php echo _x('Do you need help?', 'admin-text', 'site-reviews'); ?></div>
+            <div><?php echo _x('Click me!', 'admin-text', 'site-reviews'); ?></div>
         </div>
         <?php echo \GeminiLabs\SiteReviews\Helper::svg('assets/images/icon.svg', false); ?>
     </a>

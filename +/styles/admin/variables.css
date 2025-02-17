@@ -1,4 +1,27 @@
 :root body {
-  --glsr-brand-color: #E8FF5E;
-  --glsr-theme-color: var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));
+  --glsr-primary-50: #feffe5;
+  --glsr-primary-100: #fbffc7;
+  --glsr-primary-200: #f4ff95;
+  --glsr-primary-300: #e8ff5e;
+  --glsr-primary-400: #d6f625;
+  --glsr-primary-500: #b7dd05;
+  --glsr-primary-600: #8fb100;
+  --glsr-primary-700: #6b8605;
+  --glsr-primary-800: #55690b;
+  --glsr-primary-900: #47590e;
+  --glsr-primary-950: #253201;
+  --glsr-primary: var(--glsr-primary-300);
+  --glsr-secondary-50: #fff4fe;
+  --glsr-secondary-100: #ffe7fd;
+  --glsr-secondary-200: #ffcefa;
+  --glsr-secondary-300: #ffbbf5;
+  --glsr-secondary-400: #fe74e8;
+  --glsr-secondary-500: #f540d7;
+  --glsr-secondary-600: #d920b6;
+  --glsr-secondary-700: #b41794;
+  --glsr-secondary-800: #931577;
+  --glsr-secondary-900: #781760;
+  --glsr-secondary-950: #51013e;
+  --glsr-secondary: var(--glsr-secondary-300);
+  --glsr-theme-color: var(--wp-components-color-accent,var(--wp-admin-theme-color, #3858e9));
 }

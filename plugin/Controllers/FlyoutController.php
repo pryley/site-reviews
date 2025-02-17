@@ -19,6 +19,9 @@ class FlyoutController extends AbstractController
         if (!str_starts_with($screen->post_type, glsr()->post_type)) {
             return;
         }
+        if (str_ends_with($screen->base, '-addons')) {
+            return;
+        }
         if (!glsr()->filterBool('flyoutmenu/enabled', true)) {
             return;
         }
@@ -54,6 +57,11 @@ class FlyoutController extends AbstractController
                 'icon' => 'dashicons-wordpress-alt',
                 'title' => _x('Ask for Help', 'admin-text', 'site-reviews'),
                 'url' => 'https://wordpress.org/support/plugin/site-reviews/',
+            ],
+            [
+                'icon' => 'dashicons-testimonial',
+                'title' => _x('Be Awesome!', 'admin-text', 'site-reviews'),
+                'url' => 'https://wordpress.org/support/plugin/site-reviews/reviews/#new-post',
             ],
         ];
         if (glsr(License::class)->isPremium()) {
