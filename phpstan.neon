@@ -6,6 +6,7 @@ parameters:
     - tests/phpstan/bootstrap.php
     - tests/phpstan/stubs/action-scheduler.php
     - tests/phpstan/stubs/akismet.php
+    - tests/phpstan/stubs/bricks.php
     - tests/phpstan/stubs/buddyboss.php
     - tests/phpstan/stubs/elementor.php
     - tests/phpstan/stubs/elementorpro.php

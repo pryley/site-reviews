@@ -71,6 +71,7 @@ mix
   .js('+/scripts/mce-plugin.js', 'assets/scripts/mce-plugin.js')
   .js('+/scripts/site-reviews-admin.js', 'assets/scripts')
   .postCss('+/integrations/divi/divi-woo-inline.css', 'assets/styles/integrations')
+  .postCss('+/integrations/bricks/bricks-inline.css', 'assets/styles/integrations')
   .postCss('+/integrations/flatsome/flatsome-inline.css', 'assets/styles/integrations')
   .postCss('+/integrations/wpbakery/wpbakery-inline.css', 'assets/styles/integrations')
   .postCss('+/styles/admin.css', 'assets/styles/admin')
