@@ -6,7 +6,6 @@ parameters:
     - tests/phpstan/bootstrap.php
     - tests/phpstan/stubs/action-scheduler.php
     - tests/phpstan/stubs/akismet.php
-    - tests/phpstan/stubs/breakdance.php
     - tests/phpstan/stubs/buddyboss.php
     - tests/phpstan/stubs/elementor.php
     - tests/phpstan/stubs/elementorpro.php
@@ -49,7 +48,6 @@ parameters:
     - '#PHPDoc tag @method for method GeminiLabs\\SiteReviews\\Modules\\Schema\\(.+)#'
   level: 5
   paths:
-    - assets/breakdance
     - config
     - plugin
   reportUnmatchedIgnoredErrors: false

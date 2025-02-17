@@ -83,9 +83,6 @@
     site-reviews/avatar/generate                                (string $avatarUrl, Review $review, int $size): string
     site-reviews/avatar/id_or_email                             (string $id_or_email, array $reviewValues): string
     site-reviews/block/<block>/attributes                       (array $attributes, string $block): array
-    site-reviews/breakdance/groups                              (array $groups, string $ElementClassName): array
-    site-reviews/breakdance/sections                            (array $sections, string $ElementClassName): array
-    site-reviews/breakdance/ssr                                 (array $args, array $data): array
     site-reviews/build/template/<template_path>                 (string $template, array $data): string
     site-reviews/builder/enable/optgroup                        (bool $enable): bool
     site-reviews/builder/result                                 (string $result, Contracts\BuilderContract $builder): string
