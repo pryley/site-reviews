@@ -89,10 +89,7 @@ class ElementorSummaryWidget extends ElementorWidget
                 'default' => '',
                 'label' => _x('Limit Reviews to terms', 'admin-text', 'site-reviews'),
                 'label_block' => true,
-                'options' => [
-                    'true' => _x('Terms were accepted', 'admin-text', 'site-reviews'),
-                    'false' => _x('Terms were not accepted', 'admin-text', 'site-reviews'),
-                ],
+                'options' => $this->get_shortcode_instance()->options('terms'),
                 'type' => Controls_Manager::SELECT2,
             ],
             'type' => $this->get_review_types(),
@@ -112,7 +109,7 @@ class ElementorSummaryWidget extends ElementorWidget
                 'type' => Controls_Manager::SWITCHER,
             ],
         ];
-        $hideOptions = $this->get_shortcode_instance()->getHideOptions();
+        $hideOptions = $this->get_shortcode_instance()->options('hide');
         foreach ($hideOptions as $key => $label) {
             $separator = $key === key(array_slice($hideOptions, 0, 1)) ? 'before' : 'default';
             $options["hide-{$key}"] = [

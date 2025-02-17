@@ -14,16 +14,11 @@ class Controller extends AbstractController
      */
     public function filterElementorPublicInlineScript(string $script): string
     {
-        if (defined('ELEMENTOR_VERSION')) {
-            $script .= 'function glsr_init_elementor(){GLSR.Event.trigger("site-reviews/init")}"undefined"!==typeof jQuery&&(';
-            $script .= 'jQuery(window).on("elementor/frontend/init",function(){';
-            $script .= 'elementorFrontend.elements.$window.on("elementor/popup/show",glsr_init_elementor);';
-            $script .= 'elementorFrontend.hooks.addAction("frontend/element_ready/site_review.default",glsr_init_elementor);';
-            $script .= 'elementorFrontend.hooks.addAction("frontend/element_ready/site_reviews.default",glsr_init_elementor);';
-            $script .= 'elementorFrontend.hooks.addAction("frontend/element_ready/site_reviews_form.default",glsr_init_elementor);';
-            $script .= '}));';
+        if (!defined('ELEMENTOR_VERSION')) {
+            return $script;
         }
-        return $script;
+        $inlineScript = (string) file_get_contents(glsr()->path('assets/scripts/integrations/elementor-frontend.js'));
+        return $script.$inlineScript;
     }
 
     /**

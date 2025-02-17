@@ -36,7 +36,7 @@ abstract class ElementorWidget extends Widget_Base
      */
     public function get_name()
     {
-        return $this->get_shortcode_instance()->shortcode;
+        return $this->get_shortcode_instance()->tag;
     }
 
     /**
@@ -144,17 +144,16 @@ abstract class ElementorWidget extends Widget_Base
 
     protected function get_review_types(): array
     {
-        $types = glsr()->retrieveAs('array', 'review_types', []);
-        if (2 > count($types)) {
-            return [];
+        if ($options = $this->get_shortcode_instance()->options('type')) {
+            return [
+                'default' => 'local',
+                'label' => _x('Limit the Type of Reviews', 'admin-text', 'site-reviews'),
+                'label_block' => true,
+                'options' => $options,
+                'type' => Controls_Manager::SELECT,
+            ];
         }
-        return [
-            'default' => 'local',
-            'label' => _x('Limit the Type of Reviews', 'admin-text', 'site-reviews'),
-            'label_block' => true,
-            'options' => $types,
-            'type' => Controls_Manager::SELECT,
-        ];
+        return [];
     }
 
     /**

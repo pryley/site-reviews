@@ -63,7 +63,7 @@ mix
   .setPublicPath('.')
   .babel('+/scripts/deactivate-plugin.js', 'assets/scripts/deactivate-plugin.js')
   .babel('+/scripts/rollback.js', 'assets/scripts/rollback.js')
-  .js('+/integrations/elementor/elementor-editor.js', 'assets/scripts/integrations')
+  // .js('+/integrations/elementor/elementor-editor.js', 'assets/scripts/integrations')
   .js('+/integrations/gamipress/gamipress.js', 'assets/scripts/integrations')
   .js('+/integrations/flatsome/flatsome-inline.js', 'assets/scripts/integrations')
   .js('+/integrations/wpbakery/wpbakery-editor.js', 'assets/scripts/integrations')

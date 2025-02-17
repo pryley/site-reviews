@@ -45,7 +45,7 @@ class ElementorReviewWidget extends ElementorWidget
                 'type' => Controls_Manager::TEXT,
             ],
         ];
-        $hideOptions = $this->get_shortcode_instance()->getHideOptions();
+        $hideOptions = $this->get_shortcode_instance()->options('hide');
         foreach ($hideOptions as $key => $label) {
             $separator = $key === key(array_slice($hideOptions, 0, 1)) ? 'before' : 'default';
             $options["hide-{$key}"] = [
