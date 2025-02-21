@@ -13,6 +13,8 @@ class ValidateForm
 
     public function __construct()
     {
+        $this->request = new Request();
+        glsr()->sessionPluck('form_blacklisted');
         glsr()->sessionPluck('form_errors');
         glsr()->sessionPluck('form_invalid');
         glsr()->sessionPluck('form_message');
@@ -25,12 +27,6 @@ class ValidateForm
     public function __get($property)
     {
         $result = $this->result();
-        if ('blacklisted' === $property) {
-            if (isset($this->request)) {
-                return $this->request->cast('blacklisted', 'bool');
-            }
-            return false;
-        }
         if ('message' === $property) {
             return $result->$property;
         }
@@ -49,6 +45,7 @@ class ValidateForm
     public function result(): Arguments
     {
         return glsr()->args([
+            'blacklisted' => glsr()->session()->cast('form_blacklisted', 'bool'),
             'errors' => glsr()->session()->array('form_errors'),
             'failed' => glsr()->session()->cast('form_invalid', 'bool'),
             'message' => glsr()->session()->cast('form_message', 'string'),

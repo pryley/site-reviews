@@ -70,6 +70,11 @@ class CreateReview extends AbstractCommand
         }
     }
 
+    public function isBlacklisted(): bool
+    {
+        return $this->validation->cast('blacklisted', 'bool') && 'local' === $this->type;
+    }
+
     /**
      * This method is used to validate the request instead of the "validate" method
      * when creating a review with the "glsr_create_review" function.

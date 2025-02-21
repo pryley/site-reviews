@@ -23,7 +23,7 @@ class BlacklistValidator extends ValidatorAbstract
     {
         if (!$this->isValid()) {
             if ('reject' !== glsr_get_option('forms.blacklist.action')) {
-                $this->request->set('blacklisted', true);
+                glsr()->sessionSet('form_blacklisted', true);
                 return;
             }
             $this->fail(
