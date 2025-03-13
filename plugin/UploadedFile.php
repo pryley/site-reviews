@@ -23,7 +23,7 @@ class UploadedFile extends \SplFileInfo
         $this->mimeType = $data['type'] ?: 'application/octet-stream';
         $this->originalName = $this->getName($data['name']);
         $this->size = $data['size'];
-        if (\UPLOAD_ERR_OK !== $this->error && !is_file($data['tmp_name'])) {
+        if (\UPLOAD_ERR_OK === $this->error && !is_file($data['tmp_name'])) {
             throw new FileNotFoundException($data['tmp_name']);
         }
         parent::__construct($data['tmp_name']);
@@ -109,14 +109,23 @@ class UploadedFile extends \SplFileInfo
             'json' => 'application/json',
         ]);
         $extensions = explode('|', array_search($this->getMimeType(), $mimetypes, true));
-        return $extensions[0] ?? $this->getExtension() ?? $this->getClientOriginalExtension();
+        return $extensions[0] ?? $this->getExtension() ?: $this->getClientOriginalExtension();
     }
 
     /**
      * This should not be considered a safe value.
+     * 1. Examine the file content for the MIME type.
+     * 2. Fallback to mime_content_type if Fileinfo fails or isn't available.
+     * 3. Fallback to client-provided MIME type.
      */
     public function getMimeType(): string
     {
+        if (extension_loaded('fileinfo')) {
+            $finfo = new \finfo(\FILEINFO_MIME_TYPE);
+            if ($mimeType = $finfo->file($this->getPathname())) {
+                return $mimeType;
+            }
+        }
         if (function_exists('mime_content_type')) {
             if ($mimeType = mime_content_type($this->getPathname())) {
                 return $mimeType;
@@ -138,7 +147,7 @@ class UploadedFile extends \SplFileInfo
             'text/csv',
         ];
         if ('text/csv' === $mimeType && in_array($detectedMimeType, $csvMimeTypes)) {
-            return 'csv' === ($this->getExtension() ?? $this->getClientOriginalExtension());
+            return 'csv' === ($this->getExtension() ?: $this->getClientOriginalExtension());
         }
         $inconclusiveMimeTypes = [
             'application/octet-stream',
