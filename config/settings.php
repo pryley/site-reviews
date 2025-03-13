@@ -301,7 +301,7 @@ return [ // order is intentional
         'type' => 'yes_no',
     ],
     'settings.reviews.avatars' => [
-        'default' => 'no',
+        'default' => 'yes',
         'label' => _x('Enable Avatars', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('The avatars are generated from the email address of the reviewer using <a href="https://gravatar.com" target="_blank">Gravatar</a>.', 'admin-text', 'site-reviews'),
