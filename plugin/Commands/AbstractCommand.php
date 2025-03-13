@@ -16,6 +16,12 @@ abstract class AbstractCommand implements CommandContract
         $this->result = false;
     }
 
+    public function hasRequest(): bool
+    {
+        return isset($this->request)
+            && is_a($this->request, Request::class);
+    }
+
     public function pass(): void
     {
         $this->result = true;
@@ -26,12 +32,12 @@ abstract class AbstractCommand implements CommandContract
         return Url::home();
     }
 
-    public function request(): ?Request
+    public function request(): Request
     {
-        if (isset($this->request) && is_a($this->request, Request::class)) {
-            return $this->request;
+        if (!$this->hasRequest()) {
+            return new Request();
         }
-        return null;
+        return $this->request;
     }
 
     public function response(): array

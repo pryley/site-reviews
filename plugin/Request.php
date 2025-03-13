@@ -12,8 +12,9 @@ class Request extends Arguments
 {
     public function decrypt(string $key): string
     {
-        $value = glsr(Encryption::class)->decrypt($this->cast($key, 'string'));
-        return Cast::toString($value);
+        $value = $this->cast($key, 'string');
+        $decrypted = glsr(Encryption::class)->decrypt($value);
+        return Cast::toString($decrypted);
     }
 
     /**
