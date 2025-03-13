@@ -70,9 +70,9 @@ class UploadedFile extends \SplFileInfo
      */
     public function getContent(): string
     {
-        $content = file_get_contents($this->getPathname());
-        if (false === $content) {
-            throw new FileException(sprintf('Could not get the content of the file "%s".', $this->getPathname()));
+        $content = '';
+        foreach ($this->streamContent() as $chunk) {
+            $content .= $chunk;
         }
         return $content;
     }
@@ -88,6 +88,9 @@ class UploadedFile extends \SplFileInfo
 
     public function getErrorMessage(): string
     {
+        if (\UPLOAD_ERR_OK === $this->error) {
+            return '';
+        }
         $errors = [
             \UPLOAD_ERR_INI_SIZE => _x('The file "%s" exceeds the upload_max_filesize ini directive (limit is %d KiB).', 'file error (admin-text)', 'site-reviews'),
             \UPLOAD_ERR_FORM_SIZE => _x('The file "%s" exceeds the upload limit defined in your form.', 'file error (admin-text)', 'site-reviews'),
@@ -167,6 +170,22 @@ class UploadedFile extends \SplFileInfo
     {
         $isOk = \UPLOAD_ERR_OK === $this->error;
         return $isOk && is_uploaded_file($this->getPathname());
+    }
+
+    /**
+     * @throws FileException
+     * @return \Generator<string>
+     */
+    public function streamContent(int $chunkSize = 8192): \Generator
+    {
+        $file = new \SplFileObject($this->getPathname(), 'r');
+        while (!$file->eof()) {
+            $chunk = $file->fread($chunkSize); // 8KB by default
+            if ($chunk === false) {
+                throw new FileException(sprintf('Could not stream the contents of "%s".', $this->getPathname()));
+            }
+            yield $chunk;
+        }
     }
 
     /**
