@@ -14,9 +14,23 @@ class Encryption
      */
     public function decrypt(string $message)
     {
+        $decoded = $this->decode($message);
+        if (empty($decoded)) {
+            return '';
+        }
         try {
-            $ciphertext = $this->decode($message);
-            return sodium_crypto_secretbox_open($ciphertext, $this->nonce(), $this->key());
+            $nonceLength = \SODIUM_CRYPTO_SECRETBOX_NONCEBYTES;
+            if (strlen($decoded) >= $nonceLength + 1) { // Minimum for new format
+                $nonce = substr($decoded, 0, $nonceLength);
+                $ciphertext = substr($decoded, $nonceLength);
+                if (strlen($nonce) === $nonceLength) {
+                    $plaintext = sodium_crypto_secretbox_open($ciphertext, $nonce, $this->key());
+                    if (false !== $plaintext) {
+                        return $plaintext; // Success with new format
+                    }
+                }
+            }
+            return $this->legacyDecrypt($decoded);
         } catch (\Exception $e) {
             glsr_log()->error($e->getMessage());
             return false;
@@ -45,8 +59,10 @@ class Encryption
     public function encrypt(string $message)
     {
         try {
-            $ciphertext = sodium_crypto_secretbox($message, $this->nonce(), $this->key());
-            return $this->encode($ciphertext);
+            $nonce = random_bytes(\SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
+            $ciphertext = sodium_crypto_secretbox($message, $nonce, $this->key());
+            // Prepend nonce to ciphertext
+            return $this->encode($nonce.$ciphertext);
         } catch (\Exception $e) {
             glsr_log()->error($e->getMessage());
             return false;
@@ -61,21 +77,34 @@ class Encryption
         return (string) $this->encrypt($message);
     }
 
-    protected function key(): string
+    /**
+     * @return string|false
+     */
+    protected function legacyDecrypt(string $ciphertext)
     {
-        if (!defined('NONCE_KEY')) {
-            return '';
+        try {
+            $plaintext = sodium_crypto_secretbox_open($ciphertext, $this->legacyNonce(), $this->key());
+            if (false === $plaintext) {
+                throw new \Exception('Legacy decryption failed');
+            }
+            return $plaintext;
+        } catch (\Exception $e) {
+            glsr_log()->error($e->getMessage());
+            return false;
         }
-        $key = substr(\NONCE_KEY, 0, \SODIUM_CRYPTO_SECRETBOX_KEYBYTES);
-        return str_pad($key, \SODIUM_CRYPTO_SECRETBOX_KEYBYTES, '#');
     }
 
-    protected function nonce(): string
+    protected function legacyNonce(): string
     {
-        if (!defined('NONCE_SALT')) {
-            return '';
-        }
-        $nonce = substr(\NONCE_SALT, 0, \SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
+        $nonce = defined('NONCE_SALT') ? \NONCE_SALT : '';
+        $nonce = substr($nonce, 0, \SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
         return str_pad($nonce, \SODIUM_CRYPTO_SECRETBOX_NONCEBYTES, '#');
+    }
+
+    protected function key(): string
+    {
+        $key = defined('NONCE_KEY') ? \NONCE_KEY : '';
+        $key = substr($key, 0, \SODIUM_CRYPTO_SECRETBOX_KEYBYTES);
+        return str_pad($key, \SODIUM_CRYPTO_SECRETBOX_KEYBYTES, '#');
     }
 }
