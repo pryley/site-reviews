@@ -3,20 +3,28 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Defaults\DependencyDefaults;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Gatekeeper
 {
     public array $dependencies;
     public array $errors;
 
+    public const ERROR_NOT_ACTIVATED = 'not_activated';
+    public const ERROR_NOT_INSTALLED = 'not_installed';
+    public const ERROR_NOT_SUPPORTED = 'not_supported';
+    public const ERROR_NOT_TESTED = 'not_tested';
+
     public function __construct(array $dependencies)
     {
-        require_once ABSPATH.'wp-admin/includes/plugin.php';
         $this->errors = [];
         $this->parseDependencies($dependencies);
     }
 
+    /**
+     * Checks if all dependencies meet activation criteria.
+     *
+     * @return bool true if all dependencies are satisfied, false otherwise
+     */
     public function allows(): bool
     {
         foreach ($this->dependencies as $plugin => $data) {
@@ -45,52 +53,43 @@ class Gatekeeper
 
     public function isPluginActivated(string $plugin): bool
     {
-        $isActive = is_plugin_active($plugin) || array_key_exists($plugin, $this->muPlugins());
-        return $this->catchError($plugin, $isActive, 'not_activated');
+        $isActive = is_plugin_active($plugin);
+        return $this->catchError($plugin, $isActive, static::ERROR_NOT_ACTIVATED);
     }
 
     public function isPluginInstalled(string $plugin): bool
     {
-        $isInstalled = array_key_exists($plugin, $this->plugins());
-        return $this->catchError($plugin, $isInstalled, 'not_installed');
+        $isInstalled = $this->dependencies[$plugin]['is_installed'];
+        return $this->catchError($plugin, $isInstalled, static::ERROR_NOT_INSTALLED);
     }
 
     public function isPluginVersionSupported(string $plugin): bool
     {
-        $requiredVersion = $this->dependencies[$plugin]['Version'];
-        $installedVersion = $this->pluginValue($plugin, 'Version');
-        $isVersionValid = version_compare($installedVersion, $requiredVersion, '>=');
-        return $this->catchError($plugin, $isVersionValid, 'not_supported');
+        $minimumVersion = $this->dependencies[$plugin]['minimum_version'];
+        $installedVersion = $this->dependencies[$plugin]['installed_version'];
+        $isVersionValid = version_compare($installedVersion, $minimumVersion, '>=');
+        return $this->catchError($plugin, $isVersionValid, static::ERROR_NOT_SUPPORTED);
     }
 
     public function isPluginVersionTested(string $plugin): bool
     {
-        $untestedVersion = $this->dependencies[$plugin]['UntestedVersion'];
-        $installedVersion = $this->pluginValue($plugin, 'Version');
+        $untestedVersion = $this->dependencies[$plugin]['untested_version'];
+        $installedVersion = $this->dependencies[$plugin]['installed_version'];
         $isVersionValid = version_compare($installedVersion, $untestedVersion, '<');
-        return $this->catchError($plugin, $isVersionValid, 'not_tested');
+        return $this->catchError($plugin, $isVersionValid, static::ERROR_NOT_TESTED);
     }
 
     protected function catchError(string $plugin, bool $isValid, string $errorType): bool
     {
         if (!$isValid) {
-            $this->errors[$plugin] = wp_parse_args($this->pluginData($plugin), [
+            $this->errors[$plugin] = [
                 'error' => $errorType,
-            ]);
+                'name' => $this->dependencies[$plugin]['name'],
+                'plugin_uri' => $this->dependencies[$plugin]['plugin_uri'],
+                'textdomain' => $this->dependencies[$plugin]['textdomain'],
+            ];
         }
         return $isValid;
-    }
-
-    protected function muPlugins(): array
-    {
-        $plugins = get_mu_plugins();
-        if (in_array('Bedrock Autoloader', array_column($plugins, 'Name'))) {
-            $autoloaded = get_site_option('bedrock_autoloader');
-            if (!empty($autoloaded['plugins'])) {
-                return array_merge($plugins, $autoloaded['plugins']);
-            }
-        }
-        return $plugins;
     }
 
     protected function parseDependencies(array $dependencies): void
@@ -98,45 +97,36 @@ class Gatekeeper
         $results = [];
         foreach ($dependencies as $plugin => $data) {
             $data = glsr(DependencyDefaults::class)->restrict($data);
-            $data = array_filter($data);
-            if (4 === count($data)) {
-                $results[$plugin] = [
-                    'Name' => $data['name'],
-                    'PluginURI' => $data['plugin_uri'],
-                    'UntestedVersion' => $data['untested_version'],
-                    'Version' => $data['minimum_version'],
-                ];
+            if (count($data) !== count(array_filter($data))) {
+                continue; // incomplete data
+            }
+            $results[$plugin] = wp_parse_args($data, [
+                'installed_version' => '',
+                'is_installed' => false,
+                'textdomain' => '',
+            ]);
+            if ($headers = $this->pluginHeaders($plugin)) {
+                $data = wp_parse_args($headers, $results[$plugin]); // header values take precedence
+                $data['is_installed'] = true;
+                $results[$plugin] = $data;
             }
         }
         $this->dependencies = $results;
     }
 
-    protected function pluginData(string $plugin): array
+    protected function pluginHeaders(string $plugin): array
     {
-        $plugins = $this->isPluginInstalled($plugin)
-            ? $this->plugins()
-            : $this->dependencies;
-        if (!empty($plugins[$plugin])) {
-            $data = $plugins[$plugin];
-            $data['plugin'] = $plugin;
-            $data['slug'] = substr($plugin, 0, strrpos($plugin, '/'));
-            return array_change_key_case($data, CASE_LOWER);
+        if (0 !== validate_file($plugin)) {
+            return [];
         }
-        glsr_log()->error(sprintf('Plugin information not found for: %s', $plugin));
-        return [];
-    }
-
-    protected function plugins(): array
-    {
-        return array_merge(get_plugins(), $this->muPlugins());
-    }
-
-    protected function pluginValue(string $plugin, string $key): string
-    {
-        $plugins = $this->plugins();
-        if (array_key_exists($plugin, $plugins)) {
-            return Arr::getAs('string', $plugins[$plugin], $key);
+        if (!file_exists(\WP_PLUGIN_DIR.'/'.$plugin)) {
+            return [];
         }
-        return '';
+        return get_file_data(\WP_PLUGIN_DIR.'/'.$plugin, [
+            'installed_version' => 'Version',
+            'name' => 'Plugin Name',
+            'plugin_uri' => 'Plugin URI',
+            'textdomain' => 'Text Domain',
+        ]);
     }
 }

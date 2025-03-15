@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Notices;
 
+use GeminiLabs\SiteReviews\Defaults\GatekeeperNoticeDefaults;
+use GeminiLabs\SiteReviews\Gatekeeper;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -13,14 +15,18 @@ class GatekeeperNotice extends AbstractNotice
 
     public function render(): void
     {
-        if ($errors = $this->errors(['not_activated', 'not_installed', 'not_supported'])) {
+        if ($errors = $this->errors([
+            Gatekeeper::ERROR_NOT_ACTIVATED,
+            Gatekeeper::ERROR_NOT_INSTALLED,
+            Gatekeeper::ERROR_NOT_SUPPORTED,
+        ])) {
             glsr()->render('partials/notices/gatekeeper-external', [
                 'actions' => $this->pluginActions($errors),
                 'errors' => $errors,
                 'links' => $this->pluginLinks($errors),
             ]);
         }
-        if ($errors = $this->errors(['not_tested'])) {
+        if ($errors = $this->errors([Gatekeeper::ERROR_NOT_TESTED])) {
             glsr()->render('partials/notices/gatekeeper-internal', [
                 'actions' => $this->pluginActions($errors),
                 'errors' => $errors,
@@ -31,13 +37,14 @@ class GatekeeperNotice extends AbstractNotice
 
     protected function canRender(): bool
     {
-        $errors = get_transient(glsr()->prefix.'gatekeeper');
+        $transient = glsr()->prefix.'gatekeeper';
+        $errors = get_transient($transient);
         if (!is_array($errors)) {
             $this->errors = [];
             return false;
         }
         $this->errors = $errors;
-        delete_transient(glsr()->prefix.'gatekeeper');
+        delete_transient($transient);
         return parent::canRender();
     }
 
@@ -78,9 +85,9 @@ class GatekeeperNotice extends AbstractNotice
         return $this->pluginAction([
             'action' => 'activate',
             'admin_page' => 'plugins.php',
-            'name' => Arr::getAs('string', $data, 'name'),
+            'name' => $data['name'],
             'nonce_prefix' => 'activate-plugin_',
-            'plugin' => Arr::getAs('string', $data, 'plugin'),
+            'plugin' => $data['plugin'],
             'text' => _x('Activate %s', 'admin-text', 'site-reviews'),
         ]);
     }
@@ -93,9 +100,9 @@ class GatekeeperNotice extends AbstractNotice
         return $this->pluginAction([
             'action' => 'install-plugin',
             'admin_page' => 'update.php',
-            'name' => Arr::getAs('string', $data, 'name'),
+            'name' => $data['name'],
             'nonce_prefix' => 'install-plugin_',
-            'plugin' => Arr::getAs('string', $data, 'slug'),
+            'plugin' => $data['textdomain'],
             'text' => _x('Install %s', 'admin-text', 'site-reviews'),
         ]);
     }
@@ -108,9 +115,9 @@ class GatekeeperNotice extends AbstractNotice
         return $this->pluginAction([
             'action' => 'upgrade-plugin',
             'admin_page' => 'update.php',
-            'name' => Arr::getAs('string', $data, 'name'),
+            'name' => $data['name'],
             'nonce_prefix' => 'upgrade-plugin_',
-            'plugin' => Arr::getAs('string', $data, 'plugin'),
+            'plugin' => $data['plugin'],
             'text' => _x('Update %s', 'admin-text', 'site-reviews'),
         ]);
     }
@@ -138,9 +145,13 @@ class GatekeeperNotice extends AbstractNotice
     {
         $actions = [];
         foreach ($errors as $plugin => $data) {
-            $error = Arr::getAs('string', $data, 'error');
-            $method = Helper::buildMethodName('pluginAction', $error);
+            $data = glsr(GatekeeperNoticeDefaults::class)->restrict($data);
+            if (empty($data['error'])) {
+                continue;
+            }
+            $method = Helper::buildMethodName('pluginAction', $data['error']);
             if (method_exists($this, $method)) {
+                $data['plugin'] = $plugin;
                 $actions[] = call_user_func([$this, $method], $data);
             }
         }
@@ -151,10 +162,11 @@ class GatekeeperNotice extends AbstractNotice
     {
         $links = [];
         foreach ($errors as $plugin => $data) {
+            $data = glsr(GatekeeperNoticeDefaults::class)->restrict($data);
             $links[] = sprintf('<span class="plugin-%s"><a href="%s">%s</a></span>',
-                Arr::getAs('string', $data, 'slug'),
-                Arr::getAs('string', $data, 'pluginuri'),
-                Arr::getAs('string', $data, 'name')
+                $data['textdomain'],
+                $data['plugin_uri'],
+                $data['name']
             );
         }
         return Str::naturalJoin($links);
