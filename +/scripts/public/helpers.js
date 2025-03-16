@@ -67,3 +67,26 @@ export const parseJson = (str) => {
     return [err, str];
   }
 };
+
+export const throttle = (func, wait = 32) => {
+  let timeout = null;
+  let lastRan = 0;
+  return function (...args) {
+    const now = Date.now();
+    const elapsed = now - lastRan;
+    if (elapsed >= wait) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      lastRan = now;
+      return func.apply(this, args);
+    } else if (!timeout) {
+      timeout = setTimeout(() => {
+        lastRan = Date.now();
+        timeout = null;
+        func.apply(this, args);
+      }, wait - elapsed);
+    }
+  };
+};

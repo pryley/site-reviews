@@ -1,0 +1,34 @@
+{
+    "name": "@site-reviews/store",
+    "version": "1.0.0",
+    "description": "Data store for Site Reviews.",
+    "author": {
+        "name": "Paul Ryley",
+        "email": "paul@geminilabs.io",
+        "url": "http://geminilabs.io"
+    },
+    "license": "GPL-2.0-or-later",
+    "keywords": [
+        "site-reviews",
+        "wordpress",
+        "gutenberg",
+        "data",
+        "redux"
+    ],
+    "homepage": "https://github.com/pryley/site-reviews/tree/HEAD/+/packages/store/README.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pryley/site-reviews.git",
+        "directory": "+/packages/store"
+    },
+    "bugs": {
+        "url": "https://github.com/pryley/site-reviews/issues"
+    },
+    "main": "index.jsx",
+    "dependencies": {
+        "@wordpress/scripts": "^30.11.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

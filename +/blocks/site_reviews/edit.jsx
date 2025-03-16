@@ -1,15 +1,12 @@
-import AjaxComboboxControl from '../AjaxComboboxControl';
-import AjaxFormTokenField from '../AjaxFormTokenField';
-import AjaxToggleGroupControl from '../AjaxToggleGroupControl';
-import NoYesControl from '../NoYesControl';
-import RenderedBlock from '../RenderedBlock';
 import { _x } from '@wordpress/i18n';
+import { AjaxComboboxControl, AjaxFormTokenField, AjaxToggleGroupControl, NoYesControl } from '@site-reviews/components';
 import { RangeControl, TextControl } from '@wordpress/components';
+import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
 export default function Edit (props) {
     const { attributes, setAttributes } = props;
     setAttributes({ post_id: jQuery('#post_ID').val() }) // used to get the "post_id" assigned_posts value
-    const inspectorControls = {
+    const controls = {
         assigned_posts: <AjaxFormTokenField
             endpoint='/site-reviews/v1/shortcode/site_reviews?option=assigned_posts'
             key='assigned_posts'
@@ -36,31 +33,6 @@ export default function Edit (props) {
             prefetch={ true }
             value={ attributes.assigned_users }
         />,
-        terms: <AjaxComboboxControl
-            endpoint='/site-reviews/v1/shortcode/site_reviews?option=terms'
-            key='terms'
-            label={ _x('Limit Reviews by terms accepted', 'admin-text', 'site-reviews') }
-            onChange={ (terms) => setAttributes({ terms }) }
-            placeholder={ _x('Select Review Terms...', 'admin-text', 'site-reviews') }
-            value={ attributes.terms }
-        />,
-        type: <AjaxComboboxControl
-            endpoint='/site-reviews/v1/shortcode/site_reviews?option=type'
-            hideIfEmpty={ true }
-            key='type'
-            label={ _x('Limit Reviews by Type', 'admin-text', 'site-reviews') }
-            onChange={ (type) => setAttributes({ type }) }
-            placeholder={ _x('Select a Review Type...', 'admin-text', 'site-reviews') }
-            value={ attributes.type }
-        />,
-        pagination: <AjaxComboboxControl
-            endpoint='/site-reviews/v1/shortcode/site_reviews?option=pagination'
-            key='pagination'
-            label={ _x('Pagination Type', 'admin-text', 'site-reviews') }
-            onChange={ (pagination) => setAttributes({ pagination }) }
-            placeholder={ _x('Select Pagination...', 'admin-text', 'site-reviews') }
-            value={ attributes.pagination }
-        />,
         display: <RangeControl
             __next40pxDefaultSize
             __nextHasNoMarginBottom
@@ -70,6 +42,30 @@ export default function Edit (props) {
             max='50'
             onChange={ (display) => setAttributes({ display }) }
             value={ attributes.display }
+        />,
+        hide: <AjaxToggleGroupControl
+            endpoint='/site-reviews/v1/shortcode/site_reviews?option=hide'
+            key='hide'
+            onChange={ (hide) => setAttributes({ hide }) }
+            value={ attributes.hide }
+        />,
+        id: <TextControl
+            __next40pxDefaultSize
+            __nextHasNoMarginBottom
+            help={ _x('This should be a unique value.', 'admin-text', 'site-reviews') }
+            key='id'
+            label={ _x('Custom ID', 'admin-text', 'site-reviews') }
+            onChange={ (id) => setAttributes({ id }) }
+            value={ attributes.id }
+        />,
+        pagination: <AjaxComboboxControl
+            __experimentalRenderItem={false}
+            endpoint='/site-reviews/v1/shortcode/site_reviews?option=pagination'
+            key='pagination'
+            label={ _x('Pagination Type', 'admin-text', 'site-reviews') }
+            onChange={ (pagination) => setAttributes({ pagination }) }
+            placeholder={ _x('Select Pagination...', 'admin-text', 'site-reviews') }
+            value={ attributes.pagination }
         />,
         rating: <RangeControl
             __next40pxDefaultSize
@@ -88,30 +84,52 @@ export default function Edit (props) {
             label={ _x('Enable the Schema?', 'admin-text', 'site-reviews') }
             value={ attributes.schema }
         />,
-        hide: <AjaxToggleGroupControl
-            endpoint='/site-reviews/v1/shortcode/site_reviews?option=hide'
-            key='hide'
-            label={ _x('Hide Options', 'admin-text', 'site-reviews') }
-            onChange={ (hide) => setAttributes({ hide }) }
-            value={ attributes.hide }
+        terms: <AjaxComboboxControl
+            __experimentalRenderItem={false}
+            endpoint='/site-reviews/v1/shortcode/site_reviews?option=terms'
+            key='terms'
+            label={ _x('Limit Reviews by terms accepted', 'admin-text', 'site-reviews') }
+            onChange={ (terms) => setAttributes({ terms }) }
+            placeholder={ _x('Select Review Terms...', 'admin-text', 'site-reviews') }
+            value={ attributes.terms }
+        />,
+        type: <AjaxComboboxControl
+            __experimentalRenderItem={false}
+            endpoint='/site-reviews/v1/shortcode/site_reviews?option=type'
+            hideIfEmpty={ true }
+            key='type'
+            label={ _x('Limit Reviews by Type', 'admin-text', 'site-reviews') }
+            onChange={ (type) => setAttributes({ type }) }
+            placeholder={ _x('Select a Review Type...', 'admin-text', 'site-reviews') }
+            value={ attributes.type }
         />,
     };
-    const inspectorAdvancedControls = {
-        id: <TextControl
-            __next40pxDefaultSize
-            __nextHasNoMarginBottom
-            help={ _x('This should be a unique value.', 'admin-text', 'site-reviews') }
-            key='id'
-            label={ _x('Custom ID', 'admin-text', 'site-reviews') }
-            onChange={ (id) => setAttributes({ id }) }
-            value={ attributes.id }
-        />,
+    const panels = {
+        settings: {
+            controls: [
+                'assigned_posts',
+                'assigned_terms',
+                'assigned_users',
+                'terms',
+                'type',
+                'pagination',
+                'display',
+                'rating',
+                'schema',
+            ],
+        },
+        hide: {
+            controls: [
+                'hide',
+            ],
+        },
+        advanced: {
+            controls: [
+                'id',
+            ],
+        }
     };
     return (
-        <RenderedBlock
-            inspectorControls={inspectorControls}
-            inspectorAdvancedControls={inspectorAdvancedControls}
-            props={props}
-        />
+        <ServerSideBlockRenderer controls={controls} panels={panels} props={props} />
     )
 }

@@ -1,12 +1,11 @@
-import AjaxFormTokenField from '../AjaxFormTokenField';
-import AjaxToggleGroupControl from '../AjaxToggleGroupControl';
-import RenderedBlock from '../RenderedBlock';
 import { _x } from '@wordpress/i18n';
+import { AjaxFormTokenField, AjaxToggleGroupControl } from '@site-reviews/components';
 import { TextControl } from '@wordpress/components';
+import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
 export default function Edit (props) {
     const { attributes, setAttributes } = props;
-    const inspectorControls = {
+    const controls = {
         assigned_posts: <AjaxFormTokenField
             endpoint='/site-reviews/v1/shortcode/site_reviews_form?option=assigned_posts'
             key='assigned_posts'
@@ -36,20 +35,8 @@ export default function Edit (props) {
         hide: <AjaxToggleGroupControl
             endpoint='/site-reviews/v1/shortcode/site_reviews_form?option=hide'
             key='hide'
-            label={ _x('Hide Options', 'admin-text', 'site-reviews') }
             onChange={ (hide) => setAttributes({ hide }) }
             value={ attributes.hide }
-        />,
-    };
-    const inspectorAdvancedControls = {
-        reviews_id: <TextControl
-            __next40pxDefaultSize
-            __nextHasNoMarginBottom
-            help={ _x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews') }
-            key='reviews_id'
-            label={ _x('Reviews ID', 'admin-text', 'site-reviews') }
-            onChange={ reviews_id => setAttributes({ reviews_id }) }
-            value={ attributes.reviews_id }
         />,
         id: <TextControl
             __next40pxDefaultSize
@@ -60,17 +47,46 @@ export default function Edit (props) {
             onChange={ id => setAttributes({ id }) }
             value={ attributes.id }
         />,
+        reviews_id: <TextControl
+            __next40pxDefaultSize
+            __nextHasNoMarginBottom
+            help={ _x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews') }
+            key='reviews_id'
+            label={ _x('Reviews ID', 'admin-text', 'site-reviews') }
+            onChange={ reviews_id => setAttributes({ reviews_id }) }
+            value={ attributes.reviews_id }
+        />,
     };
-    const onRenderComplete = () => {
+    const panels = {
+        settings: {
+            controls: [
+                'assigned_posts',
+                'assigned_terms',
+                'assigned_users',
+            ],
+        },
+        hide: {
+            controls: [
+                'hide',
+            ],
+        },
+        advanced: {
+            controls: [
+                'reviews_id',
+                'id',
+            ],
+        }
+    };
+    const onRenderComplete = () => { // @todo render the stars server-side!
         if (GLSR?.stars) {
             GLSR.stars.destroy();
             GLSR.stars.init('.glsr-field-rating select', { clearable: true });
         }
     };
     return (
-        <RenderedBlock
-            inspectorControls={inspectorControls}
-            inspectorAdvancedControls={inspectorAdvancedControls}
+        <ServerSideBlockRenderer
+            controls={controls}
+            panels={panels}
             props={props}
             renderCallback={onRenderComplete}
         />

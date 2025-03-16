@@ -29,7 +29,7 @@
             "type": "string"
         }
     },
-    "editorScript": "file:./index.jsx",
+    "editorScript": "file:./index.js",
     "script": "site-reviews",
     "keywords": [
         "review",

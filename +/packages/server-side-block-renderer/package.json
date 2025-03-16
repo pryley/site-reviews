@@ -1,0 +1,32 @@
+{
+    "name": "@site-reviews/server-side-block-renderer",
+    "version": "1.0.0",
+    "description": "Server Side Renderer for Site Reviews blocks.",
+    "author": {
+        "name": "Paul Ryley",
+        "email": "paul@geminilabs.io",
+        "url": "http://geminilabs.io"
+    },
+    "license": "GPL-2.0-or-later",
+    "keywords": [
+        "site-reviews",
+        "wordpress",
+        "gutenberg"
+    ],
+    "homepage": "https://github.com/pryley/site-reviews/tree/HEAD/+/packages/server-side-block-renderer/README.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pryley/site-reviews.git",
+        "directory": "+/packages/server-side-block-renderer"
+    },
+    "bugs": {
+        "url": "https://github.com/pryley/site-reviews/issues"
+    },
+    "main": "index.jsx",
+    "dependencies": {
+        "@wordpress/scripts": "^30.11.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

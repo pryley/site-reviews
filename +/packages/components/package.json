@@ -1,0 +1,32 @@
+{
+    "name": "@site-reviews/components",
+    "version": "1.0.0",
+    "description": "Block components for Site Reviews.",
+    "author": {
+        "name": "Paul Ryley",
+        "email": "paul@geminilabs.io",
+        "url": "http://geminilabs.io"
+    },
+    "license": "GPL-2.0-or-later",
+    "keywords": [
+        "wordpress",
+        "gutenberg",
+        "components"
+    ],
+    "homepage": "https://github.com/pryley/site-reviews/tree/HEAD/+/packages/components/README.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pryley/site-reviews.git",
+        "directory": "+/packages/components"
+    },
+    "bugs": {
+        "url": "https://github.com/pryley/site-reviews/issues"
+    },
+    "main": "src/index.jsx",
+    "dependencies": {
+        "@wordpress/scripts": "^30.11.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

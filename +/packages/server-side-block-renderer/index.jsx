@@ -2,12 +2,13 @@ import ServerSideRender from '@wordpress/server-side-render';
 import { _x } from '@wordpress/i18n';
 import { InspectorControls, InspectorAdvancedControls, useBlockProps } from '@wordpress/block-editor';
 import { Disabled, PanelBody, Spinner } from '@wordpress/components';
-import { useCallback, useEffect, useRef } from '@wordpress/element';
+import { useCallback, useEffect, useMemo, useRef } from '@wordpress/element';
+import { BaseControl, Notice } from '@wordpress/components';
 
-const RenderedBlock = ({
+const ServerSideBlockRenderer = ({
     className = 'ssr',
-    inspectorAdvancedControls = {},
-    inspectorControls = {},
+    controls = {},
+    panels = {},
     props,
     renderCallback,
 }) => {
@@ -15,12 +16,21 @@ const RenderedBlock = ({
     const hookPrefix = blockName.replace('/', '.');
     const ref = useRef(null);
 
+    // Define CSS variables using the attributes
+    const blockProps = useBlockProps({
+        ref,
+        // style: {
+        //     '--glsr-block-font-size': attributes.fontSize,
+        // },
+    });
+
+
     // Use useCallback to memoize the observer callback
     const observerCallback = useCallback((mutations) => {
         for (const mutation of mutations) {
             if ('childList' !== mutation.type) continue
             for (const node of mutation.addedNodes) {
-                if ('DIV' !== node.tagName || !node.classList.contains(className)) continue
+                if (!(node instanceof HTMLElement) || !node.classList.contains(className)) continue;
                 if ('function' === typeof renderCallback) {
                     const block = node.firstElementChild;
                     block.classList.add('glsr-' + window.getComputedStyle(block, null).getPropertyValue('direction'))
@@ -29,7 +39,7 @@ const RenderedBlock = ({
                 return
             }
         }
-    }, [renderCallback]);
+    }, [renderCallback, className]);
 
     useEffect(() => {
         if (!ref.current) return
@@ -40,14 +50,6 @@ const RenderedBlock = ({
         })
         return () => observer.disconnect()
     }, [observerCallback])
-
-    const inspectorPanels = {
-        panel_settings: (
-            <PanelBody title={_x('Settings', 'admin-text', 'site-reviews')}>
-                {Object.values(wp.hooks.applyFilters(`${hookPrefix}.InspectorControls`, inspectorControls, props))}
-            </PanelBody>
-        ),
-    };
 
     const CustomLoadingPlaceholder = ({ children, showLoader }) => {
         return (
@@ -79,15 +81,66 @@ const RenderedBlock = ({
         )
     };
 
+    const filteredControls = useMemo(
+        () => wp.hooks.applyFilters(`${hookPrefix}.InspectorControls`, controls, props),
+        [controls, props, hookPrefix]
+    );
+    const filteredPanels = useMemo(
+        () => wp.hooks.applyFilters(`${hookPrefix}.InspectorPanels`, panels, props),
+        [panels, props, hookPrefix]
+    );
+
+    const defaultPanelTitles = {
+        hide: _x('Hide Options', 'admin-text', 'site-reviews'),
+        settings: _x('Settings', 'admin-text', 'site-reviews'),
+        // styles: _x('Styles', 'admin-text', 'site-reviews'),
+    };
+
+    const normalizedPanels = Object.fromEntries(
+        Object.entries(filteredPanels).map(([panelKey, panel]) => [
+            panelKey,
+            {
+                ...panel,
+                controls: Array.isArray(panel.controls) ? panel.controls : [],
+                title: panel.title || defaultPanelTitles[panelKey] || null,
+            },
+        ])
+    );
+
+    const renderControls = (controlsArray, context = 'unknown') => {
+        return controlsArray
+            .filter((controlKey) => {
+                if (!(controlKey in filteredControls)) {
+                    console.warn(`"${controlKey}" control not found in the "${context}" panel`);
+                }
+                return controlKey in filteredControls;
+            })
+            .map((controlKey) => filteredControls[controlKey]);
+    }
+
+    const inspectorPanels = Object.entries(normalizedPanels).filter(([panelKey, panel]) => {
+        return 'advanced' !== panelKey && 0 < panel.controls.length;
+    });
+    const inspectorAdvancedControls = normalizedPanels?.advanced?.controls || [];
+
     return (
         <>
-            <InspectorControls>
-                {Object.values(wp.hooks.applyFilters(`${hookPrefix}.InspectorPanels`, inspectorPanels, props))}
+            <InspectorControls group="settings">
+                {inspectorPanels.map(([panelKey, panel]) => {
+                    const { controls, ...panelProps } = panel; // Exclude controls
+                    return (
+                        <PanelBody {...panelProps}>
+                            {renderControls(panel.controls, panelKey)}
+                        </PanelBody>
+                    )
+                })}
+            </InspectorControls>
+            <InspectorControls group="styles">
             </InspectorControls>
             <InspectorAdvancedControls>
-                {Object.values(wp.hooks.applyFilters(`${hookPrefix}.InspectorAdvancedControls`, inspectorAdvancedControls, props))}
+                {renderControls(inspectorAdvancedControls, 'advanced')}
             </InspectorAdvancedControls>
-            <div {...useBlockProps({ ref })}>
+            <div {...blockProps}>
                 <Disabled isDisabled>
                     <ServerSideRender
                         attributes={ attributes }
@@ -102,4 +155,4 @@ const RenderedBlock = ({
     );
 };
 
-export default RenderedBlock;
+export default ServerSideBlockRenderer;
