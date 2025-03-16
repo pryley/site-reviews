@@ -7,7 +7,7 @@
                 {{ label }}
             </div>
             <div class="nf-field-element">
-                <ul>
+                <ul class="glsr-field-subgroup">
                     {{ field }}
                 </ul>
             </div>

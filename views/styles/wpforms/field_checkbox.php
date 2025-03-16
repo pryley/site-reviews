@@ -2,7 +2,7 @@
 
 <div class="wpforms-field-checkbox {{ class }}" data-field="{{ field_name }}">
     {{ label }}
-    <ul>
+    <ul class="glsr-field-subgroup">
         {{ field }}
     </ul>
     {{ errors }}

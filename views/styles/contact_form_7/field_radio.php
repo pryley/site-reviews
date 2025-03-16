@@ -2,6 +2,8 @@
 
 <p class="{{ class }}" data-field="{{ field_name }}">
     {{ label }}
-    {{ field }}
+    <span class="glsr-field-subgroup">
+        {{ field }}
+    </span>
     {{ errors }}
 </p>

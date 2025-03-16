@@ -5,7 +5,7 @@
         <span class="et_pb_contact_field_options_title">
             {{ label }}
         </span>
-        <span class="et_pb_contact_field_options_list">
+        <span class="glsr-field-subgroup et_pb_contact_field_options_list">
             {{ field }}
         </span>
         {{ errors }}

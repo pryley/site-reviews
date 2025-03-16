@@ -2,7 +2,7 @@
 
 <div class="wpforms-field-radio {{ class }}" data-field="{{ field_name }}">
     {{ label }}
-    <ul>
+    <ul class="glsr-field-subgroup">
         {{ field }}
     </ul>
     {{ errors }}
