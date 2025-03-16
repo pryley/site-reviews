@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Api;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Defaults\AddonDefaults;
+use GeminiLabs\SiteReviews\Defaults\FeatureDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -51,7 +52,7 @@ class MenuController extends AbstractController
             'settings' => _x('Settings', 'admin-text', 'site-reviews'),
             'tools' => _x('Tools', 'admin-text', 'site-reviews'),
             'documentation' => _x('Help & Support', 'admin-text', 'site-reviews'),
-            'addons' => _x('Upgrade to Premium', 'admin-text', 'site-reviews'),
+            'premium' => _x('Upgrade to Premium', 'admin-text', 'site-reviews'),
         ]);
         foreach ($pages as $slug => $title) {
             $method = Helper::buildMethodName('render', $slug, 'menu', 'callback');
@@ -86,23 +87,6 @@ class MenuController extends AbstractController
     /**
      * @see registerSubMenus
      */
-    public function renderAddonsMenuCallback(): void
-    {
-        $addons = [];
-        $data = glsr(Api::class)->get('addons')->data();
-        foreach ($data as $values) {
-            $context = glsr(AddonDefaults::class)->restrict($values);
-            $addons[] = array_merge($context, compact('context'));
-        }
-        $this->renderPage('addons', [
-            'addons' => $addons,
-            'is_premium' => glsr(License::class)->isPremium(),
-        ]);
-    }
-
-    /**
-     * @see registerSubMenus
-     */
     public function renderDocumentationMenuCallback(): void
     {
         $tabs = $this->parseWithFilter('documentation/tabs', [
@@ -122,6 +106,38 @@ class MenuController extends AbstractController
         $this->renderPage('documentation', [
             'addons' => $addons,
             'tabs' => $tabs,
+        ]);
+    }
+
+    /**
+     * @see registerSubMenus
+     */
+    public function renderPremiumMenuCallback(): void
+    {
+        $addons = [];
+        $features = [];
+        $isPremium = glsr(License::class)->isPremium();
+        if ($isPremium) {
+            $data = glsr(Api::class)->get('addons')->data();
+            foreach ($data as $values) {
+                $context = glsr(AddonDefaults::class)->restrict($values);
+                $addons[] = array_merge($context, compact('context'));
+            }
+        } else {
+            $data = glsr(Api::class)->get('features')->data();
+            foreach ($data as $values) {
+                $features[] = glsr(FeatureDefaults::class)->restrict($values);
+            }
+            array_multisort(
+                array_column($features, 'premium'), SORT_DESC,
+                array_column($features, 'feature'), SORT_ASC | SORT_NATURAL,
+                $features
+            );
+        }
+        $this->renderPage('premium', [
+            'addons' => $addons,
+            'features' => $features,
+            'is_premium' => $isPremium,
         ]);
     }
 
@@ -210,6 +226,8 @@ class MenuController extends AbstractController
                     unset($args[$tab]);
                 }
             }
+        } elseif (array_key_exists('premium', $args) && glsr(License::class)->isPremium()) {
+            $args['premium'] = _x('Premium Addons', 'admin-text', 'site-reviews');
         }
         return glsr()->filterArray("addon/{$hookSuffix}", $args);
     }

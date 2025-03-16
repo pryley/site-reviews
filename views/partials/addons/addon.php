@@ -21,11 +21,13 @@
             </span>
         <?php else: ?>
             <a href="<?php echo wp_nonce_url(self_admin_url("plugins.php?action=activate&plugin={$plugin}"), "activate-plugin_{$plugin}"); ?>" class="glsr-addon-link button button-primary">
-                <?php echo _x('Activate', 'admin-text', 'site-reviews'); ?>
+                <?php echo _x('Activate Addon', 'admin-text', 'site-reviews'); ?>
             </a>
         <?php endif; ?>
     <?php else: ?>
-        <a href="{{ url }}" class="glsr-addon-link glsr-external button button-secondary">{{ link_text }}</a>
+        <a href="{{ url }}" class="glsr-addon-link glsr-external button button-secondary" target="_blank">
+            <?php echo _x('View Addon', 'admin-text', 'site-reviews'); ?>
+        </a>
     <?php endif; ?>
     </div>
 </div>

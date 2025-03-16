@@ -19,7 +19,7 @@ class FlyoutController extends AbstractController
         if (!str_starts_with($screen->post_type, glsr()->post_type)) {
             return;
         }
-        if (str_ends_with($screen->base, '-addons')) {
+        if (str_ends_with($screen->base, '-premium')) {
             return;
         }
         if (!glsr()->filterBool('flyoutmenu/enabled', true)) {
