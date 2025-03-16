@@ -172,11 +172,6 @@ abstract class Shortcode implements ShortcodeContract
         $this->debug = ob_get_clean();
     }
 
-    protected function displayOptions(): array
-    {
-        return [];
-    }
-
     protected function hideOptions(): array
     {
         return [];

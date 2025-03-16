@@ -252,7 +252,7 @@ namespace Elementor {
          *
          * @return \Elementor\Stylesheet The current stylesheet class instance.
          */
-        public function add_rules($selector, $style_rules = null, array $query = null)
+        public function add_rules($selector, $style_rules = null, ?array $query = null)
         {
         }
     }
@@ -537,7 +537,7 @@ namespace Elementor {
          *
          * @return array Active controls.
          */
-        public function get_active_controls(array $controls = null, array $settings = null)
+        public function get_active_controls(?array $controls = null, ?array $settings = null)
         {
         }
         /**
@@ -744,7 +744,7 @@ namespace Elementor {
          *
          * @return array Style controls.
          */
-        public final function get_style_controls(array $controls = null, array $settings = null)
+        public final function get_style_controls(?array $controls = null, ?array $settings = null)
         {
         }
         /**
@@ -2565,7 +2565,7 @@ namespace Elementor {
          * @param array      $data Optional. Element data. Default is an empty array.
          * @param array|null $args Optional. Element default arguments. Default is null.
          **/
-        public function __construct(array $data = [], array $args = null)
+        public function __construct(array $data = [], ?array $args = null)
         {
         }
     }

@@ -143,6 +143,9 @@ class Router implements ControllerContract
         }
     }
 
+    /**
+     * @todo: what happens if the IP address cannot be detected?
+     */
     protected function isValidMutexRequest(Request $request): bool
     {
         if (defined('GLSR_UNIT_TESTS')) {

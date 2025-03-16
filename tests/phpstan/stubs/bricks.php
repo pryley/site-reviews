@@ -1367,9 +1367,9 @@ namespace Bricks {
         /**
          * NOTE: Not in use as impossible to render only login or register form inside Woo template
          */
-        public function __render()
-        {
-        }
+        // public function __render()
+        // {
+        // }
         public function render()
         {
         }
@@ -9844,9 +9844,9 @@ namespace Bricks {
          *
          * @since 1.8.1
          */
-        public function __upgrader_process_complete($upgrader, $hook_extra)
-        {
-        }
+        // public function __upgrader_process_complete($upgrader, $hook_extra)
+        // {
+        // }
         /**
          * Auto-regenerate CSS files after theme update
          *

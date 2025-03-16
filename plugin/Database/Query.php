@@ -95,7 +95,9 @@ class Query
             $reviewIds = $this->reviewIds($args);
         }
         $reviewIds = implode(',', $reviewIds);
-        $reviewIds = Str::fallback($reviewIds, '0'); // if there are no review IDs, default to 0
+        if (empty($reviewIds)) { // if there are no review IDs, return an empty result
+            return [];
+        }
         $reviews = glsr(Database::class)->dbGetResults($this->queryReviews($reviewIds), ARRAY_A);
         foreach ($reviews as &$review) {
             $review = new Review($review);

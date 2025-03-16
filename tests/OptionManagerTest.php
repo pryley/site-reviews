@@ -33,6 +33,7 @@ class OptionManagerTest extends WP_UnitTestCase
     public function test_database_keys()
     {
         $this->assertEquals(OptionManager::databaseKeys(), [
+            8 => "site_reviews",
             7 => "site_reviews",
             6 => "site_reviews_v6",
             5 => "site_reviews_v5",

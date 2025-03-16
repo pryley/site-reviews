@@ -29,13 +29,7 @@ class ImportManager
         wp_raise_memory_limit('admin');
         wp_defer_term_counting(true);
         wp_suspend_cache_invalidation(true);
-        $this->prepare(); // create a temporary table for importing
-        $reader = Reader::createFromPath($this->tempFilePath());
-        $reader->setHeaderOffset(0);
-        $records = Statement::create()
-            ->offset(max(0, $offset))
-            ->limit(max(1, $limit))
-            ->process($reader);
+        $records = $this->records($limit, $offset);
         $result = glsr(ImportResultDefaults::class)->defaults();
         foreach ($records as $values) {
             $request = new Request($values);
@@ -98,6 +92,17 @@ class ImportManager
     public function prepare(): void
     {
         glsr(TableTmp::class)->create(); // create a temporary table for importing
+    }
+
+    public function records(int $limit = 1, int $offset = 0): TabularDataReader
+    {
+        $this->prepare();
+        $reader = Reader::createFromPath($this->tempFilePath());
+        $reader->setHeaderOffset(0);
+        return Statement::create()
+            ->offset(max(0, $offset))
+            ->limit(max(1, $limit))
+            ->process($reader);
     }
 
     public function tempFilePath(): string

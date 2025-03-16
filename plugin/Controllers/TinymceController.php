@@ -44,7 +44,7 @@ class TinymceController extends AbstractController
             $response = [
                 'body' => $data['fields'],
                 'close' => $data['btn_close'],
-                'hideOptions' => glsr(ShortcodeOptionManager::class)->hide(compact('shortcode')),
+                'hideOptions' => glsr(ShortcodeOptionManager::class)->hide($shortcode),
                 'ok' => $data['btn_okay'],
                 'shortcode' => $shortcode,
                 'title' => $data['title'],

@@ -27,7 +27,7 @@ class UpdateController extends AbstractController
         if (empty($licensedAddons)) {
             $licensedAddons = glsr()->retrieveAs('array', 'licensed', []);
         }
-        $addonId = Arr::get($args, 'slug');
+        $addonId = Arr::getAs('string', $args, 'slug');
         if (!array_key_exists($addonId, $licensedAddons)) {
             return $data;
         }

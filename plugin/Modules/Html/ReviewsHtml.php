@@ -37,7 +37,7 @@ class ReviewsHtml extends \ArrayObject
                 'assigned_to' => $this->args->assigned_posts,
                 'category' => $this->args->assigned_terms,
                 'class' => $this->getClasses(),
-                'id' => '', // @deprecated in v5.0
+                'id' => '', // @deprecated_v5
                 'pagination' => Helper::ifTrue(!empty($this->args->pagination), $this->getPagination()),
                 'reviews' => $this->getReviews(),
             ],
@@ -97,7 +97,7 @@ class ReviewsHtml extends \ArrayObject
         if (array_key_exists($key, $this->rendered)) {
             return $this->rendered[$key];
         }
-        if (in_array($key, ['navigation', 'pagination'])) { // @deprecated in v5.0 (navigation)
+        if (in_array($key, ['navigation', 'pagination'])) { // @deprecated_v5 (navigation)
             return $this->getPagination();
         }
         return property_exists($this, $key)

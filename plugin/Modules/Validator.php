@@ -221,7 +221,7 @@ class Validator
     {
         return 'regex' === strtolower($rule)
             ? [$parameter]
-            : str_getcsv($parameter);
+            : str_getcsv($parameter, ',', '"', "\\");
     }
 
     /**

@@ -106,7 +106,7 @@ class ReviewHtml extends \ArrayObject
         if (array_key_exists($key, $this->context)) {
             return $this->context[$key];
         }
-        $key = Helper::ifTrue('values' === $key, 'context', $key); // @deprecated in v5.0
+        $key = Helper::ifTrue('values' === $key, 'context', $key); // @deprecated_5
         return Helper::ifTrue(property_exists($this, $key), $this->$key);
     }
 

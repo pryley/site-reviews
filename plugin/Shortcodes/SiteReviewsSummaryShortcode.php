@@ -29,7 +29,7 @@ class SiteReviewsSummaryShortcode extends Shortcode
             'args' => $this->args,
             'context' => [
                 'class' => $this->getClasses(),
-                'id' => '', // @deprecated in v5.0
+                'id' => '', // @deprecated_5
                 'percentages' => $this->buildTemplateTag('percentages'),
                 'rating' => $this->buildTemplateTag('rating'),
                 'stars' => $this->buildTemplateTag('stars'),
