@@ -18,6 +18,7 @@ return [ // order is intentional
     'settings.general.style' => [
         'class' => 'regular-text',
         'default' => 'default',
+        'description' => _x('This will change the style of the review form to match popular themes and plugins.', 'admin-text', 'site-reviews'),
         'label' => _x('Plugin Style', 'admin-text', 'site-reviews'),
         'options' => [
             _x('Styles', 'admin-text', 'site-reviews') => [
@@ -703,6 +704,7 @@ return [ // order is intentional
         'type' => 'text',
     ],
     'settings.forms.required' => [
+        'description' => _x('To hide fields instead of making them not required, use the hide options on the Review Form block.', 'admin-text', 'site-reviews'),
         'default' => ['content', 'email', 'name', 'rating', 'terms', 'title'],
         'label' => _x('Required Fields', 'admin-text', 'site-reviews'),
         'options' => [
