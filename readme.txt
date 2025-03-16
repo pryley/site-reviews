@@ -138,7 +138,7 @@ Images adapted from [freepik](https://www.freepik.com).
 
 - MySQL 5.6 or greater
 - PHP 7.4 or greater
-- WordPress 6.1 or greater
+- WordPress 6.5 or greater
 
 = Automatic installation =
 
@@ -206,6 +206,10 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 - Refreshed the Elementor widget icons.
 - Refreshed the Fusion Builder widget icons.
 - Refreshed the Gutenberg block icons.
+
+= 7.2.6 (2025-02-16) =
+
+- Fixed a PHP Error triggered when the "%s Star | %s Stars" text is missing the placeholder tags in the Settings > Strings page.
 
 = 7.2.5 (2025-02-12) =
 
