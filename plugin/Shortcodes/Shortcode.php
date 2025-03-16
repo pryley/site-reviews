@@ -141,7 +141,7 @@ abstract class Shortcode implements ShortcodeContract
     {
         $config = $this->config();
         $config = glsr()->filterArray("shortcode/{$this->tag}/config", $config, $this);
-        $config = glsr()->filterArray('shortcode/config', $config, $this->tag, $this);
+        $config = glsr()->filterArray('shortcode/config', $config, $this);
         return $config;
     }
 
