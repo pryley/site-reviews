@@ -11,6 +11,16 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 /**
+ * Run order:
+ * 1. map keys
+ * 2. normalize()
+ * 3. merge/restrict/filter with defaults (and concatenate values)
+ * 4. cast values
+ * 5. sanitize values
+ * 6. enum values
+ * 7. guard values
+ * 8. finalize()
+ * 
  * @method array dataAttributes(array $values = [])
  * @method array defaults():
  * @method array filter(array $values = [])

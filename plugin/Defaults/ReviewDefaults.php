@@ -12,6 +12,7 @@ class ReviewDefaults extends DefaultsAbstract
      */
     public array $casts = [
         'author_id' => 'int',
+        'ID' => 'int',
         'is_approved' => 'bool',
         'is_modified' => 'bool',
         'is_pinned' => 'bool',
@@ -27,7 +28,6 @@ class ReviewDefaults extends DefaultsAbstract
      * Note: Mapped keys should not be included in the defaults!
      */
     public array $mapped = [
-        'ID' => 'rating_id',
         'name' => 'author',
         'post_ids' => 'assigned_posts',
         'term_ids' => 'assigned_terms',
@@ -36,7 +36,7 @@ class ReviewDefaults extends DefaultsAbstract
 
     /**
      * The values that should be sanitized.
-     * This is done after $casts and before $enums.
+     * Sanitization is done in the following order: cast, sanitize, enums
      */
     public array $sanitize = [
         'assigned_posts' => 'array-int',
@@ -90,13 +90,17 @@ class ReviewDefaults extends DefaultsAbstract
     }
 
     /**
-     * Normalize provided values, this always runs first.
+     * Normalize provided values, this always runs first (after keys are mapped).
      */
     protected function normalize(array $values = []): array
     {
-        $date = Arr::get($values, 'date');
-        if ($date && '0000-00-00 00:00:00' === Arr::get($values, 'date_gmt')) {
+        $date = Arr::getAs('string', $values, 'date');
+        if (!empty($date) && '0000-00-00 00:00:00' === Arr::get($values, 'date_gmt')) {
             $values['date_gmt'] = get_gmt_from_date($date);
+        }
+        if (!empty($values['ID']) && !empty($values['review_id'])) {
+            $values['rating_id'] = $values['ID'];
+            $values['ID'] = $values['review_id'];
         }
         return $values;
     }
