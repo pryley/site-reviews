@@ -47,9 +47,9 @@ class EditorController extends AbstractController
     /**
      * @filter is_protected_meta
      */
-    public function filterIsProtectedMeta(bool $protected, string $metaKey, string $metaType): bool
+    public function filterIsProtectedMeta(bool $protected, string $metaKey, ?string $metaType): bool
     {
-        if ('post' === $metaType && Str::startsWith($metaKey, ['_custom_', '_'.glsr()->prefix])) {
+        if ('post' === $metaType && Str::startsWith((string) $metaKey, ['_custom_', '_'.glsr()->prefix])) {
             if ('delete-meta' === filter_input(INPUT_POST, 'action')) {
                 return false; // allow delete but not update
             }
