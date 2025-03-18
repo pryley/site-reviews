@@ -100,3 +100,6 @@ namespace {
     function pll_get_term_translations($term_id)
     {}
 }
+namespace {
+    \define('POLYLANG_VERSION', '2.3');
+}

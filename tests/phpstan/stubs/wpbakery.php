@@ -25,3 +25,6 @@ namespace {
     function vc_map($attributes)
     {}
 }
+namespace {
+    \define('WPB_VC_VERSION', '7.9.0');
+}

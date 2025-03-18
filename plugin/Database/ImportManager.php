@@ -48,7 +48,7 @@ class ImportManager
         }
         wp_defer_term_counting(false);
         wp_suspend_cache_invalidation(false);
-        unset($reader, $records);
+        unset($records);
         return glsr(ImportResultDefaults::class)->restrict($result);
     }
 

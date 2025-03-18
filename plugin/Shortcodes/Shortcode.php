@@ -41,7 +41,7 @@ abstract class Shortcode implements ShortcodeContract
             'class' => glsr(Style::class)->styleClasses(),
             'data-from' => $from,
             'data-shortcode' => $this->tag,
-            'id' => Arr::get($values, 'id'),
+            'id' => $values['id'] ?? '',
         ]);
         unset($attributes['data-id']);
         unset($attributes['data-form_id']);

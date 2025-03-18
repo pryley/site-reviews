@@ -37,7 +37,7 @@ abstract class AbstractCommand implements CommandContract
         if (!$this->hasRequest()) {
             return new Request();
         }
-        return $this->request;
+        return $this->request; // @phpstan-ignore-line
     }
 
     public function response(): array

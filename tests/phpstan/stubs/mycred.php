@@ -506,3 +506,6 @@ namespace {
     {
     }
 }
+namespace {
+    \define('MYCRED_DEFAULT_TYPE_KEY', 'mycred_default');
+}
