@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Flatsome;
 
-use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
 class FlatsomeSiteReviewsForm extends FlatsomeShortcode
@@ -97,13 +96,13 @@ class FlatsomeSiteReviewsForm extends FlatsomeShortcode
         ];
     }
 
+    public static function shortcodeClass(): string
+    {
+        return SiteReviewsFormShortcode::class;
+    }
+
     protected function icon(): string
     {
         return glsr()->url('assets/images/icons/flatsome/icon-form.svg');
-    }
-
-    protected function shortcode(): ShortcodeContract
-    {
-        return glsr(SiteReviewsFormShortcode::class);
     }
 }

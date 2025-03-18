@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Flatsome;
 
-use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
@@ -51,7 +50,7 @@ class FlatsomeSiteReviewsSummary extends FlatsomeShortcode
                     ],
                     'terms' => [
                         'type' => 'select',
-                        'heading' => esc_html_x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews'),
+                        'heading' => esc_html_x('Limit Reviews by terms accepted', 'admin-text', 'site-reviews'),
                         'default' => '',
                         'full_width' => true,
                         'options' => [
@@ -69,9 +68,9 @@ class FlatsomeSiteReviewsSummary extends FlatsomeShortcode
                     'rating' => [
                         'type' => 'slider',
                         'heading' => esc_html_x('Minimum Rating', 'admin-text', 'site-reviews'),
-                        'default' => Rating::min(),
+                        'default' => max(1, Rating::min()),
                         'max' => Rating::max(),
-                        'min' => Rating::min(),
+                        'min' => max(1, Rating::min()),
                         'full_width' => true,
                     ],
                     'schema' => [
@@ -131,13 +130,13 @@ class FlatsomeSiteReviewsSummary extends FlatsomeShortcode
         return $options;
     }
 
+    public static function shortcodeClass(): string
+    {
+        return SiteReviewsSummaryShortcode::class;
+    }
+
     protected function icon(): string
     {
         return glsr()->url('assets/images/icons/flatsome/icon-summary.svg');
-    }
-
-    protected function shortcode(): ShortcodeContract
-    {
-        return glsr(SiteReviewsSummaryShortcode::class);
     }
 }

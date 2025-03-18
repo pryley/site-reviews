@@ -3,10 +3,12 @@
 namespace GeminiLabs\SiteReviews\Integrations\Flatsome;
 
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
-use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
 
 abstract class FlatsomeShortcode
 {
+    use IntegrationShortcode;
+
     abstract public function options(): array;
 
     /**
@@ -16,10 +18,10 @@ abstract class FlatsomeShortcode
     public function register(): void
     {
         add_action('ux_builder_setup', function () {
-            add_ux_builder_shortcode($this->shortcode()->shortcode, [
+            add_ux_builder_shortcode($this->shortcodeInstance()->tag, [
                 'category' => glsr()->name,
                 // 'inline' => true,
-                'name' => $this->name(),
+                'name' => $this->shortcodeInstance()->name,
                 'options' => $this->options(),
                 'thumbnail' => $this->icon(),
                 'wrap' => false,
@@ -37,7 +39,7 @@ abstract class FlatsomeShortcode
                 'full_width' => true,
                 'config' => [
                     'multiple' => true,
-                    'options' => $this->shortcode()->getHideOptions(),
+                    'options' => $this->shortcodeInstance()->options('hide'),
                     'placeholder' => esc_html_x('Select...', 'admin-text', 'site-reviews'),
                     'sortable' => false,
                 ],
@@ -47,25 +49,17 @@ abstract class FlatsomeShortcode
 
     abstract protected function icon(): string;
 
-    protected function name(): string
-    {
-        return $this->shortcode()->name;
-    }
-
-    abstract protected function shortcode(): ShortcodeContract;
-
     protected function typeOptions(): array
     {
-        $types = glsr()->retrieveAs('array', 'review_types', []);
-        if (2 > count($types)) {
-            return [];
+        if ($options = $this->shortcodeInstance()->options('type')) {
+            return [
+                'type' => 'select',
+                'heading' => esc_html_x('Limit Reviews by Type', 'admin-text', 'site-reviews'),
+                'full_width' => true,
+                'default' => 'local',
+                'options' => $options,
+            ];
         }
-        return [
-            'type' => 'select',
-            'heading' => esc_html_x('Limit Reviews by Type', 'admin-text', 'site-reviews'),
-            'full_width' => true,
-            'default' => 'local',
-            'options' => $types,
-        ];
+        return [];
     }
 }
