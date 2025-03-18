@@ -2,31 +2,27 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Bricks;
 
-use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
 
 abstract class BricksElement extends \Bricks\Element
 {
+    use IntegrationShortcode;
+
     public $nestable = false;
     public $scripts = ['GLSR_init'];
-
-    /**
-     * @var ShortcodeContract
-     */
-    protected $elShortcode;
 
     public function __construct($element = null)
     {
         $this->category = glsr()->id;
-        $this->elShortcode = static::shortcode();
-        $this->icon = "ti-{$this->elShortcode->tag}";
-        $this->name = $this->elShortcode->tag;
+        $this->icon = "ti-{$this->shortcodeInstance()->tag}";
+        $this->name = $this->shortcodeInstance()->tag;
         parent::__construct($element);
     }
 
     public function elementConfig(): array
     {
-        return $this->elShortcode->settings();
+        return $this->shortcodeInstance()->settings();
     }
 
     public function get_keywords()
@@ -36,7 +32,7 @@ abstract class BricksElement extends \Bricks\Element
 
     public function get_label()
     {
-        return $this->elShortcode->name;
+        return $this->shortcodeInstance()->name;
     }
 
     public function load()
@@ -60,7 +56,7 @@ abstract class BricksElement extends \Bricks\Element
     {
         $reflection = new \ReflectionClass(static::class);
         $file = $reflection->getFileName();
-        $name = static::shortcode()->tag;
+        $name = glsr(static::shortcodeClass())->tag;
         $className = $reflection->getName();
         \Bricks\Elements::register_element($file, $name, $className);
     }
@@ -68,7 +64,7 @@ abstract class BricksElement extends \Bricks\Element
     public function render()
     {
         echo "<{$this->get_tag()} {$this->render_attributes('_root')}>";
-        echo $this->elShortcode->build($this->settings, 'bricks');
+        echo $this->shortcodeInstance()->build($this->settings, 'bricks');
         echo "</{$this->get_tag()}>";
     }
 
@@ -118,8 +114,6 @@ abstract class BricksElement extends \Bricks\Element
             unset($this->controls['type']);
         }
     }
-
-    abstract public static function shortcode(): ShortcodeContract;
 
     protected function setCheckboxControl(string $key, array $args): void
     {

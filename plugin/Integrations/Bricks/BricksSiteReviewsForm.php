@@ -2,14 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Bricks;
 
-use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
 class BricksSiteReviewsForm extends BricksElement
 {
     public function render()
     {
-        if (!$this->elShortcode->hasVisibleFields($this->settings)) {
+        if (!$this->shortcodeInstance()->hasVisibleFields($this->settings)) {
             $this->render_element_placeholder([
                 'title' => esc_html_x('You have hidden all of the fields.', 'admin-text', 'site-reviews'),
             ]);
@@ -18,8 +17,8 @@ class BricksSiteReviewsForm extends BricksElement
         parent::render();
     }
 
-    public static function shortcode(): ShortcodeContract
+    public static function shortcodeClass(): string
     {
-        return glsr(SiteReviewsFormShortcode::class);
+        return SiteReviewsFormShortcode::class;
     }
 }
