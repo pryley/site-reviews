@@ -50,7 +50,7 @@ class VcSiteReviewsForm extends VcShortcode
                 'type' => 'checkbox',
                 'heading' => esc_html_x('Hide Options', 'admin-text', 'site-reviews'),
                 'param_name' => 'hide',
-                'value' => array_flip(static::vcShortcode()->getHideOptions()),
+                'value' => array_flip(static::vcShortcode()->options('hide')),
             ],
             'reviews_id' => [
                 'type' => 'textfield',

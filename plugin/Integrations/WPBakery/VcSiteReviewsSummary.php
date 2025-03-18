@@ -50,22 +50,20 @@ class VcSiteReviewsSummary extends VcShortcode
             'type' => static::vcTypeOptions(),
             'terms' => [
                 'type' => 'dropdown',
-                'heading' => esc_html_x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews'),
+                'heading' => esc_html_x('Limit Reviews by terms accepted', 'admin-text', 'site-reviews'),
                 'param_name' => 'terms',
                 'std' => '',
-                'value' => [
-                    esc_html_x('Select Terms...', 'admin-text', 'site-reviews') => '',
-                    esc_html_x('Terms were accepted', 'admin-text', 'site-reviews') => 'true',
-                    esc_html_x('Terms were not accepted', 'admin-text', 'site-reviews') => 'false',
-                ],
+                'value' => array_flip(static::vcShortcode()->options('terms', [
+                    'placeholder' => _x('Select Terms...', 'admin-text', 'site-reviews'),
+                ])),
             ],
             'rating' => [
                 'type' => 'glsr_type_range',
                 'heading' => esc_html_x('Minimum Rating', 'admin-text', 'site-reviews'),
                 'max' => Rating::max(),
-                'min' => Rating::min(),
+                'min' => max(1, Rating::min()),
                 'param_name' => 'rating',
-                'std' => Rating::min(),
+                'std' => max(1, Rating::min()),
             ],
             'schema' => [
                 'type' => 'checkbox',
@@ -80,7 +78,7 @@ class VcSiteReviewsSummary extends VcShortcode
                 'type' => 'checkbox',
                 'heading' => esc_html__('Hide Options', 'site-reviews'),
                 'param_name' => 'hide',
-                'value' => array_flip(static::vcShortcode()->getHideOptions()),
+                'value' => array_flip(static::vcShortcode()->options('hide')),
             ],
             'id' => [
                 'type' => 'textfield',

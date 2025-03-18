@@ -13,7 +13,7 @@ abstract class VcShortcode extends \WPBakeryShortCode
     public static function vcRegister(array $args = []): void
     {
         vc_map(wp_parse_args($args, [
-            'base' => static::vcShortcode()->shortcode,
+            'base' => static::vcShortcode()->tag,
             'category' => glsr()->name,
             'description' => static::vcShortcode()->description,
             'icon' => static::vcShortcodeIcon(),
@@ -44,16 +44,15 @@ abstract class VcShortcode extends \WPBakeryShortCode
 
     public static function vcTypeOptions(): array
     {
-        $types = glsr()->retrieveAs('array', 'review_types', []);
-        if (2 > count($types)) {
-            return [];
+        if ($options = static::vcShortcode()->options('type')) {
+            return [
+                'type' => 'dropdown',
+                'heading' => esc_html_x('Limit Reviews by Type', 'admin-text', 'site-reviews'),
+                'param_name' => 'type',
+                'std' => 'local',
+                'value' => array_flip($options),
+            ];
         }
-        return [
-            'type' => 'dropdown',
-            'heading' => esc_html_x('Limit Reviews by Type', 'admin-text', 'site-reviews'),
-            'param_name' => 'type',
-            'std' => 'local',
-            'value' => array_flip($types),
-        ];
+        return [];
     }
 }

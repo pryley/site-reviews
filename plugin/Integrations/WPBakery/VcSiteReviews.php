@@ -50,26 +50,21 @@ class VcSiteReviews extends VcShortcode
             'type' => static::vcTypeOptions(),
             'terms' => [
                 'type' => 'dropdown',
-                'heading' => esc_html_x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews'),
+                'heading' => esc_html_x('Limit Reviews by terms accepted', 'admin-text', 'site-reviews'),
                 'param_name' => 'terms',
                 'std' => '',
-                'value' => [
-                    esc_html_x('Select Terms...', 'admin-text', 'site-reviews') => '',
-                    esc_html_x('Terms were accepted', 'admin-text', 'site-reviews') => 'true',
-                    esc_html_x('Terms were not accepted', 'admin-text', 'site-reviews') => 'false',
-                ],
+                'value' => array_flip(static::vcShortcode()->options('terms', [
+                    'placeholder' => _x('Select Terms...', 'admin-text', 'site-reviews'),
+                ])),
             ],
             'pagination' => [
                 'type' => 'dropdown',
                 'heading' => esc_html_x('Pagination Type', 'admin-text', 'site-reviews'),
                 'param_name' => 'pagination',
                 'std' => '',
-                'value' => [
-                    esc_attr_x('No Pagination', 'admin-text', 'site-reviews') => '',
-                    esc_attr_x('Load More Button', 'admin-text', 'site-reviews') => 'loadmore',
-                    esc_attr_x('Pagination (AJAX)', 'admin-text', 'site-reviews') => 'ajax',
-                    esc_attr_x('Pagination (with page reload)', 'admin-text', 'site-reviews') => 'true',
-                ],
+                'value' => array_flip(static::vcShortcode()->options('pagination', [
+                    'placeholder' => _x('No Pagination', 'admin-text', 'site-reviews'),
+                ])),
             ],
             'display' => [
                 'type' => 'glsr_type_range',
@@ -100,7 +95,7 @@ class VcSiteReviews extends VcShortcode
                 'type' => 'checkbox',
                 'heading' => esc_html_x('Hide Options', 'admin-text', 'site-reviews'),
                 'param_name' => 'hide',
-                'value' => array_flip(static::vcShortcode()->getHideOptions()),
+                'value' => array_flip(static::vcShortcode()->options('hide')),
             ],
             'id' => [
                 'type' => 'textfield',
