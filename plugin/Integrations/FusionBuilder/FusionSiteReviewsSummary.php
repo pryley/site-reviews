@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder;
 
-use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
@@ -70,21 +69,19 @@ class FusionSiteReviewsSummary extends FusionElement
                 'heading' => esc_attr_x('Limit Reviews to Terms?', 'admin-text', 'site-reviews'),
                 'param_name' => 'terms',
                 'type' => 'select',
-                'value' => [
-                    '' => esc_attr_x('No', 'admin-text', 'site-reviews'),
-                    'true' => esc_attr_x('Terms were accepted', 'admin-text', 'site-reviews'),
-                    'false' => esc_attr_x('Terms were not accepted', 'admin-text', 'site-reviews'),
-                ],
+                'value' => glsr(static::shortcodeClass())->options('terms', [
+                    'placeholder' => _x('No', 'admin-text', 'site-reviews'),
+                ]),
             ],
             'type' => static::optionReviewTypes(),
             'rating' => [
                 'default' => Rating::min(),
                 'heading' => esc_html_x('Minimum Rating', 'admin-text', 'site-reviews'),
                 'max' => Rating::max(),
-                'min' => Rating::min(),
+                'min' => max(1, Rating::min()),
                 'param_name' => 'rating',
                 'type' => 'range',
-                'value' => Rating::min(),
+                'value' => max(1, Rating::min()),
             ],
             'schema' => [
                 'default' => 0,
@@ -103,7 +100,7 @@ class FusionSiteReviewsSummary extends FusionElement
                 'param_name' => 'hide',
                 'placeholder_text' => esc_attr_x('Select Fields to Hide', 'admin-text', 'site-reviews'),
                 'type' => 'multiple_select',
-                'value' => static::feShortcode()->getHideOptions(),
+                'value' => glsr(static::shortcodeClass())->options('hide'),
             ],
             'class' => [
                 'heading' => esc_attr_x('CSS Class', 'admin-text', 'site-reviews'),
@@ -122,13 +119,13 @@ class FusionSiteReviewsSummary extends FusionElement
         ];
     }
 
-    protected static function feIcon(): string
+    public static function shortcodeClass(): string
     {
-        return 'fusion-glsr-summary';
+        return SiteReviewsSummaryShortcode::class;
     }
 
-    protected static function feShortcode(): ?ShortcodeContract
+    protected static function shortcodeIcon(): string
     {
-        return glsr(SiteReviewsSummaryShortcode::class);
+        return 'fusion-glsr-summary';
     }
 }

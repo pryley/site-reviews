@@ -4,9 +4,12 @@ namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder;
 
 use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
+use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
 
 abstract class FusionElement extends \Fusion_Element
 {
+    use IntegrationShortcode;
+
     abstract public static function elementParameters(): array;
 
     public static function optionAssignedTerms(string $heading, string $description = ''): array
@@ -42,18 +45,17 @@ abstract class FusionElement extends \Fusion_Element
 
     public static function optionReviewTypes(): array
     {
-        $types = glsr()->retrieveAs('array', 'review_types', []);
-        if (2 > count($types)) {
-            return [];
+        if ($options = glsr(static::shortcodeClass())->options('type')) {
+            return [
+                'default' => 'local',
+                'heading' => esc_attr_x('Limit the Review Type', 'admin-text', 'site-reviews'),
+                'param_name' => 'type',
+                'placeholder_text' => esc_attr_x('Select or Leave Blank', 'admin-text', 'site-reviews'),
+                'type' => 'multiple_select',
+                'value' => $options,
+            ];
         }
-        return [
-            'default' => 'local',
-            'heading' => esc_attr_x('Limit the Review Type', 'admin-text', 'site-reviews'),
-            'param_name' => 'type',
-            'placeholder_text' => esc_attr_x('Select or Leave Blank', 'admin-text', 'site-reviews'),
-            'type' => 'multiple_select',
-            'value' => $types,
-        ];
+        return [];
     }
 
     public static function registerElement(): void
@@ -64,30 +66,16 @@ abstract class FusionElement extends \Fusion_Element
         if (!function_exists('fusion_builder_frontend_data')) {
             return;
         }
-        $instance = static::feShortcode();
+        $instance = glsr(static::shortcodeClass());
         $parameters = static::elementParameters();
-        $parameters = glsr()->filterArray("fusion-builder/controls/{$instance->shortcode}", $parameters);
+        $parameters = glsr()->filterArray("fusion-builder/controls/{$instance->tag}", $parameters);
         fusion_builder_map(fusion_builder_frontend_data(static::class, [
             'name' => $instance->name,
-            'shortcode' => $instance->shortcode,
-            'icon' => static::feIcon(),
+            'shortcode' => $instance->tag,
+            'icon' => static::shortcodeIcon(),
             'params' => $parameters,
         ]));
     }
 
-    /**
-     * @todo use abstract method in v8
-     */
-    protected static function feIcon(): string
-    {
-        return '';
-    }
-
-    /**
-     * @todo remove null return type and use abstract method in v8
-     */
-    protected static function feShortcode(): ?ShortcodeContract
-    {
-        return null;
-    }
+    abstract protected static function shortcodeIcon(): string;
 }

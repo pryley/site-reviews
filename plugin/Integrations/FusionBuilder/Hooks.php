@@ -26,7 +26,9 @@ class Hooks extends IntegrationHooks
 
     protected function isInstalled(): bool
     {
-        return class_exists('FusionBuilder') && defined('FUSION_BUILDER_VERSION');
+        return function_exists('FusionBuilder')
+            && class_exists('Fusion_Element')
+            && defined('FUSION_BUILDER_VERSION');
     }
 
     protected function supportedVersion(): string

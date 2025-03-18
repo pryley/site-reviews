@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder;
 
-use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
 
 class FusionSiteReview extends FusionElement
@@ -22,7 +21,7 @@ class FusionSiteReview extends FusionElement
                 'param_name' => 'hide',
                 'placeholder_text' => esc_attr_x('Select Fields to Hide', 'admin-text', 'site-reviews'),
                 'type' => 'multiple_select',
-                'value' => static::feShortcode()->getHideOptions(),
+                'value' => glsr(static::shortcodeClass())->options('hide'),
             ],
             'class' => [
                 'heading' => esc_attr_x('CSS Class', 'admin-text', 'site-reviews'),
@@ -41,13 +40,13 @@ class FusionSiteReview extends FusionElement
         ];
     }
 
-    protected static function feIcon(): string
+    public static function shortcodeClass(): string
     {
-        return 'fusion-glsr-review';
+        return SiteReviewShortcode::class;
     }
 
-    protected static function feShortcode(): ?ShortcodeContract
+    protected static function shortcodeIcon(): string
     {
-        return glsr(SiteReviewShortcode::class);
+        return 'fusion-glsr-review';
     }
 }
