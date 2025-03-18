@@ -3,7 +3,9 @@
 namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Request;
 
 class Controller extends AbstractController
 {
@@ -94,7 +96,49 @@ class Controller extends AbstractController
     }
 
     /**
-     * @param $manager \Elementor\Elements_Manager
+     * @callback \Elementor\Core\Common\Modules\Ajax\Module::register_ajax_action
+     */
+    public function queryAssignedPosts(array $data): array
+    {
+        return [
+            'results' => [],
+        ];
+    }
+
+    /**
+     * @callback \Elementor\Core\Common\Modules\Ajax\Module::register_ajax_action
+     */
+    public function queryAssignedTerms(array $data): array
+    {
+        return [
+            'results' => [],
+        ];
+    }
+
+    /**
+     * @callback \Elementor\Core\Common\Modules\Ajax\Module::register_ajax_action
+     */
+    public function queryAssignedUsers(array $data): array
+    {
+        return [
+            'results' => [],
+        ];
+    }
+
+    /**
+     * @param \Elementor\Core\Common\Modules\Ajax\Module $manager
+     * 
+     * @action elementor/ajax/register_actions
+     */
+    public function registerAjaxActions($manager): void
+    {
+        $manager->register_ajax_action(glsr()->prefix.'query_assigned_posts', [$this, 'queryAssignedPosts']);
+        $manager->register_ajax_action(glsr()->prefix.'query_assigned_terms', [$this, 'queryAssignedTerms']);
+        $manager->register_ajax_action(glsr()->prefix.'query_assigned_users', [$this, 'queryAssignedUsers']);
+    }
+
+    /**
+     * @param \Elementor\Elements_Manager $manager
      *
      * @action elementor/elements/categories_registered
      */
@@ -107,7 +151,7 @@ class Controller extends AbstractController
     }
 
     /**
-     * @param $manager \Elementor\Widgets_Manager
+     * @param \Elementor\Widgets_Manager $manager
      *
      * @action elementor/widgets/register
      */
@@ -174,5 +218,38 @@ class Controller extends AbstractController
             glsr()->version,
             ['strategy' => 'defer']
         );
+        wp_localize_script(glsr()->id.'/elementor', 'GLSR', [
+            'action' => glsr()->prefix.'admin_action',
+            'nameprefix' => glsr()->id,
+            'nonce' => [
+                'elementor-assigned_posts' => wp_create_nonce('elementor-assigned_posts'),
+                'elementor-assigned_terms' => wp_create_nonce('elementor-assigned_terms'),
+                'elementor-assigned_users' => wp_create_nonce('elementor-assigned_users'),
+            ],
+        ]);
+    }
+
+    /**
+     * @action site-reviews/route/ajax/elementor-assigned_terms
+     */
+    public function searchAssignedTerms(Request $request): void
+    {
+        $search = $request->cast('search', 'string');
+        $include = $request->cast('include', 'array');
+        $query = stripslashes_deep(sanitize_text_field($search));
+        $terms = glsr(Database::class)->terms([
+            'number' => 25,
+            'search' => $query,
+        ]);
+        if (!empty($include)) {
+            $terms += glsr(Database::class)->terms([
+                'term_taxonomy_id' => $include,
+            ]);
+        }
+        $results = [];
+        foreach ($terms as $id => $text) {
+            $results[] = compact('id', 'text');
+        }
+        wp_send_json_success($results);
     }
 }

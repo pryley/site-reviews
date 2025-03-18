@@ -34,4 +34,34 @@ jQuery(window).on('elementor/panel/init', () => {
         }
         return css;
     });
+    elementor.channels.editor.on('editor:widget:site_reviews_form:settings:activated', (panel) => {
+        const $select = panel.$el.find('select[data-setting="assigned_terms"]');
+        $select.select2('destroy')
+        $select.select2({
+            ajax: {
+                url: wp.ajax.settings.url,
+                dataType: 'json',
+                delay: 250,
+                data: (params) => ({
+                    action: GLSR.action,
+                    [GLSR.nameprefix]: {
+                        _action: 'elementor-assigned_terms',
+                        _nonce: GLSR.nonce['elementor-assigned_terms'],
+                        include: panel.model.attributes.settings.attributes.assigned_terms,
+                        search: params.term,
+                    },
+                }),
+                method: 'POST',
+                processResults: (data) => ({ results: data.data }),
+                cache: true,
+            },
+            minimumInputLength: 1,
+        })
+        $select.on('change', () => $select.trigger('input'))
+        // populateFields(
+        //     panel.$el.find('select[data-setting="form"]'),
+        //     panel.$el.find('select[data-setting="field"]'),
+        //     panel
+        // )
+    })
 })

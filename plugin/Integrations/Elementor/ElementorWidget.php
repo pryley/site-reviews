@@ -7,13 +7,11 @@ use Elementor\Widget_Base;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
 
 abstract class ElementorWidget extends Widget_Base
 {
-    /**
-     * @var \GeminiLabs\SiteReviews\Shortcodes\Shortcode|callable
-     */
-    private $_shortcode_instance;
+    use IntegrationShortcode;
 
     /**
      * @return array
@@ -36,7 +34,7 @@ abstract class ElementorWidget extends Widget_Base
      */
     public function get_name()
     {
-        return $this->get_shortcode_instance()->tag;
+        return $this->shortcodeInstance()->tag;
     }
 
     /**
@@ -66,25 +64,9 @@ abstract class ElementorWidget extends Widget_Base
         return $settings;
     }
 
-    /**
-     * @return string
-     */
-    abstract public function get_shortcode();
-
-    /**
-     * @return \GeminiLabs\SiteReviews\Shortcodes\Shortcode
-     */
-    public function get_shortcode_instance()
-    {
-        if (is_null($this->_shortcode_instance)) { // @phpstan-ignore-line
-            $this->_shortcode_instance = glsr($this->get_shortcode());
-        }
-        return $this->_shortcode_instance;
-    }
-
     public function get_title()
     {
-        return $this->get_shortcode_instance()->name;
+        return $this->shortcodeInstance()->name;
     }
 
     protected function assigned_posts_options(): array
@@ -142,9 +124,24 @@ abstract class ElementorWidget extends Widget_Base
         ];
     }
 
-    protected function get_review_types(): array
+    protected function insert_hide_controls(array $controls): array
     {
-        if ($options = $this->get_shortcode_instance()->options('type')) {
+        $hideOptions = $this->shortcodeInstance()->options('hide');
+        foreach ($hideOptions as $key => $label) {
+            $separator = $key === key(array_slice($hideOptions, 0, 1)) ? 'before' : 'default';
+            $controls["hide-{$key}"] = [
+                'label' => $label,
+                'separator' => $separator,
+                'return_value' => '1',
+                'type' => Controls_Manager::SWITCHER,
+            ];
+        }
+        return $controls;
+    }
+
+    protected function get_type_control(): array
+    {
+        if ($options = $this->shortcodeInstance()->options('type')) {
             return [
                 'default' => 'local',
                 'label' => _x('Limit the Type of Reviews', 'admin-text', 'site-reviews'),
@@ -196,11 +193,10 @@ abstract class ElementorWidget extends Widget_Base
     protected function render()
     {
         $args = $this->get_settings_for_display();
-        $shortcode = $this->get_shortcode_instance();
-        if ($this->hide_if_all_fields_hidden() && !$shortcode->hasVisibleFields($args)) {
+        if ($this->hide_if_all_fields_hidden() && !$this->shortcodeInstance()->hasVisibleFields($args)) {
             return;
         }
-        $html = $shortcode->build($args, 'elementor');
+        $html = $this->shortcodeInstance()->build($args, 'elementor');
         $html = str_replace('class="glsr-fallback">', 'class="glsr-fallback" style="display:none;">', $html);
         echo $html;
     }

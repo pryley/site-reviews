@@ -16,10 +16,7 @@ class ElementorReviewWidget extends ElementorWidget
         return 'eicon-glsr-review';
     }
 
-    /**
-     * @return string
-     */
-    public function get_shortcode()
+    public static function shortcodeClass(): string
     {
         return SiteReviewShortcode::class;
     }
@@ -45,16 +42,7 @@ class ElementorReviewWidget extends ElementorWidget
                 'type' => Controls_Manager::TEXT,
             ],
         ];
-        $hideOptions = $this->get_shortcode_instance()->options('hide');
-        foreach ($hideOptions as $key => $label) {
-            $separator = $key === key(array_slice($hideOptions, 0, 1)) ? 'before' : 'default';
-            $options["hide-{$key}"] = [
-                'label' => $label,
-                'separator' => $separator,
-                'return_value' => '1',
-                'type' => Controls_Manager::SWITCHER,
-            ];
-        }
+        $options = $this->insert_hide_controls($options);
         return $options;
     }
 

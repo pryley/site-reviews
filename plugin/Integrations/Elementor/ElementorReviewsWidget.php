@@ -16,10 +16,7 @@ class ElementorReviewsWidget extends ElementorWidget
         return 'eicon-glsr-reviews';
     }
 
-    /**
-     * @return string
-     */
-    public function get_shortcode()
+    public static function shortcodeClass(): string
     {
         return SiteReviewsShortcode::class;
     }
@@ -74,10 +71,10 @@ class ElementorReviewsWidget extends ElementorWidget
                 'default' => '',
                 'label' => _x('Limit Reviews to terms', 'admin-text', 'site-reviews'),
                 'label_block' => true,
-                'options' => $this->get_shortcode_instance()->options('terms'),
+                'options' => $this->shortcodeInstance()->options('terms'),
                 'type' => Controls_Manager::SELECT2,
             ],
-            'type' => $this->get_review_types(),
+            'type' => $this->get_type_control(),
             'pagination' => [
                 'default' => '',
                 'label' => _x('Pagination Type', 'admin-text', 'site-reviews'),
@@ -125,16 +122,7 @@ class ElementorReviewsWidget extends ElementorWidget
                 'type' => Controls_Manager::SWITCHER,
             ],
         ];
-        $hideOptions = $this->get_shortcode_instance()->options('hide');
-        foreach ($hideOptions as $key => $label) {
-            $separator = $key === key(array_slice($hideOptions, 0, 1)) ? 'before' : 'default';
-            $options["hide-{$key}"] = [
-                'label' => $label,
-                'separator' => $separator,
-                'return_value' => '1',
-                'type' => Controls_Manager::SWITCHER,
-            ];
-        }
+        $options = $this->insert_hide_controls($options);
         return $options;
     }
 

@@ -20,12 +20,14 @@ class Hooks extends IntegrationHooks
             ['filterElementorStarRatingDefaults', 'site-reviews/defaults/star-rating/defaults'],
             ['filterGeneratedSchema', 'site-reviews/schema/generate'],
             ['parseElementCss', 'elementor/element/parse_css', 10, 2],
+            ['registerAjaxActions', 'elementor/ajax/register_actions'],
             ['registerElementorCategory', 'elementor/elements/categories_registered'],
             ['registerElementorWidgets', 'elementor/widgets/register'],
             ['registerInlineStyles', 'admin_enqueue_scripts', 20],
             ['registerInlineStyles', 'elementor/editor/after_enqueue_styles'],
             ['registerInlineStyles', 'elementor/preview/enqueue_styles'],
             ['registerScripts', 'elementor/editor/after_enqueue_scripts'],
+            ['searchAssignedTerms', 'site-reviews/route/ajax/elementor-assigned_terms'],
         ]);
     }
 

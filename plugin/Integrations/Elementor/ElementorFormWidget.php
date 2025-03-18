@@ -16,10 +16,7 @@ class ElementorFormWidget extends ElementorWidget
         return 'eicon-glsr-form';
     }
 
-    /**
-     * @return string
-     */
-    public function get_shortcode()
+    public static function shortcodeClass(): string
     {
         return SiteReviewsFormShortcode::class;
     }
@@ -61,12 +58,20 @@ class ElementorFormWidget extends ElementorWidget
                 'show_label' => false,
                 'type' => Controls_Manager::TEXT,
             ],
+            // 'assigned_terms' => [
+            //     'default' => '',
+            //     'label' => _x('Assign Reviews to a Category', 'admin-text', 'site-reviews'),
+            //     'label_block' => true,
+            //     'multiple' => true,
+            //     'options' => $this->assigned_terms_options(),
+            //     'type' => Controls_Manager::SELECT2,
+            // ],
             'assigned_terms' => [
                 'default' => '',
                 'label' => _x('Assign Reviews to a Category', 'admin-text', 'site-reviews'),
                 'label_block' => true,
                 'multiple' => true,
-                'options' => $this->assigned_terms_options(),
+                'options' => [],
                 'type' => Controls_Manager::SELECT2,
             ],
             'assigned_users' => [
@@ -85,16 +90,7 @@ class ElementorFormWidget extends ElementorWidget
                 'type' => Controls_Manager::TEXT,
             ],
         ];
-        $hideOptions = $this->get_shortcode_instance()->options('hide');
-        foreach ($hideOptions as $key => $label) {
-            $separator = $key === key(array_slice($hideOptions, 0, 1)) ? 'before' : 'default';
-            $options["hide-{$key}"] = [
-                'label' => $label,
-                'separator' => $separator,
-                'return_value' => '1',
-                'type' => Controls_Manager::SWITCHER,
-            ];
-        }
+        $options = $this->insert_hide_controls($options);
         return $options;
     }
 
