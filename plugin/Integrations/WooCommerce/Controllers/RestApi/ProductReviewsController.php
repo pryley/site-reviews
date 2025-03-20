@@ -431,7 +431,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
      */
     protected function prepare_status_response($status)
     {
-        if (in_array($status, ['0', 'hold', 'pending', 'unapprove', 'unapproved'])) {
+        if (in_array($status, ['0', 'draft', 'hold', 'pending', 'unapprove', 'unapproved'])) {
             return 'hold';
         }
         if (in_array($status, ['1', 'approve', 'approved', 'publish'])) {

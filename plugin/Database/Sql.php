@@ -13,6 +13,14 @@ trait Sql
 
     public \wpdb $db;
 
+    protected array $joinStatements = [
+        'assigned_posts' => "INNER JOIN table|assigned_posts AS apt ON (apt.rating_id = r.ID)",
+        'assigned_terms' => "INNER JOIN table|assigned_terms AS att ON (att.rating_id = r.ID)",
+        'assigned_users' => "INNER JOIN table|assigned_users AS aut ON (aut.rating_id = r.ID)",
+        'postmeta' => "INNER JOIN table|postmeta AS pm ON (pm.post_id = r.review_id)",
+        'posts' => "INNER JOIN table|posts AS p ON (p.ID = r.review_id)",
+    ];
+
     public function clauses(string $clause, array $values = []): array
     {
         $prefix = Str::restrictTo('and,join', $clause);
@@ -68,11 +76,14 @@ trait Sql
         return $statement;
     }
 
-    public function sqlJoin(): string
+    public function sqlJoin(array $additional = []): string
     {
-        $join = $this->clauses('join');
-        $join = glsr()->filterArrayUnique('query/sql/join', $join, $this->sqlHandle(), $this);
-        return implode(' ', $join);
+        $joins = $this->clauses('join');
+        foreach ($additional as $join) {
+            array_unshift($joins, ($this->joinStatements[$join] ?? ''));
+        }
+        $joins = glsr()->filterArrayUnique('query/sql/join', $joins, $this->sqlHandle(), $this);
+        return implode(' ', $joins);
     }
 
     public function sqlLimit(): string
@@ -85,7 +96,12 @@ trait Sql
 
     public function sqlOffset(): string
     {
-        $offsetBy = (($this->args['page'] - 1) * $this->args['per_page']) + $this->args['offset'];
+        if ($this->args['per_page'] < 1) {
+            $offsetBy = $this->args['offset'];
+        } else {
+            $page = $this->args['page'] - 1;
+            $offsetBy = ($page * $this->args['per_page']) + $this->args['offset'];
+        }
         $offset = Helper::ifTrue($offsetBy > 0,
             $this->db->prepare('OFFSET %d', $offsetBy)
         );
@@ -118,7 +134,7 @@ trait Sql
         $and = $this->clauses('and');
         $and = glsr()->filterArrayUnique('query/sql/and', $and, $this->sqlHandle(), $this);
         $and = $this->normalizeAndClauses($and);
-        return 'WHERE 1=1 '.implode(' ', $and);
+        return trim('WHERE 1=1 '.implode(' ', $and));
     }
 
     protected function clauseAndAssignedPosts(): string
@@ -204,10 +220,10 @@ trait Sql
 
     protected function clauseAndStatus(): string
     {
-        if (-1 !== $this->args['status']) {
-            return $this->clauseIfValueNotEmpty('AND r.is_approved = %d', $this->args['status']);
+        if (-1 === $this->args['status']) {
+            return "AND p.post_status IN ('pending','publish')";
         }
-        return "AND p.post_status IN ('pending','publish')";
+        return $this->clauseIfValueNotEmpty('AND r.is_approved = %d', $this->args['status']);
     }
 
     protected function clauseAndTerms(): string
@@ -254,7 +270,7 @@ trait Sql
     protected function clauseJoinAssignedPosts(): string
     {
         return $this->clauseIfValueNotEmpty(
-            "{$this->joinMethod()} table|assigned_posts AS apt ON (apt.rating_id = r.ID)",
+            $this->join('assigned_posts', $this->joinKeyword()),
             $this->args['assigned_posts'],
             $prepare = false
         );
@@ -262,7 +278,7 @@ trait Sql
 
     protected function clauseJoinAssignedPostsTypes(): string
     {
-        $clause1 = "{$this->joinMethod()} table|assigned_posts AS apt ON (apt.rating_id = r.ID)";
+        $clause1 = $this->join('assigned_posts', $this->joinKeyword());
         $clause2 = "INNER JOIN table|posts AS pt ON (pt.ID = apt.post_id AND pt.post_type IN ('%s'))";
         $values = Arr::unique($this->args['assigned_posts_types']);
         $values = array_map('esc_sql', $values);
@@ -274,7 +290,7 @@ trait Sql
     protected function clauseJoinAssignedTerms(): string
     {
         return $this->clauseIfValueNotEmpty(
-            "{$this->joinMethod()} table|assigned_terms AS att ON (att.rating_id = r.ID)",
+            $this->join('assigned_terms', $this->joinKeyword()),
             $this->args['assigned_terms'],
             $prepare = false
         );
@@ -283,7 +299,7 @@ trait Sql
     protected function clauseJoinAssignedUsers(): string
     {
         return $this->clauseIfValueNotEmpty(
-            "{$this->joinMethod()} table|assigned_users AS aut ON (aut.rating_id = r.ID)",
+            $this->join('assigned_users', $this->joinKeyword()),
             $this->args['assigned_users'],
             $prepare = false
         );
@@ -292,7 +308,7 @@ trait Sql
     protected function clauseJoinContent(): string
     {
         return $this->clauseIfValueNotEmpty(
-            "INNER JOIN table|posts AS p ON (p.ID = r.review_id)",
+            $this->join('posts', 'INNER JOIN'),
             $this->args['content'],
             $prepare = false
         );
@@ -301,7 +317,7 @@ trait Sql
     protected function clauseJoinDate(): string
     {
         return $this->clauseIfValueNotEmpty(
-            "INNER JOIN table|posts AS p ON (p.ID = r.review_id)",
+            $this->join('posts', 'INNER JOIN'),
             array_filter($this->args['date']),
             $prepare = false
         );
@@ -310,7 +326,7 @@ trait Sql
     protected function clauseJoinUserIn(): string
     {
         return $this->clauseIfValueNotEmpty(
-            "INNER JOIN table|posts AS p ON (p.ID = r.review_id)",
+            $this->join('posts', 'INNER JOIN'),
             $this->args['user__in'],
             $prepare = false
         );
@@ -319,7 +335,7 @@ trait Sql
     protected function clauseJoinUserNotIn(): string
     {
         return $this->clauseIfValueNotEmpty(
-            "INNER JOIN table|posts AS p ON (p.ID = r.review_id)",
+            $this->join('posts', 'INNER JOIN'),
             $this->args['user__not_in'],
             $prepare = false
         );
@@ -327,22 +343,25 @@ trait Sql
 
     protected function clauseJoinOrderBy(): string
     {
-        return (string) Helper::ifTrue(str_starts_with($this->args['orderby'], 'p.'),
-            "INNER JOIN table|posts AS p ON (p.ID = r.review_id)"
+        return (string) Helper::ifTrue(
+            str_starts_with($this->args['orderby'], 'p.'),
+            $this->join('posts', 'INNER JOIN')
         );
     }
 
     protected function clauseJoinRatingField(): string
     {
-        return (string) Helper::ifTrue($this->isCustomRatingField(),
-            "INNER JOIN table|postmeta AS pm ON (pm.post_id = r.review_id)"
+        return (string) Helper::ifTrue(
+            $this->isCustomRatingField(),
+            $this->join('postmeta', 'INNER JOIN')
         );
     }
 
     protected function clauseJoinStatus(): string
     {
-        return (string) Helper::ifTrue(-1 === $this->args['status'],
-            "INNER JOIN table|posts AS p ON (p.ID = r.review_id)"
+        return (string) Helper::ifTrue(
+            $this->args['status'] === -1,
+            $this->join('posts', 'INNER JOIN')
         );
     }
 
@@ -351,10 +370,22 @@ trait Sql
         return 'rating' !== $this->args['rating_field'] && !empty($this->args['rating_field']);
     }
 
-    protected function joinMethod(): string
+    protected function join(string $join, string $joinKeyword): string
     {
-        $joins = ['loose' => 'LEFT JOIN', 'strict' => 'INNER JOIN'];
-        return Arr::get($joins, glsr_get_option('reviews.assignment', 'strict'), 'INNER JOIN');
+        $joinKeywords = [
+            'CROSS JOIN', 'INNER JOIN', 'LEFT JOIN', 'NATURAL JOIN', 'RIGHT JOIN',
+        ];
+        if (!in_array($joinKeyword, $joinKeywords)) {
+            $joinKeyword = 'INNER JOIN';
+        }
+        $statement = $this->joinStatements[$join] ?? '';
+        $statement = str_replace('INNER JOIN', $joinKeyword, $statement);
+        return $statement;
+    }
+
+    protected function joinKeyword(): string
+    {
+        return 'loose' === glsr_get_option('reviews.assignment') ? 'LEFT JOIN' : 'INNER JOIN';
     }
 
     protected function normalizeAndClauses(array $and): array

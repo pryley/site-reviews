@@ -35,7 +35,7 @@ class ReviewsDefaults extends DefaultsAbstract
             'random',
             'rating',
         ],
-        'status' => ['all', 'approved', 'pending', 'publish', 'unapproved'],
+        'status' => ['all', 'approved', 'hold', 'pending', 'publish', 'unapproved'],
         'terms' => ['0', 'false', '1', 'true'],
     ];
 
@@ -192,11 +192,12 @@ class ReviewsDefaults extends DefaultsAbstract
         $statuses = [
             'all' => -1,
             'approved' => 1,
+            'hold' => 0,
             'pending' => 0,
             'publish' => 1,
             'unapproved' => 0,
         ];
-        return $statuses[$value];
+        return $statuses[$value] ?? 1;
     }
 
     protected function finalizeTerms(string $value): int
