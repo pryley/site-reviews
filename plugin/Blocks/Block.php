@@ -37,6 +37,9 @@ abstract class Block
                 );
             }
         }
+        preg_match_all('/(\w+)="([^"]*)"/', get_block_wrapper_attributes(), $matches, PREG_SET_ORDER);
+        $atts = array_column($matches, 2, 1);
+        $attributes['class'] = $atts['class'] ?? '';
         return $this->shortcode()->build($attributes, 'block');
     }
 

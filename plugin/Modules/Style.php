@@ -107,11 +107,14 @@ class Style
         return wp_parse_args($args, $this->__get('pagination'));
     }
 
-    public function styleClasses(): string
+    public function styleClasses(string $additional = ''): string
     {
         $style = $this->__get('style');
-        $classes = glsr()->filterString('style', "glsr glsr-{$style}");
-        return glsr(Sanitizer::class)->sanitizeAttrClass($classes);
+        $classes = ['glsr'];
+        $classes[] = glsr()->filterString('style', "glsr-{$style}");
+        $classes[] = $additional;
+        $attribute = implode(' ', $classes);
+        return glsr(Sanitizer::class)->sanitizeAttrClass($attribute);
     }
 
     public function stylesheetUrl(?string $suffix = ''): string

@@ -62,6 +62,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                             '<option value="twentytwentytwo">Twenty Twenty-Two</option>'.
                         '</optgroup>'.
                     '</select>'.
+                    '<p class="description">Description</p>'.
                 '</td>'.
             '</tr>'
         );
@@ -1187,6 +1188,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                                 '<input type="checkbox" id="site_reviews-settings-forms-required-6" name="site_reviews[settings][forms][required][]" value="terms" /> Terms'.
                             '</label>'.
                         '</div>'.
+                        '<p class="description">Description</p>'.
                     '</fieldset>'.
                 '</td>'.
             '</tr>'
