@@ -21,8 +21,8 @@ abstract class Block
         }
         $block = (new \ReflectionClass($this))->getShortName();
         $block = str_replace('_block', '', Str::snakeCase($block));
-            'editor_style' => "{$this->app()->id}/blocks",
         register_block_type_from_metadata($this->app()->path("assets/blocks/{$block}"), [
+            'editor_style' => "{$this->app()->id}/blocks",
             'render_callback' => [$this, 'render'],
             'style' => $this->app()->id,
         ]);
