@@ -41,7 +41,7 @@ abstract class Controller extends AbstractController
     {
         $this->registerAsset('css', ['suffix' => 'blocks']);
         $this->registerAsset('js', [
-            'dependencies' => [glsr()->id.'/blocks'],
+            'dependencies' => ['wp-block-editor'],
             'suffix' => 'blocks',
         ]);
     }
