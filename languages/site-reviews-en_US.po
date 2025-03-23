@@ -36,7 +36,7 @@ msgid_plural "%s stars or less"
 msgstr[0] "%s star or less"
 msgstr[1] "%s stars or less"
 
-#: config/settings.php:403, plugin/Modules/Html/ReviewsHtml.php:120
+#: config/settings.php:403, plugin/Modules/Html/ReviewsHtml.php:111
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
@@ -2447,7 +2447,7 @@ msgctxt "admin-text"
 msgid "Help"
 msgstr "Help"
 
-#: plugin/Blocks/Block.php:34
+#: plugin/Blocks/Block.php:36
 msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr "You have hidden all of the fields for this block."

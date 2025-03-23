@@ -5,6 +5,41 @@ import { Disabled, PanelBody, Spinner } from '@wordpress/components';
 import { useCallback, useEffect, useMemo, useRef } from '@wordpress/element';
 import { BaseControl, Notice } from '@wordpress/components';
 
+const CustomLoadingPlaceholder = ({ children, showLoader }) => {
+    return (
+        children ? (
+            <div style={{ position: 'relative' }}>
+                { showLoader && (
+                    <div style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        marginTop: '-9px',
+                        marginLeft: '-9px',
+                    }}>
+                        <Spinner />
+                    </div>
+                ) }
+                <div style={{ opacity: showLoader ? '0.3' : 1 }}>
+                    { children }
+                </div>
+            </div>
+        ) : (
+            <div className="block-editor-warning">
+                <Spinner style={{ marginBlockStart: 0, marginInlineStart: 0 }} />
+                <p className="block-editor-warning__message">
+                    { _x('Loading block...', 'admin-text', 'site-reviews') }
+                </p>
+            </div>
+        )
+    )
+};
+
+const defaultPanelTitles = {
+    hide: _x('Hide Options', 'admin-text', 'site-reviews'),
+    settings: _x('Settings', 'admin-text', 'site-reviews'),
+};
+
 const ServerSideBlockRenderer = ({
     className = 'ssr',
     controls = {},
@@ -16,14 +51,9 @@ const ServerSideBlockRenderer = ({
     const hookPrefix = blockName.replace('/', '.');
     const ref = useRef(null);
 
-    // Define CSS variables using the attributes
     const blockProps = useBlockProps({
         ref,
-        // style: {
-        //     '--glsr-block-font-size': attributes.fontSize,
-        // },
     });
-
 
     // Use useCallback to memoize the observer callback
     const observerCallback = useCallback((mutations) => {
@@ -51,36 +81,6 @@ const ServerSideBlockRenderer = ({
         return () => observer.disconnect()
     }, [observerCallback])
 
-    const CustomLoadingPlaceholder = ({ children, showLoader }) => {
-        return (
-            children ? (
-                <div style={{ position: 'relative' }}>
-                    { showLoader && (
-                        <div style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            marginTop: '-9px',
-                            marginLeft: '-9px',
-                        }}>
-                            <Spinner />
-                        </div>
-                    ) }
-                    <div style={{ opacity: showLoader ? '0.3' : 1 }}>
-                        { children }
-                    </div>
-                </div>
-            ) : (
-                <div className="block-editor-warning">
-                    <Spinner style={{ marginBlockStart: 0, marginInlineStart: 0 }} />
-                    <p className="block-editor-warning__message">
-                        { _x('Loading block...', 'admin-text', 'site-reviews') }
-                    </p>
-                </div>
-            )
-        )
-    };
-
     const filteredControls = useMemo(
         () => wp.hooks.applyFilters(`${hookPrefix}.InspectorControls`, controls, props),
         [controls, props, hookPrefix]
@@ -89,12 +89,6 @@ const ServerSideBlockRenderer = ({
         () => wp.hooks.applyFilters(`${hookPrefix}.InspectorPanels`, panels, props),
         [panels, props, hookPrefix]
     );
-
-    const defaultPanelTitles = {
-        hide: _x('Hide Options', 'admin-text', 'site-reviews'),
-        settings: _x('Settings', 'admin-text', 'site-reviews'),
-        // styles: _x('Styles', 'admin-text', 'site-reviews'),
-    };
 
     const normalizedPanels = Object.fromEntries(
         Object.entries(filteredPanels).map(([panelKey, panel]) => [
