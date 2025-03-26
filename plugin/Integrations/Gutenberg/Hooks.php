@@ -1,18 +1,19 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Hooks;
+namespace GeminiLabs\SiteReviews\Integrations\Gutenberg;
 
-use GeminiLabs\SiteReviews\Controllers\BlocksController;
+use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 
-class BlocksHooks extends AbstractHooks
+class Hooks extends IntegrationHooks
 {
     public function run(): void
     {
-        $this->hook(BlocksController::class, [
+        $this->hook(Controller::class, [
+            ['enqueueBlockAssets', 'wp_enqueue_scripts'],
+            ['enqueueBlockEditorAssets', 'enqueue_block_editor_assets'],
             ['filterAllowedBlockTypes', 'allowed_block_types_all', 10, 2],
             ['filterBlockCategories', 'block_categories_all'],
             ['filterUseBlockEditor', 'use_block_editor_for_post_type', 10, 2],
-            ['registerAssets', 'init', 9], // This must be done before the blocks are registered
             ['registerBlocks', 'init'],
             ['removeLegacyWidgets', 'widget_types_to_hide_from_legacy_widget_block'],
         ]);

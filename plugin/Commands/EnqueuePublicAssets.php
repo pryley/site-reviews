@@ -31,16 +31,6 @@ class EnqueuePublicAssets extends AbstractCommand
         if (!glsr()->filterBool('assets/css', true)) {
             return;
         }
-        // ensure block styles are loaded on post types with blocks disabled
-        $blocks = \WP_Block_Type_Registry::get_instance();
-        if ($blocks->is_registered('core/button')) {
-            // $blocks->get_registered('core/button')->style_handles;
-            wp_enqueue_style('wp-block-button');
-        }
-        if ($blocks->is_registered('core/search')) {
-            // $blocks->get_registered('core/search')->style_handles;
-            wp_enqueue_style('wp-block-search');
-        }
         wp_enqueue_style(glsr()->id, glsr(AssetCss::class)->url(), [], glsr(AssetCss::class)->version());
         wp_add_inline_style(glsr()->id, $this->inlineStyles());
         glsr(AssetCss::class)->optimize();

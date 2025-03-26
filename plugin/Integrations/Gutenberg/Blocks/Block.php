@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Blocks;
+namespace GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks;
 
 use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
