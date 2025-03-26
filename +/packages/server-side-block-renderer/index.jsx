@@ -61,9 +61,12 @@ const ServerSideBlockRenderer = ({
             if ('childList' !== mutation.type) continue
             for (const node of mutation.addedNodes) {
                 if (!(node instanceof HTMLElement) || !node.classList.contains(className)) continue;
+                const block = node.firstElementChild;
+                block.classList.add('glsr-' + window.getComputedStyle(block, null).getPropertyValue('direction'))
+                if (GLSR?.Event) {
+                    GLSR.Event.trigger(blockName, block, attributes)
+                }
                 if ('function' === typeof renderCallback) {
-                    const block = node.firstElementChild;
-                    block.classList.add('glsr-' + window.getComputedStyle(block, null).getPropertyValue('direction'))
                     renderCallback(node, ref.current)
                 }
                 return
