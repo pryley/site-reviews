@@ -36110,6 +36110,7 @@ namespace Elementor\Modules\GlobalClasses {
         public function get()
         {
         }
+        #[\ReturnTypeWillChange]
         public function jsonSerialize()
         {
         }

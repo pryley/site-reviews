@@ -84,6 +84,7 @@ return [ // order is intentional
         ],
         'label' => _x('Require Approval For', 'admin-text', 'site-reviews'),
         'tooltip' => _x('The minimum rating that will change the status of a new review submission to "unapproved".', 'admin-text', 'site-reviews'),
+        /* translators: %s is replaced with the rating number */
         'options' => glsr('Modules\Rating')->optionsArray(_n_noop('%s star or less', '%s stars or less', 'site-reviews')),
         'sanitizer' => 'rating',
         'type' => 'select',
@@ -103,6 +104,7 @@ return [ // order is intentional
         'label' => _x('Custom Login URL', 'admin-text', 'site-reviews'),
         'placeholder' => wp_login_url(),
         'sanitizer' => 'url',
+        /* translators: %s is replaced with a link to the "wp_login_url" function documentation */
         'tooltip' => sprintf(_x('Site Reviews uses the %s function to get the login URL. If you would like to use a custom login URL, enter it here.', 'admin-text', 'site-reviews'),
             '<a href="http://developer.wordpress.org/reference/functions/wp_login_url/" target="_blank">wp_login_url()</a>'
         ),
@@ -115,6 +117,7 @@ return [ // order is intentional
         ],
         'label' => _x('Show Registration Link', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
+        /* translators: %s is replaced with a link to the "Anyone can register" setting in the WordPress General settings */
         'tooltip' => sprintf(_x('Show a link for a new user to register. The %s Membership option must be enabled in General Settings for this to work.', 'admin-text', 'site-reviews'),
             '<a href="'.admin_url('options-general.php#users_can_register').'">'._x('Anyone can register', 'admin-text', 'site-reviews').'</a>'
         ),
@@ -129,6 +132,7 @@ return [ // order is intentional
         'label' => _x('Custom Registration URL', 'admin-text', 'site-reviews'),
         'placeholder' => wp_registration_url(),
         'sanitizer' => 'url',
+        /* translators: %s is replaced with a link to the "wp_registration_url" function documentation */
         'tooltip' => sprintf(_x('Site Reviews uses the %s function to get the registration URL. If you would like to use a custom registration URL, enter it here.', 'admin-text', 'site-reviews'),
             '<a href="http://developer.wordpress.org/reference/functions/wp_registration_url/" target="_blank">wp_registration_url()</a>'
         ),
@@ -169,6 +173,7 @@ return [ // order is intentional
         ],
         'label' => _x('Discord Webhook URL', 'admin-text', 'site-reviews'),
         'sanitizer' => 'url',
+        /* translators: %s is replaced with a link to the "create a webhook" Discord support URL */
         'tooltip' => sprintf(_x('To send notifications to a Discord channel, %s and then paste the URL in the field.', 'admin-text', 'site-reviews'),
             '<a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank">'._x('create a webhook', 'admin-text', 'site-reviews').'</a>'
         ),
@@ -181,6 +186,7 @@ return [ // order is intentional
         ],
         'label' => _x('Slack Webhook URL', 'admin-text', 'site-reviews'),
         'sanitizer' => 'url',
+        /* translators: %s is replaced with a link to the "create an Incoming Webhook" Slack support URL */
         'tooltip' => sprintf(_x('To send notifications to a Slack channel, %s and then paste the URL in the field.', 'admin-text', 'site-reviews'),
             '<a href="https://api.slack.com/incoming-webhooks" target="_blank">'._x('create an Incoming Webhook', 'admin-text', 'site-reviews').'</a>'
         ),
@@ -232,6 +238,7 @@ return [ // order is intentional
             'custom' => _x('Use a custom date format', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'text',
+        /* translators: %s is replaced with a link to the date format option in the WordPress settings */
         'tooltip' => sprintf(_x('The default date format is the one set in your %s.', 'admin-text', 'site-reviews'),
             '<a href="'.admin_url('options-general.php#date_format_custom').'">'._x('WordPress settings', 'admin-text', 'site-reviews').'</a>'
         ),

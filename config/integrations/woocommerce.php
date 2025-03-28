@@ -5,6 +5,7 @@ return [ // order is intentional
         'default' => 'no',
         'label' => _x('Enable Integration?', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
+        /* translators: %s is replaced with a link to the Import Reviews tool in Site Reviews */
         'tooltip' => sprintf(_x('This will completely replace the default WooCommerce review system with Site Reviews. If you have existing WooCommerce comment reviews, you may need to first export them to a CSV file, and then import them using the %s tool.', 'admin-text', 'site-reviews'),
             sprintf('<a data-expand="#tools-import-reviews" href="%s">%s</a>', glsr_admin_url('tools', 'general'), _x('Import Reviews', 'admin-text', 'site-reviews'))
         ),
