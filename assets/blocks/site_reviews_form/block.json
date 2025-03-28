@@ -52,6 +52,10 @@
   },
   "editorScript": "file:./index.js",
   "script": "site-reviews",
+  "style": [
+    "core/button",
+    "site-reviews"
+  ],
   "keywords": [
     "review form",
     "site reviews"

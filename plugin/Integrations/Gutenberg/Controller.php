@@ -15,29 +15,6 @@ use GeminiLabs\SiteReviews\Modules\Style;
 class Controller extends AbstractController
 {
     /**
-     * Ensure block styles are loaded on post types with blocks disabled.
-     * 
-     * @action wp_enqueue_scripts
-     */
-    public function enqueueBlockAssets(): void
-    {
-        if (!glsr()->filterBool('assets/css', true)) {
-            return;
-        }
-        $blocks = [
-            'core/button', 'core/search',
-        ];
-        $registry = \WP_Block_Type_Registry::get_instance();
-        foreach ($blocks as $block) {
-            if (!$registry->is_registered($block)) {
-                continue;
-            }
-            $handles = $registry->get_registered($block)->style_handles;
-            array_walk($handles, fn ($handle) => wp_enqueue_style($handle));
-        }
-    }
-
-    /**
      * The CSS registered here will not load in the site editor unless it contains the .wp-block selector.
      *
      * @see https://github.com/WordPress/gutenberg/issues/41821
@@ -46,11 +23,6 @@ class Controller extends AbstractController
      */
     public function enqueueBlockEditorAssets(): void
     {
-        // $dependencies = glsr()->filterArray('enqueue/public/dependencies', []);
-        // wp_enqueue_script(glsr()->id, glsr(AssetJs::class)->url(), $dependencies, glsr(AssetJs::class)->version(), [
-        //     'in_footer' => true,
-        //     'strategy' => 'defer',
-        // ]);
         wp_enqueue_style(
             glsr()->id.'/blocks',
             glsr(Style::class)->stylesheetUrl('blocks'),

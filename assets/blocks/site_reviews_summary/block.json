@@ -72,6 +72,7 @@
   },
   "editorScript": "file:./index.js",
   "script": "site-reviews",
+  "style": "site-reviews",
   "keywords": [
     "rating summary",
     "site reviews"

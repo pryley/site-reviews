@@ -9,7 +9,6 @@ class Hooks extends IntegrationHooks
     public function run(): void
     {
         $this->hook(Controller::class, [
-            ['enqueueBlockAssets', 'wp_enqueue_scripts'],
             ['enqueueBlockEditorAssets', 'enqueue_block_editor_assets'],
             ['filterAllowedBlockTypes', 'allowed_block_types_all', 10, 2],
             ['filterBlockCategories', 'block_categories_all'],

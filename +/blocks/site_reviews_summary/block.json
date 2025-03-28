@@ -71,7 +71,9 @@
         }
     },
     "editorScript": "file:./index.js",
+    "editorStyle": "site-reviews/blocks",
     "script": "site-reviews",
+    "style": "site-reviews",
     "keywords": [
         "rating summary",
         "site reviews"

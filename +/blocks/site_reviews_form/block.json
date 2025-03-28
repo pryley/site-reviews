@@ -51,7 +51,12 @@
         }
     },
     "editorScript": "file:./index.js",
+    "editorStyle": "site-reviews/blocks",
     "script": "site-reviews",
+    "style": [
+        "core/button",
+        "site-reviews"
+    ],
     "keywords": [
         "review form",
         "site reviews"
