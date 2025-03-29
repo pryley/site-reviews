@@ -54,8 +54,10 @@
     site-reviews/<form_name>/build/fields                       (string $rendered, Contracts\FormContract $form): string
     site-reviews/<form_name>/build/response                     (string $rendered, Contracts\FormContract $form): string
     site-reviews/<form_name>/build/submit_button                (string $rendered, Contracts\FormContract $form): string
+    site-reviews/<form_name>/config                             (array $config, Contracts\FormContract $form): array
     site-reviews/<form_name>/fields/all                         (Contracts\FieldContract[] $fields, Contracts\FormContract $form): array
     site-reviews/<form_name>/fields/hidden                      (Contracts\FieldContract[] $fields, Contracts\FormContract $form): array
+    site-reviews/<form_name>/fields/order                       (string[] $order, Contracts\FormContract $form): string[]
     site-reviews/<form_name>/fields/visible                     (Contracts\FieldContract[] $fields, Contracts\FormContract $form): array
     site-reviews/<form_name>/signature/values                   (array $values, Contracts\FormContract $form): array
     site-reviews/addon/api-url                                  (string $apiUrl): string
@@ -152,8 +154,6 @@
     site-reviews/integration/subsubsub                          (array $subsubsub): array
     site-reviews/interpolate/<template_path>                    (array $context, string $template, array $data): array
     site-reviews/is-local-server                                (bool $bool): bool
-    site-reviews/metabox-form/fields                            (array $fields, Contracts\FormContract $form): array
-    site-reviews/metabox-form/fields/order                      (array $order): array
     site-reviews/notices                                        (array $notices): array
     site-reviews/notification/emails                            (array $emails, Review $review): array
     site-reviews/notification/tag/<tag>                         (string $value, Review $review): string
@@ -196,8 +196,6 @@
     site-reviews/rest-api/reviews/schema/properties             (array $properties): array
     site-reviews/rest-api/summary/parameters                    (array $parameters): array
     site-reviews/rest-api/summary/schema/properties             (array $properties): array
-    site-reviews/review-form/fields                             (array[] $fields, Contracts\FormContract $form): array
-    site-reviews/review-form/order                              (array $order): array
     site-reviews/review-form/referer                            (string $referer): string
     site-reviews/review-table/clauses                           (array $clauses, array $postClauses, \WP_Query $query): array
     site-reviews/review/build/after                             (array $templateTags, Review $review, Modules\Html\ReviewHtml $reviewHtml): array

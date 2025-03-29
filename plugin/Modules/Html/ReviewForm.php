@@ -11,26 +11,16 @@ class ReviewForm extends Form
 {
     public function __construct(array $args = [], array $values = [])
     {
-        $class = $args['class'] ?? ''; // keep the class option from the review form settings
         $overrides = [
             'button_text' => __('Submit Review', 'site-reviews'),
-            'class' => "{$class} glsr-review-form",
+            'class' => 'glsr-review-form',
         ];
         parent::__construct(wp_parse_args($overrides, $args), $values);
-        glsr()->action('review-form', $this);
     }
 
     public function config(): array
     {
-        $config = glsr()->config('forms/review-form');
-        if (!wp_is_numeric_array($config)) {
-            $order = array_keys($config);
-            $order = glsr()->filterArray('review-form/order', $order);
-            $ordered = array_intersect_key(array_merge(array_flip($order), $config), $config);
-            $config = $ordered;
-        }
-        $config = glsr()->filterArray('review-form/fields', $config, $this);
-        return $config;
+        return glsr()->config('forms/review-form');
     }
 
     public function configHidden(): array

@@ -34,6 +34,14 @@ class MetaboxField extends Field
         ]);
     }
 
+    public function buildFieldElement(): string
+    {
+        return $this->fieldElement()->build([
+            'class' => 'glsr-input-value',
+            'label' => '', // prevent the field label from being built
+        ]);
+    }
+
     public function location(): string
     {
         return 'metabox';

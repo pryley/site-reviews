@@ -30,7 +30,7 @@ class Form extends \ArrayObject implements FormContract
             $args['id'] = glsr(Sanitizer::class, ['values' => $args])->sanitizeIdHash('');
         }
         $this->args = glsr()->args($args);
-        $this->config = $this->mergeconfig();
+        $this->config = $this->mergeConfig();
         $this->loadSession($values);
         parent::__construct($this->fieldsAll(), \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
         array_map([$this, 'normalizeConditions'], $this->fields());
@@ -294,6 +294,13 @@ class Form extends \ArrayObject implements FormContract
     {
         $assignmentKeys = ['assigned_posts', 'assigned_terms', 'assigned_users'];
         $config = $this->config();
+        $config = glsr()->filterArray("{$this->formName()}/config", $config, $this);
+        if (!wp_is_numeric_array($config)) { // allow custom filtered field order
+            $order = array_keys($config);
+            $order = glsr()->filterArray("{$this->formName()}/fields/order", $order, $this);
+            $ordered = array_intersect_key(array_merge(array_flip($order), $config), $config);
+            $config = $ordered;
+        }
         foreach ($this->configHidden() as $name => $value) {
             if (in_array($name, $assignmentKeys) && array_key_exists($name, $config)) {
                 continue; // allow visible assignment fields

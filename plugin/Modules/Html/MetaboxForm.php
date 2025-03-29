@@ -29,13 +29,6 @@ class MetaboxForm extends Form
     public function config(): array
     {
         $config = glsr()->config('forms/metabox-fields');
-        if (!wp_is_numeric_array($config)) {
-            $order = array_keys($config);
-            $order = glsr()->filterArray('metabox-form/fields/order', $order);
-            $ordered = array_intersect_key(array_merge(array_flip($order), $config), $config);
-            $config = $ordered;
-        }
-        $config = glsr()->filterArray('metabox-form/fields', $config, $this);
         if (2 > count(glsr()->retrieveAs('array', 'review_types'))) {
             unset($config['type']);
         }
@@ -45,7 +38,6 @@ class MetaboxForm extends Form
                 $value = wp_json_encode($value);
             }
             $config[$key] = wp_parse_args($values, [
-                'class' => 'glsr-input-value',
                 'data-value' => esc_js($value),
             ]);
         }
