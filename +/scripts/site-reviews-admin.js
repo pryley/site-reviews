@@ -25,7 +25,7 @@ import TogglePinned from '@/admin/toggle-pinned.js';
 import ToggleVerified from '@/admin/toggle-verified.js';
 import Tools from '@/admin/tools.js';
 import tippy, { followCursor } from 'tippy.js';
-import { debounce, throttle } from '@/public/helpers.js';
+import { debounce, selectText, throttle } from '@/public/helpers.js';
 
 GLSR.ajax = Ajax;
 GLSR.autosize = autosize;
@@ -42,7 +42,7 @@ GLSR.keys = {
 GLSR.Event = Event;
 GLSR.stars = StarRating();
 GLSR.Tippy = { tippy, plugins: { followCursor }}
-GLSR.Utils = { debounce, throttle };
+GLSR.Utils = { debounce, selectText, throttle };
 
 Prism.languages.shortcode = {
     tag: {

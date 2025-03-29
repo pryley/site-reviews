@@ -68,6 +68,22 @@ export const parseJson = (str) => {
   }
 };
 
+export const selectText = (el) => {
+  if (window.getSelection && el.firstChild && el.firstChild.nodeType === Node.TEXT_NODE) {
+    const textNode = el.firstChild;
+    const text = textNode.textContent;
+    const start = text.search(/\S/); // First non-whitespace character
+    if (start === -1) return; // All whitespace, no selection needed
+    const range = document.createRange();
+    const selection = window.getSelection();
+    const end = text.search(/\s*$/); // Start of trailing whitespace
+    range.setStart(textNode, start);
+    range.setEnd(textNode, end);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+};
+
 export const throttle = (func, wait = 32) => {
   let timeout = null;
   let lastRan = 0;
