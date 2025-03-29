@@ -33,18 +33,3 @@
     display: grid;
     gap: var(--glsr-gap-xl);
 }
-:--namespace form.glsr-form {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    position: relative;
-    row-gap: var(--glsr-gap-md);
-}
-:--namespace .glsr-field {
-    position: relative;
-}
-:--namespace .glsr-form-message {
-    display: none;
-}
-:--namespace .glsr-captcha-holder {
-    display: none;
-}

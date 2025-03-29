@@ -107,9 +107,10 @@ const ServerSideBlockRenderer = ({
     const renderControls = (controlsArray, context = 'unknown') => {
         return controlsArray
             .filter((controlKey) => {
-                if (!(controlKey in filteredControls)) {
-                    console.warn(`"${controlKey}" control not found in the "${context}" panel`);
-                }
+                // Disabling this check because is doesn't make sense to use with conditional controls
+                // if (!(controlKey in filteredControls)) {
+                //     console.warn(`"${controlKey}" control not found in the "${context}" panel`);
+                // }
                 return controlKey in filteredControls;
             })
             .map((controlKey) => filteredControls[controlKey]);

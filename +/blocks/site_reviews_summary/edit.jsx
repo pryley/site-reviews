@@ -1,3 +1,4 @@
+import './editor.scss';
 import { _x } from '@wordpress/i18n';
 import { AjaxComboboxControl, AjaxFormTokenField, AjaxToggleGroupControl, NoYesControl } from '@site-reviews/components';
 import { RangeControl, TextControl } from '@wordpress/components';

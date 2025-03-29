@@ -31,19 +31,11 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * The CSS registered here will not load in the site editor unless it contains the .wp-block selector.
-     *
-     * @see https://github.com/WordPress/gutenberg/issues/41821
-     *
      * @action enqueue_block_editor_assets
      */
     public function enqueueBlockAssets(): void
     {
-        $this->enqueueAsset('css', ['suffix' => 'blocks']);
-        $this->enqueueAsset('js', [
-            'dependencies' => ['wp-block-editor'],
-            'suffix' => 'blocks',
-        ]);
+        $this->enqueuePublicAssets();
     }
 
     /**

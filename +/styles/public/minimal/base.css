@@ -1,7 +1,11 @@
 :root .glsr * + * {
     box-sizing: border-box;
 }
-:root .glsr,
+:root .glsr {
+    border-width: 0;
+    font-size: var(--glsr-text-base);
+    width: 100%;
+}
 :root .glsr-modal {
     border-width: 0;
     font-size: var(--glsr-text-base);

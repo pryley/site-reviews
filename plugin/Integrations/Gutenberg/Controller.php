@@ -15,21 +15,11 @@ use GeminiLabs\SiteReviews\Modules\Style;
 class Controller extends AbstractController
 {
     /**
-     * The CSS registered here will not load in the site editor unless it contains the .wp-block selector.
-     *
-     * @see https://github.com/WordPress/gutenberg/issues/41821
-     *
      * @action enqueue_block_editor_assets
      */
     public function enqueueBlockEditorAssets(): void
     {
-        wp_enqueue_style(
-            glsr()->id.'/blocks',
-            glsr(Style::class)->stylesheetUrl('blocks'),
-            ['wp-edit-blocks'],
-            glsr()->version
-        );
-        wp_add_inline_style(glsr()->id.'/blocks', (new EnqueuePublicAssets())->inlineStyles());
+        $this->execute(new EnqueuePublicAssets());
     }
 
     /**

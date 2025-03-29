@@ -1,3 +1,4 @@
+import './editor.scss';
 import { _x } from '@wordpress/i18n';
 import { AjaxSearchControl, AjaxToggleGroupControl } from '@site-reviews/components';
 import { TextControl } from '@wordpress/components';

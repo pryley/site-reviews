@@ -71,6 +71,7 @@
     }
   },
   "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
   "script": "site-reviews",
   "style": "site-reviews",
   "keywords": [
