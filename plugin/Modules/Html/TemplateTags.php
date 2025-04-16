@@ -15,14 +15,6 @@ use GeminiLabs\SiteReviews\Review;
 
 class TemplateTags
 {
-    public function __call($method, $args)
-    {
-        if ('tagList' === $method) { // @compat
-            return call_user_func_array([$this, 'listTags'], $args);
-        }
-        throw new \BadMethodCallException("Method [$method] does not exist.");
-    }
-
     public function filteredTags(array $args = []): array
     {
         $exclude = Arr::consolidate(Arr::get($args, 'exclude'));
@@ -176,7 +168,7 @@ class TemplateTags
             if (method_exists($this, $method)) {
                 $content = call_user_func([$this, $method], $review);
             }
-            $content = glsr()->filterString("notification/tag/{$tag}", $content, $review);
+            $content = glsr()->filterString("notification/tag/{$tag}", $content, $review, $args);
         });
         if (array_key_exists('edit_url', $tags)) {
             $tags['review_link'] = glsr(Builder::class)->a([ // @compat v6
