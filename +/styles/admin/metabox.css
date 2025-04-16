@@ -378,7 +378,6 @@
 }
 
 .glsr-metabox-field [data-star-rating] > select {
-  clip: rect(1px, 1px, 1px, 1px) !important; /*IE/Edge*/
   clip-path: circle(1px at 0 0) !important;
   height: 1px !important;
   margin: 0 !important;

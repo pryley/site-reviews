@@ -2,7 +2,6 @@
     display: none !important;
 }
 :root form.glsr-form .glsr-star-rating > select {
-    clip: rect(1px, 1px, 1px, 1px);
     clip-path: inset(50%);
     height: 1px !important;
     margin: 0 !important;
