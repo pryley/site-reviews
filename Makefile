@@ -16,6 +16,9 @@ build: ## Build all assets, blocks, and languages
 bump: ## Bump to the next minor version
 	npx gulp bump
 
+check: ## Check WP compatibility for declared version
+	./vendor/bin/wp-since check
+
 compat: ## Run PHP CodeSniffer to check PHP 7.4+ Compatibility
 	XDEBUG_MODE=off ./vendor/bin/phpcs --standard=phpcs.xml
 
