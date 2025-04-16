@@ -7,8 +7,8 @@ class PostTypeLabelDefaults extends DefaultsAbstract
     protected function defaults(): array
     {
         return [
-            'add_new' => _x('Add New Review', 'Add New Post (admin-text)', 'site-reviews'),
-            'add_new_item' => _x('Add New Review', 'Add New Post (admin-text)', 'site-reviews'),
+            'add_new' => _x('Add Review', 'Add Post (admin-text)', 'site-reviews'),
+            'add_new_item' => _x('Add Review', 'Add Post (admin-text)', 'site-reviews'),
             'all_items' => _x('All Reviews', 'All Posts (admin-text)', 'site-reviews'),
             'archives' => _x('Review Archives', 'Post Archives (admin-text)', 'site-reviews'),
             'edit_item' => _x('Edit Review', 'Edit Post (admin-text)', 'site-reviews'),
