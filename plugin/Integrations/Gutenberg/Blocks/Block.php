@@ -16,9 +16,6 @@ abstract class Block
 
     public function register(): void
     {
-        if (!function_exists('register_block_type_from_metadata')) {
-            return;
-        }
         $block = (new \ReflectionClass($this))->getShortName();
         $block = str_replace('_block', '', Str::snakeCase($block));
         register_block_type_from_metadata($this->app()->path("assets/blocks/{$block}"), [

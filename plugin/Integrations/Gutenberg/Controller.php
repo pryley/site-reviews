@@ -9,8 +9,6 @@ use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewBlock;
 use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsBlock;
 use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsFormBlock;
 use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsSummaryBlock;
-use GeminiLabs\SiteReviews\Modules\Assets\AssetJs;
-use GeminiLabs\SiteReviews\Modules\Style;
 
 class Controller extends AbstractController
 {
@@ -64,6 +62,12 @@ class Controller extends AbstractController
      */
     public function registerBlocks(): void
     {
+        if (function_exists('wp_register_block_metadata_collection')) { // WP 6.7
+            wp_register_block_metadata_collection(
+                glsr()->path('assets/blocks'),
+                glsr()->path('assets/blocks/blocks-manifest.php')
+            );
+        }
         glsr(SiteReviewBlock::class)->register();
         glsr(SiteReviewsBlock::class)->register();
         glsr(SiteReviewsFormBlock::class)->register();

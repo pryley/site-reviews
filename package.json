@@ -49,8 +49,8 @@
   },
   "private": true,
   "scripts": {
-    "blocks": "wp-scripts build --config=+/blocks/webpack.config.js --source-path=+/blocks",
-    "blocks:watch": "wp-scripts start --config=+/blocks/webpack.config.js --source-path=+/blocks",
+    "blocks": "wp-scripts build --config=+/blocks/webpack.config.js --source-path=+/blocks && wp-scripts build-blocks-manifest --input=assets/blocks --output=assets/blocks/blocks-manifest.php",
+    "blocks:watch": "wp-scripts start --config=+/blocks/webpack.config.js --source-path=+/blocks && wp-scripts build-blocks-manifest --input=assets/blocks --output=assets/blocks/blocks-manifest.php",
     "build": "gulp && mix --production",
     "check": "wp-scripts check-engines",
     "development": "mix",
