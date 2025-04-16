@@ -285,10 +285,13 @@ jQuery(function ($) {
         }
     });
 
-    $('.shortcode-example').on('copy', ev => {
-        const selection = document.getSelection();
-        ev.originalEvent.clipboardData.setData('text/plain', selection.toString());
-        ev.preventDefault();
+    $('#wpbody').on('copy', ev => {
+        const $el = $(ev.originalEvent.target);
+        if ($el.closest('.shortcode-example,.tippy-content').length) {
+            const selection = document.getSelection();
+            ev.originalEvent.clipboardData.setData('text/plain', selection.toString());
+            ev.preventDefault();
+        }
     })
 
     const addTextAtCursorPosition = (textarea, cursorPosition, text) => {
