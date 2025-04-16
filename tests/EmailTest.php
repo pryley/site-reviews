@@ -31,7 +31,7 @@ class EmailTest extends WP_UnitTestCase
 
     public function test_email()
     {
-        $args = [
+        $email = [
             'to' => 'test@wordpress.dev',
             'subject' => 'Test Email',
             'template' => 'default',
@@ -45,7 +45,7 @@ class EmailTest extends WP_UnitTestCase
                 'review_title' => $this->review['title'],
             ],
         ];
-        $sent = glsr(Email::class)->compose($args)->send();
+        $sent = glsr(Email::class)->compose($email)->send();
         $this->assertEquals($sent, 1);
     }
 }

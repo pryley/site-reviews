@@ -14,26 +14,13 @@ use GeminiLabs\SiteReviews\Modules\Html\Template;
 
 class Email implements EmailContract
 {
-    /** @var array */
-    public $attachments;
-
-    /** @var array */
-    public $data;
-
-    /** @var array */
-    public $email;
-
-    /** @var array */
-    public $headers;
-
-    /** @var string */
-    public $message;
-
-    /** @var string */
-    public $subject;
-
-    /** @var string|array */
-    public $to;
+    public array $attachments = [];
+    public array $data = [];
+    public array $email = [];
+    public array $headers = [];
+    public string $message = '';
+    public array $recipients = [];
+    public string $subject = '';
 
     public function app(): PluginContract
     {
@@ -43,12 +30,12 @@ class Email implements EmailContract
     public function compose(array $email, array $data = []): EmailContract
     {
         $this->data = $data;
-        $this->normalize($email);
+        $this->email = $this->normalize($email);
         $this->attachments = $this->email['attachments'];
         $this->headers = $this->buildHeaders();
         $this->message = $this->buildHtmlMessage();
+        $this->recipients = $this->email['recipients'];
         $this->subject = $this->email['subject'];
-        $this->to = $this->email['to'];
         add_action('phpmailer_init', [$this, 'buildPlainTextMessage']);
         return $this;
     }
@@ -85,19 +72,13 @@ class Email implements EmailContract
 
     public function send(): bool
     {
-        $required = [
-            'message' => !empty($this->message),
-            'recipient' => !empty($this->to),
-            'subject' => !empty($this->subject),
-        ];
-        $missing = array_keys(array_diff($required, array_filter($required)));
-        if (!empty($missing)) {
+        if (!$this->validate()) {
             glsr_log()->warning(sprintf('The email is missing the %s', Str::naturalJoin($missing)));
             return false;
         }
         add_action('wp_mail_failed', [$this, 'logMailError']);
         $sent = wp_mail(
-            $this->to,
+            $this->recipients,
             $this->subject,
             $this->message,
             $this->headers,
@@ -105,6 +86,22 @@ class Email implements EmailContract
         );
         remove_action('wp_mail_failed', [$this, 'logMailError']);
         $this->reset();
+        return $sent;
+    }
+
+    public function test(): bool
+    {
+        $recipient = get_bloginfo('admin_email');
+        $subject = "[TEST EMAIL] {$this->subject}";
+        add_action('wp_mail_failed', [$this, 'logMailError']);
+        $sent = wp_mail(
+            $recipient,
+            $subject,
+            $this->message,
+            $this->headers,
+            $this->attachments
+        );
+        remove_action('wp_mail_failed', [$this, 'logMailError']);
         return $sent;
     }
 
@@ -174,10 +171,11 @@ class Email implements EmailContract
         return '';
     }
 
-    protected function normalize(array $email = []): void
+    protected function normalize(array $email = []): array
     {
         $email = $this->defaults()->restrict($email);
-        $this->email = $this->app()->filterArray('email/compose', $email, $this);
+        $email = $this->app()->filterArray('email/compose', $email, $this);
+        return $email;
     }
 
     protected function reset(): void
@@ -187,8 +185,8 @@ class Email implements EmailContract
         $this->email = [];
         $this->headers = [];
         $this->message = '';
+        $this->recipients = [];
         $this->subject = '';
-        $this->to = '';
     }
 
     protected function stripHtmlTags($string): string
@@ -214,5 +212,19 @@ class Email implements EmailContract
         $string = preg_replace('/\v(?:[\v\h]+){2,}/u', "\r\n\r\n", $string);
         $string = str_replace('-o-^-o-', ' - ', $string);
         return html_entity_decode($string, ENT_QUOTES, 'UTF-8');
+    }
+
+    protected function validate(): bool
+    {
+        $required = [
+            'message' => !empty($this->message),
+            'recipient' => !empty($this->recipients),
+            'subject' => !empty($this->subject),
+        ];
+        $missing = array_keys(array_diff($required, array_filter($required)));
+        if (empty($missing)) {
+            return true;
+        }
+        return false;
     }
 }

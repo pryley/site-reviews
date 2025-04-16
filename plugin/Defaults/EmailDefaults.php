@@ -2,14 +2,30 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
+
 class EmailDefaults extends DefaultsAbstract
 {
+    /**
+     * The keys that should be mapped to other keys.
+     * Keys are mapped before the values are normalized and sanitized.
+     * Note: Mapped keys should not be included in the defaults!
+     */
+    public array $mapped = [
+        'to' => 'recipients',
+    ];
+
     /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
      */
     public array $sanitize = [
+        'after' => 'text-post',
         'attachments' => 'array-consolidate',
+        'before' => 'text-post',
+        'message' => 'text-post',
+        'recipients' => 'array-string',
+        'subject' => 'text',
         'template-tags' => 'array-consolidate',
     ];
 
@@ -23,12 +39,21 @@ class EmailDefaults extends DefaultsAbstract
             'cc' => '',
             'from' => '',
             'message' => '',
+            'recipients' => [],
             'reply-to' => '',
             'subject' => '',
             'template' => 'default',
             'template-tags' => [],
-            'to' => '',
         ];
+    }
+
+    /**
+     * Finalize provided values, this always runs last.
+     */
+    protected function finalize(array $values = []): array
+    {
+        $values['recipients'] = Arr::removeEmptyValues($values['recipients']);
+        return $values;
     }
 
     /**
