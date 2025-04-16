@@ -16,8 +16,8 @@
  * Requires PHP:         7.4
  * Text Domain:          site-reviews
  * Domain Path:          languages
- * WC requires at least: 7.0
- * WC tested up to:      9.6
+ * WC requires at least: 9.6
+ * WC tested up to:      9.8
  */
 defined('ABSPATH') || exit;
 
