@@ -222,4 +222,10 @@ class Str
             ? mb_substr($value, 0, $length, 'UTF-8').$end
             : $value;
     }
+
+    public static function wpCase(string $value): string
+    {
+        $value = static::snakeCase($value);
+        return str_replace(' ', '_', ucwords(str_replace('_', ' ', $value)));
+    }
 }

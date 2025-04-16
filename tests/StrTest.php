@@ -192,4 +192,12 @@ class StrTest extends WP_UnitTestCase
         $this->assertEquals(Str::truncate('abc', 3), 'abc');
         $this->assertEquals(Str::truncate('abc', 4), 'abc');
     }
+
+    public function test_wp_case()
+    {
+        $this->assertEquals(Str::wpCase('a-b_cde'), 'A_B_Cde');
+        $this->assertEquals(Str::wpCase('a-b_cDE'), 'A_B_C_D_E');
+        $this->assertEquals(Str::wpCase('a-b_cdE'), 'A_B_Cd_E');
+        $this->assertEquals(Str::wpCase('aaa-bbb_cde'), 'Aaa_Bbb_Cde');
+    }
 }
