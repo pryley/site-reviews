@@ -22,11 +22,8 @@ trait HookProxy
         return static function (...$args) use ($callback, $method) {
             try {
                 return call_user_func_array($callback, $args);
-            } catch (\TypeError $error) {
+            } catch (\Throwable $error) {
                 glsr_log()->error($error->getMessage())->debug($error);
-                // if (defined('WP_DEBUG') && \WP_DEBUG) {
-                //     throw $error;
-                // }
             }
             if (str_starts_with($method, 'filter')) {
                 return array_shift($args); // return the unmodified first argument
