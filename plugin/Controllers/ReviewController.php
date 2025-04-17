@@ -240,7 +240,7 @@ class ReviewController extends AbstractController
         if (is_wp_error($termIds)) {
             glsr_log()->error($termIds->get_error_message());
         }
-        $excluded = Cast::toArray($command->request()->decrypt('excluded'));
+        $excluded = Cast::toArray($command->request()->excluded);
         if (!empty($excluded)) { // save the fields hidden in the review form
             glsr(Database::class)->metaSet($postId, 'excluded', $excluded);
         }

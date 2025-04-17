@@ -112,7 +112,15 @@ class ReviewManager
     public function createRaw(CreateReview $command)
     {
         $values = glsr()->args($command->toArray()); // this filters the values
-        $submitted = $command->request->toArray();
+        $submitted = $command->request->toArray($excludedKeys = [
+            '_frcaptcha',
+            '_hcaptcha',
+            '_nonce',
+            '_procaptcha',
+            '_recaptcha',
+            '_turnstile',
+            'form_signature',
+        ]);
         $metaInput = [
             '_submitted' => $submitted, // save the original submitted request in metadata
             '_submitted_hash' => md5(maybe_serialize($submitted)),

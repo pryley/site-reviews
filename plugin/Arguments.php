@@ -133,11 +133,10 @@ class Arguments extends \ArrayObject
         $this->exchangeArray($storage);
     }
 
-    /**
-     * @param array $args Optional parameter that can be used to change the output
-     */
-    public function toArray(array $args = []): array
+    public function toArray(array $excludedKeys = []): array
     {
-        return Cast::toArrayDeep($this->getArrayCopy());
+        $array = Cast::toArrayDeep($this->getArrayCopy());
+        $excluded = array_fill_keys($excludedKeys, null);
+        return array_diff_key($array, $excluded);
     }
 }
