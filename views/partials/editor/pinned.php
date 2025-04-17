@@ -15,11 +15,11 @@
             <?php echo esc_attr_x('Set pinned status', 'admin-text', 'site-reviews'); ?>
         </label>
         <select id="pinned-status">
-            <option value="1" data-alt="<?php echo esc_attr_x('Yes', 'admin-text', 'site-reviews'); ?>"<?php selected($is_pinned, true); ?>>
-                <?php echo esc_html_x('Pin review', 'admin-text', 'site-reviews'); ?>
+            <option value="1"<?php selected($is_pinned, true); ?>>
+                <?php echo esc_html_x('Yes', 'admin-text', 'site-reviews'); ?>
             </option>
-            <option value="0" data-alt="<?php echo esc_attr_x('No', 'admin-text', 'site-reviews'); ?>"<?php selected($is_pinned, false); ?>>
-                <?php echo esc_html_x('Unpin review', 'admin-text', 'site-reviews'); ?>
+            <option value="0"<?php selected($is_pinned, false); ?>>
+                <?php echo esc_html_x('No', 'admin-text', 'site-reviews'); ?>
             </option>
         </select>
         <a href="#pinned-status" data-click="save" class="button hide-if-no-js" role="button">

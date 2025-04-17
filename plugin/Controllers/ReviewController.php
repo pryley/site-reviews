@@ -424,6 +424,9 @@ class ReviewController extends AbstractController
         return $avatarUrl;
     }
 
+    /**
+     * This is run after editing a review in the admin.
+     */
     protected function updateReview(Review $review, \WP_Post $oldPost): void
     {
         $customDefaults = array_fill_keys(array_keys($review->custom()->toArray()), '');
@@ -431,13 +434,18 @@ class ReviewController extends AbstractController
         $data = wp_parse_args($data, $customDefaults); // this ensures we save all empty custom values
         if (Arr::get($data, 'is_editing_review')) {
             $data['avatar'] = $this->refreshAvatar($data, $review);
-            $data['rating'] = Arr::get($data, 'rating');
-            $data['terms'] = Arr::get($data, 'terms', 0);
-            if (!glsr()->filterBool('verification/enabled', false)) {
-                unset($data['is_verified']);
-            }
-            glsr(ReviewManager::class)->updateRating($review->ID, $data); // values are sanitized here
+            $data['rating'] ??= '';
+            $data['terms'] ??= 0;
+        }
+        if (Arr::getAs('bool', $data, 'is_pinned') === $review->is_pinned) {
+            unset($data['is_pinned']);
+        }
+        if (Arr::getAs('bool', $data, 'is_verified') === $review->is_verified || !glsr()->filterBool('verification/enabled', false)) {
+            unset($data['is_verified']);
+        }
+        if (!empty($data)) {
             glsr(ReviewManager::class)->updateCustom($review->ID, $data); // values are sanitized here
+            glsr(ReviewManager::class)->updateRating($review->ID, $data); // values are sanitized here
             $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
         }
         $assignedPostIds = filter_input(INPUT_POST, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);

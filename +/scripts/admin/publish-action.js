@@ -35,18 +35,10 @@ class PublishAction {
         const $selected = $select.children(':selected');
         const $root = $section.parent();
         const text = $selected.data('alt') || $selected.text()
-        const data = {
-            _action: $root.data('action'),
-            post_id: jQuery('#post_ID').val(),
-            value: $section.find('select').val(),
-        };
-        (new Ajax(data)).post(response => {
-            $section.find('input[type="hidden"]').val(response?.value)
-            $select.val(response?.value)
-        });
-        $section.slideUp('fast');
+        $section.slideUp('fast')
+        $section.find('input[type="hidden"]').val($selected.val())
         $root.find('.misc-pub-text').text(text)
-        $root.find('a[data-click="edit"]').show().focus();
+        $root.find('a[data-click="edit"]').show().focus()
     }
 }
 

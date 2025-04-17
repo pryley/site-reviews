@@ -16,11 +16,11 @@
                 <?php echo esc_attr_x('Set verified status', 'admin-text', 'site-reviews'); ?>
             </label>
             <select id="verified-status">
-                <option value="1" data-alt="<?php echo esc_attr_x('Yes', 'admin-text', 'site-reviews'); ?>"<?php selected($is_verified, true); ?>>
-                    <?php echo esc_html_x('Verify review', 'admin-text', 'site-reviews'); ?>
+                <option value="1"<?php selected($is_verified, true); ?>>
+                    <?php echo esc_html_x('Yes', 'admin-text', 'site-reviews'); ?>
                 </option>
-                <option value="0" data-alt="<?php echo esc_attr_x('No', 'admin-text', 'site-reviews'); ?>"<?php selected($is_verified, false); ?>>
-                    <?php echo esc_html_x('Unverify review', 'admin-text', 'site-reviews'); ?>
+                <option value="0"<?php selected($is_verified, false); ?>>
+                    <?php echo esc_html_x('No', 'admin-text', 'site-reviews'); ?>
                 </option>
             </select>
             <a href="#verified-status" data-click="save" class="button hide-if-no-js" role="button">
