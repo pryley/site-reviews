@@ -122,8 +122,12 @@ return array(
 				'type' => 'number'
 			),
 			'schema' => array(
-				'default' => false,
-				'type' => 'boolean'
+				'default' => 0,
+				'enum' => array(
+					0,
+					1
+				),
+				'type' => 'number'
 			),
 			'terms' => array(
 				'default' => '',
@@ -293,8 +297,12 @@ return array(
 				'type' => 'string'
 			),
 			'schema' => array(
-				'default' => false,
-				'type' => 'boolean'
+				'default' => 0,
+				'enum' => array(
+					0,
+					1
+				),
+				'type' => 'number'
 			),
 			'terms' => array(
 				'default' => '',

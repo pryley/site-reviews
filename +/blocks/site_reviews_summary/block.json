@@ -58,8 +58,9 @@
             "type": "string"
         },
         "schema": {
-            "default": false,
-            "type": "boolean"
+            "default": 0,
+            "enum": [0, 1],
+            "type": "number"
         },
         "terms": {
             "default": "",
