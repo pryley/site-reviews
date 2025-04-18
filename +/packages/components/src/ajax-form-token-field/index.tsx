@@ -100,7 +100,7 @@ const AjaxFormTokenField = (props: ControlProps) => {
     };
 
     const handleValueChange = (nextValues: (string | TransformedItem)[]) => {
-        const updatedValues = nextValues.map((nextValue, index) => {
+        nextValues.map((nextValue, index) => {
             // If nextValue is a string then it is a new entry and we need to replace with an object.
             if (typeof nextValue === 'string') {
                 const suggestedValue = suggestedValues.find((suggestion) => suggestion.value === nextValue);
@@ -109,9 +109,9 @@ const AjaxFormTokenField = (props: ControlProps) => {
                 }
             }
             return nextValue;
-        }) as TransformedItem[];
-        setSelectedValues(endpoint, updatedValues);
-        onChange(updatedValues.map((selected) => selected.id));
+        });
+        setSelectedValues(endpoint, nextValues);
+        onChange(nextValues.map((selected) => selected.id));
     };
 
     const computeSuggestionMatch = (suggestion: string): SuggestionMatch | null => {
