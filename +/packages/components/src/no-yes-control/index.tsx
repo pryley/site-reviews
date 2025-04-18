@@ -13,11 +13,11 @@ const NoYesControl = (props: ControlProps) => {
             {...props}
         >
             <ToggleGroupControlOption
-                value={false}
+                value={0}
                 label={_x('No', 'admin-text', 'site-reviews')}
             />
             <ToggleGroupControlOption
-                value={true}
+                value={1}
                 label={_x('Yes', 'admin-text', 'site-reviews')}
             />
         </ToggleGroupControl>
