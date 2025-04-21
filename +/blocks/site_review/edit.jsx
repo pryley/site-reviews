@@ -32,7 +32,7 @@ export default function Edit (props) {
             value={ attributes.post_id }
         />,
     };
-    const panels = {
+    const panels = { // order is intentional
         settings: {
             controls: [
                 'post_id',

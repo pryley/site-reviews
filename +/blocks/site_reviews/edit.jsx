@@ -105,7 +105,7 @@ export default function Edit (props) {
             value={ attributes.type }
         />,
     };
-    const panels = {
+    const panels = { // order is intentional
         settings: {
             controls: [
                 'assigned_posts',

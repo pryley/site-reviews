@@ -58,7 +58,7 @@ export default function Edit (props) {
             value={ attributes.reviews_id }
         />,
     };
-    const panels = {
+    const panels = { // order is intentional
         settings: {
             controls: [
                 'assigned_posts',

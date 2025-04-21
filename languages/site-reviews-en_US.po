@@ -253,7 +253,7 @@ msgstr "New %s-star review of %s"
 msgid "&hellip;"
 msgstr "&hellip;"
 
-#: plugin/Modules/Rating.php:97
+#: plugin/Modules/Rating.php:98
 msgid "%s Star"
 msgid_plural "%s Stars"
 msgstr[0] "%s Star"
@@ -425,6 +425,18 @@ msgstr "You have already submitted a review."
 msgid "This review cannot be submitted, please refresh the page and try again."
 msgstr "This review cannot be submitted, please refresh the page and try again."
 
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:74
+msgid "Rating, low to high"
+msgstr "Rating, low to high"
+
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:80
+msgid "Rating, high to low"
+msgstr "Rating, high to low"
+
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:101, plugin/Integrations/WooCommerce/Controllers/MainController.php:152
+msgid "verified owner"
+msgstr "verified owner"
+
 #: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:41
 msgid "Reviews"
 msgstr "Reviews"
@@ -457,10 +469,6 @@ msgstr "No one has reviewed this person yet."
 msgid "You must be %s to review this person."
 msgstr "You must be %s to review this person."
 
-#: plugin/Integrations/WooCommerce/Controllers/MainController.php:167
-msgid "verified owner"
-msgstr "verified owner"
-
 #: plugin/Integrations/WooCommerce/Controllers/ProductController.php:179
 msgid "Reviews (%d)"
 msgstr "Reviews (%d)"
@@ -485,11 +493,11 @@ msgstr "Loading, please wait..."
 msgid "Load more"
 msgstr "Load more"
 
-#: plugin/Modules/Html/Partials/StarRating.php:34
+#: plugin/Modules/Html/Partials/StarRating.php:35
 msgid "Rated %s out of %s stars based on %s ratings"
 msgstr "Rated %s out of %s stars based on %s ratings"
 
-#: plugin/Modules/Html/Partials/StarRating.php:35
+#: plugin/Modules/Html/Partials/StarRating.php:36
 msgid "Rated %s out of %s stars"
 msgstr "Rated %s out of %s stars"
 
@@ -2168,10 +2176,95 @@ msgctxt "admin-text"
 msgid "Terms Accepted"
 msgstr "Terms Accepted"
 
-#: config/integrations/ultimatemember.php:13, config/integrations/woocommerce.php:6
+#: config/integrations/surecart.php:6, config/integrations/ultimatemember.php:13, config/integrations/woocommerce.php:6
 msgctxt "admin-text"
 msgid "Enable Integration?"
 msgstr "Enable Integration?"
+
+#: config/integrations/surecart.php:8
+msgctxt "admin-text"
+msgid "This will integrate Site Reviews with SureCart."
+msgstr "This will integrate Site Reviews with SureCart."
+
+#: config/integrations/surecart.php:17, config/integrations/woocommerce.php:20
+msgctxt "admin-text"
+msgid "Rating Style"
+msgstr "Rating Style"
+
+#: config/integrations/surecart.php:19
+msgctxt "admin-text"
+msgid "Site Reviews"
+msgstr "Site Reviews"
+
+#: config/integrations/surecart.php:20
+msgctxt "admin-text"
+msgid "Text Color (currentColor)"
+msgstr "Text Color (currentColor)"
+
+#: config/integrations/surecart.php:23
+msgctxt "admin-text"
+msgid "This changes the color/style of the product rating stars"
+msgstr "This changes the color/style of the product rating stars"
+
+#: config/integrations/surecart.php:33, config/integrations/woocommerce.php:70
+msgctxt "admin-text"
+msgid "The problem with averaging star ratings"
+msgstr "The problem with averaging star ratings"
+
+#: config/integrations/surecart.php:34, config/integrations/woocommerce.php:71
+msgctxt "admin-text"
+msgid "Of bayesian average and star ratings"
+msgstr "Of bayesian average and star ratings"
+
+#: config/integrations/surecart.php:36, config/integrations/woocommerce.php:73
+msgctxt "admin-text"
+msgid "Product Sorting"
+msgstr "Product Sorting"
+
+#: config/integrations/surecart.php:38, config/integrations/ultimatemember.php:48, config/integrations/woocommerce.php:75
+msgctxt "admin-text"
+msgid "Average Rating"
+msgstr "Average Rating"
+
+#: config/integrations/surecart.php:39, config/integrations/ultimatemember.php:49, config/integrations/woocommerce.php:76
+msgctxt "admin-text"
+msgid "Bayesian Ranking"
+msgstr "Bayesian Ranking"
+
+#: config/integrations/surecart.php:42, config/integrations/woocommerce.php:79
+msgctxt "admin-text"
+msgid "This is the method used to sort products by rating on the shop page."
+msgstr "This is the method used to sort products by rating on the shop page."
+
+#: config/integrations/surecart.php:50, config/integrations/ultimatemember.php:34, config/integrations/woocommerce.php:87
+msgctxt "admin-text"
+msgid "Display Empty Ratings?"
+msgstr "Display Empty Ratings?"
+
+#: config/integrations/surecart.php:52, config/integrations/woocommerce.php:89
+msgctxt "admin-text"
+msgid "This will display the rating stars even if the product has no reviews."
+msgstr "This will display the rating stars even if the product has no reviews."
+
+#: config/integrations/surecart.php:60
+msgctxt "admin-text"
+msgid "Verified Ownership"
+msgstr "Verified Ownership"
+
+#: config/integrations/surecart.php:62
+msgctxt "admin-text"
+msgid "Display a \"verified owner\" label on customer reviews"
+msgstr "Display a \"verified owner\" label on customer reviews"
+
+#: config/integrations/surecart.php:63
+msgctxt "admin-text"
+msgid "Reviews can only be left by customers who purchased the product"
+msgstr "Reviews can only be left by customers who purchased the product"
+
+#: config/integrations/surecart.php:66
+msgctxt "admin-text"
+msgid "Select the Verified Ownership options."
+msgstr "Select the Verified Ownership options."
 
 #: config/integrations/ultimatemember.php:15
 msgctxt "admin-text"
@@ -2188,11 +2281,6 @@ msgctxt "admin-text"
 msgid "This will display the average rating of each person in the Member Directory."
 msgstr "This will display the average rating of each person in the Member Directory."
 
-#: config/integrations/ultimatemember.php:34, config/integrations/woocommerce.php:87
-msgctxt "admin-text"
-msgid "Display Empty Ratings?"
-msgstr "Display Empty Ratings?"
-
 #: config/integrations/ultimatemember.php:36
 msgctxt "admin-text"
 msgid "This will display the rating stars even if the member has no reviews."
@@ -2202,16 +2290,6 @@ msgstr "This will display the rating stars even if the member has no reviews."
 msgctxt "admin-text"
 msgid "Member Sorting"
 msgstr "Member Sorting"
-
-#: config/integrations/ultimatemember.php:48, config/integrations/woocommerce.php:75
-msgctxt "admin-text"
-msgid "Average Rating"
-msgstr "Average Rating"
-
-#: config/integrations/ultimatemember.php:49, config/integrations/woocommerce.php:76
-msgctxt "admin-text"
-msgid "Bayesian Ranking"
-msgstr "Bayesian Ranking"
 
 #: config/integrations/ultimatemember.php:52
 msgctxt "admin-text"
@@ -2335,11 +2413,6 @@ msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr "Import Reviews"
 
-#: config/integrations/woocommerce.php:20
-msgctxt "admin-text"
-msgid "Rating Style"
-msgstr "Rating Style"
-
 #: config/integrations/woocommerce.php:22
 msgctxt "admin-text"
 msgid "Site Reviews (yellow)"
@@ -2357,8 +2430,8 @@ msgstr "WooCommerce (purple)"
 
 #: config/integrations/woocommerce.php:27
 msgctxt "admin-text"
-msgid "This changes the colour of the stars and the summary bars"
-msgstr "This changes the colour of the stars and the summary bars"
+msgid "This changes the color of the stars and the summary bars"
+msgstr "This changes the color of the stars and the summary bars"
 
 #: config/integrations/woocommerce.php:38
 msgctxt "admin-text"
@@ -2382,31 +2455,6 @@ msgstr ""
 msgctxt "admin-text"
 msgid "Enter the form shortcode used on the product page"
 msgstr "Enter the form shortcode used on the product page"
-
-#: config/integrations/woocommerce.php:70
-msgctxt "admin-text"
-msgid "The problem with averaging star ratings"
-msgstr "The problem with averaging star ratings"
-
-#: config/integrations/woocommerce.php:71
-msgctxt "admin-text"
-msgid "Of bayesian average and star ratings"
-msgstr "Of bayesian average and star ratings"
-
-#: config/integrations/woocommerce.php:73
-msgctxt "admin-text"
-msgid "Product Sorting"
-msgstr "Product Sorting"
-
-#: config/integrations/woocommerce.php:79
-msgctxt "admin-text"
-msgid "This is the method used to sort products by rating on the shop page."
-msgstr "This is the method used to sort products by rating on the shop page."
-
-#: config/integrations/woocommerce.php:89
-msgctxt "admin-text"
-msgid "This will display the rating stars even if the product has no reviews."
-msgstr "This will display the rating stars even if the product has no reviews."
 
 #: config/integrations/woocommerce.php:97
 msgctxt "admin-text"
@@ -5125,6 +5173,15 @@ msgctxt "admin-text"
 msgid "Site Reviews WooCommerce"
 msgstr "Site Reviews WooCommerce"
 
+#: views/integrations/surecart/settings.php:7
+msgctxt "admin-text"
+msgid ""
+"Learn how to add the Site Reviews blocks to your Shop and Product pages "
+"%shere%s."
+msgstr ""
+"Learn how to add the Site Reviews blocks to your Shop and Product pages "
+"%shere%s."
+
 #: views/integrations/woocommerce/bulk-edit.php:9, views/partials/screen/inline-edit.php:87, views/partials/screen/inline-edit.php:97
 msgctxt "admin-text"
 msgid "Allow"
@@ -5921,7 +5978,7 @@ msgctxt "admin-text"
 msgid "Sorry, you are not allowed to do that."
 msgstr "Sorry, you are not allowed to do that."
 
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:61
+#: plugin/Controllers/Api/Version1/RestSummaryController.php:62
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to view review summaries."
 msgstr "Sorry, you are not allowed to view review summaries."
@@ -5940,6 +5997,11 @@ msgstr "Sorry, you are not allowed to view review types."
 msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr "You have hidden all of the fields for this block."
+
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:206
+msgctxt "admin-text"
+msgid "Product Reviews"
+msgstr "Product Reviews"
 
 #: plugin/Integrations/UltimateMember/Controllers/DirectoryController.php:43
 msgctxt "admin-text"
@@ -5975,7 +6037,7 @@ msgctxt "admin-text"
 msgid "Migrated the product ratings."
 msgstr "Migrated the product ratings."
 
-#: plugin/Integrations/WooCommerce/Controllers/MainController.php:94
+#: plugin/Integrations/WooCommerce/Controllers/MainController.php:92
 msgctxt "admin-text"
 msgid "managed by Site Reviews"
 msgstr "managed by Site Reviews"

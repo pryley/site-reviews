@@ -25,8 +25,11 @@ compat: ## Run PHP CodeSniffer to check PHP 7.4+ Compatibility
 db: ## Open the database in TablePlus
 	@open mysql://dev:dev@127.0.0.1/site-reviews?enviroment=local&name=Localhost&safeModeLevel=0&advancedSafeModeLevel=0
 
-help:  ## Display help
+help: ## Display help
 	@awk -F ':|##' '/^[^\t].+?:.*?##/ {printf "\033[36m%-30s\033[0m %s\n", $$1, $$NF}' $(MAKEFILE_LIST) | sort
+
+i18n: ## Generate a pot file with the wp-cli
+	npm run i18n-pot
 
 mix: ## Build all assets
 	npx mix --production
