@@ -1,0 +1,14 @@
+.wp-block-site-reviews-surecart-product-reviews [data-style="text"] {
+    .glsr-star {
+        background: currentColor;
+    }
+    .glsr-star-empty {
+        mask-image: var(--glsr-star-empty);
+    }
+    .glsr-star-full {
+        mask-image: var(--glsr-star-full);
+    }
+    .glsr-star-half {
+        mask-image: var(--glsr-star-half);
+    }
+}

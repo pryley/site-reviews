@@ -335,5 +335,152 @@ return array(
 		'supports' => array(
 			'html' => false
 		)
+	),
+	'surecart_product_rating' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'site-reviews/surecart-product-rating',
+		'version' => '1.0.0',
+		'title' => 'Product Rating',
+		'description' => 'Display the product rating.',
+		'icon' => 'star-half',
+		'category' => 'surecart-product-page',
+		'example' => array(
+			
+		),
+		'usesContext' => array(
+			'postId'
+		),
+		'ancestor' => array(
+			'surecart/product-page',
+			'surecart/product-template'
+		),
+		'textdomain' => 'site-reviews',
+		'attributes' => array(
+			'has_text' => array(
+				'default' => true,
+				'type' => 'boolean'
+			),
+			'is_link' => array(
+				'default' => false,
+				'type' => 'boolean'
+			),
+			'link_url' => array(
+				'attribute' => 'href',
+				'type' => 'string'
+			),
+			'text' => array(
+				'attribute' => 'title',
+				'type' => 'string'
+			)
+		),
+		'keywords' => array(
+			'site reviews'
+		),
+		'supports' => array(
+			'interactivity' => true,
+			'color' => array(
+				'background' => false,
+				'gradients' => false,
+				'link' => true,
+				'__experimentalDefaultControls' => array(
+					'text' => true
+				)
+			),
+			'spacing' => array(
+				'padding' => true,
+				'margin' => array(
+					'top',
+					'bottom'
+				)
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'textAlign' => false,
+				'__experimentalTextDecoration' => false,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => false,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'lineHeight' => true
+				)
+			)
+		),
+		'render' => 'file:./view.php',
+		'style' => array(
+			'file:./style-index.css',
+			'site-reviews'
+		),
+		'editorScript' => 'file:./index.js',
+		'viewScriptModule' => 'file:./view.js'
+	),
+	'surecart_product_reviews' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'site-reviews/surecart-product-reviews',
+		'version' => '1.0.0',
+		'title' => 'Product Reviews',
+		'description' => 'Display the product reviews section.',
+		'icon' => 'star-filled',
+		'category' => 'surecart-product-page',
+		'example' => array(
+			
+		),
+		'usesContext' => array(
+			'postId'
+		),
+		'textdomain' => 'site-reviews',
+		'attributes' => array(
+			'align' => array(
+				'type' => 'string',
+				'default' => 'wide'
+			),
+			'anchor' => array(
+				'type' => 'string',
+				'default' => 'reviews'
+			),
+			'layout' => array(
+				'type' => 'object',
+				'default' => array(
+					'type' => 'constrained'
+				)
+			),
+			'style' => array(
+				'type' => 'object',
+				'default' => array(
+					'spacing' => array(
+						'margin' => array(
+							'top' => '40px'
+						)
+					)
+				)
+			)
+		),
+		'keywords' => array(
+			'site reviews'
+		),
+		'supports' => array(
+			'anchor' => true,
+			'align' => true,
+			'layout' => array(
+				'default' => array(
+					'type' => 'constrained'
+				)
+			),
+			'spacing' => array(
+				'padding' => true,
+				'margin' => true,
+				'blockGap' => true
+			)
+		),
+		'style' => array(
+			'file:./style-index.css',
+			'site-reviews'
+		),
+		'editorScript' => 'file:./index.js'
 	)
 );
