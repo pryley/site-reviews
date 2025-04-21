@@ -64,7 +64,7 @@ class Controller extends AbstractController
     {
         if (function_exists('wp_register_block_metadata_collection')) { // WP 6.7
             wp_register_block_metadata_collection(
-                glsr()->path('assets/blocks'),
+                glsr()->path('assets/blocks', false),
                 glsr()->path('assets/blocks/blocks-manifest.php')
             );
         }

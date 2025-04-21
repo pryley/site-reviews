@@ -20,10 +20,12 @@ class FormTest extends \WP_UnitTestCase
                 '<form class="test-form glsr-form" method="post" enctype="multipart/form-data">'.
                     '<div class="glsr-form-message"></div>'.
                     '<div data-field="submit-button">'.
-                        '<div class="wp-block-button">'.
-                            '<button type="submit" class="glsr-button wp-block-button__link" aria-busy="false" data-loading="Please wait">'.
-                                'Test'.
-                            '</button>'.
+                        '<div class="wp-block-buttons is-layout-flex">'.
+                            '<div class="wp-block-button">'.
+                                '<button type="submit" class="glsr-button wp-block-button__link" aria-busy="false" data-loading="Please wait">'.
+                                    'Test'.
+                                '</button>'.
+                            '</div>'.
                         '</div>'.
                     '</div>'.
                 '</form>'.

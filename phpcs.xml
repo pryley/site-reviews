@@ -8,18 +8,19 @@
     <config name="testVersion" value="7.4-8.3"/>
     <description>Coding Standards for PHP CodeSniffer</description>
     <exclude-pattern>*/vendors/symfony/*</exclude-pattern>
+    <file>./assets/blocks</file>
+    <file>./config</file>
+    <file>./plugin</file>
+    <file>./templates</file>
+    <file>./vendors</file>
+    <file>./views</file>
     <file>./autoload.php</file>
     <file>./compatibility.php</file>
-    <file>./config</file>
     <file>./deprecated.php</file>
     <file>./helpers.php</file>
     <file>./migration.php</file>
-    <file>./plugin</file>
     <file>./site-reviews.php</file>
-    <file>./tests</file>
     <file>./uninstall.php</file>
-    <file>./vendors</file>
-    <file>./views</file>
     <ini name="memory_limit" value="512M"/>
     <rule ref="PHPCompatibility"/>
     <rule ref="PHPCompatibility.Attributes.NewAttributes.Found">

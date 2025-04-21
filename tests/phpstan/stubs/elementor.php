@@ -300,7 +300,7 @@ namespace Elementor {
          *
          * @return array Active controls.
          */
-        public function get_active_controls(array $controls = null, array $settings = null)
+        public function get_active_controls(?array $controls = null, ?array $settings = null)
         {
         }
         /**
@@ -493,7 +493,7 @@ namespace Elementor {
          *
          * @return array Style controls.
          */
-        public final function get_style_controls(array $controls = null, array $settings = null)
+        public final function get_style_controls(?array $controls = null, ?array $settings = null)
         {
         }
         /**
@@ -8020,7 +8020,7 @@ namespace Elementor\Core\Files\CSS {
          * @param array          $replacements   Replacements.
          * @param array          $all_controls   All controls.
          */
-        public function add_controls_stack_style_rules(\Elementor\Controls_Stack $controls_stack, array $controls, array $values, array $placeholders, array $replacements, array $all_controls = null)
+        public function add_controls_stack_style_rules(\Elementor\Controls_Stack $controls_stack, array $controls, array $values, array $placeholders, array $replacements, ?array $all_controls = null)
         {
         }
         /**
@@ -8147,10 +8147,10 @@ namespace Elementor\Core\Files\CSS {
         protected function add_dynamic_control_style_rules(array $control, $value)
         {
         }
-        protected final function get_active_controls(\Elementor\Controls_Stack $controls_stack, array $controls = null, array $settings = null)
+        protected final function get_active_controls(\Elementor\Controls_Stack $controls_stack, ?array $controls = null, ?array $settings = null)
         {
         }
-        public final function get_style_controls(\Elementor\Controls_Stack $controls_stack, array $controls = null, array $settings = null)
+        public final function get_style_controls(\Elementor\Controls_Stack $controls_stack, ?array $controls = null, ?array $settings = null)
         {
         }
     }
@@ -8318,7 +8318,7 @@ namespace Elementor\Core\Files\CSS {
          * @param array          $replacements   Replacements.
          * @param array          $all_controls   All controls.
          */
-        public function add_controls_stack_style_rules(\Elementor\Controls_Stack $controls_stack, array $controls, array $values, array $placeholders, array $replacements, array $all_controls = null)
+        public function add_controls_stack_style_rules(\Elementor\Controls_Stack $controls_stack, array $controls, array $values, array $placeholders, array $replacements, ?array $all_controls = null)
         {
         }
         /**
@@ -8453,7 +8453,7 @@ namespace Elementor\Core\DynamicTags {
          * @since 2.0.13
          * @access public
          */
-        public function add_controls_stack_style_rules(\Elementor\Controls_Stack $controls_stack, array $controls, array $values, array $placeholders, array $replacements, array $all_controls = null)
+        public function add_controls_stack_style_rules(\Elementor\Controls_Stack $controls_stack, array $controls, array $values, array $placeholders, array $replacements, ?array $all_controls = null)
         {
         }
     }
@@ -8881,7 +8881,7 @@ namespace Elementor\Core\Utils {
          *
          * @return $this
          */
-        public function filter(callable $callback = null)
+        public function filter(?callable $callback = null)
         {
         }
         /**
@@ -19438,7 +19438,7 @@ namespace Elementor {
          * @return Element_Base|null Element instance if element created, or null
          *                           otherwise.
          */
-        public function create_element_instance(array $element_data, array $element_args = [], \Elementor\Element_Base $element_type = null)
+        public function create_element_instance(array $element_data, array $element_args = [], ?\Elementor\Element_Base $element_type = null)
         {
         }
         /**
@@ -23875,7 +23875,7 @@ namespace Elementor {
          * @param array      $data Optional. Element data. Default is an empty array.
          * @param array|null $args Optional. Element default arguments. Default is null.
          **/
-        public function __construct(array $data = [], array $args = null)
+        public function __construct(array $data = [], ?array $args = null)
         {
         }
     }
@@ -23894,7 +23894,7 @@ namespace Elementor\Includes\Elements {
          *
          * @return void
          */
-        public function __construct(array $data = [], array $args = null)
+        public function __construct(array $data = [], ?array $args = null)
         {
         }
         /**
@@ -24161,7 +24161,7 @@ namespace Elementor {
          * @param array|null $args Optional. Element default arguments. Default is null.
          *
          */
-        public function __construct(array $data = [], array $args = null)
+        public function __construct(array $data = [], ?array $args = null)
         {
         }
         /**
@@ -26004,7 +26004,7 @@ namespace Elementor {
          *
          * @return Stylesheet The current stylesheet class instance.
          */
-        public function add_rules($selector, $style_rules = null, array $query = null)
+        public function add_rules($selector, $style_rules = null, ?array $query = null)
         {
         }
         /**
@@ -28350,7 +28350,7 @@ namespace Elementor\Includes\Widgets\Traits {
          * @since  3.4.0
          * @access protected
          */
-        protected function render_button(\Elementor\Widget_Base $instance = null)
+        protected function render_button(?\Elementor\Widget_Base $instance = null)
         {
         }
         /**
@@ -28374,7 +28374,7 @@ namespace Elementor\Includes\Widgets\Traits {
          * @since  3.4.0
          * @access protected
          */
-        protected function render_text(\Elementor\Widget_Base $instance = null)
+        protected function render_text(?\Elementor\Widget_Base $instance = null)
         {
         }
         public function on_import($element)
