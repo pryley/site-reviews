@@ -45,6 +45,10 @@
             "default": "",
             "type": "string"
         },
+        "labels": {
+            "default": "",
+            "type": "string"
+        },
         "post_id": {
             "default": "",
             "type": "string"
@@ -63,6 +67,10 @@
             "type": "number"
         },
         "terms": {
+            "default": "",
+            "type": "string"
+        },
+        "text": {
             "default": "",
             "type": "string"
         },

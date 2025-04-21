@@ -1,7 +1,7 @@
 import './editor.scss';
 import { _x } from '@wordpress/i18n';
 import { AjaxComboboxControl, AjaxFormTokenField, AjaxToggleGroupControl, NoYesControl } from '@site-reviews/components';
-import { RangeControl, TextControl } from '@wordpress/components';
+import { BaseControl, Notice, RangeControl, TextControl } from '@wordpress/components';
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
 export default function Edit (props) {
@@ -49,6 +49,15 @@ export default function Edit (props) {
             onChange={ (id) => setAttributes({ id }) }
             value={ attributes.id }
         />,
+        labels: <TextControl
+            __next40pxDefaultSize
+            __nextHasNoMarginBottom
+            help={ _x('Enter custom labels for the percentage bar levels (from high to low) and separate them with a comma. The default labels are: "Excellent, Very good, Average, Poor, Terrible".', 'admin-text', 'site-reviews') }
+            key='labels'
+            label={ _x('Summary Labels', 'admin-text', 'site-reviews') }
+            onChange={ (labels) => setAttributes({ labels }) }
+            value={ attributes.labels }
+        />,
         rating: <RangeControl
             __next40pxDefaultSize
             __nextHasNoMarginBottom
@@ -84,6 +93,20 @@ export default function Edit (props) {
             placeholder={ _x('Select Review Terms...', 'admin-text', 'site-reviews') }
             value={ attributes.terms }
         />,
+        text: <TextControl
+            __next40pxDefaultSize
+            __nextHasNoMarginBottom
+            help={ _x('Use {num} to display the number of reviews, {rating} to display the average rating, and {max} to display the maximum rating value. The default text is: "{rating} out of {max} stars (based on {num} reviews)".', 'admin-text', 'site-reviews') }
+            key='text'
+            label={ _x('Summary Text', 'admin-text', 'site-reviews') }
+            onChange={ (text) => setAttributes({ text }) }
+            value={ attributes.text }
+        />,
+        text_options_notice: <BaseControl __nextHasNoMarginBottom>
+            <Notice status="warning" politeness="polite" isDismissible={ false }>
+                { _x('The recommended way to change these values is to use the Site Reviews → Settings → Strings page.', 'admin-text', 'site-reviews') }
+            </Notice>
+        </BaseControl>,
         type: <AjaxComboboxControl
             __experimentalRenderItem={false}
             endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=type'
@@ -112,6 +135,15 @@ export default function Edit (props) {
                 'hide',
             ],
             initialOpen: false,
+        },
+        text: {
+            controls: [
+                'text_options_notice',
+                'text',
+                'labels',
+            ],
+            initialOpen: false,
+            title: _x('Text Options', 'admin-text', 'site-reviews'),
         },
         advanced: {
             controls: [
