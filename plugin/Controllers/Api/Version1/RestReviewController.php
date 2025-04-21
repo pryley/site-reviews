@@ -442,7 +442,7 @@ class RestReviewController extends \WP_REST_Controller
                 'before' => $args['before'] ?? '',
             ];
         }
-        return $args;
+        return glsr()->filterArray("rest-api/{$this->rest_base}/args", $args, $request);
     }
 
     /**
@@ -529,16 +529,20 @@ class RestReviewController extends \WP_REST_Controller
 
     protected function renderedItem(\WP_REST_Request $request)
     {
+        $args = $this->normalizedArgs($request);
+        $args['hide'] = $request['_rendered_hide'] ?? '';
         $review = glsr_get_review($request['id']);
         return rest_ensure_response([
-            'rendered' => (string) $review->build(),
+            'rendered' => (string) $review->build($args),
         ]);
     }
 
     protected function renderedItems(\WP_REST_Request $request)
     {
+        $args = $this->normalizedArgs($request);
+        $args['hide'] = $request['_rendered_hide'] ?? '';
         $html = glsr(SiteReviewsShortcode::class)
-            ->normalize($this->normalizedArgs($request))
+            ->normalize($args)
             ->buildReviewsHtml();
         $response = rest_ensure_response([
             'pagination' => $html->getPagination($wrap = false),

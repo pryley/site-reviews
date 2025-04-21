@@ -191,9 +191,11 @@
     site-reviews/rendered/partial/<partial_path>                (string $partial, array $args): string
     site-reviews/rendered/template                              (string $template, string $templatePath, array $data): string
     site-reviews/rendered/template/<template_path>              (string $template, array $data): string
+    site-reviews/rest-api/reviews/args                          (array $args, \WP_REST_Request $request): array
     site-reviews/rest-api/reviews/parameters                    (array $parameters): array
     site-reviews/rest-api/reviews/prepare/<key>                 (mixed $value, Controllers\Api\Version1\Response\Prepare $prepare): array
     site-reviews/rest-api/reviews/schema/properties             (array $properties): array
+    site-reviews/rest-api/summary/args                          (array $args, \WP_REST_Request $request): array
     site-reviews/rest-api/summary/parameters                    (array $parameters): array
     site-reviews/rest-api/summary/schema/properties             (array $properties): array
     site-reviews/review-form/referer                            (string $referer): string

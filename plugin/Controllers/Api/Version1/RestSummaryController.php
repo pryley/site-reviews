@@ -43,8 +43,9 @@ class RestSummaryController extends RestReviewController
     {
         $args = $this->normalizedArgs($request);
         if ($request['_rendered']) {
+            $args['hide'] = $request['_rendered_hide'] ?? '';
             return rest_ensure_response([
-                'rendered' => glsr(SiteReviewsSummaryShortcode::class)->build($args),
+                'rendered' => glsr(SiteReviewsSummaryShortcode::class)->build($args, 'rest'),
             ]);
         }
         return rest_ensure_response(glsr_get_ratings($args)->toArray());
