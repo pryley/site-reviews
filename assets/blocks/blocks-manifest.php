@@ -401,7 +401,8 @@ return array(
 		),
 		'ancestor' => array(
 			'surecart/product-page',
-			'surecart/product-template'
+			'surecart/product-template',
+			'surecart/upsell'
 		),
 		'textdomain' => 'site-reviews',
 		'attributes' => array(
@@ -415,10 +416,12 @@ return array(
 			),
 			'link_url' => array(
 				'attribute' => 'href',
+				'default' => '#reviews',
 				'type' => 'string'
 			),
 			'text' => array(
 				'attribute' => 'title',
+				'default' => '{num} customer reviews',
 				'type' => 'string'
 			)
 		),

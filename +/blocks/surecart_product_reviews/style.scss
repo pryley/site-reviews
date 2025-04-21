@@ -1,4 +1,7 @@
 .wp-block-site-reviews-surecart-product-reviews [data-style="text"] {
+    .glsr-bar {
+        --glsr-bar-bg: currentColor;
+    }
     .glsr-star {
         background: currentColor;
     }
@@ -10,5 +13,13 @@
     }
     .glsr-star-half {
         mask-image: var(--glsr-star-half);
+    }
+    .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars[class*=" s"] > span {
+        background: currentColor;
+        mask-image:var(--glsr-star-empty);
+    }
+    .glsr-field .glsr-star-rating--stars[class*=" s"] > span:is(.gl-active, .gl-active.gl-selected) {
+        background: currentColor;
+        mask-image:var(--glsr-star-full);
     }
 }

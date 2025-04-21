@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\SureCart\Controllers;
 
 use GeminiLabs\SiteReviews\Contracts\ControllerContract;
+use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\HookProxy;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -142,6 +143,24 @@ class ProductController implements ControllerContract
         return glsr(Builder::class)->p([
             'text' => esc_html__('Only logged in customers who have purchased this product may leave a review.', 'woocommerce'),
         ]);
+    }
+
+    /**
+     * @filter site-reviews/shortcode/site_reviews/attributes
+     * @filter site-reviews/shortcode/site_reviews_form/attributes
+     * @filter site-reviews/shortcode/site_reviews_summary/attributes
+     */
+    public function filterShortcodeAttributes(array $attributes, ShortcodeContract $shortcode): array
+    {
+        $refererQuery = wp_parse_args(wp_parse_url((string) wp_get_referer(), \PHP_URL_QUERY));
+        $template = $refererQuery['p'] ?? ''; // Get the current Site Editor template
+        if (!str_starts_with((string) $template, '/wp_template/surecart/') && 'sc_product' !== get_post_type()) {
+            return $attributes;
+        }
+        if ($style = glsr_get_option('integrations.surecart.style')) {
+            $attributes['data-style'] = $style;
+        }
+        return $attributes;
     }
 
     /**
