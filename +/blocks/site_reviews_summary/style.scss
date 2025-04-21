@@ -1,0 +1,28 @@
+.wp-block-site-reviews-summary.is-style-variant-2 {
+    .glsr-summary {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        row-gap: 0;
+    }
+    .glsr-summary-rating {
+        font-size: calc(3 * var(--glsr-summary-text));
+        grid-row-end: span 2;
+    }
+    .glsr-summary-percentages {
+        grid-column-end: span 2;
+    }
+    .glsr-summary-stars {
+        display: flex;
+        grid-column-start: 2;
+    }
+    .glsr-summary-text {
+        grid-column-start: 2;
+    }
+    :not(:has(.glsr-summary-stars)),
+    :not(:has(.glsr-summary-text)) {
+        .glsr-summary-stars,
+        .glsr-summary-text {
+            grid-row-end: span 2;
+        }
+    }
+}
