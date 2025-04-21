@@ -19,10 +19,11 @@ class SummaryPercentagesTag extends SummaryTag
     {
         $background = glsr(Builder::class)->span([
             'class' => 'glsr-bar-background-percent',
-            'style' => "width:{$percentages[$level]}",
+            'style' => "width:var(--glsr-bar-percent);",
         ]);
         return glsr(Builder::class)->span([
             'class' => 'glsr-bar-background',
+            'style' => "--glsr-bar-percent:{$percentages[$level]};",
             'text' => $background,
         ]);
     }

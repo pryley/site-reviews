@@ -308,6 +308,18 @@ return array(
 				),
 				'type' => 'number'
 			),
+			'summary_bar_size' => array(
+				'default' => '1em',
+				'type' => 'string'
+			),
+			'summary_star_size' => array(
+				'default' => '1.5em',
+				'type' => 'string'
+			),
+			'summary_max_width' => array(
+				'default' => '48ch',
+				'type' => 'string'
+			),
 			'terms' => array(
 				'default' => '',
 				'type' => 'string'
@@ -328,12 +340,48 @@ return array(
 			'file:./style-index.css',
 			'site-reviews'
 		),
+		'styles' => array(
+			array(
+				'name' => '1',
+				'label' => 'Style 1'
+			),
+			array(
+				'name' => '2',
+				'label' => 'Style 2'
+			),
+			array(
+				'name' => '3',
+				'label' => 'Style 3'
+			)
+		),
 		'keywords' => array(
 			'rating summary',
 			'site reviews'
 		),
 		'supports' => array(
-			'html' => false
+			'html' => false,
+			'spacing' => array(
+				'padding' => true,
+				'margin' => array(
+					'top',
+					'bottom'
+				)
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'textAlign' => false,
+				'__experimentalTextDecoration' => false,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => false,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'lineHeight' => true
+				)
+			)
 		)
 	),
 	'surecart_product_rating' => array(

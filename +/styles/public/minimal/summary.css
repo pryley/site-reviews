@@ -48,8 +48,8 @@
         background-color: currentColor;
         content: '';
         display: block;
-        height: var(--glsr-text-md);
-        margin-top: calc(-1 * calc(var(--glsr-text-md) / 2));
+        height: var(--glsr-bar-size);
+        margin-top: calc(-1 * calc(var(--glsr-bar-size) / 2));
         opacity: var(--glsr-bar-opacity);
         position: absolute;
         top: 50%;
@@ -60,7 +60,7 @@
     background-color: currentColor;
     color: var(--glsr-bar-bg);
     display: block;
-    height: var(--glsr-text-md);
+    height: var(--glsr-bar-size);
     position: relative;
 }
 :root .glsr-summary .glsr-bar-percent {

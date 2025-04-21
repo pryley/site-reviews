@@ -48,7 +48,8 @@ class Rating
 
     public function format(float $rating): string
     {
-        $roundBy = glsr()->filterInt('rating/round-by', 1);
+        $roundBy = $rating > 0 ? 1 : 0;
+        $roundBy = glsr()->filterInt('rating/round-by', $roundBy, $rating);
         return (string) number_format_i18n($rating, $roundBy);
     }
 

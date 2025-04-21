@@ -7,22 +7,25 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
 class SiteReviewsSummaryBlock extends Block
 {
-    public function register(): void
-    {
-        parent::register();
-        register_block_style('site-reviews/summary', [
-            'name' => 'variant-1',
-            'label' => _x('Style 1', 'admin-text', 'site-reviews'),
-            'is_default' => true,
-        ]);
-        register_block_style('site-reviews/summary', [
-            'name' => 'variant-2',
-            'label' => _x('Style 2', 'admin-text', 'site-reviews'),
-        ]);
-    }
-
     public function shortcode(): ShortcodeContract
     {
         return glsr(SiteReviewsSummaryShortcode::class);
+    }
+
+    protected function blockStyle(array $attributes): string
+    {
+        $style = [];
+        if (!empty($attributes['summary_bar_size'])) {
+            $style[] = "--glsr-bar-size: {$attributes['summary_bar_size']};";
+        }
+        if (!empty($attributes['summary_star_size'])) {
+            $style[] = "--glsr-summary-star: {$attributes['summary_star_size']};";
+        }
+        if (!empty($attributes['summary_max_width'])) {
+            $style[] = "--glsr-max-w: {$attributes['summary_max_width']};";
+        } else {
+            $style[] = "--glsr-max-w: none";
+        }
+        return implode('', $style);
     }
 }

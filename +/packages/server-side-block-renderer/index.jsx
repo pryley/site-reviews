@@ -40,12 +40,29 @@ const defaultPanelTitles = {
     settings: _x('Settings', 'admin-text', 'site-reviews'),
 };
 
+const allowedInspectorGroups = [
+    'advanced',
+    'background',
+    'bindings',
+    'border',
+    'color',
+    'default',
+    'dimensions',
+    'effects',
+    'filter',
+    'list',
+    'position',
+    'styles',
+    'typography',
+];
+
 const ServerSideBlockRenderer = ({
     className = 'ssr',
     controls = {},
     panels = {},
     props,
     renderCallback,
+    style = {},
 }) => {
     const { attributes, name: blockName } = props;
     const hookPrefix = blockName.replace('/', '.');
@@ -53,6 +70,7 @@ const ServerSideBlockRenderer = ({
 
     const blockProps = useBlockProps({
         ref,
+        style,
     });
 
     // Use useCallback to memoize the observer callback
@@ -93,51 +111,48 @@ const ServerSideBlockRenderer = ({
         [panels, props, hookPrefix]
     );
 
-    const normalizedPanels = Object.fromEntries(
-        Object.entries(filteredPanels).map(([panelKey, panel]) => [
-            panelKey,
-            {
-                ...panel,
-                controls: Array.isArray(panel.controls) ? panel.controls : [],
-                title: panel.title || defaultPanelTitles[panelKey] || null,
-            },
-        ])
-    );
+    const normalizedPanels = Object.entries(filteredPanels).reduce((acc, [panelKey, panel]) => {
+        const group = allowedInspectorGroups.includes(panel.group || panelKey)
+            ? (panel.group || panelKey)
+            : 'default';
+        const normalizedPanel = {
+            ...panel,
+            controls: Array.isArray(panel.controls) ? panel.controls : [],
+            title: panel.title || defaultPanelTitles[panelKey] || null,
+        };
+        if (0 === normalizedPanel.controls.length) {
+            return acc;
+        }
+        acc[group] = acc[group] || {};
+        acc[group][panelKey] = normalizedPanel;
+        return acc;
+    }, {});
 
     const renderControls = (controlsArray, context = 'unknown') => {
         return controlsArray
-            .filter((controlKey) => {
-                // Disabling this check because is doesn't make sense to use with conditional controls
-                // if (!(controlKey in filteredControls)) {
-                //     console.warn(`"${controlKey}" control not found in the "${context}" panel`);
-                // }
-                return controlKey in filteredControls;
-            })
+            .filter((controlKey) => controlKey in filteredControls)
             .map((controlKey) => filteredControls[controlKey]);
     }
 
-    const inspectorPanels = Object.entries(normalizedPanels).filter(([panelKey, panel]) => {
-        return 'advanced' !== panelKey && 0 < panel.controls.length;
-    });
-    const inspectorAdvancedControls = normalizedPanels?.advanced?.controls || [];
-
     return (
         <>
-            <InspectorControls group="settings">
-                {inspectorPanels.map(([panelKey, panel]) => {
-                    const { controls, ...panelProps } = panel; // Exclude controls
-                    return (
-                        <PanelBody {...panelProps}>
-                            {renderControls(panel.controls, panelKey)}
-                        </PanelBody>
-                    )
-                })}
-            </InspectorControls>
-            <InspectorControls group="styles">
-            </InspectorControls>
-            <InspectorAdvancedControls>
-                {renderControls(inspectorAdvancedControls, 'advanced')}
-            </InspectorAdvancedControls>
+            {Object.entries(normalizedPanels).map(([group, panels]) => {
+                return (
+                    <InspectorControls group={group}>
+                        {Object.entries(panels).map(([panelKey, panel]) => {
+                            const { controls, ...panelProps } = panel; // Exclude controls
+                            if (group === panelKey) {
+                                return renderControls(controls, panelKey);
+                            }
+                            return (
+                                <PanelBody {...panelProps}>
+                                    {renderControls(controls, panelKey)}
+                                </PanelBody>
+                            )
+                        })}
+                    </InspectorControls>
+                )
+            })}
             <div {...blockProps}>
                 <Disabled isDisabled>
                     <ServerSideRender

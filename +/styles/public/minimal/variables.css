@@ -42,6 +42,7 @@
     --glsr-bar-bg: var(--glsr-yellow);
     --glsr-bar-leading: 1.5;
     --glsr-bar-opacity: 0.1;
+    --glsr-bar-size: var(--glsr-text-md);
     --glsr-max-w: 48ch;
     --glsr-summary-star: 1.5em;
     --glsr-summary-text:  var(--glsr-text-sm);

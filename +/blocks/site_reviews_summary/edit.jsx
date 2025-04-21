@@ -1,12 +1,38 @@
 import './editor.scss';
-import { _x } from '@wordpress/i18n';
+import { __experimentalUnitControl as UnitControl, BaseControl, Notice, RangeControl, TextControl } from '@wordpress/components';
+import { _x, sprintf } from '@wordpress/i18n';
 import { AjaxComboboxControl, AjaxFormTokenField, AjaxToggleGroupControl, NoYesControl } from '@site-reviews/components';
-import { BaseControl, Notice, RangeControl, TextControl } from '@wordpress/components';
+import { useEffect, useRef } from '@wordpress/element';
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
 export default function Edit (props) {
     const { attributes, setAttributes } = props;
+    const { className } = attributes;
+    const prevClassNameRef = useRef('');
+
     setAttributes({ post_id: jQuery('#post_ID').val() }) // used to get the "post_id" assigned_posts value
+
+    useEffect(() => {
+        // Get current style (if any)
+        const currentStyleMatch = className?.match(/is-style-(\w+)/);
+        const currentStyle = currentStyleMatch ? currentStyleMatch[1] : 'default';
+        // Get previous style (if any)
+        const prevClassName = prevClassNameRef.current;
+        const prevStyleMatch = prevClassName?.match(/is-style-(\w+)/);
+        const prevStyle = prevStyleMatch ? prevStyleMatch[1] : 'default';
+        // Define style groups
+        const horizontalBars = ['default', '1'];
+        const verticalBars = ['2', '3'];
+        // Check for style transitions and update attributes
+        if (horizontalBars.includes(prevStyle) && verticalBars.includes(currentStyle)) {
+            setAttributes({ summary_bar_size: '50px' })
+        } else if (verticalBars.includes(prevStyle) && horizontalBars.includes(currentStyle)) {
+            setAttributes({ summary_bar_size: '1em' })
+        }
+        // Update previous className for next render
+        prevClassNameRef.current = className || '';
+    }, [className, setAttributes]);
+
     const controls = {
         assigned_posts: <AjaxFormTokenField
             endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=assigned_posts'
@@ -52,10 +78,11 @@ export default function Edit (props) {
         labels: <TextControl
             __next40pxDefaultSize
             __nextHasNoMarginBottom
-            help={ _x('Enter custom labels for the percentage bar levels (from high to low) and separate them with a comma. The default labels are: "Excellent, Very good, Average, Poor, Terrible".', 'admin-text', 'site-reviews') }
+            help={ _x('Enter custom labels for the percentage bar levels (from high to low) and separate them with a comma.', 'admin-text', 'site-reviews') }
             key='labels'
             label={ _x('Summary Labels', 'admin-text', 'site-reviews') }
             onChange={ (labels) => setAttributes({ labels }) }
+            placeholder={ _x('Excellent, Very good, Average, Poor, Terrible', 'admin-text', 'site-reviews') }
             value={ attributes.labels }
         />,
         rating: <RangeControl
@@ -96,10 +123,11 @@ export default function Edit (props) {
         text: <TextControl
             __next40pxDefaultSize
             __nextHasNoMarginBottom
-            help={ _x('Use {num} to display the number of reviews, {rating} to display the average rating, and {max} to display the maximum rating value. The default text is: "{rating} out of {max} stars (based on {num} reviews)".', 'admin-text', 'site-reviews') }
+            help={ _x('Use {num} to display the number of reviews, {rating} to display the average rating, and {max} to display the maximum rating value.', 'admin-text', 'site-reviews') }
             key='text'
             label={ _x('Summary Text', 'admin-text', 'site-reviews') }
             onChange={ (text) => setAttributes({ text }) }
+            placeholder={ _x('{rating} out of {max} stars (based on {num} reviews)', 'admin-text', 'site-reviews') }
             value={ attributes.text }
         />,
         text_options_notice: <BaseControl __nextHasNoMarginBottom>
@@ -117,8 +145,74 @@ export default function Edit (props) {
             placeholder={ _x('Select a Review Type...', 'admin-text', 'site-reviews') }
             value={ attributes.type }
         />,
+        summary_bar_size: <UnitControl
+            __next40pxDefaultSize
+            isResetValueOnUnitChange
+            label={ _x('Percent Bar Size', 'admin-text', 'site-reviews') }
+            min={0}
+            onChange={ (summary_bar_size) => setAttributes({ summary_bar_size }) }
+            units={[
+                {
+                    default: 16,
+                    label: 'px',
+                    value: 'px',
+                },
+                {
+                    default: 1,
+                    label: 'em',
+                    value: 'em',
+                },
+                {
+                    default: 1,
+                    label: 'rem',
+                    value: 'rem',
+                },
+            ]}
+            value={ attributes.summary_bar_size }
+        />,
+        summary_max_width: <UnitControl
+            __next40pxDefaultSize
+            isResetValueOnUnitChange
+            label={ _x('Max Width', 'admin-text', 'site-reviews') }
+            min={0}
+            onChange={ (summary_max_width) => setAttributes({ summary_max_width }) }
+            units={[
+                {
+                    default: 48,
+                    label: 'ch',
+                    value: 'ch',
+                },
+            ]}
+            value={ attributes.summary_max_width }
+        />,
+        summary_star_size: <UnitControl
+            __next40pxDefaultSize
+            isResetValueOnUnitChange
+            label={ _x('Star Size', 'admin-text', 'site-reviews') }
+            min={0}
+            onChange={ (summary_star_size) => setAttributes({ summary_star_size }) }
+            units={[
+                {
+                    default: 24,
+                    label: 'px',
+                    value: 'px',
+                },
+                {
+                    default: 1.5,
+                    label: 'em',
+                    value: 'em',
+                },
+                {
+                    default: 1.5,
+                    label: 'rem',
+                    value: 'rem',
+                },
+            ]}
+            value={ attributes.summary_star_size }
+        />,
     };
-    const panels = {
+
+    const panels = { // order is intentional
         settings: {
             controls: [
                 'assigned_posts',
@@ -150,9 +244,23 @@ export default function Edit (props) {
                 'rating_field',
                 'id',
             ],
-        }
+        },
+        sizes: {
+            controls: [
+                'summary_max_width',
+                'summary_bar_size',
+                'summary_star_size',
+            ],
+            group: 'styles',
+            title: _x('Sizes', 'admin-text', 'site-reviews'),
+        },
     };
+
     return (
-        <ServerSideBlockRenderer controls={controls} panels={panels} props={props} />
+        <ServerSideBlockRenderer controls={controls} panels={panels} props={props} style={{
+            '--glsr-bar-size': attributes.summary_bar_size,
+            '--glsr-max-w': attributes.summary_max_width || 'none',
+            '--glsr-summary-star': attributes.summary_star_size,
+        }} />
     )
 }

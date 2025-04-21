@@ -69,6 +69,18 @@
       ],
       "type": "number"
     },
+    "summary_bar_size": {
+      "default": "1em",
+      "type": "string"
+    },
+    "summary_star_size": {
+      "default": "1.5em",
+      "type": "string"
+    },
+    "summary_max_width": {
+      "default": "48ch",
+      "type": "string"
+    },
     "terms": {
       "default": "",
       "type": "string"
@@ -89,11 +101,47 @@
     "file:./style-index.css",
     "site-reviews"
   ],
+  "styles": [
+    {
+      "name": "1",
+      "label": "Style 1"
+    },
+    {
+      "name": "2",
+      "label": "Style 2"
+    },
+    {
+      "name": "3",
+      "label": "Style 3"
+    }
+  ],
   "keywords": [
     "rating summary",
     "site reviews"
   ],
   "supports": {
-    "html": false
+    "html": false,
+    "spacing": {
+      "padding": true,
+      "margin": [
+        "top",
+        "bottom"
+      ]
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "textAlign": false,
+      "__experimentalTextDecoration": false,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": false,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "lineHeight": true
+      }
+    }
   }
 }
