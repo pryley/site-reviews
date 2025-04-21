@@ -42,6 +42,7 @@ export default function Edit (props) {
             controls: [
                 'hide',
             ],
+            initialOpen: false,
         },
         advanced: {
             controls: [
