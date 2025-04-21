@@ -68,6 +68,25 @@ class RestSummaryController extends RestReviewController
     }
 
     /**
+     * @param \WP_REST_Request $request
+     *
+     * @return \WP_REST_Response
+     */
+    public function get_rendered_rating($request)
+    {
+        $args = $this->normalizedArgs($request);
+        $ratings = glsr_get_ratings($args);
+        $rendered = glsr_star_rating(
+            $ratings->average,
+            $ratings->reviews,
+            $args
+        );
+        return rest_ensure_response(
+            wp_parse_args($ratings->toArray(), compact('rendered'))
+        );
+    }
+
+    /**
      * @return void
      */
     public function register_routes()
@@ -76,6 +95,15 @@ class RestSummaryController extends RestReviewController
             [
                 'args' => $this->get_collection_params(),
                 'callback' => [$this, 'get_items'],
+                'methods' => \WP_REST_Server::READABLE,
+                'permission_callback' => [$this, 'get_items_permissions_check'],
+            ],
+            'schema' => [$this, 'get_public_item_schema'],
+        ]);
+        register_rest_route($this->namespace, "/{$this->rest_base}/stars", [
+            [
+                'args' => $this->get_collection_params(),
+                'callback' => [$this, 'get_rendered_rating'],
                 'methods' => \WP_REST_Server::READABLE,
                 'permission_callback' => [$this, 'get_items_permissions_check'],
             ],
