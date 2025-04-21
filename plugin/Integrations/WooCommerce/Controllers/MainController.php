@@ -13,8 +13,6 @@ use GeminiLabs\SiteReviews\Review;
 
 class MainController extends AbstractController
 {
-    public const VERIFIED_META_KEY = '_verified';
-
     /**
      * @action admin_enqueue_scripts
      */
@@ -144,19 +142,6 @@ class MainController extends AbstractController
     }
 
     /**
-     * @return \WC_Product|false
-     *
-     * @filter site-reviews/review/call/product
-     */
-    public function filterReviewProductMethod(Review $review)
-    {
-        if ($product = wc_get_product(Arr::get($review->assigned_posts, 0))) {
-            return $product;
-        }
-        return false;
-    }
-
-    /**
      * @param \GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewAuthorTag $tag
      *
      * @filter site-reviews/review/value/author
@@ -173,12 +158,38 @@ class MainController extends AbstractController
     /**
      * @filter site-reviews/review/call/hasVerifiedOwner
      */
-    public function hasVerifiedOwner(Review $review): bool
+    public function filterReviewCallbackHasVerifiedOwner(Review $review): bool
     {
-        $verified = get_post_meta($review->ID, static::VERIFIED_META_KEY, true);
-        return '' === $verified
-            ? $this->verifyProductOwner($review)
-            : (bool) $verified;
+        $verified = get_post_meta($review->ID, '_verified', true);
+        if ('' !== $verified) {
+            return (bool) $verified;
+        }
+        $review->refresh(); // refresh the review first!
+        $verified = false;
+        foreach ($review->assigned_posts as $postId) {
+            if ('product' === get_post_type($postId)) {
+                $verified = wc_customer_bought_product($review->email, $review->author_id, $postId);
+                break; // only check the first product
+            }
+        }
+        update_post_meta($review->ID, '_verified', (int) $verified);
+        return $verified;
+    }
+
+    /**
+     * @filter site-reviews/review/call/product
+     */
+    public function filterReviewCallbackProduct(Review $review): ?\WC_Product
+    {
+        foreach ($review->assigned_posts as $postId) {
+            if ('product' !== get_post_type($postId)) {
+                continue;
+            }
+            if ($product = wc_get_product($postId)) {
+                return $product; // only return the first found product
+            }
+        }
+        return null;
     }
 
     /**
@@ -249,23 +260,10 @@ class MainController extends AbstractController
     }
 
     /**
-     * @return void|bool
-     *
-     * @see $this->hasVerifiedOwner()
-     *
      * @action site-reviews/review/created
      */
-    public function verifyProductOwner(Review $review)
+    public function verifyProductOwner(Review $review): void
     {
-        $review->refresh(); // refresh the review first!
-        $verified = false;
-        foreach ($review->assigned_posts as $postId) {
-            if ('product' === get_post_type($postId)) {
-                $verified = wc_customer_bought_product($review->email, $review->author_id, $postId);
-                break;
-            }
-        }
-        update_post_meta($review->ID, static::VERIFIED_META_KEY, (int) $verified);
-        return $verified;
+        $review->hasVerifiedOwner();
     }
 }
