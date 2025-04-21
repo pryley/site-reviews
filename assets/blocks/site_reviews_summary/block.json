@@ -45,6 +45,10 @@
       "default": "",
       "type": "string"
     },
+    "labels": {
+      "default": "",
+      "type": "string"
+    },
     "post_id": {
       "default": "",
       "type": "string"
@@ -69,6 +73,10 @@
       "default": "",
       "type": "string"
     },
+    "text": {
+      "default": "",
+      "type": "string"
+    },
     "type": {
       "default": "local",
       "type": "string"
@@ -77,7 +85,10 @@
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "script": "site-reviews",
-  "style": "site-reviews",
+  "style": [
+    "file:./style-index.css",
+    "site-reviews"
+  ],
   "keywords": [
     "rating summary",
     "site reviews"
