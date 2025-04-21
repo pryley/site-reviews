@@ -284,6 +284,10 @@ return array(
 				'default' => '',
 				'type' => 'string'
 			),
+			'labels' => array(
+				'default' => '',
+				'type' => 'string'
+			),
 			'post_id' => array(
 				'default' => '',
 				'type' => 'string'
@@ -308,6 +312,10 @@ return array(
 				'default' => '',
 				'type' => 'string'
 			),
+			'text' => array(
+				'default' => '',
+				'type' => 'string'
+			),
 			'type' => array(
 				'default' => 'local',
 				'type' => 'string'
@@ -316,7 +324,10 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'script' => 'site-reviews',
-		'style' => 'site-reviews',
+		'style' => array(
+			'file:./style-index.css',
+			'site-reviews'
+		),
 		'keywords' => array(
 			'rating summary',
 			'site reviews'
