@@ -24,7 +24,7 @@ return [ // order is intentional
             'woocommerce' => _x('WooCommerce (purple)', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'text',
-        'tooltip' => _x('This changes the colour of the stars and the summary bars', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('This changes the color of the stars and the summary bars', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
     'settings.integrations.woocommerce.summary' => [

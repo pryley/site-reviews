@@ -32,11 +32,11 @@ add_filter('site-reviews/config/inline-styles', function ($config) {
     $config[':star-half'] = 'https://your-website.com/wp-content/uploads/star-half.svg';
     return $config;
 });</code></pre>
-        <p>If all you need to do is change the colour of the stars:<p>
+        <p>If all you need to do is change the color of the stars:<p>
         <ol>
             <li>Copy the SVG images to your Desktop, the stars can be found here: <code>/wp-content/plugins/site-reviews/assets/images/</code></li>
             <li>Open the SVG images that you copied with a text editor</li>
-            <li>Change the <a target="_blank" href="https://www.hexcolortool.com">hex colour code</a> to the one you want</li>
+            <li>Change the <a target="_blank" href="https://www.hexcolortool.com">hex color code</a> to the one you want</li>
             <li>Install and activate the <a target="_blank" href="https://wordpress.org/plugins/safe-svg/">Safe SVG</a> plugin</li>
             <li>Upload the edited SVG images to your <a href="<?php echo admin_url('upload.php'); ?>">Media Library</a></li>
             <li>Copy the File URL of the uploaded SVG images and paste them into the snippet above</li>
