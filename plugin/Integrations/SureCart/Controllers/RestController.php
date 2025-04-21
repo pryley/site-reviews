@@ -28,17 +28,17 @@ class RestController implements ControllerContract
 
 
     /**
-     * @param WP_REST_Request|null $request The WP_REST_Request object
+     * @param \WP_REST_Request|null $request The WP_REST_Request object
      * @param string|null          $method  The method of the request
      *
-     * @return WP_REST_Request|null
+     * @return \WP_REST_Request|null
      *
      * @filter rest_products_request
      */
     public function filterProductsRequest($request = null, $method = null)
     {
-        // if (!$request instanceof WP_REST_Request || 'find' !== $method) { // methods can be create, edit, delete & find.
-        if (!$request instanceof WP_REST_Request) {
+        // if (!$request instanceof \WP_REST_Request || 'find' !== $method) { // methods can be create, edit, delete & find.
+        if (!$request instanceof \WP_REST_Request) {
             return $request;
         }
         // Add your custom logic here.

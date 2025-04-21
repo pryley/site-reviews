@@ -73,7 +73,6 @@ class Email implements EmailContract
     public function send(): bool
     {
         if (!$this->validate()) {
-            glsr_log()->warning(sprintf('The email is missing the %s', Str::naturalJoin($missing)));
             return false;
         }
         add_action('wp_mail_failed', [$this, 'logMailError']);
@@ -225,6 +224,7 @@ class Email implements EmailContract
         if (empty($missing)) {
             return true;
         }
+        glsr_log()->warning(sprintf('The email is missing the %s', Str::naturalJoin($missing)));
         return false;
     }
 }

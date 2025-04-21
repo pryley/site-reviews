@@ -39,7 +39,7 @@ class ProductController implements ControllerContract
         $pattern = '/(assigned_posts\s*=\s*(["\']?))(.*?)\2(?=\s|$)/';
         return preg_replace_callback($pattern, function ($match) use ($postId) {
             $value = preg_replace('/\bpost_id\b/', $postId, $match[3]);
-            return $match[1].$value.($match[2] ?? '');
+            return $match[1].$value.$match[2];
         }, $content);
     }
 
@@ -67,7 +67,10 @@ class ProductController implements ControllerContract
             $templatePath = wp_normalize_path(
                 realpath(dirname($metadata['file']).'/'.remove_block_asset_path_prefix($view))
             );
-            if (isset($options) && isset($params)) {
+            if (isset($options)
+                && isset($params)
+                && isset($query_order)
+                && isset($query_order_by)) {
                 $options[] = [
                     'checked' => 'asc' === $query_order && 'rating' === $query_order_by,
                     'href' => $params->addArg('order', 'asc')->addArg('orderby', 'rating')->url(),
@@ -268,18 +271,18 @@ class ProductController implements ControllerContract
 
     protected function isProductOwner(int $userId, int $productId): bool
     {
-        if (!$user = User::getUserBy('id', $userId)) {
+        if (!$user = User::getUserBy('id', $userId)) { // @phpstan-ignore-line
             return false;
         }
-        if (!$customer = $user->customer()) {
+        if (!$customer = $user->customer()) { // @phpstan-ignore-line
             return false;
         }
         if (!$product = sc_get_product($productId)) {
             return false;
         }
-        $purchases = Purchase::where([
+        $purchases = Purchase::where([ // @phpstan-ignore-line
             'customer_ids' => [$customer->id],
-            'product_ids' => [$product->id],
+            'product_ids' => [$product->id], // @phpstan-ignore-line
         ])->get();
         return !empty($purchases);
     }
