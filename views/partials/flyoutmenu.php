@@ -22,6 +22,6 @@
         <div class="glsr-flyout-label">
             <div><?php echo _x('Click me!', 'admin-text', 'site-reviews'); ?></div>
         </div>
-        <?php echo \GeminiLabs\SiteReviews\Helper::svg('assets/images/icon.svg', false); ?>
+        <?php echo \GeminiLabs\SiteReviews\Helpers\Svg::get('assets/images/icon.svg'); ?>
     </a>
 </div>

@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Svg;
 
 class Controller extends AbstractController
 {
@@ -12,10 +12,10 @@ class Controller extends AbstractController
      */
     public function enqueueBuilderStyles(): void
     {
-        $iconForm = Helper::svg('assets/images/icons/fusion/icon-form.svg', true);
-        $iconReview = Helper::svg('assets/images/icons/fusion/icon-review.svg', true);
-        $iconReviews = Helper::svg('assets/images/icons/fusion/icon-reviews.svg', true);
-        $iconSummary = Helper::svg('assets/images/icons/fusion/icon-summary.svg', true);
+        $iconForm = Svg::encoded('assets/images/icons/fusion/icon-form.svg');
+        $iconReview = Svg::encoded('assets/images/icons/fusion/icon-review.svg');
+        $iconReviews = Svg::encoded('assets/images/icons/fusion/icon-reviews.svg');
+        $iconSummary = Svg::encoded('assets/images/icons/fusion/icon-summary.svg');
         $css = "
             [class*=\"fusion-glsr-\"]::before {
                 background-color: currentColor;
@@ -79,7 +79,7 @@ class Controller extends AbstractController
             fusion_builder_auto_activate_element('site_reviews');
             fusion_builder_auto_activate_element('site_reviews_form');
             fusion_builder_auto_activate_element('site_reviews_summary');
-         }
+        }
     }
 
     /**

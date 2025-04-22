@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Svg;
 use GeminiLabs\SiteReviews\Request;
 
 class Controller extends AbstractController
@@ -127,7 +127,7 @@ class Controller extends AbstractController
 
     /**
      * @param \Elementor\Core\Common\Modules\Ajax\Module $manager
-     * 
+     *
      * @action elementor/ajax/register_actions
      */
     public function registerAjaxActions($manager): void
@@ -170,10 +170,10 @@ class Controller extends AbstractController
      */
     public function registerInlineStyles(): void
     {
-        $iconForm = Helper::svg('assets/images/icons/elementor/icon-form.svg', true);
-        $iconReview = Helper::svg('assets/images/icons/elementor/icon-review.svg', true);
-        $iconReviews = Helper::svg('assets/images/icons/elementor/icon-reviews.svg', true);
-        $iconSummary = Helper::svg('assets/images/icons/elementor/icon-summary.svg', true);
+        $iconForm = Svg::encoded('assets/images/icons/elementor/icon-form.svg');
+        $iconReview = Svg::encoded('assets/images/icons/elementor/icon-review.svg');
+        $iconReviews = Svg::encoded('assets/images/icons/elementor/icon-reviews.svg');
+        $iconSummary = Svg::encoded('assets/images/icons/elementor/icon-summary.svg');
         $css = "
             [class*=\"eicon-glsr-\"]::before {
                 background-color: currentColor;

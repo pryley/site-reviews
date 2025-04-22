@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestReviewController;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Svg;
 
 class PostTypeDefaults extends DefaultsAbstract
 {
@@ -20,7 +20,7 @@ class PostTypeDefaults extends DefaultsAbstract
             'has_archive' => false,
             'hierarchical' => false,
             'labels' => [],
-            'menu_icon' => Helper::svg('assets/images/menu-icon.svg', true),
+            'menu_icon' => Svg::encoded('assets/images/menu-icon.svg'),
             'menu_position' => 25,
             'map_meta_cap' => true,
             'public' => false,

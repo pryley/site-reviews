@@ -13,7 +13,7 @@
         </p>
         <div class="glsr-premium__features">
             <div class="glsr-premium__banner">
-                <?php echo \GeminiLabs\SiteReviews\Helper::svg('assets/images/premium.svg'); ?>
+                <?php echo \GeminiLabs\SiteReviews\Helpers\Svg::get('assets/images/premium.svg'); ?>
             </div>
             <div class="glsr-premium__table">
                 <?php if (!empty($features)) { ?>

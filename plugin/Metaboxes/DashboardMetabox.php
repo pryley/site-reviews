@@ -6,8 +6,8 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\DashboardDataDefaults;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Svg;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
@@ -16,7 +16,7 @@ class DashboardMetabox
     public function register(): void
     {
         $id = glsr()->prefix.'dashboard_widget';
-        $icon = Helper::svg('assets/images/icon.svg');
+        $icon = Svg::get('assets/images/icon.svg');
         $title = glsr(Builder::class)->span([
             'text' => $icon.__('Site Reviews Overview', 'site-reviews'),
         ]);

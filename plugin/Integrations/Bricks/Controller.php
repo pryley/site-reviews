@@ -4,9 +4,9 @@ namespace GeminiLabs\SiteReviews\Integrations\Bricks;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Helpers\Svg;
 
 class Controller extends AbstractController
 {
@@ -89,10 +89,10 @@ class Controller extends AbstractController
         if (!bricks_is_builder()) {
             return;
         }
-        $iconForm = Helper::svg('assets/images/icons/bricks/icon-form.svg', true);
-        $iconReview = Helper::svg('assets/images/icons/bricks/icon-review.svg', true);
-        $iconReviews = Helper::svg('assets/images/icons/bricks/icon-reviews.svg', true);
-        $iconSummary = Helper::svg('assets/images/icons/bricks/icon-summary.svg', true);
+        $iconForm = Svg::encoded('assets/images/icons/bricks/icon-form.svg');
+        $iconReview = Svg::encoded('assets/images/icons/bricks/icon-review.svg');
+        $iconReviews = Svg::encoded('assets/images/icons/bricks/icon-reviews.svg');
+        $iconSummary = Svg::encoded('assets/images/icons/bricks/icon-summary.svg');
         $css = "
             i[class^='ti-site_review']::before {
                 background-color: currentColor;
