@@ -25,6 +25,8 @@ class Hooks extends IntegrationHooks
             $this->hook(ProductController::class, [
                 ['filterAssignedPostsPostId', 'render_block_core/shortcode', 10, 3],
                 ['filterBlockRenderCallback', 'block_type_metadata_settings', 15, 2],
+                ['filterProductColumns', 'manage_sc-products_columns'],
+                ['filterProductSchema', 'surecart/product/json_schema', 10, 2],
                 ['filterReviewAuthorTagValue', 'site-reviews/review/value/author', 10, 2],
                 ['filterReviewCallbackHasProductOwner', 'site-reviews/review/call/hasProductOwner'],
                 ['filterReviewFormBuild', 'site-reviews/build/template/reviews-form', 10, 2],
@@ -35,6 +37,8 @@ class Hooks extends IntegrationHooks
                 // ['registerBlockPatterns', 'init'],
                 ['registerBlocks', 'init', 11],
                 ['registerProductAttributes', 'surecart/product/attributes_set'],
+                ['renderProductColumnValues', 'manage_sc-products_custom_column', 10, 2],
+                ['renderProductTableInlineStyles', 'manage_products_extra_tablenav'],
                 ['verifyProductOwner', 'site-reviews/review/created', 20],
             ]);
             $this->hook(RestController::class, [

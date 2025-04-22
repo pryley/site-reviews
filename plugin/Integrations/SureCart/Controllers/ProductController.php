@@ -5,9 +5,12 @@ namespace GeminiLabs\SiteReviews\Integrations\SureCart\Controllers;
 use GeminiLabs\SiteReviews\Contracts\ControllerContract;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Database\CountManager;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Svg;
 use GeminiLabs\SiteReviews\HookProxy;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewTag;
+use GeminiLabs\SiteReviews\Modules\SchemaParser;
 use GeminiLabs\SiteReviews\Review;
 use SureCart\Models\Product;
 use SureCart\Models\Purchase;
@@ -89,6 +92,44 @@ class ProductController implements ControllerContract
             return ob_get_clean();
         };
         return $settings;
+    }
+
+    /**
+     * @param string[] $columns
+     *
+     * @filter manage_sc-products_columns
+     */
+    public function filterProductColumns(array $columns): array
+    {
+        $svg = Svg::get('assets/images/icon.svg', [
+            'height' => 24,
+            'style' => 'display:flex; flex-shrink:0; margin: -4px 0;',
+            'width' => 24,
+        ]);
+        $columns[glsr()->prefix.'rating'] = glsr(Builder::class)->div([
+            'style' => 'display:flex; align-items:center; justify-content:center;',
+            'text' => sprintf('%s<span>%s</span>', $svg, _x('Reviews', 'admin-text', 'site-reviews')),
+        ]);
+        return $columns;
+    }
+
+    /**
+     * @filter surecart/product/json_schema
+     */
+    public function filterProductSchema(array $schema, Product $product): array
+    {
+        $data = glsr(SchemaParser::class)->generate();
+        $aggregateRatingSchema = Arr::get($data, 'aggregateRating');
+        $reviewSchema = Arr::get($data, 'review');
+        if ($aggregateRatingSchema) {
+            $schema['aggregateRating'] = $aggregateRatingSchema;
+        }
+        if ($reviewSchema) {
+            $schema['review'] = $reviewSchema;
+        }
+        // remove Site Reviews generated schema
+        add_filter('site-reviews/schema/all', '__return_empty_array');
+        return $schema;
     }
 
     /**
@@ -192,15 +233,6 @@ class ProductController implements ControllerContract
     }
 
     /**
-     * @action init:11
-     */
-    public function registerBlocks(): void
-    {
-        register_block_type_from_metadata(glsr()->path('assets/blocks/surecart_product_rating'));
-        register_block_type_from_metadata(glsr()->path('assets/blocks/surecart_product_reviews'));
-    }
-
-    /**
      * @action init
      */
     public function registerBlockPatterns(): void
@@ -236,6 +268,15 @@ class ProductController implements ControllerContract
     }
 
     /**
+     * @action init:11
+     */
+    public function registerBlocks(): void
+    {
+        register_block_type_from_metadata(glsr()->path('assets/blocks/surecart_product_rating'));
+        register_block_type_from_metadata(glsr()->path('assets/blocks/surecart_product_reviews'));
+    }
+
+    /**
      * @filter surecart/product/attributes_set
      */
     public function registerProductAttributes(Product $product): void
@@ -250,6 +291,39 @@ class ProductController implements ControllerContract
         $product->setAttribute('rating', $ratingInfo->average);
         $product->setAttribute('reviews', $ratingInfo->reviews);
         $product->setAttribute('ranking', $ratingInfo->ranking);
+    }
+
+    /**
+     * @action manage_sc-products_custom_column
+     */
+    public function renderProductColumnValues(string $column, $product): void
+    {
+        if (glsr()->prefix.'rating' !== $column) {
+            return;
+        }
+        echo glsr(Builder::class)->a([
+            'href' => add_query_arg('assigned_post', $product->post->ID, glsr_admin_url()),
+            'text' => $product->reviews,
+        ]);
+    }
+
+    /**
+     * @param string $which
+     *
+     * @action manage_products_extra_tablenav
+     */
+    public function renderProductTableInlineStyles($which): void
+    {
+        if ('top' !== $which) {
+            return;
+        }
+        echo '<style>'.
+        '@media screen and (min-width: 783px) {'.
+            '.fixed .column-glsr_rating { width: 5%; }'.
+            'th.column-glsr_rating span { display: none; }'.
+            'td.column-glsr_rating { text-align: center; }'.
+        '}'.
+        '</style>';
     }
 
     /**
