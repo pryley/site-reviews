@@ -28,7 +28,7 @@
   align-items: center;
   background-color: var(--glsr-primary);
   border-radius: 2px;
-  box-shadow: 0 0 0 1.5px var(--glsr-primary-800);
+  box-shadow: 0 0 0 1px var(--glsr-primary-800);
   display: flex;
   position: relative;
   pointer-events: auto;
@@ -36,19 +36,11 @@
 }
 #glsr-flyout .glsr-flyout-mascot:hover,
 #glsr-flyout.is-open .glsr-flyout-mascot {
-  box-shadow:
-    0 0 0 1.5px var(--glsr-primary-950),
-    0 0 0.5px rgba(0 0 0/.07),
-    0 0 1.3px rgba(0 0 0/.1),
-    0 0 3px rgba(0 0 0/.13),
-    0 0 10px rgba(0 0 0/.2)
-  ;
+  box-shadow: 0 0 0 1px var(--glsr-primary-950);
 }
 #glsr-flyout .glsr-flyout-mascot svg {
   color: var(--glsr-primary-950);
   display: block;
-  transform: scale(75%);
-  width: 54px;
 }
 #glsr-flyout path.glsr-icon-svg__bg {
   fill: #fff;

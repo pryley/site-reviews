@@ -49,7 +49,7 @@ class FlyoutController extends AbstractController
                 'url' => 'https://youtu.be/H5HdMCXvuq8',
             ],
             [
-                'icon' => 'dashicons-sos',
+                'icon' => 'dashicons-book',
                 'title' => _x('Read the Documentation', 'admin-text', 'site-reviews'),
                 'url' => glsr_admin_url('documentation'),
             ],

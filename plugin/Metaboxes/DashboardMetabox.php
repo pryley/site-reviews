@@ -16,8 +16,12 @@ class DashboardMetabox
     public function register(): void
     {
         $id = glsr()->prefix.'dashboard_widget';
-        $icon = Svg::get('assets/images/icon.svg');
+        $icon = Svg::get('assets/images/icon.svg', [
+            'height' => 24,
+            'style' => 'display:flex; flex-shrink:0; margin: -4px 0;',
+        ]);
         $title = glsr(Builder::class)->span([
+            'style' => 'display: flex; align-items: center; gap: 1ex;',
             'text' => $icon.__('Site Reviews Overview', 'site-reviews'),
         ]);
         wp_add_dashboard_widget($id, $title, [$this, 'render']);

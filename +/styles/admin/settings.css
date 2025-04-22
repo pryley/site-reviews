@@ -86,9 +86,6 @@
   justify-content: center;
   position: relative;
 }
-.glsr-page-header .glsr-page-icon svg {
-  width: 42px;
-}
 .glsr-page-header .glsr-page-icon path.icon-bg {
   fill: #fff;
 }

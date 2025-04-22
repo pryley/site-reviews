@@ -104,7 +104,6 @@ class ProductController implements ControllerContract
         $svg = Svg::get('assets/images/icon.svg', [
             'height' => 24,
             'style' => 'display:flex; flex-shrink:0; margin: -4px 0;',
-            'width' => 24,
         ]);
         $columns[glsr()->prefix.'rating'] = glsr(Builder::class)->div([
             'style' => 'display:flex; align-items:center; justify-content:center;',

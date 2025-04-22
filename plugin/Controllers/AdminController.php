@@ -203,7 +203,7 @@ class AdminController extends AbstractController
         glsr()->render('views/partials/page-header', [
             'buttons' => $buttons,
             'hasScreenOptions' => in_array($screen->base, ['edit', 'edit-tags', 'post']),
-            'logo' => Svg::get('assets/images/icon.svg'),
+            'logo' => Svg::get('assets/images/icon.svg', ['width' => 44]),
             'title' => esc_html($title),
         ]);
     }

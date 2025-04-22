@@ -56,7 +56,7 @@ class Svg
         $processor = new \WP_HTML_Tag_Processor($contents);
         $processor->next_tag(['tag_name' => 'svg']);
         $style = $processor->get_attribute('style');
-        $value = $style ? $style.'; pointer-events: none;' : 'pointer-events: none;';
+        $value = empty($style) ? 'pointer-events: none;' : $style.'; pointer-events: none;';
         $processor->set_attribute('style', $value);
         if (!empty($attributes)) {
             foreach ($attributes as $attribute => $value) {
@@ -66,7 +66,7 @@ class Svg
                 }
                 if ('style' === $attribute) {
                     $style = $processor->get_attribute('style');
-                    $value = rtrim($style, ';').'; '.$value;
+                    $value = rtrim((string) $style, ';').'; '.$value;
                 }
                 $processor->set_attribute($attribute, $value);
             }
