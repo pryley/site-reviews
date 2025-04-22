@@ -22,7 +22,7 @@ class FormTest extends \WP_UnitTestCase
                     '<div data-field="submit-button">'.
                         '<div class="wp-block-buttons is-layout-flex">'.
                             '<div class="wp-block-button">'.
-                                '<button type="submit" class="glsr-button wp-block-button__link" aria-busy="false" data-loading="Please wait">'.
+                                '<button type="submit" class="glsr-button wp-block-button__link wp-element-button" aria-busy="false" data-loading="Please wait">'.
                                     'Test'.
                                 '</button>'.
                             '</div>'.
