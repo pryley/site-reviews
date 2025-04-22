@@ -115,7 +115,7 @@ class ProductController implements ControllerContract
     /**
      * @filter surecart/product/json_schema
      */
-    public function filterProductSchema(array $schema, Product $product): array
+    public function filterProductSchema(array $schema): array
     {
         $data = glsr(SchemaParser::class)->generate();
         $aggregateRatingSchema = Arr::get($data, 'aggregateRating');

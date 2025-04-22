@@ -26,7 +26,7 @@ class Hooks extends IntegrationHooks
                 ['filterAssignedPostsPostId', 'render_block_core/shortcode', 10, 3],
                 ['filterBlockRenderCallback', 'block_type_metadata_settings', 15, 2],
                 ['filterProductColumns', 'manage_sc-products_columns'],
-                ['filterProductSchema', 'surecart/product/json_schema', 10, 2],
+                ['filterProductSchema', 'surecart/product/json_schema'],
                 ['filterReviewAuthorTagValue', 'site-reviews/review/value/author', 10, 2],
                 ['filterReviewCallbackHasProductOwner', 'site-reviews/review/call/hasProductOwner'],
                 ['filterReviewFormBuild', 'site-reviews/build/template/reviews-form', 10, 2],
