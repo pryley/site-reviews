@@ -198,7 +198,12 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 
 = 8.0.0 (2025-03-??) =
 
+- Site Reviews has a fresh coat of paint! 💅🏻
+- Added [Avada Fusion Builder](https://avada.com/feature/live-visual-builder/) integration.
+- Added [Bricks](https://bricksbuilder.io/) integration.
+- Added [Divi](https://www.elegantthemes.com/gallery/divi/) integration.
 - Added [Flatsome Page Builder](https://themeforest.net/item/flatsome-multipurpose-responsive-woocommerce-theme/5484319) integration.
+- Added [SureCart](https://surecart.com/) integration.
 - Added [WPBakery Page Builder](https://wpbakery.com/) integration.
 - Added an option to change the position of the Captcha (above or below the submit button in the review form).
 - Fixed link focus when expanding exceprts with the keyboard.

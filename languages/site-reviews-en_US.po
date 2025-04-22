@@ -221,7 +221,7 @@ msgstr "Show more"
 msgid "(no title)"
 msgstr "(no title)"
 
-#: plugin/Metaboxes/DashboardMetabox.php:21, plugin/Metaboxes/DashboardMetabox.php:28
+#: plugin/Metaboxes/DashboardMetabox.php:25, plugin/Metaboxes/DashboardMetabox.php:32
 msgid "Site Reviews Overview"
 msgstr "Site Reviews Overview"
 
@@ -425,15 +425,15 @@ msgstr "You have already submitted a review."
 msgid "This review cannot be submitted, please refresh the page and try again."
 msgstr "This review cannot be submitted, please refresh the page and try again."
 
-#: plugin/Integrations/SureCart/Controllers/ProductController.php:74
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:80
 msgid "Rating, low to high"
 msgstr "Rating, low to high"
 
-#: plugin/Integrations/SureCart/Controllers/ProductController.php:80
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:86
 msgid "Rating, high to low"
 msgstr "Rating, high to low"
 
-#: plugin/Integrations/SureCart/Controllers/ProductController.php:101, plugin/Integrations/WooCommerce/Controllers/MainController.php:152
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:144, plugin/Integrations/WooCommerce/Controllers/MainController.php:152
 msgid "verified owner"
 msgstr "verified owner"
 
@@ -3279,7 +3279,7 @@ msgctxt "admin-text"
 msgid "General"
 msgstr "General"
 
-#: plugin/Controllers/MenuController.php:151, plugin/Controllers/PrivacyController.php:130, plugin/Defaults/PostTypeLabelDefaults.php:17, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31, plugin/Integrations/WooCommerce/Metaboxes/ReviewsMetabox.php:15
+#: plugin/Controllers/MenuController.php:151, plugin/Controllers/PrivacyController.php:130, plugin/Defaults/PostTypeLabelDefaults.php:17, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31, plugin/Integrations/SureCart/Controllers/ProductController.php:110, plugin/Integrations/WooCommerce/Metaboxes/ReviewsMetabox.php:15
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr "Reviews"
@@ -3746,17 +3746,17 @@ msgctxt "admin-text"
 msgid "Author"
 msgstr "Author"
 
-#: plugin/Metaboxes/DashboardMetabox.php:47
+#: plugin/Metaboxes/DashboardMetabox.php:51
 msgctxt "admin-text"
 msgid "in total"
 msgstr "in total"
 
-#: plugin/Metaboxes/DashboardMetabox.php:53
+#: plugin/Metaboxes/DashboardMetabox.php:57
 msgctxt "admin-text"
 msgid "this month"
 msgstr "this month"
 
-#: plugin/Metaboxes/DashboardMetabox.php:59
+#: plugin/Metaboxes/DashboardMetabox.php:63
 msgctxt "admin-text"
 msgid "awaiting approval"
 msgstr "awaiting approval"
@@ -5998,7 +5998,7 @@ msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr "You have hidden all of the fields for this block."
 
-#: plugin/Integrations/SureCart/Controllers/ProductController.php:206
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:240
 msgctxt "admin-text"
 msgid "Product Reviews"
 msgstr "Product Reviews"
