@@ -17,7 +17,7 @@ const innerBlocksTemplate = [
         [ 'core/column', {width:"36%",style:{spacing:{blockGap:"var:preset|spacing|40"}}}, [
             [ 'core/group', {anchor:'review-form',fontSize:"medium",style:{spacing:{padding:{top:"var:preset|spacing|40",bottom:"var:preset|spacing|40",left:"var:preset|spacing|30",right:"var:preset|spacing|30"}},border:{radius:"10px",color:"#9da4b030",width:"1px"}}}, [
                 [ 'core/heading', {className:'is-style-text-subtitle',content:'Submit a Review',level:4} ],
-                [ 'site-reviews/form', {assigned_posts:['post_id'],hide:['name','email'],reviews_id:'reviews-id'} ],
+                [ 'site-reviews/form', {assigned_posts:['post_id'],hide:['email'],reviews_id:'reviews-id'} ],
             ] ],
         ] ],
     ] ],
