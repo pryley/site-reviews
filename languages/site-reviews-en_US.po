@@ -425,15 +425,15 @@ msgstr "You have already submitted a review."
 msgid "This review cannot be submitted, please refresh the page and try again."
 msgstr "This review cannot be submitted, please refresh the page and try again."
 
-#: plugin/Integrations/SureCart/Controllers/ProductController.php:80
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:82
 msgid "Rating, low to high"
 msgstr "Rating, low to high"
 
-#: plugin/Integrations/SureCart/Controllers/ProductController.php:86
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:88
 msgid "Rating, high to low"
 msgstr "Rating, high to low"
 
-#: plugin/Integrations/SureCart/Controllers/ProductController.php:144, plugin/Integrations/WooCommerce/Controllers/MainController.php:152
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:146, plugin/Integrations/WooCommerce/Controllers/MainController.php:152
 msgid "verified owner"
 msgstr "verified owner"
 
@@ -5998,7 +5998,7 @@ msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr "You have hidden all of the fields for this block."
 
-#: plugin/Integrations/SureCart/Controllers/ProductController.php:240
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:276
 msgctxt "admin-text"
 msgid "Product Reviews"
 msgstr "Product Reviews"

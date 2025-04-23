@@ -5978,19 +5978,19 @@ msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr ""
 
-#: plugin/Integrations/SureCart/Controllers/ProductController.php:80
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:82
 msgid "Rating, low to high"
 msgstr ""
 
-#: plugin/Integrations/SureCart/Controllers/ProductController.php:86
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:88
 msgid "Rating, high to low"
 msgstr ""
 
-#: plugin/Integrations/SureCart/Controllers/ProductController.php:144, plugin/Integrations/WooCommerce/Controllers/MainController.php:152
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:146, plugin/Integrations/WooCommerce/Controllers/MainController.php:152
 msgid "verified owner"
 msgstr ""
 
-#: plugin/Integrations/SureCart/Controllers/ProductController.php:240
+#: plugin/Integrations/SureCart/Controllers/ProductController.php:276
 msgctxt "admin-text"
 msgid "Product Reviews"
 msgstr ""
