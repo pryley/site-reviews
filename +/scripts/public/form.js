@@ -23,6 +23,7 @@ class Form {
         this.conditions = new Conditions(this);
         this.validation = new Validation(formEl);
         this.reviewsEl = document.getElementById(formEl.closest('.glsr')?.dataset?.reviews_id);
+        this.summaryEl = document.getElementById(formEl.closest('.glsr')?.dataset?.summary_id);
     }
 
     destroy () {
@@ -47,9 +48,18 @@ class Form {
 
     _data () {
         const data = new FormData(this.form);
-        if (this.reviewsEl && this.reviewsEl.classList.contains('glsr')) {
+        const externals = {
+            _reviews_atts: this.reviewsEl,
+            _summary_atts: this.summaryEl,
+        }
+        if (this.reviewsEl) {
+            data.append([`${GLSR.nameprefix}[_pagination_atts][page]`], 1);
+            data.append([`${GLSR.nameprefix}[_pagination_atts][url]`], location.href);
+        }
+        for (let attrKey in externals) {
+            if (!externals[attrKey]) continue;
             try {
-                const dataset = JSON.parse(JSON.stringify(this.reviewsEl.dataset));
+                const dataset = JSON.parse(JSON.stringify(externals[attrKey].dataset));
                 for (let key of Object.keys(dataset)) {
                     let value;
                     try {
@@ -57,10 +67,8 @@ class Form {
                     } catch(e) {
                         value = dataset[key];
                     }
-                    data.append(`${GLSR.nameprefix}[_reviews_atts][${key}]`, value);
+                    data.append(`${GLSR.nameprefix}[${attrKey}][${key}]`, value);
                 }
-                data.append([`${GLSR.nameprefix}[_pagination_atts][page]`], 1);
-                data.append([`${GLSR.nameprefix}[_pagination_atts][url]`], location.href);
             } catch(e) {
                 console.error(e)
             }
@@ -98,8 +106,11 @@ class Form {
                     url.searchParams.delete(GLSR.urlparameter);
                     window.history.replaceState({}, '', url.toString());
                 }
-                GLSR.Event.trigger('site-reviews/pagination/init')
             }
+            if (this.summaryEl && response.summary) {
+                this.summaryEl.innerHTML = response.summary;
+            }
+            GLSR.Event.trigger('site-reviews/init')
         }
     }
 

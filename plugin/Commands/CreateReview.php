@@ -18,6 +18,7 @@ use GeminiLabs\SiteReviews\Modules\Validator\ValidateForm;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
 class CreateReview extends AbstractCommand
 {
@@ -116,8 +117,18 @@ class CreateReview extends AbstractCommand
             $paginationArgs = $this->request->cast('_pagination_atts', 'array');
             glsr()->store(glsr()->paged_handle, $paginationArgs);
             return glsr(SiteReviewsShortcode::class)
-                ->normalize($args)
+                ->normalize($args, $args['from'] ?? 'shortcode')
                 ->buildTemplate();
+        }
+        return '';
+    }
+
+    public function reloadedSummary(): string
+    {
+        $args = $this->request->cast('_summary_atts', 'array');
+        if (!empty($args) && $this->review->is_approved) {
+            return glsr(SiteReviewsSummaryShortcode::class)
+                ->build($args, $args['from'] ?? 'shortcode');
         }
         return '';
     }
@@ -131,6 +142,7 @@ class CreateReview extends AbstractCommand
             'redirect' => $this->redirect(),
             'review' => $this->review->toArray(['email', 'ip_address']),
             'reviews' => $this->reloadedReviews(),
+            'summary' => $this->reloadedSummary(),
             'success' => $this->successful(),
         ];
     }

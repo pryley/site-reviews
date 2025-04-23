@@ -11,8 +11,14 @@ class FlatsomeSiteReviewsForm extends FlatsomeShortcode
         return [
             'reviews_id' => [
                 'type' => 'textfield',
-                'heading' => esc_html_x('Reviews ID', 'admin-text', 'site-reviews'),
-                'description' => esc_html_x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
+                'heading' => esc_html_x('Rating Summary ID', 'admin-text', 'site-reviews'),
+                'description' => _x('Enter the Custom ID of a Latest Reviews block where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
+                'full_width' => true,
+            ],
+            'summary_id' => [
+                'type' => 'textfield',
+                'heading' => esc_html_x('Latest Reviews ID', 'admin-text', 'site-reviews'),
+                'description' => _x('Enter the Custom ID of a Rating Summary block where the rating values should be updated after submission.', 'admin-text', 'site-reviews'),
                 'full_width' => true,
             ],
             'glsr_group_assignment' => [

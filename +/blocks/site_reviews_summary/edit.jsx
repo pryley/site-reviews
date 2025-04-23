@@ -241,8 +241,8 @@ export default function Edit (props) {
         },
         advanced: {
             controls: [
-                'rating_field',
                 'id',
+                'rating_field',
             ],
         },
         sizes: {

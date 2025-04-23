@@ -149,8 +149,14 @@ class SiteReviewsFormShortcode extends Shortcode
                 'type' => 'checkbox',
             ],
             'reviews_id' => [
-                'description' => esc_html_x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
-                'label' => esc_html_x('Reviews ID', 'admin-text', 'site-reviews'),
+                'description' => esc_html_x('Enter the Custom ID of a Latest Reviews block or shortcode where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Latest Reviews ID', 'admin-text', 'site-reviews'),
+                'group' => 'advanced',
+                'type' => 'text',
+            ],
+            'summary_id' => [
+                'description' => esc_html_x('Enter the Custom ID of a Rating Summary block or shortcode where the rating values should be updated after submission.', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Rating Summary ID', 'admin-text', 'site-reviews'),
                 'group' => 'advanced',
                 'type' => 'text',
             ],

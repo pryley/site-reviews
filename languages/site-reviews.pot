@@ -559,7 +559,7 @@ msgctxt "admin-text"
 msgid "Strict Assignment displays reviews that are assigned to this <code>AND</code> that."
 msgstr ""
 
-#: config/settings.php:295, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:20
+#: config/settings.php:295, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:26
 msgctxt "admin-text"
 msgid "Review Assignment"
 msgstr ""
@@ -1947,15 +1947,15 @@ msgctxt "admin-text"
 msgid "The <code>%s</code> table was successly converted to InnoDB."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:167, views/pages/documentation/support/common-problems-and-solutions.php:95
+#: plugin/Commands/CreateReview.php:179, views/pages/documentation/support/common-problems-and-solutions.php:95
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:171
+#: plugin/Commands/CreateReview.php:183
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:172
+#: plugin/Commands/CreateReview.php:184
 msgid "Your review has been submitted and is pending approval."
 msgstr ""
 
@@ -3818,7 +3818,7 @@ msgctxt "admin-text"
 msgid "Assign Reviews to Pages"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:131, plugin/Shortcodes/SiteReviewsShortcode.php:55, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:68, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:23, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:29, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:23
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:131, plugin/Shortcodes/SiteReviewsShortcode.php:55, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:68, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:23, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:35, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:23
 msgctxt "admin-text"
 msgid "Select a Page..."
 msgstr ""
@@ -3828,7 +3828,7 @@ msgctxt "admin-text"
 msgid "Assign Reviews to Categories"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:137, plugin/Shortcodes/SiteReviewsShortcode.php:61, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:74, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:34, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:40, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:34
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:137, plugin/Shortcodes/SiteReviewsShortcode.php:61, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:74, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:34, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:46, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:34
 msgctxt "admin-text"
 msgid "Select a Category..."
 msgstr ""
@@ -3838,67 +3838,77 @@ msgctxt "admin-text"
 msgid "Assign Reviews to Users"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:143, plugin/Shortcodes/SiteReviewsShortcode.php:67, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:80, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:47, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:53, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:47
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:143, plugin/Shortcodes/SiteReviewsShortcode.php:67, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:80, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:47, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:59, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:47
 msgctxt "admin-text"
 msgid "Select a User..."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:152, plugin/Tinymce/SiteReviewsFormTinymce.php:42, plugin/Integrations/Elementor/ElementorFormWidget.php:34, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:15, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:58
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:152
 msgctxt "admin-text"
-msgid "Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission."
+msgid "Enter the Custom ID of a Latest Reviews block or shortcode where the review should be displayed after submission."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:153, plugin/Tinymce/SiteReviewsFormTinymce.php:40, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:14, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:57
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:153, plugin/Tinymce/SiteReviewsFormTinymce.php:40, plugin/Integrations/Elementor/ElementorFormWidget.php:36, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:20, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:89, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:57
 msgctxt "admin-text"
-msgid "Reviews ID"
+msgid "Latest Reviews ID"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:158, plugin/Shortcodes/SiteReviewShortcode.php:53, plugin/Shortcodes/SiteReviewsShortcode.php:118, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:124, plugin/Tinymce/SiteReviewsFormTinymce.php:48, plugin/Tinymce/SiteReviewsSummaryTinymce.php:82, plugin/Tinymce/SiteReviewsTinymce.php:89, plugin/Tinymce/SiteReviewTinymce.php:30, plugin/Widgets/Widget.php:50, plugin/Integrations/Elementor/ElementorWidget.php:216, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:30, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:121, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:71, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:101, plugin/Integrations/WPBakery/VcSiteReview.php:38, plugin/Integrations/WPBakery/VcSiteReviews.php:103, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:65, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:86
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:158
+msgctxt "admin-text"
+msgid "Enter the Custom ID of a Rating Summary block or shortcode where the rating values should be updated after submission."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:159, plugin/Tinymce/SiteReviewsFormTinymce.php:46, plugin/Integrations/Elementor/ElementorFormWidget.php:42, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:14, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:96, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:64
+msgctxt "admin-text"
+msgid "Rating Summary ID"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:164, plugin/Shortcodes/SiteReviewShortcode.php:53, plugin/Shortcodes/SiteReviewsShortcode.php:118, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:124, plugin/Tinymce/SiteReviewsFormTinymce.php:54, plugin/Tinymce/SiteReviewsSummaryTinymce.php:82, plugin/Tinymce/SiteReviewsTinymce.php:89, plugin/Tinymce/SiteReviewTinymce.php:30, plugin/Widgets/Widget.php:50, plugin/Integrations/Elementor/ElementorWidget.php:216, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:30, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:121, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:77, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:101, plugin/Integrations/WPBakery/VcSiteReview.php:38, plugin/Integrations/WPBakery/VcSiteReviews.php:103, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:72, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:86
 msgctxt "admin-text"
 msgid "This should be a unique value."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:160, plugin/Shortcodes/SiteReviewShortcode.php:55, plugin/Shortcodes/SiteReviewsShortcode.php:120, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:126, plugin/Tinymce/SiteReviewsFormTinymce.php:46, plugin/Tinymce/SiteReviewsSummaryTinymce.php:80, plugin/Tinymce/SiteReviewsTinymce.php:87, plugin/Tinymce/SiteReviewTinymce.php:28, plugin/Widgets/Widget.php:51, plugin/Integrations/Elementor/ElementorWidget.php:218, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:29, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:120, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:70, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:100, plugin/Integrations/WPBakery/VcSiteReview.php:37, plugin/Integrations/WPBakery/VcSiteReviews.php:102, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:64, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:85
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:166, plugin/Shortcodes/SiteReviewShortcode.php:55, plugin/Shortcodes/SiteReviewsShortcode.php:120, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:126, plugin/Tinymce/SiteReviewsFormTinymce.php:52, plugin/Tinymce/SiteReviewsSummaryTinymce.php:80, plugin/Tinymce/SiteReviewsTinymce.php:87, plugin/Tinymce/SiteReviewTinymce.php:28, plugin/Widgets/Widget.php:51, plugin/Integrations/Elementor/ElementorWidget.php:218, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:29, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:120, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:76, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:100, plugin/Integrations/WPBakery/VcSiteReview.php:37, plugin/Integrations/WPBakery/VcSiteReviews.php:102, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:71, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:85
 msgctxt "admin-text"
 msgid "Custom ID"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:164, plugin/Shortcodes/SiteReviewShortcode.php:59, plugin/Shortcodes/SiteReviewsShortcode.php:124, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:130, plugin/Tinymce/SiteReviewsFormTinymce.php:54, plugin/Tinymce/SiteReviewsSummaryTinymce.php:88, plugin/Tinymce/SiteReviewsTinymce.php:95, plugin/Tinymce/SiteReviewTinymce.php:36, plugin/Widgets/Widget.php:55, plugin/Integrations/Elementor/ElementorWidget.php:222, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:36, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:127, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:77, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:107, plugin/Integrations/WPBakery/VcSiteReview.php:45, plugin/Integrations/WPBakery/VcSiteReviews.php:110, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:72, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:93
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:170, plugin/Shortcodes/SiteReviewShortcode.php:59, plugin/Shortcodes/SiteReviewsShortcode.php:124, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:130, plugin/Tinymce/SiteReviewsFormTinymce.php:60, plugin/Tinymce/SiteReviewsSummaryTinymce.php:88, plugin/Tinymce/SiteReviewsTinymce.php:95, plugin/Tinymce/SiteReviewTinymce.php:36, plugin/Widgets/Widget.php:55, plugin/Integrations/Elementor/ElementorWidget.php:222, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:36, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:127, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:83, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:107, plugin/Integrations/WPBakery/VcSiteReview.php:45, plugin/Integrations/WPBakery/VcSiteReviews.php:110, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:79, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:93
 msgctxt "admin-text"
 msgid "Separate multiple classes with spaces."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:166, plugin/Shortcodes/SiteReviewShortcode.php:61, plugin/Shortcodes/SiteReviewsShortcode.php:126, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:132, plugin/Tinymce/SiteReviewsFormTinymce.php:52, plugin/Tinymce/SiteReviewsSummaryTinymce.php:86, plugin/Tinymce/SiteReviewsTinymce.php:93, plugin/Tinymce/SiteReviewTinymce.php:34, plugin/Widgets/Widget.php:56, plugin/Integrations/Elementor/ElementorWidget.php:224, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:35, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:126, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:76, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:106, plugin/Integrations/WPBakery/VcSiteReview.php:44, plugin/Integrations/WPBakery/VcSiteReviews.php:109, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:71, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:92
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:172, plugin/Shortcodes/SiteReviewShortcode.php:61, plugin/Shortcodes/SiteReviewsShortcode.php:126, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:132, plugin/Tinymce/SiteReviewsFormTinymce.php:58, plugin/Tinymce/SiteReviewsSummaryTinymce.php:86, plugin/Tinymce/SiteReviewsTinymce.php:93, plugin/Tinymce/SiteReviewTinymce.php:34, plugin/Widgets/Widget.php:56, plugin/Integrations/Elementor/ElementorWidget.php:224, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:35, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:126, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:82, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:106, plugin/Integrations/WPBakery/VcSiteReview.php:44, plugin/Integrations/WPBakery/VcSiteReviews.php:109, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:78, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:92
 msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:190
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:196
 msgctxt "admin-text"
 msgid "Hide the rating field"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:191
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:197
 msgctxt "admin-text"
 msgid "Hide the title field"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:192
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:198
 msgctxt "admin-text"
 msgid "Hide the review field"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:193
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:199
 msgctxt "admin-text"
 msgid "Hide the name field"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:194
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:200
 msgctxt "admin-text"
 msgid "Hide the email field"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:195
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:201
 msgctxt "admin-text"
 msgid "Hide the terms field"
 msgstr ""
@@ -4121,6 +4131,16 @@ msgstr ""
 #: plugin/Tinymce/SiteReviewsFormTinymce.php:34, plugin/Tinymce/SiteReviewsSummaryTinymce.php:74, plugin/Tinymce/SiteReviewsTinymce.php:81, plugin/Tinymce/SiteReviewTinymce.php:22, plugin/Integrations/Bricks/BricksElement.php:78
 msgctxt "admin-text"
 msgid "Hide"
+msgstr ""
+
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:42
+msgctxt "admin-text"
+msgid "Enter the Custom ID of a Latest Reviews shortcode where the review should be displayed after submission."
+msgstr ""
+
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:48
+msgctxt "admin-text"
+msgid "Enter the Custom ID of a Rating Summary shortcode where the rating values should be updated after submission."
 msgstr ""
 
 #: plugin/Tinymce/SiteReviewsSummaryTinymce.php:15, plugin/Tinymce/SiteReviewsTinymce.php:15
@@ -4452,7 +4472,7 @@ msgctxt "admin-text"
 msgid "A valid license key is required to update this plugin."
 msgstr ""
 
-#: plugin/Integrations/Bricks/BricksElement.php:80, plugin/Integrations/Elementor/ElementorWidget.php:111, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:25, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:116, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:66, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:96, plugin/Integrations/WPBakery/VcSiteReview.php:40, plugin/Integrations/WPBakery/VcSiteReview.php:47, plugin/Integrations/WPBakery/VcSiteReviews.php:105, plugin/Integrations/WPBakery/VcSiteReviews.php:112, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:60, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:67, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:74, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:88, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:95
+#: plugin/Integrations/Bricks/BricksElement.php:80, plugin/Integrations/Elementor/ElementorWidget.php:111, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:25, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:116, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:72, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:96, plugin/Integrations/WPBakery/VcSiteReview.php:40, plugin/Integrations/WPBakery/VcSiteReview.php:47, plugin/Integrations/WPBakery/VcSiteReviews.php:105, plugin/Integrations/WPBakery/VcSiteReviews.php:112, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:60, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:67, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:74, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:81, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:88, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:95
 msgctxt "admin-text"
 msgid "Advanced"
 msgstr ""
@@ -4467,57 +4487,62 @@ msgctxt "admin-text"
 msgid "You have hidden all of the fields."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:36
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:34
 msgctxt "admin-text"
-msgid "Custom Reviews ID"
+msgid "Enter the Custom ID of a Latest Reviews widget where the review should be displayed after submission."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:48
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:40, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:97
+msgctxt "admin-text"
+msgid "Enter the Custom ID of a Rating Summary widget where the rating values should be updated after submission."
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:54
 msgctxt "admin-text"
 msgid "Assign Reviews to a Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:55, plugin/Integrations/Elementor/ElementorFormWidget.php:86, plugin/Integrations/Elementor/ElementorReviewsWidget.php:41, plugin/Integrations/Elementor/ElementorReviewsWidget.php:64, plugin/Integrations/Elementor/ElementorSummaryWidget.php:56, plugin/Integrations/Elementor/ElementorSummaryWidget.php:79, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:27, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:55, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:26, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:54, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:27, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:55
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:61, plugin/Integrations/Elementor/ElementorFormWidget.php:92, plugin/Integrations/Elementor/ElementorReviewsWidget.php:41, plugin/Integrations/Elementor/ElementorReviewsWidget.php:64, plugin/Integrations/Elementor/ElementorSummaryWidget.php:56, plugin/Integrations/Elementor/ElementorSummaryWidget.php:79, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:27, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:55, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:26, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:54, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:27, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:55
 msgctxt "admin-text"
 msgid "Separate values with a comma."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:57, plugin/Integrations/Elementor/ElementorReviewsWidget.php:43, plugin/Integrations/Elementor/ElementorSummaryWidget.php:58
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:63, plugin/Integrations/Elementor/ElementorReviewsWidget.php:43, plugin/Integrations/Elementor/ElementorSummaryWidget.php:58
 msgctxt "admin-text"
 msgid "Enter the Post IDs"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:71
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:77
 msgctxt "admin-text"
 msgid "Assign Reviews to a Category"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:79
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:85
 msgctxt "admin-text"
 msgid "Assign Reviews to a User"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:88, plugin/Integrations/Elementor/ElementorReviewsWidget.php:66, plugin/Integrations/Elementor/ElementorSummaryWidget.php:81
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:94, plugin/Integrations/Elementor/ElementorReviewsWidget.php:66, plugin/Integrations/Elementor/ElementorSummaryWidget.php:81
 msgctxt "admin-text"
 msgid "Enter the User IDs"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:106
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:112
 msgctxt "admin-text"
 msgid "Field Spacing"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:131, plugin/Integrations/Elementor/ElementorReviewsWidget.php:187, plugin/Integrations/Elementor/ElementorReviewWidget.php:87, plugin/Integrations/Elementor/ElementorSummaryWidget.php:213
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:137, plugin/Integrations/Elementor/ElementorReviewsWidget.php:187, plugin/Integrations/Elementor/ElementorReviewWidget.php:87, plugin/Integrations/Elementor/ElementorSummaryWidget.php:213
 msgctxt "admin-text"
 msgid "Color"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:144, plugin/Integrations/Elementor/ElementorReviewsWidget.php:201, plugin/Integrations/Elementor/ElementorReviewWidget.php:101, plugin/Integrations/Elementor/ElementorSummaryWidget.php:228
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:150, plugin/Integrations/Elementor/ElementorReviewsWidget.php:201, plugin/Integrations/Elementor/ElementorReviewWidget.php:101, plugin/Integrations/Elementor/ElementorSummaryWidget.php:228
 msgctxt "admin-text"
 msgid "Star Size"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:166
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:172
 msgctxt "admin-text"
 msgid "Star Spacing"
 msgstr ""
@@ -4657,47 +4682,47 @@ msgctxt "admin-text"
 msgid "Review ID"
 msgstr ""
 
-#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:20, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:111, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:61, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:91, plugin/Integrations/WPBakery/VcSiteReview.php:31, plugin/Integrations/WPBakery/VcSiteReviews.php:96, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:51
+#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:20, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:111, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:67, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:91, plugin/Integrations/WPBakery/VcSiteReview.php:31, plugin/Integrations/WPBakery/VcSiteReviews.php:96, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:51
 msgctxt "admin-text"
 msgid "Hide Options"
 msgstr ""
 
-#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:41, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:132, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:82, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:112
+#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:41, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:132, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:88, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:112
 msgctxt "admin-text"
 msgid "Visibility"
 msgstr ""
 
-#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:44, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:135, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:85, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:115
+#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:44, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:135, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:91, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:115
 msgctxt "admin-text"
 msgid "Visible"
 msgstr ""
 
-#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:45, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:136, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:86, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:116
+#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:45, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:136, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:92, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:116
 msgctxt "admin-text"
 msgid "Hidden"
 msgstr ""
 
-#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:46, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:137, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:87, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:117
+#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:46, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:137, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:93, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:117
 msgctxt "admin-text"
 msgid "Only for Desktop"
 msgstr ""
 
-#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:47, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:138, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:88, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:118
+#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:47, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:138, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:94, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:118
 msgctxt "admin-text"
 msgid "Only for Mobile"
 msgstr ""
 
-#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:48, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:139, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:89, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:119
+#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:48, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:139, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:95, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:119
 msgctxt "admin-text"
 msgid "Only for Tablet"
 msgstr ""
 
-#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:49, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:140, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:90, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:120
+#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:49, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:140, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:96, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:120
 msgctxt "admin-text"
 msgid "Hide for Desktop"
 msgstr ""
 
-#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:50, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:141, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:91, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:121
+#: plugin/Integrations/Flatsome/FlatsomeSiteReview.php:50, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:141, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:97, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:121
 msgctxt "admin-text"
 msgid "Hide for Mobile"
 msgstr ""
@@ -4722,17 +4747,27 @@ msgctxt "admin-text"
 msgid "Display Options"
 msgstr ""
 
-#: plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:24, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:24
+#: plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:15, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:58
+msgctxt "admin-text"
+msgid "Enter the Custom ID of a Latest Reviews block where the review should be displayed after submission."
+msgstr ""
+
+#: plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:21, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:65
+msgctxt "admin-text"
+msgid "Enter the Custom ID of a Rating Summary block where the rating values should be updated after submission."
+msgstr ""
+
+#: plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:30, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:24
 msgctxt "admin-text"
 msgid "Assign New Reviews to Pages"
 msgstr ""
 
-#: plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:35, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:33
+#: plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:41, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:33
 msgctxt "admin-text"
 msgid "Assign New Reviews to Categories"
 msgstr ""
 
-#: plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:48, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:42
+#: plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:54, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:42
 msgctxt "admin-text"
 msgid "Assign New Reviews to Users"
 msgstr ""
@@ -4807,14 +4842,9 @@ msgctxt "admin-text"
 msgid "Assign Review to a User"
 msgstr ""
 
-#: plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:89
-msgctxt "admin-text"
-msgid "Reviews CSS ID"
-msgstr ""
-
 #: plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:90
 msgctxt "admin-text"
-msgid "Enter the CSS ID of a Latest Reviews element where the review should be displayed after submission."
+msgid "Enter the Custom ID of a Latest Reviews element where the review should be displayed after submission."
 msgstr ""
 
 #: plugin/Integrations/GamiPress/Controller.php:131

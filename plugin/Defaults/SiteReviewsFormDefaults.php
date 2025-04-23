@@ -44,6 +44,7 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
         'hide' => 'array-string',
         'id' => 'id-hash',
         'reviews_id' => 'id',
+        'summary_id' => '',
         'title' => 'text',
     ];
 
@@ -60,6 +61,7 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
             'hide' => '',
             'id' => '',
             'reviews_id' => '',
+            'summary_id' => '',
             'title' => '',
         ];
     }

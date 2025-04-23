@@ -51,11 +51,20 @@ export default function Edit (props) {
         reviews_id: <TextControl
             __next40pxDefaultSize
             __nextHasNoMarginBottom
-            help={ _x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews') }
+            help={ _x('Enter the Custom ID of a Latest Reviews block where the review should be displayed after submission.', 'admin-text', 'site-reviews') }
             key='reviews_id'
-            label={ _x('Reviews ID', 'admin-text', 'site-reviews') }
+            label={ _x('Latest Reviews ID', 'admin-text', 'site-reviews') }
             onChange={ reviews_id => setAttributes({ reviews_id }) }
             value={ attributes.reviews_id }
+        />,
+        summary_id: <TextControl
+            __next40pxDefaultSize
+            __nextHasNoMarginBottom
+            help={ _x('Enter the Custom ID of a Rating Summary block where the rating values should be updated after submission.', 'admin-text', 'site-reviews') }
+            key='summary_id'
+            label={ _x('Rating Summary ID', 'admin-text', 'site-reviews') }
+            onChange={ summary_id => setAttributes({ summary_id }) }
+            value={ attributes.summary_id }
         />,
     };
     const panels = { // order is intentional
@@ -74,8 +83,9 @@ export default function Edit (props) {
         },
         advanced: {
             controls: [
-                'reviews_id',
                 'id',
+                'reviews_id',
+                'summary_id',
             ],
         }
     };

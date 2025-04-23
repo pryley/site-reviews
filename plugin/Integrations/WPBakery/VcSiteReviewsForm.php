@@ -54,9 +54,16 @@ class VcSiteReviewsForm extends VcShortcode
             ],
             'reviews_id' => [
                 'type' => 'textfield',
-                'heading' => esc_html_x('Reviews ID', 'admin-text', 'site-reviews'),
-                'description' => esc_html_x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
+                'heading' => esc_html_x('Latest Reviews ID', 'admin-text', 'site-reviews'),
+                'description' => esc_html_x('Enter the Custom ID of a Latest Reviews block where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
                 'param_name' => 'reviews_id',
+                'group' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
+            ],
+            'summary_id' => [
+                'type' => 'textfield',
+                'heading' => esc_html_x('Rating Summary ID', 'admin-text', 'site-reviews'),
+                'description' => esc_html_x('Enter the Custom ID of a Rating Summary block where the rating values should be updated after submission.', 'admin-text', 'site-reviews'),
+                'param_name' => 'summary_id',
                 'group' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
             ],
             'id' => [

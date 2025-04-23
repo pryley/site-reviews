@@ -31,9 +31,15 @@ class ElementorFormWidget extends ElementorWidget
         $settings = parent::settings_advanced();
         $settings = Arr::insertAfter('shortcode_id', $settings, [
             'reviews_id' => [
-                'description' => _x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
+                'description' => _x('Enter the Custom ID of a Latest Reviews widget where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
                 'label_block' => true,
-                'label' => _x('Custom Reviews ID', 'admin-text', 'site-reviews'),
+                'label' => _x('Latest Reviews ID', 'admin-text', 'site-reviews'),
+                'type' => Controls_Manager::TEXT,
+            ],
+            'summary_id' => [
+                'description' => _x('Enter the Custom ID of a Rating Summary widget where the rating values should be updated after submission.', 'admin-text', 'site-reviews'),
+                'label_block' => true,
+                'label' => _x('Rating Summary ID', 'admin-text', 'site-reviews'),
                 'type' => Controls_Manager::TEXT,
             ],
         ]);

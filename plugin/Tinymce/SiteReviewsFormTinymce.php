@@ -37,9 +37,15 @@ class SiteReviewsFormTinymce extends TinymceGenerator
                 'type' => 'container',
             ],
             [
-                'label' => esc_html_x('Reviews ID', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Latest Reviews ID', 'admin-text', 'site-reviews'),
                 'name' => 'reviews_id',
-                'tooltip' => esc_html_x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
+                'tooltip' => _x('Enter the Custom ID of a Latest Reviews shortcode where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
+                'type' => 'textbox',
+            ],
+            [
+                'label' => esc_html_x('Rating Summary ID', 'admin-text', 'site-reviews'),
+                'name' => 'summary_id',
+                'tooltip' => _x('Enter the Custom ID of a Rating Summary shortcode where the rating values should be updated after submission.', 'admin-text', 'site-reviews'),
                 'type' => 'textbox',
             ],
             [

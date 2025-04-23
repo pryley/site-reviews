@@ -86,9 +86,16 @@ class FusionSiteReviewsForm extends FusionElement
                 'value' => '',
             ],
             'reviews_id' => [
-                'heading' => esc_attr_x('Reviews CSS ID', 'admin-text', 'site-reviews'),
-                'description' => esc_attr_x('Enter the CSS ID of a Latest Reviews element where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
+                'heading' => esc_attr_x('Latest Reviews ID', 'admin-text', 'site-reviews'),
+                'description' => esc_attr_x('Enter the Custom ID of a Latest Reviews element where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
                 'param_name' => 'reviews_id',
+                'type' => 'textfield',
+                'value' => '',
+            ],
+            'summary_id' => [
+                'heading' => esc_attr_x('Rating Summary ID', 'admin-text', 'site-reviews'),
+                'description' => esc_attr_x('Enter the Custom ID of a Rating Summary widget where the rating values should be updated after submission.', 'admin-text', 'site-reviews'),
+                'param_name' => 'summary_id',
                 'type' => 'textfield',
                 'value' => '',
             ],

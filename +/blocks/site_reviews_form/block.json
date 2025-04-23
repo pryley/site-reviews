@@ -48,6 +48,10 @@
         "reviews_id": {
             "default": "",
             "type": "string"
+        },
+        "summary_id": {
+            "default": "",
+            "type": "string"
         }
     },
     "editorScript": "file:./index.js",

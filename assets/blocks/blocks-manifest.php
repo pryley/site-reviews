@@ -210,6 +210,10 @@ return array(
 			'reviews_id' => array(
 				'default' => '',
 				'type' => 'string'
+			),
+			'summary_id' => array(
+				'default' => '',
+				'type' => 'string'
 			)
 		),
 		'editorScript' => 'file:./index.js',

@@ -8,7 +8,7 @@ const innerBlocksTemplate = [
     [ 'core/columns', {align:'wide',style:{spacing:{blockGap:{top:"30px",left:"60px"}}}}, [
         [ 'core/column', {style:{spacing:{blockGap:"var:preset|spacing|40"}}}, [
             [ 'core/group', {fontSize:"medium"}, [
-                [ 'site-reviews/summary', {assigned_posts:['post_id'],className:'is-style-3',labels:'5,4,3,2,1',summary_max_width:"50ch",summary_bar_size:'50px',summary_star_size:'24px',text:'From {num} customer reviews'} ],
+                [ 'site-reviews/summary', {assigned_posts:['post_id'],id:'rating-summary-id',className:'is-style-3',labels:'5,4,3,2,1',summary_max_width:"50ch",summary_bar_size:'50px',summary_star_size:'24px',text:'From {num} customer reviews'} ],
             ] ],
             [ 'core/group', {fontSize:"medium"}, [
                 [ 'site-reviews/reviews', {assigned_posts:['post_id'],id:'reviews-id',pagination:'loadmore',schema:1} ],
@@ -17,7 +17,7 @@ const innerBlocksTemplate = [
         [ 'core/column', {width:"36%",style:{spacing:{blockGap:"var:preset|spacing|40"}}}, [
             [ 'core/group', {anchor:'review-form',fontSize:"medium",style:{spacing:{padding:{top:"var:preset|spacing|40",bottom:"var:preset|spacing|40",left:"var:preset|spacing|30",right:"var:preset|spacing|30"}},border:{radius:"10px",color:"#9da4b030",width:"1px"}}}, [
                 [ 'core/heading', {className:'is-style-text-subtitle',content:'Submit a Review',level:4} ],
-                [ 'site-reviews/form', {assigned_posts:['post_id'],hide:['email'],reviews_id:'reviews-id'} ],
+                [ 'site-reviews/form', {assigned_posts:['post_id'],hide:['email'],reviews_id:'reviews-id',summary_id:'rating-summary-id'} ],
             ] ],
         ] ],
     ] ],

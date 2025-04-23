@@ -64,20 +64,20 @@ return [ // order is intentional
     ],
     'settings.integrations.ultimatemember.summary' => [
         'class' => 'large-text',
-        'default' => '[site_reviews_summary assigned_users="profile_id"]',
+        'default' => '[site_reviews_summary assigned_users="profile_id" id="user_rating_summary"]',
         'depends_on' => [
             'settings.integrations.ultimatemember.enabled' => ['yes'],
             'settings.integrations.ultimatemember.display_reviews_tab' => ['yes'],
         ],
         'label' => _x('Summary Shortcode', 'admin-text', 'site-reviews'),
-        'placeholder' => '[site_reviews_summary assigned_users="profile_id"]',
+        'placeholder' => '[site_reviews_summary assigned_users="profile_id" id="user_rating_summary"]',
         'sanitizer' => 'text',
         'tooltip' => _x('Enter the rating summary shortcode used on the member profile page', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
     'settings.integrations.ultimatemember.reviews' => [
         'class' => 'large-text',
-        'default' => '[site_reviews assigned_users="profile_id" hide="assigned_links" pagination="loadmore"]',
+        'default' => '[site_reviews assigned_users="profile_id" hide="assigned_links" pagination="loadmore" id="user_reviews"]',
         'depends_on' => [
             'settings.integrations.ultimatemember.enabled' => ['yes'],
             'settings.integrations.ultimatemember.display_reviews_tab' => ['yes'],
@@ -90,13 +90,13 @@ return [ // order is intentional
     ],
     'settings.integrations.ultimatemember.form' => [
         'class' => 'large-text',
-        'default' => '[site_reviews_form assigned_users="profile_id" hide="name,email,images" reviews_id="user_reviews"]',
+        'default' => '[site_reviews_form assigned_users="profile_id" hide="name,email,images" reviews_id="user_reviews" summary_id="user_rating_summary"]',
         'depends_on' => [
             'settings.integrations.ultimatemember.enabled' => ['yes'],
             'settings.integrations.ultimatemember.display_reviews_tab' => ['yes'],
         ],
         'label' => _x('Form Shortcode', 'admin-text', 'site-reviews'),
-        'placeholder' => '[site_reviews_form assigned_users="profile_id" hide="name,email,images"]',
+        'placeholder' => '[site_reviews_form assigned_users="profile_id" hide="name,email,images" reviews_id="user_reviews" summary_id="user_rating_summary"]',
         'sanitizer' => 'text',
         'tooltip' => _x('Enter the form shortcode used on the member profile page', 'admin-text', 'site-reviews'),
         'type' => 'text',
