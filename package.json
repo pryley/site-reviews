@@ -19,6 +19,7 @@
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@wordpress/babel-preset-default": "^8.22.0",
+    "@wordpress/icons": "^10.22.0",
     "@wordpress/scripts": "^30.15.0",
     "autoprefixer": "^10.4.20",
     "babel-plugin-prismjs": "^2.1.0",

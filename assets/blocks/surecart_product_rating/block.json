@@ -5,7 +5,6 @@
   "version": "1.0.0",
   "title": "Product Rating",
   "description": "Display the product rating.",
-  "icon": "star-half",
   "category": "surecart-product-page",
   "example": {},
   "usesContext": [

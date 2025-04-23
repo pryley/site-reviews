@@ -5,7 +5,6 @@
   "version": "1.0.0",
   "title": "Product Reviews",
   "description": "Display the product reviews section.",
-  "icon": "star-filled",
   "category": "surecart-product-page",
   "example": {},
   "usesContext": [

@@ -391,7 +391,6 @@ return array(
 		'version' => '1.0.0',
 		'title' => 'Product Rating',
 		'description' => 'Display the product rating.',
-		'icon' => 'star-half',
 		'category' => 'surecart-product-page',
 		'example' => array(
 			
@@ -476,7 +475,6 @@ return array(
 		'version' => '1.0.0',
 		'title' => 'Product Reviews',
 		'description' => 'Display the product reviews section.',
-		'icon' => 'star-filled',
 		'category' => 'surecart-product-page',
 		'example' => array(
 			

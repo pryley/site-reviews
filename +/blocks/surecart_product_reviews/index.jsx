@@ -4,4 +4,8 @@ import metadata from './block.json';
 import save from './save';
 import { registerBlockType } from '@wordpress/blocks';
 
-registerBlockType(metadata.name, { edit, save });
+registerBlockType(metadata.name, {
+    edit,
+    icon: 'admin-comments',
+    save,
+});
