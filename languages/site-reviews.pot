@@ -2649,7 +2649,7 @@ msgctxt "admin-text"
 msgid "General"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:151, plugin/Controllers/PrivacyController.php:130, plugin/Defaults/PostTypeLabelDefaults.php:17, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31, plugin/Integrations/SureCart/Controllers/ProductController.php:110, plugin/Integrations/WooCommerce/Metaboxes/ReviewsMetabox.php:15
+#: plugin/Controllers/MenuController.php:151, plugin/Controllers/PrivacyController.php:130, plugin/Defaults/PostTypeLabelDefaults.php:17, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31, plugin/Integrations/SureCart/Controllers/ProductController.php:112, plugin/Integrations/WooCommerce/Metaboxes/ReviewsMetabox.php:15
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr ""

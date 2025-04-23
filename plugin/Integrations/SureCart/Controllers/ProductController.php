@@ -9,7 +9,9 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Svg;
 use GeminiLabs\SiteReviews\HookProxy;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Html\ReviewForm;
 use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewTag;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\SchemaParser;
 use GeminiLabs\SiteReviews\Review;
 use SureCart\Models\Product;
@@ -186,6 +188,40 @@ class ProductController implements ControllerContract
         return glsr(Builder::class)->p([
             'text' => esc_html__('Only logged in customers who have purchased this product may leave a review.', 'woocommerce'),
         ]);
+    }
+
+    /**
+     * @param \GeminiLabs\SiteReviews\Modules\Html\ReviewField[] $fields
+     *
+     * @return \GeminiLabs\SiteReviews\Modules\Html\ReviewField[]
+     *
+     * @filter site-reviews/review-form/fields/visible
+     */
+    public function filterReviewFormFields(array $fields, ReviewForm $form): array
+    {
+        if (!is_user_logged_in()) {
+            return $fields;
+        }
+        if ('sc_product' !== get_post_type()) {
+            return $fields;
+        }
+        $user = wp_get_current_user();
+        array_walk($fields, function ($field) use ($form, $user) {
+            if (in_array($field->original_name, $form->args()->hide)) {
+                return;
+            }
+            if ('email' === $field->original_name && empty($field->value)) {
+                $field->value = glsr(Sanitizer::class)->sanitizeUserEmail($user->user_email);
+                return;
+            }
+            if ('name' === $field->original_name && empty($field->value)) {
+                $field->value = glsr(Sanitizer::class)->sanitizeUserName(
+                    $user->display_name,
+                    $user->user_nicename
+                );
+            }
+        });
+        return $fields;
     }
 
     /**

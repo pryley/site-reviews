@@ -11,9 +11,6 @@ class Hooks extends IntegrationHooks
 {
     public function run(): void
     {
-            $this->hook(RestController::class, [
-                ['filterRestApiSummaryArgs', 'site-reviews/rest-api/summary/args', 10, 2],
-            ]);
         $this->hook(Controller::class, [
             ['filterSettings', 'site-reviews/settings'],
             ['filterSettingsCallback', 'site-reviews/settings/sanitize', 10, 2],
@@ -30,6 +27,7 @@ class Hooks extends IntegrationHooks
                 ['filterReviewAuthorTagValue', 'site-reviews/review/value/author', 10, 2],
                 ['filterReviewCallbackHasProductOwner', 'site-reviews/review/call/hasProductOwner'],
                 ['filterReviewFormBuild', 'site-reviews/build/template/reviews-form', 10, 2],
+                ['filterReviewFormFields', 'site-reviews/review-form/fields/visible', 10, 2],
                 ['filterShortcodeAttributes', 'site-reviews/shortcode/site_reviews/attributes', 10, 2],
                 ['filterShortcodeAttributes', 'site-reviews/shortcode/site_reviews_form/attributes', 10, 2],
                 ['filterShortcodeAttributes', 'site-reviews/shortcode/site_reviews_summary/attributes', 10, 2],
