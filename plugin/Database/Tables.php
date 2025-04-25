@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Database\Tables\TableAssignedTerms;
 use GeminiLabs\SiteReviews\Database\Tables\TableAssignedUsers;
 use GeminiLabs\SiteReviews\Database\Tables\TableFields;
 use GeminiLabs\SiteReviews\Database\Tables\TableRatings;
+use GeminiLabs\SiteReviews\Database\Tables\TableStats;
 use GeminiLabs\SiteReviews\Database\Tables\TableTmp;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -192,12 +193,13 @@ class Tables
 
     public function tables(): array
     {
-        return glsr()->filterArray('database/tables', [ // order is intentional
+        return glsr()->filterArray('database/tables', [
             TableAssignedPosts::class,
             TableAssignedTerms::class,
             TableAssignedUsers::class,
             // TableFields::class, // @todo add the fields table
             TableRatings::class,
+            TableStats::class,
             TableTmp::class,
         ]);
     }

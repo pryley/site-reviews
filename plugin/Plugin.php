@@ -200,11 +200,15 @@ trait Plugin
 
     public function path(string $file = '', bool $realpath = true): string
     {
-        $path = plugin_dir_path($this->file);
+        $basedir = plugin_dir_path($this->file);
         if (!$realpath) {
-            $path = trailingslashit(WP_PLUGIN_DIR).basename(dirname($this->file));
+            $basedir = trailingslashit(WP_PLUGIN_DIR).basename(dirname($this->file));
         }
-        $path = trailingslashit($path).ltrim(trim($file), '/');
+        $basedir = trailingslashit($basedir);
+        if (str_starts_with($file, $basedir)) {
+            $file = substr($file, strlen($basedir));
+        }
+        $path = $basedir.ltrim(trim($file), '/');
         return $this->filterString('path', $path, $file);
     }
 
@@ -246,6 +250,10 @@ trait Plugin
 
     public function url(string $path = ''): string
     {
+        $basedir = plugin_dir_path($this->file);
+        if (str_starts_with($path, $basedir)) {
+            $path = substr($path, strlen($basedir));
+        }
         $url = esc_url(plugin_dir_url($this->file).ltrim(trim($path), '/'));
         return $this->filterString('url', $url, $path);
     }

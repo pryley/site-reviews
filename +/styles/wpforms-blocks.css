@@ -1,6 +1,7 @@
 @import "public/minimal/variables";
 @import "public/minimal/star-rating";
 @import "public/minimal/review";
+@import "public/minimal/flags";
 @import "public/minimal/summary";
 @import "public/minimal/field-toggle";
 @import "public/minimal/field-range";

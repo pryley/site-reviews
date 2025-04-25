@@ -5,6 +5,7 @@
     {{ rating }} {{ date }}
     {{ assigned_links }}
     {{ content }}
-    {{ avatar }} {{ author }} {{ verified }}
+    {{ avatar }}
+    {{ author }} {{ verified }} {{ location }}
     {{ response }}
 </div>

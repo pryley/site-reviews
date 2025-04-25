@@ -285,12 +285,20 @@ class Helper
         return static::compareVersions($value, $compareWithValue, '<=');
     }
 
+    public static function isLocalIpAddress(string $ipAddress): bool
+    {
+        if (false !== filter_var($ipAddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6)) {
+            return in_array($ipAddress, ['127.0.0.1', '::1']);
+        }
+        return true;
+    }
+
     public static function isLocalServer(): bool
     {
         $host = static::ifEmpty(filter_input(INPUT_SERVER, 'HTTP_HOST'), 'localhost');
         $ipAddress = static::ifEmpty(filter_input(INPUT_SERVER, 'SERVER_ADDR'), '::1');
         $result = false;
-        if (in_array($ipAddress, ['127.0.0.1', '::1'])
+        if (static::isLocalIpAddress($ipAddress)
             || !mb_strpos($host, '.')
             || in_array(mb_strrchr($host, '.'), ['.test', '.testing', '.local', '.localhost', '.localdomain'])) {
             $result = true;

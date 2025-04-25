@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use WpOrg\Requests\Utility\CaseInsensitiveDictionary;
 
 class Response
 {
@@ -11,7 +12,8 @@ class Response
     public int $code;
     public bool $error = false;
     public string $message;
-    public array $response;
+    public ?\WP_HTTP_Requests_Response $response;
+    public CaseInsensitiveDictionary $headers;
 
     /**
      * @param array|\WP_Error $request
@@ -19,10 +21,15 @@ class Response
     public function __construct($request = [])
     {
         $body = json_decode(wp_remote_retrieve_body($request), true);
+        $headers = wp_remote_retrieve_headers($request);
+        if (empty($headers)) {
+            $headers = new CaseInsensitiveDictionary([]);
+        }
         $this->body = Cast::toArray($body);
         $this->code = Cast::toInt(wp_remote_retrieve_response_code($request));
+        $this->headers = $headers;
         $this->message = Arr::getAs('string', $body, 'message', wp_remote_retrieve_response_message($request));
-        $this->response = Arr::getAs('array', $request, 'http_response');
+        $this->response = $request['http_response'] ?? null;
         if (is_wp_error($request)) {
             $this->error = true;
             $this->message = $request->get_error_message();
@@ -32,16 +39,13 @@ class Response
 
     public function body(): array
     {
-        $body = Arr::consolidate($this->body);
-        $body = array_map('maybe_unserialize', $body);
-        return $body;
+        return array_map('maybe_unserialize', $this->body);
     }
 
     public function data(): array
     {
         $data = Arr::getAs('array', $this->body, 'data');
-        $data = array_map('maybe_unserialize', $data);
-        return $data;
+        return array_map('maybe_unserialize', $data);
     }
 
     public function failed(): bool

@@ -1,0 +1,55 @@
+.glsr-flag {
+    --aspect-ratio: 4/3;
+    --background-image: none;
+    --border-radius: 0;
+    --border-width: 0;
+    aspect-ratio: var(--aspect-ratio);
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+    display: inline-block;
+    height: 1em;
+    overflow: hidden;
+    position: relative;
+    &::before {
+        content: '';
+        background-image: var(--background-image);
+        border-color: rgba(0, 0, 0, .5);
+        border-radius: var(--border-radius);
+        border-style: solid;
+        border-width: var(--border-width);
+        box-sizing: border-box;
+        display: block;
+        height: 100%;
+        mix-blend-mode: overlay;
+        position: absolute;
+        width: 100%;
+    }
+}
+.glsr-flag img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+}
+.glsr-flag[data-border="1"] {
+    --border-width: 1px;
+}
+.glsr-flag[data-radius="1"] {
+    --border-radius: 0.1em;
+}
+.glsr-flag[data-shape="circle"] {
+    --aspect-ratio: 1/1;
+    --border-radius: 1em;
+}
+.glsr-flag[data-shape="square"] {
+    --aspect-ratio: 1/1;
+}
+.glsr-flag[data-gradient="circular"] {
+    --background-image: radial-gradient(107.48% 114.58% at 50% 14.58%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.24) 28.93%, rgba(0, 0, 0, 0.55) 46.3%, rgba(255, 255, 255, 0.26) 60.57%, rgba(0, 0, 0, 0.17) 72.67%, rgba(255, 255, 255, 0.30) 100%);
+}
+.glsr-flag[data-gradient="diagonal"] {
+    --background-image: linear-gradient(45deg, rgba(0,0,0,0.20) 0%, rgba(39,39,39,0.22) 11%, rgba(255,255,255,0.30) 27%, rgba(0,0,0,0.24) 41%, rgba(0,0,0,0.55) 52%, rgba(255,255,255,0.26) 63%, rgba(0,0,0,0.27) 74%, rgba(255,255,255,0.30) 100%);
+}
+.glsr-flag[data-gradient="linear"] {
+    --background-image: linear-gradient(0deg, rgba(0,0,0,0.30) 2%, rgba(255,255,255,0.70) 100%);
+}

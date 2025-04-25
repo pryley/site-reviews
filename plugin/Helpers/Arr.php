@@ -146,18 +146,17 @@ class Arr
         return wp_is_numeric_array($array);
     }
 
-    public static function prefixKeys(array $values, string $prefix = '_', bool $prefixed = true): array
+    public static function prefixKeys(array $values, string $prefix = '_'): array
     {
-        $trim = Helper::ifTrue($prefixed, $prefix, '');
-        $prefixed = [];
+        $result = [];
         foreach ($values as $key => $value) {
             $key = trim($key);
-            if (0 === strpos($key, $prefix)) {
-                $key = substr($key, strlen($prefix));
+            if (!str_starts_with($key, $prefix)) {
+                $key = $prefix.$key;
             }
-            $prefixed[$trim.$key] = $value;
+            $result[$key] = $value;
         }
-        return $prefixed;
+        return $result;
     }
 
     /**
@@ -296,6 +295,14 @@ class Arr
 
     public static function unprefixKeys(array $values, string $prefix = '_'): array
     {
-        return static::prefixKeys($values, $prefix, false);
+        $results = [];
+        foreach ($values as $key => $value) {
+            $key = trim($key);
+            if ($key !== $prefix && str_starts_with($key, $prefix)) {
+                $key = substr($key, strlen($prefix));
+            }
+            $results[$key] = $value;
+        }
+        return $results;
     }
 }

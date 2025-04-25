@@ -416,6 +416,31 @@ return [ // order is intentional
         ),
         'type' => 'yes_no',
     ],
+    'settings.reviews.geolocation' => [
+        'default' => 'no',
+        'label' => _x('Enable Geolocation', 'admin-text', 'site-reviews'),
+        'sanitizer' => 'text',
+        'tooltip' => _x('The geographic location is extracted from the IP address of the reviewer.', 'admin-text', 'site-reviews'),
+        'type' => 'yes_no',
+    ],
+    'settings.reviews.geolocation_format' => [
+        'class' => 'regular-text',
+        'default' => 'flag',
+        'depends_on' => [
+            'settings.reviews.geolocation' => 'yes',
+        ],
+        'label' => _x('Geolocation Format', 'admin-text', 'site-reviews'),
+        'options' => [
+            'flag' => _x('Display the flag', 'admin-text', 'site-reviews'),
+            'flag_country' => _x('Display the flag and country', 'admin-text', 'site-reviews'),
+            'flag_city_region' => _x('Display the flag, city, and region/state', 'admin-text', 'site-reviews'),
+            'country' => _x('Display the country', 'admin-text', 'site-reviews'),
+            'city_region' => _x('Display the city and region/state', 'admin-text', 'site-reviews'),
+        ],
+        'sanitizer' => 'text',
+        'tooltip' => _x('Choose how the geographic location of the reviewer is displayed in the review.', 'admin-text', 'site-reviews'),
+        'type' => 'select',
+    ],
     'settings.reviews.pagination.url_parameter' => [
         'default' => 'yes',
         'description' => sprintf(

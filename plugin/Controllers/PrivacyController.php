@@ -99,6 +99,7 @@ class PrivacyController extends AbstractController
                 'ip_address' => '',
                 'name' => '',
             ]);
+            delete_post_meta($review->ID, '_geolocation');
             delete_post_meta($review->ID, '_submitted'); // delete the original stored request
             delete_post_meta($review->ID, '_submitted_hash');
         }

@@ -92,7 +92,7 @@
 :--namespace .glsr-review-author {
     align-items: center;
     display: inline-flex;
-    gap: .5em;
+    gap: .5ex;
 }
 :--namespace .glsr-review-avatar {
     flex: 0 0;
@@ -114,6 +114,17 @@
     flex: 1 0;
     font-style: italic;
     white-space: nowrap;
+}
+:--namespace .glsr-review-location {
+    align-items: center;
+    display: inline-flex;
+    font-size: var(--glsr-text-sm);
+    white-space: nowrap;
+}
+:--namespace .glsr-review-location .glsr-tag-value {
+    align-items: center;
+    display: flex;
+    gap: .5ex;
 }
 :--namespace .glsr-review-rating {
     align-items: center;
