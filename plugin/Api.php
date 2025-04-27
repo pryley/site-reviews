@@ -76,10 +76,11 @@ class Api
         $transientKey = $this->transientKey($path, $args['transient_key'], $body);
         if ($args['force']) {
             delete_site_transient($transientKey);
-        }
-        $result = get_site_transient($transientKey);
-        if (!empty($result)) {
-            return new Response($result);
+        } else {
+            $result = get_site_transient($transientKey);
+            if (!empty($result)) {
+                return new Response($result);
+            }
         }
         $this->numRetries = 0;
         while ($this->numRetries <= $args['max_retries']) {

@@ -4,6 +4,7 @@ $sections = [
     trailingslashit(__DIR__).'general/configure-ip-detection.php',
     trailingslashit(__DIR__).'general/export-reviews.php',
     trailingslashit(__DIR__).'general/export-settings.php',
+    trailingslashit(__DIR__).'general/geolocate-reviews.php',
     trailingslashit(__DIR__).'general/import-reviews.php',
     trailingslashit(__DIR__).'general/import-settings.php',
     trailingslashit(__DIR__).'general/migrate-plugin.php',

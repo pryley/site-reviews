@@ -3,28 +3,39 @@
 namespace GeminiLabs\SiteReviews\Migrations;
 
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
-use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Tables\TableStats;
 
 class Migrate_8_0_0 implements MigrateContract
 {
     public function run(): bool
     {
-        $this->migrateDatabase();
-        $this->migrateDatabaseVersion();
-        return true;
+        return $this->migrateDatabase();
     }
 
-    public function migrateDatabase(): void
+    public function migrateDatabase(): bool
     {
+        $isDirty = false;
+        $indexes = glsr(Database::class)->dbGetResults(
+            glsr(Query::class)->sql("SHOW INDEXES FROM table|ratings")
+        );
+        $keyNames = wp_list_pluck($indexes, 'Key_name');
+        if (!in_array('glsr_ratings_ip_address_index', $keyNames)) {
+            $sql = glsr(Query::class)->sql("
+                ALTER TABLE table|ratings ADD INDEX glsr_ratings_ip_address_index (ip_address)
+            ");
+            if (false === glsr(Database::class)->dbQuery($sql)) {
+                glsr_log()->error("The ratings table could not be altered, the [ip_address_index] index was not added.");
+                $isDirty = true;
+            }
+        }
         glsr(TableStats::class)->create();
         glsr(TableStats::class)->addForeignConstraints();
-    }
-
-    public function migrateDatabaseVersion(): void
-    {
-        if (glsr(TableStats::class)->exists()) {
-            update_option(glsr()->prefix.'db_version', '1.5');
+        if (!glsr(TableStats::class)->exists() || $isDirty) {
+            return false;
         }
+        update_option(glsr()->prefix.'db_version', '1.5');
+        return true;
     }
 }

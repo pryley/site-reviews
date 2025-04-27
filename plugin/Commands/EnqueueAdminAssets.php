@@ -100,6 +100,7 @@ class EnqueueAdminAssets extends AbstractCommand
                 'filter-assigned_post' => wp_create_nonce('filter-assigned_post'),
                 'filter-assigned_user' => wp_create_nonce('filter-assigned_user'),
                 'filter-author' => wp_create_nonce('filter-author'),
+                'geolocate-reviews' => wp_create_nonce('geolocate-reviews'),
                 'mce-shortcode' => wp_create_nonce('mce-shortcode'),
                 'search-posts' => wp_create_nonce('search-posts'),
                 'search-strings' => wp_create_nonce('search-strings'),

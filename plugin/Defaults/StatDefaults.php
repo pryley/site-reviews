@@ -2,16 +2,15 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-class GeolocationDefaults extends DefaultsAbstract
+class StatDefaults extends DefaultsAbstract
 {
     /**
-     * The values that should be constrained after sanitization is run.
-     * This is done after $casts and $sanitize.
+     * The values that should be cast before sanitization is run.
+     * This is done before $sanitize and $enums.
      */
-    public array $enums = [
-        'status' => [
-            'fail', 'success',
-        ],
+    public array $casts = [
+        'ID' => 'int',
+        'rating_id' => 'int',
     ];
 
     /**
@@ -20,7 +19,7 @@ class GeolocationDefaults extends DefaultsAbstract
      * @var string[]
      */
     public array $guarded = [
-        'message', 'query', 'status',
+        'ID',
     ];
 
     /**
@@ -41,10 +40,7 @@ class GeolocationDefaults extends DefaultsAbstract
         'city' => 'text',
         'continent' => 'text',
         'country' => 'text',
-        'message' => 'text',
-        'query' => 'text',
         'region' => 'text',
-        'status' => 'text',
     ];
 
     protected function defaults(): array
@@ -53,10 +49,9 @@ class GeolocationDefaults extends DefaultsAbstract
             'city' => '',
             'continent' => '',
             'country' => '',
-            'message' => '', // included only when status is fail
-            'query' => '', // the submitted IP address
+            'ID' => 0,
+            'rating_id' => 0,
             'region' => '',
-            'status' => 'fail',
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Commands\GeolocateReviews;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Modules\Migrate;
@@ -15,6 +16,14 @@ class QueueController extends AbstractController
     public function cleanupAfterExport(): void
     {
         glsr(Database::class)->deleteMeta(glsr()->export_key);
+    }
+
+    /**
+     * @action site-reviews/queue/geolocation
+     */
+    public function geolocateReviews(int $offset): void
+    {
+        glsr(GeolocateReviews::class)->process($offset);
     }
 
     /**

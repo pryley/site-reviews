@@ -24,6 +24,7 @@ class ToolsHooks extends AbstractHooks
             ['fetchConsoleAjax', 'site-reviews/route/ajax/fetch-console'],
             ['fetchSystemInfoAjax', 'site-reviews/route/ajax/system-info'],
             ['filterUpdatePluginsTransient', 'site_transient_update_plugins'],
+            ['geolocateReviewsAjax', 'site-reviews/route/ajax/geolocate-reviews'],
             ['importReviewsAjax', 'site-reviews/route/ajax/import-reviews'],
             ['importSettings', 'site-reviews/route/admin/import-settings'],
             ['ipAddressDetection', 'site-reviews/route/admin/ip-address-detection'],

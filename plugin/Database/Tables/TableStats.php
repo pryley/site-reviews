@@ -48,7 +48,7 @@ class TableStats extends AbstractTable
                 region varchar(10) NOT NULL,
                 city varchar(250) NOT NULL,
                 PRIMARY KEY  (ID),
-                UNIQUE KEY glsr_locations_rating_id_unique (rating_id)
+                UNIQUE KEY glsr_stats_rating_id_unique (rating_id)
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         ");
     }

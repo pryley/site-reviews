@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Commands\ConvertTableEngine;
 use GeminiLabs\SiteReviews\Commands\DetectIpAddress;
 use GeminiLabs\SiteReviews\Commands\DownloadCsvTemplate;
 use GeminiLabs\SiteReviews\Commands\ExportReviews;
+use GeminiLabs\SiteReviews\Commands\GeolocateReviews;
 use GeminiLabs\SiteReviews\Commands\ImportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportReviewsAttachments;
 use GeminiLabs\SiteReviews\Commands\ImportReviewsCleanup;
@@ -217,6 +218,23 @@ class ToolsController extends AbstractController
             }
         }
         return $value;
+    }
+
+    /**
+     * @action site-reviews/route/ajax/geolocate-reviews
+     */
+    public function geolocateReviewsAjax(Request $request): void
+    {
+        if (!glsr()->hasPermission('tools', 'general')) {
+            glsr(Notice::class)->addError(
+                _x('You do not have permission to geolocate reviews.', 'admin-text', 'site-reviews')
+            );
+            wp_send_json_error([
+                'notices' => glsr(Notice::class)->get(),
+            ]);
+        }
+        $command = $this->execute(new GeolocateReviews());
+        $command->sendJsonResponse();
     }
 
     /**
