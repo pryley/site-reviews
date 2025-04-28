@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Integrations\SureCart\Controllers;
 use GeminiLabs\SiteReviews\Contracts\ControllerContract;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Database\CountManager;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Svg;
 use GeminiLabs\SiteReviews\HookProxy;
@@ -94,6 +95,37 @@ class ProductController implements ControllerContract
             return ob_get_clean();
         };
         return $settings;
+    }
+
+    /**
+     * @filter site-reviews/defaults/pagination/defaults
+     */
+    public function filterPaginationDefaults(array $defaults): array
+    {
+        $postId = get_the_ID();
+        if (false === $postId) {
+            $input = Helper::filterInputArray(glsr()->id);
+            if (empty($input['url'])) {
+                return $defaults;
+            }
+            $postId = url_to_postid(sanitize_url($input['url']));
+            if (0 === $postId) {
+                return $defaults;
+            }
+        }
+        if ('sc_product' !== get_post_type($postId)) {
+            return $defaults;
+        }
+        $allowedHtml = sc_allowed_svg_html();
+        $defaults['next_text'] = sprintf('%s %s',
+            __('Next', 'site-reviews'),
+            wp_kses(\SureCart::svg()->get('arrow-right', ['aria-hidden' => true]), $allowedHtml) // @phpstan-ignore-line
+        );
+        $defaults['prev_text'] = sprintf('%s %s',
+            wp_kses(\SureCart::svg()->get('arrow-left', ['aria-hidden' => true]), $allowedHtml), // @phpstan-ignore-line
+            __('Previous', 'site-reviews')
+        );
+        return $defaults;
     }
 
     /**

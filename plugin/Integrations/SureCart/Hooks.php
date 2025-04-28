@@ -22,6 +22,7 @@ class Hooks extends IntegrationHooks
             $this->hook(ProductController::class, [
                 ['filterAssignedPostsPostId', 'render_block_core/shortcode', 10, 3],
                 ['filterBlockRenderCallback', 'block_type_metadata_settings', 15, 2],
+                ['filterPaginationDefaults', 'site-reviews/defaults/pagination/defaults'],
                 ['filterProductColumns', 'manage_sc-products_columns'],
                 ['filterProductSchema', 'surecart/product/json_schema'],
                 ['filterReviewAuthorTagValue', 'site-reviews/review/value/author', 10, 2],
