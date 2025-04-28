@@ -12,7 +12,7 @@ export default function Edit (props) {
     const blockProps = useBlockProps();
     const [ratings, setRatings] = useState({});
     const defaultText = _x('{num} customer reviews', 'admin-text', 'site-reviews');
-    const defaultLinkUrl = '#reviews';
+    const defaultLinkUrl = '#product-reviews';
 
     const endpoint = useMemo(
         () => addQueryArgs('/site-reviews/v1/summary/stars', {
@@ -69,7 +69,7 @@ export default function Edit (props) {
                                 <TextControl
                                     __next40pxDefaultSize
                                     __nextHasNoMarginBottom
-                                    help={_x('#reviews is the default HTML anchor used in the Product Reviews block.', 'admin-text', 'site-reviews')}
+                                    help={_x('#product-reviews is the default HTML anchor used in the Product Reviews block.', 'admin-text', 'site-reviews')}
                                     label={_x('URL', 'admin-text', 'site-reviews')}
                                     onChange={(link_url) => setAttributes({ link_url: link_url || defaultLinkUrl })}
                                     placeholder={defaultLinkUrl}

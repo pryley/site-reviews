@@ -27,7 +27,7 @@
         },
         "link_url": {
           "attribute": "href",
-          "default": "#reviews",
+          "default": "#product-reviews",
           "type": "string"
         },
         "text": {

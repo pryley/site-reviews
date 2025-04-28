@@ -104,10 +104,19 @@ class ProductController implements ControllerContract
         if (!in_array($type, ['next', 'prev'])) {
             return $link;
         }
-        $baseUrl = str_replace('%_%', '', $paginate->args->base);
-        $postId = url_to_postid($baseUrl);
-        if ('sc_product' !== get_post_type($postId)) {
-            return $link;
+        $referer = urldecode(wp_get_referer());
+        if (str_contains($referer, 'site-editor.php')) {
+            parse_str(parse_url($referer, PHP_URL_QUERY), $params);
+            $template = $params['p'] ?? '';
+            if (!str_ends_with($template, 'surecart//single-sc_product')) {
+                return $link;
+            }
+        } else {
+            $baseUrl = str_replace('%_%', '', $paginate->args->base);
+            $postId = url_to_postid($baseUrl);
+            if ('sc_product' !== get_post_type($postId)) {
+                return $link;
+            }
         }
         if ('prev' === $type) {
             $svg = \SureCart::svg()->get('arrow-left', ['aria-hidden' => true]);

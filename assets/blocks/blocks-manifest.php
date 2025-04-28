@@ -419,7 +419,7 @@ return array(
 			),
 			'link_url' => array(
 				'attribute' => 'href',
-				'default' => '#reviews',
+				'default' => '#product-reviews',
 				'type' => 'string'
 			),
 			'text' => array(
@@ -494,7 +494,7 @@ return array(
 			),
 			'anchor' => array(
 				'type' => 'string',
-				'default' => 'reviews'
+				'default' => 'product-reviews'
 			),
 			'layout' => array(
 				'type' => 'object',

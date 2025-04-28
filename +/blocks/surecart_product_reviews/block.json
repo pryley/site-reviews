@@ -18,7 +18,7 @@
         },
         "anchor": {
             "type": "string",
-            "default": "reviews"
+            "default": "product-reviews"
         },
         "layout": {
             "type": "object",
