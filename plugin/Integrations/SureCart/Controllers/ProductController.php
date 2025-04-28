@@ -2,16 +2,17 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\SureCart\Controllers;
 
+use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Contracts\ControllerContract;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Database\CountManager;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Svg;
 use GeminiLabs\SiteReviews\HookProxy;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewForm;
 use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewTag;
+use GeminiLabs\SiteReviews\Modules\Paginate;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\SchemaParser;
 use GeminiLabs\SiteReviews\Review;
@@ -97,35 +98,38 @@ class ProductController implements ControllerContract
         return $settings;
     }
 
-    /**
-     * @filter site-reviews/defaults/pagination/defaults
-     */
-    public function filterPaginationDefaults(array $defaults): array
+    public function filterPaginatedLink(array $link, array $args, BuilderContract $builder, Paginate $paginate): array
     {
-        $postId = get_the_ID();
-        if (false === $postId) {
-            $input = Helper::filterInputArray(glsr()->id);
-            if (empty($input['url'])) {
-                return $defaults;
-            }
-            $postId = url_to_postid(sanitize_url($input['url']));
-            if (0 === $postId) {
-                return $defaults;
-            }
+        $type = $link['type'] ?? '';
+        if (!in_array($type, ['next', 'prev'])) {
+            return $link;
         }
+        $baseUrl = str_replace('%_%', '', $paginate->args->base);
+        $postId = url_to_postid($baseUrl);
         if ('sc_product' !== get_post_type($postId)) {
-            return $defaults;
+            return $link;
         }
-        $allowedHtml = sc_allowed_svg_html();
-        $defaults['next_text'] = sprintf('%s %s',
-            __('Next', 'site-reviews'),
-            wp_kses(\SureCart::svg()->get('arrow-right', ['aria-hidden' => true]), $allowedHtml) // @phpstan-ignore-line
-        );
-        $defaults['prev_text'] = sprintf('%s %s',
-            wp_kses(\SureCart::svg()->get('arrow-left', ['aria-hidden' => true]), $allowedHtml), // @phpstan-ignore-line
-            __('Previous', 'site-reviews')
-        );
-        return $defaults;
+        if ('prev' === $type) {
+            $svg = \SureCart::svg()->get('arrow-left', ['aria-hidden' => true]);
+            $svg = wp_kses($svg, sc_allowed_svg_html());
+            $args['text'] = $svg.$args['text'];
+            if (1 >= $paginate->args->current) {
+                $tag = 'span';
+            }
+        }
+        if ('next' === $type) {
+            $svg = \SureCart::svg()->get('arrow-right', ['aria-hidden' => true]);
+            $svg = wp_kses($svg, sc_allowed_svg_html());
+            $args['text'] = $args['text'].$svg;
+            if ($paginate->args->current >= $paginate->args->total) {
+                $tag = 'span';
+            }
+        }
+        $link['link'] = $builder->build('div', [
+            'data-type' => $type,
+            'text' => $builder->build($tag ?? 'a', $args),
+        ]);
+        return $link;
     }
 
     /**

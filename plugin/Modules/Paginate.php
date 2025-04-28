@@ -98,9 +98,7 @@ class Paginate
         if ($args->total < 2) {
             return $links;
         }
-        if (1 < $args->current) {
-            $links[] = $this->linkPrevious($this->args->current - 1);
-        }
+        $links[] = $this->linkPrevious($this->args->current - 1);
         for ($num = 1; $num <= $args->total; ++$num) {
             if ($num === $args->current) {
                 $dots = true;
@@ -117,9 +115,7 @@ class Paginate
                 }
             }
         }
-        if ($args->current < $args->total) {
-            $links[] = $this->linkNext($this->args->current + 1);
-        }
+        $links[] = $this->linkNext($this->args->current + 1);
         return $links;
     }
 
@@ -134,10 +130,14 @@ class Paginate
     protected function link(string $type, array $args, string $tag = 'a'): array
     {
         $builder = glsr(Builder::class);
-        $link = [
-            'link' => $builder->build($tag, $args),
-            'type' => $type,
-        ];
+        if ('prev' === $type && 1 >= $this->args->current) {
+            $link = '';
+        } elseif ('next' === $type && $this->args->current >= $this->args->total) {
+            $link = '';
+        } else {
+            $link = $builder->build($tag, $args);
+        }
+        $link = compact('link', 'type');
         return glsr()->filterArray('paginate_link', $link, $args, $builder, $this);
     }
 }

@@ -1,9 +1,4 @@
 .wp-block-site-reviews-surecart-product-reviews {
-    .nav-links {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-    }
     a.page-numbers,
     span.page-numbers {
         align-items: center;
@@ -20,6 +15,28 @@
     span.page-numbers {
         opacity: 0.5;
         pointer-events: none;
+    }
+    .nav-links {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--sc-spacing-xx-small);
+    }
+    .nav-links [data-type] {
+        display: flex;
+        flex: 1;
+    }
+    .nav-links [data-type="prev"] {
+        justify-content: start;
+        .prev {
+            padding-inline-start: 0;
+        }
+    }
+    .nav-links [data-type="next"] {
+        justify-content: end;
+        .next {
+            padding-inline-end: 0;
+        }
     }
 }
 .wp-block-site-reviews-surecart-product-reviews [data-style="text"] {
