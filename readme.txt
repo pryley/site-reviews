@@ -61,6 +61,7 @@ https://www.youtube.com/watch?v=H5HdMCXvuq8
 - __Shortcodes__: Configurable shortcodes complete with full documentation
 - __Slack Integration__: Receive notifications in Slack when a review is submitted
 - __SPAM Protection__: Includes 5 layers of protection from spam! Built-in Honeypot, 6 CAPTCHA options (Cloudflare Turnstile, FriendlyCaptcha, hCaptcha, Procaptcha, reCAPTCHA v2 Invisible, and reCAPTCHA v3), Akismet, Blacklist, and Review limits
+- __SureCart Support__: Site Reviews integrates with your SureCart Products
 - __Templates__: Use the Site Reviews templates in your theme for full control over the HTML
 - __Translations__: Easily change any text of the plugin to your own in the settings.
 - __Verify Reviews__: Automatically request verification of new reviews
@@ -110,6 +111,7 @@ Site Reviews is officially compatible with the following plugins:
 - [Search & Filter Pro](https://searchandfilter.com/)
 - [SiteGround Optimizer](https://wordpress.org/plugins/sg-cachepress/)
 - [Speed Booster Pack](https://wordpress.org/plugins/speed-booster-pack/)
+- [SureCart](https://surecart.com/)
 - [Swift Performance](https://swiftperformance.io/)
 - [Thrive Architect](https://thrivethemes.com/architect/)
 - [W3 Total Cache](https://wordpress.org/plugins/w3-total-cache/)

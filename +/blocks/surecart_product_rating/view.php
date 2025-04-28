@@ -18,26 +18,33 @@ if (!$displayEmpty && $ratings->average <= 0) {
     return '';
 }
 
+$textTemplate = str_contains($attributes['text'], '{num}')
+    ? $attributes['text']
+    : '{num}';
+
+$context = [
+    'reviewCount' => $ratings->reviews,
+    'textTemplate' => $textTemplate,
+];
+
 ?>
 <div <?php echo wp_kses_data(get_block_wrapper_attributes()); ?>
+    data-wp-context='<?php echo wp_json_encode($context); ?>'
+    data-wp-init="callbacks.init"
     data-wp-interactive="site-reviews/surecart-product-rating"
+    data-wp-key="surecart-product-rating-<?php echo (int) $product->id; ?>"
 >
-    <div>
+    <div data-style="<?php echo $theme; ?>">
         <?php echo glsr_star_rating($ratings->average, $ratings->reviews, compact('theme')); ?>
     </div>
     <?php if ($attributes['has_text']) { ?>
-        <div>
-            <?php if ($attributes['is_link']) { ?>
-                <a href="<?php echo esc_attr($attributes['link_url']); ?>"
-                    data-wp-on--click="actions.scroll"
-                >
-                    <?php echo str_replace('{num}', $ratings->reviews, $attributes['text']); ?>
-                </a>
-            <?php } else { ?>
-                <span>
-                    <?php echo str_replace('{num}', $ratings->reviews, $attributes['text']); ?>
-                </span>
-            <?php } ?>
-        </div>
+        <?php if ($attributes['is_link']) { ?>
+            <a href="<?php echo esc_attr($attributes['link_url']); ?>"
+                data-wp-on--click="actions.scroll"
+                data-wp-text="state.formattedText"
+            ></a>
+        <?php } else { ?>
+            <span data-wp-text="state.formattedText"></span>
+        <?php } ?>
     <?php } ?>
 </div>

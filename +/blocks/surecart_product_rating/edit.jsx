@@ -82,18 +82,16 @@ export default function Edit (props) {
             </InspectorControls>
             <div {...blockProps}>
                 {ratings?.rendered && (
-                    <RawHTML>
+                    <RawHTML data-style={ratings?.args?.theme}>
                         {safeHTML(ratings.rendered)}
                     </RawHTML>
                 )}
                 {attributes.has_text && (
-                    <div>
-                        {attributes.is_link ? (
-                            <a href={attributes.link_url}>{text}</a>
-                        ) : (
-                            <span>{text}</span>
-                        )}
-                    </div>
+                    attributes.is_link ? (
+                        <a href={attributes.link_url}>{text}</a>
+                    ) : (
+                        <span>{text}</span>
+                    )
                 )}
             </div>
         </>
