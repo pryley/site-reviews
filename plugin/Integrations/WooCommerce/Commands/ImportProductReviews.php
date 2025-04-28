@@ -27,7 +27,9 @@ class ImportProductReviews extends AbstractCommand
 
     public function handle(): void
     {
-        define('WP_IMPORTING', true);
+        if (!defined('WP_IMPORTING')) {
+            define('WP_IMPORTING', true);
+        }
         wp_raise_memory_limit('admin');
         wp_defer_term_counting(true);
         wp_suspend_cache_invalidation(true);

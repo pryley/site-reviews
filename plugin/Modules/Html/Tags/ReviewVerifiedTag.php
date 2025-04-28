@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
+use GeminiLabs\SiteReviews\Helpers\Svg;
+
 class ReviewVerifiedTag extends ReviewTag
 {
     protected function handle(): string
@@ -14,7 +16,7 @@ class ReviewVerifiedTag extends ReviewTag
 
     protected function value(): string
     {
-        $icon = file_get_contents(glsr()->path('assets/images/icons/verified.svg'));
+        $icon = Svg::get('assets/images/icons/verified.svg');
         $text = esc_attr__('Verified', 'site-reviews');
         return sprintf('%s <span>%s</span>', $icon, $text);
     }

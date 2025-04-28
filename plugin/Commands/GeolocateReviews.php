@@ -54,7 +54,6 @@ class GeolocateReviews extends AbstractCommand
         $offset = max(0, $offset);
         $ipAddresses = $this->fetchIpsNeedingGeolocation($offset);
         if (empty($ipAddresses)) {
-            glsr_log()->info("Geolocation: No IPs to process at offset {$offset}");
             return;
         }
         $response = $this->fetchRemoteGeolocationData($ipAddresses);
