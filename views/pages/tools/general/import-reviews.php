@@ -110,6 +110,7 @@
                 <button type="submit" class="glsr-button button button-large button-primary"
                     data-ajax-import
                     data-loading="<?php echo esc_attr_x('Importing reviews, please wait...', 'admin-text', 'site-reviews'); ?>"
+                    data-per_page="50"
                 ><?php echo _x('Import Reviews', 'admin-text', 'site-reviews'); ?>
                 </button>
             </div>

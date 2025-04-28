@@ -24,7 +24,7 @@ class Import {
         return response.json()
     }
 
-    async import () {
+    async import (per_page = 50) {
         console.info('run import');
         let stage1;
         try {
@@ -42,7 +42,7 @@ class Import {
         if (this.data.total) {
             this.progressbar.init()
         }
-        const stage2 = await this.process(2, this.data.total, 50); // import 50 reviews per request
+        const stage2 = await this.process(2, this.data.total, (Number(per_page) || 50));  // import 50 reviews per request by default
         console.info('stage 2 complete', stage2);
         const stage3 = await this.process(3, stage2.attachments, 1); // import 1 attachment per request
         console.info('stage 3 complete', stage3);
@@ -97,7 +97,7 @@ class Import {
         this.$form = this.$el.closest('form');
         this.isBusy()
         this.progressbar = ProgressBar(this.$el);
-        this.import().then(data => {
+        this.import(this.$el.data('per_page')).then(data => {
             setTimeout(() => {
                 if (data?.notices) {
                     GLSR.notices.add(data.notices)
