@@ -9,6 +9,7 @@ class MenuHooks extends AbstractHooks
     public function run(): void
     {
         $this->hook(MenuController::class, [
+            ['processPageActions', "load-{$this->type}_page_glsr-tools"],
             ['registerMenuCount', 'admin_menu'],
             ['registerSubMenus', 'admin_menu'],
             ['removeSubMenu', 'admin_init'],

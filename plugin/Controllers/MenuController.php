@@ -15,9 +15,21 @@ use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\SettingForm;
 use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Overrides\ScheduledActionsTable;
 
 class MenuController extends AbstractController
 {
+    /**
+     * This is necessary because the ActionScheduler table is rendered late
+     * after request headers have already be set which breaks redirects.
+     *
+     * @action load-site-review_page_glsr-tools
+     */
+    public function processPageActions(): void
+    {
+        glsr(ScheduledActionsTable::class)->process_actions();
+    }
+
     /**
      * @action admin_menu
      */

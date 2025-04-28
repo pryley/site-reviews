@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Modules\Translator;
+use GeminiLabs\SiteReviews\Overrides\ScheduledActionsTable;
 
 class Provider implements ProviderContract
 {
@@ -18,6 +19,7 @@ class Provider implements ProviderContract
         $app->singleton(Notice::class);
         $app->singleton(Queue::class);
         $app->singleton(Router::class);
+        $app->singleton(ScheduledActionsTable::class);
         $app->singleton(Style::class);
         $app->singleton(Translation::class);
         $app->singleton(Translator::class);
