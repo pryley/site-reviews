@@ -1,5 +1,8 @@
-<?php defined('ABSPATH') || exit; ?>
-
+<?php defined('ABSPATH') || exit;
+/**
+ * @version 1.0.0
+ */
+?>
 <div data-field="submit-button">
     <div class="wp-block-buttons is-layout-flex">
         <div class="wp-block-button">

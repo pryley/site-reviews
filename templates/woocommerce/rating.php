@@ -1,5 +1,8 @@
-<?php defined('WPINC') || exit; ?>
-
+<?php defined('ABSPATH') || exit;
+/**
+ * @version 1.0.0
+ */
+?>
 <div class="woocommerce-product-rating <?php echo esc_attr($style); ?>">
     <?php echo glsr_star_rating($ratings->average, $ratings->reviews, ['theme' => $theme]); ?>
     <?php if ($product->get_reviews_allowed()) { ?>

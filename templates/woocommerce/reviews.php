@@ -1,5 +1,8 @@
-<?php defined('WPINC') || exit; ?>
-
+<?php defined('ABSPATH') || exit;
+/**
+ * @version 1.0.0
+ */
+?>
 <div id="reviews" class="woocommerce-Reviews">
     <div id="comments">
         <h2 class="woocommerce-Reviews-title">

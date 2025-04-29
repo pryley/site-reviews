@@ -1,5 +1,8 @@
-<?php defined('ABSPATH') || exit; ?>
-
+<?php defined('ABSPATH') || exit;
+/**
+ * @version 1.0.0
+ */
+?>
 <span class="{{ class }}">
     <span class="glsr-toggle">
         <label for="{{ id }}">{{ text }}</label>

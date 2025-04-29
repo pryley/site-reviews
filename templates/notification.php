@@ -1,5 +1,8 @@
-<?php defined('ABSPATH') || exit; ?>
-
+<?php defined('ABSPATH') || exit;
+/**
+ * @version 1.0.0
+ */
+?>
 <strong>A new {review_rating}-star review has been submitted:</strong>
 
 {review_title}

@@ -1,5 +1,8 @@
-<?php defined('WPINC') || exit; ?>
-
+<?php defined('ABSPATH') || exit;
+/**
+ * @version 1.0.0
+ */
+?>
 <ul class="product_list_widget">
     <?php foreach ($reviews as $review) { ?>
         <li>

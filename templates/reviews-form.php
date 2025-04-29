@@ -1,5 +1,8 @@
-<?php defined('ABSPATH') || exit; ?>
-
+<?php defined('ABSPATH') || exit;
+/**
+ * @version 1.0.0
+ */
+?>
 <div class="glsr-form-wrap">
     <form class="{{ class }}" method="post" enctype="multipart/form-data">
         {{ fields }}

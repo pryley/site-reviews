@@ -1,5 +1,8 @@
-<?php defined('ABSPATH') || exit; ?>
-
+<?php defined('ABSPATH') || exit;
+/**
+ * @version 1.0.0
+ */
+?>
 Howdy,
 
 You recently submitted a review on <a href="{site_url}">{site_title}</a>.

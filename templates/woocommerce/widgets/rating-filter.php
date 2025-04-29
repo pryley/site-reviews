@@ -1,5 +1,8 @@
-<?php defined('WPINC') || exit; ?>
-
+<?php defined('ABSPATH') || exit;
+/**
+ * @version 1.0.0
+ */
+?>
 <ul class="<?php echo esc_attr($style); ?>">
     <?php foreach ($filters as $filter) { ?>
         <li class="<?php echo esc_attr($filter->classes); ?>">

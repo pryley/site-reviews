@@ -1,5 +1,8 @@
-<?php defined('ABSPATH') || exit; ?>
-
+<?php defined('ABSPATH') || exit;
+/**
+ * @version 1.0.0
+ */
+?>
 <div class="pagination">
     <nav class="navigation" role="navigation">
         <h2 class="screen-reader-text">{{ screen_reader_text }}</h2>

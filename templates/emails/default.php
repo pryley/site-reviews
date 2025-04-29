@@ -1,4 +1,8 @@
-<?php defined('ABSPATH') || exit; ?>
+<?php defined('ABSPATH') || exit;
+/**
+ * @version 1.0.0
+ */
+?>
 <!doctype html>
 <html>
     <head>
@@ -6,8 +10,6 @@
         <title><?php echo wp_specialchars_decode((string) get_option('blogname', ''), ENT_QUOTES); ?></title>
     </head>
     <body>
-
         {{ message }}
-
     </body>
 </html>
