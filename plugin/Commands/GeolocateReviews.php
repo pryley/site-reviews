@@ -6,9 +6,11 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\StatDefaults;
 use GeminiLabs\SiteReviews\Geolocation;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Response;
+use GeminiLabs\SiteReviews\Review;
 
 class GeolocateReviews extends AbstractCommand
 {
@@ -30,7 +32,7 @@ class GeolocateReviews extends AbstractCommand
     /**
      * Key used for the queued action.
      */
-    public const QUEUED_ACTION_KEY = 'queue/geolocation';
+    public const QUEUED_ACTION_KEY = 'queue/geolocations';
 
     /**
      * Integer number of rows to fetch per database query in generator.
@@ -71,6 +73,29 @@ class GeolocateReviews extends AbstractCommand
         $this->scheduleNextBatchIfNeeded($offset, static::BATCH_SIZE, $ipAddresses);
     }
 
+    public function processReview(Review $review): void
+    {
+        if (!$review->isValid()) {
+            return;
+        }
+        if (Helper::isLocalIpAddress($review->ip_address)) {
+            return;
+        }
+        $response = glsr(Geolocation::class)->lookup($review->ip_address);
+        if ($response->failed()) {
+            return;
+        }
+        $results = $this->filterValidGeolocationResults([$response->body()]);
+        if (empty($results[0])) {
+            return;
+        }
+        $result = glsr(StatDefaults::class)->restrict(
+            wp_parse_args(['rating_id' => $review->rating_id], $results[0])
+        );
+        glsr(Database::class)->insert('stats', $result);
+        update_post_meta($review->ID, '_geolocation', array_diff_key($result, ['rating_id' => 0]));
+    }
+
     /**
      * Start processing via WP-Cron.
      */
@@ -90,7 +115,7 @@ class GeolocateReviews extends AbstractCommand
         if (!$ipsToProcess = $this->countIpsNeedingGeolocation()) {
             if ($notify) {
                 glsr(Notice::class)->addInfo(
-                    _x('All valid IP addresses already have been geolocated.', 'admin-text', 'site-reviews')
+                    _x('All valid IP addresses have already been geolocated.', 'admin-text', 'site-reviews')
                 );
             }
             return false;

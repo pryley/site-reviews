@@ -5,9 +5,9 @@ namespace GeminiLabs\SiteReviews;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
-use GeminiLabs\SiteReviews\Database\StatsManager;
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\ReviewDefaults;
+use GeminiLabs\SiteReviews\Defaults\StatDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Text;
@@ -221,12 +221,11 @@ class Review extends Arguments
         return !empty($this->ID) && !empty($this->rating_id);
     }
 
-    /**
-     * @see \GeminiLabs\SiteReviews\Defaults\GeolocationDefaults::restrict()
-     */
     public function location(): array
     {
-        return glsr(StatsManager::class)->location($this);
+        return glsr(StatDefaults::class)->restrict(
+            get_post_meta($this->ID, '_geolocation', true)
+        );
     }
 
     public function meta(): Arguments

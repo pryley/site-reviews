@@ -208,6 +208,7 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 - Added [SureCart](https://surecart.com/) integration.
 - Added [WPBakery Page Builder](https://wpbakery.com/) integration.
 - Added an option to change the position of the Captcha (above or below the submit button in the review form).
+- Added Geolocation which allows you to display the location of the reviewer (i.e. flag/country/state/city) in the review
 - Added the `summary_id` option to the Review Form, this allows you to update the rating summary immediately without reloading the page.
 - Fixed link focus when expanding exceprts with the keyboard.
 - Improved CSS of plugin styles for some themes.

@@ -2,13 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Database\StatsManager;
-use GeminiLabs\SiteReviews\Geolocation;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
+use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Review;
 
-class StatsController extends AbstractController
+class GeolocationController extends AbstractController
 {
     /**
      * @filter site-reviews/review/build/after
@@ -30,10 +29,6 @@ class StatsController extends AbstractController
         if (Helper::isLocalIpAddress($review->ip_address)) {
             return;
         }
-        $response = glsr(Geolocation::class)->lookup($review->ip_address);
-        if ($response->failed()) {
-            return;
-        }
-        glsr(StatsManager::class)->store($review, $response->body());
+        glsr(Queue::class)->once(time(), 'queue/geolocation', ['review_id' => $review->ID], true);
     }
 }

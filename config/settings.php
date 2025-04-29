@@ -429,6 +429,12 @@ return [ // order is intentional
         'depends_on' => [
             'settings.reviews.geolocation' => 'yes',
         ],
+        'description' => sprintf(_x('Use the %s tool to extract geolocation from existing reviews.', 'admin-text', 'site-reviews'),
+            sprintf('<a data-expand="#tools-geolocate-reviews" href="%s">%s</a>',
+                esc_url(glsr_admin_url('tools', 'general')),
+                _x('Geolocate Reviews', 'admin-text', 'site-reviews')
+            )
+        ),
         'label' => _x('Geolocation Format', 'admin-text', 'site-reviews'),
         'options' => [
             'flag' => _x('Display the flag', 'admin-text', 'site-reviews'),

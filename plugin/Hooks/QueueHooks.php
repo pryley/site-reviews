@@ -10,7 +10,8 @@ class QueueHooks extends AbstractHooks
     {
         $this->hook(QueueController::class, [
             ['cleanupAfterExport', 'site-reviews/queue/export/cleanup'],
-            ['geolocateReviews', 'site-reviews/queue/geolocation'],
+            ['geolocateReview', 'site-reviews/queue/geolocation'],
+            ['geolocateReviews', 'site-reviews/queue/geolocations'],
             ['recalculateAssignmentMeta', 'site-reviews/queue/recalculate-meta'],
             ['runMigration', 'site-reviews/queue/migration'],
             ['sendNotification', 'site-reviews/queue/notification'],

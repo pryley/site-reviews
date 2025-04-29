@@ -2,13 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Hooks;
 
-use GeminiLabs\SiteReviews\Controllers\StatsController;
+use GeminiLabs\SiteReviews\Controllers\GeolocationController;
 
-class StatsHooks extends AbstractHooks
+class GeolocationHooks extends AbstractHooks
 {
     public function run(): void
     {
-        $this->hook(StatsController::class, [
+        $this->hook(GeolocationController::class, [
             ['filterReviewTemplateTags', 'site-reviews/review/build/after', 10, 3],
             ['geolocateReview', 'site-reviews/review/created', 10, 2],
         ]);

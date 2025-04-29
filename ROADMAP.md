@@ -10,7 +10,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Restrict displayed reviews by empty content (setting only?)
 - [ ] Restrict reviews in the admin to those assigned to pages of the current user
 - [ ] Review statistics
-- [ ] Store the review GEO location by IP
+- [x] Store the review GEO location by IP
 - [ ] Use the REST API to submit reviews (ref: Contact Form v7)
 
 ## Upcoming Add-ons

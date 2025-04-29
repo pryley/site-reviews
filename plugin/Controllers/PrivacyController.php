@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -102,6 +103,9 @@ class PrivacyController extends AbstractController
             delete_post_meta($review->ID, '_geolocation');
             delete_post_meta($review->ID, '_submitted'); // delete the original stored request
             delete_post_meta($review->ID, '_submitted_hash');
+            glsr(Database::class)->delete('stats', [
+                'rating_id' => $review->rating_id,
+            ]);
         }
         $this->itemsRemoved = true;
     }

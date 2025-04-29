@@ -21,6 +21,16 @@ class QueueController extends AbstractController
     /**
      * @action site-reviews/queue/geolocation
      */
+    public function geolocateReview(int $reviewId): void
+    {
+        glsr(GeolocateReviews::class)->processReview(
+            glsr_get_review($reviewId)
+        );
+    }
+
+    /**
+     * @action site-reviews/queue/geolocations
+     */
     public function geolocateReviews(int $offset): void
     {
         glsr(GeolocateReviews::class)->process($offset);
