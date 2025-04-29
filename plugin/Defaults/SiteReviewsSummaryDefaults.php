@@ -41,6 +41,7 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
     public array $mapped = [
         'assigned_to' => 'assigned_posts',
         'category' => 'assigned_terms',
+        'className' => 'class',
         'user' => 'assigned_users',
     ];
 

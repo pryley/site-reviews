@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 abstract class Block
 {
@@ -32,16 +33,14 @@ abstract class Block
                 );
             }
         }
-        $rendered = $this->shortcode()->build($attributes, 'block');
+        $rendered = $this->rendered($attributes);
         if ('edit' === filter_input(INPUT_GET, 'context')) {
             return $rendered;
         }
-        $blockWrapperAtts = wp_kses_data(get_block_wrapper_attributes([
-            'style' => $this->blockStyle($attributes),
-        ]));
-        preg_match_all('/(\w+)="([^"]*)"/', $blockWrapperAtts, $matches, PREG_SET_ORDER);
-        $atts = array_column($matches, 2, 1);
-        return glsr(Builder::class)->div($rendered, $atts);
+        return glsr(Builder::class)->div(
+            $rendered,
+            $this->blockWrapperAttributes($attributes)
+        );
     }
 
     abstract public function shortcode(): ShortcodeContract;
@@ -49,6 +48,20 @@ abstract class Block
     protected function blockStyle(array $attributes): string
     {
         return '';
+    }
+
+    protected function blockWrapperAttributes(array $attributes): array
+    {
+        $atts = wp_parse_args(
+            \WP_Block_Supports::get_instance()->apply_block_supports(),
+            array_fill_keys(['class', 'id', 'style'], '')
+        );
+        $style = "{$atts['style']} {$this->blockStyle($attributes)}";
+        return array_filter([
+            'class' => glsr(Sanitizer::class)->sanitizeAttrClass($atts['class']),
+            'id' => glsr(Sanitizer::class)->sanitizeId($atts['id']),
+            'style' => glsr(Sanitizer::class)->sanitizeAttrStyle($style),
+        ]);
     }
 
     protected function buildEmptyBlock(string $text): string
@@ -65,5 +78,21 @@ abstract class Block
     protected function hasVisibleFields(array $attributes): bool
     {
         return $this->shortcode()->hasVisibleFields($attributes);
+    }
+
+    protected function rendered(array $attributes): string
+    {
+        $doc = new \DOMDocument();
+        $html = $this->shortcode()->build($attributes, 'block');
+        libxml_use_internal_errors(true);
+        $doc->loadHTML($html, \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD);
+        $root = $doc->documentElement;
+        $rendered = '';
+        foreach ($root->childNodes as $node) {
+            $rendered .= $doc->saveHTML($node);
+        }
+        libxml_clear_errors();
+        libxml_use_internal_errors(false);
+        return $rendered;
     }
 }

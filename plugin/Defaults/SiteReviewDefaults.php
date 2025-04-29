@@ -25,6 +25,15 @@ class SiteReviewDefaults extends DefaultsAbstract
     ];
 
     /**
+     * The keys that should be mapped to other keys.
+     * Keys are mapped before the values are normalized and sanitized.
+     * Note: Mapped keys should not be included in the defaults!
+     */
+    public array $mapped = [
+        'className' => 'class',
+    ];
+
+    /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
      */

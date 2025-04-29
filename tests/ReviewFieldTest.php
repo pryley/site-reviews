@@ -350,7 +350,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
                 '<label class="glsr-label" for="site-reviews-foobar">'.
                     '<span>Your overall rating</span>'.
                 '</label>'.
-                '<select class="browser-default disable-select no_wrap no-wrap glsr-select" id="site-reviews-foobar" name="site-reviews[foobar]">'.
+                '<select class="browser-default disable-select glsr-select no-wrap no_wrap" id="site-reviews-foobar" name="site-reviews[foobar]">'.
                     '<option value="">Select a Rating</option>'.
                     '<option value="5">5 Stars</option>'.
                     '<option value="4">4 Stars</option>'.

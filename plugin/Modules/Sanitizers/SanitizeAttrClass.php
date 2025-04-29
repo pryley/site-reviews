@@ -21,7 +21,8 @@ class SanitizeAttrClass extends StringSanitizer
             $value = preg_replace('/^(\d+)(.*)$/', '$2', $value);
             $classes[$index] = trim($value);
         }
-        $classes = array_values(array_filter(array_unique($classes)));
+        $classes = array_filter(array_unique($classes));
+        sort($classes);
         $classes = implode(' ', $classes);
         return $classes;
     }

@@ -38,7 +38,7 @@ abstract class Shortcode implements ShortcodeContract
     {
         $attributes = $this->defaults()->dataAttributes($values);
         $attributes = wp_parse_args($attributes, [
-            'class' => glsr(Style::class)->styleClasses($values['class'] ?? ''),
+            'class' => glsr(Style::class)->styleClasses(),
             'data-from' => $from,
             'data-shortcode' => $this->tag,
             'id' => $values['id'] ?? '',
@@ -57,7 +57,11 @@ abstract class Shortcode implements ShortcodeContract
         $template = $this->buildTemplate();
         $attributes = $this->attributes($this->args, $from);
         $html = glsr(Builder::class)->div($template, $attributes);
-        return sprintf('%s%s', $this->debug, $html);
+        $rendered = sprintf('%s%s', $this->debug, $html);
+        return glsr(Builder::class)->div([
+            'class' => $this->args['class'],
+            'text' => $rendered,
+        ]);
     }
 
     public function defaults(): DefaultsAbstract
@@ -197,6 +201,12 @@ abstract class Shortcode implements ShortcodeContract
     {
         $values = glsr(Sanitizer::class)->sanitizeUserIds($value);
         return implode(',', $values);
+    }
+
+    protected function normalizeClass($value): string
+    {
+        $from = Str::dashCase("{$this->from}-{$this->tag}");
+        return glsr(Sanitizer::class)->sanitizeAttrClass("{$from} {$value}");
     }
 
     /**

@@ -81,7 +81,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                         '<legend class="screen-reader-text">'.
                             '<span>Request Verification</span>'.
                         '</legend>'.
-                        '<div class="regular-text inline">'.
+                        '<div class="inline regular-text">'.
                             '<label for="site_reviews-settings-general-request_verification-1">'.
                                 '<input type="radio" id="site_reviews-settings-general-request_verification-1" name="site_reviews[settings][general][request_verification]" value="no" /> No'.
                             '</label>'.
@@ -109,7 +109,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                 '<td>'.
                     '<div class="glsr-template-editor">'.
                         '<textarea '.
-                            'class="large-text code" '.
+                            'class="code large-text" '.
                             'id="site_reviews-settings-general-request_verification_message" '.
                             'name="site_reviews[settings][general][request_verification_message]" '.
                             'rows="8"'.
@@ -457,8 +457,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                 '<td>'.
                     '<div class="glsr-template-editor">'.
                         '<textarea '.
-                            'class="large-text '.
-                            'code" '.
+                            'class="code large-text" '.
                             'id="site_reviews-settings-general-notification_message" '.
                             'name="site_reviews[settings][general][notification_message]" '.
                             'rows="9">'.
@@ -1271,7 +1270,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews-settings-forms-limit_whitelist-email">Email Whitelist</label>'.
                 '</th>'.
                 '<td>'.
-                    '<textarea class="large-text code" id="site_reviews-settings-forms-limit_whitelist-email" name="site_reviews[settings][forms][limit_whitelist][email]" rows="5"></textarea>'.
+                    '<textarea class="code large-text" id="site_reviews-settings-forms-limit_whitelist-email" name="site_reviews[settings][forms][limit_whitelist][email]" rows="5"></textarea>'.
                 '</td>'.
             '</tr>'
         );
@@ -1286,7 +1285,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews-settings-forms-limit_whitelist-ip_address">IP Address Whitelist</label>'.
                 '</th>'.
                 '<td>'.
-                    '<textarea class="large-text code" id="site_reviews-settings-forms-limit_whitelist-ip_address" name="site_reviews[settings][forms][limit_whitelist][ip_address]" rows="5"></textarea>'.
+                    '<textarea class="code large-text" id="site_reviews-settings-forms-limit_whitelist-ip_address" name="site_reviews[settings][forms][limit_whitelist][ip_address]" rows="5"></textarea>'.
                 '</td>'.
             '</tr>'
         );
@@ -1301,7 +1300,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews-settings-forms-limit_whitelist-username">Username Whitelist</label>'.
                 '</th>'.
                 '<td>'.
-                    '<textarea class="large-text code" id="site_reviews-settings-forms-limit_whitelist-username" name="site_reviews[settings][forms][limit_whitelist][username]" rows="5"></textarea>'.
+                    '<textarea class="code large-text" id="site_reviews-settings-forms-limit_whitelist-username" name="site_reviews[settings][forms][limit_whitelist][username]" rows="5"></textarea>'.
                 '</td>'.
             '</tr>'
         );
@@ -1642,7 +1641,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                         '<legend class="screen-reader-text">'.
                             '<span>Prevent Duplicates</span>'.
                         '</legend>'.
-                        '<div class="regular-text inline">'.
+                        '<div class="inline regular-text">'.
                             '<label for="site_reviews-settings-forms-prevent_duplicates-1">'.
                                 '<input type="radio" id="site_reviews-settings-forms-prevent_duplicates-1" name="site_reviews[settings][forms][prevent_duplicates]" value="no" /> No'.
                             '</label>'.
@@ -1684,7 +1683,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews-settings-forms-blacklist-entries">Review Blacklist</label>'.
                 '</th>'.
                 '<td>'.
-                    '<textarea class="large-text code" id="site_reviews-settings-forms-blacklist-entries" name="site_reviews[settings][forms][blacklist][entries]" rows="10"></textarea>'.
+                    '<textarea class="code large-text" id="site_reviews-settings-forms-blacklist-entries" name="site_reviews[settings][forms][blacklist][entries]" rows="10"></textarea>'.
                 '</td>'.
             '</tr>'
         );

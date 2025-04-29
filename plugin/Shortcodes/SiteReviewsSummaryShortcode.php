@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Rating;
-use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Schema;
 
 class SiteReviewsSummaryShortcode extends Shortcode
@@ -28,7 +27,7 @@ class SiteReviewsSummaryShortcode extends Shortcode
         return glsr(Template::class)->build('templates/reviews-summary', [
             'args' => $this->args,
             'context' => [
-                'class' => $this->getClasses(),
+                'class' => 'glsr-summary',
                 'id' => '', // @deprecated_5
                 'percentages' => $this->buildTemplateTag('percentages'),
                 'rating' => $this->buildTemplateTag('rating'),
@@ -142,14 +141,6 @@ class SiteReviewsSummaryShortcode extends Shortcode
                 glsr(Schema::class)->buildSummary($this->args, $this->ratings)
             );
         }
-    }
-
-    protected function getClasses(): string
-    {
-        $classes = ['glsr-summary'];
-        $classes[] = $this->args['class'];
-        $classes = implode(' ', $classes);
-        return glsr(Sanitizer::class)->sanitizeAttrClass($classes);
     }
 
     protected function hideOptions(): array

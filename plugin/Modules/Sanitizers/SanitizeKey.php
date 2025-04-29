@@ -14,7 +14,8 @@ class SanitizeKey extends StringSanitizer
     public function run(): string
     {
         $value = sanitize_key($this->value());
-        return substr(Str::snakeCase($value), 0, static::MAX_LENGTH);
+        $value = substr(Str::snakeCase($value), 0, static::MAX_LENGTH);
+        return esc_attr($value);
     }
 
     protected function value(): string

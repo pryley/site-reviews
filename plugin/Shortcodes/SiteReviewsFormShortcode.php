@@ -120,11 +120,6 @@ class SiteReviewsFormShortcode extends Shortcode
     protected function config(): array
     {
         return [
-            // 'form' => [
-            //     'label' => esc_html_x('Use a Custom Form', 'admin-text', 'site-reviews-forms'),
-            //     'placeholder' => esc_html_x('Select a Form...', 'admin-text', 'site-reviews-forms'),
-            //     'type' => 'select',
-            // ],
             'assigned_posts' => [
                 'label' => esc_html_x('Assign Reviews to Pages', 'admin-text', 'site-reviews'),
                 'multiple' => true,

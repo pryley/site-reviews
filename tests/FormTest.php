@@ -13,11 +13,11 @@ class FormTest extends \WP_UnitTestCase
 {
     protected $fields;
 
-    public function testConditionContains()
+    public function test_condition_contains()
     {
         $this->assertEquals(
             '<div class="glsr-form-wrap">'.
-                '<form class="test-form glsr-form" method="post" enctype="multipart/form-data">'.
+                '<form class="glsr-form test-form" method="post" enctype="multipart/form-data">'.
                     '<div class="glsr-form-message"></div>'.
                     '<div data-field="submit-button">'.
                         '<div class="wp-block-buttons is-layout-flex">'.

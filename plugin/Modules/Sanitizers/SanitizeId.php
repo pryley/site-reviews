@@ -13,7 +13,8 @@ class SanitizeId extends StringSanitizer
     {
         $value = sanitize_key($this->value());
         $value = preg_replace('/^(\d+)?(.*)/', '$2', $value);
-        return substr($value, 0, static::MAX_LENGTH);
+        $value = substr($value, 0, static::MAX_LENGTH);
+        return esc_attr($value);
     }
 
     protected function value(): string
