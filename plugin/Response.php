@@ -20,6 +20,16 @@ class Response
      */
     public function __construct($request = [])
     {
+        if (is_wp_error($request)) {
+            $this->body = [];
+            $this->code = 0;
+            $this->error = true;
+            $this->headers = new CaseInsensitiveDictionary([]);
+            $this->message = $request->get_error_message();
+            $this->response = null;
+            glsr_log()->error($this->message);
+            return;
+        }
         $body = json_decode(wp_remote_retrieve_body($request), true);
         $headers = wp_remote_retrieve_headers($request);
         if (empty($headers)) {
@@ -28,13 +38,8 @@ class Response
         $this->body = Cast::toArray($body);
         $this->code = Cast::toInt(wp_remote_retrieve_response_code($request));
         $this->headers = $headers;
-        $this->message = Arr::getAs('string', $body, 'message', wp_remote_retrieve_response_message($request));
+        $this->message = Arr::getAs('string', $this->body, 'message', wp_remote_retrieve_response_message($request));
         $this->response = $request['http_response'] ?? null;
-        if (is_wp_error($request)) {
-            $this->error = true;
-            $this->message = $request->get_error_message();
-            glsr_log()->error($this->message);
-        }
     }
 
     public function body(): array

@@ -1,7 +1,7 @@
 <?php defined('ABSPATH') || exit; ?>
 
 <div class="glsr-welcome wrap about-wrap about-wrap-content">
-    <h1>Welcome to <?php echo glsr()->name; ?></h1>
+    <h1><?php echo get_admin_page_title(); ?></h1>
     <div class="glsr-about-text about-text">Site Reviews is a free WordPress review plugin with advanced features that makes it easy to manage reviews on your website. Follow the instructions below to get started!</div>
     <div class="badge">Version <?php echo glsr()->version; ?></div>
     <p class="about-buttons">

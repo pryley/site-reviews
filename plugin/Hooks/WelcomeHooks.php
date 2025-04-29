@@ -10,9 +10,9 @@ class WelcomeHooks extends AbstractHooks
     {
         $this->hook(WelcomeController::class, [
             ['filterActionLinks', "plugin_action_links_{$this->basename}", 11],
-            ['filterAdminTitle', 'admin_title'],
             ['registerPage', 'admin_menu'],
             ['removeSubMenu', 'admin_init'],
+            ['restorePageTitle', 'load-dashboard_page_site-reviews-welcome'],
         ]);
     }
 }
