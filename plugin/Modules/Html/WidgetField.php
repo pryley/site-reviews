@@ -13,9 +13,11 @@ class WidgetField extends Field
 
     public function buildField(): string
     {
+        // @phpstan-ignore-next-line
         if ($this->is_raw) { // only build the field element
             return $this->builder()->build($this->tag(), $this->toArray());
         }
+        // @phpstan-ignore-next-line
         if ('number' === $this->original_type) {
             return $this->builder()->p([
                 'style' => 'display:flex;align-items:baseline;gap:5px;',

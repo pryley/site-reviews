@@ -18,38 +18,38 @@ use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
 
 /**
- * @property bool $approved  This property is mapped to $is_approved
- * @property array $assigned_posts
- * @property array $assigned_terms
- * @property array $assigned_users
- * @property string $author
- * @property int $author_id
- * @property string $avatar
- * @property string $content
+ * @property bool      $approved       This property is mapped to $is_approved
+ * @property array     $assigned_posts
+ * @property array     $assigned_terms
+ * @property array     $assigned_users
+ * @property string    $author
+ * @property int       $author_id
+ * @property string    $avatar
+ * @property string    $content
  * @property Arguments $custom
- * @property string $date
- * @property string $date_gmt
- * @property string $name  This property is mapped to $author
- * @property string $email
- * @property bool $has_revisions  This property is mapped to $is_modified
- * @property int $ID
- * @property string $ip_address
- * @property bool $is_approved
- * @property bool $is_modified
- * @property bool $is_pinned
- * @property bool $is_verified
- * @property bool $modified  This property is mapped to $is_modified
- * @property bool $pinned  This property is mapped to $is_pinned
- * @property int $rating
- * @property int $rating_id
- * @property string $response
- * @property int $score
- * @property string $status
- * @property bool $terms
- * @property string $title
- * @property string $type
- * @property string $url
- * @property int $user_id  This property is mapped to $author_id
+ * @property string    $date
+ * @property string    $date_gmt
+ * @property string    $name           This property is mapped to $author
+ * @property string    $email
+ * @property bool      $has_revisions  This property is mapped to $is_modified
+ * @property int       $ID
+ * @property string    $ip_address
+ * @property bool      $is_approved
+ * @property bool      $is_modified
+ * @property bool      $is_pinned
+ * @property bool      $is_verified
+ * @property bool      $modified       This property is mapped to $is_modified
+ * @property bool      $pinned         This property is mapped to $is_pinned
+ * @property int       $rating
+ * @property int       $rating_id
+ * @property string    $response
+ * @property int       $score
+ * @property string    $status
+ * @property bool      $terms
+ * @property string    $title
+ * @property string    $type
+ * @property string    $url
+ * @property int       $user_id        This property is mapped to $author_id
  */
 class Review extends Arguments
 {
@@ -251,6 +251,7 @@ class Review extends Arguments
 
     /**
      * @param mixed $key
+     *
      * @return mixed
      */
     #[\ReturnTypeWillChange]

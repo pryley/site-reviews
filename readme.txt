@@ -177,7 +177,7 @@ You can report any security bugs found in the source code of this plugin through
 1. The "All Reviews" page.
 2. The "Edit Review" page.
 3. Site Reviews provides Gutenberg blocks, Elementor Widgets, and Shortcodes.
-4. Premioum addons provide additional functionality to Site Reviews
+4. Premium addons provide additional functionality to Site Reviews
 5. Site Reviews provides a Help page with complete shortcode documentation and answers to frequently asked questions.
 6. General settings.
 7. Settings for displaying reviews.
@@ -192,13 +192,13 @@ You can report any security bugs found in the source code of this plugin through
 
 == Upgrade Notice ==
 
-= 7.0.0 =
+= 8.0.0 =
 
-This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
+This update requires a minimum of PHP 7.4 and WordPress 6.5. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
 
-= 8.0.0 (2025-03-??) =
+= 8.0.0 (2025-05-??) =
 
 - Site Reviews has a fresh coat of paint! 💅🏻
 - Added [Avada Fusion Builder](https://avada.com/feature/live-visual-builder/) integration.
@@ -210,11 +210,10 @@ This update requires a minimum of PHP 7.4 and WordPress 6.1. There are a few pot
 - Added an option to change the position of the Captcha (above or below the submit button in the review form).
 - Added Geolocation which allows you to display the location of the reviewer (i.e. flag/country/state/city) in the review
 - Added the `summary_id` option to the Review Form, this allows you to update the rating summary immediately without reloading the page.
+- Fixed ActionScheduler action redirects
 - Fixed link focus when expanding exceprts with the keyboard.
 - Improved CSS of plugin styles for some themes.
-- Refreshed the Elementor widget icons.
-- Refreshed the Fusion Builder widget icons.
-- Refreshed the Gutenberg block icons.
+- Updated the Gutenberg blocks to api v3.
 
 = 7.2.6 (2025-02-16) =
 
