@@ -322,6 +322,11 @@ td.glsr-string-td1 .row-actions.visible {
   font-weight: 600;
   font-size: 16px;
   flex-grow: 1;
+  &.has-logo {
+    align-items: center;
+    display: flex;
+    gap: 1ex;
+  }
 }
 .glsr-accordion-trigger .icon {
   border: solid #555d66;

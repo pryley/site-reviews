@@ -30,6 +30,17 @@
           "default": "#product-reviews",
           "type": "string"
         },
+        "style": {
+            "type": "object",
+            "default": {
+                "spacing": {
+                    "margin": {
+                        "bottom": "0",
+                        "top": "0"
+                    }
+                }
+            }
+        },
         "text": {
           "attribute": "title",
           "default": "{num} customer reviews",

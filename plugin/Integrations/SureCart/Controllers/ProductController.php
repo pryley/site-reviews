@@ -119,7 +119,7 @@ class ProductController implements ControllerContract
             }
         }
         if ('prev' === $type) {
-            $svg = \SureCart::svg()->get('arrow-left', ['aria-hidden' => true]);
+            $svg = \SureCart::svg()->get('arrow-left', ['aria-hidden' => true]); // @phpstan-ignore-line
             $svg = wp_kses($svg, sc_allowed_svg_html());
             $args['text'] = $svg.$args['text'];
             if (1 >= $paginate->args->current) {
@@ -127,7 +127,7 @@ class ProductController implements ControllerContract
             }
         }
         if ('next' === $type) {
-            $svg = \SureCart::svg()->get('arrow-right', ['aria-hidden' => true]);
+            $svg = \SureCart::svg()->get('arrow-right', ['aria-hidden' => true]); // @phpstan-ignore-line
             $svg = wp_kses($svg, sc_allowed_svg_html());
             $args['text'] = $args['text'].$svg;
             if ($paginate->args->current >= $paginate->args->total) {

@@ -62,6 +62,9 @@ a[data-expand] {
   word-break: normal;
   word-spacing: normal;
 }
+.description a[data-expand] {
+  font-size: 13px;
+}
 
 ::placeholder {
   color: #72777c !important;

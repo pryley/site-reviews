@@ -422,6 +422,17 @@ return array(
 				'default' => '#product-reviews',
 				'type' => 'string'
 			),
+			'style' => array(
+				'type' => 'object',
+				'default' => array(
+					'spacing' => array(
+						'margin' => array(
+							'bottom' => '0',
+							'top' => '0'
+						)
+					)
+				)
+			),
 			'text' => array(
 				'attribute' => 'title',
 				'default' => '{num} customer reviews',
