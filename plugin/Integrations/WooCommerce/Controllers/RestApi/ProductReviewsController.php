@@ -181,7 +181,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
     {
         $context = Arr::get($request, 'context', 'view');
         $fields = $this->get_fields_for_response($request);
-        $productId = Arr::get($review->assigned_posts, 0);
+        $productId = Arr::getAs('int', $review->assigned_posts, 0);
         $data = [
             'id' => $review->ID,
             'date_created' => wc_rest_prepare_date_response($review->date),

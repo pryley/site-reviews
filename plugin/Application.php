@@ -253,8 +253,11 @@ final class Application extends Container implements PluginContract
         return Arr::get($settings, $path);
     }
 
-    public function shortcode(string $shortcode): ?ShortcodeContract
+    public function shortcode(?string $shortcode): ?ShortcodeContract
     {
+        if (empty($shortcode)) {
+            return null;
+        }
         $shortcodes = glsr()->retrieveAs('array', 'shortcodes');
         $className = $shortcodes[$shortcode] ?? '';
         if (!class_exists($className)) {

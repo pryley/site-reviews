@@ -125,7 +125,7 @@ class MainController extends AbstractController
         if (!$product->get_reviews_allowed()) {
             return $data;
         }
-        return glsr(SchemaParser::class)->buildReviewSchema([
+        return $parser->buildReviewSchema([
             'assigned_posts' => $postId,
         ]);
     }

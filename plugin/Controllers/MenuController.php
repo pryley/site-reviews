@@ -141,9 +141,11 @@ class MenuController extends AbstractController
             foreach ($data as $values) {
                 $features[] = glsr(FeatureDefaults::class)->restrict($values);
             }
+            $feature = array_column($features, 'feature');
+            $premium = array_column($features, 'premium');
             array_multisort(
-                array_column($features, 'premium'), SORT_DESC,
-                array_column($features, 'feature'), SORT_ASC | SORT_NATURAL,
+                $premium, \SORT_DESC,
+                $feature, \SORT_ASC | \SORT_NATURAL,
                 $features
             );
         }

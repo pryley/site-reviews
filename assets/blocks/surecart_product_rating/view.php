@@ -29,7 +29,7 @@ $context = [
 
 ?>
 <div <?php echo wp_kses_data(get_block_wrapper_attributes()); ?>
-    data-wp-context='<?php echo wp_json_encode($context); ?>'
+    data-wp-context='<?php echo (wp_json_encode($context) ?: '{}'); ?>'
     data-wp-init="callbacks.init"
     data-wp-interactive="site-reviews/surecart-product-rating"
     data-wp-key="surecart-product-rating-<?php echo (int) $product->id; ?>"

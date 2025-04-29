@@ -53,7 +53,7 @@ add_action('plugins_loaded', function () {
         );
     }, 9);
     add_action('site-reviews/review/updated', function ($review, $data) {
-        return do_action_deprecated('site-reviews/review/saved',
+        do_action_deprecated('site-reviews/review/saved',
             [$review, $data],
             '6.7.0',
             'site-reviews/review/updated'
@@ -102,7 +102,7 @@ add_action('plugins_loaded', function () {
         );
     });
     add_action('site-reviews/review/responded', function ($review, $response) {
-        return do_action_deprecated('site-reviews/review/response',
+        do_action_deprecated('site-reviews/review/response',
             [$review, $response],
             '5.11.0',
             'site-reviews/review/responded',

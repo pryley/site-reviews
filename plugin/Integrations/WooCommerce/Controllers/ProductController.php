@@ -79,6 +79,7 @@ class ProductController implements ControllerContract
      */
     public function filterProductAverageRating($value, $product): float
     {
+        // return glsr_get_ratings(['assigned_posts' => $product->get_id()])->average;
         return Cast::toFloat(get_post_meta($product->get_id(), CountManager::META_AVERAGE, true));
     }
 
@@ -160,6 +161,7 @@ class ProductController implements ControllerContract
      */
     public function filterProductReviewCount($value, $product): int
     {
+        // return glsr_get_ratings(['assigned_posts' => $product->get_id()])->reviews;
         return Cast::toInt(get_post_meta($product->get_id(), CountManager::META_REVIEWS, true));
     }
 

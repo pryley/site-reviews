@@ -33,7 +33,6 @@ class Hooks extends IntegrationHooks
                 ['filterShortcodeAttributes', 'site-reviews/shortcode/site_reviews_form/attributes', 10, 2],
                 ['filterShortcodeAttributes', 'site-reviews/shortcode/site_reviews_summary/attributes', 10, 2],
                 ['parseProductQuery', 'parse_query'],
-                // ['registerBlockPatterns', 'init'],
                 ['registerBlocks', 'init', 11],
                 ['registerProductAttributes', 'surecart/product/attributes_set'],
                 ['renderProductColumnValues', 'manage_sc-products_custom_column', 10, 2],
@@ -41,8 +40,6 @@ class Hooks extends IntegrationHooks
                 ['verifyProductOwner', 'site-reviews/review/created', 20],
             ]);
             $this->hook(RestController::class, [
-                ['filterProductModel', 'surecart/request/model', 10, 2],
-                ['filterProductsRequest', 'rest_products_request'],
                 ['filterRestApiSummaryArgs', 'site-reviews/rest-api/summary/args', 10, 2],
             ]);
         }
@@ -56,6 +53,7 @@ class Hooks extends IntegrationHooks
 
     protected function isInstalled(): bool
     {
-        return class_exists('SureCart');
+        return class_exists('SureCart')
+            && function_exists('sc_get_product');
     }
 }

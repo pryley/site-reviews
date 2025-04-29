@@ -313,41 +313,6 @@ class ProductController implements ControllerContract
     }
 
     /**
-     * @action init
-     */
-    public function registerBlockPatterns(): void
-    {
-        register_block_pattern(glsr()->id.'/surecart-product-reviews', [
-            'title' => _x('Product Reviews', 'admin-text', 'site-reviews'),
-            'categories' => ['surecart_product_page'],
-            'blockTypes' => ['surecart/product-page'],
-            'priority' => 2,
-            'content' => '
-                <!-- wp:group {"layout":{"type":"constrained"}} -->
-                <div class="wp-block-group">
-                    <!-- wp:columns {"align":"wide"} -->
-                    <div class="wp-block-columns alignwide">
-                        <!-- wp:column {"width":"100%","className":"is-style-default","layout":{"type":"default"}} -->
-                        <div class="wp-block-column is-style-default" style="flex-basis:100%">
-                            <!-- wp:heading {"className":"is-style-text-subtitle"} -->
-                            <h2 class="wp-block-heading is-style-text-subtitle">Reviews</h2>
-                            <!-- /wp:heading -->
-                            <!-- wp:site-reviews/reviews {"assigned_posts":["post_id"],"hide":["title"],"id":"reviews","pagination":"ajax","schema":1} /-->
-                            <!-- wp:heading {"className":"is-style-text-subtitle"} -->
-                            <h2 class="wp-block-heading is-style-text-subtitle">Submit a Review</h2>
-                            <!-- /wp:heading -->
-                            <!-- wp:site-reviews/form {"assigned_posts":["post_id"],"hide":["name","email","title"],"reviews_id":"reviews"} /--></div>
-                        <!-- /wp:column -->
-                        </div>
-                    <!-- /wp:columns -->
-                    </div>
-                <!-- /wp:group -->',
-            // 'postTypes' => ['sc_product'],
-            // 'templateTypes' => ['sc_product'],
-        ]);
-    }
-
-    /**
      * @action init:11
      */
     public function registerBlocks(): void

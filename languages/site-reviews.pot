@@ -753,7 +753,7 @@ msgctxt "admin-text"
 msgid "Display the fallback text when there are no reviews to display. This can be changed on the %s page. You may also override this by using the \"fallback\" option on the shortcode."
 msgstr ""
 
-#: config/settings.php:415, plugin/Controllers/MenuController.php:167
+#: config/settings.php:415, plugin/Controllers/MenuController.php:169
 msgctxt "admin-text"
 msgid "Strings"
 msgstr ""
@@ -2709,62 +2709,62 @@ msgctxt "admin-text"
 msgid "API"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:111, plugin/Controllers/MenuController.php:168
+#: plugin/Controllers/MenuController.php:111, plugin/Controllers/MenuController.php:170
 msgctxt "admin-text"
 msgid "Integrations"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:112, plugin/Controllers/MenuController.php:169
+#: plugin/Controllers/MenuController.php:112, plugin/Controllers/MenuController.php:171
 msgctxt "admin-text"
 msgid "Addons"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:163, plugin/Controllers/MenuController.php:190
+#: plugin/Controllers/MenuController.php:165, plugin/Controllers/MenuController.php:192
 msgctxt "admin-text"
 msgid "General"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:164, plugin/Controllers/PrivacyController.php:135, plugin/Defaults/PostTypeLabelDefaults.php:17, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31, plugin/Integrations/SureCart/Controllers/ProductController.php:157, plugin/Integrations/WooCommerce/Metaboxes/ReviewsMetabox.php:15
+#: plugin/Controllers/MenuController.php:166, plugin/Controllers/PrivacyController.php:135, plugin/Defaults/PostTypeLabelDefaults.php:17, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31, plugin/Integrations/SureCart/Controllers/ProductController.php:157, plugin/Integrations/WooCommerce/Metaboxes/ReviewsMetabox.php:15
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:165
+#: plugin/Controllers/MenuController.php:167
 msgctxt "admin-text"
 msgid "Forms"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:166, plugin/Tinymce/SiteReviewsSummaryTinymce.php:62, plugin/Tinymce/SiteReviewsTinymce.php:69, plugin/Integrations/Bricks/BricksElement.php:79
+#: plugin/Controllers/MenuController.php:168, plugin/Tinymce/SiteReviewsSummaryTinymce.php:62, plugin/Tinymce/SiteReviewsTinymce.php:69, plugin/Integrations/Bricks/BricksElement.php:79
 msgctxt "admin-text"
 msgid "Schema"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:170
+#: plugin/Controllers/MenuController.php:172
 msgctxt "admin-text"
 msgid "Licenses"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:191
+#: plugin/Controllers/MenuController.php:193
 msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:192, views/pages/tools/sync.php:58
+#: plugin/Controllers/MenuController.php:194, views/pages/tools/sync.php:58
 msgctxt "admin-text"
 msgid "Sync Reviews"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:193
+#: plugin/Controllers/MenuController.php:195
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:194
+#: plugin/Controllers/MenuController.php:196
 msgctxt "admin-text"
 msgid "System Info"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:243
+#: plugin/Controllers/MenuController.php:245
 msgctxt "admin-text"
 msgid "Premium Addons"
 msgstr ""
@@ -6095,11 +6095,6 @@ msgstr ""
 msgid "verified owner"
 msgstr ""
 
-#: plugin/Integrations/SureCart/Controllers/ProductController.php:321
-msgctxt "admin-text"
-msgid "Product Reviews"
-msgstr ""
-
 #: plugin/Integrations/UltimateMember/Controllers/DirectoryController.php:43
 msgctxt "admin-text"
 msgid "Site Reviews: Display User Rating"
@@ -6167,7 +6162,7 @@ msgctxt "admin-text"
 msgid "managed by Site Reviews"
 msgstr ""
 
-#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:179
+#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:181
 msgid "Reviews (%d)"
 msgstr ""
 
