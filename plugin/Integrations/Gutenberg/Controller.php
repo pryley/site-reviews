@@ -50,6 +50,23 @@ class Controller extends AbstractController
     }
 
     /**
+     * @param string $className The current applied classname.
+     * @param string $blockName The block name.
+     *
+     * @filter block_default_classname
+     */
+    public function filterBlockGeneratedClassname($className, $blockName): string
+    {
+        if ('site-reviews/review' === $blockName) {
+            return 'wp-block-site-review';
+        }
+        if ('site-reviews/reviews' === $blockName) {
+            return 'wp-block-site-reviews';
+        }
+        return $className;
+    }
+
+    /**
      * @filter use_block_editor_for_post_type
      */
     public function filterUseBlockEditor(bool $useBlockEditor, string $postType): bool
