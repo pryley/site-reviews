@@ -82,17 +82,10 @@ abstract class Block
 
     protected function rendered(array $attributes): string
     {
-        $doc = new \DOMDocument();
         $html = $this->shortcode()->build($attributes, 'block');
-        libxml_use_internal_errors(true);
-        $doc->loadHTML($html, \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD);
-        $root = $doc->documentElement;
-        $rendered = '';
-        foreach ($root->childNodes as $node) {
-            $rendered .= $doc->saveHTML($node);
+        if (preg_match('/^<div[^>]*>(.*)<\/div>$/s', $html, $matches)) {
+            return $matches[1];
         }
-        libxml_clear_errors();
-        libxml_use_internal_errors(false);
         return $rendered;
     }
 }
