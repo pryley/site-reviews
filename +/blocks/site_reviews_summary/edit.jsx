@@ -1,7 +1,17 @@
 import './editor.scss';
-import { __experimentalUnitControl as UnitControl, BaseControl, Notice, RangeControl, TextControl } from '@wordpress/components';
+import {
+    __experimentalToolsPanelItem as ToolsPanelItem,
+    __experimentalUnitControl as UnitControl,
+    __experimentalUseCustomUnits as useCustomUnits,
+    BaseControl,
+    Notice,
+    NumberControl,
+    RangeControl,
+    TextControl,
+} from '@wordpress/components';
 import { _x, sprintf } from '@wordpress/i18n';
 import { AjaxComboboxControl, AjaxFormTokenField, AjaxToggleGroupControl, NoYesControl } from '@site-reviews/components';
+import { JustifyContentControl } from '@wordpress/block-editor';
 import { useEffect, useRef } from '@wordpress/element';
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
@@ -25,7 +35,7 @@ export default function Edit (props) {
         const verticalBars = ['2', '3'];
         // Check for style transitions and update attributes
         if (horizontalBars.includes(prevStyle) && verticalBars.includes(currentStyle)) {
-            setAttributes({ summary_bar_size: '50px' })
+            setAttributes({ summary_bar_size: '3em' })
         } else if (verticalBars.includes(prevStyle) && horizontalBars.includes(currentStyle)) {
             setAttributes({ summary_bar_size: '1em' })
         }
@@ -145,74 +155,101 @@ export default function Edit (props) {
             placeholder={ _x('Select a Review Type...', 'admin-text', 'site-reviews') }
             value={ attributes.type }
         />,
-        summary_bar_size: <UnitControl
-            __next40pxDefaultSize
-            isResetValueOnUnitChange
+        summary_align: <JustifyContentControl
+            allowedControls={['left', 'center', 'right']}
+            onChange={ (summary_align) => setAttributes({ summary_align}) }
+            value={ attributes.summary_align }
+        />,
+        summary_bar_size: <ToolsPanelItem
+            hasValue={ () => '1em' !== attributes.summary_bar_size }
+            isShownByDefault
             label={ _x('Percent Bar Size', 'admin-text', 'site-reviews') }
-            min={0}
-            onChange={ (summary_bar_size) => setAttributes({ summary_bar_size }) }
-            units={[
-                {
-                    default: 16,
-                    label: 'px',
-                    value: 'px',
-                },
-                {
-                    default: 1,
-                    label: 'em',
-                    value: 'em',
-                },
-                {
-                    default: 1,
-                    label: 'rem',
-                    value: 'rem',
-                },
-            ]}
-            value={ attributes.summary_bar_size }
-        />,
-        summary_max_width: <UnitControl
-            __next40pxDefaultSize
-            isResetValueOnUnitChange
+            onDeselect={ () => setAttributes({ summary_bar_size: '1em' }) }
+            style={{ 'grid-column': 'span 1' }}
+        >
+            <UnitControl
+                __next40pxDefaultSize
+                isResetValueOnUnitChange
+                label={ _x('Percent Bar Size', 'admin-text', 'site-reviews') }
+                min={0}
+                onChange={ (summary_bar_size) => setAttributes({ summary_bar_size }) }
+                units={ useCustomUnits({
+                    availableUnits: ['px', 'em', 'rem'],
+                    defaultValues: { px: '16', em: '1', rem: '1' },
+                }) }
+                value={ attributes.summary_bar_size }
+            />
+        </ToolsPanelItem>,
+        summary_bar_spacing: <ToolsPanelItem
+            hasValue={ () => !['.5em','0.5em'].includes(attributes.summary_bar_spacing) }
+            isShownByDefault
+            label={ _x('Percent Bar Gap', 'admin-text', 'site-reviews') }
+            onDeselect={ () => setAttributes({ summary_bar_spacing: '.5em' }) }
+            style={{ 'grid-column': 'span 1' }}
+        >
+            <UnitControl
+                __next40pxDefaultSize
+                isResetValueOnUnitChange
+                label={ _x('Percent Bar Gap', 'admin-text', 'site-reviews') }
+                min={0}
+                onChange={ (summary_bar_spacing) => setAttributes({ summary_bar_spacing }) }
+                units={ useCustomUnits({
+                    availableUnits: ['px', 'em', 'rem'],
+                    defaultValues: { px: '8', em: '.5', rem: '.5' },
+                }) }
+                value={ attributes.summary_bar_spacing }
+            />
+        </ToolsPanelItem>,
+        summary_max_width: <ToolsPanelItem
+            hasValue={ () => '48ch' !== attributes.summary_max_width }
+            isShownByDefault
             label={ _x('Max Width', 'admin-text', 'site-reviews') }
-            min={0}
-            onChange={ (summary_max_width) => setAttributes({ summary_max_width }) }
-            units={[
-                {
-                    default: 48,
-                    label: 'ch',
-                    value: 'ch',
-                },
-            ]}
-            value={ attributes.summary_max_width }
-        />,
-        summary_star_size: <UnitControl
-            __next40pxDefaultSize
-            isResetValueOnUnitChange
+            onDeselect={ () => setAttributes({ summary_max_width: '48ch' }) }
+            style={{ 'grid-column': 'span 1' }}
+        >
+            <UnitControl
+                __next40pxDefaultSize
+                allowReset
+                isResetValueOnUnitChange
+                label={ _x('Max Width', 'admin-text', 'site-reviews') }
+                min={0}
+                onChange={ (summary_max_width) => setAttributes({ summary_max_width }) }
+                units={ useCustomUnits({
+                    availableUnits: ['%', 'ch'],
+                    defaultValues: { '%': '100', ch: '48' },
+                }) }
+                value={ attributes.summary_max_width }
+            />
+        </ToolsPanelItem>,
+        summary_star_size: <ToolsPanelItem
+            hasValue={ () => '1.5em' !== attributes.summary_star_size }
+            isShownByDefault
             label={ _x('Star Size', 'admin-text', 'site-reviews') }
-            min={0}
-            onChange={ (summary_star_size) => setAttributes({ summary_star_size }) }
-            units={[
-                {
-                    default: 24,
-                    label: 'px',
-                    value: 'px',
-                },
-                {
-                    default: 1.5,
-                    label: 'em',
-                    value: 'em',
-                },
-                {
-                    default: 1.5,
-                    label: 'rem',
-                    value: 'rem',
-                },
-            ]}
-            value={ attributes.summary_star_size }
-        />,
+            onDeselect={ () => setAttributes({ summary_star_size: '1.5em' }) }
+            style={{ 'grid-column': 'span 1' }}
+        >
+            <UnitControl
+                __next40pxDefaultSize
+                allowReset
+                isResetValueOnUnitChange
+                label={ _x('Star Size', 'admin-text', 'site-reviews') }
+                min={0}
+                onChange={ (summary_star_size) => setAttributes({ summary_star_size }) }
+                units={ useCustomUnits({
+                    availableUnits: ['px', 'em', 'rem'],
+                    defaultValues: { px: '24', em: '1.5', rem: '1.5' },
+                }) }
+                value={ attributes.summary_star_size }
+            />
+        </ToolsPanelItem>,
     };
 
     const panels = { // order is intentional
+        block: {
+            controls: [
+                'summary_align',
+            ],
+        },
         settings: {
             controls: [
                 'assigned_posts',
@@ -248,19 +285,37 @@ export default function Edit (props) {
         sizes: {
             controls: [
                 'summary_max_width',
-                'summary_bar_size',
                 'summary_star_size',
+                'summary_bar_size',
+                'summary_bar_spacing',
             ],
             group: 'styles',
             title: _x('Sizes', 'admin-text', 'site-reviews'),
+            resetAll: () => {
+                setAttributes({
+                    summary_bar_size: '1em',
+                    summary_bar_spacing: '.5em',
+                    summary_max_width: '48ch',
+                    summary_star_size: '1.5em',
+                })
+            },
         },
     };
 
     return (
-        <ServerSideBlockRenderer controls={controls} panels={panels} props={props} style={{
-            '--glsr-bar-size': attributes.summary_bar_size,
-            '--glsr-max-w': attributes.summary_max_width || 'none',
-            '--glsr-summary-star': attributes.summary_star_size,
-        }} />
+        <ServerSideBlockRenderer
+            controls={controls}
+            panels={panels}
+            props={props}
+            style={{
+                '--glsr-bar-size': attributes.summary_bar_size,
+                '--glsr-bar-spacing': attributes.summary_bar_spacing,
+                '--glsr-max-w': attributes.summary_max_width || 'none',
+                '--glsr-summary-star': attributes.summary_star_size,
+            }}
+            styleClassNames={[
+                `items-justified-${attributes.summary_align || 'left'}`,
+            ]}
+        />
     )
 }

@@ -66,8 +66,16 @@
             "enum": [0, 1],
             "type": "number"
         },
+        "summary_align": {
+            "default": "left",
+            "type": "string"
+        },
         "summary_bar_size": {
             "default": "1em",
+            "type": "string"
+        },
+        "summary_bar_spacing": {
+            "default": ".5em",
             "type": "string"
         },
         "summary_star_size": {

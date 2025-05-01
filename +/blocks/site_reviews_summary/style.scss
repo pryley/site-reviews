@@ -1,74 +1,115 @@
+.wp-block-site-reviews-summary {
+    &.items-justified-center {
+        .glsr-summary {
+            justify-content: center;
+        }
+        .glsr-summary-text {
+            text-align: center;
+        }
+    }
+    &.items-justified-left {
+        .glsr-summary {
+            justify-content: start;
+        }
+        .glsr-summary-text {
+            text-align: start;
+        }
+    }
+    &.items-justified-right {
+        .glsr-summary {
+            justify-content: end;
+        }
+        .glsr-summary-text {
+            text-align: end;
+        }
+    }
+}
 .wp-block-site-reviews-summary:is(.is-style-1,.is-style-3) {
     .glsr-summary {
         display: grid;
         grid-template-columns: auto 1fr;
-        row-gap: 0;
     }
     .glsr-summary-rating {
-        font-size: calc(3 * var(--glsr-summary-text));
+        font-size: 3em;
         grid-row-end: span 2;
-        white-space: nowrap;
     }
     .glsr-summary-percentages {
         grid-column-end: span 2;
     }
     .glsr-summary-stars {
-        display: flex;
         grid-column-start: 2;
     }
     .glsr-summary-text {
         grid-column-start: 2;
     }
-    :not(:has(.glsr-summary-stars)),
-    :not(:has(.glsr-summary-text)) {
+    :not(:has(:is(.glsr-summary-stars,.glsr-summary-text))) {
         .glsr-summary-stars,
         .glsr-summary-text {
             grid-row-end: span 2;
         }
     }
-}
-.wp-block-site-reviews-summary:is(.is-style-2,.is-style-3) {
-    .glsr-summary > div + .glsr-summary-percentages {
-        margin-top: 1ex;
-    }
-    .glsr-summary-percentages {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: start;
-        column-gap: .5ex;
-    }
-    .glsr-bar {
-        display: grid;
-        flex: 1;
-        &:after {
-            content: attr(data-level);
-            display: flex;
-            font-size: var(--glsr-summary-text);
-            justify-content: center;
+    &.items-justified-center {
+        .glsr-summary {
+            grid-template-columns: 1fr auto auto 1fr;
+        }
+        .glsr-summary-rating {
+            grid-column-start: 2;
+        }
+        .glsr-summary-stars,
+        .glsr-summary-text {
+            grid-column-start: 3;
+            text-align: start;
+        }
+        .glsr-summary-percentages {
+            grid-column-end: span 4;
         }
     }
-    .glsr-bar-label,
+    &.items-justified-left {
+        .glsr-summary-rating {
+            justify-content: start;
+        }
+    }
+    &.items-justified-right {
+        .glsr-summary {
+            grid-template-columns: 1fr auto;
+        }
+        .glsr-summary-rating {
+            justify-content: end;
+        }
+        .glsr-summary-text {
+            text-align: start;
+        }
+    }
+}
+.wp-block-site-reviews-summary:is(.is-style-2,.is-style-3) {
+    .glsr-summary-percentages {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    .glsr-bar {
+        grid-column: span 1;
+        grid-row: span 3;
+    }
+    .glsr-bar > span {
+        justify-content: center;
+    }
+    .glsr-bar-label {
+        white-space: wrap;
+    }
+    .glsr-bar-background {
+        align-items: end;
+        border-radius: var(--glsr-input-radius);
+        grid-row-start: 1;
+        height: var(--glsr-bar-size);
+        overflow: hidden;
+        &::after {
+            border-radius: var(--glsr-input-radius);
+            height: var(--glsr-bar-percent);
+            min-height: 1px;
+            width: 100%;
+        }
+    }
     .glsr-bar-percent {
         display: none;
     }
-    .glsr-bar-background {
-        --glsr-bar-opacity: 0;
-        display: flex;
-        flex-direction: column-reverse;
-        height: var(--glsr-bar-size);
-        border-radius: var(--glsr-input-radius);
-        overflow: hidden;
-        &::before {
-            height: 100%;
-            left: 0;
-            margin: 0;
-            top: 0;
-        }
-    }
-    .glsr-bar-background-percent {
-        border-radius: var(--glsr-input-radius);
-        height: var(--glsr-bar-percent);
-        min-height: 1px;
-        width: auto !important;
-    }
 }
+

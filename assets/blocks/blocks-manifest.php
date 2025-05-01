@@ -312,8 +312,16 @@ return array(
 				),
 				'type' => 'number'
 			),
+			'summary_align' => array(
+				'default' => 'left',
+				'type' => 'string'
+			),
 			'summary_bar_size' => array(
 				'default' => '1em',
+				'type' => 'string'
+			),
+			'summary_bar_spacing' => array(
+				'default' => '.5em',
 				'type' => 'string'
 			),
 			'summary_star_size' => array(
