@@ -4689,12 +4689,12 @@ msgstr ""
 
 #: plugin/Integrations/Elementor/ElementorSummaryWidget.php:169
 msgctxt "admin-text"
-msgid "Percentage Bar Height"
+msgid "Percent Bar Height"
 msgstr ""
 
 #: plugin/Integrations/Elementor/ElementorSummaryWidget.php:189
 msgctxt "admin-text"
-msgid "Percentage Bar Spacing"
+msgid "Percent Bar Spacing"
 msgstr ""
 
 #: plugin/Integrations/Elementor/ElementorWidget.php:75, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:20, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:19, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:20

@@ -439,6 +439,9 @@ td.glsr-string-td1 .row-actions.visible {
   code a {
     text-decoration: none;
   }
+  strong code {
+    font-weight: 600;
+  }
 }
 
 .glsr-float-left {

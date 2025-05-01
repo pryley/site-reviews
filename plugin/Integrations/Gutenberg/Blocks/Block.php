@@ -86,6 +86,6 @@ abstract class Block
         if (preg_match('/^<div[^>]*>(.*)<\/div>$/s', $html, $matches)) {
             return $matches[1];
         }
-        return $rendered;
+        return $html;
     }
 }
