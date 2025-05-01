@@ -64,6 +64,13 @@
                 <p><strong>The <code>site-reviews/review-form/fields/normalized</code> filter hook has been removed.</strong></p>
                 <p>If you were previously using this hook, you should change it to: <code>site-reviews/review-form/fields/all</code>.</p>
             </li>
+            <li>
+                <p><strong>The <code>site-reviews/summary/counts</code> filter hook has been removed.</strong></p>
+                <p>If you were previously using this hook to change the percentage text to the review count in the Rating Summary, use this CSS instead:</p>
+                <pre><code class="language-css">.glsr-summary .glsr-bar-percent::before {
+    content: attr(data-reviews);
+}</code></pre>
+            </li>
         </ol>
 
     </div>

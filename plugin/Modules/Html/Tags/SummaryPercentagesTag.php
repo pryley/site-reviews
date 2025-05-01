@@ -17,23 +17,18 @@ class SummaryPercentagesTag extends SummaryTag
 
     protected function ratingBar(int $level, array $percentages): string
     {
-        $background = glsr(Builder::class)->span([
-            'class' => 'glsr-bar-background-percent',
-            'style' => "width:var(--glsr-bar-percent);",
-        ]);
         return glsr(Builder::class)->span([
             'class' => 'glsr-bar-background',
             'style' => "--glsr-bar-percent:{$percentages[$level]};",
-            'text' => $background,
         ]);
     }
 
     protected function ratingInfo(int $level, array $percentages): string
     {
-        $count = glsr()->filterString('summary/counts', $percentages[$level], $this->ratings[$level]);
         return glsr(Builder::class)->span([
             'class' => 'glsr-bar-percent',
-            'text' => $count,
+            'data-percent' => $percentages[$level],
+            'data-reviews' => $this->ratings[$level],
         ]);
     }
 

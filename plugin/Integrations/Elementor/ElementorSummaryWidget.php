@@ -133,7 +133,7 @@ class ElementorSummaryWidget extends ElementorWidget
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .glsr-summary' => 'justify-content: {{VALUE}};',
-                    '{{WRAPPER}} .glsr-summary-text' => 'display: flex; justify-content: {{VALUE}};',
+                    '{{WRAPPER}} .glsr-summary-text' => 'text-align: {{VALUE}};',
                 ],
                 'type' => Controls_Manager::CHOOSE,
             ],
@@ -155,7 +155,7 @@ class ElementorSummaryWidget extends ElementorWidget
                     ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .glsr-summary' => '--glsr-max-w: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}}' => '--glsr-max-w: {{SIZE}}{{UNIT}};',
                 ],
                 'size_units' => $this->set_custom_size_unit(['px', '%']),
                 'type' => Controls_Manager::SLIDER,
@@ -166,7 +166,7 @@ class ElementorSummaryWidget extends ElementorWidget
                     'size' => 1,
                 ],
                 'is_responsive' => true,
-                'label' => esc_html_x('Percentage Bar Height', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Percent Bar Height', 'admin-text', 'site-reviews'),
                 'range' => [
                     'em' => [
                         'max' => 1.5,
@@ -175,7 +175,7 @@ class ElementorSummaryWidget extends ElementorWidget
                     ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .glsr-summary .glsr-bar-background' => '--glsr-text-md: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}}' => '--glsr-bar-size: {{SIZE}}{{UNIT}};',
                 ],
                 'size_units' => ['em'],
                 'type' => Controls_Manager::SLIDER,
@@ -186,7 +186,7 @@ class ElementorSummaryWidget extends ElementorWidget
                     'unit' => 'em',
                 ],
                 'is_responsive' => true,
-                'label' => esc_html_x('Percentage Bar Spacing', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Percent Bar Spacing', 'admin-text', 'site-reviews'),
                 'range' => [
                     'em' => [
                         'max' => 2,
@@ -195,7 +195,7 @@ class ElementorSummaryWidget extends ElementorWidget
                     ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .glsr-summary .glsr-bar' => '--glsr-bar-leading: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}}' => '--glsr-bar-spacing: {{SIZE}}{{UNIT}};',
                 ],
                 'size_units' => ['em'],
                 'type' => Controls_Manager::SLIDER,
@@ -234,7 +234,7 @@ class ElementorSummaryWidget extends ElementorWidget
                     ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .glsr:not([data-theme]) .glsr-star' => '--glsr-summary-star: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}}' => '--glsr-summary-star: {{SIZE}}{{UNIT}};',
                 ],
                 'size_units' => $this->set_custom_size_unit(['em']),
                 'type' => Controls_Manager::SLIDER,
