@@ -41,6 +41,14 @@
         }
       }
     },
+    "styleRatingColor": {
+      "default": "",
+      "type": "string"
+    },
+    "styleRatingColorCustom": {
+      "default": "",
+      "type": "string"
+    },
     "text": {
       "attribute": "title",
       "default": "{num} customer reviews",

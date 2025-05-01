@@ -49,16 +49,28 @@
       "default": "",
       "type": "string"
     },
+    "styleRatingColor": {
+      "default": "",
+      "type": "string"
+    },
+    "styleRatingColorCustom": {
+      "default": "",
+      "type": "string"
+    },
+    "styleStarSize": {
+      "default": "2em",
+      "type": "string"
+    },
     "summary_id": {
       "default": "",
       "type": "string"
     }
   },
   "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
   "script": "site-reviews",
   "style": [
     "core/button",
+    "file:./style-index.css",
     "site-reviews"
   ],
   "keywords": [
@@ -66,6 +78,27 @@
     "site reviews"
   ],
   "supports": {
-    "html": false
+    "color": {
+      "background": false,
+      "button": true,
+      "link": true,
+      "text": true
+    },
+    "html": false,
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "textAlign": false,
+      "__experimentalTextDecoration": false,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": false,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "lineHeight": true
+      }
+    }
   }
 }

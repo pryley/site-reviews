@@ -1,12 +1,7 @@
-.wp-block-site-reviews-surecart-product-rating {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1ex;
-
-    &.has-custom-rating-color:not([data-theme]) {
+.wp-block-site-review {
+    &.has-custom-rating-color .glsr:not([data-theme]) {
         .glsr-star {
-            background: var(--glsr-rating-star-bg);
+            background: var(--glsr-review-star-bg);
             mask-size: 100%;
         }
         .glsr-star-empty {

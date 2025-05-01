@@ -34,18 +34,53 @@ return array(
 			'post_id' => array(
 				'default' => '',
 				'type' => 'string'
+			),
+			'styleRatingColor' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'styleRatingColorCustom' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'styleStarSize' => array(
+				'default' => '1.25em',
+				'type' => 'string'
 			)
 		),
 		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
 		'script' => 'site-reviews',
-		'style' => 'site-reviews',
+		'style' => array(
+			'file:./style-index.css',
+			'site-reviews'
+		),
 		'keywords' => array(
 			'review',
 			'site reviews'
 		),
 		'supports' => array(
-			'html' => false
+			'color' => array(
+				'background' => false,
+				'heading' => true,
+				'link' => true,
+				'text' => true
+			),
+			'html' => false,
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'textAlign' => false,
+				'__experimentalTextDecoration' => false,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => false,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'lineHeight' => true
+				)
+			)
 		)
 	),
 	'site_reviews' => array(
@@ -129,6 +164,18 @@ return array(
 				),
 				'type' => 'number'
 			),
+			'styleRatingColor' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'styleRatingColorCustom' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'styleStarSize' => array(
+				'default' => '1.25em',
+				'type' => 'string'
+			),
 			'terms' => array(
 				'default' => '',
 				'type' => 'string'
@@ -139,15 +186,38 @@ return array(
 			)
 		),
 		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
 		'script' => 'site-reviews',
-		'style' => 'site-reviews',
+		'style' => array(
+			'file:./style-index.css',
+			'site-reviews'
+		),
 		'keywords' => array(
 			'reviews',
 			'site reviews'
 		),
 		'supports' => array(
-			'html' => false
+			'color' => array(
+				'background' => false,
+				'heading' => true,
+				'link' => true,
+				'text' => true
+			),
+			'html' => false,
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'textAlign' => false,
+				'__experimentalTextDecoration' => false,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => false,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'lineHeight' => true
+				)
+			)
 		)
 	),
 	'site_reviews_form' => array(
@@ -211,16 +281,28 @@ return array(
 				'default' => '',
 				'type' => 'string'
 			),
+			'styleRatingColor' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'styleRatingColorCustom' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'styleStarSize' => array(
+				'default' => '2em',
+				'type' => 'string'
+			),
 			'summary_id' => array(
 				'default' => '',
 				'type' => 'string'
 			)
 		),
 		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
 		'script' => 'site-reviews',
 		'style' => array(
 			'core/button',
+			'file:./style-index.css',
 			'site-reviews'
 		),
 		'keywords' => array(
@@ -228,7 +310,28 @@ return array(
 			'site reviews'
 		),
 		'supports' => array(
-			'html' => false
+			'color' => array(
+				'background' => false,
+				'button' => true,
+				'link' => true,
+				'text' => true
+			),
+			'html' => false,
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'textAlign' => false,
+				'__experimentalTextDecoration' => false,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => false,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'lineHeight' => true
+				)
+			)
 		)
 	),
 	'site_reviews_summary' => array(
@@ -312,23 +415,31 @@ return array(
 				),
 				'type' => 'number'
 			),
-			'summary_align' => array(
+			'styleAlign' => array(
 				'default' => 'left',
 				'type' => 'string'
 			),
-			'summary_bar_size' => array(
+			'styleBarSize' => array(
 				'default' => '1em',
 				'type' => 'string'
 			),
-			'summary_bar_spacing' => array(
+			'styleBarSpacing' => array(
 				'default' => '.5em',
 				'type' => 'string'
 			),
-			'summary_star_size' => array(
+			'styleRatingColor' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'styleRatingColorCustom' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'styleStarSize' => array(
 				'default' => '1.5em',
 				'type' => 'string'
 			),
-			'summary_max_width' => array(
+			'styleMaxWidth' => array(
 				'default' => '48ch',
 				'type' => 'string'
 			),
@@ -346,7 +457,6 @@ return array(
 			)
 		),
 		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
 		'script' => 'site-reviews',
 		'style' => array(
 			'file:./style-index.css',
@@ -371,14 +481,12 @@ return array(
 			'site reviews'
 		),
 		'supports' => array(
-			'html' => false,
-			'spacing' => array(
-				'padding' => true,
-				'margin' => array(
-					'top',
-					'bottom'
-				)
+			'color' => array(
+				'background' => false,
+				'link' => false,
+				'text' => true
 			),
+			'html' => false,
 			'typography' => array(
 				'fontSize' => true,
 				'lineHeight' => true,
@@ -440,6 +548,14 @@ return array(
 						)
 					)
 				)
+			),
+			'styleRatingColor' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'styleRatingColorCustom' => array(
+				'default' => '',
+				'type' => 'string'
 			),
 			'text' => array(
 				'attribute' => 'title',

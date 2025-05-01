@@ -23,6 +23,21 @@
             text-align: end;
         }
     }
+    &.has-custom-rating-color .glsr:not([data-theme]) {
+        .glsr-star {
+            background: var(--glsr-summary-star-bg);
+            mask-size: 100%;
+        }
+        .glsr-star-empty {
+            mask-image: var(--glsr-star-empty);
+        }
+        .glsr-star-full {
+            mask-image: var(--glsr-star-full);
+        }
+        .glsr-star-half {
+            mask-image: var(--glsr-star-half);
+        }
+    }
 }
 .wp-block-site-reviews-summary:is(.is-style-1,.is-style-3) {
     .glsr-summary {
@@ -83,7 +98,7 @@
 }
 .wp-block-site-reviews-summary:is(.is-style-2,.is-style-3) {
     .glsr-summary-percentages {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     }
     .glsr-bar {
         grid-column: span 1;

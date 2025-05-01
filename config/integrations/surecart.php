@@ -8,21 +8,6 @@ return [ // order is intentional
         'tooltip' => _x('This will integrate Site Reviews with SureCart.', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',
     ],
-    'settings.integrations.surecart.style' => [
-        'class' => 'regular-text',
-        'default' => 'text',
-        'depends_on' => [
-            'settings.integrations.surecart.enabled' => ['yes'],
-        ],
-        'label' => _x('Rating Style', 'admin-text', 'site-reviews'),
-        'options' => [
-            '' => _x('Site Reviews', 'admin-text', 'site-reviews'),
-            'text' => _x('Text Color (currentColor)', 'admin-text', 'site-reviews'),
-        ],
-        'sanitizer' => 'text',
-        'tooltip' => _x('This changes the color/style of the product rating stars', 'admin-text', 'site-reviews'),
-        'type' => 'select',
-    ],
     'settings.integrations.surecart.sorting' => [
         'class' => 'regular-text',
         'default' => '',

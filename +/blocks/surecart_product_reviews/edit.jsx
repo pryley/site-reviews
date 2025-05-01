@@ -8,7 +8,7 @@ const innerBlocksTemplate = [
     [ 'core/columns', {align:'wide',style:{spacing:{blockGap:{top:"30px",left:"60px"}}}}, [
         [ 'core/column', {style:{spacing:{blockGap:"var:preset|spacing|40"}}}, [
             [ 'core/group', {fontSize:"medium"}, [
-                [ 'site-reviews/summary', {assigned_posts:['post_id'],id:'rating-summary-id',className:'is-style-3',labels:'5,4,3,2,1',summary_max_width:"50ch",summary_bar_size:'50px',summary_star_size:'24px',text:'From {num} customer reviews'} ],
+                [ 'site-reviews/summary', {assigned_posts:['post_id'],id:'rating-summary-id',className:'is-style-3',labels:'5,4,3,2,1',styleMaxWidth:"50ch",styleBarSize:'50px',styleStarSize:'24px',text:'From {num} customer reviews'} ],
             ] ],
             [ 'core/group', {fontSize:"medium"}, [
                 [ 'site-reviews/reviews', {assigned_posts:['post_id'],id:'reviews-id',pagination:'ajax',schema:1} ],

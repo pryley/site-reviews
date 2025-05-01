@@ -69,6 +69,18 @@
       ],
       "type": "number"
     },
+    "styleRatingColor": {
+      "default": "",
+      "type": "string"
+    },
+    "styleRatingColorCustom": {
+      "default": "",
+      "type": "string"
+    },
+    "styleStarSize": {
+      "default": "1.25em",
+      "type": "string"
+    },
     "terms": {
       "default": "",
       "type": "string"
@@ -79,14 +91,37 @@
     }
   },
   "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
   "script": "site-reviews",
-  "style": "site-reviews",
+  "style": [
+    "file:./style-index.css",
+    "site-reviews"
+  ],
   "keywords": [
     "reviews",
     "site reviews"
   ],
   "supports": {
-    "html": false
+    "color": {
+      "background": false,
+      "heading": true,
+      "link": true,
+      "text": true
+    },
+    "html": false,
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "textAlign": false,
+      "__experimentalTextDecoration": false,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": false,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "lineHeight": true
+      }
+    }
   }
 }

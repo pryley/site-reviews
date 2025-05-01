@@ -1,12 +1,25 @@
-import './editor.scss';
+import {
+    __experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
+    __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
+    withColors,
+} from '@wordpress/block-editor';
+import {
+    __experimentalToolsPanelItem as ToolsPanelItem,
+    __experimentalUnitControl as UnitControl,
+    __experimentalUseCustomUnits as useCustomUnits,
+    RangeControl,
+    TextControl,
+} from '@wordpress/components';
 import { _x } from '@wordpress/i18n';
 import { AjaxComboboxControl, AjaxFormTokenField, AjaxToggleGroupControl, NoYesControl } from '@site-reviews/components';
-import { RangeControl, TextControl } from '@wordpress/components';
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
-export default function Edit (props) {
-    const { attributes, setAttributes } = props;
+const Edit = (props) => {
+    const { attributes, clientId, setAttributes, setStyleRatingColor, styleRatingColor } = props;
+    const colorGradientSettings = useMultipleOriginColorsAndGradients();
+
     setAttributes({ post_id: jQuery('#post_ID').val() }) // used to get the "post_id" assigned_posts value
+
     const controls = {
         assigned_posts: <AjaxFormTokenField
             endpoint='/site-reviews/v1/shortcode/site_reviews?option=assigned_posts'
@@ -85,6 +98,48 @@ export default function Edit (props) {
             label={ _x('Enable the Schema?', 'admin-text', 'site-reviews') }
             value={ attributes.schema }
         />,
+        styleRatingColor: <ColorGradientSettingsDropdown
+            __experimentalIsRenderedInSidebar
+            panelId={clientId}
+            settings={ [
+                {
+                    clearable: true,
+                    colorValue: styleRatingColor.color || attributes.styleRatingColorCustom,
+                    label: _x('Rating', 'admin-text', 'site-reviews'),
+                    onColorChange: (color) => {
+                        setAttributes({ styleRatingColorCustom: color })
+                        setStyleRatingColor(color)
+                    },
+                    isShownByDefault: true,
+                    resetAllFilter: () => ({
+                        styleRatingColor: '',
+                        styleRatingColorCustom: '',
+                    }),
+                }
+            ] }
+            {...colorGradientSettings}
+        />,
+        styleStarSize: <ToolsPanelItem
+            hasValue={ () => '1.25em' !== attributes.styleStarSize }
+            isShownByDefault
+            label={ _x('Star Size', 'admin-text', 'site-reviews') }
+            onDeselect={ () => setAttributes({ styleStarSize: '1.25em' }) }
+            style={{ 'grid-column': 'span 1' }}
+        >
+            <UnitControl
+                __next40pxDefaultSize
+                allowReset
+                isResetValueOnUnitChange
+                label={ _x('Star Size', 'admin-text', 'site-reviews') }
+                min={0}
+                onChange={ (styleStarSize) => setAttributes({ styleStarSize }) }
+                units={ useCustomUnits({
+                    availableUnits: ['px', 'em', 'rem'],
+                    defaultValues: { px: '20', em: '1.25', rem: '1.25' },
+                }) }
+                value={ attributes.styleStarSize }
+            />
+        </ToolsPanelItem>,
         terms: <AjaxComboboxControl
             __experimentalRenderItem={false}
             endpoint='/site-reviews/v1/shortcode/site_reviews?option=terms'
@@ -105,6 +160,7 @@ export default function Edit (props) {
             value={ attributes.type }
         />,
     };
+
     const panels = { // order is intentional
         settings: {
             controls: [
@@ -129,9 +185,41 @@ export default function Edit (props) {
             controls: [
                 'id',
             ],
-        }
+        },
+        color: {
+            controls: [
+                'styleRatingColor',
+            ],
+        },
+        sizes: {
+            controls: [
+                'styleStarSize',
+            ],
+            group: 'styles',
+            title: _x('Sizes', 'admin-text', 'site-reviews'),
+            resetAll: () => {
+                setAttributes({
+                    styleStarSize: '1.25em',
+                })
+            },
+        },
     };
+
     return (
-        <ServerSideBlockRenderer controls={controls} panels={panels} props={props} />
+        <ServerSideBlockRenderer
+            controls={controls}
+            panels={panels}
+            props={props}
+            style={{
+                '--glsr-review-star': attributes.styleStarSize,
+                '--glsr-review-star-bg': styleRatingColor.slug ? `var(--wp--preset--color--${styleRatingColor.slug})` : attributes.styleRatingColorCustom,
+            }}
+            styleClassNames={[
+                (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-rating-color' : '',
+            ]}
+        />
     )
 }
+
+export default withColors('styleRatingColor')(Edit)
+

@@ -27,16 +27,31 @@ $context = [
     'textTemplate' => $textTemplate,
 ];
 
+$blockClassAttr = '';
+if (!empty($attributes['styleRatingColor']) || !empty($attributes['styleRatingColorCustom'])) {
+    $blockClassAttr = 'has-custom-rating-color';
+}
+
+$blockStyleAttr = '';
+if (!empty($attributes['styleRatingColor'])) {
+    $blockStyleAttr = "--glsr-rating-star-bg: var(--wp--preset--color--{$attributes['styleRatingColor']});";
+} elseif (!empty($attributes['styleRatingColorCustom'])) {
+    $blockStyleAttr = "--glsr-rating-star-bg: {$attributes['styleRatingColorCustom']};";
+}
+
+$blockAttributes = get_block_wrapper_attributes([
+    'class' => $blockClassAttr,
+    'style' => $blockStyleAttr,
+]);
+
 ?>
-<div <?php echo wp_kses_data(get_block_wrapper_attributes()); ?>
+<div <?php echo wp_kses_data($blockAttributes); ?>
     data-wp-context='<?php echo (wp_json_encode($context) ?: '{}'); ?>'
     data-wp-init="callbacks.init"
     data-wp-interactive="site-reviews/surecart-product-rating"
     data-wp-key="surecart-product-rating-<?php echo (int) $product->id; ?>"
 >
-    <div data-style="<?php echo $theme; ?>">
-        <?php echo glsr_star_rating($ratings->average, $ratings->reviews, compact('theme')); ?>
-    </div>
+    <?php echo glsr_star_rating($ratings->average, $ratings->reviews, compact('theme')); ?>
     <?php if ($attributes['has_text']) { ?>
         <?php if ($attributes['is_link']) { ?>
             <a href="<?php echo esc_attr($attributes['link_url']); ?>"

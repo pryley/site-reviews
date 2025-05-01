@@ -1,18 +1,31 @@
 import apiFetch from '@wordpress/api-fetch';
+import {
+    __experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
+    __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
+    InspectorControls,
+    useBlockProps,
+    withColors,
+} from '@wordpress/block-editor';
 import { _x } from '@wordpress/i18n';
 import { addQueryArgs } from '@wordpress/url';
-import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 import { RawHTML, useEffect, useMemo, useState } from '@wordpress/element';
 import { safeHTML } from '@wordpress/dom';
 
-export default function Edit (props) {
-    const { attributes, setAttributes, context, name } = props;
+const Edit = (props) => {
+    const { attributes, clientId, context, name, setAttributes, setStyleRatingColor, styleRatingColor } = props;
     const { postId } = context;
-    const blockProps = useBlockProps();
+    const colorGradientSettings = useMultipleOriginColorsAndGradients();
     const [ratings, setRatings] = useState({});
     const defaultText = _x('{num} customer reviews', 'admin-text', 'site-reviews');
     const defaultLinkUrl = '#product-reviews';
+
+    const blockProps = useBlockProps({
+        className: (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-rating-color' : '',
+        style: {
+            '--glsr-rating-star-bg': styleRatingColor.slug ? `var(--wp--preset--color--${styleRatingColor.slug})` : attributes.styleRatingColorCustom,
+        }
+    });
 
     const endpoint = useMemo(
         () => addQueryArgs('/site-reviews/v1/summary/stars', {
@@ -40,6 +53,29 @@ export default function Edit (props) {
 
     return (
         <>
+            <InspectorControls group="color">
+                <ColorGradientSettingsDropdown
+                    __experimentalIsRenderedInSidebar
+                    panelId={clientId}
+                    settings={ [
+                        {
+                            clearable: true,
+                            colorValue: styleRatingColor.color || attributes.styleRatingColorCustom,
+                            label: _x('Rating', 'admin-text', 'site-reviews'),
+                            onColorChange: (color) => {
+                                setAttributes({ styleRatingColorCustom: color })
+                                setStyleRatingColor(color)
+                            },
+                            isShownByDefault: true,
+                            resetAllFilter: () => ({
+                                styleRatingColor: '',
+                                styleRatingColorCustom: '',
+                            }),
+                        }
+                    ] }
+                    {...colorGradientSettings}
+                />
+            </InspectorControls>
             <InspectorControls>
                 <PanelBody>
                     <ToggleControl
@@ -97,3 +133,5 @@ export default function Edit (props) {
         </>
     );
 }
+
+export default withColors('styleRatingColor')(Edit)

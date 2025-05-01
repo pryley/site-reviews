@@ -12,20 +12,42 @@ class SiteReviewsSummaryBlock extends Block
         return glsr(SiteReviewsSummaryShortcode::class);
     }
 
-    protected function blockStyle(array $attributes): string
+    protected function blockClassAttr(array $attributes): string
     {
-        $style = [];
-        if (!empty($attributes['summary_bar_size'])) {
-            $style[] = "--glsr-bar-size: {$attributes['summary_bar_size']};";
+        $attr = [];
+        if (!empty($attributes['styleAlign'])) {
+            $attr[] = "items-justified-{$attributes['styleAlign']}";
         }
-        if (!empty($attributes['summary_star_size'])) {
-            $style[] = "--glsr-summary-star: {$attributes['summary_star_size']};";
+        if (!empty($attributes['styleRatingColor']) || !empty($attributes['styleRatingColorCustom'])) {
+            $attr[] = 'has-custom-rating-color';
         }
-        if (!empty($attributes['summary_max_width'])) {
-            $style[] = "--glsr-max-w: {$attributes['summary_max_width']};";
+        return implode(' ', $attr);
+    }
+
+    protected function blockStyleAttr(array $attributes): string
+    {
+        $attr = [];
+        if (!empty($attributes['styleRatingColor'])) {
+            $attr[] = "--glsr-bar-bg: var(--wp--preset--color--{$attributes['styleRatingColor']});";
+            $attr[] = '--glsr-summary-star-bg: var(--glsr-bar-bg);';
+        } elseif (!empty($attributes['styleRatingColorCustom'])) {
+            $attr[] = "--glsr-bar-bg: {$attributes['styleRatingColorCustom']};";
+            $attr[] = '--glsr-summary-star-bg: var(--glsr-bar-bg);';
+        }
+        if (!empty($attributes['styleBarSize'])) {
+            $attr[] = "--glsr-bar-size: {$attributes['styleBarSize']};";
+        }
+        if (!empty($attributes['styleBarSpacing'])) {
+            $attr[] = "--glsr-bar-spacing: {$attributes['styleBarSpacing']};";
+        }
+        if (!empty($attributes['styleStarSize'])) {
+            $attr[] = "--glsr-summary-star: {$attributes['styleStarSize']};";
+        }
+        if (!empty($attributes['styleMaxWidth'])) {
+            $attr[] = "--glsr-max-w: {$attributes['styleMaxWidth']};";
         } else {
-            $style[] = "--glsr-max-w: none";
+            $attr[] = "--glsr-max-w: none";
         }
-        return implode('', $style);
+        return implode('', $attr);
     }
 }

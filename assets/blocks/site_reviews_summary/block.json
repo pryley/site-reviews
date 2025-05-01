@@ -69,23 +69,31 @@
       ],
       "type": "number"
     },
-    "summary_align": {
+    "styleAlign": {
       "default": "left",
       "type": "string"
     },
-    "summary_bar_size": {
+    "styleBarSize": {
       "default": "1em",
       "type": "string"
     },
-    "summary_bar_spacing": {
+    "styleBarSpacing": {
       "default": ".5em",
       "type": "string"
     },
-    "summary_star_size": {
+    "styleRatingColor": {
+      "default": "",
+      "type": "string"
+    },
+    "styleRatingColorCustom": {
+      "default": "",
+      "type": "string"
+    },
+    "styleStarSize": {
       "default": "1.5em",
       "type": "string"
     },
-    "summary_max_width": {
+    "styleMaxWidth": {
       "default": "48ch",
       "type": "string"
     },
@@ -103,7 +111,6 @@
     }
   },
   "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
   "script": "site-reviews",
   "style": [
     "file:./style-index.css",
@@ -128,14 +135,12 @@
     "site reviews"
   ],
   "supports": {
-    "html": false,
-    "spacing": {
-      "padding": true,
-      "margin": [
-        "top",
-        "bottom"
-      ]
+    "color": {
+      "background": false,
+      "link": false,
+      "text": true
     },
+    "html": false,
     "typography": {
       "fontSize": true,
       "lineHeight": true,

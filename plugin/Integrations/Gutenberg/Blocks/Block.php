@@ -45,7 +45,12 @@ abstract class Block
 
     abstract public function shortcode(): ShortcodeContract;
 
-    protected function blockStyle(array $attributes): string
+    protected function blockClassAttr(array $attributes): string
+    {
+        return '';
+    }
+
+    protected function blockStyleAttr(array $attributes): string
     {
         return '';
     }
@@ -56,9 +61,10 @@ abstract class Block
             \WP_Block_Supports::get_instance()->apply_block_supports(),
             array_fill_keys(['class', 'id', 'style'], '')
         );
-        $style = "{$atts['style']} {$this->blockStyle($attributes)}";
+        $class = "{$atts['class']} {$this->blockClassAttr($attributes)}";
+        $style = "{$atts['style']} {$this->blockStyleAttr($attributes)}";
         return array_filter([
-            'class' => glsr(Sanitizer::class)->sanitizeAttrClass($atts['class']),
+            'class' => glsr(Sanitizer::class)->sanitizeAttrClass($class),
             'id' => glsr(Sanitizer::class)->sanitizeId($atts['id']),
             'style' => glsr(Sanitizer::class)->sanitizeAttrStyle($style),
         ]);

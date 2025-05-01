@@ -1671,82 +1671,62 @@ msgctxt "admin-text"
 msgid "This will integrate Site Reviews with SureCart."
 msgstr ""
 
-#: config/integrations/surecart.php:17, config/integrations/woocommerce.php:20
-msgctxt "admin-text"
-msgid "Rating Style"
-msgstr ""
-
-#: config/integrations/surecart.php:19
-msgctxt "admin-text"
-msgid "Site Reviews"
-msgstr ""
-
-#: config/integrations/surecart.php:20
-msgctxt "admin-text"
-msgid "Text Color (currentColor)"
-msgstr ""
-
-#: config/integrations/surecart.php:23
-msgctxt "admin-text"
-msgid "This changes the color/style of the product rating stars"
-msgstr ""
-
-#: config/integrations/surecart.php:33, config/integrations/woocommerce.php:70
+#: config/integrations/surecart.php:18, config/integrations/woocommerce.php:70
 msgctxt "admin-text"
 msgid "The problem with averaging star ratings"
 msgstr ""
 
-#: config/integrations/surecart.php:34, config/integrations/woocommerce.php:71
+#: config/integrations/surecart.php:19, config/integrations/woocommerce.php:71
 msgctxt "admin-text"
 msgid "Of bayesian average and star ratings"
 msgstr ""
 
-#: config/integrations/surecart.php:36, config/integrations/woocommerce.php:73
+#: config/integrations/surecart.php:21, config/integrations/woocommerce.php:73
 msgctxt "admin-text"
 msgid "Product Sorting"
 msgstr ""
 
-#: config/integrations/surecart.php:38, config/integrations/ultimatemember.php:48, config/integrations/woocommerce.php:75
+#: config/integrations/surecart.php:23, config/integrations/ultimatemember.php:48, config/integrations/woocommerce.php:75
 msgctxt "admin-text"
 msgid "Average Rating"
 msgstr ""
 
-#: config/integrations/surecart.php:39, config/integrations/ultimatemember.php:49, config/integrations/woocommerce.php:76
+#: config/integrations/surecart.php:24, config/integrations/ultimatemember.php:49, config/integrations/woocommerce.php:76
 msgctxt "admin-text"
 msgid "Bayesian Ranking"
 msgstr ""
 
-#: config/integrations/surecart.php:42, config/integrations/woocommerce.php:79
+#: config/integrations/surecart.php:27, config/integrations/woocommerce.php:79
 msgctxt "admin-text"
 msgid "This is the method used to sort products by rating on the shop page."
 msgstr ""
 
-#: config/integrations/surecart.php:50, config/integrations/ultimatemember.php:34, config/integrations/woocommerce.php:87
+#: config/integrations/surecart.php:35, config/integrations/ultimatemember.php:34, config/integrations/woocommerce.php:87
 msgctxt "admin-text"
 msgid "Display Empty Ratings?"
 msgstr ""
 
-#: config/integrations/surecart.php:52, config/integrations/woocommerce.php:89
+#: config/integrations/surecart.php:37, config/integrations/woocommerce.php:89
 msgctxt "admin-text"
 msgid "This will display the rating stars even if the product has no reviews."
 msgstr ""
 
-#: config/integrations/surecart.php:60
+#: config/integrations/surecart.php:45
 msgctxt "admin-text"
 msgid "Verified Ownership"
 msgstr ""
 
-#: config/integrations/surecart.php:62
+#: config/integrations/surecart.php:47
 msgctxt "admin-text"
 msgid "Display a \"verified owner\" label on customer reviews"
 msgstr ""
 
-#: config/integrations/surecart.php:63
+#: config/integrations/surecart.php:48
 msgctxt "admin-text"
 msgid "Reviews can only be left by customers who purchased the product"
 msgstr ""
 
-#: config/integrations/surecart.php:66
+#: config/integrations/surecart.php:51
 msgctxt "admin-text"
 msgid "Select the Verified Ownership options."
 msgstr ""
@@ -1880,6 +1860,11 @@ msgstr ""
 #: config/integrations/woocommerce.php:10, views/integrations/woocommerce/tools/import-product-reviews.php:35, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:114
 msgctxt "admin-text"
 msgid "Import Reviews"
+msgstr ""
+
+#: config/integrations/woocommerce.php:20
+msgctxt "admin-text"
+msgid "Rating Style"
 msgstr ""
 
 #: config/integrations/woocommerce.php:22
