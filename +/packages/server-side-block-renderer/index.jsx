@@ -1,7 +1,7 @@
 import ServerSideRender from '@wordpress/server-side-render';
 import { _x } from '@wordpress/i18n';
-import { InspectorControls, InspectorAdvancedControls, useBlockProps } from '@wordpress/block-editor';
-import { Disabled, PanelBody, Spinner } from '@wordpress/components';
+import { BlockControls, InspectorControls, InspectorAdvancedControls, useBlockProps } from '@wordpress/block-editor';
+import { __experimentalToolsPanel as ToolsPanel, Disabled, PanelBody, Spinner } from '@wordpress/components';
 import { useCallback, useEffect, useMemo, useRef } from '@wordpress/element';
 import { BaseControl, Notice } from '@wordpress/components';
 
@@ -44,6 +44,7 @@ const allowedInspectorGroups = [
     'advanced',
     'background',
     'bindings',
+    'block', // special group for block toolbar controls
     'border',
     'color',
     'default',
@@ -63,12 +64,14 @@ const ServerSideBlockRenderer = ({
     props,
     renderCallback,
     style = {},
+    styleClassNames = [],
 }) => {
     const { attributes, name: blockName } = props;
     const hookPrefix = blockName.replace('/', '.');
     const ref = useRef(null);
 
     const blockProps = useBlockProps({
+        className: styleClassNames.join(' '),
         ref,
         style,
     });
@@ -128,7 +131,7 @@ const ServerSideBlockRenderer = ({
         return acc;
     }, {});
 
-    const renderControls = (controlsArray, context = 'unknown') => {
+    const renderControls = (controlsArray) => {
         return controlsArray
             .filter((controlKey) => controlKey in filteredControls)
             .map((controlKey) => filteredControls[controlKey]);
@@ -137,16 +140,31 @@ const ServerSideBlockRenderer = ({
     return (
         <>
             {Object.entries(normalizedPanels).map(([group, panels]) => {
+                if ('block' === group) {
+                    return (
+                        <BlockControls group={group}>
+                            {Object.entries(panels).map(([panelKey, panel]) => renderControls(panel.controls))}
+                        </BlockControls>
+                    )
+                }
                 return (
                     <InspectorControls group={group}>
                         {Object.entries(panels).map(([panelKey, panel]) => {
                             const { controls, ...panelProps } = panel; // Exclude controls
                             if (group === panelKey) {
-                                return renderControls(controls, panelKey);
+                                return renderControls(controls);
+                            }
+                            if (panelProps.resetAll) {
+                                const { title: label, ...toolsPanelProps } = panelProps;
+                                return (
+                                    <ToolsPanel label={label} {...toolsPanelProps}>
+                                        {renderControls(controls)}
+                                    </ToolsPanel>
+                                )
                             }
                             return (
                                 <PanelBody {...panelProps}>
-                                    {renderControls(controls, panelKey)}
+                                    {renderControls(controls)}
                                 </PanelBody>
                             )
                         })}
