@@ -77,6 +77,10 @@
       "default": "",
       "type": "string"
     },
+    "styleReviewSpacing": {
+      "default": "2em",
+      "type": "string"
+    },
     "styleStarSize": {
       "default": "1.25em",
       "type": "string"

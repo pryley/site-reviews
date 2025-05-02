@@ -10,4 +10,9 @@
             mask-image: var(--glsr-star-full);
         }
     }
+    .glsr:not([data-theme]) {
+        .glsr-review-form {
+            row-gap: var(--glsr-field-spacing);
+        }
+    }
 }

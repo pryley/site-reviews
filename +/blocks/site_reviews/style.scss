@@ -14,4 +14,10 @@
             mask-image: var(--glsr-star-half);
         }
     }
+    .glsr:not([data-theme]) {
+        .glsr-reviews-wrap,
+        .glsr-reviews {
+            gap: var(--glsr-review-spacing);
+        }
+    }
 }

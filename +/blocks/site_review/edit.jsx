@@ -122,11 +122,18 @@ const Edit = (props) => {
         },
     };
 
+    const onRenderComplete = () => {
+        if (window.GLSR_init) {
+            GLSR_init('site-reviews/excerpts/init');
+        }
+    };
+
     return (
         <ServerSideBlockRenderer
             controls={controls}
             panels={panels}
             props={props}
+            renderCallback={onRenderComplete}
             style={{
                 '--glsr-review-star': attributes.styleStarSize,
                 '--glsr-review-star-bg': styleRatingColor.slug ? `var(--wp--preset--color--${styleRatingColor.slug})` : attributes.styleRatingColorCustom,

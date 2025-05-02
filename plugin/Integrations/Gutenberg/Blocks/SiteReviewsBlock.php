@@ -32,6 +32,9 @@ class SiteReviewsBlock extends Block
         if (!empty($attributes['styleStarSize'])) {
             $attr[] = "--glsr-review-star: {$attributes['styleStarSize']};";
         }
+        if (!empty($attributes['styleReviewSpacing'])) {
+            $attr[] = "--glsr-review-spacing: {$attributes['styleReviewSpacing']};";
+        }
         return implode('', $attr);
     }
 }

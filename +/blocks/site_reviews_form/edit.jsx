@@ -68,6 +68,27 @@ const Edit = (props) => {
             onChange={ reviews_id => setAttributes({ reviews_id }) }
             value={ attributes.reviews_id }
         />,
+        styleFieldSpacing: <ToolsPanelItem
+            hasValue={ () => !['.75em','0.75em'].includes(attributes.styleFieldSpacing) }
+            isShownByDefault
+            label={ _x('Field Spacing', 'admin-text', 'site-reviews') }
+            onDeselect={ () => setAttributes({ styleFieldSpacing: '.75em' }) }
+            style={{ 'grid-column': 'span 1' }}
+        >
+            <UnitControl
+                __next40pxDefaultSize
+                allowReset
+                isResetValueOnUnitChange
+                label={ _x('Field Spacing', 'admin-text', 'site-reviews') }
+                min={0}
+                onChange={ (styleFieldSpacing) => setAttributes({ styleFieldSpacing }) }
+                units={ useCustomUnits({
+                    availableUnits: ['px', 'em', 'rem'],
+                    defaultValues: { px: '12', em: '.75', rem: '.75' },
+                }) }
+                value={ attributes.styleFieldSpacing }
+            />
+        </ToolsPanelItem>,
         styleRatingColor: <ColorGradientSettingsDropdown
             __experimentalIsRenderedInSidebar
             panelId={clientId}
@@ -149,22 +170,23 @@ const Edit = (props) => {
         },
         sizes: {
             controls: [
+                'styleFieldSpacing',
                 'styleStarSize',
             ],
             group: 'styles',
             title: _x('Sizes', 'admin-text', 'site-reviews'),
             resetAll: () => {
                 setAttributes({
+                    styleFieldSpacing: '.75',
                     styleStarSize: '2em',
                 })
             },
         },
     };
 
-    const onRenderComplete = () => { // @todo render the stars server-side!
-        if (GLSR?.stars) {
-            GLSR.stars.destroy();
-            GLSR.stars.init('.glsr-field-rating select', { clearable: true });
+    const onRenderComplete = () => {
+        if (window.GLSR_init) {
+            GLSR_init('site-reviews/forms/init');
         }
     };
 
@@ -175,6 +197,7 @@ const Edit = (props) => {
             props={props}
             renderCallback={onRenderComplete}
             style={{
+                '--glsr-field-spacing': attributes.styleFieldSpacing,
                 '--glsr-form-star': attributes.styleStarSize,
                 '--glsr-form-star-bg': styleRatingColor.slug ? `var(--wp--preset--color--${styleRatingColor.slug})` : attributes.styleRatingColorCustom,
             }}

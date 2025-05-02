@@ -32,6 +32,9 @@ class SiteReviewsFormBlock extends Block
         if (!empty($attributes['styleStarSize'])) {
             $attr[] = "--glsr-form-star: {$attributes['styleStarSize']};";
         }
+        if (!empty($attributes['styleFieldSpacing'])) {
+            $attr[] = "--glsr-field-spacing: {$attributes['styleFieldSpacing']};";
+        }
         return implode('', $attr);
     }
 }

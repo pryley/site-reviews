@@ -135,7 +135,7 @@ window.GLSR.Event = Event;
 window.GLSR.Modal = Modal;
 window.GLSR.Utils = { debounce, dom, fadeIn, fadeOut, isEmpty, parseJson, throttle };
 
-window.GLSR_init = () => Event.trigger(events.init);
+window.GLSR_init = (event) => Event.trigger(event || events.init);
 
 document.addEventListener('DOMContentLoaded', () => {
     // for some reason, querySelectorAll return double the results in Firefox without this timeout...

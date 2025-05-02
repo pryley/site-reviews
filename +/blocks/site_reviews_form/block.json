@@ -49,6 +49,10 @@
             "default": "",
             "type": "string"
         },
+        "styleFieldSpacing": {
+            "default": ".75em",
+            "type": "string"
+        },
         "styleRatingColor": {
             "default": "",
             "type": "string"

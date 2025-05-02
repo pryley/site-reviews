@@ -172,6 +172,10 @@ return array(
 				'default' => '',
 				'type' => 'string'
 			),
+			'styleReviewSpacing' => array(
+				'default' => '2em',
+				'type' => 'string'
+			),
 			'styleStarSize' => array(
 				'default' => '1.25em',
 				'type' => 'string'
@@ -279,6 +283,10 @@ return array(
 			),
 			'reviews_id' => array(
 				'default' => '',
+				'type' => 'string'
+			),
+			'styleFieldSpacing' => array(
+				'default' => '.75em',
 				'type' => 'string'
 			),
 			'styleRatingColor' => array(

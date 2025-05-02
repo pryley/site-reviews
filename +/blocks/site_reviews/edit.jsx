@@ -119,6 +119,27 @@ const Edit = (props) => {
             ] }
             {...colorGradientSettings}
         />,
+        styleReviewSpacing: <ToolsPanelItem
+            hasValue={ () => '2em' !== attributes.styleReviewSpacing }
+            isShownByDefault
+            label={ _x('Review Spacing', 'admin-text', 'site-reviews') }
+            onDeselect={ () => setAttributes({ styleReviewSpacing: '2em' }) }
+            style={{ 'grid-column': 'span 1' }}
+        >
+            <UnitControl
+                __next40pxDefaultSize
+                allowReset
+                isResetValueOnUnitChange
+                label={ _x('Review Spacing', 'admin-text', 'site-reviews') }
+                min={0}
+                onChange={ (styleReviewSpacing) => setAttributes({ styleReviewSpacing }) }
+                units={ useCustomUnits({
+                    availableUnits: ['px', 'em', 'rem'],
+                    defaultValues: { px: '32', em: '2', rem: '2' },
+                }) }
+                value={ attributes.styleReviewSpacing }
+            />
+        </ToolsPanelItem>,
         styleStarSize: <ToolsPanelItem
             hasValue={ () => '1.25em' !== attributes.styleStarSize }
             isShownByDefault
@@ -193,16 +214,24 @@ const Edit = (props) => {
         },
         sizes: {
             controls: [
+                'styleReviewSpacing',
                 'styleStarSize',
             ],
             group: 'styles',
             title: _x('Sizes', 'admin-text', 'site-reviews'),
             resetAll: () => {
                 setAttributes({
+                    styleReviewSpacing: '2em',
                     styleStarSize: '1.25em',
                 })
             },
         },
+    };
+
+    const onRenderComplete = () => {
+        if (window.GLSR_init) {
+            GLSR_init('site-reviews/excerpts/init');
+        }
     };
 
     return (
@@ -210,7 +239,9 @@ const Edit = (props) => {
             controls={controls}
             panels={panels}
             props={props}
+            renderCallback={onRenderComplete}
             style={{
+                '--glsr-review-spacing': attributes.styleReviewSpacing,
                 '--glsr-review-star': attributes.styleStarSize,
                 '--glsr-review-star-bg': styleRatingColor.slug ? `var(--wp--preset--color--${styleRatingColor.slug})` : attributes.styleRatingColorCustom,
             }}
