@@ -9,5 +9,8 @@
     <strong class="privacy-policy-tutorial">Suggested text: </strong>When you leave a review on the site, we collect and store the data submitted in the review form as well as your IP address to help with spam detection. The review may be checked through Akismet, an automated spam detection service. The Akismet service privacy policy is available here: <a href="https://akismet.com/privacy/">https://akismet.com/privacy/</a>.
 </p>
 <p>
-    An anonymized string created from your email address (also called a hash) may be provided to the Gravatar service to see if you are using it to store an avatar. The Gravatar service privacy policy is available here: <a href="https://automattic.com/privacy/">https://automattic.com/privacy/</a>. After approval of your review, your profile picture is visible to the public in the context of your review. 
+    An anonymized string created from your email address (also called a hash) may be provided to the Gravatar service to see if you are using it to store an avatar. The Gravatar service privacy policy is available here: <a href="https://automattic.com/privacy/">https://automattic.com/privacy/</a>. After approval of your review, your profile picture may be visible to the public in the context of your review.
+</p>
+<p>
+    Your IP address may be provided to the IP-API service to extract its geolocation (only the country, region, and city is collected). This geolocation data is stored to the review and may be visible to the public in the context of your review displayed as a flag, country, or region and city. The IP-API service privacy policy is available here: <a href="https://ip-api.com/docs/legal">https://ip-api.com/docs/legal</a>. 
 </p>
