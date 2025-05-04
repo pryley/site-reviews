@@ -16,8 +16,8 @@ use GeminiLabs\SiteReviews\Modules\Style;
 
 class Form extends \ArrayObject implements FormContract
 {
-    protected Arguments $args;
-    protected array $config;
+    public Arguments $args;
+    public array $config;
     protected Arguments $session;
 
     public function __construct(array $args = [], array $values = [])

@@ -235,8 +235,8 @@
     site-reviews/settings/tabs                                  (array $tabs): array
     site-reviews/shortcode/<shortcode>/config                   (array $config, Shortcodes\Shortcode $shortcode): array
     site-reviews/shortcode/<shortcode>/attributes               (array $attributes, Shortcodes\Shortcode $shortcode): array
+    site-reviews/shortcode/args                                 (array $args, Shortcodes\Shortcode $shortcode): array
     site-reviews/shortcode/config                               (array $config, Shortcodes\Shortcode $shortcode): array
-    site-reviews/shortcode/args                                 (array $args, string $shortcodeName): array
     site-reviews/shortcode/options/<key>                        (array $results, Arguments $args): array
     site-reviews/slack/fields                                   (array $fields, Review $review): array
     site-reviews/slack/notification                             (array $notification, Modules\Slack $slack): array

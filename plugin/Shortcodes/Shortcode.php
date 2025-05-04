@@ -88,7 +88,7 @@ abstract class Shortcode implements ShortcodeContract
         if (!empty($from)) {
             $this->from = $from;
         }
-        $args = glsr()->filterArray('shortcode/args', $args, $this->tag);
+        $args = glsr()->filterArray('shortcode/args', $args, $this);
         $args = $this->defaults()->unguardedRestrict($args);
         foreach ($args as $key => &$value) {
             $method = Helper::buildMethodName('normalize', $key);
