@@ -167,7 +167,7 @@ class AdminController extends AbstractController
         echo ''.
         '<style type="text/css">'.
             "a[href=\"{$url}\"]:not(.current),a[href=\"{$url}\"]:focus,a[href=\"{$url}\"]:hover{".
-                'color:var(--glsr-primary)!important;'.
+                'color: #e8ff5e !important;'. // --glsr-primary
             '}'.
         '</style>';
     }
