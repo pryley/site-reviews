@@ -71,17 +71,4 @@ class SvgTest extends \WP_UnitTestCase
             '<svg fill="currentColor" height="20" style="pointer-events: none; color: red;" width="20" xmlns="http://www.w3.org/2000/svg"></svg>'
         );
     }
-
-    public function testUrl()
-    {
-        $this->assertEquals(Svg::url('xxx'), '');
-        $this->assertEquals(Svg::url('tests/assets/test.svg.txt'), '');
-        $this->assertEquals(Svg::url(glsr()->path('tests/assets/test.svg.txt')), '');
-        $this->assertEquals(Svg::url(glsr()->path('tests/assets/test.svg')),
-            glsr()->url('tests/assets/test.svg')
-        );
-        $this->assertEquals(Svg::url('tests/assets/test.svg'),
-            glsr()->url('tests/assets/test.svg')
-        );
-    }
 }

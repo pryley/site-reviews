@@ -36,20 +36,16 @@ class ReviewLocationTag extends ReviewTag
 
     protected function formattedFlag(array $location): string
     {
-        $svgUrl = Svg::url(
-            sprintf('assets/images/flags/%s-%s.svg', $location['country'], $location['region'])
-        );
-        if (empty($svgUrl)) {
-            $svgUrl = Svg::url(
-                sprintf('assets/images/flags/%s.svg', $location['country'])
-            );
+        $svgPath = sprintf('assets/images/flags/%s-%s.svg', $location['country'], $location['region']);
+        if (!file_exists(glsr()->path($svgPath))) {
+            $svgPath = sprintf('assets/images/flags/%s.svg', $location['country']);
         }
-        if (empty($svgUrl)) {
+        if (!file_exists(glsr()->path($svgPath))) {
             return '';
         }
         $flag = glsr(Builder::class)->img([
             'alt' => $location['country'],
-            'src' => $svgUrl,
+            'src' => glsr()->url($svgPath),
         ]);
         return glsr(Builder::class)->span(
             array_filter(glsr(FlagDefaults::class)->merge([

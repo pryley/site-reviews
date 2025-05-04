@@ -8,7 +8,7 @@ class Svg
     {
         $filename = static::filePath($path);
         if (empty($filename)) {
-            glsr_log()->error("Invalid SVG file: $filename");
+            glsr_log()->error("Invalid SVG path: $path");
             return '';
         }
         $contents = (string) file_get_contents($filename);
@@ -29,9 +29,12 @@ class Svg
 
     public static function filePath(string $path): string
     {
-        $filename = glsr()->path($path);
+        $filename = $path;
         if (!file_exists($filename)) {
-            // glsr_log()->error("Invalid SVG filepath: $filename");
+            $filename = glsr()->path($path);
+        }
+        if (!file_exists($filename)) {
+            // glsr_log()->error("Invalid SVG path: $filename");
             return '';
         }
         $check = wp_check_filetype($filename, [
@@ -69,13 +72,5 @@ class Svg
             }
         }
         return $processor->get_updated_html();
-    }
-
-    public static function url(string $path): string
-    {
-        if (!static::filePath($path)) {
-            return '';
-        }
-        return glsr()->url($path);
     }
 }
