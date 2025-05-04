@@ -5,13 +5,14 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'site-reviews/review',
-		'version' => '2.0.0',
 		'title' => 'Single Review',
-		'description' => 'Display a single review.',
 		'category' => 'site-reviews',
-		'example' => array(
-			
+		'description' => 'Display a single review.',
+		'keywords' => array(
+			'review',
+			'site reviews'
 		),
+		'version' => '2.0.0',
 		'textdomain' => 'site-reviews',
 		'attributes' => array(
 			'className' => array(
@@ -48,16 +49,6 @@ return array(
 				'type' => 'string'
 			)
 		),
-		'editorScript' => 'file:./index.js',
-		'script' => 'site-reviews',
-		'style' => array(
-			'file:./style-index.css',
-			'site-reviews'
-		),
-		'keywords' => array(
-			'review',
-			'site reviews'
-		),
 		'supports' => array(
 			'color' => array(
 				'background' => false,
@@ -81,19 +72,29 @@ return array(
 					'lineHeight' => true
 				)
 			)
+		),
+		'example' => array(
+			
+		),
+		'editorScript' => 'file:./index.js',
+		'script' => 'site-reviews',
+		'style' => array(
+			'file:./style-index.css',
+			'site-reviews'
 		)
 	),
 	'site_reviews' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'site-reviews/reviews',
-		'version' => '2.0.0',
 		'title' => 'Latest Reviews',
-		'description' => 'Display your reviews.',
 		'category' => 'site-reviews',
-		'example' => array(
-			
+		'description' => 'Display your reviews.',
+		'keywords' => array(
+			'reviews',
+			'site reviews'
 		),
+		'version' => '2.0.0',
 		'textdomain' => 'site-reviews',
 		'attributes' => array(
 			'assigned_posts' => array(
@@ -173,8 +174,11 @@ return array(
 				'type' => 'string'
 			),
 			'styleReviewSpacing' => array(
-				'default' => '2em',
-				'type' => 'string'
+				'default' => array(
+					'top' => '2em',
+					'bottom' => '2em'
+				),
+				'type' => 'object'
 			),
 			'styleStarSize' => array(
 				'default' => '1.25em',
@@ -188,16 +192,6 @@ return array(
 				'default' => 'local',
 				'type' => 'string'
 			)
-		),
-		'editorScript' => 'file:./index.js',
-		'script' => 'site-reviews',
-		'style' => array(
-			'file:./style-index.css',
-			'site-reviews'
-		),
-		'keywords' => array(
-			'reviews',
-			'site reviews'
 		),
 		'supports' => array(
 			'color' => array(
@@ -222,20 +216,30 @@ return array(
 					'lineHeight' => true
 				)
 			)
+		),
+		'example' => array(
+			
+		),
+		'editorScript' => 'file:./index.js',
+		'script' => 'site-reviews',
+		'style' => array(
+			'file:./style-index.css',
+			'site-reviews'
 		)
 	),
 	'site_reviews_form' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'site-reviews/form',
-		'version' => '2.0.0',
 		'title' => 'Review Form',
-		'description' => 'Display a review form.',
 		'category' => 'site-reviews',
-		'example' => array(
-			
+		'description' => 'Display a review form.',
+		'keywords' => array(
+			'review form',
+			'site reviews'
 		),
 		'textdomain' => 'site-reviews',
+		'version' => '2.0.0',
 		'attributes' => array(
 			'assigned_posts' => array(
 				'default' => array(
@@ -286,8 +290,13 @@ return array(
 				'type' => 'string'
 			),
 			'styleFieldSpacing' => array(
-				'default' => '.75em',
-				'type' => 'string'
+				'default' => array(
+					'top' => '0.75em',
+					'left' => '0.75em',
+					'bottom' => '0.75em',
+					'right' => '0.75em'
+				),
+				'type' => 'object'
 			),
 			'styleRatingColor' => array(
 				'default' => '',
@@ -305,17 +314,6 @@ return array(
 				'default' => '',
 				'type' => 'string'
 			)
-		),
-		'editorScript' => 'file:./index.js',
-		'script' => 'site-reviews',
-		'style' => array(
-			'core/button',
-			'file:./style-index.css',
-			'site-reviews'
-		),
-		'keywords' => array(
-			'review form',
-			'site reviews'
 		),
 		'supports' => array(
 			'color' => array(
@@ -340,19 +338,30 @@ return array(
 					'lineHeight' => true
 				)
 			)
+		),
+		'example' => array(
+			
+		),
+		'editorScript' => 'file:./index.js',
+		'script' => 'site-reviews',
+		'style' => array(
+			'file:./style-index.css',
+			'site-reviews',
+			'wp-block-button'
 		)
 	),
 	'site_reviews_summary' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'site-reviews/summary',
-		'version' => '2.0.0',
 		'title' => 'Rating Summary',
-		'description' => 'Display a rating summary of your reviews.',
 		'category' => 'site-reviews',
-		'example' => array(
-			
+		'description' => 'Display a rating summary of your reviews.',
+		'keywords' => array(
+			'rating summary',
+			'site reviews'
 		),
+		'version' => '2.0.0',
 		'textdomain' => 'site-reviews',
 		'attributes' => array(
 			'assigned_posts' => array(
@@ -432,7 +441,7 @@ return array(
 				'type' => 'string'
 			),
 			'styleBarSpacing' => array(
-				'default' => '.5em',
+				'default' => '0.5em',
 				'type' => 'string'
 			),
 			'styleRatingColor' => array(
@@ -464,30 +473,6 @@ return array(
 				'type' => 'string'
 			)
 		),
-		'editorScript' => 'file:./index.js',
-		'script' => 'site-reviews',
-		'style' => array(
-			'file:./style-index.css',
-			'site-reviews'
-		),
-		'styles' => array(
-			array(
-				'name' => '1',
-				'label' => 'Style 1'
-			),
-			array(
-				'name' => '2',
-				'label' => 'Style 2'
-			),
-			array(
-				'name' => '3',
-				'label' => 'Style 3'
-			)
-		),
-		'keywords' => array(
-			'rating summary',
-			'site reviews'
-		),
 		'supports' => array(
 			'color' => array(
 				'background' => false,
@@ -510,27 +495,47 @@ return array(
 					'lineHeight' => true
 				)
 			)
+		),
+		'styles' => array(
+			array(
+				'name' => '1',
+				'label' => 'Style 1'
+			),
+			array(
+				'name' => '2',
+				'label' => 'Style 2'
+			),
+			array(
+				'name' => '3',
+				'label' => 'Style 3'
+			)
+		),
+		'example' => array(
+			
+		),
+		'editorScript' => 'file:./index.js',
+		'script' => 'site-reviews',
+		'style' => array(
+			'file:./style-index.css',
+			'site-reviews'
 		)
 	),
 	'surecart_product_rating' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'site-reviews/surecart-product-rating',
-		'version' => '1.0.0',
 		'title' => 'Product Rating',
-		'description' => 'Display the product rating.',
 		'category' => 'surecart-product-page',
-		'example' => array(
-			
-		),
-		'usesContext' => array(
-			'postId'
-		),
 		'ancestor' => array(
 			'surecart/product-page',
 			'surecart/product-template',
 			'surecart/upsell'
 		),
+		'description' => 'Display the product rating.',
+		'keywords' => array(
+			'site reviews'
+		),
+		'version' => '1.0.0',
 		'textdomain' => 'site-reviews',
 		'attributes' => array(
 			'has_text' => array(
@@ -571,8 +576,8 @@ return array(
 				'type' => 'string'
 			)
 		),
-		'keywords' => array(
-			'site reviews'
+		'usesContext' => array(
+			'postId'
 		),
 		'supports' => array(
 			'interactivity' => true,
@@ -607,28 +612,28 @@ return array(
 				)
 			)
 		),
-		'render' => 'file:./view.php',
+		'example' => array(
+			
+		),
+		'editorScript' => 'file:./index.js',
+		'viewScriptModule' => 'file:./view.js',
 		'style' => array(
 			'file:./style-index.css',
 			'site-reviews'
 		),
-		'editorScript' => 'file:./index.js',
-		'viewScriptModule' => 'file:./view.js'
+		'render' => 'file:./view.php'
 	),
 	'surecart_product_reviews' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'site-reviews/surecart-product-reviews',
-		'version' => '1.0.0',
 		'title' => 'Product Reviews',
-		'description' => 'Display the product reviews section.',
 		'category' => 'surecart-product-page',
-		'example' => array(
-			
+		'description' => 'Display the product reviews section.',
+		'keywords' => array(
+			'site reviews'
 		),
-		'usesContext' => array(
-			'postId'
-		),
+		'version' => '1.0.0',
 		'textdomain' => 'site-reviews',
 		'attributes' => array(
 			'align' => array(
@@ -656,8 +661,8 @@ return array(
 				)
 			)
 		),
-		'keywords' => array(
-			'site reviews'
+		'usesContext' => array(
+			'postId'
 		),
 		'supports' => array(
 			'anchor' => true,
@@ -673,10 +678,13 @@ return array(
 				'blockGap' => true
 			)
 		),
+		'example' => array(
+			
+		),
+		'editorScript' => 'file:./index.js',
 		'style' => array(
 			'file:./style-index.css',
 			'site-reviews'
-		),
-		'editorScript' => 'file:./index.js'
+		)
 	)
 );

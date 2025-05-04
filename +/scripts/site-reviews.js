@@ -115,15 +115,17 @@ const initReview = () => {
     })
 }
 
-Event.on(events.excerpts, initExcerpts)
-Event.on(events.forms, initForms)
-Event.on(events.modal, initModal)
-Event.on(events.pagination, initPagination)
-Event.on(events.init, initPlugin)
-Event.on('site-reviews/pagination/handle', (response, pagination) => {
-    // Modal init event is triggered in excerpts
-    Event.trigger(events.excerpts, pagination.wrapperEl)
-})
+const initEvents = () => {
+    Event.on(events.excerpts, initExcerpts)
+    Event.on(events.forms, initForms)
+    Event.on(events.modal, initModal)
+    Event.on(events.pagination, initPagination)
+    Event.on(events.init, initPlugin)
+    Event.on('site-reviews/pagination/handle', (response, pagination) => {
+        // Modal init event is triggered in excerpts
+        Event.trigger(events.excerpts, pagination.wrapperEl)
+    })
+}
 
 if (!window.hasOwnProperty('GLSR')) {
     window.GLSR = {};
@@ -135,9 +137,15 @@ window.GLSR.Event = Event;
 window.GLSR.Modal = Modal;
 window.GLSR.Utils = { debounce, dom, fadeIn, fadeOut, isEmpty, parseJson, throttle };
 
-window.GLSR_init = (event) => Event.trigger(event || events.init);
+window.GLSR_init = (event, ...args) => {
+    if (0 === Object.keys(Event.events).length) {
+        initEvents()
+    }
+    Event.trigger((event || events.init), ...args)
+};
 
 document.addEventListener('DOMContentLoaded', () => {
+    initEvents()
     // for some reason, querySelectorAll return double the results in Firefox without this timeout...
     setTimeout(() => Event.trigger(events.init), 5)
     setTimeout(() => initReview(), 10)

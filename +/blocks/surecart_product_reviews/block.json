@@ -2,14 +2,13 @@
     "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 3,
     "name": "site-reviews/surecart-product-reviews",
-    "version": "1.0.0",
     "title": "Product Reviews",
-    "description": "Display the product reviews section.",
     "category": "surecart-product-page",
-    "example": {},
-    "usesContext": [
-        "postId"
+    "description": "Display the product reviews section.",
+    "keywords": [
+        "site reviews"
     ],
+    "version": "1.0.0",
     "textdomain": "site-reviews",
     "attributes": {
         "align": {
@@ -37,8 +36,8 @@
             }
         }
     },
-    "keywords": [
-        "site reviews"
+    "usesContext": [
+        "postId"
     ],
     "supports": {
         "anchor": true,
@@ -54,9 +53,10 @@
             "blockGap": true
         }
     },
+    "example": {},
+    "editorScript": "file:./index.js",
     "style": [
         "file:./style-index.css",
         "site-reviews"
-    ],
-    "editorScript": "file:./index.js"
+    ]
 }

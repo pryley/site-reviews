@@ -84,8 +84,8 @@ const ServerSideBlockRenderer = ({
                 if (!(node instanceof HTMLElement) || !node.classList.contains(className)) continue;
                 const block = node.firstElementChild;
                 block.classList.add('glsr-' + window.getComputedStyle(block, null).getPropertyValue('direction'))
-                if (GLSR?.Event) {
-                    GLSR.Event.trigger(blockName, block, attributes)
+                if (window?.GLSR_init) {
+                    GLSR_init(blockName, block, attributes)
                 }
                 if ('function' === typeof renderCallback) {
                     renderCallback(node, ref.current)

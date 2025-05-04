@@ -32,8 +32,11 @@ class SiteReviewsFormBlock extends Block
         if (!empty($attributes['styleStarSize'])) {
             $attr[] = "--glsr-form-star: {$attributes['styleStarSize']};";
         }
-        if (!empty($attributes['styleFieldSpacing'])) {
-            $attr[] = "--glsr-field-spacing: {$attributes['styleFieldSpacing']};";
+        if (!empty($attributes['styleFieldSpacing']['left'])) {
+            $attr[] = "--glsr-form-col-gap: {$attributes['styleFieldSpacing']['left']};";
+        }
+        if (!empty($attributes['styleFieldSpacing']['top'])) {
+            $attr[] = "--glsr-form-row-gap: {$attributes['styleFieldSpacing']['top']};";
         }
         return implode('', $attr);
     }

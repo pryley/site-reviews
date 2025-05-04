@@ -2,11 +2,14 @@
     "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 3,
     "name": "site-reviews/summary",
-    "version": "2.0.0",
     "title": "Rating Summary",
-    "description": "Display a rating summary of your reviews.",
     "category": "site-reviews",
-    "example": {},
+    "description": "Display a rating summary of your reviews.",
+    "keywords": [
+        "rating summary",
+        "site reviews"
+    ],
+    "version": "2.0.0",
     "textdomain": "site-reviews",
     "attributes": {
         "assigned_posts": {
@@ -75,7 +78,7 @@
             "type": "string"
         },
         "styleBarSpacing": {
-            "default": ".5em",
+            "default": "0.5em",
             "type": "string"
         },
         "styleRatingColor": {
@@ -107,30 +110,6 @@
             "type": "string"
         }
     },
-    "editorScript": "file:./index.js",
-    "script": "site-reviews",
-    "style": [
-        "file:./style-index.css",
-        "site-reviews"
-    ],
-    "styles": [
-        {
-            "name": "1",
-            "label": "Style 1"
-        },
-        {
-            "name": "2",
-            "label": "Style 2"
-        },
-        {
-            "name": "3",
-            "label": "Style 3"
-        }
-    ],
-    "keywords": [
-        "rating summary",
-        "site reviews"
-    ],
     "supports": {
         "color": {
             "background": false,
@@ -154,5 +133,26 @@
                 "lineHeight": true
             }
         }
-    }
+    },
+    "styles": [
+        {
+            "name": "1",
+            "label": "Style 1"
+        },
+        {
+            "name": "2",
+            "label": "Style 2"
+        },
+        {
+            "name": "3",
+            "label": "Style 3"
+        }
+    ],
+    "example": {},
+    "editorScript": "file:./index.js",
+    "script": "site-reviews",
+    "style": [
+        "file:./style-index.css",
+        "site-reviews"
+    ]
 }

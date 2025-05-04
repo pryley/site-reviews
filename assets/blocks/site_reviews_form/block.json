@@ -2,12 +2,15 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "site-reviews/form",
-  "version": "2.0.0",
   "title": "Review Form",
-  "description": "Display a review form.",
   "category": "site-reviews",
-  "example": {},
+  "description": "Display a review form.",
+  "keywords": [
+    "review form",
+    "site reviews"
+  ],
   "textdomain": "site-reviews",
+  "version": "2.0.0",
   "attributes": {
     "assigned_posts": {
       "default": [],
@@ -50,8 +53,13 @@
       "type": "string"
     },
     "styleFieldSpacing": {
-      "default": ".75em",
-      "type": "string"
+      "default": {
+        "top": "0.75em",
+        "left": "0.75em",
+        "bottom": "0.75em",
+        "right": "0.75em"
+      },
+      "type": "object"
     },
     "styleRatingColor": {
       "default": "",
@@ -70,17 +78,6 @@
       "type": "string"
     }
   },
-  "editorScript": "file:./index.js",
-  "script": "site-reviews",
-  "style": [
-    "core/button",
-    "file:./style-index.css",
-    "site-reviews"
-  ],
-  "keywords": [
-    "review form",
-    "site reviews"
-  ],
   "supports": {
     "color": {
       "background": false,
@@ -104,5 +101,13 @@
         "lineHeight": true
       }
     }
-  }
+  },
+  "example": {},
+  "editorScript": "file:./index.js",
+  "script": "site-reviews",
+  "style": [
+    "file:./style-index.css",
+    "site-reviews",
+    "wp-block-button"
+  ]
 }

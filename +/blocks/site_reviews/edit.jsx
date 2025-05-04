@@ -1,5 +1,6 @@
 import {
     __experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
+    __experimentalSpacingSizesControl as SpacingSizesControl,
     __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
     withColors,
 } from '@wordpress/block-editor';
@@ -12,11 +13,25 @@ import {
 } from '@wordpress/components';
 import { _x } from '@wordpress/i18n';
 import { AjaxComboboxControl, AjaxFormTokenField, AjaxToggleGroupControl, NoYesControl } from '@site-reviews/components';
+import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
+import { useSelect } from '@wordpress/data';
+import isShallowEqual from '@wordpress/is-shallow-equal';
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
 const Edit = (props) => {
     const { attributes, clientId, setAttributes, setStyleRatingColor, styleRatingColor } = props;
     const colorGradientSettings = useMultipleOriginColorsAndGradients();
+
+    const {
+        defaultReviewSpacing,
+        defaultStarSize,
+    } = useSelect((select) => {
+        const blockType = select('core/blocks').getBlockType(props.name);
+        return {
+            defaultReviewSpacing: blockType?.attributes?.styleReviewSpacing?.default || {},
+            defaultStarSize: blockType?.attributes?.styleStarSize?.default || '',
+        };
+    }, []);
 
     setAttributes({ post_id: jQuery('#post_ID').val() }) // used to get the "post_id" assigned_posts value
 
@@ -120,31 +135,24 @@ const Edit = (props) => {
             {...colorGradientSettings}
         />,
         styleReviewSpacing: <ToolsPanelItem
-            hasValue={ () => '2em' !== attributes.styleReviewSpacing }
+            hasValue={ () => !isShallowEqual(attributes.styleReviewSpacing, defaultReviewSpacing) }
             isShownByDefault
             label={ _x('Review Spacing', 'admin-text', 'site-reviews') }
-            onDeselect={ () => setAttributes({ styleReviewSpacing: '2em' }) }
-            style={{ 'grid-column': 'span 1' }}
+            onDeselect={ () => setAttributes({ styleReviewSpacing: defaultReviewSpacing }) }
         >
-            <UnitControl
-                __next40pxDefaultSize
-                allowReset
-                isResetValueOnUnitChange
+            <SpacingSizesControl
                 label={ _x('Review Spacing', 'admin-text', 'site-reviews') }
-                min={0}
                 onChange={ (styleReviewSpacing) => setAttributes({ styleReviewSpacing }) }
-                units={ useCustomUnits({
-                    availableUnits: ['px', 'em', 'rem'],
-                    defaultValues: { px: '32', em: '2', rem: '2' },
-                }) }
-                value={ attributes.styleReviewSpacing }
+                panelId={clientId}
+                sides={ ['vertical'] }
+                values={ attributes.styleReviewSpacing }
             />
         </ToolsPanelItem>,
         styleStarSize: <ToolsPanelItem
-            hasValue={ () => '1.25em' !== attributes.styleStarSize }
+            hasValue={ () => attributes.styleStarSize !== defaultStarSize }
             isShownByDefault
             label={ _x('Star Size', 'admin-text', 'site-reviews') }
-            onDeselect={ () => setAttributes({ styleStarSize: '1.25em' }) }
+            onDeselect={ () => setAttributes({ styleStarSize: defaultStarSize }) }
             style={{ 'grid-column': 'span 1' }}
         >
             <UnitControl
@@ -221,8 +229,8 @@ const Edit = (props) => {
             title: _x('Sizes', 'admin-text', 'site-reviews'),
             resetAll: () => {
                 setAttributes({
-                    styleReviewSpacing: '2em',
-                    styleStarSize: '1.25em',
+                    styleReviewSpacing: defaultReviewSpacing,
+                    styleStarSize: defaultStarSize,
                 })
             },
         },
@@ -241,9 +249,11 @@ const Edit = (props) => {
             props={props}
             renderCallback={onRenderComplete}
             style={{
-                '--glsr-review-spacing': attributes.styleReviewSpacing,
+                '--glsr-review-row-gap': getCSSValueFromRawStyle(attributes.styleReviewSpacing.top),
                 '--glsr-review-star': attributes.styleStarSize,
-                '--glsr-review-star-bg': styleRatingColor.slug ? `var(--wp--preset--color--${styleRatingColor.slug})` : attributes.styleRatingColorCustom,
+                '--glsr-review-star-bg': styleRatingColor.slug
+                    ? getCSSValueFromRawStyle(`var:preset|color|${styleRatingColor.slug}`)
+                    : attributes.styleRatingColorCustom,
             }}
             styleClassNames={[
                 (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-rating-color' : '',

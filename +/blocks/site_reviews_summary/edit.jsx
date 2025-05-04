@@ -1,4 +1,10 @@
 import {
+    __experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
+    __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
+    JustifyContentControl,
+    withColors,
+} from '@wordpress/block-editor';
+import {
     __experimentalToolsPanelItem as ToolsPanelItem,
     __experimentalUnitControl as UnitControl,
     __experimentalUseCustomUnits as useCustomUnits,
@@ -10,13 +16,9 @@ import {
 } from '@wordpress/components';
 import { _x, sprintf } from '@wordpress/i18n';
 import { AjaxComboboxControl, AjaxFormTokenField, AjaxToggleGroupControl, NoYesControl } from '@site-reviews/components';
-import {
-    __experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
-    __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
-    JustifyContentControl,
-    withColors,
-} from '@wordpress/block-editor';
+import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
 import { useEffect, useRef } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
 const Edit = (props) => {
@@ -24,6 +26,21 @@ const Edit = (props) => {
     const { className } = attributes;
     const colorGradientSettings = useMultipleOriginColorsAndGradients();
     const prevClassNameRef = useRef('');
+
+    const {
+        defaultBarSize,
+        defaultBarSpacing,
+        defaultMaxWidth,
+        defaultStarSize,
+    } = useSelect((select) => {
+        const blockType = select('core/blocks').getBlockType(props.name);
+        return {
+            defaultBarSize: blockType?.attributes?.styleBarSize?.default || '',
+            defaultBarSpacing: blockType?.attributes?.styleBarSpacing?.default || '',
+            defaultMaxWidth: blockType?.attributes?.styleMaxWidth?.default || '',
+            defaultStarSize: blockType?.attributes?.styleStarSize?.default || '',
+        }
+    }, []);
 
     setAttributes({ post_id: jQuery('#post_ID').val() }) // used to get the "post_id" assigned_posts value
 
@@ -132,10 +149,10 @@ const Edit = (props) => {
             value={ attributes.styleAlign }
         />,
         styleBarSize: <ToolsPanelItem
-            hasValue={ () => '1em' !== attributes.styleBarSize }
+            hasValue={ () => attributes.styleBarSize !== defaultBarSize }
             isShownByDefault
             label={ _x('Percent Bar Size', 'admin-text', 'site-reviews') }
-            onDeselect={ () => setAttributes({ styleBarSize: '1em' }) }
+            onDeselect={ () => setAttributes({ styleBarSize: defaultBarSize }) }
             style={{ 'grid-column': 'span 1' }}
         >
             <UnitControl
@@ -152,10 +169,10 @@ const Edit = (props) => {
             />
         </ToolsPanelItem>,
         styleBarSpacing: <ToolsPanelItem
-            hasValue={ () => !['.5em','0.5em'].includes(attributes.styleBarSpacing) }
+            hasValue={ () => attributes.styleBarSpacing !== defaultBarSpacing }
             isShownByDefault
             label={ _x('Percent Bar Gap', 'admin-text', 'site-reviews') }
-            onDeselect={ () => setAttributes({ styleBarSpacing: '.5em' }) }
+            onDeselect={ () => setAttributes({ styleBarSpacing: defaultBarSpacing }) }
             style={{ 'grid-column': 'span 1' }}
         >
             <UnitControl
@@ -166,16 +183,16 @@ const Edit = (props) => {
                 onChange={ (styleBarSpacing) => setAttributes({ styleBarSpacing }) }
                 units={ useCustomUnits({
                     availableUnits: ['px', 'em', 'rem'],
-                    defaultValues: { px: '8', em: '.5', rem: '.5' },
+                    defaultValues: { px: '8', em: '0.5', rem: '0.5' },
                 }) }
                 value={ attributes.styleBarSpacing }
             />
         </ToolsPanelItem>,
         styleMaxWidth: <ToolsPanelItem
-            hasValue={ () => '48ch' !== attributes.styleMaxWidth }
+            hasValue={ () => attributes.styleMaxWidth !== defaultMaxWidth }
             isShownByDefault
             label={ _x('Max Width', 'admin-text', 'site-reviews') }
-            onDeselect={ () => setAttributes({ styleMaxWidth: '48ch' }) }
+            onDeselect={ () => setAttributes({ styleMaxWidth: defaultMaxWidth }) }
             style={{ 'grid-column': 'span 1' }}
         >
             <UnitControl
@@ -214,10 +231,10 @@ const Edit = (props) => {
             {...colorGradientSettings}
         />,
         styleStarSize: <ToolsPanelItem
-            hasValue={ () => '1.5em' !== attributes.styleStarSize }
+            hasValue={ () => attributes.styleStarSize !== defaultStarSize }
             isShownByDefault
             label={ _x('Star Size', 'admin-text', 'site-reviews') }
-            onDeselect={ () => setAttributes({ styleStarSize: '1.5em' }) }
+            onDeselect={ () => setAttributes({ styleStarSize: defaultStarSize }) }
             style={{ 'grid-column': 'span 1' }}
         >
             <UnitControl
@@ -324,10 +341,10 @@ const Edit = (props) => {
             title: _x('Sizes', 'admin-text', 'site-reviews'),
             resetAll: () => {
                 setAttributes({
-                    styleBarSize: '1em',
-                    styleBarSpacing: '.5em',
-                    styleMaxWidth: '48ch',
-                    styleStarSize: '1.5em',
+                    styleBarSize: defaultBarSize,
+                    styleBarSpacing: defaultBarSpacing,
+                    styleMaxWidth: defaultMaxWidth,
+                    styleStarSize: defaultStarSize,
                 })
             },
         },
@@ -339,7 +356,9 @@ const Edit = (props) => {
             panels={panels}
             props={props}
             style={{
-                '--glsr-bar-bg': styleRatingColor.slug ? `var(--wp--preset--color--${styleRatingColor.slug})` : attributes.styleRatingColorCustom,
+                '--glsr-bar-bg': styleRatingColor.slug
+                    ? getCSSValueFromRawStyle(`var:preset|color|${styleRatingColor.slug}`)
+                    : attributes.styleRatingColorCustom,
                 '--glsr-bar-size': attributes.styleBarSize,
                 '--glsr-bar-spacing': attributes.styleBarSpacing,
                 '--glsr-max-w': attributes.styleMaxWidth || 'none',

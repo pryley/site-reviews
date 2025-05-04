@@ -2,19 +2,18 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "site-reviews/surecart-product-rating",
-  "version": "1.0.0",
   "title": "Product Rating",
-  "description": "Display the product rating.",
   "category": "surecart-product-page",
-  "example": {},
-  "usesContext": [
-    "postId"
-  ],
   "ancestor": [
     "surecart/product-page",
     "surecart/product-template",
     "surecart/upsell"
   ],
+  "description": "Display the product rating.",
+  "keywords": [
+    "site reviews"
+  ],
+  "version": "1.0.0",
   "textdomain": "site-reviews",
   "attributes": {
     "has_text": {
@@ -55,8 +54,8 @@
       "type": "string"
     }
   },
-  "keywords": [
-    "site reviews"
+  "usesContext": [
+    "postId"
   ],
   "supports": {
     "interactivity": true,
@@ -91,11 +90,12 @@
       }
     }
   },
-  "render": "file:./view.php",
+  "example": {},
+  "editorScript": "file:./index.js",
+  "viewScriptModule": "file:./view.js",
   "style": [
     "file:./style-index.css",
     "site-reviews"
   ],
-  "editorScript": "file:./index.js",
-  "viewScriptModule": "file:./view.js"
+  "render": "file:./view.php"
 }

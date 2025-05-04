@@ -1,5 +1,6 @@
 import {
     __experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
+    __experimentalSpacingSizesControl as SpacingSizesControl,
     __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
     withColors,
 } from '@wordpress/block-editor';
@@ -11,11 +12,25 @@ import {
 } from '@wordpress/components';
 import { _x } from '@wordpress/i18n';
 import { AjaxFormTokenField, AjaxToggleGroupControl } from '@site-reviews/components';
+import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
+import { useSelect } from '@wordpress/data';
+import isShallowEqual from '@wordpress/is-shallow-equal';
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
 const Edit = (props) => {
     const { attributes, clientId, setAttributes, setStyleRatingColor, styleRatingColor } = props;
     const colorGradientSettings = useMultipleOriginColorsAndGradients();
+
+    const {
+        defaultFieldSpacing,
+        defaultStarSize,
+    } = useSelect((select) => {
+        const blockType = select('core/blocks').getBlockType(props.name);
+        return {
+            defaultFieldSpacing: blockType?.attributes?.styleFieldSpacing?.default || {},
+            defaultStarSize: blockType?.attributes?.styleStarSize?.default || '',
+        };
+    }, []);
 
     const controls = {
         assigned_posts: <AjaxFormTokenField
@@ -69,24 +84,17 @@ const Edit = (props) => {
             value={ attributes.reviews_id }
         />,
         styleFieldSpacing: <ToolsPanelItem
-            hasValue={ () => !['.75em','0.75em'].includes(attributes.styleFieldSpacing) }
+            hasValue={ () => !isShallowEqual(attributes.styleFieldSpacing, defaultFieldSpacing) }
             isShownByDefault
             label={ _x('Field Spacing', 'admin-text', 'site-reviews') }
-            onDeselect={ () => setAttributes({ styleFieldSpacing: '.75em' }) }
-            style={{ 'grid-column': 'span 1' }}
+            onDeselect={ () => setAttributes({ styleFieldSpacing: defaultFieldSpacing }) }
         >
-            <UnitControl
-                __next40pxDefaultSize
-                allowReset
-                isResetValueOnUnitChange
+            <SpacingSizesControl
                 label={ _x('Field Spacing', 'admin-text', 'site-reviews') }
-                min={0}
                 onChange={ (styleFieldSpacing) => setAttributes({ styleFieldSpacing }) }
-                units={ useCustomUnits({
-                    availableUnits: ['px', 'em', 'rem'],
-                    defaultValues: { px: '12', em: '.75', rem: '.75' },
-                }) }
-                value={ attributes.styleFieldSpacing }
+                panelId={clientId}
+                sides={ ['horizontal', 'vertical'] }
+                values={ attributes.styleFieldSpacing }
             />
         </ToolsPanelItem>,
         styleRatingColor: <ColorGradientSettingsDropdown
@@ -111,10 +119,10 @@ const Edit = (props) => {
             {...colorGradientSettings}
         />,
         styleStarSize: <ToolsPanelItem
-            hasValue={ () => '2em' !== attributes.styleStarSize }
+            hasValue={ () => attributes.styleStarSize !== defaultStarSize }
             isShownByDefault
             label={ _x('Star Size', 'admin-text', 'site-reviews') }
-            onDeselect={ () => setAttributes({ styleStarSize: '2em' }) }
+            onDeselect={ () => setAttributes({ styleStarSize: defaultStarSize }) }
             style={{ 'grid-column': 'span 1' }}
         >
             <UnitControl
@@ -177,8 +185,8 @@ const Edit = (props) => {
             title: _x('Sizes', 'admin-text', 'site-reviews'),
             resetAll: () => {
                 setAttributes({
-                    styleFieldSpacing: '.75',
-                    styleStarSize: '2em',
+                    styleFieldSpacing: defaultFieldSpacing,
+                    styleStarSize: defaultStarSize,
                 })
             },
         },
@@ -197,9 +205,12 @@ const Edit = (props) => {
             props={props}
             renderCallback={onRenderComplete}
             style={{
-                '--glsr-field-spacing': attributes.styleFieldSpacing,
+                '--glsr-form-col-gap': getCSSValueFromRawStyle(attributes.styleFieldSpacing.left),
+                '--glsr-form-row-gap': getCSSValueFromRawStyle(attributes.styleFieldSpacing.top),
                 '--glsr-form-star': attributes.styleStarSize,
-                '--glsr-form-star-bg': styleRatingColor.slug ? `var(--wp--preset--color--${styleRatingColor.slug})` : attributes.styleRatingColorCustom,
+                '--glsr-form-star-bg': styleRatingColor.slug
+                    ? getCSSValueFromRawStyle(`var:preset|color|${styleRatingColor.slug}`)
+                    : attributes.styleRatingColorCustom,
             }}
             styleClassNames={[
                 (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-rating-color' : '',

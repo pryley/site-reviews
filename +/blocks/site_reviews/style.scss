@@ -17,7 +17,7 @@
     .glsr:not([data-theme]) {
         .glsr-reviews-wrap,
         .glsr-reviews {
-            gap: var(--glsr-review-spacing);
+            row-gap: var(--glsr-review-row-gap);
         }
     }
 }

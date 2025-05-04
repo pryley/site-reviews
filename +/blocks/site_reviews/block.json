@@ -2,11 +2,14 @@
     "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 3,
     "name": "site-reviews/reviews",
-    "version": "2.0.0",
     "title": "Latest Reviews",
-    "description": "Display your reviews.",
     "category": "site-reviews",
-    "example": {},
+    "description": "Display your reviews.",
+    "keywords": [
+        "reviews",
+        "site reviews"
+    ],
+    "version": "2.0.0",
     "textdomain": "site-reviews",
     "attributes": {
         "assigned_posts": {
@@ -75,8 +78,11 @@
             "type": "string"
         },
         "styleReviewSpacing": {
-            "default": "2em",
-            "type": "string"
+            "default": {
+                "top": "2em",
+                "bottom": "2em"
+            },
+            "type": "object"
         },
         "styleStarSize": {
             "default": "1.25em",
@@ -91,16 +97,6 @@
             "type": "string"
         }
     },
-    "editorScript": "file:./index.js",
-    "script": "site-reviews",
-    "style": [
-        "file:./style-index.css",
-        "site-reviews"
-    ],
-    "keywords": [
-        "reviews",
-        "site reviews"
-    ],
     "supports": {
         "color": {
             "background": false,
@@ -125,5 +121,12 @@
                 "lineHeight": true
             }
         }
-    }
+    },
+    "example": {},
+    "editorScript": "file:./index.js",
+    "script": "site-reviews",
+    "style": [
+        "file:./style-index.css",
+        "site-reviews"
+    ]
 }

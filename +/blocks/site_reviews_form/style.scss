@@ -12,7 +12,8 @@
     }
     .glsr:not([data-theme]) {
         .glsr-review-form {
-            row-gap: var(--glsr-field-spacing);
+            column-gap: var(--glsr-form-col-gap, var(--glsr-gap-sm));
+            row-gap: var(--glsr-form-row-gap, var(--glsr-gap-md));
         }
     }
 }
