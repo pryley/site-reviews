@@ -45,7 +45,14 @@ class Backtrace
 
     public function trace(int $limit = 6): array
     {
-        return debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $limit);
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $limit + 2);
+        array_shift($trace); // remove the first entry
+        if ('glsr_trace' === ($trace[0]['function'] ?? '')) {
+            array_shift($trace); // remove the second entry
+        } else {
+            array_pop($trace); // remove the last entry
+        }
+        return $trace;
     }
 
     protected function getClassName(array $backtrace): string
