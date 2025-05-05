@@ -15,6 +15,7 @@ import { useEffect, useState } from '@wordpress/element';
 const AjaxComboboxControl = (props: ControlProps) => {
     const {
         endpoint,
+        fallback = null,
         hideIfEmpty = false,
         options: _, // discard
         placeholder,
@@ -25,10 +26,10 @@ const AjaxComboboxControl = (props: ControlProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const registeredStoreName: string = createStore(storeName);
-    const options: Option[] = useSelect(
-        (select) => select(registeredStoreName).getOptions(endpoint),
+    const options = useSelect<Option[]>(
+        (select) => select(registeredStoreName).getOptions(endpoint) || [],
         [endpoint, registeredStoreName]
-    ) as Option[];
+    );
     const { setOptions } = useDispatch(registeredStoreName);
 
     const renderItem = ({ item }: { item: Option }) => {
@@ -36,7 +37,7 @@ const AjaxComboboxControl = (props: ControlProps) => {
         return (
             <HStack>
                 <Text color="inherit">{label}</Text>
-                <Text color="inherit" size="small" style={{ opacity: '0.5' }}>
+                <Text color="inherit" size="small" style={{ opacity: 0.5 }}>
                     {String(value)}
                 </Text>
             </HStack>
@@ -47,38 +48,44 @@ const AjaxComboboxControl = (props: ControlProps) => {
         if (options.length) return;
         setIsLoading(true)
         apiFetch({ path: endpoint }).then((response: Item[]) => {
-            const initialOptions: Option[] = response.map((item) => ({
-                label: item.title,
+            const newOptions: Option[] = response.map((item) => ({
+                label: item.title || String(item.id),
                 value: String(item.id),
             }));
-            setOptions(endpoint, initialOptions)
-        }).finally(() => {
+            setOptions(endpoint, newOptions)
+        })
+        .catch((error) => {
+            console.error('Error fetching options:', error);
+        })
+        .finally(() => {
             setIsLoading(false)
         })
-    }, [])
+    }, [endpoint])
+
+    if (0 === options.length && (fallback || hideIfEmpty)) {
+        return isLoading ? null : fallback;
+    }
 
     return (
-        (!hideIfEmpty || options.length > 1) && (
-            <Animate type={ isLoading ? 'loading' : undefined }>
-                {({ className }) => (
-                    <BaseControl __nextHasNoMarginBottom>
-                        <ComboboxControl
-                            __experimentalRenderItem={props.__experimentalRenderItem || renderItem}
-                            __next40pxDefaultSize
-                            __nextHasNoMarginBottom
-                            allowReset
-                            className={className}
-                            expandOnFocus={false}
-                            options={options}
-                            placeholder={
-                                placeholder || _x('Select...', 'admin-text', 'site-reviews')
-                            }
-                            {...controlProps}
-                        />
-                    </BaseControl>
-                ) }
-            </Animate>
-        )
+        <Animate type={ isLoading ? 'loading' : undefined }>
+            {({ className }) => (
+                <BaseControl __nextHasNoMarginBottom>
+                    <ComboboxControl
+                        __experimentalRenderItem={props.__experimentalRenderItem || renderItem}
+                        __next40pxDefaultSize
+                        __nextHasNoMarginBottom
+                        allowReset
+                        className={className}
+                        expandOnFocus={false}
+                        options={options}
+                        placeholder={
+                            placeholder || _x('Select...', 'admin-text', 'site-reviews')
+                        }
+                        {...controlProps}
+                    />
+                </BaseControl>
+            ) }
+        </Animate>
     )
 };
 

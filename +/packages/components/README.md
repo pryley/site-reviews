@@ -5,6 +5,13 @@
 ```jsx
 <AjaxComboboxControl
     endpoint="/site-reviews/v1/shortcode/site_review?option=type"
+    fallback={
+        <BaseControl __nextHasNoMarginBottom>
+            <Notice status="warning" politeness="polite" isDismissible={ false }>
+                { _x('Nothing found.', 'admin-text', 'site-reviews') }
+            </Notice>
+        </BaseControl>
+    }
     onChange={(type) => setAttributes({ type })}
     storeName="site-reviews",
     value={attributes.type}

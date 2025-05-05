@@ -9,8 +9,9 @@ import { useEffect, useState } from '@wordpress/element';
 const AjaxSelectControl = (props: ControlProps) => {
     const {
         endpoint,
+        fallback = null,
         hideIfEmpty = false,
-        options: _,
+        options: _, // discard
         placeholder,
         storeName = DEFAULT_STORE_NAME,
         ...controlProps
@@ -18,54 +19,56 @@ const AjaxSelectControl = (props: ControlProps) => {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const registeredStoreName = createStore(storeName);
+    const registeredStoreName: string = createStore(storeName);
     const options = useSelect<Option[]>(
-        (select) => select(registeredStoreName).getOptions(endpoint),
-        []
+        (select) => select(registeredStoreName).getOptions(endpoint) || [],
+        [endpoint, registeredStoreName]
     );
     const { setOptions } = useDispatch(registeredStoreName);
 
     useEffect(() => {
         if (options.length) return;
         setIsLoading(true);
-        apiFetch<Item[]>({ path: endpoint })
-            .then((response) => {
-                const initialOptions: Option[] = [
-                    {
-                        label: placeholder || _x('Select...', 'admin-text', 'site-reviews'),
-                        value: '',
-                    },
-                    ...response.map((item) => ({
-                        label: item.title,
-                        value: String(item.id),
-                    })),
-                ];
-                setOptions(endpoint, initialOptions);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }, []);
+        apiFetch({ path: endpoint }).then((response: Item[]) => {
+            const newOptions: Option[] = response.map((item) => ({
+                label: item.title || String(item.id),
+                value: String(item.id),
+            }));
+            setOptions(endpoint, newOptions);
+        })
+        .catch((error) => {
+            console.error('Error fetching options:', error);
+        })
+        .finally(() => {
+            setIsLoading(false);
+        })
+    }, [endpoint]);
+
+    if (0 === options.length && (fallback || hideIfEmpty)) {
+        return isLoading ? null : fallback;
+    }
 
     return (
-        <>
-        {(!hideIfEmpty || options.length > 1) && (
-            <Animate type={isLoading ? 'loading' : undefined}>
-                {({ className }) => (
-                    <BaseControl __nextHasNoMarginBottom>
-                        <SelectControl
-                            __next40pxDefaultSize
-                            __nextHasNoMarginBottom
-                            className={className}
-                            disabled={isLoading}
-                            options={options}
-                            {...controlProps}
-                        />
-                    </BaseControl>
-                )}
-            </Animate>
-        )}
-        </>
+        <Animate type={isLoading ? 'loading' : undefined}>
+            {({ className }) => (
+                <BaseControl __nextHasNoMarginBottom>
+                    <SelectControl
+                        __next40pxDefaultSize
+                        __nextHasNoMarginBottom
+                        className={className}
+                        disabled={isLoading}
+                        options={[
+                            {
+                                label: placeholder || _x('Select...', 'admin-text', 'site-reviews'),
+                                value: '',
+                            },
+                            ...options,
+                        ]}
+                        {...controlProps}
+                    />
+                </BaseControl>
+            )}
+        </Animate>
     );
 };
 
