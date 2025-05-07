@@ -8,6 +8,8 @@ interface FormContract
 {
     public function args(): Arguments;
 
+    public function app(): PluginContract;
+
     public function build(): string;
 
     public function config(): array;

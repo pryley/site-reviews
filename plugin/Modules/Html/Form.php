@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Contracts\FieldContract;
 use GeminiLabs\SiteReviews\Contracts\FormContract;
+use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -20,6 +21,9 @@ class Form extends \ArrayObject implements FormContract
     public array $config;
     protected Arguments $session;
 
+    /**
+     * The $args are expected to be sanitized before being passed to the form.
+     */
     public function __construct(array $args = [], array $values = [])
     {
         $args = wp_parse_args($args, [
@@ -34,8 +38,13 @@ class Form extends \ArrayObject implements FormContract
         $this->loadSession($values);
         parent::__construct($this->fieldsAll(), \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
         array_map([$this, 'normalizeConditions'], $this->fields());
-        glsr()->action("{$this->formName()}/form", $this);
+        $this->app()->action("{$this->formName()}/form", $this);
         $this->signForm();
+    }
+
+    public function app(): PluginContract
+    {
+        return glsr();
     }
 
     public function args(): Arguments
@@ -172,7 +181,7 @@ class Form extends \ArrayObject implements FormContract
             $fields[] = $field->build();
         }
         $rendered = implode("\n", $fields);
-        $rendered = glsr()->filterString("{$this->formName()}/build/fields", $rendered, $this);
+        $rendered = $this->app()->filterString("{$this->formName()}/build/fields", $rendered, $this);
         return $rendered;
     }
 
@@ -185,7 +194,7 @@ class Form extends \ArrayObject implements FormContract
             ],
             'has_errors' => !empty($this->session->errors),
         ]);
-        $rendered = glsr()->filterString("{$this->formName()}/build/response", $rendered, $this);
+        $rendered = $this->app()->filterString("{$this->formName()}/build/response", $rendered, $this);
         return $rendered;
     }
 
@@ -199,7 +208,7 @@ class Form extends \ArrayObject implements FormContract
                 'text' => $this->args->button_text,
             ],
         ]);
-        $rendered = glsr()->filterString("{$this->formName()}/build/submit_button", $rendered, $this);
+        $rendered = $this->app()->filterString("{$this->formName()}/build/submit_button", $rendered, $this);
         if ('above' === glsr_get_option('forms.captcha.placement')) {
             $rendered = $captcha.$rendered;
         } else {
@@ -248,7 +257,7 @@ class Form extends \ArrayObject implements FormContract
     protected function fieldsAll(): array
     {
         $fields = array_values(array_merge($this->fieldsHidden(), $this->fieldsVisible()));
-        $fields = glsr()->filterArray("{$this->formName()}/fields/all", $fields, $this);
+        $fields = $this->app()->filterArray("{$this->formName()}/fields/all", $fields, $this);
         return $fields;
     }
 
@@ -267,7 +276,7 @@ class Form extends \ArrayObject implements FormContract
                 $fields[$name] = $field;
             }
         }
-        $fields = glsr()->filterArray("{$this->formName()}/fields/hidden", $fields, $this);
+        $fields = $this->app()->filterArray("{$this->formName()}/fields/hidden", $fields, $this);
         return $fields;
     }
 
@@ -286,7 +295,7 @@ class Form extends \ArrayObject implements FormContract
                 $fields[$name] = $field;
             }
         }
-        $fields = glsr()->filterArray("{$this->formName()}/fields/visible", $fields, $this);
+        $fields = $this->app()->filterArray("{$this->formName()}/fields/visible", $fields, $this);
         return $fields;
     }
 
@@ -294,10 +303,10 @@ class Form extends \ArrayObject implements FormContract
     {
         $assignmentKeys = ['assigned_posts', 'assigned_terms', 'assigned_users'];
         $config = $this->config();
-        $config = glsr()->filterArray("{$this->formName()}/config", $config, $this);
+        $config = $this->app()->filterArray("{$this->formName()}/config", $config, $this);
         if (!wp_is_numeric_array($config)) { // allow custom filtered field order
             $order = array_keys($config);
-            $order = glsr()->filterArray("{$this->formName()}/fields/order", $order, $this);
+            $order = $this->app()->filterArray("{$this->formName()}/fields/order", $order, $this);
             $ordered = array_intersect_key(array_merge(array_flip($order), $config), $config);
             $config = $ordered;
         }
@@ -423,7 +432,7 @@ class Form extends \ArrayObject implements FormContract
         foreach ($hidden as $field) {
             $values[$field->original_name] = $field->value;
         }
-        $values = glsr()->filterArray("{$this->formName()}/signature/values", $values, $this);
+        $values = $this->app()->filterArray("{$this->formName()}/signature/values", $values, $this);
         $signatureField = $this->field('form_signature', [
             'type' => 'hidden',
             'value' => glsr(Encryption::class)->encrypt(maybe_serialize($values)),
