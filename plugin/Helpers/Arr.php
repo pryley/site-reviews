@@ -230,7 +230,7 @@ class Arr
         if (!is_array($haystack) || array_diff_key($haystack, array_filter($haystack, 'is_iterable'))) {
             return false;
         }
-        $index = array_search($needle, wp_list_pluck($haystack, $key));
+        $index = array_search($needle, array_column($haystack, $key));
         if (false !== $index) {
             return $haystack[$index];
         }

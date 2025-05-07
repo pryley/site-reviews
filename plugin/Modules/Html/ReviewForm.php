@@ -58,6 +58,27 @@ class ReviewForm extends Form
     }
 
     /**
+     * An array of field names that can be overridden in the hiddenConfig array
+     * by fields with the same name in the config array.
+     * 
+     * @return string[]
+     */
+    protected function allowedHiddenFieldOverrides(): array
+    {
+        return [
+            'assigned_posts',
+            'assigned_terms',
+            'assigned_users',
+            'content',
+            'email',
+            'name',
+            'rating',
+            'terms',
+            'title',
+        ];
+    }
+
+    /**
      * @return FieldContract[]
      */
     protected function fieldsVisible(): array

@@ -123,6 +123,7 @@ class Form extends \ArrayObject implements FormContract
                 $fields[] = $field;
             }
         }
+        usort($fields, fn ($a, $b) => $a->original_name <=> $b->original_name);
         return $fields;
     }
 
@@ -168,6 +169,17 @@ class Form extends \ArrayObject implements FormContract
             }
         }
         return $fields;
+    }
+
+    /**
+     * An array of field names that can be overridden in the hiddenConfig array
+     * by fields with the same name in the config array.
+     * 
+     * @return string[]
+     */
+    protected function allowedHiddenFieldOverrides(): array
+    {
+        return [];
     }
 
     protected function buildFields(): string
@@ -301,7 +313,6 @@ class Form extends \ArrayObject implements FormContract
 
     protected function mergeConfig(): array
     {
-        $assignmentKeys = ['assigned_posts', 'assigned_terms', 'assigned_users'];
         $config = $this->config();
         $config = $this->app()->filterArray("{$this->formName()}/config", $config, $this);
         if (!wp_is_numeric_array($config)) { // allow custom filtered field order
@@ -310,11 +321,21 @@ class Form extends \ArrayObject implements FormContract
             $ordered = array_intersect_key(array_merge(array_flip($order), $config), $config);
             $config = $ordered;
         }
+        array_walk($config, function (&$field, $key) {
+            if (!is_numeric($key)) {
+                // ensure all fields include a name value to allow the field check below.
+                $field['name'] = $key;
+            }
+        });
         foreach ($this->configHidden() as $name => $value) {
-            if (in_array($name, $assignmentKeys) && array_key_exists($name, $config)) {
-                continue; // allow visible assignment fields
+            if (in_array($name, $this->allowedHiddenFieldOverrides())) {
+                $search = Arr::searchByKey($name, $config, 'name');
+                if (false !== $search) {
+                    continue; // skip this hidden field
+                }
             }
             $config[$name] = [
+                'name' => $name,
                 'type' => 'hidden',
                 'value' => $value,
             ];
