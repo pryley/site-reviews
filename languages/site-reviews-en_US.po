@@ -373,11 +373,11 @@ msgstr "Write review of a specific user"
 msgid "Hide Options"
 msgstr "Hide Options"
 
-#: plugin/Modules/Html/Form.php:26
+#: plugin/Modules/Html/Form.php:30
 msgid "Submit Form"
 msgstr "Submit Form"
 
-#: plugin/Modules/Html/Form.php:27
+#: plugin/Modules/Html/Form.php:31
 msgid "Submitting, please wait..."
 msgstr "Submitting, please wait..."
 
@@ -2535,7 +2535,7 @@ msgctxt "admin-text"
 msgid "Help"
 msgstr "Help"
 
-#: plugin/Commands/AbstractCommand.php:56
+#: plugin/Commands/AbstractCommand.php:61
 msgctxt "admin-text"
 msgid ""
 "Something went wrong, check the <a href=\"%s\">Site Reviews &rarr; Tools "

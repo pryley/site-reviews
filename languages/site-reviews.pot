@@ -1927,7 +1927,7 @@ msgctxt "admin-text"
 msgid "Help"
 msgstr ""
 
-#: plugin/Commands/AbstractCommand.php:56
+#: plugin/Commands/AbstractCommand.php:61
 msgctxt "admin-text"
 msgid "Something went wrong, check the <a href=\"%s\">Site Reviews &rarr; Tools &rarr; Console</a> page for errors."
 msgstr ""
@@ -5175,11 +5175,11 @@ msgstr ""
 msgid "Hide Options"
 msgstr ""
 
-#: plugin/Modules/Html/Form.php:26
+#: plugin/Modules/Html/Form.php:30
 msgid "Submit Form"
 msgstr ""
 
-#: plugin/Modules/Html/Form.php:27
+#: plugin/Modules/Html/Form.php:31
 msgid "Submitting, please wait..."
 msgstr ""
 

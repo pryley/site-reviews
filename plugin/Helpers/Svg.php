@@ -29,10 +29,7 @@ class Svg
 
     public static function filePath(string $path): string
     {
-        $filename = $path;
-        if (!file_exists($filename)) {
-            $filename = glsr()->path($path);
-        }
+        $filename = glsr()->path($path);
         if (!file_exists($filename)) {
             // glsr_log()->error("Invalid SVG path: $filename");
             return '';
