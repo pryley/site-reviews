@@ -51,6 +51,11 @@ abstract class AbstractCommand implements CommandContract
         if ($this->successful()) {
             wp_send_json_success($data);
         }
+        $referer = trailingslashit((string) wp_get_referer());
+        $admin_url = trailingslashit(admin_url());
+        if (!str_starts_with(esc_url_raw($referer), esc_url_raw($admin_url))) {
+            wp_send_json_error($data);
+        }
         if (empty($data['notices'])) {
             glsr(Notice::class)->addError(
                 sprintf(_x('Something went wrong, check the <a href="%s">Site Reviews &rarr; Tools &rarr; Console</a> page for errors.', 'admin-text', 'site-reviews'),
