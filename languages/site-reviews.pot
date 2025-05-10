@@ -1053,12 +1053,12 @@ msgctxt "admin-text"
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:749, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/Elementor/ElementorWidget.php:116, plugin/Integrations/GamiPress/Controller.php:133
+#: config/settings.php:749, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/Elementor/ElementorWidget.php:116, plugin/Integrations/GamiPress/Controller.php:133, plugin/Integrations/ProfilePress/RatingField.php:24
 msgctxt "admin-text"
 msgid "Rating"
 msgstr ""
 
-#: config/settings.php:750
+#: config/settings.php:750, plugin/Integrations/ProfilePress/RatingField.php:32
 msgctxt "admin-text"
 msgid "Title"
 msgstr ""
@@ -1661,9 +1661,189 @@ msgstr ""
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr ""
 
-#: config/integrations/surecart.php:6, config/integrations/ultimatemember.php:13, config/integrations/woocommerce.php:6
+#: config/integrations/profilepress.php:13, config/integrations/surecart.php:6, config/integrations/ultimatemember.php:13, config/integrations/woocommerce.php:6
 msgctxt "admin-text"
 msgid "Enable Integration?"
+msgstr ""
+
+#: config/integrations/profilepress.php:15
+msgctxt "admin-text"
+msgid "This will enable the ProfilePress integration with Site Reviews."
+msgstr ""
+
+#: config/integrations/profilepress.php:23, config/integrations/surecart.php:35, config/integrations/ultimatemember.php:34, config/integrations/woocommerce.php:87
+msgctxt "admin-text"
+msgid "Display Empty Ratings?"
+msgstr ""
+
+#: config/integrations/profilepress.php:25, config/integrations/ultimatemember.php:36
+msgctxt "admin-text"
+msgid "This will display empty ratings on the Member Directory page for profiles with no reviews."
+msgstr ""
+
+#: config/integrations/profilepress.php:35, config/integrations/surecart.php:18, config/integrations/ultimatemember.php:47, config/integrations/woocommerce.php:70
+msgctxt "admin-text"
+msgid "The problem with averaging star ratings"
+msgstr ""
+
+#: config/integrations/profilepress.php:36, config/integrations/surecart.php:19, config/integrations/ultimatemember.php:48, config/integrations/woocommerce.php:71
+msgctxt "admin-text"
+msgid "Of bayesian average and star ratings"
+msgstr ""
+
+#: config/integrations/profilepress.php:38, config/integrations/ultimatemember.php:50
+msgctxt "admin-text"
+msgid "Member Sorting"
+msgstr ""
+
+#: config/integrations/profilepress.php:40, config/integrations/surecart.php:23, config/integrations/ultimatemember.php:52, config/integrations/woocommerce.php:75
+msgctxt "admin-text"
+msgid "Average Rating"
+msgstr ""
+
+#: config/integrations/profilepress.php:41, config/integrations/surecart.php:24, config/integrations/ultimatemember.php:53, config/integrations/woocommerce.php:76
+msgctxt "admin-text"
+msgid "Bayesian Ranking"
+msgstr ""
+
+#: config/integrations/profilepress.php:44, config/integrations/ultimatemember.php:56
+msgctxt "admin-text"
+msgid "This is the method used when sorting members by rating on the Members Directory page."
+msgstr ""
+
+#: config/integrations/profilepress.php:52
+msgctxt "admin-text"
+msgid "Display Account Reviews?"
+msgstr ""
+
+#: config/integrations/profilepress.php:54
+msgctxt "admin-text"
+msgid "This will display a reviews tab on the Account page."
+msgstr ""
+
+#: config/integrations/profilepress.php:64
+msgctxt "admin-text"
+msgid "Account Reviews Shortcode"
+msgstr ""
+
+#: config/integrations/profilepress.php:67
+msgctxt "admin-text"
+msgid "Enter the Latest Reviews shortcode used on the Account page."
+msgstr ""
+
+#: config/integrations/profilepress.php:77
+msgctxt "admin-text"
+msgid "Account Reviews Visibility"
+msgstr ""
+
+#: config/integrations/profilepress.php:79
+msgctxt "admin-text"
+msgid "Everyone"
+msgstr ""
+
+#: config/integrations/profilepress.php:80, config/integrations/profilepress.php:161, config/integrations/ultimatemember.php:120
+msgctxt "admin-text"
+msgid "Only Specific Roles"
+msgstr ""
+
+#: config/integrations/profilepress.php:83
+msgctxt "admin-text"
+msgid "Choose who can view the reviews tab on their Account page."
+msgstr ""
+
+#: config/integrations/profilepress.php:94
+msgctxt "admin-text"
+msgid "Account Reviews Roles"
+msgstr ""
+
+#: config/integrations/profilepress.php:97
+msgctxt "admin-text"
+msgid "Choose which user roles are allowed to view the reviews tab on their Account page."
+msgstr ""
+
+#: config/integrations/profilepress.php:105
+msgctxt "admin-text"
+msgid "Display Profile Reviews?"
+msgstr ""
+
+#: config/integrations/profilepress.php:107, config/integrations/ultimatemember.php:66
+msgctxt "admin-text"
+msgid "This will display a reviews tab on Profile pages."
+msgstr ""
+
+#: config/integrations/profilepress.php:117
+msgctxt "admin-text"
+msgid "Profile Summary Shortcode"
+msgstr ""
+
+#: config/integrations/profilepress.php:120, config/integrations/ultimatemember.php:79
+msgctxt "admin-text"
+msgid "Enter the Rating Summary shortcode used on the Profile page."
+msgstr ""
+
+#: config/integrations/profilepress.php:130
+msgctxt "admin-text"
+msgid "Profile Reviews Shortcode"
+msgstr ""
+
+#: config/integrations/profilepress.php:133, config/integrations/ultimatemember.php:92
+msgctxt "admin-text"
+msgid "Enter the Latest Reviews shortcode used on the Profile page."
+msgstr ""
+
+#: config/integrations/profilepress.php:143
+msgctxt "admin-text"
+msgid "Profile Form Shortcode"
+msgstr ""
+
+#: config/integrations/profilepress.php:146, config/integrations/ultimatemember.php:105
+msgctxt "admin-text"
+msgid "Enter the Review Form shortcode used on the Profile page."
+msgstr ""
+
+#: config/integrations/profilepress.php:156
+msgctxt "admin-text"
+msgid "Profile Reviews Visibility"
+msgstr ""
+
+#: config/integrations/profilepress.php:158, config/integrations/ultimatemember.php:117
+msgctxt "admin-text"
+msgid "Anyone"
+msgstr ""
+
+#: config/integrations/profilepress.php:159, config/integrations/ultimatemember.php:118
+msgctxt "admin-text"
+msgid "Only Guests"
+msgstr ""
+
+#: config/integrations/profilepress.php:160, config/integrations/ultimatemember.php:119
+msgctxt "admin-text"
+msgid "Only Members"
+msgstr ""
+
+#: config/integrations/profilepress.php:162, config/integrations/ultimatemember.php:121
+msgctxt "admin-text"
+msgid "Only the Profile Owner"
+msgstr ""
+
+#: config/integrations/profilepress.php:163, config/integrations/ultimatemember.php:122
+msgctxt "admin-text"
+msgid "Only the Profile Owner and Specific Roles"
+msgstr ""
+
+#: config/integrations/profilepress.php:166, config/integrations/ultimatemember.php:125
+msgctxt "admin-text"
+msgid "Choose who can view the reviews tab on Profile pages."
+msgstr ""
+
+#: config/integrations/profilepress.php:177
+msgctxt "admin-text"
+msgid "Profile Reviews Roles"
+msgstr ""
+
+#: config/integrations/profilepress.php:180, config/integrations/ultimatemember.php:139
+msgctxt "admin-text"
+msgid "Choose which user roles are allowed to view the reviews tab on Profile pages."
 msgstr ""
 
 #: config/integrations/surecart.php:8
@@ -1671,39 +1851,14 @@ msgctxt "admin-text"
 msgid "This will integrate Site Reviews with SureCart."
 msgstr ""
 
-#: config/integrations/surecart.php:18, config/integrations/woocommerce.php:70
-msgctxt "admin-text"
-msgid "The problem with averaging star ratings"
-msgstr ""
-
-#: config/integrations/surecart.php:19, config/integrations/woocommerce.php:71
-msgctxt "admin-text"
-msgid "Of bayesian average and star ratings"
-msgstr ""
-
 #: config/integrations/surecart.php:21, config/integrations/woocommerce.php:73
 msgctxt "admin-text"
 msgid "Product Sorting"
 msgstr ""
 
-#: config/integrations/surecart.php:23, config/integrations/ultimatemember.php:48, config/integrations/woocommerce.php:75
-msgctxt "admin-text"
-msgid "Average Rating"
-msgstr ""
-
-#: config/integrations/surecart.php:24, config/integrations/ultimatemember.php:49, config/integrations/woocommerce.php:76
-msgctxt "admin-text"
-msgid "Bayesian Ranking"
-msgstr ""
-
 #: config/integrations/surecart.php:27, config/integrations/woocommerce.php:79
 msgctxt "admin-text"
 msgid "This is the method used to sort products by rating on the shop page."
-msgstr ""
-
-#: config/integrations/surecart.php:35, config/integrations/ultimatemember.php:34, config/integrations/woocommerce.php:87
-msgctxt "admin-text"
-msgid "Display Empty Ratings?"
 msgstr ""
 
 #: config/integrations/surecart.php:37, config/integrations/woocommerce.php:89
@@ -1743,112 +1898,37 @@ msgstr ""
 
 #: config/integrations/ultimatemember.php:25
 msgctxt "admin-text"
-msgid "This will display the average rating of each person in the Member Directory."
+msgid "This will display the rating of each profile on the Member Directory page."
 msgstr ""
 
-#: config/integrations/ultimatemember.php:36
-msgctxt "admin-text"
-msgid "This will display the rating stars even if the member has no reviews."
-msgstr ""
-
-#: config/integrations/ultimatemember.php:46
-msgctxt "admin-text"
-msgid "Member Sorting"
-msgstr ""
-
-#: config/integrations/ultimatemember.php:52
-msgctxt "admin-text"
-msgid "This is the method used when sorting members by rating on the Members Directory page."
-msgstr ""
-
-#: config/integrations/ultimatemember.php:60
+#: config/integrations/ultimatemember.php:64
 msgctxt "admin-text"
 msgid "Display Reviews Tab?"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:62
-msgctxt "admin-text"
-msgid "This will display the reviews tab in member profiles."
-msgstr ""
-
-#: config/integrations/ultimatemember.php:72, config/integrations/woocommerce.php:36, views/integrations/woocommerce/product-data-panel.php:19
+#: config/integrations/ultimatemember.php:76, config/integrations/woocommerce.php:36, views/integrations/woocommerce/product-data-panel.php:19
 msgctxt "admin-text"
 msgid "Summary Shortcode"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:75
-msgctxt "admin-text"
-msgid "Enter the rating summary shortcode used on the member profile page"
-msgstr ""
-
-#: config/integrations/ultimatemember.php:85, config/integrations/woocommerce.php:47, views/integrations/woocommerce/product-data-panel.php:25
+#: config/integrations/ultimatemember.php:89, config/integrations/woocommerce.php:47, views/integrations/woocommerce/product-data-panel.php:25
 msgctxt "admin-text"
 msgid "Reviews Shortcode"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:88
-msgctxt "admin-text"
-msgid "Enter the latest reviews shortcode used on the member profile page"
-msgstr ""
-
-#: config/integrations/ultimatemember.php:98, config/integrations/woocommerce.php:58, views/integrations/woocommerce/product-data-panel.php:31
+#: config/integrations/ultimatemember.php:102, config/integrations/woocommerce.php:58, views/integrations/woocommerce/product-data-panel.php:31
 msgctxt "admin-text"
 msgid "Form Shortcode"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:101
-msgctxt "admin-text"
-msgid "Enter the form shortcode used on the member profile page"
-msgstr ""
-
-#: config/integrations/ultimatemember.php:111
+#: config/integrations/ultimatemember.php:115
 msgctxt "admin-text"
 msgid "Reviews Tab Visibility"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:113
-msgctxt "admin-text"
-msgid "Anyone"
-msgstr ""
-
-#: config/integrations/ultimatemember.php:114
-msgctxt "admin-text"
-msgid "Only Guests"
-msgstr ""
-
-#: config/integrations/ultimatemember.php:115
-msgctxt "admin-text"
-msgid "Only Members"
-msgstr ""
-
-#: config/integrations/ultimatemember.php:116
-msgctxt "admin-text"
-msgid "Only Specific Roles"
-msgstr ""
-
-#: config/integrations/ultimatemember.php:117
-msgctxt "admin-text"
-msgid "Only the Profile Owner"
-msgstr ""
-
-#: config/integrations/ultimatemember.php:118
-msgctxt "admin-text"
-msgid "Only the Profile Owner and Specific Roles"
-msgstr ""
-
-#: config/integrations/ultimatemember.php:121
-msgctxt "admin-text"
-msgid "Choose who can view the reviews tab on member profiles."
-msgstr ""
-
-#: config/integrations/ultimatemember.php:132
+#: config/integrations/ultimatemember.php:136
 msgctxt "admin-text"
 msgid "Reviews Tab Visibility Roles"
-msgstr ""
-
-#: config/integrations/ultimatemember.php:135
-msgctxt "admin-text"
-msgid "Choose which user roles are allowed to view the reviews tab on member profiles."
 msgstr ""
 
 #. translators: %s is replaced with a link to the Import Reviews tool in Site Reviews
@@ -4348,6 +4428,10 @@ msgctxt "admin-text"
 msgid "Widget Title"
 msgstr ""
 
+#: templates/profilepress/account-reviews.php:7
+msgid "My Reviews"
+msgstr ""
+
 #: views/partials/dashboard-widget.php:6
 msgctxt "admin-text"
 msgid "%s review"
@@ -5327,6 +5411,11 @@ msgctxt "admin-text"
 msgid "Site Reviews WooCommerce"
 msgstr ""
 
+#: views/integrations/profilepress/settings.php:7
+msgctxt "admin-text"
+msgid "Learn how to display profile ratings in your Member Directory page %shere%s."
+msgstr ""
+
 #: views/integrations/surecart/settings.php:7
 msgctxt "admin-text"
 msgid "Learn how to add reviews to your SureCart Shop and Product pages %shere%s."
@@ -6063,6 +6152,77 @@ msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr ""
 
+#: plugin/Integrations/ProfilePress/Controllers/AccountController.php:24
+msgctxt "admin-text"
+msgid "My Reviews"
+msgstr ""
+
+#: plugin/Integrations/ProfilePress/Controllers/AccountController.php:63
+msgid "You have not written any reviews."
+msgstr ""
+
+#: plugin/Integrations/ProfilePress/Controllers/DirectoryController.php:26
+msgctxt "admin-text"
+msgid "Rating of user"
+msgstr ""
+
+#: plugin/Integrations/ProfilePress/Controllers/DirectoryController.php:117
+msgctxt "admin-text"
+msgid "Review Fields"
+msgstr ""
+
+#: plugin/Integrations/ProfilePress/Controllers/DirectoryController.php:119
+msgctxt "admin-text"
+msgid "Highest rated first"
+msgstr ""
+
+#: plugin/Integrations/ProfilePress/Controllers/DirectoryController.php:120
+msgctxt "admin-text"
+msgid "Lowest rated first"
+msgstr ""
+
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:55, plugin/Integrations/UltimateMember/Controllers/ProfileController.php:41
+msgid "Reviews"
+msgstr ""
+
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:86, plugin/Integrations/UltimateMember/Controllers/ProfileController.php:68
+msgid "You have not received any reviews."
+msgstr ""
+
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:87, plugin/Integrations/UltimateMember/Controllers/ProfileController.php:69
+msgid "This person has not received any reviews."
+msgstr ""
+
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:123, plugin/Integrations/UltimateMember/Controllers/ProfileController.php:93
+msgid "Your rating"
+msgstr ""
+
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:124, plugin/Integrations/UltimateMember/Controllers/ProfileController.php:94
+msgid "User rating"
+msgstr ""
+
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:137, plugin/Integrations/UltimateMember/Controllers/ProfileController.php:107
+msgid "No one has reviewed you yet."
+msgstr ""
+
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:139, plugin/Integrations/UltimateMember/Controllers/ProfileController.php:109
+msgid "No one has reviewed this person yet."
+msgstr ""
+
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:199, plugin/Integrations/UltimateMember/Controllers/ProfileController.php:163
+msgid "You must be %s to review this person."
+msgstr ""
+
+#: plugin/Integrations/ProfilePress/MemberDirectory/DefaultTemplate.php:12, plugin/Integrations/ProfilePress/MemberDirectory/Gerbera.php:12
+msgctxt "admin-text"
+msgid "Highest Rated First"
+msgstr ""
+
+#: plugin/Integrations/ProfilePress/MemberDirectory/DefaultTemplate.php:13, plugin/Integrations/ProfilePress/MemberDirectory/Gerbera.php:13
+msgctxt "admin-text"
+msgid "Lowest Rated First"
+msgstr ""
+
 #: plugin/Integrations/SureCart/Controllers/ProductController.php:84
 msgid "Rating, low to high"
 msgstr ""
@@ -6088,38 +6248,6 @@ msgstr ""
 #: plugin/Integrations/UltimateMember/Controllers/DirectoryController.php:55
 msgctxt "admin-text"
 msgid "Site Reviews: Lowest rated first"
-msgstr ""
-
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:41
-msgid "Reviews"
-msgstr ""
-
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:68
-msgid "You have not received any reviews."
-msgstr ""
-
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:69
-msgid "This person has not received any reviews."
-msgstr ""
-
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:93
-msgid "Your rating"
-msgstr ""
-
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:94
-msgid "User rating"
-msgstr ""
-
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:107
-msgid "No one has reviewed you yet."
-msgstr ""
-
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:109
-msgid "No one has reviewed this person yet."
-msgstr ""
-
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:163
-msgid "You must be %s to review this person."
 msgstr ""
 
 #: plugin/Integrations/WooCommerce/Commands/MigrateProductRatings.php:30

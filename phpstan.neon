@@ -17,6 +17,7 @@ parameters:
     - tests/phpstan/stubs/mycred.php
     - tests/phpstan/stubs/multilingualpress.php
     - tests/phpstan/stubs/polylang.php
+    - tests/phpstan/stubs/profilepress.php
     - tests/phpstan/stubs/surecart.php
     - tests/phpstan/stubs/ultimate-member.php
     - tests/phpstan/stubs/wlpr.php
