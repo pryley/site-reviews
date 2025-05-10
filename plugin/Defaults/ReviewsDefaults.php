@@ -46,6 +46,7 @@ class ReviewsDefaults extends DefaultsAbstract
      */
     public array $mapped = [
         'assigned_to' => 'assigned_posts',
+        'author' => 'user__in',
         'author_id' => 'user__in',
         'category' => 'assigned_terms',
         'count' => 'per_page', // @deprecated_4_1

@@ -99,6 +99,7 @@ class DefaultsTest extends \WP_UnitTestCase
             'assigned_posts' => $postId,
             'assigned_terms' => $termId,
             'assigned_users' => $userId,
+            'author' => 0,
             'class' => '',
             'debug' => false,
             'display' => 1,

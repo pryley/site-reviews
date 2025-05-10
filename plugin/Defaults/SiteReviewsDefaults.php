@@ -55,6 +55,7 @@ class SiteReviewsDefaults extends DefaultsAbstract
      * This is done after $casts and before $enums.
      */
     public array $sanitize = [
+        'author' => 'user-id:0',
         'class' => 'attr-class',
         'display' => 'min:1',
         'fallback' => 'text-post',
@@ -74,6 +75,7 @@ class SiteReviewsDefaults extends DefaultsAbstract
             'assigned_posts' => '',
             'assigned_terms' => '',
             'assigned_users' => '',
+            'author' => 0,
             'class' => '',
             'display' => 5,
             'debug' => false,
