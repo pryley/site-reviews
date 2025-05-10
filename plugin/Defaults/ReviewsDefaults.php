@@ -49,7 +49,6 @@ class ReviewsDefaults extends DefaultsAbstract
         'author' => 'user__in',
         'author_id' => 'user__in',
         'category' => 'assigned_terms',
-        'count' => 'per_page', // @deprecated_4_1
         'display' => 'per_page',
         'exclude' => 'post__not_in',
         'include' => 'post__in',

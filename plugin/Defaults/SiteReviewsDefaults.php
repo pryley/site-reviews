@@ -45,7 +45,6 @@ class SiteReviewsDefaults extends DefaultsAbstract
         'assigned_to' => 'assigned_posts',
         'category' => 'assigned_terms',
         'className' => 'class',
-        'count' => 'display', // @deprecated_4_1
         'per_page' => 'display',
         'user' => 'assigned_users',
     ];
@@ -100,7 +99,7 @@ class SiteReviewsDefaults extends DefaultsAbstract
     protected function normalize(array $values = []): array
     {
         foreach ($this->mapped as $old => $new) {
-            if ('custom' === Arr::get($values, $old)) {
+            if ('custom' === Arr::get($values, $old)) { // @todo is this deprecated??
                 $values[$old] = Arr::get($values, $new);
             }
         }
