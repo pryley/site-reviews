@@ -78,16 +78,22 @@ class Controller extends AbstractController
             'reviews' => 'site_reviews',
             'summary' => 'site_reviews_summary',
         ];
-        foreach ($shortcodes as $key => $shortcode) {
-            $path = "settings.integrations.ultimatemember.{$key}";
+        foreach ($shortcodes as $settingKey => $shortcode) {
+            $path = "settings.integrations.ultimatemember.{$settingKey}";
             $value = Arr::get($input, $path);
-            if (1 !== preg_match("/^\[{$shortcode}(\s[^\]]*\]|\])$/", $value)) {
-                continue;
-            }
-            if (!str_contains($value, 'assigned_users')) {
-                $value = str_replace($shortcode, sprintf('%s assigned_users="profile_id"', $shortcode), $value);
-                $settings = Arr::set($settings, $path, $value);
-            }
+            $pattern = get_shortcode_regex([$shortcode]);
+            $normalizedValue = preg_replace_callback("/$pattern/", function ($match) {
+                $atts = shortcode_parse_atts($match[3]);
+                $atts['assigned_users'] = 'profile_id';
+                ksort($atts);
+                $attributes = [];
+                foreach ($atts as $key => $val) {
+                    $attributes[] = sprintf('%s="%s"', $key, esc_attr($val));
+                }
+                $attributes = implode(' ', $attributes);
+                return "[{$match[2]} {$attributes}]";
+            }, $value);
+            $settings = Arr::set($settings, $path, $normalizedValue);
         }
         return $settings;
     }

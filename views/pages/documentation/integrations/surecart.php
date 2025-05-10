@@ -20,9 +20,13 @@ $upsellUrl = add_query_arg([
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="integrations-surecart">
             <span class="title has-logo">
-                <svg width="24" height="24" viewBox="0 0 400 400" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                   <path fill-rule="evenodd" clip-rule="evenodd" d="M40 0C17.9086 0 0 17.9086 0 40V360C0 382.091 17.9086 400 40 400H360C382.091 400 400 382.091 400 360V40C400 17.9086 382.091 0 360 0H40ZM126.226 110.011C138.654 97.5783 162.977 87.5 180.553 87.5H339.674L283.416 143.776H92.4714L126.226 110.011ZM116.905 256.224H307.85L274.095 289.99C261.667 302.422 237.344 312.5 219.768 312.5H60.6472L116.905 256.224ZM328.766 171.862H64.625L53.3735 183.117C28.5173 207.982 36.8637 228.138 72.0157 228.138H336.156L347.408 216.883C372.264 192.018 363.918 171.862 328.766 171.862Z" fill="currentColor" />
-                </svg>
+                <?php 
+                    echo \GeminiLabs\SiteReviews\Helpers\Svg::get('assets/images/icons/integrations/surecart.svg', [
+                        'fill' => 'currentColor',
+                        'height' => 24,
+                        'width' => 24,
+                    ]);
+                ?>
                 SureCart
             </span>
             <span class="icon"></span>

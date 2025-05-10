@@ -164,15 +164,17 @@ class ProfileController extends AbstractController
             return glsr(Template::class)->build('templates/login-register', [
                 'context' => compact('text'),
             ]);
-        } else {
-            $ratings = glsr_get_ratings([
-                'assigned_users' => um_get_requested_user(),
-                'status' => 'all',
-                'user__in' => get_current_user_id(),
-            ]);
-            if (0 < $ratings->reviews) {
-                return '';
-            }
+        }
+        if (get_current_user_id() === um_get_requested_user()) {
+            return '';
+        }
+        $ratings = glsr_get_ratings([
+            'assigned_users' => um_get_requested_user(),
+            'status' => 'all',
+            'user__in' => get_current_user_id(),
+        ]);
+        if (0 < $ratings->reviews) {
+            return '';
         }
         return do_shortcode(glsr_get_option('integrations.ultimatemember.form'));
     }
