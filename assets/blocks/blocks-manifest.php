@@ -343,6 +343,7 @@ return array(
 			
 		),
 		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
 		'script' => 'site-reviews',
 		'style' => array(
 			'file:./style-index.css',
