@@ -1,9 +1,10 @@
 import ServerSideRender from '@wordpress/server-side-render';
-import { _x } from '@wordpress/i18n';
-import { BlockControls, InspectorControls, InspectorAdvancedControls, useBlockProps } from '@wordpress/block-editor';
 import { __experimentalToolsPanel as ToolsPanel, Disabled, PanelBody, Spinner } from '@wordpress/components';
-import { useCallback, useEffect, useMemo, useRef } from '@wordpress/element';
+import { _x } from '@wordpress/i18n';
 import { BaseControl, Notice } from '@wordpress/components';
+import { BlockControls, InspectorControls, InspectorAdvancedControls, useBlockProps } from '@wordpress/block-editor';
+import { useMemo } from '@wordpress/element';
+import { useRefEffect } from '@wordpress/compose';
 
 const CustomLoadingPlaceholder = ({ children, showLoader }) => {
     return (
@@ -68,42 +69,45 @@ const ServerSideBlockRenderer = ({
 }) => {
     const { attributes, name: blockName } = props;
     const hookPrefix = blockName.replace('/', '.');
-    const ref = useRef(null);
 
-    const blockProps = useBlockProps({
-        className: styleClassNames.join(' '),
-        ref,
-        style,
-    });
-
-    // Use useCallback to memoize the observer callback
-    const observerCallback = useCallback((mutations) => {
-        for (const mutation of mutations) {
-            if ('childList' !== mutation.type) continue
-            for (const node of mutation.addedNodes) {
-                if (!(node instanceof HTMLElement) || !node.classList.contains(className)) continue;
-                const block = node.firstElementChild;
-                block.classList.add('glsr-' + window.getComputedStyle(block, null).getPropertyValue('direction'))
-                if (window?.GLSR_init) {
-                    GLSR_init(blockName, block, attributes)
+    const ref = useRefEffect((block) => {
+        const observer = new MutationObserver((mutations, observer) => {
+            for (let mutation of mutations) {
+                for (let node of mutation.addedNodes) {
+                    if (node.tagName == 'DIV' && node.classList.contains(className)) {
+                        const el = node.firstElementChild;
+                        const iframe = block?.ownerDocument?.defaultView;
+                        el.classList.add('glsr-' + window.getComputedStyle(el, null).getPropertyValue('direction'))
+                        if (iframe?.GLSR_init) {
+                            iframe.GLSR_init(blockName, el, attributes)
+                        }
+                        if ('function' === typeof renderCallback) {
+                            renderCallback(block, iframe)
+                        }
+                    }
                 }
-                if ('function' === typeof renderCallback) {
-                    renderCallback(node, ref.current)
-                }
-                return
             }
-        }
-    }, [renderCallback, className]);
-
-    useEffect(() => {
-        if (!ref.current) return
-        const observer = new MutationObserver(observerCallback);
-        observer.observe(ref.current, {
+        });
+        observer.observe(block, {
             childList: true,
             subtree: true,
-        })
-        return () => observer.disconnect()
-    }, [observerCallback])
+        });
+        return () => {
+            observer.disconnect();
+        }
+    }, []);
+
+    const memoizedSSR = useMemo(() => {
+        return (
+            <ServerSideRender
+                attributes={attributes}
+                block={blockName}
+                className={className}
+                LoadingResponsePlaceholder={CustomLoadingPlaceholder}
+                skipBlockSupportAttributes
+            />
+        )
+    }, [attributes]);
 
     const filteredControls = useMemo(
         () => wp.hooks.applyFilters(`${hookPrefix}.InspectorControls`, controls, props),
@@ -136,6 +140,12 @@ const ServerSideBlockRenderer = ({
             .filter((controlKey) => controlKey in filteredControls)
             .map((controlKey) => filteredControls[controlKey]);
     }
+
+    const blockProps = useBlockProps({
+        className: styleClassNames.join(' '),
+        ref,
+        style,
+    });
 
     return (
         <>
@@ -173,13 +183,7 @@ const ServerSideBlockRenderer = ({
             })}
             <div {...blockProps}>
                 <Disabled isDisabled>
-                    <ServerSideRender
-                        attributes={ attributes }
-                        block={ blockName }
-                        className={ className }
-                        LoadingResponsePlaceholder={ CustomLoadingPlaceholder }
-                        skipBlockSupportAttributes
-                    />
+                    {memoizedSSR}
                 </Disabled>
             </div>
         </>

@@ -192,9 +192,9 @@ const Edit = (props) => {
         },
     };
 
-    const onRenderComplete = () => {
-        if (window.GLSR_init) {
-            GLSR_init('site-reviews/forms/init');
+    const onRenderComplete = (block, iframe) => {
+        if (iframe?.GLSR_init) {
+            iframe.GLSR_init('site-reviews/forms/init');
         }
     };
 
