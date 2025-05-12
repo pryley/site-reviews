@@ -71,4 +71,4 @@ zip: ## Create a zip archive of Site Reviews
 	git archive -o ./site-reviews-v$(VERSION).zip --prefix=site-reviews/ HEAD
 	open .
 
-.PHONY: analyse build bump compat db help mix mixsync open release sync test testall update watch zip
+.PHONY: analyse blocks build bump compat db help i18n mix mixsync open release sync test testall update watch zip

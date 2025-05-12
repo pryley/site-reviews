@@ -214,6 +214,7 @@ This update requires a minimum of PHP 7.4 and WordPress 6.5. There are a few pot
 - Added the `summary_id` option to the Review Form, this allows you to update the rating summary immediately without reloading the page.
 - Fixed ActionScheduler action redirects
 - Fixed link focus when expanding exceprts with the keyboard.
+- Fixed the RankMath integration when using Divi v4
 - Improved CSS of plugin styles for some themes.
 - Updated the Gutenberg blocks to api v3.
 

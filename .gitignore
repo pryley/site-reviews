@@ -16,4 +16,4 @@ coverage
 node_modules
 vendor
 
-./Icon?
+/Icon?
