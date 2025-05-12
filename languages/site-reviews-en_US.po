@@ -126,8 +126,8 @@ msgid "Previous"
 msgstr "Previous"
 
 #: plugin/Defaults/SiteReviewDefaults.php:53
-msgid "Review not found."
-msgstr "Review not found."
+msgid "Unknown Review."
+msgstr "Unknown Review."
 
 #: plugin/Defaults/ValidationStringsDefaults.php:10
 msgid "This field must be accepted."
@@ -6211,6 +6211,11 @@ msgstr "Sorry, you are not allowed to view review types."
 msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr "You have hidden all of the fields for this block."
+
+#: plugin/Integrations/Gutenberg/Blocks/SiteReviewBlock.php:15
+msgctxt "admin-text"
+msgid "No reviews found."
+msgstr "No reviews found."
 
 #: plugin/Integrations/ProfilePress/Controllers/AccountController.php:24
 msgctxt "admin-text"

@@ -7,6 +7,18 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
 
 class SiteReviewBlock extends Block
 {
+    public function render(array $attributes): string
+    {
+        if ('edit' === filter_input(INPUT_GET, 'context')) {
+            if (empty(wp_count_posts(glsr()->post_type)->publish)) {
+                return $this->buildEmptyBlock(
+                    _x('No reviews found.', 'admin-text', 'site-reviews')
+                );
+            }
+        }
+        return parent::render($attributes);
+    }
+
     public function shortcode(): ShortcodeContract
     {
         return glsr(SiteReviewShortcode::class);

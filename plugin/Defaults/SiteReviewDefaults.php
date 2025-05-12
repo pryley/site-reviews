@@ -50,7 +50,7 @@ class SiteReviewDefaults extends DefaultsAbstract
         return [
             'class' => '',
             'debug' => false,
-            'fallback' => __('Review not found.', 'site-reviews'),
+            'fallback' => __('Unknown Review.', 'site-reviews'),
             'hide' => [],
             'id' => '',
             'post_id' => 0,

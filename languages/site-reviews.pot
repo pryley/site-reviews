@@ -3235,7 +3235,7 @@ msgid "Url"
 msgstr ""
 
 #: plugin/Defaults/SiteReviewDefaults.php:53
-msgid "Review not found."
+msgid "Unknown Review."
 msgstr ""
 
 #: plugin/Defaults/TaxonomyDefaults.php:15
@@ -6150,6 +6150,11 @@ msgstr ""
 #: plugin/Integrations/Gutenberg/Blocks/Block.php:32
 msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
+msgstr ""
+
+#: plugin/Integrations/Gutenberg/Blocks/SiteReviewBlock.php:15
+msgctxt "admin-text"
+msgid "No reviews found."
 msgstr ""
 
 #: plugin/Integrations/ProfilePress/Controllers/AccountController.php:24
