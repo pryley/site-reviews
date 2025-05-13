@@ -105,7 +105,7 @@ class TaxonomyController extends AbstractController
             global $wpdb;
             $clauses['join'] .= $wpdb->prepare(" LEFT JOIN {$wpdb->termmeta} AS tm ON (tm.term_id = t.term_id AND tm.meta_key = %s) ", static::PRIORITY_META_KEY);
             $clauses['where'] .= $wpdb->prepare(" AND (tm.term_id IS NULL OR tm.meta_key = %s) ", static::PRIORITY_META_KEY);
-            $clauses['orderby'] = str_replace('ORDER BY', 'ORDER BY tm.meta_value DESC, ', $clauses['orderby']);
+            $clauses['orderby'] = str_replace('ORDER BY', 'ORDER BY tm.meta_value+0 DESC, ', $clauses['orderby']);
         }
         return $clauses;
     }
@@ -147,6 +147,21 @@ class TaxonomyController extends AbstractController
             glsr()->render('views/partials/taxonomy/quickedit-term_priority', [
                 'id' => static::PRIORITY_META_KEY,
             ]);
+        }
+    }
+
+    /**
+     * @action create_{glsr()->taxonomy}
+     */
+    public function termPriorityCreated(int $termId, int $ttId, array $args): void
+    {
+        if (!$this->termPriorityEnabled()) {
+            return;
+        }
+        $value = Arr::getAs('int', $args, static::PRIORITY_META_KEY);
+        if (0 !== $value) {
+            update_term_meta($termId, static::PRIORITY_META_KEY, $value);
+            delete_transient(glsr()->prefix.static::PRIORITY_META_KEY);
         }
     }
 

@@ -17,6 +17,7 @@ class TaxonomyHooks extends AbstractHooks
             ['renderAddFields', "{$this->taxonomy}_add_form_fields"],
             ['renderEditFields', "{$this->taxonomy}_edit_form_fields"],
             ['renderQuickEditFields', 'quick_edit_custom_box', 10, 3],
+            ['termPriorityCreated', "create_{$this->taxonomy}", 10, 3],
             ['termPriorityDeleted', 'deleted_term_meta', 10, 3],
             ['termPriorityUpdated', "edit_{$this->taxonomy}", 10, 3],
         ]);
