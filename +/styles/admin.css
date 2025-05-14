@@ -53,7 +53,7 @@
   margin: 0 !important;
 }
 
-a[data-expand] {
+a[data-expand]:not(.components-button) {
   background: rgba(0,0,0,.07);
   font-family: "Fira Code", Consolas, Monaco, monospace;
   hyphens: none;
@@ -62,7 +62,7 @@ a[data-expand] {
   word-break: normal;
   word-spacing: normal;
 }
-.description a[data-expand] {
+.description a[data-expand]:not(.components-button) {
   font-size: 13px;
 }
 

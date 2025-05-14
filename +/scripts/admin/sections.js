@@ -1,6 +1,6 @@
 
 const defaults = {
-    expandSelector: '.glsr-nav-view, .glsr-notice',
+    expandSelector: '.glsr-nav-view, .glsr-notice, .glsr-page-header',
     tabSelector: '.glsr-nav-tab',
 };
 

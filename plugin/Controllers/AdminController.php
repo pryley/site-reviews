@@ -191,6 +191,14 @@ class AdminController extends AbstractController
                 'text' => _x('Try Premium', 'admin-text', 'site-reviews'),
             ];
         }
+        if (glsr()->can('import') && in_array($screen->base, ['edit', 'post'])) {
+            $buttons['import'] = [
+                'class' => 'components-button is-secondary',
+                'data-expand' => '#tools-import-reviews',
+                'href' => glsr_admin_url('tools', 'general'),
+                'text' => _x('Import', 'admin-text', 'site-reviews-forms'),
+            ];
+        }
         if (glsr()->can('create_posts') && in_array($screen->base, ['edit', 'post'])) {
             $buttons['new'] = [
                 'class' => 'components-button is-secondary glsr-new-post',
