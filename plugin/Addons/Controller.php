@@ -35,6 +35,16 @@ abstract class Controller extends AbstractController
      */
     public function enqueueBlockAssets(): void
     {
+        $this->registerAsset('css', [
+            'dependencies' => [],
+            'suffix' => 'blocks',
+        ]);
+        $this->registerAsset('js', [
+            'defer' => false,
+            'dependencies' => [],
+            'in_footer' => true,
+            'suffix' => 'blocks',
+        ]);
         $this->enqueuePublicAssets();
     }
 
