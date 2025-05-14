@@ -85,11 +85,13 @@ Site Reviews is officially compatible with the following plugins:
 
 - [Akismet](https://wordpress.org/plugins/akismet/)
 - [Avada Fusion Builder](https://avada.com/)
+- [Bricks](https://bricksbuilder.io/)
 - [BuddyBoss](https://www.buddyboss.com/)
 - [BuddyPress](https://buddypress.org/)
 - [Divi](https://www.elegantthemes.com/gallery/divi/)
 - [Elementor](https://elementor.com/)
 - [Endurance Cache](https://github.com/bluehost/endurance-page-cache/)
+- [Flatsome Page Builder](https://themeforest.net/item/flatsome-multipurpose-responsive-woocommerce-theme/5484319)
 - [GamiPress](https://wordpress.org/plugins/gamipress/)
 - [GeneratePress](https://generatepress.com/)
 - [hCaptcha](https://wordpress.org/plugins/hcaptcha-for-forms-and-more/)
@@ -104,24 +106,26 @@ Site Reviews is officially compatible with the following plugins:
 - [Oxygen Builder](https://oxygenbuilder.com)
 - [Perfect Brands for WooCommerce](https://wordpress.org/plugins/perfect-woocommerce-brands/)
 - [Polylang](https://wordpress.org/plugins/polylang/)
+- [ProfilePress](https://profilepress.com/)
 - [RankMath Pro](https://rankmath.com/)
 - [Schema and Structured Data for WP](https://structured-data-for-wp.com/)
 - [Schema Pro](https://wpschema.com/)
-- [SEOPress](https://wordpress.org/plugins/wp-seopress/)
 - [Search & Filter Pro](https://searchandfilter.com/)
+- [SEOPress](https://wordpress.org/plugins/wp-seopress/)
 - [SiteGround Optimizer](https://wordpress.org/plugins/sg-cachepress/)
 - [Speed Booster Pack](https://wordpress.org/plugins/speed-booster-pack/)
 - [SureCart](https://surecart.com/)
 - [Swift Performance](https://swiftperformance.io/)
 - [Thrive Architect](https://thrivethemes.com/architect/)
 - [W3 Total Cache](https://wordpress.org/plugins/w3-total-cache/)
-- [WooCommerce](https://wordpress.org/plugins/woocommerce/)
 - [WooCommerce Loyalty Points and Rewards](https://www.flycart.org/products/wordpress/wployalty)
+- [WooCommerce](https://wordpress.org/plugins/woocommerce/)
 - [WooRewards](https://wordpress.org/plugins/woorewards/)
 - [WP Fastest Cache](https://www.wpfastestcache.com/)
 - [WP Rocket](https://wp-rocket.me/)
 - [WP Super Cache](https://wordpress.org/plugins/wp-super-cache/)
 - [WP-Optimize](https://getwpo.com)
+- [WPBakery Page Builder](https://wpbakery.com/)
 - [WPForms](https://wordpress.org/plugins/wpforms-lite/)
 - [WPML](https://wpml.org/)
 - [Yoast Duplicate Post](https://wordpress.org/plugins/duplicate-post/)
@@ -200,23 +204,30 @@ This update requires a minimum of PHP 7.4 and WordPress 6.5. There are a few pot
 
 = 8.0.0 (2025-05-??) =
 
-- Site Reviews has a fresh coat of paint! 💅🏻
-- Added [Avada Fusion Builder](https://avada.com/feature/live-visual-builder/) integration.
-- Added [Bricks](https://bricksbuilder.io/) integration.
-- Added [Divi](https://www.elegantthemes.com/gallery/divi/) integration.
-- Added [Flatsome Page Builder](https://themeforest.net/item/flatsome-multipurpose-responsive-woocommerce-theme/5484319) integration.
-- Added [ProfilePress](https://profilepress.com/) integration.
-- Added [SureCart](https://surecart.com/) integration.
-- Added [WPBakery Page Builder](https://wpbakery.com/) integration.
-- Added an option to change the position of the Captcha (above or below the submit button in the review form).
+- 💅🏻 Site Reviews has a fresh coat of paint!
+- Added [Avada Fusion Builder](https://avada.com/feature/live-visual-builder/) integration
+- Added [Bricks](https://bricksbuilder.io/) integration
+- Added [Divi](https://www.elegantthemes.com/gallery/divi/) integration
+- Added [Flatsome Page Builder](https://themeforest.net/item/flatsome-multipurpose-responsive-woocommerce-theme/5484319) integration
+- Added [ProfilePress](https://profilepress.com/) integration
+- Added [SureCart](https://surecart.com/) integration
+- Added [WPBakery Page Builder](https://wpbakery.com/) integration
+- Added a "CAPTCHA Placement" option to change the position of the Captcha above or below the submit button in the review form
 - Added an "Enable Session Storage" option to persist entered review form values until either the review is submitted or the browser tab or window is closed
 - Added Geolocation which allows you to display the location of the reviewer next to their name in the review (i.e. flag/country/state/city)
 - Added style controls to the Gutenberg blocks
-- Added the `summary_id` option to the Review Form, this allows you to update the rating summary immediately without reloading the page.
+- Added the `summary_id` option to the Review Form, this allows you to update the rating summary immediately without reloading the page
 - Fixed ActionScheduler action redirects
-- Fixed link focus when expanding exceprts with the keyboard.
-- Fixed the RankMath integration when using Divi v4
-- Improved CSS of plugin styles for some themes.
-- Updated the Gutenberg blocks to api v3.
+- Fixed link focus when expanding exceprts with the keyboard
+- Fixed the Blacklist validator
+- Fixed the legacy WordPress widget options
+- Fixed the pin control on the edit review page
+- Fixed the RankMath integration when using Divi Builder
+- Fixed the review form signature encryption
+- Improved CSS of plugin styles for some themes
+- Improved MIME type detection
+- Improved the WooCommerce integration
+- Updated the Gutenberg blocks to api v3
+- Updated the privacy policy example to include a section on geolocation
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).
