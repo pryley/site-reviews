@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\UltimateMember;
 
 use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
+use GeminiLabs\SiteReviews\Integrations\UltimateMember\Controllers\AccountController;
 use GeminiLabs\SiteReviews\Integrations\UltimateMember\Controllers\Controller;
 use GeminiLabs\SiteReviews\Integrations\UltimateMember\Controllers\DirectoryController;
 use GeminiLabs\SiteReviews\Integrations\UltimateMember\Controllers\ProfileController;
@@ -27,6 +28,10 @@ class Hooks extends IntegrationHooks
         if ($this->isEnabled()) {
             $this->hook(Controller::class, [
                 ['filterInlineStyles', 'site-reviews/enqueue/public/inline-styles'],
+            ]);
+            $this->hook(AccountController::class, [
+                ['filterAccountContent', 'um_account_content_hook_reviews'],
+                ['filterAccountTabs', 'um_account_page_default_tabs_hook'],
             ]);
             $this->hook(DirectoryController::class, [
                 ['filterAjaxMembersData', 'um_ajax_get_members_data', 50, 2],

@@ -55,6 +55,10 @@
                 <p><strong>The HTML markup of the <code>review.php</code> template has changed.</strong></p>
                 <p>If you copied this template file to your theme, please update it.</p>
             </li>
+            <li>
+                <p><strong>The <code>ultimatemember/reviews.php</code> template has been renamed.</strong></p>
+                <p>If you copied this template file to your theme, please rename it to <code>ultimatemember/profile-reviews.php</code>.</p>
+            </li>
         </ol>
 
         <h2>Action and Filter Hook changes</h2>

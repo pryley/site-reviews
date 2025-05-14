@@ -117,7 +117,7 @@ class ProfileController extends AbstractController
         if (!$this->hasVisibilityPermission()) {
             return;
         }
-        glsr(Template::class)->render('templates/ultimatemember/reviews', [
+        glsr(Template::class)->render('templates/ultimatemember/profile-reviews', [
             'context' => [
                 'form' => $this->shortcodeForm(),
                 'reviews' => $this->shortcodeReviews(),
