@@ -741,6 +741,13 @@ return [ // order is intentional
         ),
         'type' => 'text',
     ],
+    'settings.forms.session_storage' => [
+        'default' => 'no',
+        'label' => _x('Enable Session Storage', 'admin-text', 'site-reviews'),
+        'sanitizer' => 'text',
+        'tooltip' => _x('Enabling this option will persist field values entered into the review form until either the review is submitted or the browser tab or window is closed.', 'admin-text', 'site-reviews'),
+        'type' => 'yes_no',
+    ],
     'settings.forms.required' => [
         'description' => _x('To hide fields instead of making them not required, use the hide options on the Review Form block.', 'admin-text', 'site-reviews'),
         'default' => ['content', 'email', 'name', 'rating', 'terms', 'title'],

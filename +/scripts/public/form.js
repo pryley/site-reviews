@@ -3,6 +3,7 @@
 import Button from '@/public/button.js';
 import Captcha from '@/public/captcha.js';
 import Conditions from '@/public/conditions.js';
+import Session from '@/public/session.js';
 import StarRating from '@/public/starrating.js';
 import Validation from '@/public/validation.js';
 import { addRemoveClass, classListSelector } from '@/public/helpers.js';
@@ -23,6 +24,7 @@ class Form {
         this.conditions = new Conditions(this);
         this.validation = new Validation(formEl);
         this.reviewsEl = document.getElementById(formEl.closest('.glsr')?.dataset?.reviews_id);
+        this.session = new Session(formEl);
         this.summaryEl = document.getElementById(formEl.closest('.glsr')?.dataset?.summary_id);
     }
 
@@ -81,6 +83,7 @@ class Form {
         this.form.removeEventListener('submit', this.events.submit)
         this._resetErrors()
         this.conditions.destroy()
+        this.session.destroy()
         this.validation.destroy()
     }
 
@@ -89,6 +92,7 @@ class Form {
         this.captcha.reset()
         if (wasSuccessful) {
             this.form.reset()
+            this.session.clear()
         }
         this._showFieldErrors(response?.errors)
         this._showResults(response?.message, wasSuccessful)
@@ -119,6 +123,7 @@ class Form {
         this.form.addEventListener('reset', this.events.reset)
         this.form.addEventListener('submit', this.events.submit)
         this.conditions.init()
+        this.session.init()
         this.validation.init()
     }
 

@@ -238,6 +238,9 @@ class Form extends \ArrayObject implements FormContract
         if (!empty($this->session->errors)) {
             $classes[] = glsr(Style::class)->validation('form_error');
         }
+        if (glsr_get_option('settings.forms.session_storage', false, 'bool')) {
+            $classes[] = 'glsr-persist-data';
+        }
         $classes = implode(' ', $classes);
         $classes = glsr(Sanitizer::class)->sanitizeAttrClass($classes);
         return $classes;
