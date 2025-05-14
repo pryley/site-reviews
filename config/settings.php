@@ -289,8 +289,8 @@ return [ // order is intentional
         'class' => 'regular-text',
         'default' => 'strict',
         'description' => sprintf('%s<br>%s',
-            _x('Loose Assignment displays reviews that are assigned to this <code>OR</code> that.', 'admin-text', 'site-reviews'),
-            _x('Strict Assignment displays reviews that are assigned to this <code>AND</code> that.', 'admin-text', 'site-reviews')
+            _x('Loose Assignment: display reviews assigned to the values of this option <code>OR</code> that option.', 'admin-text', 'site-reviews'),
+            _x('Strict Assignment: display reviews assigned to the values of this option <code>AND</code> that option.', 'admin-text', 'site-reviews'),
         ),
         'label' => _x('Review Assignment', 'admin-text', 'site-reviews'),
         'options' => [
@@ -298,7 +298,7 @@ return [ // order is intentional
             'strict' => _x('Strict Assignment (faster database queries)', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'text',
-        'tooltip' => _x('This setting determines how the assigned options work in the reviews and summary shortcodes and blocks.', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('This setting determines how the assignment options (<code>assigned_posts</code>, <code>assigned_terms</code>, and <code>assigned_users</code>) work together in the reviews and summary shortcodes and blocks.', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
     'settings.reviews.assigned_links' => [
