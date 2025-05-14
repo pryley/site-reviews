@@ -82,6 +82,7 @@
     "color": {
       "background": false,
       "button": true,
+      "enableContrastChecker": false,
       "link": true,
       "text": true
     },
@@ -103,9 +104,15 @@
     }
   },
   "example": {},
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "script": "site-reviews",
+  "editorScript": [
+    "file:./index.js"
+  ],
+  "editorStyle": [
+    "file:./index.css"
+  ],
+  "script": [
+    "site-reviews"
+  ],
   "style": [
     "file:./style-index.css",
     "site-reviews",

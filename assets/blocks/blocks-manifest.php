@@ -52,6 +52,7 @@ return array(
 		'supports' => array(
 			'color' => array(
 				'background' => false,
+				'enableContrastChecker' => false,
 				'heading' => true,
 				'link' => true,
 				'text' => true
@@ -76,8 +77,15 @@ return array(
 		'example' => array(
 			
 		),
-		'editorScript' => 'file:./index.js',
-		'script' => 'site-reviews',
+		'editorScript' => array(
+			'file:./index.js'
+		),
+		'editorStyle' => array(
+			
+		),
+		'script' => array(
+			'site-reviews'
+		),
 		'style' => array(
 			'file:./style-index.css',
 			'site-reviews'
@@ -196,6 +204,7 @@ return array(
 		'supports' => array(
 			'color' => array(
 				'background' => false,
+				'enableContrastChecker' => false,
 				'heading' => true,
 				'link' => true,
 				'text' => true
@@ -220,8 +229,15 @@ return array(
 		'example' => array(
 			
 		),
-		'editorScript' => 'file:./index.js',
-		'script' => 'site-reviews',
+		'editorScript' => array(
+			'file:./index.js'
+		),
+		'editorStyle' => array(
+			
+		),
+		'script' => array(
+			'site-reviews'
+		),
 		'style' => array(
 			'file:./style-index.css',
 			'site-reviews'
@@ -319,6 +335,7 @@ return array(
 			'color' => array(
 				'background' => false,
 				'button' => true,
+				'enableContrastChecker' => false,
 				'link' => true,
 				'text' => true
 			),
@@ -342,9 +359,15 @@ return array(
 		'example' => array(
 			
 		),
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'script' => 'site-reviews',
+		'editorScript' => array(
+			'file:./index.js'
+		),
+		'editorStyle' => array(
+			'file:./index.css'
+		),
+		'script' => array(
+			'site-reviews'
+		),
 		'style' => array(
 			'file:./style-index.css',
 			'site-reviews',
@@ -477,6 +500,7 @@ return array(
 		'supports' => array(
 			'color' => array(
 				'background' => false,
+				'enableContrastChecker' => false,
 				'link' => false,
 				'text' => true
 			),
@@ -514,8 +538,15 @@ return array(
 		'example' => array(
 			
 		),
-		'editorScript' => 'file:./index.js',
-		'script' => 'site-reviews',
+		'editorScript' => array(
+			'file:./index.js'
+		),
+		'editorStyle' => array(
+			
+		),
+		'script' => array(
+			'site-reviews'
+		),
 		'style' => array(
 			'file:./style-index.css',
 			'site-reviews'

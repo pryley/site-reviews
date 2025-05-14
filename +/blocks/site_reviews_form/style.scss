@@ -10,10 +10,8 @@
             mask-image: var(--glsr-star-full);
         }
     }
-    .glsr:not([data-theme]) {
-        .glsr-review-form {
-            column-gap: var(--glsr-form-col-gap, var(--glsr-gap-sm));
-            row-gap: var(--glsr-form-row-gap, var(--glsr-gap-md));
-        }
+    .glsr .glsr-review-form {
+        column-gap: var(--glsr-form-col-gap, var(--glsr-gap-sm));
+        row-gap: var(--glsr-form-row-gap, var(--glsr-gap-md));
     }
 }

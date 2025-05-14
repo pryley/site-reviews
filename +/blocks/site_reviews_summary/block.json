@@ -113,6 +113,7 @@
     "supports": {
         "color": {
             "background": false,
+            "enableContrastChecker": false,
             "link": false,
             "text": true
         },
@@ -149,8 +150,13 @@
         }
     ],
     "example": {},
-    "editorScript": "file:./index.js",
-    "script": "site-reviews",
+    "editorScript": [
+        "file:./index.js"
+    ],
+    "editorStyle": [],
+    "script": [
+        "site-reviews"
+    ],
     "style": [
         "file:./style-index.css",
         "site-reviews"
