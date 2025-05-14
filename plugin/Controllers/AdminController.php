@@ -11,7 +11,6 @@ use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Svg;
 use GeminiLabs\SiteReviews\Install;
 use GeminiLabs\SiteReviews\License;
@@ -162,11 +161,22 @@ class AdminController extends AbstractController
      */
     public function printInlineStyle(): void
     {
-        $prefix = Str::dashCase(glsr()->prefix);
-        $url = "edit.php?post_type=site-review&page={$prefix}premium";
         echo ''.
         '<style type="text/css">'.
-            "a[href=\"{$url}\"]:not(.current),a[href=\"{$url}\"]:focus,a[href=\"{$url}\"]:hover{".
+            '@media only screen and (max-width: 960px) {'.
+                '.auto-fold #adminmenu .menu-icon-site-review div.wp-menu-image {'.
+                    'height: 34px;'.
+                '}'.
+            '}'.
+            'li:is(.submenu_glsr-settings,.submenu_glsr-premium)::before {'.
+                'background: hsla(0,0%,100%,.2);'.
+                'content: \'\';'.
+                'display: block;'.
+                'height: 1px;'.
+                'margin: 5px 0;'.
+                'width: 100%;'.
+            '}'.
+            'li.submenu_glsr-premium a {'.
                 'color: #e8ff5e !important;'. // --glsr-primary
             '}'.
         '</style>';

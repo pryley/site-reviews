@@ -60,12 +60,15 @@ class MenuController extends AbstractController
      */
     public function registerSubMenus(): void
     {
+        global $submenu;
         $pages = $this->parseWithFilter('submenu/pages', [
             'settings' => _x('Settings', 'admin-text', 'site-reviews'),
             'tools' => _x('Tools', 'admin-text', 'site-reviews'),
             'documentation' => _x('Help & Support', 'admin-text', 'site-reviews'),
             'premium' => _x('Upgrade to Premium', 'admin-text', 'site-reviews'),
         ]);
+        $parentSlug = 'edit.php?post_type='.glsr()->post_type;
+        $slugPrefix = Str::dashCase(glsr()->prefix);
         foreach ($pages as $slug => $title) {
             $method = Helper::buildMethodName('render', $slug, 'menu', 'callback');
             if (!method_exists($this, $method)) {
@@ -75,7 +78,14 @@ class MenuController extends AbstractController
             if (!is_callable($callback)) {
                 continue;
             }
-            add_submenu_page('edit.php?post_type='.glsr()->post_type, $title, $title, glsr()->getPermission($slug), Str::dashCase(glsr()->prefix).$slug, $callback);
+            add_submenu_page($parentSlug, $title, $title, glsr()->getPermission($slug), $slugPrefix.$slug, $callback);
+        }
+        foreach ($submenu[$parentSlug] as $index => $menu) {
+            $slug = $menu[2] ?? '';
+            if (!str_starts_with($slug, $slugPrefix)) {
+                continue;
+            }
+            $submenu[$parentSlug][$index][4] = "submenu_{$slug}"; // add submenu class
         }
     }
 

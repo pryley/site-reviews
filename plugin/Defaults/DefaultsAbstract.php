@@ -62,7 +62,7 @@ abstract class DefaultsAbstract implements DefaultsContract
 
     /**
      * The keys that should be mapped to other keys.
-     * Keys are mapped before the values are normalized and sanitized.
+     * Keys are mapped before the values are cast, normalized, and sanitized.
      * Note: Mapped keys should not be included in the defaults!
      */
     public array $mapped = [];
