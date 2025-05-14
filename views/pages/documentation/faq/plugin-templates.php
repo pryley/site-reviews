@@ -38,6 +38,9 @@
 │   ├── type-checkbox.php       This template is used by the field_checkbox.php template to display each checkbox.
 │   ├── type-radio.php          This template is used by the field_radio.php template to display each radio.
 │   └── type-toggle.php         This template is used by the field_toggle.php template to display each toggle switch.
+├── profilepress                This folder contains the template files for the ProfilePress integration.
+│   └── account-reviews.php     This template is used to display the reviews tab on the account page.
+│   └── profile-reviews.php     This template is used to display the reviews tab on the profile page.
 ├── ultimatemember              This folder contains the template files for the Ultimate Member integration.
 │   └── account-reviews.php     This template is used to display the reviews tab on the account page.
 │   └── profile-reviews.php     This template is used to display the reviews tab on the profile page.

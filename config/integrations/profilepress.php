@@ -56,13 +56,13 @@ return [ // order is intentional
     ],
     'settings.integrations.profilepress.account_tab_reviews' => [
         'class' => 'large-text',
-        'default' => '[site_reviews author="user_id" display="12" pagination="ajax"]',
+        'default' => '[site_reviews author="user_id" display="12" hide="actions" pagination="ajax"]',
         'depends_on' => [
             'settings.integrations.profilepress.enabled' => ['yes'],
             'settings.integrations.profilepress.display_account_tab' => ['yes'],
         ],
         'label' => _x('Account Reviews Shortcode', 'admin-text', 'site-reviews'),
-        'placeholder' => '[site_reviews author="user_id" display="12" pagination="ajax"]',
+        'placeholder' => '[site_reviews author="user_id" display="12" hide="actions" pagination="ajax"]',
         'sanitizer' => 'text',
         'tooltip' => _x('Enter the Latest Reviews shortcode used on the Account page.', 'admin-text', 'site-reviews'),
         'type' => 'text',
