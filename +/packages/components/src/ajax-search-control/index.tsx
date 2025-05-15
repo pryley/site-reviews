@@ -7,10 +7,9 @@ import {
     Animate,
     BaseControl,
     ComboboxControl,
-    useBaseControlProps,
 } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
-import { ControlProps, Item, Match, Option } from './types';
+import { ControlProps, Item, TransformedItem, SuggestionMatch } from './types';
 import { useDebounce } from '@wordpress/compose';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useRef, useState } from '@wordpress/element';
@@ -18,22 +17,24 @@ import { useEffect, useRef, useState } from '@wordpress/element';
 const AjaxSearchControl = (props: ControlProps) => {
     const {
         endpoint,
+        help,
         onChange,
         options: _, // discard
         placeholder,
+        prefetch = false,
         storeName = DEFAULT_STORE_NAME,
         value,
-        ...additionalProps
+        ...controlProps
     } = props;
-    const { baseControlProps, controlProps } = useBaseControlProps(additionalProps);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isSearching, setIsSearching] = useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
     const hasFetchedData = useRef<boolean>(false);
+    const isFirstRun = useRef<boolean>(true);
 
     const registeredStoreName = createStore(storeName);
-    const options = useSelect<Option[]>(
+    const options = useSelect<TransformedItem[]>(
         (select) => select(registeredStoreName).getOptions(endpoint),
         []
     );
@@ -48,15 +49,15 @@ const AjaxSearchControl = (props: ControlProps) => {
 
     const debouncedSearch = useDebounce(setSearch, 250);
 
-    const transformItem = (item: Item): Option => ({
-        label: `${item.id}: ${item.title}`,
+    const transformItem = (item: Item): TransformedItem => ({
+        label: !isNaN(parseFloat(item.id)) ? `${item.id}: ${item.title}` : item.title,
         title: item.title,
         value: String(item.id),
     });
 
     const initOptions = async () => {
         if (hasFetchedData.current) return;
-        if (options.length || !value) {
+        if (options.length || (!value && !prefetch)) {
             hasFetchedData.current = true; // Mark that we've fetched the data
             return;
         }
@@ -71,7 +72,10 @@ const AjaxSearchControl = (props: ControlProps) => {
     };
 
     const performSearch = async () => {
-        if (search.length < 2) return;
+        if (search.length < 2 || isFirstRun.current) {
+            isFirstRun.current = false;
+            return;
+        }
         setIsSearching(true);
         try {
             const response = await apiFetch<Item[]>(req());
@@ -81,22 +85,22 @@ const AjaxSearchControl = (props: ControlProps) => {
         }
     };
 
-    const computeMatch = (title: string): Match | null => {
+    const computeSuggestionMatch = (suggestion: string): SuggestionMatch | null => {
         const matchText = search.toLocaleLowerCase();
         if (matchText.length === 0) {
             return null;
         }
-        const indexOfMatch = title.toLocaleLowerCase().indexOf(matchText);
+        const indexOfMatch = suggestion.toLocaleLowerCase().indexOf(matchText);
         return {
-            afterMatch: title.substring(indexOfMatch + matchText.length),
-            beforeMatch: title.substring(0, indexOfMatch),
-            match: title.substring(indexOfMatch, indexOfMatch + matchText.length),
+            afterMatch: suggestion.substring(indexOfMatch + matchText.length),
+            beforeMatch: suggestion.substring(0, indexOfMatch),
+            match: suggestion.substring(indexOfMatch, indexOfMatch + matchText.length),
         };
     };
 
-    const renderItem = ({ item }: { item: Option }) => {
+    const renderItem = ({ item }: { item: TransformedItem }) => {
         const { title, value } = item;
-        const matchText = computeMatch(title);
+        const matchText = computeSuggestionMatch(title);
         return (
             <HStack>
                 {matchText ? (
@@ -124,7 +128,7 @@ const AjaxSearchControl = (props: ControlProps) => {
     useEffect(() => { performSearch() }, [search])
 
     return (
-        <BaseControl __nextHasNoMarginBottom {...baseControlProps}>
+        <BaseControl __nextHasNoMarginBottom>
             <Animate type={(isLoading || isSearching) ? 'loading' : undefined}>
                 {({ className }) => (
                     <ComboboxControl
@@ -145,6 +149,11 @@ const AjaxSearchControl = (props: ControlProps) => {
                     />
                 )}
             </Animate>
+            {help && (
+                <Text variant="muted" size="small">
+                    {help}
+                </Text>
+            )}
         </BaseControl>
     );
 };

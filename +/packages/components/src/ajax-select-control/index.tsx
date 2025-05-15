@@ -10,6 +10,7 @@ const AjaxSelectControl = (props: ControlProps) => {
     const {
         endpoint,
         fallback = null,
+        help,
         hideIfEmpty = false,
         options: _, // discard
         placeholder,
@@ -26,32 +27,32 @@ const AjaxSelectControl = (props: ControlProps) => {
     );
     const { setOptions } = useDispatch(registeredStoreName);
 
-    useEffect(() => {
+    const transformItem = (item: Item): Option => ({
+        label: item.title || String(item.id),
+        value: String(item.id),
+    });
+
+    const initOptions = async () => {
         if (options.length) return;
         setIsLoading(true);
-        apiFetch({ path: endpoint }).then((response: Item[]) => {
-            const newOptions: Option[] = response.map((item) => ({
-                label: item.title || String(item.id),
-                value: String(item.id),
-            }));
-            setOptions(endpoint, newOptions);
-        })
-        .catch((error) => {
-            console.error('Error fetching options:', error);
-        })
-        .finally(() => {
+        try {
+            const response = await apiFetch<Item[]>({ path: endpoint });
+            setOptions(endpoint, response.map(transformItem));
+        } finally {
             setIsLoading(false);
-        })
-    }, [endpoint]);
+        }
+    };
+
+    useEffect(() => { initOptions() }, [endpoint]);
 
     if (0 === options.length && (fallback || hideIfEmpty)) {
         return isLoading ? null : fallback;
     }
 
     return (
-        <Animate type={isLoading ? 'loading' : undefined}>
-            {({ className }) => (
-                <BaseControl __nextHasNoMarginBottom>
+        <BaseControl __nextHasNoMarginBottom>
+            <Animate type={isLoading ? 'loading' : undefined}>
+                {({ className }) => (
                     <SelectControl
                         __next40pxDefaultSize
                         __nextHasNoMarginBottom
@@ -66,9 +67,14 @@ const AjaxSelectControl = (props: ControlProps) => {
                         ]}
                         {...controlProps}
                     />
-                </BaseControl>
+                )}
+            </Animate>
+            {help && (
+                <Text variant="muted" size="small">
+                    {help}
+                </Text>
             )}
-        </Animate>
+        </BaseControl>
     );
 };
 

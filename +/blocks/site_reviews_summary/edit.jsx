@@ -267,7 +267,6 @@ const Edit = (props) => {
             />
         </ToolsPanelItem>,
         terms: <AjaxComboboxControl
-            __experimentalRenderItem={false}
             endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=terms'
             key='terms'
             label={ _x('Limit Reviews by terms accepted', 'admin-text', 'site-reviews') }
@@ -291,7 +290,6 @@ const Edit = (props) => {
             </Notice>
         </BaseControl>,
         type: <AjaxComboboxControl
-            __experimentalRenderItem={false}
             endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=type'
             hideIfEmpty={ true }
             key='type'

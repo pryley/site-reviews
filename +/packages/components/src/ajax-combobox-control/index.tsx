@@ -16,6 +16,7 @@ const AjaxComboboxControl = (props: ControlProps) => {
     const {
         endpoint,
         fallback = null,
+        help,
         hideIfEmpty = false,
         options: _, // discard
         placeholder,
@@ -37,41 +38,41 @@ const AjaxComboboxControl = (props: ControlProps) => {
         return (
             <HStack>
                 <Text color="inherit">{label}</Text>
-                <Text color="inherit" size="small" style={{ opacity: 0.5 }}>
-                    {String(value)}
+                <Text color="inherit" size="small" style={{ flexShrink: 0, opacity: 0.5 }}>
+                    {value}
                 </Text>
             </HStack>
         );
     };
 
-    useEffect(() => {
+    const transformItem = (item: Item): Option => ({
+        label: item.title || String(item.id),
+        value: String(item.id),
+    });
+
+    const initOptions = async () => {
         if (options.length) return;
-        setIsLoading(true)
-        apiFetch({ path: endpoint }).then((response: Item[]) => {
-            const newOptions: Option[] = response.map((item) => ({
-                label: item.title || String(item.id),
-                value: String(item.id),
-            }));
-            setOptions(endpoint, newOptions)
-        })
-        .catch((error) => {
-            console.error('Error fetching options:', error);
-        })
-        .finally(() => {
-            setIsLoading(false)
-        })
-    }, [endpoint])
+        setIsLoading(true);
+        try {
+            const response = await apiFetch<Item[]>({ path: endpoint });
+            setOptions(endpoint, response.map(transformItem));
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => { initOptions() }, [endpoint]);
 
     if (0 === options.length && (fallback || hideIfEmpty)) {
         return isLoading ? null : fallback;
     }
 
     return (
-        <Animate type={ isLoading ? 'loading' : undefined }>
-            {({ className }) => (
-                <BaseControl __nextHasNoMarginBottom>
+        <BaseControl __nextHasNoMarginBottom>
+            <Animate type={ isLoading ? 'loading' : undefined }>
+                {({ className }) => (
                     <ComboboxControl
-                        __experimentalRenderItem={props.__experimentalRenderItem || renderItem}
+                        __experimentalRenderItem={renderItem}
                         __next40pxDefaultSize
                         __nextHasNoMarginBottom
                         allowReset
@@ -83,9 +84,14 @@ const AjaxComboboxControl = (props: ControlProps) => {
                         }
                         {...controlProps}
                     />
-                </BaseControl>
-            ) }
-        </Animate>
+                ) }
+            </Animate>
+            {help && (
+                <Text variant="muted" size="small">
+                    {help}
+                </Text>
+            )}
+        </BaseControl>
     )
 };
 

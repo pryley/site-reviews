@@ -104,7 +104,6 @@ const Edit = (props) => {
             value={ attributes.id }
         />,
         pagination: <AjaxComboboxControl
-            __experimentalRenderItem={false}
             endpoint='/site-reviews/v1/shortcode/site_reviews?option=pagination'
             key='pagination'
             label={ _x('Pagination Type', 'admin-text', 'site-reviews') }
@@ -186,7 +185,6 @@ const Edit = (props) => {
             />
         </ToolsPanelItem>,
         terms: <AjaxComboboxControl
-            __experimentalRenderItem={false}
             endpoint='/site-reviews/v1/shortcode/site_reviews?option=terms'
             key='terms'
             label={ _x('Limit Reviews by terms accepted', 'admin-text', 'site-reviews') }
@@ -195,7 +193,6 @@ const Edit = (props) => {
             value={ attributes.terms }
         />,
         type: <AjaxComboboxControl
-            __experimentalRenderItem={false}
             endpoint='/site-reviews/v1/shortcode/site_reviews?option=type'
             hideIfEmpty={ true }
             key='type'

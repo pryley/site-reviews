@@ -14,14 +14,14 @@ export interface Item {
     title: string;
 }
 
-export interface Match {
-    afterMatch: string;
-    beforeMatch: string;
-    match: string;
-}
-
-export interface Option {
+export interface TransformedItem {
     label: string;
     title: string;
     value: string;
+}
+
+export interface SuggestionMatch {
+    afterMatch: string;
+    beforeMatch: string;
+    match: string;
 }

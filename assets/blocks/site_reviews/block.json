@@ -57,7 +57,7 @@
       "type": "string"
     },
     "pagination": {
-      "default": "",
+      "default": "loadmore",
       "type": "string"
     },
     "post_id": {

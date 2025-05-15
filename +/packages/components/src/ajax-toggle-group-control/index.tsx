@@ -1,6 +1,6 @@
 import apiFetch from '@wordpress/api-fetch';
 import createStore, { DEFAULT_STORE_NAME } from '@site-reviews/store';
-import { BaseControl, ToggleControl, Spinner, useBaseControlProps } from '@wordpress/components';
+import { BaseControl, ToggleControl, Spinner } from '@wordpress/components';
 import { ControlProps, Item, Option } from './types';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
@@ -11,9 +11,8 @@ const AjaxToggleGroupControl = (props: ControlProps) => {
         onChange,
         storeName = DEFAULT_STORE_NAME,
         value,
-        ...additionalProps
+        ...controlProps
     } = props;
-    const { baseControlProps, controlProps } = useBaseControlProps(additionalProps);
     const { checked: _, label: __, ...extraProps } = controlProps;
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -49,7 +48,7 @@ const AjaxToggleGroupControl = (props: ControlProps) => {
     }, []);
 
     return (
-        <BaseControl __nextHasNoMarginBottom {...baseControlProps}>
+        <BaseControl __nextHasNoMarginBottom>
             {!isLoading &&
                 options.map((option) => (
                     <ToggleControl

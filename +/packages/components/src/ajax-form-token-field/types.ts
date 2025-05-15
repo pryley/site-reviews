@@ -10,7 +10,7 @@ export interface ControlProps {
 }
 
 export interface Item {
-    id: string;
+    id: string | number;
     title: string;
 }
 

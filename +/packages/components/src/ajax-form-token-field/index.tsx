@@ -12,7 +12,7 @@ import { addQueryArgs } from '@wordpress/url';
 import { ControlProps, Item, TransformedItem, SuggestionMatch } from './types';
 import { useDebounce } from '@wordpress/compose';
 import { useDispatch, useSelect } from '@wordpress/data';
-import { useEffect, useRef, useState } from '@wordpress/element';
+import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
 
 const AjaxFormTokenField = (props: ControlProps) => {
     const {
@@ -31,7 +31,6 @@ const AjaxFormTokenField = (props: ControlProps) => {
     const [search, setSearch] = useState<string>('');
     const [suggestionMap, setSuggestionMap] = useState<Map<string, TransformedItem>>(new Map());
     const hasFetchedData = useRef<boolean>(false);
-    const isFirstRun = useRef<boolean>(true);
 
     const registeredStoreName: string = createStore(storeName);
     const selectedValues = useSelect<TransformedItem[]>(
@@ -51,12 +50,10 @@ const AjaxFormTokenField = (props: ControlProps) => {
         }),
     });
 
-    const debouncedSearch = useDebounce(setSearch, 250);
-
     const transformItem = (item: Item): TransformedItem => ({
-        id: item.id,
+        id: String(item.id),
         title: item.title,
-        value: !isNaN(parseFloat(item.id)) ? `${item.title} (${item.id})` : item.title,
+        value: !isNaN(parseFloat(item.id)) ? `${item.id}: ${item.title}` : item.title,
     });
 
     const initValues = async () => {
@@ -86,10 +83,7 @@ const AjaxFormTokenField = (props: ControlProps) => {
     };
 
     const performSearch = async () => {
-        if (search.length < 2 || isFirstRun.current) {
-            isFirstRun.current = false;
-            return;
-        }
+        if (search.length < 2) return;
         setIsSearching(true);
         try {
             const response = await apiFetch<Item[]>(req());
@@ -110,8 +104,9 @@ const AjaxFormTokenField = (props: ControlProps) => {
             }
             return nextValue;
         });
-        setSelectedValues(endpoint, nextValues);
-        onChange(nextValues.map((selected) => selected.id));
+        setSearch('')
+        setSelectedValues(endpoint, nextValues)
+        onChange(nextValues.map((selected) => selected.id))
     };
 
     const computeSuggestionMatch = (suggestion: string): SuggestionMatch | null => {
@@ -135,18 +130,18 @@ const AjaxFormTokenField = (props: ControlProps) => {
         return (
             <HStack>
                 {matchText ? (
-                    <span aria-label={title}>
+                    <Text color="inherit" numberOfLines={1} aria-label={title}>
                         {matchText.beforeMatch}
                         <strong className="components-form-token-field__suggestion-match">
                             {matchText.match}
                         </strong>
                         {matchText.afterMatch}
-                    </span>
+                    </Text>
                 ) : (
                     <Text color="inherit">{title}</Text>
                 )}
-                <Text color="inherit" size="small" style={{ opacity: '0.5' }}>
-                    {String(id)}
+                <Text color="inherit" size="small" style={{ flexShrink: 0, opacity: '0.5' }}>
+                    {id}
                 </Text>
             </HStack>
         );
@@ -156,11 +151,23 @@ const AjaxFormTokenField = (props: ControlProps) => {
         return suggestedValues.some((item) => item.value === input);
     }
 
+    const debouncedSearch = useDebounce(performSearch, 250);
+
+    const expandOnFocus = useMemo(
+        () => {
+            const hasUniqueSuggestions = suggestedValues.some(
+                (suggestion) => !selectedValues.some((selected) => selected.id === suggestion.id)
+            );
+            return search.length > 1 || hasUniqueSuggestions;
+        },
+        [search, selectedValues, suggestedValues]
+    );
+
     // Run only on mount
     useEffect(() => { initValues() }, [])
 
     // Fetch suggestions whenever search changes
-    useEffect(() => { performSearch() }, [search])
+    useEffect(() => { debouncedSearch() }, [search])
 
     // Use a Map for faster lookups when rendering suggestions
     useEffect(() => {
@@ -172,7 +179,7 @@ const AjaxFormTokenField = (props: ControlProps) => {
             <Animate type={(isLoading || isSearching) ? 'loading' : undefined}>
                 {({ className }) => (
                     <FormTokenField
-                        __experimentalExpandOnFocus
+                        __experimentalExpandOnFocus={expandOnFocus}
                         __experimentalRenderItem={renderItem}
                         __experimentalShowHowTo={false}
                         __experimentalValidateInput={validateInput}
@@ -182,7 +189,7 @@ const AjaxFormTokenField = (props: ControlProps) => {
                         disabled={isLoading}
                         label={label || ''}
                         onChange={handleValueChange}
-                        onInputChange={debouncedSearch}
+                        onInputChange={setSearch}
                         placeholder={
                             placeholder || _x('Search...', 'admin-text', 'site-reviews')
                         }

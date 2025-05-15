@@ -158,7 +158,7 @@ return array(
 				'type' => 'string'
 			),
 			'pagination' => array(
-				'default' => '',
+				'default' => 'loadmore',
 				'type' => 'string'
 			),
 			'post_id' => array(
