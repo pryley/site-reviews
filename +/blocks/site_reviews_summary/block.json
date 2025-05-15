@@ -33,6 +33,10 @@
             },
             "type": "array"
         },
+        "author": {
+            "default": "",
+            "type": "string"
+        },
         "className": {
             "default": "",
             "type": "string"

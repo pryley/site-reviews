@@ -109,6 +109,26 @@ class ShortcodeOptionManager
         ] + $results;
     }
 
+    protected function author(Arguments $args): array
+    {
+        $results = [];
+        if (!empty($args->search) && !in_array($args->search, ['user_id'])) {
+            $results += glsr(Database::class)->users([
+                'number' => 50,
+                'search_wild' => $args->search,
+            ]);
+        }
+        $include = array_filter($args->include, fn ($id) => !array_key_exists($id, $results));
+        if (!empty($include)) {
+            $results += glsr(Database::class)->users([
+                'include' => $include,
+            ]);
+        }
+        return [
+            'user_id' => esc_html_x('The Logged In User', 'admin-text', 'site-reviews'),
+        ] + $results;
+    }
+
     protected function hide(Arguments $args): array
     {
         if ($shortcode = glsr()->shortcode($args->shortcode)) {

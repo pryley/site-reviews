@@ -2,33 +2,35 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Sanitizers;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
+
 class SanitizeUserId extends IntSanitizer
 {
     public function run(): int
     {
-        $userId = $this->value();
-        $userIdFallback = $this->args[0];
-        if (get_user_by('id', $userId)) {
+        if ($userId = $this->value()) {
             return $userId;
         }
-        if (defined('WP_IMPORTING')) {
-            return 0;
-        }
+        $userIdFallback = $this->args[0];
         if (is_numeric($userIdFallback)) {
-            if (get_user_by('id', $userIdFallback)) {
-                return (int) $userIdFallback;
-            }
+            $user = get_user_by('id', $userIdFallback);
+            return Arr::getAs('int', $user, 'ID');
         }
-        return get_current_user_id();
+        return !defined('WP_IMPORTING') ? get_current_user_id() : 0;
     }
 
     protected function value(): int
     {
         if (is_numeric($this->value)) {
-            return (int) $this->value;
+            $user = get_user_by('id', $this->value);
+            return Arr::getAs('int', $user, 'ID');
         }
         if ('user_id' === $this->value) {
-            return get_current_user_id();
+            return !defined('WP_IMPORTING') ? get_current_user_id() : 0;
+        }
+        if (is_string($this->value)) {
+            $user = get_user_by('login', sanitize_user($this->value, true));
+            return Arr::getAs('int', $user, 'ID');
         }
         return 0;
     }

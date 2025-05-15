@@ -50,6 +50,7 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
      * This is done after $casts and before $enums.
      */
     public array $sanitize = [
+        'author' => 'user-id:0',
         'class' => 'attr-class',
         'hide' => 'array-string',
         'id' => 'id-hash',
@@ -67,6 +68,7 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
             'assigned_posts' => '',
             'assigned_terms' => '',
             'assigned_users' => '',
+            'author' => 0,
             'class' => '',
             'debug' => false,
             'hide' => '',

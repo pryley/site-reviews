@@ -37,6 +37,7 @@ const CustomLoadingPlaceholder = ({ children, showLoader }) => {
 };
 
 const defaultPanelTitles = {
+    display: _x('Display Options', 'admin-text', 'site-reviews'),
     hide: _x('Hide Options', 'admin-text', 'site-reviews'),
     settings: _x('Settings', 'admin-text', 'site-reviews'),
 };

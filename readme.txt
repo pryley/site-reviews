@@ -212,9 +212,10 @@ This update requires a minimum of PHP 7.4 and WordPress 6.5. There are a few pot
 - Added [ProfilePress](https://profilepress.com/) integration
 - Added [SureCart](https://surecart.com/) integration
 - Added [WPBakery Page Builder](https://wpbakery.com/) integration
-- Added a "CAPTCHA Placement" option to change the position of the Captcha above or below the submit button in the review form
-- Added an "Enable Account Reviews" option to the Ultimate Member integration to display all of a user's submitted reviews on their account page.
-- Added an "Enable Session Storage" option to persist entered review form values until either the review is submitted or the browser tab or window is closed
+- Added a "CAPTCHA Placement" setting to change the position of the Captcha above or below the submit button in the review form
+- Added an "author" option to the Latest Reviews and Rating Summary blocks and shortcodes to display all ratings and reviews submitted by a specific user.
+- Added an "Enable Account Reviews" setting to the Ultimate Member integration to display all of a user's submitted reviews on their account page.
+- Added an "Enable Session Storage" setting to persist entered review form values until either the review is submitted or the browser tab or window is closed
 - Added Geolocation which allows you to display the location of the reviewer next to their name in the review (i.e. flag/country/state/city)
 - Added style controls to the Gutenberg blocks
 - Added the `summary_id` option to the Review Form, this allows you to update the rating summary immediately without reloading the page

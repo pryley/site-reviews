@@ -181,14 +181,12 @@ class Helper
             return glsr()->filterInt('assigned_users/author_id', $authorId);
         }
         if ('profile_id' === $user) {
-            $profileId = glsr()->filterInt('assigned_users/profile_id', 0);
-            if (empty($profileId) && is_author()) {
-                $profileId = get_queried_object_id(); // is_author() ensures this is a User ID
-            }
-            return $profileId;
+            $profileId = is_author() ? get_queried_object_id() : 0;
+            return glsr()->filterInt('assigned_users/profile_id', $profileId);
         }
         if ('user_id' === $user) {
-            return glsr()->filterInt('assigned_users/user_id', get_current_user_id());
+            $userId = get_current_user_id();
+            return glsr()->filterInt('assigned_users/user_id', $userId);
         }
         if (is_numeric($user)) {
             $user = get_user_by('id', $user);

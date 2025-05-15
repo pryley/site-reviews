@@ -15,7 +15,13 @@ import {
     TextControl,
 } from '@wordpress/components';
 import { _x, sprintf } from '@wordpress/i18n';
-import { AjaxComboboxControl, AjaxFormTokenField, AjaxToggleGroupControl, NoYesControl } from '@site-reviews/components';
+import {
+    AjaxComboboxControl,
+    AjaxFormTokenField,
+    AjaxSearchControl,
+    AjaxToggleGroupControl,
+    NoYesControl,
+} from '@site-reviews/components';
 import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
 import { useEffect, useRef } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
@@ -91,6 +97,15 @@ const Edit = (props) => {
             placeholder={ _x('Search Users...', 'admin-text', 'site-reviews') }
             prefetch={ true }
             value={ attributes.assigned_users }
+        />,
+        author: <AjaxSearchControl
+            endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=author'
+            key='author'
+            label={ _x('Limit Reviews by Review Author', 'admin-text', 'site-reviews') }
+            onChange={ (author) => setAttributes({ author }) }
+            placeholder={ _x('Search Users...', 'admin-text', 'site-reviews') }
+            prefetch={ true }
+            value={ attributes.author }
         />,
         hide: <AjaxToggleGroupControl
             endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=hide'
@@ -298,6 +313,7 @@ const Edit = (props) => {
                 'assigned_posts',
                 'assigned_terms',
                 'assigned_users',
+                'author',
                 'terms',
                 'type',
                 'rating',

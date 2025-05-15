@@ -132,6 +132,10 @@ return array(
 				),
 				'type' => 'array'
 			),
+			'author' => array(
+				'default' => '',
+				'type' => 'string'
+			),
 			'className' => array(
 				'default' => '',
 				'type' => 'string'
@@ -414,6 +418,10 @@ return array(
 					'type' => 'string'
 				),
 				'type' => 'array'
+			),
+			'author' => array(
+				'default' => '',
+				'type' => 'string'
 			),
 			'className' => array(
 				'default' => '',
