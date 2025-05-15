@@ -41,11 +41,16 @@ abstract class Controller extends AbstractController
         ]);
         $this->registerAsset('js', [
             'defer' => false,
-            'dependencies' => [],
+            'dependencies' => ['underscore', 'wp-block-editor'],
             'in_footer' => true,
             'suffix' => 'blocks',
         ]);
-        $this->enqueuePublicAssets();
+        if (!glsr(AssetCss::class)->canOptimize() || !glsr(AssetCss::class)->isOptimized()) {
+            $this->registerAsset('css');
+        }
+        if (!glsr(AssetJs::class)->canOptimize() || !glsr(AssetJs::class)->isOptimized()) {
+            $this->registerAsset('js', ['in_footer' => true]);
+        }
     }
 
     /**
