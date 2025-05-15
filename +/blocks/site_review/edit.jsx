@@ -92,6 +92,10 @@ const Edit = (props) => {
                 'post_id',
             ],
         },
+        display: {
+            controls: [],
+            initialOpen: false,
+        },
         hide: {
             controls: [
                 'hide',

@@ -316,9 +316,14 @@ const Edit = (props) => {
                 'author',
                 'terms',
                 'type',
-                'rating',
                 'schema',
             ],
+        },
+        display: {
+            controls: [
+                'rating',
+            ],
+            initialOpen: false,
         },
         hide: {
             controls: [

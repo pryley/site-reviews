@@ -215,11 +215,16 @@ const Edit = (props) => {
                 'author',
                 'terms',
                 'type',
+                'schema',
+            ],
+        },
+        display: {
+            controls: [
                 'pagination',
                 'display',
                 'rating',
-                'schema',
             ],
+            initialOpen: false,
         },
         hide: {
             controls: [

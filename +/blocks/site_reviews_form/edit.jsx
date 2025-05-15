@@ -158,6 +158,10 @@ const Edit = (props) => {
                 'assigned_users',
             ],
         },
+        display: {
+            controls: [],
+            initialOpen: false,
+        },
         hide: {
             controls: [
                 'hide',
