@@ -220,6 +220,7 @@ This update requires a minimum of PHP 7.4 and WordPress 6.5. There are a few pot
 - Added style controls to the Gutenberg blocks
 - Added the `summary_id` option to the Review Form, this allows you to update the rating summary immediately without reloading the page
 - Fixed ActionScheduler action redirects
+- Fixed generated CSS ID values to always be unique
 - Fixed link focus when expanding exceprts with the keyboard
 - Fixed the Blacklist validator
 - Fixed the legacy WordPress widget options

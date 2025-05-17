@@ -563,11 +563,11 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_id_hash()
+    public function test_sanitize_id_unique()
     {
-        $sanitized = glsr(Sanitizer::class)->sanitizeIdHash('', 'form_');
+        $sanitized = glsr(Sanitizer::class)->sanitizeIdUnique('', 'form_');
         $this->assertMatchesRegularExpression('/form_([a-z0-9]{8})/', $sanitized);
-        $sanitized = $this->sanitize('id-hash');
+        $sanitized = $this->sanitize('id-unique');
         $pattern = '/glsr_([a-z0-9]{8})/';
         $this->assertMatchesRegularExpression($pattern, $sanitized[0]);
         $this->assertEquals($sanitized[1], 'abc');

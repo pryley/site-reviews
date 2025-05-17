@@ -53,7 +53,7 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
         'author' => 'user-id:0',
         'class' => 'attr-class',
         'hide' => 'array-string',
-        'id' => 'id-hash',
+        'id' => 'id-unique',
         'labels' => 'text',
         'rating' => 'rating',
         'rating_field' => 'name',

@@ -26,13 +26,13 @@ class Form extends \ArrayObject implements FormContract
      */
     public function __construct(array $args = [], array $values = [])
     {
+        if (empty($args['id'])) {
+            $args['id'] = glsr(Sanitizer::class)->sanitizeIdUnique('');
+        }
         $args = wp_parse_args($args, [
             'button_text' => __('Submit Form', 'site-reviews'),
             'button_text_loading' => __('Submitting, please wait...', 'site-reviews'),
         ]);
-        if (empty($args['id'])) {
-            $args['id'] = glsr(Sanitizer::class, ['values' => $args])->sanitizeIdHash('');
-        }
         $this->args = glsr()->args($args);
         $this->config = $this->mergeConfig();
         $this->loadSession($values);

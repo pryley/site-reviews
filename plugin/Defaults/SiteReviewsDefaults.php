@@ -59,7 +59,7 @@ class SiteReviewsDefaults extends DefaultsAbstract
         'display' => 'min:1',
         'fallback' => 'text-post',
         'hide' => 'array-string',
-        'id' => 'id-hash',
+        'id' => 'id-unique',
         'offset' => 'min:0',
         'page' => 'min:1',
         'rating' => 'rating',

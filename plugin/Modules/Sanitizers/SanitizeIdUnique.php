@@ -6,15 +6,16 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 /**
  * This allows lowercase alphannumeric characters, dashes, and underscores.
- * A value is generated if result is empty.
+ * A unique value is generated if result is empty.
  */
-class SanitizeIdHash extends StringSanitizer
+class SanitizeIdUnique extends StringSanitizer
 {
     public function run(): string
     {
         $value = $this->value();
         if (empty($value)) {
-            $value = Str::hash(serialize($this->values), 8);
+            $value = sanitize_key(base64_encode(random_bytes(12)));
+            $value = substr($value, 0, 8);
             $value = Str::prefix($value, $this->args[0] ?: glsr()->prefix);
         }
         return $value;

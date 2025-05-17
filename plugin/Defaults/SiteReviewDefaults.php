@@ -41,7 +41,7 @@ class SiteReviewDefaults extends DefaultsAbstract
         'class' => 'attr-class',
         'fallback' => 'text-post',
         'hide' => 'array-string',
-        'id' => 'id-hash',
+        'id' => 'id-unique',
         'title' => 'text',
     ];
 
