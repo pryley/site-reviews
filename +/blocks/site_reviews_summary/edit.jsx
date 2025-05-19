@@ -340,8 +340,8 @@ const Edit = (props) => {
         },
         advanced: {
             controls: [
-                'id',
                 'rating_field',
+                'id',
             ],
         },
         color: {

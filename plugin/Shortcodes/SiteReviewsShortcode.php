@@ -67,6 +67,12 @@ class SiteReviewsShortcode extends Shortcode
                 'placeholder' => esc_html_x('Select a User...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
+            'author' => [
+                'label' => esc_html_x('Limit Reviews by Review Author', 'admin-text', 'site-reviews'),
+                'multiple' => false,
+                'placeholder' => esc_html_x('Select a User...', 'admin-text', 'site-reviews'),
+                'type' => 'select',
+            ],
             'terms' => [
                 'label' => esc_html_x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews'),
                 'options' => $this->options('terms'),
@@ -79,14 +85,12 @@ class SiteReviewsShortcode extends Shortcode
                 'placeholder' => esc_html_x('Select a Review Type...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
-            'rating' => [
-                'default' => (string) Rating::min(),
+            'pagination' => [
+                'label' => esc_html_x('Pagination Type', 'admin-text', 'site-reviews'),
                 'group' => 'display',
-                'label' => esc_html_x('Minimum Rating', 'admin-text', 'site-reviews'),
-                'max' => Rating::max(),
-                'min' => Rating::min(),
-                'placeholder' => (string) Rating::min(),
-                'type' => 'number',
+                'options' => $this->options('pagination'),
+                'placeholder' => esc_attr_x('No Pagination', 'admin-text', 'site-reviews'),
+                'type' => 'select',
             ],
             'display' => [
                 'default' => 10,
@@ -96,17 +100,19 @@ class SiteReviewsShortcode extends Shortcode
                 'min' => 1,
                 'type' => 'number',
             ],
-            'pagination' => [
-                'label' => esc_html_x('Pagination Type', 'admin-text', 'site-reviews'),
+            'rating' => [
+                'default' => (string) Rating::min(),
                 'group' => 'display',
-                'options' => $this->options('pagination'),
-                'placeholder' => esc_attr_x('No Pagination', 'admin-text', 'site-reviews'),
-                'type' => 'select',
+                'label' => esc_html_x('Minimum Rating', 'admin-text', 'site-reviews'),
+                'max' => Rating::max(),
+                'min' => Rating::min(),
+                'placeholder' => (string) Rating::min(),
+                'type' => 'number',
             ],
             'schema' => [
                 'description' => esc_html_x('The schema should only be enabled once on your page.', 'admin-text', 'site-reviews'),
-                'group' => 'schema',
                 'label' => esc_html_x('Enable the schema?', 'admin-text', 'site-reviews'),
+                'group' => 'schema',
                 'type' => 'checkbox',
             ],
             'hide' => [

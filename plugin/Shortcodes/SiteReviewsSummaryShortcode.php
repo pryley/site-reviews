@@ -79,6 +79,12 @@ class SiteReviewsSummaryShortcode extends Shortcode
                 'placeholder' => esc_html_x('Select a User...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
+            'author' => [
+                'label' => esc_html_x('Limit Reviews by Review Author', 'admin-text', 'site-reviews'),
+                'multiple' => false,
+                'placeholder' => esc_html_x('Select a User...', 'admin-text', 'site-reviews'),
+                'type' => 'select',
+            ],
             'terms' => [
                 'label' => esc_html_x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews'),
                 'options' => $this->options('terms'),
@@ -91,6 +97,14 @@ class SiteReviewsSummaryShortcode extends Shortcode
                 'placeholder' => esc_html_x('Select a Review Type...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
+            'rating_field' => [
+                'description' => sprintf(_x('Use the %sReview Forms%s addon to add custom rating fields.', 'admin-text', 'site-reviews'),
+                    '<a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">', '</a>'
+                ),
+                'label' => esc_html_x('Custom Rating Field Name', 'admin-text', 'site-reviews'),
+                'group' => 'advanced',
+                'type' => 'text',
+            ],
             'rating' => [
                 'default' => (string) Rating::min(),
                 'group' => 'display',
@@ -99,14 +113,6 @@ class SiteReviewsSummaryShortcode extends Shortcode
                 'min' => Rating::min(),
                 'placeholder' => (string) Rating::min(),
                 'type' => 'number',
-            ],
-            'rating_field' => [
-                'description' => sprintf(_x('Use the %sReview Forms%s addon to add custom rating fields.', 'admin-text', 'site-reviews'),
-                    '<a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">', '</a>'
-                ),
-                'label' => esc_html_x('Custom Rating Field Name', 'admin-text', 'site-reviews'),
-                'group' => 'display',
-                'type' => 'text',
             ],
             'schema' => [
                 'description' => esc_html_x('The schema should only be enabled once on your page.', 'admin-text', 'site-reviews'),
@@ -118,6 +124,20 @@ class SiteReviewsSummaryShortcode extends Shortcode
                 'group' => 'hide',
                 'options' => $this->options('hide'),
                 'type' => 'checkbox',
+            ],
+            'text' => [
+                'description' => _x('Use {num} to display the number of reviews, {rating} to display the average rating, and {max} to display the maximum rating value.', 'admin-text', 'site-reviews'),
+                'group' => 'text',
+                'label' => _x('Summary Text', 'admin-text', 'site-reviews'),
+                'placeholder' => _x('{rating} out of {max} stars (based on {num} reviews)', 'admin-text', 'site-reviews'),
+                'type' => 'text',
+            ],
+            'labels' => [
+                'description' => _x('Enter custom labels for the percentage bar levels (from high to low) and separate them with a comma.', 'admin-text', 'site-reviews'),
+                'group' => 'text',
+                'label' => _x('Summary Labels', 'admin-text', 'site-reviews'),
+                'placeholder' => _x('Excellent, Very good, Average, Poor, Terrible', 'admin-text', 'site-reviews'),
+                'type' => 'text',
             ],
             'id' => [
                 'description' => esc_html_x('This should be a unique value.', 'admin-text', 'site-reviews'),
