@@ -4,11 +4,12 @@
   overflow: hidden;
 }
 :--namespace form.glsr-form {
+  column-gap: var(--glsr-form-col-gap);
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
-  position: relative;
   margin-bottom: 0;
-  row-gap: var(--glsr-gap-md);
+  position: relative;
+  row-gap: var(--glsr-form-row-gap);
 }
 :--namespace .glsr-field {
     position: relative;

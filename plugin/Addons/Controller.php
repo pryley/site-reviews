@@ -31,29 +31,6 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * @action enqueue_block_editor_assets
-     */
-    public function enqueueBlockAssets(): void
-    {
-        $this->registerAsset('css', [
-            'dependencies' => [],
-            'suffix' => 'blocks',
-        ]);
-        $this->registerAsset('js', [
-            'defer' => false,
-            'dependencies' => ['underscore', 'wp-block-editor'],
-            'in_footer' => true,
-            'suffix' => 'blocks',
-        ]);
-        if (!glsr(AssetCss::class)->canOptimize() || !glsr(AssetCss::class)->isOptimized()) {
-            $this->registerAsset('css');
-        }
-        if (!glsr(AssetJs::class)->canOptimize() || !glsr(AssetJs::class)->isOptimized()) {
-            $this->registerAsset('js', ['in_footer' => true]);
-        }
-    }
-
-    /**
      * @action wp_enqueue_scripts
      */
     public function enqueuePublicAssets(): void
@@ -378,13 +355,6 @@ abstract class Controller extends AbstractController
             $this->app()->action('deactivated');
             restore_current_blog();
         }
-    }
-
-    /**
-     * @action init
-     */
-    public function registerBlocks(): void
-    {
     }
 
     /**

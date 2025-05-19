@@ -4,6 +4,7 @@
     display: flex;
     flex-wrap: wrap;
     font-size: var(--glsr-summary-text);
+    justify-content: var(--glsr-summary-align);
     max-width: var(--glsr-max-w);
     position: relative;
     width: 100%;
@@ -20,6 +21,7 @@
 }
 :root .glsr-summary-text {
     flex: 1 1 100%;
+    text-align: var(--glsr-summary-align);
 }
 :root .glsr-summary-percentages {
     display: grid;
@@ -32,40 +34,44 @@
 :root .glsr-summary > div + .glsr-summary-percentages {
     margin-block-start: var(--glsr-gap-sm);
 }
-:root .glsr-summary .glsr-bar {
+:root .glsr-summary-bar {
     display: grid;
     grid-template-columns: subgrid;
     grid-column: span 3;
     gap: var(--glsr-gap-sm);
 }
-:root .glsr-summary .glsr-bar > span {
-    display: flex;
+:root .glsr-summary-bar-label {
     align-items: center;
+    display: flex;
+    justify-content: start;
     white-space: nowrap;
 }
-:root .glsr-summary .glsr-bar-label {
-    justify-content: start;
-}
-:root .glsr-summary .glsr-bar-background {
-  position: relative;
-  &::before {
-    background-color: currentColor;
-    content: '';
-    height: var(--glsr-bar-size);
-    opacity: var(--glsr-bar-opacity);
-    position: absolute;
-    width: 100%;
-  }
-  &::after {
-    background: var(--glsr-bar-bg);
-    content: '';
-    height: var(--glsr-bar-size);
+:root .glsr-summary-bar-background {
+    align-items: center;
+    display: flex;
     position: relative;
-    width: var(--glsr-bar-percent);
-  }
+    white-space: nowrap;
+    &::before {
+        background-color: currentColor;
+        content: '';
+        height: var(--glsr-bar-size);
+        opacity: var(--glsr-bar-opacity);
+        position: absolute;
+        width: 100%;
+    }
+    &::after {
+        background: var(--glsr-bar-bg);
+        content: '';
+        height: var(--glsr-bar-size);
+        position: relative;
+        width: var(--glsr-bar-percent);
+    }
 }
-:root .glsr-summary .glsr-bar-percent {
+:root .glsr-summary-bar-percent {
+    align-items: center;
+    display: flex;
     justify-content: end;
+    white-space: nowrap;
     &::before {
         content: attr(data-percent);
     }

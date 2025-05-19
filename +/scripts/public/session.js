@@ -1,3 +1,7 @@
+/**
+ * Inspired by https://jpederson.com/Squirrel.js/
+ */
+
 const storeKey = (el) => 'checkbox' === el.type ? (el.name + el.value) : el.name;
 
 const event = (ev) => sessionStorage.setItem(storeKey(ev.target), ev.target.value);

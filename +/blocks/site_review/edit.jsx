@@ -143,7 +143,7 @@ const Edit = (props) => {
                 '--glsr-review-star-bg': styleRatingColor.slug ? `var(--wp--preset--color--${styleRatingColor.slug})` : attributes.styleRatingColorCustom,
             }}
             styleClassNames={[
-                (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-rating-color' : '',
+                (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-color' : '',
             ]}
         />
     )

@@ -29,7 +29,7 @@ $context = [
 
 $blockClassAttr = '';
 if (!empty($attributes['styleRatingColor']) || !empty($attributes['styleRatingColorCustom'])) {
-    $blockClassAttr = 'has-custom-rating-color';
+    $blockClassAttr = 'has-custom-color';
 }
 
 $blockStyleAttr = '';

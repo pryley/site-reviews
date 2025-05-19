@@ -13,7 +13,6 @@ abstract class Hooks extends AbstractHooks
     {
         $defaults = [
             ['enqueueAdminAssets', 'admin_enqueue_scripts'],
-            ['enqueueBlockAssets', 'enqueue_block_editor_assets'],
             ['enqueuePublicAssets', 'wp_enqueue_scripts'],
             ['filterActionLinks', "plugin_action_links_{$this->basename()}"],
             ['filterCapabilities', 'site-reviews/capabilities'],
@@ -34,7 +33,6 @@ abstract class Hooks extends AbstractHooks
             ['install', "{$this->id()}/activated"],
             ['onActivation', 'admin_init'],
             ['onDeactivation', "deactivate_{$this->basename()}"],
-            ['registerBlocks', 'init'],
             ['registerLanguages', 'after_setup_theme'],
             ['registerShortcodes', 'init'],
             ['registerTinymcePopups', 'admin_init'],

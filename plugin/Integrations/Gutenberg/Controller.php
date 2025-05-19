@@ -67,11 +67,13 @@ class Controller extends AbstractController
     }
 
     /**
+     * Disable the Block editor for all Site Reviews post types (including addons)
+     * 
      * @filter use_block_editor_for_post_type
      */
     public function filterUseBlockEditor(bool $useBlockEditor, string $postType): bool
     {
-        return glsr()->post_type !== $postType ? $useBlockEditor : false;
+        return !str_starts_with($postType, glsr()->post_type) ? $useBlockEditor : false;
     }
 
     /**

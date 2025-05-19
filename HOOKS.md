@@ -233,10 +233,12 @@
     site-reviews/settings/defaults                              (array $defaults): array
     site-reviews/settings/sanitize                              (array $options, array $settings): array
     site-reviews/settings/tabs                                  (array $tabs): array
-    site-reviews/shortcode/<shortcode>/config                   (array $config, Shortcodes\Shortcode $shortcode): array
-    site-reviews/shortcode/<shortcode>/attributes               (array $attributes, Shortcodes\Shortcode $shortcode): array
     site-reviews/shortcode/args                                 (array $args, Shortcodes\Shortcode $shortcode): array
+    site-reviews/shortcode/args/<shortcode>                     (array $args, Shortcodes\Shortcode $shortcode): array
+    site-reviews/shortcode/attributes                           (array $attributes, Shortcodes\Shortcode $shortcode): array
+    site-reviews/shortcode/attributes/<shortcode>               (array $attributes, Shortcodes\Shortcode $shortcode): array
     site-reviews/shortcode/config                               (array $config, Shortcodes\Shortcode $shortcode): array
+    site-reviews/shortcode/config/<shortcode>                   (array $config, Shortcodes\Shortcode $shortcode): array
     site-reviews/shortcode/options/<key>                        (array $results, Arguments $args): array
     site-reviews/slack/fields                                   (array $fields, Review $review): array
     site-reviews/slack/notification                             (array $notification, Modules\Slack $slack): array

@@ -14,7 +14,7 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
  */
 interface ShortcodeContract
 {
-    public function build(array $args = [], string $type = 'shortcode'): string;
+    public function build(array $args = [], string $from = 'shortcode', bool $isWrapped = true): string;
 
     public function buildTemplate(): string;
 
@@ -42,4 +42,6 @@ interface ShortcodeContract
     public function settings(): array;
 
     public function tag(): string;
+
+    public function wrap(string $renderedHtml, array $attributes = []): string;
 }

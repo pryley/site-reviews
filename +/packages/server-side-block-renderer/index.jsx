@@ -105,7 +105,7 @@ const ServerSideBlockRenderer = ({
                 block={blockName}
                 className={className}
                 LoadingResponsePlaceholder={CustomLoadingPlaceholder}
-                skipBlockSupportAttributes
+                // skipBlockSupportAttributes
             />
         )
     }, [attributes]);
@@ -147,6 +147,25 @@ const ServerSideBlockRenderer = ({
         ref,
         style,
     });
+
+    const classNamePrefixesToRemove = [
+        'is-custom-',
+        'is-style-',
+        'items-justified-',
+    ];
+
+    const memoizedClassName = useMemo(() => {
+        return (attributes.className || '')
+            .split(' ')
+            .filter(className => !classNamePrefixesToRemove.some(prefix => className.startsWith(prefix)))
+            .join(' ')
+            .trim();
+    }, [attributes.className]);
+
+    if (attributes.className) {
+        // don't add custom classNames to root
+        blockProps.className = blockProps.className.replace(memoizedClassName, '')
+    }
 
     return (
         <>

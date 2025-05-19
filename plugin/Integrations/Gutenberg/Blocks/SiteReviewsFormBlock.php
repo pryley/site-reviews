@@ -2,21 +2,20 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks;
 
-use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
 class SiteReviewsFormBlock extends Block
 {
-    public function shortcode(): ShortcodeContract
+    public static function shortcodeClass(): string
     {
-        return glsr(SiteReviewsFormShortcode::class);
+        return SiteReviewsFormShortcode::class;
     }
 
     protected function blockClassAttr(array $attributes): string
     {
         $attr = [];
         if (!empty($attributes['styleRatingColor']) || !empty($attributes['styleRatingColorCustom'])) {
-            $attr[] = 'has-custom-rating-color';
+            $attr[] = 'has-custom-color';
         }
         return implode(' ', $attr);
     }

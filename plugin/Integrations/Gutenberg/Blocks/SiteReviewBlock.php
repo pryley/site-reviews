@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks;
 
-use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
 
 class SiteReviewBlock extends Block
@@ -19,16 +18,16 @@ class SiteReviewBlock extends Block
         return parent::render($attributes);
     }
 
-    public function shortcode(): ShortcodeContract
+    public static function shortcodeClass(): string
     {
-        return glsr(SiteReviewShortcode::class);
+        return SiteReviewShortcode::class;
     }
 
     protected function blockClassAttr(array $attributes): string
     {
         $attr = [];
         if (!empty($attributes['styleRatingColor']) || !empty($attributes['styleRatingColorCustom'])) {
-            $attr[] = 'has-custom-rating-color';
+            $attr[] = 'has-custom-color';
         }
         return implode(' ', $attr);
     }

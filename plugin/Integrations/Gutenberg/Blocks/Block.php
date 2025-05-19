@@ -5,15 +5,13 @@ namespace GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks;
 use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 abstract class Block
 {
-    public function app(): PluginContract
-    {
-        return glsr();
-    }
+    use IntegrationShortcode;
 
     public function register(): void
     {
@@ -33,17 +31,15 @@ abstract class Block
                 );
             }
         }
-        $rendered = $this->rendered($attributes);
+        $rendered = $this->shortcodeInstance()->build($attributes, 'block', false); // do not wrap html
         if ('edit' === filter_input(INPUT_GET, 'context')) {
             return $rendered;
         }
-        return glsr(Builder::class)->div(
+        return $this->shortcodeInstance()->wrap(
             $rendered,
             $this->blockWrapperAttributes($attributes)
         );
     }
-
-    abstract public function shortcode(): ShortcodeContract;
 
     protected function blockClassAttr(array $attributes): string
     {
@@ -61,7 +57,11 @@ abstract class Block
             \WP_Block_Supports::get_instance()->apply_block_supports(),
             array_fill_keys(['class', 'id', 'style'], '')
         );
-        $class = "{$atts['class']} {$this->blockClassAttr($attributes)}";
+
+        $exclude = explode(' ', $attributes['className']);
+        $include = explode(' ', $atts['class']);
+        $classes = implode(' ', array_diff($include, $exclude));
+        $class = "{$classes} {$this->blockClassAttr($attributes)}";
         $style = "{$atts['style']} {$this->blockStyleAttr($attributes)}";
         return array_filter([
             'class' => glsr(Sanitizer::class)->sanitizeAttrClass($class),
@@ -83,15 +83,6 @@ abstract class Block
 
     protected function hasVisibleFields(array $attributes): bool
     {
-        return $this->shortcode()->hasVisibleFields($attributes);
-    }
-
-    protected function rendered(array $attributes): string
-    {
-        $html = $this->shortcode()->build($attributes, 'block');
-        if (preg_match('/^<div[^>]*>(.*)<\/div>$/s', $html, $matches)) {
-            return $matches[1];
-        }
-        return $html;
+        return $this->shortcodeInstance()->hasVisibleFields($attributes);
     }
 }

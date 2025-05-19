@@ -381,12 +381,13 @@ const Edit = (props) => {
                 '--glsr-bar-size': attributes.styleBarSize,
                 '--glsr-bar-spacing': attributes.styleBarSpacing,
                 '--glsr-max-w': attributes.styleMaxWidth || 'none',
+                '--glsr-summary-align': ({ left: 'start', right: 'end' }[attributes.styleAlign || 'left']) || 'center',
                 '--glsr-summary-star': attributes.styleStarSize,
                 '--glsr-summary-star-bg': 'var(--glsr-bar-bg)',
             }}
             styleClassNames={[
                 (attributes.styleAlign) ? `items-justified-${attributes.styleAlign}` : '',
-                (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-rating-color' : '',
+                (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-color' : '',
             ]}
         />
     )

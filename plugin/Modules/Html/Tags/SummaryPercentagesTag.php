@@ -18,7 +18,7 @@ class SummaryPercentagesTag extends SummaryTag
     protected function ratingBar(int $level, array $percentages): string
     {
         return glsr(Builder::class)->span([
-            'class' => 'glsr-bar-background',
+            'class' => 'glsr-summary-bar-background',
             'style' => "--glsr-bar-percent:{$percentages[$level]};",
         ]);
     }
@@ -26,7 +26,7 @@ class SummaryPercentagesTag extends SummaryTag
     protected function ratingInfo(int $level, array $percentages): string
     {
         return glsr(Builder::class)->span([
-            'class' => 'glsr-bar-percent',
+            'class' => 'glsr-summary-bar-percent',
             'data-percent' => $percentages[$level],
             'data-reviews' => $this->ratings[$level],
         ]);
@@ -36,7 +36,7 @@ class SummaryPercentagesTag extends SummaryTag
     {
         $label = $this->args->get("labels.{$level}");
         return glsr(Builder::class)->span([
-            'class' => 'glsr-bar-label',
+            'class' => 'glsr-summary-bar-label',
             'text' => $label,
         ]);
     }
@@ -55,7 +55,7 @@ class SummaryPercentagesTag extends SummaryTag
                 'rating' => $level,
             ]);
             return $carry.glsr(Builder::class)->div([
-                'class' => 'glsr-bar',
+                'class' => 'glsr-summary-bar',
                 'data-level' => $level,
                 'text' => $value,
             ]);

@@ -217,7 +217,7 @@ const Edit = (props) => {
                     : attributes.styleRatingColorCustom,
             }}
             styleClassNames={[
-                (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-rating-color' : '',
+                (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-color' : '',
             ]}
         />
     )

@@ -22,6 +22,7 @@ abstract class Shortcode implements ShortcodeContract
     public string $description;
     public string $from;
     public string $name;
+    public string $preset;
     public string $tag;
 
     public function __construct()
@@ -31,6 +32,7 @@ abstract class Shortcode implements ShortcodeContract
         $this->description = $this->description();
         $this->from = '';
         $this->name = $this->name();
+        $this->preset = '';
         $this->tag = $this->tag();
     }
 
@@ -38,7 +40,7 @@ abstract class Shortcode implements ShortcodeContract
     {
         $attributes = $this->defaults()->dataAttributes($values);
         $attributes = wp_parse_args($attributes, [
-            'class' => glsr(Style::class)->styleClasses(),
+            'class' => glsr(Style::class)->styleClasses($values['class'] ?? ''),
             'data-from' => $from,
             'data-shortcode' => $this->tag,
             'id' => $values['id'] ?? '',
@@ -46,22 +48,23 @@ abstract class Shortcode implements ShortcodeContract
         unset($attributes['data-class']);
         unset($attributes['data-id']);
         unset($attributes['data-form_id']);
-        $attributes = glsr()->filterArray("shortcode/{$this->tag}/attributes", $attributes, $this);
+        $attributes = glsr()->filterArray("shortcode/attributes/{$this->tag}", $attributes, $this);
+        $attributes = glsr()->filterArray('shortcode/attributes', $attributes, $this);
         $attributes = array_map('esc_attr', $attributes);
         return $attributes;
     }
 
-    public function build($args = [], string $from = 'shortcode'): string
+    public function build(array $args = [], string $from = 'shortcode', bool $isWrapped = true): string
     {
         $this->normalize(wp_parse_args($args), $from);
         $template = $this->buildTemplate();
         $attributes = $this->attributes($this->args, $from);
         $html = glsr(Builder::class)->div($template, $attributes);
         $rendered = sprintf('%s%s', $this->debug, $html);
-        return glsr(Builder::class)->div([
-            'class' => $this->args['class'],
-            'text' => $rendered,
-        ]);
+        if ($isWrapped) {
+            return $this->wrap($rendered);
+        }
+        return $rendered;
     }
 
     public function defaults(): DefaultsAbstract
@@ -88,15 +91,18 @@ abstract class Shortcode implements ShortcodeContract
         if (!empty($from)) {
             $this->from = $from;
         }
+        $this->args = [];
+        $args = glsr()->filterArray("shortcode/args/{$this->tag}", $args, $this);
         $args = glsr()->filterArray('shortcode/args', $args, $this);
         $args = $this->defaults()->unguardedRestrict($args);
-        foreach ($args as $key => &$value) {
+        $this->preset = $this->stylePreset($args['class']);
+        foreach ($args as $key => $value) {
             $method = Helper::buildMethodName('normalize', $key);
             if (method_exists($this, $method)) {
-                $value = call_user_func([$this, $method], $value, $args);
+                $value = call_user_func([$this, $method], $value);
             }
+            $this->args[$key] = $value;
         }
-        $this->args = $args;
         return $this;
     }
 
@@ -129,7 +135,7 @@ abstract class Shortcode implements ShortcodeContract
     public function settings(): array
     {
         $config = $this->config();
-        $config = glsr()->filterArray("shortcode/{$this->tag}/config", $config, $this);
+        $config = glsr()->filterArray("shortcode/config/{$this->tag}", $config, $this);
         $config = glsr()->filterArray('shortcode/config', $config, $this);
         return $config;
     }
@@ -139,6 +145,18 @@ abstract class Shortcode implements ShortcodeContract
         return Str::snakeCase(
             str_replace('Shortcode', '', (new \ReflectionClass($this))->getShortName())
         );
+    }
+
+    public function wrap(string $renderedHtml, array $attributes = []): string
+    {
+        $classes = [
+            Str::dashCase("{$this->from}-{$this->tag}"),
+            Arr::getAs('string', $attributes, 'class'),
+            $this->preset,
+        ];
+        $classAttr = implode(' ', $classes);
+        $attributes['class'] = glsr(Sanitizer::class)->sanitizeAttrClass($classAttr);
+        return glsr(Builder::class)->div($renderedHtml, $attributes);
     }
 
     /**
@@ -203,10 +221,10 @@ abstract class Shortcode implements ShortcodeContract
         return implode(',', $values);
     }
 
-    protected function normalizeClass($value): string
+    protected function normalizeClass(string $value): string
     {
-        $from = Str::dashCase("{$this->from}-{$this->tag}");
-        return glsr(Sanitizer::class)->sanitizeAttrClass("{$from} {$value}");
+        $values = $this->parseClassAttr($value)['custom'];
+        return implode(',', $values);
     }
 
     /**
@@ -241,5 +259,41 @@ abstract class Shortcode implements ShortcodeContract
             }
         }
         return array_combine(range($maxRating, 1), $defaults);
+    }
+
+    protected function parseClassAttr(string $classAttr): array
+    {
+        $prefixes = [
+            'is-custom-',
+            'is-style-',
+            'items-justified-',
+        ];
+        $values = array_filter(explode(' ', trim($classAttr)),
+            fn ($val) => !empty($val)
+        );
+        $custom = [];
+        $styles = [];
+        foreach ($values as $value) {
+            foreach ($prefixes as $prefix) {
+                if (str_starts_with($value, $prefix)) {
+                    $styles[] = $value;
+                    continue 2; // Skip to next value
+                }
+            }
+            $custom[] = $value;
+        }
+        return compact('custom', 'styles');
+    }
+
+    protected function stylePreset(string $classAttr): string
+    {
+        $values = $this->parseClassAttr($classAttr)['styles'];
+        $styles = array_filter($values, fn ($value) => str_starts_with($value, 'is-style-'));
+        $others = array_filter($values, fn ($value) => !str_starts_with($value, 'is-style-'));
+        $merged = array_merge(
+            [array_shift($styles) ?: 'is-style-default'],
+            $others
+        );
+        return implode(' ', $merged);
     }
 }

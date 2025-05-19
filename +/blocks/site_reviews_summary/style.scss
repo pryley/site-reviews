@@ -1,45 +1,35 @@
-.wp-block-site-reviews-summary {
-    &.items-justified-center {
-        .glsr-summary {
-            justify-content: center;
-        }
-        .glsr-summary-text {
-            text-align: center;
-        }
+.wp-block-site-reviews-summary { // ensure that the CSS is used
+    display: block;
+}
+
+.has-custom-color .glsr:not([data-theme]) .glsr-summary {
+    .glsr-star {
+        background: var(--glsr-summary-star-bg);
+        mask-size: 100%;
     }
-    &.items-justified-left {
-        .glsr-summary {
-            justify-content: start;
-        }
-        .glsr-summary-text {
-            text-align: start;
-        }
+    .glsr-star-empty {
+        mask-image: var(--glsr-star-empty);
     }
-    &.items-justified-right {
-        .glsr-summary {
-            justify-content: end;
-        }
-        .glsr-summary-text {
-            text-align: end;
-        }
+    .glsr-star-full {
+        mask-image: var(--glsr-star-full);
     }
-    &.has-custom-rating-color .glsr:not([data-theme]) {
-        .glsr-star {
-            background: var(--glsr-summary-star-bg);
-            mask-size: 100%;
-        }
-        .glsr-star-empty {
-            mask-image: var(--glsr-star-empty);
-        }
-        .glsr-star-full {
-            mask-image: var(--glsr-star-full);
-        }
-        .glsr-star-half {
-            mask-image: var(--glsr-star-half);
-        }
+    .glsr-star-half {
+        mask-image: var(--glsr-star-half);
     }
 }
-.wp-block-site-reviews-summary:is(.is-style-1,.is-style-3) {
+
+.items-justified-left .glsr-summary {
+    --glsr-summary-align: start;
+}
+.items-justified-center .glsr-summary {
+    --glsr-summary-align: center;
+}
+.items-justified-right .glsr-summary {
+    --glsr-summary-align: end;
+}
+
+div.is-style-1,
+div.is-style-3 {
     .glsr-summary {
         display: grid;
         grid-template-columns: auto 1fr;
@@ -57,10 +47,21 @@
     .glsr-summary-text {
         grid-column-start: 2;
     }
+    :not(:has(:is(.glsr-summary-rating))) {
+        .glsr-summary-stars,
+        .glsr-summary-text {
+            grid-column: 1 / span 2;
+        }
+    }
     :not(:has(:is(.glsr-summary-stars,.glsr-summary-text))) {
         .glsr-summary-stars,
         .glsr-summary-text {
             grid-row-end: span 2;
+        }
+    }
+    &.items-justified-left {
+        .glsr-summary-rating {
+            justify-content: start;
         }
     }
     &.items-justified-center {
@@ -79,11 +80,6 @@
             grid-column-end: span 4;
         }
     }
-    &.items-justified-left {
-        .glsr-summary-rating {
-            justify-content: start;
-        }
-    }
     &.items-justified-right {
         .glsr-summary {
             grid-template-columns: 1fr auto;
@@ -96,21 +92,23 @@
         }
     }
 }
-.wp-block-site-reviews-summary:is(.is-style-2,.is-style-3) {
+div.is-style-2,
+div.is-style-3 {
     .glsr-summary-percentages {
         grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     }
-    .glsr-bar {
+    .glsr-summary-bar {
         grid-column: span 1;
         grid-row: span 3;
     }
-    .glsr-bar > span {
+    .glsr-summary-bar > span {
+        align-items: end;
         justify-content: center;
     }
-    .glsr-bar-label {
+    .glsr-summary-bar-label {
         white-space: wrap;
     }
-    .glsr-bar-background {
+    .glsr-summary-bar-background {
         align-items: end;
         border-radius: var(--glsr-input-radius);
         grid-row-start: 1;
@@ -123,8 +121,7 @@
             width: 100%;
         }
     }
-    .glsr-bar-percent {
+    .glsr-summary-bar-percent {
         display: none;
     }
 }
-

@@ -21,7 +21,7 @@ const Edit = (props) => {
     const defaultLinkUrl = '#product-reviews';
 
     const blockProps = useBlockProps({
-        className: (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-rating-color' : '',
+        className: (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-color' : '',
         style: {
             '--glsr-rating-star-bg': styleRatingColor.slug ? `var(--wp--preset--color--${styleRatingColor.slug})` : attributes.styleRatingColorCustom,
         }

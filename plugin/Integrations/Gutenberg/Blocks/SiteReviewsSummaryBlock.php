@@ -2,14 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks;
 
-use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
 class SiteReviewsSummaryBlock extends Block
 {
-    public function shortcode(): ShortcodeContract
+    public static function shortcodeClass(): string
     {
-        return glsr(SiteReviewsSummaryShortcode::class);
+        return SiteReviewsSummaryShortcode::class;
     }
 
     protected function blockClassAttr(array $attributes): string
@@ -19,7 +18,7 @@ class SiteReviewsSummaryBlock extends Block
             $attr[] = "items-justified-{$attributes['styleAlign']}";
         }
         if (!empty($attributes['styleRatingColor']) || !empty($attributes['styleRatingColorCustom'])) {
-            $attr[] = 'has-custom-rating-color';
+            $attr[] = 'has-custom-color';
         }
         return implode(' ', $attr);
     }

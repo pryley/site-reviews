@@ -34,6 +34,7 @@
     --glsr-text-lg: 1.25em;
 
     /* Review */
+    --glsr-review-row-gap: var(--glsr-gap-xl);
     --glsr-review-star: 1.25em;
     --glsr-review-verified: var(--glsr-green);
     --glsr-tag-label-weight: 600;
@@ -44,6 +45,7 @@
     --glsr-bar-size: var(--glsr-text-md);
     --glsr-bar-spacing: .5em;
     --glsr-max-w: 48ch;
+    --glsr-summary-align: start;
     --glsr-summary-star: 1.5em;
     --glsr-summary-text:  var(--glsr-text-sm);
 
@@ -51,7 +53,9 @@
     --glsr-choice-h: 1.125em;
     --glsr-choice-w: 1.125em;
     --glsr-description-text: var(--glsr-text-sm);
+    --glsr-form-col-gap: var(--glsr-gap-sm);
     --glsr-form-error: var(--glsr-red);
+    --glsr-form-row-gap: var(--glsr-gap-md);
     --glsr-form-star: 2em;
     --glsr-form-success: var(--glsr-green);
     --glsr-input-border-color: var(--glsr-gray-400);

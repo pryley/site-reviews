@@ -15,7 +15,7 @@
             </p>
         </div>
 
-        <h2>Changes to Block and Shortcode options</h2>
+        <h2>Changes to CSS</h2>
         <p><em>Likelihood Of Impact: <span class="impact-high">High</span></em></p>
         <ol>
             <li>
@@ -24,11 +24,25 @@
                 <pre><code class="language-css">.glsr .glsr-summary.your-custom-class {}
 .glsr .glsr-reviews.your-custom-class {}
 .glsr .glsr-review-form.your-custom-class {}</code></pre>
-                <p>Now, custom classes are added to the root element so you should do this instead:</p>
-                <pre><code class="language-css">.your-custom-class .glsr-summary {}
-.your-custom-class .glsr-reviews {}
-.your-custom-class .glsr-review-form {}</code></pre>
+                <p>Now, custom classes are added to the <code>.glsr</code> element so you should do this instead:</p>
+                <pre><code class="language-css">.glsr.your-custom-class .glsr-summary {}
+.glsr.your-custom-class .glsr-reviews {}
+.glsr.your-custom-class .glsr-review-form {}</code></pre>
                 <p>If you are using any custom CSS to modify Site Reviews, you should verify that it still works as expected and update it if necessary.</p>
+            </li>
+            <li>
+                <p><strong>Rating Summary CSS class names have changed.</strong></p>
+                <pre><code class="language-css">/* version 7.0 */
+.glsr-bar {}
+.glsr-bar-label {}
+.glsr-bar-background {}
+.glsr-bar-percent {}
+
+/* version 8.0 */
+.glsr-summary-bar {}
+.glsr-summary-bar-label {}
+.glsr-summary-bar-background {}
+.glsr-summary-bar-percent {}</code></pre>
             </li>
         </ol>
 

@@ -47,9 +47,11 @@
 }
 :root form.glsr-form .glsr-star-rating--stars > span {
     display: flex;
-    height: var(--glsr-form-star);
+    font-size: var(--glsr-form-star);
+    line-height: 1;
+    height: 1em;
     margin: 0;
-    width: var(--glsr-form-star);
+    width: 1em;
 }
 :root form.glsr-form .glsr-star-rating--stars[class*=" s"] > span {
     background-position: center;
