@@ -11,7 +11,7 @@ class ReviewLocationTag extends ReviewTag
 {
     protected function handle(): string
     {
-        if ($this->isHidden('reviews.location')) {
+        if ($this->isHidden('reviews.geolocation')) {
             return '';
         }
         return $this->wrap($this->value(), 'span');
@@ -73,13 +73,18 @@ class ReviewLocationTag extends ReviewTag
         return implode('&nbsp;', $parts);
     }
 
+    protected function location(): array
+    {
+        return $this->review->location();
+    }
+
     protected function value(): string
     {
-        $format = glsr_get_option('reviews.location_format', 'flag', 'string');
+        $format = glsr_get_option('reviews.geolocation_format', 'flag', 'string');
         $method = Helper::buildMethodName('formatted', $format);
         if (!method_exists($this, $method)) {
             return '';
         }
-        return call_user_func([$this, $method], $this->review->location());
+        return call_user_func([$this, $method], $this->location());
     }
 }

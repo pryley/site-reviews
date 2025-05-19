@@ -149,7 +149,7 @@
     color: var(--glsr-review-verified);
     display: flex;
     font-size: var(--glsr-text-sm);
-    gap: .25em;
+    gap: .5ex;
 }
 :--namespace .glsr-read-more {
     white-space: nowrap;

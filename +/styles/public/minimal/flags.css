@@ -6,7 +6,7 @@
     aspect-ratio: var(--aspect-ratio);
     border-radius: var(--border-radius);
     box-sizing: border-box;
-    display: inline-block;
+    display: inline-flex;
     height: 1em;
     overflow: hidden;
     position: relative;

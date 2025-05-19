@@ -3716,27 +3716,27 @@ msgctxt "admin-text"
 msgid "Upgrade Guide"
 msgstr "Upgrade Guide"
 
-#: plugin/Database/ShortcodeOptionManager.php:67, plugin/Integrations/Bricks/Controller.php:277, plugin/Integrations/Elementor/ElementorWidget.php:76, plugin/Integrations/Flatsome/Controller.php:69, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:21, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:20, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:21, plugin/Integrations/WPBakery/Controller.php:66
+#: plugin/Database/ShortcodeOptionManager.php:67, plugin/Integrations/Bricks/Controller.php:278, plugin/Integrations/Elementor/ElementorWidget.php:76, plugin/Integrations/Flatsome/Controller.php:69, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:21, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:20, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:21, plugin/Integrations/WPBakery/Controller.php:66
 msgctxt "admin-text"
 msgid "The Current Page"
 msgstr "The Current Page"
 
-#: plugin/Database/ShortcodeOptionManager.php:68, plugin/Integrations/Bricks/Controller.php:278, plugin/Integrations/Elementor/ElementorWidget.php:77, plugin/Integrations/Flatsome/Controller.php:73, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:22, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:21, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:22, plugin/Integrations/WPBakery/Controller.php:70
+#: plugin/Database/ShortcodeOptionManager.php:68, plugin/Integrations/Bricks/Controller.php:279, plugin/Integrations/Elementor/ElementorWidget.php:77, plugin/Integrations/Flatsome/Controller.php:73, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:22, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:21, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:22, plugin/Integrations/WPBakery/Controller.php:70
 msgctxt "admin-text"
 msgid "The Parent Page"
 msgstr "The Parent Page"
 
-#: plugin/Database/ShortcodeOptionManager.php:106, plugin/Database/ShortcodeOptionManager.php:128, plugin/Integrations/Bricks/Controller.php:323, plugin/Integrations/Bricks/Controller.php:350
+#: plugin/Database/ShortcodeOptionManager.php:106, plugin/Database/ShortcodeOptionManager.php:128, plugin/Integrations/Bricks/Controller.php:324, plugin/Integrations/Bricks/Controller.php:351
 msgctxt "admin-text"
 msgid "The Logged In User"
 msgstr "The Logged In User"
 
-#: plugin/Database/ShortcodeOptionManager.php:107, plugin/Integrations/Bricks/Controller.php:324
+#: plugin/Database/ShortcodeOptionManager.php:107, plugin/Integrations/Bricks/Controller.php:325
 msgctxt "admin-text"
 msgid "The Page Author"
 msgstr "The Page Author"
 
-#: plugin/Database/ShortcodeOptionManager.php:108, plugin/Integrations/Bricks/Controller.php:325
+#: plugin/Database/ShortcodeOptionManager.php:108, plugin/Integrations/Bricks/Controller.php:326
 msgctxt "admin-text"
 msgid "The Profile User"
 msgstr "The Profile User"
@@ -4913,12 +4913,12 @@ msgctxt "admin-text"
 msgid "Background"
 msgstr "Background"
 
-#: plugin/Integrations/Bricks/BricksSiteReviews.php:243, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:89, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:252
+#: plugin/Integrations/Bricks/BricksSiteReviews.php:243, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:76, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:252
 msgctxt "admin-text"
 msgid "Border"
 msgstr "Border"
 
-#: plugin/Integrations/Bricks/BricksSiteReviews.php:256, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:102, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:265, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:200, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:220, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:289
+#: plugin/Integrations/Bricks/BricksSiteReviews.php:256, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:89, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:265, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:200, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:220, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:289
 msgctxt "admin-text"
 msgid "Typography"
 msgstr "Typography"
@@ -4935,13 +4935,13 @@ msgstr "Fields"
 
 #: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:63
 msgctxt "admin-text"
-msgid "Label"
-msgstr "Label"
-
-#: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:76
-msgctxt "admin-text"
 msgid "Background color"
 msgstr "Background color"
+
+#: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:102
+msgctxt "admin-text"
+msgid "Labels"
+msgstr "Labels"
 
 #: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:115
 msgctxt "admin-text"
