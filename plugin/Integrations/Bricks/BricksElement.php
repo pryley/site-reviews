@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\Bricks;
 
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
 
 abstract class BricksElement extends \Bricks\Element
@@ -18,6 +19,18 @@ abstract class BricksElement extends \Bricks\Element
         $this->icon = "ti-{$this->shortcodeInstance()->tag}";
         $this->name = $this->shortcodeInstance()->tag;
         parent::__construct($element);
+    }
+
+    public function add_actions()
+    {
+        add_action('wp_enqueue_scripts', function () {
+            wp_add_inline_style('bricks-frontend', ".brxe-{$this->name} {width: 100%}");
+        });
+    }
+
+    public function designConfig(): array
+    {
+        return [];
     }
 
     public function elementConfig(): array
@@ -56,15 +69,24 @@ abstract class BricksElement extends \Bricks\Element
     {
         $reflection = new \ReflectionClass(static::class);
         $file = $reflection->getFileName();
-        $name = glsr(static::shortcodeClass())->tag;
         $className = $reflection->getName();
-        \Bricks\Elements::register_element($file, $name, $className);
+        \Bricks\Elements::register_element($file, '', $className);
     }
 
     public function render()
     {
+        $buttonClasses = ['bricks-button'];
+        if ($buttonStyle = $this->styledSetting('styleButtonStyle')) {
+            $buttonClasses[] = "bricks-background-{$buttonStyle}";
+        }
+        if ($buttonSize = $this->styledSetting('styleButtonSize')) {
+            $buttonClasses[] = $buttonSize;
+        }
+        $buttonClasses = implode(' ', $buttonClasses);
+        $html = $this->shortcodeInstance()->build($this->settings, 'bricks');
+        $html = str_replace('glsr-button', "glsr-button {$buttonClasses}", $html);
         echo "<{$this->get_tag()} {$this->render_attributes('_root')}>";
-        echo $this->shortcodeInstance()->build($this->settings, 'bricks');
+        echo $html;
         echo "</{$this->get_tag()}>";
     }
 
@@ -74,9 +96,8 @@ abstract class BricksElement extends \Bricks\Element
     public function set_control_groups()
     {
         $groups = [ // order is intentional
-            'display' => esc_html_x('Display', 'admin-text', 'site-reviews'),
-            'hide' => esc_html_x('Hide', 'admin-text', 'site-reviews'),
-            'schema' => esc_html_x('Schema', 'admin-text', 'site-reviews'),
+            'general' => esc_html_x('General', 'admin-text', 'site-reviews'),
+            'design' => esc_html_x('Design', 'admin-text', 'site-reviews'),
             'advanced' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
         ];
         foreach ($groups as $key => $title) {
@@ -92,17 +113,15 @@ abstract class BricksElement extends \Bricks\Element
      */
     public function set_controls()
     {
-        foreach ($this->elementConfig() as $key => $args) {
+        $this->controls ??= [];
+        $this->control_groups ??= [];
+        $config = array_merge($this->elementConfig(), $this->designConfig());
+        foreach ($config as $key => $args) {
             $args = wp_parse_args($args, [
-                'group' => '',
-                // 'hasDynamicData' => false,
-                // 'hasVariables' => true,
+                'group' => 'general',
                 'tab' => 'content',
                 'type' => 'text',
             ]);
-            if (!array_key_exists($args['group'], $this->control_groups)) {
-                $args['group'] = '';
-            }
             $method = Helper::buildMethodName('set', $args['type'], 'control');
             if (!method_exists($this, $method)) {
                 $this->controls[$key] = $args;
@@ -113,6 +132,18 @@ abstract class BricksElement extends \Bricks\Element
         if (count(glsr()->retrieveAs('array', 'review_types', [])) < 2) {
             unset($this->controls['type']);
         }
+    }
+
+    public function styledClasses(array $classes = []): array
+    {
+        return $classes;
+    }
+
+    public function styledSetting(string $key): string
+    {
+        $value = $this->settings[$key] ?? '';
+        $value = $value ?: $this->theme_styles[$key] ?? '';
+        return Cast::toString($value);
     }
 
     protected function setCheckboxControl(string $key, array $args): void
@@ -134,6 +165,10 @@ abstract class BricksElement extends \Bricks\Element
 
     protected function setNumberControl(string $key, array $args): void
     {
+        if (isset($args['css'])) {
+            $this->controls[$key] = $args;
+            return;
+        }
         $control = [
             // 'small' => true,
             'type' => 'slider',
@@ -144,7 +179,7 @@ abstract class BricksElement extends \Bricks\Element
 
     protected function setSelectControl(string $key, array $args): void
     {
-        if (!in_array($key, ['assigned_posts', 'assigned_terms', 'assigned_users', 'post_id'])) {
+        if (!in_array($key, ['assigned_posts', 'assigned_terms', 'assigned_users', 'author', 'post_id'])) {
             $this->controls[$key] = $args;
             return;
         }
@@ -153,7 +188,7 @@ abstract class BricksElement extends \Bricks\Element
             'searchable' => true,
             'optionsAjax' => ['action' => "bricks_glsr_{$key}"],
         ];
-        if ('post_id' !== $key) {
+        if (in_array($key, ['assigned_posts', 'assigned_terms', 'assigned_users'])) {
             $control['multiple'] = true;
         }
         $this->controls[$key] = wp_parse_args($control, $args);

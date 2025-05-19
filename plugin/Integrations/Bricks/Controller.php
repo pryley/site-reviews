@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Svg;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Controller extends AbstractController
 {
@@ -20,6 +21,65 @@ class Controller extends AbstractController
         $i18n = Arr::consolidate($i18n);
         $i18n[glsr()->id] = glsr()->name;
         return $i18n;
+    }
+
+    /**
+     * @param array $controls
+     *
+     * @filter bricks/elements/site_review/controls
+     * @filter bricks/elements/site_reviews/controls
+     * @filter bricks/elements/site_reviews_form/controls
+     * @filter bricks/elements/site_reviews_summary/controls
+     */
+    public function filterControls($controls): array
+    {
+        $sections = [
+            'display' => esc_html_x('Display', 'admin-text', 'site-reviews'),
+            'hide' => esc_html_x('Hide', 'admin-text', 'site-reviews'),
+            'schema' => esc_html_x('Schema', 'admin-text', 'site-reviews'),
+            'text' => esc_html_x('Text', 'admin-text', 'site-reviews'),
+        ];
+        $sectioned = [];
+        foreach ($controls as $key => $control) {
+            $group = $control['group'] ?? 'general';
+            if (!array_key_exists($group, $sections)) {
+                $sectioned[$key] = $control;
+                continue;
+            }
+            if (!array_key_exists("separator_{$group}", $sectioned)) {
+                $sectioned["separator_{$group}"] = [
+                    'group' => 'general',
+                    'label' => esc_html($sections[$group] ?? ucfirst($group)),
+                    'tab' => 'content',
+                    'type' => 'separator',
+                ];
+            }
+            $control['group'] = 'general';
+            $sectioned[$key] = $control;
+        }
+        return $sectioned;
+    }
+
+    /**
+     * @param \Bricks\Element $element
+     *
+     * @filter bricks/element/settings:100
+     */
+    public function filterSettingsClass($settings, $element): array
+    {
+        $settings = Arr::consolidate($settings);
+        if (!is_a($element, BricksElement::class)) {
+            return $settings;
+        }
+        $classes = $settings['class'] ?? '';
+        $classes = explode(' ', $classes);
+        if ($preset = $element->styledSetting('stylePreset')) {
+            $classes[] = "is-style-{$preset}";
+        }
+        $classes = $element->styledClasses($classes);
+        $classes = implode(' ', $classes);
+        $settings['class'] = glsr(Sanitizer::class)->sanitizeAttrClass($classes);
+        return $settings;
     }
 
     /**
@@ -68,14 +128,68 @@ class Controller extends AbstractController
                 $settings[$key] = Str::removePrefix($value, 'id::');
                 continue;
             }
-            if (is_array($value)) {
+            if (is_array($value) && wp_is_numeric_array($value)) {
                 $settings[$key] = array_map(
-                    fn ($val) => Str::removePrefix((string) $val, 'id::'),
+                    fn ($val) => is_string($val) ? Str::removePrefix($val, 'id::') : '',
                     $value
                 );
             }
         }
         return $settings;
+    }
+
+    /**
+     * @filter bricks/theme_styles/controls
+     */
+    public function filterThemeStyleControls(array $controls): array
+    {
+        $shortcodes = [
+            'site_review',
+            'site_reviews',
+            'site_reviews_form',
+            'site_reviews_summary',
+        ];
+        if (!class_exists('Bricks\Elements')) {
+            return $controls;
+        }
+        foreach ($shortcodes as $shortcode) {
+            if ($element = \Bricks\Elements::$elements[$shortcode] ?? false) {
+                $instance = new $element['class']();
+                $instance->set_controls();
+                $instance->controls = apply_filters("bricks/elements/$shortcode/controls", $instance->controls);
+                $themeControls = array_filter($instance->controls, fn ($control) => !empty($control['themeStyle']));
+                array_walk($themeControls, function (&$control) use ($shortcode) {
+                    $control['group'] = $shortcode;
+                    unset($control['required']);
+                });
+                $controls[$shortcode] = $themeControls;
+            }
+        }
+        return $controls;
+    }
+
+    /**
+     * @filter bricks/theme_styles/control_groups
+     */
+    public function filterThemeStyleGroups(array $groups): array
+    {
+        $shortcodes = [
+            'site_review',
+            'site_reviews',
+            'site_reviews_form',
+            'site_reviews_summary',
+        ];
+        if (!class_exists('Bricks\Elements')) {
+            return $groups;
+        }
+        foreach ($shortcodes as $shortcode) {
+            if ($element = \Bricks\Elements::$elements[$shortcode] ?? false) {
+                $groups[$shortcode] = [
+                    'title' => sprintf('%s - %s', glsr()->name, $element['label']),
+                ];
+            }
+        }
+        return $groups;
     }
 
     /**
@@ -158,11 +272,11 @@ class Controller extends AbstractController
                 'post__in' => $include,
             ]);
         }
-        $results = $this->prefixedResultIds($posts);
+        $results = $this->prefixedResults($posts);
         if (empty($query)) {
             $results = [
-                'post_id' => esc_html_x('The Current Page', 'admin-text', 'site-reviews').' (post_id)',
-                'parent_id' => esc_html_x('The Parent Page', 'admin-text', 'site-reviews').' (parent_id)',
+                'post_id' => esc_html_x('The Current Page', 'admin-text', 'site-reviews'),
+                'parent_id' => esc_html_x('The Parent Page', 'admin-text', 'site-reviews'),
             ] + $results;
         }
         wp_send_json_success($results);
@@ -184,7 +298,7 @@ class Controller extends AbstractController
                 'term_taxonomy_id' => $include,
             ]);
         }
-        $results = $this->prefixedResultIds($terms);
+        $results = $this->prefixedResults($terms);
         wp_send_json_success($results);
     }
 
@@ -204,12 +318,37 @@ class Controller extends AbstractController
                 'include' => $include,
             ]);
         }
-        $results = $this->prefixedResultIds($users);
+        $results = $this->prefixedResults($users);
         if (empty($query)) {
             $results = [
-                'user_id' => esc_html_x('The Logged In User', 'admin-text', 'site-reviews').' (user_id)',
-                'author_id' => esc_html_x('The Page Author', 'admin-text', 'site-reviews').' (author_id)',
-                'profile_id' => esc_html_x('The Profile User', 'admin-text', 'site-reviews').' (profile_id)',
+                'user_id' => esc_html_x('The Logged In User', 'admin-text', 'site-reviews'),
+                'author_id' => esc_html_x('The Page Author', 'admin-text', 'site-reviews'),
+                'profile_id' => esc_html_x('The Profile User', 'admin-text', 'site-reviews'),
+            ] + $results;
+        }
+        wp_send_json_success($results);
+    }
+
+    /**
+     * @action wp_ajax_bricks_glsr_author
+     */
+    public function searchAuthor(): void
+    {
+        $this->verifyAjaxRequest();
+        $query = stripslashes_deep(sanitize_text_field((string) filter_input(INPUT_GET, 'search')));
+        $users = glsr(Database::class)->users([
+            'number' => 25,
+            'search_wild' => $query,
+        ]);
+        if ($include = $this->includedIds($users)) {
+            $users += glsr(Database::class)->users([
+                'include' => $include,
+            ]);
+        }
+        $results = $this->prefixedResults($users);
+        if (empty($query)) {
+            $results = [
+                'user_id' => esc_html_x('The Logged In User', 'admin-text', 'site-reviews'),
             ] + $results;
         }
         wp_send_json_success($results);
@@ -239,7 +378,7 @@ class Controller extends AbstractController
                 'post_type' => glsr()->post_type,
             ]);
         }
-        $results = $this->prefixedResultIds($posts);
+        $results = $this->prefixedResults($posts);
         wp_send_json_success($results);
     }
 
@@ -252,8 +391,15 @@ class Controller extends AbstractController
         return $ids;
     }
 
-    protected function prefixedResultIds(array $results): array
+    protected function prefixedResults(array $results, bool $prefixTitle = true): array
     {
+        if ($prefixTitle) {
+            array_walk($results, function (&$title, $key) {
+                if (is_numeric($key)) {
+                    $title = "{$key}: {$title}";
+                }
+            });
+        }
         return array_combine(
             array_map(fn ($key) => "id::{$key}", array_keys($results)),
             $results
