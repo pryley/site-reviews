@@ -50,7 +50,7 @@ class FlatsomeSiteReviewsSummary extends FlatsomeShortcode
                     ],
                     'terms' => [
                         'type' => 'select',
-                        'heading' => esc_html_x('Limit Reviews by terms accepted', 'admin-text', 'site-reviews'),
+                        'heading' => esc_html_x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews'),
                         'default' => '',
                         'full_width' => true,
                         'options' => [

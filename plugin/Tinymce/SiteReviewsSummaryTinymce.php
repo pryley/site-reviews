@@ -33,7 +33,7 @@ class SiteReviewsSummaryTinymce extends TinymceGenerator
                 'label' => esc_html_x('Terms Accepted', 'admin-text', 'site-reviews'),
                 'name' => 'terms',
                 'options' => $this->shortcode->options('terms'),
-                'tooltip' => esc_html_x('Limit Reviews by terms accepted', 'admin-text', 'site-reviews'),
+                'tooltip' => esc_html_x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews'),
                 'type' => 'listbox',
             ],
             [

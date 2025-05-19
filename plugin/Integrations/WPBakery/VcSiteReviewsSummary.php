@@ -50,7 +50,7 @@ class VcSiteReviewsSummary extends VcShortcode
             'type' => static::vcTypeOptions(),
             'terms' => [
                 'type' => 'dropdown',
-                'heading' => esc_html_x('Limit Reviews by terms accepted', 'admin-text', 'site-reviews'),
+                'heading' => esc_html_x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews'),
                 'param_name' => 'terms',
                 'std' => '',
                 'value' => array_flip(static::vcShortcode()->options('terms', [
