@@ -54,7 +54,7 @@ class ProductRating extends Product_Rating
                 '.woocommerce {{WRAPPER}} .glsr-star' => 'background-size:{{SIZE}}{{UNIT}};height:{{SIZE}}{{UNIT}};width:{{SIZE}}{{UNIT}};',
                 '.woocommerce {{WRAPPER}} .glsr-rating-level' => 'font-size:{{SIZE}}{{UNIT}};',
             ],
-            'size_units' => ['px', 'em'],
+            'size_units' => ['px', 'em', 'custom'],
             'type' => Controls_Manager::SLIDER,
         ]);
         $this->add_control('space_between', [
@@ -79,7 +79,7 @@ class ProductRating extends Product_Rating
                 '.woocommerce:not(.rtl) {{WRAPPER}} .glsr-star' => 'margin-right: {{SIZE}}{{UNIT}}',
                 '.woocommerce.rtl {{WRAPPER}} .glsr-star ' => 'margin-left: {{SIZE}}{{UNIT}}',
             ],
-            'size_units' => ['px', 'em'],
+            'size_units' => ['px', 'em', 'custom'],
             'type' => Controls_Manager::SLIDER,
         ]);
         $this->add_responsive_control('alignment', [

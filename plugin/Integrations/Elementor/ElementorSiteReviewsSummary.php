@@ -3,16 +3,11 @@
 namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
 use Elementor\Controls_Manager;
-use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
-class ElementorSummaryWidget extends ElementorWidget
+class ElementorSiteReviewsSummary extends ElementorWidget
 {
-    /**
-     * @return string
-     */
-    public function get_icon()
+    public function get_icon(): string
     {
         return 'eicon-glsr-summary';
     }
@@ -22,101 +17,14 @@ class ElementorSummaryWidget extends ElementorWidget
         return SiteReviewsSummaryShortcode::class;
     }
 
-    protected function hide_if_all_fields_hidden(): bool
-    {
-        return true;
-    }
-
-    protected function settings_advanced(): array
-    {
-        $settings = parent::settings_advanced();
-        $settings = Arr::insertAfter('shortcode_id', $settings, [
-            'rating_field' => [
-                'description' => _x('Use the Review Forms addon to add custom rating fields.', 'admin-text', 'site-reviews'),
-                'label_block' => true,
-                'label' => _x('Custom Rating Field Name', 'admin-text', 'site-reviews'),
-                'type' => Controls_Manager::TEXT,
-            ],
-        ]);
-        return $settings;
-    }
-
-    protected function settings_basic(): array
-    {
-        $options = [
-            'assigned_posts' => [
-                'default' => '',
-                'label' => _x('Limit Reviews to an Assigned Page', 'admin-text', 'site-reviews'),
-                'label_block' => true,
-                'options' => $this->assigned_posts_options(),
-                'type' => Controls_Manager::SELECT2,
-            ],
-            'assigned_posts_custom' => [
-                'condition' => ['assigned_posts' => 'custom'],
-                'description' => _x('Separate values with a comma.', 'admin-text', 'site-reviews'),
-                'label_block' => true,
-                'placeholder' => _x('Enter the Post IDs', 'admin-text', 'site-reviews'),
-                'show_label' => false,
-                'type' => Controls_Manager::TEXT,
-            ],
-            'assigned_terms' => [
-                'default' => '',
-                'label' => _x('Limit Reviews to an Assigned Category', 'admin-text', 'site-reviews'),
-                'label_block' => true,
-                'multiple' => true,
-                'options' => $this->assigned_terms_options(),
-                'type' => Controls_Manager::SELECT2,
-            ],
-            'assigned_users' => [
-                'default' => '',
-                'label' => _x('Limit Reviews to an Assigned User', 'admin-text', 'site-reviews'),
-                'label_block' => true,
-                'options' => $this->assigned_users_options(),
-                'type' => Controls_Manager::SELECT2,
-            ],
-            'assigned_users_custom' => [
-                'condition' => ['assigned_users' => 'custom'],
-                'description' => _x('Separate values with a comma.', 'admin-text', 'site-reviews'),
-                'label_block' => true,
-                'placeholder' => _x('Enter the User IDs', 'admin-text', 'site-reviews'),
-                'show_label' => false,
-                'type' => Controls_Manager::TEXT,
-            ],
-            'terms' => [
-                'default' => '',
-                'label' => _x('Limit Reviews to terms', 'admin-text', 'site-reviews'),
-                'label_block' => true,
-                'options' => $this->shortcodeInstance()->options('terms'),
-                'type' => Controls_Manager::SELECT2,
-            ],
-            'type' => $this->get_type_control(),
-            'rating' => [
-                'default' => max(1, Rating::min()),
-                'label' => _x('Minimum Rating', 'admin-text', 'site-reviews'),
-                'max' => Rating::max(),
-                'min' => max(1, Rating::min()),
-                'separator' => 'before',
-                'type' => Controls_Manager::NUMBER,
-            ],
-            'schema' => [
-                'description' => _x('The schema should only be enabled once per page.', 'admin-text', 'site-reviews'),
-                'label' => _x('Enable the schema?', 'admin-text', 'site-reviews'),
-                'return_value' => 'true',
-                'separator' => 'before',
-                'type' => Controls_Manager::SWITCHER,
-            ],
-        ];
-        $options = $this->insert_hide_controls($options);
-        return $options;
-    }
-
-    protected function settings_layout(): array
+    protected function styleConfig(): array
     {
         return [
             'alignment' => [
                 'default' => 'start',
                 'is_responsive' => true,
                 'label' => esc_html_x('Alignment', 'admin-text', 'site-reviews'),
+                'label_block' => false,
                 'options' => [
                     'start' => [
                         'title' => esc_html_x('Start', 'admin-text', 'site-reviews'),
@@ -157,7 +65,7 @@ class ElementorSummaryWidget extends ElementorWidget
                 'selectors' => [
                     '{{WRAPPER}}' => '--glsr-max-w: {{SIZE}}{{UNIT}};',
                 ],
-                'size_units' => $this->set_custom_size_unit(['px', '%']),
+                'size_units' => ['px', '%', 'custom'],
                 'type' => Controls_Manager::SLIDER,
             ],
             'percentage_bar_height' => [
@@ -177,7 +85,7 @@ class ElementorSummaryWidget extends ElementorWidget
                 'selectors' => [
                     '{{WRAPPER}}' => '--glsr-bar-size: {{SIZE}}{{UNIT}};',
                 ],
-                'size_units' => ['em'],
+                'size_units' => ['em', 'custom'],
                 'type' => Controls_Manager::SLIDER,
             ],
             'percentage_bar_spacing' => [
@@ -197,20 +105,15 @@ class ElementorSummaryWidget extends ElementorWidget
                 'selectors' => [
                     '{{WRAPPER}}' => '--glsr-bar-spacing: {{SIZE}}{{UNIT}};',
                 ],
-                'size_units' => ['em'],
+                'size_units' => ['em', 'custom'],
                 'type' => Controls_Manager::SLIDER,
             ],
-        ];
-    }
-
-    protected function settings_rating(): array
-    {
-        return [
             'rating_color' => [
                 'global' => [
                     'default' => '',
                 ],
                 'label' => esc_html_x('Color', 'admin-text', 'site-reviews'),
+                'label_block' => false,
                 'selectors' => [
                     '{{WRAPPER}} .glsr:not([data-theme]) .glsr-bar-background-percent' => '--glsr-bar-bg: {{VALUE}} !important',
                     '{{WRAPPER}} .glsr:not([data-theme]) .glsr-star-empty' => 'background: {{VALUE}} !important;',
@@ -236,7 +139,7 @@ class ElementorSummaryWidget extends ElementorWidget
                 'selectors' => [
                     '{{WRAPPER}}' => '--glsr-summary-star: {{SIZE}}{{UNIT}};',
                 ],
-                'size_units' => $this->set_custom_size_unit(['em']),
+                'size_units' => ['em', 'custom'],
                 'type' => Controls_Manager::SLIDER,
             ],
         ];

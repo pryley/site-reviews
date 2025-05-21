@@ -119,20 +119,23 @@ class SiteReviewsFormShortcode extends Shortcode
 
     protected function config(): array
     {
-        return [
+        return [ // order is intentional
             'assigned_posts' => [
+                'group' => 'general',
                 'label' => esc_html_x('Assign Reviews to Pages', 'admin-text', 'site-reviews'),
                 'multiple' => true,
                 'placeholder' => esc_html_x('Select a Page...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
             'assigned_terms' => [
+                'group' => 'general',
                 'label' => esc_html_x('Assign Reviews to Categories', 'admin-text', 'site-reviews'),
                 'multiple' => true,
                 'placeholder' => esc_html_x('Select a Category...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
             'assigned_users' => [
+                'group' => 'general',
                 'label' => esc_html_x('Assign Reviews to Users', 'admin-text', 'site-reviews'),
                 'multiple' => true,
                 'placeholder' => esc_html_x('Select a User...', 'admin-text', 'site-reviews'),
@@ -145,14 +148,14 @@ class SiteReviewsFormShortcode extends Shortcode
             ],
             'reviews_id' => [
                 'description' => esc_html_x('Enter the Custom ID of a Latest Reviews block or shortcode where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
-                'label' => esc_html_x('Latest Reviews ID', 'admin-text', 'site-reviews'),
                 'group' => 'advanced',
+                'label' => esc_html_x('Latest Reviews ID', 'admin-text', 'site-reviews'),
                 'type' => 'text',
             ],
             'summary_id' => [
                 'description' => esc_html_x('Enter the Custom ID of a Rating Summary block or shortcode where the rating values should be updated after submission.', 'admin-text', 'site-reviews'),
-                'label' => esc_html_x('Rating Summary ID', 'admin-text', 'site-reviews'),
                 'group' => 'advanced',
+                'label' => esc_html_x('Rating Summary ID', 'admin-text', 'site-reviews'),
                 'type' => 'text',
             ],
             'id' => [

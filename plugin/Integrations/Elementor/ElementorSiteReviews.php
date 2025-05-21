@@ -3,50 +3,21 @@
 namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
 use Elementor\Controls_Manager;
-use GeminiLabs\SiteReviews\Review;
-use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
-class ElementorReviewWidget extends ElementorWidget
+class ElementorSiteReviews extends ElementorWidget
 {
-    /**
-     * @return string
-     */
-    public function get_icon()
+    public function get_icon(): string
     {
-        return 'eicon-glsr-review';
+        return 'eicon-glsr-reviews';
     }
 
     public static function shortcodeClass(): string
     {
-        return SiteReviewShortcode::class;
+        return SiteReviewsShortcode::class;
     }
 
-    protected function hide_if_all_fields_hidden(): bool
-    {
-        return true;
-    }
-
-    protected function print_content()
-    {
-        if (Review::isReview($this->get_settings_for_display('post_id'))) {
-            parent::print_content();
-        }
-    }
-
-    protected function settings_basic(): array
-    {
-        $options = [
-            'post_id' => [
-                'default' => '',
-                'label' => _x('Review Post ID', 'admin-text', 'site-reviews'),
-                'type' => Controls_Manager::TEXT,
-            ],
-        ];
-        $options = $this->insert_hide_controls($options);
-        return $options;
-    }
-
-    protected function settings_layout(): array
+    protected function styleConfig(): array
     {
         return [
             'alignment' => [
@@ -74,12 +45,26 @@ class ElementorReviewWidget extends ElementorWidget
                 ],
                 'type' => Controls_Manager::CHOOSE,
             ],
-        ];
-    }
-
-    protected function settings_rating(): array
-    {
-        return [
+            'spacing' => [
+                'default' => [
+                    'unit' => 'em',
+                    'size' => 2,
+                ],
+                'is_responsive' => true,
+                'label' => esc_html_x('Review Spacing', 'admin-text', 'site-reviews'),
+                'range' => [
+                    'em' => [
+                        'min' => 0,
+                        'max' => 4,
+                        'step' => 0.125,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .glsr-reviews' => '--glsr-gap-xl: {{SIZE}}{{UNIT}};',
+                ],
+                'size_units' => ['em', 'custom'],
+                'type' => Controls_Manager::SLIDER,
+            ],
             'rating_color' => [
                 'global' => [
                     'default' => '',
@@ -109,7 +94,7 @@ class ElementorReviewWidget extends ElementorWidget
                 'selectors' => [
                     '{{WRAPPER}} .glsr:not([data-theme]) .glsr-review .glsr-star' => '--glsr-review-star: {{SIZE}}{{UNIT}};',
                 ],
-                'size_units' => $this->set_custom_size_unit(['em']),
+                'size_units' => ['em', 'custom'],
                 'type' => Controls_Manager::SLIDER,
             ],
         ];

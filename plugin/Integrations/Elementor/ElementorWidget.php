@@ -4,196 +4,134 @@ namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
 use Elementor\Controls_Manager;
 use Elementor\Widget_Base;
-use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Integrations\Elementor\Defaults\ControlDefaults;
 use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
 
 abstract class ElementorWidget extends Widget_Base
 {
     use IntegrationShortcode;
 
-    /**
-     * @return array
-     */
-    public function get_categories()
+    protected bool $hide_if_all_fields_hidden = true;
+
+    public function get_categories(): array
     {
         return [glsr()->id];
     }
 
-    /**
-     * @return string
-     */
-    public function get_icon()
+    public function get_icon(): string
     {
         return 'eicon-star-o';
     }
 
-    /**
-     * @return string
-     */
-    public function get_name()
+    public function get_name(): string
     {
         return $this->shortcodeInstance()->tag;
     }
 
-    /**
-     * @param string $settingKey
-     *
-     * @return mixed
-     */
-    public function get_settings_for_display($settingKey = null)
-    {
-        $settings = parent::get_settings_for_display();
-        $settings['class'] = $settings['shortcode_class']; // @compat
-        $settings['id'] = $settings['shortcode_id']; // @compat
-        if (!empty($settings['assigned_posts_custom'])) {
-            $settings['assigned_posts'] = $settings['assigned_posts_custom'];
-        }
-        $hide = [];
-        foreach ($settings as $key => $value) {
-            if (str_starts_with($key, 'hide-') && !empty($value)) {
-                $hide[] = Str::removePrefix($key, 'hide-');
-            }
-        }
-        $settings['hide'] = array_filter($hide);
-        $settings = glsr()->filterArray('elementor/display/settings', $settings, $this);
-        if ($settingKey) {
-            return Arr::get($settings, $settingKey);
-        }
-        return $settings;
-    }
-
-    public function get_title()
+    public function get_title(): string
     {
         return $this->shortcodeInstance()->name;
     }
 
-    protected function assigned_posts_options(): array
-    {
-        return [ // order is intentional
-            'custom' => _x('Specific Post ID', 'admin-text', 'site-reviews'),
-            'post_id' => _x('The Current Page', 'admin-text', 'site-reviews'),
-            'parent_id' => _x('The Parent Page', 'admin-text', 'site-reviews'),
-        ];
-    }
-
-    protected function assigned_terms_options(): array
-    {
-        return glsr(Database::class)->terms();
-    }
-
-    protected function assigned_users_options(): array
-    {
-        return [ // order is intentional
-            'custom' => _x('Specific User ID', 'admin-text', 'site-reviews'),
-            'user_id' => _x('The Logged-in user', 'admin-text', 'site-reviews'),
-            'author_id' => _x('The Page author', 'admin-text', 'site-reviews'),
-            'profile_id' => _x('The Profile user (BuddyPress/Ultimate Member)', 'admin-text', 'site-reviews'),
-        ];
-    }
-
-    protected function hide_if_all_fields_hidden(): bool
-    {
-        return false;
-    }
-
-    protected function get_control_sections(): array
+    protected function controlGroups(): array
     {
         return [
-            'settings' => [
-                'controls' => $this->settings_basic(),
-                'label' => _x('Settings', 'admin-text', 'site-reviews'),
+            'general' => [
+                'controls' => [],
+                'label' => _x('General', 'admin-text', 'site-reviews'),
                 'tab' => Controls_Manager::TAB_CONTENT,
             ],
             'advanced' => [
-                'controls' => $this->settings_advanced(),
+                'controls' => [],
                 'label' => _x('Advanced', 'admin-text', 'site-reviews'),
                 'tab' => Controls_Manager::TAB_CONTENT,
             ],
-            'style_rating' => [
-                'controls' => $this->settings_rating(),
-                'label' => _x('Rating', 'admin-text', 'site-reviews'),
-                'tab' => Controls_Manager::TAB_STYLE,
-            ],
-            'style_layout' => [
-                'controls' => $this->settings_layout(),
-                'label' => _x('Layout', 'admin-text', 'site-reviews'),
+            'design' => [
+                'controls' => [],
+                'label' => _x('Design', 'admin-text', 'site-reviews'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ],
         ];
     }
 
-    protected function insert_hide_controls(array $controls): array
+    protected function controlHeadings(): array
     {
-        $hideOptions = $this->shortcodeInstance()->options('hide');
-        foreach ($hideOptions as $key => $label) {
-            $separator = $key === key(array_slice($hideOptions, 0, 1)) ? 'before' : 'default';
-            $controls["hide-{$key}"] = [
-                'label' => $label,
-                'separator' => $separator,
-                'return_value' => '1',
-                'type' => Controls_Manager::SWITCHER,
-            ];
-        }
-        return $controls;
+        return [
+            'display' => esc_html_x('Display', 'admin-text', 'site-reviews'),
+            'hide' => esc_html_x('Hide', 'admin-text', 'site-reviews'),
+            'schema' => esc_html_x('Schema', 'admin-text', 'site-reviews'),
+            'text' => esc_html_x('Text', 'admin-text', 'site-reviews'),
+        ];
     }
 
-    protected function get_type_control(): array
+    protected function controlSections(): array
     {
-        if ($options = $this->shortcodeInstance()->options('type')) {
-            return [
-                'default' => 'local',
-                'label' => _x('Limit the Type of Reviews', 'admin-text', 'site-reviews'),
-                'label_block' => true,
-                'options' => $options,
-                'type' => Controls_Manager::SELECT,
-            ];
+        $controls = array_merge(
+            array_map(fn ($control) => wp_parse_args($control, ['group' => 'general']), $this->settingsConfig()),
+            array_map(fn ($control) => wp_parse_args($control, ['group' => 'design']), $this->styleConfig()),
+        );
+        $groups = $this->controlGroups();
+        $headings = $this->controlHeadings();
+        foreach ($controls as $key => $control) {
+            $group = $control['group'] ?? '';
+            $heading = $group;
+            if (!array_key_exists($group, $groups)) {
+                $group = 'general';
+            }
+            if (!array_key_exists($heading, $headings)) {
+                $groups[$group]['controls'][$key] = $this->transformControl($key, $control);
+                continue;
+            }
+            if (!array_key_exists("separator_{$heading}", $groups[$group]['controls'])) {
+                $groups[$group]['controls']["separator_{$heading}"] = [
+                    'type' => Controls_Manager::HEADING,
+                    'label' => $headings[$heading],
+                    'separator' => 'before',
+                ];
+            }
+            $groups[$group]['controls'][$key] = $this->transformControl($key, $control);
         }
-        return [];
+        return $groups;
     }
 
-    /**
-     * @return void
-     */
-    protected function register_controls()
+    protected function register_controls(): void
     {
-        $sections = $this->get_control_sections();
+        $sections = $this->controlSections();
         $sections = glsr()->filterArray('elementor/register/controls', $sections, $this);
-        foreach ($sections as $key => $args) {
+        foreach ($sections as $sectionId => $args) {
             $controls = array_filter($args['controls'] ?? []);
             if (empty($controls)) {
                 continue;
             }
-            $this->start_controls_section($key, $args);
-            $this->register_controls_for_section($controls);
+            unset($args['controls']);
+            $this->start_controls_section($sectionId, $args);
+            $this->registerControlsForSection($controls);
             $this->end_controls_section();
         }
     }
 
-    protected function register_controls_for_section(array $controls): void
+    protected function registerControlsForSection(array $controls): void
     {
-        foreach ($controls as $key => $args) {
-            if ($args['group_control_type'] ?? false) {
-                $args['name'] = $key;
+        foreach ($controls as $controlId => $args) {
+            if (Controls_Manager::SELECT2 === $args['type'] && empty($args['options'])) {
+                continue; // skip select controls with empty options
+            }
+            if ($args['group_control_type'] ?? false) { // for grouped controls like typography
                 $this->add_group_control($args['group_control_type'], $args);
                 continue;
             }
-            if ($args['is_responsive'] ?? false) {
-                $this->add_responsive_control($key, $args);
+            if ($args['is_responsive'] ?? false) { // for responsive controls
+                $this->add_responsive_control($controlId, $args);
                 continue;
             }
-            $this->add_control($key, $args);
+            $this->add_control($controlId, $args);
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function render()
+    protected function render(): void
     {
         $args = $this->get_settings_for_display();
-        if ($this->hide_if_all_fields_hidden() && !$this->shortcodeInstance()->hasVisibleFields($args)) {
+        if ($this->hide_if_all_fields_hidden && !$this->shortcodeInstance()->hasVisibleFields($args)) {
             return;
         }
         $html = $this->shortcodeInstance()->build($args, 'elementor');
@@ -201,44 +139,19 @@ abstract class ElementorWidget extends Widget_Base
         echo $html;
     }
 
-    protected function set_custom_size_unit(array $units): array
+    protected function settingsConfig(): array
     {
-        if (version_compare(\ELEMENTOR_VERSION, '3.10.0', '>=')) {
-            $units[] = 'custom';
-        }
-        return $units;
+        return $this->shortcodeInstance()->settings();
     }
 
-    protected function settings_advanced(): array
-    {
-        return [
-            'shortcode_id' => [
-                'description' => esc_html_x('This should be a unique value.', 'admin-text', 'site-reviews'),
-                'label_block' => true,
-                'label' => esc_html_x('Custom ID', 'admin-text', 'site-reviews'),
-                'type' => Controls_Manager::TEXT,
-            ],
-            'shortcode_class' => [
-                'description' => esc_html_x('Separate multiple classes with spaces.', 'admin-text', 'site-reviews'),
-                'label_block' => true,
-                'label' => esc_html_x('Additional CSS classes', 'admin-text', 'site-reviews'),
-                'type' => Controls_Manager::TEXT,
-            ],
-        ];
-    }
-
-    protected function settings_basic(): array
+    protected function styleConfig(): array
     {
         return [];
     }
 
-    protected function settings_layout(): array
+    protected function transformControl(string $key, array $args): array
     {
-        return [];
-    }
-
-    protected function settings_rating(): array
-    {
-        return [];
+        $args['name'] = $key;
+        return glsr(ControlDefaults::class)->merge($args);
     }
 }

@@ -60,38 +60,44 @@ class SiteReviewsSummaryShortcode extends Shortcode
 
     protected function config(): array
     {
-        return [
+        return [ // order is intentional
             'assigned_posts' => [
+                'group' => 'general',
                 'label' => esc_html_x('Limit Reviews by Assigned Pages', 'admin-text', 'site-reviews'),
                 'multiple' => true,
                 'placeholder' => esc_html_x('Select a Page...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
             'assigned_terms' => [
+                'group' => 'general',
                 'label' => esc_html_x('Limit Reviews by Assigned Categories', 'admin-text', 'site-reviews'),
                 'multiple' => true,
                 'placeholder' => esc_html_x('Select a Category...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
             'assigned_users' => [
+                'group' => 'general',
                 'label' => esc_html_x('Limit Reviews by Assigned Users', 'admin-text', 'site-reviews'),
                 'multiple' => true,
                 'placeholder' => esc_html_x('Select a User...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
             'author' => [
+                'group' => 'general',
                 'label' => esc_html_x('Limit Reviews by Review Author', 'admin-text', 'site-reviews'),
                 'multiple' => false,
                 'placeholder' => esc_html_x('Select a User...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
             'terms' => [
+                'group' => 'general',
                 'label' => esc_html_x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews'),
                 'options' => $this->options('terms'),
                 'placeholder' => esc_html_x('Select Review Terms...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
             'type' => [
+                'group' => 'general',
                 'label' => esc_html_x('Limit Reviews by Type', 'admin-text', 'site-reviews'),
                 'options' => $this->options('type'),
                 'placeholder' => esc_html_x('Select a Review Type...', 'admin-text', 'site-reviews'),
@@ -101,8 +107,8 @@ class SiteReviewsSummaryShortcode extends Shortcode
                 'description' => sprintf(_x('Use the %sReview Forms%s addon to add custom rating fields.', 'admin-text', 'site-reviews'),
                     '<a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">', '</a>'
                 ),
-                'label' => esc_html_x('Custom Rating Field Name', 'admin-text', 'site-reviews'),
                 'group' => 'advanced',
+                'label' => esc_html_x('Custom Rating Field Name', 'admin-text', 'site-reviews'),
                 'type' => 'text',
             ],
             'rating' => [

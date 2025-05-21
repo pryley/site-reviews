@@ -16,17 +16,18 @@ class Hooks extends IntegrationHooks
             return;
         }
         $this->hook(Controller::class, [
-            ['filterElementorPublicInlineScript', 'site-reviews/enqueue/public/inline-script/after', 1],
-            ['filterElementorStarRatingDefaults', 'site-reviews/defaults/star-rating/defaults'],
             ['filterGeneratedSchema', 'site-reviews/schema/generate'],
+            ['filterPublicInlineScript', 'site-reviews/enqueue/public/inline-script/after', 1],
+            ['filterStarRatingDefaults', 'site-reviews/defaults/star-rating/defaults'],
             ['parseElementCss', 'elementor/element/parse_css', 10, 2],
             ['registerAjaxActions', 'elementor/ajax/register_actions'],
-            ['registerElementorCategory', 'elementor/elements/categories_registered'],
-            ['registerElementorWidgets', 'elementor/widgets/register'],
+            ['registerCategory', 'elementor/elements/categories_registered'],
+            ['registerControls', 'elementor/controls/register'],
             ['registerInlineStyles', 'admin_enqueue_scripts', 20],
             ['registerInlineStyles', 'elementor/editor/after_enqueue_styles'],
             ['registerInlineStyles', 'elementor/preview/enqueue_styles'],
             ['registerScripts', 'elementor/editor/after_enqueue_scripts'],
+            ['registerWidgets', 'elementor/widgets/register'],
             ['searchAssignedTerms', 'site-reviews/route/ajax/elementor-assigned_terms'],
         ]);
     }

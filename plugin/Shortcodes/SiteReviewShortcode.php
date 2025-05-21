@@ -37,10 +37,11 @@ class SiteReviewShortcode extends Shortcode
 
     protected function config(): array
     {
-        return [
+        return [ // order is intentional
             'post_id' => [
                 'label' => esc_attr_x('Review Post ID', 'admin-text', 'site-reviews'),
                 'description' => esc_html_x('Select the review you want to display.', 'admin-text', 'site-reviews'),
+                'group' => 'general',
                 'placeholder' => esc_html_x('Select a review...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],

@@ -3,18 +3,30 @@
 namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
-use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\ShortcodeOptionManager;
 use GeminiLabs\SiteReviews\Helpers\Svg;
-use GeminiLabs\SiteReviews\Request;
+use GeminiLabs\SiteReviews\Integrations\Elementor\Controls\MultiSwitcher;
+use GeminiLabs\SiteReviews\Integrations\Elementor\Controls\Select2Ajax;
+use GeminiLabs\SiteReviews\Integrations\Elementor\Defaults\QueryAjaxDefaults;
 
 class Controller extends AbstractController
 {
+    /**
+     * @filter site-reviews/schema/generate
+     */
+    public function filterGeneratedSchema(array $schema): array
+    {
+        return empty($schema)
+            ? glsr(SchemaParser::class)->generate()
+            : $schema;
+    }
+
     /**
      * Fix Star Rating control when review form is used inside an Elementor Pro Popup.
      *
      * @filter site-reviews/enqueue/public/inline-script/after
      */
-    public function filterElementorPublicInlineScript(string $script): string
+    public function filterPublicInlineScript(string $script): string
     {
         if (!defined('ELEMENTOR_VERSION')) {
             return $script;
@@ -28,22 +40,12 @@ class Controller extends AbstractController
      *
      * @filter site-reviews/defaults/star-rating/defaults
      */
-    public function filterElementorStarRatingDefaults(array $defaults): array
+    public function filterStarRatingDefaults(array $defaults): array
     {
         if ('elementor' === filter_input(INPUT_GET, 'action')) {
             $defaults['prefix'] = 'glsr-';
         }
         return $defaults;
-    }
-
-    /**
-     * @filter site-reviews/schema/generate
-     */
-    public function filterGeneratedSchema(array $schema): array
-    {
-        return empty($schema)
-            ? glsr(SchemaParser::class)->generate()
-            : $schema;
     }
 
     /**
@@ -96,32 +98,35 @@ class Controller extends AbstractController
     }
 
     /**
-     * @callback \Elementor\Core\Common\Modules\Ajax\Module::register_ajax_action
+     * @see static::registerAjaxActions()
      */
-    public function queryAssignedPosts(array $data): array
+    public function queryAjaxControlOptions($data): array
     {
-        return [
-            'results' => [],
-        ];
+        $args = glsr(QueryAjaxDefaults::class)->restrict($data);
+        $options = call_user_func([glsr(ShortcodeOptionManager::class), $args['option']], $args);
+        if (!is_array($options)) {
+            return [];
+        }
+        $callback = fn ($id, $text) => compact('id', 'text');
+        $results = array_map($callback, array_keys($options), array_values($options));
+        return compact('results');
     }
 
     /**
-     * @callback \Elementor\Core\Common\Modules\Ajax\Module::register_ajax_action
+     * @see static::registerAjaxActions()
      */
-    public function queryAssignedTerms(array $data): array
+    public function queryAjaxControlSelected($data): array
     {
+        $args = glsr(QueryAjaxDefaults::class)->restrict($data);
+        $results = call_user_func([glsr(ShortcodeOptionManager::class), $args['option']], $args);
+        if (!is_array($results)) {
+            return [];
+        }
+        if (!array_key_exists($args['include'], $results)) {
+            return [];
+        }
         return [
-            'results' => [],
-        ];
-    }
-
-    /**
-     * @callback \Elementor\Core\Common\Modules\Ajax\Module::register_ajax_action
-     */
-    public function queryAssignedUsers(array $data): array
-    {
-        return [
-            'results' => [],
+            $args['include'] => $results[$args['include']],
         ];
     }
 
@@ -132,9 +137,8 @@ class Controller extends AbstractController
      */
     public function registerAjaxActions($manager): void
     {
-        $manager->register_ajax_action(glsr()->prefix.'query_assigned_posts', [$this, 'queryAssignedPosts']);
-        $manager->register_ajax_action(glsr()->prefix.'query_assigned_terms', [$this, 'queryAssignedTerms']);
-        $manager->register_ajax_action(glsr()->prefix.'query_assigned_users', [$this, 'queryAssignedUsers']);
+        $manager->register_ajax_action(glsr()->prefix.'elementor_ajax_query', [$this, 'queryAjaxControlOptions']);
+        $manager->register_ajax_action(glsr()->prefix.'elementor_ajax_query_selected', [$this, 'queryAjaxControlSelected']);
     }
 
     /**
@@ -142,7 +146,7 @@ class Controller extends AbstractController
      *
      * @action elementor/elements/categories_registered
      */
-    public function registerElementorCategory($manager): void
+    public function registerCategory($manager): void
     {
         $manager->add_category(glsr()->id, [
             'title' => glsr()->name,
@@ -151,16 +155,14 @@ class Controller extends AbstractController
     }
 
     /**
-     * @param \Elementor\Widgets_Manager $manager
+     * @param \Elementor\Controls_Manager $manager
      *
-     * @action elementor/widgets/register
+     * @action elementor/controls/register
      */
-    public function registerElementorWidgets($manager): void
+    public function registerControls($manager): void
     {
-        $manager->register(new ElementorFormWidget());
-        $manager->register(new ElementorReviewsWidget());
-        $manager->register(new ElementorReviewWidget());
-        $manager->register(new ElementorSummaryWidget());
+        $manager->register(new MultiSwitcher());
+        $manager->register(new Select2Ajax());
     }
 
     /**
@@ -212,44 +214,24 @@ class Controller extends AbstractController
     public function registerScripts(): void
     {
         wp_enqueue_script(
-            glsr()->id.'/elementor',
+            glsr()->id.'/elementor-editor',
             glsr()->url('assets/scripts/integrations/elementor-editor.js'),
             [],
             glsr()->version,
             ['strategy' => 'defer']
         );
-        wp_localize_script(glsr()->id.'/elementor', 'GLSR', [
-            'action' => glsr()->prefix.'admin_action',
-            'nameprefix' => glsr()->id,
-            'nonce' => [
-                'elementor-assigned_posts' => wp_create_nonce('elementor-assigned_posts'),
-                'elementor-assigned_terms' => wp_create_nonce('elementor-assigned_terms'),
-                'elementor-assigned_users' => wp_create_nonce('elementor-assigned_users'),
-            ],
-        ]);
     }
 
     /**
-     * @action site-reviews/route/ajax/elementor-assigned_terms
+     * @param \Elementor\Widgets_Manager $manager
+     *
+     * @action elementor/widgets/register
      */
-    public function searchAssignedTerms(Request $request): void
+    public function registerWidgets($manager): void
     {
-        $search = $request->cast('search', 'string');
-        $include = $request->cast('include', 'array');
-        $query = stripslashes_deep(sanitize_text_field($search));
-        $terms = glsr(Database::class)->terms([
-            'number' => 25,
-            'search' => $query,
-        ]);
-        if (!empty($include)) {
-            $terms += glsr(Database::class)->terms([
-                'term_taxonomy_id' => $include,
-            ]);
-        }
-        $results = [];
-        foreach ($terms as $id => $text) {
-            $results[] = compact('id', 'text');
-        }
-        wp_send_json_success($results);
+        $manager->register(new ElementorSiteReview());
+        $manager->register(new ElementorSiteReviews());
+        $manager->register(new ElementorSiteReviewsForm());
+        $manager->register(new ElementorSiteReviewsSummary());
     }
 }
