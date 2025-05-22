@@ -1,0 +1,77 @@
+<?php
+
+namespace GeminiLabs\SiteReviews\Integrations\Elementor\Widgets;
+
+use Elementor\Controls_Manager;
+use Elementor\Group_Control_Typography;
+use GeminiLabs\SiteReviews\Review;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
+
+class ElementorSiteReview extends ElementorWidget
+{
+    public function get_icon(): string
+    {
+        return 'eicon-glsr-review';
+    }
+
+    public static function shortcodeClass(): string
+    {
+        return SiteReviewShortcode::class;
+    }
+
+    protected function styleConfig(): array
+    {
+        return [
+            'style_align' => [
+                'label' => esc_html_x('Alignment', 'admin-text', 'site-reviews'),
+                'label_block' => false,
+                'default' => 'left',
+                'options' => [
+                    'left' => [
+                        'icon' => 'eicon-flex eicon-align-start-h',
+                        'title' => esc_html_x('Start', 'admin-text', 'site-reviews'),
+                    ],
+                    'center' => [
+                        'icon' => 'eicon-flex eicon-align-center-h',
+                        'title' => esc_html_x('Center', 'admin-text', 'site-reviews'),
+                    ],
+                    'right' => [
+                        'icon' => 'eicon-flex eicon-align-end-h',
+                        'title' => esc_html_x('End', 'admin-text', 'site-reviews'),
+                    ],
+                ],
+                'prefix_class' => 'items-justified-',
+                'selectors' => [
+                    '{{WRAPPER}} .glsr-summary-text' => 'text-align: {{VALUE}};',
+                ],
+                'type' => Controls_Manager::CHOOSE,
+            ],
+            'style_heading' => [
+                'label' => esc_html_x('Heading', 'admin-text', 'site-reviews'),
+                'selector' => '{{WRAPPER}} .glsr:not([data-theme]) h2, {{WRAPPER}} .glsr:not([data-theme]) h3, {{WRAPPER}} .glsr:not([data-theme]) h4',
+                'type' => Group_Control_Typography::get_type(),
+            ],
+            'style_text' => [
+                'label' => esc_html_x('Text', 'admin-text', 'site-reviews'),
+                'selector' => '{{WRAPPER}} .glsr:not([data-theme])',
+                'type' => Group_Control_Typography::get_type(),
+            ],
+            'style_rating_size' => [
+                'is_responsive' => true,
+                'label' => esc_html_x('Star Size', 'admin-text', 'site-reviews'),
+                'selectors' => [
+                    '{{WRAPPER}}' => '--glsr-review-star: {{SIZE}}{{UNIT}};',
+                ],
+                'size_units' => ['px', 'em', 'rem', 'custom'],
+                'type' => Controls_Manager::SLIDER,
+            ],
+            'style_rating_color' => [
+                'label' => esc_html_x('Star Color', 'admin-text', 'site-reviews'),
+                'selectors' => [
+                    '{{WRAPPER}} .glsr:not([data-theme])' => '--glsr-review-star-bg: {{VALUE}};',
+                ],
+                'type' => Controls_Manager::COLOR,
+            ],
+        ];
+    }
+}

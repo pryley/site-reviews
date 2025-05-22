@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Elementor;
+namespace GeminiLabs\SiteReviews\Integrations\Elementor\Widgets;
 
 use Elementor\Controls_Manager;
 use Elementor\Widget_Base;
@@ -112,12 +112,13 @@ abstract class ElementorWidget extends Widget_Base
 
     protected function registerControlsForSection(array $controls): void
     {
+        $groupTypes = Controls_Manager::get_groups_names();
         foreach ($controls as $controlId => $args) {
             if (Controls_Manager::SELECT2 === $args['type'] && empty($args['options'])) {
                 continue; // skip select controls with empty options
             }
-            if ($args['group_control_type'] ?? false) { // for grouped controls like typography
-                $this->add_group_control($args['group_control_type'], $args);
+            if (in_array($args['type'], $groupTypes)) {
+                $this->add_group_control($args['type'], $args);
                 continue;
             }
             if ($args['is_responsive'] ?? false) { // for responsive controls

@@ -125,10 +125,6 @@ msgstr "Next"
 msgid "Previous"
 msgstr "Previous"
 
-#: plugin/Defaults/SiteReviewDefaults.php:53
-msgid "Unknown Review."
-msgstr "Unknown Review."
-
 #: plugin/Defaults/ValidationStringsDefaults.php:10
 msgid "This field must be accepted."
 msgstr "This field must be accepted."
@@ -273,23 +269,23 @@ msgstr[1] ""
 "Maximum simultaneous queues already in progress (%s queues). No additional "
 "queues will begin processing until the current queues are complete."
 
-#: plugin/Shortcodes/Shortcode.php:247
+#: plugin/Shortcodes/Shortcode.php:250
 msgid "Excellent"
 msgstr "Excellent"
 
-#: plugin/Shortcodes/Shortcode.php:248
+#: plugin/Shortcodes/Shortcode.php:251
 msgid "Very good"
 msgstr "Very good"
 
-#: plugin/Shortcodes/Shortcode.php:249
+#: plugin/Shortcodes/Shortcode.php:252
 msgid "Average"
 msgstr "Average"
 
-#: plugin/Shortcodes/Shortcode.php:250
+#: plugin/Shortcodes/Shortcode.php:253
 msgid "Poor"
 msgstr "Poor"
 
-#: plugin/Shortcodes/Shortcode.php:251
+#: plugin/Shortcodes/Shortcode.php:254
 msgid "Terrible"
 msgstr "Terrible"
 
@@ -1661,7 +1657,7 @@ msgctxt "admin-text"
 msgid "Required Fields"
 msgstr "Required Fields"
 
-#: config/settings.php:756, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:131, plugin/Integrations/GamiPress/Controller.php:133, plugin/Integrations/ProfilePress/RatingField.php:24
+#: config/settings.php:756, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:64, plugin/Integrations/GamiPress/Controller.php:133, plugin/Integrations/ProfilePress/RatingField.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:72
 msgctxt "admin-text"
 msgid "Rating"
 msgstr "Rating"
@@ -3447,7 +3443,7 @@ msgctxt "admin-text"
 msgid "Addons"
 msgstr "Addons"
 
-#: plugin/Controllers/MenuController.php:175, plugin/Controllers/MenuController.php:202, plugin/Integrations/Bricks/BricksElement.php:99, plugin/Integrations/Elementor/ElementorWidget.php:41
+#: plugin/Controllers/MenuController.php:175, plugin/Controllers/MenuController.php:202, plugin/Integrations/Bricks/BricksElement.php:99, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:41
 msgctxt "admin-text"
 msgid "General"
 msgstr "General"
@@ -3462,7 +3458,7 @@ msgctxt "admin-text"
 msgid "Forms"
 msgstr "Forms"
 
-#: plugin/Controllers/MenuController.php:178, plugin/Tinymce/SiteReviewsSummaryTinymce.php:62, plugin/Tinymce/SiteReviewsTinymce.php:69, plugin/Integrations/Bricks/Controller.php:39, plugin/Integrations/Elementor/ElementorWidget.php:62
+#: plugin/Controllers/MenuController.php:178, plugin/Tinymce/SiteReviewsSummaryTinymce.php:62, plugin/Tinymce/SiteReviewsTinymce.php:69, plugin/Integrations/Bricks/Controller.php:39, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:62
 msgctxt "admin-text"
 msgid "Schema"
 msgstr "Schema"
@@ -3741,7 +3737,7 @@ msgctxt "admin-text"
 msgid "The Profile User"
 msgstr "The Profile User"
 
-#: plugin/Database/ShortcodeOptionManager.php:144, plugin/Integrations/Bricks/BricksSiteReviews.php:196, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:75
+#: plugin/Database/ShortcodeOptionManager.php:144, plugin/Integrations/Bricks/BricksSiteReviews.php:257, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:75
 msgctxt "admin-text"
 msgid "Load More Button"
 msgstr "Load More Button"
@@ -4181,22 +4177,22 @@ msgctxt "admin-text"
 msgid "Rating Summary ID"
 msgstr "Rating Summary ID"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:162, plugin/Shortcodes/SiteReviewShortcode.php:54, plugin/Shortcodes/SiteReviewsShortcode.php:130, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:149, plugin/Tinymce/SiteReviewsFormTinymce.php:54, plugin/Tinymce/SiteReviewsSummaryTinymce.php:82, plugin/Tinymce/SiteReviewsTinymce.php:89, plugin/Tinymce/SiteReviewTinymce.php:30, plugin/Widgets/Widget.php:50, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:30, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:121, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:77, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:101, plugin/Integrations/WPBakery/VcSiteReview.php:38, plugin/Integrations/WPBakery/VcSiteReviews.php:103, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:72, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:86
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:162, plugin/Shortcodes/SiteReviewShortcode.php:53, plugin/Shortcodes/SiteReviewsShortcode.php:130, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:149, plugin/Tinymce/SiteReviewsFormTinymce.php:54, plugin/Tinymce/SiteReviewsSummaryTinymce.php:82, plugin/Tinymce/SiteReviewsTinymce.php:89, plugin/Tinymce/SiteReviewTinymce.php:30, plugin/Widgets/Widget.php:50, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:30, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:121, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:77, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:101, plugin/Integrations/WPBakery/VcSiteReview.php:38, plugin/Integrations/WPBakery/VcSiteReviews.php:103, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:72, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:86
 msgctxt "admin-text"
 msgid "This should be a unique value."
 msgstr "This should be a unique value."
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:164, plugin/Shortcodes/SiteReviewShortcode.php:56, plugin/Shortcodes/SiteReviewsShortcode.php:132, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:151, plugin/Tinymce/SiteReviewsFormTinymce.php:52, plugin/Tinymce/SiteReviewsSummaryTinymce.php:80, plugin/Tinymce/SiteReviewsTinymce.php:87, plugin/Tinymce/SiteReviewTinymce.php:28, plugin/Widgets/Widget.php:51, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:29, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:120, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:76, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:100, plugin/Integrations/WPBakery/VcSiteReview.php:37, plugin/Integrations/WPBakery/VcSiteReviews.php:102, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:71, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:85
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:164, plugin/Shortcodes/SiteReviewShortcode.php:55, plugin/Shortcodes/SiteReviewsShortcode.php:132, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:151, plugin/Tinymce/SiteReviewsFormTinymce.php:52, plugin/Tinymce/SiteReviewsSummaryTinymce.php:80, plugin/Tinymce/SiteReviewsTinymce.php:87, plugin/Tinymce/SiteReviewTinymce.php:28, plugin/Widgets/Widget.php:51, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:29, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:120, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:76, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:100, plugin/Integrations/WPBakery/VcSiteReview.php:37, plugin/Integrations/WPBakery/VcSiteReviews.php:102, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:71, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:85
 msgctxt "admin-text"
 msgid "Custom ID"
 msgstr "Custom ID"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:168, plugin/Shortcodes/SiteReviewShortcode.php:60, plugin/Shortcodes/SiteReviewsShortcode.php:136, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:155, plugin/Tinymce/SiteReviewsFormTinymce.php:60, plugin/Tinymce/SiteReviewsSummaryTinymce.php:88, plugin/Tinymce/SiteReviewsTinymce.php:95, plugin/Tinymce/SiteReviewTinymce.php:36, plugin/Widgets/Widget.php:55, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:36, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:127, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:83, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:107, plugin/Integrations/WPBakery/VcSiteReview.php:45, plugin/Integrations/WPBakery/VcSiteReviews.php:110, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:79, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:93
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:168, plugin/Shortcodes/SiteReviewShortcode.php:59, plugin/Shortcodes/SiteReviewsShortcode.php:136, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:155, plugin/Tinymce/SiteReviewsFormTinymce.php:60, plugin/Tinymce/SiteReviewsSummaryTinymce.php:88, plugin/Tinymce/SiteReviewsTinymce.php:95, plugin/Tinymce/SiteReviewTinymce.php:36, plugin/Widgets/Widget.php:55, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:36, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:127, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:83, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:107, plugin/Integrations/WPBakery/VcSiteReview.php:45, plugin/Integrations/WPBakery/VcSiteReviews.php:110, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:79, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:93
 msgctxt "admin-text"
 msgid "Separate multiple classes with spaces."
 msgstr "Separate multiple classes with spaces."
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:170, plugin/Shortcodes/SiteReviewShortcode.php:62, plugin/Shortcodes/SiteReviewsShortcode.php:138, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:157, plugin/Tinymce/SiteReviewsFormTinymce.php:58, plugin/Tinymce/SiteReviewsSummaryTinymce.php:86, plugin/Tinymce/SiteReviewsTinymce.php:93, plugin/Tinymce/SiteReviewTinymce.php:34, plugin/Widgets/Widget.php:56, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:35, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:126, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:82, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:106, plugin/Integrations/WPBakery/VcSiteReview.php:44, plugin/Integrations/WPBakery/VcSiteReviews.php:109, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:78, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:92
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:170, plugin/Shortcodes/SiteReviewShortcode.php:61, plugin/Shortcodes/SiteReviewsShortcode.php:138, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:157, plugin/Tinymce/SiteReviewsFormTinymce.php:58, plugin/Tinymce/SiteReviewsSummaryTinymce.php:86, plugin/Tinymce/SiteReviewsTinymce.php:93, plugin/Tinymce/SiteReviewTinymce.php:34, plugin/Widgets/Widget.php:56, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:35, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:126, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:82, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:106, plugin/Integrations/WPBakery/VcSiteReview.php:44, plugin/Integrations/WPBakery/VcSiteReviews.php:109, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:78, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:92
 msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr "Additional CSS classes"
@@ -4231,72 +4227,72 @@ msgctxt "admin-text"
 msgid "Hide the terms field"
 msgstr "Hide the terms field"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:30
+#: plugin/Shortcodes/SiteReviewShortcode.php:29
 msgctxt "admin-text"
 msgid "Display a single review"
 msgstr "Display a single review"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:35
+#: plugin/Shortcodes/SiteReviewShortcode.php:34
 msgctxt "admin-text"
 msgid "Single Review"
 msgstr "Single Review"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:42, plugin/Tinymce/SiteReviewTinymce.php:14, plugin/Widgets/SiteReviewWidget.php:15, plugin/Integrations/FusionBuilder/FusionSiteReview.php:13
+#: plugin/Shortcodes/SiteReviewShortcode.php:41, plugin/Tinymce/SiteReviewTinymce.php:14, plugin/Widgets/SiteReviewWidget.php:15, plugin/Integrations/FusionBuilder/FusionSiteReview.php:13
 msgctxt "admin-text"
 msgid "Review Post ID"
 msgstr "Review Post ID"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:43
+#: plugin/Shortcodes/SiteReviewShortcode.php:42
 msgctxt "admin-text"
 msgid "Select the review you want to display."
 msgstr "Select the review you want to display."
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:45
+#: plugin/Shortcodes/SiteReviewShortcode.php:44
 msgctxt "admin-text"
 msgid "Select a review..."
 msgstr "Select a review..."
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:71, plugin/Shortcodes/SiteReviewsShortcode.php:159
+#: plugin/Shortcodes/SiteReviewShortcode.php:70, plugin/Shortcodes/SiteReviewsShortcode.php:159
 msgctxt "admin-text"
 msgid "Hide the title"
 msgstr "Hide the title"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:72, plugin/Shortcodes/SiteReviewsShortcode.php:160, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:175
+#: plugin/Shortcodes/SiteReviewShortcode.php:71, plugin/Shortcodes/SiteReviewsShortcode.php:160, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:175
 msgctxt "admin-text"
 msgid "Hide the rating"
 msgstr "Hide the rating"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:73, plugin/Shortcodes/SiteReviewsShortcode.php:161
+#: plugin/Shortcodes/SiteReviewShortcode.php:72, plugin/Shortcodes/SiteReviewsShortcode.php:161
 msgctxt "admin-text"
 msgid "Hide the date"
 msgstr "Hide the date"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:74, plugin/Shortcodes/SiteReviewsShortcode.php:162
+#: plugin/Shortcodes/SiteReviewShortcode.php:73, plugin/Shortcodes/SiteReviewsShortcode.php:162
 msgctxt "admin-text"
 msgid "Hide the assigned links (if shown)"
 msgstr "Hide the assigned links (if shown)"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:75, plugin/Shortcodes/SiteReviewsShortcode.php:163
+#: plugin/Shortcodes/SiteReviewShortcode.php:74, plugin/Shortcodes/SiteReviewsShortcode.php:163
 msgctxt "admin-text"
 msgid "Hide the content"
 msgstr "Hide the content"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:76, plugin/Shortcodes/SiteReviewsShortcode.php:164
+#: plugin/Shortcodes/SiteReviewShortcode.php:75, plugin/Shortcodes/SiteReviewsShortcode.php:164
 msgctxt "admin-text"
 msgid "Hide the avatar (if shown)"
 msgstr "Hide the avatar (if shown)"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:77, plugin/Shortcodes/SiteReviewsShortcode.php:165
+#: plugin/Shortcodes/SiteReviewShortcode.php:76, plugin/Shortcodes/SiteReviewsShortcode.php:165
 msgctxt "admin-text"
 msgid "Hide the author"
 msgstr "Hide the author"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:78, plugin/Shortcodes/SiteReviewsShortcode.php:166
+#: plugin/Shortcodes/SiteReviewShortcode.php:77, plugin/Shortcodes/SiteReviewsShortcode.php:166
 msgctxt "admin-text"
 msgid "Hide the verified badge"
 msgstr "Hide the verified badge"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:79, plugin/Shortcodes/SiteReviewsShortcode.php:167
+#: plugin/Shortcodes/SiteReviewShortcode.php:78, plugin/Shortcodes/SiteReviewsShortcode.php:167
 msgctxt "admin-text"
 msgid "Hide the response"
 msgstr "Hide the response"
@@ -4497,7 +4493,7 @@ msgstr ""
 "Automatically assign reviews to a User ID. You may also enter %s to use the "
 "ID of the logged-in user."
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:34, plugin/Tinymce/SiteReviewsSummaryTinymce.php:74, plugin/Tinymce/SiteReviewsTinymce.php:81, plugin/Tinymce/SiteReviewTinymce.php:22, plugin/Integrations/Bricks/Controller.php:38, plugin/Integrations/Elementor/ElementorWidget.php:61
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:34, plugin/Tinymce/SiteReviewsSummaryTinymce.php:74, plugin/Tinymce/SiteReviewsTinymce.php:81, plugin/Tinymce/SiteReviewTinymce.php:22, plugin/Integrations/Bricks/Controller.php:38, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:61
 msgctxt "admin-text"
 msgid "Hide"
 msgstr "Hide"
@@ -4602,7 +4598,7 @@ msgctxt "admin-text"
 msgid "The minimum rating to display (default: 1 star)"
 msgstr "The minimum rating to display (default: 1 star)"
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:54, plugin/Integrations/Bricks/Controller.php:37, plugin/Integrations/Elementor/ElementorWidget.php:60
+#: plugin/Tinymce/SiteReviewsTinymce.php:54, plugin/Integrations/Bricks/Controller.php:37, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:60
 msgctxt "admin-text"
 msgid "Display"
 msgstr "Display"
@@ -4843,87 +4839,87 @@ msgctxt "admin-text"
 msgid "A valid license key is required to update this plugin."
 msgstr "A valid license key is required to update this plugin."
 
-#: plugin/Integrations/Bricks/BricksElement.php:100, plugin/Integrations/Elementor/ElementorWidget.php:51
+#: plugin/Integrations/Bricks/BricksElement.php:100, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:51
 msgctxt "admin-text"
 msgid "Design"
 msgstr "Design"
 
-#: plugin/Integrations/Bricks/BricksElement.php:101, plugin/Integrations/Elementor/ElementorWidget.php:46, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:25, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:116, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:72, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:96, plugin/Integrations/WPBakery/VcSiteReview.php:40, plugin/Integrations/WPBakery/VcSiteReview.php:47, plugin/Integrations/WPBakery/VcSiteReviews.php:105, plugin/Integrations/WPBakery/VcSiteReviews.php:112, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:60, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:67, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:74, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:81, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:88, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:95
+#: plugin/Integrations/Bricks/BricksElement.php:101, plugin/Integrations/Flatsome/FlatsomeSiteReview.php:25, plugin/Integrations/Flatsome/FlatsomeSiteReviews.php:116, plugin/Integrations/Flatsome/FlatsomeSiteReviewsForm.php:72, plugin/Integrations/Flatsome/FlatsomeSiteReviewsSummary.php:96, plugin/Integrations/WPBakery/VcSiteReview.php:40, plugin/Integrations/WPBakery/VcSiteReview.php:47, plugin/Integrations/WPBakery/VcSiteReviews.php:105, plugin/Integrations/WPBakery/VcSiteReviews.php:112, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:60, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:67, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:74, plugin/Integrations/WPBakery/VcSiteReviewsForm.php:81, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:88, plugin/Integrations/WPBakery/VcSiteReviewsSummary.php:95, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:46
 msgctxt "admin-text"
 msgid "Advanced"
 msgstr "Advanced"
 
-#: plugin/Integrations/Bricks/BricksSiteReview.php:93, plugin/Integrations/Bricks/BricksSiteReviews.php:98, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:105, plugin/Integrations/Elementor/ElementorSiteReview.php:34, plugin/Integrations/Elementor/ElementorSiteReviews.php:26, plugin/Integrations/Elementor/ElementorSiteReviewsSummary.php:26
+#: plugin/Integrations/Bricks/BricksSiteReview.php:159, plugin/Integrations/Bricks/BricksSiteReviews.php:159, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:38, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:26, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:25, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:36
 msgctxt "admin-text"
 msgid "Alignment"
 msgstr "Alignment"
 
-#: plugin/Integrations/Bricks/BricksSiteReview.php:110, plugin/Integrations/Bricks/BricksSiteReviews.php:115, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:41
-msgctxt "admin-text"
-msgid "Row Gap"
-msgstr "Row Gap"
-
-#: plugin/Integrations/Bricks/BricksSiteReview.php:125, plugin/Integrations/Bricks/BricksSiteReviews.php:130
+#: plugin/Integrations/Bricks/BricksSiteReview.php:173, plugin/Integrations/Bricks/BricksSiteReviews.php:191, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:50, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:58
 msgctxt "admin-text"
 msgid "Heading"
 msgstr "Heading"
 
-#: plugin/Integrations/Bricks/BricksSiteReview.php:138, plugin/Integrations/Bricks/BricksSiteReviews.php:143, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:207, plugin/Integrations/Bricks/Controller.php:40, plugin/Integrations/Elementor/ElementorWidget.php:63
+#: plugin/Integrations/Bricks/BricksSiteReview.php:186, plugin/Integrations/Bricks/BricksSiteReviews.php:204, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:140, plugin/Integrations/Bricks/Controller.php:40, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:55, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:63, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:102, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:63
 msgctxt "admin-text"
 msgid "Text"
 msgstr "Text"
 
-#: plugin/Integrations/Bricks/BricksSiteReview.php:154, plugin/Integrations/Bricks/BricksSiteReviews.php:159, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:138, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:185, plugin/Integrations/Elementor/ElementorSiteReview.php:74, plugin/Integrations/Elementor/ElementorSiteReviews.php:86, plugin/Integrations/Elementor/ElementorSiteReviewsForm.php:61, plugin/Integrations/Elementor/ElementorSiteReviewsSummary.php:131
+#: plugin/Integrations/Bricks/BricksSiteReview.php:202, plugin/Integrations/Bricks/BricksSiteReviews.php:220, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:176, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:118, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:61, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:69, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:59, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:89
 msgctxt "admin-text"
 msgid "Star Size"
 msgstr "Star Size"
 
-#: plugin/Integrations/Bricks/BricksSiteReview.php:184, plugin/Integrations/Bricks/BricksSiteReviews.php:189, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:169
+#: plugin/Integrations/Bricks/BricksSiteReview.php:232, plugin/Integrations/Bricks/BricksSiteReviews.php:250, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:160, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:102, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:69, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:77, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:51, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:80
 msgctxt "admin-text"
 msgid "Star Color"
 msgstr "Star Color"
 
-#: plugin/Integrations/Bricks/BricksSiteReview.php:197, plugin/Integrations/Bricks/BricksSiteReviews.php:269, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:278, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:319
+#: plugin/Integrations/Bricks/BricksSiteReview.php:245, plugin/Integrations/Bricks/BricksSiteReviews.php:330, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:296, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:252
 msgctxt "admin-text"
 msgid "You have hidden all of the fields."
 msgstr "You have hidden all of the fields."
 
-#: plugin/Integrations/Bricks/BricksSiteReviews.php:204, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:213, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:274
+#: plugin/Integrations/Bricks/BricksSiteReviews.php:176, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:41, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:50, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:38
+msgctxt "admin-text"
+msgid "Row Gap"
+msgstr "Row Gap"
+
+#: plugin/Integrations/Bricks/BricksSiteReviews.php:265, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:231, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:207
 msgctxt "admin-text"
 msgid "Size"
 msgstr "Size"
 
-#: plugin/Integrations/Bricks/BricksSiteReviews.php:206, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:215, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:18, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:23
+#: plugin/Integrations/Bricks/BricksSiteReviews.php:267, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:233, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:18, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:23, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:31
 msgctxt "admin-text"
 msgid "Default"
 msgstr "Default"
 
-#: plugin/Integrations/Bricks/BricksSiteReviews.php:215, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:224, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:16
+#: plugin/Integrations/Bricks/BricksSiteReviews.php:276, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:242, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:16, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:25
 msgctxt "admin-text"
 msgid "Style"
 msgstr "Style"
 
-#: plugin/Integrations/Bricks/BricksSiteReviews.php:217, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:226
+#: plugin/Integrations/Bricks/BricksSiteReviews.php:278, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:244
 msgctxt "admin-text"
 msgid "None"
 msgstr "None"
 
-#: plugin/Integrations/Bricks/BricksSiteReviews.php:230, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:239
+#: plugin/Integrations/Bricks/BricksSiteReviews.php:291, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:257
 msgctxt "admin-text"
 msgid "Background"
 msgstr "Background"
 
-#: plugin/Integrations/Bricks/BricksSiteReviews.php:243, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:76, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:252
+#: plugin/Integrations/Bricks/BricksSiteReviews.php:304, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:76, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:270
 msgctxt "admin-text"
 msgid "Border"
 msgstr "Border"
 
-#: plugin/Integrations/Bricks/BricksSiteReviews.php:256, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:89, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:265, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:200, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:220, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:289
+#: plugin/Integrations/Bricks/BricksSiteReviews.php:317, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:89, plugin/Integrations/Bricks/BricksSiteReviewsForm.php:283, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:133, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:153, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:222, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:97, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:108, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:146
 msgctxt "admin-text"
 msgid "Typography"
 msgstr "Typography"
 
-#: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:23
+#: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:23, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:29
 msgctxt "admin-text"
 msgid "Column Gap"
 msgstr "Column Gap"
@@ -4948,67 +4944,67 @@ msgctxt "admin-text"
 msgid "Placeholder"
 msgstr "Placeholder"
 
-#: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:122
+#: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:122, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:46
 msgctxt "admin-text"
 msgid "Rating Field"
 msgstr "Rating Field"
 
-#: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:178
+#: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:194, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:68
 msgctxt "admin-text"
-msgid "Rating Color"
-msgstr "Rating Color"
+msgid "Star Spacing"
+msgstr "Star Spacing"
 
-#: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:185
+#: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:203, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:76
 msgctxt "admin-text"
 msgid "Toggle Field"
 msgstr "Toggle Field"
 
-#: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:198
+#: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:216, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:81
 msgctxt "admin-text"
 msgid "Toggle Color"
 msgstr "Toggle Color"
 
-#: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:205
+#: plugin/Integrations/Bricks/BricksSiteReviewsForm.php:223
 msgctxt "admin-text"
 msgid "Submit Button"
 msgstr "Submit Button"
 
-#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:19
+#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:19, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:27
 msgctxt "admin-text"
 msgid "Style 1"
 msgstr "Style 1"
 
-#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:20
+#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:20, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:28
 msgctxt "admin-text"
 msgid "Style 2"
 msgstr "Style 2"
 
-#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:21
+#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:21, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:29
 msgctxt "admin-text"
 msgid "Style 3"
 msgstr "Style 3"
 
-#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:122, plugin/Integrations/Elementor/ElementorSiteReviewsSummary.php:54
+#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:55, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:64
 msgctxt "admin-text"
 msgid "Max Width"
 msgstr "Max Width"
 
-#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:227
+#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:160, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:112
 msgctxt "admin-text"
 msgid "Bars"
 msgstr "Bars"
 
-#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:240, plugin/Integrations/Elementor/ElementorSiteReview.php:60, plugin/Integrations/Elementor/ElementorSiteReviews.php:72, plugin/Integrations/Elementor/ElementorSiteReviewsForm.php:48, plugin/Integrations/Elementor/ElementorSiteReviewsSummary.php:115
+#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:173, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:120
 msgctxt "admin-text"
 msgid "Color"
 msgstr "Color"
 
-#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:256
+#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:189, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:129
 msgctxt "admin-text"
 msgid "Gap"
 msgstr "Gap"
 
-#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:306
+#: plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:239
 msgctxt "admin-text"
 msgid ""
 "The recommended way to change these values is to use the Site Reviews → "
@@ -5016,46 +5012,6 @@ msgid ""
 msgstr ""
 "The recommended way to change these values is to use the Site Reviews → "
 "Settings → Strings page."
-
-#: plugin/Integrations/Elementor/ElementorSiteReview.php:37, plugin/Integrations/Elementor/ElementorSiteReviews.php:29, plugin/Integrations/Elementor/ElementorSiteReviewsSummary.php:30, plugin/Integrations/JetWooBuilder/Controller.php:46
-msgctxt "admin-text"
-msgid "Start"
-msgstr "Start"
-
-#: plugin/Integrations/Elementor/ElementorSiteReview.php:41, plugin/Integrations/Elementor/ElementorSiteReviews.php:33, plugin/Integrations/Elementor/ElementorSiteReviewsSummary.php:34, plugin/Integrations/JetWooBuilder/Controller.php:50
-msgctxt "admin-text"
-msgid "Center"
-msgstr "Center"
-
-#: plugin/Integrations/Elementor/ElementorSiteReview.php:45, plugin/Integrations/Elementor/ElementorSiteReviews.php:37, plugin/Integrations/Elementor/ElementorSiteReviewsSummary.php:38, plugin/Integrations/JetWooBuilder/Controller.php:54
-msgctxt "admin-text"
-msgid "End"
-msgstr "End"
-
-#: plugin/Integrations/Elementor/ElementorSiteReviews.php:54
-msgctxt "admin-text"
-msgid "Review Spacing"
-msgstr "Review Spacing"
-
-#: plugin/Integrations/Elementor/ElementorSiteReviewsForm.php:29
-msgctxt "admin-text"
-msgid "Field Spacing"
-msgstr "Field Spacing"
-
-#: plugin/Integrations/Elementor/ElementorSiteReviewsForm.php:83
-msgctxt "admin-text"
-msgid "Star Spacing"
-msgstr "Star Spacing"
-
-#: plugin/Integrations/Elementor/ElementorSiteReviewsSummary.php:77
-msgctxt "admin-text"
-msgid "Percent Bar Height"
-msgstr "Percent Bar Height"
-
-#: plugin/Integrations/Elementor/ElementorSiteReviewsSummary.php:97
-msgctxt "admin-text"
-msgid "Percent Bar Spacing"
-msgstr "Percent Bar Spacing"
 
 #: plugin/Integrations/Flatsome/Controller.php:99, plugin/Integrations/FusionBuilder/FusionSiteReviews.php:48, plugin/Integrations/FusionBuilder/FusionSiteReviewsForm.php:47, plugin/Integrations/FusionBuilder/FusionSiteReviewsSummary.php:48, plugin/Integrations/WPBakery/Controller.php:108
 msgctxt "admin-text"
@@ -5391,6 +5347,21 @@ msgstr "getting a review on \"%s\" with a %d-star rating"
 msgctxt "admin-text"
 msgid "getting a review on \"%s\" with a minimum %d-star rating"
 msgstr "getting a review on \"%s\" with a minimum %d-star rating"
+
+#: plugin/Integrations/JetWooBuilder/Controller.php:46, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:32, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:31, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:42
+msgctxt "admin-text"
+msgid "Start"
+msgstr "Start"
+
+#: plugin/Integrations/JetWooBuilder/Controller.php:50, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:36, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:35, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:46
+msgctxt "admin-text"
+msgid "Center"
+msgstr "Center"
+
+#: plugin/Integrations/JetWooBuilder/Controller.php:54, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:40, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:39, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:50
+msgctxt "admin-text"
+msgid "End"
+msgstr "End"
 
 #: plugin/Integrations/MyCred/Controller.php:21
 msgctxt "admin-text"
@@ -6347,6 +6318,11 @@ msgstr "There are no review types."
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to view review types."
 msgstr "Sorry, you are not allowed to view review types."
+
+#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:138
+msgctxt "admin-text"
+msgid "Percent Bar Height"
+msgstr "Percent Bar Height"
 
 #: plugin/Integrations/Gutenberg/Blocks/Block.php:30
 msgctxt "admin-text"

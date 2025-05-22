@@ -8,6 +8,10 @@ use GeminiLabs\SiteReviews\Helpers\Svg;
 use GeminiLabs\SiteReviews\Integrations\Elementor\Controls\MultiSwitcher;
 use GeminiLabs\SiteReviews\Integrations\Elementor\Controls\Select2Ajax;
 use GeminiLabs\SiteReviews\Integrations\Elementor\Defaults\QueryAjaxDefaults;
+use GeminiLabs\SiteReviews\Integrations\Elementor\Widgets\ElementorSiteReview;
+use GeminiLabs\SiteReviews\Integrations\Elementor\Widgets\ElementorSiteReviews;
+use GeminiLabs\SiteReviews\Integrations\Elementor\Widgets\ElementorSiteReviewsForm;
+use GeminiLabs\SiteReviews\Integrations\Elementor\Widgets\ElementorSiteReviewsSummary;
 
 class Controller extends AbstractController
 {
@@ -49,6 +53,9 @@ class Controller extends AbstractController
     }
 
     /**
+     * Elementor overwrites all selector values in a color control with the
+     * global color variable when a global variable is being used.
+     * 
      * @param \Elementor\Core\Files\CSS\Post $cssFile
      * @param \Elementor\Element_Base        $element
      *
@@ -57,43 +64,55 @@ class Controller extends AbstractController
     public function parseElementCss($cssFile, $element): void
     {
         $shortcode = $element->get_name();
-        $shortcodes = [
-            'site_review',
-            'site_reviews',
-            'site_reviews_form',
-            'site_reviews_summary',
-        ];
-        if (!in_array($shortcode, $shortcodes)) {
+        if (!str_starts_with($shortcode, 'site_review')) {
             return;
         }
-        $ratingColor = $element->get_settings('rating_color') ?: ($element->get_settings('__globals__')['rating_color'] ?? '');
-        if (empty($ratingColor)) {
+        $color = $element->get_settings('style_rating_color') ?: ($element->get_settings('__globals__')['style_rating_color'] ?? '');
+        if (empty($color)) {
             return;
         }
-        $selector = "{$cssFile->get_element_unique_selector($element)} .glsr:not([data-theme])";
         $stylesheet = $cssFile->get_stylesheet();
-        $fn = fn ($variable) => [
-            'mask-image' => $variable,
-            'mask-size' => '100%',
-        ];
-        $stars = [
-            'empty' => 'var(--glsr-star-empty)',
-            'error' => 'var(--glsr-star-error)',
-            'full' => 'var(--glsr-star-full)',
-            'half' => 'var(--glsr-star-half)',
-        ];
-        if (in_array($shortcode, ['site_review', 'site_reviews'])) {
-            $stylesheet->add_rules("{$selector} .glsr-review .glsr-star-empty", $fn($stars['empty']));
-            $stylesheet->add_rules("{$selector} .glsr-review .glsr-star-full", $fn($stars['full']));
-            $stylesheet->add_rules("{$selector} .glsr-review .glsr-star-half", $fn($stars['half']));
-        } elseif ('site_reviews_form' === $shortcode) {
-            $stylesheet->add_rules("{$selector} .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars > span", $fn($stars['empty']));
-            $stylesheet->add_rules("{$selector} .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars > span:is(.gl-active,.gl-selected)", $fn($stars['full']));
-            $stylesheet->add_rules("{$selector} .glsr-field-is-invalid .glsr-star-rating--stars > span.gl-active", $fn($stars['error']));
-        } elseif ('site_reviews_summary' === $shortcode) {
-            $stylesheet->add_rules("{$selector} .glsr-star-empty", $fn($stars['empty']));
-            $stylesheet->add_rules("{$selector} .glsr-star-full", $fn($stars['full']));
-            $stylesheet->add_rules("{$selector} .glsr-star-half", $fn($stars['half']));
+        $wrapper = "{$cssFile->get_element_unique_selector($element)} .glsr:not([data-theme])";
+        switch ($shortcode) {
+            case 'site_review':
+            case 'site_reviews':
+                $stylesheet->add_rules(
+                    "{$wrapper} .glsr-star-empty",
+                    'background: var(--glsr-review-star-bg); mask-image: var(--glsr-star-empty); mask-size: 100%;'
+                );
+                $stylesheet->add_rules(
+                    "{$wrapper} .glsr-star-full",
+                    'background: var(--glsr-review-star-bg); mask-image: var(--glsr-star-full); mask-size: 100%;'
+                );
+                $stylesheet->add_rules(
+                    "{$wrapper} .glsr-star-half",
+                    'background: var(--glsr-review-star-bg); mask-image: var(--glsr-star-half); mask-size: 100%;'
+                );
+                break;
+            case 'site_reviews_summary':
+                $stylesheet->add_rules(
+                    "{$wrapper} .glsr-star-empty",
+                    'background: var(--glsr-summary-star-bg); mask-image: var(--glsr-star-empty); mask-size: 100%;'
+                );
+                $stylesheet->add_rules(
+                    "{$wrapper} .glsr-star-full",
+                    'background: var(--glsr-summary-star-bg); mask-image: var(--glsr-star-full); mask-size: 100%;'
+                );
+                $stylesheet->add_rules(
+                    "{$wrapper} .glsr-star-half",
+                    'background: var(--glsr-summary-star-bg); mask-image: var(--glsr-star-half); mask-size: 100%;'
+                );
+                break;
+            case 'site_reviews_form':
+                $stylesheet->add_rules(
+                    "{$wrapper} .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars > span",
+                    'background: var(--glsr-form-star-bg); mask-image: var(--glsr-star-empty); mask-size: 100%;'
+                );
+                $stylesheet->add_rules(
+                    "{$wrapper} .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars > span:is(.gl-active,.gl-selected)",
+                    'mask-image: var(--glsr-star-full);'
+                );
+                break;
         }
     }
 
@@ -149,8 +168,8 @@ class Controller extends AbstractController
     public function registerCategory($manager): void
     {
         $manager->add_category(glsr()->id, [
+            'hideIfEmpty' => true,
             'title' => glsr()->name,
-            'icon' => 'eicon-star-o', // default icon
         ]);
     }
 
