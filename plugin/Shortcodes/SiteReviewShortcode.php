@@ -12,14 +12,13 @@ class SiteReviewShortcode extends Shortcode
     {
         $review = glsr(ReviewManager::class)->get($this->args['post_id']);
         $this->debug(['review' => $review]);
-        if ($review->isValid()) {
-            $reviews = new Reviews([$review], 1, $this->args);
-            glsr()->action('get/reviews', $reviews, $this->args);
-            if ('modal' === glsr_get_option('reviews.excerpts_action')) {
-                glsr()->store('use_modal', true);
-            }
-        } else {
-            $reviews = new Reviews([], 0, $this->args);
+        if (!$review->isValid()) {
+            return '';
+        }
+        $reviews = new Reviews([$review], 1, $this->args);
+        glsr()->action('get/reviews', $reviews, $this->args);
+        if ('modal' === glsr_get_option('reviews.excerpts_action')) {
+            glsr()->store('use_modal', true);
         }
         $html = new ReviewsHtml($reviews);
         return (string) $html;

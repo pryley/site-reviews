@@ -33,7 +33,7 @@ class SiteReviewsDefaults extends DefaultsAbstract
      * @var string[]
      */
     public array $guarded = [
-        'fallback', 'title',
+        'fallback',
     ];
 
     /**
@@ -64,7 +64,6 @@ class SiteReviewsDefaults extends DefaultsAbstract
         'page' => 'min:1',
         'rating' => 'rating',
         'rating_field' => 'name',
-        'title' => 'text',
         'type' => 'slug',
     ];
 
@@ -88,7 +87,6 @@ class SiteReviewsDefaults extends DefaultsAbstract
             'rating_field' => 'rating', // used for custom rating fields
             'schema' => false,
             'terms' => '',
-            'title' => '',
             'type' => 'local',
         ];
     }

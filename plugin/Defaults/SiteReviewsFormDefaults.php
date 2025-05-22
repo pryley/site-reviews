@@ -20,7 +20,7 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
      * @var string[]
      */
     public array $guarded = [
-        'description', 'title',
+        'description',
     ];
 
     /**
@@ -46,7 +46,6 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
         'id' => 'id-unique',
         'reviews_id' => 'id',
         'summary_id' => '',
-        'title' => 'text',
     ];
 
     protected function defaults(): array
@@ -63,7 +62,6 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
             'id' => '',
             'reviews_id' => '',
             'summary_id' => '',
-            'title' => '',
         ];
     }
 

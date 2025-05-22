@@ -58,6 +58,9 @@ abstract class Shortcode implements ShortcodeContract
     {
         $this->normalize(wp_parse_args($args), $from);
         $template = $this->buildTemplate();
+        if (empty($template)) {
+            return '';
+        }
         $attributes = $this->attributes($this->args, $from);
         $html = glsr(Builder::class)->div($template, $attributes);
         $rendered = sprintf('%s%s', $this->debug, $html);

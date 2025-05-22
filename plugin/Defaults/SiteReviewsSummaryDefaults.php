@@ -30,7 +30,7 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
      * @var string[]
      */
     public array $guarded = [
-        'labels', 'text', 'title',
+        'labels', 'text',
     ];
 
     /**
@@ -58,7 +58,6 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
         'rating' => 'rating',
         'rating_field' => 'name',
         'text' => 'text-html:a',
-        'title' => 'text',
         'type' => 'slug',
     ];
 
@@ -79,7 +78,6 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
             'schema' => false,
             'terms' => '',
             'text' => '',
-            'title' => '',
             'type' => 'local',
         ];
     }
