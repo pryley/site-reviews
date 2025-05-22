@@ -2,6 +2,80 @@
     display: block;
 }
 
+.items-justified-left .glsr:not([data-theme]) {
+    .glsr-ajax-loadmore {
+        display: flex;
+        justify-content: start;
+    }
+    .glsr-review {
+        justify-content: start;
+        text-align: start;
+    }
+    .glsr-review-actions,
+    .glsr-review-author_actions {
+        justify-content: start;
+    }
+    .glsr-review-date {
+        flex: 1;
+        justify-content: start;
+    }
+    .glsr-review-rating {
+        flex: 0;
+    }
+    .nav-links {
+        text-align: start;
+    }
+}
+.items-justified-center .glsr:not([data-theme]) {
+    .glsr-ajax-loadmore {
+        display: flex;
+        justify-content: center;
+    }
+    .glsr-review {
+        justify-content: center;
+        text-align: center;
+    }
+    .glsr-review-actions,
+    .glsr-review-author_actions {
+        justify-content: center;
+    }
+    .glsr-review-date {
+        flex: auto;
+        justify-content: start;
+    }
+    .glsr-review-rating {
+        flex: auto;
+        justify-content: end;
+    }
+    .nav-links {
+        text-align: center;
+    }
+}
+.items-justified-right .glsr:not([data-theme]) {
+    .glsr-ajax-loadmore {
+        display: flex;
+        justify-content: end;
+    }
+    .glsr-review {
+        justify-content: end;
+        text-align: end;
+    }
+    .glsr-review-actions,
+    .glsr-review-author_actions {
+        justify-content: end;
+    }
+    .glsr-review-date {
+        flex: 0;
+    }
+    .glsr-review-rating {
+        flex: 1;
+        justify-content: end;
+    }
+    .nav-links {
+        text-align: end;
+    }
+}
+
 .has-custom-color .glsr:not([data-theme]) .glsr-review {
     .glsr-star {
         background: var(--glsr-review-star-bg);
