@@ -76,10 +76,10 @@ abstract class BricksElement extends \Bricks\Element
     public function render()
     {
         $buttonClasses = ['bricks-button'];
-        if ($buttonStyle = $this->styledSetting('styleButtonStyle')) {
+        if ($buttonStyle = $this->styledSetting('style_button_preset')) {
             $buttonClasses[] = "bricks-background-{$buttonStyle}";
         }
-        if ($buttonSize = $this->styledSetting('styleButtonSize')) {
+        if ($buttonSize = $this->styledSetting('style_button_size')) {
             $buttonClasses[] = $buttonSize;
         }
         $buttonClasses = implode(' ', $buttonClasses);
@@ -136,6 +136,9 @@ abstract class BricksElement extends \Bricks\Element
 
     public function styledClasses(array $classes = []): array
     {
+        if ($align = $this->styledSetting('style_align')) {
+            $classes[] = "items-justified-{$align}";
+        }
         return $classes;
     }
 

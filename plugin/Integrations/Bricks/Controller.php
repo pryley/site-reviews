@@ -73,7 +73,7 @@ class Controller extends AbstractController
         }
         $classes = $settings['class'] ?? '';
         $classes = explode(' ', $classes);
-        if ($preset = $element->styledSetting('stylePreset')) {
+        if ($preset = $element->styledSetting('style_preset')) {
             $classes[] = "is-style-{$preset}";
         }
         $classes = $element->styledClasses($classes);

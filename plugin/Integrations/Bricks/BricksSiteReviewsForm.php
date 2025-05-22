@@ -9,7 +9,7 @@ class BricksSiteReviewsForm extends BricksElement
     public function designConfig(): array
     {
         $config = [
-            'styleFormColGap' => [
+            'style_col_gap' => [
                 'css' => [
                     [
                         'selector' => '.glsr',
@@ -27,7 +27,7 @@ class BricksSiteReviewsForm extends BricksElement
                 'type' => 'number',
                 'units' => true,
             ],
-            'styleFormRowGap' => [
+            'style_row_gap' => [
                 'css' => [
                     [
                         'selector' => '.glsr',
@@ -45,14 +45,14 @@ class BricksSiteReviewsForm extends BricksElement
                 'type' => 'number',
                 'units' => true,
             ],
-            'separatorField' => [
+            'style_field_separator' => [
                 'group' => 'design',
                 'label' => esc_html_x('Fields', 'admin-text', 'site-reviews'),
                 'tab' => 'content',
                 'themeStyle' => true,
                 'type' => 'separator',
             ],
-            'styleFieldBackgroundColor' => [
+            'style_field_background_color' => [
                 'css' => [
                     [
                         'selector' => '.glsr-textarea, .glsr-input',
@@ -65,7 +65,7 @@ class BricksSiteReviewsForm extends BricksElement
                 'themeStyle' => true,
                 'type' => 'color',
             ],
-            'styleFieldBorder' => [
+            'style_field_border' => [
                 'css' => [
                     [
                         'selector' => '.glsr-textarea, .glsr-input',
@@ -78,7 +78,7 @@ class BricksSiteReviewsForm extends BricksElement
                 'themeStyle' => true,
                 'type' => 'border',
             ],
-            'styleFieldTypography' => [
+            'style_field_typography' => [
                 'css' => [
                     [
                         'selector' => '.glsr-textarea, .glsr-input, .glsr-toggle label, .glsr-toggle-switch',
@@ -91,7 +91,7 @@ class BricksSiteReviewsForm extends BricksElement
                 'themeStyle' => true,
                 'type' => 'typography',
             ],
-            'styleFieldLabelTypography' => [
+            'style_field_label_typography' => [
                 'css' => [
                     [
                         'selector' => 'label.glsr-label',
@@ -104,7 +104,7 @@ class BricksSiteReviewsForm extends BricksElement
                 'themeStyle' => true,
                 'type' => 'typography',
             ],
-            'styleFieldPlaceholder' => [
+            'style_field_placeholder' => [
                 'css' => [
                     [
                         'selector' => '::placeholder',
@@ -117,32 +117,14 @@ class BricksSiteReviewsForm extends BricksElement
                 'themeStyle' => true,
                 'type' => 'typography',
             ],
-            'separatorRating' => [
+            'style_rating_separator' => [
                 'group' => 'design',
                 'label' => esc_html_x('Rating Field', 'admin-text', 'site-reviews'),
                 'tab' => 'content',
                 'themeStyle' => true,
                 'type' => 'separator',
             ],
-            'styleRatingSize' => [
-                'css' => [
-                    [
-                        'selector' => '.glsr',
-                        'property' => '--glsr-form-star',
-                    ],
-                ],
-                'group' => 'design',
-                'hasDynamicData' => false,
-                'hasVariables' => true,
-                'inline' => true,
-                'label' => esc_html_x('Star Size', 'admin-text', 'site-reviews'),
-                'placeholder' => '',
-                'tab' => 'content',
-                'themeStyle' => true,
-                'type' => 'number',
-                'units' => true,
-            ],
-            'styleRatingColor' => [
+            'style_rating_color' => [
                 'css' => [
                     [
                         'selector' => '.glsr:not([data-theme])',
@@ -175,19 +157,55 @@ class BricksSiteReviewsForm extends BricksElement
                     ],
                 ],
                 'group' => 'design',
-                'label' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Star Color', 'admin-text', 'site-reviews'),
                 'tab' => 'content',
                 'themeStyle' => true,
                 'type' => 'color',
             ],
-            'separatorToggle' => [
+            'style_rating_size' => [
+                'css' => [
+                    [
+                        'selector' => '.glsr',
+                        'property' => '--glsr-form-star',
+                    ],
+                ],
+                'group' => 'design',
+                'hasDynamicData' => false,
+                'hasVariables' => true,
+                'inline' => true,
+                'label' => esc_html_x('Star Size', 'admin-text', 'site-reviews'),
+                'placeholder' => '',
+                'tab' => 'content',
+                'themeStyle' => true,
+                'type' => 'number',
+                'units' => true,
+            ],
+            'style_rating_gap' => [
+                'css' => [
+                    [
+                        'selector' => '.glsr-field-rating span[data-rating]',
+                        'property' => 'column-gap',
+                    ],
+                ],
+                'group' => 'design',
+                'hasDynamicData' => false,
+                'hasVariables' => true,
+                'inline' => true,
+                'label' => esc_html_x('Star Spacing', 'admin-text', 'site-reviews'),
+                'placeholder' => '',
+                'tab' => 'content',
+                'themeStyle' => true,
+                'type' => 'number',
+                'units' => true,
+            ],
+            'style_toggle_separator' => [
                 'group' => 'design',
                 'label' => esc_html_x('Toggle Field', 'admin-text', 'site-reviews'),
                 'tab' => 'content',
                 'themeStyle' => true,
                 'type' => 'separator',
             ],
-            'styleToggleColor' => [
+            'style_toggle_color' => [
                 'css' => [
                     [
                         'selector' => '.glsr-field-toggle',
@@ -200,14 +218,14 @@ class BricksSiteReviewsForm extends BricksElement
                 'themeStyle' => true,
                 'type' => 'color',
             ],
-            'separatorButton' => [
+            'style_button_separator' => [
                 'group' => 'design',
                 'label' => esc_html_x('Submit Button', 'admin-text', 'site-reviews'),
                 'tab' => 'content',
                 'themeStyle' => true,
                 'type' => 'separator',
             ],
-            'styleButtonSize' => [
+            'style_button_size' => [
                 'group' => 'design',
                 'inline' => true,
                 'label' => esc_html_x('Size', 'admin-text', 'site-reviews'),
@@ -217,7 +235,7 @@ class BricksSiteReviewsForm extends BricksElement
                 'themeStyle' => true,
                 'type' => 'select',
             ],
-            'styleButtonStyle' => [
+            'style_button_preset' => [
                 'default' => 'primary',
                 'group' => 'design',
                 'inline' => true,
@@ -228,7 +246,7 @@ class BricksSiteReviewsForm extends BricksElement
                 'themeStyle' => true,
                 'type' => 'select',
             ],
-            'styleButtonBackgroundColor' => [
+            'style_button_background_color' => [
                 'css' => [
                     [
                         'selector' => '.bricks-button',
@@ -241,7 +259,7 @@ class BricksSiteReviewsForm extends BricksElement
                 'themeStyle' => true,
                 'type' => 'color',
             ],
-            'styleButtonBorder' => [
+            'style_button_border' => [
                 'css' => [
                     [
                         'selector' => '.bricks-button',
@@ -254,7 +272,7 @@ class BricksSiteReviewsForm extends BricksElement
                 'themeStyle' => true,
                 'type' => 'border',
             ],
-            'styleButtonTypography' => [
+            'style_button_typography' => [
                 'css' => [
                     [
                         'selector' => '.bricks-button',

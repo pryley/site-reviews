@@ -9,10 +9,14 @@ class BricksSiteReviews extends BricksElement
     public function designConfig(): array
     {
         $config = [
-            'styleReviewAlign' => [
+            'style_align' => [
                 'css' => [
                     [
-                        'selector' => '.glsr:not([data-theme]) .glsr-review, .glsr:not([data-theme]) .nav-links',
+                        'selector' => '.glsr:not([data-theme]) .glsr-review',
+                        'property' => 'text-align',
+                    ],
+                    [
+                        'selector' => '.glsr:not([data-theme]) .nav-links',
                         'property' => 'text-align',
                     ],
                     [
@@ -22,7 +26,7 @@ class BricksSiteReviews extends BricksElement
                     ],
                     [
                         'required' => 'left',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review, .glsr:not([data-theme]) .glsr-ajax-loadmore',
+                        'selector' => '.glsr:not([data-theme]) .glsr-review',
                         'property' => 'justify-content',
                         'value' => 'start',
                     ],
@@ -45,13 +49,31 @@ class BricksSiteReviews extends BricksElement
                         'value' => 'start',
                     ],
                     [
+                        'required' => 'left',
+                        'selector' => '.glsr:not([data-theme]) .glsr-review-actions',
+                        'property' => 'justify-content',
+                        'value' => 'start',
+                    ],
+                    [
+                        'required' => 'left',
+                        'selector' => '.glsr:not([data-theme]) .glsr-review-author_actions',
+                        'property' => 'justify-content',
+                        'value' => 'start',
+                    ],
+                    [
+                        'required' => 'left',
+                        'selector' => '.glsr:not([data-theme]) .glsr-ajax-loadmore',
+                        'property' => 'justify-content',
+                        'value' => 'start',
+                    ],
+                    [
                         'required' => 'center',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review, .glsr:not([data-theme]) .glsr-ajax-loadmore',
+                        'selector' => '.glsr:not([data-theme]) .glsr-review',
                         'property' => 'justify-content',
                     ],
                     [
                         'required' => 'center',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-rating, .glsr:not([data-theme]) .glsr-review-date',
+                        'selector' => '.glsr:not([data-theme]) .glsr-review-rating',
                         'property' => 'flex',
                         'value' => 'auto',
                     ],
@@ -64,18 +86,33 @@ class BricksSiteReviews extends BricksElement
                     [
                         'required' => 'center',
                         'selector' => '.glsr:not([data-theme]) .glsr-review-date',
+                        'property' => 'flex',
+                        'value' => 'auto',
+                    ],
+                    [
+                        'required' => 'center',
+                        'selector' => '.glsr:not([data-theme]) .glsr-review-date',
                         'property' => 'justify-content',
                         'value' => 'start',
                     ],
                     [
-                        'required' => 'right',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review, .glsr:not([data-theme]) .glsr-ajax-loadmore',
+                        'required' => 'center',
+                        'selector' => '.glsr:not([data-theme]) .glsr-review-actions',
                         'property' => 'justify-content',
-                        'value' => 'end',
+                    ],
+                    [
+                        'required' => 'center',
+                        'selector' => '.glsr:not([data-theme]) .glsr-review-author_actions',
+                        'property' => 'justify-content',
+                    ],
+                    [
+                        'required' => 'center',
+                        'selector' => '.glsr:not([data-theme]) .glsr-ajax-loadmore',
+                        'property' => 'justify-content',
                     ],
                     [
                         'required' => 'right',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-rating',
+                        'selector' => '.glsr:not([data-theme]) .glsr-review',
                         'property' => 'justify-content',
                         'value' => 'end',
                     ],
@@ -87,9 +124,33 @@ class BricksSiteReviews extends BricksElement
                     ],
                     [
                         'required' => 'right',
+                        'selector' => '.glsr:not([data-theme]) .glsr-review-rating',
+                        'property' => 'justify-content',
+                        'value' => 'end',
+                    ],
+                    [
+                        'required' => 'right',
                         'selector' => '.glsr:not([data-theme]) .glsr-review-date',
                         'property' => 'flex',
                         'value' => '0',
+                    ],
+                    [
+                        'required' => 'right',
+                        'selector' => '.glsr:not([data-theme]) .glsr-review-actions',
+                        'property' => 'justify-content',
+                        'value' => 'end',
+                    ],
+                    [
+                        'required' => 'right',
+                        'selector' => '.glsr:not([data-theme]) .glsr-review-author_actions',
+                        'property' => 'justify-content',
+                        'value' => 'end',
+                    ],
+                    [
+                        'required' => 'right',
+                        'selector' => '.glsr:not([data-theme]) .glsr-ajax-loadmore',
+                        'property' => 'justify-content',
+                        'value' => 'end',
                     ],
                 ],
                 'exclude' => ['auto', 'justify'],
@@ -101,7 +162,7 @@ class BricksSiteReviews extends BricksElement
                 'themeStyle' => true,
                 'type' => 'text-align',
             ],
-            'styleReviewRowGap' => [
+            'style_row_gap' => [
                 'css' => [
                     [
                         'selector' => '.glsr:not([data-theme])',
@@ -119,7 +180,7 @@ class BricksSiteReviews extends BricksElement
                 'type' => 'number',
                 'units' => true,
             ],
-            'styleReviewHeading' => [
+            'style_heading' => [
                 'css' => [
                     [
                         'selector' => '.glsr:not([data-theme]) h2, .glsr:not([data-theme]) h3, .glsr:not([data-theme]) h4',
@@ -132,7 +193,7 @@ class BricksSiteReviews extends BricksElement
                 'themeStyle' => true,
                 'type' => 'typography',
             ],
-            'styleReviewText' => [
+            'style_text' => [
                 'css' => [
                     [
                         'selector' => '.glsr:not([data-theme])',
@@ -145,7 +206,7 @@ class BricksSiteReviews extends BricksElement
                 'themeStyle' => true,
                 'type' => 'typography',
             ],
-            'styleReviewStarSize' => [
+            'style_rating_size' => [
                 'css' => [
                     [
                         'selector' => '.glsr:not([data-theme])',
@@ -163,7 +224,7 @@ class BricksSiteReviews extends BricksElement
                 'type' => 'number',
                 'units' => true,
             ],
-            'styleReviewStarColor' => [
+            'style_rating_color' => [
                 'css' => [
                     [
                         'selector' => '.glsr:not([data-theme]) .glsr-star',
@@ -191,14 +252,14 @@ class BricksSiteReviews extends BricksElement
                 'themeStyle' => true,
                 'type' => 'color',
             ],
-            'separatorButton' => [
+            'style_button_separator' => [
                 'group' => 'design',
                 'label' => esc_html_x('Load More Button', 'admin-text', 'site-reviews'),
                 'tab' => 'content',
                 'themeStyle' => true,
                 'type' => 'separator',
             ],
-            'styleButtonSize' => [
+            'style_button_size' => [
                 'group' => 'design',
                 'inline' => true,
                 'label' => esc_html_x('Size', 'admin-text', 'site-reviews'),
@@ -208,7 +269,7 @@ class BricksSiteReviews extends BricksElement
                 'themeStyle' => true,
                 'type' => 'select',
             ],
-            'styleButtonStyle' => [
+            'style_button_preset' => [
                 'default' => 'primary',
                 'group' => 'design',
                 'inline' => true,
@@ -219,7 +280,7 @@ class BricksSiteReviews extends BricksElement
                 'themeStyle' => true,
                 'type' => 'select',
             ],
-            'styleButtonBackgroundColor' => [
+            'style_button_background_color' => [
                 'css' => [
                     [
                         'selector' => '.bricks-button',
@@ -232,7 +293,7 @@ class BricksSiteReviews extends BricksElement
                 'themeStyle' => true,
                 'type' => 'color',
             ],
-            'styleButtonBorder' => [
+            'style_button_border' => [
                 'css' => [
                     [
                         'selector' => '.bricks-button',
@@ -245,7 +306,7 @@ class BricksSiteReviews extends BricksElement
                 'themeStyle' => true,
                 'type' => 'border',
             ],
-            'styleButtonTypography' => [
+            'style_button_typography' => [
                 'css' => [
                     [
                         'selector' => '.bricks-button',

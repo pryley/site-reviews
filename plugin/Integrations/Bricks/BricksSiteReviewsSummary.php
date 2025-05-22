@@ -10,7 +10,7 @@ class BricksSiteReviewsSummary extends BricksElement
     public function designConfig(): array
     {
         $config = [
-            'stylePreset' => [
+            'style_preset' => [
                 'group' => 'design',
                 'inline' => true,
                 'label' => esc_html_x('Style', 'admin-text', 'site-reviews'),
@@ -25,78 +25,11 @@ class BricksSiteReviewsSummary extends BricksElement
                 'themeStyle' => true,
                 'type' => 'select',
             ],
-            'styleAlign' => [
+            'style_align' => [
                 'css' => [
                     [
-                        'required' => 'left',
                         'selector' => '.glsr-summary',
-                        'property' => '--glsr-summary-align',
-                        'value' => 'start',
-                    ],
-                    [
-                        'required' => 'left',
-                        'selector' => 'div.is-style-1 .glsr-summary-rating, div.is-style-3 .glsr-summary-rating',
-                        'property' => 'justify-content',
-                        'value' => 'start',
-                    ],
-                    [
-                        'required' => 'center',
-                        'selector' => '.glsr-summary',
-                        'property' => '--glsr-summary-align',
-                    ],
-                    [
-                        'required' => 'center',
-                        'selector' => 'div:is(.is-style-1, .is-style-3) .glsr-summary',
-                        'property' => 'grid-template-columns',
-                        'value' => '1fr auto auto 1fr',
-                    ],
-                    [
-                        'required' => 'center',
-                        'selector' => 'div:is(.is-style-1, .is-style-3) .glsr-summary-rating',
-                        'property' => 'grid-column-start',
-                        'value' => '2',
-                    ],
-                    [
-                        'required' => 'center',
-                        'selector' => 'div:is(.is-style-1, .is-style-3) .glsr-summary-stars, div:is(.is-style-1, .is-style-3) .glsr-summary-text',
-                        'property' => 'grid-column-start',
-                        'value' => '3',
-                    ],
-                    [
-                        'required' => 'center',
-                        'selector' => 'div:is(.is-style-1, .is-style-3) .glsr-summary-stars, div:is(.is-style-1, .is-style-3) .glsr-summary-text',
                         'property' => 'text-align',
-                        'value' => 'start',
-                    ],
-                    [
-                        'required' => 'center',
-                        'selector' => 'div:is(.is-style-1, .is-style-3) .glsr-summary-percentages',
-                        'property' => 'grid-column-end',
-                        'value' => 'span 4',
-                    ],
-                    [
-                        'required' => 'right',
-                        'selector' => '.glsr-summary',
-                        'property' => '--glsr-summary-align',
-                        'value' => 'end',
-                    ],
-                    [
-                        'required' => 'right',
-                        'selector' => 'div:is(.is-style-1, .is-style-3) .glsr-summary',
-                        'property' => 'grid-template-columns',
-                        'value' => '1fr auto',
-                    ],
-                    [
-                        'required' => 'right',
-                        'selector' => 'div:is(.is-style-1, .is-style-3) .glsr-summary-rating',
-                        'property' => 'justify-content',
-                        'value' => 'end',
-                    ],
-                    [
-                        'required' => 'right',
-                        'selector' => 'div:is(.is-style-1, .is-style-3) .glsr-summary-text',
-                        'property' => 'text-align',
-                        'value' => 'start',
                     ],
                 ],
                 'exclude' => ['auto', 'justify'],
@@ -108,7 +41,7 @@ class BricksSiteReviewsSummary extends BricksElement
                 'themeStyle' => true,
                 'type' => 'text-align',
             ],
-            'styleMaxWidth' => [
+            'style_max_width' => [
                 'css' => [
                     [
                         'selector' => '.glsr',
@@ -126,14 +59,14 @@ class BricksSiteReviewsSummary extends BricksElement
                 'type' => 'number',
                 'units' => true,
             ],
-            'separatorRating' => [
+            'style_rating_separator' => [
                 'group' => 'design',
                 'label' => esc_html_x('Rating', 'admin-text', 'site-reviews'),
                 'tab' => 'content',
                 'themeStyle' => true,
                 'type' => 'separator',
             ],
-            'styleRatingColor' => [
+            'style_rating_color' => [
                 'css' => [
                     [
                         'selector' => '.glsr:not([data-theme])',
@@ -171,7 +104,7 @@ class BricksSiteReviewsSummary extends BricksElement
                 'themeStyle' => true,
                 'type' => 'color',
             ],
-            'styleRatingSize' => [
+            'style_rating_size' => [
                 'css' => [
                     [
                         'selector' => '.glsr',
@@ -189,7 +122,7 @@ class BricksSiteReviewsSummary extends BricksElement
                 'type' => 'number',
                 'units' => true,
             ],
-            'styleRatingTypography' => [
+            'style_rating_typography' => [
                 'css' => [
                     [
                         'selector' => '.glsr-summary-rating',
@@ -202,14 +135,14 @@ class BricksSiteReviewsSummary extends BricksElement
                 'themeStyle' => true,
                 'type' => 'typography',
             ],
-            'separatorText' => [
+            'style_text_separator' => [
                 'group' => 'design',
                 'label' => esc_html_x('Text', 'admin-text', 'site-reviews'),
                 'tab' => 'content',
                 'themeStyle' => true,
                 'type' => 'separator',
             ],
-            'styleTextTypography' => [
+            'style_text_typography' => [
                 'css' => [
                     [
                         'selector' => '.glsr-summary-text',
@@ -222,17 +155,17 @@ class BricksSiteReviewsSummary extends BricksElement
                 'themeStyle' => true,
                 'type' => 'typography',
             ],
-            'separatorBar' => [
+            'style_bar_separator' => [
                 'group' => 'design',
                 'label' => esc_html_x('Bars', 'admin-text', 'site-reviews'),
                 'tab' => 'content',
                 'themeStyle' => true,
                 'type' => 'separator',
             ],
-            'styleBarColor' => [
+            'style_bar_color' => [
                 'css' => [
                     [
-                        'selector' => '.glsr:not([data-theme])',
+                        'selector' => '.glsr',
                         'property' => '--glsr-bar-bg',
                     ],
                 ],
@@ -242,7 +175,7 @@ class BricksSiteReviewsSummary extends BricksElement
                 'themeStyle' => true,
                 'type' => 'color',
             ],
-            'styleBarSpacing' => [
+            'style_bar_gap' => [
                 'css' => [
                     [
                         'selector' => '.glsr',
@@ -260,7 +193,7 @@ class BricksSiteReviewsSummary extends BricksElement
                 'type' => 'number',
                 'units' => true,
             ],
-            'styleBarSize' => [
+            'style_bar_size' => [
                 'css' => [
                     [
                         'selector' => '.glsr',
@@ -278,7 +211,7 @@ class BricksSiteReviewsSummary extends BricksElement
                 'type' => 'number',
                 'units' => true,
             ],
-            'styleBarTypography' => [
+            'style_bar_typography' => [
                 'css' => [
                     [
                         'selector' => '.glsr-summary-percentages',
@@ -292,8 +225,8 @@ class BricksSiteReviewsSummary extends BricksElement
                 'type' => 'typography',
             ],
         ];
-        if ($placeholder = $config['stylePreset']['options'][$this->theme_styles['stylePreset'] ?? ''] ?? '') {
-            $config['stylePreset']['placeholder'] = $placeholder;
+        if ($placeholder = $config['style_preset']['options'][$this->theme_styles['style_preset'] ?? ''] ?? '') {
+            $config['style_preset']['placeholder'] = $placeholder;
         }
         return $config;
     }
@@ -321,14 +254,6 @@ class BricksSiteReviewsSummary extends BricksElement
             return;
         }
         parent::render();
-    }
-
-    public function styledClasses(array $classes = []): array
-    {
-        if ($align = $this->styledSetting('styleAlign')) {
-            $classes[] = "items-justified-{$align}";
-        }
-        return $classes;
     }
 
     public static function shortcodeClass(): string
