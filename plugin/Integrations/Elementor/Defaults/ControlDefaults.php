@@ -12,8 +12,25 @@ class ControlDefaults extends DefaultsAbstract
         return [
             'description' => '',
             'label' => '',
+            'name' => '',
             'type' => 'text',
         ];
+    }
+
+    /**
+     * Normalize provided values, this always runs first.
+     *
+     * Elementor throws a JS error when removing a widget from the page if it
+     * has a control with "id" as the name. To fix this, we need to transform
+     * "id" to "shortcode_id" and "class" to "shortcode_class" (just in case).
+     */
+    protected function normalize(array $values = []): array
+    {
+        $name = $values['name'] ?? '';
+        if (in_array($name, ['class', 'id'])) {
+            $values['name'] = "shortcode_{$name}";
+        }
+        return $values;
     }
 
     /**

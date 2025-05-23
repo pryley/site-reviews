@@ -140,10 +140,10 @@ class ShortcodeOptionManager
 
     protected function pagination(): array
     {
-        return [
+        return [ // order is intentional
             'loadmore' => _x('Load More Button', 'admin-text', 'site-reviews'),
-            'true' => _x('Pagination Links', 'admin-text', 'site-reviews'),
             'ajax' => _x('Pagination Links (AJAX)', 'admin-text', 'site-reviews'),
+            'true' => _x('Pagination Links', 'admin-text', 'site-reviews'),
         ];
     }
 

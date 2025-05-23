@@ -82,4 +82,26 @@ class ElementorSiteReviews extends ElementorWidget
             ],
         ];
     }
+
+    protected function transformControl(string $name, array $args): array
+    {
+        $control = parent::transformControl($name, $args);
+        if ('pagination' === $name) {
+            $icons = [
+                'ajax' => 'eicon eicon-spinner',
+                'loadmore' => 'eicon eicon-button',
+                'true' => 'eicon eicon-redo',
+            ];
+            $control['label'] = _x('Pagination', 'admin-text', 'site-reviews');
+            $control['label_block'] = false;
+            $control['type'] = Controls_Manager::CHOOSE;
+            foreach ($control['options'] as $key => $value) {
+                $control['options'][$key] = [
+                    'icon' => $icons[$key] ?? $icons['ajax'],
+                    'title' => $value,
+                ];
+            }
+        }
+        return $control;
+    }
 }

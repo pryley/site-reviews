@@ -23,6 +23,7 @@ class ElementorSiteReviewsSummary extends ElementorWidget
         return [
             'style_preset' => [
                 'label' => esc_html_x('Style', 'admin-text', 'site-reviews'),
+                'label_block' => false,
                 'options' => [
                     '1' => esc_html_x('Style 1', 'admin-text', 'site-reviews'),
                     '2' => esc_html_x('Style 2', 'admin-text', 'site-reviews'),

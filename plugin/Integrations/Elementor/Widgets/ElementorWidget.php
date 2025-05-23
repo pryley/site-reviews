@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Integrations\Elementor\Widgets;
 
 use Elementor\Controls_Manager;
 use Elementor\Widget_Base;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Integrations\Elementor\Defaults\ControlDefaults;
 use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
 
@@ -26,6 +27,30 @@ abstract class ElementorWidget extends Widget_Base
     public function get_name(): string
     {
         return $this->shortcodeInstance()->tag;
+    }
+
+    /**
+     * Elementor throws a JS error when removing a widget from the page if it
+     * has a control with "id" as the name. To fix this, we transformed "id"
+     * to "shortcode_id" and "class" to "shortcode_class" (just in case).
+     * 
+     * When the widget is displayed, we need to convert the setting keys back
+     * to their original names.
+     * 
+     * @param string $settingKey
+     *
+     * @return mixed
+     */
+    public function get_settings_for_display($settingKey = null)
+    {
+        $settings = parent::get_settings_for_display();
+        $settings['class'] = $settings['shortcode_class']; // because Elementor throws a JS error for these
+        $settings['id'] = $settings['shortcode_id']; // because Elementor throws a JS error for these
+        $settings = glsr()->filterArray('elementor/display/settings', $settings, $this);
+        if ($settingKey) {
+            return Arr::get($settings, $settingKey);
+        }
+        return $settings;
     }
 
     public function get_title(): string
@@ -78,8 +103,9 @@ abstract class ElementorWidget extends Widget_Base
             if (!array_key_exists($group, $groups)) {
                 $group = 'general';
             }
+            $control = $this->transformControl($key, $control);
             if (!array_key_exists($heading, $headings)) {
-                $groups[$group]['controls'][$key] = $this->transformControl($key, $control);
+                $groups[$group]['controls'][$control['name']] = $control;
                 continue;
             }
             if (!array_key_exists("separator_{$heading}", $groups[$group]['controls'])) {
@@ -89,7 +115,7 @@ abstract class ElementorWidget extends Widget_Base
                     'separator' => 'before',
                 ];
             }
-            $groups[$group]['controls'][$key] = $this->transformControl($key, $control);
+            $groups[$group]['controls'][$control['name']] = $control;
         }
         return $groups;
     }
@@ -114,6 +140,9 @@ abstract class ElementorWidget extends Widget_Base
     {
         $groupTypes = Controls_Manager::get_groups_names();
         foreach ($controls as $controlId => $args) {
+            if (!isset($args['type'])) {
+                continue;
+            }
             if (Controls_Manager::SELECT2 === $args['type'] && empty($args['options'])) {
                 continue; // skip select controls with empty options
             }
@@ -150,9 +179,10 @@ abstract class ElementorWidget extends Widget_Base
         return [];
     }
 
-    protected function transformControl(string $key, array $args): array
+    protected function transformControl(string $name, array $args): array
     {
-        $args['name'] = $key;
-        return glsr(ControlDefaults::class)->merge($args);
+        return glsr(ControlDefaults::class)->merge(
+            wp_parse_args(compact('name'), $args)
+        );
     }
 }
