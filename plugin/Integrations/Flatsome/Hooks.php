@@ -16,11 +16,11 @@ class Hooks extends IntegrationHooks
             return;
         }
         $this->hook(Controller::class, [
+            ['interceptGetPostsQuery', 'wp_ajax_ux_builder_get_posts', 1],
+            ['interceptSearchPostsQuery', 'wp_ajax_ux_builder_search_posts', 1],
             ['printInlineScripts', 'ux_builder_enqueue_scripts'],
             ['printInlineStyles', 'ux_builder_enqueue_scripts'],
             ['registerShortcodes', 'init'],
-            ['searchAssignedPosts', 'wp_ajax_ux_builder_search_posts', 1],
-            ['searchAssignedUsers', 'wp_ajax_ux_builder_search_posts', 2],
         ]);
     }
 

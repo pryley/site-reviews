@@ -2,14 +2,54 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Flatsome;
 
-use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
+use GeminiLabs\SiteReviews\Integrations\Flatsome\Defaults\ControlDefaults;
 use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
 
 abstract class FlatsomeShortcode
 {
     use IntegrationShortcode;
 
-    abstract public function options(): array;
+    abstract public function icon(): string;
+
+    public function options(): array
+    {
+        $controls = array_merge(
+            $this->settingsConfig(),
+            $this->styleConfig(),
+            $this->globalConfig(),
+        );
+        $groups = [ // order is intentional
+            'design' => esc_html_x('Design', 'admin-text', 'site-reviews'),
+            'general' => esc_html_x('General', 'admin-text', 'site-reviews'),
+            'schema' => esc_html_x('Schema', 'admin-text', 'site-reviews'),
+            'display' => esc_html_x('Display', 'admin-text', 'site-reviews'),
+            'filters' => esc_html_x('Filters', 'admin-text', 'site-reviews'),
+            'hide' => esc_html_x('Hide', 'admin-text', 'site-reviews'),
+            'text' => esc_html_x('Text', 'admin-text', 'site-reviews'),
+            'advanced' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
+        ];
+        $options = [];
+        foreach ($controls as $name => $args) {
+            $control = $this->transformControl($name, $args);
+            $group = $control['group'] ?? 'general';
+            $groupHeading = $groups[$group] ?? ucfirst($group);
+            if ('select' === $control['type'] && isset($control['options']) && empty($control['options'])) {
+                continue;
+            }
+            if (!array_key_exists($group, $options)) {
+                $options[$group] = [
+                    'collapsed' => true,
+                    'heading' => $groupHeading,
+                    'options' => [],
+                    'type' => 'group',
+                ];
+            }
+            $options[$group]['options'][$control['name']] = $control;
+        }
+        $keyOrder = array_keys($groups); // order results by $groups order
+        uksort($options, fn ($a, $b) => array_search($a, $keyOrder) <=> array_search($b, $keyOrder));
+        return $options;
+    }
 
     /**
      * Override the "add_ux_builder_shortcode" data with
@@ -20,7 +60,6 @@ abstract class FlatsomeShortcode
         add_action('ux_builder_setup', function () {
             add_ux_builder_shortcode($this->shortcodeInstance()->tag, [
                 'category' => glsr()->name,
-                // 'inline' => true,
                 'name' => $this->shortcodeInstance()->name,
                 'options' => $this->options(),
                 'thumbnail' => $this->icon(),
@@ -29,37 +68,40 @@ abstract class FlatsomeShortcode
         });
     }
 
-    protected function hideOptions(): array
+    /**
+     * Disabled visibility for now because Flatsome is simply a fancy shortcode
+     * wrapper and it doesn't look possible to intercept the shortcode render
+     * as from Flatsome.
+     */
+    protected function globalConfig(): array
     {
-        return [
-            'hide' => [
-                'type' => 'select',
-                'heading' => esc_html_x('Hide Fields', 'admin-text', 'site-reviews'),
-                'description' => esc_html_x('Flatsome UX Builder does not support multiple checkboxes here so instead please use the dropdown to select fields that you want to hide.', 'admin-text', 'site-reviews'),
-                'full_width' => true,
-                'config' => [
-                    'multiple' => true,
-                    'options' => $this->shortcodeInstance()->options('hide'),
-                    'placeholder' => esc_html_x('Select...', 'admin-text', 'site-reviews'),
-                    'sortable' => false,
-                ],
-            ],
-        ];
+        $global = [];
+        // $visibility = get_template_directory().'/inc/builder/shortcodes/commons/visibility.php';
+        // if (file_exists($visibility)) {
+        //     $global['visibility'] = require $visibility;
+        //     $global['visibility']['group'] = 'advanced';
+        // }
+        return $global;
     }
 
-    abstract protected function icon(): string;
-
-    protected function typeOptions(): array
+    protected function settingsConfig(): array
     {
-        if ($options = $this->shortcodeInstance()->options('type')) {
-            return [
-                'type' => 'select',
-                'heading' => esc_html_x('Limit Reviews by Type', 'admin-text', 'site-reviews'),
-                'full_width' => true,
-                'default' => 'local',
-                'options' => $options,
-            ];
-        }
+        return $this->shortcodeInstance()->settings();
+    }
+
+    protected function styleConfig(): array
+    {
         return [];
+    }
+
+    protected function transformControl(string $name, array $args): array
+    {
+        $control = glsr(ControlDefaults::class)->merge(
+            wp_parse_args(compact('name'), $args)
+        );
+        if ('hide' === $name) {
+            $control['description'] = esc_html_x('Flatsome does not support multiple checkboxes here so use the dropdown to select fields that you want to hide.', 'admin-text', 'site-reviews');
+        }
+        return $control;
     }
 }
