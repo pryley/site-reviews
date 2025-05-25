@@ -17,83 +17,63 @@ class VcSiteReviewsSummary extends VcShortcode
         return glsr()->url('assets/images/icons/wpbakery/icon-summary.svg');
     }
 
-    public static function vcShortcodeSettings(): array
+    protected static function vcStyleConfig(): array
     {
         return [
-            'assigned_posts' => [
-                'type' => 'autocomplete',
-                'heading' => esc_html_x('Limit Reviews by Assigned Pages', 'admin-text', 'site-reviews'),
-                'param_name' => 'assigned_posts',
-                'settings' => [
-                    'multiple' => true,
-                    'sortable' => true,
-                ],
-            ],
-            'assigned_terms' => [
-                'type' => 'autocomplete',
-                'heading' => esc_html_x('Limit Reviews by Assigned Categories', 'admin-text', 'site-reviews'),
-                'param_name' => 'assigned_terms',
-                'settings' => [
-                    'multiple' => true,
-                    'sortable' => true,
-                ],
-            ],
-            'assigned_users' => [
-                'type' => 'autocomplete',
-                'heading' => esc_html_x('Limit Reviews by Assigned Users', 'admin-text', 'site-reviews'),
-                'param_name' => 'assigned_users',
-                'settings' => [
-                    'multiple' => true,
-                    'sortable' => true,
-                ],
-            ],
-            'type' => static::vcTypeOptions(),
-            'terms' => [
-                'type' => 'dropdown',
-                'heading' => esc_html_x('Limit Reviews by Accepted Terms', 'admin-text', 'site-reviews'),
-                'param_name' => 'terms',
-                'std' => '',
-                'value' => array_flip(static::vcShortcode()->options('terms', [
-                    'placeholder' => _x('Select Terms...', 'admin-text', 'site-reviews'),
-                ])),
-            ],
-            'rating' => [
-                'type' => 'glsr_type_range',
-                'heading' => esc_html_x('Minimum Rating', 'admin-text', 'site-reviews'),
-                'max' => Rating::max(),
-                'min' => max(1, Rating::min()),
-                'param_name' => 'rating',
-                'std' => max(1, Rating::min()),
-            ],
-            'schema' => [
-                'type' => 'checkbox',
-                'heading' => esc_html_x('Enable the schema?', 'admin-text', 'site-reviews'),
-                'description' => esc_html_x('The schema should only be enabled once on your page.', 'admin-text', 'site-reviews'),
-                'param_name' => 'schema',
-                'value' => [
-                    esc_html_x('Yes', 'admin-text', 'site-reviews') => 'true',
-                ],
-            ],
-            'hide' => [
-                'type' => 'checkbox',
-                'heading' => esc_html__('Hide Options', 'site-reviews'),
-                'param_name' => 'hide',
-                'value' => array_flip(static::vcShortcode()->options('hide')),
-            ],
-            'id' => [
-                'type' => 'textfield',
-                'heading' => esc_html_x('Custom ID', 'admin-text', 'site-reviews'),
-                'description' => esc_html_x('This should be a unique value.', 'admin-text', 'site-reviews'),
-                'param_name' => 'id',
-                'group' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
-            ],
-            'class' => [
-                'type' => 'textfield',
-                'heading' => esc_html_x('Additional CSS classes', 'admin-text', 'site-reviews'),
-                'description' => esc_html_x('Separate multiple classes with spaces.', 'admin-text', 'site-reviews'),
-                'param_name' => 'class',
-                'group' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
-            ],
+            // 'style_preset' => [
+            //     'group' => 'design',
+            //     'heading' => esc_html_x('Style', 'admin-text', 'site-reviews'),
+            //     'options' => [
+            //         '1' => esc_html_x('Style 1', 'admin-text', 'site-reviews'),
+            //         '2' => esc_html_x('Style 2', 'admin-text', 'site-reviews'),
+            //         '3' => esc_html_x('Style 3', 'admin-text', 'site-reviews'),
+            //     ],
+            //     'placeholder' => esc_html_x('Default', 'admin-text', 'site-reviews'),
+            //     'prefix_class' => 'is-style-',
+            //     'std' => '',
+            //     'type' => 'dropdown',
+            // ],
+            // 'style_align' => [
+            //     'group' => 'design',
+            //     'heading' => esc_html_x('Alignment', 'admin-text', 'site-reviews'),
+            //     'options' => [
+            //         'left' => esc_html_x('Start', 'admin-text', 'site-reviews'),
+            //         'center' => esc_html_x('Center', 'admin-text', 'site-reviews'),
+            //         'right' => esc_html_x('End', 'admin-text', 'site-reviews'),
+            //     ],
+            //     'std' => 'left',
+            //     'type' => 'dropdown',
+            // ],
+            // 'style_max_width' => [
+            //     'group' => 'design',
+            //     'heading' => esc_html_x('Max Width', 'admin-text', 'site-reviews'),
+            //     'type' => 'textfield',
+            // ],
+            // 'style_rating_color' => [
+            //     'group' => 'design',
+            //     'heading' => esc_html_x('Star Color', 'admin-text', 'site-reviews'),
+            //     'type' => 'colorpicker',
+            // ],
+            // 'style_rating_size' => [
+            //     'group' => 'design',
+            //     'heading' => esc_html_x('Star Size', 'admin-text', 'site-reviews'),
+            //     'type' => 'textfield',
+            // ],
+            // 'style_bar_color' => [
+            //     'group' => 'design',
+            //     'heading' => esc_html_x('Bar Color', 'admin-text', 'site-reviews'),
+            //     'type' => 'colorpicker',
+            // ],
+            // 'style_bar_gap' => [
+            //     'group' => 'design',
+            //     'heading' => esc_html_x('Bar Gap', 'admin-text', 'site-reviews'),
+            //     'type' => 'textfield',
+            // ],
+            // 'style_bar_size' => [
+            //     'group' => 'design',
+            //     'heading' => esc_html_x('Bar Size', 'admin-text', 'site-reviews'),
+            //     'type' => 'textfield',
+            // ],
         ];
     }
 }
