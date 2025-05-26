@@ -40,17 +40,6 @@ class Controller extends AbstractController
     }
 
     /**
-     * @filter fusion_builder_icon_map
-     */
-    public function filterBuilderIconMap(array $iconMap): array
-    {
-        if (!isset($iconMap['advanced'])) {
-            $iconMap['advanced'] = 'fusiona-cog';
-        }
-        return $iconMap;
-    }
-
-    /**
      * @filter site-reviews/defaults/style-classes/defaults
      */
     public function filterButtonClass(array $defaults): array
@@ -114,23 +103,20 @@ class Controller extends AbstractController
     }
 
     /**
-     * @action wp_ajax_glsr_fusion_get_query
-     */
-    public function runGetQuery(): void
-    {
-        check_ajax_referer('fusion_load_nonce', 'fusion_load_nonce');
-    }
-
-    /**
      * @action wp_ajax_glsr_fusion_search_query
      */
     public function runSearchQuery(): void
     {
-        check_ajax_referer('fusion_load_nonce', 'fusion_load_nonce');
+        $reqMethod = 'POST' === filter_input(INPUT_SERVER, 'REQUEST_METHOD') ? \INPUT_POST : \INPUT_GET;
+        if (filter_input($reqMethod, 'fusion_load_nonce')) {
+            check_ajax_referer('fusion_load_nonce', 'fusion_load_nonce');
+        } else {
+            check_ajax_referer('fusion-page-options-nonce', 'fusion_po_nonce');
+        }
         $data = array_fill_keys(['labels', 'results'], []);
-        $params = filter_input(INPUT_POST, 'params', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
-        $labels = filter_input(INPUT_POST, 'labels', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
-        $search = filter_input(INPUT_POST, 'search');
+        $params = filter_input($reqMethod, 'params', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        $labels = filter_input($reqMethod, 'labels', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        $search = filter_input($reqMethod, 'search');
         $option = $params['option'] ?? '';
         if (!is_null($search)) {
             $params['search'] = $search;

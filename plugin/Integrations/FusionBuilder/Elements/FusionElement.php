@@ -9,23 +9,22 @@ abstract class FusionElement extends \Fusion_Element
 {
     use IntegrationShortcode;
 
-    public static function elementParameters(): array
+    public static function elementParameters(array $params): array
     {
-        $controls = array_merge(static::settingsConfig(), static::styleConfig());
+        $controls = array_merge($params, static::styleConfig());
         $groups = [ // order is intentional
             'design' => esc_html_x('Design', 'admin-text', 'site-reviews'),
             'general' => esc_html_x('General', 'admin-text', 'site-reviews'),
-            'advanced' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
         ];
         $options = [];
         foreach ($controls as $name => $args) {
-            $transformer = new Transformer($name, $args);
-            $control = $transformer->control();
+            $transform = new Transformer($name, $args);
+            $control = $transform->control();
             if ('select' === $control['type'] && empty($control['value'])) {
                 continue;
             }
             $control['group'] = $groups[$control['group']] ?? ucfirst($control['group']);
-            $options[] = $control;
+            $options[$name] = $control;
         }
         return $options;
     }
@@ -39,27 +38,17 @@ abstract class FusionElement extends \Fusion_Element
             return;
         }
         $instance = glsr(static::shortcodeClass());
-        $parameters = static::elementParameters();
+        $parameters = static::elementParameters($instance->settings());
         $parameters = glsr()->filterArray("fusion-builder/controls/{$instance->tag}", $parameters);
         fusion_builder_map(fusion_builder_frontend_data(static::class, [
-            'name' => $instance->name,
-            'shortcode' => $instance->tag,
             'icon' => static::shortcodeIcon(),
+            'name' => $instance->name,
             'params' => $parameters,
-            // 'callback' => [
-            //     'action' => glsr()->prefix.'fusion_get_query',
-            //     'ajax' => true,
-            //     'function' => 'fusion_ajax',
-            // ],
+            'shortcode' => $instance->tag,
         ]));
     }
 
     abstract protected static function shortcodeIcon(): string;
-
-    protected static function settingsConfig(): array
-    {
-        return glsr(static::shortcodeClass())->settings();
-    }
 
     protected static function styleConfig(): array
     {

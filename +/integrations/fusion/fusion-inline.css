@@ -16,6 +16,7 @@
     mask-position: center;
     mask-repeat: no-repeat;
     mask-size: 1em;
+    min-width: 1em;
 }
 .fusion-glsr-form::before {
     mask-image: url(:icon-1);
@@ -28,4 +29,15 @@
 }
 .fusion-glsr-summary::before {
     mask-image: url(:icon-4);
+}
+ul[data-element^="site_review"] .fusion-builder-option.info:has(h3) {
+    flex-wrap: wrap;
+    h3 {
+        font-size: 14px;
+        text-transform: none;
+        letter-spacing: normal;
+    }
+    .fusion-option-info {
+        padding-bottom: 0 !important;
+    }
 }

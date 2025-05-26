@@ -39,19 +39,20 @@ class Transformer
 
     public function transformCheckbox(): void
     {
+        if ('hide' === $this->name) {
+            $this->args['heading'] = esc_html_x('Hide', 'admin-text', 'site-reviews');
+        }
         if (!empty($this->args['options'])) {
-            if ('hide' === $this->name) {
-                $this->args['heading'] = esc_html_x('Hide', 'admin-text', 'site-reviews');
-            }
             $placeholder = $this->args['placeholder'] ?? esc_html_x('Select...', 'admin-text', 'site-reviews');
-            $this->args['placeholder'] = $placeholder;
+            $this->args['placeholder_text'] = $placeholder;
             $this->args['type'] = 'multiple_select';
             $this->args['value'] = $this->args['options'];
         } else {
+            $this->args['default'] = 0;
             $this->args['type'] = 'radio_button_set';
             $this->args['value'] = [
                 0 => esc_html_x('No', 'admin-text', 'site-reviews'),
-                1 => esc_html_x('Yes', 'admin-text', 'site-reviews'),
+                'yes' => esc_html_x('Yes', 'admin-text', 'site-reviews'), // because the dependency option doesn't work well with numerical values
             ];
         }
     }
@@ -63,6 +64,21 @@ class Transformer
 
     public function transformSelect(): void
     {
+        if ('assigned_posts' === $this->name) {
+            $this->args['placeholder'] = esc_html_x('Search Pages...', 'admin-text', 'site-reviews');
+        }
+        if ('assigned_terms' === $this->name) {
+            $this->args['placeholder'] = esc_html_x('Search Categories...', 'admin-text', 'site-reviews');
+        }
+        if ('assigned_users' === $this->name) {
+            $this->args['placeholder'] = esc_html_x('Search Users...', 'admin-text', 'site-reviews');
+        }
+        if ('author' === $this->name) {
+            $this->args['placeholder'] = esc_html_x('Search User...', 'admin-text', 'site-reviews');
+        }
+        if ('post_id' === $this->name) {
+            $this->args['placeholder'] = esc_html_x('Search Review...', 'admin-text', 'site-reviews');
+        }
         if (!empty($this->args['options'])) {
             $options = $this->args['options'];
             if (!array_key_exists('', $options)) {
@@ -76,7 +92,24 @@ class Transformer
                 'option' => $this->name,
                 'shortcode' => $this->shortcode,
             ];
+            $this->args['placeholder'] ??= esc_html_x('Search...', 'admin-text', 'site-reviews');
             $this->args['type'] = 'ajax_select';
+            if (!($this->args['multiple'] ?? false)) {
+                $this->args['max_input'] = 1;
+            }
+        }
+    }
+
+    public function transformText(): void
+    {
+        $this->args['type'] = 'textfield';
+        if ('id' === $this->name) {
+            $this->args['description'] = esc_html_x('Add an ID to the wrapping HTML element.', 'admin-text', 'site-reviews');
+            $this->args['heading'] = esc_html_x('Custom CSS ID', 'admin-text', 'site-reviews');
+        }
+        if ('class' === $this->name) {
+            $this->args['description'] = esc_html_x('Add a class to the wrapping HTML element.', 'admin-text', 'site-reviews');
+            $this->args['heading'] = esc_html_x('Custom CSS Class', 'admin-text', 'site-reviews');
         }
     }
 }

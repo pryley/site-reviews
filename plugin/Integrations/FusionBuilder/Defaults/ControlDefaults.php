@@ -12,7 +12,7 @@ class ControlDefaults extends DefaultsAbstract
      */
     public array $enums = [
         'group' => [
-            'advanced', 'design', 'general',
+            'design', 'general',
         ],
     ];
 
@@ -26,14 +26,6 @@ class ControlDefaults extends DefaultsAbstract
         'name' => 'param_name',
     ];
 
-    /**
-     * The values that should be sanitized.
-     * This is done after $casts and before $enums.
-     */
-    public array $sanitize = [
-        'description' => 'text', // Flatsome does not support HTML in descriptions
-    ];
-
     protected function defaults(): array
     {
         return [
@@ -41,19 +33,5 @@ class ControlDefaults extends DefaultsAbstract
             'label' => '',
             'type' => 'textfield',
         ];
-    }
-
-    /**
-     * Finalize provided values, this always runs last.
-     */
-    protected function finalize(array $values = []): array
-    {
-        $types = [
-            'text' => 'textfield',
-        ];
-        if (array_key_exists($values['type'], $types)) {
-            $values['type'] = $types[$values['type']];
-        }
-        return $values;
     }
 }

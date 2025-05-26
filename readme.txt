@@ -205,7 +205,6 @@ This update requires a minimum of PHP 7.4 and WordPress 6.5. There are a few pot
 = 8.0.0 (2025-05-??) =
 
 - 💅🏻 Site Reviews has a fresh coat of paint!
-- Added [Avada Fusion Builder](https://avada.com/feature/live-visual-builder/) integration
 - Added [Bricks](https://bricksbuilder.io/) integration
 - Added [Flatsome Page Builder](https://themeforest.net/item/flatsome-multipurpose-responsive-woocommerce-theme/5484319) integration
 - Added [ProfilePress](https://profilepress.com/) integration
@@ -228,8 +227,10 @@ This update requires a minimum of PHP 7.4 and WordPress 6.5. There are a few pot
 - Fixed the review form signature encryption
 - Improved CSS of plugin styles for some themes
 - Improved MIME type detection
+- Improved the Avada Fusion Builder integration
+- Improved the Elementor integration
 - Improved the WooCommerce integration
-- Updated the Gutenberg blocks to api v3
+- Updated the Gutenberg blocks to API v3
 - Updated the privacy policy example to include a section on geolocation
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).
