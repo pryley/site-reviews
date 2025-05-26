@@ -1,0 +1,31 @@
+.fusion-builder-element[class*="site_review"]::before {
+    background-color: currentColor;
+    content: '';
+    display: block;
+    height: 24px;
+    mask-image: url(:icon-0);
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 24px;
+}
+[class*="fusion-glsr-"]::before {
+    background-color: currentColor;
+    content: "\e95d";
+    display: block;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: 1em;
+}
+.fusion-glsr-form::before {
+    mask-image: url(:icon-1);
+}
+.fusion-glsr-review::before {
+    mask-image: url(:icon-2);
+}
+.fusion-glsr-reviews::before {
+    mask-image: url(:icon-3);
+}
+.fusion-glsr-summary::before {
+    mask-image: url(:icon-4);
+}

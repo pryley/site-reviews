@@ -15,6 +15,7 @@ class Migrate_8_0_0 implements MigrateContract
     public function run(): bool
     {
         $this->migrateElementor();
+        $this->migrateFusionBuilder();
         return $this->migrateDatabase();
     }
 
@@ -86,6 +87,48 @@ class Migrate_8_0_0 implements MigrateContract
             // We need the `wp_slash` because `update_post_meta` does `wp_unslash`
             $json = wp_slash(wp_json_encode($data)); // @phpstan-ignore-line
             update_metadata('post', $postId, '_elementor_data', $json);
+        }
+    }
+
+    public function migrateFusionBuilder(): void
+    {
+        if (!defined('FUSION_BUILDER_VERSION')) {
+            return;
+        }
+        $sql = glsr(Query::class)->sql("
+            SELECT ID, post_content
+            FROM table|posts
+            WHERE 1=1
+            AND post_type != 'revision'
+            AND post_content LIKE %s
+            AND (post_content LIKE %s OR post_content LIKE %s)
+        ", '%[fusion_builder_container%', '%assigned_posts_custom=%', '%assigned_users_custom=%');
+        $posts = glsr(Database::class)->dbGetResults($sql);
+        if (empty($posts)) {
+            return;
+        }
+        foreach ($posts as $post) {
+            $pattern = '/assigned_(posts|users)="([^"]*)"\s*assigned_\1_custom="([^"]*)"/';
+            $replace = function (array $matches): string {
+                $type = $matches[1];
+                $custom = explode(',', (string) $matches[3]);
+                $values = explode(',', (string) $matches[2]);
+                $values = array_filter($values, fn ($value) => 'custom' !== trim($value));
+                $values = array_filter(array_merge($custom, $values));
+                $values = implode(',', $values);
+                return sprintf('assigned_%s="%s"', $type, $values);
+            };
+            $count = 0;
+            $content = preg_replace_callback($pattern, $replace, $post->post_content, -1, $count);
+            if ($count > 0) {
+                $result = wp_update_post([
+                    'ID' => $post->ID,
+                    'post_content' => $content,
+                ], true);
+                if (is_wp_error($result)) {
+                    glsr_log()->error("Failed to migrate Fusion Builder Post {$post->ID}: {$result->get_error_message()}");
+                }
+            }
         }
     }
 

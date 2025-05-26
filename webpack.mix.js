@@ -73,6 +73,7 @@ mix
   .postCss('+/integrations/divi/divi-woo-inline.css', 'assets/styles/integrations')
   .postCss('+/integrations/bricks/bricks-inline.css', 'assets/styles/integrations')
   .postCss('+/integrations/flatsome/flatsome-inline.css', 'assets/styles/integrations')
+  .postCss('+/integrations/fusion/fusion-inline.css', 'assets/styles/integrations')
   .postCss('+/integrations/wpbakery/wpbakery-inline.css', 'assets/styles/integrations')
   .postCss('+/styles/admin.css', 'assets/styles/admin')
   .postCss('+/styles/deactivate-plugin.css', 'assets/styles')

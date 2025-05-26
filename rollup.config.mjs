@@ -114,6 +114,7 @@ export default [
   // js('integrations/bricks/bricks-inline', 'integrations'),
   js('integrations/elementor/elementor-editor', 'integrations'),
   js('integrations/elementor/elementor-frontend', 'integrations'),
+  js('integrations/fusion/fusion-inline', 'integrations'),
   // js('integrations/flatsome/flatsome-inline', 'integrations'),
   // js('integrations/gamipress/gamipress', 'integrations'),
   // js('integrations/wpbakery/wpbakery-editor', 'integrations'),

@@ -1,0 +1,1 @@
+!function(){"use strict";"undefined"!=typeof jQuery&&jQuery(window).on("load fusion-element-render-site_review fusion-element-render-site_reviews fusion-element-render-site_reviews_form fusion-element-render-site_reviews_summary",(()=>{jQuery(".fusion-builder-live").length&&GLSR_init()}))}();

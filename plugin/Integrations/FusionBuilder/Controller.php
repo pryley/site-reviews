@@ -3,42 +3,51 @@
 namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
+use GeminiLabs\SiteReviews\Database\ShortcodeOptionManager;
 use GeminiLabs\SiteReviews\Helpers\Svg;
+use GeminiLabs\SiteReviews\Integrations\FusionBuilder\Elements\FusionSiteReview;
+use GeminiLabs\SiteReviews\Integrations\FusionBuilder\Elements\FusionSiteReviews;
+use GeminiLabs\SiteReviews\Integrations\FusionBuilder\Elements\FusionSiteReviewsForm;
+use GeminiLabs\SiteReviews\Integrations\FusionBuilder\Elements\FusionSiteReviewsSummary;
 
 class Controller extends AbstractController
 {
     /**
+     * @action fusion_builder_admin_scripts_hook;
      * @action fusion_builder_enqueue_live_scripts
      */
     public function enqueueBuilderStyles(): void
     {
-        $iconForm = Svg::encoded('assets/images/icons/fusion/icon-form.svg');
-        $iconReview = Svg::encoded('assets/images/icons/fusion/icon-review.svg');
-        $iconReviews = Svg::encoded('assets/images/icons/fusion/icon-reviews.svg');
-        $iconSummary = Svg::encoded('assets/images/icons/fusion/icon-summary.svg');
-        $css = "
-            [class*=\"fusion-glsr-\"]::before {
-                background-color: currentColor;
-                content: '.';
-                display: block;
-                mask-position: center;
-                mask-repeat: no-repeat;
-                mask-size: 36px;
-            }
-            .fusion-glsr-form::before {
-                mask-image: url(\"{$iconForm}\");
-            }
-            .fusion-glsr-review::before {
-                mask-image: url(\"{$iconReview}\");
-            }
-            .fusion-glsr-reviews::before {
-                mask-image: url(\"{$iconReviews}\");
-            }
-            .fusion-glsr-summary::before {
-                mask-image: url(\"{$iconSummary}\");
-            }
-        ";
+        $inlineFile = glsr()->path('assets/styles/integrations/fusion-inline.css');
+        if (!file_exists($inlineFile)) {
+            glsr_log()->error("Inline stylesheet is missing: {$inlineFile}");
+            return;
+        }
+        $icons = [
+            ':icon-0' => Svg::encoded('assets/images/icon-static.svg'),
+            ':icon-1' => Svg::encoded('assets/images/icons/fusion/icon-form.svg'),
+            ':icon-2' => Svg::encoded('assets/images/icons/fusion/icon-review.svg'),
+            ':icon-3' => Svg::encoded('assets/images/icons/fusion/icon-reviews.svg'),
+            ':icon-4' => Svg::encoded('assets/images/icons/fusion/icon-summary.svg'),
+        ];
+        $css = str_replace(
+            array_keys($icons),
+            array_values($icons),
+            file_get_contents($inlineFile)
+        );
+        wp_add_inline_style('fusion_builder_css', $css);
         wp_add_inline_style('fusion-builder-frame-builder-css', $css);
+    }
+
+    /**
+     * @filter fusion_builder_icon_map
+     */
+    public function filterBuilderIconMap(array $iconMap): array
+    {
+        if (!isset($iconMap['advanced'])) {
+            $iconMap['advanced'] = 'fusiona-cog';
+        }
+        return $iconMap;
     }
 
     /**
@@ -61,12 +70,23 @@ class Controller extends AbstractController
      */
     public function filterPublicInlineScript(string $script): string
     {
-        $script .= '"undefined"!==typeof jQuery&&(';
-        $script .= 'jQuery(window).on("load fusion-element-render-site_review fusion-element-render-site_reviews fusion-element-render-site_reviews_form fusion-element-render-site_reviews_summary",function(){';
-        $script .= 'jQuery(".fusion-builder-live").length&&(GLSR.Event.trigger("site-reviews/init"))';
-        $script .= '})';
-        $script .= ');';
-        return $script;
+        $inlineFile = glsr()->path('assets/scripts/integrations/fusion-inline.js');
+        if (!file_exists($inlineFile)) {
+            glsr_log()->error("Inline javascript is missing: {$inlineFile}");
+            return $script;
+        }
+        return $script.file_get_contents($inlineFile);
+    }
+
+    /**
+     * @filter site-reviews/register/widgets
+     */
+    public function filterRegisterWidgets(bool $bool): bool
+    {
+        if (function_exists('is_fusion_editor') && !is_fusion_editor()) {
+            return false;
+        }
+        return $bool;
     }
 
     /**
@@ -87,11 +107,44 @@ class Controller extends AbstractController
      */
     public function registerFusionElements(): void
     {
-        if (class_exists('Fusion_Element')) {
-            FusionSiteReview::registerElement();
-            FusionSiteReviews::registerElement();
-            FusionSiteReviewsForm::registerElement();
-            FusionSiteReviewsSummary::registerElement();
+        FusionSiteReview::registerElement();
+        FusionSiteReviews::registerElement();
+        FusionSiteReviewsForm::registerElement();
+        FusionSiteReviewsSummary::registerElement();
+    }
+
+    /**
+     * @action wp_ajax_glsr_fusion_get_query
+     */
+    public function runGetQuery(): void
+    {
+        check_ajax_referer('fusion_load_nonce', 'fusion_load_nonce');
+    }
+
+    /**
+     * @action wp_ajax_glsr_fusion_search_query
+     */
+    public function runSearchQuery(): void
+    {
+        check_ajax_referer('fusion_load_nonce', 'fusion_load_nonce');
+        $data = array_fill_keys(['labels', 'results'], []);
+        $params = filter_input(INPUT_POST, 'params', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        $labels = filter_input(INPUT_POST, 'labels', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        $search = filter_input(INPUT_POST, 'search');
+        $option = $params['option'] ?? '';
+        if (!is_null($search)) {
+            $params['search'] = $search;
+            $items = call_user_func([glsr(ShortcodeOptionManager::class), $option], $params);
+            $callback = fn ($id, $text) => compact('id', 'text');
+            $data['results'] = array_map($callback, array_keys($items), array_values($items));
+        } elseif (!is_null($labels)) {
+            $params['include'] = $labels;
+            $items = call_user_func([glsr(ShortcodeOptionManager::class), $option], $params);
+            $items = array_filter($items, fn ($id) => in_array($id, $labels), \ARRAY_FILTER_USE_KEY);
+            $callback = fn ($id, $text) => compact('id', 'text');
+            $data['labels'] = array_map($callback, array_keys($items), array_values($items));
         }
+        echo wp_json_encode($data);
+        wp_die();
     }
 }

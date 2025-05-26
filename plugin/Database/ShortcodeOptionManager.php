@@ -21,23 +21,29 @@ class ShortcodeOptionManager
      */
     public function __call(string $name, array $arguments)
     {
+        $name = Str::snakeCase($name);
         $shortcode = array_shift($arguments);
         if (is_string($shortcode)) {
             $shortcode = glsr()->shortcode($shortcode);
         }
         if ($shortcode instanceof ShortcodeContract) {
             $args = [
-                'option' => Str::snakeCase($name),
+                'option' => $name,
                 'shortcode' => $shortcode->tag,
             ];
         } else {
             $args = Arr::consolidate($shortcode);
         }
         $args = glsr()->args(glsr(ShortcodeApiFetchDefaults::class)->merge($args));
-        $method = Helper::buildMethodName($name);
-        $results = method_exists($this, $method)
-            ? call_user_func([$this, $method], $args)
-            : [];
+        try {
+            $method = Helper::buildMethodName($name);
+            $reflection = new \ReflectionMethod($this, $method);
+            $results = $reflection->isProtected()
+                ? call_user_func([$this, $method], $args)
+                : [];
+        } catch (\ReflectionException $e) {
+            $results = [];
+        }
         $results = glsr()->filterArray("shortcode/options/{$name}", $results, $args);
         if (!empty($results) && !empty($args->placeholder)) {
             $results = Arr::prepend($results, esc_attr($args->placeholder), '');
