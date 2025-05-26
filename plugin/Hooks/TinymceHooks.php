@@ -8,6 +8,9 @@ class TinymceHooks extends AbstractHooks
 {
     public function run(): void
     {
+        if (!glsr()->filterBool('register/tinymce', true)) {
+            return;
+        }
         $this->hook(TinymceController::class, [
             ['filterAdminVariables', 'site-reviews/enqueue/admin/localize'],
             ['mceShortcodeAjax', 'site-reviews/route/ajax/mce-shortcode'],

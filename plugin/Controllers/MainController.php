@@ -170,6 +170,8 @@ class MainController extends AbstractController
      */
     public function registerWidgets(): void
     {
-        $this->execute(new RegisterWidgets());
+        if (glsr()->filterBool('register/widgets', true)) {
+            $this->execute(new RegisterWidgets());
+        }
     }
 }

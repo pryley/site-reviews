@@ -184,6 +184,8 @@
     site-reviews/rating/round-by                                (int $roundBy): int
     site-reviews/ratings                                        (array $ratings, array $args): array
     site-reviews/ratings/grouped                                (array $ratings, string $metaGroup, array $args): array
+    site-reviews/register/tinymce                               (bool $register): bool
+    site-reviews/register/widgets                               (bool $register): bool
     site-reviews/render/view                                    (string $view, array $data): string
     site-reviews/rendered/field                                 (string $field, string $fieldType, array $field): string
     site-reviews/rendered/field/classes                         (array $classes, Contracts\FieldContract $field): array
