@@ -12,6 +12,7 @@ class ShortcodeApiFetchDefaults extends DefaultsAbstract
      */
     public array $casts = [
         'include' => 'array',
+        'per_page' => 'int',
     ];
 
     /**
@@ -31,6 +32,7 @@ class ShortcodeApiFetchDefaults extends DefaultsAbstract
         return [
             'include' => '',
             'option' => '',
+            'per_page' => 50,
             'placeholder' => '',
             'search' => '',
             'shortcode' => '',

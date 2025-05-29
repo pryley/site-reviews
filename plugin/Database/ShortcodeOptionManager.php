@@ -59,7 +59,7 @@ class ShortcodeOptionManager
             $results += glsr(Database::class)->posts([
                 // @see MainController::parseAssignedPostTypesInQuery
                 'post_type' => glsr()->prefix.'assigned_posts',
-                'posts_per_page' => 50,
+                'posts_per_page' => $args->per_page,
                 's' => $args->search,
             ]);
         }
@@ -77,16 +77,17 @@ class ShortcodeOptionManager
 
     protected function assignedTerms(Arguments $args): array
     {
-        $results = [];
+        $query = [
+            'number' => $args->per_page,
+        ];
         if (!empty($args->search)) {
-            $results += glsr(Database::class)->terms([
-                'number' => 50,
-                'search' => $args->search,
-            ]);
+            $query['search'] = $args->search;
         }
-        if (!empty($args->include)) {
+        $results = glsr(Database::class)->terms($query);
+        $include = array_filter($args->include, fn ($id) => !array_key_exists($id, $results));
+        if (!empty($include)) {
             $results += glsr(Database::class)->terms([
-                'term_taxonomy_id' => $args->include,
+                'term_taxonomy_id' => $include,
             ]);
         }
         return $results;
@@ -94,14 +95,14 @@ class ShortcodeOptionManager
 
     protected function assignedUsers(Arguments $args): array
     {
-        $results = [];
+        $query = [
+            'number' => $args->per_page,
+        ];
         if (!empty($args->search)
             && !in_array($args->search, ['author_id', 'profile_id', 'user_id'])) {
-            $results += glsr(Database::class)->users([
-                'number' => 50,
-                'search_wild' => $args->search,
-            ]);
+            $query['search_wild'] = $args->search;
         }
+        $results = glsr(Database::class)->users($query);
         $include = array_filter($args->include, fn ($id) => !array_key_exists($id, $results));
         if (!empty($include)) {
             $results += glsr(Database::class)->users([
@@ -117,13 +118,13 @@ class ShortcodeOptionManager
 
     protected function author(Arguments $args): array
     {
-        $results = [];
+        $query = [
+            'number' => $args->per_page,
+        ];
         if (!empty($args->search) && !in_array($args->search, ['user_id'])) {
-            $results += glsr(Database::class)->users([
-                'number' => 50,
-                'search_wild' => $args->search,
-            ]);
+            $query['search_wild'] = $args->search;
         }
+        $results = glsr(Database::class)->users($query);
         $include = array_filter($args->include, fn ($id) => !array_key_exists($id, $results));
         if (!empty($include)) {
             $results += glsr(Database::class)->users([
@@ -159,7 +160,7 @@ class ShortcodeOptionManager
         if (!empty($args->search)) {
             $results += glsr(Database::class)->posts([
                 'post_type' => glsr()->post_type,
-                'posts_per_page' => 50,
+                'posts_per_page' => $args->per_page,
                 's' => $args->search,
             ]);
         }
