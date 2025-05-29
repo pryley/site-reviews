@@ -45,6 +45,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                             '<option value="minimal">Site Reviews (minimal)</option>'.
                         '</optgroup>'.
                         '<optgroup label="Plugins">'.
+                            '<option value="breakdance">Breakdance (v2)</option>'.
                             '<option value="contact_form_7">Contact Form 7 (v5)</option>'.
                             '<option value="elementor">Elementor Pro (v3)</option>'.
                             '<option value="ninja_forms">Ninja Forms (v3)</option>'.

@@ -1,0 +1,14 @@
+%%SELECTOR%% {
+  {{ macros.spacing_margin_y(design.spacing) }}
+  {{ macros.formContainer(design.container) }}
+
+  .glsr-field-subgroup {
+    --glsr-gap-subgroup: var(--bde-form-after-sublabel, 0);
+  }
+  .glsr-field-subgroup .breakdance-form-checkbox,
+  .glsr-field-subgroup .breakdance-form-radio {
+    margin-bottom: 0;
+    width: auto;
+  }
+}
+{{ macros.atomV1FormCss(design.form, '%%SELECTOR%%', breakpoint, globalSettings) }}
