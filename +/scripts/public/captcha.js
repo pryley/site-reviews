@@ -219,6 +219,7 @@ class Captcha {
             callback: (token) => (this.token = token),
             'error-callback': () => (this.captchaEl.dataset.error = 1), // site key is probably invalid
             'expired-callback': () => this.reset(),
+            language: GLSR.captcha.language,
             sitekey: GLSR.captcha.sitekey, // data-attributes are not working with the render fn
             theme: GLSR.captcha.theme, // data-attributes are not working with the render fn
         });

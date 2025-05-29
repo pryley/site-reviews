@@ -12,19 +12,14 @@ class TurnstileValidator extends CaptchaValidatorAbstract
      */
     public function config(): array
     {
-        $language = $this->getLocale();
-        $urlParameters = array_filter([
-            'hl' => $language,
-            'render' => 'explicit',
-        ]);
         return glsr(CaptchaConfigDefaults::class)->merge([
             'class' => 'glsr-cf-turnstile',
-            'language' => $language,
+            'language' => $this->getLocale(),
             'sitekey' => $this->siteKey(),
             'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'turnstile',
             'urls' => [
-                'nomodule' => add_query_arg($urlParameters, 'https://challenges.cloudflare.com/turnstile/v0/api.js'),
+                'nomodule' => 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit',
             ],
         ]);
     }
