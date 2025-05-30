@@ -6,9 +6,9 @@ use GeminiLabs\SiteReviews\Controllers\UpdateController;
 
 class UpdateHooks extends AbstractHooks
 {
-    public function hasInit(): bool
+    public function levelInit(): ?int
     {
-        return true;
+        return 10;
     }
 
     /**

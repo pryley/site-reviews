@@ -6,13 +6,16 @@ use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 
 class Hooks extends IntegrationHooks
 {
-    public function hasPluginsLoaded(): bool
+    public function levelPluginsLoaded(): ?int
     {
-        return true;
+        return 5;
     }
 
     /**
-     * @action plugins_loaded:0
+     * The "breakdance_loaded" hook is triggered on plugins_loaded:10
+     * so we need to load hooks earlier than that.
+     * 
+     * @action plugins_loaded:5
      */
     public function onPluginsLoaded(): void
     {

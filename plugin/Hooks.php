@@ -48,9 +48,7 @@ class Hooks implements HooksContract
                 $reflect = new \ReflectionClass($hooks);
                 if ($reflect->isInstantiable()) {
                     glsr()->singleton($hooks);
-                    add_action('plugins_loaded', function () use ($hooks) {
-                        glsr($hooks)->run();
-                    }, 100); // run integrations late
+                    add_action('plugins_loaded', fn () => glsr($hooks)->run(), 100); // run integrations late
                     glsr($hooks)->runDeferred();
                 }
             } catch (\ReflectionException $e) {

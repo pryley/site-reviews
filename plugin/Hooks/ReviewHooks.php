@@ -7,13 +7,15 @@ use GeminiLabs\SiteReviews\Database\Tables;
 
 class ReviewHooks extends AbstractHooks
 {
-    public function hasPluginsLoaded(): bool
+    public function levelPluginsLoaded(): ?int
     {
-        return true;
+        return -10;
     }
 
     /**
      * MyISAM table fallback.
+     * 
+     * @action plugins_loaded:-10
      */
     public function onPluginsLoaded(): void
     {

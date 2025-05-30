@@ -33,16 +33,6 @@ abstract class AbstractHooks implements HooksContract
         $this->type = glsr()->post_type;
     }
 
-    public function hasInit(): bool
-    {
-        return false;
-    }
-
-    public function hasPluginsLoaded(): bool
-    {
-        return false;
-    }
-
     public function hook(string $classname, array $hooks): void
     {
         glsr()->singleton($classname); // make singleton
@@ -67,15 +57,25 @@ abstract class AbstractHooks implements HooksContract
         }
     }
 
+    public function levelInit(): ?int
+    {
+        return null;
+    }
+
+    public function levelPluginsLoaded(): ?int
+    {
+        return null;
+    }
+
     /**
-     * @action init:10
+     * @action init
      */
     public function onInit(): void
     {
     }
 
     /**
-     * @action plugins_loaded:0
+     * @action plugins_loaded
      */
     public function onPluginsLoaded(): void
     {
@@ -97,11 +97,11 @@ abstract class AbstractHooks implements HooksContract
 
     public function runDeferred(): void
     {
-        if ($this->hasInit()) {
-            add_action('init', [$this, 'onInit']);
+        if (null !== ($level = $this->levelInit())) {
+            add_action('init', [$this, 'onInit'], $level);
         }
-        if ($this->hasPluginsLoaded()) {
-            add_action('plugins_loaded', [$this, 'onPluginsLoaded'], -10);
+        if (null !== ($level = $this->levelPluginsLoaded())) {
+            add_action('plugins_loaded', [$this, 'onPluginsLoaded'], $level);
         }
     }
 }
