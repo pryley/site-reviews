@@ -85,6 +85,7 @@ Site Reviews is officially compatible with the following plugins:
 
 - [Akismet](https://wordpress.org/plugins/akismet/)
 - [Avada Fusion Builder](https://avada.com/)
+- [Breakdance](https://breakdance.com/)
 - [Bricks](https://bricksbuilder.io/)
 - [BuddyBoss](https://www.buddyboss.com/)
 - [BuddyPress](https://buddypress.org/)

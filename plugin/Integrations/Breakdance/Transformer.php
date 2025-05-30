@@ -18,10 +18,10 @@ class Transformer extends \ArrayObject
 
     public function __construct(array $config, string $shortcode = '')
     {
+        $this->shortcode = $shortcode; // this first!
         $this->alerts = $this->controlAlerts();
         $this->popouts = $this->controlPopouts();
         $this->sections = $this->controlSections();
-        $this->shortcode = $shortcode;
         parent::__construct($this->processConfig($config),
             \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS
         );
@@ -141,7 +141,7 @@ class Transformer extends \ArrayObject
                 'slug' => $slug,
                 'type' => 'text',
             ]);
-            $path = $this->pathPrefix($slug);
+            $path = $this->pathPrefix($args['group']);
             $method = Helper::buildMethodName('transform', $args['type']);
             if (method_exists($this, $method)) {
                 $control = call_user_func([$this, $method], $args);
