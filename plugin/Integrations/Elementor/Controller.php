@@ -217,14 +217,12 @@ class Controller extends AbstractController
                 mask-image: url(\"{$iconSummary}\");
             }
         ";
+        $css = preg_replace('/\s+/', ' ', $css);
         wp_add_inline_style('elementor-admin', $css);
         wp_add_inline_style('elementor-editor', $css);
-        wp_add_inline_style('elementor-frontend', $css."
-            [class*=\"eicon-glsr-\"]::before {
-                font-size: 28px;
-                margin: 0 auto;
-            }
-        ");
+        wp_add_inline_style('elementor-frontend',
+            $css."[class*=\"eicon-glsr-\"]::before{font-size:28px;margin:0 auto}"
+        );
     }
 
     /**
