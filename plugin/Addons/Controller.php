@@ -401,35 +401,6 @@ abstract class Controller extends AbstractController
         ]);
     }
 
-    /**
-     * @action plugins_loaded
-     */
-    public function runIntegrations(): void
-    {
-        $dir = $this->app()->path('plugin/Integrations');
-        if (!is_dir($dir)) {
-            return;
-        }
-        $iterator = new \DirectoryIterator($dir);
-        $namespace = (new \ReflectionClass($this->app()))->getNamespaceName();
-        foreach ($iterator as $fileinfo) {
-            if (!$fileinfo->isDir() || $fileinfo->isDot()) {
-                continue;
-            }
-            try {
-                $hooks = "{$namespace}\Integrations\\{$fileinfo->getBasename()}\Hooks";
-                $reflect = new \ReflectionClass($hooks);
-                if ($reflect->isInstantiable()) {
-                    glsr()->singleton($hooks);
-                    glsr($hooks)->run();
-                    glsr($hooks)->runDeferred();
-                }
-            } catch (\ReflectionException $e) {
-                glsr_log()->error($e->getMessage());
-            }
-        }
-    }
-
     protected function buildAssetArgs(string $ext, array $args = []): array
     {
         $args = wp_parse_args($args, [

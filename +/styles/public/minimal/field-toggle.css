@@ -9,6 +9,7 @@
 }
 :--namespace form.glsr-form .glsr-toggle label {
     display: block;
+    line-height: inherit;
     margin: 0;
 }
 :--namespace form.glsr-form .glsr-toggle .glsr-toggle-switch {

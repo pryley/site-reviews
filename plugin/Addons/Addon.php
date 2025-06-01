@@ -39,6 +39,8 @@ abstract class Addon implements PluginContract
         if (class_exists($hooks)) {
             glsr()->singleton($hooks);
             glsr($hooks)->run();
+            glsr($hooks)->runDeferred();
+            glsr($hooks)->runIntegrations();
         } else {
             glsr_log()->error('The '.static::NAME.' addon is missing a Hooks class');
         }

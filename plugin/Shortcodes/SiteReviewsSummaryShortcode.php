@@ -103,14 +103,6 @@ class SiteReviewsSummaryShortcode extends Shortcode
                 'placeholder' => esc_html_x('Select a Review Type...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
-            'rating_field' => [
-                'description' => sprintf(_x('Use the %sReview Forms%s addon to add custom rating fields.', 'admin-text', 'site-reviews'),
-                    '<a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">', '</a>'
-                ),
-                'group' => 'advanced',
-                'label' => esc_html_x('Custom Rating Field Name', 'admin-text', 'site-reviews'),
-                'type' => 'text',
-            ],
             'rating' => [
                 'default' => (string) Rating::min(),
                 'group' => 'display',
@@ -119,6 +111,14 @@ class SiteReviewsSummaryShortcode extends Shortcode
                 'min' => Rating::min(),
                 'placeholder' => (string) Rating::min(),
                 'type' => 'number',
+            ],
+            'rating_field' => [
+                'description' => sprintf(_x('Use the %sReview Forms%s addon to add custom rating fields.', 'admin-text', 'site-reviews'),
+                    '<a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">', '</a>'
+                ),
+                'group' => 'display',
+                'label' => esc_html_x('Custom Rating Field Name', 'admin-text', 'site-reviews'),
+                'type' => 'text',
             ],
             'schema' => [
                 'description' => esc_html_x('The schema should only be enabled once on your page.', 'admin-text', 'site-reviews'),

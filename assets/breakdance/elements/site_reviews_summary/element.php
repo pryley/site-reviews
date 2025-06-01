@@ -3,7 +3,6 @@
 namespace GLSR_Breakdance;
 
 use Breakdance\Elements\Element;
-use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helpers\Svg;
 use GeminiLabs\SiteReviews\Integrations\Breakdance\ElementControlsTrait;
 use GeminiLabs\SiteReviews\Integrations\Breakdance\ElementTrait;
@@ -14,9 +13,19 @@ class SiteReviewsSummary extends Element
     use ElementTrait;
     use ElementControlsTrait;
 
-    public static function bdShortcode(): ShortcodeContract
+    public static function bdShortcodeClass(): string
     {
-        return glsr(SiteReviewsSummaryShortcode::class);
+        return SiteReviewsSummaryShortcode::class;
+    }
+
+    public static function cssTemplate()
+    {
+        return file_get_contents(__DIR__.'/css.twig');
+    }
+
+    public static function defaultCss()
+    {
+        return file_get_contents(__DIR__.'/default.css');
     }
 
     /**

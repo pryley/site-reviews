@@ -9,6 +9,32 @@ abstract class Hooks extends AbstractHooks
 {
     abstract public function app(): PluginContract;
 
+    public function runIntegrations(): void
+    {
+        $dir = $this->app()->path('plugin/Integrations');
+        if (!is_dir($dir)) {
+            return;
+        }
+        $iterator = new \DirectoryIterator($dir);
+        $namespace = (new \ReflectionClass($this->app()))->getNamespaceName();
+        foreach ($iterator as $fileinfo) {
+            if (!$fileinfo->isDir() || $fileinfo->isDot()) {
+                continue;
+            }
+            try {
+                $hooks = "{$namespace}\Integrations\\{$fileinfo->getBasename()}\Hooks";
+                $reflect = new \ReflectionClass($hooks);
+                if ($reflect->isInstantiable()) {
+                    glsr()->singleton($hooks);
+                    add_action('plugins_loaded', fn () => glsr($hooks)->run(), 100); // run integrations late
+                    glsr($hooks)->runDeferred();
+                }
+            } catch (\ReflectionException $e) {
+                glsr_log()->error($e->getMessage());
+            }
+        }
+    }
+
     protected function baseHooks(array $hooks = []): array
     {
         $defaults = [
@@ -38,7 +64,6 @@ abstract class Hooks extends AbstractHooks
             ['registerTinymcePopups', 'admin_init'],
             ['registerWidgets', 'widgets_init'],
             ['renderSettings', "site-reviews/settings/{$this->slug()}"],
-            ['runIntegrations', 'plugins_loaded', 100],
         ];
         return array_merge($defaults, $hooks);
     }

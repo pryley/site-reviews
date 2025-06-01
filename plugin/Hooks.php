@@ -39,12 +39,13 @@ class Hooks implements HooksContract
             return;
         }
         $iterator = new \DirectoryIterator($dir);
+        $namespace = (new \ReflectionClass($this))->getNamespaceName();
         foreach ($iterator as $fileinfo) {
             if (!$fileinfo->isDir() || $fileinfo->isDot()) {
                 continue;
             }
             try {
-                $hooks = "GeminiLabs\SiteReviews\Integrations\\{$fileinfo->getBasename()}\Hooks";
+                $hooks = "{$namespace}\Integrations\\{$fileinfo->getBasename()}\Hooks";
                 $reflect = new \ReflectionClass($hooks);
                 if ($reflect->isInstantiable()) {
                     glsr()->singleton($hooks);

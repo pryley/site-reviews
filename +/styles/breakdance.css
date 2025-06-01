@@ -20,3 +20,6 @@
     font-weight: normal;
     text-transform: none;
 }
+:--namespace form.glsr-form .breakdance-form-message {
+    margin-top: 0;
+}

@@ -8,7 +8,16 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 trait ElementControlsTrait
 {
-    abstract public static function bdShortcode(): ShortcodeContract;
+    public static function bdShortcode(): ShortcodeContract
+    {
+        static $shortcode;
+        if (empty($shortcode)) {
+            $shortcode = glsr(static::bdShortcodeClass());
+        }
+        return $shortcode;
+    }
+
+    abstract public static function bdShortcodeClass(): string;
 
     /**
      * @return array[]
@@ -71,6 +80,25 @@ trait ElementControlsTrait
     public static function ssrArgs(array $data): array
     {
         $args = [];
+        $arrayIterator = new \RecursiveArrayIterator($data);
+        $iterator = new \RecursiveIteratorIterator($arrayIterator, \RecursiveIteratorIterator::SELF_FIRST);
+        $keys = array_keys(static::bdShortcode()->settings());
+        $mappedKeys = [
+            'attr_class' => 'class',
+            'attr_id' => 'id',
+        ];
+        foreach ($iterator as $key => $value) {
+            if (array_key_exists($key, $mappedKeys)) {
+                $args[$mappedKeys[$key]] = $value;
+                continue;
+            }
+            if (in_array($key, $mappedKeys)) {
+                continue;
+            }
+            if (in_array($key, $keys)) {
+                $args[$key] = $value;
+            }
+        }
         $replacements = [ // the post_chooser control requires integer keys
             -10 => 'post_id',
             -20 => 'parent_id',
@@ -78,14 +106,6 @@ trait ElementControlsTrait
             -40 => 'author_id',
             -50 => 'profile_id',
         ];
-        $arrayIterator = new \RecursiveArrayIterator($data);
-        $iterator = new \RecursiveIteratorIterator($arrayIterator, \RecursiveIteratorIterator::SELF_FIRST);
-        $keys = array_keys(static::bdShortcode()->settings());
-        foreach ($iterator as $key => $value) {
-            if (in_array($key, $keys)) {
-                $args[$key] = $value;
-            }
-        }
         foreach ($args as $key => $value) {
             if (!is_array($value)) {
                 continue;
@@ -96,7 +116,7 @@ trait ElementControlsTrait
                 $args[$key] = array_keys(array_filter($value));
             }
         }
-        $args = glsr()->filterArray('breakdance/ssr', $args, $data);
+        $args = glsr()->filterArray('breakdance/ssr', $args, $data, static::bdShortcode()->tag);
         return $args;
     }
 }

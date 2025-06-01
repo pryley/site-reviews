@@ -12,4 +12,12 @@ return [
         'select' => 'breakdance-form-field__input',
         'textarea' => 'breakdance-form-field__input',
     ],
+    'validation' => [
+        // 'field_message' => '',
+        'form_error' => '',
+        'form_message' => 'breakdance-form-field breakdance-form-message',
+        'form_message_failed' => 'breakdance-form-message--error',
+        // 'form_message_success' => 'breakdance-form-message--success',
+        // 'input_error' => '',
+    ],
 ];

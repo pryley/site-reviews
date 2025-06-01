@@ -178,7 +178,7 @@ final class Application extends Container implements PluginContract
     }
 
     /**
-     * This is triggered on "plugins_loaded" by "site-reviews/addon/register".
+     * This is triggered on "plugins_loaded:-10" by "site-reviews/addon/register".
      */
     public function register(string $addon, bool $isAuthorized = true): void
     {

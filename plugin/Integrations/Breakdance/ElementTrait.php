@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Integrations\Breakdance;
 
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 
 trait ElementTrait
 {
@@ -12,14 +13,7 @@ trait ElementTrait
      */
     public static function actions()
     {
-        return [
-            'onMountedElement' => [[
-                'script' => 'GLSR_init();',
-            ]],
-            // 'onPropertyChange' => [[
-            //     'script' => 'GLSR_init();',
-            // ]],
-        ];
+        return glsr()->filterArray('breakdance/element/actions', static::bdActions(), static::bdShortcode()->tag);
     }
 
     /**
@@ -34,7 +28,34 @@ trait ElementTrait
         ];
     }
 
+    public static function bdActions(): array
+    {
+        return [
+            'onMountedElement' => [[
+                'script' => 'GLSR_init();',
+            ]],
+            // 'onPropertyChange' => [[
+            //     'script' => 'GLSR_init();',
+            // ]],
+        ];
+    }
+
+    public static function bdDependencies(): array
+    {
+        return [
+            [
+                'builderCondition' => 'return true;',
+                'frontendCondition' => 'return false;',
+                'inlineStyles' => [
+                    '%%SELECTOR%% a, %%SELECTOR%% button {pointer-events: none}',
+                ],
+            ],
+        ];
+    }
+
     abstract public static function bdShortcode(): ShortcodeContract;
+
+    abstract public static function bdShortcodeClass(): string;
 
     /**
      * @return string
@@ -44,16 +65,14 @@ trait ElementTrait
         return glsr()->id;
     }
 
+    static function className()
+    {
+        return 'breakdance-'.Str::dashCase(static::bdShortcode()->tag);
+    }
+
     public static function dependencies()
     {
-        return [
-            [
-                'inlineStyles' => [
-                    '%%SELECTOR%% a, %%SELECTOR%% button {pointer-events: none}',
-                ],
-                'frontendCondition' => "return false;",
-            ],
-        ];
+        return glsr()->filterArray('breakdance/element/dependencies', static::bdDependencies(), static::bdShortcode()->tag);
     }
 
     /**
@@ -81,6 +100,7 @@ trait ElementTrait
     {
         return [
             'content',
+            // 'design',
         ];
     }
 
@@ -90,6 +110,7 @@ trait ElementTrait
     public static function settings()
     {
         return [
+            'bypassPointerEvents' => true,
             'disableAI' => true,
         ];
     }
@@ -113,7 +134,7 @@ trait ElementTrait
     public static function ssr($propertiesData, $parentPropertiesData = [], $isBuilder = false, $repeaterItemNodeId = null)
     {
         $args = static::ssrArgs(Arr::consolidate($propertiesData));
-        return static::bdShortcode()->build($args, 'breakdance');
+        return static::bdShortcode()->build($args, 'breakdance', false);
     }
 
     abstract public static function ssrArgs(array $propertiesData): array;

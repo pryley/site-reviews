@@ -3,12 +3,12 @@
 namespace GLSR_Breakdance;
 
 use Breakdance\Elements\Element;
-use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helpers\Svg;
 use GeminiLabs\SiteReviews\Integrations\Breakdance\ElementControlsTrait;
 use GeminiLabs\SiteReviews\Integrations\Breakdance\ElementTrait;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
+use function Breakdance\Elements\c;
 use function Breakdance\Elements\PresetSections\getPresetSection;
 
 class SiteReviewsForm extends Element
@@ -16,17 +16,7 @@ class SiteReviewsForm extends Element
     use ElementTrait;
     use ElementControlsTrait;
 
-    public static function bdShortcode(): ShortcodeContract
-    {
-        return glsr(SiteReviewsFormShortcode::class);
-    }
-
-    public static function cssTemplate()
-    {
-        return file_get_contents(__DIR__.'/css.twig');
-    }
-
-    public static function dependencies()
+    public static function bdDependencies(): array
     {
         return [
             [
@@ -37,14 +27,317 @@ class SiteReviewsForm extends Element
         ];
     }
 
+    public static function bdShortcodeClass(): string
+    {
+        return SiteReviewsFormShortcode::class;
+    }
+
+    public static function cssTemplate()
+    {
+        return file_get_contents(__DIR__.'/css.twig');
+    }
+
+    public static function defaultCss()
+    {
+        return file_get_contents(__DIR__.'/default.css');
+    }
+
     /**
      * @return array[]
      */
     public static function designControls()
     {
-        // ray(getPresetSection("EssentialElements\\AtomV1FormDesign", 'Form', 'form', ['type' => 'popout']));
         return [
-            // getPresetSection("GLSR\\FormDesign", 'Form', 'form', ['type' => 'popout']),
+            // c(
+            //     'form_design_options',
+            //     'Form Design Options',
+            //     [
+            //         c(
+            //             'spacing',
+            //             _x('Spacing', 'admin-text', 'site-reviews'),
+            //             [
+            //                 c(
+            //                     'between_fields',
+            //                     'Between Fields',
+            //                     [],
+            //                     [
+            //                         'layout' => 'inline',
+            //                         'type' => 'unit',
+            //                     ],
+            //                     true,
+            //                     false,
+            //                     [],
+            //                 ),
+            //                 c(
+            //                     'after_label',
+            //                     'After Label',
+            //                     [],
+            //                     [
+            //                         'layout' => 'inline',
+            //                         'type' => 'unit',
+            //                     ],
+            //                     true,
+            //                     false,
+            //                     [],
+            //                 ),
+            //                 c(
+            //                     'sub_label',
+            //                     'Sub Label',
+            //                     [],
+            //                     [
+            //                         'layout' => 'inline',
+            //                         'type' => 'unit',
+            //                     ],
+            //                     true,
+            //                     false,
+            //                     [],
+            //                 ),
+            //             ],
+            //             [
+            //                 'sectionOptions' => [
+            //                     'type' => 'popout',
+            //                 ],
+            //                 'type' => 'section',
+            //             ],
+            //             false,
+            //             false,
+            //             [],
+            //         ),
+            //         c(
+            //             'fields',
+            //             'Fields',
+            //             [
+            //                 c(
+            //                     'background',
+            //                     'Background',
+            //                     [],
+            //                     [
+            //                         'layout' => 'inline',
+            //                         'type' => 'color',
+            //                     ],
+            //                     false,
+            //                     false,
+            //                     [],
+            //                 ),
+            //                 getPresetSection(
+            //                     'EssentialElements\\borders',
+            //                     'Borders',
+            //                     'borders',
+            //                     ['type' => 'popout'],
+            //                 ),
+            //                 c(
+            //                     'focused',
+            //                     'Focused',
+            //                     [
+            //                         c(
+            //                             'background',
+            //                             'Background',
+            //                             [],
+            //                             [
+            //                                 'layout' => 'inline',
+            //                                 'type' => 'color',
+            //                             ],
+            //                             false,
+            //                             false,
+            //                             [],
+            //                         ),
+            //                         c(
+            //                             'border',
+            //                             'Border',
+            //                             [],
+            //                             [
+            //                                 'layout' => 'inline',
+            //                                 'type' => 'color',
+            //                             ],
+            //                             false,
+            //                             false,
+            //                             [],
+            //                         ),
+            //                         c(
+            //                             'shadow',
+            //                             'Shadow',
+            //                             [],
+            //                             [
+            //                                 'layout' => 'vertical',
+            //                                 'type' => 'shadow',
+            //                             ],
+            //                             false,
+            //                             false,
+            //                             [],
+            //                         ),
+            //                     ],
+            //                     [
+            //                         'layout' => 'inline',
+            //                         'sectionOptions' => ['type' => 'popout'],
+            //                         'type' => 'section',
+            //                     ],
+            //                     false,
+            //                     false,
+            //                     [],
+            //                 ),
+            //                 getPresetSection(
+            //                     'EssentialElements\\spacing_padding_all',
+            //                     'Padding',
+            //                     'padding',
+            //                     ['type' => 'popout']
+            //                 ),
+            //                 c(
+            //                     'placeholder',
+            //                     'Placeholder',
+            //                     [],
+            //                     [
+            //                         'layout' => 'inline',
+            //                         'type' => 'color',
+            //                     ],
+            //                     false,
+            //                     false,
+            //                     [],
+            //                 ),
+            //                 c(
+            //                     'required',
+            //                     'Required',
+            //                     [
+            //                         c(
+            //                             'color',
+            //                             'Color',
+            //                             [],
+            //                             [
+            //                                 'layout' => 'inline',
+            //                                 'type' => 'color',
+            //                             ],
+            //                             false,
+            //                             false,
+            //                             [],
+            //                         ),
+            //                         c(
+            //                             'size',
+            //                             'Size',
+            //                             [],
+            //                             [
+            //                                 'layout' => 'inline',
+            //                                 'type' => 'unit',
+            //                             ],
+            //                             true,
+            //                             false,
+            //                             [],
+            //                         ),
+            //                         c(
+            //                             'nudge_x',
+            //                             'Nudge X',
+            //                             [],
+            //                             [
+            //                                 'layout' => 'inline',
+            //                                 'rangeOptions' => ['min' => 0, 'max' => 10, 'step' => 1],
+            //                                 'type' => 'unit',
+            //                             ],
+            //                             true,
+            //                             false,
+            //                             [],
+            //                         ),
+            //                         c(
+            //                             'nudge_y',
+            //                             'Nudge Y',
+            //                             [],
+            //                             [
+            //                                 'layout' => 'inline',
+            //                                 'rangeOptions' => ['min' => 0, 'max' => 10, 'step' => 1],
+            //                                 'type' => 'unit',
+            //                             ],
+            //                             true,
+            //                             false,
+            //                             [],
+            //                         ),
+            //                     ],
+            //                     [
+            //                         'layout' => 'inline',
+            //                         'sectionOptions' => ['type' => 'popout'],
+            //                         'type' => 'section',
+            //                     ],
+            //                     false,
+            //                     false,
+            //                     [],
+            //                 ),
+            //                 c(
+            //                     'advanced',
+            //                     'Advanced',
+            //                     [
+            //                         c(
+            //                             'hide_labels',
+            //                             'Hide Labels',
+            //                             [],
+            //                             [
+            //                                 'layout' => 'inline',
+            //                                 'type' => 'toggle',
+            //                             ],
+            //                             false,
+            //                             false,
+            //                             [],
+            //                         ),
+            //                         c(
+            //                             'radio_checkbox',
+            //                             'Radio & Checkbox',
+            //                             [
+            //                                 c(
+            //                                     'size',
+            //                                     'Size',
+            //                                     [],
+            //                                     [
+            //                                         'layout' => 'inline',
+            //                                         'type' => 'unit',
+            //                                     ],
+            //                                     true,
+            //                                     false,
+            //                                     [],
+            //                                 ),
+            //                                 c(
+            //                                     'color',
+            //                                     'Color',
+            //                                     [],
+            //                                     [
+            //                                         'layout' => 'inline',
+            //                                         'type' => 'color',
+            //                                     ],
+            //                                     false,
+            //                                     false,
+            //                                     [],
+            //                                 ),
+            //                             ],
+            //                             [
+            //                                 'layout' => 'inline',
+            //                                 'sectionOptions' => ['type' => 'popout'],
+            //                                 'type' => 'section',
+            //                             ],
+            //                             false,
+            //                             false,
+            //                             [],
+            //                         ),
+            //                     ],
+            //                     [
+            //                         'layout' => 'inline',
+            //                         'sectionOptions' => ['type' => 'popout'],
+            //                         'type' => 'section',
+            //                     ],
+            //                     false,
+            //                     false,
+            //                     [],
+            //                 ),
+            //             ],
+            //             [
+            //                 'sectionOptions' => ['type' => 'popout'],
+            //                 'type' => 'section',
+            //             ],
+            //             false,
+            //             false,
+            //             [],
+            //         ),
+            //     ],
+            //     [
+            //         'type' => 'section',
+            //     ],
+            //     false,
+            //     false,
+            //     [],
+            // ),
         ];
     }
 

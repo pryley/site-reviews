@@ -46,20 +46,21 @@ class Transformer extends \ArrayObject
         if (empty($args['description'])) {
             return [];
         }
-        return $this->control([
-            'options' => [
-                'alertBoxOptions' => [
-                    'style' => $style,
-                    'content' => $args['description'],
-                ],
-                'layout' => 'vertical',
-                'type' => 'alert_box',
+        $options = [
+            'alertBoxOptions' => [
+                'style' => $style,
+                'content' => $args['description'],
             ],
+            'layout' => 'vertical',
+            'type' => 'alert_box',
+        ];
+        return $this->control([
+            'options' => wp_parse_args($options, $args['options'] ?? []),
             'slug' => "{$args['slug']}_description_alert",
         ]);
     }
 
-    public function popout(string $slug, array $children = []): array
+    public function popout(string $slug, array $children): array
     {
         return $this->control([
             'children' => $children,
@@ -132,6 +133,7 @@ class Transformer extends \ArrayObject
      */
     protected function processConfig(array $config): array
     {
+        $config = glsr()->filterArray('breakdance/config', $config, $this);
         $controls = [];
         foreach ($config as $slug => $args) {
             $args = wp_parse_args($args, [
@@ -151,20 +153,21 @@ class Transformer extends \ArrayObject
                 }
                 $control = $this->control($args);
             }
-            $controls[$slug] = [
+            $controlId = $args['slug'] ?? $slug; // because the slug might have been changed
+            $controls[$controlId] = [
                 'control' => $control,
-                'path' => "{$path}.{$slug}",
+                'path' => "{$path}.{$controlId}",
             ];
             if (!empty($args['description']) && !empty($control)) {
-                $control = $this->description($args, $this->alerts[$slug] ?? 'default');
-                $slug = "{$slug}_description_alert";
-                $controls[$slug] = [
+                $control = $this->description($args, $this->alerts[$controlId] ?? 'default');
+                $controlId = "{$controlId}_description_alert";
+                $controls[$controlId] = [
                     'control' => $control,
-                    'path' => "{$path}.{$slug}",
+                    'path' => "{$path}.{$controlId}",
                 ];
             }
         }
-        return glsr()->filterArray('breakdance/controls', $controls, $this->shortcode);
+        return glsr()->filterArray('breakdance/controls', $controls, $this);
     }
 
     protected function transformCheckbox(array $args): array
@@ -253,9 +256,16 @@ class Transformer extends \ArrayObject
 
     protected function transformText(array $args): array
     {
+        $slug = $args['slug'];
+        if ('id' === $slug) {
+            $slug = 'attr_id';
+        }
+        if ('class' === $slug) {
+            $slug = 'attr_class';
+        }
         return $this->control([
             'label' => $args['label'],
-            'slug' => $args['slug'],
+            'slug' => $slug,
             'options' => [
                 'layout' => 'vertical',
                 'type' => 'text',
