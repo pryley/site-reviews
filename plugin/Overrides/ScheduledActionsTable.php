@@ -553,6 +553,14 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
                 unset($actions['hook']['retry']);
                 break;
         }
+        foreach ($actions as $key => $action) {
+            $action['link'] = add_query_arg([
+                'nonce' => wp_create_nonce("{$key}::{$row[$this->ID]}"),
+                'row_action' => $key,
+                'row_id' => $row[$this->ID],
+                'tab' => 'scheduled', // ensure correct tab on redirect!
+            ]);
+        }
         $this->row_actions = $actions;
         return parent::maybe_render_actions($row, $column_name);
     }
