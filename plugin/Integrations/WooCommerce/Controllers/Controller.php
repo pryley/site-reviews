@@ -115,7 +115,7 @@ class Controller extends AbstractController
     {
         return new Gatekeeper([
             'woocommerce/woocommerce.php' => [
-                'minimum_version' => '6.4',
+                'minimum_version' => '8.0',
                 'name' => 'WooCommerce',
                 'plugin_uri' => 'https://wordpress.org/plugins/woocommerce/',
                 'untested_version' => '10.0',
