@@ -16,7 +16,7 @@
             <li>Added support for the <a href="https://swiftperformance.io/" target="_blank">Swift Performance</a> plugin.</li>
         </ul>
 
-        <h4>📢 Changed</h4>
+        <h4>⚠️ Changed</h4>
         <ul>
             <li>Disabled notifications when importing reviews</li>
         </ul>

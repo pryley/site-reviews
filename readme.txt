@@ -205,7 +205,9 @@ This update requires a minimum of PHP 7.4 and WordPress 6.5. There are a few pot
 
 = 8.0.0 (2025-05-??) =
 
-- 💅🏻 Site Reviews has a fresh coat of paint!
+Site Reviews has a fresh coat of paint!
+
+- Added [Breakdance](https://breakdance.com/) integration
 - Added [Bricks](https://bricksbuilder.io/) integration
 - Added [Flatsome Page Builder](https://themeforest.net/item/flatsome-multipurpose-responsive-woocommerce-theme/5484319) integration
 - Added [ProfilePress](https://profilepress.com/) integration
@@ -218,20 +220,31 @@ This update requires a minimum of PHP 7.4 and WordPress 6.5. There are a few pot
 - Added Geolocation which allows you to display the location of the reviewer next to their name in the review (i.e. flag/country/state/city)
 - Added style controls to the Gutenberg blocks
 - Added the `summary_id` option to the Review Form, this allows you to update the rating summary immediately without reloading the page
+- Changed the HTML markup of the `form/field_radio.php` template
+- Changed the HTML markup of the `form/submit-button.php` template
+- Changed the HTML markup of the `load-more-button.php` template
+- Changed the HTML markup of the `review.php` template
+- Changed the HTML markup of the `ultimatemember/reviews.php` template
+- Changed the location of the custom CSS class attribute in a rendered block or shortcode to the root DIV.
 - Fixed ActionScheduler action redirects
 - Fixed generated CSS ID values to always be unique
 - Fixed link focus when expanding exceprts with the keyboard
 - Fixed the Blacklist validator
+- Fixed the category priority feature
+- Fixed the Cloudflare Turnstile integration
 - Fixed the legacy WordPress widget options
 - Fixed the pin control on the edit review page
 - Fixed the RankMath integration when using Divi Builder
 - Fixed the review form signature encryption
 - Improved CSS of plugin styles for some themes
 - Improved MIME type detection
-- Improved the Avada Fusion Builder integration
-- Improved the Elementor integration
-- Improved the WooCommerce integration
+- Removed the `site-reviews/review-form/fields/normalized` filter hook
+- Removed the `site-reviews/summary/counts` filter hook
+- Updated Action Scheduler to v3.9.2
+- Updated the Avada Fusion Builder integration
+- Updated the Elementor integration
 - Updated the Gutenberg blocks to API v3
 - Updated the privacy policy example to include a section on geolocation
+- Updated the WooCommerce integration
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).

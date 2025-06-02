@@ -18,6 +18,17 @@
             <li>Added priority option for categories</li>
         </ul>
 
+        <h4>⚠️ Changed</h4>
+        <ul>
+            <li>Changed the console log level for validation errors from Warning to Info</li>
+        </ul>
+
+        <h4>📦 Updated</h4>
+        <ul>
+            <li>Updated API documentation</li>
+            <li>Updated documentation</li>
+        </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed Bulk Edit from removing author assignments</li>
@@ -33,16 +44,6 @@
             <li>Fixed WPEngine detection in System Info</li>
         </ul>
 
-        <h4>📢 Changed</h4>
-        <ul>
-            <li>Changed the console log level for validation errors from Warning to Info</li>
-        </ul>
-
-        <h4>📦 Updated</h4>
-        <ul>
-            <li>Updated API documentation</li>
-            <li>Updated documentation</li>
-        </ul>
     </div>
 </div>
 

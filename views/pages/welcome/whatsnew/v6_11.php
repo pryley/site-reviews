@@ -19,7 +19,7 @@
             <li>Added the ability to approve a review directly from a Discord, Email, or Slack notification.</li>
         </ul>
 
-        <h4>📢 Changed</h4>
+        <h4>⚠️ Changed</h4>
         <ul>
             <li>Changed number of scheduled actions to 50 per page.</li>
         </ul>

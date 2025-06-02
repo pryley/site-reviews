@@ -27,17 +27,17 @@
             <li>Added the <code>reviews_id</code> option to the Review Form, this allows you to display submitted reviews immediately without reloading the page.</li>
         </ul>
 
-        <h4>📢 Changed</h4>
+        <h4>⚠️ Changed</h4>
         <ul>
-            <li>🚨 Requires at least PHP v7.2</li>
-            <li>🚨 Requires at least WordPress v5.8</li>
-            <li>🚨 Changed the Divi plugin style to use the Divi Gallery pagination style for paginating reviews</li>
-            <li>🚨 Changed the review title tag from &lt;h3&gt; to &lt;h4&gt;. If you need to change it back, please see the <a data-expand="#faq-change-review-title-tag" href="<?php echo glsr_admin_url('documentation', 'faq'); ?>">FAQ</a> help page.</h4>
-            <li>🚨 Changed the strings "← Previous" and "Next →" to "Previous" and "Next". If you have customised these strings in the settings, please <a href="<?php echo glsr_admin_url('settings', 'strings'); ?>">update them</a>.</li>
-            <li>🚨 Rewrote the button and pagination loading animations. If you are using a custom Site Reviews pagination template in your child theme, please remove the <code>{{ loader }}</code> template tag.</li>
+            <li>Changed the Divi plugin style to use the Divi Gallery pagination style for paginating reviews</li>
+            <li>Changed the minimum required version of PHP to v7.2</li>
+            <li>Changed the minimum required version of WordPress to v5.8</li>
+            <li>Changed the review title tag from &lt;h3&gt; to &lt;h4&gt;. If you need to change it back, please see the <a data-expand="#faq-change-review-title-tag" href="<?php echo glsr_admin_url('documentation', 'faq'); ?>">FAQ</a> help page.</h4>
+            <li>Changed the strings "← Previous" and "Next →" to "Previous" and "Next". If you have customised these strings in the settings, please <a href="<?php echo glsr_admin_url('settings', 'strings'); ?>">update them</a>.</li>
             <li>Enabled SSL verification on all requests (this can be disabled with the WordPress <a href="http://developer.wordpress.org/reference/hooks/https_ssl_verify/" rel="nofollow" target="_blank">https_ssl_verify</a> filter hook)</li>
             <li>Optimised the javascript file sizes</li>
             <li>Renamed the "Submissions" settings page to "Forms"</li>
+            <li>Rewrote the button and pagination loading animations. If you are using a custom Site Reviews pagination template in your child theme, please remove the <code>{{ loader }}</code> template tag.</li>
             <li>Rewrote the frontend style to use CSS variables, this should make CSS tweaks easier to write</li>
             <li>Rewrote the review modals to support the new review image galleries (<a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a> addon required)</li>
             <li>Submit and load more buttons now make use of the WordPress Block button classes by default</li>

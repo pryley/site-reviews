@@ -18,6 +18,16 @@
             <li>Updated the Slack integration to use block composition</li>
         </ul>
 
+        <h4>⚠️ Changed</h4>
+        <ul>
+            <li>Deprecated the "site-reviews/slack/compose" hook (use the "site-reviews/slack/notification" hook instead)</li>
+        </ul>
+
+        <h4>📦 Updated</h4>
+        <ul>
+            <li>Updated <a href="https://github.com/woocommerce/action-scheduler" target="_blank">Action Scheduler</a> to v3.6.0</li>
+        </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed a PHP error caused by a bug in several third-party migration plugins</li>
@@ -29,15 +39,6 @@
             <li>Fixed styled SELECT elements</li>
         </ul>
 
-        <h4>📢 Changed</h4>
-        <ul>
-            <li>Deprecated the "site-reviews/slack/compose" hook (use the "site-reviews/slack/notification" hook instead)</li>
-        </ul>
-
-        <h4>📦 Updated</h4>
-        <ul>
-            <li>Updated <a href="https://github.com/woocommerce/action-scheduler" target="_blank">Action Scheduler</a> to v3.6.0</li>
-        </ul>
     </div>
 </div>
 

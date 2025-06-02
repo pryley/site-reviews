@@ -20,7 +20,7 @@
             <li>Updated documentation on customising stars</li>
         </ul>
 
-        <h4>📢 Changed</h4>
+        <h4>⚠️ Changed</h4>
         <ul>
             <li>Renamed the <code>site-reviews/review/saved</code> hook to <code>site-reviews/review/updated</code></li>
         </ul>
