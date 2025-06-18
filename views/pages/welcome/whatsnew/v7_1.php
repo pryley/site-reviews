@@ -15,8 +15,8 @@
             <li>Added "Resend Verification Email" button to reviews.</li>
             <li>Added the previous major version to the <a data-expand="#tools-rollback-plugin" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Rollback</a> tool (i.e. you can now rollback from v7 to v6).</li>
             <li>Updated the addon update checker to use the WordPress update hooks.</li>
-            <li>Updated the <a data-expand="#tools-export-reviews" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Export Reviews</a> tool to support images (<a href="https://niftyplugins.com/plugins/site-reviews-actions/" target="_blank">Review Images</a> addon required) and custom fields (<a href="https://niftyplugins.com/plugins/site-reviews-actions/" target="_blank">Review Forms</a> addon required).</li>
-            <li>Updated the <a data-expand="#tools-import-reviews" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Import Reviews</a> to support images (<a href="https://niftyplugins.com/plugins/site-reviews-actions/" target="_blank">Review Images</a> addon required), custom fields (<a href="https://niftyplugins.com/plugins/site-reviews-actions/" target="_blank">Review Forms</a> addon required), and skip already imported reviews.</li>
+            <li>Updated the <a data-expand="#tools-export-reviews" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Export Reviews</a> tool to support images (<?php echo glsr_premium_link('site-reviews-images'); ?> addon required) and custom fields (<?php echo glsr_premium_link('site-reviews-forms'); ?> addon required).</li>
+            <li>Updated the <a data-expand="#tools-import-reviews" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Import Reviews</a> to support images (<?php echo glsr_premium_link('site-reviews-images'); ?> addon required), custom fields (<?php echo glsr_premium_link('site-reviews-forms'); ?> addon required), and skip already imported reviews.</li>
         </ul>
 
         <h4>🐞 Bugs Fixed</h4>

@@ -3,15 +3,14 @@
 <div class="glsr-notice glsr-notice-top-of-page" data-dismiss="license">
 <?php
     if (!$licensed) {
-        printf(_x('You are using the free version of Site Reviews. %sPurchase premium%s to support future development and get images, filters, themes, custom forms, and more!', 'admin-text', 'site-reviews'),
-            '<a href="https://niftyplugins.com/plugins/site-reviews-premium/" target="_blank">',
-            '</a>'
+        printf(
+            _x('You are using the free version of Site Reviews. %s to support future development and get images, filters, themes, custom forms, and more!', 'Purchase premium (admin-text)', 'site-reviews'),
+            glsr_premium_link('site-reviews-premium', _x('Purchase premium', 'admin-text', 'site-reviews'))
         );
     } elseif ($expired) {
         printf(
-            _x('One or more of your licenses have expired. %sRenew your license%s to get the latest updates and priority support.', 'admin-text', 'site-reviews'),
-            '<a href="https://niftyplugins.com/account/license-keys/" target="_blank">',
-            '</a>'
+            _x('One or more of your licenses have expired. %s to get the latest updates and priority support.', 'Renew your license (admin-text)', 'site-reviews'),
+            glsr_premium_link('license-keys', _x('Renew your license', 'admin-text', 'site-reviews'))
         );
     } else {
         printf(

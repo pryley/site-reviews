@@ -70,8 +70,8 @@ class LicensingController extends AbstractController
         $error = sprintf(_x('A license you entered has expired: %s.', 'admin-text', 'site-reviews'),
             glsr(Date::class)->relative($expiryDate)
         );
-        $message = sprintf(_x('To renew your license and enable updates, please visit the %s on your Nifty Plugins account.', 'admin-text', 'site-reviews'),
-            sprintf('<a href="https://niftyplugins.com/account/license-keys/" target="_blank">%s</a>', _x('License Keys', 'admin-text', 'site-reviews'))
+        $message = sprintf(_x('To renew your license and enable updates, please visit the %s on your Nifty Plugins account.', 'link to License Keys page (admin-text)', 'site-reviews'),
+            glsr_premium_link('license-keys')
         );
         glsr(Notice::class)->addError(sprintf('<strong>%s</strong><br>%s', $error, $message));
     }
@@ -79,8 +79,8 @@ class LicensingController extends AbstractController
     protected function renderGenericLicenseNotice(): void
     {
         $error = _x('A license you entered has not been activated for your website.', 'admin-text', 'site-reviews');
-        $message = sprintf(_x('To activate your license, please visit the %s page on your Nifty Plugins account and click the "Manage Sites" button to activate it for your website.', 'admin-text', 'site-reviews'),
-            sprintf('<a href="https://niftyplugins.com/account/license-keys/" target="_blank">%s</a>', _x('License Keys', 'admin-text', 'site-reviews'))
+        $message = sprintf(_x('To activate your license, please visit the %s page on your Nifty Plugins account and click the "Manage Sites" button to activate it for your website.', 'link to License Keys page (admin-text)', 'site-reviews'),
+            glsr_premium_link('license-keys')
         );
         glsr(Notice::class)->addError(sprintf('<strong>%s</strong><br>%s', $error, $message));
     }

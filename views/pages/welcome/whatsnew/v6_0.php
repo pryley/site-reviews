@@ -39,7 +39,7 @@
             <li>Renamed the "Submissions" settings page to "Forms"</li>
             <li>Rewrote the button and pagination loading animations. If you are using a custom Site Reviews pagination template in your child theme, please remove the <code>{{ loader }}</code> template tag.</li>
             <li>Rewrote the frontend style to use CSS variables, this should make CSS tweaks easier to write</li>
-            <li>Rewrote the review modals to support the new review image galleries (<a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a> addon required)</li>
+            <li>Rewrote the review modals to support the new review image galleries (<?php echo glsr_premium_link('site-reviews-images'); ?> addon required)</li>
             <li>Submit and load more buttons now make use of the WordPress Block button classes by default</li>
             <li>Updated the Bootstrap plugin styles to Bootstrap v5</li>
         </ul>

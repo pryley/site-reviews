@@ -38,9 +38,8 @@
                     <div class="components-notice is-info">
                         <p class="components-notice__content">
                             <?php
-                                printf(_x('Maybe one of the %saddons%s provide this feature.', 'admin-text', 'site-reviews'),
-                                    '<a href="https://niftyplugins.com/plugins/" target="_blank">',
-                                    '</a>'
+                                printf(_x('Maybe one of the %s provide this feature.', 'link to addons page (admin-text)', 'site-reviews'),
+                                    glsr_premium_link('addons', _x('addons', 'admin-text', 'site-reviews'))
                                 );
                             ?>
                         </p>

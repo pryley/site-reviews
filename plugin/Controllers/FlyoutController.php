@@ -36,7 +36,7 @@ class FlyoutController extends AbstractController
             [
                 'icon' => 'dashicons-star-filled',
                 'title' => _x('Upgrade to Premium', 'admin-text', 'site-reviews'),
-                'url' => 'https://niftyplugins.com/plugins/site-reviews-premium/',
+                'url' => glsr_premium_url('site-reviews-premium'),
             ],
             [
                 'icon' => 'dashicons-editor-help',

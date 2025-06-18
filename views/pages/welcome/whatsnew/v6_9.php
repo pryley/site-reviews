@@ -13,7 +13,7 @@
         <h4>✨ New Features</h4>
         <ul>
             <li>Added Assigned Links to Discord notifications</li>
-            <li>Added support for field descriptions (<a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">Review Forms</a> addon required)</li>
+            <li>Added support for field descriptions (<?php echo glsr_premium_link('site-reviews-forms'); ?> addon required)</li>
             <li>Updated the Date sanitizer to allow a date format</li>
             <li>Updated the Slack integration to use block composition</li>
         </ul>

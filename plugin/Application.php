@@ -165,8 +165,8 @@ final class Application extends Container implements PluginContract
                     'default' => '',
                     'label' => $name,
                     'sanitizer' => 'text',
-                    'tooltip' => sprintf(_x('Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account.', 'License Keys (admin-text)', 'site-reviews'),
-                        sprintf('<a href="https://niftyplugins.com/account/license-keys/" target="_blank">%s</a>', _x('License Keys', 'admin-text', 'site-reviews'))
+                    'tooltip' => sprintf(_x('Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account.', 'link to License Keys page (admin-text)', 'site-reviews'),
+                        glsr_premium_link('license-keys')
                     ),
                     'type' => 'secret',
                 ],

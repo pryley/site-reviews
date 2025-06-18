@@ -113,8 +113,8 @@ class SiteReviewsSummaryShortcode extends Shortcode
                 'type' => 'number',
             ],
             'rating_field' => [
-                'description' => sprintf(_x('Use the %sReview Forms%s addon to add custom rating fields.', 'admin-text', 'site-reviews'),
-                    '<a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">', '</a>'
+                'description' => sprintf(_x('Use the %s addon to add custom rating fields.', 'admin-text', 'site-reviews'),
+                    glsr_premium_link('site-reviews-forms')
                 ),
                 'group' => 'display',
                 'label' => esc_html_x('Custom Rating Field Name', 'admin-text', 'site-reviews'),

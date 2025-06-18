@@ -68,12 +68,12 @@
                             <?php _ex('Compare more features ↓', 'admin-text', 'site-reviews'); ?>
                         </button>
                     <?php } else { ?>
-                        <a href="https://niftyplugins.com/plugins/site-reviews-premium/" target="_blank" class="components-button is-next-40px-default-size is-pressed" style="font-size: 1rem; justify-content: center; margin-block-start: 1rem; min-width: 100%;">
+                        <a href="<?php echo glsr_premium_url('site-reviews-premium'); ?>" target="_blank" class="components-button is-next-40px-default-size is-pressed" style="font-size: 1rem; justify-content: center; margin-block-start: 1rem; min-width: 100%;">
                             <?php _ex('View all features &rarr;', 'admin-text', 'site-reviews'); ?>
                         </a>
                     <?php } ?>
                 <?php } else { ?>
-                    <a href="https://niftyplugins.com/plugins/site-reviews-premium/" target="_blank" class="components-button is-next-40px-default-size is-pressed" style="font-size: 1rem; justify-content: center; min-width: 100%;">
+                    <a href="<?php echo glsr_premium_url('site-reviews-premium'); ?>" target="_blank" class="components-button is-next-40px-default-size is-pressed" style="font-size: 1rem; justify-content: center; min-width: 100%;">
                         <?php _ex('View all features &rarr;', 'admin-text', 'site-reviews'); ?>
                     </a>
                 <?php } ?>

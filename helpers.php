@@ -210,6 +210,48 @@ function glsr_log(...$args)
         : $console;
 }
 
+function glsr_premium_link(string $path, string $text = ''): string
+{
+    $url = glsr_premium_url($path);
+    $texts = [
+        'license-keys' => _x('License Keys', 'admin-text', 'site-reviews'),
+        'site-reviews-actions' => _x('Review Actions', 'admin-text', 'site-reviews'),
+        'site-reviews-authors' => _x('Review Authors', 'admin-text', 'site-reviews'),
+        'site-reviews-filters' => _x('Review Filters', 'admin-text', 'site-reviews'),
+        'site-reviews-forms' => _x('Review Forms', 'admin-text', 'site-reviews'),
+        'site-reviews-images' => _x('Review Images', 'admin-text', 'site-reviews'),
+        'site-reviews-notifications' => _x('Review Notifications', 'admin-text', 'site-reviews'),
+        'site-reviews-premium' => _x('Site Reviews Premium', 'admin-text', 'site-reviews'),
+        'site-reviews-themes' => _x('Review Themes', 'admin-text', 'site-reviews'),
+    ];
+    if (empty($text)) {
+        $text = $texts[$path] ?? $url;
+    }
+    return sprintf('<a href="%s" target="_blank">%s</a>', $url, esc_html($text));
+}
+
+function glsr_premium_url(string $path = '/'): string
+{
+    $baseUrl = 'https://niftyplugins.com/';
+    $paths = [
+        'account' => '/account/',
+        'addons' => '/plugins/',
+        'license-keys' => '/account/license-keys/',
+        'site-reviews-actions' => '/plugins/site-reviews-actions/',
+        'site-reviews-authors' => '/plugins/site-reviews-authors/',
+        'site-reviews-filters' => '/plugins/site-reviews-filters/',
+        'site-reviews-forms' => '/plugins/site-reviews-forms/',
+        'site-reviews-images' => '/plugins/site-reviews-images/',
+        'site-reviews-notifications' => '/plugins/site-reviews-notifications/',
+        'site-reviews-premium' => '/plugins/site-reviews-premium/',
+        'site-reviews-themes' => '/plugins/site-reviews-themes/',
+        'support' => '/account/support/',
+    ];
+    $urlPath = trim($paths[$path] ?? $path);
+    $urlPath = trailingslashit(ltrim($urlPath, '/'));
+    return esc_url(trailingslashit($baseUrl).$urlPath);
+}
+
 /**
  * @param string $path
  * @param mixed  $value

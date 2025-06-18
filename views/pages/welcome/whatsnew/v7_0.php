@@ -22,10 +22,10 @@
             <li>Added Migrate Product Ratings to the Import Roduct Reviews tool (allows third-party plugins to filter products by rating)</li>
             <li>Added Reviews metabox to WooCommerce product pages</li>
             <li>Added <a href="https://wordpress.org/plugins/wp-seopress/" target="_blank">SEOPress</a> integration</li>
-            <li>Added support for conditional fields in review forms (<a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">Review Forms</a> addon required)</li>
+            <li>Added support for conditional fields in review forms (<?php echo glsr_premium_link('site-reviews-forms'); ?> addon required)</li>
             <li>Added support for multilingual categories</li>
             <li>Added support for SQLite databases</li>
-            <li>Added the <a href="https://niftyplugins.com/plugins/site-reviews-actions/" target="_blank">Review Actions</a> addon</li>
+            <li>Added the <?php echo glsr_premium_link('site-reviews-actions'); ?> addon</li>
         </ul>
 
         <h4>⚠️ Changed</h4>
@@ -61,7 +61,7 @@
             <li>Fixed quick/bulk editing of WooCommerce Products from automatically disabling reviews support</li>
             <li>Fixed review dates from converting the date to the site's timezone</li>
             <li>Fixed review excerpts in cases when the PHP Intl extension is misconfigured</li>
-            <li>Fixed review responses disappearing when editing reviews on the frontend (<a href="https://niftyplugins.com/plugins/site-reviews-authors/" target="_blank">Review Authors</a> addon required)</li>
+            <li>Fixed review responses disappearing when editing reviews on the frontend (<?php echo glsr_premium_link('site-reviews-authors'); ?> addon required)</li>
             <li>Fixed SQL error when filtering reviews by "No author"</li>
             <li>Fixed the {review_link} notification tag</li>
             <li>Fixed the "new item" labels for the Site Reviews post_type and taxonomy</li>

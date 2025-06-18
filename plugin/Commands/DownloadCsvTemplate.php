@@ -25,7 +25,7 @@ class DownloadCsvTemplate extends AbstractCommand
             'ip_address' => _x('The IP address of the reviewer', 'admin-text', 'site-reviews'),
             'images' => sprintf('%s<br><span class="glsr-notice-inline is-warning">%s</span>',
                 _x('The URLs of the review images (separate multiple URLs with a pipe "|" character)', 'admin-text', 'site-reviews'),
-                sprintf(_x('%s addon required.', 'the plugin name (admin-text)', 'site-reviews'), '<a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a>')
+                sprintf(_x('%s addon required.', 'link to addon page (admin-text)', 'site-reviews'), glsr_premium_link('site-reviews-images'))
             ),
             'is_approved' => sprintf(_x('%s or %s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
             'is_pinned' => sprintf(_x('%s or %s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
@@ -35,7 +35,7 @@ class DownloadCsvTemplate extends AbstractCommand
             'response' => _x('The review response', 'admin-text', 'site-reviews'),
             'score' => sprintf('%s<br><span class="glsr-notice-inline is-warning">%s</span>',
                 _x('A whole number which represents the number of times the review was upvoted.', 'admin-text', 'site-reviews'),
-                sprintf(_x('%s addon required.', 'the plugin name (admin-text)', 'site-reviews'), '<a href="https://niftyplugins.com/plugins/site-reviews-actions/" target="_blank">Review Actions</a>')
+                sprintf(_x('%s addon required.', 'link to addon page (admin-text)', 'site-reviews'), glsr_premium_link('site-reviews-actions'))
             ),
             'terms' => sprintf(_x('%s or %s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
             'title' => _x('The title of the review', 'admin-text', 'site-reviews'),
