@@ -14,24 +14,36 @@ class Sections {
         jQuery(document).on('wp-updates-notice-added', () => {
             jQuery('.glsr-notice a[data-expand]').on('click', this.onExpand.bind(this))
         })
-        this.scrollIntoView(jQuery(localStorage.getItem('glsr-expand')))
+        this.scrollCardIntoView(jQuery(localStorage.getItem('glsr-expand')))
+    }
+
+    collapseCardsInView ($view) {
+        $view.addClass('collapsed')
+            .find('.glsr-card').addClass('closed')
+            .find('.glsr-accordion-trigger').attr('aria-expanded', 'false')
+    }
+
+    expandCardsInView ($view) {
+        $view.removeClass('collapsed')
+            .find('.glsr-card').removeClass('closed')
+            .find('.glsr-accordion-trigger').attr('aria-expanded', 'true')
     }
 
     onExpand (ev) {
         const id = jQuery(ev.currentTarget).data('expand');
         localStorage.setItem('glsr-expand', id)
-        this.scrollIntoView(jQuery(id))
+        this.scrollCardIntoView(jQuery(id))
     }
 
     onClick (ev) {
         ev.preventDefault()
-        this.toggleTabView(jQuery(ev.currentTarget))
+        this.toggleCardsInView(jQuery(ev.currentTarget))
     }
 
-    scrollIntoView ($el) {
+    scrollCardIntoView ($el) {
         if (!$el.length) return;
-        const $nav = $el.closest('.glsr-nav-view');
-        this.toggleSection($nav)
+        const $view = $el.closest('.glsr-nav-view');
+        this.collapseCardsInView($view)
         window.setTimeout(() => {
             const $card = $el.closest('.glsr-card');
             $card.removeClass('closed').find('.glsr-accordion-trigger').attr('aria-expanded', 'true')
@@ -46,18 +58,14 @@ class Sections {
         }, 10)
     }
 
-    toggleSection ($el) {
-        const action = $el.hasClass('collapsed') ? 'removeClass' : 'addClass';
-        $el[action]('collapsed')
-            .find('.glsr-card')[action]('closed')
-            .find('.glsr-accordion-trigger').attr('aria-expanded', action === 'addClass' ? 'false' : 'true')
-    }
-
-    toggleTabView ($el) {
-        if (!$el.hasClass('nav-tab-active')) return;
-        const id = $el.data('id');
-        if (id) {
-            this.toggleSection(jQuery(`#${id}`))
+    toggleCardsInView ($tab) {
+        if (!$tab.hasClass('nav-tab-active')) return;
+        const $view = jQuery('#'+$tab.data('id'));
+        if (!$view.length) return;
+        if ($view.hasClass('collapsed')) {
+            this.expandCardsInView($view)
+        } else {
+            this.collapseCardsInView($view)
         }
     }
 }
