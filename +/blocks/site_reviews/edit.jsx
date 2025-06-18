@@ -255,18 +255,11 @@ const Edit = (props) => {
         },
     };
 
-    const onRenderComplete = (block, iframe) => {
-        if (iframe?.GLSR_init) {
-            iframe.GLSR_init('site-reviews/excerpts/init');
-        }
-    };
-
     return (
         <ServerSideBlockRenderer
             controls={controls}
             panels={panels}
             props={props}
-            renderCallback={onRenderComplete}
             style={{
                 '--glsr-review-row-gap': getCSSValueFromRawStyle(attributes.styleReviewSpacing.top),
                 '--glsr-review-star': attributes.styleStarSize,

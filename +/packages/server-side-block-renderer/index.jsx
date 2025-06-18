@@ -64,7 +64,6 @@ const ServerSideBlockRenderer = ({
     controls = {},
     panels = {},
     props,
-    renderCallback,
     style = {},
     styleClassNames = [],
 }) => {
@@ -80,10 +79,7 @@ const ServerSideBlockRenderer = ({
                         const iframe = block?.ownerDocument?.defaultView;
                         el.classList.add('glsr-' + window.getComputedStyle(el, null).getPropertyValue('direction'))
                         if (iframe?.GLSR_init) {
-                            iframe.GLSR_init(blockName, el, attributes)
-                        }
-                        if ('function' === typeof renderCallback) {
-                            renderCallback(block, iframe)
+                            iframe.GLSR_init(`block:${blockName}`, el, attributes)
                         }
                     }
                 }

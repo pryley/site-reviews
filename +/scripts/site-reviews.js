@@ -8,6 +8,10 @@ import dom from '@/public/dom.js';
 import { debounce, fadeIn, fadeOut, isEmpty, parseJson, throttle } from '@/public/helpers.js';
 
 const events = {
+    blockForm: 'block:site-reviews/form',
+    blockReview: 'block:site-reviews/review',
+    blockReviews: 'block:site-reviews/reviews',
+    blockSummary: 'block:site-reviews/summary',
     excerpts: 'site-reviews/excerpts/init',
     forms: 'site-reviews/forms/init',
     init: 'site-reviews/init',
@@ -116,6 +120,9 @@ const initReview = () => {
 }
 
 const initEvents = () => {
+    Event.on(events.blockReview, initExcerpts)
+    Event.on(events.blockReviews, initExcerpts)
+    Event.on(events.blockForm, initForms)
     Event.on(events.excerpts, initExcerpts)
     Event.on(events.forms, initForms)
     Event.on(events.modal, initModal)

@@ -196,18 +196,11 @@ const Edit = (props) => {
         },
     };
 
-    const onRenderComplete = (block, iframe) => {
-        if (iframe?.GLSR_init) {
-            iframe.GLSR_init('site-reviews/forms/init');
-        }
-    };
-
     return (
         <ServerSideBlockRenderer
             controls={controls}
             panels={panels}
             props={props}
-            renderCallback={onRenderComplete}
             style={{
                 '--glsr-form-col-gap': getCSSValueFromRawStyle(attributes.styleFieldSpacing.left),
                 '--glsr-form-row-gap': getCSSValueFromRawStyle(attributes.styleFieldSpacing.top),
