@@ -12,7 +12,8 @@ class AssetCss extends AbstractAsset
             wp_dequeue_style($handle);
             wp_deregister_style($handle);
         }
-        wp_enqueue_style(glsr()->id, $url, $this->dependencies, $hash);
+        wp_register_style(glsr()->id, $url, $this->dependencies, $hash);
+        wp_enqueue_style(glsr()->id);
         if (!empty($this->after)) {
             $styles = array_reduce($this->after, fn ($carry, $string) => $carry.$string);
             wp_add_inline_style(glsr()->id, $styles);

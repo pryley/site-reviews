@@ -33,7 +33,7 @@ class EnqueueAdminAssets extends AbstractCommand
         if (!empty($this->pointers)) {
             wp_enqueue_script('wp-pointer');
         }
-        wp_enqueue_script(
+        wp_register_script(
             glsr()->id.'/admin',
             glsr()->url('assets/scripts/'.glsr()->id.'-admin.js'),
             $this->getDependencies(),
@@ -42,6 +42,7 @@ class EnqueueAdminAssets extends AbstractCommand
                 'strategy' => 'defer',
             ]
         );
+        wp_enqueue_script(glsr()->id.'/admin');
         wp_add_inline_script(glsr()->id.'/admin', $this->inlineScript(), 'before');
         wp_add_inline_script(glsr()->id.'/admin', glsr()->filterString('enqueue/admin/inline-script/after', ''));
     }
@@ -52,12 +53,13 @@ class EnqueueAdminAssets extends AbstractCommand
             wp_enqueue_style('wp-pointer');
         }
         wp_enqueue_style('wp-color-picker');
-        wp_enqueue_style(
+        wp_register_style(
             glsr()->id.'/admin',
             glsr()->url('assets/styles/admin/admin.css'),
             ['wp-list-reusable-blocks'], // load the :root admin theme colors
             glsr()->version
         );
+        wp_enqueue_style(glsr()->id.'/admin');
         wp_add_inline_style(glsr()->id.'/admin', $this->inlineStyles());
     }
 

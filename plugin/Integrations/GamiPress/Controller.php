@@ -59,9 +59,10 @@ class Controller extends AbstractController
         if ($this->isGamiPressPage()) {
             $handle = glsr()->id.'/admin/gamipress';
             $url = glsr()->url('assets/scripts/integrations/gamipress.js');
-            wp_enqueue_script($handle, $url, [], glsr()->version, [
+            wp_register_script($handle, $url, [], glsr()->version, [
                 'strategy' => 'defer',
             ]);
+            wp_enqueue_script($handle);
         }
     }
 

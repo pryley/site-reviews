@@ -432,10 +432,13 @@ abstract class Controller extends AbstractController
     {
         $defer = Arr::get($args, 'defer', false);
         if ($args = $this->buildAssetArgs($extension, $args)) {
-            $function = 'js' === $extension
-                ? 'wp_enqueue_script'
-                : 'wp_enqueue_style';
-            call_user_func_array($function, $args);
+            if ('js' === $extension) {
+                call_user_func_array('wp_register_script', $args);
+                call_user_func('wp_enqueue_script', $args[0]);
+            } else {
+                call_user_func_array('wp_register_style', $args);
+                call_user_func('wp_enqueue_style', $args[0]);
+            }
             if (wp_validate_boolean($defer)) {
                 wp_script_add_data($args[0], 'strategy', 'defer');
             }

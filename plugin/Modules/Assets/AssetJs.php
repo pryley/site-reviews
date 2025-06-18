@@ -10,10 +10,11 @@ class AssetJs extends AbstractAsset
             wp_dequeue_script($handle);
             wp_deregister_script($handle);
         }
-        wp_enqueue_script(glsr()->id, $url, $this->dependencies, $hash, [
+        wp_register_script(glsr()->id, $url, $this->dependencies, $hash, [
             'in_footer' => true,
             'strategy' => 'defer',
         ]);
+        wp_enqueue_script(glsr()->id);
         if (!empty($this->after)) {
             $script = array_reduce($this->after, fn ($carry, $string) => $carry.$string);
             wp_add_inline_script(glsr()->id, $script);

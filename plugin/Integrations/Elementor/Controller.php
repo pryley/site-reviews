@@ -230,13 +230,14 @@ class Controller extends AbstractController
      */
     public function registerScripts(): void
     {
-        wp_enqueue_script(
+        wp_register_script(
             glsr()->id.'/elementor-editor',
             glsr()->url('assets/scripts/integrations/elementor-editor.js'),
             [],
             glsr()->version,
             ['strategy' => 'defer']
         );
+        wp_enqueue_script(glsr()->id.'/elementor-editor');
     }
 
     /**
