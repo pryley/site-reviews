@@ -14,6 +14,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Backtrace;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Dump;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Request;
@@ -85,6 +86,19 @@ function glsr_admin_url($page = '', $tab = '', $sub = '')
     $post_type = glsr()->post_type;
     $args = array_filter(compact('post_type', 'page', 'tab', 'sub'));
     return add_query_arg($args, admin_url('edit.php'));
+}
+
+function glsr_admin_link(string $url, string $text = '', string $expand = ''): string
+{
+    $expand = ltrim($expand, '#');
+    if (!empty($expand)) {
+        $expand = '#'.$expand;
+    }
+    return glsr(Builder::class)->a([
+        'data-expand' => $expand,
+        'href' => $url,
+        'text' => esc_html($text ?: $url),
+    ]);
 }
 
 /**
