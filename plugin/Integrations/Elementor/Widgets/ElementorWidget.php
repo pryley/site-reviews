@@ -33,10 +33,10 @@ abstract class ElementorWidget extends Widget_Base
      * Elementor throws a JS error when removing a widget from the page if it
      * has a control with "id" as the name. To fix this, we transformed "id"
      * to "shortcode_id" and "class" to "shortcode_class" (just in case).
-     * 
+     *
      * When the widget is displayed, we need to convert the setting keys back
      * to their original names.
-     * 
+     *
      * @param string $settingKey
      *
      * @return mixed

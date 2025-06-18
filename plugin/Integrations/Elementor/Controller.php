@@ -216,6 +216,9 @@ class Controller extends AbstractController
             .eicon-glsr-summary::before {
                 mask-image: url(\"{$iconSummary}\");
             }
+            .elementor-nerd-box-icon[src$=\"assets/images/premium.svg\"] {
+                width: 240px;
+            }
         ";
         $css = preg_replace('/\s+/', ' ', $css);
         wp_add_inline_style('elementor-admin', $css);

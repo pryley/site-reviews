@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Integrations\Elementor\Widgets;
 
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
+use GeminiLabs\SiteReviews\License;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
 
@@ -17,6 +18,18 @@ class ElementorSiteReview extends ElementorWidget
     public static function shortcodeClass(): string
     {
         return SiteReviewShortcode::class;
+    }
+
+    protected function get_upsale_data(): array
+    {
+        return [
+            'condition' => !glsr(License::class)->isPremium(),
+            'description' => esc_html_x('Upgrade to Site Reviews Premium and get a bunch of additional features and professional support.', 'admin-text', 'site-reviews'),
+            'image' => glsr()->url('assets/images/premium.svg'),
+            'image_alt' => esc_attr_x('Upgrade', 'admin-text', 'site-reviews'),
+            'upgrade_text' => esc_html_x('Upgrade Now', 'admin-text', 'site-reviews'),
+            'upgrade_url' => glsr_premium_url('site-reviews-premium'),
+        ];
     }
 
     protected function styleConfig(): array
