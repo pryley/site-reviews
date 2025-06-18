@@ -113,6 +113,10 @@ class Attributes
         'time', 'url', 'week',
     ];
 
+    public const URL_ATTRIBUTES = [
+        'href', 'src',
+    ];
+
     protected array $attributes = [];
 
     /**
@@ -274,7 +278,12 @@ class Attributes
     protected function normalizeStringAttributes(): void
     {
         foreach ($this->attributes as $key => $value) {
-            if (is_string($value)) {
+            if (!is_string($value)) {
+                continue;
+            }
+            if (in_array($key, static::URL_ATTRIBUTES)) {
+                $this->attributes[$key] = esc_url(trim($value));
+            } else {
                 $this->attributes[$key] = esc_attr(trim($value));
             }
         }
