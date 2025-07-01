@@ -5,8 +5,8 @@
         <div class="inline notice notice-alt notice-info woocommerce-message" style="display: flex; margin: 15px 10px 10px;">
             <p style="margin: .5em 0; padding: 2px; font-size: 13px; line-height: 1.5;">
                 <?php
-                    printf(_x('Here you can override the Site Reviews shortcodes for this product. To change the shortcodes for all products, %sClick here%s.', '<a>Click here</a> (admin-text)', 'site-reviews'),
-                        sprintf('<a href="%s">', glsr_admin_url('settings', 'integrations', 'woocommerce')), '</a>'
+                    printf(_x('Here you can override the Site Reviews shortcodes for this product. %s to change the shortcodes for all products.', 'Click here (admin-text)', 'site-reviews'),
+                        glsr_admin_link(['settings', 'integrations', 'woocommerce'], _x('Click here', 'admin-text', 'site-reviews'))
                     );
                 ?>
             </p>

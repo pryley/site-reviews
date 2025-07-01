@@ -3,8 +3,8 @@
 <div class="notice notice-info is-dismissible glsr-notice">
     <p>
     <?php
-        printf(_x('Your Product reviews are being managed by Site Reviews because you enabled the %sWooCommerce integration%s in the settings.', 'admin-text', 'site-reviews'),
-            sprintf('<a href="%s">', glsr_admin_url('settings', 'integrations', 'woocommerce')), '</a>'
+        printf(_x('Your Product reviews are being managed by Site Reviews because you enabled the %s in the settings.', 'WooCommerce integration (admin-text)', 'site-reviews'),
+            glsr_admin_link(['settings', 'integrations', 'woocommerce'], _x('WooCommerce integration', 'admin-text', 'site-reviews'))
         );
     ?>
     </p>

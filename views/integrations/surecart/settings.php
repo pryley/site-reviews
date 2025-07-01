@@ -4,9 +4,8 @@
 
 <div class="components-notice is-info" style="margin-left:0;">
     <p class="components-notice__content">
-    <?php printf(_x('Learn how to add reviews to your SureCart Shop and Product pages %shere%s.', 'admin-text', 'site-reviews'),
-        sprintf('<a data-expand="#integrations-surecart" href="%s">', glsr_admin_url('documentation', 'integrations')),
-        '</a>'
+    <?php printf(_x('%s add reviews to your SureCart Shop and Product pages.', 'Learn how to (admin-text)', 'site-reviews'),
+        glsr_admin_link(['documentation', 'integrations'], _x('Learn how to', 'admin-text', 'site-reviews'), '#integrations-surecart')
     ); ?>
     </p>
 </div>

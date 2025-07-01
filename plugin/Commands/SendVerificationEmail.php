@@ -52,8 +52,8 @@ class SendVerificationEmail extends AbstractCommand
         ]);
         if (!$email->send()) {
             glsr(Notice::class)->addError(
-                sprintf(_x('The email could not be sent, check the <a href="%s">Site Reviews &rarr; Tools &rarr; Console</a> page for errors.', 'admin-text', 'site-reviews'),
-                    glsr_admin_url('tools', 'console')
+                sprintf(_x('The email could not be sent, check the %s page for errors.', 'link to Console page (admin-text)', 'site-reviews'),
+                    glsr_admin_link(['tools', 'console'])
                 )
             );
             $this->fail();

@@ -12,13 +12,9 @@
         <?php if (!empty($myisam_tables)) { ?>
             <div class="glsr-notice-inline components-notice is-info" style="margin-bottom:1em;">
                 <p class="components-notice__content"><?php echo sprintf(
-                    _x('Once you have repaired the review relationships, it is recommended that you run the %s tool to prevent the problem from happening again.', 'admin-text', 'site-reviews'),
-                        sprintf('<a data-expand="#tools-optimise-db-tables" href="%s">%s</a>',
-                            glsr_admin_url('tools', 'general'),
-                            _x('Optimise Your Database Tables', 'admin-text', 'site-reviews')
-                        )
-                    ); ?>
-                </p>
+                    _x('Once you have repaired the review relationships, it is recommended that you run the %s tool to prevent the problem from happening again.', 'Optimise Your Database Tables (admin-text)', 'site-reviews'),
+                    glsr_admin_link(['tools', 'general'], _x('Optimise Your Database Tables', 'admin-text', 'site-reviews'), '#tools-optimise-db-tables')
+                ); ?></p>
             </div>
         <?php } ?>
         <p><?php echo _x('Site Reviews stores review details in a custom database table, these entries are linked to the review post type in the WordPress posts table using the review\'s Post ID.', 'admin-text', 'site-reviews'); ?></p>

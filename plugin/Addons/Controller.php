@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Addons;
 
-use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -11,7 +10,6 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Install;
 use GeminiLabs\SiteReviews\Modules\Assets\AssetCss;
 use GeminiLabs\SiteReviews\Modules\Assets\AssetJs;
-use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Modules\Translator;
@@ -52,16 +50,11 @@ abstract class Controller extends AbstractController
     {
         $actions = Arr::consolidate($actions);
         if (glsr()->hasPermission('settings') && !empty($this->app()->config('settings'))) {
-            $actions['settings'] = glsr(Builder::class)->a([
-                'href' => glsr_admin_url('settings', 'addons', $this->app()->slug),
-                'text' => _x('Settings', 'admin-text', 'site-reviews'),
-            ]);
+            $actions['settings'] = glsr_admin_link(['settings', 'addons', $this->app()->slug], _x('Settings', 'admin-text', 'site-reviews'));
         }
         if (glsr()->hasPermission('documentation')) {
-            $actions['documentation'] = glsr(Builder::class)->a([
+            $actions['documentation'] = glsr_admin_link(['documentation', 'addons'], _x('Help', 'admin-text', 'site-reviews'), [
                 'data-expand' => "#addon-{$this->app()->id}",
-                'href' => glsr_admin_url('documentation', 'addons'),
-                'text' => _x('Help', 'admin-text', 'site-reviews'),
             ]);
         }
         return $actions;

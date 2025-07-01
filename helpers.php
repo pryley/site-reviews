@@ -88,17 +88,58 @@ function glsr_admin_url($page = '', $tab = '', $sub = '')
     return add_query_arg($args, admin_url('edit.php'));
 }
 
-function glsr_admin_link(string $url, string $text = '', string $expand = ''): string
+/**
+ * @param string|array $extra
+ */
+function glsr_admin_link(array $parts, string $text = '', $extra = []): string
 {
-    $expand = ltrim($expand, '#');
-    if (!empty($expand)) {
-        $expand = '#'.$expand;
+    $parts = array_slice(array_pad(array_filter($parts, 'is_string'), 3, ''), 0, 3);
+    $url = call_user_func_array('glsr_admin_url', $parts);
+    if (empty($text)) {
+        $texts = [
+            'addons' => _x('Addons', 'admin-text', 'site-reviews'),
+            'api' => _x('API', 'admin-text', 'site-reviews'),
+            'console' => _x('Console', 'admin-text', 'site-reviews'),
+            'documentation' => _x('Help & Support', 'admin-text', 'site-reviews'),
+            'faq' => _x('FAQ', 'admin-text', 'site-reviews'),
+            'forms' => _x('Forms', 'admin-text', 'site-reviews'),
+            'functions' => _x('Functions', 'admin-text', 'site-reviews'),
+            'general' => _x('General', 'admin-text', 'site-reviews'),
+            'hooks' => _x('Hooks', 'admin-text', 'site-reviews'),
+            'integrations' => _x('Integrations', 'admin-text', 'site-reviews'),
+            'licenses' => _x('Licenses', 'admin-text', 'site-reviews'),
+            'profilepress' => 'ProfilePress',
+            'reviews' => _x('Reviews', 'admin-text', 'site-reviews'),
+            'scheduled' => _x('Scheduled Actions', 'admin-text', 'site-reviews'),
+            'schema' => _x('Schema', 'admin-text', 'site-reviews'),
+            'settings' => _x('Settings', 'admin-text', 'site-reviews'),
+            'shortcodes' => _x('Shortcodes', 'admin-text', 'site-reviews'),
+            'strings' => _x('Strings', 'admin-text', 'site-reviews'),
+            'support' => _x('Support', 'admin-text', 'site-reviews'),
+            'surecart' => 'SureCart',
+            'system-info' => _x('System Info', 'admin-text', 'site-reviews'),
+            'tools' => _x('Tools', 'admin-text', 'site-reviews'),
+            'ultimatemember' => 'Ultimate Member',
+            'woocommerce' => 'WooCommerce',
+        ];
+        $textParts = array_filter([
+            $texts[$parts[0]] ?? ucfirst($parts[0]),
+            $texts[$parts[1]] ?? ucfirst($parts[1]),
+            $texts[$parts[2]] ?? ucfirst($parts[2]),
+        ]);
+        $text = implode(' &rarr; ', $textParts);
     }
-    return glsr(Builder::class)->a([
-        'data-expand' => $expand,
+    $args = [
         'href' => $url,
-        'text' => esc_html($text ?: $url),
-    ]);
+        'text' => esc_html($text) ?: $url,
+    ];
+    if (is_string($extra)) {
+        $args['data-expand'] = $extra;
+        $extra = [];
+    }
+    return glsr(Builder::class)->a(
+        wp_parse_args($args, Arr::consolidate($extra))
+    );
 }
 
 /**

@@ -28,9 +28,8 @@
                     <div class="components-notice is-warning">
                         <p class="components-notice__content">
                             <?php
-                                printf(_x('Did you read the %sGetting Started%s guide?', 'admin-text', 'site-reviews'),
-                                    sprintf('<a href="%s" target="_blank">', glsr_admin_url('welcome')),
-                                    '</a>'
+                                printf(_x('Did you read the %s guide?', 'Getting Started (admin-text)', 'site-reviews'),
+                                    glsr_admin_link(['welcome'], _x('Getting Started', 'admin-text', 'site-reviews'))
                                 );
                             ?>
                         </p>

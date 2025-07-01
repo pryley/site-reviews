@@ -18,7 +18,7 @@
     </h3>
     <div id="integrations-profilepress" class="inside">
         <h3>Enable the ProfilePress integration</h3>
-        <p>Go to the <a href="<?php echo esc_url(glsr_admin_url('settings', 'integrations', 'profilepress')); ?>">Site Reviews > Settings > Integrations > ProfilePress</a> page and enable the integration. After the integration is enabled, you will be able to add the "Rating" to the profiles in your Member Directory forms.</p>
+        <p>Go to the <code><?php echo glsr_admin_link(['settings', 'integrations', 'profilepress']); ?></code> page and enable the integration. After the integration is enabled, you will be able to add the "Rating" to the profiles in your Member Directory forms.</p>
         <h3>Edit the Member Directory form</h3>
         <p>The "Member Directory" form is used to display the members on your Member Directory page.</p>
         <ol>

@@ -34,7 +34,7 @@ $upsellUrl = add_query_arg([
     </h3>
     <div id="integrations-surecart" class="inside">
         <h3>Enable the SureCart integration</h3>
-        <p>Go to the <a href="<?php echo esc_url(glsr_admin_url('settings', 'integrations', 'surecart')); ?>">Site Reviews > Settings > Integrations > SureCart</a> page and enable the integration. After the integration is enabled, you will be able to add the "Product Rating" and "Product Reviews" blocks to your SureCart template pages.</p>
+        <p>Go to the <code><?php echo glsr_admin_link(['settings', 'integrations', 'surecart']); ?></code> page and enable the integration. After the integration is enabled, you will be able to add the "Product Rating" and "Product Reviews" blocks to your SureCart template pages.</p>
         <h3>Edit the SureCart Product Collections template</h3>
         <p>The "Product Collections" template is used to display product collections (i.e. your Shop page).</p>
         <ol>

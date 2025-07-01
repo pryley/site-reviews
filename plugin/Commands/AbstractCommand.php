@@ -58,8 +58,8 @@ abstract class AbstractCommand implements CommandContract
         }
         if (empty($data['notices'])) {
             glsr(Notice::class)->addError(
-                sprintf(_x('Something went wrong, check the <a href="%s">Site Reviews &rarr; Tools &rarr; Console</a> page for errors.', 'admin-text', 'site-reviews'),
-                    glsr_admin_url('tools', 'console')
+                sprintf(_x('Something went wrong, check the %s page for errors.', 'link to Console page (admin-text)', 'site-reviews'),
+                    glsr_admin_link(['tools', 'console'])
                 )
             );
             $data['notices'] = glsr(Notice::class)->get();

@@ -20,9 +20,8 @@
         <?php else: ?>
             <div class="glsr-notice-inline components-notice is-warning">
                 <p class="components-notice__content">
-                    <?php echo sprintf(_x('If you are using this tool to fix a problem with %s, please %ssubmit a support request%s so that it can be fixed.', 'admin-text', 'site-reviews'),
-                        glsr()->name,
-                        '<a data-expand="#support-contact-support" href="'.glsr_admin_url('documentation', 'support').'">', '</a>'
+                    <?php echo sprintf(_x('If you are using this tool to fix a problem with Site Reviews, please %s so that it can be fixed.', 'submit a support request (admin-text)', 'site-reviews'),
+                        glsr_admin_link(['documentation', 'support'], _x('submit a support request', 'admin-text', 'site-reviews'), '#support-contact-support'),
                     ); ?>
                 </p>
             </div>

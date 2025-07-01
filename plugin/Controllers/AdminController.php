@@ -68,16 +68,10 @@ class AdminController extends AbstractController
     public function filterActionLinks(array $links): array
     {
         if (glsr()->hasPermission('settings')) {
-            $links['settings'] = glsr(Builder::class)->a([
-                'href' => glsr_admin_url('settings'),
-                'text' => _x('Settings', 'admin-text', 'site-reviews'),
-            ]);
+            $links['settings'] = glsr_admin_link(['settings'], _x('Settings', 'admin-text', 'site-reviews'));
         }
         if (glsr()->hasPermission('documentation')) {
-            $links['documentation'] = glsr(Builder::class)->a([
-                'href' => glsr_admin_url('documentation'),
-                'text' => _x('Help', 'admin-text', 'site-reviews'),
-            ]);
+            $links['documentation'] = glsr_admin_link(['documentation'], _x('Help', 'admin-text', 'site-reviews'));
         }
         return $links;
     }
@@ -206,7 +200,7 @@ class AdminController extends AbstractController
                 'class' => 'components-button is-secondary',
                 'data-expand' => '#tools-import-reviews',
                 'href' => glsr_admin_url('tools', 'general'),
-                'text' => _x('Import', 'admin-text', 'site-reviews-forms'),
+                'text' => _x('Import', 'admin-text', 'site-reviews'),
             ];
         }
         if (glsr()->can('create_posts') && in_array($screen->base, ['edit', 'post'])) {

@@ -4,9 +4,8 @@
 
 <div class="components-notice is-info" style="margin-left:0;">
     <p class="components-notice__content">
-    <?php printf(_x('Import your existing WooCommerce product reviews %shere%s.', 'admin-text', 'site-reviews'),
-        sprintf('<a data-expand="#tools-import-product-reviews" href="%s">', glsr_admin_url('tools', 'general')),
-        '</a>'
+    <?php printf(_x('%s your existing WooCommerce product reviews.', 'Import (admin-text)', 'site-reviews'),
+        glsr_admin_link(['tools', 'general'], _x('Import', 'admin-text', 'site-reviews'), '#tools-import-product-reviews')
     ); ?>
     </p>
 </div>

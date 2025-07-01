@@ -10,9 +10,8 @@
     </h3>
     <div id="tools-export-plugin-settings" class="inside">
         <p><?php echo sprintf(
-            _x('Here you can export your Site Reviews settings to a %s file. You can use the the %sImport Settings%s tool to import the settings on another website.', 'admin-text', 'site-reviews'),
-            '<code>*.json</code>',
-            '<a data-expand="#tools-import-plugin-settings" href="'.glsr_admin_url('tools', 'general').'">', '</a>'
+            _x('Here you can export your Site Reviews settings to a <code>*.json</code> file. You can use the the %s tool to import the settings on another website.', 'Import Settings (admin-text)', 'site-reviews'),
+            glsr_admin_link(['tools', 'general'], _x('Import Settings', 'admin-text', 'site-reviews'), '#tools-import-plugin-settings')
         ); ?></p>
         <form method="post">
             <?php wp_nonce_field('export-settings'); ?>
