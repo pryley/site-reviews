@@ -108,10 +108,10 @@ class MainController extends AbstractController
     /**
      * @filter site-reviews/schema/generate
      */
-    public function filterRankmathSchema(array $data, SchemaParser $parser): array
+    public function filterRankmathSchemaPreview(array $data, SchemaParser $parser): array
     {
         if (!did_action('rank_math/json_ld/preview')) {
-            return $data;
+            return $data; // only run this for the preview
         }
         if (!$url = wp_get_referer()) {
             return $data;
