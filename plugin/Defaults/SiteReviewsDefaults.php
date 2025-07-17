@@ -87,7 +87,7 @@ class SiteReviewsDefaults extends DefaultsAbstract
             'rating_field' => 'rating', // used for custom rating fields
             'schema' => false,
             'terms' => '',
-            'type' => 'local',
+            'type' => '',
         ];
     }
 

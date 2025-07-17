@@ -78,7 +78,7 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
             'schema' => false,
             'terms' => '',
             'text' => '',
-            'type' => 'local',
+            'type' => '',
         ];
     }
 
