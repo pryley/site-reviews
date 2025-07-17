@@ -57,7 +57,7 @@
       "type": "string"
     },
     "pagination": {
-      "default": "loadmore",
+      "default": "",
       "type": "string"
     },
     "post_id": {
@@ -100,7 +100,7 @@
       "type": "string"
     },
     "type": {
-      "default": "local",
+      "default": "",
       "type": "string"
     }
   },

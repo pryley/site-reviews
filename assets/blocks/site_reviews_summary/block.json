@@ -113,7 +113,7 @@
       "type": "string"
     },
     "type": {
-      "default": "local",
+      "default": "",
       "type": "string"
     }
   },

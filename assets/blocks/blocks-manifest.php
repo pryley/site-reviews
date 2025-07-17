@@ -158,7 +158,7 @@ return array(
 				'type' => 'string'
 			),
 			'pagination' => array(
-				'default' => 'loadmore',
+				'default' => '',
 				'type' => 'string'
 			),
 			'post_id' => array(
@@ -201,7 +201,7 @@ return array(
 				'type' => 'string'
 			),
 			'type' => array(
-				'default' => 'local',
+				'default' => '',
 				'type' => 'string'
 			)
 		),
@@ -501,7 +501,7 @@ return array(
 				'type' => 'string'
 			),
 			'type' => array(
-				'default' => 'local',
+				'default' => '',
 				'type' => 'string'
 			)
 		),
