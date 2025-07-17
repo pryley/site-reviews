@@ -203,7 +203,7 @@ This update requires a minimum of PHP 7.4 and WordPress 6.5. There are a few pot
 
 == Changelog ==
 
-= 8.0.0 (2025-05-??) =
+= 8.0.0 (2025-??-??) =
 
 Site Reviews has a fresh coat of paint!
 
@@ -228,7 +228,7 @@ Site Reviews has a fresh coat of paint!
 - Changed the location of the custom CSS class attribute in a rendered block or shortcode to the root DIV.
 - Fixed ActionScheduler action redirects
 - Fixed generated CSS ID values to always be unique
-- Fixed link focus when expanding exceprts with the keyboard
+- Fixed link focus when expanding excerpts with the keyboard
 - Fixed the Blacklist validator
 - Fixed the category priority feature
 - Fixed the Cloudflare Turnstile integration

@@ -145,7 +145,7 @@ class Controller extends AbstractController
     public function registerRoutes(): void
     {
         return; // We can't use this yet...
-        $input = filter_input_array(INPUT_POST, [
+        $input = filter_input_array(INPUT_POST, [ // @phpstan-ignore-line
             'requestData' => [
                 'context' => [
                     'filter' => fn ($value) => is_numeric($value)
