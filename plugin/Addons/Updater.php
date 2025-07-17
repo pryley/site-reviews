@@ -102,7 +102,8 @@ class Updater
         ]);
         if ($response->failed()) {
             glsr_log()->error($response);
-        } elseif (str_ends_with($action, '_license') && false === ($response->body['success'] ?? false)) {
+        }
+        if (str_ends_with($action, '_license') && false === ($response->body['success'] ?? false)) {
             glsr_log()->debug($body);
         }
         return $response->body();
