@@ -65,6 +65,9 @@
     left: calc(var(--glsr-text-md) * 1.5);
     right: auto;
 }
+:root .glsr-review-type :is(a,svg) {
+    display: block;
+}
 :root .glsr-review-response-inner {
     position: relative;
     z-index: 1;
