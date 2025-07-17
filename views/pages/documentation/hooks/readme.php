@@ -2,13 +2,13 @@
 
 <div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="fn-readme">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="hooks-readme">
             <span class="title">Read me first!</span>
             <span class="badge important code">Important</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div id="fn-readme" class="inside">
+    <div id="hooks-readme" class="inside">
         <p>Hooks (also known as <a href="https://developer.wordpress.org/plugins/hooks/" target="_blank">Actions and Filters</a>) are used to make changes to the plugin without directly editing the plugin.</p>
         <p>If you need to use a hook to customise the plugin, I recommend one of two options:</p>
         <ol>
