@@ -12,7 +12,7 @@ const checks = {
         if (isNumber(conditionVal)) {
             return intval(value) === +conditionVal
         }
-        return value === conditionVal
+        return String(value) === String(conditionVal)
     },
     greater: (value, conditionVal) => {
         return isNumber(conditionVal) ? intval(value) > +conditionVal : false
