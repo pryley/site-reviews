@@ -24,12 +24,16 @@ class DownloadCsvTemplate extends AbstractCommand
             'email' => _x('The reviewer\'s email', 'admin-text', 'site-reviews'),
             'ip_address' => _x('The IP address of the reviewer', 'admin-text', 'site-reviews'),
             'images' => sprintf('%s<br><span class="glsr-notice-inline is-warning">%s</span>',
-                _x('The URLs of the review images (separate multiple URLs with a pipe "|" character)', 'admin-text', 'site-reviews'),
+                _x('The URLs of the review images (separate multiple URLs with a pipe "|" character or comma)', 'admin-text', 'site-reviews'),
                 sprintf(_x('%s addon required.', 'link to addon page (admin-text)', 'site-reviews'), glsr_premium_link('site-reviews-images'))
             ),
             'is_approved' => sprintf(_x('%s or %s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
             'is_pinned' => sprintf(_x('%s or %s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
             'is_verified' => sprintf(_x('%s or %s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
+            'language' => sprintf('%s<br><span class="glsr-notice-inline is-warning">%s</span>',
+                sprintf(_x('The ISO 639-1 language code of the review. See %s for a list of all supported languages.', 'admin-text', 'site-reviews'), '<a href="https://developers.deepl.com/docs/getting-started/supported-languages#translation-source-languages" target="_blank">DeepL</a>'),
+                sprintf(_x('%s addon required.', 'link to addon page (admin-text)', 'site-reviews'), glsr_premium_link('site-reviews-actions'))
+            ),
             'name' => _x('The reviewer\'s name', 'admin-text', 'site-reviews'),
             'rating' => sprintf(_x('A number from %d-%d', 'admin-text', 'site-reviews'), Rating::min(), Rating::max()),
             'response' => _x('The review response', 'admin-text', 'site-reviews'),
@@ -39,6 +43,14 @@ class DownloadCsvTemplate extends AbstractCommand
             ),
             'terms' => sprintf(_x('%s or %s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
             'title' => _x('The title of the review', 'admin-text', 'site-reviews'),
+            'type' => sprintf('%s<br><span class="glsr-notice-inline is-warning">%s</span>',
+                _x('The lowercase name of the platform that the review was exported from (only use this if the review was exported from another review platform, i.e. google, tripadvisor, etc.)', 'admin-text', 'site-reviews'),
+                sprintf(_x('%s addon required to display in the review.', 'link to addon page (admin-text)', 'site-reviews'), glsr_premium_link('site-reviews-themes'))
+            ),
+            'url' => sprintf('%s<br><span class="glsr-notice-inline is-warning">%s</span>',
+                _x('The review URL (only use this if the review was exported from another review platform, i.e. google, tripadvisor, etc.)', 'admin-text', 'site-reviews'),
+                sprintf(_x('%s addon required to display in the review.', 'link to addon page (admin-text)', 'site-reviews'), glsr_premium_link('site-reviews-themes'))
+            ),
         ];
     }
 
