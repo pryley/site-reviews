@@ -303,7 +303,7 @@ return [ // order is intentional
         'type' => 'select',
     ],
     'settings.reviews.assigned_links' => [
-        'default' => 'no',
+        'default' => 'yes',
         'label' => _x('Enable Assigned Links', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => _x('This will display a link to the assigned posts of a review.', 'admin-text', 'site-reviews'),
@@ -318,7 +318,7 @@ return [ // order is intentional
     ],
     'settings.reviews.avatars_fallback' => [
         'class' => 'regular-text',
-        'default' => 'none',
+        'default' => 'initials',
         'depends_on' => [
             'settings.reviews.avatars' => 'yes',
         ],
