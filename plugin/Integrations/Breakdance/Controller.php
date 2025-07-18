@@ -150,7 +150,7 @@ class Controller extends AbstractController
                 'context' => [
                     'filter' => fn ($value) => is_numeric($value)
                         ? intval($value)
-                        : filter_var($value, FILTER_SANITIZE_STRING),
+                        : strip_tags($value),
                     'flags' => FILTER_REQUIRE_ARRAY,
                 ],
             ],
