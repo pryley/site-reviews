@@ -223,18 +223,21 @@ class Arr
      * @param array      $haystack
      * @param int|string $key
      *
-     * @return array|iterable|false
+     * @return array|false
      */
     public static function searchByKey($needle, $haystack, $key)
     {
-        if (!is_array($haystack) || array_diff_key($haystack, array_filter($haystack, 'is_iterable'))) {
+        if (!is_array($haystack) || empty($haystack)) {
             return false;
         }
-        $index = array_search($needle, array_column($haystack, $key));
-        if (false !== $index) {
-            return $haystack[$index];
+        $keys = array_keys($haystack);
+        $values = array_column($haystack, $key);
+        if (count($keys) !== count($values)) {
+            return false; // Avoid array_combine failure
         }
-        return false;
+        $column = array_combine($keys, $values);
+        $index = array_search($needle, $column, true);
+        return false !== $index ? $haystack[$index] ?? false : false;
     }
 
     /**

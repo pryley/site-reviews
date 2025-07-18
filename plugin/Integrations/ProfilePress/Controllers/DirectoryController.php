@@ -110,7 +110,7 @@ class DirectoryController extends AbstractController
             return $settings;
         }
         foreach (['ppress_md_sort_default', 'ppress_md_sort_method_fields'] as $id) {
-            $index = array_search($id, array_column($sorting, 'id'));
+            $index = array_search($id, wp_list_pluck($sorting, 'id'));
             if (false === $index) {
                 continue;
             }

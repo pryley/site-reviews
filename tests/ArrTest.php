@@ -162,6 +162,91 @@ class ArrTest extends WP_UnitTestCase
         );
     }
 
+    public function test_restrict_keys()
+    {
+        $array = [
+            'user_a' => ['id' => 1, 'name' => 'Alice'],
+            0 => ['id' => 2, 'name' => 'Bob'],
+            '' => ['id' => 5, 'name' => 'Grace'],
+            'string_id' => ['id' => '001', 'name' => 'Frank'],
+            null => ['id' => 4, 'name' => 'David'],
+            1 => ['id' => 3, 'name' => 'Charlie'],
+        ];
+        // Test case 1: Restrict to non-existent keys
+        $result = Arr::restrictKeys($array, ['non_existent']);
+        $this->assertEquals([], $result);
+        // Test case 2: Empty allowed keys
+        $result = Arr::restrictKeys($array, []);
+        $this->assertEquals([], $result);
+        // Test case 3: Empty array
+        $result = Arr::restrictKeys([], ['user_a']);
+        $this->assertEquals([], $result);
+        // Test case 4: Empty string key (returns null key value due to collision)
+        $result = Arr::restrictKeys($array, ['']);
+        $this->assertEquals(['' => ['id' => 4, 'name' => 'David']], $result);
+        // Test case 5: Restrict to existing keys
+        $result = Arr::restrictKeys($array, ['user_a', 'string_id']);
+        $this->assertEquals([
+            'user_a' => ['id' => 1, 'name' => 'Alice'],
+            'string_id' => ['id' => '001', 'name' => 'Frank'],
+        ], $result);
+        // Test case 6: Mixed existing and non-existent keys
+        $result = Arr::restrictKeys($array, ['user_a', 0, 'missing']);
+        $this->assertEquals([
+            'user_a' => ['id' => 1, 'name' => 'Alice'],
+            0 => ['id' => 2, 'name' => 'Bob'],
+        ], $result);
+        // Test case 7: Numeric and null keys
+        $result = Arr::restrictKeys($array, [0, 1, null]);
+        $this->assertEquals([
+            0 => ['id' => 2, 'name' => 'Bob'],
+            1 => ['id' => 3, 'name' => 'Charlie'],
+            null => ['id' => 4, 'name' => 'David'],
+        ], $result);
+    }
+
+    public function test_search_by_key()
+    {
+        $haystack = [
+            null => ['id' => 4, 'name' => 'David'],
+            '' => ['id' => 5, 'name' => 'Grace'],
+            'string_id' => ['id' => '001', 'name' => 'Frank'],
+            'user_a' => ['id' => 1, 'name' => 'Alice'],
+            0 => ['id' => 2, 'name' => 'Bob'],
+            1 => ['id' => 3, 'name' => 'Charlie'],
+        ];
+        // Test case 1: Basic search with valid needle and key
+        $result = Arr::searchByKey(2, $haystack, 'id');
+        $this->assertEquals(['id' => 2, 'name' => 'Bob'], $result);
+        // Test case 2: String needle with strict comparison
+        $result = Arr::searchByKey('001', $haystack, 'id');
+        $this->assertEquals(['id' => '001', 'name' => 'Frank'], $result);
+        // Test case 3: Haystack with empty string key (with null key collision)
+        $result = Arr::searchByKey(5, $haystack, 'id');
+        $this->assertEquals(['id' => 5, 'name' => 'Grace'], $result);
+        // Test case 4: Haystack with non-auto-incrementing keys
+        $result = Arr::searchByKey(3, $haystack, 'id');
+        $this->assertEquals(['id' => 3, 'name' => 'Charlie'], $result);
+        // Test case 5: Search with non-existent needle
+        $result = Arr::searchByKey(6, $haystack, 'id');
+        $this->assertFalse($result);
+        // Test case 6: Search with non-existent key
+        $result = Arr::searchByKey('Alice', $haystack, 'email');
+        $this->assertFalse($result);
+        // Test case 7: Empty haystack
+        $result = Arr::searchByKey(1, [], 'id');
+        $this->assertFalse($result);
+        // Test case 8: Non-array haystack
+        $result = Arr::searchByKey(1, 'not an array', 'id');
+        $this->assertFalse($result);
+        // Test case 9: Haystack with mismatched keys and values count
+        $result = Arr::searchByKey(1, array_merge($haystack, ['incomplete' => ['name' => 'Eve']]), 'id');
+        $this->assertFalse($result);
+        // Test case 10: Haystack with null key (converted to empty string by array_combine, overwritten by last empty string key)
+        $result = Arr::searchByKey(4, $haystack, 'id');
+        $this->assertFalse($result);
+    }
+
     public function test_set()
     {
         $this->assertEquals(Arr::set([], 'number.thirteen', '13'),
