@@ -94,45 +94,46 @@ class SettingsController extends AbstractController
 
     protected function sanitizeStrings(array $options, array $input): array
     {
-        $key = 'settings.strings';
-        $inputForm = Arr::consolidate(Arr::get($input, $key));
-        if (!empty($inputForm)) {
-            $options = Arr::set($options, $key, array_values(array_filter($inputForm)));
-            $allowedTags = [
-                'a' => ['class' => [], 'href' => [], 'target' => []],
-                'span' => ['class' => []],
-            ];
-            $errors = [
-                '%d' => [],
-                '%s' => [],
-            ];
-            array_walk($options['settings']['strings'], function (&$string) use ($allowedTags, &$errors) {
-                $string = wp_parse_args($string, [
-                    'p1' => '',
-                    'p2' => '',
-                    's1' => '',
-                    's2' => '',
-                ]);
-                $string['s2'] = wp_kses($string['s2'], $allowedTags);
-                $string['p2'] = wp_kses($string['p2'], $allowedTags);
-                foreach ($errors as $needle => $values) {
-                    if (str_contains($string['s1'], $needle) && !str_contains($string['s2'], $needle)) {
-                        $errors[$needle][] = $string['s2'];
-                    }
-                    if (str_contains($string['p1'], $needle) && !str_contains($string['p2'], $needle)) {
-                        $errors[$needle][] = $string['p2'];
-                    }
-                }
-            });
+        $strings = Arr::consolidate($input['settings']['strings'] ?? []);
+        if (empty($strings)) {
+            return $options;
+        }
+        $allowedTags = [
+            'a' => ['class' => [], 'href' => [], 'target' => []],
+            'span' => ['class' => []],
+        ];
+        $errors = [
+            '%d' => [],
+            '%s' => [],
+        ];
+        $sanitizedStrings = [];
+        foreach ($strings as $string) {
+            if (!isset($string['s1'])) {
+                continue; // all entries should have this key
+            }
+            $string['s2'] = wp_kses($string['s2'] ?? '', $allowedTags);
+            if (isset($string['p1'])) {
+                $string['p2'] = wp_kses($string['p2'] ?? '', $allowedTags);
+            }
             foreach ($errors as $needle => $values) {
-                if (!empty($errors[$needle])) {
-                    $notice = sprintf(_x('You forgot to include the %s placeholder tags in your Custom Text.', 'admin-text', 'site-reviews'),
-                        "<code>{$needle}</code>"
-                    );
-                    glsr(Notice::class)->addError($notice, $errors[$needle]);
+                if (str_contains($string['s1'], $needle) && !str_contains($string['s2'], $needle)) {
+                    $errors[$needle][] = $string['s2'];
+                }
+                if (isset($string['p1']) && str_contains($string['p1'], $needle) && !str_contains($string['p2'], $needle)) {
+                    $errors[$needle][] = $string['p2'];
                 }
             }
+            $sanitizedStrings[] = $string;
         }
+        foreach ($errors as $needle => $values) {
+            if (!empty($values)) {
+                glsr(Notice::class)->addError(
+                    sprintf(_x('You forgot to include the %s placeholder tags in your Custom Text.', 'admin-text', 'site-reviews'), "<code>$needle</code>"),
+                    $values
+                );
+            }
+        }
+        $options['settings']['strings'] = $sanitizedStrings;
         return $options;
     }
 
