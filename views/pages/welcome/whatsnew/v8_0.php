@@ -19,6 +19,7 @@
             <li>Added <a href="https://profilepress.com/">ProfilePress</a> integration</li>
             <li>Added <a href="https://surecart.com/">SureCart</a> integration</li>
             <li>Added <a href="https://wpbakery.com/">WPBakery Page Builder</a> integration</li>
+            <li>Added <a href="https://wployalty.net/">WPLoyalty</a> integration</li>
             <li>Added a "CAPTCHA Placement" setting to change the position of the Captcha above or below the submit button in the review form</li>
             <li>Added an "author" option to the Latest Reviews and Rating Summary blocks and shortcodes to display all ratings and reviews submitted by a specific user.</li>
             <li>Added an "Enable Account Reviews" setting to the Ultimate Member integration to display all of a user's submitted reviews on their account page.</li>

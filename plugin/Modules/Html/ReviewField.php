@@ -19,7 +19,7 @@ class ReviewField extends Field
                 'class' => $this->classAttrField(),
                 'description' => $this->buildFieldDescription(),
                 'errors' => $this->buildFieldErrors(),
-                'field' => $this->buildFieldElement(),
+                'field' => $this->buildFieldElement().$this->after,
                 'field_label' => esc_attr($this->label),
                 'field_name' => $this->original_name,
                 'field_type' => $this->original_type,

@@ -21,7 +21,7 @@ class FieldDefaults extends DefaultsAbstract
      * This is done after $casts and before $enums.
      */
     public array $sanitize = [
-        'after' => 'text',
+        'after' => 'text-html:a,br,code,span',
         'class' => 'attr-class',
         'conditions' => 'text',
         'description' => 'text-html:a,br,code,span',
