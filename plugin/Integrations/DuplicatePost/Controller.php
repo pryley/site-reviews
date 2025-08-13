@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\DuplicatePost;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
+use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
@@ -26,6 +27,9 @@ class Controller extends AbstractController
         $review = glsr_get_review($post->ID);
         if ($review->isValid()) {
             glsr(ReviewManager::class)->createFromPost((int) $newPostId, $review->toArray());
+            delete_post_meta($newPostId, '_submitted');
+            delete_post_meta($newPostId, '_submitted_hash');
+            update_post_meta($newPostId, '_duplicated_from', $post->ID);
         }
     }
 
@@ -39,6 +43,19 @@ class Controller extends AbstractController
         $actions = Arr::consolidate($actions);
         unset($actions['duplicate_post_bulk_rewrite_republish']);
         return $actions;
+    }
+
+    /**
+     * @param string[] $metaKeys
+     *
+     * @filter duplicate_post_excludelist_filter
+     */
+    public function filterExcludedMetaKeys($metaKeys): array
+    {
+        $metaKeys[] = CountManager::META_AVERAGE;
+        $metaKeys[] = CountManager::META_RANKING;
+        $metaKeys[] = CountManager::META_REVIEWS;
+        return $metaKeys;
     }
 
     /**

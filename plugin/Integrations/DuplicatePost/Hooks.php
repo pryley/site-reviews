@@ -11,6 +11,7 @@ class Hooks extends IntegrationHooks
         $this->hook(Controller::class, [
             ['duplicateReview', 'duplicate_post_post_copy', 10, 2],
             ['filterBulkActions', "bulk_actions-edit-{$this->type}", 100],
+            ['filterExcludedMetaKeys', 'duplicate_post_excludelist_filter'],
             ['filterRowActions', 'post_row_actions', 100, 2],
             ['removeRewriteEditorLink', 'post_submitbox_start', 1],
         ]);
