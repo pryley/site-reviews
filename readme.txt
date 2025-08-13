@@ -210,6 +210,7 @@ Site Reviews has a fresh coat of paint!
 
 - Added [Breakdance](https://breakdance.com/) integration
 - Added [Bricks](https://bricksbuilder.io/) integration
+- Added [Duplicate Page](https://wordpress.org/plugins/duplicate-page/) integration
 - Added [Flatsome Page Builder](https://themeforest.net/item/flatsome-multipurpose-responsive-woocommerce-theme/5484319) integration
 - Added [ProfilePress](https://profilepress.com/) integration
 - Added [SureCart](https://surecart.com/) integration
