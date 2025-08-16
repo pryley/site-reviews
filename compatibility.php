@@ -22,6 +22,35 @@ add_action('admin_enqueue_scripts', function () {
 }, 20);
 
 /**
+ * This fixes the "Show reviews count" option in the WoodMart theme.
+ *
+ * @see https://woodmart.xtemos.com/
+ */
+function glsr_fix_woodmart_product_reviews_count_option($html): string
+{
+    global $product;
+    if (!function_exists('woodmart_get_opt') || !function_exists('woodmart_show_reviews_count')) {
+        return $html;
+    }
+    if (!is_a($product, 'WC_Product')) {
+        return $html;
+    }
+    if (!glsr_get_option('integrations.woocommerce.enabled', false, 'bool')) {
+        return $html;
+    }
+    if (str_contains($html, 'wd-star-rating')) {
+        return $html;
+    }
+    if (woodmart_get_opt('show_reviews_count')) {
+        ob_start();
+        woodmart_show_reviews_count();
+        $html .= ob_get_clean();
+    }
+    return sprintf('<div class="wd-star-rating">%s</div>', $html);
+}
+add_filter('woocommerce_product_get_rating_html', 'glsr_fix_woodmart_product_reviews_count_option', 30);
+
+/**
  * This fixes the button classes in themes using the Avia framework.
  *
  * @see https://kriesi.at/themes/enfold-overview/
