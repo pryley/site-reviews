@@ -21,7 +21,7 @@ class CountProductReviews extends AbstractCommand
     public function handle(): void
     {
         $sql = glsr(Query::class)->sql("
-            SELECT COUNT(DISTINCT c.comment_ID)
+            SELECT COUNT(*)
             FROM table|comments AS c
             INNER JOIN table|commentmeta AS cm ON (cm.comment_id = c.comment_ID)
             WHERE 1=1

@@ -141,7 +141,7 @@ class GeolocateReviews extends AbstractCommand
     protected function countIpsNeedingGeolocation(): int
     {
         $sql = "
-            SELECT COUNT(r.ID)
+            SELECT COUNT(*)
             FROM table|ratings AS r
             LEFT JOIN table|stats AS s ON (r.ID = s.rating_id)
             WHERE 1=1
