@@ -254,12 +254,12 @@ class Schema
     protected function getThingDescription(): string
     {
         if (is_archive()) {
-            $text = get_the_archive_description();
+            $text = (string) get_the_archive_description();
         } elseif (is_singular()) {
             $post = get_post();
-            $text = Arr::get($post, 'post_excerpt');
+            $text = Arr::getAs('string', $post, 'post_excerpt');
             if (empty($text)) {
-                $text = Arr::get($post, 'post_content');
+                $text = Arr::getAs('string', $post, 'post_content');
             }
         }
         if (!empty($text)) {
@@ -289,10 +289,10 @@ class Schema
     protected function getThingName(): string
     {
         if (is_archive()) {
-            return wp_strip_all_tags(get_the_archive_title());
+            return wp_strip_all_tags((string) get_the_archive_title());
         }
         if (is_singular()) {
-            return get_the_title();
+            return (string) get_the_title();
         }
         return '';
     }
@@ -301,7 +301,7 @@ class Schema
     {
         $queried = get_queried_object();
         if (is_singular()) {
-            $url = (string) get_the_permalink();
+            $url = get_the_permalink();
         } elseif (is_category()) {
             $url = get_category_link($queried);
         } elseif (is_tag()) {
