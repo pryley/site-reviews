@@ -235,6 +235,7 @@ Site Reviews has a fresh coat of paint!
 - Fixed the Blacklist validator
 - Fixed the category priority feature
 - Fixed the Cloudflare Turnstile integration
+- Fixed the "Export Reviews" tool for hosts that disable the [fpassthru](https://www.php.net/manual/en/function.fpassthru.php) PHP function (i.e. Cloudways, FlyWheel, etc.)
 - Fixed the legacy WordPress widget options
 - Fixed the pin control on the edit review page
 - Fixed the RankMath integration when using Divi Builder

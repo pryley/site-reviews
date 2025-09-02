@@ -104,6 +104,7 @@ final class Stream implements SeekableIterator
             'delimiter' => $this->delimiter,
             'enclosure' => $this->enclosure,
             'escape' => $this->escape,
+            'fpassthru_enabled' => function_exists('fpassthru'),
             'stream_filters' => array_keys($this->filters),
         ];
     }
@@ -373,7 +374,46 @@ final class Stream implements SeekableIterator
      */
     public function fpassthru()
     {
+        if (!function_exists('fpassthru')) {
+            return $this->fpassthruFallback();
+        }
         return fpassthru($this->stream);
+    }
+
+    /**
+     * Fallback for when fpassthru is disabled on host
+     *
+     * @return int|false
+     */
+    public function fpassthruFallback()
+    {
+        if (feof($this->stream)) {
+            return false;
+        }
+        $bytesWritten = 0;
+        $bufferSize = 8192; // 8KB chunks for performance
+        try {
+            // Disable output buffering
+            while (ob_get_level() > 0) {
+                ob_end_flush();
+            }
+            while (!feof($this->stream)) {
+                $chunk = $this->fread($bufferSize);
+                if (false === $chunk) {
+                    return false;
+                }
+                $length = strlen($chunk);
+                if (0 === $length) {
+                    break;
+                }
+                echo $chunk;
+                $bytesWritten += $length;
+            }
+            flush();
+            return $bytesWritten;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**

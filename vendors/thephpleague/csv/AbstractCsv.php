@@ -13,6 +13,8 @@
  * - Added: Reader::addFormatter (from v9.16.0)
  * - Added: Reader::chunkBy (from v9.16.0)
  * - Added: ResultSet::chunkBy (from v9.16.0)
+ * - Added: Stream::fpassthruFallback (when fpassthu is disabled)
+ * - Modified: Added exists check for fpassthru in Stream::fpassthru
  */
 
 declare(strict_types=1);
