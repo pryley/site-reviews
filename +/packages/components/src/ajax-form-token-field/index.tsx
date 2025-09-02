@@ -71,7 +71,7 @@ const AjaxFormTokenField = (props: ControlProps) => {
             response.forEach((item) => {
                 const transformed = transformItem(item);
                 initialSuggestions.push(transformed);
-                if (value.includes(item.id)) {
+                if (value.includes(transformed.id)) {
                     initialValues.push(transformed);
                 }
             });
