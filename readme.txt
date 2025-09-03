@@ -216,6 +216,7 @@ Site Reviews has a fresh coat of paint!
 - Added [SureCart](https://surecart.com/) integration
 - Added [WPBakery Page Builder](https://wpbakery.com/) integration
 - Added [WPLoyalty](https://wployalty.net/) integration
+- Added [Yoast SEO](https://yoast.com/wordpress/plugins/seo-free/) integration
 - Added a "CAPTCHA Placement" setting to change the position of the Captcha above or below the submit button in the review form
 - Added an "author" option to the Latest Reviews and Rating Summary blocks and shortcodes to display all ratings and reviews submitted by a specific user.
 - Added an "Enable Account Reviews" setting to the Ultimate Member integration to display all of a user's submitted reviews on their account page.

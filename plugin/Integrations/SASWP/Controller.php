@@ -20,21 +20,21 @@ class Controller extends AbstractController
         if (empty($schema)) {
             return $data;
         }
-        $aggregateRating = Arr::get($schema, 'aggregateRating');
-        $review = Arr::get($schema, 'review');
-        if (in_array(Arr::get($data, '@type'), ['Review', 'ReviewNewsArticle'])) {
-            if (!empty($aggregateRating)) {
-                $data['itemReviewed']['aggregateRating'] = $aggregateRating;
+        $aggregateRatingSchema = Arr::get($schema, 'aggregateRating');
+        $reviewSchema = Arr::get($schema, 'review');
+        $isReviewType = in_array(Arr::get($data, '@type'), ['Review', 'ReviewNewsArticle']);
+        if (!empty($aggregateRatingSchema)) {
+            if ($isReviewType) {
+                $data['itemReviewed']['aggregateRating'] = $aggregateRatingSchema;
+            } else {
+                $data['aggregateRating'] = $aggregateRatingSchema;
             }
-            if (!empty($review)) {
-                $data['itemReviewed']['review'] = $review;
-            }
-        } else {
-            if (!empty($aggregateRating)) {
-                $data['aggregateRating'] = $aggregateRating;
-            }
-            if (!empty($review)) {
-                $data['review'] = $review;
+        }
+        if (!empty($reviewSchema)) {
+            if ($isReviewType) {
+                $data['itemReviewed']['review'] = $reviewSchema;
+            } else {
+                $data['review'] = $reviewSchema;
             }
         }
         return $data;

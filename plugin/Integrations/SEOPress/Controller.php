@@ -3,8 +3,8 @@
 namespace GeminiLabs\SiteReviews\Integrations\SEOPress;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
+use GeminiLabs\SiteReviews\Defaults\RatingSchemaTypeDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Integrations\RankMath\Defaults\RatingSchemaTypeDefaults;
 use GeminiLabs\SiteReviews\Modules\Schema;
 
 class Controller extends AbstractController
@@ -47,12 +47,12 @@ class Controller extends AbstractController
             return $data;
         }
         $allowedTypes = glsr(RatingSchemaTypeDefaults::class)->defaults();
+        $aggregateRatingSchema = Arr::get($schema, 'aggregateRating');
+        $reviewSchema = Arr::get($schema, 'review');
         foreach ($data as $key => $values) {
             if (!in_array(Arr::get($values, '@type'), $allowedTypes)) {
                 continue;
             }
-            $aggregateRatingSchema = Arr::get($schema, 'aggregateRating');
-            $reviewSchema = Arr::get($schema, 'review');
             if ($aggregateRatingSchema) {
                 $data[$key]['aggregateRating'] = $aggregateRatingSchema;
             }

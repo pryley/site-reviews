@@ -3,8 +3,8 @@
 namespace GeminiLabs\SiteReviews\Integrations\RankMath;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
+use GeminiLabs\SiteReviews\Defaults\RatingSchemaTypeDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Integrations\RankMath\Defaults\RatingSchemaTypeDefaults;
 use GeminiLabs\SiteReviews\Modules\Schema;
 
 class Controller extends AbstractController

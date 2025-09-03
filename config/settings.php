@@ -471,6 +471,7 @@ return [ // order is intentional
             'saswp' => _x('Schema & Structured Data for WP & AMP', 'plugin name (admin-text)', 'site-reviews'),
             'schema_pro' => _x('Schema Pro', 'plugin name (admin-text)', 'site-reviews'),
             'seopress' => _x('SEOPress Pro', 'plugin name (admin-text)', 'site-reviews'),
+            'yoast_seo' => _x('Yoast SEO', 'plugin name (admin-text)', 'site-reviews'),
         ],
         'sanitizer' => 'text',
         'tooltip' => _x('Integrate Site Reviews with a third-party schema plugin?', 'admin-text', 'site-reviews'),
