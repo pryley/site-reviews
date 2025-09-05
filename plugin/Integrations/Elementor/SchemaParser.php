@@ -10,39 +10,58 @@ class SchemaParser extends Parser
 {
     public function generate(): array
     {
-        $postId = (int) get_the_ID();
-        if (empty($postId)
-            || !class_exists('Elementor\Plugin')
-            || !\Elementor\Plugin::$instance->documents->get($postId)->is_built_with_elementor()) { // @phpstan-ignore-line
+        if (!class_exists('Elementor\Plugin')) {
             return [];
         }
-        $widgets = Cast::toString(get_post_meta($postId, '_elementor_data', true));
-        $widgets = json_decode($widgets, true);
-        $widgets = Arr::consolidate($widgets);
-        $args = $this->parseElementor($widgets, 'site_reviews');
-        if (Arr::getAs('bool', $args, 'schema')) {
-            return $this->buildReviewSchema($args);
+        $document = \Elementor\Plugin::$instance->documents->get((int) get_the_ID());
+        if (false === $document || !$document->is_built_with_elementor()) {
+            return [];
         }
-        $args = $this->parseElementor($widgets, 'site_reviews_summary');
-        if (Arr::getAs('bool', $args, 'schema')) {
-            return $this->buildSummarySchema($args);
+        $data = Arr::consolidate($document->get_elements_data());
+        $data = $this->parseElementorData($data);
+        foreach ($data as $shortcode => $args) {
+            if ('site_reviews' === $shortcode) {
+                return $this->buildReviewSchema($args);
+            }
+            if ('site_reviews_summary' === $shortcode) {
+                return $this->buildSummarySchema($args);
+            }
         }
         return [];
     }
 
-    protected function parseElementor(array $widgets, string $name = 'site_reviews', array $result = []): array
+    protected function parseElementorData(array $elements, array $result = []): array
     {
-        foreach ($widgets as $widget) {
-            $children = $widget['elements'];
-            if ($name === Arr::get($widget, 'widgetType') && Arr::getAs('bool', $widget, 'settings.schema')) {
-                $result = Arr::consolidate($widget['settings']);
-            } elseif (!empty($children)) {
-                $result = $this->parseElementor($children, $name, $result);
+        foreach ($elements as $data) {
+            $element = \Elementor\Plugin::$instance->elements_manager->create_element_instance($data);
+            if (!$element) {
+                continue;
             }
-            if (!empty($result)) {
-                return $result;
+            $name = $element->get_name();
+            if ('template' === $name) {
+                $postId = Cast::toInt($element->get_settings('template_id'));
+                if ($document = \Elementor\Plugin::$instance->documents->get($postId)) {
+                    $templateElements = Arr::consolidate($document->get_elements_data());
+                    $result = $this->parseElementorData($templateElements, $result);
+                }
+                continue;
             }
+            $children = $element->get_data('elements');
+            if (!empty($children)) {
+                $result = $this->parseElementorData($children, $result);
+                continue;
+            }
+            if (!in_array($name, ['site_reviews', 'site_reviews_summary'])) {
+                continue;
+            }
+            if (!Cast::toBool($element->get_settings('schema'))) {
+                continue;
+            }
+            if (array_key_exists($name, $result)) {
+                continue;
+            }
+            $result[$name] = $element->get_data('settings');
         }
-        return [];
+        return $result;
     }
 }

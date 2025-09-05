@@ -231,6 +231,7 @@ Site Reviews has a fresh coat of paint!
 - Changed the HTML markup of the `ultimatemember/reviews.php` template
 - Changed the location of the custom CSS class attribute in a rendered block or shortcode to the root DIV.
 - Fixed ActionScheduler action redirects
+- Fixed Elementor template support in the schema parser
 - Fixed generated CSS ID values to always be unique
 - Fixed link focus when expanding excerpts with the keyboard
 - Fixed the Blacklist validator
