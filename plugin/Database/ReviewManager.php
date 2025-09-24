@@ -182,7 +182,9 @@ class ReviewManager
         $data = $review->toArray();
         $data['author_id'] = get_current_user_id();
         $data['is_approved'] = $data['is_approved'] && glsr()->can('publish_posts');
-        $duplicate = glsr_create_review($data);
+        if (!$duplicate = glsr_create_review($data)) {
+            return false;
+        }
         foreach ($review->meta() as $key => $value) {
             if (!str_starts_with($key, '_submitted')) {
                 update_post_meta($duplicate->ID, $key, $value);
