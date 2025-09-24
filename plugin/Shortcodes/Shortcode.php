@@ -129,6 +129,7 @@ abstract class Shortcode implements ShortcodeContract
         $shortcode = Str::snakeCase($shortcode);
         $shortcode = str_replace('_shortcode', '', $shortcode);
         add_shortcode($shortcode, fn ($atts) => $this->build($atts));
+        glsr()->alias($shortcode, fn () => glsr(get_class($this)));
         glsr()->append('shortcodes', get_class($this), $shortcode);
     }
 
