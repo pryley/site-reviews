@@ -24,7 +24,7 @@ const pluginsJavascript = () => [
   babel({
     babelHelpers: 'runtime',
     plugins: [
-      '@babel/plugin-proposal-optional-chaining',
+      '@babel/plugin-transform-optional-chaining',
       '@babel/plugin-transform-runtime',
     ],
     presets: [

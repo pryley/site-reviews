@@ -1,4 +1,4 @@
-import ServerSideRender from '@wordpress/server-side-render';
+import { default as ServerSideRender } from '@wordpress/server-side-render';
 import { __experimentalToolsPanel as ToolsPanel, Disabled, PanelBody, Spinner } from '@wordpress/components';
 import { _x } from '@wordpress/i18n';
 import { BaseControl, Notice } from '@wordpress/components';

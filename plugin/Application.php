@@ -219,7 +219,7 @@ final class Application extends Container implements PluginContract
         if (true === $isAuthorized) {
             $this->addons[$addonId] = $addon;
             $this->singleton($addon); // this goes first!
-            $this->alias($addonId, $this->make($addon)); // @todo for some reason we have to link an alias to an instantiated class
+            $this->alias($addonId, $this->make($addon));
             $instance = $this->make($addon)->init();
             $this->append('addons', $instance->version, $instance->id);
         }

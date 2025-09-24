@@ -45,7 +45,7 @@
     "phpstan/phpstan": "^1.9.4",
     "szepeviktor/phpstan-wordpress": "^1.1.6",
     "yoast/phpunit-polyfills": "^2.0.0",
-    "php-stubs/generator": "dev-szepeviktor-patch-1",
+    "php-stubs/generator": "^0.8.5",
     "brain/monkey": "^2.6",
     "10up/wp_mock": "^1.1",
     "eduardovillao/wp-since": "^1.1"

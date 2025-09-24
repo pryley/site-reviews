@@ -70,7 +70,7 @@ mix
   .js('+/integrations/wpbakery/wpbakery-inline.js', 'assets/scripts/integrations')
   .js('+/scripts/mce-plugin.js', 'assets/scripts/mce-plugin.js')
   .js('+/scripts/site-reviews-admin.js', 'assets/scripts')
-  .postCss('+/integrations/divi/divi-woo-inline.css', 'assets/styles/integrations')
+  // .postCss('+/integrations/divi/divi-woo-inline.css', 'assets/styles/integrations')
   .postCss('+/integrations/bricks/bricks-inline.css', 'assets/styles/integrations')
   .postCss('+/integrations/flatsome/flatsome-inline.css', 'assets/styles/integrations')
   .postCss('+/integrations/fusion/fusion-inline.css', 'assets/styles/integrations')

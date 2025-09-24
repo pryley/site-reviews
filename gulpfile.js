@@ -1,15 +1,16 @@
 const args            = require('yargs').argv;
 const bump            = require('gulp-bump');
 const checktextdomain = require('gulp-checktextdomain');
+const fs              = require('fs');
 const gulp            = require('gulp');
 const potomo          = require('gulp-potomo');
 const pottopo         = require('gulp-pottopo');
 const pump            = require('pump');
 const sort            = require('gulp-sort');
 const wpPot           = require('gulp-wp-pot');
-const yaml            = require('yamljs');
+const YAML            = require('yaml');
 
-const config = yaml.load('+/config.yml');
+const config = YAML.parse(fs.readFileSync('./+/config.yml', 'utf8'));
 
 gulp.task('bump', cb => {
   var type = 'patch';
