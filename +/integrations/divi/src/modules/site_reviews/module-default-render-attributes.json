@@ -1,0 +1,75 @@
+{
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Latest Reviews"
+        }
+      }
+    }
+  },
+  "shortcode": {
+    "advanced": {
+      "assigned_posts": {
+        "desktop": {
+          "value": []
+        }
+      },
+      "assigned_terms": {
+        "desktop": {
+          "value": []
+        }
+      },
+      "assigned_users": {
+        "desktop": {
+          "value": []
+        }
+      },
+      "author": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "class": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "display": {
+        "desktop": {
+          "value": 10
+        }
+      },
+      "hide": {
+        "desktop": {
+          "value": []
+        }
+      },
+      "id": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "pagination": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "rating": {
+        "desktop": {
+          "value": 0
+        }
+      },
+      "terms": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "type": {
+        "desktop": {
+          "value": ""
+        }
+      }
+    }
+  }
+}

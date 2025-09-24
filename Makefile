@@ -25,6 +25,9 @@ compat: ## Run PHP CodeSniffer to check PHP 7.4+ Compatibility
 db: ## Open the database in TablePlus
 	@open mysql://dev:dev@127.0.0.1/site-reviews?enviroment=local&name=Localhost&safeModeLevel=0&advancedSafeModeLevel=0
 
+divi: ## Build all Divi elements
+	npm run divi
+
 help: ## Display help
 	@awk -F ':|##' '/^[^\t].+?:.*?##/ {printf "\033[36m%-30s\033[0m %s\n", $$1, $$NF}' $(MAKEFILE_LIST) | sort
 
@@ -35,6 +38,7 @@ mix: ## Build all assets
 	npx mix --production
 	npx rollup -c
 	make blocks
+	make divi
 
 mixsync: ## Build all assets and sync
 	make mix
@@ -71,4 +75,4 @@ zip: ## Create a zip archive of Site Reviews
 	git archive -o ./site-reviews-v$(VERSION).zip --prefix=site-reviews/ HEAD
 	open .
 
-.PHONY: analyse blocks build bump compat db help i18n mix mixsync open release sync test testall update watch zip
+.PHONY: analyse blocks build bump compat db divi help i18n mix mixsync open release sync test testall update watch zip

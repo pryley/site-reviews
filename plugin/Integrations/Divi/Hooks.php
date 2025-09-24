@@ -12,14 +12,20 @@ class Hooks extends IntegrationHooks
             return;
         }
         if (!$this->isVersionSupported()) {
-            // $this->notify('Divi');
+            $this->notify('Divi');
             return;
         }
         $this->hook(Controller::class, [
             ['filterDynamicAssets', 'et_dynamic_assets_modules_atf', 10, 2],
             ['filterPaginationLinks', 'site-reviews/paginate_links', 10, 2],
-            ['registerDiviModules', 'divi_extensions_init'],
         ]);
+        if ($this->isNextVersion()) {
+            $this->hook(Controller::class, [
+                ['enqueueNextAssets', 'wp_enqueue_scripts'],
+                ['enqueueNextBundledAssets', 'divi_visual_builder_assets_before_enqueue_scripts'],
+                ['registerNextModules', 'divi_module_library_modules_dependency_tree'],
+            ]);
+        }
         if ($this->isWooEnabled()) {
             $this->hook(Controller::class, [
                 ['filterInlineWooStyles', 'site-reviews/enqueue/public/inline-styles'],
@@ -30,6 +36,15 @@ class Hooks extends IntegrationHooks
     protected function isInstalled(): bool
     {
         return 'Divi' === wp_get_theme(get_template())->get('Name');
+    }
+
+    protected function isNextVersion(): bool
+    {
+        $version = sanitize_text_field($this->version());
+        $supportedVersion = str_starts_with($version, '5.0.0-')
+            ? '5.0.0-public-alpha.22'
+            : '5.0.0';
+        return version_compare($version, $supportedVersion, '>=');
     }
 
     protected function isWooEnabled(): bool

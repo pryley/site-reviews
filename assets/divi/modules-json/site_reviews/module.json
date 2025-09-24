@@ -1,0 +1,341 @@
+{
+  "name": "glsr-divi/reviews",
+  "d4Shortcode": "",
+  "title": "Latest Reviews",
+  "titles": "Latest Reviews",
+  "moduleIcon": "site-reviews/reviews",
+  "folder": "site-reviews",
+  "category": "module",
+  "videos": [
+    {
+      "id": "H5HdMCXvuq8",
+      "name": "An introduction to Site Reviews"
+    }
+  ],
+  "attributes": {
+    "module": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "styleProps": {},
+      "settings": {
+        "advanced": {
+          "htmlAttributes": {},
+          "text": {}
+        },
+        "decoration": {
+          "animation": {},
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "conditions": {},
+          "disabledOn": {},
+          "filters": {},
+          "interactions": {},
+          "overflow": {},
+          "order": {},
+          "position": {},
+          "scroll": {},
+          "sizing": {},
+          "spacing": {},
+          "sticky": {},
+          "transform": {},
+          "transition": {},
+          "zIndex": {}
+        },
+        "meta": {
+          "adminLabel": {}
+        }
+      }
+    },
+    "shortcode": {
+      "type": "object",
+      "selector": "{{selector}} .glsr",
+      "settings": {
+        "advanced": {
+          "assigned_posts": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentGeneral",
+              "attrName": "shortcode.advanced.assigned_posts",
+              "label": "Assigned Pages",
+              "description": "Limit Reviews by Assigned Pages",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/select",
+                "type": "field",
+                "props": {
+                  "multiple": true,
+                  "searchable": true
+                }
+              }
+            }
+          },
+          "assigned_terms": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentGeneral",
+              "attrName": "shortcode.advanced.assigned_terms",
+              "label": "Assigned Categories",
+              "description": "Limit Reviews by Assigned Categories",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/select",
+                "type": "field",
+                "props": {
+                  "multiple": true,
+                  "searchable": true
+                }
+              }
+            }
+          },
+          "assigned_users": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentGeneral",
+              "attrName": "shortcode.advanced.assigned_users",
+              "label": "Assigned Users",
+              "description": "Limit Reviews by Assigned Users",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/select",
+                "type": "field",
+                "props": {
+                  "multiple": true,
+                  "searchable": true
+                }
+              }
+            }
+          },
+          "author": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentGeneral",
+              "attrName": "shortcode.advanced.author",
+              "label": "Review Author",
+              "description": "Limit Reviews by Review Author",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/select",
+                "type": "field",
+                "props": {
+                  "searchable": true
+                }
+              }
+            }
+          },
+          "type": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentGeneral",
+              "attrName": "shortcode.advanced.type",
+              "label": "Review Type",
+              "description": "Limit Reviews by Review Type",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/select",
+                "type": "field",
+                "props": {
+                  "searchable": true
+                }
+              }
+            }
+          },
+          "terms": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentGeneral",
+              "attrName": "shortcode.advanced.terms",
+              "label": "Terms Accepted",
+              "description": "Limit Reviews by Accepted Terms",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/select",
+                "type": "field",
+                "props": {
+                  "searchable": true
+                }
+              }
+            }
+          },
+          "pagination": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentDisplay",
+              "attrName": "shortcode.advanced.pagination",
+              "label": "Pagination Type",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/select",
+                "type": "field",
+                "props": {
+                  "searchable": true
+                }
+              }
+            }
+          },
+          "display": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentDisplay",
+              "attrName": "shortcode.advanced.display",
+              "label": "Reviews Per Page",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/range",
+                "type": "field",
+                "props": {
+                  "defaultUnit": "",
+                  "defaultValue": 10,
+                  "max": 50,
+                  "maxLimit": 50,
+                  "minLimit": 1,
+                  "min": 1
+                }
+              }
+            }
+          },
+          "rating": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentDisplay",
+              "attrName": "shortcode.advanced.rating",
+              "label": "Minimum Rating",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/range",
+                "type": "field",
+                "props": {
+                  "defaultUnit": "",
+                  "defaultValue": 0,
+                  "max": 5,
+                  "maxLimit": 5,
+                  "minLimit": 0,
+                  "min": 0
+                }
+              }
+            }
+          },
+          "hide": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentHide",
+              "attrName": "shortcode.advanced.hide",
+              "description": "Choose which fields you would like to hide.",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/checkboxes",
+                "type": "field",
+                "props": {
+                  "options": []
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "customCssFields": {},
+  "settings": {
+    "design": "auto",
+    "advanced": "auto",
+    "groups": {
+      "contentGeneral": {
+        "panel": "content",
+        "priority": 10,
+        "render": true,
+        "groupName": "contentGeneral",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "General Options"
+          }
+        }
+      },
+      "contentDisplay": {
+        "panel": "content",
+        "priority": 10,
+        "render": true,
+        "groupName": "contentDisplay",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Display Options"
+          }
+        }
+      },
+      "contentHide": {
+        "panel": "content",
+        "priority": 10,
+        "render": true,
+        "groupName": "contentHide",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Hide Options"
+          }
+        }
+      }
+    }
+  }
+}

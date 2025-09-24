@@ -1,0 +1,152 @@
+{
+  "module": {
+    "advanced": {
+      "text": {
+        "text": {
+          "desktop": {
+            "value": {
+              "color": "light"
+            }
+          }
+        }
+      }
+    },
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Blog"
+        }
+      }
+    }
+  },
+  "post": {
+    "advanced": {
+      "type": {
+        "desktop": {
+          "value": "post"
+        }
+      },
+      "number": {
+        "desktop": {
+          "value": "10"
+        }
+      },
+      "dateFormat": {
+        "desktop": {
+          "value": "M j, Y"
+        }
+      },
+      "offset": {
+        "desktop": {
+          "value": "0"
+        }
+      },
+      "excerptContent": {
+        "desktop": {
+          "value": "off"
+        }
+      },
+      "excerptManual": {
+        "desktop": {
+          "value": "on"
+        }
+      },
+      "showExcerpt": {
+        "desktop": {
+          "value": "on"
+        }
+      },
+      "excerptLength": {
+        "desktop": {
+          "value": "270"
+        }
+      }
+    }
+  },
+  "image": {
+    "advanced": {
+      "enable": {
+        "desktop": {
+          "value": "on"
+        }
+      }
+    }
+  },
+  "readMore": {
+    "advanced": {
+      "enable": {
+        "desktop": {
+          "value": "off"
+        }
+      }
+    }
+  },
+  "pagination": {
+    "advanced": {
+      "enable": {
+        "desktop": {
+          "value": "on"
+        }
+      }
+    }
+  },
+  "meta": {
+    "advanced": {
+      "showAuthor": {
+        "desktop": {
+          "value": "on"
+        }
+      },
+      "showDate": {
+        "desktop": {
+          "value": "on"
+        }
+      },
+      "showCategories": {
+        "desktop": {
+          "value": "on"
+        }
+      },
+      "showComments": {
+        "desktop": {
+          "value": "off"
+        }
+      }
+    }
+  },
+  "title": {
+    "decoration": {
+      "font": {
+        "font": {
+          "desktop": {
+            "value": {
+              "headingLevel": "h2"
+            }
+          }
+        }
+      }
+    }
+  },
+  "overlayIcon": {
+    "decoration": {
+      "icon": {
+        "desktop": {
+          "value": {
+            "unicode": "&#xe050;",
+            "type": "divi",
+            "weight": "400"
+          }
+        }
+      }
+    }
+  },
+  "fullwidth": {
+    "advanced": {
+      "enable": {
+        "desktop": {
+          "value": "on"
+        }
+      }
+    }
+  }
+}
