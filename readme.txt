@@ -249,6 +249,7 @@ Site Reviews has a fresh coat of paint!
 - Updated Action Scheduler to v3.9.2
 - Updated the Avada Fusion Builder integration
 - Updated the Elementor integration
+- Updated the FAQ documentation to include a section on how to hide empty review titles
 - Updated the Gutenberg blocks to API v3
 - Updated the privacy policy example to include a section on geolocation
 - Updated the WooCommerce integration
