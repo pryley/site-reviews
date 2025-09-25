@@ -15,7 +15,7 @@
             <li>Added an example CSV file that can be downloaded on the Import Reviews tool</li>
             <li>Added <a href="https://avada.com/" target="_blank">Avada Fusion Builder</a> elements</li>
             <li>Added basic style controls to the Elementor widgets</li>
-            <li>Added <a data-expand="#tools-ip-detection" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Configure IP Address Detection</a> tool</li>
+            <li>Added <?php echo glsr_admin_link('tools.general', 'Configure IP Address Detection', '#tools-ip-detection'); ?> tool</li>
             <li>Added Dashboard widget</li>
             <li>Added exponential-backoff strategy to API calls</li>
             <li>Added <a href="https://crocoblock.com/plugins/jetwoobuilder/" target="_blank">JetWooBuilder</a> integration</li>

@@ -8,7 +8,7 @@
         <?php if (0 === $ratings->reviews) { ?>
             <?php echo _x('This product has no reviews.', 'admin-text', 'site-reviews'); ?>
         <?php } else { ?>
-            <a href="<?php echo add_query_arg('assigned_post', $postId, glsr_admin_url()); ?>" class="button">
+            <a href="<?php echo esc_url(add_query_arg('assigned_post', $postId, glsr_admin_url())); ?>" class="button">
                 <?php printf(
                     _nx('View %s product review', 'View %s product reviews', $ratings->reviews, 'admin-text', 'site-reviews'),
                     number_format_i18n($ratings->reviews)

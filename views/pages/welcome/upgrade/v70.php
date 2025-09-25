@@ -11,7 +11,7 @@
 
         <div class="glsr-notice-inline components-notice is-warning">
             <p class="components-notice__content">
-                Site Reviews should automatically migrate itself after updating to v7.0. However, if you are experiencing problems after updating, you may need to manually run the <a href="<?php echo glsr_admin_url('tools', 'general'); ?>" data-expand="#tools-migrate-plugin">Migrate Plugin</a> tool.
+                Site Reviews should automatically migrate itself after updating to v7.0. However, if you are experiencing problems after updating, you may need to manually run the <a href="<?php echo esc_url(glsr_admin_url('tools', 'general')); ?>" data-expand="#tools-migrate-plugin">Migrate Plugin</a> tool.
             </p>
         </div>
 
@@ -22,7 +22,7 @@
                 <p><strong>Site Reviews no longer looks for proxy HTTP headers when detecting the IP address.</strong></p>
                 <p>Proxy HTTP headers are sometimes used by visitors to spoof their IP address so Site Reviews now disables this by default.</p>
                 <p>If you get incorrect IP address values in your reviews, there might be a reverse proxy, load balancer, cache, Cloudflare, CDN, or any other type of proxy in front of your web server that "proxies" traffic to your website.</p>
-                <p>Please use the <a data-expand="#tools-ip-detection" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Configure IP Address Detection</a> tool to test IP Address detection on your website and if needed, select the correct proxy HTTP header used by your server that contains the real visitor IP address.</p>
+                <p>Please use the <?php echo glsr_admin_link('tools.general', 'Configure IP Address Detection', '#tools-ip-detection'); ?> tool to test IP Address detection on your website and if needed, select the correct proxy HTTP header used by your server that contains the real visitor IP address.</p>
                 <p>
             </li>
         </ol>

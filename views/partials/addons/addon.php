@@ -12,7 +12,7 @@
     <?php if (!is_wp_error(validate_plugin($plugin))) : ?>
         <?php if (is_plugin_active($plugin)) : ?>
             <?php if (glsr()->addon($id) && glsr()->hasPermission('settings') && !empty(glsr($id)->config('settings'))) : ?>
-                <a href="<?php echo glsr_admin_url('settings', 'addons', glsr($id)->slug); ?>" class="glsr-addon-link button button-secondary">
+                <a href="<?php echo esc_url(glsr_admin_url('settings', 'addons', glsr($id)->slug)); ?>" class="glsr-addon-link button button-secondary">
                     <?php echo _x('Settings', 'admin-text', 'site-reviews'); ?>
                 </a>
             <?php endif; ?>

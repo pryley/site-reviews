@@ -20,12 +20,12 @@
                 <td class="column-primary has-row-actions">
                     <strong><?php echo $details['name']; ?></strong>
                     <div class="row-actions">
-                        <span><a href="<?php echo glsr_admin_url('settings', 'addons'); ?>"><?php echo _x('Settings', 'admin-text', 'site-reviews'); ?></a> | </span>
-                        <span><a href="<?php echo glsr_admin_url('settings', 'licenses'); ?>"><?php echo _x('License', 'admin-text', 'site-reviews'); ?></a> | </span>
-                        <span><a href="<?php echo glsr_admin_url('documentation', 'addons'); ?>"><?php echo _x('Documentation', 'admin-text', 'site-reviews'); ?></a></span>
+                        <span><a href="<?php echo esc_url(glsr_admin_url('settings', 'addons')); ?>"><?php echo esc_html_x('Settings', 'admin-text', 'site-reviews'); ?></a> | </span>
+                        <span><a href="<?php echo esc_url(glsr_admin_url('settings', 'licenses')); ?>"><?php echo esc_html_x('License', 'admin-text', 'site-reviews'); ?></a> | </span>
+                        <span><a href="<?php echo esc_url(glsr_admin_url('documentation', 'addons')); ?>"><?php echo esc_html_x('Documentation', 'admin-text', 'site-reviews'); ?></a></span>
                     </div>
                     <button type="button" class="toggle-row">
-                        <span class="screen-reader-text"><?php echo _x('Show more details', 'admin-text', 'site-reviews'); ?></span>
+                        <span class="screen-reader-text"><?php echo esc_html_x('Show more details', 'admin-text', 'site-reviews'); ?></span>
                     </button>
                 </td>
                 <td class="column-total_fetched" data-colname="<?php echo esc_attr_x('Reviews', 'admin-text', 'site-reviews'); ?>">

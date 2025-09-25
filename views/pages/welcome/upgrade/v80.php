@@ -11,7 +11,7 @@
 
         <div class="glsr-notice-inline components-notice is-warning">
             <p class="components-notice__content">
-                Site Reviews should automatically migrate itself after updating to v8.0. However, if you are experiencing problems after updating, you may need to manually run the <a href="<?php echo glsr_admin_url('tools', 'general'); ?>" data-expand="#tools-migrate-plugin">Migrate Plugin</a> tool.
+                Site Reviews should automatically migrate itself after updating to v8.0. However, if you are experiencing problems after updating, you may need to manually run the <?php echo glsr_admin_link('tools.general', 'Migrate Plugin', '#tools-migrate-plugin'); ?> tool.
             </p>
         </div>
 

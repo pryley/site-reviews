@@ -38,11 +38,11 @@
     <div class="about__section has-2-columns is-wider-left is-fullwidth">
         <div class="column is-edge-to-edge">
             <h3>How To Add Reviews to Your Website</h3>
-            <p>If you are using the WordPress blocks editor (also known as Gutenberg), simply add the Site Reviews blocks to your pages.</p>
-            <p>If you are using Elementor, you can use the Site Reviews Elementor widgets.</p>
-            <p>If you are using the Classic Editor or a page builder plugin like Divi Builder, use the Site Reviews shortcodes. Each shortcode has a bunch of options, and you can learn more about them on the <a href="<?php echo glsr_admin_url('documentation', 'shortcodes'); ?>">shortcodes documentation</a> page.</p>
-            <p>You can assign reviews to any public page or post type on your website. To do this, use the <a href="<?php echo glsr_admin_url('documentation', 'shortcodes'); ?>"><code>assigned_posts</code></a> option on the shortcodes, or change the assignment options on the blocks or Elementor widgets. And you're not limited to pages; you can also assign reviews to Users and Categories!</p>
-            <p>Site Reviews comes with tons of plugin settings. Did you know that any Site Reviews text visible to your website visitors can easily be changed? <a href="<?php echo glsr_admin_url('settings', 'strings'); ?>">Check it out</a>!</p>
+            <p>If you are using the WordPress Block editor, use the Site Reviews blocks.</p>
+            <p>If you are using Elementor, use the Site Reviews Elementor widgets.</p>
+            <p>If you are using the Classic Editor or a page builder plugin like Divi Builder, use the Site Reviews shortcodes. Each shortcode has a bunch of options, and you can learn more about them on the <?php echo glsr_admin_link('documentation.shortcodes'); ?> page.</p>
+            <p>You can assign reviews to any public page or post type on your website. To do this, use the <code>assigned_posts</code> option on the shortcodes, or change the assignment options on the blocks or Elementor widgets. And you're not limited to pages; you can also assign reviews to Users and Categories!</p>
+            <p>Site Reviews comes with tons of plugin settings. Did you know that any Site Reviews text visible to your website visitors can easily be changed? <?php echo glsr_admin_link('settings.strings', 'Check it out!'); ?></p>
         </div>
         <div class="column is-edge-to-edge">
             <img class="glsr-screenshot screenshot" src="<?php echo glsr()->url('assets/images/about/blocks.png'); ?>" alt="Editor Blocks" height="400" width="400" />
@@ -55,8 +55,9 @@
         </div>
         <div class="column is-edge-to-edge">
             <h3>Latest Reviews</h3>
-            <p>This block shows your latest reviews. You can hide any of the fields, change the number of reviews displayed, and add pagination or a Load More button. The shortcode for the Latest Reviews is: <?php echo glsr_admin_link('documentation.shortcodes', '[site_reviews]', '#shortcode-site_reviews'); ?></p>
-            <p>Site Reviews can generate Schema Markup to provide additional information about your reviews and ratings to search engines and your users. It can also integrate with other Schema and SEO plugins. Enable the schema option on the block or shortcode to generate the Schema Markup, and enable an integration on the <a href="<?php echo glsr_admin_url('settings', 'schema'); ?>">Settings page</a>.</p>
+            <p>This block shows your latest reviews. You can hide any of the fields, change the number of reviews displayed, and add pagination or a Load More button.</p>
+            <p>The shortcode for the Latest Reviews is: <?php echo glsr_admin_link('documentation.shortcodes', '[site_reviews]', '#shortcode-site_reviews'); ?></p>
+            <p>Site Reviews can generate Schema Markup to provide additional information about your reviews and ratings to search engines and your users. It can also integrate with other Schema and SEO plugins. Enable the schema option on the block or shortcode to generate the Schema Markup, and enable an integration on the <?php echo glsr_admin_link('settings.schema'); ?> page.</p>
         </div>
     </div>
 
@@ -66,7 +67,8 @@
         </div>
         <div class="column is-edge-to-edge">
             <h3>Rating Summary</h3>
-            <p>This block shows the rating summary of your reviews. You can hide any of the fields and change the text on the Settings page. The shortcode for the Rating Summary is: <?php echo glsr_admin_link('documentation.shortcodes', '[site_reviews_summary]', '#shortcode-site_reviews_summary'); ?></p>
+            <p>This block shows the rating summary of your reviews. You can hide any of the fields and change the text on the Settings page.</p>
+            <p>The shortcode for the Rating Summary is: <?php echo glsr_admin_link('documentation.shortcodes', '[site_reviews_summary]', '#shortcode-site_reviews_summary'); ?></p>
         </div>
     </div>
 
@@ -76,8 +78,9 @@
         </div>
         <div class="column is-edge-to-edge">
             <h3>Review Form</h3>
-            <p>This block shows the review form. You can hide any of the fields and change the text on the Settings page. The shortcode for the Review Form is: <?php echo glsr_admin_link('documentation.shortcodes', '[site_reviews_form]', '#shortcode-site_reviews_form'); ?></p>
-            <p>Site Reviews has built-in spam protection to help protect your site from pesky spammers and allows you to use popular spam fighting methods like Cloudflare Turnstile, Google reCAPTCHA, hCaptcha, FriendlyCaptcha, and Akismet. You can even limit reviews based on the email address, IP address, or username and require approval for all new review submissions. Enable these options and more on the <a href="<?php echo glsr_admin_url('settings', 'forms'); ?>">Settings page</a>.</p>
+            <p>This block shows the review form. You can hide any of the fields and change the text on the Settings page.</p>
+            <p>The shortcode for the Review Form is: <?php echo glsr_admin_link('documentation.shortcodes', '[site_reviews_form]', '#shortcode-site_reviews_form'); ?></p>
+            <p>Site Reviews has built-in spam protection to help protect your site from pesky spammers and allows you to use popular spam fighting methods like Cloudflare Turnstile, Google reCAPTCHA, hCaptcha, FriendlyCaptcha, and Akismet. You can even limit reviews based on the email address, IP address, or username and require approval for all new review submissions. Enable these options and more on the <?php echo glsr_admin_link('settings.forms'); ?> page.</p>
         </div>
     </div>
 </div>
