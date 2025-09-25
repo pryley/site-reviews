@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Helpers\Svg;
 use GeminiLabs\SiteReviews\HookProxy;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Metaboxes\ReviewsMetabox;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -304,7 +305,16 @@ class ProductController implements ControllerContract
      */
     public function printInlineStyle(): void
     {
-        echo '<style type="text/css">#woocommerce-product-data ul.wc-tabs li.site-reviews_tab a::before { content: "\f459"; }</style>';
+        $icon = Svg::encoded('assets/images/icon-static.svg');
+        echo '<style type="text/css">'.
+            '#woocommerce-product-data ul.wc-tabs li.site-reviews_tab a::before {'.
+                'background-color: currentColor;'.
+                'mask-image: url("'.$icon.'");'.
+                'mask-position: center;'.
+                'mask-repeat: no-repeat;'.
+                'mask-size: 1em;'.
+            '}'.
+        '</style>';
     }
 
     /**
