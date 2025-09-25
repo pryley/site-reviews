@@ -11,7 +11,7 @@
     <div id="tools-import-plugin-settings" class="inside">
         <p><?php echo sprintf(
             _x('Here you can import the Site Reviews settings from a <code>*.json</code> file. You can use the the %s tool to export these settings from another website.', 'Export Settings (admin-text)', 'site-reviews'),
-            glsr_admin_link(['tools', 'general'], _x('Export Settings', 'admin-text', 'site-reviews'), '#tools-export-plugin-settings')
+            glsr_admin_link('tools.general', _x('Export Settings', 'admin-text', 'site-reviews'), '#tools-export-plugin-settings')
         ); ?></p>
         <form method="post" class="wp-upload-form" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
             <?php wp_nonce_field('import-settings'); ?>

@@ -13,22 +13,22 @@
         <p>To fix this problem, deactivate the Site Reviews plugin and activate it again.</p>
 
         <h3>Email notifications are not working.</h3>
-        <p>Site Reviews uses the <code><?php echo glsr_admin_link(['tools', 'scheduled'], 'Action Scheduler'); ?></code> to queue notification emails and the standard WordPress mail functions to send emails. However, you may experience problems if <a href="https://developer.wordpress.org/plugins/cron/" target="_blank">WP-Cron</a> is not working, or if your WordPress settings and server configuration are incorrect.</p>
+        <p>Site Reviews uses the <?php echo glsr_admin_link('tools.scheduled', 'Action Scheduler'); ?> to queue notification emails and the standard WordPress mail functions to send emails. However, you may experience problems if <a href="https://developer.wordpress.org/plugins/cron/" target="_blank">WP-Cron</a> is not working, or if your WordPress settings and server configuration are incorrect.</p>
         <p>Your WP-Cron service may have stopped if the Action Scheduler has a lot of pending actions. You can check the status of WP-Cron with the <a href="https://wordpress.org/plugins/wp-cron-status-checker/" target="_blank">WP-Cron Status Checker</a> plugin.</p>
-        <p>If there are no <em>pending</em> actions in the Action Scheduler, please verify that you are sending from an email address that uses the same domain as your website. For example, if your website is <code>https://reviews.com</code>, the email address you are sending from should end with <code>@reviews.com</code>. You can change the email address from which notifications are sent in the <code><?php echo glsr_admin_link(['settings', 'general'], 'plugin settings'); ?></code>. Alternatively, use the <a href="https://wordpress.org/plugins/wp-mail-smtp/" target="_blank">WP Mail SMTP</a> plugin to reconfigure WordPress to use a SMTP provider (see also: <a href="https://www.butlerblog.com/2013/12/12/easy-smtp-email-wordpress-wp_mail/" target="_blank">Easy SMTP email settings for WordPress</a>).</p>
+        <p>If there are no <em>pending</em> actions in the Action Scheduler, please verify that you are sending from an email address that uses the same domain as your website. For example, if your website is <code>https://reviews.com</code>, the email address you are sending from should end with <code>@reviews.com</code>. You can change the email address from which notifications are sent in the <?php echo glsr_admin_link('settings.general', 'plugin settings'); ?>. Alternatively, use the <a href="https://wordpress.org/plugins/wp-mail-smtp/" target="_blank">WP Mail SMTP</a> plugin to reconfigure WordPress to use a SMTP provider (see also: <a href="https://www.butlerblog.com/2013/12/12/easy-smtp-email-wordpress-wp_mail/" target="_blank">Easy SMTP email settings for WordPress</a>).</p>
         <p>Finally, you can use the <a href="https://wordpress.org/plugins/check-email/" target="_blank">Check & Log Email</a> plugin to verify that your website can successfully send emails.</p>
 
         <h3>The "Site Reviews will automatically migrate your reviews and settings to the latest version" notice keeps appearing.</h3>
         <p>This message may appear after updating Site Reviews. Please click the "Run Migration" button in the notice if it does. If it continues to show after reloading your pages:</p>
         <ol>
             <li>
-                <p>Check the <code><?php echo glsr_admin_link(['tools', 'console']); ?></code> page. If any entries say "Unknown character set", you will need to check your wp-config.php file to see if it defines <a href="https://wordpress.org/support/article/editing-wp-config-php/#database-character-set" target="_blank">DB_CHARSET</a> or <a href="https://wordpress.org/support/article/editing-wp-config-php/#database-collation" target="_blank">DB_COLLATE</a>. If it does, either remove those entries or ensure the values they define are correct, then try again.</p>
+                <p>Check the <?php echo glsr_admin_link('tools.console'); ?> page. If any entries say "Unknown character set", you will need to check your wp-config.php file to see if it defines <a href="https://wordpress.org/support/article/editing-wp-config-php/#database-character-set" target="_blank">DB_CHARSET</a> or <a href="https://wordpress.org/support/article/editing-wp-config-php/#database-collation" target="_blank">DB_COLLATE</a>. If it does, either remove those entries or ensure the values they define are correct, then try again.</p>
             </li>
             <li>
                 <p>You may be using a caching plugin which is caching the database and preventing Site Reviews from storing the migration status. To fix this, you will need to flush your database cache and/or object cache and then try again.</p>
             </li>
             <li>
-                <p>You may have 3rd-party reviews that were not imported correctly. You can verify this by looking on the <code><a href="<?php echo glsr_admin_url(); ?>">All Reviews</a></code> page for reviews that do not have any stars. To fix this, delete the invalid reviews and empty the trash. Afterwards, use the provided <?php echo glsr_admin_link(['tools', 'general'], 'Import Reviews', '#tools-import-reviews'); ?> tool to re-import the reviews and then try again.</p>
+                <p>You may have 3rd-party reviews that were not imported correctly. You can verify this by looking on the <?php echo glsr_admin_link(); ?> page for reviews that do not have any stars. To fix this, delete the invalid reviews and empty the trash. Afterwards, use the provided <?php echo glsr_admin_link('tools.general', 'Import Reviews', '#tools-import-reviews'); ?> tool to re-import the reviews and then try again.</p>
             </li>
             <li>
                 <p>You may have reviews that were duplicated or cloned with an unsupported plugin. Most duplication plugins will not work with Site Reviews because the review details are stored in a custom database table. Please delete the duplicated reviews, empty the trash and try again.</p>
@@ -50,7 +50,7 @@
                 <p>Was the review created? Do you have notifications enabled in the Site Reviews settings? If so, then your server might not be configured to send emails. You must either disable the notification setting for new reviews or fix your server configuration.</p>
             </li>
             <li>
-                <p>Finally, check the <code><?php echo glsr_admin_link(['tools', 'console']); ?></code> page for helpful messages that may help you track down the cause of the problem.</p>
+                <p>Finally, check the <?php echo glsr_admin_link('tools.console'); ?> page for helpful messages that may help you track down the cause of the problem.</p>
             </li>
         </ol>
 
@@ -70,7 +70,7 @@
                     <li>The Form Request was submitted multiple times in parallel (possible single-packet attack)</li>
                 </ul>
                 <p>To fix the nonce errors, ensure you are not caching the review page for logged-in users because Site Reviews adds a <a href="https://www.bynicolas.com/code/wordpress-nonce/" target="_blank">WordPress Nonce</a> token to the form if the user is logged in. Nonces are a standard WordPress security feature that helps to prevent malicious form submissions. Still, they will not work if your web pages are cached because the nonce tokens are time-sensitive, and their validity expires after 12 hours.</p>
-                <p>Alternatively, you may remove the Nonce check as shown on the FAQ page: <?php echo glsr_admin_link(['documentation', 'faq'], 'How do I remove the WordPress Nonce check for logged-in users?', '#faq-remove-nonce-check'); ?>.</p>
+                <p>Alternatively, you may remove the Nonce check as shown on the FAQ page: <?php echo glsr_admin_link('documentation.faq', 'How do I remove the WordPress Nonce check for logged-in users?', '#faq-remove-nonce-check'); ?>.</p>
             </li>
             <li>
                 <h4 class="components-notice is-error" style="font-size:15px;">
@@ -99,8 +99,8 @@
                 <ul>
                     <li><p>Check for any invalid code snippets or custom functions you may have added to your theme's <code>functions.php</code> file that might be triggered after a review is created.</p></li>
                     <li><p>Deactivate Site Reviews and then reactivate it (this should fix any broken database table indexes).</p></li>
-                    <li><p>Use the <?php echo glsr_admin_link(['tools', 'general'], 'Migrate Plugin', '#tools-migrate-plugin'); ?> tool and click the <strong>Hard Reset</strong> button.</p></li>
-                    <li><p>Run the <?php echo glsr_admin_link(['tools', 'general'], 'Repair Review Relations', '#tools-repair-review-relations'); ?> tool.</p></li>
+                    <li><p>Use the <?php echo glsr_admin_link('tools.general', 'Migrate Plugin', '#tools-migrate-plugin'); ?> tool and click the <strong>Hard Reset</strong> button.</p></li>
+                    <li><p>Run the <?php echo glsr_admin_link('tools.general', 'Repair Review Relations', '#tools-repair-review-relations'); ?> tool.</p></li>
                     <li>
                         <p>Finally, there is the "Nuclear" option:</p>
                         <p class="components-notice is-warning" style="margin-bottom:1em;">
@@ -108,13 +108,13 @@
                             Only use this "Nuclear" option as a last resort because it will delete all your reviews and settings!
                         </p>
                         <ol>
-                            <li>Run the <?php echo glsr_admin_link(['tools', 'general'], 'Export Reviews', '#tools-export-reviews'); ?> tool.</li>
-                            <li>Run the <?php echo glsr_admin_link(['tools', 'general'], 'Export Settings', '#tools-export-plugin-settings'); ?> tool.</li>
+                            <li>Run the <?php echo glsr_admin_link('tools.general', 'Export Reviews', '#tools-export-reviews'); ?> tool.</li>
+                            <li>Run the <?php echo glsr_admin_link('tools.general', 'Export Settings', '#tools-export-plugin-settings'); ?> tool.</li>
                             <li>Go to the Site Reviews settings and change the "Delete data on uninstall" option to "Delete everything".</li>
                             <li>Uninstall Site Reviews.</li>
                             <li>Install a new copy of Site Reviews.</li>
-                            <li>Run the <?php echo glsr_admin_link(['tools', 'general'], 'Import Reviews', '#tools-import-reviews'); ?> tool using the CSV file from step #1.</li>
-                            <li>Run the <?php echo glsr_admin_link(['tools', 'general'], 'Import Settings', '#tools-import-plugin-settings'); ?> tool using the JSON file from step #2.</li>
+                            <li>Run the <?php echo glsr_admin_link('tools.general', 'Import Reviews', '#tools-import-reviews'); ?> tool using the CSV file from step #1.</li>
+                            <li>Run the <?php echo glsr_admin_link('tools.general', 'Import Settings', '#tools-import-plugin-settings'); ?> tool using the JSON file from step #2.</li>
                         </ol>
                     </li>
                 </ul>
@@ -133,6 +133,6 @@
                 <p>If your website is using Cloudflare and you configured a Firewall rule to block access to <code>wp-admin</code>, then this is likely causing the error. Site Reviews uses the <code>/wp-admin/admin-ajax.php</code> file to submit AJAX requests; this is standard practice for WordPress plugins. To learn how to correctly configure Cloudflare to protect your <code>wp-admin</code> without blocking access to "admin-ajax.php", please see: <a href="https://turbofuture.com/internet/Cloudflare-Firewall-Rules-for-Securing-WordPress" target="_blank">Cloudflare Firewall Rules for Securing WordPress</a></p>
             </li>
         </ol>
-        <p>Finally, in each case, you should also check the <code><?php echo glsr_admin_link(['tools', 'console']); ?></code> page for any error messages that may have been logged. These provide additional information on the error and why it happened.</p>
+        <p>Finally, in each case, you should also check the <?php echo glsr_admin_link('tools.console'); ?> page for any error messages that may have been logged. These provide additional information on the error and why it happened.</p>
     </div>
 </div>

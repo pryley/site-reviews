@@ -413,7 +413,7 @@ return [ // order is intentional
         'label' => _x('Enable Fallback Text', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
         'tooltip' => sprintf(_x('Display the fallback text when there are no reviews to display. This can be changed on the %s page. You may also override this by using the "fallback" option on the shortcode.', 'admin-text', 'site-reviews'),
-            glsr_admin_link(['settings', 'strings'], _x('Strings', 'admin-text', 'site-reviews'))
+            glsr_admin_link('settings.strings', _x('Strings', 'admin-text', 'site-reviews'))
         ),
         'type' => 'yes_no',
     ],
@@ -431,7 +431,7 @@ return [ // order is intentional
             'settings.reviews.geolocation' => 'yes',
         ],
         'description' => sprintf(_x('Use the %s tool to extract geolocation from existing reviews.', 'admin-text', 'site-reviews'),
-            glsr_admin_link(['tools', 'general'], _x('Geolocate Reviews', 'admin-text', 'site-reviews'), '#tools-geolocate-reviews')
+            glsr_admin_link('tools.general', _x('Geolocate Reviews', 'admin-text', 'site-reviews'), '#tools-geolocate-reviews')
         ),
         'label' => _x('Geolocation Format', 'admin-text', 'site-reviews'),
         'options' => [

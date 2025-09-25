@@ -29,7 +29,7 @@
                         <p class="components-notice__content">
                             <?php
                                 printf(_x('Did you read the %s guide?', 'Getting Started (admin-text)', 'site-reviews'),
-                                    glsr_admin_link(['welcome'], _x('Getting Started', 'admin-text', 'site-reviews'))
+                                    glsr_admin_link('welcome', _x('Getting Started', 'admin-text', 'site-reviews'))
                                 );
                             ?>
                         </p>

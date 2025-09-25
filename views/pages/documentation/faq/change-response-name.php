@@ -8,7 +8,7 @@
         </button>
     </h3>
     <div id="faq-change-response-name" class="inside">
-        <p>The easiest way to do this is to use the <code><?php echo glsr_admin_link(['settings', 'strings']); ?></code> page to change the <code><?php echo __('Response from %s', 'site-reviews'); ?></code> text.</p>
+        <p>The easiest way to do this is to use the <?php echo glsr_admin_link('settings.strings'); ?> page to change the <code><?php echo __('Response from %s', 'site-reviews'); ?></code> text.</p>
         <p>However, if you need further customisation then you can use a hook to change the name like this:</p>
         <pre><code class="language-php">/**
  * @param string $responseBy

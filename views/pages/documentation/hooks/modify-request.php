@@ -9,7 +9,7 @@
         </button>
     </h3>
     <div id="hooks-modify-review-request" class="inside">
-        <p>Use this hook if you want to modify the request of a submitted review. This hook is similar to the <?php echo glsr_admin_link(['documentation', 'hooks'], 'site-reviews/create/review-values', '#hooks-filter-submitted-review-values'); ?> hook, except that it allows you to directly modify the raw Request object before the values are sanitized.</p>
+        <p>Use this hook if you want to modify the request of a submitted review. This hook is similar to the <?php echo glsr_admin_link('documentation.hooks', 'site-reviews/create/review-values', '#hooks-filter-submitted-review-values'); ?> hook, except that it allows you to directly modify the raw Request object before the values are sanitized.</p>
         <pre><code class="language-php">/**
  * Paste this in your active theme's functions.php file.
  * @param \GeminiLabs\SiteReviews\Request $request

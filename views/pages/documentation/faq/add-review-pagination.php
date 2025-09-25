@@ -14,6 +14,6 @@
         <div class="shortcode-example">
             <pre><code class="language-shortcode">[site_reviews pagination="ajax" display="10"]</code></pre>
         </div>
-        <p>To lean more about the available shortcode options and how to use them, please see the <code><?php echo glsr_admin_link(['documentation', 'shortcodes']); ?></code> page.</p>
+        <p>To lean more about the available shortcode options and how to use them, please see the <?php echo glsr_admin_link('documentation.shortcodes'); ?> page.</p>
     </div>
 </div>

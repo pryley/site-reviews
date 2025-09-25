@@ -9,7 +9,7 @@
         </button>
     </h3>
     <div id="hooks-filter-submitted-review-values" class="inside">
-        <p>Use this hook if you want to modify the values of a submitted review before it is created. If you would like to directly modify the Request of a submitted review before the values are sanitized, use the <?php echo glsr_admin_link(['documentation', 'hooks'], 'site-reviews/review/request', '#hooks-modify-review-request'); ?> instead.</p>
+        <p>Use this hook if you want to modify the values of a submitted review before it is created. If you would like to directly modify the Request of a submitted review before the values are sanitized, use the <?php echo glsr_admin_link('documentation.hooks', 'site-reviews/review/request', '#hooks-modify-review-request'); ?> instead.</p>
         <pre><code class="language-php">/**
  * Modifies the review values before they are saved
  * Paste this in your active theme's functions.php file.

@@ -8,6 +8,6 @@
         </button>
     </h3>
     <div id="faq-translate-text" class="inside">
-        <p>You can change any text of the plugin on the <code><?php echo glsr_admin_link(['settings', 'strings']); ?></code> page. However, if you need to change the text for multiple languages, then you will need to use the <a href="https://wordpress.org/plugins/loco-translate/" target="_blank">Loco Translate</a> plugin instead.</p>
+        <p>You can change any text of the plugin on the <?php echo glsr_admin_link('settings.strings'); ?> page. However, if you need to change the text for multiple languages, then you will need to use the <a href="https://wordpress.org/plugins/loco-translate/" target="_blank">Loco Translate</a> plugin instead.</p>
     </div>
 </div>

@@ -68,10 +68,10 @@ class AdminController extends AbstractController
     public function filterActionLinks(array $links): array
     {
         if (glsr()->hasPermission('settings')) {
-            $links['settings'] = glsr_admin_link(['settings'], _x('Settings', 'admin-text', 'site-reviews'));
+            $links['settings'] = glsr_admin_link('settings', _x('Settings', 'admin-text', 'site-reviews'));
         }
         if (glsr()->hasPermission('documentation')) {
-            $links['documentation'] = glsr_admin_link(['documentation'], _x('Help', 'admin-text', 'site-reviews'));
+            $links['documentation'] = glsr_admin_link('documentation', _x('Help', 'admin-text', 'site-reviews'));
         }
         return $links;
     }

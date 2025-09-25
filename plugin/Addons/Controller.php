@@ -50,11 +50,12 @@ abstract class Controller extends AbstractController
     {
         $actions = Arr::consolidate($actions);
         if (glsr()->hasPermission('settings') && !empty($this->app()->config('settings'))) {
-            $actions['settings'] = glsr_admin_link(['settings', 'addons', $this->app()->slug], _x('Settings', 'admin-text', 'site-reviews'));
+            $actions['settings'] = glsr_admin_link("settings.addons.{$this->app()->slug}", _x('Settings', 'admin-text', 'site-reviews'));
         }
         if (glsr()->hasPermission('documentation')) {
-            $actions['documentation'] = glsr_admin_link(['documentation', 'addons'], _x('Help', 'admin-text', 'site-reviews'), [
+            $actions['documentation'] = glsr_admin_link('documentation.addons', [
                 'data-expand' => "#addon-{$this->app()->id}",
+                'text' => _x('Help', 'admin-text', 'site-reviews'),
             ]);
         }
         return $actions;

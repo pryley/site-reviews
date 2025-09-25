@@ -15,7 +15,7 @@
     } else {
         printf(
             _x('One or more addons are not receiving updates. %s in the settings to get the latest updates and priority support.', 'Save your license (admin-text)', 'site-reviews'),
-            glsr_admin_link(['settings', 'licenses'], _x('Save your license', 'admin-text', 'site-reviews'))
+            glsr_admin_link('settings.licenses', _x('Save your license', 'admin-text', 'site-reviews'))
         );
     }
 ?>

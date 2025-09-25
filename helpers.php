@@ -89,12 +89,13 @@ function glsr_admin_url($page = '', $tab = '', $sub = '')
 }
 
 /**
- * @param string|array $extra
+ * @param string|array $attrs
  */
-function glsr_admin_link(array $parts, string $text = '', $extra = []): string
+function glsr_admin_link(string $path = '', $attrs = [], string $expand = ''): string
 {
+    $parts = explode('.', $path);
     $parts = array_slice(array_pad(array_filter($parts, 'is_string'), 3, ''), 0, 3);
-    $url = call_user_func_array('glsr_admin_url', $parts);
+    $text = trim(is_string($attrs) ? $attrs : ($attrs['text'] ?? ''));
     if (empty($text)) {
         $texts = [
             'addons' => _x('Addons', 'admin-text', 'site-reviews'),
@@ -129,17 +130,13 @@ function glsr_admin_link(array $parts, string $text = '', $extra = []): string
         ]);
         $text = implode(' &rarr; ', $textParts);
     }
-    $args = [
-        'href' => $url,
-        'text' => esc_html($text) ?: $url,
-    ];
-    if (is_string($extra)) {
-        $args['data-expand'] = $extra;
-        $extra = [];
-    }
-    return glsr(Builder::class)->a(
-        wp_parse_args($args, Arr::consolidate($extra))
-    );
+    $url = call_user_func_array('glsr_admin_url', $parts);
+    $attrs = Arr::consolidate($attrs);
+    $attrs['href'] = $url;
+    $attrs['text'] = $text ?: _x('All Reviews', 'admin-text', 'site-reviews');
+    return glsr(Builder::class)->a(wp_parse_args($attrs, [
+        'data-expand' => $expand,
+    ]));
 }
 
 /**
@@ -265,7 +262,7 @@ function glsr_log(...$args)
         : $console;
 }
 
-function glsr_premium_link(string $path, string $text = ''): string
+function glsr_premium_link(string $path, $attrs = []): string
 {
     $url = glsr_premium_url($path);
     $texts = [
@@ -279,10 +276,13 @@ function glsr_premium_link(string $path, string $text = ''): string
         'site-reviews-premium' => _x('Site Reviews Premium', 'admin-text', 'site-reviews'),
         'site-reviews-themes' => _x('Review Themes', 'admin-text', 'site-reviews'),
     ];
-    if (empty($text)) {
-        $text = $texts[$path] ?? $url;
-    }
-    return sprintf('<a href="%s" target="_blank">%s</a>', $url, esc_html($text));
+    $text = trim(is_string($attrs) ? $attrs : ($attrs['text'] ?? ''));
+    $text = $text ?: ($texts[$path] ?? $url);
+    $attrs = Arr::consolidate($attrs);
+    $attrs['href'] = $url;
+    $attrs['target'] = '_blank';
+    $attrs['text'] = $text;
+    return glsr(Builder::class)->a($attrs);
 }
 
 function glsr_premium_url(string $path = '/'): string

@@ -70,7 +70,7 @@ $reviews = apply_filters('glsr_get_reviews', [], [
                 <pre><code class="language-php">echo $reviews; // This is identical to: $reviews->render();</code></pre>
             </li>
             <li>
-                <p>Loop through all reviews and handle each review as needed. Each <code>$review</code> is identical to what the <?php echo glsr_admin_link(['documentation', 'functions'], 'glsr_get_review', '#fn-glsr_get_review'); ?> helper function returns, so make sure to read the "Helpful Tips" from that section above for more information.</p>
+                <p>Loop through all reviews and handle each review as needed. Each <code>$review</code> is identical to what the <?php echo glsr_admin_link('documentation.functions', 'glsr_get_review', '#fn-glsr_get_review'); ?> helper function returns, so make sure to read the "Helpful Tips" from that section above for more information.</p>
                 <pre><code class="language-php">foreach ($reviews as $review) {
     echo $review;
 };</code></pre>
@@ -103,7 +103,7 @@ echo '&lt;/div&gt;';
 </code></pre>
             </li>
             <li>
-                <p>You can also use the <?php echo glsr_admin_link(['documentation', 'functions'], 'glsr_debug', '#fn-glsr_debug'); ?> helper function to print both arrayable objects to the screen:</p>
+                <p>You can also use the <?php echo glsr_admin_link('documentation.functions', 'glsr_debug', '#fn-glsr_debug'); ?> helper function to print both arrayable objects to the screen:</p>
                 <pre><code class="language-php">glsr_debug($reviews, $reviewsHtml);</code></pre>
             </li>
 

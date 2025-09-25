@@ -10,7 +10,7 @@ class DetectIpAddress extends AbstractCommand
     public function handle(): void
     {
         $ipAddress = Helper::getIpAddress();
-        $link = glsr_admin_link(['documentation', 'faq'], _x('FAQ', 'admin-text', 'site-reviews'), '#faq-ipaddress-incorrect');
+        $link = glsr_admin_link('documentation.faq', _x('FAQ', 'admin-text', 'site-reviews'), '#faq-ipaddress-incorrect');
         if ('unknown' === $ipAddress) {
             glsr(Notice::class)->addWarning(sprintf(
                 _x('Site Reviews was unable to detect an IP address. To fix this, please see the %s.', 'admin-text', 'site-reviews'),
