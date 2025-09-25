@@ -52,6 +52,7 @@ abstract class Hooks extends AbstractHooks
             ['filterNgettextWithContext', "ngettext_with_context_{$this->id()}", 10, 5],
             ['filterRenderView', "{$this->id()}/render/view"],
             ['filterRoles', 'site-reviews/roles'],
+            ['filterRowMeta', 'plugin_row_meta', 10, 2],
             ['filterSettings', 'site-reviews/settings'],
             ['filterSubsubsub', 'site-reviews/addon/subsubsub'],
             ['filterTranslationEntries', 'site-reviews/translation/entries'],

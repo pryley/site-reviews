@@ -42,23 +42,15 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * @param array $actions
-     *
      * @filter plugin_action_links_{$this->app()->id}/{$this->app()->id}.php
      */
-    public function filterActionLinks($actions): array
+    public function filterActionLinks(array $links): array
     {
-        $actions = Arr::consolidate($actions);
+        $actions = [];
         if (glsr()->hasPermission('settings') && !empty($this->app()->config('settings'))) {
             $actions['settings'] = glsr_admin_link("settings.addons.{$this->app()->slug}", _x('Settings', 'admin-text', 'site-reviews'));
         }
-        if (glsr()->hasPermission('documentation')) {
-            $actions['documentation'] = glsr_admin_link('documentation.addons', [
-                'data-expand' => "#addon-{$this->app()->id}",
-                'text' => _x('Help', 'admin-text', 'site-reviews'),
-            ]);
-        }
-        return $actions;
+        return array_merge($actions, $links);
     }
 
     /**
@@ -270,6 +262,28 @@ abstract class Controller extends AbstractController
             }
         }
         return $roles;
+    }
+
+    /**
+     * @filter plugin_row_meta
+     */
+    public function filterRowMeta(array $links, string $file): array
+    {
+        if ($file !== $this->app()->basename) {
+            return $links;
+        }
+        $actions = [];
+        if (glsr()->hasPermission('documentation')) {
+            $actions['documentation'] = glsr_admin_link('documentation.addons', [
+                'data-expand' => "#addon-{$this->app()->id}",
+                'text' => _x('Documentation', 'admin-text', 'site-reviews'),
+            ]);
+        }
+        $actions['support'] = glsr_premium_link('support', [
+            'aria-label' => _x('Visit premium customer support', 'admin-text', 'site-reviews'),
+            'text' => _x('Support', 'admin-text', 'site-reviews'),
+        ]);
+        return array_merge($links, $actions);
     }
 
     /**
