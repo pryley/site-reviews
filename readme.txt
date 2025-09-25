@@ -224,6 +224,7 @@ Site Reviews has a fresh coat of paint!
 - Added Geolocation which allows you to display the location of the reviewer next to their name in the review (i.e. flag/country/state/city)
 - Added style controls to the Gutenberg blocks
 - Added the `summary_id` option to the Review Form, this allows you to update the rating summary immediately without reloading the page
+- Added WP-CLI commands
 - Changed the HTML markup of the `form/field_radio.php` template
 - Changed the HTML markup of the `form/submit-button.php` template
 - Changed the HTML markup of the `load-more-button.php` template

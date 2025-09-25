@@ -31,4 +31,6 @@ $app = GeminiLabs\SiteReviews\Application::load();
 $app->make('Provider')->register($app);
 $app->init();
 
+new GeminiLabs\SiteReviews\CLI();
+
 register_shutdown_function([$app, 'catchFatalError']);
