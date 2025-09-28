@@ -3,9 +3,6 @@
 namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress;
 
 use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
-use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers\Controller;
-use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers\FrontendRelationController;
-use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers\RelationController;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use Inpsyde\MultilingualPress\Framework\Module\ModuleManager;
 use Inpsyde\MultilingualPress\Framework\PluginProperties;
@@ -14,20 +11,22 @@ use function Inpsyde\MultilingualPress\resolve;
 
 class Hooks extends IntegrationHooks
 {
+    /**
+     * The "multilingualpress.modules" hook is triggered on plugins_loaded:0
+     * so we need to run earlier than that.
+     */
     public function levelPluginsLoaded(): ?int
     {
-        return 0;
+        return -10;
     }
 
     /**
-     * The "multilingualpress.modules" hook is triggered on plugins_loaded:0
-     * so we need to load hooks at or earlier than that.
-     *
-     * @action plugins_loaded:0
+     * @action plugins_loaded:-10
      */
     public function onPluginsLoaded(): void
     {
         add_filter('multilingualpress.modules', function (array $modules): array {
+            // if we get this far then we know the plugin is installed.
             if ($this->isVersionSupported()) {
                 $modules[] = new ServiceProvider();
             }
@@ -35,6 +34,9 @@ class Hooks extends IntegrationHooks
         });
     }
 
+    /**
+     * Hooks are run in the ServiceProvider on module activation.
+     */
     public function run(): void
     {
         if (!$this->isInstalled()) {
@@ -44,30 +46,6 @@ class Hooks extends IntegrationHooks
             $this->notify('MultilingualPress');
             return;
         }
-        if (!$this->isEnabled()) {
-            return;
-        }
-        $this->hook(Controller::class, [
-            ['filterAdminInlineCss', 'site-reviews/enqueue/admin/inline-styles'],
-            ['filterAdminInlineJs', 'site-reviews/enqueue/admin/inline-script'],
-            ['filterContentIsChecked', 'multilingualpress.copy_content_is_checked'], // bool
-            ['filterGettext', 'gettext_multilingualpress', 10, 2],
-            ['filterPostStatuses', 'multilingualpress.translation_ui_post_statuses'], // ['pending', 'publish']
-            ['filterRemotePostData', 'multilingualpress.new_relate_remote_post_before_insert', 10, 3],
-            ['filterSyncedMetaKeys', 'multilingualpress.sync_post_meta_keys', 10, 2],
-            ['filterTaxonomiesIsChecked', 'multilingualpress.copy_taxonomies_is_checked'],
-        ]);
-        $this->hook(FrontendRelationController::class, [
-            ['onCreatedReview', 'site-reviews/review/created', 20],
-            ['onTransitioned', 'site-reviews/review/transitioned', 10, 3],
-            ['onUpdatedReview', 'site-reviews/review/updated', 20],
-        ]);
-        $this->hook(RelationController::class, [
-            ['onBulkEditReviews', 'bulk_edit_posts', 10, 2],
-            ['onPinned', 'site-reviews/review/pinned', 10, 2],
-            ['onRelateReview', 'multilingualpress.metabox_after_relate_posts', 10, 2],
-            ['onVerified', 'site-reviews/review/verified'],
-        ]);
     }
 
     protected function isEnabled(): bool

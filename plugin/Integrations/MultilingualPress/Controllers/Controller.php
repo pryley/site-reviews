@@ -3,9 +3,9 @@
 namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
-use GeminiLabs\SiteReviews\Review;
-use Inpsyde\MultilingualPress\TranslationUi\Post\MetaboxFields;
-use Inpsyde\MultilingualPress\TranslationUi\Post\RelationshipContext;
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedPostsField;
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedUsersField;
+use Inpsyde\MultilingualPress\TranslationUi\Post;
 
 class Controller extends AbstractController
 {
@@ -35,14 +35,18 @@ class Controller extends AbstractController
         if (!$this->isReviewEditor()) {
             return $js;
         }
-        $relation = '$(".post-new-php .tab-relation input[value=new]").prop("checked",true).change();';
-        $taxonomy = '$(".mlp-taxonomy-sync:has(input:checked)").closest("table").find(".mlp-taxonomy-box").hide();';
-        $trasher = '$(".post-new-php #mlp-trasher").prop("checked",true).change();';
-        return sprintf('%sjQuery(function($){%s%s%s});', $js, $relation, $taxonomy, $trasher);
+        return $js.
+        'jQuery(function($){'.
+            '$(".mlp-taxonomy-sync:has(input:checked)").closest("table").find(".mlp-taxonomy-box").hide();'.
+            '$(".post-new-php .tab-relation input[value=new]").prop("checked",true).change();'. // create translations on create
+            '$(".post-new-php #mlp-trasher").prop("checked",true).change();'. // trash translations on delete
+        '});';
     }
 
     /**
      * @filter multilingualpress.copy_content_is_checked
+     *
+     * @filter-location \Inpsyde\MultilingualPress\TranslationUi\Post\Field\CopyContent
      */
     public function filterContentIsChecked(bool $isChecked): bool
     {
@@ -80,7 +84,42 @@ class Controller extends AbstractController
     }
 
     /**
+     * @filter multilingualpress.post_translation_metabox_tabs
+     *
+     * @filter-location \Inpsyde\MultilingualPress\TranslationUi\Post\Metabox
+     */
+    public function filterMetaboxTabs(array $tabs, Post\RelationshipContext $context): array
+    {
+        if (glsr()->post_type !== $context->sourcePost()->post_type) {
+            return $tabs;
+        }
+        foreach ($tabs as $index => $tab) {
+            if (Post\MetaboxFields::TAB_TAXONOMIES !== $tab->id()) {
+                continue;
+            }
+            $tabs[$index] = new Post\MetaboxTab( // overwrite Taxonomies tab
+                Post\MetaboxFields::TAB_TAXONOMIES,
+                glsr()->name, // rename Taxonomies tab
+                new Post\MetaboxField(
+                    AssignedPostsField::FIELD_COPY_ASSIGNED_POSTS,
+                    new AssignedPostsField(),
+                    [AssignedPostsField::class, 'sanitize']
+                ),
+                new Post\MetaboxField(
+                    AssignedUsersField::FIELD_COPY_ASSIGNED_USERS,
+                    new AssignedUsersField(),
+                    [AssignedUsersField::class, 'sanitize']
+                ),
+                ...$tab->fields(),
+            );
+        }
+        return $tabs;
+    }
+
+    /**
      * @filter multilingualpress.translation_ui_post_statuses
+     *
+     * @filter-location \Inpsyde\MultilingualPress\TranslationUi\Post\Field\Status
      */
     public function filterPostStatuses(array $statuses): array
     {
@@ -91,45 +130,15 @@ class Controller extends AbstractController
     }
 
     /**
-     * @filter multilingualpress.new_relate_remote_post_before_insert
-     */
-    public function filterRemotePostData(array $post, RelationshipContext $context, string $operation): array
-    {
-        error_log(print_r('filterRemotePostData', true));
-        if ($operation !== MetaboxFields::FIELD_RELATION_NEW) {
-            error_log(print_r($post, true));
-            error_log(print_r($context, true));
-            return $post;
-        }
-        return $post;
-    }
-
-    /**
-     * @filter multilingualpress.sync_post_meta_keys
-     */
-    public function filterSyncedMetaKeys(array $keys, RelationshipContext $context): array
-    {
-        $sourcePostId = $context->sourcePostId();
-        if (!Review::isReview($sourcePostId)) {
-            return $keys;
-        }
-        if (metadata_exists('post', $sourcePostId, '_submitted')) { // original submitted request
-            $keys[] = '_submitted';
-        }
-        if (metadata_exists('post', $sourcePostId, '_verified')) { // WooCommerce verified owner
-            $keys[] = '_verified';
-        }
-        return $keys;
-    }
-
-    /**
      * @filter multilingualpress.copy_taxonomies_is_checked
+     *
+     * @filter-location \Inpsyde\MultilingualPress\TranslationUi\Post\Field\CopyTaxonomies
      */
     public function filterTaxonomiesIsChecked(bool $isChecked): bool
     {
-        if (!$this->isReviewEditor()) {
-            return $isChecked;
+        if ($this->isReviewEditor()) {
+            return true;
         }
-        return true;
+        return $isChecked;
     }
 }

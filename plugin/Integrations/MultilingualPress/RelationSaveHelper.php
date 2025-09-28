@@ -102,6 +102,29 @@ class RelationSaveHelper
         }
     }
 
+    public function syncGeolocation(array $data): void
+    {
+        if (!$this->canSync()) {
+            return;
+        }
+        $review = $this->remoteReview();
+        if (!$review->isValid()) {
+            return;
+        }
+        $originalSiteId = $this->maybeSwitchSite($this->context->remoteSiteId());
+        $data['rating_id'] = $review->rating_id;
+        if (false !== glsr(Database::class)->insert('stats', $data)) {
+            unset($data['rating_id']);
+            update_post_meta($review->ID, '_geolocation', $data);
+        } else {
+            glsr_log()->error('MLP: insert geolocation failed on remote site')
+                ->debug($data)
+                ->debug($this->context);
+            }
+        }
+        $this->maybeRestoreSite($originalSiteId);
+    }
+
     public function syncMeta(): void
     {
         // @todo
@@ -128,6 +151,23 @@ class RelationSaveHelper
                     ->debug($sourceData)
                     ->debug($this->context);
             }
+        }
+        $this->maybeRestoreSite($originalSiteId);
+    }
+
+    public function syncResponse(string $response): void
+    {
+        if (!$this->canSync()) {
+            return;
+        }
+        $review = $this->remoteReview();
+        if (!$review->isValid()) {
+            return;
+        }
+        $originalSiteId = $this->maybeSwitchSite($this->context->remoteSiteId());
+        if (empty($review->response)) {
+            glsr(Database::class)->metaSet($review->ID, 'response', $response); // prefixed metakey
+            glsr(Database::class)->metaSet($review->ID, 'response_by', get_current_user_id()); // prefixed metakey
         }
         $this->maybeRestoreSite($originalSiteId);
     }

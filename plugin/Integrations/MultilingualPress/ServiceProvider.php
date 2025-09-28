@@ -2,41 +2,63 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress;
 
-use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Metabox\MetaboxFields;
-use Inpsyde\MultilingualPress\Core\PostTypeRepository;
-use Inpsyde\MultilingualPress\Core\TaxonomyRepository;
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers\Controller;
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers\RelationController;
+use Inpsyde\MultilingualPress\Attachment\Copier;
 use Inpsyde\MultilingualPress\Framework\Module\Module;
 use Inpsyde\MultilingualPress\Framework\Module\ModuleManager;
 use Inpsyde\MultilingualPress\Framework\Module\ModuleServiceProvider;
 use Inpsyde\MultilingualPress\Framework\Service\Container;
-use Inpsyde\MultilingualPress\TranslationUi\Post;
 
 class ServiceProvider implements ModuleServiceProvider
 {
-    public const MODULE_ID = 'site-reviews';
-    public const POSTMETA_METAKEYS = 'site-reviews.postmeta.metakeys';
-
     /**
-     * @param Container $container
+     * Register hooks on module activation.
+     *
+     * MultilingualPress defines hook names in class constants but we use the
+     * hook names directly instead of using constants because the likelihood of
+     * hook name changes are far less than changes to the plugin architecture.
      */
-    public function activateModule(Container $container)
+    public function activateModule(Container $container): void
     {
-        $this->addMetaboxes();
-        // $this->enableCopyACFFields($container);
+        // @todo We need to pass an arg to the created/transitioned/updated hooks if it is a frontend or backend action...
+
+        glsr(Hooks::class)->hook(Controller::class, [
+            ['filterAdminInlineCss', 'site-reviews/enqueue/admin/inline-styles'],
+            ['filterAdminInlineJs', 'site-reviews/enqueue/admin/inline-script'],
+            ['filterContentIsChecked', 'multilingualpress.copy_content_is_checked'],
+            ['filterGettext', 'gettext_multilingualpress', 10, 2],
+            ['filterMetaboxTabs', 'multilingualpress.post_translation_metabox_tabs', 10, 2],
+            ['filterPostStatuses', 'multilingualpress.translation_ui_post_statuses'],
+            ['filterTaxonomiesIsChecked', 'multilingualpress.copy_taxonomies_is_checked'],
+        ]);
+        glsr(Hooks::class)->hook(RelationController::class, [
+            ['filterSyncedMetaKeys', 'multilingualpress.sync_post_meta_keys', 10, 2],
+            ['onBulkEditReviews', 'bulk_edit_posts', 10, 2],
+            ['onCreated', 'site-reviews/review/created', 20],
+            ['onGeolocated', 'site-reviews/review/geolocated', 10, 2],
+            ['onPinned', 'site-reviews/review/pinned', 10, 2],
+            ['onResponded', 'site-reviews/review/responded', 10, 2],
+            ['onSyncReview', 'multilingualpress.metabox_after_relate_posts', 10, 2],
+            ['onTransitioned', 'site-reviews/review/transitioned', 10, 3],
+            ['onUpdated', 'site-reviews/review/updated', 20],
+            ['onVerified', 'site-reviews/review/verified'],
+        ]);
     }
 
     /**
-     * @throws \Inpsyde\MultilingualPress\Framework\Service\Exception\NameOverwriteNotAllowed
-     * @throws \Inpsyde\MultilingualPress\Framework\Service\Exception\WriteAccessOnLockedContainer
+     * Register module services on the given container.
      */
-    public function register(Container $container)
+    public function register(Container $container): void
     {
-        $this->removeGlobalSettings();
-        $moduleManager = $container[ModuleManager::class];
-        if (!$moduleManager->isModuleActive(self::MODULE_ID)) {
-            $this->removeSupport();
+        $this->removeAvailableEntities();
+        if (!$container->get(ModuleManager::class)->isModuleActive(glsr()->id)) {
+            $this->removeSupportedEntities();
         }
-
+        // $container->addService(
+        //     FieldCopier::class,
+        //     static fn () => new FieldCopier($container->get(Copier::class))
+        // );
         // $container->share(
         //     Filesystem::class,
         //     static function (): Filesystem {
@@ -46,12 +68,14 @@ class ServiceProvider implements ModuleServiceProvider
     }
 
     /**
+     * Register the module with the module manager.
+     *
      * @throws \Inpsyde\MultilingualPress\Framework\Module\Exception\ModuleAlreadyRegistered
      */
     public function registerModule(ModuleManager $moduleManager): bool
     {
         return $moduleManager->register(
-            new Module(self::MODULE_ID, [
+            new Module(glsr()->id, [
                 'description' => _x('Enable Site Reviews Support for MultilingualPress.', 'admin-text', 'site-reviews'),
                 'name' => glsr()->name,
                 'active' => true,
@@ -60,58 +84,39 @@ class ServiceProvider implements ModuleServiceProvider
         );
     }
 
-    protected function addMetaboxes()
+    protected function removeAvailableEntities(): void
     {
-        add_filter(Post\Metabox::HOOK_PREFIX.'tabs', static function (array $tabs): array {
-            foreach ($tabs as $index => $tab) {
-                if (Post\MetaboxFields::TAB_TAXONOMIES !== $tab->id()) {
-                    continue;
-                }
-                $fields = array_merge(
-                    (new MetaboxFields())->fields(),
-                    $tab->fields()
-                );
-                $tabs[$index] = new Post\MetaboxTab(
-                    Post\MetaboxFields::TAB_TAXONOMIES,
-                    glsr()->name,
-                    ...$fields
-                );
+        // \Inpsyde\MultilingualPress\Core\PostTypeRepository::FILTER_ALL_AVAILABLE_POST_TYPES
+        add_filter('multilingualpress.all_post_types',
+            static fn (array $types): array => array_filter($types,
+                fn ($type) => !str_starts_with($type, glsr()->post_type),
+                \ARRAY_FILTER_USE_KEY
+            )
+        );
+        // \Inpsyde\MultilingualPress\Core\TaxonomyRepository::FILTER_ALL_AVAILABLE_TAXONOMIES
+        add_filter('multilingualpress.all_taxonomies',
+            static function (array $taxonomies): array {
+                unset($taxonomies[glsr()->taxonomy]);
+                return $taxonomies;
             }
-            return $tabs;
-        });
+        );
     }
 
-    protected function removeGlobalSettings(): void
+    protected function removeSupportedEntities(): void
     {
-        add_filter(PostTypeRepository::FILTER_ALL_AVAILABLE_POST_TYPES, function (array $supported) {
-            unset($supported[glsr()->post_type]);
-            return $supported;
-        });
-        add_filter(TaxonomyRepository::FILTER_ALL_AVAILABLE_TAXONOMIES, function (array $supported) {
-            unset($supported[glsr()->taxonomy]);
-            return $supported;
-        });
+        // \Inpsyde\MultilingualPress\Core\PostTypeRepository::FILTER_SUPPORTED_POST_TYPES
+        add_filter('multilingualpress.supported_post_types',
+            static fn (array $types): array => array_filter($types,
+                fn ($type) => !str_starts_with($type, glsr()->post_type),
+                \ARRAY_FILTER_USE_KEY
+            )
+        );
+        // \Inpsyde\MultilingualPress\Core\TaxonomyRepository::FILTER_SUPPORTED_TAXONOMIES
+        add_filter('multilingualpress.supported_taxonomies',
+            static function (array $taxonomies): array {
+                unset($taxonomies[glsr()->taxonomy]);
+                return $taxonomies;
+            }
+        );
     }
-
-    protected function removeSupport(): void
-    {
-        add_filter(PostTypeRepository::FILTER_SUPPORTED_POST_TYPES, function (array $supported) {
-            unset($supported[glsr()->post_type]);
-            return $supported;
-        });
-        add_filter(TaxonomyRepository::FILTER_SUPPORTED_TAXONOMIES, function (array $supported) {
-            unset($supported[glsr()->taxonomy]);
-            return $supported;
-        });
-    }
-
-    /*
-     * Enable ACF fields copying functionality.
-     * @param Container $container
-     */
-    // private function enableCopyACFFields(Container $container)
-    // {
-    //     $fieldCopier = $container[FieldCopier::class];
-    //     add_filter(Post\PostRelationSaveHelper::FILTER_SYNC_KEYS, [$fieldCopier, 'handleCopyACFFields'], 10, 3);
-    // }
 }
