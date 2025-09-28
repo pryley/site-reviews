@@ -12,8 +12,8 @@
  * Author URI:           https://geminilabs.io
  * License:              GPL3
  * License URI:          https://www.gnu.org/licenses/gpl-3.0.html
- * Requires at least:    6.5
- * Requires PHP:         7.4
+ * Requires at least:    6.7
+ * Requires PHP:         8.0
  * Text Domain:          site-reviews
  * Domain Path:          languages
  * WC requires at least: 9.6

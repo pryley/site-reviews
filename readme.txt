@@ -145,8 +145,8 @@ Images adapted from [freepik](https://www.freepik.com).
 = Minimum Plugin Requirements =
 
 - MySQL 5.6 or greater
-- PHP 7.4 or greater
-- WordPress 6.5 or greater
+- PHP 8.0 or greater
+- WordPress 6.7 or greater
 
 = Automatic installation =
 
@@ -231,6 +231,8 @@ Site Reviews has a fresh coat of paint!
 - Changed the HTML markup of the `review.php` template
 - Changed the HTML markup of the `ultimatemember/reviews.php` template
 - Changed the location of the custom CSS class attribute in a rendered block or shortcode to the root DIV.
+- ‼️ Changed the minimum required version of PHP to v8.0
+- ‼️ Changed the minimum required version of WordPress to v6.7
 - Fixed ActionScheduler action redirects
 - Fixed Elementor template support in the schema parser
 - Fixed generated CSS ID values to always be unique
