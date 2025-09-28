@@ -29,6 +29,7 @@
     site-reviews/review/create                                  (int $postId, Commands\CreateReview $command)
     site-reviews/review/created                                 (Review $review, Commands\CreateReview $command)
     site-reviews/review/pinned                                  (int $reviewId, bool $isPinned)
+    site-reviews/review/geolocated                              (Review $review, array $data)
     site-reviews/review/request                                 (Request $request)
     site-reviews/review/responded                               (Review $review, string $response)
     site-reviews/review/transitioned                            (Review $review, string $status, string $prevStatus)
