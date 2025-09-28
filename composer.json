@@ -49,6 +49,7 @@
     "php-stubs/generator": "^0.8.5",
     "brain/monkey": "^2.6",
     "10up/wp_mock": "^1.1",
-    "eduardovillao/wp-since": "^1.1"
+    "eduardovillao/wp-since": "^1.1",
+    "php-stubs/wp-cli-stubs": "^2.12"
   }
 }
