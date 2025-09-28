@@ -20,7 +20,6 @@ class AdditionalFieldsDefaults extends DefaultsAbstract
      * This is done after $casts and before $enums.
      */
     public array $sanitize = [
-        'language' => 'regex:/[a-z\-]+/',
         'response' => 'text-html',
         'response_by' => 'user-id:0',
         'verified_on' => 'timestamp',
@@ -29,7 +28,6 @@ class AdditionalFieldsDefaults extends DefaultsAbstract
     protected function defaults(): array
     {
         return [
-            'language' => '',
             'response' => '',
             'response_by' => '',
             'verified' => '', // this is the meta_key used by WooCommerce for verified owner
