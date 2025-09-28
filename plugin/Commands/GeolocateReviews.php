@@ -89,11 +89,11 @@ class GeolocateReviews extends AbstractCommand
         if (empty($results[0])) {
             return;
         }
-        $result = glsr(StatDefaults::class)->restrict(
-            wp_parse_args(['rating_id' => $review->rating_id], $results[0])
-        );
+        $result = glsr(StatDefaults::class)->restrict($results[0]);
+        $result['rating_id'] = $review->rating_id;
         glsr(Database::class)->insert('stats', $result);
         update_post_meta($review->ID, '_geolocation', array_diff_key($result, ['rating_id' => 0]));
+        glsr()->action('review/geolocated', $review, $result);
     }
 
     /**

@@ -2,8 +2,10 @@
 
 <div class="notice is-dismissible glsr-notice" data-notice="migration">
     <p>
-        <?php printf(_x('Site Reviews needs to migrate your reviews and settings to the latest version. If this notice continues to appear after 5 minutes, please read the %s section on the Help page.', 'admin-text', 'site-reviews'),
-            glsr_admin_link('documentation.support', _x('Common Problems and Solutions', 'admin-text', 'site-reviews'), '#support-common-problems-and-solutions'); ?>
+        <?php printf(
+            _x('Site Reviews needs to migrate your reviews and settings to the latest version. If this notice continues to appear after 5 minutes, please read the %s section on the Help page.', 'admin-text', 'site-reviews'),
+            glsr_admin_link('documentation.support', _x('Common Problems and Solutions', 'admin-text', 'site-reviews'), '#support-common-problems-and-solutions');
+        ); ?>
     </p>
     <?php if (glsr()->hasPermission('tools', 'general')) { ?>
         <form method="post">
