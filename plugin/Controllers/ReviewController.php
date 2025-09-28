@@ -379,7 +379,7 @@ class ReviewController extends AbstractController
         if ($assignedUserIds = filter_input(INPUT_GET, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY)) {
             glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
         }
-        $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
+        $review->refresh();
         glsr()->action('review/updated', $review, [], $oldPost); // pass an empty array since review values are unchanged
     }
 
@@ -447,14 +447,14 @@ class ReviewController extends AbstractController
         if (!empty($data)) {
             glsr(ReviewManager::class)->updateCustom($review->ID, $data); // values are sanitized here
             glsr(ReviewManager::class)->updateRating($review->ID, $data); // values are sanitized here
-            $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
+            $review->refresh();
         }
         $assignedPostIds = filter_input(INPUT_POST, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
         $assignedUserIds = filter_input(INPUT_POST, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
         glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
         glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
         glsr(ResponseMetabox::class)->save($review);
-        $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
+        $review->refresh();
         glsr()->action('review/updated', $review, $data, $oldPost);
     }
 }

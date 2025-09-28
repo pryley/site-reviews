@@ -59,7 +59,7 @@ class Controller extends AbstractController
      */
     public function onApprovedReview(Review $review): void
     {
-        $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
+        $review->refresh();
         $this->maybeEarnPoints($review);
     }
 
@@ -68,10 +68,10 @@ class Controller extends AbstractController
      */
     public function onCreatedReview(Review $review): void
     {
-        $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
         if (!is_user_logged_in()) {
             return;
         }
+        $review->refresh();
         if (!$review->is_approved) {
             return;
         }

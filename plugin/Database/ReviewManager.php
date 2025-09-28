@@ -286,7 +286,7 @@ class ReviewManager
             $assignedUsers = glsr(Sanitizer::class)->sanitizeUserIds($data['assigned_users']);
             glsr()->action('review/updated/user_ids', $review, $assignedUsers); // triggers a recount of assigned posts
         }
-        $review = $this->get($reviewId); // get a fresh copy of the review
+        $review->refresh();
         glsr()->action('review/updated', $review, $data, $oldPost);
         return $review;
     }
