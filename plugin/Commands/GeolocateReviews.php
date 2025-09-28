@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\StatDefaults;
 use GeminiLabs\SiteReviews\Geolocation;
@@ -92,7 +93,8 @@ class GeolocateReviews extends AbstractCommand
         $result = glsr(StatDefaults::class)->restrict($results[0]);
         $result['rating_id'] = $review->rating_id;
         glsr(Database::class)->insert('stats', $result);
-        update_post_meta($review->ID, '_geolocation', array_diff_key($result, ['rating_id' => 0]));
+        $metadata = array_diff_key($result, ['rating_id' => 0]);
+        glsr(PostMeta::class)->set($review->ID, 'geolocation', $metadata);
         glsr()->action('review/geolocated', $review, $result);
     }
 

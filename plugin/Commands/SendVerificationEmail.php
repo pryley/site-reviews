@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Email;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
@@ -59,7 +60,7 @@ class SendVerificationEmail extends AbstractCommand
             $this->fail();
             return;
         }
-        glsr(Database::class)->metaSet($this->review->ID, 'verified_requested', 1);
+        glsr(PostMeta::class)->set($this->review->ID, 'verified_requested', 1);
         glsr(Notice::class)->addSuccess(
             _x('The verification request email was sent.', 'admin-text', 'site-reviews')
         );

@@ -35,7 +35,7 @@ class ReviewManagerTest extends WP_UnitTestCase
         glsr(ReviewManager::class)->assignPost($review, $postId);
         glsr(ReviewManager::class)->assignPost($review, $postId_private); // should fail
         glsr(ReviewManager::class)->assignPost($review, $postId_protected); // should fail
-        $review = glsr(ReviewManager::class)->get($review->ID);
+        $review->refresh();
         $this->assertEquals($review->assigned_posts, $posts);
         foreach ($posts as $postId) {
             $this->assertEquals(get_post_meta($postId, '_glsr_average', true), 5);
@@ -62,7 +62,7 @@ class ReviewManagerTest extends WP_UnitTestCase
         $termId = self::factory()->term->create(['taxonomy' => glsr()->taxonomy]);
         $terms[] = $termId;
         glsr(ReviewManager::class)->assignTerm($review, $termId);
-        $review = glsr(ReviewManager::class)->get($review->ID);
+        $review->refresh();
         $this->assertEquals($review->assigned_terms, $terms);
         $this->assertEquals(get_term_meta($termId, '_glsr_average', true), 5);
         $this->assertTrue(get_term_meta($termId, '_glsr_ranking', true) > 0);
@@ -87,7 +87,7 @@ class ReviewManagerTest extends WP_UnitTestCase
         $userId = self::factory()->user->create();
         $users[] = $userId;
         glsr(ReviewManager::class)->assignUser($review, $userId);
-        $review = glsr(ReviewManager::class)->get($review->ID);
+        $review->refresh();
         $this->assertEquals($review->assigned_users, $users);
         $this->assertEquals(get_user_meta($userId, '_glsr_average', true), 5);
         $this->assertTrue(get_user_meta($userId, '_glsr_ranking', true) > 0);
@@ -199,7 +199,7 @@ class ReviewManagerTest extends WP_UnitTestCase
         $this->assertEquals($review->assigned_posts, [$postId]);
         // unassign post
         glsr(ReviewManager::class)->unassignPost($review, $postId);
-        $review = glsr(ReviewManager::class)->get($review->ID);
+        $review->refresh();
         $this->assertEquals($review->assigned_posts, []);
         $this->assertEquals(get_post_meta($postId, '_glsr_average', true), 0);
         $this->assertEquals(get_post_meta($postId, '_glsr_ranking', true), 0);
@@ -214,7 +214,7 @@ class ReviewManagerTest extends WP_UnitTestCase
         $this->assertEquals($review->assigned_terms, [$termId]);
         // unassign term
         glsr(ReviewManager::class)->unassignTerm($review, $termId);
-        $review = glsr(ReviewManager::class)->get($review->ID);
+        $review->refresh();
         $this->assertEquals($review->assigned_terms, []);
         $this->assertEquals(get_term_meta($termId, '_glsr_average', true), 0);
         $this->assertEquals(get_term_meta($termId, '_glsr_ranking', true), 0);
@@ -229,7 +229,7 @@ class ReviewManagerTest extends WP_UnitTestCase
         $this->assertEquals($review->assigned_users, [$userId]);
         // unassign user
         glsr(ReviewManager::class)->unassignUser($review, $userId);
-        $review = glsr(ReviewManager::class)->get($review->ID);
+        $review->refresh();
         $this->assertEquals($review->assigned_users, []);
         $this->assertEquals(get_user_meta($userId, '_glsr_average', true), 0);
         $this->assertEquals(get_user_meta($userId, '_glsr_ranking', true), 0);

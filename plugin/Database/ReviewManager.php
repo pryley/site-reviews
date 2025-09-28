@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Defaults\UpdateReviewDefaults;
@@ -190,7 +191,7 @@ class ReviewManager
                 update_post_meta($duplicate->ID, $key, $value);
             }
         }
-        update_post_meta($duplicate->ID, '_duplicated_from', $review->ID);
+        glsr(PostMeta::class)->set($duplicate->ID, 'duplicated_from', $review->ID);
         return $duplicate;
     }
 
@@ -285,7 +286,7 @@ class ReviewManager
             $assignedUsers = glsr(Sanitizer::class)->sanitizeUserIds($data['assigned_users']);
             glsr()->action('review/updated/user_ids', $review, $assignedUsers); // triggers a recount of assigned posts
         }
-        $review = $this->get($reviewId); // get a fresh copy of the review
+        $review->refresh();
         glsr()->action('review/updated', $review, $data, $oldPost);
         return $review;
     }
@@ -304,7 +305,7 @@ class ReviewManager
         $data = glsr(CustomFieldsDefaults::class)->merge($values);
         $data = Arr::prefixKeys($data, 'custom_');
         foreach ($data as $metaKey => $metaValue) {
-            glsr(Database::class)->metaSet($reviewId, $metaKey, $metaValue);
+            glsr(PostMeta::class)->set($reviewId, $metaKey, $metaValue);
         }
     }
 
@@ -341,11 +342,11 @@ class ReviewManager
         if (empty($response) && empty($review->response)) {
             return 0;
         }
-        glsr(Database::class)->metaSet($review->ID, 'response', $response); // prefixed metakey
+        glsr(PostMeta::class)->set($review->ID, 'response', $response); // prefixed metakey
         // This should run immediately after saving the response
         // but before adding the "response_by" meta_value!
         glsr()->action('review/responded', $review, $response);
-        glsr(Database::class)->metaSet($review->ID, 'response_by', get_current_user_id()); // prefixed metakey
+        glsr(PostMeta::class)->set($review->ID, 'response_by', get_current_user_id()); // prefixed metakey
         glsr(Cache::class)->delete($review->ID, 'reviews');
         return 1;
     }

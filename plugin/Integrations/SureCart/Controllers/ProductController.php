@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Contracts\ControllerContract;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Database\CountManager;
+use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Svg;
 use GeminiLabs\SiteReviews\HookProxy;
@@ -199,7 +200,7 @@ class ProductController implements ControllerContract
      */
     public function filterReviewCallbackHasProductOwner(Review $review): bool
     {
-        $verified = get_post_meta($review->ID, '_sc_verified', true);
+        $verified = glsr(PostMeta::class)->get($review->ID, 'sc_verified');
         if ('' !== $verified) {
             return (bool) $verified;
         }
@@ -211,7 +212,7 @@ class ProductController implements ControllerContract
                 break; // only check the first product
             }
         }
-        update_post_meta($review->ID, '_sc_verified', (int) $verified);
+        glsr(PostMeta::class)->set($review->ID, 'sc_verified', (int) $verified);
         return $verified;
     }
 

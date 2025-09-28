@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
@@ -224,7 +225,7 @@ class Review extends Arguments
     public function location(): array
     {
         return glsr(StatDefaults::class)->restrict(
-            get_post_meta($this->ID, '_geolocation', true)
+            glsr(PostMeta::class)->get($this->ID, 'geolocation')
         );
     }
 
