@@ -79,6 +79,10 @@
         <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
         <ol>
             <li>
+                <p><strong>The <code>site-reviews/review/pinned</code> filter hook arguments have changed.</strong></p>
+                <p>The first argument of the hook was previously the Post ID of the review but it is now the $review object.</p>
+            </li>
+            <li>
                 <p><strong>The <code>site-reviews/review-form/fields/normalized</code> filter hook has been removed.</strong></p>
                 <p>If you were previously using this hook, you should change it to: <code>site-reviews/review-form/fields/all</code>.</p>
             </li>

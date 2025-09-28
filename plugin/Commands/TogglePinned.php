@@ -28,16 +28,22 @@ class TogglePinned extends AbstractCommand
             $this->fail();
             return;
         }
-        if ($this->isPinned !== $this->review->is_pinned) {
-            glsr(ReviewManager::class)->updateRating($this->review->ID, [
-                'is_pinned' => $this->isPinned,
-            ]);
-            glsr()->action('review/pinned', $this->review->ID, $this->isPinned);
-            $notice = $this->isPinned
-                ? _x('Review pinned.', 'admin-text', 'site-reviews')
-                : _x('Review unpinned.', 'admin-text', 'site-reviews');
-            glsr(Notice::class)->addSuccess($notice);
+        if ($this->isPinned === $this->review->is_pinned) {
+            return;
         }
+        $result = glsr(ReviewManager::class)->updateRating($this->review->ID, [
+            'is_pinned' => $this->isPinned,
+        ]);
+        if ($result <= 0) {
+            glsr(Notice::class)->addError('Something went wrong: unable to pin/unpin review');
+            return;
+        }
+        $this->review->set('is_pinned', $this->isPinned); // quick and dirty
+        glsr()->action('review/pinned', $this->review, $this->isPinned);
+        $notice = $this->isPinned
+            ? _x('Review pinned.', 'admin-text', 'site-reviews')
+            : _x('Review unpinned.', 'admin-text', 'site-reviews');
+        glsr(Notice::class)->addSuccess($notice);
     }
 
     public function response(): array
