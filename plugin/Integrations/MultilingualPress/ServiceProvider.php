@@ -19,10 +19,8 @@ class ServiceProvider implements ModuleServiceProvider
      * hook names directly instead of using constants because the likelihood of
      * hook name changes are far less than changes to the plugin architecture.
      */
-    public function activateModule(Container $container): void
+    public function activateModule(Container $container): void // @phpstan-ignore-line class.notFound
     {
-        // @todo We need to pass an arg to the created/transitioned/updated hooks if it is a frontend or backend action...
-
         glsr(Hooks::class)->hook(Controller::class, [
             ['filterAdminInlineCss', 'site-reviews/enqueue/admin/inline-styles'],
             ['filterAdminInlineJs', 'site-reviews/enqueue/admin/inline-script'],
@@ -35,13 +33,13 @@ class ServiceProvider implements ModuleServiceProvider
         glsr(Hooks::class)->hook(RelationController::class, [
             ['filterSyncedMetaKeys', 'multilingualpress.sync_post_meta_keys', 10, 2],
             ['onBulkEditReviews', 'bulk_edit_posts', 10, 2],
-            ['onCreated', 'site-reviews/review/created', 20],
+            ['onFrontendCreated', 'site-reviews/review/created', 20],
+            ['onFrontendTransitioned', 'site-reviews/review/transitioned', 10, 3],
+            ['onFrontendUpdated', 'site-reviews/review/updated', 20],
             ['onGeolocated', 'site-reviews/review/geolocated', 10, 2],
             ['onPinned', 'site-reviews/review/pinned', 10, 2],
             ['onResponded', 'site-reviews/review/responded', 10, 2],
             ['onSyncReview', 'multilingualpress.metabox_after_relate_posts', 10, 2],
-            ['onTransitioned', 'site-reviews/review/transitioned', 10, 3],
-            ['onUpdated', 'site-reviews/review/updated', 20],
             ['onVerified', 'site-reviews/review/verified'],
         ]);
     }

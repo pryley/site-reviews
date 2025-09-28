@@ -9,7 +9,6 @@ use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedPostsField;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedUsersField;
-use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Metabox\MetaboxFields;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Review;
@@ -19,6 +18,7 @@ use Inpsyde\MultilingualPress\Framework\SwitchSiteTrait;
 use Inpsyde\MultilingualPress\TranslationUi\MetaboxFieldsHelper;
 use Inpsyde\MultilingualPress\TranslationUi\Post\PostRelationSaveHelper;
 use Inpsyde\MultilingualPress\TranslationUi\Post\RelationshipContext;
+
 use function Inpsyde\MultilingualPress\resolve;
 use function Inpsyde\MultilingualPress\translationIds;
 
@@ -120,8 +120,8 @@ class RelationSaveHelper
             glsr(PostMeta::class)->set($review->ID, 'geolocation', $data);
         } else {
             glsr_log()->error('MLP: insert geolocation failed on remote site')
-                ->debug($data)
-                ->debug($this->context);
+                      ->debug($data)
+                      ->debug($this->context);
         }
         $this->maybeRestoreSite($originalSiteId);
     }
@@ -143,14 +143,14 @@ class RelationSaveHelper
             $sourceData = glsr(RatingDefaults::class)->restrict($sourceData);
             if (false === glsr(Database::class)->insert('ratings', $sourceData)) {
                 glsr_log()->error('MLP: insert rating failed on remote site')
-                    ->debug($sourceData)
-                    ->debug($this->context);
+                          ->debug($sourceData)
+                          ->debug($this->context);
             }
         } else {
             if (-1 === glsr(ReviewManager::class)->updateRating($review->ID, $sourceData)) {
                 glsr_log()->error('MLP: update rating failed on remote site')
-                    ->debug($sourceData)
-                    ->debug($this->context);
+                          ->debug($sourceData)
+                          ->debug($this->context);
             }
         }
         $this->maybeRestoreSite($originalSiteId);
