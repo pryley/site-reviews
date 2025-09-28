@@ -66,5 +66,9 @@ parameters:
     - plugin
   reportUnmatchedIgnoredErrors: false
   scanFiles:
+    - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
+    - vendor/php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php
+    - vendor/php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php
+    - vendor/php-stubs/wp-cli-stubs/wp-cli-tools-stubs.php
     - vendors/woocommerce/action-scheduler/functions.php
   treatPhpDocTypesAsCertain: false
