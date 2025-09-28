@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress;
 
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -116,7 +117,7 @@ class RelationSaveHelper
         $data['rating_id'] = $review->rating_id;
         if (false !== glsr(Database::class)->insert('stats', $data)) {
             unset($data['rating_id']);
-            update_post_meta($review->ID, '_geolocation', $data);
+            glsr(PostMeta::class)->set($review->ID, 'geolocation', $data);
         } else {
             glsr_log()->error('MLP: insert geolocation failed on remote site')
                 ->debug($data)
@@ -166,8 +167,8 @@ class RelationSaveHelper
         }
         $originalSiteId = $this->maybeSwitchSite($this->context->remoteSiteId());
         if (empty($review->response)) {
-            glsr(Database::class)->metaSet($review->ID, 'response', $response); // prefixed metakey
-            glsr(Database::class)->metaSet($review->ID, 'response_by', get_current_user_id()); // prefixed metakey
+            glsr(PostMeta::class)->set($review->ID, 'response', $response);
+            glsr(PostMeta::class)->set($review->ID, 'response_by', get_current_user_id());
         }
         $this->maybeRestoreSite($originalSiteId);
     }
@@ -189,7 +190,7 @@ class RelationSaveHelper
             'is_verified' => true,
         ]);
         if ($result > 0) {
-            glsr(Database::class)->metaSet($review->ID, 'verified_on', $timestamp);
+            glsr(PostMeta::class)->set($review->ID, 'verified_on', $timestamp);
         } else {
             glsr_log()->error('MLP: sync review verification failed on remote site')
                 ->debug(compact('timestamp'))

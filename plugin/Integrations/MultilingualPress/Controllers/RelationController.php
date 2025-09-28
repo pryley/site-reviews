@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Defaults\AdditionalFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\StatDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -185,7 +186,7 @@ class RelationController extends AbstractController
      */
     public function onVerified(Review $review): void
     {
-        $timestamp = Cast::toInt(glsr(Database::class)->meta($review->ID, 'verified_on'));
+        $timestamp = glsr(PostMeta::class)->get($review->ID, 'verified_on', 'int');
         $copier = new ReviewCopier($review->ID, get_current_blog_id());
         $copier->run(function ($context) use ($timestamp) {
             $relationHelper = new RelationSaveHelper($context);
