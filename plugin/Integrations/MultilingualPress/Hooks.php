@@ -54,7 +54,7 @@ class Hooks extends IntegrationHooks
             return false;
         }
         try {
-            return resolve(ModuleManager::class)->isModuleActive(ServiceProvider::MODULE_ID);
+            return resolve(ModuleManager::class)->isModuleActive(glsr()->id);
         } catch (\Exception $e) {
             return false;
         }
@@ -67,7 +67,7 @@ class Hooks extends IntegrationHooks
 
     protected function notify(string $name): void
     {
-        add_action('network_admin_notices', function () {
+        add_action('network_admin_notices', function () use ($name) {
             $notice = _x('Update %s to version %s or higher to enable the integration with Site Reviews.', 'admin-text', 'site-reviews');
             $supportedVersion = sanitize_text_field($this->supportedVersion());
             $text = sprintf($notice, $name, $supportedVersion);

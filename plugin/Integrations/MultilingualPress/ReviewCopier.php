@@ -39,19 +39,23 @@ class ReviewCopier
                 continue;
             }
             $originalSiteId = $this->maybeSwitchSite($remoteSiteId);
-            $remoteReview = glsr_create_review($data);
-            $context = new RelationshipContext([
-                RelationshipContext::REMOTE_POST_ID => $remoteReview->ID,
-                RelationshipContext::REMOTE_SITE_ID => $remoteSiteId,
-                RelationshipContext::SOURCE_POST_ID => $this->sourcePostId,
-                RelationshipContext::SOURCE_SITE_ID => $this->sourceSiteId,
-            ]);
-            $helper = new RelationSaveHelper($context);
-            $helper->relateReviews();
-            $helper->syncAssignedPosts($review->assigned_posts, true);
-            $helper->syncAssignedUsers($review->assigned_users, true);
-            $helper->syncAssignedTerms();
-            $helper->syncMeta();
+            if ($remoteReview = glsr_create_review($data)) {
+                $context = new RelationshipContext([
+                    RelationshipContext::REMOTE_POST_ID => $remoteReview->ID,
+                    RelationshipContext::REMOTE_SITE_ID => $remoteSiteId,
+                    RelationshipContext::SOURCE_POST_ID => $this->sourcePostId,
+                    RelationshipContext::SOURCE_SITE_ID => $this->sourceSiteId,
+                ]);
+                $helper = new RelationSaveHelper($context);
+                $helper->relateReviews();
+                $helper->syncAssignedPosts($review->assigned_posts, true);
+                $helper->syncAssignedUsers($review->assigned_users, true);
+                $helper->syncAssignedTerms();
+                $helper->syncMeta();
+            } else {
+                glsr_log()->error('MLP: unable to copy remote review')
+                  ->debug($data);
+            }
             $this->maybeRestoreSite($originalSiteId);
         }
     }

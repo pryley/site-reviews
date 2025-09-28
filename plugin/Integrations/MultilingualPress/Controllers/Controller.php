@@ -102,12 +102,12 @@ class Controller extends AbstractController
                 glsr()->name, // rename Taxonomies tab
                 new Post\MetaboxField(
                     AssignedPostsField::FIELD_COPY_ASSIGNED_POSTS,
-                    new AssignedPostsField(),
+                    new AssignedPostsField(), // @phpstan-ignore-line
                     [AssignedPostsField::class, 'sanitize']
                 ),
                 new Post\MetaboxField(
                     AssignedUsersField::FIELD_COPY_ASSIGNED_USERS,
-                    new AssignedUsersField(),
+                    new AssignedUsersField(), // @phpstan-ignore-line
                     [AssignedUsersField::class, 'sanitize']
                 ),
                 ...$tab->fields(),

@@ -6,6 +6,8 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedPostsField;
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedUsersField;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Metabox\MetaboxFields;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
@@ -16,7 +18,6 @@ use Inpsyde\MultilingualPress\Framework\SwitchSiteTrait;
 use Inpsyde\MultilingualPress\TranslationUi\MetaboxFieldsHelper;
 use Inpsyde\MultilingualPress\TranslationUi\Post\PostRelationSaveHelper;
 use Inpsyde\MultilingualPress\TranslationUi\Post\RelationshipContext;
-
 use function Inpsyde\MultilingualPress\resolve;
 use function Inpsyde\MultilingualPress\translationIds;
 
@@ -60,7 +61,7 @@ class RelationSaveHelper
         if (!$this->canSync()) {
             return;
         }
-        if (!$force && !$this->canSyncAssignment(MetaboxFields::FIELD_COPY_ASSIGNED_POSTS)) {
+        if (!$force && !$this->canSyncAssignment(AssignedPostsField::FIELD_COPY_ASSIGNED_POSTS)) {
             return;
         }
         $review = $this->remoteReview();
@@ -88,7 +89,7 @@ class RelationSaveHelper
         if (!$this->canSync()) {
             return;
         }
-        if (!$force && !$this->canSyncAssignment(MetaboxFields::FIELD_COPY_ASSIGNED_USERS)) {
+        if (!$force && !$this->canSyncAssignment(AssignedUsersField::FIELD_COPY_ASSIGNED_USERS)) {
             return;
         }
         $review = $this->remoteReview();
@@ -120,7 +121,6 @@ class RelationSaveHelper
             glsr_log()->error('MLP: insert geolocation failed on remote site')
                 ->debug($data)
                 ->debug($this->context);
-            }
         }
         $this->maybeRestoreSite($originalSiteId);
     }
