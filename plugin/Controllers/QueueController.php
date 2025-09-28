@@ -15,7 +15,7 @@ class QueueController extends AbstractController
      */
     public function cleanupAfterExport(): void
     {
-        glsr(Database::class)->deleteMeta(glsr()->export_key);
+        delete_post_meta_by_key(glsr()->export_key);
     }
 
     /**

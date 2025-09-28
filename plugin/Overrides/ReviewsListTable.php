@@ -2,8 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Overrides;
 
-use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -100,7 +99,7 @@ class ReviewsListTable extends \WP_Posts_List_Table
      */
     protected function renderInlineData(\WP_Post $post)
     {
-        $response = Cast::toString(glsr(Database::class)->meta($post->ID, 'response'));
+        $response = glsr(PostMeta::class)->get($post->ID, 'response', 'string');
         glsr()->render('partials/screen/inline-data', [
             'content' => esc_textarea(trim($post->post_content)),
             'postId' => $post->ID,

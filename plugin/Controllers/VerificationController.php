@@ -6,11 +6,10 @@ use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Commands\SendVerificationEmail;
 use GeminiLabs\SiteReviews\Commands\ToggleVerified;
 use GeminiLabs\SiteReviews\Commands\VerifyReview;
-use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Request;
@@ -30,9 +29,9 @@ class VerificationController extends AbstractController
         if (!$review->isValid()) {
             return;
         }
-        $text = empty(glsr(Database::class)->meta($review->ID, 'verified_requested'))
-            ? esc_html_x('Send Verification Request', 'admin-text', 'site-reviews')
-            : esc_html_x('Resend Verification Request', 'admin-text', 'site-reviews');
+        $text = glsr(PostMeta::class)->get($review->ID, 'verified_requested', 'bool')
+            ? esc_html_x('Resend Verification Request', 'admin-text', 'site-reviews')
+            : esc_html_x('Send Verification Request', 'admin-text', 'site-reviews');
         glsr(Template::class)->render('partials/editor/verified', [
             'is_verification_enabled' => glsr(OptionManager::class)->getBool('settings.general.request_verification', false),
             'is_verified' => $review->is_verified,

@@ -13,6 +13,7 @@ use GeminiLabs\SiteReviews\Commands\UnassignUsers;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\CountManager;
+use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
@@ -242,14 +243,14 @@ class ReviewController extends AbstractController
         }
         $excluded = Cast::toArray($command->request()->excluded);
         if (!empty($excluded)) { // save the fields hidden in the review form
-            glsr(Database::class)->metaSet($postId, 'excluded', $excluded);
+            glsr(PostMeta::class)->set($postId, 'excluded', $excluded);
         }
         if (!empty($values->response)) { // save the response if one is provided
-            glsr(Database::class)->metaSet($postId, 'response', $values->response);
-            glsr(Database::class)->metaSet($postId, 'response_by', $values->response_by); // @phpstan-ignore-line
+            glsr(PostMeta::class)->set($postId, 'response', $values->response);
+            glsr(PostMeta::class)->set($postId, 'response_by', $values->response_by); // @phpstan-ignore-line
         }
         foreach ($values->custom as $key => $value) {
-            glsr(Database::class)->metaSet($postId, "custom_{$key}", $value);
+            glsr(PostMeta::class)->set($postId, "custom_{$key}", $value);
         }
     }
 
