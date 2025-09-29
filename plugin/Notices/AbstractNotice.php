@@ -46,7 +46,7 @@ abstract class AbstractNotice
     public function render(): void
     {
         $notices = glsr()->retrieveAs('array', 'notices');
-        if (!$this->isIntroverted() || ($this->isIntroverted() && empty($notices))) { // @phpstan-ignore-line
+        if (!$this->isIsolated() || ($this->isIsolated() && empty($notices))) { // @phpstan-ignore-line
             glsr()->render("partials/notices/{$this->key}", $this->data());
         }
     }
@@ -101,7 +101,7 @@ abstract class AbstractNotice
         return false;
     }
 
-    protected function isIntroverted(): bool
+    protected function isIsolated(): bool
     {
         return false;
     }

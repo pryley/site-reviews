@@ -15,7 +15,7 @@ class WriteReviewNotice extends AbstractNotice
         return true;
     }
 
-    protected function isIntroverted(): bool
+    protected function isIsolated(): bool
     {
         return true;
     }
