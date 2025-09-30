@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Defaults\StatDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\RelationSaveHelper;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\ReviewCopier;
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\SettingsCopier;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Review;
 use Inpsyde\MultilingualPress\Framework\Http\ServerRequest;
@@ -156,6 +157,17 @@ class RelationController extends AbstractController
             $helper = new RelationSaveHelper($context);
             $helper->syncResponse($response);
         });
+    }
+
+    /**
+     * @action site-reviews/settings/updated
+     */
+    public function onSettingsUpdated(array $settings): void
+    {
+        if (is_plugin_active_for_network(glsr()->basename)) {
+            $copier = new SettingsCopier(get_current_blog_id());
+            $copier->sync($settings);
+        }
     }
 
     /**

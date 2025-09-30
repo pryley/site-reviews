@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedPostsField;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedUsersField;
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Notices\NetworkNotice;
 use Inpsyde\MultilingualPress\TranslationUi\Post;
 
 class Controller extends AbstractController
@@ -149,5 +150,14 @@ class Controller extends AbstractController
             return true;
         }
         return $isChecked;
+    }
+
+    /**
+     * @admin admin_head
+     */
+    public function renderNotices(): void
+    {
+        glsr()->singleton(NetworkNotice::class); // make singleton
+        glsr(NetworkNotice::class);
     }
 }

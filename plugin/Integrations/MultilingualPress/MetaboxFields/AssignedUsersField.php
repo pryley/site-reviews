@@ -12,7 +12,7 @@ class AssignedUsersField
 
     public function __invoke(MetaboxFieldsHelper $helper, RelationshipContext $context)
     {
-        glsr()->render('integrations/multilingualpress/assigned_users-field', [
+        glsr()->render('integrations/multilingualpress/fields/assigned_users', [
             'id' => $helper->fieldId(static::FIELD_COPY_ASSIGNED_USERS),
             'name' => $helper->fieldName(static::FIELD_COPY_ASSIGNED_USERS),
             'checked' => glsr()->filterBool(static::FIELD_COPY_ASSIGNED_USERS_IS_CHECKED, true),

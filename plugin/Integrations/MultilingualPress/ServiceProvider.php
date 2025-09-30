@@ -30,6 +30,7 @@ class ServiceProvider implements ModuleServiceProvider
             ['filterPostStatuses', 'multilingualpress.translation_ui_post_statuses'],
             ['filterSettingForm', 'site-reviews/setting-form/config'],
             ['filterTaxonomiesIsChecked', 'multilingualpress.copy_taxonomies_is_checked'],
+            ['renderNotices', 'admin_head'],
         ]);
         glsr(Hooks::class)->hook(RelationController::class, [
             ['filterSyncedMetaKeys', 'multilingualpress.sync_post_meta_keys', 10, 2],
@@ -40,6 +41,7 @@ class ServiceProvider implements ModuleServiceProvider
             ['onGeolocated', 'site-reviews/review/geolocated', 10, 2],
             ['onPinned', 'site-reviews/review/pinned', 10, 2],
             ['onResponded', 'site-reviews/review/responded', 10, 2],
+            ['onSettingsUpdated', 'site-reviews/settings/updated'],
             ['onSyncReview', 'multilingualpress.metabox_after_relate_posts', 10, 2],
             ['onVerified', 'site-reviews/review/verified'],
         ]);

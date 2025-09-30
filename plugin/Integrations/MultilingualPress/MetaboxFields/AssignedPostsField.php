@@ -12,7 +12,7 @@ class AssignedPostsField
 
     public function __invoke(MetaboxFieldsHelper $helper, RelationshipContext $context)
     {
-        glsr()->render('integrations/multilingualpress/assigned_posts-field', [
+        glsr()->render('integrations/multilingualpress/fields/assigned_posts', [
             'id' => $helper->fieldId(static::FIELD_COPY_ASSIGNED_POSTS),
             'name' => $helper->fieldName(static::FIELD_COPY_ASSIGNED_POSTS),
             'checked' => glsr()->filterBool(static::FIELD_COPY_ASSIGNED_POSTS_IS_CHECKED, true),
