@@ -15,7 +15,7 @@ class LicenseNotice extends AbstractNotice
         if ($this->isDismissed()) {
             return;
         }
-        glsr()->render('partials/notices/license', $licensing);
+        glsr()->render($this->path(), $licensing);
     }
 
     protected function canRender(): bool
