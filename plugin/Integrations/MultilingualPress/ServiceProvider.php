@@ -28,6 +28,7 @@ class ServiceProvider implements ModuleServiceProvider
             ['filterGettext', 'gettext_multilingualpress', 10, 2],
             ['filterMetaboxTabs', 'multilingualpress.post_translation_metabox_tabs', 10, 2],
             ['filterPostStatuses', 'multilingualpress.translation_ui_post_statuses'],
+            ['filterSettingForm', 'site-reviews/setting-form/config'],
             ['filterTaxonomiesIsChecked', 'multilingualpress.copy_taxonomies_is_checked'],
         ]);
         glsr(Hooks::class)->hook(RelationController::class, [

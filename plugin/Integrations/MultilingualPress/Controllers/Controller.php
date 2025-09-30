@@ -130,6 +130,15 @@ class Controller extends AbstractController
     }
 
     /**
+     * @filter site-reviews/setting-form/config
+     */
+    public function filterSettingForm(array $config): array
+    {
+        unset($config['settings.general.multilingual']);
+        return $config;
+    }
+
+    /**
      * @filter multilingualpress.copy_taxonomies_is_checked
      *
      * @filter-location \Inpsyde\MultilingualPress\TranslationUi\Post\Field\CopyTaxonomies
