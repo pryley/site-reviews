@@ -43,11 +43,16 @@ abstract class AbstractNotice
         }
     }
 
+    public function path(): string
+    {
+        return "partials/notices/{$this->key}";
+    }
+
     public function render(): void
     {
         $notices = glsr()->retrieveAs('array', 'notices');
         if (!$this->isIsolated() || ($this->isIsolated() && empty($notices))) { // @phpstan-ignore-line
-            glsr()->render("partials/notices/{$this->key}", $this->data());
+            glsr()->render($this->path(), $this->data());
         }
     }
 

@@ -20,14 +20,14 @@ class GatekeeperNotice extends AbstractNotice
             Gatekeeper::ERROR_NOT_INSTALLED,
             Gatekeeper::ERROR_NOT_SUPPORTED,
         ])) {
-            glsr()->render('partials/notices/gatekeeper-external', [
+            glsr()->render("{$this->path()}-external", [
                 'actions' => $this->pluginActions($errors),
                 'errors' => $errors,
                 'links' => $this->pluginLinks($errors),
             ]);
         }
         if ($errors = $this->errors([Gatekeeper::ERROR_NOT_TESTED])) {
-            glsr()->render('partials/notices/gatekeeper-internal', [
+            glsr()->render("{$this->path()}-internal", [
                 'actions' => $this->pluginActions($errors),
                 'errors' => $errors,
                 'links' => $this->pluginLinks($errors),
