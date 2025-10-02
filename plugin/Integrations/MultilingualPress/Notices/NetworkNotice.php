@@ -11,20 +11,15 @@ class NetworkNotice extends AbstractNotice
         return "integrations/multilingualpress/notices/{$this->key}";
     }
 
-    protected function canRender(): bool
+    protected function canLoad(): bool
     {
         if (!is_plugin_active_for_network(glsr()->basename)) {
             return false;
         }
-        return parent::canRender();
+        return parent::canLoad();
     }
 
     protected function isDismissible(): bool
-    {
-        return false;
-    }
-
-    protected function isMonitored(): bool
     {
         return false;
     }
