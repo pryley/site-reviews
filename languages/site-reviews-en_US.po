@@ -5939,11 +5939,11 @@ msgstr "Can You Help?"
 #: views/partials/notices/write-review.php:8
 msgctxt "admin-text"
 msgid ""
-"A 5-star review from you on WordPress helps Site Reviews grow and motivates "
-"me to make it even better!"
+"A 5-star review from you on WordPress helps Site Reviews grow and "
+"encourages me to make it even better!"
 msgstr ""
-"A 5-star review from you on WordPress helps Site Reviews grow and motivates "
-"me to make it even better!"
+"A 5-star review from you on WordPress helps Site Reviews grow and "
+"encourages me to make it even better!"
 
 #: views/partials/notices/write-review.php:12
 msgctxt "admin-text"
