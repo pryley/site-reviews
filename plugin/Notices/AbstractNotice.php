@@ -14,6 +14,7 @@ abstract class AbstractNotice
     public const USER_META_KEY = '_glsr_dismissed_notices';
 
     protected string $key;
+    protected int $priority = 10;
     protected string $type = ''; // add a supported type here to override the default type
 
     public function __construct()
@@ -31,7 +32,7 @@ abstract class AbstractNotice
             'rendered' => false,
             'type' => str_starts_with('notice', $this->type) ? 'notice' : $this->type,
         ], $this->key);
-        add_action('admin_notices', [$this, 'render']);
+        add_action('admin_notices', [$this, 'render'], $this->priority);
     }
 
     public function app(): PluginContract
@@ -162,14 +163,15 @@ abstract class AbstractNotice
         if (empty($dismissed[$this->key])) {
             return false;
         }
-        $version = glsr(Sanitizer::class)->sanitizeVersion($dismissed[$this->key]['version'] ?? '');
-        if (Helper::isGreaterThan($this->deferVersion(), $version)) {
-            return false;
+        if ($version = glsr(Sanitizer::class)->sanitizeVersion($dismissed[$this->key]['version'] ?? '')) {
+            if (Helper::isGreaterThan($this->deferVersion(), $version)) {
+                return false;
+            }
         }
-        if ($deferInterval = $this->deferInterval()) {
-            $timestamp = glsr(Sanitizer::class)->sanitizeTimestamp($dismissed[$this->key]['timestamp'] ?? '');
+        if ($timestamp = glsr(Sanitizer::class)->sanitizeTimestamp($dismissed[$this->key]['timestamp'] ?? '')) {
+            $deferInterval = $this->deferInterval();
             $deferredTimestamp = (int) $timestamp + $deferInterval;
-            if (current_time('timestamp') > $deferredTimestamp) {
+            if (!empty($deferInterval) && current_time('timestamp') > $deferredTimestamp) {
                 return false;
             }
         }
@@ -188,7 +190,22 @@ abstract class AbstractNotice
 
     protected function isNoticeScreen(): bool
     {
-        return str_starts_with(glsr_current_screen()->post_type, glsr()->post_type);
+        $screen = glsr_current_screen();
+        if (!str_starts_with($screen->post_type, glsr()->post_type)) {
+            return false;
+        }
+        if ('popup' === $this->type) {
+            if ('post' === $screen->base) {
+                return false;
+            }
+            if (str_ends_with($screen->base, '-premium')) {
+                return false;
+            }
+            if (!glsr()->filterBool('flyoutmenu/enabled', true)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     protected function isStandalone(): bool

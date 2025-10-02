@@ -1,20 +1,31 @@
 <?php defined('ABSPATH') || exit; ?>
 
+<h3>
+    <?php echo $icon; ?>
+    <?php echo _x('Thanks for Updating!', 'admin-text', 'site-reviews'); ?>
+</h3>
+
 <p>
-    <?php printf(_x('Thank you for updating %s to %s! I hope you love the improvements.', 'plugin name|version (admin-text)', 'site-reviews'),
+    <?php printf(_x('%s has been updated to version %s!', 'plugin name|version (admin-text)', 'site-reviews'),
         sprintf('<strong>%s</strong>', glsr()->name),
-        sprintf('v%s', glsr()->version)
-    ); ?> 🎉
+        sprintf('<strong>%s</strong>', glsr()->version)
+    ); ?>
+</p>
+<p>
+    <?php echo _x('This is a significant update with a lot of exciting new features! If you have performed any customisation using code snippets, please read the upgrade guide to ensure that everything works as expected.', 'plugin name|version (admin-text)', 'site-reviews'); ?>
 </p>
 <p class="glsr-notice-buttons">
     <?php if (glsr()->hasPermission('welcome', 'whatsnew')) { ?>
-        <a class="button" href="<?php echo esc_url(glsr_admin_url('welcome', 'whatsnew')); ?>">
-            <?php echo _x("See What's New", 'admin-text', 'site-reviews'); ?>
+        <a class="components-button is-primary is-small" href="<?php echo esc_url(glsr_admin_url('welcome', 'whatsnew')); ?>">
+            <?php echo _x("What's New", 'admin-text', 'site-reviews'); ?>
         </a>
     <?php } ?>
     <?php if (glsr()->hasPermission('welcome', 'upgrade-guide')) { ?>
-        <a class="button button-link" href="<?php echo esc_url(glsr_admin_url('welcome', 'upgrade-guide')); ?>">
-            <?php echo _x('Read the Upgrade Guide', 'admin-text', 'site-reviews'); ?> →
+        <a class="components-button is-secondary is-small" href="<?php echo esc_url(glsr_admin_url('welcome', 'upgrade-guide')); ?>">
+            <?php echo _x('Upgrade Guide', 'admin-text', 'site-reviews'); ?>
         </a>
     <?php } ?>
+    <button type="button" class="components-button is-tertiary is-small">
+        <?php echo _x('Close', 'admin-text', 'site-reviews'); ?>
+    </button>
 </p>
