@@ -2157,7 +2157,7 @@ msgctxt "admin-text"
 msgid "This will filter the output of the wp_comments() function when used to query WooCommerce product reviews."
 msgstr ""
 
-#: plugin/Addons/Controller.php:279, plugin/Controllers/AdminController.php:98, views/pages/tools/sync.php:25
+#: plugin/Addons/Controller.php:279, plugin/Controllers/AdminController.php:98, views/pages/tools/sync.php:25, views/partials/notices/welcome.php:19
 msgctxt "admin-text"
 msgid "Documentation"
 msgstr ""
@@ -2814,34 +2814,34 @@ msgctxt "admin-text"
 msgid "Publicly responding to third-party %s reviews is disabled."
 msgstr ""
 
-#: plugin/Controllers/FlyoutController.php:38, plugin/Controllers/MenuController.php:68
+#: plugin/Controllers/FlyoutController.php:35, plugin/Controllers/MenuController.php:68
 msgctxt "admin-text"
 msgid "Upgrade to Premium"
 msgstr ""
 
-#: plugin/Controllers/FlyoutController.php:43
+#: plugin/Controllers/FlyoutController.php:40
 msgctxt "admin-text"
 msgid "Learn the Basics"
 msgstr ""
 
-#: plugin/Controllers/FlyoutController.php:48
+#: plugin/Controllers/FlyoutController.php:45, views/partials/notices/welcome.php:15
 msgctxt "admin-text"
-msgid "Watch a Tutorial"
+msgid "Watch the Tutorial"
 msgstr ""
 
-#: plugin/Controllers/FlyoutController.php:53
+#: plugin/Controllers/FlyoutController.php:50
 msgctxt "admin-text"
 msgid "Read the Documentation"
 msgstr ""
 
-#: plugin/Controllers/FlyoutController.php:58
+#: plugin/Controllers/FlyoutController.php:55
 msgctxt "admin-text"
 msgid "Ask for Help"
 msgstr ""
 
-#: plugin/Controllers/FlyoutController.php:63
+#: plugin/Controllers/FlyoutController.php:60
 msgctxt "admin-text"
-msgid "Rate Us on Wordpress!"
+msgid "Rate Us ★★★★★ on Wordpress!"
 msgstr ""
 
 #: plugin/Controllers/LicensingController.php:70
@@ -3152,12 +3152,12 @@ msgctxt "admin-text"
 msgid "Welcome to %s"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:63
+#: plugin/Controllers/WelcomeController.php:63, views/partials/notices/upgraded.php:20
 msgctxt "admin-text"
 msgid "What's New"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:64
+#: plugin/Controllers/WelcomeController.php:64, views/partials/notices/upgraded.php:25
 msgctxt "admin-text"
 msgid "Upgrade Guide"
 msgstr ""
@@ -4518,7 +4518,7 @@ msgctxt "admin-text"
 msgid "Enter the Post ID of the review to display."
 msgstr ""
 
-#: plugin/Tinymce/TinymceGenerator.php:25
+#: plugin/Tinymce/TinymceGenerator.php:25, views/partials/notices/upgraded.php:29, views/partials/notices/welcome.php:23
 msgctxt "admin-text"
 msgid "Close"
 msgstr ""
@@ -5944,34 +5944,29 @@ msgctxt "admin-text"
 msgid "The %s addon is included in the Site Reviews Premium plugin. Please deactivate it."
 msgstr ""
 
-#: views/partials/notices/upgraded.php:4
+#: views/partials/notices/upgraded.php:5
+msgctxt "admin-text"
+msgid "Thanks for Updating!"
+msgstr ""
+
+#: views/partials/notices/upgraded.php:9
 msgctxt "plugin name|version (admin-text)"
-msgid "Thank you for updating %s to %s! I hope you love the improvements."
+msgid "%s has been updated to version %s!"
 msgstr ""
 
-#: views/partials/notices/upgraded.php:12
+#: views/partials/notices/upgraded.php:15
+msgctxt "plugin name|version (admin-text)"
+msgid "This is a significant update with a lot of exciting new features! If you have performed any customisation using code snippets, please read the upgrade guide to ensure that everything works as expected."
+msgstr ""
+
+#: views/partials/notices/welcome.php:5
 msgctxt "admin-text"
-msgid "See What's New"
+msgid "Hello Gorgeous!"
 msgstr ""
 
-#: views/partials/notices/upgraded.php:17
-msgctxt "admin-text"
-msgid "Read the Upgrade Guide"
-msgstr ""
-
-#: views/partials/notices/welcome.php:4
+#: views/partials/notices/welcome.php:9
 msgctxt "plugin name (admin-text)"
-msgid "Thank you for installing %s! I hope you love it."
-msgstr ""
-
-#: views/partials/notices/welcome.php:11
-msgctxt "admin-text"
-msgid "Start Here"
-msgstr ""
-
-#: views/partials/notices/welcome.php:16
-msgctxt "admin-text"
-msgid "Read the Shortcode Documentation"
+msgid "Thank you for installing %s I really hope you love it! Click me at any time for assistance, I'm here to help!"
 msgstr ""
 
 #: views/partials/notices/write-review.php:5
@@ -5981,7 +5976,7 @@ msgstr ""
 
 #: views/partials/notices/write-review.php:8
 msgctxt "admin-text"
-msgid "A 5-star review from you on WordPress helps Site Reviews grow and encourages me to make it even better!"
+msgid "A ★★★★★ 5-star review from you on WordPress helps Site Reviews grow and encourages me to continue providing support and making it even better!"
 msgstr ""
 
 #: views/partials/notices/write-review.php:12

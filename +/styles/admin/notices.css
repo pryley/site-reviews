@@ -186,7 +186,7 @@ body:has(#glsr-flyout) .glsr-notice-popup {
   transition-duration: 0.2s;
   transition-property: transform, opacity;
   transition-timing-function: ease-in-out;
-  width: 32ch;
+  width: 40ch;
   z-index: 99999;
 }
 

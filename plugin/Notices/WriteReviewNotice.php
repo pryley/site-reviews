@@ -7,24 +7,8 @@ use GeminiLabs\SiteReviews\Helpers\Svg;
 
 class WriteReviewNotice extends AbstractNotice
 {
+    protected int $priority = 50;
     protected string $type = 'popup';
-
-    protected function canLoad(): bool
-    {
-        if (!parent::canLoad()) {
-            return false;
-        }
-        if ('post' === glsr_current_screen()->base) {
-            return false;
-        }
-        if (str_ends_with(glsr_current_screen()->base, '-premium')) {
-            return false;
-        }
-        if (!glsr()->filterBool('flyoutmenu/enabled', true)) {
-            return false;
-        }
-        return true;
-    }
 
     protected function canRender(): bool
     {

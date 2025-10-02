@@ -25,6 +25,14 @@ class LicensePromotedNotice extends AbstractNotice
         ]);
     }
 
+    protected function canLoad(): bool
+    {
+        if (str_ends_with(glsr_current_screen()->base, '-premium')) {
+            return false;
+        }
+        return parent::canLoad();
+    }
+
     protected function isMonitored(): bool
     {
         return true;
