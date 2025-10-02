@@ -111,12 +111,17 @@ class Date
     /**
      * @param mixed $date
      */
-    public function isTimestamp($date): bool
+    public function isTimestamp($timestamp): bool
     {
-        $date = Cast::toString($date);
-        return ctype_digit($date)
-            && 10 === strlen($date)
-            && false !== strtotime($date);
+        $timestamp = Cast::toString($timestamp);
+        if (!ctype_digit($timestamp) || 10 !== strlen($timestamp)) {
+            return false;
+        }
+        $datetime = \DateTime::createFromFormat('U', $timestamp);
+        if (false === $datetime) {
+            return false;
+        }
+        return $timestamp === $datetime->format('U');
     }
 
     /**
@@ -152,7 +157,7 @@ class Date
     public function toTimestamp($date): int
     {
         if ($this->isTimestamp($date)) {
-            return $date;
+            return (int) $date;
         }
         if ($this->isDate($date)) {
             return strtotime($date);
