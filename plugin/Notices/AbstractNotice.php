@@ -63,10 +63,14 @@ abstract class AbstractNotice
         if (!$this->canRender()) {
             return;
         }
+        $notice = $this->app()->build($this->path(), $this->data());
+        if ('popup' === $this->type) {
+            $notice = glsr(Builder::class)->div($notice);
+        }
         echo glsr(Builder::class)->div([
             'class' => $this->classAttr(),
             'data-notice' => get_class($this),
-            'text' => $this->app()->build($this->path(), $this->data()),
+            'text' => $notice,
         ]);
     }
 
