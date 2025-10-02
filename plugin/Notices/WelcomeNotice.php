@@ -6,12 +6,17 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 
 class WelcomeNotice extends AbstractNotice
 {
-    protected function canRender(): bool
+    protected function canLoad(): bool
     {
         if ('0.0.0' !== glsr(OptionManager::class)->get('version_upgraded_from')) {
             return false;
         }
-        return parent::canRender();
+        return parent::canLoad();
+    }
+
+    protected function isMonitored(): bool
+    {
+        return true;
     }
 
     protected function isNoticeScreen(): bool
@@ -22,7 +27,7 @@ class WelcomeNotice extends AbstractNotice
         return parent::isNoticeScreen();
     }
 
-    protected function version(): string
+    protected function deferVersion(): string
     {
         return glsr()->version('minor');
     }

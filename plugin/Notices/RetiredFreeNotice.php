@@ -2,14 +2,16 @@
 
 namespace GeminiLabs\SiteReviews\Notices;
 
-class RetiredNotice extends AbstractNotice
+class RetiredFreeNotice extends AbstractNotice
 {
-    protected function canRender(): bool
+    protected string $type = 'notice-error';
+
+    protected function canLoad(): bool
     {
         if (empty(glsr()->retrieveAs('array', 'retired'))) {
             return false;
         }
-        return parent::canRender();
+        return parent::canLoad();
     }
 
     protected function data(): array

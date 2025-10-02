@@ -2,31 +2,56 @@
 
 namespace GeminiLabs\SiteReviews\Notices;
 
+use GeminiLabs\SiteReviews\Helpers\Svg;
+
 class WriteReviewNotice extends AbstractNotice
 {
-    protected function canRender(): bool
+    protected string $type = 'popup';
+
+    protected function canLoad(): bool
     {
-        if (!parent::canRender()) {
+        if (!parent::canLoad()) {
             return false;
         }
-        if ($this->futureTime() >= time()) {
+        if ('post' === glsr_current_screen()->base) {
+            return false;
+        }
+        if (str_ends_with(glsr_current_screen()->base, '-premium')) {
+            return false;
+        }
+        if (!glsr()->filterBool('flyoutmenu/enabled', true)) {
             return false;
         }
         return true;
     }
 
-    protected function isIsolated(): bool
+    protected function data(): array
     {
-        return true;
+        return [
+            'icon' => glsr(Svg::class)->get('assets/images/menu-icon.svg', [
+                'fill' => '#fff',
+                'width' => 26,
+            ]),
+        ];
     }
 
-    protected function isMonitored(): bool
+    protected function deferInterval(): int
+    {
+        return 2 * WEEK_IN_SECONDS;
+    }
+
+    protected function deferVersion(): string
+    {
+        return glsr()->version('major');
+    }
+
+    protected function isDismissible(): bool
     {
         return false;
     }
 
-    protected function version(): string
+    protected function isMonitored(): bool
     {
-        return glsr()->version('major');
+        return true;
     }
 }
