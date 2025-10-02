@@ -131,3 +131,6 @@
   height: 26px;
   width: 26px;
 }
+#glsr-flyout .glsr-flyout-item i.dashicons-editor-help {
+  transform: scale(1.3);
+}
