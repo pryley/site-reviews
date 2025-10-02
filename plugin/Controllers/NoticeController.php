@@ -61,7 +61,12 @@ class NoticeController extends AbstractController
     public function dismissNotice(Request $request): void
     {
         $notice = $request->sanitize('notice', 'text');
-        if (class_exists($notice)) {
+        if (!class_exists($notice)) {
+            return;
+        }
+        if ('interval' === $request->dismiss) {
+            glsr($notice)->dismiss(['version' => '']);
+        } else {
             glsr($notice)->dismiss();
         }
     }

@@ -39,17 +39,17 @@ abstract class AbstractNotice
         return glsr();
     }
 
-    public function dismiss(int $timestampOffset = 0): void
+    public function dismiss(array $args = []): void
     {
         if (!$this->isMonitored()) {
             return; // only track notices that are monitored
         }
         $userId = get_current_user_id();
         $dismissed = Arr::consolidate(get_user_meta($userId, static::USER_META_KEY, true));
-        $dismissed[$this->key] = [
-            'timestamp' => current_time('timestamp') - $timestampOffset,
+        $dismissed[$this->key] = wp_parse_args($args, [
+            'timestamp' => current_time('timestamp'),
             'version' => $this->deferVersion(),
-        ];
+        ]);
         update_user_meta($userId, static::USER_META_KEY, $dismissed);
     }
 

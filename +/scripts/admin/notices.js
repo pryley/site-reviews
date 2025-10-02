@@ -24,6 +24,7 @@ class Notices {
         this.removeNotice($notice)
         const ajax = new Ajax({
             _action: 'dismiss-notice',
+            dismiss: $el.data('dismiss'),
             notice: $notice.data('notice'),
         });
         ajax.post()
