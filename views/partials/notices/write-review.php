@@ -11,7 +11,7 @@
     <a class="components-button is-primary is-small" href="https://wordpress.org/support/view/plugin-reviews/site-reviews?filter=5#new-post" target="_blank">
         <?php echo _x('Write a Review', 'admin-text', 'site-reviews'); ?>
     </a>
-    <button type="button" class="glsr-dismiss-popup components-button is-secondary is-small">
+    <button data-dismiss="interval" type="button" class="components-button is-secondary is-small">
         <?php echo _x('Not Now', 'admin-text', 'site-reviews'); ?>
     </button>
 </p>
