@@ -24,7 +24,7 @@
         </div>
         <?php
             echo \GeminiLabs\SiteReviews\Helpers\Svg::get('assets/images/icon.svg', [
-                'height' => 54,
+                'height' => 60,
                 'style' => 'transform: scale(73%);',
             ]);
         ?>
