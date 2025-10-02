@@ -19,9 +19,6 @@ class FlyoutController extends AbstractController
         if (!str_starts_with($screen->post_type, glsr()->post_type)) {
             return;
         }
-        if (str_ends_with($screen->base, '-premium')) {
-            return;
-        }
         if (!glsr()->filterBool('flyoutmenu/enabled', true)) {
             return;
         }
@@ -45,7 +42,7 @@ class FlyoutController extends AbstractController
             ],
             [
                 'icon' => 'dashicons-youtube',
-                'title' => _x('Watch a Tutorial', 'admin-text', 'site-reviews'),
+                'title' => _x('Watch the Tutorial', 'admin-text', 'site-reviews'),
                 'url' => 'https://youtu.be/H5HdMCXvuq8',
             ],
             [
@@ -60,7 +57,7 @@ class FlyoutController extends AbstractController
             ],
             [
                 'icon' => 'dashicons-testimonial',
-                'title' => _x('Rate Us on Wordpress!', 'admin-text', 'site-reviews'),
+                'title' => _x('Rate Us ★★★★★ on Wordpress!', 'admin-text', 'site-reviews'),
                 'url' => 'https://wordpress.org/support/plugin/site-reviews/reviews/#new-post',
             ],
         ];
