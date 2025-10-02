@@ -6,4 +6,4 @@
         glsr_admin_link('settings.licenses', _x('Save your license', 'admin-text', 'site-reviews'))
     );
 ?>
-<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
+<button type="button" class="notice-dismiss"><span class="screen-reader-text"><?php echo _x('Dismiss this notice.', 'admin-text', 'site-reviews'); ?></span></button>
