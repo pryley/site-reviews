@@ -160,13 +160,19 @@ body:has(.glsr-notice-popup) .glsr-flyout-mascot .glsr-flyout-label {
 }
 
 body:has(#glsr-flyout) .glsr-notice-popup {
-  --border-radius: 6px;
-  --border-color: #2c3338;
-
-  border-radius: var(--border-radius);
+  --angle: 75deg;
+  --bg-color: #fff;
+  --border-color: #c3c4c7; /* var(--wp-admin-theme-color-darker-10); /* #2c3338 */
+  --border-radius: 7px;
+  --border-width: 1px;
+  --heading-color: #2c3338;
+  --pos: calc(100% - 50px); /* (0%:left 100%:right) */
+  --size: 1em;
+  background: none;
   border-width: 0;
   bottom: 120px;
   box-shadow: none;
+  filter: drop-shadow(0 0 8px rgba(0,0,0,.2));
   font-size: 14px;
   line-height: 1.4;
   margin: 0;
@@ -174,7 +180,6 @@ body:has(#glsr-flyout) .glsr-notice-popup {
   padding: 0;
   position: fixed;
   right: 20px;
-  row-gap: 1em;
   transform-origin: calc(100% - 50px) calc(100% + 20px);
   transform: scale(1);
   transition-delay: 0.2s;
@@ -192,55 +197,47 @@ body:has(#glsr-flyout.is-open) .glsr-notice-popup {
   transition-delay: 0s;
 }
 
-body:has(#glsr-flyout) .glsr-notice-popup {
-  --a: 75deg; /* angle */
-  --h: 1em; /* height */
-  --p: calc(100% - 50px); /* position (0%:left 100%:right) */
-  --r: var(--border-radius); /* border radius */
-  --b: 1px; /* border width */
-  --c1: var(--border-color); /* border color */
-  --c2: #fff; /* background color */
-  border-radius: var(--r) var(--r) min(var(--r),100% - var(--p) - var(--h)*tan(var(--a)/2)) min(var(--r),var(--p) - var(--h)*tan(var(--a)/2))/var(--r);
+body:has(#glsr-flyout) .glsr-notice-popup > div {
+  background: var(--border-color);
+  border-image: conic-gradient(var(--border-color) 0 0) fill 0/ var(--border-radius) max(0%,100% - var(--pos) - var(--size)*tan(var(--angle)/2)) 0 max(0%,var(--pos) - var(--size)*tan(var(--angle)/2))/0 0 var(--size) 0;
+  border-radius: var(--border-radius) var(--border-radius) min(var(--border-radius),100% - var(--pos) - var(--size)*tan(var(--angle)/2)) min(var(--border-radius),var(--pos) - var(--size)*tan(var(--angle)/2))/var(--border-radius);
   clip-path: polygon(0 100%,0 0,100% 0,100% 100%,
-    min(100%,var(--p) + var(--h)*tan(var(--a)/2)) 100%,
-    var(--p) calc(100% + var(--h)),
-    max(0%  ,var(--p) - var(--h)*tan(var(--a)/2)) 100%);
-  background: var(--c1);
-  border-image: conic-gradient(var(--c1) 0 0) fill 0/ var(--r) max(0%,100% - var(--p) - var(--h)*tan(var(--a)/2)) 0 max(0%,var(--p) - var(--h)*tan(var(--a)/2))/0 0 var(--h) 0;
+    min(100%,var(--pos) + var(--size)*tan(var(--angle)/2)) 100%,
+    var(--pos) calc(100% + var(--size)),
+    max(0%  ,var(--pos) - var(--size)*tan(var(--angle)/2)) 100%);
+  display: inline-block;
   &::before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    inset: 0;
-    padding: var(--b);
+    background: var(--bg-color) content-box;
+    border-image: conic-gradient(var(--bg-color) 0 0) fill 0/ var(--border-radius) max(var(--border-width),100% - var(--pos) - var(--size)*tan(var(--angle)/2)) 0 max(var(--border-width),var(--pos) - var(--size)*tan(var(--angle)/2))/0 0 var(--size) 0;
     border-radius: inherit;
     clip-path: polygon(0 100%,0 0,100% 0,100% 100%,
-      min(100% - var(--b),var(--p) + var(--h)*tan(var(--a)/2) - var(--b)*tan(45deg - var(--a)/4)) calc(100% - var(--b)),
-      var(--p) calc(100% + var(--h) - var(--b)/sin(var(--a)/2)),
-      max(var(--b),var(--p) - var(--h)*tan(var(--a)/2) + var(--b)*tan(45deg - var(--a)/4)) calc(100% - var(--b)));
-    background: var(--c2) content-box;
-    border-image: conic-gradient(var(--c2) 0 0) fill 0/
-      var(--r) max(var(--b),100% - var(--p) - var(--h)*tan(var(--a)/2)) 0 max(var(--b),var(--p) - var(--h)*tan(var(--a)/2))/0 0 var(--h) 0;
+      min(100% - var(--border-width),var(--pos) + var(--size)*tan(var(--angle)/2) - var(--border-width)*tan(45deg - var(--angle)/4)) calc(100% - var(--border-width)),
+      var(--pos) calc(100% + var(--size) - var(--border-width)/sin(var(--angle)/2)),
+      max(var(--border-width),var(--pos) - var(--size)*tan(var(--angle)/2) + var(--border-width)*tan(45deg - var(--angle)/4)) calc(100% - var(--border-width)));
+    content: "";
+    inset: 0;
+    padding: var(--border-width);
+    position: absolute;
+    z-index: -1;
   }
 }
 
 .glsr-notice-popup h3 {
-  position: relative;
+  align-items: center;
+  background-color: var(--heading-color);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  color: #fff;
+  display: flex;
+  font-size: 14px;
+  line-height: 1;
   margin: 0;
   padding: 1em 1em 1em calc(1.5em + 26px);
-  line-height: 1;
-  font-size: 14px;
-  color: #fff;
-  background: #1d2327;
-  background-color: var(--border-color);
-  border-radius: var(--border-radius) var(--border-radius) 0 0;
-  display: flex;
-  align-items: center;
-  svg {
-    position: absolute;
-    left: 12px;
-    width: 26px;
-  }
+  position: relative;
+}
+.glsr-notice-popup h3 svg {
+  left: 12px;
+  position: absolute;
+  width: 26px;
 }
 .glsr-notice-popup p {
   margin: 1em 0;
@@ -249,6 +246,3 @@ body:has(#glsr-flyout) .glsr-notice-popup {
 .glsr-notice-popup .glsr-notice-buttons {
   justify-content: end;
 }
-
-
-
