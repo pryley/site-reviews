@@ -9,7 +9,7 @@ class FlyoutHooks extends AbstractHooks
     public function run(): void
     {
         $this->hook(FlyoutController::class, [
-            ['renderFlyout', 'admin_footer'],
+            ['renderFlyout', 'admin_footer', 20],
         ]);
     }
 }

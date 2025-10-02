@@ -41,6 +41,9 @@ class Migrate_8_0_0 implements MigrateContract
             return false;
         }
         update_option(glsr()->prefix.'db_version', '1.5');
+        glsr(Database::class)->dbQuery(
+            glsr(Query::class)->sql("DELETE FROM table|usermeta WHERE meta_key = '_glsr_notices'")
+        );
         return true;
     }
 

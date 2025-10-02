@@ -38,7 +38,7 @@ class MetaboxForm extends Form
                 $value = wp_json_encode($value);
             }
             $config[$key] = wp_parse_args($values, [
-                'data-value' => esc_js($value),
+                'data-value' => esc_attr($value),
             ]);
         }
         return $config;

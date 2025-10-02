@@ -60,7 +60,7 @@ class FlyoutController extends AbstractController
             ],
             [
                 'icon' => 'dashicons-testimonial',
-                'title' => _x('Be Awesome!', 'admin-text', 'site-reviews'),
+                'title' => _x('Rate Us on Wordpress!', 'admin-text', 'site-reviews'),
                 'url' => 'https://wordpress.org/support/plugin/site-reviews/reviews/#new-post',
             ],
         ];

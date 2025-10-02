@@ -67,6 +67,7 @@ class StrTest extends WP_UnitTestCase
     public function test_dash_case()
     {
         $this->assertEquals(Str::dashCase('a-b_cDE'), 'a-b-c-d-e');
+        $this->assertEquals(Str::dashCase('GeminiLabs\SiteReviews\Helpers\Str'), 'gemini-labs\site-reviews\helpers\str');
     }
 
     public function test_ends_with()
@@ -166,6 +167,8 @@ class StrTest extends WP_UnitTestCase
     public function test_snake_case()
     {
         $this->assertEquals(Str::snakeCase('a-b_cDE'), 'a_b_c_d_e');
+        $this->assertEquals(Str::snakeCase('GeminiLabs\SiteReviews\Helpers\Str'), 'gemini_labs\site_reviews\helpers\str');
+        $this->assertEquals(Str::snakeCase('_GeminiLabs\_SiteReviews'), '_gemini_labs\_site_reviews');
     }
 
     public function test_starts_with()

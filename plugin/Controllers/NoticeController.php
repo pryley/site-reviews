@@ -60,8 +60,7 @@ class NoticeController extends AbstractController
      */
     public function dismissNotice(Request $request): void
     {
-        $noticeKey = glsr(Sanitizer::class)->sanitizeText($request->notice);
-        $notice = Helper::buildClassName($noticeKey.'-notice', 'Notices');
+        $notice = $request->sanitize('notice', 'text');
         if (class_exists($notice)) {
             glsr($notice)->dismiss();
         }
@@ -77,25 +76,27 @@ class NoticeController extends AbstractController
     }
 
     /**
+     * Close the hidden div used to prevent notices from flickering before
+     * they are moved elsewhere in the page by WordPress Core.
+     *
      * @action admin_notices
      */
     public function injectAfterNotices(): void
     {
         if (str_contains(glsr_current_screen()->id, glsr()->post_type)) {
-            // Close the hidden div used to prevent notices from flickering before
-            // they are moved elsewhere in the page by WordPress Core.
             echo '</div>';
         }
     }
 
     /**
+     * Wrap the notices in a hidden div to prevent flickering before
+     * they are moved elsewhere in the page by WordPress Core.
+     *
      * @action admin_notices
      */
     public function injectBeforeNotices(): void
     {
         if (str_contains(glsr_current_screen()->id, glsr()->post_type)) {
-            // Wrap the notices in a hidden div to prevent flickering before
-            // they are moved elsewhere in the page by WordPress Core.
             echo '<div id="glsr-notice-catcher">';
         }
     }
