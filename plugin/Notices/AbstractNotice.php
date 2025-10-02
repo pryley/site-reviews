@@ -39,7 +39,7 @@ abstract class AbstractNotice
         return glsr();
     }
 
-    public function dismiss(): void
+    public function dismiss(int $timestampOffset = 0): void
     {
         if (!$this->isMonitored()) {
             return; // only track notices that are monitored
@@ -47,7 +47,7 @@ abstract class AbstractNotice
         $userId = get_current_user_id();
         $dismissed = Arr::consolidate(get_user_meta($userId, static::USER_META_KEY, true));
         $dismissed[$this->key] = [
-            'timestamp' => current_time('timestamp'),
+            'timestamp' => current_time('timestamp') - $timestampOffset,
             'version' => $this->deferVersion(),
         ];
         update_user_meta($userId, static::USER_META_KEY, $dismissed);
