@@ -118,6 +118,15 @@ class Controller extends AbstractController
     }
 
     /**
+     * @filter site-reviews/notices
+     */
+    public function filterNotices(array $notices): array
+    {
+        $notices[] = NetworkNotice::class;
+        return $notices;
+    }
+
+    /**
      * @filter multilingualpress.translation_ui_post_statuses
      *
      * @filter-location \Inpsyde\MultilingualPress\TranslationUi\Post\Field\Status
@@ -150,14 +159,5 @@ class Controller extends AbstractController
             return true;
         }
         return $isChecked;
-    }
-
-    /**
-     * @admin admin_head
-     */
-    public function renderNotices(): void
-    {
-        glsr()->singleton(NetworkNotice::class); // make singleton
-        glsr(NetworkNotice::class);
     }
 }

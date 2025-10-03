@@ -27,10 +27,10 @@ class ServiceProvider implements ModuleServiceProvider
             ['filterContentIsChecked', 'multilingualpress.copy_content_is_checked'],
             ['filterGettext', 'gettext_multilingualpress', 10, 2],
             ['filterMetaboxTabs', 'multilingualpress.post_translation_metabox_tabs', 10, 2],
+            ['filterNotices', 'site-reviews/notices'],
             ['filterPostStatuses', 'multilingualpress.translation_ui_post_statuses'],
             ['filterSettingForm', 'site-reviews/setting-form/config'],
             ['filterTaxonomiesIsChecked', 'multilingualpress.copy_taxonomies_is_checked'],
-            ['renderNotices', 'admin_head'],
         ]);
         glsr(Hooks::class)->hook(RelationController::class, [
             ['filterSyncedMetaKeys', 'multilingualpress.sync_post_meta_keys', 10, 2],
