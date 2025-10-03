@@ -4,15 +4,17 @@
     <?php echo $icon; ?>
     <?php echo _x('Thanks for Updating!', 'admin-text', 'site-reviews'); ?>
 </h3>
-
 <p>
-    <?php printf(_x('%s has been updated to version %s!', 'plugin name|version (admin-text)', 'site-reviews'),
+    <?php printf(_x('%s has been updated to version %s', 'plugin name|version (admin-text)', 'site-reviews'),
         sprintf('<strong>%s</strong>', glsr()->name),
         sprintf('<strong>%s</strong>', glsr()->version)
     ); ?>
 </p>
 <p>
-    <?php echo _x('This is a significant update with a lot of exciting new features! If you have performed any customisation using code snippets, please read the upgrade guide to ensure that everything works as expected.', 'plugin name|version (admin-text)', 'site-reviews'); ?>
+    <?php echo _x('This is a significant update with a lot of exciting new features, improvements, and essential bug fixes!', 'admin-text', 'site-reviews'); ?>
+</p>
+<p>
+    <?php echo _x('If you have performed any customisation using code snippets, please read the upgrade guide to ensure that everything still works as expected.', 'admin-text', 'site-reviews'); ?>
 </p>
 <p class="glsr-notice-buttons">
     <?php if (glsr()->hasPermission('welcome', 'whatsnew')) { ?>
