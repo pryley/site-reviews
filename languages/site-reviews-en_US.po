@@ -1167,7 +1167,7 @@ msgstr ""
 "in the event that <a href=\"https://api.slack.com/docs/attachments\" "
 "target=\"_blank\">Message Attachments</a> have been disabled."
 
-#: config/settings.php:235, views/pages/tools/general/import-reviews.php:79
+#: config/settings.php:235, views/pages/tools/general/import-reviews.php:84
 msgctxt "admin-text"
 msgid "Date Format"
 msgstr "Date Format"
@@ -1873,7 +1873,7 @@ msgctxt "admin-text"
 msgid "Restrict Limits To"
 msgstr "Restrict Limits To"
 
-#: config/settings.php:792, plugin/Defaults/PostTypeColumnDefaults.php:13, plugin/Metaboxes/AssignedPostsMetabox.php:19, views/partials/screen/inline-edit.php:105
+#: config/settings.php:792, plugin/Defaults/PostTypeColumnDefaults.php:13, plugin/Metaboxes/AssignedPostsMetabox.php:19, views/partials/screen/inline-edit.php:105, views/pages/tools/general/export-reviews.php:37
 msgctxt "admin-text"
 msgid "Assigned Posts"
 msgstr "Assigned Posts"
@@ -1883,7 +1883,7 @@ msgctxt "admin-text"
 msgid "Assigned Terms"
 msgstr "Assigned Terms"
 
-#: config/settings.php:794, plugin/Defaults/PostTypeColumnDefaults.php:14, plugin/Metaboxes/AssignedUsersMetabox.php:19, plugin/Tinymce/SiteReviewsSummaryTinymce.php:27, plugin/Tinymce/SiteReviewsTinymce.php:27, views/integrations/mycred/preferences.php:186, views/partials/screen/inline-edit.php:116
+#: config/settings.php:794, plugin/Defaults/PostTypeColumnDefaults.php:14, plugin/Metaboxes/AssignedUsersMetabox.php:19, plugin/Tinymce/SiteReviewsSummaryTinymce.php:27, plugin/Tinymce/SiteReviewsTinymce.php:27, views/integrations/mycred/preferences.php:186, views/partials/screen/inline-edit.php:116, views/pages/tools/general/export-reviews.php:44
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr "Assigned Users"
@@ -2693,7 +2693,7 @@ msgstr ""
 "need to first export them to a CSV file, and then import them using the %s "
 "tool."
 
-#: config/integrations/woocommerce.php:10, views/integrations/woocommerce/tools/import-product-reviews.php:35, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:114
+#: config/integrations/woocommerce.php:10, views/integrations/woocommerce/tools/import-product-reviews.php:35, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:119
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr "Import Reviews"
@@ -2849,117 +2849,131 @@ msgctxt "admin-text"
 msgid "Your detected IP address is %s. If this looks incorrect, please see the %s."
 msgstr "Your detected IP address is %s. If this looks incorrect, please see the %s."
 
-#: plugin/Commands/DownloadCsvTemplate.php:16
+#: plugin/Commands/DownloadCsvTemplate.php:68
 msgctxt "admin-text"
 msgid ""
-"The Posts that the review is assigned to (separate multiple IDs with a "
-"comma)"
+"The Post ID or \"post_type:slug\" of the page that the review is assigned "
+"to (separate multiple values with a comma)"
 msgstr ""
-"The Posts that the review is assigned to (separate multiple IDs with a "
-"comma)"
+"The Post ID or \"post_type:slug\" of the page that the review is assigned "
+"to (separate multiple values with a comma)"
 
-#: plugin/Commands/DownloadCsvTemplate.php:17
+#: plugin/Commands/DownloadCsvTemplate.php:69
 msgctxt "admin-text"
 msgid ""
-"The Categories that the review is assigned to (separate multiple IDs with a "
-"comma)"
+"The Term ID or \"slug\" of the category that the review is assigned to "
+"(separate multiple values with a comma)"
 msgstr ""
-"The Categories that the review is assigned to (separate multiple IDs with a "
-"comma)"
+"The Term ID or \"slug\" of the category that the review is assigned to "
+"(separate multiple values with a comma)"
 
-#: plugin/Commands/DownloadCsvTemplate.php:18
+#: plugin/Commands/DownloadCsvTemplate.php:70
 msgctxt "admin-text"
 msgid ""
-"The Users that the review is assigned to (separate multiple IDs with a "
-"comma)"
+"The User ID or \"username\" of the user that the review is assigned to "
+"(separate multiple values with a comma)"
 msgstr ""
-"The Users that the review is assigned to (separate multiple IDs with a "
-"comma)"
+"The User ID or \"username\" of the user that the review is assigned to "
+"(separate multiple values with a comma)"
 
-#: plugin/Commands/DownloadCsvTemplate.php:19
+#: plugin/Commands/DownloadCsvTemplate.php:71
 msgctxt "admin-text"
-msgid "The User ID of the reviewer"
-msgstr "The User ID of the reviewer"
+msgid "The User ID or \"username\" of the reviewer"
+msgstr "The User ID or \"username\" of the reviewer"
 
-#: plugin/Commands/DownloadCsvTemplate.php:20
+#: plugin/Commands/DownloadCsvTemplate.php:72
 msgctxt "admin-text"
 msgid "The avatar URL of the reviewer"
 msgstr "The avatar URL of the reviewer"
 
-#: plugin/Commands/DownloadCsvTemplate.php:21
+#: plugin/Commands/DownloadCsvTemplate.php:73
 msgctxt "admin-text"
 msgid "The review"
 msgstr "The review"
 
-#: plugin/Commands/DownloadCsvTemplate.php:22
+#: plugin/Commands/DownloadCsvTemplate.php:74
 msgctxt "admin-text"
 msgid "The review date"
 msgstr "The review date"
 
-#: plugin/Commands/DownloadCsvTemplate.php:23
+#: plugin/Commands/DownloadCsvTemplate.php:75
 msgctxt "admin-text"
 msgid "The review GMT date"
 msgstr "The review GMT date"
 
-#: plugin/Commands/DownloadCsvTemplate.php:24
+#: plugin/Commands/DownloadCsvTemplate.php:76
 msgctxt "admin-text"
 msgid "The reviewer's email"
 msgstr "The reviewer's email"
 
-#: plugin/Commands/DownloadCsvTemplate.php:25
+#: plugin/Commands/DownloadCsvTemplate.php:77
 msgctxt "admin-text"
 msgid "The IP address of the reviewer"
 msgstr "The IP address of the reviewer"
 
-#: plugin/Commands/DownloadCsvTemplate.php:27
-msgctxt "admin-text"
-msgid ""
-"The URLs of the review images (separate multiple URLs with a pipe \"|\" "
-"character or comma)"
-msgstr ""
-"The URLs of the review images (separate multiple URLs with a pipe \"|\" "
-"character or comma)"
-
-#: plugin/Commands/DownloadCsvTemplate.php:30, plugin/Commands/DownloadCsvTemplate.php:31, plugin/Commands/DownloadCsvTemplate.php:32, plugin/Commands/DownloadCsvTemplate.php:44
+#: plugin/Commands/DownloadCsvTemplate.php:78, plugin/Commands/DownloadCsvTemplate.php:79, plugin/Commands/DownloadCsvTemplate.php:80, plugin/Commands/DownloadCsvTemplate.php:84
 msgctxt "admin-text"
 msgid "%s or %s"
 msgstr "%s or %s"
 
-#: plugin/Commands/DownloadCsvTemplate.php:34
-msgctxt "admin-text"
-msgid ""
-"The ISO 639-1 language code of the review. See %s for a list of all "
-"supported languages."
-msgstr ""
-"The ISO 639-1 language code of the review. See %s for a list of all "
-"supported languages."
-
-#: plugin/Commands/DownloadCsvTemplate.php:37
+#: plugin/Commands/DownloadCsvTemplate.php:81
 msgctxt "admin-text"
 msgid "The reviewer's name"
 msgstr "The reviewer's name"
 
-#: plugin/Commands/DownloadCsvTemplate.php:38
+#: plugin/Commands/DownloadCsvTemplate.php:82
 msgctxt "admin-text"
 msgid "A number from %d-%d"
 msgstr "A number from %d-%d"
 
-#: plugin/Commands/DownloadCsvTemplate.php:39
+#: plugin/Commands/DownloadCsvTemplate.php:83
 msgctxt "admin-text"
 msgid "The review response"
 msgstr "The review response"
 
-#: plugin/Commands/DownloadCsvTemplate.php:41
-msgctxt "admin-text"
-msgid "A whole number which represents the number of times the review was upvoted."
-msgstr "A whole number which represents the number of times the review was upvoted."
-
-#: plugin/Commands/DownloadCsvTemplate.php:45
+#: plugin/Commands/DownloadCsvTemplate.php:85
 msgctxt "admin-text"
 msgid "The title of the review"
 msgstr "The title of the review"
 
-#: plugin/Commands/DownloadCsvTemplate.php:47
+#: plugin/Commands/DownloadCsvTemplate.php:88
+msgctxt "admin-text"
+msgid ""
+"The ISO 639-1 language code of the review. See %s for a list of all "
+"supported languages."
+msgstr ""
+"The ISO 639-1 language code of the review. See %s for a list of all "
+"supported languages."
+
+#: plugin/Commands/DownloadCsvTemplate.php:89
+msgctxt "admin-text"
+msgid "The number of times the review was upvoted."
+msgstr "The number of times the review was upvoted."
+
+#: plugin/Commands/DownloadCsvTemplate.php:92
+msgctxt "admin-text"
+msgid ""
+"The value of a custom review field (replace the asterisk <code>*</code> of "
+"the column name with the name of your custom field)."
+msgstr ""
+"The value of a custom review field (replace the asterisk <code>*</code> of "
+"the column name with the name of your custom field)."
+
+#: plugin/Commands/DownloadCsvTemplate.php:93
+msgctxt "admin-text"
+msgid "The Post ID or slug of the Review Form used to submit the review"
+msgstr "The Post ID or slug of the Review Form used to submit the review"
+
+#: plugin/Commands/DownloadCsvTemplate.php:96
+msgctxt "admin-text"
+msgid ""
+"The URLs of the review images (separate multiple URLs with a pipe \"|\" "
+"character or comma)"
+msgstr ""
+"The URLs of the review images (separate multiple URLs with a pipe \"|\" "
+"character or comma)"
+
+#: plugin/Commands/DownloadCsvTemplate.php:99
 msgctxt "admin-text"
 msgid ""
 "The lowercase name of the platform that the review was exported from (only "
@@ -2970,7 +2984,7 @@ msgstr ""
 "use this if the review was exported from another review platform, i.e. "
 "google, tripadvisor, etc.)"
 
-#: plugin/Commands/DownloadCsvTemplate.php:51
+#: plugin/Commands/DownloadCsvTemplate.php:100
 msgctxt "admin-text"
 msgid ""
 "The review URL (only use this if the review was exported from another "
@@ -2979,12 +2993,12 @@ msgstr ""
 "The review URL (only use this if the review was exported from another "
 "review platform, i.e. google, tripadvisor, etc.)"
 
-#: plugin/Commands/DownloadCsvTemplate.php:113, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:14, plugin/Integrations/FusionBuilder/Transformer.php:55, plugin/Integrations/WPBakery/VcShortcode.php:107, views/pages/premium/index.php:41, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:19, views/partials/editor/verified.php:7, views/partials/editor/verified.php:20, plugin/Integrations/Elementor/Controls/MultiSwitcher.php:53, plugin/Integrations/Flatsome/Defaults/ControlDefaults.php:71
+#: plugin/Commands/DownloadCsvTemplate.php:111, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:14, plugin/Integrations/FusionBuilder/Transformer.php:55, plugin/Integrations/WPBakery/VcShortcode.php:107, views/pages/premium/index.php:41, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:19, views/partials/editor/verified.php:7, views/partials/editor/verified.php:20, plugin/Integrations/Elementor/Controls/MultiSwitcher.php:53, plugin/Integrations/Flatsome/Defaults/ControlDefaults.php:71
 msgctxt "admin-text"
 msgid "Yes"
 msgstr "Yes"
 
-#: plugin/Commands/DownloadCsvTemplate.php:114, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/FusionBuilder/Transformer.php:54, views/pages/premium/index.php:40, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:22, views/partials/editor/verified.php:7, views/partials/editor/verified.php:23, plugin/Integrations/Elementor/Controls/MultiSwitcher.php:52, plugin/Integrations/Flatsome/Defaults/ControlDefaults.php:70
+#: plugin/Commands/DownloadCsvTemplate.php:112, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/FusionBuilder/Transformer.php:54, views/pages/premium/index.php:40, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:22, views/partials/editor/verified.php:7, views/partials/editor/verified.php:23, plugin/Integrations/Elementor/Controls/MultiSwitcher.php:52, plugin/Integrations/Flatsome/Defaults/ControlDefaults.php:70
 msgctxt "admin-text"
 msgid "No"
 msgstr "No"
@@ -3326,7 +3340,7 @@ msgctxt "admin-text"
 msgid "Try Premium"
 msgstr "Try Premium"
 
-#: plugin/Controllers/AdminController.php:221, views/integrations/woocommerce/settings.php:8, views/pages/tools/general/export-reviews.php:21, views/pages/tools/general/import-reviews.php:25
+#: plugin/Controllers/AdminController.php:221, views/integrations/woocommerce/settings.php:8, views/pages/tools/general/export-reviews.php:16, views/pages/tools/general/import-reviews.php:25
 msgctxt "admin-text"
 msgid "Import"
 msgstr "Import"
@@ -4595,7 +4609,7 @@ msgstr ""
 "Limit reviews to those assigned to a Post ID. You may also enter %s to use "
 "the Post ID of the current page."
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:21, plugin/Tinymce/SiteReviewsTinymce.php:21
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:21, plugin/Tinymce/SiteReviewsTinymce.php:21, views/pages/tools/general/export-reviews.php:30
 msgctxt "admin-text"
 msgid "Assigned Categories"
 msgstr "Assigned Categories"
@@ -6306,7 +6320,7 @@ msgstr ""
 "Import your WooCommerce product reviews. Review replies and comments will "
 "be skipped."
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:33, views/pages/tools/general/import-reviews.php:112
+#: views/integrations/woocommerce/tools/import-product-reviews.php:33, views/pages/tools/general/import-reviews.php:117
 msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
 msgstr "Importing reviews, please wait..."
@@ -6432,17 +6446,12 @@ msgctxt "admin-text"
 msgid "Test IP Address Detection"
 msgstr "Test IP Address Detection"
 
-#: views/pages/tools/general/export-reviews.php:6, views/pages/tools/general/export-reviews.php:56
+#: views/pages/tools/general/export-reviews.php:6, views/pages/tools/general/export-reviews.php:72
 msgctxt "admin-text"
 msgid "Export Reviews"
 msgstr "Export Reviews"
 
-#: views/pages/tools/general/export-reviews.php:13
-msgctxt "admin-text"
-msgid "This tool does not yet support custom fields!"
-msgstr "This tool does not yet support custom fields!"
-
-#: views/pages/tools/general/export-reviews.php:19, views/pages/tools/general/import-reviews.php:23
+#: views/pages/tools/general/export-reviews.php:14, views/pages/tools/general/import-reviews.php:23
 msgctxt "admin-text"
 msgid ""
 "You can also use the WordPress %s and %s tools to export and import your "
@@ -6451,12 +6460,12 @@ msgstr ""
 "You can also use the WordPress %s and %s tools to export and import your "
 "reviews and categories."
 
-#: views/pages/tools/general/export-reviews.php:20, views/pages/tools/general/import-reviews.php:24
+#: views/pages/tools/general/export-reviews.php:15, views/pages/tools/general/import-reviews.php:24
 msgctxt "admin-text"
 msgid "Export"
 msgstr "Export"
 
-#: views/pages/tools/general/export-reviews.php:26
+#: views/pages/tools/general/export-reviews.php:21
 msgctxt "admin-text"
 msgid ""
 "Here you can export your reviews to a %s file. If you have assigned your "
@@ -6469,40 +6478,70 @@ msgstr ""
 "you may need to export the Assigned Posts as %s since the Post IDs on the "
 "other website will likely be different."
 
-#: views/pages/tools/general/export-reviews.php:35
+#: views/pages/tools/general/export-reviews.php:32
 msgctxt "admin-text"
-msgid "Export Assigned Posts"
-msgstr "Export Assigned Posts"
+msgid "Export as Term IDs"
+msgstr "Export as Term IDs"
 
-#: views/pages/tools/general/export-reviews.php:37
+#: views/pages/tools/general/export-reviews.php:33
+msgctxt "admin-text"
+msgid "Export as Term slugs"
+msgstr "Export as Term slugs"
+
+#: views/pages/tools/general/export-reviews.php:39
 msgctxt "admin-text"
 msgid "Export as Post IDs"
 msgstr "Export as Post IDs"
 
-#: views/pages/tools/general/export-reviews.php:42
+#: views/pages/tools/general/export-reviews.php:46
+msgctxt "admin-text"
+msgid "Export as User IDs"
+msgstr "Export as User IDs"
+
+#: views/pages/tools/general/export-reviews.php:47
+msgctxt "admin-text"
+msgid "Export as Usernames"
+msgstr "Export as Usernames"
+
+#: views/pages/tools/general/export-reviews.php:51
 msgctxt "admin-text"
 msgid "Export Reviews After"
 msgstr "Export Reviews After"
 
-#: views/pages/tools/general/export-reviews.php:46
+#: views/pages/tools/general/export-reviews.php:55
 msgctxt "admin-text"
 msgid "Export Reviews With Status"
 msgstr "Export Reviews With Status"
 
-#: views/pages/tools/general/export-reviews.php:48
+#: views/pages/tools/general/export-reviews.php:57
 msgctxt "admin-text"
 msgid "Approved and Unapproved reviews"
 msgstr "Approved and Unapproved reviews"
 
-#: views/pages/tools/general/export-reviews.php:49
+#: views/pages/tools/general/export-reviews.php:58
 msgctxt "admin-text"
 msgid "Approved reviews only"
 msgstr "Approved reviews only"
 
-#: views/pages/tools/general/export-reviews.php:50
+#: views/pages/tools/general/export-reviews.php:59
 msgctxt "admin-text"
 msgid "Unapproved reviews only"
 msgstr "Unapproved reviews only"
+
+#: views/pages/tools/general/export-reviews.php:63
+msgctxt "admin-text"
+msgid "Review Author"
+msgstr "Review Author"
+
+#: views/pages/tools/general/export-reviews.php:65
+msgctxt "admin-text"
+msgid "Export as User ID"
+msgstr "Export as User ID"
+
+#: views/pages/tools/general/export-reviews.php:66
+msgctxt "admin-text"
+msgid "Export as Username"
+msgstr "Export as Username"
 
 #: views/pages/tools/general/export-settings.php:7, views/pages/tools/general/export-settings.php:20, views/pages/tools/general/import-settings.php:14
 msgctxt "admin-text"
@@ -6594,62 +6633,62 @@ msgstr ""
 "Enter the reviews details into the template file and then save it. The CSV "
 "file should be encoded as UTF-8 and may contain the following columns:"
 
-#: views/pages/tools/general/import-reviews.php:45
+#: views/pages/tools/general/import-reviews.php:44
 msgctxt "admin-text"
 msgid "Column Name"
 msgstr "Column Name"
 
-#: views/pages/tools/general/import-reviews.php:46
+#: views/pages/tools/general/import-reviews.php:45
 msgctxt "admin-text"
 msgid "Required"
 msgstr "Required"
 
-#: views/pages/tools/general/import-reviews.php:47
+#: views/pages/tools/general/import-reviews.php:46
 msgctxt "admin-text"
 msgid "Description"
 msgstr "Description"
 
-#: views/pages/tools/general/import-reviews.php:62
+#: views/pages/tools/general/import-reviews.php:67
 msgctxt "admin-text"
 msgid "Step 3: Upload the CSV file"
 msgstr "Step 3: Upload the CSV file"
 
-#: views/pages/tools/general/import-reviews.php:71
+#: views/pages/tools/general/import-reviews.php:76
 msgctxt "admin-text"
 msgid "Delimiter"
 msgstr "Delimiter"
 
-#: views/pages/tools/general/import-reviews.php:73
+#: views/pages/tools/general/import-reviews.php:78
 msgctxt "admin-text"
 msgid "Detect automatically"
 msgstr "Detect automatically"
 
-#: views/pages/tools/general/import-reviews.php:74
+#: views/pages/tools/general/import-reviews.php:79
 msgctxt "admin-text"
 msgid "Comma (,)"
 msgstr "Comma (,)"
 
-#: views/pages/tools/general/import-reviews.php:75
+#: views/pages/tools/general/import-reviews.php:80
 msgctxt "admin-text"
 msgid "Semicolon (;)"
 msgstr "Semicolon (;)"
 
-#: views/pages/tools/general/import-reviews.php:81
+#: views/pages/tools/general/import-reviews.php:86
 msgctxt "admin-text"
 msgid "Select the date format used in the reviews"
 msgstr "Select the date format used in the reviews"
 
-#: views/pages/tools/general/import-reviews.php:82, views/pages/tools/general/import-reviews.php:90, views/pages/tools/general/import-reviews.php:98
+#: views/pages/tools/general/import-reviews.php:87, views/pages/tools/general/import-reviews.php:95, views/pages/tools/general/import-reviews.php:103
 msgctxt "admin-text"
 msgid "Year"
 msgstr "Year"
 
-#: views/pages/tools/general/import-reviews.php:82, views/pages/tools/general/import-reviews.php:90, views/pages/tools/general/import-reviews.php:98
+#: views/pages/tools/general/import-reviews.php:87, views/pages/tools/general/import-reviews.php:95, views/pages/tools/general/import-reviews.php:103
 msgctxt "admin-text"
 msgid "Month"
 msgstr "Month"
 
-#: views/pages/tools/general/import-reviews.php:82, views/pages/tools/general/import-reviews.php:90, views/pages/tools/general/import-reviews.php:98
+#: views/pages/tools/general/import-reviews.php:87, views/pages/tools/general/import-reviews.php:95, views/pages/tools/general/import-reviews.php:103
 msgctxt "admin-text"
 msgid "Day"
 msgstr "Day"
@@ -7340,15 +7379,10 @@ msgctxt "link to Console page (admin-text)"
 msgid "The email could not be sent, check the %s page for errors."
 msgstr "The email could not be sent, check the %s page for errors."
 
-#: plugin/Commands/DownloadCsvTemplate.php:28, plugin/Commands/DownloadCsvTemplate.php:35, plugin/Commands/DownloadCsvTemplate.php:42
+#: plugin/Commands/DownloadCsvTemplate.php:115
 msgctxt "link to addon page (admin-text)"
 msgid "%s addon required."
 msgstr "%s addon required."
-
-#: plugin/Commands/DownloadCsvTemplate.php:48, plugin/Commands/DownloadCsvTemplate.php:52
-msgctxt "link to addon page (admin-text)"
-msgid "%s addon required to display in the review."
-msgstr "%s addon required to display in the review."
 
 #: plugin/Commands/MigratePlugin.php:41, plugin/Commands/MigratePlugin.php:35
 msgctxt "(admin-text) e.g. please reload the page"
@@ -7953,7 +7987,7 @@ msgstr ""
 "Your Product reviews are being managed by Site Reviews because you enabled "
 "the %s in the settings."
 
-#: views/pages/tools/general/export-reviews.php:38
+#: views/pages/tools/general/export-reviews.php:40
 msgctxt "post_type:slug (admin-text)"
 msgid "Export as %s"
 msgstr "Export as %s"
