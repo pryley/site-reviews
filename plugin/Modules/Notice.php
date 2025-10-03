@@ -93,8 +93,7 @@ class Notice
     public function get(): string
     {
         $this->sort();
-        $notices = glsr()->filterArray('notices', $this->notices);
-        return array_reduce($notices, function ($carry, $args) {
+        return array_reduce($this->notices, function ($carry, $args) {
             return $carry.glsr(Builder::class)->div($this->normalizeArgs($args));
         }, '');
     }
