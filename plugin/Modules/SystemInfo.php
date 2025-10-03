@@ -258,8 +258,7 @@ class SystemInfo
             if (str_starts_with($key, 'strings') && str_ends_with($key, 'id')) {
                 continue;
             }
-            $value = htmlspecialchars(trim(preg_replace('/\s\s+/u', '\\n', $value)), ENT_QUOTES, 'UTF-8');
-            $details[$key] = $value;
+            $details[$key] = trim(preg_replace('/\s\s+/u', '\\n', $value));
         }
         return [
             'title' => 'Plugin Settings',

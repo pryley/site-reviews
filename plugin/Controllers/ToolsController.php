@@ -174,7 +174,7 @@ class ToolsController extends AbstractController
             _x('Console reloaded.', 'admin-text', 'site-reviews')
         );
         wp_send_json_success([
-            'console' => glsr(Console::class)->getRaw(), // we don't need to esc_html here
+            'console' => sanitize_textarea_field(glsr(Console::class)->getRaw()),
             'notices' => glsr(Notice::class)->get(),
         ]);
     }
@@ -194,7 +194,7 @@ class ToolsController extends AbstractController
         }
         $systemInfo = glsr(SystemInfo::class)->get();
         wp_send_json_success([
-            'data' => esc_html($systemInfo),
+            'data' => sanitize_textarea_field($systemInfo),
         ]);
     }
 
