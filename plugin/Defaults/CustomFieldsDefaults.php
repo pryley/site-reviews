@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Honeypot;
 
 class CustomFieldsDefaults extends DefaultsAbstract
@@ -44,12 +43,9 @@ class CustomFieldsDefaults extends DefaultsAbstract
         'is_modified',
         'is_pinned',
         'is_verified',
-        'language',
         'name',
         'rating',
         'rating_id',
-        'response',
-        'response_by',
         'review_id',
         'score',
         'status',
@@ -58,9 +54,6 @@ class CustomFieldsDefaults extends DefaultsAbstract
         'title',
         'type',
         'url',
-        'verified',
-        'verified_on',
-        'verified_requested',
     ];
 
     /**
@@ -68,7 +61,13 @@ class CustomFieldsDefaults extends DefaultsAbstract
      */
     protected function normalize(array $values = []): array
     {
-        $this->guarded[] = glsr(Honeypot::class)->hash(Arr::get($values, 'form_id'));
+        $additionalFieldKeys = array_keys(glsr(AdditionalFieldsDefaults::class)->call('defaults'));
+        $guarded = array_merge(
+            $this->guarded,
+            [glsr(Honeypot::class)->hash($values['form_id'] ?? '')],
+            $additionalFieldKeys,
+        );
+        $this->guarded = array_values(array_filter(array_unique($guarded)));
         $this->sanitize = array_fill_keys(array_keys($this->guard($values)), 'text');
         return $values;
     }

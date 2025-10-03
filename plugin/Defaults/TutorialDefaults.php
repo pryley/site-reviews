@@ -25,7 +25,7 @@ class TutorialDefaults extends DefaultsAbstract
     protected function finalize(array $values = []): array
     {
         foreach ($values['videos'] as &$video) {
-            $video = glsr(VideoDefaults::class)->restrict($video);
+            $video = glsr(VideoDefaults::class)->call('restrict', $video);
         }
         return $values;
     }
