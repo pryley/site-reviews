@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Request;
 
 class NoticeController extends AbstractController
@@ -33,25 +31,26 @@ class NoticeController extends AbstractController
      */
     public function adminNotices(): void
     {
-        $dir = glsr()->path('plugin/Notices');
-        if (!is_dir($dir)) {
-            return;
-        }
-        $iterator = new \DirectoryIterator($dir);
-        foreach ($iterator as $fileinfo) {
-            if (!$fileinfo->isFile()) {
-                continue;
-            }
-            try {
-                $notice = '\GeminiLabs\SiteReviews\Notices\\'.$fileinfo->getBasename('.php');
-                $reflect = new \ReflectionClass($notice);
-                if ($reflect->isInstantiable()) {
-                    glsr()->singleton($notice); // make singleton
-                    glsr($notice);
+        $notices = [];
+        try {
+            $iterator = new \DirectoryIterator(glsr()->path('plugin/Notices'));
+            foreach ($iterator as $fileinfo) {
+                if (!$fileinfo->isFile()) {
+                    continue;
                 }
-            } catch (\ReflectionException $e) {
-                glsr_log()->error($e->getMessage());
+                $notice = 'GeminiLabs\SiteReviews\Notices\\'.$fileinfo->getBasename('.php');
+                $reflection = new \ReflectionClass($notice);
+                if ($reflection->isInstantiable()) {
+                    $notices[] = $reflection->getName();
+                }
             }
+        } catch (\Throwable $e) {
+            glsr_log()->error($e->getMessage());
+        }
+        $notices = glsr()->filterArray('notices', $notices);
+        foreach ($notices as $notice) {
+            glsr()->singleton($notice); // make singleton
+            glsr($notice);
         }
     }
 

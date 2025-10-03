@@ -2,7 +2,7 @@
 
 <h3>
     <?php echo $icon; ?>
-    <?php echo _x('Hello Gorgeous!', 'admin-text', 'site-reviews'); ?>
+    <?php echo _x('Hello!', 'admin-text', 'site-reviews'); ?>
 </h3>
 <p>
     <?php printf(
