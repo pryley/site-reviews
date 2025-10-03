@@ -3152,12 +3152,12 @@ msgctxt "admin-text"
 msgid "Welcome to %s"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:63, views/partials/notices/upgraded.php:20
+#: plugin/Controllers/WelcomeController.php:63, views/partials/notices/upgraded.php:22
 msgctxt "admin-text"
 msgid "What's New"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:64, views/partials/notices/upgraded.php:25
+#: plugin/Controllers/WelcomeController.php:64, views/partials/notices/upgraded.php:27
 msgctxt "admin-text"
 msgid "Upgrade Guide"
 msgstr ""
@@ -3822,7 +3822,7 @@ msgstr ""
 msgid "Edit Review"
 msgstr ""
 
-#: plugin/Modules/Notice.php:134, views/pages/tools/sync.php:28
+#: plugin/Modules/Notice.php:133, views/pages/tools/sync.php:28
 msgctxt "admin-text"
 msgid "Show more details"
 msgstr ""
@@ -4518,7 +4518,7 @@ msgctxt "admin-text"
 msgid "Enter the Post ID of the review to display."
 msgstr ""
 
-#: plugin/Tinymce/TinymceGenerator.php:25, views/partials/notices/upgraded.php:29, views/partials/notices/welcome.php:23
+#: plugin/Tinymce/TinymceGenerator.php:25, views/partials/notices/upgraded.php:31, views/partials/notices/welcome.php:23
 msgctxt "admin-text"
 msgid "Close"
 msgstr ""
@@ -5949,19 +5949,24 @@ msgctxt "admin-text"
 msgid "Thanks for Updating!"
 msgstr ""
 
-#: views/partials/notices/upgraded.php:9
+#: views/partials/notices/upgraded.php:8
 msgctxt "plugin name|version (admin-text)"
-msgid "%s has been updated to version %s!"
+msgid "%s has been updated to version %s"
 msgstr ""
 
-#: views/partials/notices/upgraded.php:15
-msgctxt "plugin name|version (admin-text)"
-msgid "This is a significant update with a lot of exciting new features! If you have performed any customisation using code snippets, please read the upgrade guide to ensure that everything works as expected."
+#: views/partials/notices/upgraded.php:14
+msgctxt "admin-text"
+msgid "This is a significant update with a lot of exciting new features, improvements, and essential bug fixes!"
+msgstr ""
+
+#: views/partials/notices/upgraded.php:17
+msgctxt "admin-text"
+msgid "If you have performed any customisation using code snippets, please read the upgrade guide to ensure that everything still works as expected."
 msgstr ""
 
 #: views/partials/notices/welcome.php:5
 msgctxt "admin-text"
-msgid "Hello Gorgeous!"
+msgid "Hello!"
 msgstr ""
 
 #: views/partials/notices/welcome.php:9

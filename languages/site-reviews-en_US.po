@@ -3749,12 +3749,12 @@ msgctxt "admin-text"
 msgid "Welcome to %s"
 msgstr "Welcome to %s"
 
-#: plugin/Controllers/WelcomeController.php:63, views/partials/notices/upgraded.php:20
+#: plugin/Controllers/WelcomeController.php:63, views/partials/notices/upgraded.php:22
 msgctxt "admin-text"
 msgid "What's New"
 msgstr "What's New"
 
-#: plugin/Controllers/WelcomeController.php:64, views/partials/notices/upgraded.php:25
+#: plugin/Controllers/WelcomeController.php:64, views/partials/notices/upgraded.php:27
 msgctxt "admin-text"
 msgid "Upgrade Guide"
 msgstr "Upgrade Guide"
@@ -3992,7 +3992,7 @@ msgctxt "admin-text"
 msgid "Console was automatically cleared (512KB maximum size)"
 msgstr "Console was automatically cleared (512KB maximum size)"
 
-#: plugin/Modules/Notice.php:134, views/pages/tools/sync.php:28
+#: plugin/Modules/Notice.php:133, views/pages/tools/sync.php:28
 msgctxt "admin-text"
 msgid "Show more details"
 msgstr "Show more details"
@@ -4678,7 +4678,7 @@ msgctxt "admin-text"
 msgid "Enter the Post ID of the review to display."
 msgstr "Enter the Post ID of the review to display."
 
-#: plugin/Tinymce/TinymceGenerator.php:25, views/partials/notices/upgraded.php:29, views/partials/notices/welcome.php:23
+#: plugin/Tinymce/TinymceGenerator.php:25, views/partials/notices/upgraded.php:31, views/partials/notices/welcome.php:23
 msgctxt "admin-text"
 msgid "Close"
 msgstr "Close"
@@ -5916,10 +5916,28 @@ msgctxt "admin-text"
 msgid "Thanks for Updating!"
 msgstr "Thanks for Updating!"
 
+#: views/partials/notices/upgraded.php:14
+msgctxt "admin-text"
+msgid ""
+"This is a significant update with a lot of exciting new features, "
+"improvements, and essential bug fixes!"
+msgstr ""
+"This is a significant update with a lot of exciting new features, "
+"improvements, and essential bug fixes!"
+
+#: views/partials/notices/upgraded.php:17
+msgctxt "admin-text"
+msgid ""
+"If you have performed any customisation using code snippets, please read "
+"the upgrade guide to ensure that everything still works as expected."
+msgstr ""
+"If you have performed any customisation using code snippets, please read "
+"the upgrade guide to ensure that everything still works as expected."
+
 #: views/partials/notices/welcome.php:5
 msgctxt "admin-text"
-msgid "Hello Gorgeous!"
-msgstr "Hello Gorgeous!"
+msgid "Hello!"
+msgstr "Hello!"
 
 #: views/partials/notices/write-review.php:5
 msgctxt "admin-text"
@@ -7895,21 +7913,10 @@ msgstr ""
 "You are using the free version of Site Reviews. %s to support future "
 "development and get images, filters, themes, custom forms, and more!"
 
-#: views/partials/notices/upgraded.php:9
+#: views/partials/notices/upgraded.php:8
 msgctxt "plugin name|version (admin-text)"
-msgid "%s has been updated to version %s!"
-msgstr "%s has been updated to version %s!"
-
-#: views/partials/notices/upgraded.php:15
-msgctxt "plugin name|version (admin-text)"
-msgid ""
-"This is a significant update with a lot of exciting new features! If you "
-"have performed any customisation using code snippets, please read the "
-"upgrade guide to ensure that everything works as expected."
-msgstr ""
-"This is a significant update with a lot of exciting new features! If you "
-"have performed any customisation using code snippets, please read the "
-"upgrade guide to ensure that everything works as expected."
+msgid "%s has been updated to version %s"
+msgstr "%s has been updated to version %s"
 
 #: views/partials/taxonomy/add-term_priority.php:9, views/partials/taxonomy/edit-term_priority.php:12
 msgctxt "{{ assigned_terms }} (admin-text)"
