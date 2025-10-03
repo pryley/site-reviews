@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Helpers\Url;
  * @property int    $page;
  * @property string $pageUrl;
  * @property array  $pageUrlParameters;
+ * @property int    $per_page;
  */
 class NormalizePaginationArgs extends Arguments
 {
@@ -19,6 +20,7 @@ class NormalizePaginationArgs extends Arguments
         $this->normalizePage();
         $this->normalizePageUrl();
         $this->normalizePageUrlParameters();
+        $this->normalizePerPage();
     }
 
     /**
@@ -58,5 +60,13 @@ class NormalizePaginationArgs extends Arguments
         $parameters = Url::queries($args->url);
         unset($parameters[glsr()->constant('PAGED_QUERY_VAR')]);
         $this->pageUrlParameters = $parameters;
+    }
+
+    /**
+     * Set the number of results per page.
+     */
+    protected function normalizePerPage(): void
+    {
+        $this->per_page ??= 10;
     }
 }
