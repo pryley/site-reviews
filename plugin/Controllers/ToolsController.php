@@ -194,7 +194,7 @@ class ToolsController extends AbstractController
         }
         $systemInfo = glsr(SystemInfo::class)->get();
         wp_send_json_success([
-            'data' => esc_html($systemInfo),
+            'data' => sanitize_textarea_field($systemInfo),
         ]);
     }
 
