@@ -6,6 +6,7 @@
 @import "admin/edit-review";
 @import "admin/filters";
 @import "admin/flyoutmenu";
+@import "admin/forms";
 @import "admin/mce-shortcodes";
 @import "admin/metabox";
 @import "admin/multibox";

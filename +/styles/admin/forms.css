@@ -1,0 +1,8 @@
+#tools-export-reviews fieldset {
+  display: grid;
+  gap: 1em;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+#tools-export-reviews fieldset :is(input, select) {
+  width: 100%;
+}

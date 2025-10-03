@@ -119,6 +119,11 @@
   display: inline-block;
   padding: 2px 8px;
   margin-top: 4px;
+.glsr-table td .glsr-notice-inline {
+  display: block;
+  margin: 0 0 0.5em !important;
+  padding-block: 2px;
+}
 }
 
 .glsr-card .components-notice,
