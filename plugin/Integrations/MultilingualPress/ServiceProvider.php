@@ -22,6 +22,7 @@ class ServiceProvider implements ModuleServiceProvider
     public function activateModule(Container $container): void // @phpstan-ignore-line class.notFound
     {
         glsr(Hooks::class)->hook(Controller::class, [
+            ['enforceEntitySupport', 'multilingualpress.update_plugin_settings', 20],
             ['filterAdminInlineCss', 'site-reviews/enqueue/admin/inline-styles'],
             ['filterAdminInlineJs', 'site-reviews/enqueue/admin/inline-script'],
             ['filterContentIsChecked', 'multilingualpress.copy_content_is_checked'],
@@ -45,6 +46,7 @@ class ServiceProvider implements ModuleServiceProvider
             ['onSyncReview', 'multilingualpress.metabox_after_relate_posts', 10, 2],
             ['onVerified', 'site-reviews/review/verified'],
         ]);
+        glsr()->action('multilingualpress/activate', $container);
     }
 
     /**
@@ -52,10 +54,10 @@ class ServiceProvider implements ModuleServiceProvider
      */
     public function register(Container $container): void
     {
-        $this->removeAvailableEntities();
         if (!$container->get(ModuleManager::class)->isModuleActive(glsr()->id)) {
             $this->removeSupportedEntities();
         }
+
         // $container->addService(
         //     FieldCopier::class,
         //     static fn () => new FieldCopier($container->get(Copier::class))
@@ -66,6 +68,7 @@ class ServiceProvider implements ModuleServiceProvider
         //         return new Filesystem();
         //     }
         // );
+        glsr()->action('multilingualpress/register', $container);
     }
 
     /**
@@ -82,24 +85,6 @@ class ServiceProvider implements ModuleServiceProvider
                 'active' => true,
                 'disabled' => false,
             ])
-        );
-    }
-
-    protected function removeAvailableEntities(): void
-    {
-        // \Inpsyde\MultilingualPress\Core\PostTypeRepository::FILTER_ALL_AVAILABLE_POST_TYPES
-        add_filter('multilingualpress.all_post_types',
-            static fn (array $types): array => array_filter($types,
-                fn ($type) => !str_starts_with($type, glsr()->post_type),
-                \ARRAY_FILTER_USE_KEY
-            )
-        );
-        // \Inpsyde\MultilingualPress\Core\TaxonomyRepository::FILTER_ALL_AVAILABLE_TAXONOMIES
-        add_filter('multilingualpress.all_taxonomies',
-            static function (array $taxonomies): array {
-                unset($taxonomies[glsr()->taxonomy]);
-                return $taxonomies;
-            }
         );
     }
 

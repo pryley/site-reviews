@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use Inpsyde\MultilingualPress\Framework\Module\ModuleManager;
 use Inpsyde\MultilingualPress\Framework\PluginProperties;
+use Inpsyde\MultilingualPress\Framework\Service\ServiceProvidersCollection;
 
 use function Inpsyde\MultilingualPress\resolve;
 
@@ -25,12 +26,25 @@ class Hooks extends IntegrationHooks
      */
     public function onPluginsLoaded(): void
     {
-        add_filter('multilingualpress.modules', function (array $modules): array {
+        add_action('multilingualpress.add_service_providers', function (ServiceProvidersCollection $providers) {
             // if we get this far then we know the plugin is installed.
             if ($this->isVersionSupported()) {
-                $modules[] = new ServiceProvider();
+                $providers->add(new ServiceProvider());
             }
-            return $modules;
+            // \Inpsyde\MultilingualPress\Core\PostTypeRepository::FILTER_ALL_AVAILABLE_POST_TYPES
+            add_filter('multilingualpress.all_post_types',
+                static fn (array $types): array => array_filter($types,
+                    fn ($type) => !str_starts_with($type, glsr()->post_type),
+                    \ARRAY_FILTER_USE_KEY
+                )
+            );
+            // \Inpsyde\MultilingualPress\Core\TaxonomyRepository::FILTER_ALL_AVAILABLE_TAXONOMIES
+            add_filter('multilingualpress.all_taxonomies',
+                static function (array $taxonomies): array {
+                    unset($taxonomies[glsr()->taxonomy]);
+                    return $taxonomies;
+                }
+            );
         });
     }
 
@@ -62,7 +76,8 @@ class Hooks extends IntegrationHooks
 
     protected function isInstalled(): bool
     {
-        return function_exists('\Inpsyde\MultilingualPress\resolve');
+        return defined('Inpsyde\MultilingualPress\ACTION_ADD_SERVICE_PROVIDERS')
+            && function_exists('Inpsyde\MultilingualPress\resolve');
     }
 
     protected function notify(string $name): void
