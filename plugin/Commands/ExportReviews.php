@@ -59,6 +59,9 @@ class ExportReviews extends AbstractCommand
     {
         $args = glsr()->args([
             'assigned_posts' => $this->request->assigned_posts,
+            'assigned_terms' => $this->request->assigned_terms,
+            'assigned_users' => $this->request->assigned_users,
+            'author_id' => $this->request->author_id,
             'date' => $this->request->cast('date', 'date'),
             'limit' => 500,
             'post_status' => $this->request->post_status,

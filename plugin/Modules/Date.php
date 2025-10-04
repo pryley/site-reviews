@@ -109,7 +109,7 @@ class Date
     }
 
     /**
-     * @param mixed $date
+     * @param mixed $timestamp
      */
     public function isTimestamp($timestamp): bool
     {

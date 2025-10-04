@@ -38,26 +38,31 @@
 
         <h4><?php echo esc_html_x('Step 2: Enter reviews into the CSV file', 'admin-text', 'site-reviews'); ?></h4>
         <p><?php echo esc_html_x('Enter the reviews details into the template file and then save it. The CSV file should be encoded as UTF-8 and may contain the following columns:', 'admin-text', 'site-reviews'); ?></p>
-        <div class="glsr-responsive-table">
-            <table class="wp-list-table widefat striped">
-                <thead>
+        <table class="glsr-table wp-list-table widefat striped">
+            <thead>
+                <tr>
+                    <th scope="col"><strong><?php echo esc_html_x('Column Name', 'admin-text', 'site-reviews'); ?></strong></th>
+                    <th scope="col"><strong><?php echo esc_html_x('Required', 'admin-text', 'site-reviews'); ?></strong></th>
+                    <th scope="col"><strong><?php echo esc_html_x('Description', 'admin-text', 'site-reviews'); ?></strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach (glsr('Commands\DownloadCsvTemplate')->tableData() as $name => $data) { ?>
                     <tr>
-                        <th scope="col"><strong><?php echo esc_html_x('Column Name', 'admin-text', 'site-reviews'); ?></strong></th>
-                        <th scope="col"><strong><?php echo esc_html_x('Required', 'admin-text', 'site-reviews'); ?></strong></th>
-                        <th scope="col"><strong><?php echo esc_html_x('Description', 'admin-text', 'site-reviews'); ?></strong></th>
+                        <td>
+                            <p><strong><?php echo esc_html($name); ?></strong></p>
+                        </td>
+                        <td>
+                            <p><?php echo wp_kses_post($data['required']); ?></p>
+                        </td>
+                        <td>
+                            <?php echo wp_kses_post($data['notice']); ?>
+                            <p><?php echo wp_kses_post($data['description']); ?></p>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php foreach (glsr('Commands\DownloadCsvTemplate')->tableData() as $data) { ?>
-                        <tr>
-                            <td><strong><?php echo esc_html($data['name']); ?></strong></td>
-                            <td><?php echo wp_kses_post($data['required']); ?></td>
-                            <td><?php echo wp_kses_post($data['description']); ?></td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
+                <?php } ?>
+            </tbody>
+        </table>
 
         <h4><?php echo esc_html_x('Step 3: Upload the CSV file', 'admin-text', 'site-reviews'); ?></h4>
         <form method="post" class="wp-upload-form" enctype="multipart/form-data" onsubmit="submit.classList.add('is-busy'); submit.disabled = true;">

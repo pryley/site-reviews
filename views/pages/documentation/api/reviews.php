@@ -98,9 +98,8 @@
                         <td>array</td>
                         <td>edit, view</td>
                         <td>
+                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-images'); ?> addon required.</div>
                             The array of image objects attached to the review.
-                            <br>
-                            <span class="glsr-notice-inline is-warning"><?php echo glsr_premium_link('site-reviews-images'); ?> addon required.</span>
                         </td>
                     </tr>
                     <tr>
@@ -272,9 +271,8 @@
                         <td><strong>form</strong></td>
                         <td></td>
                         <td>
+                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-forms'); ?> addon required.</div>
                             Render the review with a review template of a specific custom review form (ID); only works with the <code>rendered</code> parameter.
-                            <br>
-                            <span class="glsr-notice-inline is-warning"><?php echo glsr_premium_link('site-reviews-forms'); ?> addon required.</span>
                         </td>
                     </tr>
                     <tr>
@@ -336,9 +334,8 @@
                         <td><strong>theme</strong></td>
                         <td></td>
                         <td>
+                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-themes'); ?> addon required.</div>
                             Render the review with a specific custom review theme (ID); only works with the <code>rendered</code> parameter.
-                            <br>
-                            <span class="glsr-notice-inline is-warning"><?php echo glsr_premium_link('site-reviews-themes'); ?> addon required.</span>
                         </td>
                     </tr>
                     <tr>

@@ -192,7 +192,6 @@ class OptionManager
         $settings = Arr::consolidate($this->wp(static::databaseKey(), []));
         if (empty($settings)) {
             delete_option(static::databaseKey());
-            // glsr(Migrate::class)->reset(); // Do this to migrate any previous version settings
         }
         $settings = $this->normalize($settings);
         glsr()->store('settings', $settings);

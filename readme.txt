@@ -222,6 +222,7 @@ Site Reviews has a fresh coat of paint!
 - Added an "Enable Account Reviews" setting to the Ultimate Member integration to display all of a user's submitted reviews on their account page.
 - Added an "Enable Session Storage" setting to persist entered review form values until either the review is submitted or the browser tab or window is closed
 - Added Geolocation which allows you to display the location of the reviewer next to their name in the review (i.e. flag/country/state/city)
+- Added more options to the Export Reviews tool
 - Added style controls to the Gutenberg blocks
 - Added the `summary_id` option to the Review Form, this allows you to update the rating summary immediately without reloading the page
 - Added WP-CLI commands
