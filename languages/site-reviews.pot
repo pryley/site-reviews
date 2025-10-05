@@ -2457,17 +2457,22 @@ msgctxt "admin-text"
 msgid "No reviews were found to export."
 msgstr ""
 
-#: plugin/Commands/GeolocateReviews.php:112
+#: plugin/Commands/GeolocateReview.php:49
+msgctxt "admin-text"
+msgid "Review geolocated."
+msgstr ""
+
+#: plugin/Commands/GeolocateReviews.php:53
 msgctxt "admin-text"
 msgid "Geolocation processing is already in progress."
 msgstr ""
 
-#: plugin/Commands/GeolocateReviews.php:120
+#: plugin/Commands/GeolocateReviews.php:59
 msgctxt "admin-text"
 msgid "All valid IP addresses have already been geolocated."
 msgstr ""
 
-#: plugin/Commands/GeolocateReviews.php:129
+#: plugin/Commands/GeolocateReviews.php:66
 msgctxt "admin-text"
 msgid "Successfully queued geolocation processing of %d IP addresses."
 msgstr ""
@@ -2645,14 +2650,14 @@ msgstr ""
 msgid "Please verify your review"
 msgstr ""
 
-#: plugin/Commands/TogglePinned.php:44
-msgctxt "admin-text"
-msgid "Review pinned."
-msgstr ""
-
-#: plugin/Commands/TogglePinned.php:45
+#: plugin/Commands/TogglePinned.php:51
 msgctxt "admin-text"
 msgid "Review unpinned."
+msgstr ""
+
+#: plugin/Commands/TogglePinned.php:48
+msgctxt "admin-text"
+msgid "Review pinned."
 msgstr ""
 
 #: plugin/Commands/ToggleStatus.php:66, views/partials/editor/pinned.php:9, views/partials/editor/verified.php:10
@@ -2674,14 +2679,14 @@ msgid_plural "Unapproved <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ToggleVerified.php:41
-msgctxt "admin-text"
-msgid "Review verified."
-msgstr ""
-
-#: plugin/Commands/ToggleVerified.php:42
+#: plugin/Commands/ToggleVerified.php:60
 msgctxt "admin-text"
 msgid "Review unverified."
+msgstr ""
+
+#: plugin/Commands/ToggleVerified.php:57
+msgctxt "admin-text"
+msgid "Review verified."
 msgstr ""
 
 #: plugin/Controllers/AdminController.php:101
@@ -3139,11 +3144,11 @@ msgctxt "admin-text"
 msgid "Send Verification Request"
 msgstr ""
 
-#: plugin/Controllers/VerificationController.php:97
+#: plugin/Controllers/VerificationController.php:95
 msgid "Thank you, your review has been verified."
 msgstr ""
 
-#: plugin/Controllers/VerificationController.php:98
+#: plugin/Controllers/VerificationController.php:96
 msgid "Thank you, your review has been verified and is awaiting approval."
 msgstr ""
 

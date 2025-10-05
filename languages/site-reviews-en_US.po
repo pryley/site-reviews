@@ -105,11 +105,11 @@ msgstr "Close Modal"
 msgid "Please verify your review"
 msgstr "Please verify your review"
 
-#: plugin/Controllers/VerificationController.php:97
+#: plugin/Controllers/VerificationController.php:95
 msgid "Thank you, your review has been verified."
 msgstr "Thank you, your review has been verified."
 
-#: plugin/Controllers/VerificationController.php:98
+#: plugin/Controllers/VerificationController.php:96
 msgid "Thank you, your review has been verified and is awaiting approval."
 msgstr "Thank you, your review has been verified and is awaiting approval."
 
@@ -3086,17 +3086,22 @@ msgctxt "admin-text"
 msgid "No reviews were found to export."
 msgstr "No reviews were found to export."
 
-#: plugin/Commands/GeolocateReviews.php:112
+#: plugin/Commands/GeolocateReview.php:49
+msgctxt "admin-text"
+msgid "Review geolocated."
+msgstr "Review geolocated."
+
+#: plugin/Commands/GeolocateReviews.php:53
 msgctxt "admin-text"
 msgid "Geolocation processing is already in progress."
 msgstr "Geolocation processing is already in progress."
 
-#: plugin/Commands/GeolocateReviews.php:120
+#: plugin/Commands/GeolocateReviews.php:59
 msgctxt "admin-text"
 msgid "All valid IP addresses have already been geolocated."
 msgstr "All valid IP addresses have already been geolocated."
 
-#: plugin/Commands/GeolocateReviews.php:129
+#: plugin/Commands/GeolocateReviews.php:66
 msgctxt "admin-text"
 msgid "Successfully queued geolocation processing of %d IP addresses."
 msgstr "Successfully queued geolocation processing of %d IP addresses."
@@ -3276,15 +3281,15 @@ msgctxt "admin-text"
 msgid "Resend Verification Request"
 msgstr "Resend Verification Request"
 
-#: plugin/Commands/TogglePinned.php:44
-msgctxt "admin-text"
-msgid "Review pinned."
-msgstr "Review pinned."
-
-#: plugin/Commands/TogglePinned.php:45
+#: plugin/Commands/TogglePinned.php:51
 msgctxt "admin-text"
 msgid "Review unpinned."
 msgstr "Review unpinned."
+
+#: plugin/Commands/TogglePinned.php:48
+msgctxt "admin-text"
+msgid "Review pinned."
+msgstr "Review pinned."
 
 #: plugin/Commands/ToggleStatus.php:66, views/partials/editor/pinned.php:9, views/partials/editor/verified.php:10
 msgctxt "admin-text"
@@ -3305,15 +3310,15 @@ msgid_plural "Unapproved <span class=\"count\">(%s)</span>"
 msgstr[0] "Unapproved <span class=\"count\">(%s)</span>"
 msgstr[1] "Unapproved <span class=\"count\">(%s)</span>"
 
-#: plugin/Commands/ToggleVerified.php:41
-msgctxt "admin-text"
-msgid "Review verified."
-msgstr "Review verified."
-
-#: plugin/Commands/ToggleVerified.php:42
+#: plugin/Commands/ToggleVerified.php:60
 msgctxt "admin-text"
 msgid "Review unverified."
 msgstr "Review unverified."
+
+#: plugin/Commands/ToggleVerified.php:57
+msgctxt "admin-text"
+msgid "Review verified."
+msgstr "Review verified."
 
 #: plugin/Controllers/AdminController.php:101
 msgctxt "admin-text"

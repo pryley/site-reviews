@@ -74,9 +74,7 @@ class VerificationController extends AbstractController
      */
     public function toggleVerifiedAjax(Request $request): void
     {
-        $command = $this->execute(new ToggleVerified($request));
-        glsr()->action('cache/flush', $command->review); // @phpstan-ignore-line
-        wp_send_json_success($command->response());
+        $this->execute(new ToggleVerified($request))->sendJsonResponse();
     }
 
     /**
@@ -119,7 +117,6 @@ class VerificationController extends AbstractController
             $redirectUrl .= $path;
             $redirectUrl = add_query_arg('review_id', $review->ID, $redirectUrl);
             if ($command->successful()) {
-                glsr()->action('cache/flush', $review);
                 $token = glsr(Encryption::class)->encrypt($review->ID);
                 $redirectUrl = add_query_arg('verified', $token, $redirectUrl);
             }

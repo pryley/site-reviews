@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Database\ReviewManager;
-use GeminiLabs\SiteReviews\Defaults\TogglePinnedDefaults;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
@@ -15,15 +14,20 @@ class TogglePinned extends AbstractCommand
 
     public function __construct(Request $request)
     {
-        $args = glsr(TogglePinnedDefaults::class)->restrict($request->toArray());
-        $review = glsr(ReviewManager::class)->get($args['post_id']);
-        $this->isPinned = $args['pinned'] >= 0 ? wp_validate_boolean($args['pinned']) : !$review->is_pinned;
-        $this->review = $review;
+        $pinned = $request->cast('pinned', 'int', -1);
+        $this->review = glsr_get_review($request->post_id);
+        $this->isPinned = $pinned >= 0 ? wp_validate_boolean($pinned) : !$this->review->is_pinned;
     }
 
     public function handle(): void
     {
+        if (!$this->review->isValid()) {
+            glsr_log()->error(sprintf('Cannot %s review: Invalid review', $this->isPinned ? 'pin' : 'unpin'));
+            $this->fail();
+            return;
+        }
         if (!glsr()->can('edit_post', $this->review->ID)) {
+            glsr_log()->error(sprintf('Cannot %s review: Invalid permission', $this->isPinned ? 'pin' : 'unpin'));
             $this->isPinned = wp_validate_boolean($this->review->is_pinned);
             $this->fail();
             return;
@@ -35,15 +39,18 @@ class TogglePinned extends AbstractCommand
             'is_pinned' => $this->isPinned,
         ]);
         if ($result <= 0) {
-            glsr(Notice::class)->addError('Something went wrong: unable to pin/unpin review');
+            $this->fail();
             return;
         }
-        $this->review->set('is_pinned', $this->isPinned); // quick and dirty
+        $this->review->set('is_pinned', $this->isPinned);
+        if ($this->isPinned) {
+            glsr()->action('cache/flush', "review_{$this->review->ID}_pinned", $this->review);
+            glsr(Notice::class)->addSuccess(_x('Review pinned.', 'admin-text', 'site-reviews'));
+        } else {
+            glsr()->action('cache/flush', "review_{$this->review->ID}_unpinned", $this->review);
+            glsr(Notice::class)->addSuccess(_x('Review unpinned.', 'admin-text', 'site-reviews'));
+        }
         glsr()->action('review/pinned', $this->review, $this->isPinned);
-        $notice = $this->isPinned
-            ? _x('Review pinned.', 'admin-text', 'site-reviews')
-            : _x('Review unpinned.', 'admin-text', 'site-reviews');
-        glsr(Notice::class)->addSuccess($notice);
     }
 
     public function response(): array

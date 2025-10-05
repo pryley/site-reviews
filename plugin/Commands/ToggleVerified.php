@@ -23,24 +23,41 @@ class ToggleVerified extends AbstractCommand
 
     public function handle(): void
     {
+        if (!$this->review->isValid()) {
+            glsr_log()->error('Cannot toggle verified status: Invalid review');
+            $this->fail();
+            return;
+        }
         if (!glsr()->can('edit_post', $this->review->ID)) {
+            glsr_log()->error('Cannot toggle verified status: Invalid permission');
             $this->isVerified = wp_validate_boolean($this->review->is_verified);
             $this->fail();
             return;
         }
         if (!glsr()->filterBool('verification/enabled', false)) {
+            glsr_log()->error('Cannot toggle verified status: Verification manually disabled with a filter hook');
             $this->isVerified = wp_validate_boolean($this->review->is_verified);
             $this->fail();
             return;
         }
-        if ($this->isVerified !== $this->review->is_verified) {
-            glsr(ReviewManager::class)->updateRating($this->review->ID, [
-                'is_verified' => $this->isVerified,
-            ]);
-            $notice = $this->isVerified
-                ? _x('Review verified.', 'admin-text', 'site-reviews')
-                : _x('Review unverified.', 'admin-text', 'site-reviews');
-            glsr(Notice::class)->addSuccess($notice);
+        if ($this->isVerified === $this->review->is_verified) {
+            return;
+        }
+        $result = glsr(ReviewManager::class)->updateRating($this->review->ID, [
+            'is_verified' => $this->isVerified,
+        ]);
+        if (0 === $result) {
+            $this->fail();
+            return;
+        }
+        $this->review->set('is_verified', $this->isVerified);
+        if ($this->isVerified) {
+            glsr()->action('cache/flush', "review_{$this->review->ID}_verified", $this->review);
+            glsr()->action('review/verified', $this->review);
+            glsr(Notice::class)->addSuccess(_x('Review verified.', 'admin-text', 'site-reviews'));
+        } else {
+            glsr()->action('cache/flush', "review_{$this->review->ID}_unverified", $this->review);
+            glsr(Notice::class)->addSuccess(_x('Review unverified.', 'admin-text', 'site-reviews'));
         }
     }
 

@@ -86,7 +86,9 @@ class RevisionController extends AbstractController
         }
         $revision = glsr(PostMeta::class)->get($revisionId, 'review');
         if (is_array($revision)) {
+            $review = glsr_get_review($reviewId);
             glsr(ReviewManager::class)->updateRating($reviewId, $revision);
+            glsr()->action('cache/flush', "review_{$reviewId}_revision_restored", $review);
         }
     }
 
