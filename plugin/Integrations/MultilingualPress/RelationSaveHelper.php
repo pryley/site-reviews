@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Defaults\SyncReviewDefaults;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedPostsField;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedUsersField;
 use GeminiLabs\SiteReviews\Modules\Date;
@@ -170,6 +171,26 @@ class RelationSaveHelper
             glsr(PostMeta::class)->set($review->ID, 'response', $response);
             glsr(PostMeta::class)->set($review->ID, 'response_by', get_current_user_id());
         }
+        $this->maybeRestoreSite($originalSiteId);
+    }
+
+    public function syncUpdate(array $data, bool $force = false): void
+    {
+        if (!$this->canSync()) {
+            return;
+        }
+        $guarded = glsr(SyncReviewDefaults::class)->merge($data);
+        if ($force || $this->canSyncAssignment(AssignedPostsField::FIELD_COPY_ASSIGNED_POSTS)) {
+            $sourcePostIds = Arr::consolidate($data['assigned_posts'] ?? []);
+            $guarded['assigned_posts'] = $this->remoteAssignedPosts($sourcePostIds);
+        }
+        if ($force || $this->canSyncAssignment(AssignedUsersField::FIELD_COPY_ASSIGNED_USERS)) {
+            $sourceUserIds = Arr::consolidate($data['assigned_users'] ?? []);
+            $guarded['assigned_users'] = $this->remoteAssignedUsers($sourceUserIds);
+        }
+        $originalSiteId = $this->maybeSwitchSite($this->context->remoteSiteId());
+        glsr_update_review($this->context->remotePostId(), $guarded);
+        $this->syncAssignedTerms();
         $this->maybeRestoreSite($originalSiteId);
     }
 

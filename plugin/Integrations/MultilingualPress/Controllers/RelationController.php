@@ -58,9 +58,10 @@ class RelationController extends AbstractController
             $copier = new ReviewCopier($sourcePostId, $sourceSiteId);
             $copier->run(function ($context) use ($postIds, $userIds) {
                 $helper = new RelationSaveHelper($context);
-                $helper->syncAssignedPosts($postIds, true);
-                $helper->syncAssignedTerms();
-                $helper->syncAssignedUsers($userIds, true);
+                $helper->syncUpdate([
+                    'assigned_posts' => $postIds,
+                    'assigned_users' => $userIds,
+                ], true);
             });
         }
     }

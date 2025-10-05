@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress;
 
-use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Defaults\SyncReviewDefaults;
-use Inpsyde\MultilingualPress\Attachment\Copier;
 use Inpsyde\MultilingualPress\Framework\Api\ContentRelations;
 use Inpsyde\MultilingualPress\Framework\SwitchSiteTrait;
 use Inpsyde\MultilingualPress\TranslationUi\Post\RelationshipContext;
@@ -89,15 +87,10 @@ class ReviewCopier
     public function sync(): void
     {
         $review = glsr_get_review($this->sourcePostId);
-        $data = $review->toArray();
-        $data = wp_parse_args($data, $review->custom()->toArray());
-        $data = glsr(SyncReviewDefaults::class)->merge($data);
-        $this->run(function ($context) use ($data, $review) {
-            glsr_update_review($context->remotePostId(), $data);
+        $data = wp_parse_args($review->toArray(), $review->custom()->toArray());
+        $this->run(function ($context) use ($data) {
             $helper = new RelationSaveHelper($context);
-            $helper->syncAssignedPosts($review->assigned_posts, true);
-            $helper->syncAssignedTerms();
-            $helper->syncAssignedUsers($review->assigned_users, true);
+            $helper->syncUpdate($data, true);
         });
     }
 
