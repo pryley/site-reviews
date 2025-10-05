@@ -286,7 +286,8 @@ class ListTableController extends AbstractController
         }
         $response = (string) filter_input(INPUT_POST, '_response');
         glsr(ReviewManager::class)->updateResponse($postId, compact('response'));
-        glsr()->action('cache/flush', glsr_get_review($postId));
+        $review = glsr_get_review($postId);
+        glsr()->action('cache/flush', "review_{$review->ID}_responded", $review);
         global $mode;
         $mode = Str::restrictTo(['excerpt', 'list'], (string) filter_input(INPUT_POST, 'post_view'), 'list');
         $table = new ReviewsListTable(['screen' => convert_to_screen($screen)]);

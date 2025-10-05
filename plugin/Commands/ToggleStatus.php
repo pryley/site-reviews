@@ -26,12 +26,12 @@ class ToggleStatus extends AbstractCommand
     public function handle(): void
     {
         if (!$this->review->isValid()) {
-            glsr_log()->error('Cannot toggle review status: Invalid Post Type.');
+            glsr_log()->error('Cannot toggle review status: Invalid review');
             $this->fail();
             return;
         }
         if (!glsr()->can('publish_post', $this->postId)) {
-            glsr_log()->error('Cannot toggle review status: Invalid permission.');
+            glsr_log()->error('Cannot toggle review status: Invalid permission');
             $this->fail();
             return;
         }
@@ -39,7 +39,7 @@ class ToggleStatus extends AbstractCommand
             'ID' => $this->postId,
             'post_status' => $this->status,
         ];
-        $postId = wp_update_post($args, true);
+        $postId = wp_update_post($args, true); // triggers cache flush
         if (is_wp_error($postId)) {
             glsr_log()->error($postId->get_error_message());
             $this->fail();

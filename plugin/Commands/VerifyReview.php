@@ -27,11 +27,12 @@ class VerifyReview extends AbstractCommand
             'is_verified' => true,
         ]);
         if ($result > 0) {
+            glsr()->action('review/verified', $this->review); // do this before setting verified_on!
             $verifiedOn = glsr(PostMeta::class)->get($this->review->ID, 'verified_on', 'int');
             if (!glsr(Date::class)->isTimestamp($verifiedOn)) {
                 glsr(PostMeta::class)->set($this->review->ID, 'verified_on', current_datetime()->getTimestamp());
             }
-            glsr()->action('review/verified', $this->review);
+            glsr()->action('cache/flush', "review_{$this->review->ID}_verified", $this->review);
         } else {
             $this->fail();
         }

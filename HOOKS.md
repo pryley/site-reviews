@@ -5,7 +5,8 @@
     site-reviews/activated                                      ()
     site-reviews/addon/register                                 (Application $app)
     site-reviews/builder                                        (Contracts\BuilderContract $builder)
-    site-reviews/cache/flush                                    (Review $review)
+    site-reviews/cache/flush                                    (string $loggedMessage, Review $review)
+    site-reviews/cache/flush_all                                (string $loggedMessage)
     site-reviews/customize/<style>                              (Contracts\BuilderContract $builder)
     site-reviews/database/sql                                   (string $sql, string $handle)
     site-reviews/database/sql/<handle>                          (string $sql)
@@ -97,7 +98,7 @@
     site-reviews/build/template/<template_path>                 (string $template, array $data): string
     site-reviews/builder/enable/optgroup                        (bool $enable): bool
     site-reviews/builder/result                                 (string $result, Contracts\BuilderContract $builder): string
-    site-reviews/cache/flush_all                                (bool $bool): bool
+    site-reviews/cache/flush_when_empty_assigned_posts          (bool $bool): bool
     site-reviews/capabilities                                   (array $capabilities): array
     site-reviews/captcha/actions                                (array $actions): array
     site-reviews/captcha/language                               (string $locale): string

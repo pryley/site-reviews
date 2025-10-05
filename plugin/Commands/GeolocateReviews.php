@@ -40,9 +40,33 @@ class GeolocateReviews extends AbstractCommand
      */
     public const ROW_BATCH_SIZE = 500;
 
+    /**
+     * Start processing via WP-Cron.
+     */
     public function handle(): void
     {
-        $this->queue(true);
+        if (!glsr(Queue::class)->isPending(static::QUEUED_ACTION_KEY)) {
+            $this->releaseLock();
+        }
+        if (get_transient(static::LOCK_KEY)) { // Prevent concurrent processing
+            glsr(Notice::class)->addWarning(
+                _x('Geolocation processing is already in progress.', 'admin-text', 'site-reviews')
+            );
+            return;
+        }
+        if (!$ipsToProcess = $this->countIpsNeedingGeolocation()) {
+            glsr(Notice::class)->addInfo(
+                _x('All valid IP addresses have already been geolocated.', 'admin-text', 'site-reviews')
+            );
+            return;
+        }
+        $this->lock();
+        glsr(Queue::class)->once(time(), static::QUEUED_ACTION_KEY, ['offset' => 0], true);
+        glsr(Notice::class)->addSuccess(sprintf(
+            _x('Successfully queued geolocation processing of %d IP addresses.', 'admin-text', 'site-reviews'),
+            $ipsToProcess
+        ));
+        glsr()->action('cache/flush_all', 'geolocated_reviews');
     }
 
     /**
@@ -72,65 +96,6 @@ class GeolocateReviews extends AbstractCommand
         }
         $this->processResults($validResults);
         $this->scheduleNextBatchIfNeeded($offset, static::BATCH_SIZE, $ipAddresses);
-    }
-
-    public function processReview(Review $review): void
-    {
-        if (!$review->isValid()) {
-            return;
-        }
-        if (Helper::isLocalIpAddress($review->ip_address)) {
-            return;
-        }
-        $response = glsr(Geolocation::class)->lookup($review->ip_address);
-        if ($response->failed()) {
-            return;
-        }
-        $results = $this->filterValidGeolocationResults([$response->body()]);
-        if (empty($results[0])) {
-            return;
-        }
-        $result = glsr(StatDefaults::class)->restrict($results[0]);
-        $result['rating_id'] = $review->rating_id;
-        glsr(Database::class)->insert('stats', $result);
-        $metadata = array_diff_key($result, ['rating_id' => 0]);
-        glsr(PostMeta::class)->set($review->ID, 'geolocation', $metadata);
-        glsr()->action('review/geolocated', $review, $result);
-    }
-
-    /**
-     * Start processing via WP-Cron.
-     */
-    public function queue(bool $notify = false): bool
-    {
-        if (!glsr(Queue::class)->isPending(static::QUEUED_ACTION_KEY)) {
-            $this->releaseLock();
-        }
-        if (get_transient(static::LOCK_KEY)) { // Prevent concurrent processing
-            if ($notify) {
-                glsr(Notice::class)->addWarning(
-                    _x('Geolocation processing is already in progress.', 'admin-text', 'site-reviews')
-                );
-            }
-            return false;
-        }
-        if (!$ipsToProcess = $this->countIpsNeedingGeolocation()) {
-            if ($notify) {
-                glsr(Notice::class)->addInfo(
-                    _x('All valid IP addresses have already been geolocated.', 'admin-text', 'site-reviews')
-                );
-            }
-            return false;
-        }
-        $this->lock();
-        glsr(Queue::class)->once(time(), static::QUEUED_ACTION_KEY, ['offset' => 0], true);
-        if ($notify) {
-            glsr(Notice::class)->addSuccess(sprintf(
-                _x('Successfully queued geolocation processing of %d IP addresses.', 'admin-text', 'site-reviews'),
-                $ipsToProcess
-            ));
-        }
-        return true;
     }
 
     public function response(): array

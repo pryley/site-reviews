@@ -6,10 +6,20 @@ use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Review;
 
 class Controller extends AbstractController
 {
+    /**
+     * @action site-reviews/cache/flush
+     */
+    public function flush(string $loggedMessage, Review $review): void
+    {
+        $loggedMessage = $loggedMessage ?: "flushed_review_{$review->ID}";
+        $this->flushCache($loggedMessage, $review->assigned_posts);
+    }
+
     /**
      * @action site-reviews/review/created
      */
@@ -23,10 +33,7 @@ class Controller extends AbstractController
         }
         $postIds = array_merge($command->assigned_posts, [$command->post_id]);
         $postIds = Arr::uniqueInt($postIds);
-        $this->flushCache(
-            "flushed_after_review_{$review->ID}_created",
-            $postIds
-        );
+        $this->flushCache("review_{$review->ID}_created", $postIds);
     }
 
     /**
@@ -34,7 +41,7 @@ class Controller extends AbstractController
      */
     public function flushAfterMigrated(): void
     {
-        $this->flushCache('flushed_after_plugin_migrated');
+        $this->flushCache('plugin_migrated');
     }
 
     /**
@@ -53,10 +60,7 @@ class Controller extends AbstractController
             'pending' => 'unapproved',
             'trash' => 'trashed',
         ][$new] ?? $new;
-        $this->flushCache(
-            "flushed_after_review_{$review->ID}_{$status}",
-            $review->assigned_posts
-        );
+        $this->flushCache("review_{$review->ID}_{$status}", $review->assigned_posts);
     }
 
     /**
@@ -67,31 +71,23 @@ class Controller extends AbstractController
         if (did_action('site-reviews/review/transitioned')) {
             return;
         }
-        $this->flushCache(
-            "flushed_after_review_{$review->ID}_updated",
-            $review->assigned_posts
-        );
+        $this->flushCache("review_{$review->ID}_updated", $review->assigned_posts);
     }
 
     /**
-     * @action site-reviews/cache/flush
+     * @action site-reviews/cache/flush_all
      */
-    public function flushReviewCache(Review $review): void
+    public function flushAll(string $loggedMessage): void
     {
-        $this->flushCache(
-            "flushed_review_{$review->ID}",
-            $review->assigned_posts
-        );
+        $this->flushCache($loggedMessage);
     }
 
-    protected function flushCache(string $log, ?array $postIds = null): void
+    protected function flushCache(string $loggedMessage, ?array $postIds = null): void
     {
-        if ([] === $postIds && !glsr()->filterBool('cache/flush_all', true)) {
+        if ([] === $postIds && !glsr()->filterBool('cache/flush_when_empty_assigned_posts', true)) {
             return;
         }
         $postIds = Arr::consolidate($postIds);
-        $flushed = empty($postIds) ? 'all' : implode(', ', $postIds);
-        glsr_log()->debug("cache::{$log} [{$flushed}]");
         $this->purgeEnduranceCache($postIds);
         $this->purgeFlyingPressCache($postIds);
         $this->purgeHummingbirdCache($postIds);
@@ -104,6 +100,18 @@ class Controller extends AbstractController
         $this->purgeWPOptimizeCache($postIds);
         $this->purgeWPRocketCache($postIds);
         $this->purgeWPSuperCache($postIds);
+        $this->logResult($loggedMessage, $postIds);
+    }
+
+    protected function logResult(string $message, array $postIds): void
+    {
+        $message = trim($message);
+        $message = $message ?: 'flushed';
+        if (!str_starts_with($message, 'flushed')) {
+            $message = Str::prefix($message, 'flushed_after_');
+        }
+        $flushed = empty($postIds) ? 'all' : implode(', ', $postIds);
+        glsr_log()->debug("cache::{$message} [{$flushed}]");
     }
 
     /**

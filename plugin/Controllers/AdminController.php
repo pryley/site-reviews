@@ -363,9 +363,7 @@ class AdminController extends AbstractController
      */
     public function togglePinnedAjax(Request $request): void
     {
-        $command = $this->execute(new TogglePinned($request));
-        glsr()->action('cache/flush', $command->review); // @phpstan-ignore-line
-        wp_send_json_success($command->response());
+        $this->execute(new TogglePinned($request))->sendJsonResponse();
     }
 
     /**
@@ -373,7 +371,6 @@ class AdminController extends AbstractController
      */
     public function toggleStatusAjax(Request $request): void
     {
-        $command = $this->execute(new ToggleStatus($request));
-        wp_send_json_success($command->response());
+        $this->execute(new ToggleStatus($request))->sendJsonResponse();
     }
 }
