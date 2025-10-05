@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Integrations\Cache;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\Cache;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 
@@ -19,12 +18,15 @@ class Controller extends AbstractController
         if (defined('WP_IMPORTING')) {
             return;
         }
-        if ($review->is_approved) {
-            glsr_log()->debug('cache::flush_after_review_created');
-            $postIds = array_merge($review->assigned_posts, [$command->post_id]);
-            $postIds = Arr::uniqueInt($postIds);
-            $this->flushCache($postIds);
+        if (!$review->is_approved) {
+            return;
         }
+        $postIds = array_merge($command->assigned_posts, [$command->post_id]);
+        $postIds = Arr::uniqueInt($postIds);
+        $this->flushCache(
+            "flushed_after_review_{$review->ID}_created",
+            $postIds
+        );
     }
 
     /**
@@ -32,69 +34,43 @@ class Controller extends AbstractController
      */
     public function flushAfterMigrated(): void
     {
-        glsr_log()->debug('cache::flush_after_plugin_migrated');
-        $this->flushCache();
+        $this->flushCache('flushed_after_plugin_migrated');
     }
 
     /**
-     * @action delete_post
+     * @action site-reviews/review/transitioned
      */
-    public function flushBeforeDeleted(int $postId, \WP_Post $post): void
+    public function flushAfterTransitioned(Review $review, string $new, string $old): void
     {
-        if (glsr()->post_type !== $post->post_type) {
+        if (did_action('site-reviews/review/updated')) {
             return;
         }
-        $postIds = glsr_get_review($postId)->assigned_posts;
-        if ($postIds === glsr()->retrieve('cache/post_ids')) {
-            return; // prevent unnecessary flushing
+        if (!in_array('publish', [$new, $old])) {
+            return;
         }
-        glsr_log()->debug('cache::flush_after_review_deleted');
-        glsr()->store('cache/post_ids', $postIds);
-        $this->flushCache($postIds);
+        $status = [
+            'publish' => 'approved',
+            'pending' => 'unapproved',
+            'trash' => 'trashed',
+        ][$new] ?? $new;
+        $this->flushCache(
+            "flushed_after_review_{$review->ID}_{$status}",
+            $review->assigned_posts
+        );
     }
 
     /**
-     * @action wp_trash_post
+     * @action site-reviews/review/updated
      */
-    public function flushBeforeTrashed(int $postId): void
+    public function flushAfterUpdated(Review $review): void
     {
-        if (glsr()->post_type !== get_post_type($postId)) {
+        if (did_action('site-reviews/review/transitioned')) {
             return;
         }
-        $postIds = glsr_get_review($postId)->assigned_posts;
-        if ($postIds === glsr()->retrieve('cache/post_ids')) {
-            return; // prevent unnecessary flushing
-        }
-        glsr_log()->debug('cache::flush_after_review_trashed');
-        glsr()->store('cache/post_ids', $postIds);
-        $this->flushCache($postIds);
-    }
-
-    /**
-     * @action clean_post_cache
-     */
-    public function flushPostCache(int $postId, \WP_Post $post): void
-    {
-        if (glsr()->post_type !== $post->post_type) {
-            return;
-        }
-        $request = Helper::filterInputArray(glsr()->id);
-        if ('submit-review' === Arr::get($request, '_action')) {
-            return; // review was created
-        }
-        if ('trash' === get_post_status($postId)) {
-            return; // review was trashed
-        }
-        if (null === get_post($postId)) {
-            return; // review was deleted
-        }
-        $postIds = glsr_get_review($postId)->assigned_posts;
-        if ($postIds === glsr()->retrieve('cache/post_ids')) {
-            return; // prevent unnecessary flushing
-        }
-        glsr_log()->debug('cache::flush_after_post_cache_cleaned');
-        glsr()->store('cache/post_ids', $postIds);
-        $this->flushCache($postIds);
+        $this->flushCache(
+            "flushed_after_review_{$review->ID}_updated",
+            $review->assigned_posts
+        );
     }
 
     /**
@@ -102,17 +78,20 @@ class Controller extends AbstractController
      */
     public function flushReviewCache(Review $review): void
     {
-        glsr_log()->debug('cache::flush_after_review_updated');
-        $this->flushCache($review->assigned_posts);
+        $this->flushCache(
+            "flushed_review_{$review->ID}",
+            $review->assigned_posts
+        );
     }
 
-    protected function flushCache(array $postIds = []): void
+    protected function flushCache(string $log, ?array $postIds = null): void
     {
-        if (empty($postIds)) {
-            glsr_log('cache::flushing [all]');
-        } else {
-            glsr_log('cache::flushing ['.implode(', ', $postIds).']');
+        if ([] === $postIds && !glsr()->filterBool('cache/flush_all', true)) {
+            return;
         }
+        $postIds = Arr::consolidate($postIds);
+        $flushed = empty($postIds) ? 'all' : implode(', ', $postIds);
+        glsr_log()->debug("cache::{$log} [{$flushed}]");
         $this->purgeEnduranceCache($postIds);
         $this->purgeFlyingPressCache($postIds);
         $this->purgeHummingbirdCache($postIds);

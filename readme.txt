@@ -239,6 +239,7 @@ Site Reviews has a fresh coat of paint!
 - Fixed generated CSS ID values to always be unique
 - Fixed link focus when expanding excerpts with the keyboard
 - Fixed the Blacklist validator
+- Fixed the Cache integration to be more selective when flushing the cache
 - Fixed the category priority feature
 - Fixed the Cloudflare Turnstile integration
 - Fixed the "Export Reviews" tool for hosts that disable the [fpassthru](https://www.php.net/manual/en/function.fpassthru.php) PHP function (i.e. Cloudways, FlyWheel, etc.)
