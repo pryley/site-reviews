@@ -200,7 +200,7 @@ class AdminController extends AbstractController
     public function renderPageHeader(): void
     {
         global $post_type_object, $title;
-        if (!$this->isReviewAdminScreen()) {
+        if (!$this->isAdminScreen()) {
             return;
         }
         $buttons = [];
@@ -246,7 +246,7 @@ class AdminController extends AbstractController
         if (defined('GLSR_UNIT_TESTS')) {
             return;
         }
-        if (!$this->isReviewAdminScreen()) {
+        if (!$this->isAdminScreen()) {
             return;
         }
         if (glsr(Queue::class)->isPending('queue/migration')) {
