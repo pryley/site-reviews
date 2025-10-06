@@ -45,17 +45,19 @@ class Controller extends AbstractController
      */
     public function filterAdminInlineCss(string $css): string
     {
-        $custom = '';
-        if ($this->isReviewEditor()) {
-            $custom .= '.mlp-translation-metabox[data-post-type="site-review"]{margin:9px 0 0}';
-            $custom .= 'tr.mlp-taxonomy-box>td{padding:0}';
-            $custom .= 'tr.mlp-taxonomy-box>td>ul{border:solid 1px #dcdcde;margin-bottom:.9em}';
+        $custom = [];
+        if ($this->isEditor()) {
+            $custom[] = '.mlp-translation-metabox[data-post-type^="site-review"]{margin:9px 0 0}';
         }
         if ($this->isListTable()) {
-            $custom .= 'td.column-translations{align-items:center;display:flex;flex-wrap:wrap;gap:8px}';
-            $custom .= 'td.column-translations .mlp-table-list-relations-divide{display:none!important}';
+            $custom[] = 'td.column-translations{align-items:center;display:flex;flex-wrap:wrap;gap:8px}';
+            $custom[] = 'td.column-translations .mlp-table-list-relations-divide{display:none!important}';
         }
-        return $css.$custom;
+        if ($this->isReviewEditor()) {
+            $custom[] = 'tr.mlp-taxonomy-box>td{padding:0}';
+            $custom[] = 'tr.mlp-taxonomy-box>td>ul{border:solid 1px #dcdcde;margin-bottom:.9em}';
+        }
+        return $css.implode('', $custom);
     }
 
     /**
@@ -63,15 +65,17 @@ class Controller extends AbstractController
      */
     public function filterAdminInlineJs(string $js): string
     {
-        if (!$this->isReviewEditor()) {
+        if (!$this->isEditor()) {
             return $js;
         }
-        return $js.
-        'jQuery(function($){'.
-            '$(".mlp-taxonomy-sync:has(input:checked)").closest("table").find(".mlp-taxonomy-box").hide();'.
-            '$(".post-new-php .tab-relation input[value=new]").prop("checked",true).change();'. // create translations on create
-            '$(".post-new-php #mlp-trasher").prop("checked",true).change();'. // trash translations on delete
-        '});';
+        $custom = [
+            '$(".post-new-php .mlp-translation-metabox[data-post-type^=site-review] .tab-relation input[value=new]").prop("checked",true).change();', // create translations on create
+            '$(".post-new-php #mlp-trasher").prop("checked",true).change();', // trash translations on delete
+        ];
+        if ($this->isReviewEditor()) {
+            $custom[] = '$(".mlp-taxonomy-sync:has(input:checked)").closest("table").find(".mlp-taxonomy-box").hide();';
+        }
+        return $js.'jQuery(function($){'.implode('', $custom).'});';
     }
 
     /**
@@ -82,10 +86,10 @@ class Controller extends AbstractController
     public function filterContentIsChecked(bool $isChecked): bool
     {
         global $pagenow;
-        if (!$this->isReviewEditor()) {
+        if ('post-new.php' !== $pagenow) {
             return $isChecked;
         }
-        if ('post-new.php' !== $pagenow) {
+        if (!$this->isEditor()) {
             return $isChecked;
         }
         return true;

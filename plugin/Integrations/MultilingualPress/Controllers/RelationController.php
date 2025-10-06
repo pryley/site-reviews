@@ -21,6 +21,8 @@ class RelationController extends AbstractController
      * Field keys from `AdditionalFieldsDefaults::class` should not be synced
      * automatically because we need to prevent translations with empty field
      * values from overwriting a source review containing filled field values.
+     * 
+     * Important: executes on the source site.
      *
      * @filter multilingualpress.sync_post_meta_keys
      *
@@ -33,7 +35,8 @@ class RelationController extends AbstractController
             return $keys;
         }
         $metaKeys = [
-            '_submitted_hash', // sync this because it's used when importing reviews
+            '_excluded', // the fields that were hidden in the review form
+            '_submitted_hash', // used to prevent duplicates when importing reviews
         ];
         foreach ($metaKeys as $key) {
             if (metadata_exists('post', $sourcePostId, $key)) {
@@ -176,7 +179,7 @@ class RelationController extends AbstractController
      *
      * @action multilingualpress.metabox_after_relate_posts
      *
-     * @filter-location \Inpsyde\MultilingualPress\TranslationUi\Post\MetaboxAction
+     * @action-location \Inpsyde\MultilingualPress\TranslationUi\Post\MetaboxAction
      */
     public function onSyncReview(RelationshipContext $context, ServerRequest $request): void
     {

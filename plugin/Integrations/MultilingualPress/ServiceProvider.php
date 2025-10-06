@@ -21,6 +21,7 @@ class ServiceProvider implements ModuleServiceProvider
      */
     public function activateModule(Container $container): void // @phpstan-ignore-line class.notFound
     {
+        glsr()->action('multilingualpress/activate', $container);
         glsr(Hooks::class)->hook(Controller::class, [
             ['enforceEntitySupport', 'multilingualpress.update_plugin_settings', 20],
             ['filterAdminInlineCss', 'site-reviews/enqueue/admin/inline-styles'],
@@ -46,7 +47,6 @@ class ServiceProvider implements ModuleServiceProvider
             ['onSyncReview', 'multilingualpress.metabox_after_relate_posts', 10, 2],
             ['onVerified', 'site-reviews/review/verified'],
         ]);
-        glsr()->action('multilingualpress/activate', $container);
     }
 
     /**
@@ -54,21 +54,16 @@ class ServiceProvider implements ModuleServiceProvider
      */
     public function register(Container $container): void
     {
+        glsr()->action('multilingualpress/register', $container);
         if (!$container->get(ModuleManager::class)->isModuleActive(glsr()->id)) {
             $this->removeSupportedEntities();
         }
-
         // $container->addService(
-        //     FieldCopier::class,
-        //     static fn () => new FieldCopier($container->get(Copier::class))
-        // );
-        // $container->share(
-        //     Filesystem::class,
-        //     static function (): Filesystem {
-        //         return new Filesystem();
+        //     ImageCopier::class,
+        //     static function () use ($container): ImageCopier {
+        //         return new ImageCopier($container[Filesystem::class]);
         //     }
         // );
-        glsr()->action('multilingualpress/register', $container);
     }
 
     /**
