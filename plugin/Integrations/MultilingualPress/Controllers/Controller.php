@@ -70,7 +70,6 @@ class Controller extends AbstractController
         }
         $custom = [
             '$(".post-new-php .mlp-translation-metabox[data-post-type^=site-review] .tab-relation input[value=new]").prop("checked",true).change();', // create translations on create
-            '$(".post-new-php #mlp-trasher").prop("checked",true).change();', // trash translations on delete
         ];
         if ($this->isReviewEditor()) {
             $custom[] = '$(".mlp-taxonomy-sync:has(input:checked)").closest("table").find(".mlp-taxonomy-box").hide();';
@@ -109,7 +108,6 @@ class Controller extends AbstractController
             'Post Slug:' => _x('Review Slug:', 'multilingualpress text (admin-text)', 'site-reviews'),
             'Post Status:' => _x('Review Status:', 'multilingualpress text (admin-text)', 'site-reviews'),
             'Post Title:' => _x('Review Title:', 'multilingualpress text (admin-text)', 'site-reviews'),
-            'Send all the translations to trash when this post is trashed.' => _x('Trash all translations when trashed.', 'multilingualpress text (admin-text)', 'site-reviews'),
             'Synchronize Taxonomies' => _x('Synchronize Categories', 'multilingualpress text (admin-text)', 'site-reviews'),
         ];
         if (array_key_exists($single, $translations)) {

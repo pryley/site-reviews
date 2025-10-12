@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress;
 
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers\Controller;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers\RelationController;
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers\TrasherController;
 use Inpsyde\MultilingualPress\Attachment\Copier;
 use Inpsyde\MultilingualPress\Framework\Module\Module;
 use Inpsyde\MultilingualPress\Framework\Module\ModuleManager;
@@ -46,6 +47,12 @@ class ServiceProvider implements ModuleServiceProvider
             ['onSettingsUpdated', 'site-reviews/settings/updated'],
             ['onSyncReview', 'multilingualpress.metabox_after_relate_posts', 10, 2],
             ['onVerified', 'site-reviews/review/verified'],
+        ]);
+        glsr(Hooks::class)->hook(TrasherController::class, [
+            ['syncDelete', 'delete_post'],
+            ['syncTrash', 'untrashed_post'],
+            ['syncTrash', 'trashed_post'],
+            ['removeDefaultTrasher', 'current_screen'],
         ]);
     }
 
