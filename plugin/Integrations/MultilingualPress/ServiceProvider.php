@@ -26,8 +26,9 @@ class ServiceProvider implements ModuleServiceProvider
         glsr(Hooks::class)->hook(Controller::class, [
             ['enforceEntitySupport', 'multilingualpress.update_plugin_settings', 20],
             ['filterAdminInlineCss', 'site-reviews/enqueue/admin/inline-styles'],
-            ['filterAdminInlineJs', 'site-reviews/enqueue/admin/inline-script'],
             ['filterContentIsChecked', 'multilingualpress.copy_content_is_checked'],
+            ['filterForceCreateRelations', 'multilingualpress.force_create_post_relations'],
+            ['filterForceCreateRelations', 'multilingualpress.force_create_term_relations'],
             ['filterGettext', 'gettext_multilingualpress', 10, 2],
             ['filterMetaboxTabs', 'multilingualpress.post_translation_metabox_tabs', 10, 2],
             ['filterNotices', 'site-reviews/notices'],

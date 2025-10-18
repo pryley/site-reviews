@@ -4,12 +4,12 @@ namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedPostsField;
+use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedTermsField;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedUsersField;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Notices\NetworkNotice;
 use Inpsyde\MultilingualPress\Core\PostTypeRepository;
 use Inpsyde\MultilingualPress\Core\TaxonomyRepository;
 use Inpsyde\MultilingualPress\TranslationUi\Post;
-
 use function Inpsyde\MultilingualPress\resolve;
 
 class Controller extends AbstractController
@@ -53,28 +53,18 @@ class Controller extends AbstractController
             $custom[] = 'td.column-translations{align-items:center;display:flex;flex-wrap:wrap;gap:8px}';
             $custom[] = 'td.column-translations .mlp-table-list-relations-divide{display:none!important}';
         }
-        if ($this->isReviewEditor()) {
-            $custom[] = 'tr.mlp-taxonomy-box>td{padding:0}';
-            $custom[] = 'tr.mlp-taxonomy-box>td>ul{border:solid 1px #dcdcde;margin-bottom:.9em}';
-        }
         return $css.implode('', $custom);
     }
 
     /**
-     * @filter site-reviews/enqueue/admin/inline-script
+     * @filter multilingualpress.force_create_post_relations
      */
-    public function filterAdminInlineJs(string $js): string
+    public function filterForceCreateRelations(bool $force): bool
     {
         if (!$this->isEditor()) {
-            return $js;
+            return $force;
         }
-        $custom = [
-            '$(".post-new-php .mlp-translation-metabox[data-post-type^=site-review] .tab-relation input[value=new]").prop("checked",true).change();', // create translations on create
-        ];
-        if ($this->isReviewEditor()) {
-            $custom[] = '$(".mlp-taxonomy-sync:has(input:checked)").closest("table").find(".mlp-taxonomy-box").hide();';
-        }
-        return $js.'jQuery(function($){'.implode('', $custom).'});';
+        return true;
     }
 
     /**
@@ -104,11 +94,9 @@ class Controller extends AbstractController
         }
         $translations = [
             'Overwrites content on translated post with the content of source post.' => _x('Overwrite the content of the translated review with the content of the source review.', 'multilingualpress text (admin-text)', 'site-reviews'),
-            'Overwrites the target post taxonomy terms with the translation of terms assigned to source post.' => _x('Overwrite the Categories of the target review with the translated Categories of the source review.', 'multilingualpress text (admin-text)', 'site-reviews'),
             'Post Slug:' => _x('Review Slug:', 'multilingualpress text (admin-text)', 'site-reviews'),
             'Post Status:' => _x('Review Status:', 'multilingualpress text (admin-text)', 'site-reviews'),
             'Post Title:' => _x('Review Title:', 'multilingualpress text (admin-text)', 'site-reviews'),
-            'Synchronize Taxonomies' => _x('Synchronize Categories', 'multilingualpress text (admin-text)', 'site-reviews'),
         ];
         if (array_key_exists($single, $translations)) {
             return $translations[$single];
@@ -131,8 +119,8 @@ class Controller extends AbstractController
                 continue;
             }
             $tabs[$index] = new Post\MetaboxTab( // overwrite Taxonomies tab
-                Post\MetaboxFields::TAB_TAXONOMIES,
-                glsr()->name, // rename Taxonomies tab
+                'tab-'.glsr()->id,
+                glsr()->name,
                 new Post\MetaboxField(
                     AssignedPostsField::FIELD_COPY_ASSIGNED_POSTS,
                     new AssignedPostsField(), // @phpstan-ignore-line
@@ -143,7 +131,11 @@ class Controller extends AbstractController
                     new AssignedUsersField(), // @phpstan-ignore-line
                     [AssignedUsersField::class, 'sanitize']
                 ),
-                ...$tab->fields(),
+                new Post\MetaboxField(
+                    AssignedTermsField::FIELD_COPY_ASSIGNED_TERMS,
+                    new AssignedTermsField(), // @phpstan-ignore-line
+                    [AssignedTermsField::class, 'sanitize']
+                ),
             );
         }
         return $tabs;
