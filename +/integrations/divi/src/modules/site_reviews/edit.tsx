@@ -47,7 +47,7 @@ const ModuleEdit = (props: EditProps): ReactElement => {
         ];
         const results: Record<string, any> = {};
         attrNames.forEach((attName: string) => {
-            const key = attName.split('.').pop()!;
+            const key = attName.split('.').pop();
             let value = getAttrByMode(get(attrs, attName));
             if (Array.isArray(value) && value.every(obj => obj?.value !== undefined)) {
                 value = value.map(obj => obj.value);

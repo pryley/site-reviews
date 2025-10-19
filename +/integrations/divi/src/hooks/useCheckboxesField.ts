@@ -19,24 +19,23 @@ export const useCheckboxesField = (shortcode: string, option: string) => {
         value: String(item.id),
     });
 
-    useEffect(() => {
-        const fetchOptions = async () => {
-            try {
-                const response = await loggedFetch({
-                    data: { option },
-                    method: 'GET',
-                    restRoute: `/site-reviews/v1/shortcode/${shortcode}`,
-                });
-                setOptions(response.map(transformItem));
-            } catch (error) {
-                if ('AbortError' !== (error as Error).name) {
-                    console.error('Failed to fetch hide options:', error);
-                }
-                setOptions([]);
+    const fetchOptions = async () => {
+        try {
+            const response = await loggedFetch({
+                data: { option },
+                method: 'GET',
+                restRoute: `/site-reviews/v1/shortcode/${shortcode}`,
+            });
+            setOptions(response.map(transformItem));
+        } catch (error) {
+            if ('AbortError' !== (error as Error).name) {
+                console.error('Failed to fetch options:', error);
             }
-        };
-        fetchOptions();
-    }, []);
+            setOptions([]);
+        }
+    };
+
+    useEffect(() => { fetchOptions() }, [])
 
     return { options };
 };

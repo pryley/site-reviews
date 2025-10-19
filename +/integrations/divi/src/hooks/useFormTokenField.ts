@@ -34,7 +34,9 @@ export const useFormTokenField = (shortcode: string, option: string, value: stri
             const response = await loggedFetch(data());
             setOptions(transformResponse(response));
         } catch (error) {
-            console.error('Failed to fetch options:', error);
+            if ('AbortError' !== (error as Error).name) {
+                console.error('Failed to fetch options:', error);
+            }
             setOptions({});
         }
     };

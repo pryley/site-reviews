@@ -15,7 +15,6 @@ export const SettingsContent = (
     props: Module.Settings.Panel.Props<ModuleAttrs>
 ): ReactElement => {
     const { attrs, groupConfiguration } = props;
-
     // @ts-expect-error
     const assignedPosts = Array.from(attrs.shortcode?.advanced?.assigned_posts?.desktop?.value ?? [] as any).map(obj => obj.value);
     // @ts-expect-error
@@ -36,20 +35,15 @@ export const SettingsContent = (
         set(groupConfiguration, ['contentGeneral', 'component', 'props', 'fields', 'shortcodeAdvancedAssigned_posts', 'component', 'props', 'onDropdownClose'], apField.onDropdownClose);
         set(groupConfiguration, ['contentGeneral', 'component', 'props', 'fields', 'shortcodeAdvancedAssigned_posts', 'component', 'props', 'onSearchChange'], apField.onSearchChange);
         set(groupConfiguration, ['contentGeneral', 'component', 'props', 'fields', 'shortcodeAdvancedAssigned_posts', 'component', 'props', 'options'], apField.options);
-
         set(groupConfiguration, ['contentGeneral', 'component', 'props', 'fields', 'shortcodeAdvancedAssigned_terms', 'component', 'props', 'onDropdownClose'], atField.onDropdownClose);
         set(groupConfiguration, ['contentGeneral', 'component', 'props', 'fields', 'shortcodeAdvancedAssigned_terms', 'component', 'props', 'onSearchChange'], atField.onSearchChange);
         set(groupConfiguration, ['contentGeneral', 'component', 'props', 'fields', 'shortcodeAdvancedAssigned_terms', 'component', 'props', 'options'], atField.options);
-
         set(groupConfiguration, ['contentGeneral', 'component', 'props', 'fields', 'shortcodeAdvancedAssigned_users', 'component', 'props', 'onDropdownClose'], auField.onDropdownClose);
         set(groupConfiguration, ['contentGeneral', 'component', 'props', 'fields', 'shortcodeAdvancedAssigned_users', 'component', 'props', 'onSearchChange'], auField.onSearchChange);
         set(groupConfiguration, ['contentGeneral', 'component', 'props', 'fields', 'shortcodeAdvancedAssigned_users', 'component', 'props', 'options'], auField.options);
-
-        set(groupConfiguration, ['contentGeneral', 'component', 'props', 'fields', 'shortcodeAdvancedAuthor', 'component', 'props', 'updateSearchQuery'], authorField.onSearchChange);
         set(groupConfiguration, ['contentGeneral', 'component', 'props', 'fields', 'shortcodeAdvancedAuthor', 'component', 'props', 'options'], authorField.options);
-
+        set(groupConfiguration, ['contentGeneral', 'component', 'props', 'fields', 'shortcodeAdvancedAuthor', 'component', 'props', 'updateSearchQuery'], authorField.onSearchChange);
         set(groupConfiguration, ['contentGeneral', 'component', 'props', 'fields', 'shortcodeAdvancedTerms', 'component', 'props', 'options'], termsField.options);
-
         if (Object.keys(typeField.options).length) {
             set(groupConfiguration, ['contentGeneral', 'component', 'props', 'fields', 'shortcodeAdvancedType', 'component', 'props', 'options'], typeField.options);
         } else {
