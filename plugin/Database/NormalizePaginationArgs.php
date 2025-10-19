@@ -67,6 +67,6 @@ class NormalizePaginationArgs extends Arguments
      */
     protected function normalizePerPage(): void
     {
-        $this->per_page ??= 10;
+        $this->per_page ??= $this->display ??= 10;
     }
 }
