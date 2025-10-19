@@ -67,11 +67,14 @@
                 "sticky": false
               },
               "component": {
-                "name": "divi/select",
+                "name": "divi/tag-input",
                 "type": "field",
                 "props": {
-                  "multiple": true,
-                  "searchable": true
+                  "allowCustomTags": false,
+                  "outputFormat": "simple",
+                  "placeholder": "Search Pages...",
+                  "searchPosition": "dropdown",
+                  "showDropdownIcon": false
                 }
               }
             }
@@ -91,11 +94,14 @@
                 "sticky": false
               },
               "component": {
-                "name": "divi/select",
+                "name": "divi/tag-input",
                 "type": "field",
                 "props": {
-                  "multiple": true,
-                  "searchable": true
+                  "allowCustomTags": false,
+                  "outputFormat": "simple",
+                  "placeholder": "Search Categories...",
+                  "searchPosition": "dropdown",
+                  "showDropdownIcon": false
                 }
               }
             }
@@ -115,11 +121,14 @@
                 "sticky": false
               },
               "component": {
-                "name": "divi/select",
+                "name": "divi/tag-input",
                 "type": "field",
                 "props": {
-                  "multiple": true,
-                  "searchable": true
+                  "allowCustomTags": false,
+                  "outputFormat": "simple",
+                  "placeholder": "Search Users...",
+                  "searchPosition": "dropdown",
+                  "showDropdownIcon": false
                 }
               }
             }
@@ -142,6 +151,7 @@
                 "name": "divi/select",
                 "type": "field",
                 "props": {
+                  "emptyLabel": "Search Users...",
                   "searchable": true
                 }
               }
@@ -165,7 +175,7 @@
                 "name": "divi/select",
                 "type": "field",
                 "props": {
-                  "searchable": true
+                  "emptyLabel": "Select a Review Type..."
                 }
               }
             }
@@ -188,7 +198,7 @@
                 "name": "divi/select",
                 "type": "field",
                 "props": {
-                  "searchable": true
+                  "emptyLabel": "Select Review Terms..."
                 }
               }
             }
@@ -210,7 +220,7 @@
                 "name": "divi/select",
                 "type": "field",
                 "props": {
-                  "searchable": true
+                  "emptyLabel": "Select Pagination..."
                 }
               }
             }

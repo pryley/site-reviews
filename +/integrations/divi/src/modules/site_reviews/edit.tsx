@@ -39,17 +39,20 @@ const ModuleEdit = (props: EditProps): ReactElement => {
 
     const moduleRef = useRef(null);
 
-    const parseAttrs = () => {
+    const parseAttrs = (): Record<string, any> => {
         const attrNames = [
             ...getAttrNamesByGroup(name, 'contentGeneral'),
             ...getAttrNamesByGroup(name, 'contentDisplay'),
             ...getAttrNamesByGroup(name, 'contentHide'),
         ];
-        const results = {};
-        attrNames.forEach(attName => {
-            let key = attName.split('.').pop();
-            // @ts-expect-error
-            results[key] = getAttrByMode(get(attrs, attName));
+        const results: Record<string, any> = {};
+        attrNames.forEach((attName: string) => {
+            const key = attName.split('.').pop()!;
+            let value = getAttrByMode(get(attrs, attName));
+            if (Array.isArray(value) && value.every(obj => obj?.value !== undefined)) {
+                value = value.map(obj => obj.value);
+            }
+            results[key] = value;
         });
         return results;
     }

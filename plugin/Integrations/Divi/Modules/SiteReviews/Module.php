@@ -16,7 +16,7 @@ use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleClassnamesDefaults;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleScriptDataDefaults;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleStylesDefaults;
-use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
 class Module implements DependencyInterface
 {
@@ -114,10 +114,15 @@ class Module implements DependencyInterface
             $block->parsed_block['storeInstance']
         );
         $attributes = [];
-        foreach (($attrs['shortcode'] ?? []) as $key => $value) {
-            if (isset($value['desktop']['value'])) {
-                $attributes[$key] = $value['desktop']['value'];
+        foreach (($attrs['shortcode']['advanced'] ?? []) as $key => $field) {
+            if (!isset($field['desktop']['value'])) {
+                continue;
             }
+            $value = $field['desktop']['value'];
+            if (is_array($value)) {
+                $value = array_map(fn ($item) => $item['value'] ?? $item, $value);
+            }
+            $attributes[$key] = $value;
         }
         return DiviModule::render([
             'attrs' => $attrs,
@@ -147,7 +152,7 @@ class Module implements DependencyInterface
 
     public static function shortcodeClass(): string
     {
-        return SiteReviewShortcode::class;
+        return SiteReviewsShortcode::class;
     }
 
     public static function shortcodeInstance(): ShortcodeContract
