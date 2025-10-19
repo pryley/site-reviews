@@ -122,6 +122,9 @@ class Module implements DependencyInterface
             if (is_array($value)) {
                 $value = array_map(fn ($item) => $item['value'] ?? $item, $value);
             }
+            if (in_array($value, ['on', 'off'])) {
+                $value = 'on' === $value;
+            }
             $attributes[$key] = $value;
         }
         return DiviModule::render([

@@ -300,6 +300,26 @@
                 }
               }
             }
+          },
+          "schema": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentGeneral",
+              "attrName": "shortcode.advanced.schema",
+              "description": "The schema should only be enabled once on your page.",
+              "label": "Enable the Schema?",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/toggle",
+                "type": "field"
+              }
+            }
           }
         }
       }

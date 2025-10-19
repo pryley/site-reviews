@@ -52,6 +52,10 @@ const ModuleEdit = (props: EditProps): ReactElement => {
             if (Array.isArray(value) && value.every(obj => obj?.value !== undefined)) {
                 value = value.map(obj => obj.value);
             }
+            // @ts-expect-error
+            if (['on','off'].includes(value)) {
+                value = 'on' === value ? 1 : 0;
+            }
             results[key] = value;
         });
         return results;
