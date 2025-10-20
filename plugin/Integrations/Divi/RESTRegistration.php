@@ -4,8 +4,6 @@ namespace GeminiLabs\SiteReviews\Integrations\Divi;
 
 use ET\Builder\Framework\DependencyManagement\Interfaces\DependencyInterface;
 use ET\Builder\Framework\Route\RESTRoute;
-use GeminiLabs\SiteReviews\Integrations\Divi\Modules\SiteReview\PostsController;
-use GeminiLabs\SiteReviews\Integrations\Divi\Modules\SiteReview\TypesController;
 
 class RESTRegistration implements DependencyInterface
 {
@@ -25,8 +23,6 @@ class RESTRegistration implements DependencyInterface
                 'callback' => [RESTController::class, 'options'],
                 'permission_callback' => [RESTController::class, 'permission'],
             ]);
-            $router->get('/blog/posts', PostsController::class);
-            $router->get('/blog/types', TypesController::class);
         });
     }
 }

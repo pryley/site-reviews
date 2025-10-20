@@ -9,7 +9,7 @@ import { type ModuleAttrs } from './types';
 import { useCheckboxesField } from '../../hooks/useCheckboxesField';
 import { useFormTokenField } from '../../hooks/useFormTokenField';
 
-const shortcode = 'site_reviews';
+const shortcode = 'site_reviews_summary';
 
 export const SettingsContent = (
     props: Module.Settings.Panel.Props<ModuleAttrs>
@@ -21,14 +21,12 @@ export const SettingsContent = (
     const assignedTerms = Array.from(attrs?.shortcode?.advanced?.assigned_terms?.desktop?.value ?? [] as any).map(obj => obj.value);
     // @ts-expect-error
     const assignedUsers = Array.from(attrs?.shortcode?.advanced?.assigned_users?.desktop?.value ?? [] as any).map(obj => obj.value);
-    const author = [attrs?.shortcode?.advanced?.author?.desktop?.value ?? ""].filter(str => str !== "");
 
     const apField = useFormTokenField(shortcode, 'assigned_posts', assignedPosts);
     const atField = useFormTokenField(shortcode, 'assigned_terms', assignedTerms);
     const auField = useFormTokenField(shortcode, 'assigned_users', assignedUsers);
-    const authorField = useFormTokenField(shortcode, 'author', author);
+    const authorField = useFormTokenField(shortcode, 'author', []);
     const hideField = useCheckboxesField(shortcode, 'hide');
-    const paginationField = useFormTokenField(shortcode, 'pagination', []);
     const termsField = useFormTokenField(shortcode, 'terms', []);
     const typeField = useFormTokenField(shortcode, 'type', []);
 
@@ -50,9 +48,6 @@ export const SettingsContent = (
         } else {
             unset(groupConfiguration, ['contentGeneral', 'component', 'props', 'fields', 'shortcodeAdvancedType']);
         }
-    }
-    if (groupConfiguration?.contentDisplay?.component) {
-        set(groupConfiguration, ['contentDisplay', 'component', 'props', 'fields', 'shortcodeAdvancedPagination', 'component', 'props', 'options'], paginationField.options);
     }
     if (groupConfiguration?.contentHide?.component) {
         set(groupConfiguration, ['contentHide', 'component', 'props', 'fields', 'shortcodeAdvancedHide', 'component', 'props', 'options'], hideField.options);

@@ -33,10 +33,20 @@ export interface ModuleAttrs extends InternalAttrs {
   };
   shortcode?: {
     advanced?: {
-      postId?: FormatBreakpointStateAttr<string>;
+      assigned_posts?: FormatBreakpointStateAttr<string[]>;
+      assigned_terms?: FormatBreakpointStateAttr<string[]>;
+      assigned_users?: FormatBreakpointStateAttr<string[]>;
+      author?: FormatBreakpointStateAttr<string>;
       className?: FormatBreakpointStateAttr<string>;
       hide?: FormatBreakpointStateAttr<string[]>;
       id?: FormatBreakpointStateAttr<string>;
+      labels?: FormatBreakpointStateAttr<string>;
+      rating?: FormatBreakpointStateAttr<number>;
+      rating_field?: FormatBreakpointStateAttr<string>;
+      schema?: FormatBreakpointStateAttr<string>;
+      terms?: FormatBreakpointStateAttr<string>;
+      text?: FormatBreakpointStateAttr<string>;
+      type?: FormatBreakpointStateAttr<string>;
     },
   };
 }

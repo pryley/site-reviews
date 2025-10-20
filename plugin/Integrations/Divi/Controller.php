@@ -141,8 +141,10 @@ class Controller extends AbstractController
         if (!function_exists('et_builder_d5_enabled') || !et_builder_d5_enabled()) {
             return;
         }
+        $dependencyTree->add_dependency(new Modules\SiteReview\Module());
         $dependencyTree->add_dependency(new Modules\SiteReviews\Module());
         $dependencyTree->add_dependency(new Modules\SiteReviewsForm\Module());
+        $dependencyTree->add_dependency(new Modules\SiteReviewsSummary\Module());
         $dependencyTree->add_dependency(new RESTRegistration());
     }
 }

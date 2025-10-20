@@ -3,7 +3,7 @@
     "meta": {
       "adminLabel": {
         "desktop": {
-          "value": "Latest Reviews"
+          "value": "Rating Summary"
         }
       }
     }
@@ -35,11 +35,6 @@
           "value": ""
         }
       },
-      "display": {
-        "desktop": {
-          "value": 10
-        }
-      },
       "hide": {
         "desktop": {
           "value": []
@@ -50,7 +45,7 @@
           "value": ""
         }
       },
-      "pagination": {
+      "labels": {
         "desktop": {
           "value": ""
         }
@@ -60,12 +55,22 @@
           "value": 0
         }
       },
+      "rating_field": {
+        "desktop": {
+          "value": ""
+        }
+      },
       "schema": {
         "desktop": {
           "value": "off"
         }
       },
       "terms": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "text": {
         "desktop": {
           "value": ""
         }

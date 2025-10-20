@@ -18,7 +18,7 @@ import { ModuleStyles } from './module-styles';
 
 import { type EditProps } from './types';
 
-const blockName = 'site-reviews/review';
+const blockName = 'site-reviews/summary';
 
 const ModuleEdit = (props: EditProps): ReactElement => {
     const {
@@ -52,11 +52,6 @@ const ModuleEdit = (props: EditProps): ReactElement => {
             let value = getAttrByMode(get(attrs, attName));
             if (Array.isArray(value) && value.every(obj => obj?.value !== undefined)) {
                 value = value.map(obj => obj.value);
-                // @ts-expect-error
-                if (2 > value.length) {
-                    // @ts-expect-error
-                    value = value[0] ?? '';
-                }
             }
             // @ts-expect-error
             if (['on','off'].includes(value)) {

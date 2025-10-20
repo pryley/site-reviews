@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Divi\Modules\SiteReview;
+namespace GeminiLabs\SiteReviews\Integrations\Divi\Modules\SiteReviewsSummary;
 
 use ET\Builder\Framework\DependencyManagement\Interfaces\DependencyInterface;
 use ET\Builder\FrontEnd\BlockParser\BlockParserStore;
@@ -16,14 +16,14 @@ use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleClassnamesDefaults;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleScriptDataDefaults;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleStylesDefaults;
-use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
 class Module implements DependencyInterface
 {
     public function load(): void
     {
         add_action('init', function () {
-            $modulePath = glsr()->path('assets/divi/modules-json/site_review/');
+            $modulePath = glsr()->path('assets/divi/modules-json/site_reviews_summary/');
             ModuleRegistration::register_module($modulePath, [
                 'render_callback' => [static::class, 'render_callback'],
             ]);
@@ -35,7 +35,7 @@ class Module implements DependencyInterface
      */
     public static function custom_css(): array
     {
-        return \WP_Block_Type_Registry::get_instance()->get_registered('glsr-divi/review')->customCssFields;
+        return \WP_Block_Type_Registry::get_instance()->get_registered('glsr-divi/summary')->customCssFields;
     }
 
     /**
@@ -121,9 +121,6 @@ class Module implements DependencyInterface
             $value = $field['desktop']['value'];
             if (is_array($value)) {
                 $value = array_map(fn ($item) => $item['value'] ?? $item, $value);
-                if (2 > count($value)) {
-                    $value = array_shift($value);
-                }
             }
             if (in_array($value, ['on', 'off'])) {
                 $value = 'on' === $value;
@@ -158,7 +155,7 @@ class Module implements DependencyInterface
 
     public static function shortcodeClass(): string
     {
-        return SiteReviewShortcode::class;
+        return SiteReviewsSummaryShortcode::class;
     }
 
     public static function shortcodeInstance(): ShortcodeContract

@@ -16,7 +16,7 @@ import defaultPrintedStyleAttrs from './module-default-printed-style-attributes.
 import './module.scss';
 import './style.scss';
 
-export const SiteReview: ModuleLibrary.Module.RegisterDefinition<ModuleAttrs> = {
+export const SiteReviewsSummary: ModuleLibrary.Module.RegisterDefinition<ModuleAttrs> = {
     defaultAttrs,
     defaultPrintedStyleAttrs,
     // @ts-expect-error

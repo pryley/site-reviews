@@ -36,7 +36,7 @@ export interface ModuleAttrs extends InternalAttrs {
       assigned_posts?: FormatBreakpointStateAttr<string[]>;
       assigned_terms?: FormatBreakpointStateAttr<string[]>;
       assigned_users?: FormatBreakpointStateAttr<string[]>;
-      class?: FormatBreakpointStateAttr<string>;
+      className?: FormatBreakpointStateAttr<string>;
       hide?: FormatBreakpointStateAttr<string[]>;
       id?: FormatBreakpointStateAttr<string>;
       reviews_id?: FormatBreakpointStateAttr<string>;

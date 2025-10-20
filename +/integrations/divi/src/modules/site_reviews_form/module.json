@@ -57,8 +57,7 @@
             "item": {
               "groupSlug": "contentGeneral",
               "attrName": "shortcode.advanced.assigned_posts",
-              "label": "Assigned Pages",
-              "description": "Limit Reviews by Assigned Pages",
+              "label": "Assign Reviews to Pages",
               "priority": 10,
               "render": true,
               "features": {
@@ -84,8 +83,7 @@
             "item": {
               "groupSlug": "contentGeneral",
               "attrName": "shortcode.advanced.assigned_terms",
-              "label": "Assigned Categories",
-              "description": "Limit Reviews by Assigned Categories",
+              "label": "Assign Reviews to Categories",
               "priority": 10,
               "render": true,
               "features": {
@@ -111,8 +109,7 @@
             "item": {
               "groupSlug": "contentGeneral",
               "attrName": "shortcode.advanced.assigned_users",
-              "label": "Assigned Users",
-              "description": "Limit Reviews by Assigned Users",
+              "label": "Assign Reviews to Users",
               "priority": 10,
               "render": true,
               "features": {
@@ -155,11 +152,11 @@
               }
             }
           },
-          "class": {
+          "className": {
             "groupType": "group-item",
             "item": {
               "groupSlug": "contentAdvanced",
-              "attrName": "shortcode.advanced.class",
+              "attrName": "shortcode.advanced.className",
               "description": "",
               "label": "Class",
               "priority": 10,

@@ -321,11 +321,11 @@
               }
             }
           },
-          "class": {
+          "className": {
             "groupType": "group-item",
             "item": {
               "groupSlug": "contentAdvanced",
-              "attrName": "shortcode.advanced.class",
+              "attrName": "shortcode.advanced.className",
               "description": "",
               "label": "Class",
               "priority": 10,

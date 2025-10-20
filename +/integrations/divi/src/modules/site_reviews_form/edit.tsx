@@ -44,6 +44,7 @@ const ModuleEdit = (props: EditProps): ReactElement => {
             ...getAttrNamesByGroup(name, 'contentGeneral'),
             ...getAttrNamesByGroup(name, 'contentDisplay'),
             ...getAttrNamesByGroup(name, 'contentHide'),
+            ...getAttrNamesByGroup(name, 'contentAdvanced'),
         ];
         const results: Record<string, any> = {};
         attrNames.forEach((attName: string) => {
