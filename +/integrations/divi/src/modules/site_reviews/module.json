@@ -320,6 +320,46 @@
                 "type": "field"
               }
             }
+          },
+          "class": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentAdvanced",
+              "attrName": "shortcode.advanced.class",
+              "description": "",
+              "label": "Class",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/text",
+                "type": "field"
+              }
+            }
+          },
+          "id": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentAdvanced",
+              "attrName": "shortcode.advanced.id",
+              "description": "This should be a unique value.",
+              "label": "Custom ID",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/text",
+                "type": "field"
+              }
+            }
           }
         }
       }
@@ -338,7 +378,7 @@
         "component": {
           "name": "divi/composite",
           "props": {
-            "groupLabel": "General Options"
+            "groupLabel": "General"
           }
         }
       },
@@ -350,7 +390,7 @@
         "component": {
           "name": "divi/composite",
           "props": {
-            "groupLabel": "Display Options"
+            "groupLabel": "Display"
           }
         }
       },
@@ -362,7 +402,19 @@
         "component": {
           "name": "divi/composite",
           "props": {
-            "groupLabel": "Hide Options"
+            "groupLabel": "Hide"
+          }
+        }
+      },
+      "contentAdvanced": {
+        "panel": "content",
+        "priority": 10,
+        "render": true,
+        "groupName": "contentAdvanced",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Advanced"
           }
         }
       }

@@ -16,11 +16,11 @@ export const SettingsContent = (
 ): ReactElement => {
     const { attrs, groupConfiguration } = props;
     // @ts-expect-error
-    const assignedPosts = Array.from(attrs.shortcode?.advanced?.assigned_posts?.desktop?.value ?? [] as any).map(obj => obj.value);
+    const assignedPosts = Array.from(attrs?.shortcode?.advanced?.assigned_posts?.desktop?.value ?? [] as any).map(obj => obj.value);
     // @ts-expect-error
-    const assignedTerms = Array.from(attrs.shortcode?.advanced?.assigned_terms?.desktop?.value ?? [] as any).map(obj => obj.value);
+    const assignedTerms = Array.from(attrs?.shortcode?.advanced?.assigned_terms?.desktop?.value ?? [] as any).map(obj => obj.value);
     // @ts-expect-error
-    const assignedUsers = Array.from(attrs.shortcode?.advanced?.assigned_users?.desktop?.value ?? [] as any).map(obj => obj.value);
+    const assignedUsers = Array.from(attrs?.shortcode?.advanced?.assigned_users?.desktop?.value ?? [] as any).map(obj => obj.value);
 
     const apField = useFormTokenField(shortcode, 'assigned_posts', assignedPosts);
     const atField = useFormTokenField(shortcode, 'assigned_terms', assignedTerms);

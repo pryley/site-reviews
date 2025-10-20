@@ -104,6 +104,11 @@ const ModuleEdit = (props: EditProps): ReactElement => {
         );
     }
 
+    useEffect(() => {
+        // @ts-expect-error
+        window?.GLSR_init && (window.GLSR_init(`block:${blockName}`))
+    }, [props]);
+
     return (
         <ModuleContainer
             attrs={attrs}
