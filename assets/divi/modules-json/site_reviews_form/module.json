@@ -1,9 +1,9 @@
 {
-  "name": "glsr-divi/reviews",
+  "name": "glsr-divi/form",
   "d4Shortcode": "",
-  "title": "Latest Reviews",
-  "titles": "Latest Reviews",
-  "moduleIcon": "site-reviews/reviews",
+  "title": "Review Form",
+  "titles": "Review Forms",
+  "moduleIcon": "site-reviews/form",
   "folder": "site-reviews",
   "category": "module",
   "videos": [
@@ -133,152 +133,6 @@
               }
             }
           },
-          "author": {
-            "groupType": "group-item",
-            "item": {
-              "groupSlug": "contentGeneral",
-              "attrName": "shortcode.advanced.author",
-              "label": "Review Author",
-              "description": "Limit Reviews by Review Author",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/select",
-                "type": "field",
-                "props": {
-                  "emptyLabel": "Search Users...",
-                  "searchable": true
-                }
-              }
-            }
-          },
-          "type": {
-            "groupType": "group-item",
-            "item": {
-              "groupSlug": "contentGeneral",
-              "attrName": "shortcode.advanced.type",
-              "label": "Review Type",
-              "description": "Limit Reviews by Review Type",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/select",
-                "type": "field",
-                "props": {
-                  "emptyLabel": "Select a Review Type..."
-                }
-              }
-            }
-          },
-          "terms": {
-            "groupType": "group-item",
-            "item": {
-              "groupSlug": "contentGeneral",
-              "attrName": "shortcode.advanced.terms",
-              "label": "Terms Accepted",
-              "description": "Limit Reviews by Accepted Terms",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/select",
-                "type": "field",
-                "props": {
-                  "emptyLabel": "Select Review Terms..."
-                }
-              }
-            }
-          },
-          "pagination": {
-            "groupType": "group-item",
-            "item": {
-              "groupSlug": "contentDisplay",
-              "attrName": "shortcode.advanced.pagination",
-              "label": "Pagination Type",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/select",
-                "type": "field",
-                "props": {
-                  "emptyLabel": "Select Pagination..."
-                }
-              }
-            }
-          },
-          "display": {
-            "groupType": "group-item",
-            "item": {
-              "groupSlug": "contentDisplay",
-              "attrName": "shortcode.advanced.display",
-              "label": "Reviews Per Page",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/range",
-                "type": "field",
-                "props": {
-                  "defaultUnit": "",
-                  "defaultValue": 10,
-                  "max": 50,
-                  "maxLimit": 50,
-                  "minLimit": 1,
-                  "min": 1
-                }
-              }
-            }
-          },
-          "rating": {
-            "groupType": "group-item",
-            "item": {
-              "groupSlug": "contentDisplay",
-              "attrName": "shortcode.advanced.rating",
-              "label": "Minimum Rating",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/range",
-                "type": "field",
-                "props": {
-                  "defaultUnit": "",
-                  "defaultValue": 0,
-                  "max": 5,
-                  "maxLimit": 5,
-                  "minLimit": 0,
-                  "min": 0
-                }
-              }
-            }
-          },
           "hide": {
             "groupType": "group-item",
             "item": {
@@ -298,26 +152,6 @@
                 "props": {
                   "options": []
                 }
-              }
-            }
-          },
-          "schema": {
-            "groupType": "group-item",
-            "item": {
-              "groupSlug": "contentGeneral",
-              "attrName": "shortcode.advanced.schema",
-              "description": "The schema should only be enabled once on your page.",
-              "label": "Enable the Schema?",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/toggle",
-                "type": "field"
               }
             }
           },
@@ -360,6 +194,50 @@
                 "type": "field"
               }
             }
+          },
+          "reviews_id": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentAdvanced",
+              "attrName": "shortcode.advanced.reviews_id",
+              "label": "Latest Reviews ID",
+              "description": "Enter the Custom ID of a Latest Reviews block where the review should be displayed after submission.",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/text",
+                "type": "field",
+                "props": {
+                }
+              }
+            }
+          },
+          "summary_id": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentAdvanced",
+              "attrName": "shortcode.advanced.summary_id",
+              "label": "Rating Summary ID",
+              "description": "Enter the Custom ID of a Rating Summary block where the rating values should be updated after submission.",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/text",
+                "type": "field",
+                "props": {
+                }
+              }
+            }
           }
         }
       }
@@ -379,18 +257,6 @@
           "name": "divi/composite",
           "props": {
             "groupLabel": "General"
-          }
-        }
-      },
-      "contentDisplay": {
-        "panel": "content",
-        "priority": 10,
-        "render": true,
-        "groupName": "contentDisplay",
-        "component": {
-          "name": "divi/composite",
-          "props": {
-            "groupLabel": "Display"
           }
         }
       },
