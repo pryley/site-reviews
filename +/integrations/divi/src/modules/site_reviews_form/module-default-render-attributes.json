@@ -1,0 +1,55 @@
+{
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Review Form"
+        }
+      }
+    }
+  },
+  "shortcode": {
+    "advanced": {
+      "assigned_posts": {
+        "desktop": {
+          "value": []
+        }
+      },
+      "assigned_terms": {
+        "desktop": {
+          "value": []
+        }
+      },
+      "assigned_users": {
+        "desktop": {
+          "value": []
+        }
+      },
+      "class": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "hide": {
+        "desktop": {
+          "value": []
+        }
+      },
+      "id": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "reviews_id": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "summary_id": {
+        "desktop": {
+          "value": ""
+        }
+      }
+    }
+  }
+}
