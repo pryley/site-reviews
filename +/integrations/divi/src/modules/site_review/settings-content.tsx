@@ -28,6 +28,16 @@ export const SettingsContent = (
         set(groupConfiguration, ['contentHide', 'component', 'props', 'fields', 'shortcodeAdvancedHide', 'component', 'props', 'options'], hideField.options);
     }
 
+    for (let key in groupConfiguration) {
+        if (!key.startsWith('content')) {
+            continue;
+        }
+        // @ts-expect-error
+        if (!groupConfiguration[key]?.component?.props?.fields) {
+            unset(groupConfiguration, [key]);
+        }
+    }
+
     return (
         <ModuleGroups
             groups={groupConfiguration}

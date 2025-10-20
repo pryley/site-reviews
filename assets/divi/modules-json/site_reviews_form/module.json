@@ -257,6 +257,18 @@
           }
         }
       },
+      "contentDisplay": {
+        "panel": "content",
+        "priority": 10,
+        "render": true,
+        "groupName": "contentDisplay",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Display"
+          }
+        }
+      },
       "contentHide": {
         "panel": "content",
         "priority": 10,
