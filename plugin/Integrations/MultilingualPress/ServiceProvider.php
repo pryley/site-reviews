@@ -6,6 +6,8 @@ use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers\Controller
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers\RelationController;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers\TrasherController;
 use Inpsyde\MultilingualPress\Attachment\Copier;
+use Inpsyde\MultilingualPress\Editor\Notices\ExistingAttachmentsNotice;
+use Inpsyde\MultilingualPress\Framework\Filesystem;
 use Inpsyde\MultilingualPress\Framework\Module\Module;
 use Inpsyde\MultilingualPress\Framework\Module\ModuleManager;
 use Inpsyde\MultilingualPress\Framework\Module\ModuleServiceProvider;
@@ -22,7 +24,6 @@ class ServiceProvider implements ModuleServiceProvider
      */
     public function activateModule(Container $container): void // @phpstan-ignore-line class.notFound
     {
-        glsr()->action('multilingualpress/activate', $container);
         glsr(Hooks::class)->hook(Controller::class, [
             ['enforceEntitySupport', 'multilingualpress.update_plugin_settings', 20],
             ['filterAdminInlineCss', 'site-reviews/enqueue/admin/inline-styles'],
@@ -55,6 +56,7 @@ class ServiceProvider implements ModuleServiceProvider
             ['syncTrash', 'trashed_post'],
             ['removeDefaultTrasher', 'current_screen'],
         ]);
+        glsr()->action('multilingualpress/activate', $container);
     }
 
     /**
@@ -62,16 +64,53 @@ class ServiceProvider implements ModuleServiceProvider
      */
     public function register(Container $container): void
     {
-        glsr()->action('multilingualpress/register', $container);
         if (!$container->get(ModuleManager::class)->isModuleActive(glsr()->id)) {
             $this->removeSupportedEntities();
         }
-        // $container->addService(
-        //     ImageCopier::class,
-        //     static function () use ($container): ImageCopier {
-        //         return new ImageCopier($container[Filesystem::class]);
-        //     }
-        // );
+        $container->share(ImageCopier::class, static function (Container $container): ImageCopier {
+            return new ImageCopier(
+                $container->get(Filesystem::class),
+                $container->get(ExistingAttachmentsNotice::class)
+            );
+        });
+        // very hacky class override...
+        $copier = $container->get(Copier::class);
+        $property = (new \ReflectionClass($container))->getProperty('values');
+        $property->setAccessible(true);
+        $values = $property->getValue($container);
+        $values[Copier::class] = new class($container, $copier) extends Copier {
+            private Container $container;
+            private Copier $copier;
+
+            public function __construct(Container $container, Copier $copier)
+            {
+                $this->container = $container;
+                $this->copier = $copier;
+                parent::__construct(
+                    $container->get('wpdb'),
+                    $container->get(Filesystem::class),
+                    $container->get(ExistingAttachmentsNotice::class)
+                );
+            }
+
+            public function copyById(int $sourceSiteId, int $remoteSiteId, array $sourceAttachmentIds): array
+            {
+                $attachmentIds = [];
+                $reviewAttachmentIds = array_filter($sourceAttachmentIds,
+                    fn ($attachmentId) => str_contains(get_attached_file($attachmentId, true), 'site-reviews/')
+                );
+                if (!empty($reviewAttachmentIds)) {
+                    $attachmentIds = $this->container->get(ImageCopier::class)->copyById($sourceSiteId, $remoteSiteId, $reviewAttachmentIds);
+                }
+                if ($otherAttachmentIds = array_diff($sourceAttachmentIds, $reviewAttachmentIds)) {
+                    $copiedAttachmentIds = $this->copier->copyById($sourceSiteId, $remoteSiteId, $otherAttachmentIds);
+                    return array_merge($attachmentIds, $copiedAttachmentIds);
+                }
+                return $attachmentIds;
+            }
+        };
+        $property->setValue($container, $values);
+        glsr()->action('multilingualpress/register', $container);
     }
 
     /**
