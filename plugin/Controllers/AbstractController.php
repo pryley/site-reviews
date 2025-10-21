@@ -54,7 +54,7 @@ abstract class AbstractController implements ControllerContract
         }
         $getPostType = (string) filter_input(INPUT_GET, 'post_type');
         return str_starts_with($getPostType, glsr()->post_type)
-            || str_starts_with($get_post_type, glsr()->post_type);
+            || str_starts_with(get_post_type(), glsr()->post_type);
     }
 
     protected function isAdminScreen(): bool
