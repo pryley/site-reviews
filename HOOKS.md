@@ -20,6 +20,8 @@
     site-reviews/get/reviews                                    (array $reviews, array $args)
     site-reviews/migration/end                                  (array $migrations)
     site-reviews/migration/start                                (array $migrations)
+    site-reviews/multilingualpress/activate                     (\Inpsyde\MultilingualPress\Framework\Service\Container $container)
+    site-reviews/multilingualpress/register                     (\Inpsyde\MultilingualPress\Framework\Service\Container $container)
     site-reviews/personal-data/erase                            (Review $review, bool $retainReview)
     site-reviews/ratings/count/all                              ()
     site-reviews/ratings/count/post                             (int $postId, Arguments $counts)
