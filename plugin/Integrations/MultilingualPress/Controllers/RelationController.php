@@ -98,8 +98,8 @@ class RelationController extends AbstractController
         if ($this->isReviewEditor()) {
             return; // review status was updated on the wp_admin side
         }
-        if (!empty(array_diff([$status, $prevStatus], ['pending', 'publish']))) {
-            return; // only sync the pending|publish (unapproved|approved) statuses
+        if (!empty(array_diff([$status, $prevStatus], ['draft', 'pending', 'publish']))) {
+            return; // reviews transition to draft when untrashed...
         }
         $copier = new ReviewCopier($review->ID, get_current_blog_id());
         $copier->run(function ($context) use ($prevStatus, $status) {
