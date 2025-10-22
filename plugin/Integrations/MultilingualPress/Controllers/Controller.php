@@ -50,8 +50,9 @@ class Controller extends AbstractController
             $custom[] = '.mlp-translation-metabox[data-post-type^="site-review"]{margin:9px 0 0}';
         }
         if ($this->isListTable()) {
-            $custom[] = 'td.column-translations{align-items:center;display:flex;flex-wrap:wrap;gap:8px}';
+            $custom[] = 'td.column-translations{align-items:center;display:flex;flex-wrap:wrap;gap:1em}';
             $custom[] = 'td.column-translations .mlp-table-list-relations-divide{display:none!important}';
+            $custom[] = 'td.column-translations .mlp-site-flag-icon{margin-right:0}';
         }
         return $css.implode('', $custom);
     }
