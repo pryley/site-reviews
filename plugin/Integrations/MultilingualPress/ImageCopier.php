@@ -7,13 +7,10 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use Inpsyde\MultilingualPress\Attachment\Copier;
 use Inpsyde\MultilingualPress\Editor\Notices\ExistingAttachmentsNotice;
 use Inpsyde\MultilingualPress\Framework\Filesystem;
 use Inpsyde\MultilingualPress\Framework\SwitchSiteTrait;
 use Inpsyde\MultilingualPress\TranslationUi\Post\RelationshipContext;
-
-use function Inpsyde\MultilingualPress\resolve;
 
 class ImageCopier
 {
@@ -25,7 +22,7 @@ class ImageCopier
 
     public function __construct(
         Filesystem $filesystem,
-        ExistingAttachmentsNotice $existingAttachmentsNotice,
+        ExistingAttachmentsNotice $existingAttachmentsNotice
     ) {
         $this->existingAttachmentsNotice = $existingAttachmentsNotice;
         $this->filesystem = $filesystem;
@@ -44,37 +41,20 @@ class ImageCopier
      */
     public function copyById(int $sourceSiteId, int $remoteSiteId, array $sourceAttachmentIds): array
     {
-        $attachmentIds = [];
-        $reviewAttachmentIds = [];
         $this->context = new RelationshipContext([
             RelationshipContext::REMOTE_SITE_ID => $remoteSiteId,
             RelationshipContext::SOURCE_SITE_ID => $sourceSiteId,
         ]);
-        if (class_exists('GeminiLabs\SiteReviews\Addon\Images\Uploader')) {
-            $reviewAttachmentIds = array_filter($sourceAttachmentIds,
-                fn ($attachmentId) => str_contains(get_attached_file($attachmentId, true), 'site-reviews/')
-            );
-            if (!empty($reviewAttachmentIds)) {
-                glsr(Uploader::class)->setUploadPath(glsr()->id);
-                glsr(Uploader::class)->setIntermediateImageSizes();
-                $attachmentIds = $this->copyAttachmentIds($reviewAttachmentIds);
-                glsr(Uploader::class)->resetIntermediateImageSizes();
-                glsr(Uploader::class)->resetUploadPath();
-            }
-        }
-        if ($otherAttachmentIds = array_diff($sourceAttachmentIds, $reviewAttachmentIds)) {
-            $copiedAttachmentIds = $this->copyAttachmentIds($otherAttachmentIds);
-            return array_merge($attachmentIds, $copiedAttachmentIds);
-        }
-        return $attachmentIds;
+        return $this->copyAttachmentsFromSource($sourceAttachmentIds);
     }
 
     /**
-     * This is used by the MLP WooCommerce module so we don't need to override it.
+     * Copy attachments from source site to the give remote site using a list of attachment ids.
      */
-    public function copyByAttachmentsData(int $sourceSiteId, int $remoteSiteId, array $sourceAttachmentsData): array
+    public function copyByIdWithContext(RelationshipContext $context, array $sourceAttachmentIds): array
     {
-        return resolve(Copier::class)->copyByAttachmentsData($sourceSiteId, $remoteSiteId, $sourceAttachmentsData);
+        $this->context = $context;
+        return $this->copyAttachmentsFromSource($sourceAttachmentIds);
     }
 
     /**
@@ -99,12 +79,35 @@ class ImageCopier
             : [];
     }
 
+    protected function copyAttachmentsFromSource(array $sourceAttachmentIds): array
+    {
+        $attachmentIds = [];
+        $reviewAttachmentIds = [];
+        if (class_exists('GeminiLabs\SiteReviews\Addon\Images\Uploader')) {
+            $reviewAttachmentIds = array_filter($sourceAttachmentIds,
+                fn ($attachmentId) => str_contains(get_attached_file($attachmentId, true), 'site-reviews/')
+            );
+            if (!empty($reviewAttachmentIds)) {
+                glsr(Uploader::class)->setUploadPath(glsr()->id);
+                glsr(Uploader::class)->setIntermediateImageSizes();
+                $attachmentIds = $this->copyAttachmentIds($reviewAttachmentIds);
+                glsr(Uploader::class)->resetIntermediateImageSizes();
+                glsr(Uploader::class)->resetUploadPath();
+            }
+        }
+        if ($otherAttachmentIds = array_diff($sourceAttachmentIds, $reviewAttachmentIds)) {
+            $copiedAttachmentIds = $this->copyAttachmentIds($otherAttachmentIds);
+            return array_merge($attachmentIds, $copiedAttachmentIds);
+        }
+        return $attachmentIds;
+    }
+
     /**
      * Copy the attachment meta from the source give post to the remote attachment.
      */
     protected function copyMetaFromSourceAttachment(
         AttachmentData $sourceAttachmentData,
-        int $remoteAttachmentId,
+        int $remoteAttachmentId
     ): void {
         foreach ($sourceAttachmentData->meta() as $attachmentKey => $sourceAttachmentMeta) {
             update_post_meta($remoteAttachmentId, $attachmentKey, $sourceAttachmentMeta);
@@ -116,7 +119,7 @@ class ImageCopier
      */
     protected function copySizesFromSourceAttachment(
         AttachmentData $sourceAttachmentData,
-        int $remoteAttachmentId,
+        int $remoteAttachmentId
     ): void {
         $remoteUploadPath = wp_upload_dir()['path'] ?? '';
         $sourceUploadPath = dirname($sourceAttachmentData->filePath());
@@ -175,8 +178,10 @@ class ImageCopier
             $sourceAttachmentPath = $sourceAttachmentData->filePath();
             $sourceAttachmentBasename = wp_basename($sourceAttachmentPath);
             if ($existingAttachmentId = $this->existingAttachmentId($sourceAttachmentData->relativePath())) {
-                $remoteAttachments[] = $existingAttachmentId;
-                $this->existingAttachmentsNotice->addAttachment($sourceAttachmentData->post()->ID, $this->context->remoteSiteId());
+                $updatedId = $this->updateAttachment($sourceAttachmentData, $existingAttachmentId);
+                if ($updatedId) {
+                    $remoteAttachments[] = $updatedId;
+                }
                 continue;
             }
             $remoteAttachmentRealPath = "{$uploadPath}/{$sourceAttachmentBasename}";
@@ -204,7 +209,7 @@ class ImageCopier
     protected function createAttachmentPostByPath(
         AttachmentData $sourceAttachmentData,
         string $remoteAttachmentRealPath,
-        string $remoteAttachmentUrl,
+        string $remoteAttachmentUrl
     ): int {
         $filetype = wp_check_filetype($remoteAttachmentRealPath);
         $sourceAttachment = $sourceAttachmentData->post();
@@ -317,5 +322,34 @@ class ImageCopier
             );
         }
         return $sourceAttachments;
+    }
+
+    /**
+     * Update the remote attachment post meta data with data provided by the given source attachment.
+     */
+    protected function updateAttachment(
+        AttachmentData $sourceAttachmentData,
+        int $remoteAttachmentId
+    ): int {
+        $data = $sourceAttachmentData->post()->to_array();
+        $data['ID'] = $remoteAttachmentId;
+        $data['post_parent'] = $this->context->remotePostId(); // attach to the remote post
+        $attachmentId = wp_update_post($data, true);
+        if (is_wp_error($attachmentId)) {
+            $this->existingAttachmentsNotice->addAttachment(
+                $sourceAttachmentData->post()->ID,
+                $this->context->remoteSiteId()
+            );
+            return 0;
+        }
+        $this->copyMetaFromSourceAttachment(
+            $sourceAttachmentData,
+            $remoteAttachmentId
+        );
+        $this->copySizesFromSourceAttachment(
+            $sourceAttachmentData,
+            $remoteAttachmentId
+        );
+        return $attachmentId;
     }
 }

@@ -74,11 +74,35 @@ class ServiceProvider implements ModuleServiceProvider
             );
         });
         // very hacky class override...
-        $copier = $container->get(Copier::class);
         $property = (new \ReflectionClass($container))->getProperty('values');
         $property->setAccessible(true);
         $values = $property->getValue($container);
-        $values[Copier::class] = new class($container, $copier) extends Copier {
+        $values[Copier::class] = $this->copierOverride($container);
+        $property->setValue($container, $values);
+        glsr()->action('multilingualpress/register', $container);
+    }
+
+    /**
+     * Register the module with the module manager.
+     *
+     * @throws \Inpsyde\MultilingualPress\Framework\Module\Exception\ModuleAlreadyRegistered
+     */
+    public function registerModule(ModuleManager $moduleManager): bool
+    {
+        return $moduleManager->register(
+            new Module(glsr()->id, [
+                'description' => _x('Enable Site Reviews Support for MultilingualPress.', 'admin-text', 'site-reviews'),
+                'name' => glsr()->name,
+                'active' => true,
+                'disabled' => false,
+            ])
+        );
+    }
+
+    protected function copierOverride(Container $container): Copier
+    {
+        $copier = $container->get(Copier::class);
+        return new class($container, $copier) extends Copier {
             private Container $container;
             private Copier $copier;
 
@@ -109,25 +133,6 @@ class ServiceProvider implements ModuleServiceProvider
                 return $attachmentIds;
             }
         };
-        $property->setValue($container, $values);
-        glsr()->action('multilingualpress/register', $container);
-    }
-
-    /**
-     * Register the module with the module manager.
-     *
-     * @throws \Inpsyde\MultilingualPress\Framework\Module\Exception\ModuleAlreadyRegistered
-     */
-    public function registerModule(ModuleManager $moduleManager): bool
-    {
-        return $moduleManager->register(
-            new Module(glsr()->id, [
-                'description' => _x('Enable Site Reviews Support for MultilingualPress.', 'admin-text', 'site-reviews'),
-                'name' => glsr()->name,
-                'active' => true,
-                'disabled' => false,
-            ])
-        );
     }
 
     protected function removeSupportedEntities(): void
