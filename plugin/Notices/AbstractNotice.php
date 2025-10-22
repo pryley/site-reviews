@@ -2,56 +2,80 @@
 
 namespace GeminiLabs\SiteReviews\Notices;
 
-use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Migrate;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 abstract class AbstractNotice
 {
-    public const USER_META_KEY = '_glsr_notices';
+    public const USER_META_KEY = '_glsr_dismissed_notices';
 
-    public $key;
+    protected string $key;
+    protected int $priority = 10;
+    protected string $type = ''; // add a supported type here to override the default type
 
     public function __construct()
     {
+        $this->normalizeType();
         $this->key = Str::dashCase(
             Str::removeSuffix((new \ReflectionClass($this))->getShortName(), 'Notice')
         );
-        if (!$this->canRender()) {
+        if (!$this->canLoad()) {
             return;
         }
-        if ($this->isMonitored()) {
-            glsr()->append('notices', $this->key);
-        }
-        if ($this->isInFooter()) {
-            add_action('in_admin_footer', [$this, 'render']);
-        } else {
-            add_action('in_admin_header', [$this, 'render']);
-        }
+        glsr()->append('notices', [
+            'class' => get_class($this),
+            'monitored' => $this->isMonitored(),
+            'rendered' => false,
+            'type' => str_starts_with('notice', $this->type) ? 'notice' : $this->type,
+        ], $this->key);
+        add_action('admin_notices', [$this, 'render'], $this->priority);
     }
 
-    public function dismiss(): void
+    public function app(): PluginContract
     {
-        if ($this->isDismissible()) {
-            $userId = get_current_user_id();
-            $meta = Arr::consolidate(get_user_meta($userId, static::USER_META_KEY, true));
-            $meta = array_filter(wp_parse_args($meta, []));
-            $meta[$this->key] = $this->version();
-            update_user_meta($userId, static::USER_META_KEY, $meta);
+        return glsr();
+    }
+
+    public function dismiss(array $args = []): void
+    {
+        if (!$this->isMonitored()) {
+            return; // only track notices that are monitored
         }
+        $userId = get_current_user_id();
+        $dismissed = Arr::consolidate(get_user_meta($userId, static::USER_META_KEY, true));
+        $dismissed[$this->key] = wp_parse_args($args, [
+            'timestamp' => current_time('timestamp'),
+            'version' => $this->deferVersion(),
+        ]);
+        update_user_meta($userId, static::USER_META_KEY, $dismissed);
+    }
+
+    public function path(): string
+    {
+        return "partials/notices/{$this->key}";
     }
 
     public function render(): void
     {
-        $notices = glsr()->retrieveAs('array', 'notices');
-        if (!$this->isIntroverted() || ($this->isIntroverted() && empty($notices))) { // @phpstan-ignore-line
-            glsr()->render("partials/notices/{$this->key}", $this->data());
+        if (!$this->canRender()) {
+            return;
         }
+        $notice = $this->app()->build($this->path(), $this->data());
+        if ('popup' === $this->type) {
+            $notice = glsr(Builder::class)->div($notice);
+        }
+        echo glsr(Builder::class)->div([
+            'class' => $this->classAttr(),
+            'data-notice' => get_class($this),
+            'text' => $notice,
+        ]);
     }
 
-    protected function canRender(): bool
+    protected function canLoad(): bool
     {
         if (!$this->hasPermission()) {
             return false;
@@ -59,10 +83,55 @@ abstract class AbstractNotice
         if (!$this->isNoticeScreen()) {
             return false;
         }
-        if ($this->isDismissed()) {
+        if ($this->isDeferred()) {
             return false;
         }
         return true;
+    }
+
+    protected function canRender(): bool
+    {
+        $notices = glsr()->retrieveAs('array', 'notices');
+        if ($this->isStandalone()) {
+            $filtered = array_filter($notices, fn ($notice) => 'notice' === ($notice['type'] ?? ''));
+            return 1 === count($filtered);
+        }
+        foreach (['banner', 'popup'] as $type) {
+            if ($type !== $this->type) {
+                continue;
+            }
+            $filtered = array_filter($notices, function ($notice) {
+                if ($this->type !== ($notice['type'] ?? '')) {
+                    return false;
+                }
+                return $notice['rendered'] ?? false;
+            });
+            if (!empty($filtered)) {
+                return false;
+            }
+            $notices[$this->key]['rendered'] = true;
+            glsr()->store('notices', $notices);
+        }
+        return true;
+    }
+
+    protected function classAttr(): string
+    {
+        $classAttr = [
+            'glsr-notice',
+        ];
+        if ($this->isDismissible()) {
+            $classAttr[] = 'is-dismissible';
+        }
+        if ('banner' === $this->type) {
+            $classAttr[] = "glsr-notice-banner";
+        } elseif ('popup' === $this->type) {
+            $classAttr[] = 'notice glsr-notice-popup';
+        } else {
+            $classAttr[] = "notice {$this->type}";
+        }
+        $classAttr = implode(' ', $classAttr);
+        return glsr(Sanitizer::class)->sanitizeAttrClass($classAttr);
     }
 
     protected function data(): array
@@ -70,12 +139,14 @@ abstract class AbstractNotice
         return [];
     }
 
-    protected function futureTime(): int
+    protected function deferInterval(): int
     {
-        $time = glsr(Migrate::class)->isMigrationNeeded()
-            ? time() // now
-            : glsr(Migrate::class)->lastRun();
-        return $time + WEEK_IN_SECONDS;
+        return 0;
+    }
+
+    protected function deferVersion(): string
+    {
+        return '';
     }
 
     protected function hasPermission(): bool
@@ -83,12 +154,28 @@ abstract class AbstractNotice
         return glsr()->hasPermission('notices', $this->key);
     }
 
-    protected function isDismissed(): bool
+    protected function isDeferred(): bool
     {
-        if (!$this->isDismissible()) {
+        if (!$this->isMonitored()) {
             return false;
         }
-        return !Helper::isGreaterThan($this->version(), $this->storedVersion());
+        $dismissed = Arr::consolidate(get_user_meta(get_current_user_id(), static::USER_META_KEY, true));
+        if (empty($dismissed[$this->key])) {
+            return false;
+        }
+        if ($version = glsr(Sanitizer::class)->sanitizeVersion($dismissed[$this->key]['version'] ?? '')) {
+            if (Helper::isGreaterThan($this->deferVersion(), $version)) {
+                return false;
+            }
+        }
+        if ($timestamp = glsr(Sanitizer::class)->sanitizeTimestamp($dismissed[$this->key]['timestamp'] ?? '')) {
+            $deferInterval = $this->deferInterval();
+            $deferredTimestamp = (int) $timestamp + $deferInterval;
+            if (!empty($deferInterval) && current_time('timestamp') > $deferredTimestamp) {
+                return false;
+            }
+        }
+        return true;
     }
 
     protected function isDismissible(): bool
@@ -96,34 +183,49 @@ abstract class AbstractNotice
         return true;
     }
 
-    protected function isInFooter(): bool
-    {
-        return false;
-    }
-
-    protected function isIntroverted(): bool
-    {
-        return false;
-    }
-
     protected function isMonitored(): bool
     {
-        return true;
+        return false;
     }
 
     protected function isNoticeScreen(): bool
     {
-        return str_starts_with(glsr_current_screen()->post_type, glsr()->post_type);
+        $screen = glsr_current_screen();
+        if (!str_starts_with($screen->post_type, glsr()->post_type)) {
+            return false;
+        }
+        if ('popup' === $this->type) {
+            if ('post' === $screen->base) {
+                return false;
+            }
+            if (str_ends_with($screen->base, '-premium')) {
+                return false;
+            }
+            if (!glsr()->filterBool('flyoutmenu/enabled', true)) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    protected function storedVersion(): string
+    protected function isStandalone(): bool
     {
-        $meta = get_user_meta(get_current_user_id(), static::USER_META_KEY, true);
-        return Arr::getAs('string', $meta, $this->key, '0');
+        return false;
     }
 
-    protected function version(): string
+    protected function normalizeType(): void
     {
-        return '0';
+        $types = [
+            'banner',
+            'notice',
+            'notice-error',
+            'notice-info',
+            'notice-success',
+            'notice-warning',
+            'popup',
+        ];
+        if (!in_array($this->type, $types)) {
+            $this->type = 'notice';
+        }
     }
 }

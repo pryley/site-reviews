@@ -12,6 +12,6 @@ class SanitizeTimestamp extends StringSanitizer
         if (glsr(Date::class)->isTimestamp($timestamp)) {
             return $timestamp;
         }
-        return '';
+        return ''; // this is why it needs to be sanitized as a string!
     }
 }

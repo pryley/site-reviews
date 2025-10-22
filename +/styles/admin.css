@@ -6,6 +6,7 @@
 @import "admin/edit-review";
 @import "admin/filters";
 @import "admin/flyoutmenu";
+@import "admin/forms";
 @import "admin/mce-shortcodes";
 @import "admin/metabox";
 @import "admin/multibox";
@@ -53,8 +54,8 @@
   margin: 0 !important;
 }
 
-a[data-expand]:not(.components-button) {
-  background: rgba(0,0,0,.07);
+a[data-expand]:not(.components-button):not(.glsr-notice *) {
+  background-color: rgba(0,0,0,.07);
   font-family: "Fira Code", Consolas, Monaco, monospace;
   hyphens: none;
   margin: 0 1px;

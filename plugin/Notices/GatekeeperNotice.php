@@ -11,32 +11,14 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class GatekeeperNotice extends AbstractNotice
 {
-    public $errors = [];
+    protected array $errors = [];
+    protected string $type = 'notice-error';
 
-    public function render(): void
+    protected function canLoad(): bool
     {
-        if ($errors = $this->errors([
-            Gatekeeper::ERROR_NOT_ACTIVATED,
-            Gatekeeper::ERROR_NOT_INSTALLED,
-            Gatekeeper::ERROR_NOT_SUPPORTED,
-        ])) {
-            glsr()->render('partials/notices/gatekeeper-external', [
-                'actions' => $this->pluginActions($errors),
-                'errors' => $errors,
-                'links' => $this->pluginLinks($errors),
-            ]);
+        if (!parent::canLoad()) {
+            return false;
         }
-        if ($errors = $this->errors([Gatekeeper::ERROR_NOT_TESTED])) {
-            glsr()->render('partials/notices/gatekeeper-internal', [
-                'actions' => $this->pluginActions($errors),
-                'errors' => $errors,
-                'links' => $this->pluginLinks($errors),
-            ]);
-        }
-    }
-
-    protected function canRender(): bool
-    {
         $transient = glsr()->prefix.'gatekeeper';
         $errors = get_transient($transient);
         if (!is_array($errors)) {
@@ -45,7 +27,42 @@ class GatekeeperNotice extends AbstractNotice
         }
         $this->errors = $errors;
         delete_transient($transient);
-        return parent::canRender();
+        return true;
+    }
+
+    protected function data(): array
+    {
+        $externalErrors = $this->errors([
+            Gatekeeper::ERROR_NOT_ACTIVATED,
+            Gatekeeper::ERROR_NOT_INSTALLED,
+            Gatekeeper::ERROR_NOT_SUPPORTED,
+        ]);
+        $internalErrors = $this->errors([Gatekeeper::ERROR_NOT_TESTED]);
+        $name = sprintf('<strong>%s</strong>', glsr()->name);
+        if (!empty($externalErrors)) {
+            $message = _nx(
+                '%s requires the latest version of %s to enable the integration.',
+                '%s requires the latest version of the following plugins to enable integration: %s',
+                count($externalErrors),
+                'admin-text',
+                'site-reviews'
+            );
+            return [
+                'actions' => $this->pluginActions($externalErrors),
+                'message' => sprintf($message, $name, $this->pluginLinks($externalErrors)),
+            ];
+        }
+        $message = _nx(
+            '%s needs an update to work with %s.',
+            '%s needs an update to work with the following plugins: %s',
+            count($internalErrors),
+            'admin-text',
+            'site-reviews'
+        );
+        return [
+            'actions' => $this->pluginActions($internalErrors),
+            'message' => sprintf($message, $name, $this->pluginLinks($internalErrors)),
+        ];
     }
 
     protected function errors(array $errorKeys): array

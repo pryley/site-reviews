@@ -65,7 +65,7 @@
         <ul>
             <li>Fixed ActionScheduler action redirects</li>
             <li>Fixed generated CSS ID values to always be unique</li>
-            <li>Fixed link focus when expanding exceprts with the keyboard</li>
+            <li>Fixed link focus when expanding excerpts with the keyboard</li>
             <li>Fixed the Blacklist validator</li>
             <li>Fixed the category priority feature</li>
             <li>Fixed the Cloudflare Turnstile integration</li>

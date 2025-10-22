@@ -219,37 +219,6 @@ class Database
         return $result;
     }
 
-    /**
-     * An array of values if $single is false.
-     * The value of the meta field if $single is true.
-     * False for an invalid $post_id (non-numeric, zero, or negative value).
-     * An empty string if a valid but non-existing post ID is passed.
-     *
-     * @return mixed
-     */
-    public function meta(int $postId, string $key, bool $single = true)
-    {
-        $key = Str::prefix($key, '_');
-        $postId = Cast::toInt($postId);
-        return get_post_meta($postId, $key, $single);
-    }
-
-    /**
-     * The new meta field ID if a field with the given key didn't exist and was therefore added.
-     * True on successful update. False on failure or if the value passed to the function
-     * is the same as the one that is already in the database.
-     *
-     * @param mixed $value
-     *
-     * @return int|bool
-     */
-    public function metaSet(int $postId, string $key, $value)
-    {
-        $key = Str::prefix($key, '_');
-        $postId = Cast::toInt($postId);
-        return update_metadata('post', $postId, $key, $value); // update_metadata works with revisions
-    }
-
     public function posts(array $args = []): array
     {
         $args = wp_parse_args($args, [

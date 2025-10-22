@@ -5,7 +5,8 @@
     site-reviews/activated                                      ()
     site-reviews/addon/register                                 (Application $app)
     site-reviews/builder                                        (Contracts\BuilderContract $builder)
-    site-reviews/cache/flush                                    (Review $review)
+    site-reviews/cache/flush                                    (string $loggedMessage, Review $review)
+    site-reviews/cache/flush_all                                (string $loggedMessage)
     site-reviews/customize/<style>                              (Contracts\BuilderContract $builder)
     site-reviews/database/sql                                   (string $sql, string $handle)
     site-reviews/database/sql/<handle>                          (string $sql)
@@ -19,6 +20,8 @@
     site-reviews/get/reviews                                    (array $reviews, array $args)
     site-reviews/migration/end                                  (array $migrations)
     site-reviews/migration/start                                (array $migrations)
+    site-reviews/multilingualpress/activate                     (\Inpsyde\MultilingualPress\Framework\Service\Container $container)
+    site-reviews/multilingualpress/register                     (\Inpsyde\MultilingualPress\Framework\Service\Container $container)
     site-reviews/personal-data/erase                            (Review $review, bool $retainReview)
     site-reviews/ratings/count/all                              ()
     site-reviews/ratings/count/post                             (int $postId, Arguments $counts)
@@ -28,7 +31,8 @@
     site-reviews/review/build/before                            (Review $review, Modules\Html\ReviewHtml $reviewHtml)
     site-reviews/review/create                                  (int $postId, Commands\CreateReview $command)
     site-reviews/review/created                                 (Review $review, Commands\CreateReview $command)
-    site-reviews/review/pinned                                  (int $reviewId, bool $isPinned)
+    site-reviews/review/geolocated                              (Review $review, array $data)
+    site-reviews/review/pinned                                  (Review $review, bool $isPinned)
     site-reviews/review/request                                 (Request $request)
     site-reviews/review/responded                               (Review $review, string $response)
     site-reviews/review/transitioned                            (Review $review, string $status, string $prevStatus)
@@ -96,6 +100,7 @@
     site-reviews/build/template/<template_path>                 (string $template, array $data): string
     site-reviews/builder/enable/optgroup                        (bool $enable): bool
     site-reviews/builder/result                                 (string $result, Contracts\BuilderContract $builder): string
+    site-reviews/cache/flush_when_empty_assigned_posts          (bool $bool): bool
     site-reviews/capabilities                                   (array $capabilities): array
     site-reviews/captcha/actions                                (array $actions): array
     site-reviews/captcha/language                               (string $locale): string

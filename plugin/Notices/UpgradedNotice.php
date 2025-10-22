@@ -3,19 +3,44 @@
 namespace GeminiLabs\SiteReviews\Notices;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helpers\Svg;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class UpgradedNotice extends AbstractNotice
 {
-    protected function canRender(): bool
+    protected int $priority = 10;
+    protected string $type = 'popup';
+
+    protected function canLoad(): bool
     {
         if ('0.0.0' === glsr(OptionManager::class)->get('version_upgraded_from')) {
             return false;
         }
-        return parent::canRender();
+        return parent::canLoad();
     }
 
-    protected function version(): string
+    protected function data(): array
     {
-        return glsr()->version('minor');
+        return [
+            'icon' => glsr(Svg::class)->get('assets/images/menu-icon.svg', [
+                'fill' => '#fff',
+                'width' => 26,
+            ]),
+        ];
+    }
+
+    protected function isDismissible(): bool
+    {
+        return false;
+    }
+
+    protected function isMonitored(): bool
+    {
+        return true;
+    }
+
+    protected function deferVersion(): string
+    {
+        return glsr()->version('major');
     }
 }

@@ -144,9 +144,8 @@
                         <td><strong>rating_field</strong></td>
                         <td></td>
                         <td>
+                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-forms'); ?> addon required.</div>
                             Use rating values of a custom rating field; use the custom rating Field Name as the value.
-                            <br>
-                            <span class="glsr-notice-inline is-warning"><?php echo glsr_premium_link('site-reviews-forms'); ?> addon required.</span>
                         </td>
                     </tr>
                     <tr>
@@ -168,9 +167,8 @@
                         <td><strong>theme</strong></td>
                         <td></td>
                         <td>
+                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-themes'); ?> addon required.</div>
                             Render the summary with a specific custom review theme (ID); only works with the <code>rendered</code> parameter.
-                            <br>
-                            <span class="glsr-notice-inline is-warning"><?php echo glsr_premium_link('site-reviews-themes'); ?> addon required.</span>
                         </td>
                     </tr>
                     <tr>

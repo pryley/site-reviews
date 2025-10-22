@@ -13,9 +13,9 @@
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a flyout help menu on Site Reviews pages in the WordPress Admin.</li>
-            <li>Added a <a href="<?php echo glsr_admin_url('settings', 'general'); ?>">Request Verification</a> setting.</li>
+            <li>Added a <?php echo glsr_admin_link('settings.general', 'Request Verification'); ?> setting.</li>
             <li>Added support for the <a target="_blank" href="https://wordpress.org/plugins/nitropack/">NitroPack</a> cache plugin.</li>
-            <li>Added tag buttons to the <a href="<?php echo glsr_admin_url('settings', 'general'); ?>">Notification Template</a> setting.</li>
+            <li>Added tag buttons to the <?php echo glsr_admin_link('settings.general', 'Notification Template'); ?> setting.</li>
             <li>Added the ability to approve a review directly from a Discord, Email, or Slack notification.</li>
         </ul>
 
@@ -26,7 +26,7 @@
 
         <h4>🚫 Removed</h4>
         <ul>
-            <li>Removed the ability to manually verify reviews from the WordPress Admin (use the <a href="<?php echo glsr_admin_url('settings', 'general'); ?>">Request Verification</a> setting instead!). To re-enable manual verification of reviews use the <a data-expand="#hooks-manual-verification" href="<?php echo glsr_admin_url('documentation', 'hooks'); ?>">site-reviews/verification/enabled</a> filter hook.</li>
+            <li>Removed the ability to manually verify reviews from the WordPress Admin (use the <?php echo glsr_admin_link('settings.general', 'Request Verification'); ?> setting instead!). To re-enable manual verification of reviews use the <?php echo glsr_admin_link('documentation.hooks', 'site-reviews/verification/enabled', '#hooks-manual-verification'); ?> filter hook.</li>
         </ul>
 
         <h4>🐞 Bugs Fixed</h4>

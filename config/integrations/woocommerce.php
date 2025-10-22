@@ -7,7 +7,7 @@ return [ // order is intentional
         'sanitizer' => 'text',
         /* translators: %s is replaced with a link to the Import Reviews tool in Site Reviews */
         'tooltip' => sprintf(_x('This will completely replace the default WooCommerce review system with Site Reviews. If you have existing WooCommerce comment reviews, you may need to first export them to a CSV file, and then import them using the %s tool.', 'admin-text', 'site-reviews'),
-            glsr_admin_link(['tools', 'general'], _x('Import Reviews', 'admin-text', 'site-reviews'), '#tools-import-reviews')
+            glsr_admin_link('tools.general', _x('Import Reviews', 'admin-text', 'site-reviews'), '#tools-import-reviews')
         ),
         'type' => 'yes_no',
     ],

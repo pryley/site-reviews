@@ -17,7 +17,7 @@ class ExportManager
             SELECT DISTINCT pm.meta_key
             FROM table|postmeta AS pm
             INNER JOIN table|posts AS p ON (p.ID = pm.post_id)
-            {$this->sqlWhere()}
+            WHERE {$this->sqlWhere()}
             AND pm.meta_key LIKE '_custom_%%'
         ");
         $fieldnames = glsr(Database::class)->dbGetCol($sql);
@@ -29,92 +29,38 @@ class ExportManager
     public function export(Arguments $args): array
     {
         $this->args = $args;
-        if ('id' === $args->assigned_posts) {
-            return $this->exportWithIds();
-        }
-        if ('slug' === $args->assigned_posts) {
-            return $this->exportWithSlugs();
-        }
-        return [];
-    }
-
-    protected function exportWithIds(): array
-    {
-        $sql = glsr(Query::class)->sql($this->sqlAssignedIds());
+        $sql = glsr(Query::class)->sql("
+            SELECT {$this->sqlSelect()}
+            FROM table|ratings AS r
+            {$this->sqlJoin()}
+            WHERE {$this->sqlWhere()}
+            GROUP BY r.ID
+            {$this->sqlLimit()}
+        ");
         return (array) glsr(Database::class)->dbGetResults($sql, 'ARRAY_A');
     }
 
-    protected function exportWithSlugs(): array
+    protected function sqlJoin(): string
     {
-        $sql = glsr(Query::class)->sql($this->sqlAssignedSlugs());
-        return (array) glsr(Database::class)->dbGetResults($sql, 'ARRAY_A');
-    }
-
-    protected function sqlAssignedIds(): string
-    {
-        return "
-            SELECT
-                p.ID,
-                p.post_date AS date,
-                p.post_date_gmt AS date_gmt,
-                p.post_title AS title,
-                p.post_content AS content,
-                r.rating,
-                r.name,
-                r.email,
-                r.avatar,
-                r.ip_address,
-                r.is_approved,
-                r.is_pinned,
-                r.is_verified,
-                r.score,
-                r.terms,
-                GROUP_CONCAT(DISTINCT apt.post_id) AS assigned_posts,
-                GROUP_CONCAT(DISTINCT att.term_id) AS assigned_terms,
-                GROUP_CONCAT(DISTINCT aut.user_id) AS assigned_users
-            FROM table|ratings AS r
-            INNER JOIN table|posts AS p ON (p.ID = r.review_id)
-            LEFT JOIN table|assigned_posts AS apt ON (apt.rating_id = r.ID)
-            LEFT JOIN table|assigned_terms AS att ON (att.rating_id = r.ID)
-            LEFT JOIN table|assigned_users AS aut ON (aut.rating_id = r.ID)
-            {$this->sqlWhere()}
-            GROUP BY r.ID
-            {$this->sqlLimit()}
-        ";
-    }
-
-    protected function sqlAssignedSlugs(): string
-    {
-        return "
-            SELECT
-                p.ID,
-                p.post_date AS date,
-                p.post_date_gmt AS date_gmt,
-                p.post_title AS title,
-                p.post_content AS content,
-                r.rating,
-                r.name,
-                r.email,
-                r.avatar,
-                r.ip_address,
-                r.is_approved,
-                r.is_pinned,
-                r.is_verified,
-                r.score,
-                r.terms,
-                GROUP_CONCAT(DISTINCT CONCAT(ap.post_type, ':', ap.post_name)) AS assigned_posts,
-                GROUP_CONCAT(DISTINCT att.term_id) AS assigned_terms,
-                GROUP_CONCAT(DISTINCT aut.user_id) AS assigned_users
-            FROM table|ratings AS r
-            INNER JOIN table|posts AS p ON (p.ID = r.review_id)
-            LEFT JOIN table|assigned_posts AS apt ON (apt.rating_id = r.ID)
-            LEFT JOIN table|assigned_terms AS att ON (att.rating_id = r.ID)
-            LEFT JOIN table|assigned_users AS aut ON (aut.rating_id = r.ID)
-            LEFT JOIN table|posts AS ap ON (ap.ID = apt.post_id)
-            {$this->sqlWhere()}
-            GROUP BY r.ID
-            {$this->sqlLimit()}
-        ";
+        $join = [
+            "INNER JOIN table|posts AS p ON (p.ID = r.review_id)",
+            "LEFT JOIN table|assigned_posts AS apt ON (apt.rating_id = r.ID)",
+            "LEFT JOIN table|assigned_terms AS att ON (att.rating_id = r.ID)",
+            "LEFT JOIN table|assigned_users AS aut ON (aut.rating_id = r.ID)",
+        ];
+        if ('slug' === $this->args->author_id) {
+            $join[] = "LEFT JOIN table|users AS authors ON (authors.ID = p.post_author)";
+        }
+        if ('slug' === $this->args->assigned_posts) {
+            $join[] = "LEFT JOIN table|posts AS posts ON (posts.ID = apt.post_id)";
+        }
+        if ('slug' === $this->args->assigned_terms) {
+            $join[] = "LEFT JOIN table|terms AS terms ON (terms.term_id = att.term_id)";
+        }
+        if ('slug' === $this->args->assigned_users) {
+            $join[] = "LEFT JOIN table|users AS users ON (users.ID = aut.user_id)";
+        }
+        return implode(' ', $join);
     }
 
     protected function sqlLimit(): string
@@ -126,6 +72,40 @@ class ExportManager
         return '';
     }
 
+    protected function sqlSelect(): string
+    {
+        $select = [
+            "p.ID",
+            "p.post_date AS date",
+            "p.post_date_gmt AS date_gmt",
+            "p.post_title AS title",
+            "p.post_content AS content",
+            "r.rating",
+            "r.name",
+            "r.email",
+            "r.avatar",
+            "r.ip_address",
+            "r.is_approved",
+            "r.is_pinned",
+            "r.is_verified",
+            "r.score",
+            "r.terms",
+        ];
+        $select[] = 'slug' === $this->args->author_id
+            ? "authors.user_login AS author_id"
+            : "p.post_author AS author_id";
+        $select[] = 'slug' === $this->args->assigned_posts
+            ? "GROUP_CONCAT(DISTINCT CONCAT(posts.post_type, ':', posts.post_name)) AS assigned_posts"
+            : "GROUP_CONCAT(DISTINCT apt.post_id) AS assigned_posts";
+        $select[] = 'slug' === $this->args->assigned_terms
+            ? "GROUP_CONCAT(DISTINCT terms.slug) AS assigned_terms"
+            : "GROUP_CONCAT(DISTINCT att.term_id) AS assigned_terms";
+        $select[] = 'slug' === $this->args->assigned_users
+            ? "GROUP_CONCAT(DISTINCT users.user_login) AS assigned_users"
+            : "GROUP_CONCAT(DISTINCT aut.user_id) AS assigned_users";
+        return implode(', ', $select);
+    }
+
     protected function sqlWhere(): string
     {
         global $wpdb;
@@ -134,17 +114,15 @@ class ExportManager
         $postStatus = Str::restrictTo(['pending', 'publish'], $this->args->cast('post_status', 'string'),
             "pending','publish"
         );
-        $where = [
-            "WHERE 1=1",
-        ];
+        $where = ["1=1"];
         if (!empty($postId)) {
-            $where[] = $wpdb->prepare('AND p.ID > %d', $postId);
+            $where[] = $wpdb->prepare('p.ID > %d', $postId);
         }
-        $where[] = $wpdb->prepare('AND p.post_type = %s', glsr()->post_type);
-        $where[] = "AND p.post_status IN ('{$postStatus}')";
+        $where[] = $wpdb->prepare('p.post_type = %s', glsr()->post_type);
+        $where[] = "p.post_status IN ('{$postStatus}')";
         if (!empty($date)) {
-            $where[] = $wpdb->prepare('AND p.post_date > %s', $date);
+            $where[] = $wpdb->prepare('p.post_date > %s', $date);
         }
-        return implode(' ', $where);
+        return implode(' AND ', $where);
     }
 }

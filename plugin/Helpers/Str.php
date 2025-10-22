@@ -185,7 +185,7 @@ class Str
     {
         if (!ctype_lower($string)) {
             $string = preg_replace('/\s+/u', '', $string);
-            $string = preg_replace('/(.)(?=[A-Z])/u', '$1_', $string);
+            $string = preg_replace('/([A-Za-z0-9])(?=[A-Z])/u', '$1_', $string);
             $string = mb_strtolower($string, 'UTF-8');
         }
         return str_replace('-', '_', $string);

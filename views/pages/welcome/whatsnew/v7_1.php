@@ -13,10 +13,10 @@
         <h4>✨ New Features</h4>
         <ul>
             <li>Added "Resend Verification Email" button to reviews.</li>
-            <li>Added the previous major version to the <a data-expand="#tools-rollback-plugin" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Rollback</a> tool (i.e. you can now rollback from v7 to v6).</li>
+            <li>Added the previous major version to the <?php echo glsr_admin_link('tools.general', 'Rollback', '#tools-rollback-plugin'); ?> tool (i.e. you can now rollback from v7 to v6).</li>
             <li>Updated the addon update checker to use the WordPress update hooks.</li>
-            <li>Updated the <a data-expand="#tools-export-reviews" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Export Reviews</a> tool to support images (<?php echo glsr_premium_link('site-reviews-images'); ?> addon required) and custom fields (<?php echo glsr_premium_link('site-reviews-forms'); ?> addon required).</li>
-            <li>Updated the <a data-expand="#tools-import-reviews" href="<?php echo glsr_admin_url('tools', 'general'); ?>">Import Reviews</a> to support images (<?php echo glsr_premium_link('site-reviews-images'); ?> addon required), custom fields (<?php echo glsr_premium_link('site-reviews-forms'); ?> addon required), and skip already imported reviews.</li>
+            <li>Updated the <?php echo glsr_admin_link('tools.general', 'Export Reviews', '#tools-export-reviews'); ?> tool to support images (<?php echo glsr_premium_link('site-reviews-images'); ?> addon required) and custom fields (<?php echo glsr_premium_link('site-reviews-forms'); ?> addon required).</li>
+            <li>Updated the <?php echo glsr_admin_link('tools.general', 'Import Reviews', '#tools-import-reviews'); ?> tool to support images (<?php echo glsr_premium_link('site-reviews-images'); ?> addon required), custom fields (<?php echo glsr_premium_link('site-reviews-forms'); ?> addon required), and skip already imported reviews.</li>
         </ul>
 
         <h4>🐞 Bugs Fixed</h4>

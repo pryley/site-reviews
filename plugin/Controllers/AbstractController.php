@@ -47,15 +47,38 @@ abstract class AbstractController implements ControllerContract
             && 'edit.php' === $pagenow;
     }
 
+    protected function isAdminPage(): bool
+    {
+        if (!glsr()->isAdmin()) {
+            return false;
+        }
+        $getPostType = (string) filter_input(INPUT_GET, 'post_type');
+        return str_starts_with($getPostType, glsr()->post_type)
+            || str_starts_with(get_post_type(), glsr()->post_type);
+    }
+
+    protected function isAdminScreen(): bool
+    {
+        return str_starts_with(glsr_current_screen()->post_type, glsr()->post_type);
+    }
+
+    protected function isEditor(): bool
+    {
+        $screen = glsr_current_screen();
+        return ('post' === $screen->base)
+            && str_starts_with($screen->id, glsr()->post_type)
+            && str_starts_with($screen->post_type, glsr()->post_type);
+    }
+
     protected function isListTable(): bool
     {
         $screen = glsr_current_screen();
-        return 'edit' === $screen->base && $this->isReviewAdminScreen();
+        return 'edit' === $screen->base && $this->isAdminScreen();
     }
 
     protected function isNoticeAdminScreen(): bool
     {
-        return 'dashboard' === glsr_current_screen()->id || $this->isReviewAdminScreen();
+        return 'dashboard' === glsr_current_screen()->id || $this->isAdminScreen();
     }
 
     protected function isReviewAdminPage(): bool
@@ -64,11 +87,6 @@ abstract class AbstractController implements ControllerContract
             filter_input(INPUT_GET, 'post_type'),
             get_post_type(),
         ]);
-    }
-
-    protected function isReviewAdminScreen(): bool
-    {
-        return str_starts_with(glsr_current_screen()->post_type, glsr()->post_type);
     }
 
     protected function isReviewEditor(): bool
@@ -82,6 +100,7 @@ abstract class AbstractController implements ControllerContract
     protected function isReviewListTable(): bool
     {
         $screen = glsr_current_screen();
-        return 'edit' === $screen->base && glsr()->post_type === $screen->post_type;
+        return 'edit' === $screen->base
+            && glsr()->post_type === $screen->post_type;
     }
 }

@@ -20,9 +20,9 @@ use GeminiLabs\SiteReviews\Modules\Sanitizer;
  * 6. enum values
  * 7. guard values
  * 8. finalize()
- * 
+ *
  * @method array dataAttributes(array $values = [])
- * @method array defaults():
+ * @method array defaults()
  * @method array filter(array $values = [])
  * @method array merge(array $values = [])
  * @method array restrict(array $values = [])
@@ -105,27 +105,33 @@ abstract class DefaultsAbstract implements DefaultsContract
      */
     protected string $method = '';
 
-    public function __construct()
-    {
-        $this->hook = $this->currentHook();
-        $this->defaults = $this->app()->filterArray("defaults/{$this->hook}/defaults", $this->defaults(), $this->hook);
-    }
-
     public function __call(string $name, array $args = []): array
     {
-        $this->called = $name;
-        $this->method = Helper::buildMethodName(Str::removePrefix($name, 'unguarded'));
-        $values = Arr::consolidate(array_shift($args));
-        $values = $this->mapKeys($values);
-        $values = $this->normalize($values);
-        array_unshift($args, $values);
-        if (in_array($this->method, $this->callable)) { // this also means that the method exists
-            return $this->callMethod($args);
-        }
-        glsr_log()->error("Invalid method [$this->method].");
-        return $args;
+        return $this->call($name, Arr::consolidate($args[0] ?? []));
     }
 
+    /**
+     * Use this if you need to call a method from within another Defaults class.
+     */
+    public function call(string $name, array $values = []): array
+    {
+        $this->called = $name;
+        $this->hook = $this->currentHook();
+        $this->method = Helper::buildMethodName(Str::removePrefix($name, 'unguarded'));
+        if (!in_array($this->method, $this->callable)) { // this also means that the callable method exists
+            glsr_log()->error("Invalid method [$this->method].");
+            return $values;
+        }
+        $this->defaults = $this->app()->filterArray("defaults/{$this->hook}/defaults", $this->defaults(), $this->hook);
+        $mapped = $this->mapKeys($values);
+        $normalized = $this->normalize($mapped);
+        $values = $this->callMethod($normalized);
+        return $this->app()->filterArray("defaults/{$this->hook}", $values, $this->method, $normalized, $this->hook);
+    }
+
+    /**
+     * Use this to get the filtered value of a public class property.
+     */
     public function property($key): array
     {
         try {
@@ -133,6 +139,7 @@ abstract class DefaultsAbstract implements DefaultsContract
             $property = $reflection->getProperty($key);
             $value = $property->getValue($this);
             if ($property->isPublic()) { // all public properties are expected to be an array
+                $this->hook = $this->hook ?: $this->currentHook();
                 return $this->app()->filterArray("defaults/{$this->hook}/{$key}", $value, $this->method, $this->hook);
             }
         } catch (\ReflectionException $e) {
@@ -146,19 +153,18 @@ abstract class DefaultsAbstract implements DefaultsContract
         return glsr();
     }
 
-    protected function callMethod(array $args): array
+    protected function callMethod(array $normalized): array
     {
-        $this->app()->action('defaults', $this, $this->hook, $this->method, $args[0]);
+        $this->app()->action('defaults', $this, $this->hook, $this->method, $normalized);
         $values = 'defaults' === $this->method
-            ? $this->defaults // use the filtered defaults (these have not been normalized!)
-            : call_user_func_array([$this, $this->method], $args);
+            ? $this->defaults // use the filtered defaults instead of the normalized values
+            : call_user_func([$this, $this->method], $normalized);
         if ('dataAttributes' !== $this->method) {
-            $values = $this->sanitize($values);
-            $values = $this->guard($values);
-            $values = $this->finalize($values);
+            $sanitized = $this->sanitize($values);
+            $guarded = $this->guard($sanitized);
+            $values = $this->finalize($guarded);
         }
-        $args = array_shift($args);
-        return $this->app()->filterArray("defaults/{$this->hook}", $values, $this->method, $args, $this->hook);
+        return $values;
     }
 
     protected function currentHook(): string
@@ -192,9 +198,9 @@ abstract class DefaultsAbstract implements DefaultsContract
     protected function dataAttributes(array $values = []): array
     {
         $values = shortcode_atts($this->defaults, $values);
-        $values = $this->sanitize($values);
-        $values = $this->guard($values); // this after sanitize for a more unique id
-        $values = $this->finalize($values);
+        $sanitized = $this->sanitize($values);
+        $guarded = $this->guard($sanitized); // this after sanitize for a more unique id
+        $values = $this->finalize($guarded);
         $filtered = array_filter(array_diff_assoc(
             $this->flattenArrayValues($values),
             $this->flattenArrayValues($this->defaults)

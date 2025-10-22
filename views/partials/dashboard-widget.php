@@ -19,12 +19,12 @@
 
 <p class="glsr-dashboard__footer">
     <span>
-        <a href="<?php echo glsr_admin_url('tools', 'system-info'); ?>">
+        <a href="<?php echo esc_url(glsr_admin_url('tools', 'system-info')); ?>">
             <?php echo _x('Version', 'admin-text', 'site-reviews'); ?> <?php echo glsr()->version; ?>
         </a>
     </span>
     <span>
-        <a href="<?php echo glsr_admin_url('documentation'); ?>">
+        <a href="<?php echo esc_url(glsr_admin_url('documentation')); ?>">
             <?php echo _x('Help', 'admin-text', 'site-reviews'); ?>
         </a>
     </span>

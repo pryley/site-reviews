@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\RevisionFieldsDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -30,7 +30,7 @@ class RevisionController extends AbstractController
             return $hasChanged;
         }
         $review = glsr(ReviewManager::class)->get($post->ID, true); // bypass the cache
-        $revision = glsr(Database::class)->meta($lastRevision->ID, 'review');
+        $revision = glsr(PostMeta::class)->get($lastRevision->ID, 'review');
         foreach ($revision as $key => $value) {
             if ((string) $review->$key !== (string) $value) {
                 return true;
@@ -84,9 +84,11 @@ class RevisionController extends AbstractController
         if (!Review::isReview($reviewId)) {
             return;
         }
-        $revision = glsr(Database::class)->meta($revisionId, 'review');
+        $revision = glsr(PostMeta::class)->get($revisionId, 'review');
         if (is_array($revision)) {
+            $review = glsr_get_review($reviewId);
             glsr(ReviewManager::class)->updateRating($reviewId, $revision);
+            glsr()->action('cache/flush', "review_{$reviewId}_revision_restored", $review);
         }
     }
 
@@ -102,7 +104,7 @@ class RevisionController extends AbstractController
             foreach ($revision as $field => &$value) {
                 $value = $review->$field;
             }
-            glsr(Database::class)->metaSet($revisionId, 'review', $revision);
+            glsr(PostMeta::class)->set($revisionId, 'review', $revision);
         }
     }
 
@@ -126,8 +128,9 @@ class RevisionController extends AbstractController
             return new Review([], false);
         }
         if (wp_is_post_revision($post->ID)) {
-            $meta = glsr(Database::class)->meta($post->ID, 'review');
-            return new Review($meta);
+            return new Review(
+                glsr(PostMeta::class)->get($post->ID, 'review')
+            );
         }
         return glsr(ReviewManager::class)->get($post->ID);
     }

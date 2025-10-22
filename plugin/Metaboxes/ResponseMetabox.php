@@ -3,9 +3,10 @@
 namespace GeminiLabs\SiteReviews\Metaboxes;
 
 use GeminiLabs\SiteReviews\Contracts\MetaboxContract;
-use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Review;
 
 class ResponseMetabox implements MetaboxContract
@@ -26,9 +27,9 @@ class ResponseMetabox implements MetaboxContract
     public function render(\WP_Post $post): void
     {
         wp_nonce_field('response', '_nonce-response', false);
-        glsr()->render('partials/editor/metabox-response', [
-            'response' => glsr(Database::class)->meta($post->ID, 'response'),
-        ]);
+        $response = glsr(PostMeta::class)->get($post->ID, 'response', 'string');
+        $response = glsr(Sanitizer::class)->sanitizeTextHtml($response);
+        glsr()->render('partials/editor/metabox-response', compact('response'));
     }
 
     public function save(Review $review): bool

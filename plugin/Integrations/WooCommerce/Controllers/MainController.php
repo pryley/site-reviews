@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
+use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Elementor\Widgets\ProductRating;
@@ -28,7 +29,7 @@ class MainController extends AbstractController
     public function filterInlineStyles(string $css): string
     {
         $css .= 'ul.glsr li a{display:flex;justify-content:space-between;}'; // fix rating filter widget
-        $css .= '.glsr.woocommerce-product-rating{align-items:center;display:inline-flex;gap:.5em;}';
+        $css .= '.glsr.woocommerce-product-rating{align-items:center;display:inline-flex;gap:.5em;&::before{display:none!important;}}';
         $css .= '.glsr.woocommerce-product-rating .woocommerce-review-link{top:-1px!important;}'; // fix product title rating position
         $style = glsr_get_option('integrations.woocommerce.style');
         $colors = [
@@ -160,7 +161,7 @@ class MainController extends AbstractController
      */
     public function filterReviewCallbackHasVerifiedOwner(Review $review): bool
     {
-        $verified = get_post_meta($review->ID, '_verified', true);
+        $verified = glsr(PostMeta::class)->get($review->ID, 'verified');
         if ('' !== $verified) {
             return (bool) $verified;
         }
@@ -172,7 +173,7 @@ class MainController extends AbstractController
                 break; // only check the first product
             }
         }
-        update_post_meta($review->ID, '_verified', (int) $verified);
+        glsr(PostMeta::class)->set($review->ID, 'verified', (int) $verified);
         return $verified;
     }
 

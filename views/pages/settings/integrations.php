@@ -3,7 +3,7 @@
 <?php if (count($settings) > 1) { ?>
     <ul class="glsr-subsubsub subsubsub">
     <?php foreach ($settings as $key => $rows) { ?>
-        <li><a href="<?php echo glsr_admin_url('settings', 'integrations', $key); ?>" tabindex="0"><?php echo $subsubsub[$key] ?? ucfirst($key); ?></a><span>|</span></li>
+        <li><a href="<?php echo esc_url(glsr_admin_url('settings', 'integrations', $key)); ?>" tabindex="0"><?php echo esc_html($subsubsub[$key] ?? ucfirst($key)); ?></a><span>|</span></li>
     <?php } ?>
     </ul>
 <?php } ?>

@@ -16,7 +16,7 @@
     --glsr-review-star: 16px;
 }
 </code></pre>
-        <p>To customise the star images used by the plugin, use the <?php echo glsr_admin_link(['documentation', 'hooks'], 'site-reviews/config/inline-styles', '#hooks-filter-star-images'); ?> filter hook in your theme's <code>functions.php</code> file.</p>
+        <p>To customise the star images used by the plugin, use the <?php echo glsr_admin_link('documentation.hooks', 'site-reviews/config/inline-styles', '#hooks-filter-star-images'); ?> filter hook in your theme's <code>functions.php</code> file.</p>
         <p>Here is an example:</p>
         <pre><code class="language-php">/**
  * Customises the stars used by Site Reviews.

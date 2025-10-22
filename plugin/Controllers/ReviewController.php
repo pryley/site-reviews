@@ -13,6 +13,7 @@ use GeminiLabs\SiteReviews\Commands\UnassignUsers;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\CountManager;
+use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
@@ -242,14 +243,14 @@ class ReviewController extends AbstractController
         }
         $excluded = Cast::toArray($command->request()->excluded);
         if (!empty($excluded)) { // save the fields hidden in the review form
-            glsr(Database::class)->metaSet($postId, 'excluded', $excluded);
+            glsr(PostMeta::class)->set($postId, 'excluded', $excluded);
         }
         if (!empty($values->response)) { // save the response if one is provided
-            glsr(Database::class)->metaSet($postId, 'response', $values->response);
-            glsr(Database::class)->metaSet($postId, 'response_by', $values->response_by); // @phpstan-ignore-line
+            glsr(PostMeta::class)->set($postId, 'response', $values->response);
+            glsr(PostMeta::class)->set($postId, 'response_by', $values->response_by); // @phpstan-ignore-line
         }
         foreach ($values->custom as $key => $value) {
-            glsr(Database::class)->metaSet($postId, "custom_{$key}", $value);
+            glsr(PostMeta::class)->set($postId, "custom_{$key}", $value);
         }
     }
 
@@ -378,7 +379,7 @@ class ReviewController extends AbstractController
         if ($assignedUserIds = filter_input(INPUT_GET, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY)) {
             glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
         }
-        $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
+        $review->refresh();
         glsr()->action('review/updated', $review, [], $oldPost); // pass an empty array since review values are unchanged
     }
 
@@ -446,14 +447,14 @@ class ReviewController extends AbstractController
         if (!empty($data)) {
             glsr(ReviewManager::class)->updateCustom($review->ID, $data); // values are sanitized here
             glsr(ReviewManager::class)->updateRating($review->ID, $data); // values are sanitized here
-            $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
+            $review->refresh();
         }
         $assignedPostIds = filter_input(INPUT_POST, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
         $assignedUserIds = filter_input(INPUT_POST, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
         glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
         glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
         glsr(ResponseMetabox::class)->save($review);
-        $review = glsr(ReviewManager::class)->get($review->ID); // get a fresh copy of the review
+        $review->refresh();
         glsr()->action('review/updated', $review, $data, $oldPost);
     }
 }

@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Request;
 
 class NoticeController extends AbstractController
@@ -33,25 +31,26 @@ class NoticeController extends AbstractController
      */
     public function adminNotices(): void
     {
-        $dir = glsr()->path('plugin/Notices');
-        if (!is_dir($dir)) {
-            return;
-        }
-        $iterator = new \DirectoryIterator($dir);
-        foreach ($iterator as $fileinfo) {
-            if (!$fileinfo->isFile()) {
-                continue;
-            }
-            try {
-                $notice = '\GeminiLabs\SiteReviews\Notices\\'.$fileinfo->getBasename('.php');
-                $reflect = new \ReflectionClass($notice);
-                if ($reflect->isInstantiable()) {
-                    glsr()->singleton($notice); // make singleton
-                    glsr($notice);
+        $notices = [];
+        try {
+            $iterator = new \DirectoryIterator(glsr()->path('plugin/Notices'));
+            foreach ($iterator as $fileinfo) {
+                if (!$fileinfo->isFile()) {
+                    continue;
                 }
-            } catch (\ReflectionException $e) {
-                glsr_log()->error($e->getMessage());
+                $notice = 'GeminiLabs\SiteReviews\Notices\\'.$fileinfo->getBasename('.php');
+                $reflection = new \ReflectionClass($notice);
+                if ($reflection->isInstantiable()) {
+                    $notices[] = $reflection->getName();
+                }
             }
+        } catch (\Throwable $e) {
+            glsr_log()->error($e->getMessage());
+        }
+        $notices = glsr()->filterArray('notices', $notices);
+        foreach ($notices as $notice) {
+            glsr()->singleton($notice); // make singleton
+            glsr($notice);
         }
     }
 
@@ -60,9 +59,13 @@ class NoticeController extends AbstractController
      */
     public function dismissNotice(Request $request): void
     {
-        $noticeKey = glsr(Sanitizer::class)->sanitizeText($request->notice);
-        $notice = Helper::buildClassName($noticeKey.'-notice', 'Notices');
-        if (class_exists($notice)) {
+        $notice = $request->sanitize('notice', 'text');
+        if (!class_exists($notice)) {
+            return;
+        }
+        if ('interval' === $request->dismiss) {
+            glsr($notice)->dismiss(['version' => '']);
+        } else {
             glsr($notice)->dismiss();
         }
     }
@@ -77,25 +80,27 @@ class NoticeController extends AbstractController
     }
 
     /**
+     * Close the hidden div used to prevent notices from flickering before
+     * they are moved elsewhere in the page by WordPress Core.
+     *
      * @action admin_notices
      */
     public function injectAfterNotices(): void
     {
         if (str_contains(glsr_current_screen()->id, glsr()->post_type)) {
-            // Close the hidden div used to prevent notices from flickering before
-            // they are moved elsewhere in the page by WordPress Core.
             echo '</div>';
         }
     }
 
     /**
+     * Wrap the notices in a hidden div to prevent flickering before
+     * they are moved elsewhere in the page by WordPress Core.
+     *
      * @action admin_notices
      */
     public function injectBeforeNotices(): void
     {
         if (str_contains(glsr_current_screen()->id, glsr()->post_type)) {
-            // Wrap the notices in a hidden div to prevent flickering before
-            // they are moved elsewhere in the page by WordPress Core.
             echo '<div id="glsr-notice-catcher">';
         }
     }

@@ -5,12 +5,21 @@ namespace GeminiLabs\SiteReviews\Integrations\Cache;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\Cache;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Review;
 
 class Controller extends AbstractController
 {
+    /**
+     * @action site-reviews/cache/flush
+     */
+    public function flush(string $loggedMessage, Review $review): void
+    {
+        $loggedMessage = $loggedMessage ?: "flushed_review_{$review->ID}";
+        $this->flushCache($loggedMessage, $review->assigned_posts);
+    }
+
     /**
      * @action site-reviews/review/created
      */
@@ -19,12 +28,12 @@ class Controller extends AbstractController
         if (defined('WP_IMPORTING')) {
             return;
         }
-        if ($review->is_approved) {
-            glsr_log()->debug('cache::flush_after_review_created');
-            $postIds = array_merge($review->assigned_posts, [$command->post_id]);
-            $postIds = Arr::uniqueInt($postIds);
-            $this->flushCache($postIds);
+        if (!$review->is_approved) {
+            return;
         }
+        $postIds = array_merge($command->assigned_posts, [$command->post_id]);
+        $postIds = Arr::uniqueInt($postIds);
+        $this->flushCache("review_{$review->ID}_created", $postIds);
     }
 
     /**
@@ -32,87 +41,53 @@ class Controller extends AbstractController
      */
     public function flushAfterMigrated(): void
     {
-        glsr_log()->debug('cache::flush_after_plugin_migrated');
-        $this->flushCache();
+        $this->flushCache('plugin_migrated');
     }
 
     /**
-     * @action delete_post
+     * @action site-reviews/review/transitioned
      */
-    public function flushBeforeDeleted(int $postId, \WP_Post $post): void
+    public function flushAfterTransitioned(Review $review, string $new, string $old): void
     {
-        if (glsr()->post_type !== $post->post_type) {
+        if (did_action('site-reviews/review/updated')) {
             return;
         }
-        $postIds = glsr_get_review($postId)->assigned_posts;
-        if ($postIds === glsr()->retrieve('cache/post_ids')) {
-            return; // prevent unnecessary flushing
-        }
-        glsr_log()->debug('cache::flush_after_review_deleted');
-        glsr()->store('cache/post_ids', $postIds);
-        $this->flushCache($postIds);
-    }
-
-    /**
-     * @action wp_trash_post
-     */
-    public function flushBeforeTrashed(int $postId): void
-    {
-        if (glsr()->post_type !== get_post_type($postId)) {
+        if (!in_array('publish', [$new, $old])) {
             return;
         }
-        $postIds = glsr_get_review($postId)->assigned_posts;
-        if ($postIds === glsr()->retrieve('cache/post_ids')) {
-            return; // prevent unnecessary flushing
-        }
-        glsr_log()->debug('cache::flush_after_review_trashed');
-        glsr()->store('cache/post_ids', $postIds);
-        $this->flushCache($postIds);
+        $status = [
+            'publish' => 'approved',
+            'pending' => 'unapproved',
+            'trash' => 'trashed',
+        ][$new] ?? $new;
+        $this->flushCache("review_{$review->ID}_{$status}", $review->assigned_posts);
     }
 
     /**
-     * @action clean_post_cache
+     * @action site-reviews/review/updated
      */
-    public function flushPostCache(int $postId, \WP_Post $post): void
+    public function flushAfterUpdated(Review $review): void
     {
-        if (glsr()->post_type !== $post->post_type) {
+        if (did_action('site-reviews/review/transitioned')) {
             return;
         }
-        $request = Helper::filterInputArray(glsr()->id);
-        if ('submit-review' === Arr::get($request, '_action')) {
-            return; // review was created
-        }
-        if ('trash' === get_post_status($postId)) {
-            return; // review was trashed
-        }
-        if (null === get_post($postId)) {
-            return; // review was deleted
-        }
-        $postIds = glsr_get_review($postId)->assigned_posts;
-        if ($postIds === glsr()->retrieve('cache/post_ids')) {
-            return; // prevent unnecessary flushing
-        }
-        glsr_log()->debug('cache::flush_after_post_cache_cleaned');
-        glsr()->store('cache/post_ids', $postIds);
-        $this->flushCache($postIds);
+        $this->flushCache("review_{$review->ID}_updated", $review->assigned_posts);
     }
 
     /**
-     * @action site-reviews/cache/flush
+     * @action site-reviews/cache/flush_all
      */
-    public function flushReviewCache(Review $review): void
+    public function flushAll(string $loggedMessage): void
     {
-        glsr_log()->debug('cache::flush_after_review_updated');
-        $this->flushCache($review->assigned_posts);
+        $this->flushCache($loggedMessage);
     }
 
-    protected function flushCache(array $postIds = []): void
+    protected function flushCache(string $loggedMessage, ?array $postIds = null): void
     {
-        if (empty($postIds)) {
-            glsr_log('cache::flushing [all]');
-        } else {
-            glsr_log('cache::flushing ['.implode(', ', $postIds).']');
+        if ([] === $postIds && !glsr()->filterBool('cache/flush_when_empty_assigned_posts', true)) {
+            return;
         }
+        $postIds = Arr::consolidate($postIds);
         $this->purgeEnduranceCache($postIds);
         $this->purgeFlyingPressCache($postIds);
         $this->purgeHummingbirdCache($postIds);
@@ -125,6 +100,18 @@ class Controller extends AbstractController
         $this->purgeWPOptimizeCache($postIds);
         $this->purgeWPRocketCache($postIds);
         $this->purgeWPSuperCache($postIds);
+        $this->logResult($loggedMessage, $postIds);
+    }
+
+    protected function logResult(string $message, array $postIds): void
+    {
+        $message = trim($message);
+        $message = $message ?: 'flushed';
+        if (!str_starts_with($message, 'flushed')) {
+            $message = Str::prefix($message, 'flushed_after_');
+        }
+        $flushed = empty($postIds) ? 'all' : implode(', ', $postIds);
+        glsr_log()->debug("cache::{$message} [{$flushed}]");
     }
 
     /**

@@ -11,7 +11,7 @@
 
         <div class="glsr-notice-inline components-notice is-warning">
             <p class="components-notice__content">
-                Site Reviews should automatically migrate itself after updating to v8.0. However, if you are experiencing problems after updating, you may need to manually run the <a href="<?php echo glsr_admin_url('tools', 'general'); ?>" data-expand="#tools-migrate-plugin">Migrate Plugin</a> tool.
+                Site Reviews should automatically migrate itself after updating to v8.0. However, if you are experiencing problems after updating, you may need to manually run the <?php echo glsr_admin_link('tools.general', 'Migrate Plugin', '#tools-migrate-plugin'); ?> tool.
             </p>
         </div>
 
@@ -78,6 +78,10 @@
         <h2>Action and Filter Hook changes</h2>
         <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
         <ol>
+            <li>
+                <p><strong>The <code>site-reviews/review/pinned</code> filter hook arguments have changed.</strong></p>
+                <p>The first argument of the hook was previously the Post ID of the review but it is now the $review object.</p>
+            </li>
             <li>
                 <p><strong>The <code>site-reviews/review-form/fields/normalized</code> filter hook has been removed.</strong></p>
                 <p>If you were previously using this hook, you should change it to: <code>site-reviews/review-form/fields/all</code>.</p>

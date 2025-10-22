@@ -8,9 +8,9 @@ use GeminiLabs\SiteReviews\Modules\Queue;
 
 class MigrationNotice extends AbstractNotice
 {
-    protected function canRender(): bool
+    protected function canLoad(): bool
     {
-        if (!parent::canRender()) {
+        if (!parent::canLoad()) {
             return false;
         }
         if (glsr(Queue::class)->isPending('queue/migration')) {

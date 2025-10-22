@@ -8,11 +8,6 @@
         </button>
     </h3>
     <div id="tools-export-reviews" class="inside">
-        <div class="glsr-notice-inline components-notice is-warning">
-            <p class="components-notice__content">
-                <?php echo _x('This tool does not yet support custom fields!', 'admin-text', 'site-reviews'); ?>
-            </p>
-        </div>
         <div class="glsr-notice-inline components-notice is-info">
             <p class="components-notice__content">
                 <?php echo sprintf(
@@ -30,27 +25,48 @@
         <form method="post">
             <?php wp_nonce_field('export-reviews'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="export-reviews">
-            <div>
-                <p>
-                    <label for="export_assigned_posts"><strong><?php echo _x('Export Assigned Posts', 'admin-text', 'site-reviews'); ?></strong></label><br>
+            <fieldset>
+                <div data-col="assigned_terms">
+                    <label for="export_assigned_terms"><strong><?php echo _x('Assigned Categories', 'admin-text', 'site-reviews'); ?></strong></label><br>
+                    <select name="{{ id }}[assigned_terms]" id="export_assigned_terms">
+                        <option value="id" selected><?php echo _x('Export as Term IDs', 'admin-text', 'site-reviews'); ?></option>
+                        <option value="slug"><?php echo _x('Export as Term slugs', 'admin-text', 'site-reviews'); ?></option>
+                    </select>
+                </div>
+                <div data-col="assigned_posts">
+                    <label for="export_assigned_posts"><strong><?php echo _x('Assigned Posts', 'admin-text', 'site-reviews'); ?></strong></label><br>
                     <select name="{{ id }}[assigned_posts]" id="export_assigned_posts">
                         <option value="id" selected><?php echo _x('Export as Post IDs', 'admin-text', 'site-reviews'); ?></option>
                         <option value="slug"><?php echo sprintf(_x('Export as %s', 'post_type:slug (admin-text)', 'site-reviews'), 'post_type:slug'); ?></option>
                     </select>
-                </p>
-                <p>
+                </div>
+                <div data-col="assigned_users">
+                    <label for="export_assigned_users"><strong><?php echo _x('Assigned Users', 'admin-text', 'site-reviews'); ?></strong></label><br>
+                    <select name="{{ id }}[assigned_users]" id="export_assigned_users">
+                        <option value="id" selected><?php echo _x('Export as User IDs', 'admin-text', 'site-reviews'); ?></option>
+                        <option value="slug"><?php echo _x('Export as Usernames', 'admin-text', 'site-reviews'); ?></option>
+                    </select>
+                </div>
+                <div data-col="date">
                     <label for="export_date"><strong><?php echo _x('Export Reviews After', 'admin-text', 'site-reviews'); ?></strong></label><br>
                     <input name="{{ id }}[date]" type="date" id="export_date">
-                </p>
-                <p>
+                </div>
+                <div data-col="post_status">
                     <label for="export_post_status"><strong><?php echo _x('Export Reviews With Status', 'admin-text', 'site-reviews'); ?></strong></label><br>
                     <select name="{{ id }}[post_status]" id="export_post_status">
                         <option value="" selected><?php echo _x('Approved and Unapproved reviews', 'admin-text', 'site-reviews'); ?></option>
                         <option value="publish"><?php echo _x('Approved reviews only', 'admin-text', 'site-reviews'); ?></option>
                         <option value="pending"><?php echo _x('Unapproved reviews only', 'admin-text', 'site-reviews'); ?></option>
                     </select>
-                </p>
-            </div>
+                </div>
+                <div data-col="author_id">
+                    <label for="export_author"><strong><?php echo _x('Review Author', 'admin-text', 'site-reviews'); ?></strong></label><br>
+                    <select name="{{ id }}[author_id]" id="export_author">
+                        <option value="id" selected><?php echo _x('Export as User ID', 'admin-text', 'site-reviews'); ?></option>
+                        <option value="slug"><?php echo _x('Export as Username', 'admin-text', 'site-reviews'); ?></option>
+                    </select>
+                </div>
+            </fieldset>
             <div>
                 <button type="submit" class="glsr-button button button-large button-primary">
                     <?php echo _x('Export Reviews', 'admin-text', 'site-reviews'); ?>

@@ -19,7 +19,7 @@ class WelcomeController extends AbstractController
      */
     public function filterActionLinks(array $links): array
     {
-        $links['welcome'] = glsr_admin_link(['welcome'], _x('About', 'admin-text', 'site-reviews'));
+        $links['welcome'] = glsr_admin_link('welcome', _x('About', 'admin-text', 'site-reviews'));
         return $links;
     }
 

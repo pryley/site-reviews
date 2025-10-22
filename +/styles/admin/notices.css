@@ -70,7 +70,7 @@
   padding: 2px;
 }
 
-.glsr-notice-top-of-page {
+.glsr-notice-banner {
   background-color: var(--wp-admin-theme-color);
   border-width: 0;
   border-radius: 0;
@@ -83,23 +83,23 @@
   position: relative;
 }
 @media screen and (min-width: 783px) {
-  .glsr-notice-top-of-page {
+  .glsr-notice-banner {
     padding-top: 10px;
     padding-bottom: 12px;
   }
 }
 @media screen and (min-width: 1440px) {
-  .glsr-notice-top-of-page {
+  .glsr-notice-banner {
     text-align: center;
   }
 }
-.glsr-notice-top-of-page a {
+.glsr-notice-banner a {
   color: #fff;
 }
-.glsr-notice-top-of-page a:hover {
+.glsr-notice-banner a:hover {
   text-decoration: none;
 }
-.glsr-notice-top-of-page .notice-dismiss::before {
+.glsr-notice-banner .notice-dismiss::before {
   color: #fff;
   text-shadow: 0px -1px 0px #4E426C;
   content: "\f335";
@@ -108,17 +108,20 @@
   width: 24px;
 }
 @media screen and (min-width: 783px) {
-  .glsr-notice-top-of-page .notice-dismiss {
+  .glsr-notice-banner .notice-dismiss {
     right: 10px;
   }
 }
 
-.glsr-responsive-table td .glsr-notice-inline.is-warning {
-  background-color: #fff8e5;
-  border-left: 4px solid #f0b849;
-  display: inline-block;
-  padding: 2px 8px;
-  margin-top: 4px;
+.glsr-table td .glsr-notice-inline {
+  display: block;
+  margin: 0 0 0.5em !important;
+  padding-block: 2px;
+}
+.glsr-responsive-table td .glsr-notice-inline {
+  display: block;
+  margin: 0 0 0.5em !important;
+  padding-block: 2px;
 }
 
 .glsr-card .components-notice,
@@ -149,6 +152,100 @@
   margin: 4px 0;
 }
 
-.glsr-notice .glsr-tooltip {
-  
+@media (max-width: 782px) { /* 959px */
+  .glsr-notice-popup {
+    display: none !important;
+  }
+}
+
+body:has(.glsr-notice-popup) .glsr-flyout-mascot .glsr-flyout-label {
+  display: none !important;
+}
+
+body:has(#glsr-flyout) .glsr-notice-popup {
+  --angle: 75deg;
+  --bg-color: #fff;
+  --border-color: #c3c4c7; /* var(--wp-admin-theme-color-darker-10); /* #2c3338 */
+  --border-radius: 7px;
+  --border-width: 1px;
+  --heading-color: #2c3338;
+  --pos: calc(100% - 50px); /* (0%:left 100%:right) */
+  --size: 1em;
+  background: none;
+  border-width: 0;
+  bottom: 120px;
+  box-shadow: none;
+  filter: drop-shadow(0 0 8px rgba(0,0,0,.2));
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 0;
+  opacity: 1;
+  padding: 0;
+  position: fixed;
+  right: 20px;
+  transform-origin: calc(100% - 50px) calc(100% + 20px);
+  transform: scale(1);
+  transition-delay: 0.2s;
+  transition-duration: 0.2s;
+  transition-property: transform, opacity;
+  transition-timing-function: ease-in-out;
+  width: 40ch;
+  z-index: 99999;
+}
+
+body:has(#glsr-flyout) .glsr-notice-popup.is-closing,
+body:has(#glsr-flyout.is-open) .glsr-notice-popup {
+  opacity: 0;
+  transform: scale(0);
+  transition-delay: 0s;
+}
+
+body:has(#glsr-flyout) .glsr-notice-popup > div {
+  background: var(--border-color);
+  border-image: conic-gradient(var(--border-color) 0 0) fill 0/ var(--border-radius) max(0%,100% - var(--pos) - var(--size)*tan(var(--angle)/2)) 0 max(0%,var(--pos) - var(--size)*tan(var(--angle)/2))/0 0 var(--size) 0;
+  border-radius: var(--border-radius) var(--border-radius) min(var(--border-radius),100% - var(--pos) - var(--size)*tan(var(--angle)/2)) min(var(--border-radius),var(--pos) - var(--size)*tan(var(--angle)/2))/var(--border-radius);
+  clip-path: polygon(0 100%,0 0,100% 0,100% 100%,
+    min(100%,var(--pos) + var(--size)*tan(var(--angle)/2)) 100%,
+    var(--pos) calc(100% + var(--size)),
+    max(0%  ,var(--pos) - var(--size)*tan(var(--angle)/2)) 100%);
+  display: inline-block;
+  &::before {
+    background: var(--bg-color) content-box;
+    border-image: conic-gradient(var(--bg-color) 0 0) fill 0/ var(--border-radius) max(var(--border-width),100% - var(--pos) - var(--size)*tan(var(--angle)/2)) 0 max(var(--border-width),var(--pos) - var(--size)*tan(var(--angle)/2))/0 0 var(--size) 0;
+    border-radius: inherit;
+    clip-path: polygon(0 100%,0 0,100% 0,100% 100%,
+      min(100% - var(--border-width),var(--pos) + var(--size)*tan(var(--angle)/2) - var(--border-width)*tan(45deg - var(--angle)/4)) calc(100% - var(--border-width)),
+      var(--pos) calc(100% + var(--size) - var(--border-width)/sin(var(--angle)/2)),
+      max(var(--border-width),var(--pos) - var(--size)*tan(var(--angle)/2) + var(--border-width)*tan(45deg - var(--angle)/4)) calc(100% - var(--border-width)));
+    content: "";
+    inset: 0;
+    padding: var(--border-width);
+    position: absolute;
+    z-index: -1;
+  }
+}
+
+.glsr-notice-popup h3 {
+  align-items: center;
+  background-color: var(--heading-color);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  color: #fff;
+  display: flex;
+  font-size: 14px;
+  line-height: 1;
+  margin: 0;
+  padding: 1em 1em 1em calc(1.5em + 26px);
+  position: relative;
+}
+.glsr-notice-popup h3 svg {
+  left: 12px;
+  position: absolute;
+  width: 26px;
+}
+.glsr-notice-popup p {
+  margin: 1em 0;
+  padding: 0 1em;
+}
+.glsr-notice-popup .glsr-notice-buttons {
+  justify-content: end;
 }

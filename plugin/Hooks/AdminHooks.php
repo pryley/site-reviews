@@ -14,6 +14,7 @@ class AdminHooks extends AbstractHooks
             ['enqueueAssets', 'admin_enqueue_scripts'],
             ['filterActionLinks', "plugin_action_links_{$this->basename}"],
             ['filterExportArgs', 'export_args', 11],
+            ['filterRowMeta', 'plugin_row_meta', 10, 2],
             ['filterScreenOptionsButton', 'screen_options_show_submit', 20],
             ['filterTinymcePlugins', 'mce_external_plugins', 15],
             ['onActivation', 'admin_init'],

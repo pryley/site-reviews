@@ -62,7 +62,7 @@ abstract class Tag implements TagContract
     {
         $rawValue = $value;
         $value = glsr()->filterString("{$this->for}/value/{$this->tag}", $value, $this);
-        if (Helper::isNotEmpty($value)) {
+        if (Helper::isNotEmpty($value)) { // space characters are considered empty
             if (!empty($wrapWith)) {
                 $value = $this->wrapValue($wrapWith, $value);
             }

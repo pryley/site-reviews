@@ -67,13 +67,11 @@ class AdminController extends AbstractController
      */
     public function filterActionLinks(array $links): array
     {
+        $actions = [];
         if (glsr()->hasPermission('settings')) {
-            $links['settings'] = glsr_admin_link(['settings'], _x('Settings', 'admin-text', 'site-reviews'));
+            $actions['settings'] = glsr_admin_link('settings', _x('Settings', 'admin-text', 'site-reviews'));
         }
-        if (glsr()->hasPermission('documentation')) {
-            $links['documentation'] = glsr_admin_link(['documentation'], _x('Help', 'admin-text', 'site-reviews'));
-        }
-        return $links;
+        return array_merge($actions, $links);
     }
 
     /**
@@ -85,6 +83,26 @@ class AdminController extends AbstractController
             $this->execute(new ExportRatings(glsr()->args($args)));
         }
         return $args;
+    }
+
+    /**
+     * @filter plugin_row_meta
+     */
+    public function filterRowMeta(array $links, string $file): array
+    {
+        if ($file !== glsr()->basename) {
+            return $links;
+        }
+        $actions = [];
+        if (glsr()->hasPermission('documentation')) {
+            $actions['documentation'] = glsr_admin_link('documentatio.n', _x('Documentation', 'admin-text', 'site-reviews'));
+        }
+        $actions['support'] = glsr(Builder::class)->a([
+            'aria-label' => esc_attr_x('Visit community forums', 'admin-text', 'site-reviews'),
+            'href' => esc_url('https://wordpress.org/support/plugin/site-reviews'),
+            'text' => esc_html_x('Community support', 'admin-text', 'site-reviews'),
+        ]);
+        return array_merge($links, $actions);
     }
 
     /**
@@ -182,7 +200,7 @@ class AdminController extends AbstractController
     public function renderPageHeader(): void
     {
         global $post_type_object, $title;
-        if (!$this->isReviewAdminScreen()) {
+        if (!$this->isAdminScreen()) {
             return;
         }
         $buttons = [];
@@ -228,7 +246,7 @@ class AdminController extends AbstractController
         if (defined('GLSR_UNIT_TESTS')) {
             return;
         }
-        if (!$this->isReviewAdminScreen()) {
+        if (!$this->isAdminScreen()) {
             return;
         }
         if (glsr(Queue::class)->isPending('queue/migration')) {
@@ -345,9 +363,7 @@ class AdminController extends AbstractController
      */
     public function togglePinnedAjax(Request $request): void
     {
-        $command = $this->execute(new TogglePinned($request));
-        glsr()->action('cache/flush', $command->review); // @phpstan-ignore-line
-        wp_send_json_success($command->response());
+        $this->execute(new TogglePinned($request))->sendJsonResponse();
     }
 
     /**
@@ -355,7 +371,6 @@ class AdminController extends AbstractController
      */
     public function toggleStatusAjax(Request $request): void
     {
-        $command = $this->execute(new ToggleStatus($request));
-        wp_send_json_success($command->response());
+        $this->execute(new ToggleStatus($request))->sendJsonResponse();
     }
 }

@@ -9,12 +9,12 @@ class Hooks extends IntegrationHooks
     public function run(): void
     {
         $this->hook(Controller::class, [
-            ['flushAfterCreated', 'site-reviews/review/created', 10, 2],
-            ['flushAfterMigrated', 'site-reviews/migration/end'],
-            ['flushBeforeDeleted', 'delete_post', 10, 2],
-            ['flushBeforeTrashed', 'wp_trash_post'],
-            ['flushPostCache', 'clean_post_cache', 10, 2],
-            ['flushReviewCache', 'site-reviews/cache/flush'],
+            ['flush', 'site-reviews/cache/flush', 10, 2],
+            ['flushAfterCreated', 'site-reviews/review/created', 50, 2],
+            ['flushAfterMigrated', 'site-reviews/migration/end', 50],
+            ['flushAfterTransitioned', 'site-reviews/review/transitioned', 50, 3],
+            ['flushAfterUpdated', 'site-reviews/review/updated', 50],
+            ['flushAll', 'site-reviews/cache/flush_all'],
         ]);
     }
 }

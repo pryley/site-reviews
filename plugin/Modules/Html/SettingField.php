@@ -38,7 +38,7 @@ class SettingField extends Field
         $data = [
             'context' => [
                 'class' => $this->classAttrField(),
-                'depends_on' => esc_js($this->offsetGet('data-depends') ?? ''),
+                'depends_on' => $this->offsetGet('data-depends') ?? '',
                 'field' => $this->buildFieldElement(),
                 'label' => $this->buildFieldLabel(),
                 'legend' => $this->label,

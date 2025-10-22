@@ -2,14 +2,16 @@
 
 namespace GeminiLabs\SiteReviews\Notices;
 
-class PremiumNotice extends AbstractNotice
+class RetiredPremiumNotice extends AbstractNotice
 {
-    protected function canRender(): bool
+    protected string $type = 'notice-warning';
+
+    protected function canLoad(): bool
     {
         if (empty(glsr()->retrieveAs('array', 'site-reviews-premium'))) {
             return false;
         }
-        return parent::canRender();
+        return parent::canLoad();
     }
 
     protected function data(): array

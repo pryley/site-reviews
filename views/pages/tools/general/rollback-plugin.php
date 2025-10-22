@@ -21,7 +21,7 @@
             <div class="glsr-notice-inline components-notice is-warning">
                 <p class="components-notice__content">
                     <?php echo sprintf(_x('If you are using this tool to fix a problem with Site Reviews, please %s so that it can be fixed.', 'submit a support request (admin-text)', 'site-reviews'),
-                        glsr_admin_link(['documentation', 'support'], _x('submit a support request', 'admin-text', 'site-reviews'), '#support-contact-support'),
+                        glsr_admin_link('documentation.support', _x('contact us', 'admin-text', 'site-reviews'), '#support-contact-support'),
                     ); ?>
                 </p>
             </div>

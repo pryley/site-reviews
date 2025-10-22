@@ -33,7 +33,7 @@ class ExportRatings extends AbstractCommand
 
     public function handle(): void
     {
-        glsr(Database::class)->deleteMeta(glsr()->export_key);
+        delete_post_meta_by_key(glsr()->export_key);
         $this->export();
         $this->cleanup();
     }

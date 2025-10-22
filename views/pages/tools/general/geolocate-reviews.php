@@ -18,7 +18,7 @@
             </p>
         </div>
         <p><?php echo _x('Site Reviews stores the IP address of the reviewer when they submit a review. The IP address is used during review validation and to prevent abuse.', 'admin-text', 'site-reviews'); ?></p>
-        <p><?php echo _x('This tool will extract the geolocation (country, region/state, and city) of reviews that have a valid IP addresses. This location data can be used to display the location in the review (e.g. the flag of the reviewer\'s country).', 'admin-text', 'site-reviews'); ?></p>
+        <p><?php echo _x('This tool will extract missing geolocation (country, region/state, and city) of reviews that have a valid IP addresses. This location data can be used to display the location in the review (e.g. the flag of the reviewer\'s country).', 'admin-text', 'site-reviews'); ?></p>
         <form method="post" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
             <?php wp_nonce_field('geolocate-reviews', '{{ id }}[_nonce]'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="geolocate-reviews">

@@ -31,6 +31,10 @@ class SummaryTextTag extends SummaryTag
             );
         }
         $num = number_format_i18n($num);
-        return str_replace(['{rating}', '{max}', '{num}'], [$rating, $max, $num], $text);
+        return str_replace(
+            ['{rating}', '{max}', '{num}'],
+            [$rating, (string) $max, (string) $num],
+            $text
+        );
     }
 }

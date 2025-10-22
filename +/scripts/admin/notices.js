@@ -2,8 +2,7 @@ import Ajax from '@/admin/ajax.js';
 
 class Notices {
     constructor () {
-        jQuery('.glsr-notice[data-dismiss]').on('click.wp-dismiss-notice', this.onDismiss.bind(this))
-        jQuery('.glsr-notice-footer').on('click', this.onDismiss.bind(this))
+        jQuery('.glsr-notice[data-notice]').on('click.wp-dismiss-notice', this.onDismiss.bind(this))
         this.showBanner()
     }
 
@@ -20,12 +19,13 @@ class Notices {
     }
 
     dismissNotice ($el, $notice) {
-        if (!$el.hasClass('notice-dismiss') && !$el.hasClass('button')) return;
+        if (!$el.hasClass('notice-dismiss') && !$el.parent().hasClass('glsr-notice-buttons')) return;
         this.hideBanner($notice)
         this.removeNotice($notice)
         const ajax = new Ajax({
             _action: 'dismiss-notice',
-            notice: $notice.data('dismiss'),
+            dismiss: $el.data('dismiss'),
+            notice: $notice.data('notice'),
         });
         ajax.post()
     }
@@ -35,7 +35,7 @@ class Notices {
     }
 
     hideBanner ($notice) {
-        if ($notice.hasClass('glsr-notice-top-of-page')) {
+        if ($notice.hasClass('glsr-notice-banner')) {
             $notice.slideUp()
         }
     }
@@ -60,11 +60,16 @@ class Notices {
     }
 
     removeNotice ($notice) {
-        $notice.fadeTo(100, 0, () => $notice.slideUp(100, () => $notice.remove()))
+        if ($notice.hasClass('glsr-notice-popup')) {
+            $notice.on('transitionend', () => $notice.remove())
+            setTimeout(() => $notice.addClass('is-closing'), 50)
+        } else {
+            $notice.fadeTo(100, 0, () => $notice.slideUp(100, () => $notice.remove()))
+        }
     }
 
     showBanner () {
-        const $el = jQuery('.glsr-notice-top-of-page');
+        const $el = jQuery('.glsr-notice-banner');
         if ($el.length) {
             jQuery('#glsr-page-header').prepend($el.detach())
             $el.delay(1000).slideDown()
