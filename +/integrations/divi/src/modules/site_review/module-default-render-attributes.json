@@ -29,6 +29,18 @@
         "desktop": {
           "value": ""
         }
+      },
+      "styleRatingColor": {
+        "desktop": {
+          "value": {
+            "color": ""
+          }
+        }
+      },
+      "styleStarSize": {
+        "desktop": {
+          "value": "1.25em"
+        }
       }
     }
   }

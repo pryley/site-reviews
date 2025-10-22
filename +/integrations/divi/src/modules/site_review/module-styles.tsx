@@ -15,18 +15,21 @@ import { type ModuleAttrs } from './types';
     orderClass,
     settings,
     state,
-}: StylesProps<ModuleAttrs>): ReactElement => (
-    <StyleContainer mode={mode} state={state} noStyleTag={noStyleTag}>
-        {elements.style({
-            attrName: 'module',
-            styleProps: {
-                disabledOn: {
-                    disabledModuleVisibility: settings?.disabledModuleVisibility,
+}: StylesProps<ModuleAttrs>): ReactElement => {
+    return (
+        <StyleContainer mode={mode} state={state} noStyleTag={noStyleTag}>
+            {elements.style({
+                attrName: 'module',
+                styleProps: {
+                    disabledOn: {
+                        disabledModuleVisibility: settings?.disabledModuleVisibility,
+                    },
+                    advancedStyles: [],
                 },
-            },
-        })}
-    </StyleContainer>
-);
+            })}
+        </StyleContainer>
+    );
+}
 
 export {
     ModuleStyles,
