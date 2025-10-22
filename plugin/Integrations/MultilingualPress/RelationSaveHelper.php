@@ -105,6 +105,19 @@ class RelationSaveHelper
         }
     }
 
+    public function syncAuthor(int $userId): void
+    {
+        if ($userId === (int) $this->context->remotePost()->post_author) {
+            return;
+        }
+        $originalSiteId = $this->maybeSwitchSite($this->context->remoteSiteId());
+        glsr(Database::class)->update('posts',
+            ['post_author' => $userId],
+            ['ID' => $this->context->remotePostId()]
+        );
+        $this->maybeRestoreSite($originalSiteId);
+    }
+
     public function syncGeolocation(array $data): void
     {
         if (!$this->canSync()) {
