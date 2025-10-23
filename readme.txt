@@ -90,6 +90,7 @@ Site Reviews is officially compatible with the following plugins:
 - [BuddyBoss](https://www.buddyboss.com/)
 - [BuddyPress](https://buddypress.org/)
 - [Divi](https://www.elegantthemes.com/gallery/divi/)
+- [Duplicate Page](https://wordpress.org/plugins/duplicate-page/)
 - [Elementor](https://elementor.com/)
 - [Endurance Cache](https://github.com/bluehost/endurance-page-cache/)
 - [Flatsome Page Builder](https://themeforest.net/item/flatsome-multipurpose-responsive-woocommerce-theme/5484319)
@@ -101,6 +102,7 @@ Site Reviews is officially compatible with the following plugins:
 - [Litespeed Cache](https://wordpress.org/plugins/litespeed-cache/)
 - [Loyalty Program for WooCommerce](https://advancedcouponsplugin.com/woocommerce-loyalty-program/)
 - [Members](https://wordpress.org/plugins/members/)
+- [MultilingualPress](https://multilingualpress.org/)
 - [myCRED](https://mycred.me/)
 - [Ninja Forms](https://ninjaforms.com/)
 - [NitroPack](https://wordpress.org/plugins/nitropack/)
@@ -131,6 +133,7 @@ Site Reviews is officially compatible with the following plugins:
 - [WPLoyalty](https://wployalty.net/)
 - [WPML](https://wpml.org/)
 - [Yoast Duplicate Post](https://wordpress.org/plugins/duplicate-post/)
+- [Yoast SEO](https://yoast.com/wordpress/plugins/seo-free/)
 
 = Open Source =
 
@@ -212,6 +215,7 @@ Site Reviews has a fresh coat of paint!
 - Added [Bricks](https://bricksbuilder.io/) integration
 - Added [Duplicate Page](https://wordpress.org/plugins/duplicate-page/) integration
 - Added [Flatsome Page Builder](https://themeforest.net/item/flatsome-multipurpose-responsive-woocommerce-theme/5484319) integration
+- Added [MultilingualPress](https://multilingualpress.org/) integration
 - Added [ProfilePress](https://profilepress.com/) integration
 - Added [SureCart](https://surecart.com/) integration
 - Added [WPBakery Page Builder](https://wpbakery.com/) integration

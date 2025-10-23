@@ -223,6 +223,21 @@ class Str
             : $value;
     }
 
+    public static function uuidv7(): string
+    {
+        $value = random_bytes(16);
+        $timestamp = (int) (microtime(true) * 1000);
+        $value[0] = chr(($timestamp >> 40) & 0xff);
+        $value[1] = chr(($timestamp >> 32) & 0xff);
+        $value[2] = chr(($timestamp >> 24) & 0xff);
+        $value[3] = chr(($timestamp >> 16) & 0xff);
+        $value[4] = chr(($timestamp >> 8) & 0xff);
+        $value[5] = chr($timestamp & 0xff);
+        $value[6] = chr((ord($value[6]) & 0x0f) | 0x70);
+        $value[8] = chr((ord($value[8]) & 0x3f) | 0x80);
+        return bin2hex($value);
+    }
+
     public static function wpCase(string $value): string
     {
         $value = static::snakeCase($value);
