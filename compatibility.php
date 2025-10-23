@@ -10,6 +10,43 @@ use GeminiLabs\SiteReviews\Review;
 defined('ABSPATH') || exit;
 
 /**
+ * This fixes the "Product Reviews Style" setting in the Salient theme when
+ * the option is set to "Submission Form Off Canvas".
+ *
+ * @see https://themenectar.com/salient/
+ */
+add_action('wp_head', function () {
+    if (!class_exists('WooCommerce') || !function_exists('is_product')) {
+        return;
+    }
+    if ('Salient' !== wp_get_theme(get_template())->get('Name')) {
+        return;
+    }
+    if ('yes' !== get_option('woocommerce_enable_reviews', 'yes')) {
+        return;
+    }
+    if (!glsr_get_option('integrations.woocommerce.enabled', false, 'bool')) {
+        return;
+    }
+    if (is_product()) {
+        add_filter('woocommerce_reviews_title', function ($title, $count) {
+            return $title.(0 === $count ? apply_filters('nectar_woocommerce_no_reviews_title', '') : '');
+        }, 10, 2);
+        printf('<style>%s</style>',
+            '.wp-theme-salient.single-product #reviews[data-integration="site-reviews"] #comments .commentlist{'.
+                'width:100%;'.
+            '}'.
+            '@media only screen and (min-width:1000px){'.
+                '.wp-theme-salient.single-product #reviews[data-integration="site-reviews"] #comments .commentlist{'.
+                    'flex:1;'.
+                    'padding-left:7.5%;'.
+                '}'.
+            '}'
+        );
+    }
+});
+
+/**
  * This fixes the Site Reviews settings when the User Activity Log plugin is enabled.
  * 
  * @see https://wordpress.org/support/topic/this-breaks-the-wordpress-color-picker/

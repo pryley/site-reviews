@@ -239,6 +239,7 @@ Site Reviews has a fresh coat of paint!
 - ‼️ Changed the minimum required version of PHP to v8.0
 - ‼️ Changed the minimum required version of WordPress to v6.7
 - Fixed ActionScheduler action redirects
+- Fixed compatibility with the Salient theme
 - Fixed Elementor template support in the schema parser
 - Fixed generated CSS ID values to always be unique
 - Fixed link focus when expanding excerpts with the keyboard
