@@ -24,7 +24,7 @@ class FieldDefaults extends DefaultsAbstract
         'after' => 'text-html:a,br,code,span',
         'class' => 'attr-class',
         'conditions' => 'text',
-        'description' => 'text-html:a,br,code,span',
+        'description' => 'text-html:a,br,code,em,li,mark,ol,span,strong,ul',
         'group' => 'text',
         'id' => 'attr',
         'label' => 'text-html:a,code',
