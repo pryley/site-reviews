@@ -38,10 +38,10 @@ class SettingField extends Field
         $data = [
             'context' => [
                 'class' => $this->classAttrField(),
-                'depends_on' => $this->offsetGet('data-depends') ?? '',
+                'depends_on' => esc_attr($this->offsetGet('data-depends') ?? ''),
                 'field' => $this->buildFieldElement(),
                 'label' => $this->buildFieldLabel(),
-                'legend' => $this->label,
+                'legend' => esc_html($this->label),
             ],
             'field' => $this,
         ];
