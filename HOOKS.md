@@ -291,6 +291,7 @@
     site-reviews/validators                                     (array $validatorClasses): array
     site-reviews/verification/enabled                           (bool $bool): bool
     site-reviews/views/data                                     (array $data, string $view, string $file): array
+    site-reviews/views/data/<view_path>                         (array $data, string $file): array
     site-reviews/views/file                                     (string $filePath, string $view, array $data): string
     site-reviews/whip/methods                                   (int $bitwiseSeparatedConstants): int
     site-reviews/whip/whitelist                                 (array $whitelist): array
