@@ -657,7 +657,7 @@ msgctxt "admin-text"
 msgid "Licenses"
 msgstr "Licenses"
 
-#: helpers.php:113, plugin/Controllers/MenuController.php:176, plugin/Controllers/PrivacyController.php:136, plugin/Defaults/PostTypeLabelDefaults.php:17, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31, plugin/Integrations/SureCart/Controllers/ProductController.php:158, plugin/Integrations/WooCommerce/Metaboxes/ReviewsMetabox.php:15
+#: helpers.php:113, plugin/Controllers/MenuController.php:176, plugin/Controllers/PrivacyController.php:136, plugin/Defaults/PostTypeLabelDefaults.php:29, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31, plugin/Integrations/SureCart/Controllers/ProductController.php:158, plugin/Integrations/WooCommerce/Metaboxes/ReviewsMetabox.php:15
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr "Reviews"
@@ -1799,7 +1799,7 @@ msgctxt "admin-text"
 msgid "Title"
 msgstr "Title"
 
-#: config/settings.php:750, plugin/Defaults/PostTypeLabelDefaults.php:22
+#: config/settings.php:750, plugin/Defaults/PostTypeLabelDefaults.php:34
 msgctxt "admin-text"
 msgid "Review"
 msgstr "Review"
@@ -3962,7 +3962,7 @@ msgctxt "admin-text"
 msgid "View review"
 msgstr "View review"
 
-#: plugin/Integrations/IntegrationHooks.php:32
+#: plugin/Integrations/IntegrationHooks.php:32, plugin/Integrations/MultilingualPress/Hooks.php:86
 msgctxt "admin-text"
 msgid ""
 "Update %s to version %s or higher to enable the integration with Site "
@@ -5261,6 +5261,11 @@ msgctxt "admin-text"
 msgid "End"
 msgstr "End"
 
+#: plugin/Integrations/MultilingualPress/ServiceProvider.php:94
+msgctxt "admin-text"
+msgid "Enable Site Reviews Support for MultilingualPress."
+msgstr "Enable Site Reviews Support for MultilingualPress."
+
 #: plugin/Integrations/MyCred/Controller.php:21
 msgctxt "admin-text"
 msgid ""
@@ -5967,10 +5972,10 @@ msgstr "Can You Help?"
 msgctxt "admin-text"
 msgid ""
 "A ★★★★★ 5-star review from you on WordPress helps Site Reviews grow and "
-"encourages me to continue providing support and making it even better!"
+"encourages me to continue providing support and making it better!"
 msgstr ""
 "A ★★★★★ 5-star review from you on WordPress helps Site Reviews grow and "
-"encourages me to continue providing support and making it even better!"
+"encourages me to continue providing support and making it better!"
 
 #: views/partials/notices/write-review.php:12
 msgctxt "admin-text"
@@ -6286,6 +6291,57 @@ msgstr "Show value"
 msgctxt "admin-text"
 msgid "Hide value"
 msgstr "Hide value"
+
+#: views/integrations/multilingualpress/fields/assigned_posts.php:5
+msgctxt "admin-text"
+msgid "Synchronize Assigned Posts"
+msgstr "Synchronize Assigned Posts"
+
+#: views/integrations/multilingualpress/fields/assigned_posts.php:16
+msgctxt "admin-text"
+msgid ""
+"Overwrite the Assigned Posts of the target review with the translated "
+"Assigned Posts of the source review."
+msgstr ""
+"Overwrite the Assigned Posts of the target review with the translated "
+"Assigned Posts of the source review."
+
+#: views/integrations/multilingualpress/fields/assigned_terms.php:5
+msgctxt "admin-text"
+msgid "Synchronize Categories"
+msgstr "Synchronize Categories"
+
+#: views/integrations/multilingualpress/fields/assigned_terms.php:16
+msgctxt "admin-text"
+msgid ""
+"Overwrite the Assigned Categories of the target review with the Assigned "
+"Categories of the source review."
+msgstr ""
+"Overwrite the Assigned Categories of the target review with the Assigned "
+"Categories of the source review."
+
+#: views/integrations/multilingualpress/fields/assigned_users.php:5
+msgctxt "admin-text"
+msgid "Synchronize Assigned Users"
+msgstr "Synchronize Assigned Users"
+
+#: views/integrations/multilingualpress/fields/assigned_users.php:16
+msgctxt "admin-text"
+msgid ""
+"Overwrite the Assigned Users of the target review with the Assigned Users "
+"of the source review."
+msgstr ""
+"Overwrite the Assigned Users of the target review with the Assigned Users "
+"of the source review."
+
+#: views/integrations/multilingualpress/notices/network.php:5
+msgctxt "admin-text"
+msgid ""
+"Site Reviews is <a href=\"%s\">network activated</a> so any settings you "
+"change will sync across your MultilingualPress sites."
+msgstr ""
+"Site Reviews is <a href=\"%s\">network activated</a> so any settings you "
+"change will sync across your MultilingualPress sites."
 
 #: views/integrations/woocommerce/notices/reviews.php:12
 msgctxt "admin-text"
@@ -7438,44 +7494,109 @@ msgid "Review Archives"
 msgstr "Review Archives"
 
 #: plugin/Defaults/PostTypeLabelDefaults.php:14
+msgctxt "Post Attributes (admin-text)"
+msgid "Review Attributes"
+msgstr "Review Attributes"
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:15
 msgctxt "Edit Post (admin-text)"
 msgid "Edit Review"
 msgstr "Edit Review"
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:15
+#: plugin/Defaults/PostTypeLabelDefaults.php:16
+msgctxt "Filter posts list (admin-text)"
+msgid "Filter reviews list"
+msgstr "Filter reviews list"
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:17
 msgctxt "Insert into Post (admin-text)"
 msgid "Insert into Review"
 msgstr "Insert into Review"
 
 #: plugin/Defaults/PostTypeLabelDefaults.php:18
+msgctxt "Post Link (admin-text)"
+msgid "Review Link"
+msgstr "Review Link"
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:19
+msgctxt "A link to a post. (admin-text)"
+msgid "A link to a review."
+msgstr "A link to a review."
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:20
+msgctxt "Post published. (admin-text)"
+msgid "Review approved."
+msgstr "Review approved."
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:21
+msgctxt "Post published privately. (admin-text)"
+msgid "Review published privately."
+msgstr "Review published privately."
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:22
+msgctxt "Post reverted to draft. (admin-text)"
+msgid "Review reverted to draft."
+msgstr "Review reverted to draft."
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:23
+msgctxt "Post scheduled. (admin-text)"
+msgid "Review scheduled."
+msgstr "Review scheduled."
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:24
+msgctxt "Post trashed. (admin-text)"
+msgid "Review trashed."
+msgstr "Review trashed."
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:25
+msgctxt "Post updated. (admin-text)"
+msgid "Review updated."
+msgstr "Review updated."
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:26
+msgctxt "Posts list (admin-text)"
+msgid "Reviews list"
+msgstr "Reviews list"
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:27
+msgctxt "Posts list navigation (admin-text)"
+msgid "Reviews list navigation"
+msgstr "Reviews list navigation"
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:30
 msgctxt "New Post (admin-text)"
 msgid "New Review"
 msgstr "New Review"
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:19
+#: plugin/Defaults/PostTypeLabelDefaults.php:31
 msgctxt "No Posts found (admin-text)"
 msgid "No Reviews found"
 msgstr "No Reviews found"
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:20
+#: plugin/Defaults/PostTypeLabelDefaults.php:32
 msgctxt "No Posts found in Trash (admin-text)"
 msgid "No Reviews found in Trash"
 msgstr "No Reviews found in Trash"
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:21
+#: plugin/Defaults/PostTypeLabelDefaults.php:33
 msgctxt "Search Posts (admin-text)"
 msgid "Search Reviews"
 msgstr "Search Reviews"
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:23
+#: plugin/Defaults/PostTypeLabelDefaults.php:35
 msgctxt "Uploaded to this Post (admin-text)"
 msgid "Uploaded to this Review"
 msgstr "Uploaded to this Review"
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:24
+#: plugin/Defaults/PostTypeLabelDefaults.php:36
 msgctxt "View Post (admin-text)"
 msgid "View Review"
 msgstr "View Review"
+
+#: plugin/Defaults/PostTypeLabelDefaults.php:37
+msgctxt "View Posts (admin-text)"
+msgid "View Reviews"
+msgstr "View Reviews"
 
 #: plugin/Defaults/TaxonomyDefaults.php:17
 msgctxt "Admin menu name (admin-text)"
@@ -7965,6 +8086,30 @@ msgid ""
 msgstr ""
 "Categories with a higher priority will be displayed first when using the %s "
 "template tag in the review."
+
+#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:97
+msgctxt "multilingualpress text (admin-text)"
+msgid ""
+"Overwrite the content of the translated review with the content of the "
+"source review."
+msgstr ""
+"Overwrite the content of the translated review with the content of the "
+"source review."
+
+#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:98
+msgctxt "multilingualpress text (admin-text)"
+msgid "Review Slug:"
+msgstr "Review Slug:"
+
+#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:99
+msgctxt "multilingualpress text (admin-text)"
+msgid "Review Status:"
+msgstr "Review Status:"
+
+#: plugin/Integrations/MultilingualPress/Controllers/Controller.php:100
+msgctxt "multilingualpress text (admin-text)"
+msgid "Review Title:"
+msgstr "Review Title:"
 
 #: plugin/Modules/Html/Partials/Pagination.php:37
 msgctxt "screen reader text"

@@ -221,6 +221,7 @@ trait Plugin
             return;
         }
         $data = $this->filterArray('views/data', $data, $view, $file);
+        $data = $this->filterArray("views/data/{$view}", $data, $file);
         extract($data);
         include $file;
     }
