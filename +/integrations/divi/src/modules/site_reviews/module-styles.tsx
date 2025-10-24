@@ -25,6 +25,34 @@ import { type ModuleAttrs } from './types';
                 },
             },
         })}
+        {elements.style({
+            attrName: 'shortcode',
+            styleProps: {
+                advancedStyles: [
+                    {
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.shortcode?.advanced?.styleRatingColor,
+                            property: '--glsr-review-star-bg',
+                        },
+                    },
+                    {
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.shortcode?.advanced?.styleStarSize,
+                            property: '--glsr-review-star',
+                        },
+                    },
+                    {
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.shortcode?.advanced?.styleReviewSpacing,
+                            property: '--glsr-review-row-gap',
+                        },
+                    },
+                ],
+            },
+        })}
     </StyleContainer>
 );
 

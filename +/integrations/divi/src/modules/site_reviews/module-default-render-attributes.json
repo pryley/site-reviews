@@ -65,6 +65,23 @@
           "value": "off"
         }
       },
+      "styleRatingColor": {
+        "desktop": {
+          "value": {
+            "color": ""
+          }
+        }
+      },
+      "styleReviewSpacing": {
+        "desktop": {
+          "value": "2em"
+        }
+      },
+      "styleStarSize": {
+        "desktop": {
+          "value": "1.25em"
+        }
+      },
       "terms": {
         "desktop": {
           "value": ""

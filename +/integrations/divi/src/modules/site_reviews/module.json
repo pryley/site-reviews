@@ -360,6 +360,79 @@
                 "type": "field"
               }
             }
+          },
+          "styleRatingColor": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentDesign",
+              "attrName": "shortcode.advanced.styleRatingColor",
+              "label": "Rating Color",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/color-picker",
+                "type": "field"
+              }
+            }
+          },
+          "styleStarSize": {
+            "groupType": "group-item",
+            "item": {
+              "label": "Star Size",
+              "groupSlug": "contentDesign",
+              "attrName": "shortcode.advanced.styleStarSize",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/range",
+                "type": "field",
+                "props": {
+                  "min": 0,
+                  "minLimit": 0,
+                  "max": 120,
+                  "maxLimit": 120,
+                  "defaultUnit": "em",
+                  "allowedUnits": ["px", "em", "ex", "rem"]
+                }
+              }
+            }
+          },
+          "styleReviewSpacing": {
+            "groupType": "group-item",
+            "item": {
+              "label": "Review Spacing",
+              "groupSlug": "contentDesign",
+              "attrName": "shortcode.advanced.styleReviewSpacing",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/range",
+                "type": "field",
+                "props": {
+                  "min": 0,
+                  "minLimit": 0,
+                  "max": 120,
+                  "maxLimit": 120,
+                  "defaultUnit": "em",
+                  "allowedUnits": ["px", "em", "ex", "rem"]
+                }
+              }
+            }
           }
         }
       }
@@ -403,6 +476,18 @@
           "name": "divi/composite",
           "props": {
             "groupLabel": "Hide"
+          }
+        }
+      },
+      "contentDesign": {
+        "panel": "content",
+        "priority": 10,
+        "render": true,
+        "groupName": "contentDesign",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Design"
           }
         }
       },
