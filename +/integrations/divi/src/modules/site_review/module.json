@@ -160,9 +160,9 @@
           "styleStarSize": {
             "groupType": "group-item",
             "item": {
+              "label": "Star Size",
               "groupSlug": "contentDesign",
               "attrName": "shortcode.advanced.styleStarSize",
-              "label": "Star Size",
               "priority": 10,
               "render": true,
               "features": {
@@ -174,10 +174,12 @@
                 "name": "divi/range",
                 "type": "field",
                 "props": {
-                  "allowedUnits": ["px", "em", "ex", "rem"],
-                  "defaultUnit": "em",
                   "min": 0,
-                  "minLimit": 0
+                  "minLimit": 0,
+                  "max": 120,
+                  "maxLimit": 120,
+                  "defaultUnit": "em",
+                  "allowedUnits": ["px", "em", "ex", "rem"]
                 }
               }
             }

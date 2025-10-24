@@ -15,21 +15,40 @@ import { type ModuleAttrs } from './types';
     orderClass,
     settings,
     state,
-}: StylesProps<ModuleAttrs>): ReactElement => {
-    return (
-        <StyleContainer mode={mode} state={state} noStyleTag={noStyleTag}>
-            {elements.style({
-                attrName: 'module',
-                styleProps: {
-                    disabledOn: {
-                        disabledModuleVisibility: settings?.disabledModuleVisibility,
-                    },
-                    advancedStyles: [],
+}: StylesProps<ModuleAttrs>): ReactElement => (
+    <StyleContainer mode={mode} state={state} noStyleTag={noStyleTag}>
+        {elements.style({
+            attrName: 'module',
+            styleProps: {
+                disabledOn: {
+                    disabledModuleVisibility: settings?.disabledModuleVisibility,
                 },
-            })}
-        </StyleContainer>
-    );
-}
+                advancedStyles: [],
+            },
+        })}
+        {elements.style({
+            attrName: 'shortcode',
+            styleProps: {
+                advancedStyles: [
+                    {
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.shortcode?.advanced?.styleRatingColor,
+                            property: '--glsr-review-star-bg',
+                        },
+                    },
+                    {
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.shortcode?.advanced?.styleStarSize,
+                            property: '--glsr-review-star',
+                        },
+                    },
+                ],
+            },
+        })}
+    </StyleContainer>
+);
 
 export {
     ModuleStyles,
