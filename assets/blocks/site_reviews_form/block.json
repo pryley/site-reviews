@@ -52,6 +52,14 @@
       "default": "",
       "type": "string"
     },
+    "style": {
+      "type": "object",
+      "default": {
+        "typography": {
+          "textAlign": "left"
+        }
+      }
+    },
     "styleFieldSpacing": {
       "default": {
         "top": "0.75em",
@@ -90,7 +98,7 @@
     "typography": {
       "fontSize": true,
       "lineHeight": true,
-      "textAlign": false,
+      "textAlign": true,
       "__experimentalTextDecoration": false,
       "__experimentalFontFamily": true,
       "__experimentalFontWeight": true,

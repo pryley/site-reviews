@@ -36,6 +36,18 @@ return array(
 				'default' => '',
 				'type' => 'string'
 			),
+			'style' => array(
+				'type' => 'object',
+				'default' => array(
+					'typography' => array(
+						'textAlign' => 'left'
+					)
+				)
+			),
+			'styleAlign' => array(
+				'default' => 'left',
+				'type' => 'string'
+			),
 			'styleRatingColor' => array(
 				'default' => '',
 				'type' => 'string'
@@ -61,7 +73,7 @@ return array(
 			'typography' => array(
 				'fontSize' => true,
 				'lineHeight' => true,
-				'textAlign' => false,
+				'textAlign' => true,
 				'__experimentalTextDecoration' => false,
 				'__experimentalFontFamily' => true,
 				'__experimentalFontWeight' => true,
@@ -177,6 +189,18 @@ return array(
 				),
 				'type' => 'number'
 			),
+			'style' => array(
+				'type' => 'object',
+				'default' => array(
+					'typography' => array(
+						'textAlign' => 'left'
+					)
+				)
+			),
+			'styleAlign' => array(
+				'default' => 'left',
+				'type' => 'string'
+			),
 			'styleRatingColor' => array(
 				'default' => '',
 				'type' => 'string'
@@ -217,7 +241,7 @@ return array(
 			'typography' => array(
 				'fontSize' => true,
 				'lineHeight' => true,
-				'textAlign' => false,
+				'textAlign' => true,
 				'__experimentalTextDecoration' => false,
 				'__experimentalFontFamily' => true,
 				'__experimentalFontWeight' => true,
@@ -309,6 +333,14 @@ return array(
 				'default' => '',
 				'type' => 'string'
 			),
+			'style' => array(
+				'type' => 'object',
+				'default' => array(
+					'typography' => array(
+						'textAlign' => 'left'
+					)
+				)
+			),
 			'styleFieldSpacing' => array(
 				'default' => array(
 					'top' => '0.75em',
@@ -347,7 +379,7 @@ return array(
 			'typography' => array(
 				'fontSize' => true,
 				'lineHeight' => true,
-				'textAlign' => false,
+				'textAlign' => true,
 				'__experimentalTextDecoration' => false,
 				'__experimentalFontFamily' => true,
 				'__experimentalFontWeight' => true,

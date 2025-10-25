@@ -2,6 +2,7 @@ import {
     __experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
     __experimentalSpacingSizesControl as SpacingSizesControl,
     __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
+    JustifyContentControl,
     withColors,
 } from '@wordpress/block-editor';
 import {
@@ -128,6 +129,11 @@ const Edit = (props) => {
             label={ _x('Enable the Schema?', 'admin-text', 'site-reviews') }
             value={ attributes.schema }
         />,
+        styleAlign: <JustifyContentControl
+            allowedControls={['left', 'center', 'right']}
+            onChange={ (styleAlign) => setAttributes({ styleAlign }) }
+            value={ attributes.styleAlign }
+        />,
         styleRatingColor: <ColorGradientSettingsDropdown
             __experimentalIsRenderedInSidebar
             panelId={clientId}
@@ -204,6 +210,11 @@ const Edit = (props) => {
     };
 
     const panels = { // order is intentional
+        block: {
+            controls: [
+                'styleAlign',
+            ],
+        },
         settings: {
             controls: [
                 'assigned_posts',
@@ -268,7 +279,9 @@ const Edit = (props) => {
                     : attributes.styleRatingColorCustom,
             }}
             styleClassNames={[
-                (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-color' : '',
+                (attributes?.styleRatingColorCustom || styleRatingColor?.slug) ? 'has-custom-color' : '',
+                (attributes?.styleAlign) ? `items-justified-${attributes.styleAlign}` : '',
+                (attributes?.style?.typography?.textAlign) ? `has-text-align-${attributes.style.typography.textAlign}` : '',
             ]}
         />
     )
