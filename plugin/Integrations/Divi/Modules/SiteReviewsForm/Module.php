@@ -24,6 +24,7 @@ class Module extends DiviModule
         $args = glsr(ModuleClassnamesDefaults::class)->merge($args);
         $ratingColor = $args['attrs']['form']['decoration']['ratingColor']['desktop']['value'] ?? '';
         $args['classnamesInstance']->add('has-custom-color', !empty($ratingColor));
+        $args['classnamesInstance']->add('preset--module--divi-contact-form--default'); // inherit default style of contact form
         parent::module_classnames($args);
     }
 
