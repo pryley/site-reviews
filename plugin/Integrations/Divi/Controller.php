@@ -91,6 +91,22 @@ class Controller extends AbstractController
     }
 
     /**
+     * @param string $content
+     *
+     * @action divi_frontend_assets_dynamic_assets_required_module_assets
+     */
+    public function filterNextDynamicAssets(array $assets, $content): array
+    {
+        if (1 === preg_match('/wp:glsr-divi\//', Cast::toString($content))) {
+            $assets[] = 'divi/contact-form';
+            $assets[] = 'divi/gallery';
+            $assets[] = 'divi/search';
+            return array_values(array_unique($assets));
+        }
+        return $assets;
+    }
+
+    /**
      * @see filterPaginationLinks
      *
      * @filter site-reviews/paginate_link
