@@ -6,6 +6,18 @@
           "value": "Review Form"
         }
       }
+    },
+    "decoration": {
+      "styleRatingColor": {
+        "desktop": {
+          "value": "#faca15"
+        }
+      },
+      "styleRatingSize": {
+        "desktop": {
+          "value": "1.5em"
+        }
+      }
     }
   },
   "shortcode": {

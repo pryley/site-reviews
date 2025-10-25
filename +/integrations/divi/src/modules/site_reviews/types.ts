@@ -5,6 +5,29 @@ import {
   type FormatBreakpointStateAttr,
 } from '@divi/types';
 
+interface CustomDecorationAttributes extends Element.Decoration.PickedAttributes<
+  'animation' |
+  'background' |
+  'border' |
+  'boxShadow' |
+  'disabledOn' |
+  'filters' |
+  'font' |
+  'overflow' |
+  'position' |
+  'scroll' |
+  'sizing' |
+  'spacing' |
+  'sticky' |
+  'transform' |
+  'transition' |
+  'zIndex'
+> {
+  styleRatingColor?: FormatBreakpointStateAttr<string>;
+  styleRatingSize?: FormatBreakpointStateAttr<string>;
+  styleReviewSpacing?: FormatBreakpointStateAttr<string>;
+}
+
 export interface ModuleAttrs extends InternalAttrs {
   module?: {
     advanced?: {
@@ -12,23 +35,7 @@ export interface ModuleAttrs extends InternalAttrs {
       link?: Element.Advanced.Link.Attributes;
       text?: Element.Advanced.Text.Attributes;
     };
-    decoration?: Element.Decoration.PickedAttributes<
-      'animation' |
-      'background' |
-      'border' |
-      'boxShadow' |
-      'disabledOn' |
-      'filters' |
-      'overflow' |
-      'position' |
-      'scroll' |
-      'sizing' |
-      'spacing' |
-      'sticky' |
-      'transform' |
-      'transition' |
-      'zIndex'
-    >;
+    decoration?: CustomDecorationAttributes;
     meta?: Element.Meta.Attributes;
   };
   shortcode?: {
@@ -44,23 +51,10 @@ export interface ModuleAttrs extends InternalAttrs {
       pagination?: FormatBreakpointStateAttr<string>;
       rating?: FormatBreakpointStateAttr<number>;
       schema?: FormatBreakpointStateAttr<string>;
-      styleRatingColor?: FormatBreakpointStateAttr<string>;
-      styleReviewSpacing?: FormatBreakpointStateAttr<string>;
-      styleStarSize?: FormatBreakpointStateAttr<string>;
       terms?: FormatBreakpointStateAttr<string>;
       type?: FormatBreakpointStateAttr<string>;
     },
   };
-}
-
-export interface Item {
-    id: string | number;
-    title: string;
-}
-
-export interface TransformedItem {
-    label: string;
-    value: string;
 }
 
 export type EditProps = ModuleEditProps<ModuleAttrs>;

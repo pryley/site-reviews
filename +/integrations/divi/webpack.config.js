@@ -140,14 +140,14 @@ module.exports = {
     ]
   },
   optimization: {
-    // Split CSS code for visual builder and Front-end.
-    // style.scss file will use for front-end.
-    // module.scss or any other *.scss file without style.scss will be used for Front-end.
+    // Split CSS code for visual builder and frontend.
+    // vb.scss file will used for visual builder.
+    // module.scss or any other *.scss file without vb.scss will be used for visual builder and frontend.
     splitChunks: {
       cacheGroups: {
         vb: {
           type: 'css/mini-extract',
-          test: /[\\/]style(\.module)?\.(sc|sa|c)ss$/,
+          test: /[\\/]vb(\.module)?\.(sc|sa|c)ss$/,
           chunks: 'all',
           enforce: true,
           name( _, chunks, cacheGroupKey ) {

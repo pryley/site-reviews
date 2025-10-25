@@ -6,6 +6,40 @@
           "value": "Rating Summary"
         }
       }
+    },
+    "decoration": {
+      "sizing": {
+        "desktop": {
+          "value": {
+            "maxWidth": "48ch"
+          }
+        }
+      },
+      "stylePreset": {
+        "desktop": {
+          "value": "0"
+        }
+      },
+      "styleBarSize": {
+        "desktop": {
+          "value": "1em"
+        }
+      },
+      "styleBarSpacing": {
+        "desktop": {
+          "value": "0.5em"
+        }
+      },
+      "styleRatingColor": {
+        "desktop": {
+          "value": "#faca15"
+        }
+      },
+      "styleRatingSize": {
+        "desktop": {
+          "value": "1.5em"
+        }
+      }
     }
   },
   "shortcode": {

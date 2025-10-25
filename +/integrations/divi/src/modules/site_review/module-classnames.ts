@@ -4,7 +4,6 @@ import {
     type ModuleClassnamesParams,
 } from '@divi/module';
 import { isString } from 'lodash';
-
 import { type ModuleAttrs } from './types';
 
 export const moduleClassnames = ({
@@ -13,6 +12,7 @@ export const moduleClassnames = ({
     classnamesInstance,
     state,
 }: ModuleClassnamesParams<ModuleAttrs>): void => {
+    const ratingColor = attrs?.module?.decoration?.styleRatingColor?.desktop?.value;
     classnamesInstance.add(textOptionsClassnames(attrs?.module?.advanced?.text))
-    classnamesInstance.add('has-custom-color', isString(attrs?.shortcode?.advanced?.styleRatingColor?.desktop?.value))
+    classnamesInstance.add('has-custom-color', isString(ratingColor) && '' !== ratingColor)
 };

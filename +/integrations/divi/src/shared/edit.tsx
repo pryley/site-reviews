@@ -1,8 +1,4 @@
-import React, {
-    type ReactElement,
-    useEffect,
-    useRef,
-} from 'react';
+import React, { type ReactElement, useEffect, useRef } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { debounce, get, isNil, omitBy } from 'lodash';
 import { ModuleContainer } from '@divi/module';
@@ -11,14 +7,7 @@ import { getAttrByMode, getAttrNamesByGroup } from '@divi/module-utils';
 import { Loading } from '@divi/ui-library';
 import { RawHTML } from '@wordpress/element';
 import { useFetch } from '@divi/rest';
-
-import { moduleClassnames } from './module-classnames';
-import { ModuleScriptData } from './module-script-data';
-import { ModuleStyles } from './module-styles';
-
 import { type EditProps } from './types';
-
-const blockName = 'site-reviews/review';
 
 const ModuleEdit = (props: EditProps): ReactElement => {
     const {
@@ -28,8 +17,10 @@ const ModuleEdit = (props: EditProps): ReactElement => {
         isFirst,
         isLast,
         name,
+        moduleClassnames,
+        ModuleScriptData,
+        ModuleStyles,
     } = props;
-
     const {
         abort,
         fetch,
@@ -37,6 +28,7 @@ const ModuleEdit = (props: EditProps): ReactElement => {
         response: { rendered },
     } = useFetch<{ rendered: string }>({ rendered: '' });
 
+    const blockName = name.replace('glsr-divi', 'site-reviews');
     const moduleRef = useRef(null);
 
     const parseAttrs = (): Record<string, any> => {
@@ -46,43 +38,37 @@ const ModuleEdit = (props: EditProps): ReactElement => {
             ...getAttrNamesByGroup(name, 'contentHide'),
             ...getAttrNamesByGroup(name, 'contentAdvanced'),
         ];
-        const results: Record<string, any> = {};
+        const results: Record<string, any> = {
+            context: 'edit',
+        };
         attrNames.forEach((attName: string) => {
             const key = attName.split('.').pop();
             let value = getAttrByMode(get(attrs, attName));
             if (Array.isArray(value) && value.every(obj => obj?.value !== undefined)) {
                 value = value.map(obj => obj.value);
-                // @ts-expect-error
-                if (2 > value.length) {
-                    // @ts-expect-error
-                    value = value[0] ?? '';
-                }
             }
             // @ts-expect-error
-            if (['on','off'].includes(value)) {
+            if (['on', 'off'].includes(value)) {
                 value = 'on' === value ? 1 : 0;
             }
-            results[key] = value;
+            results[`attributes[${key}]`] = value;
         });
         return results;
-    }
+    };
 
     const attributes = omitBy(parseAttrs(), isNil);
 
     const debouncedFetch = debounce(() => {
         fetch({
-            method: 'POST',
+            data: attributes,
+            method: 'GET',
             restRoute: `/wp/v2/block-renderer/${blockName}`,
-            data: {
-                attributes,
-                context: 'edit',
-            },
         }).catch(error => {
             if ('AbortError' !== error.name) {
                 console.error(error);
             }
         });
-    }, 300)
+    }, 300);
 
     useDeepCompareEffect(() => {
         debouncedFetch();
@@ -96,23 +82,19 @@ const ModuleEdit = (props: EditProps): ReactElement => {
         if (!isLoading) {
             return null;
         }
-        return (
-            <Loading />
-        );
+        return <Loading />;
     };
 
     const renderModule = () => {
         if (isLoading) {
             return null;
         }
-        return (
-            <RawHTML>{ rendered }</RawHTML>
-        );
-    }
+        return <RawHTML>{rendered}</RawHTML>;
+    };
 
     useEffect(() => {
         // @ts-expect-error
-        window?.GLSR_init && (window.GLSR_init(`block:${blockName}`))
+        window?.GLSR_init && window.GLSR_init(`block:${blockName}`);
     }, [props]);
 
     return (
@@ -133,8 +115,6 @@ const ModuleEdit = (props: EditProps): ReactElement => {
             {renderModule()}
         </ModuleContainer>
     );
-}
-
-export {
-    ModuleEdit,
 };
+
+export { ModuleEdit };

@@ -4,10 +4,9 @@ import {
     TextStyle,
     type StylesProps,
 } from '@divi/module';
-
 import { type ModuleAttrs } from './types';
 
- const ModuleStyles = ({
+const ModuleStyles = ({
     attrs,
     elements,
     mode,
@@ -23,6 +22,24 @@ import { type ModuleAttrs } from './types';
                 disabledOn: {
                     disabledModuleVisibility: settings?.disabledModuleVisibility,
                 },
+                advancedStyles: [
+                    {
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.module?.decoration?.styleRatingColor,
+                            declarationFunction: ({ attrValue }) => {
+                                return `--glsr-form-star-bg:${attrValue};`;
+                            },
+                        },
+                    },
+                    {
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.module?.decoration?.styleRatingSize,
+                            property: '--glsr-form-star',
+                        },
+                    },
+                ],
             },
         })}
     </StyleContainer>

@@ -4,10 +4,9 @@ import {
     TextStyle,
     type StylesProps,
 } from '@divi/module';
-
 import { type ModuleAttrs } from './types';
 
- const ModuleStyles = ({
+const ModuleStyles = ({
     attrs,
     elements,
     mode,
@@ -23,30 +22,25 @@ import { type ModuleAttrs } from './types';
                 disabledOn: {
                     disabledModuleVisibility: settings?.disabledModuleVisibility,
                 },
-            },
-        })}
-        {elements.style({
-            attrName: 'shortcode',
-            styleProps: {
                 advancedStyles: [
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.shortcode?.advanced?.styleRatingColor,
+                            attr: attrs?.module?.decoration?.styleRatingColor,
                             property: '--glsr-review-star-bg',
                         },
                     },
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.shortcode?.advanced?.styleStarSize,
+                            attr: attrs?.module?.decoration?.styleRatingSize,
                             property: '--glsr-review-star',
                         },
                     },
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.shortcode?.advanced?.styleReviewSpacing,
+                            attr: attrs?.module?.decoration?.styleReviewSpacing,
                             property: '--glsr-review-row-gap',
                         },
                     },

@@ -3,7 +3,7 @@ import {
     textOptionsClassnames,
     type ModuleClassnamesParams,
 } from '@divi/module';
-
+import { isString } from 'lodash';
 import { type ModuleAttrs } from './types';
 
 export const moduleClassnames = ({
@@ -12,16 +12,5 @@ export const moduleClassnames = ({
     classnamesInstance,
     state,
 }: ModuleClassnamesParams<ModuleAttrs>): void => {
-    classnamesInstance.add(
-        textOptionsClassnames(attrs?.module?.advanced?.text)
-    );
-    classnamesInstance.add(
-        elementClassnames({
-            attrs: {
-                ...attrs?.module?.decoration ?? {},
-            },
-            breakpoint,
-            state,
-        }),
-    );
+    classnamesInstance.add(textOptionsClassnames(attrs?.module?.advanced?.text));
 };

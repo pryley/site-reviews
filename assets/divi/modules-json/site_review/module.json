@@ -40,7 +40,54 @@
           "sticky": {},
           "transform": {},
           "transition": {},
-          "zIndex": {}
+          "zIndex": {},
+          "styleRatingColor": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "shortcodeDesign",
+              "attrName": "module.decoration.styleRatingColor",
+              "label": "Rating Color",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/color-picker",
+                "type": "field"
+              }
+            }
+          },
+          "styleRatingSize": {
+            "groupType": "group-item",
+            "item": {
+              "label": "Rating Size",
+              "groupSlug": "shortcodeDesign",
+              "attrName": "module.decoration.styleRatingSize",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/range",
+                "type": "field",
+                "props": {
+                  "cssProperty": "all",
+                  "min": 0,
+                  "minLimit": 0,
+                  "max": 120,
+                  "maxLimit": 120,
+                  "defaultUnit": "em",
+                  "allowedUnits": ["px", "em", "ex", "rem"]
+                }
+              }
+            }
+          }
         },
         "meta": {
           "adminLabel": {}
@@ -137,52 +184,6 @@
                 "type": "field"
               }
             }
-          },
-          "styleRatingColor": {
-            "groupType": "group-item",
-            "item": {
-              "groupSlug": "contentDesign",
-              "attrName": "shortcode.advanced.styleRatingColor",
-              "label": "Rating Color",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/color-picker",
-                "type": "field"
-              }
-            }
-          },
-          "styleStarSize": {
-            "groupType": "group-item",
-            "item": {
-              "label": "Star Size",
-              "groupSlug": "contentDesign",
-              "attrName": "shortcode.advanced.styleStarSize",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/range",
-                "type": "field",
-                "props": {
-                  "min": 0,
-                  "minLimit": 0,
-                  "max": 120,
-                  "maxLimit": 120,
-                  "defaultUnit": "em",
-                  "allowedUnits": ["px", "em", "ex", "rem"]
-                }
-              }
-            }
           }
         }
       }
@@ -229,18 +230,6 @@
           }
         }
       },
-      "contentDesign": {
-        "panel": "content",
-        "priority": 10,
-        "render": true,
-        "groupName": "contentDesign",
-        "component": {
-          "name": "divi/composite",
-          "props": {
-            "groupLabel": "Design"
-          }
-        }
-      },
       "contentAdvanced": {
         "panel": "content",
         "priority": 10,
@@ -250,6 +239,18 @@
           "name": "divi/composite",
           "props": {
             "groupLabel": "Advanced"
+          }
+        }
+      },
+      "shortcodeDesign": {
+        "panel": "design",
+        "priority": 10,
+        "render": true,
+        "groupName": "shortcodeDesign",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Review Design"
           }
         }
       }

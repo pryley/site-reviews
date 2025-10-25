@@ -6,6 +6,18 @@
           "value": "Single Review"
         }
       }
+    },
+    "decoration": {
+      "styleRatingColor": {
+        "desktop": {
+          "value": "#faca15"
+        }
+      },
+      "styleRatingSize": {
+        "desktop": {
+          "value": "1.25em"
+        }
+      }
     }
   },
   "shortcode": {
@@ -28,18 +40,6 @@
       "post_id": {
         "desktop": {
           "value": ""
-        }
-      },
-      "styleRatingColor": {
-        "desktop": {
-          "value": {
-            "color": ""
-          }
-        }
-      },
-      "styleStarSize": {
-        "desktop": {
-          "value": "1.25em"
         }
       }
     }

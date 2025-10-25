@@ -91,18 +91,3 @@
         mask-image: var(--glsr-star-half);
     }
 }
-.has-custom-color .glsr:not([data-theme]) .glsr-review {
-    .glsr-star {
-        background: var(--glsr-review-star-bg);
-        mask-size: 100%;
-    }
-    .glsr-star-empty {
-        mask-image: var(--glsr-star-empty);
-    }
-    .glsr-star-full {
-        mask-image: var(--glsr-star-full);
-    }
-    .glsr-star-half {
-        mask-image: var(--glsr-star-half);
-    }
-}

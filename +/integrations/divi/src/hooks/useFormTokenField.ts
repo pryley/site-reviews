@@ -1,11 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { loggedFetch } from '@divi/rest';
 import { type FieldLibrary } from '@divi/types';
-
-interface Item {
-    id: string | number;
-    title: string;
-}
+import { type Item } from '../shared/types';
 
 export const useFormTokenField = (shortcode: string, option: string, value: string[]) => {
     // @ts-expect-error

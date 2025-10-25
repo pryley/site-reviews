@@ -22,9 +22,8 @@ class Module extends DiviModule
     public static function module_classnames(array $args): void
     {
         $args = glsr(ModuleClassnamesDefaults::class)->merge($args);
-        $args['classnamesInstance']->add('has-custom-color',
-            $args['attrs']['shortcode']['advanced']['styleRatingColor']['desktop']['value'] ?? ''
-        );
+        $ratingColor = $args['attrs']['module']['decoration']['styleRatingColor']['desktop']['value'] ?? '';
+        $args['classnamesInstance']->add('has-custom-color', !empty($ratingColor));
         parent::module_classnames($args);
     }
 
@@ -43,27 +42,27 @@ class Module extends DiviModule
             'storeInstance' => $args['storeInstance'],
             'styles' => [
                 $elements->style([
-                    'attrName' => 'shortcode',
+                    'attrName' => 'module',
                     'styleProps' => [
                         'advancedStyles' => [
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
-                                    'attr' => $attrs['shortcode']['advanced']['styleRatingColor'] ?? [],
+                                    'attr' => $attrs['module']['decoration']['styleRatingColor'] ?? [],
                                     'property' => '--glsr-review-star-bg',
                                 ],
                             ],
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
-                                    'attr' => $attrs['shortcode']['advanced']['styleStarSize'] ?? [],
+                                    'attr' => $attrs['module']['decoration']['styleRatingSize'] ?? [],
                                     'property' => '--glsr-review-star',
                                 ],
                             ],
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
-                                    'attr' => $attrs['shortcode']['advanced']['styleReviewSpacing'] ?? [],
+                                    'attr' => $attrs['module']['decoration']['styleReviewSpacing'] ?? [],
                                     'property' => '--glsr-review-row-gap',
                                 ],
                             ],

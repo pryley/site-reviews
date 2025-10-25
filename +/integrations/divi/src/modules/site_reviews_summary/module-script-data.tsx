@@ -1,11 +1,5 @@
-import React, {
-    type ReactElement,
-} from 'react';
-
-import {
-    type ModuleScriptDataProps,
-} from '@divi/module';
-
+import React, { type ReactElement } from 'react';
+import { type ModuleScriptDataProps } from '@divi/module';
 import { type ModuleAttrs } from './types';
 
 export const ModuleScriptData = ({
