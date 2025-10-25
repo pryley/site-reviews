@@ -42,20 +42,6 @@ const ModuleStyles = ({
                             property: '--glsr-form-star',
                         },
                     },
-                    {
-                        componentName: "divi/common",
-                        props: {
-                            attr: attrs?.form?.decoration?.formColGap,
-                            property: '--glsr-form-col-gap',
-                        },
-                    },
-                    {
-                        componentName: "divi/common",
-                        props: {
-                            attr: attrs?.form?.decoration?.formRowGap,
-                            property: '--glsr-form-row-gap',
-                        },
-                    },
                 ],
             },
         })}

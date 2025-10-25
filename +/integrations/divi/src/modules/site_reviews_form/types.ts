@@ -48,8 +48,6 @@ export interface ModuleAttrs extends InternalAttrs {
     decoration?: {
       ratingColor?: FormatBreakpointStateAttr<string>;
       ratingSize?: FormatBreakpointStateAttr<string>;
-      formColGap?: FormatBreakpointStateAttr<string>;
-      formRowGap?: FormatBreakpointStateAttr<string>;
     },
   };
 }

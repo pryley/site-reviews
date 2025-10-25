@@ -63,16 +63,6 @@
         "desktop": {
           "value": "1.5em"
         }
-      },
-      "formColGap": {
-        "desktop": {
-          "value": "0.75em"
-        }
-      },
-      "formRowGap": {
-        "desktop": {
-          "value": "0.75em"
-        }
       }
     }
   }

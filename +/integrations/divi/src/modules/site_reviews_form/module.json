@@ -293,62 +293,6 @@
                 }
               }
             }
-          },
-          "formColGap": {
-            "groupType": "group-item",
-            "item": {
-              "label": "Form Column Gap",
-              "groupSlug": "designForm",
-              "attrName": "form.decoration.formColGap",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "dynamicContent": {
-                  "type": "number"
-                },
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/range",
-                "type": "field",
-                "props": {
-                  "allowedUnits": ["px", "em", "ex", "rem"],
-                  "cssProperty": "gap",
-                  "defaultUnit": "em",
-                  "minLimit": 0
-                }
-              }
-            }
-          },
-          "formRowGap": {
-            "groupType": "group-item",
-            "item": {
-              "label": "Form Row Gap",
-              "groupSlug": "designForm",
-              "attrName": "form.decoration.formRowGap",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "dynamicContent": {
-                  "type": "number"
-                },
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/range",
-                "type": "field",
-                "props": {
-                  "allowedUnits": ["px", "em", "ex", "rem"],
-                  "cssProperty": "gap",
-                  "defaultUnit": "em",
-                  "minLimit": 0
-                }
-              }
-            }
           }
         }
       }
