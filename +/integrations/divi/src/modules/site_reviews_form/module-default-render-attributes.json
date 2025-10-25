@@ -6,18 +6,6 @@
           "value": "Review Form"
         }
       }
-    },
-    "decoration": {
-      "styleRatingColor": {
-        "desktop": {
-          "value": "#faca15"
-        }
-      },
-      "styleRatingSize": {
-        "desktop": {
-          "value": "1.5em"
-        }
-      }
     }
   },
   "shortcode": {
@@ -60,6 +48,30 @@
       "summary_id": {
         "desktop": {
           "value": ""
+        }
+      }
+    }
+  },
+  "form": {
+    "decoration": {
+      "ratingColor": {
+        "desktop": {
+          "value": "#faca15"
+        }
+      },
+      "ratingSize": {
+        "desktop": {
+          "value": "1.5em"
+        }
+      },
+      "formColGap": {
+        "desktop": {
+          "value": "0.75em"
+        }
+      },
+      "formRowGap": {
+        "desktop": {
+          "value": "0.75em"
         }
       }
     }

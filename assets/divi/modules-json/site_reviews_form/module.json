@@ -40,54 +40,7 @@
           "sticky": {},
           "transform": {},
           "transition": {},
-          "zIndex": {},
-          "styleRatingColor": {
-            "groupType": "group-item",
-            "item": {
-              "groupSlug": "shortcodeDesign",
-              "attrName": "module.decoration.styleRatingColor",
-              "label": "Rating Color",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/color-picker",
-                "type": "field"
-              }
-            }
-          },
-          "styleRatingSize": {
-            "groupType": "group-item",
-            "item": {
-              "label": "Rating Size",
-              "groupSlug": "shortcodeDesign",
-              "attrName": "module.decoration.styleRatingSize",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/range",
-                "type": "field",
-                "props": {
-                  "cssProperty": "all",
-                  "min": 0,
-                  "minLimit": 0,
-                  "max": 120,
-                  "maxLimit": 120,
-                  "defaultUnit": "em",
-                  "allowedUnits": ["px", "em", "ex", "rem"]
-                }
-              }
-            }
-          }
+          "zIndex": {}
         },
         "meta": {
           "adminLabel": {}
@@ -285,6 +238,120 @@
           }
         }
       }
+    },
+    "form": {
+      "type": "object",
+      "selector": "{{selector}} .glsr-form",
+      "settings": {
+        "decoration": {
+          "ratingColor": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designForm",
+              "attrName": "form.decoration.ratingColor",
+              "label": "Rating Color",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/color-picker",
+                "type": "field"
+              }
+            }
+          },
+          "ratingSize": {
+            "groupType": "group-item",
+            "item": {
+              "label": "Rating Size",
+              "groupSlug": "designForm",
+              "attrName": "form.decoration.ratingSize",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "dynamicContent": {
+                  "type": "number"
+                },
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/range",
+                "type": "field",
+                "props": {
+                  "allowedUnits": ["px", "em", "ex", "rem"],
+                  "cssProperty": "width",
+                  "defaultUnit": "em",
+                  "max": 120,
+                  "maxLimit": 120,
+                  "min": 0,
+                  "minLimit": 0
+                }
+              }
+            }
+          },
+          "formColGap": {
+            "groupType": "group-item",
+            "item": {
+              "label": "Form Column Gap",
+              "groupSlug": "designForm",
+              "attrName": "form.decoration.formColGap",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "dynamicContent": {
+                  "type": "number"
+                },
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/range",
+                "type": "field",
+                "props": {
+                  "allowedUnits": ["px", "em", "ex", "rem"],
+                  "cssProperty": "gap",
+                  "defaultUnit": "em",
+                  "minLimit": 0
+                }
+              }
+            }
+          },
+          "formRowGap": {
+            "groupType": "group-item",
+            "item": {
+              "label": "Form Row Gap",
+              "groupSlug": "designForm",
+              "attrName": "form.decoration.formRowGap",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "dynamicContent": {
+                  "type": "number"
+                },
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/range",
+                "type": "field",
+                "props": {
+                  "allowedUnits": ["px", "em", "ex", "rem"],
+                  "cssProperty": "gap",
+                  "defaultUnit": "em",
+                  "minLimit": 0
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "customCssFields": {},
@@ -340,15 +407,15 @@
           }
         }
       },
-      "shortcodeDesign": {
+      "designForm": {
         "panel": "design",
         "priority": 10,
         "render": true,
-        "groupName": "shortcodeDesign",
+        "groupName": "designForm",
         "component": {
           "name": "divi/composite",
           "props": {
-            "groupLabel": "Form Design"
+            "groupLabel": "Form"
           }
         }
       }

@@ -20,7 +20,17 @@
       "settings": {
         "advanced": {
           "htmlAttributes": {},
-          "text": {}
+          "text": {
+            "component": {
+              "props": {
+                "fields": {
+                  "orientation": {
+                    "render": false
+                  }
+                }
+              }
+            }
+          }
         },
         "decoration": {
           "animation": {},
@@ -40,148 +50,7 @@
           "sticky": {},
           "transform": {},
           "transition": {},
-          "zIndex": {},
-          "stylePreset": {
-            "groupType": "group-item",
-            "item": {
-              "groupSlug": "shortcodeDesign",
-              "attrName": "module.decoration.stylePreset",
-              "label": "Style Preset",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/select",
-                "type": "field",
-                "props": {
-                  "options": {
-                    "0": {
-                      "label": "Default"
-                    },
-                    "1": {
-                      "label": "Style 1"
-                    },
-                    "2": {
-                      "label": "Style 2"
-                    },
-                    "3": {
-                      "label": "Style 3"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "styleRatingColor": {
-            "groupType": "group-item",
-            "item": {
-              "groupSlug": "shortcodeDesign",
-              "attrName": "module.decoration.styleRatingColor",
-              "label": "Rating Color",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/color-picker",
-                "type": "field"
-              }
-            }
-          },
-          "styleRatingSize": {
-            "groupType": "group-item",
-            "item": {
-              "label": "Rating Size",
-              "groupSlug": "shortcodeDesign",
-              "attrName": "module.decoration.styleRatingSize",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/range",
-                "type": "field",
-                "props": {
-                  "cssProperty": "all",
-                  "min": 0,
-                  "minLimit": 0,
-                  "max": 120,
-                  "maxLimit": 120,
-                  "defaultUnit": "em",
-                  "allowedUnits": ["px", "em", "ex", "rem"]
-                }
-              }
-            }
-          },
-          "styleBarSize": {
-            "groupType": "group-item",
-            "item": {
-              "label": "Percent Bar Size",
-              "groupSlug": "shortcodeDesign",
-              "attrName": "module.decoration.styleBarSize",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/range",
-                "type": "field",
-                "props": {
-                  "cssProperty": "all",
-                  "min": 0,
-                  "minLimit": 0,
-                  "max": 120,
-                  "maxLimit": 120,
-                  "defaultUnit": "em",
-                  "allowedUnits": ["px", "em", "ex", "rem"]
-                }
-              }
-            }
-          },
-          "styleBarSpacing": {
-            "groupType": "group-item",
-            "item": {
-              "label": "Percent Bar Gap",
-              "groupSlug": "shortcodeDesign",
-              "attrName": "module.decoration.styleBarSpacing",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "dynamicContent": {
-                  "type": "number"
-                },
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/range",
-                "type": "field",
-                "props": {
-                  "cssProperty": "all",
-                  "min": 0,
-                  "minLimit": 0,
-                  "max": 120,
-                  "maxLimit": 120,
-                  "defaultUnit": "em",
-                  "allowedUnits": ["px", "em", "ex", "rem"]
-                }
-              }
-            }
-          }
+          "zIndex": {}
         },
         "meta": {
           "adminLabel": {}
@@ -515,6 +384,166 @@
           }
         }
       }
+    },
+    "summary": {
+      "type": "object",
+      "selector": "{{selector}} .glsr-summary",
+      "settings": {
+        "decoration": {
+          "preset": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designSummary",
+              "attrName": "summary.decoration.preset",
+              "label": "Style Preset",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/button-options",
+                "type": "field",
+                "props": {
+                  "justified": true,
+                  "options": {
+                    "0": {
+                      "label": "Default",
+                      "tooltip": "Default"
+                    },
+                    "1": {
+                      "label": "1",
+                      "tooltip": "Style 1"
+                    },
+                    "2": {
+                      "label": "2",
+                      "tooltip": "Style 2"
+                    },
+                    "3": {
+                      "label": "3",
+                      "tooltip": "Style 3"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "ratingColor": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designSummary",
+              "attrName": "summary.decoration.ratingColor",
+              "label": "Rating Color",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/color-picker",
+                "type": "field"
+              }
+            }
+          },
+          "ratingSize": {
+            "groupType": "group-item",
+            "item": {
+              "label": "Rating Size",
+              "groupSlug": "designSummary",
+              "attrName": "summary.decoration.ratingSize",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "dynamicContent": {
+                  "type": "number"
+                },
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/range",
+                "type": "field",
+                "props": {
+                  "cssProperty": "width",
+                  "min": 0,
+                  "minLimit": 0,
+                  "max": 120,
+                  "maxLimit": 120,
+                  "defaultUnit": "em",
+                  "allowedUnits": ["px", "em", "ex", "rem"]
+                }
+              }
+            }
+          },
+          "barSize": {
+            "groupType": "group-item",
+            "item": {
+              "label": "Percent Bar Size",
+              "groupSlug": "designSummary",
+              "attrName": "summary.decoration.barSize",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "dynamicContent": {
+                  "type": "number"
+                },
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/range",
+                "type": "field",
+                "props": {
+                  "cssProperty": "height",
+                  "min": 0,
+                  "minLimit": 0,
+                  "max": 120,
+                  "maxLimit": 120,
+                  "defaultUnit": "em",
+                  "allowedUnits": ["px", "em", "ex", "rem"]
+                }
+              }
+            }
+          },
+          "barSpacing": {
+            "groupType": "group-item",
+            "item": {
+              "label": "Percent Bar Gap",
+              "groupSlug": "designSummary",
+              "attrName": "summary.decoration.barSpacing",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "dynamicContent": {
+                  "type": "number"
+                },
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/range",
+                "type": "field",
+                "props": {
+                  "cssProperty": "gap",
+                  "min": 0,
+                  "minLimit": 0,
+                  "max": 120,
+                  "maxLimit": 120,
+                  "defaultUnit": "em",
+                  "allowedUnits": ["px", "em", "ex", "rem"]
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "customCssFields": {},
@@ -570,15 +599,15 @@
           }
         }
       },
-      "shortcodeDesign": {
+      "designSummary": {
         "panel": "design",
         "priority": 10,
         "render": true,
-        "groupName": "shortcodeDesign",
+        "groupName": "designSummary",
         "component": {
           "name": "divi/composite",
           "props": {
-            "groupLabel": "Summary Design"
+            "groupLabel": "Summary"
           }
         }
       }

@@ -4,6 +4,7 @@ import {
     TextStyle,
     type StylesProps,
 } from '@divi/module';
+import { isEmpty } from 'lodash';
 import { type ModuleAttrs } from './types';
 
 const ModuleStyles = ({
@@ -29,38 +30,47 @@ const ModuleStyles = ({
                         props: {
                             attr: attrs?.module?.decoration?.sizing,
                             // @ts-expect-error
-                            declarationFunction: ({attrValue: {maxWidth = 'none'}}) => `--glsr-max-w:${maxWidth};`,
+                            declarationFunction: ({attrValue: { maxWidth = '' }}) => {
+                                return !isEmpty(maxWidth) ? `--glsr-max-w:none;` : '';
+                            },
                             selector: `${orderClass} .glsr`,
                         },
                     },
+                ],
+            },
+        })}
+        {elements.style({
+            attrName: 'summary',
+            styleProps: {
+                advancedStyles: [
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.module?.decoration?.styleRatingColor,
+                            attr: attrs?.summary?.decoration?.ratingColor,
                             declarationFunction: ({ attrValue }) => {
-                                return `--glsr-bar-bg:${attrValue};--glsr-summary-star-bg:var(--glsr-bar-bg);`;
+                                return `--glsr-bar-bg:${attrValue}; --glsr-summary-star-bg:var(--glsr-bar-bg);`;
                             },
                         },
                     },
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.module?.decoration?.styleBarSize,
+                            attr: attrs?.summary?.decoration?.ratingSize,
+                            property: '--glsr-summary-star',
+                        },
+                    },
+                    {
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.summary?.decoration?.barSize,
                             property: '--glsr-bar-size',
                         },
                     },
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.module?.decoration?.styleBarSpacing,
+                            attr: attrs?.summary?.decoration?.barSpacing,
                             property: '--glsr-bar-spacing',
-                        },
-                    },
-                    {
-                        componentName: "divi/common",
-                        props: {
-                            attr: attrs?.module?.decoration?.styleRatingSize,
-                            property: '--glsr-summary-star',
                         },
                     },
                 ],

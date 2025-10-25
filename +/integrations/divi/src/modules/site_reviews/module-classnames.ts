@@ -12,7 +12,11 @@ export const moduleClassnames = ({
     classnamesInstance,
     state,
 }: ModuleClassnamesParams<ModuleAttrs>): void => {
-    const ratingColor = attrs?.module?.decoration?.styleRatingColor?.desktop?.value;
+    // @ts-expect-error
+    const alignSelf = attrs?.module?.decoration?.sizing?.desktop?.value?.alignSelf;
+    const ratingColor = attrs?.review?.decoration?.ratingColor?.desktop?.value;
     classnamesInstance.add(textOptionsClassnames(attrs?.module?.advanced?.text))
     classnamesInstance.add('has-custom-color', isString(ratingColor) && '' !== ratingColor)
+    // @ts-expect-error
+    classnamesInstance.add('items-justified-' + ({ start: 'left', end: 'right' }[alignSelf] ?? alignSelf), isString(alignSelf));
 };

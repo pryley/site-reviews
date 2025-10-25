@@ -5,31 +5,6 @@ import {
   type FormatBreakpointStateAttr,
 } from '@divi/types';
 
-interface CustomDecorationAttributes extends Element.Decoration.PickedAttributes<
-  'animation' |
-  'background' |
-  'border' |
-  'boxShadow' |
-  'disabledOn' |
-  'filters' |
-  'font' |
-  'overflow' |
-  'position' |
-  'scroll' |
-  'sizing' |
-  'spacing' |
-  'sticky' |
-  'transform' |
-  'transition' |
-  'zIndex'
-> {
-  stylePreset?: FormatBreakpointStateAttr<string>;
-  styleBarSize?: FormatBreakpointStateAttr<string>;
-  styleBarSpacing?: FormatBreakpointStateAttr<string>;
-  styleRatingColor?: FormatBreakpointStateAttr<string>;
-  styleRatingSize?: FormatBreakpointStateAttr<string>;
-}
-
 export interface ModuleAttrs extends InternalAttrs {
   module?: {
     advanced?: {
@@ -37,7 +12,24 @@ export interface ModuleAttrs extends InternalAttrs {
       link?: Element.Advanced.Link.Attributes;
       text?: Element.Advanced.Text.Attributes;
     };
-    decoration?: CustomDecorationAttributes;
+    decoration?: Element.Decoration.PickedAttributes<
+      'animation' |
+      'background' |
+      'border' |
+      'boxShadow' |
+      'disabledOn' |
+      'filters' |
+      'font' |
+      'overflow' |
+      'position' |
+      'scroll' |
+      'sizing' |
+      'spacing' |
+      'sticky' |
+      'transform' |
+      'transition' |
+      'zIndex'
+    >;
     meta?: Element.Meta.Attributes;
   };
   shortcode?: {
@@ -56,6 +48,15 @@ export interface ModuleAttrs extends InternalAttrs {
       terms?: FormatBreakpointStateAttr<string>;
       text?: FormatBreakpointStateAttr<string>;
       type?: FormatBreakpointStateAttr<string>;
+    },
+  };
+  summary?: {
+    decoration?: {
+      preset?: FormatBreakpointStateAttr<string>;
+      ratingColor?: FormatBreakpointStateAttr<string>;
+      ratingSize?: FormatBreakpointStateAttr<string>;
+      barSize?: FormatBreakpointStateAttr<string>;
+      barSpacing?: FormatBreakpointStateAttr<string>;
     },
   };
 }

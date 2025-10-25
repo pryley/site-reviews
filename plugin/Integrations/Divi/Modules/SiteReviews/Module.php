@@ -22,7 +22,7 @@ class Module extends DiviModule
     public static function module_classnames(array $args): void
     {
         $args = glsr(ModuleClassnamesDefaults::class)->merge($args);
-        $ratingColor = $args['attrs']['module']['decoration']['styleRatingColor']['desktop']['value'] ?? '';
+        $ratingColor = $args['attrs']['review']['decoration']['ratingColor']['desktop']['value'] ?? '';
         $args['classnamesInstance']->add('has-custom-color', !empty($ratingColor));
         parent::module_classnames($args);
     }
@@ -42,27 +42,27 @@ class Module extends DiviModule
             'storeInstance' => $args['storeInstance'],
             'styles' => [
                 $elements->style([
-                    'attrName' => 'module',
+                    'attrName' => 'review',
                     'styleProps' => [
                         'advancedStyles' => [
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
-                                    'attr' => $attrs['module']['decoration']['styleRatingColor'] ?? [],
+                                    'attr' => $attrs['review']['decoration']['ratingColor'] ?? [],
                                     'property' => '--glsr-review-star-bg',
                                 ],
                             ],
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
-                                    'attr' => $attrs['module']['decoration']['styleRatingSize'] ?? [],
+                                    'attr' => $attrs['review']['decoration']['ratingSize'] ?? [],
                                     'property' => '--glsr-review-star',
                                 ],
                             ],
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
-                                    'attr' => $attrs['module']['decoration']['styleReviewSpacing'] ?? [],
+                                    'attr' => $attrs['review']['decoration']['reviewGap'] ?? [],
                                     'property' => '--glsr-review-row-gap',
                                 ],
                             ],

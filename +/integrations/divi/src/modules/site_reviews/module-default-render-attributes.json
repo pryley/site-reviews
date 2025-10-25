@@ -6,23 +6,6 @@
           "value": "Latest Reviews"
         }
       }
-    },
-    "decoration": {
-      "styleRatingColor": {
-        "desktop": {
-          "value": "#faca15"
-        }
-      },
-      "styleRatingSize": {
-        "desktop": {
-          "value": "1.25em"
-        }
-      },
-      "styleReviewSpacing": {
-        "desktop": {
-          "value": "2em"
-        }
-      }
     }
   },
   "shortcode": {
@@ -90,6 +73,25 @@
       "type": {
         "desktop": {
           "value": ""
+        }
+      }
+    }
+  },
+  "review": {
+    "decoration": {
+      "ratingColor": {
+        "desktop": {
+          "value": "#faca15"
+        }
+      },
+      "ratingSize": {
+        "desktop": {
+          "value": "1.25em"
+        }
+      },
+      "reviewGap": {
+        "desktop": {
+          "value": "2em"
         }
       }
     }

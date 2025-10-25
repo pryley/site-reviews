@@ -1,12 +1,5 @@
 {
   "module": {
-    "meta": {
-      "adminLabel": {
-        "desktop": {
-          "value": "Rating Summary"
-        }
-      }
-    },
     "decoration": {
       "sizing": {
         "desktop": {
@@ -14,30 +7,12 @@
             "maxWidth": "48ch"
           }
         }
-      },
-      "stylePreset": {
+      }
+    },
+    "meta": {
+      "adminLabel": {
         "desktop": {
-          "value": "0"
-        }
-      },
-      "styleBarSize": {
-        "desktop": {
-          "value": "1em"
-        }
-      },
-      "styleBarSpacing": {
-        "desktop": {
-          "value": "0.5em"
-        }
-      },
-      "styleRatingColor": {
-        "desktop": {
-          "value": "#faca15"
-        }
-      },
-      "styleRatingSize": {
-        "desktop": {
-          "value": "1.5em"
+          "value": "Rating Summary"
         }
       }
     }
@@ -112,6 +87,35 @@
       "type": {
         "desktop": {
           "value": ""
+        }
+      }
+    }
+  },
+  "summary": {
+    "decoration": {
+      "preset": {
+        "desktop": {
+          "value": "0"
+        }
+      },
+      "ratingColor": {
+        "desktop": {
+          "value": "#faca15"
+        }
+      },
+      "ratingSize": {
+        "desktop": {
+          "value": "1.5em"
+        }
+      },
+      "barSize": {
+        "desktop": {
+          "value": "1em"
+        }
+      },
+      "barSpacing": {
+        "desktop": {
+          "value": "0.5em"
         }
       }
     }

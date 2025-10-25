@@ -22,7 +22,7 @@ class Module extends DiviModule
     public static function module_classnames(array $args): void
     {
         $args = glsr(ModuleClassnamesDefaults::class)->merge($args);
-        $ratingColor = $args['attrs']['module']['decoration']['styleRatingColor']['desktop']['value'] ?? '';
+        $ratingColor = $args['attrs']['form']['decoration']['ratingColor']['desktop']['value'] ?? '';
         $args['classnamesInstance']->add('has-custom-color', !empty($ratingColor));
         parent::module_classnames($args);
     }
@@ -42,27 +42,34 @@ class Module extends DiviModule
             'storeInstance' => $args['storeInstance'],
             'styles' => [
                 $elements->style([
-                    'attrName' => 'module',
+                    'attrName' => 'form',
                     'styleProps' => [
                         'advancedStyles' => [
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
-                                    'attr' => $attrs['module']['decoration']['styleRatingColor'] ?? [],
+                                    'attr' => $attrs['form']['decoration']['ratingColor'] ?? [],
                                     'property' => '--glsr-form-star-bg',
                                 ],
                             ],
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
-                                    'attr' => $attrs['module']['decoration']['styleRatingSize'] ?? [],
+                                    'attr' => $attrs['form']['decoration']['ratingSize'] ?? [],
                                     'property' => '--glsr-form-star',
                                 ],
                             ],
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
-                                    'attr' => $attrs['module']['decoration']['styleFieldSpacing'] ?? [],
+                                    'attr' => $attrs['form']['decoration']['formColGap'] ?? [],
+                                    'property' => '--glsr-form-col-gap',
+                                ],
+                            ],
+                            [
+                                'componentName' => 'divi/common',
+                                'props' => [
+                                    'attr' => $attrs['form']['decoration']['formRowGap'] ?? [],
                                     'property' => '--glsr-form-row-gap',
                                 ],
                             ],

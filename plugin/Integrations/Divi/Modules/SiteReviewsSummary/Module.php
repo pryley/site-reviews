@@ -24,8 +24,8 @@ class Module extends DiviModule
         $args = glsr(ModuleClassnamesDefaults::class)->merge($args);
         $alignSelf = $args['attrs']['module']['decoration']['sizing']['desktop']['value']['alignSelf'] ?? '';
         $alignSelf = ['start' => 'left', 'end' => 'right'][$alignSelf] ?? $alignSelf;
-        $preset = $args['attrs']['module']['decoration']['stylePreset']['desktop']['value'] ?? '0';
-        $ratingColor = $args['attrs']['module']['decoration']['styleRatingColor']['desktop']['value'] ?? '';
+        $preset = $args['attrs']['summary']['decoration']['preset']['desktop']['value'] ?? '0';
+        $ratingColor = $args['attrs']['summary']['decoration']['ratingColor']['desktop']['value'] ?? '';
         $args['classnamesInstance']->add('has-custom-color', !empty($ratingColor));
         $args['classnamesInstance']->add("is-style-{$preset}", !empty($preset));
         $args['classnamesInstance']->add("items-justified-{$alignSelf}", '0' !== $alignSelf);
@@ -56,44 +56,46 @@ class Module extends DiviModule
                                     'attr' => $attrs['module']['decoration']['sizing'] ?? [],
                                     'selector' => "{$args['orderClass']} .glsr",
                                     'declarationFunction' => function ($args) {
-                                        $maxWidth = $args['attrValue']['maxWidth'] ?? '48ch';
-                                        return "--glsr-max-w:{$maxWidth};";
+                                        return !empty($args['attrValue']['maxWidth']) ? '--glsr-max-w:none;' : '';
+                                    },
+                                ],
+                            ],
+                        ],
+                    ],
+                ]),
+                $elements->style([
+                    'attrName' => 'summary',
+                    'styleProps' => [
+                        'advancedStyles' => [
+                            [
+                                'componentName' => 'divi/common',
+                                'props' => [
+                                    'attr' => $attrs['summary']['decoration']['ratingColor'] ?? [],
+                                    'declarationFunction' => function ($args) {
+                                        $value = $args['attrValue'] ?? '';
+                                        return !empty($value) ? "--glsr-bar-bg:{$value}; --glsr-summary-star-bg:var(--glsr-bar-bg);" : '';
                                     },
                                 ],
                             ],
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
-                                    'attr' => $attrs['module']['decoration']['styleRatingColor'] ?? [],
-                                    'property' => '--glsr-summary-star-bg',
+                                    'attr' => $attrs['summary']['decoration']['ratingSize'] ?? [],
+                                    'property' => '--glsr-summary-star',
                                 ],
                             ],
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
-                                    'attr' => $attrs['module']['decoration']['styleRatingColor'] ?? [],
-                                    'property' => '--glsr-bar-bg',
-                                ],
-                            ],
-                            [
-                                'componentName' => 'divi/common',
-                                'props' => [
-                                    'attr' => $attrs['module']['decoration']['styleBarSize'] ?? [],
+                                    'attr' => $attrs['summary']['decoration']['barSize'] ?? [],
                                     'property' => '--glsr-bar-size',
                                 ],
                             ],
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
-                                    'attr' => $attrs['module']['decoration']['styleBarSpacing'] ?? [],
+                                    'attr' => $attrs['summary']['decoration']['barSpacing'] ?? [],
                                     'property' => '--glsr-bar-spacing',
-                                ],
-                            ],
-                            [
-                                'componentName' => 'divi/common',
-                                'props' => [
-                                    'attr' => $attrs['module']['decoration']['styleRatingSize'] ?? [],
-                                    'property' => '--glsr-summary-star',
                                 ],
                             ],
                         ],

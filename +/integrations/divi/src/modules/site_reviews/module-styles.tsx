@@ -22,25 +22,30 @@ const ModuleStyles = ({
                 disabledOn: {
                     disabledModuleVisibility: settings?.disabledModuleVisibility,
                 },
+            },
+        })}
+        {elements.style({
+            attrName: 'review',
+            styleProps: {
                 advancedStyles: [
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.module?.decoration?.styleRatingColor,
+                            attr: attrs?.review?.decoration?.ratingColor,
                             property: '--glsr-review-star-bg',
                         },
                     },
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.module?.decoration?.styleRatingSize,
+                            attr: attrs?.review?.decoration?.ratingSize,
                             property: '--glsr-review-star',
                         },
                     },
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.module?.decoration?.styleReviewSpacing,
+                            attr: attrs?.review?.decoration?.reviewGap,
                             property: '--glsr-review-row-gap',
                         },
                     },

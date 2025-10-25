@@ -22,21 +22,38 @@ const ModuleStyles = ({
                 disabledOn: {
                     disabledModuleVisibility: settings?.disabledModuleVisibility,
                 },
+            },
+        })}
+        {elements.style({
+            attrName: 'form',
+            styleProps: {
                 advancedStyles: [
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.module?.decoration?.styleRatingColor,
-                            declarationFunction: ({ attrValue }) => {
-                                return `--glsr-form-star-bg:${attrValue};`;
-                            },
+                            attr: attrs?.form?.decoration?.ratingColor,
+                            property: '--glsr-form-star-bg',
                         },
                     },
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.module?.decoration?.styleRatingSize,
+                            attr: attrs?.form?.decoration?.ratingSize,
                             property: '--glsr-form-star',
+                        },
+                    },
+                    {
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.form?.decoration?.formColGap,
+                            property: '--glsr-form-col-gap',
+                        },
+                    },
+                    {
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.form?.decoration?.formRowGap,
+                            property: '--glsr-form-row-gap',
                         },
                     },
                 ],

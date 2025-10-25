@@ -12,5 +12,7 @@ export const moduleClassnames = ({
     classnamesInstance,
     state,
 }: ModuleClassnamesParams<ModuleAttrs>): void => {
+    const ratingColor = attrs?.form?.decoration?.ratingColor?.desktop?.value;
     classnamesInstance.add(textOptionsClassnames(attrs?.module?.advanced?.text));
+    classnamesInstance.add('has-custom-color', isString(ratingColor) && '' !== ratingColor)
 };
