@@ -73,6 +73,18 @@
             "enum": [0, 1],
             "type": "number"
         },
+        "style": {
+            "type": "object",
+            "default": {
+                "typography": {
+                    "textAlign": "left"
+                }
+            }
+        },
+        "styleAlign": {
+            "default": "left",
+            "type": "string"
+        },
         "styleRatingColor": {
             "default": "",
             "type": "string"
@@ -113,7 +125,7 @@
         "typography": {
             "fontSize": true,
             "lineHeight": true,
-            "textAlign": false,
+            "textAlign": true,
             "__experimentalTextDecoration": true,
             "__experimentalFontFamily": true,
             "__experimentalFontWeight": true,

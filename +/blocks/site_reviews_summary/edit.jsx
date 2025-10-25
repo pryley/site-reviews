@@ -386,8 +386,8 @@ const Edit = (props) => {
                 '--glsr-summary-star-bg': 'var(--glsr-bar-bg)',
             }}
             styleClassNames={[
-                (attributes.styleAlign) ? `items-justified-${attributes.styleAlign}` : '',
                 (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-color' : '',
+                (attributes.styleAlign) ? `items-justified-${attributes.styleAlign}` : '',
             ]}
         />
     )

@@ -1,6 +1,7 @@
 import {
     __experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
     __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
+    JustifyContentControl,
     withColors,
 } from '@wordpress/block-editor';
 import {
@@ -41,6 +42,11 @@ const Edit = (props) => {
             onChange={ (post_id) => setAttributes({ post_id }) }
             placeholder={ _x('Search Reviews...', 'admin-text', 'site-reviews') }
             value={ attributes.post_id }
+        />,
+        styleAlign: <JustifyContentControl
+            allowedControls={['left', 'center', 'right']}
+            onChange={ (styleAlign) => setAttributes({ styleAlign }) }
+            value={ attributes.styleAlign }
         />,
         styleRatingColor: <ColorGradientSettingsDropdown
             __experimentalIsRenderedInSidebar
@@ -87,6 +93,11 @@ const Edit = (props) => {
     };
 
     const panels = { // order is intentional
+        block: {
+            controls: [
+                'styleAlign',
+            ],
+        },
         settings: {
             controls: [
                 'post_id',
@@ -137,6 +148,8 @@ const Edit = (props) => {
             }}
             styleClassNames={[
                 (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-color' : '',
+                (attributes.styleAlign) ? `items-justified-${attributes.styleAlign}` : '',
+                (attributes?.style?.typography?.textAlign) ? `has-text-align-${attributes.style.typography.textAlign}` : '',
             ]}
         />
     )
