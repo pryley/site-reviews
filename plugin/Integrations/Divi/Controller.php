@@ -11,6 +11,56 @@ use GeminiLabs\SiteReviews\Modules\Paginate;
 class Controller extends AbstractController
 {
     /**
+     * @action wp_enqueue_scripts
+     */
+    public function enqueueNextAssets(): void
+    {
+        if (!function_exists('et_builder_d5_enabled') || !et_builder_d5_enabled()) {
+            return;
+        }
+        wp_register_style(
+            glsr()->id.'/divi/builder-bundle',
+            glsr()->url('assets/divi/styles/bundle.css'),
+            [],
+            glsr()->version
+        );
+        wp_enqueue_style(glsr()->id.'/divi/builder-bundle');
+    }
+
+    /**
+     * @action divi_visual_builder_assets_before_enqueue_scripts
+     */
+    public function enqueueNextBundledAssets(): void
+    {
+        if (!function_exists('et_builder_d5_enabled') || !et_builder_d5_enabled() || !et_core_is_fb_enabled()) {
+            return;
+        }
+        \ET\Builder\VisualBuilder\Assets\PackageBuildManager::register_package_build([
+            'name' => glsr()->id.'/divi/builder-bundle',
+            'version' => glsr()->version,
+            'script' => [
+                'src' => glsr()->url('assets/divi/scripts/bundle.js'),
+                'deps' => [
+                    'divi-module-library',
+                    'divi-vendor-wp-hooks',
+                ],
+                'enqueue_top_window' => false,
+                'enqueue_app_window' => true,
+            ],
+        ]);
+        \ET\Builder\VisualBuilder\Assets\PackageBuildManager::register_package_build([
+            'name' => glsr()->id.'/divi/builder-vb-bundle',
+            'version' => glsr()->version,
+            'style' => [
+                'src' => glsr()->url('assets/divi/styles/vb-bundle.css'),
+                'deps' => [],
+                'enqueue_top_window' => false,
+                'enqueue_app_window' => true,
+            ],
+        ]);
+    }
+
+    /**
      * Fix compatibility with the Divi Dynamic CSS option.
      *
      * @param array  $shortcodes
@@ -38,6 +88,22 @@ class Controller extends AbstractController
     {
         $css .= file_get_contents(glsr()->path('assets/styles/integrations/divi-woo-inline.css'));
         return $css;
+    }
+
+    /**
+     * @param string $content
+     *
+     * @action divi_frontend_assets_dynamic_assets_required_module_assets
+     */
+    public function filterNextDynamicAssets(array $assets, $content): array
+    {
+        if (1 === preg_match('/wp:glsr-divi\//', Cast::toString($content))) {
+            $assets[] = 'divi/contact-form';
+            $assets[] = 'divi/gallery';
+            $assets[] = 'divi/search';
+            return array_values(array_unique($assets));
+        }
+        return $assets;
     }
 
     /**
@@ -82,12 +148,19 @@ class Controller extends AbstractController
     }
 
     /**
-     * @action divi_extensions_init
+     * @param \ET\Builder\Framework\DependencyManagement\DependencyTree $dependencyTree
+     *
+     * @action divi_module_library_modules_dependency_tree
      */
-    public function registerDiviModules(): void
+    public function registerNextModules($dependencyTree): void
     {
-        // new DiviFormWidget();
-        // new DiviReviewsWidget();
-        // new DiviSummaryWidget();
+        if (!function_exists('et_builder_d5_enabled') || !et_builder_d5_enabled()) {
+            return;
+        }
+        $dependencyTree->add_dependency(new Modules\SiteReview\Module());
+        $dependencyTree->add_dependency(new Modules\SiteReviews\Module());
+        $dependencyTree->add_dependency(new Modules\SiteReviewsForm\Module());
+        $dependencyTree->add_dependency(new Modules\SiteReviewsSummary\Module());
+        $dependencyTree->add_dependency(new RESTRegistration());
     }
 }

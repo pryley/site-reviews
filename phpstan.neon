@@ -9,6 +9,7 @@ parameters:
     - tests/phpstan/stubs/breakdance.php
     - tests/phpstan/stubs/bricks.php
     - tests/phpstan/stubs/buddyboss.php
+    - tests/phpstan/stubs/divi.php
     - tests/phpstan/stubs/elementor.php
     - tests/phpstan/stubs/elementor-pro.php
     - tests/phpstan/stubs/flatsome.php

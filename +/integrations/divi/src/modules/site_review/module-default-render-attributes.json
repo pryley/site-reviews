@@ -1,0 +1,49 @@
+{
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Single Review"
+        }
+      }
+    }
+  },
+  "shortcode": {
+    "advanced": {
+      "className": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "hide": {
+        "desktop": {
+          "value": []
+        }
+      },
+      "id": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "post_id": {
+        "desktop": {
+          "value": ""
+        }
+      }
+    }
+  },
+  "review": {
+    "decoration": {
+      "ratingColor": {
+        "desktop": {
+          "value": "#faca15"
+        }
+      },
+      "ratingSize": {
+        "desktop": {
+          "value": "1.25em"
+        }
+      }
+    }
+  }
+}

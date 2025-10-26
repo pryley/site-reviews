@@ -35,7 +35,7 @@ div.is-style-3 {
         grid-template-columns: auto 1fr;
     }
     .glsr-summary-rating {
-        font-size: 3em;
+        font-size: calc(2em + var(--glsr-summary-star));
         grid-row-end: span 2;
     }
     .glsr-summary-percentages {

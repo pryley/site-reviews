@@ -1,0 +1,123 @@
+{
+  "module": {
+    "decoration": {
+      "sizing": {
+        "desktop": {
+          "value": {
+            "maxWidth": "48ch"
+          }
+        }
+      }
+    },
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Rating Summary"
+        }
+      }
+    }
+  },
+  "shortcode": {
+    "advanced": {
+      "assigned_posts": {
+        "desktop": {
+          "value": []
+        }
+      },
+      "assigned_terms": {
+        "desktop": {
+          "value": []
+        }
+      },
+      "assigned_users": {
+        "desktop": {
+          "value": []
+        }
+      },
+      "author": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "className": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "hide": {
+        "desktop": {
+          "value": []
+        }
+      },
+      "id": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "labels": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "rating": {
+        "desktop": {
+          "value": 0
+        }
+      },
+      "rating_field": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "schema": {
+        "desktop": {
+          "value": "off"
+        }
+      },
+      "terms": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "text": {
+        "desktop": {
+          "value": ""
+        }
+      },
+      "type": {
+        "desktop": {
+          "value": ""
+        }
+      }
+    }
+  },
+  "summary": {
+    "decoration": {
+      "preset": {
+        "desktop": {
+          "value": "0"
+        }
+      },
+      "ratingColor": {
+        "desktop": {
+          "value": "#faca15"
+        }
+      },
+      "ratingSize": {
+        "desktop": {
+          "value": "1.5em"
+        }
+      },
+      "barSize": {
+        "desktop": {
+          "value": "1em"
+        }
+      },
+      "barSpacing": {
+        "desktop": {
+          "value": "0.5em"
+        }
+      }
+    }
+  }
+}
