@@ -5,13 +5,14 @@ namespace GeminiLabs\SiteReviews\Integrations\Divi\Modules;
 use ET\Builder\Framework\DependencyManagement\Interfaces\DependencyInterface;
 use ET\Builder\FrontEnd\BlockParser\BlockParserStore;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\ModuleLibrary\ModuleRegistration;
 use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementComponents;
 use ET\Builder\Packages\Module\Options\Element\ElementScriptData;
 use ET\Builder\Packages\Module\Options\Text\TextClassnames;
-use ET\Builder\Packages\ModuleLibrary\ModuleRegistration;
+use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleClassnamesDefaults;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleScriptDataDefaults;
@@ -19,16 +20,23 @@ use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleStylesDefaults;
 
 abstract class DiviModule implements DependencyInterface
 {
+    public function app(): PluginContract
+    {
+        return glsr();
+    }
+
     public function load(): void
     {
         $shortcodeTag = static::shortcodeInstance()->tag();
         add_action('init', function () use ($shortcodeTag) {
-            $modulePath = glsr()->path("assets/divi/modules-json/{$shortcodeTag}/");
+            $modulePath = $this->app()->path("assets/divi/modules-json/{$shortcodeTag}/");
             ModuleRegistration::register_module($modulePath, [
                 'render_callback' => [static::class, 'render_callback'],
             ]);
         });
     }
+
+    abstract public static function blockName(): string;
 
     /**
      * This method is equivalent to "custom-css.ts".
@@ -60,7 +68,7 @@ abstract class DiviModule implements DependencyInterface
             'id' => $args['id'],
             'selector' => $args['selector'],
             'attrs' => array_merge($decoration, [
-                'link' => $attrs['module']['advanced']['link'] ?? [],
+                'link' => $args['attrs']['module']['advanced']['link'] ?? [],
             ]),
             'storeInstance' => $args['storeInstance'],
         ]);
