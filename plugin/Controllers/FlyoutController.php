@@ -36,14 +36,9 @@ class FlyoutController extends AbstractController
                 'url' => glsr_premium_url('site-reviews-premium'),
             ],
             [
-                'icon' => 'dashicons-editor-help',
-                'title' => _x('Learn the Basics', 'admin-text', 'site-reviews'),
-                'url' => glsr_admin_url('welcome'),
-            ],
-            [
-                'icon' => 'dashicons-youtube',
-                'title' => _x('Watch the Tutorial', 'admin-text', 'site-reviews'),
-                'url' => 'https://youtu.be/H5HdMCXvuq8',
+                'icon' => 'dashicons-wordpress-alt',
+                'title' => _x('Ask for Help', 'admin-text', 'site-reviews'),
+                'url' => 'https://wordpress.org/support/plugin/site-reviews/',
             ],
             [
                 'icon' => 'dashicons-book',
@@ -51,9 +46,14 @@ class FlyoutController extends AbstractController
                 'url' => glsr_admin_url('documentation'),
             ],
             [
-                'icon' => 'dashicons-wordpress-alt',
-                'title' => _x('Ask for Help', 'admin-text', 'site-reviews'),
-                'url' => 'https://wordpress.org/support/plugin/site-reviews/',
+                'icon' => 'dashicons-youtube',
+                'title' => _x('Watch the Tutorial', 'admin-text', 'site-reviews'),
+                'url' => 'https://youtu.be/H5HdMCXvuq8',
+            ],
+            [
+                'icon' => 'dashicons-editor-help',
+                'title' => _x('Learn how to use Site Reviews', 'admin-text', 'site-reviews'),
+                'url' => glsr_admin_url('welcome'),
             ],
             [
                 'icon' => 'dashicons-testimonial',
