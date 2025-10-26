@@ -16,87 +16,87 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: compatibility.php:151
+#: compatibility.php:188
 msgctxt "admin-text"
 msgid "Create Reviews"
 msgstr ""
 
-#: compatibility.php:152
+#: compatibility.php:189
 msgctxt "admin-text"
 msgid "Delete Others' Reviews"
 msgstr ""
 
-#: compatibility.php:153
+#: compatibility.php:190
 msgctxt "admin-text"
 msgid "Delete Reviews"
 msgstr ""
 
-#: compatibility.php:154
+#: compatibility.php:191
 msgctxt "admin-text"
 msgid "Delete Private Reviews"
 msgstr ""
 
-#: compatibility.php:155
+#: compatibility.php:192
 msgctxt "admin-text"
 msgid "Delete Approved Reviews"
 msgstr ""
 
-#: compatibility.php:156
+#: compatibility.php:193
 msgctxt "admin-text"
 msgid "Edit Others' Reviews"
 msgstr ""
 
-#: compatibility.php:157
+#: compatibility.php:194
 msgctxt "admin-text"
 msgid "Edit Reviews"
 msgstr ""
 
-#: compatibility.php:158
+#: compatibility.php:195
 msgctxt "admin-text"
 msgid "Edit Private Reviews"
 msgstr ""
 
-#: compatibility.php:159
+#: compatibility.php:196
 msgctxt "admin-text"
 msgid "Edit Approved Reviews"
 msgstr ""
 
-#: compatibility.php:160
+#: compatibility.php:197
 msgctxt "admin-text"
 msgid "Approve Reviews"
 msgstr ""
 
-#: compatibility.php:161
+#: compatibility.php:198
 msgctxt "admin-text"
 msgid "Read Private Reviews"
 msgstr ""
 
-#: compatibility.php:162
+#: compatibility.php:199
 msgctxt "admin-text"
 msgid "Respond To Reviews"
 msgstr ""
 
-#: compatibility.php:163
+#: compatibility.php:200
 msgctxt "admin-text"
 msgid "Respond To Others' Reviews"
 msgstr ""
 
-#: compatibility.php:164
+#: compatibility.php:201
 msgctxt "admin-text"
 msgid "Assign Review Categories"
 msgstr ""
 
-#: compatibility.php:165
+#: compatibility.php:202
 msgctxt "admin-text"
 msgid "Delete Review Categories"
 msgstr ""
 
-#: compatibility.php:166
+#: compatibility.php:203
 msgctxt "admin-text"
 msgid "Edit Review Categories"
 msgstr ""
 
-#: compatibility.php:167
+#: compatibility.php:204
 msgctxt "admin-text"
 msgid "Manage Review Categories"
 msgstr ""
@@ -2831,22 +2831,22 @@ msgstr ""
 
 #: plugin/Controllers/FlyoutController.php:40
 msgctxt "admin-text"
-msgid "Learn the Basics"
+msgid "Ask for Help"
 msgstr ""
 
-#: plugin/Controllers/FlyoutController.php:45, views/partials/notices/welcome.php:15
-msgctxt "admin-text"
-msgid "Watch the Tutorial"
-msgstr ""
-
-#: plugin/Controllers/FlyoutController.php:50
+#: plugin/Controllers/FlyoutController.php:45
 msgctxt "admin-text"
 msgid "Read the Documentation"
 msgstr ""
 
+#: plugin/Controllers/FlyoutController.php:50, views/partials/notices/welcome.php:15
+msgctxt "admin-text"
+msgid "Watch the Tutorial"
+msgstr ""
+
 #: plugin/Controllers/FlyoutController.php:55
 msgctxt "admin-text"
-msgid "Ask for Help"
+msgid "Learn how to use Site Reviews"
 msgstr ""
 
 #: plugin/Controllers/FlyoutController.php:60
