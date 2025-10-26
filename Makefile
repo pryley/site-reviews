@@ -17,7 +17,7 @@ bump: ## Bump to the next minor version
 	npx gulp bump
 
 check: ## Check WP compatibility for declared version
-	./vendor/bin/wp-since check
+	XDEBUG_MODE=off ./vendor/bin/wp-since check
 
 compat: ## Run PHP CodeSniffer to check PHP 7.4+ Compatibility
 	XDEBUG_MODE=off ./vendor/bin/phpcs --standard=phpcs.xml
@@ -62,6 +62,7 @@ test: ## Run all phpunit tests
 testall: ## Run phpstan analyser and all phpunit tests
 	make analyse
 	make test
+	make check
 	make compat
 
 update: ## Update Composer and NPM
@@ -75,4 +76,4 @@ zip: ## Create a zip archive of Site Reviews
 	git archive -o ./site-reviews-v$(VERSION).zip --prefix=site-reviews/ HEAD
 	open .
 
-.PHONY: analyse blocks build bump compat db divi help i18n mix mixsync open release sync test testall update watch zip
+.PHONY: analyse blocks build bump check compat db divi help i18n mix mixsync open release sync test testall update watch zip
