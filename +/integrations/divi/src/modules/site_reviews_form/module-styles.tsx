@@ -25,20 +25,20 @@ const ModuleStyles = ({
             },
         })}
         {elements.style({
-            attrName: 'form',
+            attrName: 'design',
             styleProps: {
                 advancedStyles: [
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.form?.decoration?.ratingColor,
+                            attr: attrs?.design?.decoration?.ratingColor,
                             property: '--glsr-form-star-bg',
                         },
                     },
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.form?.decoration?.ratingSize,
+                            attr: attrs?.design?.decoration?.ratingSize,
                             property: '--glsr-form-star',
                         },
                     },

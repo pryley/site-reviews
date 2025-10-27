@@ -25,20 +25,20 @@ const ModuleStyles = ({
             },
         })}
         {elements.style({
-            attrName: 'review',
+            attrName: 'design',
             styleProps: {
                 advancedStyles: [
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.review?.decoration?.ratingColor,
+                            attr: attrs?.design?.decoration?.ratingColor,
                             property: '--glsr-review-star-bg',
                         },
                     },
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.review?.decoration?.ratingSize,
+                            attr: attrs?.design?.decoration?.ratingSize,
                             property: '--glsr-review-star',
                         },
                     },

@@ -14,8 +14,8 @@ export const moduleClassnames = ({
 }: ModuleClassnamesParams<ModuleAttrs>): void => {
     // @ts-expect-error
     const alignSelf = attrs?.module?.decoration?.sizing?.desktop?.value?.alignSelf;
-    const preset = attrs?.summary?.decoration?.preset?.desktop?.value;
-    const ratingColor = attrs?.summary?.decoration?.ratingColor?.desktop?.value;
+    const preset = attrs?.design?.decoration?.preset?.desktop?.value;
+    const ratingColor = attrs?.design?.decoration?.ratingColor?.desktop?.value;
     classnamesInstance.add(textOptionsClassnames(attrs?.module?.advanced?.text))
     classnamesInstance.add('has-custom-color', isString(ratingColor) && '' !== ratingColor)
     classnamesInstance.add(`is-style-${preset}`, isString(preset) && '0' !== preset)

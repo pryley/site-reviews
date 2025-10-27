@@ -239,7 +239,7 @@
         }
       }
     },
-    "form": {
+    "design": {
       "type": "object",
       "selector": "{{selector}} .glsr-form",
       "settings": {
@@ -247,8 +247,8 @@
           "ratingColor": {
             "groupType": "group-item",
             "item": {
-              "groupSlug": "designForm",
-              "attrName": "form.decoration.ratingColor",
+              "groupSlug": "designGeneral",
+              "attrName": "design.decoration.ratingColor",
               "label": "Rating Color",
               "priority": 10,
               "render": true,
@@ -267,8 +267,8 @@
             "groupType": "group-item",
             "item": {
               "label": "Rating Size",
-              "groupSlug": "designForm",
-              "attrName": "form.decoration.ratingSize",
+              "groupSlug": "designGeneral",
+              "attrName": "design.decoration.ratingSize",
               "priority": 10,
               "render": true,
               "features": {
@@ -351,11 +351,11 @@
           }
         }
       },
-      "designForm": {
+      "designGeneral": {
         "panel": "design",
         "priority": 10,
         "render": true,
-        "groupName": "designForm",
+        "groupName": "designGeneral",
         "component": {
           "name": "divi/composite",
           "props": {

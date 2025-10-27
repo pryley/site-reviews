@@ -364,7 +364,7 @@
         }
       }
     },
-    "review": {
+    "design": {
       "type": "object",
       "selector": "{{selector}} .glsr-reviews",
       "settings": {
@@ -372,8 +372,8 @@
           "ratingColor": {
             "groupType": "group-item",
             "item": {
-              "groupSlug": "designReview",
-              "attrName": "review.decoration.ratingColor",
+              "groupSlug": "designGeneral",
+              "attrName": "design.decoration.ratingColor",
               "label": "Rating Color",
               "priority": 10,
               "render": true,
@@ -392,8 +392,8 @@
             "groupType": "group-item",
             "item": {
               "label": "Rating Size",
-              "groupSlug": "designReview",
-              "attrName": "review.decoration.ratingSize",
+              "groupSlug": "designGeneral",
+              "attrName": "design.decoration.ratingSize",
               "priority": 10,
               "render": true,
               "features": {
@@ -423,8 +423,8 @@
             "groupType": "group-item",
             "item": {
               "label": "Review Gap",
-              "groupSlug": "designReview",
-              "attrName": "review.decoration.reviewGap",
+              "groupSlug": "designGeneral",
+              "attrName": "design.decoration.reviewGap",
               "priority": 10,
               "render": true,
               "features": {
@@ -507,11 +507,11 @@
           }
         }
       },
-      "designReview": {
+      "designGeneral": {
         "panel": "design",
         "priority": 10,
         "render": true,
-        "groupName": "designReview",
+        "groupName": "designGeneral",
         "component": {
           "name": "divi/composite",
           "props": {

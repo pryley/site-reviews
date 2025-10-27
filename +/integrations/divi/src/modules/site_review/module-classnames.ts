@@ -14,7 +14,7 @@ export const moduleClassnames = ({
 }: ModuleClassnamesParams<ModuleAttrs>): void => {
     // @ts-expect-error
     const alignSelf = attrs?.module?.decoration?.sizing?.desktop?.value?.alignSelf;
-    const ratingColor = attrs?.review?.decoration?.ratingColor?.desktop?.value;
+    const ratingColor = attrs?.design?.decoration?.ratingColor?.desktop?.value;
     classnamesInstance.add(textOptionsClassnames(attrs?.module?.advanced?.text))
     classnamesInstance.add('has-custom-color', isString(ratingColor) && '' !== ratingColor)
     // @ts-expect-error

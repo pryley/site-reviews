@@ -40,13 +40,13 @@ const ModuleStyles = ({
             },
         })}
         {elements.style({
-            attrName: 'summary',
+            attrName: 'design',
             styleProps: {
                 advancedStyles: [
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.summary?.decoration?.ratingColor,
+                            attr: attrs?.design?.decoration?.ratingColor,
                             declarationFunction: ({ attrValue }) => {
                                 return `--glsr-bar-bg:${attrValue}; --glsr-summary-star-bg:var(--glsr-bar-bg);`;
                             },
@@ -55,21 +55,21 @@ const ModuleStyles = ({
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.summary?.decoration?.ratingSize,
+                            attr: attrs?.design?.decoration?.ratingSize,
                             property: '--glsr-summary-star',
                         },
                     },
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.summary?.decoration?.barSize,
+                            attr: attrs?.design?.decoration?.barSize,
                             property: '--glsr-bar-size',
                         },
                     },
                     {
                         componentName: "divi/common",
                         props: {
-                            attr: attrs?.summary?.decoration?.barSpacing,
+                            attr: attrs?.design?.decoration?.barSpacing,
                             property: '--glsr-bar-spacing',
                         },
                     },

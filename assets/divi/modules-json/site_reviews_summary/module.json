@@ -385,7 +385,7 @@
         }
       }
     },
-    "summary": {
+    "design": {
       "type": "object",
       "selector": "{{selector}} .glsr-summary",
       "settings": {
@@ -393,8 +393,8 @@
           "preset": {
             "groupType": "group-item",
             "item": {
-              "groupSlug": "designSummary",
-              "attrName": "summary.decoration.preset",
+              "groupSlug": "designGeneral",
+              "attrName": "design.decoration.preset",
               "label": "Style Preset",
               "priority": 10,
               "render": true,
@@ -433,8 +433,8 @@
           "ratingColor": {
             "groupType": "group-item",
             "item": {
-              "groupSlug": "designSummary",
-              "attrName": "summary.decoration.ratingColor",
+              "groupSlug": "designGeneral",
+              "attrName": "design.decoration.ratingColor",
               "label": "Rating Color",
               "priority": 10,
               "render": true,
@@ -453,8 +453,8 @@
             "groupType": "group-item",
             "item": {
               "label": "Rating Size",
-              "groupSlug": "designSummary",
-              "attrName": "summary.decoration.ratingSize",
+              "groupSlug": "designGeneral",
+              "attrName": "design.decoration.ratingSize",
               "priority": 10,
               "render": true,
               "features": {
@@ -484,8 +484,8 @@
             "groupType": "group-item",
             "item": {
               "label": "Percent Bar Size",
-              "groupSlug": "designSummary",
-              "attrName": "summary.decoration.barSize",
+              "groupSlug": "designGeneral",
+              "attrName": "design.decoration.barSize",
               "priority": 10,
               "render": true,
               "features": {
@@ -515,8 +515,8 @@
             "groupType": "group-item",
             "item": {
               "label": "Percent Bar Gap",
-              "groupSlug": "designSummary",
-              "attrName": "summary.decoration.barSpacing",
+              "groupSlug": "designGeneral",
+              "attrName": "design.decoration.barSpacing",
               "priority": 10,
               "render": true,
               "features": {
@@ -599,11 +599,11 @@
           }
         }
       },
-      "designSummary": {
+      "designGeneral": {
         "panel": "design",
         "priority": 10,
         "render": true,
-        "groupName": "designSummary",
+        "groupName": "designGeneral",
         "component": {
           "name": "divi/composite",
           "props": {

@@ -44,7 +44,7 @@ export interface ModuleAttrs extends InternalAttrs {
       summary_id?: FormatBreakpointStateAttr<string>;
     },
   };
-  form?: {
+  design?: {
     decoration?: {
       ratingColor?: FormatBreakpointStateAttr<string>;
       ratingSize?: FormatBreakpointStateAttr<string>;

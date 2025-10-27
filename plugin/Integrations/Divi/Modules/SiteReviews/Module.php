@@ -22,7 +22,7 @@ class Module extends DiviModule
     public static function module_classnames(array $args): void
     {
         $args = glsr(ModuleClassnamesDefaults::class)->merge($args);
-        $ratingColor = $args['attrs']['review']['decoration']['ratingColor']['desktop']['value'] ?? '';
+        $ratingColor = $args['attrs']['design']['decoration']['ratingColor']['desktop']['value'] ?? '';
         $args['classnamesInstance']->add('has-custom-color', !empty($ratingColor));
         parent::module_classnames($args);
     }
@@ -42,27 +42,27 @@ class Module extends DiviModule
             'storeInstance' => $args['storeInstance'],
             'styles' => [
                 $elements->style([
-                    'attrName' => 'review',
+                    'attrName' => 'design',
                     'styleProps' => [
                         'advancedStyles' => [
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
-                                    'attr' => $attrs['review']['decoration']['ratingColor'] ?? [],
+                                    'attr' => $attrs['design']['decoration']['ratingColor'] ?? [],
                                     'property' => '--glsr-review-star-bg',
                                 ],
                             ],
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
-                                    'attr' => $attrs['review']['decoration']['ratingSize'] ?? [],
+                                    'attr' => $attrs['design']['decoration']['ratingSize'] ?? [],
                                     'property' => '--glsr-review-star',
                                 ],
                             ],
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
-                                    'attr' => $attrs['review']['decoration']['reviewGap'] ?? [],
+                                    'attr' => $attrs['design']['decoration']['reviewGap'] ?? [],
                                     'property' => '--glsr-review-row-gap',
                                 ],
                             ],
