@@ -565,7 +565,7 @@
       },
       "contentDisplay": {
         "panel": "content",
-        "priority": 10,
+        "priority": 20,
         "render": true,
         "groupName": "contentDisplay",
         "component": {
@@ -577,7 +577,7 @@
       },
       "contentHide": {
         "panel": "content",
-        "priority": 10,
+        "priority": 30,
         "render": true,
         "groupName": "contentHide",
         "component": {
@@ -589,7 +589,7 @@
       },
       "contentAdvanced": {
         "panel": "content",
-        "priority": 10,
+        "priority": 40,
         "render": true,
         "groupName": "contentAdvanced",
         "component": {

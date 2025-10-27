@@ -1,6 +1,6 @@
 import React, { type ReactElement, useEffect, useRef } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
-import { debounce, get, isNil, omitBy } from 'lodash';
+import { debounce, isNil, omitBy } from 'lodash';
 import { ModuleContainer } from '@divi/module';
 // @ts-expect-error
 import { getAttrByMode, getAttrNamesByGroup } from '@divi/module-utils';
@@ -32,18 +32,13 @@ const ModuleEdit = (props: EditProps): ReactElement => {
     const moduleRef = useRef(null);
 
     const parseAttrs = (): Record<string, any> => {
-        const attrNames = [
-            ...getAttrNamesByGroup(name, 'contentGeneral'),
-            ...getAttrNamesByGroup(name, 'contentDisplay'),
-            ...getAttrNamesByGroup(name, 'contentHide'),
-            ...getAttrNamesByGroup(name, 'contentAdvanced'),
-        ];
+        const settings = attrs?.shortcode?.advanced || {};
+        const attrNames = Object.keys(settings);
         const results: Record<string, any> = {
             context: 'edit',
         };
         attrNames.forEach((attName: string) => {
-            const key = attName.split('.').pop();
-            let value = getAttrByMode(get(attrs, attName));
+            let value = getAttrByMode(settings[attName]);
             if (Array.isArray(value) && value.every(obj => obj?.value !== undefined)) {
                 value = value.map(obj => obj.value);
             }
@@ -51,7 +46,7 @@ const ModuleEdit = (props: EditProps): ReactElement => {
             if (['on', 'off'].includes(value)) {
                 value = 'on' === value ? 1 : 0;
             }
-            results[`attributes[${key}]`] = value;
+            results[`attributes[${attName}]`] = value;
         });
         return results;
     };
