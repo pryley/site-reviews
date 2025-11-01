@@ -96,6 +96,7 @@ div.is-style-2,
 div.is-style-3 {
     .glsr-summary-percentages {
         grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+        row-gap: 0;
     }
     .glsr-summary-bar {
         grid-column: span 1;

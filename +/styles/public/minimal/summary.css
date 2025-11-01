@@ -3,7 +3,6 @@
     column-gap: var(--glsr-gap-sm);
     display: flex;
     flex-wrap: wrap;
-    font-size: var(--glsr-summary-text);
     justify-content: var(--glsr-summary-align);
     max-width: var(--glsr-max-w);
     position: relative;
@@ -24,11 +23,11 @@
     text-align: var(--glsr-summary-align);
 }
 :root .glsr-summary-percentages {
+    column-gap: var(--glsr-bar-spacing);
     display: grid;
-    font-size: var(--glsr-summary-text);
-    gap: var(--glsr-bar-spacing);
     grid-template-columns: auto 1fr auto;
     line-height: 1;
+    row-gap: var(--glsr-bar-spacing);
     width: 100%;
 }
 :root .glsr-summary > div + .glsr-summary-percentages {
@@ -43,6 +42,7 @@
 :root .glsr-summary-bar-label {
     align-items: center;
     display: flex;
+    font-size: var(--glsr-summary-text);
     justify-content: start;
     white-space: nowrap;
 }
@@ -70,6 +70,7 @@
 :root .glsr-summary-bar-percent {
     align-items: center;
     display: flex;
+    font-size: var(--glsr-summary-text);
     justify-content: end;
     white-space: nowrap;
     &::before {
