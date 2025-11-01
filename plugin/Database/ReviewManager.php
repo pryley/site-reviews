@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Defaults\UpdateReviewDefaults;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
@@ -113,15 +114,7 @@ class ReviewManager
     public function createRaw(CreateReview $command)
     {
         $values = glsr()->args($command->toArray()); // this filters the values
-        $submitted = $command->request->toArray($excludedKeys = [
-            '_frcaptcha',
-            '_hcaptcha',
-            '_nonce',
-            '_procaptcha',
-            '_recaptcha',
-            '_turnstile',
-            'form_signature',
-        ]);
+        $submitted = $this->submittedMeta($command->request);
         $metaInput = [
             '_submitted' => $submitted, // save the original submitted request in metadata
             '_submitted_hash' => md5(maybe_serialize($submitted)),
@@ -208,6 +201,25 @@ class ReviewManager
         $reviews = new Reviews($results, $total, $args);
         glsr()->action('get/reviews', $reviews, $args);
         return $reviews;
+    }
+
+    public function submittedMeta(Request $request): array
+    {
+        $excludedKeys = [
+            '_action',
+            '_ajax_request',
+            '_frcaptcha',
+            '_hcaptcha',
+            '_nonce',
+            '_procaptcha',
+            '_recaptcha',
+            '_referer',
+            '_turnstile',
+            'form_id',
+            'form_signature',
+        ];
+        $submitted = $request->toArray($excludedKeys);
+        return array_filter($submitted, fn ($value) => !Helper::isEmpty($value));
     }
 
     public function total(array $args = [], array $reviews = []): int

@@ -7,6 +7,7 @@ use GeminiLabs\League\Csv\Statement;
 use GeminiLabs\League\Csv\TabularDataReader;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\Tables\TableTmp;
 use GeminiLabs\SiteReviews\Defaults\ImportResultDefaults;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -69,7 +70,8 @@ class ImportManager
 
     public function importedReview(Request $request): ?Review
     {
-        $submittedHash = md5(maybe_serialize($request->toArray()));
+        $submitted = glsr(ReviewManager::class)->submittedMeta($request);
+        $submittedHash = md5(maybe_serialize($submitted));
         $sql = "
             SELECT p.ID
             FROM table|posts AS p
