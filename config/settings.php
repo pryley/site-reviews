@@ -98,6 +98,7 @@ return [ // order is intentional
         'type' => 'yes_no',
     ],
     'settings.general.require.login_url' => [
+        'class' => 'large-text',
         'default' => '',
         'depends_on' => [
             'settings.general.require.login' => 'yes',
@@ -125,6 +126,7 @@ return [ // order is intentional
         'type' => 'yes_no',
     ],
     'settings.general.require.register_url' => [
+        'class' => 'large-text',
         'default' => '',
         'depends_on' => [
             'settings.general.require.login' => 'yes',
@@ -168,6 +170,7 @@ return [ // order is intentional
         'type' => 'checkbox',
     ],
     'settings.general.notification_discord' => [
+        'class' => 'large-text',
         'default' => '',
         'depends_on' => [
             'settings.general.notifications' => ['discord'],
@@ -181,6 +184,7 @@ return [ // order is intentional
         'type' => 'secret',
     ],
     'settings.general.notification_slack' => [
+        'class' => 'large-text',
         'default' => '',
         'depends_on' => [
             'settings.general.notifications' => ['slack'],
@@ -340,6 +344,7 @@ return [ // order is intentional
         'type' => 'select',
     ],
     'settings.reviews.avatars_fallback_url' => [
+        'class' => 'large-text',
         'default' => '',
         'depends_on' => [
             'settings.reviews.avatars' => 'yes',
