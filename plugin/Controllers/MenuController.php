@@ -184,9 +184,6 @@ class MenuController extends AbstractController
         if (empty(Arr::get(glsr()->defaults(), 'settings.addons'))) {
             unset($tabs['addons']);
         }
-        if (empty(Arr::get(glsr()->defaults(), 'settings.licenses'))) {
-            unset($tabs['licenses']);
-        }
         $this->renderPage('settings', [
             'fields' => glsr(SettingForm::class, ['groups' => $tabs])->build(),
             'tabs' => $tabs,
