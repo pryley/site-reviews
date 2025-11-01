@@ -318,7 +318,7 @@ abstract class AbstractCsv implements ByteSequence
      * @return int Returns the number of characters read from the handle
      *             and passed through to the output.
      */
-    public function output(string $filename = null): int
+    public function output(?string $filename = null): int
     {
         if (null !== $filename) {
             $this->sendHeaders($filename);

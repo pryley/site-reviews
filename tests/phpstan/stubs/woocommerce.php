@@ -500,6 +500,235 @@ namespace {
         }
     }
     /**
+     * Legacy Coupon.
+     *
+     * Legacy and deprecated functions are here to keep the WC_Legacy_Coupon class clean.
+     * This class will be removed in future versions.
+     *
+     * @version     3.0.0
+     * @package     WooCommerce\Classes
+     */
+    abstract class WC_Legacy_Coupon extends \WC_Data
+    {
+        /**
+         * Format loaded data as array.
+         * @param  string|array $array
+         * @return array
+         */
+        public function format_array($array)
+        {
+        }
+        /**
+         * Check if coupon needs applying before tax.
+         *
+         * @return bool
+         */
+        public function apply_before_tax()
+        {
+        }
+        /**
+         * Check if a coupon enables free shipping.
+         *
+         * @return bool
+         */
+        public function enable_free_shipping()
+        {
+        }
+        /**
+         * Check if a coupon excludes sale items.
+         *
+         * @return bool
+         */
+        public function exclude_sale_items()
+        {
+        }
+        /**
+         * Increase usage count for current coupon.
+         *
+         * @param string $used_by Either user ID or billing email
+         */
+        public function inc_usage_count($used_by = '')
+        {
+        }
+        /**
+         * Decrease usage count for current coupon.
+         *
+         * @param string $used_by Either user ID or billing email
+         */
+        public function dcr_usage_count($used_by = '')
+        {
+        }
+    }
+    /**
+     * Legacy Customer.
+     *
+     * @version  3.0.0
+     * @package  WooCommerce\Classes
+     */
+    abstract class WC_Legacy_Customer extends \WC_Data
+    {
+        /**
+         * Address and shipping_address are aliased, so we want to get the 'real' key name.
+         * For all other keys, we can just return it.
+         * @since 3.0.0
+         * @param  string $key
+         * @return string
+         */
+        private function filter_legacy_key($key)
+        {
+        }
+        /**
+         * Sets session data for the location.
+         *
+         * @param string $country
+         * @param string $state
+         * @param string $postcode (default: '')
+         * @param string $city (default: '')
+         */
+        public function set_location($country, $state, $postcode = '', $city = '')
+        {
+        }
+        /**
+         * Get default country for a customer.
+         * @return string
+         */
+        public function get_default_country()
+        {
+        }
+        /**
+         * Get default state for a customer.
+         * @return string
+         */
+        public function get_default_state()
+        {
+        }
+        /**
+         * Set customer address to match shop base address.
+         */
+        public function set_to_base()
+        {
+        }
+        /**
+         * Set customer shipping address to base address.
+         */
+        public function set_shipping_to_base()
+        {
+        }
+        /**
+         * Calculated shipping.
+         * @param boolean $calculated
+         */
+        public function calculated_shipping($calculated = true)
+        {
+        }
+        /**
+         * Set default data for a customer.
+         */
+        public function set_default_data()
+        {
+        }
+        /**
+         * Save data function.
+         */
+        public function save_data()
+        {
+        }
+        /**
+         * Is the user a paying customer?
+         *
+         * @param int $user_id
+         *
+         * @return bool
+         */
+        function is_paying_customer($user_id = '')
+        {
+        }
+        /**
+         * Legacy get address.
+         */
+        function get_address()
+        {
+        }
+        /**
+         * Legacy get address 2.
+         */
+        function get_address_2()
+        {
+        }
+        /**
+         * Legacy get country.
+         */
+        function get_country()
+        {
+        }
+        /**
+         * Legacy get state.
+         */
+        function get_state()
+        {
+        }
+        /**
+         * Legacy get postcode.
+         */
+        function get_postcode()
+        {
+        }
+        /**
+         * Legacy get city.
+         */
+        function get_city()
+        {
+        }
+        /**
+         * Legacy set country.
+         *
+         * @param string $country
+         */
+        function set_country($country)
+        {
+        }
+        /**
+         * Legacy set state.
+         *
+         * @param string $state
+         */
+        function set_state($state)
+        {
+        }
+        /**
+         * Legacy set postcode.
+         *
+         * @param string $postcode
+         */
+        function set_postcode($postcode)
+        {
+        }
+        /**
+         * Legacy set city.
+         *
+         * @param string $city
+         */
+        function set_city($city)
+        {
+        }
+        /**
+         * Legacy set address.
+         *
+         * @param string $address
+         */
+        function set_address($address)
+        {
+        }
+        /**
+         * Legacy set address.
+         *
+         * @param string $address
+         */
+        function set_address_2($address)
+        {
+        }
+    }
+    /**
      * WC_Settings_API class.
      */
     abstract class WC_Settings_API
@@ -985,8 +1214,6 @@ namespace {
      *
      * @version  3.0.0
      * @package  WooCommerce\Abstracts
-     * @category    Abstract Class
-     * @author    WooThemes
      */
     abstract class WC_Abstract_Legacy_Order extends \WC_Data
     {
@@ -4560,6 +4787,1577 @@ namespace {
         {
         }
     }
+    class WC_Coupon extends \WC_Legacy_Coupon
+    {
+        /**
+         * Data array, with defaults.
+         *
+         * @since 3.0.0
+         * @var array
+         */
+        protected $data = array();
+        // Coupon message codes.
+        const E_WC_COUPON_INVALID_FILTERED = 100;
+        const E_WC_COUPON_INVALID_REMOVED = 101;
+        const E_WC_COUPON_NOT_YOURS_REMOVED = 102;
+        const E_WC_COUPON_ALREADY_APPLIED = 103;
+        const E_WC_COUPON_ALREADY_APPLIED_INDIV_USE_ONLY = 104;
+        const E_WC_COUPON_NOT_EXIST = 105;
+        const E_WC_COUPON_USAGE_LIMIT_REACHED = 106;
+        const E_WC_COUPON_EXPIRED = 107;
+        const E_WC_COUPON_MIN_SPEND_LIMIT_NOT_MET = 108;
+        const E_WC_COUPON_NOT_APPLICABLE = 109;
+        const E_WC_COUPON_NOT_VALID_SALE_ITEMS = 110;
+        const E_WC_COUPON_PLEASE_ENTER = 111;
+        const E_WC_COUPON_MAX_SPEND_LIMIT_MET = 112;
+        const E_WC_COUPON_EXCLUDED_PRODUCTS = 113;
+        const E_WC_COUPON_EXCLUDED_CATEGORIES = 114;
+        const E_WC_COUPON_USAGE_LIMIT_COUPON_STUCK = 115;
+        const E_WC_COUPON_USAGE_LIMIT_COUPON_STUCK_GUEST = 116;
+        const WC_COUPON_SUCCESS = 200;
+        const WC_COUPON_REMOVED = 201;
+        /**
+         * Cache group.
+         *
+         * @var string
+         */
+        protected $cache_group = 'coupons';
+        /**
+         * Error message.
+         *
+         * This property should not be considered public API, and should not be accessed directly.
+         * It is being added to suppress PHP > 8.0 warnings against dynamic property creation, and all access
+         * should be through the getter and setter methods, namely `get_error_message()` and `set_error_message()`.
+         * In the future, the access modifier may be changed back to protected.
+         *
+         * @var string
+         */
+        public $error_message;
+        /**
+         * Sorting.
+         *
+         * Used by `get_coupons_from_cart` to sort coupons.
+         *
+         * @var int
+         */
+        public $sort = 0;
+        /**
+         * Coupon constructor. Loads coupon data.
+         *
+         * @param mixed $data Coupon data, object, ID or code.
+         */
+        public function __construct($data = '')
+        {
+        }
+        /**
+         * If the object has an ID, read using the data store.
+         *
+         * @since 3.4.1
+         */
+        protected function read_object_from_database()
+        {
+        }
+        /**
+         * Checks the coupon type.
+         *
+         * @param  string|array $type Array or string of types.
+         * @return bool
+         */
+        public function is_type($type)
+        {
+        }
+        /**
+         * Prefix for action and filter hooks on data.
+         *
+         * @since  3.0.0
+         * @return string
+         */
+        protected function get_hook_prefix()
+        {
+        }
+        /**
+         * Get coupon code.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_code($context = 'view')
+        {
+        }
+        /**
+         * Get coupon description.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_description($context = 'view')
+        {
+        }
+        /**
+         * Get coupon status.
+         *
+         * @since  6.2.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_status($context = 'view')
+        {
+        }
+        /**
+         * Get discount type.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_discount_type($context = 'view')
+        {
+        }
+        /**
+         * Get coupon amount.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_amount($context = 'view')
+        {
+        }
+        /**
+         * Get coupon expiration date.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return WC_DateTime|NULL object if the date is set or null if there is no date.
+         */
+        public function get_date_expires($context = 'view')
+        {
+        }
+        /**
+         * Get date_created
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return WC_DateTime|NULL object if the date is set or null if there is no date.
+         */
+        public function get_date_created($context = 'view')
+        {
+        }
+        /**
+         * Get date_modified
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return WC_DateTime|NULL object if the date is set or null if there is no date.
+         */
+        public function get_date_modified($context = 'view')
+        {
+        }
+        /**
+         * Get coupon usage count.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return integer
+         */
+        public function get_usage_count($context = 'view')
+        {
+        }
+        /**
+         * Get the "individual use" checkbox status.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return bool
+         */
+        public function get_individual_use($context = 'view')
+        {
+        }
+        /**
+         * Get product IDs this coupon can apply to.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return array
+         */
+        public function get_product_ids($context = 'view')
+        {
+        }
+        /**
+         * Get product IDs that this coupon should not apply to.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return array
+         */
+        public function get_excluded_product_ids($context = 'view')
+        {
+        }
+        /**
+         * Get coupon usage limit.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return integer
+         */
+        public function get_usage_limit($context = 'view')
+        {
+        }
+        /**
+         * Get coupon usage limit per customer (for a single customer)
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return integer
+         */
+        public function get_usage_limit_per_user($context = 'view')
+        {
+        }
+        /**
+         * Usage limited to certain amount of items
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return integer|null
+         */
+        public function get_limit_usage_to_x_items($context = 'view')
+        {
+        }
+        /**
+         * If this coupon grants free shipping or not.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return bool
+         */
+        public function get_free_shipping($context = 'view')
+        {
+        }
+        /**
+         * Get product categories this coupon can apply to.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return array
+         */
+        public function get_product_categories($context = 'view')
+        {
+        }
+        /**
+         * Get product categories this coupon cannot not apply to.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return array
+         */
+        public function get_excluded_product_categories($context = 'view')
+        {
+        }
+        /**
+         * If this coupon should exclude items on sale.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return bool
+         */
+        public function get_exclude_sale_items($context = 'view')
+        {
+        }
+        /**
+         * Get minimum spend amount.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return float
+         */
+        public function get_minimum_amount($context = 'view')
+        {
+        }
+        /**
+         * Get maximum spend amount.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return float
+         */
+        public function get_maximum_amount($context = 'view')
+        {
+        }
+        /**
+         * Get emails to check customer usage restrictions.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return array
+         */
+        public function get_email_restrictions($context = 'view')
+        {
+        }
+        /**
+         * Get records of all users who have used the current coupon.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return array
+         */
+        public function get_used_by($context = 'view')
+        {
+        }
+        /**
+         * If the filter is added through the woocommerce_get_shop_coupon_data filter, it's virtual and not in the DB.
+         *
+         * @since 3.2.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return boolean
+         */
+        public function get_virtual($context = 'view')
+        {
+        }
+        /**
+         * Get discount amount for a cart item.
+         *
+         * @param  float      $discounting_amount Amount the coupon is being applied to.
+         * @param  array|null $cart_item          Cart item being discounted if applicable.
+         * @param  boolean    $single             True if discounting a single qty item, false if its the line.
+         * @return float Amount this coupon has discounted.
+         */
+        public function get_discount_amount($discounting_amount, $cart_item = null, $single = false)
+        {
+        }
+        /**
+         * Set coupon code.
+         *
+         * @since 3.0.0
+         * @param string $code Coupon code.
+         */
+        public function set_code($code)
+        {
+        }
+        /**
+         * Set coupon description.
+         *
+         * @since 3.0.0
+         * @param string $description Description.
+         */
+        public function set_description($description)
+        {
+        }
+        /**
+         * Set coupon status.
+         *
+         * @since 3.0.0
+         * @param string $status Status.
+         */
+        public function set_status($status)
+        {
+        }
+        /**
+         * Set discount type.
+         *
+         * @since 3.0.0
+         * @param string $discount_type Discount type.
+         */
+        public function set_discount_type($discount_type)
+        {
+        }
+        /**
+         * Set discount type, optionally disabling the type verification.
+         *
+         * @since 10.3.0
+         * @param string $discount_type Discount type.
+         * @param bool   $verify_discount_type Whether to verify if the discount type is valid.
+         */
+        private function set_discount_type_core($discount_type, bool $verify_discount_type)
+        {
+        }
+        /**
+         * Set amount.
+         *
+         * @since 3.0.0
+         * @param float|string $amount Amount.
+         */
+        public function set_amount($amount)
+        {
+        }
+        /**
+         * Set expiration date.
+         *
+         * @since  3.0.0
+         * @param string|integer|null $date UTC timestamp, or ISO 8601 DateTime. If the DateTime string has no timezone or offset, WordPress site timezone will be assumed. Null if there is no date.
+         */
+        public function set_date_expires($date)
+        {
+        }
+        /**
+         * Set date_created
+         *
+         * @since  3.0.0
+         * @param string|integer|null $date UTC timestamp, or ISO 8601 DateTime. If the DateTime string has no timezone or offset, WordPress site timezone will be assumed. Null if there is no date.
+         */
+        public function set_date_created($date)
+        {
+        }
+        /**
+         * Set date_modified
+         *
+         * @since  3.0.0
+         * @param string|integer|null $date UTC timestamp, or ISO 8601 DateTime. If the DateTime string has no timezone or offset, WordPress site timezone will be assumed. Null if there is no date.
+         */
+        public function set_date_modified($date)
+        {
+        }
+        /**
+         * Set how many times this coupon has been used.
+         *
+         * @since 3.0.0
+         * @param int $usage_count Usage count.
+         */
+        public function set_usage_count($usage_count)
+        {
+        }
+        /**
+         * Set if this coupon can only be used once.
+         *
+         * @since 3.0.0
+         * @param bool $is_individual_use If is for individual use.
+         */
+        public function set_individual_use($is_individual_use)
+        {
+        }
+        /**
+         * Set the product IDs this coupon can be used with.
+         *
+         * @since 3.0.0
+         * @param array $product_ids Products IDs.
+         */
+        public function set_product_ids($product_ids)
+        {
+        }
+        /**
+         * Set the product IDs this coupon cannot be used with.
+         *
+         * @since 3.0.0
+         * @param array $excluded_product_ids Exclude product IDs.
+         */
+        public function set_excluded_product_ids($excluded_product_ids)
+        {
+        }
+        /**
+         * Set the amount of times this coupon can be used.
+         *
+         * @since 3.0.0
+         * @param int $usage_limit Usage limit.
+         */
+        public function set_usage_limit($usage_limit)
+        {
+        }
+        /**
+         * Set the amount of times this coupon can be used per user.
+         *
+         * @since 3.0.0
+         * @param int $usage_limit Usage limit.
+         */
+        public function set_usage_limit_per_user($usage_limit)
+        {
+        }
+        /**
+         * Set usage limit to x number of items.
+         *
+         * @since 3.0.0
+         * @param int|null $limit_usage_to_x_items Limit usage to X items.
+         */
+        public function set_limit_usage_to_x_items($limit_usage_to_x_items)
+        {
+        }
+        /**
+         * Set if this coupon enables free shipping or not.
+         *
+         * @since 3.0.0
+         * @param bool $free_shipping If grant free shipping.
+         */
+        public function set_free_shipping($free_shipping)
+        {
+        }
+        /**
+         * Set the product category IDs this coupon can be used with.
+         *
+         * @since 3.0.0
+         * @param array $product_categories List of product categories.
+         */
+        public function set_product_categories($product_categories)
+        {
+        }
+        /**
+         * Set the product category IDs this coupon cannot be used with.
+         *
+         * @since 3.0.0
+         * @param array $excluded_product_categories List of excluded product categories.
+         */
+        public function set_excluded_product_categories($excluded_product_categories)
+        {
+        }
+        /**
+         * Set if this coupon should excluded sale items or not.
+         *
+         * @since 3.0.0
+         * @param bool $exclude_sale_items If should exclude sale items.
+         */
+        public function set_exclude_sale_items($exclude_sale_items)
+        {
+        }
+        /**
+         * Set the minimum spend amount.
+         *
+         * @since 3.0.0
+         * @param float|string $amount Minimum amount.
+         */
+        public function set_minimum_amount($amount)
+        {
+        }
+        /**
+         * Set the maximum spend amount.
+         *
+         * @since 3.0.0
+         * @param float|string $amount Maximum amount.
+         */
+        public function set_maximum_amount($amount)
+        {
+        }
+        /**
+         * Set email restrictions.
+         *
+         * @since 3.0.0
+         * @param array $emails List of emails.
+         */
+        public function set_email_restrictions($emails = array())
+        {
+        }
+        /**
+         * Set which users have used this coupon.
+         *
+         * @since 3.0.0
+         * @param array $used_by List of user IDs.
+         */
+        public function set_used_by($used_by)
+        {
+        }
+        /**
+         * Set coupon virtual state.
+         *
+         * @param boolean $virtual Whether it is virtual or not.
+         * @since 3.2.0
+         */
+        public function set_virtual($virtual)
+        {
+        }
+        /**
+         * Developers can programmatically return coupons. This function will read those values into our WC_Coupon class.
+         *
+         * @since 3.0.0
+         * @param string $code   Coupon code.
+         * @param array  $coupon Array of coupon properties.
+         */
+        public function read_manual_coupon($code, $coupon)
+        {
+        }
+        /**
+         * Increase usage count for current coupon.
+         *
+         * @param string   $used_by  Either user ID or billing email.
+         * @param WC_Order $order  If provided, will clear the coupons held by this order.
+         */
+        public function increase_usage_count($used_by = '', $order = null)
+        {
+        }
+        /**
+         * Decrease usage count for current coupon.
+         *
+         * @param string $used_by Either user ID or billing email.
+         */
+        public function decrease_usage_count($used_by = '')
+        {
+        }
+        /**
+         * Returns the error_message string.
+
+         * @return string
+         */
+        public function get_error_message()
+        {
+        }
+        /**
+         * Sets the error_message string.
+         *
+         * @param string $message Message string.
+         *
+         * @return void
+         */
+        public function set_error_message(string $message)
+        {
+        }
+        /**
+         * Check if a coupon is valid for the cart.
+         *
+         * @deprecated 3.2.0 In favor of WC_Discounts->is_coupon_valid.
+         * @return bool
+         */
+        public function is_valid()
+        {
+        }
+        /**
+         * Check if a coupon is valid.
+         *
+         * @return bool
+         */
+        public function is_valid_for_cart()
+        {
+        }
+        /**
+         * Check if a coupon is valid for a product.
+         *
+         * @param WC_Product $product Product instance.
+         * @param array      $values  Values.
+         * @return bool
+         */
+        public function is_valid_for_product($product, $values = array())
+        {
+        }
+        /**
+         * Converts one of the WC_Coupon message/error codes to a message string and.
+         * displays the message/error.
+         *
+         * @param int    $msg_code Message/error code.
+         * @param string $notice_type Notice type.
+         */
+        public function add_coupon_message($msg_code, $notice_type = 'success')
+        {
+        }
+        /**
+         * Map one of the WC_Coupon message codes to a message string.
+         *
+         * @param integer $msg_code Message code.
+         * @return string Message/error string.
+         */
+        public function get_coupon_message($msg_code)
+        {
+        }
+        /**
+         * Map one of the WC_Coupon error codes to a message string.
+         *
+         * @param int $err_code Message/error code.
+         * @return string Message/error string
+         */
+        public function get_coupon_error($err_code)
+        {
+        }
+        /**
+         * Map one of the WC_Coupon error codes to an error string.
+         * No coupon instance will be available where a coupon does not exist,
+         * so this static method exists.
+         *
+         * @param int $err_code Error code.
+         * @return string Error string.
+         */
+        public static function get_generic_coupon_error($err_code)
+        {
+        }
+        /**
+         * Get the coupon information that is needed to reapply the coupon to an existing order.
+         * This information is intended to be stored as a meta value in the order line item corresponding to the coupon
+         * and should NOT be modified or extended (additional/custom data should go in a separate metadata entry).
+         *
+         * The information returned is a JSON-encoded string of an array with the following coupon information:
+         *
+         * 0: Id
+         * 1: Code
+         * 2: Type, null is equivalent to 'fixed_cart'
+         * 3: Nominal amount (either a fixed amount or a percent, depending on the coupon type)
+         * 4: The coupon grants free shipping? (present only if true)
+         *
+         * @return string A JSON string with information that allows the coupon to be reapplied to an existing order.
+         */
+        public function get_short_info(): string
+        {
+        }
+        /**
+         * Sets the coupon parameters from a reapply information set generated with 'get_short_info'.
+         *
+         * @param string $info JSON string with reapply information as returned by 'get_short_info'.
+         */
+        public function set_short_info(string $info)
+        {
+        }
+        /**
+         * Returns alternate error messages based on context (eg. Cart and Checkout).
+         *
+         * @param int $err_code Message/error code.
+         *
+         * @return array Context based alternate error messages.
+         */
+        public function get_context_based_coupon_errors($err_code = null)
+        {
+        }
+    }
+    /**
+     * The WooCommerce customer class handles storage of the current customer's data, such as location.
+     *
+     * @package WooCommerce\Classes
+     * @version 3.0.0
+     */
+    class WC_Customer extends \WC_Legacy_Customer
+    {
+        /**
+         * Stores customer data.
+         *
+         * @var array
+         */
+        protected $data = array();
+        /**
+         * Stores a password if this needs to be changed. Write-only and hidden from _data.
+         *
+         * @var string
+         */
+        protected $password = '';
+        /**
+         * Stores if user is VAT exempt for this session.
+         *
+         * @var string
+         */
+        protected $is_vat_exempt = false;
+        /**
+         * Stores if user has calculated shipping in this session.
+         *
+         * @var string
+         */
+        protected $calculated_shipping = false;
+        /**
+         * This is the name of this object type.
+         *
+         * @since 5.6.0
+         * @var string
+         */
+        protected $object_type = 'customer';
+        /**
+         * Load customer data based on how WC_Customer is called.
+         *
+         * If $customer is 'new', you can build a new WC_Customer object. If it's empty, some
+         * data will be pulled from the session for the current user/customer.
+         *
+         * @param WC_Customer|int $data       Customer ID or data.
+         * @param bool            $is_session True if this is the customer session.
+         * @throws Exception If customer cannot be read/found and $data is set.
+         */
+        public function __construct($data = 0, $is_session = false)
+        {
+        }
+        /**
+         * Delete a customer and reassign posts..
+         *
+         * @param int $reassign Reassign posts and links to new User ID.
+         * @since 3.0.0
+         * @return bool
+         */
+        public function delete_and_reassign($reassign = null)
+        {
+        }
+        /**
+         * Is customer outside base country (for tax purposes)?
+         *
+         * @return bool
+         */
+        public function is_customer_outside_base()
+        {
+        }
+        /**
+         * Return this customer's avatar.
+         *
+         * @since 3.0.0
+         * @return string
+         */
+        public function get_avatar_url()
+        {
+        }
+        /**
+         * Get taxable address.
+         *
+         * @return array
+         */
+        public function get_taxable_address()
+        {
+        }
+        /**
+         * Gets a customer's downloadable products.
+         *
+         * @return array Array of downloadable products
+         */
+        public function get_downloadable_products()
+        {
+        }
+        /**
+         * Is customer VAT exempt?
+         *
+         * @return bool
+         */
+        public function is_vat_exempt()
+        {
+        }
+        /**
+         * Has calculated shipping?
+         *
+         * @return bool
+         */
+        public function has_calculated_shipping()
+        {
+        }
+        /**
+         * Indicates if the customer has a non-empty shipping address.
+         *
+         * Note that this does not indicate if the customer's shipping address
+         * is complete, only that one or more fields are populated.
+         *
+         * @since 5.3.0
+         *
+         * @return bool
+         */
+        public function has_shipping_address()
+        {
+        }
+        /**
+         * Checks whether the address is "full" in the sense that it contains all required fields to calculate shipping rates.
+         * This method uses the current country's locale to determine if a field is required, or falls back to the default
+         * locale if there's no country-specific setting for that field.
+         *
+         * This method is only used internally by StoreAPI, and not by the classic/shortcode checkout.
+         *
+         * @since 9.8.0
+         * @return bool Whether the customer has a full shipping address (city, state, postcode, country).
+         * Only required fields are checked based on the country locale.
+         */
+        public function has_full_shipping_address()
+        {
+        }
+        /**
+         * Get if customer is VAT exempt?
+         *
+         * @since 3.0.0
+         * @return bool
+         */
+        public function get_is_vat_exempt()
+        {
+        }
+        /**
+         * Get password (only used when updating the user object).
+         *
+         * @return string
+         */
+        public function get_password()
+        {
+        }
+        /**
+         * Has customer calculated shipping?
+         *
+         * @return bool
+         */
+        public function get_calculated_shipping()
+        {
+        }
+        /**
+         * Set if customer has tax exemption.
+         *
+         * @param bool $is_vat_exempt If is vat exempt.
+         */
+        public function set_is_vat_exempt($is_vat_exempt)
+        {
+        }
+        /**
+         * Calculated shipping?
+         *
+         * @param bool $calculated If shipping is calculated.
+         */
+        public function set_calculated_shipping($calculated = true)
+        {
+        }
+        /**
+         * Set customer's password.
+         *
+         * @since 3.0.0
+         * @param string $password Password.
+         */
+        public function set_password($password)
+        {
+        }
+        /**
+         * Gets the customers last order.
+         *
+         * @return WC_Order|false
+         */
+        public function get_last_order()
+        {
+        }
+        /**
+         * Return the number of orders this customer has.
+         *
+         * @return integer
+         */
+        public function get_order_count()
+        {
+        }
+        /**
+         * Return how much money this customer has spent.
+         *
+         * @return float
+         */
+        public function get_total_spent()
+        {
+        }
+        /**
+         * Return the customer's username.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_username($context = 'view')
+        {
+        }
+        /**
+         * Return the customer's email.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_email($context = 'view')
+        {
+        }
+        /**
+         * Return customer's first name.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_first_name($context = 'view')
+        {
+        }
+        /**
+         * Return customer's last name.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_last_name($context = 'view')
+        {
+        }
+        /**
+         * Return customer's display name.
+         *
+         * @since  3.1.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_display_name($context = 'view')
+        {
+        }
+        /**
+         * Return customer's user role.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_role($context = 'view')
+        {
+        }
+        /**
+         * Return the date this customer was created.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return WC_DateTime|null object if the date is set or null if there is no date.
+         */
+        public function get_date_created($context = 'view')
+        {
+        }
+        /**
+         * Return the date this customer was last updated.
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return WC_DateTime|null object if the date is set or null if there is no date.
+         */
+        public function get_date_modified($context = 'view')
+        {
+        }
+        /**
+         * Gets a prop for a getter method.
+         *
+         * @since  3.0.0
+         * @param  string $prop Name of prop to get.
+         * @param  string $address_type Type of address; 'billing' or 'shipping'.
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return mixed
+         */
+        protected function get_address_prop($prop, $address_type = 'billing', $context = 'view')
+        {
+        }
+        /**
+         * Get billing.
+         *
+         * @since  3.2.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return array
+         */
+        public function get_billing($context = 'view')
+        {
+        }
+        /**
+         * Get billing_first_name.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_billing_first_name($context = 'view')
+        {
+        }
+        /**
+         * Get billing_last_name.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_billing_last_name($context = 'view')
+        {
+        }
+        /**
+         * Get billing_company.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_billing_company($context = 'view')
+        {
+        }
+        /**
+         * Get billing_address_1.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_billing_address($context = 'view')
+        {
+        }
+        /**
+         * Get billing_address_1.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_billing_address_1($context = 'view')
+        {
+        }
+        /**
+         * Get billing_address_2.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string $value
+         */
+        public function get_billing_address_2($context = 'view')
+        {
+        }
+        /**
+         * Get billing_city.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string $value
+         */
+        public function get_billing_city($context = 'view')
+        {
+        }
+        /**
+         * Get billing_state.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_billing_state($context = 'view')
+        {
+        }
+        /**
+         * Get billing_postcode.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_billing_postcode($context = 'view')
+        {
+        }
+        /**
+         * Get billing_country.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_billing_country($context = 'view')
+        {
+        }
+        /**
+         * Get billing_email.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_billing_email($context = 'view')
+        {
+        }
+        /**
+         * Get billing_phone.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_billing_phone($context = 'view')
+        {
+        }
+        /**
+         * Get shipping.
+         *
+         * @since  3.2.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return array
+         */
+        public function get_shipping($context = 'view')
+        {
+        }
+        /**
+         * Get shipping_first_name.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_shipping_first_name($context = 'view')
+        {
+        }
+        /**
+         * Get shipping_last_name.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_shipping_last_name($context = 'view')
+        {
+        }
+        /**
+         * Get shipping_company.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_shipping_company($context = 'view')
+        {
+        }
+        /**
+         * Get shipping_address_1.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_shipping_address($context = 'view')
+        {
+        }
+        /**
+         * Get shipping_address_1.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_shipping_address_1($context = 'view')
+        {
+        }
+        /**
+         * Get shipping_address_2.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_shipping_address_2($context = 'view')
+        {
+        }
+        /**
+         * Get shipping_city.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_shipping_city($context = 'view')
+        {
+        }
+        /**
+         * Get shipping_state.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_shipping_state($context = 'view')
+        {
+        }
+        /**
+         * Get shipping_postcode.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_shipping_postcode($context = 'view')
+        {
+        }
+        /**
+         * Get shipping_country.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_shipping_country($context = 'view')
+        {
+        }
+        /**
+         * Get shipping phone.
+         *
+         * @since 5.6.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_shipping_phone($context = 'view')
+        {
+        }
+        /**
+         * Is the user a paying customer?
+         *
+         * @since  3.0.0
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return bool
+         */
+        public function get_is_paying_customer($context = 'view')
+        {
+        }
+        /**
+         * Set customer's username.
+         *
+         * @since 3.0.0
+         * @param string $username Username.
+         */
+        public function set_username($username)
+        {
+        }
+        /**
+         * Set customer's email.
+         *
+         * @since 3.0.0
+         * @param string $value Email.
+         */
+        public function set_email($value)
+        {
+        }
+        /**
+         * Set customer's first name.
+         *
+         * @since 3.0.0
+         * @param string $first_name First name.
+         */
+        public function set_first_name($first_name)
+        {
+        }
+        /**
+         * Set customer's last name.
+         *
+         * @since 3.0.0
+         * @param string $last_name Last name.
+         */
+        public function set_last_name($last_name)
+        {
+        }
+        /**
+         * Set customer's display name.
+         *
+         * @since 3.1.0
+         * @param string $display_name Display name.
+         */
+        public function set_display_name($display_name)
+        {
+        }
+        /**
+         * Set customer's user role(s).
+         *
+         * @since 3.0.0
+         * @param mixed $role User role.
+         */
+        public function set_role($role)
+        {
+        }
+        /**
+         * Set the date this customer was last updated.
+         *
+         * @since  3.0.0
+         * @param  string|integer|null $date UTC timestamp, or ISO 8601 DateTime. If the DateTime string has no timezone or offset, WordPress site timezone will be assumed. Null if their is no date.
+         */
+        public function set_date_created($date = null)
+        {
+        }
+        /**
+         * Set the date this customer was last updated.
+         *
+         * @since  3.0.0
+         * @param  string|integer|null $date UTC timestamp, or ISO 8601 DateTime. If the DateTime string has no timezone or offset, WordPress site timezone will be assumed. Null if their is no date.
+         */
+        public function set_date_modified($date = null)
+        {
+        }
+        /**
+         * Set customer address to match shop base address.
+         *
+         * @since 3.0.0
+         */
+        public function set_billing_address_to_base()
+        {
+        }
+        /**
+         * Set customer shipping address to base address.
+         *
+         * @since 3.0.0
+         */
+        public function set_shipping_address_to_base()
+        {
+        }
+        /**
+         * Sets all address info at once.
+         *
+         * @param string $country  Country.
+         * @param string $state    State.
+         * @param string $postcode Postcode.
+         * @param string $city     City.
+         */
+        public function set_billing_location($country, $state = '', $postcode = '', $city = '')
+        {
+        }
+        /**
+         * Sets all shipping info at once.
+         *
+         * @param string $country  Country.
+         * @param string $state    State.
+         * @param string $postcode Postcode.
+         * @param string $city     City.
+         */
+        public function set_shipping_location($country, $state = '', $postcode = '', $city = '')
+        {
+        }
+        /**
+         * Sets a prop for a setter method.
+         *
+         * @since 3.0.0
+         * @param string $prop         Name of prop to set.
+         * @param string $address_type Type of address; 'billing' or 'shipping'.
+         * @param mixed  $value        Value of the prop.
+         */
+        protected function set_address_prop($prop, $address_type, $value)
+        {
+        }
+        /**
+         * Set billing_first_name.
+         *
+         * @param string $value Billing first name.
+         */
+        public function set_billing_first_name($value)
+        {
+        }
+        /**
+         * Set billing_last_name.
+         *
+         * @param string $value Billing last name.
+         */
+        public function set_billing_last_name($value)
+        {
+        }
+        /**
+         * Set billing_company.
+         *
+         * @param string $value Billing company.
+         */
+        public function set_billing_company($value)
+        {
+        }
+        /**
+         * Set billing_address_1.
+         *
+         * @param string $value Billing address line 1.
+         */
+        public function set_billing_address($value)
+        {
+        }
+        /**
+         * Set billing_address_1.
+         *
+         * @param string $value Billing address line 1.
+         */
+        public function set_billing_address_1($value)
+        {
+        }
+        /**
+         * Set billing_address_2.
+         *
+         * @param string $value Billing address line 2.
+         */
+        public function set_billing_address_2($value)
+        {
+        }
+        /**
+         * Set billing_city.
+         *
+         * @param string $value Billing city.
+         */
+        public function set_billing_city($value)
+        {
+        }
+        /**
+         * Set billing_state.
+         *
+         * @param string $value Billing state.
+         */
+        public function set_billing_state($value)
+        {
+        }
+        /**
+         * Set billing_postcode.
+         *
+         * @param string $value Billing postcode.
+         */
+        public function set_billing_postcode($value)
+        {
+        }
+        /**
+         * Set billing_country.
+         *
+         * @param string $value Billing country.
+         */
+        public function set_billing_country($value)
+        {
+        }
+        /**
+         * Set billing_email.
+         *
+         * @param string $value Billing email.
+         */
+        public function set_billing_email($value)
+        {
+        }
+        /**
+         * Set billing_phone.
+         *
+         * @param string $value Billing phone.
+         */
+        public function set_billing_phone($value)
+        {
+        }
+        /**
+         * Set shipping_first_name.
+         *
+         * @param string $value Shipping first name.
+         */
+        public function set_shipping_first_name($value)
+        {
+        }
+        /**
+         * Set shipping_last_name.
+         *
+         * @param string $value Shipping last name.
+         */
+        public function set_shipping_last_name($value)
+        {
+        }
+        /**
+         * Set shipping_company.
+         *
+         * @param string $value Shipping company.
+         */
+        public function set_shipping_company($value)
+        {
+        }
+        /**
+         * Set shipping_address_1.
+         *
+         * @param string $value Shipping address line 1.
+         */
+        public function set_shipping_address($value)
+        {
+        }
+        /**
+         * Set shipping_address_1.
+         *
+         * @param string $value Shipping address line 1.
+         */
+        public function set_shipping_address_1($value)
+        {
+        }
+        /**
+         * Set shipping_address_2.
+         *
+         * @param string $value Shipping address line 2.
+         */
+        public function set_shipping_address_2($value)
+        {
+        }
+        /**
+         * Set shipping_city.
+         *
+         * @param string $value Shipping city.
+         */
+        public function set_shipping_city($value)
+        {
+        }
+        /**
+         * Set shipping_state.
+         *
+         * @param string $value Shipping state.
+         */
+        public function set_shipping_state($value)
+        {
+        }
+        /**
+         * Set shipping_postcode.
+         *
+         * @param string $value Shipping postcode.
+         */
+        public function set_shipping_postcode($value)
+        {
+        }
+        /**
+         * Set shipping_country.
+         *
+         * @param string $value Shipping country.
+         */
+        public function set_shipping_country($value)
+        {
+        }
+        /**
+         * Set shipping phone.
+         *
+         * @since 5.6.0
+         * @param string $value Shipping phone.
+         */
+        public function set_shipping_phone($value)
+        {
+        }
+        /**
+         * Set if the user a paying customer.
+         *
+         * @since 3.0.0
+         * @param bool $is_paying_customer If is a paying customer.
+         */
+        public function set_is_paying_customer($is_paying_customer)
+        {
+        }
+    }
     /**
      * Order Class.
      *
@@ -6708,6 +8506,312 @@ namespace {
         }
     }
     /**
+     * Order item product class.
+     */
+    class WC_Order_Item_Product extends \WC_Order_Item
+    {
+        /**
+         * Legacy values.
+         *
+         * @deprecated 4.4.0 For legacy actions.
+         * @var array
+         */
+        public $legacy_values;
+        /**
+         * Legacy cart item key.
+         *
+         * @deprecated 4.4.0 For legacy actions.
+         * @var string
+         */
+        public $legacy_cart_item_key;
+        /**
+         * Order Data array. This is the core order data exposed in APIs since 3.0.0.
+         *
+         * @since 3.0.0
+         * @var array
+         */
+        protected $extra_data = array();
+        /**
+         * Set quantity.
+         *
+         * @param int $value Quantity.
+         */
+        public function set_quantity($value)
+        {
+        }
+        /**
+         * Set tax class.
+         *
+         * @param string $value Tax class.
+         */
+        public function set_tax_class($value)
+        {
+        }
+        /**
+         * Set Product ID
+         *
+         * @param int $value Product ID.
+         */
+        public function set_product_id($value)
+        {
+        }
+        /**
+         * Set variation ID.
+         *
+         * @param int $value Variation ID.
+         */
+        public function set_variation_id($value)
+        {
+        }
+        /**
+         * Line subtotal (before discounts).
+         *
+         * @param string $value Subtotal.
+         */
+        public function set_subtotal($value)
+        {
+        }
+        /**
+         * Line total (after discounts).
+         *
+         * @param string $value Total.
+         */
+        public function set_total($value)
+        {
+        }
+        /**
+         * Line subtotal tax (before discounts).
+         *
+         * @param string $value Subtotal tax.
+         */
+        public function set_subtotal_tax($value)
+        {
+        }
+        /**
+         * Line total tax (after discounts).
+         *
+         * @param string $value Total tax.
+         */
+        public function set_total_tax($value)
+        {
+        }
+        /**
+         * Set line taxes and totals for passed in taxes.
+         *
+         * @param array $raw_tax_data Raw tax data.
+         */
+        public function set_taxes($raw_tax_data)
+        {
+        }
+        /**
+         * Set variation data (stored as meta data - write only).
+         *
+         * @param array $data Key/Value pairs.
+         */
+        public function set_variation($data = array())
+        {
+        }
+        /**
+         * Set properties based on passed in product object.
+         *
+         * @param WC_Product $product Product instance.
+         */
+        public function set_product($product)
+        {
+        }
+        /**
+         * Set meta data for backordered products.
+         */
+        public function set_backorder_meta()
+        {
+        }
+        /**
+         * Get order item type.
+         *
+         * @return string
+         */
+        public function get_type()
+        {
+        }
+        /**
+         * Get product ID.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return int
+         */
+        public function get_product_id($context = 'view')
+        {
+        }
+        /**
+         * Get variation ID.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return int
+         */
+        public function get_variation_id($context = 'view')
+        {
+        }
+        /**
+         * Get quantity.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return int
+         */
+        public function get_quantity($context = 'view')
+        {
+        }
+        /**
+         * Get tax class.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_tax_class($context = 'view')
+        {
+        }
+        /**
+         * Gets the item subtotal. This is the price of the item times the quantity
+         * excluding taxes before coupon discounts.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_subtotal($context = 'view')
+        {
+        }
+        /**
+         * Get subtotal tax.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_subtotal_tax($context = 'view')
+        {
+        }
+        /**
+         * Gets the item total. This is the price of the item times the quantity
+         * excluding taxes after coupon discounts.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_total($context = 'view')
+        {
+        }
+        /**
+         * Get total tax.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return string
+         */
+        public function get_total_tax($context = 'view')
+        {
+        }
+        /**
+         * Get taxes.
+         *
+         * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+         * @return array
+         */
+        public function get_taxes($context = 'view')
+        {
+        }
+        /**
+         * Get the associated product.
+         *
+         * @return WC_Product|bool
+         */
+        public function get_product()
+        {
+        }
+        /**
+         * Get the Download URL.
+         *
+         * @param  int $download_id Download ID.
+         * @return string
+         */
+        public function get_item_download_url($download_id)
+        {
+        }
+        /**
+         * Get any associated downloadable files.
+         *
+         * @return array
+         */
+        public function get_item_downloads()
+        {
+        }
+        /**
+         * Get tax status.
+         *
+         * @return string
+         */
+        public function get_tax_status()
+        {
+        }
+        /**
+         * Get formatted meta data for the item.
+         *
+         * This overrides the parent method to conditionally remove backorder
+         * meta data when the order is marked as completed.
+         *
+         * @param string $hideprefix  Meta data prefix, (default: _).
+         * @param bool   $include_all Include all meta data, this stop skip items with values already in the product name.
+         * @return array
+         */
+        public function get_formatted_meta_data($hideprefix = '_', $include_all = false)
+        {
+        }
+        /**
+         * OffsetGet for ArrayAccess/Backwards compatibility.
+         *
+         * @param string $offset Offset.
+         * @return mixed
+         */
+        #[\ReturnTypeWillChange]
+        public function offsetGet($offset)
+        {
+        }
+        /**
+         * OffsetSet for ArrayAccess/Backwards compatibility.
+         *
+         * @deprecated 4.4.0
+         * @param string $offset Offset.
+         * @param mixed  $value  Value.
+         */
+        #[\ReturnTypeWillChange]
+        public function offsetSet($offset, $value)
+        {
+        }
+        /**
+         * OffsetExists for ArrayAccess.
+         *
+         * @param string $offset Offset.
+         * @return bool
+         */
+        #[\ReturnTypeWillChange]
+        public function offsetExists($offset)
+        {
+        }
+        /**
+         * Indicates that product line items have an associated Cost of Goods Sold value.
+         * Note that this is true even if the product has np COGS value (in that case the COGS value for the line item will be zero)-
+         *
+         * @return bool Always true.
+         */
+        public function has_cogs(): bool
+        {
+        }
+        /**
+         * Calculate the Cost of Goods Sold value for this line item.
+         *
+         * @return float|null The calculated value, null if the product associated to the line item no longer exists.
+         */
+        public function calculate_cogs_value_core(): ?float
+        {
+        }
+    }
+    /**
      * WC_Query Class.
      */
     class WC_Query
@@ -7228,7 +9332,7 @@ namespace {
         /**
          * Customer instance.
          *
-         * @var WC_Customer
+         * @var \WC_Customer
          */
         public $customer = \null;
         /**
@@ -10294,6 +12398,80 @@ namespace Automattic\WooCommerce\Blocks\Utils {
     }
 }
 namespace {
+    /**
+     * Get coupon ID by code.
+     *
+     * @since 3.0.0
+     * @param string $code    Coupon code.
+     * @param int    $exclude Used to exclude an ID from the check if you're checking existence.
+     * @return int
+     */
+    function wc_get_coupon_id_by_code($code, $exclude = 0)
+    {
+    }
+    /**
+     * Get list of statuses which are consider 'paid'.
+     *
+     * @since  3.0.0
+     * @return array
+     */
+    function wc_get_is_paid_statuses()
+    {
+    }
+    /**
+     * Get the nice name for an order status.
+     *
+     * @since  2.2
+     * @param  string $status Status.
+     * @return string
+     */
+    function wc_get_order_status_name($status)
+    {
+    }
+    /**
+     * Standard way of retrieving orders based on certain parameters.
+     *
+     * This function should be used for order retrieval so that when we move to
+     * custom tables, functions still work.
+     *
+     * Args and usage: https://github.com/woocommerce/woocommerce/wiki/wc_get_orders-and-WC_Order_Query
+     *
+     * @since  2.6.0
+     * @param  array $args Array of args (above).
+     * @return WC_Order[]|stdClass Number of pages and an array of order objects if
+     *                             paginate is true, or just an array of values.
+     */
+    function wc_get_orders($args)
+    {
+    }
+    /**
+     * Format the price with a currency symbol.
+     *
+     * @param  float $price Raw price.
+     * @param  array $args  Arguments to format a price {
+     *     Array of arguments.
+     *     Defaults to empty array.
+     *
+     *     @type bool   $ex_tax_label       Adds exclude tax label.
+     *                                      Defaults to false.
+     *     @type string $currency           Currency code.
+     *                                      Defaults to empty string (Use the result from get_woocommerce_currency()).
+     *     @type string $decimal_separator  Decimal separator.
+     *                                      Defaults the result of wc_get_price_decimal_separator().
+     *     @type string $thousand_separator Thousand separator.
+     *                                      Defaults the result of wc_get_price_thousand_separator().
+     *     @type string $decimals           Number of decimals.
+     *                                      Defaults the result of wc_get_price_decimals().
+     *     @type string $price_format       Price format depending on the currency position.
+     *                                      Defaults the result of get_woocommerce_price_format().
+     *     @type bool   $in_span            Whether to enclose the formatted price in an HTML <span> element.
+     *                                      Defaults to true.
+     * }
+     * @return string
+     */
+    function wc_price($price, $args = array())
+    {
+    }
     function wc_update_500_fix_product_review_count()
     {
     }

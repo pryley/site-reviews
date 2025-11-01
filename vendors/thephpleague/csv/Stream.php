@@ -167,7 +167,7 @@ final class Stream implements SeekableIterator
      *
      * @throws InvalidArgument if the filter can not be appended
      */
-    public function appendFilter(string $filtername, int $read_write, array $params = null): void
+    public function appendFilter(string $filtername, int $read_write, ?array $params = null): void
     {
         $res = @stream_filter_append($this->stream, $filtername, $read_write, $params ?? []);
         if (!is_resource($res)) {
@@ -465,7 +465,7 @@ final class Stream implements SeekableIterator
      *
      * @return int|false
      */
-    public function fwrite(string $str, int $length = null)
+    public function fwrite(string $str, ?int $length = null)
     {
         $args = [$this->stream, $str];
         if (null !== $length) {

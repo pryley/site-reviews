@@ -37,6 +37,7 @@ spl_autoload_register(function ($className) {
         'WP_Debug_Data' => ABSPATH.'wp-admin/includes/class-wp-debug-data.php',
         'WP_List_Table' => ABSPATH.'wp-admin/includes/class-wp-list-table.php',
         'WP_Posts_List_Table' => ABSPATH.'wp-admin/includes/class-wp-posts-list-table.php',
+        'WP_Screen'=> ABSPATH.'wp-admin/includes/class-wp-screen.php',
     ];
     if (array_key_exists($className, $classMap) && file_exists($classMap[$className])) {
         require_once $classMap[$className];
