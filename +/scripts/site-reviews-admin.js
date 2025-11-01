@@ -74,7 +74,7 @@ jQuery(function ($) {
     GLSR.stars.init('.glsr-field-rating select', { clearable: true });
 
     GLSR.Tippy.tippy('.glsr-tooltip', {appendTo: () => document.body});
-    GLSR.Tippy.tippy('.glsr-setting-field button.is-reset-button', {appendTo: () => document.body});
+    GLSR.Tippy.tippy('.glsr-setting-field button[data-tippy-content]', {appendTo: () => document.body});
 
     $('.glsr-tooltip').each((i, el) => {
         const content = el.dataset.tippyContent;
@@ -335,8 +335,9 @@ jQuery(function ($) {
         const $btn = $(el);
         $btn.on('click', () => {
             const $icon = $btn.find('.dashicons');
-            const label = $icon.hasClass('dashicons-visibility') ? $btn.data('show') : $btn.data('hide');
+            const label = $icon.hasClass('dashicons-visibility') ? $btn.data('hide') : $btn.data('show');
             $btn.attr('aria-label', label)
+            GLSR.Tippy.tippy($btn.get(0)).setContent(label);
             $icon.toggleClass('dashicons-hidden').toggleClass('dashicons-visibility')
         })
     })

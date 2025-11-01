@@ -26,6 +26,7 @@ class Secret extends Text
             'class' => 'button wp-hide-pw hide-if-no-js',
             'data-hide' => esc_attr_x('Hide value', 'admin-text', 'site-reviews'),
             'data-show' => esc_attr_x('Show value', 'admin-text', 'site-reviews'),
+            'data-tippy-content' => esc_attr_x('Show value', 'admin-text', 'site-reviews'),
             'text' => $this->field->builder()->span([
                 'aria-hidden' => 'true',
                 'class' => 'dashicons dashicons-visibility',
