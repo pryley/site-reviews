@@ -33,27 +33,4 @@ class SettingBuilder extends Builder
             'text' => implode('<br>', $fields),
         ]);
     }
-
-    protected function buildFieldTextareaElement(): string
-    {
-        $element = parent::buildFieldTextareaElement();
-        if (empty($this->args()->tags)) {
-            return $element;
-        }
-        $tags = array_keys($this->args()->tags);
-        $buttons = array_reduce($tags, fn ($carry, $tag) => $carry.$this->input([
-            'class' => 'button button-small',
-            'data-tag' => esc_attr($tag),
-            'type' => 'button',
-            'value' => esc_attr($this->args()->tags[$tag]),
-        ]), '');
-        $toolbar = $this->div([
-            'class' => 'quicktags-toolbar',
-            'text' => $buttons,
-        ]);
-        return $this->div([
-            'class' => 'glsr-template-editor',
-            'text' => $element.$toolbar,
-        ]);
-    }
 }

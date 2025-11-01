@@ -57,17 +57,19 @@ return [ // order is intentional
         'type' => 'yes_no',
     ],
     'settings.general.request_verification_message' => [
+        'autosize' => true,
         'default' => glsr()->build('templates/verify-review'),
         'depends_on' => [
             'settings.general.request_verification' => ['yes'],
         ],
+        'description' => _x('To restore the default text, save an empty template.', 'admin-text', 'site-reviews'),
         'label' => _x('Verification Template', 'admin-text', 'site-reviews'),
-        'rows' => 8,
+        'rows' => 3,
         'sanitizer' => 'text-html',
         'tags' => glsr('Modules\Html\TemplateTags')->filteredTags([
             'exclude' => ['admin_email', 'approve_url', 'edit_url', 'review_link', 'review_type', 'verified_date'],
         ]),
-        'tooltip' => _x('The verification email sent to the reviewer when a review is submitted. To restore the default text, save an empty template.', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('The verification email sent to the reviewer when a review is submitted.', 'admin-text', 'site-reviews'),
         'type' => 'code',
     ],
     'settings.general.require.approval' => [
@@ -220,17 +222,19 @@ return [ // order is intentional
         'type' => 'text',
     ],
     'settings.general.notification_message' => [
+        'autosize' => true,
         'default' => glsr()->build('templates/notification'),
         'depends_on' => [
             'settings.general.notifications' => ['admin', 'author', 'custom'],
         ],
+        'description' => _x('To restore the default text, save an empty template.', 'admin-text', 'site-reviews'),
         'label' => _x('Notification Template', 'admin-text', 'site-reviews'),
-        'rows' => 9,
+        'rows' => 3,
         'sanitizer' => 'text-html',
         'tags' => glsr('Modules\Html\TemplateTags')->filteredTags([
             'exclude' => ['admin_email', 'review_link', 'review_type', 'verified_date', 'verify_url'],
         ]),
-        'tooltip' => _x('To restore the default text, save an empty template. If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href="https://api.slack.com/docs/attachments" target="_blank">Message Attachments</a> have been disabled.', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href="https://api.slack.com/docs/attachments" target="_blank">Message Attachments</a> have been disabled.', 'admin-text', 'site-reviews'),
         'type' => 'code',
     ],
     'settings.reviews.date.format' => [
@@ -806,34 +810,37 @@ return [ // order is intentional
         'type' => 'checkbox',
     ],
     'settings.forms.limit_whitelist.email' => [
+        'autosize' => true,
         'default' => '',
         'depends_on' => [
             'settings.forms.limit' => ['email'],
         ],
         'label' => _x('Email Whitelist', 'admin-text', 'site-reviews'),
-        'rows' => 5,
+        'rows' => 3,
         'sanitizer' => 'text-multiline',
         'tooltip' => _x('One Email per line. All emails in the whitelist will be excluded from the review submission limit.', 'admin-text', 'site-reviews'),
         'type' => 'code',
     ],
     'settings.forms.limit_whitelist.ip_address' => [
+        'autosize' => true,
         'default' => '',
         'depends_on' => [
             'settings.forms.limit' => ['ip_address'],
         ],
         'label' => _x('IP Address Whitelist', 'admin-text', 'site-reviews'),
-        'rows' => 5,
+        'rows' => 3,
         'sanitizer' => 'text-multiline',
         'tooltip' => _x('One IP Address per line. All IP Addresses in the whitelist will be excluded from the review submission limit..', 'admin-text', 'site-reviews'),
         'type' => 'code',
     ],
     'settings.forms.limit_whitelist.username' => [
+        'autosize' => true,
         'default' => '',
         'depends_on' => [
             'settings.forms.limit' => ['username'],
         ],
         'label' => _x('Username Whitelist', 'admin-text', 'site-reviews'),
-        'rows' => 5,
+        'rows' => 3,
         'sanitizer' => 'text-multiline',
         'tooltip' => _x('One Username per line. All registered users with a Username in the whitelist will be excluded from the review submission limit.', 'admin-text', 'site-reviews'),
         'type' => 'code',
@@ -1116,12 +1123,13 @@ return [ // order is intentional
         'type' => 'select',
     ],
     'settings.forms.blacklist.entries' => [
+        'autosize' => true,
         'default' => '',
         'depends_on' => [
             'settings.forms.blacklist.integration' => [''],
         ],
         'label' => _x('Review Blacklist', 'admin-text', 'site-reviews'),
-        'rows' => 10,
+        'rows' => 3,
         'sanitizer' => 'text-multiline',
         'tooltip' => _x('One entry or IP address per line. When a review contains any of these entries in its title, content, name, email, or IP address, it will be rejected. It is case-insensitive and will match partial words, so "press" will match "WordPress".', 'admin-text', 'site-reviews'),
         'type' => 'code',

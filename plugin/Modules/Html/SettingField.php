@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 /**
+ * @property bool   $autosize
  * @property mixed  $default
  * @property array  $depends_on
  * @property bool   $is_hidden
@@ -20,6 +21,7 @@ class SettingField extends Field
     public function __construct(array $args = [])
     {
         $field = wp_parse_args($args, [
+            'autosize' => false,
             'default' => '',
             'depends_on' => [],
             'tags' => [],

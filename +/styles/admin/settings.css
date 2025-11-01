@@ -4,14 +4,44 @@
   display: none !important;
 }
 
+.glsr-setting-field textarea.autosized {
+  padding: 4px 8px;
+  min-height: 30px;
+  width: 100%;
+}
+.glsr-setting-field .has-reset-button {
+  position: relative;
+}
+.glsr-setting-field .has-reset-button textarea.autosized {
+  padding-right: 38px;
+}
+.glsr-setting-field button.is-reset-button {
+  align-items: center;
+  background-color: transparent;
+  border-color: transparent;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: 1px;
+  width: 30px;
+  z-index: 1;
+}
+
 @media screen and (max-width: 782px) {
-  .glsr-setting-field textarea {
+  .glsr-setting-field textarea.autosized {
     line-height: 1.5;
+    min-height: 40px;
     padding: 7px 10px;
   }
-}
-.glsr-setting-field textarea {
-  padding: 4px 8px;
+  .glsr-setting-field .has-reset-button textarea.autosized {
+    padding-right: 50px;
+  }
+  .glsr-setting-field textarea.autosized + button {
+    top: 0;
+    width: 40px;
+  }
 }
 
 .glsr-setting-field .regular-grid {

@@ -3,10 +3,10 @@
 const Forms = function (selector) {
     this.el = document.querySelector(selector);
     if (!this.el) return;
-    GLSR.autosize(this.el.querySelectorAll('textarea'));
+    GLSR.autosize(this.el.querySelectorAll('textarea.autosized'));
     jQuery('a.glsr-nav-tab').on('click:tab', (ev, id, $el) => {
         if ($el.find(this.el)) {
-            GLSR.autosize.update($el.find('textarea'))
+            GLSR.autosize.update($el.find('textarea.autosized'))
         }
     });
     this.depends = this.el.querySelectorAll('[data-depends]');
@@ -98,7 +98,7 @@ Forms.prototype = {
         if (!row) return;
         if (isFieldSelected) {
             row.classList.remove('hidden')
-            GLSR.autosize.update(row.querySelectorAll('textarea'));
+            GLSR.autosize.update(row.querySelectorAll('textarea.autosized'));
         } else {
             row.classList.add('hidden')
         }

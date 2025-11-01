@@ -2408,7 +2408,7 @@ msgctxt "admin-text"
 msgid "This will enable the ProfilePress integration with Site Reviews."
 msgstr "This will enable the ProfilePress integration with Site Reviews."
 
-#: config/integrations/profilepress.php:23, config/integrations/surecart.php:35, config/integrations/ultimatemember.php:34, config/integrations/woocommerce.php:90
+#: config/integrations/profilepress.php:23, config/integrations/surecart.php:35, config/integrations/ultimatemember.php:34, config/integrations/woocommerce.php:91
 msgctxt "admin-text"
 msgid "Display Empty Ratings?"
 msgstr "Display Empty Ratings?"
@@ -2422,12 +2422,12 @@ msgstr ""
 "This will display empty ratings on the Member Directory page for profiles "
 "with no reviews."
 
-#: config/integrations/profilepress.php:35, config/integrations/surecart.php:18, config/integrations/ultimatemember.php:47, config/integrations/woocommerce.php:73
+#: config/integrations/profilepress.php:35, config/integrations/surecart.php:18, config/integrations/ultimatemember.php:47, config/integrations/woocommerce.php:74
 msgctxt "admin-text"
 msgid "The problem with averaging star ratings"
 msgstr "The problem with averaging star ratings"
 
-#: config/integrations/profilepress.php:36, config/integrations/surecart.php:19, config/integrations/ultimatemember.php:48, config/integrations/woocommerce.php:74
+#: config/integrations/profilepress.php:36, config/integrations/surecart.php:19, config/integrations/ultimatemember.php:48, config/integrations/woocommerce.php:75
 msgctxt "admin-text"
 msgid "Of bayesian average and star ratings"
 msgstr "Of bayesian average and star ratings"
@@ -2437,12 +2437,12 @@ msgctxt "admin-text"
 msgid "Member Sorting"
 msgstr "Member Sorting"
 
-#: config/integrations/profilepress.php:40, config/integrations/surecart.php:23, config/integrations/ultimatemember.php:52, config/integrations/woocommerce.php:78
+#: config/integrations/profilepress.php:40, config/integrations/surecart.php:23, config/integrations/ultimatemember.php:52, config/integrations/woocommerce.php:79
 msgctxt "admin-text"
 msgid "Average Rating"
 msgstr "Average Rating"
 
-#: config/integrations/profilepress.php:41, config/integrations/surecart.php:24, config/integrations/ultimatemember.php:53, config/integrations/woocommerce.php:79
+#: config/integrations/profilepress.php:41, config/integrations/surecart.php:24, config/integrations/ultimatemember.php:53, config/integrations/woocommerce.php:80
 msgctxt "admin-text"
 msgid "Bayesian Ranking"
 msgstr "Bayesian Ranking"
@@ -2604,17 +2604,17 @@ msgctxt "admin-text"
 msgid "This will integrate Site Reviews with SureCart."
 msgstr "This will integrate Site Reviews with SureCart."
 
-#: config/integrations/surecart.php:21, config/integrations/woocommerce.php:76
+#: config/integrations/surecart.php:21, config/integrations/woocommerce.php:77
 msgctxt "admin-text"
 msgid "Product Sorting"
 msgstr "Product Sorting"
 
-#: config/integrations/surecart.php:27, config/integrations/woocommerce.php:82
+#: config/integrations/surecart.php:27, config/integrations/woocommerce.php:83
 msgctxt "admin-text"
 msgid "This is the method used to sort products by rating on the shop page."
 msgstr "This is the method used to sort products by rating on the shop page."
 
-#: config/integrations/surecart.php:37, config/integrations/woocommerce.php:92
+#: config/integrations/surecart.php:37, config/integrations/woocommerce.php:93
 msgctxt "admin-text"
 msgid "This will display the rating stars even if the product has no reviews."
 msgstr "This will display the rating stars even if the product has no reviews."
@@ -2654,17 +2654,17 @@ msgctxt "admin-text"
 msgid "This will display the rating of each profile on the Member Directory page."
 msgstr "This will display the rating of each profile on the Member Directory page."
 
-#: config/integrations/ultimatemember.php:130, config/integrations/woocommerce.php:36, views/integrations/woocommerce/product-data-panel.php:19
+#: config/integrations/ultimatemember.php:130, config/integrations/woocommerce.php:37, views/integrations/woocommerce/product-data-panel.php:19
 msgctxt "admin-text"
 msgid "Summary Shortcode"
 msgstr "Summary Shortcode"
 
-#: config/integrations/ultimatemember.php:144, config/integrations/woocommerce.php:48, views/integrations/woocommerce/product-data-panel.php:25
+#: config/integrations/ultimatemember.php:144, config/integrations/woocommerce.php:49, views/integrations/woocommerce/product-data-panel.php:25
 msgctxt "admin-text"
 msgid "Reviews Shortcode"
 msgstr "Reviews Shortcode"
 
-#: config/integrations/ultimatemember.php:158, config/integrations/woocommerce.php:60, views/integrations/woocommerce/product-data-panel.php:31
+#: config/integrations/ultimatemember.php:158, config/integrations/woocommerce.php:61, views/integrations/woocommerce/product-data-panel.php:31
 msgctxt "admin-text"
 msgid "Form Shortcode"
 msgstr "Form Shortcode"
@@ -2718,7 +2718,7 @@ msgctxt "admin-text"
 msgid "This changes the color of the stars and the summary bars"
 msgstr "This changes the color of the stars and the summary bars"
 
-#: config/integrations/woocommerce.php:39
+#: config/integrations/woocommerce.php:40
 msgctxt "admin-text"
 msgid ""
 "Enter the summary shortcode used on the product page (the schema option is "
@@ -2727,7 +2727,7 @@ msgstr ""
 "Enter the summary shortcode used on the product page (the schema option is "
 "unnecessary)"
 
-#: config/integrations/woocommerce.php:51
+#: config/integrations/woocommerce.php:52
 msgctxt "admin-text"
 msgid ""
 "Enter the reviews shortcode used on the product page (the schema option is "
@@ -2736,12 +2736,12 @@ msgstr ""
 "Enter the reviews shortcode used on the product page (the schema option is "
 "unnecessary)"
 
-#: config/integrations/woocommerce.php:63
+#: config/integrations/woocommerce.php:64
 msgctxt "admin-text"
 msgid "Enter the form shortcode used on the product page"
 msgstr "Enter the form shortcode used on the product page"
 
-#: config/integrations/woocommerce.php:100
+#: config/integrations/woocommerce.php:101
 msgctxt "admin-text"
 msgid ""
 "This may fix issues with other plugins which query WooCommerce product "
@@ -2752,12 +2752,12 @@ msgstr ""
 "reviews. Keep in mind that enabling this option may also cause conflicts "
 "with incompatible plugins."
 
-#: config/integrations/woocommerce.php:101
+#: config/integrations/woocommerce.php:102
 msgctxt "admin-text"
 msgid "Filter Comment Queries"
 msgstr "Filter Comment Queries"
 
-#: config/integrations/woocommerce.php:102
+#: config/integrations/woocommerce.php:103
 msgctxt "admin-text"
 msgid ""
 "This will filter the output of the wp_comments() function when used to "
@@ -6300,6 +6300,11 @@ msgstr "Show value"
 msgctxt "admin-text"
 msgid "Hide value"
 msgstr "Hide value"
+
+#: plugin/Modules/Html/FieldElements/Textarea.php:32
+msgctxt "admin-text"
+msgid "Reset value to default"
+msgstr "Reset value to default"
 
 #: views/integrations/multilingualpress/fields/assigned_posts.php:5
 msgctxt "admin-text"

@@ -28,8 +28,8 @@ return [ // order is intentional
         'type' => 'select',
     ],
     'settings.integrations.woocommerce.summary' => [
-        'class' => 'large-text',
-        'default' => '[site_reviews_summary assigned_posts="post_id" hide="rating" id="prod_rating_summary"]',
+        'autosize' => true,
+        'default' => '[site_reviews_summary assigned_posts="post_id" hide="rating" id="prod_summary_id"]',
         'depends_on' => [
             'settings.integrations.woocommerce.enabled' => ['yes'],
         ],
@@ -40,8 +40,8 @@ return [ // order is intentional
         'type' => 'textarea',
     ],
     'settings.integrations.woocommerce.reviews' => [
-        'class' => 'large-text',
-        'default' => '[site_reviews assigned_posts="post_id" hide="assigned_links,title" pagination="ajax" schema="true" id="prod_latest_reviews"]',
+        'autosize' => true,
+        'default' => '[site_reviews assigned_posts="post_id" hide="assigned_links,title" id="prod_reviews_id" pagination="ajax" schema="true"]',
         'depends_on' => [
             'settings.integrations.woocommerce.enabled' => ['yes'],
         ],
@@ -52,8 +52,8 @@ return [ // order is intentional
         'type' => 'textarea',
     ],
     'settings.integrations.woocommerce.form' => [
-        'class' => 'large-text',
-        'default' => '[site_reviews_form assigned_posts="post_id" hide="title" reviews_id="prod_latest_reviews" summary_id="prod_rating_summary"]',
+        'autosize' => true,
+        'default' => '[site_reviews_form assigned_posts="post_id" hide="title" id="prod_form_id" reviews_id="prod_reviews_id" summary_id="prod_summary_id"]',
         'depends_on' => [
             'settings.integrations.woocommerce.enabled' => ['yes'],
         ],

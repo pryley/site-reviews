@@ -1841,7 +1841,7 @@ msgctxt "admin-text"
 msgid "This will enable the ProfilePress integration with Site Reviews."
 msgstr ""
 
-#: config/integrations/profilepress.php:23, config/integrations/surecart.php:35, config/integrations/ultimatemember.php:34, config/integrations/woocommerce.php:90
+#: config/integrations/profilepress.php:23, config/integrations/surecart.php:35, config/integrations/ultimatemember.php:34, config/integrations/woocommerce.php:91
 msgctxt "admin-text"
 msgid "Display Empty Ratings?"
 msgstr ""
@@ -1851,12 +1851,12 @@ msgctxt "admin-text"
 msgid "This will display empty ratings on the Member Directory page for profiles with no reviews."
 msgstr ""
 
-#: config/integrations/profilepress.php:35, config/integrations/surecart.php:18, config/integrations/ultimatemember.php:47, config/integrations/woocommerce.php:73
+#: config/integrations/profilepress.php:35, config/integrations/surecart.php:18, config/integrations/ultimatemember.php:47, config/integrations/woocommerce.php:74
 msgctxt "admin-text"
 msgid "The problem with averaging star ratings"
 msgstr ""
 
-#: config/integrations/profilepress.php:36, config/integrations/surecart.php:19, config/integrations/ultimatemember.php:48, config/integrations/woocommerce.php:74
+#: config/integrations/profilepress.php:36, config/integrations/surecart.php:19, config/integrations/ultimatemember.php:48, config/integrations/woocommerce.php:75
 msgctxt "admin-text"
 msgid "Of bayesian average and star ratings"
 msgstr ""
@@ -1866,12 +1866,12 @@ msgctxt "admin-text"
 msgid "Member Sorting"
 msgstr ""
 
-#: config/integrations/profilepress.php:40, config/integrations/surecart.php:23, config/integrations/ultimatemember.php:52, config/integrations/woocommerce.php:78
+#: config/integrations/profilepress.php:40, config/integrations/surecart.php:23, config/integrations/ultimatemember.php:52, config/integrations/woocommerce.php:79
 msgctxt "admin-text"
 msgid "Average Rating"
 msgstr ""
 
-#: config/integrations/profilepress.php:41, config/integrations/surecart.php:24, config/integrations/ultimatemember.php:53, config/integrations/woocommerce.php:79
+#: config/integrations/profilepress.php:41, config/integrations/surecart.php:24, config/integrations/ultimatemember.php:53, config/integrations/woocommerce.php:80
 msgctxt "admin-text"
 msgid "Bayesian Ranking"
 msgstr ""
@@ -2021,17 +2021,17 @@ msgctxt "admin-text"
 msgid "This will integrate Site Reviews with SureCart."
 msgstr ""
 
-#: config/integrations/surecart.php:21, config/integrations/woocommerce.php:76
+#: config/integrations/surecart.php:21, config/integrations/woocommerce.php:77
 msgctxt "admin-text"
 msgid "Product Sorting"
 msgstr ""
 
-#: config/integrations/surecart.php:27, config/integrations/woocommerce.php:82
+#: config/integrations/surecart.php:27, config/integrations/woocommerce.php:83
 msgctxt "admin-text"
 msgid "This is the method used to sort products by rating on the shop page."
 msgstr ""
 
-#: config/integrations/surecart.php:37, config/integrations/woocommerce.php:92
+#: config/integrations/surecart.php:37, config/integrations/woocommerce.php:93
 msgctxt "admin-text"
 msgid "This will display the rating stars even if the product has no reviews."
 msgstr ""
@@ -2071,17 +2071,17 @@ msgctxt "admin-text"
 msgid "This will display the rating of each profile on the Member Directory page."
 msgstr ""
 
-#: config/integrations/ultimatemember.php:130, config/integrations/woocommerce.php:36, views/integrations/woocommerce/product-data-panel.php:19
+#: config/integrations/ultimatemember.php:130, config/integrations/woocommerce.php:37, views/integrations/woocommerce/product-data-panel.php:19
 msgctxt "admin-text"
 msgid "Summary Shortcode"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:144, config/integrations/woocommerce.php:48, views/integrations/woocommerce/product-data-panel.php:25
+#: config/integrations/ultimatemember.php:144, config/integrations/woocommerce.php:49, views/integrations/woocommerce/product-data-panel.php:25
 msgctxt "admin-text"
 msgid "Reviews Shortcode"
 msgstr ""
 
-#: config/integrations/ultimatemember.php:158, config/integrations/woocommerce.php:60, views/integrations/woocommerce/product-data-panel.php:31
+#: config/integrations/ultimatemember.php:158, config/integrations/woocommerce.php:61, views/integrations/woocommerce/product-data-panel.php:31
 msgctxt "admin-text"
 msgid "Form Shortcode"
 msgstr ""
@@ -2127,32 +2127,32 @@ msgctxt "admin-text"
 msgid "This changes the color of the stars and the summary bars"
 msgstr ""
 
-#: config/integrations/woocommerce.php:39
+#: config/integrations/woocommerce.php:40
 msgctxt "admin-text"
 msgid "Enter the summary shortcode used on the product page (the schema option is unnecessary)"
 msgstr ""
 
-#: config/integrations/woocommerce.php:51
+#: config/integrations/woocommerce.php:52
 msgctxt "admin-text"
 msgid "Enter the reviews shortcode used on the product page (the schema option is unnecessary)"
 msgstr ""
 
-#: config/integrations/woocommerce.php:63
+#: config/integrations/woocommerce.php:64
 msgctxt "admin-text"
 msgid "Enter the form shortcode used on the product page"
 msgstr ""
 
-#: config/integrations/woocommerce.php:100
+#: config/integrations/woocommerce.php:101
 msgctxt "admin-text"
 msgid "This may fix issues with other plugins which query WooCommerce product reviews. Keep in mind that enabling this option may also cause conflicts with incompatible plugins."
 msgstr ""
 
-#: config/integrations/woocommerce.php:101
+#: config/integrations/woocommerce.php:102
 msgctxt "admin-text"
 msgid "Filter Comment Queries"
 msgstr ""
 
-#: config/integrations/woocommerce.php:102
+#: config/integrations/woocommerce.php:103
 msgctxt "admin-text"
 msgid "This will filter the output of the wp_comments() function when used to query WooCommerce product reviews."
 msgstr ""
@@ -6443,6 +6443,11 @@ msgstr ""
 #: plugin/Modules/Html/FieldElements/Secret.php:27
 msgctxt "admin-text"
 msgid "Hide value"
+msgstr ""
+
+#: plugin/Modules/Html/FieldElements/Textarea.php:32
+msgctxt "admin-text"
+msgid "Reset value to default"
 msgstr ""
 
 #: plugin/Modules/Html/FieldElements/YesNo.php:22

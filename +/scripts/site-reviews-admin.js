@@ -74,6 +74,8 @@ jQuery(function ($) {
     GLSR.stars.init('.glsr-field-rating select', { clearable: true });
 
     GLSR.Tippy.tippy('.glsr-tooltip', {appendTo: () => document.body});
+    GLSR.Tippy.tippy('.glsr-setting-field button.is-reset-button', {appendTo: () => document.body});
+
     $('.glsr-tooltip').each((i, el) => {
         const content = el.dataset.tippyContent;
         const syntax = el.dataset.syntax;
@@ -81,6 +83,13 @@ jQuery(function ($) {
             el._tippy.setContent('<pre class="language-' + syntax + '"><code>' + Prism.highlight(content, Prism.languages[syntax], syntax) + '</code></pre>')
         }
     });
+
+    $('.glsr-setting-field button.is-reset-button').click(ev => {
+        const btn = $(ev.currentTarget);
+        const textarea = btn.prev('textarea.autosized');
+        textarea.val(btn.data('default'))
+        GLSR.autosize.update(textarea)
+    })
 
     $('.glsr-nav-tab').on('click:tab', (ev, id, $view) => {
         if ('system-info' !== id || 1 === $view.data('isLoaded')) return;
