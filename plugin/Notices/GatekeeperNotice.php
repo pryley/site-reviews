@@ -84,11 +84,11 @@ class GatekeeperNotice extends AbstractNotice
 
     protected function isNoticeScreen(): bool
     {
-        $screenIds = ['dashboard', 'plugins', 'update-core'];
-        if (in_array(glsr_current_screen()->id, $screenIds)) {
+        $screen = glsr_current_screen();
+        if (in_array($screen->id, ['dashboard', 'plugins', 'update-core'])) {
             return true;
         }
-        if (get_current_screen()->in_admin('network')) {
+        if (is_a($screen, 'WP_Screen') && $screen->in_admin('network')) {
             return true;
         }
         return parent::isNoticeScreen();

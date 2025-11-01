@@ -34,11 +34,10 @@ class RetiredPremiumNotice extends AbstractNotice
     protected function isNoticeScreen(): bool
     {
         $screen = glsr_current_screen();
-        $screenIds = ['dashboard', 'plugins', 'update-core'];
-        if (in_array($screen->id, $screenIds)) {
+        if (in_array($screen->id, ['dashboard', 'plugins', 'update-core'])) {
             return true;
         }
-        if (method_exists($screen, 'in_admin') && $screen->in_admin('network')) {
+        if (is_a($screen, 'WP_Screen') && $screen->in_admin('network')) {
             return true;
         }
         return parent::isNoticeScreen();

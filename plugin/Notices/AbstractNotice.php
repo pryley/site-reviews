@@ -194,16 +194,17 @@ abstract class AbstractNotice
         if (!str_starts_with($screen->post_type, glsr()->post_type)) {
             return false;
         }
-        if ('popup' === $this->type) {
-            if ('post' === $screen->base) {
-                return false;
-            }
-            if (str_ends_with($screen->base, '-premium')) {
-                return false;
-            }
-            if (!glsr()->filterBool('flyoutmenu/enabled', true)) {
-                return false;
-            }
+        if ('popup' !== $this->type) {
+            return true;
+        }
+        if ('post' === $screen->base) {
+            return false;
+        }
+        if (str_ends_with($screen->base, '-premium')) {
+            return false;
+        }
+        if (!glsr()->filterBool('flyoutmenu/enabled', true)) {
+            return false;
         }
         return true;
     }
