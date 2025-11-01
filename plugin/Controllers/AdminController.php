@@ -173,25 +173,26 @@ class AdminController extends AbstractController
      */
     public function printInlineStyle(): void
     {
-        echo ''.
-        '<style type="text/css">'.
-            '@media only screen and (max-width: 960px) {'.
-                '.auto-fold #adminmenu .menu-icon-site-review div.wp-menu-image {'.
-                    'height: 34px;'.
-                '}'.
+        $rules = [];
+        $rules[] = '@media only screen and (max-width: 960px) {'.
+            '.auto-fold #adminmenu .menu-icon-site-review div.wp-menu-image {'.
+                'height: 34px;'.
             '}'.
-            'li:is(.submenu_glsr-settings,.submenu_glsr-premium)::before {'.
-                'background: hsla(0,0%,100%,.2);'.
-                'content: \'\';'.
-                'display: block;'.
-                'height: 1px;'.
-                'margin: 5px 0;'.
-                'width: 100%;'.
-            '}'.
-            'li.submenu_glsr-premium a {'.
+        '}';
+        $rules[] = 'li:is(.submenu_glsr-settings,.submenu_glsr-premium)::before {'.
+            'background: hsla(0,0%,100%,.2);'.
+            'content: \'\';'.
+            'display: block;'.
+            'height: 1px;'.
+            'margin: 5px 0;'.
+            'width: 100%;'.
+        '}';
+        if (!glsr(License::class)->isPremium()) {
+            $rules[] = 'li.submenu_glsr-premium a {'.
                 'color: #e8ff5e !important;'. // --glsr-primary
-            '}'.
-        '</style>';
+            '}';
+        }
+        printf('<style type="text/css">%s</style>', implode('', $rules));
     }
 
     /**

@@ -249,7 +249,7 @@ class MenuController extends AbstractController
                 }
             }
         } elseif (array_key_exists('premium', $args) && glsr(License::class)->isPremium()) {
-            $args['premium'] = _x('Premium Addons', 'admin-text', 'site-reviews');
+            $args['premium'] = _x('Addons', 'admin-text', 'site-reviews');
         }
         return glsr()->filterArray("addon/{$hookSuffix}", $args);
     }

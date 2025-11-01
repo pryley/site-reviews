@@ -75,7 +75,6 @@
   text-wrap: balance;
 }
 .glsr-premium__table th {
-  border-bottom: 1px solid #000;
   font-size: 1.125rem;
   font-weight: 700;
   padding: 0 .5rem calc(.5 * 2rem);
@@ -95,7 +94,7 @@
   }
 }
 .glsr-premium__table td {
-  border-bottom: 1px solid #000;
+  border-top: 1px solid #000;
   font-size: 1rem;
   line-height: 1.5;
   padding: 12px;
