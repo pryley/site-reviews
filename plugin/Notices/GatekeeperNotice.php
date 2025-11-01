@@ -79,7 +79,7 @@ class GatekeeperNotice extends AbstractNotice
 
     protected function isDismissible(): bool
     {
-        return false;
+        return true;
     }
 
     protected function isNoticeScreen(): bool
