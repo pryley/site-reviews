@@ -4,6 +4,16 @@
   display: none !important;
 }
 
+@media screen and (max-width: 782px) {
+  .glsr-setting-field textarea {
+    line-height: 1.5;
+    padding: 7px 10px;
+  }
+}
+.glsr-setting-field textarea {
+  padding: 4px 8px;
+}
+
 .glsr-setting-field .regular-grid {
   --grid-gap: 1em;
   --grid-min-width: 170px;

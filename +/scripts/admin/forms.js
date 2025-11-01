@@ -3,6 +3,12 @@
 const Forms = function (selector) {
     this.el = document.querySelector(selector);
     if (!this.el) return;
+    GLSR.autosize(this.el.querySelectorAll('textarea'));
+    jQuery('a.glsr-nav-tab').on('click:tab', (ev, id, $el) => {
+        if ($el.find(this.el)) {
+            GLSR.autosize.update($el.find('textarea'))
+        }
+    });
     this.depends = this.el.querySelectorAll('[data-depends]');
     if (!this.depends.length) return;
     this.init_();
@@ -26,7 +32,7 @@ Forms.prototype = {
     init_: function () {
         var formControls = this.el.elements;
         for (var i = 0; i < formControls.length; i++) {
-            if (!~['INPUT', 'SELECT'].indexOf(formControls[i].nodeName)) continue;
+            if (!['INPUT', 'SELECT'].includes(formControls[i].nodeName)) continue;
             formControls[i].addEventListener('change', this.onChange_.bind(this));
         }
     },
@@ -87,10 +93,15 @@ Forms.prototype = {
     },
 
     /** @return void */
-    toggleHiddenField_: function (el, bool) {
+    toggleHiddenField_: function (el, isFieldSelected) {
         var row = el.closest('.glsr-setting-field');
         if (!row) return;
-        row.classList[bool ? 'remove' : 'add']('hidden');
+        if (isFieldSelected) {
+            row.classList.remove('hidden')
+            GLSR.autosize.update(row.querySelectorAll('textarea'));
+        } else {
+            row.classList.add('hidden')
+        }
     },
 };
 

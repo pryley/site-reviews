@@ -184,7 +184,7 @@ jQuery(function ($) {
         },
     });
     new Status('a.glsr-toggle-status');
-    new Sections(); // this comes before Tabs
+    new Sections(); // this goes before Tabs
     new Tabs();
     new TextareaResize();
     new TogglePinned();
