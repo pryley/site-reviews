@@ -1095,7 +1095,7 @@ namespace SureCartCore\Responses {
          * @param  RequestInterface|null $request
          * @return RedirectResponse
          */
-        public function redirect(\SureCartCore\Requests\RequestInterface $request = null)
+        public function redirect(?\SureCartCore\Requests\RequestInterface $request = null)
         {
         }
         /**
@@ -15711,6 +15711,7 @@ namespace SureCart\Models {
          * @param  mixed $offset Name.
          * @return bool
          */
+        #[\ReturnTypeWillChange]
         public function offsetExists($offset) : bool
         {
         }
@@ -15731,6 +15732,7 @@ namespace SureCart\Models {
          * @param  mixed $value Value.
          * @return void
          */
+        #[\ReturnTypeWillChange]
         public function offsetSet($offset, $value) : void
         {
         }
@@ -15740,6 +15742,7 @@ namespace SureCart\Models {
          * @param  mixed $offset Name.
          * @return void
          */
+        #[\ReturnTypeWillChange]
         public function offsetUnset($offset) : void
         {
         }
@@ -17011,6 +17014,7 @@ namespace SureCart\Models {
          * @param mixed $offset Array offset.
          * @return bool
          */
+        #[\ReturnTypeWillChange]
         public function offsetExists($offset) : bool
         {
         }
@@ -17020,6 +17024,7 @@ namespace SureCart\Models {
          * @param mixed $offset Array offset.
          * @return mixed
          */
+        #[\ReturnTypeWillChange]
         public function offsetGet($offset) : mixed
         {
         }
@@ -17030,6 +17035,7 @@ namespace SureCart\Models {
          * @param mixed $value  Offset value.
          * @return void
          */
+        #[\ReturnTypeWillChange]
         public function offsetSet($offset, $value) : void
         {
         }
@@ -17039,6 +17045,7 @@ namespace SureCart\Models {
          * @param mixed $offset Array offset.
          * @return void
          */
+        #[\ReturnTypeWillChange]
         public function offsetUnset($offset) : void
         {
         }
@@ -18140,6 +18147,7 @@ namespace SureCart\Models {
          * @param  mixed $offset Name.
          * @return bool
          */
+        #[\ReturnTypeWillChange]
         public function offsetExists($offset) : bool
         {
         }
@@ -18160,6 +18168,7 @@ namespace SureCart\Models {
          * @param  mixed $value Value.
          * @return void
          */
+        #[\ReturnTypeWillChange]
         public function offsetSet($offset, $value) : void
         {
         }
@@ -18169,6 +18178,7 @@ namespace SureCart\Models {
          * @param  mixed $offset Name.
          * @return void
          */
+        #[\ReturnTypeWillChange]
         public function offsetUnset($offset) : void
         {
         }
@@ -19624,6 +19634,7 @@ namespace SureCart\Models {
          * @param  mixed $offset Name.
          * @return bool
          */
+        #[\ReturnTypeWillChange]
         public function offsetExists($offset) : bool
         {
         }
@@ -19644,6 +19655,7 @@ namespace SureCart\Models {
          * @param  mixed $value Value.
          * @return void
          */
+        #[\ReturnTypeWillChange]
         public function offsetSet($offset, $value) : void
         {
         }
@@ -19653,6 +19665,7 @@ namespace SureCart\Models {
          * @param  mixed $offset Name.
          * @return void
          */
+        #[\ReturnTypeWillChange]
         public function offsetUnset($offset) : void
         {
         }
@@ -23304,6 +23317,7 @@ namespace SureCart\Models {
          * @param  mixed $offset Name.
          * @return bool
          */
+        #[\ReturnTypeWillChange]
         public function offsetExists($offset)
         {
         }
@@ -23313,6 +23327,7 @@ namespace SureCart\Models {
          * @param  mixed $offset Name.
          * @return mixed
          */
+        #[\ReturnTypeWillChange]
         public function offsetGet($offset)
         {
         }
@@ -23323,6 +23338,7 @@ namespace SureCart\Models {
          * @param  mixed $value Value.
          * @return void
          */
+        #[\ReturnTypeWillChange]
         public function offsetSet($offset, $value)
         {
         }
@@ -46745,6 +46761,7 @@ namespace SureCartVendors\PluginEver\QueryBuilder {
          *
          * @return bool
          */
+        #[\ReturnTypeWillChange]
         public function offsetExists($key)
         {
         }
@@ -46755,6 +46772,7 @@ namespace SureCartVendors\PluginEver\QueryBuilder {
          *
          * @return mixed
          */
+        #[\ReturnTypeWillChange]
         public function offsetGet($key)
         {
         }
@@ -46766,6 +46784,7 @@ namespace SureCartVendors\PluginEver\QueryBuilder {
          *
          * @return void
          */
+        #[\ReturnTypeWillChange]
         public function offsetSet($key, $value)
         {
         }
@@ -46776,6 +46795,7 @@ namespace SureCartVendors\PluginEver\QueryBuilder {
          *
          * @return void
          */
+        #[\ReturnTypeWillChange]
         public function offsetUnset($key)
         {
         }
@@ -46784,6 +46804,7 @@ namespace SureCartVendors\PluginEver\QueryBuilder {
          *
          * @return \ArrayIterator
          */
+        #[\ReturnTypeWillChange]
         public function getIterator()
         {
         }

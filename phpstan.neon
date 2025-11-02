@@ -11,7 +11,7 @@ parameters:
     - tests/phpstan/stubs/buddyboss.php
     - tests/phpstan/stubs/divi.php
     - tests/phpstan/stubs/elementor.php
-    - tests/phpstan/stubs/elementor-pro.php
+    - tests/phpstan/stubs/elementorpro.php
     - tests/phpstan/stubs/flatsome.php
     - tests/phpstan/stubs/fusion-builder.php
     - tests/phpstan/stubs/gamipress.php

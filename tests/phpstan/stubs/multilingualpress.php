@@ -1,1380 +1,5 @@
 <?php
 
-namespace MultilingualPress\Vendor\Inpsyde {
-    class WpContext implements \JsonSerializable
-    {
-        public const AJAX = 'ajax';
-        public const BACKOFFICE = 'backoffice';
-        public const CLI = 'wpcli';
-        public const CORE = 'core';
-        public const CRON = 'cron';
-        public const FRONTOFFICE = 'frontoffice';
-        public const INSTALLING = 'installing';
-        public const LOGIN = 'login';
-        public const REST = 'rest';
-        public const XML_RPC = 'xml-rpc';
-        public const WP_ACTIVATE = 'wp-activate';
-        /**
-         * @return WpContext
-         */
-        final public static function new(): \MultilingualPress\Vendor\Inpsyde\WpContext
-        {
-        }
-        /**
-         * @return WpContext
-         */
-        final public static function determine(): \MultilingualPress\Vendor\Inpsyde\WpContext
-        {
-        }
-        /**
-         * @param string $context
-         * @return WpContext
-         */
-        final public function force(string $context): \MultilingualPress\Vendor\Inpsyde\WpContext
-        {
-        }
-        /**
-         * @return WpContext
-         */
-        final public function withCli(): \MultilingualPress\Vendor\Inpsyde\WpContext
-        {
-        }
-        /**
-         * @param string $context
-         * @param string ...$contexts
-         * @return bool
-         */
-        final public function is(string $context, string ...$contexts): bool
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function isCore(): bool
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function isFrontoffice(): bool
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function isBackoffice(): bool
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function isAjax(): bool
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function isLogin(): bool
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function isRest(): bool
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function isCron(): bool
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function isWpCli(): bool
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function isXmlRpc(): bool
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function isInstalling(): bool
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function isWpActivate(): bool
-        {
-        }
-        /**
-         * @return array
-         */
-        public function jsonSerialize(): array
-        {
-        }
-    }
-}
-namespace MultilingualPress\Vendor\Inpsyde\Assets\Handler {
-    interface AssetHandler
-    {
-        /**
-         * @param Asset $asset
-         *
-         * @return bool
-         */
-        public function register(\MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset): bool;
-        /**
-         * @param Asset $asset
-         *
-         * @return bool
-         */
-        public function enqueue(\MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset): bool;
-    }
-    interface OutputFilterAwareAssetHandler
-    {
-        /**
-         * @param Asset $asset
-         *
-         * @return bool true when at least 1 filter is applied, otherwise false.
-         */
-        public function filter(\MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset): bool;
-        /**
-         * Register new outputFilters to the Handler.
-         *
-         * @param string $name
-         * @param callable $filter
-         *
-         * @return OutputFilterAwareAssetHandler
-         */
-        public function withOutputFilter(string $name, callable $filter): \MultilingualPress\Vendor\Inpsyde\Assets\Handler\OutputFilterAwareAssetHandler;
-        /**
-         * Returns all registered outputFilters.
-         *
-         * @return array<string, callable|class-string<AssetOutputFilter>>
-         */
-        public function outputFilters(): array;
-    }
-    trait OutputFilterAwareAssetHandlerTrait
-    {
-        /**
-         * @var array<string, callable|class-string<AssetOutputFilter>>
-         */
-        protected $outputFilters = [];
-        /**
-         * @param string $name
-         * @param callable $filter
-         *
-         * @return OutputFilterAwareAssetHandler
-         */
-        public function withOutputFilter(string $name, callable $filter): \MultilingualPress\Vendor\Inpsyde\Assets\Handler\OutputFilterAwareAssetHandler
-        {
-        }
-        /**
-         * @return array<string, callable|class-string<AssetOutputFilter>>
-         */
-        public function outputFilters(): array
-        {
-        }
-        /**
-         * @param Asset $asset
-         *
-         * @return bool
-         */
-        public function filter(\MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset): bool
-        {
-        }
-        protected function currentOutputFilters(\MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset): array
-        {
-        }
-        /**
-         * Defines the name of hook to filter the specific asset.
-         *
-         * @return string
-         */
-        abstract public function filterHook(): string;
-    }
-    class StyleHandler implements \MultilingualPress\Vendor\Inpsyde\Assets\Handler\AssetHandler, \MultilingualPress\Vendor\Inpsyde\Assets\Handler\OutputFilterAwareAssetHandler
-    {
-        use \MultilingualPress\Vendor\Inpsyde\Assets\Handler\OutputFilterAwareAssetHandlerTrait;
-        /**
-         * @var \WP_Styles
-         */
-        protected $wpStyles;
-        /**
-         * StyleHandler constructor.
-         *
-         * @param \WP_Styles $wpStyles
-         * @param array<string, callable> $outputFilters
-         */
-        public function __construct(\WP_Styles $wpStyles, array $outputFilters = [])
-        {
-        }
-        public function enqueue(\MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset): bool
-        {
-        }
-        public function register(\MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset): bool
-        {
-        }
-        public function filterHook(): string
-        {
-        }
-    }
-    class ScriptHandler implements \MultilingualPress\Vendor\Inpsyde\Assets\Handler\AssetHandler, \MultilingualPress\Vendor\Inpsyde\Assets\Handler\OutputFilterAwareAssetHandler
-    {
-        use \MultilingualPress\Vendor\Inpsyde\Assets\Handler\OutputFilterAwareAssetHandlerTrait;
-        /**
-         * @var \WP_Scripts
-         */
-        protected $wpScripts;
-        /**
-         * ScriptHandler constructor.
-         *
-         * @param \WP_Scripts $wpScripts
-         * @param array<string, callable> $outputFilters
-         */
-        public function __construct(\WP_Scripts $wpScripts, array $outputFilters = [])
-        {
-        }
-        public function enqueue(\MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset): bool
-        {
-        }
-        public function register(\MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset): bool
-        {
-        }
-        public function filterHook(): string
-        {
-        }
-    }
-}
-namespace MultilingualPress\Vendor\Inpsyde\Assets\Util {
-    class AssetPathResolver
-    {
-        /**
-         * Attempt to resolve an assets path based on its URL.
-         *
-         * @param string $url
-         * @return null|string
-         */
-        public static function resolve(string $url): ?string
-        {
-        }
-        /**
-         * @param string $normalizedUrl
-         * @return string|null
-         * @psalm-suppress PossiblyFalseArgument
-         */
-        public static function resolveForVendorUrl(string $normalizedUrl): ?string
-        {
-        }
-        /**
-         * @param string $normalizedUrl
-         * @return string|null
-         */
-        public static function resolveForThemeUrl(string $normalizedUrl): ?string
-        {
-        }
-        /**
-         * @param string $normalizedUrl
-         * @return string|null
-         */
-        public static function resolveForPluginUrl(string $normalizedUrl): ?string
-        {
-        }
-    }
-    class AssetHookResolver
-    {
-        /**
-         * @var WpContext
-         */
-        protected $context;
-        /**
-         * @param WpContext|null $context
-         */
-        public function __construct(?\MultilingualPress\Vendor\Inpsyde\WpContext $context = null)
-        {
-        }
-        /**
-         * Resolving to the current location/page in WordPress all current hooks.
-         *
-         * @return string[]
-         */
-        public function resolve(): array
-        {
-        }
-        /**
-         * @return string|null
-         */
-        public function lastHook(): ?string
-        {
-        }
-    }
-}
-namespace MultilingualPress\Vendor\Inpsyde\Assets {
-    interface Asset
-    {
-        // Location types
-        public const FRONTEND = 2;
-        public const BACKEND = 4;
-        public const CUSTOMIZER = 8;
-        public const LOGIN = 16;
-        public const BLOCK_EDITOR_ASSETS = 32;
-        public const BLOCK_ASSETS = 64;
-        public const CUSTOMIZER_PREVIEW = 128;
-        public const ACTIVATE = 256;
-        // Hooks
-        public const HOOK_FRONTEND = 'wp_enqueue_scripts';
-        public const HOOK_BACKEND = 'admin_enqueue_scripts';
-        public const HOOK_LOGIN = 'login_enqueue_scripts';
-        public const HOOK_CUSTOMIZER = 'customize_controls_enqueue_scripts';
-        public const HOOK_CUSTOMIZER_PREVIEW = 'customize_preview_init';
-        public const HOOK_BLOCK_ASSETS = 'enqueue_block_assets';
-        public const HOOK_BLOCK_EDITOR_ASSETS = 'enqueue_block_editor_assets';
-        public const HOOK_ACTIVATE = 'activate_wp_head';
-        /**
-         * Hooks to Locations map
-         * @var array<string,int>
-         */
-        public const HOOK_TO_LOCATION = [\MultilingualPress\Vendor\Inpsyde\Assets\Asset::HOOK_FRONTEND => \MultilingualPress\Vendor\Inpsyde\Assets\Asset::FRONTEND, \MultilingualPress\Vendor\Inpsyde\Assets\Asset::HOOK_BACKEND => \MultilingualPress\Vendor\Inpsyde\Assets\Asset::BACKEND, \MultilingualPress\Vendor\Inpsyde\Assets\Asset::HOOK_LOGIN => \MultilingualPress\Vendor\Inpsyde\Assets\Asset::LOGIN, \MultilingualPress\Vendor\Inpsyde\Assets\Asset::HOOK_CUSTOMIZER => \MultilingualPress\Vendor\Inpsyde\Assets\Asset::CUSTOMIZER, \MultilingualPress\Vendor\Inpsyde\Assets\Asset::HOOK_CUSTOMIZER_PREVIEW => \MultilingualPress\Vendor\Inpsyde\Assets\Asset::CUSTOMIZER_PREVIEW, \MultilingualPress\Vendor\Inpsyde\Assets\Asset::HOOK_BLOCK_ASSETS => \MultilingualPress\Vendor\Inpsyde\Assets\Asset::BLOCK_ASSETS, \MultilingualPress\Vendor\Inpsyde\Assets\Asset::HOOK_BLOCK_EDITOR_ASSETS => \MultilingualPress\Vendor\Inpsyde\Assets\Asset::BLOCK_EDITOR_ASSETS, \MultilingualPress\Vendor\Inpsyde\Assets\Asset::HOOK_ACTIVATE => \MultilingualPress\Vendor\Inpsyde\Assets\Asset::ACTIVATE];
-        /**
-         * Contains the full url to file.
-         *
-         * @return string
-         */
-        public function url(): string;
-        /**
-         * Returns the full file path to the asset.
-         *
-         * @return string
-         */
-        public function filePath(): string;
-        /**
-         * Define the full filePath to the Asset.
-         *
-         * @param string $filePath
-         *
-         * @return static
-         */
-        public function withFilePath(string $filePath): \MultilingualPress\Vendor\Inpsyde\Assets\Asset;
-        /**
-         * Name of the given asset.
-         *
-         * @return string
-         */
-        public function handle(): string;
-        /**
-         * A list of handle-dependencies.
-         *
-         * @return string[]
-         */
-        public function dependencies(): array;
-        /**
-         * @param string ...$dependencies
-         *
-         * @return static
-         */
-        public function withDependencies(string ...$dependencies): \MultilingualPress\Vendor\Inpsyde\Assets\Asset;
-        /**
-         * The current version of the asset.
-         *
-         * @return string|null
-         */
-        public function version(): ?string;
-        /**
-         * @param string $version
-         *
-         * @return static
-         */
-        public function withVersion(string $version): \MultilingualPress\Vendor\Inpsyde\Assets\Asset;
-        /**
-         * @return bool
-         */
-        public function enqueue(): bool;
-        /**
-         * @param bool|callable $enqueue
-         *
-         * @return static
-         *
-         * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-         */
-        public function canEnqueue($enqueue): \MultilingualPress\Vendor\Inpsyde\Assets\Asset;
-        /**
-         * Location where the asset is enqueued.
-         *
-         * @return int
-         *
-         * @example Asset::FRONTEND | Asset::BACKEND
-         * @example Asset::FRONTEND
-         */
-        public function location(): int;
-        /**
-         * Define a location based on Asset location types.
-         *
-         * @param int $location
-         *
-         * @return static
-         */
-        public function forLocation(int $location): \MultilingualPress\Vendor\Inpsyde\Assets\Asset;
-        /**
-         * A list of assigned output filters to change the rendered tag.
-         *
-         * @return callable[]|AssetOutputFilter[]|class-string<AssetOutputFilter>[]
-         */
-        public function filters(): array;
-        /**
-         * @param callable|class-string<AssetOutputFilter> ...$filters
-         *
-         * @return static
-         */
-        public function withFilters(...$filters): \MultilingualPress\Vendor\Inpsyde\Assets\Asset;
-        /**
-         * Name of the handler class to register and enqueue the asset.
-         *
-         * @return class-string<AssetHandler>
-         */
-        public function handler(): string;
-        /**
-         * @param class-string<AssetHandler> $handler
-         *
-         * @return static
-         */
-        public function useHandler(string $handler): \MultilingualPress\Vendor\Inpsyde\Assets\Asset;
-        /**
-         * @return array
-         */
-        public function data(): array;
-        /**
-         * Add a conditional tag for your Asset.
-         *
-         * @param string $condition
-         *
-         * @return static
-         *
-         * @see https://developer.wordpress.org/reference/functions/wp_script_add_data/#comment-1007
-         */
-        public function withCondition(string $condition): \MultilingualPress\Vendor\Inpsyde\Assets\Asset;
-        /**
-         * @return array<string, mixed>
-         */
-        public function attributes(): array;
-        /**
-         * @param array<string, mixed> $attributes
-         *
-         * @return Asset
-         */
-        public function withAttributes(array $attributes): \MultilingualPress\Vendor\Inpsyde\Assets\Asset;
-    }
-    trait ConfigureAutodiscoverVersionTrait
-    {
-        /**
-         * Set to "false" and the version will not automatically discovered.
-         *
-         * @see self::disableAutodiscoverVersion()
-         * @see self::enableAutodiscoverVersion()
-         *
-         * @var bool
-         */
-        protected $autodiscoverVersion = \true;
-        /**
-         * Enable automatic discovering of the version if no version is set.
-         *
-         * @return static
-         *
-         * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration
-         */
-        public function enableAutodiscoverVersion()
-        {
-        }
-        /**
-         * Disable automatic discovering of the version if no version is set.
-         *
-         * @return static
-         *
-         * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration
-         */
-        public function disableAutodiscoverVersion()
-        {
-        }
-    }
-    /**
-     * phpcs:disable Inpsyde.CodeQuality.PropertyPerClassLimit.TooManyProperties
-     */
-    abstract class BaseAsset implements \MultilingualPress\Vendor\Inpsyde\Assets\Asset
-    {
-        use \MultilingualPress\Vendor\Inpsyde\Assets\ConfigureAutodiscoverVersionTrait;
-        /**
-         * @var string
-         */
-        protected $url = '';
-        /**
-         * Full filePath to an Asset which can
-         * be used to auto-discover version or
-         * load Asset content inline.
-         *
-         * @var string
-         */
-        protected $filePath = '';
-        /**
-         * @var string
-         */
-        protected $handle = '';
-        /**
-         * Dependencies to other Asset handles.
-         *
-         * @var string[]
-         */
-        protected $dependencies = [];
-        /**
-         * Location where the Asset will be enqueued.
-         *
-         * @var int
-         */
-        protected $location = self::FRONTEND;
-        /**
-         * Version can be auto-discovered if null.
-         *
-         * @see BaseAsset::enableAutodiscoverVersion().
-         *
-         * @var null|string
-         */
-        protected $version = null;
-        /**
-         * @var bool|callable(): bool
-         */
-        protected $enqueue = \true;
-        /**
-         * @var callable[]|AssetOutputFilter[]|class-string<AssetOutputFilter>[]
-         */
-        protected $filters = [];
-        /**
-         * @var class-string<AssetHandler>|null
-         */
-        protected $handler = null;
-        /**
-         * Data which will be added via ...
-         *      - WP_Script::add_data()
-         *      - WP_Style::add_data()
-         *
-         * @var array<string, mixed>
-         */
-        protected $data = [];
-        /**
-         * Additional attributes to "link"- or "script"-tag.
-         *
-         * @var array<string, mixed>
-         */
-        protected $attributes = [];
-        /**
-         * @param string $handle
-         * @param string $url
-         * @param int $location
-         */
-        public function __construct(string $handle, string $url, int $location = \MultilingualPress\Vendor\Inpsyde\Assets\Asset::FRONTEND | \MultilingualPress\Vendor\Inpsyde\Assets\Asset::ACTIVATE)
-        {
-        }
-        /**
-         * @return string
-         */
-        public function url(): string
-        {
-        }
-        /**
-         * @return string
-         */
-        public function handle(): string
-        {
-        }
-        /**
-         * @return string
-         */
-        public function filePath(): string
-        {
-        }
-        /**
-         * @param string $filePath
-         *
-         * @return static
-         */
-        public function withFilePath(string $filePath): \MultilingualPress\Vendor\Inpsyde\Assets\Asset
-        {
-        }
-        /**
-         * Returns a version which will be automatically generated based on file time by default.
-         *
-         * @return string|null
-         */
-        public function version(): ?string
-        {
-        }
-        /**
-         * @param string $version
-         *
-         * @return static
-         */
-        public function withVersion(string $version): \MultilingualPress\Vendor\Inpsyde\Assets\Asset
-        {
-        }
-        /**
-         * @return string[]
-         */
-        public function dependencies(): array
-        {
-        }
-        /**
-         * @param string ...$dependencies
-         *
-         * @return static
-         */
-        public function withDependencies(string ...$dependencies): \MultilingualPress\Vendor\Inpsyde\Assets\Asset
-        {
-        }
-        /**
-         * @return int
-         */
-        public function location(): int
-        {
-        }
-        /**
-         * @param int $location
-         *
-         * @return static
-         */
-        public function forLocation(int $location): \MultilingualPress\Vendor\Inpsyde\Assets\Asset
-        {
-        }
-        /**
-         * @return callable[]|AssetOutputFilter[]|class-string<AssetOutputFilter>[]
-         */
-        public function filters(): array
-        {
-        }
-        /**
-         * @param callable|class-string<AssetOutputFilter> ...$filters
-         *
-         * @return static
-         *
-         * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
-         */
-        public function withFilters(...$filters): \MultilingualPress\Vendor\Inpsyde\Assets\Asset
-        {
-        }
-        /**
-         * Shortcut to use the InlineFilter.
-         *
-         * @return static
-         */
-        public function useInlineFilter(): \MultilingualPress\Vendor\Inpsyde\Assets\Asset
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function enqueue(): bool
-        {
-        }
-        /**
-         * @param bool|callable(): bool $enqueue
-         *
-         * @return static
-         *
-         * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
-         * @psalm-suppress MoreSpecificImplementedParamType
-         */
-        public function canEnqueue($enqueue): \MultilingualPress\Vendor\Inpsyde\Assets\Asset
-        {
-        }
-        /**
-         * @param class-string<AssetHandler> $handler
-         *
-         * @return static
-         */
-        public function useHandler(string $handler): \MultilingualPress\Vendor\Inpsyde\Assets\Asset
-        {
-        }
-        /**
-         * @return class-string<AssetHandler>
-         */
-        public function handler(): string
-        {
-        }
-        /**
-         * @return class-string<AssetHandler> className of the default handler
-         */
-        abstract protected function defaultHandler(): string;
-        /**
-         * @return array<string, mixed>
-         */
-        public function data(): array
-        {
-        }
-        /**
-         * Allows to set additional data via WP_Script::add_data() or WP_Style::add_data().
-         *
-         * @param array<string, mixed> $data
-         *
-         * @return static
-         */
-        public function withData(array $data): \MultilingualPress\Vendor\Inpsyde\Assets\Asset
-        {
-        }
-        /**
-         * Shortcut for Asset::withData(['conditional' => $condition]);
-         *
-         * @param string $condition
-         *
-         * @return static
-         */
-        public function withCondition(string $condition): \MultilingualPress\Vendor\Inpsyde\Assets\Asset
-        {
-        }
-        /**
-         * @return array<string, mixed>
-         */
-        public function attributes(): array
-        {
-        }
-        /**
-         * Allows you to set additional attributes to your "link"- or "script"-tag.
-         * Existing attributes like "src" or "id" will not be overwrite.
-         *
-         * @param array<string, mixed> $attributes
-         *
-         * @return static
-         */
-        public function withAttributes(array $attributes): \MultilingualPress\Vendor\Inpsyde\Assets\Asset
-        {
-        }
-    }
-    final class AssetManager
-    {
-        public const ACTION_SETUP = 'multilingualpress.inpsyde.assets.setup';
-        /**
-         * @param AssetHookResolver|null $hookResolver
-         */
-        public function __construct(\MultilingualPress\Vendor\Inpsyde\Assets\Util\AssetHookResolver $hookResolver = null)
-        {
-        }
-        /**
-         * @return static
-         */
-        public function useDefaultHandlers(): \MultilingualPress\Vendor\Inpsyde\Assets\AssetManager
-        {
-        }
-        /**
-         * @param string $name
-         * @param AssetHandler $handler
-         *
-         * @return static
-         */
-        public function withHandler(string $name, \MultilingualPress\Vendor\Inpsyde\Assets\Handler\AssetHandler $handler): \MultilingualPress\Vendor\Inpsyde\Assets\AssetManager
-        {
-        }
-        /**
-         * @return array<AssetHandler>
-         */
-        public function handlers(): array
-        {
-        }
-        /**
-         * @param Asset $asset
-         * @param Asset ...$assets
-         *
-         * @return static
-         */
-        public function register(\MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset, \MultilingualPress\Vendor\Inpsyde\Assets\Asset ...$assets): \MultilingualPress\Vendor\Inpsyde\Assets\AssetManager
-        {
-        }
-        /**
-         * @return array<string, array<string, Asset>>
-         */
-        public function assets(): array
-        {
-        }
-        /**
-         * Retrieve an `Asset` instance by a given asset handle and type (class).
-         *
-         * If the handle is unique by type, type can be omitted.
-         * It is possible to use a parent class as type.
-         * E.g an asset of a type `MyScript` that extends `Script` can be also retrieved passing
-         * either `MyScript or `Script` as type.
-         *
-         * @param string $handle
-         * @param class-string|null $type
-         *
-         * @return Asset|null
-         */
-        public function asset(string $handle, ?string $type = null): ?\MultilingualPress\Vendor\Inpsyde\Assets\Asset
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function setup(): bool
-        {
-        }
-        /**
-         * Returning all matching assets to given hook.
-         *
-         * @param string $currentHook
-         *
-         * @return array<Asset>
-         */
-        public function currentAssets(string $currentHook): array
-        {
-        }
-    }
-    class Script extends \MultilingualPress\Vendor\Inpsyde\Assets\BaseAsset implements \MultilingualPress\Vendor\Inpsyde\Assets\Asset
-    {
-        /**
-         * @var array<string, mixed>
-         */
-        protected $localize = [];
-        /**
-         * @var array{after:string[], before:string[]}
-         */
-        protected $inlineScripts = ['after' => [], 'before' => []];
-        /**
-         * @var bool
-         */
-        protected $inFooter = \true;
-        /**
-         * @var array{domain:string, path:string|null}
-         */
-        protected $translation = ['domain' => '', 'path' => null];
-        /**
-         * @var bool
-         */
-        protected $resolvedDependencyExtractionPlugin = \false;
-        /**
-         * @return array<string, mixed>
-         */
-        public function localize(): array
-        {
-        }
-        /**
-         * @param string $objectName
-         * @param string|int|array|callable $data
-         *
-         * @return static
-         *
-         * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
-         */
-        public function withLocalize(string $objectName, $data): \MultilingualPress\Vendor\Inpsyde\Assets\Script
-        {
-        }
-        /**
-         * @return bool
-         */
-        public function inFooter(): bool
-        {
-        }
-        /**
-         * @return static
-         */
-        public function isInFooter(): \MultilingualPress\Vendor\Inpsyde\Assets\Script
-        {
-        }
-        /**
-         * @return static
-         */
-        public function isInHeader(): \MultilingualPress\Vendor\Inpsyde\Assets\Script
-        {
-        }
-        /**
-         * @return array{before:string[], after:string[]}
-         */
-        public function inlineScripts(): array
-        {
-        }
-        /**
-         * @param string $jsCode
-         *
-         * @return static
-         */
-        public function prependInlineScript(string $jsCode): \MultilingualPress\Vendor\Inpsyde\Assets\Script
-        {
-        }
-        /**
-         * @param string $jsCode
-         *
-         * @return static
-         */
-        public function appendInlineScript(string $jsCode): \MultilingualPress\Vendor\Inpsyde\Assets\Script
-        {
-        }
-        /**
-         * @return array{domain:string, path:string|null}
-         */
-        public function translation(): array
-        {
-        }
-        /**
-         * @param string $domain
-         * @param string|null $path
-         *
-         * @return static
-         */
-        public function withTranslation(string $domain = 'default', string $path = null): \MultilingualPress\Vendor\Inpsyde\Assets\Script
-        {
-        }
-        /**
-         * Wrapper function to set AsyncScriptOutputFilter as filter.
-         *
-         * @return static
-         * @deprecated use Script::withAttributes(['async' => true]);
-         */
-        public function useAsyncFilter(): \MultilingualPress\Vendor\Inpsyde\Assets\Script
-        {
-        }
-        /**
-         * Wrapper function to set DeferScriptOutputFilter as filter.
-         *
-         * @return static
-         * @deprecated use Script::withAttributes(['defer' => true]);
-         */
-        public function useDeferFilter(): \MultilingualPress\Vendor\Inpsyde\Assets\Script
-        {
-        }
-        /**
-         * {@inheritDoc}
-         */
-        protected function defaultHandler(): string
-        {
-        }
-        /**
-         * @deprecated when calling Script::version() or Script::dependencies(),
-         * we will automatically resolve the dependency extraction plugin files.
-         * This method will be removed in future.
-         *
-         * @see https://github.com/WordPress/gutenberg/tree/master/packages/dependency-extraction-webpack-plugin
-         */
-        public function useDependencyExtractionPlugin(): \MultilingualPress\Vendor\Inpsyde\Assets\Script
-        {
-        }
-        /**
-         * {@inheritDoc}
-         */
-        public function version(): ?string
-        {
-        }
-        /**
-         * {@inheritDoc}
-         */
-        public function dependencies(): array
-        {
-        }
-        /**
-         * @return bool
-         *
-         * phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged
-         * phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable
-         * @psalm-suppress MixedArrayAccess
-         * @psalm-suppress PossiblyFalseArgument
-         * @psalm-suppress UnresolvableInclude
-         */
-        protected function resolveDependencyExtractionPlugin(): bool
-        {
-        }
-        /**
-         * Searching for in directory of the Script:
-         *
-         *      - {fileName}.asset.json
-         *      - {fileName}.{hash}.asset.json
-         *      - {fileName}.asset.php
-         *      - {fileName}.{hash}.asset.php
-         *
-         * @return \DirectoryIterator|null
-         */
-        protected function findDepdendencyFile(): ?\DirectoryIterator
-        {
-        }
-    }
-}
-namespace MultilingualPress\Vendor\Inpsyde\Assets\Loader {
-    interface LoaderInterface
-    {
-        /**
-         * @param mixed $resource
-         *
-         * @return array
-         */
-        public function load($resource): array;
-    }
-    /**
-     * @package Inpsyde\Assets\Loader
-     */
-    class ArrayLoader implements \MultilingualPress\Vendor\Inpsyde\Assets\Loader\LoaderInterface
-    {
-        use \MultilingualPress\Vendor\Inpsyde\Assets\ConfigureAutodiscoverVersionTrait;
-        /**
-         * @param mixed $resource
-         *
-         * @return array
-         *
-         * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
-         * @psalm-suppress MixedArgument
-         */
-        public function load($resource): array
-        {
-        }
-    }
-    abstract class AbstractWebpackLoader implements \MultilingualPress\Vendor\Inpsyde\Assets\Loader\LoaderInterface
-    {
-        use \MultilingualPress\Vendor\Inpsyde\Assets\ConfigureAutodiscoverVersionTrait;
-        /**
-         * @var string
-         */
-        protected $directoryUrl = '';
-        /**
-         * @param string $directoryUrl optional directory URL which will be used for the Asset
-         *
-         * @return static
-         */
-        public function withDirectoryUrl(string $directoryUrl): \MultilingualPress\Vendor\Inpsyde\Assets\Loader\AbstractWebpackLoader
-        {
-        }
-        /**
-         * @param array<string, string> $data
-         * @param string $resource
-         *
-         * @return array
-         */
-        abstract protected function parseData(array $data, string $resource): array;
-        /**
-         * @param mixed $resource
-         *
-         * @return array
-         *
-         * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
-         * @psalm-suppress MixedArgument
-         */
-        public function load($resource): array
-        {
-        }
-        /**
-         * @param string $handle
-         * @param string $fileUrl
-         * @param string $filePath
-         *
-         * @return Asset|null
-         */
-        protected function buildAsset(string $handle, string $fileUrl, string $filePath): ?\MultilingualPress\Vendor\Inpsyde\Assets\Asset
-        {
-        }
-        /**
-         * The "file"-value can contain:
-         *  - URL
-         *  - Path to current folder
-         *  - Absolute path
-         *
-         * We try to build a clean path which will be appended to the directoryPath or urlPath.
-         *
-         * @param string $file
-         *
-         * @return string
-         */
-        protected function sanitizeFileName(string $file): string
-        {
-        }
-        /**
-         * Internal function to resolve a location for a given file name.
-         *
-         * @param string $fileName
-         *
-         * @return int
-         *
-         * @example foo-customizer.css  -> Asset::CUSTOMIZER
-         * @example foo-block.css       -> Asset::BLOCK_EDITOR_ASSETS
-         * @example foo-login.css       -> Asset::LOGIN
-         * @example foo.css             -> Asset::FRONTEND
-         * @example foo-backend.css     -> Asset::BACKEND
-         */
-        protected function resolveLocation(string $fileName): int
-        {
-        }
-    }
-    /**
-     * Implementation of Webpack manifest.json parsing into Assets.
-     *
-     * @link https://www.npmjs.com/package/webpack-manifest-plugin
-     *
-     * @package Inpsyde\Assets\Loader
-     */
-    class WebpackManifestLoader extends \MultilingualPress\Vendor\Inpsyde\Assets\Loader\AbstractWebpackLoader
-    {
-        /**
-         * {@inheritDoc}
-         */
-        protected function parseData(array $data, string $resource): array
-        {
-        }
-    }
-    /**
-     * Implementation of Symfony's Encore implementation of entrypoints.json which
-     * supports splitEntryChunks and hashing.
-     *
-     * @package Inpsyde\Assets\Loader
-     */
-    class EncoreEntrypointsLoader extends \MultilingualPress\Vendor\Inpsyde\Assets\Loader\AbstractWebpackLoader implements \MultilingualPress\Vendor\Inpsyde\Assets\Loader\LoaderInterface
-    {
-        /**
-         * {@inheritDoc}
-         */
-        protected function parseData(array $data, string $resource): array
-        {
-        }
-        /**
-         * @param string $handle
-         * @param string[] $files
-         * @param string $directory
-         *
-         * @return array
-         */
-        protected function extractAssets(string $handle, array $files, string $directory): array
-        {
-        }
-    }
-    /**
-     * @package Inpsyde\Assets\Loader
-     */
-    class PhpFileLoader extends \MultilingualPress\Vendor\Inpsyde\Assets\Loader\ArrayLoader
-    {
-        /**
-         * @param mixed $resource      the path to your php-file.
-         * @return array
-         *
-         * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
-         * @psalm-suppress UnresolvableInclude
-         */
-        public function load($resource): array
-        {
-        }
-    }
-}
-namespace MultilingualPress\Vendor\Inpsyde\Assets {
-    /**
-     * Class AssetFactory
-     *
-     * @package Inpsyde\Assets
-     */
-    final class AssetFactory
-    {
-        /**
-         * @param array $config
-         *
-         * @return Asset
-         * @throws Exception\MissingArgumentException
-         * @throws Exception\InvalidArgumentException
-         *
-         * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
-         * phpcs:disable Inpsyde.CodeQuality.NestingLevel.High
-         * phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
-         * @psalm-suppress MixedArgument, MixedMethodCall
-         */
-        public static function create(array $config): \MultilingualPress\Vendor\Inpsyde\Assets\Asset
-        {
-        }
-        /**
-         * @param string $file
-         *
-         * @return array
-         *
-         * @throws Exception\FileNotFoundException
-         * @deprecated PhpArrayFileLoader::load(string $filePath)
-         *
-         */
-        public static function createFromFile(string $file): array
-        {
-        }
-        /**
-         * @param array $data
-         *
-         * @return array
-         *
-         * @throws Exception\FileNotFoundException
-         * @deprecated ArrayLoader::load(array $data)
-         */
-        public static function createFromArray(array $data): array
-        {
-        }
-    }
-}
-namespace MultilingualPress\Vendor\Inpsyde\Assets\OutputFilter {
-    interface AssetOutputFilter
-    {
-        /**
-         * @param string $html
-         * @param Asset $asset
-         *
-         * @return string $html
-         */
-        public function __invoke(string $html, \MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset): string;
-    }
-    /**
-     * @deprecated use Asset::withAttributes(['async' => true']);
-     */
-    class AsyncScriptOutputFilter implements \MultilingualPress\Vendor\Inpsyde\Assets\OutputFilter\AssetOutputFilter
-    {
-        public function __invoke(string $html, \MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset): string
-        {
-        }
-    }
-    /**
-     * @deprecated use Asset::withAttributes(['defer' => true']);
-     */
-    class DeferScriptOutputFilter implements \MultilingualPress\Vendor\Inpsyde\Assets\OutputFilter\AssetOutputFilter
-    {
-        public function __invoke(string $html, \MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset): string
-        {
-        }
-    }
-    class AttributesOutputFilter implements \MultilingualPress\Vendor\Inpsyde\Assets\OutputFilter\AssetOutputFilter
-    {
-        public function __invoke(string $html, \MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset): string
-        {
-        }
-        protected function applyAttributes(\WP_HTML_Tag_Processor $script, array $attributes): void
-        {
-        }
-    }
-    class InlineAssetOutputFilter implements \MultilingualPress\Vendor\Inpsyde\Assets\OutputFilter\AssetOutputFilter
-    {
-        /**
-         * @param string $html
-         * @param Asset $asset
-         *
-         * @return string
-         * @psalm-suppress PossiblyNullArgument
-         */
-        public function __invoke(string $html, \MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset): string
-        {
-        }
-    }
-    class AsyncStyleOutputFilter implements \MultilingualPress\Vendor\Inpsyde\Assets\OutputFilter\AssetOutputFilter
-    {
-        /**
-         * @param string $html
-         * @param Asset $asset
-         *
-         * @return string
-         */
-        public function __invoke(string $html, \MultilingualPress\Vendor\Inpsyde\Assets\Asset $asset): string
-        {
-        }
-    }
-}
-namespace MultilingualPress\Vendor\Inpsyde\Assets\Exception {
-    class InvalidResourceException extends \Exception
-    {
-    }
-    class InvalidArgumentException extends \Exception
-    {
-    }
-    class MissingArgumentException extends \Exception
-    {
-    }
-    class FileNotFoundException extends \Exception
-    {
-    }
-}
-namespace MultilingualPress\Vendor\Inpsyde\Assets {
-    class Style extends \MultilingualPress\Vendor\Inpsyde\Assets\BaseAsset implements \MultilingualPress\Vendor\Inpsyde\Assets\Asset
-    {
-        /**
-         * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link#attr-media
-         *
-         * @var string
-         */
-        protected $media = 'all';
-        /**
-         * @var string[]|null
-         */
-        protected $inlineStyles = null;
-        /**
-         * @var array<string, array<string, string>>
-         */
-        protected $cssVars = [];
-        /**
-         * @return string
-         */
-        public function media(): string
-        {
-        }
-        /**
-         * @param string $media
-         *
-         * @return static
-         */
-        public function forMedia(string $media): \MultilingualPress\Vendor\Inpsyde\Assets\Style
-        {
-        }
-        /**
-         * @return string[]|null
-         */
-        public function inlineStyles(): ?array
-        {
-        }
-        /**
-         * @param string $inline
-         *
-         * @return static
-         *
-         * @see https://codex.wordpress.org/Function_Reference/wp_add_inline_style
-         */
-        public function withInlineStyles(string $inline): \MultilingualPress\Vendor\Inpsyde\Assets\Style
-        {
-        }
-        /**
-         * Add custom CSS properties (CSS vars) to an element.
-         * Those custom CSS vars will be enqueued with inline style
-         * to your handle. Variables will be automatically prefixed
-         * with '--'.
-         *
-         * @param string $element
-         * @param array<string, string> $vars
-         *
-         * @return $this
-         *
-         * @example Style::withCssVars('.some-element', ['--white' => '#fff']);
-         * @example Style::withCssVars('.some-element', ['white' => '#fff']);
-         */
-        public function withCssVars(string $element, array $vars): \MultilingualPress\Vendor\Inpsyde\Assets\Style
-        {
-        }
-        /**
-         * @return array<string, array<string, string>>
-         */
-        public function cssVars(): array
-        {
-        }
-        /**
-         * @return string
-         */
-        public function cssVarsAsString(): string
-        {
-        }
-        /**
-         * Wrapper function to set AsyncStyleOutputFilter as filter.
-         *
-         * @return static
-         */
-        public function useAsyncFilter(): \MultilingualPress\Vendor\Inpsyde\Assets\Style
-        {
-        }
-        /**
-         * {@inheritDoc}
-         */
-        protected function defaultHandler(): string
-        {
-        }
-    }
-}
 namespace Inpsyde\MultilingualPress\Framework\Database {
     /**
      * Table installer implementation using the WordPress database object.
@@ -24890,6 +23515,14 @@ namespace Inpsyde\MultilingualPress\MediaLibrary\BulkCopyAttachments {
         }
     }
 }
+namespace Inpsyde\MultilingualPress\Log {
+    class ServiceProvider implements \Inpsyde\MultilingualPress\Framework\Service\ServiceProvider
+    {
+        public function register(\Inpsyde\MultilingualPress\Framework\Service\Container $container): void
+        {
+        }
+    }
+}
 namespace Inpsyde\MultilingualPress\NavMenu\CopyNavMenu {
     /**
      * Handler for nav menu AJAX requests.
@@ -25633,6 +24266,441 @@ namespace MultilingualPress\Vendor\Inpsyde\Assets {
 namespace MultilingualPress\Vendor\Inpsyde\Assets {
     const BOOTSTRAPPED = \true;
     function bootstrap(): bool
+    {
+    }
+}
+namespace MultilingualPress\Vendor\GuzzleHttp {
+    /**
+     * Debug function used to describe the provided value type and class.
+     *
+     * @param mixed $input Any type of variable to describe the type of. This
+     *                     parameter misses a typehint because of that.
+     *
+     * @return string Returns a string containing the type of the variable and
+     *                if a class is provided, the class name.
+     *
+     * @deprecated describe_type will be removed in guzzlehttp/guzzle:8.0. Use Utils::describeType instead.
+     */
+    function describe_type($input): string
+    {
+    }
+    /**
+     * Parses an array of header lines into an associative array of headers.
+     *
+     * @param iterable $lines Header lines array of strings in the following
+     *                        format: "Name: Value"
+     *
+     * @deprecated headers_from_lines will be removed in guzzlehttp/guzzle:8.0. Use Utils::headersFromLines instead.
+     */
+    function headers_from_lines(iterable $lines): array
+    {
+    }
+    /**
+     * Returns a debug stream based on the provided variable.
+     *
+     * @param mixed $value Optional value
+     *
+     * @return resource
+     *
+     * @deprecated debug_resource will be removed in guzzlehttp/guzzle:8.0. Use Utils::debugResource instead.
+     */
+    function debug_resource($value = null)
+    {
+    }
+    /**
+     * Chooses and creates a default handler to use based on the environment.
+     *
+     * The returned handler is not wrapped by any default middlewares.
+     *
+     * @return callable(\Psr\Http\Message\RequestInterface, array): Promise\PromiseInterface Returns the best handler for the given system.
+     *
+     * @throws \RuntimeException if no viable Handler is available.
+     *
+     * @deprecated choose_handler will be removed in guzzlehttp/guzzle:8.0. Use Utils::chooseHandler instead.
+     */
+    function choose_handler(): callable
+    {
+    }
+    /**
+     * Get the default User-Agent string to use with Guzzle.
+     *
+     * @deprecated default_user_agent will be removed in guzzlehttp/guzzle:8.0. Use Utils::defaultUserAgent instead.
+     */
+    function default_user_agent(): string
+    {
+    }
+    /**
+     * Returns the default cacert bundle for the current system.
+     *
+     * First, the openssl.cafile and curl.cainfo php.ini settings are checked.
+     * If those settings are not configured, then the common locations for
+     * bundles found on Red Hat, CentOS, Fedora, Ubuntu, Debian, FreeBSD, OS X
+     * and Windows are checked. If any of these file locations are found on
+     * disk, they will be utilized.
+     *
+     * Note: the result of this function is cached for subsequent calls.
+     *
+     * @throws \RuntimeException if no bundle can be found.
+     *
+     * @deprecated default_ca_bundle will be removed in guzzlehttp/guzzle:8.0. This function is not needed in PHP 5.6+.
+     */
+    function default_ca_bundle(): string
+    {
+    }
+    /**
+     * Creates an associative array of lowercase header names to the actual
+     * header casing.
+     *
+     * @deprecated normalize_header_keys will be removed in guzzlehttp/guzzle:8.0. Use Utils::normalizeHeaderKeys instead.
+     */
+    function normalize_header_keys(array $headers): array
+    {
+    }
+    /**
+     * Returns true if the provided host matches any of the no proxy areas.
+     *
+     * This method will strip a port from the host if it is present. Each pattern
+     * can be matched with an exact match (e.g., "foo.com" == "foo.com") or a
+     * partial match: (e.g., "foo.com" == "baz.foo.com" and ".foo.com" ==
+     * "baz.foo.com", but ".foo.com" != "foo.com").
+     *
+     * Areas are matched in the following cases:
+     * 1. "*" (without quotes) always matches any hosts.
+     * 2. An exact match.
+     * 3. The area starts with "." and the area is the last part of the host. e.g.
+     *    '.mit.edu' will match any host that ends with '.mit.edu'.
+     *
+     * @param string   $host         Host to check against the patterns.
+     * @param string[] $noProxyArray An array of host patterns.
+     *
+     * @throws Exception\InvalidArgumentException
+     *
+     * @deprecated is_host_in_noproxy will be removed in guzzlehttp/guzzle:8.0. Use Utils::isHostInNoProxy instead.
+     */
+    function is_host_in_noproxy(string $host, array $noProxyArray): bool
+    {
+    }
+    /**
+     * Wrapper for json_decode that throws when an error occurs.
+     *
+     * @param string $json    JSON data to parse
+     * @param bool   $assoc   When true, returned objects will be converted
+     *                        into associative arrays.
+     * @param int    $depth   User specified recursion depth.
+     * @param int    $options Bitmask of JSON decode options.
+     *
+     * @return object|array|string|int|float|bool|null
+     *
+     * @throws Exception\InvalidArgumentException if the JSON cannot be decoded.
+     *
+     * @see https://www.php.net/manual/en/function.json-decode.php
+     * @deprecated json_decode will be removed in guzzlehttp/guzzle:8.0. Use Utils::jsonDecode instead.
+     */
+    function json_decode(string $json, bool $assoc = \false, int $depth = 512, int $options = 0)
+    {
+    }
+    /**
+     * Wrapper for JSON encoding that throws when an error occurs.
+     *
+     * @param mixed $value   The value being encoded
+     * @param int   $options JSON encode option bitmask
+     * @param int   $depth   Set the maximum depth. Must be greater than zero.
+     *
+     * @throws Exception\InvalidArgumentException if the JSON cannot be encoded.
+     *
+     * @see https://www.php.net/manual/en/function.json-encode.php
+     * @deprecated json_encode will be removed in guzzlehttp/guzzle:8.0. Use Utils::jsonEncode instead.
+     */
+    function json_encode($value, int $options = 0, int $depth = 512): string
+    {
+    }
+}
+namespace MultilingualPress\Vendor {
+    function includeIfExists(string $file): ?\Composer\Autoload\ClassLoader
+    {
+    }
+}
+namespace MultilingualPress\Vendor\Aws {
+    //-----------------------------------------------------------------------------
+    // Functional functions
+    //-----------------------------------------------------------------------------
+    /**
+     * Returns a function that always returns the same value;
+     *
+     * @param mixed $value Value to return.
+     *
+     * @return callable
+     */
+    function constantly($value)
+    {
+    }
+    /**
+     * Filters values that do not satisfy the predicate function $pred.
+     *
+     * @param mixed    $iterable Iterable sequence of data.
+     * @param callable $pred Function that accepts a value and returns true/false
+     *
+     * @return \Generator
+     */
+    function filter($iterable, callable $pred)
+    {
+    }
+    /**
+     * Applies a map function $f to each value in a collection.
+     *
+     * @param mixed    $iterable Iterable sequence of data.
+     * @param callable $f        Map function to apply.
+     *
+     * @return \Generator
+     */
+    function map($iterable, callable $f)
+    {
+    }
+    /**
+     * Creates a generator that iterates over a sequence, then iterates over each
+     * value in the sequence and yields the application of the map function to each
+     * value.
+     *
+     * @param mixed    $iterable Iterable sequence of data.
+     * @param callable $f        Map function to apply.
+     *
+     * @return \Generator
+     */
+    function flatmap($iterable, callable $f)
+    {
+    }
+    /**
+     * Partitions the input sequence into partitions of the specified size.
+     *
+     * @param mixed    $iterable Iterable sequence of data.
+     * @param int $size Size to make each partition (except possibly the last chunk)
+     *
+     * @return \Generator
+     */
+    function partition($iterable, $size)
+    {
+    }
+    /**
+     * Returns a function that invokes the provided variadic functions one
+     * after the other until one of the functions returns a non-null value.
+     * The return function will call each passed function with any arguments it
+     * is provided.
+     *
+     *     $a = function ($x, $y) { return null; };
+     *     $b = function ($x, $y) { return $x + $y; };
+     *     $fn = \Aws\or_chain($a, $b);
+     *     echo $fn(1, 2); // 3
+     *
+     * @return callable
+     */
+    function or_chain()
+    {
+    }
+    //-----------------------------------------------------------------------------
+    // JSON compiler and loading functions
+    //-----------------------------------------------------------------------------
+    /**
+     * Loads a compiled JSON file from a PHP file.
+     *
+     * If the JSON file has not been cached to disk as a PHP file, it will be loaded
+     * from the JSON source file and returned.
+     *
+     * @param string $path Path to the JSON file on disk
+     *
+     * @return mixed Returns the JSON decoded data. Note that JSON objects are
+     *     decoded as associative arrays.
+     */
+    function load_compiled_json($path)
+    {
+    }
+    /**
+     * No-op
+     */
+    function clear_compiled_json()
+    {
+    }
+    //-----------------------------------------------------------------------------
+    // Directory iterator functions.
+    //-----------------------------------------------------------------------------
+    /**
+     * Iterates over the files in a directory and works with custom wrappers.
+     *
+     * @param string   $path Path to open (e.g., "s3://foo/bar").
+     * @param resource $context Stream wrapper context.
+     *
+     * @return \Generator Yields relative filename strings.
+     */
+    function dir_iterator($path, $context = null)
+    {
+    }
+    /**
+     * Returns a recursive directory iterator that yields absolute filenames.
+     *
+     * This iterator is not broken like PHP's built-in DirectoryIterator (which
+     * will read the first file from a stream wrapper, then rewind, then read
+     * it again).
+     *
+     * @param string   $path    Path to traverse (e.g., s3://bucket/key, /tmp)
+     * @param resource $context Stream context options.
+     *
+     * @return \Generator Yields absolute filenames.
+     */
+    function recursive_dir_iterator($path, $context = null)
+    {
+    }
+    //-----------------------------------------------------------------------------
+    // Misc. functions.
+    //-----------------------------------------------------------------------------
+    /**
+     * Debug function used to describe the provided value type and class.
+     *
+     * @param mixed $input
+     *
+     * @return string Returns a string containing the type of the variable and
+     *                if a class is provided, the class name.
+     */
+    function describe_type($input)
+    {
+    }
+    /**
+     * Creates a default HTTP handler based on the available clients.
+     *
+     * @return callable
+     */
+    function default_http_handler()
+    {
+    }
+    /**
+     * Gets the default user agent string depending on the Guzzle version
+     *
+     * @return string
+     */
+    function default_user_agent()
+    {
+    }
+    /**
+     * Get the major version of guzzle that is installed.
+     *
+     * @internal This function is internal and should not be used outside aws/aws-sdk-php.
+     * @return int
+     * @throws \RuntimeException
+     */
+    function guzzle_major_version()
+    {
+    }
+    /**
+     * Serialize a request for a command but do not send it.
+     *
+     * Returns a promise that is fulfilled with the serialized request.
+     *
+     * @param CommandInterface $command Command to serialize.
+     *
+     * @return RequestInterface
+     * @throws \RuntimeException
+     */
+    function serialize(\MultilingualPress\Vendor\Aws\CommandInterface $command)
+    {
+    }
+    /**
+     * Retrieves data for a service from the SDK's service manifest file.
+     *
+     * Manifest data is stored statically, so it does not need to be loaded more
+     * than once per process. The JSON data is also cached in opcache.
+     *
+     * @param string $service Case-insensitive namespace or endpoint prefix of the
+     *                        service for which you are retrieving manifest data.
+     *
+     * @return array
+     * @throws \InvalidArgumentException if the service is not supported.
+     */
+    function manifest($service = null)
+    {
+    }
+    /**
+     * Checks if supplied parameter is a valid hostname
+     *
+     * @param string $hostname
+     * @return bool
+     */
+    function is_valid_hostname($hostname)
+    {
+    }
+    /**
+     * Checks if supplied parameter is a valid host label
+     *
+     * @param $label
+     * @return bool
+     */
+    function is_valid_hostlabel($label)
+    {
+    }
+    /**
+     * Ignores '#' full line comments, which parse_ini_file no longer does
+     * in PHP 7+.
+     *
+     * @param $filename
+     * @param bool $process_sections
+     * @param int $scanner_mode
+     * @return array|bool
+     */
+    function parse_ini_file($filename, $process_sections = \false, $scanner_mode = \INI_SCANNER_NORMAL)
+    {
+    }
+    /**
+     * Outputs boolean value of input for a select range of possible values,
+     * null otherwise
+     *
+     * @param $input
+     * @return bool|null
+     */
+    function boolean_value($input)
+    {
+    }
+    /**
+     * Parses ini sections with subsections (i.e. the service section)
+     *
+     * @param $filename
+     * @param $filename
+     * @return array
+     */
+    function parse_ini_section_with_subsections($filename, $section_name)
+    {
+    }
+    /**
+     * Checks if an input is a valid epoch time
+     *
+     * @param $input
+     * @return bool
+     */
+    function is_valid_epoch($input)
+    {
+    }
+    /**
+     * Checks if an input is a fips pseudo region
+     *
+     * @param $region
+     * @return bool
+     */
+    function is_fips_pseudo_region($region)
+    {
+    }
+    /**
+     * Returns a region without a fips label
+     *
+     * @param $region
+     * @return string
+     */
+    function strip_fips_pseudo_regions($region)
+    {
+    }
+    /**
+     * Checks if an array is associative
+     *
+     * @param array $array
+     *
+     * @return bool
+     */
+    function is_associative(array $array): bool
     {
     }
 }

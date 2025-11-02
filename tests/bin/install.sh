@@ -179,6 +179,6 @@ install_wp() {
 }
 
 install_wp
-install_plugins
+# install_plugins
 install_test_suite
 install_db
