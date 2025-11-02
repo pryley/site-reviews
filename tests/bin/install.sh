@@ -55,14 +55,14 @@ fi
 set -ex
 
 create_db() {
-    mysqladmin create $DB_NAME --user="$DB_USER" --password="$DB_PASS"$EXTRA
+    mysqladmin create $DB_NAME --user="$DB_USER" --password="$DB_PASS"$EXTRA --ssl-mode=DISABLED
 }
 
 recreate_db() {
     shopt -s nocasematch
     if [[ $1 =~ ^(y|yes)$ ]]
     then
-        mysqladmin drop $DB_NAME -f --user="$DB_USER" --password="$DB_PASS"$EXTRA
+        mysqladmin drop $DB_NAME -f --user="$DB_USER" --password="$DB_PASS"$EXTRA --ssl-mode=DISABLED
         create_db
         echo "Recreated the database ($DB_NAME)."
     else
