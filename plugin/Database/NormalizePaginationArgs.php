@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Url;
 
 /**
+ * @property int    $display;
  * @property int    $page;
  * @property string $pageUrl;
  * @property array  $pageUrlParameters;
@@ -29,10 +30,8 @@ class NormalizePaginationArgs extends Arguments
     protected function normalizePage(): void
     {
         $args = glsr()->args(glsr()->retrieve(glsr()->paged_handle));
-        $page = $args->get('page', 0);
-        $this->page = $page
-            ? $page
-            : Helper::getPageNumber($args->url, $this->page);
+        $page = $args->cast('page', 'int', 0);
+        $this->page = $page ?: Helper::getPageNumber($args->url, $this->page);
     }
 
     /**

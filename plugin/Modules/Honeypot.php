@@ -26,14 +26,6 @@ class Honeypot
 
     public function hash(string $formId): string
     {
-        if (is_array($formId)) { // @phpstan-ignore-line
-            glsr_log()
-                ->warning('Honeypot expects the submitted form ID to be a string, an array was passed instead.')
-                ->debug($formId);
-            glsr_trace(10);
-            $formId = array_shift($formId);
-        }
-        $formId = Cast::toString($formId);
         return Str::hash($formId, 8);
     }
 

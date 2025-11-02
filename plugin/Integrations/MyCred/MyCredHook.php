@@ -12,7 +12,7 @@ use GeminiLabs\SiteReviews\Review;
 
 class MyCredHook extends \myCRED_Hook
 {
-    public function __construct($preferences, $type = MYCRED_DEFAULT_TYPE_KEY)
+    public function __construct($preferences, $type = \MYCRED_DEFAULT_TYPE_KEY)
     {
         $args = [
             'id' => Str::snakeCase(glsr()->id),

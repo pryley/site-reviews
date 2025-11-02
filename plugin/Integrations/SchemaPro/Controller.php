@@ -51,7 +51,7 @@ class Controller extends AbstractController
     public function onReviewCreated(Review $review): void
     {
         foreach ($review->assigned_posts as $postId) {
-            delete_post_meta($postId, BSF_AIOSRS_PRO_CACHE_KEY);
+            delete_post_meta($postId, \BSF_AIOSRS_PRO_CACHE_KEY);
         }
     }
 
@@ -67,7 +67,7 @@ class Controller extends AbstractController
         }
         if ($oldIntegration !== $newIntegration) {
             global $wpdb;
-            $wpdb->delete($wpdb->postmeta, ['meta_key' => BSF_AIOSRS_PRO_CACHE_KEY]);
+            $wpdb->delete($wpdb->postmeta, ['meta_key' => \BSF_AIOSRS_PRO_CACHE_KEY]);
         }
     }
 }

@@ -46,9 +46,9 @@ class Cast
     public static function toArrayDeep($value, bool $explode = true): array
     {
         $values = static::toArray($value, $explode);
-        foreach ($values as $key => $value) {
-            if (is_object($value)) {
-                $values[$key] = static::toArrayDeep($value, $explode);
+        foreach ($values as $key => $val) {
+            if (is_object($val)) {
+                $values[$key] = static::toArrayDeep($val, $explode);
             }
         }
         try {

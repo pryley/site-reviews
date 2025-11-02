@@ -43,7 +43,9 @@ class ProductReviewsRoute extends Route
             $reviews[] = $this->prepare_response_for_collection($data);
         }
         $response = rest_ensure_response($reviews);
-        $response = (new Pagination())->add_headers($response, $request, $results->total, $results->max_num_pages);
+        if (!is_wp_error($response)) {
+            $response = (new Pagination())->add_headers($response, $request, $results->total, $results->max_num_pages);
+        }
         return $response;
     }
 

@@ -88,7 +88,7 @@ class Migrate_8_0_0 implements MigrateContract
                 continue;
             }
             // We need the `wp_slash` because `update_post_meta` does `wp_unslash`
-            $json = wp_slash(wp_json_encode($data)); // @phpstan-ignore-line
+            $json = wp_slash((string) wp_json_encode($data)); // @phpstan-ignore-line
             update_metadata('post', $postId, '_elementor_data', $json);
         }
     }

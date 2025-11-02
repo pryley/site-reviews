@@ -131,7 +131,7 @@ trait ElementTrait
      *
      * @return string
      */
-    public static function ssr($propertiesData)
+    public static function ssr($propertiesData, $parentPropertiesData = [], $isBuilder = false, $repeaterItemNodeId = null)
     {
         $args = static::ssrArgs(Arr::consolidate($propertiesData));
         return static::bdShortcode()->build($args, 'breakdance', false);

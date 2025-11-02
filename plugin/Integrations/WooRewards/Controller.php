@@ -59,7 +59,8 @@ class Controller extends AbstractController
             }
             try {
                 $comment = $this->fakeComment($postId, $review);
-                if ($this->invoke('isValid', [$comment, $delayed = false])) {
+                $delayed = false;
+                if ($this->invoke('isValid', [$comment, $delayed])) {
                     $this->invoke('process', [$comment]);
                 }
             } catch (\Exception $e) {

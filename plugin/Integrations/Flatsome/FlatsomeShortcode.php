@@ -58,6 +58,9 @@ abstract class FlatsomeShortcode
     public function register(): void
     {
         add_action('ux_builder_setup', function () {
+            if (!function_exists('add_ux_builder_shortcode')) {
+                return;
+            }
             add_ux_builder_shortcode($this->shortcodeInstance()->tag, [
                 'category' => glsr()->name,
                 'name' => $this->shortcodeInstance()->name,

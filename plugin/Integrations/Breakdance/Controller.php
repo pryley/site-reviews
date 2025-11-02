@@ -145,42 +145,42 @@ class Controller extends AbstractController
     public function registerRoutes(): void
     {
         return; // We can't use this yet...
-        $input = filter_input_array(INPUT_POST, [ // @phpstan-ignore-line
-            'requestData' => [
-                'context' => [
-                    'filter' => fn ($value) => is_numeric($value)
-                        ? intval($value)
-                        : strip_tags($value),
-                    'flags' => FILTER_REQUIRE_ARRAY,
-                ],
-            ],
-        ]);
-        $include = Arr::consolidate($input['requestData']['context'] ?? []);
-        \Breakdance\AJAX\register_handler(
-            glsr()->prefix.'breakdance_assigned_posts',
-            fn () => $this->fetchAssignedPosts($include),
-            'edit'
-        );
-        \Breakdance\AJAX\register_handler(
-            glsr()->prefix.'breakdance_assigned_terms',
-            fn () => $this->fetchAssignedTerms($include),
-            'edit'
-        );
-        \Breakdance\AJAX\register_handler(
-            glsr()->prefix.'breakdance_assigned_users',
-            fn () => $this->fetchAssignedUsers($include),
-            'edit'
-        );
-        \Breakdance\AJAX\register_handler(
-            glsr()->prefix.'breakdance_author',
-            fn () => $this->fetchAuthor($include),
-            'edit'
-        );
-        \Breakdance\AJAX\register_handler(
-            glsr()->prefix.'breakdance_post_id',
-            fn () => $this->fetchPostId($include),
-            'edit'
-        );
+        // $input = filter_input_array(INPUT_POST, [ // @phpstan-ignore-line
+        //     'requestData' => [
+        //         'context' => [
+        //             'filter' => fn ($value) => is_numeric($value)
+        //                 ? intval($value)
+        //                 : strip_tags($value),
+        //             'flags' => FILTER_REQUIRE_ARRAY,
+        //         ],
+        //     ],
+        // ]);
+        // $include = Arr::consolidate($input['requestData']['context'] ?? []);
+        // \Breakdance\AJAX\register_handler(
+        //     glsr()->prefix.'breakdance_assigned_posts',
+        //     fn () => $this->fetchAssignedPosts($include),
+        //     'edit'
+        // );
+        // \Breakdance\AJAX\register_handler(
+        //     glsr()->prefix.'breakdance_assigned_terms',
+        //     fn () => $this->fetchAssignedTerms($include),
+        //     'edit'
+        // );
+        // \Breakdance\AJAX\register_handler(
+        //     glsr()->prefix.'breakdance_assigned_users',
+        //     fn () => $this->fetchAssignedUsers($include),
+        //     'edit'
+        // );
+        // \Breakdance\AJAX\register_handler(
+        //     glsr()->prefix.'breakdance_author',
+        //     fn () => $this->fetchAuthor($include),
+        //     'edit'
+        // );
+        // \Breakdance\AJAX\register_handler(
+        //     glsr()->prefix.'breakdance_post_id',
+        //     fn () => $this->fetchPostId($include),
+        //     'edit'
+        // );
     }
 
     /**

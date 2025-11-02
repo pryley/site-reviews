@@ -35,7 +35,7 @@ class Polylang implements MultilingualContract
         if (!pll_is_translated_post_type($postType)) {
             return $postId;
         }
-        $polylangPostId = pll_get_post($postId, pll_get_post_language($postId));
+        $polylangPostId = pll_get_post($postId, pll_get_post_language($postId, 'slug'));
         if (!empty($polylangPostId)) {
             $postId = $polylangPostId;
         }
@@ -104,7 +104,7 @@ class Polylang implements MultilingualContract
         }
         $term = get_term($termId, glsr()->taxonomy);
         if (is_a($term, '\WP_Term')) {
-            $polylangTermId = pll_get_term($termId, pll_get_term_language($termId));
+            $polylangTermId = pll_get_term($termId, pll_get_term_language($termId, 'slug'));
         }
         if (!empty($polylangTermId)) {
             $termId = $polylangTermId;

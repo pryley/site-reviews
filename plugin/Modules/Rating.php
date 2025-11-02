@@ -217,7 +217,7 @@ class Rating
         });
         $indexes = wp_list_pluck($percentages, 'index');
         $remainders = wp_list_pluck($percentages, 'remainder');
-        array_multisort($remainders, SORT_DESC, SORT_STRING, $indexes, SORT_DESC, $percentages);
+        array_multisort($remainders, \SORT_DESC, \SORT_STRING, $indexes, \SORT_DESC, $percentages);
         $i = 0;
         if (array_sum(wp_list_pluck($percentages, 'percent')) > 0) {
             while (array_sum(wp_list_pluck($percentages, 'percent')) < $totalPercent) {
@@ -225,7 +225,7 @@ class Rating
                 ++$i;
             }
         }
-        array_multisort($indexes, SORT_DESC, $percentages);
+        array_multisort($indexes, \SORT_DESC, $percentages);
         return array_combine($indexes, wp_list_pluck($percentages, 'percent'));
     }
 

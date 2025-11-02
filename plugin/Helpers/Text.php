@@ -183,12 +183,10 @@ class Text
      */
     protected static function iterator(string $text)
     {
-        if (extension_loaded('intl')) {
-            $iterator = \IntlRuleBasedBreakIterator::createWordInstance('');
-        }
-        if (empty($iterator)) {
+        if (!extension_loaded('intl')) {
             return null;
         }
+        $iterator = \IntlRuleBasedBreakIterator::createWordInstance('');
         $normalizedText = \Normalizer::normalize($text);
         if (empty($normalizedText)) {
             return null;

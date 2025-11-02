@@ -19,10 +19,11 @@ use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
+use GeminiLabs\SiteReviews\Reviews;
 
 defined('ABSPATH') || exit;
 
-/**
+/*
  * Alternate method of using the functions without having to use `function_exists()`
  * Example: apply_filters('glsr_get_reviews', [], ['assigned_posts' => 'post_id']);
  */
@@ -66,14 +67,7 @@ function glsr($alias = null, array $parameters = [])
     }
 }
 
-/**
- * @param string $page
- * @param string $tab
- * @param string $sub
- *
- * @return string
- */
-function glsr_admin_url($page = '', $tab = '', $sub = '')
+function glsr_admin_url(string $page = '', string $tab = '', string $sub = ''): string
 {
     if ('welcome' === $page) {
         $page = glsr()->id.'-welcome';
@@ -142,9 +136,9 @@ function glsr_admin_link(string $path = '', $attrs = [], string $expand = ''): s
 /**
  * @return Review|false
  */
-function glsr_create_review($values = [])
+function glsr_create_review(array $values = [])
 {
-    $values = Arr::removeEmptyValues(Arr::consolidate($values));
+    $values = Arr::removeEmptyValues($values);
     $request = new Request($values);
     $review = false;
     glsr()->store('glsr_create_review', true);
@@ -199,33 +193,23 @@ function glsr_get($array, $path = '', $fallback = '')
 }
 
 /**
- * @param string $path
- * @param mixed  $fallback
- * @param string $cast
+ * @param mixed $fallback
  *
  * @return mixed
  */
-function glsr_get_option($path = '', $fallback = '', $cast = '')
+function glsr_get_option(string $path = '', $fallback = '', string $cast = '')
 {
-    return is_string($path)
-        ? glsr(OptionManager::class)->get(Str::prefix($path, 'settings.'), $fallback, $cast)
-        : $fallback;
+    return glsr(OptionManager::class)->get(Str::prefix($path, 'settings.'), $fallback, $cast);
 }
 
-/**
- * @return array
- */
-function glsr_get_options()
+function glsr_get_options(): array
 {
     return glsr(OptionManager::class)->get('settings');
 }
 
-/**
- * @return Arguments
- */
-function glsr_get_ratings($args = [])
+function glsr_get_ratings(array $args = []): Arguments
 {
-    $counts = glsr(RatingManager::class)->ratings(Arr::consolidate($args));
+    $counts = glsr(RatingManager::class)->ratings($args);
     return new Arguments([
         'average' => glsr(Rating::class)->average($counts),
         'maximum' => Rating::max(),
@@ -241,20 +225,15 @@ function glsr_get_review($postId): Review
     return glsr(ReviewManager::class)->get(Cast::toInt($postId));
 }
 
-/**
- * @return GeminiLabs\SiteReviews\Reviews
- */
-function glsr_get_reviews($args = [])
+function glsr_get_reviews(array $args = []): Reviews
 {
-    return glsr(ReviewManager::class)->reviews(Arr::consolidate($args));
+    return glsr(ReviewManager::class)->reviews($args);
 }
 
 /**
  * @param mixed ...$args
- *
- * @return Console
  */
-function glsr_log(...$args)
+function glsr_log(...$args): Console
 {
     $console = glsr(Console::class);
     return !empty($args)
@@ -308,12 +287,10 @@ function glsr_premium_url(string $path = '/'): string
 }
 
 /**
- * @param string $path
- * @param mixed  $value
- *
- * @return array
+ * @param string|int $path
+ * @param mixed      $value
  */
-function glsr_set(array $data, $path, $value)
+function glsr_set(array $data, $path, $value): array
 {
     return Arr::set($data, $path, $value);
 }
@@ -321,10 +298,8 @@ function glsr_set(array $data, $path, $value)
 /**
  * @param mixed    $rating
  * @param int|null $reviews
- *
- * @return string
  */
-function glsr_star_rating($rating, $reviews = 0, array $args = [])
+function glsr_star_rating($rating, $reviews = 0, array $args = []): string
 {
     return glsr(Partial::class)->build('star-rating', [
         'args' => $args,
@@ -333,35 +308,23 @@ function glsr_star_rating($rating, $reviews = 0, array $args = [])
     ]);
 }
 
-/**
- * @param int $limit
- *
- * @return void
- */
-function glsr_trace($limit = 5)
+function glsr_trace(int $limit = 5): void
 {
     glsr_log(glsr(Backtrace::class)->trace($limit));
 }
 
 /**
- * @param int $postId
- *
  * @return Review|false
  */
-function glsr_update_review($postId, $values = [])
+function glsr_update_review(int $postId, array $values = [])
 {
-    $postId = Cast::toInt($postId);
-    $values = Arr::consolidate($values);
     glsr()->store('glsr_update_review', true);
     $result = glsr(ReviewManager::class)->update($postId, $values);
     glsr()->discard('glsr_update_review');
     return $result;
 }
 
-/**
- * @return int
- */
-function glsr_user_count()
+function glsr_user_count(): int
 {
     if (function_exists('get_user_count')) {
         return get_user_count();

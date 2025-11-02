@@ -6,8 +6,7 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 
 trait Storage
 {
-    /** @var Arguments */
-    protected $storage;
+    protected Arguments $storage;
 
     /**
      * @param mixed $value
@@ -54,7 +53,7 @@ trait Storage
 
     public function storage(): Arguments
     {
-        if (!$this->storage instanceof Arguments) {
+        if (!isset($this->storage)) {
             $this->storage = new Arguments([]);
         }
         return $this->storage;

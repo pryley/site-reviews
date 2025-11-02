@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Honeypot;
 
 class CustomFieldsDefaults extends DefaultsAbstract
@@ -65,9 +66,10 @@ class CustomFieldsDefaults extends DefaultsAbstract
     protected function normalize(array $values = []): array
     {
         $additionalFieldKeys = array_keys(glsr(AdditionalFieldsDefaults::class)->call('defaults'));
+        $formIdAttr = Cast::toString($values['form_id'] ?? '');
         $guarded = array_merge(
             $this->guarded,
-            [glsr(Honeypot::class)->hash($values['form_id'] ?? '')],
+            [glsr(Honeypot::class)->hash($formIdAttr)],
             $additionalFieldKeys,
         );
         $this->guarded = array_values(array_filter(array_unique($guarded)));

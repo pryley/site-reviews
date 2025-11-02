@@ -105,7 +105,7 @@ class ProductController implements ControllerContract
         if (!in_array($type, ['next', 'prev'])) {
             return $link;
         }
-        $referer = urldecode(wp_get_referer());
+        $referer = urldecode((string) wp_get_referer());
         if (str_contains($referer, 'site-editor.php')) {
             parse_str(parse_url($referer, PHP_URL_QUERY), $params);
             $template = $params['p'] ?? '';
@@ -228,7 +228,7 @@ class ProductController implements ControllerContract
         if (!in_array('restricted', $ownership)) {
             return $template;
         }
-        if ($this->isProductOwner(get_current_user_id(), get_the_ID())) {
+        if ($this->isProductOwner(get_current_user_id(), (int) get_the_ID())) {
             return $template;
         }
         return glsr(Builder::class)->p([
