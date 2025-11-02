@@ -73,7 +73,7 @@ sync: ## Sync plugin files to development site
 
 .PHONY: test
 test: ## Run all phpunit tests
-	XDEBUG_MODE=coverage ./vendor/bin/phpunit
+	XDEBUG_MODE=off ./vendor/bin/phpunit
 
 .PHONY: testall
 testall: ## Run phpstan analyser and all phpunit tests

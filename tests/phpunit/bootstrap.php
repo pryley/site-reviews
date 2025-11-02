@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'on');
 
-$plugin_dir = dirname(__DIR__);
+$plugin_dir = dirname(dirname(__DIR__));
 
 if (!defined('WP_CONTENT_DIR') && getenv('WP_CONTENT_DIR') !== false) {
     define('WP_CONTENT_DIR', getenv('WP_CONTENT_DIR'));

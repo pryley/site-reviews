@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-	bootstrap="tests/bootstrap.php"
+	bootstrap="tests/phpunit/bootstrap.php"
 	backupGlobals="false"
 	colors="true"
 	convertErrorsToExceptions="true"
@@ -11,7 +11,7 @@
 	>
 	<testsuites>
 		<testsuite name="basic-tests">
-			<directory>tests/</directory>
+			<directory>tests/phpunit/tests/</directory>
 		</testsuite>
 	</testsuites>
 	<coverage processUncoveredFiles="true">
