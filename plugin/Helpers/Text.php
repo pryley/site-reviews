@@ -202,7 +202,7 @@ class Text
     protected static function replaceTags(string $text): array
     {
         $map = [];
-        $result = preg_replace_callback('|<([a-z+])[^>]*?>.*?</\\1>|siu', function ($matches) use (&$map) {
+        $result = preg_replace_callback('|<([a-z]+)[^>]*?>.*?</\\1>|siu', function ($matches) use (&$map) {
             $map[] = $matches[0];
             return '⍈';
         }, $text);
