@@ -70,6 +70,9 @@ class Controller extends AbstractController
      */
     public function filterDynamicAssets($shortcodes, $content): array
     {
+        if ('divi' !== glsr_get_option('general.style')) {
+            return $shortcodes;
+        }
         if (1 === preg_match('/site_reviews/', Cast::toString($content))) {
             add_filter('et_required_module_assets', function ($assets) {
                 $assets[] = 'et_pb_contact_form';
@@ -97,12 +100,49 @@ class Controller extends AbstractController
      */
     public function filterNextDynamicAssets(array $assets, $content): array
     {
+        if ('divi' !== glsr_get_option('general.style')) {
+            return $assets;
+        }
         if (1 === preg_match('/wp:glsr-divi\//', Cast::toString($content))) {
             $assets[] = 'divi/contact-form';
             $assets[] = 'divi/gallery';
             $assets[] = 'divi/search';
             return array_values(array_unique($assets));
         }
+        return $assets;
+    }
+
+    /**
+     * @action divi_frontend_assets_dynamic_assets_global_assets_list
+     */
+    public function filterNextDynamicAssetsListForWoo(array $assets, array $args): array
+    {
+        if (empty($args['assets_prefix'])) {
+            return $assets;
+        }
+        if ('divi' !== glsr_get_option('general.style')) {
+            return $assets;
+        }
+        if (!function_exists('wc_get_product')) {
+            return $assets;
+        }
+        if (!$product = wc_get_product(get_the_ID())) {
+            return $assets;
+        }
+        if ('yes' !== get_option('woocommerce_enable_reviews', 'yes')) {
+            return $assets;
+        }
+        if (!glsr_get_option('integrations.woocommerce.enabled', false, 'bool')) {
+            return $assets;
+        }
+        $suffix = is_rtl() ? '-rtl' : '';
+        $assets['glsr_woocommerce_integration'] = [
+            'css' => [
+                "{$args['assets_prefix']}/css/contact_form{$suffix}.css",
+                "{$args['assets_prefix']}/css/gallery.css",
+                "{$args['assets_prefix']}/css/search.css",
+            ],
+        ];
         return $assets;
     }
 

@@ -6440,7 +6440,7 @@ msgstr ""
 msgid "Please select"
 msgstr ""
 
-#: plugin/Modules/Html/FieldElements/Secret.php:25, plugin/Modules/Html/FieldElements/Secret.php:28
+#: plugin/Modules/Html/FieldElements/Secret.php:25, plugin/Modules/Html/FieldElements/Secret.php:28, plugin/Modules/Html/FieldElements/Secret.php:29
 msgctxt "admin-text"
 msgid "Show value"
 msgstr ""
@@ -6448,11 +6448,6 @@ msgstr ""
 #: plugin/Modules/Html/FieldElements/Secret.php:27
 msgctxt "admin-text"
 msgid "Hide value"
-msgstr ""
-
-#: plugin/Modules/Html/FieldElements/Secret.php:29
-msgctxt "admin-text"
-msgid "Toggle value"
 msgstr ""
 
 #: plugin/Modules/Html/FieldElements/Textarea.php:45, plugin/Modules/Html/FieldElements/Textarea.php:48
