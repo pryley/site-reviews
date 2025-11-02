@@ -113,40 +113,6 @@ class Controller extends AbstractController
     }
 
     /**
-     * @action divi_frontend_assets_dynamic_assets_global_assets_list
-     */
-    public function filterNextDynamicAssetsListForWoo(array $assets, array $args): array
-    {
-        if (empty($args['assets_prefix'])) {
-            return $assets;
-        }
-        if ('divi' !== glsr_get_option('general.style')) {
-            return $assets;
-        }
-        if (!function_exists('wc_get_product')) {
-            return $assets;
-        }
-        if (!$product = wc_get_product(get_the_ID())) {
-            return $assets;
-        }
-        if ('yes' !== get_option('woocommerce_enable_reviews', 'yes')) {
-            return $assets;
-        }
-        if (!glsr_get_option('integrations.woocommerce.enabled', false, 'bool')) {
-            return $assets;
-        }
-        $suffix = is_rtl() ? '-rtl' : '';
-        $assets['glsr_woocommerce_integration'] = [
-            'css' => [
-                "{$args['assets_prefix']}/css/contact_form{$suffix}.css",
-                "{$args['assets_prefix']}/css/gallery.css",
-                "{$args['assets_prefix']}/css/search.css",
-            ],
-        ];
-        return $assets;
-    }
-
-    /**
      * @see filterPaginationLinks
      *
      * @filter site-reviews/paginate_link

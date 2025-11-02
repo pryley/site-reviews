@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\Controller;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ExperimentsController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ImportController;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\IntegrationController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\MainController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ProductController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\RestApiController;
@@ -37,6 +38,9 @@ class Hooks extends IntegrationHooks
         ]);
         if ($this->isEnabled()) {
             $this->hook(ExperimentsController::class, $this->experimentalHooks());
+            $this->hook(IntegrationController::class, [
+                ['filterDiviDynamicAssetsList', 'divi_frontend_assets_dynamic_assets_global_assets_list', 10, 2],
+            ]);
             $this->hook(MainController::class, $this->mainHooks());
             $this->hook(ProductController::class, $this->productHooks());
             $this->hook(RestApiController::class, $this->restApiHooks());

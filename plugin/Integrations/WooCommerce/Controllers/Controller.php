@@ -70,7 +70,7 @@ class Controller extends AbstractController
             $path = "settings.integrations.woocommerce.{$settingKey}";
             $value = Arr::get($input, $path);
             $pattern = get_shortcode_regex([$shortcode]);
-            $normalizedValue = preg_replace_callback("/$pattern/", function ($match) use ($settingKey) {
+            $normalizedValue = preg_replace_callback("/$pattern/", function ($match) {
                 $atts = shortcode_parse_atts($match[3]);
                 $atts['assigned_posts'] = 'post_id';
                 ksort($atts);
