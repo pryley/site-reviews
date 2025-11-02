@@ -39,17 +39,17 @@
     "php": ">=8.0"
   },
   "require-dev": {
+    "10up/wp_mock": "^1.1",
+    "brain/monkey": "^2.6",
     "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "eduardovillao/wp-since": "^1.1",
     "fakerphp/faker": "^1.23.1",
+    "php-stubs/wp-cli-stubs": "^2.12",
     "phpcompatibility/php-compatibility": "dev-develop",
     "phpstan/phpstan": "^2.1.28",
     "phpstan/phpstan-deprecation-rules": "^2.0",
+    "symfony/deprecation-contracts": "^3.0.0",
     "szepeviktor/phpstan-wordpress": "^2.0.2",
-    "yoast/phpunit-polyfills": "^2.0 || ^3.0 || ^4.0",
-    "php-stubs/generator": "^0.8.5",
-    "brain/monkey": "^2.6",
-    "10up/wp_mock": "^1.1",
-    "eduardovillao/wp-since": "^1.1",
-    "php-stubs/wp-cli-stubs": "^2.12"
+    "yoast/phpunit-polyfills": "^2.0 || ^3.0 || ^4.0"
   }
 }
