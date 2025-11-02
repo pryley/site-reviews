@@ -121,7 +121,7 @@ class ServiceProvider implements ModuleServiceProvider
             {
                 $attachmentIds = [];
                 $reviewAttachmentIds = array_filter($sourceAttachmentIds,
-                    fn ($attachmentId) => str_contains(get_attached_file($attachmentId, true), 'site-reviews/')
+                    fn ($attachmentId) => str_contains((string) get_attached_file($attachmentId, true), 'site-reviews/')
                 );
                 if (!empty($reviewAttachmentIds)) {
                     $attachmentIds = $this->container->get(ImageCopier::class)->copyById($sourceSiteId, $remoteSiteId, $reviewAttachmentIds);

@@ -65,7 +65,7 @@ trait ElementTrait
         return glsr()->id;
     }
 
-    static function className()
+    public static function className()
     {
         return 'breakdance-'.Str::dashCase(static::bdShortcode()->tag);
     }
@@ -131,7 +131,7 @@ trait ElementTrait
      *
      * @return string
      */
-    public static function ssr($propertiesData, $parentPropertiesData = [], $isBuilder = false, $repeaterItemNodeId = null)
+    public static function ssr($propertiesData)
     {
         $args = static::ssrArgs(Arr::consolidate($propertiesData));
         return static::bdShortcode()->build($args, 'breakdance', false);

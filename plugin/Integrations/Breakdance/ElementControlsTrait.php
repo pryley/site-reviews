@@ -88,7 +88,7 @@ trait ElementControlsTrait
             'attr_id' => 'id',
         ];
         foreach ($iterator as $key => $value) {
-            if (array_key_exists($key, $mappedKeys)) {
+            if (array_key_exists((string) $key, $mappedKeys)) {
                 $args[$mappedKeys[$key]] = $value;
                 continue;
             }

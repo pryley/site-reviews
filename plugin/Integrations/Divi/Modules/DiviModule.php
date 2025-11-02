@@ -80,7 +80,6 @@ abstract class DiviModule implements DependencyInterface
     public static function module_styles(array $args): void
     {
         $args = glsr(ModuleStylesDefaults::class)->merge($args);
-        $attrs = $args['attrs'];
         $elements = $args['elements'];
         $settings = $args['settings'];
         Style::add([
@@ -99,7 +98,7 @@ abstract class DiviModule implements DependencyInterface
                     ],
                 ]),
                 // CssStyle::style([
-                //     'attr' => $attrs['css'] ?? [],
+                //     'attr' => $args['attrs']['css'] ?? [],
                 //     'cssFields' => static::custom_css(),
                 //     'selector' => $args['orderClass'],
                 // ]),

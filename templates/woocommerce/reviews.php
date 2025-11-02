@@ -10,7 +10,7 @@
             if ($ratings->reviews) {
                 $title = sprintf(esc_html(_n('%1$s review for %2$s', '%1$s reviews for %2$s', $ratings->reviews, 'woocommerce')), esc_html($ratings->reviews), '<span>'.get_the_title().'</span>');
             } else {
-                $title = esc_html_e('Reviews', 'woocommerce');
+                $title = esc_html__('Reviews', 'woocommerce');
             }
             echo apply_filters('woocommerce_reviews_title', $title, $ratings->reviews, $product); // WPCS: XSS ok.
         ?>

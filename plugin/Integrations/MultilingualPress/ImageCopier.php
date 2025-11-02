@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress;
 
-use GeminiLabs\SiteReviews\Addon\Images\Uploader;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -85,14 +84,14 @@ class ImageCopier
         $reviewAttachmentIds = [];
         if (class_exists('GeminiLabs\SiteReviews\Addon\Images\Uploader')) {
             $reviewAttachmentIds = array_filter($sourceAttachmentIds,
-                fn ($attachmentId) => str_contains(get_attached_file($attachmentId, true), 'site-reviews/')
+                fn ($attachmentId) => str_contains((string) get_attached_file($attachmentId, true), 'site-reviews/')
             );
             if (!empty($reviewAttachmentIds)) {
-                glsr(Uploader::class)->setUploadPath(glsr()->id);
-                glsr(Uploader::class)->setIntermediateImageSizes();
+                glsr('Addon\Images\Uploader')->setUploadPath(glsr()->id);
+                glsr('Addon\Images\Uploader')->setIntermediateImageSizes();
                 $attachmentIds = $this->copyAttachmentIds($reviewAttachmentIds);
-                glsr(Uploader::class)->resetIntermediateImageSizes();
-                glsr(Uploader::class)->resetUploadPath();
+                glsr('Addon\Images\Uploader')->resetIntermediateImageSizes();
+                glsr('Addon\Images\Uploader')->resetUploadPath();
             }
         }
         if ($otherAttachmentIds = array_diff($sourceAttachmentIds, $reviewAttachmentIds)) {

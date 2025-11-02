@@ -133,7 +133,7 @@ class Review extends Arguments
             'include' => $termIds,
             'taxonomy' => glsr()->taxonomy,
         ]);
-        if (!is_array($terms)) {
+        if (is_wp_error($terms)) {
             return [];
         }
         return $terms;

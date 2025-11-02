@@ -18,7 +18,7 @@ class TrasherController extends AbstractController
      */
     public function syncDelete(int $postId): void
     {
-        if (!str_starts_with(get_post_type($postId), glsr()->post_type)) {
+        if (!str_starts_with((string) get_post_type($postId), glsr()->post_type)) {
             return;
         }
         static $syncingRelatedPosts;
@@ -39,7 +39,7 @@ class TrasherController extends AbstractController
      */
     public function syncTrash(int $postId): void
     {
-        if (!str_starts_with(get_post_type($postId), glsr()->post_type)) {
+        if (!str_starts_with((string) get_post_type($postId), glsr()->post_type)) {
             return;
         }
         static $syncingRelatedPosts;

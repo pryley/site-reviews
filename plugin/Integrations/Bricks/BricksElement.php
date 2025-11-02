@@ -10,6 +10,11 @@ abstract class BricksElement extends \Bricks\Element
 {
     use IntegrationShortcode;
 
+    public $category;
+    public $controls;
+    public $control_groups;
+    public $icon;
+    public $name;
     public $nestable = false;
     public $scripts = ['GLSR_init'];
 

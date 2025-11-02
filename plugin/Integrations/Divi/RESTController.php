@@ -12,7 +12,7 @@ class RESTController extends RESTControllerBase
         $option = $request->get_param('option');
         $shortcode = $request->get_param('shortcode');
 
-        // get shortcode defaults
+        // @todo get shortcode defaults
 
         $response = [];
         return static::response_success($response);
