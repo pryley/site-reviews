@@ -110,10 +110,10 @@ class SettingFieldTest extends \WP_UnitTestCase
                 '<td>'.
                     '<div class="glsr-template-editor">'.
                         '<textarea '.
-                            'class="code large-text" '.
+                            'class="autosized code large-text" '.
                             'id="site_reviews-settings-general-request_verification_message" '.
                             'name="site_reviews[settings][general][request_verification_message]" '.
-                            'rows="8"'.
+                            'rows="3"'.
                         '></textarea>'.
                         '<div class="quicktags-toolbar">'.
                             '<input type="button" class="button button-small" data-tag="review_assigned_links" value="assigned links" />'.
@@ -134,6 +134,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                             '<input type="button" class="button button-small" data-tag="verify_url" value="verify url" />'.
                         '</div>'.
                     '</div>'.
+                    '<p class="description">Description</p>'.
                 '</td>'.
             '</tr>'
         );
@@ -235,7 +236,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                 '<td>'.
                     '<input '.
                         'type="text" '.
-                        'class="regular-text" '.
+                        'class="large-text" '.
                         'id="site_reviews-settings-general-require-login_url" '.
                         'name="site_reviews[settings][general][require][login_url]" '.
                         'placeholder="Placeholder" '.
@@ -285,7 +286,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                 '<td>'.
                     '<input '.
                         'type="text" '.
-                        'class="regular-text" '.
+                        'class="large-text" '.
                         'id="site_reviews-settings-general-require-register_url" '.
                         'name="site_reviews[settings][general][require][register_url]" '.
                         'placeholder="Placeholder" '.
@@ -369,7 +370,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                 '<td>'.
                     '<input '.
                         'type="text" '.
-                        'class="regular-text" '.
+                        'class="large-text" '.
                         'id="site_reviews-settings-general-notification_discord" '.
                         'name="site_reviews[settings][general][notification_discord]" '.
                         'autocomplete="off" '.
@@ -392,7 +393,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                 '<td>'.
                     '<input '.
                         'type="text" '.
-                        'class="regular-text" '.
+                        'class="large-text" '.
                         'id="site_reviews-settings-general-notification_slack" '.
                         'name="site_reviews[settings][general][notification_slack]" '.
                         'autocomplete="off" '.
@@ -458,10 +459,10 @@ class SettingFieldTest extends \WP_UnitTestCase
                 '<td>'.
                     '<div class="glsr-template-editor">'.
                         '<textarea '.
-                            'class="code large-text" '.
+                            'class="autosized code large-text" '.
                             'id="site_reviews-settings-general-notification_message" '.
                             'name="site_reviews[settings][general][notification_message]" '.
-                            'rows="9">'.
+                            'rows="3">'.
                         '</textarea>'.
                         '<div class="quicktags-toolbar">'.
                             '<input type="button" class="button button-small" data-tag="approve_url" value="approve url" />'.
@@ -483,6 +484,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                             '<input type="button" class="button button-small" data-tag="site_url" value="site url" />'.
                         '</div>'.
                     '</div>'.
+                    '<p class="description">Description</p>'.
                 '</td>'.
             '</tr>'
         );
@@ -672,7 +674,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews-settings-reviews-avatars_fallback_url">Fallback Avatar URL</label>'.
                 '</th>'.
                 '<td>'.
-                    '<input type="text" class="regular-text" id="site_reviews-settings-reviews-avatars_fallback_url" name="site_reviews[settings][reviews][avatars_fallback_url]" value="" />'.
+                    '<input type="text" class="large-text" id="site_reviews-settings-reviews-avatars_fallback_url" name="site_reviews[settings][reviews][avatars_fallback_url]" value="" />'.
                 '</td>'.
             '</tr>'
         );
@@ -1272,7 +1274,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews-settings-forms-limit_whitelist-email">Email Whitelist</label>'.
                 '</th>'.
                 '<td>'.
-                    '<textarea class="code large-text" id="site_reviews-settings-forms-limit_whitelist-email" name="site_reviews[settings][forms][limit_whitelist][email]" rows="5"></textarea>'.
+                    '<textarea class="autosized code large-text" id="site_reviews-settings-forms-limit_whitelist-email" name="site_reviews[settings][forms][limit_whitelist][email]" rows="3"></textarea>'.
                 '</td>'.
             '</tr>'
         );
@@ -1287,7 +1289,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews-settings-forms-limit_whitelist-ip_address">IP Address Whitelist</label>'.
                 '</th>'.
                 '<td>'.
-                    '<textarea class="code large-text" id="site_reviews-settings-forms-limit_whitelist-ip_address" name="site_reviews[settings][forms][limit_whitelist][ip_address]" rows="5"></textarea>'.
+                    '<textarea class="autosized code large-text" id="site_reviews-settings-forms-limit_whitelist-ip_address" name="site_reviews[settings][forms][limit_whitelist][ip_address]" rows="3"></textarea>'.
                 '</td>'.
             '</tr>'
         );
@@ -1302,7 +1304,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews-settings-forms-limit_whitelist-username">Username Whitelist</label>'.
                 '</th>'.
                 '<td>'.
-                    '<textarea class="code large-text" id="site_reviews-settings-forms-limit_whitelist-username" name="site_reviews[settings][forms][limit_whitelist][username]" rows="5"></textarea>'.
+                    '<textarea class="autosized code large-text" id="site_reviews-settings-forms-limit_whitelist-username" name="site_reviews[settings][forms][limit_whitelist][username]" rows="3"></textarea>'.
                 '</td>'.
             '</tr>'
         );
@@ -1685,7 +1687,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<label for="site_reviews-settings-forms-blacklist-entries">Review Blacklist</label>'.
                 '</th>'.
                 '<td>'.
-                    '<textarea class="code large-text" id="site_reviews-settings-forms-blacklist-entries" name="site_reviews[settings][forms][blacklist][entries]" rows="10"></textarea>'.
+                    '<textarea class="autosized code large-text" id="site_reviews-settings-forms-blacklist-entries" name="site_reviews[settings][forms][blacklist][entries]" rows="3"></textarea>'.
                 '</td>'.
             '</tr>'
         );

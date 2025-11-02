@@ -25,7 +25,7 @@ namespace ElementorPro\Core\Database {
         /**
          * @param \wpdb|null $wpdb_instance
          */
-        public function __construct(\wpdb $wpdb_instance = null)
+        public function __construct(?\wpdb $wpdb_instance = null)
         {
         }
         /**
@@ -273,7 +273,7 @@ namespace ElementorPro\Core\Database {
          *
          * @param \wpdb|null $connection - The Mysql connection instance to use.
          */
-        public function __construct(\wpdb $connection = null)
+        public function __construct(?\wpdb $connection = null)
         {
         }
         /**
@@ -352,7 +352,7 @@ namespace ElementorPro\Core\Database {
          *
          * @return $this
          */
-        public function when($condition, callable $true_callback, callable $false_callback = null)
+        public function when($condition, callable $true_callback, ?callable $false_callback = null)
         {
         }
         /**
@@ -911,7 +911,7 @@ namespace ElementorPro\Core\Database {
          * @param string $model_classname - Model to use inside the builder.
          * @param \wpdb|null $connection - MySQL connection.
          */
-        public function __construct($model_classname, \wpdb $connection = null)
+        public function __construct($model_classname, ?\wpdb $connection = null)
         {
         }
         /**
@@ -1003,7 +1003,7 @@ namespace ElementorPro\Core\Database {
          *
          * @return Query_Builder
          */
-        public static function query(\wpdb $connection = null)
+        public static function query(?\wpdb $connection = null)
         {
         }
         /**
@@ -1063,7 +1063,7 @@ namespace ElementorPro\Core\Database {
          *
          * @return void
          */
-        public function __construct($type, \wpdb $connection = null)
+        public function __construct($type, ?\wpdb $connection = null)
         {
         }
         /**
@@ -4278,7 +4278,7 @@ namespace ElementorPro\Modules\Payments\Classes {
         {
         }
         // Render the checkout button.
-        protected function render_button(\Elementor\Widget_Base $instance = null, $tag = 'a')
+        protected function render_button(?\Elementor\Widget_Base $instance = null, $tag = 'a')
         {
         }
         // Render the widget.
@@ -4552,7 +4552,7 @@ namespace ElementorPro\Modules\Payments\Widgets {
         {
         }
         // Render the payment button.
-        protected function render_button(\Elementor\Widget_Base $instance = null, $tag = 'a')
+        protected function render_button(?\Elementor\Widget_Base $instance = null, $tag = 'a')
         {
         }
         // Account details section.
@@ -4659,7 +4659,7 @@ namespace ElementorPro\Modules\Payments\Widgets {
          *
          * @return array
          */
-        protected function render_button(\Elementor\Widget_Base $instance = null, $tag = 'a')
+        protected function render_button(?\Elementor\Widget_Base $instance = null, $tag = 'a')
         {
         }
         /**
@@ -5187,7 +5187,7 @@ namespace ElementorPro\Modules\Posts\Traits {
          * @since  3.4.0
          * @access protected
          */
-        protected function render_button(\Elementor\Widget_Base $instance = null)
+        protected function render_button(?\Elementor\Widget_Base $instance = null)
         {
         }
         /**
@@ -18748,7 +18748,7 @@ namespace ElementorPro\Modules\Carousel\Widgets {
         protected function register_controls()
         {
         }
-        protected function print_slider(array $settings = null)
+        protected function print_slider(?array $settings = null)
         {
         }
         protected function get_slide_image_url($slide, array $settings)
@@ -18822,7 +18822,7 @@ namespace ElementorPro\Modules\Carousel\Widgets {
         protected function get_image_link_to($slide)
         {
         }
-        protected function print_slider(array $settings = null)
+        protected function print_slider(?array $settings = null)
         {
         }
         protected function print_slide(array $slide, array $settings, $element_key)
@@ -20364,7 +20364,7 @@ namespace ElementorPro\Modules\Notes\Database\Models {
          *
          * @return Query_Builder
          */
-        public static function query(\wpdb $connection = null)
+        public static function query(?\wpdb $connection = null)
         {
         }
         /**
@@ -20572,7 +20572,7 @@ namespace ElementorPro\Modules\Notes\Database\Models {
          *
          * @return Note_Query_Builder
          */
-        public static function query(\wpdb $connection = null)
+        public static function query(?\wpdb $connection = null)
         {
         }
         /**
@@ -20736,7 +20736,7 @@ namespace ElementorPro\Modules\Notes\Database\Models {
          *
          * @return Note_Query_Builder
          */
-        public static function query(\wpdb $connection = null)
+        public static function query(?\wpdb $connection = null)
         {
         }
         /**
@@ -20818,7 +20818,7 @@ namespace ElementorPro\Modules\Notes\Database\Models {
          *
          * @return \ElementorPro\Modules\Notes\Database\Query\User_Query_Builder()
          */
-        public static function query(\wpdb $connection = null)
+        public static function query(?\wpdb $connection = null)
         {
         }
         /**
@@ -20922,7 +20922,7 @@ namespace ElementorPro\Modules\Notes\Database\Query {
          *
          * @param \wpdb|null $connection
          */
-        public function __construct(\wpdb $connection = null)
+        public function __construct(?\wpdb $connection = null)
         {
         }
         /**
@@ -20947,7 +20947,7 @@ namespace ElementorPro\Modules\Notes\Database\Query {
          *
          * @param \wpdb|null $connection
          */
-        public function __construct(\wpdb $connection = null)
+        public function __construct(?\wpdb $connection = null)
         {
         }
         /**
@@ -20973,7 +20973,7 @@ namespace ElementorPro\Modules\Notes\Database\Query {
          *
          * @return $this
          */
-        public function with_replies(callable $callback = null)
+        public function with_replies(?callable $callback = null)
         {
         }
         /**
