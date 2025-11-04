@@ -213,6 +213,8 @@
         <pre><code class="language-bash">/site-reviews/v1/reviews?_fields=id,title,content,rating</code></pre>
         <p>To instruct Site Reviews to return the rendered HTML of the reviews in the response instead of an array of review values, you may use the <code>_rendered</code> query parameter. For example:</p>
         <pre><code class="language-bash">/site-reviews/v1/reviews?_rendered=1</code></pre>
+        <p>To instruct Site Reviews to hide specific fields when rendering reviews, you may use the <code>_hide</code> query parameter. Allowed values are the same as the [site_reviews] shortcode hide options. For example:</p>
+        <pre><code class="language-bash">/site-reviews/v1/reviews?_rendered=1&_hide=rating,title</code></pre>
 
         <h3>List Reviews</h3>
         <p>Query this endpoint to retrieve a collection of reviews. The response you receive can be controlled and filtered using the URL query parameters below.</p>
@@ -314,11 +316,6 @@
                         <td><strong>rating</strong></td>
                         <td></td>
                         <td>Limit result set to reviews containing a given <em>minimum</em> rating.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>rendered</strong></td>
-                        <td>0</td>
-                        <td>Return a rendered result of the reviews and the corresponding pagination. One of: <code>0</code>, <code>1</code></td>
                     </tr>
                     <tr>
                         <td><strong>status</strong></td>

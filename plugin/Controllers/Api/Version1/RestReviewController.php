@@ -2,28 +2,23 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\Api\Version1;
 
-use GeminiLabs\SiteReviews\Controllers\Api\Version1\Response\Prepare;
-use GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema\ReviewParameters;
+use GeminiLabs\SiteReviews\Controllers\Api\Version1\Parameters\ReviewParameters;
+use GeminiLabs\SiteReviews\Controllers\Api\Version1\Permissions\ReviewPermissions;
+use GeminiLabs\SiteReviews\Controllers\Api\Version1\Response\PrepareReviewData;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema\ReviewSchema;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Reviews;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
 class RestReviewController extends \WP_REST_Controller
 {
+    use ReviewPermissions;
+
     public function __construct()
     {
-        $this->namespace = glsr()->id.'/v1';
+        $obj = get_post_type_object(glsr()->post_type);
+        $this->namespace = !empty($obj->rest_namespace) ? $obj->rest_namespace : glsr()->id.'/v1';
         $this->rest_base = 'reviews';
-    }
-
-    /**
-     * @return bool
-     */
-    public function check_read_permission(Review $review)
-    {
-        return $review->is_approved || glsr()->can('read_post', $review->ID);
     }
 
     /**
@@ -52,73 +47,37 @@ class RestReviewController extends \WP_REST_Controller
     /**
      * @param \WP_REST_Request $request
      *
-     * @return true|\WP_Error
-     */
-    public function create_item_permissions_check($request)
-    {
-        if (!empty($request['id'])) {
-            $error = _x('Cannot create existing review.', 'admin-text', 'site-reviews');
-            return new \WP_Error('rest_review_exists', $error, ['status' => 400]);
-        }
-        if (!empty($request['author']) && get_current_user_id() !== $request['author'] && !glsr()->can('edit_others_posts')) {
-            $error = _x('Sorry, you are not allowed to create reviews as this user.', 'admin-text', 'site-reviews');
-            return new \WP_Error('rest_cannot_edit_others', $error, ['status' => rest_authorization_required_code()]);
-        }
-        if (!glsr()->can('create_posts')) {
-            $error = _x('Sorry, you are not allowed to create reviews as this user.', 'admin-text', 'site-reviews');
-            return new \WP_Error('rest_cannot_create', $error, ['status' => rest_authorization_required_code()]);
-        }
-        if (!$this->check_assign_terms_permission($request)) {
-            $error = _x('Sorry, you are not allowed to assign the provided terms.', 'admin-text', 'site-reviews');
-            return new \WP_Error('rest_cannot_assign_term', $error, ['status' => rest_authorization_required_code()]);
-        }
-        return true;
-    }
-
-    /**
-     * @param \WP_REST_Request $request
-     *
      * @return \WP_REST_Response|\WP_Error
      */
     public function delete_item($request)
     {
         $request->set_param('context', 'edit');
+        $review = glsr_get_review($request['id']);
         if ((bool) $request['force']) {
-            return $this->forceDeleteItem($request);
+            $previous = $this->prepare_item_for_response($review, $request);
+            $result = wp_delete_post($review->ID, true);
+            if (false === $result) {
+                $error = _x('The review cannot be deleted.', 'admin-text', 'site-reviews');
+                return new \WP_Error('rest_cannot_delete', $error, ['status' => 500]);
+            }
+            return rest_ensure_response([
+                'deleted' => true,
+                'previous' => $previous->get_data(),
+            ]);
         }
         if (EMPTY_TRASH_DAYS < 1) {
             $error = sprintf(_x('The review does not support trashing. Set "%s" to delete.', 'admin-text', 'site-reviews'), 'force=true');
             return new \WP_Error('rest_trash_not_supported', $error, ['status' => 501]);
         }
-        if ('trash' === get_post_status($request['id'])) {
+        if ('trash' === get_post_status($review->ID)) {
             $error = _x('The review has already been deleted.', 'admin-text', 'site-reviews');
             return new \WP_Error('rest_already_trashed', $error, ['status' => 410]);
         }
-        if (!wp_trash_post($request['id'])) {
+        if (!wp_trash_post($review->ID)) {
             $error = _x('The review cannot be deleted.', 'admin-text', 'site-reviews');
             return new \WP_Error('rest_cannot_delete', $error, ['status' => 500]);
         }
-        $review = glsr_get_review($request['id']);
         return $this->prepare_item_for_response($review, $request);
-    }
-
-    /**
-     * @param \WP_REST_Request $request
-     *
-     * @return true|\WP_Error
-     */
-    public function delete_item_permissions_check($request)
-    {
-        $review = glsr_get_review($request['id']);
-        if (!$review->isValid()) {
-            $error = _x('Invalid review ID.', 'admin-text', 'site-reviews');
-            return new \WP_Error('rest_review_invalid_id', $error, ['status' => 404]);
-        }
-        if (!glsr()->can('delete_post', $review->ID)) {
-            $error = _x('Sorry, you are not allowed to delete this review.', 'admin-text', 'site-reviews');
-            return new \WP_Error('rest_cannot_delete', $error, ['status' => rest_authorization_required_code()]);
-        }
-        return true;
     }
 
     /**
@@ -126,9 +85,9 @@ class RestReviewController extends \WP_REST_Controller
      */
     public function get_collection_params()
     {
-        $params = glsr(ReviewParameters::class)->parameters();
-        $params['context'] = $this->get_context_param(['default' => 'view']);
-        return apply_filters('rest_review_collection_params', $params, glsr()->post_type);
+        return glsr(ReviewParameters::class)->parameters(
+            $this->get_context_param(['default' => 'view'])
+        );
     }
 
     /**
@@ -144,25 +103,6 @@ class RestReviewController extends \WP_REST_Controller
         $review = glsr_get_review($request['id']);
         $data = $this->prepare_item_for_response($review, $request);
         return rest_ensure_response($data);
-    }
-
-    /**
-     * @param \WP_REST_Request $request
-     *
-     * @return true|\WP_Error
-     */
-    public function get_item_permissions_check($request)
-    {
-        $review = glsr_get_review($request['id']);
-        if (!$review->isValid()) {
-            $error = _x('Invalid review ID.', 'admin-text', 'site-reviews');
-            return new \WP_Error('rest_review_invalid_id', $error, ['status' => 404]);
-        }
-        if (!is_user_logged_in() || !$this->check_read_permission($review)) {
-            $error = _x('Sorry, you are not allowed to view this review.', 'admin-text', 'site-reviews');
-            return new \WP_Error('rest_cannot_view', $error, ['status' => rest_authorization_required_code()]);
-        }
-        return true;
     }
 
     /**
@@ -189,7 +129,7 @@ class RestReviewController extends \WP_REST_Controller
         $results = glsr_get_reviews($this->normalizedArgs($request));
         $reviews = [];
         foreach ($results->reviews as $review) {
-            if ($this->check_read_permission($review)) {
+            if ($this->has_read_permission($review)) {
                 $data = $this->prepare_item_for_response($review, $request);
                 $reviews[] = $this->prepare_response_for_collection($data);
             }
@@ -199,31 +139,7 @@ class RestReviewController extends \WP_REST_Controller
             return new \WP_Error('rest_invalid_page_number', $error, ['status' => 400]);
         }
         $response = rest_ensure_response($reviews);
-        if (is_wp_error($response)) { // @phpstan-ignore-line
-            return $response;
-        }
         return $this->prepareResponse($response, $request, $results);
-    }
-
-    /**
-     * @param \WP_REST_Request $request
-     *
-     * @return true|\WP_Error
-     */
-    public function get_items_permissions_check($request)
-    {
-        if (!is_user_logged_in()) {
-            $error = _x('Sorry, you do not have permission to access reviews.', 'admin-text', 'site-reviews');
-        }
-        if ('edit' === $request['context'] && !glsr()->can('edit_posts')) {
-            $error = _x('Sorry, you are not allowed to edit reviews.', 'admin-text', 'site-reviews');
-        }
-        if (isset($error)) {
-            return new \WP_Error('rest_forbidden_context', $error, [
-                'status' => rest_authorization_required_code(),
-            ]);
-        }
-        return true;
     }
 
     /**
@@ -234,24 +150,19 @@ class RestReviewController extends \WP_REST_Controller
      */
     public function prepare_item_for_response($review, $request)
     {
-        $fields = $this->get_fields_for_response($request);
-        $prepare = new Prepare($fields, $review, $request);
-        glsr()->store('api', true); // load all review fields!
-        foreach ($fields as $field) {
-            call_user_func([$prepare, $field]);
-        }
-        glsr()->discard('api');
-        $data = $prepare->item();
+        $context = $request['context'] ?? 'view';
+        $prepare = new PrepareReviewData(
+            $this->get_fields_for_response($request),
+            $review,
+            $request
+        );
+        $data = $prepare->data();
         $data = $this->add_additional_fields_to_object($data, $request);
-        $data = $this->filter_response_by_context($data, Arr::get($request, 'context', 'view'));
+        $data = $this->filter_response_by_context($data, $context);
         $response = rest_ensure_response($data);
-        $links = $this->prepareLinks($review);
-        $response->add_links($links);
-        if ($self = Arr::get($links, 'self.href')) {
-            $actions = $this->getAvailableActions($review, $request);
-            foreach ($actions as $rel) {
-                $response->add_link($rel, $self);
-            }
+        $response->add_links($this->prepareLinks($review));
+        if ('edit' === $context) {
+            $response->add_links($this->prepareLinksForEdit($review));
         }
         return $response; // @todo filter this, i.e. "rest_prepare_{glsr()->post_type}"
     }
@@ -262,20 +173,28 @@ class RestReviewController extends \WP_REST_Controller
     public function register_routes()
     {
         register_rest_route($this->namespace, "/{$this->rest_base}", [
+            'schema' => [$this, 'get_public_item_schema'],
             [
                 'args' => $this->get_collection_params(),
                 'callback' => [$this, 'get_items'],
                 'methods' => \WP_REST_Server::READABLE,
                 'permission_callback' => [$this, 'get_items_permissions_check'],
-            ], [
+            ],
+            [
                 'args' => $this->get_endpoint_args_for_item_schema(\WP_REST_Server::CREATABLE),
                 'callback' => [$this, 'create_item'],
                 'methods' => \WP_REST_Server::CREATABLE,
                 'permission_callback' => [$this, 'create_item_permissions_check'],
             ],
-            'schema' => [$this, 'get_public_item_schema'],
         ]);
         register_rest_route($this->namespace, "/{$this->rest_base}".'/(?P<id>[\d]+)', [
+            'args' => [
+                'id' => [
+                    'description' => _x('Unique identifier for the object.', 'admin-text', 'site-reviews'),
+                    'type' => 'integer',
+                ],
+            ],
+            'schema' => [$this, 'get_public_item_schema'],
             [
                 'args' => [
                     'context' => $this->get_context_param(['default' => 'view']),
@@ -302,13 +221,6 @@ class RestReviewController extends \WP_REST_Controller
                 'methods' => \WP_REST_Server::DELETABLE,
                 'permission_callback' => [$this, 'delete_item_permissions_check'],
             ],
-            'args' => [
-                'id' => [
-                    'description' => _x('Unique identifier for the object.', 'admin-text', 'site-reviews'),
-                    'type' => 'integer',
-                ],
-            ],
-            'schema' => [$this, 'get_public_item_schema'],
         ]);
     }
 
@@ -333,101 +245,7 @@ class RestReviewController extends \WP_REST_Controller
         return $response;
     }
 
-    /**
-     * @param \WP_REST_Request $request
-     *
-     * @return true|\WP_Error
-     */
-    public function update_item_permissions_check($request)
-    {
-        $review = glsr_get_review($request['id']);
-        if (!$review->isValid()) {
-            $error = _x('Invalid review ID.', 'admin-text', 'site-reviews');
-            return new \WP_Error('rest_review_invalid_id', $error, ['status' => 404]);
-        }
-        if (!glsr()->can('edit_post', $review->ID)) {
-            $error = _x('Sorry, you are not allowed to edit this review.', 'admin-text', 'site-reviews');
-            return new \WP_Error('rest_cannot_edit', $error, ['status' => rest_authorization_required_code()]);
-        }
-        if (!empty($request['author']) && get_current_user_id() !== $request['author'] && !glsr()->can('edit_others_posts')) {
-            $error = _x('Sorry, you are not allowed to update reviews as this user.', 'admin-text', 'site-reviews');
-            return new \WP_Error('rest_cannot_edit_others', $error, ['status' => rest_authorization_required_code()]);
-        }
-        if (!$this->check_assign_terms_permission($request)) {
-            $error = _x('Sorry, you are not allowed to assign the provided terms.', 'admin-text', 'site-reviews');
-            return new \WP_Error('rest_cannot_assign_term', $error, ['status' => rest_authorization_required_code()]);
-        }
-        return true;
-    }
-
-    /**
-     * @param \WP_REST_Request $request
-     *
-     * @return bool
-     */
-    protected function check_assign_terms_permission($request)
-    {
-        $terms = Arr::consolidate($request['assigned_terms']);
-        foreach ($terms as $termId) {
-            if (!get_term($termId, glsr()->taxonomy)) {
-                continue; // Invalid terms will be rejected later
-            }
-            if (!current_user_can('assign_term', (int) $termId)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * @param \WP_REST_Request $request
-     *
-     * @return \WP_REST_Response|\WP_Error
-     */
-    public function forceDeleteItem($request)
-    {
-        $review = glsr_get_review($request['id']);
-        $previous = $this->prepare_item_for_response($review, $request);
-        $result = wp_delete_post($review->ID, true);
-        if (false === $result) {
-            $error = _x('The review cannot be deleted.', 'admin-text', 'site-reviews');
-            return new \WP_Error('rest_cannot_delete', $error, ['status' => 500]);
-        }
-        return rest_ensure_response([
-            'deleted' => true,
-            'previous' => $previous->get_data(),
-        ]);
-    }
-
-    /**
-     * @return array
-     */
-    protected function getAvailableActions(Review $review, \WP_REST_Request $request)
-    {
-        if ('edit' !== $request['context']) {
-            return [];
-        }
-        $rels = [];
-        $taxonomy = get_taxonomy(glsr()->taxonomy);
-        if (glsr()->can('publish_posts')) {
-            $rels[] = 'https://api.w.org/action-publish';
-        }
-        if (glsr()->can('edit_others_posts')) {
-            $rels[] = 'https://api.w.org/action-assign-author';
-        }
-        if (current_user_can($taxonomy->cap->edit_terms)) {
-            $rels[] = 'https://api.w.org/action-create-'.glsr()->taxonomy;
-        }
-        if (current_user_can($taxonomy->cap->assign_terms)) {
-            $rels[] = 'https://api.w.org/action-assign-'.glsr()->taxonomy;
-        }
-        return $rels;
-    }
-
-    /**
-     * @return array
-     */
-    protected function normalizedArgs(\WP_REST_Request $request)
+    protected function normalizedArgs(\WP_REST_Request $request): array
     {
         $args = [];
         $registered = $this->get_collection_params();
@@ -445,12 +263,9 @@ class RestReviewController extends \WP_REST_Controller
         return glsr()->filterArray("rest-api/{$this->rest_base}/args", $args, $request);
     }
 
-    /**
-     * @return array
-     */
-    protected function prepareLinks(Review $review)
+    protected function prepareLinks(Review $review): array
     {
-        $base = $this->namespace.'/'.$this->rest_base;
+        $base = "{$this->namespace}/{$this->rest_base}";
         $revisions = wp_get_post_revisions($review->ID, ['fields' => 'ids']);
         $revisionCount = count($revisions);
         $links = [
@@ -498,10 +313,35 @@ class RestReviewController extends \WP_REST_Controller
         return $links;
     }
 
-    /**
-     * @return \WP_REST_Response
-     */
-    protected function prepareResponse(\WP_REST_Response $response, \WP_REST_Request $request, Reviews $reviews)
+    protected function prepareLinksForEdit(Review $review): array
+    {
+        $links = [];
+        $reviewRestUrl = rest_url(trailingslashit("{$this->namespace}/{$this->rest_base}").$review->ID);
+        $taxonomy = get_taxonomy(glsr()->taxonomy);
+        if (glsr()->can('publish_posts')) {
+            $links['https://api.w.org/action-publish'] = [
+                'href' => $reviewRestUrl,
+            ];
+        }
+        if (glsr()->can('edit_others_posts')) {
+            $links['https://api.w.org/action-assign-author'] = [
+                'href' => $reviewRestUrl,
+            ];
+        }
+        if (current_user_can($taxonomy->cap->edit_terms)) {
+            $links['https://api.w.org/action-create-'.glsr()->taxonomy] = [
+                'href' => $reviewRestUrl,
+            ];
+        }
+        if (current_user_can($taxonomy->cap->assign_terms)) {
+            $links['https://api.w.org/action-assign-'.glsr()->taxonomy] = [
+                'href' => $reviewRestUrl,
+            ];
+        }
+        return $links;
+    }
+
+    protected function prepareResponse(\WP_REST_Response $response, \WP_REST_Request $request, Reviews $reviews): \WP_REST_Response
     {
         $page = $reviews->args['page'];
         $ratings = glsr_get_ratings($this->normalizedArgs($request));
@@ -527,20 +367,20 @@ class RestReviewController extends \WP_REST_Controller
         return $response;
     }
 
-    protected function renderedItem(\WP_REST_Request $request)
+    protected function renderedItem(\WP_REST_Request $request): \WP_REST_Response
     {
         $args = $this->normalizedArgs($request);
-        $args['hide'] = $request['_rendered_hide'] ?? '';
+        $args['hide'] = $request['_hide'] ?? $request['_rendered_hide'] ?? '';
         $review = glsr_get_review($request['id']);
         return rest_ensure_response([
             'rendered' => (string) $review->build($args),
         ]);
     }
 
-    protected function renderedItems(\WP_REST_Request $request)
+    protected function renderedItems(\WP_REST_Request $request): \WP_REST_Response
     {
         $args = $this->normalizedArgs($request);
-        $args['hide'] = $request['_rendered_hide'] ?? '';
+        $args['hide'] = $request['_hide'] ?? $request['_rendered_hide'] ?? '';
         $html = glsr(SiteReviewsShortcode::class)
             ->normalize($args)
             ->buildReviewsHtml();

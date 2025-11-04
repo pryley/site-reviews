@@ -28,7 +28,7 @@ const Edit = (props) => {
     });
 
     const endpoint = useMemo(
-        () => addQueryArgs('/site-reviews/v1/summary/stars', {
+        () => addQueryArgs('/site-reviews/v1/summary/rating', {
             _block: name,
             assigned_posts: postId,
         }),

@@ -26,6 +26,7 @@ class PostTypeDefaults extends DefaultsAbstract
             'public' => false,
             'query_var' => true,
             'rest_controller_class' => RestReviewController::class,
+            'rest_namespace' => glsr()->id.'/v1',
             'rewrite' => ['with_front' => false],
             'show_in_menu' => true,
             'show_in_rest' => true,

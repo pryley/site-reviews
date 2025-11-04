@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Hooks;
 
-use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestController;
+use GeminiLabs\SiteReviews\Controllers\RestController;
 
 class RestHooks extends AbstractHooks
 {

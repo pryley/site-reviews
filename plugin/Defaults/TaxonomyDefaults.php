@@ -20,6 +20,7 @@ class TaxonomyDefaults extends DefaultsAbstract
             'meta_box_cb' => [glsr(TaxonomyMetabox::class), 'render'],
             'public' => false,
             'rest_controller_class' => RestCategoryController::class,
+            'rest_namespace' => glsr()->id.'/v1',
             'show_admin_column' => true,
             'show_in_rest' => true,
             'show_ui' => true,

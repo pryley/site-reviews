@@ -15,7 +15,7 @@ class RestController implements ControllerContract
      */
     public function filterRestApiSummaryArgs(array $args, \WP_REST_Request $request): array
     {
-        if ('/site-reviews/v1/summary/stars' !== $request->get_route()) {
+        if ('/site-reviews/v1/summary/rating' !== $request->get_route()) {
             return $args;
         }
         if (!str_contains((string) $request->get_param('_block'), 'surecart-product-rating')) {
