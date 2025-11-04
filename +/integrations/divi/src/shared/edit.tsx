@@ -33,6 +33,7 @@ const ModuleEdit = (props: EditProps): ReactElement => {
 
     const parseAttrs = (): Record<string, any> => {
         const settings = attrs?.shortcode?.advanced || {};
+        const allowedAttrNames = Object.keys(elements?.moduleMetadata?.attributes?.shortcode?.settings?.advanced || settings);
         const attrNames = Object.keys(settings);
         const results: Record<string, any> = {
             context: 'edit',
@@ -45,6 +46,9 @@ const ModuleEdit = (props: EditProps): ReactElement => {
             // @ts-expect-error
             if (['on', 'off'].includes(value)) {
                 value = 'on' === value ? 1 : 0;
+            }
+            if (!allowedAttrNames.includes(attName)) {
+                value = null;
             }
             results[`attributes[${attName}]`] = value;
         });

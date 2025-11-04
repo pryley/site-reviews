@@ -16,5 +16,4 @@ export const moduleClassnames = ({
     classnamesInstance.add(textOptionsClassnames(attrs?.module?.advanced?.text))
     classnamesInstance.add('has-custom-color', isString(ratingColor) && '' !== ratingColor)
     classnamesInstance.add('preset--module--divi-contact-form--default') // inherit default style of contact form
-
 };
