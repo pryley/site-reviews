@@ -101,152 +101,152 @@ msgctxt "admin-text"
 msgid "Manage Review Categories"
 msgstr ""
 
-#: helpers.php:101, plugin/Controllers/MenuController.php:122, plugin/Controllers/MenuController.php:181, plugin/Controllers/MenuController.php:252
+#: helpers.php:95, plugin/Controllers/MenuController.php:122, plugin/Controllers/MenuController.php:181, plugin/Controllers/MenuController.php:252
 msgctxt "admin-text"
 msgid "Addons"
 msgstr ""
 
-#: helpers.php:102, plugin/Controllers/MenuController.php:120
+#: helpers.php:96, plugin/Controllers/MenuController.php:120
 msgctxt "admin-text"
 msgid "API"
 msgstr ""
 
-#: helpers.php:103, plugin/Controllers/MenuController.php:202
+#: helpers.php:97, plugin/Controllers/MenuController.php:202
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
 
-#: helpers.php:104, plugin/Controllers/MenuController.php:67
+#: helpers.php:98, plugin/Controllers/MenuController.php:67
 msgctxt "admin-text"
 msgid "Help & Support"
 msgstr ""
 
-#: helpers.php:105, plugin/Commands/DetectIpAddress.php:13, plugin/Controllers/MenuController.php:116
+#: helpers.php:99, plugin/Commands/DetectIpAddress.php:13, plugin/Controllers/MenuController.php:116
 msgctxt "admin-text"
 msgid "FAQ"
 msgstr ""
 
-#: helpers.php:106, plugin/Controllers/MenuController.php:177
+#: helpers.php:100, plugin/Controllers/MenuController.php:177
 msgctxt "admin-text"
 msgid "Forms"
 msgstr ""
 
-#: helpers.php:107, plugin/Controllers/MenuController.php:119
+#: helpers.php:101, plugin/Controllers/MenuController.php:119
 msgctxt "admin-text"
 msgid "Functions"
 msgstr ""
 
-#: helpers.php:108, plugin/Controllers/MenuController.php:175, plugin/Controllers/MenuController.php:199, plugin/Integrations/Breakdance/Transformer.php:114, plugin/Integrations/Bricks/BricksElement.php:99, plugin/Integrations/Flatsome/FlatsomeShortcode.php:23, plugin/Integrations/FusionBuilder/Transformer.php:32, plugin/Integrations/WPBakery/VcShortcode.php:46, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:66, plugin/Integrations/FusionBuilder/Elements/FusionElement.php:17
+#: helpers.php:102, plugin/Controllers/MenuController.php:175, plugin/Controllers/MenuController.php:199, plugin/Integrations/Breakdance/Transformer.php:114, plugin/Integrations/Bricks/BricksElement.php:104, plugin/Integrations/Flatsome/FlatsomeShortcode.php:23, plugin/Integrations/FusionBuilder/Transformer.php:32, plugin/Integrations/WPBakery/VcShortcode.php:46, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:66, plugin/Integrations/FusionBuilder/Elements/FusionElement.php:17
 msgctxt "admin-text"
 msgid "General"
 msgstr ""
 
-#: helpers.php:109, plugin/Controllers/MenuController.php:118
+#: helpers.php:103, plugin/Controllers/MenuController.php:118
 msgctxt "admin-text"
 msgid "Hooks"
 msgstr ""
 
-#: helpers.php:110, plugin/Controllers/MenuController.php:121, plugin/Controllers/MenuController.php:180
+#: helpers.php:104, plugin/Controllers/MenuController.php:121, plugin/Controllers/MenuController.php:180
 msgctxt "admin-text"
 msgid "Integrations"
 msgstr ""
 
-#: helpers.php:111, plugin/Controllers/MenuController.php:182
+#: helpers.php:105, plugin/Controllers/MenuController.php:182
 msgctxt "admin-text"
 msgid "Licenses"
 msgstr ""
 
-#: helpers.php:113, plugin/Controllers/MenuController.php:176, plugin/Controllers/PrivacyController.php:136, plugin/Defaults/PostTypeLabelDefaults.php:29, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31, plugin/Integrations/SureCart/Controllers/ProductController.php:158, plugin/Integrations/WooCommerce/Metaboxes/ReviewsMetabox.php:15
+#: helpers.php:107, plugin/Controllers/MenuController.php:176, plugin/Controllers/PrivacyController.php:136, plugin/Defaults/PostTypeLabelDefaults.php:29, views/integrations/woocommerce/bulk-edit.php:6, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31, plugin/Integrations/SureCart/Controllers/ProductController.php:158, plugin/Integrations/WooCommerce/Metaboxes/ReviewsMetabox.php:15
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr ""
 
-#: helpers.php:114, plugin/Controllers/MenuController.php:200
+#: helpers.php:108, plugin/Controllers/MenuController.php:200
 msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr ""
 
-#: helpers.php:115, plugin/Controllers/MenuController.php:178, plugin/Tinymce/SiteReviewsSummaryTinymce.php:62, plugin/Tinymce/SiteReviewsTinymce.php:69, plugin/Integrations/Breakdance/Transformer.php:105, plugin/Integrations/Bricks/Controller.php:39, plugin/Integrations/Flatsome/FlatsomeShortcode.php:24, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:87
+#: helpers.php:109, plugin/Controllers/MenuController.php:178, plugin/Tinymce/SiteReviewsSummaryTinymce.php:62, plugin/Tinymce/SiteReviewsTinymce.php:69, plugin/Integrations/Breakdance/Transformer.php:105, plugin/Integrations/Bricks/Controller.php:39, plugin/Integrations/Flatsome/FlatsomeShortcode.php:24, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:87
 msgctxt "admin-text"
 msgid "Schema"
 msgstr ""
 
-#: helpers.php:116, plugin/Addons/Controller.php:51, plugin/Controllers/AdminController.php:72, plugin/Controllers/MenuController.php:65, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
+#: helpers.php:110, plugin/Addons/Controller.php:51, plugin/Controllers/AdminController.php:72, plugin/Controllers/MenuController.php:65, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
 msgctxt "admin-text"
 msgid "Settings"
 msgstr ""
 
-#: helpers.php:117, plugin/Controllers/MenuController.php:117
+#: helpers.php:111, plugin/Controllers/MenuController.php:117
 msgctxt "admin-text"
 msgid "Shortcodes"
 msgstr ""
 
-#: helpers.php:118, config/settings.php:425, plugin/Controllers/MenuController.php:179
+#: helpers.php:112, config/settings.php:425, plugin/Controllers/MenuController.php:179
 msgctxt "admin-text"
 msgid "Strings"
 msgstr ""
 
-#: helpers.php:119, plugin/Addons/Controller.php:284, plugin/Controllers/MenuController.php:115, plugin/Controllers/WelcomeController.php:65
+#: helpers.php:113, plugin/Addons/Controller.php:284, plugin/Controllers/MenuController.php:115, plugin/Controllers/WelcomeController.php:65
 msgctxt "admin-text"
 msgid "Support"
 msgstr ""
 
-#: helpers.php:121, plugin/Controllers/MenuController.php:203
+#: helpers.php:115, plugin/Controllers/MenuController.php:203
 msgctxt "admin-text"
 msgid "System Info"
 msgstr ""
 
-#: helpers.php:122, plugin/Controllers/MenuController.php:66
+#: helpers.php:116, plugin/Controllers/MenuController.php:66
 msgctxt "admin-text"
 msgid "Tools"
 msgstr ""
 
-#: helpers.php:136
+#: helpers.php:130
 msgctxt "admin-text"
 msgid "All Reviews"
 msgstr ""
 
-#: helpers.php:269
+#: helpers.php:248
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr ""
 
-#: helpers.php:270
+#: helpers.php:249
 msgctxt "admin-text"
 msgid "Review Actions"
 msgstr ""
 
-#: helpers.php:271
+#: helpers.php:250
 msgctxt "admin-text"
 msgid "Review Authors"
 msgstr ""
 
-#: helpers.php:272
+#: helpers.php:251
 msgctxt "admin-text"
 msgid "Review Filters"
 msgstr ""
 
-#: helpers.php:273
+#: helpers.php:252
 msgctxt "admin-text"
 msgid "Review Forms"
 msgstr ""
 
-#: helpers.php:274
+#: helpers.php:253
 msgctxt "admin-text"
 msgid "Review Images"
 msgstr ""
 
-#: helpers.php:275
+#: helpers.php:254
 msgctxt "admin-text"
 msgid "Review Notifications"
 msgstr ""
 
-#: helpers.php:276
+#: helpers.php:255
 msgctxt "admin-text"
 msgid "Site Reviews Premium"
 msgstr ""
 
-#: helpers.php:277
+#: helpers.php:256
 msgctxt "admin-text"
 msgid "Review Themes"
 msgstr ""
@@ -4846,7 +4846,7 @@ msgctxt "admin-text"
 msgid "Text"
 msgstr ""
 
-#: plugin/Integrations/Breakdance/Transformer.php:115, plugin/Integrations/Bricks/BricksElement.php:101, plugin/Integrations/Flatsome/FlatsomeShortcode.php:29, plugin/Integrations/FusionBuilder/Transformer.php:33, plugin/Integrations/WPBakery/VcShortcode.php:54, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:71
+#: plugin/Integrations/Breakdance/Transformer.php:115, plugin/Integrations/Bricks/BricksElement.php:106, plugin/Integrations/Flatsome/FlatsomeShortcode.php:29, plugin/Integrations/FusionBuilder/Transformer.php:33, plugin/Integrations/WPBakery/VcShortcode.php:54, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:71
 msgctxt "admin-text"
 msgid "Advanced"
 msgstr ""
@@ -4856,7 +4856,7 @@ msgctxt "admin-text"
 msgid "Select..."
 msgstr ""
 
-#: plugin/Integrations/Bricks/BricksElement.php:100, plugin/Integrations/Flatsome/FlatsomeShortcode.php:22, plugin/Integrations/FusionBuilder/Transformer.php:31, plugin/Integrations/WPBakery/VcShortcode.php:50, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:76, plugin/Integrations/FusionBuilder/Elements/FusionElement.php:16
+#: plugin/Integrations/Bricks/BricksElement.php:105, plugin/Integrations/Flatsome/FlatsomeShortcode.php:22, plugin/Integrations/FusionBuilder/Transformer.php:31, plugin/Integrations/WPBakery/VcShortcode.php:50, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:76, plugin/Integrations/FusionBuilder/Elements/FusionElement.php:16
 msgctxt "admin-text"
 msgid "Design"
 msgstr ""
@@ -5026,7 +5026,7 @@ msgctxt "admin-text"
 msgid "Invalid review."
 msgstr ""
 
-#: plugin/Integrations/Flatsome/FlatsomeShortcode.php:103
+#: plugin/Integrations/Flatsome/FlatsomeShortcode.php:106
 msgctxt "admin-text"
 msgid "Flatsome does not support multiple checkboxes here so use the dropdown to select fields that you want to hide."
 msgstr ""
@@ -6154,94 +6154,44 @@ msgctxt "{{ assigned_terms }} (admin-text)"
 msgid "Categories with a higher priority will be displayed first when using the %s template tag in the review."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:38
+#: plugin/Controllers/Api/Version1/RestReviewController.php:33
 msgctxt "admin-text"
 msgid "Review creation failed, please check the Site Reviews console log for more details."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:60
-msgctxt "admin-text"
-msgid "Cannot create existing review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestReviewController.php:64, plugin/Controllers/Api/Version1/RestReviewController.php:68
-msgctxt "admin-text"
-msgid "Sorry, you are not allowed to create reviews as this user."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestReviewController.php:72, plugin/Controllers/Api/Version1/RestReviewController.php:357
-msgctxt "admin-text"
-msgid "Sorry, you are not allowed to assign the provided terms."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestReviewController.php:90
-msgctxt "admin-text"
-msgid "The review does not support trashing. Set \"%s\" to delete."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestReviewController.php:94
-msgctxt "admin-text"
-msgid "The review has already been deleted."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestReviewController.php:98, plugin/Controllers/Api/Version1/RestReviewController.php:393
+#: plugin/Controllers/Api/Version1/RestReviewController.php:60, plugin/Controllers/Api/Version1/RestReviewController.php:77
 msgctxt "admin-text"
 msgid "The review cannot be deleted."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:114, plugin/Controllers/Api/Version1/RestReviewController.php:158, plugin/Controllers/Api/Version1/RestReviewController.php:345
+#: plugin/Controllers/Api/Version1/RestReviewController.php:69
 msgctxt "admin-text"
-msgid "Invalid review ID."
+msgid "The review does not support trashing. Set \"%s\" to delete."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:118
+#: plugin/Controllers/Api/Version1/RestReviewController.php:73
 msgctxt "admin-text"
-msgid "Sorry, you are not allowed to delete this review."
+msgid "The review has already been deleted."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:162
-msgctxt "admin-text"
-msgid "Sorry, you are not allowed to view this review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestReviewController.php:198
+#: plugin/Controllers/Api/Version1/RestReviewController.php:138
 msgctxt "admin-text"
 msgid "The page number requested is larger than the number of pages available."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:216
-msgctxt "admin-text"
-msgid "Sorry, you do not have permission to access reviews."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestReviewController.php:219
-msgctxt "admin-text"
-msgid "Sorry, you are not allowed to edit reviews."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestReviewController.php:297
-msgctxt "admin-text"
-msgid "Whether to bypass Trash and force deletion."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestReviewController.php:307
+#: plugin/Controllers/Api/Version1/RestReviewController.php:193
 msgctxt "admin-text"
 msgid "Unique identifier for the object."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:324
+#: plugin/Controllers/Api/Version1/RestReviewController.php:216
+msgctxt "admin-text"
+msgid "Whether to bypass Trash and force deletion."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/RestReviewController.php:236
 msgctxt "admin-text"
 msgid "Review update failed, please check the Site Reviews console log for more details."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestReviewController.php:349
-msgctxt "admin-text"
-msgid "Sorry, you are not allowed to edit this review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestReviewController.php:353
-msgctxt "admin-text"
-msgid "Sorry, you are not allowed to update reviews as this user."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/RestShortcodeController.php:43
@@ -6249,19 +6199,9 @@ msgctxt "admin-text"
 msgid "Sorry, you are not allowed to do that."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:62
+#: plugin/Controllers/Api/Version1/RestSummaryController.php:78
 msgctxt "admin-text"
-msgid "Sorry, you are not allowed to view review summaries."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestTypeController.php:25
-msgctxt "admin-text"
-msgid "There are no review types."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestTypeController.php:39
-msgctxt "admin-text"
-msgid "Sorry, you are not allowed to view review types."
+msgid "Sorry, you are not allowed to view rating summaries."
 msgstr ""
 
 #: plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:27, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:26, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:29, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:26
@@ -7062,109 +7002,164 @@ msgctxt "wordpress.org (admin-text)"
 msgid "Unable to connect to %s to get the available plugin versions."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:13, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:13
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:13, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:13
 msgctxt "admin-text"
 msgid "Limit result set to reviews published after a given ISO8601 compliant date."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:19, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:19
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:19, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:19
 msgctxt "admin-text"
 msgid "Limit result set to reviews assigned to specific posts of any public post type."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:27, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:27
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:27, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:27
 msgctxt "admin-text"
 msgid "Limit result set to reviews assigned to specific terms in the %s taxonomy."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:35, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:35
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:35, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:35
 msgctxt "admin-text"
 msgid "Limit result set to reviews assigned to specific users."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:42, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:42
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:42, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:42
 msgctxt "admin-text"
 msgid "Limit result set to reviews published before a given ISO8601 compliant date."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:47, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:47
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:47, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:47
 msgctxt "admin-text"
 msgid "Limit result set to reviews published on a given ISO8601 compliant date."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:52, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:52
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:52, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:52
 msgctxt "admin-text"
 msgid "Limit result set to reviews containing a given email address."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:58, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:58
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:58, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:58
 msgctxt "admin-text"
 msgid "Ensure result set excludes specific review IDs."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:64, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:64
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:64, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:64
 msgctxt "admin-text"
 msgid "Limit result set to specific review IDs."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:69, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:69
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:69, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:69
 msgctxt "admin-text"
 msgid "Limit result set to reviews submitted from a given IP address."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:74
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:74
 msgctxt "admin-text"
 msgid "Offset the result set by a specific number of items."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:79
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:79
 msgctxt "admin-text"
 msgid "Order sort attribute ascending or descending."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:85
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:85
 msgctxt "admin-text"
 msgid "Sort collection by object attribute."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:91
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:91
 msgctxt "admin-text"
 msgid "Current page of the collection."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:98
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:98
 msgctxt "admin-text"
 msgid "Maximum number of items to be returned in result set."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:105, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:74
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:105, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:74
 msgctxt "admin-text"
 msgid "Limit result set to reviews containing a given minimum rating."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:112, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:81
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:112, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:81
 msgctxt "admin-text"
 msgid "Limit result set to reviews containing a given status."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:117, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:86
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:117, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:86
 msgctxt "admin-text"
 msgid "Limit result set to reviews submitted with terms accepted."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:121, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:90
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:121, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:90
 msgctxt "admin-text"
 msgid "Limit result set to reviews containing a given review type."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:127, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:96
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:127, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:96
 msgctxt "admin-text"
 msgid "Limit result set to reviews authored by specific users."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:135, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:104
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:135, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:104
 msgctxt "admin-text"
 msgid "Ensure result set excludes reviews authored by specific users."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:18
+msgctxt "admin-text"
+msgid "Cannot create existing review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:22
+msgctxt "admin-text"
+msgid "Sorry, you are not allowed to create reviews as this user."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:26
+msgctxt "admin-text"
+msgid "Sorry, you are not allowed to create reviews as this review author."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:30, plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:132
+msgctxt "admin-text"
+msgid "Sorry, you are not allowed to assign the provided terms."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:45, plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:68, plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:114
+msgctxt "admin-text"
+msgid "Invalid review ID."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:51
+msgctxt "admin-text"
+msgid "Sorry, you are not allowed to delete this review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:74
+msgctxt "admin-text"
+msgid "Sorry, you are not allowed to view this review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:90
+msgctxt "admin-text"
+msgid "Sorry, you do not have permission to access reviews."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:97
+msgctxt "admin-text"
+msgid "Sorry, you are not allowed to edit reviews."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:120
+msgctxt "admin-text"
+msgid "Sorry, you are not allowed to edit this review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:126
+msgctxt "admin-text"
+msgid "Sorry, you are not allowed to update the review as this user."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:32
