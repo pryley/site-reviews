@@ -167,6 +167,5 @@ class Controller extends AbstractController
         $dependencyTree->add_dependency(new Modules\SiteReviews\Module());
         $dependencyTree->add_dependency(new Modules\SiteReviewsForm\Module());
         $dependencyTree->add_dependency(new Modules\SiteReviewsSummary\Module());
-        $dependencyTree->add_dependency(new RESTRegistration());
     }
 }
