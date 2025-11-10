@@ -81,7 +81,7 @@ class ExperimentsController implements ControllerContract
     {
         $data = [];
         foreach ($reviews as $review) {
-            $data[] = new \WP_Comment((object) [ // @phpstan-ignore-line
+            $comment = new \WP_Comment((object) [ // @phpstan-ignore-line
                 'comment_agent' => '',
                 'comment_approved' => (string) $review->is_approved,
                 'comment_author' => $review->name,
@@ -98,6 +98,8 @@ class ExperimentsController implements ControllerContract
                 'comment_type' => 'review',
                 'user_id' => $review->user_id,
             ]);
+            $comment->populated_children(true); // prevents infinite recursion
+            $data[] = $comment;
         }
         return $data;
     }
