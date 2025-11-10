@@ -438,15 +438,17 @@ class ReviewFieldTest extends \WP_UnitTestCase
     {
         $this->assertEquals(
             '<div class="glsr-field glsr-field-choice glsr-required" data-field="foobar" data-type="toggle">'.
-                '<span class="glsr-field-toggle">'.
-                    '<span class="glsr-toggle">'.
-                        '<label for="site-reviews-foobar-1">Foobar</label>'.
-                        '<span class="glsr-toggle-switch">'.
-                            '<input type="checkbox" class="glsr-input-toggle" id="site-reviews-foobar-1" name="site-reviews[foobar]" required value="1" /> &#8203; <!-- zero-space character used for alignment -->'.
-                            '<span class="glsr-toggle-track"></span>'.
+                '<div class="glsr-field-subgroup">'.
+                    '<span class="glsr-field-toggle">'.
+                        '<span class="glsr-toggle">'.
+                            '<label for="site-reviews-foobar-1">Foobar</label>'.
+                            '<span class="glsr-toggle-switch">'.
+                                '<input type="checkbox" class="glsr-input-toggle" id="site-reviews-foobar-1" name="site-reviews[foobar]" required value="1" /> &#8203; <!-- zero-space character used for alignment -->'.
+                                '<span class="glsr-toggle-track"></span>'.
+                            '</span>'.
                         '</span>'.
                     '</span>'.
-                '</span>'.
+                '</div>'.
                 '<div class="glsr-field-error"></div>'.
             '</div>',
             $this->build([
@@ -465,24 +467,26 @@ class ReviewFieldTest extends \WP_UnitTestCase
                 '<label class="glsr-label" for="">'.
                     '<span>Foobar</span>'.
                 '</label>'.
-                '<span class="glsr-field-toggle">'.
-                    '<span class="glsr-toggle">'.
-                        '<label for="site-reviews-foobar-1">Foo</label>'.
-                        '<span class="glsr-toggle-switch">'.
-                            '<input type="checkbox" class="glsr-input-toggle" id="site-reviews-foobar-1" name="site-reviews[foobar][]" value="foo" /> &#8203; <!-- zero-space character used for alignment -->'.
-                            '<span class="glsr-toggle-track"></span>'.
+                '<div class="glsr-field-subgroup">'.
+                    '<span class="glsr-field-toggle">'.
+                        '<span class="glsr-toggle">'.
+                            '<label for="site-reviews-foobar-1">Foo</label>'.
+                            '<span class="glsr-toggle-switch">'.
+                                '<input type="checkbox" class="glsr-input-toggle" id="site-reviews-foobar-1" name="site-reviews[foobar][]" value="foo" /> &#8203; <!-- zero-space character used for alignment -->'.
+                                '<span class="glsr-toggle-track"></span>'.
+                            '</span>'.
                         '</span>'.
                     '</span>'.
-                '</span>'.
-                '<span class="glsr-field-toggle">'.
-                    '<span class="glsr-toggle">'.
-                        '<label for="site-reviews-foobar-2">Bar</label>'.
-                        '<span class="glsr-toggle-switch">'.
-                            '<input type="checkbox" class="glsr-input-toggle" id="site-reviews-foobar-2" name="site-reviews[foobar][]" value="bar" /> &#8203; <!-- zero-space character used for alignment -->'.
-                            '<span class="glsr-toggle-track"></span>'.
+                    '<span class="glsr-field-toggle">'.
+                        '<span class="glsr-toggle">'.
+                            '<label for="site-reviews-foobar-2">Bar</label>'.
+                            '<span class="glsr-toggle-switch">'.
+                                '<input type="checkbox" class="glsr-input-toggle" id="site-reviews-foobar-2" name="site-reviews[foobar][]" value="bar" /> &#8203; <!-- zero-space character used for alignment -->'.
+                                '<span class="glsr-toggle-track"></span>'.
+                            '</span>'.
                         '</span>'.
                     '</span>'.
-                '</span>'.
+                '</div>'.
                 '<div class="glsr-field-error"></div>'.
             '</div>',
             $this->build([
