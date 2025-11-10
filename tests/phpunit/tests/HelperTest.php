@@ -59,6 +59,30 @@ class HelperTest extends WP_UnitTestCase
         $this->assertEquals(Helper::getPageNumber(), '1');
     }
 
+    public function test_get_user_id()
+    {
+        $userId = self::factory()->user->create([
+            'user_login' => 'test_user',
+        ]);
+        wp_set_current_user($userId);
+        $user = wp_get_current_user();
+        $this->assertEquals(Helper::getUserId($user), $userId);
+        $this->assertEquals(Helper::getUserId($userId), $userId);
+        $this->assertEquals(Helper::getUserId('user_id'), $userId);
+        $this->assertEquals(Helper::getUserId('test_user'), $userId);
+        $this->assertEquals(Helper::getUserId('xxx'), 0);
+        $fn = fn () => 13;
+        add_filter('site-reviews/assigned_users/author_id', $fn);
+        add_filter('site-reviews/assigned_users/profile_id', $fn);
+        add_filter('site-reviews/assigned_users/user_id', $fn);
+        $this->assertEquals(Helper::getUserId('author_id'), 13);
+        $this->assertEquals(Helper::getUserId('profile_id'), 13);
+        $this->assertEquals(Helper::getUserId('user_id'), 13);
+        remove_filter('site-reviews/assigned_users/author_id', $fn);
+        remove_filter('site-reviews/assigned_users/profile_id', $fn);
+        remove_filter('site-reviews/assigned_users/user_id', $fn);
+    }
+
     public function test_if_empty()
     {
         $this->assertEquals(Helper::ifEmpty(0, 'abc'), 0);

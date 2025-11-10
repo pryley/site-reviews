@@ -14,7 +14,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_checkbox(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-choice" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-choice" data-field="foobar" data-type="checkbox">'.
                 '<div class="glsr-field-subgroup">'.
                     '<span class="glsr-field-checkbox">'.
                         '<label for="site-reviews-foobar-1">'.
@@ -36,7 +36,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_checkboxes(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-choice" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-choice" data-field="foobar" data-type="checkbox">'.
                 '<label class="glsr-label" for="">'.
                     '<span>Foobar</span>'.
                 '</label>'.
@@ -71,7 +71,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_checkboxes_with_descriptions(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-choice" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-choice" data-field="foobar" data-type="checkbox">'.
                 '<label class="glsr-label" for="">'.
                     '<span>Foobar</span>'.
                 '</label>'.
@@ -112,7 +112,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_code(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-code" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-code" data-field="foobar" data-type="code">'.
                 '<label class="glsr-label" for="site-reviews-foobar">'.
                     '<span>Foobar</span>'.
                 '</label>'.
@@ -130,7 +130,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_color(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-color" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-color" data-field="foobar" data-type="color">'.
                 '<label class="glsr-label" for="site-reviews-foobar">'.
                     '<span>Foobar</span>'.
                 '</label>'.
@@ -148,7 +148,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_email(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-email" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-email" data-field="foobar" data-type="email">'.
                 '<label class="glsr-label" for="site-reviews-foobar">'.
                     '<span>Foobar</span>'.
                 '</label>'.
@@ -178,7 +178,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_number(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-number" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-number" data-field="foobar" data-type="number">'.
                 '<label class="glsr-label" for="site-reviews-foobar">'.
                     '<span>Foobar</span>'.
                 '</label>'.
@@ -199,7 +199,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_password(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-password" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-password" data-field="foobar" data-type="password">'.
                 '<label class="glsr-label" for="site-reviews-foobar">'.
                     '<span>Foobar</span>'.
                 '</label>'.
@@ -217,7 +217,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_radio(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-choice" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-choice" data-field="foobar" data-type="radio">'.
                 '<div class="glsr-field-subgroup">'.
                     '<span class="glsr-field-radio">'.
                         '<label for="site-reviews-foobar-1">'.
@@ -239,7 +239,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_radios(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-choice" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-choice" data-field="foobar" data-type="radio">'.
                 '<label class="glsr-label" for="">'.
                     '<span>Foobar</span>'.
                 '</label>'.
@@ -274,7 +274,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_range(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-choice" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-choice" data-field="foobar" data-type="range">'.
                 '<label class="glsr-label" for="">'.
                     '<span>Foobar</span>'.
                 '</label>'.
@@ -305,7 +305,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_range_with_labels(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-choice" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-choice" data-field="foobar" data-type="range">'.
                 '<label class="glsr-label" for="">'.
                     '<span>Foobar</span>'.
                 '</label>'.
@@ -346,7 +346,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_rating(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-rating" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-rating" data-field="foobar" data-type="rating">'.
                 '<label class="glsr-label" for="site-reviews-foobar">'.
                     '<span>Your overall rating</span>'.
                 '</label>'.
@@ -371,7 +371,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_select(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-select" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-select" data-field="foobar" data-type="select">'.
                 '<label class="glsr-label" for="site-reviews-foobar">'.
                     '<span>Foobar</span>'.
                 '</label>'.
@@ -400,7 +400,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_text(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-text" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-text" data-field="foobar" data-type="text">'.
                 '<label class="glsr-label" for="site-reviews-foobar">'.
                     '<span>Foobar</span>'.
                 '</label>'.
@@ -418,7 +418,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_textarea(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-textarea" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-textarea" data-field="foobar" data-type="textarea">'.
                 '<label class="glsr-label" for="site-reviews-foobar">'.
                     '<span>Foobar</span>'.
                 '</label>'.
@@ -437,7 +437,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_toggle(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-choice glsr-required" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-choice glsr-required" data-field="foobar" data-type="toggle">'.
                 '<span class="glsr-field-toggle">'.
                     '<span class="glsr-toggle">'.
                         '<label for="site-reviews-foobar-1">Foobar</label>'.
@@ -461,7 +461,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_toggles(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-choice" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-choice" data-field="foobar" data-type="toggle">'.
                 '<label class="glsr-label" for="">'.
                     '<span>Foobar</span>'.
                 '</label>'.
@@ -512,7 +512,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_url(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-url" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-url" data-field="foobar" data-type="url">'.
                 '<label class="glsr-label" for="site-reviews-foobar">'.
                     '<span>Foobar</span>'.
                 '</label>'.
@@ -530,7 +530,7 @@ class ReviewFieldTest extends \WP_UnitTestCase
     public function test_build_yes_no(): void
     {
         $this->assertEquals(
-            '<div class="glsr-field glsr-field-choice" data-field="foobar">'.
+            '<div class="glsr-field glsr-field-choice" data-field="foobar" data-type="yes_no">'.
                 '<label class="glsr-label" for="">'.
                     '<span>Foobar</span>'.
                 '</label>'.
