@@ -1,5 +1,6 @@
 import React, { type ReactElement, useEffect, useRef } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
+import { applyFilters } from '@wordpress/hooks';
 import { debounce, isNil, omitBy } from 'lodash';
 import { ModuleContainer } from '@divi/module';
 // @ts-expect-error
@@ -10,6 +11,8 @@ import { useFetch } from '@divi/rest';
 import { type EditProps } from './types';
 
 const ModuleEdit = (props: EditProps): ReactElement => {
+    // @ts-expect-error
+    const moduleEditProps: EditProps = applyFilters('site-reviews.divi.module_edit', props);
     const {
         attrs,
         elements,
@@ -20,7 +23,7 @@ const ModuleEdit = (props: EditProps): ReactElement => {
         moduleClassnames,
         ModuleScriptData,
         ModuleStyles,
-    } = props;
+    } = moduleEditProps;
     const {
         abort,
         fetch,

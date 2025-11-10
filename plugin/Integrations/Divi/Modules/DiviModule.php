@@ -121,7 +121,8 @@ abstract class DiviModule implements DependencyInterface
             $block->parsed_block['id'],
             $block->parsed_block['storeInstance']
         );
-        return Module::render([
+        $shortcode = static::shortcodeInstance();
+        $props = [
             'attrs' => $attrs,
             'children' => [
                 ElementComponents::component([
@@ -130,7 +131,7 @@ abstract class DiviModule implements DependencyInterface
                     'orderIndex' => $block->parsed_block['orderIndex'], // FE only
                     'storeInstance' => $block->parsed_block['storeInstance'], // FE only
                 ]),
-                static::shortcodeInstance()->build($attributes, 'divi', false), // do not wrap html
+                $shortcode->build($attributes, 'divi', false), // do not wrap html
             ],
             'classnamesFunction' => [static::class, 'module_classnames'],
             'elements' => $elements,
@@ -144,7 +145,10 @@ abstract class DiviModule implements DependencyInterface
             'scriptDataComponent' => [static::class, 'module_script_data'],
             'storeInstance' => $block->parsed_block['storeInstance'], // FE only
             'stylesComponent' => [static::class, 'module_styles'],
-        ]);
+        ];
+        $args = compact('attributes', 'block', 'elements', 'parent', 'shortcode');
+        $props = glsr()->filterArray('divi/module_edit', $props, $args);
+        return Module::render($props);
     }
 
     abstract public static function shortcodeInstance(): ShortcodeContract;

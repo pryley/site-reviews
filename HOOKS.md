@@ -132,6 +132,7 @@
     site-reviews/discord/fields                                 (array $fields, Review $review): array
     site-reviews/discord/notification                           (array $notification, Modules\Discord $discord): array
     site-reviews/discord/stars                                  (string $stars, int $rating, int $maxRating): string
+    site-reviews/divi/module_edit                               (array $props, array $args): array
     site-reviews/documentation/faq                              (array $paths): array
     site-reviews/documentation/functions                        (array $paths): array
     site-reviews/documentation/hooks                            (array $paths): array
