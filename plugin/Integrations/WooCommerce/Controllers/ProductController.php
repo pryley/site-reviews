@@ -177,7 +177,7 @@ class ProductController implements ControllerContract
         $tabs = Arr::consolidate($tabs);
         if ($product instanceof \WC_Product && $product->get_reviews_allowed()) {
             $tabs['reviews'] = [
-                'callback' => [$this, 'renderReviews'],
+                'callback' => [$this, 'renderSingleProductReviews'],
                 'priority' => 30,
                 'title' => sprintf(__('Reviews (%d)', 'site-reviews'), $product->get_review_count()),
             ];
@@ -265,6 +265,9 @@ class ProductController implements ControllerContract
         if ('loop/rating.php' === $templateName) {
             return glsr()->path('views/integrations/woocommerce/overrides/loop-rating.php');
         }
+        if ('single-product/rating.php' === $templateName) {
+            return glsr()->path('views/integrations/woocommerce/overrides/single-product-rating.php');
+        }
         if ('single-product-reviews.php' === $templateName) {
             return glsr()->path('views/integrations/woocommerce/overrides/single-product-reviews.php');
         }
@@ -318,6 +321,27 @@ class ProductController implements ControllerContract
     }
 
     /**
+     * @action site-reviews/woocommerce/render/loop/rating
+     */
+    public function renderLoopRating(): void
+    {
+        global $product;
+        if (!wc_review_ratings_enabled()) {
+            return;
+        }
+        $ratings = glsr_get_ratings(['assigned_posts' => 'post_id']);
+        if (0 >= $ratings->average && !glsr_get_option('integrations.woocommerce.display_empty', false, 'bool')) {
+            return;
+        }
+        glsr(Template::class)->render('templates/woocommerce/loop/rating', [
+            'product' => $product,
+            'ratings' => $ratings,
+            'style' => glsr(Style::class)->styleClasses(),
+            'theme' => glsr_get_option('integrations.woocommerce.style'),
+        ]);
+    }
+
+    /**
      * @param \WP_Post $post
      *
      * @action add_meta_boxes_product
@@ -338,27 +362,6 @@ class ProductController implements ControllerContract
         if ('price' === $columnName && 'product' === $postType) {
             glsr()->render('views/integrations/woocommerce/bulk-edit');
         }
-    }
-
-    /**
-     * @action woocommerce_after_shop_loop_item_title
-     */
-    public function renderLoopRating(): void
-    {
-        global $product;
-        if (!wc_review_ratings_enabled()) {
-            return;
-        }
-        $ratings = glsr_get_ratings(['assigned_posts' => 'post_id']);
-        if (0 >= $ratings->average && !glsr_get_option('integrations.woocommerce.display_empty', false, 'bool')) {
-            return;
-        }
-        glsr(Template::class)->render('templates/woocommerce/loop/rating', [
-            'product' => $product,
-            'ratings' => $ratings,
-            'style' => glsr(Style::class)->styleClasses(),
-            'theme' => glsr_get_option('integrations.woocommerce.style'),
-        ]);
     }
 
     /**
@@ -387,8 +390,10 @@ class ProductController implements ControllerContract
 
     /**
      * @callback filterProductTabs
+     * 
+     * @action site-reviews/woocommerce/render/single-product-reviews
      */
-    public function renderReviews(): void
+    public function renderSingleProductReviews(): void
     {
         global $product;
         if ($product instanceof \WC_Product && $product->get_reviews_allowed()) {
@@ -405,9 +410,9 @@ class ProductController implements ControllerContract
     }
 
     /**
-     * @action woocommerce_single_product_summary
+     * @action site-reviews/woocommerce/render/single-product/rating
      */
-    public function renderTitleRating(): void
+    public function renderSingleProductRating(): void
     {
         global $product;
         $ratings = glsr_get_ratings(['assigned_posts' => 'post_id']);

@@ -37,54 +37,25 @@ class Hooks extends IntegrationHooks
             ['migrateProductRatingsAjax', 'site-reviews/route/ajax/migrate-product-ratings'],
         ]);
         if ($this->isEnabled()) {
-            $this->hook(ExperimentsController::class, $this->experimentalHooks());
-            $this->hook(IntegrationController::class, [
-                ['filterDiviDynamicAssetsList', 'divi_frontend_assets_dynamic_assets_global_assets_list', 10, 2],
-            ]);
-            $this->hook(MainController::class, $this->mainHooks());
-            $this->hook(ProductController::class, $this->productHooks());
-            $this->hook(RestApiController::class, $this->restApiHooks());
+            $this->runIfEnabled();
         }
     }
 
-    protected function experimentalHooks(): array
-    {
-        if ('yes' !== $this->option('integrations.woocommerce.wp_comments')) {
-            return [];
-        }
-        return [
-            ['filterProductCommentMeta', 'get_comment_metadata', 20, 4],
-            ['filterProductCommentsQuery', 'comments_pre_query', 20, 2],
-        ];
-    }
-
-    protected function isEnabled(): bool
-    {
-        return $this->isInstalled()
-            && 'yes' === $this->option('integrations.woocommerce.enabled')
-            && 'yes' === get_option('woocommerce_enable_reviews', 'yes');
-    }
-
-    protected function isInstalled(): bool
-    {
-        return class_exists('WooCommerce')
-            && function_exists('WC');
-    }
-
-    protected function isWooBlockTheme(): bool
-    {
-        if (!class_exists('Automattic\WooCommerce\Blocks\Utils\BlockTemplateUtils')) {
-            return false;
-        }
-        return \Automattic\WooCommerce\Blocks\Utils\BlockTemplateUtils::supports_block_templates();
-    }
-
-    protected function mainHooks(): array
+    public function runIfEnabled(): void
     {
         remove_action('comment_post', ['WC_Comments', 'add_comment_purchase_verification'], 10);
         remove_action('wp_update_comment_count', ['WC_Comments', 'clear_transients'], 10);
         remove_filter('comments_open', ['WC_Comments', 'comments_open'], 10);
-        return [
+        if ('yes' === $this->option('integrations.woocommerce.wp_comments')) {
+            $this->hook(ExperimentsController::class, [
+                ['filterProductCommentMeta', 'get_comment_metadata', 20, 4],
+                ['filterProductCommentsQuery', 'comments_pre_query', 20, 2],
+            ]);
+        }
+        $this->hook(IntegrationController::class, [
+            ['filterDiviDynamicAssetsList', 'divi_frontend_assets_dynamic_assets_global_assets_list', 10, 2],
+        ]);
+        $this->hook(MainController::class, [
             ['enqueueInlineAdminStyles', 'admin_enqueue_scripts', 20],
             ['filterInlineStyles', 'site-reviews/enqueue/public/inline-styles', 20],
             ['filterMenuPendingCount', 'woocommerce_product_reviews_pending_count'],
@@ -103,12 +74,8 @@ class Hooks extends IntegrationHooks
             ['removeWoocommerceReviews', 'woocommerce_register_post_type_product'],
             ['renderNotice', 'admin_notices'],
             ['verifyProductOwner', 'site-reviews/review/created', 20],
-        ];
-    }
-
-    protected function productHooks(): array
-    {
-        $hooks = [
+        ]);
+        $this->hook(ProductController::class, [
             ['filterCommentsTemplate', 'comments_template', 50],
             ['filterGetRatingHtml', 'woocommerce_product_get_rating_html', 20, 3],
             ['filterGetStarRatingHtml', 'woocommerce_get_star_rating_html', 10, 3],
@@ -130,24 +97,30 @@ class Hooks extends IntegrationHooks
             ['renderLoopRating', 'site-reviews/woocommerce/render/loop/rating', 5],
             ['renderProductDataPanel', 'woocommerce_product_data_panels'],
             ['renderQuickEditField', 'quick_edit_custom_box', 5, 2],
-            ['renderReviews', 'site-reviews/woocommerce/render/product/reviews'],
+            ['renderSingleProductRating', 'site-reviews/woocommerce/render/single-product/rating', 5],
+            ['renderSingleProductReviews', 'site-reviews/woocommerce/render/single-product-reviews', 5],
             ['updateProductData', 'woocommerce_admin_process_product_object'],
             ['updateProductRatingCounts', 'site-reviews/ratings/count/post', 10, 2],
-        ];
-        if (!$this->isWooBlockTheme()) {
-            $hooks[] = ['renderTitleRating', 'woocommerce_single_product_summary'];
-        }
-        return $hooks;
-    }
-
-    protected function restApiHooks(): array
-    {
-        return [
+        ]);
+        $this->hook(RestApiController::class, [
             ['filterRestEndpoints', 'rest_endpoints'],
             ['filterRestNamespaces', 'woocommerce_rest_api_get_rest_namespaces'],
             ['filterRestPermissions', 'woocommerce_rest_check_permissions', 10, 4],
             ['filterSqlJoin', 'site-reviews/query/sql/join', 10, 3],
             ['filterSqlOrderBy', 'site-reviews/query/sql/order-by', 10, 3],
-        ];
+        ]);
+    }
+
+    protected function isEnabled(): bool
+    {
+        return $this->isInstalled()
+            && 'yes' === $this->option('integrations.woocommerce.enabled')
+            && 'yes' === get_option('woocommerce_enable_reviews', 'yes');
+    }
+
+    protected function isInstalled(): bool
+    {
+        return class_exists('WooCommerce')
+            && function_exists('WC');
     }
 }
