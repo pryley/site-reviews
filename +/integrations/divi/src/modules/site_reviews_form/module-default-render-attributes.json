@@ -52,16 +52,16 @@
       }
     }
   },
-  "design": {
+  "button": {
     "decoration": {
-      "ratingColor": {
+      "button": {
         "desktop": {
-          "value": "#faca15"
-        }
-      },
-      "ratingSize": {
-        "desktop": {
-          "value": "1.5em"
+          "value": {
+            "alignment": "right",
+            "icon": {
+              "enable": "on"
+            }
+          }
         }
       }
     }

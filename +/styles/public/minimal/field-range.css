@@ -49,23 +49,19 @@
 :--namespace form.glsr-form .glsr-range-options label {
   display: none;
 }
-:--namespace form.glsr-form .glsr-range-options input[type="radio"]:checked + label {
+:--namespace form.glsr-form .glsr-range-options input:checked + label,
+:--namespace form.glsr-form .glsr-range-options:not(:has(input:checked))::after {
   display: flex;
   font-size: var(--glsr-text-sm);
-  font-weight: 400;
+  justify-content: start;
   left: 0;
   line-height: 1.5;
   margin: 0;
   padding: 0;
   position: absolute;
   top: 100%;
+  width: 100%;
 }
-:--namespace form.glsr-form .glsr-range-options:not(:has(input[type="radio"]:checked))::after {
+:--namespace form.glsr-form .glsr-range-options:not(:has(input:checked))::after {
   content: attr(data-placeholder);
-  display: flex;
-  font-size: var(--glsr-text-sm);
-  line-height: 1.5;
-  left: 0;
-  position: absolute;
-  top: 100%;
 }

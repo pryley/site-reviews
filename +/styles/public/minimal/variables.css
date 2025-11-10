@@ -59,8 +59,9 @@
     --glsr-form-star: 2em;
     --glsr-form-success: var(--glsr-green);
     --glsr-input-border-color: var(--glsr-gray-400);
+    --glsr-input-border-style: solid;
     --glsr-input-border-width: 1px;
-    --glsr-input-b: var(--glsr-input-border-width) solid var(--glsr-input-border-color);
+    --glsr-input-b: var(--glsr-input-border-width) var(--glsr-input-border-style) var(--glsr-input-border-color);
     --glsr-input-bg: var(--glsr-white);
     --glsr-input-color: var(--glsr-gray-900);
     --glsr-input-px: 0.75em;

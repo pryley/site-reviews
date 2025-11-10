@@ -2530,6 +2530,132 @@ namespace ET\Builder\Framework\Controllers {
         }
     }
 }
+namespace ET\Builder\Packages\StyleLibrary\Utils {
+    /**
+     * StyleDeclarations class is a helper class with methods to work with the style library.
+     *
+     * This class is equivalent of JS class:
+     * {@link /docs/builder-api/js/style-library/style-declarations} in
+     * `@divi/style-library` package.
+     *
+     * @since ??
+     */
+    class StyleDeclarations
+    {
+        /**
+         * Create an instance of StyleDeclarations class.
+         *
+         * @since ??
+         *
+         * @param array $args {
+         *     An array of arguments.
+         *
+         *     @type bool|array $important  Optional. Whether to add `!important` tag. Default `false`.
+         *     @type string     $returnType Optional.
+         *                                  This is the type of value that the function will return.
+         *                                  Can be either `string` or `key_value_pair`. Default `string`.
+         * }
+         */
+        public function __construct(array $args)
+        {
+        }
+        /**
+         * Add declaration's property and value.
+         *
+         * @since ??
+         *
+         * @param string $property The CSS property to add.
+         * @param string $value    The value of the property.
+         *
+         * @return void
+         */
+        public function add(string $property, string $value): void
+        {
+        }
+        /**
+         * Get style declaration.
+         *
+         * Returns either array of declarations or string of declarations based on the specified return type.
+         *
+         * @since ??
+         *
+         * @return array|string|null Returns either array of declarations or string of declarations based on the specified return type.
+         */
+        public function value()
+        {
+        }
+    }
+    /**
+     * Utils class is a helper class with helper methods to work with the style library.
+     *
+     * @since ??
+     */
+    class Utils
+    {
+        /**
+         * Join array of declarations into `;` separated string, suffixed by `;`.
+         *
+         * This function is equivalent of JS function:
+         * {@link /docs/builder-api/js/style-library/join-declarations joinDeclarations} in:
+         * `@divi/style-library` package.
+         *
+         * @since ??
+         *
+         * @param array $declarations Array of declarations.
+         *
+         * @return string
+         */
+        public static function join_declarations(array $declarations): string
+        {
+        }
+        /**
+         * Recursively resolve any `$variable(...)$` strings within an array or string.
+         *
+         * @since ??
+         *
+         * @param mixed $value The raw input, string or array.
+         *
+         * @return mixed The resolved value with all dynamic variables normalized.
+         */
+        public static function resolve_dynamic_variables_recursive($value)
+        {
+        }
+        /**
+         * Resolves a `$variable(...)$` encoded dynamic content string into a CSS variable.
+         *
+         * Example:
+         * Input:  $variable({"type":"content","value":{"name":"gvid-abc123"}})$
+         * Output: var(--gvid-abc123)
+         *
+         * @since ??
+         *
+         * @param string $value The raw string to be resolved.
+         *
+         * @return string The resolved CSS variable or original value if not matched.
+         */
+        public static function resolve_dynamic_variable($value)
+        {
+        }
+        /**
+         * Helper function to resolve nested global colors and global variables to actual color values.
+         * This ensures SVG elements get concrete color values instead of CSS variables or variable syntax.
+         *
+         * Handles all global color formats including:
+         * - CSS variables: var(--gcid-xxx)
+         * - Variable syntax: $variable({"type":"color","value":{"name":"gcid-xxx","settings":{...}}})$
+         * - HSL with variables: hsl(from var(--gcid-xxx) calc(h + 0) calc(s + 0) calc(l + 0) / 0.2)
+         * - Nested global colors: Global colors that reference other global colors
+         * - Multiple levels of nesting with recursive resolution
+         *
+         * @param string $color The input color value (could be global color ID, $variable syntax, CSS variable, or nested reference).
+         * @param int    $depth Current recursion depth to prevent infinite loops.
+         * @return string The resolved concrete color value or original color if not a global color.
+         */
+        public static function resolve_global_color_to_value($color, $depth = 0)
+        {
+        }
+    }
+}
 namespace ET\Builder\Packages\Module\Options\Css {
     /**
      * CssStyleUtils class.
@@ -3466,6 +3592,97 @@ namespace ET\Builder\Packages\Module\Options\Text {
          * @return array The map for the text preset attributes.
          */
         public static function get_map(string $attr_name)
+        {
+        }
+    }
+}
+namespace ET\Builder\Packages\Module\Options\Font {
+    /**
+     * FontStyle class.
+     *
+     * This class has font style functionality.
+     *
+     * @since ??
+     */
+    class FontStyle
+    {
+        /**
+         * Get font style component.
+         *
+         * This function is equivalent of JS function:
+         * {@link /docs/builder-api/js-beta/divi-module/functions/FontStyle FontStyle} in
+         * `@divi/module` package.
+         *
+         * @since ??
+         *
+         * @param array $args {
+         *     An array of arguments.
+         *
+         *     @type string        $selector                 The CSS selector.
+         *     @type array         $selectors                Optional. An array of selectors for each breakpoint and state. Default `[]`.
+         *     @type callable      $selectorFunction         Optional. The function to be called to generate CSS selector. Default `null`.
+         *     @type array         $propertySelectors        Optional. The property selectors that you want to unpack. Default `[]`.
+         *     @type array         $attr                     An array of module attribute data.
+         *     @type array         $defaultPrintedStyleAttr  Optional. An array of default printed style attribute data. Default `[]`.
+         *     @type array|bool    $important                Optional. Whether to apply "!important" flag to the style declarations.
+         *                                                   Default `false`.
+         *     @type bool          $asStyle                  Optional. Whether to wrap the style declaration with style tag or not.
+         *                                                   Default `true`
+         *     @type string|bool   $headingLevel             Optional. HTML heading tag. Default `false`.
+         *     @type string|null   $orderClass               Optional. The selector class name.
+         *     @type bool          $isInsideStickyModule     Optional. Whether the module is inside a sticky module or not. Default `false`.
+         *     @type string        $attrs_json               Optional. The JSON string of module attribute data, use to improve performance.
+         *     @type string        $returnType               Optional. This is the type of value that the function will return.
+         *                                                   Can be either `string` or `array`. Default `array`.
+         *     @type string        $atRules                  Optional. CSS at-rules to wrap the style declarations in. Default `''`.
+         * }
+         *
+         * @return string|array The font style component.
+         *
+         * @example:
+         * ```php
+         * // Apply style using default arguments.
+         * $args = [];
+         * $style = FontStyle::style( $args );
+         *
+         * // Apply style with specific selectors and properties.
+         * $args = [
+         *     'selectors' => [
+         *         '.element1',
+         *         '.element2',
+         *     ],
+         *     'propertySelectors' => [
+         *         '.element1 .property1',
+         *         '.element2 .property2',
+         *     ]
+         * ];
+         * $style = FontStyle::style( $args );
+         * ```
+         */
+        public static function style(array $args)
+        {
+        }
+    }
+    /**
+     * FontPresetAttrsMap class.
+     *
+     * This class provides static map for the text shadow preset attributes.
+     *
+     * @since ??
+     */
+    class FontPresetAttrsMap
+    {
+        /**
+         * Get the map for the text shadow preset attributes.
+         *
+         * @since ??
+         *
+         * @param string $attr_name The attribute name.
+         * @param array  $args      The arguments.
+         *
+         * @return array The map for the text shadow preset attributes.
+         */
+        public static function get_map(string $attr_name, array $args = [])
         {
         }
     }

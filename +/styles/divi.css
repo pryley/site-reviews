@@ -1,4 +1,3 @@
-@import "public/minimal/variables";
 @import "public/minimal/keyframes";
 @import "public/minimal/base";
 @import "public/minimal/loaders";
@@ -7,6 +6,10 @@
 @import "public/minimal/review";
 @import "public/minimal/flags";
 @import "public/minimal/summary";
+@import "public/minimal/form";
+@import "public/minimal/field-label";
+@import "public/minimal/field-input";
+@import "public/minimal/field-choice";
 @import "public/minimal/field-toggle";
 @import "public/minimal/field-range";
 @import "public/minimal/field-rating";
@@ -15,116 +18,213 @@
 @import "public/minimal/debug";
 
 :root body {
-    --glsr-red: red;
-    --glsr-blue: #2ea3f2;
-    --glsr-toggle-bg-1: var(--glsr-blue);
-    --glsr-toggle-h: 20px;
-}
-
-:root .et-db:not(.et_button_left).et_button_icon_visible .glsr-divi .et_pb_button {
-    padding-right: 2em;
-}
-:root .et-db:not(.et_button_left).et_button_icon_visible .glsr-divi .et_pb_button::after {
-    right: .3em;
-}
-:root .et-db:not(.et_button_left):not(.et_button_icon_visible) .glsr-divi .et_pb_button::after {
-    right: 1em;
-}
-:root .et-db:not(.et_button_left):not(.et_button_icon_visible) .glsr-divi .et_pb_button:hover::after {
-    right: .15em;
+/* Colors */
+  --glsr-white   : #fff;
+  --glsr-gray-100: #f5f5f5;
+  --glsr-gray-200: #e5e5e5;
+  --glsr-gray-300: #d4d4d4;
+  --glsr-gray-400: #a3a3a3;
+  --glsr-gray-500: #737373;
+  --glsr-gray-600: #525252;
+  --glsr-gray-700: #404040;
+  --glsr-gray-800: #262626;
+  --glsr-gray-900: #171717;
+  --glsr-black   : #000;
+  --glsr-blue    : #1c64f2; /* blue-600 */
+  --glsr-green   : #057a55; /* green-600 */
+  --glsr-red     : #e02424; /* red-600 */
+  --glsr-yellow  : #faca15; /* yellow-300 */
+  --glsr-divi-color: var(--gcid-primary-color, #2ea3f2);
+/* Global */
+  --glsr-duration-slow: 0.3s;
+  --glsr-duration-fast: 0.15s;
+  --glsr-gap-xs: 0.25em;
+  --glsr-gap-sm: 0.5em;
+  --glsr-gap-md: 0.75em;
+  --glsr-gap-lg: 1em;
+  --glsr-gap-xl: 2em;
+  --glsr-leading: 1.7;
+  --glsr-px: 1.25em;
+  --glsr-py: 1.25em;
+  --glsr-radius: 3px;
+  --glsr-text-base: 1em;
+  --glsr-text-sm: 0.875em;
+  --glsr-text-md: 1em;
+  --glsr-text-lg: 1.25em;
+/* Review */
+  --glsr-review-col-gap: var(--glsr-gap-xl);
+  --glsr-review-row-gap: var(--glsr-gap-xl);
+  --glsr-review-star: 1.25em;
+  --glsr-review-verified: var(--glsr-green);
+  --glsr-tag-label-weight: 600;
+/* Summary */
+  --glsr-bar-bg: var(--glsr-yellow);
+  --glsr-bar-opacity: 0.1;
+  --glsr-bar-size: var(--glsr-text-md);
+  --glsr-bar-spacing: .5em;
+  --glsr-max-w: 48ch;
+  --glsr-summary-align: start;
+  --glsr-summary-star: 1.5em;
+  --glsr-summary-text:  var(--glsr-text-sm);
+/* Form */
+  --glsr-choice-h: 1.25em;
+  --glsr-choice-w: 1.25em;
+  --glsr-choice-color: var(--glsr-divi-color);
+  --glsr-description-text: var(--glsr-text-sm);
+  --glsr-form-col-gap: var(--glsr-gap-lg);
+  --glsr-form-error: var(--glsr-red);
+  --glsr-form-row-gap: var(--glsr-gap-lg);
+  --glsr-form-star: 2em;
+  --glsr-form-success: var(--glsr-green);
+  --glsr-input-border-color: #eee;
+  --glsr-input-border-width: 0;
+  --glsr-input-border-style: solid;
+  --glsr-input-b: var(--glsr-input-border-width) var(--glsr-input-border-style) var(--glsr-input-border-color);
+  --glsr-input-bg: #eee;
+  --glsr-input-color: #999;
+  --glsr-input-px: 16px;
+  --glsr-input-py: 16px;
+  --glsr-input-pt: var(--glsr-input-py);
+  --glsr-input-pr: var(--glsr-input-px);
+  --glsr-input-pb: var(--glsr-input-py);
+  --glsr-input-pl: var(--glsr-input-px);
+  --glsr-input-radius: 0;
+  --glsr-input-transition: border-color var(--glsr-duration-fast) ease-in-out;
+  --glsr-label-color: currentColor;
+  --glsr-label-text: var(--glsr-text-sm);
+  --glsr-label-weight: 600;
+  --glsr-range-size: 1.75em;
+  --glsr-toggle-bg-0: var(--glsr-input-bg);
+  --glsr-toggle-bg-1: currentColor;
+  --glsr-toggle-color: var(--glsr-white);
+  --glsr-toggle-h: 1.5em;
+  --glsr-toggle-opacity-0: 1;
+  --glsr-toggle-opacity-1: 1;
+  --glsr-toggle-p: .15em;
+  --glsr-toggle-radius: 999px;
+  --glsr-toggle-shadow-color: rgb(0 0 0 / 0.1);
+  --glsr-toggle-size: calc(var(--glsr-toggle-h) - calc(var(--glsr-toggle-p) * 2));
+  --glsr-toggle-text: 1em;
+  --glsr-toggle-w: calc(calc(var(--glsr-toggle-h) * 2) - calc(var(--glsr-toggle-p) * 2));
+/* Modal */
+  --glsr-modal-bg: var(--wp--preset--color--base, var(--glsr-white));
+  --glsr-modal-radius: 3px;
+  --glsr-modal-padding: 1.5em;
+/* Rating Tooltip */
+  --glsr-tooltip-border-radius: 4px;
+  --glsr-tooltip-font-size: 0.875rem;
+  --glsr-tooltip-font-weight: 400;
+  --glsr-tooltip-line-height: 1;
+  --glsr-tooltip-margin: 12px;
+  --glsr-tooltip-padding: .5em 1em;
+  --glsr-tooltip-size: 6px;
 }
 
 :--namespace form.glsr-hide-form {
-    max-height: 0 !important;
-    opacity: 0;
-    overflow: hidden;
+  max-height: 0 !important;
+  opacity: 0;
+  overflow: hidden;
 }
-:--namespace .glsr-field:not(.glsr-field-is-invalid) .glsr-field-error,
-:--namespace .glsr-form-message:not(.glsr-form-failed):not(.glsr-form-success) {
-    display: none;
+:--namespace form.glsr-form .glsr-field:not(.glsr-field-choice,.glsr-field-rating) .glsr-label {
+  display: none;
 }
-:--namespace .glsr-field-error {
-    color: var(--glsr-form-error);
-    display: flex;
+:--namespace form.glsr-form label.glsr-label {
+  color: var(--glsr-label-color);
+  font-weight: var(--glsr-label-weight);
 }
 :--namespace form.glsr-form input.glsr-input,
 :--namespace form.glsr-form select.glsr-select,
 :--namespace form.glsr-form textarea.glsr-textarea {
+    appearance: none;
+    background-clip: padding-box;
+    background-color: var(--glsr-input-bg);
+    border-radius: var(--glsr-input-radius);
+    border: var(--glsr-input-b);
+    color: var(--glsr-input-color);
+    font-size: var(--glsr-text-md);
+    line-height: var(--glsr-leading);
+    min-height: auto;
+    padding-top: var(--glsr-input-pt);
+    padding-right: var(--glsr-input-pr);
+    padding-bottom: var(--glsr-input-pb);
+    padding-left: var(--glsr-input-pl);
+    print-color-adjust: exact;
+    transition: var(--glsr-input-transition);
+}
+:--namespace form.glsr-form select.glsr-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='%23666'%3e%3cpath d='M0 3h12L6 9z'/%3e%3c/svg%3e");
+    background-position: right 10px center;
+    background-repeat: no-repeat;
+    background-size: 12px;
+}
+:--namespace form.glsr-form input.glsr-input-checkbox,
+:--namespace form.glsr-form input:is(.glsr-input-radio,.glsr-input-range) {
+  appearance: none;
+  background-color: var(--glsr-input-bg);
+  background-origin: border-box;
+  border: var(--glsr-input-b);
+  font-size: var(--glsr-text-md);
+  min-height: auto;
+  min-width: auto;
+  position: relative;
+  print-color-adjust: exact;
+  user-select: none;
+  color: var(--glsr-choice-color);
+  height: var(--glsr-choice-h);
+  width: var(--glsr-choice-w);
+  &::before,
+  &::after {
+    background-color: var(--glsr-choice-color);
+    mask-position: center;
+    mask-size: contain;
+    display: block;
+    height: 100%;
     width: 100%;
+  }
 }
-:--namespace .glsr-field-rating::after {
-    display: none;
-}
-:--namespace .glsr-field-rating label,
-:--namespace .glsr-field.glsr-hidden {
-    display: none !important;
-}
-:--namespace .glsr-field label.glsr-label {
-    display: block;
-    font-weight: 600;
-}
-:--namespace .glsr-field .glsr-description {
-    font-weight: 400;
-}
-
-
-/**
- * Fix select dropdown style when field has label/description/errors
- */
-:--namespace .et_pb_contact_field[data-type="select"]::after {
-    display: none;
-}
-:--namespace .et_pb_contact_field[data-type="select"] .et_pb_contact_field_select {
-    display: block;
-    position: relative;
-}
-:--namespace .et_pb_contact_field[data-type="select"] .et_pb_contact_field_select::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border: 6px solid transparent;
-    border-top-color: #666;
-    margin-top: 3px;
-    pointer-events: none;
-}
-
-:--namespace form.glsr-form .glsr-input-range:checked::before {
-    background: #2ea3f2;
-    border-radius: 50%;
+:--namespace form.glsr-form input.glsr-input-checkbox {
+  border-radius: var(--glsr-input-radius);
+  &:checked::after {
     content: '';
-    display: flex;
-    height: 8px;
-    left: 50%;
-    margin-left: -4px;
-    margin-top: -4px;
-    position: relative;
-    top: 50%;
-    width: 8px;
+    mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath d='M14.141 4.522c.303-.058.595-.001.835.161a1.09 1.09 0 0 1 .502.738c.057.302.001.594-.159.834l-2.704 4.362-2.704 4.362-.147.237h-.048l-.043.035-.047.033-.047.047-.078.026-.075.042a1.15 1.15 0 0 1-.151.063l-.131.02-.098.02h-.142a.73.73 0 0 1-.179-.022l.041.007-.095.001-.106-.053-.058-.023-.014-.006-.027-.013c-.006-.002-.019-.009-.083-.04l-.018-.011-.034.004-.104-.102-.074-.056-.015-.03-.007-.007-.142-.138-.129-.126-1.343-1.31-.163-.159-1.312-1.28-.093-.09-.106-.103c-.21-.211-.327-.477-.343-.775a1.11 1.11 0 0 1 .301-.829 1.11 1.11 0 0 1 .774-.361 1.11 1.11 0 0 1 .838.313l.185.182.082.081L7.8 11.645l.923.905.014.013.009-.012 1.996-3.223.165-.267 2.076-3.352.085-.138.337-.544c.168-.271.423-.446.736-.506z'/%3e%3c/svg%3e");
+  }
+}
+:--namespace form.glsr-form input:is(.glsr-input-radio,.glsr-input-range) {
+  border-radius: 100%;
+  &:checked::after {
+    content: '';
+    mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3ccircle cx='10' cy='10' r='3.5'/%3e%3c/svg%3e");
+  }
+}
+:--namespace form.glsr-form .glsr-dz-message {
+  color: var(--glsr-input-color);
+}
+:--namespace form.glsr-form .glsr-field-subgroup {
+  color: var(--glsr-input-color);
+}
+:--namespace form.glsr-form .glsr-range-labels {
+  color: var(--glsr-input-color);
+  font-size: var(--glsr-text-md);
+}
+:--namespace form.glsr-form .glsr-toggle-switch {
+  color: var(--glsr-choice-color);
 }
 
-:--namespace form.glsr-form-responsive {
-    column-gap: 3%;
-    row-gap: 0;
-    display: grid;
-    margin-left: 0;
-}
-:--namespace form.glsr-form-responsive p.et_pb_contact_field {
-    padding-left: 0;
+:--namespace button.glsr-button {
+  color: var(--glsr-divi-color);
+  &:hover {
+    background-color: rgba(0,0,0,.05);
+  }
 }
 
-:--namespace .glsr-captcha-holder {
-    clear: both;
-    padding-left: 3%;
+:--namespace form.glsr-filters-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--glsr-gap-sm);
 }
-:--namespace .glsr-captcha-holder:not(:has(.glsr-g-recaptcha[data-badge^="bottom"])) {
-    padding-top: 1.5%;
-    margin-bottom: 3%;
-}
-body :--namespace .glsr-captcha-holder .grecaptcha-badge {
-    visibility: initial;
-    z-index: 9999;
+:--namespace form.glsr-filters-form select.glsr-select {
+  padding-top: .5em;
+  padding-right: .715em;
+  padding-bottom: .5em;
+  padding-left: .715em;
 }
