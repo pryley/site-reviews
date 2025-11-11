@@ -24,34 +24,6 @@ const ModuleStyles = ({
                 },
             },
         })}
-        {elements.style({
-            attrName: 'design',
-            styleProps: {
-                advancedStyles: [
-                    {
-                        componentName: "divi/common",
-                        props: {
-                            attr: attrs?.design?.decoration?.ratingColor,
-                            property: '--glsr-review-star-bg',
-                        },
-                    },
-                    {
-                        componentName: "divi/common",
-                        props: {
-                            attr: attrs?.design?.decoration?.ratingSize,
-                            property: '--glsr-review-star',
-                        },
-                    },
-                    {
-                        componentName: "divi/common",
-                        props: {
-                            attr: attrs?.design?.decoration?.reviewGap,
-                            property: '--glsr-review-row-gap',
-                        },
-                    },
-                ],
-            },
-        })}
     </StyleContainer>
 );
 

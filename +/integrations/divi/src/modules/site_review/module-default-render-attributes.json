@@ -31,19 +31,5 @@
         }
       }
     }
-  },
-  "design": {
-    "decoration": {
-      "ratingColor": {
-        "desktop": {
-          "value": "#faca15"
-        }
-      },
-      "ratingSize": {
-        "desktop": {
-          "value": "1.25em"
-        }
-      }
-    }
   }
 }

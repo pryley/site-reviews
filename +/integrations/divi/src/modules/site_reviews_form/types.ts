@@ -45,25 +45,6 @@ export interface ModuleAttrs extends InternalAttrs {
       summary_id?: FormatBreakpointStateAttr<string>;
     };
   };
-  design?: {
-    advanced?: {
-      state?: {
-        checkedColor?: FormatBreakpointStateAttr<string>;
-        focusBackground?: FormatBreakpointStateAttr<string>;
-        focusColor?: FormatBreakpointStateAttr<string>;
-        invalidColor?: FormatBreakpointStateAttr<string>;
-      };
-    };
-    decoration?: {
-      ratingColor?: FormatBreakpointStateAttr<string>;
-      ratingSize?: FormatBreakpointStateAttr<string>;
-      columnGap?: FormatBreakpointStateAttr<string>;
-      rowGap?: FormatBreakpointStateAttr<string>;
-      spacing?: FormatBreakpointStateAttr<string[]>;
-      fieldLabelGroup?: any;
-      fieldElementGroup?: any;
-    };
-  };
   button?: {
     decoration?: Element.Decoration.PickedAttributes<
       'background' |

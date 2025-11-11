@@ -39,43 +39,6 @@ const ModuleStyles = ({
                 ],
             },
         })}
-        {elements.style({
-            attrName: 'design',
-            styleProps: {
-                advancedStyles: [
-                    {
-                        componentName: "divi/common",
-                        props: {
-                            attr: attrs?.design?.decoration?.ratingColor,
-                            declarationFunction: ({ attrValue }) => {
-                                return `--glsr-bar-bg:${attrValue}; --glsr-summary-star-bg:var(--glsr-bar-bg);`;
-                            },
-                        },
-                    },
-                    {
-                        componentName: "divi/common",
-                        props: {
-                            attr: attrs?.design?.decoration?.ratingSize,
-                            property: '--glsr-summary-star',
-                        },
-                    },
-                    {
-                        componentName: "divi/common",
-                        props: {
-                            attr: attrs?.design?.decoration?.barSize,
-                            property: '--glsr-bar-size',
-                        },
-                    },
-                    {
-                        componentName: "divi/common",
-                        props: {
-                            attr: attrs?.design?.decoration?.barSpacing,
-                            property: '--glsr-bar-spacing',
-                        },
-                    },
-                ],
-            },
-        })}
     </StyleContainer>
 )
 };

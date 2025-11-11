@@ -48,16 +48,7 @@ export interface ModuleAttrs extends InternalAttrs {
       terms?: FormatBreakpointStateAttr<string>;
       text?: FormatBreakpointStateAttr<string>;
       type?: FormatBreakpointStateAttr<string>;
-    },
-  };
-  design?: {
-    decoration?: {
-      preset?: FormatBreakpointStateAttr<string>;
-      ratingColor?: FormatBreakpointStateAttr<string>;
-      ratingSize?: FormatBreakpointStateAttr<string>;
-      barSize?: FormatBreakpointStateAttr<string>;
-      barSpacing?: FormatBreakpointStateAttr<string>;
-    },
+    };
   };
 }
 

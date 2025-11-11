@@ -90,34 +90,5 @@
         }
       }
     }
-  },
-  "design": {
-    "decoration": {
-      "preset": {
-        "desktop": {
-          "value": "0"
-        }
-      },
-      "ratingColor": {
-        "desktop": {
-          "value": "#faca15"
-        }
-      },
-      "ratingSize": {
-        "desktop": {
-          "value": "1.5em"
-        }
-      },
-      "barSize": {
-        "desktop": {
-          "value": "1em"
-        }
-      },
-      "barSpacing": {
-        "desktop": {
-          "value": "0.5em"
-        }
-      }
-    }
   }
 }
