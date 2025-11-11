@@ -97,10 +97,12 @@ div.is-style-3 {
     .glsr-summary-percentages {
         grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
         row-gap: 0;
+        transform: scaleX(-1);
     }
     .glsr-summary-bar {
         grid-column: span 1;
         grid-row: span 3;
+        transform: scaleX(-1);
     }
     .glsr-summary-bar > span {
         align-items: end;
