@@ -64,7 +64,7 @@ class SettingsController extends AbstractController
     {
         $key = 'settings.forms';
         $inputForm = Arr::get($input, $key);
-        $multiFields = ['limit_assignments', 'required'];
+        $multiFields = ['autofill', 'limit_assignments', 'required'];
         foreach ($multiFields as $name) {
             $defaultValue = Arr::get($inputForm, $name, []);
             $options = Arr::set($options, "{$key}.{$name}", $defaultValue);

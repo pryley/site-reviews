@@ -211,6 +211,8 @@ This update requires a minimum of PHP 7.4 and WordPress 6.5. There are a few pot
 
 Site Reviews has a fresh coat of paint!
 
+- ‼️ The minimum required version of PHP is v8.0
+- ‼️ The minimum required version of WordPress is v6.7
 - Added [Breakdance](https://breakdance.com/) integration
 - Added [Bricks](https://bricksbuilder.io/) integration
 - Added [Divi 5](https://www.elegantthemes.com/divi-5/) integration
@@ -224,6 +226,7 @@ Site Reviews has a fresh coat of paint!
 - Added [Yoast SEO](https://yoast.com/wordpress/plugins/seo-free/) integration
 - Added a "CAPTCHA Placement" setting to change the position of the Captcha above or below the submit button in the review form
 - Added an "author" option to the Latest Reviews and Rating Summary blocks and shortcodes to display all ratings and reviews submitted by a specific user.
+- Added an "Autofill Fields" setting to automatically fill the name and email fields with the logged in user details.
 - Added an "Enable Account Reviews" setting to the Ultimate Member integration to display all of a user's submitted reviews on their account page.
 - Added an "Enable Session Storage" setting to persist entered review form values until either the review is submitted or the browser tab or window is closed
 - Added Geolocation which allows you to display the location of the reviewer next to their name in the review (i.e. flag/country/state/city)
@@ -237,8 +240,6 @@ Site Reviews has a fresh coat of paint!
 - Changed the HTML markup of the `review.php` template
 - Changed the HTML markup of the `ultimatemember/reviews.php` template
 - Changed the location of the custom CSS class attribute in a rendered block or shortcode to the root DIV.
-- ‼️ Changed the minimum required version of PHP to v8.0
-- ‼️ Changed the minimum required version of WordPress to v6.7
 - Fixed ActionScheduler action redirects
 - Fixed compatibility with the Salient theme
 - Fixed Elementor template support in the schema parser

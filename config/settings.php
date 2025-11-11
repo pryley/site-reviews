@@ -749,6 +749,18 @@ return [ // order is intentional
         ),
         'type' => 'text',
     ],
+    'settings.forms.autofill' => [
+        'default' => ['email', 'name'],
+        'description' => _x('Autofill these fields with the details of the logged in user.', 'admin-text', 'site-reviews'),
+        'label' => _x('Autofill Fields', 'admin-text', 'site-reviews'),
+        'options' => [
+            'name' => _x('Name', 'admin-text', 'site-reviews'),
+            'email' => _x('Email', 'admin-text', 'site-reviews'),
+        ],
+        'sanitizer' => 'array-string',
+        'tooltip' => _x('Choose which fields should be autofilled with the logged in user data in the review form.', 'admin-text', 'site-reviews'),
+        'type' => 'checkbox',
+    ],
     'settings.forms.required' => [
         'description' => _x('To hide fields instead of making them not required, use the hide options on the Review Form block.', 'admin-text', 'site-reviews'),
         'default' => ['content', 'email', 'name', 'rating', 'terms', 'title'],
