@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\Divi\Modules\SiteReviewsSummary;
 
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Options\Text\TextClassnames;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleClassnamesDefaults;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleStylesDefaults;
@@ -22,14 +23,12 @@ class Module extends DiviModule
     public static function module_classnames(array $args): void
     {
         $args = glsr(ModuleClassnamesDefaults::class)->merge($args);
-        $alignSelf = $args['attrs']['module']['decoration']['sizing']['desktop']['value']['alignSelf'] ?? '';
-        $alignSelf = ['start' => 'left', 'end' => 'right'][$alignSelf] ?? $alignSelf;
-        $preset = $args['attrs']['design']['decoration']['preset']['desktop']['value'] ?? '0';
-        $ratingColor = $args['attrs']['design']['decoration']['ratingColor']['desktop']['value'] ?? '';
-        $args['classnamesInstance']->add('has-custom-color', !empty($ratingColor));
-        $args['classnamesInstance']->add("is-style-{$preset}", !empty($preset));
-        $args['classnamesInstance']->add("items-justified-{$alignSelf}", '0' !== $alignSelf);
-        parent::module_classnames($args);
+        $args['classnamesInstance']->add(
+            TextClassnames::text_options_classnames($args['attrs']['module']['advanced']['text'] ?? [])
+        );
+        $alignSelf = $args['attrs']['module']['decoration']['sizing']['desktop']['value']['alignSelf'] ?? null;
+        $alignSelf = 'left' === $alignSelf ? 'start' : ('right' === $alignSelf ? 'end' : $alignSelf);
+        $args['classnamesInstance']->add("items-justified-{$alignSelf}", !empty($alignSelf));
     }
 
     /**
@@ -58,44 +57,6 @@ class Module extends DiviModule
                                     'declarationFunction' => function ($args) {
                                         return !empty($args['attrValue']['maxWidth']) ? '--glsr-max-w:none;' : '';
                                     },
-                                ],
-                            ],
-                        ],
-                    ],
-                ]),
-                $elements->style([
-                    'attrName' => 'design',
-                    'styleProps' => [
-                        'advancedStyles' => [
-                            [
-                                'componentName' => 'divi/common',
-                                'props' => [
-                                    'attr' => $attrs['design']['decoration']['ratingColor'] ?? [],
-                                    'declarationFunction' => function ($args) {
-                                        $value = $args['attrValue'] ?? '';
-                                        return !empty($value) ? "--glsr-bar-bg:{$value}; --glsr-summary-star-bg:var(--glsr-bar-bg);" : '';
-                                    },
-                                ],
-                            ],
-                            [
-                                'componentName' => 'divi/common',
-                                'props' => [
-                                    'attr' => $attrs['design']['decoration']['ratingSize'] ?? [],
-                                    'property' => '--glsr-summary-star',
-                                ],
-                            ],
-                            [
-                                'componentName' => 'divi/common',
-                                'props' => [
-                                    'attr' => $attrs['design']['decoration']['barSize'] ?? [],
-                                    'property' => '--glsr-bar-size',
-                                ],
-                            ],
-                            [
-                                'componentName' => 'divi/common',
-                                'props' => [
-                                    'attr' => $attrs['design']['decoration']['barSpacing'] ?? [],
-                                    'property' => '--glsr-bar-spacing',
                                 ],
                             ],
                         ],

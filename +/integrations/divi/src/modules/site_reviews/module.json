@@ -363,6 +363,19 @@
           }
         }
       }
+    },
+    "button": {
+      "elementProps": {
+        "hasWrapper": true
+      },
+      "elementType": "button",
+      "type": "object",
+      "selector": "{{selector}} .glsr-button",
+      "settings": {
+        "decoration": {
+          "button": {}
+        }
+      }
     }
   },
   "customCssFields": {},

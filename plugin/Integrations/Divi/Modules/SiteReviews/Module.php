@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\Divi\Modules\SiteReviews;
 
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Options\Text\TextClassnames;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleClassnamesDefaults;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleStylesDefaults;
@@ -22,9 +23,12 @@ class Module extends DiviModule
     public static function module_classnames(array $args): void
     {
         $args = glsr(ModuleClassnamesDefaults::class)->merge($args);
-        $ratingColor = $args['attrs']['design']['decoration']['ratingColor']['desktop']['value'] ?? '';
-        $args['classnamesInstance']->add('has-custom-color', !empty($ratingColor));
-        parent::module_classnames($args);
+        $args['classnamesInstance']->add(
+            TextClassnames::text_options_classnames($args['attrs']['module']['advanced']['text'] ?? [])
+        );
+        $alignSelf = $args['attrs']['module']['decoration']['sizing']['desktop']['value']['alignSelf'] ?? null;
+        $alignSelf = 'left' === $alignSelf ? 'start' : ('right' === $alignSelf ? 'end' : $alignSelf);
+        $args['classnamesInstance']->add("items-justified-{$alignSelf}", !empty($alignSelf));
     }
 
     /**
@@ -68,6 +72,9 @@ class Module extends DiviModule
                             ],
                         ],
                     ],
+                ]),
+                $elements->style([
+                    'attrName' => 'button',
                 ]),
             ],
         ]);

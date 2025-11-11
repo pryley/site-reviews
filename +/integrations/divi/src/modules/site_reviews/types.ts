@@ -49,6 +49,16 @@ export interface ModuleAttrs extends InternalAttrs {
       type?: FormatBreakpointStateAttr<string>;
     };
   };
+  button?: {
+    decoration?: Element.Decoration.PickedAttributes<
+      'background' |
+      'border' |
+      'boxShadow' |
+      'button' |
+      'font' |
+      'spacing'
+    >;
+  };
 }
 
 export type EditProps = ModuleEditProps<ModuleAttrs>;

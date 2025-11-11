@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\Divi\Modules\SiteReviewsForm;
 
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Options\Text\TextClassnames;
 use ET\Builder\Packages\StyleLibrary\Utils\StyleDeclarations;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleClassnamesDefaults;
@@ -23,9 +24,9 @@ class Module extends DiviModule
     public static function module_classnames(array $args): void
     {
         $args = glsr(ModuleClassnamesDefaults::class)->merge($args);
-        $ratingColor = $args['attrs']['design']['decoration']['ratingColor']['desktop']['value'] ?? '';
-        $args['classnamesInstance']->add('has-custom-color', !empty($ratingColor));
-        parent::module_classnames($args);
+        $args['classnamesInstance']->add(
+            TextClassnames::text_options_classnames($args['attrs']['module']['advanced']['text'] ?? [])
+        );
     }
 
     /**

@@ -24,6 +24,9 @@ const ModuleStyles = ({
                 },
             },
         })}
+        {elements.style({
+            attrName: 'button',
+        })}
     </StyleContainer>
 );
 

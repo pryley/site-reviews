@@ -140,64 +140,6 @@
           }
         }
       }
-    },
-    "design": {
-      "type": "object",
-      "selector": "{{selector}} .glsr-review",
-      "settings": {
-        "decoration": {
-          "ratingColor": {
-            "groupType": "group-item",
-            "item": {
-              "groupSlug": "designGeneral",
-              "attrName": "design.decoration.ratingColor",
-              "label": "Rating Color",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/color-picker",
-                "type": "field"
-              }
-            }
-          },
-          "ratingSize": {
-            "groupType": "group-item",
-            "item": {
-              "label": "Rating Size",
-              "groupSlug": "designGeneral",
-              "attrName": "design.decoration.ratingSize",
-              "priority": 10,
-              "render": true,
-              "features": {
-                "dynamicContent": {
-                  "type": "number"
-                },
-                "hover": false,
-                "responsive": false,
-                "sticky": false
-              },
-              "component": {
-                "name": "divi/range",
-                "type": "field",
-                "props": {
-                  "cssProperty": "width",
-                  "min": 0,
-                  "minLimit": 0,
-                  "max": 120,
-                  "maxLimit": 120,
-                  "defaultUnit": "em",
-                  "allowedUnits": ["px", "em", "ex", "rem"]
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "customCssFields": {},
