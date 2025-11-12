@@ -46,7 +46,7 @@ class SanitizeUserId extends IntSanitizer
                 return get_current_user_id();
             }
         } elseif (is_numeric($value)) {
-            if ($user = get_userdata($value)) {
+            if ($user = get_user_by('id', $value)) {
                 return $user->ID;
             }
         } elseif (is_string($value)) {

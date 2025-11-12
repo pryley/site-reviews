@@ -13,7 +13,7 @@ class ColumnValueAssignedUsers implements ColumnValueContract
     {
         $links = [];
         foreach ($review->assigned_users as $userId) {
-            $user = get_userdata($userId);
+            $user = get_user_by('id', $userId);
             if (!$user) {
                 continue;
             }

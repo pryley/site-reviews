@@ -29,7 +29,7 @@ class ListTableController extends AbstractController
         foreach ($postIds as $key) {
             $postId = absint(substr($key, 5));
             $userId = (int) wp_check_post_lock($postId);
-            $user = get_userdata($userId);
+            $user = get_user_by('id', $userId);
             if (!$user) {
                 continue;
             }
@@ -270,7 +270,7 @@ class ListTableController extends AbstractController
         }
         if ($last = wp_check_post_lock($postId)) {
             $name = _x('Someone', 'admin-text', 'site-reviews');
-            $user = get_userdata($last);
+            $user = get_user_by('id', $last);
             if ($user) {
                 $name = glsr(Sanitizer::class)->sanitizeUserName($user);
             }

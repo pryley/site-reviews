@@ -283,7 +283,7 @@ class Controller extends AbstractController
         $options = [];
         $userId = Cast::toInt(get_post_meta($requirementId, $this->metaKey('user_id'), true));
         $rating = Cast::toInt(get_post_meta($requirementId, $this->metaKey('rating'), true));
-        if ($user = get_userdata($userId)) {
+        if ($user = get_user_by('id', $userId)) {
             $name = glsr(Sanitizer::class)->sanitizeUserName($user);
             $options[$user->ID] = sprintf('%s (#%d)', $name, $user->ID);
         }

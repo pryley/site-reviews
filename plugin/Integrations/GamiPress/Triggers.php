@@ -75,7 +75,7 @@ class Triggers
 
     public function labelForUserId(string $label, Arguments $requirements, string $fallback = ''): string
     {
-        if ($user = get_userdata($requirements->user_id)) {
+        if ($user = get_user_by('id', $requirements->user_id)) {
             $name = glsr(Sanitizer::class)->sanitizeUserName($user);
             return sprintf($label, $name, $requirements->rating);
         }
