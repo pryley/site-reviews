@@ -73,8 +73,10 @@ class TemplateTags
     public function tagReviewAssignedPosts(Review $review): string
     {
         $posts = $review->assignedPosts();
-        $titles = wp_list_pluck($posts, 'post_title', 'ID');
-        $titles = array_map(fn ($title) => trim($title) ?: __('(no title)', 'site-reviews'), $titles);
+        $titles = array_map(
+            fn ($title) => trim($title) ?: __('(no title)', 'site-reviews'),
+            wp_list_pluck($posts, 'post_title', 'ID')
+        );
         return Str::naturalJoin($titles);
     }
 

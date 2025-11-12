@@ -7,6 +7,9 @@ use GeminiLabs\SiteReviews\Database\Query;
 
 class SearchAssignedUsers extends AbstractSearch
 {
+    /**
+     * @return \WP_User[]
+     */
     public function users(): array
     {
         $users = [];
