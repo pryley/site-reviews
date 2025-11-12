@@ -50,7 +50,7 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
      * This is done after $casts and before $enums.
      */
     public array $sanitize = [
-        'author' => 'user-id:0',
+        'author' => 'user-id',
         'class' => 'attr-class',
         'hide' => 'array-string',
         'id' => 'id-unique',

@@ -305,10 +305,7 @@ class Database
         $results = [];
         $users = get_users($args);
         foreach ($users as $user) {
-            $name = glsr(Sanitizer::class)->sanitizeUserName(
-                $user->display_name,
-                $user->user_nicename
-            );
+            $name = glsr(Sanitizer::class)->sanitizeUserName($user);
             $results[$user->ID] = $name;
         }
         return $results;

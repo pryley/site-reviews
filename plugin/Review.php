@@ -17,6 +17,7 @@ use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 /**
  * @property bool      $approved       This property is mapped to $is_approved
@@ -71,11 +72,17 @@ class Review extends Arguments
             glsr()->args($values)->toArray()
         );
         parent::__construct($args);
-        if (!empty($values) && $init) {
-            $this->set('avatar', glsr(Avatar::class)->url($this));
-            $this->set('custom', $this->custom());
-            $this->set('response', $this->meta()->_response);
+        if (!$init || empty($values)) {
+            return;
         }
+        if (empty($this->author)) {
+            $this->set('author', glsr(Sanitizer::class)->sanitizeUserName(
+                $this->user(), __('Anonymous', 'site-reviews')
+            ));
+        }
+        $this->set('avatar', glsr(Avatar::class)->url($this));
+        $this->set('custom', $this->custom());
+        $this->set('response', $this->meta()->_response);
     }
 
     /**
@@ -152,10 +159,11 @@ class Review extends Arguments
 
     public function author(): string
     {
-        $name = $this->get('author', __('Anonymous', 'site-reviews'));
-        $format = glsr_get_option('reviews.name.format', '', 'string');
-        $initial = glsr_get_option('reviews.name.initial', '', 'string');
-        return Text::name($name, $format, $initial);
+        return Text::name(
+            $this->author,
+            glsr_get_option('reviews.name.format', '', 'string'),
+            glsr_get_option('reviews.name.initial', '', 'string')
+        );
     }
 
     public function avatar(int $size = 0): string

@@ -87,15 +87,10 @@ class TemplateTags
 
     public function tagReviewAssignedUsers(Review $review): string
     {
-        $users = $review->assignedUsers();
-        $names = [];
-        foreach ($users as $user) {
-            $name = glsr(Sanitizer::class)->sanitizeUserName(
-                $user->display_name,
-                $user->user_nicename
-            );
-            $names[] = $name;
-        }
+        $names = array_map(
+            fn ($user) => glsr(Sanitizer::class)->sanitizeUserName($user),
+            $review->assignedUsers()
+        );
         return Str::naturalJoin($names);
     }
 

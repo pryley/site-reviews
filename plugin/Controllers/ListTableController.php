@@ -33,10 +33,7 @@ class ListTableController extends AbstractController
             if (!$user) {
                 continue;
             }
-            $name = glsr(Sanitizer::class)->sanitizeUserName(
-                $user->display_name,
-                $user->user_nicename
-            );
+            $name = glsr(Sanitizer::class)->sanitizeUserName($user);
             if (!glsr()->can('edit_post', $postId) && glsr()->can('respond_to_post', $postId)) {
                 $send = [
                     'text' => sprintf(_x('%s is currently editing', 'admin-text', 'site-reviews'), $name),
@@ -275,10 +272,7 @@ class ListTableController extends AbstractController
             $name = _x('Someone', 'admin-text', 'site-reviews');
             $user = get_userdata($last);
             if ($user) {
-                $name = glsr(Sanitizer::class)->sanitizeUserName(
-                    $user->display_name,
-                    $user->user_nicename
-                );
+                $name = glsr(Sanitizer::class)->sanitizeUserName($user);
             }
             $message = esc_html_x('Saving is disabled: %s is currently editing this review.', 'admin-text', 'site-reviews');
             printf($message, $name);

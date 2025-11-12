@@ -257,14 +257,11 @@ class ProductController implements ControllerContract
                 return;
             }
             if ('email' === $field->original_name && empty($field->value)) {
-                $field->value = glsr(Sanitizer::class)->sanitizeUserEmail($user->user_email);
+                $field->value = glsr(Sanitizer::class)->sanitizeUserEmail($user);
                 return;
             }
             if ('name' === $field->original_name && empty($field->value)) {
-                $field->value = glsr(Sanitizer::class)->sanitizeUserName(
-                    $user->display_name,
-                    $user->user_nicename
-                );
+                $field->value = glsr(Sanitizer::class)->sanitizeUserName($user);
             }
         });
         return $fields;

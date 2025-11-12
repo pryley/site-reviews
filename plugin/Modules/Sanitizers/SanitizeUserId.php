@@ -6,31 +6,53 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class SanitizeUserId extends IntSanitizer
 {
+    public array $args;
+    public $value;
+    public array $values;
+
+    public function __construct($value, array $args = [], array $values = [])
+    {
+        $args = array_pad($args, 2, ''); // minimum of 2 args
+        $this->args = $args;
+        $this->value = $this->userValue($value);
+        $this->values = $values;
+    }
+
     public function run(): int
     {
         if ($userId = $this->value()) {
             return $userId;
         }
-        $userIdFallback = $this->args[0];
-        if (is_numeric($userIdFallback)) {
-            $user = get_user_by('id', $userIdFallback);
-            return Arr::getAs('int', $user, 'ID');
+        $fallback = $this->args[0];
+        if ('current_user' === $fallback) {
+            return $this->userValue(wp_get_current_user());
         }
-        return !defined('WP_IMPORTING') ? get_current_user_id() : 0;
+        return $this->userValue($fallback);
     }
 
-    protected function value(): int
+    /**
+     * @param mixed $value
+     */
+    protected function userValue($value): int
     {
-        if (is_numeric($this->value)) {
-            $user = get_user_by('id', $this->value);
-            return Arr::getAs('int', $user, 'ID');
+        if (empty($value)) {
+            return 0;
         }
-        if ('user_id' === $this->value) {
-            return !defined('WP_IMPORTING') ? get_current_user_id() : 0;
+        if ($value instanceof \WP_User) {
+            return $value->ID;
         }
-        if (is_string($this->value)) {
-            $user = get_user_by('login', sanitize_user($this->value, true));
-            return Arr::getAs('int', $user, 'ID');
+        if ('user_id' === $value) {
+            if (!defined('WP_IMPORTING')) {
+                return get_current_user_id();
+            }
+        } elseif (is_numeric($value)) {
+            if ($user = get_userdata($value)) {
+                return $user->ID;
+            }
+        } elseif (is_string($value)) {
+            if ($user = get_user_by('login', sanitize_user($value, true))) {
+                return $user->ID;
+            }
         }
         return 0;
     }

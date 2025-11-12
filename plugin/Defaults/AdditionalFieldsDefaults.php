@@ -22,7 +22,7 @@ class AdditionalFieldsDefaults extends DefaultsAbstract
     public array $sanitize = [
         'geolocation' => 'array-consolidate',
         'response' => 'text-html',
-        'response_by' => 'user-id:0',
+        'response_by' => 'user-id',
         'verified_on' => 'timestamp',
     ];
 

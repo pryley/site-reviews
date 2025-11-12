@@ -1430,7 +1430,11 @@ class SanitizerTest extends \WP_UnitTestCase
 
     public function test_sanitize_user_email()
     {
-        $sanitized = $this->sanitize('user-email');
+        $user = self::factory()->user->create_and_get();
+        wp_set_current_user($user->ID);
+        $values = $this->testValues;
+        $values[] = $user->user_email;
+        $sanitized = $this->sanitize('user-email', $values);
         $this->assertEquals($sanitized, [
             '',
             '',
@@ -1468,15 +1472,58 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
             '',
+            $user->user_email,
+        ]);
+        $sanitized = $this->sanitize('user-email:current_user', $values);
+        $this->assertEquals($sanitized, [
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            'matt@wordpress.org',
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
+            $user->user_email,
         ]);
     }
 
     public function test_sanitize_user_id()
     {
-        $userId1 = self::factory()->user->create();
-        $userId2 = self::factory()->user->create();
+        $user1 = self::factory()->user->create_and_get();
+        $user2 = self::factory()->user->create_and_get();
         $values = $this->testValues;
-        $values[] = $userId1;
+        $values[] = $user1->ID; // test User ID value
+        $values[] = $user1->user_login; // test User login value
+        $values[] = 'user_id'; // Test current User ID value
         $sanitized = $this->sanitize('user-id', $values);
         $this->assertEquals($sanitized, [
             0,
@@ -1515,47 +1562,94 @@ class SanitizerTest extends \WP_UnitTestCase
             0,
             0,
             0,
-            $userId1,
+            $user1->ID,
+            $user1->ID,
+            0,
         ]);
-        $sanitized = $this->sanitize("user-id:{$userId2}", $values);
+        $sanitized = $this->sanitize("user-id:{$user2->ID}", $values);
         $this->assertEquals($sanitized, [
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId2,
-            $userId1,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user2->ID,
+            $user1->ID,
+            $user1->ID,
+            $user2->ID,
+        ]);
+        wp_set_current_user($user1->ID);
+        $sanitized = $this->sanitize('user-id:current_user', $values);
+        $this->assertEquals($sanitized, [
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
+            $user1->ID,
         ]);
     }
 
@@ -1567,7 +1661,7 @@ class SanitizerTest extends \WP_UnitTestCase
         $values[] = $users[0];
         $values[] = $users;
         $values[] = implode(',', $users);
-        $values[] = array_diff([1, 2, 3, 4, 5, 6, 7, 8, 9], $users);
+        $values[] = array_diff(range(1, 20), $users);
         $sanitized = $this->sanitize('user-ids', $values);
         $this->assertEquals($sanitized, [
             [],
@@ -1615,7 +1709,10 @@ class SanitizerTest extends \WP_UnitTestCase
 
     public function test_sanitize_user_name()
     {
+        $user = self::factory()->user->create_and_get();
+        wp_set_current_user($user->ID);
         $values = $this->testValues;
+        $values[] = $user->display_name;
         $values[] = 'Łukasz';
         $values[] = 'မောင်မောင် အောင်မျိုး ကိုကိုဦး မိုးမြင့်သန္တာ';
         $sanitized = $this->sanitize('user-name', $values);
@@ -1638,10 +1735,10 @@ class SanitizerTest extends \WP_UnitTestCase
             '0-0-2020',
             '2020',
             '李祖阳 xx xx',
-            'axdextomorrow 200 200 peter',
+            'axdextomorrow 200 200',
             'this is true',
             'single-review full-width alert69',
-            'mattwordpress.org',
+            'matt',
             'httpswordpress.org',
             'wordpress.org',
             'www.wordpress.org',
@@ -1656,6 +1753,49 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
             '',
+            $user->display_name,
+            'Łukasz',
+            'မောင်မောင် အောင်မျိုး ကိုကိုဦး မိုးမြင့်သန္တာ',
+        ]);
+        $sanitized = $this->sanitize('user-name:current_user', $values);
+        $this->assertEquals($sanitized, [
+            $user->display_name,
+            'abc',
+            '1',
+            $user->display_name,
+            '13',
+            '0',
+            '13',
+            $user->display_name,
+            '1',
+            $user->display_name,
+            $user->display_name,
+            'This is a title',
+            'nslookup hit-gxwgukmocpc5c8dddd.comperl -e gethostbyname\'hissstgxwgukmocpc5c80.me\'',
+            'June 13, 1989',
+            '03-12-2020',
+            '0-0-2020',
+            '2020',
+            '李祖阳 xx xx',
+            'axdextomorrow 200 200',
+            'this is true',
+            'single-review full-width alert69',
+            'matt',
+            'httpswordpress.org',
+            'wordpress.org',
+            'www.wordpress.org',
+            'httpswordpress.org',
+            '-1',
+            'Hello this is a link and a link',
+            $user->display_name,
+            $user->display_name,
+            $user->display_name,
+            $user->display_name,
+            $user->display_name,
+            $user->display_name,
+            $user->display_name,
+            $user->display_name,
+            $user->display_name,
             'Łukasz',
             'မောင်မောင် အောင်မျိုး ကိုကိုဦး မိုးမြင့်သန္တာ',
         ]);

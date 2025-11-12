@@ -17,11 +17,7 @@ class ReviewAssignedUsersTag extends ReviewTag
         $users = $this->review->assignedUsers();
         $names = [];
         foreach ($users as $user) {
-            $name = glsr(Sanitizer::class)->sanitizeUserName(
-                $user->display_name,
-                $user->user_nicename
-            );
-            $names[] = $name;
+            $names[] = glsr(Sanitizer::class)->sanitizeUserName($user);
         }
         if (empty($names)) {
             return '';

@@ -26,6 +26,6 @@ class Email extends Text
         if (!in_array($this->field->original_name, glsr_get_option('forms.autofill', [], 'array'))) {
             return;
         }
-        $this->field->value = glsr(Sanitizer::class)->sanitizeUserEmail('');
+        $this->field->value = glsr(Sanitizer::class)->sanitizeUserEmail(wp_get_current_user());
     }
 }

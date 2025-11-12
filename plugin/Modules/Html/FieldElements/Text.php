@@ -38,6 +38,6 @@ class Text extends AbstractFieldElement
         if (!in_array($this->field->original_name, glsr_get_option('forms.autofill', [], 'array'))) {
             return;
         }
-        $this->field->value = glsr(Sanitizer::class)->sanitizeUserName('', 'current_user');
+        $this->field->value = glsr(Sanitizer::class)->sanitizeUserName(wp_get_current_user());
     }
 }
