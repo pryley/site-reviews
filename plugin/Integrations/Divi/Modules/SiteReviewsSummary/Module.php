@@ -50,6 +50,23 @@ class Module extends DiviModule
                     'styleProps' => [
                         'advancedStyles' => [
                             [
+                                'componentName' => 'divi/text',
+                                'props' => [
+                                    'attr' => $attrs['module']['advanced']['text'] ?? [],
+                                    'propertySelectors' => [
+                                        'textShadow' => [
+                                            'desktop' => [
+                                                'value' => [
+                                                    'text-shadow' => implode(',', [
+                                                        "{$orderClass} .glsr-summary",
+                                                    ]),
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            [
                                 'componentName' => 'divi/common',
                                 'props' => [
                                     'attr' => $attrs['module']['decoration']['sizing'] ?? [],

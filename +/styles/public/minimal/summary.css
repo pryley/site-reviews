@@ -48,7 +48,9 @@
 }
 :root .glsr-summary-bar-background {
     align-items: center;
+    border-radius: var(--glsr-bar-radius);
     display: flex;
+    overflow: hidden;
     position: relative;
     white-space: nowrap;
     &::before {

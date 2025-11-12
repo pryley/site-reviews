@@ -47,13 +47,13 @@ div.is-style-3 {
     .glsr-summary-text {
         grid-column-start: 2;
     }
-    :not(:has(:is(.glsr-summary-rating))) {
+    .glsr-summary:not(:has(.glsr-summary-rating)) {
         .glsr-summary-stars,
         .glsr-summary-text {
             grid-column: 1 / span 2;
         }
     }
-    :not(:has(:is(.glsr-summary-stars,.glsr-summary-text))) {
+    .glsr-summary:not(:has(.glsr-summary-stars):has(.glsr-summary-text)) {
         .glsr-summary-stars,
         .glsr-summary-text {
             grid-row-end: span 2;
@@ -113,12 +113,10 @@ div.is-style-3 {
     }
     .glsr-summary-bar-background {
         align-items: end;
-        border-radius: var(--glsr-input-radius);
         grid-row-start: 1;
         height: var(--glsr-bar-size);
         overflow: hidden;
         &::after {
-            border-radius: var(--glsr-input-radius);
             height: var(--glsr-bar-percent);
             min-height: 1px;
             width: 100%;

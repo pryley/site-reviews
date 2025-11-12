@@ -21,10 +21,24 @@ const ModuleStyles = ({
         {elements.style({
             attrName: 'module',
             styleProps: {
-                disabledOn: {
-                    disabledModuleVisibility: settings?.disabledModuleVisibility,
-                },
                 advancedStyles: [
+                    {
+                        componentName: "divi/text",
+                        props: {
+                            attr: attrs?.module?.advanced?.text,
+                            propertySelectors: {
+                                textShadow: {
+                                    desktop: {
+                                        value: {
+                                            'text-shadow': [
+                                                `${orderClass} .glsr-summary`,
+                                            ].join(','),
+                                        },
+                                    },
+                                },
+                            }
+                        },
+                    },
                     {
                         componentName: "divi/common",
                         props: {
@@ -37,6 +51,9 @@ const ModuleStyles = ({
                         },
                     },
                 ],
+                disabledOn: {
+                    disabledModuleVisibility: settings?.disabledModuleVisibility,
+                },
             },
         })}
     </StyleContainer>

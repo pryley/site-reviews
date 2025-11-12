@@ -14,6 +14,10 @@
 :--namespace .glsr-field {
     position: relative;
 }
+:--namespace .glsr-description > *:is(dl,ol,ul) {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
 :--namespace .glsr-field.glsr-hidden {
     display: none !important;
 }
