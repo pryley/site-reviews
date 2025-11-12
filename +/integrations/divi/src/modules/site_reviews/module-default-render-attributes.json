@@ -76,5 +76,19 @@
         }
       }
     }
+  },
+  "button": {
+    "decoration": {
+      "button": {
+        "desktop": {
+          "value": {
+            "alignment": "left",
+            "icon": {
+              "enable": "on"
+            }
+          }
+        }
+      }
+    }
   }
 }
