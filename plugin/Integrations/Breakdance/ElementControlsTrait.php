@@ -71,7 +71,7 @@ trait ElementControlsTrait
         if (empty($properties)) {
             return false;
         }
-        return Arr::unflatten($defaults);
+        return Arr::unflatten($properties);
     }
 
     /**

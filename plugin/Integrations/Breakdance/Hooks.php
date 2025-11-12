@@ -51,7 +51,7 @@ class Hooks extends IntegrationHooks
 
     protected function supportedVersion(): string
     {
-        return '2.2.0';
+        return '2.5.0';
     }
 
     protected function version(): string
