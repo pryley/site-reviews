@@ -34,6 +34,7 @@
     margin-block-start: var(--glsr-gap-sm);
 }
 :root .glsr-summary-bar {
+    align-items: center;
     display: grid;
     grid-template-columns: subgrid;
     grid-column: span 3;
@@ -47,16 +48,16 @@
     white-space: nowrap;
 }
 :root .glsr-summary-bar-background {
-    align-items: center;
     border-radius: var(--glsr-bar-radius);
     display: flex;
+    height: var(--glsr-bar-size);
     overflow: hidden;
     position: relative;
     white-space: nowrap;
     &::before {
         background-color: currentColor;
         content: '';
-        height: var(--glsr-bar-size);
+        height: 100%;
         opacity: var(--glsr-bar-opacity);
         position: absolute;
         width: 100%;
@@ -64,7 +65,7 @@
     &::after {
         background: var(--glsr-bar-bg);
         content: '';
-        height: var(--glsr-bar-size);
+        height: 100%;
         position: relative;
         width: var(--glsr-bar-percent);
     }

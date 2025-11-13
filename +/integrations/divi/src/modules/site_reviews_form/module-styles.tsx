@@ -12,6 +12,7 @@ const baseSelector = '.et-db #page-container .et_pb_section';
 
 const ModuleStyles = ({
     attrs,
+    defaultPrintedStyleAttrs,
     elements,
     mode,
     noStyleTag,
@@ -96,6 +97,7 @@ const ModuleStyles = ({
                         `${baseSelector} ${orderClass} .glsr-form .glsr-toggle-track::before`,
                     ].join(','),
                 },
+                defaultPrintedStyleAttrs: defaultPrintedStyleAttrs?.module?.decoration,
                 disabledOn: {
                     disabledModuleVisibility: settings?.disabledModuleVisibility,
                 },

@@ -10,8 +10,8 @@ import { placeholderContent } from './placeholder-content';
 import { SettingsContent } from './settings-content';
 import { type ModuleAttrs } from './types';
 import { type ModuleLibrary } from '@divi/types';
-import './vb.scss';
 import '../../../../../blocks/site_reviews_form/style.scss';
+import './vb.scss';
 
 const ModuleEdit = (props: ModuleEditProps<ModuleAttrs>) => SharedModuleEdit({
     ...props,

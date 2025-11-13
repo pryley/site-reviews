@@ -1,0 +1,50 @@
+// This style will render on Front-End and Visual Builder.
+.glsr_divi_review.et_pb_text_align_left .glsr:not([data-theme]) {
+    .glsr-review {
+        justify-content: start;
+    }
+    .glsr-review-actions,
+    .glsr-review-author_actions {
+        justify-content: start;
+    }
+    .glsr-review-date {
+        flex: 1;
+        justify-content: start;
+    }
+    .glsr-review-rating {
+        flex: 0;
+    }
+}
+.glsr_divi_review.et_pb_text_align_center .glsr:not([data-theme]) {
+    .glsr-review {
+        justify-content: center;
+    }
+    .glsr-review-actions,
+    .glsr-review-author_actions {
+        justify-content: center;
+    }
+    .glsr-review-date {
+        flex: auto !important;
+        justify-content: start;
+    }
+    .glsr-review-rating {
+        flex: auto;
+        justify-content: end;
+    }
+}
+.glsr_divi_review.et_pb_text_align_right .glsr:not([data-theme]) {
+    .glsr-review {
+        justify-content: end;
+    }
+    .glsr-review-actions,
+    .glsr-review-author_actions {
+        justify-content: end;
+    }
+    .glsr-review-date {
+        flex-grow: 0 !important;
+    }
+    .glsr-review-rating {
+        flex: 1;
+        justify-content: end;
+    }
+}

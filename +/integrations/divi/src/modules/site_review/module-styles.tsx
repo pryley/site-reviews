@@ -8,6 +8,7 @@ import { type ModuleAttrs } from './types';
 
 const ModuleStyles = ({
     attrs,
+    defaultPrintedStyleAttrs,
     elements,
     mode,
     noStyleTag,
@@ -19,6 +20,24 @@ const ModuleStyles = ({
         {elements.style({
             attrName: 'module',
             styleProps: {
+                advancedStyles: [
+                    {
+                        componentName: "divi/text",
+                        props: {
+                            attr: attrs?.module?.advanced?.text,
+                            propertySelectors: {
+                                textShadow: {
+                                    desktop: {
+                                        value: {
+                                            'text-shadow': orderClass,
+                                        },
+                                    },
+                                },
+                            }
+                        },
+                    },
+                ],
+                defaultPrintedStyleAttrs: defaultPrintedStyleAttrs?.module?.decoration,
                 disabledOn: {
                     disabledModuleVisibility: settings?.disabledModuleVisibility,
                 },

@@ -19,17 +19,6 @@ class Module extends DiviModule
     }
 
     /**
-     * This method is equivalent to "module-classnames.ts".
-     */
-    public static function module_classnames(array $args): void
-    {
-        $args = glsr(ModuleClassnamesDefaults::class)->merge($args);
-        $args['classnamesInstance']->add(
-            TextClassnames::text_options_classnames($args['attrs']['module']['advanced']['text'] ?? [])
-        );
-    }
-
-    /**
      * This method is equivalent to "module-styles.tsx".
      */
     public static function module_styles(array $args): void
@@ -122,6 +111,7 @@ class Module extends DiviModule
                                 "{$baseSelector} {$orderClass} .glsr-form .glsr-toggle-track::before",
                             ]),
                         ],
+                        'defaultPrintedStyleAttrs' => $args['defaultPrintedStyleAttrs']['module']['decoration'] ?? [],
                         'disabledOn' => [
                             'disabledModuleVisibility' => $settings['disabledModuleVisibility'] ?? null,
                         ],

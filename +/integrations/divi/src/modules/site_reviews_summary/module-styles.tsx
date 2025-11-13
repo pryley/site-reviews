@@ -9,6 +9,7 @@ import { type ModuleAttrs } from './types';
 
 const ModuleStyles = ({
     attrs,
+    defaultPrintedStyleAttrs,
     elements,
     mode,
     noStyleTag,
@@ -30,9 +31,7 @@ const ModuleStyles = ({
                                 textShadow: {
                                     desktop: {
                                         value: {
-                                            'text-shadow': [
-                                                `${orderClass} .glsr-summary`,
-                                            ].join(','),
+                                            'text-shadow': orderClass,
                                         },
                                     },
                                 },
@@ -51,6 +50,7 @@ const ModuleStyles = ({
                         },
                     },
                 ],
+                defaultPrintedStyleAttrs: defaultPrintedStyleAttrs?.module?.decoration,
                 disabledOn: {
                     disabledModuleVisibility: settings?.disabledModuleVisibility,
                 },

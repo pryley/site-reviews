@@ -5,13 +5,13 @@ namespace GeminiLabs\SiteReviews\Integrations\Divi\Modules;
 use ET\Builder\Framework\DependencyManagement\Interfaces\DependencyInterface;
 use ET\Builder\FrontEnd\BlockParser\BlockParserStore;
 use ET\Builder\FrontEnd\Module\Style;
-use ET\Builder\Packages\ModuleLibrary\ModuleRegistration;
 use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementComponents;
 use ET\Builder\Packages\Module\Options\Element\ElementScriptData;
 use ET\Builder\Packages\Module\Options\Text\TextClassnames;
+use ET\Builder\Packages\ModuleLibrary\ModuleRegistration;
 use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleClassnamesDefaults;
@@ -91,6 +91,23 @@ abstract class DiviModule implements DependencyInterface
                 $elements->style([
                     'attrName' => 'module',
                     'styleProps' => [
+                        'advancedStyles' => [
+                            [
+                                'componentName' => 'divi/text',
+                                'props' => [
+                                    'attr' => $args['attrs']['module']['advanced']['text'] ?? [],
+                                    'propertySelectors' => [
+                                        'textShadow' => [
+                                            'desktop' => [
+                                                'value' => [
+                                                    'text-shadow' => $args['orderClass'],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
                         'defaultPrintedStyleAttrs' => $args['defaultPrintedStyleAttrs']['module']['decoration'] ?? [],
                         'disabledOn' => [
                             'disabledModuleVisibility' => $settings['disabledModuleVisibility'] ?? null,

@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Integrations\Divi\Modules\SiteReviewsSummary;
 
 use ET\Builder\FrontEnd\Module\Style;
-use ET\Builder\Packages\Module\Options\Text\TextClassnames;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleClassnamesDefaults;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleStylesDefaults;
@@ -22,13 +21,18 @@ class Module extends DiviModule
      */
     public static function module_classnames(array $args): void
     {
+        parent::module_classnames($args);
         $args = glsr(ModuleClassnamesDefaults::class)->merge($args);
-        $args['classnamesInstance']->add(
-            TextClassnames::text_options_classnames($args['attrs']['module']['advanced']['text'] ?? [])
-        );
         $alignSelf = $args['attrs']['module']['decoration']['sizing']['desktop']['value']['alignSelf'] ?? null;
-        $alignSelf = 'left' === $alignSelf ? 'start' : ('right' === $alignSelf ? 'end' : $alignSelf);
-        $args['classnamesInstance']->add("items-justified-{$alignSelf}", !empty($alignSelf));
+        if (!empty($alignSelf)) {
+            $normalized = str_replace('flex-', '', $alignSelf);
+            $mapping = [
+                'end' => 'right',
+                'start' => 'left',
+            ];
+            $justified = $mapping[$normalized] ?? $normalized;
+            $args['classnamesInstance']->add("items-justified-{$justified}");
+        }
     }
 
     /**
@@ -36,6 +40,7 @@ class Module extends DiviModule
      */
     public static function module_styles(array $args): void
     {
+        parent::module_styles($args);
         $args = glsr(ModuleStylesDefaults::class)->merge($args);
         $attrs = $args['attrs'];
         $elements = $args['elements'];
@@ -49,23 +54,6 @@ class Module extends DiviModule
                     'attrName' => 'module',
                     'styleProps' => [
                         'advancedStyles' => [
-                            [
-                                'componentName' => 'divi/text',
-                                'props' => [
-                                    'attr' => $attrs['module']['advanced']['text'] ?? [],
-                                    'propertySelectors' => [
-                                        'textShadow' => [
-                                            'desktop' => [
-                                                'value' => [
-                                                    'text-shadow' => implode(',', [
-                                                        "{$orderClass} .glsr-summary",
-                                                    ]),
-                                                ],
-                                            ],
-                                        ],
-                                    ],
-                                ],
-                            ],
                             [
                                 'componentName' => 'divi/common',
                                 'props' => [
@@ -81,9 +69,8 @@ class Module extends DiviModule
                 ]),
             ],
         ]);
-        parent::module_styles($args);
     }
- 
+
     public static function shortcodeInstance(): ShortcodeContract
     {
         static $shortcode;
