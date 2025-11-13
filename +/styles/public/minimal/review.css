@@ -10,7 +10,7 @@
 }
 :root .glsr-hide .glsr-review,
 :root .glsr-hide .glsr-reviews > p {
-    opacity: 0 !important;
+    opacity: 0.25 !important;
 }
 :root .glsr-review p:first-of-type {
     margin-top: 0 !important;
