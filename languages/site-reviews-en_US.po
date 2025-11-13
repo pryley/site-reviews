@@ -517,87 +517,87 @@ msgstr "Verified"
 msgid "Service Unavailable."
 msgstr "Service Unavailable."
 
-#: compatibility.php:188
+#: compatibility.php:187
 msgctxt "admin-text"
 msgid "Create Reviews"
 msgstr "Create Reviews"
 
-#: compatibility.php:189
+#: compatibility.php:188
 msgctxt "admin-text"
 msgid "Delete Others' Reviews"
 msgstr "Delete Others' Reviews"
 
-#: compatibility.php:190
+#: compatibility.php:189
 msgctxt "admin-text"
 msgid "Delete Reviews"
 msgstr "Delete Reviews"
 
-#: compatibility.php:191
+#: compatibility.php:190
 msgctxt "admin-text"
 msgid "Delete Private Reviews"
 msgstr "Delete Private Reviews"
 
-#: compatibility.php:192
+#: compatibility.php:191
 msgctxt "admin-text"
 msgid "Delete Approved Reviews"
 msgstr "Delete Approved Reviews"
 
-#: compatibility.php:193
+#: compatibility.php:192
 msgctxt "admin-text"
 msgid "Edit Others' Reviews"
 msgstr "Edit Others' Reviews"
 
-#: compatibility.php:194
+#: compatibility.php:193
 msgctxt "admin-text"
 msgid "Edit Reviews"
 msgstr "Edit Reviews"
 
-#: compatibility.php:195
+#: compatibility.php:194
 msgctxt "admin-text"
 msgid "Edit Private Reviews"
 msgstr "Edit Private Reviews"
 
-#: compatibility.php:196
+#: compatibility.php:195
 msgctxt "admin-text"
 msgid "Edit Approved Reviews"
 msgstr "Edit Approved Reviews"
 
-#: compatibility.php:197
+#: compatibility.php:196
 msgctxt "admin-text"
 msgid "Approve Reviews"
 msgstr "Approve Reviews"
 
-#: compatibility.php:198
+#: compatibility.php:197
 msgctxt "admin-text"
 msgid "Read Private Reviews"
 msgstr "Read Private Reviews"
 
-#: compatibility.php:199
+#: compatibility.php:198
 msgctxt "admin-text"
 msgid "Respond To Reviews"
 msgstr "Respond To Reviews"
 
-#: compatibility.php:200
+#: compatibility.php:199
 msgctxt "admin-text"
 msgid "Respond To Others' Reviews"
 msgstr "Respond To Others' Reviews"
 
-#: compatibility.php:201
+#: compatibility.php:200
 msgctxt "admin-text"
 msgid "Assign Review Categories"
 msgstr "Assign Review Categories"
 
-#: compatibility.php:202
+#: compatibility.php:201
 msgctxt "admin-text"
 msgid "Delete Review Categories"
 msgstr "Delete Review Categories"
 
-#: compatibility.php:203
+#: compatibility.php:202
 msgctxt "admin-text"
 msgid "Edit Review Categories"
 msgstr "Edit Review Categories"
 
-#: compatibility.php:204
+#: compatibility.php:203
 msgctxt "admin-text"
 msgid "Manage Review Categories"
 msgstr "Manage Review Categories"
