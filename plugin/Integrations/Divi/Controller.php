@@ -118,6 +118,14 @@ class Controller extends AbstractController
      */
     public function filterPaginationLink(array $link, array $args, BuilderContract $builder): array
     {
+        if (empty($link['link'])) {
+            return $link;
+        }
+        $link = wp_parse_args($link, [
+            'tag' => 'span',
+            'type' => 'page',
+        ]);
+        $class = 'page';
         if ('current' === $link['type']) {
             $args['class'] = 'active';
         }
@@ -129,10 +137,8 @@ class Controller extends AbstractController
             $args['class'] = 'page-next';
             $class = 'next';
         }
-        $link['link'] = $builder->li([
-            'text' => $builder->a($args),
-            'class' => $class ?? 'page',
-        ]);
+        $text = $builder->build($link['tag'], $args);
+        $link['link'] = $builder->li(compact('class', 'text'));
         return $link;
     }
 
@@ -148,7 +154,7 @@ class Controller extends AbstractController
         add_filter('site-reviews/paginate_link', [$this, 'filterPaginationLink'], 10, 3);
         $links = (new Paginate($args))->links();
         remove_filter('site-reviews/paginate_link', [$this, 'filterPaginationLink']);
-        $links = wp_list_pluck($links, 'link');
+        $links = array_filter(wp_list_pluck($links, 'link'));
         return implode("\n", $links);
     }
 

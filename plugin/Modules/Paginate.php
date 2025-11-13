@@ -137,7 +137,7 @@ class Paginate
         } else {
             $link = $builder->build($tag, $args);
         }
-        $link = compact('link', 'type');
+        $link = compact('link', 'tag', 'type');
         return glsr()->filterArray('paginate_link', $link, $args, $builder, $this);
     }
 }

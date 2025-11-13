@@ -136,18 +136,17 @@ add_action('edit_form_top', function ($post) {
  */
 function glsr_filter_bootstrap_pagination_link(array $link, array $args, BuilderContract $builder): array
 {
-    $args['class'] = 'page-link';
-    if ('current' === $link['type']) {
-        $class = 'page-item active';
-        $text = $builder->span($args);
+    if (empty($link['link'])) {
+        return $link;
     }
-    if ('dots' === $link['type']) {
-        $text = $builder->span($args);
-    }
-    $link['link'] = $builder->li([
-        'text' => $text ?? $builder->a($args),
-        'class' => $class ?? 'page-item',
+    $link = wp_parse_args($link, [
+        'tag' => 'span',
+        'type' => 'page',
     ]);
+    $args['class'] = 'page-link';
+    $class = 'current' === $link['type'] ? 'page-item active' : 'page-item';
+    $text = $builder->build($link['tag'], $args);
+    $link['link'] = $builder->li(compact('class', 'text'));
     return $link;
 }
 add_filter('site-reviews/paginate_links', function (string $links, array $args): string {
@@ -158,7 +157,7 @@ add_filter('site-reviews/paginate_links', function (string $links, array $args):
     add_filter('site-reviews/paginate_link', 'glsr_filter_bootstrap_pagination_link', 10, 3);
     $links = (new Paginate($args))->links();
     remove_filter('site-reviews/paginate_link', 'glsr_filter_bootstrap_pagination_link');
-    $links = wp_list_pluck($links, 'link');
+    $links = array_filter(wp_list_pluck($links, 'link'));
     return implode("\n", $links);
 }, 10, 2);
 

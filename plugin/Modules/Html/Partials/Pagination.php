@@ -53,7 +53,7 @@ class Pagination implements PartialContract
     protected function paginatedLinks(): string
     {
         $links = (new Paginate($this->args))->links();
-        $links = wp_list_pluck($links, 'link');
+        $links = array_filter(wp_list_pluck($links, 'link'));
         return implode("\n", $links);
     }
 
