@@ -71,7 +71,7 @@ class Hooks extends IntegrationHooks
             ['redirectProductReviews', 'admin_init'],
             ['registerElementorWidgets', 'elementor/widgets/register', 20],
             ['registerWidgets', 'widgets_init', 20],
-            ['removeWoocommerceReviews', 'woocommerce_register_post_type_product'],
+            ['removeCommentSupport', 'admin_init'],
             ['renderNotice', 'admin_notices'],
             ['verifyProductOwner', 'site-reviews/review/created', 20],
         ]);

@@ -231,18 +231,14 @@ class MainController extends AbstractController
     }
 
     /**
-     * @param array $args
+     * This is only done on the admin side because otherwise it breaks product
+     * ratings on Divi product pages (and possibly on other page builder product pages).
      *
-     * @return array
-     *
-     * @action woocommerce_register_post_type_product
+     * @action admin_init
      */
-    public function removeWoocommerceReviews($args)
+    public function removeCommentSupport(): void
     {
-        if (array_key_exists('supports', $args)) {
-            $args['supports'] = array_diff($args['supports'], ['comments']);
-        }
-        return $args;
+        remove_post_type_support('product', 'comments');
     }
 
     /**
