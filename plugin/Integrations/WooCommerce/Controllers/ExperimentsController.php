@@ -13,6 +13,8 @@ class ExperimentsController implements ControllerContract
 {
     use HookProxy;
 
+    public array $savedQueries = [];
+
     /**
      * @param mixed  $value
      * @param int    $objectId
@@ -49,11 +51,17 @@ class ExperimentsController implements ControllerContract
             return $data;
         }
         $args = $this->getReviewArgs($vars);
-        $reviews = glsr_get_reviews($args);
-        if (true === $vars->count) {
-            return $this->getReviewsCount($reviews);
+        $count = true === $vars->count;
+        $hash = md5(maybe_serialize(compact('args', 'count')));
+        if (array_key_exists($hash, $this->savedQueries)) {
+            return $this->savedQueries[$hash];
         }
-        return $this->getReviews($reviews);
+        $args = $this->getReviewArgs($vars);
+        $reviews = glsr_get_reviews($args);
+        $this->savedQueries[$hash] = $count
+            ? $this->getReviewsCount($reviews)
+            : $this->getReviews($reviews);
+        return $this->savedQueries[$hash];
     }
 
     protected function getReviewArgs(Arguments $args): array
