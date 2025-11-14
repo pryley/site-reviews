@@ -24,20 +24,8 @@
         "decoration": {
           "animation": {},
           "background": {},
-          "border": {
-            "component": {
-              "props": {
-                "fieldLabel": "Field"
-              }
-            }
-          },
-          "boxShadow": {
-            "component": {
-              "props": {
-                "fieldLabel": "Field"
-              }
-            }
-          },
+          "border": {},
+          "boxShadow": {},
           "conditions": {},
           "disabledOn": {},
           "filters": {},
@@ -266,7 +254,6 @@
   },
   "customCssFields": {},
   "settings": {
-    "design": "auto",
     "advanced": "auto",
     "groups": {
       "contentGeneral": {

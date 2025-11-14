@@ -74,43 +74,6 @@ class Module extends DiviModule
                                 ],
                             ],
                         ],
-                        'border' => [
-                            'propertySelectors' => [
-                                'desktop' => [
-                                    'value' => [
-                                        'border-radius' => implode(',', [
-                                            "{$baseSelector} {$orderClass} .glsr-form .glsr-dropzone",
-                                            "{$baseSelector} {$orderClass} .glsr-form .glsr-input",
-                                            "{$baseSelector} {$orderClass} .glsr-form .glsr-input-checkbox",
-                                            "{$baseSelector} {$orderClass} .glsr-form .glsr-select",
-                                            "{$baseSelector} {$orderClass} .glsr-form .glsr-textarea",
-                                        ]),
-                                        'border-style' => implode(',', [
-                                            "{$baseSelector} {$orderClass} .glsr-form .glsr-dropzone",
-                                            "{$baseSelector} {$orderClass} .glsr-form .glsr-input",
-                                            "{$baseSelector} {$orderClass} .glsr-form .glsr-input-checkbox",
-                                            "{$baseSelector} {$orderClass} .glsr-form .glsr-input-radio",
-                                            "{$baseSelector} {$orderClass} .glsr-form .glsr-input-range",
-                                            "{$baseSelector} {$orderClass} .glsr-form .glsr-select",
-                                            "{$baseSelector} {$orderClass} .glsr-form .glsr-textarea",
-                                            "{$baseSelector} {$orderClass} .glsr-form .glsr-toggle-track::before",
-                                        ]),
-                                    ],
-                                ],
-                            ],
-                        ],
-                        'boxShadow' => [
-                            'selector' => implode(',', [
-                                "{$baseSelector} {$orderClass} .glsr-form .glsr-dropzone",
-                                "{$baseSelector} {$orderClass} .glsr-form .glsr-input",
-                                "{$baseSelector} {$orderClass} .glsr-form .glsr-input-checkbox",
-                                "{$baseSelector} {$orderClass} .glsr-form .glsr-input-radio",
-                                "{$baseSelector} {$orderClass} .glsr-form .glsr-input-range",
-                                "{$baseSelector} {$orderClass} .glsr-form .glsr-select",
-                                "{$baseSelector} {$orderClass} .glsr-form .glsr-textarea",
-                                "{$baseSelector} {$orderClass} .glsr-form .glsr-toggle-track::before",
-                            ]),
-                        ],
                         'defaultPrintedStyleAttrs' => $args['defaultPrintedStyleAttrs']['module']['decoration'] ?? [],
                         'disabledOn' => [
                             'disabledModuleVisibility' => $settings['disabledModuleVisibility'] ?? null,

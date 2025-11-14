@@ -229,3 +229,16 @@
   padding-bottom: .5em;
   padding-left: .715em;
 }
+
+:--namespace .et_pb_gallery_pagination {
+  --vertical-gap: 0;
+}
+:--namespace .et_pb_gallery_pagination ul {
+  padding: 0;
+  &::after {
+    display: none;
+  }
+}
+:root .et_pb_wc_rating.et_pb_wc_rating_no_rating .glsr-star-rating {
+  display: none;
+}

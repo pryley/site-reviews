@@ -8,6 +8,7 @@ import { ModuleScriptData } from './module-script-data';
 import { ModuleStyles } from './module-styles';
 import { placeholderContent } from './placeholder-content';
 import { SettingsContent } from './settings-content';
+import { SettingsDesign } from '../../shared/settings-design';
 import { type ModuleAttrs } from './types';
 import { type ModuleLibrary } from '@divi/types';
 import '../../../../../blocks/site_reviews_summary/style.scss';
@@ -32,5 +33,6 @@ export const SiteReviewsSummary: ModuleLibrary.Module.RegisterDefinition<ModuleA
     },
     settings: {
         content: SettingsContent,
+        design: SettingsDesign,
     },
 };

@@ -8,9 +8,11 @@ import { ModuleScriptData } from './module-script-data';
 import { ModuleStyles } from './module-styles';
 import { placeholderContent } from './placeholder-content';
 import { SettingsContent } from './settings-content';
+import { SettingsDesign } from '../../shared/settings-design';
 import { type ModuleAttrs } from './types';
 import { type ModuleLibrary } from '@divi/types';
 import '../../../../../blocks/site_reviews_form/style.scss';
+import './module.scss';
 import './vb.scss';
 
 const ModuleEdit = (props: ModuleEditProps<ModuleAttrs>) => SharedModuleEdit({
@@ -31,5 +33,6 @@ export const SiteReviewsForm: ModuleLibrary.Module.RegisterDefinition<ModuleAttr
     },
     settings: {
         content: SettingsContent,
+        design: SettingsDesign,
     },
 };

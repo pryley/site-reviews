@@ -60,43 +60,6 @@ const ModuleStyles = ({
                         },
                     },
                 ],
-                border: {
-                  propertySelectors: {
-                    desktop: {
-                      value: {
-                        "border-radius": [
-                            `${baseSelector} ${orderClass} .glsr-form .glsr-dropzone`,
-                            `${baseSelector} ${orderClass} .glsr-form .glsr-input`,
-                            `${baseSelector} ${orderClass} .glsr-form .glsr-input-checkbox`,
-                            `${baseSelector} ${orderClass} .glsr-form .glsr-select`,
-                            `${baseSelector} ${orderClass} .glsr-form .glsr-textarea`,
-                        ].join(','),
-                        "border-style": [
-                            `${baseSelector} ${orderClass} .glsr-form .glsr-dropzone`,
-                            `${baseSelector} ${orderClass} .glsr-form .glsr-input`,
-                            `${baseSelector} ${orderClass} .glsr-form .glsr-input-checkbox`,
-                            `${baseSelector} ${orderClass} .glsr-form .glsr-input-radio`,
-                            `${baseSelector} ${orderClass} .glsr-form .glsr-input-range`,
-                            `${baseSelector} ${orderClass} .glsr-form .glsr-select`,
-                            `${baseSelector} ${orderClass} .glsr-form .glsr-textarea`,
-                            `${baseSelector} ${orderClass} .glsr-form .glsr-toggle-track::before`,
-                        ].join(','),
-                      }
-                    }
-                  }
-                },
-                boxShadow: {
-                    selector: [
-                        `${baseSelector} ${orderClass} .glsr-form .glsr-dropzone`,
-                        `${baseSelector} ${orderClass} .glsr-form .glsr-input`,
-                        `${baseSelector} ${orderClass} .glsr-form .glsr-input-checkbox`,
-                        `${baseSelector} ${orderClass} .glsr-form .glsr-input-radio`,
-                        `${baseSelector} ${orderClass} .glsr-form .glsr-input-range`,
-                        `${baseSelector} ${orderClass} .glsr-form .glsr-select`,
-                        `${baseSelector} ${orderClass} .glsr-form .glsr-textarea`,
-                        `${baseSelector} ${orderClass} .glsr-form .glsr-toggle-track::before`,
-                    ].join(','),
-                },
                 defaultPrintedStyleAttrs: defaultPrintedStyleAttrs?.module?.decoration,
                 disabledOn: {
                     disabledModuleVisibility: settings?.disabledModuleVisibility,
