@@ -13,7 +13,10 @@ trait ElementTrait
      */
     public static function actions()
     {
-        return glsr()->filterArray('breakdance/element/actions', static::bdActions(), static::bdShortcode()->tag);
+        return glsr()->filterArray('breakdance/actions',
+            static::bdActions(),
+            static::bdShortcode()
+        );
     }
 
     /**
@@ -65,14 +68,33 @@ trait ElementTrait
         return glsr()->id;
     }
 
+    public static function cssTemplate()
+    {
+        return glsr()->filterString('breakdance/css_template',
+            static::bdFileContents('css.twig'),
+            static::bdShortcode()
+        );
+    }
+
     public static function className()
     {
         return 'breakdance-'.Str::dashCase(static::bdShortcode()->tag);
     }
 
+    public static function defaultCss()
+    {
+        return glsr()->filterString('breakdance/default_css',
+            static::bdFileContents('default.css'),
+            static::bdShortcode()
+        );
+    }
+
     public static function dependencies()
     {
-        return glsr()->filterArray('breakdance/element/dependencies', static::bdDependencies(), static::bdShortcode()->tag);
+        return glsr()->filterArray('breakdance/dependencies',
+            static::bdDependencies(),
+            static::bdShortcode()
+        );
     }
 
     /**
@@ -153,5 +175,13 @@ trait ElementTrait
     public static function template()
     {
         return '%%SSR%%';
+    }
+
+    protected static function bdFileContents(string $file): string
+    {
+        $reflector = new \ReflectionClass(static::class);
+        $dir = dirname($reflector->getFileName());
+        $file = "{$dir}/$file";
+        return file_exists($file) ? file_get_contents($file) : '';
     }
 }

@@ -24,33 +24,28 @@ trait ElementControlsTrait
      */
     public static function contentControls()
     {
-        $controls = [];
-        $settings = [];
         $shortcode = static::bdShortcode();
-        $transformer = new Transformer($shortcode->settings(), $shortcode->tag);
-        foreach ($transformer as $item) {
-            $controls[$item['path']] = $item['control'];
-        }
-        $controls = Arr::unflatten(array_filter($controls));
-        foreach ($controls as $slug => $children) {
-            $section = $transformer->section($slug);
-            foreach ($children as $key => $child) {
-                if (!str_starts_with($key, 'popout_')) {
-                    $section['children'][] = $child;
-                    continue;
-                }
-                $slug = Str::removePrefix($key, 'popout_');
-                $section['children'][] = $transformer->popout($slug, array_values($child));
-            }
-            $settings[] = $section;
-        }
-        return $settings;
+        $transformer = new Transformer('content', $shortcode->settings(), $shortcode->tag);
+        return $transformer->controls();
     }
 
     /**
      * This must return false if the element has no default properties
      * otherwise SSR will not trigger when control values are changed.
      *
+     * return [
+     *     'content' => [
+     *         'general' => [
+     *             'rating' => 0,
+     *         ],
+     *     ],
+     *     'design' => [
+     *         'general' => [
+     *             'preset' => 0,
+     *         ],
+     *     ],
+     * ];
+     * 
      * @return array|false
      */
     public static function defaultProperties()
@@ -59,7 +54,7 @@ trait ElementControlsTrait
         $shortcode = static::bdShortcode();
         $config = $shortcode->settings();
         $defaults = array_filter($config, fn ($args) => isset($args['default']));
-        $transformer = new Transformer($config, $shortcode->tag);
+        $transformer = new Transformer('content', $config, $shortcode->tag);
         foreach ($transformer as $item) {
             $slug = $item['control']['slug'] ?? '';
             if (empty($slug) || !array_key_exists($slug, $defaults)) {
@@ -68,10 +63,22 @@ trait ElementControlsTrait
             $path = "content.{$item['path']}";
             $properties[$path] = $defaults[$slug]['default'];
         }
+        $properties = Arr::unflatten($properties);
+        $properties = glsr()->filterArray('breakdance/default_properties', $properties, $shortcode);
         if (empty($properties)) {
             return false;
         }
-        return Arr::unflatten($properties);
+        return $properties;
+    }
+
+    /**
+     * @return array[]
+     */
+    public static function designControls()
+    {
+        $shortcode = static::bdShortcode();
+        $transformer = new Transformer('design', [], $shortcode->tag);
+        return $transformer->controls();
     }
 
     /**
@@ -116,7 +123,8 @@ trait ElementControlsTrait
                 $args[$key] = array_keys(array_filter($value));
             }
         }
-        $args = glsr()->filterArray('breakdance/ssr', $args, $data, static::bdShortcode()->tag);
+        $shortcode = static::bdShortcode();
+        $args = glsr()->filterArray('breakdance/ssr_args', $args, $data, $shortcode);
         return $args;
     }
 }

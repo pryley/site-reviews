@@ -18,24 +18,6 @@ class SiteReview extends Element
         return SiteReviewShortcode::class;
     }
 
-    public static function cssTemplate()
-    {
-        return file_get_contents(__DIR__.'/css.twig');
-    }
-
-    public static function defaultCss()
-    {
-        return file_get_contents(__DIR__.'/default.css');
-    }
-
-    /**
-     * @return array[]
-     */
-    public static function designControls()
-    {
-        return [];
-    }
-
     /**
      * @return string
      */

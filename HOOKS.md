@@ -89,14 +89,17 @@
     site-reviews/avatar/generate                                (string $avatarUrl, Review $review, int $size): string
     site-reviews/avatar/id_or_email                             (string $id_or_email, array $reviewValues): string
     site-reviews/block/<block>/attributes                       (array $attributes, string $block): array
+    site-reviews/breakdance/actions                             (array $actions, Shortcodes\Shortcode $shortcode): array
     site-reviews/breakdance/config                              (array $config, Integrations\Breakdance\Transformer $transformer): array
     site-reviews/breakdance/controls                            (array $controls, Integrations\Breakdance\Transformer $transformer): array
-    site-reviews/breakdance/controls/alerts                     (array $alerts, string $shortcode): array
-    site-reviews/breakdance/controls/popouts                    (array $popouts, string $shortcode): array
-    site-reviews/breakdance/controls/sections                   (array $sections, string $shortcode): array
-    site-reviews/breakdance/element/actions                     (array $actions, string $shortcode): array
-    site-reviews/breakdance/element/dependencies                (array $dependencies, string $shortcode): array
-    site-reviews/breakdance/ssr                                 (array $args, array $data, string $shortcode): array
+    site-reviews/breakdance/controls/alerts                     (array $alerts, Integrations\Breakdance\Transformer $transformer): array
+    site-reviews/breakdance/controls/popouts                    (array $popouts, Integrations\Breakdance\Transformer $transformer): array
+    site-reviews/breakdance/controls/sections                   (array $sections, Integrations\Breakdance\Transformer $transformer): array
+    site-reviews/breakdance/css_template                        (string $template, Shortcodes\Shortcode $shortcode): string
+    site-reviews/breakdance/default_css                         (string $css, Shortcodes\Shortcode $shortcode): string
+    site-reviews/breakdance/default_properties                  (array $properties, Shortcodes\Shortcode $shortcode): array
+    site-reviews/breakdance/dependencies                        (array $dependencies, Shortcodes\Shortcode $shortcode): array
+    site-reviews/breakdance/ssr_args                            (array $args, array $data, Shortcodes\Shortcode $shortcode): array
     site-reviews/build/template/<template_path>                 (string $template, array $data): string
     site-reviews/builder/enable/optgroup                        (bool $enable): bool
     site-reviews/builder/result                                 (string $result, Contracts\BuilderContract $builder): string

@@ -11,20 +11,24 @@ use function Breakdance\Elements\c;
 
 class Transformer extends \ArrayObject
 {
-    public array $alerts;
-    public array $popouts;
-    public array $sections;
+    public string $location;
     public string $shortcode;
 
-    public function __construct(array $config, string $shortcode = '')
+    protected array $alerts;
+    protected array $popouts;
+    protected array $sections;
+
+    public function __construct(string $location, array $config, string $shortcode = '')
     {
-        $this->shortcode = $shortcode; // this first!
+        $this->location = in_array($location, ['content', 'design', 'settings'])
+            ? $location
+            : 'content';
+        $this->shortcode = $shortcode;
         $this->alerts = $this->controlAlerts();
         $this->popouts = $this->controlPopouts();
         $this->sections = $this->controlSections();
-        parent::__construct($this->processConfig($config),
-            \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS
-        );
+        $controls = $this->processConfig($config);
+        parent::__construct($controls, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
     }
 
     public function control(array $args): array
@@ -39,6 +43,29 @@ class Transformer extends \ArrayObject
             $control['enableHover'],
             $control['keywords']
         );
+    }
+
+    public function controls(): array
+    {
+        $items = [];
+        foreach ($this as $item) {
+            $items[$item['path']] = $item['control'];
+        }
+        $items = Arr::unflatten(array_filter($items));
+        $controls = [];
+        foreach ($items as $slug => $children) {
+            $section = $this->section($slug);
+            foreach ($children as $key => $child) {
+                if (!str_starts_with($key, 'popout_')) {
+                    $section['children'][] = $child;
+                    continue;
+                }
+                $popoutSlug = Str::removePrefix($key, 'popout_');
+                $section['children'][] = $this->popout($popoutSlug, array_values($child));
+            }
+            $controls[] = $section;
+        }
+        return $controls;
     }
 
     public function description(array $args, string $style = 'default'): array
@@ -93,7 +120,7 @@ class Transformer extends \ArrayObject
         $alerts = [
             'schema' => 'warning',
         ];
-        return glsr()->filterArray('breakdance/controls/alerts', $alerts, $this->shortcode);
+        return glsr()->filterArray('breakdance/controls/alerts', $alerts, $this);
     }
 
     protected function controlPopouts(): array
@@ -105,7 +132,7 @@ class Transformer extends \ArrayObject
             'schema' => esc_html_x('Schema', 'admin-text', 'site-reviews'),
             'text' => esc_html_x('Text', 'admin-text', 'site-reviews'),
         ];
-        return glsr()->filterArray('breakdance/controls/popouts', $popouts, $this->shortcode);
+        return glsr()->filterArray('breakdance/controls/popouts', $popouts, $this);
     }
 
     protected function controlSections(): array
@@ -114,7 +141,7 @@ class Transformer extends \ArrayObject
             'general' => esc_html_x('General', 'admin-text', 'site-reviews'),
             'advanced' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
         ];
-        return glsr()->filterArray('breakdance/controls/sections', $sections, $this->shortcode);
+        return glsr()->filterArray('breakdance/controls/sections', $sections, $this);
     }
 
     protected function pathPrefix(string $group): string
@@ -141,15 +168,15 @@ class Transformer extends \ArrayObject
                 'group' => 'general',
                 'label' => '',
                 'slug' => $slug,
-                'type' => 'text',
+                'type' => '',
             ]);
             $path = $this->pathPrefix($args['group']);
-            $method = Helper::buildMethodName('transform', $args['type']);
+            $method = Helper::buildMethodName('transform', ($args['type'] ?: 'unknown'));
             if (method_exists($this, $method)) {
                 $control = call_user_func([$this, $method], $args);
             } else {
-                if (!isset($args['options']['type'])) {
-                    $args['options'] = ['type' => $args['type']];
+                if (empty($args['options']['type'])) {
+                    $args['options'] = ['type' => ($args['type'] ?: 'text')];
                 }
                 $control = $this->control($args);
             }
@@ -159,11 +186,11 @@ class Transformer extends \ArrayObject
                 'path' => "{$path}.{$controlId}",
             ];
             if (!empty($args['description']) && !empty($control)) {
-                $control = $this->description($args, $this->alerts[$controlId] ?? 'default');
-                $controlId = "{$controlId}_description_alert";
-                $controls[$controlId] = [
-                    'control' => $control,
-                    'path' => "{$path}.{$controlId}",
+                $descriptionControl = $this->description($args, $this->alerts[$controlId] ?? 'default');
+                $descriptionId = "{$controlId}_description_alert";
+                $controls[$descriptionId] = [
+                    'control' => $descriptionControl,
+                    'path' => "{$path}.{$descriptionId}",
                 ];
             }
         }
