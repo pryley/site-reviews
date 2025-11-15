@@ -90,6 +90,7 @@
     site-reviews/avatar/id_or_email                             (string $id_or_email, array $reviewValues): string
     site-reviews/block/<block>/attributes                       (array $attributes, string $block): array
     site-reviews/breakdance/actions                             (array $actions, Shortcodes\Shortcode $shortcode): array
+    site-reviews/breakdance/additional_classes                  (array $classes, Shortcodes\Shortcode $shortcode): array
     site-reviews/breakdance/config                              (array $config, Integrations\Breakdance\Transformer $transformer): array
     site-reviews/breakdance/controls                            (array $controls, Integrations\Breakdance\Transformer $transformer): array
     site-reviews/breakdance/controls/alerts                     (array $alerts, Integrations\Breakdance\Transformer $transformer): array

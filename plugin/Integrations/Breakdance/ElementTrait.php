@@ -20,6 +20,15 @@ trait ElementTrait
     }
 
     /**
+     * @return array<array{name: string, template: string}>|false
+     */
+    public static function additionalClasses()
+    {
+        $classes = glsr()->filterArray('breakdance/additional_classes', [], static::bdShortcode());
+        return empty($classes) ? false : $classes;
+    }
+
+    /**
      * @return array
      */
     public static function badge()

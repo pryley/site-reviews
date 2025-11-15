@@ -123,8 +123,7 @@ trait ElementControlsTrait
                 $args[$key] = array_keys(array_filter($value));
             }
         }
-        $shortcode = static::bdShortcode();
-        $args = glsr()->filterArray('breakdance/ssr_args', $args, $data, $shortcode);
+        $args = glsr()->filterArray('breakdance/ssr_args', $args, $data, static::bdShortcode());
         return $args;
     }
 }
