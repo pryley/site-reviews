@@ -31,7 +31,6 @@ class Hooks extends IntegrationHooks
             ['interceptGetPostsQuery', 'wp_ajax_breakdance_get_posts', 1],
             ['interceptGetPostsQuery', 'wp_ajax_nopriv_breakdance_get_posts', 1],
             ['printInlineStyles', 'unofficial_i_am_kevin_geary_master_of_all_things_css_and_html'],
-            ['registerDesignControls', 'init'],
             ['registerElements', 'breakdance_loaded', 5], // run early
             ['registerRoutes', 'breakdance_loaded', 5], // run early
         ]);

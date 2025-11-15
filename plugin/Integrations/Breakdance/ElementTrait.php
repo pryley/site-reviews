@@ -147,14 +147,6 @@ trait ElementTrait
     }
 
     /**
-     * @return array[]
-     */
-    public static function settingsControls()
-    {
-        return [];
-    }
-
-    /**
      * @param mixed $propertiesData
      * @param mixed $parentPropertiesData
      * @param bool  $isBuilder

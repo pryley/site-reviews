@@ -26,7 +26,8 @@ trait ElementControlsTrait
     {
         $shortcode = static::bdShortcode();
         $transformer = new Transformer('content', $shortcode->settings(), $shortcode->tag);
-        return $transformer->controls();
+        $controls = $transformer->controls();
+        return glsr()->filterArray('breakdance/content_controls', $controls, $shortcode);
     }
 
     /**
@@ -65,7 +66,16 @@ trait ElementControlsTrait
     {
         $shortcode = static::bdShortcode();
         $transformer = new Transformer('design', [], $shortcode->tag);
-        return $transformer->controls();
+        $controls = $transformer->controls();
+        return glsr()->filterArray('breakdance/design_controls', $controls, $shortcode);
+    }
+
+    /**
+     * @return array[]
+     */
+    public static function settingsControls()
+    {
+        return [];
     }
 
     /**

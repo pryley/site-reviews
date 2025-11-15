@@ -92,6 +92,7 @@
     site-reviews/breakdance/actions                             (array $actions, Shortcodes\Shortcode $shortcode): array
     site-reviews/breakdance/additional_classes                  (array $classes, Shortcodes\Shortcode $shortcode): array
     site-reviews/breakdance/config                              (array $config, Integrations\Breakdance\Transformer $transformer): array
+    site-reviews/breakdance/content_controls                    (array $controls, Shortcodes\Shortcode $shortcode): array
     site-reviews/breakdance/controls                            (array $controls, Integrations\Breakdance\Transformer $transformer): array
     site-reviews/breakdance/controls/alerts                     (array $alerts, Integrations\Breakdance\Transformer $transformer): array
     site-reviews/breakdance/controls/popouts                    (array $popouts, Integrations\Breakdance\Transformer $transformer): array
@@ -100,6 +101,7 @@
     site-reviews/breakdance/default_css                         (string $css, Shortcodes\Shortcode $shortcode): string
     site-reviews/breakdance/default_properties                  (array $properties, Shortcodes\Shortcode $shortcode): array
     site-reviews/breakdance/dependencies                        (array $dependencies, Shortcodes\Shortcode $shortcode): array
+    site-reviews/breakdance/design_controls                     (array $controls, Shortcodes\Shortcode $shortcode): array
     site-reviews/breakdance/ssr_args                            (array $args, array $data, Shortcodes\Shortcode $shortcode): array
     site-reviews/build/template/<template_path>                 (string $template, array $data): string
     site-reviews/builder/enable/optgroup                        (bool $enable): bool

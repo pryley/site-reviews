@@ -79,23 +79,6 @@ class Controller extends AbstractController
     }
 
     /**
-     * @action init
-     */
-    public function registerDesignControls(): void
-    {
-        $controls = \EssentialElements\Formdesignoptions::designControls();
-        $atomV1FormDesign = reset($controls);
-        if ('other' === Arr::get($atomV1FormDesign, 'children.5.slug')) {
-            unset($atomV1FormDesign['children'][5]);
-        }
-        \Breakdance\Elements\PresetSections\PresetSectionsController::getInstance()->register(
-            "GLSR\\FormDesign",
-            $atomV1FormDesign,
-            true
-        );
-    }
-
-    /**
      * Breakdance loads an element by filtering the result of get_declared_classes
      * and checking if the class is_subclass_of \Breakdance\Elements\Element.
      *
