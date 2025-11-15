@@ -33,19 +33,6 @@ trait ElementControlsTrait
      * This must return false if the element has no default properties
      * otherwise SSR will not trigger when control values are changed.
      *
-     * return [
-     *     'content' => [
-     *         'general' => [
-     *             'rating' => 0,
-     *         ],
-     *     ],
-     *     'design' => [
-     *         'general' => [
-     *             'preset' => 0,
-     *         ],
-     *     ],
-     * ];
-     * 
      * @return array|false
      */
     public static function defaultProperties()
@@ -87,7 +74,8 @@ trait ElementControlsTrait
     public static function ssrArgs(array $data): array
     {
         $args = [];
-        $arrayIterator = new \RecursiveArrayIterator($data);
+        $settings = $data['content'] ?? [];
+        $arrayIterator = new \RecursiveArrayIterator($settings);
         $iterator = new \RecursiveIteratorIterator($arrayIterator, \RecursiveIteratorIterator::SELF_FIRST);
         $keys = array_keys(static::bdShortcode()->settings());
         $mappedKeys = [

@@ -92,7 +92,7 @@ class Transformer extends \ArrayObject
         return $this->control([
             'children' => $children,
             'label' => $this->popouts[$slug] ?? Str::titleCase($slug),
-            'slug' => $slug,
+            'slug' => "{$slug}_popout",
             'options' => [
                 'type' => 'section',
                 'sectionOptions' => [
