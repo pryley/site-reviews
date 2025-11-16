@@ -52,3 +52,7 @@ tests_add_filter('setup_theme', function () use ($plugin_dir) {
 });
 
 require_once WP_TESTS_DIR.'/includes/bootstrap.php';
+
+if (!defined('PHPUNIT_TESTING')) {
+    define('PHPUNIT_TESTING', true);
+}

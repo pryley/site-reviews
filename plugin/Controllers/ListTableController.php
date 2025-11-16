@@ -159,7 +159,7 @@ class ListTableController extends AbstractController
      */
     public function filterRowActions(array $actions, \WP_Post $post): array
     {
-        if (glsr()->post_type !== Arr::get($post, 'post_type') || 'trash' === $post->post_status) {
+        if (glsr()->post_type !== $post->post_type || 'trash' === $post->post_status) {
             return $actions;
         }
         unset($actions['inline hide-if-no-js']);
