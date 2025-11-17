@@ -7,6 +7,8 @@
     site-reviews/builder                                        (Contracts\BuilderContract $builder)
     site-reviews/cache/flush                                    (string $loggedMessage, Review $review)
     site-reviews/cache/flush_all                                (string $loggedMessage)
+    site-reviews/cloudflare/purge                               (array $postIds)
+    site-reviews/cloudflare/purge_all                           ()
     site-reviews/customize/<style>                              (Contracts\BuilderContract $builder)
     site-reviews/database/sql                                   (string $sql, string $handle)
     site-reviews/database/sql/<handle>                          (string $sql)

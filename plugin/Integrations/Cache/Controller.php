@@ -88,6 +88,7 @@ class Controller extends AbstractController
             return;
         }
         $postIds = Arr::consolidate($postIds);
+        $this->purgeCloudFlare($postIds);
         $this->purgeEnduranceCache($postIds);
         $this->purgeFlyingPressCache($postIds);
         $this->purgeHummingbirdCache($postIds);
@@ -112,6 +113,19 @@ class Controller extends AbstractController
         }
         $flushed = empty($postIds) ? 'all' : implode(', ', $postIds);
         glsr_log()->debug("cache::{$message} [{$flushed}]");
+    }
+
+    /**
+     * @see https://wordpress.org/plugins/cloudflare/
+     * @see https://developers.cloudflare.com/automatic-platform-optimization/
+     */
+    protected function purgeCloudFlare(array $postIds = []): void
+    {
+        if (!empty($postIds)) {
+            do_action('site-reviews/cache/flush', $postIds);
+        } else {
+            do_action('site-reviews/cache/flush_all');
+        }
     }
 
     /**
