@@ -97,7 +97,8 @@ class Modal {
     }
 
     _focusableNodes () {
-        return [].slice.call(this.root.querySelectorAll(FOCUSABLE_ELEMENTS))
+        if (!this.root) return [];
+        return Array.from(this.root.querySelectorAll(FOCUSABLE_ELEMENTS));
     }
 
     _insertHtml (el, html = null, attributes = {}) {
@@ -135,7 +136,7 @@ class Modal {
     }
 
     _onKeydown (event) {
-        if (~[13, 32].indexOf(event.keyCode) && event.target === this.dom.close) { // enter/space
+        if ([13, 32].includes(event.keyCode) && event.target === this.dom.close) { // enter/space
             this._closeModal(event)
         }
         if (event.keyCode === 27 && modals.open.slice(-1)[0] === this.id) { // esc
@@ -200,7 +201,7 @@ class Modal {
     _retainFocus (event) {
         let focusableNodes = this._focusableNodes();
         if (focusableNodes.length === 0) return
-        focusableNodes = focusableNodes.filter(node => (node.offsetParent !== null)); // removes hidden nodes
+        focusableNodes = focusableNodes.filter(node => node.offsetParent !== null); // removes hidden nodes
         if (!this.root.contains(document.activeElement)) {
             focusableNodes[0].focus()
         } else {
@@ -254,9 +255,9 @@ const init = (id, config) => {
     } else {
         modal = new Modal(id, config);
     }
-    document.querySelectorAll('[' + openTrigger + ']').forEach(el => {
-        if (id === el.attributes[openTrigger].value) {
-            modal._registerTrigger(el)
+    document.querySelectorAll(`[${openTrigger}]`).forEach(el => {
+        if (id === el.getAttribute(openTrigger)) {
+            modal._registerTrigger(el);
         }
     })
     modals.active[id] = modal;
