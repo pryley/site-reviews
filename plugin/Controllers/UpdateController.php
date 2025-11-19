@@ -145,7 +145,7 @@ class UpdateController extends AbstractController
         if (doing_filter('upgrader_process_complete')) {
             $timeout = 0;
         } elseif (doing_filter('load-update-core.php')) {
-            $timeout = MINUTE_IN_SECONDS;
+            $timeout = filter_input(INPUT_GET, 'force-check', FILTER_VALIDATE_INT) ? 0 : MINUTE_IN_SECONDS;
         } elseif (doing_filter('load-plugins.php') || doing_filter('load-update.php')) {
             $timeout = HOUR_IN_SECONDS;
         } elseif (wp_doing_cron()) {
