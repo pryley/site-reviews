@@ -22,6 +22,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Metaboxes\ResponseMetabox;
 use GeminiLabs\SiteReviews\Modules\Avatar;
+use GeminiLabs\SiteReviews\Modules\Html\Attributes;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Request;
@@ -72,16 +73,14 @@ class ReviewController extends AbstractController
      */
     public function filterReviewTemplate(string $template, array $data): string
     {
+        $attributes = array_filter([
+            'data-type' => $data['review']['type'] ?? 'local',
+            'data-pinned' => $data['review']['is_pinned'] ?? 0,
+            'data-verified' => $data['review']['is_verified'] ?? 0,
+        ]);
+        $attributes = glsr(Attributes::class)->div($attributes)->toString();
         $search = 'id="review-';
-        $dataType = Arr::get($data, 'review.type', 'local');
-        $replace = sprintf('data-type="%s" %s', $dataType, $search);
-        if (Arr::get($data, 'review.is_pinned')) {
-            $replace = 'data-pinned="1" '.$replace;
-        }
-        if (Arr::get($data, 'review.is_verified')) {
-            $replace = 'data-verified="1" '.$replace;
-        }
-        return str_replace($search, $replace, $template);
+        return str_replace($search, "{$attributes} {$search}", $template);
     }
 
     /**
