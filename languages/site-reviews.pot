@@ -136,7 +136,7 @@ msgctxt "admin-text"
 msgid "Functions"
 msgstr ""
 
-#: helpers.php:102, plugin/Controllers/MenuController.php:175, plugin/Controllers/MenuController.php:199, plugin/Integrations/Breakdance/Transformer.php:114, plugin/Integrations/Bricks/BricksElement.php:104, plugin/Integrations/Flatsome/FlatsomeShortcode.php:23, plugin/Integrations/FusionBuilder/Transformer.php:32, plugin/Integrations/WPBakery/VcShortcode.php:46, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:66, plugin/Integrations/FusionBuilder/Elements/FusionElement.php:17
+#: helpers.php:102, plugin/Controllers/MenuController.php:175, plugin/Controllers/MenuController.php:199, plugin/Integrations/Breakdance/Transformer.php:141, plugin/Integrations/Bricks/BricksElement.php:104, plugin/Integrations/Flatsome/FlatsomeShortcode.php:23, plugin/Integrations/FusionBuilder/Transformer.php:32, plugin/Integrations/WPBakery/VcShortcode.php:46, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:66, plugin/Integrations/FusionBuilder/Elements/FusionElement.php:17
 msgctxt "admin-text"
 msgid "General"
 msgstr ""
@@ -166,7 +166,7 @@ msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr ""
 
-#: helpers.php:109, plugin/Controllers/MenuController.php:178, plugin/Tinymce/SiteReviewsSummaryTinymce.php:62, plugin/Tinymce/SiteReviewsTinymce.php:69, plugin/Integrations/Breakdance/Transformer.php:105, plugin/Integrations/Bricks/Controller.php:39, plugin/Integrations/Flatsome/FlatsomeShortcode.php:24, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:87
+#: helpers.php:109, plugin/Controllers/MenuController.php:178, plugin/Tinymce/SiteReviewsSummaryTinymce.php:62, plugin/Tinymce/SiteReviewsTinymce.php:69, plugin/Integrations/Breakdance/Transformer.php:132, plugin/Integrations/Bricks/Controller.php:39, plugin/Integrations/Flatsome/FlatsomeShortcode.php:24, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:87
 msgctxt "admin-text"
 msgid "Schema"
 msgstr ""
@@ -4503,7 +4503,7 @@ msgctxt "admin-text"
 msgid "Automatically assign reviews to a User ID. You may also enter %s to use the ID of the logged-in user."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:34, plugin/Tinymce/SiteReviewsSummaryTinymce.php:74, plugin/Tinymce/SiteReviewsTinymce.php:81, plugin/Tinymce/SiteReviewTinymce.php:22, plugin/Integrations/Breakdance/Transformer.php:104, plugin/Integrations/Bricks/Controller.php:38, plugin/Integrations/Flatsome/FlatsomeShortcode.php:27, plugin/Integrations/FusionBuilder/Transformer.php:43, plugin/Integrations/WPBakery/VcShortcode.php:87, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:86
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:34, plugin/Tinymce/SiteReviewsSummaryTinymce.php:74, plugin/Tinymce/SiteReviewsTinymce.php:81, plugin/Tinymce/SiteReviewTinymce.php:22, plugin/Integrations/Breakdance/Transformer.php:131, plugin/Integrations/Bricks/Controller.php:38, plugin/Integrations/Flatsome/FlatsomeShortcode.php:27, plugin/Integrations/FusionBuilder/Transformer.php:43, plugin/Integrations/WPBakery/VcShortcode.php:87, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:86
 msgctxt "admin-text"
 msgid "Hide"
 msgstr ""
@@ -4588,7 +4588,7 @@ msgctxt "admin-text"
 msgid "The minimum rating to display (default: 1 star)"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:54, plugin/Integrations/Breakdance/Transformer.php:102, plugin/Integrations/Bricks/Controller.php:37, plugin/Integrations/Flatsome/FlatsomeShortcode.php:25, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:85
+#: plugin/Tinymce/SiteReviewsTinymce.php:54, plugin/Integrations/Breakdance/Transformer.php:129, plugin/Integrations/Bricks/Controller.php:37, plugin/Integrations/Flatsome/FlatsomeShortcode.php:25, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:85
 msgctxt "admin-text"
 msgid "Display"
 msgstr ""
@@ -4851,22 +4851,22 @@ msgctxt "admin-text"
 msgid "A valid license key is required to update this plugin."
 msgstr ""
 
-#: plugin/Integrations/Breakdance/Transformer.php:103, plugin/Integrations/Flatsome/FlatsomeShortcode.php:26, views/partials/screen/filters.php:4
+#: plugin/Integrations/Breakdance/Transformer.php:130, plugin/Integrations/Flatsome/FlatsomeShortcode.php:26, views/partials/screen/filters.php:4
 msgctxt "admin-text"
 msgid "Filters"
 msgstr ""
 
-#: plugin/Integrations/Breakdance/Transformer.php:106, plugin/Integrations/Bricks/BricksSiteReview.php:186, plugin/Integrations/Bricks/BricksSiteReviews.php:204, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:140, plugin/Integrations/Bricks/Controller.php:40, plugin/Integrations/Flatsome/FlatsomeShortcode.php:28, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:68, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:76, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:116, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:88
+#: plugin/Integrations/Breakdance/Transformer.php:133, plugin/Integrations/Bricks/BricksSiteReview.php:186, plugin/Integrations/Bricks/BricksSiteReviews.php:204, plugin/Integrations/Bricks/BricksSiteReviewsSummary.php:140, plugin/Integrations/Bricks/Controller.php:40, plugin/Integrations/Flatsome/FlatsomeShortcode.php:28, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:68, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:76, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:116, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:88
 msgctxt "admin-text"
 msgid "Text"
 msgstr ""
 
-#: plugin/Integrations/Breakdance/Transformer.php:115, plugin/Integrations/Bricks/BricksElement.php:106, plugin/Integrations/Flatsome/FlatsomeShortcode.php:29, plugin/Integrations/FusionBuilder/Transformer.php:33, plugin/Integrations/WPBakery/VcShortcode.php:54, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:71
+#: plugin/Integrations/Breakdance/Transformer.php:142, plugin/Integrations/Bricks/BricksElement.php:106, plugin/Integrations/Flatsome/FlatsomeShortcode.php:29, plugin/Integrations/FusionBuilder/Transformer.php:33, plugin/Integrations/WPBakery/VcShortcode.php:54, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:71
 msgctxt "admin-text"
 msgid "Advanced"
 msgstr ""
 
-#: plugin/Integrations/Breakdance/Transformer.php:223, plugin/Integrations/FusionBuilder/Transformer.php:46, plugin/Integrations/FusionBuilder/Transformer.php:85, plugin/Integrations/Flatsome/Defaults/ControlDefaults.php:63, plugin/Integrations/Flatsome/Defaults/ControlDefaults.php:99, plugin/Integrations/Flatsome/Defaults/ControlDefaults.php:84
+#: plugin/Integrations/Breakdance/Transformer.php:250, plugin/Integrations/FusionBuilder/Transformer.php:46, plugin/Integrations/FusionBuilder/Transformer.php:85, plugin/Integrations/Flatsome/Defaults/ControlDefaults.php:63, plugin/Integrations/Flatsome/Defaults/ControlDefaults.php:99, plugin/Integrations/Flatsome/Defaults/ControlDefaults.php:84
 msgctxt "admin-text"
 msgid "Select..."
 msgstr ""

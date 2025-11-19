@@ -8,8 +8,10 @@
     --glsr-font-serif: NonBreakingSpaceOverride, "Hoefler Text", "Noto Serif", Garamond, "Times New Roman", serif;
     --glsr-leading: 1.476;
     --glsr-input-radius: 0;
-    --glsr-input-px: 1em;
-    --glsr-input-py: 0.83333333em;
+    --glsr-input-pr: 1em;
+    --glsr-input-pl: 1em;
+    --glsr-input-pt: 0.83333333em;
+    --glsr-input-pb: 0.83333333em;
     --glsr-text-base: 1.8rem;
     --glsr-text-sm: 0.77777778em;
     --glsr-summary-text: 1em;
@@ -47,7 +49,10 @@
     border-radius: var(--glsr-input-radius);
     font-size: 1.6rem;
     letter-spacing: -0.015em;
-    padding: var(--glsr-input-py) var(--glsr-input-px);
+    padding-top: var(--glsr-input-pt);
+    padding-right: var(--glsr-input-pr);
+    padding-bottom: var(--glsr-input-pb);
+    padding-left: var(--glsr-input-pl);
     &:focus {
         border-color: currentColor;
     }

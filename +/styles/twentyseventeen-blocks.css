@@ -5,8 +5,10 @@
     --glsr-gray-400: #666;
     --glsr-gray-500: #333;
     --glsr-black: #222;
-    --glsr-input-px: 0.7em;
-    --glsr-input-py: 0.7em;
+    --glsr-input-pr: 0.7em;
+    --glsr-input-pl: 0.7em;
+    --glsr-input-pt: 0.7em;
+    --glsr-input-pb: 0.7em;
 }
 :--namespace .glsr-button {
     border: none;
@@ -26,7 +28,10 @@
 :--namespace form.glsr-form textarea.glsr-textarea {
     border: 1px solid var(--glsr-gray-300);
     border-radius: var(--glsr-radius);
-    padding: var(--glsr-input-py) var(--glsr-input-px);
+    padding-top: var(--glsr-input-pt);
+    padding-right: var(--glsr-input-pr);
+    padding-bottom: var(--glsr-input-pb);
+    padding-left: var(--glsr-input-pl);
 }
 :--namespace .glsr-pagination .pagination {
     border-top: 1px solid #eee;

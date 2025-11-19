@@ -59,10 +59,10 @@
     font-size: var(--glsr-text-md);
     line-height: var(--glsr-leading);
     min-height: auto !important;
-    padding-top: var(--glsr-input-py) !important;
-    padding-right: var(--glsr-input-px) !important;
-    padding-bottom: var(--glsr-input-py) !important;
-    padding-left: var(--glsr-input-px) !important;
+    padding-top: var(--glsr-input-pt) !important;
+    padding-right: var(--glsr-input-pr) !important;
+    padding-bottom: var(--glsr-input-pb) !important;
+    padding-left: var(--glsr-input-pl) !important;
     transition: var(--glsr-input-transition);
 }
 :--namespace form.glsr-form select.glsr-select {

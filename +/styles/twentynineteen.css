@@ -7,8 +7,10 @@
     --glsr-description-text: var(--glsr-text-sm);
     --glsr-font: system-ui;
     --glsr-gap-xl: 2em;
-    --glsr-input-px: 0.66rem;
-    --glsr-input-py: 0.36rem;
+    --glsr-input-pt: 0.36rem;
+    --glsr-input-pb: 0.36rem;
+    --glsr-input-pr: 0.66rem;
+    --glsr-input-pl: 0.66rem;
     --glsr-label-text: var(--glsr-text-sm);
     --glsr-leading: 1.8;
     --glsr-radius: 0;
@@ -49,7 +51,10 @@
     border-radius: var(--glsr-radius);
     outline: none;
     outline-offset: 0;
-    padding: var(--glsr-input-py) var(--glsr-input-px);
+    padding-top: var(--glsr-input-pt);
+    padding-right: var(--glsr-input-pr);
+    padding-bottom: var(--glsr-input-pb);
+    padding-left: var(--glsr-input-pl);
     &:focus {
         border-color: var(--glsr-blue);
         outline: thin solid rgba(0, 115, 170, 0.15);

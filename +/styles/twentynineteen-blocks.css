@@ -6,8 +6,10 @@
     --glsr-blue: #0073aa;
     --glsr-font: system-ui;
     --glsr-gap-xl: 2em;
-    --glsr-input-px: 0.66rem;
-    --glsr-input-py: 0.36rem;
+    --glsr-input-pt: 0.36rem;
+    --glsr-input-pb: 0.36rem;
+    --glsr-input-pr: 0.66rem;
+    --glsr-input-pl: 0.66rem;
     --glsr-input-radius: 0;
     --glsr-leading: 1.8;
     --glsr-summary-text: 0.88889em;
@@ -55,7 +57,10 @@
     font-size: 1em;
     outline: none;
     outline-offset: 0;
-    padding: var(--glsr-input-py) var(--glsr-input-px);
+    padding-top: var(--glsr-input-pt);
+    padding-right: var(--glsr-input-pr);
+    padding-bottom: var(--glsr-input-pb);
+    padding-left: var(--glsr-input-pl);
 }
 :--namespace form.glsr-form label.glsr-label {
     color: var(--glsr-gray-400);

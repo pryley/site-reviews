@@ -1,12 +1,19 @@
-@import "public/minimal/variables";
+@import "minimal";
+
+/*
 @import "public/minimal/keyframes";
 @import "public/minimal/base";
 @import "public/minimal/loaders";
 @import "public/minimal/pagination";
 @import "public/minimal/star-rating";
 @import "public/minimal/review";
+@import "public/minimal/flags";
 @import "public/minimal/summary";
 @import "public/minimal/form";
+*/
+/*@import "public/minimal/field-label";*/
+/*
+@import "public/minimal/field-input";
 @import "public/minimal/field-choice";
 @import "public/minimal/field-toggle";
 @import "public/minimal/field-range";
@@ -14,12 +21,64 @@
 @import "public/minimal/button";
 @import "public/minimal/modal";
 @import "public/minimal/debug";
+*/
 
+:root body {
+  --glsr-gray-100: var(--grey-100);
+  --glsr-gray-200: var(--grey-200);
+  --glsr-gray-300: var(--grey-300);
+  --glsr-gray-400: var(--grey-400);
+  --glsr-gray-500: var(--grey-500);
+  --glsr-gray-600: var(--grey-600);
+  --glsr-gray-700: var(--grey-700);
+  --glsr-gray-800: var(--grey-800);
+  --glsr-gray-900: var(--grey-900);
+  --glsr-blue    : var(--blue-500);
+  --glsr-green   : var(--emerald-700);
+  --glsr-red     : var(--red-500);
+  --glsr-yellow  : var(--yellow-500);
+  /* Form */
+  --glsr-form-col-gap: var(--bde-form-gap);
+  --glsr-form-row-gap: var(--bde-form-gap);
+  --glsr-input-bg: var(--bde-form-input-background-color);
+  --glsr-input-border-color: var(--bde-form-input-border-color);
+  --glsr-input-border-width: var(--bde-form-input-border-width);
+  --glsr-input-color: var(--bde-form-text-color);
+  --glsr-input-pb: var(--bde-form-input-padding-bottom);
+  --glsr-input-pl: var(--bde-form-input-padding-left);
+  --glsr-input-pr: var(--bde-form-input-padding-right);
+  --glsr-input-pt: var(--bde-form-input-padding-top);
+  --glsr-input-radius: var(--bde-form-input-border-radius);
+  --glsr-label-weight: var(--bde-form-label-font-weight);
+}
+
+:--namespace form.glsr-form label.glsr-label {
+  margin-bottom: var(--bde-form-after-label);
+}
+:--namespace form.glsr-form .glsr-field-checkbox,
+:--namespace form.glsr-form .glsr-field-radio,
+:--namespace form.glsr-form .glsr-field-toggle {
+  gap: 0;
+}
+:--namespace form.glsr-form .glsr-field-choice input {
+  height: 100% !important;
+  width: 100% !important;
+}
+:--namespace .glsr-toggle:has(input:checked) {
+  color: var(--bde-form-checkbox-selected-color);
+}
 :--namespace form.glsr-form .glsr-description {
-    display: block;
-    font-weight: normal;
-    text-transform: none;
+  font-size: var(--glsr-text-sm);
 }
 :--namespace form.glsr-form .breakdance-form-message {
     margin-top: 0;
+}
+:--namespace .glsr-form .breakdance-form-checkbox,
+:--namespace .glsr-form .breakdance-form-radio {
+    margin-bottom: 0;
+    width: auto;
+}
+:--namespace .glsr-range-labels,
+:--namespace .glsr-range-options {
+    width: 100%;
 }

@@ -11,8 +11,10 @@
     --glsr-gap-sm: 0.5384615385em;
     --glsr-leading: 1.75;
     --glsr-font: Montserrat, "Helvetica Neue", sans-serif;
-    --glsr-input-px: 0.4375em;
-    --glsr-input-py: 0.625em;
+    --glsr-input-pr: 0.4375em;
+    --glsr-input-pl: 0.4375em;
+    --glsr-input-pt: 0.625em;
+    --glsr-input-pb: 0.625em;
     --glsr-radius: 2px;
 }
 :--namespace .glsr-button {
@@ -28,7 +30,10 @@
     color: var(--glsr-gray-500);
     font-family: var(--glsr-font);
     font-size: var(--glsr-text-md);
-    padding: var(--glsr-input-py) var(--glsr-input-px);
+    padding-top: var(--glsr-input-pt);
+    padding-right: var(--glsr-input-pr);
+    padding-bottom: var(--glsr-input-pb);
+    padding-left: var(--glsr-input-pl);
 }
 :--namespace form.glsr-form .glsr-description {
     font-family: var(--glsr-font);
