@@ -1,98 +1,84 @@
 :--namespace form.glsr-form .glsr-field-toggle {
+  --toggle-h: calc(.75em + calc(var(--toggle-p) * 2));
+  --toggle-p: .125em;
+  --toggle-w: calc(1.5em + calc(var(--toggle-p) * 2));
+  --transition-timing-fn: cubic-bezier(.4,0,.2,1);
     display: flex;
+    gap: var(--glsr-gap-sm);
+}
+:--namespace form.glsr-form .glsr-field-toggle > span:not(.glsr-toggle) {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  height: 1.5em;
 }
 :--namespace form.glsr-form .glsr-toggle {
-    align-items: flex-start;
-    column-gap: var(--glsr-gap-sm);
-    display: inline-flex;
-    flex-direction: row-reverse;
+  display: grid;
+  font-size: var(--glsr-toggle-size); /* This set the overall size of the toggle! */
+  height: var(--toggle-h);
+  position: relative;
+  width: var(--toggle-w);
 }
-:--namespace form.glsr-form .glsr-toggle label {
-    display: block;
-    line-height: inherit;
-    margin: 0;
+:--namespace form.glsr-form .glsr-toggle input {
+  all: unset !important;
+  appearance: none !important;
+  inset: 0 !important;
+  position: absolute !important;
+  z-index: 0 !important;
+  &::before,
+  &::after {
+    display: none !important;
+  }
 }
-:--namespace form.glsr-form .glsr-toggle .glsr-toggle-switch {
-    align-items: center;
-    display: flex;
-    flex-shrink: 0;
-    font-size: var(--glsr-toggle-text);
-    position: relative;
-    width: var(--glsr-toggle-w);
+:--namespace form.glsr-form .glsr-toggle-track {
+  border-radius: var(--glsr-toggle-radius);
+  box-sizing: border-box;
+  inset: 0;
+  padding: var(--toggle-p);
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
 }
-:--namespace form.glsr-form .glsr-toggle input[type=checkbox] {
-    appearance: none;
-    background-color: transparent;
-    border-radius: var(--glsr-toggle-radius);
-    border-color: transparent !important;
-    border-width: 1px;
-    box-shadow: none;
-    box-sizing: border-box;
-    cursor: pointer;
-    display: block;
-    font-size: inherit;
-    height: var(--glsr-toggle-h);
-    left: auto;
-    margin: 0 !important;
-    overflow: hidden;
-    padding: 0 !important;
-    position: absolute;
-    top: auto !important;
-    user-select: none;
-    width: var(--glsr-toggle-w);
-    z-index: 0;
-    &::before,
-    &::after {
-        box-sizing: border-box;
-        display:  none;
-    }
+:--namespace form.glsr-form .glsr-toggle-track::before {
+  background-color: var(--glsr-toggle-bg);
+  border-radius: var(--glsr-toggle-radius);
+  box-sizing: border-box;
+  content: '';
+  display: block;
+  height: 100%;
+  left: 0;
+  opacity: var(--glsr-toggle-opacity);
+  position: absolute;
+  top: 0;
+  transition-duration: var(--glsr-duration-fast);
+  transition-property: background-color,opacity;
+  transition-timing-function: var(--transition-timing-fn);
+  width: 100%;
 }
-:--namespace form.glsr-form .glsr-toggle input[type=checkbox] + .glsr-toggle-track {
-    border-radius: var(--glsr-toggle-radius);
-    box-sizing: border-box;
-    height: var(--glsr-toggle-h);
-    padding: var(--glsr-toggle-p);
-    pointer-events: none;
-    position: absolute;
-    width: var(--glsr-toggle-w);
-    &::before {
-        background-color: var(--glsr-toggle-bg-0);
-        border-radius: var(--glsr-toggle-radius);
-        box-sizing: border-box;
-        content: '';
-        display: block;
-        height: 100%;
-        left: 0;
-        opacity: var(--glsr-toggle-opacity-0);
-        position: absolute;
-        top: 0;
-        transition: background-color var(--glsr-duration-fast) ease-in-out, opacity var(--glsr-duration-fast) ease-in-out;
-        width: 100%;
-    }
-    &::after {
-        background-color: var(--glsr-toggle-color);
-        border-radius: calc(var(--glsr-toggle-radius) - var(--glsr-toggle-p));
-        box-shadow: 0 calc(var(--glsr-toggle-h)*.05) calc(var(--glsr-toggle-h)*.1) var(--glsr-toggle-shadow-color),
-                    0 calc(var(--glsr-toggle-h)*.05) calc(var(--glsr-toggle-h)*.15) var(--glsr-toggle-shadow-color);
-        box-sizing: border-box;
-        content: '';
-        display: block;
-        height: var(--glsr-toggle-size);
-        pointer-events: none;
-        position: relative;
-        transition: transform var(--glsr-duration-fast) ease-in-out;
-        width: var(--glsr-toggle-size);
-        z-index: 1;
-    }
+:--namespace form.glsr-form .glsr-toggle-track::after {
+  background-color: var(--glsr-toggle-color);
+  border-radius: calc(var(--glsr-toggle-radius) - var(--toggle-p));
+  box-shadow: 0 .05em .1em var(--glsr-toggle-shadow-color), 0 .05em .15em var(--glsr-toggle-shadow-color);
+  box-sizing: border-box;
+  content: '';
+  display: block;
+  height: .75em;
+  pointer-events: none;
+  position: relative;
+  transition: transform var(--glsr-duration-fast) var(--transition-timing-fn);
+  width: .75em;
+  z-index: 1;
 }
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::before {
-    background-color: var(--glsr-toggle-bg-1);
-    opacity: var(--glsr-toggle-opacity-1);
-    transition: background-color var(--glsr-duration-fast) ease-in-out, opacity var(--glsr-duration-fast) ease-in-out;
+:--namespace form.glsr-form input:checked + .glsr-toggle-track::before {
+  background-color: var(--glsr-toggled-bg);
+  opacity: var(--glsr-toggled-opacity);
+  transition-duration: var(--glsr-duration-fast);
+  transition-property: background-color,opacity;
+  transition-timing-function: var(--transition-timing-fn);
 }
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
-    transform: translateX(var(--glsr-toggle-size));
+:--namespace form.glsr-form input:checked + .glsr-toggle-track::after {
+  transform: translateX(.75em);
 }
-:--namespace.glsr-rtl form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
-    transform: translateX(calc(-1 * var(--glsr-toggle-size)));
+:--namespace.glsr-rtl form.glsr-form input:checked + .glsr-toggle-track::after {
+  transform: translateX(-.75em);
 }

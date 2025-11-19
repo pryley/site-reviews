@@ -68,9 +68,6 @@
   --glsr-summary-star: 1.5em;
   --glsr-summary-text:  var(--glsr-text-sm);
 /* Form */
-  --glsr-choice-h: 1.25em;
-  --glsr-choice-w: 1.25em;
-  --glsr-choice-color: var(--glsr-divi-color);
   --glsr-description-text: var(--glsr-text-sm);
   --glsr-form-col-gap: var(--glsr-gap-lg);
   --glsr-form-error: var(--glsr-red);
@@ -94,19 +91,6 @@
   --glsr-label-color: currentColor;
   --glsr-label-text: var(--glsr-text-sm);
   --glsr-label-weight: 600;
-  --glsr-range-size: 1.75em;
-  --glsr-toggle-bg-0: var(--glsr-input-bg);
-  --glsr-toggle-bg-1: currentColor;
-  --glsr-toggle-color: var(--glsr-white);
-  --glsr-toggle-h: 1.5em;
-  --glsr-toggle-opacity-0: 1;
-  --glsr-toggle-opacity-1: 1;
-  --glsr-toggle-p: .15em;
-  --glsr-toggle-radius: 999px;
-  --glsr-toggle-shadow-color: rgb(0 0 0 / 0.1);
-  --glsr-toggle-size: calc(var(--glsr-toggle-h) - calc(var(--glsr-toggle-p) * 2));
-  --glsr-toggle-text: 1em;
-  --glsr-toggle-w: calc(calc(var(--glsr-toggle-h) * 2) - calc(var(--glsr-toggle-p) * 2));
 /* Modal */
   --glsr-modal-bg: var(--wp--preset--color--base, var(--glsr-white));
   --glsr-modal-radius: 3px;
@@ -119,6 +103,13 @@
   --glsr-tooltip-margin: 12px;
   --glsr-tooltip-padding: .5em 1em;
   --glsr-tooltip-size: 6px;
+    --glsr-range-size: 1.5em;
+    --glsr-choice-color: var(--glsr-divi-color);
+    --glsr-choice-size: 1.5em;
+    --glsr-toggle-bg: var(--glsr-input-bg);
+    --glsr-toggled-bg: var(--glsr-divi-color);
+    --glsr-toggle-opacity: 1;
+    --glsr-toggle-size: 1.5em;
 }
 
 :--namespace form.glsr-hide-form {
@@ -158,8 +149,7 @@
     background-repeat: no-repeat;
     background-size: 12px;
 }
-:--namespace form.glsr-form input.glsr-input-checkbox,
-:--namespace form.glsr-form input:is(.glsr-input-radio,.glsr-input-range) {
+:--namespace form.glsr-form input:is(.glsr-input-checkbox,.glsr-input-radio,.glsr-input-range) {
   appearance: none;
   background-color: var(--glsr-input-bg);
   background-origin: border-box;
@@ -207,7 +197,7 @@
   color: var(--glsr-input-color);
   font-size: var(--glsr-text-md);
 }
-:--namespace form.glsr-form .glsr-toggle-switch {
+:--namespace form.glsr-form .glsr-toggle {
   color: var(--glsr-choice-color);
 }
 

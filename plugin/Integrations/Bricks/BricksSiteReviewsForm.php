@@ -81,7 +81,7 @@ class BricksSiteReviewsForm extends BricksElement
             'style_field_typography' => [
                 'css' => [
                     [
-                        'selector' => '.glsr-textarea, .glsr-input, .glsr-toggle label, .glsr-toggle-switch',
+                        'selector' => '.glsr-textarea, .glsr-input, .glsr-toggle label, .glsr-toggle',
                         'property' => 'font',
                     ],
                 ],

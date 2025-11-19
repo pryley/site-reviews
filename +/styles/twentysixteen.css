@@ -6,7 +6,7 @@
     --glsr-gray-500: #686868;
     --glsr-black: #1a1a1a;
     --glsr-blue: #007acc;
-    --glsr-toggle-bg-1: var(--glsr-blue);
+    --glsr-toggled-bg: var(--glsr-blue);
     --glsr-text-sm: 0.8125rem;
     --glsr-gap-sm: 0.5384615385em;
     --glsr-leading: 1.75;

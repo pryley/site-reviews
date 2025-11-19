@@ -1,7 +1,7 @@
 @import "minimal";
 
 :--namespace {
-    --glsr-toggle-bg-1: var(--glsr-blue);
+  --glsr-toggled-bg: var(--glsr-blue);
 }
 :--namespace form.glsr-form {
     font-size: var(--glsr-text-md);

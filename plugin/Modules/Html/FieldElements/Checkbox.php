@@ -36,7 +36,15 @@ class Checkbox extends AbstractFieldElement
         return 'input';
     }
 
-    protected function buildInput(string $value, int $index, Arguments $args): string
+    protected function buildInput(array $args): string
+    {
+        return $this->field->builder()->span([
+            'class' => "glsr-{$this->inputType()}",
+            'text' => $this->field->builder()->input($args),
+        ]);
+    }
+
+    protected function buildOption(string $value, int $index, Arguments $args): string
     {
         $type = $this->inputType();
         $input = [
@@ -57,7 +65,7 @@ class Checkbox extends AbstractFieldElement
             'context' => [
                 'class' => glsr(Style::class)->defaultClasses('field')."-{$type}", // only use the default class here!
                 'id' => $input['id'],
-                'input' => $this->field->builder()->input($input),
+                'input' => $this->buildInput($input),
                 'text' => $args->options[$value],
             ],
             'field' => $this->field,
@@ -71,7 +79,7 @@ class Checkbox extends AbstractFieldElement
         $index = 0;
         $optionKeys = array_keys($args->options);
         return array_reduce($optionKeys, function ($carry, $value) use (&$index, $args) {
-            return $carry.$this->buildInput((string) $value, ++$index, $args);
+            return $carry.$this->buildOption((string) $value, ++$index, $args);
         }, '');
     }
 
@@ -95,7 +103,14 @@ class Checkbox extends AbstractFieldElement
             if (1 === count($values)) {
                 $options[$key] = Cast::toString($values);
             } elseif (2 === count($values)) {
-                $values = array_reduce($values, fn ($carry, $val) => $carry.$this->field->builder()->span($val), '');
+                // this allows individual input label descriptions
+                $level = 0;
+                $values = array_reduce($values, function ($carry, $text) use (&$level) {
+                    return $carry . $this->field->builder()->span([
+                        'data-type' => $level++ ? 'description' : 'label',
+                        'text' => $text,
+                    ]);
+                }, '');
                 $options[$key] = $values;
             }
         }

@@ -13,7 +13,7 @@
     --glsr-summary-text: 0.88889em;
     --glsr-text-base: 22px;
     --glsr-text-sm: 0.71111em;
-    --glsr-toggle-bg-1: var(--glsr-blue);
+    --glsr-toggled-bg: var(--glsr-blue);
     --glsr-toggle-h: 22px;
     --glsr-toggle-text: var(--glsr-text-sm);
     --glsr-description-text: var(--glsr-text-sm);

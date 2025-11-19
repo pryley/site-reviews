@@ -1,29 +1,40 @@
+:--namespace form.glsr-form .glsr-field-subgroup {
+  gap: var(--glsr-subgroup-gap);
+}
 :--namespace form.glsr-form .glsr-field-checkbox,
 :--namespace form.glsr-form .glsr-field-radio {
-    display: flex;
+  display: flex;
+  gap: var(--glsr-gap-sm);
 }
-:--namespace form.glsr-form .glsr-field-checkbox label,
-:--namespace form.glsr-form .glsr-field-radio label {
-    align-items: flex-start;
-    column-gap: var(--glsr-gap-sm);
-    display: inline-flex;
-    margin: 0;
+:--namespace form.glsr-form .glsr-field-checkbox > span:not(.glsr-checkbox),
+:--namespace form.glsr-form .glsr-field-radio > span:not(.glsr-radio) {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  height: 1.5em;
 }
-:--namespace form.glsr-form .glsr-field-checkbox span:first-of-type,
-:--namespace form.glsr-form .glsr-field-radio span:first-of-type {
-    align-items: center;
-    display: flex;
+:--namespace form.glsr-form .glsr-checkbox,
+:--namespace form.glsr-form .glsr-radio {
+  display: grid;
+  font-size: var(--glsr-choice-size); /* This set the overall size of the input! */
+  height: 1em !important;
+  width: 1em !important;
 }
-:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
-:--namespace form.glsr-form input[type=radio]:is(.glsr-input-radio,.glsr-input-range) {
-    box-sizing: border-box;
-    display: inline-block;
-    flex-shrink: 0;
-    left: 0;
-    margin: 0;
-    outline: none;
-    padding: 0;
-    top: 0;
-    user-select: none;
-    vertical-align: middle;
+:--namespace form.glsr-form .glsr-checkbox input,
+:--namespace form.glsr-form .glsr-radio input {
+  box-sizing: border-box;
+  display: block;
+  left: 0;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  position: relative;
+  top: 0;
+  user-select: none;
+}
+:--namespace form.glsr-form .glsr-checkbox label,
+:--namespace form.glsr-form .glsr-radio label {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
 }

@@ -6,97 +6,54 @@ use GeminiLabs\SiteReviews\Contracts\FieldContract;
 use GeminiLabs\SiteReviews\Defaults\PaginationDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleClassesDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleValidationDefaults;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
-/**
- * @method string classes(string $key)
- * @method string defaultClasses(string $key)
- * @method string defaultValidation(string $key)
- * @method string validation(string $key)
- */
 class Style
 {
-    /**
-     * The properties that are accessible.
-     *
-     * @var array
-     */
-    protected $accessible = [
-        'classes', 'style', 'pagination', 'validation',
-    ];
+    public array $classes;
+    public string $style;
+    public array $pagination;
+    public array $validation;
 
-    /**
-     * The methods that are callable.
-     *
-     * @var array
-     */
-    protected $callable = [
-        'classes', 'validation',
-    ];
-
-    /**
-     * @var array
-     */
-    protected $classes;
-
-    /**
-     * @var string
-     */
-    protected $style;
-
-    /**
-     * @var array
-     */
-    protected $pagination;
-
-    /**
-     * @var array
-     */
-    protected $validation;
-
-    public function __call($method, $args)
+    public function __construct()
     {
-        $property = strtolower(Str::removePrefix($method, 'default'));
-        if (!in_array($property, $this->callable)) {
-            return;
-        }
-        $key = Arr::get($args, 0);
-        if (str_starts_with($method, 'default')) {
-            $className = Helper::buildClassName(['style', $property, 'defaults'], 'Defaults');
-            return glsr()->args(glsr($className)->defaults())->$key;
-        }
-        return glsr()->args($this->__get($property))->$key;
+        $styleName = glsr_get_option('general.style', 'default');
+        $config = shortcode_atts(
+            array_fill_keys(['classes', 'pagination', 'validation'], []),
+            glsr()->config("styles/{$styleName}")
+        );
+        $this->style = $styleName;
+        $this->classes = glsr(StyleClassesDefaults::class)->restrict($config['classes']);
+        $this->pagination = glsr(PaginationDefaults::class)->restrict($config['pagination']);
+        $this->validation = glsr(StyleValidationDefaults::class)->restrict($config['validation']);
     }
 
-    public function __get($property)
+    public function classes(string $key): string
     {
-        if (!in_array($property, $this->accessible)) {
-            return;
-        }
-        if (!isset($this->$property)) {
-            $style = glsr_get_option('general.style', 'default');
-            $config = shortcode_atts(array_fill_keys(['classes', 'pagination', 'validation'], []),
-                glsr()->config("styles/{$style}")
-            );
-            $this->classes = glsr(StyleClassesDefaults::class)->restrict($config['classes']);
-            $this->pagination = glsr(PaginationDefaults::class)->restrict($config['pagination']);
-            $this->style = $style;
-            $this->validation = glsr(StyleValidationDefaults::class)->restrict($config['validation']);
-        }
-        return $this->$property;
+        return $this->classes[$key] ?? '';
     }
 
-    public function fieldClass(FieldContract $field): string
+    public function defaultClasses(string $key): string
     {
-        if (!array_key_exists($field->tag(), $this->__get('classes'))) {
+        return glsr(StyleClassesDefaults::class)->defaults()[$key] ?? '';
+    }
+
+    public function defaultValidation(string $key): string
+    {
+        return glsr(StyleValidationDefaults::class)->defaults()[$key] ?? '';
+    }
+
+    public function fieldElementClass(FieldContract $field): string
+    {
+        $tag = $field->tag();
+        if (!array_key_exists($tag, $this->classes)) {
             return $field->class;
         }
-        $key = "{$field->tag()}_{$field->type}";
-        $fallback = Arr::get($this->classes, $field->tag());
-        $class = Arr::getAs('string', $this->classes, $key, $fallback);
-        return trim("{$class} {$field->class}");
+        $specific = "{$tag}_{$field->type}";
+        $fallback = $this->classes[$tag] ?? '';
+        $custom = Arr::getAs('string', $this->classes, $specific, $fallback);
+        return trim("{$custom} {$field->class}");
     }
 
     /**
@@ -104,76 +61,78 @@ class Style
      */
     public function paginationArgs(array $args): array
     {
-        return wp_parse_args($args, $this->__get('pagination'));
+        return wp_parse_args($args, $this->pagination);
     }
 
     public function styleClasses(string $additional = ''): string
     {
-        $style = $this->__get('style');
-        $classes = ['glsr'];
-        $classes[] = glsr()->filterString('style', "glsr-{$style}");
-        $classes[] = $additional;
-        $attribute = implode(' ', $classes);
-        return glsr(Sanitizer::class)->sanitizeAttrClass($attribute);
+        $style = glsr()->filterString('style', "glsr-{$this->style}");
+        $classes = ['glsr', $style, $additional];
+        return glsr(Sanitizer::class)->sanitizeAttrClass(implode(' ', $classes));
     }
 
     public function stylesheetUrl(?string $suffix = ''): string
     {
         if ($suffix) {
-            $string = 'assets/styles/%1$s/%2$s-%1$s.css';
-            $path = sprintf($string, $suffix, $this->__get('style'));
-            return file_exists(glsr()->path($path))
-                ? glsr()->url($path)
-                : glsr()->url(sprintf($string, $suffix, 'default'));
+            $format = 'assets/styles/%1$s/%2$s-%1$s.css';
+            $path = sprintf($format, $suffix, $this->style);
+            $fallback = sprintf($format, $suffix, 'default');
+        } else {
+            $format = 'assets/styles/%s.css';
+            $path = sprintf($format, $this->style);
+            $fallback = sprintf($format, 'default');
         }
-        $string = 'assets/styles/%s.css';
-        $path = sprintf($string, $this->__get('style'));
         return file_exists(glsr()->path($path))
             ? glsr()->url($path)
-            : glsr()->url(sprintf($string, 'default'));
+            : glsr()->url($fallback);
+    }
+
+    public function validation(string $key): string
+    {
+        return $this->validation[$key] ?? '';
     }
 
     public function view(string $view): string
     {
-        $templates = [
-            'templates/form/field',
-            'templates/form/response',
-            'templates/form/submit-button',
-            'templates/form/type-checkbox',
-            'templates/form/type-radio',
-            'templates/form/type-range',
-            'templates/form/type-toggle',
-            'templates/load-more-button',
-            'templates/pagination',
-            'templates/reviews-form',
-        ];
-        $templates = glsr()->filterArray('style/templates', $templates);
-        if (!preg_match('('.implode('|', $templates).')', $view)) {
+        static $allowed = null;
+        if (null === $allowed) {
+            $allowed = glsr()->filterArray('style/templates', [
+                'templates/form/field',
+                'templates/form/response',
+                'templates/form/submit-button',
+                'templates/form/type-checkbox',
+                'templates/form/type-radio',
+                'templates/form/type-range',
+                'templates/form/type-toggle',
+                'templates/load-more-button',
+                'templates/pagination',
+                'templates/reviews-form',
+            ]);
+            $allowed = '~('.implode('|', $allowed).')~';
+        }
+        if (!preg_match($allowed, $view)) {
             return $view;
         }
-        $views = $this->generatePossibleViews($view);
-        foreach ($views as $possibleView) {
-            if (file_exists(glsr()->file($possibleView))) {
-                return Str::removePrefix($possibleView, 'views/');
+        foreach ($this->possibleViews($view) as $candidate) {
+            if (file_exists(glsr()->file($candidate))) {
+                return Str::removePrefix($candidate, 'views/');
             }
         }
         return $view;
     }
 
-    protected function generatePossibleViews(string $view): array
+    protected function possibleViews(string $view): array
     {
-        $basename = basename($view);
-        $basepath = rtrim($view, $basename);
-        $style = $this->__get('style');
-        $customPath = "views/styles/{$style}/";
-        $parts = explode('_', $basename);
-        $views = [
-            $customPath.$basename, // styled view
-            $customPath.$parts[0], // styled view (base)
-            $view, // default view
-            $basepath.$parts[0], // default view (base)
+        $filename = basename($view);
+        $dirname = dirname($view).'/';
+        $shortName = strstr($filename, '_', true) ?: $filename; // before first _ or full
+        $styledPath = "views/styles/{$this->style}/";
+        $candidates = [
+            $styledPath.$filename, // styled exact
+            $styledPath.$shortName, // styled base
+            $view, // default exact
+            $dirname.$shortName, // default base
         ];
-        $views = glsr()->filterArray('style/views', $views, $view);
-        return array_filter($views);
+        return array_filter(glsr()->filterArray('style/views', $candidates, $view));
     }
 }

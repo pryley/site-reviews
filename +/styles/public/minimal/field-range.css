@@ -39,17 +39,27 @@
   position: initial;
   z-index: 1;
 }
-:--namespace form.glsr-form .glsr-range-options input[type="radio"].glsr-input-range {
-  border-radius: 50%;
-  display: block;
-  flex-shrink: 0;
-  height: var(--glsr-range-size);
-  width: var(--glsr-range-size);
-}
 :--namespace form.glsr-form .glsr-range-options label {
   display: none;
 }
-:--namespace form.glsr-form .glsr-range-options input:checked + label,
+:--namespace form.glsr-form .glsr-range {
+  display: grid;
+  font-size: var(--glsr-range-size); /* This set the overall size of the input! */
+  height: 1.25em;
+  width: 1.25em;
+}
+:--namespace form.glsr-form .glsr-range input {
+  box-sizing: border-box;
+  display: block;
+  left: 0;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  position: relative;
+  top: 0;
+  user-select: none;
+}
+:--namespace form.glsr-form .glsr-field-range:has(input:checked) label,
 :--namespace form.glsr-form .glsr-range-options:not(:has(input:checked))::after {
   display: flex;
   font-size: var(--glsr-text-sm);

@@ -20,18 +20,18 @@
     --glsr-text-sm: var(--global--font-size-xs);
     --glsr-text-md: var(--global--font-size-md);
     --glsr-text-lg: var(--global--font-size-lg);
-    --glsr-toggle-bg-0: var(--global--color-white);
-    --glsr-toggle-bg-1: var(--form--border-color);
+    --glsr-toggle-bg: var(--global--color-white);
+    --glsr-toggled-bg: var(--form--border-color);
     --glsr-toggle-color: var(--global--color-white);
     --glsr-toggle-h: 25px;
-    --glsr-toggle-opacity-0: 1;
+    --glsr-toggle-opacity: 1;
     --glsr-toggle-size: 19px;
     --glsr-toggle-w: 44px;
 }
 :root body.is-dark-theme {
-    --glsr-toggle-bg-0: var(--global--color-background);
+    --glsr-toggle-bg: var(--global--color-background);
     --glsr-toggle-color: var(--global--color-background);
-    --glsr-toggle-opacity-0: 0.25;
+    --glsr-toggle-opacity: 0.25;
 }
 
 :--namespace form.glsr-form .glsr-star-rating > select:focus + .glsr-star-rating--stars::before {
@@ -49,17 +49,17 @@
     width: var(--glsr-choice-w);
 }
 :--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::before {
-    border: var(--form--border-width) solid var(--glsr-toggle-bg-1);
+    border: var(--form--border-width) solid var(--glsr-toggled-bg);
 }
 :--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::after {
     box-shadow: none;
-    background-color: var(--glsr-toggle-bg-1);
-    border: 2px solid var(--glsr-toggle-bg-0);
+    background-color: var(--glsr-toggled-bg);
+    border: 2px solid var(--glsr-toggle-bg);
     transition: transform 0.075s ease-in-out;
 }
 :--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
-    background-color: var(--glsr-toggle-bg-0);
-    border-color: var(--glsr-toggle-bg-1);
+    background-color: var(--glsr-toggle-bg);
+    border-color: var(--glsr-toggled-bg);
     border-width: 1px;
 }
 :--namespace form.glsr-form .glsr-description {
