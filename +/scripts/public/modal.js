@@ -174,7 +174,7 @@ class Modal {
     }
 
     _removeTrigger (el) {
-        this.triggers.filter(trigger => trigger !== el)
+        this.triggers = this.triggers.filter(trigger => trigger !== el)
         el.removeEventListener('click', this.events._open)
     }
 
