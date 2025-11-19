@@ -121,6 +121,9 @@ class Controller extends AbstractController
      */
     protected function purgeCloudFlare(array $postIds = []): void
     {
+        if (!class_exists('CF\WordPress\Hooks')) {
+            return;
+        }
         if (!empty($postIds)) {
             do_action('site-reviews/cache/flush', $postIds);
         } else {
