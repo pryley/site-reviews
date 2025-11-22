@@ -176,6 +176,7 @@
     site-reviews/integration/subsubsub                          (array $subsubsub): array
     site-reviews/interpolate/<template_path>                    (array $context, string $template, array $data): array
     site-reviews/is-local-server                                (bool $bool): bool
+    site-reviews/modal_wrapped_by                               (string[] $builderSlugs): string[]
     site-reviews/notices                                        (array $notices): array
     site-reviews/notification/emails                            (array $emails, Review $review): array
     site-reviews/notification/tag/<tag>                         (string $value, Review $review): string

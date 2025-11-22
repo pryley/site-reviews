@@ -11,6 +11,15 @@ use GeminiLabs\SiteReviews\Helpers\Svg;
 class Controller extends AbstractController
 {
     /**
+     * @filter site-reviews/modal_wrapped_by
+     */
+    public function filterModalWrappedBy(array $builders): array
+    {
+        $builders[] = 'breakdance';
+        return $builders;
+    }
+
+    /**
      * Breakdance does not provide a way to create a multi-select dropdown
      * populated by an AJAX callback on init AND search. To get around this,
      * we use the post_chooser control and override the callback with our own.

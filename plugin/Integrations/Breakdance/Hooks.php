@@ -27,6 +27,7 @@ class Hooks extends IntegrationHooks
             return;
         }
         $this->hook(Controller::class, [
+            ['filterModalWrappedBy', 'site-reviews/modal_wrapped_by'],
             ['interceptGetPostsQuery', 'breakdance_ajax_breakdance_get_posts', 1],
             ['interceptGetPostsQuery', 'wp_ajax_breakdance_get_posts', 1],
             ['interceptGetPostsQuery', 'wp_ajax_nopriv_breakdance_get_posts', 1],
