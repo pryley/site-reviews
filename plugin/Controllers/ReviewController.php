@@ -74,6 +74,7 @@ class ReviewController extends AbstractController
     public function filterReviewTemplate(string $template, array $data): string
     {
         $attributes = array_filter([
+            'data-id' => $data['review']['ID'] ?? 0,
             'data-type' => $data['review']['type'] ?? 'local',
             'data-pinned' => $data['review']['is_pinned'] ?? 0,
             'data-verified' => $data['review']['is_verified'] ?? 0,
