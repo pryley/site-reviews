@@ -48,15 +48,22 @@ const initForms = () => {
 const initModal = () => {
     GLSR.Modal.init('glsr-modal-review', {
         onOpen: (Modal) => {
-            const baseEl = Modal.trigger.closest('.glsr').cloneNode(true);
+            const triggerRoot = Modal.trigger.closest('.glsr');
+            const baseEl   = triggerRoot.cloneNode(true);
             const reviewEl = Modal.trigger.closest('.glsr-review').cloneNode(true);
-            reviewEl.querySelectorAll('[data-expanded="false"]').forEach(el => {
-                el.dataset.expanded = 'true';
-            })
-            reviewEl.removeAttribute('id')
+            // Ensure the entire review is visible
+            reviewEl.querySelectorAll('[data-expanded="false"]').forEach(el => el.dataset.expanded = 'true');
+            // Clean up cloned elements
+            reviewEl.removeAttribute('id');
             baseEl.innerHTML = '';
+            baseEl.removeAttribute('id');
             baseEl.appendChild(reviewEl);
-            Modal.dom.content.appendChild(baseEl);
+            // Append directly or with parent-class wrapper
+            const needsWrapper = GLSR.modal_wrapped_by.includes(baseEl.dataset.from);
+            const appendEl = needsWrapper
+                ? dom('div', {class: triggerRoot.parentElement.className}, baseEl)
+                : baseEl;
+            Modal.dom.content.appendChild(appendEl);
         },
     })
 }

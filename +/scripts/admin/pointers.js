@@ -9,7 +9,7 @@ const Pointers = function () {
 Pointers.prototype = {
     /** @return void */
     close_: function (pointerId) { // string
-        jQuery.post(GLSR.ajaxurl, {
+        jQuery.post(ajaxurl, {
             action: 'dismiss-wp-pointer',
             pointer: pointerId,
         });

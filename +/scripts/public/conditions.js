@@ -33,7 +33,7 @@ const isNumber = (value) => !isNaN(parseInt(value));
 
 class Conditions {
     constructor (Form) {
-        this.config = GLSR.validationconfig;
+        this.config = GLSR.validation_config;
         this.elements = Array.from(Form.form.elements);
         this.event = this.onChange.bind(this);
         this.Form = Form;

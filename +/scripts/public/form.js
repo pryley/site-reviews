@@ -11,7 +11,7 @@ import { addRemoveClass, classListSelector } from '@/public/helpers.js';
 class Form {
     constructor (formEl, buttonEl) {
         this.button = Button(buttonEl);
-        this.config = GLSR.validationconfig;
+        this.config = GLSR.validation_config;
         this.events = {
             reset: this._onReset.bind(this),
             submit: this._onSubmit.bind(this),
@@ -19,7 +19,7 @@ class Form {
         this.form = formEl;
         this.isActive = false;
         this.stars = StarRating();
-        this.strings = GLSR.validationstrings;
+        this.strings = GLSR.validation_strings;
         this.captcha = new Captcha(this);
         this.conditions = new Conditions(this);
         this.validation = new Validation(formEl);
@@ -38,7 +38,7 @@ class Form {
     init () {
         if (this.isActive) return;
         this._initForm()
-        this.stars.init(this.form.querySelectorAll('.glsr-field-rating select'), GLSR.starsconfig);
+        this.stars.init(this.form.querySelectorAll('.glsr-field-rating select'), GLSR.stars_config);
         this.captcha.render()
         this.isActive = true;
     }
@@ -105,9 +105,9 @@ class Form {
             }
             if (this.reviewsEl && response.reviews) {
                 this.reviewsEl.innerHTML = response.reviews;
-                if (GLSR.urlparameter) {
+                if (GLSR.url_parameter) {
                     let url = new URL(location.href);
-                    url.searchParams.delete(GLSR.urlparameter);
+                    url.searchParams.delete(GLSR.url_parameter);
                     window.history.replaceState({}, '', url.toString());
                 }
             }

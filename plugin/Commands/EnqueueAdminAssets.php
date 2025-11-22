@@ -79,7 +79,6 @@ class EnqueueAdminAssets extends AbstractCommand
             'action' => glsr()->prefix.'admin_action',
             'addons' => [],
             'addonsurl' => glsr_admin_url('addons'),
-            'ajaxurl' => admin_url('admin-ajax.php'),
             'filters' => [
                 'assigned_post' => glsr(ColumnFilterAssignedPost::class)->options(),
                 'assigned_user' => glsr(ColumnFilterAssignedUser::class)->options(),

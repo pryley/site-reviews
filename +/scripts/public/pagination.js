@@ -60,7 +60,7 @@ class Pagination {
         if (current) {
             const data = this._data(current);
             const nextLink = current.nextElementSibling;
-            if (data && nextLink && 2 === +nextLink.dataset.page && GLSR.urlparameter) { // window loaded page 1
+            if (data && nextLink && 2 === +nextLink.dataset.page && GLSR.url_parameter) { // window loaded page 1
                 window.history.replaceState(data, '', window.location)
             }
         }
@@ -123,7 +123,7 @@ class Pagination {
             return
         }
         this._paginate(response)
-        if (GLSR.urlparameter) {
+        if (GLSR.url_parameter) {
             window.history.pushState(request, '', linkEl.href) // add a new entry to browser History
         }
     }
@@ -200,7 +200,7 @@ class Pagination {
 
     _scrollToTop () {
         let offset = config.scrollOffset;
-        [].forEach.call(GLSR.ajaxpagination, selector => {
+        [].forEach.call(GLSR.ajax_pagination, selector => {
             const fixedEl = document.querySelector(selector);
             if (fixedEl && 'fixed' === window.getComputedStyle(fixedEl).getPropertyValue('position')) {
                 offset = offset + fixedEl.clientHeight;

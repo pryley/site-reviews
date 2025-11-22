@@ -1,4 +1,8 @@
-// See: https://github.com/KoryNunn/crel
+/**
+ * This fork add support for SVG elements and style attributes as a string or object
+ * 
+ * @see: https://github.com/KoryNunn/crel
+ */
 
 const func = 'function';
 const isNodeString = 'isNode';
@@ -24,7 +28,11 @@ function dom (element, settings) {
     let attribute;
     // If first argument is an element, use it as is, otherwise treat it as a tagname
     if (!dom.isElement(element)) {
-      let ns = !~['svg','line','path','rect','mask','radialGradient','stop'].indexOf(element) ? '1999/xhtml' : '2000/svg';
+      let ns = [
+        'circle', 'clipPath', 'ellipse', 'g', 'line', 'linearGradient', 'mask',
+        'path', 'polygon', 'polyline', 'radialGradient', 'rect', 'stop', 'svg',
+        'text', 'textPath',
+      ].includes(element) ? '2000/svg' : '1999/xhtml';
       element = document.createElementNS(`http://www.w3.org/${ns}`, element);
     }
     // Check if second argument is a string, if so, use it as a class attribute
@@ -60,7 +68,15 @@ function dom (element, settings) {
 }
 
 // Used for mapping attribute keys to supported versions in bad browsers, or to custom functionality
-dom.attrMap = {};
+dom.attrMap = {
+    style: (el, value) => {
+        if (isType(value, 'string')) {
+            el.style.cssText = value;
+        } else if (isType(value, 'object')) {
+            Object.assign(el.style, value);
+        }
+    },
+};
 dom.isElement = object => object instanceof Element;
 dom[isNodeString] = node => node instanceof Node;
 

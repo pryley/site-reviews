@@ -50,7 +50,7 @@ Ajax.prototype = {
             Button(el).loading()
         }
         // wp.ajax.post(GLSR.action, this.buildData_(el)).done(response => {
-        jQuery.post(GLSR.ajaxurl, this.buildData_(el)).done(response => {
+        jQuery.post(ajaxurl, this.buildData_(el)).done(response => {
             if (typeof callback === 'function') {
                 callback(response.data, response.success);
             }

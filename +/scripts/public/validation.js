@@ -92,12 +92,12 @@ const validators = {
 
 class Validation {
     constructor (formEl) {
-        this.config = GLSR.validationconfig;
+        this.config = GLSR.validation_config;
         this.event = this._onChange.bind(this);
         this.fields = [];
         this.form = formEl;
         this.form.setAttribute('novalidate', '');
-        this.strings = GLSR.validationstrings;
+        this.strings = GLSR.validation_strings;
     }
 
     destroy () {

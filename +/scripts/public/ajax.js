@@ -21,7 +21,7 @@ const get = (url, callback, headers) => {
 
 const post = (formOrData, callback, headers) => {
     _prepareRequest(callback);
-    xhr.open('POST', GLSR.ajaxurl, true);
+    xhr.open('POST', GLSR.ajax_url, true);
     xhr.responseType = 'json';
     xhr.json = true; // @IE11
     _setHeaders(headers);

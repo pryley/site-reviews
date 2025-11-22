@@ -52,11 +52,12 @@ class EnqueuePublicAssets extends AbstractCommand
         $variables = [
             'action' => glsr()->prefix.'public_action',
             'addons' => [],
-            'ajaxpagination' => $this->getFixedSelectorsForPagination(),
-            'ajaxurl' => admin_url('admin-ajax.php'),
+            'ajax_pagination' => $this->getFixedSelectorsForPagination(),
+            'ajax_url' => admin_url('admin-ajax.php'),
             'captcha' => glsr(Captcha::class)->config(),
+            'modal_wrapped_by' => glsr()->filterarray('modal_wrapped_by', ['block']),
             'nameprefix' => glsr()->id,
-            'starsconfig' => [
+            'stars_config' => [
                 'clearable' => false,
                 'tooltip' => __('Select a Rating', 'site-reviews'),
             ],
@@ -64,17 +65,17 @@ class EnqueuePublicAssets extends AbstractCommand
                 'popstate' => false,
             ],
             'text' => [
-                'closemodal' => __('Close Modal', 'site-reviews'),
+                'close_modal' => __('Close Modal', 'site-reviews'),
             ],
-            'urlparameter' => $urlparameter,
-            'validationconfig' => array_merge(
+            'url_parameter' => $urlparameter,
+            'validation_config' => array_merge(
                 [
                     'field' => glsr(Style::class)->defaultClasses('field'),
                     'form' => glsr(Style::class)->defaultClasses('form'),
                 ],
                 glsr(Style::class)->validation
             ),
-            'validationstrings' => glsr(ValidationStringsDefaults::class)->defaults(),
+            'validation_strings' => glsr(ValidationStringsDefaults::class)->defaults(),
             'version' => glsr()->version,
         ];
         $variables = glsr()->filterArray('enqueue/public/localize', $variables);

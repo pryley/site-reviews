@@ -114,7 +114,7 @@ class Modal {
     }
 
     _insertModal () {
-        const close = dom('button', attr('close', { 'aria-label': GLSR.text.closemodal, 'data-glsr-close': '' }));
+        const close = dom('button', attr('close', { 'aria-label': GLSR.text.close_modal, 'data-glsr-close': '' }));
         const content = dom('div', attr('content', { tabindex: -1 }));
         const header = dom('div', attr('header'));
         const footer = dom('div', attr('footer'));
