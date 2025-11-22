@@ -11,7 +11,7 @@
                 <?php echo $review->product()->get_image(); ?>
                 <span class="product-title"><?php echo $review->product()->get_name(); ?></span>
             </a>
-            <div class="<?php echo esc_attr($style); ?> glsrw-loop-rating">
+            <div class="<?php echo esc_attr($class); ?> glsrw-loop-rating">
                 <?php echo glsr_star_rating($review->rating, 0, ['theme' => $theme]); ?>
             </div>
             <span class="reviewer">

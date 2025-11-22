@@ -113,9 +113,9 @@ class ProductRating extends Product_Rating
         global $product;
         if ($product = wc_get_product()) {
             glsr(Template::class)->render('templates/woocommerce/rating', [
+                'class' => glsr(Style::class)->styleClasses(),
                 'product' => $product,
                 'ratings' => glsr_get_ratings(['assigned_posts' => 'post_id']),
-                'style' => 'glsr glsr-'.glsr(Style::class)->styleClasses(),
                 'theme' => glsr_get_option('integrations.woocommerce.style'),
             ]);
         }

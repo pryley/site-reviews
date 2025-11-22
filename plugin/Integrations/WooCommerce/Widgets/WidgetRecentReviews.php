@@ -28,8 +28,8 @@ class WidgetRecentReviews extends \WC_Widget_Recent_Reviews
             $this->widget_start($args, $instance);
             glsr()->render('templates/woocommerce/widgets/recent-reviews', [
                 'args' => $args,
+                'class' => glsr(Style::class)->styleClasses(),
                 'reviews' => $reviews,
-                'style' => 'glsr glsr-'.glsr(Style::class)->styleClasses(),
                 'theme' => glsr_get_option('integrations.woocommerce.style'),
             ]);
             $this->widget_end($args);

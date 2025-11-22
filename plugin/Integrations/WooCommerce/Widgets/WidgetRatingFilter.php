@@ -26,8 +26,8 @@ class WidgetRatingFilter extends \WC_Widget_Rating_Filter
             ob_start();
             $this->widget_start($args, $instance);
             glsr()->render('templates/woocommerce/widgets/rating-filter', [
+                'class' => glsr(Style::class)->styleClasses(),
                 'filters' => $filters,
-                'style' => 'glsr glsr-'.glsr(Style::class)->styleClasses(),
             ]);
             $this->widget_end($args);
             echo ob_get_clean(); // WPCS: XSS ok.

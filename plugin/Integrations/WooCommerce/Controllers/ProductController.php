@@ -334,9 +334,9 @@ class ProductController implements ControllerContract
             return;
         }
         glsr(Template::class)->render('templates/woocommerce/loop/rating', [
+            'class' => glsr(Style::class)->styleClasses(),
             'product' => $product,
             'ratings' => $ratings,
-            'style' => glsr(Style::class)->styleClasses(),
             'theme' => glsr_get_option('integrations.woocommerce.style'),
         ]);
     }
@@ -420,9 +420,9 @@ class ProductController implements ControllerContract
             return;
         }
         glsr(Template::class)->render('templates/woocommerce/rating', [
+            'class' => glsr(Style::class)->styleClasses(),
             'product' => $product,
             'ratings' => $ratings,
-            'style' => glsr(Style::class)->styleClasses(),
             'theme' => glsr_get_option('integrations.woocommerce.style'),
         ]);
     }
