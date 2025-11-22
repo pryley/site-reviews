@@ -102,9 +102,6 @@ class ReviewsHtml extends \ArrayObject
         if (array_key_exists($key, $this->rendered)) {
             return $this->rendered[$key];
         }
-        if (in_array($key, ['navigation', 'pagination'])) { // @deprecated_v5 (navigation)
-            return $this->getPagination();
-        }
         return property_exists($this, $key)
             ? $this->$key
             : glsr()->filterString("reviews/html/{$key}", null, $this);
