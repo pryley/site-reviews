@@ -13,6 +13,8 @@ Site Reviews is a complete review management solution for your website that is d
 
 Site Reviews is a complete review management solution for your website that is designed to work in a similar way to Amazon, Tripadvisor, and Yelp. The plugin provides blocks, shortcodes, and widgets, along with full documentation.
 
+Site Reviews integrates with SureCart and WooCommerce enabling store owners to collect and display customer reviews for their products while enhancing social proof and driving sales.
+
 You can pin your best reviews so that they are always shown first, request review verification, require approval before new reviews are published, require visitors to be logged-in in order to write a review, send a custom notification when reviews are submitted, respond to reviews, and a lot more!
 
 Site Reviews provides more features and options than almost every other free review plugin, and the support provided on the WordPress forum is excellent.
