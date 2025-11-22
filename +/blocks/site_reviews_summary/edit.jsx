@@ -336,7 +336,6 @@ const Edit = (props) => {
                 'labels',
             ],
             initialOpen: false,
-            title: _x('Text Options', 'admin-text', 'site-reviews'),
         },
         advanced: {
             controls: [
