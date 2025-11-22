@@ -1,6 +1,7 @@
 import { default as ServerSideRender } from '@wordpress/server-side-render';
 import { __experimentalToolsPanel as ToolsPanel, Disabled, PanelBody, Spinner } from '@wordpress/components';
 import { _x } from '@wordpress/i18n';
+import { applyFilters } from '@wordpress/hooks';
 import { BaseControl, Notice } from '@wordpress/components';
 import { BlockControls, InspectorControls, InspectorAdvancedControls, useBlockProps } from '@wordpress/block-editor';
 import { useMemo } from '@wordpress/element';
@@ -37,9 +38,10 @@ const CustomLoadingPlaceholder = ({ children, showLoader }) => {
 };
 
 const defaultPanelTitles = {
-    display: _x('Display Options', 'admin-text', 'site-reviews'),
-    hide: _x('Hide Options', 'admin-text', 'site-reviews'),
+    display: _x('Display', 'admin-text', 'site-reviews'),
+    hide: _x('Hide', 'admin-text', 'site-reviews'),
     settings: _x('Settings', 'admin-text', 'site-reviews'),
+    title: _x('Text', 'admin-text', 'site-reviews'),
 };
 
 const allowedInspectorGroups = [
@@ -107,12 +109,20 @@ const ServerSideBlockRenderer = ({
     }, [attributes]);
 
     const filteredControls = useMemo(
-        () => wp.hooks.applyFilters(`${hookPrefix}.InspectorControls`, controls, props),
+        () => applyFilters('site-reviews.blocks.controls', controls, props),
         [controls, props, hookPrefix]
     );
     const filteredPanels = useMemo(
-        () => wp.hooks.applyFilters(`${hookPrefix}.InspectorPanels`, panels, props),
+        () => applyFilters('site-reviews.blocks.panels', panels, props),
         [panels, props, hookPrefix]
+    );
+    const filteredStyle = useMemo(
+        () => applyFilters('site-reviews.blocks.style', style, props),
+        [style, props, hookPrefix]
+    );
+    const filteredStyleClassNames = useMemo(
+        () => applyFilters('site-reviews.blocks.style_classnames', styleClassNames, props),
+        [styleClassNames, props, hookPrefix]
     );
 
     const normalizedPanels = Object.entries(filteredPanels).reduce((acc, [panelKey, panel]) => {
@@ -139,9 +149,9 @@ const ServerSideBlockRenderer = ({
     }
 
     const blockProps = useBlockProps({
-        className: styleClassNames.join(' '),
+        className: filteredStyleClassNames.join(' '),
         ref,
-        style,
+        style: filteredStyle,
     });
 
     const classNamePrefixesToRemove = [
