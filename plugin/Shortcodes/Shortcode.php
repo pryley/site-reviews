@@ -56,7 +56,7 @@ abstract class Shortcode implements ShortcodeContract
 
     public function build(array $args = [], string $from = 'shortcode', bool $isWrapped = true): string
     {
-        $this->normalize(wp_parse_args($args), $from);
+        $this->normalize($args, $from);
         $template = $this->buildTemplate();
         if (empty($template)) {
             return '';
