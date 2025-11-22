@@ -230,6 +230,7 @@
     site-reviews/review/build/tag/response/by                   (string $responseBy, Review $review): string
     site-reviews/review/call/<methodName>                       (Review $review, ...$args): void|mixed
     site-reviews/review/create/post_data                        (array $values, Commands\CreateReview $createReview): array
+    site-reviews/review/html/<property>                         (mixed $value, Modules\Html\ReviewHtml $reviewHtml): mixed
     site-reviews/review/redirect                                (string $redirect, Commands\CreateReview $createReview, Review $review): string
     site-reviews/review/tag/<tag>                               (string $className, Modules\Html\ReviewHtml $reviewHtml): string
     site-reviews/review/types                                   (array $types): array
@@ -237,7 +238,7 @@
     site-reviews/review/wrap/<tag_or_field_key>                 (string $value, string $rawValue, Contracts\TagContract $tag): string
     site-reviews/review/wrapped                                 (string $value, string $rawValue, Contracts\TagContract $tag): string
     site-reviews/reviews/fallback                               (string $fallback, array $args): string
-    site-reviews/reviews/html/<property>                        (mixed $value, Modules\Html\ReviewHtml $reviewHtml): mixed
+    site-reviews/reviews/html/<property>                        (mixed $value, Modules\Html\ReviewsHtml $reviewsxsHtml): mixed
     site-reviews/roles                                          (array $roles): array
     site-reviews/router/admin/unguarded-actions                 (array $unguardedActions): array
     site-reviews/router/mutex/actions                           (array $mutexActions): array

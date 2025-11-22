@@ -106,8 +106,9 @@ class ReviewHtml extends \ArrayObject
         if (array_key_exists($key, $this->context)) {
             return $this->context[$key];
         }
-        $key = Helper::ifTrue('values' === $key, 'context', $key); // @deprecated_5
-        return Helper::ifTrue(property_exists($this, $key), $this->$key);
+        return property_exists($this, $key)
+            ? $this->$key
+            : glsr()->filterString("review/html/{$key}", null, $this);
     }
 
     protected function normalizeTemplateTag(string $tag): string
