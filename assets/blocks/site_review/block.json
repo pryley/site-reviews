@@ -42,18 +42,6 @@
     "styleAlign": {
       "default": "left",
       "type": "string"
-    },
-    "styleRatingColor": {
-      "default": "",
-      "type": "string"
-    },
-    "styleRatingColorCustom": {
-      "default": "",
-      "type": "string"
-    },
-    "styleStarSize": {
-      "default": "1.25em",
-      "type": "string"
     }
   },
   "supports": {

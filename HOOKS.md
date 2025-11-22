@@ -90,7 +90,8 @@
     site-reviews/avatar/fallback                                (string $fallbackUrl, Review $review, int $size): string
     site-reviews/avatar/generate                                (string $avatarUrl, Review $review, int $size): string
     site-reviews/avatar/id_or_email                             (string $id_or_email, array $reviewValues): string
-    site-reviews/block/<block>/attributes                       (array $attributes, string $block): array
+    site-reviews/block/classes                                  (array $classes, Integrations\Gutenberg\Blocks\Block $block): array
+    site-reviews/block/styles                                   (array $styles, Integrations\Gutenberg\Blocks\Block $block): array
     site-reviews/breakdance/actions                             (array $actions, Shortcodes\Shortcode $shortcode): array
     site-reviews/breakdance/additional_classes                  (array $classes, Shortcodes\Shortcode $shortcode): array
     site-reviews/breakdance/config                              (array $config, Integrations\Breakdance\Transformer $transformer): array

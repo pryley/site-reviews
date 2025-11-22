@@ -1,36 +1,10 @@
-import {
-    __experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
-    __experimentalSpacingSizesControl as SpacingSizesControl,
-    __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
-    withColors,
-} from '@wordpress/block-editor';
-import {
-    __experimentalToolsPanelItem as ToolsPanelItem,
-    __experimentalUnitControl as UnitControl,
-    __experimentalUseCustomUnits as useCustomUnits,
-    TextControl,
-} from '@wordpress/components';
 import { _x } from '@wordpress/i18n';
 import { AjaxFormTokenField, AjaxToggleGroupControl } from '@site-reviews/components';
-import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
-import { useSelect } from '@wordpress/data';
-import isShallowEqual from '@wordpress/is-shallow-equal';
+import { TextControl } from '@wordpress/components';
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
 const Edit = (props) => {
-    const { attributes, clientId, setAttributes, setStyleRatingColor, styleRatingColor } = props;
-    const colorGradientSettings = useMultipleOriginColorsAndGradients();
-
-    const {
-        defaultFieldSpacing,
-        defaultStarSize,
-    } = useSelect((select) => {
-        const blockType = select('core/blocks').getBlockType(props.name);
-        return {
-            defaultFieldSpacing: blockType?.attributes?.styleFieldSpacing?.default || {},
-            defaultStarSize: blockType?.attributes?.styleStarSize?.default || '',
-        };
-    }, []);
+    const { attributes, setAttributes } = props;
 
     const controls = {
         assigned_posts: <AjaxFormTokenField
@@ -83,62 +57,6 @@ const Edit = (props) => {
             onChange={ reviews_id => setAttributes({ reviews_id }) }
             value={ attributes.reviews_id }
         />,
-        styleFieldSpacing: <ToolsPanelItem
-            hasValue={ () => !isShallowEqual(attributes.styleFieldSpacing, defaultFieldSpacing) }
-            isShownByDefault
-            label={ _x('Field Spacing', 'admin-text', 'site-reviews') }
-            onDeselect={ () => setAttributes({ styleFieldSpacing: defaultFieldSpacing }) }
-        >
-            <SpacingSizesControl
-                label={ _x('Field Spacing', 'admin-text', 'site-reviews') }
-                onChange={ (styleFieldSpacing) => setAttributes({ styleFieldSpacing }) }
-                panelId={clientId}
-                sides={ ['horizontal', 'vertical'] }
-                values={ attributes.styleFieldSpacing }
-            />
-        </ToolsPanelItem>,
-        styleRatingColor: <ColorGradientSettingsDropdown
-            __experimentalIsRenderedInSidebar
-            panelId={clientId}
-            settings={ [
-                {
-                    clearable: true,
-                    colorValue: styleRatingColor.color || attributes.styleRatingColorCustom,
-                    label: _x('Rating', 'admin-text', 'site-reviews'),
-                    onColorChange: (color) => {
-                        setAttributes({ styleRatingColorCustom: color })
-                        setStyleRatingColor(color)
-                    },
-                    isShownByDefault: true,
-                    resetAllFilter: () => ({
-                        styleRatingColor: '',
-                        styleRatingColorCustom: '',
-                    }),
-                }
-            ] }
-            {...colorGradientSettings}
-        />,
-        styleStarSize: <ToolsPanelItem
-            hasValue={ () => attributes.styleStarSize !== defaultStarSize }
-            isShownByDefault
-            label={ _x('Star Size', 'admin-text', 'site-reviews') }
-            onDeselect={ () => setAttributes({ styleStarSize: defaultStarSize }) }
-            style={{ 'grid-column': 'span 1' }}
-        >
-            <UnitControl
-                __next40pxDefaultSize
-                allowReset
-                isResetValueOnUnitChange
-                label={ _x('Star Size', 'admin-text', 'site-reviews') }
-                min={0}
-                onChange={ (styleStarSize) => setAttributes({ styleStarSize }) }
-                units={ useCustomUnits({
-                    availableUnits: ['px', 'em', 'rem'],
-                    defaultValues: { px: '32', em: '2', rem: '2' },
-                }) }
-                value={ attributes.styleStarSize }
-            />
-        </ToolsPanelItem>,
         summary_id: <TextControl
             __next40pxDefaultSize
             __nextHasNoMarginBottom
@@ -158,10 +76,6 @@ const Edit = (props) => {
                 'assigned_users',
             ],
         },
-        display: {
-            controls: [],
-            initialOpen: false,
-        },
         hide: {
             controls: [
                 'hide',
@@ -175,25 +89,6 @@ const Edit = (props) => {
                 'summary_id',
             ],
         },
-        color: {
-            controls: [
-                'styleRatingColor',
-            ],
-        },
-        sizes: {
-            controls: [
-                'styleFieldSpacing',
-                'styleStarSize',
-            ],
-            group: 'styles',
-            title: _x('Sizes', 'admin-text', 'site-reviews'),
-            resetAll: () => {
-                setAttributes({
-                    styleFieldSpacing: defaultFieldSpacing,
-                    styleStarSize: defaultStarSize,
-                })
-            },
-        },
     };
 
     return (
@@ -201,19 +96,8 @@ const Edit = (props) => {
             controls={controls}
             panels={panels}
             props={props}
-            style={{
-                '--glsr-form-col-gap': getCSSValueFromRawStyle(attributes.styleFieldSpacing.left),
-                '--glsr-form-row-gap': getCSSValueFromRawStyle(attributes.styleFieldSpacing.top),
-                '--glsr-form-star': attributes.styleStarSize,
-                '--glsr-form-star-bg': styleRatingColor.slug
-                    ? getCSSValueFromRawStyle(`var:preset|color|${styleRatingColor.slug}`)
-                    : attributes.styleRatingColorCustom,
-            }}
-            styleClassNames={[
-                (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-color' : '',
-            ]}
         />
     )
 }
 
-export default withColors('styleRatingColor')(Edit)
+export default Edit;

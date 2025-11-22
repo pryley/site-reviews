@@ -23,26 +23,12 @@ class SiteReviewBlock extends Block
         return SiteReviewShortcode::class;
     }
 
-    protected function blockClassAttr(array $attributes): string
+    protected function blockClasses(array $attributes): array
     {
-        $attr = [];
-        if (!empty($attributes['styleRatingColor']) || !empty($attributes['styleRatingColorCustom'])) {
-            $attr[] = 'has-custom-color';
+        $classes = [];
+        if (!empty($attributes['styleAlign'])) {
+            $classes[] = "items-justified-{$attributes['styleAlign']}";
         }
-        return implode(' ', $attr);
-    }
-
-    protected function blockStyleAttr(array $attributes): string
-    {
-        $attr = [];
-        if (!empty($attributes['styleRatingColor'])) {
-            $attr[] = "--glsr-review-star-bg: var(--wp--preset--color--{$attributes['styleRatingColor']});";
-        } elseif (!empty($attributes['styleRatingColorCustom'])) {
-            $attr[] = "--glsr-review-star-bg: {$attributes['styleRatingColorCustom']};";
-        }
-        if (!empty($attributes['styleStarSize'])) {
-            $attr[] = "--glsr-review-star: {$attributes['styleStarSize']};";
-        }
-        return implode('', $attr);
+        return $classes;
     }
 }

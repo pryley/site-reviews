@@ -47,18 +47,6 @@ return array(
 			'styleAlign' => array(
 				'default' => 'left',
 				'type' => 'string'
-			),
-			'styleRatingColor' => array(
-				'default' => '',
-				'type' => 'string'
-			),
-			'styleRatingColorCustom' => array(
-				'default' => '',
-				'type' => 'string'
-			),
-			'styleStarSize' => array(
-				'default' => '1.25em',
-				'type' => 'string'
 			)
 		),
 		'supports' => array(
@@ -201,25 +189,6 @@ return array(
 				'default' => 'left',
 				'type' => 'string'
 			),
-			'styleRatingColor' => array(
-				'default' => '',
-				'type' => 'string'
-			),
-			'styleRatingColorCustom' => array(
-				'default' => '',
-				'type' => 'string'
-			),
-			'styleReviewSpacing' => array(
-				'default' => array(
-					'top' => '2em',
-					'bottom' => '2em'
-				),
-				'type' => 'object'
-			),
-			'styleStarSize' => array(
-				'default' => '1.25em',
-				'type' => 'string'
-			),
 			'terms' => array(
 				'default' => '',
 				'type' => 'string'
@@ -340,27 +309,6 @@ return array(
 						'textAlign' => 'left'
 					)
 				)
-			),
-			'styleFieldSpacing' => array(
-				'default' => array(
-					'top' => '0.75em',
-					'left' => '0.75em',
-					'bottom' => '0.75em',
-					'right' => '0.75em'
-				),
-				'type' => 'object'
-			),
-			'styleRatingColor' => array(
-				'default' => '',
-				'type' => 'string'
-			),
-			'styleRatingColorCustom' => array(
-				'default' => '',
-				'type' => 'string'
-			),
-			'styleStarSize' => array(
-				'default' => '2em',
-				'type' => 'string'
 			),
 			'summary_id' => array(
 				'default' => '',
@@ -500,30 +448,6 @@ return array(
 				'default' => 'left',
 				'type' => 'string'
 			),
-			'styleBarSize' => array(
-				'default' => '1em',
-				'type' => 'string'
-			),
-			'styleBarSpacing' => array(
-				'default' => '0.5em',
-				'type' => 'string'
-			),
-			'styleRatingColor' => array(
-				'default' => '',
-				'type' => 'string'
-			),
-			'styleRatingColorCustom' => array(
-				'default' => '',
-				'type' => 'string'
-			),
-			'styleStarSize' => array(
-				'default' => '1.5em',
-				'type' => 'string'
-			),
-			'styleMaxWidth' => array(
-				'default' => '48ch',
-				'type' => 'string'
-			),
 			'terms' => array(
 				'default' => '',
 				'type' => 'string'
@@ -559,20 +483,6 @@ return array(
 					'fontSize' => true,
 					'lineHeight' => true
 				)
-			)
-		),
-		'styles' => array(
-			array(
-				'name' => '1',
-				'label' => 'Style 1'
-			),
-			array(
-				'name' => '2',
-				'label' => 'Style 2'
-			),
-			array(
-				'name' => '3',
-				'label' => 'Style 3'
 			)
 		),
 		'example' => array(

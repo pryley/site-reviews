@@ -41,32 +41,37 @@ abstract class Block
         );
     }
 
-    protected function blockClassAttr(array $attributes): string
+    protected function blockClasses(array $attributes): array
     {
-        return '';
+        return [];
     }
 
-    protected function blockStyleAttr(array $attributes): string
+    protected function blockStyles(array $attributes): array
     {
-        return '';
+        return [];
     }
 
     protected function blockWrapperAttributes(array $attributes): array
     {
-        $atts = wp_parse_args(
-            \WP_Block_Supports::get_instance()->apply_block_supports(),
-            array_fill_keys(['class', 'id', 'style'], '')
+        $supports = \WP_Block_Supports::get_instance()->apply_block_supports();
+        $blockClasses = glsr()->filterArray('block/classes',
+            $this->blockClasses($attributes),
+            $this
         );
-
-        $exclude = explode(' ', $attributes['className']);
-        $include = explode(' ', $atts['class']);
-        $classes = implode(' ', array_diff($include, $exclude));
-        $class = "{$classes} {$this->blockClassAttr($attributes)}";
-        $style = "{$atts['style']} {$this->blockStyleAttr($attributes)}";
+        $blockStyles = glsr()->filterArray('block/styles',
+            $this->blockStyles($attributes),
+            $this
+        );
+        $extraClasses = array_diff(
+            explode(' ', $supports['class'] ?? ''), // include
+            explode(' ', $attributes['className'] ?? '') // exclude
+        );
+        $finalClasses = implode(' ', array_merge($blockClasses, $extraClasses));
+        $finalStyles = implode('', array_merge($blockStyles, [$supports['style'] ?? '']));
         return array_filter([
-            'class' => glsr(Sanitizer::class)->sanitizeAttrClass($class),
-            'id' => glsr(Sanitizer::class)->sanitizeId($atts['id']),
-            'style' => glsr(Sanitizer::class)->sanitizeAttrStyle($style),
+            'class' => glsr(Sanitizer::class)->sanitizeAttrClass($finalClasses),
+            'id' => glsr(Sanitizer::class)->sanitizeId($supports['id'] ?? ''),
+            'style' => glsr(Sanitizer::class)->sanitizeAttrStyle($finalStyles),
         ]);
     }
 

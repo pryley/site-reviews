@@ -80,30 +80,6 @@
       "default": "left",
       "type": "string"
     },
-    "styleBarSize": {
-      "default": "1em",
-      "type": "string"
-    },
-    "styleBarSpacing": {
-      "default": "0.5em",
-      "type": "string"
-    },
-    "styleRatingColor": {
-      "default": "",
-      "type": "string"
-    },
-    "styleRatingColorCustom": {
-      "default": "",
-      "type": "string"
-    },
-    "styleStarSize": {
-      "default": "1.5em",
-      "type": "string"
-    },
-    "styleMaxWidth": {
-      "default": "48ch",
-      "type": "string"
-    },
     "terms": {
       "default": "",
       "type": "string"
@@ -141,20 +117,6 @@
       }
     }
   },
-  "styles": [
-    {
-      "name": "1",
-      "label": "Style 1"
-    },
-    {
-      "name": "2",
-      "label": "Style 2"
-    },
-    {
-      "name": "3",
-      "label": "Style 3"
-    }
-  ],
   "example": {},
   "editorScript": [
     "file:./index.js"

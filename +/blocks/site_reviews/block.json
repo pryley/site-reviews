@@ -85,25 +85,6 @@
             "default": "left",
             "type": "string"
         },
-        "styleRatingColor": {
-            "default": "",
-            "type": "string"
-        },
-        "styleRatingColorCustom": {
-            "default": "",
-            "type": "string"
-        },
-        "styleReviewSpacing": {
-            "default": {
-                "top": "2em",
-                "bottom": "2em"
-            },
-            "type": "object"
-        },
-        "styleStarSize": {
-            "default": "1.25em",
-            "type": "string"
-        },
         "terms": {
             "default": "",
             "type": "string"

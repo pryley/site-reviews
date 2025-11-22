@@ -11,42 +11,25 @@ class SiteReviewsSummaryBlock extends Block
         return SiteReviewsSummaryShortcode::class;
     }
 
-    protected function blockClassAttr(array $attributes): string
+    protected function blockClasses(array $attributes): array
     {
-        $attr = [];
+        $classes = [];
         if (!empty($attributes['styleAlign'])) {
-            $attr[] = "items-justified-{$attributes['styleAlign']}";
+            $classes[] = "items-justified-{$attributes['styleAlign']}";
         }
-        if (!empty($attributes['styleRatingColor']) || !empty($attributes['styleRatingColorCustom'])) {
-            $attr[] = 'has-custom-color';
-        }
-        return implode(' ', $attr);
+        return $classes;
     }
 
-    protected function blockStyleAttr(array $attributes): string
+    protected function blockStyles(array $attributes): array
     {
-        $attr = [];
-        if (!empty($attributes['styleRatingColor'])) {
-            $attr[] = "--glsr-bar-bg: var(--wp--preset--color--{$attributes['styleRatingColor']});";
-            $attr[] = '--glsr-summary-star-bg: var(--glsr-bar-bg);';
-        } elseif (!empty($attributes['styleRatingColorCustom'])) {
-            $attr[] = "--glsr-bar-bg: {$attributes['styleRatingColorCustom']};";
-            $attr[] = '--glsr-summary-star-bg: var(--glsr-bar-bg);';
+        $styles = [];
+        if (!empty($attributes['styleAlign'])) {
+            $alignMap = [
+                'left' => 'start',
+                'right' => 'end',
+            ];
+            $styles['--glsr-summary-align'] = $alignMap[$attributes['styleAlign']] ?? 'center';
         }
-        if (!empty($attributes['styleBarSize'])) {
-            $attr[] = "--glsr-bar-size: {$attributes['styleBarSize']};";
-        }
-        if (!empty($attributes['styleBarSpacing'])) {
-            $attr[] = "--glsr-bar-spacing: {$attributes['styleBarSpacing']};";
-        }
-        if (!empty($attributes['styleStarSize'])) {
-            $attr[] = "--glsr-summary-star: {$attributes['styleStarSize']};";
-        }
-        if (!empty($attributes['styleMaxWidth'])) {
-            $attr[] = "--glsr-max-w: {$attributes['styleMaxWidth']};";
-        } else {
-            $attr[] = "--glsr-max-w: none";
-        }
-        return implode('', $attr);
+        return $styles;
     }
 }

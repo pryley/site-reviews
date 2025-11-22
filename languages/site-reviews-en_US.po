@@ -25,7 +25,7 @@ msgid_plural "%s stars or less"
 msgstr[0] "%s star or less"
 msgstr[1] "%s stars or less"
 
-#: config/settings.php:420, plugin/Modules/Html/ReviewsHtml.php:111
+#: config/settings.php:420, plugin/Modules/Html/ReviewsHtml.php:113
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
@@ -93,11 +93,11 @@ msgstr "Your review has been submitted!"
 msgid "Your review has been submitted and is pending approval."
 msgstr "Your review has been submitted and is pending approval."
 
-#: plugin/Commands/EnqueuePublicAssets.php:61, plugin/Modules/Html/FieldElements/Rating.php:14
+#: plugin/Commands/EnqueuePublicAssets.php:62, plugin/Modules/Html/FieldElements/Rating.php:14
 msgid "Select a Rating"
 msgstr "Select a Rating"
 
-#: plugin/Commands/EnqueuePublicAssets.php:67
+#: plugin/Commands/EnqueuePublicAssets.php:68
 msgid "Close Modal"
 msgstr "Close Modal"
 
@@ -269,26 +269,6 @@ msgstr[1] ""
 "Maximum simultaneous queues already in progress (%s queues). No additional "
 "queues will begin processing until the current queues are complete."
 
-#: plugin/Shortcodes/Shortcode.php:251
-msgid "Excellent"
-msgstr "Excellent"
-
-#: plugin/Shortcodes/Shortcode.php:252
-msgid "Very good"
-msgstr "Very good"
-
-#: plugin/Shortcodes/Shortcode.php:253
-msgid "Average"
-msgstr "Average"
-
-#: plugin/Shortcodes/Shortcode.php:254
-msgid "Poor"
-msgstr "Poor"
-
-#: plugin/Shortcodes/Shortcode.php:255
-msgid "Terrible"
-msgstr "Terrible"
-
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:65
 msgid "logged in"
 msgstr "logged in"
@@ -304,6 +284,26 @@ msgstr "You may also %s for an account."
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:105
 msgid "register"
 msgstr "register"
+
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:194
+msgid "Excellent"
+msgstr "Excellent"
+
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:195
+msgid "Very good"
+msgstr "Very good"
+
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:196
+msgid "Average"
+msgstr "Average"
+
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:197
+msgid "Poor"
+msgstr "Poor"
+
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:198
+msgid "Terrible"
+msgstr "Terrible"
 
 #: templates/profilepress/account-reviews.php:7
 msgid "My Reviews"
@@ -3033,47 +3033,47 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr "Pin Your Reviews"
 
-#: plugin/Commands/EnqueueAdminAssets.php:88, plugin/Overrides/ReviewsListTable.php:81, views/integrations/woocommerce/bulk-edit.php:8, views/partials/screen/inline-edit.php:68, views/partials/screen/inline-edit.php:86, views/partials/screen/inline-edit.php:96
+#: plugin/Commands/EnqueueAdminAssets.php:87, plugin/Overrides/ReviewsListTable.php:81, views/integrations/woocommerce/bulk-edit.php:8, views/partials/screen/inline-edit.php:68, views/partials/screen/inline-edit.php:86, views/partials/screen/inline-edit.php:96
 msgctxt "admin-text"
 msgid "No Change"
 msgstr "No Change"
 
-#: plugin/Commands/EnqueueAdminAssets.php:89, plugin/Overrides/ReviewsListTable.php:89
+#: plugin/Commands/EnqueueAdminAssets.php:88, plugin/Overrides/ReviewsListTable.php:89
 msgctxt "admin-text"
 msgid "No Author"
 msgstr "No Author"
 
-#: plugin/Commands/EnqueueAdminAssets.php:92, plugin/Metaboxes/AuthorMetabox.php:28
+#: plugin/Commands/EnqueueAdminAssets.php:91, plugin/Metaboxes/AuthorMetabox.php:28
 msgctxt "admin-text"
 msgid "Author Unknown"
 msgstr "Author Unknown"
 
-#: plugin/Commands/EnqueueAdminAssets.php:119, plugin/Overrides/ScheduledActionsTable.php:114, views/partials/editor/pinned.php:29, views/partials/editor/verified.php:30, views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:130
+#: plugin/Commands/EnqueueAdminAssets.php:118, plugin/Overrides/ScheduledActionsTable.php:114, views/partials/editor/pinned.php:29, views/partials/editor/verified.php:30, views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:130
 msgctxt "admin-text"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: plugin/Commands/EnqueueAdminAssets.php:120
+#: plugin/Commands/EnqueueAdminAssets.php:119
 msgctxt "admin-text"
 msgid "Cancelling, please wait..."
 msgstr "Cancelling, please wait..."
 
-#: plugin/Commands/EnqueueAdminAssets.php:121
+#: plugin/Commands/EnqueueAdminAssets.php:120
 msgctxt "admin-text"
 msgid "Your server restricts file uploads to less than %s in size."
 msgstr "Your server restricts file uploads to less than %s in size."
 
-#: plugin/Commands/EnqueueAdminAssets.php:124
+#: plugin/Commands/EnqueueAdminAssets.php:123
 msgctxt "admin-text"
 msgid "Rollback failed"
 msgstr "Rollback failed"
 
-#: plugin/Commands/EnqueueAdminAssets.php:125
+#: plugin/Commands/EnqueueAdminAssets.php:124
 msgctxt "admin-text"
 msgid "Searching..."
 msgstr "Searching..."
 
-#: plugin/Commands/EnqueueAdminAssets.php:126
+#: plugin/Commands/EnqueueAdminAssets.php:125
 msgctxt "admin-text"
 msgid ""
 "Site Reviews was unable to fetch the System Info because your server threw "
@@ -3082,12 +3082,12 @@ msgstr ""
 "Site Reviews was unable to fetch the System Info because your server threw "
 "an error: %s %s"
 
-#: plugin/Commands/EnqueueAdminAssets.php:127
+#: plugin/Commands/EnqueueAdminAssets.php:126
 msgctxt "admin-text"
 msgid "Unable to fetch the System Info."
 msgstr "Unable to fetch the System Info."
 
-#: plugin/Commands/EnqueueAdminAssets.php:128
+#: plugin/Commands/EnqueueAdminAssets.php:127
 msgctxt "admin-text"
 msgid ""
 "Site Reviews was unable to fetch the System Info because WordPress crashed "

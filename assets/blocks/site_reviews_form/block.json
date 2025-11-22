@@ -60,27 +60,6 @@
         }
       }
     },
-    "styleFieldSpacing": {
-      "default": {
-        "top": "0.75em",
-        "left": "0.75em",
-        "bottom": "0.75em",
-        "right": "0.75em"
-      },
-      "type": "object"
-    },
-    "styleRatingColor": {
-      "default": "",
-      "type": "string"
-    },
-    "styleRatingColorCustom": {
-      "default": "",
-      "type": "string"
-    },
-    "styleStarSize": {
-      "default": "2em",
-      "type": "string"
-    },
     "summary_id": {
       "default": "",
       "type": "string"

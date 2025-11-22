@@ -10,33 +10,4 @@ class SiteReviewsFormBlock extends Block
     {
         return SiteReviewsFormShortcode::class;
     }
-
-    protected function blockClassAttr(array $attributes): string
-    {
-        $attr = [];
-        if (!empty($attributes['styleRatingColor']) || !empty($attributes['styleRatingColorCustom'])) {
-            $attr[] = 'has-custom-color';
-        }
-        return implode(' ', $attr);
-    }
-
-    protected function blockStyleAttr(array $attributes): string
-    {
-        $attr = [];
-        if (!empty($attributes['styleRatingColor'])) {
-            $attr[] = "--glsr-form-star-bg: var(--wp--preset--color--{$attributes['styleRatingColor']});";
-        } elseif (!empty($attributes['styleRatingColorCustom'])) {
-            $attr[] = "--glsr-form-star-bg: {$attributes['styleRatingColorCustom']};";
-        }
-        if (!empty($attributes['styleStarSize'])) {
-            $attr[] = "--glsr-form-star: {$attributes['styleStarSize']};";
-        }
-        if (!empty($attributes['styleFieldSpacing']['left'])) {
-            $attr[] = "--glsr-form-col-gap: {$attributes['styleFieldSpacing']['left']};";
-        }
-        if (!empty($attributes['styleFieldSpacing']['top'])) {
-            $attr[] = "--glsr-form-row-gap: {$attributes['styleFieldSpacing']['top']};";
-        }
-        return implode('', $attr);
-    }
 }

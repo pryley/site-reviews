@@ -1,22 +1,11 @@
-import {
-    __experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
-    __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
-    JustifyContentControl,
-    withColors,
-} from '@wordpress/block-editor';
-import {
-    __experimentalToolsPanelItem as ToolsPanelItem,
-    __experimentalUnitControl as UnitControl,
-    __experimentalUseCustomUnits as useCustomUnits,
-    TextControl,
-} from '@wordpress/components';
 import { _x } from '@wordpress/i18n';
 import { AjaxSearchControl, AjaxToggleGroupControl } from '@site-reviews/components';
+import { JustifyContentControl } from '@wordpress/block-editor';
+import { TextControl } from '@wordpress/components';
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
 const Edit = (props) => {
-    const { attributes, clientId, setAttributes, setStyleRatingColor, styleRatingColor } = props;
-    const colorGradientSettings = useMultipleOriginColorsAndGradients();
+    const { attributes, setAttributes } = props;
 
     const controls = {
         hide: <AjaxToggleGroupControl
@@ -48,48 +37,6 @@ const Edit = (props) => {
             onChange={ (styleAlign) => setAttributes({ styleAlign }) }
             value={ attributes.styleAlign }
         />,
-        styleRatingColor: <ColorGradientSettingsDropdown
-            __experimentalIsRenderedInSidebar
-            panelId={clientId}
-            settings={ [
-                {
-                    clearable: true,
-                    colorValue: styleRatingColor.color || attributes.styleRatingColorCustom,
-                    label: _x('Rating', 'admin-text', 'site-reviews'),
-                    onColorChange: (color) => {
-                        setAttributes({ styleRatingColorCustom: color })
-                        setStyleRatingColor(color)
-                    },
-                    isShownByDefault: true,
-                    resetAllFilter: () => ({
-                        styleRatingColor: '',
-                        styleRatingColorCustom: '',
-                    }),
-                }
-            ] }
-            {...colorGradientSettings}
-        />,
-        styleStarSize: <ToolsPanelItem
-            hasValue={ () => '1.25em' !== attributes.styleStarSize }
-            isShownByDefault
-            label={ _x('Star Size', 'admin-text', 'site-reviews') }
-            onDeselect={ () => setAttributes({ styleStarSize: '1.25em' }) }
-            style={{ 'grid-column': 'span 1' }}
-        >
-            <UnitControl
-                __next40pxDefaultSize
-                allowReset
-                isResetValueOnUnitChange
-                label={ _x('Star Size', 'admin-text', 'site-reviews') }
-                min={0}
-                onChange={ (styleStarSize) => setAttributes({ styleStarSize }) }
-                units={ useCustomUnits({
-                    availableUnits: ['px', 'em', 'rem'],
-                    defaultValues: { px: '20', em: '1.25', rem: '1.25' },
-                }) }
-                value={ attributes.styleStarSize }
-            />
-        </ToolsPanelItem>,
     };
 
     const panels = { // order is intentional
@@ -103,10 +50,6 @@ const Edit = (props) => {
                 'post_id',
             ],
         },
-        display: {
-            controls: [],
-            initialOpen: false,
-        },
         hide: {
             controls: [
                 'hide',
@@ -118,23 +61,6 @@ const Edit = (props) => {
                 'id',
             ],
         },
-        color: {
-            controls: [
-                'styleRatingColor',
-            ],
-        },
-        sizes: {
-            controls: [
-                'styleStarSize',
-            ],
-            group: 'styles',
-            title: _x('Sizes', 'admin-text', 'site-reviews'),
-            resetAll: () => {
-                setAttributes({
-                    styleStarSize: '1.25em',
-                })
-            },
-        },
     };
 
     return (
@@ -142,17 +68,11 @@ const Edit = (props) => {
             controls={controls}
             panels={panels}
             props={props}
-            style={{
-                '--glsr-review-star': attributes.styleStarSize,
-                '--glsr-review-star-bg': styleRatingColor.slug ? `var(--wp--preset--color--${styleRatingColor.slug})` : attributes.styleRatingColorCustom,
-            }}
             styleClassNames={[
-                (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-color' : '',
                 (attributes.styleAlign) ? `items-justified-${attributes.styleAlign}` : '',
-                (attributes?.style?.typography?.textAlign) ? `has-text-align-${attributes.style.typography.textAlign}` : '',
             ]}
         />
     )
 }
 
-export default withColors('styleRatingColor')(Edit)
+export default Edit;
