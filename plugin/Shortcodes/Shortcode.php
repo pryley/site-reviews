@@ -242,29 +242,6 @@ abstract class Shortcode implements ShortcodeContract
         );
     }
 
-    /**
-     * @param string $value
-     */
-    protected function normalizeLabels($value): array
-    {
-        $defaults = [
-            __('Excellent', 'site-reviews'),
-            __('Very good', 'site-reviews'),
-            __('Average', 'site-reviews'),
-            __('Poor', 'site-reviews'),
-            __('Terrible', 'site-reviews'),
-        ];
-        $maxRating = Rating::max();
-        $defaults = array_pad(array_slice($defaults, 0, $maxRating), $maxRating, '');
-        $labels = array_map('trim', explode(',', $value));
-        foreach ($defaults as $i => $label) {
-            if (!empty($labels[$i])) {
-                $defaults[$i] = $labels[$i];
-            }
-        }
-        return array_combine(range($maxRating, 1), $defaults);
-    }
-
     protected function parseClassAttr(string $classAttr): array
     {
         $prefixes = [
