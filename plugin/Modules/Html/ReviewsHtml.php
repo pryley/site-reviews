@@ -46,6 +46,14 @@ class ReviewsHtml extends \ArrayObject
         ]);
     }
 
+    public function attributes(): array
+    {
+        if (empty($this->attributes)) {
+            $this->attributes = $this->reviews->attributes();
+        }
+        return $this->attributes;
+    }
+
     public function getPagination(bool $wrap = true): string
     {
         $html = glsr(Partial::class)->build('pagination', [
@@ -89,10 +97,7 @@ class ReviewsHtml extends \ArrayObject
     public function offsetGet($key)
     {
         if ('attributes' === $key) {
-            if (empty($this->attributes)) {
-                $this->attributes = $this->reviews->attributes();
-            }
-            return glsr(Attributes::class)->div($this->attributes)->toString();
+            return glsr(Attributes::class)->div($this->attributes())->toString();
         }
         if (array_key_exists($key, $this->rendered)) {
             return $this->rendered[$key];
