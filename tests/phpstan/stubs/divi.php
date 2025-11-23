@@ -2656,6 +2656,168 @@ namespace ET\Builder\Packages\StyleLibrary\Utils {
         }
     }
 }
+namespace ET\Builder\Packages\Module\Options\Border {
+    /**
+     * BorderStyle class
+     *
+     * @since ??
+     */
+    class BorderStyle
+    {
+        /**
+         * Get border style component.
+         *
+         * This function is equivalent of JS function:
+         * {@link /docs/builder-api/js-beta/divi-module/functions/BorderStyle BorderStyle} in
+         * `@divi/module` package.
+         *
+         * @since ??
+         *
+         * @param array $args {
+         *     An array of arguments.
+         *
+         *     @type string        $selector                 The CSS selector.
+         *     @type array         $selectors                Optional. An array of selectors for each breakpoint and state. Default `[]`.
+         *     @type callable      $selectorFunction         Optional. The function to be called to generate CSS selector. Default `null`.
+         *     @type array         $propertySelectors        Optional. The property selectors that you want to unpack. Default `[]`.
+         *     @type array         $attr                     An array of module attribute data.
+         *     @type array         $defaultPrintedStyleAttr  Optional. An array of default printed style attribute data. Default `[]`.
+         *     @type array|bool    $important                Optional. Whether to apply "!important" flag to the style declarations.
+         *                                                   Default `false`.
+         *     @type bool          $asStyle                  Optional. Whether to wrap the style declaration with style tag or not.
+         *                                                   Default `true`.
+         *     @type string|null   $orderClass               Optional. The selector class name.
+         *     @type bool          $isInsideStickyModule     Optional. Whether the blockquote element is inside a sticky module.
+         *     @type string        $attrs_json               Optional. The JSON string of module attribute data, use to improve performance.
+         *     @type string        $returnType               Optional. This is the type of value that the function will return.
+         *                                                   Can be either `string` or `array`. Default `array`.
+         * }
+         *
+         * @return string|array The border style component.
+         *
+         * @example:
+         * ```php
+         * // Apply style using default arguments.
+         * $args = [];
+         * $style = BorderStyle::style( $args );
+         *
+         * // Apply style with specific selectors and properties.
+         * $args = [
+         *     'selectors' => [
+         *         '.element1',
+         *         '.element2',
+         *     ],
+         *     'propertySelectors' => [
+         *         '.element1 .property1',
+         *         '.element2 .property2',
+         *     ]
+         * ];
+         * $style = BorderStyle::style( $args );
+         * ```
+         */
+        public static function style($args)
+        {
+        }
+        /**
+         * Normalize the border attributes.
+         *
+         * Some attributes are not available in all breakpoints and states. This function
+         * will normalize the attributes by filling the missing attributes with the
+         * inherited values.
+         *
+         * @since ??
+         *
+         * @param array $attr The array of attributes to be normalized.
+         * @return array The normalized array of attributes.
+         */
+        public static function normalize_attr(array $attr): array
+        {
+        }
+    }
+}
+namespace ET\Builder\Packages\Module\Options\BoxShadow {
+    /**
+     * BoxShadowStyle class.
+     *
+     * This class provides methods for manipulating the box shadow style.
+     *
+     * @since ??
+     */
+    class BoxShadowStyle
+    {
+        /**
+         * Get box shadow style component.
+         *
+         * This function is equivalent of JS function:
+         * {@link /docs/builder-api/js-beta/divi-module/functions/BoxShadowStyle BoxShadowStyle} in
+         * `@divi/module` package.
+         *
+         * @since ??
+         *
+         * @param array $args {
+         *     An array of arguments.
+         *
+         *     @type string        $selector                 The CSS selector.
+         *     @type array         $selectors                Optional. An array of selectors for each breakpoint and state. Default `[]`.
+         *     @type callable      $selectorFunction         Optional. The function to be called to generate CSS selector. Default `null`.
+         *     @type array         $propertySelectors        Optional. The property selectors that you want to unpack. Default `[]`.
+         *     @type array         $attr                     An array of module attribute data.
+         *     @type array         $defaultPrintedStyleAttr  Optional. An array of default printed style attribute data. Default `[]`.
+         *     @type array|bool    $important                Optional. Whether to apply "!important" flag to the style declarations.
+         *                                                   Default `false`.
+         *     @type bool          $asStyle                  Optional. Whether to wrap the style declaration with style tag or not.
+         *                                                   Default `true`.
+         *     @type bool          $useOverlay               Optional. Whether to generate the `selectors` and `selector` that  are suffixed
+         *                                                   with box shadow overlay element (` > .box-shadow-overlay`).
+         *                                                   Note: this is only applicable when the `selectors` params is empty.
+         *     @type string|null   $orderClass Optional.     The selector class name.
+         *     @type bool          $isInsideStickyModule     Optional. Whether the module is inside a sticky module or not. Default `false`.
+         *     @type string        $returnType               Optional. This is the type of value that the function will return.
+         *                                                   Can be either `string` or `array`. Default `array`.
+         * }
+         *
+         * @return string|array The transform style component.
+         *
+         * @example:
+         * ```php
+         * // Apply style using default arguments.
+         * $args = [];
+         * $style = BoxShadowStyle::style( $args );
+         *
+         * // Apply style with specific selectors and properties.
+         * $args = [
+         *     'selectors' => [
+         *         '.element1',
+         *         '.element2',
+         *     ],
+         *     'propertySelectors' => [
+         *         '.element1 .property1',
+         *         '.element2 .property2',
+         *     ]
+         * ];
+         * $style = BoxShadowStyle::style( $args );
+         * ```
+         */
+        public static function style($args)
+        {
+        }
+        /**
+         * Normalize the box shadow attributes.
+         *
+         * Some attributes are not available in all breakpoints and states. This function
+         * will normalize the attributes by filling the missing attributes with the
+         * inherited values and presets.
+         *
+         * @since ??
+         *
+         * @param array $attr The array of attributes to be normalized.
+         * @return array The normalized array of attributes.
+         */
+        public static function normalize_attr(array $attr): array
+        {
+        }
+    }
+}
 namespace ET\Builder\Packages\Module\Options\Css {
     /**
      * CssStyleUtils class.
