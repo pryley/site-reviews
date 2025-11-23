@@ -45,7 +45,8 @@
 :root form.glsr-form select[disabled] + .glsr-star-rating--stars {
     cursor: default;
 }
-:root form.glsr-form .glsr-star-rating--stars > span {
+/* individual stars */
+:root form.glsr-form .glsr-star-rating span[data-value] {
     display: flex;
     font-size: var(--glsr-form-star);
     line-height: 1;
