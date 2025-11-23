@@ -11,6 +11,9 @@ class SiteReviewsSummaryBlock extends Block
         return SiteReviewsSummaryShortcode::class;
     }
 
+    /**
+     * @return string[]
+     */
     protected function blockClasses(array $attributes): array
     {
         $classes = [];

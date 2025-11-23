@@ -2,14 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks;
 
-use GeminiLabs\SiteReviews\Contracts\PluginContract;
-use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
+use GeminiLabs\SiteReviews\Contracts\BlockContract;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
-abstract class Block
+abstract class Block implements BlockContract
 {
     use IntegrationShortcode;
 
@@ -41,6 +40,9 @@ abstract class Block
         );
     }
 
+    /**
+     * @return string[]
+     */
     protected function blockClasses(array $attributes): array
     {
         return [];
@@ -54,20 +56,18 @@ abstract class Block
     protected function blockWrapperAttributes(array $attributes): array
     {
         $supports = \WP_Block_Supports::get_instance()->apply_block_supports();
-        $blockClasses = glsr()->filterArray('block/classes',
-            $this->blockClasses($attributes),
-            $this
-        );
-        $blockStyles = glsr()->filterArray('block/styles',
-            $this->blockStyles($attributes),
-            $this
-        );
+        $classes = glsr()->filterArray('block/classes', $this->blockClasses($attributes), $attributes, $this);
+        $styles = glsr()->filterArray('block/styles', $this->blockStyles($attributes), $attributes, $this);
         $extraClasses = array_diff(
-            explode(' ', $supports['class'] ?? ''), // include
-            explode(' ', $attributes['className'] ?? '') // exclude
+            explode(' ', $supports['class'] ?? ''),
+            explode(' ', $attributes['className'] ?? '')
         );
-        $finalClasses = implode(' ', array_merge($blockClasses, $extraClasses));
-        $finalStyles = implode('', array_merge($blockStyles, [$supports['style'] ?? '']));
+        $finalClasses = implode(' ', array_merge($classes, $extraClasses));
+        $finalStyles = array_reduce(
+            array_keys($styles),
+            fn (string $carry, string $key) => $carry."$key:{$styles[$key]};",
+            ''
+        ).($supports['style'] ?? '');
         return array_filter([
             'class' => glsr(Sanitizer::class)->sanitizeAttrClass($finalClasses),
             'id' => glsr(Sanitizer::class)->sanitizeId($supports['id'] ?? ''),
