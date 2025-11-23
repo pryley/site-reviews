@@ -6239,7 +6239,7 @@ msgctxt "admin-text"
 msgid "Percent Bar Height"
 msgstr ""
 
-#: plugin/Integrations/Gutenberg/Blocks/Block.php:30
+#: plugin/Integrations/Gutenberg/Blocks/Block.php:29
 msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr ""
