@@ -41,7 +41,7 @@ const defaultPanelTitles = {
     display: _x('Display', 'admin-text', 'site-reviews'),
     hide: _x('Hide', 'admin-text', 'site-reviews'),
     settings: _x('Settings', 'admin-text', 'site-reviews'),
-    title: _x('Text', 'admin-text', 'site-reviews'),
+    text: _x('Text', 'admin-text', 'site-reviews'),
 };
 
 const allowedInspectorGroups = [
