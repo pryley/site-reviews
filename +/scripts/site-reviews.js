@@ -61,7 +61,10 @@ const initModal = () => {
             // Append directly or with parent-class wrapper
             const needsWrapper = GLSR.modal_wrapped_by.includes(baseEl.dataset.from);
             const appendEl = needsWrapper
-                ? dom('div', {class: triggerRoot.parentElement.className}, baseEl)
+                ? dom('div', {
+                    class: triggerRoot.parentElement.className,
+                    style: triggerRoot.parentElement.style.cssText,
+                }, baseEl)
                 : baseEl;
             Modal.dom.content.appendChild(appendEl);
         },
