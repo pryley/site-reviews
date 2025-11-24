@@ -93,8 +93,10 @@
     "supports": {
         "color": {
             "background": false,
-            "enableContrastChecker": false,
-            "link": false,
+            "button": false,
+            "enableContrastChecker": true,
+            "heading": false,
+            "link": true,
             "text": true
         },
         "html": false,

@@ -47,7 +47,8 @@
     "supports": {
         "color": {
             "background": false,
-            "enableContrastChecker": false,
+            "button": false,
+            "enableContrastChecker": true,
             "heading": true,
             "link": true,
             "text": true

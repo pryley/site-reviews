@@ -1,5 +1,6 @@
 import { _x } from '@wordpress/i18n';
 import { AjaxFormTokenField, AjaxToggleGroupControl } from '@site-reviews/components';
+import { JustifyContentControl } from '@wordpress/block-editor';
 import { TextControl } from '@wordpress/components';
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
@@ -57,6 +58,11 @@ const Edit = (props) => {
             onChange={ reviews_id => setAttributes({ reviews_id }) }
             value={ attributes.reviews_id }
         />,
+        styleAlign: <JustifyContentControl
+            allowedControls={['left', 'center', 'right']}
+            onChange={ (styleAlign) => setAttributes({ styleAlign }) }
+            value={ attributes.styleAlign }
+        />,
         summary_id: <TextControl
             __next40pxDefaultSize
             __nextHasNoMarginBottom
@@ -69,6 +75,11 @@ const Edit = (props) => {
     };
 
     const panels = { // order is intentional
+        block: {
+            controls: [
+                'styleAlign',
+            ],
+        },
         settings: {
             controls: [
                 'assigned_posts',
@@ -96,6 +107,9 @@ const Edit = (props) => {
             controls={controls}
             panels={panels}
             props={props}
+            styleClassNames={[
+                (attributes.styleAlign) ? `items-justified-${attributes.styleAlign}` : '',
+            ]}
         />
     )
 }

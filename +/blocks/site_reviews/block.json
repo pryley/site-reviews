@@ -97,7 +97,8 @@
     "supports": {
         "color": {
             "background": false,
-            "enableContrastChecker": false,
+            "button": true,
+            "enableContrastChecker": true,
             "heading": true,
             "link": true,
             "text": true

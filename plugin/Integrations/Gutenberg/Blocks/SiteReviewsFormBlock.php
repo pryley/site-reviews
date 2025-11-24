@@ -10,4 +10,16 @@ class SiteReviewsFormBlock extends Block
     {
         return SiteReviewsFormShortcode::class;
     }
+
+    /**
+     * @return string[]
+     */
+    protected function blockClasses(array $attributes): array
+    {
+        $classes = [];
+        if (!empty($attributes['styleAlign'])) {
+            $classes[] = "items-justified-{$attributes['styleAlign']}";
+        }
+        return $classes;
+    }
 }

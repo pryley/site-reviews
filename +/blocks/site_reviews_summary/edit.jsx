@@ -1,4 +1,4 @@
-import { _x, sprintf } from '@wordpress/i18n';
+import { __, _x, sprintf } from '@wordpress/i18n';
 import { AjaxComboboxControl, AjaxFormTokenField, AjaxSearchControl, AjaxToggleGroupControl, NoYesControl } from '@site-reviews/components';
 import { BaseControl, Notice, RangeControl, TextControl } from '@wordpress/components';
 import { JustifyContentControl } from '@wordpress/block-editor';

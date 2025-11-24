@@ -60,6 +60,10 @@
                 }
             }
         },
+        "styleAlign": {
+            "default": "left",
+            "type": "string"
+        },
         "summary_id": {
             "default": "",
             "type": "string"
@@ -69,7 +73,8 @@
         "color": {
             "background": false,
             "button": true,
-            "enableContrastChecker": false,
+            "enableContrastChecker": true,
+            "heading": false,
             "link": true,
             "text": true
         },

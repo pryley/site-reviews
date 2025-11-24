@@ -52,7 +52,8 @@ return array(
 		'supports' => array(
 			'color' => array(
 				'background' => false,
-				'enableContrastChecker' => false,
+				'button' => false,
+				'enableContrastChecker' => true,
 				'heading' => true,
 				'link' => true,
 				'text' => true
@@ -201,7 +202,8 @@ return array(
 		'supports' => array(
 			'color' => array(
 				'background' => false,
-				'enableContrastChecker' => false,
+				'button' => true,
+				'enableContrastChecker' => true,
 				'heading' => true,
 				'link' => true,
 				'text' => true
@@ -310,6 +312,10 @@ return array(
 					)
 				)
 			),
+			'styleAlign' => array(
+				'default' => 'left',
+				'type' => 'string'
+			),
 			'summary_id' => array(
 				'default' => '',
 				'type' => 'string'
@@ -319,7 +325,8 @@ return array(
 			'color' => array(
 				'background' => false,
 				'button' => true,
-				'enableContrastChecker' => false,
+				'enableContrastChecker' => true,
+				'heading' => false,
 				'link' => true,
 				'text' => true
 			),
@@ -464,8 +471,10 @@ return array(
 		'supports' => array(
 			'color' => array(
 				'background' => false,
-				'enableContrastChecker' => false,
-				'link' => false,
+				'button' => false,
+				'enableContrastChecker' => true,
+				'heading' => false,
+				'link' => true,
 				'text' => true
 			),
 			'html' => false,
