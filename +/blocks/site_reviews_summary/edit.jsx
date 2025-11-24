@@ -67,7 +67,13 @@ const Edit = (props) => {
             key='labels'
             label={ _x('Summary Labels', 'admin-text', 'site-reviews') }
             onChange={ (labels) => setAttributes({ labels }) }
-            placeholder={ _x('Excellent, Very good, Average, Poor, Terrible', 'admin-text', 'site-reviews') }
+            placeholder={[
+                __('Excellent', 'site-reviews'),
+                __('Very good', 'site-reviews'),
+                __('Average', 'site-reviews'),
+                __('Poor', 'site-reviews'),
+                __('Terrible', 'site-reviews'),
+            ].join(', ')}
             value={ attributes.labels }
         />,
         rating: <RangeControl

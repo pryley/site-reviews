@@ -3929,7 +3929,33 @@ msgstr ""
 msgid "&hellip;"
 msgstr ""
 
-#: plugin/Modules/Rating.php:98
+#: plugin/Modules/Rating.php:64
+msgid "Excellent"
+msgstr ""
+
+#: plugin/Modules/Rating.php:65
+msgid "Very good"
+msgstr ""
+
+#: plugin/Modules/Rating.php:66
+msgid "Average"
+msgstr ""
+
+#: plugin/Modules/Rating.php:67
+msgid "Poor"
+msgstr ""
+
+#: plugin/Modules/Rating.php:68
+msgid "Terrible"
+msgstr ""
+
+#: plugin/Modules/Rating.php:73
+msgid "%d star"
+msgid_plural "%d stars"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Rating.php:117
 msgid "%s Star"
 msgid_plural "%s Stars"
 msgstr[0] ""
@@ -4428,11 +4454,6 @@ msgctxt "admin-text"
 msgid "Summary Labels"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:145
-msgctxt "admin-text"
-msgid "Excellent, Very good, Average, Poor, Terrible"
-msgstr ""
-
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:176
 msgctxt "admin-text"
 msgid "Hide the stars"
@@ -4451,26 +4472,6 @@ msgstr ""
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:179
 msgctxt "admin-text"
 msgid "Hide if no reviews are found"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:194
-msgid "Excellent"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:195
-msgid "Very good"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:196
-msgid "Average"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:197
-msgid "Poor"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:198
-msgid "Terrible"
 msgstr ""
 
 #: plugin/Tinymce/SiteReviewsFormTinymce.php:14

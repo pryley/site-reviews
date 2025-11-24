@@ -58,6 +58,25 @@ class Rating
         return array_key_exists($rating, $this->emptyArray());
     }
 
+    public static function labels(): array
+    {
+        $labels = [
+            __('Excellent', 'site-reviews'),
+            __('Very good', 'site-reviews'),
+            __('Average', 'site-reviews'),
+            __('Poor', 'site-reviews'),
+            __('Terrible', 'site-reviews'),
+        ];
+        $max = static::max();
+        if (5 !== $max) {
+            $labels = array_map(
+                fn ($stars) => sprintf(_n('%d star', '%d stars', $stars, 'site-reviews'), $stars),
+                range($max, 1)
+            );
+        }
+        return array_combine(range($max, 1), $labels);
+    }
+
     /**
      * Get the lower bound for up/down ratings
      * Method receives an up/down ratings array: [1, -1, -1, 1, 1, -1].

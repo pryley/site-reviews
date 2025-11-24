@@ -142,7 +142,7 @@ class SiteReviewsSummaryShortcode extends Shortcode
                 'description' => _x('Enter custom labels for the percentage bar levels (from high to low) and separate them with a comma.', 'admin-text', 'site-reviews'),
                 'group' => 'text',
                 'label' => _x('Summary Labels', 'admin-text', 'site-reviews'),
-                'placeholder' => _x('Excellent, Very good, Average, Poor, Terrible', 'admin-text', 'site-reviews'),
+                'placeholder' => implode(', ', Rating::labels()),
                 'type' => 'text',
             ],
             'id' => [
@@ -185,26 +185,15 @@ class SiteReviewsSummaryShortcode extends Shortcode
         return !array_sum($this->ratings) && in_array('if_empty', $this->args['hide']);
     }
 
-    /**
-     * @param string $value
-     */
-    protected function normalizeLabels($value): array
+    protected function normalizeLabels(string $value): array
     {
-        $defaults = [
-            __('Excellent', 'site-reviews'),
-            __('Very good', 'site-reviews'),
-            __('Average', 'site-reviews'),
-            __('Poor', 'site-reviews'),
-            __('Terrible', 'site-reviews'),
-        ];
-        $maxRating = Rating::max();
-        $defaults = array_pad(array_slice($defaults, 0, $maxRating), $maxRating, '');
-        $labels = array_map('trim', explode(',', $value));
-        foreach ($defaults as $i => $label) {
-            if (!empty($labels[$i])) {
-                $defaults[$i] = $labels[$i];
+        $labels = Rating::labels(); // indexed in DESC order
+        $customLabels  = array_map('trim', explode(',', $value));
+        foreach ($labels as $index => $label) {
+            if (!empty($customLabels[$index])) { // don't allow 0
+                $labels[$index] = $customLabels[$index];
             }
         }
-        return array_combine(range($maxRating, 1), $defaults);
+        return $labels;
     }
 }
