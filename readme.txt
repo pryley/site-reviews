@@ -31,7 +31,6 @@ https://www.youtube.com/watch?v=H5HdMCXvuq8
 = Current Features =
 
 - __Actively Developed and Supported__
-- __Asian Language Support for Excerpts__
 - __Assign Reviews__: Reviews can be assigned to Categories, Posts, Pages, Custom Post Types, and Users.
 - __Avada Support__: Use the native Avada Fusion Builder elements in the Fusion Builder.
 - __Avatars__: Provided by the WordPress Gravatar service
@@ -41,6 +40,7 @@ https://www.youtube.com/watch?v=H5HdMCXvuq8
 - __Developer Friendly__: Designed for WordPress developers with over 200 hooks and convenient functions
 - __Discord Integration__: Receive notifications in Discord when a review is submitted
 - __Documentation__: FAQ and documenation for all shortcodes and functions
+- __East Asian Language Support__
 - __Editor Blocks__: Use the custom editor blocks in the Gutenberg editor
 - __Elementor Support__: Use the native Elementor Widgets in the Elementor editor
 - __Form Styles__: Match the review form with popular themes and form plugins
@@ -205,18 +205,19 @@ You can report any security bugs found in the source code of this plugin through
 
 = 8.0.0 =
 
-This update requires a minimum of PHP 7.4 and WordPress 6.5. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
+This update requires a minimum of PHP 8.0 and WordPress 6.7. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
 
-= 8.0.0 (2025-??-??) =
+= 8.0.0 (2025-12-??) =
 
 Site Reviews has a fresh coat of paint!
 
-- ‼️ The minimum required version of PHP is v8.0
-- ‼️ The minimum required version of WordPress is v6.7
+- ‼️ The minimum required version of PHP is now v8.0
+- ‼️ The minimum required version of WordPress is now v6.7
 - Added [Breakdance](https://breakdance.com/) integration
 - Added [Bricks](https://bricksbuilder.io/) integration
+- Added [Cloudflare](https://wordpress.org/plugins/cloudflare/) integration
 - Added [Divi 5](https://www.elegantthemes.com/divi-5/) integration
 - Added [Duplicate Page](https://wordpress.org/plugins/duplicate-page/) integration
 - Added [Flatsome Page Builder](https://themeforest.net/item/flatsome-multipurpose-responsive-woocommerce-theme/5484319) integration
@@ -231,9 +232,9 @@ Site Reviews has a fresh coat of paint!
 - Added an "Autofill Fields" setting to automatically fill the name and email fields with the logged in user details.
 - Added an "Enable Account Reviews" setting to the Ultimate Member integration to display all of a user's submitted reviews on their account page.
 - Added an "Enable Session Storage" setting to persist entered review form values until either the review is submitted or the browser tab or window is closed
+- Added basic style controls to the Gutenberg blocks
 - Added Geolocation which allows you to display the location of the reviewer next to their name in the review (i.e. flag/country/state/city)
 - Added more options to the Export Reviews tool
-- Added style controls to the Gutenberg blocks
 - Added the `summary_id` option to the Review Form, this allows you to update the rating summary immediately without reloading the page
 - Added WP-CLI commands
 - Changed the HTML markup of the `form/field_radio.php` template
