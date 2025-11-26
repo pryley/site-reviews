@@ -7,22 +7,28 @@ use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Geolocation
 {
+    public const API_URL = 'http://ip-api.com';
+
     public const FIELDS = [
         'city',
         'continentCode',
         'countryCode',
+        'isp',
         'message',
         'query',
         'region',
         'status',
     ];
 
-    public const API_URL = 'http://ip-api.com';
-
     /**
-     * String transient key for rate limit tracking.
+     * Transient key for rate limit tracking.
      */
     public const RATE_LIMIT_KEY = 'glsr_ip_api_rate_limit';
+
+    /**
+     * Rate limit safety buffer in seconds.
+     */
+    public const RATE_LIMIT_SAFETY_BUFFER = 5;
 
     protected Api $api;
 
@@ -33,16 +39,19 @@ class Geolocation
 
     public function batchLookup(array $ipaddresses): Response
     {
+        $data = array_values(array_filter(array_map(
+            [glsr(Sanitizer::class), 'sanitizeIpAddress'],
+            $ipaddresses
+        )));
+        if (empty($data)) {
+            return new Response();
+        }
         $this->checkRateLimits();
-        $data = array_map([glsr(Sanitizer::class), 'sanitizeIpAddress'], $ipaddresses);
         $path = sprintf('/batch?fields=%s', implode(',', static::FIELDS));
-        $response = $this->api->post($path, [
-            'blocking' => true,
+        $response = $this->api->post($path, $this->requestArgs([
             'body' => wp_json_encode($data),
             'headers' => ['Content-Type' => 'application/json'],
-            'max_retries' => 3,
-            'timeout' => 15,
-        ]);
+        ]));
         $this->handleRateLimits($response);
         if ($response->successful()) {
             $body = $response->body();
@@ -51,19 +60,17 @@ class Geolocation
         return $response;
     }
 
-    public function lookup(string $ipaddress): Response
+    public function lookup(string $ipOrDomain, bool $allowDomain = false): Response
     {
+        $entity = glsr(Sanitizer::class)->sanitizeIpAddress($ipOrDomain) ?: (
+            $allowDomain ? filter_var($ipOrDomain, \FILTER_VALIDATE_DOMAIN, \FILTER_FLAG_HOSTNAME) : false
+        );
+        if (empty($entity)) {
+            return new Response();
+        }
         $this->checkRateLimits();
-        $data = [
-            'fields' => implode(',', static::FIELDS),
-        ];
-        $path = sprintf('/json/%s', glsr(Sanitizer::class)->sanitizeIpAddress($ipaddress));
-        $response = $this->api->get($path, [
-            'blocking' => true,
-            'body' => $data,
-            'max_retries' => 3,
-            'timeout' => 15,
-        ]);
+        $path = sprintf('/json/%s?fields=%s', $entity, implode(',', static::FIELDS));
+        $response = $this->api->get($path, $this->requestArgs());
         $this->handleRateLimits($response);
         if ($response->successful()) {
             $body = $response->body();
@@ -96,10 +103,19 @@ class Geolocation
     protected function handleRateLimits(Response $response): void
     {
         $remainingRequests = (int) $response->headers['x-rl'];
-        $resetTime = (int) $response->headers['x-ttl'] + 5; // Add an extra 5 seconds just in case
+        $resetTime = (int) $response->headers['x-ttl'] + static::RATE_LIMIT_SAFETY_BUFFER;
         set_transient(static::RATE_LIMIT_KEY, [
             'remaining' => $remainingRequests,
             'reset_time' => time() + $resetTime,
         ], $resetTime);
+    }
+
+    protected function requestArgs(array $extra = []): array
+    {
+        return wp_parse_args($extra, [
+            'blocking' => true,
+            'max_retries' => 3,
+            'timeout' => 15,
+        ]);
     }
 }

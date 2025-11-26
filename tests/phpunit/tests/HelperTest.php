@@ -49,7 +49,7 @@ class HelperTest extends WP_UnitTestCase
 
     public function test_get_ip_address()
     {
-        $this->assertEquals(Helper::getIpAddress(), '127.0.0.1');
+        $this->assertEquals(Helper::clientIp(), '127.0.0.1');
     }
 
     public function test_get_page_number()

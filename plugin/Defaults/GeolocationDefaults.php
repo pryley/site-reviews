@@ -41,6 +41,7 @@ class GeolocationDefaults extends DefaultsAbstract
         'city' => 'text',
         'continent' => 'text',
         'country' => 'text',
+        'isp' => 'text',
         'message' => 'text',
         'query' => 'text',
         'region' => 'text',
@@ -53,6 +54,7 @@ class GeolocationDefaults extends DefaultsAbstract
             'city' => '',
             'continent' => '',
             'country' => '',
+            'isp' => '',
             'message' => '', // included only when status is fail
             'query' => '', // the submitted IP address
             'region' => '',

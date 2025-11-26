@@ -154,7 +154,7 @@ class Router implements ControllerContract
         if (!in_array($request->_action, $this->mutexActions())) {
             return true;
         }
-        $ipAddress = Helper::getIpAddress();
+        $ipAddress = Helper::clientIp();
         $hash = Str::hash($ipAddress, 13);
         $lock = Str::prefix($hash, glsr()->prefix);
         if (get_transient($lock)) {

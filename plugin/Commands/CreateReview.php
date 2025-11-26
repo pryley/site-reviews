@@ -200,7 +200,7 @@ class CreateReview extends AbstractCommand
     {
         $isFormSubmission = !defined('WP_IMPORTING') && !glsr()->retrieve('glsr_create_review', false);
         if ($isFormSubmission || empty($request->ip_address)) {
-            $request->set('ip_address', Helper::getIpAddress()); // required for Akismet and Blacklist validation
+            $request->set('ip_address', Helper::clientIp()); // required for Akismet and Blacklist validation
         }
         if ($isFormSubmission) {
             // is_approved is set when the review is created

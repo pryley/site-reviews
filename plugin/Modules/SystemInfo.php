@@ -7,11 +7,10 @@ use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Tables;
+use GeminiLabs\SiteReviews\Geolocation;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Migrate;
 
 class SystemInfo
 {
@@ -223,7 +222,7 @@ class SystemInfo
                 'File Uploads' => $this->value('wp-media.file_uploads'),
                 'GD version' => $this->value('wp-media.gd_version'),
                 'Ghostscript Version' => $this->value('wp-media.ghostscript_version'),
-                'Host Name' => $this->hostname(),
+                'Hosting Provider' => $this->hostingProvider(),
                 'ImageMagick Version' => $this->value('wp-media.imagemagick_version'),
                 'Intl' => Helper::ifEmpty(phpversion('intl'), 'No'),
                 'IPv6' => var_export(defined('AF_INET6'), true),
@@ -240,6 +239,7 @@ class SystemInfo
                 'SAPI' => $this->value('wp-server.php_sapi'),
                 'Sendmail' => $this->ini('sendmail_path'),
                 'Server Architecture' => $this->value('wp-server.server_architecture'),
+                'Server IP Address' => Helper::serverIp(),
                 'Server Software' => $this->value('wp-server.httpd_software'),
                 'SUHOSIN Installed' => $this->value('wp-server.suhosin'),
                 'Upload Max Filesize' => $this->value('wp-server.upload_max_filesize'),
@@ -321,36 +321,20 @@ class SystemInfo
         return Arr::getAs('array', $this->data(), $key);
     }
 
-    protected function hostname(): string
+    protected function hostingProvider(): string
     {
-        $checks = [
-            '.accountservergroup.com' => 'Site5',
-            '.gridserver.com' => 'MediaTemple Grid',
-            '.inmotionhosting.com' => 'InMotion Hosting',
-            '.ovh.net' => 'OVH',
-            '.pair.com' => 'pair Networks',
-            '.stabletransit.com' => 'Rackspace Cloud',
-            '.stratoserver.net' => 'STRATO',
-            '.sysfix.eu' => 'SysFix.eu Power Hosting',
-            'bluehost.com' => 'Bluehost',
-            'DH_USER' => 'DreamHost',
-            'Flywheel' => 'Flywheel',
-            'ipagemysql.com' => 'iPage',
-            'ipowermysql.com' => 'IPower',
-            'localhost:/tmp/mysql5.sock' => 'ICDSoft',
-            'mysqlv5' => 'NetworkSolutions',
-            'PAGELYBIN' => 'Pagely',
-            'secureserver.net' => 'GoDaddy',
-            'WPE_APIKEY' => 'WP Engine',
-        ];
-        $webhost = implode(',', array_filter([DB_HOST, filter_input(INPUT_SERVER, 'SERVER_NAME')]));
-        foreach ($checks as $key => $value) {
-            if ($this->isWebhost($key)) {
-                $webhost = $value;
-                break;
-            }
+        if (Helper::isLocalServer()) {
+            return 'localhost';
         }
-        return sprintf('%s (%s)', $webhost, Helper::getIpAddress());
+        $domain = parse_url($this->value('wp-core.home_url'), \PHP_URL_HOST);
+        $response = glsr(Geolocation::class)->lookup($domain, true);
+        $location = $response->body();
+        if ($response->successful() && 'success' === ($location['status'] ?? '')) {
+            $isp = $location['isp'] ?? '';
+            $ip = $location['query'] ?? '';
+            return "$isp ($ip)";
+        }
+        return 'unknown';
     }
 
     protected function implode(string $title, array $details): string
@@ -373,16 +357,6 @@ class SystemInfo
             return Helper::ifEmpty(ini_get($name), $fallback);
         }
         return 'ini_get() is disabled.';
-    }
-
-    protected function isWebhost(string $key): bool
-    {
-        return defined($key)
-            || filter_input(INPUT_SERVER, $key)
-            || str_contains((string) filter_input(INPUT_SERVER, 'SERVER_NAME'), $key)
-            || str_contains(DB_HOST, $key)
-            || (function_exists('php_uname') && str_contains(php_uname(), $key))
-            || ('WPE_APIKEY' === $key && function_exists('is_wpe')); // WP Engine
     }
 
     protected function plugins(array $plugins): array

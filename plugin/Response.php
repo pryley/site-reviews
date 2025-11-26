@@ -8,18 +8,21 @@ use WpOrg\Requests\Utility\CaseInsensitiveDictionary;
 
 class Response
 {
-    public array $body;
-    public int $code;
+    public array $body = [];
+    public int $code = 0;
     public bool $error = false;
-    public string $message;
-    public ?\WP_HTTP_Requests_Response $response;
-    public CaseInsensitiveDictionary $headers;
+    public string $message = '';
+    public ?\WP_HTTP_Requests_Response $response = null;
+    public ?CaseInsensitiveDictionary $headers = null;
 
     /**
      * @param array|\WP_Error $request
      */
     public function __construct($request = [])
     {
+        if (empty($request)) {
+            return;
+        }
         if (is_wp_error($request)) {
             $this->body = [];
             $this->code = 0;
@@ -30,7 +33,13 @@ class Response
             glsr_log()->error($this->message);
             return;
         }
-        $body = json_decode(wp_remote_retrieve_body($request), true);
+        $responseBody = wp_remote_retrieve_body($request);
+        $body = json_decode($responseBody, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $body = [
+                'result' => $responseBody,
+            ];
+        }
         $headers = wp_remote_retrieve_headers($request);
         if (empty($headers)) {
             $headers = new CaseInsensitiveDictionary([]);

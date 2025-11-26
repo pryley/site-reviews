@@ -26,7 +26,7 @@ class CLI
      */
     public function ipAddress(): void
     {
-        \WP_CLI::success(Helper::getIpAddress());
+        \WP_CLI::success(Helper::clientIp());
     }
 
     /**

@@ -31,6 +31,40 @@ class Helper
         return lcfirst(Str::camelCase($name));
     }
 
+    public static function clientIp(): string
+    {
+        $setting = glsr()->args(get_option(glsr()->prefix.'ip_proxy'));
+        $proxyHeader = $setting->sanitize('proxy_http_header', 'id');
+        $trustedProxies = $setting->sanitize('trusted_proxies', 'text-multiline');
+        $trustedProxies = explode("\n", $trustedProxies);
+        $whitelist = [];
+        if (!empty($proxyHeader)) {
+            $ipv4 = array_filter($trustedProxies, function ($range) {
+                [$ip] = explode('/', $range);
+                return !empty(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4));
+            });
+            $ipv6 = array_filter($trustedProxies, function ($range) {
+                [$ip] = explode('/', $range);
+                return !empty(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6));
+            });
+            $whitelist[$proxyHeader] = [
+                Whip::IPV4 => $ipv4,
+                Whip::IPV6 => $ipv6,
+            ];
+        }
+        $whitelist = glsr()->filterArray('whip/whitelist', $whitelist);
+        $whip = new Whip(Whip::REMOTE_ADDR | Whip::CUSTOM_HEADERS, $whitelist);
+        if (!empty($proxyHeader)) {
+            $whip->addCustomHeader($proxyHeader);
+        }
+        glsr()->action('whip', $whip);
+        if (false !== ($clientAddress = $whip->getValidIpAddress())) {
+            return (string) $clientAddress;
+        }
+        glsr_log()->error('Unable to detect IP address, please see the FAQ page for a possible solution.');
+        return 'unknown';
+    }
+
     /**
      * @param int|string $version1
      * @param int|string $version2
@@ -64,40 +98,6 @@ class Helper
             $variable = $_POST[$key];
         }
         return Cast::toArray($variable);
-    }
-
-    public static function getIpAddress(): string
-    {
-        $setting = glsr()->args(get_option(glsr()->prefix.'ip_proxy'));
-        $proxyHeader = $setting->sanitize('proxy_http_header', 'id');
-        $trustedProxies = $setting->sanitize('trusted_proxies', 'text-multiline');
-        $trustedProxies = explode("\n", $trustedProxies);
-        $whitelist = [];
-        if (!empty($proxyHeader)) {
-            $ipv4 = array_filter($trustedProxies, function ($range) {
-                [$ip] = explode('/', $range);
-                return !empty(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4));
-            });
-            $ipv6 = array_filter($trustedProxies, function ($range) {
-                [$ip] = explode('/', $range);
-                return !empty(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6));
-            });
-            $whitelist[$proxyHeader] = [
-                Whip::IPV4 => $ipv4,
-                Whip::IPV6 => $ipv6,
-            ];
-        }
-        $whitelist = glsr()->filterArray('whip/whitelist', $whitelist);
-        $whip = new Whip(Whip::REMOTE_ADDR | Whip::CUSTOM_HEADERS, $whitelist);
-        if (!empty($proxyHeader)) {
-            $whip->addCustomHeader($proxyHeader);
-        }
-        glsr()->action('whip', $whip);
-        if (false !== ($clientAddress = $whip->getValidIpAddress())) {
-            return (string) $clientAddress;
-        }
-        glsr_log()->error('Unable to detect IP address, please see the FAQ page for a possible solution.');
-        return 'unknown';
     }
 
     public static function getPageNumber(?string $fromUrl = null, ?int $fallback = 1): int
@@ -337,6 +337,17 @@ class Helper
             return call_user_func($value);
         }
         return $value;
+    }
+
+    public static function serverIp(): string
+    {
+        $response = glsr(Api::class, ['url' => 'https://ipecho.net'])->get('plain', [
+            'expiration' => WEEK_IN_SECONDS,
+        ]);
+        if ($response->successful()) {
+            return filter_var($response->response->get_data(), \FILTER_VALIDATE_IP);
+        }
+        return '';
     }
 
     public static function version(string $version, string $versionLevel = ''): string

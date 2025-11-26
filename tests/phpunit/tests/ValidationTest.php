@@ -39,7 +39,7 @@ class ValidationTest extends WP_Ajax_UnitTestCase
     {
         parent::set_up();
         $this->faker = Factory::create();
-        $this->ipaddress = Helper::getIpAddress();
+        $this->ipaddress = Helper::clientIp();
         $this->request = new Request([
             '_action' => 'submit-review',
             '_nonce' => wp_create_nonce('submit-review'), // wp_ajax_* is used in tests (?)
