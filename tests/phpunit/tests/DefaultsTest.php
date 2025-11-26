@@ -64,6 +64,7 @@ class DefaultsTest extends \WP_UnitTestCase
             'type' => 'local',
             'user__in' => [],
             'user__not_in' => [],
+            'verified' => -1,
         ];
         $test = glsr()->args(glsr(ReviewsDefaults::class)->restrict($args));
         $this->assertEquals(count($test), count(glsr(ReviewsDefaults::class)->defaults()));
@@ -90,6 +91,7 @@ class DefaultsTest extends \WP_UnitTestCase
             'terms' => '',
             'type' => 'local',
             'user' => $userId,
+            'verified' => '',
         ];
         $test = glsr(SiteReviewsDefaults::class)->restrict($args);
         $this->assertEquals(count($test), count(glsr(SiteReviewsDefaults::class)->defaults()));
@@ -112,6 +114,7 @@ class DefaultsTest extends \WP_UnitTestCase
             'schema' => true,
             'terms' => '',
             'type' => 'local',
+            'verified' => '',
        ]);
     }
 }

@@ -95,6 +95,10 @@
     "type": {
       "default": "",
       "type": "string"
+    },
+    "verified": {
+      "default": "",
+      "type": "string"
     }
   },
   "supports": {

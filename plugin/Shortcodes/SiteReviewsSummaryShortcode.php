@@ -103,6 +103,13 @@ class SiteReviewsSummaryShortcode extends Shortcode
                 'placeholder' => esc_html_x('Select a Review Type...', 'admin-text', 'site-reviews'),
                 'type' => 'select',
             ],
+            'verified' => [
+                'group' => 'general',
+                'label' => esc_html_x('Limit Reviews by Verified Status', 'admin-text', 'site-reviews'),
+                'options' => $this->options('verified'),
+                'placeholder' => esc_html_x('Select Verified Status...', 'admin-text', 'site-reviews'),
+                'type' => 'select',
+            ],
             'rating' => [
                 'default' => (string) Rating::min(),
                 'group' => 'display',

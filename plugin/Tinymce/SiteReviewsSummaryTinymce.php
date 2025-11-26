@@ -44,6 +44,13 @@ class SiteReviewsSummaryTinymce extends TinymceGenerator
                 'type' => 'listbox',
             ],
             [
+                'label' => esc_html_x('Verified', 'admin-text', 'site-reviews'),
+                'name' => 'verified',
+                'options' => $this->shortcode->options('verified'),
+                'tooltip' => esc_html_x('Limit Reviews by Verified Status', 'admin-text', 'site-reviews'),
+                'type' => 'listbox',
+            ],
+            [
                 'label' => esc_html_x('Minimum Rating', 'admin-text', 'site-reviews'),
                 'name' => 'rating',
                 'options' => glsr(Rating::class)->optionsArray(),

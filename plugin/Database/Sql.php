@@ -249,6 +249,14 @@ trait Sql
         return $this->clauseIfValueNotEmpty('AND p.post_author NOT IN (%s)', $this->args['user__not_in']);
     }
 
+    protected function clauseAndVerified(): string
+    {
+        if (-1 !== $this->args['verified']) {
+            return $this->clauseIfValueNotEmpty('AND r.is_verified = %d', $this->args['verified']);
+        }
+        return '';
+    }
+
     /**
      * @param array|int|string $value
      */

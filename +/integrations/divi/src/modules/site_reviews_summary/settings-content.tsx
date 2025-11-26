@@ -31,6 +31,7 @@ export const SettingsContent = (
     const hideField = useCheckboxesField(shortcode, 'hide');
     const termsField = useFormTokenField(shortcode, 'terms', []);
     const typeField = useFormTokenField(shortcode, 'type', []);
+    const verifiedField = useFormTokenField(shortcode, 'verified', []);
 
     if (groups?.contentGeneral?.component) {
         const base = ['contentGeneral', 'component', 'props', 'fields'];
@@ -46,6 +47,7 @@ export const SettingsContent = (
         set(groups, [...base, 'shortcodeAdvancedAuthor', 'component', 'props', 'options'], authorField.options);
         set(groups, [...base, 'shortcodeAdvancedAuthor', 'component', 'props', 'updateSearchQuery'], authorField.onSearchChange);
         set(groups, [...base, 'shortcodeAdvancedTerms', 'component', 'props', 'options'], termsField.options);
+        set(groups, [...base, 'shortcodeAdvancedVerified', 'component', 'props', 'options'], verifiedField.options);
         if (Object.keys(typeField.options).length) {
             set(groups, [...base, 'shortcodeAdvancedType', 'component', 'props', 'options'], typeField.options);
         } else {

@@ -157,6 +157,29 @@
               }
             }
           },
+          "terms": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentGeneral",
+              "attrName": "shortcode.advanced.terms",
+              "label": "Terms Accepted",
+              "description": "Limit Reviews by Accepted Terms",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/select",
+                "type": "field",
+                "props": {
+                  "emptyLabel": "Select Review Terms..."
+                }
+              }
+            }
+          },
           "type": {
             "groupType": "group-item",
             "item": {
@@ -180,13 +203,13 @@
               }
             }
           },
-          "terms": {
+          "verified": {
             "groupType": "group-item",
             "item": {
               "groupSlug": "contentGeneral",
-              "attrName": "shortcode.advanced.terms",
-              "label": "Terms Accepted",
-              "description": "Limit Reviews by Accepted Terms",
+              "attrName": "shortcode.advanced.verified",
+              "label": "Verified",
+              "description": "Limit Reviews by Verified Status",
               "priority": 10,
               "render": true,
               "features": {
@@ -198,7 +221,7 @@
                 "name": "divi/select",
                 "type": "field",
                 "props": {
-                  "emptyLabel": "Select Review Terms..."
+                  "emptyLabel": "Select Verified Status..."
                 }
               }
             }

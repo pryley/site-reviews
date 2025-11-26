@@ -14,6 +14,7 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
         'debug' => 'bool',
         'schema' => 'bool',
         'terms' => 'string',
+        'verified' => 'string',
     ];
 
     /**
@@ -22,6 +23,7 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
      */
     public array $enums = [
         'terms' => ['0', 'false', '1', 'true'],
+        'verified' => ['0', 'false', '1', 'true'],
     ];
 
     /**
@@ -79,6 +81,7 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
             'terms' => '',
             'text' => '',
             'type' => '',
+            'verified' => '',
         ];
     }
 

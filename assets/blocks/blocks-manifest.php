@@ -197,6 +197,10 @@ return array(
 			'type' => array(
 				'default' => '',
 				'type' => 'string'
+			),
+			'verified' => array(
+				'default' => '',
+				'type' => 'string'
 			)
 		),
 		'supports' => array(
@@ -464,6 +468,10 @@ return array(
 				'type' => 'string'
 			),
 			'type' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'verified' => array(
 				'default' => '',
 				'type' => 'string'
 			)

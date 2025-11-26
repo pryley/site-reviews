@@ -213,6 +213,29 @@
               }
             }
           },
+          "verified": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "contentGeneral",
+              "attrName": "shortcode.advanced.verified",
+              "label": "Verified",
+              "description": "Limit Reviews by Verified Status",
+              "priority": 10,
+              "render": true,
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/select",
+                "type": "field",
+                "props": {
+                  "emptyLabel": "Select Verified Status..."
+                }
+              }
+            }
+          },
           "schema": {
             "groupType": "group-item",
             "item": {

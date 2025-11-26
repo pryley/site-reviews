@@ -16,6 +16,7 @@ class ReviewsDefaults extends DefaultsAbstract
      */
     public array $casts = [
         'terms' => 'string',
+        'verified' => 'string',
     ];
 
     /**
@@ -37,6 +38,7 @@ class ReviewsDefaults extends DefaultsAbstract
         ],
         'status' => ['all', 'approved', 'hold', 'pending', 'publish', 'unapproved'],
         'terms' => ['0', 'false', '1', 'true'],
+        'verified' => ['0', 'false', '1', 'true'],
     ];
 
     /**
@@ -109,6 +111,7 @@ class ReviewsDefaults extends DefaultsAbstract
             'type' => '',
             'user__in' => [],
             'user__not_in' => [],
+            'verified' => '',
         ];
     }
 
@@ -143,8 +146,17 @@ class ReviewsDefaults extends DefaultsAbstract
         $values['order'] = $this->finalizeOrder($values['order']);
         $values['orderby'] = $this->finalizeOrderby($values['orderby']);
         $values['status'] = $this->finalizeStatus($values['status']);
-        $values['terms'] = $this->finalizeTerms($values['terms']);
+        $values['terms'] = $this->finalizeBoolValue($values['terms']);
+        $values['verified'] = $this->finalizeBoolValue($values['verified']);
         return $values;
+    }
+
+    protected function finalizeBoolValue(string $value): int
+    {
+        if (!empty($value)) {
+            return Cast::toInt(Cast::toBool($value));
+        }
+        return -1;
     }
 
     protected function finalizeDate($value): array
@@ -198,13 +210,5 @@ class ReviewsDefaults extends DefaultsAbstract
             'unapproved' => 0,
         ];
         return $statuses[$value] ?? 1;
-    }
-
-    protected function finalizeTerms(string $value): int
-    {
-        if (!empty($value)) {
-            return Cast::toInt(Cast::toBool($value));
-        }
-        return -1;
     }
 }

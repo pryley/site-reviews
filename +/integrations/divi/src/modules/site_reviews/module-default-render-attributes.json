@@ -85,6 +85,11 @@
         "desktop": {
           "value": ""
         }
+      },
+      "verified": {
+        "desktop": {
+          "value": ""
+        }
       }
     }
   },

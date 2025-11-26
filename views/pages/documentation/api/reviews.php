@@ -350,6 +350,11 @@
                         <td></td>
                         <td>Ensure result set excludes reviews authored by specific users (IDs or usernames).</td>
                     </tr>
+                    <tr>
+                        <td><strong>verified</strong></td>
+                        <td></td>
+                        <td>Limit result set to reviews that are either verified or not verified. One of: <code>0</code>, <code>1</code></td>
+                    </tr>
                 </tbody>
             </table>
         </div>

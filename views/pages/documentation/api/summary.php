@@ -140,7 +140,7 @@ $schema = (new \GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema\SummarySc
                         <td></td>
                         <td>
                             <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-themes'); ?> addon required.</div>
-                            Render the summary with a specific custom review theme (ID); only works with the <code>rendered</code> parameter.
+                            Render the summary rating using a specific custom review theme (ID); only works with the <code>rendered</code> parameter.
                         </td>
                     </tr>
                     <tr>
@@ -157,6 +157,11 @@ $schema = (new \GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema\SummarySc
                         <td><strong>user__not_in</strong></td>
                         <td></td>
                         <td>Ensure summary excludes reviews authored by specific users (IDs or usernames).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>verified</strong></td>
+                        <td></td>
+                        <td>Limit summary to reviews that are either verified or not verified. One of: <code>0</code>, <code>1</code></td>
                     </tr>
                 </tbody>
             </table>

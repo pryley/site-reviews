@@ -117,6 +117,14 @@ const Edit = (props) => {
             placeholder={ _x('Select a Review Type...', 'admin-text', 'site-reviews') }
             value={ attributes.type }
         />,
+        verified: <AjaxComboboxControl
+            endpoint='/site-reviews/v1/shortcode/site_reviews?option=verified'
+            key='verified'
+            label={ _x('Limit Reviews by Verified Status', 'admin-text', 'site-reviews') }
+            onChange={ (verified) => setAttributes({ verified }) }
+            placeholder={ _x('Select Verified Status...', 'admin-text', 'site-reviews') }
+            value={ attributes.verified }
+        />,
     };
 
     const panels = { // order is intentional
@@ -133,6 +141,7 @@ const Edit = (props) => {
                 'author',
                 'terms',
                 'type',
+                'verified',
                 'schema',
             ],
         },

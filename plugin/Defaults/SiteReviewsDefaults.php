@@ -16,6 +16,7 @@ class SiteReviewsDefaults extends DefaultsAbstract
         'pagination' => 'string',
         'schema' => 'bool',
         'terms' => 'string',
+        'verified' => 'string',
     ];
 
     /**
@@ -25,6 +26,7 @@ class SiteReviewsDefaults extends DefaultsAbstract
     public array $enums = [
         'pagination' => ['ajax', 'loadmore', '1', 'true'],
         'terms' => ['0', 'false', '1', 'true'],
+        'verified' => ['0', 'false', '1', 'true'],
     ];
 
     /**
@@ -88,6 +90,7 @@ class SiteReviewsDefaults extends DefaultsAbstract
             'schema' => false,
             'terms' => '',
             'type' => '',
+            'verified' => '',
         ];
     }
 

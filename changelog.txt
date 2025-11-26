@@ -17,9 +17,10 @@
 - Added [WPLoyalty](https://wployalty.net/) integration
 - Added [Yoast SEO](https://yoast.com/wordpress/plugins/seo-free/) integration
 - Added a "CAPTCHA Placement" setting to change the position of the Captcha above or below the submit button in the review form
-- Added an "author" option to the Latest Reviews and Rating Summary blocks and shortcodes to display all ratings and reviews submitted by a specific user.
+- Added a "verified" option to the Latest Reviews and Rating Summary blocks and shortcodes to display ratings and reviews based on the verified status.
+- Added an "author" option to the Latest Reviews and Rating Summary blocks and shortcodes to display ratings and reviews submitted by a specific user.
 - Added an "Autofill Fields" setting to automatically fill the name and email fields with the logged in user details.
-- Added an "Enable Account Reviews" setting to the Ultimate Member integration to display all of a user's submitted reviews on their account page.
+- Added an "Enable Account Reviews" setting to the Ultimate Member integration to display a user's submitted reviews on their account page.
 - Added an "Enable Session Storage" setting to persist entered review form values until either the review is submitted or the browser tab or window is closed
 - Added basic style controls to the Gutenberg blocks
 - Added Geolocation which allows you to display the location of the reviewer next to their name in the review (i.e. flag/country/state/city)

@@ -195,4 +195,12 @@ class ShortcodeOptionManager
         $types = glsr()->retrieveAs('array', 'review_types', []);
         return 1 < count($types) ? $types : [];
     }
+
+    protected function verified(): array
+    {
+        return [
+            'true' => _x('Review is verified', 'admin-text', 'site-reviews'),
+            'false' => _x('Review is not verified', 'admin-text', 'site-reviews'),
+        ];
+    }
 }

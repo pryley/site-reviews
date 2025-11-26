@@ -34,9 +34,11 @@ glsr_get_reviews(array $args = []);</code></pre>
     'rating' => '',
     'rating_field' => '',
     'status' => 'approved', // value can be "all", "approved", or "unapproved"
+    'terms' => '', // value can be 1 or 0
     'type' => '',
     'user__in' => [],
     'user__not_in' => [],
+    'verified' => '', // value can be 1 or 0
 ];</code></pre>
         <p><strong>Example Usage:</strong></p>
         <pre><code class="language-php">$reviews = glsr_get_reviews([

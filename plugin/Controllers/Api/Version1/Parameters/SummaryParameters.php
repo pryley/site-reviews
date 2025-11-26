@@ -107,6 +107,10 @@ class SummaryParameters
                 ],
                 'type' => 'array',
             ],
+            'verified' => [
+                'description' => _x('Limit result set to verified status.', 'admin-text', 'site-reviews'),
+                'type' => 'boolean',
+            ],
         ];
         $parameters = glsr()->filterArray('rest-api/summary/parameters', $parameters);
         ksort($parameters);
