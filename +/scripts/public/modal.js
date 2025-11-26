@@ -114,17 +114,21 @@ class Modal {
     }
 
     _insertModal () {
-        const close = dom('button', attr('close', { 'aria-label': GLSR.text.close_modal, 'data-glsr-close': '' }));
+        const close = dom('button', attr('close', { 'aria-label': GLSR.text.close_modal }));
         const content = dom('div', attr('content', { tabindex: -1 }));
         const header = dom('div', attr('header'));
         const footer = dom('div', attr('footer'));
+        const body = dom('div', attr('body'), dom('div', attr('inner'), content));
         const dialog = dom('div', attr('dialog', { 'aria-modal': true, role: 'dialog' }),
-            close, header, content, footer
+            close,
+            header,
+            body,
+            footer
         );
         const root = dom('div', { class: modalClass, id: this.id, 'aria-hidden': true },
             dom('div', attr('overlay', { tabindex: -1, 'data-glsr-close': '' }), dialog)
         );
-        this.dom = { ...this.dom, close, content, dialog, footer, header };
+        this.dom = { ...this.dom, body, close, content, dialog, footer, header };
         const docBody = document.querySelector('body > #page.site') ?? document.body;
         this.root = docBody.appendChild(root);
     }
