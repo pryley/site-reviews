@@ -166,7 +166,7 @@ msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr ""
 
-#: helpers.php:109, plugin/Controllers/MenuController.php:178, plugin/Tinymce/SiteReviewsSummaryTinymce.php:62, plugin/Tinymce/SiteReviewsTinymce.php:69, plugin/Integrations/Breakdance/Transformer.php:132, plugin/Integrations/Bricks/Controller.php:39, plugin/Integrations/Flatsome/FlatsomeShortcode.php:24, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:87
+#: helpers.php:109, plugin/Controllers/MenuController.php:178, plugin/Tinymce/SiteReviewsSummaryTinymce.php:69, plugin/Tinymce/SiteReviewsTinymce.php:76, plugin/Integrations/Breakdance/Transformer.php:132, plugin/Integrations/Bricks/Controller.php:39, plugin/Integrations/Flatsome/FlatsomeShortcode.php:24, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:87
 msgctxt "admin-text"
 msgid "Schema"
 msgstr ""
@@ -3247,6 +3247,16 @@ msgctxt "admin-text"
 msgid "Terms were not accepted"
 msgstr ""
 
+#: plugin/Database/ShortcodeOptionManager.php:202
+msgctxt "admin-text"
+msgid "Review is verified"
+msgstr ""
+
+#: plugin/Database/ShortcodeOptionManager.php:203
+msgctxt "admin-text"
+msgid "Review is not verified"
+msgstr ""
+
 #: plugin/Defaults/AddonDefaults.php:57
 msgctxt "admin-text"
 msgid "View addon"
@@ -3294,7 +3304,7 @@ msgctxt "admin-text"
 msgid "Pinned"
 msgstr ""
 
-#: plugin/Defaults/PostTypeColumnDefaults.php:22, views/partials/editor/verified.php:5
+#: plugin/Defaults/PostTypeColumnDefaults.php:22, plugin/Tinymce/SiteReviewsSummaryTinymce.php:47, plugin/Tinymce/SiteReviewsTinymce.php:47, views/partials/editor/verified.php:5
 msgctxt "admin-text"
 msgid "Verified"
 msgstr ""
@@ -4209,22 +4219,22 @@ msgctxt "admin-text"
 msgid "Rating Summary ID"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:162, plugin/Shortcodes/SiteReviewShortcode.php:53, plugin/Shortcodes/SiteReviewsShortcode.php:130, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:149, plugin/Tinymce/SiteReviewsFormTinymce.php:54, plugin/Tinymce/SiteReviewsSummaryTinymce.php:82, plugin/Tinymce/SiteReviewsTinymce.php:89, plugin/Tinymce/SiteReviewTinymce.php:30, plugin/Widgets/Widget.php:50
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:162, plugin/Shortcodes/SiteReviewShortcode.php:53, plugin/Shortcodes/SiteReviewsShortcode.php:137, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:156, plugin/Tinymce/SiteReviewsFormTinymce.php:54, plugin/Tinymce/SiteReviewsSummaryTinymce.php:89, plugin/Tinymce/SiteReviewsTinymce.php:96, plugin/Tinymce/SiteReviewTinymce.php:30, plugin/Widgets/Widget.php:50
 msgctxt "admin-text"
 msgid "This should be a unique value."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:164, plugin/Shortcodes/SiteReviewShortcode.php:55, plugin/Shortcodes/SiteReviewsShortcode.php:132, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:151, plugin/Tinymce/SiteReviewsFormTinymce.php:52, plugin/Tinymce/SiteReviewsSummaryTinymce.php:80, plugin/Tinymce/SiteReviewsTinymce.php:87, plugin/Tinymce/SiteReviewTinymce.php:28, plugin/Widgets/Widget.php:51
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:164, plugin/Shortcodes/SiteReviewShortcode.php:55, plugin/Shortcodes/SiteReviewsShortcode.php:139, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:158, plugin/Tinymce/SiteReviewsFormTinymce.php:52, plugin/Tinymce/SiteReviewsSummaryTinymce.php:87, plugin/Tinymce/SiteReviewsTinymce.php:94, plugin/Tinymce/SiteReviewTinymce.php:28, plugin/Widgets/Widget.php:51
 msgctxt "admin-text"
 msgid "Custom ID"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:168, plugin/Shortcodes/SiteReviewShortcode.php:59, plugin/Shortcodes/SiteReviewsShortcode.php:136, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:155, plugin/Tinymce/SiteReviewsFormTinymce.php:60, plugin/Tinymce/SiteReviewsSummaryTinymce.php:88, plugin/Tinymce/SiteReviewsTinymce.php:95, plugin/Tinymce/SiteReviewTinymce.php:36, plugin/Widgets/Widget.php:55
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:168, plugin/Shortcodes/SiteReviewShortcode.php:59, plugin/Shortcodes/SiteReviewsShortcode.php:143, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:162, plugin/Tinymce/SiteReviewsFormTinymce.php:60, plugin/Tinymce/SiteReviewsSummaryTinymce.php:95, plugin/Tinymce/SiteReviewsTinymce.php:102, plugin/Tinymce/SiteReviewTinymce.php:36, plugin/Widgets/Widget.php:55
 msgctxt "admin-text"
 msgid "Separate multiple classes with spaces."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:170, plugin/Shortcodes/SiteReviewShortcode.php:61, plugin/Shortcodes/SiteReviewsShortcode.php:138, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:157, plugin/Tinymce/SiteReviewsFormTinymce.php:58, plugin/Tinymce/SiteReviewsSummaryTinymce.php:86, plugin/Tinymce/SiteReviewsTinymce.php:93, plugin/Tinymce/SiteReviewTinymce.php:34, plugin/Widgets/Widget.php:56
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:170, plugin/Shortcodes/SiteReviewShortcode.php:61, plugin/Shortcodes/SiteReviewsShortcode.php:145, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:164, plugin/Tinymce/SiteReviewsFormTinymce.php:58, plugin/Tinymce/SiteReviewsSummaryTinymce.php:93, plugin/Tinymce/SiteReviewsTinymce.php:100, plugin/Tinymce/SiteReviewTinymce.php:34, plugin/Widgets/Widget.php:56
 msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr ""
@@ -4284,47 +4294,47 @@ msgctxt "admin-text"
 msgid "Select a review..."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:70, plugin/Shortcodes/SiteReviewsShortcode.php:159
+#: plugin/Shortcodes/SiteReviewShortcode.php:70, plugin/Shortcodes/SiteReviewsShortcode.php:166
 msgctxt "admin-text"
 msgid "Hide the title"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:71, plugin/Shortcodes/SiteReviewsShortcode.php:160, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:175
+#: plugin/Shortcodes/SiteReviewShortcode.php:71, plugin/Shortcodes/SiteReviewsShortcode.php:167, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:182
 msgctxt "admin-text"
 msgid "Hide the rating"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:72, plugin/Shortcodes/SiteReviewsShortcode.php:161
+#: plugin/Shortcodes/SiteReviewShortcode.php:72, plugin/Shortcodes/SiteReviewsShortcode.php:168
 msgctxt "admin-text"
 msgid "Hide the date"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:73, plugin/Shortcodes/SiteReviewsShortcode.php:162
+#: plugin/Shortcodes/SiteReviewShortcode.php:73, plugin/Shortcodes/SiteReviewsShortcode.php:169
 msgctxt "admin-text"
 msgid "Hide the assigned links (if shown)"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:74, plugin/Shortcodes/SiteReviewsShortcode.php:163
+#: plugin/Shortcodes/SiteReviewShortcode.php:74, plugin/Shortcodes/SiteReviewsShortcode.php:170
 msgctxt "admin-text"
 msgid "Hide the content"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:75, plugin/Shortcodes/SiteReviewsShortcode.php:164
+#: plugin/Shortcodes/SiteReviewShortcode.php:75, plugin/Shortcodes/SiteReviewsShortcode.php:171
 msgctxt "admin-text"
 msgid "Hide the avatar (if shown)"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:76, plugin/Shortcodes/SiteReviewsShortcode.php:165
+#: plugin/Shortcodes/SiteReviewShortcode.php:76, plugin/Shortcodes/SiteReviewsShortcode.php:172
 msgctxt "admin-text"
 msgid "Hide the author"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:77, plugin/Shortcodes/SiteReviewsShortcode.php:166
+#: plugin/Shortcodes/SiteReviewShortcode.php:77, plugin/Shortcodes/SiteReviewsShortcode.php:173
 msgctxt "admin-text"
 msgid "Hide the verified badge"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:78, plugin/Shortcodes/SiteReviewsShortcode.php:167
+#: plugin/Shortcodes/SiteReviewShortcode.php:78, plugin/Shortcodes/SiteReviewsShortcode.php:174
 msgctxt "admin-text"
 msgid "Hide the response"
 msgstr ""
@@ -4379,32 +4389,42 @@ msgctxt "admin-text"
 msgid "Select a Review Type..."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:96
+#: plugin/Shortcodes/SiteReviewsShortcode.php:96, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:108, plugin/Tinymce/SiteReviewsSummaryTinymce.php:50, plugin/Tinymce/SiteReviewsTinymce.php:50
+msgctxt "admin-text"
+msgid "Limit Reviews by Verified Status"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsShortcode.php:98, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:110
+msgctxt "admin-text"
+msgid "Select Verified Status..."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsShortcode.php:103
 msgctxt "admin-text"
 msgid "Pagination Type"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:98
+#: plugin/Shortcodes/SiteReviewsShortcode.php:105
 msgctxt "admin-text"
 msgid "No Pagination"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:104, plugin/Widgets/SiteReviewsWidget.php:43
+#: plugin/Shortcodes/SiteReviewsShortcode.php:111, plugin/Widgets/SiteReviewsWidget.php:43
 msgctxt "admin-text"
 msgid "Reviews Per Page"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:112, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:109, plugin/Tinymce/SiteReviewsSummaryTinymce.php:47, plugin/Tinymce/SiteReviewsTinymce.php:47, plugin/Widgets/SiteReviewsSummaryWidget.php:43, plugin/Widgets/SiteReviewsWidget.php:50
+#: plugin/Shortcodes/SiteReviewsShortcode.php:119, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:116, plugin/Tinymce/SiteReviewsSummaryTinymce.php:54, plugin/Tinymce/SiteReviewsTinymce.php:54, plugin/Widgets/SiteReviewsSummaryWidget.php:43, plugin/Widgets/SiteReviewsWidget.php:50
 msgctxt "admin-text"
 msgid "Minimum Rating"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:119, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:124
+#: plugin/Shortcodes/SiteReviewsShortcode.php:126, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:131
 msgctxt "admin-text"
 msgid "The schema should only be enabled once on your page."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:121, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:126
+#: plugin/Shortcodes/SiteReviewsShortcode.php:128, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:133
 msgctxt "admin-text"
 msgid "Enable the schema?"
 msgstr ""
@@ -4419,57 +4439,57 @@ msgctxt "admin-text"
 msgid "Rating Summary"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:116, plugin/Tinymce/SiteReviewsSummaryTinymce.php:56
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:123, plugin/Tinymce/SiteReviewsSummaryTinymce.php:63
 msgctxt "admin-text"
 msgid "Use the %s addon to add custom rating fields."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:120
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:127
 msgctxt "admin-text"
 msgid "Custom Rating Field Name"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:135
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:142
 msgctxt "admin-text"
 msgid "Use {num} to display the number of reviews, {rating} to display the average rating, and {max} to display the maximum rating value."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:137
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:144
 msgctxt "admin-text"
 msgid "Summary Text"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:138
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:145
 msgctxt "admin-text"
 msgid "{rating} out of {max} stars (based on {num} reviews)"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:142
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:149
 msgctxt "admin-text"
 msgid "Enter custom labels for the percentage bar levels (from high to low) and separate them with a comma."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:144
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:151
 msgctxt "admin-text"
 msgid "Summary Labels"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:176
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:183
 msgctxt "admin-text"
 msgid "Hide the stars"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:177
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:184
 msgctxt "admin-text"
 msgid "Hide the summary"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:178
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:185
 msgctxt "admin-text"
 msgid "Hide the percentage bars"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:179
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:186
 msgctxt "admin-text"
 msgid "Hide if no reviews are found"
 msgstr ""
@@ -4504,7 +4524,7 @@ msgctxt "admin-text"
 msgid "Automatically assign reviews to a User ID. You may also enter %s to use the ID of the logged-in user."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:34, plugin/Tinymce/SiteReviewsSummaryTinymce.php:74, plugin/Tinymce/SiteReviewsTinymce.php:81, plugin/Tinymce/SiteReviewTinymce.php:22, plugin/Integrations/Breakdance/Transformer.php:131, plugin/Integrations/Bricks/Controller.php:38, plugin/Integrations/Flatsome/FlatsomeShortcode.php:27, plugin/Integrations/FusionBuilder/Transformer.php:43, plugin/Integrations/WPBakery/VcShortcode.php:87, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:86
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:34, plugin/Tinymce/SiteReviewsSummaryTinymce.php:81, plugin/Tinymce/SiteReviewsTinymce.php:88, plugin/Tinymce/SiteReviewTinymce.php:22, plugin/Integrations/Breakdance/Transformer.php:131, plugin/Integrations/Bricks/Controller.php:38, plugin/Integrations/Flatsome/FlatsomeShortcode.php:27, plugin/Integrations/FusionBuilder/Transformer.php:43, plugin/Integrations/WPBakery/VcShortcode.php:87, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:86
 msgctxt "admin-text"
 msgid "Hide"
 msgstr ""
@@ -4554,52 +4574,52 @@ msgctxt "admin-text"
 msgid "Limit Reviews by review type"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:50
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:57
 msgctxt "admin-text"
 msgid "The minimum rating to display (default: 1 star)?"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:54
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:61
 msgctxt "admin-text"
 msgid "Rating Field Name"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:57
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:64
 msgctxt "addon name (admin-text)"
 msgid "Review Forms"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:65, plugin/Tinymce/SiteReviewsTinymce.php:72
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:72, plugin/Tinymce/SiteReviewsTinymce.php:79
 msgctxt "admin-text"
 msgid "Disabled"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:66, plugin/Tinymce/SiteReviewsTinymce.php:73
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:73, plugin/Tinymce/SiteReviewsTinymce.php:80
 msgctxt "admin-text"
 msgid "Enabled"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:68, plugin/Tinymce/SiteReviewsTinymce.php:75
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:75, plugin/Tinymce/SiteReviewsTinymce.php:82
 msgctxt "admin-text"
 msgid "Rich snippets are disabled by default."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:50
+#: plugin/Tinymce/SiteReviewsTinymce.php:57
 msgctxt "admin-text"
 msgid "The minimum rating to display (default: 1 star)"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:54, plugin/Integrations/Breakdance/Transformer.php:129, plugin/Integrations/Bricks/Controller.php:37, plugin/Integrations/Flatsome/FlatsomeShortcode.php:25, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:85
+#: plugin/Tinymce/SiteReviewsTinymce.php:61, plugin/Integrations/Breakdance/Transformer.php:129, plugin/Integrations/Bricks/Controller.php:37, plugin/Integrations/Flatsome/FlatsomeShortcode.php:25, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:85
 msgctxt "admin-text"
 msgid "Display"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:59
+#: plugin/Tinymce/SiteReviewsTinymce.php:66
 msgctxt "admin-text"
 msgid "The number of reviews to display per page (default: 10)"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:63, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:108
+#: plugin/Tinymce/SiteReviewsTinymce.php:70, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:108
 msgctxt "admin-text"
 msgid "Pagination"
 msgstr ""
@@ -7121,6 +7141,11 @@ msgstr ""
 #: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:135, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:104
 msgctxt "admin-text"
 msgid "Ensure result set excludes reviews authored by specific users."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:142, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:111
+msgctxt "admin-text"
+msgid "Limit result set to verified status."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:18
