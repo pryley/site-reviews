@@ -3,6 +3,7 @@
 }
 :--namespace form.glsr-form .glsr-field-checkbox,
 :--namespace form.glsr-form .glsr-field-radio {
+  align-items: start;
   display: flex;
   gap: var(--glsr-gap-sm);
 }

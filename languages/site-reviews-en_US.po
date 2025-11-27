@@ -3475,32 +3475,32 @@ msgctxt "admin-text"
 msgid "Publicly responding to third-party %s reviews is disabled."
 msgstr "Publicly responding to third-party %s reviews is disabled."
 
-#: plugin/Controllers/FlyoutController.php:35, plugin/Controllers/MenuController.php:68
+#: plugin/Controllers/FlyoutController.php:36, plugin/Controllers/MenuController.php:68
 msgctxt "admin-text"
 msgid "Upgrade to Premium"
 msgstr "Upgrade to Premium"
 
-#: plugin/Controllers/FlyoutController.php:40
+#: plugin/Controllers/FlyoutController.php:41
 msgctxt "admin-text"
 msgid "Ask for Help"
 msgstr "Ask for Help"
 
-#: plugin/Controllers/FlyoutController.php:45
+#: plugin/Controllers/FlyoutController.php:46
 msgctxt "admin-text"
 msgid "Read the Documentation"
 msgstr "Read the Documentation"
 
-#: plugin/Controllers/FlyoutController.php:50, views/partials/notices/welcome.php:15
+#: plugin/Controllers/FlyoutController.php:51, views/partials/notices/welcome.php:15
 msgctxt "admin-text"
 msgid "Watch the Tutorial"
 msgstr "Watch the Tutorial"
 
-#: plugin/Controllers/FlyoutController.php:55
+#: plugin/Controllers/FlyoutController.php:56
 msgctxt "admin-text"
 msgid "Learn how to use Site Reviews"
 msgstr "Learn how to use Site Reviews"
 
-#: plugin/Controllers/FlyoutController.php:60
+#: plugin/Controllers/FlyoutController.php:62
 msgctxt "admin-text"
 msgid "Rate Us ★★★★★ on Wordpress!"
 msgstr "Rate Us ★★★★★ on Wordpress!"

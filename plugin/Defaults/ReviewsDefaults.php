@@ -116,26 +116,6 @@ class ReviewsDefaults extends DefaultsAbstract
     }
 
     /**
-     * Normalize provided values, this always runs first.
-     */
-    protected function normalize(array $values = []): array
-    {
-        if ($postIds = Arr::getAs('array', $values, 'assigned_posts')) {
-            $values['assigned_posts_types'] = [];
-            foreach ($postIds as $postType) {
-                if (!is_numeric($postType) && post_type_exists($postType)) {
-                    $values['assigned_posts'] = []; // query only by assigned post types!
-                    $values['assigned_posts_types'][] = $postType;
-                }
-            }
-        } else {
-            $postTypes = glsr(Sanitizer::class)->sanitizeArrayString(Arr::get($values, 'assigned_posts_types'));
-            $values['assigned_posts_types'] = array_filter($postTypes, 'post_type_exists');
-        }
-        return $values;
-    }
-
-    /**
      * Finalize provided values, this always runs last.
      */
     protected function finalize(array $values = []): array
@@ -210,5 +190,25 @@ class ReviewsDefaults extends DefaultsAbstract
             'unapproved' => 0,
         ];
         return $statuses[$value] ?? 1;
+    }
+
+    /**
+     * Normalize provided values, this always runs first.
+     */
+    protected function normalize(array $values = []): array
+    {
+        if ($postIds = Arr::getAs('array', $values, 'assigned_posts')) {
+            $values['assigned_posts_types'] = [];
+            foreach ($postIds as $postType) {
+                if (!is_numeric($postType) && post_type_exists($postType)) {
+                    $values['assigned_posts'] = []; // query only by assigned post types!
+                    $values['assigned_posts_types'][] = $postType;
+                }
+            }
+        } else {
+            $postTypes = glsr(Sanitizer::class)->sanitizeArrayString(Arr::get($values, 'assigned_posts_types'));
+            $values['assigned_posts_types'] = array_filter($postTypes, 'post_type_exists');
+        }
+        return $values;
     }
 }

@@ -2,8 +2,7 @@
   --timing-function: cubic-bezier(0,0,0.2,1);
   --timing-function-2: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: none;
-  font-size: var(--glsr-text-base);
-  line-height: var(--glsr-leading);
+  font-size: var(--wp--preset--font-size--normal, 1rem);
   pointer-events: none;
   position: fixed;
   z-index: -1;
@@ -32,7 +31,7 @@
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  max-height: min(1024px, calc(100vw - 2em));
+  max-height: min(1024px, calc(100vh - 2em));
   max-width: min(768px, calc(100vw - 2em));
   min-height: 160px;
   min-width: 320px;
@@ -95,7 +94,7 @@
   position: relative;
   transition: opacity var(--glsr-duration-slow) var(--timing-function);
 }
-:root .glsr-modal.is-loading .glsr-modal__inner {
+:root .glsr-modal.is-loading:not(.is-changing) .glsr-modal__inner {
   opacity: 0;
 }
 :root .glsr-modal__content {

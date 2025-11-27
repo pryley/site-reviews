@@ -3,8 +3,9 @@
   --toggle-p: .125em;
   --toggle-w: calc(1.5em + calc(var(--toggle-p) * 2));
   --transition-timing-fn: cubic-bezier(.4,0,.2,1);
-    display: flex;
-    gap: var(--glsr-gap-sm);
+  align-items: start;
+  display: flex;
+  gap: var(--glsr-gap-sm);
 }
 :--namespace form.glsr-form .glsr-field-toggle > span:not(.glsr-toggle) {
   align-items: center;

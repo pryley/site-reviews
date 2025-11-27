@@ -170,6 +170,7 @@ const Edit = (props) => {
         display: {
             controls: [
                 'rating',
+                'rating_field',
             ],
             initialOpen: false,
         },
@@ -189,7 +190,6 @@ const Edit = (props) => {
         },
         advanced: {
             controls: [
-                'rating_field',
                 'id',
             ],
         },

@@ -6,7 +6,7 @@
 :--namespace form.glsr-form {
   column-gap: var(--glsr-form-col-gap);
   display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   margin-bottom: 0;
   position: relative;
   row-gap: var(--glsr-form-row-gap);
