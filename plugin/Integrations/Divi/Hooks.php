@@ -24,6 +24,7 @@ class Hooks extends IntegrationHooks
                 ['enqueueNextAssets', 'wp_enqueue_scripts'],
                 ['enqueueNextBundledAssets', 'divi_visual_builder_assets_before_enqueue_scripts'],
                 ['filterNextDynamicAssets', 'divi_frontend_assets_dynamic_assets_required_module_assets', 10, 2],
+                ['filterNextModalWrappedBy', 'site-reviews/modal_wrapped_by'],
                 ['registerNextModules', 'divi_module_library_modules_dependency_tree'],
             ]);
         }

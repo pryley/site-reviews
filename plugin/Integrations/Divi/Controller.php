@@ -112,6 +112,15 @@ class Controller extends AbstractController
     }
 
     /**
+     * @filter site-reviews/modal_wrapped_by
+     */
+    public function filterNextModalWrappedBy(array $builders): array
+    {
+        $builders[] = 'divi';
+        return $builders;
+    }
+
+    /**
      * @see filterPaginationLinks
      *
      * @filter site-reviews/paginate_link

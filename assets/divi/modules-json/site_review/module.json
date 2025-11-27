@@ -207,5 +207,10 @@
         }
       }
     }
+  },
+  "mousetrap": {
+    "inner": {
+      "edited": true
+    }
   }
 }
