@@ -1,3 +1,5 @@
+import Ajax from '@/admin/ajax.js';
+
 const delay = 30;
 
 class Flyoutmenu {
@@ -8,7 +10,18 @@ class Flyoutmenu {
         if (this.menu.length) {
             this.mascot.on('click', this.openMenu.bind(this))
             this.menu.on('focusout', this.toggleMenu.bind(this))
+            jQuery('.glsr-flyout-write-review').on('click', this.dismissWriteReviewNotice);
         }
+    }
+
+    dismissWriteReviewNotice () {
+        const notice = 'GeminiLabs\\SiteReviews\\Notices\\WriteReviewNotice';
+        (new Ajax({ _action: 'dismiss-notice', notice })).post()
+        document.querySelectorAll('.glsr-notice-popup[data-notice]').forEach(el => {
+            if (el.dataset.notice === notice) {
+                el.remove();
+            }
+        })
     }
 
     openMenu (ev) {

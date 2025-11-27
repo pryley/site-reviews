@@ -31,6 +31,7 @@ class FlyoutController extends AbstractController
     {
         $items = [
             [
+                'class' => 'glsr-flyout-premium',
                 'icon' => 'dashicons-star-filled',
                 'title' => _x('Upgrade to Premium', 'admin-text', 'site-reviews'),
                 'url' => glsr_premium_url('site-reviews-premium'),
@@ -56,6 +57,7 @@ class FlyoutController extends AbstractController
                 'url' => glsr_admin_url('welcome'),
             ],
             [
+                'class' => 'glsr-flyout-write-review',
                 'icon' => 'dashicons-testimonial',
                 'title' => _x('Rate Us ★★★★★ on Wordpress!', 'admin-text', 'site-reviews'),
                 'url' => 'https://wordpress.org/support/plugin/site-reviews/reviews/#new-post',

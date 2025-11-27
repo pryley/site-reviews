@@ -4,7 +4,7 @@
     <div class="glsr-flyout-items">
         <?php foreach ($items as $index => $item) { ?>
             <a href="<?php echo esc_url($item['url']); ?>"
-                class="glsr-flyout-button glsr-flyout-item<?php echo 'dashicons-star-filled' === $item['icon'] ? ' glsr-flyout-premium' : ''; ?>"
+                class="glsr-flyout-button glsr-flyout-item <?php echo $item['class']; ?>"
                 tabindex="0"
                 <?php if (wp_parse_url($item['url'], PHP_URL_HOST) !== wp_parse_url(get_home_url(), PHP_URL_HOST)) { ?>
                     rel="noopener noreferrer"

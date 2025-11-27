@@ -9,6 +9,7 @@ class FlyoutItemDefaults extends DefaultsAbstract
      * This is done after $casts and before $enums.
      */
     public array $sanitize = [
+        'class' => 'attr-class',
         'icon' => 'attr-class',
         'title' => 'text',
         'url' => 'url',
@@ -17,6 +18,7 @@ class FlyoutItemDefaults extends DefaultsAbstract
     protected function defaults(): array
     {
         return [
+            'class' => '',
             'icon' => '',
             'title' => '',
             'url' => '',

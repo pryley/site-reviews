@@ -15,10 +15,10 @@ class WriteReviewNotice extends AbstractNotice
         $dismissed = Arr::consolidate(get_user_meta(get_current_user_id(), static::USER_META_KEY, true));
         if (empty($dismissed[$this->key])) {
             // Delay the popup for a week if it hasn't been dismissed before.
-            // The deferInterval is 2 weeks so we will subtract a week from the timestamp
-            // so that it is triggered again in a week.
+            // The deferInterval is 1 month so we will subtract that (minus 1 week)
+            // from the timestamp so that it is triggered again in a week.
             $this->dismiss([
-                'timestamp' => current_time('timestamp') - WEEK_IN_SECONDS,
+                'timestamp' => current_time('timestamp') - (MONTH_IN_SECONDS - WEEK_IN_SECONDS),
                 'version' => '',
             ]);
             return false;
@@ -38,7 +38,7 @@ class WriteReviewNotice extends AbstractNotice
 
     protected function deferInterval(): int
     {
-        return 2 * WEEK_IN_SECONDS;
+        return MONTH_IN_SECONDS;
     }
 
     protected function deferVersion(): string
