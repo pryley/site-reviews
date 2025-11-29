@@ -1,8 +1,9 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Bricks;
+namespace GeminiLabs\SiteReviews\Integrations\Bricks\Elements;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Integrations\Bricks\BricksElement;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
 class BricksSiteReviewsSummary extends BricksElement

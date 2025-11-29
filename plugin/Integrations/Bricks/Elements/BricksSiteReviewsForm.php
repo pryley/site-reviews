@@ -1,7 +1,8 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Bricks;
+namespace GeminiLabs\SiteReviews\Integrations\Bricks\Elements;
 
+use GeminiLabs\SiteReviews\Integrations\Bricks\BricksElement;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
 class BricksSiteReviewsForm extends BricksElement

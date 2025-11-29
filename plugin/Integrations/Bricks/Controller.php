@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Svg;
+use GeminiLabs\SiteReviews\Integrations\Bricks\Elements;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Controller extends AbstractController
@@ -68,7 +69,7 @@ class Controller extends AbstractController
     public function filterSettingsClass($settings, $element): array
     {
         $settings = Arr::consolidate($settings);
-        if (!is_a($element, BricksElement::class)) {
+        if (!is_a($element, Elements\BricksElement::class)) {
             return $settings;
         }
         $classes = $settings['class'] ?? '';
@@ -92,7 +93,7 @@ class Controller extends AbstractController
     public function filterSettingsMultiCheckbox($settings, $element): array
     {
         $settings = Arr::consolidate($settings);
-        if (!is_a($element, BricksElement::class)) {
+        if (!is_a($element, Elements\BricksElement::class)) {
             return $settings;
         }
         foreach ($element->elementConfig() as $key => $control) {
@@ -120,7 +121,7 @@ class Controller extends AbstractController
     public function filterSettingsPrefixedId($settings, $element): array
     {
         $settings = Arr::consolidate($settings);
-        if (!is_a($element, BricksElement::class)) {
+        if (!is_a($element, Elements\BricksElement::class)) {
             return $settings;
         }
         foreach ($settings as $key => $value) {
@@ -243,10 +244,10 @@ class Controller extends AbstractController
     public function registerElements(): void
     {
         if (class_exists('Bricks\Element')) {
-            BricksSiteReview::registerElement();
-            BricksSiteReviews::registerElement();
-            BricksSiteReviewsForm::registerElement();
-            BricksSiteReviewsSummary::registerElement();
+            Elements\BricksSiteReview::registerElement();
+            Elements\BricksSiteReviews::registerElement();
+            Elements\BricksSiteReviewsForm::registerElement();
+            Elements\BricksSiteReviewsSummary::registerElement();
         }
     }
 

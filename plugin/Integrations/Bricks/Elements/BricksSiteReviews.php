@@ -1,10 +1,11 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Bricks;
+namespace GeminiLabs\SiteReviews\Integrations\Bricks\Elements;
 
-use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
+use GeminiLabs\SiteReviews\Integrations\Bricks\BricksElement;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
-class BricksSiteReview extends BricksElement
+class BricksSiteReviews extends BricksElement
 {
     public function designConfig(): array
     {
@@ -162,6 +163,24 @@ class BricksSiteReview extends BricksElement
                 'themeStyle' => true,
                 'type' => 'text-align',
             ],
+            'style_row_gap' => [
+                'css' => [
+                    [
+                        'selector' => '.glsr:not([data-theme])',
+                        'property' => '--glsr-review-row-gap',
+                    ],
+                ],
+                'group' => 'design',
+                'hasDynamicData' => false,
+                'hasVariables' => true,
+                'inline' => true,
+                'label' => esc_html_x('Row Gap', 'admin-text', 'site-reviews'),
+                'placeholder' => '',
+                'tab' => 'content',
+                'themeStyle' => true,
+                'type' => 'number',
+                'units' => true,
+            ],
             'style_heading' => [
                 'css' => [
                     [
@@ -234,6 +253,73 @@ class BricksSiteReview extends BricksElement
                 'themeStyle' => true,
                 'type' => 'color',
             ],
+            'style_button_separator' => [
+                'group' => 'design',
+                'label' => esc_html_x('Load More Button', 'admin-text', 'site-reviews'),
+                'tab' => 'content',
+                'themeStyle' => true,
+                'type' => 'separator',
+            ],
+            'style_button_size' => [
+                'group' => 'design',
+                'inline' => true,
+                'label' => esc_html_x('Size', 'admin-text', 'site-reviews'),
+                'options' => $this->control_options['buttonSizes'] ?? [],
+                'placeholder' => esc_html_x('Default', 'admin-text', 'site-reviews'),
+                'tab' => 'content',
+                'themeStyle' => true,
+                'type' => 'select',
+            ],
+            'style_button_preset' => [
+                'default' => 'primary',
+                'group' => 'design',
+                'inline' => true,
+                'label' => esc_html_x('Style', 'admin-text', 'site-reviews'),
+                'options' => $this->control_options['styles'] ?? [],
+                'placeholder' => esc_html_x('None', 'admin-text', 'site-reviews'),
+                'tab' => 'content',
+                'themeStyle' => true,
+                'type' => 'select',
+            ],
+            'style_button_background_color' => [
+                'css' => [
+                    [
+                        'selector' => '.bricks-button',
+                        'property' => 'background-color',
+                    ],
+                ],
+                'group' => 'design',
+                'label' => esc_html_x('Background', 'admin-text', 'site-reviews'),
+                'tab' => 'content',
+                'themeStyle' => true,
+                'type' => 'color',
+            ],
+            'style_button_border' => [
+                'css' => [
+                    [
+                        'selector' => '.bricks-button',
+                        'property' => 'border',
+                    ],
+                ],
+                'group' => 'design',
+                'label' => esc_html_x('Border', 'admin-text', 'site-reviews'),
+                'tab' => 'content',
+                'themeStyle' => true,
+                'type' => 'border',
+            ],
+            'style_button_typography' => [
+                'css' => [
+                    [
+                        'selector' => '.bricks-button',
+                        'property' => 'font',
+                    ],
+                ],
+                'group' => 'design',
+                'label' => esc_html_x('Typography', 'admin-text', 'site-reviews'),
+                'tab' => 'content',
+                'themeStyle' => true,
+                'type' => 'typography',
+            ],
         ];
         return $config;
     }
@@ -251,6 +337,6 @@ class BricksSiteReview extends BricksElement
 
     public static function shortcodeClass(): string
     {
-        return SiteReviewShortcode::class;
+        return SiteReviewsShortcode::class;
     }
 }
