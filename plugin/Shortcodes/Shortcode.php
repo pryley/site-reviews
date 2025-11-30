@@ -228,7 +228,7 @@ abstract class Shortcode implements ShortcodeContract
     protected function normalizeClass(string $value): string
     {
         $values = $this->parseClassAttr($value)['custom'];
-        return implode(',', $values);
+        return implode(' ', $values);
     }
 
     /**
@@ -245,6 +245,8 @@ abstract class Shortcode implements ShortcodeContract
     protected function parseClassAttr(string $classAttr): array
     {
         $prefixes = [
+            'has-custom-',
+            'has-text-align-',
             'is-custom-',
             'is-style-',
             'items-justified-',
