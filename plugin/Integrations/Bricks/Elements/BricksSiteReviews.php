@@ -9,319 +9,45 @@ class BricksSiteReviews extends BricksElement
 {
     public function designConfig(): array
     {
-        $config = [
+        return [
             'style_align' => [
-                'css' => [
-                    [
-                        'selector' => '.glsr:not([data-theme]) .glsr-review',
-                        'property' => 'text-align',
-                    ],
-                    [
-                        'selector' => '.glsr:not([data-theme]) .nav-links',
-                        'property' => 'text-align',
-                    ],
-                    [
-                        'selector' => '.glsr:not([data-theme]) .glsr-ajax-loadmore',
-                        'property' => 'display',
-                        'value' => 'flex',
-                    ],
-                    [
-                        'required' => 'left',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review',
-                        'property' => 'justify-content',
-                        'value' => 'start',
-                    ],
-                    [
-                        'required' => 'left',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-rating',
-                        'property' => 'flex',
-                        'value' => '0',
-                    ],
-                    [
-                        'required' => 'left',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-date',
-                        'property' => 'flex',
-                        'value' => '1',
-                    ],
-                    [
-                        'required' => 'left',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-date',
-                        'property' => 'justify-content',
-                        'value' => 'start',
-                    ],
-                    [
-                        'required' => 'left',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-actions',
-                        'property' => 'justify-content',
-                        'value' => 'start',
-                    ],
-                    [
-                        'required' => 'left',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-author_actions',
-                        'property' => 'justify-content',
-                        'value' => 'start',
-                    ],
-                    [
-                        'required' => 'left',
-                        'selector' => '.glsr:not([data-theme]) .glsr-ajax-loadmore',
-                        'property' => 'justify-content',
-                        'value' => 'start',
-                    ],
-                    [
-                        'required' => 'center',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review',
-                        'property' => 'justify-content',
-                    ],
-                    [
-                        'required' => 'center',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-rating',
-                        'property' => 'flex',
-                        'value' => 'auto',
-                    ],
-                    [
-                        'required' => 'center',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-rating',
-                        'property' => 'justify-content',
-                        'value' => 'end',
-                    ],
-                    [
-                        'required' => 'center',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-date',
-                        'property' => 'flex',
-                        'value' => 'auto',
-                    ],
-                    [
-                        'required' => 'center',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-date',
-                        'property' => 'justify-content',
-                        'value' => 'start',
-                    ],
-                    [
-                        'required' => 'center',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-actions',
-                        'property' => 'justify-content',
-                    ],
-                    [
-                        'required' => 'center',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-author_actions',
-                        'property' => 'justify-content',
-                    ],
-                    [
-                        'required' => 'center',
-                        'selector' => '.glsr:not([data-theme]) .glsr-ajax-loadmore',
-                        'property' => 'justify-content',
-                    ],
-                    [
-                        'required' => 'right',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review',
-                        'property' => 'justify-content',
-                        'value' => 'end',
-                    ],
-                    [
-                        'required' => 'right',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-rating',
-                        'property' => 'flex',
-                        'value' => '1',
-                    ],
-                    [
-                        'required' => 'right',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-rating',
-                        'property' => 'justify-content',
-                        'value' => 'end',
-                    ],
-                    [
-                        'required' => 'right',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-date',
-                        'property' => 'flex',
-                        'value' => '0',
-                    ],
-                    [
-                        'required' => 'right',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-actions',
-                        'property' => 'justify-content',
-                        'value' => 'end',
-                    ],
-                    [
-                        'required' => 'right',
-                        'selector' => '.glsr:not([data-theme]) .glsr-review-author_actions',
-                        'property' => 'justify-content',
-                        'value' => 'end',
-                    ],
-                    [
-                        'required' => 'right',
-                        'selector' => '.glsr:not([data-theme]) .glsr-ajax-loadmore',
-                        'property' => 'justify-content',
-                        'value' => 'end',
-                    ],
-                ],
+                'exclude' => ['stretch', 'auto'],
+                'group' => 'design',
+                'inline' => true,
+                'label' => esc_html__('Align', 'bricks'),
+                'rerender' => true,
+                'tab' => 'style',
+                'themeStyle' => true,
+                'type' => 'align-items',
+            ],
+            'separator_review' => [
+                'group' => 'design',
+                'label' => esc_html_x('Review', 'admin-text', 'site-reviews'),
+                'tab' => 'content',
+                'type' => 'separator',
+            ],
+            'style_text_align' => [
                 'exclude' => ['auto', 'justify'],
                 'group' => 'design',
                 'inline' => true,
-                'label' => esc_html_x('Alignment', 'admin-text', 'site-reviews'),
+                'label' => esc_html_x('Text Align', 'admin-text', 'site-reviews'),
                 'rerender' => true,
-                'tab' => 'content',
+                'tab' => 'style',
                 'themeStyle' => true,
                 'type' => 'text-align',
             ],
-            'style_row_gap' => [
-                'css' => [
-                    [
-                        'selector' => '.glsr:not([data-theme])',
-                        'property' => '--glsr-review-row-gap',
-                    ],
-                ],
-                'group' => 'design',
-                'hasDynamicData' => false,
-                'hasVariables' => true,
-                'inline' => true,
-                'label' => esc_html_x('Row Gap', 'admin-text', 'site-reviews'),
-                'placeholder' => '',
-                'tab' => 'content',
-                'themeStyle' => true,
-                'type' => 'number',
-                'units' => true,
-            ],
             'style_heading' => [
-                'css' => [
-                    [
-                        'selector' => '.glsr:not([data-theme]) h2, .glsr:not([data-theme]) h3, .glsr:not([data-theme]) h4',
-                        'property' => 'font',
-                    ],
-                ],
+                'css' => [[
+                    'selector' => '.glsr:not([data-theme]) h2, .glsr:not([data-theme]) h3, .glsr:not([data-theme]) h4',
+                    'property' => 'font',
+                ]],
                 'group' => 'design',
                 'label' => esc_html_x('Heading', 'admin-text', 'site-reviews'),
-                'tab' => 'content',
-                'themeStyle' => true,
-                'type' => 'typography',
-            ],
-            'style_text' => [
-                'css' => [
-                    [
-                        'selector' => '.glsr:not([data-theme])',
-                        'property' => 'font',
-                    ],
-                ],
-                'group' => 'design',
-                'label' => esc_html_x('Text', 'admin-text', 'site-reviews'),
-                'tab' => 'content',
-                'themeStyle' => true,
-                'type' => 'typography',
-            ],
-            'style_rating_size' => [
-                'css' => [
-                    [
-                        'selector' => '.glsr:not([data-theme])',
-                        'property' => '--glsr-review-star',
-                    ],
-                ],
-                'group' => 'design',
-                'hasDynamicData' => false,
-                'hasVariables' => true,
-                'inline' => true,
-                'label' => esc_html_x('Star Size', 'admin-text', 'site-reviews'),
-                'placeholder' => '',
-                'tab' => 'content',
-                'themeStyle' => true,
-                'type' => 'number',
-                'units' => true,
-            ],
-            'style_rating_color' => [
-                'css' => [
-                    [
-                        'selector' => '.glsr:not([data-theme]) .glsr-star',
-                        'property' => 'mask-size',
-                        'value' => '100%',
-                    ],
-                    [
-                        'selector' => '.glsr:not([data-theme]) .glsr-star',
-                        'property' => 'background',
-                    ],
-                    [
-                        'selector' => '.glsr:not([data-theme]) .glsr-star-full',
-                        'property' => 'mask-image',
-                        'value' => 'var(--glsr-star-full)',
-                    ],
-                    [
-                        'selector' => '.glsr:not([data-theme]) .glsr-star-empty',
-                        'property' => 'mask-image',
-                        'value' => 'var(--glsr-star-empty)',
-                    ],
-                ],
-                'group' => 'design',
-                'label' => esc_html_x('Star Color', 'admin-text', 'site-reviews'),
-                'tab' => 'content',
-                'themeStyle' => true,
-                'type' => 'color',
-            ],
-            'style_button_separator' => [
-                'group' => 'design',
-                'label' => esc_html_x('Load More Button', 'admin-text', 'site-reviews'),
-                'tab' => 'content',
-                'themeStyle' => true,
-                'type' => 'separator',
-            ],
-            'style_button_size' => [
-                'group' => 'design',
-                'inline' => true,
-                'label' => esc_html_x('Size', 'admin-text', 'site-reviews'),
-                'options' => $this->control_options['buttonSizes'] ?? [],
-                'placeholder' => esc_html_x('Default', 'admin-text', 'site-reviews'),
-                'tab' => 'content',
-                'themeStyle' => true,
-                'type' => 'select',
-            ],
-            'style_button_preset' => [
-                'default' => 'primary',
-                'group' => 'design',
-                'inline' => true,
-                'label' => esc_html_x('Style', 'admin-text', 'site-reviews'),
-                'options' => $this->control_options['styles'] ?? [],
-                'placeholder' => esc_html_x('None', 'admin-text', 'site-reviews'),
-                'tab' => 'content',
-                'themeStyle' => true,
-                'type' => 'select',
-            ],
-            'style_button_background_color' => [
-                'css' => [
-                    [
-                        'selector' => '.bricks-button',
-                        'property' => 'background-color',
-                    ],
-                ],
-                'group' => 'design',
-                'label' => esc_html_x('Background', 'admin-text', 'site-reviews'),
-                'tab' => 'content',
-                'themeStyle' => true,
-                'type' => 'color',
-            ],
-            'style_button_border' => [
-                'css' => [
-                    [
-                        'selector' => '.bricks-button',
-                        'property' => 'border',
-                    ],
-                ],
-                'group' => 'design',
-                'label' => esc_html_x('Border', 'admin-text', 'site-reviews'),
-                'tab' => 'content',
-                'themeStyle' => true,
-                'type' => 'border',
-            ],
-            'style_button_typography' => [
-                'css' => [
-                    [
-                        'selector' => '.bricks-button',
-                        'property' => 'font',
-                    ],
-                ],
-                'group' => 'design',
-                'label' => esc_html_x('Typography', 'admin-text', 'site-reviews'),
-                'tab' => 'content',
+                'tab' => 'style',
                 'themeStyle' => true,
                 'type' => 'typography',
             ],
         ];
-        return $config;
     }
 
     public function render()

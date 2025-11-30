@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\Bricks;
 
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
 
@@ -56,6 +57,8 @@ abstract class BricksElement extends \Bricks\Element
     public function load()
     {
         parent::load();
+        $this->control_groups = glsr()->filterArray('bricks/element/control_groups', $this->control_groups, $this);
+        $this->controls = glsr()->filterArray('bricks/element/controls', $this->controls, $this);
         $groups = array_map(fn ($args) => $args['group'] ?? '', $this->controls);
         $groups = array_filter($groups, fn ($value) => !str_starts_with($value, '_'));
         $groups = array_values(array_filter(array_unique($groups)));
@@ -80,42 +83,37 @@ abstract class BricksElement extends \Bricks\Element
 
     public function render()
     {
-        $buttonClasses = ['bricks-button'];
-        if ($buttonStyle = $this->styledSetting('style_button_preset')) {
+        $buttonClasses = ['glsr-button', 'bricks-button'];
+        if ($buttonStyle = Cast::toString($this->styledSetting('style_button_preset'))) {
             $buttonClasses[] = "bricks-background-{$buttonStyle}";
         }
-        if ($buttonSize = $this->styledSetting('style_button_size')) {
+        if ($buttonSize = Cast::toString($this->styledSetting('style_button_size'))) {
             $buttonClasses[] = $buttonSize;
         }
         $buttonClasses = implode(' ', $buttonClasses);
         $html = $this->shortcodeInstance()->build($this->settings, 'bricks');
-        $html = str_replace('glsr-button', "glsr-button {$buttonClasses}", $html);
+        $html = str_replace('glsr-button', $buttonClasses, $html);
         echo "<{$this->get_tag()} {$this->render_attributes('_root')}>";
         echo $html;
         echo "</{$this->get_tag()}>";
     }
 
-    /**
-     * @see https://academy.bricksbuilder.io/article/filter-bricks-elements-element_name-control_groups/
-     */
     public function set_control_groups()
     {
-        $groups = [ // order is intentional
-            'general' => esc_html_x('General', 'admin-text', 'site-reviews'),
-            'design' => esc_html_x('Design', 'admin-text', 'site-reviews'),
-            'advanced' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
+        $this->control_groups['general'] = [
+            'tab' => 'content',
+            'title' => esc_html_x('General', 'admin-text', 'site-reviews'),
         ];
-        foreach ($groups as $key => $title) {
-            $this->control_groups[$key] = [
-                'tab' => 'content',
-                'title' => $title,
-            ];
-        }
+        $this->control_groups['advanced'] = [
+            'tab' => 'content',
+            'title' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
+        ];
+        $this->control_groups['design'] = [
+            'tab' => 'content',
+            'title' => esc_html_x('Design', 'admin-text', 'site-reviews'),
+        ];
     }
 
-    /**
-     * @see https://academy.bricksbuilder.io/article/filter-bricks-elements-element_name-controls
-     */
     public function set_controls()
     {
         $this->controls ??= [];
@@ -137,21 +135,20 @@ abstract class BricksElement extends \Bricks\Element
         if (count(glsr()->retrieveAs('array', 'review_types', [])) < 2) {
             unset($this->controls['type']);
         }
-    }
-
-    public function styledClasses(array $classes = []): array
-    {
-        if ($align = $this->styledSetting('style_align')) {
-            $classes[] = "items-justified-{$align}";
+        if (isset($this->controls['_typography'])) {
+            $this->controls['_typography']['exclude'] ??= [];
+            $this->controls['_typography']['exclude'][] = 'text-align'; // because rerender doesn't work
         }
-        return $classes;
     }
 
-    public function styledSetting(string $key): string
+    /**
+     * @return mixed
+     */
+    public function styledSetting(string $path)
     {
-        $value = $this->settings[$key] ?? '';
-        $value = $value ?: $this->theme_styles[$key] ?? '';
-        return Cast::toString($value);
+        $value = Arr::get($this->settings, $path, '');
+        $value = $value ?: Arr::get($this->theme_styles, $path, '');
+        return $value;
     }
 
     protected function setCheckboxControl(string $key, array $args): void

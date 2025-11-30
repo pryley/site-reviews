@@ -106,6 +106,8 @@
     site-reviews/breakdance/dependencies                        (array $dependencies, Shortcodes\Shortcode $shortcode): array
     site-reviews/breakdance/design_controls                     (array $controls, Shortcodes\Shortcode $shortcode): array
     site-reviews/breakdance/ssr_args                            (array $args, array $data, Shortcodes\Shortcode $shortcode): array
+    site-reviews/bricks/element/controls                        (array $controls, Integrations\Bricks\BricksElement $element): array
+    site-reviews/bricks/element/control_groups                  (array $groups, Integrations\Bricks\BricksElement $element): array
     site-reviews/build/template/<template_path>                 (string $template, array $data): string
     site-reviews/builder/enable/optgroup                        (bool $enable): bool
     site-reviews/builder/result                                 (string $result, Contracts\BuilderContract $builder): string
