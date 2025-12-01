@@ -6,6 +6,8 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
+use GeminiLabs\SiteReviews\Modules\Style;
 
 abstract class BricksElement extends \Bricks\Element
 {
@@ -83,16 +85,8 @@ abstract class BricksElement extends \Bricks\Element
 
     public function render()
     {
-        $buttonClasses = ['glsr-button', 'bricks-button'];
-        if ($buttonStyle = Cast::toString($this->styledSetting('style_button_preset'))) {
-            $buttonClasses[] = "bricks-background-{$buttonStyle}";
-        }
-        if ($buttonSize = Cast::toString($this->styledSetting('style_button_size'))) {
-            $buttonClasses[] = $buttonSize;
-        }
-        $buttonClasses = implode(' ', $buttonClasses);
         $html = $this->shortcodeInstance()->build($this->settings, 'bricks');
-        $html = str_replace('glsr-button', $buttonClasses, $html);
+        $html = $this->setButtonClass($html);
         echo "<{$this->get_tag()} {$this->render_attributes('_root')}>";
         echo $html;
         echo "</{$this->get_tag()}>";
@@ -149,6 +143,29 @@ abstract class BricksElement extends \Bricks\Element
         $value = Arr::get($this->settings, $path, '');
         $value = $value ?: Arr::get($this->theme_styles, $path, '');
         return $value;
+    }
+
+    protected function setButtonClass(string $html): string
+    {
+        $classes = ['glsr-button', 'bricks-button'];
+        if (str_contains($html, 'glsr-button-loadmore')) {
+            $classes[] = 'glsr-button-loadmore';
+        }
+        if ($buttonStyle = Cast::toString($this->styledSetting('style_button_preset'))) {
+            $classes[] = "bricks-background-{$buttonStyle}";
+        }
+        if ($buttonSize = Cast::toString($this->styledSetting('style_button_size'))) {
+            $classes[] = $buttonSize;
+        }
+        $classes = glsr(Sanitizer::class)->sanitizeAttrClass(implode(' ', $classes));
+        $dom = new \DOMDocument();
+        libxml_use_internal_errors(true);
+        $dom->loadHTML($html, \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD);
+        $xpath = new \DOMXPath($dom);
+        foreach ($xpath->query('//button[contains(@class, "glsr-button")]') as $button) {
+            $button->setAttribute('class', $classes);
+        }
+        return $dom->saveHTML();
     }
 
     protected function setCheckboxControl(string $key, array $args): void
