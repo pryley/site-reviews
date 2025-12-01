@@ -31,6 +31,7 @@ class PublicController extends AbstractController
             ->normalize($request->cast('atts', 'array'))
             ->buildReviewsHtml();
         $response = [
+            'max_num_pages' => $html->max_num_pages,
             'pagination' => $html->getPagination($wrap = false),
             'reviews' => $html->getReviews(),
         ];

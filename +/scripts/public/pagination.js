@@ -110,10 +110,12 @@ class Pagination {
             return
         }
         button.loaded()
-        this.destroy()
-        this.paginationEl.innerHTML = response.pagination;
+        const page = Number(button.el.dataset.page) + 1;
+        button.el.dataset.page = page;
+        if (response.max_num_pages <= page) {
+            this.paginationEl.innerHTML = '';
+        }
         this.reviewsEl.insertAdjacentHTML('beforeend', response.reviews)
-        this.init()
         GLSR.Event.trigger('site-reviews/pagination/handle', response, this)
     }
 
