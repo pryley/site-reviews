@@ -159,6 +159,10 @@ class Modal {
             this.trigger = event.currentTarget;
         }
         this._insertModal()
+        const triggerRoot = this.trigger.closest('.glsr');
+        if (triggerRoot) {
+            this.root.style.fontSize = getComputedStyle(triggerRoot).fontSize; // fixes font size issues
+        }
         lock(this.dom.content)
         this.config.onOpen(this, event) // triggered before the modal is visible
         GLSR.Event.trigger('site-reviews/modal/open', this, event)
