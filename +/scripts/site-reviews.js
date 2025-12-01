@@ -97,33 +97,25 @@ const initPlugin = () => {
 }
 
 const initReview = () => {
-    let url = new URL(location.href);
-    if (!url.searchParams.has('review_id') || !url.searchParams.has('verified')) return;
-    let keys = ['form', 'review_id', 'theme', 'verified'];
-    let request = {};
-    keys.forEach(key => {
-        if (url.searchParams.has(key)) {
-            request[key] = url.searchParams.get(key);
-        }
-    })
-    GLSR.ajax.post(GLSR.ajax.data('verified-review', request), (response, success) => {
+    const url = new URL(location.href);
+    const params = Object.fromEntries(url.searchParams);
+    if (!params.review_id) return;
+    const action = params.verified ? 'verified' : 'approved';
+    const requestKeys = ['form', 'review_id', 'theme', 'verified'];
+    const request = Object.fromEntries(requestKeys.filter(k => k in params).map(k => [k, params[k]]));
+    requestKeys.forEach(k => url.searchParams.delete(k));
+    history.replaceState({}, '', url);
+    GLSR.ajax.post(GLSR.ajax.data(`${action}-review`, request), (response, success) => {
         if (!success) {
-            console.error({ request, response })
-            return;
+            return console.error({ request, response })
         }
-        GLSR.Modal.open('glsr-modal-verified', {
-            onClose: (Modal) => {
-                keys.forEach(key => url.searchParams.delete(key))
-                history.pushState({}, '', url.href);
-            },
+        GLSR.Modal.open(`glsr-modal-${action}`, {
             onOpen: (Modal) => {
-                const messageEl = dom('p', { style: 'margin:0;padding:0;' });
-                messageEl.innerHTML = response.message;
-                Modal.footer(messageEl.outerHTML)
                 Modal.content(response.review, response.attributes)
-                Modal.dom.content.querySelectorAll('[data-expanded="false"]').forEach(el => {
-                    el.dataset.expanded = 'true';
-                })
+                Modal.dom.content.querySelectorAll('[data-expanded="false"]').forEach(el => el.dataset.expanded = 'true')
+                if (response.message) {
+                    Modal.footer(`<p style="margin:0;padding:0;">${response.message}</p>`);
+                }
             },
         })
     })

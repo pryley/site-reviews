@@ -14,6 +14,23 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 class PublicController extends AbstractController
 {
     /**
+     * @action site-reviews/route/ajax/approved-review
+     */
+    public function approvedReviewAjax(Request $request): void
+    {
+        $reviewId = $request->cast('review_id', 'int');
+        $review = glsr_get_review($reviewId);
+        if (!$review->isValid() || !$review->is_approved) {
+            wp_send_json_error();
+        }
+        $html = $review->build($request->toArray());
+        wp_send_json_success([
+            'attributes' => $html->attributes(),
+            'review' => (string) $html,
+        ]);
+    }
+
+    /**
      * @action wp_enqueue_scripts
      */
     public function enqueueAssets(): void

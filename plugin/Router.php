@@ -237,6 +237,7 @@ class Router implements ControllerContract
     protected function unguardedPublicActions(): array
     {
         return glsr()->filterArray('router/public/unguarded-actions', [
+            'approved-review',
             'fetch-paged-reviews',
             'submit-review',
             'verified-review',
