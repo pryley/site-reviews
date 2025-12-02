@@ -643,7 +643,7 @@ msgctxt "admin-text"
 msgid "Functions"
 msgstr "Functions"
 
-#: helpers.php:102, plugin/Controllers/MenuController.php:175, plugin/Controllers/MenuController.php:199, plugin/Integrations/Breakdance/Transformer.php:141, plugin/Integrations/Bricks/BricksElement.php:99, plugin/Integrations/Flatsome/FlatsomeShortcode.php:23, plugin/Integrations/FusionBuilder/Transformer.php:32, plugin/Integrations/WPBakery/VcShortcode.php:46, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:66, plugin/Integrations/FusionBuilder/Elements/FusionElement.php:17
+#: helpers.php:102, plugin/Controllers/MenuController.php:175, plugin/Controllers/MenuController.php:199, plugin/Integrations/Breakdance/Transformer.php:141, plugin/Integrations/Bricks/BricksElement.php:99, plugin/Integrations/Flatsome/FlatsomeShortcode.php:23, plugin/Integrations/FusionBuilder/Transformer.php:32, plugin/Integrations/WPBakery/VcShortcode.php:46, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:67, plugin/Integrations/FusionBuilder/Elements/FusionElement.php:17
 msgctxt "admin-text"
 msgid "General"
 msgstr "General"
@@ -673,7 +673,7 @@ msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr "Scheduled Actions"
 
-#: helpers.php:109, plugin/Controllers/MenuController.php:178, plugin/Tinymce/SiteReviewsSummaryTinymce.php:69, plugin/Tinymce/SiteReviewsTinymce.php:76, plugin/Integrations/Breakdance/Transformer.php:132, plugin/Integrations/Bricks/Controller.php:37, plugin/Integrations/Flatsome/FlatsomeShortcode.php:24, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:87
+#: helpers.php:109, plugin/Controllers/MenuController.php:178, plugin/Tinymce/SiteReviewsSummaryTinymce.php:69, plugin/Tinymce/SiteReviewsTinymce.php:76, plugin/Integrations/Breakdance/Transformer.php:132, plugin/Integrations/Bricks/Controller.php:37, plugin/Integrations/Flatsome/FlatsomeShortcode.php:24, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:88
 msgctxt "admin-text"
 msgid "Schema"
 msgstr "Schema"
@@ -1825,7 +1825,7 @@ msgctxt "admin-text"
 msgid "Required Fields"
 msgstr "Required Fields"
 
-#: config/settings.php:769, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/GamiPress/Controller.php:134, plugin/Integrations/ProfilePress/RatingField.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:86
+#: config/settings.php:769, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/GamiPress/Controller.php:134, plugin/Integrations/ProfilePress/RatingField.php:24
 msgctxt "admin-text"
 msgid "Rating"
 msgstr "Rating"
@@ -4613,7 +4613,7 @@ msgstr ""
 "Automatically assign reviews to a User ID. You may also enter %s to use the "
 "ID of the logged-in user."
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:34, plugin/Tinymce/SiteReviewsSummaryTinymce.php:81, plugin/Tinymce/SiteReviewsTinymce.php:88, plugin/Tinymce/SiteReviewTinymce.php:22, plugin/Integrations/Breakdance/Transformer.php:131, plugin/Integrations/Bricks/Controller.php:36, plugin/Integrations/Flatsome/FlatsomeShortcode.php:27, plugin/Integrations/FusionBuilder/Transformer.php:43, plugin/Integrations/WPBakery/VcShortcode.php:87, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:86
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:34, plugin/Tinymce/SiteReviewsSummaryTinymce.php:81, plugin/Tinymce/SiteReviewsTinymce.php:88, plugin/Tinymce/SiteReviewTinymce.php:22, plugin/Integrations/Breakdance/Transformer.php:131, plugin/Integrations/Bricks/Controller.php:36, plugin/Integrations/Flatsome/FlatsomeShortcode.php:27, plugin/Integrations/FusionBuilder/Transformer.php:43, plugin/Integrations/WPBakery/VcShortcode.php:87, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:87
 msgctxt "admin-text"
 msgid "Hide"
 msgstr "Hide"
@@ -4713,7 +4713,7 @@ msgctxt "admin-text"
 msgid "The minimum rating to display (default: 1 star)"
 msgstr "The minimum rating to display (default: 1 star)"
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:61, plugin/Integrations/Breakdance/Transformer.php:129, plugin/Integrations/Bricks/Controller.php:35, plugin/Integrations/Flatsome/FlatsomeShortcode.php:25, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:85
+#: plugin/Tinymce/SiteReviewsTinymce.php:61, plugin/Integrations/Breakdance/Transformer.php:129, plugin/Integrations/Bricks/Controller.php:35, plugin/Integrations/Flatsome/FlatsomeShortcode.php:25, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:86
 msgctxt "admin-text"
 msgid "Display"
 msgstr "Display"
@@ -4723,7 +4723,7 @@ msgctxt "admin-text"
 msgid "The number of reviews to display per page (default: 10)"
 msgstr "The number of reviews to display per page (default: 10)"
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:70, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:108
+#: plugin/Tinymce/SiteReviewsTinymce.php:70, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:29
 msgctxt "admin-text"
 msgid "Pagination"
 msgstr "Pagination"
@@ -4964,12 +4964,12 @@ msgctxt "admin-text"
 msgid "Filters"
 msgstr "Filters"
 
-#: plugin/Integrations/Breakdance/Transformer.php:133, plugin/Integrations/Bricks/Controller.php:38, plugin/Integrations/Flatsome/FlatsomeShortcode.php:28, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:68, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:76, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:116, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:88
+#: plugin/Integrations/Breakdance/Transformer.php:133, plugin/Integrations/Bricks/Controller.php:38, plugin/Integrations/Flatsome/FlatsomeShortcode.php:28, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:89
 msgctxt "admin-text"
 msgid "Text"
 msgstr "Text"
 
-#: plugin/Integrations/Breakdance/Transformer.php:142, plugin/Integrations/Bricks/BricksElement.php:103, plugin/Integrations/Flatsome/FlatsomeShortcode.php:29, plugin/Integrations/FusionBuilder/Transformer.php:33, plugin/Integrations/WPBakery/VcShortcode.php:54, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:71
+#: plugin/Integrations/Breakdance/Transformer.php:142, plugin/Integrations/Bricks/BricksElement.php:103, plugin/Integrations/Flatsome/FlatsomeShortcode.php:29, plugin/Integrations/FusionBuilder/Transformer.php:33, plugin/Integrations/WPBakery/VcShortcode.php:54, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:72
 msgctxt "admin-text"
 msgid "Advanced"
 msgstr "Advanced"
@@ -4979,7 +4979,7 @@ msgctxt "admin-text"
 msgid "Select..."
 msgstr "Select..."
 
-#: plugin/Integrations/Bricks/BricksElement.php:107, plugin/Integrations/Flatsome/FlatsomeShortcode.php:22, plugin/Integrations/FusionBuilder/Transformer.php:31, plugin/Integrations/WPBakery/VcShortcode.php:50, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:76, plugin/Integrations/FusionBuilder/Elements/FusionElement.php:16
+#: plugin/Integrations/Bricks/BricksElement.php:107, plugin/Integrations/Flatsome/FlatsomeShortcode.php:22, plugin/Integrations/FusionBuilder/Transformer.php:31, plugin/Integrations/WPBakery/VcShortcode.php:50, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:77, plugin/Integrations/FusionBuilder/Elements/FusionElement.php:16
 msgctxt "admin-text"
 msgid "Design"
 msgstr "Design"
@@ -5123,17 +5123,17 @@ msgctxt "admin-text"
 msgid "getting a review on \"%s\" with a minimum %d-star rating"
 msgstr "getting a review on \"%s\" with a minimum %d-star rating"
 
-#: plugin/Integrations/JetWooBuilder/Controller.php:46, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:45, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:44, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:56
+#: plugin/Integrations/JetWooBuilder/Controller.php:46
 msgctxt "admin-text"
 msgid "Start"
 msgstr "Start"
 
-#: plugin/Integrations/JetWooBuilder/Controller.php:50, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:49, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:48, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:60
+#: plugin/Integrations/JetWooBuilder/Controller.php:50
 msgctxt "admin-text"
 msgid "Center"
 msgstr "Center"
 
-#: plugin/Integrations/JetWooBuilder/Controller.php:54, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:53, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:52, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:64
+#: plugin/Integrations/JetWooBuilder/Controller.php:54
 msgctxt "admin-text"
 msgid "End"
 msgstr "End"
@@ -5834,20 +5834,20 @@ msgstr "Thanks for Updating!"
 #: views/partials/notices/upgraded.php:14
 msgctxt "admin-text"
 msgid ""
-"This is a significant update with a lot of exciting new features, "
-"improvements, and essential bug fixes!"
+"This is a significant update with many new features, improvements, and "
+"essential bug fixes!"
 msgstr ""
-"This is a significant update with a lot of exciting new features, "
-"improvements, and essential bug fixes!"
+"This is a significant update with many new features, improvements, and "
+"essential bug fixes!"
 
 #: views/partials/notices/upgraded.php:17
 msgctxt "admin-text"
 msgid ""
-"If you have performed any customisation using code snippets, please read "
-"the upgrade guide to ensure that everything still works as expected."
+"If you are using any code snippets to customise Site Reviews, please read "
+"the upgrade guide to ensure that everything continues to work as expected."
 msgstr ""
-"If you have performed any customisation using code snippets, please read "
-"the upgrade guide to ensure that everything still works as expected."
+"If you are using any code snippets to customise Site Reviews, please read "
+"the upgrade guide to ensure that everything continues to work as expected."
 
 #: views/partials/notices/welcome.php:5
 msgctxt "admin-text"
@@ -6010,7 +6010,7 @@ msgctxt "admin-text"
 msgid "Text Align"
 msgstr "Text Align"
 
-#: plugin/Integrations/Bricks/Elements/BricksSiteReview.php:29, plugin/Integrations/Bricks/Elements/BricksSiteReviews.php:45, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:63, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:71
+#: plugin/Integrations/Bricks/Elements/BricksSiteReview.php:29, plugin/Integrations/Bricks/Elements/BricksSiteReviews.php:45
 msgctxt "admin-text"
 msgid "Heading"
 msgstr "Heading"
@@ -6029,124 +6029,20 @@ msgstr ""
 "The recommended way to change these values is to use the Site Reviews → "
 "Settings → Strings page."
 
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:27, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:26, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:29, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:26
+#: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:129
 msgctxt "admin-text"
-msgid ""
-"Upgrade to Site Reviews Premium and get a bunch of additional features and "
-"professional support."
-msgstr ""
-"Upgrade to Site Reviews Premium and get a bunch of additional features and "
-"professional support."
+msgid "Upgrade to Site Reviews Premium and get a bunch of additional features."
+msgstr "Upgrade to Site Reviews Premium and get a bunch of additional features."
 
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:29, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:28, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:31, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:28
+#: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:131
 msgctxt "admin-text"
 msgid "Upgrade"
 msgstr "Upgrade"
 
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:30, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:29, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:32, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:29
+#: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:132
 msgctxt "admin-text"
 msgid "Upgrade Now"
 msgstr "Upgrade Now"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:39, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:38, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:50
-msgctxt "admin-text"
-msgid "Alignment"
-msgstr "Alignment"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:74, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:82, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:72, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:103
-msgctxt "admin-text"
-msgid "Star Size"
-msgstr "Star Size"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:82, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:90, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:64, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:94
-msgctxt "admin-text"
-msgid "Star Color"
-msgstr "Star Color"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:63, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:51
-msgctxt "admin-text"
-msgid "Row Gap"
-msgstr "Row Gap"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:42
-msgctxt "admin-text"
-msgid "Column Gap"
-msgstr "Column Gap"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:59
-msgctxt "admin-text"
-msgid "Rating Field"
-msgstr "Rating Field"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:81
-msgctxt "admin-text"
-msgid "Star Spacing"
-msgstr "Star Spacing"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:89
-msgctxt "admin-text"
-msgid "Toggle Field"
-msgstr "Toggle Field"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:94
-msgctxt "admin-text"
-msgid "Toggle Color"
-msgstr "Toggle Color"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:38
-msgctxt "admin-text"
-msgid "Style"
-msgstr "Style"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:41
-msgctxt "admin-text"
-msgid "Style 1"
-msgstr "Style 1"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:42
-msgctxt "admin-text"
-msgid "Style 2"
-msgstr "Style 2"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:43
-msgctxt "admin-text"
-msgid "Style 3"
-msgstr "Style 3"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:45
-msgctxt "admin-text"
-msgid "Default"
-msgstr "Default"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:78
-msgctxt "admin-text"
-msgid "Max Width"
-msgstr "Max Width"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:111, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:122, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:160
-msgctxt "admin-text"
-msgid "Typography"
-msgstr "Typography"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:126
-msgctxt "admin-text"
-msgid "Bars"
-msgstr "Bars"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:134
-msgctxt "admin-text"
-msgid "Color"
-msgstr "Color"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:143
-msgctxt "admin-text"
-msgid "Gap"
-msgstr "Gap"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:152
-msgctxt "admin-text"
-msgid "Percent Bar Height"
-msgstr "Percent Bar Height"
 
 #: plugin/Integrations/Gutenberg/Blocks/Block.php:29
 msgctxt "admin-text"

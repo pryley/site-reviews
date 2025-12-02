@@ -7,6 +7,7 @@ use Elementor\Widget_Base;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Integrations\Elementor\Defaults\ControlDefaults;
 use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
+use GeminiLabs\SiteReviews\License;
 
 abstract class ElementorWidget extends Widget_Base
 {
@@ -95,6 +96,7 @@ abstract class ElementorWidget extends Widget_Base
             array_map(fn ($control) => wp_parse_args($control, ['group' => 'general']), $this->settingsConfig()),
             array_map(fn ($control) => wp_parse_args($control, ['group' => 'design']), $this->styleConfig()),
         );
+        $controls = glsr()->filterArray('elementor/controls', $controls, $this);
         $groups = $this->controlGroups();
         $headings = $this->controlHeadings();
         foreach ($controls as $key => $control) {
@@ -120,11 +122,22 @@ abstract class ElementorWidget extends Widget_Base
         return $groups;
     }
 
+    protected function get_upsale_data(): array
+    {
+        $data = [
+            'condition' => !glsr(License::class)->isPremium(),
+            'description' => esc_html_x('Upgrade to Site Reviews Premium and get a bunch of additional features.', 'admin-text', 'site-reviews'),
+            'image' => glsr()->url('assets/images/premium.svg'),
+            'image_alt' => esc_attr_x('Upgrade', 'admin-text', 'site-reviews'),
+            'upgrade_text' => esc_html_x('Upgrade Now', 'admin-text', 'site-reviews'),
+            'upgrade_url' => glsr_premium_url('site-reviews-premium'),
+        ];
+        return glsr()->filterArray('elementor/upsale_data', $data, $this);
+    }
+
     protected function register_controls(): void
     {
-        $sections = $this->controlSections();
-        $sections = glsr()->filterArray('elementor/register/controls', $sections, $this);
-        foreach ($sections as $sectionId => $args) {
+        foreach ($this->controlSections() as $sectionId => $args) {
             $controls = array_filter($args['controls'] ?? []);
             if (empty($controls)) {
                 continue;

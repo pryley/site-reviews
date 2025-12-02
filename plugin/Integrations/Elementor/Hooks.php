@@ -19,7 +19,6 @@ class Hooks extends IntegrationHooks
             ['filterGeneratedSchema', 'site-reviews/schema/generate'],
             ['filterPublicInlineScript', 'site-reviews/enqueue/public/inline-script/after', 1],
             ['filterStarRatingDefaults', 'site-reviews/defaults/star-rating/defaults'],
-            ['parseElementCss', 'elementor/element/parse_css', 10, 2],
             ['registerAjaxActions', 'elementor/ajax/register_actions'],
             ['registerCategory', 'elementor/elements/categories_registered'],
             ['registerControls', 'elementor/controls/register'],

@@ -53,70 +53,6 @@ class Controller extends AbstractController
     }
 
     /**
-     * Elementor overwrites all selector values in a color control with the
-     * global color variable when a global variable is being used.
-     * 
-     * @param \Elementor\Core\Files\CSS\Post $cssFile
-     * @param \Elementor\Element_Base        $element
-     *
-     * @action elementor/element/parse_css
-     */
-    public function parseElementCss($cssFile, $element): void
-    {
-        $shortcode = $element->get_name();
-        if (!str_starts_with($shortcode, 'site_review')) {
-            return;
-        }
-        $color = $element->get_settings('style_rating_color') ?: ($element->get_settings('__globals__')['style_rating_color'] ?? '');
-        if (empty($color)) {
-            return;
-        }
-        $stylesheet = $cssFile->get_stylesheet();
-        $wrapper = "{$cssFile->get_element_unique_selector($element)} .glsr:not([data-theme])";
-        switch ($shortcode) {
-            case 'site_review':
-            case 'site_reviews':
-                $stylesheet->add_rules(
-                    "{$wrapper} .glsr-star-empty",
-                    'background: var(--glsr-review-star-bg); mask-image: var(--glsr-star-empty); mask-size: 100%;'
-                );
-                $stylesheet->add_rules(
-                    "{$wrapper} .glsr-star-full",
-                    'background: var(--glsr-review-star-bg); mask-image: var(--glsr-star-full); mask-size: 100%;'
-                );
-                $stylesheet->add_rules(
-                    "{$wrapper} .glsr-star-half",
-                    'background: var(--glsr-review-star-bg); mask-image: var(--glsr-star-half); mask-size: 100%;'
-                );
-                break;
-            case 'site_reviews_summary':
-                $stylesheet->add_rules(
-                    "{$wrapper} .glsr-star-empty",
-                    'background: var(--glsr-summary-star-bg); mask-image: var(--glsr-star-empty); mask-size: 100%;'
-                );
-                $stylesheet->add_rules(
-                    "{$wrapper} .glsr-star-full",
-                    'background: var(--glsr-summary-star-bg); mask-image: var(--glsr-star-full); mask-size: 100%;'
-                );
-                $stylesheet->add_rules(
-                    "{$wrapper} .glsr-star-half",
-                    'background: var(--glsr-summary-star-bg); mask-image: var(--glsr-star-half); mask-size: 100%;'
-                );
-                break;
-            case 'site_reviews_form':
-                $stylesheet->add_rules(
-                    "{$wrapper} .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars > span",
-                    'background: var(--glsr-form-star-bg); mask-image: var(--glsr-star-empty); mask-size: 100%;'
-                );
-                $stylesheet->add_rules(
-                    "{$wrapper} .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars > span:is(.gl-active,.gl-selected)",
-                    'mask-image: var(--glsr-star-full);'
-                );
-                break;
-        }
-    }
-
-    /**
      * @see static::registerAjaxActions()
      */
     public function queryAjaxControlOptions($data): array
@@ -191,12 +127,18 @@ class Controller extends AbstractController
      */
     public function registerInlineStyles(): void
     {
-        $iconForm = Svg::encoded('assets/images/icons/elementor/icon-form.svg');
-        $iconReview = Svg::encoded('assets/images/icons/elementor/icon-review.svg');
-        $iconReviews = Svg::encoded('assets/images/icons/elementor/icon-reviews.svg');
-        $iconSummary = Svg::encoded('assets/images/icons/elementor/icon-summary.svg');
-        $css = "
-            [class*=\"eicon-glsr-\"]::before {
+        $icons = [
+            'eicon-glsr-form' => Svg::encoded('assets/images/icons/elementor/icon-form.svg'),
+            'eicon-glsr-review' => Svg::encoded('assets/images/icons/elementor/icon-review.svg'),
+            'eicon-glsr-reviews' => Svg::encoded('assets/images/icons/elementor/icon-reviews.svg'),
+            'eicon-glsr-summary' => Svg::encoded('assets/images/icons/elementor/icon-summary.svg'),
+        ];
+        $maskRules = '';
+        foreach ($icons as $class => $url) {
+            $maskRules .= "i.{$class}::before { mask-image: url(\"{$url}\"); }";
+        }
+        $css = <<<CSS
+            i[class^="eicon-glsr-"]::before {
                 background-color: currentColor;
                 content: '.';
                 display: block;
@@ -204,22 +146,11 @@ class Controller extends AbstractController
                 mask-size: contain;
                 width: 1em;
             }
-            .eicon-glsr-form::before {
-                mask-image: url(\"{$iconForm}\");
-            }
-            .eicon-glsr-review::before {
-                mask-image: url(\"{$iconReview}\");
-            }
-            .eicon-glsr-reviews::before {
-                mask-image: url(\"{$iconReviews}\");
-            }
-            .eicon-glsr-summary::before {
-                mask-image: url(\"{$iconSummary}\");
-            }
-            .elementor-nerd-box-icon[src$=\"assets/images/premium.svg\"] {
+            {$maskRules}
+            .elementor-nerd-box-icon[src$="assets/images/premium.svg"] {
                 width: 240px;
             }
-        ";
+        CSS;
         $css = preg_replace('/\s+/', ' ', $css);
         wp_add_inline_style('elementor-admin', $css);
         wp_add_inline_style('elementor-editor', $css);
