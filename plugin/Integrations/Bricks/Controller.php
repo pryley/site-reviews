@@ -227,6 +227,7 @@ class Controller extends AbstractController
                 pointer-events: none !important;
             }
         CSS;
+        $css = preg_replace('/\s+/', ' ', $css);
         wp_add_inline_style('bricks-builder', $css);
     }
 

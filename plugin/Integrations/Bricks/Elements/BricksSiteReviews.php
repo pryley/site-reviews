@@ -14,7 +14,7 @@ class BricksSiteReviews extends BricksElement
                 'exclude' => ['stretch', 'auto'],
                 'group' => 'design',
                 'inline' => true,
-                'label' => esc_html__('Align', 'bricks'),
+                'label' => esc_html_x('Align', 'admin-text', 'site-reviews'),
                 'rerender' => true,
                 'tab' => 'style',
                 'themeStyle' => true,
