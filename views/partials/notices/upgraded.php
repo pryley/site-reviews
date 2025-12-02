@@ -11,10 +11,10 @@
     ); ?>
 </p>
 <p>
-    <?php echo _x('This is a significant update with a lot of exciting new features, improvements, and essential bug fixes!', 'admin-text', 'site-reviews'); ?>
+    <?php echo _x('This is a significant update with many new features, improvements, and essential bug fixes!', 'admin-text', 'site-reviews'); ?>
 </p>
 <p>
-    <?php echo _x('If you have performed any customisation using code snippets, please read the upgrade guide to ensure that everything still works as expected.', 'admin-text', 'site-reviews'); ?>
+    <?php echo _x('If you are using any code snippets to customise Site Reviews, please read the upgrade guide to ensure that everything continues to work as expected.', 'admin-text', 'site-reviews'); ?>
 </p>
 <p class="glsr-notice-buttons">
     <?php if (glsr()->hasPermission('welcome', 'whatsnew')) { ?>
