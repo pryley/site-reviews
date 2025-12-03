@@ -17,6 +17,7 @@ class Hooks extends IntegrationHooks
         }
         $this->hook(Controller::class, [
             ['filterGeneratedSchema', 'site-reviews/schema/generate'],
+            ['filterModalWrappedBy', 'site-reviews/modal_wrapped_by'],
             ['filterPublicInlineScript', 'site-reviews/enqueue/public/inline-script/after', 1],
             ['filterStarRatingDefaults', 'site-reviews/defaults/star-rating/defaults'],
             ['registerAjaxActions', 'elementor/ajax/register_actions'],

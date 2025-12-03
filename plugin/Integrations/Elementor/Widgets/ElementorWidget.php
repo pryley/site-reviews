@@ -178,7 +178,16 @@ abstract class ElementorWidget extends Widget_Base
         }
         $html = $this->shortcodeInstance()->build($args, 'elementor');
         $html = str_replace('class="glsr-fallback">', 'class="glsr-fallback" style="display:none;">', $html);
-        echo $html;
+        $dom = new \DOMDocument();
+        libxml_use_internal_errors(true);
+        $dom->loadHTML($html, \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD);
+        $xpath = new \DOMXPath($dom);
+        $div = $xpath->query('//div[1]')->item(0);
+        if ($div) {
+            $class = trim(sprintf('glsr-elementor-%s %s', $this->get_id(), $div->getAttribute('class')));
+            $div->setAttribute('class', $class);
+        }
+        echo $dom->saveHTML();
     }
 
     protected function settingsConfig(): array

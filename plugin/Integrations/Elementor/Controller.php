@@ -26,6 +26,15 @@ class Controller extends AbstractController
     }
 
     /**
+     * @filter site-reviews/modal_wrapped_by
+     */
+    public function filterModalWrappedBy(array $builders): array
+    {
+        $builders[] = 'elementor';
+        return $builders;
+    }
+
+    /**
      * Fix Star Rating control when review form is used inside an Elementor Pro Popup.
      *
      * @filter site-reviews/enqueue/public/inline-script/after
