@@ -1,24 +1,15 @@
 @import "minimal";
 
-:--namespace form.glsr-form label.glsr-label {
-    margin-bottom: var(--glsr-gap-xs);
-    width: 100%;
+:root body {
+    --glsr-toggled-bg: var( --e-global-color-accent, currentColor);
 }
-:--namespace form.glsr-form .glsr-label + .glsr-description {
-    margin-bottom: var(--glsr-gap-xs);
+
+:--namespace .e-form__buttons {
+    display: flex;
+}
+:--namespace form.glsr-form .glsr-field-subgroup label {
+    line-height: inherit;
 }
 :--namespace form.glsr-form .glsr-description {
     font-size: var(--glsr-description-text);
-    width: 100%;
-}
-:--namespace form.glsr-review-form .glsr-field {
-    flex-basis: 100%;
-    margin-bottom: 10px;
-}
-:--namespace form.glsr-form .glsr-field-error {
-    width: 100%;
-}
-:--namespace form.glsr-form .glsr-toggle,
-:--namespace form.glsr-form .glsr-toggle label {
-    line-height: var(--glsr-leading);
 }
