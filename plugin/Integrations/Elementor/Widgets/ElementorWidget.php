@@ -47,7 +47,7 @@ abstract class ElementorWidget extends Widget_Base
         $settings = parent::get_settings_for_display();
         $settings['class'] = $settings['shortcode_class']; // because Elementor throws a JS error for these
         $settings['id'] = $settings['shortcode_id']; // because Elementor throws a JS error for these
-        $settings = glsr()->filterArray('elementor/display/settings', $settings, $this);
+        $settings = glsr()->filterArray('elementor/display_settings', $settings, $this);
         if ($settingKey) {
             return Arr::get($settings, $settingKey);
         }
@@ -59,67 +59,66 @@ abstract class ElementorWidget extends Widget_Base
         return $this->shortcodeInstance()->name;
     }
 
-    protected function controlGroups(): array
+    protected function controlGroupsForContent(): array
     {
         return [
-            'general' => [
-                'controls' => [],
-                'label' => _x('General', 'admin-text', 'site-reviews'),
-                'tab' => Controls_Manager::TAB_CONTENT,
-            ],
-            'advanced' => [
-                'controls' => [],
-                'label' => _x('Advanced', 'admin-text', 'site-reviews'),
-                'tab' => Controls_Manager::TAB_CONTENT,
-            ],
-            'design' => [
-                'controls' => [],
-                'label' => _x('Design', 'admin-text', 'site-reviews'),
-                'tab' => Controls_Manager::TAB_STYLE,
-            ],
+            'advanced' => _x('Advanced', 'admin-text', 'site-reviews'),
+            'display' => _x('Display', 'admin-text', 'site-reviews'),
+            'general' => _x('General', 'admin-text', 'site-reviews'),
+            'hide' => _x('Hide', 'admin-text', 'site-reviews'),
+            'schema' => _x('Schema', 'admin-text', 'site-reviews'),
+            'text' => _x('Text', 'admin-text', 'site-reviews'),
         ];
     }
 
-    protected function controlHeadings(): array
+    protected function controlGroupsForStyle(): array
     {
         return [
-            'display' => esc_html_x('Display', 'admin-text', 'site-reviews'),
-            'hide' => esc_html_x('Hide', 'admin-text', 'site-reviews'),
-            'schema' => esc_html_x('Schema', 'admin-text', 'site-reviews'),
-            'text' => esc_html_x('Text', 'admin-text', 'site-reviews'),
+            'design' => _x('Design', 'admin-text', 'site-reviews'),
         ];
     }
 
     protected function controlSections(): array
     {
         $controls = array_merge(
-            array_map(fn ($control) => wp_parse_args($control, ['group' => 'general']), $this->settingsConfig()),
-            array_map(fn ($control) => wp_parse_args($control, ['group' => 'design']), $this->styleConfig()),
+            array_map(
+                fn ($control) => wp_parse_args($control, [
+                    'group' => 'general',
+                    'tab' => Controls_Manager::TAB_CONTENT,
+                ]),
+                $this->settingsConfig()
+            ),
+            array_map(
+                fn ($control) => wp_parse_args($control, [
+                    'group' => 'design',
+                    'tab' => Controls_Manager::TAB_STYLE,
+                ]),
+                $this->styleConfig()
+            ),
         );
+        $groups = [
+            Controls_Manager::TAB_CONTENT => $this->controlGroupsForContent(),
+            Controls_Manager::TAB_STYLE => $this->controlGroupsForStyle(),
+        ];
         $controls = glsr()->filterArray('elementor/controls', $controls, $this);
-        $groups = $this->controlGroups();
-        $headings = $this->controlHeadings();
-        foreach ($controls as $key => $control) {
+        $groupsLabels = glsr()->filterArray('elementor/groups', $groups, $this);
+        $sections = [];
+        foreach ($controls as $name => $control) {
+            $tab = $control['tab'] ?? '';
             $group = $control['group'] ?? '';
-            $heading = $group;
-            if (!array_key_exists($group, $groups)) {
-                $group = 'general';
-            }
-            $control = $this->transformControl($key, $control);
-            if (!array_key_exists($heading, $headings)) {
-                $groups[$group]['controls'][$control['name']] = $control;
+            $section = "section_{$group}";
+            if (!isset($groupsLabels[$tab][$group])) {
                 continue;
             }
-            if (!array_key_exists("separator_{$heading}", $groups[$group]['controls'])) {
-                $groups[$group]['controls']["separator_{$heading}"] = [
-                    'type' => Controls_Manager::HEADING,
-                    'label' => $headings[$heading],
-                    'separator' => 'before',
-                ];
-            }
-            $groups[$group]['controls'][$control['name']] = $control;
+            $sections[$section] ??= [
+                'controls' => [],
+                'label' => $groupsLabels[$tab][$group],
+                'tab' => $tab,
+            ];
+            $transformedControl = $this->transformControl($name, $control);
+            $sections[$section]['controls'][$transformedControl['name']] = $transformedControl;
         }
-        return $groups;
+        return $sections;
     }
 
     protected function get_upsale_data(): array
@@ -154,18 +153,18 @@ abstract class ElementorWidget extends Widget_Base
         $groupTypes = Controls_Manager::get_groups_names();
         foreach ($controls as $controlId => $args) {
             if (!isset($args['type'])) {
-                continue;
+                continue; // controls must have a type
             }
             if (Controls_Manager::SELECT2 === $args['type'] && empty($args['options'])) {
                 continue; // skip select controls with empty options
             }
             if (in_array($args['type'], $groupTypes)) {
                 $this->add_group_control($args['type'], $args);
-                continue;
+                continue; // this is a grouped control
             }
             if ($args['is_responsive'] ?? false) { // for responsive controls
                 $this->add_responsive_control($controlId, $args);
-                continue;
+                continue; // this is a responsive control
             }
             $this->add_control($controlId, $args);
         }
@@ -194,6 +193,7 @@ abstract class ElementorWidget extends Widget_Base
 
     protected function transformControl(string $name, array $args): array
     {
+        unset($args['tab']); // only section controls should have the tab set
         return glsr(ControlDefaults::class)->merge(
             wp_parse_args(compact('name'), $args)
         );

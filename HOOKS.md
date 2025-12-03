@@ -150,7 +150,8 @@
     site-reviews/documentation/shortcode/<shortcode>            (array $paths): array
     site-reviews/documentation/shortcodes                       (array $paths): array
     site-reviews/elementor/controls                             (array $controls, \Elementor\Widget_Base $widget): array
-    site-reviews/elementor/display/settings                     (array $settings, \Elementor\Widget_Base $widget): array
+    site-reviews/elementor/display_settings                     (array $settings, \Elementor\Widget_Base $widget): array
+    site-reviews/elementor/groups                               (array $groups, \Elementor\Widget_Base $widget): array
     site-reviews/elementor/upsale_data                          (array $data, \Elementor\Widget_Base $widget): array
     site-reviews/email/compose                                  (array $email, Modules\Email $mailer): array
     site-reviews/email/headers                                  (array $headers, Modules\Email $mailer): array
