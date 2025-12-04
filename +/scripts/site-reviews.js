@@ -63,6 +63,7 @@ const initModal = () => {
             const appendEl = needsWrapper
                 ? dom('div', {
                     class: triggerRoot.parentElement.className,
+                    id: triggerRoot.parentElement.parentElement.id,
                     style: triggerRoot.parentElement.style.cssText,
                 }, baseEl)
                 : baseEl;

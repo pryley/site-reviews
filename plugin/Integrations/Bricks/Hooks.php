@@ -18,6 +18,7 @@ class Hooks extends IntegrationHooks
         $this->hook(Controller::class, [
             ['filterBuilderI18n', 'bricks/builder/i18n'],
             ['filterControls', 'site-reviews/bricks/element/controls', 50],
+            ['filterModalWrappedBy', 'site-reviews/modal_wrapped_by'],
             ['filterSettingsClass', 'bricks/element/settings', 10, 2],
             ['filterSettingsMultiCheckbox', 'bricks/element/settings', 10, 2],
             ['filterSettingsPrefixedId', 'bricks/element/settings', 10, 2],

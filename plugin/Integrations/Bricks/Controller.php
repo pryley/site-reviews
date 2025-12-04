@@ -61,6 +61,15 @@ class Controller extends AbstractController
     }
 
     /**
+     * @filter site-reviews/modal_wrapped_by
+     */
+    public function filterModalWrappedBy(array $builders): array
+    {
+        $builders[] = 'bricks';
+        return $builders;
+    }
+
+    /**
      * Add style classes.
      *
      * @filter bricks/element/settings

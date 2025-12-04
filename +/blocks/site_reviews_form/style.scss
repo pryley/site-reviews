@@ -1,5 +1,17 @@
-.wp-block-site-reviews-form {
+.wp-block-site-reviews-form { // ensure that the CSS is used
     display: block;
+}
+
+.has-custom-color .glsr:not([data-theme]) {
+    .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars > span {
+        background: var(--glsr-form-star-bg);
+        mask-image: var(--glsr-star-empty);
+        mask-size: 100%;
+    }
+    .glsr-field .glsr-star-rating--stars > span:is(.gl-active, .gl-active.gl-selected) {
+        background: var(--glsr-form-star-bg);
+        mask-image: var(--glsr-star-full);
+    }
 }
 
 .has-text-align-left {
