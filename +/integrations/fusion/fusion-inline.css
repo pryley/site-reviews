@@ -41,3 +41,11 @@ ul[data-element^="site_review"] .fusion-builder-option.info:has(h3) {
         padding-bottom: 0 !important;
     }
 }
+.fusion-builder-module-settings[class*="site_review"] {
+    .fusion-select-tags-wrap {
+        padding-bottom: 0 !important;
+    }
+    .fusion-select-tags-wrap:has(.fusion-select-tags:empty) {
+        display: none;
+    }
+}
