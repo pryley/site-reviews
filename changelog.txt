@@ -52,7 +52,7 @@
 - Removed the `site-reviews/review-form/fields/normalized` filter hook
 - Removed the `site-reviews/summary/counts` filter hook
 - Updated Action Scheduler to v3.9.2
-- Updated the Avada Fusion Builder integration
+- Updated the Avada Builder integration
 - Updated the Elementor integration
 - Updated the FAQ documentation to include a section on how to hide empty review titles
 - Updated the Gutenberg blocks to API v3
@@ -205,7 +205,7 @@
 - 🚨 Requires at least WordPress v6.1
 - 🚨 Moved CSS variables from `:root {}` to `body {}`.
 - Added an example CSV file that can be downloaded on the Import Reviews tool
-- Added [Avada](https://avada.com/) Fusion Builder Elements
+- Added [Avada Builder](https://avada.com/) Elements
 - Added Dashboard widget
 - Added exponential-backoff strategy to API calls
 - Added IP address detection tool settings

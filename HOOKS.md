@@ -171,10 +171,7 @@
     site-reviews/field/element/<field_element_type>             (string $className, Contracts\FieldContract $field): string
     site-reviews/flyoutmenu/enabled                             (bool $bool): bool
     site-reviews/flyoutmenu/items                               (array $items): array
-    site-reviews/fusion-builder/controls/site_review            (array $parameters): array
-    site-reviews/fusion-builder/controls/site_reviews           (array $parameters): array
-    site-reviews/fusion-builder/controls/site_reviews_form      (array $parameters): array
-    site-reviews/fusion-builder/controls/site_reviews_summary   (array $parameters): array
+    site-reviews/fusion-builder/controls                        (array $parameters, Contracts\ShortcodeContract $shortcode): array
     site-reviews/gamipress/posts/post_types                     (array $postTypes): array
     site-reviews/import/review/attachments                      (int $attachmentUrls, Request $request, Review $review, bool $isNewReview): int
     site-reviews/import/reviews/attachments                     (array $result, int $limit, int $offset): array

@@ -32,7 +32,7 @@ https://www.youtube.com/watch?v=H5HdMCXvuq8
 
 - __Actively Developed and Supported__
 - __Assign Reviews__: Reviews can be assigned to Categories, Posts, Pages, Custom Post Types, and Users.
-- __Avada Support__: Use the native Avada Fusion Builder elements in the Fusion Builder.
+- __Avada Support__: Use native Avada Builder elements.
 - __Avatars__: Provided by the WordPress Gravatar service
 - __Backup and Restore__: Export/Import your settings and custom text strings, and use the WordPress Export and Import tools to backup your reviews.
 - __Bayesian Ranking__: Easily sort pages with assigned reviews by rank (using the bayesian algorithm) in your custom WP_Query

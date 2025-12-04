@@ -9,49 +9,52 @@ abstract class FusionElement extends \Fusion_Element
 {
     use IntegrationShortcode;
 
-    public static function elementParameters(array $params): array
+    abstract public function elementIcon(): string;
+
+    public function elementParameters(array $additional = []): array
     {
-        $controls = array_merge($params, static::styleConfig());
-        $groups = [ // order is intentional
-            'design' => esc_html_x('Design', 'admin-text', 'site-reviews'),
-            'general' => esc_html_x('General', 'admin-text', 'site-reviews'),
-        ];
-        $options = [];
-        foreach ($controls as $name => $args) {
-            $transform = new Transformer($name, $args);
-            $control = $transform->control();
-            if ('select' === $control['type'] && empty($control['value'])) {
-                continue;
+        $controls = array_merge(
+            $this->designConfig(),
+            $this->shortcodeInstance()->settings(),
+            $additional
+        );
+        $controls = glsr()->filterArray('fusion-builder/controls', $controls, $this->shortcodeInstance());
+        $params = [];
+        foreach ($controls as $name => $control) {
+            $transformer = new Transformer($name, $control, $this->shortcodeInstance()->tag);
+            if ($transformedControl = $transformer->control()) {
+                $params[$name] = $transformedControl;
             }
-            $control['group'] = $groups[$control['group']] ?? ucfirst($control['group']);
-            $options[$name] = $control;
         }
-        return $options;
+        return $params;
     }
 
     public static function registerElement(): void
     {
-        if (!function_exists('fusion_builder_map')) {
-            return;
-        }
-        if (!function_exists('fusion_builder_frontend_data')) {
-            return;
-        }
-        $instance = glsr(static::shortcodeClass());
-        $parameters = static::elementParameters($instance->settings());
-        $parameters = glsr()->filterArray("fusion-builder/controls/{$instance->tag}", $parameters);
-        fusion_builder_map(fusion_builder_frontend_data(static::class, [
-            'icon' => static::shortcodeIcon(),
-            'name' => $instance->name,
-            'params' => $parameters,
-            'shortcode' => $instance->tag,
-        ]));
+        $instance = new static();
+        add_action('fusion_builder_before_init', function () use ($instance) {
+            if (!function_exists('fusion_builder_map')) {
+                return;
+            }
+            if (!function_exists('fusion_builder_frontend_data')) {
+                return;
+            }
+            fusion_builder_map(fusion_builder_frontend_data(static::class, [
+                'icon' => $instance->elementIcon(),
+                'name' => $instance->shortcodeInstance()->name,
+                'params' => $instance->elementParameters([
+                    'from' => [
+                        'type' => 'hidden',
+                        'value' => 'avada',
+                    ],
+                ]),
+                'shortcode' => $instance->shortcodeInstance()->tag,
+            ]));
+        });
     }
 
-    protected static function designConfig(): array
+    protected function designConfig(): array
     {
         return [];
     }
-
-    abstract protected static function shortcodeIcon(): string;
 }

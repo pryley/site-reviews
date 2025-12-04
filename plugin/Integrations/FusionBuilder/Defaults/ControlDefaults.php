@@ -34,4 +34,19 @@ class ControlDefaults extends DefaultsAbstract
             'type' => 'textfield',
         ];
     }
+
+    /**
+     * Finalize provided values, this always runs last.
+     */
+    protected function finalize(array $values = []): array
+    {
+        $groups = [
+            'advanced' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
+            'design' => esc_html_x('Design', 'admin-text', 'site-reviews'),
+            'general' => esc_html_x('General', 'admin-text', 'site-reviews'),
+        ];
+        $group = $groups[$values['group']] ?? ucfirst($values['group']);
+        $values['group'] = $group;
+        return $values;
+    }
 }

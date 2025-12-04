@@ -5,15 +5,11 @@ namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\ShortcodeOptionManager;
 use GeminiLabs\SiteReviews\Helpers\Svg;
-use GeminiLabs\SiteReviews\Integrations\FusionBuilder\Elements\FusionSiteReview;
-use GeminiLabs\SiteReviews\Integrations\FusionBuilder\Elements\FusionSiteReviews;
-use GeminiLabs\SiteReviews\Integrations\FusionBuilder\Elements\FusionSiteReviewsForm;
-use GeminiLabs\SiteReviews\Integrations\FusionBuilder\Elements\FusionSiteReviewsSummary;
 
 class Controller extends AbstractController
 {
     /**
-     * @action fusion_builder_admin_scripts_hook;
+     * @action fusion_builder_admin_scripts_hook
      * @action fusion_builder_enqueue_live_scripts
      */
     public function enqueueBuilderStyles(): void
@@ -92,14 +88,14 @@ class Controller extends AbstractController
     }
 
     /**
-     * @action fusion_builder_before_init
+     * @action fusion_builder_shortcodes_init
      */
-    public function registerFusionElements(): void
+    public function registerElements(): void
     {
-        FusionSiteReview::registerElement();
-        FusionSiteReviews::registerElement();
-        FusionSiteReviewsForm::registerElement();
-        FusionSiteReviewsSummary::registerElement();
+        Elements\FusionSiteReview::registerElement();
+        Elements\FusionSiteReviews::registerElement();
+        Elements\FusionSiteReviewsForm::registerElement();
+        Elements\FusionSiteReviewsSummary::registerElement();
     }
 
     /**

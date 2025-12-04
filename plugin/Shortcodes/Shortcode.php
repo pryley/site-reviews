@@ -61,7 +61,7 @@ abstract class Shortcode implements ShortcodeContract
         if (empty($template)) {
             return '';
         }
-        $attributes = $this->attributes($this->args, $from);
+        $attributes = $this->attributes($this->args, $this->from);
         $html = glsr(Builder::class)->div($template, $attributes);
         $rendered = sprintf('%s%s', $this->debug, $html);
         if ($isWrapped) {
@@ -91,10 +91,8 @@ abstract class Shortcode implements ShortcodeContract
 
     public function normalize(array $args, string $from = ''): ShortcodeContract
     {
-        if (!empty($from)) {
-            $this->from = $from;
-        }
         $this->args = [];
+        $this->from = ($args['from'] ?? $from) ?: $this->from;
         $args = glsr()->filterArray("shortcode/args/{$this->tag}", $args, $this);
         $args = glsr()->filterArray('shortcode/args', $args, $this);
         $args = $this->defaults()->unguardedRestrict($args);

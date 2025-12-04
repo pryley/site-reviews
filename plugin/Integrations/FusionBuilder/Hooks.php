@@ -22,7 +22,7 @@ class Hooks extends IntegrationHooks
             ['filterPublicInlineScript', 'site-reviews/enqueue/public/inline-script/after'],
             ['filterRegisterWidgets', 'site-reviews/register/widgets'],
             ['onActivated', 'site-reviews/activated'],
-            ['registerFusionElements', 'fusion_builder_before_init'],
+            ['registerElements', 'fusion_builder_shortcodes_init'],
             ['runSearchQuery', 'wp_ajax_glsr_fusion_search_query'],
         ]);
     }
