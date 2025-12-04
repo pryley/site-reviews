@@ -15,9 +15,4 @@ class FusionSiteReview extends FusionElement
     {
         return 'fusion-glsr-review';
     }
-
-    protected static function styleConfig(): array
-    {
-        return [];
-    }
 }

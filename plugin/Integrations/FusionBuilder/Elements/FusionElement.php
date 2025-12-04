@@ -48,10 +48,10 @@ abstract class FusionElement extends \Fusion_Element
         ]));
     }
 
-    abstract protected static function shortcodeIcon(): string;
-
-    protected static function styleConfig(): array
+    protected static function designConfig(): array
     {
         return [];
     }
+
+    abstract protected static function shortcodeIcon(): string;
 }
