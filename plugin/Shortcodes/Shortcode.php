@@ -11,7 +11,6 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
-use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Style;
 
@@ -22,7 +21,6 @@ abstract class Shortcode implements ShortcodeContract
     public string $description;
     public string $from;
     public string $name;
-    public string $preset;
     public string $tag;
 
     public function __construct()
@@ -32,16 +30,18 @@ abstract class Shortcode implements ShortcodeContract
         $this->description = $this->description();
         $this->from = '';
         $this->name = $this->name();
-        $this->preset = '';
         $this->tag = $this->tag();
     }
 
+    /**
+     * The attributes added to the unwrapped rendered root HTML element.
+     */
     public function attributes(array $values, string $from = 'function'): array
     {
         $attributes = $this->defaults()->dataAttributes($values);
         $attributes = wp_parse_args($attributes, [
-            'class' => glsr(Style::class)->styleClasses($values['class'] ?? ''),
-            'data-from' => $from,
+            'class' => $this->classAttr($values['class'] ?? '', isWrapper: false),
+            'data-from' => ($values['from'] ?? '') ?: $from,
             'data-shortcode' => $this->tag,
             'id' => $values['id'] ?? '',
         ]);
@@ -63,9 +63,9 @@ abstract class Shortcode implements ShortcodeContract
         }
         $attributes = $this->attributes($this->args, $this->from);
         $html = glsr(Builder::class)->div($template, $attributes);
-        $rendered = sprintf('%s%s', $this->debug, $html);
+        $rendered = $this->debug.$html;
         if ($isWrapped) {
-            return $this->wrap($rendered);
+            return $this->wrap($rendered, $args); // pass the original $args here
         }
         return $rendered;
     }
@@ -96,7 +96,6 @@ abstract class Shortcode implements ShortcodeContract
         $args = glsr()->filterArray("shortcode/args/{$this->tag}", $args, $this);
         $args = glsr()->filterArray('shortcode/args', $args, $this);
         $args = $this->defaults()->unguardedRestrict($args);
-        $this->preset = $this->stylePreset($args['class']);
         foreach ($args as $key => $value) {
             $method = Helper::buildMethodName('normalize', $key);
             if (method_exists($this, $method)) {
@@ -120,9 +119,6 @@ abstract class Shortcode implements ShortcodeContract
 
     public function register(): void
     {
-        if (!function_exists('add_shortcode')) {
-            return;
-        }
         $shortcode = (new \ReflectionClass($this))->getShortName();
         $shortcode = Str::snakeCase($shortcode);
         $shortcode = str_replace('_shortcode', '', $shortcode);
@@ -144,21 +140,50 @@ abstract class Shortcode implements ShortcodeContract
 
     public function tag(): string
     {
-        return Str::snakeCase(
-            str_replace('Shortcode', '', (new \ReflectionClass($this))->getShortName())
-        );
+        $shortName = (new \ReflectionClass($this))->getShortName();
+        return Str::snakeCase(str_replace('Shortcode', '', $shortName));
     }
 
-    public function wrap(string $renderedHtml, array $attributes = []): string
+    /**
+     * @param array $args The unmodified $args as passed to the build method
+     */
+    public function wrap(string $html, array $args = []): string
     {
-        $classes = [
-            Str::dashCase("{$this->from}-{$this->tag}"),
-            Arr::getAs('string', $attributes, 'class'),
-            $this->preset,
+        $attributes = [
+            'class' => $this->classAttr($args['class'] ?? '', isWrapper: true),
         ];
-        $classAttr = implode(' ', $classes);
-        $attributes['class'] = glsr(Sanitizer::class)->sanitizeAttrClass($classAttr);
-        return glsr(Builder::class)->div($renderedHtml, $attributes);
+        $attributes = glsr()->filterArray('shortcode/wrap/attributes', $attributes, $args, $this);
+        $attributes = array_map('esc_attr', $attributes);
+        return glsr(Builder::class)->div($html, $attributes);
+    }
+
+    protected function classAttr(string $attr, bool $isWrapper = false): string
+    {
+        $prefixes = [
+            'has-custom-',
+            'has-text-align-',
+            'is-custom-',
+            'is-style-',
+            'items-justified-',
+        ];
+        $classes = array_filter(explode(' ', trim($attr)));
+        $rootClasses = [
+            glsr(Style::class)->styleClasses(),
+        ];
+        $wrapClasses = [
+            Str::dashCase("{$this->from}-{$this->tag}"),
+        ];
+        foreach ($classes as $class) {
+            $isPrefixed = !empty(array_filter($prefixes, fn ($p) => str_starts_with($class, $p)));
+            if ($isPrefixed) {
+                $wrapClasses[] = $class;
+                continue;
+            }
+            $rootClasses[] = $class;
+        }
+        return glsr(Sanitizer::class)->sanitizeAttrClass(
+            implode(' ', $isWrapper ? $wrapClasses : $rootClasses)
+        );
     }
 
     /**
@@ -225,8 +250,7 @@ abstract class Shortcode implements ShortcodeContract
 
     protected function normalizeClass(string $value): string
     {
-        $values = $this->parseClassAttr($value)['custom'];
-        return implode(' ', $values);
+        return $this->classAttr($value, isWrapper: false);
     }
 
     /**
@@ -238,43 +262,5 @@ abstract class Shortcode implements ShortcodeContract
         return array_filter(Cast::toArray($value),
             fn ($value) => in_array($value, $hideKeys)
         );
-    }
-
-    protected function parseClassAttr(string $classAttr): array
-    {
-        $prefixes = [
-            'has-custom-',
-            'has-text-align-',
-            'is-custom-',
-            'is-style-',
-            'items-justified-',
-        ];
-        $values = array_filter(explode(' ', trim($classAttr)),
-            fn ($val) => !empty($val)
-        );
-        $custom = [];
-        $styles = [];
-        foreach ($values as $value) {
-            foreach ($prefixes as $prefix) {
-                if (str_starts_with($value, $prefix)) {
-                    $styles[] = $value;
-                    continue 2; // Skip to next value
-                }
-            }
-            $custom[] = $value;
-        }
-        return compact('custom', 'styles');
-    }
-
-    protected function stylePreset(string $classAttr): string
-    {
-        $values = $this->parseClassAttr($classAttr)['styles'];
-        $styles = array_filter($values, fn ($value) => str_starts_with($value, 'is-style-'));
-        $others = array_filter($values, fn ($value) => !str_starts_with($value, 'is-style-'));
-        $merged = array_merge(
-            [array_shift($styles) ?: 'is-style-default'],
-            $others
-        );
-        return implode(' ', $merged);
     }
 }

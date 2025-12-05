@@ -268,6 +268,7 @@
     site-reviews/shortcode/config                               (array $config, Shortcodes\Shortcode $shortcode): array
     site-reviews/shortcode/config/<shortcode>                   (array $config, Shortcodes\Shortcode $shortcode): array
     site-reviews/shortcode/options/<key>                        (array $results, Arguments $args): array
+    site-reviews/shortcode/wrap/attributes                      (array $attributes, Shortcodes\Shortcode $shortcode): array
     site-reviews/slack/fields                                   (array $fields, Review $review): array
     site-reviews/slack/notification                             (array $notification, Modules\Slack $slack): array
     site-reviews/slack/stars                                    (string $stars, int $rating, int $maxRating): string
