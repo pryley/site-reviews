@@ -14,8 +14,8 @@ abstract class FusionElement extends \Fusion_Element
     public function elementParameters(array $additional = []): array
     {
         $controls = array_merge(
-            $this->designConfig(),
-            $this->shortcodeInstance()->settings(),
+            $this->styleConfig(),
+            $this->contentConfig(),
             $additional
         );
         $controls = glsr()->filterArray('fusion-builder/controls', $controls, $this->shortcodeInstance());
@@ -53,7 +53,12 @@ abstract class FusionElement extends \Fusion_Element
         });
     }
 
-    protected function designConfig(): array
+    protected function contentConfig(): array
+    {
+        return $this->shortcodeInstance()->settings();
+    }
+
+    protected function styleConfig(): array
     {
         return [];
     }

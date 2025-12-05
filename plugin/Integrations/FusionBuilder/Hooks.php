@@ -19,6 +19,7 @@ class Hooks extends IntegrationHooks
             ['enqueueBuilderStyles', 'fusion_builder_admin_scripts_hook'],
             ['enqueueBuilderStyles', 'fusion_builder_enqueue_live_scripts'],
             ['filterButtonClass', 'site-reviews/defaults/style-classes/defaults'],
+            ['filterModalWrappedBy', 'site-reviews/modal_wrapped_by'],
             ['filterPublicInlineScript', 'site-reviews/enqueue/public/inline-script/after'],
             ['filterRegisterWidgets', 'site-reviews/register/widgets'],
             ['onActivated', 'site-reviews/activated'],

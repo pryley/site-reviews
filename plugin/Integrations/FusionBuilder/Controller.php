@@ -51,6 +51,15 @@ class Controller extends AbstractController
     }
 
     /**
+     * @filter site-reviews/modal_wrapped_by
+     */
+    public function filterModalWrappedBy(array $builders): array
+    {
+        $builders[] = 'avada';
+        return $builders;
+    }
+
+    /**
      * @filter site-reviews/enqueue/public/inline-script/after
      */
     public function filterPublicInlineScript(string $script): string
