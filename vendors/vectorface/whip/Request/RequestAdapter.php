@@ -12,12 +12,12 @@ interface RequestAdapter
      *
      * @return string|null The remote address. IPv4 or IPv6, as applicable.
      */
-    public function getRemoteAddr(): ?string;
+    public function getRemoteAddr() : ?string;
 
     /**
      * Get a key/value mapping of request headers, keys in lowercase.
      *
      * @return string[] An associative array mapping headers to values.
      */
-    public function getHeaders(): array;
+    public function getHeaders() : array;
 }

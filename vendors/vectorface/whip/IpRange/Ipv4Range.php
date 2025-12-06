@@ -34,7 +34,7 @@ class Ipv4Range implements IpRange
      *
      * @return int The lower value of the IPv4 range.
      */
-    public function getLowerInt(): int
+    public function getLowerInt() : int
     {
         return $this->lowerInt;
     }
@@ -44,7 +44,7 @@ class Ipv4Range implements IpRange
      *
      * @return int The upper value of the IPv4 range.
      */
-    public function getUpperInt(): int
+    public function getUpperInt() : int
     {
         return $this->upperInt;
     }
@@ -56,7 +56,7 @@ class Ipv4Range implements IpRange
      * @return bool Returns true if the IP address falls within the range
      *         and false otherwise.
      */
-    public function containsIp(string $ipAddress): bool
+    public function containsIp(string $ipAddress) : bool
     {
         $ipLong = ip2long($ipAddress);
         return ($this->getLowerInt() <= $ipLong) && ($this->getUpperInt() >= $ipLong);
@@ -68,7 +68,7 @@ class Ipv4Range implements IpRange
      *
      * @param string $range The IPv4 range as a string.
      */
-    private function computeLowerAndUpperBounds(string $range): void
+    private function computeLowerAndUpperBounds(string $range) : void
     {
         // support CIDR notation
         if (str_contains($range, '/')) {
@@ -100,7 +100,7 @@ class Ipv4Range implements IpRange
      * @return array Returns an array with the first element being the lower
      *         bound of the range and second element being the upper bound.
      */
-    private function parseCidrRange(string $range): array
+    private function parseCidrRange(string $range) : array
     {
         [$address, $mask] = explode('/', $range);
         $mask = (int) $mask;

@@ -9,11 +9,8 @@ namespace GeminiLabs\Vectorface\Whip\IpRange;
  */
 class Ipv6Range implements IpRange
 {
-    /**
-     * The size of the IPv6 range mask.
-     * @var string|false
-     */
-    private $mask;
+    /** The size of the IPv6 range mask. */
+    private string|false $mask;
 
     /** The binary substring of the range minus the mask. */
     private string $rangeSubstring;
@@ -37,7 +34,7 @@ class Ipv6Range implements IpRange
      * @return bool Returns true if the IP address falls within the range
      *         and false otherwise.
      */
-    public function containsIp(string $ipAddress): bool
+    public function containsIp(string $ipAddress) : bool
     {
         // if the mask is false this means we have a full IP address as a
         // range so compare against the whole string
@@ -60,11 +57,11 @@ class Ipv6Range implements IpRange
      *
      * @param string $range The IPv6 range as a string.
      */
-    private function extractNetworkAndMaskFromRange(string $range): void
+    private function extractNetworkAndMaskFromRange(string $range) : void
     {
         if (str_contains($range, '/')) {
             // handle the CIDR notation
-            [$network, $this->mask] = explode('/', $range);
+            list($network, $this->mask) = explode('/', $range);
             // store a substring of the binary representation of the range
             // minus the masked part
             $this->rangeSubstring = substr(
@@ -85,7 +82,7 @@ class Ipv6Range implements IpRange
      * @param string $address The IPv6 address in standard notation.
      * @return string Returns the address as a string of bits.
      */
-    private function convertToBinaryString(string $address): string
+    private function convertToBinaryString(string $address) : string
     {
         return implode('', array_map(
             [__CLASS__, 'hexToBinary'],
@@ -98,7 +95,7 @@ class Ipv6Range implements IpRange
      * @param string $hex The hexadecimal character.
      * @return string Returns a 4-digit binary string.
      */
-    private static function hexToBinary(string $hex): string
+    private static function hexToBinary(string $hex) : string
     {
         return str_pad(base_convert($hex, 16, 2), 4, '0', STR_PAD_LEFT);
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package vectorface/whip v0.5.0 (PHP 7.4-compat)
+ * @package vectorface/whip v0.5.0 (removed PSR interfaces)
  */
 namespace GeminiLabs\Vectorface\Whip;
 
@@ -78,9 +78,9 @@ class Whip
      * @param array $whitelists The array of IP ranges to be whitelisted.
      * @param mixed|null $source A supported source of IP data.
      */
-    public function __construct(int $enabled = self::ALL_METHODS, array $whitelists = [], $source = null)
+    public function __construct(int $enabled = self::ALL_METHODS, array $whitelists = [], mixed $source = null)
     {
-        $this->enabled   = (int) $enabled;
+        $this->enabled = $enabled;
         if (isset($source)) {
             $this->setSource($source);
         }
@@ -97,19 +97,19 @@ class Whip
      * @param string $header The custom header to add.
      * @return static
      */
-    public function addCustomHeader(string $header)
+    public function addCustomHeader(string $header) : static
     {
         self::$headers[self::CUSTOM_HEADERS][] = $this->normalizeHeaderName($header);
         return $this;
     }
 
     /**
-     * Sets the source data used to lookup the addresses.
+     * Sets the source data used to look up the addresses.
      *
      * @param mixed $source The source array.
      * @return static
      */
-    public function setSource($source)
+    public function setSource(mixed $source) : static
     {
         $this->source = $this->getRequestAdapter($source);
         return $this;
@@ -124,7 +124,7 @@ class Whip
      * @return string|false Returns the IP address as a string or false if no
      *         IP address could be found.
      */
-    public function getIpAddress($source = null)
+    public function getIpAddress(mixed $source = null) : string|false
     {
         $source = $this->getRequestAdapter($this->coalesceSources($source));
         $remoteAddr = $source->getRemoteAddr();
@@ -156,7 +156,7 @@ class Whip
      * @return string|false Returns the IP address (as a string) of the client or false
      *         if no valid IP address was found.
      */
-    public function getValidIpAddress($source = null)
+    public function getValidIpAddress(mixed $source = null) : string|false
     {
         $ipAddress = $this->getIpAddress($source);
         if (false === $ipAddress || false === @inet_pton($ipAddress)) {
@@ -173,7 +173,7 @@ class Whip
      * @param string $header The original header name.
      * @return string The normalized header name.
      */
-    private function normalizeHeaderName(string $header): string
+    private function normalizeHeaderName(string $header) : string
     {
         if (str_starts_with($header, 'HTTP_')) {
             $header = str_replace('_', '-', substr($header, 5));
@@ -193,7 +193,7 @@ class Whip
      * @return string|false Returns the IP address as a string or false if no IP
      *         IP address was found.
      */
-    private function extractAddressFromHeaders(array $requestHeaders, array $headers)
+    private function extractAddressFromHeaders(array $requestHeaders, array $headers) : string|false
     {
         foreach ($headers as $header) {
             if (!empty($requestHeaders[$header])) {
@@ -216,7 +216,7 @@ class Whip
      *         otherwise. Returns true if the source does not have a whitelist
      *         specified.
      */
-    private function isMethodUsable(string $key, ?string $ipAddress): bool
+    private function isMethodUsable(string $key, ?string $ipAddress) : bool
     {
         if (!($key & $this->enabled)) {
             return false;
@@ -233,7 +233,7 @@ class Whip
      * @param mixed $source A supported source of request data.
      * @return RequestAdapter A RequestAdapter implementation for the given source.
      */
-    private function getRequestAdapter($source): RequestAdapter
+    private function getRequestAdapter(mixed $source): RequestAdapter
     {
         if ($source instanceof RequestAdapter) {
             return $source;
@@ -250,7 +250,7 @@ class Whip
      * @param mixed|null $source A source data argument, if available.
      * @return mixed The best available source, after fallbacks.
      */
-    private function coalesceSources($source = null)
+    private function coalesceSources(mixed $source = null) : mixed
     {
         if (isset($source)) {
             return $source;

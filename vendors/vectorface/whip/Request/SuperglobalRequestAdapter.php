@@ -31,12 +31,12 @@ class SuperglobalRequestAdapter implements RequestAdapter
         $this->server = $server;
     }
 
-    public function getRemoteAddr(): ?string
+    public function getRemoteAddr() : ?string
     {
         return $this->server['REMOTE_ADDR'] ?? null;
     }
 
-    public function getHeaders(): array
+    public function getHeaders() : array
     {
         return $this->headers ??= $this->serverToHeaders($this->server);
     }
@@ -48,7 +48,7 @@ class SuperglobalRequestAdapter implements RequestAdapter
      * @param string[] $server The $_SERVER-style array.
      * @return string[] Array of headers with lowercased keys.
      */
-    private static function serverToHeaders(array $server): array
+    private static function serverToHeaders(array $server) : array
     {
         $headers = [];
         foreach ($server as $key => $value) {
