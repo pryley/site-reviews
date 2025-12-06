@@ -7,21 +7,21 @@ defined('ABSPATH') || exit;
  *
  * @see https://github.com/symfony/polyfill-ctype
  */
-require_once __DIR__.'/vendors/symfony/polyfill-ctype/bootstrap.php';
+require_once __DIR__.'/vendors/symfony/polyfill-ctype/bootstrap80.php';
 
 /**
  * Provides a partial, native PHP implementation for the Iconv extension.
  *
  * @see https://github.com/symfony/polyfill-iconv
  */
-require_once __DIR__.'/vendors/symfony/polyfill-iconv/bootstrap.php';
+require_once __DIR__.'/vendors/symfony/polyfill-iconv/bootstrap80.php';
 
 /**
  * Provides a partial, native PHP implementation for the Mbstring extension.
  *
  * @see https://github.com/symfony/polyfill-mbstring
  */
-require_once __DIR__.'/vendors/symfony/polyfill-mbstring/bootstrap.php';
+require_once __DIR__.'/vendors/symfony/polyfill-mbstring/bootstrap80.php';
 
 /**
  * Load the Action Scheduler library.

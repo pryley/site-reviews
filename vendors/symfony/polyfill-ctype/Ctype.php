@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  * 
- * @package symfony/polyfill-ctype v1.28.0
+ * @package symfony/polyfill-ctype v1.33.0
  */
 
 namespace GeminiLabs\Symfony\Polyfill\Ctype;
@@ -232,3 +232,4 @@ final class Ctype
         return \chr($int);
     }
 }
+
