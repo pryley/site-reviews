@@ -95,7 +95,7 @@ class Transformer
             }
             return $control;
         }
-        return []; // this is an invalid select control
+        return []; // invalid select control
     }
 
     protected function transformText(array $control): array

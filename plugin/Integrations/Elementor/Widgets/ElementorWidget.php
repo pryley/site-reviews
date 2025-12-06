@@ -182,10 +182,10 @@ abstract class ElementorWidget extends Widget_Base
         libxml_use_internal_errors(true);
         $dom->loadHTML($html, \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD);
         $xpath = new \DOMXPath($dom);
-        $div = $xpath->query('//div[1]')->item(0);
-        if ($div) {
-            $class = trim(sprintf('glsr-elementor-%s %s', $this->get_id(), $div->getAttribute('class')));
-            $div->setAttribute('class', $class);
+        $node = $xpath->query('//div[1]')->item(0);
+        if ($node instanceof \DOMElement) {
+            $class = trim(sprintf('glsr-elementor-%s %s', $this->get_id(), $node->getAttribute('class')));
+            $node->setAttribute('class', $class);
         }
         echo $dom->saveHTML();
     }

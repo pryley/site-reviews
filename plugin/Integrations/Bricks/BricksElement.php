@@ -162,8 +162,11 @@ abstract class BricksElement extends \Bricks\Element
         libxml_use_internal_errors(true);
         $dom->loadHTML($html, \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD);
         $xpath = new \DOMXPath($dom);
-        foreach ($xpath->query('//button[contains(@class, "glsr-button")]') as $button) {
-            $button->setAttribute('class', $classes);
+        $nodes = $xpath->query('//button[contains(@class, "glsr-button")]');
+        foreach ($nodes as $node) {
+            if ($node instanceof \DOMElement) {
+                $node->setAttribute('class', $classes);
+            }
         }
         return $dom->saveHTML();
     }
