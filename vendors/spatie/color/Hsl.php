@@ -26,9 +26,15 @@ class Hsl implements Color
         Validate::hslColorString($string);
 
         $matches = null;
-        preg_match('/hsl\( *(-?\d{1,3}) *, *(\d{1,3})%? *, *(\d{1,3})%? *\)/i', $string, $matches);
 
-        return new static($matches[1], $matches[2], $matches[3]);
+
+        preg_match(HsPatterns::getExtractionPattern('hsl'), $string, $matches);
+
+        return new static(
+            (float) $matches[1],
+            (float) $matches[2],
+            (float) $matches[3],
+        );
     }
 
     public function hue(): float
@@ -71,14 +77,9 @@ class Hsl implements Color
         return $this->toRgb()->toCmyk();
     }
 
-    public function toHex(string $alpha = 'ff'): Hex
+    public function toHex(?string $alpha = null): Hex
     {
-        return new Hex(
-            Convert::rgbChannelToHexChannel($this->red()),
-            Convert::rgbChannelToHexChannel($this->green()),
-            Convert::rgbChannelToHexChannel($this->blue()),
-            $alpha
-        );
+        return $this->toRgb()->toHex($alpha ?? 'ff');
     }
 
     public function toHsb(): Hsb
@@ -91,9 +92,9 @@ class Hsl implements Color
         return new self($this->hue(), $this->saturation(), $this->lightness());
     }
 
-    public function toHsla(float $alpha = 1): Hsla
+    public function toHsla(?float $alpha = null): Hsla
     {
-        return new Hsla($this->hue(), $this->saturation(), $this->lightness(), $alpha);
+        return new Hsla($this->hue(), $this->saturation(), $this->lightness(), $alpha ?? 1);
     }
 
     public function toRgb(): Rgb
@@ -101,9 +102,9 @@ class Hsl implements Color
         return new Rgb($this->red(), $this->green(), $this->blue());
     }
 
-    public function toRgba(float $alpha = 1): Rgba
+    public function toRgba(?float $alpha = null): Rgba
     {
-        return new Rgba($this->red(), $this->green(), $this->blue(), $alpha);
+        return new Rgba($this->red(), $this->green(), $this->blue(), $alpha ?? 1);
     }
 
     public function toXyz(): Xyz

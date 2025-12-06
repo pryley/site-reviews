@@ -70,7 +70,7 @@ class InvalidColorValue extends Exception
 
     public static function malformedHslaColorString(string $string): self
     {
-        return new static("Hsla color string `{$string}` is malformed. An hsla color contains hue, saturation, lightness and alpha values, wrapped in `hsl()`, e.g. `hsl(300,10%,50%,0.25)`.");
+        return new static("Hsla color string `{$string}` is malformed. An hsla color contains hue, saturation, lightness and alpha values, wrapped in `hsla()`, e.g. `hsla(300,10%,50%,0.25)`.");
     }
 
     public static function malformedRgbColorString(string $string): self
@@ -96,5 +96,10 @@ class InvalidColorValue extends Exception
     public static function xyzValueNotInRange(float $value, string $name, float $min, float $max): self
     {
         return new static("Xyz value `{$name}` must be a number between $min and $max");
+    }
+
+    public static function malformedNamedColorString(string $string): self
+    {
+        return new static("Color string `{$string}` doesn't match any of the available colors.");
     }
 }
