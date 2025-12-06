@@ -1,7 +1,7 @@
 <?php // phpcs:ignoreFile
 
 /**
- * @package qcubed/i18n dev-master f73451a
+ * @see https://github.com/qcubed/i18n/tree/master/src/Sepia
  */
 namespace GeminiLabs\Sepia\PoParser;
 
