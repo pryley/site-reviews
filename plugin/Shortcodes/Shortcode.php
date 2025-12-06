@@ -70,11 +70,21 @@ abstract class Shortcode implements ShortcodeContract
         return $rendered;
     }
 
+    public function buildCallback(array $args = []): string
+    {
+        $this->enqueue();
+        return $this->build($args);
+    }
+
     public function defaults(): DefaultsAbstract
     {
         $classname = str_replace('Shortcodes\\', 'Defaults\\', get_class($this));
         $classname = str_replace('Shortcode', 'Defaults', $classname);
         return glsr($classname);
+    }
+
+    public function enqueue(): void
+    {
     }
 
     public function hasVisibleFields(array $args = []): bool
@@ -122,7 +132,7 @@ abstract class Shortcode implements ShortcodeContract
         $shortcode = (new \ReflectionClass($this))->getShortName();
         $shortcode = Str::snakeCase($shortcode);
         $shortcode = str_replace('_shortcode', '', $shortcode);
-        add_shortcode($shortcode, fn ($atts) => $this->build($atts));
+        add_shortcode($shortcode, [$this, 'buildCallback']);
         glsr()->alias($shortcode, fn () => glsr(get_class($this)));
         glsr()->append('shortcodes', get_class($this), $shortcode);
     }

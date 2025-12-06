@@ -24,6 +24,11 @@ class SiteReviewsFormShortcode extends Shortcode
         return esc_html_x('Display a review form', 'admin-text', 'site-reviews');
     }
 
+    public function enqueue(): void
+    {
+        wp_enqueue_style('site-reviews-form-style');
+    }
+
     /**
      * @param string $url
      * @param string $redirect

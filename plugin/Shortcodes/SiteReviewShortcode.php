@@ -29,6 +29,11 @@ class SiteReviewShortcode extends Shortcode
         return esc_html_x('Display a single review', 'admin-text', 'site-reviews');
     }
 
+    public function enqueue(): void
+    {
+        wp_enqueue_style('site-reviews-review-style');
+    }
+
     public function name(): string
     {
         return esc_html_x('Single Review', 'admin-text', 'site-reviews');

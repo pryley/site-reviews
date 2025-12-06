@@ -32,6 +32,11 @@ class SiteReviewsShortcode extends Shortcode
         return esc_html_x('Display your reviews', 'admin-text', 'site-reviews');
     }
 
+    public function enqueue(): void
+    {
+        wp_enqueue_style('site-reviews-reviews-style');
+    }
+
     public function generateSchema(Reviews $reviews): void
     {
         if (Cast::toBool($this->args['schema'])) {

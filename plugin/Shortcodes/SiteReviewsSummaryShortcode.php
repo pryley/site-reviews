@@ -42,6 +42,11 @@ class SiteReviewsSummaryShortcode extends Shortcode
         return esc_html_x('Display a rating summary', 'admin-text', 'site-reviews');
     }
 
+    public function enqueue(): void
+    {
+        wp_enqueue_style('site-reviews-summary-style');
+    }
+
     public function name(): string
     {
         return esc_html_x('Rating Summary', 'admin-text', 'site-reviews');
