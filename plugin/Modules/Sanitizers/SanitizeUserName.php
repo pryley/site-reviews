@@ -64,12 +64,15 @@ class SanitizeUserName extends StringSanitizer
      */
     protected function userValue($user): string
     {
-        if (!$user instanceof \WP_User) {
+        if (!is_object($user)) {
             return Cast::toString($user);
         }
-        if (!$user->exists()) {
+        if ($user instanceof \WP_User && !$user->exists()) {
             return '';
         }
-        return $user->display_name ?: $user->user_nicename ?: $user->user_login;
+        $displayName = $user->display_name ?? '';
+        $userNicename = $user->user_nicename ?? '';
+        $userLogin = $user->user_login ?? '';
+        return $displayName ?: $userNicename ?: $userLogin;
     }
 }
