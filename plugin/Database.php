@@ -292,7 +292,7 @@ class Database
     public function users(array $args = []): array
     {
         $args = wp_parse_args($args, [
-            'fields' => ['ID', 'display_name', 'user_nicename'],
+            'fields' => ['ID', 'display_name', 'user_login', 'user_nicename'],
             'number' => 50, // only get the first 50 users!
             'orderby' => 'display_name',
             'search' => '',
