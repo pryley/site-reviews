@@ -48,7 +48,6 @@ spl_autoload_register(function ($className) {
         'GeminiLabs\Laravel\SerializableClosure\\' => __DIR__.'/vendors/laravel/serializable-closure/',
         'GeminiLabs\League\Csv\\' => __DIR__.'/vendors/thephpleague/csv/',
         'GeminiLabs\Sepia\PoParser\\' => __DIR__.'/vendors/sepia/po-parser/',
-        'GeminiLabs\Sinergi\BrowserDetector\\' => __DIR__.'/vendors/sinergi/browser-detector/',
         'GeminiLabs\Spatie\Color\\' => __DIR__.'/vendors/spatie/color/',
         'GeminiLabs\Symfony\Component\Process\\' => __DIR__.'/vendors/symfony/process/',
         'GeminiLabs\Symfony\Polyfill\Ctype\\' => __DIR__.'/vendors/symfony/polyfill-ctype/',

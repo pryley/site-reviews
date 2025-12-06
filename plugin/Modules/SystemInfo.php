@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use GeminiLabs\Sinergi\BrowserDetector\Browser;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Query;
@@ -34,7 +33,6 @@ class SystemInfo
             'plugin',
             'addon',
             'reviews',
-            'browser',
             'database',
             'action-scheduler',
             'server',
@@ -113,21 +111,6 @@ class SystemInfo
         return [
             'title' => 'Addon Details',
             'values' => $details,
-        ];
-    }
-
-    public function getBrowser(): array
-    {
-        $browser = new Browser();
-        $name = esc_attr($browser->getName());
-        $userAgent = esc_attr($browser->getUserAgent()->getUserAgentString());
-        $version = esc_attr($browser->getVersion());
-        return [
-            'title' => 'Browser Details',
-            'values' => [
-                'Browser Name' => sprintf('%s %s', $name, $version),
-                'Browser UA' => $userAgent,
-            ],
         ];
     }
 
