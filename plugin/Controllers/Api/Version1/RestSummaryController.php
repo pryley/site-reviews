@@ -46,10 +46,9 @@ class RestSummaryController extends \WP_REST_Controller
             $ratings->reviews,
             $args
         );
-        return rest_ensure_response([
-            ...compact('args', 'rendered'),
-            ...$ratings->toArray(),
-        ]);
+        return rest_ensure_response(
+            array_merge(compact('args', 'rendered'), $ratings->toArray())
+        );
     }
 
     /**
