@@ -1,8 +1,8 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Flatsome;
+namespace GeminiLabs\SiteReviews\Integrations\Flatsome\Shortcodes;
 
-use GeminiLabs\SiteReviews\Integrations\Flatsome\Defaults\ControlDefaults;
+use GeminiLabs\SiteReviews\Integrations\Flatsome\Transformer;
 use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
 
 abstract class FlatsomeShortcode
@@ -18,8 +18,8 @@ abstract class FlatsomeShortcode
             $this->styleConfig(),
             $this->globalConfig(),
         );
+        $controls = glsr()->filterArray('flatsome/controls', $controls, $this->shortcodeInstance());
         $groups = [ // order is intentional
-            'design' => esc_html_x('Design', 'admin-text', 'site-reviews'),
             'general' => esc_html_x('General', 'admin-text', 'site-reviews'),
             'schema' => esc_html_x('Schema', 'admin-text', 'site-reviews'),
             'display' => esc_html_x('Display', 'admin-text', 'site-reviews'),
@@ -27,28 +27,31 @@ abstract class FlatsomeShortcode
             'hide' => esc_html_x('Hide', 'admin-text', 'site-reviews'),
             'text' => esc_html_x('Text', 'admin-text', 'site-reviews'),
             'advanced' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
+            'design' => esc_html_x('Design', 'admin-text', 'site-reviews'),
         ];
-        $options = [];
+        $groupedcontrols = [];
         foreach ($controls as $name => $args) {
-            $control = $this->transformControl($name, $args);
-            $group = $control['group'] ?? 'general';
-            $groupHeading = $groups[$group] ?? ucfirst($group);
-            if ('select' === $control['type'] && isset($control['options']) && empty($control['options'])) {
+            $transformer = new Transformer($name, $args, $this->shortcodeInstance()->tag);
+            $control = $transformer->control();
+            if (empty($control)) {
                 continue;
             }
-            if (!array_key_exists($group, $options)) {
-                $options[$group] = [
+            $group = $control['group'];
+            $groupHeading = $groups[$group] ?? ucfirst($group);
+            if (!array_key_exists($group, $groupedcontrols)) {
+                $groupedcontrols[$group] = [
                     'collapsed' => true,
                     'heading' => $groupHeading,
                     'options' => [],
                     'type' => 'group',
                 ];
             }
-            $options[$group]['options'][$control['name']] = $control;
+            $groupedcontrols[$group]['options'][$control['name']] = $control;
         }
-        $keyOrder = array_keys($groups); // order results by $groups order
-        uksort($options, fn ($a, $b) => array_search($a, $keyOrder) <=> array_search($b, $keyOrder));
-        return $options;
+        return array_combine( // we need to prefix the group names in order to target them with CSS
+            array_map(fn ($k) => glsr()->prefix.$k, array_keys($groupedcontrols)),
+            $groupedcontrols
+        );
     }
 
     /**
@@ -61,10 +64,13 @@ abstract class FlatsomeShortcode
             if (!function_exists('add_ux_builder_shortcode')) {
                 return;
             }
-            add_ux_builder_shortcode($this->shortcodeInstance()->tag, [
+            $shortcode = $this->shortcodeInstance()->tag;
+            add_ux_builder_shortcode($shortcode, [
                 'category' => glsr()->name,
                 'name' => $this->shortcodeInstance()->name,
                 'options' => $this->options(),
+                'scripts' => $this->scripts(),
+                'styles' => $this->styles(),
                 'thumbnail' => $this->icon(),
                 'wrap' => false,
             ]);
@@ -73,23 +79,38 @@ abstract class FlatsomeShortcode
 
     /**
      * Disabled visibility for now because Flatsome is simply a fancy shortcode
-     * wrapper and it doesn't look possible to intercept the shortcode render
-     * as from Flatsome.
+     * wrapper and it doesn't seem possible to intercept the shortcode rendering
+     * from Flatsome.
      */
     protected function globalConfig(): array
     {
-        $global = [];
+        return [];
+        // $global = [];
         // $visibility = get_template_directory().'/inc/builder/shortcodes/commons/visibility.php';
         // if (file_exists($visibility)) {
         //     $global['visibility'] = require $visibility;
         //     $global['visibility']['group'] = 'advanced';
         // }
-        return $global;
+        // return $global;
+    }
+
+    protected function scripts(): array
+    {
+        return [];
     }
 
     protected function settingsConfig(): array
     {
-        return $this->shortcodeInstance()->settings();
+        $hidden = [
+            'from' => [ // used to set the "from" attribute
+                'type' => 'textfield',
+                'default' => 'flatsome',
+                'group' => 'hidden',
+                'save_when_default' => true,
+                'value' => 'flatsome',
+            ],
+        ];
+        return array_merge($hidden, $this->shortcodeInstance()->settings());
     }
 
     protected function styleConfig(): array
@@ -97,14 +118,8 @@ abstract class FlatsomeShortcode
         return [];
     }
 
-    protected function transformControl(string $name, array $args): array
+    protected function styles(): array
     {
-        $control = glsr(ControlDefaults::class)->merge(
-            wp_parse_args(compact('name'), $args)
-        );
-        if ('hide' === $name) {
-            $control['description'] = esc_html_x('Flatsome does not support multiple checkboxes here so use the dropdown to select fields that you want to hide.', 'admin-text', 'site-reviews');
-        }
-        return $control;
+        return [];
     }
 }

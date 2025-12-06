@@ -16,6 +16,7 @@ class Hooks extends IntegrationHooks
             return;
         }
         $this->hook(Controller::class, [
+            ['filterModalWrappedBy', 'site-reviews/modal_wrapped_by'],
             ['interceptGetPostsQuery', 'wp_ajax_ux_builder_get_posts', 1],
             ['interceptSearchPostsQuery', 'wp_ajax_ux_builder_search_posts', 1],
             ['printInlineScripts', 'ux_builder_enqueue_scripts'],
@@ -31,7 +32,7 @@ class Hooks extends IntegrationHooks
 
     protected function supportedVersion(): string
     {
-        return '3.19.0';
+        return '3.20.0';
     }
 
     protected function version(): string

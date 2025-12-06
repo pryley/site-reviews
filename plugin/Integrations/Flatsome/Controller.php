@@ -10,6 +10,15 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 class Controller extends AbstractController
 {
     /**
+     * @filter site-reviews/modal_wrapped_by
+     */
+    public function filterModalWrappedBy(array $builders): array
+    {
+        $builders[] = 'flatsome';
+        return $builders;
+    }
+
+    /**
      * @action wp_ajax_ux_builder_get_posts:1
      */
     public function interceptGetPostsQuery(): void
@@ -85,9 +94,9 @@ class Controller extends AbstractController
      */
     public function registerShortcodes(): void
     {
-        glsr(FlatsomeSiteReview::class)->register();
-        glsr(FlatsomeSiteReviews::class)->register();
-        glsr(FlatsomeSiteReviewsForm::class)->register();
-        glsr(FlatsomeSiteReviewsSummary::class)->register();
+        glsr(Shortcodes\FlatsomeSiteReview::class)->register();
+        glsr(Shortcodes\FlatsomeSiteReviews::class)->register();
+        glsr(Shortcodes\FlatsomeSiteReviewsForm::class)->register();
+        glsr(Shortcodes\FlatsomeSiteReviewsSummary::class)->register();
     }
 }
