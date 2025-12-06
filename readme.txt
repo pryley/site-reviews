@@ -262,7 +262,7 @@ Site Reviews has a fresh coat of paint!
 - Improved MIME type detection
 - Removed the `site-reviews/review-form/fields/normalized` filter hook
 - Removed the `site-reviews/summary/counts` filter hook
-- Updated Action Scheduler to v3.9.2
+- Updated Action Scheduler to v3.9.3
 - Updated the Avada Fusion Builder integration
 - Updated the Elementor integration
 - Updated the FAQ documentation to include a section on how to hide empty review titles

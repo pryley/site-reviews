@@ -56,7 +56,7 @@
 
         <h4>📦 Updated</h4>
         <ul>
-            <li>Updated Action Scheduler to v3.9.2</li>
+            <li>Updated Action Scheduler to v3.9.3</li>
             <li>Updated the Avada Fusion Builder integration</li>
             <li>Updated the Elementor integration</li>
             <li>Updated the Gutenberg blocks to API v3</li>
