@@ -48,7 +48,7 @@ class Queue implements QueueContract
                 continue;
             }
             $counts[$result->status] = [
-                'count' => $result->count,
+                'count' => (int) $result->count,
                 'latest' => $this->actionStatusDate($result->status, false),
                 'oldest' => $this->actionStatusDate($result->status, true),
             ];
@@ -205,7 +205,7 @@ class Queue implements QueueContract
             $datetime = \ActionScheduler_Store::instance()->get_date($action[0]);
             $date = $datetime->format($format); // 'Y-m-d H:i:s O'
         } else {
-            $date = '&ndash;';
+            $date = 'unknown';
         }
         return $date;
     }

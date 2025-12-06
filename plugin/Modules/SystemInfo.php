@@ -11,7 +11,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
-class SystemInfo
+class SystemInfo implements \Stringable
 {
     public const PAD = 40;
 
@@ -29,213 +29,175 @@ class SystemInfo
 
     public function get(): string
     {
-        $keys = [ // order is intentional
-            'plugin',
-            'addon',
-            'reviews',
-            'database',
-            'action-scheduler',
-            'server',
-            'wordpress',
-            'drop-ins',
-            'mu-plugins',
-            'active-plugins',
-            'inactive-plugins',
-            'settings',
+        $sections = [ // order is intentional
+            'plugin' => 'Plugin',
+            'addon' => 'Addon',
+            'reviews' => 'Reviews',
+            'action-scheduler' => 'Action Scheduler',
+            'database' => 'Database',
+            'server' => 'Server',
+            'wordpress' => 'WordPress',
+            'drop-ins' => 'Drop-ins',
+            'mu-plugins' => 'Must-Use Plugins',
+            'active-plugins' => 'Active Plugins',
+            'inactive-plugins' => 'Inactive Plugins',
+            'settings' => 'Plugin Settings',
         ];
-        return trim(array_reduce($keys, function ($carry, $key) {
-            $method = Helper::buildMethodName('get', $key);
+        $results = [];
+        foreach ($sections as $sectionKey => $sectionTitle) {
+            $method = Helper::buildMethodName('section', $sectionKey);
             if (!method_exists($this, $method)) {
-                return $carry;
+                continue;
             }
-            $details = call_user_func([$this, $method]);
-            if (empty(Arr::get($details, 'values'))) {
-                return $carry;
+            $values = call_user_func([$this, $method]);
+            $values = glsr()->filterArray("system-info/section/{$sectionKey}", $values, $this->data);
+            if (empty($values)) {
+                continue;
             }
-            $section = Str::dashCase($key);
-            $title = strtoupper(Arr::get($details, 'title'));
-            $values = Arr::get($details, 'values');
-            $values = glsr()->filterArray("system-info/section/{$section}", $values, $this->data);
-            return $carry.$this->implode($title, $values);
-        }));
+            $results[] = $this->implode($sectionTitle, $values);
+        }
+        return implode('', $results);
     }
 
-    public function getActionScheduler(): array
+    public function sectionActionScheduler(): array
     {
         $counts = glsr(Queue::class)->actionCounts();
-        $counts = shortcode_atts(array_fill_keys(['complete', 'pending', 'failed'], []), $counts);
-        $values = [];
-        foreach ($counts as $key => $value) {
-            $label = sprintf('Actions (%s)', $key);
-            $value = wp_parse_args($value, array_fill_keys(['count', 'latest', 'oldest'], 0));
-            if ($value['count'] > 1) {
-                $values[$label] = sprintf('%s (latest: %s, oldest: %s)',
-                    $value['count'],
-                    $value['latest'],
-                    $value['oldest']
-                );
-            } elseif (!empty($value['latest'])) {
-                $values[$label] = sprintf('%s (latest: %s)',
-                    $value['count'],
-                    $value['latest']
-                );
-            } else {
-                $values[$label] = $value['count'];
+        $counts = shortcode_atts(['complete' => [], 'pending' => [], 'failed' => []], $counts);
+        $result = [];
+        foreach ($counts as $status => $data) {
+            $data = wp_parse_args($data, ['count' => 0, 'latest' => '', 'oldest' => '']);
+            $label = "Actions ({$status})";
+            if (0 === $data['count']) {
+                $result[$label] = $data['count'];
+                continue;
             }
+            if (1 === $data['count']) {
+                $result[$label] = sprintf('%s (latest: %s)', $data['count'], $data['latest']);
+                continue;
+            }
+            $result[$label] = sprintf('%s (latest: %s, oldest: %s)',
+                $data['count'],
+                $data['latest'],
+                $data['oldest']
+            );
         }
-        $values['Data Store'] = get_class(\ActionScheduler_Store::instance());
-        $values['Version'] = \ActionScheduler_Versions::instance()->latest_version();
-        return [
-            'title' => 'Action Scheduler',
-            'values' => $values,
-        ];
+        $result['Data Store'] = get_class(\ActionScheduler_Store::instance());
+        $result['Version'] = \ActionScheduler_Versions::instance()->latest_version();
+        return $result;
     }
 
-    public function getActivePlugins(): array
+    public function sectionActivePlugins(): array
     {
-        return [
-            'title' => 'Active Plugins',
-            'values' => $this->plugins($this->group('wp-plugins-active')),
-        ];
+        return $this->plugins($this->group('wp-plugins-active'));
     }
 
-    public function getAddon(): array
+    public function sectionAddons(): array
     {
         $details = [];
-        foreach (glsr()->retrieveAs('array', 'addons') as $id => $version) {
-            if ($addon = glsr($id)) {
+        foreach (array_keys(glsr()->retrieveAs('array', 'addons')) as $addonId) {
+            if ($addon = glsr($addonId)) {
                 $details[$addon->name] = $addon->version;
             }
         }
-        ksort($details);
-        return [
-            'title' => 'Addon Details',
-            'values' => $details,
-        ];
+        return $details;
     }
 
-    public function getDatabase(): array
+    public function sectionDatabase(): array
     {
         if (glsr(Tables::class)->isSqlite()) {
-            $values = [
+            return [
                 'Database Engine' => $this->value('wp-database.db_engine'),
                 'Database Version' => $this->value('wp-database.database_version'),
             ];
-        } else {
-            $engines = glsr(Tables::class)->tableEngines($removePrefix = true);
-            foreach ($engines as $engine => $tables) {
-                $engines[$engine] = sprintf('%s (%s)', $engine, implode('|', $tables));
-            }
-            $values = [
-                'Charset' => $this->value('wp-database.database_charset'),
-                'Collation' => $this->value('wp-database.database_collate'),
-                'Extension' => $this->value('wp-database.extension'),
-                'Table Engines' => implode(', ', $engines),
-                'Version (client)' => $this->value('wp-database.client_version'),
-                'Version (server)' => $this->value('wp-database.server_version'),
-            ];
+        }
+        $engines = glsr(Tables::class)->tableEngines($removePrefix = true);
+        foreach ($engines as $engine => $tables) {
+            $engines[$engine] = sprintf('%s (%s)', $engine, implode('|', $tables));
         }
         return [
-            'title' => 'Database Details',
-            'values' => $values,
+            'Charset' => $this->value('wp-database.database_charset'),
+            'Collation' => $this->value('wp-database.database_collate'),
+            'Extension' => $this->value('wp-database.extension'),
+            'Table Engines' => implode(', ', $engines),
+            'Version (client)' => $this->value('wp-database.client_version'),
+            'Version (server)' => $this->value('wp-database.server_version'),
         ];
     }
 
-    public function getDropIns(): array
+    public function sectionDropIns(): array
     {
-        return [
-            'title' => 'Drop-ins',
-            'values' => $this->group('wp-dropins'),
-        ];
+        return $this->group('wp-dropins');
     }
 
-    public function getInactivePlugins(): array
+    public function sectionInactivePlugins(): array
     {
-        return [
-            'title' => 'Inactive Plugins',
-            'values' => $this->plugins($this->group('wp-plugins-inactive')),
-        ];
+        return $this->plugins($this->group('wp-plugins-inactive'));
     }
 
-    public function getMuPlugins()
+    public function sectionMuPlugins()
     {
-        return [
-            'title' => 'Must-Use Plugins',
-            'values' => $this->plugins($this->group('wp-mu-plugins')),
-        ];
+        return $this->plugins($this->group('wp-mu-plugins'));
     }
 
-    public function getPlugin(): array
+    public function sectionPlugin(): array
     {
         $merged = array_keys(array_filter([
             'css' => glsr()->filterBool('optimize/css', false),
             'js' => glsr()->filterBool('optimize/js', false),
         ]));
         return [
-            'title' => 'Plugin Details',
-            'values' => [
-                'Console Level' => glsr(Console::class)->humanLevel(),
-                'Console Size' => glsr(Console::class)->humanSize(),
-                'Database Version' => (string) get_option(glsr()->prefix.'db_version'),
-                'Last Migration Run' => glsr(Date::class)->localized(glsr(Migrate::class)->lastRun(), 'unknown'),
-                'Merged Assets' => implode('/', Helper::ifEmpty($merged, ['No'])),
-                'Network Activated' => Helper::ifTrue(is_plugin_active_for_network(glsr()->basename), 'Yes', 'No'),
-                'Version' => sprintf('%s (%s)', glsr()->version, glsr(OptionManager::class)->get('version_upgraded_from')),
-            ],
+            'Console Level' => glsr(Console::class)->humanLevel(),
+            'Console Size' => glsr(Console::class)->humanSize(),
+            'Database Version' => (string) get_option(glsr()->prefix.'db_version'),
+            'Last Migration Run' => glsr(Date::class)->localized(glsr(Migrate::class)->lastRun(), 'unknown'),
+            'Merged Assets' => implode('/', Helper::ifEmpty($merged, ['No'])),
+            'Network Activated' => Helper::ifTrue(is_plugin_active_for_network(glsr()->basename), 'Yes', 'No'),
+            'Version' => sprintf('%s (%s)', glsr()->version, glsr(OptionManager::class)->get('version_upgraded_from')),
         ];
     }
 
-    public function getReviews(): array
+    public function sectionReviews(): array
     {
-        $values = array_merge($this->ratingCounts(), $this->reviewCounts());
-        ksort($values);
-        return [
-            'title' => 'Review Details',
-            'values' => $values,
-        ];
+        return array_merge($this->ratingCounts(), $this->reviewCounts());
     }
 
-    public function getServer(): array
+    public function sectionServer(): array
     {
         return [
-            'title' => 'Server Details',
-            'values' => [
-                'cURL Version' => $this->value('wp-server.curl_version'),
-                'Display Errors' => $this->ini('display_errors', 'No'),
-                'File Uploads' => $this->value('wp-media.file_uploads'),
-                'GD version' => $this->value('wp-media.gd_version'),
-                'Ghostscript Version' => $this->value('wp-media.ghostscript_version'),
-                'Hosting Provider' => $this->hostingProvider(),
-                'ImageMagick Version' => $this->value('wp-media.imagemagick_version'),
-                'Intl' => Helper::ifEmpty(phpversion('intl'), 'No'),
-                'IPv6' => var_export(defined('AF_INET6'), true),
-                'Max Effective File Size' => $this->value('wp-media.max_effective_size'),
-                'Max Execution Time' => $this->value('wp-server.time_limit'),
-                'Max File Uploads' => $this->value('wp-media.max_file_uploads'),
-                'Max Input Time' => $this->value('wp-server.max_input_time'),
-                'Max Input Variables' => $this->value('wp-server.max_input_variables'),
-                'Memory Limit' => $this->value('wp-server.memory_limit'),
-                'Multibyte' => Helper::ifEmpty(phpversion('mbstring'), 'No'),
-                'Permalinks Supported' => $this->value('wp-server.pretty_permalinks'),
-                'PHP Version' => $this->value('wp-server.php_version'),
-                'Post Max Size' => $this->value('wp-server.php_post_max_size'),
-                'SAPI' => $this->value('wp-server.php_sapi'),
-                'Sendmail' => $this->ini('sendmail_path'),
-                'Server Architecture' => $this->value('wp-server.server_architecture'),
-                'Server IP Address' => Helper::serverIp(),
-                'Server Software' => $this->value('wp-server.httpd_software'),
-                'SUHOSIN Installed' => $this->value('wp-server.suhosin'),
-                'Upload Max Filesize' => $this->value('wp-server.upload_max_filesize'),
-            ],
+            'cURL Version' => $this->value('wp-server.curl_version'),
+            'Display Errors' => $this->ini('display_errors', 'No'),
+            'File Uploads' => $this->value('wp-media.file_uploads'),
+            'GD version' => $this->value('wp-media.gd_version'),
+            'Ghostscript Version' => $this->value('wp-media.ghostscript_version'),
+            'Hosting Provider' => $this->hostingProvider(),
+            'ImageMagick Version' => $this->value('wp-media.imagemagick_version'),
+            'Intl' => Helper::ifEmpty(phpversion('intl'), 'No'),
+            'IPv6' => var_export(defined('AF_INET6'), true),
+            'Max Effective File Size' => $this->value('wp-media.max_effective_size'),
+            'Max Execution Time' => $this->value('wp-server.time_limit'),
+            'Max File Uploads' => $this->value('wp-media.max_file_uploads'),
+            'Max Input Time' => $this->value('wp-server.max_input_time'),
+            'Max Input Variables' => $this->value('wp-server.max_input_variables'),
+            'Memory Limit' => $this->value('wp-server.memory_limit'),
+            'Multibyte' => Helper::ifEmpty(phpversion('mbstring'), 'No'),
+            'Permalinks Supported' => $this->value('wp-server.pretty_permalinks'),
+            'PHP Version' => $this->value('wp-server.php_version'),
+            'Post Max Size' => $this->value('wp-server.php_post_max_size'),
+            'SAPI' => $this->value('wp-server.php_sapi'),
+            'Sendmail' => $this->ini('sendmail_path'),
+            'Server Architecture' => $this->value('wp-server.server_architecture'),
+            'Server IP Address' => Helper::serverIp(),
+            'Server Software' => $this->value('wp-server.httpd_software'),
+            'SUHOSIN Installed' => $this->value('wp-server.suhosin'),
+            'Upload Max Filesize' => $this->value('wp-server.upload_max_filesize'),
         ];
     }
 
-    public function getSettings(): array
+    public function sectionSettings(): array
     {
         $settings = glsr(OptionManager::class)->getArray('settings');
         $settings = Arr::flatten($settings, true);
         $settings = $this->purgeSensitiveData($settings);
-        ksort($settings);
         $details = [];
         foreach ($settings as $key => $value) {
             if (str_starts_with($key, 'strings') && str_ends_with($key, 'id')) {
@@ -243,60 +205,50 @@ class SystemInfo
             }
             $details[$key] = trim(preg_replace('/\s\s+/u', '\\n', $value));
         }
-        return [
-            'title' => 'Plugin Settings',
-            'values' => $details,
-        ];
+        return $details;
     }
 
-    public function getWordpress(): array
+    public function sectionWordpress(): array
     {
         return [
-            'title' => 'WordPress Configuration',
-            'values' => [
-                'Email Domain' => substr(strrchr((string) get_option('admin_email'), '@'), 1),
-                'Environment' => $this->value('wp-core.environment_type'),
-                'Hidden From Search Engines' => $this->value('wp-core.blog_public'),
-                'Home URL' => $this->value('wp-core.home_url'),
-                'HTTPS' => $this->value('wp-core.https_status'),
-                'Language (site)' => $this->value('wp-core.site_language'),
-                'Language (user)' => $this->value('wp-core.user_language'),
-                'Multisite' => $this->value('wp-core.multisite'),
-                'Page For Posts ID' => (string) get_option('page_for_posts'),
-                'Page On Front ID' => (string) get_option('page_on_front'),
-                'Permalink Structure' => $this->value('wp-core.permalink'),
-                'Post Stati' => implode(', ', get_post_stati()), // @phpstan-ignore-line
-                'Remote Post' => glsr(Cache::class)->getRemotePostTest(),
-                'SCRIPT_DEBUG' => $this->value('wp-constants.SCRIPT_DEBUG'),
-                'Show On Front' => (string) get_option('show_on_front'),
-                'Site URL' => $this->value('wp-core.site_url'),
-                'Theme (active)' => sprintf('%s v%s by %s', $this->value('wp-active-theme.name'), $this->value('wp-active-theme.version'), $this->value('wp-active-theme.author')),
-                'Theme (parent)' => $this->value('wp-parent-theme.name', 'No'),
-                'Timezone' => $this->value('wp-core.timezone'),
-                'User Count' => $this->value('wp-core.user_count'),
-                'Version' => $this->value('wp-core.version'),
-                'WP_CACHE' => $this->value('wp-constants.WP_CACHE'),
-                'WP_DEBUG' => $this->value('wp-constants.WP_DEBUG'),
-                'WP_DEBUG_DISPLAY' => $this->value('wp-constants.WP_DEBUG_DISPLAY'),
-                'WP_DEBUG_LOG' => $this->value('wp-constants.WP_DEBUG_LOG'),
-                'WP_MAX_MEMORY_LIMIT' => $this->value('wp-constants.WP_MAX_MEMORY_LIMIT'),
-            ],
+            'Email Domain' => substr(strrchr((string) get_option('admin_email'), '@'), 1),
+            'Environment' => $this->value('wp-core.environment_type'),
+            'Hidden From Search Engines' => $this->value('wp-core.blog_public'),
+            'Home URL' => $this->value('wp-core.home_url'),
+            'HTTPS' => $this->value('wp-core.https_status'),
+            'Language (site)' => $this->value('wp-core.site_language'),
+            'Language (user)' => $this->value('wp-core.user_language'),
+            'Multisite' => $this->value('wp-core.multisite'),
+            'Page For Posts ID' => (string) get_option('page_for_posts'),
+            'Page On Front ID' => (string) get_option('page_on_front'),
+            'Permalink Structure' => $this->value('wp-core.permalink'),
+            'Post Stati' => implode(', ', get_post_stati()), // @phpstan-ignore-line
+            'Remote Post' => glsr(Cache::class)->getRemotePostTest(),
+            'SCRIPT_DEBUG' => $this->value('wp-constants.SCRIPT_DEBUG'),
+            'Show On Front' => (string) get_option('show_on_front'),
+            'Site URL' => $this->value('wp-core.site_url'),
+            'Theme (active)' => sprintf('%s v%s by %s', $this->value('wp-active-theme.name'), $this->value('wp-active-theme.version'), $this->value('wp-active-theme.author')),
+            'Theme (parent)' => $this->value('wp-parent-theme.name', 'No'),
+            'Timezone' => $this->value('wp-core.timezone'),
+            'User Count' => $this->value('wp-core.user_count'),
+            'Version' => $this->value('wp-core.version'),
+            'WP_CACHE' => $this->value('wp-constants.WP_CACHE'),
+            'WP_DEBUG' => $this->value('wp-constants.WP_DEBUG'),
+            'WP_DEBUG_DISPLAY' => $this->value('wp-constants.WP_DEBUG_DISPLAY'),
+            'WP_DEBUG_LOG' => $this->value('wp-constants.WP_DEBUG_LOG'),
+            'WP_MAX_MEMORY_LIMIT' => $this->value('wp-constants.WP_MAX_MEMORY_LIMIT'),
         ];
     }
 
     protected function data(): array
     {
-        if (empty($this->data)) {
-            $this->data = glsr(Cache::class)->getSystemInfo();
-            array_walk($this->data, function (&$section) {
-                $fields = Arr::consolidate(Arr::get($section, 'fields'));
-                array_walk($fields, function (&$values) {
-                    $values = Arr::get($values, 'value');
-                });
-                $section = $fields;
-            });
-        }
-        return $this->data;
+        return $this->data ??= array_map(
+            fn ($section) => array_combine(
+                array_keys($fields = Arr::consolidate($section['fields'] ?? [])),
+                wp_list_pluck($fields, 'value')
+            ),
+            glsr(Cache::class)->getSystemInfo()
+        );
     }
 
     protected function group(string $key): array
@@ -322,14 +274,17 @@ class SystemInfo
 
     protected function implode(string $title, array $details): string
     {
-        $strings = ["[{$title}]"];
-        $padding = max(static::PAD, ...array_map(function ($key) {
-            return mb_strlen(html_entity_decode($key, ENT_HTML5), 'UTF-8');
-        }, array_keys($details)));
+        $strings = ['['.strtoupper($title).']'];
+        $padding = max(static::PAD, ...array_map(
+            fn ($key) => mb_strlen(html_entity_decode($key, ENT_HTML5), 'UTF-8'),
+            array_keys($details)
+        ));
+        ksort($details);
         foreach ($details as $key => $value) {
             $key = html_entity_decode((string) $key, ENT_HTML5);
             $pad = $padding - (mb_strlen($key, 'UTF-8') - strlen($key)); // handle unicode character lengths
-            $strings[] = sprintf('%s : %s', str_pad($key, $pad, '.'), $value);
+            $label = str_pad($key, $pad, '.');
+            $strings[] = "{$label} : {$value}";
         }
         return implode(PHP_EOL, $strings).PHP_EOL.PHP_EOL;
     }
