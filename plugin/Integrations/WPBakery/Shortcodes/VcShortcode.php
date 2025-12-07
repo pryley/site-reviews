@@ -1,0 +1,85 @@
+<?php
+
+namespace GeminiLabs\SiteReviews\Integrations\WPBakery\Shortcodes;
+
+use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
+use GeminiLabs\SiteReviews\Integrations\WPBakery\Transformer;
+
+abstract class VcShortcode extends \WPBakeryShortCode
+{
+    /**
+     * Override the "vc_map" data with the vc_element_settings_filter ($settings, $shortcode) filter hook.
+     */
+    public static function vcRegister(array $args = []): void
+    {
+        vc_map(wp_parse_args($args, [
+            'base' => static::vcShortcode()->tag,
+            'category' => glsr()->name,
+            'description' => static::vcShortcode()->description,
+            'icon' => static::vcShortcodeIcon(),
+            'name' => static::vcShortcode()->name,
+            'params' => static::vcShortcodeSettings(),
+            'php_class_name' => static::class,
+            'show_settings_on_create' => false,
+        ]));
+    }
+
+    public static function vcShortcode(): ShortcodeContract
+    {
+        return glsr(static::vcShortcodeClass());
+    }
+
+    abstract public static function vcShortcodeClass(): string;
+
+    abstract public static function vcShortcodeIcon(): string;
+
+    /**
+     * Override attributes for a setting with the vc_mapper_attribute ($setting, $shortcode) filter hook.
+     */
+    public static function vcShortcodeSettings(): array
+    {
+        $controls = array_merge(
+            static::vcSettingsConfig(),
+            static::vcStyleConfig()
+        );
+        $shortcode = static::vcShortcode();
+        $controls = glsr()->filterArray('wpbakery/controls', $controls, $shortcode);
+        $groups = [ // order is intentional
+            'general' => esc_html_x('General', 'admin-text', 'site-reviews'),
+            'design' => esc_html_x('Design', 'admin-text', 'site-reviews'),
+            'advanced' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
+        ];
+        $groupedcontrols = [];
+        foreach ($controls as $name => $args) {
+            $transformer = new Transformer($name, $args, $shortcode->tag);
+            $control = $transformer->control();
+            if (empty($control)) {
+                continue;
+            }
+            $group = $control['group'];
+            $groupHeading = $groups[$group];
+            $control['group'] = $groupHeading;
+            $groupedcontrols[$group] ??= [];
+            $groupedcontrols[$group][$name] = $control;
+        }
+        return array_merge(...array_map('array_values', array_values($groupedcontrols)));
+    }
+
+    protected static function vcSettingsConfig(): array
+    {
+        $hidden = [
+            'from' => [ // used to set the "from" attribute
+                'group' => 'advanced',
+                'save_always' => true,
+                'std' => 'wpbakery',
+                'type' => 'hidden',
+            ],
+        ];
+        return array_merge(static::vcShortcode()->settings(), $hidden);
+    }
+
+    protected static function vcStyleConfig(): array
+    {
+        return [];
+    }
+}

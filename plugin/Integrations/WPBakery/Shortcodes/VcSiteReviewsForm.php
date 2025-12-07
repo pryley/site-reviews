@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\WPBakery;
+namespace GeminiLabs\SiteReviews\Integrations\WPBakery\Shortcodes;
 
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 

@@ -29,6 +29,7 @@ class Hooks extends IntegrationHooks
             ['filterAutocompleteAssignedUsers', 'vc_autocomplete_site_reviews_form_assigned_users_callback'],
             ['filterAutocompleteAssignedUsers', 'vc_autocomplete_site_reviews_summary_assigned_users_callback'],
             ['filterAutocompletePostId', 'vc_autocomplete_site_review_post_id_callback'],
+            ['filterModalWrappedBy', 'site-reviews/modal_wrapped_by'],
             ['filterSettingOutput', 'vc_single_param_edit_holder_output', 10, 4],
             ['registerParameters', 'vc_load_default_params'],
             ['registerShortcodes', 'vc_before_init', 5],

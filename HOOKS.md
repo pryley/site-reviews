@@ -313,3 +313,4 @@
     site-reviews/whip/whitelist/cloudflare                      (bool $isUsingCloudflare): bool
     site-reviews/widget/args                                    (array $args, string $shortcodeName): array
     site-reviews/woocommerce/rest-api/prepare_product_review    (\WP_REST_Response $response, Review $review, \WP_REST_Request $request)
+    site-reviews/wpbakery/controls                              (array $controls, Contracts\ShortcodeContract $shortcode): array

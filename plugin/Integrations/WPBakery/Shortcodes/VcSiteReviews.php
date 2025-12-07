@@ -1,8 +1,7 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\WPBakery;
+namespace GeminiLabs\SiteReviews\Integrations\WPBakery\Shortcodes;
 
-use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
 class VcSiteReviews extends VcShortcode

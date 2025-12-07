@@ -142,6 +142,15 @@ class Controller extends AbstractController
     }
 
     /**
+     * @filter site-reviews/modal_wrapped_by
+     */
+    public function filterModalWrappedBy(array $builders): array
+    {
+        $builders[] = 'wpbakery';
+        return $builders;
+    }
+
+    /**
      * @filter vc_single_param_edit_holder_output
      */
     public function filterSettingOutput($output, $param, $value, $settings): string
@@ -161,10 +170,10 @@ class Controller extends AbstractController
      */
     public function registerShortcodes(): void
     {
-        VcSiteReview::vcRegister();
-        VcSiteReviews::vcRegister();
-        VcSiteReviewsForm::vcRegister();
-        VcSiteReviewsSummary::vcRegister();
+        Shortcodes\VcSiteReview::vcRegister();
+        Shortcodes\VcSiteReviews::vcRegister();
+        Shortcodes\VcSiteReviewsForm::vcRegister();
+        Shortcodes\VcSiteReviewsSummary::vcRegister();
     }
 
     /**
@@ -176,8 +185,9 @@ class Controller extends AbstractController
     }
 
     /**
-     * @param mixed $settings
+     * @param mixed  $settings
      * @param string $value
+     *
      * @callback vc_add_shortcode_param
      */
     public function renderFieldRange($settings, $value): string

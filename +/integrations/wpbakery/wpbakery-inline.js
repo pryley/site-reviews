@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (base.startsWith('site_review')) {
             let iframe = window.vc.$frame.get(0);
             let win = iframe.contentWindow || iframe;
-            win.GLSR.Event.trigger('site-reviews/init')
+            win.GLSR_init && win.GLSR_init();
             ev.view.$el.find('.glsr :input,.glsr a').attr('tabindex', -1).css('pointerEvents','none')
         }
     }

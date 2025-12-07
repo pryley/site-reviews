@@ -11,7 +11,9 @@ class ControlDefaults extends DefaultsAbstract
      * This is done after $casts and $sanitize.
      */
     public array $enums = [
-        'group' => ['advanced', 'design', 'general'],
+        'group' => [
+            'advanced', 'design', 'general',
+        ],
     ];
 
     /**
@@ -34,31 +36,5 @@ class ControlDefaults extends DefaultsAbstract
             'std' => '',
             'type' => 'textfield',
         ];
-    }
-
-    /**
-     * Finalize provided values, this always runs last.
-     */
-    protected function finalize(array $values = []): array
-    {
-        $types = [
-            'checkbox' => 'checkbox',
-            'number' => 'glsr_type_range',
-            'select' => 'dropdown',
-            'text' => 'textfield',
-        ];
-        if (array_key_exists($values['type'], $types)) {
-            $values['type'] = $types[$values['type']];
-        }
-        if ('dropdown' === $values['type']
-            && !isset($values['options'])
-            && !isset($values['value'])) {
-            $values['type'] = 'autocomplete';
-            $values['settings'] = [
-                'multiple' => true,
-                'sortable' => true,
-            ];
-        }
-        return $values;
     }
 }
