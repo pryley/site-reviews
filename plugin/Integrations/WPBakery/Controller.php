@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\WPBakery;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
-use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\ShortcodeOptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -44,50 +44,102 @@ class Controller extends AbstractController
 
     /**
      * @filter vc_autocomplete_site_reviews_assigned_posts_callback
+     * @filter vc_autocomplete_site_reviews_field_assigned_posts_callback
      * @filter vc_autocomplete_site_reviews_form_assigned_posts_callback
+     * @filter vc_autocomplete_site_reviews_images_assigned_posts_callback
      * @filter vc_autocomplete_site_reviews_summary_assigned_posts_callback
      */
-    public function filterAutocompleteAssignedPosts(?string $query = ''): array
+    public function filterAssignedPostsCallback(string $query, string $shortcodeTag): array
     {
-        $args = [
-            'post__in' => [],
-            'posts_per_page' => 25,
-        ];
-        if (is_numeric($query)) {
-            $args['post__in'][] = (int) $query;
-        } else {
-            $args['s'] = (string) $query;
-        }
-        $posts = glsr(Database::class)->posts($args);
-        $callback = fn ($value, $label) => compact('value', 'label');
-        $results = array_map($callback, array_keys($posts), array_values($posts));
-        array_unshift($results,
-            [
-                'label' => _x('The Current Page', 'admin-text', 'site-reviews'),
-                'value' => 'post_id',
+        $args = is_numeric($query) ? ['include' => $query] : ['search' => $query];
+        $options = glsr(ShortcodeOptionManager::class)->assigned_posts(wp_parse_args($args, [
+            'shortcode' => stripslashes($shortcodeTag),
+        ]));
+        return array_map(
+            fn ($value, $label) => [
+                'label' => is_numeric($value) ? sprintf('ID: %s - %s', $value, $label) : $label,
+                'value' => $value,
             ],
-            [
-                'label' => _x('The Parent Page', 'admin-text', 'site-reviews'),
-                'value' => 'parent_id',
-            ]
+            array_keys($options),
+            array_values($options)
         );
-        return $results;
     }
 
     /**
-     * @filter vc_autocomplete_site_reviews_assigned_terms_callback
-     * @filter vc_autocomplete_site_reviews_form_assigned_terms_callback
-     * @filter vc_autocomplete_site_reviews_summary_assigned_terms_callback
+     * @filter vc_autocomplete_site_reviews_assigned_posts_render
+     * @filter vc_autocomplete_site_reviews_field_assigned_posts_render
+     * @filter vc_autocomplete_site_reviews_form_assigned_posts_render
+     * @filter vc_autocomplete_site_reviews_images_assigned_posts_render
+     * @filter vc_autocomplete_site_reviews_summary_assigned_posts_render
      */
-    public function filterAutocompleteAssignedTerms(?string $query = ''): array
+    public function filterAssignedPostsRender(array $query, array $settings, string $shortcodeTag): ?array
     {
-        $users = glsr(Database::class)->terms([
-            'number' => 25,
-            'search' => (string) $query,
+        $value = $query['value'] ?? '';
+        if (empty($value)) {
+            return null;
+        }
+        $options = glsr(ShortcodeOptionManager::class)->assigned_posts([
+            'per_page' => 1,
+            'include' => $value,
+            'shortcode' => stripslashes($shortcodeTag),
         ]);
-        $callback = fn ($value, $label) => compact('value', 'label');
-        $results = array_map($callback, array_keys($users), array_values($users));
-        return $results;
+        if (!isset($options[$value])) {
+            return $query;
+        }
+        return [
+            'label' => is_numeric($value) ? sprintf('ID: %s - %s', $value, $options[$value]) : $options[$value],
+            'value' => $value,
+        ];
+    }
+
+    /**
+     * @filter vc_autocomplete_site_reviews_assigned_term_callback
+     * @filter vc_autocomplete_site_reviews_field_assigned_term_callback
+     * @filter vc_autocomplete_site_reviews_form_assigned_term_callback
+     * @filter vc_autocomplete_site_reviews_images_assigned_term_callback
+     * @filter vc_autocomplete_site_reviews_summary_assigned_term_callback
+     */
+    public function filterAssignedTermsCallback(string $query, string $shortcodeTag): array
+    {
+        $options = glsr(ShortcodeOptionManager::class)->assigned_terms([
+            'search' => $query,
+            'shortcode' => stripslashes($shortcodeTag),
+        ]);
+        return array_map(
+            fn ($value, $label) => [
+                'label' => sprintf('ID: %s - %s', $value, $label),
+                'value' => $value,
+            ],
+            array_keys($options),
+            array_values($options)
+        );
+    }
+
+    /**
+     * @filter vc_autocomplete_site_reviews_assigned_term_render
+     * @filter vc_autocomplete_site_reviews_field_assigned_term_render
+     * @filter vc_autocomplete_site_reviews_form_assigned_term_render
+     * @filter vc_autocomplete_site_reviews_images_assigned_term_render
+     * @filter vc_autocomplete_site_reviews_summary_assigned_term_render
+     */
+    public function filterAssignedTermsRender(array $query, array $settings, string $shortcodeTag): ?array
+    {
+        $value = $query['value'] ?? '';
+        if (empty($value)) {
+            return null;
+        }
+        $options = glsr(ShortcodeOptionManager::class)->assigned_terms([
+            'per_page' => 1,
+            'search' => $value,
+            'shortcode' => stripslashes($shortcodeTag),
+        ]);
+        if (!isset($options[$value])) {
+            return $query;
+        }
+        return [
+            'label' => sprintf('ID: %s - %s', $value, $options[$value]),
+            'value' => $value,
+        ];
     }
 
     /**
@@ -95,50 +147,95 @@ class Controller extends AbstractController
      * @filter vc_autocomplete_site_reviews_form_assigned_users_callback
      * @filter vc_autocomplete_site_reviews_summary_assigned_users_callback
      */
-    public function filterAutocompleteAssignedUsers(?string $query = ''): array
+    public function filterAssignedUsersCallback(string $query, string $shortcodeTag): array
     {
-        $users = glsr(Database::class)->users([
-            'number' => 25,
-            'search_wild' => $query,
+        $options = glsr(ShortcodeOptionManager::class)->assigned_users([
+            'search' => $query,
+            'shortcode' => stripslashes($shortcodeTag),
         ]);
-        $callback = fn ($value, $label) => compact('value', 'label');
-        $results = array_map($callback, array_keys($users), array_values($users));
-        array_unshift($results,
-            [
-                'label' => _x('The Logged-in user', 'admin-text', 'site-reviews'),
-                'value' => 'user_id',
+        return array_map(
+            fn ($value, $label) => [
+                'label' => is_numeric($value) ? sprintf('ID: %s - %s', $value, $label) : $label,
+                'value' => $value,
             ],
-            [
-                'label' => _x('The Page author', 'admin-text', 'site-reviews'),
-                'value' => 'author_id',
-            ],
-            [
-                'label' => _x('The Profile user (BuddyPress/Ultimate Member)', 'admin-text', 'site-reviews'),
-                'value' => 'profile_id',
-            ]
+            array_keys($options),
+            array_values($options)
         );
-        return $results;
     }
 
     /**
-     * @filter vc_autocomplete_site_review_post_id_callback
+     * @filter vc_autocomplete_site_reviews_assigned_users_render
+     * @filter vc_autocomplete_site_reviews_field_assigned_users_render
+     * @filter vc_autocomplete_site_reviews_form_assigned_users_render
+     * @filter vc_autocomplete_site_reviews_images_assigned_users_render
+     * @filter vc_autocomplete_site_reviews_summary_assigned_users_render
      */
-    public function filterAutocompletePostId(?string $query = ''): array
+    public function filterAssignedUsersRender(array $query, array $settings, string $shortcodeTag): ?array
     {
-        $args = [
-            'post__in' => [],
-            'post_type' => glsr()->post_type,
-            'posts_per_page' => 25,
-        ];
-        if (is_numeric($query)) {
-            $args['post__in'][] = (int) $query;
-        } else {
-            $args['s'] = (string) $query;
+        $value = $query['value'] ?? '';
+        if (empty($value)) {
+            return null;
         }
-        $posts = glsr(Database::class)->posts($args);
-        $callback = fn ($value, $label) => compact('value', 'label');
-        $results = array_map($callback, array_keys($posts), array_values($posts));
-        return $results;
+        $options = glsr(ShortcodeOptionManager::class)->assigned_users([
+            'per_page' => 1,
+            'include' => $value,
+            'shortcode' => stripslashes($shortcodeTag),
+        ]);
+        if (!isset($options[$value])) {
+            return $query;
+        }
+        return [
+            'label' => is_numeric($value) ? sprintf('ID: %s - %s', $value, $options[$value]) : $options[$value],
+            'value' => $value,
+        ];
+    }
+
+    /**
+     * @filter vc_autocomplete_site_reviews_assigned_users_callback
+     * @filter vc_autocomplete_site_reviews_form_assigned_users_callback
+     * @filter vc_autocomplete_site_reviews_summary_assigned_users_callback
+     */
+    public function filterAuthorCallback(string $query, string $shortcodeTag): array
+    {
+        $options = glsr(ShortcodeOptionManager::class)->author([
+            'search' => $query,
+            'shortcode' => stripslashes($shortcodeTag),
+        ]);
+        return array_map(
+            fn ($value, $label) => [
+                'label' => is_numeric($value) ? sprintf('ID: %s - %s', $value, $label) : $label,
+                'value' => $value,
+            ],
+            array_keys($options),
+            array_values($options)
+        );
+    }
+
+    /**
+     * @filter vc_autocomplete_site_reviews_author_render
+     * @filter vc_autocomplete_site_reviews_field_author_render
+     * @filter vc_autocomplete_site_reviews_form_author_render
+     * @filter vc_autocomplete_site_reviews_images_author_render
+     * @filter vc_autocomplete_site_reviews_summary_author_render
+     */
+    public function filterAuthorRender(array $query, array $settings, string $shortcodeTag): ?array
+    {
+        $value = $query['value'] ?? '';
+        if (empty($value)) {
+            return null;
+        }
+        $options = glsr(ShortcodeOptionManager::class)->author([
+            'per_page' => 1,
+            'include' => $value,
+            'shortcode' => stripslashes($shortcodeTag),
+        ]);
+        if (!isset($options[$value])) {
+            return $query;
+        }
+        return [
+            'label' => is_numeric($value) ? sprintf('ID: %s - %s', $value, $options[$value]) : $options[$value],
+            'value' => $value,
+        ];
     }
 
     /**
@@ -151,18 +248,45 @@ class Controller extends AbstractController
     }
 
     /**
-     * @filter vc_single_param_edit_holder_output
+     * @filter vc_autocomplete_site_review_post_id_callback
      */
-    public function filterSettingOutput($output, $param, $value, $settings): string
+    public function filterPostIdCallback(string $query, string $shortcodeTag): array
     {
-        if (!str_starts_with(Arr::get($settings, 'base'), 'site_review')) {
-            return $output;
+        $args = is_numeric($query) ? ['include' => $query] : ['search' => $query];
+        $options = glsr(ShortcodeOptionManager::class)->post_id(wp_parse_args($args, [
+            'shortcode' => stripslashes($shortcodeTag),
+        ]));
+        return array_map(
+            fn ($value, $label) => [
+                'label' => sprintf('ID: %s - %s', $value, $label),
+                'value' => $value,
+            ],
+            array_keys($options),
+            array_values($options)
+        );
+    }
+
+    /**
+     * @filter vc_autocomplete_site_review_post_id_render
+     */
+    public function filterPostIdRender(array $query, array $settings, string $shortcodeTag): ?array
+    {
+        $value = $query['value'] ?? '';
+        if (empty($value)) {
+            return null;
         }
-        if ('checkbox' !== Arr::get($param, 'type')) {
-            return $output;
+        $options = glsr(ShortcodeOptionManager::class)->post_id([
+            'per_page' => 1,
+            'include' => $value,
+            'shortcode' => stripslashes($shortcodeTag),
+        ]);
+        if (!isset($options[$value])) {
+            return $query;
         }
-        $output = str_replace('label> <label', 'label><br><label', $output);
-        return $output;
+        return [
+            'label' => sprintf('ID: %s - %s', $value, $options[$value]),
+            'value' => $value,
+        ];
     }
 
     /**

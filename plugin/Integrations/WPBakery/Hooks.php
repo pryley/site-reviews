@@ -19,21 +19,28 @@ class Hooks extends IntegrationHooks
             ['enqueueInlineScripts', 'vc_frontend_editor_enqueue_js_css'],
             ['enqueueInlineStyles', 'vc_backend_editor_enqueue_js_css'],
             ['enqueueInlineStyles', 'vc_frontend_editor_enqueue_js_css'],
-            ['filterAutocompleteAssignedPosts', 'vc_autocomplete_site_reviews_assigned_posts_callback'],
-            ['filterAutocompleteAssignedPosts', 'vc_autocomplete_site_reviews_form_assigned_posts_callback'],
-            ['filterAutocompleteAssignedPosts', 'vc_autocomplete_site_reviews_summary_assigned_posts_callback'],
-            ['filterAutocompleteAssignedTerms', 'vc_autocomplete_site_reviews_assigned_terms_callback'],
-            ['filterAutocompleteAssignedTerms', 'vc_autocomplete_site_reviews_form_assigned_terms_callback'],
-            ['filterAutocompleteAssignedTerms', 'vc_autocomplete_site_reviews_summary_assigned_terms_callback'],
-            ['filterAutocompleteAssignedUsers', 'vc_autocomplete_site_reviews_assigned_users_callback'],
-            ['filterAutocompleteAssignedUsers', 'vc_autocomplete_site_reviews_form_assigned_users_callback'],
-            ['filterAutocompleteAssignedUsers', 'vc_autocomplete_site_reviews_summary_assigned_users_callback'],
-            ['filterAutocompletePostId', 'vc_autocomplete_site_review_post_id_callback'],
             ['filterModalWrappedBy', 'site-reviews/modal_wrapped_by'],
-            ['filterSettingOutput', 'vc_single_param_edit_holder_output', 10, 4],
+            ['filterPostIdCallback', 'vc_autocomplete_site_review_post_id_callback', 10, 2],
+            ['filterPostIdRender', 'vc_autocomplete_site_review_post_id_render', 10, 3],
             ['registerParameters', 'vc_load_default_params'],
             ['registerShortcodes', 'vc_before_init', 5],
         ]);
+        foreach ([
+            'site_reviews',
+            'site_reviews_form',
+            'site_reviews_summary',
+        ] as $shortcode) {
+            $this->hook(Controller::class, [
+                ['filterAssignedPostsCallback', "vc_autocomplete_{$shortcode}_assigned_posts_callback", 10, 2],
+                ['filterAssignedPostsRender', "vc_autocomplete_{$shortcode}_assigned_posts_render", 10, 3],
+                ['filterAssignedTermsCallback', "vc_autocomplete_{$shortcode}_assigned_terms_callback", 10, 2],
+                ['filterAssignedTermsRender', "vc_autocomplete_{$shortcode}_assigned_terms_render", 10, 3],
+                ['filterAssignedUsersCallback', "vc_autocomplete_{$shortcode}_assigned_users_callback", 10, 2],
+                ['filterAssignedUsersRender', "vc_autocomplete_{$shortcode}_assigned_users_render", 10, 3],
+                ['filterAuthorCallback', "vc_autocomplete_{$shortcode}_author_callback", 10, 2],
+                ['filterAuthorRender', "vc_autocomplete_{$shortcode}_author_render", 10, 3],
+            ]);
+        }
     }
 
     protected function isInstalled(): bool
