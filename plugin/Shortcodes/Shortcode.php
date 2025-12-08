@@ -124,7 +124,7 @@ abstract class Shortcode implements ShortcodeContract
     {
         $args['option'] = $option;
         $args['shortcode'] = $this->tag;
-        return call_user_func([glsr(ShortcodeOptionManager::class), $option], $args);
+        return glsr(ShortcodeOptionManager::class)->get($option, $args);
     }
 
     public function register(): void

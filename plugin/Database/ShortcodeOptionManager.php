@@ -21,22 +21,29 @@ class ShortcodeOptionManager
      */
     public function __call(string $name, array $arguments)
     {
-        $name = Str::snakeCase($name);
+        $optionName = Str::snakeCase($name);
         $shortcode = array_shift($arguments);
         if (is_string($shortcode)) {
             $shortcode = glsr()->shortcode($shortcode);
         }
         if ($shortcode instanceof ShortcodeContract) {
             $args = [
-                'option' => $name,
+                'option' => $optionName,
                 'shortcode' => $shortcode->tag,
             ];
         } else {
             $args = Arr::consolidate($shortcode);
         }
-        $args = glsr()->args(glsr(ShortcodeApiFetchDefaults::class)->merge($args));
+        return $this->get($name, $args);
+    }
+
+    public function get(string $optionName, array $args = []): array
+    {
+        $args = glsr()->args(
+            glsr(ShortcodeApiFetchDefaults::class)->merge($args)
+        );
         try {
-            $method = Helper::buildMethodName($name);
+            $method = Helper::buildMethodName($optionName);
             $reflection = new \ReflectionMethod($this, $method);
             $results = $reflection->isProtected()
                 ? call_user_func([$this, $method], $args)
@@ -44,7 +51,7 @@ class ShortcodeOptionManager
         } catch (\ReflectionException $e) {
             $results = [];
         }
-        $results = glsr()->filterArray("shortcode/options/{$name}", $results, $args);
+        $results = glsr()->filterArray("shortcode/options/{$optionName}", $results, $args);
         if (!empty($results) && !empty($args->placeholder)) {
             $results = Arr::prepend($results, esc_attr($args->placeholder), '');
         }

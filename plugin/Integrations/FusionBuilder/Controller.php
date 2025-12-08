@@ -125,12 +125,12 @@ class Controller extends AbstractController
         $option = $params['option'] ?? '';
         if (!is_null($search)) {
             $params['search'] = $search;
-            $items = call_user_func([glsr(ShortcodeOptionManager::class), $option], $params);
+            $items = glsr(ShortcodeOptionManager::class)->get($option, $params);
             $callback = fn ($id, $text) => compact('id', 'text');
             $data['results'] = array_map($callback, array_keys($items), array_values($items));
         } elseif (!is_null($labels)) {
             $params['include'] = $labels;
-            $items = call_user_func([glsr(ShortcodeOptionManager::class), $option], $params);
+            $items = glsr(ShortcodeOptionManager::class)->get($option, $params);
             $items = array_filter($items, fn ($id) => in_array($id, $labels), \ARRAY_FILTER_USE_KEY);
             $callback = fn ($id, $text) => compact('id', 'text');
             $data['labels'] = array_map($callback, array_keys($items), array_values($items));

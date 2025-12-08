@@ -67,7 +67,7 @@ class Controller extends AbstractController
     public function queryAjaxControlOptions($data): array
     {
         $args = glsr(QueryAjaxDefaults::class)->restrict($data);
-        $options = call_user_func([glsr(ShortcodeOptionManager::class), $args['option']], $args);
+        $options = glsr(ShortcodeOptionManager::class)->get($args['option'], $args);
         if (!is_array($options)) {
             return [];
         }
@@ -82,15 +82,15 @@ class Controller extends AbstractController
     public function queryAjaxControlSelected($data): array
     {
         $args = glsr(QueryAjaxDefaults::class)->restrict($data);
-        $results = call_user_func([glsr(ShortcodeOptionManager::class), $args['option']], $args);
-        if (!is_array($results)) {
+        $options = glsr(ShortcodeOptionManager::class)->get($args['option'], $args);
+        if (!is_array($options)) {
             return [];
         }
-        if (!array_key_exists($args['include'], $results)) {
+        if (!array_key_exists($args['include'], $options)) {
             return [];
         }
         return [
-            $args['include'] => $results[$args['include']],
+            $args['include'] => $options[$args['include']],
         ];
     }
 

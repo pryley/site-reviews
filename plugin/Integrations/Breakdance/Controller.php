@@ -35,8 +35,7 @@ class Controller extends AbstractController
         }
         $option = Str::removePrefix(filter_input(INPUT_POST, 'postType'), glsr()->prefix);
         $search = filter_input(INPUT_POST, 'search');
-        $params = compact('option', 'search');
-        $results = call_user_func([glsr(ShortcodeOptionManager::class), $option], $params);
+        $results = glsr(ShortcodeOptionManager::class)->get($option, compact('search'));
         $replacements = [ // the post_chooser control requires integer keys
             'post_id' => -10,
             'parent_id' => -20,

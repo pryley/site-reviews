@@ -34,7 +34,7 @@ class Controller extends AbstractController
         if (!is_array($values)) {
             $values = [filter_input(INPUT_GET, 'values')];
         }
-        $items = call_user_func([glsr(ShortcodeOptionManager::class), $option], [
+        $items = glsr(ShortcodeOptionManager::class)->get($option, [
             'include' => array_filter($values),
         ]);
         $items = array_filter($items, fn ($id) => in_array($id, $values), \ARRAY_FILTER_USE_KEY);
@@ -56,7 +56,7 @@ class Controller extends AbstractController
         $postId = (string) filter_input(INPUT_GET, 'id');
         check_ajax_referer("ux-builder-{$postId}", 'security');
         $query = filter_input(INPUT_GET, 'query');
-        $items = call_user_func([glsr(ShortcodeOptionManager::class), $option], [
+        $items = glsr(ShortcodeOptionManager::class)->get($option, [
             'search' => $query,
         ]);
         $callback = fn ($id, $title) => compact('id', 'title');
