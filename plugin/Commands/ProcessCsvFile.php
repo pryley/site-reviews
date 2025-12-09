@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\League\Csv\CannotInsertRecord;
 use GeminiLabs\League\Csv\CharsetConverter;
+use GeminiLabs\League\Csv\EscapeFormula;
 use GeminiLabs\League\Csv\Exception;
 use GeminiLabs\League\Csv\Info;
 use GeminiLabs\League\Csv\Reader;
@@ -114,6 +115,7 @@ class ProcessCsvFile extends AbstractCommand
             }
             $filePath = glsr(ImportManager::class)->tempFilePath();
             $writer = Writer::createFromPath($filePath, 'w+');
+            $writer->addFormatter(new EscapeFormula());
             $writer->insertOne($header);
             $writer->addFormatter(fn (array $record) => $this->formatRecord($record));
             $chunks = $reader->chunkBy(1000);
