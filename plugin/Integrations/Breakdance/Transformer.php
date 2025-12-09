@@ -260,10 +260,17 @@ class Transformer extends \ArrayObject
             //     'fetchDataAction' => glsr()->prefix.'breakdance_'.$args['slug'],
             //     'fetchContextPath' => 'content.general.'.$args['slug'],
             // ];
+            $slugMap = [
+                'assigned_posts' => 'assigned_posts',
+                'assigned_terms' => 'assigned_terms',
+                'assigned_users' => 'assigned_users',
+                'author' => 'review_authors',
+            ];
+            $pseudoPostType = $slugMap[$args['slug']] ?? glsr()->prefix.$args['slug'];
             $control['options']['type'] = 'post_chooser';
             $control['options']['postChooserOptions'] = [
                 'multiple' => $args['multiple'] ?? false,
-                'postType' => glsr()->prefix.$args['slug'],
+                'postType' => $pseudoPostType,
                 'showThumbnails' => in_array($args['slug'], [
                     'assigned_posts',
                     'assigned_users',

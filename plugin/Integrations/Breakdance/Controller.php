@@ -33,7 +33,14 @@ class Controller extends AbstractController
         if (!$this->verifyRequest()) {
             return;
         }
-        $option = Str::removePrefix(filter_input(INPUT_POST, 'postType'), glsr()->prefix);
+        $pseudoPostTypeMap = [
+            'assigned_posts' => 'assigned_posts',
+            'assigned_terms' => 'assigned_terms',
+            'assigned_users' => 'assigned_users',
+            'review_authors' => 'author',
+        ];
+        $option = (string) filter_input(INPUT_POST, 'postType');
+        $option = $pseudoPostTypeMap[$option] ?? Str::removePrefix($option, glsr()->prefix);
         $search = filter_input(INPUT_POST, 'search');
         $results = glsr(ShortcodeOptionManager::class)->get($option, compact('search'));
         $replacements = [ // the post_chooser control requires integer keys
@@ -246,7 +253,15 @@ class Controller extends AbstractController
 
     protected function verifyRequest(): bool
     {
-        if (!str_starts_with((string) filter_input(INPUT_POST, 'postType'), glsr()->prefix)) {
+        $checkFor = [
+            glsr()->prefix,
+            'assigned_posts',
+            'assigned_terms',
+            'assigned_users',
+            'review_authors',
+        ];
+        $postType = filter_input(INPUT_POST, 'postType');
+        if (empty(array_filter($checkFor, fn ($prefix) => str_starts_with($postType, $prefix)))) {
             return false;
         }
         if (!\Breakdance\Permissions\hasMinimumPermission('edit')) {
