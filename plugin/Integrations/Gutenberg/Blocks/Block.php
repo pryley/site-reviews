@@ -29,50 +29,25 @@ abstract class Block implements BlockContract
                     _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews')
                 );
             }
-        }
-        $rendered = $this->shortcodeInstance()->build($attributes, 'block', false); // do not wrap html
-        if ('edit' === filter_input(INPUT_GET, 'context')) {
-            return $rendered;
+            return $this->shortcodeInstance()->build($attributes, 'block', isWrapped: false);
         }
         return glsr(Builder::class)->div(
-            $rendered,
-            $this->blockWrapperAttributes($attributes)
+            $this->shortcodeInstance()->build($attributes, 'block', isWrapped: false),
+            $this->wrapperAttributes($attributes)
         );
     }
 
     /**
      * @return string[]
      */
-    protected function blockClasses(array $attributes): array
+    protected function blockClasses(array $args): array
     {
         return [];
     }
 
-    protected function blockStyles(array $attributes): array
+    protected function blockStyles(array $args): array
     {
         return [];
-    }
-
-    protected function blockWrapperAttributes(array $attributes): array
-    {
-        $supports = \WP_Block_Supports::get_instance()->apply_block_supports();
-        $classes = glsr()->filterArray('block/classes', $this->blockClasses($attributes), $attributes, $this);
-        $styles = glsr()->filterArray('block/styles', $this->blockStyles($attributes), $attributes, $this);
-        $extraClasses = array_diff(
-            explode(' ', $supports['class'] ?? ''),
-            preg_grep('/^(?!has-|is-|items-)/', explode(' ', $attributes['className'] ?? ''))
-        );
-        $finalClasses = implode(' ', array_merge($classes, $extraClasses));
-        $finalStyles = array_reduce(
-            array_keys($styles),
-            fn (string $carry, string $key) => $carry."$key:{$styles[$key]};",
-            ''
-        ).($supports['style'] ?? '');
-        return array_filter([
-            'class' => glsr(Sanitizer::class)->sanitizeAttrClass($finalClasses),
-            'id' => glsr(Sanitizer::class)->sanitizeId($supports['id'] ?? ''),
-            'style' => glsr(Sanitizer::class)->sanitizeAttrStyle($finalStyles),
-        ]);
     }
 
     protected function buildEmptyBlock(string $text): string
@@ -86,8 +61,42 @@ abstract class Block implements BlockContract
         ]);
     }
 
+    protected function buildInlineStyles(array $styles): string
+    {
+        return array_reduce(
+            array_keys($styles),
+            fn (string $carry, string $key) => $carry."$key:{$styles[$key]};",
+            ''
+        );
+    }
+
     protected function hasVisibleFields(array $attributes): bool
     {
         return $this->shortcodeInstance()->hasVisibleFields($attributes);
+    }
+
+    protected function wrapperAttributes(array $args): array
+    {
+        $blockSupports = \WP_Block_Supports::get_instance()->apply_block_supports();
+        $blockClass = $blockSupports['class'] ?? '';
+        $blockStyle = $blockSupports['style'] ?? '';
+        $blockId = $blockSupports['id'] ?? '';
+        $customClasses = glsr()->filterArray('block/classes', $this->blockClasses($args), $args, $this);
+        $customStyles = glsr()->filterArray('block/styles', $this->blockStyles($args), $args, $this);
+        $rootClass = $this->shortcodeInstance()->classAttr($args['className'] ?? '', isWrapper: false);
+        $wrapperOnlyClasses = array_diff(explode(' ', $blockClass), explode(' ', $rootClass));
+        $mergedClasses = array_unique(array_merge($customClasses, $wrapperOnlyClasses));
+        $inlineStyles = $this->buildInlineStyles($customStyles).$blockStyle;
+        $attributes = [
+            'class' => trim(implode(' ', $mergedClasses)),
+            'id' => $blockId,
+            'style' => $inlineStyles,
+        ];
+        $attributes = glsr()->filterArray('block/wrap/attributes', $attributes, $args, $this);
+        return array_filter([
+            'class' => glsr(Sanitizer::class)->sanitizeAttrClass($attributes['class'] ?? ''),
+            'id' => glsr(Sanitizer::class)->sanitizeId($attributes['id'] ?? ''),
+            'style' => glsr(Sanitizer::class)->sanitizeAttrStyle($attributes['style'] ?? ''),
+        ]);
     }
 }

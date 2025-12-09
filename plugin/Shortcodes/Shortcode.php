@@ -76,6 +76,29 @@ abstract class Shortcode implements ShortcodeContract
         return $this->build($args);
     }
 
+    public function classAttr(string $classAttr, bool $isWrapper = false): string
+    {
+        $prefixes = [
+            'has-', 'is-', 'items-',
+        ];
+        $rootClasses = [
+            glsr(Style::class)->styleClasses(),
+        ];
+        $wrapClasses = [
+            Str::dashCase("{$this->from}-{$this->tag}"),
+        ];
+        foreach (array_filter(explode(' ', $classAttr)) as $class) {
+            $isPrefixed = !empty(array_filter($prefixes, fn ($p) => str_starts_with($class, $p)));
+            if ($isPrefixed) {
+                $wrapClasses[] = $class;
+                continue;
+            }
+            $rootClasses[] = $class;
+        }
+        $classes = $isWrapper ? $wrapClasses : $rootClasses;
+        return glsr(Sanitizer::class)->sanitizeAttrClass(implode(' ', $classes));
+    }
+
     public function defaults(): DefaultsAbstract
     {
         $classname = str_replace('Shortcodes\\', 'Defaults\\', get_class($this));
@@ -159,38 +182,7 @@ abstract class Shortcode implements ShortcodeContract
      */
     public function wrap(string $html, array $args = []): string
     {
-        $attributes = [
-            'class' => $this->classAttr($args['class'] ?? '', isWrapper: true),
-            'style' => $args['style'] ?? '',
-        ];
-        $attributes = glsr()->filterArray('shortcode/wrap/attributes', $attributes, $args, $this);
-        $attributes = array_map('esc_attr', $attributes);
-        return glsr(Builder::class)->div($html, $attributes);
-    }
-
-    protected function classAttr(string $attr, bool $isWrapper = false): string
-    {
-        $prefixes = [
-            'has-', 'is-', 'items-',
-        ];
-        $classes = array_filter(explode(' ', trim($attr)));
-        $rootClasses = [
-            glsr(Style::class)->styleClasses(),
-        ];
-        $wrapClasses = [
-            Str::dashCase("{$this->from}-{$this->tag}"),
-        ];
-        foreach ($classes as $class) {
-            $isPrefixed = !empty(array_filter($prefixes, fn ($p) => str_starts_with($class, $p)));
-            if ($isPrefixed) {
-                $wrapClasses[] = $class;
-                continue;
-            }
-            $rootClasses[] = $class;
-        }
-        return glsr(Sanitizer::class)->sanitizeAttrClass(
-            implode(' ', $isWrapper ? $wrapClasses : $rootClasses)
-        );
+        return glsr(Builder::class)->div($html, $this->wrapperAttributes($args));
     }
 
     /**
@@ -269,5 +261,18 @@ abstract class Shortcode implements ShortcodeContract
         return array_filter(Cast::toArray($value),
             fn ($value) => in_array($value, $hideKeys)
         );
+    }
+
+    protected function wrapperAttributes(array $args): array
+    {
+        $attributes = [
+            'class' => $this->classAttr($args['class'] ?? '', isWrapper: true),
+            'style' => $args['style'] ?? '',
+        ];
+        $attributes = glsr()->filterArray('shortcode/wrap/attributes', $attributes, $args, $this);
+        return array_filter([
+            'class' => glsr(Sanitizer::class)->sanitizeAttrClass($attributes['class'] ?? ''),
+            'style' => glsr(Sanitizer::class)->sanitizeAttrStyle($attributes['style'] ?? ''),
+        ]);
     }
 }

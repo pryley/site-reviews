@@ -68,7 +68,11 @@
         justify-content: center;
     }
     .glsr-summary-bar-label {
+        justify-content: center;
         white-space: wrap;
+    }
+    .glsr-summary-bar-label label {
+        width: auto;
     }
     .glsr-summary-bar-background {
         align-items: end;
@@ -93,7 +97,7 @@
     }
 }
 
-.is-style-default.items-justified-center .glsr,
+.items-justified-center .glsr,
 .is-style-2.items-justified-center .glsr {
     .glsr-summary-text {
         flex: 0 auto;
