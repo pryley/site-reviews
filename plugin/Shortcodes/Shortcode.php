@@ -161,6 +161,7 @@ abstract class Shortcode implements ShortcodeContract
     {
         $attributes = [
             'class' => $this->classAttr($args['class'] ?? '', isWrapper: true),
+            'style' => $args['style'] ?? '',
         ];
         $attributes = glsr()->filterArray('shortcode/wrap/attributes', $attributes, $args, $this);
         $attributes = array_map('esc_attr', $attributes);
@@ -170,11 +171,7 @@ abstract class Shortcode implements ShortcodeContract
     protected function classAttr(string $attr, bool $isWrapper = false): string
     {
         $prefixes = [
-            'has-custom-',
-            'has-text-align-',
-            'is-custom-',
-            'is-style-',
-            'items-justified-',
+            'has-', 'is-', 'items-',
         ];
         $classes = array_filter(explode(' ', trim($attr)));
         $rootClasses = [
