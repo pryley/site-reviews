@@ -34,7 +34,7 @@ abstract class Block implements BlockContract
         if ('edit' === filter_input(INPUT_GET, 'context')) {
             return $rendered;
         }
-        return $this->shortcodeInstance()->wrap(
+        return glsr(Builder::class)->div(
             $rendered,
             $this->blockWrapperAttributes($attributes)
         );
