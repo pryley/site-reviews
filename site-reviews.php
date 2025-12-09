@@ -13,7 +13,7 @@
  * License:              GPL3
  * License URI:          https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least:    6.7
- * Requires PHP:         8.0
+ * Requires PHP:         8.1.2
  * Text Domain:          site-reviews
  * Domain Path:          languages
  * WC requires at least: 9.6

@@ -150,7 +150,7 @@ Images adapted from [freepik](https://www.freepik.com).
 = Minimum Plugin Requirements =
 
 - MySQL 5.6 or greater
-- PHP 8.0 or greater
+- PHP 8.1.2 or greater
 - WordPress 6.7 or greater
 
 = Automatic installation =
@@ -205,7 +205,7 @@ You can report any security bugs found in the source code of this plugin through
 
 = 8.0.0 =
 
-This update requires a minimum of PHP 8.0 and WordPress 6.7. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
+This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
 
@@ -213,7 +213,7 @@ This update requires a minimum of PHP 8.0 and WordPress 6.7. There are a few pot
 
 Site Reviews has a fresh coat of paint!
 
-- ‼️ The minimum required version of PHP is now v8.0
+- ‼️ The minimum required version of PHP is now v8.1.2
 - ‼️ The minimum required version of WordPress is now v6.7
 - Added [Breakdance](https://breakdance.com/) integration
 - Added [Bricks](https://bricksbuilder.io/) integration

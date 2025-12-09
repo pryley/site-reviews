@@ -25,7 +25,7 @@ check: ## Check WP compatibility for declared version
 	XDEBUG_MODE=off php -d memory_limit=2G ./vendor/bin/wp-since check
 
 .PHONY: compat
-compat: ## Run PHP CodeSniffer to check PHP 8.0+ Compatibility
+compat: ## Run PHP CodeSniffer to check PHP 8.1- Compatibility
 	XDEBUG_MODE=off ./vendor/bin/phpcs --standard=phpcs.xml
 
 .PHONY: db
