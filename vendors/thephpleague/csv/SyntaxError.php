@@ -13,7 +13,12 @@ declare(strict_types=1);
 
 namespace GeminiLabs\League\Csv;
 
+use Deprecated;
 use Throwable;
+
+use function array_count_values;
+use function array_filter;
+use function array_keys;
 
 /**
  * SyntaxError Exception.
@@ -42,7 +47,7 @@ class SyntaxError extends Exception
 
     public static function dueToInvalidHeaderColumnNames(): self
     {
-        return new self('The header record contains non string column names.');
+        return new self('The header record contains non string colum names.');
     }
 
     public static function dueToDuplicateHeaderColumnNames(array $header): self

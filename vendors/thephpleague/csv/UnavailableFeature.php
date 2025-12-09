@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace GeminiLabs\League\Csv;
 
+use Deprecated;
 use Throwable;
 
 /**
@@ -37,6 +38,6 @@ class UnavailableFeature extends Exception
 
     public static function dueToMissingStreamSeekability(): self
     {
-        return new self('stream does not support seeking');
+        return new self('stream does not support seeking.');
     }
 }

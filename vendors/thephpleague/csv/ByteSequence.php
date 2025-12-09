@@ -11,14 +11,24 @@
 
 namespace GeminiLabs\League\Csv;
 
+use Deprecated;
+
 /**
  * Defines constants for common BOM sequences.
+ *
+ * @deprecated since version 9.16.0
+ * @see Bom
  */
 interface ByteSequence
 {
-    const BOM_UTF8 = "\xEF\xBB\xBF";
-    const BOM_UTF16_BE = "\xFE\xFF";
-    const BOM_UTF16_LE = "\xFF\xFE";
-    const BOM_UTF32_BE = "\x00\x00\xFE\xFF";
-    const BOM_UTF32_LE = "\xFF\xFE\x00\x00";
+    #[Deprecated(message: 'use GeminiLabs\League\Csv\Bom:Utf8 instead', since: 'league/csv:9.16.0')]
+    public const BOM_UTF8 = "\xEF\xBB\xBF";
+    #[Deprecated(message: 'use GeminiLabs\League\Csv\Bom:Utf16be instead', since: 'league/csv:9.16.0')]
+    public const BOM_UTF16_BE = "\xFE\xFF";
+    #[Deprecated(message: 'use GeminiLabs\League\Csv\Bom:Utf16Le instead', since: 'league/csv:9.16.0')]
+    public const BOM_UTF16_LE = "\xFF\xFE";
+    #[Deprecated(message: 'use GeminiLabs\League\Csv\Bom:Utf32Be instead', since: 'league/csv:9.16.0')]
+    public const BOM_UTF32_BE = "\x00\x00\xFE\xFF";
+    #[Deprecated(message: 'use GeminiLabs\League\Csv\Bom:Utf32Le instead', since: 'league/csv:9.16.0')]
+    public const BOM_UTF32_LE = "\xFF\xFE\x00\x00";
 }
