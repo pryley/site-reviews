@@ -17,7 +17,7 @@ abstract class AbstractSearchCommand extends AbstractCommand
     public function __construct()
     {
         $rawInclude = filter_input(\INPUT_GET, 'include', \FILTER_DEFAULT, \FILTER_FORCE_ARRAY);
-        $rawSearch = filter_input(\INPUT_GET, 'search', \FILTER_SANITIZE_STRING);
+        $rawSearch = filter_input(\INPUT_GET, 'search');
         $this->include = $rawInclude ?? [];
         $this->search = stripslashes_deep(sanitize_text_field($rawSearch ?: ''));
     }

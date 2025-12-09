@@ -113,9 +113,6 @@ abstract class Widget extends \WP_Widget
 
     protected function renderField(string $name, array $args, array $instance = []): void
     {
-        if (isset($args['name']) && !isset($args['type'])) {
-            $args['type'] = $name; // @todo remove in v8.0
-        }
         $field = new WidgetField(wp_parse_args($args, compact('name')));
         if (!$field->isValid()) {
             return;

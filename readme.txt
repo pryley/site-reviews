@@ -215,6 +215,7 @@ Site Reviews has a fresh coat of paint!
 
 - ‼️ The minimum required version of PHP is now v8.1.2
 - ‼️ The minimum required version of WordPress is now v6.7
+- ‼️ The Elementor Widget style controls have been removed because they didn't work well with the addons and not at all when displaying reviews in a modal.
 - Added [Breakdance](https://breakdance.com/) integration
 - Added [Bricks](https://bricksbuilder.io/) integration
 - Added [Cloudflare](https://wordpress.org/plugins/cloudflare/) integration
