@@ -60,7 +60,7 @@ abstract class Block implements BlockContract
         $styles = glsr()->filterArray('block/styles', $this->blockStyles($attributes), $attributes, $this);
         $extraClasses = array_diff(
             explode(' ', $supports['class'] ?? ''),
-            explode(' ', $attributes['className'] ?? '')
+            preg_grep('/^(?!has-|is-|items-)/', explode(' ', $attributes['className'] ?? ''))
         );
         $finalClasses = implode(' ', array_merge($classes, $extraClasses));
         $finalStyles = array_reduce(
