@@ -27,12 +27,11 @@ class DiscordDefaults extends DefaultsAbstract
 
     protected function finalize(array $values = []): array
     {
-        $color = Color::new($values['color']);
-        if (is_wp_error($color)) {
-            $values['color'] = '';
-        } else {
+        if ($color = Color::new($values['color'])) {
             $hex = preg_replace('/[^0-9A-Fa-f]/', '', $color->toHex());
             $values['color'] = hexdec($hex);
+        } else {
+            $values['color'] = '';
         }
         return $values;
     }

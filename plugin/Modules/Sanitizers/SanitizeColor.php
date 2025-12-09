@@ -9,7 +9,7 @@ class SanitizeColor extends StringSanitizer
     public function run(): string
     {
         $value = $this->value();
-        if (is_wp_error(Color::new($value))) {
+        if (null === Color::new($value)) {
             $value = '';
         }
         return $value;

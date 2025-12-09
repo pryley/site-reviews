@@ -38,4 +38,28 @@ interface Color
     public function toCmyk(): Cmyk;
 
     public function __toString(): string;
+
+    // Analysis
+
+    public function isDark(): bool;
+
+    public function isLight(): bool;
+
+    // Manipulate
+
+    public function darken(int $amount = 10): Color;
+
+    public function desaturate(int $amount = 10): Color;
+
+    public function grayscale(): Color;
+
+    public function invert(): Color;
+
+    public function lighten(int $amount = 10): Color;
+
+    public function mix(string $withColor, float $ratio = 0): Color;
+
+    public function rotate(int $amount = 180): Color;
+
+    public function saturate(int $amount = 10): Color;
 }
