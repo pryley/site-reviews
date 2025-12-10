@@ -82,4 +82,9 @@ class MetaboxForm extends Form
         $field->disabled = 'add' !== glsr_current_screen()->action
             && !wp_doing_ajax();
     }
+
+    protected function signForm(): void
+    {
+        // the form does not need to be signed.
+    }
 }

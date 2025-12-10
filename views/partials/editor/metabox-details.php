@@ -1,11 +1,11 @@
 <?php defined('ABSPATH') || exit; ?>
 
-<div class="glsr-metabox-field" data-toggle="edit-details">
-    <div class="glsr-label">
-        <label><?php echo esc_html_x('Edit Details', 'admin-text', 'site-reviews'); ?></label>
-    </div>
-    <div class="glsr-input wp-clearfix">
-        <div class="glsr-toggle-field">
+<div class="glsr-metabox-fields">
+    <div class="glsr-field-toggle glsr-metabox-field" data-toggle="edit-details">
+        <div class="glsr-label">
+            <label><?php echo esc_html_x('Edit Details', 'admin-text', 'site-reviews'); ?></label>
+        </div>
+        <div class="glsr-input">
             <span class="glsr-toggle">
                 <input type="checkbox" class="glsr-toggle__input" 
                     data-edit-review
@@ -17,6 +17,5 @@
             </span>
         </div>
     </div>
+    <?php echo $fields; ?>
 </div>
-
-<?php echo $fields;

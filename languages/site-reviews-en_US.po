@@ -5706,7 +5706,7 @@ msgctxt "admin-text"
 msgid "Most Used"
 msgstr "Most Used"
 
-#: views/partials/editor/metabox-details.php:5
+#: views/partials/editor/metabox-details.php:6
 msgctxt "admin-text"
 msgid "Edit Details"
 msgstr "Edit Details"

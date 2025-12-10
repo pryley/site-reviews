@@ -2,7 +2,7 @@
 
 <div class="{{ class }}">
     <div class="glsr-label">{{ label }}</div>
-    <div class="glsr-input wp-clearfix">
+    <div class="glsr-input">
         {{ field }}
         <?php
             if ('avatar' === $field->original_name) {

@@ -23,6 +23,9 @@ class MetaboxField extends Field
 
     public function buildField(): string
     {
+        if ($this->is_raw) { // only build the field element
+            return $this->builder()->build($this->tag(), $this->toArray());
+        }
         return glsr(Template::class)->build('partials/editor/metabox-field', [
             'context' => [
                 'class' => $this->classAttrField(),
