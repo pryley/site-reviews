@@ -455,18 +455,24 @@ class ProductController implements ControllerContract
         ];
         foreach ($shortcodes as $shortcode) {
             $value = trim(filter_input(INPUT_POST, $shortcode));
-            $value = glsr(Sanitizer::class)->sanitizeText($value);
+            $value = glsr(Sanitizer::class)->sanitizeTextHtml($value);
             if (empty($value)) {
                 $product->delete_meta_data($shortcode);
                 continue;
             }
-            if (1 !== preg_match("/^\[{$shortcode}(\s[^\]]*\]|\])$/", $value)) {
-                continue;
-            }
-            if (!str_contains($value, 'assigned_posts')) {
-                $value = str_replace($shortcode, sprintf('%s assigned_posts="post_id"', $shortcode), $value);
-            }
-            $product->update_meta_data($shortcode, $value);
+            $pattern = get_shortcode_regex([$shortcode]);
+            $normalizedValue = preg_replace_callback("/$pattern/", function ($match) {
+                $atts = shortcode_parse_atts($match[3]);
+                $atts['assigned_posts'] = 'post_id';
+                ksort($atts);
+                $attributes = [];
+                foreach ($atts as $key => $val) {
+                    $attributes[] = sprintf('%s="%s"', $key, esc_attr($val));
+                }
+                $attributes = implode(' ', $attributes);
+                return "[{$match[2]} {$attributes}]";
+            }, $value);
+            $product->update_meta_data($shortcode, $normalizedValue);
         }
     }
 

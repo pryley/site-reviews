@@ -12,19 +12,19 @@
             </p>
         </div>
         <?php
-            woocommerce_wp_text_input([
+            woocommerce_wp_textarea_input([
                 'desc_tip' => true,
                 'description' => _x('Enter a custom [site_reviews_summary] shortcode to override the one saved in the settings.', 'admin-text', 'site-reviews'),
                 'id'  => 'site_reviews_summary',
                 'label' => _x('Summary Shortcode', 'admin-text', 'site-reviews'),
             ]);
-            woocommerce_wp_text_input([
+            woocommerce_wp_textarea_input([
                 'desc_tip' => true,
                 'description' => _x('Enter a custom [site_reviews] shortcode to override the one saved in the settings.', 'admin-text', 'site-reviews'),
                 'id'  => 'site_reviews',
                 'label' => _x('Reviews Shortcode', 'admin-text', 'site-reviews'),
             ]);
-            woocommerce_wp_text_input([
+            woocommerce_wp_textarea_input([
                 'desc_tip' => true,
                 'description' => _x('Enter a custom [site_reviews_form] shortcode to override the one saved in the settings.', 'admin-text', 'site-reviews'),
                 'id'  => 'site_reviews_form',
