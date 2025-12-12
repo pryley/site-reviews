@@ -232,7 +232,7 @@ class ProductController implements ControllerContract
             return $template;
         }
         return glsr(Builder::class)->p([
-            'text' => esc_html__('Only logged in customers who have purchased this product may leave a review.', 'woocommerce'),
+            'text' => esc_html__('Only logged in customers who have purchased this product may leave a review.', 'site-reviews'),
         ]);
     }
 

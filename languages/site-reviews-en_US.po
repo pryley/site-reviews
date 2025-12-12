@@ -315,6 +315,26 @@ msgstr "register"
 msgid "My Reviews"
 msgstr "My Reviews"
 
+#: templates/woocommerce/rating.php:9
+msgid "%s customer review"
+msgid_plural "%s customer reviews"
+msgstr[0] "%s customer review"
+msgstr[1] "%s customer reviews"
+
+#: templates/woocommerce/reviews.php:13, plugin/Integrations/ProfilePress/Controllers/ProfileController.php:55, plugin/Integrations/UltimateMember/Controllers/ProfileController.php:41
+msgid "Reviews"
+msgstr "Reviews"
+
+#: templates/woocommerce/reviews.php:11
+msgid "%1$s review for %2$s"
+msgid_plural "%1$s reviews for %2$s"
+msgstr[0] "%1$s review for %2$s"
+msgstr[1] "%1$s reviews for %2$s"
+
+#: templates/woocommerce/reviews.php:34, plugin/Integrations/SureCart/Controllers/ProductController.php:235
+msgid "Only logged in customers who have purchased this product may leave a review."
+msgstr "Only logged in customers who have purchased this product may leave a review."
+
 #: views/partials/modal.php:6
 msgid "Close modal"
 msgstr "Close modal"
@@ -427,13 +447,13 @@ msgstr "You have already submitted a review."
 msgid "This review cannot be submitted, please refresh the page and try again."
 msgstr "This review cannot be submitted, please refresh the page and try again."
 
+#: templates/woocommerce/widgets/recent-reviews.php:18
+msgid "by %s"
+msgstr "by %s"
+
 #: plugin/Integrations/ProfilePress/Controllers/AccountController.php:63, plugin/Integrations/UltimateMember/Controllers/AccountController.php:61
 msgid "You have not written any reviews."
 msgstr "You have not written any reviews."
-
-#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:55, plugin/Integrations/UltimateMember/Controllers/ProfileController.php:41
-msgid "Reviews"
-msgstr "Reviews"
 
 #: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:86, plugin/Integrations/UltimateMember/Controllers/ProfileController.php:68
 msgid "You have not received any reviews."
@@ -522,6 +542,56 @@ msgstr "Verified"
 #: views/pages/documentation/support/common-problems-and-solutions.php:131
 msgid "Service Unavailable."
 msgstr "Service Unavailable."
+
+#: plugin/Integrations/WooCommerce/Controllers/RestApi/ReportReviewsTotalsController.php:22
+msgid "Rated %s out of 5"
+msgstr "Rated %s out of 5"
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:16
+msgid "Style"
+msgstr "Style"
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:21
+msgid ""
+"The style of this widget is often affected by your theme and plugins. If "
+"you experience any such issue, try to switch to a basic theme and "
+"deactivate related plugins."
+msgstr ""
+"The style of this widget is often affected by your theme and plugins. If "
+"you experience any such issue, try to switch to a basic theme and "
+"deactivate related plugins."
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:25
+msgid "Link Color"
+msgstr "Link Color"
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:40
+msgid "Star Size"
+msgstr "Star Size"
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:65
+msgid "Space Between"
+msgstr "Space Between"
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:86
+msgid "Alignment"
+msgstr "Alignment"
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:89
+msgid "Left"
+msgstr "Left"
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:93
+msgid "Center"
+msgstr "Center"
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:97
+msgid "Right"
+msgstr "Right"
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:101
+msgid "Justified"
+msgstr "Justified"
 
 #: compatibility.php:187
 msgctxt "admin-text"

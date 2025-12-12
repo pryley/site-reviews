@@ -13,16 +13,16 @@ class ProductRating extends Product_Rating
     protected function register_controls()
     {
         $this->start_controls_section('section_product_rating_style', [
-            'label' => esc_html__('Style', 'elementor-pro'),
+            'label' => esc_html__('Style', 'site-reviews'),
             'tab' => Controls_Manager::TAB_STYLE,
         ]);
         $this->add_control('wc_style_warning', [
             'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
-            'raw' => esc_html__('The style of this widget is often affected by your theme and plugins. If you experience any such issue, try to switch to a basic theme and deactivate related plugins.', 'elementor-pro'),
+            'raw' => esc_html__('The style of this widget is often affected by your theme and plugins. If you experience any such issue, try to switch to a basic theme and deactivate related plugins.', 'site-reviews'),
             'type' => Controls_Manager::RAW_HTML,
         ]);
         $this->add_control('link_color', [
-            'label' => esc_html__('Link Color', 'elementor-pro'),
+            'label' => esc_html__('Link Color', 'site-reviews'),
             'selectors' => [
                 '.woocommerce {{WRAPPER}} .woocommerce-review-link' => 'color: {{VALUE}}',
             ],
@@ -37,7 +37,7 @@ class ProductRating extends Product_Rating
                 'unit' => 'em',
                 'size' => 1,
             ],
-            'label' => esc_html__('Star Size', 'elementor-pro'),
+            'label' => esc_html__('Star Size', 'site-reviews'),
             'range' => [
                 'em' => [
                     'min' => 0,
@@ -62,7 +62,7 @@ class ProductRating extends Product_Rating
                 'unit' => 'em',
                 'size' => 0,
             ],
-            'label' => esc_html__('Space Between', 'elementor-pro'),
+            'label' => esc_html__('Space Between', 'site-reviews'),
             'range' => [
                 'em' => [
                     'min' => 0,
@@ -83,22 +83,22 @@ class ProductRating extends Product_Rating
             'type' => Controls_Manager::SLIDER,
         ]);
         $this->add_responsive_control('alignment', [
-            'label' => esc_html__('Alignment', 'elementor-pro'),
+            'label' => esc_html__('Alignment', 'site-reviews'),
             'options' => [
                 'left' => [
-                    'title' => esc_html__('Left', 'elementor-pro'),
+                    'title' => esc_html__('Left', 'site-reviews'),
                     'icon' => 'eicon-text-align-left',
                 ],
                 'center' => [
-                    'title' => esc_html__('Center', 'elementor-pro'),
+                    'title' => esc_html__('Center', 'site-reviews'),
                     'icon' => 'eicon-text-align-center',
                 ],
                 'right' => [
-                    'title' => esc_html__('Right', 'elementor-pro'),
+                    'title' => esc_html__('Right', 'site-reviews'),
                     'icon' => 'eicon-text-align-right',
                 ],
                 'justify' => [
-                    'title' => esc_html__('Justified', 'elementor-pro'),
+                    'title' => esc_html__('Justified', 'site-reviews'),
                     'icon' => 'eicon-text-align-justify',
                 ],
             ],

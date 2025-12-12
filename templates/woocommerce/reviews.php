@@ -8,9 +8,9 @@
         <h2 class="woocommerce-Reviews-title">
         <?php
             if ($ratings->reviews) {
-                $title = sprintf(esc_html(_n('%1$s review for %2$s', '%1$s reviews for %2$s', $ratings->reviews, 'woocommerce')), esc_html($ratings->reviews), '<span>'.get_the_title().'</span>');
+                $title = sprintf(esc_html(_n('%1$s review for %2$s', '%1$s reviews for %2$s', $ratings->reviews, 'site-reviews')), esc_html($ratings->reviews), '<span>'.get_the_title().'</span>');
             } else {
-                $title = esc_html__('Reviews', 'woocommerce');
+                $title = esc_html__('Reviews', 'site-reviews');
             }
             echo apply_filters('woocommerce_reviews_title', $title, $ratings->reviews, $product); // WPCS: XSS ok.
         ?>
@@ -31,7 +31,7 @@
         </div>
     <?php } else { ?>
         <p class="woocommerce-verification-required">
-            <?php esc_html_e('Only logged in customers who have purchased this product may leave a review.', 'woocommerce'); ?>
+            <?php esc_html_e('Only logged in customers who have purchased this product may leave a review.', 'site-reviews'); ?>
         </p>
     <?php } ?>
 </div>

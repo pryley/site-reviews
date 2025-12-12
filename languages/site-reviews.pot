@@ -4688,6 +4688,26 @@ msgstr ""
 msgid "My Reviews"
 msgstr ""
 
+#: templates/woocommerce/rating.php:9
+msgid "%s customer review"
+msgid_plural "%s customer reviews"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/woocommerce/reviews.php:13, plugin/Integrations/ProfilePress/Controllers/ProfileController.php:55, plugin/Integrations/UltimateMember/Controllers/ProfileController.php:41
+msgid "Reviews"
+msgstr ""
+
+#: templates/woocommerce/reviews.php:11
+msgid "%1$s review for %2$s"
+msgid_plural "%1$s reviews for %2$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/woocommerce/reviews.php:34, plugin/Integrations/SureCart/Controllers/ProductController.php:235
+msgid "Only logged in customers who have purchased this product may leave a review."
+msgstr ""
+
 #: views/partials/dashboard-widget.php:6
 msgctxt "admin-text"
 msgid "%s review"
@@ -5311,6 +5331,10 @@ msgstr ""
 
 #: plugin/Modules/Validator/SignatureValidator.php:29, views/pages/documentation/support/common-problems-and-solutions.php:89
 msgid "This review cannot be submitted, please refresh the page and try again."
+msgstr ""
+
+#: templates/woocommerce/widgets/recent-reviews.php:18
+msgid "by %s"
 msgstr ""
 
 #: views/integrations/mycred/preferences.php:4
@@ -6167,10 +6191,6 @@ msgstr ""
 #: plugin/Integrations/ProfilePress/Controllers/DirectoryController.php:120
 msgctxt "admin-text"
 msgid "Lowest rated first"
-msgstr ""
-
-#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:55, plugin/Integrations/UltimateMember/Controllers/ProfileController.php:41
-msgid "Reviews"
 msgstr ""
 
 #: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:86, plugin/Integrations/UltimateMember/Controllers/ProfileController.php:68
@@ -7236,4 +7256,48 @@ msgstr ""
 #: plugin/Controllers/Api/Version1/Schema/SummarySchema.php:55
 msgctxt "admin-text"
 msgid "The total number of reviews used to calculate the average."
+msgstr ""
+
+#: plugin/Integrations/WooCommerce/Controllers/RestApi/ReportReviewsTotalsController.php:22
+msgid "Rated %s out of 5"
+msgstr ""
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:16
+msgid "Style"
+msgstr ""
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:21
+msgid "The style of this widget is often affected by your theme and plugins. If you experience any such issue, try to switch to a basic theme and deactivate related plugins."
+msgstr ""
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:25
+msgid "Link Color"
+msgstr ""
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:40
+msgid "Star Size"
+msgstr ""
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:65
+msgid "Space Between"
+msgstr ""
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:86
+msgid "Alignment"
+msgstr ""
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:89
+msgid "Left"
+msgstr ""
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:93
+msgid "Center"
+msgstr ""
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:97
+msgid "Right"
+msgstr ""
+
+#: plugin/Integrations/WooCommerce/Elementor/Widgets/ProductRating.php:101
+msgid "Justified"
 msgstr ""

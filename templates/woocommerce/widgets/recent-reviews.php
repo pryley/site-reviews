@@ -15,7 +15,7 @@
                 <?php echo glsr_star_rating($review->rating, 0, ['theme' => $theme]); ?>
             </div>
             <span class="reviewer">
-                <?php echo sprintf(esc_html__('by %s', 'woocommerce'), $review->author); ?>
+                <?php echo sprintf(esc_html__('by %s', 'site-reviews'), $review->author); ?>
             </span>
             <?php do_action('woocommerce_widget_product_review_item_end', $args); ?>
         </li>

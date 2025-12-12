@@ -19,7 +19,7 @@ class ReportReviewsTotalsController extends \WC_REST_Report_Reviews_Totals_Contr
             }
             $data[] = [
                 'slug' => sprintf('rated_%s_out_of_5', $rating),
-                'name' => sprintf(__('Rated %s out of 5', 'woocommerce'), $rating),
+                'name' => sprintf(__('Rated %s out of 5', 'site-reviews'), $rating),
                 'total' => $total,
             ];
         }

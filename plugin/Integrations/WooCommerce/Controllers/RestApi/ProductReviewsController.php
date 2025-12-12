@@ -27,11 +27,11 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
     public function create_item($request)
     {
         if ('product' !== get_post_type($request['product_id'])) {
-            return new \WP_Error('woocommerce_rest_product_invalid_id', __('Invalid product ID.', 'woocommerce'), ['status' => 404]);
+            return new \WP_Error('woocommerce_rest_product_invalid_id', 'Invalid product ID.', ['status' => 404]);
         }
         $args = $this->prepare_item_for_database($request);
         if (empty($args['content'])) {
-            return new \WP_Error('woocommerce_rest_review_content_invalid', __('Invalid review content.', 'woocommerce'), ['status' => 400]);
+            return new \WP_Error('woocommerce_rest_review_content_invalid', 'Invalid review content.', ['status' => 400]);
         }
         if ($review = glsr_create_review($args)) {
             glsr()->action('woocommerce/rest-api/insert_product_review', $review, $request, true);
@@ -47,7 +47,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
             $response->header('Location', rest_url(sprintf('%s/%s/%d', $this->namespace, $this->rest_base, $review->ID)));
             return $response;
         }
-        return new \WP_Error('woocommerce_rest_review_failed_create', __('Creating product review failed.', 'woocommerce'), ['status' => 500]);
+        return new \WP_Error('woocommerce_rest_review_failed_create', 'Creating product review failed.', ['status' => 500]);
     }
 
     /**
@@ -84,17 +84,17 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
             ]);
         } else {
             if (!$supportsTrash) {
-                return new \WP_Error('woocommerce_rest_trash_not_supported', sprintf(__("The object does not support trashing. Set '%s' to delete.", 'woocommerce'), 'force=true'), ['status' => 501]);
+                return new \WP_Error('woocommerce_rest_trash_not_supported', 'The object does not support trashing. Set "force=true" to delete.', ['status' => 501]);
             }
             if ('trash' === $review->status) {
-                return new \WP_Error('woocommerce_rest_already_trashed', __('The object has already been trashed.', 'woocommerce'), ['status' => 410]);
+                return new \WP_Error('woocommerce_rest_already_trashed', 'The object has already been trashed.', ['status' => 410]);
             }
             $result = wp_trash_post($review->ID);
             $review->refresh(); // refresh the review!
             $response = $this->prepare_item_for_response($review, $request);
         }
         if (!$result) {
-            return new \WP_Error('woocommerce_rest_cannot_delete', __('The object cannot be deleted.', 'woocommerce'), ['status' => 500]);
+            return new \WP_Error('woocommerce_rest_cannot_delete', 'The object cannot be deleted.', ['status' => 500]);
         }
         glsr()->action('woocommerce/rest-api/delete_review', $review, $response, $request);
         return $response;
@@ -230,7 +230,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
         $postArgs['ID'] = $review->ID;
         $updatePost = wp_update_post($postArgs, $wperror = true);
         if (is_wp_error($updatePost)) {
-            return new \WP_Error('woocommerce_rest_comment_failed_edit', __('Updating review failed.', 'woocommerce'), ['status' => 500]);
+            return new \WP_Error('woocommerce_rest_comment_failed_edit', 'Updating review failed.', ['status' => 500]);
         }
         // update rating entry
         glsr(ReviewManager::class)->update($review->ID, $this->prepare_item_for_database($request));
@@ -292,12 +292,12 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
     protected function checkPermissions($action, $request)
     {
         $errors = [
-            'batch' => ['woocommerce_rest_cannot_batch', __('Sorry, you are not allowed to batch manipulate this resource.', 'woocommerce')],
-            'create' => ['woocommerce_rest_cannot_create', __('Sorry, you are not allowed to create resources.', 'woocommerce')],
-            'delete' => ['woocommerce_rest_cannot_delete', __('Sorry, you cannot delete this resource.', 'woocommerce')],
-            'edit' => ['woocommerce_rest_cannot_edit', __('Sorry, you cannot edit this resource.', 'woocommerce')],
-            'list' => ['woocommerce_rest_cannot_view', __('Sorry, you cannot list resources.', 'woocommerce')],
-            'read' => ['woocommerce_rest_cannot_view', __('Sorry, you cannot view this resource.', 'woocommerce')],
+            'batch' => ['woocommerce_rest_cannot_batch', 'Sorry, you are not allowed to batch manipulate this resource.'],
+            'create' => ['woocommerce_rest_cannot_create', 'Sorry, you are not allowed to create resources.'],
+            'delete' => ['woocommerce_rest_cannot_delete', 'Sorry, you cannot delete this resource.'],
+            'edit' => ['woocommerce_rest_cannot_edit', 'Sorry, you cannot edit this resource.'],
+            'list' => ['woocommerce_rest_cannot_view', 'Sorry, you cannot list resources.'],
+            'read' => ['woocommerce_rest_cannot_view', 'Sorry, you cannot view this resource.'],
         ];
         if (in_array($action, ['delete', 'edit', 'read'])) {
             $hasPermission = $this->checkPermissionForProductReview($action, $request['id']);
@@ -323,13 +323,13 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
     protected function get_review($id)
     {
         $review = glsr_get_review($id);
-        $error = new \WP_Error('woocommerce_rest_review_invalid_id', __('Invalid review ID.', 'woocommerce'), ['status' => 404]);
+        $error = new \WP_Error('woocommerce_rest_review_invalid_id', 'Invalid review ID.', ['status' => 404]);
         if (!$review->isValid()) {
             return $error;
         }
         if (!empty($review->assigned_posts)) {
             if ('product' !== get_post_type((int) Arr::get($review->assigned_posts, 0))) {
-                return new \WP_Error('woocommerce_rest_product_invalid_id', __('Invalid product ID.', 'woocommerce'), ['status' => 404]);
+                return new \WP_Error('woocommerce_rest_product_invalid_id', 'Invalid product ID.', ['status' => 404]);
             }
         }
         return $review;
