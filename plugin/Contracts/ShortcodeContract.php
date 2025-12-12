@@ -18,6 +18,8 @@ interface ShortcodeContract
 
     public function buildTemplate(): string;
 
+    public function classAttr(string $classAttr, bool $isWrapper = false): string;
+
     public function defaults(): DefaultsAbstract;
 
     public function description(): string;
