@@ -17,8 +17,8 @@ class SiteReviewsSummaryBlock extends Block
     protected function blockClasses(array $attributes): array
     {
         $classes = [];
-        if (!empty($attributes['styleAlign'])) {
-            $classes[] = "items-justified-{$attributes['styleAlign']}";
+        if (!empty($attributes['style_align'])) {
+            $classes[] = "items-justified-{$attributes['style_align']}";
         }
         return $classes;
     }
@@ -26,12 +26,12 @@ class SiteReviewsSummaryBlock extends Block
     protected function blockStyles(array $attributes): array
     {
         $styles = [];
-        if (!empty($attributes['styleAlign'])) {
+        if (!empty($attributes['style_align'])) {
             $alignMap = [
                 'left' => 'start',
                 'right' => 'end',
             ];
-            $styles['--glsr-summary-align'] = $alignMap[$attributes['styleAlign']] ?? 'center';
+            $styles['--glsr-summary-align'] = $alignMap[$attributes['style_align']] ?? 'center';
         }
         return $styles;
     }

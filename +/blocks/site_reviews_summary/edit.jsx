@@ -102,10 +102,10 @@ const Edit = (props) => {
             label={ _x('Enable the Schema?', 'admin-text', 'site-reviews') }
             value={ attributes.schema }
         />,
-        styleAlign: <JustifyContentControl
+        style_align: <JustifyContentControl
             allowedControls={['left', 'center', 'right']}
-            onChange={ (styleAlign) => setAttributes({ styleAlign }) }
-            value={ attributes.styleAlign }
+            onChange={ (style_align) => setAttributes({ style_align }) }
+            value={ attributes.style_align }
         />,
         terms: <AjaxComboboxControl
             endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=terms'
@@ -125,7 +125,7 @@ const Edit = (props) => {
             placeholder={ _x('{rating} out of {max} stars (based on {num} reviews)', 'admin-text', 'site-reviews') }
             value={ attributes.text }
         />,
-        text_options_notice: <BaseControl __nextHasNoMarginBottom>
+        notice_text: <BaseControl __nextHasNoMarginBottom>
             <Notice status="warning" politeness="polite" isDismissible={ false }>
                 { _x('The recommended way to change these values is to use the Site Reviews → Settings → Strings page.', 'admin-text', 'site-reviews') }
             </Notice>
@@ -152,7 +152,7 @@ const Edit = (props) => {
     const panels = { // order is intentional
         block: {
             controls: [
-                'styleAlign',
+                'style_align',
             ],
         },
         settings: {
@@ -182,7 +182,7 @@ const Edit = (props) => {
         },
         text: {
             controls: [
-                'text_options_notice',
+                'notice_text',
                 'text',
                 'labels',
             ],
@@ -201,10 +201,10 @@ const Edit = (props) => {
             panels={panels}
             props={props}
             style={{
-                '--glsr-summary-align': ({ left: 'start', right: 'end' }[attributes.styleAlign || 'left']) || 'center',
+                '--glsr-summary-align': ({ left: 'start', right: 'end' }[attributes.style_align || 'left']) || 'center',
             }}
             styleClassNames={[
-                (attributes.styleAlign) ? `items-justified-${attributes.styleAlign}` : '',
+                (attributes.style_align) ? `items-justified-${attributes.style_align}` : '',
             ]}
         />
     )

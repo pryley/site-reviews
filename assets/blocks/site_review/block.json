@@ -39,7 +39,7 @@
         }
       }
     },
-    "styleAlign": {
+    "style_align": {
       "default": "left",
       "type": "string"
     }

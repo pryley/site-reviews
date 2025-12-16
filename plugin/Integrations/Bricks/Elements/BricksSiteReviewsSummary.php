@@ -28,7 +28,7 @@ class BricksSiteReviewsSummary extends BricksElement
     {
         $controls = parent::elementConfig();
         $controls = Arr::insertBefore('text', $controls, [
-            'text_notice' => [
+            'notice_text' => [
                 'content' => esc_html_x('The recommended way to change these values is to use the Site Reviews → Settings → Strings page.', 'admin-text', 'site-reviews'),
                 'group' => 'text',
                 'tab' => 'content',

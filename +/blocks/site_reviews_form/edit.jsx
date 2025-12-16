@@ -58,10 +58,10 @@ const Edit = (props) => {
             onChange={ reviews_id => setAttributes({ reviews_id }) }
             value={ attributes.reviews_id }
         />,
-        styleAlign: <JustifyContentControl
+        style_align: <JustifyContentControl
             allowedControls={['left', 'center', 'right']}
-            onChange={ (styleAlign) => setAttributes({ styleAlign }) }
-            value={ attributes.styleAlign }
+            onChange={ (style_align) => setAttributes({ style_align }) }
+            value={ attributes.style_align }
         />,
         summary_id: <TextControl
             __next40pxDefaultSize
@@ -77,7 +77,7 @@ const Edit = (props) => {
     const panels = { // order is intentional
         block: {
             controls: [
-                'styleAlign',
+                'style_align',
             ],
         },
         settings: {
@@ -108,7 +108,7 @@ const Edit = (props) => {
             panels={panels}
             props={props}
             styleClassNames={[
-                (attributes.styleAlign) ? `items-justified-${attributes.styleAlign}` : '',
+                (attributes.style_align) ? `items-justified-${attributes.style_align}` : '',
             ]}
         />
     )

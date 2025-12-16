@@ -13,7 +13,7 @@ import { RawHTML, useEffect, useMemo, useState } from '@wordpress/element';
 import { safeHTML } from '@wordpress/dom';
 
 const Edit = (props) => {
-    const { attributes, clientId, context, name, setAttributes, setStyleRatingColor, styleRatingColor } = props;
+    const { attributes, clientId, context, name, setAttributes, setStyle_rating_color, style_rating_color } = props;
     const { postId } = context;
     const colorGradientSettings = useMultipleOriginColorsAndGradients();
     const [ratings, setRatings] = useState({});
@@ -21,9 +21,9 @@ const Edit = (props) => {
     const defaultLinkUrl = '#product-reviews';
 
     const blockProps = useBlockProps({
-        className: (attributes.styleRatingColorCustom || styleRatingColor.slug) ? 'has-custom-color' : '',
+        className: (attributes.style_rating_color_custom || style_rating_color.slug) ? 'has-custom-color' : '',
         style: {
-            '--glsr-rating-star-bg': styleRatingColor.slug ? `var(--wp--preset--color--${styleRatingColor.slug})` : attributes.styleRatingColorCustom,
+            '--glsr-rating-star-bg': style_rating_color.slug ? `var(--wp--preset--color--${style_rating_color.slug})` : attributes.style_rating_color_custom,
         }
     });
 
@@ -60,16 +60,16 @@ const Edit = (props) => {
                     settings={ [
                         {
                             clearable: true,
-                            colorValue: styleRatingColor.color || attributes.styleRatingColorCustom,
+                            colorValue: style_rating_color.color || attributes.style_rating_color_custom,
                             label: _x('Rating', 'admin-text', 'site-reviews'),
                             onColorChange: (color) => {
-                                setAttributes({ styleRatingColorCustom: color })
-                                setStyleRatingColor(color)
+                                setAttributes({ style_rating_color_custom: color })
+                                setStyle_rating_color(color)
                             },
                             isShownByDefault: true,
                             resetAllFilter: () => ({
-                                styleRatingColor: '',
-                                styleRatingColorCustom: '',
+                                style_rating_color: '',
+                                style_rating_color_custom: '',
                             }),
                         }
                     ] }
@@ -134,4 +134,4 @@ const Edit = (props) => {
     );
 }
 
-export default withColors('styleRatingColor')(Edit)
+export default withColors('style_rating_color')(Edit)

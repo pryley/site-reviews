@@ -32,17 +32,17 @@ const Edit = (props) => {
             placeholder={ _x('Search Reviews...', 'admin-text', 'site-reviews') }
             value={ attributes.post_id }
         />,
-        styleAlign: <JustifyContentControl
+        style_align: <JustifyContentControl
             allowedControls={['left', 'center', 'right']}
-            onChange={ (styleAlign) => setAttributes({ styleAlign }) }
-            value={ attributes.styleAlign }
+            onChange={ (style_align) => setAttributes({ style_align }) }
+            value={ attributes.style_align }
         />,
     };
 
     const panels = { // order is intentional
         block: {
             controls: [
-                'styleAlign',
+                'style_align',
             ],
         },
         settings: {
@@ -69,7 +69,7 @@ const Edit = (props) => {
             panels={panels}
             props={props}
             styleClassNames={[
-                (attributes.styleAlign) ? `items-justified-${attributes.styleAlign}` : '',
+                (attributes.style_align) ? `items-justified-${attributes.style_align}` : '',
             ]}
         />
     )

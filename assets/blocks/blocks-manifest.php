@@ -44,7 +44,7 @@ return array(
 					)
 				)
 			),
-			'styleAlign' => array(
+			'style_align' => array(
 				'default' => 'left',
 				'type' => 'string'
 			)
@@ -186,7 +186,7 @@ return array(
 					)
 				)
 			),
-			'styleAlign' => array(
+			'style_align' => array(
 				'default' => 'left',
 				'type' => 'string'
 			),
@@ -316,7 +316,7 @@ return array(
 					)
 				)
 			),
-			'styleAlign' => array(
+			'style_align' => array(
 				'default' => 'left',
 				'type' => 'string'
 			),
@@ -455,7 +455,7 @@ return array(
 				),
 				'type' => 'number'
 			),
-			'styleAlign' => array(
+			'style_align' => array(
 				'default' => 'left',
 				'type' => 'string'
 			),
@@ -561,11 +561,11 @@ return array(
 					)
 				)
 			),
-			'styleRatingColor' => array(
+			'style_rating_color' => array(
 				'default' => '',
 				'type' => 'string'
 			),
-			'styleRatingColorCustom' => array(
+			'style_rating_color_custom' => array(
 				'default' => '',
 				'type' => 'string'
 			),
@@ -614,8 +614,12 @@ return array(
 		'example' => array(
 			
 		),
-		'editorScript' => 'file:./index.js',
-		'viewScriptModule' => 'file:./view.js',
+		'editorScript' => array(
+			'file:./index.js'
+		),
+		'viewScriptModule' => array(
+			'file:./view.js'
+		),
 		'style' => array(
 			'file:./style-index.css',
 			'site-reviews'
