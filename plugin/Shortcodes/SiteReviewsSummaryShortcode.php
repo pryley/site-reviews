@@ -200,9 +200,10 @@ class SiteReviewsSummaryShortcode extends Shortcode
     protected function normalizeLabels(string $value): array
     {
         $labels = Rating::labels(); // indexed in DESC order
-        $customLabels  = array_map('trim', explode(',', $value));
+        $custom = array_pad(array_map('trim', explode(',', $value)), Rating::max(), '');
+        $customLabels = array_combine(array_keys($labels), $custom);
         foreach ($labels as $index => $label) {
-            if (!empty($customLabels[$index])) { // don't allow 0
+            if (!empty($customLabels[$index])) {
                 $labels[$index] = $customLabels[$index];
             }
         }
