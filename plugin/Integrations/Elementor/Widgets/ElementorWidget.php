@@ -178,6 +178,9 @@ abstract class ElementorWidget extends Widget_Base
         }
         $html = $this->shortcodeInstance()->build($args, 'elementor');
         $html = str_replace('class="glsr-fallback">', 'class="glsr-fallback" style="display:none;">', $html);
+        if (empty($html)) {
+            return;
+        }
         $dom = new \DOMDocument();
         libxml_use_internal_errors(true);
         $dom->loadHTML($html, \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD);

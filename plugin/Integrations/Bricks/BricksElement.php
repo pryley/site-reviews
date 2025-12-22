@@ -147,6 +147,9 @@ abstract class BricksElement extends \Bricks\Element
 
     protected function setButtonClass(string $html): string
     {
+        if (empty($html)) {
+            return '';
+        }
         $classes = ['glsr-button', 'bricks-button'];
         if (str_contains($html, 'glsr-button-loadmore')) {
             $classes[] = 'glsr-button-loadmore';
