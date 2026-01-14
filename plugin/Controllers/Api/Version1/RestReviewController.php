@@ -91,6 +91,15 @@ class RestReviewController extends \WP_REST_Controller
     }
 
     /**
+     * @return array
+     */
+    public function get_endpoint_args_for_item_schema($method = \WP_REST_Server::CREATABLE)
+    {
+        $args = rest_get_endpoint_args_for_schema($this->get_item_schema(), $method);
+        return glsr()->filterArray('rest-api/reviews/endpoint_args_for_schema', $args, $method);
+    }
+
+    /**
      * @param \WP_REST_Request $request
      *
      * @return \WP_REST_Response|\WP_Error

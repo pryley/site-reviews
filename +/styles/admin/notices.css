@@ -113,14 +113,10 @@
   }
 }
 
-.glsr-table td .glsr-notice-inline {
-  display: block;
-  margin: 0 0 0.5em !important;
-  padding-block: 2px;
-}
+.glsr-table td .glsr-notice-inline,
 .glsr-responsive-table td .glsr-notice-inline {
   display: block;
-  margin: 0 0 0.5em !important;
+  margin: 0.5em 0 0 !important;
   padding-block: 2px;
 }
 

@@ -98,8 +98,8 @@
                         <td>array</td>
                         <td>edit, view</td>
                         <td>
-                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-images'); ?> addon required.</div>
                             The array of image objects attached to the review.
+                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-images'); ?> addon required.</div>
                         </td>
                     </tr>
                     <tr>
@@ -273,8 +273,8 @@
                         <td><strong>form</strong></td>
                         <td></td>
                         <td>
-                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-forms'); ?> addon required.</div>
                             Render the review with a review template of a specific custom review form (ID); only works with the <code>rendered</code> parameter.
+                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-forms'); ?> addon required.</div>
                         </td>
                     </tr>
                     <tr>
@@ -331,8 +331,8 @@
                         <td><strong>theme</strong></td>
                         <td></td>
                         <td>
-                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-themes'); ?> addon required.</div>
                             Render the review with a specific custom review theme (ID); only works with the <code>rendered</code> parameter.
+                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-themes'); ?> addon required.</div>
                         </td>
                     </tr>
                     <tr>
@@ -458,6 +458,13 @@
                     <tr>
                         <td><strong>email</strong></td>
                         <td>The email of the reviewer.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>images</strong></td>
+                        <td>
+                            One or more image URLs separated with either a comma or <code>|</code>.
+                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-images'); ?> addon required.</div>
+                        </td>
                     </tr>
                     <tr>
                         <td><strong>ip_address</strong></td>

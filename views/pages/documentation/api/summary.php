@@ -121,8 +121,8 @@ $schema = (new \GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema\SummarySc
                         <td><strong>rating_field</strong></td>
                         <td></td>
                         <td>
-                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-forms'); ?> addon required.</div>
                             Use rating values of a custom rating field; use the custom rating Field Name as the value.
+                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-forms'); ?> addon required.</div>
                         </td>
                     </tr>
                     <tr>
@@ -139,8 +139,8 @@ $schema = (new \GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema\SummarySc
                         <td><strong>theme</strong></td>
                         <td></td>
                         <td>
-                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-themes'); ?> addon required.</div>
                             Render the summary rating using a specific custom review theme (ID); only works with the <code>rendered</code> parameter.
+                            <div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-themes'); ?> addon required.</div>
                         </td>
                     </tr>
                     <tr>
