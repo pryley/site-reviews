@@ -383,10 +383,10 @@ class Review extends Arguments
     protected function hasRevisions(): bool
     {
         if (!$this->has_checked_revisions) {
-            $modified = glsr(Query::class)->hasRevisions($this->ID);
-            $this->set('is_modified', $modified);
+            $isModified = glsr(Query::class)->hasRevisions($this->ID);
             $this->has_checked_revisions = true;
+            $this->set('is_modified', $isModified);
         }
-        return $this->is_modified;
+        return $this->cast('is_modified', 'bool');
     }
 }
