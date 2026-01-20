@@ -183,7 +183,7 @@ abstract class ElementorWidget extends Widget_Base
         }
         $dom = new \DOMDocument();
         libxml_use_internal_errors(true);
-        $dom->loadHTML($html, \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD);
+        $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'), \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD);
         $xpath = new \DOMXPath($dom);
         $node = $xpath->query('//div[1]')->item(0);
         if ($node instanceof \DOMElement) {
