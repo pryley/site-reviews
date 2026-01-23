@@ -16,6 +16,7 @@ class Migrate_8_0_0 implements MigrateContract
     {
         $this->migrateElementor();
         $this->migrateFusionBuilder();
+        $this->migrateReviewForms();
         return $this->migrateDatabase();
     }
 
@@ -133,6 +134,28 @@ class Migrate_8_0_0 implements MigrateContract
                 }
             }
         }
+    }
+
+    public function migrateReviewForms(): void
+    {
+        $sql = "
+            UPDATE table|postmeta pm
+            LEFT JOIN table|postmeta pm2 ON (
+                pm2.post_id = pm.post_id AND pm2.meta_key = '_form'
+            )
+            SET pm.meta_key = '_form'
+            WHERE 1=1
+            AND pm2.post_id IS NULL
+            AND pm.meta_key = '_custom_form'
+            AND pm.meta_value > '0'
+            AND pm.post_id IN (
+                SELECT ID
+                FROM table|posts
+                WHERE post_type = %s
+            )
+        ";
+        $query = glsr(Query::class)->sql($sql, glsr()->post_type);
+        glsr(Database::class)->dbQuery($query);
     }
 
     protected function updateElementorAssignments(array $element): array
