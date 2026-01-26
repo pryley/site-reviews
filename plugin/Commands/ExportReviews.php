@@ -8,6 +8,8 @@ use GeminiLabs\League\Csv\Writer;
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Database\ExportManager;
 use GeminiLabs\SiteReviews\Defaults\AdditionalFieldsDefaults;
+use GeminiLabs\SiteReviews\Defaults\StatDefaults;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
@@ -112,7 +114,18 @@ class ExportReviews extends AbstractCommand
         $results = [];
         foreach ($meta as $key => $value) {
             $key = Str::removePrefix($key, '_');
-            $results[$key] = $value;
+            if ('geolocation' !== $key) {
+                $results[$key] = $value;
+                continue;
+            }
+            // geolocation values need their own columns
+            $geolocation = glsr(StatDefaults::class)->restrict(
+                Arr::consolidate(maybe_unserialize($value))
+            );
+            unset($geolocation['rating_id']);
+            foreach (array_filter($geolocation) as $suffix => $location) {
+                $results["{$key}_{$suffix}"] = $location;
+            }
         }
         return $results;
     }
