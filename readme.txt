@@ -19,14 +19,12 @@ You can pin your best reviews so that they are always shown first, request revie
 
 Site Reviews provides more features and options than almost every other free review plugin, and the support provided on the WordPress forum is excellent.
 
+https://www.youtube.com/watch?v=H5HdMCXvuq8
+
 = Try a Live Demo =
 
 1. [Try Site Reviews](https://tastewp.com/plugins/site-reviews/?ni=true&redirect=index.php%3Fpage=site-reviews-welcome%26tab=getting-started) for yourself on a demo server.
 2. [View a demo website](https://demo.site-reviews.com)
-
-= Watch a Tutorial =
-
-https://www.youtube.com/watch?v=H5HdMCXvuq8
 
 = Current Features =
 
@@ -173,7 +171,11 @@ If you encounter issues with your reviews after an update, go to the Site Review
 
 = How do I use Site Reviews? =
 
-Once Site Reviews is installed, you can read the "Getting Started" page by clicking the Help icon on the top-right corner of any of the Site Reviews admin pages.
+Here is a Tutorial:
+
+https://www.youtube.com/watch?v=H5HdMCXvuq8
+
+You can also read the "Getting Started" page by clicking the Help icon on the top-right corner of any of the Site Reviews admin pages.
 
 = I need help with something else =
 
