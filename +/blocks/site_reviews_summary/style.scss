@@ -122,6 +122,13 @@
     }
 }
 
+.items-justified-right .glsr,
+.is-style-2.items-justified-right .glsr {
+    .glsr-summary-text {
+        flex: 0 auto;
+    }
+}
+
 .is-style-1.items-justified-right .glsr,
 .is-style-3.items-justified-right .glsr {
     .glsr-summary {
