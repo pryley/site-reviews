@@ -166,7 +166,9 @@ abstract class BricksElement extends \Bricks\Element
         );
         $xpath = new \DOMXPath($dom);
         foreach ($xpath->query('//button[contains(concat(" ", normalize-space(@class), " "), " glsr-button ")]') as $button) {
-            $button->setAttribute('class', $classes);
+            if ($button instanceof \DOMElement) {
+                $button->setAttribute('class', $classes);
+            }
         }
         return $dom->saveHTML();
     }
