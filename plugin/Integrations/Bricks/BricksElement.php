@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
-use GeminiLabs\SiteReviews\Modules\Style;
 
 abstract class BricksElement extends \Bricks\Element
 {
@@ -162,14 +161,12 @@ abstract class BricksElement extends \Bricks\Element
         }
         $classes = glsr(Sanitizer::class)->sanitizeAttrClass(implode(' ', $classes));
         $dom = new \DOMDocument();
-        libxml_use_internal_errors(true);
-        $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'), \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD);
+        $dom->loadHTML('<?xml encoding="utf-8"?>'.$html,
+            LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOERROR | LIBXML_NOWARNING
+        );
         $xpath = new \DOMXPath($dom);
-        $nodes = $xpath->query('//button[contains(@class, "glsr-button")]');
-        foreach ($nodes as $node) {
-            if ($node instanceof \DOMElement) {
-                $node->setAttribute('class', $classes);
-            }
+        foreach ($xpath->query('//button[contains(concat(" ", normalize-space(@class), " "), " glsr-button ")]') as $button) {
+            $button->setAttribute('class', $classes);
         }
         return $dom->saveHTML();
     }
