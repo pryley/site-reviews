@@ -24,7 +24,7 @@ class Form extends \ArrayObject implements FormContract
     /**
      * The $args are expected to be sanitized before being passed to the form.
      */
-    public function __construct(array $args = [], array $values = [])
+    public function __construct(array $args = [], array $values = [], array $config = [])
     {
         if (empty($args['id'])) {
             $args['id'] = glsr(Sanitizer::class)->sanitizeIdUnique('');
@@ -34,7 +34,7 @@ class Form extends \ArrayObject implements FormContract
             'button_text_loading' => __('Submitting, please wait...', 'site-reviews'),
         ]);
         $this->args = glsr()->args($args);
-        $this->config = $this->mergeConfig();
+        $this->config = $this->mergeConfig($config);
         $this->loadSession($values);
         parent::__construct($this->fieldsAll(), \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
         array_map([$this, 'normalizeConditions'], $this->fields());
@@ -314,9 +314,9 @@ class Form extends \ArrayObject implements FormContract
         return $fields;
     }
 
-    protected function mergeConfig(): array
+    protected function mergeConfig(array $config): array
     {
-        $config = $this->config();
+        $config = array_merge($config, $this->config());
         $config = $this->app()->filterArray("{$this->formName()}/config", $config, $this);
         if (!wp_is_numeric_array($config)) { // allow custom filtered field order
             $order = array_keys($config);

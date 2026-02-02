@@ -59,7 +59,7 @@ class ExportReviews extends AbstractCommand
 
     protected function fetchReviews(): \Generator
     {
-        $args = glsr()->args([
+        $args = [
             'assigned_posts' => $this->request->assigned_posts,
             'assigned_terms' => $this->request->assigned_terms,
             'assigned_users' => $this->request->assigned_users,
@@ -67,7 +67,9 @@ class ExportReviews extends AbstractCommand
             'date' => $this->request->cast('date', 'date'),
             'limit' => 500,
             'post_status' => $this->request->post_status,
-        ]);
+        ];
+        $args = glsr()->filterArray('export/review/args', $args, $this->request);
+        $args = glsr()->args($args);
         $header = [];
         $postId = 0;
         while (true) {
@@ -82,6 +84,7 @@ class ExportReviews extends AbstractCommand
             }
             foreach ($reviews as $review) {
                 $meta = $this->postMeta($review['ID']);
+                $meta = glsr()->filterArray('export/review/meta', $meta, $args, $review);
                 $custom = wp_parse_args($meta, array_fill_keys($header, ''));
                 $record = wp_parse_args($review, $custom);
                 unset($record['ID']);
@@ -96,6 +99,7 @@ class ExportReviews extends AbstractCommand
         $additionalHeader = array_keys(glsr(AdditionalFieldsDefaults::class)->defaults());
         $customHeader = glsr(ExportManager::class)->customHeader($args);
         $header = array_merge(array_keys($record), $additionalHeader, $customHeader);
+        $header = glsr()->filterArray('export/review/header', $header, $record);
         return $header;
     }
 

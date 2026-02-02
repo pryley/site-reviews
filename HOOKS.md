@@ -168,6 +168,9 @@
     site-reviews/enqueue/public/inline-styles                   (string $inlineCss, array $inlineConfig): string
     site-reviews/enqueue/public/localize                        (array $variables): array
     site-reviews/enqueue/public/localize/ajax-pagination        (array $selectors): array
+    site-reviews/export/review/args                             (array $args, Request $request): array
+    site-reviews/export/review/header                           (array $header, array $record): array
+    site-reviews/export/review/meta                             (array $meta, Arguments $args, array $record): array
     site-reviews/export/settings/extra                          (array $extra): array
     site-reviews/field/element/<field_element_type>             (string $className, Contracts\FieldContract $field): string
     site-reviews/flatsome/controls                              (array $controls, Contracts\ShortcodeContract $shortcode): array
