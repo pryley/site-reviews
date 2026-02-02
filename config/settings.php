@@ -751,18 +751,18 @@ return [ // order is intentional
     ],
     'settings.forms.autofill' => [
         'default' => ['email', 'name'],
-        'description' => _x('Autofill these fields with the details of the logged in user.', 'admin-text', 'site-reviews'),
+        'description' => _x('Choose which fields should be autofilled with the details of the logged in user.', 'admin-text', 'site-reviews'),
         'label' => _x('Autofill Fields', 'admin-text', 'site-reviews'),
         'options' => [
             'name' => _x('Name', 'admin-text', 'site-reviews'),
             'email' => _x('Email', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'array-string',
-        'tooltip' => _x('Choose which fields should be autofilled with the logged in user data in the review form.', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('Choose which fields should be autofilled with the details of the logged in user.', 'admin-text', 'site-reviews'),
         'type' => 'checkbox',
     ],
     'settings.forms.required' => [
-        'description' => _x('To hide fields instead of making them not required, use the hide options on the Review Form block.', 'admin-text', 'site-reviews'),
+        'description' => _x('Choose which fields should be required (mandatory) instead of optional.', 'admin-text', 'site-reviews'),
         'default' => ['content', 'email', 'name', 'rating', 'terms', 'title'],
         'label' => _x('Required Fields', 'admin-text', 'site-reviews'),
         'options' => [
@@ -774,7 +774,7 @@ return [ // order is intentional
             'terms' => _x('Terms', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'array-string',
-        'tooltip' => _x('Choose which fields should be required in the review form.', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('Choose which fields should be required (mandatory) instead of optional.', 'admin-text', 'site-reviews'),
         'type' => 'checkbox',
     ],
     'settings.forms.limit' => [
