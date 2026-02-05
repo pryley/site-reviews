@@ -23,11 +23,11 @@
     text-align: var(--glsr-summary-align);
 }
 :root .glsr-summary-percentages {
-    column-gap: var(--glsr-bar-spacing);
+    column-gap: var(--glsr-bar-gap);
     display: grid;
     grid-template-columns: auto 1fr auto;
     line-height: 1;
-    row-gap: var(--glsr-bar-spacing);
+    row-gap: var(--glsr-bar-gap);
     width: 100%;
 }
 :root .glsr-summary > div + .glsr-summary-percentages {

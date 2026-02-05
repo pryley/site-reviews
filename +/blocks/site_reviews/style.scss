@@ -52,6 +52,9 @@
         flex: auto;
         justify-content: end;
     }
+    .glsr-review-images {
+        justify-content: center;
+    }
 }
 .has-text-align-right .glsr:not([data-theme]) {
     .glsr-review {
@@ -67,6 +70,9 @@
     }
     .glsr-review-rating {
         flex: 1;
+        justify-content: end;
+    }
+    .glsr-review-images {
         justify-content: end;
     }
 }

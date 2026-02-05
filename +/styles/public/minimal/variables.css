@@ -45,7 +45,7 @@
     --glsr-bar-opacity: 0.1;
     --glsr-bar-radius: 0px;
     --glsr-bar-size: var(--glsr-text-md);
-    --glsr-bar-spacing: .5em;
+    --glsr-bar-gap: .5em;
     --glsr-max-w: 48ch;
     --glsr-summary-align: start;
     --glsr-summary-star: 1.5em;
