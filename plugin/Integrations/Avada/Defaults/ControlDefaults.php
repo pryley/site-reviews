@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder\Defaults;
+namespace GeminiLabs\SiteReviews\Integrations\Avada\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
 

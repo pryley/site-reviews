@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 
-class MigrateFusionBuilder implements MigrateContract
+class MigrateAvadaBuilder implements MigrateContract
 {
     /**
      * Run migration.

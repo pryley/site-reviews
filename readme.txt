@@ -84,7 +84,7 @@ If you need even more features, [Site Reviews Premium](https://niftyplugins.com/
 Site Reviews is officially compatible with the following plugins:
 
 - [Akismet](https://wordpress.org/plugins/akismet/)
-- [Avada Fusion Builder](https://avada.com/)
+- [Avada Builder](https://avada.com/)
 - [Breakdance](https://breakdance.com/)
 - [Bricks](https://bricksbuilder.io/)
 - [BuddyBoss](https://www.buddyboss.com/)
@@ -218,6 +218,7 @@ Site Reviews has a fresh coat of paint!
 - ‼️ The minimum required version of PHP is now v8.1.2
 - ‼️ The minimum required version of WordPress is now v6.7
 - ‼️ The Elementor Widget style controls have been removed because they didn't work well with the addons and not at all when displaying reviews in a modal.
+- Added [Avada Builder](https://avada.com/) integration
 - Added [Breakdance](https://breakdance.com/) integration
 - Added [Bricks](https://bricksbuilder.io/) integration
 - Added [Cloudflare](https://wordpress.org/plugins/cloudflare/) integration
@@ -266,7 +267,6 @@ Site Reviews has a fresh coat of paint!
 - Removed the `site-reviews/review-form/fields/normalized` filter hook
 - Removed the `site-reviews/summary/counts` filter hook
 - Updated Action Scheduler to v3.9.3
-- Updated the Avada Fusion Builder integration
 - Updated the Elementor integration
 - Updated the FAQ documentation to include a section on how to hide empty review titles
 - Updated the Gutenberg blocks to API v3

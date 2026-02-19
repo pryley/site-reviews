@@ -1,8 +1,8 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder\Elements;
+namespace GeminiLabs\SiteReviews\Integrations\Avada\Elements;
 
-use GeminiLabs\SiteReviews\Integrations\FusionBuilder\Transformer;
+use GeminiLabs\SiteReviews\Integrations\Avada\Transformer;
 use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
 
 abstract class FusionElement extends \Fusion_Element

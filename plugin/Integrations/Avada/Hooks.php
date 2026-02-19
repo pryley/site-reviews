@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder;
+namespace GeminiLabs\SiteReviews\Integrations\Avada;
 
 use GeminiLabs\SiteReviews\Integrations\IntegrationHooks;
 
@@ -12,12 +12,13 @@ class Hooks extends IntegrationHooks
             return;
         }
         if (!$this->isVersionSupported()) {
-            $this->notify('Fusion Builder');
+            $this->notify('Avada Builder');
             return;
         }
         $this->hook(Controller::class, [
             ['enqueueBuilderStyles', 'fusion_builder_admin_scripts_hook'],
             ['enqueueBuilderStyles', 'fusion_builder_enqueue_live_scripts'],
+            ['filterBuilderPluginElements', 'fusion_builder_plugin_elements'],
             ['filterButtonClass', 'site-reviews/defaults/style-classes/defaults'],
             ['filterModalWrappedBy', 'site-reviews/modal_wrapped_by'],
             ['filterPublicInlineScript', 'site-reviews/enqueue/public/inline-script/after'],

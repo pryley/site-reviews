@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder;
+namespace GeminiLabs\SiteReviews\Integrations\Avada;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\ShortcodeOptionManager;
@@ -33,6 +33,33 @@ class Controller extends AbstractController
         );
         wp_add_inline_style('fusion_builder_css', $css);
         wp_add_inline_style('fusion-builder-frame-builder-css', $css);
+    }
+
+    /**
+     * @filter fusion_builder_plugin_elements
+     */
+    public function filterBuilderPluginElements(array $elements): array
+    {
+        global $all_fusion_builder_elements;
+        if (!is_array($all_fusion_builder_elements)) {
+            return $elements;
+        }
+        $icon = Svg::get('assets/images/icon-static.svg', [
+            'height' => 20,
+            'style' => 'position:absolute;',
+            'width' => 20,
+        ]);
+        foreach ($all_fusion_builder_elements as $key => $element) {
+            if (!str_starts_with($key, 'site_review')) {
+                continue;
+            }
+            if (empty($element['name'])) {
+                continue;
+            }
+            $element['name'] = "{$icon} <span style=\"margin-left:20px;\">{$element['name']}</span>";
+            $elements[$key] = $element;
+        }
+        return $elements;
     }
 
     /**

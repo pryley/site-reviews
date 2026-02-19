@@ -6,8 +6,8 @@ use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Tables\TableStats;
+use GeminiLabs\SiteReviews\Migrations\Migrate_8_0_0\MigrateAvadaBuilder;
 use GeminiLabs\SiteReviews\Migrations\Migrate_8_0_0\MigrateElementor;
-use GeminiLabs\SiteReviews\Migrations\Migrate_8_0_0\MigrateFusionBuilder;
 use GeminiLabs\SiteReviews\Migrations\Migrate_8_0_0\MigrateReviewForms;
 
 class Migrate_8_0_0 implements MigrateContract
@@ -16,8 +16,8 @@ class Migrate_8_0_0 implements MigrateContract
 
     public function run(): bool
     {
+        glsr(MigrateAvadaBuilder::class)->run();
         glsr(MigrateElementor::class)->run();
-        glsr(MigrateFusionBuilder::class)->run();
         glsr(MigrateReviewForms::class)->run();
         return $this->migrateDatabase();
     }

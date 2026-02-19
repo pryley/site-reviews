@@ -1,9 +1,9 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder;
+namespace GeminiLabs\SiteReviews\Integrations\Avada;
 
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Integrations\FusionBuilder\Defaults\ControlDefaults;
+use GeminiLabs\SiteReviews\Integrations\Avada\Defaults\ControlDefaults;
 
 class Transformer
 {

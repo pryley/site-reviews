@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\FusionBuilder\Elements;
+namespace GeminiLabs\SiteReviews\Integrations\Avada\Elements;
 
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
