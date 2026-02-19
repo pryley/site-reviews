@@ -64,6 +64,22 @@
       "default": "left",
       "type": "string"
     },
+    "style_bar_color": {
+      "default": "",
+      "type": "string"
+    },
+    "style_bar_color_custom": {
+      "default": "",
+      "type": "string"
+    },
+    "style_rating_color": {
+      "default": "",
+      "type": "string"
+    },
+    "style_rating_color_custom": {
+      "default": "",
+      "type": "string"
+    },
     "summary_id": {
       "default": "",
       "type": "string"

@@ -34,9 +34,9 @@ if (!empty($attributes['style_rating_color']) || !empty($attributes['style_ratin
 
 $blockStyleAttr = '';
 if (!empty($attributes['style_rating_color'])) {
-    $blockStyleAttr = "--glsr-rating-star-bg: var(--wp--preset--color--{$attributes['style_rating_color']});";
+    $blockStyleAttr = "--glsr-review-star-bg: var(--wp--preset--color--{$attributes['style_rating_color']});";
 } elseif (!empty($attributes['style_rating_color_custom'])) {
-    $blockStyleAttr = "--glsr-rating-star-bg: {$attributes['style_rating_color_custom']};";
+    $blockStyleAttr = "--glsr-review-star-bg: {$attributes['style_rating_color_custom']};";
 }
 
 $blockAttributes = get_block_wrapper_attributes([

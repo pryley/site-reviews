@@ -47,6 +47,14 @@ return array(
 			'style_align' => array(
 				'default' => 'left',
 				'type' => 'string'
+			),
+			'style_rating_color' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'style_rating_color_custom' => array(
+				'default' => '',
+				'type' => 'string'
 			)
 		),
 		'supports' => array(
@@ -190,6 +198,14 @@ return array(
 				'default' => 'left',
 				'type' => 'string'
 			),
+			'style_rating_color' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'style_rating_color_custom' => array(
+				'default' => '',
+				'type' => 'string'
+			),
 			'terms' => array(
 				'default' => '',
 				'type' => 'string'
@@ -318,6 +334,22 @@ return array(
 			),
 			'style_align' => array(
 				'default' => 'left',
+				'type' => 'string'
+			),
+			'style_bar_color' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'style_bar_color_custom' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'style_rating_color' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'style_rating_color_custom' => array(
+				'default' => '',
 				'type' => 'string'
 			),
 			'summary_id' => array(
@@ -457,6 +489,14 @@ return array(
 			),
 			'style_align' => array(
 				'default' => 'left',
+				'type' => 'string'
+			),
+			'style_rating_color' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'style_rating_color_custom' => array(
+				'default' => '',
 				'type' => 'string'
 			),
 			'terms' => array(

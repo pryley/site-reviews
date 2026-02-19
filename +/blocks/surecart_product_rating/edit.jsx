@@ -1,6 +1,5 @@
 import apiFetch from '@wordpress/api-fetch';
 import {
-    __experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
     __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
     InspectorControls,
     useBlockProps,
@@ -8,22 +7,36 @@ import {
 } from '@wordpress/block-editor';
 import { _x } from '@wordpress/i18n';
 import { addQueryArgs } from '@wordpress/url';
+import { ColorControl } from '@site-reviews/components';
+import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
 import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 import { RawHTML, useEffect, useMemo, useState } from '@wordpress/element';
 import { safeHTML } from '@wordpress/dom';
 
 const Edit = (props) => {
-    const { attributes, clientId, context, name, setAttributes, setStyle_rating_color, style_rating_color } = props;
+    const {
+        attributes,
+        clientId,
+        context,
+        name,
+        setAttributes,
+    } = props;
+    const {
+        style_rating_color,
+        style_rating_color_custom,
+    } = attributes
     const { postId } = context;
-    const colorGradientSettings = useMultipleOriginColorsAndGradients();
+    const colorSettings = useMultipleOriginColorsAndGradients();
     const [ratings, setRatings] = useState({});
     const defaultText = _x('{num} customer reviews', 'admin-text', 'site-reviews');
     const defaultLinkUrl = '#product-reviews';
 
     const blockProps = useBlockProps({
-        className: (attributes.style_rating_color_custom || style_rating_color.slug) ? 'has-custom-color' : '',
+        className: (style_rating_color || style_rating_color_custom) ? 'has-custom-color' : '',
         style: {
-            '--glsr-rating-star-bg': style_rating_color.slug ? `var(--wp--preset--color--${style_rating_color.slug})` : attributes.style_rating_color_custom,
+            '--glsr-review-star-bg': style_rating_color
+                ? getCSSValueFromRawStyle(`var:preset|color|${style_rating_color}`)
+                : style_rating_color_custom,
         }
     });
 
@@ -54,26 +67,10 @@ const Edit = (props) => {
     return (
         <>
             <InspectorControls group="color">
-                <ColorGradientSettingsDropdown
-                    __experimentalIsRenderedInSidebar
-                    panelId={clientId}
-                    settings={ [
-                        {
-                            clearable: true,
-                            colorValue: style_rating_color.color || attributes.style_rating_color_custom,
-                            label: _x('Rating', 'admin-text', 'site-reviews'),
-                            onColorChange: (color) => {
-                                setAttributes({ style_rating_color_custom: color })
-                                setStyle_rating_color(color)
-                            },
-                            isShownByDefault: true,
-                            resetAllFilter: () => ({
-                                style_rating_color: '',
-                                style_rating_color_custom: '',
-                            }),
-                        }
-                    ] }
-                    {...colorGradientSettings}
+                <ColorControl
+                    attributeName='style_rating_color'
+                    label={_x('Rating', 'admin-text', 'site-reviews')}
+                    props={props}
                 />
             </InspectorControls>
             <InspectorControls>

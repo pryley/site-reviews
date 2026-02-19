@@ -1,14 +1,18 @@
 import { _x } from '@wordpress/i18n';
-import { AjaxComboboxControl, AjaxFormTokenField, AjaxSearchControl, AjaxToggleGroupControl, NoYesControl } from '@site-reviews/components';
-import { JustifyContentControl } from '@wordpress/block-editor';
+import { AjaxComboboxControl, AjaxFormTokenField, AjaxSearchControl, AjaxToggleGroupControl, ColorControl, NoYesControl } from '@site-reviews/components';
+import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
 import { RangeControl, TextControl } from '@wordpress/components';
+import {
+  __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
+  JustifyContentControl,
+  withColors,
+} from "@wordpress/block-editor";
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
 const Edit = (props) => {
     const { attributes, setAttributes } = props;
-
-    setAttributes({ post_id: jQuery('#post_ID').val() }) // used to get the "post_id" assigned_posts value
-
+    const { style_rating_color, style_rating_color_custom } = attributes;
+    const colorSettings = useMultipleOriginColorsAndGradients();
     const controls = {
         assigned_posts: <AjaxFormTokenField
             endpoint='/site-reviews/v1/shortcode/site_reviews?option=assigned_posts'
@@ -100,6 +104,11 @@ const Edit = (props) => {
             onChange={ (style_align) => setAttributes({ style_align }) }
             value={ attributes.style_align }
         />,
+        style_rating_color: <ColorControl
+            attributeName='style_rating_color'
+            label={ _x('Rating', 'admin-text', 'site-reviews') }
+            props={ props }
+        />,
         terms: <AjaxComboboxControl
             endpoint='/site-reviews/v1/shortcode/site_reviews?option=terms'
             key='terms'
@@ -126,7 +135,6 @@ const Edit = (props) => {
             value={ attributes.verified }
         />,
     };
-
     const panels = { // order is intentional
         block: {
             controls: [
@@ -164,18 +172,29 @@ const Edit = (props) => {
                 'id',
             ],
         },
+        color: {
+            controls: [
+                'style_rating_color',
+            ],
+        },
     };
-
+    setAttributes({ post_id: jQuery('#post_ID').val() }) // used to get the "post_id" assigned_posts value
     return (
         <ServerSideBlockRenderer
             controls={controls}
             panels={panels}
             props={props}
+            style={{
+                '--glsr-review-star-bg': style_rating_color
+                    ? getCSSValueFromRawStyle(`var:preset|color|${style_rating_color}`)
+                    : style_rating_color_custom,
+            }}
             styleClassNames={[
                 (attributes?.style_align) ? `items-justified-${attributes.style_align}` : '',
+                (style_rating_color || style_rating_color_custom) ? 'has-custom-color' : '',
             ]}
         />
     )
 }
 
-export default Edit;
+export default withColors('style_rating_color')(Edit);

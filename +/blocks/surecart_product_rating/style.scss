@@ -7,7 +7,7 @@
 
 .has-custom-color:not([data-theme]) {
     .glsr-star {
-        background: var(--glsr-rating-star-bg);
+        background: var(--glsr-review-star-bg);
         mask-size: 100%;
     }
     .glsr-star-empty {

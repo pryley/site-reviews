@@ -42,6 +42,14 @@
     "style_align": {
       "default": "left",
       "type": "string"
+    },
+    "style_rating_color": {
+      "default": "",
+      "type": "string"
+    },
+    "style_rating_color_custom": {
+      "default": "",
+      "type": "string"
     }
   },
   "supports": {
