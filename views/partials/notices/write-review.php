@@ -5,7 +5,7 @@
     <?php echo _x('Can You Help?', 'admin-text', 'site-reviews'); ?>
 </h3>
 <p>
-    <?php echo _x('Has Site Reviews made your website better? If so, please leave a ★★★★★ 5-star rating on WordPress. Your support motivates me to keep improving the plugin and helping out in the forums. I promise I won’t let it go to my head. Much...', 'admin-text', 'site-reviews'); ?>
+    <?php echo _x('Please rate Site Reviews 5-stars ★★★★★ on WordPress! Your support motivates me to keep improving the plugin and staying active in the forums. I promise I won’t let it go to my head...much.', 'admin-text', 'site-reviews'); ?>
 </p>
 <p class="glsr-notice-buttons">
     <a class="components-button is-primary is-small" href="https://wordpress.org/support/view/plugin-reviews/site-reviews?filter=5#new-post" target="_blank">
