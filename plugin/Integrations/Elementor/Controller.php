@@ -62,6 +62,24 @@ class Controller extends AbstractController
     }
 
     /**
+     * @param \Elementor\Widget_Base $widget
+     * 
+     * @action elementor/element/after_add_attributes
+     */
+    public function modifyAttributes($widget): void
+    {
+        if (!$widget instanceof ElementorWidget) {
+            return;
+        }
+        $settings = $widget->get_settings_for_display();
+        $hasColor = !empty($settings['style_rating_color']) || !empty($settings['__globals__']['style_rating_color']);
+        $hasTheme = !empty($settings['theme']);
+        if ($hasColor && !$hasTheme) {
+            $widget->add_render_attribute('_wrapper', 'class', 'has-custom-color');
+        }
+    }
+
+    /**
      * @see static::registerAjaxActions()
      */
     public function queryAjaxControlOptions($data): array
