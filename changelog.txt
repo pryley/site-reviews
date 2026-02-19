@@ -1,6 +1,6 @@
 == Changelog ==
 
-= 8.0.0 (2025-02-16) =
+= 8.0.0 (2026-02-23) =
 
 - ‼️ The minimum required version of PHP is now v8.1.2
 - ‼️ The minimum required version of WordPress is now v6.7

@@ -24,7 +24,7 @@ class ElementorSiteReviewsSummary extends ElementorWidget
                 'global' => [
                     'default' => '',
                 ],
-                'label' => esc_html_x('Rating Color', 'admin-text', 'site-reviews-themes'),
+                'label' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
                 'label_block' => false,
                 'selectors' => [
                     '.glsr-elementor-{{ID}} .glsr:not([data-theme])' => '--glsr-summary-star-bg: {{VALUE}}',
@@ -35,7 +35,7 @@ class ElementorSiteReviewsSummary extends ElementorWidget
                 'global' => [
                     'default' => '',
                 ],
-                'label' => esc_html_x('Bar Color', 'admin-text', 'site-reviews-themes'),
+                'label' => esc_html_x('Bar Color', 'admin-text', 'site-reviews'),
                 'label_block' => false,
                 'selectors' => [
                     '.glsr-elementor-{{ID}}' => '--glsr-bar-bg: {{VALUE}}',

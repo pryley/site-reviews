@@ -713,7 +713,7 @@ msgctxt "admin-text"
 msgid "Functions"
 msgstr "Functions"
 
-#: helpers.php:102, plugin/Controllers/MenuController.php:175, plugin/Controllers/MenuController.php:199, plugin/Integrations/Breakdance/Transformer.php:141, plugin/Integrations/Bricks/BricksElement.php:98, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:67, plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:23, plugin/Integrations/FusionBuilder/Defaults/ControlDefaults.php:46, plugin/Integrations/WPBakery/Shortcodes/VcShortcode.php:48
+#: helpers.php:102, plugin/Controllers/MenuController.php:175, plugin/Controllers/MenuController.php:199, plugin/Integrations/Breakdance/Transformer.php:141, plugin/Integrations/Bricks/BricksElement.php:98, plugin/Integrations/Avada/Defaults/ControlDefaults.php:46, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:67, plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:23, plugin/Integrations/WPBakery/Shortcodes/VcShortcode.php:48
 msgctxt "admin-text"
 msgid "General"
 msgstr "General"
@@ -3165,12 +3165,12 @@ msgstr ""
 "The review URL (only use this if the review was exported from another "
 "review platform, i.e. google, tripadvisor, etc.)"
 
-#: plugin/Commands/DownloadCsvTemplate.php:115, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:14, plugin/Integrations/Flatsome/Transformer.php:51, plugin/Integrations/FusionBuilder/Transformer.php:47, plugin/Integrations/WPBakery/Transformer.php:41, views/pages/premium/index.php:41, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:19, views/partials/editor/verified.php:7, views/partials/editor/verified.php:20, plugin/Integrations/Elementor/Controls/MultiSwitcher.php:53
+#: plugin/Commands/DownloadCsvTemplate.php:115, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:14, plugin/Integrations/Avada/Transformer.php:47, plugin/Integrations/Flatsome/Transformer.php:51, plugin/Integrations/WPBakery/Transformer.php:41, views/pages/premium/index.php:41, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:19, views/partials/editor/verified.php:7, views/partials/editor/verified.php:20, plugin/Integrations/Elementor/Controls/MultiSwitcher.php:53
 msgctxt "admin-text"
 msgid "Yes"
 msgstr "Yes"
 
-#: plugin/Commands/DownloadCsvTemplate.php:116, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/Flatsome/Transformer.php:50, plugin/Integrations/FusionBuilder/Transformer.php:46, views/pages/premium/index.php:40, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:22, views/partials/editor/verified.php:7, views/partials/editor/verified.php:23, plugin/Integrations/Elementor/Controls/MultiSwitcher.php:52
+#: plugin/Commands/DownloadCsvTemplate.php:116, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:13, plugin/Integrations/Avada/Transformer.php:46, plugin/Integrations/Flatsome/Transformer.php:50, views/pages/premium/index.php:40, views/partials/editor/pinned.php:6, views/partials/editor/pinned.php:22, views/partials/editor/verified.php:7, views/partials/editor/verified.php:23, plugin/Integrations/Elementor/Controls/MultiSwitcher.php:52
 msgctxt "admin-text"
 msgid "No"
 msgstr "No"
@@ -3631,25 +3631,25 @@ msgctxt "admin-text"
 msgid "Ask for Help"
 msgstr "Ask for Help"
 
-#: plugin/Controllers/FlyoutController.php:46
-msgctxt "admin-text"
-msgid "Read the Documentation"
-msgstr "Read the Documentation"
-
-#: plugin/Controllers/FlyoutController.php:51, views/partials/notices/welcome.php:15
+#: plugin/Controllers/FlyoutController.php:46, views/partials/notices/welcome.php:15
 msgctxt "admin-text"
 msgid "Watch the Tutorial"
 msgstr "Watch the Tutorial"
 
+#: plugin/Controllers/FlyoutController.php:51
+msgctxt "admin-text"
+msgid "Read the Documentation"
+msgstr "Read the Documentation"
+
 #: plugin/Controllers/FlyoutController.php:56
 msgctxt "admin-text"
-msgid "Learn how to use Site Reviews"
-msgstr "Learn how to use Site Reviews"
+msgid "Read a Quick Guide to Site Reviews"
+msgstr "Read a Quick Guide to Site Reviews"
 
 #: plugin/Controllers/FlyoutController.php:62
 msgctxt "admin-text"
-msgid "Rate Us ★★★★★ on Wordpress!"
-msgstr "Rate Us ★★★★★ on Wordpress!"
+msgid "Rate Site Reviews ★★★★★ on Wordpress"
+msgstr "Rate Site Reviews ★★★★★ on Wordpress"
 
 #: plugin/Controllers/LicensingController.php:70
 msgctxt "admin-text"
@@ -4759,7 +4759,7 @@ msgstr ""
 "Automatically assign reviews to a User ID. You may also enter %s to use the "
 "ID of the logged-in user."
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:34, plugin/Tinymce/SiteReviewsSummaryTinymce.php:81, plugin/Tinymce/SiteReviewsTinymce.php:88, plugin/Tinymce/SiteReviewTinymce.php:22, plugin/Integrations/Breakdance/Transformer.php:131, plugin/Integrations/Bricks/Controller.php:36, plugin/Integrations/FusionBuilder/Transformer.php:35, plugin/Integrations/WPBakery/Transformer.php:36, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:68, plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:27
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:34, plugin/Tinymce/SiteReviewsSummaryTinymce.php:81, plugin/Tinymce/SiteReviewsTinymce.php:88, plugin/Tinymce/SiteReviewTinymce.php:22, plugin/Integrations/Avada/Transformer.php:35, plugin/Integrations/Breakdance/Transformer.php:131, plugin/Integrations/Bricks/Controller.php:36, plugin/Integrations/WPBakery/Transformer.php:36, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:68, plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:27
 msgctxt "admin-text"
 msgid "Hide"
 msgstr "Hide"
@@ -4864,7 +4864,7 @@ msgctxt "admin-text"
 msgid "The number of reviews to display per page (default: 10)"
 msgstr "The number of reviews to display per page (default: 10)"
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:70, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:29
+#: plugin/Tinymce/SiteReviewsTinymce.php:70, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:42
 msgctxt "admin-text"
 msgid "Pagination"
 msgstr "Pagination"
@@ -5100,6 +5100,61 @@ msgctxt "admin-text"
 msgid "A valid license key is required to update this plugin."
 msgstr "A valid license key is required to update this plugin."
 
+#: plugin/Integrations/Avada/Transformer.php:38, plugin/Integrations/Avada/Transformer.php:79, plugin/Integrations/Breakdance/Transformer.php:250, plugin/Integrations/Flatsome/Transformer.php:41, plugin/Integrations/Flatsome/Transformer.php:71, plugin/Integrations/Flatsome/Transformer.php:88
+msgctxt "admin-text"
+msgid "Select..."
+msgstr "Select..."
+
+#: plugin/Integrations/Avada/Transformer.php:62
+msgctxt "admin-text"
+msgid "Search Pages..."
+msgstr "Search Pages..."
+
+#: plugin/Integrations/Avada/Transformer.php:65
+msgctxt "admin-text"
+msgid "Search Categories..."
+msgstr "Search Categories..."
+
+#: plugin/Integrations/Avada/Transformer.php:68
+msgctxt "admin-text"
+msgid "Search Users..."
+msgstr "Search Users..."
+
+#: plugin/Integrations/Avada/Transformer.php:71
+msgctxt "admin-text"
+msgid "Search User..."
+msgstr "Search User..."
+
+#: plugin/Integrations/Avada/Transformer.php:74
+msgctxt "admin-text"
+msgid "Search Review..."
+msgstr "Search Review..."
+
+#: plugin/Integrations/Avada/Transformer.php:91, views/partials/listtable/filter.php:13
+msgctxt "admin-text"
+msgid "Search..."
+msgstr "Search..."
+
+#: plugin/Integrations/Avada/Transformer.php:105
+msgctxt "admin-text"
+msgid "Add an ID to the wrapping HTML element."
+msgstr "Add an ID to the wrapping HTML element."
+
+#: plugin/Integrations/Avada/Transformer.php:106
+msgctxt "admin-text"
+msgid "Custom CSS ID"
+msgstr "Custom CSS ID"
+
+#: plugin/Integrations/Avada/Transformer.php:109
+msgctxt "admin-text"
+msgid "Add a class to the wrapping HTML element."
+msgstr "Add a class to the wrapping HTML element."
+
+#: plugin/Integrations/Avada/Transformer.php:110
+msgctxt "admin-text"
+msgid "Custom CSS Class"
+msgstr "Custom CSS Class"
+
 #: plugin/Integrations/Breakdance/Transformer.php:130, views/partials/screen/filters.php:4, plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:26
 msgctxt "admin-text"
 msgid "Filters"
@@ -5110,17 +5165,12 @@ msgctxt "admin-text"
 msgid "Text"
 msgstr "Text"
 
-#: plugin/Integrations/Breakdance/Transformer.php:142, plugin/Integrations/Bricks/BricksElement.php:102, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:65, plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:29, plugin/Integrations/FusionBuilder/Defaults/ControlDefaults.php:44, plugin/Integrations/WPBakery/Shortcodes/VcShortcode.php:50
+#: plugin/Integrations/Breakdance/Transformer.php:142, plugin/Integrations/Bricks/BricksElement.php:102, plugin/Integrations/Avada/Defaults/ControlDefaults.php:44, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:65, plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:29, plugin/Integrations/WPBakery/Shortcodes/VcShortcode.php:50
 msgctxt "admin-text"
 msgid "Advanced"
 msgstr "Advanced"
 
-#: plugin/Integrations/Breakdance/Transformer.php:250, plugin/Integrations/Flatsome/Transformer.php:41, plugin/Integrations/Flatsome/Transformer.php:71, plugin/Integrations/Flatsome/Transformer.php:88, plugin/Integrations/FusionBuilder/Transformer.php:38, plugin/Integrations/FusionBuilder/Transformer.php:79
-msgctxt "admin-text"
-msgid "Select..."
-msgstr "Select..."
-
-#: plugin/Integrations/Bricks/BricksElement.php:106, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:77, plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:30, plugin/Integrations/FusionBuilder/Defaults/ControlDefaults.php:45, plugin/Integrations/WPBakery/Shortcodes/VcShortcode.php:49
+#: plugin/Integrations/Bricks/BricksElement.php:106, plugin/Integrations/Avada/Defaults/ControlDefaults.php:45, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:77, plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:30, plugin/Integrations/WPBakery/Shortcodes/VcShortcode.php:49
 msgctxt "admin-text"
 msgid "Design"
 msgstr "Design"
@@ -5143,56 +5193,6 @@ msgid ""
 msgstr ""
 "Flatsome does not support multiple checkboxes here so use the dropdown to "
 "select fields that you want to hide."
-
-#: plugin/Integrations/FusionBuilder/Transformer.php:62
-msgctxt "admin-text"
-msgid "Search Pages..."
-msgstr "Search Pages..."
-
-#: plugin/Integrations/FusionBuilder/Transformer.php:65
-msgctxt "admin-text"
-msgid "Search Categories..."
-msgstr "Search Categories..."
-
-#: plugin/Integrations/FusionBuilder/Transformer.php:68
-msgctxt "admin-text"
-msgid "Search Users..."
-msgstr "Search Users..."
-
-#: plugin/Integrations/FusionBuilder/Transformer.php:71
-msgctxt "admin-text"
-msgid "Search User..."
-msgstr "Search User..."
-
-#: plugin/Integrations/FusionBuilder/Transformer.php:74
-msgctxt "admin-text"
-msgid "Search Review..."
-msgstr "Search Review..."
-
-#: plugin/Integrations/FusionBuilder/Transformer.php:91, views/partials/listtable/filter.php:13
-msgctxt "admin-text"
-msgid "Search..."
-msgstr "Search..."
-
-#: plugin/Integrations/FusionBuilder/Transformer.php:105
-msgctxt "admin-text"
-msgid "Add an ID to the wrapping HTML element."
-msgstr "Add an ID to the wrapping HTML element."
-
-#: plugin/Integrations/FusionBuilder/Transformer.php:106
-msgctxt "admin-text"
-msgid "Custom CSS ID"
-msgstr "Custom CSS ID"
-
-#: plugin/Integrations/FusionBuilder/Transformer.php:109
-msgctxt "admin-text"
-msgid "Add a class to the wrapping HTML element."
-msgstr "Add a class to the wrapping HTML element."
-
-#: plugin/Integrations/FusionBuilder/Transformer.php:110
-msgctxt "admin-text"
-msgid "Custom CSS Class"
-msgstr "Custom CSS Class"
 
 #: plugin/Integrations/GamiPress/Controller.php:132
 msgctxt "admin-text"
@@ -5988,15 +5988,13 @@ msgstr "Can You Help?"
 #: views/partials/notices/write-review.php:8
 msgctxt "admin-text"
 msgid ""
-"Has Site Reviews made your website better? If so, please leave a ★★★★★ "
-"5-star rating on WordPress. Your support motivates me to keep improving the "
-"plugin and helping out in the forums. I promise I won’t let it go to my "
-"head. Much..."
+"Your support motivates me to keep improving the plugin and helping out in "
+"the forums. I promise I won’t let your ★★★★★ 5-star rating for Site Reviews "
+"on WordPress go to my head...much."
 msgstr ""
-"Has Site Reviews made your website better? If so, please leave a ★★★★★ "
-"5-star rating on WordPress. Your support motivates me to keep improving the "
-"plugin and helping out in the forums. I promise I won’t let it go to my "
-"head. Much..."
+"Your support motivates me to keep improving the plugin and helping out in "
+"the forums. I promise I won’t let your ★★★★★ 5-star rating for Site Reviews "
+"on WordPress go to my head...much."
 
 #: views/partials/notices/write-review.php:12
 msgctxt "admin-text"
@@ -6163,6 +6161,16 @@ msgid ""
 msgstr ""
 "The recommended way to change these values is to use the Site Reviews → "
 "Settings → Strings page."
+
+#: plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:27
+msgctxt "admin-text"
+msgid "Rating Color"
+msgstr "Rating Color"
+
+#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:38
+msgctxt "admin-text"
+msgid "Bar Color"
+msgstr "Bar Color"
 
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:128
 msgctxt "admin-text"

@@ -89,11 +89,13 @@ Site Reviews is officially compatible with the following plugins:
 - [Bricks](https://bricksbuilder.io/)
 - [BuddyBoss](https://www.buddyboss.com/)
 - [BuddyPress](https://buddypress.org/)
-- [Divi](https://www.elegantthemes.com/gallery/divi/)
+- [Cloudflare](https://wordpress.org/plugins/cloudflare/)
+- [Divi 5](https://www.elegantthemes.com/divi-5/)
 - [Duplicate Page](https://wordpress.org/plugins/duplicate-page/)
 - [Elementor](https://elementor.com/)
 - [Endurance Cache](https://github.com/bluehost/endurance-page-cache/)
 - [Flatsome Page Builder](https://themeforest.net/item/flatsome-multipurpose-responsive-woocommerce-theme/5484319)
+- [FluentCart](https://fluentcart.com/)
 - [GamiPress](https://wordpress.org/plugins/gamipress/)
 - [GeneratePress](https://generatepress.com/)
 - [hCaptcha](https://wordpress.org/plugins/hcaptcha-for-forms-and-more/)
@@ -211,7 +213,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 
 == Changelog ==
 
-= 8.0.0 (2025-12-??) =
+= 8.0.0 (2026-02-23) =
 
 Site Reviews has a fresh coat of paint!
 

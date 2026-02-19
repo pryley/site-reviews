@@ -42,24 +42,24 @@ class FlyoutController extends AbstractController
                 'url' => 'https://wordpress.org/support/plugin/site-reviews/',
             ],
             [
-                'icon' => 'dashicons-book',
-                'title' => _x('Read the Documentation', 'admin-text', 'site-reviews'),
-                'url' => glsr_admin_url('documentation'),
-            ],
-            [
                 'icon' => 'dashicons-youtube',
                 'title' => _x('Watch the Tutorial', 'admin-text', 'site-reviews'),
                 'url' => 'https://youtu.be/H5HdMCXvuq8',
             ],
             [
                 'icon' => 'dashicons-editor-help',
-                'title' => _x('Learn how to use Site Reviews', 'admin-text', 'site-reviews'),
+                'title' => _x('Read the Documentation', 'admin-text', 'site-reviews'),
+                'url' => glsr_admin_url('documentation'),
+            ],
+            [
+                'icon' => 'dashicons-book',
+                'title' => _x('Read a Quick Guide to Site Reviews', 'admin-text', 'site-reviews'),
                 'url' => glsr_admin_url('welcome'),
             ],
             [
                 'class' => 'glsr-flyout-write-review',
                 'icon' => 'dashicons-testimonial',
-                'title' => _x('Rate Us ★★★★★ on Wordpress!', 'admin-text', 'site-reviews'),
+                'title' => _x('Rate Site Reviews ★★★★★ on Wordpress', 'admin-text', 'site-reviews'),
                 'url' => 'https://wordpress.org/support/plugin/site-reviews/reviews/#new-post',
             ],
         ];

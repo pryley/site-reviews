@@ -29,7 +29,7 @@ $form = new \GeminiLabs\SiteReviews\Modules\Html\Form([], [], glsr()->config('ex
             <?php wp_nonce_field('export-reviews'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="export-reviews">
             <fieldset>
-                <?php echo implode('', iterator_to_array($form->visible())); ?>
+                <?php echo implode('', $form->visible()); ?>
             </fieldset>
             <div>
                 <button type="submit" class="glsr-button button button-large button-primary">
