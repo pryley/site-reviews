@@ -17,6 +17,19 @@ class ElementorSiteReviews extends ElementorWidget
         return SiteReviewsShortcode::class;
     }
 
+    protected function styleConfig(): array
+    {
+        return [
+            'style_rating_color' => [
+                'label' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
+                'selectors' => [
+                    '.glsr-elementor-{{ID}} .glsr:not([data-theme])' => '--glsr-review-star-bg: {{VALUE}};',
+                ],
+                'type' => Controls_Manager::COLOR,
+            ],
+        ];
+    }
+
     protected function transformControl(string $name, array $args): array
     {
         $control = parent::transformControl($name, $args);

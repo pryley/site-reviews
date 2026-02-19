@@ -63,3 +63,18 @@ window.addEventListener('elementor/init', () => {
         $hiddenInput.val(updatedValues.join(',')).trigger('input');
     })
 })
+window.addEventListener('elementor/panel/init', () => {
+    // Elementor does not provide a way to add widget classes in the editor
+    // when a widget setting changes, so this will have to do.
+    elementor.hooks.addFilter('editor/style/styleText', (css, context) => {
+        const $el = context?.$el;
+        const attributes = context?.container?.settings?.attributes || {};
+        const shortcode = attributes?.widgetType || '';
+        if (!$el || attributes?.theme || !shortcode.startsWith('site_review')) {
+            return css;
+        }
+        const hasClass = attributes?.style_rating_color || attributes?.__globals__?.style_rating_color;
+        $el.find('.glsr').parent()[hasClass ? 'addClass' : 'removeClass']('has-custom-color');
+        return css;
+    })
+})
