@@ -96,6 +96,9 @@ class ProcessCsvFile extends AbstractCommand
             $date = \DateTime::createFromFormat($this->dateFormat, $record['date']);
             $record['date'] = $date->format('Y-m-d H:i:s'); // format the provided date
         }
+        if (1 === preg_match('#/'.glsr()->ID.'/avatars/[A-Z]+\.svg$#', ($record['avatar'] ?? ''))) {
+            $record['avatar'] = ''; // discard locally generated avatar SVG URLs
+        }
         return $record;
     }
 

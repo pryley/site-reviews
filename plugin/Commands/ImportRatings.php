@@ -99,5 +99,8 @@ class ImportRatings extends AbstractCommand
         $values = maybe_unserialize($result['meta_value']);
         $values['review_id'] = $result['post_id'];
         $result = glsr(RatingDefaults::class)->unguardedRestrict($values);
+        if (1 === preg_match('#/'.glsr()->ID.'/avatars/[A-Z]+\.svg$#', $result['avatar'])) {
+            $result['avatar'] = ''; // discard locally generated avatar SVG URLs
+        }
     }
 }
