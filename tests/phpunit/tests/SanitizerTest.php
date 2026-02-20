@@ -319,13 +319,13 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
             '',
-            'background-image:url(https://apple.com/image.jpg)',
-            'color:red',
-            'color:red',
-            'color:red;margin:0',
-            'color:#000',
-            'color:#000',
-            'color:#000 !important',
+            'background-image:url(https://apple.com/image.jpg);',
+            'color:red;',
+            'color:red;',
+            'color:red;margin:0;',
+            'color:#000;',
+            'color:#000;',
+            'color:#000 !important;',
         ]);
     }
 
