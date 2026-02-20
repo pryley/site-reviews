@@ -69,7 +69,7 @@ class MigrateElementor implements MigrateContract
         $settings = $element['settings'];
         $settings = $this->updateAssignments($settings);
         $settings = $this->updateCheckboxValues($settings);
-        $settings = $this->updateStyleKeys($settings);
+        $settings = $this->updateStyleKeys($settings, $element['widgetType'] ?? '');
         $element['settings'] = $settings;
         return $element;
     }
@@ -128,17 +128,21 @@ class MigrateElementor implements MigrateContract
         return $settings;
     }
 
-    protected function updateStyleKeys(array $settings): array
+    protected function updateStyleKeys(array $settings, string $widgetType): array
     {
         $results = [];
         foreach ($settings as $key => $value) {
             if ('__globals__' === $key) {
-                $results['__globals__'] = $this->updateStyleKeys($value);
+                $results['__globals__'] = $this->updateStyleKeys($value, $widgetType);
                 continue;
             }
             [$baseKey, $breakpoint] = $this->splitKeyAndBreakpoint($key);
-            $mappedKey = (static::MAPPED_KEYS[$baseKey] ?? $baseKey).$breakpoint;
-            $results[$mappedKey] = $value;
+            $mappedKey = static::MAPPED_KEYS[$baseKey] ?? $baseKey;
+            $results[$mappedKey.$breakpoint] = $value;
+            // migrate the summary bar color into its own value
+            if ('site_reviews_summary' === $widgetType && 'style_rating_color' === $mappedKey) {
+                $results['style_bar_color'.$breakpoint] = $value;
+            }
         }
         return $results;
     }
