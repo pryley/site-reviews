@@ -24,7 +24,13 @@ trait ElementTrait
      */
     public static function additionalClasses()
     {
-        $classes = glsr()->filterArray('breakdance/additional_classes', [], static::bdShortcode());
+        $classes = [
+            [
+                'name' => 'has-custom-color',
+                'template' => '{{ design.general.rating_color ? \'true\' }}',
+            ],
+        ];
+        $classes = glsr()->filterArray('breakdance/additional_classes', $classes, static::bdShortcode());
         return empty($classes) ? false : $classes;
     }
 
