@@ -12,6 +12,7 @@ use GeminiLabs\SiteReviews\Integrations\Elementor\Widgets\ElementorSiteReview;
 use GeminiLabs\SiteReviews\Integrations\Elementor\Widgets\ElementorSiteReviews;
 use GeminiLabs\SiteReviews\Integrations\Elementor\Widgets\ElementorSiteReviewsForm;
 use GeminiLabs\SiteReviews\Integrations\Elementor\Widgets\ElementorSiteReviewsSummary;
+use GeminiLabs\SiteReviews\Integrations\Elementor\Widgets\ElementorWidget;
 
 class Controller extends AbstractController
 {
