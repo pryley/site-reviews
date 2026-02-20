@@ -2,9 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Avada;
 
+use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\ShortcodeOptionManager;
 use GeminiLabs\SiteReviews\Helpers\Svg;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Controller extends AbstractController
 {
@@ -108,6 +110,62 @@ class Controller extends AbstractController
             return false;
         }
         return $bool;
+    }
+
+    /**
+     * @filter site-reviews/shortcode/wrap/attributes
+     */
+    public function filterWrapAttrClass(array $attributes, array $args, ShortcodeContract $shortcode): array
+    {
+        if ('avada' !== $shortcode->from) {
+            return $attributes;
+        }
+        $classes = [
+            $attributes['class'] ?? '',
+        ];
+        if (!empty($args['style_rating_color'])) {
+            $classes[] = 'has-custom-color';
+        }
+        $attributes['class'] = glsr(Sanitizer::class)->sanitizeAttrClass(implode(' ', $classes));
+        return $attributes;
+    }
+
+    /**
+     * @filter site-reviews/shortcode/wrap/attributes
+     */
+    public function filterWrapAttrStyle(array $attributes, array $args, ShortcodeContract $shortcode): array
+    {
+        if ('avada' !== $shortcode->from) {
+            return $attributes;
+        }
+        $map = [
+            'site_review' => [
+                '--glsr-review-star-bg' => 'style_rating_color',
+            ],
+            'site_reviews' => [
+                '--glsr-review-star-bg' => 'style_rating_color',
+            ],
+            'site_reviews_form' => [
+                '--glsr-form-star-bg' => 'style_rating_color',
+            ],
+            'site_reviews_summary' => [
+                '--glsr-summary-star-bg' => 'style_rating_color',
+                '--glsr-bar-bg' => 'style_bar_color',
+            ],
+        ];
+        $vars = $map[$shortcode->tag] ?? null;
+        if (!$vars) {
+            return $attributes;
+        }
+        $style = [
+            $attributes['style'] ?? '',
+        ];
+        foreach ($vars as $cssVar => $argKey) {
+            $value = $args[$argKey] ?? '';
+            $style[] = "{$cssVar}:{$value}"; // sanitization removes empty properties
+        }
+        $attributes['style'] = glsr(Sanitizer::class)->sanitizeAttrStyle(implode(';', $style));
+        return $attributes;
     }
 
     /**

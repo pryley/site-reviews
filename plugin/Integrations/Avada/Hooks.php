@@ -23,6 +23,8 @@ class Hooks extends IntegrationHooks
             ['filterModalWrappedBy', 'site-reviews/modal_wrapped_by'],
             ['filterPublicInlineScript', 'site-reviews/enqueue/public/inline-script/after'],
             ['filterRegisterWidgets', 'site-reviews/register/widgets'],
+            ['filterWrapAttrClass', 'site-reviews/shortcode/wrap/attributes', 10, 3],
+            ['filterWrapAttrStyle', 'site-reviews/shortcode/wrap/attributes', 10, 3],
             ['onActivated', 'site-reviews/activated'],
             ['registerElements', 'fusion_builder_shortcodes_init'],
             ['runSearchQuery', 'wp_ajax_glsr_fusion_search_query'],

@@ -20,4 +20,15 @@ class FusionSiteReviews extends FusionElement
     {
         return SiteReviewsShortcode::class;
     }
+
+    protected function styleConfig(): array
+    {
+        return [
+            'style_rating_color' => [
+                'group' => 'design',
+                'heading' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
+                'type' => 'colorpickeralpha',
+            ],
+        ];
+    }
 }
