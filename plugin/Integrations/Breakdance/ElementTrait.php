@@ -95,7 +95,8 @@ trait ElementTrait
 
     public static function defaultCss()
     {
-        $suffix = end(explode('_', static::bdShortcode()->tag));
+        $parts = explode('_', static::bdShortcode()->tag);
+        $suffix = end($parts);
         $handle = sprintf('%s-%s-style', glsr()->ID, $suffix);
         $path = wp_styles()->get_data($handle, 'path');
         $css = ($path && file_exists($path)) ? file_get_contents($path) : '';
