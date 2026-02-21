@@ -213,25 +213,29 @@ class Controller extends AbstractController
     }
 
     /**
+     * @action admin_enqueue_scripts:20
      * @action wp_enqueue_scripts:20
      */
     public function printInlineStyles(): void
     {
-        if (!function_exists('bricks_is_builder') || !bricks_is_builder()) {
+        $isBricksAdmin = 'bricks_page_bricks-elements' === glsr_current_screen()->base;
+        $isBricksBuilder = function_exists('bricks_is_builder') && bricks_is_builder();
+        if (!$isBricksAdmin && !$isBricksBuilder) {
             return;
         }
         $icons = [
-            'ti-site_reviews_form' => Svg::encoded('assets/images/icons/bricks/icon-form.svg'),
-            'ti-site_review' => Svg::encoded('assets/images/icons/bricks/icon-review.svg'),
-            'ti-site_reviews' => Svg::encoded('assets/images/icons/bricks/icon-reviews.svg'),
-            'ti-site_reviews_summary' => Svg::encoded('assets/images/icons/bricks/icon-summary.svg'),
+            'site_reviews_form' => Svg::encoded('assets/images/icons/bricks/icon-form.svg'),
+            'site_review' => Svg::encoded('assets/images/icons/bricks/icon-review.svg'),
+            'site_reviews' => Svg::encoded('assets/images/icons/bricks/icon-reviews.svg'),
+            'site_reviews_summary' => Svg::encoded('assets/images/icons/bricks/icon-summary.svg'),
         ];
+        $icons = glsr()->filterArray('bricks/icons', $icons);
         $maskRules = '';
-        foreach ($icons as $class => $url) {
-            $maskRules .= "i.{$class}::before { mask-image: url(\"{$url}\"); }\n";
+        foreach ($icons as $shortcode => $url) {
+            $maskRules .= "i.ti-{$shortcode}::before { mask-image: url(\"{$url}\"); }\n";
         }
         $css = <<<CSS
-            i[class^="ti-site_review"]::before {
+            i[class*="ti-site_review"]::before {
                 background-color: currentColor;
                 content: '';
                 display: inline-block;
@@ -247,6 +251,7 @@ class Controller extends AbstractController
             }
         CSS;
         $css = preg_replace('/\s+/', ' ', $css);
+        wp_add_inline_style('bricks-admin', $css);
         wp_add_inline_style('bricks-builder', $css);
     }
 

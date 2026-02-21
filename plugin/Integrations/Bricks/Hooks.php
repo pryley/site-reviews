@@ -24,6 +24,7 @@ class Hooks extends IntegrationHooks
             ['filterSettingsPrefixedId', 'bricks/element/settings', 10, 2],
             ['filterThemeStyleControlGroups', 'bricks/theme_styles/control_groups'],
             ['filterThemeStyleControls', 'bricks/theme_styles/controls'],
+            ['printInlineStyles', 'admin_enqueue_scripts', 20],
             ['printInlineStyles', 'wp_enqueue_scripts', 20],
             ['registerElements', 'init', 11],
             ['searchAssignedPosts', 'wp_ajax_bricks_glsr_assigned_posts'],
