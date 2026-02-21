@@ -24,12 +24,8 @@ trait ElementTrait
      */
     public static function additionalClasses()
     {
-        $classes = [
-            [
-                'name' => 'has-custom-color',
-                'template' => '{{ design.general.rating_color ? \'true\' }}',
-            ],
-        ];
+        $classesFile = static::bdFile('classes.php');
+        $classes = file_exists($classesFile) ? include $classesFile : [];
         $classes = glsr()->filterArray('breakdance/additional_classes', $classes, static::bdShortcode());
         return empty($classes) ? false : $classes;
     }
@@ -67,6 +63,7 @@ trait ElementTrait
                 'inlineStyles' => [
                     '%%SELECTOR%% a, %%SELECTOR%% button {pointer-events: none}',
                 ],
+                'title' => 'Prevent pointer events on buttons in the builder',
             ],
         ];
     }
@@ -98,8 +95,12 @@ trait ElementTrait
 
     public static function defaultCss()
     {
+        $suffix = end(explode('_', static::bdShortcode()->tag));
+        $handle = sprintf('%s-%s-style', glsr()->ID, $suffix);
+        $path = wp_styles()->get_data($handle, 'path');
+        $css = ($path && file_exists($path)) ? file_get_contents($path) : '';
         return glsr()->filterString('breakdance/default_css',
-            static::bdFileContents('default.css'),
+            static::bdFileContents('default.css').$css,
             static::bdShortcode()
         );
     }
@@ -184,11 +185,16 @@ trait ElementTrait
         return '%%SSR%%';
     }
 
-    protected static function bdFileContents(string $file): string
+    protected static function bdFile(string $file): string
     {
         $reflector = new \ReflectionClass(static::class);
         $dir = dirname($reflector->getFileName());
-        $file = "{$dir}/$file";
-        return file_exists($file) ? file_get_contents($file) : '';
+        return "{$dir}/$file";
+    }
+
+    protected static function bdFileContents(string $file): string
+    {
+        $filePath = static::bdFile($file);
+        return file_exists($filePath) ? file_get_contents($filePath) : '';
     }
 }

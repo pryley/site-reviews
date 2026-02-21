@@ -25,4 +25,17 @@ class SiteReview extends Element
     {
         return Svg::get('assets/images/icons/breakdance/icon-review.svg');
     }
+
+    protected static function controlsForDesign(): array
+    {
+        return [
+            'rating_color' => [
+                'label' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
+                'options' => [
+                    'layout' => 'inline',
+                    'type' => 'color',
+                ],
+            ],
+        ];
+    }
 }

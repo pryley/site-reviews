@@ -25,7 +25,7 @@ trait ElementControlsTrait
     public static function contentControls()
     {
         $shortcode = static::bdShortcode();
-        $transformer = new Transformer('content', $shortcode->settings(), $shortcode->tag);
+        $transformer = new Transformer('content', static::controlsForContent(), $shortcode->tag);
         $controls = $transformer->controls();
         return glsr()->filterArray('breakdance/content_controls', $controls, $shortcode);
     }
@@ -65,7 +65,7 @@ trait ElementControlsTrait
     public static function designControls()
     {
         $shortcode = static::bdShortcode();
-        $transformer = new Transformer('design', [], $shortcode->tag);
+        $transformer = new Transformer('design', static::controlsForDesign(), $shortcode->tag);
         $controls = $transformer->controls();
         return glsr()->filterArray('breakdance/design_controls', $controls, $shortcode);
     }
@@ -123,5 +123,15 @@ trait ElementControlsTrait
         }
         $args = glsr()->filterArray('breakdance/ssr_args', $args, $data, static::bdShortcode());
         return $args;
+    }
+
+    protected static function controlsForContent(): array
+    {
+        return static::bdShortcode()->settings();
+    }
+
+    protected static function controlsForDesign(): array
+    {
+        return [];
     }
 }
