@@ -6,31 +6,33 @@ namespace GeminiLabs\SiteReviews\Contracts;
  * This class normalizes the DOM markup surrounding the field element.
  * Styled class attributes for the field are merged here.
  *
- * @property string        $after
- * @property bool          $checked
- * @property string        $class
- * @property string        $description
- * @property bool          $disabled
- * @property array         $errors
- * @property string        $group
- * @property string        $id
- * @property bool          $is_custom      If the field in a custom form
- * @property bool          $is_raw
- * @property bool          $is_valid
- * @property string        $label
- * @property array         $labels
- * @property bool          $multiple
- * @property string        $name
- * @property array         $options
- * @property string        $original_name
- * @property string        $original_type
- * @property bool          $required
- * @property bool          $selected
- * @property int           $tabindex
- * @property string        $tag
- * @property string        $text
- * @property string        $type
- * @property string|array  $value
+ * @property string       $after
+ * @property bool         $checked
+ * @property string       $class
+ * @property string       $description
+ * @property bool         $disabled
+ * @property array        $errors
+ * @property string       $group
+ * @property string       $id
+ * @property bool         $is_custom     If the field in a custom form
+ * @property bool         $is_raw
+ * @property bool         $is_valid
+ * @property string       $label
+ * @property array        $labels
+ * @property bool         $multiple
+ * @property string       $name
+ * @property array        $options
+ * @property string       $original_name
+ * @property string       $original_type
+ * @property bool         $required
+ * @property bool         $selected
+ * @property int          $tabindex
+ * @property string       $tag
+ * @property string       $text
+ * @property string       $type
+ * @property string|array $value
+ *
+ * @phpstan-require-extends \GeminiLabs\SiteReviews\Modules\Html\Field
  */
 interface FieldContract
 {

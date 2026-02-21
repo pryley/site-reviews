@@ -73,3 +73,7 @@ parameters:
     - vendor/php-stubs/wp-cli-stubs/wp-cli-tools-stubs.php
     - vendors/woocommerce/action-scheduler/functions.php
   treatPhpDocTypesAsCertain: false
+  universalObjectCratesClasses:
+    - GeminiLabs\SiteReviews\Arguments
+    - GeminiLabs\SiteReviews\Modules\Html\Field
+    - GeminiLabs\SiteReviews\Modules\Html\Form

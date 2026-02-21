@@ -4,6 +4,9 @@ namespace GeminiLabs\SiteReviews\Contracts;
 
 use GeminiLabs\SiteReviews\Arguments;
 
+/**
+ * @phpstan-require-extends \GeminiLabs\SiteReviews\Modules\Html\Form
+ */
 interface FormContract
 {
     public function args(): Arguments;

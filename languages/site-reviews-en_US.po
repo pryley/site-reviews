@@ -713,7 +713,7 @@ msgctxt "admin-text"
 msgid "Functions"
 msgstr "Functions"
 
-#: helpers.php:102, plugin/Controllers/MenuController.php:175, plugin/Controllers/MenuController.php:199, plugin/Integrations/Breakdance/Transformer.php:141, plugin/Integrations/Bricks/BricksElement.php:98, plugin/Integrations/Avada/Defaults/ControlDefaults.php:46, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:67, plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:23, plugin/Integrations/WPBakery/Shortcodes/VcShortcode.php:48
+#: helpers.php:102, plugin/Controllers/MenuController.php:175, plugin/Controllers/MenuController.php:199, plugin/Integrations/Breakdance/Transformer.php:141, plugin/Integrations/Bricks/BricksElement.php:107, plugin/Integrations/Avada/Defaults/ControlDefaults.php:46, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:67, plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:23, plugin/Integrations/WPBakery/Shortcodes/VcShortcode.php:48
 msgctxt "admin-text"
 msgid "General"
 msgstr "General"
@@ -1966,7 +1966,7 @@ msgctxt "admin-text"
 msgid "Required Fields"
 msgstr "Required Fields"
 
-#: config/settings.php:769, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/GamiPress/Controller.php:134, plugin/Integrations/ProfilePress/RatingField.php:24
+#: config/settings.php:769, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/GamiPress/Controller.php:134, plugin/Integrations/ProfilePress/RatingField.php:24, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:26
 msgctxt "admin-text"
 msgid "Rating"
 msgstr "Rating"
@@ -3327,7 +3327,7 @@ msgctxt "admin-text"
 msgid "All plugin migrations have been run successfully, please %s the page."
 msgstr "All plugin migrations have been run successfully, please %s the page."
 
-#: plugin/Commands/ProcessCsvFile.php:114
+#: plugin/Commands/ProcessCsvFile.php:117
 msgctxt "admin-text"
 msgid ""
 "The CSV file could not be imported. Please verify the following details and "
@@ -3336,37 +3336,37 @@ msgstr ""
 "The CSV file could not be imported. Please verify the following details and "
 "try again:"
 
-#: plugin/Commands/ProcessCsvFile.php:133
+#: plugin/Commands/ProcessCsvFile.php:136
 msgctxt "admin-text"
 msgid "Unable to process a row in the CSV document:"
 msgstr "Unable to process a row in the CSV document:"
 
-#: plugin/Commands/ProcessCsvFile.php:138
+#: plugin/Commands/ProcessCsvFile.php:141
 msgctxt "admin-text"
 msgid "Does the CSV file include all required columns?"
 msgstr "Does the CSV file include all required columns?"
 
-#: plugin/Commands/ProcessCsvFile.php:139
+#: plugin/Commands/ProcessCsvFile.php:142
 msgctxt "admin-text"
 msgid "Have you named all of the columns in the CSV file?"
 msgstr "Have you named all of the columns in the CSV file?"
 
-#: plugin/Commands/ProcessCsvFile.php:140
+#: plugin/Commands/ProcessCsvFile.php:143
 msgctxt "admin-text"
 msgid "Have you removed all empty columns from the CSV file?"
 msgstr "Have you removed all empty columns from the CSV file?"
 
-#: plugin/Commands/ProcessCsvFile.php:141
+#: plugin/Commands/ProcessCsvFile.php:144
 msgctxt "admin-text"
 msgid "Have you selected the correct delimiter?"
 msgstr "Have you selected the correct delimiter?"
 
-#: plugin/Commands/ProcessCsvFile.php:142
+#: plugin/Commands/ProcessCsvFile.php:145
 msgctxt "admin-text"
 msgid "Is the CSV file encoded as UTF-8?"
 msgstr "Is the CSV file encoded as UTF-8?"
 
-#: plugin/Commands/ProcessCsvFile.php:161
+#: plugin/Commands/ProcessCsvFile.php:164
 msgctxt "admin-text"
 msgid ""
 "Cannot detect the delimiter used in the CSV file (supported delimiters are "
@@ -3375,7 +3375,7 @@ msgstr ""
 "Cannot detect the delimiter used in the CSV file (supported delimiters are "
 "comma and semicolon)."
 
-#: plugin/Commands/ProcessCsvFile.php:188
+#: plugin/Commands/ProcessCsvFile.php:191
 msgctxt "admin-text"
 msgid ""
 "The import file does not look like a valid CSV file (detected: %s). If this "
@@ -3384,12 +3384,12 @@ msgstr ""
 "The import file does not look like a valid CSV file (detected: %s). If this "
 "is incorrect, make sure that your server is configured to detect mime types."
 
-#: plugin/Commands/ProcessCsvFile.php:207
+#: plugin/Commands/ProcessCsvFile.php:210
 msgctxt "admin-text"
 msgid "Incorrect date format"
 msgstr "Incorrect date format"
 
-#: plugin/Commands/ProcessCsvFile.php:208
+#: plugin/Commands/ProcessCsvFile.php:211
 msgctxt "admin-text"
 msgid "Empty or invalid rating"
 msgstr "Empty or invalid rating"
@@ -5165,12 +5165,12 @@ msgctxt "admin-text"
 msgid "Text"
 msgstr "Text"
 
-#: plugin/Integrations/Breakdance/Transformer.php:142, plugin/Integrations/Bricks/BricksElement.php:102, plugin/Integrations/Avada/Defaults/ControlDefaults.php:44, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:65, plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:29, plugin/Integrations/WPBakery/Shortcodes/VcShortcode.php:50
+#: plugin/Integrations/Breakdance/Transformer.php:142, plugin/Integrations/Bricks/BricksElement.php:111, plugin/Integrations/Avada/Defaults/ControlDefaults.php:44, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:65, plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:29, plugin/Integrations/WPBakery/Shortcodes/VcShortcode.php:50
 msgctxt "admin-text"
 msgid "Advanced"
 msgstr "Advanced"
 
-#: plugin/Integrations/Bricks/BricksElement.php:106, plugin/Integrations/Avada/Defaults/ControlDefaults.php:45, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:77, plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:30, plugin/Integrations/WPBakery/Shortcodes/VcShortcode.php:49
+#: plugin/Integrations/Bricks/BricksElement.php:116, plugin/Integrations/Avada/Defaults/ControlDefaults.php:45, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:77, plugin/Integrations/Flatsome/Shortcodes/FlatsomeShortcode.php:30, plugin/Integrations/WPBakery/Shortcodes/VcShortcode.php:49
 msgctxt "admin-text"
 msgid "Design"
 msgstr "Design"
@@ -6075,6 +6075,16 @@ msgctxt "admin-text"
 msgid "plural"
 msgstr "plural"
 
+#: assets/breakdance/elements/site_review/element.php:33, assets/breakdance/elements/site_reviews/element.php:33, assets/breakdance/elements/site_reviews_form/element.php:53, assets/breakdance/elements/site_reviews_summary/element.php:33, plugin/Integrations/Avada/Elements/FusionSiteReview.php:29, plugin/Integrations/Avada/Elements/FusionSiteReviews.php:29, plugin/Integrations/Avada/Elements/FusionSiteReviewsForm.php:29, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:29, plugin/Integrations/Bricks/Elements/BricksSiteReview.php:40, plugin/Integrations/Bricks/Elements/BricksSiteReviews.php:56, plugin/Integrations/Bricks/Elements/BricksSiteReviewsForm.php:31, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:37, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:27
+msgctxt "admin-text"
+msgid "Rating Color"
+msgstr "Rating Color"
+
+#: assets/breakdance/elements/site_reviews_summary/element.php:40, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:34, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:56, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:38
+msgctxt "admin-text"
+msgid "Bar Color"
+msgstr "Bar Color"
+
 #: plugin/Controllers/Api/Version1/RestReviewController.php:33
 msgctxt "admin-text"
 msgid ""
@@ -6143,7 +6153,7 @@ msgctxt "admin-text"
 msgid "Heading"
 msgstr "Heading"
 
-#: plugin/Integrations/Bricks/Elements/BricksSiteReview.php:41, plugin/Integrations/Bricks/Elements/BricksSiteReviews.php:57, plugin/Integrations/Bricks/Elements/BricksSiteReviewsForm.php:30, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:45
+#: plugin/Integrations/Bricks/Elements/BricksSiteReview.php:53, plugin/Integrations/Bricks/Elements/BricksSiteReviews.php:69, plugin/Integrations/Bricks/Elements/BricksSiteReviewsForm.php:44, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:82
 msgctxt "admin-text"
 msgid "You have hidden all of the fields."
 msgstr "You have hidden all of the fields."
@@ -6153,7 +6163,12 @@ msgctxt "admin-text"
 msgid "Align"
 msgstr "Align"
 
-#: plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:32
+#: plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:45
+msgctxt "admin-text"
+msgid "Percent Bars"
+msgstr "Percent Bars"
+
+#: plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:69
 msgctxt "admin-text"
 msgid ""
 "The recommended way to change these values is to use the Site Reviews → "
@@ -6161,16 +6176,6 @@ msgid ""
 msgstr ""
 "The recommended way to change these values is to use the Site Reviews → "
 "Settings → Strings page."
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:27
-msgctxt "admin-text"
-msgid "Rating Color"
-msgstr "Rating Color"
-
-#: plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:38
-msgctxt "admin-text"
-msgid "Bar Color"
-msgstr "Bar Color"
 
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:128
 msgctxt "admin-text"

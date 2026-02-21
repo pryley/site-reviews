@@ -9,6 +9,8 @@ namespace GeminiLabs\SiteReviews\Contracts;
  * @property array $guarded
  * @property array $mapped
  * @property array $sanitize
+ *
+ * @phpstan-require-extends \GeminiLabs\SiteReviews\Defaults\DefaultsAbstract
  */
 interface DefaultsContract
 {
