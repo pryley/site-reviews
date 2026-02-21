@@ -45,6 +45,14 @@ abstract class BricksElement extends \Bricks\Element
         return $this->shortcodeInstance()->settings();
     }
 
+    public function enqueue_scripts()
+    {
+        $parts = explode('_', $this->shortcodeInstance()->tag);
+        $suffix = end($parts);
+        $handle = sprintf('%s-%s-style', glsr()->ID, $suffix);
+        wp_enqueue_style($handle);
+    }
+
     public function get_keywords()
     {
         return ['review', 'reviews', 'site reviews'];
@@ -93,18 +101,22 @@ abstract class BricksElement extends \Bricks\Element
 
     public function set_control_groups()
     {
-        $this->control_groups['general'] = [
-            'tab' => 'content',
-            'title' => esc_html_x('General', 'admin-text', 'site-reviews'),
+        $groups = [
+            'general' => [
+                'tab' => 'content',
+                'title' => esc_html_x('General', 'admin-text', 'site-reviews'),
+            ],
+            'advanced' => [
+                'tab' => 'content',
+                'title' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
+            ],
+            'design' => [
+                'icon' => 'design-palette',
+                'tab' => 'style',
+                'title' => esc_html_x('Design', 'admin-text', 'site-reviews'),
+            ],
         ];
-        $this->control_groups['advanced'] = [
-            'tab' => 'content',
-            'title' => esc_html_x('Advanced', 'admin-text', 'site-reviews'),
-        ];
-        $this->control_groups['design'] = [
-            'tab' => 'content',
-            'title' => esc_html_x('Design', 'admin-text', 'site-reviews'),
-        ];
+        $this->control_groups = $groups + $this->control_groups;
     }
 
     public function set_controls()

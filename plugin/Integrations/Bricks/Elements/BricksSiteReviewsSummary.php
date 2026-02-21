@@ -21,6 +21,43 @@ class BricksSiteReviewsSummary extends BricksElement
                 'themeStyle' => true,
                 'type' => 'align-items',
             ],
+            'separator_summary_rating' => [
+                'group' => 'design',
+                'label' => esc_html_x('Rating', 'admin-text', 'site-reviews'),
+                'tab' => 'style',
+                'themeStyle' => true,
+                'type' => 'separator',
+            ],
+            'style_rating_color' => [
+                'css' => [[
+                    'selector' => '.glsr:not([data-theme])',
+                    'property' => '--glsr-summary-star-bg',
+                ]],
+                'group' => 'design',
+                'label' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
+                'rerender' => true, // because we have to set a CSS class
+                'tab' => 'style',
+                'themeStyle' => true,
+                'type' => 'color',
+            ],
+            'separator_summary_bars' => [
+                'group' => 'design',
+                'label' => esc_html_x('Percent Bars', 'admin-text', 'site-reviews'),
+                'tab' => 'style',
+                'themeStyle' => true,
+                'type' => 'separator',
+            ],
+            'style_bar_color' => [
+                'css' => [[
+                    'selector' => '.glsr',
+                    'property' => '--glsr-bar-bg',
+                ]],
+                'group' => 'design',
+                'label' => esc_html_x('Bar Color', 'admin-text', 'site-reviews'),
+                'tab' => 'style',
+                'themeStyle' => true,
+                'type' => 'color',
+            ],
         ];
     }
 

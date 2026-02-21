@@ -23,7 +23,7 @@ class BricksSiteReviews extends BricksElement
             'separator_review' => [
                 'group' => 'design',
                 'label' => esc_html_x('Review', 'admin-text', 'site-reviews'),
-                'tab' => 'content',
+                'tab' => 'style',
                 'type' => 'separator',
             ],
             'style_text_align' => [
@@ -46,6 +46,18 @@ class BricksSiteReviews extends BricksElement
                 'tab' => 'style',
                 'themeStyle' => true,
                 'type' => 'typography',
+            ],
+            'style_rating_color' => [
+                'css' => [[
+                    'selector' => '.glsr:not([data-theme]) .glsr-review',
+                    'property' => '--glsr-review-star-bg',
+                ]],
+                'group' => 'design',
+                'label' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
+                'rerender' => true, // because we have to set a CSS class
+                'tab' => 'style',
+                'themeStyle' => true,
+                'type' => 'color',
             ],
         ];
     }

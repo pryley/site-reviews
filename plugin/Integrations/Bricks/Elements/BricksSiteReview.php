@@ -31,6 +31,18 @@ class BricksSiteReview extends BricksElement
                 'themeStyle' => true,
                 'type' => 'typography',
             ],
+            'style_rating_color' => [
+                'css' => [[
+                    'selector' => '.glsr:not([data-theme])',
+                    'property' => '--glsr-review-star-bg',
+                ]],
+                'group' => 'design',
+                'label' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
+                'rerender' => true, // because we have to set a CSS class
+                'tab' => 'style',
+                'themeStyle' => true,
+                'type' => 'color',
+            ],
         ];
     }
 

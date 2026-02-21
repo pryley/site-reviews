@@ -79,18 +79,28 @@ class Controller extends AbstractController
         if (!$element instanceof BricksElement) {
             return $settings;
         }
-        $classes = $settings['class'] ?? '';
-        $classes = explode(' ', $classes);
-        if ($align = Cast::toString($element->styledSetting('style_align'))) {
-            $align = str_replace('flex-', '', $align);
+        $classes = [];
+        $hasTheme = is_numeric($element->styledSetting('theme'));
+        $styleAlign = Cast::toString($element->styledSetting('style_align'));
+        $styleRatingColor = $element->styledSetting('style_rating_color');
+        $styleTextAlign = Cast::toString($element->styledSetting('style_text_align'));
+        if ($styleAlign) {
+            $align = str_replace('flex-', '', $styleAlign);
             $align = ['start' => 'left', 'end' => 'right'][$align] ?? $align;
             $classes[] = "items-justified-{$align}";
         }
-        if ($textAlign = Cast::toString($element->styledSetting('style_text_align'))) {
-            $classes[] = "has-text-align-{$textAlign}";
+        if (!$hasTheme && $styleRatingColor) {
+            $classes[] = 'has-custom-color';
         }
-        $classes = implode(' ', $classes);
-        $settings['class'] = glsr(Sanitizer::class)->sanitizeAttrClass($classes);
+        if (!$hasTheme && $styleTextAlign) {
+            $classes[] = "has-text-align-{$styleTextAlign}";
+        }
+        if (!empty($classes)) {
+            $classes[] = $settings['class'] ?? '';
+            $settings['class'] = glsr(Sanitizer::class)->sanitizeAttrClass(
+                implode(' ', $classes)
+            );
+        }
         return $settings;
     }
 
