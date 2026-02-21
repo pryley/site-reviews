@@ -8,9 +8,10 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
  * @property array  $args
  * @property string $debug
  * @property string $description
+ * @property string $from
  * @property string $name
- * @property string $shortcode
- * @property string $type
+ * @property string $tag
+ * @phpstan-require-extends \GeminiLabs\SiteReviews\Shortcodes\Shortcode
  */
 interface ShortcodeContract
 {
