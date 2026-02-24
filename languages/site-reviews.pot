@@ -6124,14 +6124,19 @@ msgctxt "{{ assigned_terms }} (admin-text)"
 msgid "Categories with a higher priority will be displayed first when using the %s template tag in the review."
 msgstr ""
 
-#: assets/breakdance/elements/site_review/element.php:33, assets/breakdance/elements/site_reviews/element.php:33, assets/breakdance/elements/site_reviews_form/element.php:53, assets/breakdance/elements/site_reviews_summary/element.php:33, plugin/Integrations/Avada/Elements/FusionSiteReview.php:29, plugin/Integrations/Avada/Elements/FusionSiteReviews.php:29, plugin/Integrations/Avada/Elements/FusionSiteReviewsForm.php:29, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:29, plugin/Integrations/Bricks/Elements/BricksSiteReview.php:40, plugin/Integrations/Bricks/Elements/BricksSiteReviews.php:56, plugin/Integrations/Bricks/Elements/BricksSiteReviewsForm.php:31, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:37, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:27
+#: assets/breakdance/elements/site_review/element.php:33, assets/breakdance/elements/site_reviews/element.php:33, assets/breakdance/elements/site_reviews_form/element.php:53, assets/breakdance/elements/site_reviews_summary/element.php:33, plugin/Integrations/Avada/Elements/FusionSiteReview.php:29, plugin/Integrations/Avada/Elements/FusionSiteReviews.php:29, plugin/Integrations/Avada/Elements/FusionSiteReviewsForm.php:29, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:34, plugin/Integrations/Bricks/Elements/BricksSiteReview.php:40, plugin/Integrations/Bricks/Elements/BricksSiteReviews.php:56, plugin/Integrations/Bricks/Elements/BricksSiteReviewsForm.php:31, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:37, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:27
 msgctxt "admin-text"
 msgid "Rating Color"
 msgstr ""
 
-#: assets/breakdance/elements/site_reviews_summary/element.php:40, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:34, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:56, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:38
+#: assets/breakdance/elements/site_reviews_summary/element.php:40, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:39, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:56, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:38
 msgctxt "admin-text"
 msgid "Bar Color"
+msgstr ""
+
+#: assets/breakdance/elements/site_reviews_summary/element.php:47, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:29
+msgctxt "admin-text"
+msgid "Max Width"
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/RestReviewController.php:33
@@ -6182,6 +6187,11 @@ msgstr ""
 #: plugin/Controllers/Api/Version1/RestSummaryController.php:77
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to view rating summaries."
+msgstr ""
+
+#: plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:28
+msgctxt "admin-text"
+msgid "Enter value including any valid CSS unit, e.g. 100%."
 msgstr ""
 
 #: plugin/Integrations/Bricks/Elements/BricksSiteReview.php:17, plugin/Integrations/Bricks/Elements/BricksSiteReviews.php:33
