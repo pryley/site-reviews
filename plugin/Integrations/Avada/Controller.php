@@ -149,8 +149,9 @@ class Controller extends AbstractController
                 '--glsr-form-star-bg' => 'style_rating_color',
             ],
             'site_reviews_summary' => [
-                '--glsr-summary-star-bg' => 'style_rating_color',
                 '--glsr-bar-bg' => 'style_bar_color',
+                '--glsr-max-w' => 'style_max_width',
+                '--glsr-summary-star-bg' => 'style_rating_color',
             ],
         ];
         $vars = $map[$shortcode->tag] ?? null;
