@@ -42,5 +42,16 @@
         }
       }
     }
+  },
+  "design": {
+    "decoration": {
+      "ratingColor": {
+        "desktop": {
+          "value": {
+            "color": "#faca15"
+          }
+        }
+      }
+    }
   }
 }

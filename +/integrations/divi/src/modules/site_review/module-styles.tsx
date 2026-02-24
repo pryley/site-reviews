@@ -4,6 +4,7 @@ import {
     TextStyle,
     type StylesProps,
 } from '@divi/module';
+import { colorStyleDeclaration } from '@site-reviews-divi/style-declarations';
 import { type ModuleAttrs } from './types';
 
 const ModuleStyles = ({
@@ -42,6 +43,21 @@ const ModuleStyles = ({
                     disabledModuleVisibility: settings?.disabledModuleVisibility,
                 },
             },
+        })}
+        {elements.style({
+          styleProps: {
+            advancedStyles: [
+              {
+                // Rating Color
+                componentName: "divi/common",
+                props: {
+                  attr: attrs?.design?.decoration?.ratingColor,
+                  declarationFunction: colorStyleDeclaration(['--glsr-review-star-bg']),
+                  selector: `${orderClass}.has-custom-color .glsr-review`,
+                },
+              },
+            ],
+          },
         })}
     </StyleContainer>
 );

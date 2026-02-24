@@ -58,6 +58,28 @@ class Controller extends AbstractController
                 'enqueue_app_window' => true,
             ],
         ]);
+        foreach ([
+            'site_reviews',
+            'site_reviews_form',
+            'site_reviews_summary',
+        ] as $shortcode) {
+            $parts = explode('_', $shortcode);
+            $suffix = end($parts);
+            $handle = sprintf('%s-%s-style', glsr()->ID, $suffix);
+            $registered = wp_styles()->registered[$handle] ?? null;
+            if ($src = $registered->src ?? '') {
+                \ET\Builder\VisualBuilder\Assets\PackageBuildManager::register_package_build([
+                    'name' => $handle,
+                    'version' => glsr()->version,
+                    'style' => [
+                        'src' => $src,
+                        'deps' => [],
+                        'enqueue_top_window' => false,
+                        'enqueue_app_window' => true,
+                    ],
+                ]);
+            }
+        }
     }
 
     /**

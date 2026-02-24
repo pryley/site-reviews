@@ -6,8 +6,8 @@ import { cloneDeep, set, unset } from 'lodash';
 import { ModuleGroups } from '@divi/module';
 import { type Module } from '@divi/types';
 import { type ModuleAttrs } from './types';
-import { useCheckboxesField } from '../../hooks/useCheckboxesField';
-import { useFormTokenField } from '../../hooks/useFormTokenField';
+import { useCheckboxesField } from '@site-reviews-divi/hooks/useCheckboxesField';
+import { useFormTokenField } from '@site-reviews-divi/hooks/useFormTokenField';
 
 const shortcode = 'site_reviews_summary';
 

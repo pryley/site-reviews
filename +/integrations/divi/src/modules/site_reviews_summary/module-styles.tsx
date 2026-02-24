@@ -1,11 +1,8 @@
 import React, { ReactElement } from 'react';
-import {
-    StyleContainer,
-    TextStyle,
-    type StylesProps,
-} from '@divi/module';
-import { isEmpty } from 'lodash';
 import { type ModuleAttrs } from './types';
+import { type StylesProps, StyleContainer, TextStyle } from '@divi/module';
+import { colorStyleDeclaration } from '@site-reviews-divi/style-declarations';
+import { isEmpty } from 'lodash';
 
 const ModuleStyles = ({
     attrs,
@@ -55,6 +52,30 @@ const ModuleStyles = ({
                     disabledModuleVisibility: settings?.disabledModuleVisibility,
                 },
             },
+        })}
+        {elements.style({
+          styleProps: {
+            advancedStyles: [
+              {
+                // Rating Color
+                componentName: "divi/common",
+                props: {
+                  attr: attrs?.design?.decoration?.ratingColor,
+                  declarationFunction: colorStyleDeclaration(['--glsr-summary-star-bg']),
+                  selector: `${orderClass}.has-custom-color .glsr-summary`,
+                },
+              },
+              {
+                // Bar Color
+                componentName: "divi/common",
+                props: {
+                  attr: attrs?.design?.decoration?.barColor,
+                  declarationFunction: colorStyleDeclaration(['--glsr-bar-bg']),
+                  selector: `${orderClass} .glsr-summary`,
+                },
+              },
+            ],
+          },
         })}
     </StyleContainer>
 )

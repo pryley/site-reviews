@@ -1,12 +1,10 @@
 import React, { ReactElement } from 'react';
-import {
-    StyleContainer,
-    type StylesProps,
-} from '@divi/module';
-import {
-    orientationStyleDeclaration,
-} from './style-declarations';
 import { type ModuleAttrs } from './types';
+import { type StylesProps, StyleContainer } from '@divi/module';
+import {
+    colorStyleDeclaration,
+    orientationStyleDeclaration,
+} from '@site-reviews-divi/style-declarations';
 
 const baseSelector = '.et-db #page-container .et_pb_section';
 
@@ -65,6 +63,21 @@ const ModuleStyles = ({
                     disabledModuleVisibility: settings?.disabledModuleVisibility,
                 },
             },
+        })}
+        {elements.style({
+          styleProps: {
+            advancedStyles: [
+              {
+                // Rating Color
+                componentName: "divi/common",
+                props: {
+                  attr: attrs?.design?.decoration?.ratingColor,
+                  declarationFunction: colorStyleDeclaration(['--glsr-form-star-bg']),
+                  selector: `${orderClass}.has-custom-color .glsr-form`,
+                },
+              },
+            ],
+          },
         })}
         {elements.style({
             attrName: 'button',

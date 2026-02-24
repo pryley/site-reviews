@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { loggedFetch } from '@divi/rest';
 import { type FieldLibrary } from '@divi/types';
-import { type Item } from '../shared/types';
+import { type Item } from '@site-reviews-divi/shared/types';
 import { pickBy } from 'lodash';
 
 export const useFormTokenField = (shortcode: string, option: string, value: string[]) => {

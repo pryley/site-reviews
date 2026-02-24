@@ -7,6 +7,9 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@site-reviews-divi/*": ["./src/*"]
+    }
   }
 }

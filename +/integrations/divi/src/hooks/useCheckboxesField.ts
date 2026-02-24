@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { loggedFetch } from '@divi/rest';
-import { type Item, type TransformedItem } from '../shared/types';
+import { type Item, type TransformedItem } from '@site-reviews-divi/shared/types';
 
 export const useCheckboxesField = (shortcode: string, option: string) => {
     const [options, setOptions] = useState<TransformedItem[]>([]);

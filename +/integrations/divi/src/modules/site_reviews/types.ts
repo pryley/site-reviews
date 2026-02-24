@@ -50,6 +50,11 @@ export interface ModuleAttrs extends InternalAttrs {
       verified?: FormatBreakpointStateAttr<string>;
     };
   };
+  design?: {
+    decoration?: {
+      ratingColor?: FormatBreakpointStateAttr<string>;
+    };
+  };
   button?: {
     decoration?: Element.Decoration.PickedAttributes<
       'background' |

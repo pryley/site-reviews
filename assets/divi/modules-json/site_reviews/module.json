@@ -387,6 +387,35 @@
         }
       }
     },
+    "design": {
+      "type": "object",
+      "selector": "{{selector}} .glsr-reviews",
+      "settings": {
+        "decoration": {
+          "ratingColor": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designGeneral",
+              "attrName": "design.decoration.ratingColor",
+              "label": "Rating Color",
+              "priority": 10,
+              "render": true,
+              "visible": true,
+              "subName": "color",
+              "features": {
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "component": {
+                "name": "divi/color-picker",
+                "type": "field"
+              }
+            }
+          }
+        }
+      }
+    },
     "button": {
       "elementProps": {
         "hasWrapper": true

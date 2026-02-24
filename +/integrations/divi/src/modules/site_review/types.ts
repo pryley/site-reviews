@@ -40,6 +40,11 @@ export interface ModuleAttrs extends InternalAttrs {
       id?: FormatBreakpointStateAttr<string>;
     };
   };
+  design?: {
+    decoration?: {
+      ratingColor?: FormatBreakpointStateAttr<string>;
+    };
+  };
 }
 
 export type EditProps = ModuleEditProps<ModuleAttrs>;

@@ -238,6 +238,38 @@
         }
       }
     },
+    "design": {
+      "type": "object",
+      "selector": "{{selector}} .glsr-field",
+      "settings": {
+        "decoration": {
+          "ratingColor": {
+            "groupType": "group-item",
+            "item": {
+              "attrName": "design.decoration.ratingColor",
+              "component": {
+                "name": "divi/color-picker",
+                "type": "field"
+              },
+              "features": {
+                "dynamicContent": {
+                  "type": "color"
+                },
+                "hover": false,
+                "responsive": false,
+                "sticky": false
+              },
+              "groupSlug": "designGeneral",
+              "label": "Rating Color",
+              "subName": "color",
+              "priority": 10,
+              "render": true,
+              "visible": true
+            }
+          }
+        }
+      }
+    },
     "button": {
       "elementProps": {
         "hasWrapper": true

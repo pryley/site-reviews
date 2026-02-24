@@ -93,6 +93,17 @@
       }
     }
   },
+  "design": {
+    "decoration": {
+      "ratingColor": {
+        "desktop": {
+          "value": {
+            "color": "#faca15"
+          }
+        }
+      }
+    }
+  },
   "button": {
     "decoration": {
       "button": {

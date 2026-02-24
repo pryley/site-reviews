@@ -4,11 +4,11 @@ namespace GeminiLabs\SiteReviews\Integrations\Divi\Modules\SiteReviewsForm;
 
 use ET\Builder\FrontEnd\Module\Style;
 use ET\Builder\Packages\Module\Options\Text\TextClassnames;
-use ET\Builder\Packages\StyleLibrary\Utils\StyleDeclarations;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleClassnamesDefaults;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleStylesDefaults;
 use GeminiLabs\SiteReviews\Integrations\Divi\Modules\DiviModule;
+use GeminiLabs\SiteReviews\Integrations\Divi\StyleDeclarations;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
 class Module extends DiviModule
@@ -16,6 +16,19 @@ class Module extends DiviModule
     public static function blockName(): string
     {
         return 'glsr-divi/form';
+    }
+
+    /**
+     * This method is equivalent to "module-classnames.ts".
+     */
+    public static function module_classnames(array $args): void
+    {
+        parent::module_classnames($args);
+        $args = glsr(ModuleClassnamesDefaults::class)->merge($args);
+        if (empty($args['attrs']['shortcode']['advanced']['theme']['desktop']['value'])) {
+            $ratingColor = $args['attrs']['design']['decoration']['ratingColor']['desktop']['value']['color'] ?? '';
+            $args['classnamesInstance']->add('has-custom-color', !empty($ratingColor));
+        }
     }
 
     /**
@@ -36,6 +49,29 @@ class Module extends DiviModule
             'storeInstance' => $args['storeInstance'],
             'styles' => [
                 $elements->style([
+                    'styleProps' => [
+                        'advancedStyles' => [
+                            [
+                                // Rating Color
+                                'componentName' => 'divi/common',
+                                'props' => [
+                                    'attr' => $attrs['design']['decoration']['ratingColor'] ?? [],
+                                    'declarationFunction' => StyleDeclarations::color(['--glsr-form-star-bg']),
+                                    'selector' => "{$orderClass}.has-custom-color .glsr-form",
+                                ],
+                            ],
+                        ],
+                    ],
+                ]),
+            ],
+        ]);
+        Style::add([
+            'id' => $args['id'],
+            'name' => $args['name'],
+            'orderIndex' => $args['orderIndex'],
+            'storeInstance' => $args['storeInstance'],
+            'styles' => [
+                $elements->style([
                     'attrName' => 'module',
                     'styleProps' => [
                         'advancedStyles' => [
@@ -43,7 +79,7 @@ class Module extends DiviModule
                                 'componentName' => 'divi/common',
                                 'props' => [
                                     'attr' => $attrs['module']['advanced']['text']['text'] ?? [],
-                                    'declarationFunction' => static::orientationStyleDeclaration(),
+                                    'declarationFunction' => StyleDeclarations::orientation(),
                                     'selector' => implode(',', [
                                         "{$baseSelector} {$orderClass} .glsr-field:not(.glsr-layout-inline) .glsr-field-subgroup > *",
                                         "{$baseSelector} {$orderClass} .glsr-layout-inline .glsr-field-subgroup",
@@ -94,21 +130,5 @@ class Module extends DiviModule
             $shortcode = glsr(SiteReviewsFormShortcode::class);
         }
         return $shortcode;
-    }
-
-    protected static function orientationStyleDeclaration(): callable
-    {
-        return static function (array $args): string {
-            $orientation = $args['attrValue']['orientation'] ?? null;
-            $declarations = new StyleDeclarations([
-                'important' => true,
-                'returnType' => 'string',
-            ]);
-            if ($orientation) {
-                $declarations->add('display', 'flex');
-                $declarations->add('justify-content', $orientation);
-            }
-            return $declarations->value();
-        };
     }
 }

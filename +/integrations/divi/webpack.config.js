@@ -184,6 +184,7 @@ module.exports = {
   // Determine how modules are resolved.
   // @see https://webpack.js.org/configuration/resolve/
   resolve: {
+    alias: {'@site-reviews-divi': path.resolve(__dirname, './src')},
     // Allows extension to be leave off when importing.
     // @see https://webpack.js.org/configuration/resolve/#resolveextensions
     extensions: ['.js', '.jsx', '.tsx', '.ts', '.json'],
