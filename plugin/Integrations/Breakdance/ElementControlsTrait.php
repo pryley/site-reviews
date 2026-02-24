@@ -38,21 +38,13 @@ trait ElementControlsTrait
      */
     public static function defaultProperties()
     {
-        $properties = [];
         $shortcode = static::bdShortcode();
-        $config = $shortcode->settings();
-        $defaults = array_filter($config, fn ($args) => isset($args['default']));
-        $transformer = new Transformer('content', $config, $shortcode->tag);
-        foreach ($transformer as $item) {
-            $slug = $item['control']['slug'] ?? '';
-            if (empty($slug) || !array_key_exists($slug, $defaults)) {
-                continue;
-            }
-            $path = "content.{$item['path']}";
-            $properties[$path] = $defaults[$slug]['default'];
-        }
-        $properties = Arr::unflatten($properties);
+        $properties = array_merge(
+            static::defaultsForContent(),
+            static::defaultsForDesign(),
+        );
         $properties = glsr()->filterArray('breakdance/default_properties', $properties, $shortcode);
+        $properties = Arr::unflatten($properties);
         if (empty($properties)) {
             return false;
         }
@@ -131,6 +123,32 @@ trait ElementControlsTrait
     }
 
     protected static function controlsForDesign(): array
+    {
+        return [];
+    }
+
+    protected static function defaultsForContent(): array
+    {
+        $defaults = [];
+        $shortcode = static::bdShortcode();
+        $config = $shortcode->settings();
+        $settings = array_filter($config, fn ($args) => isset($args['default']));
+        $transformer = new Transformer('content', $config, $shortcode->tag);
+        foreach ($transformer as $item) {
+            $slug = $item['control']['slug'] ?? '';
+            if (empty($slug) || !array_key_exists($slug, $settings)) {
+                continue;
+            }
+            $path = "content.{$item['path']}";
+            $defaults[$path] = $settings[$slug]['default'];
+        }
+        return $defaults;
+    }
+
+    /**
+     * Returns an array with dot notation (i.e. design.general.*) keys
+     */
+    protected static function defaultsForDesign(): array
     {
         return [];
     }

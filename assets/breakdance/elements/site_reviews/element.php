@@ -28,7 +28,7 @@ class SiteReviews extends Element
 
     protected static function controlsForDesign(): array
     {
-        return [
+        return [ // order is intentional
             'rating_color' => [
                 'label' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
                 'options' => [
@@ -36,6 +36,16 @@ class SiteReviews extends Element
                     'type' => 'color',
                 ],
             ],
+        ];
+    }
+
+    /**
+     * Returns an array with dot notation (i.e. design.general.*) keys
+     */
+    protected static function defaultsForDesign(): array
+    {
+        return [
+            'design.general.rating_color' => null,
         ];
     }
 }

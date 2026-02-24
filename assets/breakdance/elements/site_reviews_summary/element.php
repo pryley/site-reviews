@@ -28,7 +28,7 @@ class SiteReviewsSummary extends Element
 
     protected static function controlsForDesign(): array
     {
-        return [
+        return [ // order is intentional
             'rating_color' => [
                 'label' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
                 'options' => [
@@ -43,6 +43,29 @@ class SiteReviewsSummary extends Element
                     'type' => 'color',
                 ],
             ],
+            'max_width' => [
+                'label' => esc_html_x('Max Width', 'admin-text', 'site-reviews'),
+                'options' => [
+                    'layout' => 'inline',
+                    'type' => 'unit',
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Returns an array with dot notation (i.e. design.general.*) keys
+     */
+    protected static function defaultsForDesign(): array
+    {
+        return [
+            'design.general.bar_color' => null,
+            'design.general.max_width' => [
+                'number' => 480,
+                'style' => '480px',
+                'unit' => 'px',
+            ],
+            'design.general.rating_color' => null,
         ];
     }
 }
