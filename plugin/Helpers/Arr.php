@@ -211,6 +211,19 @@ class Arr
         return $result;
     }
 
+    /**
+     * This reindexes the array!
+     */
+    public static function removeValue(mixed $value, array $array): array
+    {
+        if (!wp_is_numeric_array($array)) {
+            return $array;
+        }
+        return array_values(
+            array_filter($array, fn ($item) => $item !== $value)
+        );
+    }
+
     public static function restrictKeys(array $array, array $allowedKeys): array
     {
         return array_intersect_key($array, array_fill_keys($allowedKeys, ''));

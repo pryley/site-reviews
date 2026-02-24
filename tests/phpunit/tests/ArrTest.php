@@ -162,6 +162,21 @@ class ArrTest extends WP_UnitTestCase
         );
     }
 
+    public function test_remove_value()
+    {
+        // ensure it only works on indexed arrays
+        $this->assertEquals(Arr::removeValue('a', ['a', 'b' => 'c']), ['a', 'b' => 'c']);
+        // ensure it works with non scalar items
+        $this->assertEquals(Arr::removeValue('a', ['a', []]), [[]]);
+        $this->assertEquals(Arr::removeValue([], ['a', []]), ['a']);
+        $this->assertEquals(Arr::removeValue([1], ['a', [1]]), ['a']);
+        // ensure it doesn't work for object items
+        $this->assertEquals(Arr::removeValue((object)[], ['a', (object)[]]), ['a', (object)[]]);
+        // ensure that it reindexes the array
+        $this->assertEquals(Arr::removeValue('a', [1 => 'a', 2 => 'b']), [0 => 'b']);
+        $this->assertEquals(Arr::removeValue('a', [1 => 'a', 5 => 'b']), [0 => 'b']);
+    }
+
     public function test_restrict_keys()
     {
         $array = [
