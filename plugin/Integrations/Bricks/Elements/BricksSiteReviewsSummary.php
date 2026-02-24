@@ -21,6 +21,22 @@ class BricksSiteReviewsSummary extends BricksElement
                 'themeStyle' => true,
                 'type' => 'align-items',
             ],
+            'style_max_width' => [
+                'css' => [[
+                    'selector' => '.glsr',
+                    'property' => '--glsr-max-w',
+                ]],
+                'group' => 'design',
+                'hasDynamicData' => false,
+                'hasVariables' => true,
+                'inline' => true,
+                'label' => esc_html_x('Max Width', 'admin-text', 'site-reviews'),
+                'placeholder' => '',
+                'tab' => 'style',
+                'themeStyle' => true,
+                'type' => 'number',
+                'units' => true,
+            ],
             'separator_summary_rating' => [
                 'group' => 'design',
                 'label' => esc_html_x('Rating', 'admin-text', 'site-reviews'),

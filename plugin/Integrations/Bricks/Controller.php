@@ -80,7 +80,6 @@ class Controller extends AbstractController
             return $settings;
         }
         $classes = [];
-        $hasTheme = is_numeric($element->styledSetting('theme'));
         $styleAlign = Cast::toString($element->styledSetting('style_align'));
         $styleRatingColor = $element->styledSetting('style_rating_color');
         $styleTextAlign = Cast::toString($element->styledSetting('style_text_align'));
@@ -89,10 +88,10 @@ class Controller extends AbstractController
             $align = ['start' => 'left', 'end' => 'right'][$align] ?? $align;
             $classes[] = "items-justified-{$align}";
         }
-        if (!$hasTheme && $styleRatingColor) {
+        if ($styleRatingColor) {
             $classes[] = 'has-custom-color';
         }
-        if (!$hasTheme && $styleTextAlign) {
+        if ($styleTextAlign) {
             $classes[] = "has-text-align-{$styleTextAlign}";
         }
         if (!empty($classes)) {
