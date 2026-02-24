@@ -19,7 +19,19 @@ class ElementorSiteReviewsSummary extends ElementorWidget
 
     protected function styleConfig(): array
     {
-        return [
+        return [ // order is intentional
+            'style_max_width' => [
+                'default' => [
+                    'unit' => '%',
+                ],
+                'is_responsive' => true,
+                'label' => esc_html_x('Max Width', 'admin-text', 'site-reviews'),
+                'selectors' => [
+                    '.glsr-elementor-{{ID}}' => '--glsr-max-w: {{SIZE}}{{UNIT}};',
+                ],
+                'size_units' => ['%', 'px', 'em', 'rem', 'custom'],
+                'type' => Controls_Manager::SLIDER,
+            ],
             'style_rating_color' => [
                 'global' => [
                     'default' => '',

@@ -6,8 +6,8 @@ window.addEventListener('elementor/init', () => {
             this.$el.find('.elementor-control-title').after('<span class="elementor-control-spinner">&nbsp;<i class="eicon-spinner eicon-animation-spin"></i>&nbsp;</span>');
         },
         getControlValueByName(controlName) {
-            const name = this.model.get('group_prefix') + controlName;
-            return this.container.settings.get(name);
+            const name = (this.model.get('group_prefix') ?? '') + controlName;
+            return this.container.settings.get(name) ?? '';
         },
         getInitialValues() {
             let ids = this.getControlValue();
@@ -24,12 +24,17 @@ window.addEventListener('elementor/init', () => {
             })
         },
         getQueryData() {
-            return {
+            const data = {
                 include: this.getControlValueByName(this.model.get('include')),
                 option: this.model.get('name'),
                 shortcode: this.container.settings.get('widgetType'),
                 unique_id: this.cid + this.model.get('name'),
             }
+            const depends_on = this.model.get('depends_on');
+            if (depends_on) {
+                data[depends_on] = this.getControlValueByName(depends_on);
+            }
+            return data;
         },
         getSelect2DefaultOptions() {
             return jQuery.extend(elementor.modules.controls.Select2.prototype.getSelect2DefaultOptions.apply(this, arguments), {

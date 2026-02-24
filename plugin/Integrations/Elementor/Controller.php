@@ -108,9 +108,7 @@ class Controller extends AbstractController
         if (!array_key_exists($args['include'], $options)) {
             return [];
         }
-        return [
-            $args['include'] => $options[$args['include']],
-        ];
+        return $options;
     }
 
     /**
