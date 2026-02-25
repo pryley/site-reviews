@@ -154,16 +154,15 @@ class Controller extends AbstractController
                 '--glsr-summary-star-bg' => 'style_rating_color',
             ],
         ];
-        $vars = $map[$shortcode->tag] ?? null;
-        if (!$vars) {
+        if (!array_key_exists($shortcode->tag, $map)) {
             return $attributes;
         }
         $style = [
             $attributes['style'] ?? '',
         ];
-        foreach ($vars as $cssVar => $argKey) {
-            $value = $args[$argKey] ?? '';
-            $style[] = "{$cssVar}:{$value}"; // sanitization removes empty properties
+        foreach ($map[$shortcode->tag] as $property => $styleKey) {
+            $value = $args[$styleKey] ?? '';
+            $style[] = "{$property}:{$value}"; // sanitization removes empty properties
         }
         $attributes['style'] = glsr(Sanitizer::class)->sanitizeAttrStyle(implode(';', $style));
         return $attributes;
