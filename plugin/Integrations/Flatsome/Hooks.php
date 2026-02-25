@@ -17,6 +17,8 @@ class Hooks extends IntegrationHooks
         }
         $this->hook(Controller::class, [
             ['filterModalWrappedBy', 'site-reviews/modal_wrapped_by'],
+            ['filterWrapAttrClass', 'site-reviews/shortcode/wrap/attributes', 10, 3],
+            ['filterWrapAttrStyle', 'site-reviews/shortcode/wrap/attributes', 10, 3],
             ['interceptGetPostsQuery', 'wp_ajax_ux_builder_get_posts', 1],
             ['interceptSearchPostsQuery', 'wp_ajax_ux_builder_search_posts', 1],
             ['printInlineScripts', 'ux_builder_enqueue_scripts'],

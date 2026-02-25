@@ -16,6 +16,44 @@ class FlatsomeSiteReviewsSummary extends FlatsomeShortcode
         return SiteReviewsSummaryShortcode::class;
     }
 
+    protected function styleConfig(): array
+    {
+        return [
+            'style_max_width' => [
+                'description' => esc_attr_x('Enter a valid CSS unit.', 'admin-text', 'site-reviews'),
+                'heading' => esc_html_x('Max Width', 'admin-text', 'site-reviews'),
+                'default' => '48ch',
+                'group' => 'design',
+                'min' => 0,
+                'on_change' => [
+                    'style' => '--glsr-max-w:{{ value }}'
+                ],
+                'type' => 'scrubfield',
+            ],
+            'style_rating_color' => [
+                'alpha' => true,
+                'format' => 'rgb',
+                'group' => 'design',
+                'heading' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
+                'helpers' => require(get_template_directory().'/inc/builder/shortcodes/helpers/colors.php'),
+                'position' => 'bottom right',
+                'type' => 'colorpicker',
+            ],
+            'style_bar_color' => [
+                'alpha' => true,
+                'format' => 'rgb',
+                'group' => 'design',
+                'heading' => esc_html_x('Bar Color', 'admin-text', 'site-reviews'),
+                'helpers' => require(get_template_directory().'/inc/builder/shortcodes/helpers/colors.php'),
+                'on_change' => [
+                    'style' => '--glsr-bar-bg:{{ value }}',
+                ],
+                'position' => 'bottom right',
+                'type' => 'colorpicker',
+            ],
+        ];
+    }
+
     protected function styles(): array
     {
         return [

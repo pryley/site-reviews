@@ -16,6 +16,21 @@ class FlatsomeSiteReviews extends FlatsomeShortcode
         return SiteReviewsShortcode::class;
     }
 
+    protected function styleConfig(): array
+    {
+        return [
+            'style_rating_color' => [
+                'alpha' => true,
+                'format' => 'rgb',
+                'group' => 'design',
+                'heading' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
+                'helpers' => require(get_template_directory().'/inc/builder/shortcodes/helpers/colors.php'),
+                'position' => 'bottom right',
+                'type' => 'colorpicker',
+            ],
+        ];
+    }
+
     protected function styles(): array
     {
         return [
