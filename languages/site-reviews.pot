@@ -1318,7 +1318,7 @@ msgctxt "admin-text"
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:769, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/GamiPress/Controller.php:134, plugin/Integrations/ProfilePress/RatingField.php:24, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:26
+#: config/settings.php:769, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/GamiPress/Controller.php:134, plugin/Integrations/ProfilePress/RatingField.php:24, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:42
 msgctxt "admin-text"
 msgid "Rating"
 msgstr ""
@@ -6124,17 +6124,17 @@ msgctxt "{{ assigned_terms }} (admin-text)"
 msgid "Categories with a higher priority will be displayed first when using the %s template tag in the review."
 msgstr ""
 
-#: assets/breakdance/elements/site_review/element.php:33, assets/breakdance/elements/site_reviews/element.php:33, assets/breakdance/elements/site_reviews_form/element.php:53, assets/breakdance/elements/site_reviews_summary/element.php:33, plugin/Integrations/Avada/Elements/FusionSiteReview.php:29, plugin/Integrations/Avada/Elements/FusionSiteReviews.php:29, plugin/Integrations/Avada/Elements/FusionSiteReviewsForm.php:29, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:34, plugin/Integrations/Bricks/Elements/BricksSiteReview.php:40, plugin/Integrations/Bricks/Elements/BricksSiteReviews.php:56, plugin/Integrations/Bricks/Elements/BricksSiteReviewsForm.php:31, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:37, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:27
+#: assets/breakdance/elements/site_review/element.php:33, assets/breakdance/elements/site_reviews/element.php:33, assets/breakdance/elements/site_reviews_form/element.php:53, assets/breakdance/elements/site_reviews_summary/element.php:33, plugin/Integrations/Avada/Elements/FusionSiteReview.php:29, plugin/Integrations/Avada/Elements/FusionSiteReviews.php:29, plugin/Integrations/Avada/Elements/FusionSiteReviewsForm.php:29, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:34, plugin/Integrations/Bricks/Elements/BricksSiteReview.php:40, plugin/Integrations/Bricks/Elements/BricksSiteReviews.php:56, plugin/Integrations/Bricks/Elements/BricksSiteReviewsForm.php:31, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:53, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:24, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:39
 msgctxt "admin-text"
 msgid "Rating Color"
 msgstr ""
 
-#: assets/breakdance/elements/site_reviews_summary/element.php:40, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:39, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:56, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:38
+#: assets/breakdance/elements/site_reviews_summary/element.php:40, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:39, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:72, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:50
 msgctxt "admin-text"
 msgid "Bar Color"
 msgstr ""
 
-#: assets/breakdance/elements/site_reviews_summary/element.php:47, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:29
+#: assets/breakdance/elements/site_reviews_summary/element.php:47, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:29, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:33, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:28
 msgctxt "admin-text"
 msgid "Max Width"
 msgstr ""
@@ -6204,7 +6204,7 @@ msgctxt "admin-text"
 msgid "Heading"
 msgstr ""
 
-#: plugin/Integrations/Bricks/Elements/BricksSiteReview.php:53, plugin/Integrations/Bricks/Elements/BricksSiteReviews.php:69, plugin/Integrations/Bricks/Elements/BricksSiteReviewsForm.php:44, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:82
+#: plugin/Integrations/Bricks/Elements/BricksSiteReview.php:53, plugin/Integrations/Bricks/Elements/BricksSiteReviews.php:69, plugin/Integrations/Bricks/Elements/BricksSiteReviewsForm.php:44, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:98
 msgctxt "admin-text"
 msgid "You have hidden all of the fields."
 msgstr ""
@@ -6214,12 +6214,12 @@ msgctxt "admin-text"
 msgid "Align"
 msgstr ""
 
-#: plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:45
+#: plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:61
 msgctxt "admin-text"
 msgid "Percent Bars"
 msgstr ""
 
-#: plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:69
+#: plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:85
 msgctxt "admin-text"
 msgid "The recommended way to change these values is to use the Site Reviews → Settings → Strings page."
 msgstr ""
