@@ -154,6 +154,23 @@
     font-size: var(--glsr-text-sm);
     gap: .5ex;
 }
+:--namespace .glsr-tag-value ol,
+:--namespace .glsr-tag-value ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1ex;
+    margin: 0 0 0 2em;
+    padding: 0;
+}
+:--namespace .glsr-tag-value ol {
+    list-style-type: decimal;
+}
+:--namespace .glsr-tag-value ul {
+    list-style-type: disc;
+}
+:--namespace .glsr-tag-value li {
+    margin: 0;
+}
 :--namespace .glsr-read-more {
     white-space: nowrap;
 }
