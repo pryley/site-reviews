@@ -19,11 +19,35 @@ class FlatsomeSiteReviewsSummary extends FlatsomeShortcode
     protected function styleConfig(): array
     {
         return [
+            'style_align' => [
+                'default' => 'left',
+                'group' => 'design',
+                'heading' => esc_html_x('Alignment', 'admin-text', 'site-reviews'),
+                'type' => 'radio-buttons',
+                'on_change' => array(
+                    'class' => 'items-justified-{{ value }}',
+                    'recompile' => false,
+                ),
+                'options' => [
+                    'left' => [
+                        'icon' => 'dashicons-align-left',
+                        'title' => _x('Left', 'admin-text', 'site-reviews'),
+                    ],
+                    'center' => [
+                        'icon' => 'dashicons-align-center',
+                        'title' => _x('Center', 'admin-text', 'site-reviews'),
+                    ],
+                    'right' => [
+                        'icon' => 'dashicons-align-right',
+                        'title' => _x('Right', 'admin-text', 'site-reviews'),
+                    ],
+                ],
+            ],
             'style_max_width' => [
                 'description' => esc_attr_x('Enter a valid CSS unit.', 'admin-text', 'site-reviews'),
+                'group' => 'design',
                 'heading' => esc_html_x('Max Width', 'admin-text', 'site-reviews'),
                 'default' => '48ch',
-                'group' => 'design',
                 'min' => 0,
                 'on_change' => [
                     'style' => '--glsr-max-w:{{ value }}'

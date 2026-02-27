@@ -181,6 +181,7 @@
     site-reviews/export/settings/extra                          (array $extra): array
     site-reviews/field/element/<field_element_type>             (string $className, Contracts\FieldContract $field): string
     site-reviews/flatsome/controls                              (array $controls, Contracts\ShortcodeContract $shortcode): array
+    site-reviews/flatsome/register                              (array $options, Contracts\ShortcodeContract $shortcode): array
     site-reviews/flyoutmenu/enabled                             (bool $bool): bool
     site-reviews/flyoutmenu/items                               (array $items): array
     site-reviews/gamipress/posts/post_types                     (array $postTypes): array

@@ -65,7 +65,7 @@ abstract class FlatsomeShortcode
                 return;
             }
             $shortcode = $this->shortcodeInstance()->tag;
-            add_ux_builder_shortcode($shortcode, [
+            $options = [
                 'category' => glsr()->name,
                 'name' => $this->shortcodeInstance()->name,
                 'options' => $this->options(),
@@ -73,7 +73,9 @@ abstract class FlatsomeShortcode
                 'styles' => $this->styles(),
                 'thumbnail' => $this->icon(),
                 'wrap' => false,
-            ]);
+            ];
+            $options = glsr()->filterArray('flatsome/register', $options, $this->shortcodeInstance());
+            add_ux_builder_shortcode($shortcode, $options);
         });
     }
 
