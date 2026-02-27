@@ -1,18 +1,13 @@
 import { _x } from '@wordpress/i18n';
 import { AjaxFormTokenField, AjaxToggleGroupControl, ColorControl } from '@site-reviews/components';
 import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
+import { JustifyContentControl, withColors } from "@wordpress/block-editor";
 import { TextControl } from '@wordpress/components';
-import {
-  __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
-  JustifyContentControl,
-  withColors,
-} from "@wordpress/block-editor";
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
 const Edit = (props) => {
     const { attributes, setAttributes } = props;
     const { style_rating_color, style_rating_color_custom } = attributes;
-    const colorSettings = useMultipleOriginColorsAndGradients();
     const controls = {
         assigned_posts: <AjaxFormTokenField
             endpoint='/site-reviews/v1/shortcode/site_reviews_form?option=assigned_posts'

@@ -20,6 +20,16 @@ class SiteReviewsFormBlock extends Block
         if (!empty($attributes['style_align'])) {
             $classes[] = "items-justified-{$attributes['style_align']}";
         }
+        if (!empty($attributes['style_rating_color']) || !empty($attributes['style_rating_color_custom'])) {
+            $classes[] = 'has-custom-color';
+        }
         return $classes;
+    }
+
+    protected function blockStyles(array $attributes): array
+    {
+        return array_filter([
+            '--glsr-form-star-bg' => $this->resolveColor($attributes, 'style_rating_color', 'style_rating_color_custom'),
+        ]);
     }
 }

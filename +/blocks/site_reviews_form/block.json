@@ -52,24 +52,8 @@
             "default": "",
             "type": "string"
         },
-        "style": {
-            "type": "object",
-            "default": {
-                "typography": {
-                    "textAlign": "left"
-                }
-            }
-        },
         "style_align": {
             "default": "left",
-            "type": "string"
-        },
-        "style_bar_color": {
-            "default": "",
-            "type": "string"
-        },
-        "style_bar_color_custom": {
-            "default": "",
             "type": "string"
         },
         "style_rating_color": {
@@ -98,7 +82,7 @@
         "typography": {
             "fontSize": true,
             "lineHeight": true,
-            "textAlign": true,
+            "textAlign": false,
             "__experimentalTextDecoration": true,
             "__experimentalFontFamily": true,
             "__experimentalFontWeight": true,

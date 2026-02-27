@@ -77,6 +77,18 @@
             "default": "left",
             "type": "string"
         },
+        "style_bar_color": {
+            "default": "",
+            "type": "string"
+        },
+        "style_bar_color_custom": {
+            "default": "",
+            "type": "string"
+        },
+        "style_max_width": {
+            "default": "48ch",
+            "type": "string"
+        },
         "style_rating_color": {
             "default": "",
             "type": "string"

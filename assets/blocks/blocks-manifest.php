@@ -44,10 +44,6 @@ return array(
 					)
 				)
 			),
-			'style_align' => array(
-				'default' => 'left',
-				'type' => 'string'
-			),
 			'style_rating_color' => array(
 				'default' => '',
 				'type' => 'string'
@@ -324,24 +320,8 @@ return array(
 				'default' => '',
 				'type' => 'string'
 			),
-			'style' => array(
-				'type' => 'object',
-				'default' => array(
-					'typography' => array(
-						'textAlign' => 'left'
-					)
-				)
-			),
 			'style_align' => array(
 				'default' => 'left',
-				'type' => 'string'
-			),
-			'style_bar_color' => array(
-				'default' => '',
-				'type' => 'string'
-			),
-			'style_bar_color_custom' => array(
-				'default' => '',
 				'type' => 'string'
 			),
 			'style_rating_color' => array(
@@ -370,7 +350,7 @@ return array(
 			'typography' => array(
 				'fontSize' => true,
 				'lineHeight' => true,
-				'textAlign' => true,
+				'textAlign' => false,
 				'__experimentalTextDecoration' => false,
 				'__experimentalFontFamily' => true,
 				'__experimentalFontWeight' => true,
@@ -489,6 +469,18 @@ return array(
 			),
 			'style_align' => array(
 				'default' => 'left',
+				'type' => 'string'
+			),
+			'style_bar_color' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'style_bar_color_custom' => array(
+				'default' => '',
+				'type' => 'string'
+			),
+			'style_max_width' => array(
+				'default' => '48ch',
 				'type' => 'string'
 			),
 			'style_rating_color' => array(

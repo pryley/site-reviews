@@ -75,6 +75,24 @@ abstract class Block implements BlockContract
         return $this->shortcodeInstance()->hasVisibleFields($attributes);
     }
 
+    protected function resolveAlign(array $attributes, string $presetKey): string
+    {
+        $alignMap = [
+            'left' => 'start',
+            'right' => 'end',
+        ];
+        return !empty($attributes[$presetKey])
+            ? $alignMap[$attributes[$presetKey]] ?? 'center'
+            : '';
+    }
+
+    protected function resolveColor(array $attributes, string $presetKey, string $customKey): string
+    {
+        return !empty($attributes[$presetKey])
+            ? "var(--wp--preset--color--{$attributes[$presetKey]})"
+            : ($attributes[$customKey] ?? '');
+    }
+
     protected function wrapperAttributes(array $args): array
     {
         $blockSupports = \WP_Block_Supports::get_instance()->apply_block_supports();

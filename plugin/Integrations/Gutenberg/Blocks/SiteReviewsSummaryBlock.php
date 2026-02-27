@@ -20,19 +20,19 @@ class SiteReviewsSummaryBlock extends Block
         if (!empty($attributes['style_align'])) {
             $classes[] = "items-justified-{$attributes['style_align']}";
         }
+        if (!empty($attributes['style_rating_color']) || !empty($attributes['style_rating_color_custom'])) {
+            $classes[] = 'has-custom-color';
+        }
         return $classes;
     }
 
     protected function blockStyles(array $attributes): array
     {
-        $styles = [];
-        if (!empty($attributes['style_align'])) {
-            $alignMap = [
-                'left' => 'start',
-                'right' => 'end',
-            ];
-            $styles['--glsr-summary-align'] = $alignMap[$attributes['style_align']] ?? 'center';
-        }
-        return $styles;
+        return array_filter([
+            '--glsr-bar-bg' => $this->resolveColor($attributes, 'style_bar_color', 'style_bar_color_custom'),
+            '--glsr-max-w' => ($attributes['style_max_width'] ?? '') ?: 'none',
+            '--glsr-summary-align' => $this->resolveAlign($attributes, 'style_align'),
+            '--glsr-summary-star-bg' => $this->resolveColor($attributes, 'style_rating_color', 'style_rating_color_custom'),
+        ]);
     }
 }

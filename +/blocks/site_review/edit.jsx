@@ -2,17 +2,12 @@ import { _x } from '@wordpress/i18n';
 import { AjaxSearchControl, AjaxToggleGroupControl, ColorControl } from '@site-reviews/components';
 import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
 import { TextControl } from '@wordpress/components';
-import {
-  __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
-  JustifyContentControl,
-  withColors,
-} from "@wordpress/block-editor";
+import { withColors } from "@wordpress/block-editor";
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
 const Edit = (props) => {
     const { attributes, setAttributes } = props;
     const { style_rating_color, style_rating_color_custom } = attributes;
-    const colorSettings = useMultipleOriginColorsAndGradients();
     const controls = {
         hide: <AjaxToggleGroupControl
             endpoint='/site-reviews/v1/shortcode/site_review?option=hide'
@@ -38,11 +33,6 @@ const Edit = (props) => {
             placeholder={ _x('Search Reviews...', 'admin-text', 'site-reviews') }
             value={ attributes.post_id }
         />,
-        style_align: <JustifyContentControl
-            allowedControls={['left', 'center', 'right']}
-            onChange={ (style_align) => setAttributes({ style_align }) }
-            value={ attributes.style_align }
-        />,
         style_rating_color: <ColorControl
             attributeName='style_rating_color'
             label={ _x('Rating', 'admin-text', 'site-reviews') }
@@ -50,11 +40,6 @@ const Edit = (props) => {
         />,
     };
     const panels = { // order is intentional
-        block: {
-            controls: [
-                'style_align',
-            ],
-        },
         settings: {
             controls: [
                 'post_id',
@@ -88,7 +73,6 @@ const Edit = (props) => {
                     : style_rating_color_custom,
             }}
             styleClassNames={[
-                (attributes.style_align) ? `items-justified-${attributes.style_align}` : '',
                 (style_rating_color || style_rating_color_custom) ? 'has-custom-color' : '',
             ]}
         />

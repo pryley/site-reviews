@@ -1,12 +1,9 @@
 import { __, _x, sprintf } from '@wordpress/i18n';
-import { AjaxComboboxControl, AjaxFormTokenField, AjaxSearchControl, AjaxToggleGroupControl, ColorControl, NoYesControl } from '@site-reviews/components';
+import { AjaxComboboxControl, AjaxFormTokenField, AjaxSearchControl, AjaxToggleGroupControl, ColorControl, NoYesControl, UnitControl } from '@site-reviews/components';
 import { BaseControl, Notice, RangeControl, TextControl } from '@wordpress/components';
 import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
-import {
-  __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
-  JustifyContentControl,
-  withColors,
-} from "@wordpress/block-editor";
+import { JustifyContentControl, withColors } from "@wordpress/block-editor";
+import { useSelect } from '@wordpress/data';
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
 
 const Edit = (props) => {
@@ -17,7 +14,14 @@ const Edit = (props) => {
         style_rating_color,
         style_rating_color_custom,
     } = attributes;
-    const colorSettings = useMultipleOriginColorsAndGradients();
+    const {
+        style_max_width_default,
+    } = useSelect(select => {
+        const blockType = select('core/blocks').getBlockType(props.name);
+        return {
+            style_max_width_default: blockType?.attributes?.style_max_width?.default || '',
+        }
+    }, []);
     const controls = {
         assigned_posts: <AjaxFormTokenField
             endpoint='/site-reviews/v1/shortcode/site_reviews_summary?option=assigned_posts'
@@ -121,6 +125,20 @@ const Edit = (props) => {
             label={ _x('Percent Bar', 'admin-text', 'site-reviews') }
             props={ props }
         />,
+        style_max_width: <UnitControl
+            attributeName='style_max_width'
+            defaultValue={ style_max_width_default }
+            props={ props }
+            label={ _x('Max Width', 'admin-text', 'site-reviews-themes') }
+            units={[
+                { value: 'ch',  label: 'ch',  default: '48' },
+                { value: 'px',  label: 'px',  default: '640' },
+                { value: 'em',  label: 'em',  default: '40' },
+                { value: 'rem', label: 'rem', default: '40' },
+                { value: '%', label: '%', default: '100' },
+                { value: 'vw', label: 'vw', default: '100' },
+            ]}
+        />,
         style_rating_color: <ColorControl
             attributeName='style_rating_color'
             label={ _x('Rating', 'admin-text', 'site-reviews') }
@@ -217,6 +235,18 @@ const Edit = (props) => {
                 'style_rating_color',
             ],
         },
+        sizes: {
+            controls: [
+                'style_max_width',
+            ],
+            group: 'styles',
+            title: _x('Sizes', 'admin-text', 'site-reviews'),
+            resetAll: () => {
+                setAttributes({
+                    style_max_width: style_max_width_default,
+                })
+            },
+        },
     };
     setAttributes({ post_id: jQuery('#post_ID').val() }) // used to get the "post_id" assigned_posts value
     return (
@@ -228,6 +258,7 @@ const Edit = (props) => {
                 '--glsr-bar-bg': style_bar_color
                   ? getCSSValueFromRawStyle(`var:preset|color|${style_bar_color}`)
                   : style_bar_color_custom,
+                '--glsr-max-w': attributes.style_max_width || 'none',
                 '--glsr-summary-align': ({ left: 'start', right: 'end' }[attributes.style_align || 'left']) || 'center',
                 '--glsr-summary-star-bg': style_rating_color
                     ? getCSSValueFromRawStyle(`var:preset|color|${style_rating_color}`)
