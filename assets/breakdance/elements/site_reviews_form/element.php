@@ -49,7 +49,7 @@ class SiteReviewsForm extends Element
     protected static function controlsForDesign(): array
     {
         return [ // order is intentional
-            'rating_color' => [
+            'style_rating_color' => [
                 'label' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
                 'options' => [
                     'layout' => 'inline',
@@ -65,7 +65,7 @@ class SiteReviewsForm extends Element
     protected static function defaultsForDesign(): array
     {
         return [
-            'design.general.rating_color' => null,
+            'design.general.style_rating_color' => null,
         ];
     }
 }

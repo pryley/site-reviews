@@ -29,7 +29,31 @@ class SiteReview extends Element
     protected static function controlsForDesign(): array
     {
         return [ // order is intentional
-            'rating_color' => [
+            'style_text_align' => [
+                'label' => esc_html_x('Text Align', 'admin-text', 'site-reviews'),
+                'options' => [
+                    'items' => [
+                        [
+                            'icon' => 'AlignLeftIcon',
+                            'text' => 'Left',
+                            'value' => 'left',
+                        ],
+                        [
+                            'icon' => 'AlignCenterIcon',
+                            'text' => 'Center',
+                            'value' => 'center',
+                        ],
+                        [
+                            'icon' => 'AlignRightIcon',
+                            'text' => 'Right',
+                            'value' => 'right',
+                        ],
+                    ],
+                    'layout' => 'inline',
+                    'type' => 'button_bar',
+                ],
+            ],
+            'style_rating_color' => [
                 'label' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
                 'options' => [
                     'layout' => 'inline',
@@ -45,7 +69,8 @@ class SiteReview extends Element
     protected static function defaultsForDesign(): array
     {
         return [
-            'design.general.rating_color' => null,
+            'design.general.style_rating_color' => null,
+            'design.general.style_text_align' => 'left',
         ];
     }
 }

@@ -29,21 +29,45 @@ class SiteReviewsSummary extends Element
     protected static function controlsForDesign(): array
     {
         return [ // order is intentional
-            'rating_color' => [
+            'style_align' => [
+                'label' => esc_html_x('Alignment', 'admin-text', 'site-reviews'),
+                'options' => [
+                    'items' => [
+                        [
+                            'icon' => 'FlexAlignLeftIcon',
+                            'text' => 'Left', 
+                            'value' => 'left', 
+                        ], 
+                        [
+                            'icon' => 'FlexAlignCenterHorizontalIcon',
+                            'text' => 'Center',
+                            'value' => 'center',
+                        ],
+                        [
+                            'icon' => 'FlexAlignRightIcon',
+                            'text' => 'Right',
+                            'value' => 'right',
+                        ],
+                    ],
+                    'layout' => 'inline',
+                    'type' => 'button_bar',
+                ],
+            ],
+            'style_rating_color' => [
                 'label' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
                 'options' => [
                     'layout' => 'inline',
                     'type' => 'color',
                 ],
             ],
-            'bar_color' => [
+            'style_bar_color' => [
                 'label' => esc_html_x('Bar Color', 'admin-text', 'site-reviews'),
                 'options' => [
                     'layout' => 'inline',
                     'type' => 'color',
                 ],
             ],
-            'max_width' => [
+            'style_max_width' => [
                 'label' => esc_html_x('Max Width', 'admin-text', 'site-reviews'),
                 'options' => [
                     'layout' => 'inline',
@@ -59,13 +83,14 @@ class SiteReviewsSummary extends Element
     protected static function defaultsForDesign(): array
     {
         return [
-            'design.general.bar_color' => null,
-            'design.general.max_width' => [
+            'design.general.style_align' => 'left',
+            'design.general.style_bar_color' => null,
+            'design.general.style_max_width' => [
                 'number' => 480,
                 'style' => '480px',
                 'unit' => 'px',
             ],
-            'design.general.rating_color' => null,
+            'design.general.style_rating_color' => null,
         ];
     }
 }

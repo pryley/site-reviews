@@ -2,11 +2,15 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Breakdance;
 
+use Breakdance\Elements\PresetSections\PresetSectionsController;
+use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\ShortcodeOptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Svg;
+
+use function Breakdance\Elements\PresetSections\getPresetSection;
 
 class Controller extends AbstractController
 {
@@ -17,6 +21,28 @@ class Controller extends AbstractController
     {
         $builders[] = 'breakdance';
         return $builders;
+    }
+
+    /**
+     * @filter site-reviews/breakdance/design_controls
+     */
+    public function filterTransformedDesignControls(array $controls, ShortcodeContract $shortcode): array
+    {
+        if ('site_reviews' === $shortcode->tag) {
+            if (isset(PresetSectionsController::getInstance()->presets['GLSR\ButtonDesign'])) {
+                $controls[] = getPresetSection('GLSR\ButtonDesign', 'Load More Button', 'load_more_button', [
+                    'type' => 'popout',
+                ]);
+            }
+        }
+        if ('site_reviews_form' === $shortcode->tag) {
+            if (isset(PresetSectionsController::getInstance()->presets['GLSR\FormDesign'])) {
+                $controls[] = getPresetSection('GLSR\FormDesign', 'Form', 'form', [
+                    'type' => 'popout',
+                ]);
+            }
+        }
+        return $controls;
     }
 
     /**
@@ -132,6 +158,24 @@ class Controller extends AbstractController
             true, // onlyForAdvancedUsers
             true // excludeFromElementStudio
         );
+    }
+
+    /**
+     * @action init
+     */
+    public function registerPresets(): void
+    {
+        $presets = [
+            'GLSR\ButtonDesign' => glsr()->path('assets/breakdance/presets/button-design.php'),
+            'GLSR\FormDesign' => glsr()->path('assets/breakdance/presets/form-design.php'),
+        ];
+        $presets = glsr()->filterArray('breakdance/presets', $presets);
+        foreach ($presets as $presetName => $presetPath) {
+            if (file_exists($presetPath)) {
+                $controls = include $presetPath;
+                PresetSectionsController::getInstance()->register($presetName, $controls, true);
+            }
+        }
     }
 
     /**

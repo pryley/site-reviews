@@ -1,3 +1,15 @@
-%%SELECTOR%% form.glsr-form {
-  --glsr-form-star-bg: {{ design.general.rating_color }};
+%%SELECTOR%% {
+    form.glsr-form {
+        --glsr-form-star-bg: {{ design.general.style_rating_color }};
+    }
+    {% if design.form.submit_button.alignment %}
+        .breakdance-form-footer {
+            justify-content: {{ design.form.submit_button.alignment }}
+        }
+        {% if design.form.submit_button.alignment == 'unset' %}
+            .breakdance-form-footer .breakdance-form-button__submit {
+                width: 100%;
+            }
+        {% endif %}
+    {% endif %}
 }

@@ -3,6 +3,6 @@
 return [
     [
         'name' => 'has-custom-color',
-        'template' => '{{ design.general.rating_color ? \'true\' }}',
+        'template' => '{{ design.general.style_rating_color ? \'true\' }}',
     ],
 ];

@@ -1,5 +1,16 @@
 %%SELECTOR%% {
     .glsr-review {
-        --glsr-review-star-bg: {{ design.general.rating_color }};
+        --glsr-review-star-bg: {{ design.general.style_rating_color }};
     }
+    {% if design.load_more_button.alignment %}
+        .glsr-pagination[data-pagination="loadmore"] {
+            display: flex;
+            justify-content: {{ design.load_more_button.alignment }}
+        }
+        {% if design.load_more_button.alignment == 'unset' %}
+            .glsr-button-loadmore {
+                width: 100%;
+            }
+        {% endif %}
+    {% endif %}
 }
