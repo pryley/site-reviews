@@ -71,6 +71,19 @@ class Module extends DiviModule
             'styles' => [
                 $elements->style([
                     'attrName' => 'button',
+                    'styleProps' => [
+                        'advancedStyles' => [
+                            [
+                                // Button Alignment
+                                'componentName' => 'divi/common',
+                                'props' => [
+                                    'attr' => $attrs['button']['decoration']['button'] ?? [],
+                                    'declarationFunction' => StyleDeclarations::buttonAlignment(),
+                                    'selector' => "{$orderClass} .glsr-button_wrapper",
+                                ],
+                            ],
+                        ],
+                    ],
                 ]),
             ],
         ]);

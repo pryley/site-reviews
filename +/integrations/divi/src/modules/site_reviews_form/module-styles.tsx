@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { type ModuleAttrs } from './types';
 import { type StylesProps, StyleContainer } from '@divi/module';
 import {
+    buttonAlignmentStyleDeclaration,
     colorStyleDeclaration,
     orientationStyleDeclaration,
 } from '@site-reviews-divi/style-declarations';
@@ -65,22 +66,35 @@ const ModuleStyles = ({
             },
         })}
         {elements.style({
-          styleProps: {
-            advancedStyles: [
-              {
-                // Rating Color
-                componentName: "divi/common",
-                props: {
-                  attr: attrs?.design?.decoration?.ratingColor,
-                  declarationFunction: colorStyleDeclaration(['--glsr-form-star-bg']),
-                  selector: `${orderClass}.has-custom-color .glsr-form`,
-                },
-              },
-            ],
-          },
+            styleProps: {
+                advancedStyles: [
+                    {
+                        // Rating Color
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.design?.decoration?.ratingColor,
+                            declarationFunction: colorStyleDeclaration(['--glsr-form-star-bg']),
+                            selector: `${orderClass}.has-custom-color .glsr-form`,
+                        },
+                    },
+                ],
+            },
         })}
         {elements.style({
             attrName: 'button',
+            styleProps: {
+                advancedStyles: [
+                    {
+                        // Button Alignment
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.button?.decoration?.button,
+                            declarationFunction: buttonAlignmentStyleDeclaration,
+                            selector: `${orderClass} .glsr-button_wrapper`,
+                        },
+                    },
+                ],
+            },
         })}
     </StyleContainer>
 );

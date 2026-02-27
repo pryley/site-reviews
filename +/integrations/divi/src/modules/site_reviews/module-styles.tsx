@@ -1,11 +1,10 @@
 import React, { ReactElement } from 'react';
-import {
-    StyleContainer,
-    TextStyle,
-    type StylesProps,
-} from '@divi/module';
-import { colorStyleDeclaration } from '@site-reviews-divi/style-declarations';
 import { type ModuleAttrs } from './types';
+import { type StylesProps, StyleContainer, TextStyle } from '@divi/module';
+import {
+    buttonAlignmentStyleDeclaration,
+    colorStyleDeclaration,
+} from '@site-reviews-divi/style-declarations';
 
 const ModuleStyles = ({
     attrs,
@@ -45,22 +44,35 @@ const ModuleStyles = ({
             },
         })}
         {elements.style({
-          styleProps: {
-            advancedStyles: [
-              {
-                // Rating Color
-                componentName: "divi/common",
-                props: {
-                  attr: attrs?.design?.decoration?.ratingColor,
-                  declarationFunction: colorStyleDeclaration(['--glsr-review-star-bg']),
-                  selector: `${orderClass}.has-custom-color .glsr-reviews`,
-                },
-              },
-            ],
-          },
+            styleProps: {
+                advancedStyles: [
+                    {
+                        // Rating Color
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.design?.decoration?.ratingColor,
+                            declarationFunction: colorStyleDeclaration(['--glsr-review-star-bg']),
+                            selector: `${orderClass}.has-custom-color .glsr-reviews`,
+                        },
+                    },
+                ],
+            },
         })}
         {elements.style({
             attrName: 'button',
+            styleProps: {
+                advancedStyles: [
+                    {
+                        // Button Alignment
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.button?.decoration?.button,
+                            declarationFunction: buttonAlignmentStyleDeclaration,
+                            selector: `${orderClass} .glsr-button_wrapper`,
+                        },
+                    },
+                ],
+            },
         })}
     </StyleContainer>
 );

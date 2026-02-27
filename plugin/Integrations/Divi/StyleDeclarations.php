@@ -6,6 +6,27 @@ use ET\Builder\Packages\StyleLibrary\Utils\StyleDeclarations as Declarations;
 
 class StyleDeclarations
 {
+    public static function buttonAlignment(): callable
+    {
+        return static function (array $args): string {
+            $map = [
+                'left' => 'start',
+                'center' => 'center',
+                'right' => 'right',
+            ];
+            $alignment = $map[$args['attrValue']['alignment'] ?? ''] ?? '';
+            $declarations = new Declarations([
+                'important' => false,
+                'returnType' => 'string',
+            ]);
+            if ($alignment) {
+                $declarations->add('display', 'flex');
+                $declarations->add('justify-content', $alignment);
+            }
+            return $declarations->value();
+        };
+    }
+
     public static function color(array $cssVariables): callable
     {
         return static function (array $args) use ($cssVariables): string {

@@ -116,8 +116,29 @@ class Module extends DiviModule
                         ],
                     ],
                 ]),
+            ],
+        ]);
+        Style::add([
+            'id' => $args['id'],
+            'name' => $args['name'],
+            'orderIndex' => $args['orderIndex'],
+            'storeInstance' => $args['storeInstance'],
+            'styles' => [
                 $elements->style([
                     'attrName' => 'button',
+                    'styleProps' => [
+                        'advancedStyles' => [
+                            [
+                                // Button Alignment
+                                'componentName' => 'divi/common',
+                                'props' => [
+                                    'attr' => $attrs['button']['decoration']['button'] ?? [],
+                                    'declarationFunction' => StyleDeclarations::buttonAlignment(),
+                                    'selector' => "{$orderClass} .glsr-button_wrapper",
+                                ],
+                            ],
+                        ],
+                    ],
                 ]),
             ],
         ]);
