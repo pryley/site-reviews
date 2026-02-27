@@ -20,10 +20,33 @@ class ElementorSiteReviewsSummary extends ElementorWidget
     protected function styleConfig(): array
     {
         return [ // order is intentional
+            'style_align' => [
+                'group' => 'summary',
+                'label' => esc_html_x('Alignment', 'admin-text', 'site-reviews'),
+                'label_block' => false,
+                'default' => 'left',
+                'options' => [
+                    'left' => [
+                        'icon' => 'eicon-flex eicon-align-start-h',
+                        'title' => esc_html_x('Start', 'admin-text', 'site-reviews'),
+                    ],
+                    'center' => [
+                        'icon' => 'eicon-flex eicon-align-center-h',
+                        'title' => esc_html_x('Center', 'admin-text', 'site-reviews'),
+                    ],
+                    'right' => [
+                        'icon' => 'eicon-flex eicon-align-end-h',
+                        'title' => esc_html_x('End', 'admin-text', 'site-reviews'),
+                    ],
+                ],
+                'prefix_class' => 'items-justified-',
+                'type' => Controls_Manager::CHOOSE,
+            ],
             'style_max_width' => [
                 'default' => [
                     'unit' => '%',
                 ],
+                'group' => 'summary',
                 'is_responsive' => true,
                 'label' => esc_html_x('Max Width', 'admin-text', 'site-reviews'),
                 'selectors' => [
@@ -36,6 +59,7 @@ class ElementorSiteReviewsSummary extends ElementorWidget
                 'global' => [
                     'default' => '',
                 ],
+                'group' => 'summary_rating',
                 'label' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),
                 'label_block' => false,
                 'selectors' => [
@@ -47,6 +71,7 @@ class ElementorSiteReviewsSummary extends ElementorWidget
                 'global' => [
                     'default' => '',
                 ],
+                'group' => 'summary_bars',
                 'label' => esc_html_x('Bar Color', 'admin-text', 'site-reviews'),
                 'label_block' => false,
                 'selectors' => [

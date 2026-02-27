@@ -54,6 +54,19 @@ abstract class ElementorWidget extends Widget_Base
         return $settings;
     }
 
+    public function get_style_depends()
+    {
+        $handles = parent::get_style_depends();
+        $parts = explode('_', $this->shortcodeInstance()->tag);
+        $suffix = end($parts);
+        $handle = sprintf('%s-%s-style', glsr()->ID, $suffix);
+        $path = wp_styles()->get_data($handle, 'path');
+        if (file_exists($path)) {
+            $handles[] = $handle;
+        }
+        return $handles;
+    }
+
     public function get_title(): string
     {
         return $this->shortcodeInstance()->name;
@@ -74,7 +87,15 @@ abstract class ElementorWidget extends Widget_Base
     protected function controlGroupsForStyle(): array
     {
         return [
+            'button' => _x('Button', 'admin-text', 'site-reviews'),
             'design' => _x('Design', 'admin-text', 'site-reviews'),
+            'fields' => _x('Fields', 'admin-text', 'site-reviews'),
+            'form' => _x('Form', 'admin-text', 'site-reviews'),
+            'review' => _x('Review', 'admin-text', 'site-reviews'),
+            'reviews' => _x('Reviews', 'admin-text', 'site-reviews'),
+            'summary' => _x('Summary', 'admin-text', 'site-reviews'),
+            'summary_bars' => _x('Percent Bars', 'admin-text', 'site-reviews'),
+            'summary_rating' => _x('Rating', 'admin-text', 'site-reviews'),
         ];
     }
 
