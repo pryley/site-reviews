@@ -73,6 +73,7 @@ abstract class Shortcode implements ShortcodeContract
     public function buildCallback(array $args = []): string
     {
         $this->enqueue();
+        glsr()->action('shortcode/enqueue', $this);
         return $this->build($args);
     }
 

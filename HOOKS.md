@@ -49,6 +49,7 @@
     site-reviews/route/<request_type>/<route_action>            (Request $request)
     site-reviews/settings/<tab>                                 (string $rows)
     site-reviews/settings/updated                               (array $options, array $settings)
+    site-reviews/shortcode/enqueue                              ()
     site-reviews/whip                                           (Vectorface\Whip\Whip $whip)
     site-reviews/woocommerce/render/loop/rating                 ()
     site-reviews/woocommerce/render/product/reviews             ()
