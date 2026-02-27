@@ -2,11 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\WPBakery;
 
+use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\ShortcodeOptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Controller extends AbstractController
 {
@@ -287,6 +289,68 @@ class Controller extends AbstractController
             'label' => sprintf('ID: %s - %s', $value, $options[$value]),
             'value' => $value,
         ];
+    }
+
+    /**
+     * @filter site-reviews/shortcode/wrap/attributes
+     */
+    public function filterWrapAttrClass(array $attributes, array $args, ShortcodeContract $shortcode): array
+    {
+        if ('wpbakery' !== $shortcode->from) {
+            return $attributes;
+        }
+        $classes = [
+            $attributes['class'] ?? '',
+        ];
+        if (!empty($args['style_align'])) {
+            $classes[] = "items-justified-{$args['style_align']}";
+        }
+        if (!empty($args['style_rating_color'])) {
+            $classes[] = 'has-custom-color';
+        }
+        if (!empty($args['style_text_align'])) {
+            $classes[] = "has-text-align-{$args['style_text_align']}";
+        }
+        $attributes['class'] = glsr(Sanitizer::class)->sanitizeAttrClass(implode(' ', $classes));
+        return $attributes;
+    }
+
+    /**
+     * @filter site-reviews/shortcode/wrap/attributes
+     */
+    public function filterWrapAttrStyle(array $attributes, array $args, ShortcodeContract $shortcode): array
+    {
+        if ('wpbakery' !== $shortcode->from) {
+            return $attributes;
+        }
+        $map = [
+            'site_review' => [
+                '--glsr-review-star-bg' => 'style_rating_color',
+            ],
+            'site_reviews' => [
+                '--glsr-review-star-bg' => 'style_rating_color',
+            ],
+            'site_reviews_form' => [
+                '--glsr-form-star-bg' => 'style_rating_color',
+            ],
+            'site_reviews_summary' => [
+                '--glsr-bar-bg' => 'style_bar_color',
+                '--glsr-max-w' => 'style_max_width',
+                '--glsr-summary-star-bg' => 'style_rating_color',
+            ],
+        ];
+        if (!array_key_exists($shortcode->tag, $map)) {
+            return $attributes;
+        }
+        $style = [
+            $attributes['style'] ?? '',
+        ];
+        foreach ($map[$shortcode->tag] as $property => $styleKey) {
+            $value = $args[$styleKey] ?? '';
+            $style[] = "{$property}:{$value}"; // sanitization removes empty properties
+        }
+        $attributes['style'] = glsr(Sanitizer::class)->sanitizeAttrStyle(implode(';', $style));
+        return $attributes;
     }
 
     /**

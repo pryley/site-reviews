@@ -22,6 +22,8 @@ class Hooks extends IntegrationHooks
             ['filterModalWrappedBy', 'site-reviews/modal_wrapped_by'],
             ['filterPostIdCallback', 'vc_autocomplete_site_review_post_id_callback', 10, 2],
             ['filterPostIdRender', 'vc_autocomplete_site_review_post_id_render', 10, 3],
+            ['filterWrapAttrClass', 'site-reviews/shortcode/wrap/attributes', 10, 3],
+            ['filterWrapAttrStyle', 'site-reviews/shortcode/wrap/attributes', 10, 3],
             ['registerParameters', 'vc_load_default_params'],
             ['registerShortcodes', 'vc_before_init', 5],
         ]);
