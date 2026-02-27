@@ -4,6 +4,7 @@
     site-reviews/action                                         (string $hook, array $args)
     site-reviews/activated                                      ()
     site-reviews/addon/register                                 (Application $app)
+    site-reviews/avada/add_css_files                            (Contracts\ShortcodeContract $shortcode)
     site-reviews/builder                                        (Contracts\BuilderContract $builder)
     site-reviews/cache/flush                                    (string $loggedMessage, Review $review)
     site-reviews/cache/flush_all                                (string $loggedMessage)
@@ -86,6 +87,7 @@
     site-reviews/assigned_users/author_id                       (int $userId): int
     site-reviews/assigned_users/profile_id                      (int $userId): int
     site-reviews/assigned_users/user_id                         (int $userId): int
+    site-reviews/avada/controls                                 (array $parameters, Contracts\ShortcodeContract $shortcode): array
     site-reviews/avatar/attributes                              (array $attributes, Review $review): array
     site-reviews/avatar/colors                                  (array $colors): array
     site-reviews/avatar/fallback                                (string $fallbackUrl, Review $review, int $size): string
@@ -179,7 +181,6 @@
     site-reviews/flatsome/controls                              (array $controls, Contracts\ShortcodeContract $shortcode): array
     site-reviews/flyoutmenu/enabled                             (bool $bool): bool
     site-reviews/flyoutmenu/items                               (array $items): array
-    site-reviews/fusion-builder/controls                        (array $parameters, Contracts\ShortcodeContract $shortcode): array
     site-reviews/gamipress/posts/post_types                     (array $postTypes): array
     site-reviews/import/review/attachments                      (int $attachmentUrls, Request $request, Review $review, bool $isNewReview): int
     site-reviews/import/reviews/attachments                     (array $result, int $limit, int $offset): array

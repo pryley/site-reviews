@@ -6,11 +6,6 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
 
 class FusionSiteReview extends FusionElement
 {
-    public function add_css_files()
-    {
-        FusionBuilder()->add_element_css(glsr()->path('assets/blocks/site_review/style-index.css'));
-    }
-
     public function elementIcon(): string
     {
         return 'fusion-glsr-review';
@@ -24,6 +19,17 @@ class FusionSiteReview extends FusionElement
     protected function styleConfig(): array
     {
         return [
+            'style_text_align' => [
+                'default' => 'left',
+                'group' => 'design',
+                'heading' => esc_attr_x('Text Align', 'admin-text', 'site-reviews'),
+                'type' => 'radio_button_set',
+                'value' => [
+                    'left' => esc_attr_x('Left', 'admin-text', 'site-reviews'),
+                    'center' => esc_attr_x('Center', 'admin-text', 'site-reviews'),
+                    'right' => esc_attr_x('Right', 'admin-text', 'site-reviews'),
+                ],
+            ],
             'style_rating_color' => [
                 'group' => 'design',
                 'heading' => esc_html_x('Rating Color', 'admin-text', 'site-reviews'),

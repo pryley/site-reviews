@@ -9,6 +9,18 @@ abstract class FusionElement extends \Fusion_Element
 {
     use IntegrationShortcode;
 
+    public function add_css_files()
+    {
+        $parts = explode('_', $this->shortcodeInstance()->tag);
+        $suffix = end($parts);
+        $handle = sprintf('%s-%s-style', glsr()->ID, $suffix);
+        $path = wp_styles()->get_data($handle, 'path');
+        if (file_exists($path)) {
+            FusionBuilder()->add_element_css($path);
+        }
+        glsr()->action('avada/add_css_files', $this->shortcodeInstance());
+    }
+
     abstract public function elementIcon(): string;
 
     public function elementParameters(array $additional = []): array
@@ -18,7 +30,7 @@ abstract class FusionElement extends \Fusion_Element
             $this->contentConfig(),
             $additional
         );
-        $controls = glsr()->filterArray('fusion-builder/controls', $controls, $this->shortcodeInstance());
+        $controls = glsr()->filterArray('avada/controls', $controls, $this->shortcodeInstance());
         $params = [];
         foreach ($controls as $name => $control) {
             $transformer = new Transformer($name, $control, $this->shortcodeInstance()->tag);

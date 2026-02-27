@@ -123,8 +123,14 @@ class Controller extends AbstractController
         $classes = [
             $attributes['class'] ?? '',
         ];
+        if (!empty($args['style_align'])) {
+            $classes[] = "items-justified-{$args['style_align']}";
+        }
         if (!empty($args['style_rating_color'])) {
             $classes[] = 'has-custom-color';
+        }
+        if (!empty($args['style_text_align'])) {
+            $classes[] = "has-text-align-{$args['style_text_align']}";
         }
         $attributes['class'] = glsr(Sanitizer::class)->sanitizeAttrClass(implode(' ', $classes));
         return $attributes;
