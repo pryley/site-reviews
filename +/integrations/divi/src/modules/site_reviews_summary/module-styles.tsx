@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { type ModuleAttrs } from './types';
-import { type StylesProps, StyleContainer, TextStyle } from '@divi/module';
+import { type StylesProps, CssStyle, StyleContainer, TextStyle } from '@divi/module';
 import { colorStyleDeclaration } from '@site-reviews-divi/style-declarations';
 import { isEmpty } from 'lodash';
 
@@ -54,29 +54,35 @@ const ModuleStyles = ({
             },
         })}
         {elements.style({
-          styleProps: {
-            advancedStyles: [
-              {
-                // Rating Color
-                componentName: "divi/common",
-                props: {
-                  attr: attrs?.design?.decoration?.ratingColor,
-                  declarationFunction: colorStyleDeclaration(['--glsr-summary-star-bg']),
-                  selector: `${orderClass}.has-custom-color .glsr-summary`,
-                },
-              },
-              {
-                // Bar Color
-                componentName: "divi/common",
-                props: {
-                  attr: attrs?.design?.decoration?.barColor,
-                  declarationFunction: colorStyleDeclaration(['--glsr-bar-bg']),
-                  selector: `${orderClass} .glsr-summary`,
-                },
-              },
-            ],
-          },
+            styleProps: {
+                advancedStyles: [
+                    {
+                        // Rating Color
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.design?.decoration?.ratingColor,
+                            declarationFunction: colorStyleDeclaration(['--glsr-summary-star-bg']),
+                            selector: `${orderClass}.has-custom-color .glsr-summary`,
+                        },
+                    },
+                    {
+                        // Bar Color
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.design?.decoration?.barColor,
+                            declarationFunction: colorStyleDeclaration(['--glsr-bar-bg']),
+                            selector: `${orderClass} .glsr-summary`,
+                        },
+                    },
+                ],
+            },
         })}
+        <CssStyle
+            selector={orderClass}
+            attr={attrs?.css}
+            orderClass={orderClass}
+            cssFields={elements?.moduleMetadata?.customCssFields}
+        />
     </StyleContainer>
 )
 };

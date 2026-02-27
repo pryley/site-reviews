@@ -3,9 +3,11 @@ import {
   InternalAttrs,
   type Element,
   type FormatBreakpointStateAttr,
+  type Module,
 } from '@divi/types';
 
 export interface ModuleAttrs extends InternalAttrs {
+  css?: FormatBreakpointStateAttr<Module.Css.AttributeValue>;
   module?: {
     advanced?: {
       htmlAttributes?: Element.Advanced.IdClasses.Attributes;

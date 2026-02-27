@@ -1,11 +1,7 @@
 import React, { ReactElement } from 'react';
-import {
-    StyleContainer,
-    TextStyle,
-    type StylesProps,
-} from '@divi/module';
-import { colorStyleDeclaration } from '@site-reviews-divi/style-declarations';
 import { type ModuleAttrs } from './types';
+import { type StylesProps, CssStyle, StyleContainer, TextStyle } from '@divi/module';
+import { colorStyleDeclaration } from '@site-reviews-divi/style-declarations';
 
 const ModuleStyles = ({
     attrs,
@@ -45,20 +41,26 @@ const ModuleStyles = ({
             },
         })}
         {elements.style({
-          styleProps: {
-            advancedStyles: [
-              {
-                // Rating Color
-                componentName: "divi/common",
-                props: {
-                  attr: attrs?.design?.decoration?.ratingColor,
-                  declarationFunction: colorStyleDeclaration(['--glsr-review-star-bg']),
-                  selector: `${orderClass}.has-custom-color .glsr-review`,
-                },
-              },
-            ],
-          },
+            styleProps: {
+                advancedStyles: [
+                    {
+                        // Rating Color
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.design?.decoration?.ratingColor,
+                            declarationFunction: colorStyleDeclaration(['--glsr-review-star-bg']),
+                            selector: `${orderClass}.has-custom-color .glsr-review`,
+                        },
+                    },
+                ],
+            },
         })}
+        <CssStyle
+            selector={orderClass}
+            attr={attrs?.css}
+            orderClass={orderClass}
+            cssFields={elements?.moduleMetadata?.customCssFields}
+        />
     </StyleContainer>
 );
 

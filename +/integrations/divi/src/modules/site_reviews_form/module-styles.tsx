@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { type ModuleAttrs } from './types';
-import { type StylesProps, StyleContainer } from '@divi/module';
+import { type StylesProps, CssStyle, StyleContainer } from '@divi/module';
 import {
     buttonAlignmentStyleDeclaration,
     colorStyleDeclaration,
@@ -96,6 +96,12 @@ const ModuleStyles = ({
                 ],
             },
         })}
+        <CssStyle
+            selector={orderClass}
+            attr={attrs?.css}
+            orderClass={orderClass}
+            cssFields={elements?.moduleMetadata?.customCssFields}
+        />
     </StyleContainer>
 );
 

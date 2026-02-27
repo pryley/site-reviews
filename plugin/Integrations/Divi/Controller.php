@@ -59,6 +59,7 @@ class Controller extends AbstractController
             ],
         ]);
         foreach ([
+            'site_review',
             'site_reviews',
             'site_reviews_form',
             'site_reviews_summary',

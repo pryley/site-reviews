@@ -114,11 +114,12 @@ abstract class DiviModule implements DependencyInterface
                         ],
                     ],
                 ]),
-                // CssStyle::style([
-                //     'attr' => $args['attrs']['css'] ?? [],
-                //     'cssFields' => static::custom_css(),
-                //     'selector' => $args['orderClass'],
-                // ]),
+                CssStyle::style([
+                    'attr' => $args['attrs']['css'] ?? [],
+                    'cssFields' => static::custom_css(),
+                    'orderClass' => $args['orderClass'],
+                    'selector' => $args['orderClass'],
+                ]),
             ],
         ]);
     }

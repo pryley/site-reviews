@@ -11,7 +11,6 @@ import { SettingsContent } from './settings-content';
 import { SettingsDesign } from '@site-reviews-divi/shared/settings-design';
 import { type ModuleAttrs } from './types';
 import { type ModuleLibrary } from '@divi/types';
-import '../../../../../blocks/site_reviews/style.scss';
 import './module.scss';
 import './vb.scss';
 

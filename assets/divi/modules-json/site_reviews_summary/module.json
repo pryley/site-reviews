@@ -544,5 +544,12 @@
     "inner": {
       "edited": true
     }
-  }
+  },
+  "script": [
+    "site-reviews"
+  ],
+  "style": [
+    "site-reviews",
+    "site-reviews-summary-style"
+  ]
 }
