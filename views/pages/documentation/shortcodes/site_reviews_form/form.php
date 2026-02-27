@@ -2,7 +2,7 @@
 <div class="glsr-notice-inline components-notice is-warning">
     <p class="components-notice__content"><?php echo glsr_premium_link('site-reviews-forms'); ?> addon is required to use this shortcode option.</p>
 </div>
-<p>Include the "form" option to display a custom Review Form. Accepted value is the Post ID of the custom Review Form.</p>
+<p>Include the "form" option to display a custom Review Form. Accepted value is the Post ID or slug of the custom Review Form.</p>
 <p><span class="required">Important:</span> The custom Review Form will override the hide option used on this shortcode.</p>
 <div class="shortcode-example">
     <pre><code class="language-shortcode">[site_reviews_form form="13"]</code></pre>

@@ -213,7 +213,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 
 == Changelog ==
 
-= 8.0.0 (2026-02-23) =
+= 8.0.0 (2026-03-03) =
 
 Site Reviews has a fresh coat of paint!
 
@@ -250,7 +250,7 @@ Site Reviews has a fresh coat of paint!
 - Changed the HTML markup of the `review.php` template
 - Changed the HTML markup of the `ultimatemember/reviews.php` template
 - Changed the location of the custom CSS class attribute in a rendered block or shortcode to the root DIV.
-- Fixed ActionScheduler action redirects
+- Fixed Action Scheduler action redirects
 - Fixed compatibility with the Salient theme
 - Fixed Elementor template support in the schema parser
 - Fixed generated CSS ID values to always be unique
@@ -259,7 +259,6 @@ Site Reviews has a fresh coat of paint!
 - Fixed the Cache integration to be more selective when flushing the cache
 - Fixed the category priority feature
 - Fixed the Cloudflare Turnstile integration
-- Fixed the "Export Reviews" tool for hosts that disable the [fpassthru](https://www.php.net/manual/en/function.fpassthru.php) PHP function (i.e. Cloudways, FlyWheel, etc.)
 - Fixed the legacy WordPress widget options
 - Fixed the pin control on the edit review page
 - Fixed the RankMath integration when using Divi Builder
