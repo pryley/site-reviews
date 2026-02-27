@@ -114,6 +114,8 @@
     site-reviews/bricks/element/controls                        (array $controls, Integrations\Bricks\BricksElement $element): array
     site-reviews/bricks/element/control_groups                  (array $groups, Integrations\Bricks\BricksElement $element): array
     site-reviews/bricks/icons                                   (array $icons): array
+    site-reviews/bricks/registered_scripts                      (array $scripts, Integrations\Bricks\BricksElement $element): array
+    site-reviews/bricks/registered_styles                       (array $styles, Integrations\Bricks\BricksElement $element): array
     site-reviews/build/template/<template_path>                 (string $template, array $data): string
     site-reviews/builder/enable/optgroup                        (bool $enable): bool
     site-reviews/builder/result                                 (string $result, Contracts\BuilderContract $builder): string

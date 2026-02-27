@@ -50,7 +50,17 @@ abstract class BricksElement extends \Bricks\Element
         $parts = explode('_', $this->shortcodeInstance()->tag);
         $suffix = end($parts);
         $handle = sprintf('%s-%s-style', glsr()->ID, $suffix);
-        wp_enqueue_style($handle);
+        $styles = [$handle, ...$this->registeredStyleHandles()];
+        $styles = glsr()->filterArray('bricks/registered_styles',
+            $styles,
+            $this
+        );
+        $scripts = glsr()->filterArray('bricks/registered_scripts',
+            $this->registeredScriptHandles(),
+            $this
+        );
+        array_walk($styles, 'wp_enqueue_style');
+        array_walk($scripts, 'wp_enqueue_script');
     }
 
     public function get_keywords()
@@ -80,6 +90,16 @@ abstract class BricksElement extends \Bricks\Element
             }
             unset($this->control_groups[$key]);
         }
+    }
+
+    public function registeredScriptHandles(): array
+    {
+        return [];
+    }
+
+    public function registeredStyleHandles(): array
+    {
+        return [];
     }
 
     public static function registerElement(): void
