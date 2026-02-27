@@ -400,7 +400,7 @@ class ProductController implements ControllerContract
         $purchases = Purchase::where([ // @phpstan-ignore-line
             'customer_ids' => [$customer->id],
             'product_ids' => [$product->id], // @phpstan-ignore-line
-        ])->get();
+        ])->get(); // @phpstan-ignore-line
         return !empty($purchases);
     }
 }

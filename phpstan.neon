@@ -60,6 +60,8 @@ parameters:
     - '#Variable \$(index|level|levels|seconds|tense|unit) might not be defined.#'
     - '#Path in (include|require)_once\(\) "\./wp-(admin|includes)/(.+)\.php" is not a file or it does not exist\.#'
     - '#PHPDoc tag @method for method GeminiLabs\\SiteReviews\\Modules\\Schema\\(.+)#'
+    # PHPstan errors with array_sum usage
+    - '#Parameter \#1 \$array of function array_sum expects an array of values castable to number, array(|<mixed>|<mixed, mixed>) given.#'
   level: 5
   paths:
     - assets/breakdance
