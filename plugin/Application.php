@@ -180,7 +180,7 @@ final class Application extends Container implements PluginContract
     /**
      * This is triggered on "plugins_loaded:-10" by "site-reviews/addon/register".
      */
-    public function register(string $addon, bool $isAuthorized = true): void
+    public function register(string $addon): void
     {
         $retired = [ // @compat these addons have been retired
             'site-reviews-gamipress',
@@ -209,20 +209,28 @@ final class Application extends Container implements PluginContract
             $this->append('site-reviews-premium', $addon);
             return;
         }
-        $pluginData = get_file_data($file, ['update_url' => 'Update URI'], 'plugin');
+        $pluginData = get_file_data($file, [
+            'glsr_version_required' => 'GLSR requires at least',
+            'glsr_version_unsupported' => 'GLSR unsupported version',
+            'update_url' => 'Update URI',
+        ], 'plugin');
         if (empty($pluginData['update_url'])) {
             $this->append('compat', $file, $addonId); // this addon needs updating in compatibility mode.
         }
         if (true === $reflection->getConstant('LICENSED')) {
             $this->append('licensed', $addon, $addonId);
         }
-        if (true === $isAuthorized) {
-            $this->addons[$addonId] = $addon;
-            $this->singleton($addon); // this goes first!
-            $this->alias($addonId, $this->make($addon));
-            $instance = $this->make($addon)->init();
-            $this->append('addons', $instance->version, $instance->id);
+        if (version_compare($this->version, $pluginData['glsr_version_required'], '<')) {
+            return; // This addon requires a newer version of Site Reviews
         }
+        if (version_compare($this->version, $pluginData['glsr_version_unsupported'], '>=')) {
+            return; // This addon requires an older version of Site Reviews
+        }
+        $this->addons[$addonId] = $addon;
+        $this->singleton($addon); // this goes first!
+        $this->alias($addonId, $this->make($addon));
+        $instance = $this->make($addon)->init();
+        $this->append('addons', $instance->version, $instance->id);
     }
 
     /**
