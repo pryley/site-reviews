@@ -214,7 +214,7 @@ class AdminController extends AbstractController
                 'text' => _x('Try Premium', 'admin-text', 'site-reviews'),
             ];
         }
-        if (glsr()->can('import') && in_array($screen->base, ['edit', 'post'])) {
+        if (glsr()->can('import') && 'edit' === $screen->base) {
             $buttons['import'] = [
                 'class' => 'components-button is-secondary',
                 'data-expand' => '#tools-import-reviews',
