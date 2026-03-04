@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews;
 
-use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
@@ -182,11 +181,6 @@ final class Application extends Container implements PluginContract
      */
     public function register(string $addon): void
     {
-        $retired = [ // @compat these addons have been retired
-            'site-reviews-gamipress',
-            'site-reviews-woocommerce',
-        ];
-        $premium = glsr()->filterArray('site-reviews-premium', []);
         try {
             $reflection = new \ReflectionClass($addon); // make sure that the class exists
         } catch (\ReflectionException $e) {
@@ -200,26 +194,19 @@ final class Application extends Container implements PluginContract
             glsr_log()->error("Attempted to register an invalid addon [$addonId].");
             return;
         }
-        if (in_array($addonId, $retired)) {
-            $this->append('retired', $addon);
-            return;
-        }
+        $premium = glsr()->filterArray('site-reviews-premium', []);
         if (in_array($addonId, $premium)
             && !str_starts_with($reflection->getNamespaceName(), 'GeminiLabs\SiteReviews\Premium')) {
             $this->append('site-reviews-premium', $addon);
             return;
         }
-        $pluginData = get_file_data($file, [
-            'glsr_version_required' => 'GLSR requires at least',
-            'glsr_version_unsupported' => 'GLSR unsupported version',
-            'update_url' => 'Update URI',
-        ], 'plugin');
-        if (empty($pluginData['update_url'])) {
-            $this->append('compat', $file, $addonId); // this addon needs updating in compatibility mode.
-        }
         if (true === $reflection->getConstant('LICENSED')) {
             $this->append('licensed', $addon, $addonId);
         }
+        $pluginData = get_file_data($file, [
+            'glsr_version_required' => 'GLSR requires at least',
+            'glsr_version_unsupported' => 'GLSR unsupported version',
+        ], 'plugin');
         if (version_compare($this->version, $pluginData['glsr_version_required'], '<')) {
             return; // This addon requires a newer version of Site Reviews
         }

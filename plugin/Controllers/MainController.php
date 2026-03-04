@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Addons\Compat;
 use GeminiLabs\SiteReviews\Commands\RegisterPostMeta;
 use GeminiLabs\SiteReviews\Commands\RegisterPostType;
 use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
@@ -106,6 +107,7 @@ class MainController extends AbstractController
      */
     public function registerAddons(): void
     {
+        glsr()->action('addon/register', glsr(Compat::class)); // @compat
         glsr()->action('premium/register', glsr());
     }
 
