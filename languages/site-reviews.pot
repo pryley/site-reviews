@@ -1738,7 +1738,7 @@ msgctxt "admin-text"
 msgid "Enabling this option will persist field values entered into the review form until either the review is submitted or the browser tab or window is closed."
 msgstr ""
 
-#: plugin/Application.php:168
+#: plugin/Application.php:167
 msgctxt "link to License Keys page (admin-text)"
 msgid "Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account."
 msgstr ""
@@ -3039,7 +3039,7 @@ msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr ""
 
-#: plugin/Controllers/MainController.php:147
+#: plugin/Controllers/MainController.php:149
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr ""
