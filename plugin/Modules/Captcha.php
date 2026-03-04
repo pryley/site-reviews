@@ -47,4 +47,13 @@ class Captcha
         }
         return !empty($integration) && $isEnabled;
     }
+
+    public function position(): string
+    {
+        $integration = glsr_get_option('forms.captcha.integration');
+        if (str_starts_with($integration, 'recaptcha')) {
+            return glsr_get_option('settings.forms.captcha.badge', 'bottomleft', 'string');
+        }
+        return glsr_get_option('settings.forms.captcha.placement', 'below', 'string');
+    }
 }

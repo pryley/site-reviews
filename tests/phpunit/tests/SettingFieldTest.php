@@ -1554,14 +1554,14 @@ class SettingFieldTest extends \WP_UnitTestCase
             $this->buildSetting('settings.forms.captcha.badge'),
             '<tr class="glsr-setting-field" data-field="settings.forms.captcha.badge">'.
                 '<th scope="row">'.
-                    '<label for="site_reviews-settings-forms-captcha-badge">CAPTCHA Badge</label>'.
+                    '<label for="site_reviews-settings-forms-captcha-badge">CAPTCHA Placement</label>'.
                 '</th>'.
                 '<td>'.
                     '<select class="regular-text" id="site_reviews-settings-forms-captcha-badge" name="site_reviews[settings][forms][captcha][badge]">'.
+                        '<option value="above">Above Submit Button</option>'.
+                        '<option value="below">Below Submit Button</option>'.
                         '<option value="bottomleft">Bottom Left</option>'.
                         '<option value="bottomright">Bottom Right</option>'.
-                        '<option value="inline_above">Inline (Above Submit Button)</option>'.
-                        '<option value="inline_below">Inline (Below Submit Button)</option>'.
                     '</select>'.
                 '</td>'.
             '</tr>'

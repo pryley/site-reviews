@@ -2272,30 +2272,30 @@ msgstr ""
 "href=\"https://dash.cloudflare.com/?to=/:account/turnstile\" "
 "target=\"_blank\">obtain</a> a site key and a secret key."
 
-#: config/settings.php:1033
+#: config/settings.php:1033, config/settings.php:1055
 msgctxt "admin-text"
-msgid "CAPTCHA Badge"
-msgstr "CAPTCHA Badge"
+msgid "CAPTCHA Placement"
+msgstr "CAPTCHA Placement"
 
-#: config/settings.php:1035
+#: config/settings.php:1035, config/settings.php:1057
+msgctxt "admin-text"
+msgid "Above Submit Button"
+msgstr "Above Submit Button"
+
+#: config/settings.php:1036, config/settings.php:1058
+msgctxt "admin-text"
+msgid "Below Submit Button"
+msgstr "Below Submit Button"
+
+#: config/settings.php:1037
 msgctxt "admin-text"
 msgid "Bottom Left"
 msgstr "Bottom Left"
 
-#: config/settings.php:1036
+#: config/settings.php:1038
 msgctxt "admin-text"
 msgid "Bottom Right"
 msgstr "Bottom Right"
-
-#: config/settings.php:1037
-msgctxt "admin-text"
-msgid "Inline (Above Submit Button)"
-msgstr "Inline (Above Submit Button)"
-
-#: config/settings.php:1038
-msgctxt "admin-text"
-msgid "Inline (Below Submit Button)"
-msgstr "Inline (Below Submit Button)"
 
 #: config/settings.php:1041
 msgctxt "admin-text"
@@ -2307,21 +2307,6 @@ msgstr ""
 "Set the position of the CAPTCHA badge. This option may not work "
 "consistently if another plugin is loading reCAPTCHA on the same page as "
 "Site Reviews."
-
-#: config/settings.php:1055
-msgctxt "admin-text"
-msgid "CAPTCHA Placement"
-msgstr "CAPTCHA Placement"
-
-#: config/settings.php:1057
-msgctxt "admin-text"
-msgid "Above Submit Button"
-msgstr "Above Submit Button"
-
-#: config/settings.php:1058
-msgctxt "admin-text"
-msgid "Below Submit Button"
-msgstr "Below Submit Button"
 
 #: config/settings.php:1061
 msgctxt "admin-text"

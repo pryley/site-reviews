@@ -221,7 +221,7 @@ class Form extends \ArrayObject implements FormContract
             ],
         ]);
         $rendered = $this->app()->filterString("{$this->formName()}/build/submit_button", $rendered, $this);
-        if ('above' === glsr_get_option('forms.captcha.placement')) {
+        if ('above' === glsr(Captcha::class)->position()) {
             $rendered = $captcha.$rendered;
         } else {
             $rendered = $rendered.$captcha;

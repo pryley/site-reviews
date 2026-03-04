@@ -1030,12 +1030,12 @@ return [ // order is intentional
         'depends_on' => [
             'settings.forms.captcha.integration' => ['recaptcha_v2_invisible', 'recaptcha_v3'],
         ],
-        'label' => _x('CAPTCHA Badge', 'admin-text', 'site-reviews'),
+        'label' => _x('CAPTCHA Placement', 'admin-text', 'site-reviews'),
         'options' => [
+            'above' => _x('Above Submit Button', 'admin-text', 'site-reviews'),
+            'below' => _x('Below Submit Button', 'admin-text', 'site-reviews'),
             'bottomleft' => _x('Bottom Left', 'admin-text', 'site-reviews'),
             'bottomright' => _x('Bottom Right', 'admin-text', 'site-reviews'),
-            'inline_above' => _x('Inline (Above Submit Button)', 'admin-text', 'site-reviews'),
-            'inline_below' => _x('Inline (Below Submit Button)', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'text',
         'tooltip' => _x('Set the position of the CAPTCHA badge. This option may not work consistently if another plugin is loading reCAPTCHA on the same page as Site Reviews.', 'admin-text', 'site-reviews'),
