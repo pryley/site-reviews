@@ -140,7 +140,7 @@ echo ""
 # DEPLOY
 echo ""
 echo "Committing to WordPress.org...this may take a while."
-svn commit -m "Release "${PLUGIN_VERSION}", see readme.txt for the changelog." || { echo "Unable to commit."; exit 1; }
+svn commit -m "Release "${PLUGIN_VERSION}", see readme.txt for the changelog." --config-option servers:global:http-timeout=7200 || { echo "Unable to commit."; exit 1; }
 
 # REMOVE THE TEMP DIRS
 echo "CLEANING UP"

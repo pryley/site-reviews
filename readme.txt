@@ -2,20 +2,20 @@
 Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
-Tested up to: 6.8
+Tested up to: 6.9
 Stable tag: 8.0.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Site Reviews is a complete review management solution for your website that is designed to work in a similar way to Amazon, Tripadvisor, and Yelp.
+Site Reviews is a complete review management solution that integrates with WooCommerce and SureCart and works similarly to reviews on Amazon, Tripadvisor, and Yelp.
 
 == Description ==
 
-Site Reviews is a complete review management solution for your website that is designed to work in a similar way to Amazon, Tripadvisor, and Yelp. The plugin provides blocks, shortcodes, and widgets, along with full documentation.
+Site Reviews is a complete review management solution that works similarly to reviews on Amazon, Tripadvisor, and Yelp.
 
 Site Reviews integrates with SureCart and WooCommerce enabling store owners to collect and display customer reviews for their products while enhancing social proof and driving sales.
 
-You can pin your best reviews so that they are always shown first, request review verification, require approval before new reviews are published, require visitors to be logged-in in order to write a review, send a custom notification when reviews are submitted, respond to reviews, and a lot more!
+Site Reviews comes with shortcodes and blocks, and provides native elements for Avada Builder, Breakdance, Bricks, Divi 5, Elementor, Flatsome Page Builder, and WPBakery Page Builder.
 
 Site Reviews provides more features and options than almost every other free review plugin, and the support provided on the WordPress forum is excellent.
 
@@ -30,26 +30,26 @@ https://www.youtube.com/watch?v=H5HdMCXvuq8
 
 - __Actively Developed and Supported__
 - __Assign Reviews__: Reviews can be assigned to Categories, Posts, Pages, Custom Post Types, and Users.
-- __Avada Support__: Use native Avada Builder elements.
 - __Avatars__: Provided by the WordPress Gravatar service
 - __Backup and Restore__: Export/Import your settings and custom text strings, and use the WordPress Export and Import tools to backup your reviews.
 - __Bayesian Ranking__: Easily sort pages with assigned reviews by rank (using the bayesian algorithm) in your custom WP_Query
 - __Blacklist__: Block review submissions which contain specific words, phrases, IP addresses, names, and emails
+- __Blocks__: Use the custom editor blocks in the Gutenberg editor
 - __Developer Friendly__: Designed for WordPress developers with over 200 hooks and convenient functions
-- __Discord Integration__: Receive notifications in Discord when a review is submitted
+- __Discord and Slack Integration__: Receive notifications in Discord and/or Slack when a review is submitted
 - __Documentation__: FAQ and documenation for all shortcodes and functions
 - __East Asian Language Support__
-- __Editor Blocks__: Use the custom editor blocks in the Gutenberg editor
-- __Elementor Support__: Use the native Elementor Widgets in the Elementor editor
 - __Form Styles__: Match the review form with popular themes and form plugins
 - __GamiPress Support__: Site Reviews integrates with GamiPress allowing you to award points when someone writes or receives a review
 - __Import Third-Party Reviews__: Includes a built-in CSV importer
 - __JSON-LD Schema__: Display your reviews and ratings in search results
 - __Members Only__: Require users to be logged in before submitting a review
-- __Multilingual Support__: Integrates with Polylang and WPML allowing you to assign reviews to all languages of a multilingual page (note: translating reviews is not supported)
+- __Multilingual Plugin Support__: Integrates review assignments with Polylang and WPML allowing you to assign reviews to all languages of a multilingual page (note: translating reviews is not supported)
+- __MultilingualPress__: Integrates with the MultilingualPress multisite plugin.
 - __Multisite Support__: Fully supports network/multisite websites
 - __myCRED Support__: Site Reviews integrates with myCRED allowing you to award points when someone writes or receives a review
 - __Notifications__: Send notifications to one or more emails when a review is submitted
+- __Page Builder Support__: Use native elements in Avada Builder, Breakdance, Bricks, Divi 5, Elementor, Flatsome Page Builder, and WPBakery Page Builder
 - __Pagination__: Display a set number of reviews per-page with AJAX
 - __Privacy__: Integrates with the WordPress privacy tools
 - __Rating Summaries__: Display a summary of your review ratings from high to low.
@@ -59,17 +59,19 @@ https://www.youtube.com/watch?v=H5HdMCXvuq8
 - __Restrictions__: Require approval before publishing reviews and limit review submissions by email address, IP address, or username
 - __Review Limits__: Prevent people from submitting more than one review per day (based on IP address, email, or username). Works with review assignments. 
 - __Shortcodes__: Configurable shortcodes complete with full documentation
-- __Slack Integration__: Receive notifications in Slack when a review is submitted
 - __SPAM Protection__: Includes 5 layers of protection from spam! Built-in Honeypot, 6 CAPTCHA options (Cloudflare Turnstile, FriendlyCaptcha, hCaptcha, Procaptcha, reCAPTCHA v2 Invisible, and reCAPTCHA v3), Akismet, Blacklist, and Review limits
 - __SureCart Support__: Site Reviews integrates with your SureCart Products
 - __Templates__: Use the Site Reviews templates in your theme for full control over the HTML
 - __Translations__: Easily change any text of the plugin to your own in the settings.
 - __Verify Reviews__: Automatically request verification of new reviews
 - __WooCommerce Support__: Site Reviews integrates with your WooCommerce Products
+- And more!
 
 = Site Reviews Premium =
 
-If you need even more features, [Site Reviews Premium](https://niftyplugins.com/plugins/site-reviews-premium/) gives you access to all of our paid addons, and offers faster and more personalised support. Premium addons include:
+If you need more features, [Site Reviews Premium](https://niftyplugins.com/plugins/site-reviews-premium/) gives you access to all of our paid addons as well as fast email and remote support.
+
+Premium addons include:
 
 - __[Review Actions](https://niftyplugins.com/plugins/site-reviews-actions/)__: Allow people to upvote, report, and translate your reviews.
 - __[Review Authors](https://niftyplugins.com/plugins/site-reviews-authors/)__: Update your reviews from the frontend.
@@ -140,10 +142,6 @@ Site Reviews is officially compatible with the following plugins:
 = Open Source =
 
 [Follow plugin development on Github.](https://github.com/pryley/site-reviews/)
-
-= Attribution =
-
-Images adapted from [freepik](https://www.freepik.com).
 
 == Installation ==
 

@@ -61,7 +61,7 @@ class Transformer
             ];
             return $control;
         }
-        if ($options = Arr::consolidate($control['value'] ?? [])) {
+        if (Arr::consolidate($control['value'] ?? [])) {
             unset($control['options']);
             return $control;
         }

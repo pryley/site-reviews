@@ -106,7 +106,7 @@ class MainController extends AbstractController
      */
     public function registerAddons(): void
     {
-        glsr()->action('addon/register', glsr());
+        glsr()->action('premium/register', glsr());
     }
 
     /**
