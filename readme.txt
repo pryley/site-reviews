@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 6.9
-Stable tag: 8.0.2
+Stable tag: 8.0.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -210,6 +210,10 @@ You can report any security bugs found in the source code of this plugin through
 This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
+
+= 8.0.3 (2026-03-06) =
+
+- Fixed Elementor select2 and toggle controls (i.e. Assigned Posts,  etc.) in Chrome browsers
 
 = 8.0.2 (2026-03-04) =
 
