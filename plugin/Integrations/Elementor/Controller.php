@@ -194,8 +194,7 @@ class Controller extends AbstractController
             glsr()->id.'/elementor-editor',
             glsr()->url('assets/scripts/integrations/elementor-editor.js'),
             [],
-            glsr()->version,
-            ['strategy' => 'defer']
+            glsr()->version
         );
         wp_enqueue_script(glsr()->id.'/elementor-editor');
     }

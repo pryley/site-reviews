@@ -5,4 +5,4 @@ window.addEventListener('elementor/frontend/init', () => {
             GLSR_init()
         }
     })
-})
+}, { passive: true })

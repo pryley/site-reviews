@@ -56,8 +56,9 @@ window.addEventListener('elementor/init', () => {
         },
     });
     elementor.addControlView('select2_ajax', select2)
-    jQuery(document).on('change', '.elementor-control-type-multi_switcher .elementor-switch-input', function() {
-        const $checkbox = jQuery(this);
+    document.addEventListener('change', function(e) {
+        if (!e.target.matches('.elementor-control-type-multi_switcher .elementor-switch-input')) return;
+        const $checkbox = jQuery(e.target);
         const $control = $checkbox.closest('.elementor-control-type-multi_switcher')
         const $hiddenInput = $control.find('input[data-setting]');
         const option = $checkbox.val();
@@ -66,8 +67,8 @@ window.addEventListener('elementor/init', () => {
             ? [...new Set([...values, option])]
             : values.filter(item => item !== option);
         $hiddenInput.val(updatedValues.join(',')).trigger('input');
-    })
-})
+    }, { passive: true });
+}, { passive: true })
 window.addEventListener('elementor/panel/init', () => {
     // Elementor does not provide a way to add widget classes in the editor
     // when a widget setting changes, so this will have to do.
@@ -82,4 +83,4 @@ window.addEventListener('elementor/panel/init', () => {
         $el.find('.glsr').parent()[hasClass ? 'addClass' : 'removeClass']('has-custom-color');
         return css;
     })
-})
+}, { passive: true })
