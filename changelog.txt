@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 8.0.4 (2026-03-06) =
+
+- Fixed an error during plugin update caused by a race condition that was being triggered by WooCommerce preloading REST API data in the update iframe footer.
+
+= 8.0.3 (2026-03-06) =
+
+- Fixed Elementor select2 and toggle controls (i.e. Assigned Posts,  etc.) in Chrome browsers
+
 = 8.0.2 (2026-03-04) =
 
 - Fixed reCAPTCHA badge placement setting
