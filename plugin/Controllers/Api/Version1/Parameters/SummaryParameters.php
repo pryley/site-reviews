@@ -70,10 +70,12 @@ class SummaryParameters
                 'format' => 'ip',
                 'type' => 'string',
             ],
+            // Not using Rating::max() or Rating::min() here due to WooCommerce preloading
+            // REST API routes in the update iframe footer which triggers a race condition.
             'rating' => [
                 'description' => _x('Limit result set to reviews containing a given minimum rating.', 'admin-text', 'site-reviews'),
-                'maximum' => Rating::max(),
-                'minimum' => Rating::min(),
+                'maximum' => max(1, glsr()->filterInt('const/MAX_RATING', Rating::MAX_RATING)),
+                'minimum' => max(0, glsr()->filterInt('const/MIN_RATING', Rating::MIN_RATING)),
                 'sanitize_callback' => 'absint',
                 'type' => 'integer',
             ],

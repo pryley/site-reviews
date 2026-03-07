@@ -7044,37 +7044,37 @@ msgctxt "admin-text"
 msgid "Maximum number of items to be returned in result set."
 msgstr "Maximum number of items to be returned in result set."
 
-#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:105, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:74
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:107, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:76
 msgctxt "admin-text"
 msgid "Limit result set to reviews containing a given minimum rating."
 msgstr "Limit result set to reviews containing a given minimum rating."
 
-#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:112, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:81
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:114, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:83
 msgctxt "admin-text"
 msgid "Limit result set to reviews containing a given status."
 msgstr "Limit result set to reviews containing a given status."
 
-#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:117, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:86
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:119, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:88
 msgctxt "admin-text"
 msgid "Limit result set to reviews submitted with terms accepted."
 msgstr "Limit result set to reviews submitted with terms accepted."
 
-#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:121, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:90
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:123, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:92
 msgctxt "admin-text"
 msgid "Limit result set to reviews containing a given review type."
 msgstr "Limit result set to reviews containing a given review type."
 
-#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:127, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:96
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:129, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:98
 msgctxt "admin-text"
 msgid "Limit result set to reviews authored by specific users."
 msgstr "Limit result set to reviews authored by specific users."
 
-#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:135, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:104
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:137, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:106
 msgctxt "admin-text"
 msgid "Ensure result set excludes reviews authored by specific users."
 msgstr "Ensure result set excludes reviews authored by specific users."
 
-#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:142, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:111
+#: plugin/Controllers/Api/Version1/Parameters/ReviewParameters.php:144, plugin/Controllers/Api/Version1/Parameters/SummaryParameters.php:113
 msgctxt "admin-text"
 msgid "Limit result set to verified status."
 msgstr "Limit result set to verified status."
