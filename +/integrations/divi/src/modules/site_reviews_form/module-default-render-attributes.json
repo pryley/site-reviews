@@ -54,13 +54,6 @@
   },
   "design": {
     "decoration": {
-      "barColor": {
-        "desktop": {
-          "value": {
-            "color": "#faca15"
-          }
-        }
-      },
       "ratingColor": {
         "desktop": {
           "value": {
@@ -75,10 +68,8 @@
       "button": {
         "desktop": {
           "value": {
-            "alignment": "right",
-            "icon": {
-              "enable": "on"
-            }
+            "alignment": "left",
+            "enable": "on"
           }
         }
       }

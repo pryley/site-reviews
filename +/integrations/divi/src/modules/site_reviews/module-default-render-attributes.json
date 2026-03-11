@@ -110,9 +110,7 @@
         "desktop": {
           "value": {
             "alignment": "left",
-            "icon": {
-              "enable": "on"
-            }
+            "enable": "on"
           }
         }
       }

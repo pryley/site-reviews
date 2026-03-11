@@ -98,6 +98,13 @@
   },
   "design": {
     "decoration": {
+      "barColor": {
+        "desktop": {
+          "value": {
+            "color": "#faca15"
+          }
+        }
+      },
       "ratingColor": {
         "desktop": {
           "value": {
