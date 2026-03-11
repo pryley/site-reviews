@@ -429,6 +429,20 @@
             "component": {
               "props": {
                 "fields": {
+                  "fontGroup": {
+                    "component": {
+                      "props": {
+                        "fields": {
+                          "lineHeight": {
+                            "render": false
+                          },
+                          "textAlign": {
+                            "render": false
+                          }
+                        }
+                      }
+                    }
+                  },
                   "alignment": {
                     "visible": true
                   }
