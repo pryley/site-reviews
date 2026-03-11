@@ -5,6 +5,7 @@
         "text": {
           "desktop": {
             "value": {
+              "color": "light",
               "orientation": ""
             }
           }

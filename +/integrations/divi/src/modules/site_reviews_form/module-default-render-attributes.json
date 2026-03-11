@@ -1,5 +1,16 @@
 {
   "module": {
+    "advanced": {
+      "text": {
+        "text": {
+          "desktop": {
+            "value": {
+              "color": "light"
+            }
+          }
+        }
+      }
+    },
     "meta": {
       "adminLabel": {
         "desktop": {

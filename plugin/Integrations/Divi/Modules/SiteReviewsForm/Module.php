@@ -40,11 +40,9 @@ class Module extends DiviModule
         $elements = $args['elements'];
         $orderClass = $args['orderClass'];
         $settings = $args['settings'];
-
         $baseSelector = '#page-container';
         $iconPlacementValue = $attrs['button']['decoration']['button']['desktop']['value']['icon']['placement'] ?? 'right';
         $iconPlacement = 'left' === $iconPlacementValue ? 'before' : 'after';
-
         Style::add([
             'id' => $args['id'],
             'name' => $args['name'],

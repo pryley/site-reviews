@@ -55,6 +55,15 @@ abstract class DiviModule implements DependencyInterface
         $args['classnamesInstance']->add(
             TextClassnames::text_options_classnames($args['attrs']['module']['advanced']['text'] ?? [])
         );
+        $args['classnamesInstance']->add(
+            TextClassnames::get_background_layout_classnames($args['attrs']['module']['advanced']['text'] ?? [
+                'text' => [
+                    'desktop' => [
+                        'value' => ['color' => 'light'],
+                    ],
+                ]
+            ])
+        );
     }
 
     /**

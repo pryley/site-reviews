@@ -114,29 +114,20 @@
   color: var(--glsr-choice-color);
 }
 
-:--namespace .glsr-button {
+:root .et_pb_bg_layout_light .glsr-button_wrapper {
   color: var(--glsr-divi-color);
-  &:hover {
-    background-color: rgba(0,0,0,.05);
-  }
-  &:before {
-    left: 0;
-    line-height: 1;
-    margin-left: -32px;
+}
+:--namespace .glsr-button {
+  color: inherit;
+  &::after {
+    margin-right: -1em;
     position: relative;
-    right: auto;
     top: auto;
     transform: none;
   }
-  &:after {
-    left: auto;
-    line-height: 1;
-    margin-right: -32px;
-    position: relative;
-    right: 0;
-    top: auto;
-    transform: none;
-  }
+}
+:--namespace[data-from="shortcode"] .glsr-button:hover {
+  background-color: rgba(0,0,0,.05);
 }
 
 :--namespace form.glsr-filters-form {

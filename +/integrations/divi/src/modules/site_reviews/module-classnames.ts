@@ -1,5 +1,5 @@
 import { type ModuleAttrs } from './types';
-import { type ModuleClassnamesParams, textOptionsClassnames } from '@divi/module';
+import { type ModuleClassnamesParams, textOptionsClassnames, getBackgroundLayoutClassnames } from '@divi/module';
 import { isEmpty, isString } from 'lodash';
 
 export const moduleClassnames = ({
@@ -7,6 +7,15 @@ export const moduleClassnames = ({
     classnamesInstance,
 }: ModuleClassnamesParams<ModuleAttrs>): void => {
     classnamesInstance.add(textOptionsClassnames(attrs?.module?.advanced?.text))
+    classnamesInstance.add(getBackgroundLayoutClassnames(attrs?.module?.advanced?.text ?? {
+        text: {
+            desktop: {
+                value: {
+                    color: 'light',
+                },
+            },
+        }
+    }))
     // @ts-expect-error
     if (isEmpty(attrs?.shortcode?.advanced?.theme?.desktop?.value)) {
         // @ts-expect-error

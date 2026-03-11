@@ -18,17 +18,12 @@ export const buttonIconStyleDeclaration = ({
         },
         returnType: 'string',
     });
-    declarations.add('position', 'relative');
     // custom icon disabled
     if ('off' === enable) {
-        declarations.add('margin-right', '-1em');
+        // declarations.add('margin-right', '-1em');
         return declarations.value as string;
     }
-
     declarations.add('line-height', '1');
-    declarations.add('top', 'auto');
-    declarations.add('transform', 'none');
-
     if (isEmpty(icon?.settings)) {
         // has default icon
         if ('left' === icon?.placement) {
