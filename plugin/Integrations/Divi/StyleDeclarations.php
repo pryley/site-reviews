@@ -32,18 +32,47 @@ class StyleDeclarations
             $declarations = new Declarations([
                 'important' => [
                     'content' => true,
+                    'line-height' => true,
+                    'margin-left' => true,
+                    'margin-right' => true,
+                    'padding' => true,
                 ],
                 'returnType' => 'string',
             ]);
+            $declarations->add('position', 'relative');
+            // custom icon disabled
             if ('off' === ($args['attrValue']['enable'] ?? '')) {
+                $declarations->add('margin-right', '-1em');
                 return $declarations->value();
             }
             $icon = $args['attrValue']['icon'] ?? [];
-            if (!empty($icon['settings'])) {
+            $placement = $icon['placement'] ?? '';
+
+            $declarations->add('line-height', '1');
+            $declarations->add('top', 'auto');
+            $declarations->add('transform', 'none');
+
+            if (empty($icon['settings'])) {
+                // has default icon
+                if ('left' === $placement) {
+                    $declarations->add('margin-left', '-1.3em');
+                    $declarations->add('padding', '0 0 0 0.3em');
+                } else {
+                    $declarations->add('margin-right', '-1.3em');
+                    $declarations->add('padding', '0 0.3em 0 0');
+                }
+            } else {
+                // has custom icon
                 $unicodeIcon = Utils::escape_font_icon(Utils::process_font_icon($icon['settings']));
                 $declarations->add('content', "'{$unicodeIcon}'");
+                if ('left' === $placement) {
+                    $declarations->add('margin-left', '-1.5em');
+                    $declarations->add('padding', '0 0.5em 0 0');
+                } else {
+                    $declarations->add('margin-right', '-1.5em');
+                    $declarations->add('padding', '0 0 0 0.2em');
+                }
             }
-            $declarations->add('padding-right', '0.3em');
             return $declarations->value();
         };
     }
