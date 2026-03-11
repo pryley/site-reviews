@@ -1008,8 +1008,8 @@ msgstr "Bootstrap (v5)"
 
 #: config/settings.php:37
 msgctxt "admin-text"
-msgid "Divi (v4)"
-msgstr "Divi (v4)"
+msgid "Divi (v5)"
+msgstr "Divi (v5)"
 
 #: config/settings.php:38
 msgctxt "admin-text"

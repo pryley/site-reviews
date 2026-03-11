@@ -410,7 +410,7 @@
     },
     "design": {
       "type": "object",
-      "selector": "{{selector}} .glsr-summary",
+      "selector": "#page-container {{selector}} .glsr-summary",
       "settings": {
         "decoration": {
           "ratingColor": {

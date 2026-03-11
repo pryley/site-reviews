@@ -428,7 +428,7 @@ msgstr ""
 
 #: config/settings.php:37
 msgctxt "admin-text"
-msgid "Divi (v4)"
+msgid "Divi (v5)"
 msgstr ""
 
 #: config/settings.php:38

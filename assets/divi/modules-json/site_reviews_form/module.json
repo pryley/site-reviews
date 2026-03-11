@@ -240,7 +240,7 @@
     },
     "design": {
       "type": "object",
-      "selector": "{{selector}} .glsr-field",
+      "selector": "#page-container {{selector}} .glsr-field",
       "settings": {
         "decoration": {
           "ratingColor": {
@@ -276,10 +276,34 @@
       },
       "elementType": "button",
       "type": "object",
-      "selector": "{{selector}} .glsr-button",
+      "selector": "#page-container {{selector}} .glsr-button",
       "settings": {
         "decoration": {
-          "button": {}
+          "button": {
+            "component": {
+              "props": {
+                "fields": {
+                  "fontGroup": {
+                    "component": {
+                      "props": {
+                        "fields": {
+                          "lineHeight": {
+                            "render": false
+                          },
+                          "textAlign": {
+                            "render": false
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "alignment": {
+                    "visible": true
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
