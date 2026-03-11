@@ -3,7 +3,8 @@ import { type ModuleAttrs } from './types';
 import { type StylesProps, CssStyle, StyleContainer, TextStyle } from '@divi/module';
 import { colorStyleDeclaration } from '@site-reviews-divi/style-declarations';
 
-const ModuleStyles = ({
+const ModuleStyles = (props: StylesProps<ModuleAttrs>): ReactElement => {
+const {
     attrs,
     defaultPrintedStyleAttrs,
     elements,
@@ -12,7 +13,9 @@ const ModuleStyles = ({
     orderClass,
     settings,
     state,
-}: StylesProps<ModuleAttrs>): ReactElement => (
+} = props;
+const baseSelector = '#page-container';
+return (
     <StyleContainer mode={mode} state={state} noStyleTag={noStyleTag}>
         {elements.style({
             attrName: 'module',
@@ -49,7 +52,7 @@ const ModuleStyles = ({
                         props: {
                             attr: attrs?.design?.decoration?.ratingColor,
                             declarationFunction: colorStyleDeclaration(['--glsr-review-star-bg']),
-                            selector: `${orderClass}.has-custom-color .glsr-review`,
+                            selector: `${baseSelector} ${orderClass}.has-custom-color .glsr-review`,
                         },
                     },
                 ],
@@ -63,6 +66,7 @@ const ModuleStyles = ({
         />
     </StyleContainer>
 );
+}
 
 export {
     ModuleStyles,

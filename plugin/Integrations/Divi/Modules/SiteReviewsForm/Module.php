@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Integrations\Divi\Modules\SiteReviewsForm;
 
 use ET\Builder\FrontEnd\Module\Style;
-use ET\Builder\Packages\Module\Options\Text\TextClassnames;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleClassnamesDefaults;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleStylesDefaults;
@@ -38,10 +37,12 @@ class Module extends DiviModule
     {
         $args = glsr(ModuleStylesDefaults::class)->merge($args);
         $attrs = $args['attrs'];
-        $baseSelector = '.et-db #page-container .et_pb_section';
         $elements = $args['elements'];
         $orderClass = $args['orderClass'];
         $settings = $args['settings'];
+
+        $baseSelector = '#page-container';
+
         Style::add([
             'id' => $args['id'],
             'name' => $args['name'],
@@ -57,7 +58,7 @@ class Module extends DiviModule
                                 'props' => [
                                     'attr' => $attrs['design']['decoration']['ratingColor'] ?? [],
                                     'declarationFunction' => StyleDeclarations::color(['--glsr-form-star-bg']),
-                                    'selector' => "{$orderClass}.has-custom-color .glsr-form",
+                                    'selector' => "{$baseSelector} {$orderClass}.has-custom-color .glsr-form",
                                 ],
                             ],
                         ],
@@ -134,7 +135,7 @@ class Module extends DiviModule
                                 'props' => [
                                     'attr' => $attrs['button']['decoration']['button'] ?? [],
                                     'declarationFunction' => StyleDeclarations::buttonAlignment(),
-                                    'selector' => "{$orderClass} .glsr-button_wrapper",
+                                    'selector' => "{$baseSelector} {$orderClass} .glsr-button_wrapper",
                                 ],
                             ],
                         ],

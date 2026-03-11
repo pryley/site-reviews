@@ -389,7 +389,7 @@
     },
     "design": {
       "type": "object",
-      "selector": "{{selector}} .glsr-reviews",
+      "selector": "#page-container {{selector}} .glsr-reviews",
       "settings": {
         "decoration": {
           "ratingColor": {
@@ -422,7 +422,7 @@
       },
       "elementType": "button",
       "type": "object",
-      "selector": "{{selector}} .glsr-button",
+      "selector": "#page-container {{selector}} .glsr-button",
       "settings": {
         "decoration": {
           "button": {}

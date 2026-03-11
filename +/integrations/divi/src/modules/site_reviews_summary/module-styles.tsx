@@ -4,7 +4,8 @@ import { type StylesProps, CssStyle, StyleContainer, TextStyle } from '@divi/mod
 import { colorStyleDeclaration } from '@site-reviews-divi/style-declarations';
 import { isEmpty } from 'lodash';
 
-const ModuleStyles = ({
+const ModuleStyles = (props: StylesProps<ModuleAttrs>): ReactElement => {
+const {
     attrs,
     defaultPrintedStyleAttrs,
     elements,
@@ -13,8 +14,9 @@ const ModuleStyles = ({
     orderClass,
     settings,
     state,
-}: StylesProps<ModuleAttrs>): ReactElement => {
-    return (
+} = props;
+const baseSelector = '#page-container';
+return (
     <StyleContainer mode={mode} state={state} noStyleTag={noStyleTag}>
         {elements.style({
             attrName: 'module',
@@ -43,7 +45,7 @@ const ModuleStyles = ({
                             declarationFunction: ({attrValue: { maxWidth = '' }}) => {
                                 return !isEmpty(maxWidth) ? `--glsr-max-w:none;` : '';
                             },
-                            selector: `${orderClass} .glsr`,
+                            selector: `${baseSelector} ${orderClass} .glsr`,
                         },
                     },
                 ],
@@ -62,7 +64,7 @@ const ModuleStyles = ({
                         props: {
                             attr: attrs?.design?.decoration?.ratingColor,
                             declarationFunction: colorStyleDeclaration(['--glsr-summary-star-bg']),
-                            selector: `${orderClass}.has-custom-color .glsr-summary`,
+                            selector: `${baseSelector} ${orderClass}.has-custom-color .glsr-summary`,
                         },
                     },
                     {
@@ -71,7 +73,7 @@ const ModuleStyles = ({
                         props: {
                             attr: attrs?.design?.decoration?.barColor,
                             declarationFunction: colorStyleDeclaration(['--glsr-bar-bg']),
-                            selector: `${orderClass} .glsr-summary`,
+                            selector: `${baseSelector} ${orderClass} .glsr-summary`,
                         },
                     },
                 ],

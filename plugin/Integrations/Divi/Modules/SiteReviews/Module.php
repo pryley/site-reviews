@@ -39,6 +39,9 @@ class Module extends DiviModule
         $attrs = $args['attrs'];
         $elements = $args['elements'];
         $orderClass = $args['orderClass'];
+
+        $baseSelector = '#page-container';
+
         Style::add([
             'id' => $args['id'],
             'name' => $args['name'],
@@ -54,7 +57,7 @@ class Module extends DiviModule
                                 'props' => [
                                     'attr' => $attrs['design']['decoration']['ratingColor'] ?? [],
                                     'declarationFunction' => StyleDeclarations::color(['--glsr-review-star-bg']),
-                                    'selector' => "{$orderClass}.has-custom-color .glsr-reviews",
+                                    'selector' => "{$baseSelector} {$orderClass}.has-custom-color .glsr-reviews",
                                 ],
                             ],
                         ],
@@ -78,7 +81,7 @@ class Module extends DiviModule
                                 'props' => [
                                     'attr' => $attrs['button']['decoration']['button'] ?? [],
                                     'declarationFunction' => StyleDeclarations::buttonAlignment(),
-                                    'selector' => "{$orderClass} .glsr-button_wrapper",
+                                    'selector' => "{$baseSelector} {$orderClass} .glsr-button_wrapper",
                                 ],
                             ],
                         ],

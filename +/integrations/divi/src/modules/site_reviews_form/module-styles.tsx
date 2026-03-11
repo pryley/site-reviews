@@ -7,9 +7,8 @@ import {
     orientationStyleDeclaration,
 } from '@site-reviews-divi/style-declarations';
 
-const baseSelector = '.et-db #page-container .et_pb_section';
-
-const ModuleStyles = ({
+const ModuleStyles = (props: StylesProps<ModuleAttrs>): ReactElement => {
+const {
     attrs,
     defaultPrintedStyleAttrs,
     elements,
@@ -18,7 +17,9 @@ const ModuleStyles = ({
     orderClass,
     settings,
     state,
-}: StylesProps<ModuleAttrs>): ReactElement => (
+} = props;
+const baseSelector = '#page-container';
+return (
     <StyleContainer mode={mode} state={state} noStyleTag={noStyleTag}>
         {elements.style({
             attrName: 'module',
@@ -74,7 +75,7 @@ const ModuleStyles = ({
                         props: {
                             attr: attrs?.design?.decoration?.ratingColor,
                             declarationFunction: colorStyleDeclaration(['--glsr-form-star-bg']),
-                            selector: `${orderClass}.has-custom-color .glsr-form`,
+                            selector: `${baseSelector} ${orderClass}.has-custom-color .glsr-form`,
                         },
                     },
                 ],
@@ -90,7 +91,7 @@ const ModuleStyles = ({
                         props: {
                             attr: attrs?.button?.decoration?.button,
                             declarationFunction: buttonAlignmentStyleDeclaration,
-                            selector: `${orderClass} .glsr-button_wrapper`,
+                            selector: `${baseSelector} ${orderClass} .glsr-button_wrapper`,
                         },
                     },
                 ],
@@ -104,6 +105,7 @@ const ModuleStyles = ({
         />
     </StyleContainer>
 );
+}
 
 export {
     ModuleStyles,

@@ -37,6 +37,7 @@ class Module extends DiviModule
     {
         $args = glsr(ModuleStylesDefaults::class)->merge($args);
         $attrs = $args['attrs'];
+        $baseSelector = '#page-container';
         $elements = $args['elements'];
         $orderClass = $args['orderClass'];
         Style::add([
@@ -54,7 +55,7 @@ class Module extends DiviModule
                                 'props' => [
                                     'attr' => $attrs['design']['decoration']['ratingColor'] ?? [],
                                     'declarationFunction' => StyleDeclarations::color(['--glsr-review-star-bg']),
-                                    'selector' => "{$orderClass}.has-custom-color .glsr-review",
+                                    'selector' => "{$baseSelector} {$orderClass}.has-custom-color .glsr-review",
                                 ],
                             ],
                         ],
