@@ -98,6 +98,7 @@ class Controller extends AbstractController
         }
         if (1 === preg_match('/site_reviews/', Cast::toString($content))) {
             add_filter('et_required_module_assets', function ($assets) {
+                $assets[] = 'et_pb_button';
                 $assets[] = 'et_pb_contact_form';
                 $assets[] = 'et_pb_gallery';
                 $assets[] = 'et_pb_search';
@@ -127,6 +128,7 @@ class Controller extends AbstractController
             return $assets;
         }
         if (1 === preg_match('/wp:glsr-divi\//', Cast::toString($content))) {
+            $assets[] = 'divi/button';
             $assets[] = 'divi/gallery';
             $assets[] = 'divi/search';
             return array_values(array_unique($assets));
