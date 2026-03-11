@@ -56,7 +56,7 @@ class StyleClassesDefaults extends DefaultsAbstract
     protected function defaults(): array
     {
         return [
-            'button' => 'glsr-button wp-block-button__link wp-element-button',
+            'button' => 'glsr-button',
             'description' => 'glsr-description',
             'field' => 'glsr-field',
             'fieldset' => '',
@@ -74,5 +74,16 @@ class StyleClassesDefaults extends DefaultsAbstract
             'select' => '',
             'textarea' => '',
         ];
+    }
+
+    /**
+     * Finalize provided values, this always runs last.
+     */
+    protected function finalize(array $values = []): array
+    {
+        if ('glsr-button' === ($values['button'] ?? '')) {
+            $values['button'] .= ' wp-block-button__link wp-element-button'; // fallback to block styling!
+        }
+        return $values;
     }
 }
