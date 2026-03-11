@@ -142,6 +142,7 @@ class Module extends DiviModule
                 ]),
             ],
         ]);
+        parent::module_styles($args);
     }
 
     public static function shortcodeInstance(): ShortcodeContract

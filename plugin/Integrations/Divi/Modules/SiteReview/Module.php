@@ -35,7 +35,6 @@ class Module extends DiviModule
      */
     public static function module_styles(array $args): void
     {
-        parent::module_styles($args);
         $args = glsr(ModuleStylesDefaults::class)->merge($args);
         $attrs = $args['attrs'];
         $elements = $args['elements'];
@@ -63,6 +62,7 @@ class Module extends DiviModule
                 ]),
             ],
         ]);
+        parent::module_styles($args);
     }
 
     public static function shortcodeInstance(): ShortcodeContract
