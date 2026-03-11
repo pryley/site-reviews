@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Divi;
 
+use ET\Builder\Packages\IconLibrary\IconFont\Utils;
 use ET\Builder\Packages\StyleLibrary\Utils\StyleDeclarations as Declarations;
 
 class StyleDeclarations
@@ -21,6 +22,28 @@ class StyleDeclarations
             $alignment = $map[$args['attrValue']['alignment'] ?? ''] ?? 'start';
             $declarations->add('display', 'flex');
             $declarations->add('justify-content', $alignment);
+            return $declarations->value();
+        };
+    }
+
+    public static function buttonIcon(): callable
+    {
+        return static function (array $args): string {
+            $declarations = new Declarations([
+                'important' => [
+                    'content' => true,
+                ],
+                'returnType' => 'string',
+            ]);
+            if ('off' === ($args['attrValue']['enable'] ?? '')) {
+                return $declarations->value();
+            }
+            $icon = $args['attrValue']['icon'] ?? [];
+            if (!empty($icon['settings'])) {
+                $unicodeIcon = Utils::escape_font_icon(Utils::process_font_icon($icon['settings']));
+                $declarations->add('content', "'{$unicodeIcon}'");
+            }
+            $declarations->add('padding-right', '0.3em');
             return $declarations->value();
         };
     }
@@ -59,3 +82,4 @@ class StyleDeclarations
     }
 
 }
+// padding-right: .3em;

@@ -3,6 +3,7 @@ import { type ModuleAttrs } from './types';
 import { type StylesProps, CssStyle, StyleContainer, TextStyle } from '@divi/module';
 import {
     buttonAlignmentStyleDeclaration,
+    buttonIconStyleDeclaration,
     colorStyleDeclaration,
 } from '@site-reviews-divi/style-declarations';
 
@@ -18,6 +19,8 @@ const {
     state,
 } = props;
 const baseSelector = '#page-container';
+const iconPlacementValue = attrs?.button?.decoration?.button?.desktop?.value?.icon?.placement ?? 'right';
+const iconPlacement = 'left' === iconPlacementValue ? 'before' : 'after';
 return (
     <StyleContainer mode={mode} state={state} noStyleTag={noStyleTag}>
         {elements.style({
@@ -72,6 +75,15 @@ return (
                             attr: attrs?.button?.decoration?.button,
                             declarationFunction: buttonAlignmentStyleDeclaration,
                             selector: `${baseSelector} ${orderClass} .glsr-button_wrapper`,
+                        },
+                    },
+                    {
+                        // Button Icon
+                        componentName: "divi/common",
+                        props: {
+                            attr: attrs?.button?.decoration?.button,
+                            declarationFunction: buttonIconStyleDeclaration,
+                            selector: `${baseSelector} ${orderClass} .glsr-button::${iconPlacement}`,
                         },
                     },
                 ],

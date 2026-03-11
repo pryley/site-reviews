@@ -114,10 +114,28 @@
   color: var(--glsr-choice-color);
 }
 
-:--namespace button.glsr-button {
+:--namespace .glsr-button {
   color: var(--glsr-divi-color);
   &:hover {
     background-color: rgba(0,0,0,.05);
+  }
+  &:before {
+    left: 0;
+    line-height: 1;
+    margin-left: -32px;
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+  }
+  &:after {
+    left: auto;
+    line-height: 1;
+    margin-right: -32px;
+    position: relative;
+    right: 0;
+    top: auto;
+    transform: none;
   }
 }
 

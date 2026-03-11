@@ -42,6 +42,8 @@ class Module extends DiviModule
         $settings = $args['settings'];
 
         $baseSelector = '#page-container';
+        $iconPlacementValue = $attrs['button']['decoration']['button']['desktop']['value']['icon']['placement'] ?? 'right';
+        $iconPlacement = 'left' === $iconPlacementValue ? 'before' : 'after';
 
         Style::add([
             'id' => $args['id'],
@@ -136,6 +138,15 @@ class Module extends DiviModule
                                     'attr' => $attrs['button']['decoration']['button'] ?? [],
                                     'declarationFunction' => StyleDeclarations::buttonAlignment(),
                                     'selector' => "{$baseSelector} {$orderClass} .glsr-button_wrapper",
+                                ],
+                            ],
+                            [
+                                // Button Icon
+                                'componentName' => 'divi/common',
+                                'props' => [
+                                    'attr' => $attrs['button']['decoration']['button'] ?? [],
+                                    'declarationFunction' => StyleDeclarations::buttonIcon(),
+                                    'selector' => "{$baseSelector} {$orderClass} .glsr-button::{$iconPlacement}",
                                 ],
                             ],
                         ],
