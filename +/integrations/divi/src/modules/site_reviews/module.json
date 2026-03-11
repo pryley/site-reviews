@@ -425,7 +425,17 @@
       "selector": "#page-container {{selector}} .glsr-button",
       "settings": {
         "decoration": {
-          "button": {}
+          "button": {
+            "component": {
+              "props": {
+                "fields": {
+                  "alignment": {
+                    "visible": true
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

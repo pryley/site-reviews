@@ -9,20 +9,18 @@ class StyleDeclarations
     public static function buttonAlignment(): callable
     {
         return static function (array $args): string {
-            $map = [
-                'left' => 'start',
-                'center' => 'center',
-                'right' => 'right',
-            ];
-            $alignment = $map[$args['attrValue']['alignment'] ?? ''] ?? '';
             $declarations = new Declarations([
                 'important' => false,
                 'returnType' => 'string',
             ]);
-            if ($alignment) {
-                $declarations->add('display', 'flex');
-                $declarations->add('justify-content', $alignment);
-            }
+            $map = [
+                'left' => 'start',
+                'center' => 'center',
+                'right' => 'end',
+            ];
+            $alignment = $map[$args['attrValue']['alignment'] ?? ''] ?? 'start';
+            $declarations->add('display', 'flex');
+            $declarations->add('justify-content', $alignment);
             return $declarations->value();
         };
     }
