@@ -21,6 +21,25 @@ add_filter('site-reviews/build/template/review', function ($template) {
     return str_replace('id="{{ review_id }}"', 'id="review-{{ review_id }}"', $template);
 });
 
+/*
+ * Deprecated since v8.0
+ */
+add_action('plugins_loaded', function () {
+    if (!glsr()->filterBool('support/deprecated/v8', true)) {
+        return;
+    }
+    add_filter('site-reviews/review-form/fields/order', function ($order) {
+        return apply_filters_deprecated('site-reviews/review-form/order',
+            [$order],
+            '8.0',
+            'site-reviews/review-form/fields/order'
+        );
+    });
+});
+
+/*
+ * Deprecated since v7.0
+ */
 add_action('plugins_loaded', function () {
     if (!glsr()->filterBool('support/deprecated/v7', true)) {
         return;
@@ -34,6 +53,9 @@ add_action('plugins_loaded', function () {
     }, 10, 2);
 });
 
+/*
+ * Deprecated since v6.0
+ */
 add_action('plugins_loaded', function () {
     if (!glsr()->filterBool('support/deprecated/v6', true)) {
         return;
@@ -68,6 +90,9 @@ add_action('plugins_loaded', function () {
     });
 });
 
+/*
+ * Deprecated since v5.0
+ */
 add_action('plugins_loaded', function () {
     if (!glsr()->filterBool('support/deprecated/v5', true)) {
         return;

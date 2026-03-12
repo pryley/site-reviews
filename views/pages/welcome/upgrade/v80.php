@@ -83,8 +83,8 @@
                 <p>The first argument of the hook was previously the Post ID of the review but it is now the $review object.</p>
             </li>
             <li>
-                <p><strong>The <code>site-reviews/review-form/fields/normalized</code> filter hook has been removed.</strong></p>
-                <p>If you were previously using this hook, you should change it to: <code>site-reviews/review-form/fields/all</code>.</p>
+                <p><strong>The <code>site-reviews/review-form/order</code> filter hook has been removed.</strong></p>
+                <p>If you were previously using this hook, you should change it to: <code>site-reviews/review-form/fields/order</code>.</p>
             </li>
             <li>
                 <p><strong>The <code>site-reviews/summary/counts</code> filter hook has been removed.</strong></p>

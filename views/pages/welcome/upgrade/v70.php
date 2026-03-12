@@ -56,6 +56,10 @@
                 <p><strong>The <code>site-reviews/builder/&lt;field_type&gt;</code> filter hook has been removed.</strong></p>
                 <p>If you were previously using this hook to change the PHP class used for the field element, you should change it to: <code>site-reviews/field/element/&lt;field_element_type&gt;</code>.</p>
             </li>
+            <li>
+                <p><strong>The <code>site-reviews/review-form/fields/normalized</code> filter hook has been removed.</strong></p>
+                <p>If you were previously using this hook, you should change it to: <code>site-reviews/review-form/fields/all</code>.</p>
+            </li>
         </ol>
 
     </div>

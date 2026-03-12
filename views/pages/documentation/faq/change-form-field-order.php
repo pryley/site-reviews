@@ -15,7 +15,7 @@
  * @param array $order
  * @return array
  */
-add_filter('site-reviews/review-form/order', function ($order) {
+add_filter('site-reviews/review-form/fields/order', function ($order) {
     // The $order array contains the field keys returned below.
     // Simply change the order of the field keys to the desired field order.
     return [
