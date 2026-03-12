@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 8.0.5 (2026-03-11) =
+
+- Fixed button design settings in Divi 5 modules
+
 = 8.0.4 (2026-03-06) =
 
 - Fixed an error during plugin update caused by a race condition that was being triggered by WooCommerce preloading REST API data in the update iframe footer.

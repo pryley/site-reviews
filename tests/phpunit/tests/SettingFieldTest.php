@@ -53,7 +53,7 @@ class SettingFieldTest extends \WP_UnitTestCase
                         '</optgroup>'.
                         '<optgroup label="Themes">'.
                             '<option value="bootstrap">Bootstrap (v5)</option>'.
-                            '<option value="divi">Divi (v4)</option>'.
+                            '<option value="divi">Divi (v5)</option>'.
                             '<option value="twentyfifteen">Twenty Fifteen</option>'.
                             '<option value="twentysixteen">Twenty Sixteen</option>'.
                             '<option value="twentyseventeen">Twenty Seventeen</option>'.

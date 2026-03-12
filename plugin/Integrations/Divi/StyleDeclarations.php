@@ -108,6 +108,4 @@ class StyleDeclarations
             return $declarations->value();
         };
     }
-
 }
-// padding-right: .3em;
