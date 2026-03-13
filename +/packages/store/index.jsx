@@ -38,6 +38,6 @@ export const createStore = (storeName) => {
 };
 
 // Define and export the default store name
-export const DEFAULT_STORE_NAME = 'site-reviews';
+export const DEFAULT_STORE_NAME = 'site-reviews/store/v2';
 
 export default createStore;
