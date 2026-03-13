@@ -38,7 +38,7 @@ const AjaxFormTokenField = (props: ControlProps) => {
         (select) => select(registeredStoreName).get('suggestedValues', endpoint),
         []
     );
-    const { set } = useDispatch(registeredStoreName);
+    const { set: setStoreValues } = useDispatch(registeredStoreName);
 
     const req = () => ({
         path: addQueryArgs(endpoint, {
@@ -80,7 +80,7 @@ const AjaxFormTokenField = (props: ControlProps) => {
                 }
             });
             setSelectedValues(initialValues);
-            set('suggestedValues', endpoint, initialSuggestions);
+            setStoreValues('suggestedValues', endpoint, initialSuggestions);
         } finally {
             setIsLoading(false);
         }
@@ -91,7 +91,7 @@ const AjaxFormTokenField = (props: ControlProps) => {
         setIsSearching(true);
         try {
             const response = await apiFetch<Item[]>(req());
-            set('suggestedValues', endpoint, response.map(transformItem));
+            setStoreValues('suggestedValues', endpoint, response.map(transformItem));
         } finally {
             setIsSearching(false);
         }

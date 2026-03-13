@@ -22,7 +22,7 @@ const AjaxToggleGroupControl = (props: ControlProps) => {
         (select) => select(registeredStoreName).get('options', endpoint),
         []
     );
-    const { set } = useDispatch(registeredStoreName);
+    const { set: setStoreValues } = useDispatch(registeredStoreName);
 
     const handleIsChecked = (optionValue: string, isChecked: boolean) => {
         const newValue = isChecked
@@ -40,7 +40,7 @@ const AjaxToggleGroupControl = (props: ControlProps) => {
                     label: item.title,
                     value: String(item.id),
                 }));
-                set('options', endpoint, initialOptions);
+                setStoreValues('options', endpoint, initialOptions);
             })
             .finally(() => {
                 setIsLoading(false);

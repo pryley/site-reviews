@@ -38,7 +38,7 @@ const AjaxSearchControl = (props: ControlProps) => {
         (select) => select(registeredStoreName).get('options', endpoint),
         []
     );
-    const { set } = useDispatch(registeredStoreName);
+    const { set: setStoreValues } = useDispatch(registeredStoreName);
 
     const req = () => ({
         path: addQueryArgs(endpoint, {
@@ -65,7 +65,7 @@ const AjaxSearchControl = (props: ControlProps) => {
         try {
             const response = await apiFetch<Item[]>(req());
             hasFetchedData.current = true; // Mark that we've fetched the data
-            set('options', endpoint, response.map(transformItem));
+            setStoreValues('options', endpoint, response.map(transformItem));
         } finally {
             setIsLoading(false);
         }
@@ -79,7 +79,7 @@ const AjaxSearchControl = (props: ControlProps) => {
         setIsSearching(true);
         try {
             const response = await apiFetch<Item[]>(req());
-            set('options', endpoint, response.map(transformItem));
+            setStoreValues('options', endpoint, response.map(transformItem));
         } finally {
             setIsSearching(false);
         }

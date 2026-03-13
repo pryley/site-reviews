@@ -31,7 +31,7 @@ const AjaxComboboxControl = (props: ControlProps) => {
         (select) => select(registeredStoreName).get('options', endpoint) || [],
         [endpoint, registeredStoreName]
     );
-    const { set } = useDispatch(registeredStoreName);
+    const { set: setStoreValues } = useDispatch(registeredStoreName);
 
     const renderItem = ({ item }: { item: Option }) => {
         const { label, value } = item;
@@ -55,7 +55,7 @@ const AjaxComboboxControl = (props: ControlProps) => {
         setIsLoading(true);
         try {
             const response = await apiFetch<Item[]>({ path: endpoint });
-            set('options', endpoint, response.map(transformItem));
+            setStoreValues('options', endpoint, response.map(transformItem));
         } finally {
             setIsLoading(false);
         }

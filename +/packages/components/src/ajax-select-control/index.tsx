@@ -25,7 +25,7 @@ const AjaxSelectControl = (props: ControlProps) => {
         (select) => select(registeredStoreName).get('options', endpoint) || [],
         [endpoint, registeredStoreName]
     );
-    const { set } = useDispatch(registeredStoreName);
+    const { set: setStoreValues } = useDispatch(registeredStoreName);
 
     const transformItem = (item: Item): Option => ({
         label: item.title || String(item.id),
@@ -37,7 +37,7 @@ const AjaxSelectControl = (props: ControlProps) => {
         setIsLoading(true);
         try {
             const response = await apiFetch<Item[]>({ path: endpoint });
-            set('options', endpoint, response.map(transformItem));
+            setStoreValues('options', endpoint, response.map(transformItem));
         } finally {
             setIsLoading(false);
         }
