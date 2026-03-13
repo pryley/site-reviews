@@ -56,10 +56,6 @@
             "default": "",
             "type": "string"
         },
-        "post_id": {
-            "default": "",
-            "type": "string"
-        },
         "rating": {
             "default": 1,
             "type": "number"

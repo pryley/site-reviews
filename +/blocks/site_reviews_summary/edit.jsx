@@ -248,7 +248,6 @@ const Edit = (props) => {
             },
         },
     };
-    setAttributes({ post_id: jQuery('#post_ID').val() }) // used to get the "post_id" assigned_posts value
     return (
         <ServerSideBlockRenderer
             controls={controls}
