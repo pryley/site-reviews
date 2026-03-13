@@ -166,10 +166,6 @@ return array(
 				'default' => '',
 				'type' => 'string'
 			),
-			'post_id' => array(
-				'default' => '',
-				'type' => 'string'
-			),
 			'rating' => array(
 				'default' => 0,
 				'type' => 'number'
@@ -444,10 +440,6 @@ return array(
 				'type' => 'string'
 			),
 			'labels' => array(
-				'default' => '',
-				'type' => 'string'
-			),
-			'post_id' => array(
 				'default' => '',
 				'type' => 'string'
 			),
