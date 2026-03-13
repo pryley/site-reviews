@@ -29,19 +29,16 @@ const AjaxFormTokenField = (props: ControlProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isSearching, setIsSearching] = useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
+    const [selectedValues, setSelectedValues] = useState<TransformedItem[]>([]);
     const [suggestionMap, setSuggestionMap] = useState<Map<string, TransformedItem>>(new Map());
     const hasFetchedData = useRef<boolean>(false);
 
     const registeredStoreName: string = createStore(storeName);
-    const selectedValues = useSelect<TransformedItem[]>(
-        (select) => select(registeredStoreName).getSelectedValues(endpoint),
-        []
-    );
     const suggestedValues = useSelect<TransformedItem[]>(
-        (select) => select(registeredStoreName).getSuggestedValues(endpoint),
+        (select) => select(registeredStoreName).get('suggestedValues', endpoint),
         []
     );
-    const { setSelectedValues, setSuggestedValues } = useDispatch(registeredStoreName);
+    const { set } = useDispatch(registeredStoreName);
 
     const req = () => ({
         path: addQueryArgs(endpoint, {
@@ -60,6 +57,13 @@ const AjaxFormTokenField = (props: ControlProps) => {
         if (hasFetchedData.current) return;
         if (suggestedValues.length || (!value.length && !prefetch)) {
             hasFetchedData.current = true; // Mark that we've fetched the data
+            // If we already have suggestions, resolve selected values from them
+            if (suggestedValues.length && value.length) {
+                const initialValues = suggestedValues.filter(
+                    (suggestion) => value.includes(suggestion.id)
+                );
+                setSelectedValues(initialValues);
+            }
             return;
         }
         setIsLoading(true);
@@ -75,8 +79,8 @@ const AjaxFormTokenField = (props: ControlProps) => {
                     initialValues.push(transformed);
                 }
             });
-            setSelectedValues(endpoint, initialValues);
-            setSuggestedValues(endpoint, initialSuggestions);
+            setSelectedValues(initialValues);
+            set('suggestedValues', endpoint, initialSuggestions);
         } finally {
             setIsLoading(false);
         }
@@ -87,7 +91,7 @@ const AjaxFormTokenField = (props: ControlProps) => {
         setIsSearching(true);
         try {
             const response = await apiFetch<Item[]>(req());
-            setSuggestedValues(endpoint, response.map(transformItem));
+            set('suggestedValues', endpoint, response.map(transformItem));
         } finally {
             setIsSearching(false);
         }
@@ -105,8 +109,8 @@ const AjaxFormTokenField = (props: ControlProps) => {
             return nextValue;
         });
         setSearch('')
-        setSelectedValues(endpoint, nextValues)
-        onChange(nextValues.map((selected) => selected.id))
+        setSelectedValues(nextValues as TransformedItem[])
+        onChange(nextValues.map((selected) => (selected as TransformedItem).id))
     };
 
     const computeSuggestionMatch = (suggestion: string): SuggestionMatch | null => {

@@ -22,10 +22,10 @@ const AjaxSelectControl = (props: ControlProps) => {
 
     const registeredStoreName: string = createStore(storeName);
     const options = useSelect<Option[]>(
-        (select) => select(registeredStoreName).getOptions(endpoint) || [],
+        (select) => select(registeredStoreName).get('options', endpoint) || [],
         [endpoint, registeredStoreName]
     );
-    const { setOptions } = useDispatch(registeredStoreName);
+    const { set } = useDispatch(registeredStoreName);
 
     const transformItem = (item: Item): Option => ({
         label: item.title || String(item.id),
@@ -37,7 +37,7 @@ const AjaxSelectControl = (props: ControlProps) => {
         setIsLoading(true);
         try {
             const response = await apiFetch<Item[]>({ path: endpoint });
-            setOptions(endpoint, response.map(transformItem));
+            set('options', endpoint, response.map(transformItem));
         } finally {
             setIsLoading(false);
         }

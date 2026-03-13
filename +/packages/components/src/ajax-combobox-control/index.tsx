@@ -28,10 +28,10 @@ const AjaxComboboxControl = (props: ControlProps) => {
 
     const registeredStoreName: string = createStore(storeName);
     const options = useSelect<Option[]>(
-        (select) => select(registeredStoreName).getOptions(endpoint) || [],
+        (select) => select(registeredStoreName).get('options', endpoint) || [],
         [endpoint, registeredStoreName]
     );
-    const { setOptions } = useDispatch(registeredStoreName);
+    const { set } = useDispatch(registeredStoreName);
 
     const renderItem = ({ item }: { item: Option }) => {
         const { label, value } = item;
@@ -55,7 +55,7 @@ const AjaxComboboxControl = (props: ControlProps) => {
         setIsLoading(true);
         try {
             const response = await apiFetch<Item[]>({ path: endpoint });
-            setOptions(endpoint, response.map(transformItem));
+            set('options', endpoint, response.map(transformItem));
         } finally {
             setIsLoading(false);
         }
