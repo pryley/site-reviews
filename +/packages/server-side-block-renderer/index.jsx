@@ -1,7 +1,7 @@
 import { default as ServerSideRender } from '@wordpress/server-side-render';
 import { __experimentalToolsPanel as ToolsPanel, Disabled, PanelBody, Spinner } from '@wordpress/components';
 import { _x } from '@wordpress/i18n';
-import { applyFilters } from '@wordpress/hooks';
+import { applyFilters, doAction } from '@wordpress/hooks';
 import { BaseControl, Notice } from '@wordpress/components';
 import { BlockControls, InspectorControls, InspectorAdvancedControls, useBlockProps } from '@wordpress/block-editor';
 import { useMemo } from '@wordpress/element';
@@ -71,6 +71,8 @@ const ServerSideBlockRenderer = ({
 }) => {
     const { attributes, name: blockName } = props;
     const hookPrefix = blockName.replace('/', '.');
+
+    doAction('site-reviews.blocks.edit', props);
 
     const ref = useRefEffect((block) => {
         const observer = new MutationObserver((mutations, observer) => {
