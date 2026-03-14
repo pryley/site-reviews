@@ -72,10 +72,12 @@
                                             <option value="pending"><?php echo _x('Unapproved', 'admin-text', 'site-reviews'); ?></option>
                                         </select>
                                     </label>
-                                    <label class="inline-edit-author alignleft">
-                                        <span class="title" style="margin:.1em 0;width: 100%;"><?php echo _x('Author', 'admin-text', 'site-reviews'); ?></span>
-                                        <?php echo $author_dropdown; ?>
-                                    </label>
+                                    <?php if (!empty($author_dropdown)) : ?>
+                                        <label class="inline-edit-author alignleft">
+                                            <span class="title" style="margin:.1em 0;width: 100%;"><?php echo _x('Author', 'admin-text', 'site-reviews'); ?></span>
+                                            <?php echo $author_dropdown; ?>
+                                        </label>
+                                    <?php endif; ?>
                                 </div>
                                 <?php if (post_type_supports(glsr()->post_type, 'comments') || post_type_supports(glsr()->post_type, 'trackbacks')) : ?>
                                     <div class="inline-edit-group wp-clearfix">
