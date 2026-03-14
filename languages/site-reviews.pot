@@ -2297,15 +2297,15 @@ msgctxt "admin-text"
 msgid "The <code>%s</code> table was successly converted to InnoDB."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:179, views/pages/documentation/support/common-problems-and-solutions.php:95
+#: plugin/Commands/CreateReview.php:203, views/pages/documentation/support/common-problems-and-solutions.php:95
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:183
+#: plugin/Commands/CreateReview.php:207
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:184
+#: plugin/Commands/CreateReview.php:208
 msgid "Your review has been submitted and is pending approval."
 msgstr ""
 

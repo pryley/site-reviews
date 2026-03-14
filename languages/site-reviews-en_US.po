@@ -77,7 +77,7 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
-#: plugin/Commands/CreateReview.php:179, views/pages/documentation/support/common-problems-and-solutions.php:95
+#: plugin/Commands/CreateReview.php:203, views/pages/documentation/support/common-problems-and-solutions.php:95
 msgid ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
@@ -85,11 +85,11 @@ msgstr ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
 
-#: plugin/Commands/CreateReview.php:183
+#: plugin/Commands/CreateReview.php:207
 msgid "Your review has been submitted!"
 msgstr "Your review has been submitted!"
 
-#: plugin/Commands/CreateReview.php:184
+#: plugin/Commands/CreateReview.php:208
 msgid "Your review has been submitted and is pending approval."
 msgstr "Your review has been submitted and is pending approval."
 
