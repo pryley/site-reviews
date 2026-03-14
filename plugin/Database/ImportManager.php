@@ -7,7 +7,6 @@ use GeminiLabs\League\Csv\Statement;
 use GeminiLabs\League\Csv\TabularDataReader;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\Tables\TableTmp;
 use GeminiLabs\SiteReviews\Defaults\ImportResultDefaults;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -35,17 +34,17 @@ class ImportManager
         foreach ($records as $values) {
             $request = new Request($values);
             $command = new CreateReview($request);
-            if ($review = $this->importedReview($command->request)) {
+            if ($review = $this->importedReview($command)) {
                 $result['attachments'] += glsr()->filterInt('import/review/attachments', 0, $request, $review, false);
-                $result['skipped']++;
+                ++$result['skipped'];
                 continue;
             }
             if ($review = glsr(ReviewManager::class)->create($command)) {
                 $result['attachments'] += glsr()->filterInt('import/review/attachments', 0, $request, $review, true);
-                $result['imported']++;
+                ++$result['imported'];
                 continue;
             }
-            $result['skipped']++;
+            ++$result['skipped'];
         }
         wp_defer_term_counting(false);
         wp_suspend_cache_invalidation(false);
@@ -68,10 +67,12 @@ class ImportManager
         return glsr(ImportResultDefaults::class)->restrict($result);
     }
 
-    public function importedReview(Request $request): ?Review
+    public function importedReview(CreateReview $command): ?Review
     {
-        $submitted = glsr(ReviewManager::class)->submittedMeta($request);
-        $submittedHash = md5(maybe_serialize($submitted));
+        $submittedHash = $command->submitted()['submitted_hash'] ?? '';
+        if (empty($submittedHash)) {
+            return null;
+        }
         $sql = "
             SELECT p.ID
             FROM table|posts AS p

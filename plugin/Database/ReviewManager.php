@@ -113,25 +113,20 @@ class ReviewManager
      */
     public function createRaw(CreateReview $command)
     {
-        $values = glsr()->args($command->toArray()); // this filters the values
-        $submitted = $this->submittedMeta($command->request);
-        $metaInput = [
-            '_submitted' => $submitted, // save the original submitted request in metadata
-            '_submitted_hash' => md5(maybe_serialize($submitted)),
-        ];
+        $args = glsr()->args($command->toArray()); // this filters the values
         $values = [
             'comment_status' => 'closed',
-            'meta_input' => $metaInput,
+            'meta_input' => $command->meta(),
             'ping_status' => 'closed',
-            'post_author' => $values->author_id,
-            'post_content' => $values->content,
-            'post_date' => $values->date,
-            'post_date_gmt' => $values->date_gmt,
-            'post_modified' => $values->date,
-            'post_modified_gmt' => $values->date_gmt,
-            'post_name' => uniqid($values->type),
+            'post_author' => $args->author_id,
+            'post_content' => $args->content,
+            'post_date' => $args->date,
+            'post_date_gmt' => $args->date_gmt,
+            'post_modified' => $args->date,
+            'post_modified_gmt' => $args->date_gmt,
+            'post_name' => uniqid($args->type),
             'post_status' => $this->postStatus($command),
-            'post_title' => $values->title,
+            'post_title' => $args->title,
             'post_type' => glsr()->post_type,
         ];
         $values = glsr()->filterArray('review/create/post_data', $values, $command);
@@ -201,25 +196,6 @@ class ReviewManager
         $reviews = new Reviews($results, $total, $args);
         glsr()->action('get/reviews', $reviews, $args);
         return $reviews;
-    }
-
-    public function submittedMeta(Request $request): array
-    {
-        $excludedKeys = [
-            '_action',
-            '_ajax_request',
-            '_frcaptcha',
-            '_hcaptcha',
-            '_nonce',
-            '_procaptcha',
-            '_recaptcha',
-            '_referer',
-            '_turnstile',
-            'form_id',
-            'form_signature',
-        ];
-        $submitted = $request->toArray($excludedKeys);
-        return array_filter($submitted, fn ($value) => !Helper::isEmpty($value));
     }
 
     public function total(array $args = [], array $reviews = []): int

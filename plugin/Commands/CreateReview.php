@@ -4,8 +4,10 @@ namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Defaults\AdditionalFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
+use GeminiLabs\SiteReviews\Defaults\SubmittedFieldsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -101,6 +103,19 @@ class CreateReview extends AbstractCommand
         return false;
     }
 
+    public function meta(): array
+    {
+        $additional = array_filter(
+            glsr(AdditionalFieldsDefaults::class)->restrict($this->request->toArray())
+        );
+        if (empty($additional['response'])) {
+            unset($additional['response_by']);
+        }
+        $custom = Arr::prefixKeys($this->custom(), 'custom_');
+        $meta = array_merge($additional, $custom, $this->submitted());
+        return Arr::prefixKeys($meta, '_');
+    }
+
     public function referer(): string
     {
         if ($referer = $this->redirect($this->referer)) {
@@ -144,6 +159,15 @@ class CreateReview extends AbstractCommand
             'reviews' => $this->reloadedReviews(),
             'summary' => $this->reloadedSummary(),
             'success' => $this->successful(),
+        ];
+    }
+
+    public function submitted(): array
+    {
+        $values = glsr(SubmittedFieldsDefaults::class)->filter($this->request->toArray());
+        return [
+            'submitted' => $values, // saves the original submitted data in metadata
+            'submitted_hash' => md5(maybe_serialize($values)),
         ];
     }
 

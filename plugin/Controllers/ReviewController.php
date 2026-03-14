@@ -245,13 +245,6 @@ class ReviewController extends AbstractController
         if (!empty($excluded)) { // save the fields hidden in the review form
             glsr(PostMeta::class)->set($postId, 'excluded', $excluded);
         }
-        if (!empty($values->response)) { // save the response if one is provided
-            glsr(PostMeta::class)->set($postId, 'response', $values->response);
-            glsr(PostMeta::class)->set($postId, 'response_by', $values->response_by); // @phpstan-ignore-line
-        }
-        foreach ($values->custom as $key => $value) {
-            glsr(PostMeta::class)->set($postId, "custom_{$key}", $value);
-        }
     }
 
     /**
