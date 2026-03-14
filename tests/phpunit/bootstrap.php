@@ -43,6 +43,11 @@ tests_add_filter('muplugins_loaded', function () use ($plugin_dir) {
     remove_action('admin_init', '_maybe_update_core');
     remove_action('admin_init', '_maybe_update_plugins');
     remove_action('admin_init', '_maybe_update_themes');
+    // remove deprecated fallbacks
+    add_filter('site-reviews/support/deprecated/v5', '__return_false');
+    add_filter('site-reviews/support/deprecated/v6', '__return_false');
+    add_filter('site-reviews/support/deprecated/v7', '__return_false');
+    add_filter('site-reviews/support/deprecated/v8', '__return_false');
 });
 
 tests_add_filter('setup_theme', function () use ($plugin_dir) {
