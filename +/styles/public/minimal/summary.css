@@ -63,7 +63,7 @@
         width: 100%;
     }
     &::after {
-        background: var(--glsr-bar-bg);
+        background-color: var(--glsr-bar-bg);
         content: '';
         height: 100%;
         position: relative;
