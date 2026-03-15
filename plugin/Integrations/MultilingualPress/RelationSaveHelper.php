@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Defaults\SyncReviewDef
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedPostsField;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\MetaboxFields\AssignedUsersField;
 use GeminiLabs\SiteReviews\Modules\Date;
+use GeminiLabs\SiteReviews\Modules\Html\MetaboxForm;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Review;
 use Inpsyde\MultilingualPress\Framework\Api\ContentRelations;
@@ -153,6 +154,15 @@ class RelationSaveHelper
         $review = $this->remoteReview();
         $originalSiteId = $this->maybeSwitchSite($this->context->remoteSiteId());
         if (!$review->isValid()) {
+            // If review details are not toggled on for editing,
+            // then we need to fetch the values from the source review.
+            if ('on' !== ($sourceData['is_editing_review'] ?? null)) {
+                $sourceReview = $this->sourceReview();
+                $metaboxConfig = (new MetaboxForm($sourceReview))->config();
+                $sourceData = wp_parse_args($sourceData,
+                    array_intersect_key($sourceReview->toArray(), $metaboxConfig)
+                );
+            }
             $sourceData['review_id'] = $this->context->remotePostId();
             $sourceData = glsr(RatingDefaults::class)->restrict($sourceData);
             if (false === glsr(Database::class)->insert('ratings', $sourceData)) {
@@ -288,6 +298,14 @@ class RelationSaveHelper
     {
         $originalSiteId = $this->maybeSwitchSite($this->context->remoteSiteId());
         $review = glsr_get_review($this->context->remotePostId());
+        $this->maybeRestoreSite($originalSiteId);
+        return $review;
+    }
+
+    protected function sourceReview(): Review
+    {
+        $originalSiteId = $this->maybeSwitchSite($this->context->sourceSiteId());
+        $review = glsr_get_review($this->context->sourcePostId());
         $this->maybeRestoreSite($originalSiteId);
         return $review;
     }
