@@ -39,6 +39,7 @@ class FusionSiteReviewsSummary extends FusionElement
             ],
             'style_max_width' => [
                 'description' => esc_attr_x('Enter value including any valid CSS unit, e.g. 100%.', 'admin-text', 'site-reviews'),
+                'group' => 'design',
                 'heading' => esc_html_x('Max Width', 'admin-text', 'site-reviews'),
                 'type' => 'textfield',
             ],
