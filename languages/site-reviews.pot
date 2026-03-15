@@ -266,7 +266,7 @@ msgctxt "admin-text"
 msgid "Export as Term Slugs"
 msgstr ""
 
-#: config/export.php:13, config/settings.php:813, plugin/Defaults/PostTypeColumnDefaults.php:13, plugin/Metaboxes/AssignedPostsMetabox.php:19, views/partials/screen/inline-edit.php:105
+#: config/export.php:13, config/settings.php:813, plugin/Defaults/PostTypeColumnDefaults.php:13, plugin/Metaboxes/AssignedPostsMetabox.php:19, views/partials/screen/inline-edit.php:107
 msgctxt "admin-text"
 msgid "Assigned Posts"
 msgstr ""
@@ -281,7 +281,7 @@ msgctxt "post_type:slug (admin-text)"
 msgid "Export as %s"
 msgstr ""
 
-#: config/export.php:21, config/settings.php:815, plugin/Defaults/PostTypeColumnDefaults.php:14, plugin/Metaboxes/AssignedUsersMetabox.php:19, plugin/Tinymce/SiteReviewsSummaryTinymce.php:27, plugin/Tinymce/SiteReviewsTinymce.php:27, views/integrations/mycred/preferences.php:186, views/partials/screen/inline-edit.php:116
+#: config/export.php:21, config/settings.php:815, plugin/Defaults/PostTypeColumnDefaults.php:14, plugin/Metaboxes/AssignedUsersMetabox.php:19, plugin/Tinymce/SiteReviewsSummaryTinymce.php:27, plugin/Tinymce/SiteReviewsTinymce.php:27, views/integrations/mycred/preferences.php:186, views/partials/screen/inline-edit.php:118
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr ""
@@ -2474,7 +2474,7 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:87, plugin/Overrides/ReviewsListTable.php:81, views/integrations/woocommerce/bulk-edit.php:8, views/partials/screen/inline-edit.php:68, views/partials/screen/inline-edit.php:86, views/partials/screen/inline-edit.php:96
+#: plugin/Commands/EnqueueAdminAssets.php:87, plugin/Overrides/ReviewsListTable.php:81, views/integrations/woocommerce/bulk-edit.php:8, views/partials/screen/inline-edit.php:68, views/partials/screen/inline-edit.php:88, views/partials/screen/inline-edit.php:98
 msgctxt "admin-text"
 msgid "No Change"
 msgstr ""
@@ -2489,7 +2489,7 @@ msgctxt "admin-text"
 msgid "Author Unknown"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:118, plugin/Overrides/ScheduledActionsTable.php:114, views/partials/editor/pinned.php:29, views/partials/editor/verified.php:30, views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:130
+#: plugin/Commands/EnqueueAdminAssets.php:118, plugin/Overrides/ScheduledActionsTable.php:114, views/partials/editor/pinned.php:29, views/partials/editor/verified.php:30, views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:132
 msgctxt "admin-text"
 msgid "Cancel"
 msgstr ""
@@ -3032,6 +3032,11 @@ msgstr ""
 #: plugin/Controllers/MenuController.php:201, views/pages/tools/sync.php:58
 msgctxt "admin-text"
 msgid "Sync Reviews"
+msgstr ""
+
+#: plugin/Controllers/NetworkController.php:26
+msgctxt "admin-text"
+msgid "Manage Reviews"
 msgstr ""
 
 #: plugin/Controllers/PrivacyController.php:27
@@ -3778,7 +3783,7 @@ msgstr ""
 msgid "(no title)"
 msgstr ""
 
-#: plugin/Metaboxes/AuthorMetabox.php:22, plugin/Metaboxes/AuthorMetabox.php:39, plugin/Controllers/ListTableColumns/ColumnFilterAuthor.php:22, views/partials/screen/inline-edit.php:76
+#: plugin/Metaboxes/AuthorMetabox.php:22, plugin/Metaboxes/AuthorMetabox.php:39, plugin/Controllers/ListTableColumns/ColumnFilterAuthor.php:22, views/partials/screen/inline-edit.php:77
 msgctxt "admin-text"
 msgid "Author"
 msgstr ""
@@ -5492,12 +5497,12 @@ msgctxt "Learn how to (admin-text)"
 msgid "%s add reviews to your SureCart Shop and Product pages."
 msgstr ""
 
-#: views/integrations/woocommerce/bulk-edit.php:9, views/partials/screen/inline-edit.php:87, views/partials/screen/inline-edit.php:97
+#: views/integrations/woocommerce/bulk-edit.php:9, views/partials/screen/inline-edit.php:89, views/partials/screen/inline-edit.php:99
 msgctxt "admin-text"
 msgid "Allow"
 msgstr ""
 
-#: views/integrations/woocommerce/bulk-edit.php:10, views/partials/screen/inline-edit.php:88, views/partials/screen/inline-edit.php:98
+#: views/integrations/woocommerce/bulk-edit.php:10, views/partials/screen/inline-edit.php:90, views/partials/screen/inline-edit.php:100
 msgctxt "admin-text"
 msgid "Do not allow"
 msgstr ""
@@ -5854,7 +5859,7 @@ msgctxt "admin-text"
 msgid "Remove assignment"
 msgstr ""
 
-#: views/partials/editor/metabox-assigned-posts.php:8, views/partials/screen/inline-edit.php:110
+#: views/partials/editor/metabox-assigned-posts.php:8, views/partials/screen/inline-edit.php:112
 msgctxt "admin-text"
 msgid "Search by ID or title..."
 msgstr ""
@@ -5864,7 +5869,7 @@ msgctxt "admin-text"
 msgid "Search for a Page, Post, or <abbr title=\"Custom Post Type\">CPT</abbr> that you would like to assign this review to."
 msgstr ""
 
-#: views/partials/editor/metabox-assigned-users.php:8, views/partials/screen/inline-edit.php:121
+#: views/partials/editor/metabox-assigned-users.php:8, views/partials/screen/inline-edit.php:123
 msgctxt "admin-text"
 msgid "Search by ID or name..."
 msgstr ""
@@ -6059,7 +6064,7 @@ msgctxt "admin-text"
 msgid "Your Response"
 msgstr ""
 
-#: views/partials/screen/inline-edit.php:32, views/partials/screen/inline-edit.php:131
+#: views/partials/screen/inline-edit.php:32, views/partials/screen/inline-edit.php:133
 msgctxt "admin-text"
 msgid "Update"
 msgstr ""
@@ -6069,12 +6074,12 @@ msgctxt "admin-text"
 msgid "Bulk Edit"
 msgstr ""
 
-#: views/partials/screen/inline-edit.php:84
+#: views/partials/screen/inline-edit.php:86
 msgctxt "admin-text"
 msgid "Comments"
 msgstr ""
 
-#: views/partials/screen/inline-edit.php:94
+#: views/partials/screen/inline-edit.php:96
 msgctxt "admin-text"
 msgid "Pings"
 msgstr ""
