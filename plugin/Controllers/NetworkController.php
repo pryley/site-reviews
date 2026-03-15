@@ -27,7 +27,7 @@ class NetworkController extends AbstractController
                 ]);
                 if ($visitSiteNode = $wp_admin_bar->get_node("{$menuId}-v")) {
                     $wp_admin_bar->remove_node("{$menuId}-v");
-                    $wp_admin_bar->add_node($visitSiteNode);
+                    $wp_admin_bar->add_node((array) $visitSiteNode);
                 }
             }
             restore_current_blog();

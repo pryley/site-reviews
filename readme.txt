@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 6.9
-Stable tag: 8.0.5
+Stable tag: 8.0.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -210,6 +210,14 @@ You can report any security bugs found in the source code of this plugin through
 This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
+
+= 8.0.6 (2026-03-14) =
+
+- Fixed compatibility with the [Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/) addon when using the `glsr_create_review` function.
+- Fixed multi-select controls in block settings when multiple blocks of the same type are on the page.
+- Fixed review details sync in MultilingualPress when manually creating a new review relationship.
+- Fixed the "Manage Reviews" link in multisite WP Admin Bar "My Sites" menu
+- Fixed visiblity of "Author" label in bulk edit when user role does not have the capability to edit review author.
 
 = 8.0.5 (2026-03-11) =
 

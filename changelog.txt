@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 8.0.6 (2026-03-14) =
+
+- Fixed compatibility with the [Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/) addon when using the `glsr_create_review` function.
+- Fixed multi-select controls in block settings when multiple blocks of the same type are on the page.
+- Fixed review details sync in MultilingualPress when manually creating a new review relationship.
+- Fixed the "Manage Reviews" link in multisite WP Admin Bar "My Sites" menu
+- Fixed visiblity of "Author" label in bulk edit when user role does not have the capability to edit review author.
+
 = 8.0.5 (2026-03-11) =
 
 - Fixed button design settings in Divi 5 modules
