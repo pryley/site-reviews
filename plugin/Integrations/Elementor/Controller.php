@@ -73,6 +73,10 @@ class Controller extends AbstractController
             return;
         }
         $settings = $widget->get_settings_for_display();
+        $hasBarColor = !empty($settings['style_bar_color']) || !empty($settings['__globals__']['style_bar_color']);
+        if ($hasBarColor) {
+            $widget->add_render_attribute('_wrapper', 'class', 'has-bar-color');
+        }
         $hasRatingColor = !empty($settings['style_rating_color']) || !empty($settings['__globals__']['style_rating_color']);
         $hasTheme = !empty($settings['theme']); // @todo move this "theme" check to Review Themes addon
         if ($hasRatingColor && !$hasTheme) {

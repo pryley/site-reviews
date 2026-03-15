@@ -90,6 +90,9 @@ class Controller extends AbstractController
         if ($styleTextAlign) {
             $classes[] = "has-text-align-{$styleTextAlign}";
         }
+        if ($element->styledSetting('style_bar_color')) {
+            $classes[] = 'has-bar-color';
+        }
         if ($element->styledSetting('style_rating_color')) {
             $classes[] = 'has-rating-color';
         }

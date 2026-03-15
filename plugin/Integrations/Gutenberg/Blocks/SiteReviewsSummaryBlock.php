@@ -20,6 +20,9 @@ class SiteReviewsSummaryBlock extends Block
         if (!empty($attributes['style_align'])) {
             $classes[] = "items-justified-{$attributes['style_align']}";
         }
+        if (!empty($attributes['style_bar_color']) || !empty($attributes['style_bar_color_custom'])) {
+            $classes[] = 'has-bar-color';
+        }
         if (!empty($attributes['style_rating_color']) || !empty($attributes['style_rating_color_custom'])) {
             $classes[] = 'has-rating-color';
         }

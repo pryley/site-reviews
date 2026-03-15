@@ -79,6 +79,8 @@ window.addEventListener('elementor/panel/init', () => {
         if (!$el || attributes?.theme || !shortcode.startsWith('site_review')) {
             return css;
         }
+        const hasBarColor = attributes?.style_bar_color || attributes?.__globals__?.style_bar_color;
+        $el.find('.glsr').parent()[hasBarColor ? 'addClass' : 'removeClass']('has-bar-color');
         const hasRatingColor = attributes?.style_rating_color || attributes?.__globals__?.style_rating_color;
         $el.find('.glsr').parent()[hasRatingColor ? 'addClass' : 'removeClass']('has-rating-color');
         return css;

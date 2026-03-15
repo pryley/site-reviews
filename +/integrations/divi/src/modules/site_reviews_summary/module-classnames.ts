@@ -8,6 +8,9 @@ export const moduleClassnames = ({
 }: ModuleClassnamesParams<ModuleAttrs>): void => {
     classnamesInstance.add(textOptionsClassnames(attrs?.module?.advanced?.text))
     // @ts-expect-error
+    const barColor = attrs?.design?.decoration?.barColor?.desktop?.value?.color;
+    classnamesInstance.add('has-bar-color', isString(barColor) && '' !== barColor)
+    // @ts-expect-error
     if (isEmpty(attrs?.shortcode?.advanced?.theme?.desktop?.value)) {
         // @ts-expect-error
         const ratingColor = attrs?.design?.decoration?.ratingColor?.desktop?.value?.color;

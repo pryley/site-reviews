@@ -126,6 +126,9 @@ class Controller extends AbstractController
         if (!empty($args['style_align'])) {
             $classes[] = "items-justified-{$args['style_align']}";
         }
+        if (!empty($args['style_bar_color'])) {
+            $classes[] = 'has-bar-color';
+        }
         if (!empty($args['style_rating_color'])) {
             $classes[] = 'has-rating-color';
         }
