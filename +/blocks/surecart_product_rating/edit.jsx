@@ -32,7 +32,7 @@ const Edit = (props) => {
     const defaultLinkUrl = '#product-reviews';
 
     const blockProps = useBlockProps({
-        className: (style_rating_color || style_rating_color_custom) ? 'has-custom-color' : '',
+        className: (style_rating_color || style_rating_color_custom) ? 'has-rating-color' : '',
         style: {
             '--glsr-review-star-bg': style_rating_color
                 ? getCSSValueFromRawStyle(`var:preset|color|${style_rating_color}`)

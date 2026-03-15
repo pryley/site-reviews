@@ -2,7 +2,9 @@
     display: block;
 }
 
-.has-custom-color .glsr:not([data-theme]) .glsr-summary {
+// @todo remove .has-custom-color in v8.1
+.has-custom-color .glsr:not([data-theme]) .glsr-summary,
+.has-rating-color .glsr:not([data-theme]) .glsr-summary {
     .glsr-star {
         background: var(--glsr-summary-star-bg);
         mask-size: 100%;

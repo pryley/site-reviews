@@ -2,7 +2,9 @@
     display: block;
 }
 
-.has-custom-color .glsr:not([data-theme]) {
+// @todo remove .has-custom-color in v8.1
+.has-custom-color .glsr:not([data-theme]),
+.has-rating-color .glsr:not([data-theme]) {
     .glsr-field:not(.glsr-field-is-invalid) .glsr-star-rating--stars > span {
         background: var(--glsr-form-star-bg);
         mask-image: var(--glsr-star-empty);

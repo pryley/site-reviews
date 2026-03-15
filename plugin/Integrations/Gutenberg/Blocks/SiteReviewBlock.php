@@ -30,7 +30,7 @@ class SiteReviewBlock extends Block
     {
         $classes = [];
         if (!empty($attributes['style_rating_color']) || !empty($attributes['style_rating_color_custom'])) {
-            $classes[] = 'has-custom-color';
+            $classes[] = 'has-rating-color';
         }
         return $classes;
     }

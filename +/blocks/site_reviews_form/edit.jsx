@@ -123,7 +123,7 @@ const Edit = (props) => {
             }}
             styleClassNames={[
                 (attributes.style_align) ? `items-justified-${attributes.style_align}` : '',
-                (style_rating_color || style_rating_color_custom) ? 'has-custom-color' : '',
+                (style_rating_color || style_rating_color_custom) ? 'has-rating-color' : '',
             ]}
         />
     )

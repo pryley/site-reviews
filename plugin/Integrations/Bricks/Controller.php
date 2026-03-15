@@ -81,18 +81,17 @@ class Controller extends AbstractController
         }
         $classes = [];
         $styleAlign = Cast::toString($element->styledSetting('style_align'));
-        $styleRatingColor = $element->styledSetting('style_rating_color');
         $styleTextAlign = Cast::toString($element->styledSetting('style_text_align'));
         if ($styleAlign) {
             $align = str_replace('flex-', '', $styleAlign);
             $align = ['start' => 'left', 'end' => 'right'][$align] ?? $align;
             $classes[] = "items-justified-{$align}";
         }
-        if ($styleRatingColor) {
-            $classes[] = 'has-custom-color';
-        }
         if ($styleTextAlign) {
             $classes[] = "has-text-align-{$styleTextAlign}";
+        }
+        if ($element->styledSetting('style_rating_color')) {
+            $classes[] = 'has-rating-color';
         }
         if (!empty($classes)) {
             $classes[] = $settings['class'] ?? '';

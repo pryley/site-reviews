@@ -30,7 +30,7 @@ class Controller extends AbstractController
         }
         $classes = [$attributes['class'] ?? ''];
         if (!empty($args['style_rating_color'])) {
-            $classes[] = 'has-custom-color';
+            $classes[] = 'has-rating-color';
         }
         $attributes['class'] = glsr(Sanitizer::class)->sanitizeAttrClass(implode(' ', $classes));
         return $attributes;

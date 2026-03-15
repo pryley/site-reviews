@@ -73,7 +73,7 @@ const Edit = (props) => {
                     : style_rating_color_custom,
             }}
             styleClassNames={[
-                (style_rating_color || style_rating_color_custom) ? 'has-custom-color' : '',
+                (style_rating_color || style_rating_color_custom) ? 'has-rating-color' : '',
             ]}
         />
     )

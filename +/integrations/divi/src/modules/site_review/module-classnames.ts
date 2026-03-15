@@ -11,6 +11,6 @@ export const moduleClassnames = ({
     if (isEmpty(attrs?.shortcode?.advanced?.theme?.desktop?.value)) {
         // @ts-expect-error
         const ratingColor = attrs?.design?.decoration?.ratingColor?.desktop?.value?.color;
-        classnamesInstance.add('has-custom-color', isString(ratingColor) && '' !== ratingColor)
+        classnamesInstance.add('has-rating-color', isString(ratingColor) && '' !== ratingColor)
     }
 };

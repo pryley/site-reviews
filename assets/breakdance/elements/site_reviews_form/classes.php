@@ -2,7 +2,7 @@
 
 return [
     [
-        'name' => 'has-custom-color',
+        'name' => 'has-rating-color',
         'template' => '{{ design.general.style_rating_color ? \'true\' }}',
     ],
 ];

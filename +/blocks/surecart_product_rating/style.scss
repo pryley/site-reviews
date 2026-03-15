@@ -5,7 +5,9 @@
     gap: 1ex;
 }
 
-.has-custom-color:not([data-theme]) {
+// @todo remove .has-custom-color in v8.1
+.has-custom-color:not([data-theme]),
+.has-rating-color:not([data-theme]) {
     .glsr-star {
         background: var(--glsr-review-star-bg);
         mask-size: 100%;

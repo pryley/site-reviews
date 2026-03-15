@@ -64,7 +64,10 @@ const ModuleStyles = (props: StylesProps<ModuleAttrs>): ReactElement => {
                             props: {
                                 attr: attrs?.design?.decoration?.ratingColor,
                                 declarationFunction: colorStyleDeclaration(['--glsr-summary-star-bg']),
-                                selector: `${baseSelector} ${orderClass}.has-custom-color .glsr-summary`,
+                                selector: [
+                                    `${baseSelector} ${orderClass}.has-custom-color .glsr-summary`, // @todo remove in v8.1
+                                    `${baseSelector} ${orderClass}.has-rating-color .glsr-summary`,
+                                ].join(','),
                             },
                         },
                         {
