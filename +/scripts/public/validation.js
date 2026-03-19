@@ -159,7 +159,7 @@ class Validation {
     toggleError (field, hasError) {
         let fieldEl = field.input.closest(classListSelector(this.config.field));
         let inputs = [field.input];
-        if (undefined !== field.input.form) {
+        if (field?.input?.form instanceof HTMLFormElement) {
             inputs = field.input.form.querySelectorAll(`[name="${field.input.name}"]`);
         }
         inputs.forEach(input => { // support radio/checkbox fields
