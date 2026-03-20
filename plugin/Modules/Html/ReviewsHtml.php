@@ -26,7 +26,7 @@ class ReviewsHtml extends \ArrayObject
         $this->max_num_pages = $reviews->max_num_pages;
         $this->reviews = $reviews;
         $this->rendered = $this->renderReviews($reviews);
-        parent::__construct($this->reviews, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
+        parent::__construct($this->reviews->reviews, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
     }
 
     public function __toString(): string
