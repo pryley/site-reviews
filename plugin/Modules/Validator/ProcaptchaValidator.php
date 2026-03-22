@@ -62,6 +62,7 @@ class ProcaptchaValidator extends CaptchaValidatorAbstract
     protected function requestBody(): array
     {
         return [
+            'ip' => $this->request->ip_address,
             'token' => $this->token(),
             'secret' => $this->siteSecret(),
         ];
