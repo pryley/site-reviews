@@ -32,13 +32,13 @@ class Captcha {
         }
     }
 
-    execute_friendlycaptcha () {
+    execute_friendlycaptcha (timeout) {
         if (1 === +this.captchaEl.dataset.error) {
             this._submitFormWithToken('sitekey_invalid')
         } else if (this.token) {
             this.Form.submitForm();
         } else {
-            setTimeout(() => this.execute_friendlycaptcha(), 100)
+            this._retry_execute((t) => this.execute_friendlycaptcha(t), timeout)
         }
     }
 
@@ -79,13 +79,14 @@ class Captcha {
         }
     }
 
-    execute_turnstile () {
+    execute_turnstile (timeout) {
+        // The return value type of getResponse is undocumented
         // @see: https://github.com/cloudflare/cloudflare-docs/issues/6070
         let token = window[this.captcha].getResponse(this.widget);
         if (1 === +this.captchaEl.dataset.error || this.token || 'undefined' === typeof token) {
             this.Form.submitForm();
         } else {
-            setTimeout(() => this.execute_turnstile(), 100)
+            this._retry_execute((t) => this.execute_turnstile(t), timeout)
         }
     }
 
@@ -129,20 +130,18 @@ class Captcha {
         })
     }
 
-    render () {
+    render (timeout) {
         this.Form.form.onsubmit = null; // just in case!
         if (!this.containerEl || this.isWidgetLoaded()) return;
         if ('undefined' === typeof window[this.captcha]) {
             if (!this.loaded) {
                 this.load(GLSR.captcha.urls['module'], 'module')
-                    .then(() => {
-                        this.load(GLSR.captcha.urls['nomodule'], 'nomodule') // don't wait for nomodule scripts
-                    })
+                    .then(() => this.load(GLSR.captcha.urls['nomodule'], 'nomodule')) // don't wait for nomodule scripts
                     .then(() => this.loaded = true)
-                    .then(() => setTimeout(() => this.render(), 100))
+                    .then(() => this._retry_render((t) => this.render(t), timeout))
                     .catch(err => console.error(err))
             } else {
-                setTimeout(() => this.render(), 50);
+                this._retry_render((t) => this.render(t), timeout)
             }
         } else {
             this.reset()
@@ -166,9 +165,9 @@ class Captcha {
         });
     }
 
-    render_hcaptcha () {
+    render_hcaptcha (timeout) {
         if ('undefined' === typeof window[this.captcha]?.render) {
-            setTimeout(() => this.render_hcaptcha(), 100);
+            this._retry_render((t) => this.render_hcaptcha(t), timeout)
             return;
         }
         this.widget = window[this.captcha].render(this.captchaEl, {
@@ -200,9 +199,9 @@ class Captcha {
         this.render_recaptcha_v3()
     }
 
-    render_recaptcha_v3 () {
+    render_recaptcha_v3 (timeout) {
         if ('undefined' === typeof window[this.captcha]?.render) {
-            setTimeout(() => this.render_recaptcha_v3(), 100);
+            this._retry_render((t) => this.render_recaptcha_v3(t), timeout)
             return;
         }
         this.widget = window[this.captcha].render(this.captchaEl, {
@@ -256,6 +255,32 @@ class Captcha {
             'data-type': GLSR.captcha.type,
         });
         this.containerEl.appendChild(this.captchaEl);
+    }
+
+    _retry_execute (callback, timeout) {
+        if ('undefined' === typeof timeout) {
+            timeout = 10000;
+        }
+        if (timeout <= 0) {
+            console.warn('Site Reviews: captcha execute timed out');
+            if (this.captchaEl) {
+                this.captchaEl.dataset.error = 1;
+            }
+            this.Form.submitForm();
+            return;
+        }
+        setTimeout(() => callback(timeout - 100), 100);
+    }
+
+    _retry_render (callback, timeout) {
+        if ('undefined' === typeof timeout) {
+            timeout = 10000;
+        }
+        if (timeout <= 0) {
+            console.warn('Site Reviews: captcha render timed out');
+            return;
+        }
+        setTimeout(() => callback(timeout - 100), 100);
     }
 
     _submitFormWithToken (token) {
