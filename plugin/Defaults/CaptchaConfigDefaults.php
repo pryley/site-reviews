@@ -24,6 +24,7 @@ class CaptchaConfigDefaults extends DefaultsAbstract
         'sitekey' => 'text',
         'size' => 'text',
         'theme' => 'text',
+        'token_field' => 'text',
         'type' => 'text',
     ];
 
@@ -37,6 +38,7 @@ class CaptchaConfigDefaults extends DefaultsAbstract
             'sitekey' => '',
             'size' => '',
             'theme' => '',
+            'token_field' => '',
             'type' => '',
             'urls' => [],
         ];

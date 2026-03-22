@@ -2,13 +2,15 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
+use GeminiLabs\SiteReviews\Api;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Captcha;
+use GeminiLabs\SiteReviews\Response;
 
 abstract class CaptchaValidatorAbstract extends ValidatorAbstract
 {
+    public const API_URL = '';
     public const CAPTCHA_DISABLED = 0;
     public const CAPTCHA_EMPTY = 1;
     public const CAPTCHA_FAILED = 2;
@@ -22,11 +24,6 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
     public function isEnabled(): bool
     {
         return false;
-    }
-
-    public function isTokenValid(array $response): bool
-    {
-        return $response['success'];
     }
 
     public function isValid(): bool
@@ -77,21 +74,16 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
         return glsr()->filterString('captcha/language', $locale);
     }
 
-    protected function makeRequest(array $body): array
+    protected function isTokenValid(array $responseBody): bool
     {
-        $response = wp_remote_post($this->siteVerifyUrl(), $this->requestArgs($body));
-        if (is_wp_error($response)) {
-            glsr_log()->error($response->get_error_message());
-            return [];
-        }
-        $body = json_decode(wp_remote_retrieve_body($response), true);
-        return $this->response($body);
+        return $responseBody['success'];
     }
 
     protected function requestArgs(array $body): array
     {
         return [
             'body' => $body,
+            'force' => true,
         ];
     }
 
@@ -100,14 +92,15 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
         return [];
     }
 
-    protected function response(array $body): array
+    protected function responseBody(Response $response): array
     {
-        $errors = Arr::consolidate(Arr::get($body, 'error-codes', Arr::get($body, 'errors')));
+        $body = $response->body();
+        $errors = Arr::consolidate($body['error-codes'] ?? $body['errors'] ?? []);
         return [
-            'action' => Arr::get($body, 'action'),
+            'action' => $body['action'] ?? '',
             'errors' => $this->errors($errors),
-            'score' => Arr::get($body, 'score', 0),
-            'success' => wp_validate_boolean(Arr::get($body, 'success')),
+            'score' => $body['score'] ?? 0,
+            'success' => wp_validate_boolean($body['success'] ?? false),
         ];
     }
 
@@ -121,14 +114,9 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
         return '';
     }
 
-    protected function siteVerifyUrl(): string
-    {
-        return '';
-    }
-
     protected function token(): string
     {
-        return '';
+        return $this->request['_captcha'] ?? '';
     }
 
     protected function verifyStatus(): int
@@ -145,19 +133,20 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
             return static::CAPTCHA_EMPTY; // fail early
         }
         $body = $this->requestBody();
-        $response = $this->makeRequest($body);
-        if (empty($response)) {
+        $response = glsr(Api::class, ['url' => static::API_URL])->post('', $this->requestArgs($body));
+        if ($response->failed()) {
             return static::CAPTCHA_FAILED;
         }
-        if ($this->isTokenValid($response)) {
+        $responseBody = $this->responseBody($response);
+        if ($this->isTokenValid($responseBody)) {
             return static::CAPTCHA_VALID;
         }
-        if (!empty($response['errors'])) {
+        if (!empty($responseBody['errors'])) {
             $body['secret'] = Str::mask($this->siteSecret(), 4, 4, 20);
             $body['sitekey'] = Str::mask($this->siteKey(), 4, 4, 20);
-            glsr_log()->error($response)->debug($body);
+            glsr_log()->error($responseBody)->debug($body);
         }
-        if (empty($body['secret']) || empty($body['sitekey'])) {
+        if (empty($this->siteSecret()) || empty($this->siteKey())) {
             return static::CAPTCHA_FAILED;
         }
         return static::CAPTCHA_INVALID;

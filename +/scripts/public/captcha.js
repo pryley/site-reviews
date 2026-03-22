@@ -172,7 +172,7 @@ class Captcha {
             return;
         }
         this.widget = window[this.captcha].render(this.captchaEl, {
-            callback: (token) => (this.token = token),
+            'callback': (token) => (this.token = token),
             'chalexpired-callback': () => this.reset(),
             'close-callback': () => this.Form.button.loaded(),
             'error-callback': () => (this.captchaEl.dataset.error = 1),
@@ -182,11 +182,11 @@ class Captcha {
 
     render_procaptcha () {
         this.widget = window[this.captcha].render(this.captchaEl, {
-            callback: (token) => (this.token = token),
-            captchaType: GLSR.captcha.captcha_type,
-            language: GLSR.captcha.language,
-            siteKey: GLSR.captcha.sitekey, // data-attributes are not working with the render fn
-            theme: GLSR.captcha.theme, // data-attributes are not working with the render fn
+            'callback': (token) => (this.token = token),
+            'captchaType': GLSR.captcha.captcha_type,
+            'language': GLSR.captcha.language,
+            'siteKey': GLSR.captcha.sitekey, // data-attributes are not working with the render fn
+            'theme': GLSR.captcha.theme, // data-attributes are not working with the render fn
             'chalexpired-callback': () => this.reset(),
             'close-callback': () => this.Form.button.loaded(),
             'error-callback': () => (this.captchaEl.dataset.error = 1),
@@ -206,22 +206,22 @@ class Captcha {
             return;
         }
         this.widget = window[this.captcha].render(this.captchaEl, {
-            callback: (token) => this._submitFormWithToken(token),
+            'callback': (token) => this._submitFormWithToken(token),
             'error-callback': () => (this.captchaEl.dataset.error = 1),
             'expired-callback': () => this.reset(),
-            isolated: true,
+            'isolated': true,
         });
     }
 
     render_turnstile () {
         this.widget = window[this.captcha].render(this.captchaEl, {
-            action: 'submit_review',
-            callback: (token) => (this.token = token),
+            'action': 'submit_review',
+            'callback': (token) => (this.token = token),
             'error-callback': () => (this.captchaEl.dataset.error = 1), // site key is probably invalid
             'expired-callback': () => this.reset(),
-            language: GLSR.captcha.language,
-            sitekey: GLSR.captcha.sitekey, // data-attributes are not working with the render fn
-            theme: GLSR.captcha.theme, // data-attributes are not working with the render fn
+            'language': GLSR.captcha.language,
+            'sitekey': GLSR.captcha.sitekey, // data-attributes are not working with the render fn
+            'theme': GLSR.captcha.theme, // data-attributes are not working with the render fn
         });
     }
 
@@ -245,7 +245,7 @@ class Captcha {
         }
         Array.from(this.containerEl.getElementsByClassName(GLSR.captcha.class)).forEach(el => el.remove());
         this.captchaEl = dom('div', {
-            class: GLSR.captcha.class,
+            'class': GLSR.captcha.class,
             'data-badge': GLSR.captcha.badge,
             'data-captcha-type': GLSR.captcha.captcha_type,
             'data-lang': GLSR.captcha.language,
@@ -259,16 +259,9 @@ class Captcha {
     }
 
     _submitFormWithToken (token) {
-        const fields = [
-            'frc-captcha-solution',
-            'g-recaptcha-response',
-            'h-captcha-response',
-        ];
-        fields.forEach(name => {
-            if (this.Form.form[name] && token) {
-                this.Form.form[name].value = token;
-            }
-        })
+        if (this.Form.form[GLSR.captcha.token_field] && token) {
+            this.Form.form[GLSR.captcha.token_field].value = token;
+        }
         this.Form.submitForm()
     }
 }

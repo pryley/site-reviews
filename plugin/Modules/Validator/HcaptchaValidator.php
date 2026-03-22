@@ -7,6 +7,8 @@ use GeminiLabs\SiteReviews\Modules\Captcha;
 
 class HcaptchaValidator extends CaptchaValidatorAbstract
 {
+    public const API_URL = 'https://hcaptcha.com/siteverify';
+
     /**
      * @see https://docs.hcaptcha.com/
      */
@@ -23,6 +25,7 @@ class HcaptchaValidator extends CaptchaValidatorAbstract
             'sitekey' => $this->siteKey(),
             'size' => 'normal',
             'theme' => glsr_get_option('forms.captcha.theme'),
+            'token_field' => 'h-captcha-response',
             'type' => 'hcaptcha',
             'urls' => [
                 'nomodule' => add_query_arg($urlParameters, 'https://js.hcaptcha.com/1/api.js'),
@@ -35,18 +38,24 @@ class HcaptchaValidator extends CaptchaValidatorAbstract
         return glsr(Captcha::class)->isEnabled('hcaptcha');
     }
 
+    /**
+     * @see https://docs.hcaptcha.com/#siteverify-error-codes-table
+     */
     protected function errorCodes(): array
     {
         return [
+            'already-seen-response' => 'The response parameter (verification token) was already verified once.',
             'bad-request' => 'The request is invalid or malformed.',
+            'expired-input-response' => 'The response parameter (verification token) is expired. (120s default)',
             'invalid-input-response' => 'The response parameter (verification token) is invalid or malformed.',
             'invalid-input-secret' => 'Your secret key is invalid or malformed.',
-            'invalid-or-already-seen-response' => 'The response parameter has already been checked, or has another issue.',
+            'invalid-remoteip' => 'The remoteip parameter is not a valid IP address or blinded value.',
             'missing-input-response' => 'The response parameter (verification token) is missing.',
             'missing-input-secret' => 'Your secret key is missing.',
-            'not-using-dummy-passcode' => 'You have used a testing site key but have not used its matching secret.',
+            'missing-remoteip' => 'The remoteip parameter is missing.',
+            'not-using-dummy-passcode' => 'You have used a testing sitekey but have not used its matching secret.',
+            'sitekey-secret-mismatch' => 'The sitekey is not registered with the provided secret.',
             'sitekey_missing' => 'Your site key is missing.',
-            'sitekey-secret-mismatch' => 'The site key is not registered with the provided secret.',
         ];
     }
 
@@ -58,6 +67,9 @@ class HcaptchaValidator extends CaptchaValidatorAbstract
         return parent::errors($errors);
     }
 
+    /**
+     * @see https://docs.hcaptcha.com/#verify-the-user-response-server-side
+     */
     protected function requestBody(): array
     {
         return [
@@ -76,15 +88,5 @@ class HcaptchaValidator extends CaptchaValidatorAbstract
     protected function siteSecret(): string
     {
         return glsr_get_option('forms.hcaptcha.secret');
-    }
-
-    protected function siteVerifyUrl(): string
-    {
-        return 'https://hcaptcha.com/siteverify';
-    }
-
-    protected function token(): string
-    {
-        return $this->request['_hcaptcha'] ?? '';
     }
 }

@@ -3,10 +3,14 @@
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
 use GeminiLabs\SiteReviews\Defaults\CaptchaConfigDefaults;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Captcha;
- 
+use GeminiLabs\SiteReviews\Response;
+
 class ProcaptchaValidator extends CaptchaValidatorAbstract
 {
+    public const API_URL = 'https://api.prosopo.io/siteverify';
+
     /**
      * @see https://docs.prosopo.io/
      */
@@ -18,6 +22,7 @@ class ProcaptchaValidator extends CaptchaValidatorAbstract
             'language' => $this->getLocale(),
             'sitekey' => $this->siteKey(),
             'theme' => glsr_get_option('forms.captcha.theme'),
+            'token_field' => 'procaptcha-response',
             'type' => 'procaptcha',
             'urls' => [ // order is intentional, the module always loads first
                 'module' => 'https://js.prosopo.io/js/procaptcha.bundle.js',
@@ -28,11 +33,6 @@ class ProcaptchaValidator extends CaptchaValidatorAbstract
     public function isEnabled(): bool
     {
         return glsr(Captcha::class)->isEnabled('procaptcha');
-    }
-
-    public function isTokenValid(array $response): bool
-    {
-        return $response['success'];
     }
 
     protected function errorCodes(): array
@@ -54,32 +54,33 @@ class ProcaptchaValidator extends CaptchaValidatorAbstract
     protected function requestArgs(array $body): array
     {
         return [
+            'force' => true,
             'headers' => ['Content-Type' => 'application/json'],
             'body' => wp_json_encode($body),
         ];
     }
 
+    /**
+     * @see https://docs.prosopo.io/en/basics/server-side-verification/
+     */
     protected function requestBody(): array
     {
         return [
             'ip' => $this->request->ip_address,
-            'token' => $this->token(),
             'secret' => $this->siteSecret(),
+            'token' => $this->token(),
         ];
     }
 
-    protected function response(array $body): array
+    protected function responseBody(Response $response): array
     {
-        $body = wp_parse_args($body, [
-            'error' => '',
-            'status' => '',
-            'verified' => false,
-        ]);
+        $body = $response->body();
+        $status = $body['status'] ?? '';
         return [
             'action' => '', // unused
-            'errors' => [$body['error']],
+            'errors' => array_filter([$body['error'] ?? '']),
             'score' => 0, // unused
-            'success' => ('ok' === $body['status'] && wp_validate_boolean($body['verified'])),
+            'success' => 'ok' === $status && wp_validate_boolean($body['verified'] ?? false),
         ];
     }
 
@@ -91,15 +92,5 @@ class ProcaptchaValidator extends CaptchaValidatorAbstract
     protected function siteSecret(): string
     {
         return glsr_get_option('forms.procaptcha.secret');
-    }
-
-    protected function siteVerifyUrl(): string
-    {
-        return 'https://api.prosopo.io/siteverify';
-    }
-
-    protected function token(): string
-    {
-        return $this->request['_procaptcha'] ?? '';
     }
 }

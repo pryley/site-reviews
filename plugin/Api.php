@@ -72,7 +72,7 @@ class Api
     public function request(string $path, array $args = []): Response
     {
         $args = $this->args($args);
-        $body = glsr(Sanitizer::class)->sanitizeJson($args['body'] ?: []);
+        $body = glsr(Sanitizer::class)->sanitizeJson($args['body'] ?: []); // in case body is a JSON string
         $transientKey = $this->transientKey($path, $args['transient_key'], $body);
         if ($args['force']) {
             delete_site_transient($transientKey);

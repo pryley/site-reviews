@@ -84,11 +84,7 @@ class Helper
         if (isset($request[$key])) {
             return $request[$key];
         }
-        $variable = filter_input(INPUT_POST, $key);
-        if (is_null($variable) && isset($_POST[$key])) {
-            $variable = $_POST[$key];
-        }
-        return $variable;
+        return filter_input(INPUT_POST, $key) ?? $_POST[$key] ?? null;
     }
 
     public static function filterInputArray(string $key): array

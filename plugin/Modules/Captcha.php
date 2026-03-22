@@ -37,6 +37,12 @@ class Captcha
         ]);
     }
 
+    public function token(): string
+    {
+        $config = $this->config();
+        return (string) Helper::filterInput($config['token_field'] ?? '');
+    }
+
     public function isEnabled(string $service = ''): bool
     {
         $integration = glsr_get_option('forms.captcha.integration');
