@@ -30,15 +30,6 @@ class FriendlycaptchaValidator extends CaptchaValidatorAbstract
         return glsr(Captcha::class)->isEnabled('friendlycaptcha');
     }
 
-    protected function data(): array
-    {
-        return [
-            'secret' => $this->siteSecret(),
-            'sitekey' => $this->siteKey(),
-            'solution' => $this->token(),
-        ];
-    }
-
     protected function errorCodes(): array
     {
         return [
@@ -61,6 +52,15 @@ class FriendlycaptchaValidator extends CaptchaValidatorAbstract
             $errors[] = 'sitekey_invalid';
         }
         return parent::errors($errors);
+    }
+
+    protected function requestBody(): array
+    {
+        return [
+            'secret' => $this->siteSecret(),
+            'sitekey' => $this->siteKey(),
+            'solution' => $this->token(),
+        ];
     }
 
     protected function siteKey(): string

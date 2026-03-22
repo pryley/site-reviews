@@ -29,15 +29,6 @@ class TurnstileValidator extends CaptchaValidatorAbstract
         return glsr(Captcha::class)->isEnabled('turnstile');
     }
 
-    protected function data(): array
-    {
-        return [
-            'remoteip' => $this->request->ip_address,
-            'response' => $this->token(),
-            'secret' => $this->siteSecret(),
-        ];
-    }
-
     protected function errorCodes(): array
     {
         return [
@@ -58,6 +49,15 @@ class TurnstileValidator extends CaptchaValidatorAbstract
             $errors[] = 'sitekey_missing';
         }
         return parent::errors($errors);
+    }
+
+    protected function requestBody(): array
+    {
+        return [
+            'remoteip' => $this->request->ip_address,
+            'response' => $this->token(),
+            'secret' => $this->siteSecret(),
+        ];
     }
 
     protected function siteKey(): string

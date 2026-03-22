@@ -35,14 +35,6 @@ class ProcaptchaValidator extends CaptchaValidatorAbstract
         return $response['success'];
     }
 
-    protected function data(): array
-    {
-        return [
-            'token' => $this->token(),
-            'secret' => $this->siteSecret(),
-        ];
-    }
-
     protected function errorCodes(): array
     {
         return [
@@ -57,6 +49,22 @@ class ProcaptchaValidator extends CaptchaValidatorAbstract
             $errors[] = 'sitekey_missing';
         }
         return parent::errors($errors);
+    }
+
+    protected function requestArgs(array $body): array
+    {
+        return [
+            'headers' => ['Content-Type' => 'application/json'],
+            'body' => wp_json_encode($body),
+        ];
+    }
+
+    protected function requestBody(): array
+    {
+        return [
+            'token' => $this->token(),
+            'secret' => $this->siteSecret(),
+        ];
     }
 
     protected function response(array $body): array

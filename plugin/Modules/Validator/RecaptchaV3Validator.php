@@ -54,19 +54,6 @@ class RecaptchaV3Validator extends CaptchaValidatorAbstract
         return $isValid;
     }
 
-    protected function data(): array
-    {
-        $token = $this->token();
-        if (array_key_exists($token, $this->errorCodes())) {
-            $token = '';
-        }
-        return [
-            'remoteip' => $this->request->ip_address,
-            'response' => $token,
-            'secret' => $this->siteSecret(),
-        ];
-    }
-
     protected function errorCodes(): array
     {
         return [
@@ -92,6 +79,19 @@ class RecaptchaV3Validator extends CaptchaValidatorAbstract
             $errors[] = 'sitekey_invalid';
         }
         return parent::errors(array_unique($errors));
+    }
+
+    protected function requestBody(): array
+    {
+        $token = $this->token();
+        if (array_key_exists($token, $this->errorCodes())) {
+            $token = '';
+        }
+        return [
+            'remoteip' => $this->request->ip_address,
+            'response' => $token,
+            'secret' => $this->siteSecret(),
+        ];
     }
 
     protected function siteKey(): string

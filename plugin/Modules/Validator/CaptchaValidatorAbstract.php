@@ -50,11 +50,6 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
         $this->fail($error);
     }
 
-    protected function data(): array
-    {
-        return [];
-    }
-
     protected function errors(array $errors): array
     {
         $codes = $this->errorCodes();
@@ -82,17 +77,27 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
         return glsr()->filterString('captcha/language', $locale);
     }
 
-    protected function makeRequest(array $data): array
+    protected function makeRequest(array $body): array
     {
-        $response = wp_remote_post($this->siteVerifyUrl(), [
-            'body' => $data,
-        ]);
+        $response = wp_remote_post($this->siteVerifyUrl(), $this->requestArgs($body));
         if (is_wp_error($response)) {
             glsr_log()->error($response->get_error_message());
             return [];
         }
         $body = json_decode(wp_remote_retrieve_body($response), true);
         return $this->response($body);
+    }
+
+    protected function requestArgs(array $body): array
+    {
+        return [
+            'body' => $body,
+        ];
+    }
+
+    protected function requestBody(): array
+    {
+        return [];
     }
 
     protected function response(array $body): array
@@ -139,8 +144,8 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
         if (empty($this->token())) {
             return static::CAPTCHA_EMPTY; // fail early
         }
-        $data = $this->data();
-        $response = $this->makeRequest($data);
+        $body = $this->requestBody();
+        $response = $this->makeRequest($body);
         if (empty($response)) {
             return static::CAPTCHA_FAILED;
         }
@@ -148,11 +153,11 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
             return static::CAPTCHA_VALID;
         }
         if (!empty($response['errors'])) {
-            $data['secret'] = Str::mask($this->siteSecret(), 4, 4, 20);
-            $data['sitekey'] = Str::mask($this->siteKey(), 4, 4, 20);
-            glsr_log()->error($response)->debug($data);
+            $body['secret'] = Str::mask($this->siteSecret(), 4, 4, 20);
+            $body['sitekey'] = Str::mask($this->siteKey(), 4, 4, 20);
+            glsr_log()->error($response)->debug($body);
         }
-        if (empty($data['secret']) || empty($data['sitekey'])) {
+        if (empty($body['secret']) || empty($body['sitekey'])) {
             return static::CAPTCHA_FAILED;
         }
         return static::CAPTCHA_INVALID;

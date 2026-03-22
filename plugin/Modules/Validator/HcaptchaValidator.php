@@ -35,16 +35,6 @@ class HcaptchaValidator extends CaptchaValidatorAbstract
         return glsr(Captcha::class)->isEnabled('hcaptcha');
     }
 
-    protected function data(): array
-    {
-        return [
-            'remoteip' => $this->request->ip_address,
-            'response' => $this->token(),
-            'secret' => $this->siteSecret(),
-            'sitekey' => $this->siteKey(),
-        ];
-    }
-
     protected function errorCodes(): array
     {
         return [
@@ -66,6 +56,16 @@ class HcaptchaValidator extends CaptchaValidatorAbstract
             $errors[] = 'sitekey_missing';
         }
         return parent::errors($errors);
+    }
+
+    protected function requestBody(): array
+    {
+        return [
+            'remoteip' => $this->request->ip_address,
+            'response' => $this->token(),
+            'secret' => $this->siteSecret(),
+            'sitekey' => $this->siteKey(),
+        ];
     }
 
     protected function siteKey(): string
