@@ -1435,8 +1435,8 @@ class SettingFieldTest extends \WP_UnitTestCase
                 '<td>'.
                     '<select class="regular-text" id="site_reviews-settings-forms-procaptcha-type" name="site_reviews[settings][forms][procaptcha][type]">'.
                         '<option value="frictionless">Frictionless (invisible to the user)</option>'.
-                        '<option value="image">Image (solve a simple image CAPTCHA)</option>'.
-                        '<option value="pow">Proof of Work (solve a cryptographic puzzle)</option>'.
+                        '<option value="image">Image Captcha (identify objects in images)</option>'.
+                        '<option value="pow">Proof of Work (perform computational tasks)</option>'.
                     '</select>'.
                 '</td>'.
             '</tr>'

@@ -915,12 +915,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCompatibility/PHPCompatibility.git",
-                "reference": "f57fdf5a9ae3d3016060d1beee0e9558e44dce0c"
+                "reference": "0d13ceeb8092853840cdd40c764ce90f28778630"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCompatibility/PHPCompatibility/zipball/f57fdf5a9ae3d3016060d1beee0e9558e44dce0c",
-                "reference": "f57fdf5a9ae3d3016060d1beee0e9558e44dce0c",
+                "url": "https://api.github.com/repos/PHPCompatibility/PHPCompatibility/zipball/0d13ceeb8092853840cdd40c764ce90f28778630",
+                "reference": "0d13ceeb8092853840cdd40c764ce90f28778630",
                 "shasum": ""
             },
             "require": {
@@ -998,7 +998,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2026-02-05T23:19:35+00:00"
+            "time": "2026-03-22T22:29:50+00:00"
         },
         {
             "name": "phpcsstandards/phpcsutils",
@@ -1095,11 +1095,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.40",
+            "version": "2.1.42",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9b2c7aeb83a75d8680ea5e7c9b7fca88052b766b",
-                "reference": "9b2c7aeb83a75d8680ea5e7c9b7fca88052b766b",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/1279e1ce86ba768f0780c9d889852b4e02ff40d0",
+                "reference": "1279e1ce86ba768f0780c9d889852b4e02ff40d0",
                 "shasum": ""
             },
             "require": {
@@ -1144,7 +1144,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-23T15:04:35+00:00"
+            "time": "2026-03-17T14:58:32+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",

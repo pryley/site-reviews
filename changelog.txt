@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 8.0.7 (2026-03-22) =
+
+- Fixed a PHP 8.5 deprecation notice
+- Fixed Avada design control grouping
+- Fixed Prosopo Captcha integration
+- Improved CAPTCHA script loading
+- Improved Friendly Captcha integration (API v2 support)
+- Improved review form validation
+
 = 8.0.6 (2026-03-14) =
 
 - Fixed compatibility with the [Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/) addon when using the `glsr_create_review` function.

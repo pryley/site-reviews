@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 6.9
-Stable tag: 8.0.6
+Stable tag: 8.0.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -210,6 +210,15 @@ You can report any security bugs found in the source code of this plugin through
 This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
+
+= 8.0.7 (2026-03-22) =
+
+- Fixed a PHP 8.5 deprecation notice
+- Fixed Avada design control grouping
+- Fixed Prosopo Captcha integration
+- Improved CAPTCHA script loading
+- Improved Friendly Captcha integration (API v2 support)
+- Improved review form validation
 
 = 8.0.6 (2026-03-14) =
 
