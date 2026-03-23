@@ -25,7 +25,7 @@ class Api
     public function __construct(string $url = '')
     {
         $this->backoff = self::BACKOFF_INITIAL;
-        $this->baseUrl = trailingslashit($url ?: static::DEFAULT_BASE_URL);
+        $this->baseUrl = untrailingslashit($url ?: static::DEFAULT_BASE_URL);
         $this->deadline = microtime(true) + $this->backoff;
     }
 
@@ -121,7 +121,7 @@ class Api
     public function url(string $path): string
     {
         $path = ltrim($path, '/');
-        $url = $this->baseUrl.$path;
+        $url = !empty($path) ? trailingslashit($this->baseUrl).$path : $this->baseUrl;
         return glsr(Sanitizer::class)->sanitizeUrl($url);
     }
 
