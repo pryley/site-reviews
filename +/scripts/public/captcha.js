@@ -5,6 +5,7 @@ class Captcha {
         this.Form = Form;
         this.captcha = {
             friendlycaptcha: 'friendlyChallenge',
+            friendlycaptcha_v2: 'frcaptcha',
             hcaptcha: 'hcaptcha',
             procaptcha: 'procaptcha',
             recaptcha_v2_invisible: 'grecaptcha',
@@ -40,6 +41,10 @@ class Captcha {
         } else {
             this._retry_execute((t) => this.execute_friendlycaptcha(t), timeout)
         }
+    }
+
+    execute_friendlycaptcha_v2 () {
+        this.execute_friendlycaptcha()
     }
 
     execute_hcaptcha () {
@@ -171,6 +176,23 @@ class Captcha {
         });
     }
 
+    render_friendlycaptcha_v2 () {
+        // data-attributes on this.captchaEl do not work when the widget is manually created
+        this.widget = window[this.captcha].createWidget({
+            element: this.captchaEl,
+            sitekey: GLSR.captcha.sitekey,
+            startMode: 'focus',
+            theme: GLSR.captcha.theme,
+        });
+        this.captchaEl.addEventListener('frc:widget.complete', event => {
+            this.token = event?.detail?.response;
+        });
+        this.captchaEl.addEventListener('frc:widget.error', event => {
+            console.error(event)
+            this.captchaEl.dataset.error = 1;
+        });
+    }
+
     render_hcaptcha (timeout) {
         if ('undefined' === typeof window[this.captcha]?.render) {
             this._retry_render((t) => this.render_hcaptcha(t), timeout)
@@ -236,7 +258,7 @@ class Captcha {
             this.captchaEl.dataset.error = 0;
         }
         if (this.isWidgetLoaded()) {
-            if ('friendlycaptcha' === GLSR.captcha.type) {
+            if (['friendlycaptcha', 'friendlycaptcha_v2'].includes(GLSR.captcha.type)) {
                 this.widget.reset()
             } else {
                 window[this.captcha].reset(this.widget)
@@ -245,7 +267,7 @@ class Captcha {
     }
 
     _buildContainer () {
-        if ('friendlycaptcha' === GLSR.captcha.type && this.isWidgetLoaded()) {
+        if (['friendlycaptcha', 'friendlycaptcha_v2'].includes(GLSR.captcha.type) && this.isWidgetLoaded()) {
             this.widget.destroy()
         }
         Array.from(this.containerEl.getElementsByClassName(GLSR.captcha.class)).forEach(el => el.remove());

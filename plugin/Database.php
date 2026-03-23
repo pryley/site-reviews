@@ -224,6 +224,7 @@ class Database
         $args = wp_parse_args($args, [
             'order' => 'ASC',
             'orderby' => 'title',
+            // @see MainController::parseAssignedPostTypesInQuery
             'post_type' => glsr()->prefix.'assigned_posts',
             'posts_per_page' => 50,
             'search_columns' => [

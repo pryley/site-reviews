@@ -88,6 +88,7 @@ class ValidateForm
             BlacklistValidator::class,
             AkismetValidator::class,
             FriendlycaptchaValidator::class,
+            FriendlycaptchaV2Validator::class,
             HcaptchaValidator::class,
             ProcaptchaValidator::class,
             RecaptchaV2InvisibleValidator::class,

@@ -95,7 +95,7 @@ abstract class CaptchaValidatorAbstract extends ValidatorAbstract
     protected function responseBody(Response $response): array
     {
         $body = $response->body();
-        $errors = Arr::consolidate($body['error-codes'] ?? $body['errors'] ?? []);
+        $errors = Arr::consolidate($body['error-codes'] ?? $body['errors'] ?? $body['error'] ?? []);
         return [
             'action' => $body['action'] ?? '',
             'errors' => $this->errors($errors),

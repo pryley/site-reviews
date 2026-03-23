@@ -1322,7 +1322,8 @@ class SettingFieldTest extends \WP_UnitTestCase
                     '<select class="regular-text" id="site_reviews-settings-forms-captcha-integration" name="site_reviews[settings][forms][captcha][integration]">'.
                         '<option value="">Do not use</option>'.
                         '<option value="turnstile">Use Cloudflare Turnstile</option>'.
-                        '<option value="friendlycaptcha">Use Friendly Captcha</option>'.
+                        '<option value="friendlycaptcha">Use Friendly Captcha v1</option>'.
+                        '<option value="friendlycaptcha_v2">Use Friendly Captcha v2</option>'.
                         '<option value="hcaptcha">Use hCaptcha</option>'.
                         '<option value="procaptcha">Use Prosopo Procaptcha</option>'.
                         '<option value="recaptcha_v2_invisible">Use reCAPTCHA v2 Invisible</option>'.

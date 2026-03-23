@@ -415,11 +415,11 @@ msgstr "This review has been flagged as possible spam and cannot be submitted."
 msgid "Your review cannot be submitted at this time."
 msgstr "Your review cannot be submitted at this time."
 
-#: plugin/Modules/Validator/CaptchaValidatorAbstract.php:47
+#: plugin/Modules/Validator/CaptchaValidatorAbstract.php:44
 msgid "The CAPTCHA failed to load, please refresh the page and try again."
 msgstr "The CAPTCHA failed to load, please refresh the page and try again."
 
-#: plugin/Modules/Validator/CaptchaValidatorAbstract.php:48
+#: plugin/Modules/Validator/CaptchaValidatorAbstract.php:45
 msgid "The CAPTCHA verification failed, please try again."
 msgstr "The CAPTCHA verification failed, please try again."
 
@@ -2113,30 +2113,35 @@ msgstr "Use Cloudflare Turnstile"
 
 #: config/settings.php:867
 msgctxt "admin-text"
-msgid "Use Friendly Captcha"
-msgstr "Use Friendly Captcha"
+msgid "Use Friendly Captcha v1"
+msgstr "Use Friendly Captcha v1"
 
 #: config/settings.php:868
+msgctxt "admin-text"
+msgid "Use Friendly Captcha v2"
+msgstr "Use Friendly Captcha v2"
+
+#: config/settings.php:869
 msgctxt "admin-text"
 msgid "Use hCaptcha"
 msgstr "Use hCaptcha"
 
-#: config/settings.php:869
+#: config/settings.php:870
 msgctxt "admin-text"
 msgid "Use Prosopo Procaptcha"
 msgstr "Use Prosopo Procaptcha"
 
-#: config/settings.php:870
+#: config/settings.php:871
 msgctxt "admin-text"
 msgid "Use reCAPTCHA v2 Invisible"
 msgstr "Use reCAPTCHA v2 Invisible"
 
-#: config/settings.php:871
+#: config/settings.php:872
 msgctxt "admin-text"
 msgid "Use reCAPTCHA v3"
 msgstr "Use reCAPTCHA v3"
 
-#: config/settings.php:874
+#: config/settings.php:875
 msgctxt "admin-text"
 msgid ""
 "CAPTCHAs (Completely Automated Public Turing test to tell Computers and "
@@ -2145,12 +2150,12 @@ msgstr ""
 "CAPTCHAs (Completely Automated Public Turing test to tell Computers and "
 "Humans Apart) are anti-bot solutions that protect forms from spam."
 
-#: config/settings.php:882, config/settings.php:902, config/settings.php:922, config/settings.php:958, config/settings.php:978, config/settings.php:1012
+#: config/settings.php:886, config/settings.php:909, config/settings.php:929, config/settings.php:965, config/settings.php:985, config/settings.php:1019
 msgctxt "admin-text"
 msgid "Site Key"
 msgstr "Site Key"
 
-#: config/settings.php:884, config/settings.php:894
+#: config/settings.php:888, config/settings.php:901
 msgctxt "admin-text"
 msgid ""
 "<a href=\"https://friendlycaptcha.com/signup\" target=\"_blank\">Friendly "
@@ -2161,12 +2166,12 @@ msgstr ""
 "Captcha</a> is privacy-first Schrems II and GDPR compliant anti-bot "
 "solution."
 
-#: config/settings.php:892
+#: config/settings.php:899
 msgctxt "admin-text"
 msgid "API Key"
 msgstr "API Key"
 
-#: config/settings.php:904, config/settings.php:914
+#: config/settings.php:911, config/settings.php:921
 msgctxt "admin-text"
 msgid ""
 "hCaptcha is an anti-bot solution that protects user privacy. It is the most "
@@ -2179,12 +2184,12 @@ msgstr ""
 "href=\"https://dashboard.hcaptcha.com/\" target=\"_blank\">sign up</a> for "
 "an API key pair for your site."
 
-#: config/settings.php:912, config/settings.php:932, config/settings.php:968, config/settings.php:988, config/settings.php:1022
+#: config/settings.php:919, config/settings.php:939, config/settings.php:975, config/settings.php:995, config/settings.php:1029
 msgctxt "admin-text"
 msgid "Secret Key"
 msgstr "Secret Key"
 
-#: config/settings.php:924, config/settings.php:934
+#: config/settings.php:931, config/settings.php:941
 msgctxt "admin-text"
 msgid ""
 "<a href=\"https://prosopo.io/\" target=\"_blank\">Prosopo Procaptcha</a> is "
@@ -2197,32 +2202,32 @@ msgstr ""
 "will need to <a href=\"https://portal.prosopo.io/\" target=\"_blank\">sign "
 "up</a> for an API key pair for your site."
 
-#: config/settings.php:943
+#: config/settings.php:950
 msgctxt "admin-text"
 msgid "CAPTCHA Type"
 msgstr "CAPTCHA Type"
 
-#: config/settings.php:945
+#: config/settings.php:952
 msgctxt "admin-text"
 msgid "Frictionless (invisible to the user)"
 msgstr "Frictionless (invisible to the user)"
 
-#: config/settings.php:946
+#: config/settings.php:953
 msgctxt "admin-text"
 msgid "Image (solve a simple image CAPTCHA)"
 msgstr "Image (solve a simple image CAPTCHA)"
 
-#: config/settings.php:947
+#: config/settings.php:954
 msgctxt "admin-text"
 msgid "Proof of Work (solve a cryptographic puzzle)"
 msgstr "Proof of Work (solve a cryptographic puzzle)"
 
-#: config/settings.php:950
+#: config/settings.php:957
 msgctxt "admin-text"
 msgid "The type of CAPTCHA to render."
 msgstr "The type of CAPTCHA to render."
 
-#: config/settings.php:960, config/settings.php:970
+#: config/settings.php:967, config/settings.php:977
 msgctxt "admin-text"
 msgid ""
 "reCAPTCHA v2 Invisible is a free anti-spam service from Google. To use it, "
@@ -2233,7 +2238,7 @@ msgstr ""
 "you will need to <a href=\"https://www.google.com/recaptcha/admin\" "
 "target=\"_blank\">sign up</a> for an API key pair for your site."
 
-#: config/settings.php:980, config/settings.php:990
+#: config/settings.php:987, config/settings.php:997
 msgctxt "admin-text"
 msgid ""
 "reCAPTCHA v3 is a free anti-spam service from Google. To use it, you will "
@@ -2244,22 +2249,22 @@ msgstr ""
 "need to <a href=\"https://www.google.com/recaptcha/admin\" "
 "target=\"_blank\">sign up</a> for an API key pair for your site."
 
-#: config/settings.php:998
+#: config/settings.php:1005
 msgctxt "admin-text"
 msgid "Score threshold should be a value between 0 and 1, default: 0.5"
 msgstr "Score threshold should be a value between 0 and 1, default: 0.5"
 
-#: config/settings.php:999
+#: config/settings.php:1006
 msgctxt "admin-text"
 msgid "Score Threshold"
 msgstr "Score Threshold"
 
-#: config/settings.php:1004
+#: config/settings.php:1011
 msgctxt "admin-text"
 msgid "Where 0 is a robot and 1 is a human"
 msgstr "Where 0 is a robot and 1 is a human"
 
-#: config/settings.php:1014, config/settings.php:1024
+#: config/settings.php:1021, config/settings.php:1031
 msgctxt "admin-text"
 msgid ""
 "Turnstile is Cloudflare’s privacy-first CAPTCHA alternative. To use it, you "
@@ -2272,32 +2277,32 @@ msgstr ""
 "href=\"https://dash.cloudflare.com/?to=/:account/turnstile\" "
 "target=\"_blank\">obtain</a> a site key and a secret key."
 
-#: config/settings.php:1033, config/settings.php:1055
+#: config/settings.php:1040, config/settings.php:1063
 msgctxt "admin-text"
 msgid "CAPTCHA Placement"
 msgstr "CAPTCHA Placement"
 
-#: config/settings.php:1035, config/settings.php:1057
+#: config/settings.php:1042, config/settings.php:1065
 msgctxt "admin-text"
 msgid "Above Submit Button"
 msgstr "Above Submit Button"
 
-#: config/settings.php:1036, config/settings.php:1058
+#: config/settings.php:1043, config/settings.php:1066
 msgctxt "admin-text"
 msgid "Below Submit Button"
 msgstr "Below Submit Button"
 
-#: config/settings.php:1037
+#: config/settings.php:1044
 msgctxt "admin-text"
 msgid "Bottom Left"
 msgstr "Bottom Left"
 
-#: config/settings.php:1038
+#: config/settings.php:1045
 msgctxt "admin-text"
 msgid "Bottom Right"
 msgstr "Bottom Right"
 
-#: config/settings.php:1041
+#: config/settings.php:1048
 msgctxt "admin-text"
 msgid ""
 "Set the position of the CAPTCHA badge. This option may not work "
@@ -2308,57 +2313,57 @@ msgstr ""
 "consistently if another plugin is loading reCAPTCHA on the same page as "
 "Site Reviews."
 
-#: config/settings.php:1061
+#: config/settings.php:1069
 msgctxt "admin-text"
 msgid "Set the placement of the CAPTCHA widget in the form."
 msgstr "Set the placement of the CAPTCHA widget in the form."
 
-#: config/settings.php:1077
+#: config/settings.php:1086
 msgctxt "admin-text"
 msgid "CAPTCHA Theme"
 msgstr "CAPTCHA Theme"
 
-#: config/settings.php:1079
+#: config/settings.php:1088
 msgctxt "admin-text"
 msgid "Light"
 msgstr "Light"
 
-#: config/settings.php:1080
+#: config/settings.php:1089
 msgctxt "admin-text"
 msgid "Dark"
 msgstr "Dark"
 
-#: config/settings.php:1083
+#: config/settings.php:1092
 msgctxt "admin-text"
 msgid "Set the color theme of the CAPTCHA widget."
 msgstr "Set the color theme of the CAPTCHA widget."
 
-#: config/settings.php:1099
+#: config/settings.php:1109
 msgctxt "admin-text"
 msgid "CAPTCHA Usage"
 msgstr "CAPTCHA Usage"
 
-#: config/settings.php:1101
+#: config/settings.php:1111
 msgctxt "admin-text"
 msgid "Use for everyone"
 msgstr "Use for everyone"
 
-#: config/settings.php:1102
+#: config/settings.php:1112
 msgctxt "admin-text"
 msgid "Use only for guest users"
 msgstr "Use only for guest users"
 
-#: config/settings.php:1105
+#: config/settings.php:1115
 msgctxt "admin-text"
 msgid "Choose who you want to load the CAPTCHA for."
 msgstr "Choose who you want to load the CAPTCHA for."
 
-#: config/settings.php:1110
+#: config/settings.php:1120
 msgctxt "admin-text"
 msgid "Enable Akismet"
 msgstr "Enable Akismet"
 
-#: config/settings.php:1112
+#: config/settings.php:1122
 msgctxt "admin-text"
 msgid ""
 "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> "
@@ -2371,12 +2376,12 @@ msgstr ""
 "setting to have any affect, you will need to first install and activate the "
 "Akismet plugin and set up a WordPress.com API key."
 
-#: config/settings.php:1118
+#: config/settings.php:1128
 msgctxt "admin-text"
 msgid "Prevent Duplicates"
 msgstr "Prevent Duplicates"
 
-#: config/settings.php:1120
+#: config/settings.php:1130
 msgctxt "admin-text"
 msgid ""
 "This will prevent people from submitting multiple reviews with the same "
@@ -2385,22 +2390,22 @@ msgstr ""
 "This will prevent people from submitting multiple reviews with the same "
 "content."
 
-#: config/settings.php:1126
+#: config/settings.php:1136
 msgctxt "admin-text"
 msgid "Blacklist"
 msgstr "Blacklist"
 
-#: config/settings.php:1128
+#: config/settings.php:1138
 msgctxt "admin-text"
 msgid "Use the Site Reviews Blacklist"
 msgstr "Use the Site Reviews Blacklist"
 
-#: config/settings.php:1129
+#: config/settings.php:1139
 msgctxt "admin-text"
 msgid "Use the WordPress Disallowed Comment Keys"
 msgstr "Use the WordPress Disallowed Comment Keys"
 
-#: config/settings.php:1132
+#: config/settings.php:1142
 msgctxt "admin-text"
 msgid ""
 "Choose which Blacklist you would prefer to use for reviews. The %s option "
@@ -2409,17 +2414,17 @@ msgstr ""
 "Choose which Blacklist you would prefer to use for reviews. The %s option "
 "can be found in the WordPress Discussion Settings page."
 
-#: config/settings.php:1133
+#: config/settings.php:1143
 msgctxt "admin-text"
 msgid "Disallowed Comment Keys"
 msgstr "Disallowed Comment Keys"
 
-#: config/settings.php:1143
+#: config/settings.php:1153
 msgctxt "admin-text"
 msgid "Review Blacklist"
 msgstr "Review Blacklist"
 
-#: config/settings.php:1146
+#: config/settings.php:1156
 msgctxt "admin-text"
 msgid ""
 "One entry or IP address per line. When a review contains any of these "
@@ -2432,32 +2437,32 @@ msgstr ""
 "rejected. It is case-insensitive and will match partial words, so \"press\" "
 "will match \"WordPress\"."
 
-#: config/settings.php:1152
+#: config/settings.php:1162
 msgctxt "admin-text"
 msgid "Blacklist Action"
 msgstr "Blacklist Action"
 
-#: config/settings.php:1154
+#: config/settings.php:1164
 msgctxt "admin-text"
 msgid "Require approval"
 msgstr "Require approval"
 
-#: config/settings.php:1155
+#: config/settings.php:1165
 msgctxt "admin-text"
 msgid "Reject submission"
 msgstr "Reject submission"
 
-#: config/settings.php:1158
+#: config/settings.php:1168
 msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
 
-#: config/settings.php:1163
+#: config/settings.php:1173
 msgctxt "admin-text"
 msgid "Enable Session Storage"
 msgstr "Enable Session Storage"
 
-#: config/settings.php:1165
+#: config/settings.php:1175
 msgctxt "admin-text"
 msgid ""
 "Enabling this option will persist field values entered into the review form "
@@ -2466,7 +2471,7 @@ msgstr ""
 "Enabling this option will persist field values entered into the review form "
 "until either the review is submitted or the browser tab or window is closed."
 
-#: plugin/Database.php:237
+#: plugin/Database.php:238
 msgctxt "admin-text"
 msgid "(no title)"
 msgstr "(no title)"
@@ -6070,7 +6075,7 @@ msgctxt "admin-text"
 msgid "Text Align"
 msgstr "Text Align"
 
-#: assets/breakdance/elements/site_review/element.php:57, assets/breakdance/elements/site_reviews/element.php:57, assets/breakdance/elements/site_reviews_form/element.php:53, assets/breakdance/elements/site_reviews_summary/element.php:57, plugin/Integrations/Avada/Elements/FusionSiteReview.php:35, plugin/Integrations/Avada/Elements/FusionSiteReviews.php:53, plugin/Integrations/Avada/Elements/FusionSiteReviewsForm.php:42, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:47, plugin/Integrations/Bricks/Elements/BricksSiteReview.php:40, plugin/Integrations/Bricks/Elements/BricksSiteReviews.php:56, plugin/Integrations/Bricks/Elements/BricksSiteReviewsForm.php:31, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:53, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:47, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:47, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:25, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:63, plugin/Integrations/Flatsome/Shortcodes/FlatsomeSiteReview.php:50, plugin/Integrations/Flatsome/Shortcodes/FlatsomeSiteReviews.php:74, plugin/Integrations/Flatsome/Shortcodes/FlatsomeSiteReviewsForm.php:26, plugin/Integrations/Flatsome/Shortcodes/FlatsomeSiteReviewsSummary.php:61, plugin/Integrations/WPBakery/Shortcodes/VcSiteReview.php:34, plugin/Integrations/WPBakery/Shortcodes/VcSiteReviews.php:51, plugin/Integrations/WPBakery/Shortcodes/VcSiteReviewsForm.php:24, plugin/Integrations/WPBakery/Shortcodes/VcSiteReviewsSummary.php:48
+#: assets/breakdance/elements/site_review/element.php:57, assets/breakdance/elements/site_reviews/element.php:57, assets/breakdance/elements/site_reviews_form/element.php:53, assets/breakdance/elements/site_reviews_summary/element.php:57, plugin/Integrations/Avada/Elements/FusionSiteReview.php:35, plugin/Integrations/Avada/Elements/FusionSiteReviews.php:53, plugin/Integrations/Avada/Elements/FusionSiteReviewsForm.php:42, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:48, plugin/Integrations/Bricks/Elements/BricksSiteReview.php:40, plugin/Integrations/Bricks/Elements/BricksSiteReviews.php:56, plugin/Integrations/Bricks/Elements/BricksSiteReviewsForm.php:31, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:53, plugin/Integrations/Elementor/Widgets/ElementorSiteReview.php:47, plugin/Integrations/Elementor/Widgets/ElementorSiteReviews.php:47, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsForm.php:25, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:63, plugin/Integrations/Flatsome/Shortcodes/FlatsomeSiteReview.php:50, plugin/Integrations/Flatsome/Shortcodes/FlatsomeSiteReviews.php:74, plugin/Integrations/Flatsome/Shortcodes/FlatsomeSiteReviewsForm.php:26, plugin/Integrations/Flatsome/Shortcodes/FlatsomeSiteReviewsSummary.php:61, plugin/Integrations/WPBakery/Shortcodes/VcSiteReview.php:34, plugin/Integrations/WPBakery/Shortcodes/VcSiteReviews.php:51, plugin/Integrations/WPBakery/Shortcodes/VcSiteReviewsForm.php:24, plugin/Integrations/WPBakery/Shortcodes/VcSiteReviewsSummary.php:48
 msgctxt "admin-text"
 msgid "Rating Color"
 msgstr "Rating Color"
@@ -6080,12 +6085,12 @@ msgctxt "admin-text"
 msgid "Alignment"
 msgstr "Alignment"
 
-#: assets/breakdance/elements/site_reviews_summary/element.php:64, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:52, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:72, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:75, plugin/Integrations/Flatsome/Shortcodes/FlatsomeSiteReviewsSummary.php:70, plugin/Integrations/WPBakery/Shortcodes/VcSiteReviewsSummary.php:53
+#: assets/breakdance/elements/site_reviews_summary/element.php:64, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:53, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:72, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:75, plugin/Integrations/Flatsome/Shortcodes/FlatsomeSiteReviewsSummary.php:70, plugin/Integrations/WPBakery/Shortcodes/VcSiteReviewsSummary.php:53
 msgctxt "admin-text"
 msgid "Bar Color"
 msgstr "Bar Color"
 
-#: assets/breakdance/elements/site_reviews_summary/element.php:71, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:42, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:33, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:51, plugin/Integrations/Flatsome/Shortcodes/FlatsomeSiteReviewsSummary.php:49, plugin/Integrations/WPBakery/Shortcodes/VcSiteReviewsSummary.php:42
+#: assets/breakdance/elements/site_reviews_summary/element.php:71, plugin/Integrations/Avada/Elements/FusionSiteReviewsSummary.php:43, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:33, plugin/Integrations/Elementor/Widgets/ElementorSiteReviewsSummary.php:51, plugin/Integrations/Flatsome/Shortcodes/FlatsomeSiteReviewsSummary.php:49, plugin/Integrations/WPBakery/Shortcodes/VcSiteReviewsSummary.php:42
 msgctxt "admin-text"
 msgid "Max Width"
 msgstr "Max Width"
