@@ -950,11 +950,11 @@ return [ // order is intentional
         'label' => _x('CAPTCHA Type', 'admin-text', 'site-reviews'),
         'options' => [
             'frictionless' => _x('Frictionless (invisible to the user)', 'admin-text', 'site-reviews'),
-            'image' => _x('Image (solve a simple image CAPTCHA)', 'admin-text', 'site-reviews'),
-            'pow' => _x('Proof of Work (solve a cryptographic puzzle)', 'admin-text', 'site-reviews'),
+            'image' => _x('Image Captcha (identify objects in images)', 'admin-text', 'site-reviews'),
+            'pow' => _x('Proof of Work (perform computational tasks)', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'text',
-        'tooltip' => _x('The type of CAPTCHA to render.', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('This should match the CAPTCHA Type in your portal settings.', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
     'settings.forms.recaptcha.key' => [

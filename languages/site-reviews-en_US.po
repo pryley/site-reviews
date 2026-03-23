@@ -2214,18 +2214,18 @@ msgstr "Frictionless (invisible to the user)"
 
 #: config/settings.php:953
 msgctxt "admin-text"
-msgid "Image (solve a simple image CAPTCHA)"
-msgstr "Image (solve a simple image CAPTCHA)"
+msgid "Image Captcha (identify objects in images)"
+msgstr "Image Captcha (identify objects in images)"
 
 #: config/settings.php:954
 msgctxt "admin-text"
-msgid "Proof of Work (solve a cryptographic puzzle)"
-msgstr "Proof of Work (solve a cryptographic puzzle)"
+msgid "Proof of Work (perform computational tasks)"
+msgstr "Proof of Work (perform computational tasks)"
 
 #: config/settings.php:957
 msgctxt "admin-text"
-msgid "The type of CAPTCHA to render."
-msgstr "The type of CAPTCHA to render."
+msgid "This should match the CAPTCHA Type in your portal settings."
+msgstr "This should match the CAPTCHA Type in your portal settings."
 
 #: config/settings.php:967, config/settings.php:977
 msgctxt "admin-text"
