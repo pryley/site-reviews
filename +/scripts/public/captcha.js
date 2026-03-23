@@ -107,36 +107,42 @@ class Captcha {
     }
 
     isWidgetLoaded () {
-        return !~[-1, null, undefined].indexOf(this.widget);
+        return this.widget !== -1 && this.widget != null; // != checks for null and undefined
     }
 
     load (src, type) {
-        return new Promise((resolve, reject) => {
-            if ('undefined' === typeof src || this.isLoaded(src)) {
-                resolve()
-            } else {
-                const script = document.createElement('script');
-                script.onload = resolve;
-                script.onerror = reject;
-                script.src = src;
-                script.type = 'module' === type ? 'module' : 'text/javascript';
-                if ('module' !== type && 'undefined' !== typeof GLSR.captcha.urls['module']) {
-                    script.setAttribute('nomodule', '')
-                }
-                script.setAttribute('async', '')
-                script.setAttribute('defer', '')
-                document.head.append(script)
+        if ('undefined' === typeof src || this.isLoaded(src)) {
+            return Promise.resolve();
+        }
+        const key = src.split('?')[0];
+        if (Captcha._loading[key]) {
+            return Captcha._loading[key];
+        }
+        Captcha._loading[key] = new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.onload = resolve;
+            script.onerror = reject;
+            script.src = src;
+            script.type = 'module' === type ? 'module' : 'text/javascript';
+            if ('module' !== type && 'undefined' !== typeof GLSR.captcha.urls['module']) {
+                script.setAttribute('nomodule', '')
             }
-        })
+            script.setAttribute('async', '')
+            script.setAttribute('defer', '')
+            document.head.append(script)
+        });
+        return Captcha._loading[key];
     }
 
     render (timeout) {
-        this.Form.form.onsubmit = null; // just in case!
+        this.Form.form.onsubmit = null; // remove any inline onsubmit handler that may interfere with captcha
         if (!this.containerEl || this.isWidgetLoaded()) return;
         if ('undefined' === typeof window[this.captcha]) {
             if (!this.loaded) {
                 this.load(GLSR.captcha.urls['module'], 'module')
-                    .then(() => this.load(GLSR.captcha.urls['nomodule'], 'nomodule')) // don't wait for nomodule scripts
+                    .then(() => {
+                        this.load(GLSR.captcha.urls['nomodule'], 'nomodule') // don't wait for nomodule scripts
+                    })
                     .then(() => this.loaded = true)
                     .then(() => this._retry_render((t) => this.render(t), timeout))
                     .catch(err => console.error(err))
@@ -290,5 +296,7 @@ class Captcha {
         this.Form.submitForm()
     }
 }
+
+Captcha._loading = {};
 
 export default Captcha;
