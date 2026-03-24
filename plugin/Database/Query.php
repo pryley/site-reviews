@@ -202,7 +202,7 @@ class Query
     }
 
     /**
-     * @see b619ba9 — COUNT(DISTINCT r.ID) to handle cases of multiple assignment IDs
+     * @see 001cf37 — COUNT(DISTINCT r.ID) because reviews can have multiple assignments
      */
     protected function queryRatings(): string
     {
@@ -216,7 +216,7 @@ class Query
     }
 
     /**
-     * @see b619ba9 — COUNT(DISTINCT r.ID) to handle cases of multiple assignment IDs
+     * @see 001cf37 — COUNT(DISTINCT r.ID) because reviews can have multiple assignments
      */
     public function queryRatingsForPostmeta(): string
     {
@@ -232,7 +232,7 @@ class Query
     }
 
     /**
-     * @see b619ba9 — COUNT(DISTINCT r.ID) to handle cases of multiple assignment IDs
+     * @see 001cf37 — COUNT(DISTINCT r.ID) because reviews can have multiple assignments
      */
     protected function queryRatingsForTermmeta(): string
     {
@@ -248,7 +248,7 @@ class Query
     }
 
     /**
-     * @see b619ba9 — COUNT(DISTINCT r.ID) to handle cases of multiple assignment IDs
+     * @see 001cf37 — COUNT(DISTINCT r.ID) because reviews can have multiple assignments
      */
     protected function queryRatingsForUsermeta(): string
     {
@@ -320,7 +320,7 @@ class Query
     }
 
     /**
-     * @see b619ba9 — COUNT(DISTINCT r.ID) to handle cases of multiple assignment IDs
+     * @see 001cf37 — COUNT(DISTINCT r.ID) because reviews can have multiple assignments
      */
     protected function queryTotalReviews(): string
     {

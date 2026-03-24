@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 8.0.8 (2026-03-24) =
+
+- Fixed an incorrect review count on paginated results when reviews have been assigned to multiple pages
+
 = 8.0.7 (2026-03-22) =
 
 - Fixed a PHP 8.5 deprecation notice
