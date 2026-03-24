@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Review;
 
@@ -202,10 +201,13 @@ class Query
         return $this->sql($sql, glsr()->post_type, glsr()->export_key);
     }
 
+    /**
+     * @see b619ba9 — COUNT(DISTINCT r.ID) to handle cases of multiple assignment IDs
+     */
     protected function queryRatings(): string
     {
         return $this->sql("
-            SELECT {$this->ratingColumn()} AS rating, r.type, COUNT(*) AS count
+            SELECT {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
             FROM table|ratings AS r
             {$this->sqlJoin()}
             {$this->sqlWhere()}
@@ -213,10 +215,13 @@ class Query
         ");
     }
 
+    /**
+     * @see b619ba9 — COUNT(DISTINCT r.ID) to handle cases of multiple assignment IDs
+     */
     public function queryRatingsForPostmeta(): string
     {
         return $this->sql("
-            SELECT apt.post_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(*) AS count
+            SELECT apt.post_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
             FROM table|ratings AS r
             {$this->sqlJoin(['assigned_posts'])}
             WHERE 1=1
@@ -226,10 +231,13 @@ class Query
         ");
     }
 
+    /**
+     * @see b619ba9 — COUNT(DISTINCT r.ID) to handle cases of multiple assignment IDs
+     */
     protected function queryRatingsForTermmeta(): string
     {
         return $this->sql("
-            SELECT att.term_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(*) AS count
+            SELECT att.term_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
             FROM table|ratings AS r
             {$this->sqlJoin(['assigned_terms'])}
             WHERE 1=1
@@ -239,10 +247,13 @@ class Query
         ");
     }
 
+    /**
+     * @see b619ba9 — COUNT(DISTINCT r.ID) to handle cases of multiple assignment IDs
+     */
     protected function queryRatingsForUsermeta(): string
     {
         return $this->sql("
-            SELECT aut.user_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(*) AS count
+            SELECT aut.user_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
             FROM table|ratings AS r
             {$this->sqlJoin(['assigned_users'])}
             WHERE 1=1
@@ -308,10 +319,13 @@ class Query
         return $this->sql($sql, $reviewId);
     }
 
+    /**
+     * @see b619ba9 — COUNT(DISTINCT r.ID) to handle cases of multiple assignment IDs
+     */
     protected function queryTotalReviews(): string
     {
         return $this->sql("
-            SELECT COUNT(*) AS count
+            SELECT COUNT(DISTINCT r.ID) AS count
             FROM table|ratings AS r
             {$this->sqlJoin()}
             {$this->sqlWhere()}
