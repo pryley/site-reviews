@@ -191,7 +191,7 @@ class Query
         $sql = "
             SELECT m.post_id, m.meta_value
             FROM table|postmeta AS m
-            {$this->join('posts', 'INNER JOIN')}
+            INNER JOIN table|posts AS p ON (p.ID = m.post_id)
             WHERE 1=1
             AND p.post_type = %s AND m.meta_key = %s
             ORDER BY m.meta_id
