@@ -140,7 +140,7 @@ class MainController extends AbstractController
     }
 
     /**
-     * @action init
+     * @action init:5
      */
     public function registerReviewTypes(): void
     {

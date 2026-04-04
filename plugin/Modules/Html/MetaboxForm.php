@@ -31,6 +31,7 @@ class MetaboxForm extends Form
         $config = glsr()->config('forms/metabox-fields');
         if (2 > count(glsr()->retrieveAs('array', 'review_types'))) {
             unset($config['type']);
+            unset($config['url']);
         }
         foreach ($config as $key => $values) {
             $value = $this->session->values[$key] ?? '';

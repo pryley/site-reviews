@@ -27,6 +27,11 @@ class Svg
         return 'data:image/svg+xml;base64,'.base64_encode($contents);
     }
 
+    public static function exists(string $path): bool
+    {
+        return !empty(static::filePath($path));
+    }
+
     public static function filePath(string $path): string
     {
         $basedir = dirname(plugin_dir_path(glsr()->file));

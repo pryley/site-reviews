@@ -20,7 +20,7 @@ class MainHooks extends AbstractHooks
             ['registerLanguages', 'after_setup_theme'],
             ['registerPostMeta', 'init'],
             ['registerPostType', 'init'],
-            ['registerReviewTypes', 'init'],
+            ['registerReviewTypes', 'init', 5],
             ['registerShortcodes', 'init'],
             ['registerTaxonomy', 'init'],
             ['registerWidgets', 'widgets_init'],

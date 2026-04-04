@@ -79,6 +79,11 @@ abstract class Hooks extends AbstractHooks
         return $this->app()->id;
     }
 
+    protected function postType(): string
+    {
+        return $this->app()->post_type;
+    }
+
     protected function slug(): string
     {
         return $this->app()->slug;
@@ -86,6 +91,6 @@ abstract class Hooks extends AbstractHooks
 
     protected function type(): string
     {
-        return $this->app()->post_type;
+        return $this->postType(); // @compat
     }
 }

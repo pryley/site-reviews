@@ -10,6 +10,10 @@ return [
         'options' => glsr()->retrieveAs('array', 'review_types', []),
         'type' => 'select',
     ],
+    'url' => [
+        'label' => esc_html_x('URL', 'admin-text', 'site-reviews'),
+        'type' => 'url',
+    ],
     'name' => [
         'label' => esc_html_x('Name', 'admin-text', 'site-reviews'),
         'type' => 'text',
