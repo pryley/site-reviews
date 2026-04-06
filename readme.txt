@@ -23,8 +23,8 @@ https://www.youtube.com/watch?v=H5HdMCXvuq8
 
 = Try a Live Demo =
 
-1. [Try Site Reviews](https://tastewp.com/plugins/site-reviews/?ni=true&redirect=index.php%3Fpage=site-reviews-welcome%26tab=getting-started) for yourself on a demo server.
-2. [View a demo website](https://demo.site-reviews.com)
+1. [Visit our demo website](https://site-reviews.com)
+2. [Try Site Reviews](https://tastewp.com/plugins/site-reviews/?ni=true&redirect=index.php%3Fpage=site-reviews-welcome%26tab=getting-started) for yourself on a demo server.
 
 = Current Features =
 
