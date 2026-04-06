@@ -19,6 +19,9 @@
     padding-inline-start: 2em;
     margin: 0;
 }
+:--namespace .glsr-form textarea.glsr-textarea {
+  field-sizing: content;
+}
 :--namespace .glsr-field.glsr-hidden {
     display: none !important;
 }

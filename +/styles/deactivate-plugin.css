@@ -221,6 +221,7 @@ label.is-selected .glsr-dp-icon {
 }
 .glsr-dp-details textarea {
     border-radius: 2px;
+    field-sizing: content;
     font-size: 13px;
     padding: 6px 12px;
     width: 100%;
