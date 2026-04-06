@@ -30,9 +30,10 @@ class Cache
 
     public function getPluginVersions(): array
     {
-        $versions = get_transient(glsr()->prefix.'rollback_versions');
-        if (!empty($versions)) {
-            return Cast::toArray($versions);
+        $transientKey = glsr()->prefix.'rollback_versions';
+        $cached = get_transient($transientKey);
+        if (!empty($cached)) {
+            return Cast::toArray($cached);
         }
         include_once ABSPATH.'wp-admin/includes/plugin-install.php';
         $response = plugins_api('plugin_information', [
@@ -57,20 +58,23 @@ class Cache
             glsr_log()->error($response);
             return [];
         }
-        $versions = Arr::consolidate(Arr::get($response, 'versions'));
-        ksort($versions, \SORT_NATURAL);
-        unset($versions['trunk']);
-        $versions = array_keys(array_reverse($versions));
-        $prevMajorVersion = Cast::toInt(glsr()->version('major')) - 1;
-        $prevVersions = preg_grep("/^{$prevMajorVersion}\./", $versions);
-        $prevVersion = array_shift($prevVersions);
-        $index = array_search(glsr()->version, $versions);
-        $startIndex = (false === $index) ? 0 : ++$index;
-        $versions = array_slice($versions, $startIndex, 10);
-        if (!in_array($prevVersion, $versions)) {
-            $versions[] = $prevVersion;
+        $versions = Arr::consolidate($response->versions ?? []);
+        if (empty($versions)) {
+            glsr_log()->error('Unable to fetch plugin versions.');
+            return [];
         }
-        set_transient(glsr()->prefix.'rollback_versions', $versions, HOUR_IN_SECONDS);
+        unset($versions['trunk'], $versions[glsr()->version]);
+        krsort($versions, \SORT_NATURAL);
+        $versionKeys = array_keys($versions);
+        $versions = array_slice($versionKeys, 0, 10);
+        // Ensure the latest version from the previous major release is included
+        $prevMajor = Cast::toInt(glsr()->version('major')) - 1;
+        $prevMajorVersions = preg_grep("/^{$prevMajor}\./", $versionKeys);
+        $latestPrevMajor = reset($prevMajorVersions); // already sorted desc
+        if ($latestPrevMajor && !in_array($latestPrevMajor, $versions)) {
+            $versions[] = $latestPrevMajor;
+        }
+        set_transient($transientKey, $versions, \HOUR_IN_SECONDS);
         return $versions;
     }
 
