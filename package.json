@@ -7,8 +7,7 @@
     "p-limit": "^7.3.0",
     "prismjs": "^1.30.0",
     "star-rating.js": "^4.3.1",
-    "tippy.js": "^6.3.7",
-    "tua-body-scroll-lock": "^1.6.3"
+    "tippy.js": "^6.3.7"
   },
   "devDependencies": {
     "@divi/types": "npm:divi-types@^1.0.10",

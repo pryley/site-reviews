@@ -1,3 +1,7 @@
+:root html.glsr-modal-open,
+:root html.glsr-modal-open body {
+  overflow: clip;
+}
 :root .glsr-modal {
   --timing-function: cubic-bezier(0,0,0.2,1);
   --timing-function-2: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -81,6 +85,7 @@
   display: grid;
   grid-template-rows: 1fr;
   overflow-y: auto;
+  overscroll-behavior: contain;
   transition: grid-template-rows var(--glsr-duration-slow) var(--timing-function);
 }
 :root .glsr-modal.is-loading:not(.is-changing) .glsr-modal__body {

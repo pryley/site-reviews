@@ -2,7 +2,6 @@
 
 import dom from '@/public/dom.js'
 import { debounce } from '@/public/helpers.js'
-import { lock, unlock } from 'tua-body-scroll-lock'
 
 const FOCUSABLE_ELEMENTS = [
     '[contenteditable]',
@@ -73,7 +72,7 @@ class Modal {
         this.root.addEventListener('animationend', handler, false)
         this.root.setAttribute('aria-hidden', 'true')
         this._eventHandler('remove')
-        unlock(this.dom.content)
+        document.documentElement.classList.remove('glsr-modal-open');
         if (this.trigger && this.trigger.focus) {
             this.trigger.focus()
         }
@@ -163,7 +162,7 @@ class Modal {
         if (triggerRoot) {
             this.root.style.fontSize = getComputedStyle(triggerRoot).fontSize; // fixes font size issues
         }
-        lock(this.dom.content)
+        document.documentElement.classList.add('glsr-modal-open');
         this.config.onOpen(this, event) // triggered before the modal is visible
         GLSR.Event.trigger('site-reviews/modal/open', this, event)
         this.root.setAttribute('aria-hidden', 'false')
