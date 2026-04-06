@@ -1013,7 +1013,7 @@ msgctxt "admin-text"
 msgid "Use the %s tool to extract geolocation from existing reviews."
 msgstr ""
 
-#: config/settings.php:443, views/pages/tools/general/geolocate-reviews.php:7, views/pages/tools/general/geolocate-reviews.php:29
+#: config/settings.php:443, views/pages/tools/general/geolocate-reviews.php:7, views/pages/tools/general/geolocate-reviews.php:31
 msgctxt "admin-text"
 msgid "Geolocate Reviews"
 msgstr ""
@@ -1298,12 +1298,12 @@ msgctxt "admin-text"
 msgid "Autofill Fields"
 msgstr ""
 
-#: config/settings.php:757, config/settings.php:772, config/forms/metabox-fields.php:14, plugin/Controllers/PrivacyController.php:120, plugin/Defaults/PostTypeColumnDefaults.php:15, plugin/Defaults/RevisionFieldsDefaults.php:13
+#: config/settings.php:757, config/settings.php:772, config/forms/metabox-fields.php:18, plugin/Controllers/PrivacyController.php:120, plugin/Defaults/PostTypeColumnDefaults.php:15, plugin/Defaults/RevisionFieldsDefaults.php:13
 msgctxt "admin-text"
 msgid "Name"
 msgstr ""
 
-#: config/settings.php:758, config/settings.php:773, config/forms/metabox-fields.php:18, plugin/Controllers/PrivacyController.php:121, plugin/Defaults/PostTypeColumnDefaults.php:16, plugin/Defaults/RevisionFieldsDefaults.php:14
+#: config/settings.php:758, config/settings.php:773, config/forms/metabox-fields.php:22, plugin/Controllers/PrivacyController.php:121, plugin/Defaults/PostTypeColumnDefaults.php:16, plugin/Defaults/RevisionFieldsDefaults.php:14
 msgctxt "admin-text"
 msgid "Email"
 msgstr ""
@@ -1333,7 +1333,7 @@ msgctxt "admin-text"
 msgid "Review"
 msgstr ""
 
-#: config/settings.php:774, config/forms/metabox-fields.php:30, plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:27
+#: config/settings.php:774, config/forms/metabox-fields.php:34, plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:27
 msgctxt "admin-text"
 msgid "Terms"
 msgstr ""
@@ -1851,17 +1851,22 @@ msgctxt "admin-text"
 msgid "Type"
 msgstr ""
 
-#: config/forms/metabox-fields.php:22, plugin/Controllers/PrivacyController.php:122, plugin/Defaults/PostTypeColumnDefaults.php:17, plugin/Defaults/RevisionFieldsDefaults.php:15
+#: config/forms/metabox-fields.php:14
+msgctxt "admin-text"
+msgid "URL"
+msgstr ""
+
+#: config/forms/metabox-fields.php:26, plugin/Controllers/PrivacyController.php:122, plugin/Defaults/PostTypeColumnDefaults.php:17, plugin/Defaults/RevisionFieldsDefaults.php:15
 msgctxt "admin-text"
 msgid "IP Address"
 msgstr ""
 
-#: config/forms/metabox-fields.php:26, plugin/Defaults/RevisionFieldsDefaults.php:16
+#: config/forms/metabox-fields.php:30, plugin/Defaults/RevisionFieldsDefaults.php:16
 msgctxt "admin-text"
 msgid "Avatar"
 msgstr ""
 
-#: config/forms/metabox-fields.php:31, plugin/Controllers/PrivacyController.php:123, plugin/Tinymce/SiteReviewsSummaryTinymce.php:33, plugin/Tinymce/SiteReviewsTinymce.php:33
+#: config/forms/metabox-fields.php:35, plugin/Controllers/PrivacyController.php:123, plugin/Tinymce/SiteReviewsSummaryTinymce.php:33, plugin/Tinymce/SiteReviewsTinymce.php:33
 msgctxt "admin-text"
 msgid "Terms Accepted"
 msgstr ""
@@ -2681,6 +2686,11 @@ msgctxt "admin-text"
 msgid "Empty or invalid rating"
 msgstr ""
 
+#: plugin/Commands/RemoveLocationData.php:26
+msgctxt "admin-text"
+msgid "Successfully removed the geolocation data from all reviews."
+msgstr ""
+
 #: plugin/Commands/RepairPermissions.php:22
 msgctxt "admin-text"
 msgid "You do not have permission to repair permissions."
@@ -2914,7 +2924,7 @@ msgctxt "admin-text"
 msgid "Other Reason"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:106
+#: plugin/Controllers/EditorController.php:107
 msgctxt "admin-text"
 msgid "Publicly responding to third-party %s reviews is disabled."
 msgstr ""
@@ -3099,67 +3109,72 @@ msgctxt "admin-text"
 msgid "Okay"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:100
+#: plugin/Controllers/ToolsController.php:101
 msgctxt "admin-text"
 msgid "You do not have permission to download the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:122
+#: plugin/Controllers/ToolsController.php:123
 msgctxt "admin-text"
 msgid "You do not have permission to download the system info report."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:144
+#: plugin/Controllers/ToolsController.php:145
 msgctxt "admin-text"
 msgid "You do not have permission to export settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:167
+#: plugin/Controllers/ToolsController.php:168
 msgctxt "admin-text"
 msgid "You do not have permission to reload the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:174
+#: plugin/Controllers/ToolsController.php:175
 msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:189
+#: plugin/Controllers/ToolsController.php:190
 msgctxt "admin-text"
 msgid "Your user role does not have permission to view the system info."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:230
+#: plugin/Controllers/ToolsController.php:233
+msgctxt "admin-text"
+msgid "You do not have permission to remove location data from reviews."
+msgstr ""
+
+#: plugin/Controllers/ToolsController.php:234
 msgctxt "admin-text"
 msgid "You do not have permission to geolocate reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:247
+#: plugin/Controllers/ToolsController.php:255
 msgctxt "admin-text"
 msgid "You do not have permission to import reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:274
+#: plugin/Controllers/ToolsController.php:282
 msgctxt "admin-text"
 msgid "You do not have permission to import settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:340
+#: plugin/Controllers/ToolsController.php:348
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:344
+#: plugin/Controllers/ToolsController.php:352
 msgctxt "admin-text"
 msgid "The permissions have been repaired, please %s for them to take effect."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:399
+#: plugin/Controllers/ToolsController.php:407
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:413
+#: plugin/Controllers/ToolsController.php:421
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr ""
@@ -6723,9 +6738,24 @@ msgctxt "admin-text"
 msgid "This tool will extract missing geolocation (country, region/state, and city) of reviews that have a valid IP addresses. This location data can be used to display the location in the review (e.g. the flag of the reviewer's country)."
 msgstr ""
 
-#: views/pages/tools/general/geolocate-reviews.php:28
+#: views/pages/tools/general/geolocate-reviews.php:22
+msgctxt "admin-text"
+msgid "If you want to remove the geolocation data from all of your reviews, click the <strong>Remove</strong> button."
+msgstr ""
+
+#: views/pages/tools/general/geolocate-reviews.php:30
 msgctxt "admin-text"
 msgid "Queueing geolocation, please wait..."
+msgstr ""
+
+#: views/pages/tools/general/geolocate-reviews.php:37
+msgctxt "admin-text"
+msgid "Removing all geolocated data, please wait..."
+msgstr ""
+
+#: views/pages/tools/general/geolocate-reviews.php:38
+msgctxt "admin-text"
+msgid "Remove"
 msgstr ""
 
 #: views/pages/tools/general/import-reviews.php:14, views/pages/tools/general/optimise-db-tables.php:17
