@@ -16,6 +16,7 @@ use GeminiLabs\SiteReviews\Commands\ImportReviewsCleanup;
 use GeminiLabs\SiteReviews\Commands\ImportSettings;
 use GeminiLabs\SiteReviews\Commands\MigratePlugin;
 use GeminiLabs\SiteReviews\Commands\ProcessCsvFile;
+use GeminiLabs\SiteReviews\Commands\RemoveLocationData;
 use GeminiLabs\SiteReviews\Commands\RepairPermissions;
 use GeminiLabs\SiteReviews\Commands\RepairReviewRelations;
 use GeminiLabs\SiteReviews\Commands\ResetAssignedMeta;
@@ -225,15 +226,21 @@ class ToolsController extends AbstractController
      */
     public function geolocateReviewsAjax(Request $request): void
     {
+        $isRemovingLocation = $request->cast('alt', 'bool', false);
         if (!glsr()->hasPermission('tools', 'general')) {
-            glsr(Notice::class)->addError(
-                _x('You do not have permission to geolocate reviews.', 'admin-text', 'site-reviews')
-            );
+            $message = $isRemovingLocation
+                ? _x('You do not have permission to remove location data from reviews.', 'admin-text', 'site-reviews')
+                : _x('You do not have permission to geolocate reviews.', 'admin-text', 'site-reviews');
+            glsr(Notice::class)->addError($message);
             wp_send_json_error([
                 'notices' => glsr(Notice::class)->get(),
             ]);
         }
-        $command = $this->execute(new GeolocateReviews());
+        if ($isRemovingLocation) {
+            $command = $this->execute(new RemoveLocationData());
+        } else {
+            $command = $this->execute(new GeolocateReviews());
+        }
         $command->sendJsonResponse();
     }
 
