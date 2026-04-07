@@ -1,3 +1,5 @@
+/*@import 'blaze-slider/dist/blaze.css';*/
+
 :root .glsr * + * {
     box-sizing: border-box;
 }
