@@ -14,7 +14,9 @@ blocks: ## Build all blocks
 .PHONY: build
 build: ## Build all assets and languages
 	npx gulp
-	make mix
+	make blocks
+	make divi
+	make rollup
 
 .PHONY: bump
 bump: ## Bump to the next minor version
@@ -44,18 +46,6 @@ help:  ## Display help
 i18n: ## Generate a pot file with the wp-cli
 	npm run i18n-pot
 
-.PHONY: mix
-mix: ## Build all assets
-	npm run production
-	npx rollup -c
-	make blocks
-	make divi
-
-.PHONY: mixsync
-mixsync: ## Build all assets and sync
-	make mix
-	make sync
-
 .PHONY: open
 open: ## Open the development site in the default browser
 	@open http://site-reviews.test/wp/wp-admin/edit.php?post_type=site-review
@@ -63,6 +53,10 @@ open: ## Open the development site in the default browser
 .PHONY: release
 release: ## Release a new version
 	sh ./release.sh
+
+.PHONY: rollup
+rollup: ## Build all assets
+	npm run rollup
 
 .PHONY: sync
 sync: ## Sync plugin files to development site
@@ -89,7 +83,7 @@ update: ## Update Composer and NPM
 
 .PHONY: watch
 watch: ## Build all plugin assets and run Browsersync
-	npm run watch
+	npm run rollup:watch
 
 .PHONY: zip
 zip: ## Create a zip archive of Site Reviews

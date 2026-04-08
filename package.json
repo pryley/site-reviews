@@ -4,6 +4,7 @@
   ],
   "dependencies": {
     "autosize": "^6.0.1",
+    "blaze-slider": "^1.9.3",
     "p-limit": "^7.3.0",
     "prismjs": "^1.30.0",
     "star-rating.js": "^4.3.1",
@@ -13,7 +14,9 @@
     "@divi/types": "npm:divi-types@^1.0.10",
     "@rollup/plugin-alias": "^6.0.0",
     "@rollup/plugin-babel": "^7.0.0",
+    "@rollup/plugin-commonjs": "^29.0.2",
     "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-replace": "^6.0.3",
     "@rollup/plugin-terser": "^1.0.0",
     "@tinymce/tinymce-react": "^6.3.0",
     "@types/divi__app-preferences": "npm:divi-types-app-preferences@^1.0.10",
@@ -64,35 +67,31 @@
     "gulp-wp-pot": "^2.5.0",
     "laravel-mix": "^6.0.49",
     "laravel-mix-bundle-analyzer": "^1.0.5",
-    "postcss-calc": "^10.1.1",
-    "postcss-custom-properties": "^15.0.1",
-    "postcss-hexrgba": "^2.1.0",
     "postcss-import": "^16.0.0",
-    "postcss-nested": "^7.0.2",
     "postcss-preset-env": "^11.2.0",
     "postcss-selector-namespace": "github:pryley/postcss-selector-namespace#master",
     "rollup": "^4.60.0",
-    "rollup-plugin-filesize": "^10.0.0",
     "rollup-plugin-postcss": "^4.0.0",
     "thread-loader": "^4.0.4",
     "ts-loader": "^9.5.4",
     "use-deep-compare-effect": "^1.8.1"
   },
+  "overrides": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
   "private": true,
   "scripts": {
     "blocks": "wp-scripts build --experimental-modules --config=+/blocks/webpack.config.js --source-path=+/blocks && wp-scripts build-blocks-manifest --input=assets/blocks --output=assets/blocks/blocks-manifest.php",
     "blocks:watch": "wp-scripts start --experimental-modules --config=+/blocks/webpack.config.js --source-path=+/blocks && wp-scripts build-blocks-manifest --input=assets/blocks --output=assets/blocks/blocks-manifest.php",
-    "build": "gulp && mix --production",
+    "build": "gulp && npm run rollup",
     "check": "wp-scripts check-engines",
-    "development": "mix",
     "divi": "NODE_ENV=production webpack --config=+/integrations/divi/webpack.config.js --progress",
     "divi:watch": "NODE_ENV=development webpack -w --config=+/integrations/divi/webpack.config.js --progress",
     "i18n-pot": "wp i18n make-pot . languages/site-reviews.pot --slug=site-reviews --domain=site-reviews --exclude=+,node_modules,tests,vendor,vendors",
     "lang": "gulp",
-    "watch": "mix watch",
-    "watch-poll": "mix watch -- --watch-options-poll=1000",
-    "hot": "mix watch --hot",
-    "production": "mix --production"
+    "rollup": "NODE_ENV=production rollup -c --silent",
+    "rollup:watch": "NODE_ENV=development rollup -c --watch"
   },
   "workspaces": [
     "+/packages/*"
