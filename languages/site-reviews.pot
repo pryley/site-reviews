@@ -3139,42 +3139,42 @@ msgctxt "admin-text"
 msgid "Your user role does not have permission to view the system info."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:233
+#: plugin/Controllers/ToolsController.php:232
 msgctxt "admin-text"
 msgid "You do not have permission to remove location data from reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:234
+#: plugin/Controllers/ToolsController.php:233
 msgctxt "admin-text"
 msgid "You do not have permission to geolocate reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:255
+#: plugin/Controllers/ToolsController.php:254
 msgctxt "admin-text"
 msgid "You do not have permission to import reviews."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:282
+#: plugin/Controllers/ToolsController.php:281
 msgctxt "admin-text"
 msgid "You do not have permission to import settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:348
+#: plugin/Controllers/ToolsController.php:347
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:352
+#: plugin/Controllers/ToolsController.php:351
 msgctxt "admin-text"
 msgid "The permissions have been repaired, please %s for them to take effect."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:407
+#: plugin/Controllers/ToolsController.php:406
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:421
+#: plugin/Controllers/ToolsController.php:420
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr ""
