@@ -1,6 +1,5 @@
 {
   "plugins": [
-    "@babel/plugin-transform-optional-chaining",
     ["prismjs", {
         "css": false,
         "languages": ["javascript", "php", "html", "css"],

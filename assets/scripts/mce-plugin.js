@@ -1,1 +1,1 @@
-!function(){"use strict";function e(e){return e&&e.__esModule&&Object.prototype.hasOwnProperty.call(e,"default")?e.default:e}var t,o={};t||(t=1,window.tinymce.PluginManager.add("glsr_shortcode",e=>{e.addCommand("GLSR_Shortcode",()=>{GLSR.shortcode.create(e.id)})}))}();
+!function(){"use strict";window.tinymce.PluginManager.add("glsr_shortcode",d=>{d.addCommand("GLSR_Shortcode",()=>{GLSR.shortcode.create(d.id)})})}();
