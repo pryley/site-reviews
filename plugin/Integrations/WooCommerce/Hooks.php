@@ -115,7 +115,8 @@ class Hooks extends IntegrationHooks
     {
         return $this->isInstalled()
             && 'yes' === $this->option('integrations.woocommerce.enabled')
-            && 'yes' === get_option('woocommerce_enable_reviews', 'yes');
+            && 'yes' === get_option('woocommerce_enable_reviews', 'yes')
+            && !wp_installing(); // because rest_preload_api_request runs during woo updates
     }
 
     protected function isInstalled(): bool
