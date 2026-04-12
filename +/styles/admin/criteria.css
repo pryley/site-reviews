@@ -29,3 +29,6 @@
 .glsr-criteria-conditions > :first-child {
   margin-top: 6px;
 }
+.glsr-criteria-condition [data-condition] {
+  width: 100%;
+}

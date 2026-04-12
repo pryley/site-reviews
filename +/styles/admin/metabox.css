@@ -245,6 +245,9 @@
   gap: 6px;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
+.glsr-metabox-field .glsr-input-group .glsr-input-value {
+  width: 100%;
+}
 
 .glsr-metabox-field input[type="number"].small-text {
   padding: 0 6px;
