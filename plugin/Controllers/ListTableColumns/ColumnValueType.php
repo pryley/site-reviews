@@ -12,9 +12,12 @@ class ColumnValueType implements ColumnValueContract
     public function handle(Review $review): string
     {
         $text = $review->type();
+        if ('local' === $review->type) {
+            return $text;
+        }
         $path = "assets/images/platforms/{$review->type}.svg";
         if (!Svg::exists($path)) {
-            $path = 'assets/images/platforms/generic.svg';
+            return $text;
         }
         $logo = Svg::get($path, [
             'alt' => $text,

@@ -60,4 +60,15 @@ class RatingDefaults extends DefaultsAbstract
             'url' => '',
         ];
     }
+
+    /**
+     * Finalize provided values, this always runs last.
+     */
+    protected function finalize(array $values = []): array
+    {
+        if ('local' === ($values['type'] ?? '')) {
+            $values['url'] = '';
+        }
+        return $values;
+    }
 }

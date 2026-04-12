@@ -1,6 +1,6 @@
 <?php defined('ABSPATH') || exit; ?>
 
-<div class="{{ class }}">
+<div class="{{ class }}" data-field="{{ field_name }}" data-type="{{ field_type }}">
     <div class="glsr-label">{{ label }}</div>
     <div class="glsr-input">
         {{ field }}

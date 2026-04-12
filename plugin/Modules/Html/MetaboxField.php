@@ -30,6 +30,8 @@ class MetaboxField extends Field
             'context' => [
                 'class' => $this->classAttrField(),
                 'field' => $this->buildFieldElement(),
+                'field_name' => $this->original_name,
+                'field_type' => $this->original_type,
                 'label' => $this->buildFieldLabel(),
             ],
             'field' => $this,

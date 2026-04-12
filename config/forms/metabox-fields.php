@@ -1,10 +1,6 @@
 <?php
 
 return [
-    'rating' => [
-        'label' => esc_html_x('Rating', 'admin-text', 'site-reviews'),
-        'type' => 'rating',
-    ],
     'type' => [
         'label' => esc_html_x('Type', 'admin-text', 'site-reviews'),
         'options' => glsr()->retrieveAs('array', 'review_types', []),
@@ -13,6 +9,10 @@ return [
     'url' => [
         'label' => esc_html_x('URL', 'admin-text', 'site-reviews'),
         'type' => 'url',
+    ],
+    'rating' => [
+        'label' => esc_html_x('Rating', 'admin-text', 'site-reviews'),
+        'type' => 'rating',
     ],
     'name' => [
         'label' => esc_html_x('Name', 'admin-text', 'site-reviews'),
