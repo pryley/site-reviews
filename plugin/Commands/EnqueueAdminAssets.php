@@ -14,33 +14,14 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
 class EnqueueAdminAssets extends AbstractCommand
 {
-    public array $pointers;
-
-    public function __construct()
-    {
-        $this->generatePointers([
-            [
-                'content' => _x('You can pin exceptional reviews so that they are always shown first.', 'admin-text', 'site-reviews'),
-                'id' => 'glsr-pointer-pinned',
-                'target' => '#misc-pub-pinned',
-                'title' => _x('Pin Your Reviews', 'admin-text', 'site-reviews'),
-            ],
-        ]);
-    }
-
     public function enqueueScripts(): void
     {
-        if (!empty($this->pointers)) {
-            wp_enqueue_script('wp-pointer');
-        }
         wp_register_script(
             glsr()->id.'/admin',
             glsr()->url('assets/scripts/'.glsr()->id.'-admin.js'),
             $this->getDependencies(),
             glsr()->version,
-            [
-                'strategy' => 'defer',
-            ]
+            ['strategy' => 'defer']
         );
         wp_enqueue_script(glsr()->id.'/admin');
         wp_add_inline_script(glsr()->id.'/admin', $this->inlineScript(), 'before');
@@ -49,14 +30,11 @@ class EnqueueAdminAssets extends AbstractCommand
 
     public function enqueueStyles(): void
     {
-        if (!empty($this->pointers)) {
-            wp_enqueue_style('wp-pointer');
-        }
         wp_enqueue_style('wp-color-picker');
         wp_register_style(
             glsr()->id.'/admin',
             glsr()->url('assets/styles/admin/admin.css'),
-            ['wp-list-reusable-blocks'], // load the :root admin theme colors
+            ['wp-list-reusable-blocks'], // loads the :root admin theme colors
             glsr()->version
         );
         wp_enqueue_style(glsr()->id.'/admin');
@@ -113,7 +91,6 @@ class EnqueueAdminAssets extends AbstractCommand
                 'toggle-status' => wp_create_nonce('toggle-status'),
                 'toggle-verified' => wp_create_nonce('toggle-verified'),
             ],
-            'pointers' => $this->pointers,
             'text' => [
                 'cancel' => _x('Cancel', 'admin-text', 'site-reviews'),
                 'cancelling' => _x('Cancelling, please wait...', 'admin-text', 'site-reviews'),
@@ -156,40 +133,6 @@ class EnqueueAdminAssets extends AbstractCommand
             'jquery', 'jquery-ui-sortable', 'underscore', 'wp-color-picker', 'wp-util',
         ]);
         return $dependencies;
-    }
-
-    protected function generatePointer(array $pointer): array
-    {
-        return [
-            'id' => $pointer['id'],
-            'options' => [
-                'content' => "<h3>{$pointer['title']}</h3>".wpautop($pointer['content']),
-                'position' => $pointer['position'],
-            ],
-            'screen' => $pointer['screen'],
-            'target' => $pointer['target'],
-        ];
-    }
-
-    /**
-     * @param array[] $args
-     */
-    protected function generatePointers(array $args): void
-    {
-        $dismissed = get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true);
-        $dismissed = explode(',', (string) $dismissed);
-        $pointers = [];
-        foreach ($args as $pointer) {
-            $pointer = glsr(PointerDefaults::class)->restrict($pointer);
-            if ($pointer['screen'] !== glsr_current_screen()->id) {
-                continue;
-            }
-            if (in_array($pointer['id'], $dismissed)) {
-                continue;
-            }
-            $pointers[] = $this->generatePointer($pointer);
-        }
-        $this->pointers = $pointers;
     }
 
     protected function isCurrentScreen(): bool

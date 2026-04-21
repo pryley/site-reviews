@@ -11,7 +11,6 @@ import Forms from '@/admin/forms.js';
 import Import from '@/admin/import.js';
 import Metabox from '@/admin/metabox.js';
 import Notices from '@/admin/notices.js';
-import Pointers from '@/admin/pointers.js';
 import Prism from 'prismjs';
 import PublishAction from '@/admin/publish-action.js';
 import Search from '@/admin/search.js';
@@ -123,7 +122,6 @@ jQuery(function ($) {
     new Forms('form.glsr-form');
     new Import();
     new Metabox();
-    new Pointers();
     new PublishAction();
     new Search('#glsr-search-posts', {
         action: 'search-posts',
