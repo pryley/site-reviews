@@ -1,6 +1,10 @@
-:root html.glsr-modal-open,
+:root html.glsr-modal-open {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
 :root html.glsr-modal-open body {
-  overflow: clip;
+  overflow: hidden;
+  overscroll-behavior: contain;
 }
 :root .glsr-modal {
   --timing-function: cubic-bezier(0,0,0.2,1);
@@ -47,7 +51,7 @@
   width: 480px;
 }
 :root .glsr-modal-fullscreen .glsr-modal__dialog {
-  height: 100vw;
+  height: 100vh;
   max-height: calc(100vh - 2em);
   max-width: calc(100vw - 2em);
   width: 100vw;
@@ -81,7 +85,7 @@
   padding: .75em 0;
 }
 :root .glsr-modal__body {
-  -webkit-overflow-scrolling: touch; /* @todo test this! */
+  -webkit-overflow-scrolling: touch; /* legacy iOS momentum; harmless elsewhere */
   display: grid;
   grid-template-rows: 1fr;
   overflow-y: auto;
