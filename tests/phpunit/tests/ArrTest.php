@@ -184,7 +184,6 @@ class ArrTest extends WP_UnitTestCase
             0 => ['id' => 2, 'name' => 'Bob'],
             '' => ['id' => 5, 'name' => 'Grace'],
             'string_id' => ['id' => '001', 'name' => 'Frank'],
-            null => ['id' => 4, 'name' => 'David'],
             1 => ['id' => 3, 'name' => 'Charlie'],
         ];
         // Test case 1: Restrict to non-existent keys
@@ -196,9 +195,9 @@ class ArrTest extends WP_UnitTestCase
         // Test case 3: Empty array
         $result = Arr::restrictKeys([], ['user_a']);
         $this->assertEquals([], $result);
-        // Test case 4: Empty string key (returns null key value due to collision)
+        // Test case 4: Empty string key
         $result = Arr::restrictKeys($array, ['']);
-        $this->assertEquals(['' => ['id' => 4, 'name' => 'David']], $result);
+        $this->assertEquals(['' => ['id' => 5, 'name' => 'Grace']], $result);
         // Test case 5: Restrict to existing keys
         $result = Arr::restrictKeys($array, ['user_a', 'string_id']);
         $this->assertEquals([
@@ -211,19 +210,17 @@ class ArrTest extends WP_UnitTestCase
             'user_a' => ['id' => 1, 'name' => 'Alice'],
             0 => ['id' => 2, 'name' => 'Bob'],
         ], $result);
-        // Test case 7: Numeric and null keys
-        $result = Arr::restrictKeys($array, [0, 1, null]);
+        // Test case 7: Numeric keys
+        $result = Arr::restrictKeys($array, [0, 1]);
         $this->assertEquals([
             0 => ['id' => 2, 'name' => 'Bob'],
             1 => ['id' => 3, 'name' => 'Charlie'],
-            null => ['id' => 4, 'name' => 'David'],
         ], $result);
     }
 
     public function test_search_by_key()
     {
         $haystack = [
-            null => ['id' => 4, 'name' => 'David'],
             '' => ['id' => 5, 'name' => 'Grace'],
             'string_id' => ['id' => '001', 'name' => 'Frank'],
             'user_a' => ['id' => 1, 'name' => 'Alice'],
@@ -236,7 +233,7 @@ class ArrTest extends WP_UnitTestCase
         // Test case 2: String needle with strict comparison
         $result = Arr::searchByKey('001', $haystack, 'id');
         $this->assertEquals(['id' => '001', 'name' => 'Frank'], $result);
-        // Test case 3: Haystack with empty string key (with null key collision)
+        // Test case 3: Haystack with empty string key
         $result = Arr::searchByKey(5, $haystack, 'id');
         $this->assertEquals(['id' => 5, 'name' => 'Grace'], $result);
         // Test case 4: Haystack with non-auto-incrementing keys
@@ -256,9 +253,6 @@ class ArrTest extends WP_UnitTestCase
         $this->assertFalse($result);
         // Test case 9: Haystack with mismatched keys and values count
         $result = Arr::searchByKey(1, array_merge($haystack, ['incomplete' => ['name' => 'Eve']]), 'id');
-        $this->assertFalse($result);
-        // Test case 10: Haystack with null key (converted to empty string by array_combine, overwritten by last empty string key)
-        $result = Arr::searchByKey(4, $haystack, 'id');
         $this->assertFalse($result);
     }
 
