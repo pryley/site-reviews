@@ -145,10 +145,11 @@ class ReviewController extends AbstractController
             glsr(ReviewManager::class)->updateRating($post->ID, ['is_approved' => $isPublished]);
             glsr(Cache::class)->delete($post->ID, 'reviews');
             glsr(CountManager::class)->recalculate();
-            if ($isAutoDraft) {
-                return;
-            }
             $review = glsr_get_review($post->ID);
+            if ($isAutoDraft) {
+                $this->updateReview($review, $post);
+                return; // transition hooks should only fire on existing reviews
+            }
             if ('publish' === $new) {
                 glsr()->action('review/approved', $review, $old, $new);
             } elseif ('pending' === $new) {
@@ -310,6 +311,9 @@ class ReviewController extends AbstractController
     {
         if (is_null($post) || is_null($oldPost)) {
             return; // This should never happen, but some plugins are bad actors so...
+        }
+        if ('auto-draft' === $oldPost->post_status) {
+            return; // the ratings row has not been created yet, this is handled by onAfterChangeStatus
         }
         if (!glsr()->can('edit_posts') || !$this->isEditedReview($post, $oldPost)) {
             return;
