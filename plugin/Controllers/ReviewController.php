@@ -439,6 +439,7 @@ class ReviewController extends AbstractController
         }
         if (!empty($data)) {
             glsr(ReviewManager::class)->updateCustom($review->ID, $data); // values are sanitized here
+            glsr(ReviewManager::class)->updateGeolocation($review->ID, $data); // queues new geolocation request if needed
             glsr(ReviewManager::class)->updateRating($review->ID, $data); // values are sanitized here
             $review->refresh();
         }

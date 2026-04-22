@@ -130,6 +130,9 @@ class RelationSaveHelper
         }
         $originalSiteId = $this->maybeSwitchSite($this->context->remoteSiteId());
         $data['rating_id'] = $review->rating_id;
+        glsr(Database::class)->delete('stats', [
+            'rating_id' => $review->rating_id,
+        ]);
         if (false !== glsr(Database::class)->insert('stats', $data)) {
             unset($data['rating_id']);
             glsr(PostMeta::class)->set($review->ID, 'geolocation', $data);

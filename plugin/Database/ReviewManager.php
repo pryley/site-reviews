@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Defaults\UpdateReviewDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
@@ -295,6 +296,26 @@ class ReviewManager
         foreach ($data as $metaKey => $metaValue) {
             glsr(PostMeta::class)->set($reviewId, $metaKey, $metaValue);
         }
+    }
+
+    public function updateGeolocation(int $reviewId, array $values = []): void
+    {
+        if (!array_key_exists('ip_address', $values)) {
+            return;
+        }
+        $review = $this->get($reviewId);
+        if ($review->ip_address === $values['ip_address']) {
+            return;
+        }
+        glsr(Database::class)->delete('stats', [
+            'rating_id' => $review->rating_id,
+        ]);
+        glsr(PostMeta::class)->delete($review->ID, 'geolocation');
+        glsr()->action('cache/flush', "review_{$review->ID}_geolocated", $review);
+        if (empty($values['ip_address']) || Helper::isLocalIpAddress($values['ip_address'])) {
+            return;
+        }
+        glsr(Queue::class)->once(time(), 'queue/geolocation', ['review_id' => $review->ID], true);
     }
 
     public function updateRating(int $reviewId, array $values = []): int

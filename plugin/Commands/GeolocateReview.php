@@ -40,6 +40,9 @@ class GeolocateReview extends AbstractCommand
         }
         $this->location = glsr(StatDefaults::class)->restrict($location);
         $this->location['rating_id'] = $this->review->rating_id;
+        glsr(Database::class)->delete('stats', [
+            'rating_id' => $this->review->rating_id,
+        ]);
         glsr(Database::class)->insert('stats', $this->location);
         glsr(PostMeta::class)->set($this->review->ID, 'geolocation',
             array_diff_key($this->location, ['rating_id' => 0])
