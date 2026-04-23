@@ -266,7 +266,7 @@ function glsr_premium_link(string $path, $attrs = []): string
 
 function glsr_premium_url(string $path = '/'): string
 {
-    $baseUrl = 'https://niftyplugins.com/';
+    $baseUrl = 'https://niftyplugins.com';
     $paths = [
         'account' => '/account/',
         'addons' => '/plugins/',
@@ -277,11 +277,14 @@ function glsr_premium_url(string $path = '/'): string
         'site-reviews-forms' => '/plugins/site-reviews-forms/',
         'site-reviews-images' => '/plugins/site-reviews-images/',
         'site-reviews-notifications' => '/plugins/site-reviews-notifications/',
-        'site-reviews-premium' => '/plugins/site-reviews-premium/',
+        'site-reviews-premium' => 'https://site-reviews.com/premium/',
         'site-reviews-themes' => '/plugins/site-reviews-themes/',
         'support' => '/account/support/',
     ];
     $urlPath = trim($paths[$path] ?? $path);
+    if (str_starts_with($urlPath, 'http')) {
+        return esc_url($urlPath);
+    }
     $urlPath = trailingslashit(ltrim($urlPath, '/'));
     return esc_url(trailingslashit($baseUrl).$urlPath);
 }
