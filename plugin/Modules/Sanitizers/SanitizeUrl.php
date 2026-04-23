@@ -13,9 +13,22 @@ class SanitizeUrl extends StringSanitizer
             $value = Str::prefix($value, 'https://');
         }
         $url = esc_url_raw($value);
-        if (mb_strtolower($value) === mb_strtolower($url) && false !== filter_var($url, FILTER_VALIDATE_URL)) {
-            return $url;
+        if (mb_strtolower($value) !== mb_strtolower($url)) {
+            return '';
         }
-        return '';
+        if (false === filter_var($url, FILTER_VALIDATE_URL)) {
+            return '';
+        }
+        if (!empty($this->args[0]) && !$this->startsWith($url)) {
+            return '';
+        }
+        return $url;
+    }
+
+    protected function startsWith(string $url): bool
+    {
+        $prefix = preg_replace('#^https?://#i', '', $this->args[0]);
+        $domain = preg_replace('#^https?://#i', '', $url);
+        return str_starts_with($domain, $prefix);
     }
 }

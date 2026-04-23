@@ -1426,6 +1426,34 @@ class SanitizerTest extends \WP_UnitTestCase
             '',
             '',
         ]);
+        // test with a url prefix arg (without scheme)
+        $values = [
+            'https://discord.com/invite/123',
+            'https://wordpress.org',
+            'discord.com/invite/456',
+            'http://discord.com/server',
+            'https://notdiscord.com',
+            '',
+        ];
+        $sanitized = $this->sanitize('url:discord.com', $values);
+        $this->assertEquals($sanitized, [
+            'https://discord.com/invite/123',
+            '',
+            'https://discord.com/invite/456',
+            'http://discord.com/server',
+            '',
+            '',
+        ]);
+        // test with a url prefix arg (with scheme)
+        $sanitized = $this->sanitize('url:https://discord.com', $values);
+        $this->assertEquals($sanitized, [
+            'https://discord.com/invite/123',
+            '',
+            'https://discord.com/invite/456',
+            'http://discord.com/server',
+            '',
+            '',
+        ]);
     }
 
     public function test_sanitize_user_email()
