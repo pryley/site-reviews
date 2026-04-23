@@ -63,7 +63,7 @@ class Slack implements WebhookContract
         if (empty($this->webhook)) {
             $result = new \WP_Error('slack', 'Slack notification was not sent: missing webhook');
         } else {
-            $result = wp_remote_post($this->webhook, [
+            $result = wp_safe_remote_post($this->webhook, [
                 'blocking' => false,
                 'body' => wp_json_encode($this->notification),
                 'headers' => [

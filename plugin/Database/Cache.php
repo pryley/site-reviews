@@ -81,7 +81,7 @@ class Cache
     public function getRemotePostTest(): string
     {
         if (false === ($test = get_transient(glsr()->prefix.'remote_post_test'))) {
-            $response = wp_remote_post('https://api.wordpress.org/stats/php/1.0/');
+            $response = wp_safe_remote_post('https://api.wordpress.org/stats/php/1.0/');
             $test = !is_wp_error($response) && in_array($response['response']['code'], range(200, 299))
                 ? 'Works'
                 : 'Does not work';
