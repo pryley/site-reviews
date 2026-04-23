@@ -11,10 +11,10 @@
 coverage.xml
 mix-manifest.json
 npm-debug.log*
-stats.html
 
 coverage
 node_modules
 vendor
 
-/Icon?
+/*.html
+/*.md
