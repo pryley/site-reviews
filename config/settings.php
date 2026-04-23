@@ -178,7 +178,7 @@ return [ // order is intentional
             'settings.general.notifications' => ['discord'],
         ],
         'label' => _x('Discord Webhook URL', 'admin-text', 'site-reviews'),
-        'sanitizer' => 'url',
+        'sanitizer' => 'url:discord.com',
         /* translators: %s is replaced with a link to the "create a webhook" Discord support URL */
         'tooltip' => sprintf(_x('To send notifications to a Discord channel, %s and then paste the URL in the field.', 'admin-text', 'site-reviews'),
             '<a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank">'._x('create a webhook', 'admin-text', 'site-reviews').'</a>'
@@ -192,7 +192,7 @@ return [ // order is intentional
             'settings.general.notifications' => ['slack'],
         ],
         'label' => _x('Slack Webhook URL', 'admin-text', 'site-reviews'),
-        'sanitizer' => 'url',
+        'sanitizer' => 'url:hooks.slack.com',
         /* translators: %s is replaced with a link to the "create an Incoming Webhook" Slack support URL */
         'tooltip' => sprintf(_x('To send notifications to a Slack channel, %s and then paste the URL in the field.', 'admin-text', 'site-reviews'),
             '<a href="https://api.slack.com/incoming-webhooks" target="_blank">'._x('create an Incoming Webhook', 'admin-text', 'site-reviews').'</a>'
