@@ -121,7 +121,7 @@ class VerificationController extends AbstractController
                 $redirectUrl = add_query_arg('verified', $token, $redirectUrl);
             }
         }
-        wp_redirect($redirectUrl);
+        wp_safe_redirect($redirectUrl);
         exit;
     }
 }
