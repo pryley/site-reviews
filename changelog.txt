@@ -1,5 +1,19 @@
 == Changelog ==
 
+= 8.0.10 (2026-04-29) =
+
+- Fixed Discord and Slack webhook url domain sanitization
+- Fixed errors from WooCommerce rest_preload_api_request during plugin updates
+- Fixed geolocation regeneration when IP address is changed
+- Fixed intermittent loss of review details on first save
+- Fixed Modal positioning
+- Fixed review types
+- Fixed WordPress 7.0 compatibility
+- Improved Geolocation Reviews tooltool
+- Improved Rollback Plugin tool
+- Improved wp_safe_redirect usage
+- Improved wp_safe_remote_post usage
+
 = 8.0.9 (2026-03-31) =
 
 - Fixed the WordPress Importer

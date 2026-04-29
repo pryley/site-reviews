@@ -111,6 +111,9 @@ final class Application extends Container implements PluginContract
      */
     public function init(): void
     {
+        if (wp_installing()) {
+            return;
+        }
         $args = [];
         // Ensure the custom database tables exist, this is needed in cases
         // where the plugin has been updated instead of activated.

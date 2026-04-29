@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 6.9
-Stable tag: 8.0.9
+Stable tag: 8.0.10
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -210,6 +210,20 @@ You can report any security bugs found in the source code of this plugin through
 This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
+
+= 8.0.10 (2026-04-29) =
+
+- Fixed Discord and Slack webhook url domain sanitization
+- Fixed errors from WooCommerce rest_preload_api_request during plugin updates
+- Fixed geolocation regeneration when IP address is changed
+- Fixed intermittent loss of review details on first save
+- Fixed Modal positioning
+- Fixed review types
+- Fixed WordPress 7.0 compatibility
+- Improved Geolocation Reviews tooltool
+- Improved Rollback Plugin tool
+- Improved wp_safe_redirect usage
+- Improved wp_safe_remote_post usage
 
 = 8.0.9 (2026-03-31) =
 

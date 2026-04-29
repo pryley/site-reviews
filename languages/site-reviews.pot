@@ -1318,7 +1318,7 @@ msgctxt "admin-text"
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:769, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/GamiPress/Controller.php:134, plugin/Integrations/ProfilePress/RatingField.php:24, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:42, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:98
+#: config/settings.php:769, config/forms/metabox-fields.php:14, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:11, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:36, plugin/Integrations/GamiPress/Controller.php:134, plugin/Integrations/ProfilePress/RatingField.php:24, plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:42, plugin/Integrations/Elementor/Widgets/ElementorWidget.php:98
 msgctxt "admin-text"
 msgid "Rating"
 msgstr ""
@@ -1728,7 +1728,7 @@ msgctxt "admin-text"
 msgid "Enabling this option will persist field values entered into the review form until either the review is submitted or the browser tab or window is closed."
 msgstr ""
 
-#: plugin/Application.php:167
+#: plugin/Application.php:170
 msgctxt "link to License Keys page (admin-text)"
 msgid "Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account."
 msgstr ""
@@ -1846,12 +1846,12 @@ msgctxt "admin-text"
 msgid "addons"
 msgstr ""
 
-#: config/forms/metabox-fields.php:9, plugin/Defaults/PostTypeColumnDefaults.php:19, plugin/Defaults/RevisionFieldsDefaults.php:12, plugin/Controllers/ListTableColumns/ColumnFilterType.php:24
+#: config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:19, plugin/Defaults/RevisionFieldsDefaults.php:12, plugin/Controllers/ListTableColumns/ColumnFilterType.php:24
 msgctxt "admin-text"
 msgid "Type"
 msgstr ""
 
-#: config/forms/metabox-fields.php:14
+#: config/forms/metabox-fields.php:10
 msgctxt "admin-text"
 msgid "URL"
 msgstr ""
@@ -2474,67 +2474,57 @@ msgctxt "link to addon page (admin-text)"
 msgid "%s addon required."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:23
-msgctxt "admin-text"
-msgid "You can pin exceptional reviews so that they are always shown first."
-msgstr ""
-
-#: plugin/Commands/EnqueueAdminAssets.php:26
-msgctxt "admin-text"
-msgid "Pin Your Reviews"
-msgstr ""
-
-#: plugin/Commands/EnqueueAdminAssets.php:87, plugin/Overrides/ReviewsListTable.php:81, views/integrations/woocommerce/bulk-edit.php:8, views/partials/screen/inline-edit.php:68, views/partials/screen/inline-edit.php:88, views/partials/screen/inline-edit.php:98
+#: plugin/Commands/EnqueueAdminAssets.php:65, plugin/Overrides/ReviewsListTable.php:81, views/integrations/woocommerce/bulk-edit.php:8, views/partials/screen/inline-edit.php:68, views/partials/screen/inline-edit.php:88, views/partials/screen/inline-edit.php:98
 msgctxt "admin-text"
 msgid "No Change"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:88, plugin/Overrides/ReviewsListTable.php:89
+#: plugin/Commands/EnqueueAdminAssets.php:66, plugin/Overrides/ReviewsListTable.php:89
 msgctxt "admin-text"
 msgid "No Author"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:91, plugin/Metaboxes/AuthorMetabox.php:28
+#: plugin/Commands/EnqueueAdminAssets.php:69, plugin/Metaboxes/AuthorMetabox.php:28
 msgctxt "admin-text"
 msgid "Author Unknown"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:118, plugin/Overrides/ScheduledActionsTable.php:114, views/partials/editor/pinned.php:29, views/partials/editor/verified.php:30, views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:132
+#: plugin/Commands/EnqueueAdminAssets.php:95, plugin/Overrides/ScheduledActionsTable.php:114, views/partials/editor/pinned.php:29, views/partials/editor/verified.php:30, views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:132
 msgctxt "admin-text"
 msgid "Cancel"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:119
+#: plugin/Commands/EnqueueAdminAssets.php:96
 msgctxt "admin-text"
 msgid "Cancelling, please wait..."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:120
+#: plugin/Commands/EnqueueAdminAssets.php:97
 msgctxt "admin-text"
 msgid "Your server restricts file uploads to less than %s in size."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:123
+#: plugin/Commands/EnqueueAdminAssets.php:100
 msgctxt "admin-text"
 msgid "Rollback failed"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:124
+#: plugin/Commands/EnqueueAdminAssets.php:101
 msgctxt "admin-text"
 msgid "Searching..."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:125
+#: plugin/Commands/EnqueueAdminAssets.php:102
 msgctxt "admin-text"
 msgid "Site Reviews was unable to fetch the System Info because your server threw an error: %s %s"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:126
+#: plugin/Commands/EnqueueAdminAssets.php:103
 msgctxt "admin-text"
 msgid "Unable to fetch the System Info."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:127
+#: plugin/Commands/EnqueueAdminAssets.php:104
 msgctxt "admin-text"
 msgid "Site Reviews was unable to fetch the System Info because WordPress crashed when getting the <a href=\"%s\">Site Health Info</a>."
 msgstr ""
@@ -2557,7 +2547,7 @@ msgctxt "admin-text"
 msgid "No reviews were found to export."
 msgstr ""
 
-#: plugin/Commands/GeolocateReview.php:49
+#: plugin/Commands/GeolocateReview.php:52
 msgctxt "admin-text"
 msgid "Review geolocated."
 msgstr ""
