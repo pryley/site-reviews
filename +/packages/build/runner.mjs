@@ -19,6 +19,10 @@ const c = {
     yellow: (s) => `\x1b[33m${s}\x1b[0m`,
 };
 
+const stripAnsi = (s) => s.replace(/\x1b\[[0-9;]*m/g, '');
+const padEndVisible = (s, n) => s + ' '.repeat(Math.max(0, n - stripAnsi(s).length));
+const padStartVisible = (s, n) => ' '.repeat(Math.max(0, n - stripAnsi(s).length)) + s;
+
 const formatSize = (bytes) => {
     if (bytes < 1024) return `${bytes} B`;
     return `${(bytes / 1024).toFixed(2)} KB`;
@@ -83,9 +87,9 @@ export async function build(configs) {
             const bundle = await rollup({
                 ...config,
                 onwarn(warning, warn) {
-                    if (config.onwarn) return config.onwarn(warning, warn);
                     if (warning.code === 'CIRCULAR_DEPENDENCY') return;
                     if (warning.code === 'MISSING_NAME_OPTION_FOR_IIFE_EXPORT') return;
+                    if (config.onwarn) return config.onwarn(warning, warn);
                     warn(warning);
                 },
             });
@@ -141,7 +145,7 @@ export async function build(configs) {
         const maxFile = Math.max(...all.map(r => r.file.length), 4);
         const maxSize = Math.max(...all.map(r => formatSize(r.size).length), 4);
         const maxGzip = Math.max(...all.map(r => formatSize(r.gzipped).length), 4);
-        const divider = c.dim('─'.repeat(maxFile + maxSize + maxGzip + 6));
+        const divider = c.dim('─'.repeat(maxFile + maxSize + maxGzip + 4));
 
         const printTable = (label, rows) => {
             if (!rows.length) return;
@@ -150,9 +154,9 @@ export async function build(configs) {
             console.log(`\n  ${c.bold(label.padEnd(maxFile))}  ${sizeHeader}  ${gzipHeader}`);
             console.log(`  ${divider}`);
             for (const r of rows) {
-                const file = c.dim(r.file.padEnd(maxFile));
-                const size = colorSize(r.size).padStart(maxSize + 10);
-                const gzip = c.dim(formatSize(r.gzipped)).padStart(maxGzip + 8);
+                const file = padEndVisible(c.dim(r.file), maxFile);
+                const size = padStartVisible(colorSize(r.size), maxSize);
+                const gzip = padStartVisible(c.dim(formatSize(r.gzipped)), maxGzip);
                 console.log(`  ${file}  ${size}  ${gzip}`);
             }
         };
@@ -172,5 +176,5 @@ export async function build(configs) {
 
     console.log(`\n  ${status} ${c.dim('in')} ${c.bold(formatTime(elapsed))}\n`);
 
-    process.exit(errors.length ? 1 : 0);
+    return { results, errors, elapsed };
 }

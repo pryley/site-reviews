@@ -7,4 +7,5 @@ import { build } from './runner.mjs';
 const configPath = path.resolve(process.cwd(), 'rollup.config.mjs');
 const { default: configs } = await import(pathToFileURL(configPath).href);
 
-await build(configs);
+const { errors } = await build(configs);
+process.exit(errors.length ? 1 : 0);

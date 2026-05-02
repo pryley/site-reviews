@@ -67,8 +67,11 @@ const jsPlugins = (rootDir, { cjs = false } = {}) => [
         preventAssignment: true,
         'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
     }),
-    resolve(),
     ...(cjs ? [commonjs()] : []),
+    resolve({
+        browser: true,
+        exportConditions: ['browser', 'module', 'default'],
+    }),
     babel({
         babelHelpers: 'runtime',
         plugins: [
