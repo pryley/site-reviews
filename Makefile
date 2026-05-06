@@ -1,4 +1,4 @@
-## v1.0.0
+## v1.1.0
 PLUGIN ?= $(notdir $(CURDIR))
 VERSION ?= $(shell perl -lne 'm{Stable tag: .*?(.+)} and print $$1' readme.txt)
 
@@ -40,7 +40,15 @@ divi: ## Build all Divi elements
 
 .PHONY: help
 help:  ## Display help
-	@awk -F ':|##' '/^[^\t].+?:.*?##/ {printf "\033[36m%-30s\033[0m %s\n", $$1, $$NF}' $(MAKEFILE_LIST) | sort
+	@awk '/^[^\t#].*?:.*?##/ { \
+		n = index($$0, "##"); \
+		t = substr($$0, 1, n - 1); \
+		sub(/[: \t]+$$/, "", t); \
+		gsub(/\\:/, ":", t); \
+		d = substr($$0, n + 2); \
+		sub(/^[ \t]+/, "", d); \
+		printf "\033[36m%-30s\033[0m %s\n", t, d \
+	}' $(MAKEFILE_LIST) | sort
 
 .PHONY: i18n
 i18n: ## Generate a pot file with the wp-cli
@@ -69,12 +77,16 @@ sync: ## Sync plugin files to development site
 test: ## Run all phpunit tests
 	XDEBUG_MODE=off ./vendor/bin/phpunit
 
-.PHONY: testall
-testall: ## Run phpstan analyser and all phpunit tests
+.PHONY: test\:all
+test\:all: ## Run phpstan analyser and all phpunit tests
 	make analyse
 	make test
 	make check
 	make compat
+
+.PHONY: test\:install
+test\:install: ## Install the WordPress test suite (prompts for DB credentials)
+	@bash tests/bin/install.sh --interactive
 
 .PHONY: update
 update: ## Update Composer and NPM

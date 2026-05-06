@@ -11,11 +11,20 @@ if (!defined('WP_CONTENT_DIR') && getenv('WP_CONTENT_DIR') !== false) {
 if (!defined('WP_PLUGIN_DIR') && getenv('WP_PLUGIN_DIR') !== false) {
     define('WP_PLUGIN_DIR', getenv('WP_PLUGIN_DIR'));
 }
-if (!defined('WP_TESTS_DIR') && getenv('WP_TESTS_DIR') === false) {
-    if (!file_exists($tests_dir = $_SERVER['HOME'].'/Sites/wordpress/tests/current')) {
-        $tests_dir = rtrim(sys_get_temp_dir(), '/\\').'/wordpress-tests-lib';
+if (!defined('WP_TESTS_DIR')) {
+    $tests_dir = getenv('WP_TESTS_DIR');
+    if (false === $tests_dir || '' === $tests_dir) {
+        $home = $_SERVER['HOME'] ?? getenv('HOME') ?: '';
+        $tests_dir = '' !== $home ? rtrim($home, '/\\').'/Sites/wordpress/tests/current' : '';
+        if ('' === $tests_dir || !is_dir($tests_dir)) {
+            $tests_dir = rtrim(sys_get_temp_dir(), '/\\').'/wordpress-tests-lib';
+        }
     }
     define('WP_TESTS_DIR', $tests_dir);
+}
+if (!is_dir(WP_TESTS_DIR) || !file_exists(WP_TESTS_DIR.'/includes/functions.php')) {
+    fwrite(STDERR, sprintf("Could not find the WordPress test suite at %s.\nSet the WP_TESTS_DIR environment variable or run tests/bin/install.sh <db-name> <db-user> <db-pass> [db-host] [wp-version].\n", WP_TESTS_DIR));
+    exit(1);
 }
 
 require_once WP_TESTS_DIR.'/includes/functions.php';

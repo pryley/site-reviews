@@ -1,17 +1,31 @@
 #!/usr/bin/env bash
 # v3.0.0
 
-if [ $# -lt 3 ]; then
+if [ "${1:-}" = "--interactive" ] || [ "${1:-}" = "-i" ]; then
+    read -p "DB name [wordpress_test]: " DB_NAME
+    DB_NAME=${DB_NAME:-wordpress_test}
+    read -p "DB user [dev]: " DB_USER
+    DB_USER=${DB_USER:-dev}
+    read -p "DB pass [dev]: " DB_PASS
+    DB_PASS=${DB_PASS:-dev}
+    read -p "DB host [localhost]: " DB_HOST
+    DB_HOST=${DB_HOST:-localhost}
+    read -p "WP version [latest]: " WP_VERSION
+    WP_VERSION=${WP_VERSION:-latest}
+    read -p "Skip database creation [false]: " SKIP_DB_CREATE
+    SKIP_DB_CREATE=${SKIP_DB_CREATE:-false}
+elif [ $# -lt 3 ]; then
     echo "usage: $0 <db-name> <db-user> <db-pass> [db-host] [wp-version] [skip-database-creation]"
+    echo "       $0 --interactive"
     exit 1
+else
+    DB_NAME=$1
+    DB_USER=$2
+    DB_PASS=$3
+    DB_HOST=${4-localhost}
+    WP_VERSION=${5-latest}
+    SKIP_DB_CREATE=${6-false}
 fi
-
-DB_NAME=$1
-DB_USER=$2
-DB_PASS=$3
-DB_HOST=${4-localhost}
-WP_VERSION=${5-latest}
-SKIP_DB_CREATE=${6-false}
 
 TMPDIR=${TMPDIR-/tmp}
 TMPDIR=$(echo $TMPDIR | sed -e "s/\/$//")
@@ -42,9 +56,8 @@ elif [[ $WP_VERSION == 'nightly' || $WP_VERSION == 'trunk' ]]; then
     WP_TESTS_TAG="trunk"
 else
     # http serves a single offer, whereas https serves multiple. we only want one
-    download http://api.wordpress.org/core/version-check/1.7/ /tmp/wp-latest.json
-    grep '[0-9]+\.[0-9]+(\.[0-9]+)?' /tmp/wp-latest.json
-    LATEST_VERSION=$(grep -o '"version":"[^"]*' /tmp/wp-latest.json | sed 's/"version":"//')
+    download http://api.wordpress.org/core/version-check/1.7/ $TMPDIR/wp-latest.json
+    LATEST_VERSION=$(grep -o '"version":"[^"]*' $TMPDIR/wp-latest.json | sed 's/"version":"//')
     if [[ -z "$LATEST_VERSION" ]]; then
         echo "Latest WordPress version could not be found"
         exit 1
