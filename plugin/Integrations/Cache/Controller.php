@@ -125,9 +125,9 @@ class Controller extends AbstractController
             return;
         }
         if (!empty($postIds)) {
-            do_action('site-reviews/cache/flush', $postIds);
+            do_action('site-reviews/cloudflare/purge', $postIds);
         } else {
-            do_action('site-reviews/cache/flush_all');
+            do_action('site-reviews/cloudflare/purge_all');
         }
     }
 
