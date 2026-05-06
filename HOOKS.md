@@ -120,6 +120,7 @@
     site-reviews/builder/enable/optgroup                        (bool $enable): bool
     site-reviews/builder/result                                 (string $result, Contracts\BuilderContract $builder): string
     site-reviews/cache/flush_when_empty_assigned_posts          (bool $bool): bool
+    site-reviews/cache/integrations                             (array $integrations): array
     site-reviews/capabilities                                   (array $capabilities): array
     site-reviews/captcha/actions                                (array $actions): array
     site-reviews/captcha/language                               (string $locale): string

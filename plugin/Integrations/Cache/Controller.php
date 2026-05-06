@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Integrations\Cache;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\Cache;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Review;
@@ -88,19 +89,31 @@ class Controller extends AbstractController
             return;
         }
         $postIds = Arr::consolidate($postIds);
-        $this->purgeCloudFlare($postIds);
-        $this->purgeEnduranceCache($postIds);
-        $this->purgeFlyingPressCache($postIds);
-        $this->purgeHummingbirdCache($postIds);
-        $this->purgeLitespeedCache($postIds);
-        $this->purgeNitropackCache($postIds);
-        $this->purgeSiteGroundCache($postIds);
-        $this->purgeSwiftPerformanceCache($postIds);
-        $this->purgeW3TotalCache($postIds);
-        $this->purgeWPFastestCache($postIds);
-        $this->purgeWPOptimizeCache($postIds);
-        $this->purgeWPRocketCache($postIds);
-        $this->purgeWPSuperCache($postIds);
+        $integrations = glsr()->filterArray('cache/integrations', [
+            'cloudflare' => true,
+            'endurance' => true,
+            'flying_press' => true,
+            'hummingbird' => true,
+            'litespeed' => true,
+            'nitropack' => true,
+            'siteground' => true,
+            'swift_performance' => true,
+            'w3_total_cache' => true,
+            'wp_fastest_cache' => true,
+            'wp_optimize' => true,
+            'wp_rocket' => true,
+            'wp_super_cache' => true,
+        ]);
+        foreach ($integrations as $slug => $enabled) {
+            if (!wp_validate_boolean($enabled)) {
+                continue;
+            }
+            $method = Helper::buildMethodName('purge', $slug);
+            if (!method_exists($this, $method)) {
+                continue;
+            }
+            $this->{$method}($postIds);
+        }
         $this->logResult($loggedMessage, $postIds);
     }
 
@@ -119,7 +132,7 @@ class Controller extends AbstractController
      * @see https://wordpress.org/plugins/cloudflare/
      * @see https://developers.cloudflare.com/automatic-platform-optimization/
      */
-    protected function purgeCloudFlare(array $postIds = []): void
+    protected function purgeCloudflare(array $postIds = []): void
     {
         if (!class_exists('CF\WordPress\Hooks')) {
             return;
@@ -134,7 +147,7 @@ class Controller extends AbstractController
     /**
      * @see https://github.com/bluehost/endurance-page-cache/
      */
-    protected function purgeEnduranceCache(array $postIds = []): void
+    protected function purgeEndurance(array $postIds = []): void
     {
         // This is a sloppy plugin, the only option we have is to purge the entire cache...
         do_action('epc_purge');
@@ -143,7 +156,7 @@ class Controller extends AbstractController
     /**
      * @see https://flyingpress.com/
      */
-    protected function purgeFlyingPressCache(array $postIds = []): void
+    protected function purgeFlyingPress(array $postIds = []): void
     {
         if (!class_exists('FlyingPress\Purge')) {
             return;
@@ -160,7 +173,7 @@ class Controller extends AbstractController
     /**
      * @see https://premium.wpmudev.org/docs/api-plugin-development/hummingbird-api-docs/#action-wphb_clear_page_cache
      */
-    protected function purgeHummingbirdCache(array $postIds = []): void
+    protected function purgeHummingbird(array $postIds = []): void
     {
         if (empty($postIds)) {
             do_action('wphb_clear_page_cache');
@@ -173,7 +186,7 @@ class Controller extends AbstractController
     /**
      * @see https://wordpress.org/plugins/litespeed-cache/
      */
-    protected function purgeLitespeedCache(array $postIds = []): void
+    protected function purgeLitespeed(array $postIds = []): void
     {
         if (empty($postIds)) {
             do_action('litespeed_purge_all');
@@ -186,7 +199,7 @@ class Controller extends AbstractController
     /**
      * @see https://nitropack.io/
      */
-    protected function purgeNitropackCache(array $postIds = []): void
+    protected function purgeNitropack(array $postIds = []): void
     {
         if (!function_exists('nitropack_invalidate') || !function_exists('nitropack_get_cacheable_object_types')) {
             return;
@@ -212,7 +225,7 @@ class Controller extends AbstractController
     /**
      * @see https://wordpress.org/plugins/sg-cachepress/
      */
-    protected function purgeSiteGroundCache(array $postIds = []): void
+    protected function purgeSiteground(array $postIds = []): void
     {
         if (function_exists('sg_cachepress_purge_everything') && empty($postIds)) {
             sg_cachepress_purge_everything();
@@ -227,7 +240,7 @@ class Controller extends AbstractController
     /**
      * @see https://swiftperformance.io/
      */
-    protected function purgeSwiftPerformanceCache(array $postIds = []): void
+    protected function purgeSwiftPerformance(array $postIds = []): void
     {
         if (!class_exists('Swift_Performance_Cache')) {
             return;
@@ -257,7 +270,7 @@ class Controller extends AbstractController
     /**
      * @see https://www.wpfastestcache.com/
      */
-    protected function purgeWPFastestCache(array $postIds = []): void
+    protected function purgeWpFastestCache(array $postIds = []): void
     {
         if (empty($postIds)) {
             do_action('wpfc_clear_all_cache');
@@ -270,7 +283,7 @@ class Controller extends AbstractController
     /**
      * @see https://getwpo.com/documentation/#Purging-the-cache-from-an-other-plugin-or-theme
      */
-    protected function purgeWPOptimizeCache(array $postIds = []): void
+    protected function purgeWpOptimize(array $postIds = []): void
     {
         if (function_exists('WP_Optimize') && empty($postIds)) {
             WP_Optimize()->get_page_cache()->purge();
@@ -285,7 +298,7 @@ class Controller extends AbstractController
     /**
      * @see https://docs.wp-rocket.me/article/93-rocketcleanpost
      */
-    protected function purgeWPRocketCache(array $postIds = []): void
+    protected function purgeWpRocket(array $postIds = []): void
     {
         if (function_exists('rocket_clean_home') && empty($postIds)) {
             rocket_clean_home();
@@ -300,7 +313,7 @@ class Controller extends AbstractController
     /**
      * @see https://wordpress.org/plugins/wp-super-cache/
      */
-    protected function purgeWPSuperCache(array $postIds = []): void
+    protected function purgeWpSuperCache(array $postIds = []): void
     {
         if (function_exists('wp_cache_clear_cache') && empty($postIds)) {
             wp_cache_clear_cache();
