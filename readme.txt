@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 6.9
-Stable tag: 8.0.10
+Stable tag: 8.0.11
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -211,6 +211,11 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 
 == Changelog ==
 
+= 8.0.11 (2026-05-06) =
+
+- Fixed an infinite-recursion bug in the Cloudflare cache integration
+- Fixed geolocation jobs being queued when the geolocation setting was disabled
+
 = 8.0.10 (2026-04-29) =
 
 - Fixed Discord and Slack webhook url domain sanitization
@@ -220,7 +225,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 - Fixed Modal positioning
 - Fixed review types
 - Fixed WordPress 7.0 compatibility
-- Improved Geolocation Reviews tooltool
+- Improved Geolocation Reviews tool
 - Improved Rollback Plugin tool
 - Improved wp_safe_redirect usage
 - Improved wp_safe_remote_post usage

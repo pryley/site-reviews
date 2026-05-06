@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 8.0.11 (2026-05-06) =
+
+- Fixed an infinite-recursion bug in the Cloudflare cache integration
+- Fixed geolocation jobs being queued when the geolocation setting was disabled
+
 = 8.0.10 (2026-04-29) =
 
 - Fixed Discord and Slack webhook url domain sanitization
@@ -9,7 +14,7 @@
 - Fixed Modal positioning
 - Fixed review types
 - Fixed WordPress 7.0 compatibility
-- Improved Geolocation Reviews tooltool
+- Improved Geolocation Reviews tool
 - Improved Rollback Plugin tool
 - Improved wp_safe_redirect usage
 - Improved wp_safe_remote_post usage
