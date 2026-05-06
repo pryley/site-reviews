@@ -312,6 +312,9 @@ class ReviewManager
         ]);
         glsr(PostMeta::class)->delete($review->ID, 'geolocation');
         glsr()->action('cache/flush', "review_{$review->ID}_geolocated", $review);
+        if (!glsr_get_option('reviews.geolocation', false, 'bool')) {
+            return;
+        }
         if (empty($values['ip_address']) || Helper::isLocalIpAddress($values['ip_address'])) {
             return;
         }

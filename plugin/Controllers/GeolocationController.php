@@ -26,6 +26,9 @@ class GeolocationController extends AbstractController
         if (defined('WP_IMPORTING')) {
             return;
         }
+        if (!glsr_get_option('reviews.geolocation', false, 'bool')) {
+            return;
+        }
         if (Helper::isLocalIpAddress($review->ip_address)) {
             return;
         }
