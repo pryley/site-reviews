@@ -13,6 +13,7 @@ class MenuHooks extends AbstractHooks
             ['registerMenuCount', 'admin_menu'],
             ['registerSubMenus', 'admin_menu'],
             ['removeSubMenu', 'admin_init'],
+            ['reorderSubMenu', 'admin_menu', 20],
             ['setCustomPermissions', 'admin_init', 999],
         ]);
     }

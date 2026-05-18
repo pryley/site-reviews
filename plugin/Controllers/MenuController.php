@@ -223,6 +223,37 @@ class MenuController extends AbstractController
     }
 
     /**
+     * Reorders the submenu to keep post types at the top
+     * 
+     * @action admin_menu:20
+     */
+    public function reorderSubMenu(): void
+    {
+        global $submenu;
+        $prefix = 'edit.php?post_type='.glsr()->post_type;
+        if (empty($submenu[$prefix])) {
+            return;
+        }
+        $deferred = [];
+        $reindexed = [];
+        $index = 0;
+        $step = 5;
+        foreach ($submenu[$prefix] as $item) {
+            if (str_starts_with($item[0] ?? '', 'All ')) {
+                $index += $step;
+                $reindexed[$index] = $item;
+            } else {
+                $deferred[] = $item;
+            }
+        }
+        foreach ($deferred as $item) {
+            $index += $step;
+            $reindexed[$index] = $item;
+        }
+        $submenu[$prefix] = $reindexed;
+    }
+
+    /**
      * @action admin_init
      */
     public function setCustomPermissions(): void
