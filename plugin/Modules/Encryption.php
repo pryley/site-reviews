@@ -97,14 +97,14 @@ class Encryption
     protected function legacyNonce(): string
     {
         $nonce = defined('NONCE_SALT') ? \NONCE_SALT : '';
-        $nonce = substr($nonce, 0, \SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
-        return str_pad($nonce, \SODIUM_CRYPTO_SECRETBOX_NONCEBYTES, '#');
+        $nonce = substr($nonce, 0, (int) \SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
+        return str_pad($nonce, (int) \SODIUM_CRYPTO_SECRETBOX_NONCEBYTES, '#');
     }
 
     protected function key(): string
     {
         $key = defined('NONCE_KEY') ? \NONCE_KEY : '';
-        $key = substr($key, 0, \SODIUM_CRYPTO_SECRETBOX_KEYBYTES);
-        return str_pad($key, \SODIUM_CRYPTO_SECRETBOX_KEYBYTES, '#');
+        $key = substr($key, 0, (int) \SODIUM_CRYPTO_SECRETBOX_KEYBYTES);
+        return str_pad($key, (int) \SODIUM_CRYPTO_SECRETBOX_KEYBYTES, '#');
     }
 }
