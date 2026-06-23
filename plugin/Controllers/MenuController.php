@@ -225,7 +225,7 @@ class MenuController extends AbstractController
     /**
      * Reorders the submenu to keep post types at the top
      * 
-     * @action admin_menu:20
+     * @action admin_menu
      */
     public function reorderSubMenu(): void
     {
