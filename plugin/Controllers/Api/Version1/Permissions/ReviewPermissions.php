@@ -76,6 +76,13 @@ trait ReviewPermissions
                 'status' => rest_authorization_required_code()
             ]);
         }
+        $context = $request['context'] ?? 'edit';
+        if ('edit' === $context && !glsr()->can('edit_posts')) {
+            $message = _x('Sorry, you are not allowed to edit this review.', 'admin-text', 'site-reviews');
+            return new \WP_Error('rest_forbidden_context', $message, [
+                'status' => rest_authorization_required_code(),
+            ]);
+        }
         return true;
     }
 
