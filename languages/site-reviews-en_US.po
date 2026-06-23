@@ -678,7 +678,7 @@ msgctxt "admin-text"
 msgid "Manage Review Categories"
 msgstr "Manage Review Categories"
 
-#: helpers.php:95, plugin/Controllers/MenuController.php:122, plugin/Controllers/MenuController.php:181, plugin/Controllers/MenuController.php:252
+#: helpers.php:95, plugin/Controllers/MenuController.php:122, plugin/Controllers/MenuController.php:181, plugin/Controllers/MenuController.php:283
 msgctxt "admin-text"
 msgid "Addons"
 msgstr "Addons"
@@ -7128,12 +7128,12 @@ msgctxt "admin-text"
 msgid "Sorry, you are not allowed to create reviews as this review author."
 msgstr "Sorry, you are not allowed to create reviews as this review author."
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:30, plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:132
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:30, plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:139
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to assign the provided terms."
 msgstr "Sorry, you are not allowed to assign the provided terms."
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:45, plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:68, plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:114
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:45, plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:68, plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:121
 msgctxt "admin-text"
 msgid "Invalid review ID."
 msgstr "Invalid review ID."
@@ -7148,22 +7148,22 @@ msgctxt "admin-text"
 msgid "Sorry, you are not allowed to view this review."
 msgstr "Sorry, you are not allowed to view this review."
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:90
-msgctxt "admin-text"
-msgid "Sorry, you do not have permission to access reviews."
-msgstr "Sorry, you do not have permission to access reviews."
-
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:97
-msgctxt "admin-text"
-msgid "Sorry, you are not allowed to edit reviews."
-msgstr "Sorry, you are not allowed to edit reviews."
-
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:120
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:81, plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:127
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to edit this review."
 msgstr "Sorry, you are not allowed to edit this review."
 
-#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:126
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:97
+msgctxt "admin-text"
+msgid "Sorry, you do not have permission to access reviews."
+msgstr "Sorry, you do not have permission to access reviews."
+
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:104
+msgctxt "admin-text"
+msgid "Sorry, you are not allowed to edit reviews."
+msgstr "Sorry, you are not allowed to edit reviews."
+
+#: plugin/Controllers/Api/Version1/Permissions/ReviewPermissions.php:133
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to update the review as this user."
 msgstr "Sorry, you are not allowed to update the review as this user."

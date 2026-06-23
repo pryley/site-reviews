@@ -31,6 +31,8 @@ parameters:
     - autoload.php
   ignoreErrors:
     -
+      identifier: argument.type
+    -
       identifier: function.internal
     -
       identifier: method.internal

@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 7.0
-Stable tag: 8.0.11
+Stable tag: 8.0.12
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -135,7 +135,7 @@ Site Reviews is officially compatible with the following plugins:
 - [WPBakery Page Builder](https://wpbakery.com/)
 - [WPForms](https://wordpress.org/plugins/wpforms-lite/)
 - [WPLoyalty](https://wployalty.net/)
-- [WPML](https://wpml.org/)
+- [WPML](https://wpml.org/) - note: review translation is not supported
 - [Yoast Duplicate Post](https://wordpress.org/plugins/duplicate-post/)
 - [Yoast SEO](https://yoast.com/wordpress/plugins/seo-free/)
 
@@ -210,6 +210,11 @@ You can report any security bugs found in the source code of this plugin through
 This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
+
+= 8.0.12 (2026-06-23) =
+
+- Fixed a Broken Access Control vulnerability (CVSS 6.5) in the REST API
+- Fixed the menu order of addon menu items
 
 = 8.0.11 (2026-05-06) =
 

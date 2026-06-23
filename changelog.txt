@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 8.0.12 (2026-06-23) =
+
+- Fixed a Broken Access Control vulnerability (CVSS 6.5) in the REST API
+- Fixed the menu order of addon menu items
+
 = 8.0.11 (2026-05-06) =
 
 - Fixed an infinite-recursion bug in the Cloudflare cache integration
