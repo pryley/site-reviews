@@ -103,6 +103,12 @@ class CreateReviewDefaults extends DefaultsAbstract
 
     protected function normalize(array $values = []): array
     {
+        if (empty($values['date'])) {
+            $values['date'] = wp_resolve_post_date('', $values['date_gmt'] ?? '');
+        }
+        if (empty($values['date_gmt']) || '0000-00-00 00:00:00' === $values['date_gmt']) {
+            $values['date_gmt'] = get_gmt_from_date((string) $values['date']);
+        }
         if (Arr::getAs('bool', $values, 'terms_exist', false)) {
             $values['terms'] = !empty($values['terms']);
         }

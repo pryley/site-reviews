@@ -260,9 +260,6 @@ class CreateReview extends AbstractCommand
                 $property->setValue($this, $values[$key]);
             }
         }
-        if (!empty($this->date) && empty($this->date_gmt)) {
-            $this->date_gmt = get_gmt_from_date($this->date); // set the GMT date
-        }
     }
 
     protected function type(): string
