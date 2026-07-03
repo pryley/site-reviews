@@ -177,6 +177,24 @@ trait Plugin
     }
 
     /**
+     * @param mixed ...$args
+     */
+    public function filterArrayUniqueInt(string $hook, ...$args): array
+    {
+        $filtered = apply_filters_ref_array("{$this->id}/{$hook}", $args);
+        return Arr::uniqueInt(Cast::toArray($filtered));
+    }
+
+    /**
+     * @param mixed ...$args
+     */
+    public function filterArrayUniqueString(string $hook, ...$args): array
+    {
+        $filtered = apply_filters_ref_array("{$this->id}/{$hook}", $args);
+        return Arr::uniqueString(Cast::toArray($filtered));
+    }
+
+    /**
      * @return static
      */
     public static function load()

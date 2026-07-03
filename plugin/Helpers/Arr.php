@@ -309,6 +309,18 @@ class Arr
         return array_values(array_unique($values));
     }
 
+    /**
+     * This reindexes the array!
+     *
+     * @param array|string $values
+     */
+    public static function uniqueString($values): array
+    {
+        $values = array_filter(static::convertFromString($values), 'is_scalar');
+        $values = array_map(fn ($value) => (string) $value, $values);
+        return array_values(array_unique($values));
+    }
+
     public static function unprefixKeys(array $values, string $prefix = '_'): array
     {
         $results = [];

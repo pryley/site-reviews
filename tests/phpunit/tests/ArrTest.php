@@ -292,6 +292,14 @@ class ArrTest extends WP_UnitTestCase
         $this->assertEquals($test2, [-1,0,1,2,3,4,5]);
     }
 
+    public function test_unique_string()
+    {
+        $array = [1,'1','3',[23],'2','a','4','3','5','0', '-1'];
+        $test1 = Arr::uniqueString($array);
+        sort($test1);
+        $this->assertEquals($test1, ['-1','0','1','2','3','4','5','a']);
+    }
+
     public function test_unprefix_keys()
     {
         $array = ['_a' => '', 'b' => ''];
