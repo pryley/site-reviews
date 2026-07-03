@@ -172,6 +172,7 @@ trait Plugin
      */
     public function filterArrayUnique(string $hook, ...$args): array
     {
+        do_action("{$this->id}/filter", $hook, $args);
         $filtered = apply_filters_ref_array("{$this->id}/{$hook}", $args);
         return array_unique(array_filter(Cast::toArray($filtered)));
     }
@@ -181,6 +182,7 @@ trait Plugin
      */
     public function filterArrayUniqueInt(string $hook, ...$args): array
     {
+        do_action("{$this->id}/filter", $hook, $args);
         $filtered = apply_filters_ref_array("{$this->id}/{$hook}", $args);
         return Arr::uniqueInt(Cast::toArray($filtered));
     }
@@ -190,6 +192,7 @@ trait Plugin
      */
     public function filterArrayUniqueString(string $hook, ...$args): array
     {
+        do_action("{$this->id}/filter", $hook, $args);
         $filtered = apply_filters_ref_array("{$this->id}/{$hook}", $args);
         return Arr::uniqueString(Cast::toArray($filtered));
     }

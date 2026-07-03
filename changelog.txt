@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 8.0.13 (2026-07-03) =
+
+- Fixed a timezone bug that would reset the submission date of a review when approving a newly submitted unapproved review
+
 = 8.0.12 (2026-06-23) =
 
 - Fixed a Broken Access Control vulnerability (CVSS 6.5) in the REST API
