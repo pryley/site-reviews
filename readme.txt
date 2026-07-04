@@ -7,7 +7,7 @@ Stable tag: 8.0.13
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Site Reviews is a complete review management solution that integrates with WooCommerce and SureCart and works similarly to reviews on Amazon, Tripadvisor, and Yelp.
+Site Reviews is the best free reviews plugin. It integrates with WooCommerce & SureCart and works just like reviews on Amazon, Tripadvisor, and Yelp.
 
 == Description ==
 
