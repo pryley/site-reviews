@@ -6,3 +6,4 @@ export { default as AjaxToggleGroupControl } from './ajax-toggle-group-control';
 export { default as ColorControl } from './color-control';
 export { default as NoYesControl } from './no-yes-control';
 export { default as UnitControl } from './unit-control';
+export { default as prefetchOptions } from './prefetch';

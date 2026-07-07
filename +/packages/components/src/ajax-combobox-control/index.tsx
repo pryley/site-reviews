@@ -9,6 +9,7 @@ import {
     ComboboxControl,
 } from '@wordpress/components';
 import { ControlProps, Item, Option } from './types';
+import { toOption } from '../utils';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 
@@ -45,17 +46,12 @@ const AjaxComboboxControl = (props: ControlProps) => {
         );
     };
 
-    const transformItem = (item: Item): Option => ({
-        label: item.title || String(item.id),
-        value: String(item.id),
-    });
-
     const initOptions = async () => {
         if (options.length) return;
         setIsLoading(true);
         try {
             const response = await apiFetch<Item[]>({ path: endpoint });
-            setStoreValues('options', endpoint, response.map(transformItem));
+            setStoreValues('options', endpoint, response.map(toOption));
         } finally {
             setIsLoading(false);
         }

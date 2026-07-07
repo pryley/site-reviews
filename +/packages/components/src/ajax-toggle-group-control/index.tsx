@@ -2,6 +2,7 @@ import apiFetch from '@wordpress/api-fetch';
 import createStore, { DEFAULT_STORE_NAME } from '@site-reviews/store';
 import { BaseControl, ToggleControl, Spinner } from '@wordpress/components';
 import { ControlProps, Item, Option } from './types';
+import { toOption } from '../utils';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 
@@ -36,11 +37,7 @@ const AjaxToggleGroupControl = (props: ControlProps) => {
         setIsLoading(true);
         apiFetch<Item[]>({ path: endpoint })
             .then((response) => {
-                const initialOptions: Option[] = response.map((item) => ({
-                    label: item.title,
-                    value: String(item.id),
-                }));
-                setStoreValues('options', endpoint, initialOptions);
+                setStoreValues('options', endpoint, response.map(toOption));
             })
             .finally(() => {
                 setIsLoading(false);
