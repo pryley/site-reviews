@@ -23,6 +23,7 @@
         "url": "https://github.com/pryley/site-reviews/issues"
     },
     "main": "src/index.jsx",
+    "sideEffects": false,
     "dependencies": {
         "@wordpress/scripts": "^31.6.0"
     },
