@@ -55,11 +55,20 @@ use GeminiLabs\SiteReviews\Modules\Sanitizer;
  */
 class Review extends Arguments
 {
-    /** @var Arguments|null */
-    protected $_meta;
+    protected const KEY_ALIASES = [
+        'approved' => 'is_approved',
+        'has_revisions' => 'is_modified',
+        'modified' => 'is_modified',
+        'name' => 'author',
+        'pinned' => 'is_pinned',
+        'user_id' => 'author_id',
+    ];
 
-    /** @var \WP_Post|null */
-    protected $_post;
+    protected ?Arguments $_custom = null;
+
+    protected ?Arguments $_meta = null;
+
+    protected ?\WP_Post $_post = null;
 
     protected bool $has_checked_revisions = false;
 
@@ -80,9 +89,7 @@ class Review extends Arguments
                 $this->user(), __('Anonymous', 'site-reviews')
             ));
         }
-        $this->set('avatar', glsr(Avatar::class)->url($this));
-        $this->set('custom', $this->custom());
-        $this->set('response', $this->meta()->_response);
+        $this->hydrate();
     }
 
     /**
@@ -104,10 +111,7 @@ class Review extends Arguments
 
     public function approveUrl(): string
     {
-        $token = glsr(Encryption::class)->encryptRequest('approve', [$this->ID]);
-        return !empty($token)
-            ? add_query_arg(glsr()->prefix, $token, admin_url())
-            : '';
+        return $this->tokenUrl('approve', [$this->ID], admin_url());
     }
 
     public function assignedPosts(bool $multilingual = true): array
@@ -178,28 +182,25 @@ class Review extends Arguments
 
     public function custom(): Arguments
     {
-        $custom = array_filter($this->meta()->toArray(),
-            fn ($key) => str_starts_with($key, '_custom'),
-            ARRAY_FILTER_USE_KEY
-        );
-        $custom = Arr::unprefixKeys($custom, '_custom_');
-        $custom = Arr::unprefixKeys($custom, '_');
-        $custom = glsr(CustomFieldsDefaults::class)->merge($custom);
-        return glsr()->args($custom);
+        if (!$this->_custom instanceof Arguments) {
+            $custom = array_filter($this->meta()->toArray(),
+                fn ($key) => str_starts_with($key, '_custom'),
+                ARRAY_FILTER_USE_KEY
+            );
+            $custom = Arr::unprefixKeys($custom, '_custom_');
+            $custom = Arr::unprefixKeys($custom, '_');
+            $custom = glsr(CustomFieldsDefaults::class)->merge($custom);
+            $this->_custom = glsr()->args($custom);
+        }
+        return $this->_custom;
     }
 
-    public function date(string $format = 'F j, Y'): string
+    public function date(string $format = ''): string
     {
-        if (!empty(func_get_args())) {
-            return Cast::toString(mysql2date($format, $this->date));
+        $format = $format ?: $this->dateFormat();
+        if ('relative' === $format) {
+            return glsr(Date::class)->relative($this->date);
         }
-        $dateFormat = glsr_get_option('reviews.date.format', 'default');
-        if ('relative' === $dateFormat) {
-            return glsr(Date::class)->relative($this->date, 'past');
-        }
-        $format = 'custom' === $dateFormat
-            ? glsr_get_option('reviews.date.custom', 'M j, Y')
-            : glsr(OptionManager::class)->wp('date_format', 'F j, Y');
         return Cast::toString(mysql2date($format, $this->date));
     }
 
@@ -266,24 +267,11 @@ class Review extends Arguments
     #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
-        $alternateKeys = [
-            'approved' => 'is_approved',
-            'has_revisions' => 'is_modified',
-            'modified' => 'is_modified',
-            'name' => 'author',
-            'pinned' => 'is_pinned',
-            'user_id' => 'author_id',
-        ];
-        if (array_key_exists($key, $alternateKeys)) {
-            return $this->offsetGet($alternateKeys[$key]);
-        }
+        $key = static::KEY_ALIASES[$key] ?? $key;
         if ('is_modified' === $key) {
             return $this->hasRevisions();
         }
-        if (is_null($value = parent::offsetGet($key))) {
-            return $this->custom()->$key;
-        }
-        return $value;
+        return parent::offsetGet($key) ?? $this->custom()->$key;
     }
 
     /**
@@ -298,6 +286,7 @@ class Review extends Arguments
             $value = Arr::prefixKeys($value, '_custom_');
             $meta = wp_parse_args($value, $this->meta()->toArray());
             $this->_meta = glsr()->args($meta);
+            $this->_custom = null;
             parent::offsetSet($key, $this->custom());
         }
     }
@@ -331,12 +320,11 @@ class Review extends Arguments
     {
         $values = glsr(ReviewManager::class)->get($this->ID, true)->toArray();
         $this->merge($values);
+        $this->_custom = null;
         $this->_meta = null;
         $this->_post = null;
         $this->has_checked_revisions = false;
-        $this->set('avatar', glsr(Avatar::class)->url($this));
-        $this->set('custom', $this->custom());
-        $this->set('response', $this->meta()->_response);
+        $this->hydrate();
         return $this;
     }
 
@@ -347,10 +335,9 @@ class Review extends Arguments
 
     public function toArray(array $excludedKeys = []): array
     {
-        $excludedKeys = Arr::consolidate($excludedKeys);
-        $values = Cast::toArrayDeep($this->getArrayCopy());
+        $values = parent::toArray();
         $values['name'] = $this->author; // fallback
-        return array_diff_key($values, array_flip($excludedKeys));
+        return array_diff_key($values, array_fill_keys($excludedKeys, null));
     }
 
     public function type(): string
@@ -373,11 +360,16 @@ class Review extends Arguments
         if ($this->is_verified && !empty($this->meta()->_verified_on)) {
             return '';
         }
-        $path = trailingslashit($path);
-        $token = glsr(Encryption::class)->encryptRequest('verify', [$this->ID, $path]);
-        return !empty($token)
-            ? add_query_arg(glsr()->prefix, $token, get_home_url())
-            : '';
+        return $this->tokenUrl('verify', [$this->ID, trailingslashit($path)], get_home_url());
+    }
+
+    protected function dateFormat(): string
+    {
+        return match (glsr_get_option('reviews.date.format', 'default')) {
+            'relative' => 'relative',
+            'custom' => glsr_get_option('reviews.date.custom', 'M j, Y'),
+            default => glsr(OptionManager::class)->wp('date_format', 'F j, Y'),
+        };
     }
 
     protected function hasRevisions(): bool
@@ -388,5 +380,20 @@ class Review extends Arguments
             $this->set('is_modified', $isModified);
         }
         return $this->cast('is_modified', 'bool');
+    }
+
+    protected function hydrate(): void
+    {
+        $this->set('avatar', glsr(Avatar::class)->url($this));
+        $this->set('custom', $this->custom());
+        $this->set('response', $this->meta()->_response);
+    }
+
+    protected function tokenUrl(string $action, array $args, string $baseUrl): string
+    {
+        $token = glsr(Encryption::class)->encryptRequest($action, $args);
+        return !empty($token)
+            ? add_query_arg(glsr()->prefix, $token, $baseUrl)
+            : '';
     }
 }
