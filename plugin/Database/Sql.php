@@ -111,7 +111,12 @@ trait Sql
     public function sqlOrderBy(): string
     {
         $values = [
-            'random' => 'RAND()',
+            // An unseeded RAND() re-randomizes on every request, so
+            // paginated random results overlap and skip across pages.
+            // Seeding per hour keeps the ordering stable within the
+            // hour (page N always agrees with page 1) while still
+            // rotating the "random" order over time.
+            'random' => $this->db->prepare('RAND(%d)', (int) floor(time() / HOUR_IN_SECONDS)),
         ];
         $order = $this->args['order'];
         $orderby = $this->args['orderby'];

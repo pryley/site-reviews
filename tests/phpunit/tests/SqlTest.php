@@ -87,7 +87,9 @@ class SqlTest extends WP_Ajax_UnitTestCase
             'id' => 'ORDER BY r.is_pinned DESC, p.ID DESC',
             'menu_order' => 'ORDER BY r.is_pinned DESC, p.menu_order DESC',
             'none' => '',
-            'random' => 'ORDER BY RAND()',
+            // Seeded per hour so paginated random results stay
+            // consistent within the hour (see Sql::sqlOrderBy).
+            'random' => sprintf('ORDER BY RAND(%d)', (int) floor(time() / HOUR_IN_SECONDS)),
             'rating' => 'ORDER BY r.is_pinned DESC, r.rating DESC',
         ];
         foreach ($expected as $key => $value) {
