@@ -24,9 +24,13 @@ class Encryption
                 $nonce = substr($decoded, 0, $nonceLength);
                 $ciphertext = substr($decoded, $nonceLength);
                 if (strlen($nonce) === $nonceLength) {
-                    $plaintext = sodium_crypto_secretbox_open($ciphertext, $nonce, $this->key());
-                    if (false !== $plaintext) {
-                        return $plaintext; // Success with new format
+                    // Try the current (HKDF) key first, then fall back to the
+                    // legacy key so data encrypted before the KDF change still opens.
+                    foreach ([$this->key(), $this->legacyKey()] as $key) {
+                        $plaintext = sodium_crypto_secretbox_open($ciphertext, $nonce, $key);
+                        if (false !== $plaintext) {
+                            return $plaintext; // Success with new format
+                        }
                     }
                 }
             }
@@ -83,7 +87,7 @@ class Encryption
     protected function legacyDecrypt(string $ciphertext)
     {
         try {
-            $plaintext = sodium_crypto_secretbox_open($ciphertext, $this->legacyNonce(), $this->key());
+            $plaintext = sodium_crypto_secretbox_open($ciphertext, $this->legacyNonce(), $this->legacyKey());
             if (false === $plaintext) {
                 throw new \Exception('Legacy decryption failed');
             }
@@ -102,6 +106,20 @@ class Encryption
     }
 
     protected function key(): string
+    {
+        $ikm = defined('NONCE_KEY') ? \NONCE_KEY : '';
+        if ('' === $ikm) {
+            return $this->legacyKey(); // no keying material available
+        }
+        $salt = defined('NONCE_SALT') ? \NONCE_SALT : '';
+        return hash_hkdf('sha256', $ikm, (int) \SODIUM_CRYPTO_SECRETBOX_KEYBYTES, 'site-reviews-encryption', $salt);
+    }
+
+    /**
+     * Legacy key derivation (truncate-and-pad) retained so that data encrypted
+     * before the move to HKDF can still be decrypted.
+     */
+    protected function legacyKey(): string
     {
         $key = defined('NONCE_KEY') ? \NONCE_KEY : '';
         $key = substr($key, 0, (int) \SODIUM_CRYPTO_SECRETBOX_KEYBYTES);
