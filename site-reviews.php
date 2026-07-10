@@ -12,7 +12,7 @@
  * Author URI:           https://site-reviews.com
  * License:              GPL3
  * License URI:          https://www.gnu.org/licenses/gpl-3.0.html
- * Requires at least:    6.7
+ * Requires at least:    6.8
  * Requires PHP:         8.1.2
  * Text Domain:          site-reviews
  * Domain Path:          languages
