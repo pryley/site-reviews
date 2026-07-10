@@ -5,15 +5,14 @@
 }
 
 .glsr-setting-field textarea.autosized {
-  padding: 4px 8px;
-  min-height: 30px;
+  min-height: 40px;
   width: 100%;
 }
 .glsr-setting-field .has-reset-button {
   position: relative;
 }
 .glsr-setting-field .has-reset-button textarea.autosized {
-  padding-right: 38px;
+  padding-right: 50px;
 }
 .glsr-setting-field button.is-reset-button {
   align-items: center;
@@ -24,23 +23,17 @@
   padding: 0;
   position: absolute;
   right: 0;
-  top: 1px;
-  width: 30px;
+  top: 0;
+  width: 40px;
   z-index: 1;
+}
+.glsr-setting-field button.is-reset-button .dashicons {
+  line-height: 1;
 }
 
 @media screen and (max-width: 782px) {
   .glsr-setting-field textarea.autosized {
     line-height: 1.5;
-    min-height: 40px;
-    padding: 7px 10px;
-  }
-  .glsr-setting-field .has-reset-button textarea.autosized {
-    padding-right: 50px;
-  }
-  .glsr-setting-field textarea.autosized + button {
-    top: 0;
-    width: 40px;
   }
 }
 
@@ -798,10 +791,30 @@ tr.glsr-setting-field td .inline label::after {
   letter-spacing: 2px;
   -webkit-text-security: disc;
 }
-.glsr-setting-field .wp-pwd button.wp-hide-pw {
+
+.glsr-setting-field button.wp-hide-pw {
+  align-items: center;
+  background-color: transparent;
+  border-color: transparent;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  right: 1px; /* because wp gives inputs a 1px right/left margin */
+  top: 0;
+  width: 40px;
+  z-index: 1;
+}
+.glsr-setting-field button.wp-hide-pw .dashicons {
+  line-height: 1;
+}
+
+/*.glsr-setting-field .wp-pwd button.wp-hide-pw {
+  align-items: center;
   background: 0 0;
   border: 1px solid transparent;
   box-shadow: none;
+  display: flex;
   font-size: 14px;
   line-height: 2;
   margin: 0;
@@ -827,7 +840,8 @@ tr.glsr-setting-field td .inline label::after {
     box-shadow: none;
     transform: none;
   }
-}
+*/
+
 @media screen and (max-width: 782px) {
   .glsr-setting-field .wp-pwd button.wp-hide-pw {
     right: -1px;
