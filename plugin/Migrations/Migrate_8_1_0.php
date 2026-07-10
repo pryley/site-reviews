@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 
-class Migrate_8_0_14 implements MigrateContract
+class Migrate_8_1_0 implements MigrateContract
 {
     public function run(): bool
     {

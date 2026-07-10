@@ -2,14 +2,14 @@
 
 namespace GeminiLabs\SiteReviews\Tests;
 
-use GeminiLabs\SiteReviews\Migrations\Migrate_8_0_14;
+use GeminiLabs\SiteReviews\Migrations\Migrate_8_1_0;
 use WP_UnitTestCase;
 
 /**
  * Regression test for the post_date_gmt backfill migration.
  * @group plugin
  */
-class Migrate_8_0_14Test extends WP_UnitTestCase
+class Migrate_8_1_0Test extends WP_UnitTestCase
 {
     use Setup;
 
@@ -18,7 +18,7 @@ class Migrate_8_0_14Test extends WP_UnitTestCase
         update_option('timezone_string', 'America/New_York');
         $winter = $this->createBrokenReview('2026-01-15 12:00:00'); // EST (UTC-5)
         $summer = $this->createBrokenReview('2026-07-15 12:00:00'); // EDT (UTC-4)
-        $this->assertTrue((new Migrate_8_0_14())->run());
+        $this->assertTrue((new Migrate_8_1_0())->run());
         $this->assertSame('2026-01-15 17:00:00', $this->postDateGmt($winter));
         $this->assertSame('2026-07-15 16:00:00', $this->postDateGmt($summer));
         // parity with the WordPress core conversion
@@ -33,7 +33,7 @@ class Migrate_8_0_14Test extends WP_UnitTestCase
         $gap = $this->createBrokenReview('2026-03-08 02:30:00');
         // 01:30 occurs twice (clocks fall back 02:00 -> 01:00 on 2026-11-01)
         $ambiguous = $this->createBrokenReview('2026-11-01 01:30:00');
-        $this->assertTrue((new Migrate_8_0_14())->run());
+        $this->assertTrue((new Migrate_8_1_0())->run());
         // Either UTC offset is a defensible interpretation of a nonexistent
         // or ambiguous local time; the regression being guarded against is
         // boundary rows being skipped and left with a zero date.
@@ -46,7 +46,7 @@ class Migrate_8_0_14Test extends WP_UnitTestCase
         update_option('timezone_string', '');
         update_option('gmt_offset', 5.5); // UTC+05:30 (no DST)
         $review = $this->createBrokenReview('2026-01-15 12:00:00');
-        $this->assertTrue((new Migrate_8_0_14())->run());
+        $this->assertTrue((new Migrate_8_1_0())->run());
         $this->assertSame('2026-01-15 06:30:00', $this->postDateGmt($review));
     }
 
@@ -57,7 +57,7 @@ class Migrate_8_0_14Test extends WP_UnitTestCase
         $zeroDates = $this->createBrokenReview('0000-00-00 00:00:00'); // no post_date to backfill from
         $notReview = self::factory()->post->create();
         $this->setPostDates($notReview, '2026-01-15 12:00:00', '0000-00-00 00:00:00');
-        $this->assertTrue((new Migrate_8_0_14())->run());
+        $this->assertTrue((new Migrate_8_1_0())->run());
         $this->assertSame('2026-01-15 17:00:00', $this->postDateGmt($valid));
         $this->assertSame('0000-00-00 00:00:00', $this->postDateGmt($zeroDates));
         $this->assertSame('0000-00-00 00:00:00', $this->postDateGmt($notReview));
@@ -67,7 +67,7 @@ class Migrate_8_0_14Test extends WP_UnitTestCase
     {
         update_option('timezone_string', 'America/New_York');
         $review = $this->createBrokenReview('2026-01-15 12:00:00');
-        $migration = new Migrate_8_0_14();
+        $migration = new Migrate_8_1_0();
         $this->assertTrue($migration->run());
         $this->assertTrue($migration->run()); // nothing left to migrate
         $this->assertSame('2026-01-15 17:00:00', $this->postDateGmt($review));
