@@ -46,7 +46,9 @@ class Geolocation
         if (empty($data)) {
             return new Response();
         }
-        $this->checkRateLimits();
+        if ($this->checkRateLimits()) {
+            return new Response(); // rate limited, caller should retry later
+        }
         $path = sprintf('/batch?fields=%s', implode(',', static::FIELDS));
         $response = $this->api->post($path, $this->requestArgs([
             'body' => wp_json_encode($data),
@@ -68,7 +70,9 @@ class Geolocation
         if (empty($entity)) {
             return new Response();
         }
-        $this->checkRateLimits();
+        if ($this->checkRateLimits()) {
+            return new Response(); // rate limited, caller should retry later
+        }
         $path = sprintf('/json/%s?fields=%s', $entity, implode(',', static::FIELDS));
         $response = $this->api->get($path, $this->requestArgs());
         $this->handleRateLimits($response);
@@ -81,17 +85,19 @@ class Geolocation
 
     /**
      * Check rate limits based on transient.
+     * Returns true if the rate limit is currently in effect.
      */
-    protected function checkRateLimits(): void
+    protected function checkRateLimits(): bool
     {
         $transient = get_transient(static::RATE_LIMIT_KEY);
         if ($transient && 0 === $transient['remaining']) {
             $waitTime = max(0, $transient['reset_time'] - time());
             if ($waitTime > 0) {
-                glsr_log()->warning("Geolocation: Rate limit reached, waiting {$waitTime} seconds");
-                sleep($waitTime);
+                glsr_log()->warning("Geolocation: Rate limit reached, {$waitTime} seconds until reset");
+                return true;
             }
         }
+        return false;
     }
 
     /**
@@ -102,6 +108,9 @@ class Geolocation
      */
     protected function handleRateLimits(Response $response): void
     {
+        if (!isset($response->headers['x-rl'])) {
+            return; // headers are missing when the request failed
+        }
         $remainingRequests = (int) $response->headers['x-rl'];
         $resetTime = (int) $response->headers['x-ttl'] + static::RATE_LIMIT_SAFETY_BUFFER;
         set_transient(static::RATE_LIMIT_KEY, [

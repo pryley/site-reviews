@@ -31,9 +31,19 @@ class GeolocateReviews extends AbstractCommand
     public const LOCK_KEY = 'glsr_geolocation_processing_lock';
 
     /**
+     * Maximum consecutive failed batch attempts before aborting.
+     */
+    public const MAX_RETRIES = 3;
+
+    /**
      * Key used for the queued action.
      */
     public const QUEUED_ACTION_KEY = 'queue/geolocations';
+
+    /**
+     * Transient key for tracking consecutive failed batch attempts.
+     */
+    public const RETRY_KEY = 'glsr_geolocation_retry_count';
 
     /**
      * Integer number of rows to fetch per database query in generator.
@@ -84,6 +94,11 @@ class GeolocateReviews extends AbstractCommand
             return;
         }
         $response = $this->fetchRemoteGeolocationData($ipAddresses);
+        if ($response->failed()) {
+            $this->retryBatch($offset, $response);
+            return;
+        }
+        delete_transient(static::RETRY_KEY);
         $results = $response->body();
         if (empty($results)) {
             glsr_log()->warning("Geolocation: No geolocation data retrieved at offset {$offset}");
@@ -149,19 +164,8 @@ class GeolocateReviews extends AbstractCommand
     protected function fetchRemoteGeolocationData(array $ipAddresses): Response
     {
         $response = glsr(Geolocation::class)->batchLookup($ipAddresses);
-        $remainingRequests = (int) $response->headers['x-rl'];
-        $resetTime = max((int) $response->headers['x-ttl'], 60); // Min 60 seconds
-        if (0 === $remainingRequests && $resetTime > 0) {
-            glsr_log()->warning("Geolocation: Rate limit reached, waiting {$resetTime} seconds");
-            sleep($resetTime);
-        } else {
-            if (422 === $response->code) {
-                glsr_log()->error('Geolocation: 422 Unprocessable Entity, invalid batch request');
-            }
-            if (429 === $response->code) {
-                glsr_log()->warning("Geolocation: 429 Too Many Requests, waiting {$resetTime} seconds");
-                sleep($resetTime);
-            }
+        if (422 === $response->code) {
+            glsr_log()->error('Geolocation: 422 Unprocessable Entity, invalid batch request');
         }
         return $response;
     }
@@ -232,6 +236,25 @@ class GeolocateReviews extends AbstractCommand
     protected function releaseLock(): void
     {
         delete_transient(static::LOCK_KEY);
+    }
+
+    /**
+     * Reschedule a failed batch instead of blocking the worker with sleep().
+     * Aborts and releases the lock after MAX_RETRIES consecutive failures.
+     */
+    protected function retryBatch(int $offset, Response $response): void
+    {
+        $retries = (int) get_transient(static::RETRY_KEY);
+        if ($retries >= static::MAX_RETRIES) {
+            delete_transient(static::RETRY_KEY);
+            $this->releaseLock();
+            glsr_log()->error("Geolocation: Aborted processing at offset {$offset} after {$retries} failed attempts.");
+            return;
+        }
+        set_transient(static::RETRY_KEY, $retries + 1, \HOUR_IN_SECONDS);
+        $delay = max((int) ($response->headers['x-ttl'] ?? 0), 60);
+        glsr_log()->warning("Geolocation: Request failed with code {$response->code}, retrying batch at offset {$offset} in {$delay} seconds.");
+        glsr(Queue::class)->once(time() + $delay, static::QUEUED_ACTION_KEY, ['offset' => $offset], true);
     }
 
     /**
