@@ -29,7 +29,7 @@ msgstr[1] "%s stars or less"
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
-#: plugin/Review.php:80, plugin/Modules/Avatar.php:80
+#: plugin/Review.php:89, plugin/Modules/Avatar.php:80
 msgid "Anonymous"
 msgstr "Anonymous"
 
@@ -2485,7 +2485,7 @@ msgstr ""
 "The [%s] method has been deprecated and will be soon be removed, please use "
 "the [%s] method instead."
 
-#: plugin/Review.php:360, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:17
+#: plugin/Review.php:347, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:17
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr "Unknown"
@@ -3243,22 +3243,22 @@ msgctxt "admin-text"
 msgid "No reviews were found to export."
 msgstr "No reviews were found to export."
 
-#: plugin/Commands/GeolocateReview.php:52
+#: plugin/Commands/GeolocateReview.php:66
 msgctxt "admin-text"
 msgid "Review geolocated."
 msgstr "Review geolocated."
 
-#: plugin/Commands/GeolocateReviews.php:53
+#: plugin/Commands/GeolocateReviews.php:63
 msgctxt "admin-text"
 msgid "Geolocation processing is already in progress."
 msgstr "Geolocation processing is already in progress."
 
-#: plugin/Commands/GeolocateReviews.php:59
+#: plugin/Commands/GeolocateReviews.php:69
 msgctxt "admin-text"
 msgid "All valid IP addresses have already been geolocated."
 msgstr "All valid IP addresses have already been geolocated."
 
-#: plugin/Commands/GeolocateReviews.php:66
+#: plugin/Commands/GeolocateReviews.php:76
 msgctxt "admin-text"
 msgid "Successfully queued geolocation processing of %d IP addresses."
 msgstr "Successfully queued geolocation processing of %d IP addresses."

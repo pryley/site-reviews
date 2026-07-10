@@ -103,7 +103,7 @@ class MainController extends AbstractController
     }
 
     /**
-     * @action plugins_loaded:-10
+     * @action plugins_loaded:-50
      */
     public function registerAddons(): void
     {

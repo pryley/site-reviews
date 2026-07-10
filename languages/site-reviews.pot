@@ -1743,11 +1743,11 @@ msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
 msgstr ""
 
-#: plugin/Review.php:80, plugin/Modules/Avatar.php:80
+#: plugin/Review.php:89, plugin/Modules/Avatar.php:80
 msgid "Anonymous"
 msgstr ""
 
-#: plugin/Review.php:360, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:17
+#: plugin/Review.php:347, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:17
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
@@ -2547,22 +2547,22 @@ msgctxt "admin-text"
 msgid "No reviews were found to export."
 msgstr ""
 
-#: plugin/Commands/GeolocateReview.php:52
+#: plugin/Commands/GeolocateReview.php:66
 msgctxt "admin-text"
 msgid "Review geolocated."
 msgstr ""
 
-#: plugin/Commands/GeolocateReviews.php:53
+#: plugin/Commands/GeolocateReviews.php:63
 msgctxt "admin-text"
 msgid "Geolocation processing is already in progress."
 msgstr ""
 
-#: plugin/Commands/GeolocateReviews.php:59
+#: plugin/Commands/GeolocateReviews.php:69
 msgctxt "admin-text"
 msgid "All valid IP addresses have already been geolocated."
 msgstr ""
 
-#: plugin/Commands/GeolocateReviews.php:66
+#: plugin/Commands/GeolocateReviews.php:76
 msgctxt "admin-text"
 msgid "Successfully queued geolocation processing of %d IP addresses."
 msgstr ""
