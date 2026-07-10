@@ -74,7 +74,7 @@ class ReviewsDefaults extends DefaultsAbstract
         'order' => 'name',
         'orderby' => 'name',
         'page' => 'min:1',
-        'per_page' => 'min:-1', // -1 means unlimited
+        'per_page' => 'min:-1|max:250', // -1 means unlimited
         'post__in' => 'array-int',
         'post__not_in' => 'array-int',
         'rating' => 'rating',
