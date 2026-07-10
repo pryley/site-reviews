@@ -19,16 +19,19 @@ class SanitizeUrl extends StringSanitizer
         if (false === filter_var($url, FILTER_VALIDATE_URL)) {
             return '';
         }
-        if (!empty($this->args[0]) && !$this->startsWith($url)) {
+        if (!empty($this->args[0]) && !$this->matchesHost($url)) {
             return '';
         }
         return $url;
     }
 
-    protected function startsWith(string $url): bool
+    protected function matchesHost(string $url): bool
     {
-        $prefix = preg_replace('#^https?://#i', '', $this->args[0]);
-        $domain = preg_replace('#^https?://#i', '', $url);
-        return str_starts_with($domain, $prefix);
+        $allowed = mb_strtolower(trim(preg_replace('#^https?://#i', '', (string) $this->args[0]), '/'));
+        $host = mb_strtolower((string) wp_parse_url($url, PHP_URL_HOST));
+        if ('' === $allowed || '' === $host) {
+            return false;
+        }
+        return $host === $allowed || Str::endsWith($host, ['.'.$allowed]);
     }
 }

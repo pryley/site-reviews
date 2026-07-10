@@ -1456,6 +1456,31 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
+    public function test_sanitize_url_host_is_anchored()
+    {
+        // The domain arg must match on the URL host, not a raw string prefix,
+        // so look-alike hosts that merely contain the allowed domain are rejected.
+        $values = [
+            'https://hooks.slack.com/services/T00/B00/xYz',   // exact host: allowed
+            'https://ptb.discord.com/api/webhooks/1/x',        // subdomain of allowed: allowed
+            'https://hooks.slack.com.evil.com/services/x',     // suffix look-alike: rejected
+            'https://evil.com/hooks.slack.com/x',              // allowed domain only in path: rejected
+            'https://hooks.slack.com@evil.com/x',              // allowed domain only in userinfo: rejected
+            'https://hooks.slack.company.com/x',               // prefix substring, no dot boundary: rejected
+        ];
+        $sanitized = $this->sanitize('url:hooks.slack.com', $values);
+        $this->assertEquals([
+            'https://hooks.slack.com/services/T00/B00/xYz',
+            '',
+            '',
+            '',
+            '',
+            '',
+        ], $sanitized);
+        $sanitized = $this->sanitize('url:discord.com', ['https://ptb.discord.com/api/webhooks/1/x']);
+        $this->assertEquals(['https://ptb.discord.com/api/webhooks/1/x'], $sanitized);
+    }
+
     public function test_sanitize_user_email()
     {
         $user = self::factory()->user->create_and_get();
