@@ -216,7 +216,7 @@ class Router implements ControllerContract
             $message = _x('There was an error', 'admin-text', 'site-reviews');
             $advice = sprintf(
                 _x('Try %s the page.', 'try reloading the page (admin-text)', 'site-reviews'),
-                sprintf('<a href="javascript:location.reload()">%s</a>', _x('reloading', '(admin-text) e.g. try reloading the page', 'site-reviews')),
+                sprintf('<button type="button" class="button-link" onclick="location.reload()">%s</button>', _x('reloading', '(admin-text) e.g. try reloading the page', 'site-reviews')),
             );
             glsr(Notice::class)->addError("{$message}: <code>{$error}</code>, {$advice}");
             $data['notices'] = glsr(Notice::class)->get();
