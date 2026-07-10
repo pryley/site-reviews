@@ -1,5 +1,24 @@
 == Changelog ==
 
+= 8.1.0 (2026-07-10) =
+
+- Added a migration to backfill missing post_date_gmt values on existing reviews
+- Fixed admin settings page styling in WordPress 7.0
+- Fixed an unbounded reviews-per-page query parameter that could exhaust server resources
+- Fixed color sanitization to ignore empty values
+- Fixed Discord and Slack webhook URL validation to prevent a host-matching bypass
+- Fixed geolocation batch processing to reschedule failed or rate-limited requests instead of blocking the queue worker
+- Fixed geolocation retries being silently dropped by the scheduled actions queue
+- Fixed malformed markup in the reviews list-table rating column for ratings greater than 5
+- Fixed random review ordering so paginated results stay consistent within the hour
+- Improved block editor performance by prefetching component options
+- Improved encryption key derivation to use HKDF (existing encrypted data still decrypts)
+- Improved escaping of admin notices on the Scheduled Actions page
+- Improved the markup of admin error notices
+- Updated Action Scheduler to v4.0.0 (failed actions are now purged after 3 months)
+- Updated the minimum required WordPress version to 6.8
+
+
 = 8.0.13 (2026-07-03) =
 
 - Fixed a timezone bug that would reset the submission date of a review when approving a newly submitted unapproved review
