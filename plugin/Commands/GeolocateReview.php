@@ -93,7 +93,12 @@ class GeolocateReview extends AbstractCommand
         }
         set_transient($this->retryKey(), $retries + 1, \HOUR_IN_SECONDS);
         $delay = max((int) ($response->headers['x-ttl'] ?? 0), 60);
-        glsr(Queue::class)->once(time() + $delay, static::QUEUED_ACTION_KEY, ['review_id' => $this->review->ID], true);
+        // The $unique argument must be false here: when this runs inside the
+        // queued action, that action is still "in-progress" and Action Scheduler's
+        // uniqueness check (which matches pending AND running actions, including
+        // args since v4.0.0) would silently drop the retry. The retry-count
+        // transient above already prevents unbounded rescheduling.
+        glsr(Queue::class)->once(time() + $delay, static::QUEUED_ACTION_KEY, ['review_id' => $this->review->ID], false);
     }
 
     protected function validate(array $location): bool

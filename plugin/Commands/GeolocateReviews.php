@@ -254,7 +254,12 @@ class GeolocateReviews extends AbstractCommand
         set_transient(static::RETRY_KEY, $retries + 1, \HOUR_IN_SECONDS);
         $delay = max((int) ($response->headers['x-ttl'] ?? 0), 60);
         glsr_log()->warning("Geolocation: Request failed with code {$response->code}, retrying batch at offset {$offset} in {$delay} seconds.");
-        glsr(Queue::class)->once(time() + $delay, static::QUEUED_ACTION_KEY, ['offset' => $offset], true);
+        // The $unique argument must be false here: this runs inside the queued
+        // action, which is still "in-progress" and has identical args, so Action
+        // Scheduler's uniqueness check (which matches pending AND running actions,
+        // including args since v4.0.0) would silently drop the retry. The
+        // RETRY_KEY transient above already prevents unbounded rescheduling.
+        glsr(Queue::class)->once(time() + $delay, static::QUEUED_ACTION_KEY, ['offset' => $offset], false);
     }
 
     /**
