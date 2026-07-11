@@ -149,7 +149,7 @@ Site Reviews is officially compatible with the following plugins:
 
 - MySQL 5.6 or greater
 - PHP 8.1.2 or greater
-- WordPress 6.7 or greater
+- WordPress 6.8 or greater
 
 = Automatic installation =
 
@@ -211,7 +211,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 
 == Changelog ==
 
-= 8.1.0 (2026-07-10) =
+= 8.1.0 (2026-07-11) =
 
 - Added a migration to backfill missing post_date_gmt values on existing reviews
 - Fixed admin settings page styling in WordPress 7.0
