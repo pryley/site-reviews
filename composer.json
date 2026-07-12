@@ -61,8 +61,8 @@
       "@test:unit",
       "@test:integration"
     ],
-    "test:coverage": "pest --test-directory=tests/pest --coverage --coverage-clover=tests/coverage/clover.xml",
-    "test:coverage:min": "pest --test-directory=tests/pest --coverage --min=75",
+    "test:coverage": "@php -d memory_limit=-1 vendor/bin/pest --test-directory=tests/pest --coverage --coverage-clover=tests/coverage/clover.xml",
+    "test:coverage:min": "@php -d memory_limit=-1 vendor/bin/pest --test-directory=tests/pest --coverage --min=75",
     "test:integration": "pest --test-directory=tests/pest --testsuite=Integration",
     "test:unit": "pest --test-directory=tests/pest --testsuite=Unit"
   }
