@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Addons\Updater;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class UpdateController extends AbstractController
@@ -20,19 +19,14 @@ class UpdateController extends AbstractController
      */
     public function filterPluginsApi($data, string $action, $args)
     {
-        if ('plugin_information' !== $action) {
+        if ('plugin_information' !== $action || empty($args->slug)) {
             return $data;
         }
-        static $licensedAddons;
-        if (empty($licensedAddons)) {
-            $licensedAddons = glsr()->retrieveAs('array', 'licensed', []);
-        }
-        $addonId = Arr::getAs('string', $args, 'slug');
-        if (!array_key_exists($addonId, $licensedAddons)) {
+        if (!$this->isAddon($args->slug)) {
             return $data;
         }
-        $updater = new Updater($addonId, [
-            'force' => $this->hasTimeoutExpired($addonId),
+        $updater = new Updater($args->slug, [
+            'force' => $this->hasTimeoutExpired($args->slug),
         ]);
         $details = $updater->versionDetails();
         if (empty($details['version'])) {
@@ -135,7 +129,7 @@ class UpdateController extends AbstractController
         }
         $url = $pluginData['PluginURI'] ?? Updater::DEFAULT_API_URL;
         $message = _x('A valid <a href="%s">license key</a> is required to update this plugin.', 'admin-text', 'site-reviews');
-        printf(" {$message}", $url);
+        echo ' '.wp_kses_post(sprintf($message, esc_url($url)));
     }
 
     protected function hasTimeoutExpired(string $addonId): bool
@@ -153,10 +147,28 @@ class UpdateController extends AbstractController
         } else {
             $timeout = 12 * HOUR_IN_SECONDS;
         }
-        if ($timeout < (time() - $lastChecked)) {
+        if ($timeout <= (time() - $lastChecked)) {
             update_site_option($optionKey, time());
             return true;
         }
         return false;
+    }
+
+    protected function isAddon(string $slug): bool
+    {
+        static $cache = [];
+        if (isset($cache[$slug])) {
+            return $cache[$slug];
+        }
+        $cache[$slug] = false;
+        if (!preg_match('/^'.glsr()->id.'-[a-z-]+$/D', $slug)) {
+            return $cache[$slug];
+        }
+        $file = \WP_PLUGIN_DIR."/{$slug}/{$slug}.php";
+        if (is_readable($file)) {
+            $data = get_file_data($file, ['update_uri' => 'Update URI']);
+            $cache[$slug] = trailingslashit(Updater::DEFAULT_API_URL) === trailingslashit($data['update_uri']);
+        }
+        return $cache[$slug];
     }
 }

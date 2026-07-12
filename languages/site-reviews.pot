@@ -3234,7 +3234,7 @@ msgctxt "admin-text"
 msgid "Approved on:"
 msgstr ""
 
-#: plugin/Controllers/UpdateController.php:137
+#: plugin/Controllers/UpdateController.php:131
 msgctxt "admin-text"
 msgid "A valid <a href=\"%s\">license key</a> is required to update this plugin."
 msgstr ""
