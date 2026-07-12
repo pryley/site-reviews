@@ -49,5 +49,12 @@ uses()
         restoreHooks();
         resetRequestState();
         wp_cache_flush();
+        // Roles are the one piece of state a rollback cannot restore on its own.
+        // WP_Roles::remove_cap()/add_cap() change $wp_roles IN MEMORY and write the
+        // wp_user_roles option; get_role() then hands back the cached WP_Role object.
+        // The rollback restores the option, but the global still holds the modified
+        // role, so it has to be dropped — WP_Roles::for_site() re-reads the option
+        // when the global is rebuilt.
+        unset($GLOBALS['wp_roles']);
     })
     ->in('Unit', 'Integration');
