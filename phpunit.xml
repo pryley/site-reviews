@@ -7,6 +7,8 @@
          displayDetailsOnTestsThatTriggerErrors="true"
          displayDetailsOnTestsThatTriggerNotices="true"
          displayDetailsOnTestsThatTriggerWarnings="true"
+         failOnNotice="true"
+         failOnWarning="true"
          >
     <!-- The Pest suite. Pest reads this file by default; the one flag it also
          needs is the test-directory option, set to tests/pest, which is what
