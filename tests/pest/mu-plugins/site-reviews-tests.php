@@ -70,11 +70,12 @@ add_action('muplugins_loaded', function () {
      *
      * Two others used to be here and are now loaded:
      *
-     * lpfw              LPFW() returns null from a stub, so LPFW\Hooks::isEnabled()
-     *                   reads LPFW()->Plugin_Constants->EARN_ACTION_PRODUCT_REVIEW
-     *                   and emits two "property on null" warnings on every boot.
-     *                   That is noise, not a crash — the integration registers, and
-     *                   isEnabled() correctly comes back false.
+     * lpfw              LPFW() returns null from a stub, and LPFW\Hooks::isEnabled()
+     *                   used to walk two properties off that null and emit a warning
+     *                   for each, on every boot. It now reads the option name
+     *                   defensively — LPFW() is a third party's function and its
+     *                   return value was never ours to trust — so the integration
+     *                   registers quietly and isEnabled() correctly comes back false.
      *
      * multilingualpress This one WAS a fatal, and the fatal was ours: version()
      *                   calls resolve(PluginProperties::class), which a stub returns
@@ -90,26 +91,30 @@ add_action('muplugins_loaded', function () {
     ];
     /*
      * A stub for a plugin that is REALLY installed would redeclare it, which is a
-     * fatal — so the real plugin always wins and its stub is dropped.
+     * fatal — so if .wp-env.json ever installs one of these for real, its stub has
+     * to be dropped here. Nothing is installed for real today: the suite is stubs
+     * only, and the integrations are measured on their own (phpunit.integrations.xml)
+     * precisely because a stub cannot reach the half of an integration that reads a
+     * value back from the third party.
      *
-     * .wp-env.json installs WooCommerce and Elementor from wordpress.org, because
-     * they are the two integrations big enough to be worth the boot cost and free
-     * enough to install. Everything a stub cannot reach — anything that reads a
-     * WC_Product back out of wc_get_product(), anything that touches
-     * Elementor\Plugin::$instance — is only testable because they are here.
-     *
-     * elementorpro rides along with elementor: the pro stub extends classes the
-     * free plugin declares, and a stub built against one version of Elementor
-     * cannot be trusted to extend another. Dropping it also makes
-     * class_exists('ElementorPro\…\Product_Rating') false, which is the truth —
-     * Elementor Pro is not installed — so WooCommerce\MainController correctly
-     * skips registering the widget that extends it.
+     * If you do install one, note that elementorpro must ride along with elementor:
+     * the pro stub extends classes the free plugin declares, and a stub built
+     * against one version of Elementor cannot be trusted to extend another.
      */
     $realPlugins = [
         'woocommerce' => ['woocommerce.php'],
         'elementor' => ['elementor.php', 'elementorpro.php'],
     ];
     foreach ((array) get_option('active_plugins', []) as $activePlugin) {
+        // Being listed in active_plugins is not the same as being loadable. Remove a
+        // plugin from .wp-env.json and `wp-env start --update` deletes its directory
+        // but leaves the option pointing at it; WordPress then skips it in silence.
+        // Dropping the stub on the strength of that entry would leave the symbols
+        // declared by nobody at all — no real plugin, no stub — so the file has to
+        // be there before its stub gives way to it.
+        if (!file_exists(WP_PLUGIN_DIR.'/'.$activePlugin)) {
+            continue;
+        }
         $slug = strtok((string) $activePlugin, '/');
         foreach ($realPlugins[$slug] ?? [] as $stub) {
             $excludedStubs[] = $stub;
