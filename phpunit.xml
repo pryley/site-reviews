@@ -80,5 +80,19 @@
         <testsuite name="ThirdParty">
             <directory>tests/pest/ThirdParty</directory>
         </testsuite>
+        <!-- Import runs LAST, and must go on running last.
+
+             ProcessCsvFile and ImportManager define('WP_IMPORTING', true), a
+             constant cannot be unset, and nineteen places in the plugin read it —
+             it is what stops an import generating an avatar per review, emailing a
+             verification per review, geolocating every IP and treating a
+             spreadsheet row as a form submission. Correct during an import, wrong
+             everywhere else. Declared last, there is nothing after it to poison.
+
+             ThirdParty/CacheTest asserts WP_IMPORTING is NOT defined, so moving
+             this fails loudly instead of quietly. -->
+        <testsuite name="Import">
+            <directory>tests/pest/Import</directory>
+        </testsuite>
     </testsuites>
 </phpunit>

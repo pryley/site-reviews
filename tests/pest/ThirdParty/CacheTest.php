@@ -33,6 +33,18 @@ beforeEach(function () {
     // ApproveReview is capability-gated on edit_post, so the approval test needs a
     // permitted user; the rest are indifferent to who is logged in.
     wp_set_current_user(createUser(['role' => 'administrator']));
+
+    // THE TRIPWIRE for the Import suite's ordering.
+    //
+    // flushAfterCreated() returns immediately if WP_IMPORTING is defined — a review
+    // arriving from a spreadsheet should not flush the page cache, and ten thousand
+    // of them certainly should not. Correct, and it makes every flush test below
+    // silently pass while asserting nothing, because nothing is flushed.
+    //
+    // The Import suite defines that constant and cannot undefine it, which is why it
+    // is declared LAST in phpunit.xml. If it ever stops being last, this is where
+    // you find out.
+    expect(defined('WP_IMPORTING'))->toBeFalse();
 });
 
 /**

@@ -57,4 +57,4 @@ uses()
         // when the global is rebuilt.
         unset($GLOBALS['wp_roles']);
     })
-    ->in('Unit', 'Integration', 'ThirdParty');
+    ->in('Unit', 'Integration', 'ThirdParty', 'Import');

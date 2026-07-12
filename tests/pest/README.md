@@ -32,6 +32,14 @@ packages, which is what lets it install cleanly inside the container.
   WordPress, not a third party.
 - `ThirdParty/` — the 30 integrations that need somebody else's plugin or theme
   to do anything. Kept apart because they are measured apart; see Coverage.
+- `Import/` — the CSV import, and **the last suite declared in `phpunit.xml`**.
+  It has to be: `ProcessCsvFile` and `ImportManager` `define('WP_IMPORTING')`, a
+  constant cannot be unset, and nineteen places in the plugin read it — an
+  import must not generate an avatar per review, email a verification per
+  review, geolocate every IP, or flush the page cache a thousand times. All
+  correct during an import, all wrong everywhere else. Declared last, there is
+  nothing after it to poison. `ThirdParty/CacheTest` asserts `WP_IMPORTING` is
+  NOT defined, so moving it fails loudly rather than quietly.
 - `Support/` — autoloaded by composer (`autoload-dev`): `helpers.php` (the
   factories plus `resetPluginState()`), `InteractsWithAjax` (the port of
   `WP_Ajax_UnitTestCase`), `SubmitsReviews` (the review-submission harness)
@@ -42,7 +50,7 @@ packages, which is what lets it install cleanly inside the container.
   It is inert unless `GLSR_UNIT_TESTS` is defined, so it does not affect
   ordinary web requests to the same install.
 
-Every test — Unit and Integration — runs inside a DB transaction that rolls
+Every test — in every suite — runs inside a DB transaction that rolls
 back (see `Pest.php`). The plugin's settings live in the options table, so
 even a field-building test writes to the database.
 
@@ -56,6 +64,7 @@ dependencies are installed in the container (PHP 8.3, see `.wp-env.json`).
     make test:unit          # fast feedback loop
     make test:integration
     make test:thirdparty    # the integrations
+    make test:import        # the CSV import (runs last: it defines WP_IMPORTING)
     make test:coverage      # the PLUGIN, gated at 80% (restarts wp-env with Xdebug)
     make test:coverage:integrations   # the integrations, reported only
 

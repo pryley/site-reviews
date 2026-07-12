@@ -140,6 +140,10 @@ test\:install: docker-check ## Start wp-env and install the composer dev depende
 	npx @wordpress/env start
 	$(WPENV) composer update
 
+.PHONY: test\:import
+test\:import: env-check ## Run only the Import suite inside wp-env (runs last: it defines WP_IMPORTING)
+	$(WPENV) composer test:import
+
 .PHONY: test\:integration
 test\:integration: env-check ## Run only the Integration suite inside wp-env
 	$(WPENV) composer test:integration
