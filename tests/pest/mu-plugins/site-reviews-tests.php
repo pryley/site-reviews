@@ -36,20 +36,57 @@ add_action('muplugins_loaded', function () {
         fwrite(STDOUT, 'Site Reviews (with its tests/stubs) not found in '.WP_PLUGIN_DIR.PHP_EOL);
         exit(1);
     }
-    // Two stubs (profilepress, surecart) declare a class that extends
-    // \WP_List_Table, which is a wp-admin class: wp-settings.php has loaded all
-    // of wp-includes by now, but nothing from wp-admin, and the plugin's
-    // autoloader — whose classmap would resolve it — does not exist yet either
-    // (plugins load after mu-plugins). PHP needs the parent at declaration
-    // time, so it has to be here.
-    if (!class_exists('WP_List_Table')) {
-        require_once ABSPATH.'wp-admin/includes/class-wp-list-table.php';
+    // Some stubs declare a class that extends a wp-admin class, and PHP needs the
+    // parent at declaration time. By now wp-settings.php has loaded the whole of
+    // wp-includes but nothing at all from wp-admin, and the plugin's autoloader —
+    // whose classmap would resolve these — does not exist yet either, because
+    // plugins load after mu-plugins. So the parents are loaded by hand:
+    //
+    //   WP_List_Table              profilepress, surecart
+    //   Walker_Category_Checklist  multilingualpress
+    //
+    // Both are single-class files that extend something from wp-includes, so
+    // requiring them pulls in nothing else.
+    $adminClasses = [
+        'WP_List_Table' => 'class-wp-list-table.php',
+        'Walker_Category_Checklist' => 'class-walker-category-checklist.php',
+    ];
+    foreach ($adminClasses as $adminClass => $adminFile) {
+        if (!class_exists($adminClass)) {
+            require_once ABSPATH."wp-admin/includes/{$adminFile}";
+        }
     }
+    /*
+     * The stubs that are not loaded in the ordinary pass, and why. Both reasons
+     * are traced — do not add to this list without one.
+     *
+     * action-scheduler  The plugin BUNDLES Action Scheduler (vendors/woocommerce/
+     *                   action-scheduler), which declares `abstract class
+     *                   ActionScheduler`, and so does the stub. Redeclaring it is
+     *                   a fatal. This one can never be loaded.
+     *
+     * elementorpro      Not excluded, only deferred: it is required last, below,
+     *                   because it extends classes the elementor stub declares.
+     *
+     * Two others used to be here and are now loaded:
+     *
+     * lpfw              LPFW() returns null from a stub, so LPFW\Hooks::isEnabled()
+     *                   reads LPFW()->Plugin_Constants->EARN_ACTION_PRODUCT_REVIEW
+     *                   and emits two "property on null" warnings on every boot.
+     *                   That is noise, not a crash — the integration registers, and
+     *                   isEnabled() correctly comes back false.
+     *
+     * multilingualpress This one WAS a fatal, and the fatal was ours: version()
+     *                   calls resolve(PluginProperties::class), which a stub returns
+     *                   null for, and ->version() on null raises an \Error — which
+     *                   the `catch (\Exception)` around it could not catch. Both
+     *                   guards in MultilingualPress\Hooks now catch \Throwable, so
+     *                   an unreadable version is treated as an unsupported one and
+     *                   the integration closes its own gate instead of dying.
+     */
     $excludedStubs = [
         'action-scheduler.php',
         'elementorpro.php',
-        'lpfw.php',
-        'multilingualpress.php',
     ];
     foreach (new \DirectoryIterator($stubsDir) as $fileinfo) {
         if (!$fileinfo->isFile() || 'php' !== $fileinfo->getExtension()) {

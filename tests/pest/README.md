@@ -100,6 +100,32 @@ When writing integration tests, say which of the two a test is, and do not fake
 a return value into a stub to reach the second kind: a test that asserts against
 a body we invented proves nothing about the real plugin.
 
+### The integrations the stubs leave dark
+
+A stub only wakes an integration if it satisfies that integration's
+`isInstalled()` AND its version gate. Five currently do not, and the stubs are
+NOT to be hand-edited to fix that — they are generated from the upstream source,
+so waking these means regenerating the stub from a newer release:
+
+- **Avada** (`FUSION_BUILDER_VERSION` 3.11.7, needs 3.12.0), **Breakdance**
+  (2.3.0-rc.2, needs 2.5.0) and **WPBakery** (7.9.0, needs 8.0) are installed but
+  fail the version gate, so they register no hooks and take the `notify()` path
+  on every boot.
+- **GamiPress** declares no `GAMIPRESS_VER`, and **WooRewards** declares neither
+  `\LWS_WooRewards` nor `\LWS\WOOREWARDS\Core\Trace`.
+
+One stub can never be loaded: **action-scheduler**, because the plugin bundles
+Action Scheduler itself (`vendors/woocommerce/action-scheduler`) and the stub
+would redeclare it. See `tests/pest/mu-plugins` for that list and its reasons —
+it is two entries long, and both are traced.
+
+Bricks, Divi and Flatsome are themes, not plugins: their `isInstalled()` asks
+`wp_get_theme(get_template())`, which no stub can answer. They would need the
+theme on disk in wp-env.
+
+`ActiveIntegrationsTest` asserts all of the above, so it is the thing that will
+tell you when a regenerated stub has changed the picture.
+
 ## Coverage
 
 The whole of `plugin/` is in scope, `Integrations` included (see above). The
