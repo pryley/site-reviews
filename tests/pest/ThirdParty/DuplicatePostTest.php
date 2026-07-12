@@ -96,8 +96,8 @@ test('an ordinary post being copied is left alone', function () {
 test('a failed copy creates nothing', function () {
     // Duplicate Post hands over a WP_Error instead of an ID when the copy fails.
     // Without the is_wp_error() guard that error would be cast to an int and used
-    // as a post ID — and HookProxy would swallow whatever went wrong — so the
-    // assertion is on the review posts, not on a return value.
+    // as a post ID, so the assertion is on the review posts rather than on a return
+    // value — duplicateReview() returns nothing either way.
     $review = createReview();
     $reviewIds = fn (): array => get_posts([
         'fields' => 'ids',

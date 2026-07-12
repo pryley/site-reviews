@@ -25,9 +25,9 @@ uses(InteractsWithExits::class);
  * neither needs a change in production code — so the whole method is under test
  * here, redirect included.
  *
- * The controller is CALLED rather than fired through its hook, deliberately:
- * admin_action_* is not a plugin hook, so the plugin registers it through
- * HookProxy, whose try/catch would swallow the interception.
+ * The controller is CALLED rather than fired through its hook, which is simply
+ * clearer — HookProxy's try/catch would not have got in the way, since it is
+ * skipped when PHPUNIT_TESTING is defined (see Support/InteractsWithExits).
  */
 
 beforeEach(function () {
