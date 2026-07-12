@@ -66,12 +66,44 @@ mu-plugin — symlink it into `wp-content/mu-plugins`:
 
     WP_ROOT=/path/to/wordpress vendor/bin/pest --test-directory=tests/pest --testsuite=Unit
 
+## Integrations, and the stubs
+
+`tests/stubs` holds signature-only stubs (php-stubs style — real class and
+function signatures, empty bodies) for the third-party plugins Site Reviews
+integrates with. They are consumed by **both** phpstan and this suite: the test
+mu-plugin requires them on `muplugins_loaded`, before the plugins load, so by
+the time Site Reviews boots, `class_exists('WooCommerce')` and friends are all
+true and **every integration in `plugin/Integrations` is active while the tests
+run**. That is not theoretical — it is how the pre-init translation in
+`IntegrationHooks::notify()` was caught: the Breakdance stub made the
+integration look installed, its version check failed, and it translated on
+`plugins_loaded`.
+
+`plugin/Integrations` is therefore IN the coverage scope.
+
+### What the stubs can and cannot test
+
+Because the bodies are empty, the stubs support exactly one half of an
+integration — the half Site Reviews owns:
+
+- **Yes:** hook registration and `isInstalled()` gating; the version gate and
+  its notice; the pure transformers (`Divi`, `Elementor`, `Flatsome`,
+  `WPBakery`, `Avada` — array in, array out); the SEO schema controllers
+  (`RankMath`, `YoastSEO`, `SEOPress`) which filter schema arrays; the `Cache`
+  integration's purge dispatch, which is guarded by `function_exists`.
+- **No:** anything that consumes a *return value* from the third party.
+  `wc_get_product()` returns `null` from a stub, so `WooCommerce\ProductController::rating()`
+  has nothing to read. Those paths need the real plugin installed in wp-env
+  (`"plugins": ["woocommerce"]` in `.wp-env.json`) — deliberately not done yet.
+
+When writing integration tests, say which of the two a test is, and do not fake
+a return value into a stub to reach the second kind: a test that asserts against
+a body we invented proves nothing about the real plugin.
+
 ## Coverage
 
-`plugin/Integrations` is excluded from coverage (see `phpunit.xml`): those are
-thin adapters whose behaviour only exists inside the third-party plugin they
-adapt to. The target is **75%** of the rest, enforced by `--min=75` on
-`composer test:coverage`.
+The whole of `plugin/` is in scope, `Integrations` included (see above). The
+target is **75%**, enforced by `--min=75` on `composer test:coverage`.
 
 ## Conventions
 

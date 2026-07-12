@@ -27,13 +27,13 @@ add_action('muplugins_loaded', function () {
     $pluginDirs = [WP_PLUGIN_DIR.'/site-reviews']; // the usual folder name
     $pluginDirs = array_merge($pluginDirs, glob(WP_PLUGIN_DIR.'/*', GLOB_ONLYDIR) ?: []);
     foreach ($pluginDirs as $pluginDir) {
-        if (file_exists("{$pluginDir}/site-reviews.php") && is_dir("{$pluginDir}/tests/phpstan/stubs")) {
-            $stubsDir = "{$pluginDir}/tests/phpstan/stubs";
+        if (file_exists("{$pluginDir}/site-reviews.php") && is_dir("{$pluginDir}/tests/stubs")) {
+            $stubsDir = "{$pluginDir}/tests/stubs";
             break;
         }
     }
     if ('' === $stubsDir) {
-        fwrite(STDOUT, 'Site Reviews (with its tests/phpstan/stubs) not found in '.WP_PLUGIN_DIR.PHP_EOL);
+        fwrite(STDOUT, 'Site Reviews (with its tests/stubs) not found in '.WP_PLUGIN_DIR.PHP_EOL);
         exit(1);
     }
     // Two stubs (profilepress, surecart) declare a class that extends

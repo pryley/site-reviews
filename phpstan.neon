@@ -4,29 +4,29 @@ includes:
 parameters:
   bootstrapFiles:
     - tests/phpstan/bootstrap.php
-    - tests/phpstan/stubs/action-scheduler.php
-    - tests/phpstan/stubs/akismet.php
-    - tests/phpstan/stubs/breakdance.php
-    - tests/phpstan/stubs/bricks.php
-    - tests/phpstan/stubs/buddyboss.php
-    - tests/phpstan/stubs/divi.php
-    - tests/phpstan/stubs/elementor.php
-    - tests/phpstan/stubs/elementorpro.php
-    - tests/phpstan/stubs/flatsome.php
-    - tests/phpstan/stubs/fusion-builder.php
-    - tests/phpstan/stubs/gamipress.php
-    - tests/phpstan/stubs/lpfw.php
-    - tests/phpstan/stubs/mycred.php
-    - tests/phpstan/stubs/multilingualpress.php
-    - tests/phpstan/stubs/polylang.php
-    - tests/phpstan/stubs/profilepress.php
-    - tests/phpstan/stubs/surecart.php
-    - tests/phpstan/stubs/ultimate-member.php
-    - tests/phpstan/stubs/wlpr.php
-    - tests/phpstan/stubs/woocommerce.php
-    - tests/phpstan/stubs/woorewards.php
-    - tests/phpstan/stubs/wp-loyalty-rules.php
-    - tests/phpstan/stubs/wpbakery.php
+    - tests/stubs/action-scheduler.php
+    - tests/stubs/akismet.php
+    - tests/stubs/breakdance.php
+    - tests/stubs/bricks.php
+    - tests/stubs/buddyboss.php
+    - tests/stubs/divi.php
+    - tests/stubs/elementor.php
+    - tests/stubs/elementorpro.php
+    - tests/stubs/flatsome.php
+    - tests/stubs/fusion-builder.php
+    - tests/stubs/gamipress.php
+    - tests/stubs/lpfw.php
+    - tests/stubs/mycred.php
+    - tests/stubs/multilingualpress.php
+    - tests/stubs/polylang.php
+    - tests/stubs/profilepress.php
+    - tests/stubs/surecart.php
+    - tests/stubs/ultimate-member.php
+    - tests/stubs/wlpr.php
+    - tests/stubs/woocommerce.php
+    - tests/stubs/woorewards.php
+    - tests/stubs/wp-loyalty-rules.php
+    - tests/stubs/wpbakery.php
     - helpers.php
     - autoload.php
   ignoreErrors:

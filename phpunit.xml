@@ -20,13 +20,14 @@
          opt-in via `composer test:coverage` / `make test:coverage`, which starts
          wp-env with Xdebug and lets Pest render the report.
 
-         Integrations are excluded from <source> — and therefore from coverage:
-         they are thin adapters whose behaviour only exists inside the
-         third-party plugin they adapt to. -->
+         plugin/Integrations is IN scope. The suite loads the stubs in
+         tests/stubs (see tests/pest/mu-plugins), so every integration is active
+         while the tests run and its code is reachable — that is how the
+         pre-init translation in IntegrationHooks::notify() was caught. The
+         stubs are signature-only, so the paths that consume a third-party
+         return value cannot be reached without installing the real plugin;
+         see tests/pest/README.md. -->
     <source>
-        <exclude>
-            <directory suffix=".php">plugin/Integrations</directory>
-        </exclude>
         <include>
             <directory suffix=".php">plugin</directory>
         </include>
