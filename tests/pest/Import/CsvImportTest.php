@@ -51,6 +51,7 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  */
 
 beforeEach(function () {
+    purgeEverythingThisSuiteCreates(); // the last run may have crashed out
     resetPluginState();
     wp_set_current_user(createUser(['role' => 'administrator']));
     glsr(Notice::class)->clear();
@@ -63,7 +64,51 @@ afterEach(function () {
     glsr(ImportManager::class)->unlinkTempFile();
     glsr(ImportManager::class)->flush();
     glsr(Notice::class)->clear();
+    purgeEverythingThisSuiteCreates();
 });
+
+/**
+ * THE TRANSACTION CANNOT PROTECT THIS SUITE. It cleans up after itself instead.
+ *
+ * Every other test in the plugin is isolated by the transaction Pest.php opens and
+ * rolls back (see tests/pest/Pest.php). That does not work here: TableTmp::create()
+ * and ::drop() are DDL, and MySQL implicitly COMMITs the open transaction the moment
+ * it sees DDL. ProcessCsvFile::process() calls prepare() (CREATE TABLE) and
+ * ImportManager::flush() calls drop() (DROP TABLE) — so every test here commits
+ * whatever it has done by then, and the ROLLBACK finds nothing left to undo.
+ *
+ * Left alone, the reviews and users pile up: an import test sees the previous test's
+ * reviews and dedupes them away, and the NEXT RUN of the whole suite collides with
+ * the users — "Sorry, that username already exists" — in CommandTest, which runs in
+ * a different suite entirely and looks nothing to do with the import.
+ *
+ * The COMMIT at the end is not optional: without it, Pest.php's ROLLBACK would undo
+ * the cleanup along with everything else.
+ */
+function purgeEverythingThisSuiteCreates(): void
+{
+    global $wpdb;
+
+    // The ratings table's review_id foreign key is ON DELETE CASCADE, and the three
+    // assignment tables cascade from ratings — so deleting the review posts empties
+    // all four (see Database\Tables\AbstractTable::addForeignConstraint).
+    $wpdb->query($wpdb->prepare(
+        "DELETE FROM {$wpdb->posts} WHERE post_type = %s", glsr()->post_type
+    ));
+    $wpdb->query(
+        "DELETE pm FROM {$wpdb->postmeta} pm
+         LEFT JOIN {$wpdb->posts} p ON (p.ID = pm.post_id)
+         WHERE p.ID IS NULL"
+    );
+    $wpdb->query("DELETE FROM {$wpdb->users} WHERE ID > 1"); // 1 is the wp-env admin
+    $wpdb->query(
+        "DELETE um FROM {$wpdb->usermeta} um
+         LEFT JOIN {$wpdb->users} u ON (u.ID = um.user_id)
+         WHERE u.ID IS NULL"
+    );
+    $wpdb->query('COMMIT');
+    wp_cache_flush();
+}
 
 /**
  * The file as ProcessCsvFile would have received it. Only the path is ever read

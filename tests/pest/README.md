@@ -54,6 +54,16 @@ Every test — in every suite — runs inside a DB transaction that rolls
 back (see `Pest.php`). The plugin's settings live in the options table, so
 even a field-building test writes to the database.
 
+**Except `Import/`, and it cannot.** `TableTmp::create()`/`drop()` are DDL, and
+MySQL implicitly COMMITs the open transaction the moment it sees DDL — so
+`ProcessCsvFile` (which does `CREATE TABLE`) commits whatever the test has done
+by then, and the `ROLLBACK` finds nothing to undo. That suite therefore deletes
+its own reviews and users afterwards, with an explicit `COMMIT` so the rollback
+cannot take the cleanup with it. If it ever stops doing so, the symptom shows up
+in a *different suite*: `CommandTest` dies with "Sorry, that username already
+exists", because it is colliding with users a previous Import run committed for
+good.
+
 ## Running
 
 Requires Docker + Node. Everything runs inside wp-env: the composer
