@@ -2,9 +2,15 @@
 PLUGIN ?= $(notdir $(CURDIR))
 VERSION ?= $(shell perl -lne 'm{Stable tag: .*?(.+)} and print $$1' readme.txt)
 
+# PHP tooling that loads vendor/ runs INSIDE the wp-env cli container: the
+# composer dependencies are installed there (PHP 8.3, see `make test:install`)
+# and Pest needs a PHP the host may not have. The tests need a real WordPress
+# anyway, which is what wp-env provides.
+WPENV ?= npx @wordpress/env run cli --env-cwd=wp-content/plugins/$(PLUGIN)
+
 .PHONY: analyse
-analyse: ## Run phpstan analyser
-	XDEBUG_MODE=off ./vendor/bin/phpstan analyse --memory-limit 2G
+analyse: env-check ## Run phpstan analyser (inside wp-env)
+	$(WPENV) env XDEBUG_MODE=off vendor/bin/phpstan analyse --memory-limit 2G
 
 .PHONY: blocks
 blocks: ## Build all blocks
@@ -24,11 +30,13 @@ bump: ## Bump to the next minor version
 
 .PHONY: check
 check: ## Check WP compatibility for declared version
-	XDEBUG_MODE=off php -d memory_limit=2G ./vendor/bin/wp-since check
+	@test -f '+/tools/wp-since/vendor/bin/wp-since' || composer --working-dir='+/tools/wp-since' update
+	XDEBUG_MODE=off php -d memory_limit=2G '+/tools/wp-since/vendor/bin/wp-since' check
 
 .PHONY: compat
 compat: ## Run PHP CodeSniffer to check PHP 8.1- Compatibility
-	XDEBUG_MODE=off ./vendor/bin/phpcs --standard=phpcs.xml
+	@test -f '+/tools/phpcs/vendor/bin/phpcs' || composer --working-dir='+/tools/phpcs' update
+	XDEBUG_MODE=off '+/tools/phpcs/vendor/bin/phpcs' --standard=phpcs.xml
 
 .PHONY: db
 db: ## Open the database in TablePlus
@@ -58,6 +66,38 @@ i18n: ## Generate a pot file with the wp-cli
 open: ## Open the development site in the default browser
 	@open http://site-reviews.test/wp/wp-admin/edit.php?post_type=site-review
 
+# The test targets run inside wp-env, which needs a running Docker engine.
+# Fail early with instructions instead of letting wp-env die on a socket error.
+.PHONY: docker-check
+docker-check:
+	@command -v docker >/dev/null 2>&1 || { \
+		printf '\nDocker CLI not found.\n'; \
+		printf 'OrbStack installs it when the app is running:\n\n'; \
+		printf '    open -a OrbStack\n\n'; \
+		printf 'then run this command again.\n\n'; \
+		exit 1; \
+	}
+	@docker info >/dev/null 2>&1 || { \
+		printf '\nThe Docker engine is not running (wp-env needs it).\n'; \
+		printf 'Start OrbStack (or your Docker provider) and retry:\n\n'; \
+		printf '    open -a OrbStack\n\n'; \
+		exit 1; \
+	}
+
+# Auto-start the wp-env containers when they exist but are stopped (e.g. after
+# a reboot) — `wp-env start` is idempotent.
+.PHONY: env-check
+env-check: docker-check
+	@test -f vendor/bin/pest || { \
+		printf '\nThe test environment has not been set up yet. Run:\n\n'; \
+		printf '    make test:install\n\n'; \
+		exit 1; \
+	}
+	@docker ps --format '{{.Names}}' | grep -q '$(PLUGIN).*cli' || { \
+		printf '\nwp-env is not running — starting it…\n\n'; \
+		npx @wordpress/env start; \
+	}
+
 .PHONY: release
 release: ## Release a new version
 	sh ./release.sh
@@ -74,23 +114,38 @@ sync: ## Sync plugin files to development site
 	. ~/Sites/site-reviews/public/app/plugins/site-reviews/
 
 .PHONY: test
-test: ## Run all phpunit tests
-	XDEBUG_MODE=off ./vendor/bin/phpunit
+test: env-check ## Run the Pest suites inside wp-env (see tests/pest/README.md)
+	$(WPENV) composer test
 
 .PHONY: test\:all
-test\:all: ## Run phpstan analyser and all phpunit tests
+test\:all: ## Run the analyser, the full suite with coverage, and the compat checks
 	make analyse
-	make test
+	make test\:coverage
 	make check
 	make compat
 
+.PHONY: test\:coverage
+test\:coverage: env-check ## Run the suite with coverage (restarts wp-env with Xdebug in coverage mode)
+	npx @wordpress/env start --xdebug=coverage
+	$(WPENV) env XDEBUG_MODE=coverage composer test:coverage
+
 .PHONY: test\:install
-test\:install: ## Install the WordPress test suite (prompts for DB credentials)
-	@bash tests/bin/install.sh --interactive
+test\:install: docker-check ## Start wp-env and install the composer dev dependencies inside it
+	rm -rf vendor
+	npx @wordpress/env start
+	$(WPENV) composer update
+
+.PHONY: test\:integration
+test\:integration: env-check ## Run only the Integration suite inside wp-env
+	$(WPENV) composer test:integration
+
+.PHONY: test\:unit
+test\:unit: env-check ## Run only the Unit suite inside wp-env (fast feedback loop)
+	$(WPENV) composer test:unit
 
 .PHONY: update
-update: ## Update Composer and NPM
-	composer update
+update: env-check ## Update Composer (inside wp-env) and NPM
+	$(WPENV) composer update
 	npm-check -u
 
 .PHONY: watch

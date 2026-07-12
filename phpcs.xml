@@ -4,7 +4,7 @@
     <arg name="colors"/>
     <arg name="extensions" value="php" />
     <arg value="sp"/>
-    <config name="installed_paths" value="vendor/phpcompatibility/php-compatibility" />
+    <config name="installed_paths" value="+/tools/phpcs/vendor/phpcompatibility/php-compatibility" />
     <config name="testVersion" value="8.1-"/>
     <description>Coding Standards for PHP CodeSniffer</description>
     <exclude-pattern>*/vendors/symfony/*</exclude-pattern>

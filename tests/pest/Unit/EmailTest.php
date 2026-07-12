@@ -1,0 +1,70 @@
+<?php
+
+use Faker\Factory;
+use GeminiLabs\SiteReviews\Modules\Email;
+
+use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\sentMail;
+
+uses()->group('email');
+
+beforeEach(fn () => resetPluginState());
+
+/*
+ * Nothing actually leaves the test container: `pre_wp_mail` short-circuits
+ * wp_mail() and records the message instead (see Support/helpers.php), which is
+ * the job WordPress core's MockPHPMailer did for the phpunit suite. So these
+ * assert on what WOULD have been sent, not merely on wp_mail()'s return value.
+ */
+
+test('composes and sends an email from a template', function () {
+    $review = reviewValues();
+    $sent = glsr(Email::class)->compose([
+        'to' => 'test@wordpress.dev',
+        'subject' => 'Test Email',
+        'template' => 'default',
+        'template-tags' => [
+            'review_author' => $review['name'],
+            'review_content' => $review['content'],
+            'review_email' => $review['email'],
+            'review_ip' => '127.0.0.1',
+            'review_link' => 'http://...',
+            'review_rating' => $review['rating'],
+            'review_title' => $review['title'],
+        ],
+    ])->send();
+
+    expect($sent)->toBeTrue();
+
+    $mail = sentMail();
+    expect($mail)->toHaveCount(1);
+    expect((array) $mail[0]['to'])->toContain('test@wordpress.dev');
+    expect($mail[0]['subject'])->toBe('Test Email');
+    expect($mail[0]['message'])->toBeString()->not->toBeEmpty();
+});
+
+test('does not send an email it cannot validate', function () {
+    // No recipient: send() bails before wp_mail() is ever reached.
+    $sent = glsr(Email::class)->compose([
+        'subject' => 'Test Email',
+        'template' => 'default',
+    ])->send();
+
+    expect($sent)->toBeFalse();
+    expect(sentMail())->toBeEmpty();
+});
+
+/**
+ * The review the phpunit set_up() faked onto $this.
+ */
+function reviewValues(): array
+{
+    $faker = Factory::create();
+    return [
+        'content' => $faker->text(),
+        'email' => $faker->email(),
+        'name' => $faker->name(),
+        'rating' => '5',
+        'title' => $faker->sentence(),
+    ];
+}

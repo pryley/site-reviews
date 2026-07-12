@@ -31,7 +31,7 @@
   "config": {
     "preferred-install": "dist",
     "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
+      "pestphp/pest-plugin": true
     }
   },
   "minimum-stability": "dev",
@@ -40,17 +40,30 @@
     "php": "^8.1.2"
   },
   "require-dev": {
-    "10up/wp_mock": "^1.1",
-    "brain/monkey": "^2.6",
-    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-    "eduardovillao/wp-since": "^1.1",
     "fakerphp/faker": "^1.23.1",
+    "pestphp/pest": "^4.0",
     "php-stubs/wp-cli-stubs": "^2.12",
-    "phpcompatibility/php-compatibility": "dev-develop",
     "phpstan/phpstan": "^2.1.28",
     "phpstan/phpstan-deprecation-rules": "^2.0",
     "symfony/deprecation-contracts": "^3.0.0",
-    "szepeviktor/phpstan-wordpress": "^2.0.2",
-    "yoast/phpunit-polyfills": "^2.0 || ^3.0 || ^4.0"
+    "szepeviktor/phpstan-wordpress": "^2.0.2"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "GeminiLabs\\SiteReviews\\Tests\\": "tests/pest/Support/"
+    },
+    "files": [
+      "tests/pest/Support/helpers.php"
+    ]
+  },
+  "scripts": {
+    "test": [
+      "@test:unit",
+      "@test:integration"
+    ],
+    "test:coverage": "pest --test-directory=tests/pest --coverage --coverage-clover=tests/coverage/clover.xml",
+    "test:coverage:min": "pest --test-directory=tests/pest --coverage --min=75",
+    "test:integration": "pest --test-directory=tests/pest --testsuite=Integration",
+    "test:unit": "pest --test-directory=tests/pest --testsuite=Unit"
   }
 }

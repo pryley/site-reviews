@@ -1,29 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-	bootstrap="tests/phpunit/bootstrap.php"
-	backupGlobals="false"
-	colors="true"
-	convertErrorsToExceptions="true"
-	convertNoticesToExceptions="true"
-	convertWarningsToExceptions="true"
-	verbose="true"
-	>
-	<testsuites>
-		<testsuite name="basic-tests">
-			<directory>tests/phpunit/tests/</directory>
-		</testsuite>
-	</testsuites>
-	<coverage processUncoveredFiles="true">
-		<exclude>
-			<directory suffix=".php">./plugin/Integrations/MultilingualPress</directory>
-		</exclude>
-		<include>
-			<directory suffix=".php">./plugin</directory>
-		</include>
-		<report>
-			<clover outputFile="tests/coverage/clover.xml"/>
-			<html outputDirectory="tests/coverage/html" lowUpperBound="50" highLowerBound="90"/>
-		</report>
-	</coverage>
+         bootstrap="tests/pest/bootstrap.php"
+         cacheDirectory=".phpunit.cache"
+         colors="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         >
+    <!-- The Pest suite. Pest reads this file by default; the one flag it also
+         needs is the test-directory option, set to tests/pest, which is what
+         makes it load tests/pest/Pest.php. The composer scripts pass it, so
+         always run the suite through `composer test` / `make test`.
+
+         There is deliberately no <coverage> report block: with one, PHPUnit
+         tries to collect coverage on EVERY run, which needs Xdebug. Coverage is
+         opt-in via `composer test:coverage` / `make test:coverage`, which starts
+         wp-env with Xdebug and lets Pest render the report.
+
+         Integrations are excluded from <source> — and therefore from coverage:
+         they are thin adapters whose behaviour only exists inside the
+         third-party plugin they adapt to. -->
+    <source>
+        <exclude>
+            <directory suffix=".php">plugin/Integrations</directory>
+        </exclude>
+        <include>
+            <directory suffix=".php">plugin</directory>
+        </include>
+    </source>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/pest/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory>tests/pest/Integration</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>

@@ -1,0 +1,18 @@
+{
+    "name": "pryley/site-reviews-phpcs",
+    "description": "PHP_CodeSniffer + PHPCompatibility, installed on their own.",
+    "type": "project",
+    "license": "GPLv3",
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+        "phpcompatibility/php-compatibility": "dev-develop"
+    }
+}

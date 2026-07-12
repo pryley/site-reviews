@@ -5,6 +5,7 @@
 !.jshintrc
 !.scrutinizer.yml
 !.travis.yml
+!.wp-env.json
 *.LICENSE.txt
 *.log
 *.map

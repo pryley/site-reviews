@@ -1,0 +1,14 @@
+{
+    "name": "pryley/site-reviews-wp-since",
+    "description": "The wp-since WordPress-compatibility checker, installed on its own.",
+    "type": "project",
+    "license": "GPLv3",
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "eduardovillao/wp-since": "^1.1"
+    }
+}
