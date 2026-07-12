@@ -98,12 +98,14 @@ test('every other block keeps its generated classname', function () {
 test('the legacy widgets are hidden from the legacy widget block', function () {
     // The blocks above replace them, so offering both would be offering the same
     // thing twice.
-    expect(apply_filters('widget_types_to_hide_from_legacy_widget_block', ['some_other_widget']))
-        ->toBe([
-            'some_other_widget',
-            'glsr_site-review',
-            'glsr_site-reviews',
-            'glsr_site-reviews-form',
-            'glsr_site-reviews-summary',
-        ]);
+    //
+    // WooCommerce hides its own legacy widgets on this same filter, so the
+    // assertion is on the four this plugin owns rather than on the whole list.
+    $widgets = apply_filters('widget_types_to_hide_from_legacy_widget_block', ['some_other_widget']);
+
+    expect($widgets)->toContain('some_other_widget')
+        ->toContain('glsr_site-review')
+        ->toContain('glsr_site-reviews')
+        ->toContain('glsr_site-reviews-form')
+        ->toContain('glsr_site-reviews-summary');
 });

@@ -116,14 +116,16 @@ test('the review count meta is never copied', function () {
     // _glsr_reviews and friends are the aggregate counts of the page a review is
     // assigned to. They belong to that page, not to the review, and a copy that
     // carried them would report a count nobody has.
+    //
+    // This is a shared filter — Elementor excludes its own meta on it too — so the
+    // assertion is on the keys this integration owns, and on the incoming key
+    // surviving. An exact array would be asserting Elementor's behaviour, not ours.
     $metaKeys = apply_filters('duplicate_post_excludelist_filter', ['_edit_lock']);
 
-    expect($metaKeys)->toBe([
-        '_edit_lock',
-        CountManager::META_AVERAGE,
-        CountManager::META_RANKING,
-        CountManager::META_REVIEWS,
-    ]);
+    expect($metaKeys)->toContain('_edit_lock')
+        ->toContain(CountManager::META_AVERAGE)
+        ->toContain(CountManager::META_RANKING)
+        ->toContain(CountManager::META_REVIEWS);
 });
 
 test('rewrite and republish is not offered for reviews', function () {

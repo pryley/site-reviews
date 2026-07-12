@@ -84,6 +84,25 @@ trait InteractsWithAjax
 
     /**
      * Fires the wp_ajax_{$action} hooks and captures what they printed.
+     *
+     * Core's WP_Ajax_UnitTestCase fires admin_init here first, copying what
+     * wp-admin/admin-ajax.php does. This does NOT, and the difference matters:
+     * admin-ajax.php also defines WP_ADMIN and loads wp-admin/includes/admin.php
+     * before it fires that hook, so in a real ajax request is_admin() is true.
+     * Here it is false, and a plugin is entitled to assume that admin_init implies
+     * the admin — only wp-admin/admin.php and admin-ajax.php ever fire it, and both
+     * define WP_ADMIN.
+     *
+     * WooCommerce makes exactly that assumption: it loads its admin function files
+     * at boot behind is_admin(), then hooks admin_init to a callback that calls one
+     * of them (wc_get_page_screen_id, via OrderAttributionController). Firing
+     * admin_init here reached that callback in a process where the function was
+     * never defined — a fatal, in WooCommerce, caused by us.
+     *
+     * Nothing is lost by dropping it. The plugin's ajax routes are registered on
+     * wp_ajax_{prefix}public_action and wp_ajax_{prefix}admin_action (RouterHooks);
+     * admin_init carries only routeAdminGetRequest and routeAdminPostRequest, which
+     * are the NON-ajax admin routes and are not what this harness exercises.
      */
     protected function handleAjax(string $action): void
     {
@@ -92,7 +111,6 @@ trait InteractsWithAjax
         $_POST['action'] = $action;
         $_GET['action'] = $action;
         $_REQUEST = array_merge($_POST, $_GET);
-        do_action('admin_init');
         do_action('wp_ajax_'.$_REQUEST['action'], null);
         $buffer = ob_get_clean();
         if (!empty($buffer)) {

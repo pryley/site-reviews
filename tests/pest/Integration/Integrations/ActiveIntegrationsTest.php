@@ -30,7 +30,7 @@ test('the stubs switch the integration on', function (string $integration) {
     'Avada' => ['Avada'],                   // FusionBuilder(), FUSION_BUILDER_VERSION — fusion-builder.php
     'Breakdance' => ['Breakdance'],         // Breakdance\Elements\Element + 7 functions — breakdance.php
     'BuddyBoss' => ['BuddyBoss'],           // bp_displayed_user_id() — buddyboss.php
-    'Elementor' => ['Elementor'],           // Elementor\Plugin — elementor.php
+    'Elementor' => ['Elementor'],           // Elementor\Plugin — the REAL plugin (.wp-env.json)
     'LPFW' => ['LPFW'],                     // LPFW() + class LPFW — lpfw.php
     'MultilingualPress' => ['MultilingualPress'], // ACTION_ADD_SERVICE_PROVIDERS, resolve() — multilingualpress.php
     'MyCred' => ['MyCred'],                 // myCRED_Hook, myCRED_Core, MYCRED_DEFAULT_TYPE_KEY — mycred.php
@@ -40,7 +40,7 @@ test('the stubs switch the integration on', function (string $integration) {
     'WLPR' => ['WLPR'],                     // Wlpr\App\{Helpers\Loyalty,Helpers\Point,Models\PointAction} — wlpr.php
     'WPBakery' => ['WPBakery'],             // WPBakeryShortCode, vc_map(), WPB_VC_VERSION — wpbakery.php
     'WPLoyalty' => ['WPLoyalty'],           // Wlr\App\…\{EarnCampaign,Woocommerce,ProductReview,Referral} — wp-loyalty-rules.php
-    'WooCommerce' => ['WooCommerce'],       // WooCommerce, WC() — woocommerce.php
+    'WooCommerce' => ['WooCommerce'],       // WooCommerce, WC() — the REAL plugin (.wp-env.json)
 ]);
 
 test('the integration stays dormant', function (string $integration) {

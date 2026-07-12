@@ -88,6 +88,34 @@ add_action('muplugins_loaded', function () {
         'action-scheduler.php',
         'elementorpro.php',
     ];
+    /*
+     * A stub for a plugin that is REALLY installed would redeclare it, which is a
+     * fatal — so the real plugin always wins and its stub is dropped.
+     *
+     * .wp-env.json installs WooCommerce and Elementor from wordpress.org, because
+     * they are the two integrations big enough to be worth the boot cost and free
+     * enough to install. Everything a stub cannot reach — anything that reads a
+     * WC_Product back out of wc_get_product(), anything that touches
+     * Elementor\Plugin::$instance — is only testable because they are here.
+     *
+     * elementorpro rides along with elementor: the pro stub extends classes the
+     * free plugin declares, and a stub built against one version of Elementor
+     * cannot be trusted to extend another. Dropping it also makes
+     * class_exists('ElementorPro\…\Product_Rating') false, which is the truth —
+     * Elementor Pro is not installed — so WooCommerce\MainController correctly
+     * skips registering the widget that extends it.
+     */
+    $realPlugins = [
+        'woocommerce' => ['woocommerce.php'],
+        'elementor' => ['elementor.php', 'elementorpro.php'],
+    ];
+    foreach ((array) get_option('active_plugins', []) as $activePlugin) {
+        $slug = strtok((string) $activePlugin, '/');
+        foreach ($realPlugins[$slug] ?? [] as $stub) {
+            $excludedStubs[] = $stub;
+        }
+    }
+    $excludedStubs = array_unique($excludedStubs);
     foreach (new \DirectoryIterator($stubsDir) as $fileinfo) {
         if (!$fileinfo->isFile() || 'php' !== $fileinfo->getExtension()) {
             continue; // never try to require a stray .DS_Store
@@ -97,7 +125,9 @@ add_action('muplugins_loaded', function () {
         }
         require_once $fileinfo->getPathname();
     }
-    require_once "{$stubsDir}/elementorpro.php"; // fixes invalid order loading
+    if (!in_array('elementorpro.php', $excludedStubs)) {
+        require_once "{$stubsDir}/elementorpro.php"; // fixes invalid order loading
+    }
     remove_action('admin_init', '_maybe_update_core');
     remove_action('admin_init', '_maybe_update_plugins');
     remove_action('admin_init', '_maybe_update_themes');

@@ -35,30 +35,15 @@ beforeEach(function () {
     resetPluginState();
     glsr()->discard('schemas'); // Schema::store() keeps them on the process-wide container
 
-    /*
-     * Elementor has to be unhooked from the schema, and only a stub makes that
-     * necessary.
-     *
-     * Elementor is the one page builder the stubs fully activate — Elementor\Plugin
-     * is declared and the stub's ELEMENTOR_VERSION (3.29.0) clears the required
-     * 3.19.0 — so its integration really does hook filterGeneratedSchema onto
-     * site-reviews/schema/generate, which is the first thing SchemaParser::generate()
-     * fires. That callback reads \Elementor\Plugin::$instance, a static the stub
-     * declares but never populates, and dereferences it: fatal.
-     *
-     * It is not a defect. On a real site Elementor assigns $instance while it boots
-     * on plugins_loaded, long before a page renders, so class_exists() implies
-     * $instance there; class-without-instance is a state only a signature-only stub
-     * can be in. It does mean Elementor\SchemaParser cannot be covered by this suite
-     * (see tests/pest/README.md — nothing that consumes a third-party value can be).
-     *
-     * remove_filter() is asserted so that a rename or a priority change here fails
-     * loudly instead of silently restoring the fatal.
-     */
-    $removed = remove_filter('site-reviews/schema/generate',
+    // Elementor really is installed (.wp-env.json), so its integration really does
+    // hook filterGeneratedSchema onto site-reviews/schema/generate — the first
+    // thing SchemaParser::generate() fires. It runs here rather than being unhooked:
+    // \Elementor\Plugin::$instance exists, its document manager hands back a
+    // document that was not built with Elementor, and the parser returns an empty
+    // schema, leaving the plugin's own to be generated below.
+    expect(has_filter('site-reviews/schema/generate',
         [glsr(ElementorController::class), 'filterGeneratedSchema']
-    );
-    expect($removed)->toBeTrue();
+    ))->toBe(10);
 });
 
 afterEach(function () {
