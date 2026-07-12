@@ -278,6 +278,65 @@ test('unassign user', function () {
     expect(get_user_meta($userId, '_glsr_reviews', true))->toEqual(0);
 });
 
+/*
+ * duplicate().
+ *
+ * It is the one place that feeds an existing review's stored state back through
+ * glsr_create_review(), which runs the FORM validators over it — so a value that
+ * is legitimate in storage but not legitimate in a form submission stops a review
+ * from being duplicated at all. The terms toggle is exactly such a value.
+ *
+ * MultilingualPress\ReviewCopier::copy() does the same thing, and carries the same
+ * guard for the same reason. It is NOT executed by this suite (its stub is
+ * deliberately not loaded and it needs multisite) — these tests cover the
+ * mechanism it depends on, not the call site itself.
+ */
+
+test('duplicates a review that never accepted the terms', function () {
+    // A review that was imported, added in the admin, or made through the API
+    // stores terms=0 — CreateReviewDefaults defaults it to false — and a false is
+    // not empty (Helper::isEmpty), so it used to survive into the request that
+    // glsr_create_review() validates, where the form's "accepted" rule refused it.
+    // Duplicate Page reported that to the user as "Invalid review."
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    $review = createTestReview(['rating' => 4, 'title' => 'The original']);
+    expect($review->terms)->toBeFalse(); // the precondition the bug needed
+
+    $duplicate = glsr(ReviewManager::class)->duplicate($review->ID);
+
+    expect($duplicate)->toBeInstanceOf(Review::class)
+        ->and($duplicate->ID)->not->toBe($review->ID)
+        ->and($duplicate->rating)->toBe(4)
+        ->and($duplicate->content)->toBe($review->content)
+        ->and($duplicate->terms)->toBeFalse(); // the copy tells the same truth
+});
+
+test('duplicates a review that did accept the terms', function () {
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    $review = createTestReview(['terms' => true]);
+    expect($review->terms)->toBeTrue();
+
+    $duplicate = glsr(ReviewManager::class)->duplicate($review->ID);
+
+    expect($duplicate)->toBeInstanceOf(Review::class)
+        ->and($duplicate->terms)->toBeTrue(); // the acceptance is not thrown away
+});
+
+test('refuses to duplicate something that is not a review', function () {
+    expect(glsr(ReviewManager::class)->duplicate(createPost()))->toBeFalse();
+});
+
+test('refuses to duplicate a review post with no review behind it', function () {
+    // A post of the review type with no row in the ratings table.
+    $postId = (int) wp_insert_post([
+        'post_status' => 'publish',
+        'post_title' => 'Not really a review',
+        'post_type' => glsr()->post_type,
+    ], true);
+
+    expect(glsr(ReviewManager::class)->duplicate($postId))->toBeFalse();
+});
+
 function createTestReview(array $values = []): Review
 {
     $request = reviewRequest($values);
