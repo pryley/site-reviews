@@ -1,69 +1,71 @@
 {
-  "name": "pryley/site-reviews",
-  "type": "wordpress-plugin",
-  "description": "Receive and display reviews on your website",
-  "version": "8.1.1",
-  "keywords": [
-    "wordpress",
-    "plugin",
-    "reviews"
-  ],
-  "license": "GPLv3",
-  "authors": [
-    {
-      "name": "Paul Ryley",
-      "email": "paul@geminilabs.io"
-    }
-  ],
-  "archive": {
-    "exclude": [
-      "/+",
-      "/tests",
-      "/.*",
-      "/*.md",
-      "/*.js",
-      "/*.json",
-      "/*.lock",
-      "/*.sh",
-      "/*.xml"
-    ]
-  },
-  "config": {
-    "preferred-install": "dist",
-    "allow-plugins": {
-      "pestphp/pest-plugin": true
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "require": {
-    "php": "^8.1.2"
-  },
-  "require-dev": {
-    "fakerphp/faker": "^1.23.1",
-    "pestphp/pest": "^4.0",
-    "php-stubs/wp-cli-stubs": "^2.12",
-    "phpstan/phpstan": "^2.1.28",
-    "phpstan/phpstan-deprecation-rules": "^2.0",
-    "symfony/deprecation-contracts": "^3.0.0",
-    "szepeviktor/phpstan-wordpress": "^2.0.2"
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "GeminiLabs\\SiteReviews\\Tests\\": "tests/pest/Support/"
-    },
-    "files": [
-      "tests/pest/Support/helpers.php"
-    ]
-  },
-  "scripts": {
-    "test": [
-      "@test:unit",
-      "@test:integration"
+    "name": "pryley/site-reviews",
+    "type": "wordpress-plugin",
+    "description": "Receive and display reviews on your website",
+    "keywords": [
+        "wordpress",
+        "plugin",
+        "reviews"
     ],
-    "test:coverage": "@php -d memory_limit=-1 vendor/bin/pest --test-directory=tests/pest --coverage --coverage-clover=tests/coverage/clover.xml",
-    "test:coverage:min": "@php -d memory_limit=-1 vendor/bin/pest --test-directory=tests/pest --coverage --min=80",
-    "test:integration": "pest --test-directory=tests/pest --testsuite=Integration",
-    "test:unit": "pest --test-directory=tests/pest --testsuite=Unit"
-  }
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Paul Ryley",
+            "email": "paul@geminilabs.io"
+        }
+    ],
+    "archive": {
+        "exclude": [
+            "/+",
+            "/tests",
+            "/.*",
+            "/*.md",
+            "/*.js",
+            "/*.json",
+            "/*.lock",
+            "/*.sh",
+            "/*.xml"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.1.2"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.23.1",
+        "pestphp/pest": "^4.0",
+        "php-stubs/wp-cli-stubs": "^2.12",
+        "phpstan/phpstan": "^2.1.28",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "symfony/deprecation-contracts": "^3.0.0",
+        "szepeviktor/phpstan-wordpress": "^2.0.2"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GeminiLabs\\SiteReviews\\Tests\\": "tests/pest/Support/"
+        },
+        "files": [
+            "tests/pest/Support/helpers.php"
+        ]
+    },
+    "scripts": {
+        "test": [
+            "@test:unit",
+            "@test:integration",
+            "@test:thirdparty"
+        ],
+        "test:coverage": "@php -d memory_limit=-1 vendor/bin/pest --test-directory=tests/pest --coverage --coverage-clover=tests/coverage/clover.xml",
+        "test:coverage:integrations": "@php -d memory_limit=-1 vendor/bin/pest -c phpunit.integrations.xml --test-directory=tests/pest --coverage --coverage-clover=tests/coverage/clover-integrations.xml",
+        "test:coverage:min": "@php -d memory_limit=-1 vendor/bin/pest --test-directory=tests/pest --coverage --min=80",
+        "test:integration": "pest --test-directory=tests/pest --testsuite=Integration",
+        "test:thirdparty": "pest --test-directory=tests/pest --testsuite=ThirdParty",
+        "test:unit": "pest --test-directory=tests/pest --testsuite=Unit"
+    }
 }

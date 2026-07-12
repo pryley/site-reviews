@@ -30,7 +30,7 @@ test('the stubs switch the integration on', function (string $integration) {
     'Avada' => ['Avada'],                   // FusionBuilder(), FUSION_BUILDER_VERSION — fusion-builder.php
     'Breakdance' => ['Breakdance'],         // Breakdance\Elements\Element + 7 functions — breakdance.php
     'BuddyBoss' => ['BuddyBoss'],           // bp_displayed_user_id() — buddyboss.php
-    'Elementor' => ['Elementor'],           // Elementor\Plugin — the REAL plugin (.wp-env.json)
+    'Elementor' => ['Elementor'],           // Elementor\Plugin — elementor.php
     'LPFW' => ['LPFW'],                     // LPFW() + class LPFW — lpfw.php
     'MultilingualPress' => ['MultilingualPress'], // ACTION_ADD_SERVICE_PROVIDERS, resolve() — multilingualpress.php
     'MyCred' => ['MyCred'],                 // myCRED_Hook, myCRED_Core, MYCRED_DEFAULT_TYPE_KEY — mycred.php
@@ -40,7 +40,7 @@ test('the stubs switch the integration on', function (string $integration) {
     'WLPR' => ['WLPR'],                     // Wlpr\App\{Helpers\Loyalty,Helpers\Point,Models\PointAction} — wlpr.php
     'WPBakery' => ['WPBakery'],             // WPBakeryShortCode, vc_map(), WPB_VC_VERSION — wpbakery.php
     'WPLoyalty' => ['WPLoyalty'],           // Wlr\App\…\{EarnCampaign,Woocommerce,ProductReview,Referral} — wp-loyalty-rules.php
-    'WooCommerce' => ['WooCommerce'],       // WooCommerce, WC() — the REAL plugin (.wp-env.json)
+    'WooCommerce' => ['WooCommerce'],       // WooCommerce, WC() — woocommerce.php
 ]);
 
 test('the integration stays dormant', function (string $integration) {
@@ -97,19 +97,19 @@ test('multilingualpress closes its own gate rather than dying', function () {
 });
 
 test('lpfw registers but stays disabled', function () {
-    // LPFW() returns null from the stub, so isEnabled() cannot read the option it
-    // gates on and comes back false — the safe direction. The two "property on
-    // null" warnings that produces at boot are the price of having the integration
-    // in the coverage scope at all; see tests/pest/mu-plugins.
-    //
-    // isEnabled() is deliberately NOT called here. Doing so re-triggers the null
-    // dereference INSIDE a test, where PHPUnit attributes the warning to it — and
-    // it proves nothing that the filter below does not: LPFW registers its three
-    // hooks only when enabled, so their absence IS isEnabled() returning false.
+    // LPFW() returns null from the stub, so isEnabled() cannot read the option name
+    // it gates on and comes back false — the safe direction, and quietly: it reads
+    // that name defensively rather than walking two properties off whatever LPFW()
+    // hands back. This test is what would catch the warnings coming back, because
+    // phpunit.xml fails on one.
     expect(integrationIsInstalled('LPFW'))->toBeTrue();
 
-    // The filter below is the one only LPFW hooks. site-reviews/review/approved
-    // would prove nothing: WLPR and WPLoyalty hook it too, and they ARE enabled.
+    $hooks = 'GeminiLabs\SiteReviews\Integrations\LPFW\Hooks';
+    expect(protectedMethod($hooks, 'isEnabled')->invoke(glsr($hooks)))->toBeFalse();
+
+    // and so it registers none of its three hooks. The filter below is the one only
+    // LPFW hooks: site-reviews/review/approved would prove nothing, since WLPR and
+    // WPLoyalty hook it too and they ARE enabled.
     expect(has_filter('lpfw_get_point_earn_source_types'))->toBeFalse();
 });
 

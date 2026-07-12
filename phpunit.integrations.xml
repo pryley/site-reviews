@@ -10,32 +10,23 @@
          failOnNotice="true"
          failOnWarning="true"
          >
-    <!-- THE PLUGIN. Pest reads this file by default.
+    <!-- THE THIRD-PARTY INTEGRATIONS, and only those. The twin of phpunit.xml:
+         same bootstrap, same suites, the <source> list inverted.
 
-         Coverage measures the plugin and NOTHING THAT NEEDS A THIRD PARTY TO RUN.
-         Integrations/Gutenberg is in: Gutenberg is WordPress, so it runs on every
-         site and every line of it is reachable. The other 30 integrations are not,
-         and they are measured separately — see phpunit.integrations.xml, which is
-         the same file with the two <source> lists swapped.
+         This number is REPORTED, NEVER GATED, and it is low on purpose. Most of
+         what is measured here cannot execute without a plugin or theme that has to
+         be bought (Divi, Bricks, Breakdance, WPBakery, Avada, Flatsome) or a
+         multisite network (MultilingualPress). A signature-only stub gets us the
+         hook registration, the version gate and the pure transformers, and stops
+         at the first line that reads a value back from the third party.
 
-         The split exists because one number could not describe both. An adapter for
-         a page builder nobody has installed cannot be executed at any price, and
-         averaging 8,000 statements of that into the plugin's own score buys a
-         number that is neither honest about the plugin nor informative about the
-         adapters. Two numbers, two meanings: this one is gated at 80%, the other
-         is reported and never gated.
+         What moves this number is installing the real plugin (see .wp-env.json,
+         which does exactly that for WooCommerce and Elementor), not writing more
+         tests. Gating it would be gating your licence budget.
 
-         All three test suites run under both configs — a ThirdParty test that
-         happens to exercise the plugin's core still counts here, as it should.
-
-         There is deliberately no <coverage> report block: with one, PHPUnit tries
-         to collect coverage on EVERY run, which needs Xdebug. Coverage is opt-in
-         via `composer test:coverage` / `make test:coverage`. -->
+         Run it with: composer test:coverage:integrations -->
     <source>
         <include>
-            <directory suffix=".php">plugin</directory>
-        </include>
-        <exclude>
             <directory suffix=".php">plugin/Integrations/Avada</directory>
             <directory suffix=".php">plugin/Integrations/Breakdance</directory>
             <directory suffix=".php">plugin/Integrations/Bricks</directory>
@@ -68,7 +59,7 @@
             <directory suffix=".php">plugin/Integrations/YoastSEO</directory>
             <file>plugin/Integrations/IntegrationHooks.php</file>
             <file>plugin/Integrations/IntegrationShortcode.php</file>
-        </exclude>
+        </include>
     </source>
     <testsuites>
         <testsuite name="Unit">

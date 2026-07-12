@@ -28,7 +28,10 @@ packages, which is what lets it install cleanly inside the container.
 - `Unit/` — logic against the booted WordPress: helpers, casts, sanitizers,
   encryption, the field/form HTML builders. Creates no posts, terms or users.
 - `Integration/` — the database: the review manager, the query builder, the
-  migrations, ajax review submissions.
+  migrations, ajax review submissions. Gutenberg lives here too — it is
+  WordPress, not a third party.
+- `ThirdParty/` — the 30 integrations that need somebody else's plugin or theme
+  to do anything. Kept apart because they are measured apart; see Coverage.
 - `Support/` — autoloaded by composer (`autoload-dev`): `helpers.php` (the
   factories plus `resetPluginState()`), `InteractsWithAjax` (the port of
   `WP_Ajax_UnitTestCase`), `SubmitsReviews` (the review-submission harness)
@@ -48,11 +51,13 @@ even a field-building test writes to the database.
 Requires Docker + Node. Everything runs inside wp-env: the composer
 dependencies are installed in the container (PHP 8.3, see `.wp-env.json`).
 
-    make test:install     # once: starts wp-env + composer update inside it
-    make test             # the whole suite
-    make test:unit        # fast feedback loop
+    make test:install       # once: starts wp-env + composer update inside it
+    make test               # all three suites
+    make test:unit          # fast feedback loop
     make test:integration
-    make test:coverage    # restarts wp-env with Xdebug, enforces --min=80
+    make test:thirdparty    # the integrations
+    make test:coverage      # the PLUGIN, gated at 80% (restarts wp-env with Xdebug)
+    make test:coverage:integrations   # the integrations, reported only
 
 Pest needs `--test-directory=tests/pest` (it is where it looks for `Pest.php`);
 the composer scripts pass it, so always go through `composer test` / `make`.
@@ -128,8 +133,29 @@ tell you when a regenerated stub has changed the picture.
 
 ## Coverage
 
-The whole of `plugin/` is in scope, `Integrations` included (see above). The
-target is **80%**, enforced by `--min=80` on `composer test:coverage`.
+There are two numbers, because one could not describe both halves honestly.
+
+**The plugin** — `phpunit.xml`, gated at **80%** (`composer test:coverage`).
+Everything in `plugin/` except the integrations that need a third party.
+`Integrations/Gutenberg` is in: Gutenberg is WordPress, so every line of it runs
+on every site.
+
+**The integrations** — `phpunit.integrations.xml`, **reported, never gated**
+(`composer test:coverage:integrations`). The other 30 integrations, ~8,000
+statements of adapter code, tested against the stubs alone. A stub gets us the
+hook registration, the version gate and the pure transformers, and stops at the
+first line that reads a value back from the third party — so this number is low
+and is meant to be. What would move it is installing real plugins into
+`.wp-env.json` (the mu-plugin already drops the stub for any plugin that is
+really there), not writing more tests. Gating it would be gating a licence
+budget.
+
+Both configs run all three suites; only the `<source>` list differs. A ThirdParty
+test that happens to exercise the plugin's own code still counts towards the
+plugin's number, which is right — the line ran.
+
+Averaging the two gives a number that is neither: it understates the plugin (40%
+reads as 30%) while telling you nothing about the adapters.
 
 ## Conventions
 

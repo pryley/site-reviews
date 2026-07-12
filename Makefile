@@ -125,9 +125,14 @@ test\:all: ## Run the analyser, the full suite with coverage, and the compat che
 	make compat
 
 .PHONY: test\:coverage
-test\:coverage: env-check ## Run the suite with coverage (restarts wp-env with Xdebug in coverage mode)
+test\:coverage: env-check ## Run the suite with coverage of the PLUGIN, gated at 80% (restarts wp-env with Xdebug)
 	npx @wordpress/env start --xdebug=coverage
 	$(WPENV) env XDEBUG_MODE=coverage composer test:coverage
+
+.PHONY: test\:coverage\:integrations
+test\:coverage\:integrations: env-check ## Coverage of the third-party integrations only — reported, never gated
+	npx @wordpress/env start --xdebug=coverage
+	$(WPENV) env XDEBUG_MODE=coverage composer test:coverage:integrations
 
 .PHONY: test\:install
 test\:install: docker-check ## Start wp-env and install the composer dev dependencies inside it
@@ -138,6 +143,10 @@ test\:install: docker-check ## Start wp-env and install the composer dev depende
 .PHONY: test\:integration
 test\:integration: env-check ## Run only the Integration suite inside wp-env
 	$(WPENV) composer test:integration
+
+.PHONY: test\:thirdparty
+test\:thirdparty: env-check ## Run only the ThirdParty suite inside wp-env (the integrations)
+	$(WPENV) composer test:thirdparty
 
 .PHONY: test\:unit
 test\:unit: env-check ## Run only the Unit suite inside wp-env (fast feedback loop)
