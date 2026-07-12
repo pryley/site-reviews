@@ -52,7 +52,7 @@ dependencies are installed in the container (PHP 8.3, see `.wp-env.json`).
     make test             # the whole suite
     make test:unit        # fast feedback loop
     make test:integration
-    make test:coverage    # restarts wp-env with Xdebug, enforces --min=75
+    make test:coverage    # restarts wp-env with Xdebug, enforces --min=80
 
 Pest needs `--test-directory=tests/pest` (it is where it looks for `Pest.php`);
 the composer scripts pass it, so always go through `composer test` / `make`.
@@ -103,7 +103,7 @@ a body we invented proves nothing about the real plugin.
 ## Coverage
 
 The whole of `plugin/` is in scope, `Integrations` included (see above). The
-target is **75%**, enforced by `--min=75` on `composer test:coverage`.
+target is **80%**, enforced by `--min=80` on `composer test:coverage`.
 
 ## Conventions
 
