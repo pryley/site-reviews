@@ -98,6 +98,30 @@ env-check: docker-check
 		npx @wordpress/env start; \
 	}
 
+# `.wp-env.json` sets "core": null, which wp-env documents as "the latest
+# production release of WordPress". That is resolved ONCE, when the environment is
+# first created, and never looked at again: "wp-env will not update or
+# re-configure the environment except when the configuration file changes."
+#
+# So the suite is pinned to whatever WordPress was current on the day the container
+# was built, and it will happily stay there for a year without saying so. Run this
+# before a release, and any time a WordPress version is part of the question.
+#
+# --update downloads the new sources and re-applies the config. It does NOT delete
+# content — `wp-env reset` and `wp-env destroy` are the ones that do that.
+.PHONY: env\:update
+env\:update: docker-check ## Update WordPress to the latest production release
+	npx @wordpress/env start --update
+	@$(MAKE) --no-print-directory env:info
+
+.PHONY: env\:info
+env\:info: env-check ## What is the suite actually running against?
+	@printf '\nWordPress  '
+	@$(WPENV) wp core version 2>/dev/null | tr -d '\r'
+	@printf 'PHP        '
+	@$(WPENV) php -r 'echo PHP_VERSION, PHP_EOL;' 2>/dev/null | tr -d '\r'
+	@printf 'Tested to  %s (readme.txt)\n\n' "$$(perl -lne 'm{Tested up to: *(.+)} and print $$1' readme.txt)"
+
 .PHONY: release
 release: ## Release a new version
 	sh ./release.sh
