@@ -1,0 +1,299 @@
+<?php
+
+use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Modules\Validator\FriendlycaptchaV2Validator;
+use GeminiLabs\SiteReviews\Modules\Validator\FriendlycaptchaValidator;
+use GeminiLabs\SiteReviews\Modules\Validator\HcaptchaValidator;
+use GeminiLabs\SiteReviews\Modules\Validator\ProcaptchaValidator;
+use GeminiLabs\SiteReviews\Modules\Validator\RecaptchaV2InvisibleValidator;
+use GeminiLabs\SiteReviews\Modules\Validator\RecaptchaV3Validator;
+use GeminiLabs\SiteReviews\Modules\Validator\TurnstileValidator;
+use GeminiLabs\SiteReviews\Request;
+
+use function GeminiLabs\SiteReviews\Tests\interceptHttp;
+use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+
+/*
+ * The CAPTCHA gate.
+ *
+ * Seven services, one abstract class. Each is a thin subclass that knows an API URL, which
+ * settings hold its keys, and what its error codes mean — so CaptchaValidatorAbstract is
+ * where nearly all the behaviour is, and it is what most of this file is about.
+ *
+ * It is the last thing standing between a spambot and the reviews table, and there are two
+ * ways it can be wrong. It can let a bot through, which fills a site with rubbish. Or it can
+ * turn a real person away, which is worse, because they had something to say and the site
+ * owner will never know they tried. Both are tested for.
+ *
+ * The state machine is the thing to hold on to (see the CAPTCHA_ constants):
+ *
+ *   DISABLED  no CAPTCHA is configured. Everybody passes. NOT a failure.
+ *   EMPTY     enabled, but the form sent no token. The script did not run, or a bot skipped it.
+ *   FAILED    the service could not be reached, or the keys are missing. "Refresh and retry."
+ *   INVALID   the service was reached and said no. "Verification failed."
+ *   VALID     the service said yes.
+ *
+ * Only DISABLED and VALID pass. Everything else — including "we could not reach Google" —
+ * rejects the review. That is the correct way round: a CAPTCHA that fails OPEN when the
+ * service is down is a CAPTCHA that a spammer can turn off by taking the service down.
+ */
+
+beforeEach(function () {
+    resetPluginState();
+});
+
+/**
+ * Turns a CAPTCHA on, with keys, exactly as the settings screen would.
+ */
+function enableCaptcha(string $integration, array $options = []): void
+{
+    glsr(OptionManager::class)->set('settings.forms.captcha.integration', $integration);
+    glsr(OptionManager::class)->set('settings.forms.captcha.usage', 'all');
+    foreach ($options as $path => $value) {
+        glsr(OptionManager::class)->set("settings.forms.{$path}", $value);
+    }
+}
+
+function turnstile(array $request = []): TurnstileValidator
+{
+    return new TurnstileValidator(new Request(wp_parse_args($request, [
+        '_captcha' => 'a-token-from-the-browser',
+        'ip_address' => '203.0.113.9',
+    ])));
+}
+
+/**
+ * What the service said. `success` is the field every one of them speaks.
+ */
+function captchaReply(array $body): array
+{
+    return ['body' => (string) wp_json_encode($body)];
+}
+
+function failedValidation(object $validator): bool
+{
+    $validator->validate();
+
+    return !$validator->isValid();
+}
+
+/*
+ * When nothing is configured.
+ */
+
+test('a site with no captcha lets everybody through, and asks nobody', function () {
+    // DISABLED is not a failure. Most sites run without a CAPTCHA and their reviews must not
+    // all be rejected — and nothing may be sent anywhere.
+    $requests = interceptHttp(captchaReply(['success' => true]));
+
+    expect(failedValidation(turnstile()))->toBeFalse()
+        ->and($requests)->toHaveCount(0);
+});
+
+test('a captcha that only applies to guests does not challenge a logged-in person', function () {
+    enableCaptcha('turnstile', ['turnstile.key' => 'a-key', 'turnstile.secret' => 'a-secret']);
+    glsr(OptionManager::class)->set('settings.forms.captcha.usage', 'guest');
+    wp_set_current_user(\GeminiLabs\SiteReviews\Tests\createUser());
+    $requests = interceptHttp(captchaReply(['success' => false]));
+
+    expect(failedValidation(turnstile()))->toBeFalse() // even though the service would say no
+        ->and($requests)->toHaveCount(0);
+});
+
+/*
+ * When it is on.
+ */
+
+test('a valid token passes', function () {
+    enableCaptcha('turnstile', ['turnstile.key' => 'a-key', 'turnstile.secret' => 'a-secret']);
+    $requests = interceptHttp(captchaReply(['success' => true]));
+
+    expect(failedValidation(turnstile()))->toBeFalse();
+
+    // and the service was asked the right question
+    $body = (array) $requests[0]['args']['body'];
+    expect($requests[0]['url'])->toBe(TurnstileValidator::API_URL)
+        ->and($body['response'])->toBe('a-token-from-the-browser')
+        ->and($body['secret'])->toBe('a-secret')
+        ->and($body['remoteip'])->toBe('203.0.113.9');
+});
+
+test('a token the service rejects fails, and the person is told to try again', function () {
+    enableCaptcha('turnstile', ['turnstile.key' => 'a-key', 'turnstile.secret' => 'a-secret']);
+    interceptHttp(captchaReply(['success' => false, 'error-codes' => ['invalid-input-response']]));
+
+    $validator = turnstile();
+
+    expect(failedValidation($validator))->toBeTrue();
+    expect(glsr()->sessionGet('form_message'))->toContain('verification failed');
+});
+
+test('no token at all is refused, without asking the service', function () {
+    // A bot that posts the form directly sends no token. There is nothing to verify and no
+    // reason to spend a request finding that out.
+    enableCaptcha('turnstile', ['turnstile.key' => 'a-key', 'turnstile.secret' => 'a-secret']);
+    $requests = interceptHttp(captchaReply(['success' => true]));
+
+    expect(failedValidation(turnstile(['_captcha' => ''])))->toBeTrue()
+        ->and($requests)->toHaveCount(0);
+});
+
+test('a captcha service that is down rejects the review rather than waving it through', function () {
+    // THE SECURITY-CRITICAL DIRECTION. If an unreachable service meant "pass", then a spammer
+    // could disable the CAPTCHA on every site in the world by taking Cloudflare offline —
+    // or, more cheaply, by making the site's own outbound requests fail.
+    enableCaptcha('turnstile', ['turnstile.key' => 'a-key', 'turnstile.secret' => 'a-secret']);
+    interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
+
+    $validator = turnstile();
+
+    expect(failedValidation($validator))->toBeTrue();
+    // and the message says what to DO, which is different from "you failed"
+    expect(glsr()->sessionGet('form_message'))->toContain('failed to load')
+        ->and(glsr()->sessionGet('form_message'))->toContain('refresh the page');
+});
+
+test('the visitor is not made to wait while the plugin retries a broken captcha service', function () {
+    // Api retries a 429 or a 5xx with a backoff — about a second, then 1.6, then 2.6, then
+    // 4.1 — which is right for a licence check, where nobody is waiting, and wrong here: the
+    // CAPTCHA is verified inside the submit-review request, with a person watching a spinner.
+    //
+    // One attempt. Their retry is pressing the button again.
+    enableCaptcha('turnstile', ['turnstile.key' => 'a-key', 'turnstile.secret' => 'a-secret']);
+    $requests = interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
+
+    turnstile()->validate();
+
+    expect($requests)->toHaveCount(1);
+});
+
+test('a captcha with no keys fails rather than silently passing everything', function () {
+    // Somebody turned the CAPTCHA on and never pasted the keys in. The service says no, and
+    // the plugin must not read that as "the visitor failed" — it is the SITE that is broken,
+    // and the message says so.
+    enableCaptcha('turnstile'); // no key, no secret
+    interceptHttp(captchaReply(['success' => false, 'error-codes' => ['missing-input-secret']]));
+
+    $validator = turnstile();
+
+    expect(failedValidation($validator))->toBeTrue();
+    expect(glsr()->sessionGet('form_message'))->toContain('failed to load');
+});
+
+test('the secret key is never written to the console in the clear', function () {
+    // The failure is logged with the request that caused it, so that a site owner can see
+    // WHICH key was wrong — and the console is dumped into support threads and forum posts.
+    enableCaptcha('turnstile', [
+        'turnstile.key' => '0x4AAAAAAAsitekeyvalue',
+        'turnstile.secret' => '0x4AAAAAAAsecretkeyvalue',
+    ]);
+    interceptHttp(captchaReply(['success' => false, 'error-codes' => ['invalid-input-secret']]));
+
+    turnstile()->validate();
+
+    $console = glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get();
+    expect($console)->not->toContain('0x4AAAAAAAsecretkeyvalue')
+        ->and($console)->not->toContain('0x4AAAAAAAsitekeyvalue')
+        ->and($console)->toContain('invalid-input-secret'); // but the reason is there
+});
+
+/*
+ * reCAPTCHA v3, which is the odd one: it does not answer yes or no, it answers with a score.
+ */
+
+test('recaptcha v3 rejects a human-shaped bot that scores below the threshold', function () {
+    // success:true and still a bot. This is the whole point of v3, and a plugin that only
+    // read `success` would pass every bot Google has ever seen.
+    enableCaptcha('recaptcha_v3', [
+        'recaptcha_v3.key' => 'a-key',
+        'recaptcha_v3.secret' => 'a-secret',
+        'recaptcha_v3.threshold' => 0.5,
+    ]);
+    interceptHttp(captchaReply(['success' => true, 'score' => 0.1, 'action' => 'submit_review']));
+
+    $validator = new RecaptchaV3Validator(new Request(['_captcha' => 'a-token', 'ip_address' => '203.0.113.9']));
+
+    expect(failedValidation($validator))->toBeTrue();
+});
+
+test('recaptcha v3 accepts a score at or above the threshold', function () {
+    enableCaptcha('recaptcha_v3', [
+        'recaptcha_v3.key' => 'a-key',
+        'recaptcha_v3.secret' => 'a-secret',
+        'recaptcha_v3.threshold' => 0.5,
+    ]);
+    interceptHttp(captchaReply(['success' => true, 'score' => 0.5, 'action' => 'submit_review']));
+
+    $validator = new RecaptchaV3Validator(new Request(['_captcha' => 'a-token', 'ip_address' => '203.0.113.9']));
+
+    expect(failedValidation($validator))->toBeFalse();
+});
+
+test('recaptcha v3 rejects a token that was earned on a different form', function () {
+    // The action binds the token to the thing it was solved for. Without this check, a token
+    // harvested from the site's login form would be accepted as a review submission.
+    enableCaptcha('recaptcha_v3', [
+        'recaptcha_v3.key' => 'a-key',
+        'recaptcha_v3.secret' => 'a-secret',
+        'recaptcha_v3.threshold' => 0.5,
+    ]);
+    interceptHttp(captchaReply(['success' => true, 'score' => 0.9, 'action' => 'login']));
+
+    $validator = new RecaptchaV3Validator(new Request(['_captcha' => 'a-token', 'ip_address' => '203.0.113.9']));
+
+    expect(failedValidation($validator))->toBeTrue();
+});
+
+/*
+ * The seven services. Each knows its own endpoint, its own settings and its own token field,
+ * and getting any of those wrong means the CAPTCHA silently never works.
+ */
+
+dataset('captchas', [
+    // class, integration slug, verification endpoint, the form field the token arrives in
+    'turnstile' => [TurnstileValidator::class, 'turnstile', 'https://challenges.cloudflare.com/turnstile/v0/siteverify', 'cf-turnstile-response'],
+    'hcaptcha' => [HcaptchaValidator::class, 'hcaptcha', 'https://hcaptcha.com/siteverify', 'h-captcha-response'],
+    'recaptcha_v3' => [RecaptchaV3Validator::class, 'recaptcha_v3', 'https://www.google.com/recaptcha/api/siteverify', 'g-recaptcha-response'],
+    'recaptcha_v2_invisible' => [RecaptchaV2InvisibleValidator::class, 'recaptcha_v2_invisible', 'https://www.google.com/recaptcha/api/siteverify', 'g-recaptcha-response'],
+    'friendlycaptcha' => [FriendlycaptchaValidator::class, 'friendlycaptcha', 'https://api.friendlycaptcha.com/api/v1/siteverify', 'frc-captcha-solution'],
+    'friendlycaptcha_v2' => [FriendlycaptchaV2Validator::class, 'friendlycaptcha_v2', 'https://global.frcapi.com/api/v2/captcha/siteverify', 'frc-captcha-response'],
+    'procaptcha' => [ProcaptchaValidator::class, 'procaptcha', 'https://api.prosopo.io/siteverify', 'procaptcha-response'],
+]);
+
+test('each service is only enabled when it is the one that was chosen', function (string $class, string $integration) {
+    // One CAPTCHA at a time. If two answered isEnabled() the form would render two widgets
+    // and verify against the wrong service.
+    enableCaptcha($integration);
+    expect((new $class(new Request([])))->isEnabled())->toBeTrue();
+
+    enableCaptcha('turnstile' === $integration ? 'hcaptcha' : 'turnstile');
+    expect((new $class(new Request([])))->isEnabled())->toBeFalse();
+})->with('captchas');
+
+test('each service knows its own endpoint and its own token field', function (
+    string $class, string $integration, string $apiUrl, string $tokenField
+) {
+    // Get either of these wrong and the CAPTCHA does not fail loudly — it fails SILENTLY.
+    // The wrong token field means an empty token, which is CAPTCHA_EMPTY, which turns every
+    // genuine visitor away with "verification failed" and never says why.
+    expect($class::API_URL)->toBe($apiUrl);
+
+    enableCaptcha($integration);
+    $config = (new $class(new Request([])))->config();
+
+    expect($config['token_field'])->toBe($tokenField)
+        ->and($config['type'])->not->toBeEmpty()   // the frontend switches on this
+        ->and($config['class'])->not->toBeEmpty(); // and hangs the widget on this
+})->with('captchas');
+
+test('each service tells the browser where to fetch its widget', function (string $class, string $integration) {
+    // `module` and `nomodule` are the modern and legacy script tags. Not every service ships
+    // both — Procaptcha is module-only, Turnstile and the Googles are nomodule-only — so what
+    // matters is that there is SOMETHING to load. A service with no script renders no widget,
+    // and a form with no widget cannot produce a token.
+    enableCaptcha($integration);
+    $urls = (new $class(new Request([])))->config()['urls'];
+
+    expect(array_filter($urls))->not->toBeEmpty()
+        ->and(array_keys($urls))->each->toBeIn(['module', 'nomodule']);
+})->with('captchas');

@@ -35,6 +35,13 @@ function resetPluginState(): void
     $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = referer();
     $defaults = Arr::unflatten(glsr()->defaults());
     glsr(OptionManager::class)->replace($defaults);
+    // The session is a plain array on the Application singleton (plugin/Session.php) -- not a
+    // transient, not an option -- so the per-test transaction cannot touch it and it survives
+    // from one test into the next. That is not merely untidy: a validator that fails writes
+    // `form_invalid`, and ValidatorAbstract::validate() SKIPS validation entirely while it is
+    // set. One failing submission would leave every validation test after it passing without
+    // having validated anything.
+    glsr()->sessionClear();
 }
 
 /**
