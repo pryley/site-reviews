@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\UploadedFile;
 
 use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
+use function GeminiLabs\SiteReviews\Tests\definesWpImporting;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -53,6 +54,7 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 beforeEach(function () {
     commitsTransaction(); // every test here does — see below
+    definesWpImporting(); // and every test here does that too — which is why this suite runs last
     purgeEverythingThisSuiteCreates(); // the last run may have crashed out
     resetPluginState();
     wp_set_current_user(createUser(['role' => 'administrator']));

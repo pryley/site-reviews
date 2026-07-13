@@ -38,6 +38,7 @@ use function GeminiLabs\SiteReviews\Tests\purgeCommittedRows;
 use function GeminiLabs\SiteReviews\Tests\resetGlobalState;
 use function GeminiLabs\SiteReviews\Tests\resetRequestState;
 use function GeminiLabs\SiteReviews\Tests\restoreHooks;
+use function GeminiLabs\SiteReviews\Tests\wpImportingWasDeclared;
 
 /*
  * The name of the current test's sentinel row (see the afterEach below). It is held here
@@ -104,6 +105,34 @@ uses()
                 'are now permanent, and will break a later test, in a later run, in another '.
                 'file. Something it called ran DDL (CREATE/ALTER/DROP TABLE) or issued its '.
                 'own START TRANSACTION. If that is intended, declare it with commitsTransaction().'
+            );
+        }
+        // WP_IMPORTING is a one-way door: define() cannot be undone, and the plugin reads it in
+        // fourteen places to mean "this review did not come from a person filling in a form". A
+        // test outside the Import suite that defines it silently changes the behaviour of EVERY
+        // test that runs after it — no avatar, no verification email, no count recalculation, no
+        // cache flush, and the protected fields (is_pinned, is_verified, ip_address) stop being
+        // protected. The Import suite is declared LAST in phpunit.xml precisely so that it may.
+        //
+        // Without this, the symptom is a dozen unrelated failures in files that did nothing
+        // wrong, and the cause is one command in one earlier file. That has now happened once.
+        //
+        // It is DECLARED, not detected: Pest compiles every test file into an eval()'d class, so
+        // the TestCase's own filename is Pest's compiler, not the test — there is no directory to
+        // check. So the Import suite says definesWpImporting(), exactly as a test that runs DDL
+        // says commitsTransaction(), and anything else that defines the constant is a bug.
+        $wasImporting = wpImportingWasDeclared();
+        wpImportingWasDeclared(false);
+        if (defined('WP_IMPORTING') && !$wasImporting) {
+            throw new RuntimeException(
+                'This test caused WP_IMPORTING to be defined, and did not say so. The constant '.
+                'cannot be unset, so EVERY test that runs after it in this process is now running '.
+                'as though its reviews were imported rather than submitted: no avatar, no '.
+                'verification email, no recalculated counts, no cache flush, and is_pinned / '.
+                'is_verified / ip_address are no longer protected fields. Anything that reaches '.
+                'ImportManager, ProcessCsvFile or ImportReviewsAttachments belongs in the Import '.
+                'suite (tests/pest/Import/), which phpunit.xml declares LAST for this reason — and '.
+                'which says definesWpImporting() in its beforeEach.'
             );
         }
     })

@@ -80,6 +80,42 @@ function commitsTransaction(): void
 }
 
 /**
+ * Said by a test that will cause WP_IMPORTING to be defined.
+ *
+ * define() cannot be undone, and the plugin reads WP_IMPORTING in fourteen places to mean
+ * "this review did not come from a person filling in a form". Once it is defined, every test
+ * that runs afterwards IN THE SAME PROCESS gets no avatar, no verification email, no
+ * recalculated counts, no cache flush, and is_pinned / is_verified / ip_address stop being
+ * protected fields.
+ *
+ * So only the Import suite may do it, and phpunit.xml declares that suite LAST. Pest.php fails
+ * any test that defines the constant without saying this first — which is how the fourteen
+ * unrelated failures in five innocent files, caused by one importing command in an Integration
+ * test, will be a one-line message next time instead of an afternoon.
+ *
+ * It is declared rather than detected because Pest compiles each test file into an eval()'d
+ * class, so there is no reliable file path to test the directory against.
+ */
+function definesWpImporting(): void
+{
+    wpImportingWasDeclared(true);
+}
+
+/**
+ * The flag definesWpImporting() sets, which Pest.php reads and then clears. Not for use in a
+ * test: a test says definesWpImporting(), and says it plainly.
+ */
+function wpImportingWasDeclared(?bool $set = null): bool
+{
+    static $declared = false;
+    if (null !== $set) {
+        $declared = $set;
+    }
+
+    return $declared;
+}
+
+/**
  * The flag commitsTransaction() sets, which Pest.php reads and then clears. Not for use
  * in a test: a test says commitsTransaction(), and says it plainly.
  */

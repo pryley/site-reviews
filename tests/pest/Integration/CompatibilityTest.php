@@ -1,9 +1,7 @@
 <?php
 
-use GeminiLabs\SiteReviews\Commands\ImportReviewsAttachments;
 use GeminiLabs\SiteReviews\Compatibility;
 use GeminiLabs\SiteReviews\Controllers\NetworkController;
-use GeminiLabs\SiteReviews\Request;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -144,26 +142,7 @@ test('the admin bar is left alone for somebody who is not logged in', function (
 });
 
 /*
- * Importing the images a review came with.
+ * Importing the images a review came with lives in tests/pest/Import/AttachmentImportTest.php,
+ * and not here — because ImportManager::importAttachments() defines WP_IMPORTING, which cannot be
+ * undefined, and which changes how every review created after it in the same process behaves.
  */
-
-test('importing attachments reports how many it did', function () {
-    // Paged: the importer is called over and over from the browser, and each call does one page.
-    // The message is what the person watching the progress bar reads.
-    $command = new ImportReviewsAttachments(new Request(['page' => 1, 'per_page' => 10]));
-
-    $command->handle();
-    $response = $command->response();
-
-    expect($response)->toHaveKey('message');
-});
-
-test('a page and a per-page of nothing are still a page of one', function () {
-    // max(1, …) on both. A per_page of 0 would be an importer that imports nothing, forever,
-    // while telling the person it is working.
-    $command = new ImportReviewsAttachments(new Request(['page' => 0, 'per_page' => 0]));
-
-    $command->handle();
-
-    expect($command->response())->toHaveKey('message'); // it ran, rather than dividing by zero
-});
