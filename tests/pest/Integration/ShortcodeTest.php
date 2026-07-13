@@ -1,5 +1,8 @@
 <?php
 
+use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Modules\Schema;
+
 use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\createReviews;
@@ -168,4 +171,229 @@ test('renders the review form honeypot', function () {
     // Form::build() always appends Honeypot::build(), hidden with inline styles.
     $html = do_shortcode('[site_reviews_form]');
     expect($html)->toContain('display:none;');
+});
+
+/*
+ * The rating summary.
+ *
+ * Four template tags — rating, stars, text, percentages — each of which can be hidden
+ * on its own (SiteReviewsSummaryShortcode::hideOptions), and each of which is a class
+ * resolved by NAME from the tag (buildTemplateTag → Helper::buildClassName). So a tag
+ * that resolves to nothing renders as nothing, silently, and that is worth pinning.
+ */
+
+test('the summary says what it says in the sentence a visitor reads', function () {
+    createReview(['rating' => 5]);
+    createReview(['rating' => 3]);
+
+    $html = do_shortcode('[site_reviews_summary]');
+
+    // the default sentence: "{rating} out of {max} stars (based on {num} reviews)"
+    // Rating::format() gives one decimal for any average above zero
+    expect($html)->toContain('4.0 out of 5 stars (based on 2 reviews)');
+});
+
+test('the summary sentence can be written by the person whose site it is', function () {
+    // {rating}, {max} and {num} are the only tags, and they are what makes a custom
+    // sentence worth allowing at all.
+    createReviews(3, ['rating' => 4]);
+
+    $html = do_shortcode('[site_reviews_summary text="Rated {rating}/{max} by {num} people"]');
+
+    expect($html)->toContain('Rated 4.0/5 by 3 people');
+});
+
+test('one review is a review, not reviews', function () {
+    // _nx() with the count, which is the reason the default text is not a plain string.
+    createReview(['rating' => 5]);
+
+    expect(do_shortcode('[site_reviews_summary]'))->toContain('based on 1 review)');
+});
+
+test('the summary hides the parts it is told to hide', function () {
+    createReview(['rating' => 5]);
+
+    $all = do_shortcode('[site_reviews_summary]');
+    expect($all)->toContain('glsr-summary-text')
+        ->toContain('glsr-summary-percentages')
+        ->toContain('glsr-summary-stars');
+
+    // and the hide keys are NOT the tag names — SummaryTag::hideOption() maps the `text`
+    // tag onto `summary` and the `percentages` tag onto `bars`, because those are the
+    // words a person would use for them.
+    $hidden = do_shortcode('[site_reviews_summary hide=summary,bars,stars]');
+    expect($hidden)->not->toContain('glsr-summary-text')
+        ->not->toContain('glsr-summary-percentages')
+        ->not->toContain('glsr-summary-stars');
+});
+
+test('the percentage bars can be labelled by the person whose site it is', function () {
+    // Rating::labels() is Excellent/Very good/Average/Poor/Terrible, highest first, and
+    // the custom list is read in the same order. A short list leaves the rest as they
+    // were rather than blanking them (normalizeLabels).
+    createReview(['rating' => 5]);
+
+    $html = do_shortcode('[site_reviews_summary labels="Superb, Fine"]');
+
+    expect($html)->toContain('Superb')
+        ->toContain('Fine')
+        ->toContain('Average')   // not given, so left alone
+        ->not->toContain('Excellent'); // replaced
+});
+
+test('a summary of nothing can be hidden, or can say there is nothing', function () {
+    // `if_empty` is not a field — it is the answer to "what should a page with no
+    // reviews on it look like". Without it the summary renders zeroes, which is the
+    // right thing for a page that expects reviews and the wrong thing for one that
+    // does not.
+    expect(do_shortcode('[site_reviews_summary hide=if_empty]'))->toBe('');
+
+    expect(do_shortcode('[site_reviews_summary]'))
+        ->toContain('glsr-summary-wrap')
+        ->toContain('based on 0 reviews)');
+});
+
+test('the summary with nothing in it can be given something to say', function () {
+    // `summary/if_empty` is what turns "hide it" into "say this instead". Note that
+    // whatever it returns is still WRAPPED like any other output — an empty template is
+    // what makes Shortcode::build() return nothing at all, and this one is not empty
+    // any more. That matters: the wrapper carries the data-shortcode attributes, and
+    // those are how the review form finds the summary it has to update after somebody
+    // submits a review to a page that had none.
+    add_filter('site-reviews/summary/if_empty', fn () => '<p>No reviews yet.</p>');
+
+    $html = do_shortcode('[site_reviews_summary hide=if_empty]');
+
+    expect($html)->toContain('<p>No reviews yet.</p>')
+        ->toContain('data-shortcode="site_reviews_summary"');
+});
+
+test('the summary writes the aggregate rating into the page schema, but only when asked', function () {
+    // The schema is what Google reads to show the stars in a search result. It must be
+    // on the page ONCE — hence the setting — so it is off unless it is asked for.
+    glsr()->store('schemas', []); // the plugin's in-memory store is not rolled back
+    createReview(['rating' => 5]);
+    createReview(['rating' => 4]);
+
+    expect(schemaOnThePage())->toBe(''); // nothing asked for it
+
+    do_shortcode('[site_reviews_summary schema=true]');
+
+    expect(schemaOnThePage())->toContain('application/ld+json')
+        ->toContain('AggregateRating')
+        ->toContain('"reviewCount":2')
+        ->toContain('"bestRating":5');
+
+    glsr()->store('schemas', []);
+});
+
+/**
+ * The JSON-LD the summary puts on the page, as Schema::render() would print it on
+ * wp_footer.
+ */
+function schemaOnThePage(): string
+{
+    ob_start();
+    glsr(Schema::class)->render();
+
+    return (string) ob_get_clean();
+}
+
+/*
+ * The review form on a site that will not take a review from a stranger.
+ */
+
+test('a site that requires a login asks a stranger to log in, and does not show them the form', function () {
+    glsr(OptionManager::class)->set('settings.general.require.login', 'yes');
+    wp_set_current_user(0);
+
+    $html = do_shortcode('[site_reviews_form]');
+
+    expect($html)->toContain('You must be')
+        ->toContain(wp_login_url())
+        ->not->toContain('<form');
+});
+
+test('and shows the form to somebody who has logged in', function () {
+    glsr(OptionManager::class)->set('settings.general.require.login', 'yes');
+    wp_set_current_user(createUser());
+
+    expect(do_shortcode('[site_reviews_form]'))->toContain('<form');
+});
+
+test('a site that takes registrations offers to register them', function () {
+    // Both have to be true: the plugin's setting AND WordPress's own "anyone can
+    // register". Offering a registration link on a site that refuses registrations
+    // sends people to a page that turns them away.
+    glsr(OptionManager::class)->set('settings.general.require.login', 'yes');
+    glsr(OptionManager::class)->set('settings.general.require.register', 'yes');
+    wp_set_current_user(0);
+
+    update_option('users_can_register', 0);
+    expect(do_shortcode('[site_reviews_form]'))->not->toContain('You may also');
+
+    update_option('users_can_register', 1);
+    expect(do_shortcode('[site_reviews_form]'))
+        ->toContain('You may also')
+        ->toContain(wp_registration_url());
+});
+
+test('a site with its own login and registration pages sends people there instead', function () {
+    // A membership plugin's login page, rather than wp-login.php. The filters are added
+    // and removed around the one call, so they cannot affect anybody else's login link.
+    glsr(OptionManager::class)->set('settings.general.require.login', 'yes');
+    glsr(OptionManager::class)->set('settings.general.require.register', 'yes');
+    glsr(OptionManager::class)->set('settings.general.require.login_url', 'https://example.org/signin');
+    glsr(OptionManager::class)->set('settings.general.require.register_url', 'https://example.org/join');
+    update_option('users_can_register', 1);
+    wp_set_current_user(0);
+
+    $html = do_shortcode('[site_reviews_form]');
+
+    expect($html)->toContain('https://example.org/signin')
+        ->toContain('https://example.org/join')
+        ->not->toContain('wp-login.php');
+
+    expect(wp_login_url())->toContain('wp-login.php'); // and everybody else's is untouched
+});
+
+/*
+ * The wrapper every shortcode is rendered inside.
+ */
+
+test('a rendered shortcode says what it is and where it came from', function () {
+    // The JS finds a shortcode by these: pagination, the load-more button and the form's
+    // "put the new review here" all look for data-shortcode and the custom id.
+    createReview();
+
+    $html = do_shortcode('[site_reviews id=my-reviews]');
+
+    expect($html)->toContain('data-shortcode="site_reviews"')
+        ->toContain('data-from="shortcode"')
+        ->toContain('id="my-reviews"');
+});
+
+test('a class is put on the element it belongs on', function () {
+    // Classes prefixed has-/is-/items- are layout, and go on the WRAPPER; anything else
+    // is styling for the reviews themselves and goes on the root. Getting it the wrong
+    // way round is a CSS rule that silently does nothing.
+    createReview();
+
+    $html = do_shortcode('[site_reviews class="my-styling is-large"]');
+
+    expect($html)->toContain('my-styling')->toContain('is-large');
+
+    // the wrapper is the outer element, so its classes appear before the root's
+    expect(strpos($html, 'is-large'))->toBeLessThan(strpos($html, 'my-styling'));
+});
+
+test('a shortcode can be asked to explain itself', function () {
+    // debug=true, and only from an actual shortcode — a block or a function call must
+    // never print it (Shortcode::debug checks $this->from).
+    createReview();
+
+    expect(do_shortcode('[site_reviews debug=true]'))->toContain('glsr-debug');
+
+    expect(glsr()->shortcode('site_reviews')->build(['debug' => true], 'function'))
+        ->not->toContain('glsr-debug');
 });
