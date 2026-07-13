@@ -15,6 +15,27 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ## Technical debt
 
+- [ ] **`Database\Tables\TableFields` is unreachable, and the `glsr_fields` table is
+  never created.** Every call site is commented out: `TableFields::class` is commented
+  out of `Tables::tables()` behind a `// @todo add the fields table`, and the
+  `create()` + `addForeignConstraints()` block in `Migrate_6_0_0` is commented out too.
+  Both files still `use` the class without using it.
+
+  Because `tables()` is the list that drives `createTables()`, `addForeignConstraints()`,
+  `dropForeignConstraints()`, `tablesExist()`, `Install::tables()` and `customTables()`,
+  the consequence is total: the table is created on no site, `table|fields` does not even
+  resolve as an SQL alias, and nothing anywhere else in the tree mentions `glsr_fields`.
+  Its `structure()`, `removeInvalidRows()` and constraint methods have never run.
+
+  An addon *could* add it through the `database/tables` filter, but nothing does.
+
+  **Deliberately left uncovered by the Pest suite** — a test would have to create the
+  table by hand, and would then be testing a fixture rather than the plugin. Either
+  finish the `@todo` (a plugin change, with a migration) or delete the class; leaving it
+  is a trap for the next person reading `Tables::tables()`.
+
+  Found while working through the 0%-coverage list.
+
 - [ ] **Move Polylang and WPML into `/plugin/Integrations`.** They are the only two
   third-party plugins the codebase reaches into from `/plugin/Modules` — everything
   else that talks to somebody else's plugin (WooCommerce, Elementor, Divi, the other
