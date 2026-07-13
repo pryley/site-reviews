@@ -297,3 +297,193 @@ test('each service tells the browser where to fetch its widget', function (strin
     expect(array_filter($urls))->not->toBeEmpty()
         ->and(array_keys($urls))->each->toBeIn(['module', 'nomodule']);
 })->with('captchas');
+
+/*
+ * The verification round-trip, run against EVERY service rather than only Turnstile.
+ *
+ * The tests above prove each subclass knows its endpoint, its token field and its keys. What they
+ * do not do is make it actually verify anything — and everything a subclass overrides lives on
+ * that path: requestBody() (each service names its fields differently), siteKey()/siteSecret()
+ * (each reads its own settings), errors()/errorCodes() (each has its own vocabulary), and for
+ * Friendlycaptcha v2, isTokenValid() itself.
+ *
+ * So a subclass could be wired to the wrong settings keys and pass every test above. It would send
+ * an empty secret to the right URL, be told no, and turn away every genuine visitor on the site —
+ * which is the failure that costs a site owner reviews they never learn they lost.
+ */
+
+/**
+ * A validator for a service, with a token in hand.
+ */
+function captchaValidator(string $class, array $request = []): object
+{
+    return new $class(new Request(wp_parse_args($request, [
+        '_captcha' => 'a-token-from-the-browser',
+        'ip_address' => '203.0.113.9',
+    ])));
+}
+
+/**
+ * What each service ACTUALLY replies, per its own documentation — not a generic {"success":true}.
+ *
+ * This is the part a shared mock would get wrong, and Procaptcha is the proof: its siteverify does
+ * not send a `success` field at all, it sends {"status":"ok","verified":true}, and its validator
+ * overrides responseBody() to read exactly that. A test that mocked {"success":true} for every
+ * service would have Procaptcha reading `verified` off an array that has no such key, failing, and
+ * the test would say the CAPTCHA was working.
+ *
+ * reCAPTCHA v3 is the other one with a shape of its own: success alone is not enough, the score
+ * has to clear the threshold and the action has to be the one the form asked for.
+ *
+ * @return array{0: array, 1: array} the documented success body, and the documented failure body
+ */
+function captchaBodies(string $integration): array
+{
+    return match ($integration) {
+        // https://docs.prosopo.io/en/basics/verify-users/
+        'procaptcha' => [
+            ['status' => 'ok', 'verified' => true],
+            ['status' => 'ok', 'verified' => false, 'error' => 'invalid-input-secret'],
+        ],
+        // https://developers.google.com/recaptcha/docs/v3
+        'recaptcha_v3' => [
+            ['success' => true, 'score' => 0.9, 'action' => 'submit_review'],
+            ['success' => false, 'error-codes' => ['invalid-input-secret']],
+        ],
+        // https://developer.friendlycaptcha.com/docs/v1/api/siteverify — `errors`, not `error-codes`
+        'friendlycaptcha' => [
+            ['success' => true],
+            ['success' => false, 'errors' => ['secret_missing']],
+        ],
+        // https://developer.friendlycaptcha.com/docs/v2/api/siteverify — a single `error` object
+        'friendlycaptcha_v2' => [
+            ['success' => true],
+            ['success' => false, 'error' => ['error_code' => 'auth_required']],
+        ],
+        // hCaptcha, Turnstile and reCAPTCHA v2 all speak `success` + `error-codes`.
+        default => [
+            ['success' => true],
+            ['success' => false, 'error-codes' => ['invalid-input-secret']],
+        ],
+    };
+}
+
+/**
+ * The settings group each service keeps its keys under — which is NOT always its own name:
+ *
+ *   recaptcha_v2_invisible  reads forms.recaptcha.*        (shared with the other reCAPTCHA v2)
+ *   friendlycaptcha_v2      reads forms.friendlycaptcha.*  (shared with Friendly Captcha v1)
+ *
+ * Both are deliberate — upgrading from v1 to v2 must not make somebody re-enter their keys — and
+ * both are exactly the kind of thing a rename would quietly break, leaving the service reading an
+ * empty secret and turning away every visitor on the site.
+ */
+function captchaKeyOptions(string $integration): array
+{
+    $group = match ($integration) {
+        'recaptcha_v2_invisible' => 'recaptcha',
+        'friendlycaptcha_v2' => 'friendlycaptcha',
+        default => $integration,
+    };
+
+    return [
+        "{$group}.key" => 'a-site-key',
+        "{$group}.secret" => 'a-secret-key',
+    ];
+}
+
+test('every service accepts a token its own server has approved', function (string $class, string $integration) {
+    enableCaptcha($integration, captchaKeyOptions($integration));
+    [$ok] = captchaBodies($integration);
+    $requests = interceptHttp(captchaReply($ok));
+
+    expect(failedValidation(captchaValidator($class)))->toBeFalse();
+    expect($requests)->toHaveCount(1); // and it really asked
+})->with('captchas');
+
+test('every service sends its secret and the token to its own endpoint', function (
+    string $class, string $integration, string $apiUrl
+) {
+    // The assertion that catches a subclass reading the wrong settings. A secret that came back
+    // EMPTY here would still verify against a mocked server saying yes — and would reject every
+    // visitor on a real one.
+    enableCaptcha($integration, captchaKeyOptions($integration));
+    [$ok] = captchaBodies($integration);
+    $requests = interceptHttp(captchaReply($ok));
+
+    captchaValidator($class)->validate();
+
+    // The secret does not always travel in the body: Friendly Captcha v2 authenticates with an
+    // X-API-Key HEADER and sends JSON. So look at the whole request rather than at the body — what
+    // matters is that the service found its own key and secret, not where it put them.
+    $sent = wp_json_encode([
+        'body' => $requests[0]['args']['body'] ?? [],
+        'headers' => $requests[0]['args']['headers'] ?? [],
+    ]);
+
+    expect($requests[0]['url'])->toBe($apiUrl);
+    expect($sent)
+        ->toContain('a-secret-key')             // it found its own secret…
+        ->toContain('a-token-from-the-browser'); // …and sent the visitor's token
+})->with('captchas');
+
+test('no service makes the visitor wait while it retries a broken server', function (
+    string $class, string $integration
+) {
+    // ONE attempt, for every service. The CAPTCHA is verified inside the submit-review request,
+    // with a person watching a spinner — so Api's backoff (about 1s, then 1.6, then 2.6, then 4.1)
+    // is right for a licence check, where nobody is waiting, and wrong here. Their retry is
+    // pressing the button again.
+    //
+    // The abstract passes max_retries => 1. A subclass that overrides requestArgs() — which
+    // Friendly Captcha v2 must, because v2 authenticates with a header — can drop it without
+    // anything failing, and did. The visitor pays for that in seconds.
+    enableCaptcha($integration, captchaKeyOptions($integration));
+    $requests = interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
+
+    captchaValidator($class)->validate();
+
+    expect($requests)->toHaveCount(1);
+})->with('captchas');
+
+test('every service rejects a token its own server has refused', function (string $class, string $integration) {
+    enableCaptcha($integration, captchaKeyOptions($integration));
+    [, $refused] = captchaBodies($integration);
+    interceptHttp(captchaReply($refused));
+
+    expect(failedValidation(captchaValidator($class)))->toBeTrue();
+})->with('captchas');
+
+test('every service refuses when its own server cannot be reached', function (string $class, string $integration) {
+    // Fail CLOSED. A CAPTCHA that waved reviews through when the service was down would be a
+    // CAPTCHA a spammer could switch off by taking the service down.
+    enableCaptcha($integration, captchaKeyOptions($integration));
+    interceptHttp(['response' => ['code' => 500, 'message' => 'Internal Server Error']]);
+
+    expect(failedValidation(captchaValidator($class)))->toBeTrue();
+})->with('captchas');
+
+test('every service refuses when the form sent no token at all', function (string $class, string $integration) {
+    // CAPTCHA_EMPTY, and it never asks the service — which is the point: a bot that skips the
+    // widget entirely must not cost the site an HTTP request per submission.
+    enableCaptcha($integration, captchaKeyOptions($integration));
+    [$ok] = captchaBodies($integration);
+    $requests = interceptHttp(captchaReply($ok));
+
+    expect(failedValidation(captchaValidator($class, ['_captcha' => ''])))->toBeTrue();
+    expect($requests)->toHaveCount(0);
+})->with('captchas');
+
+test('every service explains itself when its own server sends an error code', function (
+    string $class, string $integration
+) {
+    // errorCodes() is a per-service dictionary, and it is only ever read here. An error the
+    // service sends and the plugin cannot name is logged as a bare code, which is a support
+    // ticket nobody can answer.
+    enableCaptcha($integration, captchaKeyOptions($integration));
+    [, $refused] = captchaBodies($integration);
+    interceptHttp(captchaReply($refused));
+
+    expect(failedValidation(captchaValidator($class)))->toBeTrue();
+    expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())->not->toBeEmpty();
+})->with('captchas');
