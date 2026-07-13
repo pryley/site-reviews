@@ -53,9 +53,16 @@ test('ip-address prints the address the server actually sees', function () {
 });
 
 test('migrate runs the migrations and says so', function () {
-    // The ordinary path: nothing to do (the suite migrates at bootstrap), and it still has to
-    // report success rather than silence — a command that prints nothing is a command the person
-    // will run again.
+    // Usually there is nothing to do — the suite migrates at bootstrap — and it still has to report
+    // success rather than silence, because a command that prints nothing is a command the person
+    // runs again.
+    //
+    // But WHETHER it does anything is a question about the database, not about this test:
+    // Migrate::run() calls runAll() if isMigrationNeeded(), and migrations are DDL. Under
+    // `make test:random` the --force test below can run first and change what is pending. So this
+    // is declared, because it MAY commit — which is exactly what the command does on a real site.
+    commitsTransaction();
+
     glsr(CLI::class)->migrate([], []);
 
     expect(WP_CLI::successes())->toBe(['The plugin has been migrated.']);
