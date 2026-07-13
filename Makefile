@@ -140,6 +140,20 @@ test\:install: docker-check ## Start wp-env and install the composer dev depende
 	npx @wordpress/env start
 	$(WPENV) composer update
 
+# The edit loop, not the thing to trust before a commit. A file that passes on its own
+# can still be poisoning — or poisoned by — the ones that run around it: the Import
+# suite's DDL implicitly COMMITs the per-test transaction, and the term AUTO_INCREMENT
+# does not roll back at all. Both were invisible until the whole suite ran, in order.
+# Iterate with this; run `make test` before committing.
+#
+#   make test:file FILE=tests/pest/Integration/EmailTest.php
+#   make test:file FILE=tests/pest/Integration/EmailTest.php NAME='plain text'
+#
+.PHONY: test\:file
+test\:file: env-check ## Run one test file (FILE=…), or the tests in it matching NAME=…
+	@test -n '$(FILE)' || { printf '\nUsage: make test:file FILE=tests/pest/Integration/EmailTest.php [NAME="part of the test name"]\n\n'; exit 1; }
+	$(WPENV) env XDEBUG_MODE=off vendor/bin/pest --test-directory=tests/pest --colors=always '$(FILE)' $(if $(NAME),--filter='$(NAME)',)
+
 .PHONY: test\:import
 test\:import: env-check ## Run only the Import suite inside wp-env (runs last: it defines WP_IMPORTING)
 	$(WPENV) composer test:import
