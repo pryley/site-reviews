@@ -1,0 +1,1 @@
+window.testAddon=1;
