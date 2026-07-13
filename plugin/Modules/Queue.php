@@ -16,13 +16,6 @@ class Queue implements QueueContract
     public const STATUS_PENDING = \ActionScheduler_Store::STATUS_PENDING;
     public const STATUS_RUNNING = \ActionScheduler_Store::STATUS_RUNNING;
 
-    protected bool $isTesting = false;
-
-    public function __construct()
-    {
-        $this->isTesting = defined('GLSR_UNIT_TESTS');
-    }
-
     public function app(): PluginContract
     {
         return glsr();
@@ -61,7 +54,7 @@ class Queue implements QueueContract
      */
     public function async(string $hook, array $args = [], bool $unique = false)
     {
-        if (!function_exists('as_enqueue_async_action') || $this->isTesting) {
+        if (!function_exists('as_enqueue_async_action')) {
             return 0;
         }
         return as_enqueue_async_action($this->hook($hook), $args, glsr()->id, $unique);
@@ -72,7 +65,7 @@ class Queue implements QueueContract
      */
     public function cancel(string $hook, array $args = [])
     {
-        if (!function_exists('as_unschedule_action') || $this->isTesting) {
+        if (!function_exists('as_unschedule_action')) {
             return null;
         }
         return as_unschedule_action($this->hook($hook), $args, glsr()->id);
@@ -91,7 +84,7 @@ class Queue implements QueueContract
      */
     public function cancelAll(string $hook, array $args = [])
     {
-        if (!function_exists('as_unschedule_all_actions') || $this->isTesting) {
+        if (!function_exists('as_unschedule_all_actions')) {
             return;
         }
         if (empty($args)) {
@@ -106,7 +99,7 @@ class Queue implements QueueContract
      */
     public function cron(int $timestamp, string $schedule, string $hook, array $args = [], bool $unique = false)
     {
-        if (!function_exists('as_schedule_cron_action') || $this->isTesting) {
+        if (!function_exists('as_schedule_cron_action')) {
             return 0;
         }
         return as_schedule_cron_action($timestamp, $schedule, $this->hook($hook), $args, glsr()->id, $unique);
@@ -125,7 +118,7 @@ class Queue implements QueueContract
      */
     public function isPending(string $hook, array $args = []): bool
     {
-        if (!function_exists('as_has_scheduled_action') || $this->isTesting) {
+        if (!function_exists('as_has_scheduled_action')) {
             return false;
         }
         if (!empty($args)) {
@@ -144,7 +137,7 @@ class Queue implements QueueContract
      */
     public function next(string $hook, array $args = [])
     {
-        if (!function_exists('as_next_scheduled_action') || $this->isTesting) {
+        if (!function_exists('as_next_scheduled_action')) {
             return false;
         }
         $next = as_next_scheduled_action($this->hook($hook), $args, glsr()->id);
@@ -159,7 +152,7 @@ class Queue implements QueueContract
      */
     public function once(int $timestamp, string $hook, array $args = [], bool $unique = false)
     {
-        if (!function_exists('as_schedule_single_action') || $this->isTesting) {
+        if (!function_exists('as_schedule_single_action')) {
             return 0;
         }
         return as_schedule_single_action($timestamp, $this->hook($hook), $args, glsr()->id, $unique);
@@ -170,7 +163,7 @@ class Queue implements QueueContract
      */
     public function recurring(int $timestamp, int $intervalInSeconds, string $hook, array $args = [], bool $unique = false)
     {
-        if (!function_exists('as_schedule_recurring_action') || $this->isTesting) {
+        if (!function_exists('as_schedule_recurring_action')) {
             return 0;
         }
         return as_schedule_recurring_action($timestamp, $intervalInSeconds, $this->hook($hook), $args, glsr()->id, $unique);
@@ -181,7 +174,7 @@ class Queue implements QueueContract
      */
     public function search(array $args = [], string $returnFormat = OBJECT)
     {
-        if (!function_exists('as_get_scheduled_actions') || $this->isTesting) {
+        if (!function_exists('as_get_scheduled_actions')) {
             return [];
         }
         if (isset($args['hook'])) {
