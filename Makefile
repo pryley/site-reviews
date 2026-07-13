@@ -166,6 +166,25 @@ test\:coverage: env-check ## Run the suite with coverage of the PLUGIN, gated at
 	npx @wordpress/env start --xdebug=coverage
 	$(WPENV) env XDEBUG_MODE=coverage composer test:coverage
 
+# Coverage of ONE part of the plugin, measured against the WHOLE suite — which is the only
+# number that means anything: a file is covered by whatever tests happen to reach it, and most
+# are reached from more than one place.
+#
+# DIR, not FILE. PHPUnit's --coverage-filter takes directories only: every value becomes a
+# `new FilterDirectory($value, '', '.php')` (TextUI/Configuration/Merger.php), and a path to a
+# single .php file matches nothing at all — it does not error, it silently reports zero files.
+# So scope it to the directory and read the line for the file you care about.
+#
+#   make test:coverage:only DIR=plugin/Widgets
+#   make test:coverage:only DIR=plugin/Database/Tables
+.PHONY: test\:coverage\:only
+test\:coverage\:only: env-check ## Coverage of one DIRECTORY, from the whole suite: make test:coverage:only DIR=plugin/Widgets
+	@test -n "$(DIR)" || { echo "Usage: make test:coverage:only DIR=plugin/Widgets   (a directory — see the Makefile)"; exit 1; }
+	@test -d "$(DIR)" || { echo "Not a directory: $(DIR)   (--coverage-filter takes directories, not files)"; exit 1; }
+	npx @wordpress/env start --xdebug=coverage
+	$(WPENV) env XDEBUG_MODE=coverage php -d memory_limit=-1 vendor/bin/pest \
+		--test-directory=tests/pest --coverage --coverage-filter=$(DIR)
+
 .PHONY: test\:coverage\:integrations
 test\:coverage\:integrations: env-check ## Coverage of the third-party integrations only — reported, never gated
 	npx @wordpress/env start --xdebug=coverage
@@ -190,6 +209,18 @@ test\:install: docker-check ## Start wp-env and install the composer dev depende
 test\:file: env-check ## Run one test file (FILE=…), or the tests in it matching NAME=…
 	@test -n '$(FILE)' || { printf '\nUsage: make test:file FILE=tests/pest/Integration/EmailTest.php [NAME="part of the test name"]\n\n'; exit 1; }
 	$(WPENV) env XDEBUG_MODE=off vendor/bin/pest --test-directory=tests/pest --colors=always '$(FILE)' $(if $(NAME),--filter='$(NAME)',)
+
+# For bisecting a leak. A test that passes alone and fails in the suite is leaning on — or being
+# poisoned by — something in another file, and the only way to find out which file is to run them
+# together, two at a time, in the order the suite would.
+#
+#   make test:files FILES="tests/pest/Integration/ApplicationTest.php tests/pest/Integration/ReviewManagerTest.php"
+#
+# FILES is deliberately UNQUOTED in the recipe, which is the whole difference from test:file.
+.PHONY: test\:files
+test\:files: env-check ## Run several test files together (FILES="a.php b.php") — for bisecting a leak
+	@test -n '$(FILES)' || { printf '\nUsage: make test:files FILES="tests/pest/Integration/A.php tests/pest/Integration/B.php"\n\n'; exit 1; }
+	$(WPENV) env XDEBUG_MODE=off vendor/bin/pest --test-directory=tests/pest --colors=always $(FILES)
 
 # The ten slowest tests. Run this when the suite gets slower and you want to know WHY,
 # rather than reasoning about which of the new tests looks expensive — the answer has
