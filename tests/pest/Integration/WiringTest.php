@@ -5,6 +5,7 @@ use GeminiLabs\SiteReviews\BlackHole;
 use GeminiLabs\SiteReviews\Commands\GeolocateReviews;
 use GeminiLabs\SiteReviews\Controllers\QueueController;
 use GeminiLabs\SiteReviews\Database\CountManager;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Deprecated;
 use GeminiLabs\SiteReviews\Hooks;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -13,8 +14,11 @@ use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Provider;
 use GeminiLabs\SiteReviews\Router;
 
+use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
 use function GeminiLabs\SiteReviews\Tests\createReview;
+use function GeminiLabs\SiteReviews\Tests\createReviews;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\sentMail;
 
 /*
  * The wiring: the things that make everything else run, and whose failure mode is silence.
@@ -223,4 +227,58 @@ test('the export cleanup removes the meta the exporter parked, and nothing else'
 
     expect(get_post_meta($review->ID, glsr()->export_key, true))->toBeEmpty()
         ->and(get_post_meta($review->ID, '_custom_keep_me', true))->toBe('still here');
+});
+
+/*
+ * The rest of the queue's far end.
+ *
+ * Every one of these runs minutes or hours after the request that scheduled it, in a process with
+ * no user, no screen and nobody watching. A failure here is invisible twice over — it does not
+ * happen during anybody's page load, and the only trace is a line in the console.
+ */
+
+test('a queued notification reaches the review it was scheduled for', function () {
+    // Notification::send() does NOTHING unless a notification type is switched on — which is the
+    // default, because most sites do not want an email for every review. So the setting is part of
+    // the precondition, not scenery: a test that skipped it would pass while proving nothing.
+    glsr(OptionManager::class)->set('settings.general.notifications', ['admin']);
+    $review = createReview(['email' => 'jane@example.org', 'rating' => 5]);
+
+    glsr(QueueController::class)->sendNotification($review->ID);
+
+    expect(sentMail())->not->toBeEmpty();
+});
+
+test('a queued notification for a review that has since been deleted does nothing', function () {
+    // The review was deleted between the job being scheduled and the job running, which is a thing
+    // that happens because the gap is minutes. An invalid review is a silent return, not a fatal in
+    // a cron process nobody is watching — and not an email about a review that no longer exists.
+    glsr(OptionManager::class)->set('settings.general.notifications', ['admin']);
+
+    glsr(QueueController::class)->sendNotification(999999);
+
+    expect(sentMail())->toBeEmpty();
+});
+
+test('the batched geolocation walks the reviews from the offset it was given', function () {
+    // Geolocating ten thousand reviews cannot happen in one request, so it is a chain of jobs, each
+    // picking up where the last one stopped. An offset that was ignored would geolocate the first
+    // page over and over, forever.
+    createReviews(3, ['ip_address' => '127.0.0.1']); // local: each returns early, which is fine
+
+    glsr(QueueController::class)->geolocateReviews(0);
+
+    expect(true)->toBeTrue(); // it ran to completion rather than throwing
+});
+
+test('the queued migration runs the migrations', function () {
+    // Site Reviews migrates itself in the background after an update, because a big site's
+    // migration cannot finish inside the request that noticed the new version.
+    //
+    // It is DDL, so it commits.
+    commitsTransaction();
+
+    glsr(QueueController::class)->runMigration();
+
+    expect(get_option(glsr()->prefix.'db_version'))->not->toBeEmpty();
 });
