@@ -15,6 +15,40 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ## Technical debt
 
+- [ ] **`Translation::strings()` memoises into a function-level `static`, which nothing
+  can reset.** `static $strings;` … `if (empty($strings))` — so the first call that finds
+  a non-empty `settings.strings` caches it for the rest of the PHP process. No
+  transaction rollback, no `wp_cache_flush()`, and nothing in the suite's
+  `resetGlobalState()` can reach it.
+
+  In production this is a per-request cache and harmless. In the suite it is a one-way
+  door: `tests/pest/Integration/TranslatorTest.php` can only define ONE set of custom
+  strings, in `beforeEach`, and every phrase it customises has to be one that appears
+  nowhere else in the plugin — because the cache outlives the file and would otherwise
+  change what later tests see. Any future test that needs to customise a string the
+  plugin actually uses will silently get whichever set of strings ran first.
+
+  There must be a better answer than working around it. Options not yet investigated: a
+  static that can be cleared through a documented seam; moving the memo into
+  `glsr()->store()` (which `resetGlobalState()` already clears) — note that the current
+  comment says it deliberately bypasses the settings pipeline because it runs before the
+  settings are initiated, so that constraint is real and has to be honoured; or a
+  container binding. **Revisit — worth a fresh pair of eyes.**
+
+- [ ] **Every integration's `Hooks` class reads as 0% coverage, and it is a measurement
+  artifact, not a testing gap.** They run exactly once, on `plugins_loaded` at priority
+  100, during `wp-load.php` in `tests/pest/bootstrap.php` — which is before PHPUnit
+  starts collecting coverage. The code runs; nothing counts it.
+
+  `Integrations/Gutenberg/Hooks` was covered by having a test call `run()` explicitly
+  (`tests/pest/ThirdParty/GutenbergBlockTest.php`), which works but is thirty copies of
+  the same test waiting to be written, and it re-registers hooks that are already
+  registered.
+
+  The same is true of anything else that only runs at boot. A real fix would be
+  structural — start coverage collection earlier, or move the integration boot into
+  something a test can drive — rather than one test per integration. **Revisit.**
+
 - [ ] **`Database\Tables\TableFields` is unreachable, and the `glsr_fields` table is
   never created.** Every call site is commented out: `TableFields::class` is commented
   out of `Tables::tables()` behind a `// @todo add the fields table`, and the
