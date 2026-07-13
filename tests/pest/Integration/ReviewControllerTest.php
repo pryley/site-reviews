@@ -530,10 +530,10 @@ test('the fallback approve action does nothing unless it is ours', function () {
 });
 
 test('a notification is not queued while the suite is running', function () {
-    // Queue::async() short-circuits on GLSR_UNIT_TESTS — Action Scheduler writes to its
-    // own tables, and those do not roll back with the transaction. So this exercises
-    // the guards and proves nothing is queued; what the notification SAYS is
-    // NotificationTest's job.
+    // The suite binds a NullQueue (see Support/NullQueue), because Action Scheduler is
+    // not what is under test here and a review would otherwise queue a notification, a
+    // geolocation and an avatar apiece. So this proves nothing is queued; what the
+    // notification SAYS is NotificationTest's job.
     glsr(ReviewController::class)->sendNotification(createReview());
 
     expect(glsr(Queue::class)->isPending('queue/notification'))->toBeFalse();

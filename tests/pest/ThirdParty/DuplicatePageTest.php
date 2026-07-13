@@ -26,8 +26,9 @@ uses(InteractsWithExits::class);
  * here, redirect included.
  *
  * The controller is CALLED rather than fired through its hook, which is simply
- * clearer — HookProxy's try/catch would not have got in the way, since it is
- * skipped when PHPUNIT_TESTING is defined (see Support/InteractsWithExits).
+ * clearer — HookProxy's catch would not have got in the way either, since it
+ * rethrows when the `site-reviews/hook/rethrow` filter says to, and bootstrap.php
+ * says to (see Support/InteractsWithExits).
  */
 
 beforeEach(function () {

@@ -25,11 +25,12 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * an action that has already run, or cancelling one that has already been cancelled, are
  * both meaningless, and the buttons for them are not drawn.
  *
- * Note how the actions are scheduled below. Queue is inert under GLSR_UNIT_TESTS — every
- * one of its scheduling methods short-circuits — so the actions are put into the queue
- * with Action Scheduler's own function, in the plugin's group, which is exactly what
- * Queue::once() does when it is not being tested. They are ordinary rows in ordinary
- * tables, so the per-test transaction rolls them back.
+ * Note how the actions are scheduled below. The suite binds a NullQueue (see
+ * Support/NullQueue), so every one of Queue's scheduling methods returns without touching
+ * Action Scheduler — the actions are therefore put into the queue with Action Scheduler's
+ * own function, in the plugin's group, which is exactly what Queue::once() does when it is
+ * not being faked. They are ordinary rows in ordinary tables, so the per-test transaction
+ * rolls them back.
  */
 
 uses(InteractsWithExits::class);

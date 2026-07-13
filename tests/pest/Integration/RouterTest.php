@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -9,7 +10,9 @@ use GeminiLabs\SiteReviews\Tests\InteractsWithAjax;
 use GeminiLabs\SiteReviews\Tests\InteractsWithExits;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
+use function GeminiLabs\SiteReviews\Tests\mutexLock;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
+use function GeminiLabs\SiteReviews\Tests\releaseMutexLock;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 uses(InteractsWithAjax::class, InteractsWithExits::class);
@@ -391,18 +394,101 @@ test('a get token cannot be read or forged without the site\'s keys', function (
  * The mutex.
  */
 
+/**
+ * A submission that gets as far as the mutex. The nonce and `_ajax_request` matter: the
+ * mutex is the LAST checkpoint in routePublicAjaxRequest(), so a request that fails any of
+ * the earlier ones never reaches it.
+ */
+function submitReviewAjax(): array
+{
+    ajaxPost([
+        '_action' => 'submit-review',
+        '_nonce' => wp_create_nonce('submit-review'),
+    ]);
+
+    return test()->jsonSentBy(fn () => glsr(Router::class)->routePublicAjaxRequest());
+}
+
 test('only the review submission is protected against parallel requests', function () {
-    // The mutex is a per-IP transient, and it exists for one route: two submissions
-    // arriving in the same TCP packet would otherwise both pass the duplicate check
-    // before either had been written. Everything else is cheap enough, or read-only.
-    //
-    // It cannot be exercised here — isValidMutexRequest() returns true outright when
-    // GLSR_UNIT_TESTS is defined, and bootstrap.php defines it. The suite would
-    // otherwise lock itself out of its own second review.
+    // Everything else is cheap enough, or read-only. The list is asserted by name because
+    // adding to it makes a route slower for every visitor, and removing from it is how the
+    // protection below gets switched off by accident.
     $actions = protectedMethod(Router::class, 'mutexActions')->invoke(glsr(Router::class));
 
     expect($actions)->toBe(['submit-review']);
-    expect(defined('GLSR_UNIT_TESTS'))->toBeTrue();
+});
+
+test('a second submission arriving in the same moment is refused', function () {
+    // THE POINT OF THE MUTEX. Two submissions in the same TCP packet would otherwise both
+    // clear the duplicate check before either had been written, and the site owner would
+    // get the same review twice — which is the cheapest way there is to flood a site.
+    $this->setUpAjax();
+    releaseMutexLock(); // nothing is holding it: this is the first request
+
+    $first = submitReviewAjax();
+    $second = submitReviewAjax(); // and the lock is still down
+
+    expect($first['data']['error'] ?? '')->not->toBe('Parallel AJAX request (possible single-packet attack)');
+    expect($second['success'])->toBeFalse()
+        ->and($second['data']['code'])->toBe(429)
+        ->and($second['data']['error'])->toBe('Parallel AJAX request (possible single-packet attack)');
+
+    // and the visitor is not shown "Parallel AJAX request (possible single-packet attack)"
+    expect($second['data']['message'])->toContain('could not be submitted');
+});
+
+test('the same visitor may submit again once the lock has gone', function () {
+    // The lock is a five-second transient, not a ban. A person who submits a review for
+    // one product and then another for the next must not be turned away.
+    $this->setUpAjax();
+    releaseMutexLock();
+
+    submitReviewAjax();
+    releaseMutexLock(); // i.e. five seconds pass
+
+    $again = submitReviewAjax();
+
+    expect($again['data']['error'] ?? '')->not->toBe('Parallel AJAX request (possible single-packet attack)');
+});
+
+test('the lock is dropped on a hash of the ip address, not the address itself', function () {
+    // The options table is not the place to keep a record of who visited and when.
+    $this->setUpAjax();
+    releaseMutexLock();
+
+    submitReviewAjax();
+
+    expect(get_transient(mutexLock()))->not->toBeFalse() // it is down
+        ->and(mutexLock())->not->toContain(Helper::clientIp());
+});
+
+test('a route that is not in the mutex list is never locked', function () {
+    // fetch-paged-reviews is what pagination calls, and a visitor clicking through pages
+    // faster than the lock expires must not be told they are attacking the site.
+    $this->setUpAjax();
+    add_filter('site-reviews/router/public/unguarded-actions', fn ($actions) => [...$actions, 'test-route']);
+    $recorded = recordRoute('route/ajax/test-route');
+
+    ajaxPost(['_action' => 'test-route']);
+    $this->jsonSentBy(fn () => glsr(Router::class)->routePublicAjaxRequest());
+    ajaxPost(['_action' => 'test-route']);
+    $this->jsonSentBy(fn () => glsr(Router::class)->routePublicAjaxRequest());
+
+    expect($recorded)->toHaveCount(2);
+    expect(get_transient(mutexLock()))->toBeFalse(); // no lock was ever taken
+});
+
+test('how long the lock is held can be filtered', function () {
+    // A site behind a proxy that presents one IP for every visitor would lock its whole
+    // audience out of each other's submissions, so the expiration is a knob.
+    $this->setUpAjax();
+    releaseMutexLock();
+    add_filter('site-reviews/router/mutex/expiration', fn () => 60);
+
+    submitReviewAjax();
+
+    $timeout = (int) get_option('_transient_timeout_'.mutexLock());
+    expect($timeout)->toBeGreaterThan(time() + 30);
 });
 
 /*

@@ -10,13 +10,13 @@ use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
 
+use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
 use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\createTerm;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
-use function GeminiLabs\SiteReviews\Tests\runsDdl;
 
 /*
  * Getting reviews out of the plugin and back in.
@@ -34,9 +34,9 @@ use function GeminiLabs\SiteReviews\Tests\runsDdl;
  *
  *   ExportReviews                   the plugin's own CSV export (Tools > General).
  *
- * The queue calls in these commands do nothing here: Queue::isTesting is
- * defined('GLSR_UNIT_TESTS'), so once() and async() return 0 without touching
- * Action Scheduler.
+ * The queue calls in these commands do nothing here: the suite binds a NullQueue
+ * (see Support/NullQueue), so once() and async() return 0 without touching Action
+ * Scheduler.
  */
 
 beforeEach(function () {
@@ -239,7 +239,7 @@ function importSettings(array $data): bool
 }
 
 test('importing settings replaces them', function () {
-    runsDdl(); // ImportSettings migrates the settings it imported, and Migrate_6_2_1 is DDL
+    commitsTransaction(); // ImportSettings migrates the settings it imported, and the migrations commit
     glsr(OptionManager::class)->set('settings.general.require.approval', 'yes');
 
     expect(importSettings([
@@ -257,7 +257,7 @@ test('an imported version number is discarded', function () {
     // The version in a settings file is the version of the site it came FROM, and
     // adopting it would tell the migration runner that migrations it has never run
     // are already done.
-    runsDdl(); // see above
+    commitsTransaction(); // see above
     $version = glsr(OptionManager::class)->get('version');
 
     importSettings([

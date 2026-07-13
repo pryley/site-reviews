@@ -3,7 +3,9 @@
 namespace GeminiLabs\SiteReviews\Tests;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 
 /*
  * Replacements for the pieces of WordPress core's test framework the phpunit
@@ -36,37 +38,45 @@ function resetPluginState(): void
 }
 
 /**
- * Declares that this test WILL commit the per-test transaction, and that this is
- * expected rather than a bug.
+ * Declares that this test WILL commit the per-test transaction, and that this is expected
+ * rather than a bug.
  *
- * MySQL commits the open transaction implicitly the moment it sees DDL, so a test that
- * reaches CREATE, ALTER or DROP TABLE cannot be isolated by a transaction — everything
- * it wrote up to that point becomes permanent. Pest.php watches for that with a sentinel
- * row and fails any test it catches doing it, because the damage lands somewhere else
- * entirely: the leaked user breaks the NEXT run, in a different file, with "Sorry, that
- * username already exists".
+ * A transaction cannot isolate a test that ends it, and two things end one:
  *
- * Three tests do it legitimately, and all three run the migrations:
+ *   DDL                 MySQL commits implicitly the moment it sees CREATE, ALTER or DROP
+ *                       TABLE. TableTmp is created and dropped by every CSV import.
+ *   START TRANSACTION   issued explicitly. Database::beginTransaction() does exactly that
+ *                       on InnoDB, and finishTransaction() then COMMITs.
  *
- *   Migrate_6_2_1::migrateDatabaseIndexes() drops and re-adds the foreign constraints of
- *   the three assignment tables on every run, on InnoDB, unconditionally — it repairs a
- *   PRIMARY index that 6_0_0 got wrong on MariaDB, and it does not first check whether
- *   there is anything to repair. Migrate::runAll() is reached from ImportSettings (the
- *   imported settings may be older than the schema) and from MigratePlugin.
+ * Pest.php watches for it with a sentinel row and fails any test it catches, because the
+ * damage never lands where it was done: the leaked user breaks the NEXT run, in another
+ * file, with "Sorry, that username already exists".
+ *
+ * Four do it legitimately. The Import suite, which cannot import without TableTmp. And
+ * the three that reach Migrate::runAll() — ImportSettings twice, MigratePlugin once —
+ * which commit for BOTH reasons at once:
+ *
+ *   Migrate_5_25_0/MigrateReviews wraps each of its four passes in beginTransaction() /
+ *   finishTransaction(), which on InnoDB is a literal START TRANSACTION and COMMIT.
+ *
+ *   Migrate_6_2_1::migrateDatabaseIndexes() rebuilds a PRIMARY index that Migrate_6_0_0
+ *   got wrong on MariaDB, which means dropping the assignment tables' foreign constraints
+ *   and adding them back. It only does so when the index actually needs repairing, but
+ *   addForeignConstraints() still runs on every pass and can add DDL of its own.
  *
  * A test that declares this is purged after it — see purgeCommittedRows() — instead of
  * being failed. The declaration is per-test; Pest.php clears it.
  */
-function runsDdl(): void
+function commitsTransaction(): void
 {
-    ddlWasDeclared(true);
+    commitWasDeclared(true);
 }
 
 /**
- * The flag runsDdl() sets, which Pest.php reads and then clears. Not for use in a test:
- * a test says runsDdl(), and says it plainly.
+ * The flag commitsTransaction() sets, which Pest.php reads and then clears. Not for use
+ * in a test: a test says commitsTransaction(), and says it plainly.
  */
-function ddlWasDeclared(?bool $set = null): bool
+function commitWasDeclared(?bool $set = null): bool
 {
     static $declared = false;
     if (null !== $set) {
@@ -104,6 +114,35 @@ function purgeCommittedRows(): void
          LEFT JOIN {$wpdb->users} u ON (u.ID = um.user_id)
          WHERE u.ID IS NULL"
     );
+}
+
+/**
+ * Lets go of the router's parallel-request lock.
+ *
+ * Router::isValidMutexRequest() puts a transient down, keyed by a hash of the client IP,
+ * for five seconds, and refuses a second `submit-review` while it is there. Two submissions
+ * arriving in the same TCP packet would otherwise both clear the duplicate check before
+ * either had been written.
+ *
+ * Every request in a test comes from the same IP and they all arrive within the same
+ * second, so a test that submits twice looks exactly like the attack. It is not one: it is
+ * a person who submitted a review, and then submitted another one. Releasing the lock
+ * between requests is what stands in for the time that would have passed between them.
+ *
+ * A test that means to exercise the mutex simply does not call this — see RouterTest.
+ */
+function releaseMutexLock(): void
+{
+    delete_transient(mutexLock());
+}
+
+/**
+ * The transient Router::isValidMutexRequest() locks with, derived the same way it derives
+ * it. Hashed, so it does not put a visitor's IP address in the options table.
+ */
+function mutexLock(): string
+{
+    return Str::prefix(Str::hash(Helper::clientIp(), 13), glsr()->prefix);
 }
 
 /**

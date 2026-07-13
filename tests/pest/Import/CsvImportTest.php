@@ -9,10 +9,10 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\UploadedFile;
 
+use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
-use function GeminiLabs\SiteReviews\Tests\runsDdl;
 
 /*
  * The CSV import, end to end.
@@ -52,7 +52,7 @@ use function GeminiLabs\SiteReviews\Tests\runsDdl;
  */
 
 beforeEach(function () {
-    runsDdl(); // every test here does — see below
+    commitsTransaction(); // every test here does — see below
     purgeEverythingThisSuiteCreates(); // the last run may have crashed out
     resetPluginState();
     wp_set_current_user(createUser(['role' => 'administrator']));

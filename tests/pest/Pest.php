@@ -32,7 +32,7 @@
  */
 
 use function GeminiLabs\SiteReviews\Tests\backupHooks;
-use function GeminiLabs\SiteReviews\Tests\ddlWasDeclared;
+use function GeminiLabs\SiteReviews\Tests\commitWasDeclared;
 use function GeminiLabs\SiteReviews\Tests\emptyMailbox;
 use function GeminiLabs\SiteReviews\Tests\purgeCommittedRows;
 use function GeminiLabs\SiteReviews\Tests\resetRequestState;
@@ -72,7 +72,7 @@ uses()
         // DDL is what does it: MySQL commits the open transaction implicitly on CREATE,
         // ALTER and DROP TABLE. So does an explicit START TRANSACTION.
         //
-        // A test that MEANS to do this says so with runsDdl() — the Import suite, whose
+        // A test that MEANS to do this says so with commitsTransaction() — the Import suite, whose
         // TableTmp is created and dropped per import, and the three tests that reach
         // Migrate::runAll(). Those are cleaned up by hand instead of being failed.
         $committed = (bool) $wpdb->get_var($wpdb->prepare(
@@ -81,8 +81,8 @@ uses()
         if ($committed) {
             $wpdb->delete($wpdb->options, ['option_name' => $sentinel->name]);
         }
-        $declared = ddlWasDeclared();
-        ddlWasDeclared(false);
+        $declared = commitWasDeclared();
+        commitWasDeclared(false);
         if ($committed && $declared) {
             purgeCommittedRows(); // autocommit is back on, so this sticks
         }
@@ -101,7 +101,7 @@ uses()
                 'This test COMMITTED its transaction — the rows it wrote before that point '.
                 'are now permanent, and will break a later test, in a later run, in another '.
                 'file. Something it called ran DDL (CREATE/ALTER/DROP TABLE) or issued its '.
-                'own START TRANSACTION. If that is intended, declare it with runsDdl().'
+                'own START TRANSACTION. If that is intended, declare it with commitsTransaction().'
             );
         }
     })

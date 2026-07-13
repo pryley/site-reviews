@@ -20,11 +20,12 @@ namespace GeminiLabs\SiteReviews\Tests;
  *                header sent, and the exit on the line after it is never reached.
  *
  * Firing the controller through its hook works too, and it is worth knowing why:
- * the plugin registers third-party hooks through HookProxy, which normally wraps
- * the callback in a try/catch that would swallow these exceptions — but it skips
- * the catch entirely when PHPUNIT_TESTING is defined, which bootstrap.php does.
- * So an exception thrown inside a proxied callback propagates here. (Calling the
- * controller directly is still clearer, and that is what these tests do.)
+ * the plugin registers third-party hooks through HookProxy, which wraps the
+ * callback in a catch(\Throwable) that would swallow these exceptions — but it
+ * rethrows when the `site-reviews/hook/rethrow` filter says to, and bootstrap.php
+ * says to. So an exception thrown inside a proxied callback propagates here.
+ * (Calling the controller directly is still clearer, and that is what these tests
+ * do.)
  *
  * Both interceptors are plain hooks, so Pest.php's restoreHooks() removes them
  * after the test; there is nothing to tear down.

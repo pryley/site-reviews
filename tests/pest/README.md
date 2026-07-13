@@ -54,31 +54,33 @@ Every test — in every suite — runs inside a DB transaction that rolls
 back (see `Pest.php`). The plugin's settings live in the options table, so
 even a field-building test writes to the database.
 
-**A transaction cannot isolate a test that runs DDL.** MySQL implicitly COMMITs
-the open transaction the moment it sees `CREATE`/`ALTER`/`DROP TABLE`, so
-everything the test wrote up to that point becomes permanent and the `ROLLBACK`
-finds nothing to undo. Autocommit is off, so a fresh transaction opens
-immediately afterwards and the rest of the test still rolls back — which is why
-the damage is always a *partial* leak, and always lands somewhere else: a later
-run, in a different file, dying with "Sorry, that username already exists"
-because `user_login` is unique and the leaked user is still there.
+**A transaction cannot isolate a test that ends it**, and two things end one: DDL
+(MySQL commits implicitly the moment it sees `CREATE`/`ALTER`/`DROP TABLE`) and
+an explicit `START TRANSACTION`. Everything the test wrote up to that point
+becomes permanent, and the `ROLLBACK` finds nothing to undo. Autocommit is off,
+so a fresh transaction opens immediately afterwards and the rest of the test
+still rolls back — which is why the damage is always a *partial* leak, and never
+lands where it was done: a later run, in another file, dying with "Sorry, that
+username already exists", because `user_login` is unique and the leaked user is
+still there.
 
 `Pest.php` catches this. Every test writes a sentinel row inside its transaction
 and checks, after the `ROLLBACK`, whether the row survived. If it did, the test
-committed, and it is failed by name.
+committed, and it is failed by name. `bootstrap.php` also purges before the first
+test, so a run that crashes out cannot poison the next one.
 
-Four tests do it legitimately and say so with `runsDdl()`, which purges the
-leaked rows instead of failing:
+Four tests do it legitimately and say so with `commitsTransaction()`, which purges
+the leaked rows instead of failing:
 
 - all of `Import/` — `TableTmp::create()`/`drop()` are DDL, and an import cannot
   happen without them. That suite also cleans up in its own `afterEach`, with an
   explicit `COMMIT` so the rollback cannot take the cleanup with it.
 - `ExportImportTest` ×2 and `ToolsAjaxTest` ×1, the three tests that reach
   `Migrate::runAll()` (from `ImportSettings` and from `MigratePlugin`).
-  `Migrate_6_2_1` drops and re-adds the assignment tables' foreign constraints
-  on InnoDB on every run, unconditionally — it repairs a PRIMARY index that
-  `Migrate_6_0_0` got wrong on MariaDB, and does not first check whether there
-  is anything to repair. The migrations are idempotent in effect, not in DDL.
+  `Migrate_5_25_0/MigrateReviews` wraps each of its four passes in
+  `Database::beginTransaction()`/`finishTransaction()`, which on InnoDB is a
+  literal `START TRANSACTION` and `COMMIT`. The migrations are idempotent in
+  effect, not in isolation.
 
 ## Running
 

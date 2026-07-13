@@ -25,7 +25,6 @@
  */
 
 define('GLSR_UNIT_TESTS', true);
-define('PHPUNIT_TESTING', true);
 
 $root = rtrim((string) (getenv('WP_ROOT') ?: '/var/www/html'), '/');
 if (!file_exists("{$root}/wp-load.php")) {
@@ -89,11 +88,11 @@ glsr(\GeminiLabs\SiteReviews\Install::class)->run();
  * that isolates the tests from each other with it. Run from here, before the first test
  * opens one, that cannot happen.
  *
- * Do not assume the guards inside those migrations save you: five ask "does this index
- * already exist?" and fire nothing on an already-migrated database, but Migrate_6_2_1
- * DROPS AND RE-ADDS the assignment tables' foreign constraints on InnoDB every single
- * time, without first checking whether there is anything to repair. Any test that reaches
- * Migrate::runAll() therefore commits, and has to say so — see runsDdl().
+ * DDL is not the only thing that ends a transaction, either: MigrateReviews wraps each of
+ * its four passes in Database::beginTransaction(), which on InnoDB is a literal START
+ * TRANSACTION, and finishTransaction() then COMMITs. So a test that reaches
+ * Migrate::runAll() commits whatever the DDL guards do, and has to say so — see
+ * commitsTransaction().
  *
  * A test that wants a migration run runs it itself (Migrate_8_1_0Test does exactly
  * that), and the Tools page's "Migrate Plugin" button has its own test.
@@ -101,8 +100,8 @@ glsr(\GeminiLabs\SiteReviews\Install::class)->run();
 glsr(\GeminiLabs\SiteReviews\Modules\Migrate::class)->runAll();
 
 /*
- * The last run may have crashed out, or leaked. A test that COMMITs its transaction —
- * see runsDdl() — leaves behind whatever it wrote before the DDL, and if it died before
+ * The last run may have crashed out, or leaked. A test that COMMITs its transaction — see
+ * commitsTransaction() — leaves behind whatever it wrote beforehand, and if it died before
  * it could clean up, those rows are still here. They are not harmless: user_login is
  * unique, and the sequence hands out the same "User 120" every run, so the leftovers
  * collide with the very test that leaked them and it can never pass again until someone
@@ -112,6 +111,36 @@ glsr(\GeminiLabs\SiteReviews\Modules\Migrate::class)->runAll();
  * have tidied up after itself.
  */
 \GeminiLabs\SiteReviews\Tests\purgeCommittedRows();
+
+/*
+ * Nothing is scheduled. The plugin queues a geolocation lookup, a notification and an
+ * avatar for every review it creates, and the suite creates thousands.
+ *
+ * This is a rebinding rather than a flag inside Queue, which is what it used to be. The
+ * plugin registers Queue as a singleton (Provider.php), every caller resolves it with
+ * glsr(Queue::class), and Container::bind() drops the stale instance first — so replacing
+ * it here, after boot, replaces it everywhere. See Support/NullQueue.php.
+ */
+glsr()->bind(
+    \GeminiLabs\SiteReviews\Modules\Queue::class,
+    \GeminiLabs\SiteReviews\Tests\NullQueue::class,
+    $shared = true
+);
+
+/*
+ * A throwable thrown inside a proxied hook is rethrown rather than logged and swallowed.
+ *
+ * HookProxy catches \Throwable so that a third party's bad data degrades a feature instead
+ * of whitescreening a site, and that is the right default — but it is the wrong default for
+ * a test suite, twice over. A test whose subject throws inside a hook would go green with
+ * nothing to show for it but a console line nobody reads; and the suite intercepts wp_die()
+ * and wp_redirect() BY THROWING (Support/InteractsWithExits.php), which the catch would
+ * swallow, so a redirect fired through a hook could not be asserted at all.
+ *
+ * This used to be a defined('PHPUNIT_TESTING') branch inside HookProxy. It is a filter now:
+ * the plugin no longer names a test framework, and anyone debugging a site can turn it on.
+ */
+add_filter('site-reviews/hook/rethrow', '__return_true');
 
 // Nothing may actually leave the test container.
 \GeminiLabs\SiteReviews\Tests\interceptMail();

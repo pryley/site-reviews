@@ -101,6 +101,11 @@ trait SubmitsReviews
 
     protected function performAjaxRequest(array $request): object
     {
+        // Each call here is a separate HTTP request from the same visitor, seconds or
+        // minutes apart. The clock does not run in a test, so the router's five-second
+        // parallel-request lock is still down from the last one and would refuse this as
+        // a single-packet attack. Releasing it is what stands in for the time passing.
+        releaseMutexLock();
         $action = glsr()->prefix.'public_action';
         $_POST['_ajax_request'] = true;
         $_POST[glsr()->id] = $request;
