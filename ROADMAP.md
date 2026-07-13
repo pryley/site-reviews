@@ -15,6 +15,44 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ## Technical debt
 
+- [ ] **An empty `glsr_db_version` is treated as an ANCIENT database, and silently
+  fabricates a record of consent.** `migration.php` registers, for the life of every
+  request:
+
+  ```php
+  function glsr_migration_5_9_db_version_1_1(array $values) {
+      if (version_compare(glsr(Database::class)->version(), '1.1', '<')) {
+          unset($values['terms']);
+      }
+      return $values;
+  }
+  add_filter('site-reviews/defaults/rating', 'glsr_migration_5_9_db_version_1_1');
+  ```
+
+  The intent is right: a pre-1.1 database has no `terms` column, and naming one in the
+  INSERT would fail on every review. But `Database::version()` reads the option live and
+  returns `''` when it is missing, and **`version_compare('', '1.1', '<')` is `true`** —
+  so an ABSENT option is indistinguishable from an ancient schema.
+
+  The consequence is not a fatal, which is what makes it worth writing down. `terms` is
+  dropped from `RatingDefaults`, so `Database::insert('ratings', …)` never names the
+  column, so MySQL applies the schema default — which is
+  `terms tinyint(1) NOT NULL DEFAULT '1'`. **Every review created while the option is
+  missing is stored as having accepted the terms.** Nothing logs it, nothing shows it,
+  and the value being invented is a record of consent.
+
+  Qualified: it needs `glsr_db_version` to be empty or absent on a site whose ratings
+  table is current. That is not the normal state — but it is exactly the state a
+  half-failed install, a deleted option, or a `dropTables()` without a reinstall leaves
+  behind, and `Install::install()` only re-adds the option when the tables already exist.
+
+  Traced and EXECUTED — `tests/pest/Integration/InstallTest.php` pins both directions of
+  the shim. A fix would be to distinguish "no version recorded" from "an old version"
+  rather than letting `''` collate below `1.1`.
+
+  Found because a test deleted the option, and five unrelated test files started
+  recording consent nobody gave.
+
 - [ ] **`Translation::strings()` memoises into a function-level `static`, which nothing
   can reset.** `static $strings;` … `if (empty($strings))` — so the first call that finds
   a non-empty `settings.strings` caches it for the rest of the PHP process. No

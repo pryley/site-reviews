@@ -258,16 +258,36 @@ test('a database that predates the terms column does not have terms sent to it',
 });
 
 test('a current database DOES have terms sent to it', function () {
-    // The other side, and the one that bites. `terms` is a record of consent. If the column is not
-    // sent, MySQL applies the schema default — which is DEFAULT '1' — and the review is stored as
-    // having accepted terms it may never have been shown.
-    //
-    // Database::version() reads glsr_db_version live, and version_compare('', '1.1', '<') is TRUE.
-    // So an EMPTY option is treated exactly like an ancient database, whatever the schema really
-    // is: every review created while it is missing gets a consent record it never gave.
     update_option(glsr()->prefix.'db_version', Application::DB_VERSION);
 
     expect(glsr(RatingDefaults::class)->defaults())->toHaveKey('terms');
+});
+
+test('a database with NO recorded version is not mistaken for an ancient one', function () {
+    // THE REGRESSION. version_compare('', '1.1', '<') is TRUE, so an empty option used to be
+    // treated as a pre-1.1 database — and the cost was not an error, it was silence: `terms` was
+    // dropped from the defaults, Database::insert() never named the column, and MySQL applied the
+    // schema default of DEFAULT '1'. Every review created while the option was missing was
+    // recorded as having ACCEPTED THE TERMS. The value being invented was a record of consent.
+    //
+    // A missing version means "we do not know", and the only safe answer to that is to leave the
+    // data alone. A genuinely pre-1.1 database HAS a version recorded — the migrations write it.
+    delete_option(glsr()->prefix.'db_version');
+
+    expect(glsr(RatingDefaults::class)->defaults())->toHaveKey('terms');
+});
+
+test('and a review created without a recorded version still records the truth', function () {
+    // End to end, on the row rather than the model — the model would report `true` from
+    // ReviewDefaults whether the column was written or not, which is what hid this for so long.
+    global $wpdb;
+    delete_option(glsr()->prefix.'db_version');
+
+    $review = createReview();
+
+    expect($wpdb->get_var($wpdb->prepare(
+        "SELECT terms FROM {$wpdb->prefix}glsr_ratings WHERE review_id = %d", $review->ID
+    )))->toBe('0');
 });
 
 test('a review created on a current database stores the terms it was actually given', function () {
