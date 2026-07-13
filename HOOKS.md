@@ -186,6 +186,7 @@
     site-reviews/flyoutmenu/enabled                             (bool $bool): bool
     site-reviews/flyoutmenu/items                               (array $items): array
     site-reviews/gamipress/posts/post_types                     (array $postTypes): array
+    site-reviews/hook/rethrow                                   (bool $rethrow, Throwable $error, string $method): bool
     site-reviews/import/review/attachments                      (int $attachmentUrls, Request $request, Review $review, bool $isNewReview): int
     site-reviews/import/reviews/attachments                     (array $result, int $limit, int $offset): array
     site-reviews/integration/subsubsub                          (array $subsubsub): array
