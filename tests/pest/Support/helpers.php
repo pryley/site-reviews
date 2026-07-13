@@ -428,6 +428,11 @@ function resetGlobalState(): void
     if (class_exists('\Akismet')) {
         \Akismet::reset();
     }
+    // The messages only. WP_CLI::$commands records a registration that happened once, at plugin
+    // load, from site-reviews.php — clearing it would be clearing evidence, not state.
+    if (class_exists('\WP_CLI')) {
+        \WP_CLI::reset();
+    }
 }
 
 /**
