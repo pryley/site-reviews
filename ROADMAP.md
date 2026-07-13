@@ -13,6 +13,52 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [x] Store the review GEO location by IP
 - [ ] Use the REST API to submit reviews (ref: Contact Form v7)
 
+## Technical debt
+
+- [ ] **`glsr_assigned_terms` is written with term taxonomy ids, not term ids.**
+  `ReviewController::onAfterChangeAssignedTerms()` is hooked to WordPress's
+  `set_object_terms`, whose 3rd and 6th arguments are `term_taxonomy_id`s
+  ("@param array $tt_ids An array of term taxonomy IDs" — wp-includes/taxonomy.php).
+  It passes them straight into `AssignTerms`/`UnassignTerms` →
+  `ReviewManager::assignTerm()` → `INSERT INTO glsr_assigned_terms (term_id)`, a
+  column with a foreign key onto `wp_terms.term_id` (`TableAssignedTerms`).
+  `term_id` and `term_taxonomy_id` are separate AUTO_INCREMENT columns in two
+  tables; they are equal on a fresh install and drift apart on an imported,
+  migrated or long-lived site.
+
+  Confirmed by execution (`wp eval-file tests/pest/probe-assigned-terms.php`, since
+  removed): with a drift of one, `term_id=172 / term_taxonomy_id=173`, the row was
+  rejected by the foreign key and the category was **silently not assigned**. Where
+  the drift is older the id lands on a term that does exist, and the review is filed
+  under the **wrong category** instead.
+
+  This is the only caller of `assignTerm`/`unassignTerm`, so it is the only way rows
+  get into that table — including the plugin's own save path
+  (`ReviewManager::update()` → `wp_set_object_terms()`). Two things to settle: the
+  write path (map the tt_ids, or ignore them and ask
+  `wp_get_object_terms($postId, $taxonomy, ['fields' => 'ids'])`), and what to do
+  about sites whose rows are already wrong — `RepairReviewRelations` currently only
+  prunes invalid rows, it does not rebuild `assigned_terms`.
+
+  The same method also never checks `$taxonomy`, so any other taxonomy registered
+  for the review post type writes into `assigned_terms` as well. Same fix.
+
+  `tests/pest/Integration/ReviewControllerTest.php` has a `set_object_terms` test
+  that passes only because the two ids are still equal on the wp-env database; it
+  says so, and it will need revisiting with the fix.
+
+- [ ] Reevaluate the `Helper` class, starting with how request input is read.
+  There are now several ways to do it: `Helper::filterInput()` (POST, falling back to
+  `$_POST`), `Helper::input()` (GET or POST, chosen by an `INPUT_*` constant),
+  `Helper::filterInputArray()`, and raw `filter_input()` calls — which still remain
+  in `Integrations\WooCommerce\Controllers\ProductController` (`orderby`, `$shortcode`)
+  and `Integrations\Bricks\Commands\AbstractSearchCommand` (`include`, `search`).
+  The raw calls are the problem: `filter_input()` reads the SAPI's own copy of the
+  request, which a non-web process (WP-CLI, the Pest suite) does not have, so it
+  returns null there no matter what is in the superglobals — the code is not just
+  untestable, it is unreachable outside a web request. Settle on one way to read
+  input and move everything onto it.
+
 ## Upcoming Add-ons
 
 ### Functionality
