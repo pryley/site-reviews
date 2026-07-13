@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Widgets\SiteReviewsFormWidget;
 use GeminiLabs\SiteReviews\Widgets\SiteReviewsSummaryWidget;
 use GeminiLabs\SiteReviews\Widgets\SiteReviewsWidget;
@@ -236,4 +237,150 @@ test('a saved widget value that the shortcode does not know about is kept as it 
     $saved = (new SiteReviewsWidget())->update(['title' => '<b>Bold</b>'], []);
 
     expect($saved['title'])->toBe('<b>Bold</b>');
+});
+
+/*
+ * The summary widget's own form.
+ *
+ * The other three widgets wrap a shortcode whose options are mostly about which reviews to show.
+ * The summary's are about which reviews to COUNT — the average, the star bars, the "based on 12
+ * reviews" — and getting that wrong is quieter than getting a list wrong: the number is still a
+ * number, it is just the wrong one, and nobody looking at a sidebar can tell.
+ */
+
+test('the summary widget form offers the things a summary is counted from', function () {
+    $html = renderedWidgetForm(new SiteReviewsSummaryWidget());
+
+    expect($html)->toContain('Widget Title')                        // prepended to every widget
+        ->toContain('Limit Reviews by Assigned Pages')
+        ->toContain('Limit Reviews by Assigned Categories')
+        ->toContain('Limit Reviews by Assigned Users')
+        ->toContain('Limit Reviews by Accepted Terms')
+        ->toContain('Minimum Rating')
+        ->toContain('Custom ID')                                    // appended to every widget
+        ->toContain('Additional CSS classes');
+});
+
+test('the minimum rating cannot be set to zero, whatever the rating scale says', function () {
+    // Rating::min() is 0 — that is the floor of the SCALE, not a rating anybody gives. The widget
+    // floors the field at 1 (`max(1, Rating::min())`), because a summary "limited" to ratings of
+    // at least zero is a summary with no limit at all, dressed up as one.
+    expect(Rating::min())->toBe(0); // …which is exactly why the max(1, …) is there
+
+    $html = renderedWidgetForm(new SiteReviewsSummaryWidget());
+
+    expect($html)->toContain('min="1"')
+        ->toContain('max="'.Rating::max().'"')
+        ->and($html)->not->toContain('min="0"');
+});
+
+test('a site that has changed its rating scale gets a form that agrees with it', function () {
+    // MAX_RATING is filterable, and some sites run a ten-point scale. A widget still offering a
+    // maximum of 5 would make the top half of that site's reviews unreachable from this field.
+    add_filter('site-reviews/const/MAX_RATING', fn () => 10);
+
+    expect(renderedWidgetForm(new SiteReviewsSummaryWidget()))->toContain('max="10"');
+});
+
+test('the summary widget hides the things a summary is made of, not the things a review is', function () {
+    // The `hide` checkboxes come from the SUMMARY shortcode, and they are its own: the bars and
+    // the star rating, not the author and the date. A widget that offered the review shortcode's
+    // list here would be offering to hide fields that are not on the screen.
+    $html = renderedWidgetForm(new SiteReviewsSummaryWidget());
+
+    expect($html)->toContain('Hide the percentage bars')
+        ->toContain('Hide if no reviews are found')
+        ->and($html)->not->toContain('Hide the author'); // that is the reviews widget's
+});
+
+test('the review type dropdown is not drawn on a site that only has one kind of review', function () {
+    // Widget::form() skips a `type` field with no options. On a site with no review-importing
+    // addon there is only "local", and a dropdown with one entry is not a choice.
+    expect(renderedWidgetForm(new SiteReviewsSummaryWidget()))->not->toContain('[type]');
+});
+
+test('the summary widget counts only the reviews it was told to', function () {
+    // The whole point of the assigned_* fields, end to end: two reviews on the site, one of them
+    // on this page, and the average must be the one review's — not the average of both.
+    $postId = createPost();
+    createReview(['assigned_posts' => $postId, 'rating' => 2]);
+    createReview(['rating' => 5]); // assigned to nothing
+
+    $html = renderedWidget(new SiteReviewsSummaryWidget(), ['assigned_posts' => (string) $postId]);
+
+    expect($html)->toContain('2.0 out of 5 stars (based on 1 review)');
+});
+
+test('a summary widget form shows what was saved in it', function () {
+    $html = renderedWidgetForm(new SiteReviewsSummaryWidget(), [
+        'assigned_posts' => 'post_id',
+        'rating' => 4,
+        'title' => 'What people say',
+    ]);
+
+    expect($html)->toContain('value="What people say"')
+        ->toContain('value="post_id"')
+        ->toContain('value="4"');
+});
+
+/*
+ * The form widget's form, and the single review widget's.
+ */
+
+test('the form widget ASSIGNS reviews, where the others LIMIT them', function () {
+    // The same three keys — assigned_posts, assigned_terms, assigned_users — mean the opposite
+    // thing here, and the labels are the only thing that says so. On a reviews or summary widget
+    // they FILTER what is shown; on the form they decide what a new review is attached to. A
+    // person who read "Limit Reviews by Assigned Pages" above a submission form would reasonably
+    // conclude the field did nothing.
+    $html = renderedWidgetForm(new SiteReviewsFormWidget());
+
+    expect($html)->toContain('Assign Reviews to Pages')
+        ->toContain('Assign Reviews to Categories')
+        ->toContain('Assign Reviews to Users')
+        ->and($html)->not->toContain('Limit Reviews by');
+});
+
+test('the form widget offers to hide the fields a form has', function () {
+    // From the FORM shortcode's own hide options — the fields of the form, not of a review. The
+    // `hide` field is a checkbox GROUP, so it has to post back as an array or only the last box
+    // ticked would survive the save.
+    $widget = new SiteReviewsFormWidget();
+    $widget->number = 3;
+
+    $html = renderedWidgetForm($widget);
+
+    expect($html)->toContain('Widget Title')
+        ->toContain('Custom ID')
+        ->and($html)->toContain('name="widget-'.$widget->id_base.'[3][hide][]"')
+        ->and($html)->toContain('value="rating"')   // the form's own fields…
+        ->and($html)->toContain('value="terms"');   // …not a review's
+});
+
+test('the single review widget asks for the one thing it cannot work without', function () {
+    // It shows ONE review, by id, and there is no default that could stand in for a missing one.
+    $html = renderedWidgetForm(new SiteReviewWidget());
+
+    expect($html)->toContain('Review Post ID')
+        ->toContain('Enter the Post ID of the review you want to display.');
+});
+
+test('the single review widget form shows the review id it was saved with', function () {
+    $review = createReview();
+
+    expect(renderedWidgetForm(new SiteReviewWidget(), ['post_id' => $review->ID]))
+        ->toContain('value="'.$review->ID.'"');
+});
+
+test('every widget offers a title, an id and a class, whatever else it offers', function () {
+    // Widget::form() prepends `title` and appends `id` and `class` to whatever widgetConfig()
+    // returned. A widget that lost them would lose the only heading its sidebar has.
+    foreach ([SiteReviewsWidget::class, SiteReviewWidget::class, SiteReviewsFormWidget::class, SiteReviewsSummaryWidget::class] as $class) {
+        $html = renderedWidgetForm(new $class());
+
+        expect($html)->toContain('Widget Title')
+            ->and($html)->toContain('Custom ID')
+            ->and($html)->toContain('Additional CSS classes')
+            ->and($html)->toContain('legacy widget'); // and each says it is the old way
+    }
 });

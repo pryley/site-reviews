@@ -457,6 +457,22 @@ function resetGlobalState(): void
     glsr()->bind(\GeminiLabs\SiteReviews\Modules\Queue::class, NullQueue::class, true);
     glsr()->bind(\GeminiLabs\SiteReviews\License::class, \GeminiLabs\SiteReviews\License::class, true);
 
+    // Two registers in the container that a test can write to and nothing else clears. Neither is
+    // in the database, the hooks or the request, so the transaction, restoreHooks() and
+    // resetRequestState() all leave them exactly as the last test left them.
+    //
+    //   notices    AbstractNotice::canRender() writes `rendered => true` here to enforce "one
+    //              banner per admin page". A test that renders a banner would otherwise forbid
+    //              every banner in every test after it.
+    //   licensed   the premium addons that declared `const LICENSED = true`. A test that pretends
+    //              to install one would otherwise leave a free site holding a licensed addon —
+    //              which changes License::status(), the licence banners and the settings page.
+    //
+    // Both are per-page-load state on a real site, so emptying them is the true baseline: this
+    // suite installs no premium addons and starts every request with no notices rendered.
+    glsr()->store('notices', []);
+    glsr()->store('licensed', []);
+
     // The fakes' own static state.
     NullQueue::$isPending = false;
     FakeLicense::$isPremium = false;
