@@ -1,9 +1,11 @@
 <?php
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewBlock;
 use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsBlock;
 use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsFormBlock;
 use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsSummaryBlock;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
@@ -242,4 +244,104 @@ test('each block wraps its own shortcode', function () {
 
     expect(glsr(SiteReviewsSummaryBlock::class)->shortcodeInstance())
         ->toBeInstanceOf(SiteReviewsSummaryShortcode::class);
+});
+
+/*
+ * The single-review block, which is the only one with a rule of its own.
+ *
+ * It shows ONE review, chosen by id. In the editor that is a problem the other blocks do not
+ * have: a person who drops it onto a page before they have any reviews gets a block with nothing
+ * in it and no explanation, which reads as a broken plugin rather than an empty site. So it
+ * checks the review count first and says so.
+ *
+ * The count is asked of wp_count_posts(), not of the plugin, and it is the PUBLISHED count — a
+ * site whose only reviews are pending approval has nothing this block can show, and is told so.
+ */
+
+function reviewBlock(array $attributes = []): string
+{
+    return renderBlock('site-reviews/review', $attributes);
+}
+
+test('in the editor, with no published reviews, the block says so instead of rendering nothing', function () {
+    inTheEditor();
+
+    $html = reviewBlock();
+
+    expect($html)->toContain('block-editor-warning')
+        ->toContain('No reviews found.');
+});
+
+test('a review that is only pending does not count — it is the published ones that can be shown', function () {
+    // The qualifier that makes the message true. wp_count_posts()->publish, not ->pending: a
+    // pending review cannot be displayed, so a site that has only those still has nothing to show.
+    inTheEditor();
+    createReview(['is_approved' => false]);
+
+    expect(reviewBlock())->toContain('No reviews found.');
+});
+
+test('in the editor, with a review to show, it renders the review rather than the warning', function () {
+    inTheEditor();
+    $review = createReview(['content' => 'The single review.']);
+
+    $html = reviewBlock(['post_id' => $review->ID]);
+
+    expect($html)->not->toContain('block-editor-warning')
+        ->and($html)->toContain('The single review.');
+});
+
+test('on the site, the count is never asked for at all', function () {
+    // The check is deliberately inside the `context=edit` branch. A visitor is not shown a
+    // "no reviews found" warning, and — more to the point — every page with this block on it does
+    // not run a COUNT query it has no use for.
+    $review = createReview(['content' => 'The single review.']);
+
+    $html = reviewBlock(['post_id' => $review->ID]);
+
+    expect($html)->toStartWith('<div')
+        ->and($html)->toContain('The single review.')
+        ->and($html)->not->toContain('block-editor-warning');
+});
+
+test('a rating colour chosen from the theme palette becomes a css variable, not a hardcoded colour', function () {
+    // The star colour is set on the wrapper as a custom property, which the stylesheet reads. A
+    // PRESET colour has to stay a var(--wp--preset--color--…) reference so that it keeps tracking
+    // the theme — resolving it to a hex here would freeze it, and a person who changed their
+    // palette would find the stars unchanged.
+    $review = createReview();
+
+    $html = reviewBlock(['post_id' => $review->ID, 'style_rating_color' => 'vivid-red']);
+
+    expect($html)->toContain('has-rating-color')
+        ->toContain('--glsr-review-star-bg:var(--wp--preset--color--vivid-red)');
+});
+
+test('a custom rating colour is used as given', function () {
+    $review = createReview();
+
+    $html = reviewBlock(['post_id' => $review->ID, 'style_rating_color_custom' => '#ff9900']);
+
+    expect($html)->toContain('has-rating-color')
+        ->toContain('--glsr-review-star-bg:#ff9900');
+});
+
+test('no rating colour means no class and no custom property', function () {
+    // array_filter() on the styles, and an empty $classes. A block that emitted an empty
+    // `--glsr-review-star-bg:` would override the stylesheet's default with nothing.
+    $review = createReview();
+
+    $html = reviewBlock(['post_id' => $review->ID]);
+
+    expect($html)->not->toContain('has-rating-color')
+        ->and($html)->not->toContain('--glsr-review-star-bg');
+});
+
+test('the single-review block is registered, and wraps the single-review shortcode', function () {
+    expect(SiteReviewBlock::shortcodeClass())->toBe(SiteReviewShortcode::class);
+
+    $block = WP_Block_Type_Registry::get_instance()->get_registered('site-reviews/review');
+
+    expect($block)->not->toBeNull()
+        ->and($block->render_callback)->toBeCallable();
 });
