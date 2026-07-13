@@ -36,7 +36,7 @@ afterEach(function () {
     glsr(Notice::class)->clear();
 });
 
-function reviewsTable(): ReviewsListTable
+function reviewsListTable(): ReviewsListTable
 {
     return new ReviewsListTable(['screen' => get_current_screen()]);
 }
@@ -57,7 +57,7 @@ test('the review title is wrapped so the screen can lay it out', function () {
     // WordPress prints <strong>Title</strong>; the reviews screen needs it in a block of its
     // own, because a review row carries a rating and an excerpt underneath it.
     $review = createReview(['title' => 'A lovely stay']);
-    $table = reviewsTable();
+    $table = reviewsListTable();
 
     $html = printedByTable(fn () => $table->column_title(get_post($review->ID)));
 
@@ -73,7 +73,7 @@ test('the review title is wrapped so the screen can lay it out', function () {
 test('a moderator gets the review and the response, hidden in the page for quick edit', function () {
     $review = createReview(['content' => 'The room was lovely.']);
     glsr(ReviewManager::class)->updateResponse($review->ID, ['response' => 'Thank you!']);
-    $table = reviewsTable();
+    $table = reviewsListTable();
 
     $html = printedByTable(fn () => $table->column_title(get_post($review->ID)));
 
@@ -88,7 +88,7 @@ test('somebody who may not respond is not given the review to edit', function ()
     $review = createReview(['content' => 'The room was lovely.']);
     glsr(ReviewManager::class)->updateResponse($review->ID, ['response' => 'A draft reply nobody has approved.']);
     wp_set_current_user(createUser(['role' => 'contributor']));
-    $table = reviewsTable();
+    $table = reviewsListTable();
 
     $html = printedByTable(fn () => $table->column_title(get_post($review->ID)));
 
@@ -110,7 +110,7 @@ test('a review cannot smuggle markup onto the moderator\'s screen', function () 
     $stored = glsr_get_review($review->ID)->content;
     expect($stored)->toBe('Nice!'); // it never got in
 
-    $table = reviewsTable();
+    $table = reviewsListTable();
     $html = printedByTable(fn () => $table->column_title(get_post($review->ID)));
 
     expect($html)->not->toContain('<script')
@@ -123,7 +123,7 @@ test('a review cannot smuggle markup onto the moderator\'s screen', function () 
 
 test('the notices are drawn above the table', function () {
     glsr(Notice::class)->addWarning('Something needs your attention.');
-    $table = reviewsTable();
+    $table = reviewsListTable();
     $table->prepare_items(); // parent::views() reads $avail_post_stati, which this populates
 
     $html = printedByTable(fn () => $table->views());
@@ -133,7 +133,7 @@ test('the notices are drawn above the table', function () {
 });
 
 test('quick edit offers the review columns, and the author dropdown to somebody who may reassign', function () {
-    $table = reviewsTable();
+    $table = reviewsListTable();
     $table->prepare_items();
 
     $html = printedByTable(fn () => $table->inline_edit());
@@ -143,7 +143,7 @@ test('quick edit offers the review columns, and the author dropdown to somebody 
 
 test('quick edit does not offer to reassign the author to somebody who may not', function () {
     wp_set_current_user(createUser(['role' => 'contributor']));
-    $table = reviewsTable();
+    $table = reviewsListTable();
     $table->prepare_items();
 
     $html = printedByTable(fn () => $table->inline_edit());

@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsBlock;
 use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsFormBlock;
 use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsSummaryBlock;
@@ -8,6 +9,7 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
 use function GeminiLabs\SiteReviews\Tests\createReview;
+use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
@@ -96,10 +98,40 @@ test('a block renders the shortcode it wraps, inside a div', function () {
         ->and($html)->toContain('data-shortcode="site_reviews"');
 });
 
-test('the summary block renders a summary, and the form block renders a form', function () {
+test('the summary block renders a summary', function () {
     createReview(['rating' => 5]);
 
     expect(renderBlock('site-reviews/summary'))->toContain('data-shortcode="site_reviews_summary"');
+});
+
+test('the form block renders a form to somebody who may write a review', function () {
+    // Both of these say, out loud, who is logged in and whether the site requires it. Neither
+    // is inherited. The first version of this test asserted `<form` and passed on its own
+    // (because the test before it had left somebody logged in) and failed the moment the whole
+    // suite ran — which is the definition of a test that is not testing what it says.
+    glsr(OptionManager::class)->set('settings.general.require.login', 'yes');
+    wp_set_current_user(createUser());
+
+    expect(renderBlock('site-reviews/form'))->toContain('<form');
+});
+
+test('a visitor who must log in first is told so, rather than shown a form they cannot use', function () {
+    // A guest on a site that requires a login gets an explanation and a link — not a form that
+    // would reject them after they had written their review.
+    glsr(OptionManager::class)->set('settings.general.require.login', 'yes');
+    wp_set_current_user(0);
+
+    $html = renderBlock('site-reviews/form');
+
+    expect($html)->not->toContain('<form')
+        ->and($html)->toContain('logged in')
+        ->and($html)->toContain('wp-login.php');
+});
+
+test('a site that does not require a login shows a guest the form', function () {
+    glsr(OptionManager::class)->set('settings.general.require.login', 'no');
+    wp_set_current_user(0);
+
     expect(renderBlock('site-reviews/form'))->toContain('<form');
 });
 

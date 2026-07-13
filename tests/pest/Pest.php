@@ -35,6 +35,7 @@ use function GeminiLabs\SiteReviews\Tests\backupHooks;
 use function GeminiLabs\SiteReviews\Tests\commitWasDeclared;
 use function GeminiLabs\SiteReviews\Tests\emptyMailbox;
 use function GeminiLabs\SiteReviews\Tests\purgeCommittedRows;
+use function GeminiLabs\SiteReviews\Tests\resetGlobalState;
 use function GeminiLabs\SiteReviews\Tests\resetRequestState;
 use function GeminiLabs\SiteReviews\Tests\restoreHooks;
 
@@ -88,14 +89,15 @@ uses()
         }
         restoreHooks();
         resetRequestState();
+        // The object cache does not roll back either, and it is flushed BEFORE the state reset
+        // below — which re-reads the plugin's settings from the database, and would otherwise be
+        // handed the cached copy from before the ROLLBACK.
         wp_cache_flush();
-        // Roles are the one piece of state a rollback cannot restore on its own.
-        // WP_Roles::remove_cap()/add_cap() change $wp_roles IN MEMORY and write the
-        // wp_user_roles option; get_role() then hands back the cached WP_Role object.
-        // The rollback restores the option, but the global still holds the modified
-        // role, so it has to be dropped — WP_Roles::for_site() re-reads the option
-        // when the global is rebuilt.
-        unset($GLOBALS['wp_roles']);
+        // Everything else a transaction cannot roll back: the globals, the container, the
+        // plugin's in-memory session and settings, the fakes' statics. See resetGlobalState() —
+        // and if a test passes alone but fails under `make test:random`, what it leaned on is
+        // missing from there.
+        resetGlobalState();
         if ($committed && !$declared) {
             throw new RuntimeException(
                 'This test COMMITTED its transaction — the rows it wrote before that point '.

@@ -321,6 +321,93 @@ function resetRequestState(): void
     $_GET = [];
     $_POST = [];
     $_REQUEST = [];
+    $_FILES = [];
+}
+
+/**
+ * Everything a database transaction CANNOT roll back.
+ *
+ * The per-test transaction restores the database and nothing else. Every other kind of state
+ * the plugin and WordPress keep — globals, the DI container, an in-memory session, a static
+ * property — survives into the next test, and a test that happens to run after one which left
+ * the right state behind will pass for a reason that has nothing to do with what it asserts.
+ *
+ * That is not hypothetical. `make test:random` shuffled the order and 39 tests fell over. A
+ * block test asserted that the review form renders, and passed — because the test before it had
+ * logged somebody in. It was not testing what its name said, and no amount of care in the test
+ * itself would have revealed that: what was missing was a clean floor to stand on.
+ *
+ * So the floor is swept between every test, and a test that wants a logged-in user, an admin
+ * screen, a filter, a licence or a language now has to say so.
+ *
+ * If a test passes on its own and fails under `make test:random`, the thing it leaned on is
+ * almost certainly missing from this function.
+ */
+function resetGlobalState(): void
+{
+    // WordPress globals. None of these are options, so none of them roll back.
+    $GLOBALS['pagenow'] = 'index.php';
+    $GLOBALS['mode'] = 'list';
+    $GLOBALS['wp_query'] = new \WP_Query();
+    $GLOBALS['wp_the_query'] = $GLOBALS['wp_query'];
+    $GLOBALS['wp_scripts'] = null;   // rebuilt on demand by wp_scripts()
+    $GLOBALS['wp_styles'] = null;
+    $GLOBALS['wp_meta_boxes'] = [];
+    unset($GLOBALS['post'], $GLOBALS['avail_post_stati']);
+    // Roles: WP_Roles::add_cap() changes $wp_roles IN MEMORY as well as writing the option. The
+    // rollback restores the option; the global still holds the modified role until it is dropped.
+    unset($GLOBALS['wp_roles']);
+    if (function_exists('set_current_screen')) {
+        set_current_screen('front');
+    }
+
+    // The plugin's own in-memory state, which lives on the Application SINGLETON and therefore
+    // outlives everything. The session is the dangerous one: a validator that fails writes
+    // `form_invalid`, and ValidatorAbstract::validate() SKIPS validation entirely while it is
+    // set — so one failing submission would leave every validation test after it green without
+    // having validated anything.
+    glsr()->sessionClear();
+    glsr(\GeminiLabs\SiteReviews\Modules\Notice::class)->clear();
+
+    // THE SETTINGS, which are the subtlest of the lot.
+    //
+    // OptionManager keeps them in memory too (reset() ends in glsr()->store('settings', …)), and
+    // replace() short-circuits:
+    //
+    //     if (!update_option(static::databaseKey(), $settings, true)) {
+    //         return false;   // …and reset() is never called
+    //     }
+    //     $this->reset();
+    //
+    // update_option() returns FALSE when the value is unchanged. So after a test changes a
+    // setting and the transaction rolls the database back, the next test's resetPluginState()
+    // asks to write the defaults, the database already holds the defaults, update_option()
+    // reports "no change" — and the in-memory copy is left holding the PREVIOUS test's
+    // settings. resetPluginState() silently does nothing in precisely the case where it
+    // matters, and the plugin then reads its settings from the stale copy.
+    //
+    // (Harmless in production: the store is per-request and cannot disagree with the database.
+    // It only bites when something rolls the database back underneath it.)
+    //
+    // So the in-memory settings are re-read from the (rolled-back) database, unconditionally,
+    // after every test. The cache is flushed first or get_option() would hand back the value
+    // from before the rollback.
+    \GeminiLabs\SiteReviews\Database\OptionManager::flushSettingsCache();
+    glsr(\GeminiLabs\SiteReviews\Database\OptionManager::class)->reset();
+
+    // The container. A binding made in a test outlives it — a transaction cannot roll back an
+    // object graph — so the suite's own bindings are put back, and anything else a test bound
+    // is overwritten by them.
+    glsr()->bind(\GeminiLabs\SiteReviews\Modules\Queue::class, NullQueue::class, true);
+    glsr()->bind(\GeminiLabs\SiteReviews\License::class, \GeminiLabs\SiteReviews\License::class, true);
+
+    // The fakes' own static state.
+    NullQueue::$isPending = false;
+    FakeLicense::$isPremium = false;
+    PolylangFake::reset();
+    if (class_exists('\Akismet')) {
+        \Akismet::reset();
+    }
 }
 
 /**
