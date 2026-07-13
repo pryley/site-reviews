@@ -29,6 +29,16 @@ use GeminiLabs\SiteReviews\Modules\Queue;
  */
 class NullQueue extends Queue
 {
+    /**
+     * Whether the queue should claim to have work pending.
+     *
+     * Some code branches on it — GeolocateReviews releases a stale processing lock when NOTHING
+     * is pending, which is what stops a worker that died mid-batch from locking the site out of
+     * geolocation for an hour. A queue that always says "nothing pending" makes that branch the
+     * only one there is, and the lock can never be honoured.
+     */
+    public static bool $isPending = false;
+
     public function async(string $hook, array $args = [], bool $unique = false)
     {
         return 0;
@@ -51,7 +61,7 @@ class NullQueue extends Queue
 
     public function isPending(string $hook, array $args = []): bool
     {
-        return false;
+        return static::$isPending;
     }
 
     public function next(string $hook, array $args = [])

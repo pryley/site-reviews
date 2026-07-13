@@ -1,0 +1,288 @@
+<?php
+
+use GeminiLabs\SiteReviews\Commands\GeolocateReviews;
+use GeminiLabs\SiteReviews\Database\PostMeta;
+use GeminiLabs\SiteReviews\Database\Tables;
+use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Tests\NullQueue;
+
+use function GeminiLabs\SiteReviews\Tests\createReview;
+use function GeminiLabs\SiteReviews\Tests\interceptHttp;
+use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+
+/*
+ * Geolocating the reviewers.
+ *
+ * A site owner turns this on and the plugin takes the IP address of everybody who has ever
+ * left a review and posts it, in batches of a hundred, to ip-api.com — a third party — to get
+ * back a country, a region, a city and an ISP, which it then stores next to the review.
+ *
+ * That is the single largest disclosure of visitor data the plugin makes, it happens in bulk,
+ * and it happens for reviews left years ago by people who have long since forgotten the site.
+ * So the tests are weighted accordingly: what is sent, what is NOT sent, and what happens when
+ * the far end says no.
+ *
+ * The IPs that must never leave are the ones that would be pointless AND revealing to send:
+ * `127.0.0.1` (the site talking to itself), `unknown` (the plugin's own marker for an IP it
+ * could not detect), and empty. Each is excluded in SQL, which is the only place it can be done
+ * cheaply — the batch is built by the database, not by PHP.
+ *
+ * The lock and the retry counter are transients, so a worker that dies mid-batch does not leave
+ * the site permanently unable to geolocate anything.
+ */
+
+beforeEach(function () {
+    resetPluginState();
+    delete_transient(GeolocateReviews::LOCK_KEY);
+    delete_transient(GeolocateReviews::RETRY_KEY);
+});
+
+afterEach(function () {
+    glsr(Notice::class)->clear();
+    NullQueue::$isPending = false;
+});
+
+/**
+ * The location as it is in the database, not as the meta cache remembers it.
+ *
+ * The geolocation is written with Database::insertBulk() — one raw INSERT for the whole batch,
+ * rather than a hundred calls to add_post_meta() — so WordPress's meta cache, populated when
+ * the review was created, does not know it is there. Reading it through get_post_meta() without
+ * dropping the cache first returns the empty value it had before the batch ran.
+ */
+function storedGeolocation(int $reviewId): array
+{
+    wp_cache_delete($reviewId, 'post_meta');
+
+    return (array) glsr(PostMeta::class)->get($reviewId, 'geolocation');
+}
+
+function geolocate(): GeolocateReviews
+{
+    return new GeolocateReviews(glsr()->args([]));
+}
+
+/**
+ * What ip-api.com sends back for one address.
+ */
+function geolocationResult(string $ip, array $overrides = []): array
+{
+    return array_replace([
+        'city' => 'Vancouver',
+        'countryCode' => 'CA',
+        'isp' => 'Some ISP',
+        'query' => $ip,
+        'region' => 'BC',
+        'status' => 'success',
+    ], $overrides);
+}
+
+function geolocationReply(array $results): array
+{
+    return ['body' => (string) wp_json_encode($results)];
+}
+
+/**
+ * The IP addresses actually posted to ip-api.com.
+ */
+function geolocatedIps(ArrayObject $requests): array
+{
+    $body = $requests[0]['args']['body'] ?? '[]';
+
+    return (array) json_decode((string) $body, true);
+}
+
+function statCount(): int
+{
+    global $wpdb;
+
+    return (int) $wpdb->get_var('SELECT COUNT(*) FROM '.glsr(Tables::class)->table('stats'));
+}
+
+/*
+ * What leaves the site.
+ */
+
+test('a reviewer\'s ip address is sent to ip-api, and their review is not', function () {
+    // The address, and nothing else. Not the name, not the email, not a word they wrote.
+    createReview(['content' => 'A private opinion', 'email' => 'jane@example.org', 'ip_address' => '203.0.113.9', 'name' => 'Jane Doe']);
+    $requests = interceptHttp(geolocationReply([geolocationResult('203.0.113.9')]));
+
+    geolocate()->process();
+
+    expect($requests)->toHaveCount(1)
+        ->and($requests[0]['url'])->toContain('ip-api.com');
+    expect(geolocatedIps($requests))->toBe(['203.0.113.9']);
+
+    $body = (string) $requests[0]['args']['body'];
+    expect($body)->not->toContain('jane@example.org')
+        ->not->toContain('Jane Doe')
+        ->not->toContain('A private opinion');
+});
+
+test('a local, unknown or missing ip address is never sent anywhere', function () {
+    // 127.0.0.1 is the site talking to itself — a review left by the admin while testing, or
+    // every review on a site behind a badly configured proxy. `unknown` is the plugin's own
+    // marker for an address it could not detect. Sending either is a pointless disclosure that
+    // buys nothing back.
+    createReview(['ip_address' => '127.0.0.1']);
+    createReview(['ip_address' => 'unknown']);
+    createReview(['ip_address' => '']);
+    createReview(['ip_address' => '203.0.113.9']); // the only real one
+    $requests = interceptHttp(geolocationReply([geolocationResult('203.0.113.9')]));
+
+    geolocate()->process();
+
+    expect(geolocatedIps($requests))->toBe(['203.0.113.9']);
+});
+
+test('a site with nothing to geolocate does not contact anybody', function () {
+    createReview(['ip_address' => '127.0.0.1']);
+    $requests = interceptHttp(geolocationReply([]));
+
+    geolocate()->process();
+
+    expect($requests)->toHaveCount(0);
+});
+
+/*
+ * What comes back, and where it is put.
+ */
+
+test('the location is stored beside the review', function () {
+    $review = createReview(['ip_address' => '203.0.113.9']);
+    interceptHttp(geolocationReply([geolocationResult('203.0.113.9')]));
+
+    geolocate()->process();
+
+    $geolocation = storedGeolocation($review->ID);
+
+    // The keys are renamed on the way in: StatDefaults maps `countryCode` to `country` and
+    // `continentCode` to `continent`. What ip-api calls a thing and what the plugin stores it
+    // as are not the same names.
+    expect($geolocation['country'])->toBe('CA')
+        ->and($geolocation['city'])->toBe('Vancouver')
+        ->and($geolocation['region'])->toBe('BC')
+        ->and($geolocation)->not->toHaveKey('rating_id'); // an internal id is not part of a location
+    expect(statCount())->toBe(1);
+});
+
+test('the reviewer\'s internet provider is thrown away', function () {
+    // ip-api sends back the ISP, and the plugin asks for it — but StatDefaults has no `isp` key,
+    // so restrict() drops it before anything is stored. That is the right way round: a country
+    // and a city are what a site owner wants a map of, and "which company this person pays for
+    // their internet" is a fact about a named individual that the site has no use for.
+    $review = createReview(['ip_address' => '203.0.113.9']);
+    interceptHttp(geolocationReply([
+        geolocationResult('203.0.113.9', ['isp' => 'Jane Doe Telecom Ltd']),
+    ]));
+
+    geolocate()->process();
+
+    expect(storedGeolocation($review->ID))->not->toHaveKey('isp');
+    expect((string) wp_json_encode(storedGeolocation($review->ID)))->not->toContain('Jane Doe Telecom');
+});
+
+test('an address the service could not place is not stored as a place', function () {
+    // ip-api answers `status: fail` for a private range, a reserved address, or an IP it simply
+    // does not know. Storing that as a location would put "" next to the review forever, and
+    // — worse — mark it as geolocated, so it would never be asked about again.
+    createReview(['ip_address' => '203.0.113.9']);
+    interceptHttp(geolocationReply([
+        geolocationResult('203.0.113.9', ['message' => 'reserved range', 'status' => 'fail']),
+    ]));
+
+    geolocate()->process();
+
+    expect(statCount())->toBe(0);
+});
+
+/*
+ * When ip-api says no. It is a free service with a hard rate limit, and a site with ten
+ * thousand reviews will meet it.
+ */
+
+test('a rejected batch is retried, and the site is not left locked forever', function () {
+    createReview(['ip_address' => '203.0.113.9']);
+    interceptHttp(['response' => ['code' => 429, 'message' => 'Too Many Requests']]);
+
+    geolocate()->process();
+
+    expect((int) get_transient(GeolocateReviews::RETRY_KEY))->toBe(1)
+        ->and(statCount())->toBe(0); // and nothing was stored from a failed batch
+});
+
+test('a batch that keeps failing is given up on, and the lock is released', function () {
+    // Otherwise the lock — an hour-long transient — would be re-taken on every retry and the
+    // site could never geolocate anything again, with nothing to say why.
+    createReview(['ip_address' => '203.0.113.9']);
+    set_transient(GeolocateReviews::LOCK_KEY, true, HOUR_IN_SECONDS);
+    set_transient(GeolocateReviews::RETRY_KEY, GeolocateReviews::MAX_RETRIES, HOUR_IN_SECONDS);
+    interceptHttp(['response' => ['code' => 429, 'message' => 'Too Many Requests']]);
+
+    geolocate()->process();
+
+    expect(get_transient(GeolocateReviews::LOCK_KEY))->toBeFalse()
+        ->and(get_transient(GeolocateReviews::RETRY_KEY))->toBeFalse();
+});
+
+test('a successful batch forgets the failures that came before it', function () {
+    createReview(['ip_address' => '203.0.113.9']);
+    set_transient(GeolocateReviews::RETRY_KEY, 2, HOUR_IN_SECONDS);
+    interceptHttp(geolocationReply([geolocationResult('203.0.113.9')]));
+
+    geolocate()->process();
+
+    expect(get_transient(GeolocateReviews::RETRY_KEY))->toBeFalse();
+});
+
+/*
+ * Starting it off.
+ */
+
+test('starting it twice at once is refused', function () {
+    // handle() is a button on the Tools page. Two people pressing it, or one person pressing it
+    // twice, would send every IP on the site to ip-api twice over.
+    //
+    // The lock is only honoured while there is actually work in the queue — see below.
+    createReview(['ip_address' => '203.0.113.9']);
+    NullQueue::$isPending = true;
+    set_transient(GeolocateReviews::LOCK_KEY, true, HOUR_IN_SECONDS);
+
+    geolocate()->handle();
+
+    expect(glsr(Notice::class)->get())->toContain('already in progress');
+});
+
+test('a lock left behind by a worker that died is let go of', function () {
+    // The lock is an hour-long transient. If the queued action that was holding it has gone —
+    // the worker was killed, the queue was flushed, the site was migrated — then the lock is
+    // guarding nothing, and honouring it would leave the site unable to geolocate anything for
+    // an hour with nothing to say why. So a lock with no pending action behind it is released.
+    createReview(['ip_address' => '203.0.113.9']);
+    NullQueue::$isPending = false; // nothing is queued…
+    set_transient(GeolocateReviews::LOCK_KEY, true, HOUR_IN_SECONDS); // …but the lock is down
+
+    geolocate()->handle();
+
+    expect(glsr(Notice::class)->get())->not->toContain('already in progress')
+        ->and(glsr(Notice::class)->get())->toContain('1 IP addresses'); // it got on with it
+});
+
+test('a site with nothing left to geolocate says so, rather than nothing', function () {
+    createReview(['ip_address' => '127.0.0.1']);
+
+    geolocate()->handle();
+
+    expect(glsr(Notice::class)->get())->toContain('already been geolocated');
+});
+
+test('starting it queues the work and says how much there is', function () {
+    createReview(['ip_address' => '203.0.113.9']);
+    createReview(['ip_address' => '198.51.100.4']);
+
+    geolocate()->handle();
+
+    expect(glsr(Notice::class)->get())->toContain('2 IP addresses');
+    expect(get_transient(GeolocateReviews::LOCK_KEY))->not->toBeFalse(); // and it is locked
+});
