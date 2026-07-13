@@ -5,6 +5,7 @@ use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewBlock;
 use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsBlock;
 use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsFormBlock;
 use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsSummaryBlock;
+use GeminiLabs\SiteReviews\Integrations\Gutenberg\Hooks as GutenbergHooks;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
@@ -344,4 +345,47 @@ test('the single-review block is registered, and wraps the single-review shortco
 
     expect($block)->not->toBeNull()
         ->and($block->render_callback)->toBeCallable();
+});
+
+/*
+ * The wiring.
+ *
+ * Integrations/Gutenberg/Hooks is nine lines that attach the controller to seven WordPress hooks,
+ * and it runs ONCE — on plugins_loaded, before any test does anything. That is why it is worth a
+ * test of its own: a hook that stops being attached does not fail, it simply stops happening, and
+ * the block editor quietly loses a feature (the category, the assets, the classname) with nothing
+ * anywhere to say so.
+ */
+
+test('the gutenberg integration attaches the controller to every hook the editor needs', function () {
+    $hooks = [
+        'allowed_block_types_all',              // the blocks a person is allowed to insert
+        'block_categories_all',                 // the "Site Reviews" category in the inserter
+        'block_default_classname',              // the wp-block-… class on each block
+        'enqueue_block_editor_assets',          // the editor javascript, without which no block works
+        'init',                                 // registerBlocks
+        'use_block_editor_for_post_type',       // whether a review is edited in Gutenberg at all
+        'widget_types_to_hide_from_legacy_widget_block',
+    ];
+    foreach ($hooks as $hook) {
+        remove_all_filters($hook); // start from nothing, so a core callback cannot stand in for ours
+    }
+
+    glsr(GutenbergHooks::class)->run();
+
+    foreach ($hooks as $hook) {
+        expect(has_filter($hook))->not->toBeFalse("nothing is hooked to {$hook}");
+    }
+});
+
+test('and the category the blocks are filed under really reaches the inserter', function () {
+    // One of the seven, end to end — because "a callback is attached" is not the same claim as
+    // "the callback does the thing". Without this category the four blocks are unfindable.
+    remove_all_filters('block_categories_all');
+
+    glsr(GutenbergHooks::class)->run();
+
+    $categories = apply_filters('block_categories_all', [], null);
+
+    expect(array_column($categories, 'slug'))->toContain(glsr()->id);
 });
