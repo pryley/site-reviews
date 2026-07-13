@@ -1,0 +1,213 @@
+<?php
+
+use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsBlock;
+use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsFormBlock;
+use GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsSummaryBlock;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
+
+use function GeminiLabs\SiteReviews\Tests\createReview;
+use function GeminiLabs\SiteReviews\Tests\protectedMethod;
+use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+
+/*
+ * The Gutenberg blocks.
+ *
+ * Each is a thin wrapper over the shortcode that already does the work. The block's job is to
+ * put that output into the page with the wrapper WordPress expects, and to look different in
+ * the editor from how it looks to a visitor.
+ *
+ * That split is the whole of Block::render(), and it turns on `?context=edit`, which is how
+ * WordPress asks a block to render itself for the editor's server-side preview:
+ *
+ *   in the EDITOR    unwrapped, so the editor can put its own wrapper round it — and if the
+ *                    person has switched every field off, a warning instead of an empty block,
+ *                    because an empty block in the editor looks like a bug.
+ *   on the SITE      wrapped in a div carrying whatever WordPress's block supports produced
+ *                    (alignment, colours, spacing) plus whatever the block itself adds.
+ *
+ * None of it could be reached until the suite shadowed filter_input(): `?context=edit` is read
+ * from the SAPI request table, which a CLI process does not have.
+ *
+ * EVERYTHING HERE GOES THROUGH render_block(). Calling the render callback directly is not the
+ * same thing and does not work: Block::wrapperAttributes() asks WP_Block_Supports for the
+ * block's alignment and colour classes, and WP_Block_Supports only knows which block it is
+ * rendering because render_block() told it (`self::$block_to_render`). Call the callback
+ * yourself and it reads null. That cannot happen in production, where WordPress is always the
+ * caller — so the test has to be WordPress.
+ */
+
+beforeEach(function () {
+    resetPluginState();
+});
+
+afterEach(function () {
+    $_GET = [];
+});
+
+function inTheEditor(): void
+{
+    $_GET['context'] = 'edit';
+}
+
+/**
+ * A block on a page, rendered the way WordPress renders it.
+ */
+function renderBlock(string $name, array $attributes = []): string
+{
+    return render_block([
+        'attrs' => $attributes,
+        'blockName' => $name,
+        'innerBlocks' => [],
+        'innerContent' => [],
+        'innerHTML' => '',
+    ]);
+}
+
+function reviewsBlock(array $attributes = []): string
+{
+    return renderBlock('site-reviews/reviews', $attributes);
+}
+
+/**
+ * Every field the reviews shortcode is willing to hide — asked of the shortcode rather than
+ * listed here, because the list is its own and it changes.
+ */
+function everyHideableField(): string
+{
+    $options = protectedMethod(SiteReviewsShortcode::class, 'options')
+        ->invoke(glsr(SiteReviewsShortcode::class), 'hide');
+
+    return implode(',', array_keys($options));
+}
+
+/*
+ * What a visitor gets.
+ */
+
+test('a block renders the shortcode it wraps, inside a div', function () {
+    createReview(['content' => 'A very good hotel.']);
+
+    $html = reviewsBlock(['count' => 5]);
+
+    expect($html)->toStartWith('<div')
+        ->and($html)->toContain('A very good hotel.')
+        ->and($html)->toContain('data-shortcode="site_reviews"');
+});
+
+test('the summary block renders a summary, and the form block renders a form', function () {
+    createReview(['rating' => 5]);
+
+    expect(renderBlock('site-reviews/summary'))->toContain('data-shortcode="site_reviews_summary"');
+    expect(renderBlock('site-reviews/form'))->toContain('<form');
+});
+
+/*
+ * What the person building the page gets.
+ */
+
+test('in the editor the block is not wrapped, because the editor wraps it', function () {
+    createReview();
+    inTheEditor();
+
+    $html = reviewsBlock(['count' => 5]);
+
+    // The shortcode's own root div, and nothing around it.
+    expect($html)->toStartWith('<div class="glsr ');
+});
+
+test('a block with every field switched off says so, rather than rendering nothing', function () {
+    // An empty block in the editor looks like a bug, and the person who caused it is one
+    // checkbox away from fixing it — if they are told.
+    inTheEditor();
+
+    $html = reviewsBlock(['hide' => everyHideableField()]);
+
+    expect($html)->toContain('block-editor-warning')
+        ->and($html)->toContain('hidden all of the fields');
+});
+
+test('the warning is only for the editor — a visitor is shown reviews, not admin text', function () {
+    // "You have hidden all of the fields for this block" is an admin string. It must never
+    // reach the front end of somebody's site.
+    createReview();
+
+    expect(reviewsBlock(['hide' => everyHideableField()]))
+        ->not->toContain('hidden all of the fields')
+        ->not->toContain('block-editor-warning');
+});
+
+/*
+ * The wrapper.
+ */
+
+test('the block\'s own classes and styles reach the wrapper', function () {
+    createReview();
+
+    $html = reviewsBlock([
+        'count' => 5,
+        'style_align' => 'center',
+        'style_rating_color_custom' => '#ff0000',
+    ]);
+
+    expect($html)->toContain('items-justified-center')
+        ->and($html)->toContain('has-rating-color')
+        ->and($html)->toContain('--glsr-review-star-bg:#ff0000');
+});
+
+test('a theme colour is used by name, not copied by value', function () {
+    // A preset colour must come out as the CSS custom property, so that it follows the theme —
+    // including when the visitor switches to dark mode.
+    createReview();
+
+    expect(reviewsBlock(['count' => 5, 'style_rating_color' => 'vivid-red']))
+        ->toContain('var(--wp--preset--color--vivid-red)');
+});
+
+test('a class name from the post content cannot break out of the attribute', function () {
+    // `className` is a block attribute: it is written into the post, and anybody who can edit a
+    // post can write it. It ends up inside a class="..." attribute in the page.
+    //
+    // What matters is not that the words disappear — a class called `onmouseover` is a perfectly
+    // legal, useless class — but that the QUOTES are escaped, so it cannot close the attribute
+    // and start a new one.
+    createReview();
+
+    $html = reviewsBlock([
+        'className' => 'ok-class" onmouseover="alert(1)',
+        'count' => 5,
+    ]);
+
+    expect($html)->not->toContain('" onmouseover="alert(1)"')  // the breakout
+        ->and($html)->not->toContain('<script');
+});
+
+/*
+ * The mapping. Getting this wrong renders the wrong thing entirely.
+ */
+
+test('the blocks are registered with wordpress, and their render callback is ours', function () {
+    // Registered by the plugin on `init`, from the block.json beside each one — which is why
+    // the tests above do not register anything, and why registering them again in a beforeEach
+    // earns a "Block type is already registered" notice.
+    //
+    // The render_callback is the whole point: without it WordPress renders the saved HTML from
+    // the post, which for a dynamic block is nothing at all.
+    $registry = WP_Block_Type_Registry::get_instance();
+
+    foreach (['site-reviews/reviews', 'site-reviews/summary', 'site-reviews/form'] as $name) {
+        $block = $registry->get_registered($name);
+        expect($block)->not->toBeNull()
+            ->and($block->render_callback)->toBeCallable();
+    }
+});
+
+test('each block wraps its own shortcode', function () {
+    expect(SiteReviewsBlock::shortcodeClass())->toBe(SiteReviewsShortcode::class)
+        ->and(SiteReviewsSummaryBlock::shortcodeClass())->toBe(SiteReviewsSummaryShortcode::class)
+        ->and(SiteReviewsFormBlock::shortcodeClass())->toBe(SiteReviewsFormShortcode::class);
+
+    expect(glsr(SiteReviewsSummaryBlock::class)->shortcodeInstance())
+        ->toBeInstanceOf(SiteReviewsSummaryShortcode::class);
+});
