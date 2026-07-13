@@ -1,6 +1,7 @@
 <?php
 
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
+use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Overrides\ReviewsListTable;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
@@ -24,12 +25,14 @@ beforeEach(function () {
     wp_set_current_user(createUser(['role' => 'administrator']));
     $this->pagenow = $GLOBALS['pagenow'] ?? 'index.php';
     $this->theQuery = $GLOBALS['wp_the_query'] ?? null;
+    $this->query = $GLOBALS['wp_query'] ?? null;
 });
 
 afterEach(function () {
     set_current_screen('front');
     $GLOBALS['pagenow'] = $this->pagenow ?? 'index.php';
     $GLOBALS['wp_the_query'] = $this->theQuery ?? new WP_Query();
+    $GLOBALS['wp_query'] = $this->query ?? new WP_Query();
 });
 
 /**
@@ -208,4 +211,219 @@ test('a column asked about a post that is not a review prints nothing', function
     $output = (string) ob_get_clean();
 
     expect($output)->toBe('');
+});
+
+/*
+ * =============================================================================
+ * FILTERING AND ORDERING THE TABLE
+ * =============================================================================
+ *
+ * None of what follows could be tested until the suite shadowed filter_input() (see
+ * tests/pest/Support/filter-input.php). Every one of these paths reads the request through
+ * filter_input(), which does not read $_GET — it reads the SAPI's own copy of the request,
+ * which a CLI process does not have. So the whole of the table's filtering and ordering was
+ * dark, and it is the biggest file in the plugin.
+ *
+ * The guard on all of it is hasQueryPermission(): the admin, the MAIN query, our post type,
+ * and $pagenow === 'edit.php'. Everything below sets that up, and one test takes it away
+ * again — because these filters hang off `posts_clauses` and `pre_get_posts`, which fire for
+ * every query on the site, including the ones on the front end.
+ */
+
+/**
+ * The reviews list table, mid-request, with the query string the person is filtering by.
+ *
+ * The query itself comes from mainReviewQuery() above — is_main_query() is an IDENTITY check
+ * against $GLOBALS['wp_the_query'], not a flag, and faking it any other way gives a query that
+ * fails the guard and a test that passes for the wrong reason.
+ */
+function onReviewsListTable(array $get = []): WP_Query
+{
+    $_GET = $get;
+    $query = mainReviewQuery();
+    // is_main_query() asks $wp_the_query, which mainReviewQuery() sets. But isListOrdered()
+    // asks get_query_var(), which reads $wp_query — a DIFFERENT global that WordPress happens
+    // to point at the same object on the main query. Set only one of them and the ordering
+    // path is never entered, and the test passes for the wrong reason.
+    $GLOBALS['wp_query'] = $query;
+
+    return $query;
+}
+
+/**
+ * The clauses WP_Query hands to `posts_clauses`.
+ */
+function postClauses(): array
+{
+    global $wpdb;
+
+    return [
+        'distinct' => '',
+        'fields' => "{$wpdb->posts}.ID",
+        'groupby' => '',
+        'join' => '',
+        'limits' => 'LIMIT 0, 20',
+        'orderby' => "{$wpdb->posts}.post_date DESC",
+        'where' => " AND {$wpdb->posts}.post_type = 'site-review'",
+    ];
+}
+
+test('filtering by rating joins the ratings table and asks it for the rating', function () {
+    $query = onReviewsListTable(['rating' => '5']);
+
+    $clauses = glsr(ListTableController::class)->filterPostClauses(postClauses(), $query);
+
+    expect($clauses['join'])->toContain('INNER JOIN')
+        ->and($clauses['join'])->toContain('glsr_ratings')
+        ->and($clauses['where'])->toContain("glsr_ratings.rating = '5'")
+        ->and($clauses['where'])->toContain("post_type = 'site-review'"); // and the original where survives
+});
+
+test('filtering by an assigned page asks for the reviews about it', function () {
+    $query = onReviewsListTable(['assigned_post' => '42']);
+
+    $clauses = glsr(ListTableController::class)->filterPostClauses(postClauses(), $query);
+
+    expect($clauses['join'])->toContain('glsr_assigned_posts')
+        ->and($clauses['where'])->toContain('glsr_assigned_posts.post_id = 42');
+});
+
+test('filtering by "no assigned page" asks for the reviews about nothing', function () {
+    // A LEFT JOIN and an IS NULL, not an INNER JOIN — the whole point is the reviews that have
+    // no row in that table at all. An INNER JOIN here would return nothing, every time.
+    $query = onReviewsListTable(['assigned_post' => '0']);
+
+    $clauses = glsr(ListTableController::class)->filterPostClauses(postClauses(), $query);
+
+    expect($clauses['join'])->toContain('LEFT JOIN')
+        ->and($clauses['where'])->toContain('glsr_assigned_posts.post_id IS NULL');
+});
+
+test('ordering by a review column orders by the ratings table, not the posts table', function () {
+    $query = onReviewsListTable();
+    $query->set('orderby', 'rating');
+    $query->set('order', 'DESC');
+
+    $clauses = glsr(ListTableController::class)->filterPostClauses(postClauses(), $query);
+
+    expect($clauses['orderby'])->toContain('glsr_ratings.rating DESC')
+        ->and($clauses['orderby'])->not->toContain('post_date'); // replaced, not appended
+});
+
+test('ordering by a column that is often empty puts the empty ones last', function () {
+    // Sorting by email with a hundred anonymous reviews at the top is a sort that shows you
+    // nothing. NULLIF(...) IS NULL sorts the blanks to the bottom whichever way round it goes.
+    //
+    // `author_email` is the sortable COLUMN; `email` is the ratings column it maps to
+    // (ColumnOrderbyDefaults). They are not the same name and it matters here.
+    $query = onReviewsListTable();
+    $query->set('orderby', 'author_email');
+    $query->set('order', 'ASC');
+
+    $clauses = glsr(ListTableController::class)->filterPostClauses(postClauses(), $query);
+
+    // The real table name, prefix and all — `wp_glsr_ratings` on this install. The other
+    // assertions in this file get away with the bare `glsr_ratings` only because it is a
+    // substring of it.
+    $ratings = glsr(Tables::class)->table('ratings');
+    expect($clauses['orderby'])->toContain("NULLIF({$ratings}.email, '') IS NULL")
+        ->and($clauses['orderby'])->toContain('post_date'); // the blanks sort last, then by date
+});
+
+test('an unfiltered, unordered table is left exactly as wordpress built it', function () {
+    // The common case — somebody opened the reviews screen. No join, no rewritten where.
+    $query = onReviewsListTable();
+
+    expect(glsr(ListTableController::class)->filterPostClauses(postClauses(), $query))
+        ->toBe(postClauses());
+});
+
+test('nobody else\'s query is touched', function () {
+    // posts_clauses fires for EVERY query on the site. Four guards, and this is what they are
+    // for: the front-end query that renders the page a review is displayed on goes through
+    // here too, on every page load.
+    global $pagenow;
+    $query = onReviewsListTable(['rating' => '5']);
+
+    $pagenow = 'index.php'; // …not the list table
+    expect(glsr(ListTableController::class)->filterPostClauses(postClauses(), $query))->toBe(postClauses());
+
+    $pagenow = 'edit.php';
+    $query->set('post_type', 'post'); // …somebody else's post type
+    expect(glsr(ListTableController::class)->filterPostClauses(postClauses(), $query))->toBe(postClauses());
+
+    $query->set('post_type', glsr()->post_type);
+    set_current_screen('front'); // …not the admin at all
+    expect(glsr(ListTableController::class)->filterPostClauses(postClauses(), $query))->toBe(postClauses());
+});
+
+/*
+ * pre_get_posts.
+ */
+
+test('ordering by the response orders by the meta it lives in', function () {
+    // The response is post meta, not a ratings column, so it cannot be ordered the same way.
+    $query = onReviewsListTable();
+    $query->set('orderby', 'response');
+
+    glsr(ListTableController::class)->setQueryForTable($query);
+
+    expect($query->get('meta_key'))->toBe('_response')
+        ->and($query->get('orderby'))->toBe('meta_value');
+});
+
+test('filtering by a category asks for the reviews in it', function () {
+    $query = onReviewsListTable(['category' => '7']);
+
+    glsr(ListTableController::class)->setQueryForTable($query);
+
+    $taxQuery = $query->get('tax_query');
+    expect($taxQuery[0]['taxonomy'])->toBe(glsr()->taxonomy)
+        ->and($taxQuery[0]['terms'])->toBe('7');
+});
+
+test('filtering by "no category" asks for the reviews in none of them', function () {
+    // -1 is the "Uncategorized" option in the dropdown, and it is NOT a term id.
+    $query = onReviewsListTable(['category' => '-1']);
+
+    glsr(ListTableController::class)->setQueryForTable($query);
+
+    $taxQuery = $query->get('tax_query');
+    expect($taxQuery[0]['operator'])->toBe('NOT EXISTS')
+        ->and($taxQuery[0])->not->toHaveKey('terms');
+});
+
+/*
+ * The filter controls themselves.
+ */
+
+test('a column filter shows what it is currently filtered by', function () {
+    $_GET = ['rating' => '4'];
+
+    expect(glsr(\GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterRating::class)->value())
+        ->toBe('4');
+});
+
+test('the rating filter offers every rating, and a way out of it', function () {
+    $filter = glsr(\GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterRating::class);
+
+    expect($filter->options())->toHaveCount(6) // 5..0
+        ->and($filter->options()[5]['text'])->toBe('★★★★★')
+        ->and($filter->options()[0]['text'])->toBe('☆☆☆☆☆')
+        ->and($filter->placeholder())->toBe('Any rating');
+});
+
+test('the filters a person has switched on are remembered, and rating is on by default', function () {
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    $screen = WP_Screen::get('edit-'.glsr()->post_type);
+
+    $settings = glsr(ListTableController::class)->filterScreenFilters('', $screen);
+
+    expect($settings)->toContain('Rating');
+    expect(get_user_meta(get_current_user_id(), 'edit_site-review_filters', true))
+        ->toBe(['rating']); // the default, written on first sight of the screen
+
+    // and nobody else's screen gets our settings panel
+    expect(glsr(ListTableController::class)->filterScreenFilters('', WP_Screen::get('edit-post')))
+        ->toBe('');
 });
