@@ -4,10 +4,14 @@ use GeminiLabs\SiteReviews\Controllers\NoticeController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Notices\AbstractNotice;
 use GeminiLabs\SiteReviews\Notices\GatekeeperNotice;
+use GeminiLabs\SiteReviews\Notices\LicensePromotedNotice;
+use GeminiLabs\SiteReviews\Notices\RetiredFreeNotice;
+use GeminiLabs\SiteReviews\Notices\RetiredPremiumNotice;
 use GeminiLabs\SiteReviews\Notices\UpgradedNotice;
 use GeminiLabs\SiteReviews\Notices\WelcomeNotice;
 use GeminiLabs\SiteReviews\Notices\WriteReviewNotice;
 use GeminiLabs\SiteReviews\Request;
+use GeminiLabs\SiteReviews\TestAddon\Application as TestAddon;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
@@ -315,4 +319,149 @@ test('the notices on a review screen are caught before wordpress moves them', fu
     glsr(NoticeController::class)->injectAfterNotices();
 
     expect((string) ob_get_clean())->toBe('');
+});
+
+/*
+ * The three notices about addons: two that warn, and one that sells.
+ *
+ * All three are driven by a register in the container rather than by a setting, and each register
+ * is filled at boot by Application::register() as the addons announce themselves:
+ *
+ *   retired                an addon that has been RETIRED — its features are now in the free
+ *                          plugin, and leaving it active will conflict with them.
+ *   site-reviews-premium   the old separately-sold premium addons, superseded by the bundled
+ *                          Premium plugin. Registered, then turned away.
+ *   licensed               the paid addons that are installed. If it is EMPTY, this is a free
+ *                          site, and the promotion banner is the one thing that shows.
+ *
+ * The two retirement notices are the only notices in the plugin that are NOT dismissible and that
+ * appear OUTSIDE the review screens — on the dashboard, the plugins page and the updates page. Both
+ * are deliberate: a retired addon actively breaks the site it is installed on, and the person who
+ * needs to hear that may have no reason to open the reviews screen for weeks.
+ */
+
+/**
+ * A retired addon, as Application::register() records one: the addon's CLASS, not its name — the
+ * view reads ::ID and ::NAME off it. Optionally active, which is the only state it can be nagged
+ * about, because the nag is a button that deactivates it.
+ */
+function retiredAddon(string $register, bool $isActive = true): void
+{
+    'retired' === $register
+        ? glsr()->store('retired', [TestAddon::ID => TestAddon::class])
+        : glsr()->store('site-reviews-premium', [TestAddon::class]);
+    if ($isActive) {
+        update_option('active_plugins', [sprintf('%1$s/%1$s.php', TestAddon::ID)]);
+    }
+}
+
+test('a retired free addon is reported, wherever the person happens to be', function () {
+    // On the plugins screen — where they are about to be, because that is where you go to
+    // deactivate the thing you have just been told to deactivate. And it is named, with a button
+    // that does it for them: "an addon has been merged" is not an instruction anybody can act on.
+    retiredAddon('retired');
+    set_current_screen('plugins');
+
+    $notice = new RetiredFreeNotice();
+
+    expect(noticeLoaded($notice))->toBeTrue();
+    expect(renderedNotice($notice))
+        ->toContain(TestAddon::NAME)
+        ->toContain('has been merged into Site Reviews')
+        ->toContain('Deactivate '.TestAddon::NAME);
+});
+
+test('a retired addon that is already deactivated is not nagged about', function () {
+    // Registered but not active — which is the state of somebody who has already done what they
+    // were told. The notice loads (the register still holds it) and then has nothing to say.
+    retiredAddon('retired', isActive: false);
+
+    expect(renderedNotice(new RetiredFreeNotice()))
+        ->not->toContain('has been merged into Site Reviews');
+});
+
+test('a retirement notice cannot be dismissed, because the problem does not go away', function () {
+    // Every other notice in the plugin is dismissible. This one is not: dismissing it would hide
+    // a live conflict, and the site would keep misbehaving with nothing on screen to say why.
+    retiredAddon('retired');
+
+    expect(renderedNotice(new RetiredFreeNotice()))
+        ->not->toContain('is-dismissible')
+        ->not->toContain('notice-dismiss');
+});
+
+test('a site with no retired addons — which is nearly all of them — sees nothing', function () {
+    // The register is empty on any site that is up to date, and the notice must not even hook
+    // itself on. This runs on every admin page load of every install.
+    expect(glsr()->retrieveAs('array', 'retired'))->toBe([]);
+
+    expect(noticeLoaded(new RetiredFreeNotice()))->toBeFalse();
+});
+
+test('an old separately-sold premium addon is reported too, and as a warning rather than an error', function () {
+    // A different register and a different severity: the old premium addons are superseded, not
+    // broken, so this is a warning where the retired-free one is an error. It is also shown on
+    // the dashboard — the one screen every administrator does open.
+    retiredAddon('site-reviews-premium');
+    set_current_screen('dashboard');
+
+    $notice = new RetiredPremiumNotice();
+
+    expect(noticeLoaded($notice))->toBeTrue();
+    expect(renderedNotice($notice))
+        ->toContain('notice-warning')
+        ->toContain(TestAddon::NAME);
+});
+
+test('and a site with none of those sees nothing either', function () {
+    expect(noticeLoaded(new RetiredPremiumNotice()))->toBeFalse();
+});
+
+/*
+ * The one that sells.
+ */
+
+test('a free site is shown the premium banner', function () {
+    // `licensed` is empty, which is what a site with no paid addons looks like — most of them.
+    expect(renderedNotice(new LicensePromotedNotice()))
+        ->toContain('glsr-notice-banner')
+        ->toContain(LicensePromotedNotice::class);
+});
+
+test('a site that has already paid is not sold to', function () {
+    // The inverse, and the one that matters to the people who have given Paul money: a customer
+    // with a licensed addon installed must never see an advertisement for it again.
+    glsr()->append('licensed', ['name' => 'Site Reviews: Images'], 'site-reviews-images');
+
+    expect(renderedNotice(new LicensePromotedNotice()))->toBe('');
+});
+
+test('the premium page does not advertise premium', function () {
+    // canLoad() refuses on any screen whose base ends in `-premium`. An upsell banner across the
+    // top of the page that already sells the thing is the plugin talking over itself.
+    set_current_screen('site-review_page_glsr-premium');
+
+    expect(noticeLoaded(new LicensePromotedNotice()))->toBeFalse();
+});
+
+test('dismissing the premium banner buys three weeks of quiet, not silence forever', function () {
+    // deferInterval() is three weeks, so this is a "not now" rather than a "never" — the notice is
+    // monitored, the dismissal is stored against the USER, and it lapses. A promotion that could
+    // be dismissed permanently would be a promotion nobody ever saw twice; one that could not be
+    // dismissed at all would be an advertisement, and this is a plugin, not a billboard.
+    $notice = new LicensePromotedNotice();
+    expect(noticeLoaded($notice))->toBeTrue();
+
+    $notice->dismiss();
+
+    expect(dismissedNotices())->toHaveKey('license-promoted');
+    expect(noticeLoaded(new LicensePromotedNotice()))->toBeFalse(); // and it stays down…
+
+    // …until the interval has passed. Backdating the dismissal is the only way to say "three
+    // weeks from now" without waiting three weeks.
+    $dismissed = dismissedNotices();
+    $dismissed['license-promoted']['timestamp'] = current_time('timestamp') - (4 * WEEK_IN_SECONDS);
+    update_user_meta(get_current_user_id(), AbstractNotice::USER_META_KEY, $dismissed);
+
+    expect(noticeLoaded(new LicensePromotedNotice()))->toBeTrue();
 });

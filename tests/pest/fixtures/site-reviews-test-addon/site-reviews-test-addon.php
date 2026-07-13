@@ -6,6 +6,13 @@
  * Version:     2.3.4
  * Domain Path: /languages
  * Tested up to: 6.9
+ * GLSR requires at least: 8.0.0
+ * GLSR unsupported version: 99.0.0
+ *
+ * The two GLSR headers are what Application::register() version-gates on, and a real addon
+ * always carries them. The bounds are deliberately wide: this fixture is not testing the gate,
+ * it is testing everything that happens after it, and a fixture that fell out of range every
+ * time the plugin's version moved would be a fixture that broke on release day.
  *
  * This is a FIXTURE, not a plugin. It exists so that Addons\Controller, Addons\Hooks and
  * the Updater can be tested against a real addon rather than a mock of one -- they are

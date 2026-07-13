@@ -470,8 +470,25 @@ function resetGlobalState(): void
     //
     // Both are per-page-load state on a real site, so emptying them is the true baseline: this
     // suite installs no premium addons and starts every request with no notices rendered.
-    glsr()->store('notices', []);
-    glsr()->store('licensed', []);
+    //   retired / site-reviews-premium   the addons Application::register() turned away. Both
+    //              drive a non-dismissible admin notice, so a test that plants one would put an
+    //              undismissable error across the top of every admin screen in every later test.
+    foreach (['licensed', 'notices', 'retired', 'site-reviews-premium'] as $register) {
+        glsr()->store($register, []);
+    }
+
+    // Application::$settings is the settings CONFIG (the fields, not their values), memoised on
+    // the container itself and built once per request. Application::license() appends a licence
+    // field to it for every licensed addon — so a test that registers one would leave that field
+    // in the settings config for every test after it, and the settings page would grow a licence
+    // key nobody entered. Emptying it makes settings() rebuild from config/settings.php, which is
+    // what a fresh request does.
+    // …and Application::$defaults, which is built FROM $settings and memoised beside it. Leaving
+    // it would mean the settings config was rebuilt while every default the plugin reads still
+    // came from the version before.
+    foreach (['defaults', 'settings'] as $memo) {
+        (new \ReflectionProperty(glsr(), $memo))->setValue(glsr(), []);
+    }
 
     // The fakes' own static state.
     NullQueue::$isPending = false;
