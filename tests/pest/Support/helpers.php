@@ -121,6 +121,26 @@ function purgeCommittedRows(): void
          LEFT JOIN {$wpdb->users} u ON (u.ID = um.user_id)
          WHERE u.ID IS NULL"
     );
+
+    // And the plugin's TRANSIENTS, which are options and therefore commit like anything else.
+    //
+    // This was learned the hard way. Two tests committed (TableStats::empty() runs TRUNCATE, and
+    // TRUNCATE is DDL) before anybody had declared it, and what became permanent was not a review
+    // — it was Api's cached response for an IP address. Every geolocation test afterwards was
+    // then served that cached success from the database instead of making a request, including
+    // the one asserting that a FAILED lookup stores nothing. They failed with symptoms that had
+    // nothing to do with them, in a later run, exactly as the tripwire's message promises.
+    //
+    // Transients are disposable by definition, so all of the plugin's go. The settings, the
+    // migration record and the db version are options and are NOT transients — they stay.
+    $wpdb->query(
+        "DELETE FROM {$wpdb->options}
+         WHERE option_name LIKE '\\_transient\\_glsr\\_%'
+            OR option_name LIKE '\\_transient\\_timeout\\_glsr\\_%'
+            OR option_name LIKE '\\_site\\_transient\\_glsr\\_%'
+            OR option_name LIKE '\\_site\\_transient\\_timeout\\_glsr\\_%'
+            OR option_name = 'glsr_api_transients'"
+    );
 }
 
 /**
