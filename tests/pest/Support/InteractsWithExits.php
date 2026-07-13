@@ -88,7 +88,17 @@ trait InteractsWithExits
         } catch (WpDieException $e) {
             $this->fail("Expected a redirect, but wp_die() was called instead: {$e->getMessage()}");
         }
-        $this->fail('Expected wp_redirect() to be called, and it was not.');
+        // A controller that did not redirect almost always means a command that was not
+        // successful, and the command already knows why — it put the reason in the session for the
+        // form to print. "Expected wp_redirect() to be called, and it was not" throws that away
+        // and sends whoever is reading it off to guess which field was missing. So say it.
+        $message = (string) glsr()->sessionGet('form_message');
+        $errors = glsr()->sessionGet('form_errors');
+        $why = '' === $message && empty($errors)
+            ? ' Nothing was put in the session, so it was not a validation failure.'
+            : ' The form said: '.trim($message.' '.(string) wp_json_encode($errors));
+
+        $this->fail('Expected wp_redirect() to be called, and it was not.'.$why);
     }
 
     protected function interceptExits(): void

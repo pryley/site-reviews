@@ -53,6 +53,27 @@ All proposed features are subject to change and are sorted alphabetically rather
   Found because a test deleted the option, and five unrelated test files started
   recording consent nobody gave.
 
+- [ ] **`fetch-paged-reviews` throws a `TypeError` on a request that omits `url`.**
+  `NormalizePaginationArgs::normalizePageUrl()` does `Url::path($args->url)`, and `url`
+  comes from the store, which is filled with `$request->toArray()` — the raw POST body.
+  `Request` applies no defaults (it is an `Arguments` subclass, and `get()` returns `null`
+  for an absent key), so `Url::path(string $url)` is handed `null`.
+
+  **Severity, having been checked rather than assumed:** it is NOT a fatal. The route is
+  registered through `HookProxy`, whose `catch (\Throwable)` swallows and logs it. The
+  handler simply never reaches `wp_send_json_success()`, so the request ends with an empty
+  response and the sender's "load more" does nothing. No white screen, no 500, no data
+  leak, and no effect on anybody but the person who sent the malformed request. The
+  plugin's own javascript always sends `url`, which is why nobody has hit it.
+
+  So: a robustness gap and some console noise, not a vulnerability. Worth hardening —
+  `Url::path((string) $args->url)`, or a `url` default in the pagination Defaults — but it
+  is a tidy-up, not a release blocker.
+
+  Found while writing `tests/pest/Integration/PublicControllerTest.php`. First reported as
+  "a fatal anyone can trigger", which was wrong; see the note appended to rule 2 in
+  CLAUDE.md about running the falsification pass on findings nobody asked for.
+
 - [ ] **`Translation::strings()` memoises into a function-level `static`, which nothing
   can reset.** `static $strings;` … `if (empty($strings))` — so the first call that finds
   a non-empty `settings.strings` caches it for the rest of the PHP process. No
