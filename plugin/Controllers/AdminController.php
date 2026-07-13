@@ -244,9 +244,6 @@ class AdminController extends AbstractController
      */
     public function scheduleMigration(): void
     {
-        if (defined('GLSR_UNIT_TESTS')) {
-            return;
-        }
         if (!$this->isAdminScreen()) {
             return;
         }

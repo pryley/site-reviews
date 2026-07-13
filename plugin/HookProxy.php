@@ -12,9 +12,19 @@ trait HookProxy
      * prevents fatal errors without introducing complexity. If something goes wrong,
      * the error is logged to the Site Reviews console.
      *
-     * Catching Throwable causes some PHPUnit tests to get flagged as risky with,
-     * "Test code or tested code did not (only) close its own output buffers".
-     * So if PHPUNIT_TESTING is defined then just skip the catch.
+     * The catch is SKIPPED when PHPUNIT_TESTING is defined, and it is worth saying why,
+     * because swallowing a throwable is exactly what makes a broken test pass:
+     *
+     *   - a test whose subject throws inside a proxied hook would go green, with nothing
+     *     to show for it but a line in the console that nobody is reading;
+     *   - the test suite intercepts wp_die() and wp_redirect() by THROWING from a filter
+     *     (tests/pest/Support/InteractsWithExits.php), and a catch here would swallow
+     *     those too, so a redirect fired through a hook could not be asserted at all.
+     *
+     * The price is that hook-fired code behaves differently under test than it does on a
+     * live site, where a third party's bad data is logged rather than fatal. That is the
+     * smaller of the two evils: a suite that passes when the code is broken is worth
+     * nothing.
      */
     public function proxy(string $method): callable
     {

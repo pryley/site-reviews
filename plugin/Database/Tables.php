@@ -138,7 +138,7 @@ class Tables
 
     public function tableEngine(string $table): string
     {
-        if (defined('GLSR_UNIT_TESTS') || $this->isSqlite()) {
+        if ($this->isSqlite()) {
             return '';
         }
         $table = $this->table($table);
