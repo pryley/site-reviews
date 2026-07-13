@@ -1,0 +1,164 @@
+<?php
+
+use GeminiLabs\SiteReviews\Database\Cache;
+use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Modules\SystemInfo;
+
+use function GeminiLabs\SiteReviews\Tests\createReview;
+use function GeminiLabs\SiteReviews\Tests\createUser;
+use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+
+/*
+ * The system info, which is the thing people paste into a support forum.
+ *
+ * That is the whole reason it is worth testing. It is a plain-text dump of the site's
+ * settings, and the settings hold the webhook URLs that anybody who has them can post
+ * into a private Slack channel with, and the licence keys somebody paid for.
+ * purgeSensitiveData() is what stands between those and a public forum post, and it
+ * works by NAME: anything under settings.licenses, anything ending in api_key, and
+ * anything the settings config declares as `secret`. A new secret setting that is not
+ * declared as one is a secret that gets published, and no other test would notice —
+ * which is why the test below is written as a loop over the config rather than as a
+ * list of the settings that happen to be secret today.
+ *
+ * (The settings.licenses.* branch cannot be exercised here: those settings are
+ * registered by the premium addons, and none is installed.)
+ *
+ * Nothing here reaches the network. blockHttpRequests() sees to that, so the "remote
+ * post" check reports failure and the hosting provider reads as localhost — which makes
+ * the report deterministic, and is the only reason it can be asserted on at all.
+ */
+
+beforeEach(function () {
+    resetPluginState();
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    // Put WordPress's half of the report back where the plugin expects to find it.
+    set_transient(glsr()->prefix.'system_info', wordpressDebugData(), HOUR_IN_SECONDS);
+});
+
+/**
+ * WordPress's own Site Health data, gathered ONCE for the whole file.
+ *
+ * The plugin keeps this in a 12-hour transient because gathering it is expensive — it
+ * walks every plugin, theme and table on the site, and (via Site Health's media section)
+ * shells out to `gs --version` to find the Ghostscript version, which prints
+ * "sh: gs: not found" in a container that has no Ghostscript.
+ *
+ * A transient is an option, and the per-test transaction rolls options back, so each test
+ * in this file was rebuilding it from scratch: eight times the cost, and eight complaints
+ * from a shell. Gathering it once per process and priming the transient with it is a
+ * faithful stand-in for the cache the plugin is actually relying on in production.
+ */
+function wordpressDebugData(): array
+{
+    static $data;
+
+    return $data ??= glsr(Cache::class)->getSystemInfo();
+}
+
+function systemInfo(): string
+{
+    return (string) glsr(SystemInfo::class);
+}
+
+test('the report has a section for everything somebody is going to be asked about', function () {
+    // The sections are dispatched by name (Helper::buildMethodName), so a method that has
+    // been renamed does not error — the section silently stops being reported, and the
+    // first anybody knows about it is a support thread with a hole in it.
+    $info = systemInfo();
+
+    foreach ([
+        'Plugin', 'Reviews', 'Action Scheduler', 'Database', 'Server', 'WordPress',
+        'Active Plugins', 'Plugin Settings',
+    ] as $section) {
+        expect($info)->toContain('['.strtoupper($section).']');
+    }
+});
+
+test('the report says which version of the plugin is being asked about', function () {
+    expect(systemInfo())->toContain(glsr()->version);
+});
+
+/*
+ * The part that matters.
+ */
+
+test('every setting the config calls a secret is masked, and none of them are missed', function () {
+    // Str::mask() keeps the last eight characters on purpose — enough for somebody to
+    // recognise their own key in a support thread, not enough for anybody else to use it.
+    // So the assertion is that the WHOLE value never appears.
+    $secrets = array_filter(glsr()->settings(),
+        fn ($field, $key) => str_starts_with($key, 'settings.licenses.')
+            || str_ends_with($key, 'api_key')
+            || 'secret' === ($field['type'] ?? ''),
+        ARRAY_FILTER_USE_BOTH
+    );
+
+    expect($secrets)->not->toBeEmpty(); // otherwise this test asserts nothing at all
+
+    $values = [];
+    foreach (array_keys($secrets) as $i => $key) {
+        $values[$key] = "supersecretvalue000{$i}";
+        glsr(OptionManager::class)->set($key, $values[$key]);
+    }
+
+    $info = systemInfo();
+
+    foreach ($values as $key => $value) {
+        expect($info)->not->toContain($value);
+    }
+});
+
+test('a webhook url is not published in a support forum', function () {
+    // Named out loud as well as covered by the loop above, because these two are the ones
+    // that would actually hurt: the URL IS the credential. Anybody holding it can post
+    // into the channel.
+    glsr(OptionManager::class)->set('settings.general.notification_slack', 'https://hooks.slack.com/services/T00/B00/abcdefghijklmnop');
+    glsr(OptionManager::class)->set('settings.general.notification_discord', 'https://discord.com/api/webhooks/123/qrstuvwxyz012345');
+
+    $info = systemInfo();
+
+    expect($info)->toContain('general.notification_slack') // the setting is still reported
+        ->not->toContain('https://hooks.slack.com/services/T00/B00/abcdefghijklmnop')
+        ->not->toContain('https://discord.com/api/webhooks/123/qrstuvwxyz012345');
+});
+
+test('a setting that is not a secret is reported as it is', function () {
+    // The mask is not applied to everything. The point of the file is to say how the site
+    // is set up, and a masked report is no use to anybody.
+    glsr(OptionManager::class)->set('settings.general.notification_email', 'support@example.org');
+
+    expect(systemInfo())->toContain('support@example.org');
+});
+
+/*
+ * The counts, which are the first thing anybody looks at.
+ */
+
+test('a site with no reviews says so, rather than reporting nothing', function () {
+    // An empty line here reads as a bug in the report. "No reviews" is an answer.
+    expect(systemInfo())->toContain('Type: local')
+        ->toContain('No reviews');
+});
+
+test('the reviews are counted, by status and by rating', function () {
+    createReview(['rating' => 5]);
+    createReview(['rating' => 5]);
+    createReview(['rating' => 1, 'is_approved' => false]);
+
+    $info = systemInfo();
+
+    expect($info)->toContain('publish: 2')
+        ->toContain('pending: 1')
+        ->toContain('Type: local');
+});
+
+/*
+ * And the shape of it.
+ */
+
+test('the report is laid out to be read in a forum post', function () {
+    // It is pasted into a code block, so it is padded with dots rather than tabbed —
+    // a tab is whatever width the forum feels like, and the columns would not line up.
+    expect(systemInfo())->toMatch('/^Version\.+ : /m');
+});
