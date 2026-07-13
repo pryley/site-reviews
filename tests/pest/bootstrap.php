@@ -45,6 +45,22 @@ $_SERVER['REQUEST_URI'] ??= '/';
 $_SERVER['SERVER_NAME'] ??= 'localhost';
 $_SERVER['SERVER_PROTOCOL'] ??= 'HTTP/1.1';
 
+/*
+ * $_SERVER can be shimmed. The SAPI's request table cannot: filter_input() does not read the
+ * superglobals, it reads a structure the web server populates and userland cannot write, and a
+ * CLI process does not have one — so filter_input() returns null here whatever $_GET says, and
+ * seventy call sites across the plugin are unreachable.
+ *
+ * So the suite shadows filter_input() inside the plugin's own namespaces, which PHP allows
+ * because an unqualified call resolves against the current namespace first. The plugin is not
+ * modified and its production semantics are untouched. See Support/filter-input.php, which says
+ * why that matters and why the obvious alternative was rejected.
+ *
+ * Required BEFORE wp-load.php only for tidiness — PHP resolves these calls at runtime, so the
+ * order does not actually matter.
+ */
+require __DIR__.'/Support/filter-input.php';
+
 require "{$root}/wp-load.php";
 
 if (!function_exists('glsr')) {
