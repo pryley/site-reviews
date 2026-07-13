@@ -160,9 +160,6 @@ class Router implements ControllerContract
      */
     protected function isValidMutexRequest(Request $request): bool
     {
-        if (defined('GLSR_UNIT_TESTS')) {
-            return true;
-        }
         if (!in_array($request->_action, $this->mutexActions())) {
             return true;
         }
