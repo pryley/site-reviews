@@ -137,9 +137,22 @@ sync: ## Sync plugin files to development site
 	--filter=":- .gitignore" \
 	. ~/Sites/site-reviews/public/app/plugins/site-reviews/
 
+# XDEBUG_MODE=off is not decoration, and the reason is not the one you would guess.
+#
+# Xdebug IS off by default in wp-env — but `make test:coverage` restarts the container with
+# `wp-env start --xdebug=coverage`, and LEAVES IT THAT WAY. So the first coverage run of the
+# day quietly makes every subsequent `make test` 60% slower, for profiling nobody asked for,
+# until somebody restarts wp-env without the flag. Measured, on the same code:
+#
+#   composer test                       56.5s   (after a coverage run: Xdebug still loaded)
+#   env XDEBUG_MODE=off composer test   35.4s
+#
+# So the test targets say what they want rather than trusting the container's state. The
+# four separate pest processes `composer test` runs (one per testsuite, each booting
+# WordPress again) cost about a second between them — not worth merging. Xdebug was all of it.
 .PHONY: test
 test: env-check ## Run the Pest suites inside wp-env (see tests/pest/README.md)
-	$(WPENV) composer test
+	$(WPENV) env XDEBUG_MODE=off composer test
 
 .PHONY: test\:all
 test\:all: ## Run the analyser, the full suite with coverage, and the compat checks
@@ -178,21 +191,29 @@ test\:file: env-check ## Run one test file (FILE=…), or the tests in it matchi
 	@test -n '$(FILE)' || { printf '\nUsage: make test:file FILE=tests/pest/Integration/EmailTest.php [NAME="part of the test name"]\n\n'; exit 1; }
 	$(WPENV) env XDEBUG_MODE=off vendor/bin/pest --test-directory=tests/pest --colors=always '$(FILE)' $(if $(NAME),--filter='$(NAME)',)
 
+# The ten slowest tests. Run this when the suite gets slower and you want to know WHY,
+# rather than reasoning about which of the new tests looks expensive — the answer has
+# twice now been something nobody would have picked (eight thousand migration runs; six
+# foreign constraints rebuilt on every boot).
+.PHONY: test\:profile
+test\:profile: env-check ## Show the slowest tests in the suite
+	$(WPENV) env XDEBUG_MODE=off vendor/bin/pest --test-directory=tests/pest --colors=always --profile
+
 .PHONY: test\:import
 test\:import: env-check ## Run only the Import suite inside wp-env (runs last: it defines WP_IMPORTING)
-	$(WPENV) composer test:import
+	$(WPENV) env XDEBUG_MODE=off composer test:import
 
 .PHONY: test\:integration
 test\:integration: env-check ## Run only the Integration suite inside wp-env
-	$(WPENV) composer test:integration
+	$(WPENV) env XDEBUG_MODE=off composer test:integration
 
 .PHONY: test\:thirdparty
 test\:thirdparty: env-check ## Run only the ThirdParty suite inside wp-env (the integrations)
-	$(WPENV) composer test:thirdparty
+	$(WPENV) env XDEBUG_MODE=off composer test:thirdparty
 
 .PHONY: test\:unit
 test\:unit: env-check ## Run only the Unit suite inside wp-env (fast feedback loop)
-	$(WPENV) composer test:unit
+	$(WPENV) env XDEBUG_MODE=off composer test:unit
 
 .PHONY: update
 update: env-check ## Update Composer (inside wp-env) and NPM
