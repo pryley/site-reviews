@@ -1064,55 +1064,37 @@ test('sanitize slug', function () {
 });
 
 test('sanitize term ids', function () {
+    // A term id survives only if it is one of the plugin's own categories. Everything
+    // else — a string, an email, a rating, a term id belonging to somebody else's
+    // taxonomy — comes back as nothing.
+    //
+    // The expectation is COMPUTED rather than written out, and that is not fussiness.
+    // The shared fixture contains [13] and ['1' => 13], and this test used to assert
+    // that neither of them was a category. Term ids come from an AUTO_INCREMENT, and a
+    // rolled-back transaction does not rewind it — so which ids createTerms() hands out
+    // below depends on the history of the database the suite is run against, and on
+    // some of them it hands out 13. Written out by hand, the assertion was not "13 is
+    // not a category of ours", it was "this database has been used enough".
+    $isCategory = fn ($termId) => !empty(term_exists((int) $termId, glsr()->taxonomy));
+
     $terms = createTerms(2, ['taxonomy' => glsr()->taxonomy]);
+    $strangers = array_values(array_diff([1, 2, 3, 4, 5, 6, 7, 8, 9], $terms));
+
     $values = sanitizerTestValues();
     $values[] = $terms[0];
     $values[] = $terms;
     $values[] = implode(',', $terms);
-    $values[] = array_diff([1, 2, 3, 4, 5, 6, 7, 8, 9], $terms);
-    $sanitized = sanitizeValues('term-ids', $values);
-    expect($sanitized)->toEqual([
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [$terms[0]],
-        $terms,
-        $terms,
-        [],
-    ]);
+    $values[] = $strangers;
+
+    $expected = array_fill(0, count(sanitizerTestValues()), []);
+    $expected[4] = $isCategory(13) ? [13] : []; // the fixture's [13]
+    $expected[6] = $isCategory(13) ? [13] : []; // the fixture's ['1' => 13]
+    $expected[] = [$terms[0]];                  // one id
+    $expected[] = $terms;                       // several
+    $expected[] = $terms;                       // several, comma separated
+    $expected[] = array_values(array_filter($strangers, $isCategory));
+
+    expect(sanitizeValues('term-ids', $values))->toEqual($expected);
 });
 
 test('sanitize text', function () {

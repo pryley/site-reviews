@@ -1,6 +1,7 @@
 <?php
 
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
+use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Review;
@@ -218,16 +219,54 @@ test('an ordinary post changing status is not mistaken for a review', function (
 });
 
 /*
- * Deletion. WordPress will delete a post or a user without asking the plugin, and the
- * custom tables have foreign keys onto both — but only on InnoDB. The plugin cleans up
- * by hand so that a site whose tables were migrated to MyISAM is not left with rows
- * pointing at things that are gone.
+ * Deletion.
+ *
+ * WordPress will delete a post or a user without asking the plugin, and glsr_assigned_
+ * posts.post_id and glsr_assigned_users.user_id are foreign keys onto wp_posts.ID and
+ * wp_users.ID — declared ON DELETE CASCADE (AbstractTable::addForeignConstraint).
+ *
+ * So on InnoDB the rows are already gone by the time `deleted_post` fires, and
+ * ReviewController::onDeletePost() finds nothing to delete. It is not redundant: the
+ * constraint is only added when the referenced table is InnoDB, and a site whose tables
+ * were migrated to MyISAM has no cascade at all. The controller's docblocks say as much
+ * — "and the posts table uses the MyISAM engine".
+ *
+ * Which is why these tests read the table rather than the Review object. The Review
+ * objects are cached for the request (Database\Cache), and the controller only flushes
+ * the cache of the reviews whose rows IT deleted — which, on InnoDB, is none of them.
+ * Nothing notices in production, because the next read of those reviews is the next
+ * request; a test doing both in one process would be asserting on a stale object.
  */
+
+/**
+ * @return int[] straight out of glsr_assigned_posts, no cache in the way
+ */
+function assignedPostIds(int $reviewId): array
+{
+    global $wpdb;
+    $ratingId = glsr_get_review($reviewId)->rating_id;
+
+    return array_map('intval', $wpdb->get_col($wpdb->prepare(
+        "SELECT post_id FROM {$wpdb->prefix}glsr_assigned_posts WHERE rating_id = %d", $ratingId
+    )));
+}
+
+/**
+ * @return int[] straight out of glsr_assigned_users
+ */
+function assignedUserIds(int $reviewId): array
+{
+    global $wpdb;
+    $ratingId = glsr_get_review($reviewId)->rating_id;
+
+    return array_map('intval', $wpdb->get_col($wpdb->prepare(
+        "SELECT user_id FROM {$wpdb->prefix}glsr_assigned_users WHERE rating_id = %d", $ratingId
+    )));
+}
 
 test('deleting a review deletes its rating', function () {
     $review = createReview();
-    $ratingId = $review->rating_id;
-    expect($ratingId)->toBeGreaterThan(0);
+    expect($review->rating_id)->toBeGreaterThan(0);
 
     wp_delete_post($review->ID, true);
 
@@ -238,20 +277,30 @@ test('deleting an assigned page unassigns it from every review that had it', fun
     $postId = createPost();
     $one = createReview(['assigned_posts' => $postId]);
     $two = createReview(['assigned_posts' => $postId]);
+    expect(assignedPostIds($one->ID))->toBe([$postId]);
 
     wp_delete_post($postId, true);
 
-    expect(glsr_get_review($one->ID)->assigned_posts)->toBe([]);
-    expect(glsr_get_review($two->ID)->assigned_posts)->toBe([]);
+    expect(assignedPostIds($one->ID))->toBe([]);
+    expect(assignedPostIds($two->ID))->toBe([]);
     expect(glsr_get_review($one->ID)->isValid())->toBeTrue(); // the reviews themselves survive
+
+    // and the next time the review is read — which in production is the next request —
+    // it no longer claims the page
+    glsr(Cache::class)->delete($one->ID, 'reviews');
+    expect(glsr_get_review($one->ID)->assigned_posts)->toBe([]);
 });
 
 test('deleting an assigned user unassigns them from every review that had them', function () {
     $userId = createUser();
     $review = createReview(['assigned_users' => $userId]);
+    expect(assignedUserIds($review->ID))->toBe([$userId]);
 
     wp_delete_user($userId);
 
+    expect(assignedUserIds($review->ID))->toBe([]);
+
+    glsr(Cache::class)->delete($review->ID, 'reviews');
     expect(glsr_get_review($review->ID)->assigned_users)->toBe([]);
 });
 
@@ -395,7 +444,7 @@ test('a response without its own nonce is not saved', function () {
         $review->ID, get_post($review->ID), get_post($review->ID)
     );
 
-    expect(glsr_get_review($review->ID)->response)->toBe('');
+    expect(glsr_get_review($review->ID)->response)->toBeEmpty(); // never written, so never read
 });
 
 /*
