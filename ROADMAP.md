@@ -15,6 +15,26 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ## Technical debt
 
+- [ ] **`NoticeController::dismissNotice()` will construct any class the browser names.**
+  It guards on `class_exists($notice)` and nothing else, then calls `glsr($notice)`,
+  which reflect-constructs the class through the container and resolves its constructor
+  arguments. The class name comes straight from `$_POST`, and `dismiss-notice` is in
+  `Router::unguardedAdminActions()` — so the route takes **no nonce**, and
+  `wp_ajax_glsr_admin_action` puts it within reach of **any logged-in user**, subscriber
+  included. There is no capability check either.
+
+  Confirmed by execution, and it is milder than it sounds: `glsr('WP_Query')` builds a
+  real `WP_Query` and then `->dismiss()` hits `WP_Query::__call()`, which shrugs and
+  returns false — nothing happens. What it costs depends entirely on whether some class
+  in the process has a side-effecting constructor and a signature the container can
+  resolve, and no such gadget has been demonstrated. So: hardening, not an exploit.
+
+  The shape of the fix is `is_subclass_of($notice, AbstractNotice::class)`, and probably
+  a capability check to go with it. Both are decisions, not obvious calls: the route is
+  unguarded on purpose (a nonce on a page served from a cache is somebody else's nonce),
+  and dismissing a notice is not a destructive act. Covered — as current behaviour, with
+  a comment saying so — by `tests/pest/Integration/NoticeTest.php`.
+
 - [ ] **`glsr_assigned_terms` is written with term taxonomy ids, not term ids.**
   `ReviewController::onAfterChangeAssignedTerms()` is hooked to WordPress's
   `set_object_terms`, whose 3rd and 6th arguments are `term_taxonomy_id`s
