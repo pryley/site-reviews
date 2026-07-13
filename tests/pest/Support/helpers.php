@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Tests;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Modules\Migrate;
 
 /*
  * Replacements for the pieces of WordPress core's test framework the phpunit
@@ -22,6 +21,10 @@ use GeminiLabs\SiteReviews\Modules\Migrate;
 /**
  * The port of the Setup trait (tests/phpunit/tests/Setup.php): a known-good
  * baseline of plugin settings, applied by Pest.php to the files that used it.
+ *
+ * It used to run the migrations as well, and no longer does — they run once, in
+ * bootstrap.php, which explains why. Nothing else here has changed: the settings
+ * are still put back to their defaults before every test that asks for it.
  */
 function resetPluginState(): void
 {
@@ -29,7 +32,6 @@ function resetPluginState(): void
     $_SERVER['SERVER_NAME'] = '';
     $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = referer();
     $defaults = Arr::unflatten(glsr()->defaults());
-    glsr(Migrate::class)->runAll();
     glsr(OptionManager::class)->replace($defaults);
 }
 

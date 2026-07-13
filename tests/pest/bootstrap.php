@@ -73,6 +73,28 @@ if (!defined('GLSR_TEST_MU_PLUGIN')) {
 // OUTSIDE the per-test transactions (DDL would implicitly commit one).
 glsr(\GeminiLabs\SiteReviews\Install::class)->run();
 
+/*
+ * And migrate, ONCE, here — for the same reason, and for two more.
+ *
+ * This used to live in resetPluginState(), which is the beforeEach of thirty-five test
+ * files. runAll() deletes the migrations option first, so every one of those tests
+ * re-ran all nineteen migrations from scratch and then rolled the whole thing back:
+ * roughly eight thousand migration runs a suite, against a database that (inside the
+ * transaction) had nothing in it to migrate, and whose settings changes were overwritten
+ * by the replace($defaults) on the very next line anyway. Measured: 61s -> 39s.
+ *
+ * Six of the migrations contain DDL (Migrate_6_0_0, Migrate_6_2_1, Migrate_7_0_0,
+ * Migrate_7_1_0, Migrate_8_0_0, Migrate_5_25_0/MigrateDatabase). Every one of them is
+ * guarded — "does this index already exist?" — so on an already-migrated database none
+ * of it fires, which is the only reason the per-test run was not implicitly COMMITting
+ * the transaction that isolates the tests from each other. Run from here it cannot,
+ * whatever those guards do in future.
+ *
+ * A test that wants a migration run runs it itself (Migrate_8_1_0Test does exactly
+ * that), and the Tools page's "Migrate Plugin" button has its own test.
+ */
+glsr(\GeminiLabs\SiteReviews\Modules\Migrate::class)->runAll();
+
 // Nothing may actually leave the test container.
 \GeminiLabs\SiteReviews\Tests\interceptMail();
 \GeminiLabs\SiteReviews\Tests\blockHttpRequests();

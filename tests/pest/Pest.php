@@ -25,8 +25,10 @@
  *
  * The Setup trait the phpunit suite mixed into six of its test cases is ported
  * as resetPluginState() (Support/helpers.php) and called from a beforeEach in
- * those same six files — not globally: running the migrations for all 320 tests
- * would be a needless cost.
+ * the files that need a known-good baseline of plugin settings — not globally,
+ * because replacing the whole options array is not free and most tests do not
+ * touch it. The migrations it used to run have moved to bootstrap.php, which
+ * says why.
  */
 
 use function GeminiLabs\SiteReviews\Tests\backupHooks;
