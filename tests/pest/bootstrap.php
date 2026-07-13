@@ -75,3 +75,4 @@ glsr(\GeminiLabs\SiteReviews\Install::class)->run();
 
 // Nothing may actually leave the test container.
 \GeminiLabs\SiteReviews\Tests\interceptMail();
+\GeminiLabs\SiteReviews\Tests\blockHttpRequests();

@@ -234,9 +234,92 @@ function sentMail(): array
     return mailbox()->getArrayCopy();
 }
 
+/**
+ * The recipients of one of those emails, as a list.
+ *
+ * array_values() is not decoration. EmailDefaults::finalize() drops the empty entries
+ * from `recipients` with Arr::removeEmptyValues(), which preserves the keys it does not
+ * remove — so a list that had a blank in the middle of it comes out with a hole in it.
+ * wp_mail() does not care; an assertion written as a list would.
+ *
+ * @return string[]
+ */
+function sentTo(int $index = 0): array
+{
+    $mail = sentMail();
+
+    return array_values((array) ($mail[$index]['to'] ?? []));
+}
+
 function emptyMailbox(): void
 {
     mailbox()->exchangeArray([]);
+}
+
+/**
+ * Nothing may leave the test container over HTTP either.
+ *
+ * `pre_http_request` is WordPress's own short-circuit and it runs before the URL is
+ * even validated, so it catches every request whatever the transport and whether or
+ * not it is blocking (wp-includes/class-wp-http.php). This one is registered LAST
+ * (priority 999) and only speaks when nothing else has: a test that means to make a
+ * request intercepts it at the default priority with interceptHttp(), and this hands
+ * back whatever that returned.
+ *
+ * Otherwise it is a WP_Error, and deliberately a loud one. A test that reaches the
+ * network is a test that is slow, that fails when somebody's wifi does, and that may
+ * be POSTing a fixture's contents to a real webhook — the notifications are one
+ * wp_safe_remote_post() away from doing exactly that.
+ *
+ * Registered once in bootstrap.php, so it is part of the hook baseline Pest.php
+ * snapshots and restores for every test.
+ */
+function blockHttpRequests(): void
+{
+    add_filter('pre_http_request', function ($response, $args, $url) {
+        if (false !== $response) {
+            return $response; // a test is intercepting this one on purpose
+        }
+        return new \WP_Error('http_request_failed', sprintf(
+            'The test suite does not make HTTP requests, and something tried to reach %s. '.
+            'If the code under test is meant to, intercept it with interceptHttp().',
+            $url
+        ));
+    }, 999, 3);
+}
+
+/**
+ * Every HTTP request the code under test makes, and a 200 in reply to each.
+ *
+ * @return \ArrayObject<int, array{url:string, args:array}>
+ */
+function interceptHttp(array $response = []): \ArrayObject
+{
+    $requests = new \ArrayObject();
+    add_filter('pre_http_request', function ($pre, $args, $url) use ($requests, $response) {
+        $requests->append(compact('args', 'url'));
+
+        return array_replace([
+            'body' => '',
+            'cookies' => [],
+            'filename' => null,
+            'headers' => [],
+            'http_response' => null,
+            'response' => ['code' => 200, 'message' => 'OK'],
+        ], $response);
+    }, 10, 3);
+
+    return $requests;
+}
+
+/**
+ * The body of an intercepted request, decoded.
+ */
+function sentJson(\ArrayObject $requests, int $index = 0): array
+{
+    $body = $requests[$index]['args']['body'] ?? '';
+
+    return json_decode((string) $body, true) ?? [];
 }
 
 /**
