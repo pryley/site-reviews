@@ -1,104 +1,133 @@
 <?php
 
+/*
+ * Polylang, as a WORKING fake rather than a signature-only stub — because Site Reviews does not
+ * merely check that Polylang is there, it calls into it and reads the answers back. A stub
+ * returning null proves only that the call compiles.
+ *
+ * Every function below delegates to GeminiLabs\SiteReviews\Tests\PolylangFake, which holds the
+ * state a test sets up: which post types are translated, what language a thing is in, and what
+ * its translations are. The semantics are Polylang's own, from its documented API — in
+ * particular that `$lang` DEFAULTS TO THE CURRENT LANGUAGE, which is the entire purpose of
+ * pll_get_post() and pll_get_term(), and which Site Reviews does not use.
+ */
+
 namespace {
+    use GeminiLabs\SiteReviews\Tests\PolylangFake;
+
     /**
      * Returns true if Polylang manages languages and translations for this post type.
      *
-     * @api
-     * @since 1.0.1
-     *
      * @param string $post_type Post type name.
+     *
      * @return bool
      */
     function pll_is_translated_post_type($post_type)
-    {}
+    {
+        return in_array($post_type, PolylangFake::$translatedPostTypes);
+    }
+
     /**
      * Returns true if Polylang manages languages and translations for this taxonomy.
      *
-     * @api
-     * @since 1.0.1
-     *
      * @param string $tax Taxonomy name.
+     *
      * @return bool
      */
     function pll_is_translated_taxonomy($tax)
-    {}
+    {
+        return in_array($tax, PolylangFake::$translatedTaxonomies);
+    }
+
     /**
-     * Among the post and its translations, returns the id of the post which is in the language represented by $lang.
-     *
-     * @api
-     * @since 0.5
+     * Among the post and its translations, returns the id of the post which is in the language
+     * represented by $lang.
      *
      * @param int    $post_id Post id.
-     * @param string $lang    Optional language code, defaults to the current language.
-     * @return int|false|null Post id of the translation if it exists, false otherwise, null if the current language is not defined yet.
+     * @param string $lang    Optional language code, DEFAULTS TO THE CURRENT LANGUAGE.
+     *
+     * @return int|false|null Post id of the translation if it exists, false otherwise.
      */
     function pll_get_post($post_id, $lang = '')
-    {}
+    {
+        return PolylangFake::translatedPost((int) $post_id, (string) $lang);
+    }
+
     /**
-     * Among the term and its translations, returns the ID of the term which is in the language represented by $lang.
-     *
-     * @api
-     * @since 0.5
-     * @since 3.4 Returns 0 instead of false.
-     * @since 3.4 $lang accepts PLL_Language or string.
-     *
-     * @param int                 $term_id Term ID.
-     * @param PLL_Language|string $lang    Optional language (object or slug), defaults to the current language.
-     * @return int|false The translation term ID if exists, otherwise the passed ID. False if the passed object has no language or if the language doesn't exist.
-     */
-    function pll_get_term($term_id, $lang = null)
-    {}
-    /**
-     * Returns the post language.
-     *
-     * @api
-     * @since 1.5.4
-     *
-     * @param int    $post_id Post id.
-     * @param string $field   Optional, the language field to return ( @see PLL_Language ), defaults to 'slug'.
-     * @return string|false The requested field for the post language, false if no language is associated to that post.
-     */
-    function pll_get_post_language($post_id, $field = 'slug')
-    {}
-    /**
-     * Returns the term language.
-     *
-     * @api
-     * @since 1.5.4
-     * @since 3.4 Accepts composite values for `$field`.
+     * Among the term and its translations, returns the ID of the term which is in the language
+     * represented by $lang.
      *
      * @param int    $term_id Term ID.
-     * @param string $field Optional, the language field to return (@see PLL_Language), defaults to `'slug'`.
-     *                      Pass `\OBJECT` constant to get the language object. A composite value can be used for language
-     *                      term property values, in the form of `{language_taxonomy_name}:{property_name}` (see
-     *                      {@see PLL_Language::get_tax_prop()} for the possible values). Ex: `term_language:term_taxonomy_id`.
-     * @return string|int|bool|string[]|PLL_Language The requested field or object for the post language, `false` if no language is associated to that term.
+     * @param string $lang    Optional language, defaults to the current language.
+     *
+     * @return int|false
+     */
+    function pll_get_term($term_id, $lang = null)
+    {
+        return PolylangFake::translatedTerm((int) $term_id, (string) $lang);
+    }
+
+    /**
+     * Returns the post language. NOT the current language — the language the post is in.
+     *
+     * @param int    $post_id Post id.
+     * @param string $field   Optional, the language field to return, defaults to 'slug'.
+     *
+     * @return string|false
+     */
+    function pll_get_post_language($post_id, $field = 'slug')
+    {
+        return PolylangFake::$postLanguages[(int) $post_id] ?? false;
+    }
+
+    /**
+     * Returns the term language. NOT the current language.
+     *
+     * @param int    $term_id Term ID.
+     * @param string $field   Optional, the language field to return, defaults to 'slug'.
+     *
+     * @return string|int|bool|string[]
      */
     function pll_get_term_language($term_id, $field = 'slug')
-    {}
+    {
+        return PolylangFake::$termLanguages[(int) $term_id] ?? false;
+    }
+
     /**
      * Returns an array of translations of a post.
      *
-     * @api
-     * @since 1.8
-     *
      * @param int $post_id Post id.
-     * @return int[] An associative array of translations with language code as key and translation post id as value.
+     *
+     * @return int[] An associative array of translations with language code as key.
      */
     function pll_get_post_translations($post_id)
-    {}
+    {
+        return PolylangFake::$postTranslations[(int) $post_id] ?? [];
+    }
+
     /**
      * Returns an array of translations of a term.
      *
-     * @api
-     * @since 1.8
-     *
      * @param int $term_id Term ID.
-     * @return int[] An associative array of translations with language code as key and translation term ID as value.
+     *
+     * @return int[] An associative array of translations with language code as key.
      */
     function pll_get_term_translations($term_id)
-    {}
+    {
+        return PolylangFake::$termTranslations[(int) $term_id] ?? [];
+    }
+
+    /**
+     * The language the visitor is looking at.
+     *
+     * @param string $field
+     *
+     * @return string
+     */
+    function pll_current_language($field = 'slug')
+    {
+        return PolylangFake::$currentLanguage;
+    }
 }
 namespace {
     \define('POLYLANG_VERSION', '2.3');

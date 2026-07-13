@@ -15,6 +15,23 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ## Technical debt
 
+- [ ] **Move Polylang and WPML into `/plugin/Integrations`.** They are the only two
+  third-party plugins the codebase reaches into from `/plugin/Modules` — everything
+  else that talks to somebody else's plugin (WooCommerce, Elementor, Divi, the other
+  thirty) lives under `Integrations/`, with its own `Hooks`, its own controller and
+  its own `isInstalled()`/version gate. `Modules/Multilingual/{Polylang,Wpml}.php`
+  predates that structure and is the odd one out.
+
+  It is not only tidiness. Coverage of `/plugin/Integrations` is measured separately
+  and never gated (`phpunit.integrations.xml`), precisely because it depends on code
+  that is not in the tree — which is exactly what these two are. Sitting under
+  `Modules`, they are counted against the gated figure while being untestable without
+  a fake, and they were at **3%** until this batch. The `MultilingualContract` +
+  `Multilingual` dispatcher can stay where it is; it is the two implementations that
+  belong beside the other thirty.
+
+  Found while fixing `Polylang::getPostId()`, which never translated anything.
+
 - [ ] **`NoticeController::dismissNotice()` will construct any class the browser names.**
   It guards on `class_exists($notice)` and nothing else, then calls `glsr($notice)`,
   which reflect-constructs the class through the container and resolves its constructor
