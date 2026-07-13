@@ -16,6 +16,7 @@ use function GeminiLabs\SiteReviews\Tests\createTerm;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\runsDdl;
 
 /*
  * Getting reviews out of the plugin and back in.
@@ -238,6 +239,7 @@ function importSettings(array $data): bool
 }
 
 test('importing settings replaces them', function () {
+    runsDdl(); // ImportSettings migrates the settings it imported, and Migrate_6_2_1 is DDL
     glsr(OptionManager::class)->set('settings.general.require.approval', 'yes');
 
     expect(importSettings([
@@ -255,6 +257,7 @@ test('an imported version number is discarded', function () {
     // The version in a settings file is the version of the site it came FROM, and
     // adopting it would tell the migration runner that migrations it has never run
     // are already done.
+    runsDdl(); // see above
     $version = glsr(OptionManager::class)->get('version');
 
     importSettings([

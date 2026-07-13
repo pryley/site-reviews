@@ -2,6 +2,7 @@
 
 use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
+use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Tests\InteractsWithAjax;
 use GeminiLabs\SiteReviews\Tests\InteractsWithExits;
@@ -403,11 +404,14 @@ test('the installer does not run again on a site that is already activated', fun
     expect($activated)->toBeFalse();
 });
 
-test('the migration is never scheduled while the suite is running', function () {
-    // scheduleMigration() bails on GLSR_UNIT_TESTS. Without that, every test that
-    // touched an admin screen would queue an Action Scheduler job against the same
-    // database — and the queue does not roll back.
+test('a migration is only scheduled on a site that needs one', function () {
+    // This used to bail on GLSR_UNIT_TESTS, and no longer does — there is nothing left for
+    // the constant to protect. bootstrap.php runs every migration once, so
+    // Migrate::isMigrationNeeded() is false and the method returns of its own accord,
+    // which is exactly what it does on a site that is already up to date.
+    set_current_screen('edit-'.glsr()->post_type);
+
     glsr(AdminController::class)->scheduleMigration();
 
-    expect(glsr(GeminiLabs\SiteReviews\Modules\Queue::class)->isPending('queue/migration'))->toBeFalse();
+    expect(glsr(Queue::class)->isPending('queue/migration'))->toBeFalse();
 });

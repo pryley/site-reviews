@@ -54,15 +54,31 @@ Every test — in every suite — runs inside a DB transaction that rolls
 back (see `Pest.php`). The plugin's settings live in the options table, so
 even a field-building test writes to the database.
 
-**Except `Import/`, and it cannot.** `TableTmp::create()`/`drop()` are DDL, and
-MySQL implicitly COMMITs the open transaction the moment it sees DDL — so
-`ProcessCsvFile` (which does `CREATE TABLE`) commits whatever the test has done
-by then, and the `ROLLBACK` finds nothing to undo. That suite therefore deletes
-its own reviews and users afterwards, with an explicit `COMMIT` so the rollback
-cannot take the cleanup with it. If it ever stops doing so, the symptom shows up
-in a *different suite*: `CommandTest` dies with "Sorry, that username already
-exists", because it is colliding with users a previous Import run committed for
-good.
+**A transaction cannot isolate a test that runs DDL.** MySQL implicitly COMMITs
+the open transaction the moment it sees `CREATE`/`ALTER`/`DROP TABLE`, so
+everything the test wrote up to that point becomes permanent and the `ROLLBACK`
+finds nothing to undo. Autocommit is off, so a fresh transaction opens
+immediately afterwards and the rest of the test still rolls back — which is why
+the damage is always a *partial* leak, and always lands somewhere else: a later
+run, in a different file, dying with "Sorry, that username already exists"
+because `user_login` is unique and the leaked user is still there.
+
+`Pest.php` catches this. Every test writes a sentinel row inside its transaction
+and checks, after the `ROLLBACK`, whether the row survived. If it did, the test
+committed, and it is failed by name.
+
+Four tests do it legitimately and say so with `runsDdl()`, which purges the
+leaked rows instead of failing:
+
+- all of `Import/` — `TableTmp::create()`/`drop()` are DDL, and an import cannot
+  happen without them. That suite also cleans up in its own `afterEach`, with an
+  explicit `COMMIT` so the rollback cannot take the cleanup with it.
+- `ExportImportTest` ×2 and `ToolsAjaxTest` ×1, the three tests that reach
+  `Migrate::runAll()` (from `ImportSettings` and from `MigratePlugin`).
+  `Migrate_6_2_1` drops and re-adds the assignment tables' foreign constraints
+  on InnoDB on every run, unconditionally — it repairs a PRIMARY index that
+  `Migrate_6_0_0` got wrong on MariaDB, and does not first check whether there
+  is anything to repair. The migrations are idempotent in effect, not in DDL.
 
 ## Running
 

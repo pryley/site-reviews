@@ -221,21 +221,20 @@ test('an ordinary post changing status is not mistaken for a review', function (
 /*
  * Deletion.
  *
- * WordPress will delete a post or a user without asking the plugin, and glsr_assigned_
- * posts.post_id and glsr_assigned_users.user_id are foreign keys onto wp_posts.ID and
- * wp_users.ID — declared ON DELETE CASCADE (AbstractTable::addForeignConstraint).
+ * WordPress will delete a post or a user without asking the plugin. On InnoDB the
+ * assigned_posts, assigned_users and ratings rows have ON DELETE CASCADE foreign keys, so
+ * the DATABASE tidies itself up — but it cannot touch the object cache, and the reviews
+ * are cached with no expiry (Query::review -> Cache::store). On a site with a persistent
+ * object cache a deleted review would sit in Redis for ever, and so would the stale
+ * assigned-page list of every review that pointed at a deleted page.
  *
- * So on InnoDB the rows are already gone by the time `deleted_post` fires, and
- * ReviewController::onDeletePost() finds nothing to delete. It is not redundant: the
- * constraint is only added when the referenced table is InnoDB, and a site whose tables
- * were migrated to MyISAM has no cascade at all. The controller's docblocks say as much
- * — "and the posts table uses the MyISAM engine".
+ * So the four deletion hooks are registered on EVERY engine now, and the affected review
+ * ids are captured on `before_delete_post` / `delete_user` — because by the time
+ * `deleted_post` fires, the cascade has removed the very rows the lookup would join
+ * against, and the query comes back empty.
  *
- * Which is why these tests read the table rather than the Review object. The Review
- * objects are cached for the request (Database\Cache), and the controller only flushes
- * the cache of the reviews whose rows IT deleted — which, on InnoDB, is none of them.
- * Nothing notices in production, because the next read of those reviews is the next
- * request; a test doing both in one process would be asserting on a stale object.
+ * These tests therefore assert on BOTH: the table (which the cascade clears) and the
+ * cached Review object (which only the plugin can clear).
  */
 
 /**
@@ -264,9 +263,27 @@ function assignedUserIds(int $reviewId): array
     )));
 }
 
-test('deleting a review deletes its rating', function () {
+test('the deletion hooks are registered whatever the storage engine', function () {
+    // They used to be registered only on MyISAM, on the reasoning that InnoDB's cascade
+    // does the work. It does — the rows go. The CACHE does not, and nothing else purged
+    // it. That is the whole of the bug these tests are here for.
+    $controller = glsr(ReviewController::class);
+
+    foreach ([
+        'before_delete_post' => 'onBeforeDeletePost',
+        'deleted_post' => 'onDeletePost',
+        'delete_user' => 'onBeforeDeleteUser',
+        'deleted_user' => 'onDeleteUser',
+    ] as $hook => $method) {
+        expect(has_action($hook))->not->toBeFalse("nothing is registered on {$hook}");
+        expect(method_exists($controller, $method))->toBeTrue();
+    }
+});
+
+test('deleting a review deletes its rating, and takes it out of the cache', function () {
     $review = createReview();
     expect($review->rating_id)->toBeGreaterThan(0);
+    expect(glsr_get_review($review->ID)->isValid())->toBeTrue(); // and it is cached now
 
     wp_delete_post($review->ID, true);
 
@@ -278,30 +295,40 @@ test('deleting an assigned page unassigns it from every review that had it', fun
     $one = createReview(['assigned_posts' => $postId]);
     $two = createReview(['assigned_posts' => $postId]);
     expect(assignedPostIds($one->ID))->toBe([$postId]);
+    expect(glsr_get_review($two->ID)->assigned_posts)->toBe([$postId]); // cache them both
 
     wp_delete_post($postId, true);
 
-    expect(assignedPostIds($one->ID))->toBe([]);
-    expect(assignedPostIds($two->ID))->toBe([]);
+    // the cascade cleared the table…
+    expect(assignedPostIds($one->ID))->toBe([])
+        ->and(assignedPostIds($two->ID))->toBe([]);
+    // …and the plugin cleared the cache, which is the half the cascade cannot do
+    expect(glsr_get_review($one->ID)->assigned_posts)->toBe([])
+        ->and(glsr_get_review($two->ID)->assigned_posts)->toBe([]);
     expect(glsr_get_review($one->ID)->isValid())->toBeTrue(); // the reviews themselves survive
-
-    // and the next time the review is read — which in production is the next request —
-    // it no longer claims the page
-    glsr(Cache::class)->delete($one->ID, 'reviews');
-    expect(glsr_get_review($one->ID)->assigned_posts)->toBe([]);
 });
 
 test('deleting an assigned user unassigns them from every review that had them', function () {
     $userId = createUser();
     $review = createReview(['assigned_users' => $userId]);
-    expect(assignedUserIds($review->ID))->toBe([$userId]);
+    expect(glsr_get_review($review->ID)->assigned_users)->toBe([$userId]);
 
     wp_delete_user($userId);
 
     expect(assignedUserIds($review->ID))->toBe([]);
-
-    glsr(Cache::class)->delete($review->ID, 'reviews');
     expect(glsr_get_review($review->ID)->assigned_users)->toBe([]);
+});
+
+test('deleting an ordinary post that no review is about costs one query and nothing else', function () {
+    // before_delete_post fires for every post on the site, and for every REVISION of every
+    // post — deleting one page deletes all of its revisions, each firing the hook. A
+    // revision cannot be assigned anything, so it is skipped rather than looked up.
+    $postId = createPost();
+
+    glsr(ReviewController::class)->onBeforeDeletePost($postId, get_post($postId));
+    wp_delete_post($postId, true);
+
+    expect(get_post($postId))->toBeNull();
 });
 
 /*

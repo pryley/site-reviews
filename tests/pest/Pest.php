@@ -32,22 +32,60 @@
  */
 
 use function GeminiLabs\SiteReviews\Tests\backupHooks;
+use function GeminiLabs\SiteReviews\Tests\ddlWasDeclared;
 use function GeminiLabs\SiteReviews\Tests\emptyMailbox;
+use function GeminiLabs\SiteReviews\Tests\purgeCommittedRows;
 use function GeminiLabs\SiteReviews\Tests\resetRequestState;
 use function GeminiLabs\SiteReviews\Tests\restoreHooks;
 
+/*
+ * The name of the current test's sentinel row (see the afterEach below). It is held here
+ * rather than on $this, because $this is PHPUnit's TestCase and a property it does not
+ * declare is a dynamic property, which PHP 8.2 deprecates.
+ */
+$sentinel = new stdClass();
+
 uses()
-    ->beforeEach(function () {
+    ->beforeEach(function () use ($sentinel) {
         global $wpdb;
         $wpdb->query('SET autocommit = 0');
         $wpdb->query('START TRANSACTION');
+        $sentinel->name = 'glsr_sentinel_'.uniqid();
+        $wpdb->insert($wpdb->options, [
+            'option_name' => $sentinel->name,
+            'option_value' => '1',
+            'autoload' => 'no',
+        ]);
         backupHooks();
         emptyMailbox();
     })
-    ->afterEach(function () {
+    ->afterEach(function () use ($sentinel) {
         global $wpdb;
         $wpdb->query('ROLLBACK');
         $wpdb->query('SET autocommit = 1');
+        // The tripwire. The sentinel was written INSIDE the transaction, so a rollback
+        // must take it away with everything else. If it is still there, the transaction
+        // was committed while the test was running, every row the test wrote before that
+        // point is now permanent, and the next test that asks for the same username or
+        // slug will fail somewhere else entirely — which is exactly how this was found.
+        //
+        // DDL is what does it: MySQL commits the open transaction implicitly on CREATE,
+        // ALTER and DROP TABLE. So does an explicit START TRANSACTION.
+        //
+        // A test that MEANS to do this says so with runsDdl() — the Import suite, whose
+        // TableTmp is created and dropped per import, and the three tests that reach
+        // Migrate::runAll(). Those are cleaned up by hand instead of being failed.
+        $committed = (bool) $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name = %s", $sentinel->name
+        ));
+        if ($committed) {
+            $wpdb->delete($wpdb->options, ['option_name' => $sentinel->name]);
+        }
+        $declared = ddlWasDeclared();
+        ddlWasDeclared(false);
+        if ($committed && $declared) {
+            purgeCommittedRows(); // autocommit is back on, so this sticks
+        }
         restoreHooks();
         resetRequestState();
         wp_cache_flush();
@@ -58,5 +96,13 @@ uses()
         // role, so it has to be dropped — WP_Roles::for_site() re-reads the option
         // when the global is rebuilt.
         unset($GLOBALS['wp_roles']);
+        if ($committed && !$declared) {
+            throw new RuntimeException(
+                'This test COMMITTED its transaction — the rows it wrote before that point '.
+                'are now permanent, and will break a later test, in a later run, in another '.
+                'file. Something it called ran DDL (CREATE/ALTER/DROP TABLE) or issued its '.
+                'own START TRANSACTION. If that is intended, declare it with runsDdl().'
+            );
+        }
     })
     ->in('Unit', 'Integration', 'ThirdParty', 'Import');

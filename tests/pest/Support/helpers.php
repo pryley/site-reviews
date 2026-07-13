@@ -36,6 +36,77 @@ function resetPluginState(): void
 }
 
 /**
+ * Declares that this test WILL commit the per-test transaction, and that this is
+ * expected rather than a bug.
+ *
+ * MySQL commits the open transaction implicitly the moment it sees DDL, so a test that
+ * reaches CREATE, ALTER or DROP TABLE cannot be isolated by a transaction — everything
+ * it wrote up to that point becomes permanent. Pest.php watches for that with a sentinel
+ * row and fails any test it catches doing it, because the damage lands somewhere else
+ * entirely: the leaked user breaks the NEXT run, in a different file, with "Sorry, that
+ * username already exists".
+ *
+ * Three tests do it legitimately, and all three run the migrations:
+ *
+ *   Migrate_6_2_1::migrateDatabaseIndexes() drops and re-adds the foreign constraints of
+ *   the three assignment tables on every run, on InnoDB, unconditionally — it repairs a
+ *   PRIMARY index that 6_0_0 got wrong on MariaDB, and it does not first check whether
+ *   there is anything to repair. Migrate::runAll() is reached from ImportSettings (the
+ *   imported settings may be older than the schema) and from MigratePlugin.
+ *
+ * A test that declares this is purged after it — see purgeCommittedRows() — instead of
+ * being failed. The declaration is per-test; Pest.php clears it.
+ */
+function runsDdl(): void
+{
+    ddlWasDeclared(true);
+}
+
+/**
+ * The flag runsDdl() sets, which Pest.php reads and then clears. Not for use in a test:
+ * a test says runsDdl(), and says it plainly.
+ */
+function ddlWasDeclared(?bool $set = null): bool
+{
+    static $declared = false;
+    if (null !== $set) {
+        $declared = $set;
+    }
+    return $declared;
+}
+
+/**
+ * Undoes by hand what the rollback could not, for a test that ran DDL.
+ *
+ * Only the rows written BEFORE the DDL are permanent: autocommit is off, so MySQL opens
+ * a fresh transaction the moment the implicit commit lands, and everything after it still
+ * rolls back. In practice that means the user a beforeEach created, which is the one that
+ * collides — user_login is unique and the review posts are not.
+ *
+ * Reviews are taken too, because they are counted. The three assignment tables and the
+ * ratings table cascade from the review posts (ON DELETE CASCADE), so deleting the posts
+ * empties all four.
+ */
+function purgeCommittedRows(): void
+{
+    global $wpdb;
+    $wpdb->query($wpdb->prepare(
+        "DELETE FROM {$wpdb->posts} WHERE post_type = %s", glsr()->post_type
+    ));
+    $wpdb->query(
+        "DELETE pm FROM {$wpdb->postmeta} pm
+         LEFT JOIN {$wpdb->posts} p ON (p.ID = pm.post_id)
+         WHERE p.ID IS NULL"
+    );
+    $wpdb->query("DELETE FROM {$wpdb->users} WHERE ID > 1"); // 1 is the wp-env admin
+    $wpdb->query(
+        "DELETE um FROM {$wpdb->usermeta} um
+         LEFT JOIN {$wpdb->users} u ON (u.ID = um.user_id)
+         WHERE u.ID IS NULL"
+    );
+}
+
+/**
  * The referer the Setup trait pinned every request to.
  */
 function referer(): string

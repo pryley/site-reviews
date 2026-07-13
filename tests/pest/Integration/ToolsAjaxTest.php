@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Tests\InteractsWithAjax;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\runsDdl;
 
 uses(InteractsWithAjax::class);
 
@@ -108,7 +109,10 @@ test('resetting the assigned meta reports back', function () {
 
 test('the plugin can be migrated', function () {
     // The migration runner is idempotent — this is the tool a person reaches for when
-    // something looks wrong after an upgrade.
+    // something looks wrong after an upgrade. It is idempotent in EFFECT, not in DDL:
+    // Migrate_6_2_1 drops and re-adds the assignment tables' foreign constraints every
+    // time, and DDL commits the transaction out from under the test.
+    runsDdl();
     $response = $this->jsonSentBy(fn () => glsr(ToolsController::class)->migratePluginAjax(new Request()));
 
     expect($response['success'])->toBeTrue();
