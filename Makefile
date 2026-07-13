@@ -199,6 +199,35 @@ test\:file: env-check ## Run one test file (FILE=…), or the tests in it matchi
 test\:profile: env-check ## Show the slowest tests in the suite
 	$(WPENV) env XDEBUG_MODE=off vendor/bin/pest --test-directory=tests/pest --colors=always --profile
 
+# Shuffles the tests WITHIN each suite, so that anything leaning on state a previous test
+# happened to leave behind falls over.
+#
+# It is not hypothetical. A block test asserted that the review form renders, and passed —
+# because the test before it had logged somebody in. It only failed when the order changed.
+# A test that inherits the current user, the plugin settings, a transient or a container
+# binding is not testing what its name says.
+#
+# EACH SUITE IS A SEPARATE PROCESS, and that is not a detail. Shuffling all four suites
+# together in one process moves Import out of last place — and Import defines WP_IMPORTING,
+# which cannot be unset and which suppresses avatars, verification emails, geolocation,
+# notifications and cache flushes for the remainder of the process. The first version of this
+# target did exactly that and reported forty-one "leaking" tests, almost none of which were
+# leaking anything: ThirdParty/CacheTest said so on line 47, in as many words.
+#
+# So: shuffle inside a suite, never across them. The seed is shared, so a failure is
+# reproducible in full with:
+#
+#   make test:random SEED=1234
+.PHONY: test\:random
+test\:random: env-check ## Run each suite in a random order, to find tests that leak state
+	@seed="$(if $(SEED),$(SEED),$$(od -An -N2 -tu2 < /dev/urandom | tr -d ' '))"; \
+	printf '\nRandom order seed: %s   (reproduce with: make test:random SEED=%s)\n' "$$seed" "$$seed"; \
+	for suite in Unit Integration ThirdParty Import; do \
+		printf '\n─── %s ───\n' "$$suite"; \
+		$(WPENV) env XDEBUG_MODE=off vendor/bin/pest --test-directory=tests/pest --colors=always \
+			--testsuite="$$suite" --order-by=random --random-order-seed="$$seed" || exit 1; \
+	done
+
 .PHONY: test\:import
 test\:import: env-check ## Run only the Import suite inside wp-env (runs last: it defines WP_IMPORTING)
 	$(WPENV) env XDEBUG_MODE=off composer test:import
