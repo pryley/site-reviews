@@ -173,3 +173,95 @@ test('an addon that has never been checked is checked', function () {
     expect((int) get_site_option(glsr()->prefix.'last_checked_site-reviews-images'))
         ->toBeGreaterThan(0); // and the clock started
 });
+
+/*
+ * The older addons, which WordPress cannot see at all.
+ *
+ * An addon released before the `Update URI` header existed is invisible to WordPress's own update
+ * machinery: there is nothing on wordpress.org, and no header to point anywhere else. So the plugin
+ * puts them into the update transient BY HAND, from the `compat` register.
+ *
+ * Which means writing into WordPress's own data structure, and the two lists in it are not
+ * interchangeable:
+ *
+ *   response    "there is a newer version" — this is what puts the update row on the plugins screen.
+ *   no_update   "I asked, and there is not" — this is what stops WordPress asking again.
+ *
+ * An addon in NEITHER list is one WordPress will go on asking about, on every page load, for ever.
+ */
+
+/**
+ * The test addon fixture, standing in for an addon installed on the site — because the thing under
+ * test reads the plugin's real header off disk (get_file_data) to find out which version is
+ * installed, and a made-up path would answer with nothing.
+ */
+function compatAddon(): string
+{
+    $file = glsr()->path('tests/pest/fixtures/site-reviews-test-addon/site-reviews-test-addon.php');
+    glsr()->append('compat', $file, 'site-reviews-test-addon');
+
+    return $file;
+}
+
+function emptyUpdateTransient(): object
+{
+    return (object) ['checked' => [], 'no_update' => [], 'response' => []];
+}
+
+test('an empty update transient is handed straight back', function () {
+    // site_transient_update_plugins fires very early, and on a fresh site the transient is false.
+    // Iterating it would be iterating a boolean.
+    expect(glsr(UpdateController::class)->filterUpdatePluginsTransient(false))->toBeFalse();
+    expect(glsr(UpdateController::class)->filterUpdatePluginsTransient(null))->toBeNull();
+});
+
+test('an older addon with a newer version is put on the plugins screen by hand', function () {
+    $file = compatAddon();
+    interceptHttp(versionReply([
+        'new_version' => '9.9.9', // the fixture's own header says 2.3.4
+        'package' => 'https://updates.example.org/addon.zip',
+    ]));
+
+    $updates = glsr(UpdateController::class)->filterUpdatePluginsTransient(emptyUpdateTransient());
+
+    $plugin = plugin_basename($file);
+    expect($updates->response)->toHaveKey($plugin)
+        ->and($updates->response[$plugin]->new_version)->toBe('9.9.9')
+        ->and($updates->response[$plugin]->plugin)->toBe($plugin)
+        ->and($updates->checked[$plugin])->toBe('2.3.4'); // read from the addon's own header
+});
+
+test('and one that is already up to date is recorded as needing no update', function () {
+    // no_update, not response. The distinction is what stops WordPress asking about this addon on
+    // every single page load for the rest of the site's life.
+    $file = compatAddon();
+    interceptHttp(versionReply([
+        'new_version' => '1.0.0', // older than the 2.3.4 that is installed
+        'package' => 'https://updates.example.org/addon.zip',
+    ]));
+
+    $updates = glsr(UpdateController::class)->filterUpdatePluginsTransient(emptyUpdateTransient());
+
+    $plugin = plugin_basename($file);
+    expect($updates->no_update)->toHaveKey($plugin)
+        ->and($updates->response)->not->toHaveKey($plugin);
+});
+
+test('a server that answers with no version leaves the transient exactly as it was', function () {
+    // The licence server does not know this addon, or has nothing to say about it. WordPress goes
+    // on believing whatever it believed — an addon must not disappear from the plugins screen
+    // because a request came back empty.
+    //
+    // A 200 with an empty body, NOT a 500: Api retries a 5xx with a backoff of roughly a second,
+    // then 1.6, then 2.6, then 4.1, which is correct behaviour (and is tested in ApiTest) and made
+    // this one test take nine and a half seconds. The claim here is about an empty ANSWER, not
+    // about a broken server, and an empty answer is not retried.
+    compatAddon();
+    interceptHttp(['body' => (string) wp_json_encode([])]);
+
+    $updates = glsr(UpdateController::class)->filterUpdatePluginsTransient(emptyUpdateTransient());
+
+    expect($updates->response)->toBe([])
+        ->and($updates->no_update)->toBe([])
+        ->and($updates->checked)->toBe([]);
+});
