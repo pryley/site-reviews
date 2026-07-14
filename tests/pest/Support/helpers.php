@@ -80,6 +80,73 @@ function commitsTransaction(): void
 }
 
 /**
+ * The Application's STORAGE, as it is the moment the plugin has finished booting — which is the
+ * state every real request begins in, and therefore the state every test should begin in.
+ *
+ * The Storage trait (plugin/Storage.php) is an Arguments object hanging off the Application
+ * singleton. It is not the database, not an option and not a hook, so nothing else in the teardown
+ * touches it — and TWENTY different registers are written to it across the plugin:
+ *
+ *   filled at BOOT, and expected to be there    addons, columns, columns_hidden, compat, mce,
+ *                                               review_types, shortcodes, settings
+ *   filled DURING a request, and expected NOT   deprecated, glsr_create_review, glsr_update_review,
+ *                                               licensed, monthly, notices, paged_handle, retired,
+ *                                               schemas, site-reviews-premium, use_modal
+ *
+ * Both halves leak, and the second half leaks DANGEROUSLY. Three found the hard way:
+ *
+ *   paged_handle        NormalizePaginationArgs reads `page` out of it on EVERY review query, so a
+ *                       stale one makes every shortcode, block and widget in the process believe it
+ *                       is on page 2 of a list it has never seen. They print "There are no reviews
+ *                       yet", in other files, saying nothing about pagination.
+ *   review_types        the type dropdown is only drawn when a site has more than one kind of
+ *                       review, so a test that adds `google` makes it appear for every test after.
+ *   glsr_create_review  ReviewManager::postStatus() reads this to decide whether a review came from
+ *                       a person filling in a form. Leaked, it is WP_IMPORTING all over again.
+ *
+ * So the whole thing is snapshotted once, after boot, and put back between tests — rather than
+ * kept as a hand-written list of registers, which would always be one bug behind the plugin.
+ */
+function snapshotStorage(): void
+{
+    storageSnapshot(glsr()->storage()->getArrayCopy());
+}
+
+/**
+ * `settings` is the one register with an OWNER, and it is not this.
+ *
+ * OptionManager memoises the site's settings there and re-reads them from the database in
+ * resetGlobalState() — which runs BEFORE this does. Restoring the boot-time copy over the top would
+ * undo that refresh and hand every test the settings as they were when the process started, not as
+ * the test's own resetPluginState() left them. (Found by NoticeTest, which reads
+ * version_upgraded_from to tell a new site from an upgraded one.)
+ *
+ * So it is left exactly as OptionManager put it, and everything else is restored around it.
+ */
+function restoreStorage(): void
+{
+    $storage = glsr()->storage();
+    $settings = $storage->get('settings');
+    $storage->exchangeArray(storageSnapshot());
+    if (!is_null($settings)) {
+        $storage->set('settings', $settings);
+    }
+}
+
+/**
+ * @param array|null $set
+ */
+function storageSnapshot(?array $set = null): array
+{
+    static $snapshot = [];
+    if (null !== $set) {
+        $snapshot = $set;
+    }
+
+    return $snapshot;
+}
+
+/**
  * Said by a test that will cause WP_IMPORTING to be defined.
  *
  * define() cannot be undone, and the plugin reads WP_IMPORTING in fourteen places to mean
@@ -457,25 +524,10 @@ function resetGlobalState(): void
     glsr()->bind(\GeminiLabs\SiteReviews\Modules\Queue::class, NullQueue::class, true);
     glsr()->bind(\GeminiLabs\SiteReviews\License::class, \GeminiLabs\SiteReviews\License::class, true);
 
-    // Two registers in the container that a test can write to and nothing else clears. Neither is
-    // in the database, the hooks or the request, so the transaction, restoreHooks() and
-    // resetRequestState() all leave them exactly as the last test left them.
-    //
-    //   notices    AbstractNotice::canRender() writes `rendered => true` here to enforce "one
-    //              banner per admin page". A test that renders a banner would otherwise forbid
-    //              every banner in every test after it.
-    //   licensed   the premium addons that declared `const LICENSED = true`. A test that pretends
-    //              to install one would otherwise leave a free site holding a licensed addon —
-    //              which changes License::status(), the licence banners and the settings page.
-    //
-    // Both are per-page-load state on a real site, so emptying them is the true baseline: this
-    // suite installs no premium addons and starts every request with no notices rendered.
-    //   retired / site-reviews-premium   the addons Application::register() turned away. Both
-    //              drive a non-dismissible admin notice, so a test that plants one would put an
-    //              undismissable error across the top of every admin screen in every later test.
-    foreach (['licensed', 'notices', 'retired', 'site-reviews-premium'] as $register) {
-        glsr()->store($register, []);
-    }
+    // The Application's whole STORAGE, back to how a freshly booted request has it. Twenty
+    // registers live in there and none of them is in the database, the hooks or the request, so
+    // nothing else in this teardown reaches them. See snapshotStorage().
+    restoreStorage();
 
     // Application::$settings is the settings CONFIG (the fields, not their values), memoised on
     // the container itself and built once per request. Application::license() appends a licence

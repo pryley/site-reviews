@@ -26,6 +26,30 @@
 
 define('GLSR_UNIT_TESTS', true);
 
+/*
+ * THE SUITE DOES NOT USE THE NETWORK. This is the belt to blockHttpRequests()'s braces.
+ *
+ * blockHttpRequests() (below, after wp-load) turns any un-intercepted request into a WP_Error that
+ * names the URL and says what to do about it. That is the message anybody will actually see, and it
+ * is worth keeping — but it is a FILTER, and a filter can be removed. A test calling
+ * remove_all_filters('pre_http_request'), or a bug in restoreHooks(), would quietly reopen the
+ * network, and nobody would find out until the suite was slow on a train.
+ *
+ * WP_HTTP_BLOCK_EXTERNAL is checked inside WP_Http::request() itself, AFTER the pre_http_request
+ * filter has had its say. So the friendly message still wins while the filter is in place, and this
+ * catches everything if it ever is not. WP_ACCESSIBLE_HOSTS is empty on purpose: not one host is
+ * allowed through, not even wordpress.org.
+ *
+ * Everything the plugin really talks to — the licence server, the update server, the geolocation
+ * API, all seven CAPTCHA services, the tutorials API — is mocked per test with interceptHttp(),
+ * which short-circuits before either guard. Mail is intercepted the same way.
+ *
+ * Defined BEFORE wp-load.php, because WordPress reads them at request time.
+ */
+define('WP_HTTP_BLOCK_EXTERNAL', true);
+define('WP_ACCESSIBLE_HOSTS', '');
+
+
 $root = rtrim((string) (getenv('WP_ROOT') ?: '/var/www/html'), '/');
 if (!file_exists("{$root}/wp-load.php")) {
     fwrite(STDOUT, implode(PHP_EOL, [
@@ -114,6 +138,21 @@ glsr(\GeminiLabs\SiteReviews\Install::class)->run();
  * that), and the Tools page's "Migrate Plugin" button has its own test.
  */
 glsr(\GeminiLabs\SiteReviews\Modules\Migrate::class)->runAll();
+
+/*
+ * The Application's storage, as a fresh request has it.
+ *
+ * The Storage trait is an Arguments object on the Application singleton — not the database, not an
+ * option, not a hook — so nothing in Pest.php's teardown reaches it, and twenty different registers
+ * are written to it across the plugin. Half are filled at boot and are expected to be there
+ * (shortcodes, columns, review_types); half are filled during a request and are expected NOT to be
+ * (paged_handle, schemas, notices, glsr_create_review).
+ *
+ * Both halves leak between tests. So the whole thing is photographed HERE, once the plugin has
+ * finished booting and before any test has run, and restoreStorage() puts it back after every test.
+ * See snapshotStorage() in Support/helpers.php for the three leaks that made this necessary.
+ */
+\GeminiLabs\SiteReviews\Tests\snapshotStorage();
 
 /*
  * The last run may have crashed out, or leaked. A test that COMMITs its transaction — see

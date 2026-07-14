@@ -31,12 +31,8 @@ beforeEach(function () {
     resetPluginState();
 });
 
-afterEach(function () {
-    // `review_types` is a container register, and nothing else resets it. A test that adds one
-    // would otherwise leave it there for the rest of the process — and the review type filter on
-    // the list table reads exactly this.
-    glsr(MainController::class)->registerReviewTypes();
-});
+// `review_types` needs no cleanup here: the Application's whole storage is snapshotted after boot
+// and restored after every test (see snapshotStorage() in Support/helpers.php).
 
 /*
  * The review types.

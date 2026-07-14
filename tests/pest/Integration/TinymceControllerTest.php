@@ -31,13 +31,13 @@ beforeEach(function () {
     resetPluginState();
     wp_set_current_user(createUser(['role' => 'administrator']));
     $this->setUpAjax();
-    glsr()->store('mce', []); // a container register, and nothing else resets it
+    // `mce` is a container register filled on admin_init. It needs no cleanup here — the whole
+    // storage is snapshotted after boot and restored after every test (see snapshotStorage()).
 });
 
 afterEach(function () {
     $this->tearDownAjax();
     set_current_screen('front');
-    glsr()->store('mce', []);
 });
 
 /*
