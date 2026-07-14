@@ -2,11 +2,17 @@
 PLUGIN ?= $(notdir $(CURDIR))
 VERSION ?= $(shell perl -lne 'm{Stable tag: .*?(.+)} and print $$1' readme.txt)
 
-# PHP tooling that loads vendor/ runs INSIDE the wp-env cli container: the
-# composer dependencies are installed there (PHP 8.3, see `make test:install`)
-# and Pest needs a PHP the host may not have. The tests need a real WordPress
-# anyway, which is what wp-env provides.
-WPENV ?= npx @wordpress/env run cli --env-cwd=wp-content/plugins/$(PLUGIN)
+# wp-env, and deliberately NOT `npx @wordpress/env`.
+#
+# npx resolves the package against the npm REGISTRY before it runs anything, even when the package
+# is already in its cache. So every target in this file reached out to the network -- and with no
+# network it did not fail, it HUNG, which is the worst of the three things it could have done.
+#
+# The locally installed binary is used when it is there, and npx is the fallback for somebody who
+# has not run `npm install` yet. Once installed, nothing in this Makefile touches the network except
+# `make env:update`, which is supposed to.
+WPENV_BIN ?= $(shell test -x node_modules/.bin/wp-env && printf 'node_modules/.bin/wp-env' || printf 'npx @wordpress/env')
+WPENV ?= $(WPENV_BIN) run cli --env-cwd=wp-content/plugins/$(PLUGIN)
 
 .PHONY: analyse
 analyse: env-check ## Run phpstan analyser (inside wp-env)
@@ -95,24 +101,30 @@ env-check: docker-check
 	}
 	@docker ps --format '{{.Names}}' | grep -q '$(PLUGIN).*cli' || { \
 		printf '\nwp-env is not running — starting it…\n\n'; \
-		npx @wordpress/env start; \
+		$(WPENV_BIN) start; \
 	}
 
-# `.wp-env.json` sets "core": null, which wp-env documents as "the latest
-# production release of WordPress". That is resolved ONCE, when the environment is
-# first created, and never looked at again: "wp-env will not update or
-# re-configure the environment except when the configuration file changes."
+# WordPress is PINNED in .wp-env.json, and this is the only thing that moves the pin.
 #
-# So the suite is pinned to whatever WordPress was current on the day the container
-# was built, and it will happily stay there for a year without saying so. Run this
-# before a release, and any time a WordPress version is part of the question.
+# `"core": null` means "the latest release", which sounds like what anybody would want — and it
+# makes `wp-env start` phone api.wordpress.org EVERY TIME, to ask what that is. So the suite could
+# not start on a train, and two people running it on the same commit on the same day could be
+# testing against different WordPresses without either of them knowing.
 #
-# --update downloads the new sources and re-applies the config. It does NOT delete
-# content — `wp-env reset` and `wp-env destroy` are the ones that do that.
+# Pinned, `wp-env start` is offline (the zip is cached in ~/.wp-env after the first fetch) and
+# reproducible. The version moves when somebody DECIDES it should, which is what this does: ask
+# wordpress.org what the current release is, write it into .wp-env.json, and rebuild.
+#
+# Nothing else in the suite touches the network. See tests/pest/bootstrap.php.
 .PHONY: env\:update
-env\:update: docker-check ## Update WordPress to the latest production release
-	npx @wordpress/env start --update
+env\:update: docker-check ## Move WordPress to the latest production release (the ONLY thing that needs the internet)
+	@latest="$$(curl -fsS https://api.wordpress.org/core/version-check/1.7/ | perl -lne 'm{"current":"([^"]+)"} and print $$1 and exit')"; \
+	test -n "$$latest" || { printf '\nCould not reach wordpress.org to ask what the latest release is.\n\n'; exit 1; }; \
+	printf '\nPinning WordPress to %s\n\n' "$$latest"; \
+	perl -i -pe "s{\"core\": \".*\"}{\"core\": \"https://wordpress.org/wordpress-$$latest.zip\"}" .wp-env.json
+	$(WPENV_BIN) start --update
 	@$(MAKE) --no-print-directory env:info
+	@printf 'Commit .wp-env.json to pin this for everybody.\n\n'
 
 .PHONY: env\:info
 env\:info: env-check ## What is the suite actually running against?
@@ -163,7 +175,7 @@ test\:all: ## Run the analyser, the full suite with coverage, and the compat che
 
 .PHONY: test\:coverage
 test\:coverage: env-check ## Run the suite with coverage of the PLUGIN, gated at 80% (restarts wp-env with Xdebug)
-	npx @wordpress/env start --xdebug=coverage
+	$(WPENV_BIN) start --xdebug=coverage
 	$(WPENV) env XDEBUG_MODE=coverage composer test:coverage
 
 # Coverage of ONE part of the plugin, measured against the WHOLE suite — which is the only
@@ -181,19 +193,19 @@ test\:coverage: env-check ## Run the suite with coverage of the PLUGIN, gated at
 test\:coverage\:only: env-check ## Coverage of one DIRECTORY, from the whole suite: make test:coverage:only DIR=plugin/Widgets
 	@test -n "$(DIR)" || { echo "Usage: make test:coverage:only DIR=plugin/Widgets   (a directory — see the Makefile)"; exit 1; }
 	@test -d "$(DIR)" || { echo "Not a directory: $(DIR)   (--coverage-filter takes directories, not files)"; exit 1; }
-	npx @wordpress/env start --xdebug=coverage
+	$(WPENV_BIN) start --xdebug=coverage
 	$(WPENV) env XDEBUG_MODE=coverage php -d memory_limit=-1 vendor/bin/pest \
 		--test-directory=tests/pest --coverage --coverage-filter=$(DIR)
 
 .PHONY: test\:coverage\:integrations
 test\:coverage\:integrations: env-check ## Coverage of the third-party integrations only — reported, never gated
-	npx @wordpress/env start --xdebug=coverage
+	$(WPENV_BIN) start --xdebug=coverage
 	$(WPENV) env XDEBUG_MODE=coverage composer test:coverage:integrations
 
 .PHONY: test\:install
 test\:install: docker-check ## Start wp-env and install the composer dev dependencies inside it
 	rm -rf vendor
-	npx @wordpress/env start
+	$(WPENV_BIN) start
 	$(WPENV) composer update
 
 # The edit loop, not the thing to trust before a commit. A file that passes on its own

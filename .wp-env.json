@@ -1,9 +1,11 @@
 {
-    "core": null,
+    "core": "https://wordpress.org/wordpress-7.0.1.zip",
     "mappings": {
         "wp-content/mu-plugins": "./tests/pest/mu-plugins"
     },
     "phpVersion": "8.3",
-    "plugins": ["."],
+    "plugins": [
+        "."
+    ],
     "testsEnvironment": false
 }
