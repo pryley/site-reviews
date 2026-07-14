@@ -51,6 +51,8 @@ function freshPageLoad(): void
 
 afterEach(function () {
     delete_transient(glsr()->prefix.'optimized_css');
+    delete_transient(glsr()->prefix.'optimized_js');
+    wp_deregister_script(glsr()->id);
     array_map('unlink', (array) glob(trailingslashit(wp_upload_dir()['basedir']).'site-reviews/assets/*'));
     wp_deregister_style(glsr()->id);
     // The addon list is held in memory on the Application SINGLETON — it is not an option and
@@ -174,4 +176,80 @@ test('nocache throws the combined file away', function () {
     expect(get_transient(glsr()->prefix.'optimized_css'))->toBeFalse() // dropped, in the constructor
         ->and($asset->canOptimize())->toBeFalse()                     // and it will not rebuild on this load
         ->and($asset->url())->not->toContain('uploads');              // so the originals are served
+});
+
+/*
+ * The scripts, which are the same idea and one crucial difference.
+ *
+ * A stylesheet is a file and nothing else. A SCRIPT has things attached to it: the plugin's entire
+ * frontend configuration — the ajax endpoint, the nonces, the validation strings, the CAPTCHA keys —
+ * is an INLINE script hung off the plugin's own handle with wp_add_inline_script().
+ *
+ * So combining the scripts means deregistering that handle, and deregistering it throws the inline
+ * scripts away with it. If they are not carried across to the new registration, the combined file
+ * loads perfectly and the frontend does nothing at all: no config, no endpoint, no form. That is the
+ * assertion below, and it is the reason AssetJs::enqueue() is not just AssetCss::enqueue() with a
+ * different function name.
+ */
+
+function freshScriptPageLoad(): void
+{
+    wp_deregister_script(glsr()->id);
+    wp_register_script(glsr()->id, glsr()->url('assets/scripts/site-reviews.js'), [], glsr()->version, true);
+    wp_add_inline_script(glsr()->id, 'window.GLSR_CONFIG = {"ajaxurl":"/wp-admin/admin-ajax.php"};', 'before');
+    wp_add_inline_script(glsr()->id, 'window.GLSR.init();');
+}
+
+function optimizationOnForJs(): void
+{
+    add_filter('site-reviews/optimize/js', '__return_true');
+}
+
+function js(): \GeminiLabs\SiteReviews\Modules\Assets\AssetJs
+{
+    return new \GeminiLabs\SiteReviews\Modules\Assets\AssetJs();
+}
+
+test('the scripts are combined into one file, served deferred from the footer', function () {
+    // in_footer and defer. A review form's script has no business blocking the first paint of
+    // somebody's home page.
+    optimizationOnForJs();
+    freshScriptPageLoad();
+
+    js()->optimize();
+
+    $script = wp_scripts()->registered[glsr()->id];
+    expect($script->src)->toContain('/uploads/')
+        ->and($script->src)->toContain('site-reviews.js');
+    // WP_Scripts does not keep `in_footer` on the dependency — it records it as extra['group'] = 1,
+    // which is the same slot wp_script_add_data($handle, 'group', 1) writes to, and what
+    // WP_Scripts::do_items() reads to decide which items belong in the footer.
+    expect($script->extra['strategy'] ?? '')->toBe('defer');
+    expect($script->extra['group'] ?? 0)->toBe(1);
+
+    delete_transient(glsr()->prefix.'optimized_js');
+});
+
+test('the inline config survives being combined, or the frontend does nothing at all', function () {
+    // THE assertion. The plugin's whole frontend configuration is an inline script on this handle,
+    // and combining the files means DEREGISTERING the handle — which throws the inline scripts away
+    // with it. Carry them across and everything works; forget to, and the combined file loads
+    // beautifully while no form on the site can submit anything.
+    optimizationOnForJs();
+    freshScriptPageLoad();
+
+    js()->optimize();
+
+    $extra = wp_scripts()->registered[glsr()->id]->extra;
+    expect(implode('', (array) ($extra['before'] ?? [])))->toContain('GLSR_CONFIG');
+    expect(implode('', (array) ($extra['after'] ?? [])))->toContain('GLSR.init');
+
+    delete_transient(glsr()->prefix.'optimized_js');
+});
+
+test('an unoptimized site is served the plugin\'s own script, at the plugin version', function () {
+    freshScriptPageLoad();
+
+    expect(js()->url())->toContain('assets/scripts/site-reviews.js')
+        ->and(js()->version())->toBe(glsr()->version);
 });
