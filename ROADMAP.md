@@ -153,6 +153,32 @@ All proposed features are subject to change and are sorted alphabetically rather
 
   Found while working through the 0%-coverage list.
 
+- [ ] **`Rollback::rollback()` is deliberately left uncovered — the offline suite
+  structurally can't drive it, and it is not a plugin defect.** The method is an
+  admin-screen render wrapper: it `require_once`s `wp-admin/admin-header.php`,
+  constructs a real `\Plugin_Upgrader_Skin`, runs the upgrade, then requires
+  `admin-footer.php`. Three walls, none in the plugin:
+
+  1. `admin-header.php` begins `if (!defined('WP_ADMIN')) require_once …/admin.php`,
+     and this suite runs with `WP_ADMIN` undefined / `is_admin()` false on purpose
+     (see the note in `tests/pest/Support/InteractsWithAjax.php` about why loading the
+     admin includes fatals third-party code). `admin.php` also runs `auth_redirect()`,
+     which in the cookieless CLI process redirects and `exit`s — killing the run.
+  2. The only way past (1) is `define('WP_ADMIN', true)` before the call, but a constant
+     can't be unset, so it poisons `is_admin()` for every later test in the process — a
+     worse cross-test leak than one uncovered method.
+  3. The real `Plugin_Upgrader_Skin` closes the output buffers, which is exactly why
+     `RollbackTest` drives `PluginUpgrader::rollback()` through a **silent skin subclass**
+     rather than `Rollback::rollback()`.
+
+  The one behaviour that matters — that it downloads
+  `https://downloads.wordpress.org/plugin/site-reviews.{version}.zip` — is already
+  asserted by that existing test. The uncovered lines add only the admin chrome render
+  plus trivial `$title`/`$parent_file`/nonce/url assignments feeding the skin. A real
+  fix would be structural (extract the upgrade call from the render so a test can drive
+  the upgrade half), which is a plugin change for marginal coverage; leaving it is fine.
+  Traced statically 2026-07-15; not executed (the render path can't be run offline).
+
 - [ ] **Move Polylang and WPML into `/plugin/Integrations`.** They are the only two
   third-party plugins the codebase reaches into from `/plugin/Modules` — everything
   else that talks to somebody else's plugin (WooCommerce, Elementor, Divi, the other
