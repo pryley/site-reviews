@@ -4304,22 +4304,22 @@ msgctxt "admin-text"
 msgid "Rating Summary ID"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:167, plugin/Shortcodes/SiteReviewShortcode.php:58, plugin/Shortcodes/SiteReviewsShortcode.php:142, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:161, plugin/Tinymce/SiteReviewsFormTinymce.php:54, plugin/Tinymce/SiteReviewsSummaryTinymce.php:89, plugin/Tinymce/SiteReviewsTinymce.php:96, plugin/Tinymce/SiteReviewTinymce.php:30, plugin/Widgets/Widget.php:50
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:167, plugin/Shortcodes/SiteReviewShortcode.php:58, plugin/Shortcodes/SiteReviewsShortcode.php:142, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:161, plugin/Tinymce/SiteReviewsFormTinymce.php:54, plugin/Tinymce/SiteReviewsSummaryTinymce.php:89, plugin/Tinymce/SiteReviewsTinymce.php:96, plugin/Tinymce/SiteReviewTinymce.php:30, plugin/Widgets/Widget.php:51
 msgctxt "admin-text"
 msgid "This should be a unique value."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:169, plugin/Shortcodes/SiteReviewShortcode.php:60, plugin/Shortcodes/SiteReviewsShortcode.php:144, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:163, plugin/Tinymce/SiteReviewsFormTinymce.php:52, plugin/Tinymce/SiteReviewsSummaryTinymce.php:87, plugin/Tinymce/SiteReviewsTinymce.php:94, plugin/Tinymce/SiteReviewTinymce.php:28, plugin/Widgets/Widget.php:51
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:169, plugin/Shortcodes/SiteReviewShortcode.php:60, plugin/Shortcodes/SiteReviewsShortcode.php:144, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:163, plugin/Tinymce/SiteReviewsFormTinymce.php:52, plugin/Tinymce/SiteReviewsSummaryTinymce.php:87, plugin/Tinymce/SiteReviewsTinymce.php:94, plugin/Tinymce/SiteReviewTinymce.php:28, plugin/Widgets/Widget.php:52
 msgctxt "admin-text"
 msgid "Custom ID"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:173, plugin/Shortcodes/SiteReviewShortcode.php:64, plugin/Shortcodes/SiteReviewsShortcode.php:148, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:167, plugin/Tinymce/SiteReviewsFormTinymce.php:60, plugin/Tinymce/SiteReviewsSummaryTinymce.php:95, plugin/Tinymce/SiteReviewsTinymce.php:102, plugin/Tinymce/SiteReviewTinymce.php:36, plugin/Widgets/Widget.php:55
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:173, plugin/Shortcodes/SiteReviewShortcode.php:64, plugin/Shortcodes/SiteReviewsShortcode.php:148, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:167, plugin/Tinymce/SiteReviewsFormTinymce.php:60, plugin/Tinymce/SiteReviewsSummaryTinymce.php:95, plugin/Tinymce/SiteReviewsTinymce.php:102, plugin/Tinymce/SiteReviewTinymce.php:36, plugin/Widgets/Widget.php:56
 msgctxt "admin-text"
 msgid "Separate multiple classes with spaces."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:175, plugin/Shortcodes/SiteReviewShortcode.php:66, plugin/Shortcodes/SiteReviewsShortcode.php:150, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:169, plugin/Tinymce/SiteReviewsFormTinymce.php:58, plugin/Tinymce/SiteReviewsSummaryTinymce.php:93, plugin/Tinymce/SiteReviewsTinymce.php:100, plugin/Tinymce/SiteReviewTinymce.php:34, plugin/Widgets/Widget.php:56
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:175, plugin/Shortcodes/SiteReviewShortcode.php:66, plugin/Shortcodes/SiteReviewsShortcode.php:150, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:169, plugin/Tinymce/SiteReviewsFormTinymce.php:58, plugin/Tinymce/SiteReviewsSummaryTinymce.php:93, plugin/Tinymce/SiteReviewsTinymce.php:100, plugin/Tinymce/SiteReviewTinymce.php:34, plugin/Widgets/Widget.php:57
 msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr ""
@@ -4754,12 +4754,12 @@ msgctxt "admin-text"
 msgid "Enter the Post ID of the review you want to display."
 msgstr ""
 
-#: plugin/Widgets/Widget.php:36
+#: plugin/Widgets/Widget.php:37
 msgctxt "admin-text"
 msgid "This is a legacy widget with limited options, consider switching to the shortcode or block."
 msgstr ""
 
-#: plugin/Widgets/Widget.php:44
+#: plugin/Widgets/Widget.php:45
 msgctxt "admin-text"
 msgid "Widget Title"
 msgstr ""

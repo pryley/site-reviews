@@ -4,10 +4,11 @@ namespace GeminiLabs\SiteReviews\Widgets;
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
-use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\WidgetBuilder;
 use GeminiLabs\SiteReviews\Modules\Html\WidgetField;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 abstract class Widget extends \WP_Widget
 {
@@ -84,11 +85,13 @@ abstract class Widget extends \WP_Widget
      */
     public function widget($args, $instance)
     {
+        $instance = wp_parse_args($instance);
         $args = $this->normalizeArgs(wp_parse_args($args));
         $html = $this->shortcode->build($instance, 'widget');
-        $title = !empty($this->shortcode->args['title'])
-            ? $args->before_title.$this->shortcode->args['title'].$args->after_title
-            : '';
+        $title = $this->widgetTitle($instance);
+        if ('' !== $title) {
+            $title = $args->before_title.$title.$args->after_title;
+        }
         echo $args->before_widget.$title.$html.$args->after_widget;
     }
 
@@ -117,7 +120,7 @@ abstract class Widget extends \WP_Widget
         if (!$field->isValid()) {
             return;
         }
-        $value = Arr::get($instance, $field->original_name); // @phpstan-ignore-line
+        $value = $instance[$field->original_name] ?? ''; // @phpstan-ignore-line
         if ('' !== $value) {
             $field->value = $value; // @phpstan-ignore-line
         }
@@ -129,4 +132,14 @@ abstract class Widget extends \WP_Widget
     abstract protected function widgetConfig(): array;
 
     abstract protected function widgetShortcode(): ShortcodeContract;
+
+    /**
+     * The widget title is not a shortcode argument so it is taken from the
+     * saved widget instance instead of the normalized shortcode args.
+     */
+    protected function widgetTitle(array $instance): string
+    {
+        $title = glsr(Sanitizer::class)->sanitizeText($instance['title'] ?? '');
+        return Cast::toString(apply_filters('widget_title', $title, $instance, $this->id_base));
+    }
 }
