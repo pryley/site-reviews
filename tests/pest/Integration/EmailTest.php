@@ -388,6 +388,26 @@ test('a verification request can be sent again, with the link it is given', func
     expect(glsr(PostMeta::class)->get($review->ID, 'verified_requested'))->toBe('1');
 });
 
+test('a verification request with no message template is logged and reported as failed', function () {
+    // With the message setting blanked, buildEmail() logs the missing template and composes an email
+    // with no body — which Email::validate() then rejects, so send() fails and the command says so
+    // rather than reporting a request nobody received.
+    askForVerification();
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    $review = createReview(['email' => 'jane@example.org']); // created while mail still works
+
+    // Blank the template at the option filter (set('') is overwritten by the setting default) so
+    // buildEmail logs the missing template; and make wp_mail itself fail so send() returns false.
+    add_filter('site-reviews/option/general/request_verification_message', '__return_empty_string');
+    remove_all_filters('pre_wp_mail'); // drop the test mail interceptor…
+    add_filter('pre_wp_mail', '__return_false'); // …and force the send to fail
+
+    $command = new SendVerificationEmail($review, 'https://example.org/verify?token=abc');
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+});
+
 test('a verification request is not sent by a site that does not ask for verification', function () {
     $review = createReview(['email' => 'jane@example.org']);
 
