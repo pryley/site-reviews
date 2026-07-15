@@ -56,8 +56,8 @@ class RevisionController extends AbstractController
         $oldReview = $this->reviewFromRevision($compareFrom);
         $newReview = $this->reviewFromRevision($compareTo);
         foreach ($fields as $field => $name) {
-            $old = $oldReview->$field;
-            $new = $newReview->$field;
+            $old = (string) $oldReview->$field;
+            $new = (string) $newReview->$field;
             $diff = wp_text_diff($old, $new, [
                 'show_split_view' => true,
             ]);
