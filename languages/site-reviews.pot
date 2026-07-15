@@ -3784,7 +3784,7 @@ msgstr ""
 msgid "Show more"
 msgstr ""
 
-#: plugin/Integrations/IntegrationHooks.php:32, plugin/Integrations/MultilingualPress/Hooks.php:86
+#: plugin/Integrations/IntegrationHooks.php:38, plugin/Integrations/MultilingualPress/Hooks.php:86
 msgctxt "admin-text"
 msgid "Update %s to version %s or higher to enable the integration with Site Reviews."
 msgstr ""
