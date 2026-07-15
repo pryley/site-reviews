@@ -23,8 +23,11 @@ class Hooks extends IntegrationHooks
 
     protected function isEnabled(): bool
     {
-        return $this->isInstalled()
-            && 'yes' === get_option(\LPFW()->Plugin_Constants->EARN_ACTION_PRODUCT_REVIEW, 'yes');
+        if (!$this->isInstalled()) {
+            return false;
+        }
+        $option = \LPFW()?->Plugin_Constants->EARN_ACTION_PRODUCT_REVIEW ?? '';
+        return !empty($option) && 'yes' === get_option($option, 'yes');
     }
 
     protected function isInstalled(): bool
