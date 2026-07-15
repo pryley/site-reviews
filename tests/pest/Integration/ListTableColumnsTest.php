@@ -1,6 +1,7 @@
 <?php
 
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedPost;
+use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAuthor;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterCategory;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterRating;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterType;
@@ -217,6 +218,56 @@ test('the category filter offers the categories that have reviews in them', func
 
     // and "No category" is prepended, so a review with none can be found
     expect($options)->toHaveKey('-1');
+});
+
+test('the category filter names itself, and the empty state, for the screen', function () {
+    $filter = glsr(ColumnFilterCategory::class);
+
+    expect($filter->label())->toBe('Filter by category')
+        ->and($filter->placeholder())->toBe('Any category');
+});
+
+test('the category filter, on a filtered screen, shows the category by its taxonomy id', function () {
+    // On the review screen WordPress puts the category SLUG in the main query; the dropdown is keyed
+    // by term_taxonomy_id, so value() translates the one to the other to stay selected.
+    $termId = createTerm(['name' => 'Service', 'taxonomy' => glsr()->taxonomy]);
+    $term = get_term($termId, glsr()->taxonomy);
+
+    global $wp_query;
+    $original = $wp_query;
+    $wp_query = new WP_Query();
+    $wp_query->set(glsr()->taxonomy, $term->slug);
+    try {
+        $value = glsr(ColumnFilterCategory::class)->value();
+    } finally {
+        $wp_query = $original;
+    }
+
+    expect($value)->toBe((string) $term->term_taxonomy_id);
+});
+
+test('with no category in the query, the filter reads its value straight from the request', function () {
+    // Off the taxonomy-archive path — the dropdown was just changed by hand — there is no slug in
+    // the query, so it falls back to the number in the URL.
+    $_GET['category'] = '42';
+
+    global $wp_query;
+    $original = $wp_query;
+    $wp_query = new WP_Query(); // no taxonomy query var, so get_term_by() finds nothing
+    try {
+        $value = glsr(ColumnFilterCategory::class)->value();
+    } finally {
+        $wp_query = $original;
+        unset($_GET['category']);
+    }
+
+    expect($value)->toBe('42');
+});
+
+test('the author filter names itself for the screen', function () {
+    // It reuses the assigned-user machinery for everything but its labels — this is the one it
+    // overrides, so the dropdown reads "Filter by author", not "Filter by assigned user".
+    expect(glsr(ColumnFilterAuthor::class)->label())->toBe('Filter by author');
 });
 
 test('the type filter is offered when there is more than one type of review', function () {
