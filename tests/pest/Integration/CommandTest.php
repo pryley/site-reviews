@@ -19,6 +19,8 @@ use GeminiLabs\SiteReviews\Commands\ToggleVerified;
 use GeminiLabs\SiteReviews\Commands\UnassignPosts;
 use GeminiLabs\SiteReviews\Commands\UnassignTerms;
 use GeminiLabs\SiteReviews\Commands\UnassignUsers;
+use GeminiLabs\SiteReviews\Commands\VerifyReview;
+use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Request;
 
@@ -176,6 +178,116 @@ test('refuses to verify a review when verification is disabled', function () {
     $command->handle();
     expect($command->successful())->toBeFalse();
     expect(glsr_get_review($review->ID)->is_verified)->toBeFalse();
+});
+
+test('refuses to pin a review the user may not edit', function () {
+    $review = createReview();
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+
+    $command = new TogglePinned(new Request(['post_id' => $review->ID, 'pinned' => 1]));
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+    expect(glsr_get_review($review->ID)->is_pinned)->toBeFalse();
+});
+
+test('pinning a review to the state it is already in does nothing', function () {
+    $review = createReview(); // not pinned
+    $command = new TogglePinned(new Request(['post_id' => $review->ID, 'pinned' => 0])); // still not pinned
+
+    $command->handle();
+
+    expect($command->successful())->toBeTrue()  // the "no change" short-circuit, not a failure
+        ->and(glsr_get_review($review->ID)->is_pinned)->toBeFalse();
+});
+
+test('a pin update that changes no rows is reported as a failure', function () {
+    // The database already matches the target, but the CACHED review the command holds does not, so
+    // it gets past the "no change" check and the update itself touches nothing.
+    $review = createReview(); // is_pinned false, and cached that way
+    global $wpdb;
+    $wpdb->query('UPDATE '.glsr(Tables::class)->table('ratings').' SET is_pinned = 1 WHERE review_id = '.$review->ID);
+
+    $command = new TogglePinned(new Request(['post_id' => $review->ID, 'pinned' => 1]));
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+});
+
+test('refuses to verify a review that does not exist', function () {
+    add_filter('site-reviews/verification/enabled', '__return_true');
+
+    $command = new ToggleVerified(new Request(['post_id' => 999999002, 'verified' => 1]));
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+});
+
+test('refuses to verify a review the user may not edit', function () {
+    add_filter('site-reviews/verification/enabled', '__return_true');
+    $review = createReview();
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+
+    $command = new ToggleVerified(new Request(['post_id' => $review->ID, 'verified' => 1]));
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+});
+
+test('verifying a review to the state it is already in does nothing', function () {
+    add_filter('site-reviews/verification/enabled', '__return_true');
+    $review = createReview(); // not verified
+    $command = new ToggleVerified(new Request(['post_id' => $review->ID, 'verified' => 0]));
+
+    $command->handle();
+
+    expect($command->successful())->toBeTrue(); // the "no change" short-circuit
+});
+
+test('a verified update that changes no rows is reported as a failure', function () {
+    add_filter('site-reviews/verification/enabled', '__return_true');
+    $review = createReview(); // is_verified false, cached
+    global $wpdb;
+    $wpdb->query('UPDATE '.glsr(Tables::class)->table('ratings').' SET is_verified = 1 WHERE review_id = '.$review->ID);
+
+    $command = new ToggleVerified(new Request(['post_id' => $review->ID, 'verified' => 1]));
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+});
+
+test('VerifyReview reports failure when the update changes no rows', function () {
+    // VerifyReview holds the review object directly, so it stays stale while the database is set to
+    // verified underneath it: the update then matches nothing.
+    $review = createReview(); // the object stays is_verified = false
+    global $wpdb;
+    $wpdb->query('UPDATE '.glsr(Tables::class)->table('ratings').' SET is_verified = 1 WHERE review_id = '.$review->ID);
+
+    $command = new VerifyReview($review);
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+});
+
+test('ToggleStatus reports failure when WordPress refuses the status change', function () {
+    $review = createReview();
+    add_filter('wp_insert_post_empty_content', '__return_true'); // now force wp_update_post to error
+
+    $command = new ToggleStatus(new Request(['post_id' => $review->ID, 'status' => 'publish']));
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+});
+
+test('ToggleStatus returns no status links when there are no views to show', function () {
+    // The response builds the list-table status filters; on a screen that offers none it hands back
+    // an empty string rather than iterating nothing.
+    add_filter('views_edit-'.glsr()->post_type, '__return_empty_array');
+    $review = createReview();
+    $command = new ToggleStatus(new Request(['post_id' => $review->ID, 'status' => 'publish']));
+    $command->handle();
+
+    expect($command->response()['counts'])->toBe('');
 });
 
 test('assigns and unassigns posts', function () {
