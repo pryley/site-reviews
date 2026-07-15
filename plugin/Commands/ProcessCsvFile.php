@@ -123,15 +123,16 @@ class ProcessCsvFile extends AbstractCommand
             $writer->addFormatter(new EscapeFormula());
             $writer->insertOne($header);
             $writer->addFormatter(fn (array $record) => $this->formatRecord($record));
-            $chunks = $reader->chunkBy(1000);
-            foreach ($chunks as $chunk) {
-                $records = Statement::create()
-                    ->where(fn (array $record) => !empty(array_filter($record, 'trim'))) // @phpstan-ignore-line remove empty rows
-                    ->where(fn (array $record) => $this->validateRecord($record))
-                    ->process($reader, $header);
-                $writer->insertAll($records);
-                $this->total += count($records);
-            }
+            $records = Statement::create()
+                ->where(fn (array $record) => !empty(array_filter($record, 'trim'))) // @phpstan-ignore-line remove empty rows
+                ->where(fn (array $record) => $this->validateRecord($record))
+                ->process($reader, $header);
+            $writer->insertAll((function () use ($records) {
+                foreach ($records as $record) {
+                    ++$this->total; // count them on the way past: they are only read once
+                    yield $record;
+                }
+            })());
             glsr(ImportManager::class)->prepare(); // create a temporary table for importing
             return true;
         } catch (CannotInsertRecord $e) {
