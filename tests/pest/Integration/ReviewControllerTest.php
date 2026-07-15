@@ -50,7 +50,11 @@ beforeEach(function () {
     set_current_screen('front');
 });
 
-afterEach(fn () => set_current_screen('front'));
+afterEach(function () {
+    set_current_screen('front');
+    $_GET = [];
+    $_POST = [];
+});
 
 /*
  * The diff. Everything that assigns or unassigns anything goes through it, and it is
@@ -388,6 +392,39 @@ test('the post data of something that is not a review being edited is not touche
         ->toBe($data);
 });
 
+test('a bulk edit takes the review author from the request when it is a real id', function () {
+    $sanitized = ['ID' => 1, 'action' => 'editpost', 'post_type' => glsr()->post_type];
+    $_GET['bulk_edit'] = 'Update';
+    $_GET['post_author'] = '9';
+
+    $result = glsr(ReviewController::class)->filterReviewPostData(['post_author' => 5], $sanitized);
+
+    expect($result['post_author'])->toBe('9');
+});
+
+test('a bulk edit that leaves the author unchanged drops it rather than blanking it', function () {
+    // WordPress's bulk-edit author dropdown sends nothing for "— No Change —"; unsetting the key
+    // leaves wp_insert_post to keep the existing author, where setting it to '' would wipe it.
+    $sanitized = ['ID' => 1, 'action' => 'editpost', 'post_type' => glsr()->post_type];
+    $_GET['bulk_edit'] = 'Update';
+    $_GET['post_author'] = ''; // not numeric
+
+    $result = glsr(ReviewController::class)->filterReviewPostData(['post_author' => 5], $sanitized);
+
+    expect($result)->not->toHaveKey('post_author');
+});
+
+test('the author meta box overrides the post author', function () {
+    // post_author_override is the hidden field the author metabox posts; it wins over whatever the
+    // form otherwise carried.
+    $sanitized = ['ID' => 1, 'action' => 'editpost', 'post_type' => glsr()->post_type];
+    $_POST['post_author_override'] = '7';
+
+    $result = glsr(ReviewController::class)->filterReviewPostData(['post_author' => 5], $sanitized);
+
+    expect($result['post_author'])->toBe('7');
+});
+
 /*
  * Editing a review in the admin.
  */
@@ -472,6 +509,69 @@ test('a response without its own nonce is not saved', function () {
     );
 
     expect(glsr_get_review($review->ID)->response)->toBeEmpty(); // never written, so never read
+});
+
+test('a bulk edit on the reviews screen recounts what the review was reassigned to', function () {
+    // The `edit` screen (the list table) goes down bulkUpdateReview, not updateReview: the review's
+    // own values did not change, but the posts/users it is assigned to may have, and both need a
+    // recount. The ids come from the request as bare arrays.
+    $review = createReview();
+    set_current_screen('edit-'.glsr()->post_type); // base `edit`
+    $_GET['post_ids'] = ['5', '6'];
+    $_GET['user_ids'] = ['7'];
+    $posts = null;
+    $users = null;
+    add_action('site-reviews/review/updated/post_ids', function ($r, $ids) use (&$posts) {
+        $posts = $ids;
+    }, 10, 2);
+    add_action('site-reviews/review/updated/user_ids', function ($r, $ids) use (&$users) {
+        $users = $ids;
+    }, 10, 2);
+
+    glsr(ReviewController::class)->onEditReview(
+        $review->ID, get_post($review->ID), get_post($review->ID)
+    );
+
+    expect($posts)->toHaveCount(2)   // both assigned posts, for the recount
+        ->and($users)->toHaveCount(1);
+});
+
+test('onEditReview stands aside for the fallback approve action, and for bad-actor nulls', function () {
+    // Three ways it must do nothing: a null post or old post (some plugins fire post_updated with
+    // one), an old post that was an auto-draft (the ratings row does not exist yet — that is
+    // onAfterChangeStatus's job), and the fallback approve/unapprove action, which sets plugin=<id>
+    // in the URL and would otherwise update the review twice.
+    $review = createReview();
+    $post = get_post($review->ID);
+    set_current_screen('edit-'.glsr()->post_type);
+    $fired = false;
+    add_action('site-reviews/review/updated', function () use (&$fired) {
+        $fired = true;
+    });
+
+    glsr(ReviewController::class)->onEditReview($review->ID, null, $post);   // null post
+    glsr(ReviewController::class)->onEditReview($review->ID, $post, null);   // null old post
+
+    $autoDraft = clone $post;
+    $autoDraft->post_status = 'auto-draft';
+    glsr(ReviewController::class)->onEditReview($review->ID, $post, $autoDraft); // old post is an auto-draft
+
+    $_GET['plugin'] = glsr()->id; // the fallback approve action is running
+    glsr(ReviewController::class)->onEditReview($review->ID, $post, $post);
+
+    expect($fired)->toBeFalse();
+});
+
+test('a status transition with no post is ignored rather than fatal', function () {
+    // transition_post_status is fired by other plugins too, sometimes with a null post.
+    $fired = false;
+    add_action('site-reviews/review/transitioned', function () use (&$fired) {
+        $fired = true;
+    });
+
+    glsr(ReviewController::class)->onAfterChangeStatus('publish', 'pending', null);
+
+    expect($fired)->toBeFalse();
 });
 
 /*
