@@ -1,6 +1,7 @@
 <?php
 
 use GeminiLabs\SiteReviews\Controllers\TranslationController;
+use GeminiLabs\SiteReviews\Hooks\TranslationHooks;
 use GeminiLabs\SiteReviews\Modules\Translation;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
@@ -233,4 +234,64 @@ test('a visitor-facing string with a context IS handed to the translator', funct
         ->toBe('Anonymous');
     expect($controller->filterNgettextWithContext('1 star', '%s star', '%s stars', 3, 'rating'))
         ->toBe('1 star');
+});
+
+/*
+ * Hanging those gettext filters, which TranslationHooks does — and only when it needs to.
+ *
+ * Four filters on every single gettext() call the site makes is not free, so TranslationHooks
+ * (on after_setup_theme) hangs them ONLY when the site actually has a custom string; the common
+ * case, a site that has customised nothing, pays nothing.
+ *
+ * Both directions are driven through a fake Translation swapped into the container, NOT by writing
+ * the option — because translatePlugin() reads strings() straight from the option (it runs before
+ * the settings are initialised) and that read memoises into a function-static nothing can reset.
+ * TranslatorTest fills that static permanently, so the real strings() cannot be trusted to be empty
+ * OR full here depending on suite order. The swap sidesteps the static entirely, both ways. (The
+ * hook names do not start with the plugin id, so HookProxy wraps each callback in a closure — hence
+ * the plain has_filter() check rather than one naming the callback.)
+ */
+
+function withCustomStrings(array $strings, callable $callback): void
+{
+    $original = glsr(Translation::class);
+    $fake = new class($strings) extends Translation {
+        private array $fakeStrings;
+
+        public function __construct(array $strings)
+        {
+            $this->fakeStrings = $strings;
+        }
+
+        public function strings(): array
+        {
+            return $this->fakeStrings;
+        }
+    };
+    glsr()->alias(Translation::class, $fake);
+    try {
+        $callback();
+    } finally {
+        glsr()->alias(Translation::class, $original); // never leave the fake behind
+    }
+}
+
+test('a site with no custom strings does not pay for the gettext filters', function () {
+    $GLOBALS['wp_filter'] = []; // Pest.php puts the world back afterwards
+
+    withCustomStrings([], fn () => glsr(TranslationHooks::class)->translatePlugin());
+
+    expect(has_filter('gettext_'.glsr()->id))->toBeFalse()
+        ->and(has_filter('ngettext_'.glsr()->id))->toBeFalse();
+});
+
+test('a site with a custom string gets the four gettext filters', function () {
+    $GLOBALS['wp_filter'] = [];
+
+    withCustomStrings(['x' => 'y'], fn () => glsr(TranslationHooks::class)->translatePlugin());
+
+    expect(has_filter('gettext_'.glsr()->id))->toBeTrue()
+        ->and(has_filter('gettext_with_context_'.glsr()->id))->toBeTrue()
+        ->and(has_filter('ngettext_'.glsr()->id))->toBeTrue()
+        ->and(has_filter('ngettext_with_context_'.glsr()->id))->toBeTrue();
 });
