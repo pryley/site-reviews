@@ -3312,7 +3312,7 @@ msgctxt "admin-text"
 msgid "All plugin migrations have been run successfully, please %s the page."
 msgstr "All plugin migrations have been run successfully, please %s the page."
 
-#: plugin/Commands/ProcessCsvFile.php:117
+#: plugin/Commands/ProcessCsvFile.php:119
 msgctxt "admin-text"
 msgid ""
 "The CSV file could not be imported. Please verify the following details and "
@@ -3321,37 +3321,37 @@ msgstr ""
 "The CSV file could not be imported. Please verify the following details and "
 "try again:"
 
-#: plugin/Commands/ProcessCsvFile.php:136
+#: plugin/Commands/ProcessCsvFile.php:138
 msgctxt "admin-text"
 msgid "Unable to process a row in the CSV document:"
 msgstr "Unable to process a row in the CSV document:"
 
-#: plugin/Commands/ProcessCsvFile.php:141
+#: plugin/Commands/ProcessCsvFile.php:143
 msgctxt "admin-text"
 msgid "Does the CSV file include all required columns?"
 msgstr "Does the CSV file include all required columns?"
 
-#: plugin/Commands/ProcessCsvFile.php:142
+#: plugin/Commands/ProcessCsvFile.php:144
 msgctxt "admin-text"
 msgid "Have you named all of the columns in the CSV file?"
 msgstr "Have you named all of the columns in the CSV file?"
 
-#: plugin/Commands/ProcessCsvFile.php:143
+#: plugin/Commands/ProcessCsvFile.php:145
 msgctxt "admin-text"
 msgid "Have you removed all empty columns from the CSV file?"
 msgstr "Have you removed all empty columns from the CSV file?"
 
-#: plugin/Commands/ProcessCsvFile.php:144
+#: plugin/Commands/ProcessCsvFile.php:146
 msgctxt "admin-text"
 msgid "Have you selected the correct delimiter?"
 msgstr "Have you selected the correct delimiter?"
 
-#: plugin/Commands/ProcessCsvFile.php:145
+#: plugin/Commands/ProcessCsvFile.php:147
 msgctxt "admin-text"
 msgid "Is the CSV file encoded as UTF-8?"
 msgstr "Is the CSV file encoded as UTF-8?"
 
-#: plugin/Commands/ProcessCsvFile.php:164
+#: plugin/Commands/ProcessCsvFile.php:166
 msgctxt "admin-text"
 msgid ""
 "Cannot detect the delimiter used in the CSV file (supported delimiters are "
@@ -3360,7 +3360,7 @@ msgstr ""
 "Cannot detect the delimiter used in the CSV file (supported delimiters are "
 "comma and semicolon)."
 
-#: plugin/Commands/ProcessCsvFile.php:191
+#: plugin/Commands/ProcessCsvFile.php:193
 msgctxt "admin-text"
 msgid ""
 "The import file does not look like a valid CSV file (detected: %s). If this "
@@ -3369,12 +3369,12 @@ msgstr ""
 "The import file does not look like a valid CSV file (detected: %s). If this "
 "is incorrect, make sure that your server is configured to detect mime types."
 
-#: plugin/Commands/ProcessCsvFile.php:210
+#: plugin/Commands/ProcessCsvFile.php:212
 msgctxt "admin-text"
 msgid "Incorrect date format"
 msgstr "Incorrect date format"
 
-#: plugin/Commands/ProcessCsvFile.php:211
+#: plugin/Commands/ProcessCsvFile.php:213
 msgctxt "admin-text"
 msgid "Empty or invalid rating"
 msgstr "Empty or invalid rating"

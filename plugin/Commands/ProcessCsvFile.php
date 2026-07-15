@@ -93,10 +93,12 @@ class ProcessCsvFile extends AbstractCommand
     protected function formatRecord(array $record): array
     {
         if (!empty($record['date'])) {
-            $date = \DateTime::createFromFormat($this->dateFormat, $record['date']);
+            // The "!" resets every field the format does not mention. Without it,
+            // DateTime::createFromFormat() fills them from the CURRENT time.
+            $date = \DateTime::createFromFormat('!'.$this->dateFormat, $record['date']);
             $record['date'] = $date->format('Y-m-d H:i:s'); // format the provided date
         }
-        if (1 === preg_match('#/'.glsr()->ID.'/avatars/[A-Z]+\.svg$#', ($record['avatar'] ?? ''))) {
+        if (1 === preg_match('#/'.glsr()->ID.'/avatars/[A-Z]+\.svg$#', $record['avatar'] ?? '')) {
             $record['avatar'] = ''; // discard locally generated avatar SVG URLs
         }
         return $record;
