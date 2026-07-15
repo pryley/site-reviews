@@ -112,7 +112,7 @@ class TranslationController implements ControllerContract
 
     /**
      * Used to modify the post status text in the Publish metabox.
-     * 
+     *
      * @filter gettext_default
      */
     public function filterPostStatusLabels(?string $translation, ?string $single): string
@@ -176,7 +176,8 @@ class TranslationController implements ControllerContract
             $i10n['publishOnPast'] = _x('Approved on:', 'admin-text', 'site-reviews');
             $i10n['savePending'] = _x('Save as Unapproved', 'admin-text', 'site-reviews');
             $script = $matches[1].json_encode($i10n).$matches[3];
-            wp_scripts()->registered['post']['extra']['data'] = $script;
+            // WP_Scripts::$registered holds _WP_Dependency objects
+            wp_scripts()->registered['post']->extra['data'] = $script;
         }
     }
 
