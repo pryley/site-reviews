@@ -1,6 +1,7 @@
 <?php
 
 use GeminiLabs\SiteReviews\Controllers\MainController;
+use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Tables;
 
@@ -198,4 +199,84 @@ test('the log is written once per page, and not on the update screen', function 
     glsr(MainController::class)->logOnce();
 
     expect(true)->toBeTrue(); // it ran, on both paths, without throwing
+});
+
+/*
+ * The registrars.
+ *
+ * These run once, on `init`, during boot — which is BEFORE the suite starts collecting coverage, so
+ * although the post type, taxonomy and shortcodes are plainly there, the methods that registered
+ * them read as never called. Calling each here re-runs it (register_* is idempotent — WordPress
+ * overwrites the existing registration) and pins that its effect is in place.
+ */
+
+test('the review post type is registered', function () {
+    glsr(MainController::class)->registerPostType();
+
+    expect(post_type_exists(glsr()->post_type))->toBeTrue();
+});
+
+test('the review-category taxonomy is registered', function () {
+    glsr(MainController::class)->registerTaxonomy();
+
+    expect(taxonomy_exists(glsr()->taxonomy))->toBeTrue();
+});
+
+test('the shortcodes are registered', function () {
+    glsr(MainController::class)->registerShortcodes();
+
+    expect(shortcode_exists('site_reviews'))->toBeTrue();
+});
+
+test('the rating count meta is registered on every post type a review can be shown on', function () {
+    // register_post_meta so the counts (average, ranking, total) are readable through the REST API
+    // and get_post_meta on posts, pages and any public custom type.
+    glsr(MainController::class)->registerPostMeta();
+
+    expect(registered_meta_key_exists('post', CountManager::META_AVERAGE, 'post'))->toBeTrue();
+});
+
+/*
+ * The rest of the boot sequence.
+ */
+
+test('registering addons fires the hooks an addon listens on to announce itself', function () {
+    // The two doors an addon comes in through — the compat shim and the premium registry. A missing
+    // do_action here is an installed addon that never gets registered and silently does nothing.
+    $announced = [];
+    add_action('site-reviews/addon/register', function () use (&$announced) {
+        $announced[] = 'addon';
+    });
+    add_action('site-reviews/premium/register', function () use (&$announced) {
+        $announced[] = 'premium';
+    });
+
+    glsr(MainController::class)->registerAddons();
+
+    expect($announced)->toBe(['addon', 'premium']);
+});
+
+test('registering the languages loads this plugin\'s text domain without error', function () {
+    // load_plugin_textdomain, built from the plugin's own path and languages dir. Its effect is not
+    // observable offline — the suite ships no .mo, so nothing is actually loaded and neither the
+    // load_textdomain action nor is_textdomain_loaded() report anything. What is pinned is that the
+    // path it builds is well-formed and the call runs clean rather than warning (failOnWarning).
+    expect(fn () => glsr(MainController::class)->registerLanguages())
+        ->not->toThrow(\Throwable::class);
+});
+
+/*
+ * Multisite: creating a site in a network.
+ */
+
+test('a newly created network site is set up only when the plugin is network-active', function () {
+    // wp_initialize_site, at priority 999. On a single-site install is_plugin_active_for_network is
+    // false, so nothing runs — the guard that stops the plugin installing its tables on a site that
+    // is never going to load it.
+    require_once ABSPATH.'wp-admin/includes/plugin.php'; // where is_plugin_active_for_network lives
+    require_once ABSPATH.'wp-includes/class-wp-site.php'; // not autoloaded on a single-site install
+    $site = new WP_Site((object) ['blog_id' => '1', 'domain' => 'localhost', 'path' => '/']);
+
+    expect(fn () => glsr(MainController::class)->installOnNewSite($site))
+        ->not->toThrow(\Throwable::class);
 });
