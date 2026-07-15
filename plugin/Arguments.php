@@ -71,11 +71,15 @@ class Arguments extends \ArrayObject
     }
 
     /**
+     * Deliberately not wp_parse_args() as it uses array_merge() which reindexes
+     * and moves numeric keys to the end of the array. array_replace()
+     * overwrites by key and is otherwise identical.
+     * 
      * @return self
      */
     public function merge(array $data = [])
     {
-        $storage = wp_parse_args($data, $this->getArrayCopy());
+        $storage = array_replace($this->getArrayCopy(), $data);
         $this->exchangeArray($storage);
         return $this;
     }
