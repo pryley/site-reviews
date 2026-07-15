@@ -196,6 +196,26 @@ test('the csv export yields a record per review, with its meta flattened into co
         ->and($record)->not->toHaveKey('ID');
 });
 
+test('a geolocated review is exported with a column per location field', function () {
+    // The _geolocation meta is a single blob; the export fans it out into geolocation_country,
+    // geolocation_city and so on, so a spreadsheet has a column for each rather than a struct.
+    $review = createReview(['rating' => 4]);
+    update_post_meta($review->ID, '_geolocation', [
+        'country' => 'US',
+        'city' => 'Springfield',
+        'region' => 'IL',
+    ]);
+
+    $command = new ExportReviews(new Request());
+    $record = iterator_to_array(
+        protectedMethod(ExportReviews::class, 'fetchReviews')->invoke($command)
+    )[0];
+
+    expect($record['geolocation_country'])->toBe('US')
+        ->and($record['geolocation_city'])->toBe('Springfield')
+        ->and($record['geolocation_region'])->toBe('IL');
+});
+
 test('the csv export refuses to write a file with nothing in it', function () {
     // No reviews: the generator yields nothing, and rather than handing the browser
     // an empty CSV the command fails and says so.
