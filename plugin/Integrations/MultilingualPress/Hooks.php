@@ -69,7 +69,7 @@ class Hooks extends IntegrationHooks
         }
         try {
             return resolve(ModuleManager::class)->isModuleActive(glsr()->id);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return false;
         }
     }
@@ -102,7 +102,7 @@ class Hooks extends IntegrationHooks
     {
         try {
             return resolve(PluginProperties::class)->version();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return '';
         }
     }
