@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 7.0
-Stable tag: 8.1.0
+Stable tag: 8.1.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -210,6 +210,33 @@ You can report any security bugs found in the source code of this plugin through
 This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
+
+= 8.1.1 (2026-07-16) =
+
+- Fixed a "doing it wrong" notice raised by an integration's version notice
+- Fixed a fatal error on sites running MultilingualPress when it cannot report its version
+- Fixed a PHP error when a review query is built with no arguments
+- Fixed a PHP warning on sites running Loyalty Program for WooCommerce
+- Fixed a review that had not accepted the terms being refused when duplicated
+- Fixed an API request not being retried when the server asked for it to be
+- Fixed an unrecognised admin request failing silently instead of being logged
+- Fixed API request SSL certificate verification being switched off on live sites and switched on for local ones
+- Fixed cached API responses never being cleared on sites using a persistent object cache
+- Fixed deleted reviews being left in the cache on sites using InnoDB
+- Fixed imported reviews with no timestamp in the date being stamped with the time of the import
+- Fixed PHP deprecation notices on the review revisions comparison screen
+- Fixed Polylang translations never being applied to assigned pages, categories or users
+- Fixed reviews being recorded as having accepted the terms on a site whose database version is not recorded
+- Fixed the "Approve" and "Unapproved" wording not being applied to the Publish metabox on the review editor
+- Fixed the assignment table indexes being rebuilt on every migration rather than only when they need it
+- Fixed the category priority cache not being cleared when a category priority is added or changed
+- Fixed the classic widget title not being displayed
+- Fixed the Documentation link on the plugins screen
+- Fixed the plugin's service container being unable to register a factory
+- Fixed the plugins screen load time when the licence server is unreachable
+- Fixed the post meta cache not being cleared when the rating counts are recalculated
+- Fixed the review cache not being cleared when a rating is deleted
+- Fixed the update details check for inactive addons
 
 = 8.1.0 (2026-07-11) =
 
