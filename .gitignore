@@ -2,6 +2,7 @@
 !.babelrc
 !.gitattributes
 !.gitignore
+!.gitkeep
 !.jshintrc
 !.scrutinizer.yml
 !.travis.yml

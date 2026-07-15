@@ -321,6 +321,22 @@ test('an addon wires itself up by finding its own hooks class', function () {
     expect(has_filter('site-reviews/settings'))->not->toBeFalse();
 });
 
+test('an addon finds, registers and runs each integration it ships', function () {
+    // runIntegrations scans the addon's plugin/Integrations directory: for each integration it makes
+    // the Hooks class a singleton and hangs it on plugins_loaded to run late. The test addon ships
+    // two directories — Example, a real integration, and Broken, which has no Hooks class and must be
+    // skipped with a log rather than fatal the addon.
+    remove_all_filters('site-reviews-test-addon/example/loaded');
+    remove_all_actions('plugins_loaded');
+
+    glsr(TestAddonHooks::class)->runIntegrations();
+
+    expect(has_action('plugins_loaded'))->not->toBeFalse(); // Example was hung to run late
+
+    do_action('plugins_loaded'); // and when it fires, the integration's run() executes
+    expect(has_filter('site-reviews-test-addon/example/loaded'))->not->toBeFalse();
+});
+
 /*
  * The translation filters. An addon gets its own gettext_{id} filters so a site owner can rename
  * its visitor-facing strings; with nothing customised, every one hands the string straight back.

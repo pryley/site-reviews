@@ -1,0 +1,5 @@
+# An integration directory with no Hooks class.
+#
+# runIntegrations() builds "…\Integrations\Broken\Hooks" for this directory and reflects over it;
+# the class does not exist, so ReflectionClass throws and the catch logs and moves on. This keeps
+# that resilience path (a half-shipped integration must not fatal the addon) covered and honest.
