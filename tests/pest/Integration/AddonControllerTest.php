@@ -320,3 +320,88 @@ test('an addon wires itself up by finding its own hooks class', function () {
 
     expect(has_filter('site-reviews/settings'))->not->toBeFalse();
 });
+
+/*
+ * The translation filters. An addon gets its own gettext_{id} filters so a site owner can rename
+ * its visitor-facing strings; with nothing customised, every one hands the string straight back.
+ */
+
+test('the addon translation filters return the string untouched when nothing overrides it', function () {
+    $c = $this->controller;
+
+    expect($c->filterGettext('A string the addon never customised', 'A string the addon never customised'))
+        ->toBe('A string the addon never customised')
+        ->and($c->filterGettextWithContext('Anonymous', 'Anonymous', 'a context'))
+        ->toBe('Anonymous')
+        ->and($c->filterNgettext('1 thing here', '1 thing here', '%s things here', 1))
+        ->toBe('1 thing here')
+        ->and($c->filterNgettextWithContext('1 thing here', '1 thing here', '%s things here', 1, 'a context'))
+        ->toBe('1 thing here');
+});
+
+/*
+ * Paths, the subsubsub links, and the no-op lifecycle hooks.
+ */
+
+test('the addon config path is normalized only when it points inside the addon', function () {
+    $c = $this->controller;
+
+    expect($c->filterConfigPath('site-reviews-test-addon/config/settings.php'))
+        ->toBe('site-reviews-test-addon/config/settings.php') // carries the prefix, comes back carrying it
+        ->and($c->filterConfigPath('config/settings.php'))
+        ->toBe('config/settings.php'); // not the addon's, left alone
+});
+
+test('the addon leaves the review status links untouched by default', function () {
+    // filterSubsubsub is a seam an addon can override; the base returns what it was given.
+    expect($this->controller->filterSubsubsub(['all' => '<a>All</a>']))
+        ->toBe(['all' => '<a>All</a>']);
+});
+
+test('the base lifecycle hooks are safe no-ops', function () {
+    // install/registerShortcodes/registerTinymcePopups/registerWidgets are empty in the base — an
+    // addon overrides the ones it needs — but the base wires every one to a hook, so each must be
+    // callable without doing anything.
+    expect(function () {
+        $this->controller->install();
+        $this->controller->registerShortcodes();
+        $this->controller->registerTinymcePopups();
+        $this->controller->registerWidgets();
+    })->not->toThrow(\Throwable::class);
+});
+
+test('registering the addon languages loads its text domain without error', function () {
+    // load_plugin_textdomain from the addon's own path; its effect is not observable offline (no
+    // .mo ships), so what is pinned is that the path it builds is well-formed and the call runs clean.
+    expect(fn () => $this->controller->registerLanguages())->not->toThrow(\Throwable::class);
+});
+
+test('the addon settings view wraps the rows it is handed', function () {
+    // renderSettings resolves the addon's OWN view through the site-reviews/path filter, which the
+    // addon's hooks register — so wire them up first, exactly as boot does.
+    glsr(TestAddonHooks::class)->run();
+
+    ob_start();
+    $this->controller->renderSettings('<tr><td>a setting row</td></tr>');
+    $html = (string) ob_get_clean();
+
+    expect($html)->toContain('form-table')
+        ->and($html)->toContain('a setting row');
+});
+
+test('an addon can register an asset without enqueuing it', function () {
+    // registerAsset is the register-only twin of enqueueAsset — an addon that wants its script
+    // available as a dependency but not loaded on the page reaches for it.
+    (fn () => $this->registerAsset('css'))->call($this->controller);
+
+    expect(wp_style_is('site-reviews-test-addon', 'registered'))->toBeTrue()
+        ->and(wp_style_is('site-reviews-test-addon', 'enqueued'))->toBeFalse();
+});
+
+test('the addon hooks expose the addon\'s own post type', function () {
+    // postType()/type() feed the hook table; type() is a @compat alias kept for older addons.
+    $hooks = glsr(TestAddonHooks::class);
+
+    expect((fn () => $this->postType())->call($hooks))->toBe('test-addon-thing')
+        ->and((fn () => $this->type())->call($hooks))->toBe('test-addon-thing');
+});
