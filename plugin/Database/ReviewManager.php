@@ -143,9 +143,7 @@ class ReviewManager
     public function deleteRating(int $reviewId): bool
     {
         $result = glsr(Database::class)->delete('ratings', ['review_id' => $reviewId]);
-        if ($result) {
-            glsr(Cache::class)->delete($reviewId, 'reviews');
-        }
+        glsr(Cache::class)->delete($reviewId, 'reviews'); // Always purge the cache
         return Cast::toInt($result) > 0;
     }
 
