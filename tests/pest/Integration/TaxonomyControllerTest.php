@@ -276,3 +276,67 @@ test('a site where no category has a priority pays nothing for the feature', fun
 
     expect(taxonomyController()->filterTermsClauses($unchanged, [glsr()->taxonomy], []))->toBe($unchanged);
 });
+
+/*
+ * Switching the feature off. `disable_term_priority` is the one filter that turns all of this off,
+ * and every write path checks it so that a site that does not want ordered categories is not made
+ * to store priority meta it will never read.
+ */
+
+test('with term priority switched off, a created category stores no priority', function () {
+    add_filter('site-reviews/taxonomy/disable_term_priority', '__return_true');
+    $termId = reviewCategory();
+
+    taxonomyController()->onTermCreated($termId, 0, ['term_priority' => 5]);
+
+    expect(get_term_meta($termId, 'term_priority', true))->toBe(''); // the early return: nothing written
+});
+
+test('with term priority switched off, editing a category leaves its priority alone', function () {
+    add_filter('site-reviews/taxonomy/disable_term_priority', '__return_true');
+    $termId = reviewCategory();
+    update_term_meta($termId, 'term_priority', 5);
+
+    taxonomyController()->onTermUpdated($termId, 0, ['term_priority' => 9]);
+
+    expect((int) get_term_meta($termId, 'term_priority', true))->toBe(5); // untouched
+});
+
+/*
+ * The three places the priority field is drawn.
+ */
+
+test('the add-category screen gets a priority field', function () {
+    ob_start();
+    taxonomyController()->renderAddFields();
+
+    expect((string) ob_get_clean())->toContain('term_priority');
+});
+
+test('the edit-category screen gets a priority field carrying the current value', function () {
+    $termId = reviewCategory();
+    update_term_meta($termId, 'term_priority', 7);
+    $term = get_term($termId, glsr()->taxonomy);
+
+    ob_start();
+    taxonomyController()->renderEditFields($term);
+    $html = (string) ob_get_clean();
+
+    expect($html)->toContain('term_priority')
+        ->and($html)->toContain('value="7"'); // pre-filled with the category's current priority
+});
+
+test('the quick-edit box gets a priority field, and only for our own column', function () {
+    // quick_edit_custom_box fires for every column of every taxonomy on the site; the guard draws
+    // the field only for our priority column, on our own taxonomy.
+    ob_start();
+    taxonomyController()->renderQuickEditFields('term_priority', 'edit-tags', glsr()->taxonomy);
+    $ours = (string) ob_get_clean();
+
+    ob_start();
+    taxonomyController()->renderQuickEditFields('name', 'edit-tags', glsr()->taxonomy); // not our column
+    $theirs = (string) ob_get_clean();
+
+    expect($ours)->toContain('term_priority')
+        ->and($theirs)->toBe('');
+});

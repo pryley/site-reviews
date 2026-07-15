@@ -12,10 +12,13 @@ use GeminiLabs\SiteReviews\Notices\WelcomeNotice;
 use GeminiLabs\SiteReviews\Notices\WriteReviewNotice;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\TestAddon\Application as TestAddon;
+use GeminiLabs\SiteReviews\Tests\InteractsWithAjax;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+
+uses(InteractsWithAjax::class);
 
 /*
  * The admin notices.
@@ -272,6 +275,24 @@ test('a notice can be dismissed from the page it is on', function () {
     glsr(NoticeController::class)->dismissNotice(new Request(['notice' => WelcomeNotice::class]));
 
     expect(dismissedNotices())->toHaveKey('welcome');
+});
+
+test('a notice can be dismissed over ajax, and the dismissal is reported', function () {
+    // The ajax twin of the route above — the same dismissal, wrapped in wp_send_json_success so the
+    // notice's own "dismiss" button can fire it without a page reload.
+    glsr(OptionManager::class)->set('version_upgraded_from', '0.0.0');
+    $this->setUpAjax();
+
+    try {
+        $response = $this->jsonSentBy(fn () => glsr(NoticeController::class)->dismissNoticeAjax(
+            new Request(['notice' => WelcomeNotice::class])
+        ));
+    } finally {
+        $this->tearDownAjax();
+    }
+
+    expect($response['success'])->toBeTrue()
+        ->and(dismissedNotices())->toHaveKey('welcome');
 });
 
 test('a notice dismissed "for now" is dismissed for now, not for the version', function () {

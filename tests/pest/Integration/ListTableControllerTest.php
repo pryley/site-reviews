@@ -1,13 +1,17 @@
 <?php
 
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Overrides\ReviewsListTable;
+use GeminiLabs\SiteReviews\Tests\InteractsWithAjax;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+
+uses(InteractsWithAjax::class);
 
 /*
  * The review list table.
@@ -426,4 +430,88 @@ test('the filters a person has switched on are remembered, and rating is on by d
     // and nobody else's screen gets our settings panel
     expect(glsr(ListTableController::class)->filterScreenFilters('', WP_Screen::get('edit-post')))
         ->toBe('');
+});
+
+test('the filter dropdowns are printed above the review table, and no other', function () {
+    // restrict_manage_posts fires above every list table on the site; the dropdowns are drawn only
+    // for the review post type, and only for the filters the person has switched on.
+    update_user_meta(get_current_user_id(), 'edit_'.glsr()->post_type.'_filters', ['rating']);
+    set_current_screen('edit-'.glsr()->post_type);
+
+    ob_start();
+    glsr(ListTableController::class)->renderColumnFilters(glsr()->post_type);
+    $ours = (string) ob_get_clean();
+
+    ob_start();
+    glsr(ListTableController::class)->renderColumnFilters('post'); // somebody else's list table
+    $theirs = (string) ob_get_clean();
+
+    expect($ours)->toContain('rating')  // at least the rating dropdown
+        ->and($theirs)->toBe('');
+});
+
+/*
+ * Quick Edit: saving a response inline.
+ *
+ * wp_ajax_inline_save is WordPress's own, and this overrides it for the review screen so that the
+ * one thing Quick Edit changes on a review — the site owner's response — is saved and the row
+ * redrawn. It refuses any screen that is not ours, so it never touches Quick Edit anywhere else.
+ */
+
+test('the inline save leaves every other post type to WordPress', function () {
+    // The guard, and it is the whole reason this is safe to hook onto a global ajax action: a
+    // wrong screen returns immediately, before the nonce check or anything else.
+    $review = createReview();
+    $_POST = ['screen' => 'edit-post', 'post_ID' => $review->ID, '_response' => 'should not save'];
+
+    glsr(ListTableController::class)->overrideInlineSaveAjax();
+
+    expect(glsr(ReviewManager::class)->get($review->ID, true)->response)
+        ->not->toBe('should not save'); // untouched (a review with no response reads back null)
+    $_POST = [];
+});
+
+test('the inline save writes the response and redraws the row', function () {
+    // The whole feature: the response typed into Quick Edit is saved to the review, and the row is
+    // reprinted so the screen updates without a reload. The side effect is what is asserted — the
+    // reprinted HTML is discarded by the ajax die, exactly as the browser would replace the row.
+    $review = createReview();
+    set_current_screen('edit-'.glsr()->post_type);
+    $this->setUpAjax();
+    $nonce = wp_create_nonce('inlineeditnonce');
+    $_POST = [
+        'screen' => 'edit-'.glsr()->post_type,
+        'post_ID' => (string) $review->ID,
+        '_inline_edit' => $nonce,
+        '_response' => 'Thank you for the kind words.',
+        'post_view' => 'list',
+    ];
+    $_REQUEST['_inline_edit'] = $nonce; // check_ajax_referer() reads the nonce from $_REQUEST, not $_POST
+
+    try {
+        $this->jsonSentBy(fn () => glsr(ListTableController::class)->overrideInlineSaveAjax());
+    } finally {
+        $this->tearDownAjax();
+        $_POST = [];
+        unset($_REQUEST['_inline_edit']);
+    }
+
+    // Read past the plugin's in-memory review cache, which still holds the pre-save copy.
+    expect(glsr(ReviewManager::class)->get($review->ID, true)->response)
+        ->toBe('Thank you for the kind words.');
+});
+
+/*
+ * The heartbeat lock check.
+ */
+
+test('the heartbeat check ignores a review nobody is editing', function () {
+    // heartbeat_received is asked, every fifteen seconds, who is editing what. A review with no
+    // lock on it is not somebody else's to warn about, so nothing is added to the response.
+    $review = createReview();
+    $data = ['wp-check-locked-posts' => ['post-'.$review->ID]];
+
+    $response = glsr(ListTableController::class)->filterCheckLockedReviews(['other' => 'kept'], $data);
+
+    expect($response)->toBe(['other' => 'kept']); // no lock, nothing added
 });

@@ -1,8 +1,10 @@
 <?php
 
+use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Commands\ImportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportReviewsCleanup;
 use GeminiLabs\SiteReviews\Commands\ProcessCsvFile;
+use GeminiLabs\SiteReviews\Controllers\ImportController;
 use GeminiLabs\SiteReviews\Database\ImportManager;
 use GeminiLabs\SiteReviews\Database\Tables\TableTmp;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -424,4 +426,57 @@ test('an upload that is not there is reported rather than imported', function ()
 
     expect($command->successful())->toBeFalse();
     expect(glsr(Notice::class)->get())->toContain('notice-error');
+});
+
+/*
+ * The geolocation columns.
+ *
+ * ImportController::filterReviewPostData fires on review/create/post_data, but ONLY during an import
+ * (it checks WP_IMPORTING) — which is why it is tested here, in the one suite where that constant is
+ * defined. It lifts the row's geolocation_* fields into the _geolocation meta the plugin reads back.
+ * StatDefaults decides which survive; rating_id belongs to the ratings table, not the meta, and is
+ * dropped.
+ */
+
+test('an imported review carries its geolocation columns into meta, minus the rating id', function () {
+    // The whole filter hinges on WP_IMPORTING. An import test defines it as a side effect, but not
+    // necessarily before this one under test:random — so define it here (the beforeEach's
+    // definesWpImporting() is what tells Pest.php that is expected).
+    if (!defined('WP_IMPORTING')) {
+        define('WP_IMPORTING', true);
+    }
+
+    // The request is set directly rather than through the constructor: the filter's contract is
+    // "given a create command whose request holds geolocation_* keys, add the meta", and this is the
+    // request as ProcessCsvFile hands it over, geolocation columns and all.
+    $command = new CreateReview(new Request());
+    $command->request = new Request([
+        'geolocation_country' => 'US',
+        'geolocation_city' => 'Springfield',
+        'geolocation_region' => 'IL',
+        'geolocation_rating_id' => 99, // belongs to the ratings table — must not survive into meta
+    ]);
+
+    $data = glsr(ImportController::class)->filterReviewPostData(['meta_input' => []], $command);
+
+    expect($data['meta_input'])->toHaveKey('_geolocation');
+    $geolocation = $data['meta_input']['_geolocation'];
+    expect($geolocation['country'])->toBe('US')
+        ->and($geolocation['city'])->toBe('Springfield')
+        ->and($geolocation['region'])->toBe('IL')
+        ->and($geolocation)->not->toHaveKey('rating_id');
+});
+
+test('without geolocation columns the review meta is left untouched', function () {
+    // The common import: no geolocation data on the row, so insertGeolocationMeta finds nothing and
+    // adds no _geolocation key rather than an empty one.
+    if (!defined('WP_IMPORTING')) {
+        define('WP_IMPORTING', true);
+    }
+    $command = new CreateReview(new Request());
+    $command->request = new Request(['title' => 'A review with no location']);
+
+    $data = glsr(ImportController::class)->filterReviewPostData(['meta_input' => ['existing' => 'kept']], $command);
+
+    expect($data['meta_input'])->toBe(['existing' => 'kept']);
 });
