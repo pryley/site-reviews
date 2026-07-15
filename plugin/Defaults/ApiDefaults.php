@@ -46,19 +46,19 @@ class ApiDefaults extends DefaultsAbstract
     protected function defaults(): array
     {
         return [
-            'blocking' => true,
+            'blocking' => true, // Whether the calling code requires the result of the request.
             'body' => null,
-            'compress' => false,
+            'compress' => false, // Whether to compress the $body when sending the request.
             'cookies' => [],
-            'decompress' => true,
+            'decompress' => true, // Whether to decompress a compressed response.
             'expiration' => DAY_IN_SECONDS,
-            'force' => false,
-            'headers' => [],
-            'max_retries' => 5,
+            'force' => false, // Whether to bypass any previously cached response
+            'headers' => [], // Array of headers to send with the request.
+            'max_retries' => 5, // The number of times a request can be retried
             'method' => 'GET',
-            'redirection' => 5,
-            'sslverify' => Helper::isLocalServer(),
-            'timeout' => 5,
+            'redirection' => 5, // Number of allowed redirects.
+            'sslverify' => !Helper::isLocalServer(), // Whether to verify SSL for the request.
+            'timeout' => 5, // How long the connection should stay open in seconds.
             'transient_key' => 'request',
         ];
     }
