@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Tests\NullQueue;
 
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\interceptHttp;
+use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
@@ -285,4 +286,45 @@ test('starting it queues the work and says how much there is', function () {
 
     expect(glsr(Notice::class)->get())->toContain('2 IP addresses');
     expect(get_transient(GeolocateReviews::LOCK_KEY))->not->toBeFalse(); // and it is locked
+});
+
+/*
+ * The edges of a batch: an empty reply, an invalid batch, and scheduling the next page.
+ */
+
+test('the response carries the notices back to the tools page', function () {
+    expect(geolocate()->response())->toHaveKey('notices');
+});
+
+test('a batch that comes back with nothing is logged and stored nowhere', function () {
+    // A 200 with an empty body — the far end had nothing to say about these IPs. Nothing is stored,
+    // and the batch is not mistaken for a failure to retry.
+    createReview(['ip_address' => '203.0.113.9']);
+    interceptHttp(geolocationReply([])); // OK, but no results
+
+    geolocate()->process();
+
+    expect(statCount())->toBe(0);
+});
+
+test('a 422 from the geolocation API is logged as an invalid batch', function () {
+    // ip-api answers 422 when the batch itself is malformed; that is worth a log line of its own,
+    // distinct from an ordinary failed request.
+    interceptHttp(['response' => ['code' => 422, 'message' => 'Unprocessable Entity']]);
+
+    $response = protectedMethod(GeolocateReviews::class, 'fetchRemoteGeolocationData')
+        ->invoke(geolocate(), ['203.0.113.9']);
+
+    expect($response->code)->toBe(422);
+});
+
+test('a full batch schedules the next page and keeps the lock', function () {
+    // When a batch comes back completely full there are probably more reviews behind it, so the next
+    // page is queued and the lock is HELD (a short batch would release it instead).
+    set_transient(GeolocateReviews::LOCK_KEY, true, HOUR_IN_SECONDS);
+
+    protectedMethod(GeolocateReviews::class, 'scheduleNextBatchIfNeeded')
+        ->invoke(geolocate(), 0, 2, ['a', 'b']); // count === batchSize
+
+    expect(get_transient(GeolocateReviews::LOCK_KEY))->not->toBeFalse(); // lock kept for the next page
 });
