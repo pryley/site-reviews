@@ -46,6 +46,7 @@ beforeEach(function () {
 
 afterEach(function () {
     set_current_screen('front'); // the permission test leaves an admin screen behind
+    $_FILES = []; // the settings-import test puts a file there
 });
 
 function reviewsTable(string $name): string
@@ -228,8 +229,10 @@ test('the csv export refuses a user who cannot use the tools page', function () 
  *
  * handle() reads an uploaded file, and an uploaded file cannot exist here:
  * UploadedFile::isValid() asks is_uploaded_file(), which is only ever true for a
- * file that arrived in THIS request over HTTP — never in a CLI process. So what is
- * tested is import(), which is what handle() calls once it has the JSON.
+ * file that arrived in THIS request over HTTP — never in a CLI process. So its
+ * happy path is out of reach and what is tested for it is import(), which is what
+ * handle() calls once it has the JSON. The one slice of handle() that IS reachable
+ * is its refusal, tested last.
  */
 
 function importSettings(array $data): bool
@@ -268,4 +271,24 @@ test('an imported version number is discarded', function () {
 
     expect(glsr(OptionManager::class)->get('version'))->toBe($version)
         ->and(glsr(OptionManager::class)->get('version_upgraded_from'))->not->toBe('0.0.1');
+});
+
+test('the settings import fails cleanly when no file was uploaded', function () {
+    // The one path through handle() a CLI test can reach. It is not a contrivance: it is exactly
+    // what an admin who submits the import form without choosing a file gets — getImportFile()
+    // refuses, and handle() (which marked itself failed up front) bails, importing nothing.
+    $_FILES['import-files'] = [
+        'error' => UPLOAD_ERR_NO_FILE,
+        'name' => '',
+        'size' => 0,
+        'tmp_name' => '',
+        'type' => '',
+    ];
+    glsr(Notice::class)->clear();
+    $command = new ImportSettings();
+
+    $command->handle();
+
+    expect($command->successful())->toBeFalse()
+        ->and(glsr(Notice::class)->get())->toContain('No file was uploaded');
 });
