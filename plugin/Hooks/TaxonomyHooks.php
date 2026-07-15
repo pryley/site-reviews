@@ -14,12 +14,14 @@ class TaxonomyHooks extends AbstractHooks
             ['filterDefaultHiddenColumns', 'default_hidden_columns', 10, 2],
             ['filterRowActions', "{$this->taxonomy}_row_actions", 10, 2],
             ['filterTermsClauses', 'terms_clauses', 10, 3],
+            ['onTermCreated', "create_{$this->taxonomy}", 10, 3],
+            ['onTermDeleted', 'deleted_term_meta', 10, 3],
+            ['onTermPriorityChanged', 'added_term_meta', 10, 3],
+            ['onTermPriorityChanged', 'updated_term_meta', 10, 3],
+            ['onTermUpdated', "edit_{$this->taxonomy}", 10, 3],
             ['renderAddFields', "{$this->taxonomy}_add_form_fields"],
             ['renderEditFields', "{$this->taxonomy}_edit_form_fields"],
             ['renderQuickEditFields', 'quick_edit_custom_box', 10, 3],
-            ['termPriorityCreated', "create_{$this->taxonomy}", 10, 3],
-            ['termPriorityDeleted', 'deleted_term_meta', 10, 3],
-            ['termPriorityUpdated', "edit_{$this->taxonomy}", 10, 3],
         ]);
     }
 }

@@ -111,6 +111,55 @@ class TaxonomyController extends AbstractController
     }
 
     /**
+     * @action create_{glsr()->taxonomy}
+     */
+    public function onTermCreated(int $termId, int $ttId, array $args): void
+    {
+        if (!$this->termPriorityEnabled()) {
+            return;
+        }
+        $value = Arr::getAs('int', $args, static::PRIORITY_META_KEY);
+        if (0 !== $value) {
+            update_term_meta($termId, static::PRIORITY_META_KEY, $value); // transient deleted with "added_term_meta" hook
+        }
+    }
+
+    /**
+     * @param string[] $metaIds
+     *
+     * @action deleted_term_meta
+     */
+    public function onTermDeleted(array $metaIds, int $termId, string $metaKey): void
+    {
+        $this->forgetTermPriorityExists($termId, $metaKey);
+    }
+
+    /**
+     * @action added_term_meta
+     * @action updated_term_meta
+     */
+    public function onTermPriorityChanged(int $metaId, int $termId, string $metaKey): void
+    {
+        $this->forgetTermPriorityExists($termId, $metaKey);
+    }
+
+    /**
+     * @action edit_{glsr()->taxonomy}
+     */
+    public function onTermUpdated(int $termId, int $ttId, array $args): void
+    {
+        if (!$this->termPriorityEnabled()) {
+            return;
+        }
+        $value = Arr::getAs('int', $args, static::PRIORITY_META_KEY);
+        if (0 === $value) {
+            delete_term_meta($termId, static::PRIORITY_META_KEY); // transient deleted with "deleted_term_meta" hook
+        } else {
+            update_term_meta($termId, static::PRIORITY_META_KEY, $value); // transient deleted with "added_term_meta"/"updated_term_meta" hook
+        }
+    }
+
+    /**
      * @action {glsr()->taxonomy}_add_form_fields
      */
     public function renderAddFields(): void
@@ -150,49 +199,15 @@ class TaxonomyController extends AbstractController
         }
     }
 
-    /**
-     * @action create_{glsr()->taxonomy}
-     */
-    public function termPriorityCreated(int $termId, int $ttId, array $args): void
+    protected function forgetTermPriorityExists(int $termId, string $metaKey): void
     {
-        if (!$this->termPriorityEnabled()) {
+        if (static::PRIORITY_META_KEY !== $metaKey) {
             return;
         }
-        $value = Arr::getAs('int', $args, static::PRIORITY_META_KEY);
-        if (0 !== $value) {
-            update_term_meta($termId, static::PRIORITY_META_KEY, $value);
-            delete_transient(glsr()->prefix.static::PRIORITY_META_KEY);
+        if (!is_a(get_term($termId, glsr()->taxonomy), \WP_Term::class)) {
+            return; // somebody else's taxonomy has a term_priority of its own
         }
-    }
-
-    /**
-     * @param string[] $metaIds
-     *
-     * @action deleted_term_meta
-     */
-    public function termPriorityDeleted(array $metaIds, int $termId, string $metaKey): void
-    {
-        $term = get_term((int) $termId, glsr()->taxonomy);
-        if (is_a($term, \WP_Term::class) && static::PRIORITY_META_KEY === $metaKey) {
-            delete_transient(glsr()->prefix.static::PRIORITY_META_KEY);
-        }
-    }
-
-    /**
-     * @action edit_{glsr()->taxonomy}
-     */
-    public function termPriorityUpdated(int $termId, int $ttId, array $args): void
-    {
-        if (!$this->termPriorityEnabled()) {
-            return;
-        }
-        $value = Arr::getAs('int', $args, static::PRIORITY_META_KEY);
-        if (0 === $value) {
-            delete_term_meta($termId, static::PRIORITY_META_KEY); // transient deleted with "deleted_term_meta" hook
-        } else {
-            update_term_meta($termId, static::PRIORITY_META_KEY, $value);
-            delete_transient(glsr()->prefix.static::PRIORITY_META_KEY);
-        }
+        delete_transient(glsr()->prefix.static::PRIORITY_META_KEY);
     }
 
     protected function termPriority(int $termId): int
