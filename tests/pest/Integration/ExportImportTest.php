@@ -129,6 +129,25 @@ test('a rating survives a WordPress export and import', function () {
     expect(exportedMeta($review->ID))->toBeEmpty();
 });
 
+test('a review assigned to nothing is imported with just its rating, no assignment rows', function () {
+    // prepareAssignedValues skips any review with no assigned posts, users or terms — there is
+    // nothing to rebuild for it, so it moves on rather than inserting an empty assignment row.
+    $review = createReview(['rating' => 4]); // assigned to nothing
+
+    (new ExportRatings(glsr()->args(['content' => glsr()->post_type])))->handle();
+
+    global $wpdb;
+    $wpdb->query('DELETE FROM '.reviewsTable('ratings'));
+    expect(freshReview($review->ID)->isValid())->toBeFalse();
+
+    (new ImportRatings())->handle();
+
+    $imported = freshReview($review->ID);
+    expect($imported->isValid())->toBeTrue()
+        ->and($imported->rating)->toBe(4)
+        ->and($imported->assigned_posts)->toBe([]); // nothing was assigned, nothing rebuilt
+});
+
 test('the export meta is rebuilt rather than appended to', function () {
     // handle() deletes every export key before it writes, so exporting twice does
     // not leave two copies of every rating behind.
