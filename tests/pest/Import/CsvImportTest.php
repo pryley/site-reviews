@@ -480,3 +480,45 @@ test('without geolocation columns the review meta is left untouched', function (
 
     expect($data['meta_input'])->toBe(['existing' => 'kept']);
 });
+
+/*
+ * The two encodings the reader transcodes, and the one file it never receives.
+ */
+
+test('a UTF-16 CSV is transcoded to UTF-8 before it is read', function () {
+    // Windows spreadsheet exports are often UTF-16 with a byte-order mark; the reader detects the BOM
+    // and converts, rather than reading the bytes as garbage.
+    $content = "\xFF\xFE".mb_convert_encoding(csvFixture(), 'UTF-16LE', 'UTF-8');
+
+    $command = processCsv($content);
+
+    expect($command->response()['total'])->toBe(2); // the two importable rows, read through the transcode
+});
+
+test('a UTF-32 CSV is transcoded to UTF-8 before it is read', function () {
+    $content = "\xFF\xFE\x00\x00".mb_convert_encoding(csvFixture(), 'UTF-32LE', 'UTF-8');
+
+    $command = processCsv($content);
+
+    expect($command->response()['total'])->toBe(2);
+});
+
+test('a process job whose uploaded file has vanished is reported, not fatal', function () {
+    // handle() (as opposed to the process() the other tests drive) opens the file itself, and the
+    // temp copy can be gone by the time it looks — a FileNotFoundException it must catch.
+    $path = tempnam(sys_get_temp_dir(), 'glsr').'.csv';
+    file_put_contents($path, csvFixture());
+    unlink($path); // the temp file is gone
+    $_FILES['import-files'] = [
+        'error' => \UPLOAD_ERR_OK,
+        'name' => 'reviews.csv',
+        'size' => 1,
+        'tmp_name' => $path,
+        'type' => 'text/csv',
+    ];
+
+    $command = new ProcessCsvFile(new Request(['date_format' => 'Y-m-d', 'delimiter' => ',']));
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+});
