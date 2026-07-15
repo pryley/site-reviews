@@ -2,9 +2,14 @@
 
 use GeminiLabs\SiteReviews\Controllers\NoticeController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Gatekeeper;
+use GeminiLabs\SiteReviews\License;
 use GeminiLabs\SiteReviews\Notices\AbstractNotice;
 use GeminiLabs\SiteReviews\Notices\GatekeeperNotice;
+use GeminiLabs\SiteReviews\Notices\LicenseExpiredNotice;
+use GeminiLabs\SiteReviews\Notices\LicenseMissingNotice;
 use GeminiLabs\SiteReviews\Notices\LicensePromotedNotice;
+use GeminiLabs\SiteReviews\Notices\MigrationNotice;
 use GeminiLabs\SiteReviews\Notices\RetiredFreeNotice;
 use GeminiLabs\SiteReviews\Notices\RetiredPremiumNotice;
 use GeminiLabs\SiteReviews\Notices\UpgradedNotice;
@@ -13,6 +18,7 @@ use GeminiLabs\SiteReviews\Notices\WriteReviewNotice;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\TestAddon\Application as TestAddon;
 use GeminiLabs\SiteReviews\Tests\InteractsWithAjax;
+use GeminiLabs\SiteReviews\Tests\NullQueue;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
@@ -495,4 +501,147 @@ test('dismissing the premium banner buys three weeks of quiet, not silence forev
     update_user_meta(get_current_user_id(), AbstractNotice::USER_META_KEY, $dismissed);
 
     expect(noticeLoaded(new LicensePromotedNotice()))->toBeTrue();
+});
+
+/*
+ * The Gatekeeper notice: the integrations that could not be switched on, and what to do about each.
+ * It reads the errors the Gatekeeper left in a transient and, for every plugin, offers the action
+ * that would fix it — activate, install or update — to whoever has the capability for it.
+ */
+
+function gatekeeperError(string $error, string $name, string $plugin, string $textdomain): array
+{
+    return [$plugin => [
+        'error' => $error,
+        'name' => $name,
+        'plugin_uri' => "https://example.org/{$textdomain}",
+        'textdomain' => $textdomain,
+    ]];
+}
+
+test('the gatekeeper notice offers to activate, install and update the plugins an integration needs', function () {
+    set_current_screen('plugins');
+    wp_set_current_user(createUser(['role' => 'administrator'])); // has activate/install/update_plugins
+    set_transient(glsr()->prefix.'gatekeeper', array_merge(
+        gatekeeperError(Gatekeeper::ERROR_NOT_ACTIVATED, 'Plugin A', 'a/a.php', 'a'),
+        gatekeeperError(Gatekeeper::ERROR_NOT_INSTALLED, 'Plugin B', 'b/b.php', 'b'),
+        gatekeeperError(Gatekeeper::ERROR_NOT_SUPPORTED, 'Plugin C', 'c/c.php', 'c'),
+    ));
+
+    $notice = new GatekeeperNotice(); // canLoad() reads the transient into $this->errors
+    $data = (fn () => $this->data())->call($notice);
+
+    expect($data['message'])->toContain('requires the latest version')
+        ->and($data['message'])->toContain('Plugin A');
+    expect($data['actions'])->toContain('Activate')
+        ->and($data['actions'])->toContain('Install')
+        ->and($data['actions'])->toContain('Update');
+});
+
+test('the gatekeeper notice asks only for an update when an integration is merely untested', function () {
+    set_current_screen('plugins');
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    set_transient(glsr()->prefix.'gatekeeper',
+        gatekeeperError(Gatekeeper::ERROR_NOT_TESTED, 'Plugin D', 'd/d.php', 'd')
+    );
+
+    $notice = new GatekeeperNotice();
+    $data = (fn () => $this->data())->call($notice);
+
+    // the "needs an update to work with" wording, and no button — there is no action for "untested"
+    expect($data['message'])->toContain('needs an update')
+        ->and($data['message'])->toContain('Plugin D')
+        ->and($data['actions'])->toBe('');
+});
+
+/*
+ * The licence banners, which turn on and off with the licence server's answer. That answer is faked
+ * here so the tests never leave the machine: the notices only ever read License::status().
+ */
+
+function withLicenseStatus(array $status, callable $callback): void
+{
+    $original = glsr(License::class);
+    $fake = new class() extends License {
+        public array $fakeStatus = [];
+
+        public function status(): array
+        {
+            return $this->fakeStatus;
+        }
+    };
+    $fake->fakeStatus = wp_parse_args($status, array_fill_keys(['expired', 'invalid', 'licensed', 'missing', 'premium'], false));
+    glsr()->alias(License::class, $fake);
+    try {
+        $callback();
+    } finally {
+        glsr()->alias(License::class, $original);
+    }
+}
+
+test('the licence-expired banner shows once a licence has lapsed, and not before', function () {
+    withLicenseStatus(['licensed' => true, 'expired' => true], function () {
+        expect(renderedNotice(new LicenseExpiredNotice()))->toContain('glsr-notice');
+    });
+    withLicenseStatus(['licensed' => true, 'expired' => false], function () {
+        expect(renderedNotice(new LicenseExpiredNotice()))->toBe(''); // licensed, nothing expired
+    });
+    withLicenseStatus(['licensed' => false], function () {
+        expect(renderedNotice(new LicenseExpiredNotice()))->toBe(''); // unlicensed, nothing to expire
+    });
+});
+
+test('the licence-missing banner shows when a key is absent, and not otherwise', function () {
+    withLicenseStatus(['licensed' => true, 'missing' => true], function () {
+        expect(renderedNotice(new LicenseMissingNotice()))->toContain('glsr-notice');
+    });
+    withLicenseStatus(['licensed' => true, 'missing' => false], function () {
+        expect(renderedNotice(new LicenseMissingNotice()))->toBe(''); // licensed, nothing missing
+    });
+});
+
+test('the licence-promoted banner is for the UNLICENSED, so a licensed site never sees it', function () {
+    withLicenseStatus(['licensed' => true], function () {
+        expect(renderedNotice(new LicensePromotedNotice()))->toBe('');
+    });
+});
+
+test('each version-deferred notice defers to the right granularity', function () {
+    // deferVersion is what dismiss() records so a "not this version" dismissal knows when to lapse:
+    // the banners come back on the next MINOR, the upgrade popup on the next MAJOR.
+    expect((fn () => $this->deferVersion())->call(new LicenseExpiredNotice()))->toBe(glsr()->version('minor'))
+        ->and((fn () => $this->deferVersion())->call(new LicenseMissingNotice()))->toBe(glsr()->version('minor'))
+        ->and((fn () => $this->deferVersion())->call(new LicensePromotedNotice()))->toBe(glsr()->version('minor'))
+        ->and((fn () => $this->deferVersion())->call(new UpgradedNotice()))->toBe(glsr()->version('major'));
+});
+
+/*
+ * The retired-addon notices, and the migration notice.
+ */
+
+test('the retired-addon notices fall back to the plugin screens when off the admin dashboard', function () {
+    // isNoticeScreen short-circuits to true on the dashboard/plugins/update-core screens; on the
+    // plugin's own screens it defers to the base rule (which is also true there).
+    onAReviewScreen();
+
+    expect((fn () => $this->isNoticeScreen())->call(new RetiredFreeNotice()))->toBeTrue()
+        ->and((fn () => $this->isNoticeScreen())->call(new RetiredPremiumNotice()))->toBeTrue();
+});
+
+test('the migration notice stays down when nothing needs migrating', function () {
+    // A freshly-migrated database with no queued migration has nothing to announce.
+    onAReviewScreen();
+
+    expect((fn () => $this->canLoad())->call(new MigrationNotice()))->toBeFalse();
+});
+
+test('the migration notice loads while a migration is already queued', function () {
+    onAReviewScreen();
+    NullQueue::$isPending = true;
+
+    try {
+        expect((fn () => $this->canLoad())->call(new MigrationNotice()))->toBeTrue();
+    } finally {
+        NullQueue::$isPending = false;
+    }
 });
