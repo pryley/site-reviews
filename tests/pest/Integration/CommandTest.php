@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Commands\AssignTerms;
 use GeminiLabs\SiteReviews\Commands\AssignUsers;
 use GeminiLabs\SiteReviews\Commands\ChangeLogLevel;
 use GeminiLabs\SiteReviews\Commands\ClearConsole;
+use GeminiLabs\SiteReviews\Commands\MigratePlugin;
 use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Commands\ToggleVerified;
@@ -255,5 +256,16 @@ test('refuses to clear the console without permission', function () {
 
     expect($command->successful())->toBeFalse();
     expect(glsr(Console::class)->get())->toContain('A logged error.'); // not cleared
+    set_current_screen('front');
+});
+
+test('refuses to migrate the plugin without permission', function () {
+    set_current_screen('site-review_page_'.glsr()->id.'-tools');
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+
+    $command = new MigratePlugin(new Request());
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
     set_current_screen('front');
 });
