@@ -1,0 +1,83 @@
+filter:
+  dependency_paths:
+    - vendor/
+    - vendors/               # the plugin's BUNDLED runtime libraries
+    - wp-content/plugins/*   # the third-party plugins below, for class resolution only
+    - wp-content/themes/*
+  excluded_paths:
+    - assets/
+    - languages/
+    - node_modules/
+    - tests/
+
+build:
+  dependencies:
+    override: true
+  nodes:
+    analysis:
+      cache:
+        disabled: false
+        directories:
+          - ~/.composer/cache
+      environment:
+        node: false
+        php:
+          version: '8.1'   # the newest the Scrutinizer mirror reliably builds; the code is 8.1.2+
+      dependencies:
+        before:
+          - composer config --no-plugins allow-plugins.composer/installers true
+          - composer config --no-plugins allow-plugins.cweagans/composer-patches true
+          - composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          - composer config --no-plugins allow-plugins.johnpbloch/wordpress-core-installer true
+          - composer config --no-plugins allow-plugins.pestphp/pest-plugin true
+          - composer config repositories.wpackagist composer https://wpackagist.org
+          - composer config repositories.breakdance vcs https://github.com/pryley/breakdance
+          - composer config repositories.bricks vcs https://github.com/pryley/bricks
+          - composer config repositories.divi vcs https://github.com/pryley/Divi
+          - composer config repositories.fusion-builder vcs https://github.com/pryley/fusion-builder
+          - composer config repositories.multilingualpress vcs https://github.com/pryley/multilingualpress
+          - composer config repositories.wpbakery vcs https://github.com/pryley/wpbakery
+          # Third-party plugins/themes, for the analyser's class resolution only.
+          - composer require --dev --no-audit --ignore-platform-reqs breakdance/plugin
+          - composer require --dev --no-audit --ignore-platform-reqs bricks/theme
+          - composer require --dev --no-audit --ignore-platform-reqs elegantthemes/divi
+          - composer require --dev --no-audit --ignore-platform-reqs inpsyde/multilingualpress
+          - composer require --dev --no-audit --ignore-platform-reqs themefusion/fusion-builder
+          - composer require --dev --no-audit --ignore-platform-reqs wpbakery/js_composer
+          - composer require --dev --no-audit --ignore-platform-reqs wpackagist-plugin/buddypress:dev-trunk
+          - composer require --dev --no-audit --ignore-platform-reqs wpackagist-plugin/elementor:dev-trunk
+          - composer require --dev --no-audit --ignore-platform-reqs wpackagist-plugin/gamipress:dev-trunk
+          - composer require --dev --no-audit --ignore-platform-reqs wpackagist-plugin/mycred:dev-trunk
+          - composer require --dev --no-audit --ignore-platform-reqs wpackagist-plugin/polylang:dev-trunk
+          - composer require --dev --no-audit --ignore-platform-reqs wpackagist-plugin/surecart:dev-trunk
+          - composer require --dev --no-audit --ignore-platform-reqs wpackagist-plugin/ultimate-member:dev-trunk
+          - composer require --dev --no-audit --ignore-platform-reqs wpackagist-plugin/woocommerce:dev-trunk
+          - composer require --dev --no-audit --ignore-platform-reqs wpackagist-plugin/woorewards:dev-trunk
+          - composer require --dev --no-audit --ignore-platform-reqs wpackagist-plugin/wp-user-avatar:dev-trunk # profilepress
+          - composer require --dev --no-audit --ignore-platform-reqs wpackagist-plugin/wployalty:dev-trunk
+        override:
+          - composer install --no-interaction --ignore-platform-reqs
+      tests:
+        override:
+          - jshint-run
+          - php-scrutinizer-run --enable-security-analysis
+
+tools:
+  php_code_sniffer:
+    config:
+      standard: WordPress
+  sensiolabs_security_checker: true
+
+checks:
+  php:
+    no_exit: false
+    simplify_boolean_return: true
+    check_method_contracts:
+      verify_interface_like_constraints: true
+      verify_documented_constraints: true
+      verify_parent_constraints: true
+    return_doc_comments: true
+    return_doc_comment_if_not_inferrable: true
+  javascript:
+    no_else_return: true
+    eqeqeq: true

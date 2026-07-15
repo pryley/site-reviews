@@ -1,0 +1,108 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop, feature/pest]
+  pull_request:
+
+# One run per branch/PR; a new push cancels the previous, still-running one.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyse:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse --memory-limit 2G
+
+  test:
+    name: Pest (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3', '8.4']
+
+    services:
+      # MariaDB, to match wp-env (mariadb:lts) rather than introduce a MySQL-vs-MariaDB difference.
+      mariadb:
+        image: mariadb:lts
+        env:
+          MARIADB_ROOT_PASSWORD: root
+          MARIADB_DATABASE: wordpress_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      WP_VERSION: '7.0.1'
+      XDEBUG_MODE: 'off'
+
+    steps:
+      # fetch-depth: 0 pulls the FULL history. The default is a shallow clone (the tip commit
+      # only), which leaves Codecov unable to identify the base commit reliably — so its PR
+      # coverage diffs get flaky. Codecov still works on a shallow clone, but the full history is
+      # what makes "this PR changes coverage by -0.3%" accurate. The analyse job needs none of this
+      # and keeps the fast shallow default.
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: pcov          # `pest --coverage` uses pcov when Xdebug is off
+          tools: composer:v2, wp-cli
+
+      - name: Locate WordPress
+        run: echo "WP_ROOT=$RUNNER_TEMP/wordpress" >> "$GITHUB_ENV"
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+
+      - name: Install WordPress
+        run: |
+          wp core download --path="$WP_ROOT" --version="$WP_VERSION"
+          wp config create --path="$WP_ROOT" \
+            --dbname=wordpress_test --dbuser=root --dbpass=root --dbhost=127.0.0.1:3306 --skip-check
+          wp core install --path="$WP_ROOT" \
+            --url=http://localhost --title=CI \
+            --admin_user=admin --admin_password=admin --admin_email=ci@example.org --skip-email
+
+      - name: Activate the plugin and the test mu-plugin
+        run: |
+          ln -s "$GITHUB_WORKSPACE" "$WP_ROOT/wp-content/plugins/site-reviews"
+          wp plugin activate site-reviews --path="$WP_ROOT"
+          mkdir -p "$WP_ROOT/wp-content/mu-plugins"
+          ln -s "$GITHUB_WORKSPACE/tests/pest/mu-plugins/site-reviews-tests.php" \
+            "$WP_ROOT/wp-content/mu-plugins/site-reviews-tests.php"
+
+      - name: Run the suite with coverage
+        run: composer test:coverage
+
+      - name: Upload coverage to Codecov
+        if: matrix.php == '8.3'
+        uses: codecov/codecov-action@v5
+        with:
+          files: tests/coverage/clover.xml
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}

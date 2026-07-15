@@ -15,6 +15,30 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ## Technical debt
 
+- [ ] **The asset optimizer assumes the plugin folder is named exactly `site-reviews`.**
+  `AbstractAsset::combine()` turns a source URL into a filesystem path by
+  `substr(glsr()->path(), 0, -1 * strlen(glsr()->id.'/'))` — it strips a HARD-CODED
+  `strlen('site-reviews/')` (13 characters) off the end of the plugin path, on the
+  assumption that the path ends in `site-reviews/`. `file()` (the combined-asset target)
+  builds its uploads path from `glsr()->id` too.
+
+  On any install where the plugin directory is NOT named `site-reviews`, that strip
+  removes the wrong number of characters and every combined path comes out corrupted —
+  the CI run that exposed this, from a folder named `plugin/`, produced
+  `.../site-resite-reviews/assets/...`. The combined stylesheet/script is then written
+  and served from a path that does not exist: a silently broken front end.
+
+  Qualified, twice over: asset optimization is OPT-IN (off by default, enabled by the
+  `optimize/css` / `optimize/js` filters), and the folder is `site-reviews` on a
+  wordpress.org install. It bites a site that (a) installed from a GitHub zip — which
+  unpacks as `site-reviews-main`, `site-reviews-8.1.1`, etc. — or otherwise renamed the
+  folder, AND (b) turned optimization on. Low severity, not a release blocker.
+
+  The fix is to derive the trailing segment from the ACTUAL basename of `glsr()->path()`
+  rather than assume `glsr()->id`. Found when the GitHub Actions suite ran the plugin
+  from a differently-named directory; see .github/workflows/ci.yml, which now checks the
+  plugin out as `site-reviews` specifically to sidestep it.
+
 - [ ] **An empty `glsr_db_version` is treated as an ANCIENT database, and silently
   fabricates a record of consent.** `migration.php` registers, for the life of every
   request:

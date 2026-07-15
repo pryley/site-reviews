@@ -13,9 +13,10 @@ coverage.xml
 mix-manifest.json
 npm-debug.log*
 
+/*.html
+/*.md
+
+!.github
 coverage
 node_modules
 vendor
-
-/*.html
-/*.md

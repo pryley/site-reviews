@@ -1,12 +1,15 @@
 # Site Reviews
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/pryley/site-reviews/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/pryley/site-reviews/?branch=main) [![Build Status](https://scrutinizer-ci.com/g/pryley/site-reviews/badges/build.png?b=main)](https://scrutinizer-ci.com/g/pryley/site-reviews/build-status/main) [![Code Coverage](https://scrutinizer-ci.com/g/pryley/site-reviews/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/pryley/site-reviews/?branch=main) [![License](https://img.shields.io/badge/license-GPLv3-brightgreen.svg)](https://github.com/pryley/site-reviews/blob/main/LICENSE)
+![Site Reviews banner](+/assets/banner-1544x500.png)
 
-![Site Reviews banner](+/screenshots/banner-1544x500.png)
+[![CI](https://github.com/pryley/site-reviews/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/pryley/site-reviews/actions/workflows/ci.yml) 
+[![Codecov](https://codecov.io/github/pryley/site-reviews/branch/main/graph/badge.svg?token=uVOseBhFnJ)](https://codecov.io/github/pryley/site-reviews)
+[![Scrutinizer](https://scrutinizer-ci.com/g/pryley/site-reviews/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/pryley/site-reviews/?branch=main) 
+[![License](https://img.shields.io/badge/license-GPLv3-brightgreen.svg)](https://github.com/pryley/site-reviews/blob/main/LICENSE)
 
-Site Reviews is a WordPress plugin which allows you to receive and display reviews on your website or blog using easy-to-use blocks, shortcodes, and widgets.
+Site Reviews is the best free reviews plugin. It integrates with WooCommerce and SureCart and works just like reviews on Amazon, Tripadvisor, and Yelp.
 
-Minimum plugin requirements:
+### Minimum plugin requirements
 
-* PHP 8.1.2
-* WordPress 6.7
+- PHP 8.1.2
+- WordPress 6.8
