@@ -278,6 +278,17 @@ test('a file list with a missing file is skipped rather than fatal', function ()
         ->and($files[0]->getClientOriginalName())->toBe('one.json');
 });
 
+test('a single-file upload is wrapped into a list of one', function () {
+    // When only one file is uploaded $_FILES is flat, not the transposed array of a multi-file
+    // upload, so files() wraps it into a one-item list rather than iterating its characters.
+    $_FILES['import-files'] = uploadedFileData('{"a":1}', 'only.json');
+
+    $files = (new UploadHarness())->callFiles();
+
+    expect($files)->toHaveCount(1)
+        ->and($files[0]->getClientOriginalName())->toBe('only.json');
+});
+
 test('the full_path key php 8.1 adds is dropped', function () {
     // PHP 8.1 added full_path to $_FILES, which broke the shape fixPhpFilesArray
     // matches on: it compares the key list against exactly five names.
@@ -301,6 +312,18 @@ test('no file to import is reported to the user', function () {
     expect(glsr(Notice::class)->get())
         ->toContain('notice-error')
         ->toContain('unknown error');
+});
+
+test('an import file whose temporary copy has vanished is refused, not fatal', function () {
+    // The other way in: a file that WAS uploaded (error OK) but whose temp copy is already gone by
+    // the time getImportFile() looks. file() throws FileNotFoundException; getImportFile catches it,
+    // reports it, and returns null instead of letting it escape.
+    $data = uploadedFileData('{}');
+    unlink($data['tmp_name']);
+    $_FILES['import-files'] = $data;
+
+    expect((new UploadHarness())->callGetImportFile('application/json'))->toBeNull();
+    expect(glsr(Notice::class)->get())->toContain('notice-error');
 });
 
 test('json is decoded, and an empty file says so', function () {
