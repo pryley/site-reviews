@@ -244,3 +244,16 @@ test('clears the console', function () {
     expect($command->successful())->toBeTrue();
     expect(glsr(Console::class)->get())->not->toContain('Something went wrong.');
 });
+
+test('refuses to clear the console without permission', function () {
+    glsr_log()->error('A logged error.');
+    set_current_screen('site-review_page_'.glsr()->id.'-tools');
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+
+    $command = new ClearConsole();
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+    expect(glsr(Console::class)->get())->toContain('A logged error.'); // not cleared
+    set_current_screen('front');
+});
