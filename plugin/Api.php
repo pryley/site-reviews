@@ -2,9 +2,8 @@
 
 namespace GeminiLabs\SiteReviews;
 
-use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\ApiDefaults;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
@@ -38,25 +37,24 @@ class Api
 
     public function flush(string $transientKey, string $path = '', array $body = []): void
     {
-        $transient = $this->transientKey($path, $transientKey, $body);
-        delete_site_transient($transient);
+        $this->forget($this->transientKey($path, $transientKey, $body));
     }
 
+    /**
+     * Forgets every cached response for this transient key and path regardless of body.
+     */
     public function flushAll(string $transientKey, string $path = ''): void
     {
-        $transient = $this->transientKey($path, $transientKey);
-        $transient = "_site_transient_{$transient}%";
-        $sql = "
-            SELECT option_name
-            FROM table|options
-            WHERE option_name LIKE %s
-        ";
-        $transientKeys = glsr(Database::class)->dbGetCol(
-            glsr(Query::class)->sql($sql, $transient)
-        );
-        foreach ($transientKeys as $transient) {
-            delete_site_transient($transient);
+        $prefix = $this->transientKey($path, $transientKey); // no body: the common prefix
+        $remaining = [];
+        foreach ($this->remembered() as $transient) {
+            if (str_starts_with($transient, $prefix)) {
+                delete_site_transient($transient);
+                continue;
+            }
+            $remaining[] = $transient;
         }
+        $this->rememberAll($remaining);
     }
 
     public function get(string $path, array $args = []): Response
@@ -75,7 +73,7 @@ class Api
         $body = glsr(Sanitizer::class)->sanitizeJson($args['body'] ?: []); // in case body is a JSON string
         $transientKey = $this->transientKey($path, $args['transient_key'], $body);
         if ($args['force']) {
-            delete_site_transient($transientKey);
+            $this->forget($transientKey);
         } else {
             $result = get_site_transient($transientKey);
             if (!empty($result)) {
@@ -90,7 +88,7 @@ class Api
             $result = wp_remote_request($url, wp_parse_args(compact('timeout'), $args));
             $response = new Response($result);
             if ($response->successful()) {
-                set_site_transient($transientKey, $result, $args['expiration']);
+                $this->remember($transientKey, $result, $args['expiration']);
                 return $response;
             }
             if (!$response->shouldRetry()) {
@@ -126,6 +124,15 @@ class Api
     }
 
     /**
+     * Deletes a cached response, and stops remembering it.
+     */
+    protected function forget(string $transientKey): void
+    {
+        delete_site_transient($transientKey);
+        $this->rememberAll(array_diff($this->remembered(), [$transientKey]));
+    }
+
+    /**
      * Apply multiplier to current backoff time.
      */
     protected function newBackoff(): float
@@ -142,6 +149,54 @@ class Api
         $now = microtime(true);
         $jitter = 1 + self::BACKOFF_JITTER * (2 * (rand() / getrandmax()) - 1);
         return $now + $this->backoff * $jitter;
+    }
+
+    /**
+     * Caches a response, and remembers the key it was cached under so that flushAll() can
+     * find it again without knowing the body it was asked with.
+     *
+     * @param mixed $result
+     */
+    protected function remember(string $transientKey, $result, int $expiration): void
+    {
+        set_site_transient($transientKey, $result, $expiration);
+        $remembered = $this->remembered();
+        if (!in_array($transientKey, $remembered, true)) {
+            $remembered[] = $transientKey;
+            $this->rememberAll($remembered);
+        }
+    }
+
+    /**
+     * @param string[] $transientKeys
+     */
+    protected function rememberAll(array $transientKeys): void
+    {
+        $transientKeys = array_values(array_unique($transientKeys));
+        if (empty($transientKeys)) {
+            delete_site_option($this->rememberedKey());
+            return;
+        }
+        update_site_option($this->rememberedKey(), $transientKeys);
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function remembered(): array
+    {
+        $remembered = Arr::consolidate(get_site_option($this->rememberedKey()));
+        return array_values(array_unique(array_filter($remembered, 'is_string')));
+    }
+
+    /**
+     * A site option rather than a site transient: the index must outlive the things it
+     * indexes, and a transient that has expired is one whose key we would otherwise never
+     * be able to clean up.
+     */
+    protected function rememberedKey(): string
+    {
+        return glsr()->prefix.'api_transients';
     }
 
     protected function timeUntilDeadline(): float
