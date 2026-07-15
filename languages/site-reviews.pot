@@ -1757,21 +1757,21 @@ msgctxt "admin-text"
 msgid "Rollback Site Reviews"
 msgstr ""
 
-#: plugin/Router.php:213, views/pages/documentation/support/common-problems-and-solutions.php:62
+#: plugin/Router.php:226, views/pages/documentation/support/common-problems-and-solutions.php:62
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Router.php:216
+#: plugin/Router.php:229
 msgctxt "admin-text"
 msgid "There was an error"
 msgstr ""
 
-#: plugin/Router.php:218
+#: plugin/Router.php:231
 msgctxt "try reloading the page (admin-text)"
 msgid "Try %s the page."
 msgstr ""
 
-#: plugin/Router.php:219
+#: plugin/Router.php:232
 msgctxt "(admin-text) e.g. try reloading the page"
 msgid "reloading"
 msgstr ""

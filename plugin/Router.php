@@ -137,10 +137,22 @@ class Router implements ControllerContract
     {
         $hook = "route/get/{$type}/{$request->action}";
         glsr()->action('route/request', $request, $hook);
-        glsr()->action($hook, $request);
-        if (0 === did_action(glsr()->id."/{$hook}")) {
+        if (!$this->isRouted($hook)) {
             glsr_log()->warning("Unknown {$type} router GET request: {$request->action}");
+            return;
         }
+        glsr()->action($hook, $request);
+    }
+
+    /**
+     * Whether anything is listening on a route.
+     *
+     * It is asked AFTER the route/request action has fired, so that an addon which
+     * registers its own route from there still counts as a listener.
+     */
+    protected function isRouted(string $hook): bool
+    {
+        return false !== has_action(glsr()->id."/{$hook}");
     }
 
     /**
@@ -195,10 +207,11 @@ class Router implements ControllerContract
     {
         $hook = "route/{$type}/{$request->_action}";
         glsr()->action('route/request', $request, $hook);
-        glsr()->action($hook, $request);
-        if (0 === did_action(glsr()->id."/{$hook}")) {
+        if (!$this->isRouted($hook)) {
             glsr_log()->warning("Unknown {$type} router POST request: {$request->_action}");
+            return;
         }
+        glsr()->action($hook, $request);
     }
 
     protected function sendAjaxError(string $error, Request $request, int $errCode, string $message): void
