@@ -7,6 +7,9 @@ use GeminiLabs\SiteReviews\Commands\AssignUsers;
 use GeminiLabs\SiteReviews\Commands\ChangeLogLevel;
 use GeminiLabs\SiteReviews\Commands\ClearConsole;
 use GeminiLabs\SiteReviews\Commands\MigratePlugin;
+use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
+use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
+use GeminiLabs\SiteReviews\Commands\RegisterWidgets;
 use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Commands\ToggleVerified;
@@ -268,4 +271,28 @@ test('refuses to migrate the plugin without permission', function () {
 
     expect($command->successful())->toBeFalse();
     set_current_screen('front');
+});
+
+test('the register commands fail rather than fatal when their directory is missing', function () {
+    // Each scans a plugin subdirectory for classes to register; a build that shipped without one of
+    // those directories must degrade, not crash. The path is filtered to somewhere that is not there.
+    $missDir = fn (string $dir) => add_filter('site-reviews/path', function ($path, $file) use ($dir) {
+        return $dir === $file ? '/no/such/directory' : $path;
+    }, 10, 2);
+
+    $missDir('plugin/Shortcodes');
+    $shortcodes = new RegisterShortcodes();
+    $shortcodes->handle();
+
+    $missDir('plugin/Tinymce');
+    $tinymce = new RegisterTinymcePopups();
+    $tinymce->handle();
+
+    $missDir('plugin/Widgets');
+    $widgets = new RegisterWidgets();
+    $widgets->handle();
+
+    expect($shortcodes->successful())->toBeFalse()
+        ->and($tinymce->successful())->toBeFalse()
+        ->and($widgets->successful())->toBeFalse();
 });
