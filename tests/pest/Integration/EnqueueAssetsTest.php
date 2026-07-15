@@ -154,3 +154,51 @@ test('the admin script carries the admin ajax action', function () {
         ->toContain('GLSR.action="'.glsr()->prefix.'admin_action"')
         ->toContain('GLSR.nonce=');
 });
+
+test('the admin assets load on the review import screen', function () {
+    // The importer runs on a bare admin.php page (base "admin"), identified only by ?import=<type>.
+    set_current_screen('admin');
+    $_GET['import'] = glsr()->post_type;
+
+    try {
+        $command = new EnqueueAdminAssets();
+        expect((fn () => $this->isCurrentScreen())->call($command))->toBeTrue();
+    } finally {
+        unset($_GET['import']);
+        set_current_screen('front');
+    }
+});
+
+test('the admin assets stay out of the Customizer preview', function () {
+    // The Customizer preview is an iframe of the front end rendered inside wp-admin; loading the
+    // admin bundle there would fight the preview. A previewing manager is stood up without its heavy
+    // constructor — only is_preview() matters to is_customize_preview().
+    require_once ABSPATH.'wp-includes/class-wp-customize-manager.php';
+    $manager = (new \ReflectionClass(\WP_Customize_Manager::class))->newInstanceWithoutConstructor();
+    $previewing = new \ReflectionProperty(\WP_Customize_Manager::class, 'previewing');
+    $previewing->setAccessible(true);
+    $previewing->setValue($manager, true);
+    $original = $GLOBALS['wp_customize'] ?? null;
+    $GLOBALS['wp_customize'] = $manager;
+
+    try {
+        $command = new EnqueueAdminAssets();
+        expect((fn () => $this->isCurrentScreen())->call($command))->toBeFalse();
+    } finally {
+        if (null === $original) {
+            unset($GLOBALS['wp_customize']);
+        } else {
+            $GLOBALS['wp_customize'] = $original;
+        }
+    }
+});
+
+test('a missing inline stylesheet is logged and skipped rather than left to fatal', function () {
+    // inlineStyles() reads the file through the path filter; pointing it at a file that is not there
+    // exercises the guard that logs and returns nothing instead of feeding file_get_contents(false).
+    add_filter('site-reviews/path', function ($path, $file) {
+        return 'assets/styles/inline-styles.css' === $file ? '/no/such/inline-styles.css' : $path;
+    }, 10, 2);
+
+    expect((new EnqueuePublicAssets())->inlineStyles())->toBe('');
+});
