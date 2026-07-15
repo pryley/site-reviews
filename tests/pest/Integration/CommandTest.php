@@ -53,6 +53,31 @@ test('refuses to approve a review that is already approved', function () {
     expect($command->successful())->toBeFalse();
 });
 
+test('refuses to approve a review the user may not edit', function () {
+    $review = createReview(['is_approved' => false]);
+    wp_set_current_user(createUser(['role' => 'subscriber'])); // cannot edit others' reviews
+
+    $command = new ApproveReview(glsr_get_review($review->ID));
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+    expect(get_post_status($review->ID))->toBe('pending'); // not approved
+});
+
+test('reports failure when WordPress refuses the status update', function () {
+    // The is_wp_error guard: wp_update_post can fail for reasons the command cannot foresee, and a
+    // failure must be reported, not swallowed into a false success. Forcing the empty-content check
+    // makes wp_update_post return a WP_Error without depending on anything else going wrong.
+    $review = createReview(['is_approved' => false]);
+    add_filter('wp_insert_post_empty_content', '__return_true');
+
+    $command = new ApproveReview(glsr_get_review($review->ID));
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+    expect(get_post_status($review->ID))->toBe('pending'); // the update did not take
+});
+
 test('toggles a review status to approved', function () {
     // ToggleStatusDefaults::finalize() maps approve/publish to publish, and
     // anything else to pending.
