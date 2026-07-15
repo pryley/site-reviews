@@ -224,6 +224,18 @@ test('refuses to set a log level that does not exist', function () {
     expect($command->successful())->toBeFalse();
 });
 
+test('refuses to change the console level without permission', function () {
+    // hasPermission() only asks the question on an admin screen; a subscriber there cannot.
+    set_current_screen('site-review_page_'.glsr()->id.'-tools');
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+
+    $command = new ChangeLogLevel(new Request(['level' => Console::NOTICE]));
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+    set_current_screen('front');
+});
+
 test('clears the console', function () {
     glsr_log()->error('Something went wrong.');
     expect(glsr(Console::class)->get())->toContain('Something went wrong.');
