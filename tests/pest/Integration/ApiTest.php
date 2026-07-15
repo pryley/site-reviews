@@ -134,14 +134,16 @@ test('the transient key does not carry the url or the body in the clear', functi
  * deadline, wait(). None of it is any use if the loop returns before it gets there.
  */
 
-test('a server error is retried, up to max_retries attempts', function () {
-    // max_retries is the number of ATTEMPTS. Two, rather than the default five, only to keep
-    // the test quick: the backoff sleeps for about a second before each retry.
+test('a server error is retried, one time more than max_retries', function () {
+    // max_retries is the number of RETRIES, not the number of attempts — so the total is one
+    // MORE than it: the first try, then max_retries more. Two retries here, so three requests.
+    // Two rather than the default of nought, and rather than a larger number, only to keep the
+    // test quick: the backoff sleeps for about a second before each retry.
     $requests = interceptHttp(httpReply(503));
 
     $response = api()->get('check', ['max_retries' => 2, 'transient_key' => 'check_license']);
 
-    expect($requests)->toHaveCount(2)
+    expect($requests)->toHaveCount(3) // one attempt + two retries
         ->and($response->code)->toBe(503); // and the caller is told what the server said
 });
 
@@ -150,15 +152,16 @@ test('a rate limit is retried', function () {
 
     api()->get('check', ['max_retries' => 2, 'transient_key' => 'check_license']);
 
-    expect($requests)->toHaveCount(2);
+    expect($requests)->toHaveCount(3); // one attempt + two retries
 });
 
-test('a single attempt is a single attempt', function () {
-    // The floor. It used to make TWO requests here and then hand back a WP_Error it had
-    // invented, throwing away what the server actually said.
+test('no retries means a single attempt', function () {
+    // The floor, and the default. max_retries => 0 is one attempt and no retries — and it hands
+    // back what the server actually said. It used to make a second request here and then throw
+    // that away for a WP_Error it had invented.
     $requests = interceptHttp(httpReply(503));
 
-    $response = api()->get('check', ['max_retries' => 1, 'transient_key' => 'check_license']);
+    $response = api()->get('check', ['max_retries' => 0, 'transient_key' => 'check_license']);
 
     expect($requests)->toHaveCount(1)
         ->and($response->code)->toBe(503)

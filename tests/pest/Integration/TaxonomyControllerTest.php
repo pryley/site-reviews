@@ -125,7 +125,7 @@ test('the row actions carry the term id', function () {
 test('a priority given when the category is created is saved', function () {
     $termId = reviewCategory();
 
-    taxonomyController()->termPriorityCreated($termId, 0, ['term_priority' => 5]);
+    taxonomyController()->onTermCreated($termId, 0, ['term_priority' => 5]);
 
     expect((int) get_term_meta($termId, 'term_priority', true))->toBe(5);
 });
@@ -136,7 +136,7 @@ test('a priority of zero is not stored at all', function () {
     // the ORDER BY rewrite for every term query on the site, for nothing.
     $termId = reviewCategory();
 
-    taxonomyController()->termPriorityCreated($termId, 0, ['term_priority' => 0]);
+    taxonomyController()->onTermCreated($termId, 0, ['term_priority' => 0]);
 
     expect(get_term_meta($termId, 'term_priority', true))->toBe('');
 });
@@ -145,7 +145,7 @@ test('editing a category to a priority of zero takes the priority away', functio
     $termId = reviewCategory();
     update_term_meta($termId, 'term_priority', 5);
 
-    taxonomyController()->termPriorityUpdated($termId, 0, ['term_priority' => 0]);
+    taxonomyController()->onTermUpdated($termId, 0, ['term_priority' => 0]);
 
     expect(get_term_meta($termId, 'term_priority', true))->toBe('');
 });
@@ -154,7 +154,7 @@ test('editing a category to a new priority updates it', function () {
     $termId = reviewCategory();
     update_term_meta($termId, 'term_priority', 5);
 
-    taxonomyController()->termPriorityUpdated($termId, 0, ['term_priority' => 9]);
+    taxonomyController()->onTermUpdated($termId, 0, ['term_priority' => 9]);
 
     expect((int) get_term_meta($termId, 'term_priority', true))->toBe(9);
 });
@@ -177,14 +177,15 @@ test('whether any category has a priority is remembered, and forgotten when one 
         ->and(get_transient($transient))->not->toBeFalse();
 
     // Somebody gives a category one. The cached "no" has to go with it.
-    taxonomyController()->termPriorityUpdated($termId, 0, ['term_priority' => 5]);
+    taxonomyController()->onTermUpdated($termId, 0, ['term_priority' => 5]);
     expect(get_transient($transient))->toBeFalse();
     expect($reordered())->toBeTrue()                            // and now it reorders
         ->and(get_transient($transient))->not->toBeFalse();     // and remembers that too
 
-    // And when the last priority goes — by our hand or anybody else's, because the cache flush
-    // is hooked to `deleted_term_meta` rather than to our own code path — so does the cache.
-    taxonomyController()->termPriorityUpdated($termId, 0, ['term_priority' => 0]);
+    // And when the last priority goes, so does the cache — onTermUpdated writes the change through
+    // delete_term_meta, and the flush is hooked to the meta write (deleted_term_meta), not to this
+    // method, so it fires whoever removes the meta.
+    taxonomyController()->onTermUpdated($termId, 0, ['term_priority' => 0]);
     expect(get_transient($transient))->toBeFalse();
     expect($reordered())->toBeFalse();
 });
@@ -194,11 +195,11 @@ test('whether any category has a priority is remembered, and forgotten when one 
  */
 
 test('review categories are ordered by priority, highest first', function () {
-    // Set through the controller, which is the path the categories screen takes — and which
-    // drops the cached "no category has a priority". Setting the meta directly does NOT drop
-    // it, and the ordering then never turns on. See the open question in ROADMAP.md.
+    // Set through the controller, which is the path the categories screen takes: onTermUpdated
+    // writes the meta, the meta write flushes the "no category has a priority" cache, and the
+    // ordering turns on. (Setting the meta directly does the same now — see the test below.)
     $termId = reviewCategory();
-    taxonomyController()->termPriorityUpdated($termId, 0, ['term_priority' => 5]);
+    taxonomyController()->onTermUpdated($termId, 0, ['term_priority' => 5]);
 
     $clauses = taxonomyController()->filterTermsClauses(termClauses(), [glsr()->taxonomy], []);
 
