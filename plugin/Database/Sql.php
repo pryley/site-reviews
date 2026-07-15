@@ -8,9 +8,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 trait Sql
 {
-    /** @var array */
-    public $args;
-
+    public array $args = []; // clauses() iterates this before setArgs() is necessarily called
     public \wpdb $db;
 
     protected array $joinStatements = [
