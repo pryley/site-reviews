@@ -2,9 +2,7 @@
 
 use GeminiLabs\SiteReviews\Commands\ConvertTableEngine;
 use GeminiLabs\SiteReviews\Commands\ImportSettings;
-use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Notices\MigrationNotice;
 use GeminiLabs\SiteReviews\Request;
@@ -98,40 +96,13 @@ test('and somebody without permission cannot alter the database at all', functio
     set_current_screen('front');
 });
 
-test('a MyISAM table is converted to InnoDB and reported as a success', function () {
-    // The engine is read from a cached option before the database is asked, so setting it to myisam
-    // makes the tool believe a conversion is needed; the ALTER to InnoDB then succeeds because the
-    // real table already is InnoDB. (ALTER + re-applying the foreign keys are DDL, so it commits.)
-    commitsTransaction();
-    $table = glsr(Tables::class)->table('ratings');
-    update_option(glsr()->prefix."engine_{$table}", 'myisam');
-
-    $command = new ConvertTableEngine(new Request(['table' => 'ratings']));
-    $command->handle();
-
-    expect($command->successful())->toBeTrue();
-    expect(glsr(Notice::class)->get())->toContain('converted to InnoDB');
-});
-
-test('a conversion that the database refuses is reported as an error', function () {
-    // Flagged as MyISAM but with no table actually there, so the ALTER fails — the is-zero branch,
-    // which tells the person the conversion did not happen rather than claiming it did.
-    commitsTransaction(); // dropping the (transient) tmp table is DDL
-    $table = glsr(Tables::class)->table('tmp');
-    glsr(Database::class)->dbQuery("DROP TABLE IF EXISTS {$table}"); // make sure it is gone
-    update_option(glsr()->prefix."engine_{$table}", 'myisam');
-
-    // The ALTER on the missing table is MEANT to fail; suppress the wpdb error print so it does not
-    // spatter the test output. The failure itself is what the assertion checks for.
-    global $wpdb;
-    $wasSuppressing = $wpdb->suppress_errors(true);
-    $command = new ConvertTableEngine(new Request(['table' => 'tmp']));
-    $command->handle();
-    $wpdb->suppress_errors($wasSuppressing);
-
-    expect($command->successful())->toBeFalse();
-    expect(glsr(Notice::class)->get())->toContain('could not be converted to InnoDB');
-});
+// NOTE: ConvertTableEngine's result-0 (conversion failed) and result-1 (success) branches are
+// deliberately NOT tested. Reaching them means flagging a real plugin table as MyISAM (via the
+// cached engine option) and letting the command run an ALTER — which is DDL, so it commits, and
+// the correcting write that follows lands in the post-DDL transaction the suite then rolls back.
+// The table is left flagged MyISAM in the SHARED database, its foreign keys re-applied, and later
+// tests in other files (ToolsAjaxTest's convert, ExportImportTest's cascade) break. Two uncovered
+// branches are worth far less than a stable schema for everyone else's tests. See ROADMAP.md.
 
 /*
  * Importing settings.

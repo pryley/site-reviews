@@ -153,6 +153,18 @@ All proposed features are subject to change and are sorted alphabetically rather
 
   Found while working through the 0%-coverage list.
 
+- [ ] **`ConvertTableEngine`'s result-0/result-1 branches cannot be tested without corrupting the
+  shared database.** Reaching either means making `Tables::convertTableEngine()` believe a real
+  plugin table is MyISAM — done by writing the cached `{prefix}engine_{table}` option — and letting
+  it run `ALTER TABLE … ENGINE = InnoDB`. That ALTER is DDL, so it implicitly COMMITs mid-test; the
+  command's own correcting `update_option(…, 'innodb')` then runs in the post-DDL transaction that
+  Pest.php rolls back, so the table is left flagged **MyISAM in the committed database**. On the
+  next run — in ANOTHER file — ToolsAjaxTest's "the table engine can be converted" then genuinely
+  ALTERs `ratings` (commit tripwire) and the re-applied foreign keys break the `ratings →
+  assigned_posts` cascade that ExportImportTest's "a rating survives" depends on. This was tried and
+  reverted. If these branches must be covered, the command needs a seam that does not run live DDL
+  against a shared table (e.g. a bindable table-engine service the suite can fake).
+
 - [ ] **`Rollback::rollback()` is deliberately left uncovered — the offline suite
   structurally can't drive it, and it is not a plugin defect.** The method is an
   admin-screen render wrapper: it `require_once`s `wp-admin/admin-header.php`,
