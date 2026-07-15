@@ -31,6 +31,19 @@ use GeminiLabs\SiteReviews\Review;
 class ReviewController extends AbstractController
 {
     /**
+     * The reviews assigned to whatever is ABOUT to be deleted, remembered so that they can
+     * be purged from the cache once it has been.
+     *
+     * They cannot be looked up afterwards. On InnoDB the assigned_posts and assigned_users
+     * rows have ON DELETE CASCADE foreign keys onto wp_posts and wp_users, so by the time
+     * `deleted_post` fires there is nothing left to join against and the query comes back
+     * empty. The ids have to be taken while the rows still exist.
+     *
+     * @var array<string, int[]>
+     */
+    protected array $assignedReviewIds = [];
+
+    /**
      * @param \WP_Post[] $posts
      *
      * @return \WP_Post[]
@@ -113,7 +126,7 @@ class ReviewController extends AbstractController
         array $newTTIds,
         string $taxonomy,
         bool $append,
-        array $oldTTIds
+        array $oldTTIds,
     ): void {
         if (Review::isReview($postId)) {
             $review = glsr(ReviewManager::class)->get($postId);
@@ -179,6 +192,38 @@ class ReviewController extends AbstractController
             wp_safe_redirect(wp_get_referer());
             exit;
         }
+    }
+
+    /**
+     * Triggered before a post is deleted, whatever the storage engine.
+     *
+     * @action before_delete_post
+     */
+    public function onBeforeDeletePost(int $postId, ?\WP_Post $post = null): void
+    {
+        $postType = get_post_type($post ?? $postId);
+        if (in_array($postType, [glsr()->post_type, 'revision'])) {
+            return;
+        }
+        $this->assignedReviewIds["post_{$postId}"] = glsr(Query::class)->reviewIds([
+            'assigned_posts' => $postId,
+            'per_page' => -1,
+            'status' => 'all',
+        ]);
+    }
+
+    /**
+     * Triggered before a user is deleted, whatever the storage engine.
+     *
+     * @action delete_user
+     */
+    public function onBeforeDeleteUser(int $userId): void
+    {
+        $this->assignedReviewIds["user_{$userId}"] = glsr(Query::class)->reviewIds([
+            'assigned_users' => $userId,
+            'per_page' => -1,
+            'status' => 'all',
+        ]);
     }
 
     /**
@@ -249,7 +294,13 @@ class ReviewController extends AbstractController
     }
 
     /**
-     * Triggered when a review or other post type is deleted and the posts table uses the MyISAM engine.
+     * Triggered when a review or any other post type is deleted, whatever the storage engine.
+     *
+     * On MyISAM there is no foreign key, so the rows are deleted here. On InnoDB the
+     * cascade has already removed them and the delete affects nothing but the cache
+     * purge still has to happen.
+     *
+     * @todo Reviews are cached with no expiry, should this change?
      *
      * @action deleted_post
      */
@@ -259,45 +310,31 @@ class ReviewController extends AbstractController
             $this->onDeleteReview($postId);
             return;
         }
-        $reviewIds = glsr(Query::class)->reviewIds([
-            'assigned_posts' => $postId,
-            'per_page' => -1,
-            'status' => 'all',
-        ]);
-        if (glsr(Database::class)->delete('assigned_posts', ['post_id' => $postId])) {
-            array_walk($reviewIds, function ($reviewId) {
-                glsr(Cache::class)->delete($reviewId, 'reviews');
-            });
-        }
+        glsr(Database::class)->delete('assigned_posts', ['post_id' => $postId]);
+        $this->purgeAssignedReviews("post_{$postId}");
     }
 
     /**
-     * Triggered when a review is deleted and the posts table uses the MyISAM engine.
+     * Triggered when a review is deleted, whatever the storage engine.
      *
      * @see $this->onDeletePost()
      */
     public function onDeleteReview(int $reviewId): void
     {
-        glsr(ReviewManager::class)->deleteRating($reviewId);
+        glsr(ReviewManager::class)->deleteRating($reviewId); // always purges the cache
     }
 
     /**
-     * Triggered when a user is deleted and the users table uses the MyISAM engine.
+     * Triggered when a user is deleted, whatever the storage engine.
+     *
+     * @see $this->onDeletePost()
      *
      * @action deleted_user
      */
     public function onDeleteUser(int $userId = 0): void
     {
-        $reviewIds = glsr(Query::class)->reviewIds([
-            'assigned_users' => $userId,
-            'per_page' => -1,
-            'status' => 'all',
-        ]);
-        if (glsr(Database::class)->delete('assigned_users', ['user_id' => $userId])) {
-            array_walk($reviewIds, function ($reviewId) {
-                glsr(Cache::class)->delete($reviewId, 'reviews');
-            });
-        }
+        glsr(Database::class)->delete('assigned_users', ['user_id' => $userId]);
+        $this->purgeAssignedReviews("user_{$userId}");
     }
 
     /**
@@ -406,6 +443,18 @@ class ReviewController extends AbstractController
         }
         $input = 'edit' === glsr_current_screen()->base ? INPUT_GET : INPUT_POST;
         return filter_input($input, 'action') !== glsr()->prefix.'admin_action'; // abort if not a proper post update (i.e. approve/unapprove)
+    }
+
+    /**
+     * Drop the reviews that were assigned to the thing that has just been deleted from the cache.
+     */
+    protected function purgeAssignedReviews(string $key): void
+    {
+        $reviewIds = $this->assignedReviewIds[$key] ?? [];
+        unset($this->assignedReviewIds[$key]);
+        array_walk($reviewIds, function ($reviewId) {
+            glsr(Cache::class)->delete($reviewId, 'reviews');
+        });
     }
 
     protected function refreshAvatar(array $data, Review $review): string
