@@ -5,6 +5,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Modules\Console;
+use GeminiLabs\SiteReviews\Commands\DetectIpAddress;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Role;
@@ -163,6 +164,25 @@ test('the alt flag detects the ip address instead of configuring the proxy', fun
     glsr(ToolsController::class)->ipAddressDetection(new Request(['alt' => 1]));
 
     expect(glsr(Notice::class)->get())->not->toBeEmpty();
+});
+
+test('ip detection warns plainly when no address can be worked out', function () {
+    // With nothing for Whip to validate, clientIp() returns its "unknown" marker and the tool says
+    // so rather than reporting a bogus address. REMOTE_ADDR is unset to force that, then restored.
+    $original = $_SERVER['REMOTE_ADDR'] ?? null;
+    unset($_SERVER['REMOTE_ADDR']);
+    glsr(Notice::class)->clear();
+
+    try {
+        $command = new DetectIpAddress();
+        $command->handle();
+
+        expect(glsr(Notice::class)->get())->toContain('unable to detect an IP address');
+    } finally {
+        if (null !== $original) {
+            $_SERVER['REMOTE_ADDR'] = $original;
+        }
+    }
 });
 
 test('migrating the plugin through the admin route re-runs the migrations', function () {
