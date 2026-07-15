@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Defaults\UpdateReviewDefaults;
@@ -157,6 +156,8 @@ class ReviewManager
 
     /**
      * @return Review|false
+     *
+     * @todo Refactor the terms logic
      */
     public function duplicate(int $reviewId)
     {
@@ -170,6 +171,13 @@ class ReviewManager
         $data = $review->toArray();
         $data['author_id'] = get_current_user_id();
         $data['is_approved'] = $data['is_approved'] && glsr()->can('publish_posts');
+        if (empty($data['terms'])) {
+            // A (bool) false value survives into the request that glsr_create_review() validates
+            // (see Helper::isEmpty) where the form's "accepted" rule rejects it and the duplicate
+            // is refused. Removing the key puts it in CreateReview::isRequestValid()'s excluded
+            // list which drops the rule.
+            unset($data['terms']);
+        }
         if (!$duplicate = glsr_create_review($data)) {
             return false;
         }

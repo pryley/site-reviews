@@ -25,9 +25,13 @@ class ReviewCopier
     public function copy(): void
     {
         $review = glsr_get_review($this->sourcePostId);
-        $data = $review->toArray();
-        unset($data['assigned_posts']);
-        unset($data['assigned_terms']);
+        $data = $review->toArray([
+            'assigned_posts', // exclude
+            'assigned_terms', // exclude
+        ]);
+        if (empty($data['terms'])) {
+            unset($data['terms']); // see ReviewManager::duplicate()
+        }
         $siteIds = assignedLanguageTags();
         foreach ($siteIds as $remoteSiteId => $tag) {
             if ($this->sourceSiteId === $remoteSiteId) {
