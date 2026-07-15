@@ -8,6 +8,9 @@ use GeminiLabs\SiteReviews\Commands\ChangeLogLevel;
 use GeminiLabs\SiteReviews\Commands\ClearConsole;
 use GeminiLabs\SiteReviews\Commands\MigratePlugin;
 use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
+use GeminiLabs\SiteReviews\Commands\RepairPermissions;
+use GeminiLabs\SiteReviews\Commands\RepairReviewRelations;
+use GeminiLabs\SiteReviews\Commands\ResetAssignedMeta;
 use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
 use GeminiLabs\SiteReviews\Commands\RegisterWidgets;
 use GeminiLabs\SiteReviews\Commands\TogglePinned;
@@ -295,4 +298,38 @@ test('the register commands fail rather than fatal when their directory is missi
     expect($shortcodes->successful())->toBeFalse()
         ->and($tinymce->successful())->toBeFalse()
         ->and($widgets->successful())->toBeFalse();
+});
+
+test('the alt flag makes a repair a hard reset of every role', function () {
+    // The plain repair tops up the review capabilities; the "alt" hard reset rebuilds them from
+    // scratch, which is what a site reaches for when a role's caps have been mangled beyond a top-up.
+    get_role('editor')->remove_cap('edit_others_site-reviews');
+
+    $command = new RepairPermissions(new Request(['alt' => 1]));
+    $command->handle();
+
+    expect($command->successful())->toBeTrue()
+        ->and(get_role('editor')->has_cap('edit_others_site-reviews'))->toBeTrue();
+});
+
+test('repairing the review relations needs permission', function () {
+    set_current_screen('site-review_page_'.glsr()->id.'-tools');
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+
+    $command = new RepairReviewRelations();
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+    set_current_screen('front');
+});
+
+test('resetting the assigned meta needs permission', function () {
+    set_current_screen('site-review_page_'.glsr()->id.'-tools');
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+
+    $command = new ResetAssignedMeta();
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+    set_current_screen('front');
 });
