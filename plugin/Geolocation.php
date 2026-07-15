@@ -50,10 +50,12 @@ class Geolocation
             return new Response(); // rate limited, caller should retry later
         }
         $path = sprintf('/batch?fields=%s', implode(',', static::FIELDS));
-        $response = $this->api->post($path, $this->requestArgs([
+        $response = $this->api->post($path, [
+            'blocking' => true,
             'body' => wp_json_encode($data),
             'headers' => ['Content-Type' => 'application/json'],
-        ]));
+            'timeout' => 15,
+        ]);
         $this->handleRateLimits($response);
         if ($response->successful()) {
             $body = $response->body();
@@ -74,7 +76,11 @@ class Geolocation
             return new Response(); // rate limited, caller should retry later
         }
         $path = sprintf('/json/%s?fields=%s', $entity, implode(',', static::FIELDS));
-        $response = $this->api->get($path, $this->requestArgs());
+        $response = $this->api->get($path, [
+            'blocking' => true,
+            'max_retries' => 1,
+            'timeout' => 10,
+        ]);
         $this->handleRateLimits($response);
         if ($response->successful()) {
             $body = $response->body();
@@ -117,14 +123,5 @@ class Geolocation
             'remaining' => $remainingRequests,
             'reset_time' => time() + $resetTime,
         ], $resetTime);
-    }
-
-    protected function requestArgs(array $extra = []): array
-    {
-        return wp_parse_args($extra, [
-            'blocking' => true,
-            'max_retries' => 3,
-            'timeout' => 15,
-        ]);
     }
 }

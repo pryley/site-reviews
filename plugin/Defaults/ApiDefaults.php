@@ -39,7 +39,7 @@ class ApiDefaults extends DefaultsAbstract
      */
     public array $sanitize = [
         'expiration' => 'min:1', // ensure that there is a transient expiration
-        'max_retries' => 'min:1|max:10',
+        'max_retries' => 'min:0|max:10',
         'transient_key' => 'slug',
     ];
 
@@ -54,7 +54,7 @@ class ApiDefaults extends DefaultsAbstract
             'expiration' => DAY_IN_SECONDS,
             'force' => false, // Whether to bypass any previously cached response
             'headers' => [], // Array of headers to send with the request.
-            'max_retries' => 5, // The number of times a request can be retried
+            'max_retries' => 0, // The number of times a request can be retried
             'method' => 'GET',
             'redirection' => 5, // Number of allowed redirects.
             'sslverify' => !Helper::isLocalServer(), // Whether to verify SSL for the request.

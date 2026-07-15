@@ -30,8 +30,8 @@ class Api
 
     public function args(array $args = []): array
     {
-        $args = glsr(ApiDefaults::class)->merge($args);
         $args = glsr()->filterArray('api/args', $args, $this->baseUrl);
+        $args = glsr(ApiDefaults::class)->merge($args);
         return $args;
     }
 
@@ -80,27 +80,25 @@ class Api
                 return new Response($result);
             }
         }
+        $maxRetries = max(0, $args['max_retries']);
+        $url = $this->url($path);
         $this->numRetries = 0;
-        while ($this->numRetries <= $args['max_retries']) {
-            $nextRetry = $this->numRetries + 1;
+        while (true) {
             $timeout = max($args['timeout'], $this->timeUntilDeadline());
-            $url = $this->url($path);
             $result = wp_remote_request($url, wp_parse_args(compact('timeout'), $args));
             $response = new Response($result);
             if ($response->successful()) {
                 $this->remember($transientKey, $result, $args['expiration']);
                 return $response;
             }
-            if (!$response->shouldRetry()) {
-                return $response;
+            if (!$response->shouldRetry() || $this->numRetries >= $maxRetries) {
+                return $response; // "no" rather than "not now", or nothing left to try
             }
-            if ($nextRetry < $args['max_retries']) {
-                return $response;
-            }
-            $this->wait();
-            glsr_log("Starting retry {$nextRetry} for {$url} after sleeping for {$this->timeUntilDeadline()} seconds.");
+            $this->wait(); // increments numRetries
+            glsr_log()->debug(sprintf(
+                'Retrying %s (attempt %d of %d).', $url, $this->numRetries + 1, $maxRetries + 1
+            ));
         }
-        return new Response(new \WP_Error('', "API request failed after {$this->numRetries} attempts.")); // this should never be the result
     }
 
     public function transientKey(string $path = '', string $transientKey = 'request', array $body = []): string

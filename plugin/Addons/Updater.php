@@ -97,6 +97,7 @@ class Updater
         $response = glsr(Api::class, ['url' => $this->apiUrl])->post('/', [
             'body' => $body,
             'force' => $this->force,
+            'max_retries' => 1,
             'timeout' => 15,
             'transient_key' => $action,
         ]);
