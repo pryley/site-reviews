@@ -95,7 +95,7 @@ class AdminController extends AbstractController
         }
         $actions = [];
         if (glsr()->hasPermission('documentation')) {
-            $actions['documentation'] = glsr_admin_link('documentatio.n', _x('Documentation', 'admin-text', 'site-reviews'));
+            $actions['documentation'] = glsr_admin_link('documentation', _x('Documentation', 'admin-text', 'site-reviews'));
         }
         $actions['support'] = glsr(Builder::class)->a([
             'aria-label' => esc_attr_x('Visit community forums', 'admin-text', 'site-reviews'),
