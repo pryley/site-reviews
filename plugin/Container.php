@@ -45,7 +45,9 @@ abstract class Container
     public function bind(string $abstract, $concrete = null, bool $shared = false): void
     {
         $this->dropStaleInstances($abstract);
-        $concrete = Helper::ifTrue(is_null($concrete), $abstract, $concrete);
+        if (is_null($concrete)) {
+            $concrete = $abstract;
+        }
         if (!$concrete instanceof \Closure) {
             $concrete = $this->getClosure($abstract, $concrete);
         }
@@ -61,7 +63,9 @@ abstract class Container
     {
         if (is_string($abstract) && !class_exists($abstract)) {
             $alias = __NAMESPACE__.'\\'.Str::removePrefix($abstract, __NAMESPACE__);
-            $abstract = Helper::ifTrue(class_exists($alias), $alias, $abstract);
+            if (class_exists($alias)) {
+                $abstract = $alias;
+            }
         }
         return $this->resolve($abstract, $parameters);
     }
@@ -193,10 +197,9 @@ abstract class Container
         }
         $this->with[] = $parameters;
         $concrete = $this->getConcrete($abstract);
-        $object = Helper::ifTrue($this->isBuildable($concrete, $abstract),
-            fn () => $this->construct($concrete),
-            fn () => $this->make($concrete),
-        );
+        $object = $this->isBuildable($concrete, $abstract)
+            ? $this->construct($concrete)
+            : $this->make($concrete);
         if ($this->isShared($abstract) && empty($parameters)) {
             $this->instances[$abstract] = $object; // store as a singleton
         }
@@ -231,10 +234,9 @@ abstract class Container
                 $results[] = $this->getParameterOverride($dependency);
                 continue;
             }
-            $results[] = Helper::ifTrue(is_null($this->getClass($dependency)),
-                fn () => $this->resolvePrimitive($dependency),
-                fn () => $this->resolveClass($dependency),
-            );
+            $results[] = is_null($this->getClass($dependency))
+                ? $this->resolvePrimitive($dependency)
+                : $this->resolveClass($dependency);
         }
         return $results;
     }
