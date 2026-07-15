@@ -141,3 +141,76 @@ test('the table engine can be converted', function () {
 
     expect($response)->toHaveKey('success');
 });
+
+test('the system info can be fetched, and refuses someone who may not see it', function () {
+    // The report names the environment, the theme, the plugin list — reconnaissance for anyone
+    // who does not already run the site. hasPermission() only asks the question on an admin screen.
+    $response = $this->jsonSentBy(fn () => glsr(ToolsController::class)->fetchSystemInfoAjax());
+    expect($response['success'])->toBeTrue()
+        ->and($response['data']['data'])->toBeString()->not->toBeEmpty();
+
+    set_current_screen('edit.php');
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+
+    $refused = $this->jsonSentBy(fn () => glsr(ToolsController::class)->fetchSystemInfoAjax());
+    expect($refused['success'])->toBeFalse()
+        ->and($refused['data']['notices'])->toContain('permission');
+});
+
+test('geolocating reviews reports back, and refuses without permission', function () {
+    $response = $this->jsonSentBy(fn () => glsr(ToolsController::class)->geolocateReviewsAjax(new Request()));
+    expect($response)->toHaveKey('success');
+
+    set_current_screen('edit.php');
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+
+    $refused = $this->jsonSentBy(fn () => glsr(ToolsController::class)->geolocateReviewsAjax(new Request()));
+    expect($refused['success'])->toBeFalse()
+        ->and($refused['data']['notices'])->toContain('permission');
+});
+
+test('the alt flag removes location data instead of geolocating', function () {
+    // Same route, "alt" turns it from "look these reviews up" into "forget where they came from".
+    // RemoveLocationData empties the stats table with a TRUNCATE, which is DDL and commits.
+    commitsTransaction();
+    $response = $this->jsonSentBy(fn () => glsr(ToolsController::class)->geolocateReviewsAjax(
+        new Request(['alt' => 1])
+    ));
+
+    expect($response)->toHaveKey('success');
+});
+
+test('importing refuses without permission, and does nothing without a valid stage', function () {
+    // The importer is a four-stage pipeline the JS polls one stage at a time; a request whose stage
+    // is not 1-4 falls through to a bare success. The stages themselves are covered by CsvImportTest.
+    $response = $this->jsonSentBy(fn () => glsr(ToolsController::class)->importReviewsAjax(new Request()));
+    expect($response['success'])->toBeTrue();
+
+    set_current_screen('edit.php');
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+
+    $refused = $this->jsonSentBy(fn () => glsr(ToolsController::class)->importReviewsAjax(new Request()));
+    expect($refused['success'])->toBeFalse()
+        ->and($refused['data']['notices'])->toContain('permission');
+});
+
+test('the rollback ajax hands back what the updater needs, and refuses without permission', function () {
+    // rollbackPluginAjax gates on the update_plugins capability (not hasPermission), so the refusal
+    // bites off an admin screen too. The success path returns rollbackData — the nonce, action,
+    // plugin and slug the admin JS feeds straight into wp.updates.
+    $response = $this->jsonSentBy(fn () => glsr(ToolsController::class)->rollbackPluginAjax(
+        new Request(['version' => '8.0.0'])
+    ));
+    expect($response['success'])->toBeTrue()
+        ->and($response['data']['data']['plugin'])->toBe(glsr()->basename)
+        ->and($response['data']['data']['slug'])->toBe(glsr()->id)
+        ->and($response['data']['url'])->toContain('welcome');
+
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+
+    $refused = $this->jsonSentBy(fn () => glsr(ToolsController::class)->rollbackPluginAjax(
+        new Request(['version' => '8.0.0'])
+    ));
+    expect($refused['success'])->toBeFalse()
+        ->and($refused['data']['error'])->toContain('permission');
+});
