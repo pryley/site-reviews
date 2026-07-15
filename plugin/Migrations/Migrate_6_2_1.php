@@ -43,9 +43,14 @@ class Migrate_6_2_1 implements MigrateContract
                 FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
                 WHERE CONSTRAINT_SCHEMA = '{$table->database}' AND TABLE_NAME = '{$table->tablename}'
             ");
-            // 1. Drop foreign constraints
-            $table->dropForeignConstraints();
             if (!in_array('PRIMARY', $constraints)) {
+                // 1. Drop the foreign constraints. This is only done when the primary key
+                //    is about to be rebuilt, because that is the only reason to do it: the
+                //    unique index below cannot be dropped while a foreign key is using it.
+                //    Dropping and re-adding them on a table that needs no repair is a full
+                //    rebuild of every constraint for nothing, and ADD CONSTRAINT validates
+                //    the whole table.
+                $table->dropForeignConstraints();
                 // 2. Drop unique index
                 $uniqueIndex = sprintf('%s%s_rating_id_%s_unique', glsr()->prefix, $table->name, $columnName);
                 if (in_array($uniqueIndex, $constraints)) {
@@ -58,7 +63,9 @@ class Migrate_6_2_1 implements MigrateContract
                     ALTER TABLE {$table->tablename} ADD PRIMARY KEY (rating_id,{$columnName})
                 ");
             }
-            // 4. Add foreign constraints
+            // 4. Add the foreign constraints. Unconditional, and stays that way: each one
+            //    is guarded by foreignConstraintExists(), so this adds back the ones just
+            //    dropped, and back-fills any that an older install never got.
             $table->addForeignConstraints();
         }
     }
