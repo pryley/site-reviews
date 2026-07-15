@@ -2,6 +2,7 @@
 
 use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Controllers\UpdateController;
+use GeminiLabs\SiteReviews\Hooks\UpdateHooks;
 
 use function GeminiLabs\SiteReviews\Tests\interceptHttp;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -265,3 +266,21 @@ test('a server that answers with no version leaves the transient exactly as it w
         ->and($updates->no_update)->toBe([])
         ->and($updates->checked)->toBe([]);
 });
+
+/*
+ * The per-addon update message, hung on init:10.
+ */
+
+test('the plugin update message filter is hung for every licensed addon', function () {
+    // UpdateHooks::onInit walks the licensed addons and, for each, hooks renderPluginUpdateMessage on
+    // in_plugin_update_message-{id}/{id}.php — WordPress's per-plugin row on the Plugins screen —
+    // so an addon whose licence has lapsed can print its own "renew to keep updating" line there.
+    // (`licensed` lives on the Application singleton and is restored after every test.)
+    glsr()->store('licensed', ['site-reviews-images' => ['name' => 'Site Reviews: Images']]);
+
+    glsr(UpdateHooks::class)->onInit();
+
+    expect(has_filter('in_plugin_update_message-site-reviews-images/site-reviews-images.php'))
+        ->not->toBeFalse();
+});
+
