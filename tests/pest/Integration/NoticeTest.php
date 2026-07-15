@@ -306,6 +306,16 @@ test('a notice dismissed "for now" is dismissed for now, not for the version', f
     expect(dismissedNotices()['write-review']['version'])->toBe('');
 });
 
+test('the write-review popup carries its icon and cannot be closed by the X', function () {
+    // It is a popup, not a banner: it has an icon rather than a heading, and the corner dismiss is
+    // turned off so the person answers its buttons ("remind me later" / "no thanks") rather than
+    // flicking it away — which is what its own dismiss handling relies on.
+    $notice = glsr(WriteReviewNotice::class);
+
+    expect((fn () => $this->data())->call($notice))->toHaveKey('icon')
+        ->and((fn () => $this->isDismissible())->call($notice))->toBeFalse();
+});
+
 test('a dismissal for something that is not a notice dismisses nothing', function () {
     // Nothing is recorded, which is the behaviour that matters here — but note HOW.
     // dismissNotice() guards on class_exists() alone, so a class name the browser made up
