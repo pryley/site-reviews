@@ -5,6 +5,7 @@ use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Overrides\ScheduledActionsTable;
 use GeminiLabs\SiteReviews\Tests\InteractsWithExits;
 
+use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -93,6 +94,35 @@ function rowActionsFor(ScheduledActionsTable $table, array $row): array
     preg_match_all('/row_action=([a-z]+)/', $table->column_hook($row), $matches);
 
     return $matches[1];
+}
+
+/**
+ * The admin notices the table would print above itself.
+ */
+function displayedNotices(ScheduledActionsTable $table): string
+{
+    ob_start();
+    $table->display_admin_notices();
+
+    return (string) ob_get_clean();
+}
+
+/**
+ * A table backed by a different store than ActionScheduler::store().
+ *
+ * The wp-env site's store is a HybridStore (its database has been migrated from the old
+ * post-based store), and a HybridStore SWALLOWS operations on a missing action id where the
+ * DBStore — what most live sites run — throws. The tests for the table's error handling
+ * stand in a DBStore, or one rigged to throw, this way.
+ */
+function tableWithStore(\ActionScheduler_Store $store): ScheduledActionsTable
+{
+    $table = new ScheduledActionsTable();
+    $property = new ReflectionProperty(ScheduledActionsTable::class, 'store');
+    $property->setAccessible(true);
+    $property->setValue($table, $store);
+
+    return $table;
 }
 
 /*
@@ -341,6 +371,205 @@ test('the table can be narrowed to one status', function () {
 
 test('there is no search box, because there is nothing worth searching', function () {
     expect(actionsTable()->search_box('Search', 'plugin'))->toBeNull();
+});
+
+test('an action on a cron schedule shows its cron expression as the recurrence', function () {
+    // A cron recurrence is an expression, not a number of seconds, so it cannot be put
+    // into words with Date::interval — it is shown as-is.
+    $id = (int) as_schedule_cron_action(time(), '0 4 * * *', glsr()->id.'/queue/sync', [], glsr()->id);
+
+    expect(preparedItems(actionsTable())[$id]['recurrence'])->toBe('0 4 * * *');
+});
+
+test('an action that is overdue says how long ago it should have run', function () {
+    $id = scheduleAction('queue/notification', [], time() - 2 * HOUR_IN_SECONDS - 30);
+    $table = actionsTable();
+
+    expect($table->column_schedule(preparedItems($table)[$id]))->toContain('ago');
+});
+
+test('an action with no date at all shows a zero date rather than nothing', function () {
+    // What a corrupted action's NullSchedule comes back with.
+    expect(actionsTable()->column_schedule(['schedule' => new ActionScheduler_NullSchedule()]))
+        ->toBe('0000-00-00 00:00:00');
+});
+
+test('a corrupted action is left out of the table rather than breaking it', function () {
+    // Action Scheduler stores args as JSON; a row whose args no longer decode (a crashed
+    // write, a bad migration) comes back from the store as a NullAction, and the table
+    // skips it instead of rendering a broken row.
+    global $wpdb;
+    $good = scheduleAction('queue/notification');
+    $bad = scheduleAction('queue/geolocation');
+    $wpdb->update($wpdb->actionscheduler_actions, ['args' => '{corrupt'], ['action_id' => $bad]);
+
+    $items = preparedItems(actionsTable());
+
+    expect($items)->toHaveKey($good)
+        ->not->toHaveKey($bad);
+});
+
+test('an action the store cannot read at all is skipped, not fatal', function () {
+    // The store is pluggable (the action_scheduler_store_class filter), and fetch_action()
+    // is not guaranteed not to throw on other stores the way ActionScheduler_DBStore is —
+    // prepare_items() treats an unreadable action like a missing one.
+    scheduleAction('queue/notification');
+    $table = tableWithStore(new class extends ActionScheduler_DBStore {
+        public function fetch_action($action_id)
+        {
+            throw new RuntimeException('unreadable');
+        }
+    });
+
+    expect(preparedItems($table))->toBe([]);
+});
+
+test('sorting respects an explicit direction, and defaults newest-first by schedule', function () {
+    $table = actionsTable();
+    $order = protectedMethod(ScheduledActionsTable::class, 'get_request_order');
+
+    $_GET['order'] = 'desc';
+    expect($order->invoke($table))->toBe('DESC');
+
+    $_GET['order'] = 'asc';
+    expect($order->invoke($table))->toBe('ASC');
+
+    unset($_GET['order']); // nothing chosen: the schedule column sorts newest-first...
+    expect($order->invoke($table))->toBe('DESC');
+
+    $_GET['orderby'] = 'hook'; // ...and any other column sorts ascending
+    expect($order->invoke($table))->toBe('ASC');
+});
+
+test('bulk delete logs the action it cannot delete and still deletes the rest', function () {
+    // A row deleted by a cron run between the page load and the submit throws on a DBStore
+    // site (see tableWithStore) — logged, and it must not stop the ones that are still
+    // there from being deleted.
+    $real = scheduleAction('queue/notification');
+    $table = tableWithStore(new class extends ActionScheduler_DBStore {
+        public function delete_action($action_id)
+        {
+            if ('999999999' === $action_id) {
+                throw new InvalidArgumentException("Unidentified action {$action_id}");
+            }
+            parent::delete_action($action_id);
+        }
+    });
+
+    protectedMethod(ScheduledActionsTable::class, 'bulk_delete')->invoke($table, [999999999, $real], '');
+
+    expect(preparedItems($table))->not->toHaveKey($real);
+});
+
+/*
+ * The notices above the table.
+ */
+
+test('running an action now executes it, and the notice says so', function () {
+    // A harmless listener of this test's own, not queue/notification's real handler in
+    // QueueHooks — that would make this depend on SendNotification's behaviour instead of
+    // the table's. It cannot be a hook with NO listener either: Action Scheduler marks an
+    // action failed when nothing is registered to run it.
+    $listened = [];
+    add_action(glsr()->id.'/queue/run-now-probe', function () use (&$listened) {
+        $listened[] = current_action();
+    });
+    $id = scheduleAction('queue/run-now-probe');
+    $table = actionsTable();
+
+    protectedMethod(ScheduledActionsTable::class, 'row_action_run')->invoke($table, $id);
+
+    expect($listened)->toBe(['site-reviews/queue/run-now-probe']);
+    expect(ActionScheduler::store()->get_status((string) $id))->toBe(Queue::STATUS_COMPLETE);
+    expect(displayedNotices($table))->toContain('Successfully executed action')
+        ->toContain('site-reviews/queue/run-now-probe');
+
+    // the notice is shown once: displaying consumed the transient behind it
+    expect(get_transient('action_scheduler_admin_notice'))->toBeFalse();
+});
+
+test('cancelling and deleting have their own notices', function () {
+    $cancelled = scheduleAction('queue/notification');
+    $table = actionsTable();
+    protectedMethod(ScheduledActionsTable::class, 'row_action_cancel')->invoke($table, $cancelled);
+    expect(displayedNotices($table))->toContain('Successfully canceled action');
+
+    $deleted = scheduleAction('queue/geolocation');
+    protectedMethod(ScheduledActionsTable::class, 'row_action_delete')->invoke($table, $deleted);
+    expect(displayedNotices($table))->toContain('Successfully deleted action');
+});
+
+test('a retried action gets the generic notice', function () {
+    // The notice switch knows run/cancel/delete by name; retry falls through to the
+    // catch-all wording.
+    $id = scheduleAction('queue/notification');
+    ActionScheduler::store()->mark_failure((string) $id);
+    $table = actionsTable();
+
+    protectedMethod(ScheduledActionsTable::class, 'row_action_retry')->invoke($table, $id);
+
+    expect(displayedNotices($table))->toContain('Successfully processed change for action');
+});
+
+test('a row action that fails says why, instead of pretending it worked', function () {
+    // What ActionScheduler_DBStore::delete_action() throws when another process deleted
+    // the row first — the table catches it and puts the error in the notice rather than
+    // letting it fatal.
+    $table = tableWithStore(new class extends ActionScheduler_DBStore {
+        public function delete_action($action_id)
+        {
+            throw new InvalidArgumentException("Unidentified action {$action_id}");
+        }
+    });
+
+    protectedMethod(ScheduledActionsTable::class, 'row_action_delete')->invoke($table, 999999999);
+
+    expect(displayedNotices($table))->toContain('Could not process change for action')
+        ->toContain('999999999')
+        ->toContain('Unidentified action');
+});
+
+test('when every queue slot is already claimed, the table says no more will start', function () {
+    // Zero allowed concurrent batches means the current claim count (zero) is already the
+    // maximum — the cheapest way to stand in the state a busy site is in.
+    add_filter('action_scheduler_queue_runner_concurrent_batches', '__return_zero');
+
+    $html = displayedNotices(actionsTable());
+
+    remove_filter('action_scheduler_queue_runner_concurrent_batches', '__return_zero');
+    expect($html)->toContain('Maximum simultaneous queues already in progress');
+});
+
+test('when a queue is due but the runner lock is held, the notice says how long until it starts', function () {
+    scheduleAction('queue/notification', [], time() - HOUR_IN_SECONDS); // due, and waiting
+    ActionScheduler::lock()->set('async-request-runner');
+
+    expect(displayedNotices(actionsTable()))
+        ->toContain('The next queue will begin processing in approximately');
+});
+
+test('a missing database table is recreated, with a notice to say so', function () {
+    // DROP TABLE is DDL, so MySQL commits the transaction implicitly — declared, and
+    // Pest.php purges what stuck. The claims table is the one dropped because its rows
+    // are ephemeral claims nothing else in the run depends on.
+    commitsTransaction();
+    global $wpdb;
+    $claims = $wpdb->prefix.'actionscheduler_claims';
+    $wpdb->query("DROP TABLE {$claims}");
+
+    $html = displayedNotices(actionsTable());
+
+    expect($html)->toContain('database tables were missing');
+    expect($wpdb->get_var("SHOW TABLES LIKE '{$claims}'"))->toBe($claims);
+
+    // A HybridStore recreates through itself; from a plain DBStore site the table builds
+    // a HybridStore to do it, so both stores get the same schema back.
+    $wpdb->query("DROP TABLE {$claims}");
+
+    $html = displayedNotices(tableWithStore(new ActionScheduler_DBStore()));
+
+    expect($html)->toContain('database tables were missing');
+    expect($wpdb->get_var("SHOW TABLES LIKE '{$claims}'"))->toBe($claims);
 });
 
 test('the tools page hands the row actions to the table before it renders', function () {
