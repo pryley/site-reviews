@@ -10,21 +10,6 @@
          failOnNotice="true"
          failOnWarning="true"
          >
-    <!-- THE THIRD-PARTY INTEGRATIONS, and only those. The twin of phpunit.xml:
-         same bootstrap, same suites, the <source> list inverted.
-
-         This number is REPORTED, NEVER GATED, and it is low on purpose. Most of
-         what is measured here cannot execute without a plugin or theme that has to
-         be bought (Divi, Bricks, Breakdance, WPBakery, Avada, Flatsome) or a
-         multisite network (MultilingualPress). A signature-only stub gets us the
-         hook registration, the version gate and the pure transformers, and stops
-         at the first line that reads a value back from the third party.
-
-         What moves this number is installing the real plugin (see .wp-env.json,
-         which does exactly that for WooCommerce and Elementor), not writing more
-         tests. Gating it would be gating your licence budget.
-
-         Run it with: composer test:coverage:integrations -->
     <source>
         <include>
             <directory suffix=".php">plugin/Integrations/Avada</directory>
@@ -71,17 +56,6 @@
         <testsuite name="ThirdParty">
             <directory>tests/pest/ThirdParty</directory>
         </testsuite>
-        <!-- Import runs LAST, and must go on running last.
-
-             ProcessCsvFile and ImportManager define('WP_IMPORTING', true), a
-             constant cannot be unset, and nineteen places in the plugin read it —
-             it is what stops an import generating an avatar per review, emailing a
-             verification per review, geolocating every IP and treating a
-             spreadsheet row as a form submission. Correct during an import, wrong
-             everywhere else. Declared last, there is nothing after it to poison.
-
-             ThirdParty/CacheTest asserts WP_IMPORTING is NOT defined, so moving
-             this fails loudly instead of quietly. -->
         <testsuite name="Import">
             <directory>tests/pest/Import</directory>
         </testsuite>
