@@ -32,23 +32,55 @@ class NullQueue extends Queue
      */
     public static bool $isPending = false;
 
+    /**
+     * Every scheduling call, in order: ['method' => …, 'hook' => …, 'args' => …, 'timestamp' => …].
+     * Scheduling still doesn't HAPPEN — but it is now observable, so "was it queued / not queued"
+     * can be a real assertion instead of a constant. Cleared by resetGlobalState() per test.
+     * calls('async', 'queue/notification') filters by method and/or hook.
+     */
+    public static array $calls = [];
+
+    /**
+     * @return array[] the recorded calls, filtered by method and/or hook when given
+     */
+    public static function calls(string $method = '', string $hook = ''): array
+    {
+        return array_values(array_filter(static::$calls,
+            fn (array $call) => ('' === $method || $call['method'] === $method)
+                && ('' === $hook || $call['hook'] === $hook)
+        ));
+    }
+
+    protected static function record(string $method, string $hook, array $args, int $timestamp = 0): void
+    {
+        static::$calls[] = [
+            'method' => $method,
+            'hook' => $hook,
+            'args' => $args,
+            'timestamp' => $timestamp,
+        ];
+    }
+
     public function async(string $hook, array $args = [], bool $unique = false)
     {
+        static::record('async', $hook, $args);
         return 0;
     }
 
     public function cancel(string $hook, array $args = [])
     {
+        static::record('cancel', $hook, $args);
         return null;
     }
 
     public function cancelAll(string $hook, array $args = [])
     {
-        // nothing was scheduled, so there is nothing to cancel
+        static::record('cancelAll', $hook, $args);
     }
 
     public function cron(int $timestamp, string $schedule, string $hook, array $args = [], bool $unique = false)
     {
+        static::record('cron', $hook, $args, $timestamp);
         return 0;
     }
 
@@ -64,11 +96,13 @@ class NullQueue extends Queue
 
     public function once(int $timestamp, string $hook, array $args = [], bool $unique = false)
     {
+        static::record('once', $hook, $args, $timestamp);
         return 0;
     }
 
     public function recurring(int $timestamp, int $intervalInSeconds, string $hook, array $args = [], bool $unique = false)
     {
+        static::record('recurring', $hook, $args, $timestamp);
         return 0;
     }
 

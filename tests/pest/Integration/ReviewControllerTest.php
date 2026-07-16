@@ -3,10 +3,10 @@
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Review;
 
 use GeminiLabs\SiteReviews\Tests\InteractsWithExits;
+use GeminiLabs\SiteReviews\Tests\NullQueue;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
@@ -665,12 +665,24 @@ test('the fallback unapprove action unapproves the review', function () {
     expect(get_post_status($review->ID))->toBe('pending');
 });
 
-test('a notification is not queued while the suite is running', function () {
-    // The suite binds a NullQueue (see Support/NullQueue), because Action Scheduler is
-    // not what is under test here and a review would otherwise queue a notification, a
-    // geolocation and an avatar apiece. So this proves nothing is queued; what the
+test('a notification is not queued when notifications are off', function () {
+    // The suite binds a NullQueue (see Support/NullQueue) which RECORDS scheduling calls
+    // without performing them. Notifications are off by default, so the guard in
+    // sendNotification() must return before anything reaches the queue. What the
     // notification SAYS is NotificationTest's job.
     glsr(ReviewController::class)->sendNotification(createReview());
 
-    expect(glsr(Queue::class)->isPending('queue/notification'))->toBeFalse();
+    expect(NullQueue::calls('async', 'queue/notification'))->toBe([]);
+});
+
+test('a notification is queued when notifications are on', function () {
+    glsr(OptionManager::class)->set('settings.general.notifications', ['admin']);
+    $review = createReview();
+    NullQueue::$calls = []; // only this call, not createReview()'s own scheduling
+
+    glsr(ReviewController::class)->sendNotification($review);
+
+    $queued = NullQueue::calls('async', 'queue/notification');
+    expect($queued)->toHaveCount(1)
+        ->and($queued[0]['args'])->toBe(['review_id' => $review->ID]);
 });

@@ -3,6 +3,7 @@
 use GeminiLabs\SiteReviews\Commands\GeolocateReview;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Response;
+use GeminiLabs\SiteReviews\Tests\NullQueue;
 
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\interceptHttp;
@@ -40,6 +41,10 @@ test('a lookup that fails is retried, and the failure is counted', function () {
     geolocateOneReview($review->ID)->handle();
 
     expect((int) get_transient(geolocateOneRetryKey($review->ID)))->toBe(1); // one failed attempt recorded
+    // and the retry was queued for THIS review (NullQueue records the call)
+    $retries = NullQueue::calls('once', GeolocateReview::QUEUED_ACTION_KEY);
+    expect($retries)->toHaveCount(1)
+        ->and($retries[0]['args'])->toBe(['review_id' => $review->ID]);
 });
 
 test('a lookup is abandoned once the retry limit is reached', function () {
@@ -53,6 +58,7 @@ test('a lookup is abandoned once the retry limit is reached', function () {
         ->invoke(geolocateOneReview($review->ID), $failed);
 
     expect(get_transient(geolocateOneRetryKey($review->ID)))->toBeFalse(); // cleared, not incremented
+    expect(NullQueue::calls('once', GeolocateReview::QUEUED_ACTION_KEY))->toBe([]); // and NOT rescheduled
 });
 
 test('the response carries the location and any notices', function () {

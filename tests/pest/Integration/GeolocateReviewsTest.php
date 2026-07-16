@@ -207,6 +207,10 @@ test('a rejected batch is retried, and the site is not left locked forever', fun
 
     expect((int) get_transient(GeolocateReviews::RETRY_KEY))->toBe(1)
         ->and(statCount())->toBe(0); // and nothing was stored from a failed batch
+    // …and the retry really was queued, for the SAME offset (NullQueue records the call)
+    $retries = NullQueue::calls('once', GeolocateReviews::QUEUED_ACTION_KEY);
+    expect($retries)->toHaveCount(1)
+        ->and($retries[0]['args'])->toBe(['offset' => 0]);
 });
 
 test('a batch that keeps failing is given up on, and the lock is released', function () {
@@ -221,6 +225,8 @@ test('a batch that keeps failing is given up on, and the lock is released', func
 
     expect(get_transient(GeolocateReviews::LOCK_KEY))->toBeFalse()
         ->and(get_transient(GeolocateReviews::RETRY_KEY))->toBeFalse();
+    // given up means given up: no retry was queued
+    expect(NullQueue::calls('once', GeolocateReviews::QUEUED_ACTION_KEY))->toBe([]);
 });
 
 test('a successful batch forgets the failures that came before it', function () {
@@ -282,6 +288,10 @@ test('starting it queues the work and says how much there is', function () {
 
     expect(glsr(Notice::class)->get())->toContain('2 IP addresses');
     expect(get_transient(GeolocateReviews::LOCK_KEY))->not->toBeFalse(); // and it is locked
+    // the work itself is a queued batch, starting from the beginning
+    $queued = NullQueue::calls('once', GeolocateReviews::QUEUED_ACTION_KEY);
+    expect($queued)->toHaveCount(1)
+        ->and($queued[0]['args'])->toBe(['offset' => 0]);
 });
 
 /*
@@ -323,4 +333,9 @@ test('a full batch schedules the next page and keeps the lock', function () {
         ->invoke(geolocate(), 0, 2, ['a', 'b']); // count === batchSize
 
     expect(get_transient(GeolocateReviews::LOCK_KEY))->not->toBeFalse(); // lock kept for the next page
+    // the next page really is queued, one batch further on — an offset that was ignored
+    // would geolocate the first page over and over, forever
+    $queued = NullQueue::calls('once', GeolocateReviews::QUEUED_ACTION_KEY);
+    expect($queued)->toHaveCount(1)
+        ->and($queued[0]['args'])->toBe(['offset' => 2]);
 });

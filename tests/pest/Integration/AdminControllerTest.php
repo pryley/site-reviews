@@ -1,11 +1,12 @@
 <?php
 
 use GeminiLabs\SiteReviews\Controllers\AdminController;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
-use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Tests\InteractsWithAjax;
 use GeminiLabs\SiteReviews\Tests\InteractsWithExits;
+use GeminiLabs\SiteReviews\Tests\NullQueue;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
@@ -396,12 +397,47 @@ test('the installer does not run again on a site that is already activated', fun
     expect($activated)->toBeFalse();
 });
 
-test('a migration is only scheduled on a site that needs one', function () {
+test('a migration is not scheduled on a site that is up to date', function () {
     // bootstrap.php runs every migration once, so Migrate::isMigrationNeeded() is false and the
     // method returns of its own accord — exactly what it does on a site already up to date.
     set_current_screen('edit-'.glsr()->post_type);
 
     glsr(AdminController::class)->scheduleMigration();
 
-    expect(glsr(Queue::class)->isPending('queue/migration'))->toBeFalse();
+    expect(NullQueue::calls('once', 'queue/migration'))->toBe([]);
+});
+
+/**
+ * Make Migrate::isMigrationNeeded() true the way an upgrade does: one migration not yet
+ * recorded as run, on a database that has a previous version (a fresh install is '0.0.0'
+ * and is skipped — Install runs everything itself).
+ */
+function seedPendingMigration(): void
+{
+    $migrationsKey = glsr()->prefix.'migrations';
+    $stored = (array) get_option($migrationsKey);
+    $stored[array_key_last($stored)] = false;
+    update_option($migrationsKey, $stored);
+    $settings = (array) get_option(OptionManager::databaseKey());
+    $settings['version_upgraded_from'] = '8.0.0';
+    update_option(OptionManager::databaseKey(), $settings);
+}
+
+test('a migration is scheduled on a site that needs one', function () {
+    set_current_screen('edit-'.glsr()->post_type);
+    seedPendingMigration();
+
+    glsr(AdminController::class)->scheduleMigration();
+
+    expect(NullQueue::calls('once', 'queue/migration'))->toHaveCount(1);
+});
+
+test('a migration is not scheduled twice', function () {
+    set_current_screen('edit-'.glsr()->post_type);
+    seedPendingMigration();
+    NullQueue::$isPending = true; // one is already in the queue
+
+    glsr(AdminController::class)->scheduleMigration();
+
+    expect(NullQueue::calls('once', 'queue/migration'))->toBe([]);
 });

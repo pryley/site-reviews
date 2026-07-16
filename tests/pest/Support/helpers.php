@@ -442,6 +442,7 @@ function resetGlobalState(): void
 
     // The fakes' own static state.
     NullQueue::$isPending = false;
+    NullQueue::$calls = [];
     FakeLicense::$isPremium = false;
     PolylangFake::reset();
     if (class_exists('\Akismet')) {
