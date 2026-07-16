@@ -541,18 +541,11 @@ test('a review advertises its revisions, author and replies links', function () 
 
     $links = $response->get_links();
     expect($links)->toHaveKey('predecessor-version')
+        ->toHaveKey('author') // empty($review->user_id) answers through the KEY_ALIASES now
         ->toHaveKey('replies')
         ->toHaveKey('https://api.w.org/action-publish'); // the edit-context action links
     expect($links['version-history'][0]['attributes']['count'])->toBeGreaterThan(0);
-
-    // KNOWN DEFECT, documented not endorsed: the author link is never emitted, because
-    // prepareLinks() asks empty($review->user_id) and user_id is a KEY_ALIASES property —
-    // Review::offsetGet() resolves the alias, Review::offsetExists() does not, so empty()
-    // is true even when user_id reads 1. Same family as the Application fix (e07a7b36c).
-    // When offsetExists learns the aliases, flip this expectation to toHaveKey('author').
-    expect($review->user_id)->toBe($userId);
-    expect(empty($review->user_id))->toBeTrue(); // the defect, pinned
-    expect($links)->not->toHaveKey('author');
+    expect($links['author'][0]['href'])->toContain("users/{$userId}");
 });
 
 test('a delete that wordpress refuses is a 500, forced or trashed', function () {

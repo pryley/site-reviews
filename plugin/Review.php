@@ -256,6 +256,7 @@ class Review extends Arguments
     #[\ReturnTypeWillChange]
     public function offsetExists($key): bool
     {
+        $key = static::KEY_ALIASES[$key] ?? $key;
         return parent::offsetExists($key) || !is_null($this->custom()->$key);
     }
 
