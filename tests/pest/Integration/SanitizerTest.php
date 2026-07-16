@@ -11,7 +11,7 @@ uses()->group('plugin');
 
 test('sanitize array consolidate', function () {
     $sanitized = sanitizeValues('array-consolidate');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         [],
         [],
         ['1'],
@@ -53,7 +53,7 @@ test('sanitize array consolidate', function () {
 
 test('sanitize array int', function () {
     $sanitized = sanitizeValues('array-int');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         [],
         [],
         [1],
@@ -95,7 +95,7 @@ test('sanitize array int', function () {
 
 test('sanitize array string', function () {
     $sanitized = sanitizeValues('array-string');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         [],
         ['abc'],
         ['1'],
@@ -137,7 +137,7 @@ test('sanitize array string', function () {
 
 test('sanitize attr', function () {
     $sanitized = sanitizeValues('attr');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         'abc',
         '1',
@@ -179,7 +179,7 @@ test('sanitize attr', function () {
 
 test('sanitize attr class', function () {
     $sanitized = sanitizeValues('attr-class');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         'abc',
         '',
@@ -229,7 +229,7 @@ test('sanitize attr style', function () {
     $values[] = 'color: #000;margin';
     $values[] = 'color: #000 !important;';
     $sanitized = sanitizeValues('attr-style', $values);
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         '',
         '',
@@ -290,7 +290,7 @@ test('sanitize color', function () {
     $values[] = 'rgba(0 0 0 / .2)';
     $values[] = 'rgba(0,0,0,1)';
     $sanitized = sanitizeValues('color', $values);
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         '',
         '',
@@ -343,7 +343,7 @@ test('sanitize color', function () {
 
 test('sanitize date', function () {
     $sanitized = sanitizeValues('date');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         '',
         '',
@@ -382,7 +382,7 @@ test('sanitize date', function () {
         '',
     ]);
     $sanitized = sanitizeValues('date:Y-m-d');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         '',
         '',
@@ -424,7 +424,7 @@ test('sanitize date', function () {
 
 test('sanitize email', function () {
     $sanitized = sanitizeValues('email');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         '',
         '',
@@ -466,7 +466,7 @@ test('sanitize email', function () {
 
 test('sanitize id', function () {
     $sanitized = sanitizeValues('id');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         'abc',
         '',
@@ -512,7 +512,7 @@ test('sanitize id unique', function () {
     $sanitized = sanitizeValues('id-unique');
     $pattern = '/glsr_([a-z0-9]{8})/';
     expect($sanitized[0])->toMatch($pattern);
-    expect($sanitized[1])->toEqual('abc');
+    expect($sanitized[1])->toBe('abc');
     expect($sanitized[2])->toMatch($pattern);
     expect($sanitized[3])->toMatch($pattern);
     expect($sanitized[4])->toMatch($pattern);
@@ -522,23 +522,23 @@ test('sanitize id unique', function () {
     expect($sanitized[8])->toMatch($pattern);
     expect($sanitized[9])->toMatch($pattern);
     expect($sanitized[10])->toMatch($pattern);
-    expect($sanitized[11])->toEqual('thisisatitle');
-    expect($sanitized[12])->toEqual('nslookuphit-gx_wgukmocpc5c8ddddc');
-    expect($sanitized[13])->toEqual('june131989');
-    expect($sanitized[14])->toEqual('-12-2020');
-    expect($sanitized[15])->toEqual('-0-2020');
+    expect($sanitized[11])->toBe('thisisatitle');
+    expect($sanitized[12])->toBe('nslookuphit-gx_wgukmocpc5c8ddddc');
+    expect($sanitized[13])->toBe('june131989');
+    expect($sanitized[14])->toBe('-12-2020');
+    expect($sanitized[15])->toBe('-0-2020');
     expect($sanitized[16])->toMatch($pattern);
-    expect($sanitized[17])->toEqual('xxxx');
-    expect($sanitized[18])->toEqual('axdextomorrow200200peter');
-    expect($sanitized[19])->toEqual('thisistrue');
-    expect($sanitized[20])->toEqual('single-reviewfull-widthalert69');
-    expect($sanitized[21])->toEqual('mattwordpressorg');
-    expect($sanitized[22])->toEqual('httpswordpressorg');
-    expect($sanitized[23])->toEqual('wordpressorg');
-    expect($sanitized[24])->toEqual('wwwwordpressorg');
-    expect($sanitized[25])->toEqual('httpswordpressorg');
-    expect($sanitized[26])->toEqual('-1');
-    expect($sanitized[27])->toEqual('hellothisisalinkandalink');
+    expect($sanitized[17])->toBe('xxxx');
+    expect($sanitized[18])->toBe('axdextomorrow200200peter');
+    expect($sanitized[19])->toBe('thisistrue');
+    expect($sanitized[20])->toBe('single-reviewfull-widthalert69');
+    expect($sanitized[21])->toBe('mattwordpressorg');
+    expect($sanitized[22])->toBe('httpswordpressorg');
+    expect($sanitized[23])->toBe('wordpressorg');
+    expect($sanitized[24])->toBe('wwwwordpressorg');
+    expect($sanitized[25])->toBe('httpswordpressorg');
+    expect($sanitized[26])->toBe('-1');
+    expect($sanitized[27])->toBe('hellothisisalinkandalink');
     expect($sanitized[28])->toMatch($pattern);
     expect($sanitized[29])->toMatch($pattern);
     expect($sanitized[30])->toMatch($pattern);
@@ -561,7 +561,7 @@ test('sanitize ip address', function () {
     $values[] = '2400:cb00::';
     $values[] = '2400:cb00::/32';
     $sanitized = sanitizeValues('ip-address', $values);
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         '',
         '',
@@ -612,7 +612,7 @@ test('sanitize ip address', function () {
 
 test('sanitize json', function () {
     $sanitized = sanitizeValues('json');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         [],
         [],
         ['1'],
@@ -654,7 +654,7 @@ test('sanitize json', function () {
 
 test('sanitize key', function () {
     $sanitized = sanitizeValues('key');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         'abc',
         '1',
@@ -696,7 +696,7 @@ test('sanitize key', function () {
 
 test('sanitize max', function () {
     $sanitized = sanitizeValues('max:21');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         0,
         0,
         0,
@@ -738,7 +738,7 @@ test('sanitize max', function () {
 
 test('sanitize min', function () {
     $sanitized = sanitizeValues('min:13');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         13,
         13,
         13,
@@ -780,7 +780,7 @@ test('sanitize min', function () {
 
 test('sanitize min max', function () {
     $sanitized = sanitizeValues('min:3|max:50');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         3,
         3,
         3,
@@ -822,7 +822,7 @@ test('sanitize min max', function () {
 
 test('sanitize name', function () {
     $sanitized = sanitizeValues('name');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         'abc',
         '',
@@ -864,7 +864,7 @@ test('sanitize name', function () {
 
 test('sanitize numeric', function () {
     $sanitized = sanitizeValues('numeric');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         '',
         '',
@@ -919,7 +919,7 @@ test('sanitize post ids', function () {
         [999999001, 999999002, 999999003],    // ids that cannot exist
         [$posts[0], $posts[0], $posts[1]],    // duplicates are collapsed
     ]);
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         [],
         [],
         [],
@@ -935,7 +935,7 @@ test('sanitize rating', function () {
     add_filter('site-reviews/const/MAX_RATING', fn () => 5);
     add_filter('site-reviews/const/MIN_RATING', '__return_zero');
     $sanitized = sanitizeValues('rating');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         0,
         0,
         0,
@@ -977,9 +977,9 @@ test('sanitize rating', function () {
 
 test('sanitize regex', function () {
     $sanitized = sanitizeValues('regex');
-    expect(array_filter($sanitized))->toEqual([]);
+    expect(array_filter($sanitized))->toBe([]);
     $sanitized = sanitizeValues('regex:/[^\w\-]/');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         'abc',
         '1',
@@ -1021,7 +1021,7 @@ test('sanitize regex', function () {
 
 test('sanitize slug', function () {
     $sanitized = sanitizeValues('slug');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         'abc',
         '1',
@@ -1092,12 +1092,12 @@ test('sanitize term ids', function () {
     $expected[] = $terms;                       // several, comma separated
     $expected[] = array_values(array_filter($strangers, $isCategory));
 
-    expect(sanitizeValues('term-ids', $values))->toEqual($expected);
+    expect(sanitizeValues('term-ids', $values))->toBe($expected);
 });
 
 test('sanitize text', function () {
     $sanitized = sanitizeValues('text');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         'abc',
         '1',
@@ -1139,7 +1139,7 @@ test('sanitize text', function () {
 
 test('sanitize text html', function () {
     $sanitized = sanitizeValues('text-html');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         'abc',
         '1',
@@ -1178,14 +1178,14 @@ test('sanitize text html', function () {
         '',
     ]);
     $sanitized = sanitizeValues('text-html:a,img');
-    expect($sanitized[27])->toEqual('<a id="xxx" href="https://apple.com" title="hello" target="_blank">Hello</a> this is a link and a link');
-    expect($sanitized[28])->toEqual('&lt;img sr<img src="x">c=x alert(55)&gt;');
-    expect($sanitized[29])->toEqual('&lt;script sr<img src="x">c=https://attackersite.com/test.js&gt;');
+    expect($sanitized[27])->toBe('<a id="xxx" href="https://apple.com" title="hello" target="_blank">Hello</a> this is a link and a link');
+    expect($sanitized[28])->toBe('&lt;img sr<img src="x">c=x alert(55)&gt;');
+    expect($sanitized[29])->toBe('&lt;script sr<img src="x">c=https://attackersite.com/test.js&gt;');
 });
 
 test('sanitize text multiline', function () {
     $sanitized = sanitizeValues('text-multiline');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         'abc',
         '1',
@@ -1227,7 +1227,7 @@ test('sanitize text multiline', function () {
 
 test('sanitize text post', function () {
     $sanitized = sanitizeValues('text-post');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         'abc',
         '1',
@@ -1269,7 +1269,7 @@ test('sanitize text post', function () {
 
 test('sanitize url', function () {
     $sanitized = sanitizeValues('url');
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         'https://abc',
         'https://1',
@@ -1317,7 +1317,7 @@ test('sanitize url', function () {
         '',
     ];
     $sanitized = sanitizeValues('url:discord.com', $values);
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         'https://discord.com/invite/123',
         '',
         'https://discord.com/invite/456',
@@ -1327,7 +1327,7 @@ test('sanitize url', function () {
     ]);
     // test with a url prefix arg (with scheme)
     $sanitized = sanitizeValues('url:https://discord.com', $values);
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         'https://discord.com/invite/123',
         '',
         'https://discord.com/invite/456',
@@ -1349,9 +1349,9 @@ test('sanitize url host is anchored', function () {
         'https://hooks.slack.company.com/x',               // prefix substring, no dot boundary: rejected
     ];
     $sanitized = sanitizeValues('url:hooks.slack.com', $values);
-    expect($sanitized)->toEqual([ 'https://hooks.slack.com/services/T00/B00/xYz', '', '', '', '', '', ]);
+    expect($sanitized)->toBe([ 'https://hooks.slack.com/services/T00/B00/xYz', '', '', '', '', '', ]);
     $sanitized = sanitizeValues('url:discord.com', ['https://ptb.discord.com/api/webhooks/1/x']);
-    expect($sanitized)->toEqual(['https://ptb.discord.com/api/webhooks/1/x']);
+    expect($sanitized)->toBe(['https://ptb.discord.com/api/webhooks/1/x']);
 });
 
 test('sanitize user email', function () {
@@ -1360,7 +1360,7 @@ test('sanitize user email', function () {
     $values = sanitizerTestValues();
     $values[] = $user->user_email;
     $sanitized = sanitizeValues('user-email', $values);
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         '',
         '',
@@ -1400,7 +1400,7 @@ test('sanitize user email', function () {
         $user->user_email,
     ]);
     $sanitized = sanitizeValues('user-email:current_user', $values);
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         $user->user_email,
         $user->user_email,
         $user->user_email,
@@ -1449,7 +1449,7 @@ test('sanitize user id', function () {
     $values[] = $user1->user_login; // test User login value
     $values[] = 'user_id'; // Test current User ID value
     $sanitized = sanitizeValues('user-id', $values);
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         0,
         0,
         0,
@@ -1491,7 +1491,7 @@ test('sanitize user id', function () {
         0,
     ]);
     $sanitized = sanitizeValues("user-id:{$user2->ID}", $values);
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         $user2->ID,
         $user2->ID,
         $user2->ID,
@@ -1534,7 +1534,7 @@ test('sanitize user id', function () {
     ]);
     wp_set_current_user($user1->ID);
     $sanitized = sanitizeValues('user-id:current_user', $values);
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         $user1->ID,
         $user1->ID,
         $user1->ID,
@@ -1579,14 +1579,16 @@ test('sanitize user id', function () {
 
 test('sanitize user ids', function () {
     createUsers(2);
-    $users = get_users(['fields' => 'ID']);
+    // get_users() hands the IDs back as numeric STRINGS; the sanitizer's contract is ints,
+    // which is exactly the kind of thing toBe() is here to pin — so cast the fixture.
+    $users = array_map('intval', get_users(['fields' => 'ID']));
     $values = sanitizerTestValues();
     $values[] = $users[0];
     $values[] = $users;
     $values[] = implode(',', $users);
     $values[] = array_diff(range(1, 20), $users);
     $sanitized = sanitizeValues('user-ids', $values);
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         [],
         [],
         array_intersect($users, array_map('intval', $values[2])),
@@ -1638,7 +1640,7 @@ test('sanitize user name', function () {
     $values[] = 'Łukasz';
     $values[] = 'မောင်မောင် အောင်မျိုး ကိုကိုဦး မိုးမြင့်သန္တာ';
     $sanitized = sanitizeValues('user-name', $values);
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         'abc',
         '1',
@@ -1680,7 +1682,7 @@ test('sanitize user name', function () {
         'မောင်မောင် အောင်မျိုး ကိုကိုဦး မိုးမြင့်သန္တာ',
     ]);
     $sanitized = sanitizeValues('user-name:current_user', $values);
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         $user->display_name,
         'abc',
         '1',
@@ -1737,7 +1739,7 @@ test('sanitize version', function () {
     $values[] = '1.1.1-beta23';
     $values[] = '1.1.1-beta.1';
     $sanitized = sanitizeValues('version', $values);
-    expect($sanitized)->toEqual([
+    expect($sanitized)->toBe([
         '',
         '',
         '1',
