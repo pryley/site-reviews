@@ -225,6 +225,86 @@ function actAs(string $role): int
     return $userId;
 }
 
+test('a logged out visitor cannot read a single review either', function () {
+    // The list route refuses before looking; the single route looks the review up first and
+    // then refuses through has_read_permission — same answer, different gate.
+    $review = createReview();
+
+    $response = restRequest('GET', '/'.REST_NS.'/reviews/'.$review->ID);
+
+    expect($response->get_status())->toBe(401)
+        ->and($response->get_data()['code'])->toBe('rest_cannot_view');
+});
+
+test('terms the user may not assign are refused, on create and on update', function () {
+    // Authors carry assign_site-review_terms by default, so the denial is a per-user cap
+    // removal — the state a site with a role manager plugin is in.
+    $termId = \GeminiLabs\SiteReviews\Tests\createTerm(['taxonomy' => glsr()->taxonomy]);
+    $review = createReview();
+    actAs('author');
+    // on the LIVE current-user object: wp_set_current_user() with the same id early-returns
+    // without re-reading caps, so a denial written to a fresh WP_User would not be seen
+    wp_get_current_user()->add_cap('assign_site-review_terms', false);
+
+    $create = restRequest('POST', '/'.REST_NS.'/reviews', [
+        'assigned_terms' => [$termId],
+        'content' => 'With a term',
+        'rating' => 5,
+        'title' => 'With a term',
+    ]);
+    expect($create->get_status())->toBe(403)
+        ->and($create->get_data()['code'])->toBe('rest_cannot_assign_term');
+
+    // and on update of the author's own review, where the edit check itself passes
+    $ownReview = createReview();
+    $update = restRequest('PUT', '/'.REST_NS.'/reviews/'.$ownReview->ID, [
+        'assigned_terms' => [$termId],
+    ]);
+    expect($update->get_data()['code'])->toBe('rest_cannot_assign_term');
+});
+
+test('a term that does not exist is not a permission problem', function () {
+    // Invalid terms are rejected later by validation; the permission gate skips them so a
+    // stale id in a saved form cannot turn into a misleading 403.
+    actAsAdmin();
+
+    $response = restRequest('POST', '/'.REST_NS.'/reviews', [
+        'assigned_terms' => [999999001],
+        'content' => 'Bogus term',
+        'rating' => 5,
+        'title' => 'Bogus term',
+    ]);
+
+    expect($response->get_status())->toBe(201);
+});
+
+test('an update cannot hand the review to somebody else without the capability', function () {
+    $victim = createUser(['role' => 'administrator']);
+    actAs('author');
+    $own = createReview(); // created as the author, so the edit check itself passes
+
+    $response = restRequest('PUT', '/'.REST_NS.'/reviews/'.$own->ID, [
+        'author' => $victim,
+        'title' => 'Reattributed',
+    ]);
+
+    expect($response->get_status())->toBe(403)
+        ->and($response->get_data()['code'])->toBe('rest_cannot_edit_others');
+});
+
+test('an editor of others\' posts may reattribute a review', function () {
+    $other = createUser();
+    actAsAdmin();
+    $review = createReview();
+
+    $response = restRequest('PUT', '/'.REST_NS.'/reviews/'.$review->ID, [
+        'author' => $other,
+        'title' => 'Reattributed by an admin',
+    ]);
+
+    expect($response->get_status())->toBe(200);
+});
+
 test('a subscriber cannot read the personal data on a review', function () {
     // A subscriber is a logged-in user — the login check alone is not enough. `context=edit` is
     // what unwraps the email, the IP address and the moderation state, and it takes edit_posts.
@@ -332,6 +412,171 @@ test('a subscriber cannot edit or delete a review', function () {
 
     // and it is still there, and still says what it said
     expect(get_post($review->ID))->not->toBeNull();
+});
+
+/*
+ * The controller's own plumbing: the _rendered variants (what the editor preview and the
+ * frontend javascript consume), the trash-vs-force delete split, pagination, and the
+ * failure statuses.
+ */
+
+test('a delete without force moves the review to the trash, once', function () {
+    actAsAdmin();
+    $review = createReview();
+
+    $first = restRequest('DELETE', '/'.REST_NS.'/reviews/'.$review->ID);
+    expect($first->get_status())->toBe(200);
+    expect(get_post_status($review->ID))->toBe('trash');
+
+    $again = restRequest('DELETE', '/'.REST_NS.'/reviews/'.$review->ID);
+    expect($again->get_status())->toBe(410)
+        ->and($again->get_data()['code'])->toBe('rest_already_trashed');
+});
+
+test('a creation the plugin refuses is a 500, not a phantom review', function () {
+    actAsAdmin();
+    add_filter('wp_insert_post_empty_content', '__return_true'); // the post cannot be inserted
+    try {
+        $response = restRequest('POST', '/'.REST_NS.'/reviews', [
+            'content' => 'Doomed',
+            'rating' => 5,
+            'title' => 'Doomed',
+        ]);
+    } finally {
+        remove_filter('wp_insert_post_empty_content', '__return_true');
+    }
+
+    expect($response->get_status())->toBe(500)
+        ->and($response->get_data()['code'])->toBe('rest_review_create_item');
+});
+
+test('an update the plugin refuses is a 500', function () {
+    actAsAdmin();
+    $review = createReview();
+    $fake = new class() extends \GeminiLabs\SiteReviews\Database {
+        public function update(string $table, array $data, array $where)
+        {
+            return false; // the ratings table cannot be written
+        }
+    };
+    $original = glsr(\GeminiLabs\SiteReviews\Database::class);
+    glsr()->alias(\GeminiLabs\SiteReviews\Database::class, $fake);
+    try {
+        $response = restRequest('PUT', '/'.REST_NS.'/reviews/'.$review->ID, ['rating' => 1]);
+    } finally {
+        glsr()->alias(\GeminiLabs\SiteReviews\Database::class, $original);
+    }
+
+    expect($response->get_status())->toBe(500)
+        ->and($response->get_data()['code'])->toBe('rest_update_review');
+});
+
+test('the rendered variants return html, not fields', function () {
+    actAsAdmin();
+    $review = createReview(['content' => 'Rendered over REST.']);
+
+    $item = restRequest('GET', '/'.REST_NS.'/reviews/'.$review->ID, ['_rendered' => 1]);
+    expect($item->get_data()['rendered'])->toContain('Rendered over REST.');
+
+    $items = restRequest('GET', '/'.REST_NS.'/reviews', ['_rendered' => 1]);
+    expect($items->get_data())->toHaveKeys(['pagination', 'rendered']);
+    expect($items->get_data()['rendered'])->toContain('Rendered over REST.');
+
+    $created = restRequest('POST', '/'.REST_NS.'/reviews', [
+        '_rendered' => 1,
+        'content' => 'Created and rendered.',
+        'rating' => 4,
+        'title' => 'Created rendered',
+    ]);
+    expect($created->get_status())->toBe(201);
+    expect($created->get_data()['rendered'])->toContain('Created and rendered.');
+
+    $updated = restRequest('PUT', '/'.REST_NS.'/reviews/'.$review->ID, [
+        '_rendered' => 1,
+        'content' => 'Updated and rendered.',
+    ]);
+    expect($updated->get_data()['rendered'])->toContain('Updated and rendered.');
+});
+
+test('the collection is paginated with headers and prev/next links', function () {
+    actAsAdmin();
+    createReviews(3);
+
+    $response = restRequest('GET', '/'.REST_NS.'/reviews', ['page' => 2, 'per_page' => 1]);
+
+    expect($response->get_status())->toBe(200);
+    $headers = $response->get_headers();
+    expect($headers['X-WP-Total'])->toBe('3')
+        ->and($headers['X-WP-TotalPages'])->toBe('3');
+    expect($headers['Link'])->toContain('rel="prev"')
+        ->toContain('rel="next"');
+});
+
+test('a page past the end is a 400 — or clamped, when rendering html', function () {
+    actAsAdmin();
+    createReviews(2);
+
+    expect(restRequest('GET', '/'.REST_NS.'/reviews', ['page' => 5, 'per_page' => 1])->get_status())
+        ->toBe(400);
+
+    // the rendered variant serves the frontend's load-more, which clamps instead of failing
+    $rendered = restRequest('GET', '/'.REST_NS.'/reviews', [
+        '_rendered' => 1, 'page' => 5, 'per_page' => 1,
+    ]);
+    expect($rendered->get_status())->toBe(200);
+    expect($rendered->get_headers()['Link'])->toContain('rel="prev"');
+});
+
+test('a review advertises its revisions, author and replies links', function () {
+    $userId = actAsAdmin();
+    $review = createReview(['author_id' => $userId]); // owned, so the author link appears
+    wp_update_post(['ID' => $review->ID, 'post_content' => 'Edited, so revised.']); // writes a revision
+
+    add_post_type_support(glsr()->post_type, 'comments');
+    try {
+        $response = restRequest('GET', '/'.REST_NS.'/reviews/'.$review->ID, ['context' => 'edit']);
+    } finally {
+        remove_post_type_support(glsr()->post_type, 'comments');
+    }
+
+    $links = $response->get_links();
+    expect($links)->toHaveKey('predecessor-version')
+        ->toHaveKey('replies')
+        ->toHaveKey('https://api.w.org/action-publish'); // the edit-context action links
+    expect($links['version-history'][0]['attributes']['count'])->toBeGreaterThan(0);
+
+    // KNOWN DEFECT, documented not endorsed: the author link is never emitted, because
+    // prepareLinks() asks empty($review->user_id) and user_id is a KEY_ALIASES property —
+    // Review::offsetGet() resolves the alias, Review::offsetExists() does not, so empty()
+    // is true even when user_id reads 1. Same family as the Application fix (e07a7b36c).
+    // When offsetExists learns the aliases, flip this expectation to toHaveKey('author').
+    expect($review->user_id)->toBe($userId);
+    expect(empty($review->user_id))->toBeTrue(); // the defect, pinned
+    expect($links)->not->toHaveKey('author');
+});
+
+test('a delete that wordpress refuses is a 500, forced or trashed', function () {
+    // Core's own short-circuit filters stand in for the database failure.
+    actAsAdmin();
+    $review = createReview();
+
+    add_filter('pre_delete_post', '__return_false');
+    try {
+        $forced = restRequest('DELETE', '/'.REST_NS.'/reviews/'.$review->ID, ['force' => true]);
+    } finally {
+        remove_filter('pre_delete_post', '__return_false');
+    }
+    expect($forced->get_status())->toBe(500)
+        ->and($forced->get_data()['code'])->toBe('rest_cannot_delete');
+
+    add_filter('pre_trash_post', '__return_false');
+    try {
+        $trashed = restRequest('DELETE', '/'.REST_NS.'/reviews/'.$review->ID);
+    } finally {
+        remove_filter('pre_trash_post', '__return_false');
+    }
+    expect($trashed->get_status())->toBe(500)
+        ->and($trashed->get_data()['code'])->toBe('rest_cannot_delete');
 });
 
 test('editing or deleting a review that does not exist is a 404, not a 403', function () {
