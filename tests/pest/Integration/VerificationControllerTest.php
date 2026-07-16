@@ -12,6 +12,8 @@ use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\sentMail;
+use function GeminiLabs\SiteReviews\Tests\sentTo;
 
 uses(InteractsWithAjax::class, InteractsWithExits::class);
 
@@ -181,14 +183,35 @@ test('a request with no review id is refused before anything is decrypted', func
 
 test('an admin can re-send the verification email', function () {
     // The button exists because the first email goes to spam sometimes, and the person who wrote
-    // the review then emails support instead.
+    // the review then emails support instead. The setting is enabled AFTER the review is created,
+    // so the creation-time verification email does not land in the mailbox first.
     $review = createReview(['email' => 'jane@example.org']);
+    glsr(OptionManager::class)->set('settings.general.request_verification', 'yes');
 
     $response = $this->jsonSentBy(fn () => glsr(VerificationController::class)->resendVerificationEmailAjax(
         new Request(['post_id' => $review->ID])
     ));
 
     expect($response['success'])->toBeTrue();
+    expect(sentMail())->toHaveCount(1);
+    expect(sentTo())->toBe(['jane@example.org']);
+    expect(sentMail()[0]['subject'])->toBe('Please verify your review');
+});
+
+test('the verification email is not re-sent while the setting is off', function () {
+    // Off is the DEFAULT. The command fails with a notice naming the setting — but note the
+    // envelope: resendVerificationEmailAjax() ends in an unconditional wp_send_json_success(),
+    // so `success` is true even here and the admin's feedback is only the notice. Pinned as
+    // current behaviour; reported alongside this batch as a plugin-side observation.
+    $review = createReview(['email' => 'jane@example.org']);
+
+    $response = $this->jsonSentBy(fn () => glsr(VerificationController::class)->resendVerificationEmailAjax(
+        new Request(['post_id' => $review->ID])
+    ));
+
+    expect(sentMail())->toBe([]);
+    expect($response['success'])->toBeTrue(); // unconditional — see above
+    expect($response['data']['notices'])->toContain('Request Verification setting is disabled');
 });
 
 test('the editor offers to send a verification request, and then to send it again', function () {
