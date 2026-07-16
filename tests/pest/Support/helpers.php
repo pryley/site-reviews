@@ -186,6 +186,25 @@ function purgeCommittedRows(): void
             OR option_name LIKE '\\_site\\_transient\\_timeout\\_glsr\\_%'
             OR option_name = 'glsr_api_transients'"
     );
+
+    // The MIGRATION RECORD, the subtle casualty of a committed migration run. A test that
+    // reaches Migrate::runAll() (CliTest, the Tools re-run) commits its DDL, but the FINAL
+    // updateMigrationStatus() write lands in the post-DDL transaction the harness rolls
+    // back — so the committed database ends the test with glsr_migrations MISSING, and every
+    // later test that so much as touches runMigrations() finds all of them pending and
+    // re-runs them: DDL, an undeclared commit, and the tripwire fires two files away. The
+    // schema itself is current — the DDL committed — so the honest repair is the record
+    // bootstrap's own runAll() writes: every migration in the tree, marked run. Raw SQL like
+    // everything else here: the object cache still holds the pre-rollback copy at this point
+    // (it is flushed AFTER the purge), so get_option()/update_option() would no-op.
+    $migrations = (new \ReflectionProperty(\GeminiLabs\SiteReviews\Modules\Migrate::class, 'migrations'))
+        ->getValue(glsr(\GeminiLabs\SiteReviews\Modules\Migrate::class)); // from the filesystem, cache-free
+    $wpdb->query($wpdb->prepare(
+        "INSERT INTO {$wpdb->options} (option_name, option_value, autoload)
+         VALUES (%s, %s, 'auto') ON DUPLICATE KEY UPDATE option_value = VALUES(option_value)",
+        glsr()->prefix.'migrations',
+        serialize(array_fill_keys($migrations, true))
+    ));
 }
 
 /**
