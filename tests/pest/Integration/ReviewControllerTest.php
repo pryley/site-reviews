@@ -6,6 +6,8 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Review;
 
+use GeminiLabs\SiteReviews\Tests\InteractsWithExits;
+
 use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\createTerm;
@@ -23,17 +25,12 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * WordPress thing (wp_update_post(), wp_delete_user()) and then look at the custom tables. The hooks
  * are registered at boot and Pest.php restores them per test, so they fire.
  *
- * Two entry points cannot be reached from a CLI process, and one only half, for the same reason as
- * the GET routes: filter_input(INPUT_GET|INPUT_POST) reads the SAPI request, which does not exist
- * here and cannot be planted.
- *
- *   onApprove() / onUnapprove()  gated on filter_input(INPUT_GET, 'plugin'), so the body never runs.
- *                                Only "it does nothing" is testable.
- *   updateReview()               reads the review's fields through Helper::filterInputArray() (which
- *                                DOES fall back to $_POST), but the assigned post/user ids through a
- *                                bare filter_input() (which does not) — so editing a review here
- *                                always looks like "assignments cleared". Noted at the test that cares.
+ * The controller reads the request through filter_input(), which Support/filter-input.php shadows
+ * for the Controllers namespace — so $_GET/$_POST planted by a test ARE visible to it, including
+ * the onApprove()/onUnapprove() fallbacks and updateReview()'s assigned post/user ids.
  */
+
+uses(InteractsWithExits::class);
 
 beforeEach(function () {
     resetPluginState();
@@ -48,6 +45,7 @@ afterEach(function () {
     set_current_screen('front');
     $_GET = [];
     $_POST = [];
+    $_REQUEST = [];
 });
 
 /*
@@ -442,11 +440,32 @@ test('editing a review in the editor saves what was typed into it', function () 
     $updated = glsr_get_review($review->ID);
     expect($updated->rating)->toBe(3)
         ->and($updated->is_pinned)->toBeTrue();
+});
 
-    // What it does NOT save from here is the assignments: they are read with a bare
-    // filter_input(INPUT_POST, 'post_ids', …, FILTER_FORCE_ARRAY), which no test can
-    // populate, so they always arrive as "none". Helper::filterInputArray() falls back
-    // to $_POST and these fields do not — see the note at the top of the file.
+test('editing a review in the editor recounts what it is assigned to', function () {
+    // The assigned post/user ids are read with filter_input(INPUT_POST, 'post_ids', …,
+    // FILTER_FORCE_ARRAY), shadowed for tests like every other filter_input() here, and
+    // handed to the recount actions whether or not anything else changed.
+    $review = createReview();
+    set_current_screen(glsr()->post_type);
+    $_POST[glsr()->id] = ['is_editing_review' => 1, 'name' => $review->author];
+    $_POST['post_ids'] = ['5', '6'];
+    $_POST['user_ids'] = ['7'];
+    $posts = null;
+    $users = null;
+    add_action('site-reviews/review/updated/post_ids', function ($r, $ids) use (&$posts) {
+        $posts = $ids;
+    }, 10, 2);
+    add_action('site-reviews/review/updated/user_ids', function ($r, $ids) use (&$users) {
+        $users = $ids;
+    }, 10, 2);
+
+    glsr(ReviewController::class)->onEditReview(
+        $review->ID, get_post($review->ID), get_post($review->ID)
+    );
+
+    expect($posts)->toBe(['5', '6'])
+        ->and($users)->toBe(['7']);
 });
 
 test('a review edited from a screen that is not ours is left alone', function () {
@@ -606,21 +625,44 @@ test('an unchanged name leaves the avatar exactly as it was', function () {
 });
 
 /*
- * The two that cannot be reached.
+ * The no-js approve/unapprove fallbacks, on WordPress's admin_action_{action} hook.
  */
 
 test('the fallback approve action does nothing unless it is ours', function () {
-    // A no-js fallback for the approve link, on WordPress's admin_action_{action} hook
-    // — which is fired for whatever `action` is in the query string, from any plugin.
-    // The `plugin` query var is the only thing that says this one is ours, and
-    // filter_input(INPUT_GET) cannot be given one from here, so this asserts the guard
-    // and nothing past it. The command it would run is covered in CommandTest.
+    // admin_action_{action} is fired for whatever `action` is in the query string, from
+    // any plugin. The `plugin` query var is the only thing that says this one is ours;
+    // without it the body must not run — no redirect, no exit, no change.
     $review = createReview(['is_approved' => false]);
 
     glsr(ReviewController::class)->onApprove();
     glsr(ReviewController::class)->onUnapprove();
 
-    expect(get_post_status($review->ID))->toBe('pending'); // no redirect, no exit, no change
+    expect(get_post_status($review->ID))->toBe('pending');
+});
+
+test('the fallback approve action publishes the review', function () {
+    $review = createReview(['is_approved' => false]);
+    $_GET['plugin'] = glsr()->id;
+    $_GET['post'] = (string) $review->ID;
+    $_REQUEST['_wpnonce'] = wp_create_nonce("approve-review_{$review->ID}");
+
+    // expectsRedirect() fails the test if the redirect never happens; the location is
+    // wp_get_referer(), which is empty in a process that never received a request.
+    $this->expectsRedirect(fn () => glsr(ReviewController::class)->onApprove());
+
+    expect(get_post_status($review->ID))->toBe('publish');
+});
+
+test('the fallback unapprove action unapproves the review', function () {
+    $review = createReview(['is_approved' => true]);
+    expect(get_post_status($review->ID))->toBe('publish');
+    $_GET['plugin'] = glsr()->id;
+    $_GET['post'] = (string) $review->ID;
+    $_REQUEST['_wpnonce'] = wp_create_nonce("unapprove-review_{$review->ID}");
+
+    $this->expectsRedirect(fn () => glsr(ReviewController::class)->onUnapprove());
+
+    expect(get_post_status($review->ID))->toBe('pending');
 });
 
 test('a notification is not queued while the suite is running', function () {

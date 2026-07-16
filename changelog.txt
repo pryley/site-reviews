@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 8.1.2 (unreleased) =
+
+- Fixed the no-javascript Unapprove fallback link publishing the review instead of unapproving it
+- Fixed the redirect after duplicating a review with Duplicate Page
+
 = 8.1.1 (2026-07-16) =
 
 - Fixed a "doing it wrong" notice raised by an integration's version notice

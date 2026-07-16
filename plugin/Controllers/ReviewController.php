@@ -381,7 +381,7 @@ class ReviewController extends AbstractController
             check_admin_referer("unapprove-review_{$postId}");
             $this->execute(new ToggleStatus(new Request([
                 'post_id' => $postId,
-                'status' => 'publish',
+                'status' => 'unapprove',
             ])));
             wp_safe_redirect(wp_get_referer());
             exit;
