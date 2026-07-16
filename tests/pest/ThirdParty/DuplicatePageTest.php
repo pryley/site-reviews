@@ -58,6 +58,8 @@ function duplicatedReviewId(string $location): int
 }
 
 test('duplicating a review copies the review, not just the post', function () {
+    // to_page so the redirect carries the copy's id, which is how the test finds it.
+    update_option('duplicate_page_options', ['duplicate_post_redirect' => 'to_page']);
     $review = createReview(['rating' => 4, 'title' => 'The original']);
     duplicatePageRequest($review->ID);
 
@@ -77,8 +79,11 @@ test('duplicating a review copies the review, not just the post', function () {
 
 test('the copy is titled the way duplicate page was told to title it', function () {
     // duplicate_post_suffix is Duplicate Page's own setting, and the integration
-    // honours it rather than imposing its own.
-    update_option('duplicate_page_options', ['duplicate_post_suffix' => 'copy']);
+    // honours it rather than imposing its own. to_page carries the copy's id in the redirect.
+    update_option('duplicate_page_options', [
+        'duplicate_post_redirect' => 'to_page',
+        'duplicate_post_suffix' => 'copy',
+    ]);
     $review = createReview(['title' => 'The original']);
     duplicatePageRequest($review->ID);
 
@@ -88,7 +93,8 @@ test('the copy is titled the way duplicate page was told to title it', function 
 });
 
 test('the copy keeps its title when duplicate page has no suffix', function () {
-    delete_option('duplicate_page_options');
+    // to_page (and no suffix) so the redirect carries the copy's id and the title is left alone.
+    update_option('duplicate_page_options', ['duplicate_post_redirect' => 'to_page']);
     $review = createReview(['title' => 'The original']);
     duplicatePageRequest($review->ID);
 
@@ -153,20 +159,20 @@ test('a review post with no review behind it is refused', function () {
     expect($message)->toBe('Invalid review.');
 });
 
-test('the duplicate opens for editing by default', function () {
+test('the duplicate returns to the review list by default', function () {
     delete_option('duplicate_page_options');
+    $postId = createPost();
+
+    // The REVIEW list, not the list of whatever post type Duplicate Page was invoked
+    // from — a duplicated review is a review.
+    expect(duplicatePageRedirectUrl($postId))
+        ->toBe(admin_url('edit.php?post_type='.glsr()->post_type));
+});
+
+test('the duplicate opens for editing when duplicate page is set to_page', function () {
+    update_option('duplicate_page_options', ['duplicate_post_redirect' => 'to_page']);
     $postId = createPost();
 
     expect(duplicatePageRedirectUrl($postId))
         ->toBe(admin_url('post.php?action=edit&post='.$postId));
-});
-
-test('the duplicate returns to the review list when duplicate page says so', function () {
-    update_option('duplicate_page_options', ['duplicate_post_redirect' => 'to_page']);
-    $postId = createPost();
-
-    // Note it returns to the REVIEW list, not to the list of whatever post type
-    // Duplicate Page was invoked from — a duplicated review is a review.
-    expect(duplicatePageRedirectUrl($postId))
-        ->toBe(admin_url('edit.php?post_type='.glsr()->post_type));
 });

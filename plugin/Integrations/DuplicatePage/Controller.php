@@ -45,9 +45,9 @@ class Controller extends AbstractController
         $options = get_option('duplicate_page_options');
         $redirect = $options['duplicate_post_redirect'] ?? 'to_list';
         if ('to_page' === $redirect) {
-            $url = admin_url('edit.php?post_type='.glsr()->post_type);
-        } else {
             $url = admin_url('post.php?action=edit&post='.$postId);
+        } else {
+            $url = admin_url('edit.php?post_type='.glsr()->post_type);
         }
         return sanitize_url($url);
     }
