@@ -93,11 +93,10 @@ test('serializes to the JSON-LD script tag Google reads', function () {
     expect(json_encode($person))->toContain('"@type":"Person"'); // jsonSerialize
 });
 
-test('an identifier becomes the @id of the document', function () {
-    // On an UnknownType, which allows any property. On the TYPED classes the rename is
-    // refused by their own allow-list — "@id" is in nobody's `allowed` — so a typed schema
-    // drops its identifier entirely (see the log warning). Confirmed by execution; whether
-    // that is intended is an open question, so this test documents both behaviours.
+test('an identifier becomes the @id of the document, on any type', function () {
+    // "@id" is a JSON-LD keyword, not a schema.org property, so it bypasses the per-type
+    // allow-list — a typed class used to drop its identifier entirely because the rename
+    // was refused by its own allowed[] check.
     $custom = (new UnknownType('Store'))->identifier('https://example.org/#store');
     $array = $custom->toArray();
     expect($array['@id'])->toBe('https://example.org/#store');
@@ -105,8 +104,8 @@ test('an identifier becomes the @id of the document', function () {
 
     $typed = (new Thing())->identifier('https://example.org/#thing');
     $array = $typed->toArray();
-    expect($array)->not->toHaveKey('@id')
-        ->not->toHaveKey('identifier');
+    expect($array['@id'])->toBe('https://example.org/#thing');
+    expect($array)->not->toHaveKey('identifier');
 });
 
 test('nested values serialize by what they are', function () {
