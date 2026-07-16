@@ -2,6 +2,7 @@
 
 = 8.1.2 (unreleased) =
 
+- Fixed a verification request whose message template has been emptied sending the notification template instead; it now fails with a logged error and nothing is sent
 - Fixed the no-javascript Unapprove fallback link publishing the review instead of unapproving it
 - Fixed the redirect after duplicating a review with Duplicate Page
 

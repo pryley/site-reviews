@@ -386,24 +386,26 @@ test('a verification request can be sent again, with the link it is given', func
     expect(glsr(PostMeta::class)->get($review->ID, 'verified_requested'))->toBe('1');
 });
 
-test('a verification request with no message template is logged and reported as failed', function () {
-    // With the message setting blanked, buildEmail() logs the missing template and composes an email
-    // with no body — which Email::validate() then rejects, so send() fails and the command says so
-    // rather than reporting a request nobody received.
+test('a verification request with no message template is refused and logged, not sent', function () {
+    // The settings screen cannot save this state — SettingsController::sanitizeGeneral() reverts
+    // an emptied request_verification_message to the default (SettingsControllerTest pins it) —
+    // so a blank template means a filter or a direct option write. The command must refuse: the
+    // fallback would be sending the NOTIFICATION template as a "verification" email and calling
+    // it success.
     askForVerification();
     wp_set_current_user(createUser(['role' => 'administrator']));
-    $review = createReview(['email' => 'jane@example.org']); // created while mail still works
+    $review = createReview(['email' => 'jane@example.org']);
+    emptyMailbox(); // creating the review sent the creation-time request; only the command's send matters here
 
-    // Blank the template at the option filter (set('') is overwritten by the setting default) so
-    // buildEmail logs the missing template; and make wp_mail itself fail so send() returns false.
+    // Blank the template at the option filter (set('') is overwritten by the setting default).
     add_filter('site-reviews/option/general/request_verification_message', '__return_empty_string');
-    remove_all_filters('pre_wp_mail'); // drop the test mail interceptor…
-    add_filter('pre_wp_mail', '__return_false'); // …and force the send to fail
 
     $command = new SendVerificationEmail($review, 'https://example.org/verify?token=abc');
     $command->handle();
 
     expect($command->successful())->toBeFalse();
+    expect(sentMail())->toBe([]); // nothing left the site
+    expect(glsr(Console::class)->get())->toContain('The request_verification_message setting is missing.');
 });
 
 test('a verification request is not sent by a site that does not ask for verification', function () {

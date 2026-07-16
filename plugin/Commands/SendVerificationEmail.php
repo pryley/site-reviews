@@ -48,6 +48,17 @@ class SendVerificationEmail extends AbstractCommand
             $this->fail();
             return;
         }
+        // The settings screen reverts an emptied template to the default (SettingsController),
+        // so this is a filter or a direct option write. Refuse rather than let Email fall back
+        // to the notification template and send it as a "verification" email.
+        if ('' === $this->template()) {
+            glsr_log()->error('The request_verification_message setting is missing.');
+            glsr(Notice::class)->addError(
+                _x('The email could not be sent because the verification message template is empty.', 'admin-text', 'site-reviews')
+            );
+            $this->fail();
+            return;
+        }
         $email = glsr(Email::class)->compose($this->buildEmail($recipient), [
             'review' => $this->review,
         ]);
@@ -93,17 +104,17 @@ class SendVerificationEmail extends AbstractCommand
             ],
         ]);
         $context['verify_url'] = $this->verifyUrl; // use the provided verify_url with the redirect path
-        $template = trim(glsr(OptionManager::class)->get('settings.general.request_verification_message'));
-        if (!empty($template)) {
-            $templatePathForHook = 'request_verification_message';
-            $message = glsr(Template::class)->interpolate($template, $templatePathForHook, compact('context'));
-        } else {
-            glsr_log()->error('The request_verification_message setting is missing.');
-        }
+        $templatePathForHook = 'request_verification_message';
+        $message = glsr(Template::class)->interpolate($this->template(), $templatePathForHook, compact('context'));
         return [
             'to' => $recipient,
             'subject' => __('Please verify your review', 'site-reviews'),
-            'message' => $message ?? '',
+            'message' => $message,
         ];
+    }
+
+    protected function template(): string
+    {
+        return trim(glsr(OptionManager::class)->get('settings.general.request_verification_message'));
     }
 }
