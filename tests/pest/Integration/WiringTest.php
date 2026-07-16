@@ -4,6 +4,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\BlackHole;
 use GeminiLabs\SiteReviews\Commands\GeolocateReviews;
 use GeminiLabs\SiteReviews\Controllers\QueueController;
+use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Deprecated;
@@ -14,6 +15,7 @@ use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Provider;
 use GeminiLabs\SiteReviews\Router;
 
+use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\interceptHttp;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -67,17 +69,34 @@ test('every hooks class in the directory is loaded, with nothing listing them', 
 test('the hooks that make a review work are actually registered', function () {
     // Named, because these are the ones whose absence is silent. If `site-reviews/review/created`
     // has no listeners, reviews are still saved — they are simply never counted, never
-    // geolocated, and never notified about.
-    expect(has_action('site-reviews/review/created'))->not->toBeFalse()
-        ->and(has_filter('site-reviews/rendered/template/review'))->not->toBeFalse()
-        ->and(has_action('deleted_post'))->not->toBeFalse()
-        ->and(has_action('transition_post_status'))->not->toBeFalse();
+    // geolocated, and never notified about. A bare has_action($hook) is truthy from ANY
+    // registrant on a shared hook, so the plugin's own hooks are checked by their exact
+    // registrant and priority — AbstractHooks::hook() makes the controller a singleton and
+    // registers the plugin's own hooks unproxied, so the callable is nameable.
+    $controller = glsr(ReviewController::class);
+    expect(has_action('site-reviews/review/created', [$controller, 'onCreatedReview']))->toBe(10)
+        ->and(has_action('site-reviews/review/created', [$controller, 'sendNotification']))->toBe(50)
+        ->and(has_filter('site-reviews/rendered/template/review', [$controller, 'filterReviewTemplate']))->toBe(10);
+
+    // The WordPress hooks (transition_post_status, deleted_post) are registered through proxy()
+    // CLOSURES no callable can name — and they are shared with other registrants, so only the
+    // effect proves THIS controller's registration: WordPress's own status change must flip the
+    // ratings table, and a deletion must purge the review from the cache.
+    $review = createReview();
+    wp_update_post(['ID' => $review->ID, 'post_status' => 'pending']);
+    expect(glsr_get_review($review->ID)->is_approved)->toBeFalse();
+    wp_delete_post($review->ID, true);
+    expect(glsr_get_review($review->ID)->isValid())->toBeFalse();
 });
 
 test('the integrations are run late, after the plugins they integrate with have loaded', function () {
-    // On plugins_loaded, priority 100. An integration that ran at the ordinary time would ask
-    // whether WooCommerce is active before WooCommerce had said so.
-    expect(has_action('plugins_loaded'))->not->toBeFalse();
+    // On plugins_loaded, priority 100 — each integration's run() is queued in an anonymous
+    // closure, so no callable can name it and has_action('plugins_loaded') is truthy from core
+    // alone. The nameable thing is the effect: bootstrap's wp-load fired plugins_loaded long
+    // ago, so the Gutenberg integration (whose "third party" is core itself, always present)
+    // must have registered its blocks.
+    expect(WP_Block_Type_Registry::get_instance()->is_registered('site-reviews/review'))->toBeTrue()
+        ->and(WP_Block_Type_Registry::get_instance()->is_registered('site-reviews/reviews'))->toBeTrue();
 });
 
 /*
@@ -199,21 +218,26 @@ test('a method that never existed is still a fatal, because it is a bug', functi
  * The queue's far end.
  */
 
-test('a queued notification, geolocation and recalculation each reach their command', function () {
+test('a queued geolocation and recalculation each reach their command', function () {
     // QueueController is what Action Scheduler calls. Every one of these runs minutes or hours
     // after the request that scheduled it, in a process with no user and no screen — so a
-    // failure here is invisible twice over.
-    $review = createReview(['ip_address' => '127.0.0.1']); // local: geolocation returns early
+    // failure here is invisible twice over. Each job is therefore proven by its EFFECT.
+    $postId = createPost();
+    $review = createReview(['assigned_posts' => $postId, 'ip_address' => '203.0.113.9', 'rating' => 5]);
     $fired = new ArrayObject();
     add_action('site-reviews/review/geolocated', fn () => $fired->append('geolocated'));
+    interceptHttp(['body' => (string) wp_json_encode([
+        'status' => 'success', 'query' => '203.0.113.9', 'country' => 'Testland',
+    ])]);
 
     glsr(QueueController::class)->geolocateReview($review->ID);
-    glsr(QueueController::class)->recalculateAssignmentMeta();
+    expect($fired->getArrayCopy())->toBe(['geolocated']); // the lookup ran and was stored
 
-    // The recalculation is the one with a visible effect: it is what the counts on the reviews
-    // screen are built from, and it is queued after every import.
-    expect(glsr(CountManager::class))->not->toBeNull();
-    expect($fired)->toHaveCount(0); // a local address is not geolocated, so nothing fired
+    // The recalculation is what the counts on the reviews screen are built from, and it is
+    // queued after every import; its effect is the rating meta on the assigned post.
+    delete_post_meta($postId, CountManager::META_REVIEWS);
+    glsr(QueueController::class)->recalculateAssignmentMeta();
+    expect(get_post_meta($postId, CountManager::META_REVIEWS, true))->toBe('1');
 });
 
 test('the export cleanup removes the meta the exporter parked, and nothing else', function () {
