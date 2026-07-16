@@ -32,7 +32,8 @@ beforeEach(function () {
 
 afterEach(function () {
     set_current_screen('front');
-    unset($GLOBALS['submenu'], $GLOBALS['menu'], $GLOBALS['_registered_pages'], $GLOBALS['title']);
+    // add_submenu_page() also writes $_parent_pages (wp-admin/includes/plugin.php).
+    unset($GLOBALS['submenu'], $GLOBALS['menu'], $GLOBALS['_registered_pages'], $GLOBALS['_parent_pages'], $GLOBALS['title']);
 });
 
 function welcomeSlug(): string

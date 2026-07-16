@@ -103,8 +103,15 @@ function purgeEverythingThisSuiteCreates(): void
  */
 function csvUpload(string $contents): UploadedFile
 {
-    $path = tempnam(sys_get_temp_dir(), 'glsr').'.csv';
+    // tempnam() CREATES its file, and the .csv sibling is a second one — without cleanup every
+    // call leaks both to the OS temp dir for the life of the container.
+    $base = tempnam(sys_get_temp_dir(), 'glsr');
+    $path = $base.'.csv';
     file_put_contents($path, $contents);
+    register_shutdown_function(function () use ($base, $path) {
+        @unlink($base);
+        @unlink($path); // the import may already have consumed/moved it
+    });
 
     return new UploadedFile([
         'error' => \UPLOAD_ERR_OK,

@@ -601,7 +601,7 @@ test('build reviews avatars size', function () {
                 '<label for="site_reviews-settings-reviews-avatars_size">Avatar Size</label>'.
             '</th>'.
             '<td>'.
-                '<input type="number" class="small-text" id="site_reviews-settings-reviews-avatars_size" name="site_reviews[settings][reviews][avatars_size]" min="16" value="" /> pixels'.
+                '<input type="number" class="small-text" id="site_reviews-settings-reviews-avatars_size" name="site_reviews[settings][reviews][avatars_size]" min="16" value="" />&nbsp;pixels'.
             '</td>'.
         '</tr>');
 });
@@ -650,7 +650,7 @@ test('build reviews excerpts length', function () {
                 '<label for="site_reviews-settings-reviews-excerpts_length">Excerpt Length</label>'.
             '</th>'.
             '<td>'.
-                '<input type="number" class="small-text" id="site_reviews-settings-reviews-excerpts_length" name="site_reviews[settings][reviews][excerpts_length]" value="" /> words'.
+                '<input type="number" class="small-text" id="site_reviews-settings-reviews-excerpts_length" name="site_reviews[settings][reviews][excerpts_length]" value="" />&nbsp;words'.
             '</td>'.
         '</tr>');
 });
@@ -1003,7 +1003,7 @@ test('build forms limit time', function () {
                 '<label for="site_reviews-settings-forms-limit_time">Limit Reviews For</label>'.
             '</th>'.
             '<td>'.
-                '<input type="number" class="small-text" id="site_reviews-settings-forms-limit_time" name="site_reviews[settings][forms][limit_time]" min="0" value="" /> days'.
+                '<input type="number" class="small-text" id="site_reviews-settings-forms-limit_time" name="site_reviews[settings][forms][limit_time]" min="0" value="" />&nbsp;days'.
             '</td>'.
         '</tr>');
 });
@@ -1382,7 +1382,6 @@ test('build forms blacklist action', function () {
 function buildSettingField(array $args = []): string
 {
     $html = makeSettingField($args)->build();
-    $html = html_entity_decode($html, ENT_COMPAT); // decode double quotes in data-depends attributes
     $parts = preg_split('/\R/', $html);
     $parts = array_map('trim', $parts);
     return implode('', $parts);

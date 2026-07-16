@@ -4,7 +4,10 @@ use GeminiLabs\SiteReviews\Modules\Html\Form;
 
 uses()->group('plugin');
 
-test('condition contains', function () {
+test('a form whose fields are all filtered away still renders its shell', function () {
+    // Every field is stripped by the site-reviews/form/build/fields filter below, so this is a
+    // golden of the WRAPPER: the form element, the message container and the submit button — the
+    // parts an addon that replaces the fields still depends on.
     expect(buildForm([
             'button_text' => 'Test',
             'button_text_loading' => 'Please wait',

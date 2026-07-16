@@ -177,10 +177,17 @@ test('restoring a revision puts the rating back, not just the words', function (
 test('restoring a revision of an ordinary post touches nothing', function () {
     $postId = createPost();
     $revisionId = revisionOf($postId);
+    // "Touches nothing" made checkable: a restore that DID act would update the rating and
+    // announce a cache flush for the review — so listen for it.
+    $flushed = false;
+    add_action('site-reviews/cache/flush', function () use (&$flushed) {
+        $flushed = true;
+    });
 
     glsr(RevisionController::class)->restoreRevision($postId, $revisionId);
 
-    expect(get_post($postId))->not->toBeNull(); // it ran, and did nothing
+    expect($flushed)->toBeFalse(); // it ran, and did nothing
+    expect(get_post($postId))->not->toBeNull();
 });
 
 /*

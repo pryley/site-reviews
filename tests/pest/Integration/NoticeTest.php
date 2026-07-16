@@ -198,13 +198,17 @@ test('the write-review notice waits a week before it asks for anything', functio
     // seconds ago. The first time it would be drawn it silently defers itself instead,
     // backdating the dismissal so that it comes back in a week rather than a month.
     expect(dismissedNotices())->toBe([]);
+    $before = current_time('timestamp');
 
     $notice = new WriteReviewNotice();
     expect(renderedNotice($notice))->toBe(''); // not this time
 
+    // Backdated by exactly MONTH_IN_SECONDS - WEEK_IN_SECONDS, so the month-long defer
+    // interval has a week left to run. Pinned within the second or two the test itself takes.
     expect(dismissedNotices())->toHaveKey('write-review');
-    expect(dismissedNotices()['write-review']['timestamp'])
-        ->toBeLessThan(current_time('timestamp')); // backdated, so the month is nearly up
+    $timestamp = dismissedNotices()['write-review']['timestamp'];
+    expect($timestamp)->toBeGreaterThanOrEqual($before - (MONTH_IN_SECONDS - WEEK_IN_SECONDS))
+        ->toBeLessThanOrEqual(current_time('timestamp') - (MONTH_IN_SECONDS - WEEK_IN_SECONDS));
 });
 
 /*

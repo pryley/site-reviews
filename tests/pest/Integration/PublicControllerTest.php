@@ -132,7 +132,11 @@ test('the pagination it returns is unwrapped, because the page already has the w
 test('the browser cannot smuggle an attribute the shortcode does not know', function () {
     // `atts` comes from the BROWSER — it is whatever the page's data attribute said, and anybody
     // can edit that. It is fed straight into the shortcode, so the shortcode's own restrict() is
-    // the only thing between a visitor and the query.
+    // the only thing between a visitor and the query. What is NOT asserted here is script
+    // injection into the response: the unwrapped ajax reply embeds no atts at all, so an
+    // alert(1) assertion was guarding a sink the value cannot reach even with restrict()
+    // removed (shortcode_atts() drops unknown keys independently). The observable is that the
+    // junk is ignored and the request renders normally.
     createReviews(3);
 
     $response = $this->jsonSentBy(fn () => glsr(PublicController::class)->fetchPagedReviewsAjax(
@@ -140,7 +144,7 @@ test('the browser cannot smuggle an attribute the shortcode does not know', func
     ));
 
     expect($response['success'])->toBeTrue();
-    expect(wp_json_encode($response))->not->toContain('alert(1)');
+    expect($response['data']['reviews'])->toContain('glsr-review'); // rendered normally, junk ignored
 });
 
 /*

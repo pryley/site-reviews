@@ -222,10 +222,10 @@ test('unflatten', function () {
 });
 
 test('unique', function () {
-    $array = ['1','3','2','3','4','3','5'];
-    $array = Arr::unique($array);
-    sort($array);
-    expect($array)->toEqual(['1','2','3','4','5']);
+    // Keys and order are preserved on purpose ("we do not want to reindex the array!") — keyed
+    // defaults depend on it. A sort() here would hide a reindexing regression.
+    expect(Arr::unique(['1', '3', '2', '3', '4', '3', '5']))
+        ->toBe([0 => '1', 1 => '3', 2 => '2', 4 => '4', 6 => '5']);
 });
 
 test('unique int', function () {
