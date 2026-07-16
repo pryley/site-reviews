@@ -211,7 +211,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 
 == Changelog ==
 
-= 8.1.1 (2026-07-16) =
+= 8.1.1 (2026-07-17) =
 
 - Fixed a "doing it wrong" notice raised by an integration's version notice
 - Fixed a fatal error on sites running MultilingualPress when it cannot report its version
@@ -227,14 +227,17 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 - Fixed PHP deprecation notices on the review revisions comparison screen
 - Fixed Polylang translations never being applied to assigned pages, categories or users
 - Fixed reviews being recorded as having accepted the terms on a site whose database version is not recorded
+- Fixed stale settings keys from being cleaned after a plugin migration
 - Fixed the "Approve" and "Unapproved" wording not being applied to the Publish metabox on the review editor
 - Fixed the assignment table indexes being rebuilt on every migration rather than only when they need it
 - Fixed the category priority cache not being cleared when a category priority is added or changed
 - Fixed the classic widget title not being displayed
 - Fixed the Documentation link on the plugins screen
+- Fixed the no-javascript Unapprove fallback link publishing the review instead of unapproving it
 - Fixed the plugin's service container being unable to register a factory
 - Fixed the plugins screen load time when the licence server is unreachable
 - Fixed the post meta cache not being cleared when the rating counts are recalculated
+- Fixed the redirect after duplicating a review with the Duplicate Page plugin
 - Fixed the review cache not being cleared when a rating is deleted
 - Fixed the update details check for inactive addons
 
