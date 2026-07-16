@@ -146,7 +146,8 @@ test('returns the rating summary', function () {
     createReview(['rating' => 3]);
     $response = restRequest('GET', '/'.REST_NS.'/summary');
     expect($response->get_status())->toBe(200);
-    expect($response->get_data())->toBeArray();
+    expect($response->get_data()['average'])->toBe(4) // Arguments::toArray JSON round-trips, so a whole average arrives as an int
+        ->and($response->get_data()['reviews'])->toBe(2);
 });
 
 test('returns the summary of only the reviews assigned to a post', function () {
@@ -156,6 +157,9 @@ test('returns the summary of only the reviews assigned to a post', function () {
     createReview(['rating' => 5]); // not assigned
     $response = restRequest('GET', '/'.REST_NS.'/summary', ['assigned_posts' => $postId]);
     expect($response->get_status())->toBe(200);
+    // A controller that ignored assigned_posts would return the site-wide summary: 2 reviews, average 3.
+    expect($response->get_data()['average'])->toBe(1)
+        ->and($response->get_data()['reviews'])->toBe(1);
 });
 
 test('refuses to return a summary to a logged out visitor', function () {
@@ -163,11 +167,22 @@ test('refuses to return a summary to a logged out visitor', function () {
     expect($response->get_status())->toBe(401);
 });
 
-test('renders a shortcode', function () {
+test('fetches a shortcode option list', function () {
+    // The endpoint feeds the editor dialogs' dropdowns: {id, title} rows for the option named
+    // in the request. assigned_posts always leads with its two placeholder rows, then the
+    // matching pages.
     actAsAdmin();
-    createReview(['content' => 'Rendered through the shortcode endpoint.']);
-    $response = restRequest('GET', '/'.REST_NS.'/shortcode/site_reviews');
+    $postId = createPost(['post_title' => 'Fetched through the shortcode endpoint']);
+    $response = restRequest('GET', '/'.REST_NS.'/shortcode/site_reviews', [
+        'option' => 'assigned_posts',
+        'search' => 'Fetched through',
+    ]);
     expect($response->get_status())->toBe(200);
+    expect($response->get_data())->toBe([
+        ['id' => 'post_id', 'title' => 'The Current Page'],
+        ['id' => 'parent_id', 'title' => 'The Parent Page'],
+        ['id' => $postId, 'title' => 'Fetched through the shortcode endpoint'],
+    ]);
 });
 
 test('rejects an unknown shortcode', function () {
