@@ -163,6 +163,11 @@ test('the javascript is given the shortcode plugin, and no required fields — b
     //
     // That is worth saying out loud rather than passing over: the feature exists for the ADDONS,
     // and a test that asserted a core shortcode appeared here would be asserting a fiction.
+    //
+    // Rich editing is switched on so the LOOP runs over all four registered popups and skips
+    // each for having no required fields — without the filter this returns at the richedit
+    // guard and never looks at them (the guard has its own test below).
+    add_filter('user_can_richedit', '__return_true');
     glsr(TinymceController::class)->registerTinymcePopups();
 
     $variables = glsr(TinymceController::class)->filterAdminVariables([]);

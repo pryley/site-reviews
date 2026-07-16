@@ -301,6 +301,17 @@ test('on the site, the count is never asked for at all', function () {
         ->and($html)->not->toContain('block-editor-warning');
 });
 
+test('on the site, a block with no reviews shows the visitor nothing, not the warning', function () {
+    // The distinguishing fixture for the branch above: ZERO published reviews, front end. If the
+    // count check ever moved out of the context=edit branch, THIS is the case that would start
+    // showing visitors the editor's "No reviews found" warning — the previous test cannot see
+    // that, because its published review keeps the hoisted check quiet too.
+    $html = reviewBlock();
+
+    expect($html)->not->toContain('No reviews found.')
+        ->and($html)->not->toContain('block-editor-warning');
+});
+
 test('a rating colour chosen from the theme palette becomes a css variable, not a hardcoded colour', function () {
     // The star colour is set on the wrapper as a custom property, which the stylesheet reads. A
     // PRESET colour has to stay a var(--wp--preset--color--…) reference so that it keeps tracking
