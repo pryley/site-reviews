@@ -113,6 +113,13 @@ glsr(\GeminiLabs\SiteReviews\Modules\Migrate::class)->runAll();
 \GeminiLabs\SiteReviews\Tests\purgeCommittedRows();
 
 /*
+ * The console log is a file, appended across runs; the harness clears it after every test
+ * (resetGlobalState), and this clears whatever booting the plugin just logged so the first
+ * test starts as clean as the rest.
+ */
+glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->clear();
+
+/*
  * Nothing is scheduled: the plugin queues a geolocation lookup, a notification and an avatar
  * per review, and the suite creates thousands. Rebinding rather than a flag inside Queue —
  * Queue is a shared singleton (Provider.php) resolved via glsr(Queue::class), and bind() drops

@@ -475,11 +475,24 @@ test('every service explains itself when its own server sends an error code', fu
 ) {
     // errorCodes() is a per-service dictionary, and it is only ever read here. An error the
     // service sends and the plugin cannot name is logged as a bare code, which is a support
-    // ticket nobody can answer.
+    // ticket nobody can answer. The expected explanations are HARDCODED from each service's
+    // errorCodes() — reading the dictionary at runtime would let a lost mapping change both
+    // sides of the assertion. Procaptcha's responseBody() does not map through errorCodes(),
+    // so its fixture code is logged bare.
     enableCaptcha($integration, captchaKeyOptions($integration));
     [, $refused] = captchaBodies($integration);
     interceptHttp(captchaReply($refused));
 
+    $explanations = [
+        'friendlycaptcha' => 'Your secret key is missing.',
+        'friendlycaptcha_v2' => 'You forgot to set the X-API-Key header.',
+        'hcaptcha' => 'Your secret key is invalid or malformed.',
+        'procaptcha' => 'invalid-input-secret',
+        'recaptcha_v2_invisible' => 'The secret parameter is invalid or malformed.',
+        'recaptcha_v3' => 'The secret parameter is invalid or malformed.',
+        'turnstile' => 'Secret key is invalid or expired: check your secret key in the Cloudflare dashboard',
+    ];
+
     expect(failedValidation(captchaValidator($class)))->toBeTrue();
-    expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())->not->toBeEmpty();
+    expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())->toContain($explanations[$integration]);
 })->with('captchas');

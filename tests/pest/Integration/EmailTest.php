@@ -26,7 +26,6 @@ use function GeminiLabs\SiteReviews\Tests\sentTo;
 
 beforeEach(function () {
     resetPluginState();
-    glsr(Console::class)->clear();
     glsr(Notice::class)->clear();
 });
 

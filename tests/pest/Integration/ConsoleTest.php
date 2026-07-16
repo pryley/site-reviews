@@ -14,7 +14,6 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 beforeEach(function () {
     resetPluginState();
-    glsr(Console::class)->clear();
     glsr()->store(Console::LOG_ONCE_KEY, []);
 });
 

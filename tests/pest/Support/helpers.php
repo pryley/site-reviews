@@ -409,6 +409,10 @@ function resetGlobalState(): void
     // validation, leaving every validation test after it green without validating.
     glsr()->sessionClear();
     glsr(\GeminiLabs\SiteReviews\Modules\Notice::class)->clear();
+    // The console is a FILE (Console.php appends to it), so the transaction cannot roll it
+    // back; without this, a "was it logged" assertion can be satisfied by an earlier test's
+    // residue. clear() truncates the file, and Console re-reads it on every construction.
+    glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->clear();
 
     // THE SETTINGS, the subtlest. OptionManager keeps them in memory and replace() short-circuits
     // when update_option() reports "no change" — which it does when the value equals what is
