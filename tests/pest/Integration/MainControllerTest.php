@@ -107,22 +107,20 @@ test('and a site already on this version is not told it has just upgraded', func
 });
 
 test('the settings are cleaned once the migrations have finished', function () {
-    // site-reviews/migration/end. clean() is MEANT to drop keys the config no longer knows, so a
-    // migration's leavings are not written back on every save for ever. Today it cannot: its
-    // guard reads glsr()->settings — a protected property, and Application has no __isset — so
-    // empty() is true from outside the class whatever the property holds, and the cleaning branch
-    // never runs (confirmed by probe: settings() returns a 126-entry config while
-    // empty(glsr()->settings) stays true; normalize() has the identical dead guard). Reported
-    // alongside this batch; until the fix is decided this pins what the plugin actually does.
+    // site-reviews/migration/end. clean() drops keys the config no longer knows, so a migration's
+    // leavings are not written back on every save for ever. Its guard reads glsr()->settings —
+    // empty() on an inaccessible property consults __isset (never __get), so the Plugin trait
+    // must answer it: without __isset the guard was permanently false and this branch never ran.
     $settings = get_option(OptionManager::databaseKey());
     $settings['settings']['general']['a_stale_key'] = 'left behind by a migration';
     update_option(OptionManager::databaseKey(), $settings);
-    glsr()->settings(); // built, as init:5 leaves it in production — the guard still cannot see it
+    glsr()->settings(); // built, as init:5 leaves it in production
 
     glsr(MainController::class)->onMigrationEnd();
 
     $cleaned = get_option(OptionManager::databaseKey());
-    expect($cleaned['settings']['general'])->toHaveKey('a_stale_key'); // survives — see above
+    expect($cleaned['settings']['general'])->toBeArray()
+        ->not->toHaveKey('a_stale_key');
 });
 
 /*

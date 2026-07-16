@@ -80,6 +80,21 @@ trait Plugin
     }
 
     /**
+     * isset()/empty() on an inaccessible property consult THIS, never __get() — without it
+     * they answer false/true regardless of what the property holds, and a guard like
+     * !empty(glsr()->settings) can never pass.
+     */
+    public function __isset($property)
+    {
+        $instance = new \ReflectionClass($this);
+        if ($instance->hasProperty($property)) {
+            $prop = $instance->getProperty($property);
+            return ($prop->isPublic() || $prop->isProtected()) && $prop->isInitialized($this);
+        }
+        return $instance->hasConstant(strtoupper($property));
+    }
+
+    /**
      * @param mixed ...$args
      */
     public function action(string $hook, ...$args): void
