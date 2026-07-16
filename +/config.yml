@@ -1,4 +1,5 @@
 bump:
+  - composer.json
   - readme.txt
   - site-reviews.php
 language:
