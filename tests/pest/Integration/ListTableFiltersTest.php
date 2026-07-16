@@ -137,12 +137,14 @@ test('filtering by "none" is not the same as filtering by nothing', function () 
         ->and($none)->not->toBe($any);
 });
 
-test('a post id that no longer exists does not put an empty box on the screen', function () {
+test('a post id that no longer exists falls back rather than showing an empty box', function () {
     // Somebody deletes the page a review was assigned to, and the filter is still in their URL —
-    // or in a bookmark. get_the_title() of a missing post is an empty string.
+    // or in a bookmark. get_the_title() of a missing post is an empty string, and an empty
+    // selected label is a blank box on the screen — so it falls back to the placeholder, the
+    // same way the user filter does.
     $filter = columnFilter(ColumnFilterAssignedPost::class, 999999);
 
-    expect($filter->selected())->toBeString(); // and it does not fatal
+    expect($filter->selected())->toBe($filter->placeholder());
 });
 
 test('a user id that no longer exists falls back rather than showing nothing', function () {
