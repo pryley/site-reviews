@@ -4,6 +4,7 @@ use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Request;
 
+use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
@@ -41,16 +42,22 @@ test('the referer falls back to the site home when the form carried none', funct
 
 test('an approved review reloads the reviews shortcode for the ajax response', function () {
     // When the submission form sits inside a reviews shortcode, an approved review reloads that
-    // shortcode's HTML so the page can drop the new review in without a refresh.
+    // shortcode's HTML so the page can drop the new review in without a refresh. A reload that
+    // silently came back empty is exactly the regression, so the content must be IN it.
+    $review = createReview(['content' => 'Reloaded into the page without a refresh.']);
     $command = new CreateReview(new Request(['_reviews_atts' => ['pagination' => 'ajax']]));
     (fn () => $this->review->is_approved = true)->call($command); // as it is once an approved review is created
 
-    expect($command->reloadedReviews())->toBeString();
+    expect($command->reloadedReviews())->toContain('glsr-reviews')
+        ->toContain('Reloaded into the page without a refresh.')
+        ->toContain('id="review-'.$review->ID.'"');
 });
 
 test('an approved review reloads the summary shortcode for the ajax response', function () {
+    createReview(['rating' => 5]);
     $command = new CreateReview(new Request(['_summary_atts' => ['rating' => 'this']]));
     (fn () => $this->review->is_approved = true)->call($command);
 
-    expect($command->reloadedSummary())->toBeString();
+    expect($command->reloadedSummary())->toContain('glsr-summary')
+        ->toContain('data-reviews="1"');
 });

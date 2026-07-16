@@ -26,22 +26,39 @@ beforeEach(function () {
     resetPluginState();
 });
 
-test('importing attachments reports how many it did', function () {
-    // Paged: the importer is called repeatedly from the browser, one page each. The message is
-    // what the person watching the progress bar reads.
-    $command = new ImportReviewsAttachments(new Request(['page' => 1, 'per_page' => 10]));
+test('importing attachments reports how many it did, a page at a time', function () {
+    // Paged: the importer is called repeatedly from the browser, one page each. The fetching
+    // itself hangs off the import/reviews/attachments filter — what the command owns is the
+    // paging math handed TO that filter and the counted result the progress bar reads back.
+    $captured = [];
+    add_filter('site-reviews/import/reviews/attachments', function ($result, $limit, $offset) use (&$captured) {
+        $captured = compact('limit', 'offset');
+        return ['attachments' => 3, 'imported' => 2, 'skipped' => 1];
+    }, 10, 3);
+    $command = new ImportReviewsAttachments(new Request(['page' => 2, 'per_page' => 10]));
 
     $command->handle();
 
-    expect($command->response())->toHaveKey('message');
+    expect($captured)->toBe(['limit' => 10, 'offset' => 10]); // page 2 of 10 starts at 10
+    $response = $command->response();
+    expect($response['attachments'])->toBe(3)
+        ->and($response['imported'])->toBe(2)
+        ->and($response['skipped'])->toBe(1)
+        ->and($response['message'])->toBe('Imported %d of %d'); // ImportResultDefaults' default
 });
 
 test('a page and a per-page of nothing are still a page of one', function () {
     // max(1, …) on both: a per_page of 0 imports nothing forever while claiming progress, and an
     // offset computed from page 0 would be negative.
+    $captured = [];
+    add_filter('site-reviews/import/reviews/attachments', function ($result, $limit, $offset) use (&$captured) {
+        $captured = compact('limit', 'offset');
+        return $result;
+    }, 10, 3);
     $command = new ImportReviewsAttachments(new Request(['page' => 0, 'per_page' => 0]));
 
     $command->handle();
 
-    expect($command->response())->toHaveKey('message'); // it ran, rather than dividing by zero
+    expect($captured)->toBe(['limit' => 1, 'offset' => 0]); // clamped, not negative
+    expect($command->response()['attachments'])->toBe(0); // a page of nothing imports nothing
 });

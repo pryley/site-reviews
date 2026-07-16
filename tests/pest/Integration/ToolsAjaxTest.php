@@ -121,21 +121,32 @@ test('the ip address proxy can be configured, and detected', function () {
         new Request(['proxy_http_header' => 'HTTP_X_FORWARDED_FOR', 'trusted_proxies' => '10.0.0.1'])
     ));
     expect($configured['success'])->toBeTrue();
+    expect($configured['data']['notices'])->toContain('The proxy HTTP header has been saved.');
+    expect(get_option(glsr()->prefix.'ip_proxy'))->toBe([
+        'proxy_http_header' => 'http_x_forwarded_for', // sanitize_key() lowercases it
+        'trusted_proxies' => '10.0.0.1',
+    ]);
 
     $detected = $this->jsonSentBy(fn () => glsr(ToolsController::class)->ipAddressDetectionAjax(
         new Request(['alt' => 1])
     ));
     expect($detected['success'])->toBeTrue();
+    expect($detected['data']['notices'])->toContain('Your detected IP address is')
+        ->toContain('127.0.0.1'); // bootstrap.php pins REMOTE_ADDR
 });
 
-test('the table engine can be converted', function () {
+test('converting a table that is already InnoDB is refused with a warning', function () {
     // The custom tables must be InnoDB — the foreign keys the plugin relies on do not
-    // exist on MyISAM. This is the tool that fixes a site that was migrated badly.
+    // exist on MyISAM. This is the tool that fixes a site that was migrated badly; in
+    // wp-env the table is ALREADY InnoDB, so the deterministic outcome here is the
+    // refusal. The conversion itself cannot run in the suite: its ALTER TABLE is DDL
+    // against a shared table (tried, reverted — see ROADMAP.md).
     $response = $this->jsonSentBy(fn () => glsr(ToolsController::class)->convertTableEngineAjax(
         new Request(['table' => 'ratings'])
     ));
 
-    expect($response)->toHaveKey('success');
+    expect($response['success'])->toBeFalse();
+    expect($response['data']['notices'])->toContain('does not use the MyISAM engine');
 });
 
 test('the system info can be fetched, and refuses someone who may not see it', function () {
@@ -154,8 +165,10 @@ test('the system info can be fetched, and refuses someone who may not see it', f
 });
 
 test('geolocating reviews reports back, and refuses without permission', function () {
+    // With no reviews in the fixture there is nothing to geolocate, and the command says so.
     $response = $this->jsonSentBy(fn () => glsr(ToolsController::class)->geolocateReviewsAjax(new Request()));
-    expect($response)->toHaveKey('success');
+    expect($response['success'])->toBeTrue()
+        ->and($response['data']['notices'])->toContain('already been geolocated');
 
     set_current_screen('edit.php');
     wp_set_current_user(createUser(['role' => 'subscriber']));
@@ -173,7 +186,8 @@ test('the alt flag removes location data instead of geolocating', function () {
         new Request(['alt' => 1])
     ));
 
-    expect($response)->toHaveKey('success');
+    expect($response['success'])->toBeTrue()
+        ->and($response['data']['notices'])->toContain('Successfully removed the geolocation data');
 });
 
 test('importing refuses without permission, and does nothing without a valid stage', function () {
