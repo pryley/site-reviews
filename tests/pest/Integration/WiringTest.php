@@ -14,10 +14,10 @@ use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Provider;
 use GeminiLabs\SiteReviews\Router;
 
-use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
 use function GeminiLabs\SiteReviews\Tests\createReview;
-use function GeminiLabs\SiteReviews\Tests\createReviews;
+use function GeminiLabs\SiteReviews\Tests\interceptHttp;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\sentJson;
 use function GeminiLabs\SiteReviews\Tests\sentMail;
 
 /*
@@ -261,22 +261,34 @@ test('a queued notification for a review that has since been deleted does nothin
 test('the batched geolocation walks the reviews from the offset it was given', function () {
     // Geolocating ten thousand reviews cannot happen in one request, so it is a chain of jobs, each
     // picking up where the last one stopped. An offset that was ignored would geolocate the first
-    // page over and over, forever.
-    createReviews(3, ['ip_address' => '127.0.0.1']); // local: each returns early, which is fine
+    // page over and over, forever. The fetch has no ORDER BY, so WHICH ip lands at which offset is
+    // the database's business — what is pinned is HOW MANY are asked about: two candidates minus
+    // the offset, down to none at all (no request is even made past the end).
+    createReview(['ip_address' => '203.0.113.9']);
+    createReview(['ip_address' => '198.51.100.4']);
+    createReview(['ip_address' => '127.0.0.1']); // local: excluded in SQL, never sent anywhere
+    $requests = interceptHttp(); // an empty 200 reply ends each batch after the fetch
 
     glsr(QueueController::class)->geolocateReviews(0);
+    expect(sentJson($requests, 0))->toHaveCount(2);
 
-    expect(true)->toBeTrue(); // it ran to completion rather than throwing
+    glsr(QueueController::class)->geolocateReviews(1);
+    expect(sentJson($requests, 1))->toHaveCount(1);
+
+    glsr(QueueController::class)->geolocateReviews(2);
+    expect($requests)->toHaveCount(2); // past the end: nothing left to ask about
 });
 
 test('the queued migration runs the migrations', function () {
     // Site Reviews migrates itself in the background after an update, because a big site's
     // migration cannot finish inside the request that noticed the new version.
     //
-    // It is DDL, so it commits.
-    commitsTransaction();
+    // bootstrap.php already ran every migration, and this test creates no reviews, so run()
+    // takes the runMigrations() path with an empty pending list — no DDL, no commit. Its
+    // observable is the last-run timestamp updateMigrationStatus() writes unconditionally.
+    delete_option(glsr()->prefix.'last_migration_run');
 
     glsr(QueueController::class)->runMigration();
 
-    expect(get_option(glsr()->prefix.'db_version'))->not->toBeEmpty();
+    expect(get_option(glsr()->prefix.'last_migration_run'))->not->toBeEmpty();
 });

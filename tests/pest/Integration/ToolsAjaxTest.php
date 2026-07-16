@@ -106,10 +106,9 @@ test('resetting the assigned meta reports back', function () {
 
 test('the plugin can be migrated', function () {
     // The migration runner is idempotent — this is the tool a person reaches for when
-    // something looks wrong after an upgrade. Idempotent in EFFECT, not in isolation:
-    // MigrateReviews wraps each of its passes in Database::beginTransaction(), which on
-    // InnoDB is a literal START TRANSACTION, and that ends the test's own.
-    commitsTransaction();
+    // something looks wrong after an upgrade. Without `alt` the command takes the
+    // pending-migrations path, and bootstrap already ran them all: no DDL, no commit —
+    // the alt=1 hard re-run (which DOES commit) is ToolsControllerTest's.
     $response = $this->jsonSentBy(fn () => glsr(ToolsController::class)->migratePluginAjax(new Request()));
 
     expect($response['success'])->toBeTrue();
