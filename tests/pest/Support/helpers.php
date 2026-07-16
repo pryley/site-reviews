@@ -42,11 +42,13 @@ function resetPluginState(): void
  * catches an undeclared commit with a sentinel row and fails the test, since the damage lands
  * elsewhere: the leaked user breaks the NEXT run with "Sorry, that username already exists".
  *
- * Four commit legitimately: the Import suite (no import without TableTmp), and the three tests
- * reaching Migrate::runAll() — ImportSettings twice, MigratePlugin once — where MigrateReviews
- * wraps each pass in a real START TRANSACTION/COMMIT and Migrate_6_2_1 may run DDL to repair a
- * PRIMARY index. A declared test is purged afterwards (purgeCommittedRows()) instead of failed;
- * the declaration is per-test and Pest.php clears it.
+ * Thirteen call sites commit legitimately (the README maps them; the grep is the authority):
+ * the Import suite (no import without TableTmp's DDL), the tests reaching Migrate::runAll()
+ * (ExportImportTest, ToolsControllerTest's alt re-run, CliTest) — where MigrateReviews wraps
+ * each pass in a real START TRANSACTION/COMMIT and Migrate_6_2_1 may run DDL to repair a
+ * PRIMARY index — and the TRUNCATE/repair tools (MaintenanceTest, PrivacyCommandsTest,
+ * ToolsAjaxTest's remove-location, InstallTest). A declared test is purged afterwards
+ * (purgeCommittedRows()) instead of failed; the declaration is per-test and Pest.php clears it.
  */
 function commitsTransaction(): void
 {
@@ -108,7 +110,7 @@ function storageSnapshot(?array $set = null): array
 /**
  * Declares that this test WILL cause WP_IMPORTING to be defined.
  *
- * define() cannot be undone, and the plugin reads WP_IMPORTING in fourteen places to mean "this
+ * define() cannot be undone, and the plugin reads WP_IMPORTING in eighteen places to mean "this
  * review did not come from a form". Once defined, every later test in the process gets no avatar,
  * no verification email, no recalculated counts, no cache flush, and is_pinned / is_verified /
  * ip_address stop being protected. Only the Import suite may do it, and phpunit.xml declares that

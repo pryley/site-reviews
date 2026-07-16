@@ -34,7 +34,7 @@ packages, so it installs cleanly inside the container.
   see Coverage.
 - `Import/` — the CSV import, and **the last suite declared in `phpunit.xml`**.
   It has to be: `ProcessCsvFile` and `ImportManager` `define('WP_IMPORTING')`, a
-  constant cannot be unset, and nineteen places in the plugin read it — an
+  constant cannot be unset, and eighteen places in the plugin read it — an
   import must not generate an avatar per review, email a verification per
   review, geolocate every IP, or flush the page cache a thousand times. All
   correct during an import, all wrong everywhere else. Declared last, there is
@@ -67,18 +67,25 @@ and checks, after the `ROLLBACK`, whether the row survived. If it did, the test
 committed, and it is failed by name. `bootstrap.php` also purges before the first
 test, so a run that crashes out cannot poison the next one.
 
-Four tests do it legitimately and say so with `commitsTransaction()`, which purges
-the leaked rows instead of failing:
+Thirteen call sites do it legitimately and say so with `commitsTransaction()`,
+which purges the leaked rows instead of failing. The enumeration below is a map,
+not the authority — `grep -rn "commitsTransaction();" tests/pest` is:
 
-- all of `Import/` — `TableTmp::create()`/`drop()` are DDL, and an import cannot
-  happen without them. That suite also cleans up in its own `afterEach`, with an
-  explicit `COMMIT` so the rollback cannot take the cleanup with it.
-- `ExportImportTest` ×2 and `ToolsAjaxTest` ×1, the three tests that reach
-  `Migrate::runAll()` (from `ImportSettings` and from `MigratePlugin`).
-  `Migrate_5_25_0/MigrateReviews` wraps each of its four passes in
-  `Database::beginTransaction()`/`finishTransaction()`, which on InnoDB is a
-  literal `START TRANSACTION` and `COMMIT`. The migrations are idempotent in
-  effect, not in isolation.
+- all of `Import/` (one declaration, in `CsvImportTest`'s `beforeEach`) —
+  `TableTmp::create()`/`drop()` are DDL, and an import cannot happen without
+  them. That suite also cleans up in its own `afterEach`, with an explicit
+  `COMMIT` so the rollback cannot take the cleanup with it.
+- the tests that reach `Migrate::runAll()`: `ExportImportTest` ×2 (via
+  `ImportSettings`), `ToolsControllerTest` ×1 (the alt=1 re-run) and
+  `CliTest` ×2. `Migrate_5_25_0/MigrateReviews` wraps each of its four passes
+  in `Database::beginTransaction()`/`finishTransaction()`, which on InnoDB is
+  a literal `START TRANSACTION` and `COMMIT`. The migrations are idempotent in
+  effect, not in isolation. (A committed `runAll()` also loses its final
+  migration-record write to the rollback; `purgeCommittedRows()` repairs it.)
+- the TRUNCATE and repair tools: `MaintenanceTest` ×3 and
+  `PrivacyCommandsTest` ×2 and `ToolsAjaxTest` ×1 (`TableStats::empty()`
+  TRUNCATEs, which is DDL), and `InstallTest` ×1 (drops and recreates the
+  custom tables).
 
 ## Running
 

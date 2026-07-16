@@ -58,8 +58,8 @@ uses()
         // permanent, and a later test asking for the same username or slug fails elsewhere. DDL
         // does it (MySQL commits implicitly on CREATE/ALTER/DROP TABLE), as does an explicit
         // START TRANSACTION. A test that MEANS to commit says so with commitsTransaction() — the
-        // Import suite and the three tests reaching Migrate::runAll(); those are cleaned up by
-        // hand rather than failed.
+        // Import suite, the Migrate::runAll() tests and the TRUNCATE/repair tools (the README
+        // maps them); those are cleaned up by hand rather than failed.
         $committed = (bool) $wpdb->get_var($wpdb->prepare(
             "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name = %s", $sentinel->name
         ));
@@ -89,7 +89,7 @@ uses()
             );
         }
         // WP_IMPORTING is a one-way door: define() cannot be undone, and the plugin reads it in
-        // fourteen places to mean "this review did not come from a person filling in a form". A
+        // eighteen places to mean "this review did not come from a person filling in a form". A
         // test outside the Import suite that defines it silently changes every test after it — no
         // avatar, no verification email, no count recalculation, no cache flush, and the protected
         // fields (is_pinned, is_verified, ip_address) stop being protected. The Import suite is

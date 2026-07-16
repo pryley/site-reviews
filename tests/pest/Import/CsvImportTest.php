@@ -256,18 +256,13 @@ test('a cleanup that imported nothing leaves the file alone', function () {
 });
 
 test('a file bigger than one chunk is processed once, not once per chunk', function () {
-    // Looks like a bug and is not — worth writing down before somebody "fixes" it:
-    //
-    //     $chunks = $reader->chunkBy(1000);
-    //     foreach ($chunks as $chunk) {
-    //         $records = Statement::create()->where(…)->process($reader, $header);
-    //
-    // $chunk is unused and the whole $reader is processed inside a loop over its own chunks, which
-    // reads like a 2,500-row file processed three times. It is not: Reader::chunkBy() is a lazy
-    // GENERATOR over the SplFileObject's iterator, and process($reader) calls getRecords(), which
-    // rewinds and reads that same document to EOF — so the generator's iterator is already at EOF
-    // when resumed, there is no second chunk, and the loop body runs once. The chunking is a no-op,
-    // not a defect. 1,001 rows is two chunks' worth, the smallest file that tells the difference.
+    // ProcessCsvFile once looped over Reader::chunkBy(1000) while process()ing the whole reader
+    // inside the loop — which read like a 2,500-row file processed three times and was in fact a
+    // single pass (the chunk generator shared the reader's file handle, already at EOF after the
+    // first process()). The chunk loop is gone: staging is one Statement::create()->process()
+    // over the whole file. This test remains as the regression guard — a reintroduced loop that
+    // really did re-process would double the total. 1,001 rows is two chunks' worth, the
+    // smallest file that would tell.
     $rows = ['date,rating,title'];
     for ($i = 1; $i <= 1001; ++$i) {
         $rows[] = sprintf('2024-01-15,5,Review %d', $i);

@@ -86,11 +86,10 @@ test('an addon enqueues its public assets, and depends on the plugin\'s own', fu
 test('an addon enqueues its admin assets only on a review admin page', function () {
     // Other people's admin pages are not the place for a review addon's stylesheet.
     //
-    // isReviewAdminPage() asks two things: filter_input(INPUT_GET, 'post_type'), which reads
-    // the SAPI request table and is therefore ALWAYS null in a CLI process however the
-    // superglobal is set — and get_post_type(), which reads the global post. So the only arm
-    // of it a test can reach is the second, and it is a real one: on the review editor the
-    // post being edited IS a review.
+    // isReviewAdminPage() asks two things: filter_input(INPUT_GET, 'post_type') — shadowed for
+    // the Controllers namespace by Support/filter-input.php, so a test COULD plant $_GET — and
+    // get_post_type(), which reads the global post. This test drives the second arm, the one
+    // the review editor actually exercises: the post being edited IS a review.
     set_current_screen('dashboard');
     $this->controller->enqueueAdminAssets();
     expect(wp_style_is('site-reviews-test-addon/admin', 'enqueued'))->toBeFalse();
