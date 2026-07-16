@@ -2,6 +2,7 @@
     "name": "pryley/site-reviews",
     "type": "wordpress-plugin",
     "description": "Receive and display reviews on your website",
+    "version": "8.1.1",
     "keywords": [
         "wordpress",
         "plugin",
