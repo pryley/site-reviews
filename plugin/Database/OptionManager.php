@@ -48,7 +48,7 @@ class OptionManager
         $settings = $this->kses($data);
         if (!empty(glsr()->settings)) { // access the property directly to prevent an infinite loop
             $savedSettings = $settings;
-            $defaults = glsr()->defaults(); // @phpstan-ignore-line
+            $defaults = glsr()->defaults();
             $defaults = Arr::flatten($defaults);
             $settings = Arr::flatten($settings);
             $settings = shortcode_atts($defaults, $settings);
@@ -150,7 +150,7 @@ class OptionManager
     {
         $settings = $this->kses($data);
         if (!empty(glsr()->settings)) { // access the property directly to prevent an infinite loop
-            $defaults = glsr()->defaults(); // @phpstan-ignore-line
+            $defaults = glsr()->defaults();
             $defaults = Arr::flatten($defaults);
             $settings = Arr::flatten($settings);
             $settings = wp_parse_args($settings, $defaults);

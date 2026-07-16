@@ -261,6 +261,6 @@ class MainController extends AbstractController
      */
     public function verifyProductOwner(Review $review): void
     {
-        $review->hasVerifiedOwner();
+        $review->hasVerifiedOwner(); // @phpstan-ignore-line
     }
 }

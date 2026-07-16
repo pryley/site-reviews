@@ -188,7 +188,7 @@ class ProductController implements ControllerContract
         if (!in_array('labeled', $ownership)) {
             return $value;
         }
-        if ($tag->review->hasProductOwner()) {
+        if ($tag->review->hasProductOwner()) { // @phpstan-ignore-line
             $text = esc_attr__('verified owner', 'site-reviews');
             $value = sprintf('%s <em data-verified-owner="1">(%s)</em>', $value, $text);
         }
@@ -374,7 +374,7 @@ class ProductController implements ControllerContract
      */
     public function verifyProductOwner(Review $review): void
     {
-        $review->hasProductOwner();
+        $review->hasProductOwner(); // @phpstan-ignore-line
     }
 
     protected function buildMetaQuery(string $orderbyKey, string $metaKey): array

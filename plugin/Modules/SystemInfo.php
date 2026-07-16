@@ -222,7 +222,7 @@ class SystemInfo implements \Stringable
             'Page For Posts ID' => (string) get_option('page_for_posts'),
             'Page On Front ID' => (string) get_option('page_on_front'),
             'Permalink Structure' => $this->value('wp-core.permalink'),
-            'Post Stati' => implode(', ', get_post_stati()), // @phpstan-ignore-line
+            'Post Stati' => implode(', ', get_post_stati()),
             'Remote Post' => glsr(Cache::class)->getRemotePostTest(),
             'SCRIPT_DEBUG' => $this->value('wp-constants.SCRIPT_DEBUG'),
             'Show On Front' => (string) get_option('show_on_front'),

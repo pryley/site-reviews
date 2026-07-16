@@ -120,12 +120,12 @@ abstract class Widget extends \WP_Widget
         if (!$field->isValid()) {
             return;
         }
-        $value = $instance[$field->original_name] ?? ''; // @phpstan-ignore-line
+        $value = $instance[$field->original_name] ?? '';
         if ('' !== $value) {
-            $field->value = $value; // @phpstan-ignore-line
+            $field->value = $value;
         }
-        $field->id = $this->get_field_id($field->name); // @phpstan-ignore-line
-        $field->name = $this->get_field_name($field->name); // @phpstan-ignore-line
+        $field->id = $this->get_field_id($field->name);
+        $field->name = $this->get_field_name($field->name);
         $field->render();
     }
 
