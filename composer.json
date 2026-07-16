@@ -65,8 +65,6 @@
             "@test:import"
         ],
         "test:coverage": "@php -d memory_limit=-1 vendor/bin/pest --test-directory=tests/pest --coverage --coverage-clover=tests/coverage/clover.xml",
-        "test:coverage:integrations": "@php -d memory_limit=-1 vendor/bin/pest -c phpunit.integrations.xml --test-directory=tests/pest --coverage --coverage-clover=tests/coverage/clover-integrations.xml",
-        "test:coverage:min": "@php -d memory_limit=-1 vendor/bin/pest --test-directory=tests/pest --coverage --min=80",
         "test:import": "pest --test-directory=tests/pest --testsuite=Import",
         "test:integration": "pest --test-directory=tests/pest --testsuite=Integration",
         "test:thirdparty": "pest --test-directory=tests/pest --testsuite=ThirdParty",

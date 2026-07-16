@@ -1,16 +1,15 @@
 # Site Reviews Tests
 
-Pest 4 against a REAL WordPress — no `WP_UnitTestCase`, no polyfills. This
-suite **replaces** the old phpunit suite (`tests/phpunit`, deleted); Pest is
-the plugin's only test runner.
+Pest 4 against a REAL WordPress — no `WP_UnitTestCase`, no polyfills. It is the
+plugin's test suite and its only test runner.
 
 ## Why it does not use WordPress's test framework
 
 Core's framework is pinned to PHPUnit 9 and Pest 4 needs PHPUnit 12, so the
 suite boots WordPress itself (`bootstrap.php` requires `wp-load.php`). The two
-things the old tests actually used from core's framework are reimplemented in
-`Support/`: the post/term/user factories and the admin-ajax harness. Isolation
-comes from a DB transaction per test instead of core's rollback.
+things it needs from core's framework live in `Support/`: the post/term/user
+factories and the admin-ajax harness. Isolation comes from a DB transaction per
+test instead of core's rollback.
 
 Two lint-only tools live in their own composer projects, installed on first
 use by the target that needs them:
@@ -20,8 +19,8 @@ use by the target that needs them:
   branch (`dev-develop`), and the wp-env container has no git, so Composer
   cannot install it there. It runs on the host instead.
 
-That leaves the root `composer.json` with nothing but stable, dist-installable
-packages, which is what lets it install cleanly inside the container.
+That leaves the root `composer.json` with only stable, dist-installable
+packages, so it installs cleanly inside the container.
 
 ## Layout
 
@@ -31,7 +30,8 @@ packages, which is what lets it install cleanly inside the container.
   migrations, ajax review submissions. Gutenberg lives here too — it is
   WordPress, not a third party.
 - `ThirdParty/` — the 30 integrations that need somebody else's plugin or theme
-  to do anything. Kept apart because they are measured apart; see Coverage.
+  to do anything. Kept apart because they are excluded from the coverage gate;
+  see Coverage.
 - `Import/` — the CSV import, and **the last suite declared in `phpunit.xml`**.
   It has to be: `ProcessCsvFile` and `ImportManager` `define('WP_IMPORTING')`, a
   constant cannot be unset, and nineteen places in the plugin read it — an
@@ -41,9 +41,8 @@ packages, which is what lets it install cleanly inside the container.
   nothing after it to poison. `ThirdParty/CacheTest` asserts `WP_IMPORTING` is
   NOT defined, so moving it fails loudly rather than quietly.
 - `Support/` — autoloaded by composer (`autoload-dev`): `helpers.php` (the
-  factories plus `resetPluginState()`), `InteractsWithAjax` (the port of
-  `WP_Ajax_UnitTestCase`), `SubmitsReviews` (the review-submission harness)
-  and `MockClass`.
+  factories plus `resetPluginState()`), `InteractsWithAjax` (the admin-ajax
+  harness), `SubmitsReviews` (the review-submission harness) and `MockClass`.
 - `mu-plugins/` — loads the integration stubs and disables the deprecated
   v5–v8 fallbacks. It has to be an mu-plugin: `deprecated.php` registers those
   fallbacks on `plugins_loaded`, which is already too late for `bootstrap.php`.
@@ -55,14 +54,13 @@ back (see `Pest.php`). The plugin's settings live in the options table, so
 even a field-building test writes to the database.
 
 **A transaction cannot isolate a test that ends it**, and two things end one: DDL
-(MySQL commits implicitly the moment it sees `CREATE`/`ALTER`/`DROP TABLE`) and
-an explicit `START TRANSACTION`. Everything the test wrote up to that point
-becomes permanent, and the `ROLLBACK` finds nothing to undo. Autocommit is off,
-so a fresh transaction opens immediately afterwards and the rest of the test
-still rolls back — which is why the damage is always a *partial* leak, and never
-lands where it was done: a later run, in another file, dying with "Sorry, that
-username already exists", because `user_login` is unique and the leaked user is
-still there.
+(MySQL commits implicitly on `CREATE`/`ALTER`/`DROP TABLE`) and an explicit
+`START TRANSACTION`. Everything written up to that point becomes permanent and the
+`ROLLBACK` finds nothing to undo. Autocommit is off, so a fresh transaction opens
+straight after and the rest of the test still rolls back — the leak is always
+*partial*, and surfaces elsewhere: a later run in another file dying with "Sorry,
+that username already exists", because the leaked user is still there and
+`user_login` is unique.
 
 `Pest.php` catches this. Every test writes a sentinel row inside its transaction
 and checks, after the `ROLLBACK`, whether the row survived. If it did, the test
@@ -88,13 +86,12 @@ Requires Docker + Node. Everything runs inside wp-env: the composer
 dependencies are installed in the container (PHP 8.3, see `.wp-env.json`).
 
     make test:install       # once: starts wp-env + composer update inside it
-    make test               # all three suites
+    make test               # all four suites
     make test:unit          # fast feedback loop
     make test:integration
     make test:thirdparty    # the integrations
     make test:import        # the CSV import (runs last: it defines WP_IMPORTING)
     make test:coverage      # the PLUGIN, gated at 80% (restarts wp-env with Xdebug)
-    make test:coverage:integrations   # the integrations, reported only
 
 Pest needs `--test-directory=tests/pest` (it is where it looks for `Pest.php`);
 the composer scripts pass it, so always go through `composer test` / `make`.
@@ -170,29 +167,22 @@ tell you when a regenerated stub has changed the picture.
 
 ## Coverage
 
-There are two numbers, because one could not describe both halves honestly.
+`phpunit.xml`, gated at **80%** (`composer test:coverage`). It covers everything
+in `plugin/` except the third-party integrations, which its `<source>` block
+excludes. `Integrations/Gutenberg` is in: Gutenberg is WordPress, so every line
+of it runs on every site.
 
-**The plugin** — `phpunit.xml`, gated at **80%** (`composer test:coverage`).
-Everything in `plugin/` except the integrations that need a third party.
-`Integrations/Gutenberg` is in: Gutenberg is WordPress, so every line of it runs
-on every site.
+The other 30 integrations are left out of the gate on purpose: ~8,000 statements
+of adapter code tested against signature-only stubs, which reach the hook
+registration, the version gate and the pure transformers but stop at the first
+line that reads a value back from the third party. Holding that to the gate would
+punish the plugin for code it cannot exercise without the real plugins installed.
+What would cover them is installing real plugins into `.wp-env.json` (the
+mu-plugin already drops the stub for any plugin that is really there), not writing
+more tests.
 
-**The integrations** — `phpunit.integrations.xml`, **reported, never gated**
-(`composer test:coverage:integrations`). The other 30 integrations, ~8,000
-statements of adapter code, tested against the stubs alone. A stub gets us the
-hook registration, the version gate and the pure transformers, and stops at the
-first line that reads a value back from the third party — so this number is low
-and is meant to be. What would move it is installing real plugins into
-`.wp-env.json` (the mu-plugin already drops the stub for any plugin that is
-really there), not writing more tests. Gating it would be gating a licence
-budget.
-
-Both configs run all three suites; only the `<source>` list differs. A ThirdParty
-test that happens to exercise the plugin's own code still counts towards the
-plugin's number, which is right — the line ran.
-
-Averaging the two gives a number that is neither: it understates the plugin (40%
-reads as 30%) while telling you nothing about the adapters.
+A ThirdParty test that exercises the plugin's own code still counts towards the
+number, which is right — the line ran.
 
 ## Conventions
 
