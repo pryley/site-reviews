@@ -337,6 +337,198 @@ test('refuses to duplicate a review post with no review behind it', function () 
     expect(glsr(ReviewManager::class)->duplicate($postId))->toBeFalse();
 });
 
+/*
+ * The paths a live site hits when something is wrong: the post that cannot be inserted,
+ * the ratings table that cannot be written, the update that cannot be saved. Database
+ * failures are stood in by a fake swapped into the container (Database is stateless);
+ * post-insert failures by core's own wp_insert_post_empty_content filter.
+ */
+
+function withFakeDatabase(GeminiLabs\SiteReviews\Database $fake, callable $callback)
+{
+    $original = glsr(GeminiLabs\SiteReviews\Database::class);
+    glsr()->alias(GeminiLabs\SiteReviews\Database::class, $fake);
+    try {
+        return $callback();
+    } finally {
+        glsr()->alias(GeminiLabs\SiteReviews\Database::class, $original);
+    }
+}
+
+test('a review whose post cannot be inserted is a refusal, not a half-made review', function () {
+    add_filter('wp_insert_post_empty_content', '__return_true');
+    try {
+        $review = createTestReview();
+    } finally {
+        remove_filter('wp_insert_post_empty_content', '__return_true');
+    }
+
+    expect($review->isValid())->toBeFalse();
+});
+
+test('a review post can be adopted, and a non-review cannot', function () {
+    $postId = (int) wp_insert_post([
+        'post_content' => 'Adopted content',
+        'post_status' => 'publish',
+        'post_title' => 'Adopted title',
+        'post_type' => glsr()->post_type,
+    ], true);
+
+    $review = glsr(ReviewManager::class)->createFromPost($postId, reviewRequest(['rating' => 4])->toArray());
+    expect($review)->toBeInstanceOf(Review::class)
+        ->and($review->ID)->toBe($postId)
+        ->and($review->rating)->toBe(4);
+
+    expect(glsr(ReviewManager::class)->createFromPost(createPost()))->toBeFalse();
+});
+
+test('a review whose rating row cannot be written is refused and swept away', function () {
+    // onCreateReview deletes the orphaned post when the ratings insert fails, so a broken
+    // ratings table does not leave title-only "reviews" in the admin.
+    $postId = (int) wp_insert_post([
+        'post_content' => 'Doomed content',
+        'post_status' => 'publish',
+        'post_title' => 'Doomed',
+        'post_type' => glsr()->post_type,
+    ], true);
+    $fake = new class() extends GeminiLabs\SiteReviews\Database {
+        public function insert(string $table, array $data)
+        {
+            return 'ratings' === $table ? false : parent::insert($table, $data);
+        }
+    };
+
+    $result = withFakeDatabase($fake, fn () => glsr(ReviewManager::class)
+        ->createFromPost($postId, reviewRequest()->toArray()));
+
+    expect($result)->toBeFalse();
+    expect(get_post($postId))->toBeNull();
+});
+
+test('deleting the revisions of a review deletes them all', function () {
+    $review = createTestReview();
+    wp_update_post(['ID' => $review->ID, 'post_content' => 'Edited once']);
+    wp_save_post_revision($review->ID);
+    expect(wp_get_post_revisions($review->ID))->not->toBeEmpty();
+
+    glsr(ReviewManager::class)->deleteRevisions($review->ID);
+
+    expect(wp_get_post_revisions($review->ID))->toBeEmpty();
+});
+
+test('a duplicate carries the original\'s custom meta, but not its submission fingerprint', function () {
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    $review = createTestReview();
+    update_post_meta($review->ID, '_custom_color', 'blue');
+    update_post_meta($review->ID, '_submitted', ['fingerprint']);
+    // the cached Review memoised its meta() before the lines above; make duplicate() re-read
+    glsr(GeminiLabs\SiteReviews\Database\Cache::class)->delete($review->ID, 'reviews');
+
+    $duplicate = glsr(ReviewManager::class)->duplicate($review->ID);
+
+    expect(get_post_meta($duplicate->ID, '_custom_color', true))->toBe('blue');
+    // the duplicate's _submitted is its OWN creation record, not the original's copied over
+    expect(get_post_meta($duplicate->ID, '_submitted', true))->not->toBe(['fingerprint']);
+});
+
+test('a duplicate that cannot be created is a refusal', function () {
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    $review = createTestReview();
+
+    add_filter('wp_insert_post_empty_content', '__return_true');
+    try {
+        expect(glsr(ReviewManager::class)->duplicate($review->ID))->toBeFalse();
+    } finally {
+        remove_filter('wp_insert_post_empty_content', '__return_true');
+    }
+});
+
+test('a post the user may not touch cannot be unassigned either', function () {
+    $review = createTestReview();
+    $privateId = (int) createPost(['post_status' => 'private']);
+
+    expect(glsr(ReviewManager::class)->unassignPost($review, $privateId))->toBeFalse();
+});
+
+test('an update can change the review and its assignments in one call', function () {
+    $review = createTestReview();
+    $termId = createTerm(['taxonomy' => glsr()->taxonomy]);
+    $postId = createPost();
+    $userId = createUser();
+
+    $updated = glsr(ReviewManager::class)->update($review->ID, [
+        'assigned_posts' => [$postId],
+        'assigned_terms' => [$termId],
+        'assigned_users' => [$userId],
+        'rating' => 2,
+        'title' => 'Retitled',
+    ]);
+
+    expect($updated)->toBeInstanceOf(Review::class)
+        ->and($updated->title)->toBe('Retitled')
+        ->and($updated->rating)->toBe(2);
+});
+
+test('an update is refused when the rating row cannot be written', function () {
+    $review = createTestReview();
+    $fake = new class() extends GeminiLabs\SiteReviews\Database {
+        public function update(string $table, array $data, array $where)
+        {
+            return false;
+        }
+    };
+
+    $result = withFakeDatabase($fake, fn () => glsr(ReviewManager::class)
+        ->update($review->ID, ['rating' => 3]));
+
+    expect($result)->toBeFalse();
+});
+
+test('an update is refused on a post that is not a review', function () {
+    expect(glsr(ReviewManager::class)->update(createPost(), ['title' => 'Not a review']))->toBeFalse();
+});
+
+test('updates with nothing relevant to say change nothing', function () {
+    $review = createTestReview();
+    $manager = glsr(ReviewManager::class);
+
+    expect($manager->updateRating($review->ID, ['irrelevant' => 'x']))->toBe(0);
+    expect($manager->updateReview($review->ID, ['irrelevant' => 'x']))->toBe(0);
+    expect($manager->updateResponse($review->ID, ['response' => '']))->toBe(0); // no response before or after
+});
+
+test('a review update that wordpress refuses is an error, not a lie', function () {
+    $review = createTestReview();
+
+    add_filter('wp_insert_post_empty_content', '__return_true');
+    try {
+        expect(glsr(ReviewManager::class)->updateReview($review->ID, ['title' => 'New title']))->toBe(-1);
+    } finally {
+        remove_filter('wp_insert_post_empty_content', '__return_true');
+    }
+});
+
+test('geolocation is retried only when the ip actually changed, and only when wanted', function () {
+    $options = glsr(OptionManager::class);
+    $review = createTestReview(); // its ip_address is 127.0.0.1 (protected)
+    glsr(GeminiLabs\SiteReviews\Database\PostMeta::class)->set($review->ID, 'geolocation', ['lat' => 1]);
+
+    $manager = glsr(ReviewManager::class);
+    $geodata = fn () => glsr(GeminiLabs\SiteReviews\Database\PostMeta::class)->get($review->ID, 'geolocation');
+
+    $manager->updateGeolocation($review->ID, []); // no ip in the update: not our business
+    $manager->updateGeolocation($review->ID, ['ip_address' => '127.0.0.1']); // unchanged: nothing to do
+    expect($geodata())->not->toBeEmpty();
+
+    // the ip changed: the stale geolocation is dropped, but the setting is off so no lookup
+    $manager->updateGeolocation($review->ID, ['ip_address' => '203.0.113.9']);
+    expect($geodata())->toBeEmpty();
+
+    $options->set('settings.reviews.geolocation', 'yes');
+    $manager->updateGeolocation($review->ID, ['ip_address' => '']); // no usable ip: no lookup
+    $manager->updateGeolocation($review->ID, ['ip_address' => '203.0.113.10']); // queued (NullQueue in the suite)
+});
+
 function createTestReview(array $values = []): Review
 {
     $request = reviewRequest($values);
