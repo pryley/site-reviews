@@ -28,8 +28,6 @@ trait InteractsWithAjax
 {
     protected string $lastResponse = '';
 
-    protected ?int $previousErrorLevel = null;
-
     /**
      * The wp_die() handler installed for the duration of an ajax request.
      *
@@ -57,9 +55,12 @@ trait InteractsWithAjax
         add_filter('wp_doing_ajax', '__return_true');
         add_filter('wp_die_ajax_handler', [$this, 'getAjaxDieHandler'], 1, 1);
         set_current_screen('ajax');
-        // Suppress "Cannot modify header information - headers already sent by".
-        $this->previousErrorLevel = error_reporting();
-        error_reporting($this->previousErrorLevel & ~E_WARNING);
+        // No error masking here. This used to drop E_WARNING for the duration of the request
+        // (against "headers already sent"), but that warning cannot fire in this harness — the
+        // CLI process buffers all output and never sends a header — and the mask also hid every
+        // REAL warning raised by plugin code driven through ajax, defeating phpunit.xml's
+        // failOnWarning exactly where it matters most. Verified by execution: a trigger_error()
+        // probe inside routePublicAjaxRequest() fails the suite (exit 2) without the mask.
     }
 
     protected function tearDownAjax(): void
@@ -69,9 +70,6 @@ trait InteractsWithAjax
         unset($GLOBALS['post'], $GLOBALS['comment']);
         remove_filter('wp_doing_ajax', '__return_true');
         remove_filter('wp_die_ajax_handler', [$this, 'getAjaxDieHandler'], 1);
-        if (null !== $this->previousErrorLevel) {
-            error_reporting($this->previousErrorLevel);
-        }
         set_current_screen('front');
         $this->lastResponse = '';
     }
