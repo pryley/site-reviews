@@ -3,7 +3,7 @@
 use GeminiLabs\SiteReviews\Controllers\MainController;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Database\Tables;
+use GeminiLabs\SiteReviews\Modules\Console;
 
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
@@ -107,11 +107,22 @@ test('and a site already on this version is not told it has just upgraded', func
 });
 
 test('the settings are cleaned once the migrations have finished', function () {
-    // site-reviews/migration/end. A migration can leave keys behind that no longer exist in the
-    // config, and they would be written back on every save for ever afterwards.
+    // site-reviews/migration/end. clean() is MEANT to drop keys the config no longer knows, so a
+    // migration's leavings are not written back on every save for ever. Today it cannot: its
+    // guard reads glsr()->settings — a protected property, and Application has no __isset — so
+    // empty() is true from outside the class whatever the property holds, and the cleaning branch
+    // never runs (confirmed by probe: settings() returns a 126-entry config while
+    // empty(glsr()->settings) stays true; normalize() has the identical dead guard). Reported
+    // alongside this batch; until the fix is decided this pins what the plugin actually does.
+    $settings = get_option(OptionManager::databaseKey());
+    $settings['settings']['general']['a_stale_key'] = 'left behind by a migration';
+    update_option(OptionManager::databaseKey(), $settings);
+    glsr()->settings(); // built, as init:5 leaves it in production — the guard still cannot see it
+
     glsr(MainController::class)->onMigrationEnd();
 
-    expect(get_option(OptionManager::databaseKey()))->toBeArray();
+    $cleaned = get_option(OptionManager::databaseKey());
+    expect($cleaned['settings']['general'])->toHaveKey('a_stale_key'); // survives — see above
 });
 
 /*
@@ -157,14 +168,30 @@ test('and it leaves every other query in the site alone', function () {
 
 test('the legacy widgets are registered, and a site can refuse them', function () {
     // They are legacy, and a site that has moved entirely to blocks can switch them off rather than
-    // carry four widgets it will never use in the block editor's legacy-widget list.
-    glsr(MainController::class)->registerWidgets();
-    expect(has_action('widgets_init'))->not->toBeFalse();
+    // carry four widgets it will never use in the block editor's legacy-widget list. The observable
+    // is the widget factory itself — has_action('widgets_init') is truthy from the boot snapshot
+    // whatever this method does.
+    global $wp_widget_factory;
+    $original = $wp_widget_factory->widgets;
+    try {
+        $wp_widget_factory->widgets = [];
+        glsr(MainController::class)->registerWidgets();
+        $registered = array_keys($wp_widget_factory->widgets);
+        sort($registered); // DirectoryIterator order is the filesystem's business
+        expect($registered)->toBe([
+            GeminiLabs\SiteReviews\Widgets\SiteReviewWidget::class,
+            GeminiLabs\SiteReviews\Widgets\SiteReviewsFormWidget::class,
+            GeminiLabs\SiteReviews\Widgets\SiteReviewsSummaryWidget::class,
+            GeminiLabs\SiteReviews\Widgets\SiteReviewsWidget::class,
+        ]);
 
-    add_filter('site-reviews/register/widgets', '__return_false');
-
-    glsr(MainController::class)->registerWidgets(); // and this one does nothing at all
-    expect(true)->toBeTrue();
+        $wp_widget_factory->widgets = [];
+        add_filter('site-reviews/register/widgets', '__return_false');
+        glsr(MainController::class)->registerWidgets();
+        expect($wp_widget_factory->widgets)->toBe([]); // refused means none registered
+    } finally {
+        $wp_widget_factory->widgets = $original;
+    }
 });
 
 /*
@@ -176,13 +203,20 @@ test('the plugin\'s tables are dropped BEFORE the tables they point at', functio
     // tables carry foreign keys into wp_posts — so if WordPress dropped its own tables first, the
     // constraint would refuse and the site would be left half-deleted.
     //
-    // Arr::prepend, not append. The order of this array IS the order of the DROPs.
+    // Arr::prepend, not append. The order of this array IS the order of the DROPs — each of the
+    // six is prepended in registry order, so they come out reversed, all before WordPress's own.
+    global $wpdb;
     $tables = glsr(MainController::class)->filterDropTables(['wp_1_posts']);
 
-    $ours = array_values(glsr(Tables::class)->tables());
-    expect(count($tables))->toBeGreaterThan(1);
-    expect(array_slice($tables, -1))->toBe(['wp_1_posts']); // …and WordPress's own is still last
-    expect($ours)->not->toBeEmpty();
+    expect(array_values($tables))->toBe([
+        "{$wpdb->prefix}glsr_tmp",
+        "{$wpdb->prefix}glsr_stats",
+        "{$wpdb->prefix}glsr_ratings",
+        "{$wpdb->prefix}glsr_assigned_users",
+        "{$wpdb->prefix}glsr_assigned_terms",
+        "{$wpdb->prefix}glsr_assigned_posts",
+        'wp_1_posts',
+    ]);
 });
 
 /*
@@ -193,10 +227,14 @@ test('the log is written once per page, and not on the update screen', function 
     // logOnce() is hooked to both wp_footer and admin_footer. update.php is excluded because
     // WordPress is streaming output to the browser there, and writing to the log mid-stream has
     // put a PHP notice in the middle of a plugin update before now.
-    glsr(MainController::class)->logOnce('update.php');
-    glsr(MainController::class)->logOnce();
+    glsr_log()->once('error', 'm5-probe', 'a recurring failure');
 
-    expect(true)->toBeTrue(); // it ran, on both paths, without throwing
+    glsr(MainController::class)->logOnce('update.php');
+    expect(glsr(Console::class)->get())->not->toContain('a recurring failure'); // survived, unwritten
+
+    glsr(MainController::class)->logOnce();
+    expect(glsr(Console::class)->get())->toContain('a recurring failure')
+        ->and(glsr()->retrieveAs('array', Console::LOG_ONCE_KEY))->toBe([]); // written, and flushed
 });
 
 /*
