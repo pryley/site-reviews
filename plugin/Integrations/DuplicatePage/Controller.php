@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Integrations\DuplicatePage;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Review;
 
@@ -14,8 +15,8 @@ class Controller extends AbstractController
      */
     public function duplicateReview(): void
     {
-        $nonce = filter_input(INPUT_GET, 'nonce') ?: filter_input(INPUT_POST, 'nonce');
-        $postId = filter_input(INPUT_GET, 'post') ?: filter_input(INPUT_POST, 'post');
+        $nonce = Helper::input(\INPUT_GET, 'nonce') ?: Helper::input(\INPUT_POST, 'nonce');
+        $postId = Helper::input(\INPUT_GET, 'post') ?: Helper::input(\INPUT_POST, 'post');
         if (!Review::isReview($postId)) {
             return; // not a review so don't override
         }

@@ -81,15 +81,12 @@ class Helper
      */
     public static function filterInput(string $key, array $request = [])
     {
-        if (isset($request[$key])) {
-            return $request[$key];
-        }
-        return filter_input(INPUT_POST, $key) ?? $_POST[$key] ?? null;
+        return $request[$key] ?? static::input(\INPUT_POST, $key);
     }
 
     public static function filterInputArray(string $key): array
     {
-        $variable = filter_input(INPUT_POST, $key, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        $variable = filter_input(\INPUT_POST, $key, \FILTER_DEFAULT, \FILTER_REQUIRE_ARRAY);
         if (empty($variable) && !empty($_POST[$key]) && is_array($_POST[$key])) {
             $variable = $_POST[$key];
         }
@@ -216,6 +213,37 @@ class Helper
     public static function ifTrue(bool $condition, $ifTrue, $ifFalse = null)
     {
         return $condition ? static::runClosure($ifTrue) : static::runClosure($ifFalse);
+    }
+
+    /**
+     * Retrieves and filters a value from a PHP input source.
+     *
+     * Reads from the original SAPI request data via filter_input(). If the key
+     * is missing there or fails filtering, falls back to the corresponding
+     * superglobal (which may have been mutated at runtime) and applies the same
+     * filter to it. Returns null when the value is absent or fails filtering in
+     * both sources.
+     *
+     * @return mixed the filtered value, or null if absent or invalid in both sources
+     *
+     * @throws \UnhandledMatchError if $type is not a supported INPUT_* constant
+     */
+    public static function input(int $type, string $key, int $filter = \FILTER_DEFAULT)
+    {
+        $fallback = match ($type) {
+            \INPUT_GET => $_GET,
+            \INPUT_POST => $_POST,
+            \INPUT_COOKIE => $_COOKIE,
+            \INPUT_SERVER => $_SERVER,
+            \INPUT_ENV => $_ENV,
+        };
+        $value = filter_input($type, $key, $filter, \FILTER_NULL_ON_FAILURE);
+        if (null === $value) {
+            $value = isset($fallback[$key])
+                ? filter_var($fallback[$key], $filter, \FILTER_NULL_ON_FAILURE)
+                : null;
+        }
+        return $value;
     }
 
     /**
