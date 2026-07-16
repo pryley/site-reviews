@@ -12,14 +12,13 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The reviews collection, and the search behind the "Assigned Users" box.
  *
- * Reviews is what every shortcode, block and widget is handed — an ArrayObject of Review models
- * that also knows the TOTAL (which is not the same as its own count, because it holds one page) and
- * therefore how many pages there are. Get that wrong and the pagination either hides reviews or
- * offers pages that are empty.
+ * Reviews is what every shortcode, block and widget is handed — an ArrayObject of Review models that
+ * also knows the TOTAL (not the same as its own count, since it holds one page) and so how many
+ * pages there are. Wrong, and pagination either hides reviews or offers empty pages.
  *
- * SearchAssignedUsers is the autocomplete on the review editor: type three letters, get the users
- * you could assign the review to. It searches by login, display name and nickname, because people
- * do not know which of the three they are looking at.
+ * SearchAssignedUsers is the review editor's autocomplete: type three letters, get the users you
+ * could assign to. It searches login, display name and nickname, because people do not know which
+ * they are looking at.
  */
 
 beforeEach(function () {

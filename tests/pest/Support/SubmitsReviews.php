@@ -8,11 +8,9 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Request;
 
 /*
- * The state and the request helpers the phpunit ValidationTest kept on its
- * test case. Pest binds a test closure to the test case, so a trait — with
- * DECLARED properties, not dynamic ones — carries them across unchanged:
- * $this->faker, $this->request, $this->messageSuccess and friends all mean
- * what they meant before.
+ * The state and request helpers a review submission needs, kept on a trait with
+ * DECLARED properties (not dynamic ones) so Pest's test-case-bound closures can
+ * reach $this->faker, $this->submission, $this->messageSuccess and friends.
  */
 
 trait SubmitsReviews
@@ -44,8 +42,7 @@ trait SubmitsReviews
     protected Request $submission;
 
     /**
-     * The port of ValidationTest::set_up(). resetPluginState() (the Setup
-     * trait) must have run first — the nonce and the referer depend on it.
+     * resetPluginState() must have run first — the nonce and the referer depend on it.
      */
     protected function setUpSubmitsReviews(): void
     {
@@ -101,10 +98,10 @@ trait SubmitsReviews
 
     protected function performAjaxRequest(array $request): object
     {
-        // Each call here is a separate HTTP request from the same visitor, seconds or
-        // minutes apart. The clock does not run in a test, so the router's five-second
-        // parallel-request lock is still down from the last one and would refuse this as
-        // a single-packet attack. Releasing it is what stands in for the time passing.
+        // Each call is a separate request from the same visitor, seconds apart. The clock does not
+        // run in a test, so the router's five-second parallel-request lock is still down from the
+        // last call and would refuse this as a single-packet attack; releasing it stands in for
+        // the time passing.
         releaseMutexLock();
         $action = glsr()->prefix.'public_action';
         $_POST['_ajax_request'] = true;
@@ -123,13 +120,10 @@ trait SubmitsReviews
     }
 
     /**
-     * A copy of the base submission, merged with the given overrides.
-     *
-     * Deliberately NOT Request::merge(): that goes through wp_parse_args(), i.e.
-     * array_merge(), which RENUMBERS integer-like keys. The honeypot field name
-     * is an 8-character hex hash — all digits perhaps 2% of the time, depending
-     * on the site's salts — and such a key silently becomes 0, so the honeypot
-     * value never reaches the validator. array_replace() keeps the key.
+     * A copy of the base submission merged with overrides. Deliberately NOT Request::merge(),
+     * which goes through wp_parse_args()/array_merge() and RENUMBERS integer-like keys — the
+     * honeypot field name is an 8-char hex hash, all digits ~2% of the time, and such a key
+     * silently becomes 0 so the honeypot value never reaches the validator. array_replace() keeps it.
      */
     protected function request(array $mergeWith = []): array
     {

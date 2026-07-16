@@ -10,15 +10,15 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The four little search classes behind the review editor's autocompletes.
  *
- * Each takes a string the person typed and turns it into rows. AbstractSearch::search() forks on
- * the shape of that string BEFORE either subclass sees it: an empty term matches nothing (so a blank
- * box does not LIKE '%%' the whole table), a numeric one is looked up by id, and anything else is a
- * name search. The by-name paths and the assigned-user search are pinned in ReviewsCollectionTest;
- * this covers the by-id paths, the ->posts()/->users() hydration, and the empty-term fork.
+ * Each turns a typed string into rows. AbstractSearch::search() forks on the string's shape before
+ * either subclass sees it: empty matches nothing (no LIKE '%%' over the whole table), numeric is an
+ * id lookup, anything else is a name search. The by-name paths and assigned-user search are pinned
+ * in ReviewsCollectionTest; this covers the by-id paths, ->posts()/->users() hydration, and the
+ * empty-term fork.
  *
  *   SearchAssignedPosts / SearchAssignedUsers   only among posts/users a review is ALREADY assigned
- *                                               to — the box for finding the thing reviewed, or the
- *                                               reviewer, not for browsing the whole site.
+ *                                               to — finding the thing reviewed or the reviewer, not
+ *                                               browsing the whole site.
  *   SearchUsers                                 any user, for the "assign to user" box.
  */
 

@@ -3,23 +3,17 @@
 namespace GeminiLabs\SiteReviews\Tests;
 
 /*
- * A port of WP_Ajax_UnitTestCase (tests/phpunit/includes/testcase-ajax.php),
- * verified against WordPress core rather than reconstructed from memory.
+ * An admin-ajax harness: handleAjax() fires the wp_ajax_* hooks with output
+ * buffered, intercepts wp_die(), and leaves whatever the handler printed in
+ * $lastResponse.
  *
- * Same contract: handleAjax() fires the wp_ajax_* hooks with the output
- * buffered, wp_die() is intercepted, and whatever the handler printed is left
- * in $lastResponse.
- *
- * Two details that are easy to get wrong, and that core settles:
- *
- *   - the die handler branches on the buffered OUTPUT, not on the message. A
- *     handler that printed something and then called wp_die() ended normally
- *     (Continue); one that died having printed nothing was stopped short
- *     (Stop). wp_send_json_* always prints first, so the review submissions
- *     take the Continue branch.
- *   - core does NOT define DOING_AJAX either: it adds the `wp_doing_ajax`
- *     filter, which is removed again on teardown, so the suite stays
- *     order-independent.
+ * Two subtleties:
+ *   - the die handler branches on the buffered OUTPUT, not the message: a
+ *     handler that printed then called wp_die() ended normally (Continue), one
+ *     that died having printed nothing was stopped (Stop). wp_send_json_*
+ *     prints first, so review submissions take Continue.
+ *   - DOING_AJAX is NOT defined; the wp_doing_ajax filter is added and removed
+ *     on teardown, so the suite stays order-independent.
  */
 
 class WpAjaxDieContinueException extends \Exception
@@ -83,15 +77,10 @@ trait InteractsWithAjax
     }
 
     /**
-     * Calls $callback and returns the JSON it sent, decoded.
-     *
-     * For a controller method that ends in wp_send_json(). Note that wp_send_json()
-     * only calls wp_die() when wp_doing_ajax() is true — otherwise it calls plain
-     * `die`, which nothing can intercept. setUpAjax() is what makes it interceptable,
-     * so this only works inside the ajax harness.
-     *
-     * The ajax die handler takes the output buffer itself (it does ob_get_clean()
-     * and keeps the result in lastResponse), which is why nothing is read back here.
+     * Calls $callback and returns the JSON it sent, decoded. For a controller method ending in
+     * wp_send_json(), which only calls wp_die() when wp_doing_ajax() is true (else plain `die`,
+     * which nothing can intercept) — so this works only inside the ajax harness. The die handler
+     * takes the output buffer itself, which is why nothing is read back here.
      */
     protected function jsonSentBy(callable $callback): array
     {
@@ -101,8 +90,8 @@ trait InteractsWithAjax
         try {
             $callback();
         } catch (WpAjaxDieContinueException|WpAjaxDieStopException $e) {
-            // wp_send_json() printed the payload and then died, as it does in a real
-            // ajax request. The handler kept what it printed.
+            // wp_send_json() printed the payload and died, as in a real ajax request; the handler
+            // kept what it printed.
         }
         while (ob_get_level() > $level) {
             ob_end_clean(); // it did not die: do not leave the buffer open
@@ -114,24 +103,16 @@ trait InteractsWithAjax
     /**
      * Fires the wp_ajax_{$action} hooks and captures what they printed.
      *
-     * Core's WP_Ajax_UnitTestCase fires admin_init here first, copying what
-     * wp-admin/admin-ajax.php does. This does NOT, and the difference matters:
-     * admin-ajax.php also defines WP_ADMIN and loads wp-admin/includes/admin.php
-     * before it fires that hook, so in a real ajax request is_admin() is true.
-     * Here it is false, and a plugin is entitled to assume that admin_init implies
-     * the admin — only wp-admin/admin.php and admin-ajax.php ever fire it, and both
-     * define WP_ADMIN.
+     * Deliberately does NOT fire admin_init, though admin-ajax.php does. admin-ajax.php also
+     * defines WP_ADMIN and loads wp-admin/includes/admin.php first, so in a real ajax request
+     * is_admin() is true; here it is false, and a plugin may assume admin_init implies the admin.
+     * WooCommerce does: it loads its admin function files behind is_admin() at boot, then hooks
+     * admin_init to a callback that uses one (wc_get_page_screen_id, via
+     * OrderAttributionController) — firing admin_init here reached that callback with the function
+     * undefined, a fatal in WooCommerce caused by us.
      *
-     * WooCommerce makes exactly that assumption: it loads its admin function files
-     * at boot behind is_admin(), then hooks admin_init to a callback that calls one
-     * of them (wc_get_page_screen_id, via OrderAttributionController). Firing
-     * admin_init here reached that callback in a process where the function was
-     * never defined — a fatal, in WooCommerce, caused by us.
-     *
-     * Nothing is lost by dropping it. The plugin's ajax routes are registered on
-     * wp_ajax_{prefix}public_action and wp_ajax_{prefix}admin_action (RouterHooks);
-     * admin_init carries only routeAdminGetRequest and routeAdminPostRequest, which
-     * are the NON-ajax admin routes and are not what this harness exercises.
+     * Nothing is lost: the plugin's ajax routes hang off wp_ajax_{prefix}public_action /
+     * admin_action (RouterHooks); admin_init carries only the non-ajax admin routes.
      */
     protected function handleAjax(string $action): void
     {

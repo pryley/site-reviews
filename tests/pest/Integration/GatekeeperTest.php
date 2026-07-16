@@ -9,16 +9,14 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The gate an ADDON has to get through.
  *
- * Nothing to do with security, despite the name: a Gatekeeper is handed the plugins an
- * addon depends on, and decides whether the addon may boot. An addon whose parent
- * plugin is missing, switched off, or too old would fatal on somebody's site — so it
- * does not boot, and the reason is put in a transient for GatekeeperNotice to show on
- * the next admin page.
+ * Nothing to do with security, despite the name: a Gatekeeper is handed an addon's dependencies and
+ * decides whether it may boot. An addon whose parent plugin is missing, off, or too old would fatal
+ * a site — so it does not boot, and the reason goes in a transient for GatekeeperNotice to show next
+ * admin page.
  *
- * The dependency used throughout is Site Reviews itself, because it is the one plugin
- * this process can be certain is installed AND active. Its version is read out of the
- * plugin header, so the tests move the goalposts (the minimum and untested versions)
- * around it rather than trying to install anything.
+ * The dependency used throughout is Site Reviews itself, the one plugin this process is certain is
+ * installed AND active. Its version is read from the plugin header, so the tests move the goalposts
+ * (minimum and untested versions) around it rather than installing anything.
  */
 
 beforeEach(function () {

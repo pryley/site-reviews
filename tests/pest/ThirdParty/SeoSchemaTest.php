@@ -36,25 +36,21 @@ beforeEach(function () {
     glsr()->discard('schemas'); // Schema::store() keeps them on the process-wide container
 
     /*
-     * Elementor has to be unhooked from the schema, and only a stub makes that
-     * necessary.
+     * Elementor has to be unhooked from the schema, and only a stub makes that necessary.
      *
-     * Elementor is the one page builder the stubs fully switch on — Elementor\Plugin
-     * is declared and the stub's ELEMENTOR_VERSION (3.29.0) clears the required
-     * 3.19.0 — so its integration really does hook filterGeneratedSchema onto
-     * site-reviews/schema/generate, which is the first thing SchemaParser::generate()
-     * fires. That callback reads \Elementor\Plugin::$instance, a static the stub
-     * declares but never populates, and dereferences it: fatal.
+     * Elementor is the one page builder the stubs fully switch on — Elementor\Plugin is declared
+     * and the stub's ELEMENTOR_VERSION (3.29.0) clears the required 3.19.0 — so its integration
+     * hooks filterGeneratedSchema onto site-reviews/schema/generate, the first thing
+     * SchemaParser::generate() fires. That callback reads \Elementor\Plugin::$instance, a static the
+     * stub declares but never populates, and dereferences it: fatal.
      *
-     * It is not a defect. On a real site Elementor assigns $instance while it boots
-     * on plugins_loaded, long before a page renders, so class_exists() implies
-     * $instance there; class-without-instance is a state only a signature-only stub
-     * can be in. It does mean Elementor\SchemaParser is not covered — see
-     * tests/pest/README.md, and phpunit.integrations.xml, which is why that is
-     * reported rather than gated.
+     * Not a defect: on a real site Elementor assigns $instance on plugins_loaded, long before a
+     * page renders, so class_exists() implies $instance; class-without-instance is a stub-only
+     * state. It does mean Elementor\SchemaParser is uncovered — an integration excluded from the
+     * coverage gate (see tests/pest/README.md).
      *
-     * remove_filter() is asserted so that a rename or a priority change here fails
-     * loudly instead of silently restoring the fatal.
+     * remove_filter() is asserted so a rename or priority change here fails loudly instead of
+     * silently restoring the fatal.
      */
     $removed = remove_filter('site-reviews/schema/generate',
         [glsr(ElementorController::class), 'filterGeneratedSchema']

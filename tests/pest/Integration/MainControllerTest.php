@@ -8,24 +8,22 @@ use GeminiLabs\SiteReviews\Database\Tables;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * The boot sequence: the things that must happen before anything else can.
+ * The boot sequence: what must happen before anything else can.
  *
- * Almost nothing here has a visible effect of its own. It registers the post type, the taxonomy,
- * the shortcodes and the widgets; it loads the translations; it merges any new settings a plugin
- * update has introduced into the settings already on the site. Every one of them is silent when it
- * works, and silent when it does not — a shortcode that was never registered simply prints its own
- * name on the page, and a setting that was never merged reads as empty forever.
+ * Almost nothing here has a visible effect: it registers the post type, taxonomy, shortcodes and
+ * widgets, loads translations, and merges any new settings an update introduced. Each is silent
+ * working or not — an unregistered shortcode prints its own name, an unmerged setting reads empty
+ * forever.
  *
- * The ORDER is the part that is easy to get wrong and impossible to see:
+ * The ORDER is the easy-to-miss part:
  *
- *   after_setup_theme   the translations, because the settings config is built from translated
- *                       strings and would otherwise be built in English and cached that way.
- *   init:5              the defaults are merged, and the review types are registered — before
- *                       anything that reads them.
+ *   after_setup_theme   translations, because the settings config is built from translated strings
+ *                       and would otherwise be built in English and cached that way.
+ *   init:5              defaults merged and review types registered, before anything reads them.
  *   init                the post type, taxonomy, shortcodes and post meta.
  *
  * The multisite paths (installOnNewSite, filterDropTables) run when a site is created or deleted in
- * a network, which is the one moment a plugin gets to set itself up on somebody's behalf.
+ * a network — the one moment a plugin sets itself up on someone's behalf.
  */
 
 beforeEach(function () {

@@ -16,13 +16,12 @@ use function GeminiLabs\SiteReviews\Tests\sentMail;
 use function GeminiLabs\SiteReviews\Tests\sentTo;
 
 /*
- * The email itself: who it says it is from, what it looks like in a mail client that
- * refuses HTML, and what stops it going out.
+ * The email itself: who it says it is from, what it looks like in a client that refuses HTML, and
+ * what stops it going out.
  *
- * wp_mail() is short-circuited for the whole suite by bootstrap.php (interceptMail),
- * which records what would have been sent and returns what wp_mail() returns on
- * success — so send() takes the same path it takes in production, right up to the
- * transport.
+ * wp_mail() is short-circuited for the whole suite by bootstrap.php (interceptMail), which records
+ * what would have been sent and returns wp_mail()'s success value — so send() takes its production
+ * path right up to the transport.
  */
 
 beforeEach(function () {

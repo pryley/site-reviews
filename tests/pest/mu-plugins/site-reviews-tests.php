@@ -4,14 +4,10 @@
  * Plugin Name: Site Reviews Test Environment
  * Description: Loads the integration stubs and disables the deprecated fallbacks for the Pest suite.
  *
- * It has to be an mu-plugin: deprecated.php registers its fallbacks on
- * `plugins_loaded`, so the filters that disable them must exist before
- * WordPress loads the plugins — which is too early for tests/pest/bootstrap.php
- * (it only gets control once wp-load.php returns).
- *
- * GLSR_UNIT_TESTS is defined by tests/pest/bootstrap.php before it requires
- * wp-load.php, so this file is inert for ordinary web requests to the same
- * install — only the Pest process gets the stubs.
+ * Must be an mu-plugin: deprecated.php registers its fallbacks on `plugins_loaded`, so the filters
+ * that disable them must exist before the plugins load — too early for bootstrap.php, which only
+ * gets control once wp-load.php returns. GLSR_UNIT_TESTS (defined by bootstrap.php before it
+ * requires wp-load) keeps this inert for ordinary web requests; only the Pest process gets the stubs.
  */
 
 defined('ABSPATH') || exit;
@@ -36,17 +32,14 @@ add_action('muplugins_loaded', function () {
         fwrite(STDOUT, 'Site Reviews (with its tests/stubs) not found in '.WP_PLUGIN_DIR.PHP_EOL);
         exit(1);
     }
-    // Some stubs declare a class that extends a wp-admin class, and PHP needs the
-    // parent at declaration time. By now wp-settings.php has loaded the whole of
-    // wp-includes but nothing at all from wp-admin, and the plugin's autoloader —
-    // whose classmap would resolve these — does not exist yet either, because
-    // plugins load after mu-plugins. So the parents are loaded by hand:
+    // Some stubs extend a wp-admin class, which PHP needs at declaration time. wp-settings.php has
+    // loaded wp-includes but nothing from wp-admin, and the plugin's autoloader does not exist yet
+    // (plugins load after mu-plugins), so load the parents by hand:
     //
     //   WP_List_Table              profilepress, surecart
     //   Walker_Category_Checklist  multilingualpress
     //
-    // Both are single-class files that extend something from wp-includes, so
-    // requiring them pulls in nothing else.
+    // Both are single-class files extending wp-includes, so requiring them pulls in nothing else.
     $adminClasses = [
         'WP_List_Table' => 'class-wp-list-table.php',
         'Walker_Category_Checklist' => 'class-walker-category-checklist.php',
@@ -57,61 +50,46 @@ add_action('muplugins_loaded', function () {
         }
     }
     /*
-     * The stubs that are not loaded in the ordinary pass, and why. Both reasons
-     * are traced — do not add to this list without one.
+     * Stubs not loaded in the ordinary pass, both reasons traced — do not add without one.
      *
-     * action-scheduler  The plugin BUNDLES Action Scheduler (vendors/woocommerce/
-     *                   action-scheduler), which declares `abstract class
-     *                   ActionScheduler`, and so does the stub. Redeclaring it is
-     *                   a fatal. This one can never be loaded.
+     * action-scheduler  The plugin BUNDLES Action Scheduler (vendors/woocommerce/action-scheduler),
+     *                   which declares `abstract class ActionScheduler`; so does the stub, and
+     *                   redeclaring it is fatal. Can never be loaded.
+     * elementorpro      Not excluded, only deferred: required last, below, because it extends
+     *                   classes the elementor stub declares.
      *
-     * elementorpro      Not excluded, only deferred: it is required last, below,
-     *                   because it extends classes the elementor stub declares.
+     * Two stubs that load cleanly only because the integration was hardened:
      *
-     * Two others used to be here and are now loaded:
-     *
-     * lpfw              LPFW() returns null from a stub, and LPFW\Hooks::isEnabled()
-     *                   used to walk two properties off that null and emit a warning
-     *                   for each, on every boot. It now reads the option name
-     *                   defensively — LPFW() is a third party's function and its
-     *                   return value was never ours to trust — so the integration
-     *                   registers quietly and isEnabled() correctly comes back false.
-     *
-     * multilingualpress This one WAS a fatal, and the fatal was ours: version()
-     *                   calls resolve(PluginProperties::class), which a stub returns
-     *                   null for, and ->version() on null raises an \Error — which
-     *                   the `catch (\Exception)` around it could not catch. Both
-     *                   guards in MultilingualPress\Hooks now catch \Throwable, so
-     *                   an unreadable version is treated as an unsupported one and
-     *                   the integration closes its own gate instead of dying.
+     * lpfw              LPFW() returns null from a stub; LPFW\Hooks::isEnabled() reads the option
+     *                   name defensively (a third party's return value was never ours to trust), so
+     *                   the integration registers quietly and isEnabled() returns false.
+     * multilingualpress version() calls resolve(PluginProperties::class), null from a stub, and
+     *                   ->version() on null raises an \Error a `catch (\Exception)` misses. Both
+     *                   guards in MultilingualPress\Hooks catch \Throwable, closing the gate
+     *                   instead of dying.
      */
     $excludedStubs = [
         'action-scheduler.php',
         'elementorpro.php',
     ];
     /*
-     * A stub for a plugin that is REALLY installed would redeclare it, which is a
-     * fatal — so if .wp-env.json ever installs one of these for real, its stub has
-     * to be dropped here. Nothing is installed for real today: the suite is stubs
-     * only, and the integrations are measured on their own (phpunit.integrations.xml)
-     * precisely because a stub cannot reach the half of an integration that reads a
-     * value back from the third party.
-     *
-     * If you do install one, note that elementorpro must ride along with elementor:
-     * the pro stub extends classes the free plugin declares, and a stub built
-     * against one version of Elementor cannot be trusted to extend another.
+     * A stub for a plugin that is REALLY installed would redeclare it — fatal — so if .wp-env.json
+     * installs one for real, its stub is dropped here. Nothing is installed for real today: the
+     * suite is stubs only, and the integrations are excluded from the coverage gate precisely
+     * because a stub cannot reach the half of an integration that reads a value back from the third
+     * party. If you do install one, elementorpro must ride along with elementor: the pro stub
+     * extends classes the free plugin declares, and a stub built against one Elementor version
+     * cannot be trusted to extend another.
      */
     $realPlugins = [
         'woocommerce' => ['woocommerce.php'],
         'elementor' => ['elementor.php', 'elementorpro.php'],
     ];
     foreach ((array) get_option('active_plugins', []) as $activePlugin) {
-        // Being listed in active_plugins is not the same as being loadable. Remove a
-        // plugin from .wp-env.json and `wp-env start --update` deletes its directory
-        // but leaves the option pointing at it; WordPress then skips it in silence.
-        // Dropping the stub on the strength of that entry would leave the symbols
-        // declared by nobody at all — no real plugin, no stub — so the file has to
-        // be there before its stub gives way to it.
+        // Being listed in active_plugins is not the same as being loadable: removing a plugin from
+        // .wp-env.json deletes its directory but leaves the option pointing at it, and WordPress
+        // skips it silently. Dropping the stub on that entry would leave the symbols declared by
+        // nobody, so the file must exist before its stub gives way.
         if (!file_exists(WP_PLUGIN_DIR.'/'.$activePlugin)) {
             continue;
         }

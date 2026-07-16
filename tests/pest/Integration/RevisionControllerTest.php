@@ -12,22 +12,18 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * Revisions of a review, which WordPress cannot do on its own.
  *
- * A WordPress revision is a copy of the POST: its title, its content, its excerpt. A review is only
- * half a post — its rating, its author's name, its email address, whether it is pinned and whether
- * it is verified all live in the plugin's own ratings table, and WordPress has never heard of them.
+ * A WordPress revision copies the POST: title, content, excerpt. A review is only half a post — its
+ * rating, author name, email, pinned and verified flags all live in the plugin's ratings table,
+ * which WordPress knows nothing about. So two things go wrong without this controller, both silent:
  *
- * So two things go wrong without this controller, and both are silent:
+ *   nothing is SAVED     changing a rating from 5 to 1 leaves title and content identical, so
+ *                        WordPress writes no revision at all. The old rating is gone without a trace.
+ *   nothing is SHOWN     even with a revision, the compare screen diffs the post — two identical
+ *                        columns, the rating change invisible.
  *
- *   nothing is SAVED     an editor changes a review's rating from 5 to 1 and saves. The post's
- *                        title and content are identical, so WordPress decides nothing changed and
- *                        writes no revision at all. The old rating is gone, with no record that it
- *                        ever existed.
- *   nothing is SHOWN     even with a revision, the compare screen diffs the post — so it shows two
- *                        identical columns and the rating change is invisible.
- *
- * The controller fixes both by snapshotting the review's own fields into the revision's meta, and
- * by rewriting the compare screen from that snapshot. The rating is drawn as ★★★★★ rather than as
- * the number 5, because "5" and "1" side by side in a diff tell you nothing about what changed.
+ * The controller fixes both by snapshotting the review's own fields into the revision's meta and
+ * rewriting the compare screen from it. The rating is drawn as ★★★★★, not "5", because "5" and "1"
+ * side by side tell you nothing.
  */
 
 beforeEach(function () {

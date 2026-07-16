@@ -7,35 +7,28 @@ use GeminiLabs\SiteReviews\Modules\Queue;
 /**
  * A Queue that schedules nothing.
  *
- * The plugin does its slow work through Action Scheduler: a geolocation lookup per review,
- * a notification per review, an avatar per review. A suite that let all of that be queued
- * would be writing thousands of action rows it never asserts on, and every test that
- * creates a review would be paying for a subsystem it is not testing.
+ * The plugin does its slow work through Action Scheduler — a geolocation lookup, a notification
+ * and an avatar per review. Letting that be queued would write thousands of action rows nothing
+ * asserts on and make every review-creating test pay for a subsystem it is not testing.
  *
- * This used to be a `defined('GLSR_UNIT_TESTS')` check inside Queue itself, on eight of its
- * methods. It is a container binding now (see bootstrap.php), which is better in three
- * ways: the plugin no longer carries a branch that only the tests take, the fake is
- * visible and can be read, and a test that WANTS a real queue can bind the real one back
- * for the length of the test.
+ * A container binding (see bootstrap.php) rather than a flag inside Queue: the plugin carries no
+ * test-only branch, the fake is readable, and a test that WANTS a real queue can bind the real
+ * one back for its duration. ScheduledActionsTest does exactly that, scheduling with Action
+ * Scheduler's own as_schedule_single_action() in the plugin's group — what Queue::once() does
+ * unfaked.
  *
- * ScheduledActionsTest is that test, in effect: it puts actions into the queue with Action
- * Scheduler's own as_schedule_single_action(), in the plugin's group, which is exactly what
- * Queue::once() does when it is not being faked.
- *
- * The RETURN VALUES matter and are not arbitrary — they are what Queue's own methods return
- * when Action Scheduler is not loaded at all, which is a state the plugin already handles
- * (every one of them opens with a function_exists check). So nothing downstream sees
- * anything it would not see on a site where the library failed to load.
+ * The RETURN VALUES are not arbitrary: they match what Queue's methods return when Action
+ * Scheduler is not loaded (each opens with a function_exists check), a state the plugin already
+ * handles — so nothing downstream sees anything it would not on a site where the library failed
+ * to load.
  */
 class NullQueue extends Queue
 {
     /**
-     * Whether the queue should claim to have work pending.
-     *
-     * Some code branches on it — GeolocateReviews releases a stale processing lock when NOTHING
-     * is pending, which is what stops a worker that died mid-batch from locking the site out of
-     * geolocation for an hour. A queue that always says "nothing pending" makes that branch the
-     * only one there is, and the lock can never be honoured.
+     * Whether the queue should claim to have work pending. GeolocateReviews releases a stale
+     * processing lock when NOTHING is pending — what stops a worker that died mid-batch from
+     * locking the site out of geolocation for an hour. A queue that always says "nothing pending"
+     * would make that the only branch, and the lock could never be honoured.
      */
     public static bool $isPending = false;
 

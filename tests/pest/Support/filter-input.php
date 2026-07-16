@@ -3,36 +3,23 @@
 /*
  * filter_input(), for a process that never received an HTTP request.
  *
- * THE PROBLEM. filter_input() does not read $_GET or $_POST. It reads the SAPI's own copy of
- * the request — a separate structure, populated by the web server, which PHP gives userland no
- * way to write. A CLI process never received a request, so it has no such structure, and
- * filter_input() returns null there no matter what the superglobals say.
+ * filter_input() reads the SAPI's copy of the request, not $_GET/$_POST — a structure the web
+ * server populates and userland cannot write. A CLI process has none, so filter_input() returns
+ * null there whatever the superglobals hold, making ~70 call sites unreachable from a test (the
+ * wall behind ListTableController, AbstractAsset, UpdateController, the column filters and the
+ * Gutenberg blocks).
  *
- * That makes roughly seventy call sites across the plugin unreachable from a test. It is why
- * ListTableController sat at 29%, and it is the wall behind AbstractAsset, UpdateController,
- * the list-table column filters and the Gutenberg blocks.
+ * The fix is the standard one: PHP resolves an UNQUALIFIED call to an internal function in the
+ * current namespace first, so declaring filter_input() in the plugin's namespaces shadows it for
+ * that code and nothing else — what php-mock and Brain Monkey do, hand-rolled here to avoid a
+ * dependency. The plugin is untouched: routing through a superglobal-reading helper instead was
+ * tried and reverted, because filter_input() reads the ORIGINAL request and so ignores anything
+ * another plugin injected into $_GET/$_POST since — a property worth keeping on a busy site.
  *
- * THE SOLUTION, and it is a standard one. PHP resolves an UNQUALIFIED call to an internal
- * function by looking in the current namespace first, and only then in the global one. The
- * plugin writes `filter_input(...)`, not `\filter_input(...)`, inside its own namespaces — so
- * declaring a function of that name in those namespaces shadows the internal one for that code
- * and for nothing else. This is exactly what php-mock does, and what Brain Monkey does for
- * WordPress functions; it is hand-rolled here because it is thirty lines and one dependency is
- * one dependency.
- *
- * WHY NOT CHANGE THE PLUGIN. It was tried, and reverted. Reading through a helper that falls
- * back to the superglobal sounds harmless, and is not: filter_input() reads the ORIGINAL
- * request and therefore ignores anything another plugin has since injected into $_GET or
- * $_POST — which, on a site running thirty other plugins, is a property worth having. Swapping
- * it for a superglobal read would have changed live behaviour to make the suite's life easier.
- * That is the thing rule 8 exists to prevent, and the plugin is untouched.
- *
- * Loaded from bootstrap.php, so it exists only in a test process. Every declaration is guarded
- * with function_exists() so that a namespace which gains a real one later does not fatal.
- *
- * The list of namespaces below is not decorative: a filter_input() call in a namespace that is
- * NOT listed still reads the (empty) SAPI table and still returns null. If a test cannot see a
- * $_GET value it just set, this list is the first place to look.
+ * Loaded from bootstrap.php, so it exists only in a test process; each declaration is guarded
+ * with function_exists(). The namespace list below is load-bearing: a filter_input() call in a
+ * namespace not listed still reads the empty SAPI table and returns null. If a test cannot see a
+ * $_GET value it just set, look here first.
  */
 
 namespace GeminiLabs\SiteReviews\Tests;
@@ -54,12 +41,10 @@ function inputSuperglobal(int $type): ?array
 }
 
 /**
- * filter_input(), against the superglobals.
- *
- * The return contract is filter_input()'s own, and the difference matters: NULL means the key
- * was not in the request, FALSE means it was there and the filter rejected it. Code branches on
- * the difference (UpdateController asks FILTER_VALIDATE_INT of `force-check` and treats a
- * non-integer as absent), so it is reproduced rather than approximated.
+ * filter_input(), against the superglobals. The return contract is filter_input()'s own: NULL
+ * means the key was absent, FALSE means it was present and the filter rejected it. Code branches
+ * on the difference (UpdateController asks FILTER_VALIDATE_INT of `force-check`), so it is
+ * reproduced, not approximated.
  *
  * @param mixed $options
  *

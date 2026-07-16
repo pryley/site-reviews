@@ -38,8 +38,8 @@ function buildForm(array $args = []): string
 }
 
 /**
- * The same Closure instance every time: remove_filter() can only find the
- * exact callback it was given (the phpunit test case kept it on $this).
+ * The same Closure instance every time: remove_filter() can only find the exact callback it was
+ * given.
  */
 function emptyFieldsFilter(): \Closure
 {

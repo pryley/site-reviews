@@ -20,38 +20,27 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The CSV import, end to end.
  *
- * A CSV becomes reviews in three moves, and each is a separate request in the
- * admin because a big file cannot be done in one:
+ * A CSV becomes reviews in three moves, each a separate admin request because a big file cannot be
+ * done in one:
  *
- *   ProcessCsvFile        reads the upload, throws out the rows that would not
- *                         import, and writes the survivors to a temp CSV in the
- *                         uploads directory. Creates no reviews.
- *   ImportReviews         reads a page of that temp CSV and turns each row into a
- *                         review. Called over and over until the file is done.
+ *   ProcessCsvFile        reads the upload, drops the rows that would not import, and writes the
+ *                         survivors to a temp CSV in uploads. Creates no reviews.
+ *   ImportReviews         reads a page of that temp CSV and turns each row into a review. Called
+ *                         repeatedly until the file is done.
  *   ImportReviewsCleanup  drops the temp table and file, and reports.
  *
- * ============================================================================
- * WHY THIS SUITE RUNS LAST, AND MUST GO ON RUNNING LAST
- * ============================================================================
+ * WHY THIS SUITE RUNS LAST: ProcessCsvFile and ImportManager both define WP_IMPORTING, which
+ * cannot be unset — so from the first test here it is defined for the rest of the process, and
+ * nineteen places read it. It stops an import generating an avatar per review, a verification email
+ * per review, geolocating every IP, flushing the page cache a thousand times, or treating a
+ * spreadsheet row as a form submission: correct during an import, wrong everywhere else. So this is
+ * the LAST suite in phpunit.xml. Move it and ThirdParty/CacheTest fails: it asserts WP_IMPORTING is
+ * not defined, precisely so this cannot happen quietly.
  *
- * ProcessCsvFile and ImportManager both define('WP_IMPORTING', true). A constant
- * cannot be unset, so from the first test here it is defined for the remainder of
- * the PHP process — and nineteen places in the plugin read it. It is what stops an
- * import generating an avatar per review, sending a verification email per review,
- * geolocating every IP, flushing the page cache a thousand times, and treating a
- * row of a spreadsheet as a form submission.
- *
- * All of which is correct during an import, and wrong everywhere else. So this is
- * the LAST testsuite declared in phpunit.xml, and there is nothing after it to
- * poison. If you move it, ThirdParty/CacheTest will tell you: it asserts that
- * WP_IMPORTING is not defined, precisely so that this cannot happen quietly.
- *
- * ============================================================================
- *
- * handle() itself cannot be reached past its first guard — it fetches the upload
- * with UploadedFile::isValid(), which asks is_uploaded_file(), and no CLI process
- * has ever received an HTTP upload. process() takes the file it would have got, so
- * the pipeline is driven from there. See tests/pest/Integration/UploadedFileTest.
+ * handle() cannot be reached past its first guard — it fetches the upload with
+ * UploadedFile::isValid(), which asks is_uploaded_file(), and no CLI process received an HTTP
+ * upload. process() takes the file it would have got, so the pipeline is driven from there. See
+ * tests/pest/Integration/UploadedFileTest.
  */
 
 beforeEach(function () {
@@ -74,30 +63,22 @@ afterEach(function () {
 });
 
 /**
- * THE TRANSACTION CANNOT PROTECT THIS SUITE. It cleans up after itself instead.
+ * THE TRANSACTION CANNOT PROTECT THIS SUITE — it cleans up after itself instead.
  *
- * Every other test in the plugin is isolated by the transaction Pest.php opens and
- * rolls back (see tests/pest/Pest.php). That does not work here: TableTmp::create()
- * and ::drop() are DDL, and MySQL implicitly COMMITs the open transaction the moment
- * it sees DDL. ProcessCsvFile::process() calls prepare() (CREATE TABLE) and
- * ImportManager::flush() calls drop() (DROP TABLE) — so every test here commits
- * whatever it has done by then, and the ROLLBACK finds nothing left to undo.
- *
- * Left alone, the reviews and users pile up: an import test sees the previous test's
- * reviews and dedupes them away, and the NEXT RUN of the whole suite collides with
- * the users — "Sorry, that username already exists" — in CommandTest, which runs in
- * a different suite entirely and looks nothing to do with the import.
- *
- * The COMMIT at the end is not optional: without it, Pest.php's ROLLBACK would undo
- * the cleanup along with everything else.
+ * TableTmp::create()/drop() are DDL, and MySQL implicitly COMMITs the open transaction on DDL, so
+ * every test here commits what it has done and the ROLLBACK finds nothing to undo. Left alone the
+ * reviews and users pile up: a test dedupes away the previous test's reviews, and the next whole
+ * run collides on the users ("Sorry, that username already exists") in CommandTest, a different
+ * suite. The COMMIT at the end is not optional — without it Pest.php's ROLLBACK would take the
+ * cleanup with it.
  */
 function purgeEverythingThisSuiteCreates(): void
 {
     global $wpdb;
 
-    // The ratings table's review_id foreign key is ON DELETE CASCADE, and the three
-    // assignment tables cascade from ratings — so deleting the review posts empties
-    // all four (see Database\Tables\AbstractTable::addForeignConstraint).
+    // The ratings table's review_id FK is ON DELETE CASCADE, and the three assignment tables
+    // cascade from ratings — so deleting the review posts empties all four (see
+    // Database\Tables\AbstractTable::addForeignConstraint).
     $wpdb->query($wpdb->prepare(
         "DELETE FROM {$wpdb->posts} WHERE post_type = %s", glsr()->post_type
     ));
@@ -173,18 +154,16 @@ function importedReviewCount(): int
 }
 
 test('a csv becomes reviews', function () {
-    // The whole pipeline, which is the only way to know the three commands agree
-    // with each other about the temp file they hand along.
+    // The whole pipeline: the only way to know the three commands agree about the temp file they
+    // hand along.
     $command = processCsv(csvFixture());
 
-    // Move one: the good rows are staged, the bad ones are counted and explained.
+    // Move one: good rows staged, bad ones counted and explained.
     //
-    // skipped used to come back as 4. Statement::process() hands back a LAZY
-    // ResultSet — the where() callbacks run when it is iterated — and it was
-    // iterated twice, by insertAll() and then by count(). validateRecord() ran twice
-    // per row, so ++$this->skipped fired twice for every skipped row and the admin
-    // was shown double the truth (import.js hands stage 1's count to stage 4, which
-    // prints it). The records are walked once now.
+    // skipped once came back doubled. Statement::process() returns a LAZY ResultSet (the where()
+    // callbacks run on iteration), and iterating it twice — insertAll() then count() — ran
+    // validateRecord() twice per row, so ++$this->skipped fired twice per skipped row and the admin
+    // saw double (import.js hands stage 1's count to stage 4). The records are walked once now.
     $response = $command->response();
     expect($response['total'])->toBe(2)
         ->and($response['skipped'])->toBe(2)
@@ -226,9 +205,8 @@ test('a csv becomes reviews', function () {
 });
 
 test('the same csv imported twice does not make the reviews twice', function () {
-    // Every review carries a hash of what was submitted, and the importer looks for
-    // it before creating anything — so an import that timed out halfway can be run
-    // again without doubling what it already did.
+    // Every review carries a hash of what was submitted, and the importer checks for it before
+    // creating anything — so an import that timed out halfway can be re-run without doubling.
     processCsv(csvFixture());
     (new ImportReviews(new Request(['page' => 1, 'per_page' => 10])))->handle();
     expect(importedReviewCount())->toBe(2);
@@ -242,8 +220,8 @@ test('the same csv imported twice does not make the reviews twice', function () 
 });
 
 test('the reviews are imported a page at a time', function () {
-    // The admin calls ImportReviews once per page, because a file with ten thousand
-    // rows in it will not import inside one request.
+    // The admin calls ImportReviews once per page: a file of ten thousand rows will not import in
+    // one request.
     processCsv(csvFixture());
 
     $first = new ImportReviews(new Request(['page' => 1, 'per_page' => 1]));
@@ -268,8 +246,8 @@ test('the temp table is created for the import and dropped after it', function (
 });
 
 test('a cleanup that imported nothing leaves the file alone', function () {
-    // Nothing was imported, so there is nothing to clean up after — and the temp
-    // file is the only record of what was staged.
+    // Nothing was imported, so nothing to clean up — and the temp file is the only record of what
+    // was staged.
     processCsv(csvFixture());
 
     (new ImportReviewsCleanup(new Request(['imported' => 0, 'skipped' => 4])))->handle();
@@ -278,25 +256,18 @@ test('a cleanup that imported nothing leaves the file alone', function () {
 });
 
 test('a file bigger than one chunk is processed once, not once per chunk', function () {
-    // This one looks like a bug and is not, which is worth writing down before
-    // somebody "fixes" it:
+    // Looks like a bug and is not — worth writing down before somebody "fixes" it:
     //
     //     $chunks = $reader->chunkBy(1000);
     //     foreach ($chunks as $chunk) {
     //         $records = Statement::create()->where(…)->process($reader, $header);
     //
-    // $chunk is never used — the whole $reader is processed inside a loop over its
-    // own chunks, which reads like a file of 2,500 rows being processed three times.
-    // It is not. Reader::chunkBy() is ResultSet::from($this)->chunkBy(), and
-    // ResultSet::chunkBy() is a GENERATOR pulling lazily from the reader's iterator
-    // over the SplFileObject. process($reader) calls $reader->getRecords(), which
-    // rewinds that same document and reads it to EOF — so when the generator is
-    // resumed for the second chunk its iterator is already at EOF, and there is no
-    // second chunk. The loop body runs exactly once.
-    //
-    // The chunking is therefore a no-op rather than a defect: the file is processed
-    // in a single pass. 1,001 rows is two chunks' worth and the smallest file that
-    // can tell the difference, so this is the test that keeps it honest.
+    // $chunk is unused and the whole $reader is processed inside a loop over its own chunks, which
+    // reads like a 2,500-row file processed three times. It is not: Reader::chunkBy() is a lazy
+    // GENERATOR over the SplFileObject's iterator, and process($reader) calls getRecords(), which
+    // rewinds and reads that same document to EOF — so the generator's iterator is already at EOF
+    // when resumed, there is no second chunk, and the loop body runs once. The chunking is a no-op,
+    // not a defect. 1,001 rows is two chunks' worth, the smallest file that tells the difference.
     $rows = ['date,rating,title'];
     for ($i = 1; $i <= 1001; ++$i) {
         $rows[] = sprintf('2024-01-15,5,Review %d', $i);
@@ -355,14 +326,11 @@ test('a row is only staged if its date and rating can be read', function (array 
 ]);
 
 test('a date is rewritten into the format the database wants', function () {
-    // The person importing says what format their dates are in; the database only
-    // takes one.
-    //
-    // DateTime::createFromFormat() fills in every field the format does not mention
-    // from the CURRENT time, and twelve of the eighteen accepted formats leave it
-    // something to fill: six carry no time at all, six carry no seconds. Every
-    // imported review used to be stamped with the moment the import ran. The "!"
-    // that formatRecord() now puts in front of the format zeroes them instead.
+    // The person importing says what format their dates are in; the database takes only one.
+    // DateTime::createFromFormat() fills every field the format omits from the CURRENT time, and
+    // twelve of the eighteen accepted formats leave it something to fill (six carry no time, six no
+    // seconds) — which would stamp every review with the import's moment. The "!" formatRecord()
+    // puts in front of the format zeroes them instead.
     $command = new ProcessCsvFile(new Request(['date_format' => 'd/m/Y', 'delimiter' => ',']));
 
     $record = protectedMethod(ProcessCsvFile::class, 'formatRecord')
@@ -372,20 +340,13 @@ test('a date is rewritten into the format the database wants', function () {
 });
 
 test('uploading the same csv twice does not import the reviews twice', function () {
-    // What the date defect cost, and the reason it was worth fixing.
-    //
-    // ImportManager recognises a review it has already imported by a hash of what
-    // was submitted (CreateReview::submitted). `date` is not in
-    // SubmittedFieldsDefaults::$guarded, so it is part of that hash — and `ip_address`
-    // IS guarded, which makes the date the only field in it that can change between
-    // two readings of the same row.
-    //
-    // Twelve of the eighteen accepted date formats used to leave a field for the
-    // clock to fill, so processing the same file twice a second apart produced a
-    // different hash for every row and imported every review again. The dedupe held
-    // within one processed file (see the test above) and came apart across uploads —
-    // which is exactly when a person reaches for it: the import timed out, so they
-    // upload the file again.
+    // What the date bug cost, and why it was worth fixing. ImportManager dedupes by a hash of the
+    // submitted fields (CreateReview::submitted); `date` is in that hash (not in
+    // SubmittedFieldsDefaults::$guarded), and `ip_address` is guarded, so the date is the only
+    // field that can change between two readings of the same row. With twelve formats leaving a
+    // field for the clock, processing the same file a second apart hashed every row differently and
+    // re-imported everything — the dedupe held within one file but came apart across uploads, which
+    // is exactly when a person reaches for it (the import timed out, so they upload again).
     $csv = "date,rating,title\n2024-01-15,5,Loved it\n";
 
     processCsv($csv);

@@ -5,15 +5,11 @@ use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 /*
  * Which integrations the stubs actually switch on.
  *
- * This is the contract that makes plugin/Integrations worth having in the
- * coverage scope: the mu-plugin requires tests/stubs on muplugins_loaded, before
- * the plugins load, so each integration's isInstalled() runs against the stubbed
- * symbols and its hooks register for real. If a stub loses a symbol the
- * integration silently goes dark and its coverage silently goes to zero — these
- * assertions are what turns that into a failure.
- *
- * Every row below was traced twice: once through the integration's isInstalled()
- * body, once through the stub that has to satisfy it.
+ * The mu-plugin requires tests/stubs on muplugins_loaded, before the plugins load, so each
+ * integration's isInstalled() runs against the stubbed symbols and its hooks register for real. If a
+ * stub loses a symbol the integration silently goes dark and its coverage to zero — these assertions
+ * turn that into a failure. Every row below was traced twice: through the integration's isInstalled()
+ * body, and through the stub that satisfies it.
  */
 
 function integrationIsInstalled(string $integration): bool

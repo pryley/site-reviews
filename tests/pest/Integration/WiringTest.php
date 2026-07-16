@@ -21,21 +21,19 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 use function GeminiLabs\SiteReviews\Tests\sentMail;
 
 /*
- * The wiring: the things that make everything else run, and whose failure mode is silence.
+ * The wiring: what makes everything else run, and whose failure mode is silence.
  *
- * A controller that is broken throws. A HOOK that is never registered does nothing at all —
- * the feature simply is not there, no error is logged, and nobody finds out until a customer
- * says "the emails stopped". So the loaders are worth a test each, and the test is always the
- * same shape: did the thing actually get wired up?
+ * A broken controller throws. A HOOK never registered does nothing — the feature is just not there,
+ * no error logged, and nobody finds out until a customer says "the emails stopped". So each loader
+ * gets a test, always the same shape: did the thing actually get wired up?
  *
- *   Hooks         walks plugin/Hooks/ and plugin/Integrations/ and runs every class it finds.
- *                 There is no list. A file that stops being instantiable stops being loaded,
- *                 quietly.
- *   Provider      the singletons. A class that ought to be a singleton and is not gets rebuilt
- *                 on every glsr() call, and anything it was holding is lost.
- *   BlackHole     what glsr() hands back for a class that does not exist. It swallows calls and
- *                 logs, rather than fatalling — because the alternative is a white screen on
- *                 somebody's site because an addon was half-deleted.
+ *   Hooks         walks plugin/Hooks/ and plugin/Integrations/ and runs every class it finds. No
+ *                 list — a file that stops being instantiable stops being loaded, quietly.
+ *   Provider      the singletons. A class that should be a singleton and is not gets rebuilt on
+ *                 every glsr() call, losing whatever it held.
+ *   BlackHole     what glsr() returns for a class that does not exist. It swallows calls and logs
+ *                 rather than fatalling — the alternative is a white screen because an addon was
+ *                 half-deleted.
  *   Deprecated    the trait that keeps old method names working.
  *   QueueController  the far end of every queued job.
  */

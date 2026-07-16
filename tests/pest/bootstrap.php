@@ -1,50 +1,33 @@
 <?php
 
 /*
- * Boots a REAL WordPress — by default the wp-env instance the suite runs
- * inside (see .wp-env.json / the Makefile) — with Site Reviews active.
+ * Boots a REAL WordPress — by default the wp-env instance the suite runs in
+ * (see .wp-env.json / the Makefile) — with Site Reviews active. Core's test
+ * framework is avoided: it needs PHPUnit 9, Pest needs 12. Support/ supplies
+ * the factories and admin-ajax harness; isolation is a per-test DB transaction
+ * that rolls back (see Pest.php).
  *
- * Deliberately NOT WordPress core's test framework (WP_UnitTestCase,
- * WP_Ajax_UnitTestCase, factories): it is pinned to PHPUnit 9, which Pest
- * cannot run on. The pieces of it the suite actually needs are reimplemented
- * in Support/ — post/term/user factories and the admin-ajax harness — and
- * every test isolates itself with a DB transaction that rolls back instead
- * (see Pest.php).
+ * Constants are defined BEFORE wp-load so the plugin sees them as it loads
+ * (Router, Tables, Queue, AdminController, HookProxy branch on them), and so
+ * mu-plugins/site-reviews-tests.php can load the integration stubs and disable
+ * the deprecated fallbacks before plugins_loaded fires.
  *
- * The constants are defined BEFORE wp-load so the plugin sees them as it
- * loads (Router, Tables, Queue, AdminController and HookProxy all branch
- * on them), exactly as tests/phpunit/bootstrap.php does on
- * `muplugins_loaded`. They also arm tests/pest/mu-plugins/site-reviews-tests.php,
- * which loads the integration stubs and disables the deprecated fallbacks
- * before `plugins_loaded` fires — the one thing that cannot be done from
- * here, because deprecated.php registers its filters on that hook.
- *
- * WP_ROOT overrides the WordPress path to run against any other install
- * (e.g. a Local site with a DISPOSABLE database — the tests write to it
- * between transaction boundaries).
+ * WP_ROOT overrides the WordPress path, to run against any install with a
+ * DISPOSABLE database (the tests write to it between transaction boundaries).
  */
 
 define('GLSR_UNIT_TESTS', true);
 
 /*
- * THE SUITE DOES NOT USE THE NETWORK. This is the belt to blockHttpRequests()'s braces.
+ * The suite never touches the network — belt and braces. blockHttpRequests()
+ * (below) turns an un-intercepted request into a WP_Error naming the URL, but
+ * it is a filter and can be removed. WP_HTTP_BLOCK_EXTERNAL is checked inside
+ * WP_Http::request() after the filter, catching anything that slips through;
+ * WP_ACCESSIBLE_HOSTS is empty, so nothing is allowed, not even wordpress.org.
  *
- * blockHttpRequests() (below, after wp-load) turns any un-intercepted request into a WP_Error that
- * names the URL and says what to do about it. That is the message anybody will actually see, and it
- * is worth keeping — but it is a FILTER, and a filter can be removed. A test calling
- * remove_all_filters('pre_http_request'), or a bug in restoreHooks(), would quietly reopen the
- * network, and nobody would find out until the suite was slow on a train.
- *
- * WP_HTTP_BLOCK_EXTERNAL is checked inside WP_Http::request() itself, AFTER the pre_http_request
- * filter has had its say. So the friendly message still wins while the filter is in place, and this
- * catches everything if it ever is not. WP_ACCESSIBLE_HOSTS is empty on purpose: not one host is
- * allowed through, not even wordpress.org.
- *
- * Everything the plugin really talks to — the licence server, the update server, the geolocation
- * API, all seven CAPTCHA services, the tutorials API — is mocked per test with interceptHttp(),
- * which short-circuits before either guard. Mail is intercepted the same way.
- *
- * Defined BEFORE wp-load.php, because WordPress reads them at request time.
+ * Everything the plugin talks to (licence, updates, geolocation, CAPTCHA,
+ * tutorials) is mocked per test with interceptHttp(); mail the same way.
+ * Defined before wp-load.php, where WordPress reads them.
  */
 define('WP_HTTP_BLOCK_EXTERNAL', true);
 define('WP_ACCESSIBLE_HOSTS', '');
@@ -70,18 +53,10 @@ $_SERVER['SERVER_NAME'] ??= 'localhost';
 $_SERVER['SERVER_PROTOCOL'] ??= 'HTTP/1.1';
 
 /*
- * $_SERVER can be shimmed. The SAPI's request table cannot: filter_input() does not read the
- * superglobals, it reads a structure the web server populates and userland cannot write, and a
- * CLI process does not have one — so filter_input() returns null here whatever $_GET says, and
- * seventy call sites across the plugin are unreachable.
- *
- * So the suite shadows filter_input() inside the plugin's own namespaces, which PHP allows
- * because an unqualified call resolves against the current namespace first. The plugin is not
- * modified and its production semantics are untouched. See Support/filter-input.php, which says
- * why that matters and why the obvious alternative was rejected.
- *
- * Required BEFORE wp-load.php only for tidiness — PHP resolves these calls at runtime, so the
- * order does not actually matter.
+ * filter_input() reads the SAPI request table, not the superglobals, and a CLI process has
+ * none — so it returns null whatever $_GET holds, killing ~70 call sites. The suite shadows
+ * filter_input() in the plugin's namespaces (an unqualified call resolves there first),
+ * leaving production semantics untouched. See Support/filter-input.php.
  */
 require __DIR__.'/Support/filter-input.php';
 
@@ -94,8 +69,8 @@ if (!function_exists('glsr')) {
 if (!defined('GLSR_TEST_MU_PLUGIN')) {
     fwrite(STDOUT, implode(PHP_EOL, [
         'The test mu-plugin did not load, so the integration stubs are missing and the',
-        'deprecated v5-v8 fallbacks are still active — results would not match the',
-        'phpunit suite. Map tests/pest/mu-plugins into the install:',
+        'deprecated v5-v8 fallbacks are still active, so results would be wrong.',
+        'Map tests/pest/mu-plugins into the install:',
         '',
         '    wp-env  → the "mappings" key in .wp-env.json (already configured)',
         '    WP_ROOT → symlink it into wp-content/mu-plugins',
@@ -104,77 +79,44 @@ if (!defined('GLSR_TEST_MU_PLUGIN')) {
     exit(1);
 }
 
-// Support/ is autoloaded by composer (see autoload-dev in composer.json):
-// PSR-4 for the classes and traits, "files" for helpers.php.
+// Support/ is autoloaded by composer (autoload-dev): PSR-4 for classes and
+// traits, "files" for helpers.php.
 
-// The plugin's tables are created on activation; run the installer anyway so
-// a fresh or half-migrated database is usable. It is idempotent, and it runs
-// OUTSIDE the per-test transactions (DDL would implicitly commit one).
+// Create the plugin's tables. Idempotent, and run OUTSIDE the per-test
+// transactions — its DDL would implicitly commit one.
 glsr(\GeminiLabs\SiteReviews\Install::class)->run();
 
 /*
- * And migrate, ONCE, here — for the same reason, and for two more.
- *
- * This used to live in resetPluginState(), which is the beforeEach of thirty-five test
- * files. runAll() deletes the migrations option first, so every one of those tests
- * re-ran all nineteen migrations from scratch and then rolled the whole thing back:
- * roughly eight thousand migration runs a suite, against a database that (inside the
- * transaction) had nothing in it to migrate, and whose settings changes were overwritten
- * by the replace($defaults) on the very next line anyway. Measured: 61s -> 39s.
- *
- * Six of the migrations contain DDL (Migrate_6_0_0, Migrate_6_2_1, Migrate_7_0_0,
- * Migrate_7_1_0, Migrate_8_0_0, Migrate_5_25_0/MigrateDatabase), and MySQL implicitly
- * COMMITs the open transaction the moment it sees DDL — which would take the transaction
- * that isolates the tests from each other with it. Run from here, before the first test
- * opens one, that cannot happen.
- *
- * DDL is not the only thing that ends a transaction, either: MigrateReviews wraps each of
- * its four passes in Database::beginTransaction(), which on InnoDB is a literal START
- * TRANSACTION, and finishTransaction() then COMMITs. So a test that reaches
- * Migrate::runAll() commits whatever the DDL guards do, and has to say so — see
- * commitsTransaction().
- *
- * A test that wants a migration run runs it itself (Migrate_8_1_0Test does exactly
- * that), and the Tools page's "Migrate Plugin" button has its own test.
+ * Migrate once, here. Run per test it would re-run all nineteen migrations against an empty
+ * transaction and roll them back — ~8000 runs a suite (measured 61s -> 39s). Six migrations
+ * contain DDL, which implicitly COMMITs the isolating transaction; MigrateReviews also wraps
+ * each pass in a real START TRANSACTION/COMMIT. Run before the first test opens a transaction,
+ * neither bites. A test that needs a migration runs it itself (Migrate_8_1_0Test), and the
+ * Tools page's "Migrate Plugin" button has its own test — both declare commitsTransaction().
  */
 glsr(\GeminiLabs\SiteReviews\Modules\Migrate::class)->runAll();
 
 /*
- * The Application's storage, as a fresh request has it.
- *
- * The Storage trait is an Arguments object on the Application singleton — not the database, not an
- * option, not a hook — so nothing in Pest.php's teardown reaches it, and twenty different registers
- * are written to it across the plugin. Half are filled at boot and are expected to be there
- * (shortcodes, columns, review_types); half are filled during a request and are expected NOT to be
- * (paged_handle, schemas, notices, glsr_create_review).
- *
- * Both halves leak between tests. So the whole thing is photographed HERE, once the plugin has
- * finished booting and before any test has run, and restoreStorage() puts it back after every test.
- * See snapshotStorage() in Support/helpers.php for the three leaks that made this necessary.
+ * Photograph the Application's storage as a fresh request has it. The Storage trait is an
+ * Arguments object on the singleton — no option, hook or table — so Pest.php's teardown cannot
+ * reach it, yet twenty registers write to it and several leak between tests. restoreStorage()
+ * puts it back after every test. See snapshotStorage() in Support/helpers.php.
  */
 \GeminiLabs\SiteReviews\Tests\snapshotStorage();
 
 /*
- * The last run may have crashed out, or leaked. A test that COMMITs its transaction — see
- * commitsTransaction() — leaves behind whatever it wrote beforehand, and if it died before
- * it could clean up, those rows are still here. They are not harmless: user_login is
- * unique, and the sequence hands out the same "User 120" every run, so the leftovers
- * collide with the very test that leaked them and it can never pass again until someone
- * empties the table by hand.
- *
- * So the suite starts from a known-empty database rather than trusting the last one to
- * have tidied up after itself.
+ * Start from a known-empty database. A test that COMMITs its transaction (see
+ * commitsTransaction()) and dies before cleanup leaves rows behind; user_login is unique and
+ * the factory reuses "User 120" each run, so the leftovers collide with the test that leaked
+ * them until the table is emptied by hand.
  */
 \GeminiLabs\SiteReviews\Tests\purgeCommittedRows();
 
 /*
- * Nothing is scheduled. The plugin queues a geolocation lookup, a notification and an
- * avatar for every review it creates, and the suite creates thousands.
- *
- * This is a rebinding rather than a flag inside Queue, which is what it used to be. The
- * plugin registers Queue as a singleton (Provider.php), every caller resolves it with
- * glsr(Queue::class), and Container::bind() drops the stale instance first — so replacing
- * it here, after boot, replaces it everywhere. See Support/NullQueue.php.
+ * Nothing is scheduled: the plugin queues a geolocation lookup, a notification and an avatar
+ * per review, and the suite creates thousands. Rebinding rather than a flag inside Queue —
+ * Queue is a shared singleton (Provider.php) resolved via glsr(Queue::class), and bind() drops
+ * the stale instance, so this replaces it everywhere. See Support/NullQueue.php.
  */
 glsr()->bind(
     \GeminiLabs\SiteReviews\Modules\Queue::class,
@@ -183,17 +125,11 @@ glsr()->bind(
 );
 
 /*
- * A throwable thrown inside a proxied hook is rethrown rather than logged and swallowed.
- *
- * HookProxy catches \Throwable so that a third party's bad data degrades a feature instead
- * of whitescreening a site, and that is the right default — but it is the wrong default for
- * a test suite, twice over. A test whose subject throws inside a hook would go green with
- * nothing to show for it but a console line nobody reads; and the suite intercepts wp_die()
- * and wp_redirect() BY THROWING (Support/InteractsWithExits.php), which the catch would
- * swallow, so a redirect fired through a hook could not be asserted at all.
- *
- * This used to be a defined('PHPUNIT_TESTING') branch inside HookProxy. It is a filter now:
- * the plugin no longer names a test framework, and anyone debugging a site can turn it on.
+ * Rethrow throwables from proxied hooks instead of logging and swallowing them. HookProxy
+ * catches \Throwable so a third party's bad data degrades gracefully in production, but here a
+ * subject that throws inside a hook would pass silently, and wp_die()/wp_redirect() are
+ * intercepted BY THROWING (Support/InteractsWithExits.php), which the catch would eat. The
+ * plugin exposes this as a filter, so anyone debugging a site can turn it on too.
  */
 add_filter('site-reviews/hook/rethrow', '__return_true');
 

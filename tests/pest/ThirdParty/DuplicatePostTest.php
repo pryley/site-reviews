@@ -11,15 +11,13 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The Yoast Duplicate Post integration.
  *
- * It registers on every site — there is no isInstalled() — because all it does is
- * hook Duplicate Post's own filters, which simply never fire when the plugin is
- * absent. That is what makes it testable without a stub: the filters can be fired
- * here in its place, with the arguments Duplicate Post passes.
+ * It registers on every site (no isInstalled()) because all it does is hook Duplicate Post's own
+ * filters, which never fire when the plugin is absent — which makes it testable without a stub: the
+ * filters can be fired here, with the arguments Duplicate Post passes.
  *
- * The one thing Duplicate Post does that Site Reviews cannot let stand is copying
- * a review as a plain post: a review's rating lives in a custom table, not in post
- * meta, so a copied post would be a review with no rating. duplicateReview() puts
- * the row back.
+ * The one thing Site Reviews cannot let stand is copying a review as a plain post: a rating lives in
+ * a custom table, not post meta, so a copied post would be a review with no rating. duplicateReview()
+ * puts the row back.
  */
 
 beforeEach(function () {

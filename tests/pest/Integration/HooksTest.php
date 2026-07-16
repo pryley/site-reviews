@@ -8,19 +8,14 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The wiring.
  *
- * Thirty classes under plugin/Hooks, each one a table of "this controller method
- * answers this WordPress hook". Between them they are the entire surface the plugin
- * presents to WordPress, and they were at 0% coverage — not because they never run,
- * but because they run during bootstrap.php, before PHPUnit starts collecting. They
- * are the most-executed code in the plugin and the least measured.
+ * Thirty classes under plugin/Hooks, each a table of "this controller method answers this WordPress
+ * hook" — between them the entire surface the plugin presents to WordPress. They run during
+ * bootstrap.php, so they are the most-executed code in the plugin.
  *
- * Re-running them is safe: WP_Hook keys a callback by a unique id built from the
- * object and the method, so registering the same one twice is a no-op.
- *
- * The trick that makes the table itself observable is wiping $wp_filter first.
- * Pest.php backs it up before every test and restores it after (helpers.php,
- * backupHooks/restoreHooks), so a test can empty the hook world, run ONE class, and
- * see exactly what that class registered and nothing else.
+ * Re-running them is safe: WP_Hook keys a callback by a unique id from the object and method, so
+ * registering the same one twice is a no-op. What makes the table observable is wiping $wp_filter
+ * first — Pest.php backs it up and restores it per test (backupHooks/restoreHooks), so a test can
+ * empty the hook world, run ONE class, and see exactly what it registered.
  */
 
 beforeEach(fn () => resetPluginState());

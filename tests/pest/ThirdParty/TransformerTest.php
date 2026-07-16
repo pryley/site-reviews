@@ -8,21 +8,18 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 /*
  * The page-builder control transformers: Avada, Flatsome and WPBakery.
  *
- * Each builder wants the shortcode's controls in its own vocabulary, so each
- * integration takes one entry of SiteReviewsShortcode::settings() and rewrites
- * it. That is all a transformer is — array in, array out — which is why these
- * three are testable while their integrations are dormant: Avada's and WPBakery's
- * stubs declare a version below the one the integration requires, and Flatsome is
- * a theme, so none of the three registers a hook here. The transformers are
- * called directly instead, with the same real control arrays their callers pass:
+ * Each builder wants the shortcode's controls in its own vocabulary, so each integration rewrites
+ * one entry of SiteReviewsShortcode::settings(). That is all a transformer is — array in, array out —
+ * which is why these three are testable while their integrations are dormant (Avada's and WPBakery's
+ * stubs are below the required version, Flatsome is a theme), none registering a hook here. The
+ * transformers are called directly, with the real control arrays their callers pass:
  *
  *   FusionElement::elementParameters()  -> new Avada\Transformer($name, $control, $tag)
  *   FlatsomeShortcode::options()        -> new Flatsome\Transformer($name, $control, $tag)
  *   VcShortcode::params()               -> new WPBakery\Transformer($name, $control, $tag)
  *
- * The five controls used below are one of each shape the config produces: a
- * select with no options (ajax-searched), a single-value select, a number, a
- * checkbox with options, a checkbox without, and a text field.
+ * The controls used below are one of each shape the config produces: an option-less (ajax) select, a
+ * single-value select, a number, a checkbox with options, a checkbox without, and a text field.
  */
 
 function shortcodeControl(string $name): array

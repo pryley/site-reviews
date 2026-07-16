@@ -7,21 +7,18 @@ use function GeminiLabs\SiteReviews\Tests\interceptHttp;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * The Welcome page — the one a person sees the first time they activate the plugin.
+ * The Welcome page — the one seen on first activating the plugin.
  *
- * It is a dashboard page that is deliberately REGISTERED AND THEN HIDDEN, and that contradiction
- * is the whole of this controller. WordPress will only run a page's callback if the page is in the
- * menu: the privilege check in wp-admin/admin.php looks the slug up in $_registered_pages, and a
- * page that was never added is a "You do not have sufficient permissions" screen. But nobody wants
- * a permanent "Site Reviews" entry under Dashboard.
+ * A dashboard page deliberately REGISTERED AND THEN HIDDEN, and that contradiction is the whole
+ * controller. WordPress runs a page's callback only if the page is in the menu — the privilege check
+ * in wp-admin/admin.php looks the slug up in $_registered_pages, and a never-added page is a "You do
+ * not have sufficient permissions" screen. But nobody wants a permanent "Site Reviews" entry under
+ * Dashboard.
  *
- * So it is added on `admin_menu` and taken back off on `admin_init` — which runs AFTER the menu is
- * built but BEFORE the privilege check — leaving a page that works when linked to and does not
- * appear in the sidebar. The controller's own comment says as much, and removeSubMenu() and
- * restorePageTitle() exist only to clean up after the trick: removing the page also removes the
- * title WordPress would have shown, so the title is put back by hand.
- *
- * Get the order wrong and the failure is not subtle: the About link 403s.
+ * So it is added on `admin_menu` and removed on `admin_init` — after the menu is built, before the
+ * privilege check — leaving a page that works when linked to but is not in the sidebar.
+ * removeSubMenu() and restorePageTitle() clean up after the trick: removing the page also removes
+ * the title, so it is put back by hand. Get the order wrong and the About link 403s.
  */
 
 beforeEach(function () {

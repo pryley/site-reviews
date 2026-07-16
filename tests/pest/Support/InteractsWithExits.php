@@ -3,32 +3,24 @@
 namespace GeminiLabs\SiteReviews\Tests;
 
 /**
- * The two ways a WordPress request ends before the code that called it returns:
- * wp_die() and wp_redirect() + exit. A controller that ends in either cannot be
- * tested without intercepting it, because exit takes the test process with it.
+ * The two ways a WordPress request ends before the caller returns: wp_die() and
+ * wp_redirect() + exit. A controller ending in either cannot be tested without
+ * intercepting it, since exit takes the test process with it. No production code
+ * moves:
  *
- * Core is built for this — it is how core's own tests assert a redirect — and no
- * production code has to move:
- *
- *   wp_die()     picks its handler through the "wp_die_handler" filter (the
- *                non-ajax twin of the "wp_die_ajax_handler" that InteractsWithAjax
- *                already uses), so the handler can be one that throws.
- *
+ *   wp_die()      picks its handler through the "wp_die_handler" filter (the
+ *                 non-ajax twin of InteractsWithAjax's "wp_die_ajax_handler"), so
+ *                 the handler can throw.
  *   wp_redirect() fires the "wp_redirect" filter as its FIRST statement, before
- *                status_header() and before header() (wp-includes/pluggable.php).
- *                Throwing from that filter unwinds out of wp_redirect() with no
- *                header sent, and the exit on the line after it is never reached.
+ *                 any header (wp-includes/pluggable.php); throwing there unwinds
+ *                 out of wp_redirect() with no header sent, and the following exit
+ *                 is never reached.
  *
- * Firing the controller through its hook works too, and it is worth knowing why:
- * the plugin registers third-party hooks through HookProxy, which wraps the
- * callback in a catch(\Throwable) that would swallow these exceptions — but it
- * rethrows when the `site-reviews/hook/rethrow` filter says to, and bootstrap.php
- * says to. So an exception thrown inside a proxied callback propagates here.
- * (Calling the controller directly is still clearer, and that is what these tests
- * do.)
- *
- * Both interceptors are plain hooks, so Pest.php's restoreHooks() removes them
- * after the test; there is nothing to tear down.
+ * Firing the controller through its hook works too: HookProxy wraps callbacks in
+ * catch(\Throwable) but rethrows when `site-reviews/hook/rethrow` says to, and
+ * bootstrap.php does. (Calling the controller directly is clearer, and these
+ * tests do that.) Both interceptors are plain hooks, removed by Pest.php's
+ * restoreHooks() — nothing to tear down.
  */
 class WpDieException extends \Exception
 {
@@ -52,11 +44,9 @@ trait InteractsWithExits
     /**
      * Runs $callback and returns the message wp_die() was given.
      *
-     * BOTH exits are always intercepted, never just the one being asserted: an
-     * uncaught wp_die() or wp_redirect() ends the PHP process, and PHPUnit can
-     * only report that as "Premature end of PHP process" — no message, no stack,
-     * no test name beyond the one that was running. Catching the other exit too
-     * turns that into an ordinary failure that says what actually happened.
+     * BOTH exits are always intercepted, not just the asserted one: an uncaught wp_die() or
+     * wp_redirect() ends the process, which PHPUnit can only report as "Premature end of PHP
+     * process". Catching the other turns that into an ordinary, legible failure.
      *
      * @throws \PHPUnit\Framework\AssertionFailedError if wp_die() was not called
      */
@@ -88,10 +78,8 @@ trait InteractsWithExits
         } catch (WpDieException $e) {
             $this->fail("Expected a redirect, but wp_die() was called instead: {$e->getMessage()}");
         }
-        // A controller that did not redirect almost always means a command that was not
-        // successful, and the command already knows why — it put the reason in the session for the
-        // form to print. "Expected wp_redirect() to be called, and it was not" throws that away
-        // and sends whoever is reading it off to guess which field was missing. So say it.
+        // A controller that did not redirect usually means a command that failed and put its
+        // reason in the session for the form to print. Surface it rather than throwing it away.
         $message = (string) glsr()->sessionGet('form_message');
         $errors = glsr()->sessionGet('form_errors');
         $why = '' === $message && empty($errors)

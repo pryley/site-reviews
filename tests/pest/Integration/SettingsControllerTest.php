@@ -12,25 +12,18 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The settings page, on its way into the database.
  *
- * There is one entry point — sanitizeSettingsCallback(), which WordPress calls from
- * register_setting() — and everything else in the controller is reached through it.
- * So that is what these tests call, with the array the settings form would have
- * posted, and they assert on what would have been written.
+ * One entry point — sanitizeSettingsCallback(), which WordPress calls from register_setting() —
+ * reaches everything else. So the tests call it with the array the form would have posted and assert
+ * on what would be written. Three kinds of work happen, easy to confuse:
  *
- * Three kinds of work happen in there, and they are easy to confuse:
+ *   the MERGE       the form posts one tab, not the whole option. What it did not post must survive.
+ *   the RESTORING   an unticked checkbox is not posted at all, so "nothing ticked" and "tab not
+ *                   open" look identical in $_POST. Multi-value fields are forced to [] so a person
+ *                   CAN untick the last box.
+ *   the SANITIZING  every setting runs through the sanitizer named in config/settings.php.
  *
- *   the MERGE       the form posts one tab, not the whole option. What it did not
- *                   post has to survive.
- *   the RESTORING   an HTML checkbox that is not ticked is not posted at all, so
- *                   "nothing is ticked" and "this tab was not open" look identical
- *                   in $_POST. The multi-value fields are forced to [] so that a
- *                   person CAN untick the last box.
- *   the SANITIZING  every setting is run through the sanitizer named in
- *                   config/settings.php.
- *
- * One branch is out of reach: the "Settings updated." notice is behind
- * filter_input(INPUT_POST, 'option_page'), which reads the SAPI's own copy of the
- * request and is always null in a CLI process. Same limitation as the GET routes.
+ * One branch is out of reach: the "Settings updated." notice is behind filter_input(INPUT_POST,
+ * 'option_page'), always null in a CLI process. Same limitation as the GET routes.
  */
 
 beforeEach(function () {

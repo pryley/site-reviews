@@ -12,15 +12,13 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The categories box on the review editor, and the builder the metaboxes are drawn with.
  *
- * The categories box replaces the one WordPress would have drawn, because the plugin's review
- * categories are a taxonomy of its own and WordPress's default box would let somebody create new
- * terms inline — which is not wanted here.
+ * This box replaces the one WordPress would draw, because the review categories are a taxonomy of
+ * their own and WordPress's default box would let someone create terms inline, which is not wanted.
  *
- * register() is deliberately empty: the box is put on the screen by register_taxonomy(), and the
- * class exists to supply the RENDERING. What matters is the guard at the top of render(). Metabox
- * render callbacks are called by WordPress with whatever post is being edited, and the same
- * callback can be reached on a screen that is not a review's — so a box that did not check would
- * print the review-category list onto somebody's page editor.
+ * register() is deliberately empty: register_taxonomy() puts the box on the screen, and the class
+ * exists to supply the RENDERING. What matters is the guard at the top of render() — WordPress calls
+ * render callbacks with whatever post is being edited, and the same callback can be reached on a
+ * non-review screen, so a box that did not check would print the category list onto someone's page editor.
  */
 
 beforeEach(function () {

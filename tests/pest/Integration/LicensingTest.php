@@ -12,25 +12,23 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * Licences: the premium addons' keys, and the two banners that nag about them.
  *
- * None of this exists on a free site, and that is the first thing to get right. Everything here
- * hangs off glsr()->retrieve('licensed') — the addons that declared `const LICENSED = true` when
- * they registered. On a site with no premium addons that list is empty, License::status() reports
- * `licensed => false`, and both banners return immediately. A plugin that nagged a free user about
- * a licence they were never asked to buy would be doing something worse than being wrong.
+ * None of this exists on a free site — the first thing to get right. Everything hangs off
+ * glsr()->retrieve('licensed'), the addons that declared `const LICENSED = true`. Empty on a free
+ * site, so License::status() reports `licensed => false` and both banners return immediately:
+ * nagging a free user about a licence they never bought would be worse than wrong.
  *
- * When there ARE licensed addons, three things can be true of each, and each has its own outcome:
+ * With licensed addons, three states, each its own outcome:
  *
- *   missing   the addon is installed and no key has been entered.        → the "missing" banner
- *   expired   a key was entered, and the licence has since run out.      → the "expired" banner
- *   invalid   the key is wrong, revoked, or for somebody else's site.    → an error on save
+ *   missing   installed, no key entered.               → the "missing" banner
+ *   expired   a key entered, licence run out.          → the "expired" banner
+ *   invalid   key wrong, revoked, or another site's.   → an error on save
  *
- * Both banners are of type `banner`, and AbstractNotice::canRender() lets only ONE banner render
- * per page — so an addon that is both missing a key and holding an expired one does not stack two
- * of them on top of each other.
+ * Both banners are type `banner`, and AbstractNotice::canRender() lets only ONE banner render per
+ * page — so an addon both missing a key and holding an expired one does not stack two.
  *
- * Everything the licence server says is a lie until proven otherwise: the responses are restricted
- * through CheckLicenseDefaults before anything reads them, and the HTTP is intercepted here so no
- * test ever reaches the real one.
+ * Everything the licence server says is a lie until proven: responses are restricted through
+ * CheckLicenseDefaults before anything reads them, and the HTTP is intercepted so no test reaches
+ * the real one.
  */
 
 beforeEach(function () {

@@ -10,9 +10,9 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * Teaching WordPress to say "Approved" instead of "Published".
  *
- * A review is a post, so WordPress calls it published and pending — which is the wrong vocabulary
- * for a review, where the question is whether the site owner has APPROVED it. This controller
- * rewrites those words, in the five places WordPress puts them:
+ * A review is a post, so WordPress calls it published and pending — the wrong vocabulary for a
+ * review, where the question is whether the owner has APPROVED it. This controller rewrites those
+ * words in the five places WordPress puts them:
  *
  *   the post-state badge next to a title in the list table   (display_post_states)
  *   the Publish metabox                                      (gettext_default)
@@ -20,10 +20,10 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  *   the javascript that redraws the metabox                  (the `post` script's l10n blob)
  *   the bulk-action messages                                 (bulk_post_updated_messages)
  *
- * Every one of them is a GLOBAL WordPress string, and the whole of this file is really one
- * assertion: it must happen on the review screens and NOWHERE ELSE. `gettext_default` fires for
- * every string on every admin page there is — so a controller that rewrote "Published" without
- * checking the screen would rename the button on every post, page and product on the site.
+ * Each is a GLOBAL WordPress string, and this file is really one assertion: it must happen on the
+ * review screens and NOWHERE ELSE. `gettext_default` fires for every string on every admin page, so
+ * rewriting "Published" without checking the screen would rename the button on every post, page and
+ * product on the site.
  */
 
 beforeEach(function () {

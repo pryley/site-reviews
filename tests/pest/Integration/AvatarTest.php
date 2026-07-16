@@ -9,20 +9,14 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The avatars the plugin draws itself.
  *
- * Gravatar works by sending a hash of every visitor's email address to a server owned by
- * Automattic, on every page load, and getting a picture back. A site that would rather not do
- * that — which in the EU is most of them — needs a face to put next to a review anyway. So the
- * plugin draws one: either the reviewer's initials, or a pixel avatar generated from a hash of
- * their email.
+ * Gravatar sends a hash of every visitor's email to an Automattic server on each page load. A site
+ * that would rather not (in the EU, most) still needs a face for a review, so the plugin draws one:
+ * the reviewer's initials, or a pixel avatar from a hash of their email.
  *
- * The word "privacy" is doing real work there, and it is what most of this file checks. The
- * email is hashed and the hash is what the drawing is derived from; the address itself must
- * not survive into the SVG, into the filename, or into the URL that ends up in the page — all
- * three of which are public.
- *
- * The other property that matters is boring and important: the SAME person must get the SAME
- * face, every time, forever. An avatar that changed on each page load would be worse than no
- * avatar at all.
+ * "Privacy" is doing real work: the email is hashed and the drawing derived from the hash; the
+ * address must not survive into the SVG, the filename or the URL, all three public. The other
+ * property is boring and important — the SAME person gets the SAME face every time; one that changed
+ * per page load would be worse than none.
  */
 
 beforeEach(function () {

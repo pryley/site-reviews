@@ -13,20 +13,17 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The four shortcodes, rendered end to end.
  *
- * These are the plugin's real entry points: a shortcode pulls its arguments
- * through the Defaults pipeline, queries the database, and renders through the
- * template/tag/style machinery. Asserting on the rendered HTML is the cheapest
- * way to hold that whole stack to its contract, and the most honest one — it is
- * exactly what a visitor gets.
+ * These are the plugin's real entry points: a shortcode pulls its arguments through the Defaults
+ * pipeline, queries the database, and renders through the template/tag/style machinery. Asserting on
+ * the rendered HTML is the cheapest and most honest way to hold that whole stack to its contract —
+ * it is exactly what a visitor gets.
  *
- * The assertions check content and structure, not exact markup: the HTML varies
- * by style framework (see config/styles), and pinning it byte-for-byte would
- * turn every CSS tweak into a test failure.
+ * The assertions check content and structure, not exact markup: the HTML varies by style framework
+ * (see config/styles), and pinning it byte-for-byte would make every CSS tweak a failure.
  *
- * Note the two different field-name prefixes, both verified against the source:
- * the review form uses glsr()->id ("site-reviews", from Field::namePrefix),
- * while the settings form uses OptionManager::databaseKey() ("site_reviews",
- * from SettingField::namePrefix).
+ * Note the two field-name prefixes: the review form uses glsr()->id ("site-reviews", from
+ * Field::namePrefix), the settings form uses OptionManager::databaseKey() ("site_reviews", from
+ * SettingField::namePrefix).
  */
 
 beforeEach(fn () => resetPluginState());

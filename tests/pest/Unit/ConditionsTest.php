@@ -262,9 +262,8 @@ function conditionField(array $args): FieldContract
 }
 
 /**
- * The phpunit test case held the overriding closure and the saved required
- * fields on $this. override/restore are always paired within a test, so a
- * static store does the same job without a test-case property.
+ * override/restore are always paired within a test, so a static store holds the overriding closure
+ * and the saved required fields without needing a test-case property.
  */
 function conditionStore(): \ArrayObject
 {

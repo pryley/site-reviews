@@ -7,22 +7,19 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * Combining the plugin's stylesheets into one file.
  *
- * A site with three addons loads four stylesheets and four scripts, and a site owner who cares
- * about their Lighthouse score would rather it loaded one. So the plugin can concatenate its
- * own assets — its own, and its addons' — into a single file in the uploads directory, and
- * serve that instead.
+ * A site with three addons loads four stylesheets and four scripts; an owner who cares about their
+ * Lighthouse score would rather it loaded one. So the plugin can concatenate its own assets (and its
+ * addons') into a single file in uploads and serve that.
  *
- * It is OFF by default, and that is the first thing tested, because a feature that writes files
- * into wp-content/uploads and rewrites the enqueue table has no business being on for anybody
- * who did not ask for it. It is turned on with a filter, not a setting.
+ * It is OFF by default — the first thing tested, because a feature that writes into
+ * wp-content/uploads and rewrites the enqueue table has no business being on for anyone who did not
+ * ask. It is turned on with a filter, not a setting.
  *
- * The rest is a cache, and caches go wrong in one direction: they serve yesterday's file. The
- * hash is built from the VERSION of the plugin and of every addon, so installing, updating or
- * removing an addon changes it, and the combined file is rebuilt. Get that wrong and a site
- * that just updated an addon serves the old addon's CSS until somebody clears something.
- *
- * `?nocache=1` is the escape hatch for when it does go wrong, and it is read with
- * filter_input() — so none of this could be tested until the suite shadowed it.
+ * The rest is a cache, and caches go wrong one way: serving yesterday's file. The hash is built from
+ * the VERSION of the plugin and every addon, so installing, updating or removing an addon rebuilds
+ * the combined file. Wrong, and a site that just updated an addon serves the old CSS until something
+ * is cleared. `?nocache=1` is the escape hatch, read with filter_input() — so none of this could be
+ * tested until the suite shadowed it.
  */
 
 beforeEach(function () {

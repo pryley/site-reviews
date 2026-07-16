@@ -3,19 +3,17 @@
 namespace GeminiLabs\SiteReviews\Tests;
 
 /**
- * Polylang, as far as Site Reviews is concerned: which post types and taxonomies are
- * translated, what language a thing is in, and what its translations are.
+ * Polylang, as far as Site Reviews is concerned: which post types and taxonomies are translated,
+ * what language a thing is in, and what its translations are.
  *
- * A WORKING fake, not a signature-only stub, and for the same reason Akismet needed one: the
- * plugin CALLS into Polylang and reads the answers. A stub returning null proves only that the
- * call compiles.
+ * A WORKING fake, not a signature-only stub — like Akismet's, because the plugin CALLS into
+ * Polylang and reads the answers, and a stub returning null proves only that the call compiles.
+ * The semantics are Polylang's own:
  *
- * The semantics here are Polylang's own, taken from the API it documents:
- *
- *   pll_get_post($id, $lang = '')  the id of the translation of $id in $lang. $lang DEFAULTS TO
- *                                  THE CURRENT LANGUAGE — that default is the whole point of the
- *                                  function, and it is what Site Reviews does not use.
- *   pll_get_post_language($id)     the language $id is in. Not the current one. A different thing.
+ *   pll_get_post($id, $lang = '')  id of $id's translation in $lang; $lang DEFAULTS to the current
+ *                                  language — the point of the function, and what Site Reviews
+ *                                  does not use.
+ *   pll_get_post_language($id)     the language $id is in (not the current one).
  *   pll_get_post_translations($id) every translation of $id, keyed by language.
  *
  * Nothing about the current language is invented: set it, and the fake answers accordingly.

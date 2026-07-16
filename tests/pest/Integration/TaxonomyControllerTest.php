@@ -9,21 +9,15 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * Review categories, and the priority that orders them.
  *
- * A review category is an ordinary WordPress term, with one thing bolted on: a `term_priority`
- * meta that lets a site owner decide the order the categories come out in. WordPress sorts
- * terms by name; a site with categories called "Excellent", "Good" and "Awful" does not want
- * them in that order.
+ * A review category is an ordinary WordPress term with one thing bolted on: a `term_priority` meta
+ * letting a site owner choose the order. WordPress sorts terms by name; a site with categories
+ * "Excellent", "Good" and "Awful" does not want that order.
  *
- * Two things are worth watching, and both have tests here.
- *
- * The ordering is done by rewriting the ORDER BY of the terms query, which is a filter that
- * fires for EVERY term query on the site — every menu, every tag cloud, every category widget
- * belonging to anybody. It has four guards and each one matters.
- *
- * And whether ANY term has a priority at all is cached in a transient, because otherwise the
- * plugin would run a COUNT against termmeta on every page of the site to find out that the
- * answer is no. Which means the cache has to be dropped whenever a priority is added, changed
- * or removed — and "removed" includes the meta being deleted by somebody else's code.
+ * The ordering rewrites the ORDER BY of the terms query — a filter that fires for EVERY term query
+ * on the site (every menu, tag cloud, category widget belonging to anyone), so its four guards each
+ * matter. And whether ANY term has a priority is cached in a transient, or the plugin would COUNT
+ * termmeta on every page to learn the answer is no — so the cache is dropped whenever a priority is
+ * added, changed or removed (including the meta being deleted by someone else's code).
  */
 
 beforeEach(function () {

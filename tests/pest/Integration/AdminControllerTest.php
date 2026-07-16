@@ -15,32 +15,24 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 uses(InteractsWithAjax::class, InteractsWithExits::class);
 
 /*
- * The admin side: the searches behind the token fields, the toggles in the list
- * table, the approval link in the notification email, and the handful of places
- * the plugin writes itself into WordPress's own admin chrome.
- *
- * Most of it is ajax, so most of it runs in the ajax harness.
+ * The admin side: the searches behind the token fields, the list-table toggles, the approval link
+ * in the notification email, and the handful of places the plugin writes itself into WordPress's
+ * admin chrome. Most of it is ajax, so most runs in the ajax harness.
  */
 
 /*
- * wp-admin/includes/admin.php is loaded by admin-ajax.php before it fires the
- * wp_ajax_* hooks, so an ajax handler may use anything in it. This process is not
- * an admin request and has loaded none of it by that route, and two of the
- * function libraries are reached from here:
+ * admin-ajax.php loads wp-admin/includes/admin.php before firing the wp_ajax_* hooks, so an ajax
+ * handler may use anything in it. This process is not an admin request and loads none of it that
+ * way, and two libraries are reached from here:
  *
  *   post.php      _draft_or_post_title(), get_available_post_statuses()  (ToggleStatus)
- *   template.php  _post_states(), get_submit_button()                    (ToggleStatus, the screen-options button)
+ *   template.php  _post_states(), get_submit_button()                    (ToggleStatus, screen-options button)
  *
- * Neither registers a hook or fires an action when it loads — they are function
- * libraries, and the admin's hooks live in admin-filters.php — so requiring them
- * cannot perturb the $wp_filter baseline that Pest.php snapshots. And require_once
- * is idempotent: if bootstrap.php has already pulled them in (Install::run() →
- * dbDelta() → wp-admin/includes/upgrade.php, which requires admin.php), this costs
- * nothing.
- *
- * WP_Posts_List_Table needs no help — the plugin's own autoloader has a classmap
- * for it (autoload.php), which is how ToggleStatus::getStatusLinks() can `new` it
- * in an ajax request at all.
+ * Neither registers a hook on load (they are function libraries; the admin's hooks live in
+ * admin-filters.php), so requiring them cannot perturb Pest.php's $wp_filter baseline, and
+ * require_once is idempotent if bootstrap.php already pulled them in. WP_Posts_List_Table needs no
+ * help — the plugin's autoloader has a classmap for it, which is how ToggleStatus::getStatusLinks()
+ * can `new` it in an ajax request.
  */
 require_once ABSPATH.'wp-admin/includes/post.php';
 require_once ABSPATH.'wp-admin/includes/template.php';
@@ -405,10 +397,8 @@ test('the installer does not run again on a site that is already activated', fun
 });
 
 test('a migration is only scheduled on a site that needs one', function () {
-    // This used to bail on GLSR_UNIT_TESTS, and no longer does — there is nothing left for
-    // the constant to protect. bootstrap.php runs every migration once, so
-    // Migrate::isMigrationNeeded() is false and the method returns of its own accord,
-    // which is exactly what it does on a site that is already up to date.
+    // bootstrap.php runs every migration once, so Migrate::isMigrationNeeded() is false and the
+    // method returns of its own accord — exactly what it does on a site already up to date.
     set_current_screen('edit-'.glsr()->post_type);
 
     glsr(AdminController::class)->scheduleMigration();

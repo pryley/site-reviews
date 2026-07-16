@@ -12,19 +12,17 @@ uses(InteractsWithAjax::class);
 /*
  * The shortcode button in the classic editor.
  *
- * This is the "Site Reviews" button above the editor toolbar: click it, pick a shortcode, fill in a
- * dialog, and it inserts the shortcode for you. It exists because the alternative is remembering
- * that the attribute is `assigned_posts` and not `assigned_post`, and it is the only way most
- * people ever discover the shortcodes have options at all.
+ * The "Site Reviews" button above the toolbar: click it, pick a shortcode, fill in a dialog, and it
+ * inserts the shortcode. It exists so nobody has to remember the attribute is `assigned_posts` not
+ * `assigned_post`, and it is how most people discover the shortcodes have options at all.
  *
  * Everything hangs off ONE register — glsr()->retrieve('mce') — which RegisterTinymcePopups fills on
- * admin_init with a dialog definition per shortcode. If that register is empty, all three parts of
- * this controller quietly do nothing: no button is drawn, no shortcodes are handed to the
- * javascript, and the dialog comes back `false`. So the register is the precondition for every test
- * here, and it is set the way production sets it rather than by hand.
+ * admin_init with a dialog per shortcode. Empty, all three parts of this controller quietly do
+ * nothing: no button, no shortcodes handed to the JS, the dialog comes back `false`. So the register
+ * is the precondition for every test, set the way production sets it rather than by hand.
  *
- * The classic editor is not dead. Plenty of sites still run it, and the block editor's own
- * shortcode block puts a classic editor inside itself.
+ * The classic editor is not dead: plenty of sites run it, and the block editor's shortcode block
+ * puts a classic editor inside itself.
  */
 
 beforeEach(function () {

@@ -12,25 +12,19 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The Scheduled Actions tab on the Tools page.
  *
- * The plugin does its slow work — geolocating an IP, sending a notification, migrating a
- * database — through Action Scheduler rather than in the request that triggered it. This
- * table is the only window onto that queue, and it is where somebody goes when a
- * notification never arrived: to see whether the action is pending, whether it failed,
- * and why.
+ * The plugin does its slow work through Action Scheduler, not the triggering request. This table is
+ * the only window onto that queue — where someone goes when a notification never arrived, to see
+ * whether the action is pending, failed, and why.
  *
- * It is a subclass of Action Scheduler's own list table, and almost all of what is worth
- * asserting is in the overrides: which actions are shown (only the plugin's — the queue
- * is shared with WooCommerce and half a dozen other plugins on a typical site), and which
- * row actions a person is offered, which depends entirely on the action's STATUS. Running
- * an action that has already run, or cancelling one that has already been cancelled, are
- * both meaningless, and the buttons for them are not drawn.
+ * It subclasses Action Scheduler's own list table, and almost all worth asserting is in the
+ * overrides: which actions are shown (only the plugin's — the queue is shared with WooCommerce and
+ * others), and which row actions are offered, which depends entirely on STATUS (re-running a run
+ * action or cancelling a cancelled one is meaningless, and those buttons are not drawn).
  *
- * Note how the actions are scheduled below. The suite binds a NullQueue (see
- * Support/NullQueue), so every one of Queue's scheduling methods returns without touching
- * Action Scheduler — the actions are therefore put into the queue with Action Scheduler's
- * own function, in the plugin's group, which is exactly what Queue::once() does when it is
- * not being faked. They are ordinary rows in ordinary tables, so the per-test transaction
- * rolls them back.
+ * Note how actions are scheduled below: the suite binds a NullQueue, so Queue's methods return
+ * without touching Action Scheduler — the actions go into the queue with Action Scheduler's own
+ * function, in the plugin's group, exactly as Queue::once() does unfaked. Ordinary rows, so the
+ * per-test transaction rolls them back.
  */
 
 uses(InteractsWithExits::class);

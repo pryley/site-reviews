@@ -10,22 +10,18 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The page-cache integration.
  *
- * A review that is created, approved or edited changes what a visitor should see
- * on the page it is assigned to, so the page caches have to be told. This
- * integration has no third party to detect — it registers on every site — and
- * fans one flush out to thirteen cache plugins, skipping the ones that are not
- * installed.
+ * A review created, approved or edited changes what a visitor sees on the page it is assigned to, so
+ * the page caches must be told. No third party to detect — it registers on every site — and fans one
+ * flush out to thirteen cache plugins, skipping the ones not installed.
  *
- * Four of the thirteen are reachable here, and they are the four that dispatch by
- * firing the cache plugin's own action (Endurance, Hummingbird, LiteSpeed, WP
- * Fastest Cache): a do_action() fires whether or not anybody is listening, so a
- * test can listen. The other nine call a function or a class the cache plugin
- * declares, so their bodies are guarded by function_exists()/class_exists() and
- * cannot run against a stub — what IS tested for those is that the guard holds
- * and the dispatcher does not fall over.
+ * Four of the thirteen are reachable here: the four that dispatch by firing the cache plugin's own
+ * action (Endurance, Hummingbird, LiteSpeed, WP Fastest Cache) — a do_action() fires whether or not
+ * anyone listens, so a test can. The other nine call a function or class the cache plugin declares,
+ * so their bodies are guarded by function_exists()/class_exists() and cannot run against a stub;
+ * what IS tested there is that the guard holds and the dispatcher does not fall over.
  *
- * Every test drives a real entry point: the review is genuinely created or
- * approved, and the flush is whatever the plugin's own hooks do in response.
+ * Every test drives a real entry point: the review is genuinely created or approved, and the flush
+ * is whatever the plugin's own hooks do in response.
  */
 
 beforeEach(function () {

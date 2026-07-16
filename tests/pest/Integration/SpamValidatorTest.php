@@ -11,15 +11,15 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The two validators that ask whether the submission is what it claims to be.
  *
- * Akismet asks somebody else: is this spam? It is opt-in, it needs a key, and when it is not
- * set up it must get out of the way completely — a site with no Akismet key must not have
- * every review silently rejected, and must not send anything anywhere.
+ * Akismet asks someone else: is this spam? Opt-in, needs a key, and when not set up must get out of
+ * the way completely — a site with no key must not silently reject every review, nor send anything
+ * anywhere.
  *
- * The signature asks the form: are these the values I gave you? Every review form carries an
- * encrypted `form_signature` holding the values the SERVER chose — the form id, the post the
- * review is about, the assignments. They come back through the browser, where anybody can
- * edit them, and the signature is how the plugin notices. Without it, a visitor could point a
- * review at any post on the site, or assign it to any user, by editing a hidden input.
+ * The signature asks the form: are these the values I gave you? Every form carries an encrypted
+ * `form_signature` holding the values the SERVER chose (form id, the post reviewed, the
+ * assignments). They come back through the browser, where anyone can edit them, and the signature is
+ * how the plugin notices — without it a visitor could point a review at any post, or assign it to
+ * any user, by editing a hidden input.
  */
 
 beforeEach(function () {

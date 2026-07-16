@@ -905,11 +905,9 @@ test('sanitize numeric', function () {
 });
 
 test('sanitize post ids', function () {
-    // The shared corpus is the wrong input for this sanitizer: it contains ['1'],
-    // and whether that sanitizes to [1] or [] depends on whether post ID 1 exists.
-    // It always does on a real install (Hello world) — the phpunit suite only got
-    // [] because core's test framework wiped every post from the database first.
-    // So this test states its own inputs, and each one has a single right answer.
+    // The shared corpus is the wrong input for this sanitizer: it contains ['1'], and whether that
+    // sanitizes to [1] or [] depends on whether post ID 1 exists — which it does on a real install
+    // (Hello world). So this test states its own inputs, each with a single right answer.
     $posts = createPosts(2);
     $sanitized = sanitizeValues('post-ids', [
         '',                                   // nothing
@@ -1800,8 +1798,7 @@ function sanitizeValues(string $sanitizer, array $values = [])
 }
 
 /**
- * The values the phpunit set_up() faked onto $this — the corpus every
- * sanitizer runs against unless a test passes its own.
+ * The corpus every sanitizer runs against unless a test passes its own.
  */
 function sanitizerTestValues(): array
 {

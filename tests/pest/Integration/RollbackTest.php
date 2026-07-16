@@ -11,19 +11,17 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * Going back to a previous version, and knowing which addons are installed.
  *
- * Rollback downloads a zip from wordpress.org and unpacks it over the running plugin. It is the
- * most destructive thing the plugin can be asked to do to itself, and the whole of it turns on
- * one interpolated string:
+ * Rollback downloads a zip from wordpress.org and unpacks it over the running plugin — the most
+ * destructive thing the plugin can do to itself, and all of it turns on one interpolated string:
  *
  *     https://downloads.wordpress.org/plugin/{$plugin}.{$version}.zip
  *
- * So the URL is what is asserted. The download itself is not driven — it would fetch a real zip
- * from wordpress.org and unpack it over the plugin the tests are running from, which is exactly
- * the sort of thing a test suite should not do.
+ * So the URL is asserted; the download is not driven — it would fetch a real zip and unpack it over
+ * the plugin the tests run from.
  *
- * Addons\Compat is the other half of the same story: it works out, from a class name alone,
- * which addons are installed, which are licensed, which have been retired, and which are too old
- * to update themselves. Get it wrong and a paid addon silently stops receiving updates.
+ * Addons\Compat is the other half: from a class name alone it works out which addons are installed,
+ * licensed, retired, or too old to update themselves. Wrong, and a paid addon silently stops
+ * receiving updates.
  */
 
 beforeEach(function () {

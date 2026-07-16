@@ -7,21 +7,19 @@ use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * The REST API, driven through rest_do_request() — i.e. the same path a real
- * HTTP request takes, permission callbacks and all.
+ * The REST API, driven through rest_do_request() — the same path a real HTTP request takes,
+ * permission callbacks and all.
  *
- * Routes (verified against the source, not guessed):
+ * Routes:
  *
  *   site-reviews/v1/reviews            RestReviewController, registered by WordPress
- *   site-reviews/v1/reviews/<id>       because the post type declares it as its
- *                                      rest_controller_class (PostTypeDefaults)
+ *   site-reviews/v1/reviews/<id>       because the post type declares it as its rest_controller_class
  *   site-reviews/v1/summary            RestSummaryController  ) both registered by
  *   site-reviews/v1/summary/rating                            ) RestController::registerRoutes
  *   site-reviews/v1/shortcode/<name>   RestShortcodeController
  *
- * Every one of these requires a logged-in user (ReviewPermissions,
- * get_summary_permissions_check, get_items_permissions_check), so the
- * logged-out cases are part of the contract, not an afterthought.
+ * Every one requires a logged-in user (ReviewPermissions, get_summary_permissions_check,
+ * get_items_permissions_check), so the logged-out cases are part of the contract.
  */
 
 const REST_NS = 'site-reviews/v1';

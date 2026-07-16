@@ -17,28 +17,22 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * The review itself, as WordPress moves it around.
  *
  * Almost nothing here is called by the plugin. These are WordPress's own hooks —
- * transition_post_status, set_object_terms, post_updated, deleted_post — and the
- * controller's job is to keep the plugin's four custom tables (ratings,
- * assigned_posts, assigned_terms, assigned_users) in step with a post that WordPress
- * is editing, approving, trashing or deleting behind its back.
+ * transition_post_status, set_object_terms, post_updated, deleted_post — and the controller keeps
+ * the plugin's four custom tables (ratings, assigned_posts/terms/users) in step with a post
+ * WordPress is editing, approving, trashing or deleting behind its back. So most tests do the
+ * WordPress thing (wp_update_post(), wp_delete_user()) and then look at the custom tables. The hooks
+ * are registered at boot and Pest.php restores them per test, so they fire.
  *
- * So most of these tests do the WordPress thing — wp_update_post(), wp_delete_user()
- * — and then look at the custom tables, rather than calling the controller. The hooks
- * are registered at boot and Pest.php restores them for every test, so they fire.
+ * Two entry points cannot be reached from a CLI process, and one only half, for the same reason as
+ * the GET routes: filter_input(INPUT_GET|INPUT_POST) reads the SAPI request, which does not exist
+ * here and cannot be planted.
  *
- * Two entry points cannot be reached from a CLI process at all, and one is only half
- * reachable. All three are for the same reason, and it is the same one as the GET
- * routes: filter_input(INPUT_GET|INPUT_POST) reads the SAPI's own copy of the
- * request, which does not exist here and cannot be planted.
- *
- *   onApprove() / onUnapprove()  gated on filter_input(INPUT_GET, 'plugin'), so the
- *                                body never runs. Only "it does nothing" is testable.
- *   updateReview()               reads the review's own fields through
- *                                Helper::filterInputArray(), which DOES fall back to
- *                                $_POST — but the assigned post/user ids through a
- *                                bare filter_input(), which does not. So editing a
- *                                review here always looks like "the assignments were
- *                                cleared". Noted at the test that cares.
+ *   onApprove() / onUnapprove()  gated on filter_input(INPUT_GET, 'plugin'), so the body never runs.
+ *                                Only "it does nothing" is testable.
+ *   updateReview()               reads the review's fields through Helper::filterInputArray() (which
+ *                                DOES fall back to $_POST), but the assigned post/user ids through a
+ *                                bare filter_input() (which does not) — so editing a review here
+ *                                always looks like "assignments cleared". Noted at the test that cares.
  */
 
 beforeEach(function () {

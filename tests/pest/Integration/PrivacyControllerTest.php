@@ -10,27 +10,20 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The GDPR export and erasure.
  *
- * WordPress has a built-in "export/erase this person's personal data" tool, and every
- * plugin holding personal data is expected to answer it. Site Reviews holds rather a lot:
- * a review carries a name, an email address, an IP address, and often a geolocation of
- * that IP — none of which live in wp_posts, so core cannot find any of it without being
- * told.
+ * WordPress has a built-in "export/erase this person's personal data" tool, and every plugin holding
+ * personal data must answer it. Site Reviews holds a lot: a review carries a name, email, IP, and
+ * often a geolocation of that IP — none in wp_posts, so core cannot find it without being told.
  *
- * The stakes are asymmetric and worth naming. Missing something on EXPORT is a failure to
- * comply. Missing something on ERASURE is a failure to comply AND a lie told to the person
- * who asked — the admin screen says "removed" either way. So most of what follows is about
- * what is left behind afterwards.
+ * The stakes are asymmetric: missing something on EXPORT is a failure to comply; missing it on
+ * ERASURE is that AND a lie, since the admin screen says "removed" either way. So most of this is
+ * about what is left behind. The eraser has two modes, chosen by a filter:
  *
- * The eraser has two modes, and the site owner chooses between them with a filter:
+ *   erase-all (default)   the reviews are DELETED, permanently.
+ *   erase-all = false     the reviews stay, anonymised — for a site that would lose its star rating
+ *                         if one person asked to be forgotten, who is still forgotten.
  *
- *   erase-all (default)   the reviews are DELETED, permanently, forever.
- *   erase-all = false     the reviews stay, and are anonymised. A site that would lose its
- *                         star rating if a single person asked to be forgotten needs this,
- *                         and the person is still forgotten.
- *
- * The controller reads that filter IN ITS CONSTRUCTOR, so it is constructed after the
- * filter is added — which is also how WordPress does it, since it builds the erasers list
- * on demand.
+ * The controller reads that filter IN ITS CONSTRUCTOR, so it is constructed after the filter is
+ * added — as WordPress does it, building the erasers list on demand.
  */
 
 beforeEach(function () {

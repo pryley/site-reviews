@@ -8,14 +8,13 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The CSV import template.
  *
- * This command is the plugin's contract with anyone importing reviews: the
- * template's columns ARE the accepted columns, and the table on the Tools page
- * describing them is built from the same source. So the thing worth pinning is
- * that the two agree — a column offered in the template that the importer does not
- * accept, or a documented column missing from the template, is a support ticket.
+ * This command is the plugin's contract with anyone importing reviews: the template's columns ARE
+ * the accepted columns, and the Tools-page table describing them is built from the same source. So
+ * pin that the two agree — an offered column the importer rejects, or a documented column missing
+ * from the template, is a support ticket.
  *
- * handle() ends in $writer->output() + exit and cannot be run here. Everything it
- * writes comes from data(), which can.
+ * handle() ends in $writer->output() + exit and cannot run here. Everything it writes comes from
+ * data(), which can.
  */
 
 beforeEach(fn () => resetPluginState());

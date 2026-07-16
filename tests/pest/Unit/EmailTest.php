@@ -11,10 +11,9 @@ uses()->group('email');
 beforeEach(fn () => resetPluginState());
 
 /*
- * Nothing actually leaves the test container: `pre_wp_mail` short-circuits
- * wp_mail() and records the message instead (see Support/helpers.php), which is
- * the job WordPress core's MockPHPMailer did for the phpunit suite. So these
- * assert on what WOULD have been sent, not merely on wp_mail()'s return value.
+ * Nothing leaves the test container: `pre_wp_mail` short-circuits wp_mail() and records the
+ * message instead (see Support/helpers.php), so these assert on what WOULD have been sent, not
+ * just wp_mail()'s return value.
  */
 
 test('composes and sends an email from a template', function () {
@@ -55,7 +54,7 @@ test('does not send an email it cannot validate', function () {
 });
 
 /**
- * The review the phpunit set_up() faked onto $this.
+ * A stand-in review for the email templates.
  */
 function reviewValues(): array
 {

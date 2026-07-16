@@ -12,26 +12,20 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The base class every premium addon extends.
  *
- * An addon is not a plugin that happens to sit next to Site Reviews — it is a plugin that lives
- * INSIDE it. It has no settings page of its own, no options table of its own, and no container of
- * its own: it borrows all three from the parent, and this class is the borrowing.
+ * An addon is a plugin that lives INSIDE Site Reviews: no settings page, options row or container of
+ * its own — it borrows all three from the parent, and this class is the borrowing. So the
+ * namespacing is the whole job, and it fails silently:
  *
- * Which means the namespacing is the whole job, and it is silent when it goes wrong:
+ *   option()   an addon's settings live under `settings.addons.{slug}.` in the PARENT's options row.
+ *              The wrong prefix reads an empty string, not an error — features act switched off.
+ *   make()     resolves a class in the ADDONS FRAMEWORK namespace (Compat, Updater, shared bases),
+ *              NOT the addon's own, whatever the name suggests (__NAMESPACE__ is fixed in Addon.php).
+ *   posts()    the addon's own post type, for the settings-page dropdowns.
+ *   init()     finds the addon's Hooks class BY NAME. No registry: rename it and the addon loads,
+ *              registers nothing, does nothing.
  *
- *   option()   every addon's settings live under `settings.addons.{slug}.` in the PARENT's single
- *              options row. An addon reading the wrong prefix reads an empty string — not an
- *              error — so its features simply behave as though they were switched off.
- *   make()     resolves a class name in the ADDONS FRAMEWORK namespace — Compat, Updater, the
- *              shared base classes. NOT in the addon's own namespace, whatever the name suggests
- *              (see the test; __NAMESPACE__ is fixed at compile time inside Addon.php).
- *   posts()    the addon's own post type, for the dropdowns on the settings page.
- *   init()     finds the addon's Hooks class BY NAME, from its own. There is no registry: rename
- *              the class and the addon loads, registers nothing, and does nothing.
- *
- * The fixture (tests/pest/fixtures/site-reviews-test-addon) is a real addon — a real plugin file, a
- * real Application, a real Hooks class, real assets and views — because every one of these methods
- * reaches into an addon's directory or its namespace, and a mock would only prove it agreed with
- * itself.
+ * The fixture (tests/pest/fixtures/site-reviews-test-addon) is a real addon because every method
+ * reaches into an addon's directory or namespace, and a mock would only prove it agreed with itself.
  */
 
 beforeEach(function () {

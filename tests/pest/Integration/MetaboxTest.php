@@ -16,28 +16,22 @@ use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * wp_add_dashboard_widget() lives in wp-admin/includes/dashboard.php, which — unlike the
- * rest of the admin API — is loaded by wp-admin/index.php and by nothing else. So the
- * dashboard is the one admin screen whose functions a process that is not rendering it
- * does not have. require_once is idempotent, and the file registers no hooks at load.
+ * wp_add_dashboard_widget() lives in wp-admin/includes/dashboard.php, which — unlike the rest of the
+ * admin API — is loaded only by wp-admin/index.php. So the dashboard is the one admin screen whose
+ * functions a process not rendering it lacks. require_once is idempotent and the file registers no
+ * hooks at load.
  */
 require_once ABSPATH.'wp-admin/includes/dashboard.php';
 
 /*
  * The boxes on the review editor, and the widget on the dashboard.
  *
- * A review is not an ordinary post: it was written by somebody who is not a WordPress
- * user, about a page they were looking at, and the person editing it is moderating
- * rather than authoring. So WordPress's own author and slug boxes are taken away and
- * five of the plugin's own are put there instead.
- *
- * Every one of them registers itself only for a review — add_meta_boxes_{post_type}
- * fires with a post, and a plugin that does not check gets its boxes onto whatever
- * post type happens to share the hook.
- *
- * The nonces are the point of the assertions here. Each box that SAVES something has
- * its own, separate from the post's, because each is written back by a different piece
- * of ReviewController::updateReview().
+ * A review is not an ordinary post: written by a non-WordPress-user, about a page they were looking
+ * at, and edited by someone moderating rather than authoring. So WordPress's author and slug boxes
+ * are removed and five of the plugin's own put there. Each registers only for a review —
+ * add_meta_boxes_{post_type} fires with a post, and a box that does not check lands on whatever post
+ * type shares the hook. The nonces are the point here: each box that SAVES has its own, separate
+ * from the post's, because each is written back by a different part of ReviewController::updateReview().
  */
 
 beforeEach(function () {

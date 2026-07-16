@@ -11,22 +11,20 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * Reviews on a Polylang site.
  *
- * A review is assigned to a page. On a multilingual site that page exists several times over —
- * one post per language — and the plugin has to decide which of them a review "belongs" to, and
- * which of them to show it on. Two different questions, and the plugin answers them with two
- * different methods:
+ * A review is assigned to a page. On a multilingual site that page exists once per language, and the
+ * plugin must decide which one a review "belongs" to and which to show it on — two questions, two
+ * methods:
  *
- *   getPostIdsForAllLanguages()  used when QUERYING: a review assigned to the English page must
- *                                appear on the French one too, because it is the same page.
- *   getPostId() / getPostIds()   used when DISPLAYING a review: the assigned page should be the
- *                                one in the language the visitor is reading.
+ *   getPostIdsForAllLanguages()  when QUERYING: a review on the English page must appear on the
+ *                                French one too, because it is the same page.
+ *   getPostId() / getPostIds()   when DISPLAYING: the assigned page should be the one in the
+ *                                visitor's language.
  *
- * Get the first wrong and a French visitor sees no reviews. Get the second wrong and they see
- * the reviews, with a link to the English page.
+ * Get the first wrong and a French visitor sees no reviews; the second, and they see the reviews
+ * with a link to the English page.
  *
- * Polylang is faked (tests/stubs/polylang.php + Support/PolylangFake) with its own documented
- * semantics — notably that pll_get_post($id, $lang) defaults $lang to the CURRENT language,
- * which is the whole purpose of the function.
+ * Polylang is faked (tests/stubs/polylang.php + Support/PolylangFake) with its documented semantics —
+ * notably that pll_get_post($id, $lang) defaults $lang to the CURRENT language.
  */
 
 beforeEach(function () {

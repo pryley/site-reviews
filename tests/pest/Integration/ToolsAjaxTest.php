@@ -14,17 +14,14 @@ uses(InteractsWithAjax::class);
 /*
  * The Tools page, over ajax.
  *
- * Almost every tool has two entry points — a plain admin POST and an ajax one —
- * and the ajax one is what the page actually uses. It ends in wp_send_json(), and
- * that is the reason these tests live inside the ajax harness rather than calling
- * the controller directly: wp_send_json() only calls wp_die() when wp_doing_ajax()
- * is true. Otherwise it calls a bare `die`, which nothing in PHP can intercept, and
- * the test process would simply stop.
+ * Almost every tool has two entry points — a plain admin POST and an ajax one — and the page uses
+ * the ajax one. It ends in wp_send_json(), which is why these tests run inside the ajax harness:
+ * wp_send_json() only calls wp_die() when wp_doing_ajax() is true; otherwise a bare `die` nothing
+ * can intercept, and the test process would stop.
  *
- * The envelope is the contract with the admin JS: {data, success} for the tools that
- * report progress, and WordPress's own {data, success} from wp_send_json_success /
- * _error for the rest. The JS branches on success, so a tool that fails silently
- * with success:true is a tool that lies to the person using it.
+ * The envelope is the contract with the admin JS: {data, success} for progress-reporting tools, and
+ * WordPress's own from wp_send_json_success/_error for the rest. The JS branches on success, so a
+ * tool that fails silently with success:true lies to the person using it.
  */
 
 beforeEach(function () {

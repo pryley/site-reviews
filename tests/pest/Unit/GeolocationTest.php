@@ -8,9 +8,8 @@ use WpOrg\Requests\Utility\CaseInsensitiveDictionary;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\unconstructed;
 
-// The port of GeolocationTest::set_up(). The transactions in Pest.php already
-// roll the transients back (they live in the options table), but a test that
-// asserts on their absence should not depend on that.
+// The per-test transaction already rolls the transients back (they live in the options table),
+// but a test that asserts on their absence should not depend on that.
 beforeEach(function () {
     delete_transient(Geolocation::RATE_LIMIT_KEY);
     delete_transient(GeolocateReviews::LOCK_KEY);

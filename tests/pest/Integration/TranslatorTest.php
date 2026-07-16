@@ -8,27 +8,25 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * Letting a site owner rewrite the plugin's own words.
  *
- * Settings > Translations lets somebody change any string the plugin ships — "Submit your review"
- * becomes "Leave feedback", "Anonymous" becomes "A guest". It is not translation in the gettext
- * sense: the site is in English and they want different English.
+ * Settings > Translations lets someone change any string the plugin ships — "Submit your review" →
+ * "Leave feedback", "Anonymous" → "A guest". Not translation in the gettext sense: the site is in
+ * English and they want different English.
  *
- * It works by filtering `gettext_site-reviews`, which fires for EVERY string the plugin renders,
- * on every page of every site. So the assertions that matter are the cheap ones: a string nobody
- * customised comes back untouched, and a string belonging to somebody else's text domain is not
- * ours to rewrite.
+ * It filters `gettext_site-reviews`, which fires for EVERY string the plugin renders, on every page.
+ * So the assertions that matter are cheap: an uncustomised string comes back untouched, and a string
+ * from someone else's text domain is not ours to rewrite.
  *
- * TWO THINGS ABOUT THE FIXTURE, both of which are properties of the code under test:
+ * TWO THINGS ABOUT THE FIXTURE, both properties of the code under test:
  *
- * 1. Translation::strings() memoises into a function-level `static $strings`, which nothing can
- *    reset — not the transaction, not resetGlobalState(). Once it holds a non-empty list it holds
- *    it for the rest of the PHP process. So the custom strings are defined ONCE, identically, in
- *    beforeEach: the first test to run fills the cache and every later one reads the same thing.
- *    A test here that needed a different set of strings would silently get this one.
+ * 1. Translation::strings() memoises into a function-level `static $strings` that nothing resets —
+ *    not the transaction, not resetGlobalState(). Once non-empty it holds for the rest of the
+ *    process. So the custom strings are defined ONCE, identically, in beforeEach: the first test
+ *    fills the cache and every later one reads it. A test needing different strings would silently
+ *    get these.
  *
- * 2. That cache outlives this file. The phrases below are therefore deliberately ones that appear
- *    NOWHERE else in the plugin — the lookup matches on the exact original string, so a phrase
- *    nothing else ever translates cannot change anything else's behaviour, whatever order the
- *    suite runs in.
+ * 2. That cache outlives this file, so the phrases below appear NOWHERE else in the plugin — the
+ *    lookup matches the exact original string, so a phrase nothing else translates cannot change
+ *    anything else's behaviour, whatever the run order.
  */
 
 beforeEach(function () {

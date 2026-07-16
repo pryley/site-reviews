@@ -18,9 +18,8 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 use GeminiLabs\SiteReviews\Tests\SubmitsReviews;
 
-// The phpunit test case extended WP_Ajax_UnitTestCase and mixed in Setup.
-// SubmitsReviews carries both: the ajax harness (InteractsWithAjax) and the
-// faked request state the tests read off $this.
+// SubmitsReviews carries both the ajax harness (InteractsWithAjax) and the faked request state
+// the tests read off $this.
 uses(SubmitsReviews::class);
 
 beforeEach(function () {

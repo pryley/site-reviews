@@ -19,28 +19,24 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The Gutenberg blocks.
  *
- * Each is a thin wrapper over the shortcode that already does the work. The block's job is to
- * put that output into the page with the wrapper WordPress expects, and to look different in
- * the editor from how it looks to a visitor.
+ * Each is a thin wrapper over the shortcode that does the work. The block puts that output into the
+ * page with the wrapper WordPress expects, and looks different in the editor from how a visitor sees
+ * it. That split is the whole of Block::render(), turning on `?context=edit`, how WordPress asks a
+ * block to render for the editor's server-side preview:
  *
- * That split is the whole of Block::render(), and it turns on `?context=edit`, which is how
- * WordPress asks a block to render itself for the editor's server-side preview:
+ *   in the EDITOR    unwrapped, so the editor can add its own wrapper — and if every field is off, a
+ *                    warning instead of an empty block, which in the editor looks like a bug.
+ *   on the SITE      wrapped in a div carrying WordPress's block supports (alignment, colours,
+ *                    spacing) plus whatever the block adds.
  *
- *   in the EDITOR    unwrapped, so the editor can put its own wrapper round it — and if the
- *                    person has switched every field off, a warning instead of an empty block,
- *                    because an empty block in the editor looks like a bug.
- *   on the SITE      wrapped in a div carrying whatever WordPress's block supports produced
- *                    (alignment, colours, spacing) plus whatever the block itself adds.
+ * None of it could be reached until the suite shadowed filter_input(): `?context=edit` is read from
+ * the SAPI request table, which a CLI process lacks.
  *
- * None of it could be reached until the suite shadowed filter_input(): `?context=edit` is read
- * from the SAPI request table, which a CLI process does not have.
- *
- * EVERYTHING HERE GOES THROUGH render_block(). Calling the render callback directly is not the
- * same thing and does not work: Block::wrapperAttributes() asks WP_Block_Supports for the
- * block's alignment and colour classes, and WP_Block_Supports only knows which block it is
- * rendering because render_block() told it (`self::$block_to_render`). Call the callback
- * yourself and it reads null. That cannot happen in production, where WordPress is always the
- * caller — so the test has to be WordPress.
+ * EVERYTHING HERE GOES THROUGH render_block(). Calling the callback directly does not work:
+ * Block::wrapperAttributes() asks WP_Block_Supports for the block's classes, and WP_Block_Supports
+ * only knows which block it is rendering because render_block() told it (`self::$block_to_render`) —
+ * call the callback yourself and it reads null. That cannot happen in production, where WordPress is
+ * always the caller, so the test has to be WordPress.
  */
 
 beforeEach(function () {

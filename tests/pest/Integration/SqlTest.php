@@ -8,8 +8,8 @@ use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createTerm;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 
-// The phpunit test case mixed in Sql to reach escFieldsForInsert() and
-// escValuesForInsert(); uses() puts the trait on Pest's test case instead.
+// uses() puts the Sql trait on the test case, to reach escFieldsForInsert() and
+// escValuesForInsert().
 uses(Sql::class);
 
 test('esc fields for insert', function () {

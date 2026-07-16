@@ -9,24 +9,22 @@ use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * The system info, which is the thing people paste into a support forum.
+ * The system info, which is what people paste into a support forum.
  *
- * That is the whole reason it is worth testing. It is a plain-text dump of the site's
- * settings, and the settings hold the webhook URLs that anybody who has them can post
- * into a private Slack channel with, and the licence keys somebody paid for.
- * purgeSensitiveData() is what stands between those and a public forum post, and it
- * works by NAME: anything under settings.licenses, anything ending in api_key, and
- * anything the settings config declares as `secret`. A new secret setting that is not
- * declared as one is a secret that gets published, and no other test would notice —
- * which is why the test below is written as a loop over the config rather than as a
- * list of the settings that happen to be secret today.
+ * That is why it is worth testing. It is a plain-text dump of the site's settings, which hold the
+ * webhook URLs anyone can post to a private Slack channel with, and the licence keys someone paid
+ * for. purgeSensitiveData() stands between those and a public forum post, and works by NAME:
+ * anything under settings.licenses, anything ending in api_key, and anything the settings config
+ * declares `secret`. A new secret setting not declared as one gets published, and no other test
+ * would notice — which is why the test below loops over the config rather than listing today's
+ * secrets.
  *
- * (The settings.licenses.* branch cannot be exercised here: those settings are
- * registered by the premium addons, and none is installed.)
+ * (The settings.licenses.* branch cannot be exercised: those are registered by premium addons, none
+ * installed.)
  *
- * Nothing here reaches the network. blockHttpRequests() sees to that, so the "remote
- * post" check reports failure and the hosting provider reads as localhost — which makes
- * the report deterministic, and is the only reason it can be asserted on at all.
+ * Nothing here reaches the network — blockHttpRequests() sees to that, so the "remote post" check
+ * reports failure and the host reads as localhost, which makes the report deterministic and
+ * assertable.
  */
 
 beforeEach(function () {

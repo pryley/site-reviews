@@ -20,21 +20,18 @@ uses(InteractsWithAjax::class, InteractsWithExits::class);
 /*
  * The front door.
  *
- * Every request the plugin handles that is not a REST call arrives at one of the
- * Router's six entry points, and each one is a checkpoint: is this really one of
- * ours, is it nonced, is it the same visitor submitting twice at once. Only then
- * is it turned into a `route/{type}/{action}` action and handed to a controller.
+ * Every non-REST request the plugin handles arrives at one of the Router's six entry points, each a
+ * checkpoint: is this really ours, is it nonced, is it the same visitor submitting twice at once.
+ * Only then is it turned into a `route/{type}/{action}` action and handed to a controller.
  *
- * The Router is generic — WHICH controller answers WHICH action is decided in the
- * Hooks classes, and that table is asserted in HooksTest. So most of what follows
- * routes a synthetic action ('test-route') with a listener of its own: the subject
- * is the checkpoint, and a real controller answering would only add noise. Two
- * tests take a real route the whole way through to prove the two halves meet.
+ * The Router is generic — WHICH controller answers WHICH action is decided in the Hooks classes,
+ * asserted in HooksTest. So most tests route a synthetic action ('test-route') with a listener of
+ * its own: the subject is the checkpoint, and a real controller would only add noise. Two tests take
+ * a real route the whole way through to prove the halves meet.
  *
- * The ajax routes end in wp_send_json_error() and then wp_die(), so they are
- * driven inside the ajax harness — see InteractsWithAjax::jsonSentBy(). The admin
- * POST route ends in check_admin_referer(), which calls wp_die() itself, so that
- * one needs InteractsWithExits.
+ * The ajax routes end in wp_send_json_error() then wp_die(), so they run inside the ajax harness
+ * (InteractsWithAjax::jsonSentBy()); the admin POST route ends in check_admin_referer(), which calls
+ * wp_die() itself, so it needs InteractsWithExits.
  */
 
 beforeEach(function () {

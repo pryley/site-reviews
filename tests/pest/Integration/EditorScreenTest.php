@@ -15,21 +15,18 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The review editor screen, and the help menu that floats over the plugin's admin pages.
  *
- * A review is not a post, and the editor has to be talked out of treating it like one:
- * WordPress offers a media library, a visual editor and a row of shortcode buttons to
- * somebody who is moderating a stranger's opinion, and none of that belongs there. It also
- * has a stock set of "Post published"/"Post updated" messages, all of which say the wrong
- * word.
+ * A review is not a post, and the editor must be talked out of treating it like one: the media
+ * library, visual editor and shortcode buttons do not belong when moderating a stranger's opinion,
+ * and the stock "Post published"/"Post updated" messages say the wrong word.
  *
- * Everything here turns on WHICH SCREEN we are on, and it is worth being precise about that,
- * because the checks are easy to get subtly wrong and the consequence is a filter that fires
- * on somebody else's editor:
+ * Everything turns on WHICH SCREEN we are on — easy to get subtly wrong, and the cost is a filter
+ * firing on someone else's editor:
  *
  *   isReviewEditor()    base === 'post' AND id === 'site-review' AND post_type === 'site-review'
  *   the flyout          base !== 'post', and the post type starts with 'site-review'
  *
- * glsr_current_screen() falls back to an object of empty strings when there is no screen at
- * all, which is what makes all of this safe to call from a front-end request.
+ * glsr_current_screen() falls back to an object of empty strings when there is no screen, which
+ * makes all of this safe to call from a front-end request.
  */
 
 beforeEach(function () {

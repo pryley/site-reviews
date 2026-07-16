@@ -29,18 +29,15 @@ uses(InteractsWithAjax::class);
 /*
  * The admin notices.
  *
- * A notice decides everything about itself in its CONSTRUCTOR: whether the person may
- * see it, whether this is a screen it belongs on, and whether they have already told it
- * to go away. Only if all three pass does it hook itself onto admin_notices. So
- * "does this notice load" and "what does it look like" are two separate questions, and
- * a notice that did not load will still happily draw itself if you call render() by
- * hand — which is why these tests ask has_action() rather than just rendering.
+ * A notice decides everything in its CONSTRUCTOR: whether the person may see it, whether this is a
+ * screen it belongs on, and whether they have dismissed it — only then does it hook onto
+ * admin_notices. So "does it load" and "what does it look like" are separate questions, and a notice
+ * that did not load will still draw itself if you call render() by hand — which is why these tests
+ * ask has_action() rather than just rendering.
  *
- * Dismissal is per USER and stored in their meta, not in an option: two administrators
- * dismiss their own notices, and one of them clearing theirs does not clear the other's.
- * A dismissal is not necessarily forever — it can expire after an interval
- * (WriteReviewNotice, a month) or on the next version (WelcomeNotice), which is the
- * difference between "not now" and "never again".
+ * Dismissal is per USER, in their meta, not an option: two admins dismiss their own, and one
+ * clearing theirs does not clear the other's. It is not always forever — it can expire after an
+ * interval (WriteReviewNotice, a month) or on the next version (WelcomeNotice): "not now" vs "never".
  */
 
 beforeEach(function () {

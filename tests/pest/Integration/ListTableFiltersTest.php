@@ -14,20 +14,18 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The dropdowns above the reviews table.
  *
- * Four filters, and they divide into two kinds, which is the whole of what is worth knowing here:
+ * Four filters, two kinds:
  *
- *   a FIXED list      Terms and Type. Every choice is known up front, so the dropdown holds them
- *                     all and `selected()` is just a lookup.
- *   a DYNAMIC list    Assigned Post and Assigned User. The choices are every post and every user
- *                     on the site — tens of thousands of them on a real one — so the dropdown is an
- *                     ajax search box that holds only two fixed entries ("any" and "none") and
- *                     whatever is currently selected. That last part is the bit that breaks: the
- *                     selected value arrives from the URL as an ID, and it has to be turned back
- *                     into a NAME for the box to show, or the person filtering by a page sees the
- *                     number 4,271 where the page's title should be.
+ *   a FIXED list      Terms and Type. Every choice is known up front, so the dropdown holds them all
+ *                     and `selected()` is a lookup.
+ *   a DYNAMIC list    Assigned Post and Assigned User. The choices are every post and user on the
+ *                     site — tens of thousands — so the dropdown is an ajax search box holding only
+ *                     "any", "none" and whatever is selected. That last part breaks: the selected
+ *                     value arrives from the URL as an ID and must be turned back into a NAME, or the
+ *                     person filtering by a page sees 4,271 where the title should be.
  *
  * Every filter reads its value with filter_input(INPUT_GET, …), which is why none of this could be
- * tested before the suite shadowed that function: a CLI process has no SAPI request table.
+ * tested before the suite shadowed that function.
  */
 
 beforeEach(function () {

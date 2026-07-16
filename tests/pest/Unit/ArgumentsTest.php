@@ -3,17 +3,12 @@
 use GeminiLabs\SiteReviews\Arguments;
 
 /*
- * Arguments::merge() must overwrite by key, not renumber.
+ * Arguments::merge() must overwrite by key, not renumber. wp_parse_args()/array_merge() RENUMBERS
+ * integer-like keys — a value under a numeric key moves to the end under a fresh index instead of
+ * overwriting, even when nothing is passed in, because array_merge() reindexes the defaults too.
  *
- * It used to call wp_parse_args(), which is array_merge(), and array_merge()
- * RENUMBERS integer-like keys: a value stored under a numeric key is moved to the
- * end of the array under a fresh index instead of overwriting its key — and it
- * does so even when nothing is passed in, because array_merge() reindexes the
- * defaults too.
- *
- * The honeypot field name is an 8-character hex hash (Honeypot::hash), so it is
- * all digits on a meaningful fraction of sites, depending on their salts. That is
- * how this surfaced. These tests pin the mechanism rather than the symptom.
+ * The honeypot field name is an 8-char hex hash (Honeypot::hash), all digits on a fraction of
+ * sites depending on their salts — how this surfaced. These tests pin the mechanism, not the symptom.
  */
 
 test('merge overwrites a value by its key', function () {

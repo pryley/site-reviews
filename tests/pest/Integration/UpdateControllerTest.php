@@ -10,22 +10,20 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * Telling WordPress an addon has an update.
  *
- * WordPress asks, through `update_plugins_{hostname}`, and whatever this returns is what the
- * Plugins screen shows and what the one-click updater installs — because the answer carries a
- * `package`, which is a URL WordPress downloads a zip from and unpacks over the top of the
- * running addon.
+ * WordPress asks through `update_plugins_{hostname}`, and whatever this returns is what the Plugins
+ * screen shows and the one-click updater installs — because the answer carries a `package`, the URL
+ * WordPress downloads a zip from and unpacks over the running addon.
  *
- * So the two things worth being certain of are opposites of each other:
+ * The two things to be certain of are opposites:
  *
- *   a real update must be offered — somebody paid for it, and an addon that never updates is
- *   an addon with unpatched bugs in it;
- *   and NOTHING must be offered when the answer did not come back. A licence server that is
- *   down, an expired licence, a 500, a timeout — none of them may turn into an update, because
- *   an update with an empty `package` is a plugin screen that offers a broken download, and an
- *   update invented out of a failed request is worse than that.
+ *   a real update must be offered — someone paid for it, and an addon that never updates has
+ *   unpatched bugs;
+ *   NOTHING must be offered when the answer did not come back. A downed licence server, an expired
+ *   licence, a 500, a timeout — none may become an update, because an empty `package` is a broken
+ *   download, and an update invented from a failed request is worse.
  *
- * The throttle matters too, and is easy to overlook: without it the licence server would be
- * asked on EVERY admin page load, for every addon, on every site.
+ * The throttle matters too: without it the licence server would be asked on EVERY admin page load,
+ * for every addon, on every site.
  */
 
 beforeEach(function () {

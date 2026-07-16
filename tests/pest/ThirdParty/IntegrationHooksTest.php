@@ -6,18 +6,16 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 
 /*
- * The base class every integration extends: the version gate and the notice it
- * raises when the gate closes.
+ * The base class every integration extends: the version gate and the notice it raises when the gate
+ * closes.
  *
- * Both are live in this suite. Three of the loaded stubs declare a version below
- * the one the integration requires — fusion-builder 3.11.7 (needs 3.12.0),
- * breakdance 2.3.0-rc.2 (needs 2.5.0), wpbakery 7.9.0 (needs 8.0) — so the gate
- * closes and notify() runs on every boot.
+ * Both are live in this suite: three loaded stubs declare a version below what the integration
+ * requires — fusion-builder 3.11.7 (needs 3.12.0), breakdance 2.3.0-rc.2 (needs 2.5.0), wpbakery
+ * 7.9.0 (needs 8.0) — so the gate closes and notify() runs on every boot.
  *
- * notify() is the fix for the crash that stopped the suite from booting at all:
- * integrations are hooked on plugins_loaded, and since WP 6.7 a translation
- * requested before init triggers _doing_it_wrong(), which is a notice, which
- * phpunit.xml turns into a failure. The deferral is what these tests pin.
+ * notify() fixes the crash that stopped the suite booting at all: integrations hook on
+ * plugins_loaded, and since WP 6.7 a translation requested before init triggers _doing_it_wrong(), a
+ * notice, which phpunit.xml turns into a failure. The deferral is what these tests pin.
  */
 
 /**

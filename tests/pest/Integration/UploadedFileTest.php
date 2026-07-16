@@ -11,17 +11,15 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The uploaded file, and the trait that fetches it out of $_FILES.
  *
- * This is the front door for the settings import and the CSV import, and it is
- * the one place the plugin takes a file from a stranger — so what it does with a
- * file it does not like matters more than what it does with one it does.
+ * The front door for the settings import and the CSV import — the one place the plugin takes a file
+ * from a stranger, so what it does with a file it does not like matters more than one it does.
  *
- * ONE BRANCH CANNOT BE REACHED HERE, and it is worth saying which: isValid() ends
- * in is_uploaded_file(), which PHP only returns true for a file that arrived in
- * THIS request over HTTP POST. A CLI process has no such file and cannot make one.
- * So isValid() is always false here — which is precisely the security property it
- * exists for — and every caller's happy path beyond it (Upload::getImportFile()
- * returning a file, ImportSettings reading it) is out of reach. ImportSettings is
- * covered from import() inwards instead; see ExportImportTest.
+ * ONE BRANCH CANNOT BE REACHED HERE: isValid() ends in is_uploaded_file(), which PHP returns true
+ * for only a file that arrived in THIS request over HTTP POST. A CLI process has none and cannot
+ * make one, so isValid() is always false here — precisely the security property it exists for — and
+ * every caller's happy path beyond it (Upload::getImportFile() returning a file, ImportSettings
+ * reading it) is out of reach. ImportSettings is covered from import() inwards instead; see
+ * ExportImportTest.
  */
 
 beforeEach(function () {

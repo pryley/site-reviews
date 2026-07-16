@@ -11,18 +11,14 @@ use GeminiLabs\SiteReviews\Database\CountManager;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * The registration commands: the review post type, its category taxonomy, the
- * shortcodes, the widgets, the post meta and the TinyMCE popups.
+ * The registration commands: the review post type, its category taxonomy, the shortcodes, widgets,
+ * post meta and TinyMCE popups.
  *
- * All six run on init and have therefore ALREADY RUN by the time any test starts —
- * which is exactly why they are worth calling explicitly. Coverage is not collected
- * during bootstrap.php, so the most-executed code in the plugin reads as 0%, and
- * only an in-test call counts. Re-running them is harmless: register_post_type(),
- * register_taxonomy(), add_shortcode() and register_post_meta() all overwrite.
- *
- * What is asserted is the CONTRACT rather than the call — the capabilities the post
- * type is mapped to, the REST controller it is served by, the columns the list table
- * gets. Those are the things an addon or a site would break against.
+ * All six run on init and have ALREADY RUN by the time any test starts, which is why they are called
+ * explicitly here. Re-running is harmless: register_post_type(), register_taxonomy(), add_shortcode()
+ * and register_post_meta() all overwrite. What is asserted is the CONTRACT, not the call — the
+ * capabilities the post type maps to, the REST controller serving it, the list-table columns — the
+ * things an addon or a site would break against.
  */
 
 beforeEach(fn () => resetPluginState());

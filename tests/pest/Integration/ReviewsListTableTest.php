@@ -11,18 +11,15 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The reviews screen itself — WordPress's posts list table, subclassed.
  *
- * ListTableController decides WHAT is in the table (which columns, which rows, what order).
- * This decides how it is DRAWN, and the interesting part is what it hides in the page.
+ * ListTableController decides WHAT is in the table (columns, rows, order); this decides how it is
+ * DRAWN, and the interesting part is what it hides in the page. Quick Edit prints a hidden copy of
+ * every row's editable data — WordPress does it for the title and slug, this does it for the
+ * review's CONTENT and the owner's RESPONSE — so the screen carries the full text of every review on
+ * the page in its HTML.
  *
- * Quick Edit works by printing a hidden copy of every row's editable data into the page —
- * WordPress does it for the title and the slug, and this does it for the review's CONTENT and
- * the site owner's RESPONSE. So the reviews screen carries, in its HTML, the full text of every
- * review on the page, for anybody the browser hands the page to.
- *
- * That is fine, and it is what makes Quick Edit work. What matters is that it is only printed
- * for somebody who is allowed to change it — a moderator who may respond. Print it for everybody
- * with access to the screen and you have quietly published the unapproved reviews and the draft
- * responses to whoever can see the list.
+ * That is what makes Quick Edit work; what matters is that it is printed only for someone allowed to
+ * change it (a moderator who may respond). Print it for everyone with screen access and you have
+ * quietly published the unapproved reviews and draft responses to anyone who can see the list.
  */
 
 beforeEach(function () {

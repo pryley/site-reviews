@@ -14,17 +14,16 @@ use function GeminiLabs\SiteReviews\Tests\interceptHttp;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * Three commands that each touch something a person would rather you were careful with: where
- * they were when they wrote a review, whether they can be proven to be who they said, and
- * whether all of that can be taken away again afterwards.
+ * Three commands, each touching something a person would rather you were careful with: where they
+ * were when they wrote a review, whether they can be proven to be who they said, and whether it can
+ * be taken away again.
  *
- *   GeolocateReview     one review's IP address, sent to ip-api.com. The batch version has its
- *                       own test; this is the one that runs when a review is submitted.
- *   VerifyReview        marks a review as verified — which on a site that requires verification
- *                       is what PUBLISHES it. It is the most consequential single flag in the
- *                       plugin, and it is reached from a link in an email.
- *   RemoveLocationData  the undo. A site owner who turned geolocation on and thought better of
- *                       it needs everything gone, from both places it is kept.
+ *   GeolocateReview     one review's IP, sent to ip-api.com. The batch version has its own test;
+ *                       this is the one that runs on submission.
+ *   VerifyReview        marks a review verified — which on a verification-required site PUBLISHES it.
+ *                       The most consequential single flag in the plugin, reached from an email link.
+ *   RemoveLocationData  the undo: a site owner who turned geolocation on and thought better of it
+ *                       needs everything gone, from both places it is kept.
  */
 
 beforeEach(function () {

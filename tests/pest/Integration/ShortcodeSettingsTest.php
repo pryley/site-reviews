@@ -15,17 +15,15 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * What a shortcode offers to be configured with.
  *
- * ShortcodeTest renders the shortcodes; this is the other half — the settings each one
- * declares, and the options behind them. Nothing here is rendered on the front end. It
- * is what the Gutenberg block's sidebar and the TinyMCE popup are BUILT from, and what
- * the REST endpoint behind their search fields answers with (RestShortcodeController →
- * ShortcodeOptionManager). Get it wrong and the block's controls are missing, mislabelled
- * or unfillable, and none of the rendering tests would notice.
+ * ShortcodeTest renders the shortcodes; this is the other half — the settings each declares and the
+ * options behind them. Nothing here is rendered on the front end: it is what the Gutenberg block's
+ * sidebar and the TinyMCE popup are BUILT from, and what the REST endpoint behind their search
+ * fields answers with (RestShortcodeController → ShortcodeOptionManager). Wrong, and the block's
+ * controls are missing, mislabelled or unfillable, and no rendering test would notice.
  *
- * The options are answered by ShortcodeOptionManager, which dispatches on the option
- * name through a ReflectionMethod — so an option nobody wrote a method for is not an
- * error, it is an empty list, and a method that is not protected is not reachable at
- * all. That indirection is why it is worth naming the options out loud.
+ * ShortcodeOptionManager answers the options by dispatching on the option name through a
+ * ReflectionMethod — so an option with no method is an empty list, not an error, and a non-protected
+ * method is unreachable. That indirection is why the options are worth naming out loud.
  */
 
 beforeEach(fn () => resetPluginState());

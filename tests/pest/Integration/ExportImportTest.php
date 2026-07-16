@@ -19,24 +19,17 @@ use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * Getting reviews out of the plugin and back in.
+ * Getting reviews out of the plugin and back in — two separate roads:
  *
- * There are two entirely separate roads, and it is worth being clear which is
- * which:
- *
- *   ExportRatings / ImportRatings   WordPress's own exporter (Tools > Export, the
- *                                   WXR file). Core knows nothing about the
- *                                   plugin's custom tables, so ExportRatings
- *                                   copies every rating row into POST META, where
- *                                   the WXR exporter will pick it up, and
- *                                   ImportRatings puts it back into the tables on
- *                                   the other side and deletes the meta again.
- *
+ *   ExportRatings / ImportRatings   WordPress's own exporter (Tools > Export, the WXR file). Core
+ *                                   knows nothing about the plugin's custom tables, so ExportRatings
+ *                                   copies every rating row into POST META for the WXR exporter to
+ *                                   pick up, and ImportRatings puts it back into the tables on the
+ *                                   other side and deletes the meta again.
  *   ExportReviews                   the plugin's own CSV export (Tools > General).
  *
- * The queue calls in these commands do nothing here: the suite binds a NullQueue
- * (see Support/NullQueue), so once() and async() return 0 without touching Action
- * Scheduler.
+ * The queue calls do nothing here: the suite binds a NullQueue, so once() and async() return 0
+ * without touching Action Scheduler.
  */
 
 beforeEach(function () {

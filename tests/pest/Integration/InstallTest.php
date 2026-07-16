@@ -13,24 +13,20 @@ use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * Activation: the first thing that ever happens on a site, and the only thing that MUST work.
+ * Activation: the first thing on a site, and the only thing that MUST work.
  *
- * Everything else in the plugin can degrade. This cannot: a review is a post with rows in six
- * custom tables, and if those tables are not there, nothing the plugin does afterwards can work
- * and nothing it does can tell the person why.
+ * Everything else can degrade; this cannot. A review is a post with rows in six custom tables, and
+ * without them nothing the plugin does afterwards works, and nothing can tell the person why.
  *
- * install() has to be safe to run over and over, because WordPress runs it on every activation —
- * and people deactivate and reactivate a plugin as the first thing they try when something is
- * wrong. So it creates tables that may already exist, adds constraints that may already be there,
- * and resets capabilities that may already be correct, and does all of it without touching the
- * reviews already on the site. That last part is the assertion worth having: somebody with four
- * thousand reviews toggling the plugin off and on must not lose them.
+ * install() must be safe to run repeatedly — WordPress runs it on every activation, and people
+ * deactivate/reactivate first when something is wrong. So it creates tables that may exist, adds
+ * constraints that may be there, and resets capabilities that may be correct, all without touching
+ * existing reviews: someone with four thousand reviews toggling the plugin must not lose them.
  *
- * EVERY TEST HERE COMMITS. It is all DDL — CREATE TABLE, ALTER TABLE, DROP TABLE — and MySQL
- * commits the open transaction on each of them, so the rollback the rest of the suite relies on
- * cannot undo any of it. Hence commitsTransaction(), and hence the finally block in the drop test:
- * an assertion that failed between the DROP and the rebuild would take the database out from under
- * every test that ran afterwards.
+ * EVERY TEST HERE COMMITS — it is all DDL (CREATE/ALTER/DROP TABLE), which MySQL commits, so the
+ * suite's rollback cannot undo it. Hence commitsTransaction(), and the finally block in the drop
+ * test: an assertion failing between the DROP and the rebuild would take the database out from under
+ * every later test.
  */
 
 beforeEach(function () {

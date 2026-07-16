@@ -8,25 +8,16 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 /*
- * Replacements for the pieces of WordPress core's test framework the phpunit
- * suite leaned on. Core's framework is pinned to PHPUnit 9 and cannot be
- * loaded alongside Pest, so the two things the tests actually used from it —
- * the content factories and the Setup trait — are reimplemented here.
- *
- * The factories mirror WP_UnitTest_Factory: the same defaults (a sequenced
- * title/name/login, published posts, post_tag terms) and the same return
- * values (an ID from create(), the object from *AndGet()), so an ported
- * assertion means what it meant before. Everything they insert is rolled
- * back by the transaction in Pest.php.
+ * The pieces of a WordPress test harness the suite needs: content factories and
+ * a plugin-settings baseline. The factories mirror WP_UnitTest_Factory — same
+ * defaults (sequenced title/name/login, published posts, post_tag terms) and
+ * return values (an ID from create(), the object from *AndGet()) — and
+ * everything they insert rolls back with the per-test transaction (Pest.php).
  */
 
 /**
- * The port of the Setup trait (tests/phpunit/tests/Setup.php): a known-good
- * baseline of plugin settings, applied by Pest.php to the files that used it.
- *
- * It used to run the migrations as well, and no longer does — they run once, in
- * bootstrap.php, which explains why. Nothing else here has changed: the settings
- * are still put back to their defaults before every test that asks for it.
+ * A known-good baseline of plugin settings, applied by Pest.php to the files
+ * that need one. Migrations run once in bootstrap.php, not here.
  */
 function resetPluginState(): void
 {
@@ -35,44 +26,27 @@ function resetPluginState(): void
     $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = referer();
     $defaults = Arr::unflatten(glsr()->defaults());
     glsr(OptionManager::class)->replace($defaults);
-    // The session is a plain array on the Application singleton (plugin/Session.php) -- not a
-    // transient, not an option -- so the per-test transaction cannot touch it and it survives
-    // from one test into the next. That is not merely untidy: a validator that fails writes
-    // `form_invalid`, and ValidatorAbstract::validate() SKIPS validation entirely while it is
-    // set. One failing submission would leave every validation test after it passing without
-    // having validated anything.
+    // The session is a plain array on the Application singleton (plugin/Session.php) — not a
+    // transient or option — so the per-test transaction cannot touch it. It matters: a failed
+    // validation writes `form_invalid`, and ValidatorAbstract::validate() then SKIPS validation
+    // entirely, so one failing submission leaves every validation test after it passing blind.
     glsr()->sessionClear();
 }
 
 /**
- * Declares that this test WILL commit the per-test transaction, and that this is expected
- * rather than a bug.
+ * Declares that this test WILL commit the per-test transaction, expected rather than a bug.
  *
- * A transaction cannot isolate a test that ends it, and two things end one:
+ * Two things end a transaction: DDL (MySQL commits implicitly on CREATE/ALTER/DROP TABLE —
+ * TableTmp is created and dropped by every CSV import) and an explicit START TRANSACTION
+ * (Database::beginTransaction() on InnoDB, which finishTransaction() then COMMITs). Pest.php
+ * catches an undeclared commit with a sentinel row and fails the test, since the damage lands
+ * elsewhere: the leaked user breaks the NEXT run with "Sorry, that username already exists".
  *
- *   DDL                 MySQL commits implicitly the moment it sees CREATE, ALTER or DROP
- *                       TABLE. TableTmp is created and dropped by every CSV import.
- *   START TRANSACTION   issued explicitly. Database::beginTransaction() does exactly that
- *                       on InnoDB, and finishTransaction() then COMMITs.
- *
- * Pest.php watches for it with a sentinel row and fails any test it catches, because the
- * damage never lands where it was done: the leaked user breaks the NEXT run, in another
- * file, with "Sorry, that username already exists".
- *
- * Four do it legitimately. The Import suite, which cannot import without TableTmp. And
- * the three that reach Migrate::runAll() — ImportSettings twice, MigratePlugin once —
- * which commit for BOTH reasons at once:
- *
- *   Migrate_5_25_0/MigrateReviews wraps each of its four passes in beginTransaction() /
- *   finishTransaction(), which on InnoDB is a literal START TRANSACTION and COMMIT.
- *
- *   Migrate_6_2_1::migrateDatabaseIndexes() rebuilds a PRIMARY index that Migrate_6_0_0
- *   got wrong on MariaDB, which means dropping the assignment tables' foreign constraints
- *   and adding them back. It only does so when the index actually needs repairing, but
- *   addForeignConstraints() still runs on every pass and can add DDL of its own.
- *
- * A test that declares this is purged after it — see purgeCommittedRows() — instead of
- * being failed. The declaration is per-test; Pest.php clears it.
+ * Four commit legitimately: the Import suite (no import without TableTmp), and the three tests
+ * reaching Migrate::runAll() — ImportSettings twice, MigratePlugin once — where MigrateReviews
+ * wraps each pass in a real START TRANSACTION/COMMIT and Migrate_6_2_1 may run DDL to repair a
+ * PRIMARY index. A declared test is purged afterwards (purgeCommittedRows()) instead of failed;
+ * the declaration is per-test and Pest.php clears it.
  */
 function commitsTransaction(): void
 {
@@ -80,32 +54,21 @@ function commitsTransaction(): void
 }
 
 /**
- * The Application's STORAGE, as it is the moment the plugin has finished booting — which is the
- * state every real request begins in, and therefore the state every test should begin in.
+ * The Application's STORAGE as it is once the plugin has booted — the state every real request,
+ * and so every test, begins in. The Storage trait (plugin/Storage.php) is an Arguments object on
+ * the singleton, not a table/option/hook, so nothing else in teardown touches it, yet twenty
+ * registers write to it and several leak dangerously between tests:
  *
- * The Storage trait (plugin/Storage.php) is an Arguments object hanging off the Application
- * singleton. It is not the database, not an option and not a hook, so nothing else in the teardown
- * touches it — and TWENTY different registers are written to it across the plugin:
+ *   paged_handle        NormalizePaginationArgs reads `page` from it on every review query, so a
+ *                       stale value makes every shortcode/block/widget think it is on page 2 —
+ *                       they print "There are no reviews yet", in other files.
+ *   review_types        the type dropdown appears once a site has more than one review kind, so a
+ *                       test adding `google` makes it appear for every test after.
+ *   glsr_create_review  ReviewManager::postStatus() reads it to tell a form submission from an
+ *                       import; leaked, it is WP_IMPORTING all over again.
  *
- *   filled at BOOT, and expected to be there    addons, columns, columns_hidden, compat, mce,
- *                                               review_types, shortcodes, settings
- *   filled DURING a request, and expected NOT   deprecated, glsr_create_review, glsr_update_review,
- *                                               licensed, monthly, notices, paged_handle, retired,
- *                                               schemas, site-reviews-premium, use_modal
- *
- * Both halves leak, and the second half leaks DANGEROUSLY. Three found the hard way:
- *
- *   paged_handle        NormalizePaginationArgs reads `page` out of it on EVERY review query, so a
- *                       stale one makes every shortcode, block and widget in the process believe it
- *                       is on page 2 of a list it has never seen. They print "There are no reviews
- *                       yet", in other files, saying nothing about pagination.
- *   review_types        the type dropdown is only drawn when a site has more than one kind of
- *                       review, so a test that adds `google` makes it appear for every test after.
- *   glsr_create_review  ReviewManager::postStatus() reads this to decide whether a review came from
- *                       a person filling in a form. Leaked, it is WP_IMPORTING all over again.
- *
- * So the whole thing is snapshotted once, after boot, and put back between tests — rather than
- * kept as a hand-written list of registers, which would always be one bug behind the plugin.
+ * Snapshotted once after boot and restored between tests, rather than a hand-kept register list
+ * that would always be one bug behind the plugin.
  */
 function snapshotStorage(): void
 {
@@ -113,15 +76,11 @@ function snapshotStorage(): void
 }
 
 /**
- * `settings` is the one register with an OWNER, and it is not this.
- *
- * OptionManager memoises the site's settings there and re-reads them from the database in
- * resetGlobalState() — which runs BEFORE this does. Restoring the boot-time copy over the top would
- * undo that refresh and hand every test the settings as they were when the process started, not as
- * the test's own resetPluginState() left them. (Found by NoticeTest, which reads
- * version_upgraded_from to tell a new site from an upgraded one.)
- *
- * So it is left exactly as OptionManager put it, and everything else is restored around it.
+ * `settings` is the one register with an owner other than this. OptionManager memoises it and
+ * re-reads it in resetGlobalState(), which runs BEFORE this — restoring the boot-time copy would
+ * undo that refresh and hand every test the process-start settings, not what its own
+ * resetPluginState() left. (Found by NoticeTest, which reads version_upgraded_from.) So it is
+ * left as OptionManager put it and everything else is restored around it.
  */
 function restoreStorage(): void
 {
@@ -147,21 +106,14 @@ function storageSnapshot(?array $set = null): array
 }
 
 /**
- * Said by a test that will cause WP_IMPORTING to be defined.
+ * Declares that this test WILL cause WP_IMPORTING to be defined.
  *
- * define() cannot be undone, and the plugin reads WP_IMPORTING in fourteen places to mean
- * "this review did not come from a person filling in a form". Once it is defined, every test
- * that runs afterwards IN THE SAME PROCESS gets no avatar, no verification email, no
- * recalculated counts, no cache flush, and is_pinned / is_verified / ip_address stop being
- * protected fields.
- *
- * So only the Import suite may do it, and phpunit.xml declares that suite LAST. Pest.php fails
- * any test that defines the constant without saying this first — which is how the fourteen
- * unrelated failures in five innocent files, caused by one importing command in an Integration
- * test, will be a one-line message next time instead of an afternoon.
- *
- * It is declared rather than detected because Pest compiles each test file into an eval()'d
- * class, so there is no reliable file path to test the directory against.
+ * define() cannot be undone, and the plugin reads WP_IMPORTING in fourteen places to mean "this
+ * review did not come from a form". Once defined, every later test in the process gets no avatar,
+ * no verification email, no recalculated counts, no cache flush, and is_pinned / is_verified /
+ * ip_address stop being protected. Only the Import suite may do it, and phpunit.xml declares that
+ * suite LAST; Pest.php fails any undeclared test that defines the constant. Declared rather than
+ * detected because Pest compiles each file into an eval()'d class, leaving no reliable path.
  */
 function definesWpImporting(): void
 {
@@ -183,8 +135,8 @@ function wpImportingWasDeclared(?bool $set = null): bool
 }
 
 /**
- * The flag commitsTransaction() sets, which Pest.php reads and then clears. Not for use
- * in a test: a test says commitsTransaction(), and says it plainly.
+ * The flag commitsTransaction() sets, which Pest.php reads and then clears. Not for use in a
+ * test: a test says commitsTransaction(), and says it plainly.
  */
 function commitWasDeclared(?bool $set = null): bool
 {
@@ -196,16 +148,11 @@ function commitWasDeclared(?bool $set = null): bool
 }
 
 /**
- * Undoes by hand what the rollback could not, for a test that ran DDL.
- *
- * Only the rows written BEFORE the DDL are permanent: autocommit is off, so MySQL opens
- * a fresh transaction the moment the implicit commit lands, and everything after it still
- * rolls back. In practice that means the user a beforeEach created, which is the one that
- * collides — user_login is unique and the review posts are not.
- *
- * Reviews are taken too, because they are counted. The three assignment tables and the
- * ratings table cascade from the review posts (ON DELETE CASCADE), so deleting the posts
- * empties all four.
+ * Undoes by hand what the rollback could not, for a test that ran DDL. Only rows written BEFORE
+ * the DDL are permanent — autocommit is off, so MySQL opens a fresh transaction at the implicit
+ * commit and everything after rolls back. In practice that is the user a beforeEach created
+ * (user_login is unique; review posts are not). Reviews go too, because they are counted; the
+ * three assignment tables and the ratings table cascade from the review posts.
  */
 function purgeCommittedRows(): void
 {
@@ -225,17 +172,12 @@ function purgeCommittedRows(): void
          WHERE u.ID IS NULL"
     );
 
-    // And the plugin's TRANSIENTS, which are options and therefore commit like anything else.
-    //
-    // This was learned the hard way. Two tests committed (TableStats::empty() runs TRUNCATE, and
-    // TRUNCATE is DDL) before anybody had declared it, and what became permanent was not a review
-    // — it was Api's cached response for an IP address. Every geolocation test afterwards was
-    // then served that cached success from the database instead of making a request, including
-    // the one asserting that a FAILED lookup stores nothing. They failed with symptoms that had
-    // nothing to do with them, in a later run, exactly as the tripwire's message promises.
-    //
-    // Transients are disposable by definition, so all of the plugin's go. The settings, the
-    // migration record and the db version are options and are NOT transients — they stay.
+    // The plugin's TRANSIENTS are options too, so they commit like anything else. Learned the
+    // hard way: two tests committed (TableStats::empty() runs TRUNCATE) before anyone declared
+    // it, and what stuck was Api's cached response for an IP — every geolocation test afterwards
+    // was served that cached success instead of making a request, including the one asserting a
+    // FAILED lookup stores nothing. Transients are disposable, so all of the plugin's go; the
+    // settings, migration record and db version are options, not transients, and stay.
     $wpdb->query(
         "DELETE FROM {$wpdb->options}
          WHERE option_name LIKE '\\_transient\\_glsr\\_%'
@@ -247,19 +189,12 @@ function purgeCommittedRows(): void
 }
 
 /**
- * Lets go of the router's parallel-request lock.
- *
- * Router::isValidMutexRequest() puts a transient down, keyed by a hash of the client IP,
- * for five seconds, and refuses a second `submit-review` while it is there. Two submissions
- * arriving in the same TCP packet would otherwise both clear the duplicate check before
- * either had been written.
- *
- * Every request in a test comes from the same IP and they all arrive within the same
- * second, so a test that submits twice looks exactly like the attack. It is not one: it is
- * a person who submitted a review, and then submitted another one. Releasing the lock
- * between requests is what stands in for the time that would have passed between them.
- *
- * A test that means to exercise the mutex simply does not call this — see RouterTest.
+ * Releases the router's parallel-request lock. Router::isValidMutexRequest() sets a transient
+ * keyed by a hash of the client IP for five seconds and refuses a second `submit-review` while it
+ * is there. Every test request comes from the same IP within the same second, so a test that
+ * submits twice looks like the attack it guards against; releasing the lock between requests
+ * stands in for the time that would have passed. A test exercising the mutex just skips this —
+ * see RouterTest.
  */
 function releaseMutexLock(): void
 {
@@ -267,8 +202,8 @@ function releaseMutexLock(): void
 }
 
 /**
- * The transient Router::isValidMutexRequest() locks with, derived the same way it derives
- * it. Hashed, so it does not put a visitor's IP address in the options table.
+ * The transient Router::isValidMutexRequest() locks with, derived the same way. Hashed, so a
+ * visitor's IP never lands in the options table.
  */
 function mutexLock(): string
 {
@@ -276,7 +211,7 @@ function mutexLock(): string
 }
 
 /**
- * The referer the Setup trait pinned every request to.
+ * The referer every request is pinned to.
  */
 function referer(): string
 {
@@ -284,8 +219,7 @@ function referer(): string
 }
 
 /**
- * The sequence WP_UnitTest_Generator_Sequence provides to the factories, so
- * that generated titles, names and logins are unique within a test run.
+ * A per-run sequence so generated titles, names and logins are unique within a test run.
  */
 function sequence(): int
 {
@@ -376,12 +310,9 @@ function createUsers(int $count, array $args = []): array
 }
 
 /**
- * WP_UnitTestCase snapshotted the hook globals before each test and restored them
- * after, so that a filter a test added could not leak into the next one. Without
- * it, `add_filter('site-reviews/validators', …)` in one test silently changes the
- * outcome of every test that runs after it.
- *
- * A port of WP_UnitTestCase_Base::_backup_hooks() / _restore_hooks().
+ * Snapshot of the hook globals, taken before each test and restored after, so a filter a test
+ * adds cannot leak into the next — without it, `add_filter('site-reviews/validators', …)` in one
+ * test changes the outcome of every test after it.
  */
 function hookBackup(): \ArrayObject
 {
@@ -390,16 +321,15 @@ function hookBackup(): \ArrayObject
 }
 
 /**
- * The hook globals, as declared by wp-includes/plugin.php:
+ * The hook globals from wp-includes/plugin.php:
  *
- *     WP_Hook[] $wp_filter          the callbacks, one WP_Hook object per hook
- *     int[]     $wp_actions         how many times each action fired (did_action)
- *     int[]     $wp_filters         how many times each filter applied (did_filter, 6.1+)
+ *     WP_Hook[] $wp_filter          the callbacks, one WP_Hook per hook
+ *     int[]     $wp_actions         did_action counts
+ *     int[]     $wp_filters         did_filter counts (6.1+)
  *     string[]  $wp_current_filter  the hook stack
  *
- * $wp_filter is handled separately: its values are objects, so each one is
- * cloned rather than copied by reference. The rest are plain arrays. Only
- * globals that are actually set are touched.
+ * $wp_filter holds objects, so each is cloned rather than copied by reference; the rest are plain
+ * arrays. Only globals that are set are touched.
  */
 const HOOK_GLOBALS = ['wp_actions', 'wp_filters', 'wp_current_filter'];
 
@@ -435,8 +365,8 @@ function restoreHooks(): void
 }
 
 /**
- * The rest of the per-request global state WP_UnitTestCase reset between tests:
- * the logged-in user and the request superglobals.
+ * The rest of the per-request state reset between tests: the logged-in user and the request
+ * superglobals.
  */
 function resetRequestState(): void
 {
@@ -448,23 +378,13 @@ function resetRequestState(): void
 }
 
 /**
- * Everything a database transaction CANNOT roll back.
- *
- * The per-test transaction restores the database and nothing else. Every other kind of state
- * the plugin and WordPress keep — globals, the DI container, an in-memory session, a static
- * property — survives into the next test, and a test that happens to run after one which left
- * the right state behind will pass for a reason that has nothing to do with what it asserts.
- *
- * That is not hypothetical. `make test:random` shuffled the order and 39 tests fell over. A
- * block test asserted that the review form renders, and passed — because the test before it had
- * logged somebody in. It was not testing what its name said, and no amount of care in the test
- * itself would have revealed that: what was missing was a clean floor to stand on.
- *
- * So the floor is swept between every test, and a test that wants a logged-in user, an admin
- * screen, a filter, a licence or a language now has to say so.
- *
- * If a test passes on its own and fails under `make test:random`, the thing it leaned on is
- * almost certainly missing from this function.
+ * Everything a database transaction CANNOT roll back: globals, the DI container, an in-memory
+ * session, static properties. A test that runs after one which left the right state behind would
+ * otherwise pass for the wrong reason — `make test:random` shuffled the order and 39 tests fell
+ * over, one asserting the review form renders only because the previous test had logged someone
+ * in. So the floor is swept between tests; a test wanting a user, an admin screen, a filter, a
+ * licence or a language must say so. If a test passes alone but fails under `make test:random`,
+ * what it leaned on is missing from here.
  */
 function resetGlobalState(): void
 {
@@ -477,67 +397,41 @@ function resetGlobalState(): void
     $GLOBALS['wp_styles'] = null;
     $GLOBALS['wp_meta_boxes'] = [];
     unset($GLOBALS['post'], $GLOBALS['avail_post_stati']);
-    // Roles: WP_Roles::add_cap() changes $wp_roles IN MEMORY as well as writing the option. The
-    // rollback restores the option; the global still holds the modified role until it is dropped.
+    // Roles: WP_Roles::add_cap() mutates $wp_roles in memory as well as the option. The rollback
+    // restores the option; the global keeps the modified role until dropped.
     unset($GLOBALS['wp_roles']);
     if (function_exists('set_current_screen')) {
         set_current_screen('front');
     }
 
-    // The plugin's own in-memory state, which lives on the Application SINGLETON and therefore
-    // outlives everything. The session is the dangerous one: a validator that fails writes
-    // `form_invalid`, and ValidatorAbstract::validate() SKIPS validation entirely while it is
-    // set — so one failing submission would leave every validation test after it green without
-    // having validated anything.
+    // The plugin's in-memory state on the Application SINGLETON. The session is dangerous: a
+    // failed validation writes `form_invalid` and ValidatorAbstract::validate() then SKIPS
+    // validation, leaving every validation test after it green without validating.
     glsr()->sessionClear();
     glsr(\GeminiLabs\SiteReviews\Modules\Notice::class)->clear();
 
-    // THE SETTINGS, which are the subtlest of the lot.
-    //
-    // OptionManager keeps them in memory too (reset() ends in glsr()->store('settings', …)), and
-    // replace() short-circuits:
-    //
-    //     if (!update_option(static::databaseKey(), $settings, true)) {
-    //         return false;   // …and reset() is never called
-    //     }
-    //     $this->reset();
-    //
-    // update_option() returns FALSE when the value is unchanged. So after a test changes a
-    // setting and the transaction rolls the database back, the next test's resetPluginState()
-    // asks to write the defaults, the database already holds the defaults, update_option()
-    // reports "no change" — and the in-memory copy is left holding the PREVIOUS test's
-    // settings. resetPluginState() silently does nothing in precisely the case where it
-    // matters, and the plugin then reads its settings from the stale copy.
-    //
-    // (Harmless in production: the store is per-request and cannot disagree with the database.
-    // It only bites when something rolls the database back underneath it.)
-    //
-    // So the in-memory settings are re-read from the (rolled-back) database, unconditionally,
-    // after every test. The cache is flushed first or get_option() would hand back the value
-    // from before the rollback.
+    // THE SETTINGS, the subtlest. OptionManager keeps them in memory and replace() short-circuits
+    // when update_option() reports "no change" — which it does when the value equals what is
+    // already stored. After a test changes a setting and the rollback restores the default, the
+    // next resetPluginState() writes the default, update_option() sees no change, and the
+    // in-memory copy is left holding the PREVIOUS test's settings. (Harmless in production, where
+    // the store cannot disagree with the database.) So re-read the settings from the rolled-back
+    // database unconditionally; flush the cache first or get_option() returns the pre-rollback value.
     \GeminiLabs\SiteReviews\Database\OptionManager::flushSettingsCache();
     glsr(\GeminiLabs\SiteReviews\Database\OptionManager::class)->reset();
 
-    // The container. A binding made in a test outlives it — a transaction cannot roll back an
-    // object graph — so the suite's own bindings are put back, and anything else a test bound
-    // is overwritten by them.
+    // The container. A binding made in a test outlives it, so the suite's own bindings are put
+    // back and anything else a test bound is overwritten.
     glsr()->bind(\GeminiLabs\SiteReviews\Modules\Queue::class, NullQueue::class, true);
     glsr()->bind(\GeminiLabs\SiteReviews\License::class, \GeminiLabs\SiteReviews\License::class, true);
 
-    // The Application's whole STORAGE, back to how a freshly booted request has it. Twenty
-    // registers live in there and none of them is in the database, the hooks or the request, so
-    // nothing else in this teardown reaches them. See snapshotStorage().
+    // The Application's whole STORAGE, back to a freshly booted request. See snapshotStorage().
     restoreStorage();
 
-    // Application::$settings is the settings CONFIG (the fields, not their values), memoised on
-    // the container itself and built once per request. Application::license() appends a licence
-    // field to it for every licensed addon — so a test that registers one would leave that field
-    // in the settings config for every test after it, and the settings page would grow a licence
-    // key nobody entered. Emptying it makes settings() rebuild from config/settings.php, which is
-    // what a fresh request does.
-    // …and Application::$defaults, which is built FROM $settings and memoised beside it. Leaving
-    // it would mean the settings config was rebuilt while every default the plugin reads still
-    // came from the version before.
+    // Application::$settings is the settings CONFIG (fields, not values), memoised per request;
+    // Application::license() appends a licence field per licensed addon, so a test registering one
+    // would leave that field for every test after. $defaults is built from $settings and memoised
+    // beside it. Empty both so settings() rebuilds from config/settings.php.
     foreach (['defaults', 'settings'] as $memo) {
         (new \ReflectionProperty(glsr(), $memo))->setValue(glsr(), []);
     }
@@ -549,20 +443,17 @@ function resetGlobalState(): void
     if (class_exists('\Akismet')) {
         \Akismet::reset();
     }
-    // The messages only. WP_CLI::$commands records a registration that happened once, at plugin
-    // load, from site-reviews.php — clearing it would be clearing evidence, not state.
+    // Messages only. WP_CLI::$commands records a one-time registration at plugin load — clearing
+    // it would be clearing evidence, not state.
     if (class_exists('\WP_CLI')) {
         \WP_CLI::reset();
     }
 }
 
 /**
- * The mail the suite has "sent". WordPress core's test framework swaps PHPMailer
- * for a MockPHPMailer; there is no mail transport in the test container, so
- * wp_mail() would simply return false. `pre_wp_mail` short-circuits it the same
- * way, and records what would have gone out.
- *
- * Registered once in bootstrap.php; emptied before each test by Pest.php.
+ * The mail the suite has "sent". There is no mail transport in the test container, so wp_mail()
+ * would return false; `pre_wp_mail` short-circuits it the same way and records what would have
+ * gone out. Registered once in bootstrap.php, emptied before each test by Pest.php.
  */
 function mailbox(): \ArrayObject
 {
@@ -587,12 +478,9 @@ function sentMail(): array
 }
 
 /**
- * The recipients of one of those emails, as a list.
- *
- * array_values() is not decoration. EmailDefaults::finalize() drops the empty entries
- * from `recipients` with Arr::removeEmptyValues(), which preserves the keys it does not
- * remove — so a list that had a blank in the middle of it comes out with a hole in it.
- * wp_mail() does not care; an assertion written as a list would.
+ * The recipients of one email, as a list. array_values() matters: EmailDefaults::finalize() drops
+ * empty `recipients` entries with Arr::removeEmptyValues(), which preserves keys — so a list with
+ * a blank in the middle comes out with a hole. wp_mail() does not care; a list assertion would.
  *
  * @return string[]
  */
@@ -609,22 +497,12 @@ function emptyMailbox(): void
 }
 
 /**
- * Nothing may leave the test container over HTTP either.
- *
- * `pre_http_request` is WordPress's own short-circuit and it runs before the URL is
- * even validated, so it catches every request whatever the transport and whether or
- * not it is blocking (wp-includes/class-wp-http.php). This one is registered LAST
- * (priority 999) and only speaks when nothing else has: a test that means to make a
- * request intercepts it at the default priority with interceptHttp(), and this hands
- * back whatever that returned.
- *
- * Otherwise it is a WP_Error, and deliberately a loud one. A test that reaches the
- * network is a test that is slow, that fails when somebody's wifi does, and that may
- * be POSTing a fixture's contents to a real webhook — the notifications are one
- * wp_safe_remote_post() away from doing exactly that.
- *
- * Registered once in bootstrap.php, so it is part of the hook baseline Pest.php
- * snapshots and restores for every test.
+ * Nothing may leave the test container over HTTP. `pre_http_request` is WordPress's own
+ * short-circuit and runs before the URL is validated, catching every request whatever the
+ * transport. Registered LAST (priority 999), it speaks only when nothing else has: a test making
+ * a request on purpose intercepts at the default priority with interceptHttp(), and this returns
+ * whatever that returned. Otherwise a loud WP_Error — a test that reaches the network is slow,
+ * flaky, and may be POSTing a fixture to a real webhook. Registered once in bootstrap.php.
  */
 function blockHttpRequests(): void
 {
@@ -675,8 +553,8 @@ function sentJson(\ArrayObject $requests, int $index = 0): array
 }
 
 /**
- * An approved review, created through the plugin's own public API so that the
- * ratings/assigned tables are populated exactly as they are in production.
+ * An approved review, created through the plugin's own public API so the ratings/assigned tables
+ * are populated exactly as in production.
  */
 function createReview(array $values = []): \GeminiLabs\SiteReviews\Review
 {
@@ -714,8 +592,8 @@ function protectedMethod(string $className, string $method): \ReflectionMethod
 }
 
 /**
- * An instance whose constructor never ran — for classes whose constructor
- * has side effects the test does not want.
+ * An instance whose constructor never ran — for classes whose constructor has side effects the
+ * test does not want.
  */
 function unconstructed(string $className): object
 {

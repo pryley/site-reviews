@@ -23,13 +23,12 @@ uses(InteractsWithExits::class);
 /*
  * The repair tools, driven through the controller.
  *
- * These are reached in production as `site-reviews/route/admin/{action}` — the
- * hook Router::post() fires from a routed admin POST — and each handler simply
- * executes its command (AbstractController::execute). The non-ajax handlers are
- * used here because the ajax ones end in wp_send_json(), which dies.
+ * Reached in production as `site-reviews/route/admin/{action}` (the hook Router::post() fires from a
+ * routed admin POST), each handler just executes its command (AbstractController::execute). The
+ * non-ajax handlers are used here because the ajax ones end in wp_send_json(), which dies.
  *
- * Each is asserted on the damage it repairs, not on its own success flag:
- * break the state, run the tool, prove the state is fixed.
+ * Each is asserted on the damage it repairs, not its success flag: break the state, run the tool,
+ * prove the state is fixed.
  */
 
 beforeEach(function () {

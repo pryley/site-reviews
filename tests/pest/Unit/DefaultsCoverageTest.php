@@ -17,20 +17,17 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The Defaults classes that nothing else reaches.
  *
- * A Defaults class is the shape of a data structure, written down: what keys exist, what they
- * default to, and — through restrict() — that nothing else may be in it. They look like
- * configuration and they behave like a contract, because they sit on the boundary between the
- * plugin and whatever handed it an array: a shortcode's attributes, a block's saved JSON, an
- * addon's registration, an API response.
- *
- * So the test for each is the same, and it is the one that matters at a boundary:
+ * A Defaults class is the shape of a data structure written down — what keys exist, what they
+ * default to, and (through restrict()) that nothing else may be in it. They sit on the boundary
+ * between the plugin and whatever handed it an array (shortcode attributes, block JSON, an addon's
+ * registration, an API response), so the test that matters at a boundary is the same for each:
  *
  *   restrict()  keeps the keys it knows and DROPS the rest.
  *   merge()     keeps the keys it knows and KEEPS the rest.
  *
- * Getting those two the wrong way round is how an unfiltered value from a block attribute or an
- * API response ends up somewhere it was never meant to be. The rest — that a default is what the
- * source says it is — is worth less, but it is what catches the typo in a key nobody reads.
+ * Getting those two the wrong way round is how an unfiltered value ends up where it was never
+ * meant to be. The rest — that a default is what the source says — catches the typo in a key
+ * nobody reads.
  */
 
 beforeEach(function () {
@@ -38,13 +35,11 @@ beforeEach(function () {
 });
 
 /**
- * Every Defaults class here: the class, a key that is definitely its own, and a value that key
- * will actually accept.
+ * Each Defaults class: the class, a key that is its own, and a value that key accepts.
  *
- * The sample value is not decoration: several of these keys are constrained (an enum, a
- * sanitizer, or — for TutorialDefaults — a nested Defaults class that maps VideoDefaults over
- * every entry, so `videos` must be an array OF ARRAYS or it is a TypeError). A generic "given"
- * string does not survive them, and a test that fed one would be testing the sanitizer.
+ * The sample value is load-bearing: several keys are constrained (an enum, a sanitizer, or — for
+ * TutorialDefaults — a nested Defaults that maps VideoDefaults over each entry, so `videos` must
+ * be an array OF ARRAYS or it TypeErrors). A generic "given" string would not survive them.
  */
 dataset('defaults', [
     'addon' => [AddonDefaults::class, 'slug', 'an-addon-slug'],
@@ -58,9 +53,9 @@ dataset('defaults', [
 ]);
 
 test('restrict() drops anything it does not know about', function (string $class, string $key, $value) {
-    // The boundary. These arrays are filled from shortcode attributes, block JSON, addon
-    // registrations and API responses — things written by somebody else. An unknown key that
-    // survives restrict() is an unfiltered value in the middle of the plugin.
+    // The boundary: these arrays come from shortcode attributes, block JSON, addon registrations
+    // and API responses. An unknown key that survives restrict() is an unfiltered value loose in
+    // the plugin.
     $restricted = glsr($class)->restrict([
         $key => $value,
         'not_a_real_key' => '<script>alert(1)</script>',
@@ -72,9 +67,8 @@ test('restrict() drops anything it does not know about', function (string $class
 })->with('defaults');
 
 test('restrict() fills in every key the caller did not give it', function (string $class, string $key, $value) {
-    // The other half of the contract: whatever comes out has every key, so nothing downstream
-    // has to ask whether a key is there. Half the value of a Defaults class is the `??` it
-    // saves in fifty other files.
+    // The other half of the contract: the output has every key, so nothing downstream has to
+    // check. Half a Defaults class's value is the `??` it saves in fifty other files.
     $defaults = glsr($class)->defaults();
     $restricted = glsr($class)->restrict([]);
 
@@ -82,9 +76,8 @@ test('restrict() fills in every key the caller did not give it', function (strin
 })->with('defaults');
 
 test('merge() keeps what it does not know about', function (string $class, string $key, $value) {
-    // The deliberate opposite of restrict(), and the distinction is the whole point of having
-    // both: merge() is for a structure the plugin OWNS and wants to extend (an addon adding a
-    // key to a pointer), restrict() is for one it received.
+    // The deliberate opposite of restrict(): merge() extends a structure the plugin OWNS (an addon
+    // adding a key to a pointer); restrict() filters one it received.
     $merged = glsr($class)->merge(['an_extra_key' => 'kept']);
 
     expect($merged)->toHaveKey('an_extra_key')
@@ -92,20 +85,20 @@ test('merge() keeps what it does not know about', function (string $class, strin
 })->with('defaults');
 
 /*
- * Two of them say something worth saying out loud.
+ * Two worth stating outright.
  */
 
 test('a pointer points at the review screen unless it is told otherwise', function () {
-    // The admin pointers are the little "this is new" bubbles. One that defaulted to no screen
-    // at all would either appear nowhere, or — worse — on every screen in the admin.
+    // The admin pointers are the "this is new" bubbles. One defaulting to no screen would appear
+    // nowhere, or worse, on every admin screen.
     expect(glsr(PointerDefaults::class)->defaults()['screen'])->toBe(glsr()->post_type);
     expect(glsr(PointerDefaults::class)->defaults()['position'])
         ->toBe(['edge' => 'right', 'align' => 'middle']);
 });
 
 test('the validation classes are the ones the frontend javascript looks for', function () {
-    // These names are a contract with the compiled JS. Renaming one here without renaming it
-    // there breaks the form's error display and nothing says so.
+    // These names are a contract with the compiled JS: renaming one here but not there breaks the
+    // form's error display silently.
     $classes = glsr(StyleValidationDefaults::class)->defaults();
 
     expect($classes['field_error'])->toBe('glsr-field-is-invalid')
@@ -114,20 +107,20 @@ test('the validation classes are the ones the frontend javascript looks for', fu
 });
 
 /*
- * And the two one-liners nothing else covers.
+ * Two one-liners nothing else covers.
  */
 
 test('a telephone field asks to be validated as a telephone number', function () {
-    // The `validation` key is what the frontend JS reads to know which validator to run on the
-    // input. A tel field that asked for no validation would accept anything.
+    // The `validation` key tells the frontend JS which validator to run. A tel field asking for
+    // none would accept anything.
     $field = new \GeminiLabs\SiteReviews\Modules\Html\Field(['name' => 'phone', 'type' => 'tel']);
 
     expect((new Tel($field))->required())->toBe(['validation' => 'tel']);
 });
 
 test('a post id can be given as an id, a slug, or a post', function () {
-    // SanitizePostId is what turns `assigned_posts="my-page"` in a shortcode into an id. A
-    // shortcode is written by hand, in a post editor, by somebody who does not know the id.
+    // SanitizePostId turns `assigned_posts="my-page"` into an id — a shortcode is written by hand
+    // by someone who does not know the id.
     $postId = createPost(['post_name' => 'the-reviewed-page', 'post_type' => 'page']);
 
     expect(glsr(Sanitizer::class)->sanitizePostId($postId))->toBe($postId)

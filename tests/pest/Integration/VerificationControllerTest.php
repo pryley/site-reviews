@@ -18,24 +18,22 @@ uses(InteractsWithAjax::class, InteractsWithExits::class);
 /*
  * Proving that the person who wrote a review owns the email address they gave.
  *
- * A review arrives with an email address nobody has checked. The plugin emails a link to it, and
- * clicking the link marks the review verified — so the ONLY thing standing between "verified" and
- * anybody who can guess a review id is the token in that link.
+ * A review arrives with an unchecked email. The plugin emails a link to it, and clicking the link
+ * marks the review verified — so the ONLY thing between "verified" and anyone who can guess a review
+ * id is the token in that link.
  *
- * The token is the review's own id, encrypted (Modules\Encryption, sodium secretbox, keyed off
- * NONCE_KEY). Two places check it, and they check it differently, and the difference is the point:
+ * The token is the review's id, encrypted (Modules\Encryption, sodium secretbox, keyed off
+ * NONCE_KEY). Two places check it, differently, and the difference is the point:
  *
- *   verifyReview()        the GET the person's mail client opens. The token IS the route — the
- *                         router has already decrypted and validated it before this runs, which is
- *                         why this method takes a plain review id and does not check anything. Its
- *                         job is to verify, then redirect back to the page the review was left on.
- *   verifiedReviewAjax()  the javascript that runs on the page they land on, to swap the review in
- *                         without a reload. It is a PUBLIC, unguarded route, so it re-checks: the
- *                         `verified` token must decrypt to the very review id being asked for.
- *                         Without that comparison, anybody could ask for anybody's review.
+ *   verifyReview()        the GET the mail client opens. The token IS the route — the router has
+ *                         already decrypted and validated it, which is why this takes a plain review
+ *                         id and checks nothing. It verifies, then redirects back to the review's page.
+ *   verifiedReviewAjax()  the JS on the page they land on, swapping the review in without a reload. A
+ *                         PUBLIC, unguarded route, so it re-checks: the `verified` token must decrypt
+ *                         to the very review id asked for. Without that, anyone could ask for anyone's.
  *
- * The rest is the admin's side of it: a button in the editor that sends (or re-sends) the email,
- * and a toggle that marks a review verified by hand.
+ * The rest is the admin's side: a button in the editor that sends (or re-sends) the email, and a
+ * toggle that marks a review verified by hand.
  */
 
 beforeEach(function () {

@@ -18,29 +18,20 @@ use function GeminiLabs\SiteReviews\Tests\sentTo;
 /*
  * What goes out when a review comes in.
  *
- * Five recipients are possible and they are independent: the administrator, the author
- * of the page the review is about, a list of addresses somebody typed in, a Discord
- * channel and a Slack channel. Which of them are used is one setting,
- * general.notifications, and everything below turns on it.
+ * Five independent recipients are possible — administrator, the page author, a typed-in list of
+ * addresses, a Discord channel, a Slack channel — chosen by one setting, general.notifications.
  *
- * The webhooks POST the review — the reviewer's name, their email address, their IP —
- * to a third party. Two things follow. One: nothing here may be allowed to reach the
- * network, which bootstrap.php now enforces for the whole suite (blockHttpRequests()).
- * Two: what is IN the payload is worth asserting, because it is somebody's personal
- * data leaving the site.
+ * The webhooks POST the review (reviewer's name, email, IP) to a third party, so nothing here may
+ * reach the network (bootstrap.php's blockHttpRequests() enforces it), and the payload is worth
+ * asserting because it is personal data leaving the site. Slack and Discord read their webhook from
+ * settings at construction, so the setting must be written before the module is resolved (the
+ * container does not cache them).
  *
- * Slack and Discord are constructed with their webhook read from the settings, so the
- * setting has to be written before the module is resolved. The container does not cache
- * these, so a fresh glsr(Slack::class) picks up whatever was just set.
- *
- * And note the ORDER of every test below: the review is created BEFORE interceptHttp()
- * is armed. Creating a review makes an HTTP request of its own — Avatar::generate()
- * asks secure.gravatar.com whether the reviewer has a gravatar (isUrlOnline() ->
- * Helper::remoteStatusCheck()) — and an interceptor armed first would record it as
- * though the plugin had sent a notification, and answer 200, which would also change
- * the avatar the review ends up with. Armed second, that request falls through to
- * blockHttpRequests() and comes back as a WP_Error, which is what it does everywhere
- * else in the suite: no gravatar, use the fallback.
+ * Note the ORDER: the review is created BEFORE interceptHttp() is armed. Creating a review makes
+ * its own request — Avatar::generate() asks secure.gravatar.com whether the reviewer has a gravatar
+ * — and an interceptor armed first would record it as a notification and answer 200, changing the
+ * avatar too. Armed second, that request falls through to blockHttpRequests() and returns a
+ * WP_Error: no gravatar, use the fallback.
  */
 
 beforeEach(function () {

@@ -12,15 +12,14 @@ use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * Four small pieces of markup, each of which is the only place its thing is ever shown.
+ * Four small pieces of markup, each the only place its thing is shown.
  *
- *   Secret          the licence-key box on the settings page. A key is a secret, and it is also
- *                   forty characters of gibberish somebody has to check they pasted correctly —
- *                   so it is masked, with a button to reveal it, exactly as WordPress does its own
- *                   password fields.
- *   UnknownElement  what the form builder falls back to for a field type nobody declared.
+ *   Secret          the licence-key box on the settings page. A key is secret, and also forty
+ *                   characters of gibberish to check you pasted correctly — so it is masked, with a
+ *                   reveal button, as WordPress does its own password fields.
+ *   UnknownElement  the form builder's fallback for an undeclared field type.
  *   ReviewVerified  the "Verified" badge under a review.
- *   ColumnValueType where a review came from, in the list table — with the platform's logo, for the
+ *   ColumnValueType where a review came from, in the list table — with the platform's logo, for
  *                   sites that import from Google, Facebook, Trustpilot and the rest.
  */
 

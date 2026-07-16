@@ -12,20 +12,15 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * Everything an addon inherits.
  *
- * Addons\Controller is an abstract class, and the six paid addons are all thin subclasses
- * of it — so this file IS the test of the paid addons' plumbing: their assets, their
- * settings, their views, their capabilities, their translations, their activation.
+ * Addons\Controller is abstract, and the six paid addons are thin subclasses — so this file IS the
+ * test of their plumbing: assets, settings, views, capabilities, translations, activation.
  *
- * It is tested against a real addon rather than a mock, because a mock would only prove
- * that the mock agreed with itself. tests/pest/fixtures/site-reviews-test-addon is laid
- * out exactly as a shipped addon is — a plugin file with a header, a plugin/ directory, an
- * assets/ directory, a config/, views/, languages/ — and Plugin::__construct() finds its
- * way around it by the same reflection it uses on a real one.
- *
- * What makes that work, and what to know if this file ever stops working: the addon's
- * `file` is derived by taking the path of its Application class and replacing
- * `plugin/Application` with the addon's id. So the fixture's directory layout is not
- * decoration — it is the mechanism.
+ * Tested against a real addon, not a mock (which would only prove it agreed with itself).
+ * tests/pest/fixtures/site-reviews-test-addon is laid out exactly as a shipped addon — plugin file
+ * with a header, plugin/, assets/, config/, views/, languages/ — and Plugin::__construct() finds its
+ * way by the same reflection it uses on a real one: the addon's `file` is derived by taking its
+ * Application class path and swapping `plugin/Application` for the addon's id. The layout is the
+ * mechanism, not decoration.
  */
 
 beforeEach(function () {

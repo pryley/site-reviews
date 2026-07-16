@@ -14,22 +14,18 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * Geolocating the reviewers.
  *
- * A site owner turns this on and the plugin takes the IP address of everybody who has ever
- * left a review and posts it, in batches of a hundred, to ip-api.com — a third party — to get
- * back a country, a region, a city and an ISP, which it then stores next to the review.
+ * Turned on, the plugin posts the IP of everyone who ever left a review, in batches of a hundred, to
+ * ip-api.com — a third party — for a country, region, city and ISP it stores next to the review.
+ * That is the plugin's single largest disclosure of visitor data, in bulk, for reviews left years
+ * ago by people who have forgotten the site — so the tests weigh what is sent, what is NOT, and what
+ * happens when the far end says no.
  *
- * That is the single largest disclosure of visitor data the plugin makes, it happens in bulk,
- * and it happens for reviews left years ago by people who have long since forgotten the site.
- * So the tests are weighted accordingly: what is sent, what is NOT sent, and what happens when
- * the far end says no.
+ * The IPs that must never leave are pointless AND revealing to send: `127.0.0.1` (the site talking
+ * to itself), `unknown` (the plugin's marker for an undetected IP), and empty. Each is excluded in
+ * SQL, the only cheap place — the batch is built by the database, not PHP.
  *
- * The IPs that must never leave are the ones that would be pointless AND revealing to send:
- * `127.0.0.1` (the site talking to itself), `unknown` (the plugin's own marker for an IP it
- * could not detect), and empty. Each is excluded in SQL, which is the only place it can be done
- * cheaply — the batch is built by the database, not by PHP.
- *
- * The lock and the retry counter are transients, so a worker that dies mid-batch does not leave
- * the site permanently unable to geolocate anything.
+ * The lock and retry counter are transients, so a worker that dies mid-batch does not leave the site
+ * permanently unable to geolocate.
  */
 
 beforeEach(function () {

@@ -14,15 +14,13 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 beforeEach(function () {
     resetPluginState();
-    // Stored schemas live on the Application's storage, which is a singleton for
-    // the whole process — they would otherwise leak from one test into the next.
+    // Stored schemas live on the Application's storage, a process-wide singleton — they would
+    // otherwise leak from one test into the next.
     glsr()->discard('schemas');
-    // Core still hooks the_block_template_skip_link on wp_footer, but only as a
-    // back-compat sentinel: get_the_block_template_html() checks has_action() on
-    // it to detect a plugin having unhooked the skip link. The function itself is
-    // deprecated since 6.4, so actually FIRING wp_footer — which is what proves
-    // the plugin's own schema hook — invokes it and trips the deprecation. That
-    // is core's business, not the plugin's, so it is unhooked here.
+    // Core hooks the_block_template_skip_link on wp_footer as a back-compat sentinel
+    // (get_the_block_template_html() checks has_action() to detect the skip link being unhooked).
+    // The function is deprecated since 6.4, so firing wp_footer — which is how the plugin's schema
+    // hook is proven — trips the deprecation. Core's business, not the plugin's, so unhook it here.
     remove_action('wp_footer', 'the_block_template_skip_link');
 });
 

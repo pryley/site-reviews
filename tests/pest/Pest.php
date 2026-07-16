@@ -1,34 +1,23 @@
 <?php
 
 /*
- * Test isolation, which is the whole job WP_UnitTestCase used to do for the
- * phpunit suite. Three kinds of state leak between tests, and all three are
- * reset here for every test — Unit and Integration alike:
+ * Per-test isolation, applied to every suite. Three kinds of state leak between
+ * tests and are reset here:
  *
- *   the database   a transaction per test, rolled back afterwards. The plugin's
- *                  settings live in the options table, so even a "unit" test
- *                  that only builds a field writes to the database.
- *   the hooks      a filter a test adds would otherwise still be registered for
- *                  every test after it (ValidationTest adds a
- *                  `site-reviews/validators` filter in almost every test).
- *   the request    the logged-in user and the request superglobals.
+ *   database — a transaction per test, rolled back afterwards. The plugin's
+ *              settings live in the options table, so even a field-building
+ *              "unit" test writes to it.
+ *   hooks    — a filter a test adds would otherwise stay registered for every
+ *              test after it.
+ *   request  — the logged-in user and the request superglobals.
  *
- * The object cache does NOT roll back with the transaction, so it is flushed.
+ * The object cache does NOT roll back, so it is flushed. Suites differ in what
+ * they touch, not how they isolate: Unit exercises logic (no posts/terms/users/
+ * reviews created), Integration creates content and hits the database.
  *
- * The suites differ in what they touch, not in how they isolate:
- *
- *   Unit        — logic against the booted WordPress: helpers, casts,
- *                 sanitizers, encryption, the HTML builders. No posts, terms,
- *                 users or reviews are created.
- *   Integration — creates content and exercises the database: the review
- *                 manager, the query builder, migrations, ajax submissions.
- *
- * The Setup trait the phpunit suite mixed into six of its test cases is ported
- * as resetPluginState() (Support/helpers.php) and called from a beforeEach in
- * the files that need a known-good baseline of plugin settings — not globally,
- * because replacing the whole options array is not free and most tests do not
- * touch it. The migrations it used to run have moved to bootstrap.php, which
- * says why.
+ * resetPluginState() (Support/helpers.php) restores a known-good baseline of
+ * plugin settings from a beforeEach in the files that need one — not globally,
+ * since replacing the whole options array is not free and most tests skip it.
  */
 
 use function GeminiLabs\SiteReviews\Tests\backupHooks;
@@ -41,9 +30,8 @@ use function GeminiLabs\SiteReviews\Tests\restoreHooks;
 use function GeminiLabs\SiteReviews\Tests\wpImportingWasDeclared;
 
 /*
- * The name of the current test's sentinel row (see the afterEach below). It is held here
- * rather than on $this, because $this is PHPUnit's TestCase and a property it does not
- * declare is a dynamic property, which PHP 8.2 deprecates.
+ * Name of the current test's sentinel row (see afterEach). Held here, not on $this: $this is
+ * PHPUnit's TestCase and an undeclared property is a dynamic property, deprecated in PHP 8.2.
  */
 $sentinel = new stdClass();
 
@@ -65,18 +53,13 @@ uses()
         global $wpdb;
         $wpdb->query('ROLLBACK');
         $wpdb->query('SET autocommit = 1');
-        // The tripwire. The sentinel was written INSIDE the transaction, so a rollback
-        // must take it away with everything else. If it is still there, the transaction
-        // was committed while the test was running, every row the test wrote before that
-        // point is now permanent, and the next test that asks for the same username or
-        // slug will fail somewhere else entirely — which is exactly how this was found.
-        //
-        // DDL is what does it: MySQL commits the open transaction implicitly on CREATE,
-        // ALTER and DROP TABLE. So does an explicit START TRANSACTION.
-        //
-        // A test that MEANS to do this says so with commitsTransaction() — the Import suite, whose
-        // TableTmp is created and dropped per import, and the three tests that reach
-        // Migrate::runAll(). Those are cleaned up by hand instead of being failed.
+        // Tripwire: the sentinel was written INSIDE the transaction, so the rollback must remove
+        // it. If it survives, the transaction was committed mid-test, every earlier write is now
+        // permanent, and a later test asking for the same username or slug fails elsewhere. DDL
+        // does it (MySQL commits implicitly on CREATE/ALTER/DROP TABLE), as does an explicit
+        // START TRANSACTION. A test that MEANS to commit says so with commitsTransaction() — the
+        // Import suite and the three tests reaching Migrate::runAll(); those are cleaned up by
+        // hand rather than failed.
         $committed = (bool) $wpdb->get_var($wpdb->prepare(
             "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name = %s", $sentinel->name
         ));
@@ -90,14 +73,12 @@ uses()
         }
         restoreHooks();
         resetRequestState();
-        // The object cache does not roll back either, and it is flushed BEFORE the state reset
-        // below — which re-reads the plugin's settings from the database, and would otherwise be
-        // handed the cached copy from before the ROLLBACK.
+        // The object cache does not roll back either; flush it BEFORE resetGlobalState() re-reads
+        // the plugin's settings, which would otherwise get the copy cached before the ROLLBACK.
         wp_cache_flush();
-        // Everything else a transaction cannot roll back: the globals, the container, the
-        // plugin's in-memory session and settings, the fakes' statics. See resetGlobalState() —
-        // and if a test passes alone but fails under `make test:random`, what it leaned on is
-        // missing from there.
+        // Everything else a transaction cannot roll back: globals, container, the plugin's
+        // in-memory session and settings, the fakes' statics. If a test passes alone but fails
+        // under `make test:random`, what it leaned on is missing from resetGlobalState().
         resetGlobalState();
         if ($committed && !$declared) {
             throw new RuntimeException(
@@ -109,18 +90,14 @@ uses()
         }
         // WP_IMPORTING is a one-way door: define() cannot be undone, and the plugin reads it in
         // fourteen places to mean "this review did not come from a person filling in a form". A
-        // test outside the Import suite that defines it silently changes the behaviour of EVERY
-        // test that runs after it — no avatar, no verification email, no count recalculation, no
-        // cache flush, and the protected fields (is_pinned, is_verified, ip_address) stop being
-        // protected. The Import suite is declared LAST in phpunit.xml precisely so that it may.
+        // test outside the Import suite that defines it silently changes every test after it — no
+        // avatar, no verification email, no count recalculation, no cache flush, and the protected
+        // fields (is_pinned, is_verified, ip_address) stop being protected. The Import suite is
+        // declared LAST in phpunit.xml precisely so it may.
         //
-        // Without this, the symptom is a dozen unrelated failures in files that did nothing
-        // wrong, and the cause is one command in one earlier file. That has now happened once.
-        //
-        // It is DECLARED, not detected: Pest compiles every test file into an eval()'d class, so
-        // the TestCase's own filename is Pest's compiler, not the test — there is no directory to
-        // check. So the Import suite says definesWpImporting(), exactly as a test that runs DDL
-        // says commitsTransaction(), and anything else that defines the constant is a bug.
+        // It is DECLARED, not detected: Pest compiles each test file into an eval()'d class, so
+        // there is no test directory to check. The Import suite says definesWpImporting() in its
+        // beforeEach, exactly as a DDL test says commitsTransaction(); anything else is a bug.
         $wasImporting = wpImportingWasDeclared();
         wpImportingWasDeclared(false);
         if (defined('WP_IMPORTING') && !$wasImporting) {

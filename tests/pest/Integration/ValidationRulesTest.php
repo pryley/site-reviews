@@ -7,16 +7,14 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The validation rules themselves — the ones a review form is checked against.
  *
- * This is a port of Laravel's validator, cut down to the nine rules the plugin needs. It is what
- * decides whether somebody's review is accepted or handed back to them with a red box round a
- * field, so both directions cost something real: a rule that is too strict turns away a person who
- * had something to say, and a rule that is too loose lets a bot fill the reviews table.
+ * The plugin's validator (a cut-down port of Laravel's, nine rules) decides whether a review is
+ * accepted or handed back with a red box round a field, so both directions cost: too strict turns
+ * away a person who had something to say, too loose lets a bot fill the reviews table.
  *
- * The one piece of cleverness in it, and the only thing here that is not obvious, is what `size`
- * means. `min:3` on a name means THREE CHARACTERS. `min:3` on a rating means THREE STARS. The same
- * rule, the same syntax, two entirely different questions — and what decides between them is
- * whether the field ALSO carries the `number` rule (Validator::$numericRules). Get that wrong and
- * `min:1` on a rating starts accepting any rating at all, because "1" is one character long.
+ * The one non-obvious piece is what `size` means. `min:3` on a name means THREE CHARACTERS; on a
+ * rating, THREE STARS. Same rule, same syntax, two questions — decided by whether the field also
+ * carries the `number` rule (Validator::$numericRules). Wrong, and `min:1` on a rating accepts any
+ * rating, because "1" is one character long.
  */
 
 beforeEach(function () {

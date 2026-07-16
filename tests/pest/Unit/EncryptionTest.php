@@ -54,9 +54,8 @@ function encryptionMethod(string $name)
 }
 
 /**
- * Encryption derives its key from the WP salts and holds no state, so a
- * fresh instance is equivalent to the one the phpunit set_up() reused — and
- * a message encrypted by one instance decrypts in another, as in production.
+ * Encryption derives its key from the WP salts and holds no state, so a fresh instance is
+ * equivalent to any other and a message encrypted by one decrypts in another, as in production.
  */
 function encryption(): Encryption
 {

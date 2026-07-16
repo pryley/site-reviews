@@ -12,13 +12,10 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The "why are you leaving?" dialog on the Plugins screen.
  *
- * A person clicks Deactivate, is asked why, and what they say is POSTed to the plugin
- * author's server along with a description of their site. It is the one place where the
- * plugin sends anything anywhere without being asked to, so what it sends is the subject
- * of most of this file — and the interesting assertions are the NEGATIVE ones.
- *
- * The dialog is also shown BEFORE the deactivation happens, and skipping it must still
- * deactivate the plugin. Nobody's uninstall may be held hostage to a survey.
+ * A person clicks Deactivate, is asked why, and their answer is POSTed to the plugin author's server
+ * with a description of their site — the one place the plugin sends anything unasked, so what it
+ * sends is most of this file, and the interesting assertions are the NEGATIVE ones. The dialog shows
+ * BEFORE deactivation, and skipping it must still deactivate: nobody's uninstall is hostage to a survey.
  */
 
 beforeEach(function () {

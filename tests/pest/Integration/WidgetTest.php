@@ -14,19 +14,15 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The four legacy widgets.
  *
- * Each one is a thin wrapper around a shortcode: the widget renders the form in the
- * admin, and hands whatever was typed into it straight to the shortcode to build. So
- * there is very little of its own to go wrong, and exactly one thing that is easy to get
- * wrong — normalizeInstance().
+ * Each is a thin wrapper around a shortcode: it renders the form in the admin and hands whatever was
+ * typed straight to the shortcode. So little of its own to go wrong, and one thing that is easy to —
+ * normalizeInstance(). WordPress hands a widget only the values that were SAVED, and a widget saved
+ * before a new option existed does not have it in its instance. shortcode_atts() keeps the shape of
+ * what was saved rather than filling from the shortcode's defaults, so the widget does not quietly
+ * acquire settings its owner never chose.
  *
- * WordPress hands a widget the values that were SAVED, and nothing else. A widget saved
- * before a new option existed does not have that option in its instance. shortcode_atts()
- * is used to keep the shape of what was saved rather than filling it in from the
- * shortcode's defaults — which is why the widget does not quietly acquire settings its
- * owner never chose.
- *
- * They are marked legacy in the admin (the block is the replacement) and they still have
- * to keep working, because a widget that stops rendering takes a live sidebar with it.
+ * Marked legacy in the admin (the block is the replacement), they still have to work — a widget that
+ * stops rendering takes a live sidebar with it.
  */
 
 beforeEach(function () {

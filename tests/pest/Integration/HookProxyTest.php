@@ -7,14 +7,14 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The proxy every hook callback the plugin does not own is wrapped in.
  *
- * A third party fires a filter with data of the wrong shape; the plugin's typed callback would
- * fatal on it and take the whole page — and the blame — with it. proxy() catches the throwable,
- * logs a line, and degrades: a filter hands back its first argument unfiltered, an action simply
- * does nothing. The rethrow filter turns the catch off for anyone debugging (and for this suite,
- * which forces it ON in bootstrap so a throwable inside a hook cannot make a test pass quietly).
+ * A third party fires a filter with the wrong-shaped data; the plugin's typed callback would fatal
+ * and take the page — and the blame — with it. proxy() catches the throwable, logs a line, and
+ * degrades: a filter returns its first argument unfiltered, an action does nothing. The rethrow
+ * filter turns the catch off for anyone debugging (and for this suite, which forces it ON in
+ * bootstrap so a throwable in a hook cannot make a test pass quietly).
  *
- * So the swallow path is the one thing the rest of the suite CANNOT reach — every other test runs
- * with rethrow on. This turns it back off, which is the production default, and drives it.
+ * So the swallow path is the one thing the rest of the suite CANNOT reach. This turns rethrow back
+ * off — the production default — and drives it.
  */
 
 beforeEach(function () {

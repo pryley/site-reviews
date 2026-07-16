@@ -11,21 +11,17 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The plugin's admin menu, and the pages behind it.
  *
- * Four submenu pages — Settings, Tools, Help & Support, Premium — each of which is
- * registered by NAME: registerSubMenus() builds a method name from the slug and skips
- * the page if no such method exists. So a page can silently stop existing, and the only
- * symptom is a menu item that is not there.
+ * Four submenu pages — Settings, Tools, Help & Support, Premium — each registered by NAME:
+ * registerSubMenus() builds a method name from the slug and skips the page if the method is missing.
+ * A page can silently stop existing, the only symptom a missing menu item.
  *
- * Permissions are enforced twice, and both matter. add_submenu_page() is given the
- * capability, which is what stops somebody reaching the page by typing the URL; and
- * parseWithFilter() drops the TABS a person may not see, which is what stops the
- * Licenses tab appearing to an editor. The second is not decoration — the settings page
- * renders every tab it is given.
+ * Permissions are enforced twice: add_submenu_page() gets the capability (stops reaching the page by
+ * URL), and parseWithFilter() drops TABS a person may not see (stops the Licenses tab appearing to
+ * an editor) — the settings page renders every tab it is given.
  *
- * The pages are rendered by calling the menu callbacks, which is exactly what WordPress
- * does. They are big — the settings page builds every field of every tab — and that is
- * the point: a template tag renamed, a view deleted, a field whose config is malformed,
- * all of it lands here.
+ * Pages are rendered by calling the menu callbacks, as WordPress does. They are big (the settings
+ * page builds every field of every tab), which is the point: a renamed template tag, a deleted view,
+ * a malformed field config all land here.
  */
 
 beforeEach(function () {

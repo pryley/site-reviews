@@ -10,21 +10,20 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The three things the Tools page will hand you as a file.
  *
- *   the settings      a JSON dump of every setting the plugin has — which includes the licence
- *                     keys for the paid addons and the secret keys for whichever CAPTCHA the
- *                     site uses.
- *   the console       the plugin's error log: file paths, SQL fragments, the arguments of
- *                     failed calls. It is what people paste into public support threads.
+ *   the settings      a JSON dump of every setting — including the paid addons' licence keys and the
+ *                     secret keys for whichever CAPTCHA the site uses.
+ *   the console       the plugin's error log: file paths, SQL fragments, failed-call arguments —
+ *                     what people paste into public support threads.
  *   the system info   the site's PHP, MySQL, theme, plugin list and configuration.
  *
- * None of it is catastrophic on its own and all of it is somebody's reconnaissance. So each has
- * a capability check, and then AbstractController::download() has a SECOND one — `can
- * edit_others_posts` — which is the last line before the headers go out.
+ * None is catastrophic alone, all of it is reconnaissance. So each has a capability check, and
+ * AbstractController::download() has a SECOND (`can edit_others_posts`), the last line before the
+ * headers go out.
  *
- * Only the refusals are tested here, and that is not laziness: download() ends in a bare `exit`,
- * which no PHP code can intercept (the suite catches wp_die() and wp_redirect() by throwing;
- * `exit` takes the process with it). So the success path cannot be driven from a test at all —
- * which is worth knowing, and is exactly why the refusals are worth pinning down.
+ * Only the refusals are tested, and not from laziness: download() ends in a bare `exit`, which no
+ * PHP code can intercept (the suite catches wp_die()/wp_redirect() by throwing; `exit` takes the
+ * process with it). The success path cannot be driven at all — which is why the refusals are worth
+ * pinning down.
  */
 
 beforeEach(function () {

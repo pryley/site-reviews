@@ -7,24 +7,21 @@ use function GeminiLabs\SiteReviews\Tests\interceptHttp;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * The licence, and the update it entitles somebody to.
+ * The licence, and the update it entitles someone to.
  *
- * This is the code that runs when a person pastes in the key they have just paid for, and
- * the code that decides whether they are offered the addon update afterwards. It speaks an
- * EDD software-licensing dialect: one POST per action, `edd_action` says which.
+ * The code that runs when a person pastes in the key they just paid for, and that decides whether
+ * they are offered the addon update afterwards. It speaks an EDD software-licensing dialect: one
+ * POST per action, `edd_action` says which. The tests check:
  *
- * Two things are worth being clear about, because they are what the tests are checking:
- *
- *   what goes UP    the licence key, the addon it is for, and the URL of the site claiming
- *                   an activation. Get the site URL wrong and the person burns an
- *                   activation slot on a site they do not own.
- *   what comes DOWN is whatever the server felt like sending, and it is RESTRICTED through
- *                   a Defaults class before anything reads it. That is not decoration: the
- *                   version payload carries `package`, the URL WordPress is handed to
+ *   what goes UP    the licence key, the addon it is for, and the URL of the site claiming an
+ *                   activation. Wrong site URL and the person burns an activation slot on a site
+ *                   they do not own.
+ *   what comes DOWN whatever the server sent, RESTRICTED through a Defaults class before anything
+ *                   reads it — the version payload carries `package`, the URL WordPress is handed to
  *                   download and install a zip from.
  *
- * Every licence call flushes the cached get_version first, so that somebody who has just
- * activated their licence is offered the download rather than yesterday's "no".
+ * Every licence call flushes the cached get_version first, so someone who just activated is offered
+ * the download, not yesterday's "no".
  */
 
 beforeEach(function () {

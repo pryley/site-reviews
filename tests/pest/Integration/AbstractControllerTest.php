@@ -10,27 +10,23 @@ use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * "Am I on the right screen?" — asked nine different ways, by every controller in the plugin.
+ * "Am I on the right screen?" — asked nine ways, by every controller.
  *
- * These predicates are the guard on nearly every hook the plugin registers, and WordPress fires
- * those hooks on every admin page there is. So a predicate that answers `true` too readily does not
- * fail — it makes the plugin act on somebody else's screen, which is how a reviews plugin ends up
- * renaming the Publish button on a WooCommerce product.
+ * These predicates guard nearly every hook the plugin registers, and WordPress fires those on every
+ * admin page. A predicate that answers `true` too readily makes the plugin act on someone else's
+ * screen — how a reviews plugin ends up renaming the Publish button on a WooCommerce product.
  *
- * The distinction that runs through all of them, and the reason there are nine rather than three:
+ * The distinction, and why there are nine not three:
  *
- *   str_starts_with(…, glsr()->post_type)   "a review screen, OR AN ADDON'S" — the addons register
- *                                           post types beginning with the same prefix, and their
- *                                           screens want the plugin's assets and notices too.
- *   glsr()->post_type === …                 "a review screen, and only a review screen."
+ *   str_starts_with(…, glsr()->post_type)   "a review screen OR AN ADDON'S" — addons register post
+ *                                           types with the same prefix and want the assets/notices.
+ *   glsr()->post_type === …                 "a review screen, and only that."
  *
- * Getting those the wrong way round is silent in both directions: too loose and the plugin acts on
- * an addon's screen it knows nothing about; too tight and the addon's screen loses the styles,
- * scripts and notices it was relying on the parent to provide.
- *
- * They also read the SCREEN and the QUERY STRING, which are different things and do not always
- * agree — isAdminPage() reads ?post_type= from the URL, isAdminScreen() reads the WP_Screen. On a
- * review's edit page the URL has no post_type at all, only ?post=123.
+ * Wrong way round is silent both ways: too loose, the plugin acts on an addon's screen it knows
+ * nothing about; too tight, the addon's screen loses the styles, scripts and notices it relied on
+ * the parent for. They also read the SCREEN and the QUERY STRING, which do not always agree —
+ * isAdminPage() reads ?post_type= from the URL, isAdminScreen() reads the WP_Screen; a review's edit
+ * page has no post_type in the URL, only ?post=123.
  */
 
 beforeEach(function () {

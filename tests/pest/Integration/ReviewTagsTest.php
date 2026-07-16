@@ -12,18 +12,16 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * Two of the template tags: where the reviewer was, and what the site said back.
  *
- * LOCATION is geolocation made visible, and it is the tag with the most ways to be wrong, because
- * the data comes from an IP lookup and every field of it can be missing, meaningless, or both:
+ * LOCATION is geolocation made visible, with the most ways to be wrong — the data comes from an IP
+ * lookup and every field can be missing, meaningless, or both:
  *
- *   - the flag is an SVG on disk, chosen by country code. There are 255 of them and roughly two
- *     hundred countries, so a lookup that returns something unexpected has no file — and a broken
- *     image on a review is worse than no flag at all.
- *   - the region is only shown for the US, because "Bavaria" is not what anybody outside Germany
- *     means by a region, and the lookup returns a NUMBER for a good many countries.
+ *   - the flag is an SVG on disk chosen by country code. 255 files, ~200 countries, so an unexpected
+ *     lookup result has no file — a broken image is worse than no flag.
+ *   - the region is shown only for the US, because "Bavaria" is not what anyone outside Germany means
+ *     by a region, and the lookup returns a NUMBER for many countries.
  *
- * RESPONSE is the site owner's reply, printed under the review with "Response from <site name>".
- * The name is filterable because on a WooCommerce store it should say the shop's name, not the
- * blog's.
+ * RESPONSE is the site owner's reply, printed under the review as "Response from <site name>". The
+ * name is filterable because on a WooCommerce store it should be the shop's, not the blog's.
  */
 
 beforeEach(function () {

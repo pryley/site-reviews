@@ -16,12 +16,10 @@ uses(InteractsWithAjax::class);
 /*
  * The review list table.
  *
- * WordPress draws it, and the plugin bends it into shape through filters: which
- * columns exist, which are hidden, which can be sorted, what the row actions are,
- * and — the one with teeth — what a search actually searches.
- *
- * Every method here is a filter callback, so each test calls it the way WordPress
- * would, with the arguments WordPress passes.
+ * WordPress draws it; the plugin bends it into shape through filters: which columns exist, which are
+ * hidden, which sort, what the row actions are, and — the one with teeth — what a search actually
+ * searches. Every method here is a filter callback, so each test calls it as WordPress would, with
+ * the arguments WordPress passes.
  */
 
 beforeEach(function () {

@@ -12,22 +12,20 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * `wp site-reviews …`
  *
- * Three commands, and they exist because of the two situations where the admin screens cannot
- * help: a site with so many reviews that the browser times out doing this, and a site that is
- * already broken enough that the admin will not load.
+ * Three commands, for the two situations the admin screens cannot help with: a site with so many
+ * reviews the browser times out, and a site too broken for the admin to load.
  *
- *   ip-address   what IP the server actually sees. This is the first thing support asks for when
- *                somebody behind Cloudflare finds every review recorded from the same address —
- *                the answer tells them what to put in the trusted-proxy setting.
- *   migrate      run the schema migrations. `--force` resets them all and runs them from the
- *                beginning, which is the recovery path when a migration half-ran.
- *   repair       recount the assigned meta, drop rating rows whose review is gone, and put the
+ *   ip-address   what IP the server actually sees — the first thing support asks when someone behind
+ *                Cloudflare finds every review recorded from the same address; the answer tells them
+ *                what to put in the trusted-proxy setting.
+ *   migrate      run the schema migrations. `--force` resets and runs them from the start, the
+ *                recovery path when a migration half-ran.
+ *   repair       recount the assigned meta, drop rating rows whose review is gone, put the
  *                capabilities back on the roles.
  *
- * They run with no browser, no user and no screen, so nothing about them fails visibly. WP_CLI is
- * faked in tests/stubs/wp-cli.php — it records what the command told the person instead of
- * printing it — and the assertions below are on exactly that: what a site owner staring at a
- * broken site is told happened.
+ * They run with no browser, user or screen, so nothing fails visibly. WP_CLI is faked in
+ * tests/stubs/wp-cli.php — it records what the command told the person instead of printing — and the
+ * assertions are on exactly that: what a site owner staring at a broken site is told happened.
  */
 
 beforeEach(function () {

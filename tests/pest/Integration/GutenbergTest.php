@@ -7,15 +7,12 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The block editor integration.
  *
- * There is no third party here — Gutenberg is core — so this integration
- * registers on every site, and every one of its callbacks is reachable through
- * the core filter it is hooked to. Each test therefore fires the real filter
- * rather than calling the controller, which also proves the hook is registered at
- * all.
+ * No third party here — Gutenberg is core — so this integration registers on every site, and every
+ * callback is reachable through the core filter it hooks. Each test fires the real filter rather than
+ * calling the controller, which also proves the hook is registered.
  *
- * The one thing the integration does that is not a filter is registerBlocks(), on
- * init. That already ran during the boot, so the assertion is on its result: the
- * four blocks are in WordPress's registry.
+ * The one non-filter thing is registerBlocks(), on init. That already ran at boot, so the assertion
+ * is on its result: the four blocks are in WordPress's registry.
  */
 
 beforeEach(function () {

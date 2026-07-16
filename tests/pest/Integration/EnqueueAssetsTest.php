@@ -9,12 +9,11 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The asset commands.
  *
- * The interesting half is not the wp_enqueue_script() call — it is the inline
- * script that goes with it. The frontend JS reads its whole configuration off a
- * `GLSR` global that this command prints: the ajax action and URL, the captcha
- * config, the validation strings, the CSS classes the validator adds to a field.
- * A key renamed here is a silently broken form on the front end, which is why the
- * shape of that payload is worth pinning rather than just the fact of the enqueue.
+ * The interesting half is not the wp_enqueue_script() call but the inline script with it: the
+ * frontend JS reads its whole configuration off a `GLSR` global this command prints — the ajax
+ * action and URL, the captcha config, the validation strings, the CSS classes the validator adds.
+ * A key renamed here is a silently broken form, so the payload's shape is worth pinning, not just
+ * the enqueue.
  */
 
 beforeEach(function () {

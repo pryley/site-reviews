@@ -9,20 +9,16 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * Getting somebody else's hook off a hook.
  *
- * Thirty-odd page builders and SEO plugins hook the same WordPress filters this plugin does, and
- * some of them do things a review cannot survive — wrapping the content, stripping the schema,
- * rewriting the excerpt. Now and then the only fix is to take their callback off the hook.
+ * Thirty-odd page builders and SEO plugins hook the same filters this plugin does, and some do
+ * things a review cannot survive — wrapping the content, stripping the schema, rewriting the
+ * excerpt. Sometimes the only fix is to remove their callback.
  *
- * remove_filter() cannot do it. It needs the SAME callable that was added, and by the time this
- * plugin is running, the other plugin's object is somewhere inside WordPress's $wp_filter and
- * nowhere this code can reach. Worse, half of them add their callbacks as CLOSURES, and a
- * closure cannot be compared or reconstructed at all.
- *
- * So Compatibility goes and finds it: it walks $wp_filter for the hook and priority, matches on
- * the CLASS NAME and METHOD NAME rather than on identity, and — for a closure — reaches inside
- * it with reflection to pull out the `callback` variable it closed over. That last part is the
- * only way to remove a closure somebody else added, and it is a trick worth having a test for,
- * because it depends on the shape of code this plugin does not own.
+ * remove_filter() cannot: it needs the SAME callable that was added, and the other plugin's object
+ * is buried in $wp_filter out of reach — and half of them add closures, which cannot be compared or
+ * reconstructed. So Compatibility walks $wp_filter for the hook and priority, matches on CLASS and
+ * METHOD name rather than identity, and for a closure reaches inside it with reflection for the
+ * `callback` it closed over. That last part is the only way to remove a closure someone else added,
+ * and worth a test because it depends on the shape of code this plugin does not own.
  */
 
 beforeEach(function () {

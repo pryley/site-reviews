@@ -9,27 +9,22 @@ use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * The Application: how an addon gets in, and what it is allowed to do once it is.
+ * The Application: how an addon gets in, and what it may do once in.
  *
- * register() is the front door for all nine premium addons, and it is called from the addon's own
- * plugin file, before anything else. Everything it does is a refusal or a registration, and the
- * refusals are the interesting half — an addon that is half-registered is worse than one that is
- * not registered at all, because the plugin will call into it.
+ * register() is the front door for all nine premium addons, called from the addon's plugin file
+ * before anything else. Everything it does is a refusal or a registration, and the refusals are the
+ * interesting half — a half-registered addon is worse than an unregistered one, because the plugin
+ * calls into it. It refuses on four grounds, each a real support ticket:
  *
- * It refuses on four grounds, and each is somebody's real support ticket:
+ *   the class does not exist       deleted from disk but still in active_plugins
+ *   the plugin FILE does not exist the directory was renamed, so nothing (assets, views, languages)
+ *                                  can be read from it
+ *   Site Reviews is too old        the addon needs a newer parent than installed
+ *   Site Reviews is too new        the parent moved on and the addon has not
  *
- *   the class does not exist       an addon deleted from disk but still in active_plugins
- *   the plugin FILE does not exist the addon's directory has been renamed, so nothing can be
- *                                  read from it — its assets, views and languages all live there
- *   Site Reviews is too old        the addon needs a newer parent than the one installed
- *   Site Reviews is too new        the parent has moved on and this addon has not
- *
- * The last two are version-gated from the addon's own plugin header, which is why the fixture
- * carries GLSR headers: an addon whose header omits them is not a case this suite invents.
- *
- * Registration is not free, either — it binds the addon as a singleton, aliases it by id, and
- * calls init(), which is what registers its post types and hooks. Doing that to an addon that is
- * incompatible is the white screen the refusals exist to prevent.
+ * The last two are gated from the addon's plugin header, which is why the fixture carries GLSR
+ * headers. Registration binds the addon as a singleton, aliases it by id, and calls init() (its post
+ * types and hooks) — doing that to an incompatible addon is the white screen the refusals prevent.
  */
 
 beforeEach(function () {

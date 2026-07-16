@@ -14,21 +14,15 @@ uses(InteractsWithExits::class);
 /*
  * The Duplicate Page integration.
  *
- * Unlike Duplicate Post, this plugin offers no hook for copying the extra data —
- * it just makes the post — so the integration takes the action over entirely
- * (admin_action_dt_duplicate_post_as_draft, at priority 1), duplicates the review
- * itself, and redirects. A review's rating lives in a custom table, so a plain
- * post copy would be a review with no rating.
+ * Unlike Duplicate Post, this plugin offers no hook for copying the extra data — it just makes the
+ * post — so the integration takes the action over entirely (admin_action_dt_duplicate_post_as_draft,
+ * priority 1), duplicates the review itself, and redirects. A review's rating lives in a custom
+ * table, so a plain post copy would be a review with no rating.
  *
- * duplicateReview() ends in wp_redirect() + exit, and two of its guards end in
- * wp_die(). InteractsWithExits turns both into exceptions — see that file for why
- * neither needs a change in production code — so the whole method is under test
- * here, redirect included.
- *
- * The controller is CALLED rather than fired through its hook, which is simply
- * clearer — HookProxy's catch would not have got in the way either, since it
- * rethrows when the `site-reviews/hook/rethrow` filter says to, and bootstrap.php
- * says to (see Support/InteractsWithExits).
+ * duplicateReview() ends in wp_redirect() + exit, and two guards end in wp_die(). InteractsWithExits
+ * turns both into exceptions (see that file for why neither needs a production change), so the whole
+ * method is under test, redirect included. The controller is CALLED rather than fired through its
+ * hook, simply because it is clearer.
  */
 
 beforeEach(function () {

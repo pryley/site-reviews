@@ -10,14 +10,13 @@ use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * Geolocating a SINGLE review — the per-review lookup that runs from the queued action, as opposed
- * to the bulk GeolocateReviews tool. The happy path (a successful lookup stored beside the review)
- * is covered by the batch command's tests; what is pinned here is the failure path.
+ * Geolocating a SINGLE review — the per-review lookup from the queued action, not the bulk
+ * GeolocateReviews tool. The happy path (a successful lookup stored beside the review) is covered by
+ * the batch command's tests; pinned here is the failure path.
  *
- * A lookup that does not come back is not dropped and not looped on for ever: it is retried, on a
- * transient counter, and given up on after MAX_RETRIES consecutive failures. Get that wrong and a
- * dead licence server (or an IP the far end simply cannot place) either reschedules the same lookup
- * endlessly or abandons it on the first hiccup.
+ * A lookup that does not come back is neither dropped nor looped forever: it is retried on a
+ * transient counter and given up after MAX_RETRIES consecutive failures. Wrong, and a dead licence
+ * server (or an unplaceable IP) either reschedules endlessly or abandons on the first hiccup.
  */
 
 beforeEach(fn () => resetPluginState());

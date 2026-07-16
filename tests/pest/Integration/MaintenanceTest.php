@@ -17,13 +17,13 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The tools somebody reaches for when the plugin has gone wrong.
  *
- *   Rollback            go back to the previous version. This is what a site owner does at 2am when
- *                       an update has broken their site, and it has to work when nothing else does.
- *   ConvertTableEngine  a site on MyISAM cannot have foreign keys, so the plugin's tables cannot
- *                       cascade and its data drifts out of step. This converts them to InnoDB.
- *   ImportSettings      restore a settings backup — or copy a configured site onto a new one.
+ *   Rollback            go back to the previous version — what a site owner does at 2am when an
+ *                       update broke their site, and it must work when nothing else does.
+ *   ConvertTableEngine  a MyISAM site cannot have foreign keys, so the plugin's tables cannot
+ *                       cascade and drift out of step. This converts them to InnoDB.
+ *   ImportSettings      restore a settings backup, or copy a configured site onto a new one.
  *   MigrationNotice     the banner that says a migration is pending, and the thing that SCHEDULES
- *                       that migration. It is the only notice in the plugin that does work.
+ *                       it — the only notice in the plugin that does work.
  */
 
 beforeEach(function () {

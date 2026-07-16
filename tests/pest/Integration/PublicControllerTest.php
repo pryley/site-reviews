@@ -20,21 +20,19 @@ uses(InteractsWithAjax::class, InteractsWithExits::class, SubmitsReviews::class)
 /*
  * The front end: the four routes a VISITOR can reach, and the schema in the footer.
  *
- * Everything here runs for people who are not logged in, on somebody else's site, and three of the
- * four are unguarded — no nonce, because a page cache would serve a stale one. So each route has to
- * decide for itself what it is willing to hand out, and the interesting assertions are all about
- * what they REFUSE:
+ * Everything runs for logged-out people on someone else's site, and three of the four are unguarded
+ * — no nonce, since a page cache would serve a stale one. So each route decides what it will hand
+ * out, and the interesting assertions are about what they REFUSE:
  *
- *   approved-review      hands back one review's HTML, by id, to anybody who asks. It must refuse
- *                        a review that is PENDING — otherwise a moderation queue is readable by
- *                        anybody who can count.
- *   fetch-paged-reviews  page 2 of a list. It rebuilds the shortcode from attributes the BROWSER
- *                        sent, which is the only reason the shortcode's restrict() matters.
- *   submit-review        the form post. Redirects on success — and on failure does NOT, because
- *                        the errors have to survive to be printed.
+ *   approved-review      hands back one review's HTML by id to anybody. It must refuse a PENDING
+ *                        review, or a moderation queue is readable by anyone who can count.
+ *   fetch-paged-reviews  page 2 of a list, rebuilt from attributes the BROWSER sent — the only
+ *                        reason the shortcode's restrict() matters.
+ *   submit-review        the form post. Redirects on success; on failure does NOT, because the
+ *                        errors must survive to be printed.
  *
- * The schema is the JSON-LD Google reads. It is printed in the footer unless an SEO plugin has
- * been told to own it, and printing two of them is worse than printing none.
+ * The schema is the JSON-LD Google reads, printed in the footer unless an SEO plugin owns it —
+ * printing two is worse than none.
  */
 
 beforeEach(function () {

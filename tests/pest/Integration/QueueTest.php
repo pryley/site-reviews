@@ -8,27 +8,22 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The queue, with a real Action Scheduler behind it.
  *
- * Every slow thing the plugin does happens here: geolocating an IP, sending a notification,
- * migrating a database, recalculating the counts. None of it happens in the request that asked
- * for it, and all of it is somebody else's library — Action Scheduler, which WooCommerce and
- * half the plugins on a typical site also use, from the same tables.
+ * Every slow thing the plugin does runs here (geolocation, notifications, migrations, count
+ * recalculation), off the request that asked for it, through Action Scheduler — the same library,
+ * and the same tables, WooCommerce and half a typical site use.
  *
- * The suite binds a NullQueue over this for every other test (see bootstrap.php), because
- * otherwise every review created in the suite would queue three jobs nobody asserts on. This
- * file is the exception NullQueue's docblock promises: it binds the REAL queue back, and is the
- * only place the plugin's own Queue code runs at all.
+ * Every other test binds a NullQueue over this (bootstrap.php) so review creation does not queue
+ * three jobs nobody asserts on. This file is the exception NullQueue's docblock promises: it binds
+ * the REAL queue back, and is the only place the plugin's own Queue code runs.
  *
- * The properties worth holding on to:
+ * What matters:
  *
- *   the GROUP     the queue is shared. Everything the plugin schedules goes into its own group,
- *                 and everything it reads back is filtered to that group — or it would be
- *                 cancelling WooCommerce's jobs.
- *   the PREFIX    likewise the hook name, so `queue/notification` cannot collide with somebody
- *                 else's `queue/notification`.
- *   UNIQUENESS    a review saved five times in a row must not queue five notifications.
+ *   the GROUP   the queue is shared, so everything the plugin schedules goes into its own group and
+ *               is read back filtered to it — otherwise it would cancel WooCommerce's jobs.
+ *   the PREFIX  likewise the hook name, so `queue/notification` cannot collide with someone else's.
+ *   UNIQUENESS  a review saved five times must not queue five notifications.
  *
- * Action Scheduler's rows are ordinary rows in ordinary tables, so the per-test transaction
- * rolls them back like anything else.
+ * Action Scheduler's rows are ordinary rows, so the per-test transaction rolls them back.
  */
 
 beforeEach(function () {

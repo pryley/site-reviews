@@ -16,26 +16,22 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 /*
  * The CAPTCHA gate.
  *
- * Seven services, one abstract class. Each is a thin subclass that knows an API URL, which
- * settings hold its keys, and what its error codes mean — so CaptchaValidatorAbstract is
- * where nearly all the behaviour is, and it is what most of this file is about.
+ * Seven services, one abstract class. Each subclass just knows an API URL, which settings hold its
+ * keys, and its error codes — so CaptchaValidatorAbstract holds nearly all the behaviour, and most
+ * of this file is about it. It is the last thing between a spambot and the reviews table, wrong two
+ * ways: letting a bot through (rubbish) or turning a real person away (worse — they had something to
+ * say and the owner never knows). Both are tested.
  *
- * It is the last thing standing between a spambot and the reviews table, and there are two
- * ways it can be wrong. It can let a bot through, which fills a site with rubbish. Or it can
- * turn a real person away, which is worse, because they had something to say and the site
- * owner will never know they tried. Both are tested for.
+ * The state machine (see the CAPTCHA_ constants):
  *
- * The state machine is the thing to hold on to (see the CAPTCHA_ constants):
- *
- *   DISABLED  no CAPTCHA is configured. Everybody passes. NOT a failure.
- *   EMPTY     enabled, but the form sent no token. The script did not run, or a bot skipped it.
- *   FAILED    the service could not be reached, or the keys are missing. "Refresh and retry."
+ *   DISABLED  none configured. Everybody passes. NOT a failure.
+ *   EMPTY     enabled, but no token sent. The script did not run, or a bot skipped it.
+ *   FAILED    the service was unreachable, or keys are missing. "Refresh and retry."
  *   INVALID   the service was reached and said no. "Verification failed."
  *   VALID     the service said yes.
  *
- * Only DISABLED and VALID pass. Everything else — including "we could not reach Google" —
- * rejects the review. That is the correct way round: a CAPTCHA that fails OPEN when the
- * service is down is a CAPTCHA that a spammer can turn off by taking the service down.
+ * Only DISABLED and VALID pass. Everything else — including "could not reach Google" — rejects: a
+ * CAPTCHA that fails OPEN when the service is down is one a spammer disables by taking it down.
  */
 
 beforeEach(function () {

@@ -31,14 +31,11 @@ use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * The commands, executed directly — which is what a controller does with them
- * (AbstractController::execute() simply calls handle() and hands the command
- * back). Each one is checked on the state it changed, not just on its own
- * successful() flag, so that a command which quietly does nothing cannot pass.
- *
- * Most of them are capability-gated (glsr()->can('edit_post'), 'publish_post',
- * 'assign_post'…), so a permitted user is the precondition for the happy path
- * and a logged-out one is the failure case.
+ * The commands, executed directly — what a controller does with them (AbstractController::execute()
+ * calls handle() and hands the command back). Each is checked on the state it changed, not just its
+ * successful() flag, so a command that quietly does nothing cannot pass. Most are capability-gated
+ * (glsr()->can('edit_post'), 'publish_post', 'assign_post'…), so a permitted user is the precondition
+ * for the happy path and a logged-out one the failure case.
  */
 
 beforeEach(function () {
