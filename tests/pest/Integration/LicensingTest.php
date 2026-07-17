@@ -303,3 +303,16 @@ test('an empty licence field is not sent to the server at all', function () {
     expect($asked)->toHaveCount(0);
     expect($options['settings']['licenses'][addonId()])->toBe('');
 });
+
+test('a premium licence marks the whole status premium', function () {
+    licensedAddon('a-valid-premium-key');
+    licenseServer([
+        'check_license' => ['license' => 'valid', 'is_premium_license' => true],
+    ]);
+
+    $status = glsr(License::class)->status();
+
+    expect($status['licensed'])->toBeTrue()
+        ->and($status['premium'])->toBeTrue()
+        ->and($status['expired'])->toBeFalse();
+});

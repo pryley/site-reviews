@@ -180,3 +180,30 @@ test('an assigned post type survives the id sanitizing untouched', function () {
 
     expect($normalized)->toContain('page');
 });
+
+test('a widget field without a type renders nothing', function () {
+    $widget = new \GeminiLabs\SiteReviews\Widgets\SiteReviewsWidget();
+
+    ob_start();
+    protectedMethod(\GeminiLabs\SiteReviews\Widgets\SiteReviewsWidget::class, 'renderField')
+        ->invoke($widget, 'broken', []); // no type: the field is invalid
+
+    expect(ob_get_clean())->toBe('');
+});
+
+test('the rest response reports the review status', function () {
+    // NOTE: the zeroed-gmt repair on the line above prepareStatus stays
+    // uncovered — Review's sanitizers can no longer produce the legacy
+    // '0000-00-00' rows it exists to repair (probed: construction and property
+    // writes both re-derive a real date).
+    $review = createReview();
+    $prepared = new \GeminiLabs\SiteReviews\Controllers\Api\Version1\Response\PrepareReviewData(
+        ['status'], $review, new WP_REST_Request()
+    );
+
+    protectedMethod(get_class($prepared), 'prepareStatus')->invoke($prepared);
+    $property = new ReflectionProperty($prepared, 'data');
+    $property->setAccessible(true);
+
+    expect($property->getValue($prepared)['status'])->toBe($review->status);
+});

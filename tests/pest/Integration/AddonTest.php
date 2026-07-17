@@ -187,3 +187,34 @@ test('an addon whose Hooks class is missing says so, rather than failing silentl
 
     expect(glsr(Console::class)->get())->toContain('missing a Hooks class');
 });
+
+test('an addon view is swapped for its styled version when the style ships one', function () {
+    $controller = glsr(\GeminiLabs\SiteReviews\TestAddon\Controller::class);
+
+    expect($controller->filterRenderView('views/documentation'))
+        ->toBe('views/styles/default/documentation') // the fixture ships one
+        ->and($controller->filterRenderView('views/settings'))
+        ->toBe('views/settings'); // and this one it does not
+});
+
+test('addon assets can be registered and enqueued deferred', function () {
+    $controller = glsr(\GeminiLabs\SiteReviews\TestAddon\Controller::class);
+    $register = \GeminiLabs\SiteReviews\Tests\protectedMethod(
+        \GeminiLabs\SiteReviews\TestAddon\Controller::class, 'registerAsset');
+    $enqueue = \GeminiLabs\SiteReviews\Tests\protectedMethod(
+        \GeminiLabs\SiteReviews\TestAddon\Controller::class, 'enqueueAsset');
+
+    $register->invoke($controller, 'js', ['defer' => true]);
+    expect(wp_scripts()->registered)->toHaveKey('site-reviews-test-addon');
+    expect(wp_scripts()->registered['site-reviews-test-addon']->extra['strategy'] ?? '')->toBe('defer');
+
+    $enqueue->invoke($controller, 'js', ['defer' => true]);
+    expect(wp_script_is('site-reviews-test-addon', 'enqueued'))->toBeTrue();
+
+    $register->invoke($controller, 'css', []);
+    expect(wp_styles()->registered)->toHaveKey('site-reviews-test-addon');
+
+    wp_dequeue_script('site-reviews-test-addon');
+    wp_deregister_script('site-reviews-test-addon');
+    wp_deregister_style('site-reviews-test-addon');
+});
