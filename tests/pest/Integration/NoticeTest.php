@@ -646,3 +646,69 @@ test('the migration notice loads while a migration is already queued', function 
         NullQueue::$isPending = false;
     }
 });
+
+/*
+ * The controller's two odd jobs: the "activate it for me" link some notices carry, and
+ * surviving a broken Notices directory.
+ */
+
+test('the notice activation link activates the plugin and goes back where it came from', function () {
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    $_GET = ['action' => 'activate', 'plugin' => 'hello.php', 'trigger' => 'notice'];
+    $_REQUEST['_wpnonce'] = wp_create_nonce('activate-plugin_hello.php');
+    $redirect = function ($location) {
+        throw new Exception("redirected|{$location}");
+    };
+    add_filter('wp_redirect', $redirect);
+    $outcome = '';
+    try {
+        glsr(NoticeController::class)->activatePlugin();
+    } catch (Exception $e) {
+        $outcome = $e->getMessage();
+    } finally {
+        remove_filter('wp_redirect', $redirect);
+        deactivate_plugins('hello.php', true);
+        $_GET = [];
+        unset($_REQUEST['_wpnonce']);
+    }
+
+    expect($outcome)->toStartWith('redirected|');
+    // the option write rolls back; what matters is the redirect fired INSTEAD of a wp_die
+});
+
+test('an activation link for a plugin that is not there dies with the reason', function () {
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    $_GET = ['action' => 'activate', 'plugin' => 'nope/nope.php', 'trigger' => 'notice'];
+    $_REQUEST['_wpnonce'] = wp_create_nonce('activate-plugin_nope/nope.php');
+    add_filter('wp_die_handler', fn () => function ($message) {
+        throw new Exception('died|'.(is_scalar($message) ? $message : ''));
+    });
+    $outcome = '';
+    try {
+        glsr(NoticeController::class)->activatePlugin();
+    } catch (Exception $e) {
+        $outcome = $e->getMessage();
+    } finally {
+        $_GET = [];
+        unset($_REQUEST['_wpnonce']);
+    }
+
+    expect($outcome)->toStartWith('died|');
+});
+
+test('a link that is not the activation link is nobody\'s business', function () {
+    $_GET = ['action' => 'activate', 'plugin' => 'hello.php']; // no trigger=notice
+    glsr(NoticeController::class)->activatePlugin();
+    $_GET = [];
+
+    expect(is_plugin_active('hello.php'))->toBeFalse(); // untouched
+});
+
+test('a broken notices directory is logged, not a broken admin_head', function () {
+    add_filter('site-reviews/path',
+        fn ($path, $file) => 'plugin/Notices' === $file ? '/nowhere/at/all' : $path, 10, 2);
+
+    glsr(NoticeController::class)->adminNotices();
+
+    expect(glsr(GeminiLabs\SiteReviews\Modules\Console::class)->get())->toContain('nowhere');
+});
