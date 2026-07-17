@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Rating;
 
 class SiteReviewsDefaults extends DefaultsAbstract
@@ -92,18 +91,5 @@ class SiteReviewsDefaults extends DefaultsAbstract
             'type' => '',
             'verified' => '',
         ];
-    }
-
-    /**
-     * Normalize provided values, this always runs first.
-     */
-    protected function normalize(array $values = []): array
-    {
-        foreach ($this->mapped as $old => $new) {
-            if ('custom' === Arr::get($values, $old)) { // @todo is this deprecated??
-                $values[$old] = Arr::get($values, $new);
-            }
-        }
-        return $values;
     }
 }

@@ -259,11 +259,6 @@ test('an activated or checked lifetime licence gets a far-away expiry too', func
 test('the deprecated assignment keys map onto the real ones, new winning over old', function (string $class) {
     // assigned_to is the old name for assigned_posts: alone it maps across, and
     // when both are given the new key wins and the old is discarded.
-    //
-    // NOTE: the 'custom' normalize branch in these three classes (line ~104) is
-    // DEAD — mapKeys() unconditionally unsets every old key before normalize()
-    // runs, so Arr::get($values, $old) can never be 'custom' there. The @todo
-    // beside it already suspects as much; left uncovered and reported.
     $postId = createPost();
 
     $mapped = glsr($class)->restrict(['assigned_to' => $postId]);

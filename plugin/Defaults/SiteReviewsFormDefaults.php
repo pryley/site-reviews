@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Helpers\Arr;
-
 class SiteReviewsFormDefaults extends DefaultsAbstract
 {
     /**
@@ -72,18 +70,5 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
     {
         $values['form_id'] = $values['id']; // used for the validation session key and to generate the honeypot hash
         return $values;
-    }
-
-    /**
-     * Normalize provided values, this always runs first.
-     */
-    protected function normalize(array $values = []): array
-    {
-        foreach ($this->mapped as $old => $new) {
-            if ('custom' === Arr::get($values, $old)) {
-                $values[$old] = Arr::get($values, $new);
-            }
-        }
-        return parent::normalize($values);
     }
 }

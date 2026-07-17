@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Helpers\Arr;
-
 class SiteReviewsSummaryDefaults extends DefaultsAbstract
 {
     /**
@@ -92,18 +90,5 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
     {
         $values['rating'] = max(1, $values['rating']);
         return $values;
-    }
-
-    /**
-     * Normalize provided values, this always runs first.
-     */
-    protected function normalize(array $values = []): array
-    {
-        foreach ($this->mapped as $old => $new) {
-            if ('custom' === Arr::get($values, $old)) {
-                $values[$old] = Arr::get($values, $new);
-            }
-        }
-        return parent::normalize($values);
     }
 }
