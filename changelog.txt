@@ -6,28 +6,30 @@
 - Fixed a fatal error on sites running MultilingualPress when it cannot report its version
 - Fixed a PHP error when a review query is built with no arguments
 - Fixed a PHP warning on sites running Loyalty Program for WooCommerce
-- Fixed a review that had not accepted the terms being refused when duplicated
 - Fixed an API request not being retried when the server asked for it to be
 - Fixed an unrecognised admin request failing silently instead of being logged
 - Fixed API request SSL certificate verification being switched off on live sites and switched on for local ones
 - Fixed cached API responses never being cleared on sites using a persistent object cache
-- Fixed deleted reviews being left in the cache on sites using InnoDB
+- Fixed deleted reviews being left in the review cache
+- Fixed duplicating a review that had not accepted the terms
 - Fixed imported reviews with no timestamp in the date being stamped with the time of the import
 - Fixed PHP deprecation notices on the review revisions comparison screen
+- Fixed plugin migrations rebuilding database indexes every time instead of only when needed
 - Fixed Polylang translations never being applied to assigned pages, categories or users
-- Fixed reviews being recorded as having accepted the terms on a site whose database version is not recorded
-- Fixed stale settings keys from being cleaned after a plugin migration
+- Fixed reviews being wrongly recorded as having accepted the terms on some sites
+- Fixed stale settings keys not being cleaned after a plugin migration
 - Fixed the "Approve" and "Unapproved" wording not being applied to the Publish metabox on the review editor
-- Fixed the assignment table indexes being rebuilt on every migration rather than only when they need it
+- Fixed the author link missing from reviews in the REST API
 - Fixed the category priority cache not being cleared when a category priority is added or changed
 - Fixed the classic widget title not being displayed
+- Fixed the custom schema identifier being ignored unless the schema type was Custom
 - Fixed the Documentation link on the plugins screen
-- Fixed the no-javascript Unapprove fallback link publishing the review instead of unapproving it
 - Fixed the plugin's service container being unable to register a factory
 - Fixed the plugins screen load time when the licence server is unreachable
 - Fixed the post meta cache not being cleared when the rating counts are recalculated
 - Fixed the redirect after duplicating a review with the Duplicate Page plugin
 - Fixed the review cache not being cleared when a rating is deleted
+- Fixed the Unapprove link publishing the review instead of unapproving it when javascript is disabled
 - Fixed the update details check for inactive addons
 
 = 8.1.0 (2026-07-11) =
