@@ -67,8 +67,12 @@ class GatekeeperNotice extends AbstractNotice
 
     protected function errors(array $errorKeys): array
     {
-        return array_filter($this->errors,
-            fn ($data) => in_array(Arr::get($data, 'error'), $errorKeys)
+        $errors = array_map(
+            fn ($data) => glsr(GatekeeperNoticeDefaults::class)->restrict(Arr::consolidate($data)),
+            $this->errors
+        );
+        return array_filter($errors,
+            fn ($data) => in_array($data['error'], $errorKeys)
         );
     }
 
@@ -162,10 +166,6 @@ class GatekeeperNotice extends AbstractNotice
     {
         $actions = [];
         foreach ($errors as $plugin => $data) {
-            $data = glsr(GatekeeperNoticeDefaults::class)->restrict($data);
-            if (empty($data['error'])) {
-                continue;
-            }
             $method = Helper::buildMethodName('pluginAction', $data['error']);
             if (method_exists($this, $method)) {
                 $data['plugin'] = $plugin;
@@ -179,7 +179,6 @@ class GatekeeperNotice extends AbstractNotice
     {
         $links = [];
         foreach ($errors as $plugin => $data) {
-            $data = glsr(GatekeeperNoticeDefaults::class)->restrict($data);
             $links[] = sprintf('<span class="plugin-%s"><a href="%s">%s</a></span>',
                 $data['textdomain'],
                 $data['plugin_uri'],
