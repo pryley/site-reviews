@@ -15,6 +15,16 @@ Features are subject to change and are sorted alphabetically, not by priority.
 
 ## Technical debt
 
+- [ ] **The addon-update filters are untested against the real update-server contract.**
+  `UpdateController::filterUpdatePlugins()` and the compat-addon loop in
+  `filterUpdatePluginsTransient()` consume `Updater::versionUpdate()`, whose response
+  shape belongs to the update server — a test that invents the payload asserts an
+  invented contract, so those paths are exercised only in production. The plan: capture
+  one real API response from a licensed site into a fixture, replay it with the suite's
+  `interceptHttp()`, and then test the whole loop honestly — version comparison, the
+  `response` vs `no_update` bucketing, and the `checked` bookkeeping. Needs a one-time
+  capture from a licensed install.
+
 - [ ] **The asset optimizer assumes the plugin folder is named exactly `site-reviews`.**
   `AbstractAsset::combine()` strips a HARD-CODED `strlen('site-reviews/')` off the end of
   `glsr()->path()` to get the filesystem root, and `file()` (the combined-asset target)
