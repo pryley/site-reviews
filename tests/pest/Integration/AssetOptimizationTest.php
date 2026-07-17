@@ -175,6 +175,105 @@ test('nocache throws the combined file away', function () {
         ->and($asset->url())->not->toContain('uploads');              // so the originals are served
 });
 
+test('inline styles survive being combined, same as the inline scripts do', function () {
+    // The CSS analog of the inline-config assertion below: deregistering the handle
+    // throws wp_add_inline_style() content away unless enqueue() carries it across.
+    optimizationOn();
+    wp_add_inline_style(glsr()->id, '.glsr-custom{color:tomato}');
+
+    css()->optimize();
+
+    $extra = wp_styles()->registered[glsr()->id]->extra;
+    expect(implode('', (array) ($extra['after'] ?? [])))->toContain('glsr-custom');
+});
+
+test('a stylesheet dependency survives being combined', function () {
+    wp_deregister_style(glsr()->id);
+    wp_register_style(glsr()->id, glsr()->url('assets/styles/bootstrap.css'), ['wp-components'], glsr()->version);
+    optimizationOn();
+
+    css()->optimize();
+
+    expect(wp_styles()->registered[glsr()->id]->deps)->toContain('wp-components');
+});
+
+test('turning the filter off mid-request stops optimization even for an asset built before it', function () {
+    optimizationOn();
+    $asset = css();
+    expect($asset->canOptimize())->toBeTrue();
+
+    remove_filter('site-reviews/optimize/css', '__return_true');
+
+    expect($asset->canOptimize())->toBeFalse()
+        ->and($asset->url())->not->toContain('uploads');
+});
+
+test('a source that cannot be read back from disk aborts the whole combine', function () {
+    // A deregistered-and-rewritten registration, a CDN plugin, anything whose URL
+    // does not map into the plugins directory: better to serve the originals than
+    // to write out a combined file with a stylesheet missing.
+    optimizationOn();
+    wp_deregister_style(glsr()->id);
+    wp_register_style(glsr()->id, 'https://cdn.example.org/styles.css', [], glsr()->version);
+
+    css()->optimize();
+
+    expect(file_exists(combinedFile()))->toBeFalse()
+        ->and(get_transient(glsr()->prefix.'optimized_css'))->toBeFalse();
+});
+
+test('an uploads directory that cannot be created is an error and the originals are served', function () {
+    // /proc is real and unwritable even for root, so the refresh re-lookup runs and
+    // wp_mkdir_p still fails — the shape of a site moved to a broken host.
+    optimizationOn();
+    $breakUploads = function (array $uploads) {
+        $uploads['basedir'] = '/proc/glsr-nowhere';
+        $uploads['baseurl'] = 'http://example.org/uploads';
+        return $uploads;
+    };
+    add_filter('upload_dir', $breakUploads);
+    set_error_handler(fn () => true); // mkdir's warning is the branch's precondition, not a defect
+    try {
+        $asset = css();
+        $asset->optimize();
+
+        expect(get_transient(glsr()->prefix.'optimized_css'))->toBeFalse()
+            ->and($asset->url())->not->toContain('uploads'); // isOptimized() is false without a file
+    } finally {
+        restore_error_handler();
+        remove_filter('upload_dir', $breakUploads);
+    }
+});
+
+test('on an https site the combined file is served over https', function () {
+    optimizationOn();
+    $_SERVER['HTTPS'] = 'on';
+    try {
+        css()->optimize();
+
+        expect(css()->url())->toStartWith('https://');
+    } finally {
+        unset($_SERVER['HTTPS']);
+    }
+});
+
+test('a combined file that cannot be written is an error, not a cached success', function () {
+    // The target path is occupied by a DIRECTORY: wp_mkdir_p() on the parent
+    // succeeds, put_contents() fails, and the transient must not be set — a set
+    // transient with no file would serve a 404 stylesheet until it expired.
+    optimizationOn();
+    wp_mkdir_p(combinedFile());
+    set_error_handler(fn () => true); // fopen-on-a-directory warns; the false return is the test
+    try {
+        css()->optimize();
+
+        expect(get_transient(glsr()->prefix.'optimized_css'))->toBeFalse();
+    } finally {
+        restore_error_handler();
+        rmdir(combinedFile());
+    }
+});
+
 /*
  * The scripts, which are the same idea and one crucial difference.
  *
