@@ -212,6 +212,12 @@ test('a rollback that downloads and unpacks cleanly reports success and clears t
         public function feedback($feedback, ...$args)
         {
         }
+
+        // after() echoes the wp.updates.decrementCount <script> directly when the
+        // upgrade succeeds — the one skin method that bypasses feedback().
+        public function after()
+        {
+        }
     };
     // a finished upgrade asks wordpress.org for fresh update data; the suite
     // blocks HTTP, so detach core's checks (hooks restore per test)
