@@ -168,3 +168,49 @@ test('every job of a kind can be cancelled at once', function () {
     expect(queue()->search(['hook' => 'queue/notification', 'status' => Queue::STATUS_PENDING]))
         ->toBe([]);
 });
+
+test('cancelling every job of a kind can be narrowed to matching args', function () {
+    queue()->once(time() + HOUR_IN_SECONDS, 'queue/notification', ['review_id' => 1]);
+    queue()->once(time() + HOUR_IN_SECONDS, 'queue/notification', ['review_id' => 2]);
+
+    queue()->cancelAll('queue/notification', ['review_id' => 1]);
+
+    expect(queue()->isPending('queue/notification', ['review_id' => 1]))->toBeFalse()
+        ->and(queue()->isPending('queue/notification', ['review_id' => 2]))->toBeTrue();
+});
+
+/*
+ * The single-action handles the Tools page works through.
+ */
+
+test('a cron job can be scheduled, fetched by id, and cancelled by id', function () {
+    $actionId = queue()->cron(time() + HOUR_IN_SECONDS, '0 0 * * *', 'queue/sync');
+    expect($actionId)->toBeGreaterThan(0);
+
+    $action = queue()->fetchAction($actionId);
+    expect($action->get_hook())->toBe('site-reviews/queue/sync')
+        ->and($action->get_schedule()->is_recurring())->toBeTrue();
+
+    queue()->cancelAction($actionId);
+    expect(ActionScheduler::store()->get_status((string) $actionId))
+        ->toBe(Queue::STATUS_CANCELED);
+});
+
+/*
+ * The Tools page counts, at their edges.
+ */
+
+test('a status with no actions dates as unknown', function () {
+    $date = \GeminiLabs\SiteReviews\Tests\protectedMethod(Queue::class, 'actionStatusDate')
+        ->invoke(queue(), Queue::STATUS_FAILED, true);
+
+    expect($date)->toBe('unknown');
+});
+
+test('an action whose status the store has no name for is not counted', function () {
+    global $wpdb;
+    $actionId = queue()->once(time() + HOUR_IN_SECONDS, 'queue/notification');
+    $wpdb->update($wpdb->actionscheduler_actions, ['status' => 'bogus'], ['action_id' => $actionId]);
+
+    expect(queue()->actionCounts())->toBe([]);
+});
