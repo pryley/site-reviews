@@ -320,8 +320,12 @@ abstract class Controller extends AbstractController
      */
     public function filterTranslationEntries(array $entries): array
     {
-        $potFile = $this->app()->path("{$this->app()->languages}/{$this->app()->id}.pot");
-        return glsr(Translation::class)->extractEntriesFromPotFile($potFile, $this->app()->id, $entries);
+        $addon = $this->app();
+        if ($addon instanceof Addon && $addon->hostedBy()) {
+            return $entries; // the host's catalog carries the hosted addon's strings
+        }
+        $potFile = $addon->path("{$addon->languages}/{$addon->id}.pot");
+        return glsr(Translation::class)->extractEntriesFromPotFile($potFile, $addon->id, $entries);
     }
 
     /**
@@ -329,7 +333,11 @@ abstract class Controller extends AbstractController
      */
     public function filterTranslatorDomains(array $domains): array
     {
-        return [...$domains, $this->app()->id];
+        $addon = $this->app();
+        if ($addon instanceof Addon && $addon->hostedBy()) {
+            return $domains; // hosted addons translate under the host's domain
+        }
+        return [...$domains, $addon->id];
     }
 
     /**
