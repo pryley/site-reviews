@@ -21,6 +21,19 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 beforeEach(fn () => resetPluginState());
 
+function suppressingDbErrors(callable $callback)
+{
+    // These tests run SQL that MUST fail; without this, $wpdb prints each failure to the
+    // console. Suppression short-circuits print_error() only — $wpdb->last_error is set
+    // before it, so the plugin's logErrors() path still sees every error.
+    $suppressed = $GLOBALS['wpdb']->suppress_errors();
+    try {
+        return $callback();
+    } finally {
+        $GLOBALS['wpdb']->suppress_errors($suppressed);
+    }
+}
+
 function withFakeTables(string $engine, callable $callback)
 {
     $fake = new class($engine) extends Tables {
@@ -57,19 +70,21 @@ function withFakeTables(string $engine, callable $callback)
 }
 
 test('a failed query is logged and returned as failure, not silence', function () {
-    expect(glsr(Database::class)->dbQuery('SELECT * FROM glsr_no_such_table_xyz'))->toBeFalse();
+    suppressingDbErrors(function () {
+        expect(glsr(Database::class)->dbQuery('SELECT * FROM glsr_no_such_table_xyz'))->toBeFalse();
+    });
 });
 
 test('the sqlite phrasing degrades on mysql to logged errors, not data changes', function () {
     // The branches themselves belong to SQLite sites (wp-sqlite-db); here they prove only
     // that the wrapper takes them. The probed MySQL responses are syntax errors.
-    withFakeTables('sqlite', function () {
+    suppressingDbErrors(fn () => withFakeTables('sqlite', function () {
         $db = glsr(Database::class);
         $db->beginTransaction('ratings'); // BEGIN TRANSACTION; -> syntax error, logged
         expect($db->insert('ratings', ['review_id' => 999999001]))->toBeFalse(); // INSERT OR IGNORE
         expect($db->insertBulk('ratings', [['review_id' => 999999001]], ['review_id']))->toBeFalse();
         expect($db->dbSafeQuery('SELECT 1'))->toEqual(1); // sqlite skips the fk-checks dance
-    });
+    }));
 });
 
 test('finishing a transaction commits, in every engine dialect', function () {
