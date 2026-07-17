@@ -321,3 +321,17 @@ test('the tinymce button can be switched off by filter', function () {
 
     expect(has_action('media_buttons'))->toBeFalse();
 });
+
+test('a licensed addon gets its update message hooked at init', function () {
+    // UpdateHooks::onInit() hooks the in_plugin_update_message for each LICENSED
+    // addon, so the plugins screen can explain an addon update before it is run.
+    glsr()->append('licensed', 'FakeAddonClass', 'my-fake-addon');
+    try {
+        glsr(\GeminiLabs\SiteReviews\Hooks\UpdateHooks::class)->onInit();
+
+        expect(false !== has_filter('in_plugin_update_message-my-fake-addon/my-fake-addon.php'))
+            ->toBeTrue();
+    } finally {
+        glsr()->discard('licensed');
+    }
+});
