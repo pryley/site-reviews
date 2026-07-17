@@ -11,6 +11,26 @@ use GeminiLabs\SiteReviews\Arguments;
  * sites depending on their salts — how this surfaced. These tests pin the mechanism, not the symptom.
  */
 
+test('an Arguments can be built from another Arguments', function () {
+    $original = new Arguments(['name' => 'Jane']);
+
+    expect((new Arguments($original))->toArray())->toBe(['name' => 'Jane']);
+});
+
+test('an Arguments serializes to a string and back', function () {
+    $arguments = new Arguments(['name' => 'Jane']);
+
+    expect((string) $arguments)->toBe(serialize(['name' => 'Jane']));
+    expect(unserialize((string) $arguments))->toBe(['name' => 'Jane']);
+});
+
+test('replace swaps the whole contents, unlike merge', function () {
+    $arguments = new Arguments(['name' => 'Jane', 'other' => 'kept']);
+    $arguments->replace(['name' => 'John']);
+
+    expect($arguments->toArray())->toBe(['name' => 'John']); // 'other' is gone
+});
+
 test('merge overwrites a value by its key', function () {
     $arguments = new Arguments(['name' => 'old', 'other' => 'kept']);
     $arguments->merge(['name' => 'new']);
