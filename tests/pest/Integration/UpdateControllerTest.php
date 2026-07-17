@@ -3,6 +3,7 @@
 use GeminiLabs\SiteReviews\Controllers\UpdateController;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
+use function GeminiLabs\SiteReviews\Tests\licenseServer;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
@@ -180,4 +181,131 @@ test('an update without a download package explains the licence', function () {
 test('an empty update transient is handed back before any addon work', function () {
     expect(glsr(UpdateController::class)->filterUpdatePluginsTransient(false))->toBeFalse()
         ->and(glsr(UpdateController::class)->filterUpdatePluginsTransient(null))->toBeNull();
+});
+
+/*
+ * The captured contract. The fixtures under tests/pest/fixtures/updater/ are
+ * real niftyplugins.com responses (captured 2026-07-17, scrubbed — see the
+ * README there); these tests pin the filters against them rather than against
+ * an invented payload.
+ */
+
+function updaterFixture(string $name): array
+{
+    $path = glsr()->path("tests/pest/fixtures/updater/{$name}.json");
+
+    return (array) json_decode((string) file_get_contents($path), true);
+}
+
+function updaterStubFile(string $version = '0.9.0'): string
+{
+    // the local half of the check: version_compare runs against this header
+    $file = glsr()->path('tests/pest/fixtures/updater/site-reviews-actions.php');
+    if ('0.9.0' !== $version) {
+        $copy = get_temp_dir().'site-reviews-actions-'.$version.'.php';
+        file_put_contents($copy, str_replace('0.9.0', $version, (string) file_get_contents($file)));
+
+        return $copy;
+    }
+
+    return $file;
+}
+
+test('a licensed addon answers the update filter with a real update entry', function () {
+    $asked = licenseServer(['get_version' => updaterFixture('get-version-valid')]);
+
+    $update = glsr(UpdateController::class)->filterUpdatePlugins(false, [
+        'TextDomain' => 'site-reviews-actions',
+        'UpdateURI' => 'https://niftyplugins.com',
+    ]);
+
+    expect($asked->getArrayCopy())->toContain('get_version')
+        ->and($update['version'])->toBe('1.0.0-beta12')
+        ->and($update['package'])->not->toBe('')
+        ->and($update['slug'])->toBe('site-reviews-actions');
+});
+
+test('a server answer with no version keeps whatever wordpress already had', function () {
+    licenseServer(['get_version' => []]);
+
+    expect(glsr(UpdateController::class)->filterUpdatePlugins(false, [
+        'TextDomain' => 'site-reviews-actions',
+        'UpdateURI' => 'https://niftyplugins.com',
+    ]))->toBeFalse();
+});
+
+test('a compat addon behind the captured version is offered the update', function () {
+    licenseServer(['get_version' => updaterFixture('get-version-valid')]);
+    $file = updaterStubFile('0.9.0'); // 0.9.0 < 1.0.0-beta12
+    glsr()->append('compat', $file, 'site-reviews-actions');
+    try {
+        $updates = glsr(UpdateController::class)->filterUpdatePluginsTransient(
+            (object) ['response' => [], 'no_update' => [], 'checked' => []]
+        );
+    } finally {
+        glsr()->discard('compat');
+    }
+
+    $plugin = plugin_basename($file);
+    expect($updates->response)->toHaveKey($plugin)
+        ->and($updates->response[$plugin]->new_version)->toBe('1.0.0-beta12')
+        ->and($updates->response[$plugin]->plugin)->toBe($plugin)
+        ->and($updates->no_update)->toBe([])
+        ->and($updates->checked[$plugin])->toBe('0.9.0');
+});
+
+test('a compat addon at or past the captured version is filed under no-update', function () {
+    licenseServer(['get_version' => updaterFixture('get-version-valid')]);
+    $file = updaterStubFile('1.0.0'); // 1.0.0 > 1.0.0-beta12: a beta is below its release
+    glsr()->append('compat', $file, 'site-reviews-actions');
+    try {
+        $updates = glsr(UpdateController::class)->filterUpdatePluginsTransient(
+            (object) ['response' => [], 'no_update' => [], 'checked' => []]
+        );
+    } finally {
+        glsr()->discard('compat');
+        @unlink($file);
+    }
+
+    $plugin = plugin_basename($file);
+    expect($updates->no_update)->toHaveKey($plugin)
+        ->and($updates->response)->toBe([])
+        ->and($updates->checked[$plugin])->toBe('1.0.0');
+});
+
+test('a compat addon the server does not answer is left alone', function () {
+    licenseServer(['get_version' => []]);
+    glsr()->append('compat', updaterStubFile('0.9.0'), 'site-reviews-actions');
+    try {
+        $updates = glsr(UpdateController::class)->filterUpdatePluginsTransient(
+            (object) ['response' => [], 'no_update' => [], 'checked' => []]
+        );
+    } finally {
+        glsr()->discard('compat');
+    }
+
+    expect($updates->response)->toBe([])
+        ->and($updates->no_update)->toBe([])
+        ->and($updates->checked)->toBe([]); // skipped entirely, not booked as checked
+});
+
+test('the captured contract: an invalid licence still answers a package', function () {
+    // The server refuses only in `msg` (a field the Defaults drop) and the
+    // package URL — which refuses at DOWNLOAD time. The plugin's "a valid
+    // license key is required" message renders only when the package is empty,
+    // so under this contract it cannot fire (see ROADMAP).
+    licenseServer(['get_version' => updaterFixture('get-version-invalid')]);
+
+    $update = glsr(UpdateController::class)->filterUpdatePlugins(false, [
+        'TextDomain' => 'site-reviews-actions',
+        'UpdateURI' => 'https://niftyplugins.com',
+    ]);
+
+    expect($update['package'])->not->toBe(''); // non-empty even unlicensed
+
+    ob_start();
+    glsr(UpdateController::class)->renderPluginUpdateMessage(
+        [], (object) ['package' => $update['package']]
+    );
+    expect(ob_get_clean())->toBe(''); // and so the licence message never shows
 });

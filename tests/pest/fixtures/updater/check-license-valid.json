@@ -1,0 +1,16 @@
+{
+    "success": true,
+    "license": "valid",
+    "item_id": false,
+    "item_name": "site-reviews-actions",
+    "checksum": "89b2e357b873e994e2052e07ed6ca623",
+    "expires": "2026-09-14 23:59:59",
+    "payment_id": 133,
+    "customer_name": "Jane Smith",
+    "customer_email": "jane@example.org",
+    "license_limit": 1,
+    "site_count": 1,
+    "activations_left": 0,
+    "price_id": "1",
+    "is_premium_license": true
+}

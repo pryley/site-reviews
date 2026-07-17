@@ -1,0 +1,73 @@
+{
+    "name": "Review Actions",
+    "new_version": "1.0.0-beta12",
+    "stable_version": "1.0.0-beta12",
+    "sections": {
+        "description": "...",
+        "changelog": "..."
+    },
+    "license_check": "",
+    "msg": "",
+    "homepage": "https://niftyplugins.com/plugins/site-reviews-actions/",
+    "package": "https://niftyplugins.com/edd-sl/package_download/U0NSVUJCRUQtVE9LRU4tVkFMSUQ",
+    "icons": {
+        "1x": "https://niftyplugins.com/app/uploads/review-actions-icon.svg",
+        "2x": "https://niftyplugins.com/app/uploads/review-actions-icon.svg"
+    },
+    "banners": {
+        "high": "https://niftyplugins.com/app/uploads/review-actions-banner.svg",
+        "low": "https://niftyplugins.com/app/uploads/review-actions-banner.svg"
+    },
+    "slug": "site-reviews-actions",
+    "url": "https://niftyplugins.com/plugins/site-reviews-actions/?changelog=1",
+    "last_updated": "2026-07-11 16:03:16",
+    "download_link": "https://niftyplugins.com/edd-sl/package_download/U0NSVUJCRUQtVE9LRU4tVkFMSUQ",
+    "upgrade_notice": "",
+    "tags": ["Site Reviews"],
+    "requires": "",
+    "tested": "7.0",
+    "requires_php": "",
+    "contributors": {
+        "pryley": {
+            "display_name": "pryley",
+            "profile": "//profiles.wordpress.org/pryley",
+            "avatar": "https://wordpress.org/grav-redirect.php?user=pryley"
+        }
+    },
+    "stable_tag": "1.0.0-beta12",
+    "donate_link": "https://ko-fi.com/pryley",
+    "short_description": "Allow people to upvote, report, and translate your reviews.",
+    "license": "",
+    "screenshots": [],
+    "faq": [],
+    "warnings": {
+        "license_missing": true
+    },
+    "expected_sections": ["description", "installation", "faq", "screenshots", "changelog", "upgrade_notice", "other_notes"],
+    "alias_sections": {
+        "frequently_asked_questions": "faq",
+        "change_log": "changelog",
+        "screenshot": "screenshots"
+    },
+    "valid_headers": {
+        "tested": "tested",
+        "tested up to": "tested",
+        "requires": "requires",
+        "requires at least": "requires",
+        "requires php": "requires_php",
+        "tags": "tags",
+        "contributors": "contributors",
+        "donate link": "donate_link",
+        "stable tag": "stable_tag",
+        "license": "license",
+        "license uri": "license_uri"
+    },
+    "ignore_tags": ["plugin", "wordpress"],
+    "maximum_field_lengths": {
+        "short_description": 150,
+        "section": 2500,
+        "section-changelog": 5000,
+        "section-faq": 5000
+    },
+    "raw_contents": "..."
+}

@@ -656,3 +656,32 @@ function unconstructed(string $className): object
 {
     return (new \ReflectionClass($className))->newInstanceWithoutConstructor();
 }
+
+/**
+ * The licence/update server, answering each edd_action differently — which a single canned
+ * response cannot do, and activation needs: the check says "inactive", and the activation that
+ * follows it says "valid". The captured real payloads live in tests/pest/fixtures/updater/.
+ *
+ * @param array<string, array> $responses keyed by edd_action
+ *
+ * @return \ArrayObject<int, string> every action that was asked for, in order
+ */
+function licenseServer(array $responses): \ArrayObject
+{
+    $asked = new \ArrayObject();
+    add_filter('pre_http_request', function ($pre, $args, $url) use ($responses, $asked) {
+        $action = (string) ($args['body']['edd_action'] ?? '');
+        $asked->append($action);
+
+        return [
+            'body' => (string) wp_json_encode($responses[$action] ?? []),
+            'cookies' => [],
+            'filename' => null,
+            'headers' => [],
+            'http_response' => null,
+            'response' => ['code' => 200, 'message' => 'OK'],
+        ];
+    }, 10, 3);
+
+    return $asked;
+}
