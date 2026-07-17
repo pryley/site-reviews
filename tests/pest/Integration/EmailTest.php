@@ -494,3 +494,17 @@ test('no message and no notification template leaves the email body empty', func
 
     expect($email->read('plaintext'))->toBe('');
 });
+
+test('a verification email that cannot be sent fails the request and points at the console', function () {
+    askForVerification();
+    $review = createReview();
+    // the mailbox answers true at priority 10; failing AFTER it is a real send failure
+    add_filter('pre_wp_mail', '__return_false', 20);
+    glsr(Notice::class)->clear();
+
+    $command = new SendVerificationEmail($review, 'https://example.org/verify');
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+    expect(glsr(Notice::class)->get())->toContain('could not be sent');
+});
