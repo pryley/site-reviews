@@ -41,7 +41,12 @@ abstract class Addon implements PluginContract
     {
         $this->host = $host; // settings storage routing follows the host, independent of file shape
         $file = wp_normalize_path((new \ReflectionClass($this))->getFileName());
-        $derived = str_replace('plugin/Application', $this->id, $file);
+        // The addon's main file, derived the same way register() derives it:
+        // {two dirs up from Application.php}/{ID}.php. The trait's own
+        // str_replace derivation cannot be used for shape DETECTION — for a
+        // hosted module at plugin/{Module}/Application.php it matches nothing
+        // and answers the (existing) class file itself.
+        $derived = dirname(dirname($file)).'/'.$this->id.'.php';
         if (file_exists($derived) || !$host instanceof PluginContract) {
             $this->initPlugin(); // standalone-shaped: derive identity from the addon's own main file
             return;
