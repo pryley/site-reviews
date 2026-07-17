@@ -160,3 +160,119 @@ test('the report is laid out to be read in a forum post', function () {
     // a tab is whatever width the forum feels like, and the columns would not line up.
     expect(systemInfo())->toMatch('/^Version\.+ : /m');
 });
+
+/*
+ * The corners: fabricated queue counts, addons, sqlite, and a hosting lookup.
+ */
+
+test('the action counts read differently for none, one, and many', function () {
+    $fakeQueue = new class extends \GeminiLabs\SiteReviews\Modules\Queue {
+        public function actionCounts(): array
+        {
+            return [
+                'complete' => ['count' => 5, 'latest' => '2026-02-01 00:00:00', 'oldest' => '2025-01-01 00:00:00'],
+                'pending' => ['count' => 1, 'latest' => '2026-03-01 00:00:00', 'oldest' => '2026-03-01 00:00:00'],
+            ];
+        }
+    };
+    $original = glsr(\GeminiLabs\SiteReviews\Modules\Queue::class);
+    glsr()->alias(\GeminiLabs\SiteReviews\Modules\Queue::class, $fakeQueue);
+    try {
+        $section = glsr(SystemInfo::class)->sectionActionScheduler();
+
+        expect($section['Actions (complete)'])->toBe('5 (latest: 2026-02-01 00:00:00, oldest: 2025-01-01 00:00:00)')
+            ->and($section['Actions (pending)'])->toBe('1 (latest: 2026-03-01 00:00:00)')
+            ->and($section['Actions (failed)'])->toBe(0);
+    } finally {
+        glsr()->alias(\GeminiLabs\SiteReviews\Modules\Queue::class, $original);
+    }
+});
+
+test('an installed addon reports its name and version', function () {
+    glsr()->alias('glsr-fake-addon', (object) ['name' => 'Fake Addon', 'version' => '1.2.3']);
+    glsr()->store('addons', ['glsr-fake-addon' => '1.2.3']);
+    try {
+        expect(glsr(SystemInfo::class)->sectionAddons())->toBe(['Fake Addon' => '1.2.3']);
+    } finally {
+        glsr()->store('addons', []); // in-memory on the singleton; it does not roll back
+    }
+});
+
+test('on sqlite the database section is the engine and its version, nothing else', function () {
+    $fakeTables = new class extends \GeminiLabs\SiteReviews\Database\Tables {
+        public function isSqlite(): bool
+        {
+            return true;
+        }
+    };
+    $original = glsr(\GeminiLabs\SiteReviews\Database\Tables::class);
+    glsr()->alias(\GeminiLabs\SiteReviews\Database\Tables::class, $fakeTables);
+    try {
+        expect(array_keys(glsr(SystemInfo::class)->sectionDatabase()))
+            ->toBe(['Database Engine', 'Database Version']);
+    } finally {
+        glsr()->alias(\GeminiLabs\SiteReviews\Database\Tables::class, $original);
+    }
+});
+
+test('the string ids are left out of the settings section', function () {
+    // Custom translations are stored with generated ids that mean nothing in a
+    // support thread; the strings themselves are still reported.
+    glsr(OptionManager::class)->set('settings.strings', [['id' => 'the-generated-id', 's1' => 'Custom text']]);
+
+    $settings = glsr(SystemInfo::class)->sectionSettings();
+
+    expect($settings)->not->toHaveKey('strings.0.id')
+        ->and($settings)->toHaveKey('strings.0.s1');
+});
+
+test('a hosted site names its host, and an unreachable lookup admits it does not know', function () {
+    // The report is deterministic locally because the suite blocks HTTP; a real
+    // site is not local, so stand down the local check and intercept the lookup.
+    add_filter('site-reviews/is-local-server', '__return_false');
+    // Answer ONLY the geolocation lookup: the same section also calls
+    // Helper::serverIp(), which must keep hitting the suite's HTTP block.
+    add_filter('pre_http_request', function ($pre, $args, $url) {
+        if (false === strpos((string) $url, 'ip-api.com')) {
+            return $pre;
+        }
+        return [
+            'body' => (string) wp_json_encode(['status' => 'success', 'isp' => 'Example ISP', 'query' => '93.184.216.34']),
+            'cookies' => [],
+            'filename' => null,
+            'headers' => [],
+            'http_response' => null,
+            'response' => ['code' => 200, 'message' => 'OK'],
+        ];
+    }, 10, 3);
+
+    $server = glsr(SystemInfo::class)->sectionServer();
+
+    expect($server['Hosting Provider'])->toBe('Example ISP (93.184.216.34)');
+});
+
+test('and with no lookup to be had, the host is unknown', function () {
+    // With nothing intercepting, the suite's HTTP block answers with a WP_Error.
+    add_filter('site-reviews/is-local-server', '__return_false');
+    delete_transient(\GeminiLabs\SiteReviews\Geolocation::RATE_LIMIT_KEY);
+
+    expect(glsr(SystemInfo::class)->sectionServer()['Hosting Provider'])->toBe('unknown');
+});
+
+test('ratings that did not import as arrays are reported as an error, not a crash', function () {
+    $fakeQuery = new class extends \GeminiLabs\SiteReviews\Database\Query {
+        public function ratings(array $args = []): array
+        {
+            return ['local' => 'not-an-array']; // the shape bad imports produce
+        }
+    };
+    $original = glsr(\GeminiLabs\SiteReviews\Database\Query::class);
+    glsr()->alias(\GeminiLabs\SiteReviews\Database\Query::class, $fakeQuery);
+    try {
+        $section = glsr(SystemInfo::class)->sectionReviews();
+
+        expect($section['Type: local'] ?? 'No reviews')->toBe('No reviews');
+    } finally {
+        glsr()->alias(\GeminiLabs\SiteReviews\Database\Query::class, $original);
+    }
+});
