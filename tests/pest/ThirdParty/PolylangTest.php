@@ -140,3 +140,98 @@ test('a page with no translation in the current language stays as it is', functi
 
     expect(polylang()->getPostId($post))->toBe($post);
 });
+
+/*
+ * The remaining corners of the Polylang bridge.
+ */
+
+test('the whole post object can be fetched in the visitor language', function () {
+    [$english, $french] = translatedPages();
+    PolylangFake::$currentLanguage = 'fr';
+
+    $post = polylang()->getPost($english);
+
+    expect($post)->toBeInstanceOf(WP_Post::class)
+        ->and($post->ID)->toBe($french);
+});
+
+test('a post that polylang does not manage is left exactly alone', function () {
+    // a deleted post, and a post type the site never told Polylang to translate
+    expect(polylang()->getPostId(999999001))->toBe(999999001);
+
+    PolylangFake::$translatedPostTypes = []; // nothing is translated now
+    [$english] = translatedPages();
+    expect(polylang()->getPostId($english))->toBe($english);
+});
+
+test('a deleted post contributes nothing to the all-languages list', function () {
+    [$english, $french] = translatedPages();
+
+    expect(polylang()->getPostIdsForAllLanguages([$english, 999999001]))
+        ->toBe([$english, $french]); // the missing id is skipped, the real page expands
+});
+
+test('the whole term object can be fetched in the visitor language', function () {
+    $english = createTerm(['taxonomy' => glsr()->taxonomy]);
+    $french = createTerm(['taxonomy' => glsr()->taxonomy]);
+    PolylangFake::linkTerms(['en' => $english, 'fr' => $french]);
+    PolylangFake::$currentLanguage = 'fr';
+
+    $term = polylang()->getTerm($english);
+    expect($term)->toBeInstanceOf(WP_Term::class)
+        ->and($term->term_id)->toBe($french);
+
+    expect(polylang()->getTerm(999999001))->toBeNull(); // a term that is not there is not invented
+});
+
+test('terms are translated one by one, deduplicated', function () {
+    $english = createTerm(['taxonomy' => glsr()->taxonomy]);
+    $french = createTerm(['taxonomy' => glsr()->taxonomy]);
+    PolylangFake::linkTerms(['en' => $english, 'fr' => $french]);
+    PolylangFake::$currentLanguage = 'fr';
+
+    expect(polylang()->getTermIds([$english, $french]))->toBe([$french]);
+});
+
+test('terms polylang does not manage are left exactly alone', function () {
+    $term = createTerm(['taxonomy' => glsr()->taxonomy]);
+
+    // integration off: nothing is touched
+    glsr(OptionManager::class)->set('settings.general.multilingual', '');
+    expect(polylang()->getTermId($term))->toBe($term)
+        ->and(polylang()->getTermIdsForAllLanguages([$term]))->toBe([$term]);
+
+    // integration on, but the review taxonomy is not translated
+    glsr(OptionManager::class)->set('settings.general.multilingual', 'polylang');
+    PolylangFake::$translatedTaxonomies = [];
+    expect(polylang()->getTermId($term))->toBe($term)
+        ->and(polylang()->getTermIdsForAllLanguages([$term]))->toBe([$term]);
+});
+
+test('a deleted term contributes nothing to the all-languages list', function () {
+    $english = createTerm(['taxonomy' => glsr()->taxonomy]);
+    $french = createTerm(['taxonomy' => glsr()->taxonomy]);
+    PolylangFake::linkTerms(['en' => $english, 'fr' => $french]);
+
+    expect(polylang()->getTermIdsForAllLanguages([$english, 999999001]))
+        ->toBe([$english, $french]);
+});
+
+/*
+ * The Multilingual module, which is the only thing the rest of the plugin talks to.
+ */
+
+test('the multilingual module dispatches to the chosen integration, or answers with the input', function () {
+    [$english, $french] = translatedPages();
+    PolylangFake::$currentLanguage = 'fr';
+
+    $module = new \GeminiLabs\SiteReviews\Modules\Multilingual();
+    expect($module->isIntegrated())->toBeTrue()
+        ->and($module->isIntegrated())->toBeTrue() // the second ask is answered from the memo
+        ->and($module->getPostId($english))->toBe($french); // __call forwards to Polylang
+
+    glsr(OptionManager::class)->set('settings.general.multilingual', '');
+    $unintegrated = new \GeminiLabs\SiteReviews\Modules\Multilingual();
+    expect($unintegrated->isIntegrated())->toBeFalse()
+        ->and($unintegrated->getPostId($english))->toBe($english); // the first argument, untouched
+});
