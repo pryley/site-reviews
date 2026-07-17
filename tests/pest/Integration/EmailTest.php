@@ -444,3 +444,53 @@ test('a verification request for a review that is not there is refused', functio
     expect($command->successful())->toBeFalse();
     expect($command->response()['notices'])->toContain('the review is invalid');
 });
+
+/*
+ * The corners of the Email module itself.
+ */
+
+test('a test email goes to the site admin, labelled as a test', function () {
+    emptyMailbox();
+    $email = glsr(Email::class)->compose([
+        'to' => 'someone@example.org', // the REAL recipient, deliberately ignored by test()
+        'subject' => 'Weekly digest',
+        'message' => 'The message.',
+    ]);
+
+    expect($email->test())->toBeTrue();
+
+    $mail = sentMail();
+    expect($mail)->toHaveCount(1)
+        ->and($mail[0]['to'])->toBe(get_bloginfo('admin_email'))
+        ->and($mail[0]['subject'])->toBe('[TEST EMAIL] Weekly digest');
+});
+
+test('the data given at composition rides along as arguments', function () {
+    $email = glsr(Email::class)->compose(
+        ['to' => 'a@example.org', 'subject' => 's', 'message' => 'm'],
+        ['review_title' => 'Five stars']
+    );
+
+    expect($email->data()->review_title)->toBe('Five stars');
+});
+
+test('the plain-text fallback leaves a mailer alone when there is nothing composed', function () {
+    // buildPlainTextMessage stays hooked on phpmailer_init after send() resets the
+    // email; a later, unrelated wp_mail() must not be given this email's AltBody.
+    $phpmailer = (object) ['ContentType' => 'text/html', 'AltBody' => '', 'Body' => '<p>Someone else\'s email</p>'];
+
+    (new Email())->buildPlainTextMessage($phpmailer);
+
+    expect($phpmailer->AltBody)->toBe('');
+});
+
+test('no message and no notification template leaves the email body empty', function () {
+    // buildMessage() has three sources: an explicit message, the notification
+    // template, or nothing. With the first absent and the second blanked, the
+    // html shell still wraps — but there is nothing in it to say.
+    glsr(OptionManager::class)->set('settings.general.notification_message', '');
+
+    $email = glsr(Email::class)->compose(['to' => 'a@example.org', 'subject' => 's']);
+
+    expect($email->read('plaintext'))->toBe('');
+});

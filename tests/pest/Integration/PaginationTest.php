@@ -40,3 +40,52 @@ test('a single page of reviews gets no pagination at all', function () {
     // The guard shared by both types: one page (or none) needs no controls whatever the setting.
     expect((new Pagination())->build(['type' => 'loadmore', 'total' => 1]))->toBe('');
 });
+
+/*
+ * The Paginate module itself: the numbered links and the URL bookkeeping.
+ */
+
+test('the current page url query is carried into every page link, minus the verification keys', function () {
+    // A visitor lands on ?verified=…&review_id=… from a verification email, then
+    // pages through the reviews: the filter args (foo) must survive on every page
+    // link, and the one-shot verification keys must NOT — or every page they visit
+    // would re-verify the same review.
+    $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+    $_SERVER['REQUEST_URI'] = '/?foo=bar&review_id=123&verified=token';
+    try {
+        $paginate = new \GeminiLabs\SiteReviews\Modules\Paginate([
+            // a paginate-style base, as a caller passes it; the page var it carries
+            // is subtracted from the current URL's query, never duplicated into it
+            'base' => home_url('/').'?'.glsr()->constant('PAGED_QUERY_VAR').'=%#%',
+            'total' => 3,
+            'current' => 2,
+        ]);
+
+        expect($paginate->args->add_args)->toBe(['foo' => 'bar']);
+    } finally {
+        $_SERVER['REQUEST_URI'] = $requestUri;
+    }
+});
+
+test('one page means no links at all', function () {
+    expect((new \GeminiLabs\SiteReviews\Modules\Paginate(['total' => 1]))->links())->toBe([]);
+});
+
+test('a long run of pages is elided to dots around the current page', function () {
+    $links = (new \GeminiLabs\SiteReviews\Modules\Paginate([
+        'total' => 20,
+        'current' => 10,
+        'mid_size' => 2,
+        'end_size' => 1,
+    ]))->links();
+
+    $types = array_column($links, 'type');
+    expect($types)->toContain('dots')
+        ->and($types)->toContain('current')
+        ->and($types)->toContain('prev')
+        ->and($types)->toContain('next');
+
+    $dots = array_values(array_filter($links, fn ($link) => 'dots' === $link['type']));
+    expect($dots)->toHaveCount(2) // one gap each side of the current page
+        ->and($dots[0]['link'])->toContain('&hellip;');
+});
