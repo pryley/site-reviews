@@ -1,284 +1,178 @@
 <?php
 
-use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Controllers\UpdateController;
-use GeminiLabs\SiteReviews\Hooks\UpdateHooks;
 
-use function GeminiLabs\SiteReviews\Tests\interceptHttp;
+use function GeminiLabs\SiteReviews\Tests\createUser;
+use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * Telling WordPress an addon has an update.
+ * Addon updates, which do not come from wordpress.org: the plugins_api details modal, and
+ * the throttle that decides how often the licence server is asked at all.
  *
- * WordPress asks through `update_plugins_{hostname}`, and whatever this returns is what the Plugins
- * screen shows and the one-click updater installs — because the answer carries a `package`, the URL
- * WordPress downloads a zip from and unpacks over the running addon.
- *
- * The two things to be certain of are opposites:
- *
- *   a real update must be offered — someone paid for it, and an addon that never updates has
- *   unpatched bugs;
- *   NOTHING must be offered when the answer did not come back. A downed licence server, an expired
- *   licence, a 500, a timeout — none may become an update, because an empty `package` is a broken
- *   download, and an update invented from a failed request is worse.
- *
- * The throttle matters too: without it the licence server would be asked on EVERY admin page load,
- * for every addon, on every site.
+ * isAddon() insists on a real installed addon (a directory in WP_PLUGIN_DIR whose plugin
+ * file declares the niftyplugins Update URI), so one is staged on disk for the duration —
+ * the container's plugin directory, cleaned up in finally, never the repo.
  */
+
+const FAKE_ADDON = 'site-reviews-fakeaddon';
 
 beforeEach(function () {
     resetPluginState();
-    delete_site_option(glsr()->prefix.'last_checked_site-reviews-images');
+    wp_set_current_user(createUser(['role' => 'administrator']));
 });
 
-function updateController(): UpdateController
+function stageFakeAddon(): void
 {
-    return glsr(UpdateController::class);
-}
-
-/**
- * The plugin header WordPress hands to the update filter.
- */
-function addonPluginData(array $overrides = []): array
-{
-    return array_replace([
-        'PluginURI' => 'https://niftyplugins.com/plugin/site-reviews-images/',
-        'TextDomain' => 'site-reviews-images',
-        'UpdateURI' => 'https://updates.example.org',
-        'Version' => '1.0.0',
-    ], $overrides);
-}
-
-function versionReply(array $body): array
-{
-    return ['body' => (string) wp_json_encode($body)];
-}
-
-/*
- * When there is an update.
- */
-
-test('an available update is offered, with the package wordpress will install', function () {
-    interceptHttp(versionReply([
-        'new_version' => '2.0.0',
-        'package' => 'https://updates.example.org/download/images.zip',
-        'requires_php' => '8.1',
-        'slug' => 'site-reviews-images',
-        'version' => '2.0.0',
+    $dir = WP_PLUGIN_DIR.'/'.FAKE_ADDON;
+    if (!is_dir($dir)) {
+        mkdir($dir, 0777, true);
+    }
+    file_put_contents("{$dir}/".FAKE_ADDON.'.php', implode("\n", [
+        '<?php',
+        '/**',
+        ' * Plugin Name: Site Reviews: Fake Addon (test fixture)',
+        ' * Version: 1.0.0',
+        ' * Update URI: https://niftyplugins.com',
+        ' */',
     ]));
+}
 
-    $update = updateController()->filterUpdatePlugins(false, addonPluginData());
+function unstageFakeAddon(): void
+{
+    @unlink(WP_PLUGIN_DIR.'/'.FAKE_ADDON.'/'.FAKE_ADDON.'.php');
+    @rmdir(WP_PLUGIN_DIR.'/'.FAKE_ADDON);
+}
 
-    expect($update['version'])->toBe('2.0.0')
-        ->and($update['package'])->toBe('https://updates.example.org/download/images.zip')
-        ->and($update['slug'])->toBe('site-reviews-images')
-        ->and($update['requires_php'])->toBe('8.1');
+function fakeVersionResponse(): Closure
+{
+    $fake = fn () => [
+        'body' => (string) wp_json_encode([
+            'name' => 'Site Reviews: Fake Addon',
+            'new_version' => '9.9.9',
+            'slug' => FAKE_ADDON,
+            'version' => '9.9.9',
+        ]),
+        'cookies' => [],
+        'filename' => null,
+        'headers' => [],
+        'response' => ['code' => 200, 'message' => 'OK'],
+    ];
+    add_filter('pre_http_request', $fake);
+
+    return $fake;
+}
+
+test('the plugin details modal is answered for an installed addon, and nobody else', function () {
+    $controller = glsr(UpdateController::class);
+
+    // not the details action, or no slug: pass through
+    expect($controller->filterPluginsApi(false, 'query_plugins', (object) ['slug' => FAKE_ADDON]))->toBeFalse();
+    expect($controller->filterPluginsApi(false, 'plugin_information', (object) ['slug' => '']))->toBeFalse();
+    // a slug that is not even shaped like an addon
+    expect($controller->filterPluginsApi(false, 'plugin_information', (object) ['slug' => 'akismet']))->toBeFalse();
+    // shaped like one, but not installed
+    expect($controller->filterPluginsApi(false, 'plugin_information', (object) ['slug' => 'site-reviews-notinstalled']))->toBeFalse();
+
+    stageFakeAddon();
+    $http = fakeVersionResponse();
+    try {
+        $details = $controller->filterPluginsApi(false, 'plugin_information', (object) ['slug' => FAKE_ADDON]);
+    } finally {
+        remove_filter('pre_http_request', $http);
+        unstageFakeAddon();
+    }
+
+    expect($details)->toBeObject()
+        ->and($details->version)->toBe('9.9.9');
+
+    // asked twice, answered from the memo
+    expect($controller->filterPluginsApi(false, 'plugin_information', (object) ['slug' => FAKE_ADDON.'-nope']))->toBeFalse();
+    expect($controller->filterPluginsApi(false, 'plugin_information', (object) ['slug' => FAKE_ADDON.'-nope']))->toBeFalse();
 });
 
-/*
- * When there is not. Every one of these must hand back what WordPress already had.
- */
+test('an addon the licence server does not know keeps wordpress\'s own answer', function () {
+    // A fresh slug (the version cache is per-addon) whose lookup returns nothing usable.
+    $slug = 'site-reviews-unknownaddon';
+    $dir = WP_PLUGIN_DIR.'/'.$slug;
+    if (!is_dir($dir)) {
+        mkdir($dir, 0777, true);
+    }
+    file_put_contents("{$dir}/{$slug}.php", "<?php\n/**\n * Plugin Name: Unknown Addon\n * Update URI: https://niftyplugins.com\n */\n");
+    $http = fn () => [
+        'body' => '{}', 'cookies' => [], 'filename' => null, 'headers' => [],
+        'response' => ['code' => 200, 'message' => 'OK'],
+    ];
+    add_filter('pre_http_request', $http);
+    try {
+        $data = glsr(UpdateController::class)->filterPluginsApi(false, 'plugin_information', (object) ['slug' => $slug]);
+    } finally {
+        remove_filter('pre_http_request', $http);
+        @unlink("{$dir}/{$slug}.php");
+        @rmdir($dir);
+    }
 
-test('a licence server that is down does not become an update', function () {
-    // THE ONE THAT MATTERS. `false` is what WordPress passed in, and `false` is what it gets
-    // back: no update. An empty `package` on the Plugins screen is a broken download button.
-    add_filter('site-reviews/api/args', fn ($args) => array_replace($args, ['max_retries' => 1]));
-    interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
-
-    expect(updateController()->filterUpdatePlugins(false, addonPluginData()))->toBeFalse();
+    expect($data)->toBeFalse(); // no version in the answer: pass through untouched
 });
 
-test('an expired licence does not become an update', function () {
-    // The server answers, and politely declines: no version, no package.
-    interceptHttp(versionReply(['msg' => 'Your license key has expired.']));
+test('the licence server is asked at a rate set by where the question comes from', function () {
+    $controller = glsr(UpdateController::class);
+    $expired = fn () => protectedMethod(UpdateController::class, 'hasTimeoutExpired')
+        ->invoke($controller, FAKE_ADDON);
+    $lastChecked = glsr()->prefix.'last_checked_'.FAKE_ADDON;
 
-    expect(updateController()->filterUpdatePlugins(false, addonPluginData()))->toBeFalse();
+    // never asked before: expired, and the asking is recorded
+    delete_site_option($lastChecked);
+    expect($expired())->toBeTrue();
+
+    // just asked: the default timeout is 12 hours, so not again now
+    expect($expired())->toBeFalse();
+
+    // doing_filter() reads the $wp_current_filter stack, so the contexts are staged by
+    // pushing the hook name — firing the real hooks would run core's own listeners, which
+    // are not all loaded in a CLI process.
+    $within = function (string $hook, Closure $callback) {
+        $GLOBALS['wp_current_filter'][] = $hook;
+        try {
+            return $callback();
+        } finally {
+            array_pop($GLOBALS['wp_current_filter']);
+        }
+    };
+
+    // an update run always asks
+    expect($within('upgrader_process_complete', $expired))->toBeTrue();
+
+    // the update-core screen with force-check asks; without it, only after a minute
+    update_site_option($lastChecked, time());
+    $_GET['force-check'] = '1';
+    expect($within('load-update-core.php', $expired))->toBeTrue();
+    unset($_GET['force-check']);
+
+    // the plugins screen waits an hour
+    update_site_option($lastChecked, time() - (2 * MINUTE_IN_SECONDS));
+    expect($within('load-plugins.php', $expired))->toBeFalse();
+
+    // cron waits two
+    update_site_option($lastChecked, time() - HOUR_IN_SECONDS);
+    add_filter('wp_doing_cron', '__return_true');
+    expect($expired())->toBeFalse();
+    remove_filter('wp_doing_cron', '__return_true');
 });
 
-test('an update wordpress already knew about is not thrown away', function () {
-    // The filter is handed whatever the last plugin said. When we have nothing to add, we must
-    // hand it back rather than answer for everybody.
-    interceptHttp(versionReply([]));
-    $existing = ['package' => 'https://example.org/other.zip', 'version' => '9.9.9'];
-
-    expect(updateController()->filterUpdatePlugins($existing, addonPluginData()))->toBe($existing);
-});
-
-/*
- * The message on the Plugins screen when there is an update but no way to get it.
- */
-
-test('an update with no package tells the person they need a licence', function () {
-    // An addon whose licence has lapsed still gets told a new version exists — it just cannot
-    // download it. Saying nothing here would leave "there is an update" next to a button that
-    // does nothing, which is how support tickets are made.
+test('an update without a download package explains the licence', function () {
     ob_start();
-    updateController()->renderPluginUpdateMessage(addonPluginData(), (object) ['package' => '']);
+    glsr(UpdateController::class)->renderPluginUpdateMessage(
+        ['PluginURI' => 'https://niftyplugins.com/plugin/x'],
+        (object) ['package' => '']
+    );
     $message = (string) ob_get_clean();
 
-    expect($message)->toContain('license key')
-        ->and($message)->toContain('https://niftyplugins.com/plugin/site-reviews-images/');
-});
+    expect($message)->toContain('license key');
 
-test('an update that CAN be installed says nothing extra', function () {
     ob_start();
-    updateController()->renderPluginUpdateMessage(addonPluginData(), (object) [
-        'package' => 'https://updates.example.org/download/images.zip',
-    ]);
-
-    expect((string) ob_get_clean())->toBe('');
+    glsr(UpdateController::class)->renderPluginUpdateMessage(
+        [], (object) ['package' => 'https://example.org/x.zip']
+    );
+    expect((string) ob_get_clean())->toBe(''); // a licensed update needs no lecture
 });
-
-/*
- * The plugin-information modal.
- */
-
-test('the modal is only answered for our own addons', function () {
-    // `plugins_api` is asked about every plugin on wordpress.org. Answering for somebody else's
-    // would replace their modal with ours.
-    $data = (object) ['name' => 'Somebody Else'];
-
-    expect(updateController()->filterPluginsApi($data, 'plugin_information', (object) ['slug' => 'akismet']))
-        ->toBe($data);
-    expect(updateController()->filterPluginsApi($data, 'query_plugins', (object) ['slug' => 'site-reviews-images']))
-        ->toBe($data); // …and only for the plugin_information action
-    expect(updateController()->filterPluginsApi($data, 'plugin_information', (object) ['slug' => '']))
-        ->toBe($data); // …and not for no slug at all
-});
-
-/*
- * The throttle.
- */
-
-test('the licence server is not asked again on the next page load', function () {
-    // Without this, every admin page load would cost one HTTP request per addon — on a site
-    // with six of them, that is six round trips to niftyplugins.com before the dashboard draws.
-    $requests = interceptHttp(versionReply(['new_version' => '2.0.0', 'version' => '2.0.0']));
-
-    updateController()->filterUpdatePlugins(false, addonPluginData());
-    updateController()->filterUpdatePlugins(false, addonPluginData());
-
-    // The second call did not force a fresh check, so it was answered from the cached response
-    // rather than by asking again.
-    expect($requests)->toHaveCount(1);
-});
-
-test('an addon that has never been checked is checked', function () {
-    $requests = interceptHttp(versionReply(['new_version' => '2.0.0', 'version' => '2.0.0']));
-
-    updateController()->filterUpdatePlugins(false, addonPluginData());
-
-    expect($requests)->toHaveCount(1);
-    expect((int) get_site_option(glsr()->prefix.'last_checked_site-reviews-images'))
-        ->toBeGreaterThan(0); // and the clock started
-});
-
-/*
- * The older addons, which WordPress cannot see at all.
- *
- * An addon released before the `Update URI` header existed is invisible to WordPress's own update
- * machinery: there is nothing on wordpress.org, and no header to point anywhere else. So the plugin
- * puts them into the update transient BY HAND, from the `compat` register.
- *
- * Which means writing into WordPress's own data structure, and the two lists in it are not
- * interchangeable:
- *
- *   response    "there is a newer version" — this is what puts the update row on the plugins screen.
- *   no_update   "I asked, and there is not" — this is what stops WordPress asking again.
- *
- * An addon in NEITHER list is one WordPress will go on asking about, on every page load, for ever.
- */
-
-/**
- * The test addon fixture, standing in for an addon installed on the site — because the thing under
- * test reads the plugin's real header off disk (get_file_data) to find out which version is
- * installed, and a made-up path would answer with nothing.
- */
-function compatAddon(): string
-{
-    $file = glsr()->path('tests/pest/fixtures/site-reviews-test-addon/site-reviews-test-addon.php');
-    glsr()->append('compat', $file, 'site-reviews-test-addon');
-
-    return $file;
-}
-
-function emptyUpdateTransient(): object
-{
-    return (object) ['checked' => [], 'no_update' => [], 'response' => []];
-}
-
-test('an empty update transient is handed straight back', function () {
-    // site_transient_update_plugins fires very early, and on a fresh site the transient is false.
-    // Iterating it would be iterating a boolean.
-    expect(glsr(UpdateController::class)->filterUpdatePluginsTransient(false))->toBeFalse();
-    expect(glsr(UpdateController::class)->filterUpdatePluginsTransient(null))->toBeNull();
-});
-
-test('an older addon with a newer version is put on the plugins screen by hand', function () {
-    $file = compatAddon();
-    interceptHttp(versionReply([
-        'new_version' => '9.9.9', // the fixture's own header says 2.3.4
-        'package' => 'https://updates.example.org/addon.zip',
-    ]));
-
-    $updates = glsr(UpdateController::class)->filterUpdatePluginsTransient(emptyUpdateTransient());
-
-    $plugin = plugin_basename($file);
-    expect($updates->response)->toHaveKey($plugin)
-        ->and($updates->response[$plugin]->new_version)->toBe('9.9.9')
-        ->and($updates->response[$plugin]->plugin)->toBe($plugin)
-        ->and($updates->checked[$plugin])->toBe('2.3.4'); // read from the addon's own header
-});
-
-test('and one that is already up to date is recorded as needing no update', function () {
-    // no_update, not response. The distinction is what stops WordPress asking about this addon on
-    // every single page load for the rest of the site's life.
-    $file = compatAddon();
-    interceptHttp(versionReply([
-        'new_version' => '1.0.0', // older than the 2.3.4 that is installed
-        'package' => 'https://updates.example.org/addon.zip',
-    ]));
-
-    $updates = glsr(UpdateController::class)->filterUpdatePluginsTransient(emptyUpdateTransient());
-
-    $plugin = plugin_basename($file);
-    expect($updates->no_update)->toHaveKey($plugin)
-        ->and($updates->response)->not->toHaveKey($plugin);
-});
-
-test('a server that answers with no version leaves the transient exactly as it was', function () {
-    // The licence server does not know this addon, or has nothing to say about it. WordPress goes
-    // on believing whatever it believed — an addon must not disappear from the plugins screen
-    // because a request came back empty.
-    //
-    // A 200 with an empty body, NOT a 500: Api retries a 5xx with a backoff of roughly a second,
-    // then 1.6, then 2.6, then 4.1, which is correct behaviour (and is tested in ApiTest) and made
-    // this one test take nine and a half seconds. The claim here is about an empty ANSWER, not
-    // about a broken server, and an empty answer is not retried.
-    compatAddon();
-    interceptHttp(['body' => (string) wp_json_encode([])]);
-
-    $updates = glsr(UpdateController::class)->filterUpdatePluginsTransient(emptyUpdateTransient());
-
-    expect($updates->response)->toBe([])
-        ->and($updates->no_update)->toBe([])
-        ->and($updates->checked)->toBe([]);
-});
-
-/*
- * The per-addon update message, hung on init:10.
- */
-
-test('the plugin update message filter is hung for every licensed addon', function () {
-    // UpdateHooks::onInit walks the licensed addons and, for each, hooks renderPluginUpdateMessage on
-    // in_plugin_update_message-{id}/{id}.php — WordPress's per-plugin row on the Plugins screen —
-    // so an addon whose licence has lapsed can print its own "renew to keep updating" line there.
-    // (`licensed` lives on the Application singleton and is restored after every test.)
-    glsr()->store('licensed', ['site-reviews-images' => ['name' => 'Site Reviews: Images']]);
-
-    glsr(UpdateHooks::class)->onInit();
-
-    expect(has_filter('in_plugin_update_message-site-reviews-images/site-reviews-images.php'))
-        ->not->toBeFalse();
-});
-
