@@ -58,7 +58,7 @@ abstract class Controller extends AbstractController
      */
     public function filterCapabilities(array $capabilities): array
     {
-        if (!$this->app()->post_type) { // @phpstan-ignore-line
+        if (!$this->app()->hasPostType()) {
             return $capabilities;
         }
         $defaults = [
@@ -210,7 +210,7 @@ abstract class Controller extends AbstractController
      */
     public function filterRoles(array $roles): array
     {
-        if (!$this->app()->post_type) { // @phpstan-ignore-line
+        if (!$this->app()->hasPostType()) {
             return $roles;
         }
         $defaults = [

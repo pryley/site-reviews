@@ -49,6 +49,8 @@ interface PluginContract
     /** @param mixed ...$args */
     public function filterArrayUnique(string $hook, ...$args): array;
 
+    public function hasPostType(): bool;
+
     /**
      * @param mixed $fallback
      *

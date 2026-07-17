@@ -213,6 +213,15 @@ trait Plugin
     }
 
     /**
+     * Whether this plugin registers its own post type. The parent plugin always
+     * does; only around half of the addons do.
+     */
+    public function hasPostType(): bool
+    {
+        return !empty($this->post_type); // the raw constant, unfiltered
+    }
+
+    /**
      * @return static
      */
     public static function load()

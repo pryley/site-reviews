@@ -190,6 +190,18 @@ test('a role the site does not have is not invented', function () {
     expect(array_keys($roles))->toBe(['administrator']);
 });
 
+test('an addon without a post type touches neither capabilities nor roles', function () {
+    // about half the real addons register no post type (the plain-addon fixture is one);
+    // for those there is nothing to teach WordPress, and both filters must pass through
+    $controller = glsr(\GeminiLabs\SiteReviews\PlainAddon\Controller::class);
+
+    expect($controller->app()->hasPostType())->toBeFalse()
+        ->and(glsr(TestAddon::class)->hasPostType())->toBeTrue()
+        ->and(glsr()->hasPostType())->toBeTrue()
+        ->and($controller->filterCapabilities(['existing']))->toBe(['existing'])
+        ->and($controller->filterRoles(['administrator' => []]))->toBe(['administrator' => []]);
+});
+
 /*
  * Activation. This runs on admin_init, on EVERY admin request, so what it does the second
  * time matters as much as what it does the first.
@@ -329,6 +341,14 @@ test('an addon finds, registers and runs each integration it ships', function ()
 
     do_action('plugins_loaded'); // and when it fires, the integration's run() executes
     expect(has_filter('site-reviews-test-addon/example/loaded'))->not->toBeFalse();
+});
+
+test('an addon that ships no integrations directory has nothing to run', function () {
+    remove_all_actions('plugins_loaded');
+
+    glsr(\GeminiLabs\SiteReviews\PlainAddon\Hooks::class)->runIntegrations();
+
+    expect(has_action('plugins_loaded'))->toBeFalse(); // nothing was hung, nothing threw
 });
 
 /*

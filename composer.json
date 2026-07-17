@@ -50,6 +50,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "GeminiLabs\\SiteReviews\\PlainAddon\\": "tests/pest/fixtures/site-reviews-plain-addon/plugin/",
             "GeminiLabs\\SiteReviews\\TestAddon\\": "tests/pest/fixtures/site-reviews-test-addon/plugin/",
             "GeminiLabs\\SiteReviews\\Tests\\": "tests/pest/Support/"
         },

@@ -81,7 +81,7 @@ abstract class Addon implements PluginContract
 
     public function posts(int $perPage = -1, string $placeholder = ''): array
     {
-        if (empty(static::POST_TYPE)) {
+        if (!$this->hasPostType()) {
             return [];
         }
         $results = glsr(Database::class)->posts([
