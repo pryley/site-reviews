@@ -49,3 +49,29 @@ test('the stylesheet url is built for a suffixed asset, and ends at a css file',
     expect($url)->toContain('assets/styles/')
         ->and($url)->toEndWith('.css');
 });
+
+test('a styled framework serves its own view when it ships one', function () {
+    // The bootstrap style ships its own pagination and choice-input views; a view
+    // it does not ship falls back to the plugin's own under templates/.
+    glsr(\GeminiLabs\SiteReviews\Database\OptionManager::class)->set('settings.general.style', 'bootstrap');
+    $style = new Style();
+
+    expect($style->view('templates/pagination'))->toBe('styles/bootstrap/pagination')
+        // the base view is matched from the variant's name (before the underscore)
+        ->and($style->view('templates/form/type-checkbox_rating'))->toBe('styles/bootstrap/type-checkbox')
+        ->and($style->view('templates/form/field'))->toBe('templates/form/field');
+});
+
+test('a view that is not in the styleable allow-list is never rewritten', function () {
+    glsr(\GeminiLabs\SiteReviews\Database\OptionManager::class)->set('settings.general.style', 'bootstrap');
+
+    expect((new Style())->view('pages/settings/general'))->toBe('pages/settings/general');
+});
+
+test('when no candidate file exists at all, the view is served as asked', function () {
+    // The style/views filter is the seam a theme uses to relocate candidates; one
+    // that returns none must not blank the view out.
+    add_filter('site-reviews/style/views', '__return_empty_array');
+
+    expect((new Style())->view('templates/pagination'))->toBe('templates/pagination');
+});
