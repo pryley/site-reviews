@@ -309,3 +309,26 @@ test('the captured contract: an invalid licence still answers a package', functi
     );
     expect(ob_get_clean())->toBe(''); // and so the licence message never shows
 });
+
+test('the captured contract: a missing licence key gets the licence message', function () {
+    // The live no-licence answer has an EMPTY package — so this is the case the
+    // message machinery was built for, and here it genuinely fires: the
+    // Defaults' finalize() writes the upgrade notice, and the row message
+    // renders. (The wrong-key answer still carries a phantom package — the
+    // ROADMAP note — so only THAT path stays dark.)
+    licenseServer(['get_version' => updaterFixture('get-version-no-licence')]);
+
+    $update = glsr(UpdateController::class)->filterUpdatePlugins(false, [
+        'TextDomain' => 'site-reviews-alerts',
+        'UpdateURI' => 'https://niftyplugins.com',
+    ]);
+
+    expect($update['package'])->toBe('')
+        ->and($update['upgrade_notice'])->toContain('license key is required');
+
+    ob_start();
+    glsr(UpdateController::class)->renderPluginUpdateMessage(
+        [], (object) ['package' => $update['package']]
+    );
+    expect(ob_get_clean())->toContain('license key');
+});

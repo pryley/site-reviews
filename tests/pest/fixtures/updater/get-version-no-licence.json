@@ -1,0 +1,94 @@
+{
+    "name": "Review Alerts",
+    "new_version": "1.0.0-beta1",
+    "stable_version": "1.0.0-beta1",
+    "sections": {
+        "description": "...",
+        "changelog": "..."
+    },
+    "license_check": "",
+    "msg": "No license key has been provided.",
+    "homepage": "https://niftyplugins.com/plugins/site-reviews-alerts/",
+    "package": "",
+    "icons": {
+        "1x": "https://niftyplugins.com/app/uploads/review-alerts-icon.svg",
+        "2x": "https://niftyplugins.com/app/uploads/review-alerts-icon.svg"
+    },
+    "banners": {
+        "high": "https://niftyplugins.com/app/uploads/review-alerts-banner.svg",
+        "low": "https://niftyplugins.com/app/uploads/review-alerts-banner.svg"
+    },
+    "slug": "site-reviews-alerts",
+    "url": "https://niftyplugins.com/plugins/site-reviews-alerts/?changelog=1",
+    "last_updated": "2026-07-11 16:42:03",
+    "download_link": "",
+    "upgrade_notice": "",
+    "tags": [
+        "Site Reviews",
+        "review alerts",
+        "popup",
+        "social proof"
+    ],
+    "requires": "",
+    "tested": "7.0",
+    "requires_php": "",
+    "contributors": {
+        "pryley": {
+            "display_name": "pryley",
+            "profile": "//profiles.wordpress.org/pryley",
+            "avatar": "https://wordpress.org/grav-redirect.php?user=pryley"
+        },
+        "geminilabs": {
+            "display_name": "geminilabs",
+            "profile": "//profiles.wordpress.org/geminilabs",
+            "avatar": "https://wordpress.org/grav-redirect.php?user=geminilabs"
+        }
+    },
+    "stable_tag": "1.0.0-beta1",
+    "donate_link": "https://ko-fi.com/pryley",
+    "short_description": "Display reviews as popup review alerts on any page of your site.",
+    "license": "",
+    "screenshots": [],
+    "faq": [],
+    "warnings": {
+        "license_missing": true
+    },
+    "expected_sections": [
+        "description",
+        "installation",
+        "faq",
+        "screenshots",
+        "changelog",
+        "upgrade_notice",
+        "other_notes"
+    ],
+    "alias_sections": {
+        "frequently_asked_questions": "faq",
+        "change_log": "changelog",
+        "screenshot": "screenshots"
+    },
+    "valid_headers": {
+        "tested": "tested",
+        "tested up to": "tested",
+        "requires": "requires",
+        "requires at least": "requires",
+        "requires php": "requires_php",
+        "tags": "tags",
+        "contributors": "contributors",
+        "donate link": "donate_link",
+        "stable tag": "stable_tag",
+        "license": "license",
+        "license uri": "license_uri"
+    },
+    "ignore_tags": [
+        "plugin",
+        "wordpress"
+    ],
+    "maximum_field_lengths": {
+        "short_description": 150,
+        "section": 2500,
+        "section-changelog": 5000,
+        "section-faq": 5000
+    },
+    "raw_contents": "..."
+}

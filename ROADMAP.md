@@ -16,16 +16,21 @@ Features are subject to change and are sorted alphabetically, not by priority.
 ## Technical debt
 
 - [x] **The addon-update filters are untested against the real update-server contract.**
-  DONE (83f411e3e): the captures live in `tests/pest/fixtures/updater/` (see the
-  README there for scrubbing and provenance) and UpdateControllerTest replays them
-  through `licenseServer()`. UpdateController is at 100%. The capture surfaced a
-  contract fact worth knowing: `get_version` answers a NON-EMPTY `package` even for
-  an invalid licence (the URL refuses at download time, with the refusal only in
-  `msg`, a field the Defaults drop) — so `renderPluginUpdateMessage()`'s "a valid
-  license key is required" message can never render under the current server
-  behaviour. Whether to fix that server-side (empty package when unlicensed) or
-  client-side (blank the package when `msg` reports an invalid licence) is an open
-  product decision.
+  DONE (83f411e3e + live probe): the captures live in `tests/pest/fixtures/updater/`
+  (see the README there for scrubbing and provenance) and UpdateControllerTest
+  replays them through `licenseServer()`. UpdateController is at 100%.
+
+  The probed contract, executed against the live server: a MISSING licence key gets
+  an EMPTY `package` — the plugin's "a valid license key is required" machinery
+  works as designed for that case, and is now genuinely tested. A WRONG key,
+  however, still gets a phantom `package` (confirmed to refuse with HTTP 401 at
+  download time), with the refusal only in `msg` — so a site holding a revoked or
+  mistyped key sees a normal update row whose install fails with WordPress's
+  generic download error instead of the licence message. `license_check` was empty
+  in every probed scenario. Recommended fix is SERVER-side: answer the wrong-key
+  case the way the missing-key case is already answered (empty package) — every
+  installed plugin version then behaves correctly retroactively. Re-capture the
+  invalid fixture and flip its contract-pinning test when that lands.
 
 - [ ] **The asset optimizer assumes the plugin folder is named exactly `site-reviews`.**
   `AbstractAsset::combine()` strips a HARD-CODED `strlen('site-reviews/')` off the end of
