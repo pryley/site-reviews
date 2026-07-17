@@ -513,3 +513,140 @@ test('the heartbeat check ignores a review nobody is editing', function () {
 
     expect($response)->toBe(['other' => 'kept']); // no lock, nothing added
 });
+
+test('the heartbeat warns a responder that somebody else is editing', function () {
+    // The scenario the lock exists for: the page author may RESPOND to a review of their
+    // page but not edit it, and an admin has the review open. Without the warning the
+    // responder types a response into a row that is about to be overwritten.
+    $admin = createUser(['role' => 'administrator']);
+    $pageAuthor = createUser(['role' => 'author']);
+    $pageId = createPost(['post_author' => $pageAuthor]);
+    $review = createReview(['assigned_posts' => $pageId]);
+    update_post_meta($review->ID, '_edit_lock', time().':'.$admin); // the admin holds the lock
+    wp_set_current_user($pageAuthor);
+
+    $response = glsr(ListTableController::class)->filterCheckLockedReviews([], [
+        'wp-check-locked-posts' => ['post-'.$review->ID],
+    ]);
+
+    expect($response['wp-check-locked-posts'])->toHaveKey('post-'.$review->ID);
+    expect($response['wp-check-locked-posts']['post-'.$review->ID]['text'])
+        ->toContain('is currently editing');
+});
+
+test('the heartbeat says nothing to somebody who can edit the review anyway', function () {
+    // An editor gets WordPress's own lock handling; the plugin's message is only for the
+    // respond-only case.
+    $admin = createUser(['role' => 'administrator']);
+    $review = createReview();
+    update_post_meta($review->ID, '_edit_lock', time().':'.$admin);
+    wp_set_current_user(createUser(['role' => 'administrator']));
+
+    $response = glsr(ListTableController::class)->filterCheckLockedReviews([], [
+        'wp-check-locked-posts' => ['post-'.$review->ID],
+    ]);
+
+    expect($response)->toBe([]);
+
+    // and nothing to a subscriber, who can neither edit nor respond
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+    $response = glsr(ListTableController::class)->filterCheckLockedReviews([], [
+        'wp-check-locked-posts' => ['post-'.$review->ID],
+    ]);
+    expect($response)->toBe([]);
+});
+
+test('the list table class is only swapped on the list table screen', function () {
+    set_current_screen(glsr()->post_type); // the EDITOR screen: right post type, wrong base
+
+    expect(glsr(ListTableController::class)->filterListTableClass('WP_Posts_List_Table'))
+        ->toBe('WP_Posts_List_Table');
+});
+
+test('the inline save refuses a missing post and a mere spectator', function () {
+    // wp_die() ends these paths before any json is printed, so the death itself is
+    // intercepted — the message is the assertion.
+    // an object, not a by-ref scalar: the arrow function would capture a COPY and the
+    // nested closure's &$ref would point into that copy
+    $die = new stdClass();
+    $die->message = null;
+    add_filter('wp_die_handler', function () use ($die) {
+        return function ($message) use ($die) {
+            $die->message = is_scalar($message) ? (string) $message : '';
+            throw new Exception('wp_die');
+        };
+    });
+    $nonce = wp_create_nonce('inlineeditnonce');
+    $_REQUEST['_inline_edit'] = $nonce;
+
+    // no post_ID: dead on arrival, with nothing to say
+    $_POST = ['screen' => 'edit-'.glsr()->post_type, '_inline_edit' => $nonce];
+    try {
+        glsr(ListTableController::class)->overrideInlineSaveAjax();
+    } catch (Exception $e) {
+    }
+    expect($die->message)->toBe('');
+
+    // a subscriber may neither edit nor respond (their OWN nonce: the nonce is
+    // user-bound, and an invalid one is a literal die('-1') in check_ajax_referer)
+    $review = createReview();
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+    $nonce = wp_create_nonce('inlineeditnonce');
+    $_REQUEST['_inline_edit'] = $nonce;
+    $_POST = [
+        'screen' => 'edit-'.glsr()->post_type,
+        'post_ID' => (string) $review->ID,
+        '_inline_edit' => $nonce,
+    ];
+    try {
+        glsr(ListTableController::class)->overrideInlineSaveAjax();
+    } catch (Exception $e) {
+    }
+    $_POST = [];
+    unset($_REQUEST['_inline_edit']);
+
+    expect($die->message)->toContain('not allowed to respond');
+});
+
+test('the inline save is disabled while somebody else holds the lock', function () {
+    $admin = createUser(['role' => 'administrator']);
+    $review = createReview();
+    update_post_meta($review->ID, '_edit_lock', time().':'.$admin);
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    add_filter('wp_die_handler', fn () => function () {
+        throw new Exception('wp_die');
+    });
+    $nonce = wp_create_nonce('inlineeditnonce');
+    $_REQUEST['_inline_edit'] = $nonce;
+    $_POST = [
+        'screen' => 'edit-'.glsr()->post_type,
+        'post_ID' => (string) $review->ID,
+        '_inline_edit' => $nonce,
+        '_response' => 'should not be saved',
+    ];
+
+    ob_start();
+    try {
+        glsr(ListTableController::class)->overrideInlineSaveAjax();
+    } catch (Exception $e) {
+    }
+    $output = (string) ob_get_clean();
+    $_POST = [];
+    unset($_REQUEST['_inline_edit']);
+
+    expect($output)->toContain('Saving is disabled');
+    expect(glsr(ReviewManager::class)->get($review->ID, true)->response)->not->toBe('should not be saved');
+});
+
+test('the where clause knows ratings, and reviews by nobody', function () {
+    // author=0 filters for guest reviews — WordPress only handles a NON-zero author itself.
+    $_GET = ['rating' => '4', 'author' => '0'];
+
+    $clause = GeminiLabs\SiteReviews\Tests\protectedMethod(ListTableController::class, 'modifyClauseWhere')
+        ->invoke(glsr(ListTableController::class), '', new WP_Query());
+    $_GET = [];
+
+    $clauses = implode(' ', $clause['clauses']);
+    expect($clauses)->toContain(".rating = '4'")
+        ->toContain('post_author IN (0)');
+});
