@@ -580,3 +580,40 @@ test('editing or deleting a review that does not exist is a 404, not a 403', fun
     expect(restRequest('PUT', '/'.REST_NS.'/reviews/999999', ['title' => 'x'])->get_status())->toBe(404);
     expect(restRequest('DELETE', '/'.REST_NS.'/reviews/999999', ['force' => true])->get_status())->toBe(404);
 });
+
+/*
+ * The summary controller's remaining surface: the rendered star-rating endpoint the
+ * frontend widgets poll, the rendered summary, and the schema.
+ */
+
+test('the rating endpoint returns the stars, rendered and as numbers', function () {
+    actAsAdmin();
+    createReview(['rating' => 5]);
+    createReview(['rating' => 4]);
+
+    $response = restRequest('GET', '/'.REST_NS.'/summary/rating');
+
+    expect($response->get_status())->toBe(200);
+    $data = $response->get_data();
+    expect($data['rendered'])->toContain('glsr-star')
+        ->and($data['average'])->toEqual(4.5)
+        ->and($data['reviews'])->toBe(2);
+});
+
+test('the rendered summary returns html', function () {
+    actAsAdmin();
+    createReview(['rating' => 5]);
+
+    $response = restRequest('GET', '/'.REST_NS.'/summary', ['_rendered' => 1]);
+
+    expect($response->get_status())->toBe(200);
+    expect($response->get_data()['rendered'])->toContain('glsr');
+});
+
+test('the summary declares its schema', function () {
+    $controller = new \GeminiLabs\SiteReviews\Controllers\Api\Version1\RestSummaryController();
+
+    $schema = $controller->get_item_schema();
+    expect($schema)->toHaveKey('properties');
+    expect($controller->get_item_schema())->toBe($schema); // memoised
+});
