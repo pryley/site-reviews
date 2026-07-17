@@ -305,6 +305,87 @@ test('an imported version number is discarded', function () {
         ->and(glsr(OptionManager::class)->get('version_upgraded_from'))->not->toBe('0.0.1');
 });
 
+test('the settings import handles a whole upload, stubbed past the SAPI check', function () {
+    // handle() itself, with getImportFile() overridden in a subclass to hand back the file it
+    // WOULD have got — the seam sits exactly on the is_uploaded_file() wall described above,
+    // and everything after it (the JSON read, import(), the notice) is real.
+    commitsTransaction(); // import() migrates the imported settings
+    $path = tempnam(sys_get_temp_dir(), 'glsr').'.json';
+    file_put_contents($path, (string) wp_json_encode([
+        'settings' => ['general' => ['require' => ['approval' => 'no']]],
+    ]));
+    register_shutdown_function(fn () => @unlink($path));
+    $upload = new GeminiLabs\SiteReviews\UploadedFile([
+        'error' => \UPLOAD_ERR_OK,
+        'name' => 'settings.json',
+        'size' => filesize($path),
+        'tmp_name' => $path,
+        'type' => 'application/json',
+    ]);
+    $command = new class($upload) extends ImportSettings {
+        private GeminiLabs\SiteReviews\UploadedFile $upload;
+
+        public function __construct(GeminiLabs\SiteReviews\UploadedFile $upload)
+        {
+            $this->upload = $upload;
+        }
+
+        protected function getImportFile(string $expectedMimeType): ?GeminiLabs\SiteReviews\UploadedFile
+        {
+            return $this->upload;
+        }
+    };
+    glsr(OptionManager::class)->set('settings.general.require.approval', 'yes');
+    glsr(Notice::class)->clear();
+
+    $command->handle();
+
+    expect($command->successful())->toBeTrue()
+        ->and(glsr(Notice::class)->get())->toContain('Settings imported');
+    expect(glsr_get_option('general.require.approval'))->toBe('no');
+});
+
+test('a settings file with nothing in it imports nothing, with a warning', function () {
+    $path = tempnam(sys_get_temp_dir(), 'glsr').'.json';
+    file_put_contents($path, '{}');
+    register_shutdown_function(fn () => @unlink($path));
+    $upload = new GeminiLabs\SiteReviews\UploadedFile([
+        'error' => \UPLOAD_ERR_OK,
+        'name' => 'settings.json',
+        'size' => 2,
+        'tmp_name' => $path,
+        'type' => 'application/json',
+    ]);
+    $command = new class($upload) extends ImportSettings {
+        private GeminiLabs\SiteReviews\UploadedFile $upload;
+
+        public function __construct(GeminiLabs\SiteReviews\UploadedFile $upload)
+        {
+            $this->upload = $upload;
+        }
+
+        protected function getImportFile(string $expectedMimeType): ?GeminiLabs\SiteReviews\UploadedFile
+        {
+            return $this->upload;
+        }
+    };
+    glsr(Notice::class)->clear();
+
+    $command->handle();
+
+    expect($command->successful())->toBeFalse()
+        ->and(glsr(Notice::class)->get())->toContain('nothing found to import');
+});
+
+test('the meta of a post that does not exist is an empty list', function () {
+    // The guard in ExportReviews::postMeta() — a record whose post vanished mid-export must
+    // contribute nothing, not a PHP warning in the CSV.
+    $meta = protectedMethod(ExportReviews::class, 'postMeta')
+        ->invoke(new ExportReviews(new Request()), 0);
+
+    expect($meta)->toBe([]);
+});
+
 test('the settings import fails cleanly when no file was uploaded', function () {
     // The one path through handle() a CLI test can reach. It is not a contrivance: it is exactly
     // what an admin who submits the import form without choosing a file gets — getImportFile()
