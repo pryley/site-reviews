@@ -103,3 +103,75 @@ test('sql where', function () {
     $query->setArgs(['status' => 'all']);
     expect($query->sqlWhere())->toBe("WHERE 1=1 AND p.post_status IN ('pending','publish')");
 });
+
+test('a date given as a single day matches that calendar day', function () {
+    // ReviewsDefaults::finalizeDate turns a parseable date string into year/month/day parts.
+    $query = glsr(Query::class);
+    $query->setArgs(['date' => '2024-06-15', 'status' => 'all']);
+
+    expect($query->sqlWhere())->toContain(
+        'AND ((YEAR(p.post_date) = 2024 AND MONTH(p.post_date) = 6 AND DAYOFMONTH(p.post_date) = 15))'
+    );
+});
+
+test('a date range respects before, after, and inclusivity', function () {
+    $query = glsr(Query::class);
+    // sanitizeDate normalizes to a full Y-m-d H:i:s datetime
+    $query->setArgs(['date' => ['before' => '2024-01-01'], 'status' => 'all']);
+    expect($query->sqlWhere())->toContain("AND ((p.post_date < '2024-01-01 00:00:00'))");
+
+    $query->setArgs(['date' => ['after' => '2023-01-01', 'before' => '2024-01-01', 'inclusive' => true], 'status' => 'all']);
+    expect($query->sqlWhere())->toContain("AND ((p.post_date >= '2023-01-01 00:00:00') AND (p.post_date <= '2024-01-01 00:00:00'))");
+});
+
+test('include and exclude become IN and NOT IN on the review id', function () {
+    $query = glsr(Query::class);
+    $query->setArgs(['post__in' => [3, 7], 'post__not_in' => [4], 'status' => 'all']);
+
+    $where = $query->sqlWhere();
+    expect($where)->toContain('AND r.review_id IN (3,7)')
+        ->and($where)->toContain('AND r.review_id NOT IN (4)');
+});
+
+test('the terms, verified and excluded-author flags each add their column test', function () {
+    // user__not_in resolves each value against a real user (SanitizeUserIds) and drops the rest
+    $userId = createUser();
+    $query = glsr(Query::class);
+    $query->setArgs(['terms' => 'true', 'verified' => 'true', 'user__not_in' => [$userId], 'status' => 'all']);
+
+    $where = $query->sqlWhere();
+    expect($where)->toContain('AND r.terms = 1')
+        ->and($where)->toContain('AND r.is_verified = 1')
+        ->and($where)->toContain("AND p.post_author NOT IN ({$userId})");
+
+    // the join half of user__not_in: the authors live on the posts table
+    $joins = $query->clauses('join');
+    expect($joins)->toHaveKey('user__not_in')
+        ->and($joins['user__not_in'])->toContain('JOIN')
+        ->and($joins['user__not_in'])->toContain('AS p ON (p.ID = r.review_id)');
+});
+
+test('filtering by assigned post type joins through the posts table with the type pinned', function () {
+    // assigned_posts_types passes post_type_exists, so only real types survive.
+    $query = glsr(Query::class);
+    $query->setArgs(['assigned_posts_types' => ['post', 'not_a_real_type'], 'status' => 'all']);
+
+    expect($query->sqlWhere())->toContain('AND (apt.is_published = 1)');
+
+    $joins = $query->clauses('join');
+    expect($joins)->toHaveKey('assigned_posts_types')
+        ->and($joins['assigned_posts_types'])->toContain('AS apt ON (apt.rating_id = r.ID)')
+        ->and($joins['assigned_posts_types'])->toContain("AS pt ON (pt.ID = apt.post_id AND pt.post_type IN ('post'))")
+        ->and($joins['assigned_posts_types'])->not->toContain('not_a_real_type');
+});
+
+test('an unrecognised join keyword falls back to INNER JOIN', function () {
+    $query = glsr(Query::class);
+    $invoke = function (Query $obj, string $join, string $keyword) {
+        $fn = fn () => $this->join($join, $keyword);
+        return $fn->bindTo($obj, $obj)();
+    };
+
+    expect($invoke($query, 'posts', 'BOGUS JOIN'))->toStartWith('INNER JOIN')
+        ->and($invoke($query, 'posts', 'LEFT JOIN'))->toStartWith('LEFT JOIN');
+});
