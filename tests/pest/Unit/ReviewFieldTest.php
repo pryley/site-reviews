@@ -505,3 +505,42 @@ function makeReviewField(array $args = []): FieldContract
 {
     return new ReviewField($args);
 }
+
+test('a field with a description builds one for the templates that place it', function () {
+    // The default field template carries no {{ description }} tag (probed) — the
+    // styled framework templates do — so the assertion is on the builder itself.
+    $field = makeReviewField(['name' => 'x', 'type' => 'text', 'description' => 'Help for the reviewer']);
+
+    expect($field->buildFieldDescription())->toContain('Help for the reviewer');
+    expect(makeReviewField(['name' => 'x', 'type' => 'text'])->buildFieldDescription())->toBe('');
+});
+
+test('errors, hidden and required each mark the field wrapper', function () {
+    $withErrors = buildReviewField(['name' => 'x', 'type' => 'text', 'errors' => ['This field is required.']]);
+    expect($withErrors)->toContain('glsr-field-is-invalid')
+        ->and($withErrors)->toContain('This field is required.');
+
+    $hidden = buildReviewField(['name' => 'x', 'type' => 'text', 'is_hidden' => true]);
+    expect($hidden)->toContain('glsr-hidden');
+});
+
+test('a custom field is not forced required by the form settings', function () {
+    // forms.required lists the BUILT-IN fields the site wants mandatory; a custom
+    // field with the same name must keep its own requiredness.
+    glsr(\GeminiLabs\SiteReviews\Database\OptionManager::class)->set('settings.forms.required', ['phone']);
+
+    $custom = makeReviewField(['name' => 'phone', 'type' => 'text', 'is_custom' => true]);
+    $builtin = makeReviewField(['name' => 'phone', 'type' => 'text']);
+
+    expect($custom->required)->toBeFalse()
+        ->and($builtin->required)->toBeTrue();
+});
+
+test('conditions with a criteria but no valid rules add no data-conditions', function () {
+    $field = makeReviewField(['name' => 'x', 'type' => 'text', 'conditions' => 'all|:broken']);
+
+    expect($field['data-conditions'])->toBeNull();
+
+    $real = makeReviewField(['name' => 'x', 'type' => 'text', 'conditions' => 'all|rating:>:3']);
+    expect($real['data-conditions'])->toContain('"criteria":"all"');
+});
