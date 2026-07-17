@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Rollback;
 use GeminiLabs\SiteReviews\Tests\NullQueue;
 
 use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
+use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -244,6 +245,39 @@ test('a pending migration is announced, and cannot be dismissed', function () {
     expect((string) ob_get_clean())->not->toContain('is-dismissible');
 
     set_current_screen('front');
+});
+
+test('a migration that is needed but not yet queued gets queued by the notice itself', function () {
+    // The notice is the thing that SCHEDULES the work: nothing is pending in the
+    // queue, but the database disagrees with the posts (a restored backup) and one
+    // migration's bookkeeping says it never ran.
+    set_current_screen('edit-'.glsr()->post_type);
+    NullQueue::$isPending = false;
+    $review = createReview();
+    glsr(GeminiLabs\SiteReviews\Database::class)->update('ratings', ['is_approved' => 0], ['review_id' => $review->ID]);
+    $migrations = GeminiLabs\SiteReviews\Helpers\Arr::consolidate(get_option(glsr()->prefix.'migrations'));
+    $migrations[array_key_last($migrations)] = false; // one migration now reads as never-run
+    update_option(glsr()->prefix.'migrations', $migrations);
+    glsr(OptionManager::class)->set('version_upgraded_from', '8.0.0'); // not a fresh install
+
+    $notice = new MigrationNotice();
+
+    expect(false !== has_action('admin_notices', [$notice, 'render']))->toBeTrue();
+    $queued = NullQueue::calls('once', 'queue/migration');
+    expect($queued)->toHaveCount(1)
+        ->and($queued[0]['args']['database'] ?? null)->toBeTrue()
+        ->and($queued[0]['args']['migrations'] ?? '')->not->toBe('');
+
+    set_current_screen('front');
+});
+
+test('off the plugin screens the migration notice does not even look', function () {
+    set_current_screen('front');
+    NullQueue::$isPending = true; // would load anywhere the screen allowed
+
+    $notice = new MigrationNotice();
+
+    expect(has_action('admin_notices', [$notice, 'render']))->toBeFalse();
 });
 
 test('and a site with nothing to migrate is not told about migrations', function () {
