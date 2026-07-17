@@ -295,3 +295,20 @@ test('the defaults are the settings config flattened to values', function () {
     expect($defaults)->not->toBeEmpty()
         ->and($defaults)->toHaveKey('settings');
 });
+
+test('a database version bump queues a migration on init, through a removable hook', function () {
+    \GeminiLabs\SiteReviews\Tests\NullQueue::$calls = [];
+    update_option(glsr()->prefix.'db_version', '0.9-stale'); // non-empty: Install::run() must NOT fire
+
+    glsr()->init();
+
+    // a named method, not a closure — a site owner can unhook the queueing
+    expect(has_action('init', [glsr(), 'queueMigration']))->not->toBeFalse();
+
+    glsr()->queueMigration(); // what init would do
+    $queued = \GeminiLabs\SiteReviews\Tests\NullQueue::calls('once', 'queue/migration');
+    expect($queued)->toHaveCount(1)
+        ->and($queued[0]['args']['database'] ?? null)->toBeTrue();
+
+    remove_action('init', [glsr(), 'queueMigration']);
+});

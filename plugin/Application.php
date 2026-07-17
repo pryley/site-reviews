@@ -49,6 +49,7 @@ final class Application extends Container implements PluginContract
 
     protected array $addons = [];
     protected array $defaults;
+    protected array $migrationArgs = [];
     protected string $name;
     protected array $settings;
 
@@ -133,9 +134,10 @@ final class Application extends Container implements PluginContract
             $args['database'] = true;
         }
         if (!empty($args)) {
-            add_action('init', function () use ($args) {
-                glsr(Queue::class)->once(time() + 15, 'queue/migration', $args, true);
-            });
+            // a named method rather than a closure, so that a site owner or an
+            // addon can remove_action() it if the migration must not be queued
+            $this->migrationArgs = $args;
+            add_action('init', [$this, 'queueMigration']);
         }
         $this->make(Hooks::class)->run();
     }
@@ -176,6 +178,17 @@ final class Application extends Container implements PluginContract
             $this->settings = array_merge($license, $settings);
         } catch (\ReflectionException $e) {
             // Fail silently
+        }
+    }
+
+    /**
+     * Queues the plugin migration that init() detected was needed.
+     * Hooked on "init" as a named method, so a site can remove_action() it.
+     */
+    public function queueMigration(): void
+    {
+        if (!empty($this->migrationArgs)) {
+            $this->make(Queue::class)->once(time() + 15, 'queue/migration', $this->migrationArgs, true);
         }
     }
 
