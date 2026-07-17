@@ -1843,3 +1843,28 @@ function sanitizerTestValues(): array
         '&amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe src=javascript:alert(/XSS-iFrame)&amp;amp;amp;amp;amp;amp;amp;amp;gt;',
     ];
 }
+
+test('a timestamp date is formatted, not passed through', function () {
+    expect(glsr(Sanitizer::class)->sanitizeDate((string) mktime(0, 0, 0, 6, 15, 2024)))
+        ->toBe('2024-06-15 00:00:00');
+});
+
+test('a host restriction that reduces to nothing allows nothing', function () {
+    // 'url:discord.com' is how the webhook settings pin their host; a restriction
+    // that trims away to an empty string must fail closed, not open.
+    expect(glsr(Sanitizer::class)->sanitizeUrl('https://example.org/hook', '/'))->toBe('')
+        ->and(glsr(Sanitizer::class)->sanitizeUrl('https://discord.com/api/x', 'discord.com'))
+        ->toBe('https://discord.com/api/x');
+});
+
+test('a style declaration with no property is dropped, not rendered', function () {
+    // a whitespace-only declaration survives safecss_filter_attr as an empty one
+    // (probed: 'color:blue; ; font-size:1em' comes back 'color:blue;;font-size:1em')
+    expect(glsr(Sanitizer::class)->sanitizeAttrStyle('color:blue; ; font-size:1em'))
+        ->toBe('color:blue;font-size:1em;');
+});
+
+test('a sanitizer that does not exist logs and falls back to the given fallback', function () {
+    expect(glsr(Sanitizer::class)->sanitizeNoSuchThing('the-value', 'the-fallback'))
+        ->toBe('the-fallback');
+});

@@ -70,3 +70,9 @@ test('to string', function () {
     expect(Cast::toString(['a' => 1, 'b' => 2, 'c' => 3], false))->toEqual('a:3:{s:1:"a";i:1;s:1:"b";i:2;s:1:"c";i:3;}');
     expect(Cast::toString(new MockClass()))->toEqual('123');
 });
+
+test('a value json cannot represent degrades to an empty array, logged', function () {
+    // INF survives the object walk but not json_encode; the deep cast must not
+    // let a JsonException out of a helper that everything calls casually.
+    expect(\GeminiLabs\SiteReviews\Helpers\Cast::toArrayDeep([INF]))->toBe([]);
+});

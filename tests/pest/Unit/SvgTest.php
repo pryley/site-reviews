@@ -41,3 +41,13 @@ test('get', function () {
             'width' => 20,
         ]))->toEqual('<svg fill="currentColor" height="20" style="pointer-events: none; color: red;" width="20" xmlns="http://www.w3.org/2000/svg"></svg>');
 });
+
+test('a class attribute is added as a class, not overwritten as an attribute', function () {
+    $svg = \GeminiLabs\SiteReviews\Helpers\Svg::get('tests/assets/test.svg', [
+        'class' => 'my-icon',
+        'data-role' => 'decoration',
+    ]);
+
+    expect($svg)->toContain('my-icon')
+        ->and($svg)->toContain('data-role="decoration"');
+});

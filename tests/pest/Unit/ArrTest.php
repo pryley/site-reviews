@@ -249,3 +249,18 @@ test('unprefix keys', function () {
     $array = ['_a' => '', 'b' => ''];
     expect(Arr::unprefixKeys($array))->toEqual(['a' => '', 'b' => '']);
 });
+
+test('consolidating an arguments object keeps its array values intact', function () {
+    $arguments = glsr()->args(['list' => [1, 2], 'name' => 'x']);
+
+    expect(\GeminiLabs\SiteReviews\Helpers\Arr::consolidate($arguments))
+        ->toBe(['list' => [1, 2], 'name' => 'x']);
+});
+
+test('a dot-path can be set through an object in the middle', function () {
+    $data = ['wrapper' => (object) ['inner' => 'old']];
+
+    $result = \GeminiLabs\SiteReviews\Helpers\Arr::set($data, 'wrapper.inner', 'new');
+
+    expect($result['wrapper']->inner)->toBe('new');
+});
