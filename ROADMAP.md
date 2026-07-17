@@ -15,33 +15,17 @@ Features are subject to change and are sorted alphabetically, not by priority.
 
 ## Technical debt
 
-- [ ] **The addon-update filters are untested against the real update-server contract.**
-  `UpdateController::filterUpdatePlugins()` and the compat-addon loop in
-  `filterUpdatePluginsTransient()` consume `Updater::versionUpdate()`, whose response
-  shape belongs to the update server (an EDD Software Licensing endpoint —
-  `edd_action=get_version` POSTed to the addon's `UpdateURI`). A test that invents the
-  payload asserts an invented contract, so those paths are exercised only in production.
-
-  Exactly two captures are needed, each the RAW response body (restriction to fields
-  happens client-side in `VersionUpdateDefaults`/`VersionDetailsDefaults`, so one
-  capture serves the transient loop, `filterUpdatePlugins()` AND the plugins_api modal):
-
-  1. `get_version` with a VALID licence — must show `new_version` and `package`.
-  2. `get_version` with an EMPTY/invalid licence — the unknown contract: the code
-     assumes version-without-`package` (`renderPluginUpdateMessage()` and the
-     upgrade-notice fallback in `VersionUpdateDefaults::finalize()` are built on it).
-
-  No "up to date" capture: the `response` vs `no_update` bucketing is client-side
-  `version_compare` against the local `Version:` header, which the compat-addon
-  fixture controls. No failure capture: `interceptHttp()` fakes the WP_Error.
-
-  Capture with a temporary `http_api_debug` hook filtered to the update host, then
-  Dashboard → Updates → "Check again" (and "View version details" for plugins_api).
-  BEFORE COMMITTING: scrub the `package` URL's query string (EDD download links carry
-  a licence/expiry token; keep the URL shape, placeholder the values) and record the
-  capture date + addon id + installed version alongside. Replay via `interceptHttp()`
-  as `tests/pest/fixtures/updater/*.json`, with the addon registered in
-  `glsr()->retrieveAs('compat')` for the transient loop.
+- [x] **The addon-update filters are untested against the real update-server contract.**
+  DONE (83f411e3e): the captures live in `tests/pest/fixtures/updater/` (see the
+  README there for scrubbing and provenance) and UpdateControllerTest replays them
+  through `licenseServer()`. UpdateController is at 100%. The capture surfaced a
+  contract fact worth knowing: `get_version` answers a NON-EMPTY `package` even for
+  an invalid licence (the URL refuses at download time, with the refusal only in
+  `msg`, a field the Defaults drop) — so `renderPluginUpdateMessage()`'s "a valid
+  license key is required" message can never render under the current server
+  behaviour. Whether to fix that server-side (empty package when unlicensed) or
+  client-side (blank the package when `msg` reports an invalid licence) is an open
+  product decision.
 
 - [ ] **The asset optimizer assumes the plugin folder is named exactly `site-reviews`.**
   `AbstractAsset::combine()` strips a HARD-CODED `strlen('site-reviews/')` off the end of
