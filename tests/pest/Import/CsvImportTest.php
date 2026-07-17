@@ -485,3 +485,81 @@ test('a process job whose uploaded file has vanished is reported, not fatal', fu
 
     expect($command->successful())->toBeFalse();
 });
+
+/*
+ * handle() end to end, past the SAPI wall.
+ *
+ * The tests above drive process() because handle()'s first move — UploadedFile::isValid() —
+ * asks is_uploaded_file(), which no CLI process can answer. These drive handle() itself by
+ * overriding the two seams in subclasses: file() hands back the upload it would have got,
+ * and the upload's isValid() answers everything EXCEPT the SAPI question. The mime check,
+ * the processing and the failure paths are all real.
+ */
+
+function uploadPastSapiWall(string $contents, string $extension, string $name): UploadedFile
+{
+    $base = tempnam(sys_get_temp_dir(), 'glsr');
+    $path = $base.$extension;
+    file_put_contents($path, $contents);
+    register_shutdown_function(function () use ($base, $path) {
+        @unlink($base);
+        @unlink($path);
+    });
+
+    return new class([
+        'error' => \UPLOAD_ERR_OK,
+        'name' => $name,
+        'size' => strlen($contents),
+        'tmp_name' => $path,
+        'type' => 'text/csv',
+    ]) extends UploadedFile {
+        public function isValid(): bool
+        {
+            return \UPLOAD_ERR_OK === $this->getError(); // everything but is_uploaded_file()
+        }
+    };
+}
+
+function processCsvViaHandle(UploadedFile $upload): ProcessCsvFile
+{
+    $command = new class(new Request(['date_format' => 'Y-m-d', 'delimiter' => ',']), $upload) extends ProcessCsvFile {
+        private UploadedFile $upload;
+
+        public function __construct(Request $request, UploadedFile $upload)
+        {
+            parent::__construct($request);
+            $this->upload = $upload;
+        }
+
+        protected function file(): UploadedFile
+        {
+            return $this->upload;
+        }
+    };
+    $command->handle();
+
+    return $command;
+}
+
+test('handle() accepts a valid upload and processes it', function () {
+    $command = processCsvViaHandle(uploadPastSapiWall(csvFixture(), '.csv', 'reviews.csv'));
+
+    expect($command->successful())->toBeTrue();
+    expect($command->response()['total'])->toBe(2); // the two importable fixture rows
+});
+
+test('handle() refuses an upload that is not really a CSV', function () {
+    // A JSON file renamed reviews.csv: the detected mime type is conclusive and wrong.
+    $command = processCsvViaHandle(uploadPastSapiWall('{"not":"a csv"}', '.csv', 'reviews.csv'));
+
+    expect($command->successful())->toBeFalse();
+    expect(glsr(Notice::class)->get())->toContain('does not look like a valid CSV file');
+});
+
+test('handle() fails when the CSV cannot be processed', function () {
+    // Valid upload, unusable content: the required columns are missing.
+    $command = processCsvViaHandle(uploadPastSapiWall("title,content\nNo dates here,Nope\n", '.csv', 'reviews.csv'));
+
+    expect($command->successful())->toBeFalse();
+    expect(glsr(Notice::class)->get())->toContain('could not be imported');
+});
