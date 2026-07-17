@@ -176,3 +176,8 @@ test('an update without a download package explains the licence', function () {
     );
     expect((string) ob_get_clean())->toBe(''); // a licensed update needs no lecture
 });
+
+test('an empty update transient is handed back before any addon work', function () {
+    expect(glsr(UpdateController::class)->filterUpdatePluginsTransient(false))->toBeFalse()
+        ->and(glsr(UpdateController::class)->filterUpdatePluginsTransient(null))->toBeNull();
+});
