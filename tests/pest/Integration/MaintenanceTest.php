@@ -81,6 +81,57 @@ test('a table nobody has heard of is refused rather than guessed at', function (
     expect(glsr(Notice::class)->get())->toContain('not_a_table');
 });
 
+test('a MyISAM table converts with a success notice, and a failed ALTER with an error', function () {
+    // wp-env is all InnoDB, so MyISAM is stood in by a fake Tables and the ALTER's outcome by
+    // a fake Database — no SQL runs at all. What is under test is the command's reading of
+    // the three results convertTableEngine() can hand it, not MySQL.
+    $fakeTables = new class() extends GeminiLabs\SiteReviews\Database\Tables {
+        public function isMyisam(string $table): bool
+        {
+            return true;
+        }
+
+        public function addForeignConstraints(): void
+        {
+            // no-op: the conversion never really happened
+        }
+    };
+    $makeDatabase = fn (bool $result) => new class($result) extends GeminiLabs\SiteReviews\Database {
+        private bool $result;
+
+        public function __construct(bool $result)
+        {
+            parent::__construct();
+            $this->result = $result;
+        }
+
+        public function dbQuery(string $sql)
+        {
+            return $this->result;
+        }
+    };
+    $originalTables = glsr(GeminiLabs\SiteReviews\Database\Tables::class);
+    $originalDatabase = glsr(GeminiLabs\SiteReviews\Database::class);
+    glsr()->alias(GeminiLabs\SiteReviews\Database\Tables::class, $fakeTables);
+    try {
+        glsr()->alias(GeminiLabs\SiteReviews\Database::class, $makeDatabase(true));
+        $success = new ConvertTableEngine(new Request(['table' => 'ratings']));
+        $success->handle();
+        expect($success->successful())->toBeTrue();
+        expect($success->response()['notices'])->toContain('successly converted to InnoDB');
+
+        glsr(Notice::class)->clear();
+        glsr()->alias(GeminiLabs\SiteReviews\Database::class, $makeDatabase(false));
+        $failure = new ConvertTableEngine(new Request(['table' => 'ratings']));
+        $failure->handle();
+        expect($failure->successful())->toBeFalse();
+        expect(glsr(Notice::class)->get())->toContain('could not be converted');
+    } finally {
+        glsr()->alias(GeminiLabs\SiteReviews\Database\Tables::class, $originalTables);
+        glsr()->alias(GeminiLabs\SiteReviews\Database::class, $originalDatabase);
+    }
+});
+
 test('and somebody without permission cannot alter the database at all', function () {
     // An ALTER TABLE on wp_posts. This is the most destructive thing in the plugin's tool box, and
     // the permission check is the only thing standing in front of it.
