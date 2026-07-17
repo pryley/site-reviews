@@ -515,3 +515,73 @@ test('a prosopo rejection is logged with its named diagnostics, not just the raw
             'sitekey_missing' => 'Your site key is missing.',
         ]);
 });
+
+/*
+ * The error decoration: each validator names what the SITE got wrong before
+ * logging, so a support thread reads "sitekey_missing" instead of a bare no.
+ */
+
+// class, integration slug, and where its keys live (v2-invisible shares the
+// legacy forms.recaptcha.* keys; friendlycaptcha v1 and v2 share theirs)
+dataset('keyed captchas', [
+    'recaptcha_v3' => [RecaptchaV3Validator::class, 'recaptcha_v3', 'recaptcha_v3'],
+    'recaptcha_v2_invisible' => [RecaptchaV2InvisibleValidator::class, 'recaptcha_v2_invisible', 'recaptcha'],
+    'friendlycaptcha' => [FriendlycaptchaValidator::class, 'friendlycaptcha', 'friendlycaptcha'],
+    'friendlycaptcha_v2' => [FriendlycaptchaV2Validator::class, 'friendlycaptcha_v2', 'friendlycaptcha'],
+    'hcaptcha' => [HcaptchaValidator::class, 'hcaptcha', 'hcaptcha'],
+]);
+
+test('a rejection with no keys configured is logged as the missing keys', function (string $class, string $integration) {
+    enableCaptcha($integration); // no key, no secret
+    interceptHttp(captchaReply(['success' => false]));
+
+    captchaValidator($class)->validate();
+
+    expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())
+        ->toContain('sitekey_missing');
+})->with('keyed captchas');
+
+test('a rejection whose token blames the site key is logged as exactly that', function (string $class, string $integration, string $keyPrefix) {
+    // hcaptcha is absent: its errors() has no sitekey_invalid branch to reach.
+    enableCaptcha($integration, [
+        "{$keyPrefix}.key" => 'a-key',
+        "{$keyPrefix}.secret" => 'a-secret',
+    ]);
+    interceptHttp(captchaReply(['success' => false]));
+
+    captchaValidator($class, ['_captcha' => 'sitekey_invalid'])->validate();
+
+    expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())
+        ->toContain('sitekey_invalid');
+})->with([
+    'recaptcha_v3' => [RecaptchaV3Validator::class, 'recaptcha_v3', 'recaptcha_v3'],
+    'recaptcha_v2_invisible' => [RecaptchaV2InvisibleValidator::class, 'recaptcha_v2_invisible', 'recaptcha'],
+    'friendlycaptcha' => [FriendlycaptchaValidator::class, 'friendlycaptcha', 'friendlycaptcha'],
+    'friendlycaptcha_v2' => [FriendlycaptchaV2Validator::class, 'friendlycaptcha_v2', 'friendlycaptcha'],
+]);
+
+test('the recaptcha badge falls back to inline when the setting is not a corner', function () {
+    enableCaptcha('recaptcha_v3');
+    glsr(OptionManager::class)->set('settings.forms.captcha.badge', 'somewhere-odd');
+
+    expect(glsr(RecaptchaV3Validator::class, ['request' => new Request([])])->config()['badge'] ?? '')
+        ->toBe('inline');
+    expect(glsr(RecaptchaV2InvisibleValidator::class, ['request' => new Request([])])->config()['badge'] ?? '')
+        ->toBe('inline');
+});
+
+test('the captcha base class answers nothing until a subclass says otherwise', function () {
+    // The contract an addon validator starts from: disabled, keyless, bodiless.
+    $validator = new class(new Request([])) extends \GeminiLabs\SiteReviews\Modules\Validator\CaptchaValidatorAbstract {
+        public function config(): array
+        {
+            return [];
+        }
+    };
+    $fn = function () {
+        return [$this->isEnabled(), $this->errorCodes(), $this->requestBody(), $this->siteKey(), $this->siteSecret()];
+    };
+
+    expect($fn->bindTo($validator, \GeminiLabs\SiteReviews\Modules\Validator\CaptchaValidatorAbstract::class)())
+        ->toBe([false, [], [], '', '']);
+});
