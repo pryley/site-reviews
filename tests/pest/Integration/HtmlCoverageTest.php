@@ -218,11 +218,8 @@ test('raw review content skips the excerpt machinery entirely', function () {
 });
 
 test('the metabox form renders custom array values as json, and any hidden fields first', function () {
-    // NOTE: config() reads the session in its data-value handling, but the Form
-    // constructor calls mergeConfig() BEFORE loadSession() — so the session is
-    // always empty there, data-value is always "", and the json-encode branch
-    // (line ~41) is unreachable by construction order. Reported as a finding.
-    $review = createReview(['assigned_posts' => [createPost()]]);
+    $postId = createPost();
+    $review = createReview(['assigned_posts' => [$postId]]);
     add_filter('site-reviews/config/forms/metabox-fields', function ($config) {
         $config['assigned_posts'] = ['label' => 'Assigned', 'type' => 'text'];
         return $config;
@@ -235,7 +232,8 @@ test('the metabox form renders custom array values as json, and any hidden field
 
     $html = (new \GeminiLabs\SiteReviews\Modules\Html\MetaboxForm($review))->build();
 
-    expect($html)->toContain('data-value')
+    // the review's own values ride into data-value, arrays as json
+    expect($html)->toContain(esc_attr(wp_json_encode([$postId])))
         ->and($html)->toContain('addon_state');
 });
 

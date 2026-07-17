@@ -34,8 +34,8 @@ class Form extends \ArrayObject implements FormContract
             'button_text_loading' => __('Submitting, please wait...', 'site-reviews'),
         ]);
         $this->args = glsr()->args($args);
+        $this->loadSession($values); // before mergeConfig(), which may read the session
         $this->config = $this->mergeConfig($config);
-        $this->loadSession($values);
         parent::__construct($this->fieldsAll(), \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
         array_map([$this, 'normalizeConditions'], $this->fields());
         $this->app()->action("{$this->formName()}/form", $this);
