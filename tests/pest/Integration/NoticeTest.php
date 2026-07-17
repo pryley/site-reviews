@@ -712,3 +712,172 @@ test('a broken notices directory is logged, not a broken admin_head', function (
 
     expect(glsr(GeminiLabs\SiteReviews\Modules\Console::class)->get())->toContain('nowhere');
 });
+
+test('the gatekeeper notice stays quiet off the admin, without caps, and for an empty error', function () {
+    // off the plugin screens it does not even look
+    set_current_screen('front');
+    expect(has_action('admin_notices', [new GatekeeperNotice(), 'render']))->toBeFalse();
+
+    // a person who cannot fix a problem is not offered the buttons for it
+    set_current_screen('plugins');
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+    set_transient(glsr()->prefix.'gatekeeper', array_merge(
+        gatekeeperError(Gatekeeper::ERROR_NOT_ACTIVATED, 'Plugin A', 'a/a.php', 'a'),
+        gatekeeperError(Gatekeeper::ERROR_NOT_SUPPORTED, 'Plugin C', 'c/c.php', 'c'),
+        ['broken/broken.php' => ['name' => 'No Error Key']], // a malformed transient entry
+    ));
+
+    $notice = new GatekeeperNotice();
+    $data = (fn () => $this->data())->call($notice);
+
+    expect(trim($data['actions']))->toBe('') // no activate, no update
+        ->and($data['message'])->not->toContain('No Error Key'); // the malformed entry is skipped
+
+    set_current_screen('front');
+});
+
+test('one banner per page load, and a standalone notice needs the page to itself', function () {
+    $banner = new class extends AbstractNotice {
+        protected string $type = 'banner';
+
+        public function canRenderPublic(): bool
+        {
+            return $this->canRender();
+        }
+
+        protected function canLoad(): bool
+        {
+            return false; // never hook; canRender is driven directly
+        }
+    };
+    try {
+        // another banner already rendered on this page load: stand down
+        glsr()->store('notices', ['other' => ['type' => 'banner', 'rendered' => true]]);
+        expect($banner->canRenderPublic())->toBeFalse();
+
+        // a banner rendered but of another TYPE does not block a popup
+        glsr()->store('notices', ['other' => ['type' => 'banner', 'rendered' => true]]);
+        $popup = new class extends AbstractNotice {
+            protected string $type = 'popup';
+
+            public function canRenderPublic(): bool
+            {
+                return $this->canRender();
+            }
+
+            protected function canLoad(): bool
+            {
+                return false;
+            }
+        };
+        expect($popup->canRenderPublic())->toBeTrue();
+
+        // standalone (an addon's takeover page): exactly one plain notice allowed
+        $standalone = new class extends AbstractNotice {
+            public function canRenderPublic(): bool
+            {
+                return $this->canRender();
+            }
+
+            protected function canLoad(): bool
+            {
+                return false;
+            }
+
+            protected function isStandalone(): bool
+            {
+                return true;
+            }
+        };
+        glsr()->store('notices', ['a' => ['type' => 'notice']]);
+        expect($standalone->canRenderPublic())->toBeTrue();
+        glsr()->store('notices', ['a' => ['type' => 'notice'], 'b' => ['type' => 'notice']]);
+        expect($standalone->canRenderPublic())->toBeFalse();
+    } finally {
+        glsr()->store('notices', []);
+    }
+});
+
+test('a popup notice keeps off the editor, premium screens, and sites that disabled the flyout', function () {
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    $popup = fn () => new class extends AbstractNotice {
+        protected string $type = 'popup';
+
+        public function screenAllowed(): bool
+        {
+            return $this->isNoticeScreen();
+        }
+    };
+
+    // the screens must belong to the review post type, or the first gate answers
+    // instead of the popup rules (which is what an earlier draft of this test got wrong)
+    set_current_screen(glsr()->post_type); // the review EDITOR: base is 'post'
+    expect($popup()->screenAllowed())->toBeFalse(); // never over the editor
+
+    set_current_screen('edit-'.glsr()->post_type);
+    $originalBase = get_current_screen()->base;
+    get_current_screen()->base = 'reviews_page_site-reviews-premium';
+    expect($popup()->screenAllowed())->toBeFalse(); // never over the premium pitch
+    get_current_screen()->base = $originalBase; // the screen object is memoized
+
+    expect($popup()->screenAllowed())->toBeTrue();
+
+    add_filter('site-reviews/flyoutmenu/enabled', '__return_false');
+    expect($popup()->screenAllowed())->toBeFalse(); // the popup rides the flyout menu
+
+    set_current_screen('front');
+});
+
+test('a monitored notice with no deferral version defers to none', function () {
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    $notice = new class extends AbstractNotice {
+        protected function canLoad(): bool
+        {
+            return false;
+        }
+
+        protected function isMonitored(): bool
+        {
+            return true;
+        }
+    };
+
+    $notice->dismiss();
+
+    $dismissed = get_user_meta(get_current_user_id(), AbstractNotice::USER_META_KEY, true);
+    $key = array_key_first($dismissed);
+    expect($dismissed[$key]['version'])->toBe(''); // the base deferVersion
+});
+
+test('a licence banner stands down when another banner already rendered', function () {
+    set_current_screen('edit-'.glsr()->post_type);
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    try {
+        glsr()->store('notices', ['other' => ['type' => 'banner', 'rendered' => true]]);
+        withLicenseStatus(['licensed' => true, 'missing' => true], function () {
+            expect(renderedNotice(new LicenseMissingNotice()))->toBe('');
+        });
+        withLicenseStatus(['licensed' => false], function () {
+            expect(renderedNotice(new LicensePromotedNotice()))->toBe('');
+        });
+    } finally {
+        glsr()->store('notices', []);
+        set_current_screen('front');
+    }
+});
+
+test('the plugin-health notices show in the network admin too', function () {
+    // set_current_screen('plugins-network') really is a network-admin screen,
+    // even on a single site (probed: in_admin('network') answers true).
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    set_current_screen('plugins-network');
+    try {
+        $screenAllowed = fn ($notice) => (fn () => $this->isNoticeScreen())->call($notice);
+
+        expect($screenAllowed(new GatekeeperNotice()))->toBeTrue()
+            ->and($screenAllowed(new RetiredFreeNotice()))->toBeTrue()
+            ->and($screenAllowed(new RetiredPremiumNotice()))->toBeTrue();
+    } finally {
+        set_current_screen('front');
+    }
+});
