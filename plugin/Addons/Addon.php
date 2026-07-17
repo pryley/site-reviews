@@ -85,8 +85,9 @@ abstract class Addon implements PluginContract
 
     /**
      * Maps a standalone-shaped file path to its location inside the host's
-     * merged file tree. Assets and languages are keyed by addon id / text
-     * domain respectively, so they resolve in shared directories.
+     * merged file tree. Assets/config/templates/views live in per-slug
+     * subdirectories (collision-free by construction); languages resolve in
+     * the shared directory because language files are text-domain keyed.
      */
     protected function hostedFile(string $file): string
     {
@@ -94,16 +95,12 @@ abstract class Addon implements PluginContract
         if ('' === $file) {
             return $file;
         }
-        if (preg_match('/^assets\/'.preg_quote($this->id, '/').'(-[a-z-]+)?\.(css|js)$/', $file, $matches)) {
-            $dir = 'js' === $matches[2] ? 'scripts' : 'styles';
-            return sprintf('assets/%s/%s%s.%s', $dir, static::SLUG, $matches[1], $matches[2]);
-        }
         if (str_starts_with($file, 'plugin/')) {
             $namespace = (new \ReflectionClass($this))->getNamespaceName();
             $module = substr((string) strrchr($namespace, '\\'), 1);
             return sprintf('plugin/%s/%s', $module, substr($file, strlen('plugin/')));
         }
-        foreach (['config/', 'templates/', 'views/'] as $prefix) {
+        foreach (['assets/', 'config/', 'templates/', 'views/'] as $prefix) {
             if (str_starts_with($file, $prefix)) {
                 return $prefix.static::SLUG.'/'.substr($file, strlen($prefix));
             }
