@@ -57,10 +57,10 @@ const getNamespacePlugin = (namespace) => {
 //  Rollup plugin stacks
 // ------------------------------------------------------------------
 
-const jsPlugins = (rootDir, { cjs = false } = {}) => [
+const jsPlugins = (rootDir, { cjs = false, scriptsAlias = '' } = {}) => [
     alias({
         entries: [
-            { find: '@', replacement: path.resolve(rootDir, '+/scripts') },
+            { find: '@', replacement: scriptsAlias || path.resolve(rootDir, '+/scripts') },
         ],
     }),
     replace({
@@ -127,7 +127,14 @@ const cssPlugins = (namespace = '') => [
 //  Config builders factory
 // ------------------------------------------------------------------
 
-export function createConfig(rootDir) {
+/**
+ * @param {string} rootDir
+ * @param {{scriptsAlias?: string}} [options]  scriptsAlias overrides what the
+ *   `@` import alias resolves to (default `${rootDir}/+/scripts`). The merged
+ *   premium plugin keeps each module's scripts in `+/scripts/{slug}/` and
+ *   creates one factory per module so `@/` keeps meaning "my own scripts".
+ */
+export function createConfig(rootDir, { scriptsAlias = '' } = {}) {
     /**
      * JavaScript bundle (IIFE, no CommonJS transforms).
      *
@@ -146,7 +153,7 @@ export function createConfig(rootDir) {
             format: 'iife',
             sourcemap: !isProduction,
         },
-        plugins: jsPlugins(rootDir),
+        plugins: jsPlugins(rootDir, { scriptsAlias }),
     });
 
     /**
@@ -166,7 +173,7 @@ export function createConfig(rootDir) {
             format: 'iife',
             sourcemap: !isProduction,
         },
-        plugins: jsPlugins(rootDir, { cjs: true }),
+        plugins: jsPlugins(rootDir, { cjs: true, scriptsAlias }),
     });
 
     /**
