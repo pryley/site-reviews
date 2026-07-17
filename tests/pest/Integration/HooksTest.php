@@ -238,3 +238,86 @@ test('a hooks class with no level defers nothing', function () {
 
     expect(registeredHooks())->toBe([]);
 });
+
+/*
+ * The Hooks orchestrator (plugin/Hooks.php) and the base-class defaults.
+ *
+ * The orchestrator scans directories for its classes, so its failure modes are filesystem
+ * shapes: a directory that is not there, and a file whose class is not. Both are driven
+ * through the site-reviews/path filter — the same seam an unusual install layout would hit.
+ */
+
+function redirectPluginPath(string $from, string $to): Closure
+{
+    $filter = fn ($path, $file) => $file === $from ? $to : $path;
+    add_filter('site-reviews/path', $filter, 10, 2);
+
+    return $filter;
+}
+
+test('a missing hooks directory registers nothing, quietly', function () {
+    $GLOBALS['wp_filter'] = [];
+    redirectPluginPath('plugin/Hooks', '/nowhere/at/all');
+    redirectPluginPath('plugin/Integrations', '/nowhere/at/all/either');
+
+    (new GeminiLabs\SiteReviews\Hooks())->run();
+
+    expect(array_keys($GLOBALS['wp_filter']))->toBe(['site-reviews/path']); // nothing new arrived
+});
+
+test('a hooks file with no class in it is logged, not fatal', function () {
+    // What half an upload looks like: the file survived, its class did not.
+    redirectPluginPath('plugin/Hooks', glsr()->path('tests/pest/fixtures/hooks-broken'));
+    redirectPluginPath('plugin/Integrations', '/nowhere/at/all');
+
+    (new GeminiLabs\SiteReviews\Hooks())->run();
+
+    expect(glsr(GeminiLabs\SiteReviews\Modules\Console::class)->get())->toContain('NotAClass');
+});
+
+test('an integration directory with no Hooks class is logged, not fatal', function () {
+    // runIntegrations() directly: run() stops before it when the Hooks directory is missing.
+    redirectPluginPath('plugin/Integrations', glsr()->path('tests/pest/fixtures/integrations-broken'));
+
+    (new GeminiLabs\SiteReviews\Hooks())->runIntegrations();
+
+    expect(glsr(GeminiLabs\SiteReviews\Modules\Console::class)->get())->toContain('BrokenIntegration');
+});
+
+test('the base class answers for the subclasses that override nothing', function () {
+    // Every default a subclass may lean on: the empty run()/onInit()/onPluginsLoaded(),
+    // and option() reading through the settings helper.
+    $hooks = new class() extends AbstractHooks {
+    };
+
+    $hooks->run();
+    $hooks->onInit();
+    $hooks->onPluginsLoaded();
+
+    expect($hooks->levelInit())->toBeNull()
+        ->and($hooks->levelPluginsLoaded())->toBeNull();
+    expect($hooks->option('reviews.date.format', 'default'))->toBeString();
+});
+
+test('the rest routes stand down while wordpress is installing', function () {
+    // rest_preload_api_request runs during WooCommerce updates, when half of WordPress
+    // is not there to answer.
+    $GLOBALS['wp_filter'] = [];
+    wp_installing(true);
+    try {
+        glsr(GeminiLabs\SiteReviews\Hooks\RestHooks::class)->run();
+    } finally {
+        wp_installing(false);
+    }
+
+    expect(registeredHooks())->toBe([]);
+});
+
+test('the tinymce button can be switched off by filter', function () {
+    $GLOBALS['wp_filter'] = [];
+    add_filter('site-reviews/register/tinymce', '__return_false');
+
+    glsr(GeminiLabs\SiteReviews\Hooks\TinymceHooks::class)->run();
+
+    expect(has_action('media_buttons'))->toBeFalse();
+});
