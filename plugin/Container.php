@@ -122,14 +122,14 @@ abstract class Container
     }
 
     /**
-     * @return \ReflectionClass|\ReflectionNamedType|\ReflectionType|null
+     * The plugin's constructor dependencies are always single named classes,
+     * never union or intersection types.
+     *
+     * @return \ReflectionNamedType|null
      */
     protected function getClass(\ReflectionParameter $parameter)
     {
-        if (version_compare(phpversion(), '8', '<')) {
-            return $parameter->getClass(); // @compat PHP < 8
-        }
-        return $parameter->getType();
+        return $parameter->getType(); // @phpstan-ignore return.type
     }
 
     protected function getClosure($abstract, $concrete): \Closure
