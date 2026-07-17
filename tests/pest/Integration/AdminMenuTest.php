@@ -229,3 +229,106 @@ test('the addons tab is only offered when there is an addon to configure', funct
     // An empty tab is worse than no tab.
     expect(renderedPage('renderSettingsMenuCallback'))->not->toContain('id="addons"');
 });
+
+test('the menu count walks past everybody else\'s menu entries', function () {
+    global $menu;
+    createReview(['is_approved' => false]);
+    $menu = [
+        5 => ['Posts', 'edit_posts', 'edit.php', '', 'menu-top'],
+        10 => ['Reviews', 'edit_posts', parentSlug(), '', 'menu-top'],
+    ];
+
+    glsr(MenuController::class)->registerMenuCount();
+
+    expect($menu[5][0])->toBe('Posts'); // untouched
+    expect($menu[10][0])->toContain('awaiting-mod');
+});
+
+test('a page with no renderer, or whose callback an addon broke, is skipped', function () {
+    global $submenu;
+    $submenu[parentSlug()] = [5 => ['All Reviews', 'edit_posts', parentSlug()]];
+    add_filter('site-reviews/addon/submenu/pages', fn ($pages) => $pages + ['bogus' => 'Bogus']);
+    add_filter('site-reviews/addon/submenu/callback',
+        fn ($callback, $slug) => 'tools' === $slug ? 'not-a-callable-thing' : $callback, 10, 2);
+
+    glsr(MenuController::class)->registerSubMenus();
+
+    $titles = array_column($submenu[parentSlug()], 0);
+    expect($titles)->toContain('Settings')
+        ->not->toContain('Bogus')  // no renderBogusMenuCallback method exists
+        ->not->toContain('Tools'); // its callback was filtered into garbage
+    expect($submenu[parentSlug()][5][0])->toBe('All Reviews'); // core's entry, not reclassed
+});
+
+test('the add-new submenu entry is removed', function () {
+    global $submenu;
+    $addNew = 'post-new.php?post_type='.glsr()->post_type;
+    $submenu[parentSlug()] = [10 => ['Add New', 'edit_posts', $addNew]];
+
+    glsr(MenuController::class)->removeSubMenu();
+
+    expect(array_column($submenu[parentSlug()] ?? [], 2))->not->toContain($addNew);
+});
+
+test('reordering an empty submenu is a no-op', function () {
+    global $submenu;
+    unset($submenu[parentSlug()]);
+
+    glsr(MenuController::class)->reorderSubMenu();
+
+    expect($submenu)->not->toHaveKey(parentSlug());
+});
+
+test('the premium page lists the addons for a premium member', function () {
+    // isPremium through the suite's FakeLicense; the addons list from a faked API response.
+    glsr()->bind(GeminiLabs\SiteReviews\License::class, GeminiLabs\SiteReviews\Tests\FakeLicense::class, true);
+    GeminiLabs\SiteReviews\Tests\FakeLicense::$isPremium = true;
+    $http = fn () => [
+        'body' => (string) wp_json_encode(['data' => [[
+            'description' => 'Does premium things.',
+            'id' => 'addon-x',
+            'slug' => 'addon-x',
+            'title' => 'Addon X',
+            'url' => 'https://niftyplugins.com/plugins/addon-x',
+        ]]]),
+        'cookies' => [], 'filename' => null, 'headers' => [],
+        'response' => ['code' => 200, 'message' => 'OK'],
+    ];
+    add_filter('pre_http_request', $http);
+    try {
+        $html = renderedPage('renderPremiumMenuCallback');
+
+        // and the submenu entry is relabelled: a member has addons, not an upgrade pitch
+        global $submenu;
+        $submenu[parentSlug()] = [];
+        glsr(MenuController::class)->registerSubMenus();
+        $titles = array_column($submenu[parentSlug()], 0);
+    } finally {
+        remove_filter('pre_http_request', $http);
+        GeminiLabs\SiteReviews\Tests\FakeLicense::$isPremium = false;
+    }
+
+    expect($html)->toContain('Addon X');
+    expect($titles)->toContain('Addons')->not->toContain('Upgrade to Premium');
+});
+
+test('the features pitch is fetched and sorted, premium first', function () {
+    $http = fn () => [
+        'body' => (string) wp_json_encode(['data' => [
+            ['feature' => 'Ordinary thing', 'premium' => false],
+            ['feature' => 'Premium thing', 'premium' => true],
+        ]]),
+        'cookies' => [], 'filename' => null, 'headers' => [],
+        'response' => ['code' => 200, 'message' => 'OK'],
+    ];
+    add_filter('pre_http_request', $http);
+    try {
+        $html = renderedPage('renderPremiumMenuCallback');
+    } finally {
+        remove_filter('pre_http_request', $http);
+    }
+
+    expect($html)->toContain('Premium thing')
+        ->toContain('Ordinary thing');
+    expect(strpos($html, 'Premium thing'))->toBeLessThan(strpos($html, 'Ordinary thing'));
+});
