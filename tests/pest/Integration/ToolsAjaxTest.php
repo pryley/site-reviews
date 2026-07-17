@@ -224,3 +224,43 @@ test('the rollback ajax hands back what the updater needs, and refuses without p
     expect($refused['success'])->toBeFalse()
         ->and($refused['data']['error'])->toContain('permission');
 });
+
+test('removing location data needs its own permission, named in the refusal', function () {
+    wp_set_current_user(\GeminiLabs\SiteReviews\Tests\createUser(['role' => 'subscriber']));
+
+    $response = $this->jsonSentBy(fn () => glsr(ToolsController::class)->geolocateReviewsAjax(
+        new Request(['alt' => 'true'])
+    ));
+
+    expect($response['success'])->toBeFalse()
+        ->and($response['data']['notices'])->toContain('remove location data');
+});
+
+test('a valid import stage dispatches its command and answers with its response', function () {
+    // stage 1 with no upload: the command fails safely and the pipeline reports it
+    $response = $this->jsonSentBy(fn () => glsr(ToolsController::class)->importReviewsAjax(
+        // stage 1 never reaches ImportManager without an upload, so WP_IMPORTING
+        // stays undefined here (that constant belongs to the Import suite, last)
+        new Request(['stage' => 1, 'date_format' => 'Y-m-d', 'delimiter' => ','])
+    ));
+
+    expect($response['success'])->toBeFalse();
+});
+
+test('importing settings without a file is an error notice, not a fatal', function () {
+    $_FILES = [];
+    glsr(\GeminiLabs\SiteReviews\Modules\Notice::class)->clear();
+
+    glsr(ToolsController::class)->importSettings();
+
+    expect(glsr(\GeminiLabs\SiteReviews\Modules\Notice::class)->get())->toContain('notice-error');
+});
+
+test('the table conversion tool runs through the controller too', function () {
+    glsr(\GeminiLabs\SiteReviews\Modules\Notice::class)->clear();
+
+    glsr(ToolsController::class)->convertTableEngine(new Request(['table' => 'posts']));
+
+    // wp-env is InnoDB: the command reports there is nothing to convert
+    expect(glsr(\GeminiLabs\SiteReviews\Modules\Notice::class)->get())->toContain('MyISAM');
+});

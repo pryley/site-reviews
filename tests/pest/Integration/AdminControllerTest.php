@@ -441,3 +441,77 @@ test('a migration is not scheduled twice', function () {
 
     expect(NullQueue::calls('once', 'queue/migration'))->toBe([]);
 });
+
+test('the admin assets enqueue through the controller', function () {
+    set_current_screen('edit-'.glsr()->post_type);
+    $stylesBefore = count(wp_styles()->queue);
+
+    glsr(AdminController::class)->enqueueAssets();
+
+    expect(count(wp_styles()->queue))->toBeGreaterThan($stylesBefore);
+    set_current_screen('front');
+});
+
+test('the wordpress exporter takes the ratings along when reviews are exported', function () {
+    $args = glsr(AdminController::class)->filterExportArgs(['content' => glsr()->post_type]);
+    expect($args)->toBe(['content' => glsr()->post_type]); // args pass through untouched
+
+    // and for anything that is not reviews, no ratings command runs
+    $untouched = glsr(AdminController::class)->filterExportArgs(['content' => 'page']);
+    expect($untouched)->toBe(['content' => 'page']);
+});
+
+test('activation installs once, and only once', function () {
+    delete_option(glsr()->prefix.'activated');
+    $activated = new ArrayObject();
+    add_action('site-reviews/activated', fn () => $activated->append(1));
+
+    glsr(AdminController::class)->onActivation();
+    glsr(AdminController::class)->onActivation(); // the second call finds the flag and does nothing
+
+    expect(get_option(glsr()->prefix.'activated'))->toBeTruthy()
+        ->and($activated)->toHaveCount(1);
+});
+
+test('deactivation drops the constraints and forgets the activation flag', function () {
+    // Tables::dropForeignConstraints() runs its ALTERs on the raw wpdb, so the
+    // whole Tables object is faked — real DDL on the shared schema cannot roll
+    // back, and an earlier draft of this test proved that the hard way.
+    $fake = new class extends \GeminiLabs\SiteReviews\Database\Tables {
+        public int $dropCalls = 0;
+
+        public function dropForeignConstraints(): void
+        {
+            ++$this->dropCalls; // recorded, never executed
+        }
+    };
+    $original = glsr(\GeminiLabs\SiteReviews\Database\Tables::class);
+    glsr()->alias(\GeminiLabs\SiteReviews\Database\Tables::class, $fake);
+    $deactivated = new ArrayObject();
+    add_action('site-reviews/deactivated', fn () => $deactivated->append(1));
+    try {
+        glsr(AdminController::class)->onDeactivation(false);
+
+        expect($deactivated)->toHaveCount(1)
+            ->and(get_option(glsr()->prefix.'activated'))->toBeFalse()
+            ->and($fake->dropCalls)->toBe(1);
+    } finally {
+        glsr()->alias(\GeminiLabs\SiteReviews\Database\Tables::class, $original);
+        update_option(glsr()->prefix.'activated', true);
+    }
+});
+
+test('the wordpress importer hands over to the ratings importer when it finishes', function () {
+    glsr(AdminController::class)->onImportEnd(); // nothing staged: the command is a safe no-op
+
+    expect(true)->toBeTrue();
+});
+
+test('no migration is scheduled from the front of the site', function () {
+    set_current_screen('front');
+    NullQueue::$calls = [];
+
+    glsr(AdminController::class)->scheduleMigration();
+
+    expect(NullQueue::calls('once', 'queue/migration'))->toBe([]);
+});

@@ -686,3 +686,23 @@ test('a notification is queued when notifications are on', function () {
     expect($queued)->toHaveCount(1)
         ->and($queued[0]['args'])->toBe(['review_id' => $review->ID]);
 });
+
+test('publishing an "Add New" draft creates the review row on the spot', function () {
+    // The wp-admin flow: "Add New Review" inserts an auto-draft with no rating
+    // row; publishing it must create one from the post before the transition
+    // hooks run — and must not fire them twice for the same brand-new review.
+    $postId = wp_insert_post([
+        'post_status' => 'auto-draft',
+        'post_title' => 'Auto Draft',
+        'post_type' => glsr()->post_type,
+    ]);
+    $approved = new ArrayObject();
+    add_action('site-reviews/review/approved', fn () => $approved->append(1));
+
+    wp_publish_post($postId);
+
+    $review = glsr(\GeminiLabs\SiteReviews\Database\ReviewManager::class)->get($postId);
+    expect($review->isValid())->toBeTrue()
+        ->and($review->is_approved)->toBeTrue()
+        ->and($approved)->toHaveCount(0); // brand-new: the approved hook is for EXISTING reviews
+});

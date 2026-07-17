@@ -271,3 +271,35 @@ test('what was saved is announced', function () {
     expect($announced)->toHaveCount(1);
     expect(Arr::get($announced[0], 'settings.forms.required'))->toBe(['rating']);
 });
+
+test('saving from the settings screen announces success', function () {
+    // the option_page marker is what separates the settings screen submitting
+    // from anything else writing the option
+    $_POST['option_page'] = glsr()->id;
+    try {
+        postedSettings(['general' => ['require' => ['approval' => 'no']]]);
+
+        expect(glsr(Notice::class)->get())->toContain('Settings updated');
+    } finally {
+        unset($_POST['option_page']);
+    }
+});
+
+test('a multilingual integration that is installed but too old is refused with the version named', function () {
+    // Polylang is installed (the stubs) at exactly its supported version; a fake
+    // that demands more stands in for a site running an outdated copy.
+    $tooOld = new class extends \GeminiLabs\SiteReviews\Modules\Multilingual\Polylang {
+        public $supportedVersion = '99.0';
+    };
+    $original = glsr(\GeminiLabs\SiteReviews\Modules\Multilingual\Polylang::class);
+    glsr()->alias(\GeminiLabs\SiteReviews\Modules\Multilingual\Polylang::class, $tooOld);
+    try {
+        $options = postedSettings(['general' => ['multilingual' => 'polylang']]);
+
+        expect(Arr::get($options, 'settings.general.multilingual'))->toBe('');
+        expect(glsr(Notice::class)->get())->toContain('update the Polylang plugin')
+            ->and(glsr(Notice::class)->get())->toContain('99.0');
+    } finally {
+        glsr()->alias(\GeminiLabs\SiteReviews\Modules\Multilingual\Polylang::class, $original);
+    }
+});
