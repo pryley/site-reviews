@@ -181,6 +181,11 @@ class SettingForm extends Form
             $results[$addon] .= $field->build();
         }
         ksort($results);
+        if (isset($results['premium'])) {
+            // The merged premium plugin's own group (its feature toggles)
+            // always leads; the feature groups follow alphabetically.
+            $results = ['premium' => $results['premium']] + $results;
+        }
         $subsubsub = array_map('ucfirst', array_keys($results));
         $subsubsub = glsr()->filterArray('addon/subsubsub', $subsubsub);
         return [
