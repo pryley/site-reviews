@@ -170,14 +170,6 @@ abstract class Container
         return array_key_exists($dependency->name, $this->getLastParameterOverride());
     }
 
-    /**
-     * @param mixed $concrete
-     */
-    protected function isBuildable($concrete, string $abstract): bool
-    {
-        return $concrete === $abstract || $concrete instanceof \Closure;
-    }
-
     protected function isShared(string $abstract): bool
     {
         return isset($this->instances[$abstract]) || !empty($this->bindings[$abstract]['shared']);
@@ -196,10 +188,9 @@ abstract class Container
             return $this->instances[$abstract]; // return an existing singleton
         }
         $this->with[] = $parameters;
-        $concrete = $this->getConcrete($abstract);
-        $object = $this->isBuildable($concrete, $abstract)
-            ? $this->construct($concrete)
-            : $this->make($concrete);
+        // getConcrete() answers a Closure (bind() wraps every concrete in one)
+        // or the abstract itself; construct() builds either
+        $object = $this->construct($this->getConcrete($abstract));
         if ($this->isShared($abstract) && empty($parameters)) {
             $this->instances[$abstract] = $object; // store as a singleton
         }
