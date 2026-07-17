@@ -31,6 +31,12 @@ function withDdlFreeDatabase(callable $callback)
             $this->queries[] = $sql;
             return true;
         }
+
+        public function dbSafeQuery(string $sql)
+        {
+            $this->queries[] = $sql;
+            return 1;
+        }
     };
     $original = glsr(Database::class);
     glsr()->alias(Database::class, $fake);
@@ -85,8 +91,10 @@ test('dropping the assignment constraints issues one DROP FOREIGN KEY per real c
         glsr(TableAssignedPosts::class)->dropForeignConstraints();
         glsr(TableAssignedTerms::class)->dropForeignConstraints();
         glsr(TableAssignedUsers::class)->dropForeignConstraints();
+        glsr(\GeminiLabs\SiteReviews\Database\Tables\TableRatings::class)->dropForeignConstraints();
+        glsr(\GeminiLabs\SiteReviews\Database\Tables\TableStats::class)->dropForeignConstraints();
 
-        expect($fake->queries)->toHaveCount(6); // rating_id + post/term/user id, per table
+        expect($fake->queries)->toHaveCount(8); // the six assignment keys + ratings + stats
         foreach ($fake->queries as $sql) {
             expect($sql)->toContain('DROP FOREIGN KEY');
         }
@@ -148,3 +156,27 @@ test('the tmp table has no constraints and no invalid rows to remove', function 
 
 // NOTE (ceiling): AbstractTable::foreignConstraint()'s multisite suffix (line 99) is gated on
 // is_multisite(), which is a constant in wp-env; the branch is untestable here and left uncovered.
+
+test('the unshipped fields table knows its structure and its constraints', function () {
+    // TableFields is written but not yet in Tables::tables() (see the @todo there):
+    // no table exists, so everything runs against the fake Database.
+    withDdlFreeDatabase(function ($fake) {
+        $table = glsr(\GeminiLabs\SiteReviews\Database\Tables\TableFields::class);
+
+        expect($table->structure())->toContain('CREATE TABLE')
+            ->and($table->structure())->toContain('field_name varchar(255)')
+            ->and($table->structure())->toContain('field_name(191)'); // utf8mb4 index limit
+
+        $table->addForeignConstraints(); // purges invalid rows, then adds the key
+        expect(implode(' ', $fake->queries))->toContain('ADD CONSTRAINT')
+            ->and(implode(' ', $fake->queries))->toContain('DELETE t');
+
+        // with no table there is no constraint, so dropping is refused before any SQL
+        $before = count($fake->queries);
+        $table->dropForeignConstraints();
+        expect($fake->queries)->toHaveCount($before);
+
+        $table->removeInvalidRows();
+        expect(end($fake->queries))->toContain('r.ID IS NULL');
+    });
+});
