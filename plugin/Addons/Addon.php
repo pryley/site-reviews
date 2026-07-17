@@ -61,7 +61,14 @@ abstract class Addon implements PluginContract
         $this->testedTo = $host->testedTo;
         $this->updateUrl = $host->updateUrl;
         $this->uri = $host->uri;
-        $version = (new \ReflectionClass($this))->getConstant('VERSION');
+        // The VERSION constant is stamped into hosted modules at build time;
+        // in the development workspace it does not exist and the host's
+        // version is the fallback. hasConstant() first: getConstant() on a
+        // missing constant is deprecated.
+        $reflection = new \ReflectionClass($this);
+        $version = $reflection->hasConstant('VERSION')
+            ? $reflection->getConstant('VERSION')
+            : '';
         $this->version = is_string($version) && '' !== $version
             ? $version // build-stamped module version
             : $host->version;
@@ -100,7 +107,17 @@ abstract class Addon implements PluginContract
             $module = substr((string) strrchr($namespace, '\\'), 1);
             return sprintf('plugin/%s/%s', $module, substr($file, strlen('plugin/')));
         }
-        foreach (['assets/', 'config/', 'templates/', 'views/'] as $prefix) {
+        // The "settings" config name is fixed by core, so it is slug-mapped;
+        // every other config path is addon-authored and passes through as-is
+        // (the host's config/ tree is organised by content type, with file
+        // ownership tracked by the host's build tooling).
+        if ('config/settings.php' === $file) {
+            return 'config/settings/'.static::SLUG.'.php';
+        }
+        if (str_starts_with($file, 'config/')) {
+            return $file;
+        }
+        foreach (['assets/', 'templates/', 'views/'] as $prefix) {
             if (str_starts_with($file, $prefix)) {
                 return $prefix.static::SLUG.'/'.substr($file, strlen($prefix));
             }
