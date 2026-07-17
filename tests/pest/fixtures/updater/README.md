@@ -19,7 +19,7 @@ Scrubbed before committing:
 
 - `package` / `download_link` tokens replaced with placeholders (EDD download
   URLs embed the licence key); URL shape kept.
-- `customer_email` replaced with an example.org address.
+- `customer_name` / `customer_email` replaced (Jane Doe / jane@example.org).
 - `sections` / `raw_contents` bodies elided as "...".
 
 `license_check` was empty in every probed scenario.
