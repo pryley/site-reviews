@@ -1,30 +1,33 @@
 {
-    "name": "Review Actions",
-    "new_version": "1.0.0-beta12",
-    "stable_version": "1.0.0-beta12",
+    "name": "Review Alerts",
+    "new_version": "1.0.0-beta1",
+    "stable_version": "1.0.0-beta1",
     "sections": {
         "description": "...",
         "changelog": "..."
     },
     "license_check": "",
-    "msg": "License key is not valid for site-reviews-actions",
-    "homepage": "https://niftyplugins.com/plugins/site-reviews-actions/",
+    "msg": "License key is not valid for site-reviews-alerts",
+    "homepage": "https://niftyplugins.com/plugins/site-reviews-alerts/",
     "package": "https://niftyplugins.com/edd-sl/package_download/U0NSVUJCRUQtVE9LRU4tSU5WQUxJRA==",
     "icons": {
-        "1x": "https://niftyplugins.com/app/uploads/review-actions-icon.svg",
-        "2x": "https://niftyplugins.com/app/uploads/review-actions-icon.svg"
+        "1x": "https://niftyplugins.com/app/uploads/review-alerts-icon.svg",
+        "2x": "https://niftyplugins.com/app/uploads/review-alerts-icon.svg"
     },
     "banners": {
-        "high": "https://niftyplugins.com/app/uploads/review-actions-banner.svg",
-        "low": "https://niftyplugins.com/app/uploads/review-actions-banner.svg"
+        "high": "https://niftyplugins.com/app/uploads/review-alerts-banner.svg",
+        "low": "https://niftyplugins.com/app/uploads/review-alerts-banner.svg"
     },
-    "slug": "site-reviews-actions",
-    "url": "https://niftyplugins.com/plugins/site-reviews-actions/?changelog=1",
-    "last_updated": "2026-07-11 16:03:16",
+    "slug": "site-reviews-alerts",
+    "url": "https://niftyplugins.com/plugins/site-reviews-alerts/?changelog=1",
+    "last_updated": "2026-07-11 16:42:03",
     "download_link": "https://niftyplugins.com/edd-sl/package_download/U0NSVUJCRUQtVE9LRU4tSU5WQUxJRA==",
     "upgrade_notice": "",
     "tags": [
-        "Site Reviews"
+        "Site Reviews",
+        "review alerts",
+        "popup",
+        "social proof"
     ],
     "requires": "",
     "tested": "7.0",
@@ -34,11 +37,16 @@
             "display_name": "pryley",
             "profile": "//profiles.wordpress.org/pryley",
             "avatar": "https://wordpress.org/grav-redirect.php?user=pryley"
+        },
+        "geminilabs": {
+            "display_name": "geminilabs",
+            "profile": "//profiles.wordpress.org/geminilabs",
+            "avatar": "https://wordpress.org/grav-redirect.php?user=geminilabs"
         }
     },
-    "stable_tag": "1.0.0-beta12",
+    "stable_tag": "1.0.0-beta1",
     "donate_link": "https://ko-fi.com/pryley",
-    "short_description": "Allow people to upvote, report, and translate your reviews.",
+    "short_description": "Display reviews as popup review alerts on any page of your site.",
     "license": "",
     "screenshots": [],
     "faq": [],

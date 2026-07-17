@@ -1,31 +1,29 @@
 # Update-server captures
 
 Real responses from the EDD Software Licensing endpoint (niftyplugins.com),
-captured 2026-07-17 by Paul from a licensed install running the
-`site-reviews-actions` addon at 1.0.0-beta12. These are the CONTRACT the
-update filters are tested against (see ROADMAP.md, "addon-update filters").
+captured live on 2026-07-17 for the `site-reviews-alerts` addon at
+1.0.0-beta1. These are the CONTRACT the update filters are tested against
+(see ROADMAP.md, "addon-update filters").
+
+- `get-version-valid.json` — a valid, activated licence key.
+- `get-version-no-licence.json` — an EMPTY licence key: the server answers the
+  version with an EMPTY `package` and `msg` "No license key has been
+  provided." — the case the plugin's licence message machinery serves.
+- `get-version-invalid.json` — a WRONG licence key: the version with a phantom
+  NON-EMPTY `package` (confirmed live to refuse with HTTP 401 at download
+  time), the refusal only in `msg` — the contract fact the ROADMAP records.
+- `check-license-valid.json` / `check-license-invalid.json` — the licence
+  check for the same key states.
 
 Scrubbed before committing:
 
 - `package` / `download_link` tokens replaced with placeholders (EDD download
-  URLs carry a licence/expiry token); URL shape kept.
+  URLs embed the licence key); URL shape kept.
 - `customer_email` replaced with an example.org address.
-- `sections` / `raw_contents` bodies elided as "..." in the capture itself.
+- `sections` / `raw_contents` bodies elided as "...".
 
-The notable contract fact: `get_version` answers a NON-EMPTY `package` even
-for an invalid licence (the URL just refuses at download time), with the
-refusal only in `msg` — a field the plugin's Defaults drop.
+`license_check` was empty in every probed scenario.
 
-`site-reviews-actions.php` is not a capture: it is a local plugin-file stub
-whose `Version` header the transient-filter tests compare the capture's
+`site-reviews-alerts.php` is not a capture: it is a local plugin-file stub
+whose `Version` header the transient-filter tests compare the captures'
 `new_version` against.
-
-## Second capture round (2026-07-17, live probe against niftyplugins.com)
-
-`get-version-no-licence.json` — a get_version request with an EMPTY licence key
-(addon `site-reviews-alerts` at 1.0.0-beta1): the server answers the version
-with an EMPTY `package` and `msg` "No license key has been provided." — so the
-plugin's licence message machinery works as designed for a MISSING key. The
-phantom non-empty package occurs only for a WRONG key (get-version-invalid.json),
-and that URL was confirmed live to refuse with HTTP 401 at download time.
-`license_check` was empty in every scenario probed.

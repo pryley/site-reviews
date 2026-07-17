@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Site Reviews: Review Actions (fixture stub)
+ * Plugin Name: Site Reviews: Review Alerts (fixture stub)
  * Version:     0.9.0
  *
  * FIXTURE, never loaded by WordPress: the local half of the update check. The

@@ -200,9 +200,9 @@ function updaterFixture(string $name): array
 function updaterStubFile(string $version = '0.9.0'): string
 {
     // the local half of the check: version_compare runs against this header
-    $file = glsr()->path('tests/pest/fixtures/updater/site-reviews-actions.php');
+    $file = glsr()->path('tests/pest/fixtures/updater/site-reviews-alerts.php');
     if ('0.9.0' !== $version) {
-        $copy = get_temp_dir().'site-reviews-actions-'.$version.'.php';
+        $copy = get_temp_dir().'site-reviews-alerts-'.$version.'.php';
         file_put_contents($copy, str_replace('0.9.0', $version, (string) file_get_contents($file)));
 
         return $copy;
@@ -215,29 +215,29 @@ test('a licensed addon answers the update filter with a real update entry', func
     $asked = licenseServer(['get_version' => updaterFixture('get-version-valid')]);
 
     $update = glsr(UpdateController::class)->filterUpdatePlugins(false, [
-        'TextDomain' => 'site-reviews-actions',
+        'TextDomain' => 'site-reviews-alerts',
         'UpdateURI' => 'https://niftyplugins.com',
     ]);
 
     expect($asked->getArrayCopy())->toContain('get_version')
-        ->and($update['version'])->toBe('1.0.0-beta12')
+        ->and($update['version'])->toBe('1.0.0-beta1')
         ->and($update['package'])->not->toBe('')
-        ->and($update['slug'])->toBe('site-reviews-actions');
+        ->and($update['slug'])->toBe('site-reviews-alerts');
 });
 
 test('a server answer with no version keeps whatever wordpress already had', function () {
     licenseServer(['get_version' => []]);
 
     expect(glsr(UpdateController::class)->filterUpdatePlugins(false, [
-        'TextDomain' => 'site-reviews-actions',
+        'TextDomain' => 'site-reviews-alerts',
         'UpdateURI' => 'https://niftyplugins.com',
     ]))->toBeFalse();
 });
 
 test('a compat addon behind the captured version is offered the update', function () {
     licenseServer(['get_version' => updaterFixture('get-version-valid')]);
-    $file = updaterStubFile('0.9.0'); // 0.9.0 < 1.0.0-beta12
-    glsr()->append('compat', $file, 'site-reviews-actions');
+    $file = updaterStubFile('0.9.0'); // 0.9.0 < 1.0.0-beta1
+    glsr()->append('compat', $file, 'site-reviews-alerts');
     try {
         $updates = glsr(UpdateController::class)->filterUpdatePluginsTransient(
             (object) ['response' => [], 'no_update' => [], 'checked' => []]
@@ -248,7 +248,7 @@ test('a compat addon behind the captured version is offered the update', functio
 
     $plugin = plugin_basename($file);
     expect($updates->response)->toHaveKey($plugin)
-        ->and($updates->response[$plugin]->new_version)->toBe('1.0.0-beta12')
+        ->and($updates->response[$plugin]->new_version)->toBe('1.0.0-beta1')
         ->and($updates->response[$plugin]->plugin)->toBe($plugin)
         ->and($updates->no_update)->toBe([])
         ->and($updates->checked[$plugin])->toBe('0.9.0');
@@ -256,8 +256,8 @@ test('a compat addon behind the captured version is offered the update', functio
 
 test('a compat addon at or past the captured version is filed under no-update', function () {
     licenseServer(['get_version' => updaterFixture('get-version-valid')]);
-    $file = updaterStubFile('1.0.0'); // 1.0.0 > 1.0.0-beta12: a beta is below its release
-    glsr()->append('compat', $file, 'site-reviews-actions');
+    $file = updaterStubFile('1.0.0'); // 1.0.0 > 1.0.0-beta1: a beta is below its release
+    glsr()->append('compat', $file, 'site-reviews-alerts');
     try {
         $updates = glsr(UpdateController::class)->filterUpdatePluginsTransient(
             (object) ['response' => [], 'no_update' => [], 'checked' => []]
@@ -275,7 +275,7 @@ test('a compat addon at or past the captured version is filed under no-update', 
 
 test('a compat addon the server does not answer is left alone', function () {
     licenseServer(['get_version' => []]);
-    glsr()->append('compat', updaterStubFile('0.9.0'), 'site-reviews-actions');
+    glsr()->append('compat', updaterStubFile('0.9.0'), 'site-reviews-alerts');
     try {
         $updates = glsr(UpdateController::class)->filterUpdatePluginsTransient(
             (object) ['response' => [], 'no_update' => [], 'checked' => []]
@@ -297,7 +297,7 @@ test('the captured contract: an invalid licence still answers a package', functi
     licenseServer(['get_version' => updaterFixture('get-version-invalid')]);
 
     $update = glsr(UpdateController::class)->filterUpdatePlugins(false, [
-        'TextDomain' => 'site-reviews-actions',
+        'TextDomain' => 'site-reviews-alerts',
         'UpdateURI' => 'https://niftyplugins.com',
     ]);
 
