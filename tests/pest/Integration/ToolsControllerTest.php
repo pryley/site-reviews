@@ -268,3 +268,60 @@ test('with no rollback pending, the update transient is handed back untouched', 
 
     expect($filtered->response)->toBe(['unrelated/unrelated.php' => 'kept']);
 });
+
+/*
+ * The downloads. Each ends the request through glsr_exit() after echoing raw
+ * bytes; capturesDownload() catches the shadow's throw and hands the bytes back.
+ */
+
+test('the console download is the console text, and needs the cap', function () {
+    glsr_log()->error('a console line to download');
+
+    $bytes = \GeminiLabs\SiteReviews\Tests\capturesDownload(
+        fn () => glsr(ToolsController::class)->downloadConsole()
+    );
+
+    expect($bytes)->toContain('a console line to download');
+
+    // without the capability the download path is never entered
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+    set_current_screen('site-reviews_page_site-reviews-tools');
+    glsr(ToolsController::class)->downloadConsole();
+    expect(glsr(Notice::class)->get())->toContain('permission');
+});
+
+test('the system info download is the report', function () {
+    $bytes = \GeminiLabs\SiteReviews\Tests\capturesDownload(
+        fn () => glsr(ToolsController::class)->downloadSystemInfo()
+    );
+
+    expect($bytes)->toContain('[PLUGIN]')
+        ->and($bytes)->toContain('Console Level');
+});
+
+test('the settings export is the settings as json', function () {
+    $bytes = \GeminiLabs\SiteReviews\Tests\capturesDownload(
+        fn () => glsr(ToolsController::class)->exportSettings()
+    );
+
+    expect((array) json_decode($bytes, true))->toHaveKey('settings');
+});
+
+test('the csv template downloads through its route', function () {
+    $bytes = \GeminiLabs\SiteReviews\Tests\capturesDownload(
+        fn () => glsr(ToolsController::class)->downloadCsvTemplate()
+    );
+
+    expect($bytes)->toContain('date')
+        ->and($bytes)->toContain('rating');
+});
+
+test('the review export is a csv of the reviews', function () {
+    createReview(['content' => 'An exportable review body.', 'rating' => 4]);
+
+    $bytes = \GeminiLabs\SiteReviews\Tests\capturesDownload(
+        fn () => glsr(ToolsController::class)->exportReviews(new Request())
+    );
+
+    expect($bytes)->toContain('An exportable review body.');
+});

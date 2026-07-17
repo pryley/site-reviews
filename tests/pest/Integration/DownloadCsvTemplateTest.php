@@ -13,8 +13,9 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * pin that the two agree — an offered column the importer rejects, or a documented column missing
  * from the template, is a support ticket.
  *
- * handle() ends in $writer->output() + exit and cannot run here. Everything it writes comes from
- * data(), which can.
+ * handle() ends in $writer->output() + glsr_exit(), which the suite's shadow turns into a
+ * catchable throw — capturesDownload() hands back the bytes. Everything it writes comes from
+ * data(), so most tests pin that directly.
  */
 
 beforeEach(fn () => resetPluginState());
@@ -95,4 +96,13 @@ test('the geolocation columns are documented but are not template columns', func
 
     expect($documented)->toContain('geolocation_city')
         ->and($template)->not->toContain('geolocation_city');
+});
+
+test('the downloaded template is the data as csv, header row first', function () {
+    $bytes = \GeminiLabs\SiteReviews\Tests\capturesDownload(fn () => csvTemplate()->handle());
+
+    $lines = array_filter(explode("\n", trim($bytes)));
+    expect($lines)->toHaveCount(2) // the columns and one example row
+        ->and($lines[0])->toContain('date')
+        ->and($lines[0])->toContain('rating');
 });
