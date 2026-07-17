@@ -1406,3 +1406,13 @@ function makeSettingField(array $args = []): FieldContract
     $field->tooltip = ''; // remove the tooltip as it's unecessary to test it.
     return $field;
 }
+
+test('build color falls back to its default when the setting has no value', function () {
+    // The color element is used by the addons' settings; the picker must open on
+    // the field's default rather than on black when nothing is saved yet.
+    $html = buildSettingField(['name' => 'settings.fake.color', 'type' => 'color', 'default' => '#336699']);
+
+    expect($html)->toContain('value="#336699"')
+        ->and($html)->toContain('color-picker-hex')
+        ->and($html)->toContain('type="text"'); // the picker mounts on a text input
+});

@@ -259,3 +259,58 @@ function makeField(array $args = []): FieldContract
 {
     return new Field($args);
 }
+
+test('a field missing its name or type is invalid, logged, and builds nothing', function () {
+    $field = makeField(['type' => 'text']); // no name
+
+    expect($field->isValid())->toBeFalse()
+        ->and($field->build())->toBe('')
+        ->and((string) $field)->toBe('');
+});
+
+test('the validation rules parse into rule and parameters', function () {
+    $field = makeField(['name' => 'x', 'type' => 'text', 'validation' => 'required|max:20|between:1:5']);
+
+    // FieldRuleDefaults casts the parameters to an int array
+    expect($field->rules())->toBe([
+        ['parameters' => [], 'rule' => 'required'],
+        ['parameters' => [20], 'rule' => 'max'],
+        ['parameters' => [1], 'rule' => 'between'], // only the first parameter survives the pad
+    ]);
+});
+
+test('a field element that cannot be built falls back to the unknown element', function () {
+    // The field/element filter is the seam an addon replaces an element through;
+    // an abstract class or one that ignores the contract must not fatal the form.
+    add_filter('site-reviews/field/element/text',
+        fn () => \GeminiLabs\SiteReviews\Modules\Html\FieldElements\AbstractFieldElement::class);
+    try {
+        $field = makeField(['name' => 'x', 'type' => 'text']);
+        expect($field->fieldElement())
+            ->toBeInstanceOf(\GeminiLabs\SiteReviews\Modules\Html\FieldElements\UnknownElement::class);
+    } finally {
+        remove_all_filters('site-reviews/field/element/text');
+    }
+
+    add_filter('site-reviews/field/element/text', fn () => \GeminiLabs\SiteReviews\Helper::class);
+    try {
+        $field = makeField(['name' => 'x', 'type' => 'text']);
+        expect($field->fieldElement()) // logged: contract not implemented
+            ->toBeInstanceOf(\GeminiLabs\SiteReviews\Modules\Html\FieldElements\UnknownElement::class);
+    } finally {
+        remove_all_filters('site-reviews/field/element/text');
+    }
+});
+
+test('an empty multi-select with selected on takes every option', function () {
+    $field = makeField([
+        'multiple' => true,
+        'name' => 'x',
+        'options' => ['a' => 'A', 'b' => 'B'],
+        'selected' => true,
+        'type' => 'select',
+        'value' => '',
+    ]);
+
+    expect($field->value)->toBe(['a', 'b']);
+});
