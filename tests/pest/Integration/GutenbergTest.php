@@ -92,6 +92,65 @@ test('every other block keeps its generated classname', function () {
         ->toBe('wp-block-site-reviews-form');
 });
 
+test('registerBlocks registers the metadata collection and all four blocks', function () {
+    // Boot registered them before coverage was collecting, so the assertion above
+    // proves the RESULT; this proves the method. Unregister first — a duplicate
+    // registration is a _doing_it_wrong(), not an overwrite.
+    $registry = WP_Block_Type_Registry::get_instance();
+    $blocks = ['site-reviews/review', 'site-reviews/reviews', 'site-reviews/form', 'site-reviews/summary'];
+    foreach ($blocks as $block) {
+        $registry->unregister($block);
+    }
+
+    glsr(\GeminiLabs\SiteReviews\Integrations\Gutenberg\Controller::class)->registerBlocks();
+
+    foreach ($blocks as $block) {
+        expect($registry->is_registered($block))->toBeTrue();
+    }
+});
+
+test('the editor loads the public assets', function () {
+    glsr(\GeminiLabs\SiteReviews\Integrations\Gutenberg\Controller::class)->enqueueBlockEditorAssets();
+
+    expect(wp_script_is(glsr()->id, 'enqueued'))->toBeTrue()
+        ->and(wp_style_is(glsr()->id, 'enqueued'))->toBeTrue();
+});
+
+test('a block with no styling of its own still renders wrapped', function () {
+    // do_blocks() is the production path: it stages the block-supports context
+    // that render() reads through WP_Block_Supports.
+    $html = do_blocks('<!-- wp:site-reviews/form /-->');
+
+    expect($html)->toStartWith('<div')
+        ->and($html)->toContain('glsr-form');
+});
+
+test('an addon block that styles nothing inherits empty classes and styles', function () {
+    // Every block this plugin ships overrides blockClasses()/blockStyles(); the
+    // base defaults are the contract for ADDON blocks that do not.
+    $block = new class extends \GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\Block {
+        public static function shortcodeClass(): string
+        {
+            return \GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode::class;
+        }
+    };
+    $fn = fn () => [$this->blockClasses([]), $this->blockStyles([])];
+
+    expect($fn->bindTo($block, \GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\Block::class)())
+        ->toBe([[], []]);
+});
+
+test('the summary block turns its color and alignment attributes into classes and custom properties', function () {
+    $html = do_blocks('<!-- wp:site-reviews/summary {"style_align":"left","style_bar_color":"vivid-red","style_rating_color_custom":"#ffb900"} /-->');
+
+    expect($html)->toContain('items-justified-left')
+        ->and($html)->toContain('has-bar-color')
+        ->and($html)->toContain('has-rating-color')
+        ->and($html)->toContain('--glsr-bar-bg:var(--wp--preset--color--vivid-red);')
+        ->and($html)->toContain('--glsr-summary-star-bg:#ffb900;')
+        ->and($html)->toContain('--glsr-summary-align:start;');
+});
+
 test('the legacy widgets are hidden from the legacy widget block', function () {
     // The blocks above replace them, so offering both would be offering the same
     // thing twice.
