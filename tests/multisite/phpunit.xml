@@ -15,6 +15,40 @@
         <include>
             <directory suffix=".php">../../plugin</directory>
         </include>
+        <exclude>
+            <directory suffix=".php">../../plugin/Integrations/Avada</directory>
+            <directory suffix=".php">../../plugin/Integrations/Breakdance</directory>
+            <directory suffix=".php">../../plugin/Integrations/Bricks</directory>
+            <directory suffix=".php">../../plugin/Integrations/BuddyBoss</directory>
+            <directory suffix=".php">../../plugin/Integrations/Cache</directory>
+            <directory suffix=".php">../../plugin/Integrations/CloudFlare</directory>
+            <directory suffix=".php">../../plugin/Integrations/Divi</directory>
+            <directory suffix=".php">../../plugin/Integrations/DuplicatePage</directory>
+            <directory suffix=".php">../../plugin/Integrations/DuplicatePost</directory>
+            <directory suffix=".php">../../plugin/Integrations/Elementor</directory>
+            <directory suffix=".php">../../plugin/Integrations/Flatsome</directory>
+            <directory suffix=".php">../../plugin/Integrations/Flywheel</directory>
+            <directory suffix=".php">../../plugin/Integrations/GamiPress</directory>
+            <directory suffix=".php">../../plugin/Integrations/JetWooBuilder</directory>
+            <directory suffix=".php">../../plugin/Integrations/LPFW</directory>
+            <directory suffix=".php">../../plugin/Integrations/MultilingualPress</directory>
+            <directory suffix=".php">../../plugin/Integrations/MyCred</directory>
+            <directory suffix=".php">../../plugin/Integrations/ProfilePress</directory>
+            <directory suffix=".php">../../plugin/Integrations/RankMath</directory>
+            <directory suffix=".php">../../plugin/Integrations/SASWP</directory>
+            <directory suffix=".php">../../plugin/Integrations/SEOPress</directory>
+            <directory suffix=".php">../../plugin/Integrations/SchemaPro</directory>
+            <directory suffix=".php">../../plugin/Integrations/SureCart</directory>
+            <directory suffix=".php">../../plugin/Integrations/UltimateMember</directory>
+            <directory suffix=".php">../../plugin/Integrations/WLPR</directory>
+            <directory suffix=".php">../../plugin/Integrations/WPBakery</directory>
+            <directory suffix=".php">../../plugin/Integrations/WPLoyalty</directory>
+            <directory suffix=".php">../../plugin/Integrations/WooCommerce</directory>
+            <directory suffix=".php">../../plugin/Integrations/WooRewards</directory>
+            <directory suffix=".php">../../plugin/Integrations/YoastSEO</directory>
+            <file>../../plugin/Integrations/IntegrationHooks.php</file>
+            <file>../../plugin/Integrations/IntegrationShortcode.php</file>
+        </exclude>
     </source>
     <testsuites>
         <testsuite name="Multisite">
