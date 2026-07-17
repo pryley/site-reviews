@@ -1,5 +1,8 @@
 {
     "core": "https://wordpress.org/wordpress-7.0.1.zip",
+    "lifecycleScripts": {
+        "afterStart": "npx @wordpress/env run cli sh -c 'mkdir -p ~/.composer/vendor/bin && printf \"#!/bin/sh\\n# Ghostscript stand-in: WP_Debug_Data (Site Health) execs gs --version when the plugin gathers system info; empty output reports Ghostscript as not available, without sh: gs: not found noise in the Pest output.\\nexit 127\\n\" > ~/.composer/vendor/bin/gs && chmod +x ~/.composer/vendor/bin/gs'"
+    },
     "mappings": {
         "wp-content/mu-plugins": "./tests/pest/mu-plugins"
     },
