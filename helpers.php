@@ -182,6 +182,16 @@ function glsr_debug(...$vars): void
 }
 
 /**
+ * Ends the request. The plugin's only exit point: a language construct cannot be
+ * intercepted, a function call can, so the test suite shadows this per namespace
+ * to catch termination instead of dying with the process.
+ */
+function glsr_exit(int $status = 0): never
+{
+    exit($status);
+}
+
+/**
  * @param string|int $path
  * @param mixed      $fallback
  *

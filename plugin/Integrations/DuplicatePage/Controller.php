@@ -37,7 +37,7 @@ class Controller extends AbstractController
             ]);
         }
         wp_redirect($this->redirectUrl($review->ID));
-        exit;
+        glsr_exit();
     }
 
     protected function redirectUrl(int $postId): string

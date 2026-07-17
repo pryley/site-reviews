@@ -23,7 +23,7 @@ abstract class AbstractController implements ControllerContract
             header('Content-Type: text/plain');
             header("Content-Disposition: attachment; filename=\"{$filename}\"");
             echo wp_specialchars_decode($content);
-            exit;
+            glsr_exit();
         }
     }
 

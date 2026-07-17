@@ -69,7 +69,7 @@ test('following the link verifies the review and sends the person back to the pa
     $review = createReview(['assigned_posts' => $postId, 'email' => 'jane@example.org']);
     expect($review->is_verified)->toBeFalse();
 
-    $location = $this->expectsRedirect(fn () => glsr(VerificationController::class)->verifyReview(
+    $location = $this->expectsRedirectAndExit(fn () => glsr(VerificationController::class)->verifyReview(
         new Request(['data' => [$review->ID, '/a-page/']])
     ));
 
@@ -83,7 +83,7 @@ test('a link for a review that is not there still lands somewhere, rather than n
     // The review may have been deleted between the email being sent and the link being clicked —
     // which is a thing that happens, because the email sits in an inbox for weeks. A person who
     // clicks it gets the home page, not a blank screen or a fatal.
-    $location = $this->expectsRedirect(fn () => glsr(VerificationController::class)->verifyReview(
+    $location = $this->expectsRedirectAndExit(fn () => glsr(VerificationController::class)->verifyReview(
         new Request(['data' => [999999, '/a-page/']])
     ));
 
@@ -96,11 +96,11 @@ test('a review that is already verified is not sent a token to verify it again',
     // so the page it lands on does not say "thank you, your review has been verified" a second
     // time, weeks later, to somebody who clicked an old email.
     $review = createReview();
-    $this->expectsRedirect(fn () => glsr(VerificationController::class)->verifyReview(
+    $this->expectsRedirectAndExit(fn () => glsr(VerificationController::class)->verifyReview(
         new Request(['data' => [$review->ID, '/']])
     ));
 
-    $location = $this->expectsRedirect(fn () => glsr(VerificationController::class)->verifyReview(
+    $location = $this->expectsRedirectAndExit(fn () => glsr(VerificationController::class)->verifyReview(
         new Request(['data' => [$review->ID, '/']])
     ));
 

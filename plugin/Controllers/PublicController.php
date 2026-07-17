@@ -81,7 +81,7 @@ class PublicController extends AbstractController
         $command = $this->execute(new CreateReview($request));
         if ($command->successful()) {
             wp_safe_redirect($command->referer()); // @todo add review ID to referer?
-            exit;
+            glsr_exit();
         }
     }
 

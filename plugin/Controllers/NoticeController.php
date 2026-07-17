@@ -23,7 +23,7 @@ class NoticeController extends AbstractController
             wp_die($result->get_error_message());
         }
         wp_safe_redirect(wp_get_referer());
-        exit;
+        glsr_exit();
     }
 
     /**

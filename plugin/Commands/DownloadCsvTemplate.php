@@ -44,7 +44,7 @@ class DownloadCsvTemplate extends AbstractCommand
             $writer->insertOne(array_values($this->data()));
             nocache_headers();
             $writer->output('reviews-template.csv');
-            exit;
+            glsr_exit();
         } catch (CannotInsertRecord $e) {
             $this->fail();
             glsr(Notice::class)->addError($e->getMessage());

@@ -190,7 +190,7 @@ class ReviewController extends AbstractController
                 'status' => 'publish',
             ])));
             wp_safe_redirect(wp_get_referer());
-            exit;
+            glsr_exit();
         }
     }
 
@@ -384,7 +384,7 @@ class ReviewController extends AbstractController
                 'status' => 'unapprove',
             ])));
             wp_safe_redirect(wp_get_referer());
-            exit;
+            glsr_exit();
         }
     }
 

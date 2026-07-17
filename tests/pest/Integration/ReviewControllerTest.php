@@ -646,9 +646,9 @@ test('the fallback approve action publishes the review', function () {
     $_GET['post'] = (string) $review->ID;
     $_REQUEST['_wpnonce'] = wp_create_nonce("approve-review_{$review->ID}");
 
-    // expectsRedirect() fails the test if the redirect never happens; the location is
+    // expectsRedirectAndExit() fails the test if the redirect never happens; the location is
     // wp_get_referer(), which is empty in a process that never received a request.
-    $this->expectsRedirect(fn () => glsr(ReviewController::class)->onApprove());
+    $this->expectsRedirectAndExit(fn () => glsr(ReviewController::class)->onApprove());
 
     expect(get_post_status($review->ID))->toBe('publish');
 });
@@ -660,7 +660,7 @@ test('the fallback unapprove action unapproves the review', function () {
     $_GET['post'] = (string) $review->ID;
     $_REQUEST['_wpnonce'] = wp_create_nonce("unapprove-review_{$review->ID}");
 
-    $this->expectsRedirect(fn () => glsr(ReviewController::class)->onUnapprove());
+    $this->expectsRedirectAndExit(fn () => glsr(ReviewController::class)->onUnapprove());
 
     expect(get_post_status($review->ID))->toBe('pending');
 });

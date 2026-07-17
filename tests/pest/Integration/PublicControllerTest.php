@@ -182,7 +182,7 @@ test('a review submitted by a plain form post redirects back to the page it came
     $values[glsr(Honeypot::class)->hash($values['form_id'])] = '';
     $request = new Request($values);
 
-    $location = $this->expectsRedirect(
+    $location = $this->expectsRedirectAndExit(
         fn () => glsr(PublicController::class)->submitReview($request)
     );
 

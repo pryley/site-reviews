@@ -60,6 +60,13 @@ $_SERVER['SERVER_PROTOCOL'] ??= 'HTTP/1.1';
  */
 require __DIR__.'/Support/filter-input.php';
 
+/*
+ * glsr_exit() wraps the plugin's request-terminating exit calls; the suite shadows it the
+ * same way, throwing GlsrExitException so a terminating code path ends the test, not the
+ * process. See Support/glsr-exit.php.
+ */
+require __DIR__.'/Support/glsr-exit.php';
+
 require "{$root}/wp-load.php";
 
 if (!function_exists('glsr')) {

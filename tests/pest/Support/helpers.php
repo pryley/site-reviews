@@ -210,6 +210,34 @@ function purgeCommittedRows(): void
 }
 
 /**
+ * Runs a code path that streams a download — headers, raw bytes, then glsr_exit() — and
+ * returns the bytes it wrote. The header() calls warn in a CLI whose output has started
+ * (headers_sent() is true under the test runner), so the warnings are silenced for the
+ * duration: they are the environment's, not the code's. Termination is REQUIRED: a path
+ * that returns without reaching glsr_exit() fails, because a live download that did so
+ * would corrupt its payload with whatever the page renders next.
+ */
+function capturesDownload(callable $callback): string
+{
+    $level = ob_get_level();
+    set_error_handler(fn () => true);
+    ob_start();
+    try {
+        $callback();
+    } catch (GlsrExitException $e) {
+        return ob_get_clean();
+    } finally {
+        restore_error_handler();
+        while (ob_get_level() > $level) { // unwind after a failure, not the return above
+            ob_end_clean();
+        }
+    }
+    throw new \PHPUnit\Framework\AssertionFailedError(
+        'Expected the download to end the request with glsr_exit(), and it did not.'
+    );
+}
+
+/**
  * Releases the router's parallel-request lock. Router::isValidMutexRequest() sets a transient
  * keyed by a hash of the client IP for five seconds and refuses a second `submit-review` while it
  * is there. Every test request comes from the same IP within the same second, so a test that

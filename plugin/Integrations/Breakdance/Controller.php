@@ -88,7 +88,7 @@ class Controller extends AbstractController
             });
         }
         wp_send_json_success($data, 200);
-        exit; // @phpstan-ignore-line
+        glsr_exit(); // @phpstan-ignore-line
     }
 
     /**

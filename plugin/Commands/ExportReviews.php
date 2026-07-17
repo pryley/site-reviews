@@ -47,7 +47,7 @@ class ExportReviews extends AbstractCommand
             $writer->insertOne(array_keys($firstRecord));
             $writer->insertAll($records);
             $writer->output($filename);
-            exit;
+            glsr_exit();
         } catch (CannotInsertRecord $e) {
             $this->fail();
             glsr(Notice::class)->addError($e->getMessage());

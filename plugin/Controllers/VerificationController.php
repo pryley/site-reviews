@@ -122,6 +122,6 @@ class VerificationController extends AbstractController
             }
         }
         wp_safe_redirect($redirectUrl);
-        exit;
+        glsr_exit();
     }
 }

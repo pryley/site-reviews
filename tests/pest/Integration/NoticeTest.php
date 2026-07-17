@@ -25,6 +25,7 @@ use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 uses(InteractsWithAjax::class);
+uses(\GeminiLabs\SiteReviews\Tests\InteractsWithExits::class);
 
 /*
  * The admin notices.
@@ -656,24 +657,17 @@ test('the notice activation link activates the plugin and goes back where it cam
     wp_set_current_user(createUser(['role' => 'administrator']));
     $_GET = ['action' => 'activate', 'plugin' => 'hello.php', 'trigger' => 'notice'];
     $_REQUEST['_wpnonce'] = wp_create_nonce('activate-plugin_hello.php');
-    $redirect = function ($location) {
-        throw new Exception("redirected|{$location}");
-    };
-    add_filter('wp_redirect', $redirect);
-    $outcome = '';
+    $_SERVER['HTTP_REFERER'] = admin_url('plugins.php'); // where the notice was dismissed from
     try {
-        glsr(NoticeController::class)->activatePlugin();
-    } catch (Exception $e) {
-        $outcome = $e->getMessage();
+        $location = $this->expectsRedirectAndExit(fn () => glsr(NoticeController::class)->activatePlugin());
     } finally {
-        remove_filter('wp_redirect', $redirect);
         deactivate_plugins('hello.php', true);
         $_GET = [];
-        unset($_REQUEST['_wpnonce']);
+        unset($_REQUEST['_wpnonce'], $_SERVER['HTTP_REFERER']);
     }
 
-    expect($outcome)->toStartWith('redirected|');
-    // the option write rolls back; what matters is the redirect fired INSTEAD of a wp_die
+    // the option write rolls back; what matters is the redirect went back INSTEAD of a wp_die
+    expect($location)->toContain('plugins.php');
 });
 
 test('an activation link for a plugin that is not there dies with the reason', function () {

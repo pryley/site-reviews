@@ -229,7 +229,7 @@ test('a review is not approved over ajax by somebody who may not approve it', fu
 test('the approval link approves the review and goes back to the reviews', function () {
     $review = createReview(['is_approved' => false]);
 
-    $location = $this->expectsRedirect(fn () => glsr(AdminController::class)->approveReview(
+    $location = $this->expectsRedirectAndExit(fn () => glsr(AdminController::class)->approveReview(
         new Request(['action' => 'approve', 'data' => [$review->ID]])
     ));
 
@@ -242,7 +242,7 @@ test('the approval link approves the review and goes back to the reviews', funct
 test('the approval link for a review that is no longer there just goes back', function () {
     // The review may well have been deleted between the email going out and the link
     // being clicked. That is not an error worth a page of its own.
-    $location = $this->expectsRedirect(fn () => glsr(AdminController::class)->approveReview(
+    $location = $this->expectsRedirectAndExit(fn () => glsr(AdminController::class)->approveReview(
         new Request(['action' => 'approve', 'data' => [999999001]])
     ));
 

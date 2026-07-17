@@ -63,7 +63,7 @@ test('duplicating a review copies the review, not just the post', function () {
     $review = createReview(['rating' => 4, 'title' => 'The original']);
     duplicatePageRequest($review->ID);
 
-    $location = $this->expectsRedirect(fn () => glsr(Controller::class)->duplicateReview());
+    $location = $this->expectsRedirectAndExit(fn () => glsr(Controller::class)->duplicateReview());
 
     $copyId = duplicatedReviewId($location);
     expect($copyId)->not->toBe($review->ID);
@@ -87,7 +87,7 @@ test('the copy is titled the way duplicate page was told to title it', function 
     $review = createReview(['title' => 'The original']);
     duplicatePageRequest($review->ID);
 
-    $location = $this->expectsRedirect(fn () => glsr(Controller::class)->duplicateReview());
+    $location = $this->expectsRedirectAndExit(fn () => glsr(Controller::class)->duplicateReview());
 
     expect(get_post(duplicatedReviewId($location))->post_title)->toBe('The original -- copy');
 });
@@ -98,7 +98,7 @@ test('the copy keeps its title when duplicate page has no suffix', function () {
     $review = createReview(['title' => 'The original']);
     duplicatePageRequest($review->ID);
 
-    $location = $this->expectsRedirect(fn () => glsr(Controller::class)->duplicateReview());
+    $location = $this->expectsRedirectAndExit(fn () => glsr(Controller::class)->duplicateReview());
 
     expect(get_post(duplicatedReviewId($location))->post_title)->toBe('The original');
 });

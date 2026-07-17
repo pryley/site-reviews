@@ -38,7 +38,7 @@ class AdminController extends AbstractController
             }
         }
         wp_redirect(glsr_admin_url());
-        exit;
+        glsr_exit();
     }
 
     /**
