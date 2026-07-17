@@ -706,3 +706,22 @@ test('publishing an "Add New" draft creates the review row on the spot', functio
         ->and($review->is_approved)->toBeTrue()
         ->and($approved)->toHaveCount(0); // brand-new: the approved hook is for EXISTING reviews
 });
+
+test('a broken taxonomy while assigning terms is logged, not fatal', function () {
+    // wp_set_object_terms() answers a WP_Error only when the taxonomy itself is
+    // gone — a state a mis-timed addon or a half-loaded request could leave. The
+    // review must still be created; the failed assignment is a log line.
+    global $wp_taxonomies;
+    $postId = wp_insert_post(['post_type' => glsr()->post_type, 'post_title' => 'x', 'post_status' => 'publish']);
+    $command = new \GeminiLabs\SiteReviews\Commands\CreateReview(new \GeminiLabs\SiteReviews\Request(['rating' => 4]));
+    $taxonomy = $wp_taxonomies[glsr()->taxonomy];
+    unset($wp_taxonomies[glsr()->taxonomy]);
+    try {
+        glsr(ReviewController::class)->onCreateReview($postId, $command);
+    } finally {
+        $wp_taxonomies[glsr()->taxonomy] = $taxonomy;
+    }
+
+    expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())->toContain('Invalid taxonomy')
+        ->and(glsr_get_review($postId)->isValid())->toBeTrue(); // the review survived
+});

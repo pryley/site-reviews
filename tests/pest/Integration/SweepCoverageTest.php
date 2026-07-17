@@ -213,3 +213,20 @@ test('the rest response reports the review status', function () {
 
     expect($property->getValue($prepared)['status'])->toBe($review->status);
 });
+
+test('a moved site refreshes its cached uploads path for the import temp file', function () {
+    // wp_upload_dir() caches; a site restored to a new server can hold a basedir
+    // that no longer exists. The filter fakes that once, then removes itself so
+    // the refresh (the second, uncached call) finds the real path.
+    $filter = function (array $uploads) use (&$filter) {
+        remove_filter('upload_dir', $filter);
+        $uploads['basedir'] .= '/no-longer-here';
+        return $uploads;
+    };
+    add_filter('upload_dir', $filter);
+
+    $path = glsr(\GeminiLabs\SiteReviews\Database\ImportManager::class)->tempFilePath();
+
+    expect($path)->not->toContain('no-longer-here')
+        ->and($path)->toContain('site-reviews/temp');
+});

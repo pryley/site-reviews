@@ -339,3 +339,39 @@ test('a full batch schedules the next page and keeps the lock', function () {
     expect($queued)->toHaveCount(1)
         ->and($queued[0]['args'])->toBe(['offset' => 2]);
 });
+
+test('a full chunk is flushed mid-walk, not held until the end', function () {
+    // INSERT_CHUNK_SIZE is 500 in production — resolved through static::, so a
+    // subclass can afford the two rows this asserts with. The database is faked:
+    // what matters is WHEN the bulk insert fires, not the SQL.
+    $fake = new class extends \GeminiLabs\SiteReviews\Database {
+        public array $bulk = [];
+
+        public function insertBulk(string $table, array $values, array $fields)
+        {
+            $this->bulk[] = [$table, count($values)];
+            return count($values);
+        }
+    };
+    $original = glsr(\GeminiLabs\SiteReviews\Database::class);
+    glsr()->alias(\GeminiLabs\SiteReviews\Database::class, $fake);
+    try {
+        $command = new class extends GeolocateReviews {
+            public const INSERT_CHUNK_SIZE = 2;
+        };
+        $rows = (function () {
+            yield ['ip_address' => '1.1.1.1', 'rating_id' => 11, 'review_id' => 101];
+            yield ['ip_address' => '2.2.2.2', 'rating_id' => 12, 'review_id' => 102];
+        })();
+        $results = [
+            ['query' => '1.1.1.1', 'city' => 'Alpha', 'country' => 'Wonderland'],
+            ['query' => '2.2.2.2', 'city' => 'Beta', 'country' => 'Wonderland'],
+        ];
+
+        protectedMethod(get_class($command), 'prepareAndInsert')->invoke($command, $rows, $results);
+
+        expect($fake->bulk)->toBe([['stats', 2], ['postmeta', 2]]); // flushed AT the chunk, nothing left for the tail
+    } finally {
+        glsr()->alias(\GeminiLabs\SiteReviews\Database::class, $original);
+    }
+});

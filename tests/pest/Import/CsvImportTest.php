@@ -563,3 +563,17 @@ test('handle() fails when the CSV cannot be processed', function () {
     expect($command->successful())->toBeFalse();
     expect(glsr(Notice::class)->get())->toContain('could not be imported');
 });
+
+test('a staged row whose review cannot be created is skipped, and counted as skipped', function () {
+    // ReviewManager::create() answers false when wp_insert_post() refuses — a
+    // filter, another plugin, a database mid-failure. The import must not stop
+    // at the row, and must not count it as imported.
+    processCsv(csvFixture());
+    add_filter('wp_insert_post_empty_content', '__return_true'); // every insert now fails
+
+    $import = new ImportReviews(new Request(['page' => 1, 'per_page' => 10]));
+    $import->handle();
+
+    expect($import->response()['imported'])->toBe(0)
+        ->and($import->response()['skipped'])->toBe(2); // both staged rows, neither silently lost
+});
