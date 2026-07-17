@@ -42,6 +42,12 @@ compat: ## Run PHP CodeSniffer to check PHP 8.1- Compatibility
 	@test -f '+/tools/phpcs/vendor/bin/phpcs' || composer --working-dir='+/tools/phpcs' update
 	XDEBUG_MODE=off '+/tools/phpcs/vendor/bin/phpcs' --standard=phpcs.xml
 
+.PHONY: coverage\:merge
+coverage\:merge: ## Merge the main and multisite clover files into tests/coverage/merged.xml
+	@test -f tests/coverage/clover.xml || { printf '\nNo tests/coverage/clover.xml — run `make test:coverage` first.\n\n'; exit 1; }
+	@test -f tests/coverage/multisite.xml || { printf '\nNo tests/coverage/multisite.xml — run `make test:multisite` first.\n\n'; exit 1; }
+	XDEBUG_MODE=off php tests/merge-clover.php tests/coverage/clover.xml tests/coverage/multisite.xml tests/coverage/merged.xml
+
 .PHONY: env\:info
 env\:info: env-check ## What is the suite actually running against?
 	@printf '\nWordPress  '
@@ -123,6 +129,31 @@ test\:install: docker-check ## Start wp-env and install the composer dev depende
 .PHONY: test\:integration
 test\:integration: env-check ## Run only the Integration suite inside wp-env
 	$(WPENV) env XDEBUG_MODE=off composer test:integration
+
+# The multisite suite runs in its OWN wp-env instance (tests/multisite/.wp-env.json:
+# port 8892, EMPTY_TRASH_DAYS=0), converted to a network on first run. Its coverage
+# lands in tests/coverage/multisite.xml — see `make coverage:merge`. wp-env picks the
+# instance from the CWD, hence the cd; npx resolves the local wp-env from any subdir.
+# wp-env regenerates wp-config.php whenever start re-provisions, which erases the
+# constants multisite-convert appended — and a converted database with a single-site
+# config strands the whole instance. The `wp config set` lines re-assert them
+# idempotently on every run, whichever half survived.
+.PHONY: test\:multisite
+test\:multisite: docker-check ## Run the multisite suite in its own wp-env instance, with coverage
+	cd tests/multisite && npx @wordpress/env start --xdebug=coverage
+	cd tests/multisite && (npx @wordpress/env run cli wp core is-installed --network 2>/dev/null \
+		|| npx @wordpress/env run cli wp core multisite-convert --title='Site Reviews Network')
+	cd tests/multisite && npx @wordpress/env run cli bash -c "\
+		wp config set MULTISITE true --raw --type=constant && \
+		wp config set SUBDOMAIN_INSTALL false --raw --type=constant && \
+		wp config set DOMAIN_CURRENT_SITE localhost:8892 --type=constant && \
+		wp config set PATH_CURRENT_SITE / --type=constant && \
+		wp config set SITE_ID_CURRENT_SITE 1 --raw --type=constant && \
+		wp config set BLOG_ID_CURRENT_SITE 1 --raw --type=constant"
+	cd tests/multisite && npx @wordpress/env run cli --env-cwd=wp-content/plugins/site-reviews \
+		env XDEBUG_MODE=coverage php -d memory_limit=-1 vendor/bin/pest \
+		--test-directory=tests/multisite -c tests/multisite/phpunit.xml --colors=always \
+		--coverage-clover=tests/coverage/multisite.xml
 
 .PHONY: test\:profile
 test\:profile: env-check ## Show the slowest tests in the suite

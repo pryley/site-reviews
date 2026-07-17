@@ -1,0 +1,12 @@
+{
+    "core": "https://wordpress.org/wordpress-7.0.1.zip",
+    "config": {
+        "EMPTY_TRASH_DAYS": 0
+    },
+    "phpVersion": "8.3",
+    "plugins": [
+        "../.."
+    ],
+    "port": 8892,
+    "testsEnvironment": false
+}

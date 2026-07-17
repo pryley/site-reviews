@@ -191,6 +191,19 @@ more tests.
 A ThirdParty test that exercises the plugin's own code still counts towards the
 number, which is right — the line ran.
 
+### The multisite suite
+
+`tests/multisite/` is a separate, minimal suite for the branches this suite
+structurally cannot reach: `is_multisite()` paths (Install, NetworkController,
+per-blog constraint names) and the `EMPTY_TRASH_DAYS = 0` guard (a first-define
+constant — 30 here, 0 there). It runs in its OWN wp-env instance
+(`tests/multisite/.wp-env.json`, port 8892) that `make test:multisite` starts and
+converts to a network; no transactions, no stubs — the environment is dedicated,
+and every test restores what it breaks. Its clover lands in
+`tests/coverage/multisite.xml`, and `make coverage:merge` folds it into the main
+run's `clover.xml` as `tests/coverage/merged.xml` ("covered anywhere is
+covered"). The coverage GATE stays on the main suite alone.
+
 ## Conventions
 
 - Assertions are `expect()`, with the actual value as the subject.
