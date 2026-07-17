@@ -160,6 +160,24 @@ test('suffix', function () {
     expect(Str::suffix(' bob ', ' _goodbye '))->toEqual(' bob  _goodbye ');
 });
 
+test('title case', function () {
+    expect(Str::titleCase('hello_world'))->toEqual('Hello World');
+    expect(Str::titleCase('hello-world'))->toEqual('Hello World');
+    expect(Str::titleCase('hello world'))->toEqual('Hello World');
+});
+
+test('uuidv7', function () {
+    // 32 hex chars, version nibble 7, RFC variant — and time-ordered, which is the
+    // point of v7: an id generated later sorts later.
+    $first = Str::uuidv7();
+    $second = Str::uuidv7();
+
+    expect($first)->toMatch('/^[0-9a-f]{12}7[0-9a-f]{3}[89ab][0-9a-f]{15}$/');
+    // only the 12-char timestamp prefix is ordered; the rest is random
+    expect(strcmp(substr($first, 0, 12), substr($second, 0, 12)))->toBeLessThan(1);
+    expect($first)->not->toBe($second);
+});
+
 test('truncate', function () {
     expect(Str::truncate('abc', 1))->toEqual('a');
     expect(Str::truncate('abc', 2))->toEqual('ab');
