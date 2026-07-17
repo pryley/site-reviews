@@ -187,3 +187,54 @@ test('a retired addon is remembered as retired, and nothing else', function () {
     // the point: an addon that is not installed is not registered as anything at all.
     expect(glsr()->retrieveAs('array', 'licensed'))->toBe([]);
 });
+
+test('a rollback that downloads and unpacks cleanly reports success and clears the plugin cache', function () {
+    // The success half capturedPackageUrl() deliberately never reaches. A FAKE
+    // plugin stands in for this one (letting the real basename through would
+    // unpack a zip over the plugin these tests are running from), and the
+    // download is answered from a zip built here — nothing leaves the container.
+    $slug = 'glsr-fake-rollback';
+    $zipfile = get_temp_dir().$slug.'.zip';
+    $zip = new ZipArchive();
+    $zip->open($zipfile, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+    $zip->addFromString("{$slug}/{$slug}.php", "<?php\n/**\n * Plugin Name: Fake Rollback Plugin\n * Version: 1.0\n */\n");
+    $zip->close();
+
+    $skin = new class(['plugin' => "{$slug}/{$slug}.php", 'title' => 'Rollback']) extends \Plugin_Upgrader_Skin {
+        public function header()
+        {
+        }
+
+        public function footer()
+        {
+        }
+
+        public function feedback($feedback, ...$args)
+        {
+        }
+    };
+    // a finished upgrade asks wordpress.org for fresh update data; the suite
+    // blocks HTTP, so detach core's checks (hooks restore per test)
+    remove_action('upgrader_process_complete', 'wp_version_check');
+    remove_action('upgrader_process_complete', 'wp_update_plugins');
+    remove_action('upgrader_process_complete', 'wp_update_themes');
+    add_filter('upgrader_pre_download', fn () => $zipfile);
+    try {
+        $result = (new PluginUpgrader($skin))->rollback('1.0');
+
+        expect($result)->toBeTrue()
+            ->and(file_exists(WP_PLUGIN_DIR."/{$slug}/{$slug}.php"))->toBeTrue();
+    } finally {
+        remove_all_filters('upgrader_pre_download');
+        // the upgrader already deleted the zip (clear_working); remove what is left
+        if (file_exists(WP_PLUGIN_DIR."/{$slug}/{$slug}.php")) {
+            unlink(WP_PLUGIN_DIR."/{$slug}/{$slug}.php");
+        }
+        if (is_dir(WP_PLUGIN_DIR."/{$slug}")) {
+            rmdir(WP_PLUGIN_DIR."/{$slug}");
+        }
+        if (file_exists($zipfile)) {
+            unlink($zipfile);
+        }
+    }
+});
