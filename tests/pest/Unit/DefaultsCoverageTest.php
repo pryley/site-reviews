@@ -12,6 +12,7 @@ use GeminiLabs\SiteReviews\Modules\Html\FieldElements\Tel;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
+use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
@@ -83,6 +84,78 @@ test('merge() keeps what it does not know about', function (string $class, strin
     expect($merged)->toHaveKey('an_extra_key')
         ->and($merged)->toHaveKey($key); // …and the defaults are still there
 })->with('defaults');
+
+/*
+ * The abstract machinery itself, driven through real subclasses.
+ */
+
+test('a method that is not part of the contract is logged and changes nothing', function () {
+    $values = ['id' => 'kept-exactly'];
+
+    expect(glsr(AddonDefaults::class)->nonsense($values))->toBe($values);
+});
+
+test('asking for a property that is not public gets nothing, not a leak', function () {
+    expect(glsr(AddonDefaults::class)->property('defaults'))->toBe([]) // protected
+        ->and(glsr(AddonDefaults::class)->property('no_such_property'))->toBe([]); // missing, logged
+    expect(glsr(AddonDefaults::class)->property('sanitize'))->not->toBeEmpty(); // public: filtered through
+});
+
+test('a concatenated key concatenates strings and leaves everything else alone', function () {
+    // StyleClassesDefaults concatenates `form`: a given class is ADDED to the default classes,
+    // not substituted for them. A non-string value cannot be concatenated and passes through.
+    $defaults = glsr(\GeminiLabs\SiteReviews\Defaults\StyleClassesDefaults::class)->defaults();
+
+    $merged = glsr(\GeminiLabs\SiteReviews\Defaults\StyleClassesDefaults::class)->merge(['form' => 'my-form']);
+    expect($merged['form'])->toBe(trim($defaults['form'].' my-form'));
+
+    // a non-string skips concatenation, and the attr-class sanitizer then scrubs it
+    $merged = glsr(\GeminiLabs\SiteReviews\Defaults\StyleClassesDefaults::class)->merge(['form' => 123]);
+    expect($merged['form'])->toBe('');
+});
+
+test('unmapKeys puts the old key names back', function () {
+    // The inverse of mapKeys, for code that must hand values back in the shape it received
+    // them (ReviewDefaults maps ID onto rating_id on the way in).
+    $mapped = glsr(\GeminiLabs\SiteReviews\Defaults\ReviewDefaults::class)->property('mapped');
+    [$old, $new] = [array_key_first($mapped), $mapped[array_key_first($mapped)]];
+
+    $unmapped = protectedMethod(\GeminiLabs\SiteReviews\Defaults\ReviewDefaults::class, 'unmapKeys')
+        ->invoke(glsr(\GeminiLabs\SiteReviews\Defaults\ReviewDefaults::class), [$new => 'the-value']);
+
+    expect($unmapped)->toHaveKey($old)
+        ->and($unmapped[$old])->toBe('the-value')
+        ->and($unmapped)->not->toHaveKey($new);
+});
+
+/*
+ * The two subclasses with logic of their own.
+ */
+
+test('an addon card labels itself by its beta flag', function () {
+    $beta = glsr(AddonDefaults::class)->merge(['beta' => true, 'title' => 'My Addon']);
+    expect($beta['link_text'])->toBe('Premium members only')
+        ->and($beta['title'])->toBe('My Addon (beta)');
+
+    $stable = glsr(AddonDefaults::class)->merge(['title' => 'My Addon']);
+    expect($stable['link_text'])->toBe('View addon')
+        ->and($stable['title'])->toBe('My Addon');
+
+    $custom = glsr(AddonDefaults::class)->merge(['link_text' => 'Buy now', 'title' => 'My Addon']);
+    expect($custom['link_text'])->toBe('Buy now'); // an explicit label is not overwritten
+});
+
+test('a lifetime licence gets an expiry date far enough away', function () {
+    $deactivated = glsr(\GeminiLabs\SiteReviews\Defaults\Updater\DeactivateLicenseDefaults::class)
+        ->merge(['expires' => 'lifetime', 'license' => 'abc123', 'success' => '1']);
+
+    expect($deactivated['success'])->toBeTrue()
+        ->and(strtotime($deactivated['expires']))->toBeGreaterThan(strtotime('+9 years'));
+
+    $dated = glsr(\GeminiLabs\SiteReviews\Defaults\Updater\DeactivateLicenseDefaults::class)
+        ->merge(['expires' => '2030-01-01 00:00:00']);
+    expect($dated['expires'])->toBe('2030-01-01 00:00:00'); // a real date passes through
+});
 
 /*
  * Two worth stating outright.
