@@ -187,3 +187,55 @@ test('the error message names the limit it was given', function () {
     expect($errors)->toHaveKey('content');
     expect(implode(' ', (array) $errors['content']))->toContain('5');
 });
+
+test('a value of the wrong shape fails cleanly instead of warning', function () {
+    // The rules receive whatever the request contained — an array where a string
+    // was expected must be a plain "no", not a preg_match() warning.
+    $rules = new Validator(); // ValidationRules is the trait Validator validates with
+
+    expect($rules->validateRegex([], 'field', ['/x/']))->toBeFalse()
+        ->and($rules->validateTel([]))->toBeFalse()
+        ->and($rules->validateUrl(123))->toBeFalse();
+});
+
+test('an empty json array counts as nothing entered', function () {
+    // A multi-select submits '[]' when everything is deselected; required must
+    // treat that exactly as it treats ''.
+    $rules = new Validator();
+
+    expect($rules->validateRequired('[]'))->toBeFalse()
+        ->and($rules->validateRequired('  '))->toBeFalse()
+        ->and($rules->validateRequired([]))->toBeFalse() // a real empty array too
+        ->and($rules->validateRequired(null))->toBeFalse() // an absent field
+        ->and($rules->validateRequired('0'))->toBeTrue();
+});
+
+/*
+ * The validator engine around the rules.
+ */
+
+test('sizes are counted by what the value is: characters, items, or a json list', function () {
+    $validator = new Validator();
+
+    expect($validator->validate(['list' => ['a', 'b', 'c']], ['list' => 'max:2']))
+        ->toHaveKey('list'); // three items in a two-item field
+    expect($validator->validate(['json' => '["a","b","c"]'], ['json' => 'max:2']))
+        ->toHaveKey('json'); // same list, arrived serialized
+});
+
+test('an optional field left empty is not validated at all', function () {
+    expect((new Validator())->validate(['email' => ''], ['email' => 'email|max:5']))
+        ->toBe([]); // not required, empty: every rule stands down
+});
+
+test('a blank rule is skipped and an unknown rule is refused loudly', function () {
+    $validator = new Validator();
+
+    $validator->validateAttribute('field', ''); // a stray pipe in a rule string
+    expect(fn () => $validator->validateAttribute('field', 'bogus'))
+        ->toThrow(BadMethodCallException::class);
+
+    // sizing an attribute that has no rules at all falls back to string length
+    $validator->validateAttribute('unruled', 'max:3');
+    expect(true)->toBeTrue(); // no warning, no error: nothing to fail against
+});
