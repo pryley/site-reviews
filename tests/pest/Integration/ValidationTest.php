@@ -178,3 +178,54 @@ test('review limits validation', function () {
     $this->assertJsonError($this->request(['_nonce' => $nonce]));
     $this->assertJsonError($this->request(['_nonce' => $nonce]));
 });
+
+/*
+ * The validator machinery itself.
+ */
+
+test('the v7 setErrors alias still works, and anything else is refused loudly', function () {
+    $validator = new CustomValidator(new Request(['rating' => 5]));
+
+    $validator->setErrors('Something went wrong.'); // @compat < v7.1, forwards to fail()
+    expect(glsr()->session()->cast('form_invalid', 'bool'))->toBeTrue()
+        ->and(glsr()->session()->cast('form_message', 'string'))->toBe('Something went wrong.');
+
+    expect(fn () => $validator->notARealMethod())
+        ->toThrow(BadMethodCallException::class);
+});
+
+test('a custom validator answers isValid from its filter', function () {
+    $validator = new CustomValidator(new Request([]));
+    expect($validator->isValid())->toBeTrue();
+
+    add_filter('site-reviews/validate/custom', '__return_false');
+    expect($validator->isValid())->toBeFalse();
+});
+
+test('the form result is readable through the compat properties', function () {
+    $form = new \GeminiLabs\SiteReviews\Modules\Validator\ValidateForm();
+    expect($form->message)->toBe('')
+        ->and($form->errors)->toBeFalse() // nothing failed: validation success
+        ->and($form->not_a_property)->toBeNull();
+
+    // a custom validator failing with a message: failed, message set, no field errors
+    add_filter('site-reviews/validate/custom', fn () => 'The custom check said no.');
+    $form = new \GeminiLabs\SiteReviews\Modules\Validator\ValidateForm();
+    $form->validate(new Request(['rating' => 5]), [CustomValidator::class]);
+
+    expect($form->message)->toBe('The custom check said no.')
+        ->and($form->errors)->toBe([]) // failed, but no per-field errors
+        ->and($form->isValid())->toBeFalse();
+
+    // per-field errors, when a validator recorded them
+    glsr()->sessionSet('form_errors', ['rating' => ['required']]);
+    expect($form->errors)->toBe(['rating' => ['required']]);
+});
+
+test('a validator that does not exist, or is not a validator, is logged and skipped', function () {
+    $form = new \GeminiLabs\SiteReviews\Modules\Validator\ValidateForm();
+
+    expect($form->validators(['\GeminiLabs\NoSuch\Validator']))->toBe([])
+        ->and($form->validators([Helper::class]))->toBe([]) // real class, wrong contract
+        ->and($form->validators([CustomValidator::class]))->toBe([CustomValidator::class]);
+});
