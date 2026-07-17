@@ -68,6 +68,18 @@ test('a view that is not in the styleable allow-list is never rewritten', functi
     expect((new Style())->view('pages/settings/general'))->toBe('pages/settings/general');
 });
 
+test('the styleable allow-list can be filtered, and is memoized per instance', function () {
+    // the memo is an instance property, not a process-wide static: a new Style
+    // (after a settings change, or a container rebind) re-asks the filter
+    glsr(\GeminiLabs\SiteReviews\Database\OptionManager::class)->set('settings.general.style', 'bootstrap');
+    add_filter('site-reviews/style/templates', fn (array $views) => array_diff($views, ['templates/pagination']));
+
+    $style = new Style();
+
+    expect($style->view('templates/pagination'))->toBe('templates/pagination') // no longer styleable
+        ->and($style->view('templates/form/type-checkbox'))->toBe('styles/bootstrap/type-checkbox');
+});
+
 test('when no candidate file exists at all, the view is served as asked', function () {
     // The style/views filter is the seam a theme uses to relocate candidates; one
     // that returns none must not blank the view out.

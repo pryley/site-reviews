@@ -16,6 +16,8 @@ class Style
     public array $pagination;
     public array $validation;
 
+    protected string $styleableViews = '';
+
     public function __construct()
     {
         $styleName = glsr_get_option('general.style', 'default');
@@ -94,8 +96,7 @@ class Style
 
     public function view(string $view): string
     {
-        static $allowed = null;
-        if (null === $allowed) {
+        if ('' === $this->styleableViews) {
             $allowed = glsr()->filterArray('style/templates', [
                 'templates/form/field',
                 'templates/form/response',
@@ -108,9 +109,9 @@ class Style
                 'templates/pagination',
                 'templates/reviews-form',
             ]);
-            $allowed = '~('.implode('|', $allowed).')~';
+            $this->styleableViews = '~('.implode('|', $allowed).')~';
         }
-        if (!preg_match($allowed, $view)) {
+        if (!preg_match($this->styleableViews, $view)) {
             return $view;
         }
         foreach ($this->possibleViews($view) as $candidate) {
