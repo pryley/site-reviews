@@ -177,3 +177,45 @@ test('a store can say the response came from the shop, not from the blog', funct
     expect((new ReviewResponseTag('response'))->handleFor('review', 'Thanks!', createReview()))
         ->toContain('Response from The Corner Shop');
 });
+
+/*
+ * The tag machinery itself, at its edges.
+ */
+
+test('a review tag given anything but a review renders nothing', function () {
+    $tag = new \GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewRatingTag('rating');
+
+    expect($tag->handleFor('review', '5', 'not-a-review'))->toBe('');
+});
+
+test('a raw tag ignores the hide options and the display settings', function () {
+    $review = createReview(['rating' => 5]);
+    $tag = new \GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewRatingTag('rating', ['hide' => ['rating'], 'raw' => true]);
+
+    expect($tag->isEnabled('reviews.rating'))->toBeTrue()
+        ->and($tag->isHidden())->toBeFalse();
+});
+
+test('a tag with no handler of its own hands back its trimmed value', function () {
+    // The Tag base defaults: validate() accepts anything, handle() is the value.
+    $tag = new class('anything') extends \GeminiLabs\SiteReviews\Modules\Html\Tags\Tag {
+    };
+
+    expect($tag->handleFor('review', '  the value  ', null))->toBe('the value');
+});
+
+test('the review type tag names any type except the default', function () {
+    $review = createReview();
+    $tag = fn () => new \GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewTypeTag('type');
+
+    // a local review is the norm and is not labelled
+    expect($tag()->handleFor('review', 'local', $review))->toBe('');
+    // anything else is labelled with the review's registered type name
+    expect($tag()->handleFor('review', 'imported', $review))->toContain('glsr-review-type');
+});
+
+test('a hidden summary rating renders nothing', function () {
+    $tag = new \GeminiLabs\SiteReviews\Modules\Html\Tags\SummaryRatingTag('rating', ['hide' => ['rating']]);
+
+    expect($tag->handleFor('summary', '', [0, 0, 1, 2, 5]))->toBe('');
+});
