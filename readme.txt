@@ -235,6 +235,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 - Fixed the classic widget title not being displayed
 - Fixed the custom schema identifier being ignored unless the schema type was Custom
 - Fixed the Documentation link on the plugins screen
+- Fixed the plugin rollback tool when JavaScript is unavailable
 - Fixed the plugin's service container being unable to register a factory
 - Fixed the plugins screen load time when the licence server is unreachable
 - Fixed the post meta cache not being cleared when the rating counts are recalculated

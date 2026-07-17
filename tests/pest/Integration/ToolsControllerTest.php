@@ -325,3 +325,33 @@ test('the review export is a csv of the reviews', function () {
 
     expect($bytes)->toContain('An exportable review body.');
 });
+
+test('the no-js rollback form reaches the rollback with its version', function () {
+    // Exactly what the form (views/pages/tools/general/rollback-plugin.php)
+    // sends to update.php: plain GET fields and a nonce for its fixed action.
+    // The rollback itself renders the admin chrome, so it is faked; what is
+    // asserted is that the form's own request passes its own nonce check and
+    // the chosen version arrives intact.
+    $action = 'rollback-'.glsr()->id;
+    $_GET = ['action' => $action, 'version' => '8.0.0'];
+    $_REQUEST['_wpnonce'] = wp_create_nonce($action);
+    $fake = new class extends \GeminiLabs\SiteReviews\Rollback {
+        public array $versions = [];
+
+        public function rollback(string $version): void
+        {
+            $this->versions[] = $version;
+        }
+    };
+    $original = glsr(\GeminiLabs\SiteReviews\Rollback::class);
+    glsr()->alias(\GeminiLabs\SiteReviews\Rollback::class, $fake);
+    try {
+        glsr(ToolsController::class)->rollbackPlugin();
+
+        expect($fake->versions)->toBe(['8.0.0']);
+    } finally {
+        glsr()->alias(\GeminiLabs\SiteReviews\Rollback::class, $original);
+        $_GET = [];
+        unset($_REQUEST['_wpnonce']);
+    }
+});

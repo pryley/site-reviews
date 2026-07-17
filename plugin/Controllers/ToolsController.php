@@ -21,6 +21,7 @@ use GeminiLabs\SiteReviews\Commands\RepairPermissions;
 use GeminiLabs\SiteReviews\Commands\RepairReviewRelations;
 use GeminiLabs\SiteReviews\Commands\ResetAssignedMeta;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
@@ -405,9 +406,14 @@ class ToolsController extends AbstractController
         if (!current_user_can('update_plugins')) {
             wp_die(sprintf(_x('Sorry, you are not allowed to rollback %s.', 'Site Reviews (admin-text)', 'site-reviews'), glsr()->name));
         }
-        $request = Request::inputGet();
-        check_admin_referer($request->action);
-        glsr(Rollback::class)->rollback($request->cast('version', 'string'));
+        // The no-JS fallback of the rollback form, which submits PLAIN fields to
+        // update.php — Request::inputGet() reads only the encrypted token and
+        // would hand check_admin_referer() an empty action the form's own nonce
+        // could never match. The action needs no reading: the update-custom_
+        // hook that fires this route fixes it.
+        check_admin_referer('rollback-'.glsr()->id);
+        $version = Cast::toString(filter_input(\INPUT_GET, 'version'));
+        glsr(Rollback::class)->rollback(sanitize_text_field($version));
     }
 
     /**
