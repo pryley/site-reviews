@@ -324,6 +324,95 @@ test('an import file whose temporary copy has vanished is refused, not fatal', f
     expect(glsr(Notice::class)->get())->toContain('notice-error');
 });
 
+/**
+ * A file that claims to have arrived over HTTP.
+ *
+ * Same seam as FileDetectedAs above: isValid() ends in is_uploaded_file(), whose
+ * answer comes from the SAPI and is unfakeable here (see the file header). This
+ * overrides that one answer so the trait's post-validation branches — the mime
+ * refusal and the success return — can run; everything else is real.
+ */
+class FileClaimingValid extends UploadedFile
+{
+    public function isValid(): bool
+    {
+        return \UPLOAD_ERR_OK === $this->getError();
+    }
+}
+
+test('an import file of the wrong kind is refused with its real type named', function () {
+    // A GIF renamed settings.json: the bytes say image/gif, conclusively (probed —
+    // a truncated PNG reads as octet-stream, which is inconclusive and accepted),
+    // and the refusal names GIF so the person knows what they actually uploaded.
+    $png = uploadedFileData('GIF89a'.str_repeat("\x00", 20), 'settings.json');
+    $harness = new class extends UploadHarness {
+        protected function file(): UploadedFile
+        {
+            return new FileClaimingValid($GLOBALS['glsr_test_filedata']);
+        }
+    };
+    $GLOBALS['glsr_test_filedata'] = $png;
+
+    try {
+        expect($harness->callGetImportFile('application/json'))->toBeNull();
+        expect(glsr(Notice::class)->get())->toContain('not a valid GIF file');
+
+        // and the right kind passes through as the file itself
+        glsr(Notice::class)->clear();
+        $GLOBALS['glsr_test_filedata'] = uploadedFileData('{"settings":{}}');
+        $file = $harness->callGetImportFile('application/json');
+        expect($file)->toBeInstanceOf(UploadedFile::class)
+            ->and(glsr(Notice::class)->get())->toBe('');
+    } finally {
+        unset($GLOBALS['glsr_test_filedata']);
+    }
+});
+
+test('a file that cannot be streamed is reported, not fatal', function () {
+    // getContent() throws FileException when a read fails mid-stream;
+    // getImportFileData turns that into a notice and an empty import.
+    $file = new class(uploadedFileData('{}')) extends UploadedFile {
+        public function getContent(): string
+        {
+            throw new \GeminiLabs\SiteReviews\Exceptions\FileException('Could not stream the contents of "settings.json".');
+        }
+    };
+
+    expect((new UploadHarness())->callGetImportFileData($file))->toBe([]);
+    expect(glsr(Notice::class)->get())->toContain('Could not stream');
+});
+
+test('the client size is what the request claimed', function () {
+    expect((new UploadedFile(uploadedFileData('{"a":1}')))->getClientSize())->toBe(7);
+});
+
+test('the extension is derived from the detected mime type, with the client name as last resort', function () {
+    // application/json is not in WordPress's allowed mime types; the plugin adds it.
+    expect(fileDetectedAs('application/json', 'whatever.bin')->getExtensionFromMimeType())->toBe('json');
+
+    // a mime type nothing maps to: the temp file has no extension, so the client name answers
+    expect(fileDetectedAs('application/x-bogus', 'photo.png')->getExtensionFromMimeType())->toBe('png');
+});
+
+test('when the file cannot be inspected the client mime type is the fallback', function () {
+    // error != OK means no temp file exists, so finfo and mime_content_type both
+    // fail (probed: false + E_WARNING each) and the claimed type is all that is left.
+    $file = new UploadedFile([
+        'error' => \UPLOAD_ERR_PARTIAL,
+        'name' => 'settings.json',
+        'size' => 0,
+        'tmp_name' => '/nonexistent/glsr-test-xyz',
+        'type' => 'application/json',
+    ]);
+
+    set_error_handler(fn () => true); // the warnings are the branch's precondition, not a defect
+    try {
+        expect($file->getMimeType())->toBe('application/json');
+    } finally {
+        restore_error_handler();
+    }
+});
+
 test('json is decoded, and an empty file says so', function () {
     $harness = new UploadHarness();
     $file = new UploadedFile(uploadedFileData('{"settings":{"general":{"require":{"approval":"no"}}}}'));
