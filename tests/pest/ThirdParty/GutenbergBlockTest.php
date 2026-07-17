@@ -134,6 +134,16 @@ test('a site that does not require a login shows a guest the form', function () 
     expect(renderBlock('site-reviews/form'))->toContain('<form');
 });
 
+test('a rating colour on the form block marks its wrapper', function () {
+    glsr(OptionManager::class)->set('settings.general.require.login', 'no');
+    wp_set_current_user(0);
+
+    $html = renderBlock('site-reviews/form', ['style_rating_color' => 'vivid-red']);
+
+    expect($html)->toContain('has-rating-color')
+        ->and($html)->toContain('--glsr-form-star-bg:var(--wp--preset--color--vivid-red)');
+});
+
 /*
  * What the person building the page gets.
  */
