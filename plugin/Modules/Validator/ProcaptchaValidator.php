@@ -78,7 +78,7 @@ class ProcaptchaValidator extends CaptchaValidatorAbstract
         $status = $body['status'] ?? '';
         return [
             'action' => '', // unused
-            'errors' => array_filter([$body['error'] ?? '']),
+            'errors' => $this->errors(array_filter([$body['error'] ?? ''])),
             'score' => 0, // unused
             'success' => 'ok' === $status && wp_validate_boolean($body['verified'] ?? false),
         ];

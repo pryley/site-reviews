@@ -238,6 +238,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 - Fixed the plugin's service container being unable to register a factory
 - Fixed the plugins screen load time when the licence server is unreachable
 - Fixed the post meta cache not being cleared when the rating counts are recalculated
+- Fixed the Prosopo Procaptcha error details not being included in the log when a captcha is rejected
 - Fixed the redirect after duplicating a review with the Duplicate Page plugin
 - Fixed the review cache not being cleared when a rating is deleted
 - Fixed the Unapprove link publishing the review instead of unapproving it when javascript is disabled

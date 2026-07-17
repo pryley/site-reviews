@@ -496,3 +496,22 @@ test('every service explains itself when its own server sends an error code', fu
     expect(failedValidation(captchaValidator($class)))->toBeTrue();
     expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())->toContain($explanations[$integration]);
 })->with('captchas');
+
+test('a prosopo rejection is logged with its named diagnostics, not just the raw code', function () {
+    // The error codes prosopo sends are terse; errorCodes() names them, and a
+    // missing site key is flagged alongside whatever the service answered.
+    enableCaptcha('procaptcha'); // deliberately no site key configured
+    $validator = new ProcaptchaValidator(new Request(['ip_address' => '203.0.113.9']));
+    $response = new \GeminiLabs\SiteReviews\Response();
+    $response->body = ['status' => 'x', 'verified' => false, 'error' => 'sitekey_invalid'];
+    $response->code = 200;
+
+    $body = \GeminiLabs\SiteReviews\Tests\protectedMethod(ProcaptchaValidator::class, 'responseBody')
+        ->invoke($validator, $response);
+
+    expect($body['success'])->toBeFalse()
+        ->and($body['errors'])->toBe([
+            'sitekey_invalid' => 'Your site key is likely invalid.',
+            'sitekey_missing' => 'Your site key is missing.',
+        ]);
+});
