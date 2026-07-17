@@ -1,10 +1,12 @@
 <?php
 
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Role;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 use GeminiLabs\SiteReviews\TestAddon\Application as TestAddon;
 
+use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
@@ -102,6 +104,33 @@ test('asking for an addon that was never registered gets nothing, not an error',
     expect(glsr()->addon('an-addon-nobody-installed'))->toBeNull();
 });
 
+test('an addon that needs a newer Site Reviews is refused, and one the parent outgrew too', function () {
+    // The two version gates, driven from the GLSR headers in each fixture's plugin file —
+    // exactly where a real addon carries them. A refused addon is NOT initialized: calling
+    // init() on an incompatible addon is the white screen these gates prevent.
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-gate-too-old/plugin/Application.php');
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-gate-too-new/plugin/Application.php');
+
+    glsr()->register(GeminiLabs\SiteReviews\GateTooOld\Application::class);
+    expect(glsr()->addon(GeminiLabs\SiteReviews\GateTooOld\Application::ID))->toBeNull();
+
+    glsr()->register(GeminiLabs\SiteReviews\GateTooNew\Application::class);
+    expect(glsr()->addon(GeminiLabs\SiteReviews\GateTooNew\Application::ID))->toBeNull();
+});
+
+test('an addon claimed by the premium bundle is parked, not registered twice', function () {
+    // When Site Reviews Premium is installed it declares the addons it bundles; a standalone
+    // copy of one of those must stand down and let the bundle's (Premium-namespaced) copy
+    // register instead — two live copies of one addon is a fatal on the second class load.
+    // ($this->addons survives between tests on the singleton, so the parked list — which is
+    // per-test storage — is the assertion, not addon())
+    add_filter('site-reviews/site-reviews-premium', fn () => [TestAddon::ID]);
+
+    glsr()->register(TestAddon::class);
+
+    expect(glsr()->retrieveAs('array', 'site-reviews-premium'))->toContain(TestAddon::class);
+});
+
 /*
  * The licence field a licensed addon adds to the settings page.
  */
@@ -193,6 +222,68 @@ test('a shortcode is looked up by tag, and an unknown one is nothing', function 
         ->and(glsr()->shortcode('not_a_shortcode'))->toBeNull()
         ->and(glsr()->shortcode(''))->toBeNull()
         ->and(glsr()->shortcode(null))->toBeNull();
+});
+
+test('a registered shortcode class that is not a shortcode is refused', function () {
+    // The registry is writable storage; a broken registration (an addon mapping a tag to some
+    // other class) must come back as nothing rather than an object the caller then renders.
+    glsr()->append('shortcodes', stdClass::class, 'not_really_a_shortcode');
+
+    expect(glsr()->shortcode('not_really_a_shortcode'))->toBeNull();
+});
+
+test('a permission that is not a capability string falls back too', function () {
+    // A page's permission entry can be an array of tabs; a tab whose value is not a string
+    // (a broken filter, a typo'd config) must fall back to edit_posts, not become an
+    // is-this-user-allowed check against garbage.
+    add_filter('site-reviews/defaults/permission/defaults',
+        fn ($defaults) => $defaults + ['broken-page' => ['broken-tab' => 123]]);
+
+    expect(glsr()->getPermission('broken-page', 'broken-tab'))
+        ->toBe(glsr(Role::class)->capability('edit_posts'));
+});
+
+test('init installs, adopts the previous version\'s settings, and schedules the migration', function () {
+    // What a major-version update looks like on first load: no db_version option (the tables
+    // may be missing), no settings under the new key, the old version's settings still under
+    // the old one. Install::run() is DDL, so the transaction commits — declared, and the
+    // options this test destroys are put back by hand and COMMITted at the end.
+    commitsTransaction();
+    global $wpdb;
+    $dbVersionKey = glsr()->prefix.'db_version';
+    $originalDbVersion = get_option($dbVersionKey);
+    $originalSettings = get_option(OptionManager::databaseKey());
+    try {
+        // while installing, init does nothing at all
+        wp_installing(true);
+        glsr()->init();
+        wp_installing(false);
+
+        delete_option($dbVersionKey);
+        delete_option(OptionManager::databaseKey());
+        update_option(OptionManager::databaseKey(6), [
+            'settings' => ['general' => ['require' => ['approval' => 'yes']]],
+        ]);
+        OptionManager::flushSettingsCache();
+
+        glsr()->init();
+
+        expect(get_option($dbVersionKey))->not->toBeEmpty(); // Install ran
+        expect(get_option(OptionManager::databaseKey()))->toBe([
+            'settings' => ['general' => ['require' => ['approval' => 'yes']]],
+        ]); // the previous version's settings were adopted
+
+        // and a database version from an older plugin forces a migration on the next init
+        update_option($dbVersionKey, '1.0');
+        glsr()->init();
+    } finally {
+        wp_installing(false);
+        update_option(OptionManager::databaseKey(), $originalSettings);
+        update_option($dbVersionKey, $originalDbVersion);
+        delete_option(OptionManager::databaseKey(6));
+        OptionManager::flushSettingsCache();
+        $wpdb->query('COMMIT'); // the restore must outlive the teardown rollback
+    }
 });
 
 test('the defaults are the settings config flattened to values', function () {
