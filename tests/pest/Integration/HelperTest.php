@@ -221,3 +221,18 @@ test('is less then or equal', function () {
     expect(Helper::isLessThanOrEqual('1.0.0', '1.0.0'))->toBeTrue();
     expect(Helper::isLessThanOrEqual('1.0.1', '1.0.0'))->toBeFalse();
 });
+
+test('filter input falls back to the superglobal when the SAPI has no answer', function () {
+    // filter_input() reads the request table the SAPI recorded at arrival; a value
+    // another plugin injected into $_POST afterwards is invisible to it. The armed
+    // shadow reproduces that divergence, and filterInputArray() must then honour
+    // the superglobal.
+    $_POST['injected'] = ['a', 'b'];
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('filter_input');
+    try {
+        expect(Helper::filterInputArray('injected'))->toBe(['a', 'b']);
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+        unset($_POST['injected']);
+    }
+});

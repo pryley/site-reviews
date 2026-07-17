@@ -52,6 +52,11 @@ function inputSuperglobal(int $type): ?array
  */
 function filterInputShadow(int $type, string $key, int $filter = FILTER_DEFAULT, $options = 0)
 {
+    if (functionFails('filter_input')) {
+        // the real divergence this shadow normally papers over: the SAPI request
+        // table knows nothing of a value injected into the superglobal at runtime
+        return null;
+    }
     $values = inputSuperglobal($type);
     if (null === $values || !array_key_exists($key, $values)) {
         return null;

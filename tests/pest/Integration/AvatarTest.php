@@ -168,3 +168,22 @@ test('an avatar that has already been drawn is not drawn again', function () {
     expect(pixelAvatar()->create('jane@example.org'))->toBe($url)
         ->and(file_get_contents($path))->toBe('<svg>touched</svg>');
 });
+
+test('a short write leaves no avatar url rather than a broken image', function () {
+    // a full disk writes fewer bytes than asked; the armed fwrite shadow
+    // (Support/failable-functions.php) reports exactly that
+    $filename = protectedMethod(PixelAvatar::class, 'filename')->invoke(pixelAvatar(), 'short-write@example.org');
+    $path = trailingslashit(wp_upload_dir()['basedir'])."site-reviews/avatars/{$filename}.svg";
+    if (file_exists($path)) {
+        unlink($path); // the branch only runs when the file does not exist yet
+    }
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('fwrite');
+    try {
+        expect(pixelAvatar()->create('short-write@example.org'))->toBe('');
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+        if (file_exists($path)) {
+            unlink($path); // the zero-byte husk the failed write left
+        }
+    }
+});

@@ -425,3 +425,17 @@ test('json is decoded, and an empty file says so', function () {
     expect($harness->callGetImportFileData($empty))->toBe([]);
     expect(glsr(Notice::class)->get())->toContain('There was nothing found to import');
 });
+
+test('without fileinfo the mime type is still read from the bytes', function () {
+    // a PHP built without the fileinfo extension (the armed shadow makes this one
+    // report exactly that) falls back to mime_content_type() — the same bytes,
+    // read the second way
+    $file = new UploadedFile(uploadedFileData('{"a":1}', 'settings.json', 'image/png'));
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('extension_loaded');
+    try {
+        expect($file->getMimeType())->not->toBe('image/png') // still the bytes, not the claim
+            ->and($file->getMimeType())->not->toBe('');
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+});

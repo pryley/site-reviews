@@ -437,6 +437,9 @@ function resetRequestState(): void
  */
 function resetGlobalState(): void
 {
+    // A failure a test armed and did not disarm (see failable-functions.php).
+    disarmFailingFunctions();
+
     // WordPress globals. None of these are options, so none of them roll back.
     $GLOBALS['pagenow'] = 'index.php';
     $GLOBALS['mode'] = 'list';

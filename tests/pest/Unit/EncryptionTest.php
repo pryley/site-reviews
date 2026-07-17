@@ -61,3 +61,27 @@ function encryption(): Encryption
 {
     return new Encryption();
 }
+
+test('a crypto failure while encrypting is logged and answered with false', function () {
+    // random_bytes() throws only when the CSPRNG itself fails — armed here
+    // through its namespace shadow (Support/failable-functions.php)
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('random_bytes');
+    try {
+        expect(encryption()->encrypt('a secret'))->toBeFalse();
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+    expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())->toContain('random_bytes failed');
+});
+
+test('a crypto failure while decrypting is logged and answered with false', function () {
+    // the message is genuine — sodium itself is what fails
+    $encrypted = encryption()->encrypt('a secret');
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('sodium_crypto_secretbox_open');
+    try {
+        expect(encryption()->decrypt($encrypted))->toBeFalse();
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+    expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())->toContain('secretbox_open failed');
+});

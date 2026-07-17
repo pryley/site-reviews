@@ -58,6 +58,7 @@ $_SERVER['SERVER_PROTOCOL'] ??= 'HTTP/1.1';
  * filter_input() in the plugin's namespaces (an unqualified call resolves there first),
  * leaving production semantics untouched. See Support/filter-input.php.
  */
+require __DIR__.'/Support/failable-functions.php';
 require __DIR__.'/Support/filter-input.php';
 
 /*
