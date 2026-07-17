@@ -16,10 +16,10 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  *
  * ONE BRANCH CANNOT BE REACHED HERE: isValid() ends in is_uploaded_file(), which PHP returns true
  * for only a file that arrived in THIS request over HTTP POST. A CLI process has none and cannot
- * make one, so isValid() is always false here — precisely the security property it exists for — and
- * every caller's happy path beyond it (Upload::getImportFile() returning a file, ImportSettings
- * reading it) is out of reach. ImportSettings is covered from import() inwards instead; see
- * ExportImportTest.
+ * make one, so isValid() is always false here — precisely the security property it exists for.
+ * Callers get past it the way CsvImportTest and MaintenanceTest do: a subclassed upload whose
+ * isValid() answers everything EXCEPT the SAPI question, handed in through the command's file()
+ * seam.
  */
 
 beforeEach(function () {

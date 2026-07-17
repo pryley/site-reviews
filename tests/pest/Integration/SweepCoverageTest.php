@@ -114,9 +114,17 @@ test('hide options outside a shortcode context are empty', function () {
  */
 
 test('pagination on the front page is the home url itself', function () {
-    $args = new NormalizePaginationArgs(['url' => \GeminiLabs\SiteReviews\Helpers\Url::home()]);
+    // normalizePageUrl() reads the STORED paged request, not the constructor
+    // args — an earlier version of this test passed `url` to the constructor
+    // and asserted a value both branches produce, proving nothing
+    glsr()->store(glsr()->paged_handle, ['page' => 2, 'url' => \GeminiLabs\SiteReviews\Helpers\Url::home()]);
+    try {
+        $args = new NormalizePaginationArgs();
 
-    expect($args->pageUrl)->toBe(\GeminiLabs\SiteReviews\Helpers\Url::home());
+        expect($args->pageUrl)->toBe(\GeminiLabs\SiteReviews\Helpers\Url::home());
+    } finally {
+        glsr()->discard(glsr()->paged_handle);
+    }
 });
 
 test('a rating outside the allowed range counts as zero', function () {

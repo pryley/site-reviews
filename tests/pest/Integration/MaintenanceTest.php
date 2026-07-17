@@ -196,28 +196,86 @@ test('and it does not import the version, because the version is not a setting',
         ->and($options->get('version_upgraded_from'))->toBe('8.0.0');
 });
 
-test('an empty file imports nothing, rather than wiping the settings', function () {
-    // An empty or malformed JSON file must not be read as "the person wants no
-    // settings". The guard is handle()'s: getImportFileData() answers [] for an
-    // empty file and the command stops before import() can touch anything.
+test('a settings file imports through the whole command', function () {
+    // handle() end to end: upload (past the SAPI wall), read, import, success notice.
+    // The import migrates the settings it imported, and the migrations commit.
+    commitsTransaction();
     glsr(OptionManager::class)->set('settings.general.require.approval', 'yes');
-    $tmp = wp_tempnam('empty-settings');
-    file_put_contents($tmp, '{}');
-    $_FILES['import-files'] = [
+    $tmp = wp_tempnam('settings');
+    file_put_contents($tmp, (string) wp_json_encode([
+        'settings' => ['general' => ['require' => ['approval' => 'no']]],
+    ]));
+    $upload = new class([
         'error' => UPLOAD_ERR_OK,
         'name' => 'settings.json',
         'size' => filesize($tmp),
         'tmp_name' => $tmp,
         'type' => 'application/json',
-    ];
+    ]) extends \GeminiLabs\SiteReviews\UploadedFile {
+        public function isValid(): bool
+        {
+            return \UPLOAD_ERR_OK === $this->getError();
+        }
+    };
+    $command = new class($upload) extends ImportSettings {
+        public function __construct(protected \GeminiLabs\SiteReviews\UploadedFile $upload)
+        {
+        }
+
+        protected function file(): \GeminiLabs\SiteReviews\UploadedFile
+        {
+            return $this->upload;
+        }
+    };
     try {
-        $command = glsr(ImportSettings::class);
+        $command->handle();
+
+        expect($command->successful())->toBeTrue()
+            ->and(glsr_get_option('general.require.approval'))->toBe('no');
+    } finally {
+        @unlink($tmp);
+    }
+});
+
+test('an empty file imports nothing, rather than wiping the settings', function () {
+    // An empty or malformed JSON file must not be read as "the person wants no
+    // settings". The guard is handle()'s: getImportFileData() answers [] for an
+    // empty file and the command stops before import() can touch anything. The
+    // upload is faked past the SAPI wall the way CsvImportTest does it: file()
+    // hands back an upload whose isValid() answers everything EXCEPT the
+    // is_uploaded_file() question no CLI process can pass.
+    glsr(OptionManager::class)->set('settings.general.require.approval', 'yes');
+    $tmp = wp_tempnam('empty-settings');
+    file_put_contents($tmp, '{}');
+    $upload = new class([
+        'error' => UPLOAD_ERR_OK,
+        'name' => 'settings.json',
+        'size' => 2,
+        'tmp_name' => $tmp,
+        'type' => 'application/json',
+    ]) extends \GeminiLabs\SiteReviews\UploadedFile {
+        public function isValid(): bool
+        {
+            return \UPLOAD_ERR_OK === $this->getError();
+        }
+    };
+    $command = new class($upload) extends ImportSettings {
+        public function __construct(protected \GeminiLabs\SiteReviews\UploadedFile $upload)
+        {
+        }
+
+        protected function file(): \GeminiLabs\SiteReviews\UploadedFile
+        {
+            return $this->upload;
+        }
+    };
+    try {
         $command->handle();
 
         expect($command->successful())->toBeFalse()
+            ->and(glsr(\GeminiLabs\SiteReviews\Modules\Notice::class)->get())->toContain('nothing found to import')
             ->and(glsr_get_option('general.require.approval'))->toBe('yes'); // untouched
     } finally {
-        $_FILES = [];
         @unlink($tmp);
     }
 });
