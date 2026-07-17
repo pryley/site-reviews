@@ -230,3 +230,58 @@ test('leaves the schema to the seo plugin that owns it', function () {
     do_shortcode('[site_reviews schema=true]');
     expect(renderFooter())->not->toContain('application/ld+json');
 });
+
+/*
+ * The parser half: reading the schema request out of the page's own content —
+ * blocks and classic shortcodes — rather than out of a rendered shortcode.
+ */
+
+function pageWithContent(string $content): void
+{
+    $GLOBALS['post'] = get_post(createPost(['post_content' => $content]));
+    // The SEO integrations (Elementor et al) hang on schema/generate and, woken
+    // by the suite's stubs, would consume a third party's return values — the one
+    // thing a stubbed integration may not do. These tests are about the CONTENT
+    // parser, which only runs when no integration answered; hooks are restored
+    // per test (restoreHooks), so detaching them here leaks nowhere.
+    remove_all_filters('site-reviews/schema/generate');
+}
+
+test('a reviews block asking for schema gets one from the page content', function () {
+    createReview(['rating' => 4]);
+    pageWithContent('<!-- wp:site-reviews/reviews {"schema":true} /-->');
+
+    $schema = glsr(\GeminiLabs\SiteReviews\Modules\SchemaParser::class)->generate();
+
+    expect($schema)->not->toBeEmpty()
+        ->and($schema['@type'] ?? '')->not->toBe('');
+});
+
+test('a summary block is found even when it is nested inside another block', function () {
+    createReview(['rating' => 5]);
+    pageWithContent(
+        '<!-- wp:group --><!-- wp:site-reviews/summary {"schema":true} /--><!-- /wp:group -->'
+    );
+
+    $schema = glsr(\GeminiLabs\SiteReviews\Modules\SchemaParser::class)->generate();
+
+    expect($schema)->not->toBeEmpty();
+});
+
+test('a classic summary shortcode in the content gets a schema too', function () {
+    createReview(['rating' => 5]);
+    pageWithContent('[site_reviews_summary schema=true]');
+
+    $schema = glsr(\GeminiLabs\SiteReviews\Modules\SchemaParser::class)->generate();
+
+    expect($schema)->not->toBeEmpty();
+});
+
+test('content that asks for nothing gets nothing', function () {
+    pageWithContent('Just some prose without a single bracket.');
+    expect(glsr(\GeminiLabs\SiteReviews\Modules\SchemaParser::class)->generate())->toBe([]);
+
+    // a block present but not asking for schema
+    pageWithContent('<!-- wp:site-reviews/reviews /-->');
+    expect(glsr(\GeminiLabs\SiteReviews\Modules\SchemaParser::class)->generate())->toBe([]);
+});
