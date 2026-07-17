@@ -21,7 +21,7 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 beforeEach(fn () => resetPluginState());
 
-function withFakeDatabase(callable $callback)
+function withDdlFreeDatabase(callable $callback)
 {
     $fake = new class extends Database {
         public array $queries = [];
@@ -81,7 +81,7 @@ test('an uncached engine is read from INFORMATION_SCHEMA once, then from the opt
 test('dropping the assignment constraints issues one DROP FOREIGN KEY per real constraint', function () {
     // The constraints exist for real in wp-env, so foreignConstraintExists() answers from
     // INFORMATION_SCHEMA; only the ALTER itself is faked.
-    withFakeDatabase(function ($fake) {
+    withDdlFreeDatabase(function ($fake) {
         glsr(TableAssignedPosts::class)->dropForeignConstraints();
         glsr(TableAssignedTerms::class)->dropForeignConstraints();
         glsr(TableAssignedUsers::class)->dropForeignConstraints();
@@ -137,7 +137,7 @@ test('emptying a table that does not exist is refused', function () {
 
 test('the tmp table has no constraints and no invalid rows to remove', function () {
     // Its three no-op methods are the CONTRACT: import must never cascade or validate.
-    withFakeDatabase(function ($fake) {
+    withDdlFreeDatabase(function ($fake) {
         glsr(TableTmp::class)->addForeignConstraints();
         glsr(TableTmp::class)->dropForeignConstraints();
         glsr(TableTmp::class)->removeInvalidRows();
