@@ -114,8 +114,6 @@ test('hide options outside a shortcode context are empty', function () {
  */
 
 test('pagination on the front page is the home url itself', function () {
-    // NOTE: clover never credits the true-arm line of this multiline ternary
-    // (probed: the value below proves it ran) — an attribution artifact.
     $args = new NormalizePaginationArgs(['url' => \GeminiLabs\SiteReviews\Helpers\Url::home()]);
 
     expect($args->pageUrl)->toBe(\GeminiLabs\SiteReviews\Helpers\Url::home());
