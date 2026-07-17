@@ -176,3 +176,23 @@ test('deleting a review over rest without force is refused, because this network
 
     wp_delete_post($review->ID, true); // leave nothing behind
 });
+
+test('an addon network deactivation cleans every site', function () {
+    // the plain-addon fixture (autoloaded from tests/pest/fixtures) stands in for
+    // any real addon: onDeactivation(true) must clean the option on every site
+    $controller = glsr(\GeminiLabs\SiteReviews\PlainAddon\Controller::class);
+    $option = glsr()->prefix.'activated_'.$controller->app()->id;
+    foreach (siteIds() as $siteId) {
+        switch_to_blog($siteId);
+        update_option($option, true);
+        restore_current_blog();
+    }
+
+    $controller->onDeactivation(true);
+
+    foreach (siteIds() as $siteId) {
+        switch_to_blog($siteId);
+        expect(get_option($option))->toBeFalse();
+        restore_current_blog();
+    }
+});
