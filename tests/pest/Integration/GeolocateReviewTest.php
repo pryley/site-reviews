@@ -70,3 +70,32 @@ test('the response carries the location and any notices', function () {
         ->and($response)->toHaveKey('notices')
         ->and($response['location'])->toBe([]); // nothing geolocated on a fresh command
 });
+
+test('a new review is queued for geolocation only when it can be placed', function () {
+    // GeolocationController::geolocateReview — the review/created listener that queues the
+    // lookup. It stands down for imports, for sites with the setting off, and for local IPs.
+    $controller = glsr(GeminiLabs\SiteReviews\Controllers\GeolocationController::class);
+    $queued = fn () => NullQueue::calls('once', 'queue/geolocation');
+
+    $local = createReview(); // its ip is 127.0.0.1
+    NullQueue::$calls = [];
+    glsr(GeminiLabs\SiteReviews\Database\OptionManager::class)->set('settings.reviews.geolocation', 'yes');
+    $controller->geolocateReview($local);
+    expect($queued())->toBe([]); // local ip: nothing to look up
+
+    $placeable = glsr_create_review([
+        'content' => 'A review from somewhere placeable on the map.',
+        'ip_address' => '203.0.113.9',
+        'rating' => 5,
+        'title' => 'Placeable',
+    ]);
+    NullQueue::$calls = [];
+    $controller->geolocateReview($placeable);
+    expect($queued())->toHaveCount(1)
+        ->and($queued()[0]['args'])->toBe(['review_id' => $placeable->ID]);
+
+    glsr(GeminiLabs\SiteReviews\Database\OptionManager::class)->set('settings.reviews.geolocation', 'no');
+    NullQueue::$calls = [];
+    $controller->geolocateReview($placeable);
+    expect($queued())->toBe([]); // the setting is off
+});
