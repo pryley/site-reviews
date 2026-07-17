@@ -257,6 +257,7 @@ function glsr_premium_link(string $path, $attrs = []): string
     $texts = [
         'license-keys' => _x('License Keys', 'admin-text', 'site-reviews'),
         'site-reviews-actions' => _x('Review Actions', 'admin-text', 'site-reviews'),
+        'site-reviews-alerts' => _x('Review Alerts', 'admin-text', 'site-reviews'),
         'site-reviews-authors' => _x('Review Authors', 'admin-text', 'site-reviews'),
         'site-reviews-filters' => _x('Review Filters', 'admin-text', 'site-reviews'),
         'site-reviews-forms' => _x('Review Forms', 'admin-text', 'site-reviews'),

@@ -194,8 +194,13 @@ final class Application extends Container implements PluginContract
 
     /**
      * This is triggered on "plugins_loaded:-10" by "site-reviews/premium/register".
+     *
+     * A $host may be passed when the addon is bundled inside another plugin
+     * (e.g. the merged premium plugin): the addon then has no main file of its
+     * own, its GLSR version gates are read from the host's main file, and its
+     * settings are stored inside the host's option.
      */
-    public function register(string $addon): void
+    public function register(string $addon, ?PluginContract $host = null): void
     {
         try {
             $reflection = new \ReflectionClass($addon); // make sure that the class exists
@@ -207,8 +212,11 @@ final class Application extends Container implements PluginContract
         $file = dirname(dirname($reflection->getFileName()));
         $file = trailingslashit($file).$addonId.'.php';
         if (!file_exists($file)) {
-            glsr_log()->error("Attempted to register an invalid addon [$addonId].");
-            return;
+            if (!$host instanceof PluginContract) {
+                glsr_log()->error("Attempted to register an invalid addon [$addonId].");
+                return;
+            }
+            $file = $host->file; // hosted addon: the host's headers gate the whole bundle
         }
         $premium = glsr()->filterArray('site-reviews-premium', []);
         if (in_array($addonId, $premium)
@@ -231,9 +239,22 @@ final class Application extends Container implements PluginContract
         }
         $this->addons[$addonId] = $addon;
         $this->singleton($addon); // this goes first!
-        $this->alias($addonId, $this->make($addon));
-        $instance = $this->make($addon)->init();
+        $parameters = [];
+        if ($host instanceof PluginContract) {
+            $parameters = ['host' => $host];
+            if ($host instanceof Addons\Addon) {
+                // The host shares its settings option with the addons it hosts;
+                // marking it moves its own settings into the reserved "features"
+                // subtree so they cannot clobber a hosted addon's subtree.
+                $host->markAsHost();
+            }
+        }
+        $instance = $this->make($addon, $parameters);
+        $this->alias($addon, $instance); // instances built with parameters are not auto-cached
+        $this->alias($addonId, $instance);
+        $instance->init();
         $this->append('addons', $instance->version, $instance->id);
+        $this->discard('settings'); // recompose the settings view now that this addon's option is mounted
     }
 
     /**

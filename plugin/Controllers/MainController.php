@@ -76,9 +76,9 @@ class MainController extends AbstractController
      */
     public function onMigrationEnd(): void
     {
-        $settings = glsr(OptionManager::class)->wp(OptionManager::databaseKey(), []);
+        $settings = glsr(OptionManager::class)->reset(); // fresh composed view
         $settings = glsr(OptionManager::class)->clean($settings);
-        update_option(OptionManager::databaseKey(), $settings, true);
+        glsr(OptionManager::class)->replace($settings); // persists addon settings to their own options
     }
 
     /**

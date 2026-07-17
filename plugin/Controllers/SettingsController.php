@@ -49,7 +49,9 @@ class SettingsController extends AbstractController
         }
         glsr(Notice::class)->store(); // store the notices before the page reloads
         glsr()->action('settings/updated', $options, $input);
-        return $options;
+        // Split the addon settings out to their own options; WP persists the
+        // returned remainder (core-only settings) to the core plugin option.
+        return glsr(OptionManager::class)->split($options);
     }
 
     protected function sanitizeAll(array $options): array

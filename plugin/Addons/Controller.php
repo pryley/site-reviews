@@ -287,11 +287,24 @@ abstract class Controller extends AbstractController
     }
 
     /**
+     * Merges the addon's settings config into the shared settings form.
+     * Short config keys (e.g. "settings.search") are automatically namespaced
+     * to "settings.addons.{slug}.search" so addon configs can omit the
+     * boilerplate prefix; fully-prefixed keys pass through untouched.
+     *
      * @filter site-reviews/settings
      */
     public function filterSettings(array $settings): array
     {
-        return array_merge($this->app()->config('settings'), $settings);
+        $config = [];
+        $prefix = "settings.addons.{$this->app()->slug}.";
+        foreach ($this->app()->config('settings') as $key => $values) {
+            if (!str_starts_with($key, 'settings.addons.')) {
+                $key = $prefix.Str::removePrefix($key, 'settings.');
+            }
+            $config[$key] = $values;
+        }
+        return array_merge($config, $settings);
     }
 
     /**
@@ -324,6 +337,36 @@ abstract class Controller extends AbstractController
      */
     public function install(): void
     {
+    }
+
+    /**
+     * Migrates legacy addon settings (stored in the core plugin's option) to
+     * the addon's own option. One-shot: skipped once the addon's option exists.
+     * The legacy subtree is copied, not deleted — it is shadowed by the composed
+     * settings view and garbage-collected on the next settings save; leaving it
+     * in place protects downgrades to older addon versions.
+     * Hosted addons are skipped; their settings are imported by their host.
+     *
+     * @action admin_init:5
+     * @action {$this->app()->id}/activated
+     */
+    public function migrateOptions(): void
+    {
+        $addon = $this->app();
+        if (!$addon instanceof Addon || '' !== $addon->storageSubtree()) {
+            return;
+        }
+        $key = $addon->storageKey();
+        if (false !== get_option($key)) {
+            return;
+        }
+        $legacy = Arr::consolidate(glsr(OptionManager::class)->wp(OptionManager::databaseKey(), []));
+        $legacy = Arr::getAs('array', $legacy, "settings.addons.{$addon->slug}");
+        add_option($key, [
+            'settings' => $legacy,
+            'version' => $addon->version,
+        ], '', true);
+        glsr()->discard('settings'); // recompose the settings view
     }
 
     /**

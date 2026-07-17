@@ -58,6 +58,7 @@ abstract class Hooks extends AbstractHooks
             ['filterTranslationEntries', 'site-reviews/translation/entries'],
             ['filterTranslatorDomains', 'site-reviews/translator/domains'],
             ['install', "{$this->id()}/activated"],
+            ['migrateOptions', 'admin_init', 5],
             ['onActivation', 'admin_init'],
             ['onDeactivation', "deactivate_{$this->basename()}"],
             ['registerLanguages', 'after_setup_theme'],

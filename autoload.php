@@ -64,7 +64,7 @@ spl_autoload_register(function ($className) {
         if (!file_exists($file)) {
             continue;
         }
-        require $file;
+        require_once $file;
         break;
     }
 });

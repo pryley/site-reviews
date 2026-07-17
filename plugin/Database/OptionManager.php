@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
+use GeminiLabs\SiteReviews\Addons\Addon;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -58,6 +59,31 @@ class OptionManager
         return $settings;
     }
 
+    /**
+     * The WP option key of an addon's own settings option.
+     */
+    public static function addonKey(string $addonId): string
+    {
+        return Str::snakeCase($addonId);
+    }
+
+    /**
+     * The registered addon instances, keyed by slug.
+     *
+     * @return Addon[]
+     */
+    public static function addons(): array
+    {
+        $addons = [];
+        foreach (array_keys(glsr()->addons) as $addonId) {
+            $addon = glsr($addonId);
+            if ($addon instanceof Addon) {
+                $addons[$addon->slug] = $addon;
+            }
+        }
+        return $addons;
+    }
+
     public static function databaseKey(?int $version = null): string
     {
         $versions = static::databaseKeys();
@@ -91,9 +117,13 @@ class OptionManager
 
     public static function flushSettingsCache(): void
     {
+        $options = static::databaseKeys();
+        foreach (static::addons() as $addon) {
+            $options[] = $addon->storageKey();
+        }
         $alloptions = wp_load_alloptions(true);
         $flushed = false;
-        foreach (static::databaseKeys() as $option) {
+        foreach (array_unique($options) as $option) {
             if (isset($alloptions[$option])) {
                 unset($alloptions[$option]);
                 $flushed = true;
@@ -134,6 +164,7 @@ class OptionManager
     public function mergeDefaults(array $defaults): void
     {
         $saved = Arr::consolidate($this->wp(static::databaseKey(), []));
+        $saved = $this->compose($saved); // registered addon settings live in their own options
         $defaults = Arr::flatten(Arr::getAs('array', $defaults, 'settings'));
         $settings = Arr::flatten(Arr::getAs('array', $saved, 'settings'));
         if (empty($defaults) || empty(array_diff_key($defaults, $settings))) {
@@ -180,7 +211,7 @@ class OptionManager
             return false;
         }
         $settings = $this->normalize($settings);
-        if (!update_option(static::databaseKey(), $settings, true)) {
+        if (!$this->persist($settings)) {
             return false;
         }
         $this->reset();
@@ -193,6 +224,7 @@ class OptionManager
         if (empty($settings)) {
             delete_option(static::databaseKey());
         }
+        $settings = $this->compose($settings);
         $settings = $this->normalize($settings);
         glsr()->store('settings', $settings);
         return $settings;
@@ -206,7 +238,7 @@ class OptionManager
         $settings = $this->all();
         $settings = Arr::set($settings, $path, $value);
         $settings = $this->normalize($settings);
-        if (!update_option(static::databaseKey(), $settings, true)) {
+        if (!$this->persist($settings)) {
             return false;
         }
         glsr()->store('settings', $settings);
@@ -243,6 +275,83 @@ class OptionManager
         });
         $data = Arr::unflatten($data);
         return $data;
+    }
+
+    /**
+     * Splits the addon subtrees out of a composed settings array and writes each
+     * to its addon's own option. Returns the remaining (core-only) settings.
+     * This is the single write authority for addon settings; it is also used
+     * directly by the Settings API sanitize callback, where WP itself persists
+     * the returned remainder to the core plugin option.
+     */
+    public function split(array $settings, bool &$changed = false): array
+    {
+        $writes = [];
+        $versions = [];
+        foreach (static::addons() as $slug => $addon) {
+            $values = Arr::get($settings, "settings.addons.{$slug}", null);
+            if (!is_array($values)) {
+                continue;
+            }
+            $key = $addon->storageKey();
+            if (!array_key_exists($key, $writes)) {
+                $writes[$key] = Arr::consolidate(get_option($key));
+            }
+            $subtree = $addon->storageSubtree();
+            if ('' !== $subtree) {
+                $writes[$key] = Arr::set($writes[$key], "settings.{$subtree}", $values);
+            } else {
+                $writes[$key]['settings'] = $values;
+            }
+            $host = $addon->hostedBy();
+            $versions[$key] = $host instanceof \GeminiLabs\SiteReviews\Contracts\PluginContract
+                ? $host->version
+                : $addon->version;
+            unset($settings['settings']['addons'][$slug]);
+        }
+        foreach ($writes as $key => $value) {
+            $value['version'] = $versions[$key];
+            if (update_option($key, $value, true)) {
+                $changed = true;
+            }
+        }
+        return $settings;
+    }
+
+    /**
+     * Mounts each registered addon's stored settings into the composed view at
+     * settings.addons.{slug}. Addons without their own option yet (not migrated)
+     * are skipped so any legacy subtree in the core option remains visible.
+     */
+    protected function compose(array $settings): array
+    {
+        foreach (static::addons() as $slug => $addon) {
+            $stored = get_option($addon->storageKey());
+            if (false === $stored) {
+                continue;
+            }
+            $values = Arr::getAs('array', Arr::consolidate($stored), 'settings');
+            $subtree = $addon->storageSubtree();
+            if ('' !== $subtree) {
+                $values = Arr::getAs('array', $values, $subtree);
+            }
+            $settings = Arr::set($settings, "settings.addons.{$slug}", $values);
+        }
+        return $settings;
+    }
+
+    /**
+     * Persists a composed settings array: addon subtrees to their own options
+     * (via split), the remainder to the core plugin option.
+     */
+    protected function persist(array $settings): bool
+    {
+        $changed = false;
+        $settings = $this->split($settings, $changed);
+        // A write that only touches addon options legitimately leaves the core
+        // option unchanged — update_option() returning false there is not a
+        // failure, so a successful addon write counts as a persisted change.
+        return update_option(static::databaseKey(), $settings, true) || $changed;
     }
 
     /**

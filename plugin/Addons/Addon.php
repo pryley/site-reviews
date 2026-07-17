@@ -21,13 +21,137 @@ use GeminiLabs\SiteReviews\Plugin;
  */
 abstract class Addon implements PluginContract
 {
-    use Plugin;
+    use Plugin {
+        __construct as protected initPlugin;
+        path as protected pluginPath;
+        url as protected pluginUrl;
+    }
 
     public const ID = '';
     public const LICENSED = false;
     public const NAME = '';
     public const POST_TYPE = '';
     public const SLUG = '';
+
+    protected ?PluginContract $host = null;
+    protected bool $hostedShape = false;
+    protected bool $isHost = false;
+
+    public function __construct(?PluginContract $host = null)
+    {
+        $this->host = $host; // settings storage routing follows the host, independent of file shape
+        $file = wp_normalize_path((new \ReflectionClass($this))->getFileName());
+        $derived = str_replace('plugin/Application', $this->id, $file);
+        if (file_exists($derived) || !$host instanceof PluginContract) {
+            $this->initPlugin(); // standalone-shaped: derive identity from the addon's own main file
+            return;
+        }
+        // Hosted shape: the addon lives inside its host's file tree (e.g. the
+        // merged premium plugin) and has no main file of its own; its identity
+        // comes from the host's main file.
+        $this->hostedShape = true;
+        $this->file = $host->file;
+        $this->basename = $host->basename;
+        $this->languages = $host->languages;
+        $this->testedTo = $host->testedTo;
+        $this->updateUrl = $host->updateUrl;
+        $this->uri = $host->uri;
+        $version = (new \ReflectionClass($this))->getConstant('VERSION');
+        $this->version = is_string($version) && '' !== $version
+            ? $version // build-stamped module version
+            : $host->version;
+    }
+
+    public function path(string $file = '', bool $realpath = true): string
+    {
+        if ($this->hostedShape) {
+            $file = $this->hostedFile($file);
+        }
+        return $this->pluginPath($file, $realpath);
+    }
+
+    public function url(string $path = ''): string
+    {
+        if ($this->hostedShape) {
+            $path = $this->hostedFile($path);
+        }
+        return $this->pluginUrl($path);
+    }
+
+    /**
+     * Maps a standalone-shaped file path to its location inside the host's
+     * merged file tree. Assets and languages are keyed by addon id / text
+     * domain respectively, so they resolve in shared directories.
+     */
+    protected function hostedFile(string $file): string
+    {
+        $file = ltrim(trim($file), '/');
+        if ('' === $file) {
+            return $file;
+        }
+        if (preg_match('/^assets\/'.preg_quote($this->id, '/').'(-[a-z-]+)?\.(css|js)$/', $file, $matches)) {
+            $dir = 'js' === $matches[2] ? 'scripts' : 'styles';
+            return sprintf('assets/%s/%s%s.%s', $dir, static::SLUG, $matches[1], $matches[2]);
+        }
+        if (str_starts_with($file, 'plugin/')) {
+            $namespace = (new \ReflectionClass($this))->getNamespaceName();
+            $module = substr((string) strrchr($namespace, '\\'), 1);
+            return sprintf('plugin/%s/%s', $module, substr($file, strlen('plugin/')));
+        }
+        foreach (['config/', 'templates/', 'views/'] as $prefix) {
+            if (str_starts_with($file, $prefix)) {
+                return $prefix.static::SLUG.'/'.substr($file, strlen($prefix));
+            }
+        }
+        return $file;
+    }
+
+    public function hostedBy(): ?PluginContract
+    {
+        return $this->host;
+    }
+
+    /**
+     * Marks this addon as a host of other addons. Its own settings are then
+     * stored in the reserved "features" subtree of its option so they cannot
+     * collide with the settings subtrees of the addons it hosts.
+     */
+    public function markAsHost(): void
+    {
+        $this->isHost = true;
+    }
+
+    /**
+     * The WP option key that holds this addon's settings when it runs standalone.
+     */
+    public static function databaseKey(): string
+    {
+        return Str::snakeCase(static::ID);
+    }
+
+    /**
+     * The WP option key that holds this addon's settings. Hosted addons store
+     * their settings inside their host's option instead of their own.
+     */
+    public function storageKey(): string
+    {
+        if ($this->host instanceof PluginContract) {
+            return Str::snakeCase($this->host->id);
+        }
+        return static::databaseKey();
+    }
+
+    /**
+     * The subtree inside the storage option that holds this addon's settings.
+     * An empty value means the settings are stored at the top level of the option.
+     */
+    public function storageSubtree(): string
+    {
+        if ($this->host instanceof PluginContract) {
+            return static::SLUG;
+        }
+        return $this->isHost ? 'features' : '';
+    }
 
     /**
      * @return static
@@ -65,6 +189,17 @@ abstract class Addon implements PluginContract
         $path = Str::removePrefix($path, 'settings.');
         $path = Str::prefix($path, 'addons.'.static::SLUG.'.');
         return glsr_get_option($path, $fallback, $cast);
+    }
+
+    /**
+     * Updates one of this addon's settings; the write is routed to the addon's
+     * own storage option (or its host's option when the addon is hosted).
+     */
+    public function updateOption(string $path, $value = ''): bool
+    {
+        $path = Str::removePrefix($path, 'settings.');
+        $path = Str::prefix($path, 'addons.'.static::SLUG.'.');
+        return glsr(\GeminiLabs\SiteReviews\Database\OptionManager::class)->set(Str::prefix($path, 'settings.'), $value);
     }
 
     /**
