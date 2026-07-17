@@ -168,12 +168,11 @@ test('importing settings replaces what was there', function () {
     commitsTransaction();
     glsr(OptionManager::class)->set('settings.general.require.approval', 'yes');
 
-    $imported = protectedMethod(ImportSettings::class, 'import')->invoke(
+    protectedMethod(ImportSettings::class, 'import')->invoke(
         glsr(ImportSettings::class),
         ['settings' => ['general' => ['require' => ['approval' => 'no']]]]
     );
 
-    expect($imported)->toBeTrue();
     expect(glsr_get_option('general.require.approval'))->toBe('no');
 });
 
@@ -198,11 +197,29 @@ test('and it does not import the version, because the version is not a setting',
 });
 
 test('an empty file imports nothing, rather than wiping the settings', function () {
-    // An empty or malformed JSON file must not be read as "the person wants no settings".
-    $imported = protectedMethod(ImportSettings::class, 'import')
-        ->invoke(glsr(ImportSettings::class), []);
+    // An empty or malformed JSON file must not be read as "the person wants no
+    // settings". The guard is handle()'s: getImportFileData() answers [] for an
+    // empty file and the command stops before import() can touch anything.
+    glsr(OptionManager::class)->set('settings.general.require.approval', 'yes');
+    $tmp = wp_tempnam('empty-settings');
+    file_put_contents($tmp, '{}');
+    $_FILES['import-files'] = [
+        'error' => UPLOAD_ERR_OK,
+        'name' => 'settings.json',
+        'size' => filesize($tmp),
+        'tmp_name' => $tmp,
+        'type' => 'application/json',
+    ];
+    try {
+        $command = glsr(ImportSettings::class);
+        $command->handle();
 
-    expect($imported)->toBeFalse();
+        expect($command->successful())->toBeFalse()
+            ->and(glsr_get_option('general.require.approval'))->toBe('yes'); // untouched
+    } finally {
+        $_FILES = [];
+        @unlink($tmp);
+    }
 });
 
 test('an addon can import its own data alongside the settings', function () {

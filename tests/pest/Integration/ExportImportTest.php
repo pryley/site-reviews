@@ -267,9 +267,9 @@ test('the csv export refuses a user who cannot use the tools page', function () 
  * is its refusal, tested last.
  */
 
-function importSettings(array $data): bool
+function importSettings(array $data): void
 {
-    return protectedMethod(ImportSettings::class, 'import')
+    protectedMethod(ImportSettings::class, 'import')
         ->invoke(new ImportSettings(), $data);
 }
 
@@ -277,15 +277,11 @@ test('importing settings replaces them', function () {
     commitsTransaction(); // ImportSettings migrates the settings it imported, and the migrations commit
     glsr(OptionManager::class)->set('settings.general.require.approval', 'yes');
 
-    expect(importSettings([
+    importSettings([
         'settings' => ['general' => ['require' => ['approval' => 'no']]],
-    ]))->toBeTrue();
+    ]);
 
     expect(glsr_get_option('general.require.approval'))->toBe('no');
-});
-
-test('importing nothing imports nothing', function () {
-    expect(importSettings([]))->toBeFalse();
 });
 
 test('an imported version number is discarded', function () {

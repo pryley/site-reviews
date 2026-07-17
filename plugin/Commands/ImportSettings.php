@@ -21,20 +21,18 @@ class ImportSettings extends AbstractCommand
         if (!$data = $this->getImportFileData($file)) {
             return;
         }
-        if (!$this->import($data)) {
-            return;
-        }
+        $this->import($data);
         $this->pass();
         glsr(Notice::class)->addSuccess(
             _x('Settings imported.', 'admin-text', 'site-reviews')
         );
     }
 
-    protected function import(array $data): bool
+    /**
+     * The data is never empty here: handle() has already refused an empty file.
+     */
+    protected function import(array $data): void
     {
-        if (empty($data)) {
-            return false;
-        }
         if (isset($data['version'])) { // don't import version
             $data['version'] = glsr(OptionManager::class)->get('version');
         }
@@ -45,6 +43,5 @@ class ImportSettings extends AbstractCommand
         glsr(OptionManager::class)->replace($settings);
         glsr()->action('import/settings/extra', Arr::consolidate($data['extra'] ?? [])); // allow addons to import additional data
         glsr(Migrate::class)->runAll(); // migrate the imported settings
-        return true;
     }
 }
