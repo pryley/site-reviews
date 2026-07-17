@@ -247,3 +247,7 @@ test('an ordinary post is not a review, however it is asked about', function () 
         ->and(controller()->isReviewAdminPage())->toBeFalse()
         ->and(controller()->isAdminScreen())->toBeFalse();
 });
+
+test('a controller reaches the plugin through app()', function () {
+    expect(controller()->app())->toBe(glsr());
+});
