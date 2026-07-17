@@ -9,6 +9,11 @@
  *
  * Used by `make coverage:merge` to fold the multisite suite's coverage
  * (tests/coverage/multisite.xml) into the main run (tests/coverage/clover.xml).
+ *
+ * BOTH inputs must be generated from the SAME code: a clover from before a
+ * shipped-code change carries the old line numbering, and merging it with a
+ * fresh one produces phantom uncovered lines where the numbers skewed.
+ * Regenerate both after changing anything in plugin/.
  */
 
 $args = array_slice($argv, 1);
