@@ -229,3 +229,86 @@ test('a validator that does not exist, or is not a validator, is logged and skip
         ->and($form->validators([Helper::class]))->toBe([]) // real class, wrong contract
         ->and($form->validators([CustomValidator::class]))->toBe([CustomValidator::class]);
 });
+
+test('review limits can be narrowed to matching assignments', function () {
+    // Limiting by email with assignment narrowing: the same person may review
+    // DIFFERENT things, but not the same thing twice.
+    glsr(OptionManager::class)->set('settings.forms.limit', 'email');
+    glsr(OptionManager::class)->set('settings.forms.limit_assignments', ['assigned_posts', 'assigned_terms', 'assigned_users']);
+    $postId = \GeminiLabs\SiteReviews\Tests\createPost();
+    $termId = \GeminiLabs\SiteReviews\Tests\createTerm(['taxonomy' => glsr()->taxonomy]);
+    $userId = createUser();
+    \GeminiLabs\SiteReviews\Tests\createReview([
+        'email' => 'limited@example.org',
+        'assigned_posts' => [$postId],
+        'assigned_terms' => [$termId],
+        'assigned_users' => [$userId],
+    ]);
+
+    $sameThing = new ReviewLimitsValidator(new Request([
+        'email' => 'limited@example.org',
+        'assigned_posts' => [$postId],
+        'assigned_terms' => [$termId],
+        'assigned_users' => [$userId],
+    ]));
+    expect($sameThing->isValid())->toBeFalse(); // already reviewed this
+
+    $somethingElse = new ReviewLimitsValidator(new Request([
+        'email' => 'limited@example.org',
+        'assigned_posts' => [\GeminiLabs\SiteReviews\Tests\createPost()],
+    ]));
+    expect($somethingElse->isValid())->toBeTrue(); // a different page is a different review
+});
+
+test('a limit keyed on a value the visitor left blank lets the review through', function () {
+    // Limiting by email on a form where email is optional and empty: nothing to
+    // limit on. (The field is always PRESENT in a form submission — a request
+    // without it at all would be a hand-crafted one.)
+    glsr(OptionManager::class)->set('settings.forms.limit', 'email');
+
+    expect((new ReviewLimitsValidator(new Request(['email' => ''])))->isValid())->toBeTrue();
+});
+
+test('the akismet request body drops what akismet cannot read', function () {
+    // buildUrlQuery: booleans become 0/1, arrays and blanks are dropped entirely.
+    $validator = new \GeminiLabs\SiteReviews\Modules\Validator\AkismetValidator(new Request([]));
+    $query = \GeminiLabs\SiteReviews\Tests\protectedMethod(
+        \GeminiLabs\SiteReviews\Modules\Validator\AkismetValidator::class, 'buildUrlQuery'
+    )->invoke($validator, ['flag' => false, 'list' => ['a'], 'blank' => '', 'ok' => 'yes']);
+
+    expect($query)->toContain('flag=0')
+        ->and($query)->toContain('ok=yes')
+        ->and($query)->not->toContain('list')
+        ->and($query)->not->toContain('blank');
+});
+
+test('the honeypot hash verifies its own form and nobody else\'s', function () {
+    $honeypot = glsr(\GeminiLabs\SiteReviews\Modules\Honeypot::class);
+    $hash = $honeypot->hash('my-form');
+
+    expect($honeypot->verify($hash, 'my-form'))->toBeTrue()
+        ->and($honeypot->verify($hash, 'another-form'))->toBeFalse()
+        ->and($honeypot->verify('forged', 'my-form'))->toBeFalse();
+});
+
+test('the assignment limits combine with AND even on a loose-assignment site', function () {
+    // ReviewController answers the operator from reviews.assignment (loose = OR);
+    // the validator's own filter, at a later priority, must force AND for the
+    // limits query regardless — "already reviewed ANY of these" would over-block.
+    glsr(OptionManager::class)->set('settings.reviews.assignment', 'loose');
+    glsr(OptionManager::class)->set('settings.forms.limit', 'email');
+    glsr(OptionManager::class)->set('settings.forms.limit_assignments', ['assigned_posts', 'assigned_terms']);
+    $seen = new ArrayObject();
+    add_filter('site-reviews/query/sql/clause/operator', function ($operator) use ($seen) {
+        $seen->append($operator);
+        return $operator;
+    }, 30); // after the validator's own filter at 20
+
+    (new ReviewLimitsValidator(new Request([
+        'email' => 'operator@example.org',
+        'assigned_posts' => [\GeminiLabs\SiteReviews\Tests\createPost()],
+        'assigned_terms' => [\GeminiLabs\SiteReviews\Tests\createTerm(['taxonomy' => glsr()->taxonomy])],
+    ])))->isValid();
+
+    expect($seen->getArrayCopy())->toContain('AND');
+});

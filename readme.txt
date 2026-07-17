@@ -241,6 +241,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 - Fixed the Prosopo Procaptcha error details not being included in the log when a captcha is rejected
 - Fixed the redirect after duplicating a review with the Duplicate Page plugin
 - Fixed the review cache not being cleared when a rating is deleted
+- Fixed the review submission limit matching too many previous reviews on sites using flexible assignment
 - Fixed the Unapprove link publishing the review instead of unapproving it when javascript is disabled
 - Fixed the update details check for inactive addons
 
