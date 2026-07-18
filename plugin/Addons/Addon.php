@@ -123,14 +123,19 @@ abstract class Addon implements PluginContract
         if (str_starts_with($file, 'config/')) {
             return $file;
         }
-        // Assets are never slug-mapped: the host's shared trees
-        // (assets/{blocks,css,images,integrations,js,npm}) hold everything,
-        // one copy each. (The per-addon assets/_{slug} dirs and their
-        // mapping died with the standalone builds.) Legacy convention paths
-        // (assets/{addon-id}.js) pass through unchanged and simply fail
-        // their file_exists checks.
+        // Shared asset trees (art, vendor libraries, page-builder icons) are
+        // NOT slug-mapped: they live once at the host root, and standalone
+        // builds copy the needed files to the SAME relative paths — so one
+        // path string resolves in both shapes.
+        foreach (['assets/blocks/', 'assets/css/', 'assets/images/', 'assets/integrations/', 'assets/js/', 'assets/npm/'] as $shared) {
+            if (str_starts_with($file, $shared)) {
+                return $file;
+            }
+        }
+        // Per-addon assets live in UNDERSCORE-prefixed dirs (assets/_{slug})
+        // so they can never collide with the shared trees above.
         if (str_starts_with($file, 'assets/')) {
-            return $file;
+            return 'assets/_'.static::SLUG.'/'.substr($file, strlen('assets/'));
         }
         foreach (['templates/', 'views/'] as $prefix) {
             if (str_starts_with($file, $prefix)) {
