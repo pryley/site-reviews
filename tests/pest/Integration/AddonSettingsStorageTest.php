@@ -176,7 +176,8 @@ test('a hosted addon\'s paths remap into the host\'s merged file tree', function
     $base = trailingslashit(dirname($host->file));
 
     expect($hosted->path('plugin/Integrations'))->toBe($base.'plugin/HostedThing/Integrations')
-        ->and($hosted->path('config/settings.php'))->toBe($base.'config/hosted-thing/settings.php')
+        ->and($hosted->path('config/settings.php'))->toBe($base.'config/settings/hosted-thing.php')
+        ->and($hosted->path('config/forms/anything.php'))->toBe($base.'config/forms/anything.php') // type-first, addon-authored: identity
         ->and($hosted->path('views/settings.php'))->toBe($base.'views/hosted-thing/settings.php')
         ->and($hosted->path('templates/alert.php'))->toBe($base.'templates/hosted-thing/alert.php')
         ->and($hosted->path('assets/site-reviews-hosted-addon-admin.css'))->toBe($base.'assets/hosted-thing/site-reviews-hosted-addon-admin.css')
