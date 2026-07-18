@@ -87,7 +87,10 @@ const jsPlugins = (rootDir, { cjs = false, scriptsAlias = '' } = {}) => [
                 pure_funcs: consolePureFuncs,
             },
             format: {
-                comments: false,
+                // Strip comments EXCEPT legal ones (/*! … @license/@preserve):
+                // bundled MIT vendors (e.g. sortablejs in the theme builder)
+                // require their copyright notice to ship with the code.
+                comments: /^!|@license|@preserve/i,
             },
         })]
         : []
