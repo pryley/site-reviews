@@ -137,9 +137,10 @@ abstract class Addon implements PluginContract
     }
 
     /**
-     * Marks this addon as a host of other addons. Its own settings are then
-     * stored in the reserved "features" subtree of its option so they cannot
-     * collide with the settings subtrees of the addons it hosts.
+     * Marks this addon as a host of other addons. Its own values (the feature
+     * toggles) are then stored in the top-level "features" key of its option —
+     * a SIBLING of settings, so they can never collide with a hosted addon's
+     * settings subtree.
      */
     public function markAsHost(): void
     {
@@ -167,15 +168,18 @@ abstract class Addon implements PluginContract
     }
 
     /**
-     * The subtree inside the storage option that holds this addon's settings.
-     * An empty value means the settings are stored at the top level of the option.
+     * The path inside the storage option that holds this addon's values.
+     * Standalone: the whole "settings" subtree. Hosted: "settings.{slug}"
+     * inside the host's option. A host's own values (the feature toggles)
+     * live in the top-level "features" key — a sibling of settings, so no
+     * hosted addon's slug can ever collide with them.
      */
-    public function storageSubtree(): string
+    public function storagePath(): string
     {
         if ($this->host instanceof PluginContract) {
-            return static::SLUG;
+            return 'settings.'.static::SLUG;
         }
-        return $this->isHost ? 'features' : '';
+        return $this->isHost ? 'features' : 'settings';
     }
 
     /**

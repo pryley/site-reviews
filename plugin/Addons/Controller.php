@@ -361,7 +361,7 @@ abstract class Controller extends AbstractController
     public function migrateOptions(): void
     {
         $addon = $this->app();
-        if (!$addon instanceof Addon || '' !== $addon->storageSubtree()) {
+        if (!$addon instanceof Addon || 'settings' !== $addon->storagePath()) {
             return;
         }
         $key = $addon->storageKey();

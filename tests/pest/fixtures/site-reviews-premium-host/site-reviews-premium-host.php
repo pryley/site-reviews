@@ -14,7 +14,7 @@
  * (site-reviews-hosted-addon) has no main file of its own — its version gates
  * come from THIS file, its paths resolve inside this directory, and its
  * settings are stored inside this fixture's option (site_reviews_premium_host)
- * while this fixture's own settings occupy the reserved "features" subtree.
+ * while this fixture's own values occupy the top-level "features" key.
  *
  * Never loaded by WordPress; the tests require plugin/Application.php directly.
  */

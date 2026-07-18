@@ -299,12 +299,7 @@ class OptionManager
             if (!array_key_exists($key, $writes)) {
                 $writes[$key] = Arr::consolidate(get_option($key));
             }
-            $subtree = $addon->storageSubtree();
-            if ('' !== $subtree) {
-                $writes[$key] = Arr::set($writes[$key], "settings.{$subtree}", $values);
-            } else {
-                $writes[$key]['settings'] = $values;
-            }
+            $writes[$key] = Arr::set($writes[$key], $addon->storagePath(), $values);
             $host = $addon->hostedBy();
             $versions[$key] = $host instanceof \GeminiLabs\SiteReviews\Contracts\PluginContract
                 ? $host->version
@@ -332,11 +327,7 @@ class OptionManager
             if (false === $stored) {
                 continue;
             }
-            $values = Arr::getAs('array', Arr::consolidate($stored), 'settings');
-            $subtree = $addon->storageSubtree();
-            if ('' !== $subtree) {
-                $values = Arr::getAs('array', $values, $subtree);
-            }
+            $values = Arr::getAs('array', Arr::consolidate($stored), $addon->storagePath());
             $settings = Arr::set($settings, "settings.addons.{$slug}", $values);
         }
         return $settings;

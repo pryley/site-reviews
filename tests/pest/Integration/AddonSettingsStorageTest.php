@@ -29,7 +29,7 @@ require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/
  * one step further: they have no main file and no row of their own — identity
  * comes from the $host passed at registration, paths remap into the host's
  * file tree, and settings store inside the HOST's row, the host's own settings
- * occupying the reserved "features" subtree.
+ * occupying the top-level "features" key (a sibling of settings).
  */
 
 beforeEach(function () {
@@ -212,7 +212,7 @@ test('but themePath never remaps — theme overrides survive the standalone-to-p
         ->toBe(get_stylesheet_directory().'/site-reviews-hosted-addon/alert.php');
 });
 
-test('hosted settings store inside the host\'s row; the host\'s own settings in "features"', function () {
+test('hosted settings store inside the host\'s row; the host\'s own values in top-level "features"', function () {
     registerHostedFixture();
 
     glsr(OptionManager::class)->set('settings.addons.hosted-thing.color', 'red');
@@ -220,7 +220,8 @@ test('hosted settings store inside the host\'s row; the host\'s own settings in 
 
     $row = get_option('site_reviews_premium_host');
     expect($row['settings']['hosted-thing']['color'])->toBe('red')
-        ->and($row['settings']['features']['hosted-thing'])->toBe('yes') // host auto-marked as host
+        ->and($row['features']['hosted-thing'])->toBe('yes') // host auto-marked: top-level features key
+        ->and($row['settings'])->not->toHaveKey('features') // a sibling of settings, not inside it
         ->and($row['settings'])->not->toHaveKey('color') // host settings never clobber module subtrees
         ->and(coreRow()['settings']['addons'] ?? [])->not->toHaveKey('hosted-thing')
         ->and(coreRow()['settings']['addons'] ?? [])->not->toHaveKey('premium-host');
