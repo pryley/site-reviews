@@ -167,7 +167,12 @@ class MenuController extends AbstractController
             'addons' => _x('Addons', 'admin-text', 'site-reviews'),
             'licenses' => _x('Licenses', 'admin-text', 'site-reviews'),
         ]);
-        if (empty(Arr::get(glsr()->defaults(), 'settings.addons'))) {
+        // The installed premium plugin keeps the tab (renamed "Premium"
+        // through the addon/settings/tabs filter) even when every feature is
+        // toggled off; otherwise the tab exists only if an addon registered
+        // settings under it.
+        if (is_null(glsr()->addon('site-reviews-premium'))
+            && empty(Arr::get(glsr()->defaults(), 'settings.addons'))) {
             unset($tabs['addons']);
         }
         $this->renderPage('settings', [

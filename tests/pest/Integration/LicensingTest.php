@@ -302,8 +302,17 @@ test('an installed premium plugin is premium before any licence is entered', fun
 
     expect(glsr(License::class)->isPremium())->toBeFalse();
 
-    glsr()->register(GeminiLabs\SiteReviews\Premium\Shell\Application::class);
-    $status = glsr(License::class)->status();
+    // Registration lands on the Application singleton's $addons property,
+    // which no teardown resets — so it is backed up and restored by hand.
+    $registry = new ReflectionProperty(get_class(glsr()), 'addons');
+    $registry->setAccessible(true);
+    $registered = $registry->getValue(glsr());
+    try {
+        glsr()->register(GeminiLabs\SiteReviews\Premium\Shell\Application::class);
+        $status = glsr(License::class)->status();
+    } finally {
+        $registry->setValue(glsr(), $registered);
+    }
 
     expect($status['premium'])->toBeTrue()
         ->and($status['missing'])->toBeTrue() // no key entered: the missing banner still nags

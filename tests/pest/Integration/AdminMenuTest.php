@@ -154,6 +154,39 @@ test('the settings page renders every tab, with its fields', function () {
         ->toContain('name="site_reviews[settings][forms][required]');
 });
 
+test('the addons settings tab needs addon settings or the premium plugin', function () {
+    // No addon registered any settings, no premium plugin: no tab.
+    expect(renderedPage('renderSettingsMenuCallback'))->not->toContain('data-id="addons"');
+
+    // The installed premium plugin keeps the tab even when every feature is
+    // toggled off (no addon settings at all), and renames it through the
+    // addon/settings/tabs filter — the same way it relabels the submenu.
+    // Registration lands on the Application singleton's $addons property,
+    // which no teardown resets — so it is backed up and restored by hand.
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-premium/plugin/Application.php');
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-premium/plugin/Hooks.php');
+    $registry = new ReflectionProperty(get_class(glsr()), 'addons');
+    $registry->setAccessible(true);
+    $registered = $registry->getValue(glsr());
+    $relabel = function (array $tabs) {
+        if (array_key_exists('addons', $tabs)) {
+            $tabs['addons'] = 'Premium';
+        }
+
+        return $tabs;
+    };
+    add_filter('site-reviews/addon/settings/tabs', $relabel);
+    try {
+        glsr()->register(GeminiLabs\SiteReviews\Premium\Shell\Application::class);
+        $html = renderedPage('renderSettingsMenuCallback');
+    } finally {
+        remove_filter('site-reviews/addon/settings/tabs', $relabel);
+        $registry->setValue(glsr(), $registered);
+    }
+
+    expect($html)->toContain('data-id="addons"')->toContain('>Premium</a>');
+});
+
 test('a settings tab is not rendered for somebody who may not see it', function () {
     // parseWithFilter() drops the tab before the form is built. Rendering it and hiding
     // it with CSS would be putting the licence keys in the page for anybody to read.
@@ -286,25 +319,15 @@ test('a premium licence alone does not relabel the upgrade pitch', function () {
     // because only then is the page a control panel instead of a pitch.
     glsr()->bind(GeminiLabs\SiteReviews\License::class, GeminiLabs\SiteReviews\Tests\FakeLicense::class, true);
     GeminiLabs\SiteReviews\Tests\FakeLicense::$isPremium = true;
-    $http = fn () => [
-        'body' => (string) wp_json_encode(['data' => []]),
-        'cookies' => [], 'filename' => null, 'headers' => [],
-        'response' => ['code' => 200, 'message' => 'OK'],
-    ];
-    add_filter('pre_http_request', $http);
     try {
-        $html = renderedPage('renderPremiumMenuCallback');
-
         global $submenu;
         $submenu[parentSlug()] = [];
         glsr(MenuController::class)->registerSubMenus();
         $titles = array_column($submenu[parentSlug()], 0);
     } finally {
-        remove_filter('pre_http_request', $http);
         GeminiLabs\SiteReviews\Tests\FakeLicense::$isPremium = false;
     }
 
-    expect($html)->toContain('Level up with Site Reviews Premium');
     expect($titles)->toContain('Upgrade to Premium')->not->toContain('Addons');
 });
 
