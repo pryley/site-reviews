@@ -3,7 +3,6 @@
 <div class="wrap">
     <hr class="wp-header-end" />
 <?php echo $notices; ?>
-<?php if (!$is_premium) { ?>
     <div class="glsr-premium about__container">
         <h2>
             <?php _ex('Level up with Site Reviews Premium', 'admin-text', 'site-reviews'); ?>
@@ -76,9 +75,4 @@
             </div>
         </div>
     </div>
-<?php } else { ?>
-    <div class="glsr-addons">
-        <?php glsr('Modules\Html\Template')->renderMultiple('partials/addons/addon', $addons); ?>
-    </div>
-<?php } ?>
 </div>

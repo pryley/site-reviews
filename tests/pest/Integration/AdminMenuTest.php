@@ -279,18 +279,15 @@ test('reordering an empty submenu is a no-op', function () {
     expect($submenu)->not->toHaveKey(parentSlug());
 });
 
-test('the premium page lists the addons for a premium member', function () {
-    // isPremium through the suite's FakeLicense; the addons list from a faked API response.
+test('a premium licence alone does not relabel the upgrade pitch', function () {
+    // The submenu title stays "Upgrade to Premium" for everybody — even a
+    // premium licence holder with standalone addons. Only the installed
+    // premium plugin renames it, through the addon/submenu/pages filter,
+    // because only then is the page a control panel instead of a pitch.
     glsr()->bind(GeminiLabs\SiteReviews\License::class, GeminiLabs\SiteReviews\Tests\FakeLicense::class, true);
     GeminiLabs\SiteReviews\Tests\FakeLicense::$isPremium = true;
     $http = fn () => [
-        'body' => (string) wp_json_encode(['data' => [[
-            'description' => 'Does premium things.',
-            'id' => 'addon-x',
-            'slug' => 'addon-x',
-            'title' => 'Addon X',
-            'url' => 'https://niftyplugins.com/plugins/addon-x',
-        ]]]),
+        'body' => (string) wp_json_encode(['data' => []]),
         'cookies' => [], 'filename' => null, 'headers' => [],
         'response' => ['code' => 200, 'message' => 'OK'],
     ];
@@ -298,7 +295,6 @@ test('the premium page lists the addons for a premium member', function () {
     try {
         $html = renderedPage('renderPremiumMenuCallback');
 
-        // and the submenu entry is relabelled: a member has addons, not an upgrade pitch
         global $submenu;
         $submenu[parentSlug()] = [];
         glsr(MenuController::class)->registerSubMenus();
@@ -308,8 +304,27 @@ test('the premium page lists the addons for a premium member', function () {
         GeminiLabs\SiteReviews\Tests\FakeLicense::$isPremium = false;
     }
 
-    expect($html)->toContain('Addon X');
-    expect($titles)->toContain('Addons')->not->toContain('Upgrade to Premium');
+    expect($html)->toContain('Level up with Site Reviews Premium');
+    expect($titles)->toContain('Upgrade to Premium')->not->toContain('Addons');
+});
+
+test('the installed premium plugin relabels the submenu through the pages filter', function () {
+    $relabel = function (array $pages) {
+        $pages['premium'] = 'Premium';
+
+        return $pages;
+    };
+    add_filter('site-reviews/addon/submenu/pages', $relabel);
+    try {
+        global $submenu;
+        $submenu[parentSlug()] = [];
+        glsr(MenuController::class)->registerSubMenus();
+        $titles = array_column($submenu[parentSlug()], 0);
+    } finally {
+        remove_filter('site-reviews/addon/submenu/pages', $relabel);
+    }
+
+    expect($titles)->toContain('Premium')->not->toContain('Upgrade to Premium');
 });
 
 test('the features pitch is fetched and sorted, premium first', function () {
