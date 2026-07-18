@@ -103,9 +103,15 @@ abstract class Addon implements PluginContract
             return $file;
         }
         if (str_starts_with($file, 'plugin/')) {
+            // The hosted addon's code lives at plugin/{relative-namespace}/ in
+            // the host's tree — e.g. Premium\Features\Alerts -> plugin/Features/Alerts.
+            // Namespaces outside the premium prefix fall back to the last segment.
             $namespace = (new \ReflectionClass($this))->getNamespaceName();
-            $module = substr((string) strrchr($namespace, '\\'), 1);
-            return sprintf('plugin/%s/%s', $module, substr($file, strlen('plugin/')));
+            $prefix = 'GeminiLabs\\SiteReviews\\Premium\\';
+            $relative = str_starts_with($namespace, $prefix)
+                ? substr($namespace, strlen($prefix))
+                : substr((string) strrchr($namespace, '\\'), 1);
+            return sprintf('plugin/%s/%s', str_replace('\\', '/', $relative), substr($file, strlen('plugin/')));
         }
         // The "settings" config name is fixed by core, so it is slug-mapped;
         // every other config path is addon-authored and passes through as-is
