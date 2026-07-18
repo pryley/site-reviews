@@ -60,6 +60,22 @@ test('an addon option key is the snake_cased addon id', function () {
  * Split on write.
  */
 
+test('a programmatic addon write survives the settings-form sanitize callback', function () {
+    // register_setting() attaches the form's sanitize callback to EVERY
+    // update_option() of the core key — including the one persist() makes
+    // after splitting. Before the isPersisting() guard it re-processed that
+    // write: merged the stale composed memo back over it and re-split,
+    // clobbering the addon row just written. Found by the premium feature
+    // toggles, which only ever failed on real admin requests — the only
+    // place admin_init has registered the setting.
+    glsr(GeminiLabs\SiteReviews\Controllers\SettingsController::class)->registerSettings();
+    glsr(OptionManager::class)->set('settings.addons.test-addon.enabled', 'yes'); // the memo now holds "yes"
+    glsr(OptionManager::class)->set('settings.addons.test-addon.enabled', 'no');
+
+    $own = get_option('site_reviews_test_addon');
+    expect($own['settings']['enabled'])->toBe('no');
+});
+
 test('writing an addon setting lands in the addon\'s own row, not the parent\'s', function () {
     glsr(OptionManager::class)->set('settings.addons.test-addon.enabled', 'yes');
 

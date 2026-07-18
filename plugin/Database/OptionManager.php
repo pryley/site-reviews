@@ -18,6 +18,8 @@ use GeminiLabs\SiteReviews\Modules\Migrate;
  */
 class OptionManager
 {
+    protected static bool $persisting = false;
+
     /**
      * @return mixed
      */
@@ -344,14 +346,31 @@ class OptionManager
      * Persists a composed settings array: addon subtrees to their own options
      * (via split), the remainder to the core plugin option.
      */
+    /**
+     * True while persist() is writing its already-split settings. The
+     * settings-form sanitize callback (registered with register_setting, so
+     * WP fires it on EVERY update_option of the core key) must stand down
+     * for these writes: re-processing them merges the stale composed memo
+     * back in and re-splits, clobbering the addon rows just written.
+     */
+    public static function isPersisting(): bool
+    {
+        return static::$persisting;
+    }
+
     protected function persist(array $settings): bool
     {
         $changed = false;
-        $settings = $this->split($settings, $changed);
-        // A write that only touches addon options legitimately leaves the core
-        // option unchanged — update_option() returning false there is not a
-        // failure, so a successful addon write counts as a persisted change.
-        return update_option(static::databaseKey(), $settings, true) || $changed;
+        static::$persisting = true;
+        try {
+            $settings = $this->split($settings, $changed);
+            // A write that only touches addon options legitimately leaves the core
+            // option unchanged — update_option() returning false there is not a
+            // failure, so a successful addon write counts as a persisted change.
+            return update_option(static::databaseKey(), $settings, true) || $changed;
+        } finally {
+            static::$persisting = false;
+        }
     }
 
     /**

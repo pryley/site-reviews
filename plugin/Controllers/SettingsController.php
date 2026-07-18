@@ -36,6 +36,13 @@ class SettingsController extends AbstractController
         if (!array_key_exists('settings', $input)) {
             return $input;
         }
+        if (OptionManager::isPersisting()) {
+            // OptionManager::persist() is writing settings it already
+            // sanitized and split. Re-processing them here would merge the
+            // stale composed memo back in and re-split, clobbering the addon
+            // rows persist() just wrote.
+            return $input;
+        }
         $options = array_replace_recursive(glsr(OptionManager::class)->all(), [
             'settings' => $input['settings'],
         ]);

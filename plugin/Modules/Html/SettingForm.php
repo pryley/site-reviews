@@ -176,7 +176,12 @@ class SettingForm extends Form
         $results = [];
         foreach ($fields as $field) {
             $parts = explode('.', $field->original_name);
-            $addon = $parts[2] ?? '';
+            // A field may claim another addon's section with a "subgroup"
+            // config key ("group" is already the tab): the premium plugin
+            // stores its per-feature toggles under its own path
+            // (settings.addons.premium.{slug}) but displays each one inside
+            // the feature's own section.
+            $addon = $field->subgroup ?: ($parts[2] ?? '');
             $results[$addon] ??= '';
             $results[$addon] .= $field->build();
         }
