@@ -127,7 +127,7 @@ abstract class Addon implements PluginContract
         // NOT slug-mapped: they live once at the host root, and standalone
         // builds copy the needed files to the SAME relative paths — so one
         // path string resolves in both shapes.
-        foreach (['assets/images/', 'assets/integrations/', 'assets/npm/'] as $shared) {
+        foreach (['assets/blocks/', 'assets/css/', 'assets/images/', 'assets/integrations/', 'assets/js/', 'assets/npm/'] as $shared) {
             if (str_starts_with($file, $shared)) {
                 return $file;
             }
