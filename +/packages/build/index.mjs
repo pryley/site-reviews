@@ -202,8 +202,10 @@ export function createConfig(rootDir, { scriptsAlias = '' } = {}) {
      * @param {string} [outputDir='assets/styles']  Output directory.
      * @param {string} [namespace='']  CSS selector namespace (requires postcss-selector-namespace).
      */
-    const css = (source, outputDir = 'assets/styles', namespace = '') => ({
-        input: `+/${source}.css`,
+    const css = (source, outputDir = 'assets/styles', namespace = '', name = '') => ({
+        // An object input names the rollup chunk, which names the extracted
+        // css file — {outputDir}/{name}.css instead of the source basename.
+        input: name ? { [name]: `+/${source}.css` } : `+/${source}.css`,
         output: {
             dir: outputDir,
             format: 'es',
@@ -223,6 +225,19 @@ export function createConfig(rootDir, { scriptsAlias = '' } = {}) {
      * @param {string} [namespace='']  CSS selector namespace (requires postcss-selector-namespace).
      */
     const namespacedCss = (source, namespace, outputDir = 'assets/styles') => css(source, outputDir, namespace);
+
+    /**
+     * A CSS registry chunk: the same compiled+minified output as css(), but
+     * named `{outputDir}/{id}.css` so the premium AssetManager can compose
+     * per-context files from the manifest's chunk ids. CSS needs no runtime
+     * registration (no execution coupling) — the id-keyed filename is the
+     * whole contract.
+     *
+     * @param {string} source  Path relative to `+/` without extension.
+     * @param {string} id      Chunk id, e.g. `filters.public`.
+     * @param {string} [outputDir='assets/css/chunks']  Output directory.
+     */
+    const cssChunk = (source, id, outputDir = 'assets/css/chunks') => css(source, outputDir, '', id);
 
     /**
      * A registry chunk: like js() but the output is a `registry.define(id, …)`
@@ -277,6 +292,7 @@ export function createConfig(rootDir, { scriptsAlias = '' } = {}) {
         commonJs,
         copy,
         css,
+        cssChunk,
         js,
         namespacedCss,
     };
