@@ -1,7 +1,9 @@
 <p class="glsr-heading">filters</p>
-<div class="components-notice is-warning">
-    <p class="components-notice__content"><?php echo glsr_premium_link('site-reviews-filters'); ?> addon is required to use this shortcode option.</p>
-</div>
+<?php if (glsr_addon_required('site-reviews-filters')) { ?>
+    <div class="components-notice is-warning">
+        <p class="components-notice__content"><?php echo glsr_premium_link('site-reviews-filters'); ?> addon is required to use this shortcode option.</p>
+    </div>
+<?php } ?>
 <p>Include the "filters" option to enable filtering the reviews by clicking the rating bars. Accepted values are <code>true</code> and <code>false</code>.</p>
 <p>The default filters value is: <code>false</code></p>
 <div class="shortcode-example">

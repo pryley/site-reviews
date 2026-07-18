@@ -34,15 +34,17 @@
                             ?>
                         </p>
                     </div>
-                    <div class="components-notice is-info">
-                        <p class="components-notice__content">
-                            <?php
-                                printf(_x('Maybe one of the %s provide this feature.', 'link to addons page (admin-text)', 'site-reviews'),
-                                    glsr_premium_link('addons', _x('addons', 'admin-text', 'site-reviews'))
-                                );
-                            ?>
-                        </p>
-                    </div>
+                    <?php if (!glsr(\GeminiLabs\SiteReviews\License::class)->isPremium()) { ?>
+                        <div class="components-notice is-info">
+                            <p class="components-notice__content">
+                                <?php
+                                    printf(_x('Maybe one of the %s provide this feature.', 'link to addons page (admin-text)', 'site-reviews'),
+                                        glsr_premium_link('addons', _x('addons', 'admin-text', 'site-reviews'))
+                                    );
+                                ?>
+                            </p>
+                        </div>
+                    <?php } ?>
                 </div>
                 <div class="glsr-dp-details" style="display:none;">
                     <textarea name="details" placeholder="" rows="3"></textarea>

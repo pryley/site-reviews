@@ -115,7 +115,7 @@ class DownloadCsvTemplate extends AbstractCommand
                     ? sprintf('<span class="glsr-tag glsr-tag-required">%s</span>', _x('Yes', 'admin-text', 'site-reviews'))
                     : sprintf('<span class="glsr-tag">%s</span>', _x('No', 'admin-text', 'site-reviews'));
                 $notice = '';
-                if ('default' !== $group) {
+                if ('default' !== $group && glsr_addon_required($group)) {
                     $text = _x('%s addon required.', 'link to addon page (admin-text)', 'site-reviews');
                     $notice = sprintf('<div class="glsr-notice-inline components-notice is-warning">%s</div>',
                         sprintf($text, glsr_premium_link($group))

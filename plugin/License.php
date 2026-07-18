@@ -15,6 +15,9 @@ class License
     {
         $licensed = glsr()->retrieveAs('array', 'licensed', []);
         $status = array_fill_keys(['expired', 'invalid', 'licensed', 'missing', 'premium'], false);
+        // An installed and registered premium plugin counts as premium even
+        // before a license is entered; the license notices still apply.
+        $status['premium'] = !is_null(glsr()->addon('site-reviews-premium'));
         foreach ($licensed as $addonId => $addon) {
             $license = glsr_get_option("licenses.{$addonId}");
             $status['licensed'] = true;

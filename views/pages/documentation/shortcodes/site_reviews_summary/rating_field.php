@@ -1,9 +1,11 @@
 <?php defined('ABSPATH') || exit; ?>
 
 <p class="glsr-heading">rating_field</p>
-<div class="glsr-notice-inline components-notice is-warning">
-    <p class="components-notice__content"><?php echo glsr_premium_link('site-reviews-forms'); ?> addon is required to use this shortcode option.</p>
-</div>
+<?php if (glsr_addon_required('site-reviews-forms')) { ?>
+    <div class="glsr-notice-inline components-notice is-warning">
+        <p class="components-notice__content"><?php echo glsr_premium_link('site-reviews-forms'); ?> addon is required to use this shortcode option.</p>
+    </div>
+<?php } ?>
 <p>Include the "rating_field" option to use the values of a custom rating field for the ratings in the summary. Use the custom rating Field Name as the value.</p>
 <div class="shortcode-example">
     <pre><code class="language-shortcode">[site_reviews_summary rating_field="sound_rating"]</code></pre>

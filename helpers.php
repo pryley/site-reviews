@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Exceptions\BindingResolutionException;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\License;
 use GeminiLabs\SiteReviews\Modules\Backtrace;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Dump;
@@ -65,6 +66,18 @@ function glsr($alias = null, array $parameters = [])
         glsr_log()->error($e->getMessage());
         return Application::load()->make(BlackHole::class, compact('alias'));
     }
+}
+
+/**
+ * Returns true when an "addon required" notice (with its purchase link) should
+ * be shown, i.e. when neither the addon nor the premium plugin is installed.
+ */
+function glsr_addon_required(string $addonId): bool
+{
+    if (!is_null(glsr()->addon($addonId))) {
+        return false;
+    }
+    return !glsr(License::class)->isPremium();
 }
 
 function glsr_admin_url(string $page = '', string $tab = '', string $sub = ''): string

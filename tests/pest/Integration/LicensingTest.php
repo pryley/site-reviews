@@ -291,3 +291,21 @@ test('a premium licence marks the whole status premium', function () {
         ->and($status['premium'])->toBeTrue()
         ->and($status['expired'])->toBeFalse();
 });
+
+test('an installed premium plugin is premium before any licence is entered', function () {
+    // The merged premium plugin hides every "Upgrade to Premium" pitch the moment it is
+    // installed — a paying customer should never be sold what they already bought. The licence
+    // banners still apply though: a key is what gets them updates.
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-premium/plugin/Application.php');
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-premium/plugin/Hooks.php');
+    $asked = licenseServer([]);
+
+    expect(glsr(License::class)->isPremium())->toBeFalse();
+
+    glsr()->register(GeminiLabs\SiteReviews\Premium\Shell\Application::class);
+    $status = glsr(License::class)->status();
+
+    expect($status['premium'])->toBeTrue()
+        ->and($status['missing'])->toBeTrue() // no key entered: the missing banner still nags
+        ->and($asked)->toHaveCount(0); // and nobody asked the licence server to find that out
+});
