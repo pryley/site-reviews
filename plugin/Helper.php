@@ -237,8 +237,11 @@ class Helper
             \INPUT_SERVER => $_SERVER,
             \INPUT_ENV => $_ENV,
         };
+        // With FILTER_NULL_ON_FAILURE the missing/failure returns are flipped:
+        // filter_input() returns FALSE when the variable is not set and NULL
+        // when the filter fails.
         $value = filter_input($type, $key, $filter, \FILTER_NULL_ON_FAILURE);
-        if (null === $value) {
+        if (false === $value) {
             $value = isset($fallback[$key])
                 ? filter_var($fallback[$key], $filter, \FILTER_NULL_ON_FAILURE)
                 : null;
