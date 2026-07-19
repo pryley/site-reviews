@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f69f4de97956e79a4953d4ce4bb8f7d1",
+    "content-hash": "4dee2e61fea7b5251a142019b6f8b27e",
     "packages": [],
     "packages-dev": [
         {
@@ -1353,6 +1353,67 @@
                 "source": "https://github.com/phar-io/version/tree/3.2.1"
             },
             "time": "2022-02-21T01:04:05+00:00"
+        },
+        {
+            "name": "php-stubs/generator",
+            "version": "v0.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-stubs/generator.git",
+                "reference": "7d0e5bd40fc1706e19c1f0b7396a0206e3193129"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-stubs/generator/zipball/7d0e5bd40fc1706e19c1f0b7396a0206e3193129",
+                "reference": "7d0e5bd40fc1706e19c1f0b7396a0206e3193129",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^4.18 || ^5.5",
+                "php": "^7.4 || ^8.0",
+                "phpstan/phpdoc-parser": "^2.3",
+                "symfony/console": "^5.1 || ^6.0 || ^7.0",
+                "symfony/filesystem": "^5.0 || ^6.0 || ^7.0",
+                "symfony/finder": "^5.0 || ^6.0 || ^7.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "3.4.0 || ^3.12",
+                "mikey179/vfsstream": "^1.6",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^1.0 || ^2.0",
+                "phpstan/phpstan-symfony": "^1.0 || ^2.0",
+                "phpunit/phpunit": "^9.4"
+            },
+            "bin": [
+                "bin/generate-stubs"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "StubsGenerator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Giaco Corsiglia",
+                    "email": "GiacoCorsiglia@gmail.com"
+                }
+            ],
+            "description": "Generate stubs from any PHP code for IDE completion and static analysis.",
+            "homepage": "https://github.com/php-stubs/generator",
+            "keywords": [
+                "ide",
+                "static analysis"
+            ],
+            "support": {
+                "issues": "https://github.com/php-stubs/generator/issues",
+                "source": "https://github.com/php-stubs/generator/tree/v0.9.0"
+            },
+            "time": "2026-06-28T19:49:32+00:00"
         },
         {
             "name": "php-stubs/wordpress-stubs",
@@ -3505,6 +3566,76 @@
                 }
             ],
             "time": "2026-06-05T06:23:12+00:00"
+        },
+        {
+            "name": "symfony/filesystem",
+            "version": "v7.4.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/filesystem.git",
+                "reference": "d721ea61b4a5fba8c5b6e7c1feda19efea144b50"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/d721ea61b4a5fba8c5b6e7c1feda19efea144b50",
+                "reference": "d721ea61b4a5fba8c5b6e7c1feda19efea144b50",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "symfony/polyfill-ctype": "~1.8",
+                "symfony/polyfill-mbstring": "~1.8"
+            },
+            "require-dev": {
+                "symfony/process": "^6.4|^7.0|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides basic utilities for the filesystem",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/filesystem/tree/v7.4.11"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-05-11T16:38:44+00:00"
         },
         {
             "name": "symfony/finder",

@@ -86,6 +86,22 @@ i18n: ## Generate a pot file with the wp-cli
 release: ## Release a new version
 	sh ./release.sh
 
+# Regenerates tests/stubs from the latest upstream releases. Premium sources are
+# local zips dropped into tests/bin/zips (gitignored) — absent ones are skipped.
+#   make stubs                          all entries with an available source
+#   make stubs SLUGS='woocommerce elementor'
+.PHONY: stubs
+stubs: ## Regenerate the third-party stubs from tests/bin/stubs-manifest.php (SLUGS=… for a subset)
+	@test -f vendor/php-stubs/generator/src/StubsGenerator.php || { \
+		printf '\nphp-stubs/generator is not installed. Run:\n\n    make test:install\n\n'; \
+		exit 1; \
+	}
+	XDEBUG_MODE=off php -d memory_limit=4G tests/bin/generate-stubs.php $(SLUGS)
+
+.PHONY: stubs\:list
+stubs\:list: ## List the stub manifest: what is generated from where, and what is missing
+	@XDEBUG_MODE=off php tests/bin/generate-stubs.php --list
+
 .PHONY: test
 test: env-check ## Run the Pest suites inside wp-env (see tests/pest/README.md)
 	$(WPENV) env XDEBUG_MODE=off composer test

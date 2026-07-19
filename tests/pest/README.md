@@ -127,6 +127,15 @@ integration look installed, its version check failed, and it translated on
 
 `plugin/Integrations` is therefore IN the coverage scope.
 
+The stubs are GENERATED — `make stubs` regenerates them from the latest
+upstream releases, driven by `tests/bin/stubs-manifest.php` (which slug comes
+from where, which symbols a curated stub keeps, and why each exclusion exists).
+Premium sources are local zips dropped into `tests/bin/zips/` (gitignored);
+entries whose zip is absent are skipped. `make stubs:list` shows the manifest
+and what is currently available. Three files in `tests/stubs` are NOT generated
+and must never be: `akismet.php`, `polylang.php` and `wp-cli.php` are working
+fakes the tests read back — the generator refuses to touch them.
+
 ### What the stubs can and cannot test
 
 Because the bodies are empty, the stubs support exactly one half of an
@@ -149,14 +158,16 @@ a body we invented proves nothing about the real plugin.
 ### The integrations the stubs leave dark
 
 A stub only wakes an integration if it satisfies that integration's
-`isInstalled()` AND its version gate. Five currently do not, and the stubs are
-NOT to be hand-edited to fix that — they are generated from the upstream source,
-so waking these means regenerating the stub from a newer release:
+`isInstalled()` AND its version gate. The stubs track current releases
+(Avada, Breakdance and WPBakery — once dark behind their version gates — pass
+them since their stubs were regenerated from current premium zips; a woken
+integration's filters run for real, which is why `MainControllerTest` has to
+force `site-reviews/register/widgets` past Avada's refusal). Two are dark on
+purpose, and the stubs are NOT to be hand-edited to change that — they are
+generated (`make stubs`). Waking them means adding the deliberately-omitted
+symbols to their `tests/bin/stubs-manifest.php` entries (each is commented
+inline):
 
-- **Avada** (`FUSION_BUILDER_VERSION` 3.11.7, needs 3.12.0), **Breakdance**
-  (2.3.0-rc.2, needs 2.5.0) and **WPBakery** (7.9.0, needs 8.0) are installed but
-  fail the version gate, so they register no hooks and take the `notify()` path
-  on every boot.
 - **GamiPress** declares no `GAMIPRESS_VER`, and **WooRewards** declares neither
   `\LWS_WooRewards` nor `\LWS\WOOREWARDS\Core\Trace`.
 
