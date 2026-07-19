@@ -196,10 +196,11 @@ test('a hosted addon\'s paths remap into the host\'s merged file tree', function
         ->and($hosted->path('config/forms/anything.php'))->toBe($base.'config/forms/anything.php') // type-first, addon-authored: identity
         ->and($hosted->path('views/settings.php'))->toBe($base.'views/hosted-thing/settings.php')
         ->and($hosted->path('templates/alert.php'))->toBe($base.'templates/hosted-thing/alert.php')
-        ->and($hosted->path('assets/site-reviews-hosted-addon-admin.css'))->toBe($base.'assets/hosted-thing/site-reviews-hosted-addon-admin.css')
-        ->and($hosted->path('assets/anything/nested.js'))->toBe($base.'assets/hosted-thing/anything/nested.js')
+        ->and($hosted->path('assets/site-reviews-hosted-addon-admin.css'))->toBe($base.'assets/standalone/hosted-thing/site-reviews-hosted-addon-admin.css')
+        ->and($hosted->path('assets/anything/nested.js'))->toBe($base.'assets/standalone/hosted-thing/anything/nested.js')
+        ->and($hosted->path('assets/js/anything.js'))->toBe($base.'assets/js/anything.js') // shared tree, unmapped
         ->and($hosted->path('languages/x.mo'))->toBe($base.'languages/x.mo') // keyed by text domain, unmapped
-        ->and($hosted->url('assets/site-reviews-hosted-addon.js'))->toContain('assets/hosted-thing/site-reviews-hosted-addon.js');
+        ->and($hosted->url('assets/site-reviews-hosted-addon.js'))->toContain('assets/standalone/hosted-thing/site-reviews-hosted-addon.js');
 });
 
 test('but themePath never remaps — theme overrides survive the standalone-to-premium switch', function () {
