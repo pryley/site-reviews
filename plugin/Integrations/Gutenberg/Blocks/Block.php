@@ -14,11 +14,25 @@ abstract class Block implements BlockContract
 
     public function register(): void
     {
-        $block = (new \ReflectionClass($this))->getShortName();
-        $block = str_replace('_block', '', Str::snakeCase($block));
-        register_block_type_from_metadata($this->app()->path("assets/blocks/{$block}"), [
+        register_block_type_from_metadata($this->metadataDir(), [
             'render_callback' => [$this, 'render'],
         ]);
+    }
+
+    /**
+     * An addon's block metadata lives at assets/blocks/{addon-slug}/{block}
+     * (in both the hosted and the standalone shape); the plugin's own blocks
+     * live directly at assets/blocks/{block}.
+     */
+    protected function metadataDir(): string
+    {
+        $block = (new \ReflectionClass($this))->getShortName();
+        $block = str_replace('_block', '', Str::snakeCase($block));
+        $app = $this->app();
+        if ($app instanceof \GeminiLabs\SiteReviews\Addons\Addon) {
+            return $app->path(sprintf('assets/blocks/%s/%s', $app::SLUG, $block));
+        }
+        return $app->path("assets/blocks/{$block}");
     }
 
     public function render(array $attributes): string
