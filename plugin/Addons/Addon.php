@@ -132,10 +132,11 @@ abstract class Addon implements PluginContract
                 return $file;
             }
         }
-        // Per-addon assets live in UNDERSCORE-prefixed dirs (assets/_{slug})
-        // so they can never collide with the shared trees above.
+        // Per-addon (standalone-shaped) assets live under
+        // assets/standalone/{slug}/ so they can never collide with the
+        // shared trees above.
         if (str_starts_with($file, 'assets/')) {
-            return 'assets/_'.static::SLUG.'/'.substr($file, strlen('assets/'));
+            return 'assets/standalone/'.static::SLUG.'/'.substr($file, strlen('assets/'));
         }
         foreach (['templates/', 'views/'] as $prefix) {
             if (str_starts_with($file, $prefix)) {
