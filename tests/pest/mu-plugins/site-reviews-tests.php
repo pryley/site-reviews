@@ -38,11 +38,16 @@ add_action('muplugins_loaded', function () {
     //
     //   WP_List_Table              profilepress, surecart
     //   Walker_Category_Checklist  multilingualpress
+    //   Plugin_Upgrader            elementor (also declares WP_Upgrader_Skin, which elementor extends:
+    //                              class-wp-upgrader.php requires every skin and WP_Upgrader subclass)
+    //   WP_Importer                profilepress
     //
-    // Both are single-class files extending wp-includes, so requiring them pulls in nothing else.
+    // The others are single-class files extending wp-includes, so requiring them pulls in nothing else.
     $adminClasses = [
         'WP_List_Table' => 'class-wp-list-table.php',
         'Walker_Category_Checklist' => 'class-walker-category-checklist.php',
+        'Plugin_Upgrader' => 'class-wp-upgrader.php',
+        'WP_Importer' => 'class-wp-importer.php',
     ];
     foreach ($adminClasses as $adminClass => $adminFile) {
         if (!class_exists($adminClass)) {

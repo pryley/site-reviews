@@ -172,6 +172,11 @@ test('the legacy widgets are registered, and a site can refuse them', function (
     global $wp_widget_factory;
     $original = $wp_widget_factory->widgets;
     try {
+        // The fusion-builder stub passes Avada's version gate (tests/bin/stubs-manifest.php), and
+        // an awake Avada refuses the legacy widgets outside its own editor. That is shipped
+        // behaviour, but it is not the machinery under test here — force the filter true so the
+        // registration itself is observable.
+        add_filter('site-reviews/register/widgets', '__return_true', PHP_INT_MAX);
         $wp_widget_factory->widgets = [];
         glsr(MainController::class)->registerWidgets();
         $registered = array_keys($wp_widget_factory->widgets);
@@ -183,6 +188,7 @@ test('the legacy widgets are registered, and a site can refuse them', function (
             GeminiLabs\SiteReviews\Widgets\SiteReviewsWidget::class,
         ]);
 
+        remove_filter('site-reviews/register/widgets', '__return_true', PHP_INT_MAX);
         $wp_widget_factory->widgets = [];
         add_filter('site-reviews/register/widgets', '__return_false');
         glsr(MainController::class)->registerWidgets();

@@ -9,9 +9,11 @@ use function GeminiLabs\SiteReviews\Tests\protectedMethod;
  * The base class every integration extends: the version gate and the notice it raises when the gate
  * closes.
  *
- * Both are live in this suite: three loaded stubs declare a version below what the integration
- * requires — fusion-builder 3.11.7 (needs 3.12.0), breakdance 2.3.0-rc.2 (needs 2.5.0), wpbakery
- * 7.9.0 (needs 8.0) — so the gate closes and notify() runs on every boot.
+ * The stubs track current releases (make stubs), so which gates are closed on any given boot is a
+ * moving target — when this file was first written, fusion-builder, breakdance and wpbakery all
+ * declared versions below their gates and notify() ran on every boot; regenerated stubs have since
+ * opened them. These tests therefore drive the gate and the notice DIRECTLY, with versions they
+ * control, rather than leaning on whichever stub happens to be out of date.
  *
  * notify() fixes the crash that stopped the suite booting at all: integrations hook on
  * plugins_loaded, and since WP 6.7 a translation requested before init triggers _doing_it_wrong(), a
