@@ -9,6 +9,9 @@ if (!defined('DB_NAME')) {
 if (!defined('WP_CONTENT_DIR')) {
     define('WP_CONTENT_DIR', '.');
 }
+if (!defined('WP_CONTENT_URL')) {
+    define('WP_CONTENT_URL', 'http://example.org/wp-content');
+}
 if (!defined('WP_MEMORY_LIMIT')) {
     define('WP_MEMORY_LIMIT', '1G');
 }

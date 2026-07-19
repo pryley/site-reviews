@@ -29,7 +29,9 @@ class TriggerEvent extends AbstractCommand
             'event' => $trigger,
             'user_id' => $userId,
         ];
-        gamipress_trigger_event(wp_parse_args($event, $this->event));
+        // Upstream declares gamipress_trigger_event() with no parameters and
+        // reads func_get_args() instead, so the stubbed signature takes none.
+        gamipress_trigger_event(wp_parse_args($event, $this->event)); // @phpstan-ignore arguments.count
     }
 
     protected function triggerReceivedPost(string $trigger): void

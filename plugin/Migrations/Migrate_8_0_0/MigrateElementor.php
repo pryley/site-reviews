@@ -54,7 +54,7 @@ class MigrateElementor implements MigrateContract
                 $this->migrateElement(...)
             );
             if ($migrated !== $data) {
-                $document->update_json_meta('_elementor_data', $migrated); // @phpstan-ignore-line
+                $document->update_json_meta('_elementor_data', $migrated);
                 $updated = true;
             }
         }

@@ -45,8 +45,10 @@ parameters:
     - '#Call to protected method get_views\(\) of class WP_Posts_List_Table.#'
     # This usage is acceptable in the project
     - '#Unsafe usage of new static\(\).#'
-    # This is probably due to incorrect phpdocs in the Elementor stubs
-    - '#Call to method (get_elements_data|is_built_with_elementor)\(\) on an unknown class Elementor\\Core\\Document.#'
+    # Breakdance documents these as @psalm-type ARRAY aliases (plugin/psalm-types/render.php
+    # upstream); the stubs carry the docblocks verbatim and phpstan reads the aliases as classes
+    - '#invalid return type Breakdance\\Elements\\ElementDependenciesAndConditions#'
+    - '#should return array but returns Breakdance\\Elements\\Control#'
     - '#PHPDoc tag @method for method GeminiLabs\\SiteReviews\\Modules\\Schema\\(.+)#'
   level: 5
   paths:
@@ -65,3 +67,6 @@ parameters:
     - GeminiLabs\SiteReviews\Arguments
     - GeminiLabs\SiteReviews\Modules\Html\Field
     - GeminiLabs\SiteReviews\Modules\Html\Form
+    # LPFW's Abstract_Main_Plugin_Class exposes its models via __get; the stub
+    # mirrors upstream, which documents no @property types for them
+    - LPFW

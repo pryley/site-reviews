@@ -124,17 +124,17 @@ class Controller extends AbstractController
                 glsr()->name,
                 new Post\MetaboxField(
                     AssignedPostsField::FIELD_COPY_ASSIGNED_POSTS,
-                    new AssignedPostsField(), // @phpstan-ignore-line
+                    new AssignedPostsField(),
                     [AssignedPostsField::class, 'sanitize']
                 ),
                 new Post\MetaboxField(
                     AssignedUsersField::FIELD_COPY_ASSIGNED_USERS,
-                    new AssignedUsersField(), // @phpstan-ignore-line
+                    new AssignedUsersField(),
                     [AssignedUsersField::class, 'sanitize']
                 ),
                 new Post\MetaboxField(
                     AssignedTermsField::FIELD_COPY_ASSIGNED_TERMS,
-                    new AssignedTermsField(), // @phpstan-ignore-line
+                    new AssignedTermsField(),
                     [AssignedTermsField::class, 'sanitize']
                 ),
             );

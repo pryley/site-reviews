@@ -22,7 +22,7 @@ class ServiceProvider implements ModuleServiceProvider
      * hook names directly instead of using constants because the likelihood of
      * hook name changes are far less than changes to the plugin architecture.
      */
-    public function activateModule(Container $container): void // @phpstan-ignore-line class.notFound
+    public function activateModule(Container $container): void
     {
         glsr(Hooks::class)->hook(Controller::class, [
             ['enforceEntitySupport', 'multilingualpress.update_plugin_settings', 20],
