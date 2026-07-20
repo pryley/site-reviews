@@ -25,7 +25,12 @@ class ApproveReview extends AbstractCommand
             $this->fail();
             return;
         }
-        if (!glsr()->can('edit_post', $this->review->ID)) {
+        if (!$this->review->isValid()) {
+            glsr_log()->error('Cannot approve review: Invalid review');
+            $this->fail();
+            return;
+        }
+        if (!glsr()->can('publish_post', $this->review->ID)) {
             glsr_log()->error('Cannot approve review: Invalid permission.');
             $this->fail();
             return;
