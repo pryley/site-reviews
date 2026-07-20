@@ -19,11 +19,13 @@
 - Fixed reviews being wrongly recorded as having accepted the terms on some sites
 - Fixed stale settings keys not being cleaned after a plugin migration
 - Fixed the "Approve" and "Unapproved" wording not being applied to the Publish metabox on the review editor
+- Fixed the approve link in the notification email using a different capability than the Approve action on the reviews screen
 - Fixed the author link missing from reviews in the REST API
 - Fixed the category priority cache not being cleared when a category priority is added or changed
 - Fixed the classic widget title not being displayed
 - Fixed the custom schema identifier being ignored unless the schema type was Custom
 - Fixed the Documentation link on the plugins screen
+- Fixed the notification and verification email settings offering template tags that were never replaced in those emails
 - Fixed the plugin rollback tool when JavaScript is unavailable
 - Fixed the plugin's service container being unable to register a factory
 - Fixed the plugins screen load time when the licence server is unreachable
