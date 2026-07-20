@@ -43,7 +43,14 @@ class SettingForm extends Form
     {
         if (str_starts_with($name, 'settings.')) {
             $parts = explode('.', $name);
-            $args['group'] = count($parts) > 2 ? $parts[1] : '';
+            $group = count($parts) > 2 ? $parts[1] : '';
+            // A host's settings mount under its own slug (settings.{hostSlug}.*)
+            // but display on the addons tab (which the host relabels).
+            $addon = OptionManager::addons()[$group] ?? null;
+            if ($addon && $addon->isHost()) {
+                $group = 'addons';
+            }
+            $args['group'] = $group;
         }
         return parent::field($name, $args);
     }
@@ -175,22 +182,14 @@ class SettingForm extends Form
         $fields = $this->fieldsFor($group);
         $results = [];
         foreach ($fields as $field) {
+            // The section is the slug after the mount point — parts[2] for
+            // both mounts (settings.addons.{slug}.* and settings.{hostSlug}.{slug}.*).
             $parts = explode('.', $field->original_name);
-            // A field may claim another addon's section with a "subgroup"
-            // config key ("group" is already the tab): the premium plugin
-            // stores its per-feature toggles under its own path
-            // (settings.addons.premium.{slug}) but displays each one inside
-            // the feature's own section.
-            $addon = $field->subgroup ?: ($parts[2] ?? '');
+            $addon = $parts[2] ?? '';
             $results[$addon] ??= '';
             $results[$addon] .= $field->build();
         }
         ksort($results);
-        if (isset($results['premium'])) {
-            // The merged premium plugin's own group (its feature toggles)
-            // always leads; the feature groups follow alphabetically.
-            $results = ['premium' => $results['premium']] + $results;
-        }
         $subsubsub = array_map('ucfirst', array_keys($results));
         $subsubsub = glsr()->filterArray('addon/subsubsub', $subsubsub);
         return [

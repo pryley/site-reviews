@@ -60,6 +60,8 @@ interface PluginContract
 
     public function path(string $file = '', bool $realpath = true): string;
 
+    public function settingsPath(): string;
+
     public function render(string $view, array $data = []): void;
 
     /** @param mixed ...$args */

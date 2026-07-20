@@ -152,10 +152,19 @@ abstract class Addon implements PluginContract
     }
 
     /**
-     * Marks this addon as a host of other addons. Its own values (the feature
-     * toggles) are then stored in the top-level "features" key of its option —
-     * a SIBLING of settings, so they can never collide with a hosted addon's
-     * settings subtree.
+     * Whether this addon hosts other addons. A host's settings mount in the
+     * composed view under its own slug (see settingsPath()). A host that must
+     * be recognized even before any hosted addon registers with it (e.g. when
+     * every hosted feature is disabled) should override this to return true.
+     */
+    public function isHost(): bool
+    {
+        return $this->isHost;
+    }
+
+    /**
+     * Marks this addon as a host of other addons, so its settings mount in
+     * the composed view under its own slug (see settingsPath()).
      */
     public function markAsHost(): void
     {
@@ -184,17 +193,32 @@ abstract class Addon implements PluginContract
 
     /**
      * The path inside the storage option that holds this addon's values.
-     * Standalone: the whole "settings" subtree. Hosted: "settings.{slug}"
-     * inside the host's option. A host's own values (the feature toggles)
-     * live in the top-level "features" key — a sibling of settings, so no
-     * hosted addon's slug can ever collide with them.
+     * Standalone (and host): the whole "settings" subtree. Hosted:
+     * "settings.{slug}" inside the host's option.
      */
     public function storagePath(): string
     {
         if ($this->host instanceof PluginContract) {
             return 'settings.'.static::SLUG;
         }
-        return $this->isHost ? 'features' : 'settings';
+        return 'settings';
+    }
+
+    /**
+     * The addon's mount point inside the composed settings view (without the
+     * leading "settings."). Standalone addons keep the standalone-era
+     * "addons.{slug}" path; a host mounts its whole subtree under its own
+     * slug, so its hosted addons live at "{hostSlug}.{slug}" — hosted feature
+     * settings never masquerade as standalone addon settings (the two shapes
+     * may diverge, and a disabled feature's toggle must still route to the
+     * host's option when the feature itself never registered).
+     */
+    public function settingsPath(): string
+    {
+        if ($this->host instanceof PluginContract) {
+            return $this->host->slug.'.'.static::SLUG;
+        }
+        return $this->isHost() ? static::SLUG : 'addons.'.static::SLUG;
     }
 
     /**
@@ -231,7 +255,7 @@ abstract class Addon implements PluginContract
     public function option(string $path = '', $fallback = '', string $cast = '')
     {
         $path = Str::removePrefix($path, 'settings.');
-        $path = Str::prefix($path, 'addons.'.static::SLUG.'.');
+        $path = Str::prefix($path, $this->settingsPath().'.');
         return glsr_get_option($path, $fallback, $cast);
     }
 
@@ -242,7 +266,7 @@ abstract class Addon implements PluginContract
     public function updateOption(string $path, $value = ''): bool
     {
         $path = Str::removePrefix($path, 'settings.');
-        $path = Str::prefix($path, 'addons.'.static::SLUG.'.');
+        $path = Str::prefix($path, $this->settingsPath().'.');
         return glsr(\GeminiLabs\SiteReviews\Database\OptionManager::class)->set(Str::prefix($path, 'settings.'), $value);
     }
 
@@ -251,7 +275,7 @@ abstract class Addon implements PluginContract
      */
     public function options(string $defaultsClass = ''): Arguments
     {
-        $options = glsr_get_option('settings.addons.'.static::SLUG, [], 'array');
+        $options = glsr_get_option($this->settingsPath(), [], 'array');
         if (is_a($defaultsClass, DefaultsContract::class, true)) {
             $options = glsr($defaultsClass)->restrict($options);
         }

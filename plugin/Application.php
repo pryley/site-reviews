@@ -243,9 +243,9 @@ final class Application extends Container implements PluginContract
         if ($host instanceof PluginContract) {
             $parameters = ['host' => $host];
             if ($host instanceof Addons\Addon) {
-                // The host shares its settings option with the addons it hosts;
-                // marking it moves its own values into the top-level "features"
-                // key so they cannot clobber a hosted addon's settings subtree.
+                // A host's settings mount in the composed view under its own
+                // slug (see Addon::settingsPath()), so hosted subtrees cannot
+                // collide with standalone addons mounted under "addons".
                 $host->markAsHost();
             }
         }

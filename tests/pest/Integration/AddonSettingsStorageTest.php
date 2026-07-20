@@ -28,8 +28,11 @@ require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/
  * Hosted addons (the merged premium plugin's modules) take the same machinery
  * one step further: they have no main file and no row of their own — identity
  * comes from the $host passed at registration, paths remap into the host's
- * file tree, and settings store inside the HOST's row, the host's own settings
- * occupying the top-level "features" key (a sibling of settings).
+ * file tree, and settings store inside the HOST's row. The host mounts its
+ * whole subtree in the composed view under its own slug (settings.{hostSlug}.
+ * {slug}.*), with the reserved "is_enabled" toggle inside each subtree;
+ * standalone-era paths (settings.addons.{slug}.*) remap to the hosted mount
+ * on read and write.
  */
 
 beforeEach(function () {
@@ -213,23 +216,34 @@ test('but themePath never remaps — theme overrides survive the standalone-to-p
         ->toBe(get_stylesheet_directory().'/site-reviews-hosted-addon/alert.php');
 });
 
-test('hosted settings store inside the host\'s row; the host\'s own values in top-level "features"', function () {
+test('hosted settings store inside the host\'s row; the host mounts under its own slug', function () {
     registerHostedFixture();
 
-    glsr(OptionManager::class)->set('settings.addons.hosted-thing.color', 'red');
-    glsr(OptionManager::class)->set('settings.addons.premium-host.hosted-thing', 'yes');
+    glsr(OptionManager::class)->set('settings.premium-host.hosted-thing.color', 'red');
+    glsr(OptionManager::class)->set('settings.premium-host.hosted-thing.is_enabled', 'yes');
 
     $row = get_option('site_reviews_premium_host');
     expect($row['settings']['hosted-thing']['color'])->toBe('red')
-        ->and($row['features']['hosted-thing'])->toBe('yes') // host auto-marked: top-level features key
-        ->and($row['settings'])->not->toHaveKey('features') // a sibling of settings, not inside it
-        ->and($row['settings'])->not->toHaveKey('color') // host settings never clobber module subtrees
-        ->and(coreRow()['settings']['addons'] ?? [])->not->toHaveKey('hosted-thing')
-        ->and(coreRow()['settings']['addons'] ?? [])->not->toHaveKey('premium-host');
+        ->and($row['settings']['hosted-thing']['is_enabled'])->toBe('yes') // the reserved toggle key lives inside the subtree it gates
+        ->and($row)->not->toHaveKey('features') // the old sibling key is gone
+        ->and(coreRow()['settings'] ?? [])->not->toHaveKey('premium-host')
+        ->and(coreRow()['settings']['addons'] ?? [])->not->toHaveKey('hosted-thing');
 
-    // And both read back through the composed view.
-    expect(glsr_get_option('addons.hosted-thing.color'))->toBe('red')
-        ->and(glsr_get_option('addons.premium-host.hosted-thing'))->toBe('yes');
+    // And it reads back through the composed view — via the canonical hosted
+    // path AND the standalone-era path (the remap shim keeps module code and
+    // user snippets authored against the standalone shape working).
+    expect(glsr_get_option('premium-host.hosted-thing.color'))->toBe('red')
+        ->and(glsr_get_option('addons.hosted-thing.color'))->toBe('red');
+});
+
+test('a standalone-era write remaps to the hosted mount instead of orphaning in the core row', function () {
+    registerHostedFixture();
+
+    glsr(OptionManager::class)->set('settings.addons.hosted-thing.color', 'blue');
+
+    $row = get_option('site_reviews_premium_host');
+    expect($row['settings']['hosted-thing']['color'])->toBe('blue')
+        ->and(coreRow()['settings']['addons'] ?? [])->not->toHaveKey('hosted-thing');
 });
 
 test('the suppression guard admits a hosted addon in the Premium namespace', function () {

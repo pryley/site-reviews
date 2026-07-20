@@ -287,20 +287,35 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * Merges the addon's settings config into the shared settings form.
-     * Short config keys (e.g. "settings.search") are automatically namespaced
-     * to "settings.addons.{slug}.search" so addon configs can omit the
-     * boilerplate prefix; fully-prefixed keys pass through untouched.
+     * Merges the addon's settings config into the shared settings form,
+     * remounting keys at the addon's composed-view path. Configs are authored
+     * in the standalone shape: short keys (e.g. "settings.search") and keys
+     * carrying the addon's own standalone prefix ("settings.addons.{slug}.*",
+     * including depends_on references) are namespaced to the addon's actual
+     * mount — identical for a standalone addon, "settings.{hostSlug}.{slug}.*"
+     * for a hosted one — so imported standalone configs need no rewriting.
+     * Foreign fully-prefixed keys (another addon's, or a core path in a
+     * depends_on) pass through untouched.
      *
      * @filter site-reviews/settings
      */
     public function filterSettings(array $settings): array
     {
         $config = [];
-        $prefix = "settings.addons.{$this->app()->slug}.";
+        $standalone = "settings.addons.{$this->app()->slug}.";
+        $prefix = "settings.{$this->app()->settingsPath()}.";
+        $remap = fn (string $key): string => str_starts_with($key, $standalone)
+            ? $prefix.substr($key, strlen($standalone))
+            : $key;
         foreach ($this->app()->config('settings') as $key => $values) {
-            if (!str_starts_with($key, 'settings.addons.')) {
-                $key = $prefix.Str::removePrefix($key, 'settings.');
+            $key = str_starts_with($key, 'settings.addons.')
+                ? $remap($key)
+                : $prefix.Str::removePrefix($key, 'settings.');
+            if (!empty($values['depends_on']) && is_array($values['depends_on'])) {
+                $values['depends_on'] = array_combine(
+                    array_map($remap, array_keys($values['depends_on'])),
+                    $values['depends_on']
+                );
             }
             $config[$key] = $values;
         }
@@ -363,6 +378,9 @@ abstract class Controller extends AbstractController
         $addon = $this->app();
         if (!$addon instanceof Addon || 'settings' !== $addon->storagePath()) {
             return;
+        }
+        if ($addon->isHost()) {
+            return; // a host imports its own state (with its hosted addons' settings)
         }
         $key = $addon->storageKey();
         if (false !== get_option($key)) {

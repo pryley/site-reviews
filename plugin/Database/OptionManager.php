@@ -143,6 +143,7 @@ class OptionManager
      */
     public function get(string $path = '', $fallback = '', string $cast = '')
     {
+        $path = $this->remapHostedPath($path);
         $settings = $this->all();
         $option = Arr::get($settings, $path, $fallback);
         $path = ltrim(Str::removePrefix($path, 'settings'), '.');
@@ -233,10 +234,31 @@ class OptionManager
     }
 
     /**
+     * Remaps a standalone-era addon path (settings.addons.{slug}.*) to its
+     * hosted mount (settings.{hostSlug}.{slug}.*) when that slug's addon runs
+     * hosted. Module code and user snippets authored against the standalone
+     * shape keep working unchanged. Note: the option/* filter hook fires with
+     * the remapped (canonical) path.
+     */
+    protected function remapHostedPath(string $path): string
+    {
+        if (!str_starts_with($path, 'settings.addons.')) {
+            return $path;
+        }
+        $slug = explode('.', $path)[2] ?? '';
+        $addon = static::addons()[$slug] ?? null;
+        if ($addon && $addon->hostedBy()) {
+            return Str::replaceFirst("addons.{$slug}", $addon->settingsPath(), $path);
+        }
+        return $path;
+    }
+
+    /**
      * @param mixed $value
      */
     public function set(string $path, $value = ''): bool
     {
+        $path = $this->remapHostedPath($path);
         $settings = $this->all();
         $settings = Arr::set($settings, $path, $value);
         $settings = $this->normalize($settings);
@@ -291,7 +313,11 @@ class OptionManager
         $writes = [];
         $versions = [];
         foreach (static::addons() as $slug => $addon) {
-            $values = Arr::get($settings, "settings.addons.{$slug}", null);
+            if ($addon->hostedBy()) {
+                continue; // the host claims its whole subtree, hosted values included
+            }
+            $path = $addon->settingsPath();
+            $values = Arr::get($settings, "settings.{$path}", null);
             if (!is_array($values)) {
                 continue;
             }
@@ -300,11 +326,8 @@ class OptionManager
                 $writes[$key] = Arr::consolidate(get_option($key));
             }
             $writes[$key] = Arr::set($writes[$key], $addon->storagePath(), $values);
-            $host = $addon->hostedBy();
-            $versions[$key] = $host instanceof \GeminiLabs\SiteReviews\Contracts\PluginContract
-                ? $host->version
-                : $addon->version;
-            unset($settings['settings']['addons'][$slug]);
+            $versions[$key] = $addon->version;
+            $settings = Arr::remove($settings, "settings.{$path}");
         }
         foreach ($writes as $key => $value) {
             $value['version'] = $versions[$key];
@@ -316,19 +339,24 @@ class OptionManager
     }
 
     /**
-     * Mounts each registered addon's stored settings into the composed view at
-     * settings.addons.{slug}. Addons without their own option yet (not migrated)
-     * are skipped so any legacy subtree in the core option remains visible.
+     * Mounts each registered addon's stored settings into the composed view:
+     * standalone addons at settings.addons.{slug}, a host's whole subtree
+     * (hosted modules and their toggles included) at settings.{hostSlug}.
+     * Addons without their own option yet (not migrated) are skipped so any
+     * legacy subtree in the core option remains visible.
      */
     protected function compose(array $settings): array
     {
         foreach (static::addons() as $slug => $addon) {
+            if ($addon->hostedBy()) {
+                continue; // mounted by its host's whole subtree
+            }
             $stored = get_option($addon->storageKey());
             if (false === $stored) {
                 continue;
             }
             $values = Arr::getAs('array', Arr::consolidate($stored), $addon->storagePath());
-            $settings = Arr::set($settings, "settings.addons.{$slug}", $values);
+            $settings = Arr::set($settings, "settings.{$addon->settingsPath()}", $values);
         }
         return $settings;
     }
@@ -374,6 +402,20 @@ class OptionManager
         foreach (Arr::get($saved, 'settings.addons', []) as $addon => $values) {
             if (!isset($defaults['settings']['addons'][$addon])) {
                 $settings['settings']['addons'][$addon] = $values;
+            }
+        }
+        foreach (static::addons() as $slug => $addon) {
+            if (!$addon->isHost()) {
+                continue;
+            }
+            // A disabled feature never registers, so its settings config is
+            // not loaded and its keys are absent from the defaults; preserve
+            // its stored values key-by-key (the feature's toggle IS in the
+            // defaults, so whole-subtree preservation would not work).
+            $savedTree = Arr::flatten(Arr::getAs('array', $saved, "settings.{$slug}"));
+            $defaultTree = Arr::flatten(Arr::getAs('array', $defaults, "settings.{$slug}"));
+            foreach (array_diff_key($savedTree, $defaultTree) as $path => $value) {
+                $settings = Arr::set($settings, "settings.{$slug}.{$path}", $value);
             }
         }
         foreach (Arr::get($saved, 'settings.integrations', []) as $integration => $values) {

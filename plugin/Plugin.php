@@ -242,6 +242,16 @@ trait Plugin
         return glsr_get_option($path, $fallback, $cast);
     }
 
+    /**
+     * The plugin's mount point inside the composed settings view (without the
+     * leading "settings."). The core plugin owns the root; addons override
+     * this with their own mount (see Addons\Addon::settingsPath()).
+     */
+    public function settingsPath(): string
+    {
+        return '';
+    }
+
     public function path(string $file = '', bool $realpath = true): string
     {
         $basedir = plugin_dir_path($this->file);
