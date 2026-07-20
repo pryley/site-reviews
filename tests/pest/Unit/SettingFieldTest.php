@@ -102,10 +102,7 @@ test('build general request verification message', function () {
                         '<input type="button" class="button button-small" data-tag="review_categories" value="categories" />'.
                         '<input type="button" class="button button-small" data-tag="review_content" value="content" />'.
                         '<input type="button" class="button button-small" data-tag="review_email" value="email" />'.
-                        '<input type="button" class="button button-small" data-tag="review_id" value="review id" />'.
-                        '<input type="button" class="button button-small" data-tag="review_ip" value="ip address" />'.
                         '<input type="button" class="button button-small" data-tag="review_rating" value="rating" />'.
-                        '<input type="button" class="button button-small" data-tag="review_response" value="response" />'.
                         '<input type="button" class="button button-small" data-tag="review_stars" value="stars" />'.
                         '<input type="button" class="button button-small" data-tag="review_title" value="title" />'.
                         '<input type="button" class="button button-small" data-tag="site_title" value="site title" />'.
@@ -405,7 +402,6 @@ test('build general notification message', function () {
                         '<input type="button" class="button button-small" data-tag="review_id" value="review id" />'.
                         '<input type="button" class="button button-small" data-tag="review_ip" value="ip address" />'.
                         '<input type="button" class="button button-small" data-tag="review_rating" value="rating" />'.
-                        '<input type="button" class="button button-small" data-tag="review_response" value="response" />'.
                         '<input type="button" class="button button-small" data-tag="review_stars" value="stars" />'.
                         '<input type="button" class="button button-small" data-tag="review_title" value="title" />'.
                         '<input type="button" class="button button-small" data-tag="site_title" value="site title" />'.
