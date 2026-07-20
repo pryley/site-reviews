@@ -26,6 +26,7 @@ class EmailDefaults extends DefaultsAbstract
         'message' => 'text-post',
         'recipients' => 'array-string',
         'subject' => 'text',
+        'template' => 'slug',
         'template-tags' => 'array-consolidate',
     ];
 

@@ -6,7 +6,6 @@ use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Contracts\EmailContract;
 use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Contracts\TemplateContract;
-use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
 use GeminiLabs\SiteReviews\Defaults\EmailDefaults;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -141,16 +140,17 @@ class Email implements EmailContract
 
     protected function buildHtmlMessage(): string
     {
+        if (empty(trim($this->email['message']))) {
+            return '';
+        }
         $message = $this->buildMessage();
-        $message = $this->email['before'].$message.$this->email['after'];
         $message = strip_shortcodes($message);
         $message = wptexturize($message);
         $message = wpautop($message);
         $message = str_replace('&lt;&gt; ', '', $message);
         $message = str_replace(']]>', ']]&gt;', $message);
         $context = wp_parse_args(['message' => $message], $this->email['template-tags']);
-        $template = $this->email['template'];
-        $message = $this->template()->build("templates/emails/{$template}", [
+        $message = $this->template()->build("templates/emails/{$this->email['template']}", [
             'context' => $context,
         ]);
         return $this->app()->filterString('email/message', stripslashes($message), 'html', $this);
@@ -158,16 +158,11 @@ class Email implements EmailContract
 
     protected function buildMessage(): string
     {
-        if (!empty($this->email['message'])) {
-            return $this->email['message'];
-        }
-        $template = trim(glsr(OptionManager::class)->get('settings.general.notification_message'));
-        if (!empty($template)) {
-            $context = ['context' => $this->email['template-tags']];
-            $templatePathForHook = 'notification_message';
-            return $this->template()->interpolate($template, $templatePathForHook, $context);
-        }
-        return '';
+        $context = $this->email['template-tags'];
+        $after = $this->template()->interpolateContext($this->email['after'], $context);
+        $before = $this->template()->interpolateContext($this->email['before'], $context);
+        $message = $this->template()->interpolateContext($this->email['message'], $context);
+        return trim("{$before} {$message} {$after}");
     }
 
     protected function normalize(array $email = []): array

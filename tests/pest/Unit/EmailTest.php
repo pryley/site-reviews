@@ -22,6 +22,8 @@ test('composes and sends an email from a template', function () {
         'to' => 'test@wordpress.dev',
         'subject' => 'Test Email',
         'template' => 'default',
+        // the body is the caller's to provide: Email holds no template of its own to fall back on
+        'message' => 'A review by {review_author}.',
         'template-tags' => [
             'review_author' => $review['name'],
             'review_content' => $review['content'],
@@ -40,6 +42,7 @@ test('composes and sends an email from a template', function () {
     expect((array) $mail[0]['to'])->toContain('test@wordpress.dev');
     expect($mail[0]['subject'])->toBe('Test Email');
     expect($mail[0]['message'])->toBeString()->not->toBeEmpty();
+    expect($mail[0]['message'])->toContain('A review by ')->not->toContain('{review_author}');
 });
 
 test('does not send an email it cannot validate', function () {
@@ -47,6 +50,21 @@ test('does not send an email it cannot validate', function () {
     $sent = glsr(Email::class)->compose([
         'subject' => 'Test Email',
         'template' => 'default',
+    ])->send();
+
+    expect($sent)->toBeFalse();
+    expect(sentMail())->toBeEmpty();
+});
+
+test('an email with nothing in the body is not sent', function () {
+    // The rendered message is the email template wrapped around the body, so it is never empty
+    // and cannot answer this on its own. Without the body check a site whose message template
+    // has been blanked by a filter mails out the wrapper and calls it a success.
+    $sent = glsr(Email::class)->compose([
+        'to' => 'test@wordpress.dev',
+        'subject' => 'Test Email',
+        'template' => 'default',
+        'message' => '   ',
     ])->send();
 
     expect($sent)->toBeFalse();

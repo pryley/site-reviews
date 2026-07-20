@@ -1,9 +1,9 @@
 <?php
 
+use GeminiLabs\SiteReviews\Commands\SendNotification;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Discord;
-use GeminiLabs\SiteReviews\Modules\Notification;
 use GeminiLabs\SiteReviews\Modules\Slack;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
@@ -52,7 +52,7 @@ test('a site that has asked for no notifications gets none', function () {
     $review = createReview();
     $http = interceptHttp();
 
-    glsr(Notification::class)->send($review);
+    (new SendNotification($review))->handle();
 
     expect(sentMail())->toBeEmpty();
     expect($http)->toHaveCount(0);
@@ -61,7 +61,7 @@ test('a site that has asked for no notifications gets none', function () {
 test('the administrator is told, at the address wordpress has for them', function () {
     notifyBy(['admin']);
 
-    glsr(Notification::class)->send(createReview());
+    (new SendNotification(createReview()))->handle();
 
     expect(sentMail())->toHaveCount(1);
     expect(sentTo())->toBe([get_option('admin_email')]);
@@ -75,7 +75,7 @@ test('the author of the page a review is about is told', function () {
     $postId = createPost(['post_author' => $author]);
     notifyBy(['author']);
 
-    glsr(Notification::class)->send(createReview(['assigned_posts' => $postId]));
+    (new SendNotification(createReview(['assigned_posts' => $postId])))->handle();
 
     expect(sentTo())->toBe(['author@example.org']);
 });
@@ -83,7 +83,7 @@ test('the author of the page a review is about is told', function () {
 test('a review about nothing in particular has no author to tell', function () {
     notifyBy(['author']);
 
-    glsr(Notification::class)->send(createReview()); // assigned to no page
+    (new SendNotification(createReview()))->handle(); // assigned to no page
 
     expect(sentMail())->toBeEmpty(); // no recipient, so Email::validate() refuses it
     expect(glsr(Console::class)->get())->toContain('missing the recipient');
@@ -99,7 +99,7 @@ test('the addresses somebody typed in are told, however they separated them', fu
         'one@example.org, two@example.org;three@example.org four@example.org'
     );
 
-    glsr(Notification::class)->send(createReview());
+    (new SendNotification(createReview()))->handle();
 
     expect(sentTo())->toBe([
         'one@example.org', 'two@example.org', 'three@example.org', 'four@example.org',
@@ -112,7 +112,7 @@ test('nobody is told twice', function () {
     notifyBy(['admin', 'custom']);
     glsr(OptionManager::class)->set('settings.general.notification_email', get_option('admin_email'));
 
-    glsr(Notification::class)->send(createReview());
+    (new SendNotification(createReview()))->handle();
 
     expect(sentTo())->toBe([get_option('admin_email')]);
 });
@@ -121,9 +121,27 @@ test('the recipients can be changed by a filter', function () {
     notifyBy(['admin']);
     add_filter('site-reviews/notification/emails', fn () => ['someone@example.org']);
 
-    glsr(Notification::class)->send(createReview());
+    (new SendNotification(createReview()))->handle();
 
     expect(sentTo())->toBe(['someone@example.org']);
+});
+
+/*
+ * What it says.
+ */
+
+test('the template tags in the notification body are replaced with the review', function () {
+    // The command interpolates its own message before handing it to Email, which only wraps
+    // it. Get that wrong and the tags go out to the recipient verbatim, as {review_title}.
+    notifyBy(['admin']);
+    glsr(OptionManager::class)->set('settings.general.notification_message', '{review_title} got {review_rating} stars.');
+
+    (new SendNotification(createReview(['rating' => 4, 'title' => 'The Widget'])))->handle();
+
+    expect(sentMail()[0]['message'])
+        ->toContain('The Widget got 4 stars.')
+        ->not->toContain('{review_title}')
+        ->not->toContain('{review_rating}');
 });
 
 /*
@@ -133,7 +151,7 @@ test('the recipients can be changed by a filter', function () {
 test('the subject says the rating, and the site it came from', function () {
     notifyBy(['admin']);
 
-    glsr(Notification::class)->send(createReview(['rating' => 4]));
+    (new SendNotification(createReview(['rating' => 4])))->handle();
 
     expect(sentMail()[0]['subject'])
         ->toContain('New 4-star review')
@@ -144,7 +162,7 @@ test('the subject says what the review is of, when it is of something', function
     notifyBy(['admin']);
     $postId = createPost(['post_title' => 'The Widget']);
 
-    glsr(Notification::class)->send(createReview(['rating' => 5, 'assigned_posts' => $postId]));
+    (new SendNotification(createReview(['rating' => 5, 'assigned_posts' => $postId])))->handle();
 
     expect(sentMail()[0]['subject'])->toContain('New 5-star review of The Widget');
 });
@@ -153,7 +171,7 @@ test('the subject can be changed by a filter', function () {
     notifyBy(['admin']);
     add_filter('site-reviews/notification/title', fn () => 'Something happened');
 
-    glsr(Notification::class)->send(createReview());
+    (new SendNotification(createReview()))->handle();
 
     expect(sentMail()[0]['subject'])->toBe('Something happened');
 });
@@ -177,7 +195,7 @@ test('discord is not sent to without a webhook to send to, and the console says 
     $review = createReview();
     $http = interceptHttp();
 
-    glsr(Notification::class)->send($review);
+    (new SendNotification($review))->handle();
 
     expect($http)->toHaveCount(0);
     expect(glsr(Console::class)->get())->toContain('Discord notification was not sent: missing webhook');
@@ -197,7 +215,7 @@ test('a discord notification carries the review, and where to act on it', functi
     ]);
     $http = interceptHttp();
 
-    glsr(Notification::class)->send($review);
+    (new SendNotification($review))->handle();
 
     expect($http)->toHaveCount(1);
     expect($http[0]['url'])->toBe($webhook);
@@ -230,7 +248,7 @@ test('an approved review is not offered for approval again', function () {
     $review = createReview(['is_approved' => true]);
     $http = interceptHttp();
 
-    glsr(Notification::class)->send($review);
+    (new SendNotification($review))->handle();
 
     $fields = sentJson($http)['embeds'][0]['fields'];
     $links = end($fields)['value'];
@@ -247,7 +265,7 @@ test('a review too long for discord is cut short rather than rejected', function
     $review = createReview(['content' => str_repeat('a', 3000)]);
     $http = interceptHttp();
 
-    glsr(Notification::class)->send($review);
+    (new SendNotification($review))->handle();
 
     $description = sentJson($http)['embeds'][0]['description'];
 
@@ -261,7 +279,7 @@ test('a review with no title still has a title in discord', function () {
     $review = createReview(['title' => '']);
     $http = interceptHttp();
 
-    glsr(Notification::class)->send($review);
+    (new SendNotification($review))->handle();
 
     expect(sentJson($http)['embeds'][0]['title'])->toBe('(no title)');
 });
@@ -283,7 +301,7 @@ test('slack is not sent to without a webhook to send to, and the console says so
     $review = createReview();
     $http = interceptHttp();
 
-    glsr(Notification::class)->send($review);
+    (new SendNotification($review))->handle();
 
     expect($http)->toHaveCount(0);
     expect(glsr(Console::class)->get())->toContain('Slack notification was not sent: missing webhook');
@@ -303,7 +321,7 @@ test('a slack notification carries the review, and where to act on it', function
     ]);
     $http = interceptHttp();
 
-    glsr(Notification::class)->send($review);
+    (new SendNotification($review))->handle();
 
     expect($http[0]['url'])->toBe($webhook);
 
@@ -328,7 +346,7 @@ test('a slack notification leaves out the blocks it has nothing to put in', func
     $review = createReview(['content' => '  ', 'is_approved' => true]);
     $http = interceptHttp();
 
-    glsr(Notification::class)->send($review);
+    (new SendNotification($review))->handle();
 
     $blocks = sentJson($http)['blocks'];
 
@@ -346,7 +364,7 @@ test('a slack notification can be rewritten wholesale by a filter', function () 
     $review = createReview();
     $http = interceptHttp();
 
-    glsr(Notification::class)->send($review);
+    (new SendNotification($review))->handle();
 
     expect(sentJson($http))->toBe(['text' => 'Replaced.']);
 });
@@ -375,7 +393,7 @@ test('a site can tell discord and slack and everybody else at once', function ()
     $review = createReview();
     $http = interceptHttp();
 
-    glsr(Notification::class)->send($review);
+    (new SendNotification($review))->handle();
 
     expect(sentMail())->toHaveCount(1);
     expect(array_column($http->getArrayCopy(), 'url'))->toBe([

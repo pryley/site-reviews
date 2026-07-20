@@ -4,10 +4,10 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\GeolocateReview;
 use GeminiLabs\SiteReviews\Commands\GeolocateReviews;
+use GeminiLabs\SiteReviews\Commands\SendNotification;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Modules\Migrate;
-use GeminiLabs\SiteReviews\Modules\Notification;
 use GeminiLabs\SiteReviews\Request;
 
 class QueueController extends AbstractController
@@ -59,8 +59,6 @@ class QueueController extends AbstractController
     public function sendNotification(int $reviewId): void
     {
         $review = glsr_get_review($reviewId);
-        if ($review->isValid()) {
-            glsr(Notification::class)->send($review);
-        }
+        $this->execute(new SendNotification($review));
     }
 }

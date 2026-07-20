@@ -273,18 +273,27 @@ test('a plain text alternative that is already there is left alone', function ()
  * The body.
  */
 
-test('the message falls back to the notification template the settings hold', function () {
-    // This is how the review notification gets its body: the caller passes template
-    // tags and no message, and the template in the settings is interpolated with them.
-    glsr(OptionManager::class)->set('settings.general.notification_message', 'A review by {review_author}.');
-
+test('the template tags are replaced in the message, and in whatever wraps it', function () {
+    // The caller hands over the raw template and the tags; Email interpolates all three parts.
+    // Miss this and every notification goes out reading "A review by {review_author}."
     sendEmail([
         'to' => 'a@example.org',
         'subject' => 's',
-        'template-tags' => ['review_author' => 'Jane'],
+        'before' => 'From {site_title}:',
+        'message' => 'A review by {review_author}.',
+        'after' => 'Rated {review_rating}.',
+        'template-tags' => [
+            'review_author' => 'Jane',
+            'review_rating' => '4',
+            'site_title' => 'Example',
+        ],
     ]);
 
-    expect(sentMail()[0]['message'])->toContain('A review by Jane.');
+    expect(sentMail()[0]['message'])
+        ->toContain('From Example:')
+        ->toContain('A review by Jane.')
+        ->toContain('Rated 4.')
+        ->not->toContain('{review_author}');
 });
 
 test('a shortcode in a review does not run in the email', function () {
@@ -384,28 +393,6 @@ test('a verification request can be sent again, with the link it is given', func
     // and the review remembers that it was asked, so the button can say "Resend" rather
     // than offering to send it again as though it never had
     expect(glsr(PostMeta::class)->get($review->ID, 'verified_requested'))->toBe('1');
-});
-
-test('a verification request with no message template is refused and logged, not sent', function () {
-    // The settings screen cannot save this state — SettingsController::sanitizeGeneral() reverts
-    // an emptied request_verification_message to the default (SettingsControllerTest pins it) —
-    // so a blank template means a filter or a direct option write. The command must refuse: the
-    // fallback would be sending the NOTIFICATION template as a "verification" email and calling
-    // it success.
-    askForVerification();
-    wp_set_current_user(createUser(['role' => 'administrator']));
-    $review = createReview(['email' => 'jane@example.org']);
-    emptyMailbox(); // creating the review sent the creation-time request; only the command's send matters here
-
-    // Blank the template at the option filter (set('') is overwritten by the setting default).
-    add_filter('site-reviews/option/general/request_verification_message', '__return_empty_string');
-
-    $command = new SendVerificationEmail($review, 'https://example.org/verify?token=abc');
-    $command->handle();
-
-    expect($command->successful())->toBeFalse();
-    expect(sentMail())->toBe([]); // nothing left the site
-    expect(glsr(Console::class)->get())->toContain('The request_verification_message setting is missing.');
 });
 
 test('a verification request is not sent by a site that does not ask for verification', function () {
