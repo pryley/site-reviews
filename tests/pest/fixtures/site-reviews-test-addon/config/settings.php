@@ -15,4 +15,13 @@ return [
         'label' => 'A short-keyed setting',
         'type' => 'text',
     ],
+    // A BARE config key with a BARE depends_on key: both mount at the addon's
+    // composed-view path, so a config can be written without repeating the
+    // addon's mount and stay correct in the hosted and standalone shapes.
+    'bare_key' => [
+        'default' => 'bare',
+        'depends_on' => ['short_key' => ['short']],
+        'label' => 'A bare-keyed setting',
+        'type' => 'text',
+    ],
 ];

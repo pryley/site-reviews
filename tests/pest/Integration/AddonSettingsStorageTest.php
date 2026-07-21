@@ -159,7 +159,19 @@ test('short config keys are namespaced to the addon; fully-prefixed keys pass th
 
     expect($settings)->toHaveKey('settings.addons.test-addon.enabled')   // full prefix, untouched
         ->and($settings)->toHaveKey('settings.addons.test-addon.short_key') // short key, namespaced
-        ->and($settings)->not->toHaveKey('settings.short_key');
+        ->and($settings)->toHaveKey('settings.addons.test-addon.bare_key')  // bare key, namespaced
+        ->and($settings)->not->toHaveKey('settings.short_key')
+        ->and($settings)->not->toHaveKey('bare_key');
+});
+
+test('a depends_on key is mounted the same way the setting key is', function () {
+    // Without this a bare depends_on passes through unmounted, and the field it
+    // gates renders unconditionally instead: no error, just a form that ignores
+    // its own conditions.
+    $settings = glsr(TestAddonController::class)->filterSettings([]);
+
+    expect($settings['settings.addons.test-addon.bare_key']['depends_on'])
+        ->toBe(['settings.addons.test-addon.short_key' => ['short']]);
 });
 
 /*

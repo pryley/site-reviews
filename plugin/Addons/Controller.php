@@ -288,7 +288,9 @@ abstract class Controller extends AbstractController
 
     /**
      * Merges the addon's settings config into the shared settings form,
-     * remounting keys at the addon's composed-view path.
+     * remounting keys at the addon's composed-view path. A depends_on key
+     * names a setting and is mounted the same way, so a config can be written
+     * entirely in short keys and stay correct in both shapes.
      *
      * @filter site-reviews/settings
      */
@@ -297,20 +299,22 @@ abstract class Controller extends AbstractController
         $config = [];
         $standalone = "settings.addons.{$this->app()->slug}.";
         $prefix = "settings.{$this->app()->settingsPath()}.";
-        $remap = fn (string $key): string => str_starts_with($key, $standalone)
-            ? $prefix.substr($key, strlen($standalone))
-            : $key;
+        $mount = function (string $key) use ($standalone, $prefix): string {
+            if (str_starts_with($key, 'settings.addons.')) {
+                return str_starts_with($key, $standalone)
+                    ? $prefix.substr($key, strlen($standalone)) // this addon's own standalone-era spelling
+                    : $key; // another addon's, already qualified
+            }
+            return $prefix.Str::removePrefix($key, 'settings.');
+        };
         foreach ($this->app()->config('settings') as $key => $values) {
-            $key = str_starts_with($key, 'settings.addons.')
-                ? $remap($key)
-                : $prefix.Str::removePrefix($key, 'settings.');
             if (!empty($values['depends_on']) && is_array($values['depends_on'])) {
                 $values['depends_on'] = array_combine(
-                    array_map($remap, array_keys($values['depends_on'])),
+                    array_map($mount, array_keys($values['depends_on'])),
                     $values['depends_on']
                 );
             }
-            $config[$key] = $values;
+            $config[$mount($key)] = $values;
         }
         return array_merge($config, $settings);
     }
