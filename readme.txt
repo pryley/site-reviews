@@ -211,8 +211,10 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 
 == Changelog ==
 
-= 8.1.1 (2026-07-17) =
+= 8.2.0 (2026-07-21) =
 
+- Added per-addon settings storage: each addon now keeps its settings in its own option, and an addon's existing settings are moved there automatically the first time it runs
+- Added support for addons that are bundled inside another plugin rather than installed on their own
 - Fixed a "doing it wrong" notice raised by an integration's version notice
 - Fixed a fatal error on sites running MultilingualPress when it cannot report its version
 - Fixed a PHP error when a review query is built with no arguments
