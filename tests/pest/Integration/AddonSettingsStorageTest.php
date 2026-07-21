@@ -56,7 +56,7 @@ function seedLegacy(string $value): void
 
 test('an addon option key is the snake_cased addon id', function () {
     expect(OptionManager::addonKey(TestAddon::ID))->toBe('site_reviews_test_addon')
-        ->and(TestAddon::databaseKey())->toBe('site_reviews_test_addon');
+        ->and(glsr(TestAddon::class)->storageKey())->toBe('site_reviews_test_addon');
 });
 
 /*

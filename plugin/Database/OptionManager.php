@@ -37,30 +37,6 @@ class OptionManager
         return call_user_func([$this, 'get'], $path, $fallback, $cast);
     }
 
-    public function all(): array
-    {
-        $settings = Arr::consolidate(glsr()->retrieve('settings'));
-        if (empty($settings)) {
-            $settings = $this->reset();
-        }
-        return $settings;
-    }
-
-    public function clean(array $data = []): array
-    {
-        $settings = $this->kses($data);
-        if (!empty(glsr()->settings)) { // access the property directly to prevent an infinite loop
-            $savedSettings = $settings;
-            $defaults = glsr()->defaults();
-            $defaults = Arr::flatten($defaults);
-            $settings = Arr::flatten($settings);
-            $settings = shortcode_atts($defaults, $settings);
-            $settings = Arr::unflatten($settings);
-            $settings = $this->restoreOrphanedSettings($settings, $savedSettings);
-        }
-        return $settings;
-    }
-
     /**
      * The WP option key of an addon's own settings option.
      */
@@ -84,6 +60,30 @@ class OptionManager
             }
         }
         return $addons;
+    }
+
+    public function all(): array
+    {
+        $settings = Arr::consolidate(glsr()->retrieve('settings'));
+        if (empty($settings)) {
+            $settings = $this->reset();
+        }
+        return $settings;
+    }
+
+    public function clean(array $data = []): array
+    {
+        $settings = $this->kses($data);
+        if (!empty(glsr()->settings)) { // access the property directly to prevent an infinite loop
+            $savedSettings = $settings;
+            $defaults = glsr()->defaults();
+            $defaults = Arr::flatten($defaults);
+            $settings = Arr::flatten($settings);
+            $settings = shortcode_atts($defaults, $settings);
+            $settings = Arr::unflatten($settings);
+            $settings = $this->restoreOrphanedSettings($settings, $savedSettings);
+        }
+        return $settings;
     }
 
     public static function databaseKey(?int $version = null): string
@@ -155,6 +155,17 @@ class OptionManager
     }
 
     /**
+     * True while persist() is writing its already-split settings. The
+     * settings-form sanitize callback (registered with register_setting, so
+     * WP fires it on EVERY update_option of the core key) must stand down
+     * for these writes.
+     */
+    public static function isPersisting(): bool
+    {
+        return static::$persisting;
+    }
+
+    /**
      * This is used when exporting the settings.
      */
     public function json(): string
@@ -162,6 +173,18 @@ class OptionManager
         $all = $this->all();
         $all['extra'] = glsr()->filterArray('export/settings/extra', []); // allow addons to export additional data
         return (string) wp_json_encode($all, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    public function kses(array $data): array
+    {
+        $data = Arr::flatten($data);
+        array_walk($data, function (&$value) {
+            if (is_string($value)) {
+                $value = wp_kses($value, wp_kses_allowed_html('post'));
+            }
+        });
+        $data = Arr::unflatten($data);
+        return $data;
     }
 
     public function mergeDefaults(array $defaults): void
@@ -234,26 +257,6 @@ class OptionManager
     }
 
     /**
-     * Remaps a standalone-era addon path (settings.addons.{slug}.*) to its
-     * hosted mount (settings.{hostSlug}.{slug}.*) when that slug's addon runs
-     * hosted. Module code and user snippets authored against the standalone
-     * shape keep working unchanged. Note: the option/* filter hook fires with
-     * the remapped (canonical) path.
-     */
-    protected function remapHostedPath(string $path): string
-    {
-        if (!str_starts_with($path, 'settings.addons.')) {
-            return $path;
-        }
-        $slug = explode('.', $path)[2] ?? '';
-        $addon = static::addons()[$slug] ?? null;
-        if ($addon && $addon->hostedBy()) {
-            return Str::replaceFirst("addons.{$slug}", $addon->settingsPath(), $path);
-        }
-        return $path;
-    }
-
-    /**
      * @param mixed $value
      */
     public function set(string $path, $value = ''): bool
@@ -267,38 +270,6 @@ class OptionManager
         }
         glsr()->store('settings', $settings);
         return true;
-    }
-
-    public function updateVersion(): void
-    {
-        $version = $this->get('version', '0.0.0');
-        if (glsr()->version !== $version) {
-            $this->set('version', glsr()->version);
-            $this->set('version_upgraded_from', $version);
-        }
-    }
-
-    /**
-     * @param mixed $fallback
-     *
-     * @return mixed
-     */
-    public function wp(string $path, $fallback = '', string $cast = '')
-    {
-        $option = get_option($path, $fallback);
-        return Cast::to($cast, Helper::ifEmpty($option, $fallback, $strict = true));
-    }
-
-    public function kses(array $data): array
-    {
-        $data = Arr::flatten($data);
-        array_walk($data, function (&$value) {
-            if (is_string($value)) {
-                $value = wp_kses($value, wp_kses_allowed_html('post'));
-            }
-        });
-        $data = Arr::unflatten($data);
-        return $data;
     }
 
     /**
@@ -338,10 +309,28 @@ class OptionManager
         return $settings;
     }
 
+    public function updateVersion(): void
+    {
+        $version = $this->get('version', '0.0.0');
+        if (glsr()->version !== $version) {
+            $this->set('version', glsr()->version);
+            $this->set('version_upgraded_from', $version);
+        }
+    }
+
     /**
-     * Mounts each registered addon's stored settings into the composed view:
-     * standalone addons at settings.addons.{slug}, a host's whole subtree
-     * (hosted modules and their toggles included) at settings.{hostSlug}.
+     * @param mixed $fallback
+     *
+     * @return mixed
+     */
+    public function wp(string $path, $fallback = '', string $cast = '')
+    {
+        $option = get_option($path, $fallback);
+        return Cast::to($cast, Helper::ifEmpty($option, $fallback, $strict = true));
+    }
+
+    /**
+     * Mounts each registered addon's stored settings into the composed view.
      * Addons without their own option yet (not migrated) are skipped so any
      * legacy subtree in the core option remains visible.
      */
@@ -361,22 +350,6 @@ class OptionManager
         return $settings;
     }
 
-    /**
-     * Persists a composed settings array: addon subtrees to their own options
-     * (via split), the remainder to the core plugin option.
-     */
-    /**
-     * True while persist() is writing its already-split settings. The
-     * settings-form sanitize callback (registered with register_setting, so
-     * WP fires it on EVERY update_option of the core key) must stand down
-     * for these writes: re-processing them merges the stale composed memo
-     * back in and re-splits, clobbering the addon rows just written.
-     */
-    public static function isPersisting(): bool
-    {
-        return static::$persisting;
-    }
-
     protected function persist(array $settings): bool
     {
         $changed = false;
@@ -390,6 +363,23 @@ class OptionManager
         } finally {
             static::$persisting = false;
         }
+    }
+
+    /**
+     * Remaps a standalone addon path (settings.addons.{slug}.*) to its hosted
+     * mount (settings.{hostSlug}.{slug}.*) when that addon module runs hosted.
+     */
+    protected function remapHostedPath(string $path): string
+    {
+        if (!str_starts_with($path, 'settings.addons.')) {
+            return $path;
+        }
+        $slug = explode('.', $path)[2] ?? '';
+        $addon = static::addons()[$slug] ?? null;
+        if ($addon && $addon->hostedBy()) {
+            return Str::replaceFirst("addons.{$slug}", $addon->settingsPath(), $path);
+        }
+        return $path;
     }
 
     /**
@@ -410,8 +400,7 @@ class OptionManager
             }
             // A disabled feature never registers, so its settings config is
             // not loaded and its keys are absent from the defaults; preserve
-            // its stored values key-by-key (the feature's toggle IS in the
-            // defaults, so whole-subtree preservation would not work).
+            // its stored values key-by-key
             $savedTree = Arr::flatten(Arr::getAs('array', $saved, "settings.{$slug}"));
             $defaultTree = Arr::flatten(Arr::getAs('array', $defaults, "settings.{$slug}"));
             foreach (array_diff_key($savedTree, $defaultTree) as $path => $value) {

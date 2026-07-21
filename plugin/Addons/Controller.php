@@ -288,14 +288,7 @@ abstract class Controller extends AbstractController
 
     /**
      * Merges the addon's settings config into the shared settings form,
-     * remounting keys at the addon's composed-view path. Configs are authored
-     * in the standalone shape: short keys (e.g. "settings.search") and keys
-     * carrying the addon's own standalone prefix ("settings.addons.{slug}.*",
-     * including depends_on references) are namespaced to the addon's actual
-     * mount — identical for a standalone addon, "settings.{hostSlug}.{slug}.*"
-     * for a hosted one — so imported standalone configs need no rewriting.
-     * Foreign fully-prefixed keys (another addon's, or a core path in a
-     * depends_on) pass through untouched.
+     * remounting keys at the addon's composed-view path.
      *
      * @filter site-reviews/settings
      */
@@ -368,7 +361,6 @@ abstract class Controller extends AbstractController
      * The legacy subtree is copied, not deleted — it is shadowed by the composed
      * settings view and garbage-collected on the next settings save; leaving it
      * in place protects downgrades to older addon versions.
-     * Hosted addons are skipped; their settings are imported by their host.
      *
      * @action admin_init:5
      * @action {$this->app()->id}/activated
@@ -380,7 +372,7 @@ abstract class Controller extends AbstractController
             return;
         }
         if ($addon->isHost()) {
-            return; // a host imports its own state (with its hosted addons' settings)
+            return; // a host imports its own state
         }
         $key = $addon->storageKey();
         if (false !== get_option($key)) {

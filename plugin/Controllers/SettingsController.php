@@ -37,10 +37,7 @@ class SettingsController extends AbstractController
             return $input;
         }
         if (OptionManager::isPersisting()) {
-            // OptionManager::persist() is writing settings it already
-            // sanitized and split. Re-processing them here would merge the
-            // stale composed memo back in and re-split, clobbering the addon
-            // rows persist() just wrote.
+            // OptionManager::persist() is writing settings it already sanitized and split
             return $input;
         }
         $options = array_replace_recursive(glsr(OptionManager::class)->all(), [
@@ -56,9 +53,7 @@ class SettingsController extends AbstractController
         }
         glsr(Notice::class)->store(); // store the notices before the page reloads
         glsr()->action('settings/updated', $options, $input);
-        // Split the addon settings out to their own options; WP persists the
-        // returned remainder (core-only settings) to the core plugin option.
-        return glsr(OptionManager::class)->split($options);
+        return glsr(OptionManager::class)->split($options); // Split addon settings out to their own options
     }
 
     protected function sanitizeAll(array $options): array

@@ -194,11 +194,6 @@ final class Application extends Container implements PluginContract
 
     /**
      * This is triggered on "plugins_loaded:-10" by "site-reviews/premium/register".
-     *
-     * A $host may be passed when the addon is bundled inside another plugin
-     * (e.g. the merged premium plugin): the addon then has no main file of its
-     * own, its GLSR version gates are read from the host's main file, and its
-     * settings are stored inside the host's option.
      */
     public function register(string $addon, ?PluginContract $host = null): void
     {
@@ -243,9 +238,6 @@ final class Application extends Container implements PluginContract
         if ($host instanceof PluginContract) {
             $parameters = ['host' => $host];
             if ($host instanceof Addons\Addon) {
-                // A host's settings mount in the composed view under its own
-                // slug (see Addon::settingsPath()), so hosted subtrees cannot
-                // collide with standalone addons mounted under "addons".
                 $host->markAsHost();
             }
         }
