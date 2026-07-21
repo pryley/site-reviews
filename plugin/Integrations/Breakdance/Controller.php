@@ -143,14 +143,6 @@ class Controller extends AbstractController
             true // excludeFromElementStudio
         );
         \Breakdance\ElementStudio\registerSaveLocation(
-            "{$pluginDir}/assets/breakdance/macros",
-            'GLSR_Breakdance',
-            'macro',
-            'Site Reviews Macros',
-            true, // onlyForAdvancedUsers
-            true // excludeFromElementStudio
-        );
-        \Breakdance\ElementStudio\registerSaveLocation(
             "{$pluginDir}/assets/breakdance/presets",
             'GLSR_Breakdance',
             'preset',
