@@ -165,6 +165,17 @@ test('short config keys are namespaced to the addon; fully-prefixed keys pass th
         ->and($settings)->not->toHaveKey('bare_key');
 });
 
+test('an addon written for 8.1.x keeps its fully-prefixed keys and depends_on', function () {
+    // A standalone addon's mount IS settings.addons.{slug}, so mounting is an
+    // identity for the shape every released addon uses. Nothing about the
+    // hosted-addon work may change what these resolve to.
+    $settings = glsr(TestAddonController::class)->filterSettings([]);
+
+    expect($settings)->toHaveKey('settings.addons.test-addon.enabled')
+        ->and($settings['settings.addons.test-addon.short_key']['depends_on'])
+        ->toBe(['settings.addons.test-addon.enabled' => ['yes']]);
+});
+
 test('a depends_on key is mounted the same way the setting key is', function () {
     // Without this a bare depends_on passes through unmounted, and the field it
     // gates renders unconditionally instead: no error, just a form that ignores

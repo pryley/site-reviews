@@ -10,8 +10,11 @@ return [
     // settings.addons.test-addon.short_key when merging into the settings form.
     // The fully-prefixed key above passes through untouched — both forms are
     // exercised by AddonSettingsStorageTest.
+    // The 8.1.x addon shape: fully-prefixed key AND fully-prefixed depends_on.
+    // Every released addon is written this way, and must keep working.
     'settings.short_key' => [
         'default' => 'short',
+        'depends_on' => ['settings.addons.test-addon.enabled' => ['yes']],
         'label' => 'A short-keyed setting',
         'type' => 'text',
     ],
