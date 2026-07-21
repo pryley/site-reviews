@@ -30,9 +30,10 @@ require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/
  * comes from the $host passed at registration, paths remap into the host's
  * file tree, and settings store inside the HOST's row. The host mounts its
  * whole subtree in the composed view under its own slug (settings.{hostSlug}.
- * {slug}.*), with the reserved "is_enabled" toggle inside each subtree;
- * standalone-era paths (settings.addons.{slug}.*) remap to the hosted mount
- * on read and write.
+ * {slug}.*), with the reserved "is_enabled" toggle inside each subtree. An
+ * addon reaches its own settings through Addon::option()/updateOption(),
+ * which resolve against settingsPath() — no path is rewritten on the way in,
+ * so the standalone-era spelling is not an alias for the hosted mount.
  */
 
 beforeEach(function () {
@@ -241,17 +242,17 @@ test('hosted settings store inside the host\'s row; the host mounts under its ow
         ->and(coreRow()['settings'] ?? [])->not->toHaveKey('premium-host')
         ->and(coreRow()['settings']['addons'] ?? [])->not->toHaveKey('hosted-thing');
 
-    // And it reads back through the composed view — via the canonical hosted
-    // path AND the standalone-era path (the remap shim keeps module code and
-    // user snippets authored against the standalone shape working).
+    // And it reads back through the composed view at its mount. The
+    // standalone-era path is NOT an alias: a hosted addon's settings live
+    // where they are mounted, and nothing rewrites a path on the way in.
     expect(glsr_get_option('premium-host.hosted-thing.color'))->toBe('red')
-        ->and(glsr_get_option('addons.hosted-thing.color'))->toBe('red');
+        ->and(glsr_get_option('addons.hosted-thing.color', 'MISS'))->toBe('MISS');
 });
 
-test('a standalone-era write remaps to the hosted mount instead of orphaning in the core row', function () {
+test('a hosted addon writes through its own mount', function () {
     registerHostedFixture();
 
-    glsr(OptionManager::class)->set('settings.addons.hosted-thing.color', 'blue');
+    glsr(HostedAddon::class)->updateOption('color', 'blue');
 
     $row = get_option('site_reviews_premium_host');
     expect($row['settings']['hosted-thing']['color'])->toBe('blue')

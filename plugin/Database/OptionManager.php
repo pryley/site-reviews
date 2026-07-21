@@ -143,7 +143,6 @@ class OptionManager
      */
     public function get(string $path = '', $fallback = '', string $cast = '')
     {
-        $path = $this->remapHostedPath($path);
         $settings = $this->all();
         $option = Arr::get($settings, $path, $fallback);
         $path = ltrim(Str::removePrefix($path, 'settings'), '.');
@@ -261,7 +260,6 @@ class OptionManager
      */
     public function set(string $path, $value = ''): bool
     {
-        $path = $this->remapHostedPath($path);
         $settings = $this->all();
         $settings = Arr::set($settings, $path, $value);
         $settings = $this->normalize($settings);
@@ -365,22 +363,6 @@ class OptionManager
         }
     }
 
-    /**
-     * Remaps a standalone addon path (settings.addons.{slug}.*) to its hosted
-     * mount (settings.{hostSlug}.{slug}.*) when that addon module runs hosted.
-     */
-    protected function remapHostedPath(string $path): string
-    {
-        if (!str_starts_with($path, 'settings.addons.')) {
-            return $path;
-        }
-        $slug = explode('.', $path)[2] ?? '';
-        $addon = static::addons()[$slug] ?? null;
-        if ($addon && $addon->hostedBy()) {
-            return Str::replaceFirst("addons.{$slug}", $addon->settingsPath(), $path);
-        }
-        return $path;
-    }
 
     /**
      * This restores orphaned settings in cases where addons have been deactivated, etc.
