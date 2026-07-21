@@ -243,6 +243,18 @@ trait Plugin
     }
 
     /**
+     * Resolves a settings path against this plugin's mount in the composed
+     * view. For the raw arrays that never reach OptionManager::get()/set():
+     * a site-reviews/settings/sanitize callback is handed the composed tree
+     * and the submitted form, and both are keyed by the mount.
+     */
+    public function settingPath(string $path = ''): string
+    {
+        $path = Str::removePrefix(trim($path), 'settings.');
+        return implode('.', array_filter(['settings', $this->settingsPath(), trim($path, '.')]));
+    }
+
+    /**
      * The plugin's mount point inside the composed settings view (without the
      * leading "settings."). The core plugin owns the root; addons override
      * this with their own mount (see Addons\Addon::settingsPath()).

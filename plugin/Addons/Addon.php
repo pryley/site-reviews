@@ -24,6 +24,7 @@ abstract class Addon implements PluginContract
     use Plugin {
         __construct as protected initPlugin;
         path as protected pluginPath;
+        settingPath as protected pluginSettingPath;
         url as protected pluginUrl;
     }
 
@@ -155,6 +156,18 @@ abstract class Addon implements PluginContract
             return ['' => $placeholder] + $results;
         }
         return $results;
+    }
+
+    /**
+     * Accepts the standalone-era spelling too, so `settings.addons.{slug}.x`
+     * and a bare `x` both answer `settings.{hostSlug}.{slug}.x` when the addon
+     * runs hosted — the same paths OptionManager::get()/set() remap.
+     */
+    public function settingPath(string $path = ''): string
+    {
+        $path = Str::removePrefix(trim($path), 'settings.');
+        $path = Str::removePrefix($path, 'addons.'.static::SLUG);
+        return $this->pluginSettingPath($path);
     }
 
     /**

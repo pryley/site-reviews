@@ -259,3 +259,26 @@ test('the suppression guard admits a hosted addon in the Premium namespace', fun
         remove_filter('site-reviews/site-reviews-premium', $filter);
     }
 });
+
+test('settingPath resolves a standalone-authored path against the addon mount', function () {
+    // Standalone here: the fixture addon has no host, so the mount is the
+    // standalone-era one and every accepted spelling answers it unchanged.
+    // The hosted branch is exercised by the premium suite, which is the only
+    // place an addon runs as a module.
+    $addon = glsr(TestAddon::class);
+
+    expect($addon->settingPath('settings.addons.test-addon.enabled'))
+        ->toBe('settings.addons.test-addon.enabled')
+        ->and($addon->settingPath('addons.test-addon.enabled'))
+        ->toBe('settings.addons.test-addon.enabled')
+        ->and($addon->settingPath('enabled'))
+        ->toBe('settings.addons.test-addon.enabled')
+        ->and($addon->settingPath())
+        ->toBe('settings.addons.test-addon');
+});
+
+test('the core plugin resolves a settings path against the root mount', function () {
+    expect(glsr()->settingPath('reviews.style'))->toBe('settings.reviews.style')
+        ->and(glsr()->settingPath('settings.reviews.style'))->toBe('settings.reviews.style')
+        ->and(glsr()->settingPath())->toBe('settings');
+});
