@@ -140,6 +140,19 @@ test('an addon block that styles nothing inherits empty classes and styles', fun
         ->toBe([[], []]);
 });
 
+test('a block resolves its metadata directory from the plugin it belongs to', function () {
+    $metadataDir = fn () => $this->metadataDir();
+    $bind = fn ($block) => $metadataDir->bindTo($block, \GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\Block::class)();
+    $addon = glsr(\GeminiLabs\SiteReviews\TestAddon\Application::class);
+
+    expect($bind(glsr(\GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsBlock::class)))
+        ->toBe(glsr()->path('assets/blocks/site_reviews'))
+        ->and($bind(glsr(\GeminiLabs\SiteReviews\TestAddon\Blocks\SluggedBlock::class)))
+        ->toBe($addon->path('assets/blocks/test-addon/slugged'))
+        ->and($bind(glsr(\GeminiLabs\SiteReviews\TestAddon\Blocks\FlatBlock::class)))
+        ->toBe($addon->path('assets/blocks/flat')); // an addon built before the slug-mapped layout
+});
+
 test('the summary block turns its color and alignment attributes into classes and custom properties', function () {
     $html = do_blocks('<!-- wp:site-reviews/summary {"style_align":"left","style_bar_color":"vivid-red","style_rating_color_custom":"#ffb900"} /-->');
 

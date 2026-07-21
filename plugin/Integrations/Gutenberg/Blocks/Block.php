@@ -22,7 +22,11 @@ abstract class Block implements BlockContract
     /**
      * An addon's block metadata lives at assets/blocks/{addon-slug}/{block}
      * (in both the hosted and the standalone shape); the plugin's own blocks
-     * live directly at assets/blocks/{block}.
+     * live directly at assets/blocks/{block}, which is also the fallback for
+     * addon builds predating the slug-mapped layout — their block registers
+     * either way (the metadata collection is keyed on the directory basename)
+     * but with no block.json at the queried path its script and style handles
+     * register with an empty src.
      */
     protected function metadataDir(): string
     {
@@ -30,7 +34,10 @@ abstract class Block implements BlockContract
         $block = str_replace('_block', '', Str::snakeCase($block));
         $app = $this->app();
         if ($app instanceof \GeminiLabs\SiteReviews\Addons\Addon) {
-            return $app->path(sprintf('assets/blocks/%s/%s', $app::SLUG, $block));
+            $dir = $app->path(sprintf('assets/blocks/%s/%s', $app::SLUG, $block));
+            if (file_exists("{$dir}/block.json")) {
+                return $dir;
+            }
         }
         return $app->path("assets/blocks/{$block}");
     }
