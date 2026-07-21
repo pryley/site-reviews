@@ -8,9 +8,9 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 use GeminiLabs\SiteReviews\TestAddon\Application;
 
 /**
- * An addon block in the current layout: assets/blocks/{addon-slug}/slugged.
+ * An addon block: assets/blocks/{block}, the one layout an addon ships.
  */
-class SluggedBlock extends Block
+class AddonBlock extends Block
 {
     public function app(): PluginContract
     {

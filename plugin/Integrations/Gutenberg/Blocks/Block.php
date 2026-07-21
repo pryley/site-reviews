@@ -19,29 +19,6 @@ abstract class Block implements BlockContract
         ]);
     }
 
-    /**
-     * An addon's block metadata lives at assets/blocks/{addon-slug}/{block}
-     * (in both the hosted and the standalone shape); the plugin's own blocks
-     * live directly at assets/blocks/{block}, which is also the fallback for
-     * addon builds predating the slug-mapped layout — their block registers
-     * either way (the metadata collection is keyed on the directory basename)
-     * but with no block.json at the queried path its script and style handles
-     * register with an empty src.
-     */
-    protected function metadataDir(): string
-    {
-        $block = (new \ReflectionClass($this))->getShortName();
-        $block = str_replace('_block', '', Str::snakeCase($block));
-        $app = $this->app();
-        if ($app instanceof \GeminiLabs\SiteReviews\Addons\Addon) {
-            $dir = $app->path(sprintf('assets/blocks/%s/%s', $app::SLUG, $block));
-            if (file_exists("{$dir}/block.json")) {
-                return $dir;
-            }
-        }
-        return $app->path("assets/blocks/{$block}");
-    }
-
     public function render(array $attributes): string
     {
         if ('edit' === filter_input(INPUT_GET, 'context')) {
@@ -94,6 +71,13 @@ abstract class Block implements BlockContract
     protected function hasVisibleFields(array $attributes): bool
     {
         return $this->shortcodeInstance()->hasVisibleFields($attributes);
+    }
+
+    protected function metadataDir(): string
+    {
+        $block = (new \ReflectionClass($this))->getShortName();
+        $block = str_replace('_block', '', Str::snakeCase($block));
+        return $this->app()->path("assets/blocks/{$block}");
     }
 
     protected function resolveAlign(array $attributes, string $presetKey): string

@@ -234,9 +234,11 @@ abstract class Addon implements PluginContract
         if (str_starts_with($file, 'config/')) {
             return $file;
         }
+        if ('assets/blocks' === $file || str_starts_with($file, 'assets/blocks/')) {
+            return rtrim('assets/blocks/'.static::SLUG.'/'.substr($file, strlen('assets/blocks/')), '/');
+        }
         // Shared asset trees are not slug-mapped
         foreach ([
-            'assets/blocks/',
             'assets/css/',
             'assets/images/',
             'assets/integrations/',

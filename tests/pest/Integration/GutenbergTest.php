@@ -145,12 +145,12 @@ test('a block resolves its metadata directory from the plugin it belongs to', fu
     $bind = fn ($block) => $metadataDir->bindTo($block, \GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\Block::class)();
     $addon = glsr(\GeminiLabs\SiteReviews\TestAddon\Application::class);
 
+    // assets/blocks/{block} is the one shape a block ever asks for; a hosted
+    // module's copy of that same string is slug-mapped by Addon::hostedFile().
     expect($bind(glsr(\GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\SiteReviewsBlock::class)))
         ->toBe(glsr()->path('assets/blocks/site_reviews'))
-        ->and($bind(glsr(\GeminiLabs\SiteReviews\TestAddon\Blocks\SluggedBlock::class)))
-        ->toBe($addon->path('assets/blocks/test-addon/slugged'))
-        ->and($bind(glsr(\GeminiLabs\SiteReviews\TestAddon\Blocks\FlatBlock::class)))
-        ->toBe($addon->path('assets/blocks/flat')); // an addon built before the slug-mapped layout
+        ->and($bind(glsr(\GeminiLabs\SiteReviews\TestAddon\Blocks\AddonBlock::class)))
+        ->toBe($addon->path('assets/blocks/addon'));
 });
 
 test('the summary block turns its color and alignment attributes into classes and custom properties', function () {
