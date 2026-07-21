@@ -193,7 +193,7 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * @filter {$this->app()->id}/render/view
+     * @filter {$this->app()->hookPrefix()}/render/view
      */
     public function filterRenderView(string $view): string
     {
@@ -353,7 +353,7 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * @action {$this->app()->id}/activated
+     * @action {$this->app()->hookPrefix()}/activated
      */
     public function install(): void
     {
@@ -367,7 +367,7 @@ abstract class Controller extends AbstractController
      * in place protects downgrades to older addon versions.
      *
      * @action admin_init:5
-     * @action {$this->app()->id}/activated
+     * @action {$this->app()->hookPrefix()}/activated
      */
     public function migrateOptions(): void
     {
