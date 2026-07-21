@@ -214,6 +214,19 @@ test('a hosted addon takes its identity and version gates from its host\'s main 
         ->and($hosted->version)->toBe('9.9.9'); // the host's Version header; no stamped VERSION const
 });
 
+test('a hosted addon resolves settings paths and its storage key against its host', function () {
+    // The standalone branch of both is covered above; this is the hosted one,
+    // which only exists when an addon runs as a module of another plugin.
+    [$host, $hosted] = registerHostedFixture();
+
+    expect($hosted->settingsPath())->toBe('premium-host.hosted-thing')
+        ->and($hosted->settingPath('color'))->toBe('settings.premium-host.hosted-thing.color')
+        ->and($hosted->settingPath('settings.addons.hosted-thing.color'))->toBe('settings.premium-host.hosted-thing.color')
+        ->and($hosted->settingPath())->toBe('settings.premium-host.hosted-thing')
+        ->and($hosted->storageKey())->toBe('site_reviews_premium_host') // the HOST's row
+        ->and($host->storageKey())->toBe('site_reviews_premium_host');
+});
+
 test('a hosted addon\'s paths remap into the host\'s merged file tree', function () {
     [$host, $hosted] = registerHostedFixture();
     $base = trailingslashit(dirname($host->file));
@@ -226,6 +239,8 @@ test('a hosted addon\'s paths remap into the host\'s merged file tree', function
         ->and($hosted->path('assets/site-reviews-hosted-addon-admin.css'))->toBe($base.'assets/standalone/hosted-thing/site-reviews-hosted-addon-admin.css')
         ->and($hosted->path('assets/anything/nested.js'))->toBe($base.'assets/standalone/hosted-thing/anything/nested.js')
         ->and($hosted->path('assets/js/anything.js'))->toBe($base.'assets/js/anything.js') // shared tree, unmapped
+        ->and($hosted->path('assets/blocks/some_block'))->toBe($base.'assets/blocks/hosted-thing/some_block') // block metadata IS slug-mapped
+        ->and($hosted->path('assets/blocks'))->toBe($base.'assets/blocks/hosted-thing') // the metadata-collection root maps too
         ->and($hosted->path('languages/x.mo'))->toBe($base.'languages/x.mo') // keyed by text domain, unmapped
         ->and($hosted->url('assets/site-reviews-hosted-addon.js'))->toContain('assets/standalone/hosted-thing/site-reviews-hosted-addon.js');
 });

@@ -141,3 +141,24 @@ test('the deprecation names the hook that replaced it, and only when heard', fun
         ['site-reviews-hosted-addon/heard', 'site-reviews-premium-host/hosted-thing/heard'],
     ]);
 });
+
+test('the base addon hooks bind to the prefix, not to the addon id', function () {
+    // Addons\Hooks builds these two listener names itself. They were "{id}/…",
+    // the same string as the prefix until a hosted addon's prefix stopped being
+    // its id — after which install() was bound to the deprecated alias instead
+    // of the hook core fires, and every render tripped a deprecation notice.
+    hostedFixture();
+    $baseHooks = fn () => $this->baseHooks([]);
+    $hooks = $baseHooks->bindTo(
+        glsr(GeminiLabs\SiteReviews\Premium\HostedThing\Hooks::class),
+        GeminiLabs\SiteReviews\Addons\Hooks::class
+    )();
+    $names = array_column($hooks, 1);
+
+    expect($names)->toContain('site-reviews-premium-host/hosted-thing/render/view')
+        ->and($names)->toContain('site-reviews-premium-host/hosted-thing/activated')
+        ->and($names)->not->toContain('site-reviews-hosted-addon/render/view')
+        ->and($names)->not->toContain('site-reviews-hosted-addon/activated')
+        // the id still names what is not a hook: text domain, plugin file
+        ->and($names)->toContain('gettext_site-reviews-hosted-addon');
+});
