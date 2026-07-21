@@ -51,6 +51,8 @@ interface PluginContract
 
     public function hasPostType(): bool;
 
+    public function hookPrefix(): string;
+
     /**
      * @param mixed $fallback
      *

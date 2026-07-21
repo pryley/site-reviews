@@ -99,8 +99,9 @@ trait Plugin
      */
     public function action(string $hook, ...$args): void
     {
-        do_action("{$this->id}/action", $hook, $args);
-        do_action_ref_array("{$this->id}/{$hook}", $args);
+        $prefix = $this->hookPrefix();
+        do_action("{$prefix}/action", $hook, $args);
+        do_action_ref_array("{$prefix}/{$hook}", $args);
     }
 
     /**
@@ -178,8 +179,9 @@ trait Plugin
      */
     public function filter(string $hook, ...$args)
     {
-        do_action("{$this->id}/filter", $hook, $args);
-        return apply_filters_ref_array("{$this->id}/{$hook}", $args);
+        $prefix = $this->hookPrefix();
+        do_action("{$prefix}/filter", $hook, $args);
+        return apply_filters_ref_array("{$prefix}/{$hook}", $args);
     }
 
     /**
@@ -187,8 +189,9 @@ trait Plugin
      */
     public function filterArrayUnique(string $hook, ...$args): array
     {
-        do_action("{$this->id}/filter", $hook, $args);
-        $filtered = apply_filters_ref_array("{$this->id}/{$hook}", $args);
+        $prefix = $this->hookPrefix();
+        do_action("{$prefix}/filter", $hook, $args);
+        $filtered = apply_filters_ref_array("{$prefix}/{$hook}", $args);
         return array_unique(array_filter(Cast::toArray($filtered)));
     }
 
@@ -197,8 +200,9 @@ trait Plugin
      */
     public function filterArrayUniqueInt(string $hook, ...$args): array
     {
-        do_action("{$this->id}/filter", $hook, $args);
-        $filtered = apply_filters_ref_array("{$this->id}/{$hook}", $args);
+        $prefix = $this->hookPrefix();
+        do_action("{$prefix}/filter", $hook, $args);
+        $filtered = apply_filters_ref_array("{$prefix}/{$hook}", $args);
         return Arr::uniqueInt(Cast::toArray($filtered));
     }
 
@@ -207,8 +211,9 @@ trait Plugin
      */
     public function filterArrayUniqueString(string $hook, ...$args): array
     {
-        do_action("{$this->id}/filter", $hook, $args);
-        $filtered = apply_filters_ref_array("{$this->id}/{$hook}", $args);
+        $prefix = $this->hookPrefix();
+        do_action("{$prefix}/filter", $hook, $args);
+        $filtered = apply_filters_ref_array("{$prefix}/{$hook}", $args);
         return Arr::uniqueString(Cast::toArray($filtered));
     }
 
@@ -219,6 +224,15 @@ trait Plugin
     public function hasPostType(): bool
     {
         return !empty($this->post_type); // the raw constant, unfiltered
+    }
+
+    /**
+     * What every hook this plugin fires is namespaced with. The plugin id,
+     * unless the plugin runs inside another one (see Addons\Addon).
+     */
+    public function hookPrefix(): string
+    {
+        return $this->id;
     }
 
     /**

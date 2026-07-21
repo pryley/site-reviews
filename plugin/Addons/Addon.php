@@ -23,6 +23,11 @@ abstract class Addon implements PluginContract
 {
     use Plugin {
         __construct as protected initPlugin;
+        action as protected pluginAction;
+        filter as protected pluginFilter;
+        filterArrayUnique as protected pluginFilterArrayUnique;
+        filterArrayUniqueInt as protected pluginFilterArrayUniqueInt;
+        filterArrayUniqueString as protected pluginFilterArrayUniqueString;
         path as protected pluginPath;
         settingPath as protected pluginSettingPath;
         url as protected pluginUrl;
@@ -61,6 +66,72 @@ abstract class Addon implements PluginContract
         $this->version = is_string($version) && '' !== $version
             ? $version // module version fetched at build time
             : $host->version; // fallback to the host version
+    }
+
+    /**
+     * Hosted, every hook also fires under the addon's own id first, so a
+     * snippet written against the standalone addon keeps working. Silent
+     * unless something is listening — apply_filters_deprecated() checks.
+     *
+     * @param mixed ...$args
+     */
+    public function action(string $hook, ...$args): void
+    {
+        if ($this->host instanceof PluginContract) {
+            do_action_deprecated(static::ID."/{$hook}", $args, $this->host->version, $this->hookPrefix()."/{$hook}");
+        }
+        $this->pluginAction($hook, ...$args);
+    }
+
+    /**
+     * @param mixed ...$args
+     *
+     * @return mixed
+     */
+    public function filter(string $hook, ...$args)
+    {
+        $args = $this->deprecatedHook($hook, $args);
+        return $this->pluginFilter($hook, ...$args);
+    }
+
+    /**
+     * @param mixed ...$args
+     */
+    public function filterArrayUnique(string $hook, ...$args): array
+    {
+        $args = $this->deprecatedHook($hook, $args);
+        return $this->pluginFilterArrayUnique($hook, ...$args);
+    }
+
+    /**
+     * @param mixed ...$args
+     */
+    public function filterArrayUniqueInt(string $hook, ...$args): array
+    {
+        $args = $this->deprecatedHook($hook, $args);
+        return $this->pluginFilterArrayUniqueInt($hook, ...$args);
+    }
+
+    /**
+     * @param mixed ...$args
+     */
+    public function filterArrayUniqueString(string $hook, ...$args): array
+    {
+        $args = $this->deprecatedHook($hook, $args);
+        return $this->pluginFilterArrayUniqueString($hook, ...$args);
+    }
+
+    /**
+     * A hosted addon's hooks are namespaced by its HOST, with its own slug as
+     * the next segment: site-reviews-premium/{slug}/{hook}. Flattening to the
+     * host alone would collide — core fires {prefix}/activated once per addon,
+     * and every addon binds its installer to it.
+     */
+    public function hookPrefix(): string
+    {
+        return $this->host instanceof PluginContract
+            ? "{$this->host->id}/".static::SLUG
+            : static::ID;
     }
 
     public function hostedBy(): ?PluginContract
@@ -220,6 +291,19 @@ abstract class Addon implements PluginContract
             $path = $this->hostedFile($path);
         }
         return $this->pluginUrl($path);
+    }
+
+    /**
+     * Fires the addon's own {id}/{hook} before the hosted one and answers with
+     * the filtered arguments. WordPress only warns when something is actually
+     * listening, so a site with no legacy snippets sees nothing.
+     */
+    protected function deprecatedHook(string $hook, array $args): array
+    {
+        if ($this->host instanceof PluginContract && !empty($args)) {
+            $args[0] = apply_filters_deprecated(static::ID."/{$hook}", $args, $this->host->version, $this->hookPrefix()."/{$hook}");
+        }
+        return $args;
     }
 
     /**
