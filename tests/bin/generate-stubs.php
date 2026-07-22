@@ -13,8 +13,10 @@
  * unless the slug was requested explicitly, which makes the absence an error.
  *
  * After writing, every file in tests/stubs (including the hand-written fakes) is
- * scanned for symbols declared in more than one file: the suite loads the stubs
- * together, so a cross-stub duplicate is a fatal redeclaration waiting to happen.
+ * scanned twice, because the suite loads the stubs together: for symbols declared
+ * in more than one file, a fatal redeclaration waiting to happen; and for a parent
+ * class taken from another stub without an entry in stub-load-order.php, a fatal
+ * "class not found" waiting to happen. The second one exits non-zero.
  */
 
 use PhpParser\Node;
@@ -265,6 +267,50 @@ function declaredSymbols(string $file): array
         }
     }
     return array_unique($symbols);
+}
+
+/**
+ * Lists the class-likes a stub file needs declared BEFORE it: the parents, interfaces
+ * and traits of everything it declares, minus what it declares itself. Reads the real
+ * file — the hand-written fakes go through this too, and they may use unqualified names,
+ * so the namespaces are resolved rather than assumed.
+ *
+ * @return string[] lc FQCNs
+ */
+function externalDependencies(string $file): array
+{
+    static $parser = null;
+    if (null === $parser) {
+        $parser = (new PhpParser\ParserFactory())->createForNewestSupportedVersion();
+    }
+    $stmts = $parser->parse((string) file_get_contents($file));
+    $traverser = new PhpParser\NodeTraverser();
+    $traverser->addVisitor(new PhpParser\NodeVisitor\NameResolver());
+    $stmts = $traverser->traverse($stmts ?? []);
+    $own = [];
+    $needs = [];
+    foreach ((new PhpParser\NodeFinder())->findInstanceOf($stmts, Stmt\ClassLike::class) as $node) {
+        if ($node->namespacedName) {
+            $own[strtolower($node->namespacedName->toString())] = true;
+        }
+        $names = [];
+        if ($node instanceof Stmt\Class_) {
+            $names = array_merge($node->extends ? [$node->extends] : [], $node->implements);
+        } elseif ($node instanceof Stmt\Interface_) {
+            $names = $node->extends;
+        } elseif ($node instanceof Stmt\Enum_) {
+            $names = $node->implements;
+        }
+        foreach ($node->stmts as $stmt) {
+            if ($stmt instanceof Stmt\TraitUse) {
+                $names = array_merge($names, $stmt->traits);
+            }
+        }
+        foreach ($names as $name) {
+            $needs[strtolower(ltrim($name->toString(), '\\'))] = true;
+        }
+    }
+    return array_keys(array_diff_key($needs, $own));
 }
 
 /**
@@ -941,6 +987,34 @@ if ($duplicates) {
     }
 }
 
+// Cross-stub load order: a class-like whose parent lives in another stub needs that stub
+// required first, and the suite's load order comes from stub-load-order.php. An edge the
+// map does not know about is a "class not found" fatal at boot on whichever filesystem
+// hands the files over in the wrong order — it fails in CI and not on a laptop, so it is
+// caught here instead.
+$loadOrder = require __DIR__.'/stub-load-order.php';
+$unmapped = [];
+foreach (glob(STUBS_DIR.'/*.php') as $file) {
+    $stub = basename($file);
+    $mapped = $loadOrder[$stub] ?? [];
+    foreach (externalDependencies($file) as $dependency) {
+        $parent = $declarations['class:'.$dependency][0] ?? null;
+        if (null !== $parent && $parent !== $stub && !in_array($parent, $mapped, true)) {
+            $unmapped[$stub][$parent][] = $dependency;
+        }
+    }
+}
+if ($unmapped) {
+    fwrite(STDERR, "\nerror: a stub extends symbols from another stub that is not listed as its\n"
+        ."prerequisite — add these to tests/bin/stub-load-order.php:\n");
+    foreach ($unmapped as $stub => $parents) {
+        foreach ($parents as $parent => $names) {
+            fwrite(STDERR, sprintf("  '%s' => ['%s'],  // %s%s\n", $stub, $parent, $names[0],
+                count($names) > 1 ? sprintf(' and %d others', count($names) - 1) : ''));
+        }
+    }
+}
+
 printf(
     "\ndone: %d written, %d skipped, %d failed\n",
     count($written),
@@ -953,4 +1027,4 @@ if ($skipped) {
 if ($written) {
     echo "Now run: make analyse && make test — ActiveIntegrationsTest asserts which\nintegrations the stubs wake, so a regenerated stub may legitimately change it.\n";
 }
-exit($failures ? 1 : 0);
+exit(($failures || $unmapped) ? 1 : 0);

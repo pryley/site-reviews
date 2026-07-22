@@ -101,21 +101,9 @@ add_action('muplugins_loaded', function () {
         }
     }
     $excludedStubs = array_unique($excludedStubs);
-    /*
-     * A stub whose classes extend another stub's must be required after it — PHP needs a parent at
-     * declaration time, and nothing here autoloads. The generator permits such an edge: a parent
-     * found in another stub counts as resolvable, since the files load together.
-     *
-     * Load order is therefore stated, not inferred. Alphabetical happens to satisfy both edges
-     * today, but that is the alphabet's accident, not a guarantee.
-     *
-     *   elementor  elementorpro extends Elementor\Widget_Base and 188 others
-     *   bricks     SureCart's 27 Bricks elements extend Bricks\Element
-     */
-    $stubPrerequisites = [
-        'elementorpro.php' => ['elementor.php'],
-        'surecart.php' => ['bricks.php'],
-    ];
+    // A stub whose classes extend another stub's must be required after it; the order is stated
+    // rather than inferred, and `make stubs` fails on an edge missing from this map.
+    $stubPrerequisites = require dirname($stubsDir).'/bin/stub-load-order.php';
     $required = [];
     $requireStub = function (string $filename) use (&$requireStub, &$required, $stubPrerequisites, $excludedStubs, $stubsDir) {
         // The visited mark goes down before the recursion, so a cycle in the map stops here
