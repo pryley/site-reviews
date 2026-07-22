@@ -140,6 +140,29 @@ test('an addon block that styles nothing inherits empty classes and styles', fun
         ->toBe([[], []]);
 });
 
+test('a block can name the colour a missing theme preset falls back to', function () {
+    // The fallback is only ever painted once the theme stops defining the preset, so it is
+    // dead weight for a block whose element already contrasts — but an addon colouring
+    // something that does not, or a block wanting the plugin's own yellow rather than the
+    // surrounding text colour, has to be able to say so.
+    $block = new class extends \GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\Block {
+        public static function shortcodeClass(): string
+        {
+            return \GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode::class;
+        }
+    };
+    $fn = fn (array $attributes, ...$args) => $this->resolveColor($attributes, 'color', 'color_custom', ...$args);
+    $resolve = $fn->bindTo($block, \GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\Block::class);
+
+    expect($resolve(['color' => 'vivid-red'], '#faca15'))
+        ->toBe('var(--wp--preset--color--vivid-red, #faca15)')
+        // the colour the preset was actually picked as still beats the named fallback
+        ->and($resolve(['color' => 'vivid-red', 'color_custom' => '#cf2e2e'], '#faca15'))
+        ->toBe('var(--wp--preset--color--vivid-red, #cf2e2e)')
+        ->and($resolve(['color' => 'vivid-red']))
+        ->toBe('var(--wp--preset--color--vivid-red, currentColor)');
+});
+
 test('a block resolves its metadata directory from the plugin it belongs to', function () {
     $metadataDir = fn () => $this->metadataDir();
     $bind = fn ($block) => $metadataDir->bindTo($block, \GeminiLabs\SiteReviews\Integrations\Gutenberg\Blocks\Block::class)();

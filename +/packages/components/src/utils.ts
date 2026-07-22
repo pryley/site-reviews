@@ -24,14 +24,17 @@ export const toOption = (item: OptionItem): Option => ({
 /**
  * Builds the CSS value for a ColorControl attribute pair. A theme preset
  * variable is undefined once the theme that provided it is no longer active,
- * so the custom value it was stored alongside is used as its fallback;
- * without one the declaration is invalid at computed-value time and the
- * element it colours becomes transparent.
+ * and the declaration would then be invalid at computed-value time, leaving
+ * the element it colours transparent. The colour the preset was picked as is
+ * stored alongside the slug, so it is preferred; fallback covers markup that
+ * carries a slug and nothing else.
+ *
+ * Mirrors Block::resolveColor() on the server.
  */
-export const resolveColor = (preset: string, custom: string): string => {
+export const resolveColor = (preset: string, custom: string, fallback: string = 'currentColor'): string => {
     if (!preset) {
         return custom || '';
     }
     const value = getCSSValueFromRawStyle(`var:preset|color|${preset}`);
-    return value.replace(/^var\((.+)\)$/, `var($1, ${custom || 'currentColor'})`);
+    return value.replace(/^var\((.+)\)$/, `var($1, ${custom || fallback})`);
 };
