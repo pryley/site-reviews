@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, develop, feature/pest]
+    branches: [main, develop]
   pull_request:
 
 # One run per branch/PR; a new push cancels the previous, still-running one.
@@ -54,7 +54,7 @@ jobs:
           --health-retries=10
 
     env:
-      WP_VERSION: '7.0.1'
+      WP_VERSION: '7.0.2'
       XDEBUG_MODE: 'off'
 
     steps:
