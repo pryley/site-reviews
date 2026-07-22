@@ -55,13 +55,11 @@ add_action('muplugins_loaded', function () {
         }
     }
     /*
-     * Stubs not loaded in the ordinary pass, both reasons traced — do not add without one.
+     * Stubs not loaded in the ordinary pass, reason traced — do not add without one.
      *
      * action-scheduler  The plugin BUNDLES Action Scheduler (vendors/woocommerce/action-scheduler),
      *                   which declares `abstract class ActionScheduler`; so does the stub, and
      *                   redeclaring it is fatal. Can never be loaded.
-     * elementorpro      Not excluded, only deferred: required last, below, because it extends
-     *                   classes the elementor stub declares.
      *
      * Two stubs that load cleanly only because the integration was hardened:
      *
@@ -75,7 +73,6 @@ add_action('muplugins_loaded', function () {
      */
     $excludedStubs = [
         'action-scheduler.php',
-        'elementorpro.php',
     ];
     /*
      * A stub for a plugin that is REALLY installed would redeclare it — fatal — so if .wp-env.json
@@ -104,17 +101,41 @@ add_action('muplugins_loaded', function () {
         }
     }
     $excludedStubs = array_unique($excludedStubs);
-    foreach (new \DirectoryIterator($stubsDir) as $fileinfo) {
-        if (!$fileinfo->isFile() || 'php' !== $fileinfo->getExtension()) {
-            continue; // never try to require a stray .DS_Store
+    /*
+     * A stub whose classes extend another stub's must be required after it — PHP needs a parent at
+     * declaration time, and nothing here autoloads. The generator permits such an edge: a parent
+     * found in another stub counts as resolvable, since the files load together.
+     *
+     * Load order is therefore stated, not inferred. Alphabetical happens to satisfy both edges
+     * today, but that is the alphabet's accident, not a guarantee.
+     *
+     *   elementor  elementorpro extends Elementor\Widget_Base and 188 others
+     *   bricks     SureCart's 27 Bricks elements extend Bricks\Element
+     */
+    $stubPrerequisites = [
+        'elementorpro.php' => ['elementor.php'],
+        'surecart.php' => ['bricks.php'],
+    ];
+    $required = [];
+    $requireStub = function (string $filename) use (&$requireStub, &$required, $stubPrerequisites, $excludedStubs, $stubsDir) {
+        // The visited mark goes down before the recursion, so a cycle in the map stops here
+        // instead of exhausting the stack.
+        if (isset($required[$filename]) || in_array($filename, $excludedStubs)) {
+            return;
         }
-        if (in_array($fileinfo->getFilename(), $excludedStubs)) {
-            continue;
+        $required[$filename] = true;
+        if (!file_exists("{$stubsDir}/{$filename}")) {
+            return;
         }
-        require_once $fileinfo->getPathname();
-    }
-    if (!in_array('elementorpro.php', $excludedStubs)) {
-        require_once "{$stubsDir}/elementorpro.php"; // fixes invalid order loading
+        foreach ($stubPrerequisites[$filename] ?? [] as $prerequisite) {
+            $requireStub($prerequisite);
+        }
+        require_once "{$stubsDir}/{$filename}";
+    };
+    // glob() sorts; DirectoryIterator yields readdir order, which is the filesystem's own and is
+    // hashed on ext4 — the order a laptop sees is not the order CI sees.
+    foreach (glob("{$stubsDir}/*.php") ?: [] as $stubFile) {
+        $requireStub(basename($stubFile));
     }
     remove_action('admin_init', '_maybe_update_core');
     remove_action('admin_init', '_maybe_update_plugins');
