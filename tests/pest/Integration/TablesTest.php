@@ -1,6 +1,5 @@
 <?php
 
-use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Database\Tables\TableAssignedPosts;
 use GeminiLabs\SiteReviews\Database\Tables\TableAssignedTerms;
@@ -8,6 +7,7 @@ use GeminiLabs\SiteReviews\Database\Tables\TableAssignedUsers;
 use GeminiLabs\SiteReviews\Database\Tables\TableTmp;
 
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\withDdlFreeDatabase;
 
 /*
  * The custom-table machinery. Two things are deliberately faked here:
@@ -15,37 +15,12 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  *   - SQLite. wp-env is MySQL, so the sqlite branches are driven by setting the
  *     public $engine property (Tables) — what wp-sqlite-db sites hit for real.
  *   - DDL. Anything that would really ALTER a shared table goes through a fake
- *     Database whose dbQuery() reports success without running SQL. The per-test
- *     transaction cannot roll DDL back (MaintenanceTest says why at length).
+ *     Database whose dbQuery() reports success without running SQL (Support/
+ *     helpers.php, shared with the migration tests). The per-test transaction
+ *     cannot roll DDL back (MaintenanceTest says why at length).
  */
 
 beforeEach(fn () => resetPluginState());
-
-function withDdlFreeDatabase(callable $callback)
-{
-    $fake = new class extends Database {
-        public array $queries = [];
-
-        public function dbQuery(string $sql)
-        {
-            $this->queries[] = $sql;
-            return true;
-        }
-
-        public function dbSafeQuery(string $sql)
-        {
-            $this->queries[] = $sql;
-            return 1;
-        }
-    };
-    $original = glsr(Database::class);
-    glsr()->alias(Database::class, $fake);
-    try {
-        return $callback($fake);
-    } finally {
-        glsr()->alias(Database::class, $original);
-    }
-}
 
 /*
  * Tables: the engine answers.

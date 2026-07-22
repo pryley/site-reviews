@@ -685,3 +685,135 @@ function licenseServer(array $responses): \ArrayObject
 
     return $asked;
 }
+
+/**
+ * Runs the callback with $fake standing in for the plugin's Database, and puts the real one
+ * back afterwards. The container is a registry of instances, so the swap is an alias; the
+ * restore has to happen in a finally, since an alias outlives the test that made it.
+ */
+function withDatabase(\GeminiLabs\SiteReviews\Database $fake, callable $callback)
+{
+    $original = glsr(\GeminiLabs\SiteReviews\Database::class);
+    glsr()->alias(\GeminiLabs\SiteReviews\Database::class, $fake);
+    try {
+        return $callback($fake);
+    } finally {
+        glsr()->alias(\GeminiLabs\SiteReviews\Database::class, $original);
+    }
+}
+
+/**
+ * A Database whose write methods report success without running any SQL, for the code paths
+ * that would really ALTER or DROP a shared table. The per-test transaction cannot roll DDL
+ * back (MySQL commits implicitly on it), so a test that ran the real thing would either leak
+ * or have to declare commitsTransaction() and repair by hand.
+ *
+ * The reads are left alone: they are answered by the real database unless the fake is given
+ * something to answer with (see withDatabaseAnswering()).
+ */
+function withDdlFreeDatabase(callable $callback)
+{
+    return withDatabase(new class extends \GeminiLabs\SiteReviews\Database {
+        public array $queries = [];
+
+        public function dbQuery(string $sql)
+        {
+            $this->queries[] = $sql;
+            return true;
+        }
+
+        public function dbSafeQuery(string $sql)
+        {
+            $this->queries[] = $sql;
+            return 1;
+        }
+    }, $callback);
+}
+
+/**
+ * A DDL-free Database that also answers the reads from canned values, and can be told to
+ * FAIL its writes — the branch a migration takes when the ALTER it needs is refused, which
+ * is otherwise reachable only on a database the suite cannot produce.
+ *
+ * @param array<string, mixed> $answers keyed by method name: dbGetCol, dbGetResults, dbGetRow
+ */
+function withDatabaseAnswering(array $answers, callable $callback, bool $writesFail = false)
+{
+    $fake = new class extends \GeminiLabs\SiteReviews\Database {
+        public array $answers = [];
+        public array $queries = [];
+        public bool $writesFail = false;
+
+        public function dbGetCol(string $sql): array
+        {
+            return $this->answers['dbGetCol'] ?? parent::dbGetCol($sql);
+        }
+
+        public function dbGetResults(string $sql, string $output = 'OBJECT')
+        {
+            return $this->answers['dbGetResults'] ?? parent::dbGetResults($sql, $output);
+        }
+
+        public function dbGetRow(string $sql, string $output)
+        {
+            return $this->answers['dbGetRow'] ?? parent::dbGetRow($sql, $output);
+        }
+
+        public function dbQuery(string $sql)
+        {
+            $this->queries[] = $sql;
+            return !$this->writesFail;
+        }
+
+        public function dbSafeQuery(string $sql)
+        {
+            $this->queries[] = $sql;
+            return $this->writesFail ? false : 1;
+        }
+    };
+    $fake->answers = $answers;
+    $fake->writesFail = $writesFail;
+
+    return withDatabase($fake, $callback);
+}
+
+/**
+ * Runs the callback with a Tables that answers the questions the migrations ask it: whether a
+ * column is already there, whether the site is on SQLite, whether a table is InnoDB. Anything
+ * not answered is left to the real one.
+ *
+ * The migrations branch on all three, and none of the three can be arranged in wp-env: the
+ * columns and indexes ARE there (the schema is current), the database is MySQL, and every
+ * table is InnoDB.
+ *
+ * @param array{columnExists?: bool, isInnodb?: bool, isSqlite?: bool} $answers
+ */
+function withTablesAnswering(array $answers, callable $callback)
+{
+    $fake = new class extends \GeminiLabs\SiteReviews\Database\Tables {
+        public array $answers = [];
+
+        public function columnExists(string $table, string $column): bool
+        {
+            return $this->answers['columnExists'] ?? parent::columnExists($table, $column);
+        }
+
+        public function isInnodb(string $table): bool
+        {
+            return $this->answers['isInnodb'] ?? parent::isInnodb($table);
+        }
+
+        public function isSqlite(): bool
+        {
+            return $this->answers['isSqlite'] ?? parent::isSqlite();
+        }
+    };
+    $fake->answers = $answers;
+    $original = glsr(\GeminiLabs\SiteReviews\Database\Tables::class);
+    glsr()->alias(\GeminiLabs\SiteReviews\Database\Tables::class, $fake);
+    try {
+        return $callback($fake);
+    } finally {
+        glsr()->alias(\GeminiLabs\SiteReviews\Database\Tables::class, $original);
+    }
+}
