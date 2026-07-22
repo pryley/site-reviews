@@ -16,12 +16,12 @@ class Migrate_7_3_0 implements MigrateContract
     public function migrateSettings(): void
     {
         $settings = get_option(OptionManager::databaseKey());
-        if (isset($settings['settings']['form']['captcha']['position'])) {
-            $position = $settings['settings']['form']['captcha']['position'];
+        if (isset($settings['settings']['forms']['captcha']['position'])) {
+            $position = $settings['settings']['forms']['captcha']['position'];
             if ('inline' === $position) {
-                $position = 'inline_below';
+                $position = 'inline_below'; // "inline" became a choice of two
             }
-            $settings['settings']['form']['captcha']['badge'] = $position;
+            $settings['settings']['forms']['captcha']['badge'] = $position;
         }
         update_option(OptionManager::databaseKey(), $settings, true);
     }
