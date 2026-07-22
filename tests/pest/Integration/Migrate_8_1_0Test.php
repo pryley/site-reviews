@@ -1,9 +1,11 @@
 <?php
 
 use GeminiLabs\SiteReviews\Migrations\Migrate_8_1_0;
+use GeminiLabs\SiteReviews\Modules\Console;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\withDatabaseAnswering;
 
 uses()->group('plugin');
 
@@ -62,6 +64,19 @@ test('is idempotent', function () {
     expect($migration->run())->toBeTrue();
     expect($migration->run())->toBeTrue(); // nothing left to migrate
     expect(postDateGmt($review))->toBe('2026-01-15 17:00:00');
+});
+
+test('a refused update is logged, per period, and the migration reports failure', function () {
+    update_option('timezone_string', 'America/New_York');
+    createBrokenReview('2026-01-15 12:00:00');
+    createBrokenReview('2026-07-15 12:00:00');
+
+    withDatabaseAnswering([], function () {
+        expect((new Migrate_8_1_0())->run())->toBeFalse();
+    }, $writesFail = true);
+
+    // one period per DST transition the reviews span, and each one says so
+    expect(substr_count(glsr(Console::class)->get(), 'could not be updated'))->toBeGreaterThan(1);
 });
 
 function createBrokenReview(string $postDate, string $postDateGmt = '0000-00-00 00:00:00'): int
