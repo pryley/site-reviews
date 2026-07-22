@@ -786,7 +786,7 @@ function withDatabaseAnswering(array $answers, callable $callback, bool $writesF
  * columns and indexes ARE there (the schema is current), the database is MySQL, and every
  * table is InnoDB.
  *
- * @param array{columnExists?: bool, isInnodb?: bool, isSqlite?: bool} $answers
+ * @param array{columnExists?: bool|\Closure, isInnodb?: bool|\Closure, isSqlite?: bool|\Closure} $answers
  */
 function withTablesAnswering(array $answers, callable $callback)
 {
@@ -795,17 +795,31 @@ function withTablesAnswering(array $answers, callable $callback)
 
         public function columnExists(string $table, string $column): bool
         {
-            return $this->answers['columnExists'] ?? parent::columnExists($table, $column);
+            return $this->answer('columnExists', fn () => parent::columnExists($table, $column));
         }
 
         public function isInnodb(string $table): bool
         {
-            return $this->answers['isInnodb'] ?? parent::isInnodb($table);
+            return $this->answer('isInnodb', fn () => parent::isInnodb($table));
         }
 
         public function isSqlite(): bool
         {
-            return $this->answers['isSqlite'] ?? parent::isSqlite();
+            return $this->answer('isSqlite', fn () => parent::isSqlite());
+        }
+
+        /**
+         * An answer may be a closure, for the migrations that ask the same question twice and
+         * mean different things by it — "is the column there?" before the ALTER and after it.
+         */
+        protected function answer(string $key, callable $unanswered): bool
+        {
+            if (!array_key_exists($key, $this->answers)) {
+                return $unanswered();
+            }
+            $answer = $this->answers[$key];
+
+            return $answer instanceof \Closure ? (bool) $answer() : (bool) $answer;
         }
     };
     $fake->answers = $answers;
