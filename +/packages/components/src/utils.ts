@@ -1,3 +1,5 @@
+import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
+
 interface OptionItem {
     id: string | number;
     title: string;
@@ -18,3 +20,18 @@ export const toOption = (item: OptionItem): Option => ({
     label: item.title || String(item.id),
     value: String(item.id),
 });
+
+/**
+ * Builds the CSS value for a ColorControl attribute pair. A theme preset
+ * variable is undefined once the theme that provided it is no longer active,
+ * so the custom value it was stored alongside is used as its fallback;
+ * without one the declaration is invalid at computed-value time and the
+ * element it colours becomes transparent.
+ */
+export const resolveColor = (preset: string, custom: string): string => {
+    if (!preset) {
+        return custom || '';
+    }
+    const value = getCSSValueFromRawStyle(`var:preset|color|${preset}`);
+    return value.replace(/^var\((.+)\)$/, `var($1, ${custom || 'currentColor'})`);
+};

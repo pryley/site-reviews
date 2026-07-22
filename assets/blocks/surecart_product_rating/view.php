@@ -34,7 +34,12 @@ if (!empty($attributes['style_rating_color']) || !empty($attributes['style_ratin
 
 $blockStyleAttr = '';
 if (!empty($attributes['style_rating_color'])) {
-    $blockStyleAttr = "--glsr-review-star-bg: var(--wp--preset--color--{$attributes['style_rating_color']});";
+    // A theme preset variable is undefined once the theme that provided it is no
+    // longer active. Without a fallback the declaration is invalid at computed-value
+    // time and the stars become transparent.
+    $fallback = $attributes['style_rating_color_custom'] ?? '';
+    $fallback = $fallback ?: 'currentColor';
+    $blockStyleAttr = "--glsr-review-star-bg: var(--wp--preset--color--{$attributes['style_rating_color']}, {$fallback});";
 } elseif (!empty($attributes['style_rating_color_custom'])) {
     $blockStyleAttr = "--glsr-review-star-bg: {$attributes['style_rating_color_custom']};";
 }

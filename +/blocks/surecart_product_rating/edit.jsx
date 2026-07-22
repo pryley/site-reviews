@@ -7,8 +7,7 @@ import {
 } from '@wordpress/block-editor';
 import { _x } from '@wordpress/i18n';
 import { addQueryArgs } from '@wordpress/url';
-import { ColorControl } from '@site-reviews/components';
-import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
+import { ColorControl, resolveColor } from '@site-reviews/components';
 import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 import { RawHTML, useEffect, useMemo, useState } from '@wordpress/element';
 import { safeHTML } from '@wordpress/dom';
@@ -34,9 +33,7 @@ const Edit = (props) => {
     const blockProps = useBlockProps({
         className: (style_rating_color || style_rating_color_custom) ? 'has-rating-color' : '',
         style: {
-            '--glsr-review-star-bg': style_rating_color
-                ? getCSSValueFromRawStyle(`var:preset|color|${style_rating_color}`)
-                : style_rating_color_custom,
+            '--glsr-review-star-bg': resolveColor(style_rating_color, style_rating_color_custom),
         }
     });
 

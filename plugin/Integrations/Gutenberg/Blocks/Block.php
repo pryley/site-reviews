@@ -93,9 +93,15 @@ abstract class Block implements BlockContract
 
     protected function resolveColor(array $attributes, string $presetKey, string $customKey): string
     {
-        return !empty($attributes[$presetKey])
-            ? "var(--wp--preset--color--{$attributes[$presetKey]})"
-            : ($attributes[$customKey] ?? '');
+        $custom = $attributes[$customKey] ?? '';
+        if (empty($attributes[$presetKey])) {
+            return $custom;
+        }
+        // A theme preset variable is undefined once the theme that provided it is no
+        // longer active. Without a fallback the declaration is invalid at computed-value
+        // time and the element it colours becomes transparent.
+        $fallback = $custom ?: 'currentColor';
+        return "var(--wp--preset--color--{$attributes[$presetKey]}, {$fallback})";
     }
 
     protected function wrapperAttributes(array $args): array

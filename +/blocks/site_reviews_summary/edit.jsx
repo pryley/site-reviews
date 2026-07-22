@@ -1,7 +1,6 @@
 import { __, _x, sprintf } from '@wordpress/i18n';
-import { AjaxComboboxControl, AjaxFormTokenField, AjaxSearchControl, AjaxToggleGroupControl, ColorControl, NoYesControl, UnitControl } from '@site-reviews/components';
+import { AjaxComboboxControl, AjaxFormTokenField, AjaxSearchControl, AjaxToggleGroupControl, ColorControl, NoYesControl, resolveColor, UnitControl } from '@site-reviews/components';
 import { BaseControl, Notice, RangeControl, TextControl } from '@wordpress/components';
-import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
 import { JustifyContentControl, withColors } from "@wordpress/block-editor";
 import { useSelect } from '@wordpress/data';
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
@@ -254,14 +253,10 @@ const Edit = (props) => {
             panels={panels}
             props={props}
             style={{
-                '--glsr-bar-bg': style_bar_color
-                  ? getCSSValueFromRawStyle(`var:preset|color|${style_bar_color}`)
-                  : style_bar_color_custom,
+                '--glsr-bar-bg': resolveColor(style_bar_color, style_bar_color_custom),
                 '--glsr-max-w': attributes.style_max_width || 'none',
                 '--glsr-summary-align': ({ left: 'start', right: 'end' }[attributes.style_align || 'left']) || 'center',
-                '--glsr-summary-star-bg': style_rating_color
-                    ? getCSSValueFromRawStyle(`var:preset|color|${style_rating_color}`)
-                    : style_rating_color_custom,
+                '--glsr-summary-star-bg': resolveColor(style_rating_color, style_rating_color_custom),
             }}
             styleClassNames={[
                 (attributes.style_align) ? `items-justified-${attributes.style_align}` : '',

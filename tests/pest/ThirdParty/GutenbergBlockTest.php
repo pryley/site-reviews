@@ -141,7 +141,7 @@ test('a rating colour on the form block marks its wrapper', function () {
     $html = renderBlock('site-reviews/form', ['style_rating_color' => 'vivid-red']);
 
     expect($html)->toContain('has-rating-color')
-        ->and($html)->toContain('--glsr-form-star-bg:var(--wp--preset--color--vivid-red)');
+        ->and($html)->toContain('--glsr-form-star-bg:var(--wp--preset--color--vivid-red, currentColor)');
 });
 
 /*
@@ -203,7 +203,7 @@ test('a theme colour is used by name, not copied by value', function () {
     createReview();
 
     expect(reviewsBlock(['count' => 5, 'style_rating_color' => 'vivid-red']))
-        ->toContain('var(--wp--preset--color--vivid-red)');
+        ->toContain('var(--wp--preset--color--vivid-red, currentColor)');
 });
 
 test('a class name from the post content cannot break out of the attribute', function () {
@@ -332,7 +332,26 @@ test('a rating colour chosen from the theme palette becomes a css variable, not 
     $html = reviewBlock(['post_id' => $review->ID, 'style_rating_color' => 'vivid-red']);
 
     expect($html)->toContain('has-rating-color')
-        ->toContain('--glsr-review-star-bg:var(--wp--preset--color--vivid-red)');
+        ->toContain('--glsr-review-star-bg:var(--wp--preset--color--vivid-red, currentColor)');
+});
+
+test('a preset rating colour falls back to the colour it was picked as', function () {
+    // The preset variable is defined by the theme, so it stops existing the moment somebody
+    // switches to a theme whose palette does not use that slug. The declaration would then be
+    // invalid at computed-value time, `background` would reset to its initial value, and the
+    // masked stars would be transparent — the block would look empty rather than mis-coloured.
+    //
+    // ColorControl stores the resolved value in the _custom attribute alongside the slug, so
+    // the colour the person actually chose is available as the fallback.
+    $review = createReview();
+
+    $html = reviewBlock([
+        'post_id' => $review->ID,
+        'style_rating_color' => 'vivid-red',
+        'style_rating_color_custom' => '#cf2e2e',
+    ]);
+
+    expect($html)->toContain('--glsr-review-star-bg:var(--wp--preset--color--vivid-red, #cf2e2e)');
 });
 
 test('a custom rating colour is used as given', function () {

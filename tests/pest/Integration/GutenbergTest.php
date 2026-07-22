@@ -159,7 +159,7 @@ test('the summary block turns its color and alignment attributes into classes an
     expect($html)->toContain('items-justified-left')
         ->and($html)->toContain('has-bar-color')
         ->and($html)->toContain('has-rating-color')
-        ->and($html)->toContain('--glsr-bar-bg:var(--wp--preset--color--vivid-red);')
+        ->and($html)->toContain('--glsr-bar-bg:var(--wp--preset--color--vivid-red, currentColor);')
         ->and($html)->toContain('--glsr-summary-star-bg:#ffb900;')
         ->and($html)->toContain('--glsr-summary-align:start;');
 });

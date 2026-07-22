@@ -1,6 +1,5 @@
 import { _x } from '@wordpress/i18n';
-import { AjaxSearchControl, AjaxToggleGroupControl, ColorControl } from '@site-reviews/components';
-import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
+import { AjaxSearchControl, AjaxToggleGroupControl, ColorControl, resolveColor } from '@site-reviews/components';
 import { TextControl } from '@wordpress/components';
 import { withColors } from "@wordpress/block-editor";
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
@@ -68,9 +67,7 @@ const Edit = (props) => {
             panels={panels}
             props={props}
             style={{
-                '--glsr-review-star-bg': style_rating_color
-                    ? getCSSValueFromRawStyle(`var:preset|color|${style_rating_color}`)
-                    : style_rating_color_custom,
+                '--glsr-review-star-bg': resolveColor(style_rating_color, style_rating_color_custom),
             }}
             styleClassNames={[
                 (style_rating_color || style_rating_color_custom) ? 'has-rating-color' : '',

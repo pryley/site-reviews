@@ -1,6 +1,5 @@
 import { _x } from '@wordpress/i18n';
-import { AjaxComboboxControl, AjaxFormTokenField, AjaxSearchControl, AjaxToggleGroupControl, ColorControl, NoYesControl } from '@site-reviews/components';
-import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
+import { AjaxComboboxControl, AjaxFormTokenField, AjaxSearchControl, AjaxToggleGroupControl, ColorControl, NoYesControl, resolveColor } from '@site-reviews/components';
 import { JustifyContentControl, withColors } from "@wordpress/block-editor";
 import { RangeControl, TextControl } from '@wordpress/components';
 import ServerSideBlockRenderer from '@site-reviews/server-side-block-renderer';
@@ -179,9 +178,7 @@ const Edit = (props) => {
             panels={panels}
             props={props}
             style={{
-                '--glsr-review-star-bg': style_rating_color
-                    ? getCSSValueFromRawStyle(`var:preset|color|${style_rating_color}`)
-                    : style_rating_color_custom,
+                '--glsr-review-star-bg': resolveColor(style_rating_color, style_rating_color_custom),
             }}
             styleClassNames={[
                 (attributes?.style_align) ? `items-justified-${attributes.style_align}` : '',
