@@ -169,6 +169,9 @@ class MigrateSidebars implements MigrateContract
     protected function updateWidgetNames(array $sidebars)
     {
         array_walk($sidebars, function (&$widgets) {
+            if (!is_array($widgets)) {
+                return; // WordPress keeps array_version in this option, beside the sidebars
+            }
             array_walk($widgets, function (&$widget) {
                 if (str_starts_with($widget, glsr()->id.'_')) {
                     $widget = Str::replaceFirst(glsr()->id.'_', glsr()->prefix, $widget);
