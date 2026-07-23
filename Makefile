@@ -62,10 +62,18 @@ coverage\:all: ## The full coverage picture: main suite, multisite suite, then t
 	make coverage:multisite
 	make coverage:merge
 
+# A clover from before a plugin/ change carries the old line numbering, and the
+# merge then invents phantom uncovered lines — so a snapshot older than plugin/
+# gets a warning. mtime is an approximation (a git checkout touches files), so
+# it warns rather than refuses.
 .PHONY: coverage\:merge
 coverage\:merge: ## Merge the main and multisite clovers into tests/coverage/merged.xml, and print the merged table
 	@test -f tests/coverage/clover.xml || { printf '\nNo tests/coverage/clover.xml — run `make coverage` first.\n\n'; exit 1; }
 	@test -f tests/coverage/multisite.xml || { printf '\nNo tests/coverage/multisite.xml — run `make coverage:multisite` first.\n\n'; exit 1; }
+	@find plugin -name '*.php' -newer tests/coverage/clover.xml | head -1 | grep -q . && \
+		printf '\n\033[33mWarning:\033[0m plugin/ has changed since tests/coverage/clover.xml was generated —\nthe merged table may show phantom uncovered lines. Rerun `make coverage`.\n' || true
+	@find plugin -name '*.php' -newer tests/coverage/multisite.xml | head -1 | grep -q . && \
+		printf '\n\033[33mWarning:\033[0m plugin/ has changed since tests/coverage/multisite.xml was generated —\nthe merged table may show phantom uncovered lines. Rerun `make coverage:multisite`.\n' || true
 	XDEBUG_MODE=off php tests/merge-clover.php tests/coverage/clover.xml tests/coverage/multisite.xml tests/coverage/merged.xml
 
 .PHONY: coverage\:multisite
