@@ -281,3 +281,25 @@ test('an assigned post that is really a post type becomes a type filter', functi
     expect($values['assigned_posts'])->toBe([])
         ->and($values['assigned_posts_types'])->toBe(['page']);
 });
+
+test('dataAttributes json-encodes a changed value that is not scalar', function () {
+    // The data-attribute values feed strtr()/HTML attributes, so anything not scalar is JSON
+    // encoded. Arrays are flattened to comma-strings before the diff, which leaves objects as
+    // the non-scalar case — and the object must be diffable, hence __toString.
+    $defaults = new class extends GeminiLabs\SiteReviews\Defaults\DefaultsAbstract {
+        protected function defaults(): array
+        {
+            return ['options' => ''];
+        }
+    };
+    $value = new class {
+        public $a = 1;
+
+        public function __toString(): string
+        {
+            return 'changed';
+        }
+    };
+
+    expect($defaults->dataAttributes(['options' => $value]))->toBe(['data-options' => '{"a":1}']);
+});
