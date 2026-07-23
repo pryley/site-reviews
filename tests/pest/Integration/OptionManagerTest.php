@@ -1,8 +1,16 @@
 <?php
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Premium\Host\Application as PremiumHostAddon;
+use GeminiLabs\SiteReviews\Premium\HostedThing\Application as PremiumHostedAddon;
 
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\unregisterAddons;
+
+require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Application.php');
+require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Hooks.php');
+require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/Application.php');
+require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/Hooks.php');
 
 /*
  * The plugin's settings store. Everything the site owner configures lives in ONE option, read
@@ -85,4 +93,24 @@ test('clean() keeps the settings of an addon whose defaults are not currently lo
         ->and($cleaned['settings']['integrations'])->toHaveKey('a-dead-integration')
         ->and($cleaned['settings']['licenses'])->toHaveKey('a-dead-addon')
         ->and($cleaned['settings']['general']['require']['approval'])->toBe('no');
+});
+
+test('clean() keeps a host\'s stored values when their feature is disabled', function () {
+    // A disabled premium feature never registers, so its settings config is not loaded and its
+    // keys are absent from the defaults — clean() would drop them. The host loop in
+    // restoreOrphanedSettings puts them back key-by-key.
+    glsr()->register(PremiumHostAddon::class);
+    glsr()->register(PremiumHostedAddon::class, glsr(PremiumHostAddon::class));
+    try {
+        $cleaned = glsr(OptionManager::class)->clean([
+            'settings' => [
+                'premium-host' => ['hosted-thing' => ['color' => 'red', 'is_enabled' => 'no']],
+            ],
+        ]);
+
+        expect($cleaned['settings']['premium-host']['hosted-thing']['color'])->toBe('red')
+            ->and($cleaned['settings']['premium-host']['hosted-thing']['is_enabled'])->toBe('no');
+    } finally {
+        unregisterAddons(PremiumHostAddon::ID, PremiumHostedAddon::ID);
+    }
 });
