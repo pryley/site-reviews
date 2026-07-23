@@ -105,6 +105,17 @@ glsr(\GeminiLabs\SiteReviews\Install::class)->run();
 glsr(\GeminiLabs\SiteReviews\Modules\Migrate::class)->runAll();
 
 /*
+ * Boot REST once, on a throwaway server, for the same reason the migrations run
+ * here: real third-party plugins create their tables lazily the first time
+ * rest_api_init fires (Elementor's e_events table), and that DDL implicitly
+ * COMMITs — inside a test it trips the commit tripwire. Fired here, the tables
+ * exist before the first transaction opens. The server global is dropped again:
+ * a REST test builds its own.
+ */
+rest_get_server();
+unset($GLOBALS['wp_rest_server']);
+
+/*
  * Photograph the Application's storage as a fresh request has it. The Storage trait is an
  * Arguments object on the singleton — no option, hook or table — so Pest.php's teardown cannot
  * reach it, yet twenty registers write to it and several leak between tests. restoreStorage()
