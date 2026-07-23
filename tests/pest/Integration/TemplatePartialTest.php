@@ -39,6 +39,22 @@ test('minified output loses the whitespace between tags and nothing else', funct
         ->and($html)->toContain('<input type="text" />');
 });
 
+test('a list of templates renders each entry, skipping anything that is not one', function () {
+    // renderMultiple() drives the review-list templates: one data array per entry, echoed in
+    // order. A non-array entry (a filter gone wrong) is skipped rather than fatal.
+    ob_start();
+    glsr(Template::class)->renderMultiple('templates/form/field', [
+        ['context' => ['class' => 'first-field', 'field' => '<input />']],
+        'not-an-array',
+        ['context' => ['class' => 'second-field', 'field' => '<input />']],
+    ]);
+    $html = (string) ob_get_clean();
+
+    expect($html)->toContain('first-field')
+        ->toContain('second-field')
+        ->and($html)->not->toContain('not-an-array');
+});
+
 test('template data that is not an array is discarded, not fatal', function () {
     // A filter that mangles the context into a string must not take the page down.
     $html = glsr(Template::class)->build('templates/form/field', [
