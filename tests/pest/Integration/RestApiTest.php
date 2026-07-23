@@ -84,6 +84,20 @@ test('gets a single review', function () {
         ->and($data['content'])->toContain('A review fetched over REST.');
 });
 
+test('a review with no usable gmt date is answered with a derived date, not false', function () {
+    // Both stored dates broken: SanitizeDate blanks them in Review::__construct, and the
+    // response derives a gmt date rather than emitting mysql_to_rfc3339('') — which is
+    // false, where the schema promises a string.
+    $review = new GeminiLabs\SiteReviews\Review(['date' => '', 'date_gmt' => ''], false);
+    $prepare = new GeminiLabs\SiteReviews\Controllers\Api\Version1\Response\PrepareReviewData(
+        ['date_gmt'], $review, new WP_REST_Request('GET', '/'.REST_NS.'/reviews/0')
+    );
+
+    $data = $prepare->data();
+
+    expect($data['date_gmt'])->toBeString()->toMatch('/^\d{4}-\d{2}-\d{2}T/');
+});
+
 test('returns a 404 for a review that does not exist', function () {
     actAsAdmin();
     $response = restRequest('GET', '/'.REST_NS.'/reviews/999999001');

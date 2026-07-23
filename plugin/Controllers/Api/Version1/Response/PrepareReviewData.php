@@ -86,7 +86,9 @@ class PrepareReviewData
     protected function prepareDateGmt(): void
     {
         $date = $this->review->date_gmt;
-        if ('0000-00-00 00:00:00' === $date) {
+        // A zero/invalid stored date reaches here as '' (SanitizeDate blanks it);
+        // derive from the local date, as core's posts controller does.
+        if (empty($date)) {
             $date = get_gmt_from_date($this->review->date);
         }
         $this->data['date_gmt'] = mysql_to_rfc3339($date); // phpcs:ignore
