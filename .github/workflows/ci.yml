@@ -108,5 +108,83 @@ jobs:
         uses: codecov/codecov-action@v7
         with:
           files: tests/coverage/clover.xml
+          flags: main
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  multisite:
+    name: Pest (multisite)
+    runs-on: ubuntu-latest
+
+    services:
+      mariadb:
+        image: mariadb:lts
+        env:
+          MARIADB_ROOT_PASSWORD: root
+          MARIADB_DATABASE: wordpress_multisite
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      WP_VERSION: '7.0.2'
+      XDEBUG_MODE: 'off'
+
+    steps:
+      # Full history for the same reason as the main test job: this uploads to
+      # Codecov too, and coverage diffs need the base commit.
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: pcov
+          tools: composer:v2, wp-cli
+
+      - name: Locate WordPress
+        run: echo "WP_ROOT=$RUNNER_TEMP/wordpress" >> "$GITHUB_ENV"
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+
+      # The URL is load-bearing: the suite bootstrap pins its HTTP_HOST to
+      # localhost:8892 (the network domain wp-env uses) and creates the second
+      # site under that domain — ms-settings.php answers any other host with a
+      # redirect and a bare exit. Nothing needs to listen on the port; it is
+      # only a string in the network tables. EMPTY_TRASH_DAYS=0 must be set
+      # before load — it is a first-define constant (30 everywhere else), and
+      # the bootstrap refuses to run without it.
+      - name: Install WordPress as a network
+        run: |
+          wp core download --path="$WP_ROOT" --version="$WP_VERSION"
+          wp config create --path="$WP_ROOT" \
+            --dbname=wordpress_multisite --dbuser=root --dbpass=root --dbhost=127.0.0.1:3306 --skip-check
+          wp config set EMPTY_TRASH_DAYS 0 --raw --type=constant --path="$WP_ROOT"
+          wp core install --path="$WP_ROOT" \
+            --url=http://localhost:8892 --title='Site Reviews Network' \
+            --admin_user=admin --admin_password=admin --admin_email=ci@example.org --skip-email
+          ln -s "$GITHUB_WORKSPACE" "$WP_ROOT/wp-content/plugins/site-reviews"
+          wp core multisite-convert --path="$WP_ROOT" --title='Site Reviews Network'
+          wp plugin activate site-reviews --network --path="$WP_ROOT" --url=localhost:8892
+
+      - name: Run the multisite suite with coverage
+        run: |
+          php -d memory_limit=-1 vendor/bin/pest \
+            --test-directory=tests/multisite -c tests/multisite/phpunit.xml --colors=always \
+            --coverage-clover=tests/coverage/multisite.xml
+
+      # Codecov unions this with the main flag server-side — "covered anywhere
+      # is covered", the same semantics as make coverage:merge locally.
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v7
+        with:
+          files: tests/coverage/multisite.xml
+          flags: multisite
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
