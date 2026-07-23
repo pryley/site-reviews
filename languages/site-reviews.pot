@@ -1554,7 +1554,7 @@ msgstr ""
 #: config/settings.php:477
 #, php-format
 msgctxt "admin-text"
-msgid "If you would like to keep the pagination links but prevent search engines from indexing them, add the following lines to your %s file: %s"
+msgid "If you would like to keep the pagination links but prevent search engines from indexing them, add the following lines to your %1$s file: %2$s"
 msgstr ""
 
 #: config/settings.php:483
@@ -1668,7 +1668,7 @@ msgstr ""
 #: views/pages/settings/schema.php:13
 #, php-format
 msgctxt "admin-text"
-msgid "Google limits the schema types that can trigger review rich results in search. To learn more, please %sread this%s."
+msgid "Google limits the schema types that can trigger review rich results in search. To learn more, please %1$sread this%2$s."
 msgstr ""
 
 #: config/settings.php:544
@@ -2495,7 +2495,7 @@ msgstr ""
 #: plugin/Commands/ApproveReview.php:48
 #, php-format
 msgctxt "admin-text"
-msgid "The %sreview%s was approved successfully."
+msgid "The %1$sreview%2$s was approved successfully."
 msgstr ""
 
 #: plugin/Commands/ChangeLogLevel.php:30
@@ -2574,7 +2574,7 @@ msgstr ""
 #: plugin/Commands/DetectIpAddress.php:22
 #, php-format
 msgctxt "admin-text"
-msgid "Your detected IP address is %s. If this looks incorrect, please see the %s."
+msgid "Your detected IP address is %1$s. If this looks incorrect, please see the %2$s."
 msgstr ""
 
 #: plugin/Commands/DownloadCsvTemplate.php:67
@@ -2653,7 +2653,7 @@ msgstr ""
 #: plugin/Commands/DownloadCsvTemplate.php:87
 #, php-format
 msgctxt "admin-text"
-msgid "%s or %s"
+msgid "%1$s or %2$s"
 msgstr ""
 
 #: plugin/Commands/DownloadCsvTemplate.php:84
@@ -2664,7 +2664,7 @@ msgstr ""
 #: plugin/Commands/DownloadCsvTemplate.php:85
 #, php-format
 msgctxt "admin-text"
-msgid "A number from %d-%d"
+msgid "A number from %1$d-%2$d"
 msgstr ""
 
 #: plugin/Commands/DownloadCsvTemplate.php:86
@@ -2808,7 +2808,7 @@ msgstr ""
 #: plugin/Commands/EnqueueAdminAssets.php:102
 #, php-format
 msgctxt "admin-text"
-msgid "Site Reviews was unable to fetch the System Info because your server threw an error: %s %s"
+msgid "Site Reviews was unable to fetch the System Info because your server threw an error: %1$s %2$s"
 msgstr ""
 
 #: plugin/Commands/EnqueueAdminAssets.php:103
@@ -2866,7 +2866,7 @@ msgstr ""
 #: plugin/Integrations/WooCommerce/Commands/ImportProductReviews.php:58
 #, php-format
 msgctxt "admin-text"
-msgid "Imported %d of %d reviews"
+msgid "Imported %1$d of %2$d reviews"
 msgstr ""
 
 #: plugin/Commands/ImportReviewsAttachments.php:31
@@ -3026,7 +3026,7 @@ msgstr ""
 
 #: plugin/Commands/SendNotification.php:120
 #, php-format
-msgid "New %s-star review of %s"
+msgid "New %1$s-star review of %2$s"
 msgstr ""
 
 #: plugin/Commands/SendVerificationEmail.php:28
@@ -3991,7 +3991,7 @@ msgstr ""
 #: plugin/Controllers/SettingsController.php:158
 #, php-format
 msgctxt "admin-text"
-msgid "Please update the %s plugin to v%s or greater to enable the integration."
+msgid "Please update the %1$s plugin to v%2$s or greater to enable the integration."
 msgstr ""
 
 #: plugin/Controllers/TaxonomyController.php:24
@@ -4306,7 +4306,7 @@ msgstr ""
 #: plugin/Defaults/ImportResultDefaults.php:32
 #, php-format
 msgctxt "admin-text"
-msgid "Imported %d of %d"
+msgid "Imported %1$d of %2$d"
 msgstr ""
 
 #: plugin/Defaults/PaginationDefaults.php:37
@@ -4670,12 +4670,12 @@ msgstr ""
 
 #: plugin/Defaults/ValidationStringsDefaults.php:11
 #, php-format
-msgid "This field value must be between %s and %s."
+msgid "This field value must be between %1$s and %2$s."
 msgstr ""
 
 #: plugin/Defaults/ValidationStringsDefaults.php:12
 #, php-format
-msgid "This field must have between %s and %s characters."
+msgid "This field must have between %1$s and %2$s characters."
 msgstr ""
 
 #: plugin/Defaults/ValidationStringsDefaults.php:13
@@ -4744,7 +4744,7 @@ msgstr ""
 #: plugin/Deprecated.php:19
 #, php-format
 msgctxt "admin-text"
-msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
+msgid "The [%1$s] method has been deprecated and will be soon be removed, please use the [%2$s] method instead."
 msgstr ""
 
 #: plugin/Helpers/Str.php:111
@@ -5191,13 +5191,13 @@ msgstr ""
 #: plugin/Integrations/GamiPress/Triggers.php:119
 #, php-format
 msgctxt "admin-text"
-msgid "getting a review on a %s with a %d-star rating"
+msgid "getting a review on a %1$s with a %2$d-star rating"
 msgstr ""
 
 #: plugin/Integrations/GamiPress/Triggers.php:120
 #, php-format
 msgctxt "admin-text"
-msgid "getting a review on a %s with a minimum %d-star rating"
+msgid "getting a review on a %1$s with a minimum %2$d-star rating"
 msgstr ""
 
 #: plugin/Integrations/GamiPress/Triggers.php:124
@@ -5213,13 +5213,13 @@ msgstr ""
 #: plugin/Integrations/GamiPress/Triggers.php:126
 #, php-format
 msgctxt "admin-text"
-msgid "getting a review on \"%s\" with a %d-star rating"
+msgid "getting a review on \"%1$s\" with a %2$d-star rating"
 msgstr ""
 
 #: plugin/Integrations/GamiPress/Triggers.php:127
 #, php-format
 msgctxt "admin-text"
-msgid "getting a review on \"%s\" with a minimum %d-star rating"
+msgid "getting a review on \"%1$s\" with a minimum %2$d-star rating"
 msgstr ""
 
 #: plugin/Integrations/GamiPress/Triggers.php:131
@@ -5277,13 +5277,13 @@ msgstr ""
 #: plugin/Integrations/GamiPress/Triggers.php:147
 #, php-format
 msgctxt "1 point for ... 1 time"
-msgid "writing a review of a %s with a %d-star rating"
+msgid "writing a review of a %1$s with a %2$d-star rating"
 msgstr ""
 
 #: plugin/Integrations/GamiPress/Triggers.php:148
 #, php-format
 msgctxt "1 point for ... 1 time"
-msgid "writing a review of a %s with a minimum %d-star rating"
+msgid "writing a review of a %1$s with a minimum %2$d-star rating"
 msgstr ""
 
 #: plugin/Integrations/GamiPress/Triggers.php:152
@@ -5299,13 +5299,13 @@ msgstr ""
 #: plugin/Integrations/GamiPress/Triggers.php:154
 #, php-format
 msgctxt "1 point for ... 1 time"
-msgid "writing a review of \"%s\" with a %d-star rating"
+msgid "writing a review of \"%1$s\" with a %2$d-star rating"
 msgstr ""
 
 #: plugin/Integrations/GamiPress/Triggers.php:155
 #, php-format
 msgctxt "1 point for ... 1 time"
-msgid "writing a review of \"%s\" with a minimum %d-star rating"
+msgid "writing a review of \"%1$s\" with a minimum %2$d-star rating"
 msgstr ""
 
 #: plugin/Integrations/GamiPress/Triggers.php:173
@@ -5342,13 +5342,13 @@ msgstr ""
 #: plugin/Integrations/GamiPress/Triggers.php:182
 #, php-format
 msgctxt "1 point for ... 1 time"
-msgid "writing a review of a user with the %s role with a %d-star rating"
+msgid "writing a review of a user with the %1$s role with a %2$d-star rating"
 msgstr ""
 
 #: plugin/Integrations/GamiPress/Triggers.php:183
 #, php-format
 msgctxt "1 point for ... 1 time"
-msgid "writing a review of a user with the %s role with a minimum %d-star rating"
+msgid "writing a review of a user with the %1$s role with a minimum %2$d-star rating"
 msgstr ""
 
 #: plugin/Integrations/GamiPress/Triggers.php:187
@@ -5364,13 +5364,13 @@ msgstr ""
 #: plugin/Integrations/GamiPress/Triggers.php:189
 #, php-format
 msgctxt "1 point for ... 1 time"
-msgid "writing a review of %s with a %d-star rating"
+msgid "writing a review of %1$s with a %2$d-star rating"
 msgstr ""
 
 #: plugin/Integrations/GamiPress/Triggers.php:190
 #, php-format
 msgctxt "1 point for ... 1 time"
-msgid "writing a review of %s with a minimum %d-star rating"
+msgid "writing a review of %1$s with a minimum %2$d-star rating"
 msgstr ""
 
 #: plugin/Integrations/Gutenberg/Blocks/Block.php:27
@@ -5387,7 +5387,7 @@ msgstr ""
 #: plugin/Integrations/MultilingualPress/Hooks.php:86
 #, php-format
 msgctxt "admin-text"
-msgid "Update %s to version %s or higher to enable the integration with Site Reviews."
+msgid "Update %1$s to version %2$s or higher to enable the integration with Site Reviews."
 msgstr ""
 
 #: plugin/Integrations/LPFW/Controller.php:21
@@ -5950,12 +5950,12 @@ msgstr ""
 
 #: plugin/Modules/Html/Partials/StarRating.php:34
 #, php-format
-msgid "Rated %s out of %s stars based on %s ratings"
+msgid "Rated %1$s out of %2$s stars based on %3$s ratings"
 msgstr ""
 
 #: plugin/Modules/Html/Partials/StarRating.php:35
 #, php-format
-msgid "Rated %s out of %s stars"
+msgid "Rated %1$s out of %2$s stars"
 msgstr ""
 
 #: plugin/Modules/Html/ReviewForm.php:15
@@ -6095,16 +6095,16 @@ msgstr ""
 #: plugin/Notices/GatekeeperNotice.php:43
 #, php-format
 msgctxt "admin-text"
-msgid "%s requires the latest version of %s to enable the integration."
-msgid_plural "%s requires the latest version of the following plugins to enable integration: %s"
+msgid "%1$s requires the latest version of %2$s to enable the integration."
+msgid_plural "%1$s requires the latest version of the following plugins to enable integration: %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
 #: plugin/Notices/GatekeeperNotice.php:55
 #, php-format
 msgctxt "admin-text"
-msgid "%s needs an update to work with %s."
-msgid_plural "%s needs an update to work with the following plugins: %s"
+msgid "%1$s needs an update to work with %2$s."
+msgid_plural "%1$s needs an update to work with the following plugins: %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -6962,7 +6962,7 @@ msgstr ""
 #: plugin/UploadedFile.php:95
 #, php-format
 msgctxt "file error (admin-text)"
-msgid "The file \"%s\" exceeds the upload_max_filesize ini directive (limit is %d KiB)."
+msgid "The file \"%1$s\" exceeds the upload_max_filesize ini directive (limit is %2$d KiB)."
 msgstr ""
 
 #: plugin/UploadedFile.php:96
@@ -7449,7 +7449,7 @@ msgstr ""
 #: views/pages/settings/schema.php:26
 #, php-format
 msgctxt "admin-text"
-msgid "In some cases it may be useful to link the Site Reviews schema with other schema on your page, this is done by adding the %s unique identifier property to each schema that you wish to link. If you are using Woocommerce and have set the Schema Type to \"Product\", Site Reviews will automatically do this for you. In all other cases, either use the <code>schema_identifier</code> Custom Field name in the %s, or use the %s hook."
+msgid "In some cases it may be useful to link the Site Reviews schema with other schema on your page, this is done by adding the %1$s unique identifier property to each schema that you wish to link. If you are using Woocommerce and have set the Schema Type to \"Product\", Site Reviews will automatically do this for you. In all other cases, either use the <code>schema_identifier</code> Custom Field name in the %2$s, or use the %3$s hook."
 msgstr ""
 
 #: views/pages/settings/strings.php:3
@@ -7644,7 +7644,7 @@ msgstr ""
 #: views/pages/tools/general/import-reviews.php:23
 #, php-format
 msgctxt "admin-text"
-msgid "You can also use the WordPress %s and %s tools to export and import your reviews and categories."
+msgid "You can also use the WordPress %1$s and %2$s tools to export and import your reviews and categories."
 msgstr ""
 
 #: views/pages/tools/general/export-reviews.php:18
@@ -7986,7 +7986,7 @@ msgstr ""
 #: views/pages/tools/general/rollback-plugin.php:29
 #, php-format
 msgctxt "admin-text"
-msgid "You currently have version %s installed of %s. Run this tool to rollback to a previous release."
+msgid "You currently have version %1$s installed of %2$s. Run this tool to rollback to a previous release."
 msgstr ""
 
 #: views/pages/tools/general/rollback-plugin.php:39
@@ -8045,7 +8045,7 @@ msgstr ""
 #: views/pages/welcome/getting-started.php:21
 #, php-format
 msgctxt "admin-text"
-msgid "%s minutes, %s seconds"
+msgid "%1$s minutes, %2$s seconds"
 msgstr ""
 
 #: views/partials/addons/license-missing.php:4
@@ -8257,7 +8257,7 @@ msgstr ""
 #: views/partials/notices/upgraded.php:8
 #, php-format
 msgctxt "plugin name|version (admin-text)"
-msgid "%s has been updated to version %s"
+msgid "%1$s has been updated to version %2$s"
 msgstr ""
 
 #: views/partials/notices/upgraded.php:14
