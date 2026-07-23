@@ -439,3 +439,57 @@ test('without fileinfo the mime type is still read from the bytes', function () 
         \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
     }
 });
+
+/**
+ * A stream whose reads fail — the OS-level failure fread() reports as false, which no real
+ * file in the container can be made to do (root ignores permissions, and a vanished file
+ * fails at construction instead).
+ */
+class GlsrFailingReadStream
+{
+    public $context;
+
+    public function stream_open($path, $mode, $options, &$opened_path)
+    {
+        return true;
+    }
+
+    public function stream_read($count)
+    {
+        return false;
+    }
+
+    public function stream_eof()
+    {
+        return false;
+    }
+
+    public function stream_stat()
+    {
+        return ['size' => 10];
+    }
+
+    public function url_stat($path, $flags)
+    {
+        return ['size' => 10, 'mode' => 0100644];
+    }
+}
+
+test('a read that fails mid-stream is a FileException, not a silent truncation', function () {
+    // A download built from a half-read file would be corrupt; the failure has to surface.
+    stream_wrapper_register('glsrfailread', GlsrFailingReadStream::class);
+    try {
+        $file = new UploadedFile([
+            'error' => \UPLOAD_ERR_OK,
+            'name' => 'reviews.csv',
+            'size' => 10,
+            'tmp_name' => 'glsrfailread://reviews.csv',
+            'type' => 'text/csv',
+        ]);
+
+        expect(fn () => $file->getContent())
+            ->toThrow(GeminiLabs\SiteReviews\Exceptions\FileException::class);
+    } finally {
+        stream_wrapper_unregister('glsrfailread');
+    }
+});
