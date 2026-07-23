@@ -117,8 +117,7 @@ class ProcessCsvFile extends AbstractCommand
                 throw new Exception(_x('The CSV file could not be imported. Please verify the following details and try again:', 'admin-text', 'site-reviews'));
             }
             $filePath = glsr(ImportManager::class)->tempFilePath();
-            $writer = Writer::createFromPath($filePath, 'w+');
-            $writer->addFormatter(new EscapeFormula());
+            $writer = $this->writer($filePath);
             $writer->insertOne($header);
             $writer->addFormatter(fn (array $record) => $this->formatRecord($record));
             $records = Statement::create()
@@ -215,5 +214,12 @@ class ProcessCsvFile extends AbstractCommand
         $this->errors = array_merge($this->errors, $errors);
         ++$this->skipped;
         return false;
+    }
+
+    protected function writer(string $filePath): Writer
+    {
+        $writer = Writer::createFromPath($filePath, 'w+');
+        $writer->addFormatter(new EscapeFormula());
+        return $writer;
     }
 }

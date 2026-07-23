@@ -38,8 +38,7 @@ class DownloadCsvTemplate extends AbstractCommand
     public function handle(): void
     {
         try {
-            $writer = Writer::createFromString('');
-            $writer->addFormatter(new EscapeFormula());
+            $writer = $this->writer();
             $writer->insertOne(array_keys($this->data()));
             $writer->insertOne(array_values($this->data()));
             nocache_headers();
@@ -126,5 +125,12 @@ class DownloadCsvTemplate extends AbstractCommand
         }
         ksort($data);
         return $data;
+    }
+
+    protected function writer(): Writer
+    {
+        $writer = Writer::createFromString('');
+        $writer->addFormatter(new EscapeFormula());
+        return $writer;
     }
 }

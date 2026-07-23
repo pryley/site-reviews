@@ -401,3 +401,24 @@ test('the settings import fails cleanly when no file was uploaded', function () 
     expect($command->successful())->toBeFalse()
         ->and(glsr(Notice::class)->get())->toContain('No file was uploaded');
 });
+
+test('a row the writer refuses fails the export with the reason logged', function () {
+    // The same CannotInsertRecord catch the template download carries, raised through the
+    // writer() seam with League's own validator API.
+    createReview();
+    glsr(Notice::class)->clear();
+    $command = new class(new Request()) extends ExportReviews {
+        protected function writer(): GeminiLabs\League\Csv\Writer
+        {
+            $writer = parent::writer();
+            $writer->addValidator(fn () => false, 'glsr-refused');
+            return $writer;
+        }
+    };
+
+    $command->handle();
+
+    expect($command->successful())->toBeFalse()
+        ->and(glsr(GeminiLabs\SiteReviews\Modules\Console::class)->get())
+        ->toContain('Unable to insert row into CSV export file');
+});

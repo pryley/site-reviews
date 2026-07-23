@@ -577,3 +577,22 @@ test('a staged row whose review cannot be created is skipped, and counted as ski
     expect($import->response()['imported'])->toBe(0)
         ->and($import->response()['skipped'])->toBe(2); // both staged rows, neither silently lost
 });
+
+test('a row the writer refuses is reported and the import abandoned', function () {
+    // CannotInsertRecord on the temp-file writer in the wild is a failed disk write (root
+    // ignores permissions here, so it cannot be staged for real); League's validator API
+    // raises the same exception through the writer() seam.
+    $command = new class(new Request(['date_format' => 'Y-m-d', 'delimiter' => ','])) extends ProcessCsvFile {
+        protected function writer(string $filePath): GeminiLabs\League\Csv\Writer
+        {
+            $writer = parent::writer($filePath);
+            $writer->addValidator(fn () => false, 'glsr-refused');
+            return $writer;
+        }
+    };
+
+    $ok = protectedMethod(ProcessCsvFile::class, 'process')->invoke($command, csvUpload(csvFixture()));
+
+    expect($ok)->toBeFalse();
+    expect(glsr(Notice::class)->get())->toContain('Unable to process a row in the CSV document');
+});

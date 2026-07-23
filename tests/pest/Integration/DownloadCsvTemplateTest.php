@@ -106,3 +106,23 @@ test('the downloaded template is the data as csv, header row first', function ()
         ->and($lines[0])->toContain('date')
         ->and($lines[0])->toContain('rating');
 });
+
+test('a row the writer refuses is reported, not a broken download', function () {
+    // CannotInsertRecord in the wild means the stream write failed (a full disk); League's
+    // validator API raises the same exception through the writer() seam.
+    $command = new class extends DownloadCsvTemplate {
+        protected function writer(): GeminiLabs\League\Csv\Writer
+        {
+            $writer = parent::writer();
+            $writer->addValidator(fn () => false, 'glsr-refused');
+            return $writer;
+        }
+    };
+
+    $command->handle();
+
+    expect($command->successful())->toBeFalse();
+    expect(glsr(GeminiLabs\SiteReviews\Modules\Notice::class)->get())->toContain('notice-error');
+    expect(glsr(GeminiLabs\SiteReviews\Modules\Console::class)->get())
+        ->toContain('Unable to insert row into CSV template file');
+});
