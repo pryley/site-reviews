@@ -9,7 +9,7 @@ use function GeminiLabs\SiteReviews\Tests\protectedMethod;
  * The base class every integration extends: the version gate and the notice it raises when the gate
  * closes.
  *
- * The stubs track current releases (make stubs), so which gates are closed on any given boot is a
+ * The stubs track current releases (make stubs:update), so which gates are closed on any given boot is a
  * moving target — when this file was first written, fusion-builder, breakdance and wpbakery all
  * declared versions below their gates and notify() ran on every boot; regenerated stubs have since
  * opened them. These tests therefore drive the gate and the notice DIRECTLY, with versions they

@@ -11,7 +11,7 @@
  * only, the loader follows them transitively.
  *
  * Read by tests/pest/mu-plugins/site-reviews-tests.php, which loads the stubs in this order,
- * and by tests/bin/generate-stubs.php, which fails `make stubs` on an edge that is not listed
+ * and by tests/bin/generate-stubs.php, which fails `make stubs:update` on an edge that is not listed
  * here. Do not hand-maintain it from memory: regenerate and let the scan name the edge.
  */
 

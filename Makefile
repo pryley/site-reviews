@@ -5,57 +5,78 @@ WPENV_BIN ?= $(shell test -x node_modules/.bin/wp-env && printf 'node_modules/.b
 WPENV ?= $(WPENV_BIN) run cli --env-cwd=wp-content/plugins/$(PLUGIN)
 
 .PHONY: analyse
-analyse: env-check ## Run phpstan analyser (inside wp-env)
+analyse: env-check ## Run the phpstan analyser (inside wp-env)
 	$(WPENV) env XDEBUG_MODE=off vendor/bin/phpstan analyse --memory-limit 2G
 
 .PHONY: build
-build: ## Build assets
-	npm run rollup
+build: ## Build the languages and assets
+	make build:i18n
+	make build:assets
 
 .PHONY: build\:all
-build\:all: ## Build all assets and languages
-	npx gulp
-	make build\:blocks
-	make build\:divi
+build\:all: ## Build everything: languages, assets, blocks, and Divi elements
 	make build
+	make build:blocks
+	make build:divi
+
+.PHONY: build\:assets
+build\:assets: ## Build the frontend assets with Rollup
+	npm run rollup
 
 .PHONY: build\:blocks
-build\:blocks: ## Build all blocks
+build\:blocks: ## Check the node/npm engines and build the Gutenberg blocks
 	npm run check
 	npm run blocks
 
 .PHONY: build\:divi
-build\:divi: ## Build all Divi elements
+build\:divi: ## Build the Divi elements
 	npm run divi
+
+.PHONY: build\:i18n
+build\:i18n: ## Build the language files: text-domain check, then pot -> po -> mo
+	npx gulp
 
 .PHONY: bump
 bump: ## Bump to the next patch version
 	npx gulp bump
 
-.PHONY: check
-check: ## Check WP compatibility for declared version
-	@test -f '+/tools/wp-since/vendor/bin/wp-since' || composer --working-dir='+/tools/wp-since' update
-	XDEBUG_MODE=off php -d memory_limit=2G '+/tools/wp-since/vendor/bin/wp-since' check
-
+# Both halves always run — a phpcs finding must not hide a wp-since one — and
+# the exit code reports whether either failed.
 .PHONY: compat
-compat: ## Run PHP CodeSniffer to check PHP 8.1- Compatibility
+compat: ## Check PHP compatibility (8.1, phpcs) and WP compatibility (the declared floor, wp-since)
 	@test -f '+/tools/phpcs/vendor/bin/phpcs' || composer --working-dir='+/tools/phpcs' update
-	XDEBUG_MODE=off '+/tools/phpcs/vendor/bin/phpcs' --standard=phpcs.xml
+	@test -f '+/tools/wp-since/vendor/bin/wp-since' || composer --working-dir='+/tools/wp-since' update
+	@status=0; \
+	XDEBUG_MODE=off '+/tools/phpcs/vendor/bin/phpcs' --standard=phpcs.xml || status=1; \
+	XDEBUG_MODE=off php -d memory_limit=2G '+/tools/wp-since/vendor/bin/wp-since' check || status=1; \
+	exit $$status
+
+.PHONY: coverage
+coverage: env-check ## Run the suite with coverage of the PLUGIN, gated at 80% (restarts wp-env with Xdebug)
+	$(WPENV_BIN) start --xdebug=coverage
+	$(WPENV) env XDEBUG_MODE=coverage composer test:coverage
 
 .PHONY: coverage\:all
 coverage\:all: ## The full coverage picture: main suite, multisite suite, then the merged table
-	make test:coverage
-	make test:multisite
+	make coverage
+	make coverage:multisite
 	make coverage:merge
 
 .PHONY: coverage\:merge
 coverage\:merge: ## Merge the main and multisite clovers into tests/coverage/merged.xml, and print the merged table
-	@test -f tests/coverage/clover.xml || { printf '\nNo tests/coverage/clover.xml — run `make test:coverage` first.\n\n'; exit 1; }
-	@test -f tests/coverage/multisite.xml || { printf '\nNo tests/coverage/multisite.xml — run `make test:multisite` first.\n\n'; exit 1; }
+	@test -f tests/coverage/clover.xml || { printf '\nNo tests/coverage/clover.xml — run `make coverage` first.\n\n'; exit 1; }
+	@test -f tests/coverage/multisite.xml || { printf '\nNo tests/coverage/multisite.xml — run `make coverage:multisite` first.\n\n'; exit 1; }
 	XDEBUG_MODE=off php tests/merge-clover.php tests/coverage/clover.xml tests/coverage/multisite.xml tests/coverage/merged.xml
 
-.PHONY: env\:info
-env\:info: env-check ## What is the suite actually running against?
+.PHONY: coverage\:multisite
+coverage\:multisite: multisite-env ## Run the multisite suite with coverage (its clover feeds coverage:merge)
+	cd tests/multisite && npx @wordpress/env run cli --env-cwd=wp-content/plugins/site-reviews \
+		env XDEBUG_MODE=coverage php -d memory_limit=-1 vendor/bin/pest \
+		--test-directory=tests/multisite -c tests/multisite/phpunit.xml --colors=always \
+		--coverage-clover=tests/coverage/multisite.xml
+
+.PHONY: env
+env: env-check ## What the suite is actually running against
 	@printf '\nWordPress  '
 	@$(WPENV) wp core version 2>/dev/null | tr -d '\r'
 	@printf 'PHP        '
@@ -69,60 +90,50 @@ env\:update: docker-check ## Update the WordPress version in .wp-env.json to the
 	printf '\nPinning WordPress to %s\n\n' "$$latest"; \
 	perl -i -pe "s{\"core\": \".*\"}{\"core\": \"https://wordpress.org/wordpress-$$latest.zip\"}" .wp-env.json
 	$(WPENV_BIN) start --update
-	@$(MAKE) --no-print-directory env:info
+	@$(MAKE) --no-print-directory env
 	@printf 'Commit .wp-env.json to pin this for everybody.\n\n'
 
 .PHONY: help
-help:  ## Display help
+help: ## Display this help
 	@awk '/^[^\t#].*?:.*?##/ { \
 		n = index($$0, "##"); \
 		t = substr($$0, 1, n - 1); \
-		sub(/[: \t]+$$/, "", t); \
-		gsub(/\\:/, ":", t); \
+		gsub(/\\:/, SUBSEP, t); \
+		sub(/:.*/, "", t); \
+		gsub(SUBSEP, ":", t); \
 		d = substr($$0, n + 2); \
 		sub(/^[ \t]+/, "", d); \
 		printf "\033[36m%-30s\033[0m %s\n", t, d \
 	}' $(MAKEFILE_LIST) | sort
 
-.PHONY: i18n
-i18n: ## Generate a pot file with the wp-cli
-	npm run i18n-pot
-
 .PHONY: release
 release: ## Release a new version
 	sh ./release.sh
 
+.PHONY: stubs
+stubs: ## List the stub manifest: what is generated from where, and what is missing
+	@XDEBUG_MODE=off php tests/bin/generate-stubs.php --list
+
 # Regenerates tests/stubs from the latest upstream releases. Premium sources are
 # local zips dropped into tests/bin/zips (gitignored) — absent ones are skipped.
-#   make stubs                          all entries with an available source
-#   make stubs SLUGS='woocommerce elementor'
-.PHONY: stubs
-stubs: ## Regenerate the third-party stubs from tests/bin/stubs-manifest.php (SLUGS=… for a subset)
+#   make stubs:update                          all entries with an available source
+#   make stubs:update SLUGS='woocommerce elementor'
+.PHONY: stubs\:update
+stubs\:update: ## Regenerate the third-party stubs from tests/bin/stubs-manifest.php (SLUGS=… for a subset)
 	@test -f vendor/php-stubs/generator/src/StubsGenerator.php || { \
 		printf '\nphp-stubs/generator is not installed. Run:\n\n    make test:install\n\n'; \
 		exit 1; \
 	}
 	XDEBUG_MODE=off php -d memory_limit=4G tests/bin/generate-stubs.php $(SLUGS)
 
-.PHONY: stubs\:list
-stubs\:list: ## List the stub manifest: what is generated from where, and what is missing
-	@XDEBUG_MODE=off php tests/bin/generate-stubs.php --list
-
 .PHONY: test
-test: env-check ## Run the Pest suites inside wp-env (see tests/pest/README.md)
+test: env-check ## Run the four main Pest suites inside wp-env (see tests/pest/README.md)
 	$(WPENV) env XDEBUG_MODE=off composer test
 
 .PHONY: test\:all
-test\:all: ## Run the analyser, the full suite, and the compat checks
-	make analyse
+test\:all: ## Run the main and multisite suites
 	make test
-	make check
-	make compat
-
-.PHONY: test\:coverage
-test\:coverage: env-check ## Run the suite with coverage of the PLUGIN, gated at 80% (restarts wp-env with Xdebug)
-	$(WPENV_BIN) start --xdebug=coverage
-	$(WPENV) env XDEBUG_MODE=coverage composer test:coverage
+	make test:multisite
 
 # Run one test file.  Make sure to run `make test` before committing.
 #   make test:file FILE=tests/pest/Integration/EmailTest.php [NAME='plain text']
@@ -152,34 +163,11 @@ test\:install: docker-check ## Start wp-env and install the composer dev depende
 test\:integration: env-check ## Run only the Integration suite inside wp-env
 	$(WPENV) env XDEBUG_MODE=off composer test:integration
 
-# The multisite suite runs in its OWN wp-env instance (tests/multisite/.wp-env.json:
-# port 8892, EMPTY_TRASH_DAYS=0), converted to a network on first run. Its coverage
-# lands in tests/coverage/multisite.xml — see `make coverage:merge`. wp-env picks the
-# instance from the CWD, hence the cd; npx resolves the local wp-env from any subdir.
-# wp-env regenerates wp-config.php whenever start re-provisions, which erases the
-# constants multisite-convert appended — and a converted database with a single-site
-# config strands the whole instance. The `wp config set` lines re-assert them
-# idempotently on every run, whichever half survived.
-# WP_ENV_PORT is pinned to 8892 here because the environment variable overrides
-# .wp-env.json's own "port" — a WP_ENV_PORT exported for the MAIN instance (the
-# usual workaround when 8888 is taken) would otherwise redirect this one onto
-# the main instance's port and fail the bind.
 .PHONY: test\:multisite
-test\:multisite: docker-check ## Run the multisite suite in its own wp-env instance, with coverage
-	cd tests/multisite && WP_ENV_PORT=8892 npx @wordpress/env start --xdebug=coverage
-	cd tests/multisite && (npx @wordpress/env run cli wp core is-installed --network 2>/dev/null \
-		|| npx @wordpress/env run cli wp core multisite-convert --title='Site Reviews Network')
-	cd tests/multisite && npx @wordpress/env run cli bash -c "\
-		wp config set MULTISITE true --raw --type=constant && \
-		wp config set SUBDOMAIN_INSTALL false --raw --type=constant && \
-		wp config set DOMAIN_CURRENT_SITE localhost:8892 --type=constant && \
-		wp config set PATH_CURRENT_SITE / --type=constant && \
-		wp config set SITE_ID_CURRENT_SITE 1 --raw --type=constant && \
-		wp config set BLOG_ID_CURRENT_SITE 1 --raw --type=constant"
+test\:multisite: multisite-env ## Run the multisite suite in its own wp-env instance
 	cd tests/multisite && npx @wordpress/env run cli --env-cwd=wp-content/plugins/site-reviews \
-		env XDEBUG_MODE=coverage php -d memory_limit=-1 vendor/bin/pest \
-		--test-directory=tests/multisite -c tests/multisite/phpunit.xml --colors=always \
-		--coverage-clover=tests/coverage/multisite.xml
+		env XDEBUG_MODE=off php -d memory_limit=-1 vendor/bin/pest \
+		--test-directory=tests/multisite -c tests/multisite/phpunit.xml --colors=always
 
 .PHONY: test\:profile
 test\:profile: env-check ## Show the slowest tests in the suite
@@ -206,16 +194,16 @@ test\:unit: env-check ## Run only the Unit suite inside wp-env (fast feedback lo
 	$(WPENV) env XDEBUG_MODE=off composer test:unit
 
 .PHONY: update
-update: env-check ## Update Composer (inside wp-env) and NPM
+update: env-check ## Update the Composer dependencies (inside wp-env) and check the NPM ones
 	$(WPENV) composer update
 	npm-check -u
 
 .PHONY: watch
-watch: ## Watch and rebuild assets with Rollup
+watch: ## Watch and rebuild the frontend assets with Rollup
 	npm run rollup:watch
 
 .PHONY: zip
-zip: ## Create a zip archive of Site Reviews
+zip: ## Create a zip archive of Site Reviews from HEAD
 	git archive -o ./$(PLUGIN)-v$(VERSION).zip --prefix=$(PLUGIN)/ HEAD
 	open .
 
@@ -240,6 +228,9 @@ docker-check:
 	}
 
 # Ensure the test env is installed and wp-env is running (start is idempotent).
+# The grep pins THIS instance's name shape (wp-env-<plugin>-<hash>-cli): a loose
+# '$(PLUGIN).*cli' also matches a sibling checkout's containers (site-reviews
+# matches site-reviews-premium-…-cli) and skips the start while this env is down.
 .PHONY: env-check
 env-check: docker-check
 	@test -f vendor/bin/pest || { \
@@ -247,7 +238,33 @@ env-check: docker-check
 		printf '    make test:install\n\n'; \
 		exit 1; \
 	}
-	@docker ps --format '{{.Names}}' | grep -q '$(PLUGIN).*cli' || { \
+	@docker ps --format '{{.Names}}' | grep -Eq 'wp-env-$(PLUGIN)-[0-9a-f]+-cli' || { \
 		printf '\nwp-env is not running — starting it…\n\n'; \
 		$(WPENV_BIN) start; \
 	}
+
+# The multisite suite's OWN wp-env instance (tests/multisite/.wp-env.json:
+# port 8892, EMPTY_TRASH_DAYS=0), converted to a network on first run. wp-env
+# picks the instance from the CWD, hence the cd; npx resolves the local wp-env
+# from any subdir. Started with Xdebug so coverage:multisite can measure;
+# test:multisite runs with XDEBUG_MODE=off regardless.
+# wp-env regenerates wp-config.php whenever start re-provisions, which erases
+# the constants multisite-convert appended — and a converted database with a
+# single-site config strands the whole instance. The `wp config set` lines
+# re-assert them idempotently on every run, whichever half survived.
+# WP_ENV_PORT is pinned to 8892 here because the environment variable overrides
+# .wp-env.json's own "port" — a WP_ENV_PORT exported for the MAIN instance (the
+# usual workaround when 8888 is taken) would otherwise redirect this one onto
+# the main instance's port and fail the bind.
+.PHONY: multisite-env
+multisite-env: docker-check
+	cd tests/multisite && WP_ENV_PORT=8892 npx @wordpress/env start --xdebug=coverage
+	cd tests/multisite && (npx @wordpress/env run cli wp core is-installed --network 2>/dev/null \
+		|| npx @wordpress/env run cli wp core multisite-convert --title='Site Reviews Network')
+	cd tests/multisite && npx @wordpress/env run cli bash -c "\
+		wp config set MULTISITE true --raw --type=constant && \
+		wp config set SUBDOMAIN_INSTALL false --raw --type=constant && \
+		wp config set DOMAIN_CURRENT_SITE localhost:8892 --type=constant && \
+		wp config set PATH_CURRENT_SITE / --type=constant && \
+		wp config set SITE_ID_CURRENT_SITE 1 --raw --type=constant && \
+		wp config set BLOG_ID_CURRENT_SITE 1 --raw --type=constant"

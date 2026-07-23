@@ -14,7 +14,7 @@ test instead of core's rollback.
 Two lint-only tools live in their own composer projects, installed on first
 use by the target that needs them:
 
-- `+/tools/wp-since` (`make check`) — it pins an older toolchain than Pest.
+- `+/tools/wp-since` (`make compat`) — it pins an older toolchain than Pest.
 - `+/tools/phpcs` (`make compat`) — PHPCompatibility is required as a git
   branch (`dev-develop`), and the wp-env container has no git, so Composer
   cannot install it there. It runs on the host instead.
@@ -98,7 +98,7 @@ dependencies are installed in the container (PHP 8.3, see `.wp-env.json`).
     make test:integration
     make test:thirdparty    # the integrations
     make test:import        # the CSV import (runs last: it defines WP_IMPORTING)
-    make test:coverage      # the PLUGIN, gated at 80% (restarts wp-env with Xdebug)
+    make coverage           # the PLUGIN, gated at 80% (restarts wp-env with Xdebug)
 
 Pest needs `--test-directory=tests/pest` (it is where it looks for `Pest.php`);
 the composer scripts pass it, so always go through `composer test` / `make`.
@@ -127,11 +127,11 @@ integration look installed, its version check failed, and it translated on
 
 `plugin/Integrations` is therefore IN the coverage scope.
 
-The stubs are GENERATED — `make stubs` regenerates them from the latest
+The stubs are GENERATED — `make stubs:update` regenerates them from the latest
 upstream releases, driven by `tests/bin/stubs-manifest.php` (which slug comes
 from where, which symbols a curated stub keeps, and why each exclusion exists).
 Premium sources are local zips dropped into `tests/bin/zips/` (gitignored);
-entries whose zip is absent are skipped. `make stubs:list` shows the manifest
+entries whose zip is absent are skipped. `make stubs` shows the manifest
 and what is currently available. Three files in `tests/stubs` are NOT generated
 and must never be: `akismet.php`, `polylang.php` and `wp-cli.php` are working
 fakes the tests read back — the generator refuses to touch them.
@@ -164,7 +164,7 @@ them since their stubs were regenerated from current premium zips; a woken
 integration's filters run for real, which is why `MainControllerTest` has to
 force `site-reviews/register/widgets` past Avada's refusal). Two are dark on
 purpose, and the stubs are NOT to be hand-edited to change that — they are
-generated (`make stubs`). Waking them means adding the deliberately-omitted
+generated (`make stubs:update`). Waking them means adding the deliberately-omitted
 symbols to their `tests/bin/stubs-manifest.php` entries (each is commented
 inline):
 
@@ -208,7 +208,7 @@ number, which is right — the line ran.
 structurally cannot reach: `is_multisite()` paths (Install, NetworkController,
 per-blog constraint names) and the `EMPTY_TRASH_DAYS = 0` guard (a first-define
 constant — 30 here, 0 there). It runs in its OWN wp-env instance
-(`tests/multisite/.wp-env.json`, port 8892) that `make test:multisite` starts and
+(`tests/multisite/.wp-env.json`, port 8892) that `make coverage:multisite` starts and
 converts to a network; no transactions, no stubs — the environment is dedicated,
 and every test restores what it breaks. Its clover lands in
 `tests/coverage/multisite.xml`, and `make coverage:merge` folds it into the main

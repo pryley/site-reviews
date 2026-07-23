@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Manifest for tests/bin/generate-stubs.php (run it with `make stubs`).
+ * Manifest for tests/bin/generate-stubs.php (run it with `make stubs:update`).
  *
  * One entry per generated stub: tests/stubs/<slug>.php. The slugs the mu-plugin
  * and phpstan.neon load are the keys here — renaming one means updating both.

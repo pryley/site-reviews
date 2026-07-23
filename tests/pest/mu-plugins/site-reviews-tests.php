@@ -102,7 +102,7 @@ add_action('muplugins_loaded', function () {
     }
     $excludedStubs = array_unique($excludedStubs);
     // A stub whose classes extend another stub's must be required after it; the order is stated
-    // rather than inferred, and `make stubs` fails on an edge missing from this map.
+    // rather than inferred, and `make stubs:update` fails on an edge missing from this map.
     $stubPrerequisites = require dirname($stubsDir).'/bin/stub-load-order.php';
     $required = [];
     $requireStub = function (string $filename) use (&$requireStub, &$required, $stubPrerequisites, $excludedStubs, $stubsDir) {
