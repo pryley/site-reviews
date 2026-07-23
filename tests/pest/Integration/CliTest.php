@@ -141,3 +141,16 @@ test('repair --force removes the capabilities and puts them back, rather than on
     ]);
     expect($pluginCaps())->toEqualCanonicalizing($before);
 });
+
+test('an ordinary web request, where WP_CLI does not exist, registers nothing', function () {
+    // The constructor's class_exists gate, driven by the armed shadow: without it, every
+    // page load of every site would fatal on \WP_CLI::add_command().
+    $before = count(WP_CLI::$commands);
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('class_exists');
+    try {
+        new CLI();
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+    expect(count(WP_CLI::$commands))->toBe($before);
+});
