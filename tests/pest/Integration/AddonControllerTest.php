@@ -435,3 +435,48 @@ test('the addon hooks expose the addon\'s own post type', function () {
     expect((fn () => $this->postType())->call($hooks))->toBe('test-addon-thing')
         ->and((fn () => $this->type())->call($hooks))->toBe('test-addon-thing');
 });
+
+/*
+ * Hosted addons: what the controller does differently when its addon runs as a module.
+ */
+
+test('a hosted addon leaves translations and migration to its host', function () {
+    // The host's catalog carries the hosted addon's strings and its row carries the settings, so
+    // the hosted controller stands down in all three places: translation entries, translator
+    // domains, and the one-shot legacy-settings migration.
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Application.php');
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Hooks.php');
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Controller.php');
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/Application.php');
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/Hooks.php');
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/Controller.php');
+    glsr()->register(GeminiLabs\SiteReviews\Premium\Host\Application::class);
+    glsr()->register(
+        GeminiLabs\SiteReviews\Premium\HostedThing\Application::class,
+        glsr(GeminiLabs\SiteReviews\Premium\Host\Application::class)
+    );
+    try {
+        $hosted = glsr(GeminiLabs\SiteReviews\Premium\HostedThing\Controller::class);
+        $entries = ['an-entry' => ['msgid' => 'x']];
+
+        expect($hosted->filterTranslationEntries($entries))->toBe($entries)
+            ->and($hosted->filterTranslatorDomains(['site-reviews']))->toBe(['site-reviews']);
+
+        // storagePath() of a hosted addon is not 'settings', so migrateOptions() must not
+        // create a row of its own.
+        delete_option('site_reviews_hosted_addon');
+        $hosted->migrateOptions();
+        expect(get_option('site_reviews_hosted_addon'))->toBeFalse();
+
+        // A host imports its own state: no legacy row is copied for it either.
+        $host = glsr(GeminiLabs\SiteReviews\Premium\Host\Controller::class);
+        delete_option('site_reviews_premium_host');
+        $host->migrateOptions();
+        expect(get_option('site_reviews_premium_host'))->toBeFalse();
+    } finally {
+        GeminiLabs\SiteReviews\Tests\unregisterAddons(
+            GeminiLabs\SiteReviews\Premium\Host\Application::ID,
+            GeminiLabs\SiteReviews\Premium\HostedThing\Application::ID
+        );
+    }
+});

@@ -639,6 +639,18 @@ function createReviews(int $count, array $values = []): array
 }
 
 /**
+ * Removes addons from the Application's registry. The registry lives on the singleton and no
+ * teardown clears it, so a test that registers an addon fixture must take it out again — under
+ * `make test:random` the leak reaches tests that assert an unregistered addon is refused.
+ */
+function unregisterAddons(string ...$addonIds): void
+{
+    $property = new \ReflectionProperty(glsr(), 'addons');
+    $property->setAccessible(true);
+    $property->setValue(glsr(), array_diff_key($property->getValue(glsr()), array_flip($addonIds)));
+}
+
+/**
  * Invoke a protected or private method on an instance.
  */
 function protectedMethod(string $className, string $method): \ReflectionMethod
