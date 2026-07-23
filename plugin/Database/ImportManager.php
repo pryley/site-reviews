@@ -22,9 +22,7 @@ class ImportManager
 
     public function import(int $limit = 1, int $offset = 0): array
     {
-        if (!defined('WP_IMPORTING')) {
-            define('WP_IMPORTING', true);
-        }
+        $this->markImporting();
         set_time_limit(0);
         wp_raise_memory_limit('admin');
         wp_defer_term_counting(true);
@@ -54,9 +52,7 @@ class ImportManager
 
     public function importAttachments(int $limit = 1, int $offset = 0): array
     {
-        if (!defined('WP_IMPORTING')) {
-            define('WP_IMPORTING', true);
-        }
+        $this->markImporting();
         set_time_limit(0);
         wp_raise_memory_limit('image');
         wp_suspend_cache_invalidation(true);
@@ -90,6 +86,13 @@ class ImportManager
             return null;
         }
         return $review;
+    }
+
+    public function markImporting(): void
+    {
+        if (!defined('WP_IMPORTING')) {
+            define('WP_IMPORTING', true);
+        }
     }
 
     public function prepare(): void

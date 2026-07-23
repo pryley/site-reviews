@@ -106,9 +106,7 @@ class ProcessCsvFile extends AbstractCommand
 
     protected function process(UploadedFile $file): bool
     {
-        if (!defined('WP_IMPORTING')) {
-            define('WP_IMPORTING', true);
-        }
+        glsr(ImportManager::class)->markImporting();
         glsr(ImportManager::class)->flush(); // flush the temporary table in the database
         glsr(ImportManager::class)->unlinkTempFile(); // delete the temporary import file if it exists
         try {
