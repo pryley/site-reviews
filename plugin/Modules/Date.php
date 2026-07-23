@@ -61,7 +61,10 @@ class Date
     {
         $tense = Str::restrictTo(['future', 'past'], $tense, '');
         if ($seconds <= 0) {
-            return _nx('A moment ago', 'Now', (int) ('past' === $tense), 'The past and present/future tense of now', 'site-reviews');
+            // make-pot cannot parse a parenthesized expression argument; the
+            // number is hoisted so the call stays extractable.
+            $number = (int) ('past' === $tense);
+            return _nx('A moment ago', 'Now', $number, 'The past and present/future tense of now', 'site-reviews');
         }
         $output = [];
         for (
