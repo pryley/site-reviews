@@ -9,17 +9,11 @@ class Rollback
     public function rollback(string $version): void
     {
         global $title, $parent_file;
-        $plugin = glsr()->basename;
         $parent_file = 'edit.php?post_type='.glsr()->post_type;
         $title = _x('Rollback Site Reviews', 'admin-text', 'site-reviews');
-        $nonce = 'upgrade-plugin_'.$plugin;
-        $url = 'update.php?action=upgrade-plugin&plugin='.urlencode($plugin);
         wp_enqueue_script('updates');
         require_once ABSPATH.'wp-admin/admin-header.php';
-        $upgrader = new PluginUpgrader(
-            new \Plugin_Upgrader_Skin(compact('title', 'nonce', 'url', 'plugin'))
-        );
-        $upgrader->rollback($version);
+        $this->upgrader($title)->rollback($version);
         require_once ABSPATH.'wp-admin/admin-footer.php';
     }
 
@@ -35,5 +29,15 @@ class Rollback
             ],
             'url' => glsr_admin_url('welcome'),
         ];
+    }
+
+    protected function upgrader(string $title): PluginUpgrader
+    {
+        $plugin = glsr()->basename;
+        $nonce = 'upgrade-plugin_'.$plugin;
+        $url = 'update.php?action=upgrade-plugin&plugin='.urlencode($plugin);
+        return new PluginUpgrader(
+            new \Plugin_Upgrader_Skin(compact('title', 'nonce', 'url', 'plugin'))
+        );
     }
 }

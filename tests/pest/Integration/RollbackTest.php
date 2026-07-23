@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Rollback;
 use GeminiLabs\SiteReviews\TestAddon\Application as TestAddon;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
+use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
@@ -243,4 +244,18 @@ test('a rollback that downloads and unpacks cleanly reports success and clears t
             unlink($zipfile);
         }
     }
+});
+
+test('the upgrader is built for this exact plugin, with the nonce update.php will check', function () {
+    // The construction rollback() wraps in page chrome: the skin options are what update.php
+    // verifies (nonce) and displays (title, url) — a mismatch is a "link expired" screen.
+    $upgrader = protectedMethod(Rollback::class, 'upgrader')
+        ->invoke(glsr(Rollback::class), 'Rollback Site Reviews');
+
+    expect($upgrader)->toBeInstanceOf(PluginUpgrader::class)
+        ->and($upgrader->skin->options['plugin'])->toBe(glsr()->basename)
+        ->and($upgrader->skin->options['nonce'])->toBe('upgrade-plugin_'.glsr()->basename)
+        ->and($upgrader->skin->options['url'])->toContain('action=upgrade-plugin')
+        ->and($upgrader->skin->options['url'])->toContain(urlencode(glsr()->basename))
+        ->and($upgrader->skin->options['title'])->toBe('Rollback Site Reviews');
 });
