@@ -52,14 +52,19 @@ function inputSuperglobal(int $type): ?array
  */
 function filterInputShadow(int $type, string $key, int $filter = FILTER_DEFAULT, $options = 0)
 {
+    // filter_input()'s absent-variable answer depends on FILTER_NULL_ON_FAILURE:
+    // null without it, FALSE with it (the flag swaps the two return values).
+    // Helper::input() passes the flag and branches on the difference.
+    $flags = \is_array($options) ? (int) ($options['flags'] ?? 0) : (int) $options;
+    $absent = ($flags & FILTER_NULL_ON_FAILURE) ? false : null;
     if (functionFails('filter_input')) {
         // the real divergence this shadow normally papers over: the SAPI request
         // table knows nothing of a value injected into the superglobal at runtime
-        return null;
+        return $absent;
     }
     $values = inputSuperglobal($type);
     if (null === $values || !array_key_exists($key, $values)) {
-        return null;
+        return $absent;
     }
 
     return filter_var($values[$key], $filter, $options);

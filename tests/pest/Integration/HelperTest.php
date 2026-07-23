@@ -236,3 +236,18 @@ test('filter input falls back to the superglobal when the SAPI has no answer', f
         unset($_POST['injected']);
     }
 });
+
+test('a value injected into the superglobal after the request still reaches input()', function () {
+    // filter_input() reads the SAPI's request table, which knows nothing of a value another
+    // plugin wrote into $_POST at runtime; input() then consults the superglobal itself. The
+    // armed filter_input shadow reproduces the SAPI's ignorance.
+    $_POST['glsr_injected'] = 'injected-later';
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('filter_input');
+    try {
+        expect(Helper::input(INPUT_POST, 'glsr_injected'))->toBe('injected-later');
+        expect(Helper::input(INPUT_POST, 'glsr_never_set'))->toBeNull();
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+        unset($_POST['glsr_injected']);
+    }
+});
