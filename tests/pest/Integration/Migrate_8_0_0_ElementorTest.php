@@ -163,10 +163,21 @@ test('the global values are renamed by the same rules', function () {
     ]);
 });
 
+test('a site without elementor is not migrated', function () {
+    // The stub makes class_exists('Elementor\Plugin') true for the whole run, so the armed
+    // class_exists() shadow stands in for Elementor's absence.
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('class_exists');
+    try {
+        expect(glsr(MigrateElementor::class)->run())->toBeFalse();
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+});
+
 // NOTE (ceiling): the run() loop body (lines 44-58) reads a document, its element data
 // and its data iterator back from Elementor, which the signature-only stub cannot
-// answer — \Elementor\Plugin::$instance is null. Line 28's `!class_exists` return is
-// unreachable for the opposite reason: the stub is loaded, so the class always exists.
+// answer — \Elementor\Plugin::$instance is null. Covering it means installing the real
+// plugin in .wp-env.json (the mu-plugin drops the stub when the real thing is present).
 
 function migrateElement(array $element): array
 {
