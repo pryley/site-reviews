@@ -94,7 +94,7 @@ coverage\:merge: ## Merge the main and multisite clovers into tests/coverage/mer
 
 .PHONY: coverage\:multisite
 coverage\:multisite: multisite-env ## Run the multisite suite with coverage (its clover feeds coverage:merge)
-	cd tests/multisite && npx @wordpress/env run cli --env-cwd=wp-content/plugins/site-reviews \
+	@cd tests/multisite && npx @wordpress/env run cli --env-cwd=wp-content/plugins/site-reviews \
 		env XDEBUG_MODE=coverage php -d memory_limit=-1 vendor/bin/pest \
 		--test-directory=tests/multisite -c tests/multisite/phpunit.xml --colors=always \
 		--coverage-clover=tests/coverage/multisite.xml
@@ -189,7 +189,7 @@ test\:integration: env-check ## Run only the Integration suite inside wp-env
 
 .PHONY: test\:multisite
 test\:multisite: multisite-env ## Run the multisite suite in its own wp-env instance
-	cd tests/multisite && npx @wordpress/env run cli --env-cwd=wp-content/plugins/site-reviews \
+	@cd tests/multisite && npx @wordpress/env run cli --env-cwd=wp-content/plugins/site-reviews \
 		env XDEBUG_MODE=off php -d memory_limit=-1 vendor/bin/pest \
 		--test-directory=tests/multisite -c tests/multisite/phpunit.xml --colors=always
 
@@ -280,12 +280,20 @@ env-check: docker-check
 # .wp-env.json's own "port" — a WP_ENV_PORT exported for the MAIN instance (the
 # usual workaround when 8888 is taken) would otherwise redirect this one onto
 # the main instance's port and fail the bind.
+# The setup chatter (wp-env progress, six wp config confirmations — wp-env logs
+# to STDERR, so a plain redirect cannot separate it from real errors) is
+# captured and replayed only when a step fails: a suite run reads as the tests,
+# and a failed start or convert is still loud, in full.
 .PHONY: multisite-env
 multisite-env: docker-check
-	cd tests/multisite && WP_ENV_PORT=8892 npx @wordpress/env start --xdebug=coverage
-	cd tests/multisite && (npx @wordpress/env run cli wp core is-installed --network 2>/dev/null \
-		|| npx @wordpress/env run cli wp core multisite-convert --title='Site Reviews Network')
-	cd tests/multisite && npx @wordpress/env run cli bash -c "\
+	@printf 'Preparing the multisite wp-env instance (port 8892)…\n'
+	@log=$$(mktemp); trap 'rm -f "$$log"' EXIT; \
+	quietly() { "$$@" >"$$log" 2>&1 || { cat "$$log"; exit 1; }; }; \
+	cd tests/multisite; \
+	quietly env WP_ENV_PORT=8892 npx @wordpress/env start --xdebug=coverage; \
+	npx @wordpress/env run cli wp core is-installed --network >/dev/null 2>&1 \
+		|| quietly npx @wordpress/env run cli wp core multisite-convert --title='Site Reviews Network'; \
+	quietly npx @wordpress/env run cli bash -c "\
 		wp config set MULTISITE true --raw --type=constant && \
 		wp config set SUBDOMAIN_INSTALL false --raw --type=constant && \
 		wp config set DOMAIN_CURRENT_SITE localhost:8892 --type=constant && \
