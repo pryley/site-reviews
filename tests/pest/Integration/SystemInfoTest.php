@@ -276,3 +276,17 @@ test('ratings that did not import as arrays are reported as an error, not a cras
         glsr()->alias(\GeminiLabs\SiteReviews\Database\Query::class, $original);
     }
 });
+
+test('a server with ini_get disabled says so instead of guessing', function () {
+    // Hardened hosts disable ini_get(); the armed function_exists shadow reproduces that,
+    // and the report prints the admission rather than an empty value support would misread.
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('function_exists');
+    try {
+        $value = GeminiLabs\SiteReviews\Tests\protectedMethod(
+            GeminiLabs\SiteReviews\Modules\SystemInfo::class, 'ini'
+        )->invoke(glsr(GeminiLabs\SiteReviews\Modules\SystemInfo::class), 'display_errors');
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+    expect($value)->toBe('ini_get() is disabled.');
+});
