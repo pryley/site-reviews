@@ -6,12 +6,11 @@
  * header). readme.txt's Stable tag is the source of truth (the Makefile's
  * VERSION reads it too).
  *
- *     php +/tools/bump.php [patch|minor|major|prerelease|beta] [--dry-run]
+ *     php +/tools/bump.php [patch|minor|major|beta] [--dry-run]
  *
- * prerelease follows semver: 8.2.0 -> 8.2.1-0 -> 8.2.1-1 -> …
- * beta is the named flavour:  8.2.0 -> 8.2.1-beta1 -> 8.2.1-beta2 -> …
- * (a plain prerelease adopts the beta name at the same version: 8.2.1-0 ->
- * 8.2.1-beta1). patch finalizes either kind: 8.2.1-beta2 -> 8.2.1.
+ * beta: 8.2.0 -> 8.2.1-beta1 -> 8.2.1-beta2 -> … and patch finalizes:
+ * 8.2.1-beta2 -> 8.2.1. (Any legacy -N suffix is finalized or adopted the
+ * same way.)
  */
 
 $root = dirname(__DIR__, 2);
@@ -19,8 +18,8 @@ $args = array_slice($argv, 1);
 $dryRun = in_array('--dry-run', $args, true);
 $args = array_values(array_diff($args, ['--dry-run']));
 $type = $args[0] ?? 'patch';
-if (!in_array($type, ['patch', 'minor', 'major', 'prerelease', 'beta'], true)) {
-    fwrite(STDERR, "Unknown bump type [{$type}] — use patch, minor, major, prerelease, or beta.\n");
+if (!in_array($type, ['patch', 'minor', 'major', 'beta'], true)) {
+    fwrite(STDERR, "Unknown bump type [{$type}] — use patch, minor, major, or beta.\n");
     exit(1);
 }
 
@@ -44,11 +43,6 @@ switch ($type) {
         break;
     case 'minor':
         $next = sprintf('%d.%d.0', $major, $minor + 1);
-        break;
-    case 'prerelease':
-        $next = null === $preNum
-            ? sprintf('%d.%d.%d-0', $major, $minor, $patch + 1)
-            : sprintf('%d.%d.%d-%s%d', $major, $minor, $patch, $preLabel, $preNum + 1);
         break;
     case 'beta':
         if (null === $preNum) {
