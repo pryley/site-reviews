@@ -85,3 +85,15 @@ test('a crypto failure while decrypting is logged and answered with false', func
     }
     expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())->toContain('secretbox_open failed');
 });
+
+test('without keying material the legacy key is the key', function () {
+    // A wp-config.php with no salts defined: the armed defined() shadow reports every
+    // constant missing, and key() falls back to the legacy derivation — which pads an
+    // empty key out with # so encryption still round-trips rather than fataling.
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('defined');
+    try {
+        expect(encryptionMethod('key'))->toBe(str_repeat('#', SODIUM_CRYPTO_SECRETBOX_KEYBYTES));
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+});
