@@ -214,3 +214,19 @@ function restoreFormFields(): void
 {
     remove_filter('site-reviews/form/build/fields', emptyFieldsFilter(), 10);
 }
+
+test('a custom field implementation without conditions is left alone', function () {
+    // An addon can hand the form its own FieldContract through the fields filter; one whose
+    // conditions() answers nothing at all must be skipped by the condition pass, not hidden.
+    $custom = new class(['name' => 'custom_field', 'type' => 'text']) extends GeminiLabs\SiteReviews\Modules\Html\Field {
+        public function conditions(): array
+        {
+            return [];
+        }
+    };
+    add_filter('site-reviews/form/fields/all', fn (array $fields) => [...$fields, $custom]);
+
+    $form = new Form(['id' => 'glsr-conditions-form']);
+
+    expect($form['custom_field']->is_hidden)->not->toBeTrue();
+});
