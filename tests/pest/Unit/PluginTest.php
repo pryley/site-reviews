@@ -41,6 +41,19 @@ test('catching a fatal error logs nothing for somebody else\'s fatal', function 
     expect(true)->toBeTrue();
 });
 
+test('catching a fatal error logs one that died inside the plugin', function () {
+    // The ours path: a real E_ERROR cannot be staged, so the armed error_get_last shadow
+    // (Support/failable-functions.php) answers with one whose file is the plugin's own.
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('error_get_last');
+    try {
+        glsr()->catchFatalError();
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+    expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())
+        ->toContain('Allowed memory size exhausted');
+});
+
 test('load() creates the singleton once, and only once', function () {
     expect(Application::load())->toBe(glsr()); // already created at bootstrap
 
