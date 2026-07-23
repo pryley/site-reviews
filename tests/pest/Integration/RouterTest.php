@@ -475,6 +475,24 @@ test('a route that is not in the mutex list is never locked', function () {
     expect(get_transient(mutexLock()))->toBeFalse(); // no lock was ever taken
 });
 
+test('a request whose lock cannot be taken is treated as the parallel one', function () {
+    // Two single-packet requests race set_transient(); the loser's write reports failure
+    // (the armed shadow stands in for losing that race) and the request is refused —
+    // failing open here would admit exactly the attack the mutex exists for.
+    $request = glsr()->request(['_action' => 'submit-review']);
+    releaseMutexLock();
+
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('set_transient');
+    try {
+        $valid = protectedMethod(Router::class, 'isValidMutexRequest')
+            ->invoke(glsr(Router::class), $request);
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+
+    expect($valid)->toBeFalse();
+});
+
 test('how long the lock is held can be filtered', function () {
     // A site behind a proxy that presents one IP for every visitor would lock its whole
     // audience out of each other's submissions, so the expiration is a knob.
