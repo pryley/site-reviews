@@ -210,6 +210,16 @@ test('the walk migrates a real elementor document in place', function () {
         ->and($settings)->not->toHaveKey('rating_color');
 });
 
+test('a builder post whose data will not parse is skipped, not fatal', function () {
+    // The SQL matches on the raw meta string, but get_elements_data() answers [] for JSON
+    // that will not parse — the walk moves on rather than iterating nothing.
+    $postId = createPost();
+    update_post_meta($postId, '_elementor_edit_mode', 'builder');
+    update_post_meta($postId, '_elementor_data', wp_slash('{"widgetType":"site_review')); // truncated JSON
+
+    expect(glsr(MigrateElementor::class)->run())->toBeFalse();
+});
+
 test('the walk leaves a post that is not built with elementor alone', function () {
     // The document gate: _elementor_data without builder edit mode is not an Elementor page.
     $postId = createPost();
