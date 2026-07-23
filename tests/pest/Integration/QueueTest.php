@@ -214,3 +214,24 @@ test('an action whose status the store has no name for is not counted', function
 
     expect(queue()->actionCounts())->toBe([]);
 });
+
+test('without action scheduler every queue method declines instead of fataling', function () {
+    // The function_exists guards: Action Scheduler is bundled, but a site can load a broken
+    // or ancient copy from another plugin (AS resolves one winner at runtime). The armed
+    // shadow makes every as_*() function "missing"; each method's guard answers its
+    // documented nothing rather than calling into the void.
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('function_exists');
+    try {
+        expect(queue()->async('a-job'))->toBe(0)
+            ->and(queue()->cancel('a-job'))->toBeNull()
+            ->and(queue()->cron(time() + 60, '0 * * * *', 'a-job'))->toBe(0)
+            ->and(queue()->isPending('a-job', ['with-args']))->toBeFalse()
+            ->and(queue()->next('a-job'))->toBeFalse()
+            ->and(queue()->once(time() + 60, 'a-job'))->toBe(0)
+            ->and(queue()->recurring(time() + 60, 60, 'a-job'))->toBe(0)
+            ->and(queue()->search(['hook' => 'a-job']))->toBe([]);
+        queue()->cancelAll('a-job'); // void: the guard is that it returns without a fatal
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+});
