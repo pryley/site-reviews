@@ -303,6 +303,24 @@ test('the add-new submenu entry is removed', function () {
     expect(array_column($submenu[parentSlug()] ?? [], 2))->not->toContain($addNew);
 });
 
+test('the add-new entry is removed even before the admin includes are loaded', function () {
+    // admin_init can fire before wp-admin/includes/plugin.php on some request shapes, so the
+    // controller requires it on demand. The armed function_exists shadow makes this process
+    // look like one of those; the require_once is idempotent, so the removal still happens.
+    global $submenu;
+    $addNew = 'post-new.php?post_type='.glsr()->post_type;
+    $submenu[parentSlug()] = [10 => ['Add New', 'edit_posts', $addNew]];
+
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('function_exists');
+    try {
+        glsr(MenuController::class)->removeSubMenu();
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+
+    expect(array_column($submenu[parentSlug()] ?? [], 2))->not->toContain($addNew);
+});
+
 test('reordering an empty submenu is a no-op', function () {
     global $submenu;
     unset($submenu[parentSlug()]);
