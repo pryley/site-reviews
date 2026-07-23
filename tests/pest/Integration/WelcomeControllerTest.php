@@ -101,6 +101,22 @@ test('and then it is taken back out of the dashboard menu', function () {
     expect(get_plugin_page_hook(welcomeSlug(), 'index.php'))->not->toBeEmpty();
 });
 
+test('the page is taken out of the menu even before the admin includes are loaded', function () {
+    // The same require-on-demand guard MenuController carries: admin_init can fire before
+    // wp-admin/includes/plugin.php on some request shapes. The armed function_exists shadow
+    // makes this process look like one of those.
+    glsr(WelcomeController::class)->registerPage();
+
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('function_exists');
+    try {
+        glsr(WelcomeController::class)->removeSubMenu();
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+
+    expect(array_column($GLOBALS['submenu']['index.php'] ?? [], 2))->not->toContain(welcomeSlug());
+});
+
 test('removing the page takes its title with it, so the title is put back by hand', function () {
     // get_admin_page_title() reads the title off the menu entry. Once the entry is gone there is
     // nothing to read, and the page renders with a blank <h1>.
