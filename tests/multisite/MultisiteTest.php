@@ -69,6 +69,21 @@ test('a new site gets the plugin installed on arrival', function () {
     }
 });
 
+test('the 5.25 database repair visits every site on a network', function () {
+    // repairDatabase() branches on is_plugin_active_for_network() and reinstalls per site —
+    // the loop the main suite structurally cannot reach. The migration is an idempotent
+    // repair, so the network is left as found.
+    $migration = glsr(\GeminiLabs\SiteReviews\Migrations\Migrate_5_25_0\MigrateDatabase::class);
+
+    expect($migration->run())->toBeTrue();
+
+    foreach (siteIds() as $siteId) {
+        switch_to_blog($siteId);
+        expect(glsr(Tables::class)->tablesExist())->toBeTrue();
+        restore_current_blog();
+    }
+});
+
 test('a network deactivation cleans every site', function () {
     foreach (siteIds() as $siteId) {
         switch_to_blog($siteId);
