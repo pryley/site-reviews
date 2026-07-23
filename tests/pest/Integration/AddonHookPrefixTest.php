@@ -142,6 +142,37 @@ test('the deprecation names the hook that replaced it, and only when heard', fun
     ]);
 });
 
+test('the array-filtering wrappers fire the legacy alias too', function () {
+    // filterArrayUnique / …Int / …String each route through deprecatedHook() the same way
+    // filter() does, so a legacy snippet feeding one of the array hooks still contributes.
+    [, $addon] = hostedFixture();
+    add_filter('site-reviews-hosted-addon/a-list', fn ($values) => array_merge($values, ['legacy', 'legacy']));
+    add_filter('site-reviews-hosted-addon/some-ints', fn ($values) => array_merge($values, ['3', 3, 'x']));
+    add_filter('site-reviews-hosted-addon/some-strings', fn ($values) => array_merge($values, ['b', 'b', 2]));
+
+    expect($addon->filterArrayUnique('a-list', ['own']))->toBe(['own', 'legacy'])
+        ->and($addon->filterArrayUniqueInt('some-ints', [1]))->toBe([1, 3])
+        ->and($addon->filterArrayUniqueString('some-strings', ['a']))->toBe(['a', 'b', '2']);
+});
+
+/**
+ * A module whose build stamped a VERSION constant — the merged premium plugin does this at build
+ * time so each module reports the standalone release it was merged from.
+ */
+class VersionStampedModule extends HostedAddon
+{
+    public const VERSION = '1.2.3';
+}
+
+test('a module with a stamped version reports it instead of the host version', function () {
+    [$host] = hostedFixture();
+
+    $module = new VersionStampedModule($host);
+
+    expect($module->version)->toBe('1.2.3')
+        ->and($host->version)->toBe('9.9.9'); // the fallback the stamp overrides
+});
+
 test('the base addon hooks bind to the prefix, not to the addon id', function () {
     // Addons\Hooks builds these two listener names itself. They were "{id}/…",
     // the same string as the prefix until a hosted addon's prefix stopped being

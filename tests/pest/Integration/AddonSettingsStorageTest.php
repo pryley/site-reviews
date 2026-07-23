@@ -13,6 +13,7 @@ require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/
 require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Hooks.php');
 require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/Application.php');
 require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/Hooks.php');
+require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/OutsideNamespaceApplication.php');
 
 /*
  * Per-addon settings storage: compose on read, split on write.
@@ -243,6 +244,31 @@ test('a hosted addon\'s paths remap into the host\'s merged file tree', function
         ->and($hosted->path('assets/blocks'))->toBe($base.'assets/blocks/hosted-thing') // the metadata-collection root maps too
         ->and($hosted->path('languages/x.mo'))->toBe($base.'languages/x.mo') // keyed by text domain, unmapped
         ->and($hosted->url('assets/site-reviews-hosted-addon.js'))->toContain('assets/standalone/hosted-thing/site-reviews-hosted-addon.js');
+});
+
+test('a hosted addon\'s storage path is its slug inside the host\'s row', function () {
+    // storagePath() is the split()/compose() counterpart of settingsPath(): the host owns the
+    // whole row, and each module's values sit under settings.{slug} inside it.
+    [$host, $hosted] = registerHostedFixture();
+
+    expect($hosted->storagePath())->toBe('settings.hosted-thing')
+        ->and($host->storagePath())->toBe('settings');
+});
+
+test('an empty hosted path answers the host\'s base directory', function () {
+    [$host, $hosted] = registerHostedFixture();
+
+    expect($hosted->path(''))->toBe(trailingslashit(dirname($host->file)));
+});
+
+test('a module outside the premium namespace maps by its last namespace segment', function () {
+    // The premium prefix is stripped when present; anything else falls back to the final
+    // segment, so a module packaged under another vendor prefix still finds its own tree.
+    [$host] = registerHostedFixture();
+    $module = new \GeminiLabs\OutsideVendor\HostedThing\Application($host);
+
+    expect($module->path('plugin/File.php'))
+        ->toBe(trailingslashit(dirname($host->file)).'plugin/HostedThing/File.php');
 });
 
 test('but themePath never remaps — theme overrides survive the standalone-to-premium switch', function () {
