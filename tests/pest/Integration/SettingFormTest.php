@@ -2,9 +2,17 @@
 
 use GeminiLabs\SiteReviews\Modules\Html\SettingField;
 use GeminiLabs\SiteReviews\Modules\Html\SettingForm;
+use GeminiLabs\SiteReviews\Premium\Host\Application as SettingHostAddon;
+use GeminiLabs\SiteReviews\Premium\HostedThing\Application as SettingHostedAddon;
 
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\unregisterAddons;
+
+require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Application.php');
+require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Hooks.php');
+require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/Application.php');
+require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/Hooks.php');
 
 /*
  * The settings page form. The field-by-field rendering is pinned in
@@ -77,4 +85,20 @@ test('a raw field keeps its own id instead of the hashed one', function () {
     protectedMethod(SettingForm::class, 'normalizeFieldId')->invoke($form, $field);
 
     expect($field->id)->toBe('my-verbatim-id');
+});
+
+test('a host addon\'s settings display on the addons tab, not under its own slug', function () {
+    // A host mounts its settings under its own slug (settings.{hostSlug}.*), but the settings
+    // page has no tab named after the host — its fields belong on the addons tab, which the
+    // installed premium plugin relabels.
+    glsr()->register(SettingHostAddon::class);
+    glsr()->register(SettingHostedAddon::class, glsr(SettingHostAddon::class));
+    try {
+        $form = new SettingForm([]);
+        $field = $form->field('settings.premium-host.hosted-thing.color', ['type' => 'text']);
+
+        expect($field->group)->toBe('addons');
+    } finally {
+        unregisterAddons(SettingHostAddon::ID, SettingHostedAddon::ID);
+    }
 });
