@@ -99,7 +99,7 @@ class EnqueueAdminAssets extends AbstractCommand
                 ),
                 'rollback_error' => _x('Rollback failed', 'admin-text', 'site-reviews'),
                 'searching' => _x('Searching...', 'admin-text', 'site-reviews'),
-                'system_info_error' => _x('Site Reviews was unable to fetch the System Info because your server threw an error: %s %s', 'admin-text', 'site-reviews'),
+                'system_info_error' => _x('Site Reviews was unable to fetch the System Info because your server threw an error: %1$s %2$s', 'admin-text', 'site-reviews'),
                 'system_info_failed' => _x('Unable to fetch the System Info.', 'admin-text', 'site-reviews'),
                 'system_info_500' => sprintf(_x('Site Reviews was unable to fetch the System Info because WordPress crashed when getting the <a href="%s">Site Health Info</a>.', 'admin-text', 'site-reviews'),
                     admin_url('site-health.php?tab=debug')

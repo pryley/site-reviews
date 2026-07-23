@@ -155,7 +155,7 @@ class SettingsController extends AbstractController
             return false;
         } elseif (!$integration->isSupported()) {
             glsr(Notice::class)->addError(sprintf(
-                _x('Please update the %s plugin to v%s or greater to enable the integration.', 'admin-text', 'site-reviews'),
+                _x('Please update the %1$s plugin to v%2$s or greater to enable the integration.', 'admin-text', 'site-reviews'),
                 $integration->pluginName,
                 $integration->supportedVersion
             ));

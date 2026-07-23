@@ -5,7 +5,7 @@
     <?php echo _x('Thanks for Updating!', 'admin-text', 'site-reviews'); ?>
 </h3>
 <p>
-    <?php printf(_x('%s has been updated to version %s', 'plugin name|version (admin-text)', 'site-reviews'),
+    <?php printf(_x('%1$s has been updated to version %2$s', 'plugin name|version (admin-text)', 'site-reviews'),
         sprintf('<strong>%s</strong>', glsr()->name),
         sprintf('<strong>%s</strong>', glsr()->version)
     ); ?>

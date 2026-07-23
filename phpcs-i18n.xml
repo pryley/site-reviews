@@ -24,10 +24,5 @@
                 <element value="site-reviews"/>
             </property>
         </properties>
-        <!-- The audit is the DOMAIN; placeholder ordering is a different question,
-             and renumbering a shipped string fuzzies its existing translations. -->
-        <exclude name="WordPress.WP.I18n.UnorderedPlaceholdersText"/>
-        <exclude name="WordPress.WP.I18n.UnorderedPlaceholdersSingle"/>
-        <exclude name="WordPress.WP.I18n.UnorderedPlaceholdersPlural"/>
     </rule>
 </ruleset>

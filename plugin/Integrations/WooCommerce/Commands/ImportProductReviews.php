@@ -55,7 +55,7 @@ class ImportProductReviews extends AbstractCommand
     {
         return glsr(ImportResultDefaults::class)->restrict(
             wp_parse_args([
-                'message' => _x('Imported %d of %d reviews', 'admin-text', 'site-reviews'),
+                'message' => _x('Imported %1$d of %2$d reviews', 'admin-text', 'site-reviews'),
             ], $this->response)
         );
     }

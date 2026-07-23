@@ -20,7 +20,7 @@
         <div class="glsr-notice-inline components-notice is-info">
             <p class="components-notice__content">
                 <?php echo sprintf(
-                    esc_html_x('You can also use the WordPress %s and %s tools to export and import your reviews and categories.', 'admin-text', 'site-reviews'),
+                    esc_html_x('You can also use the WordPress %1$s and %2$s tools to export and import your reviews and categories.', 'admin-text', 'site-reviews'),
                     sprintf('<a href="%s">%s</a>', admin_url('export.php'), esc_html_x('Export', 'admin-text', 'site-reviews')),
                     sprintf('<a href="%s">%s</a>', admin_url('import.php'), esc_html_x('Import', 'admin-text', 'site-reviews'))
                 ); ?>

@@ -116,15 +116,15 @@ class Triggers
             'site_reviews_gamipress/received/post_type' => [
                 'label' => __('Get review on a post of a type', 'site-reviews'),
                 'label_any' => _x('getting a review on a %s', '1 point for ... 1 time', 'site-reviews'),
-                'label_exact' => _x('getting a review on a %s with a %d-star rating', 'admin-text', 'site-reviews'),
-                'label_minimum' => _x('getting a review on a %s with a minimum %d-star rating', 'admin-text', 'site-reviews'),
+                'label_exact' => _x('getting a review on a %1$s with a %2$d-star rating', 'admin-text', 'site-reviews'),
+                'label_minimum' => _x('getting a review on a %1$s with a minimum %2$d-star rating', 'admin-text', 'site-reviews'),
             ],
             // Assigned Post: Received review assigned to a specific post ID the user authored
             'site_reviews_gamipress/received/post_id' => [
                 'label' => __('Get review on a specific post', 'site-reviews'),
                 'label_any' => _x('getting a review on "%s"', '1 point for ... 1 time', 'site-reviews'),
-                'label_exact' => _x('getting a review on "%s" with a %d-star rating', 'admin-text', 'site-reviews'),
-                'label_minimum' => _x('getting a review on "%s" with a minimum %d-star rating', 'admin-text', 'site-reviews'),
+                'label_exact' => _x('getting a review on "%1$s" with a %2$d-star rating', 'admin-text', 'site-reviews'),
+                'label_minimum' => _x('getting a review on "%1$s" with a minimum %2$d-star rating', 'admin-text', 'site-reviews'),
             ],
             // Logged In User: Submitted review
             'site_reviews_gamipress/reviewed/any' => [
@@ -144,15 +144,15 @@ class Triggers
             'site_reviews_gamipress/reviewed/post_type' => [
                 'label' => __('Write review of a post of a type', 'site-reviews'),
                 'label_any' => _x('writing a review of a %s', '1 point for ... 1 time', 'site-reviews'),
-                'label_exact' => _x('writing a review of a %s with a %d-star rating', '1 point for ... 1 time', 'site-reviews'),
-                'label_minimum' => _x('writing a review of a %s with a minimum %d-star rating', '1 point for ... 1 time', 'site-reviews'),
+                'label_exact' => _x('writing a review of a %1$s with a %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
+                'label_minimum' => _x('writing a review of a %1$s with a minimum %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
             ],
             // Logged In User (assigned_posts): Submitted review assigned to a specific post ID
             'site_reviews_gamipress/reviewed/post_id' => [
                 'label' => __('Write review of a specific post', 'site-reviews'),
                 'label_any' => _x('writing a review of "%s"', '1 point for ... 1 time', 'site-reviews'),
-                'label_exact' => _x('writing a review of "%s" with a %d-star rating', '1 point for ... 1 time', 'site-reviews'),
-                'label_minimum' => _x('writing a review of "%s" with a minimum %d-star rating', '1 point for ... 1 time', 'site-reviews'),
+                'label_exact' => _x('writing a review of "%1$s" with a %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
+                'label_minimum' => _x('writing a review of "%1$s" with a minimum %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
             ],
             // Logged In User (assigned_terms): Submitted review assigned to a term
             // 'site_reviews_gamipress/reviewed/term' => [
@@ -179,15 +179,15 @@ class Triggers
             'site_reviews_gamipress/reviewed/user_role' => [
                 'label' => __('Write review of a user of a role', 'site-reviews'),
                 'label_any' => _x('writing a review of a user with the %s role', '1 point for ... 1 time', 'site-reviews'),
-                'label_exact' => _x('writing a review of a user with the %s role with a %d-star rating', '1 point for ... 1 time', 'site-reviews'),
-                'label_minimum' => _x('writing a review of a user with the %s role with a minimum %d-star rating', '1 point for ... 1 time', 'site-reviews'),
+                'label_exact' => _x('writing a review of a user with the %1$s role with a %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
+                'label_minimum' => _x('writing a review of a user with the %1$s role with a minimum %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
             ],
             // Logged In User (assigned_users): Submitted review assigned to a specific user ID
             'site_reviews_gamipress/reviewed/user_id' => [
                 'label' => __('Write review of a specific user', 'site-reviews'),
                 'label_any' => _x('writing a review of %s', '1 point for ... 1 time', 'site-reviews'),
-                'label_exact' => _x('writing a review of %s with a %d-star rating', '1 point for ... 1 time', 'site-reviews'),
-                'label_minimum' => _x('writing a review of %s with a minimum %d-star rating', '1 point for ... 1 time', 'site-reviews'),
+                'label_exact' => _x('writing a review of %1$s with a %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
+                'label_minimum' => _x('writing a review of %1$s with a minimum %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
             ],
         ];
     }

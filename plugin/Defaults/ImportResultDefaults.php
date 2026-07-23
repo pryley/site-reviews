@@ -29,7 +29,7 @@ class ImportResultDefaults extends Defaults
         return [
             'attachments' => 0,
             'imported' => 0,
-            'message' => _x('Imported %d of %d', 'admin-text', 'site-reviews'),
+            'message' => _x('Imported %1$d of %2$d', 'admin-text', 'site-reviews'),
             'skipped' => 0,
         ];
     }

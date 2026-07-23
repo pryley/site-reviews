@@ -45,7 +45,7 @@ class ApproveReview extends AbstractCommand
             $this->fail();
             return;
         }
-        $message = sprintf(_x('The %sreview%s was approved successfully.', 'admin-text', 'site-reviews'),
+        $message = sprintf(_x('The %1$sreview%2$s was approved successfully.', 'admin-text', 'site-reviews'),
             sprintf('<a href="%s">', $this->review->editUrl()), '</a>'
         );
         glsr(Notice::class)->addSuccess($message);

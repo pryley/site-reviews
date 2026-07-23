@@ -92,7 +92,7 @@ class UploadedFile extends \SplFileInfo
             return '';
         }
         $errors = [
-            \UPLOAD_ERR_INI_SIZE => _x('The file "%s" exceeds the upload_max_filesize ini directive (limit is %d KiB).', 'file error (admin-text)', 'site-reviews'),
+            \UPLOAD_ERR_INI_SIZE => _x('The file "%1$s" exceeds the upload_max_filesize ini directive (limit is %2$d KiB).', 'file error (admin-text)', 'site-reviews'),
             \UPLOAD_ERR_FORM_SIZE => _x('The file "%s" exceeds the upload limit defined in your form.', 'file error (admin-text)', 'site-reviews'),
             \UPLOAD_ERR_PARTIAL => _x('The file "%s" was only partially uploaded.', 'file error (admin-text)', 'site-reviews'),
             \UPLOAD_ERR_NO_FILE => _x('No file was uploaded.', 'file error (admin-text)', 'site-reviews'),

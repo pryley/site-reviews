@@ -44,7 +44,7 @@ test('importing attachments reports how many it did, a page at a time', function
     expect($response['attachments'])->toBe(3)
         ->and($response['imported'])->toBe(2)
         ->and($response['skipped'])->toBe(1)
-        ->and($response['message'])->toBe('Imported %d of %d'); // ImportResultDefaults' default
+        ->and($response['message'])->toBe('Imported %1$d of %2$d'); // ImportResultDefaults' default
 });
 
 test('a page and a per-page of nothing are still a page of one', function () {

@@ -14,7 +14,7 @@ $form = new \GeminiLabs\SiteReviews\Modules\Html\Form([], [], glsr()->config('ex
         <div class="glsr-notice-inline components-notice is-info">
             <p class="components-notice__content">
                 <?php echo sprintf(
-                    _x('You can also use the WordPress %s and %s tools to export and import your reviews and categories.', 'admin-text', 'site-reviews'),
+                    _x('You can also use the WordPress %1$s and %2$s tools to export and import your reviews and categories.', 'admin-text', 'site-reviews'),
                     sprintf('<a href="%s">%s</a>', admin_url('export.php'), _x('Export', 'admin-text', 'site-reviews')),
                     sprintf('<a href="%s">%s</a>', admin_url('import.php'), _x('Import', 'admin-text', 'site-reviews'))
                 ); ?>

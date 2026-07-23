@@ -83,7 +83,7 @@ class Hooks extends IntegrationHooks
     protected function notify(string $name): void
     {
         add_action('network_admin_notices', function () use ($name) {
-            $notice = _x('Update %s to version %s or higher to enable the integration with Site Reviews.', 'admin-text', 'site-reviews');
+            $notice = _x('Update %1$s to version %2$s or higher to enable the integration with Site Reviews.', 'admin-text', 'site-reviews');
             $supportedVersion = sanitize_text_field($this->supportedVersion());
             $text = sprintf($notice, $name, $supportedVersion);
             echo glsr(Builder::class)->div([

@@ -18,7 +18,7 @@
                     <?php foreach ($videos as $index => $video) { ?>
                         <?php
                             $digits = explode(':', $video['duration']);
-                            $duration = sprintf(_x('%s minutes, %s seconds', 'admin-text', 'site-reviews'), glsr_get($digits, 0), glsr_get($digits, 1));
+                            $duration = sprintf(_x('%1$s minutes, %2$s seconds', 'admin-text', 'site-reviews'), glsr_get($digits, 0), glsr_get($digits, 1));
                         ?>
                         <li>
                             <a class="<?php echo (0 === $index) ? 'is-active' : ''; ?>" href="https://youtu.be/<?php echo $video['id']; ?>" data-id="<?php echo $video['id']; ?>" target="_blank">

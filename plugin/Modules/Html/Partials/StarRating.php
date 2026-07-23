@@ -31,8 +31,8 @@ class StarRating implements PartialContract
     {
         $rating = $this->data->rating;
         $title = $this->data->reviews > 0
-            ? __('Rated %s out of %s stars based on %s ratings', 'site-reviews')
-            : __('Rated %s out of %s stars', 'site-reviews');
+            ? __('Rated %1$s out of %2$s stars based on %3$s ratings', 'site-reviews')
+            : __('Rated %1$s out of %2$s stars', 'site-reviews');
         if (0 !== $this->data->num_half) {
             $rating = glsr(Rating::class)->format($rating);
         }

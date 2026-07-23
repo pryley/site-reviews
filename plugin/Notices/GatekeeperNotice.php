@@ -41,8 +41,8 @@ class GatekeeperNotice extends AbstractNotice
         $name = sprintf('<strong>%s</strong>', glsr()->name);
         if (!empty($externalErrors)) {
             $message = _nx(
-                '%s requires the latest version of %s to enable the integration.',
-                '%s requires the latest version of the following plugins to enable integration: %s',
+                '%1$s requires the latest version of %2$s to enable the integration.',
+                '%1$s requires the latest version of the following plugins to enable integration: %2$s',
                 count($externalErrors),
                 'admin-text',
                 'site-reviews'
@@ -53,8 +53,8 @@ class GatekeeperNotice extends AbstractNotice
             ];
         }
         $message = _nx(
-            '%s needs an update to work with %s.',
-            '%s needs an update to work with the following plugins: %s',
+            '%1$s needs an update to work with %2$s.',
+            '%1$s needs an update to work with the following plugins: %2$s',
             count($internalErrors),
             'admin-text',
             'site-reviews'

@@ -10,7 +10,7 @@
 
 <div class="components-notice is-warning" style="background-color:#fff;margin-left:0;">
     <p class="components-notice__content">
-        <?php echo sprintf(_x('Google limits the schema types that can trigger review rich results in search. To learn more, please %sread this%s.', 'admin-text', 'site-reviews'),
+        <?php echo sprintf(_x('Google limits the schema types that can trigger review rich results in search. To learn more, please %1$sread this%2$s.', 'admin-text', 'site-reviews'),
             '<a href="https://developers.google.com/search/blog/2019/09/making-review-rich-results-more-helpful" target="_blank">',
             '</a>'
         ); ?>
@@ -23,7 +23,7 @@
     ); ?>
 </p>
 <p>
-    <?php echo sprintf(_x('In some cases it may be useful to link the Site Reviews schema with other schema on your page, this is done by adding the %s unique identifier property to each schema that you wish to link. If you are using Woocommerce and have set the Schema Type to "Product", Site Reviews will automatically do this for you. In all other cases, either use the <code>schema_identifier</code> Custom Field name in the %s, or use the %s hook.', 'admin-text', 'site-reviews'),
+    <?php echo sprintf(_x('In some cases it may be useful to link the Site Reviews schema with other schema on your page, this is done by adding the %1$s unique identifier property to each schema that you wish to link. If you are using Woocommerce and have set the Schema Type to "Product", Site Reviews will automatically do this for you. In all other cases, either use the <code>schema_identifier</code> Custom Field name in the %2$s, or use the %3$s hook.', 'admin-text', 'site-reviews'),
         '<code><a href="https://rich-snippets.io/how-to-build-complex-structured-data/#b-reference-by-id" target="_blank">@id</a></code>',
         sprintf('<a href="https://wordpress.org/support/article/custom-fields/" target="_blank">%s</a>', _x('Custom Fields metabox', 'admin-text', 'site-reviews')),
         glsr_admin_link('documentation.hooks', 'site-reviews/schema/<schema_type>', '#hooks-filter-schema')

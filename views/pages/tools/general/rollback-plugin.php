@@ -26,7 +26,7 @@
                 </p>
             </div>
             <p>
-                <?php echo sprintf(_x('You currently have version %s installed of %s. Run this tool to rollback to a previous release.', 'admin-text', 'site-reviews'),
+                <?php echo sprintf(_x('You currently have version %1$s installed of %2$s. Run this tool to rollback to a previous release.', 'admin-text', 'site-reviews'),
                     '<strong>'.glsr()->version.'</strong>',
                     glsr()->name
                 ); ?>

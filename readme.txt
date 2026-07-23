@@ -211,6 +211,10 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 
 == Changelog ==
 
+= 8.2.1 (unreleased) =
+
+- Fixed translatable strings that used multiple unnumbered placeholders — translations can now reorder them (existing translations of these strings will need to be updated)
+
 = 8.2.0 (2026-07-21) =
 
 - Added per-addon settings storage: each addon now keeps its settings in its own option, and an addon's existing settings are moved there automatically the first time it runs

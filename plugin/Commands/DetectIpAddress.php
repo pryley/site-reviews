@@ -19,7 +19,7 @@ class DetectIpAddress extends AbstractCommand
             return;
         }
         glsr(Notice::class)->addSuccess(sprintf(
-            _x('Your detected IP address is %s. If this looks incorrect, please see the %s.', 'admin-text', 'site-reviews'),
+            _x('Your detected IP address is %1$s. If this looks incorrect, please see the %2$s.', 'admin-text', 'site-reviews'),
             "<code>{$ipAddress}</code>",
             $link
         ));

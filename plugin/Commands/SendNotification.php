@@ -117,7 +117,7 @@ class SendNotification extends AbstractCommand
         if ($withPostAssignment) {
             $postAssignments = glsr(TemplateTags::class)->tagReviewAssignedPosts($this->review);
             if (!empty($postAssignments)) {
-                $title = sprintf(__('New %s-star review of %s', 'site-reviews'), $this->review->rating, $postAssignments);
+                $title = sprintf(__('New %1$s-star review of %2$s', 'site-reviews'), $this->review->rating, $postAssignments);
             }
         }
         $title = sprintf('[%s] %s', $siteTitle, $title);

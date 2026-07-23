@@ -474,7 +474,7 @@ return [ // order is intentional
     'settings.reviews.pagination.url_parameter' => [
         'default' => 'yes',
         'description' => sprintf(
-            _x('If you would like to keep the pagination links but prevent search engines from indexing them, add the following lines to your %s file: %s', 'admin-text', 'site-reviews'),
+            _x('If you would like to keep the pagination links but prevent search engines from indexing them, add the following lines to your %1$s file: %2$s', 'admin-text', 'site-reviews'),
             '<a href="https://www.robotstxt.org/" target="_blank">robots.txt</a>',
             '<br><code>user-agent: *</code>'.
             '<br><code>Disallow: /*?'.glsr()->constant('PAGED_QUERY_VAR').'=*</code>'.
@@ -529,7 +529,7 @@ return [ // order is intentional
         ],
         'label' => _x('Custom Schema Type', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
-        'tooltip' => sprintf(_x('Google limits the schema types that can trigger review rich results in search. To learn more, please %sread this%s.', 'admin-text', 'site-reviews'),
+        'tooltip' => sprintf(_x('Google limits the schema types that can trigger review rich results in search. To learn more, please %1$sread this%2$s.', 'admin-text', 'site-reviews'),
             '<a href="https://developers.google.com/search/blog/2019/09/making-review-rich-results-more-helpful" target="_blank">',
             '</a>'
         ),

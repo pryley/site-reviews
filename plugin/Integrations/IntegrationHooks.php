@@ -35,7 +35,7 @@ abstract class IntegrationHooks extends AbstractHooks
     {
         $supportedVersion = sanitize_text_field($this->supportedVersion());
         $addWarning = function () use ($name, $supportedVersion) {
-            $notice = _x('Update %s to version %s or higher to enable the integration with Site Reviews.', 'admin-text', 'site-reviews');
+            $notice = _x('Update %1$s to version %2$s or higher to enable the integration with Site Reviews.', 'admin-text', 'site-reviews');
             glsr(Notice::class)->addWarning(sprintf($notice, $name, $supportedVersion));
         };
         if (did_action('init')) {
