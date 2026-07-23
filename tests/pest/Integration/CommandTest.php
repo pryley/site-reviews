@@ -59,6 +59,19 @@ test('refuses to approve a review that is already approved', function () {
     expect($command->successful())->toBeFalse();
 });
 
+test('refuses to approve something that is not a review', function () {
+    // A route can hand the command any post id; a deleted review arrives here as an invalid
+    // Review object whose is_approved is false, so it gets past the first check and must be
+    // stopped by the validity check — logged, because there is no notice to show on a fatal-free
+    // failure path.
+    $command = new ApproveReview(glsr_get_review(999999003));
+
+    $command->handle();
+
+    expect($command->successful())->toBeFalse()
+        ->and(glsr(Console::class)->get())->toContain('Cannot approve review: Invalid review');
+});
+
 test('refuses to approve a review the user may not edit', function () {
     $review = createReview(['is_approved' => false]);
     wp_set_current_user(createUser(['role' => 'subscriber'])); // cannot edit others' reviews
