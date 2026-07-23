@@ -174,10 +174,55 @@ test('a site without elementor is not migrated', function () {
     }
 });
 
-// NOTE (ceiling): the run() loop body (lines 44-58) reads a document, its element data
-// and its data iterator back from Elementor, which the signature-only stub cannot
-// answer — \Elementor\Plugin::$instance is null. Covering it means installing the real
-// plugin in .wp-env.json (the mu-plugin drops the stub when the real thing is present).
+test('the walk migrates a real elementor document in place', function () {
+    // Real Elementor (.wp-env.json), not the stub — the mu-plugin drops the stub when the
+    // real plugin is present. The walk asks Elementor for the document, its element data and
+    // its iterator, and hands the transformed tree back to update_json_meta().
+    $postId = createPost();
+    $data = [[
+        'id' => 'sec1', 'elType' => 'section', 'settings' => [],
+        'elements' => [[
+            'id' => 'col1', 'elType' => 'column', 'settings' => [],
+            'elements' => [[
+                'id' => 'wid1', 'elType' => 'widget', 'widgetType' => 'site_reviews',
+                'settings' => [
+                    'assigned_posts' => 'custom',
+                    'assigned_posts_custom' => '12,13',
+                    'hide-avatar' => 'yes',
+                    'rating_color' => '#ff0000',
+                ],
+                'elements' => [],
+            ]],
+        ]],
+    ]];
+    update_post_meta($postId, '_elementor_edit_mode', 'builder');
+    update_post_meta($postId, '_elementor_data', wp_slash((string) wp_json_encode($data)));
+
+    expect(glsr(MigrateElementor::class)->run())->toBeTrue();
+
+    $migrated = json_decode((string) get_post_meta($postId, '_elementor_data', true), true);
+    $settings = $migrated[0]['elements'][0]['elements'][0]['settings'];
+    expect($settings['assigned_posts'])->toBe('12,13')
+        ->and($settings)->not->toHaveKey('assigned_posts_custom')
+        ->and($settings['hide'])->toBe('avatar')
+        ->and($settings)->not->toHaveKey('hide-avatar')
+        ->and($settings['style_rating_color'])->toBe('#ff0000')
+        ->and($settings)->not->toHaveKey('rating_color');
+});
+
+test('the walk leaves a post that is not built with elementor alone', function () {
+    // The document gate: _elementor_data without builder edit mode is not an Elementor page.
+    $postId = createPost();
+    update_post_meta($postId, '_elementor_data', wp_slash((string) wp_json_encode([[
+        'id' => 'wid1', 'elType' => 'widget', 'widgetType' => 'site_reviews',
+        'settings' => ['rating_color' => '#00ff00'], 'elements' => [],
+    ]])));
+
+    expect(glsr(MigrateElementor::class)->run())->toBeFalse();
+
+    $data = json_decode((string) get_post_meta($postId, '_elementor_data', true), true);
+    expect($data[0]['settings']['rating_color'])->toBe('#00ff00'); // untouched
+});
 
 function migrateElement(array $element): array
 {
