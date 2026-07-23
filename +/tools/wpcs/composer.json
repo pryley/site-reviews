@@ -1,0 +1,16 @@
+{
+    "name": "pryley/site-reviews-wpcs",
+    "description": "WordPressCS on its own phpcs 3 toolchain — the compat project runs phpcs 4, which WordPressCS does not yet support.",
+    "type": "project",
+    "license": "GPLv3",
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "preferred-install": "dist"
+    },
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+        "wp-coding-standards/wpcs": "^3.2"
+    }
+}

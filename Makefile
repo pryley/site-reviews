@@ -38,13 +38,23 @@ build\:blocks: ## Check the node/npm engines and build the Gutenberg blocks
 build\:divi: ## Build the Divi elements
 	npm run divi
 
+# The POT-Creation-Date header is stripped so an unchanged extraction leaves an
+# unchanged file — the reason the old gulp pipeline set includePOTCreationDate
+# to false.
 .PHONY: build\:i18n
-build\:i18n: ## Build the language files: text-domain check, then pot -> po -> mo
-	npx gulp
+build\:i18n: env-check ## Build the language files: text-domain audit, then pot -> po -> mo (wp i18n)
+	@test -f '+/tools/wpcs/vendor/bin/phpcs' || composer --working-dir='+/tools/wpcs' update
+	XDEBUG_MODE=off '+/tools/wpcs/vendor/bin/phpcs' --standard=phpcs-i18n.xml
+	$(WPENV) wp i18n make-pot . languages/site-reviews.pot --slug=site-reviews --domain=site-reviews \
+		--exclude=+,node_modules,tests,vendor,vendors \
+		--headers='{"Last-Translator":"Paul Ryley <paul@geminilabs.io>","Language-Team":"Gemini Labs <support@geminilabs.io>"}'
+	@perl -i -ne 'print unless /^"POT-Creation-Date:/' languages/site-reviews.pot
+	$(WPENV) wp i18n update-po languages/site-reviews.pot
+	$(WPENV) wp i18n make-mo languages/
 
 .PHONY: bump
-bump: ## Bump to the next patch version
-	npx gulp bump
+bump: ## Bump the version: patch by default (TYPE=minor|major|prerelease, DRY=1 to preview)
+	XDEBUG_MODE=off php '+/tools/bump.php' $(if $(TYPE),$(TYPE),patch) $(if $(DRY),--dry-run,)
 
 # Both halves always run — a phpcs finding must not hide a wp-since one — and
 # the exit code reports whether either failed.

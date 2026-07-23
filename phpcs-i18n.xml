@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<ruleset name="Site Reviews I18n" namespace="GeminiLabs\I18n">
+    <description>Text-domain audit: every gettext call names the site-reviews domain. Runs on WordPressCS from +/tools/wpcs (its own phpcs 3 toolchain — the compat project runs phpcs 4, which WordPressCS does not yet support). Warnings are off: the audit is the domain errors, as the gulp checktextdomain it replaced.</description>
+    <arg name="basepath" value="." />
+    <arg name="colors"/>
+    <arg name="extensions" value="php" />
+    <arg value="snp"/>
+    <config name="installed_paths" value="+/tools/wpcs/vendor/wp-coding-standards/wpcs,+/tools/wpcs/vendor/phpcsstandards/phpcsutils,+/tools/wpcs/vendor/phpcsstandards/phpcsextra" />
+    <file>./assets/breakdance</file>
+    <file>./config</file>
+    <file>./plugin</file>
+    <file>./templates</file>
+    <file>./views</file>
+    <file>./autoload.php</file>
+    <file>./compatibility.php</file>
+    <file>./deprecated.php</file>
+    <file>./helpers.php</file>
+    <file>./migration.php</file>
+    <file>./site-reviews.php</file>
+    <file>./uninstall.php</file>
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="site-reviews"/>
+            </property>
+        </properties>
+        <!-- The audit is the DOMAIN; placeholder ordering is a different question,
+             and renumbering a shipped string fuzzies its existing translations. -->
+        <exclude name="WordPress.WP.I18n.UnorderedPlaceholdersText"/>
+        <exclude name="WordPress.WP.I18n.UnorderedPlaceholdersSingle"/>
+        <exclude name="WordPress.WP.I18n.UnorderedPlaceholdersPlural"/>
+    </rule>
+</ruleset>
