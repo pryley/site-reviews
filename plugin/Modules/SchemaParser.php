@@ -93,10 +93,7 @@ class SchemaParser
         if (empty($matches)) {
             return [];
         }
-        foreach ($matches as $shortcode) {
-            $attributes = $shortcode[3] ?? '';
-            return shortcode_parse_atts($attributes); // always an array at the plugin's WP floor (6.8)
-        }
-        return [];
+        $attributes = $matches[0][3] ?? '';
+        return shortcode_parse_atts($attributes); // always an array at the plugin's WP floor (6.8)
     }
 }
