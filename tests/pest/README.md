@@ -213,7 +213,11 @@ converts to a network; no transactions, no stubs — the environment is dedicate
 and every test restores what it breaks. Its clover lands in
 `tests/coverage/multisite.xml`, and `make coverage:merge` folds it into the main
 run's `clover.xml` as `tests/coverage/merged.xml` ("covered anywhere is
-covered"). The coverage GATE stays on the main suite alone.
+covered") and prints the merged per-file table — the view Pest cannot show
+itself, since its console report only knows the run it made. `make coverage:all`
+runs both suites and then the merge; both clovers must come from the same code,
+or the merge invents phantom uncovered lines where the numbering skewed. The
+coverage GATE stays on the main suite alone.
 
 ## Conventions
 

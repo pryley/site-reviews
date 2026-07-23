@@ -8,7 +8,9 @@
  *     php tests/merge-clover.php <in.xml>... <out.xml>
  *
  * Used by `make coverage:merge` to fold the multisite suite's coverage
- * (tests/coverage/multisite.xml) into the main run (tests/coverage/clover.xml).
+ * (tests/coverage/multisite.xml) into the main run (tests/coverage/clover.xml),
+ * and to print the merged per-file table — the view Pest itself cannot show,
+ * since its console report only knows the run it made itself.
  *
  * BOTH inputs must be generated from the SAME code: a clover from before a
  * shipped-code change carries the old line numbering, and merging it with a
@@ -97,11 +99,72 @@ $metrics->setAttribute('coveredstatements', (string) $totalCovered);
 $project->appendChild($metrics);
 
 $dom->save($output);
+
+/*
+ * The merged table, in the shape of Pest's own coverage report: one row per
+ * file (named relative to plugin/), the uncovered lines as ranges, and the
+ * percentage — so "covered anywhere" is readable, not just written to disk.
+ */
+
+/**
+ * Consecutive line numbers as ranges: [44,45,46,50] => "44..46, 50".
+ *
+ * @param int[] $lines
+ */
+function formatRanges(array $lines): string
+{
+    $ranges = [];
+    $start = $end = null;
+    foreach ($lines as $num) {
+        if (null !== $end && $num === $end + 1) {
+            $end = $num;
+            continue;
+        }
+        if (null !== $start) {
+            $ranges[] = $start === $end ? (string) $start : "{$start}..{$end}";
+        }
+        $start = $end = $num;
+    }
+    if (null !== $start) {
+        $ranges[] = $start === $end ? (string) $start : "{$start}..{$end}";
+    }
+    return implode(', ', $ranges);
+}
+
+$width = 78;
+echo "\nMerged coverage (covered in any suite counts):\n\n";
+foreach ($files as $name => $data) {
+    $statements = 0;
+    $covered = 0;
+    $uncovered = [];
+    ksort($data['lines']); // the writer loop sorted a by-value copy, not this one
+    foreach ($data['lines'] as $num => $line) {
+        if ('stmt' !== $line['type']) {
+            continue;
+        }
+        ++$statements;
+        if ($line['count'] > 0) {
+            ++$covered;
+        } else {
+            $uncovered[] = $num;
+        }
+    }
+    $label = preg_replace('{^.*?/plugin/}', '', $name);
+    $label = preg_replace('/\.php$/', '', $label);
+    $pct = $statements ? 100 * $covered / $statements : 100;
+    $right = empty($uncovered)
+        ? sprintf('%.1f%%', $pct)
+        : sprintf('%s / %.1f%%', formatRanges($uncovered), $pct);
+    $dots = max(1, $width - strlen($label) - strlen($right) - 2);
+    printf("  %s %s %s\n", $label, str_repeat('.', $dots), $right);
+}
+$total = sprintf('Total: %.1f %%', $totalStatements ? 100 * $totalCovered / $totalStatements : 0);
 printf(
-    "Merged %d file(s) into %s: %d/%d statements covered (%.1f%%)\n",
+    "%s\n%s\n\nMerged %d file(s) into %s (%d/%d statements)\n",
+    str_repeat('─', $width + 4),
+    str_pad($total, $width + 2, ' ', STR_PAD_LEFT),
     count($files),
     $output,
     $totalCovered,
-    $totalStatements,
-    $totalStatements ? 100 * $totalCovered / $totalStatements : 0
+    $totalStatements
 );

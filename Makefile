@@ -42,8 +42,14 @@ compat: ## Run PHP CodeSniffer to check PHP 8.1- Compatibility
 	@test -f '+/tools/phpcs/vendor/bin/phpcs' || composer --working-dir='+/tools/phpcs' update
 	XDEBUG_MODE=off '+/tools/phpcs/vendor/bin/phpcs' --standard=phpcs.xml
 
+.PHONY: coverage\:all
+coverage\:all: ## The full coverage picture: main suite, multisite suite, then the merged table
+	make test:coverage
+	make test:multisite
+	make coverage:merge
+
 .PHONY: coverage\:merge
-coverage\:merge: ## Merge the main and multisite clover files into tests/coverage/merged.xml
+coverage\:merge: ## Merge the main and multisite clovers into tests/coverage/merged.xml, and print the merged table
 	@test -f tests/coverage/clover.xml || { printf '\nNo tests/coverage/clover.xml — run `make test:coverage` first.\n\n'; exit 1; }
 	@test -f tests/coverage/multisite.xml || { printf '\nNo tests/coverage/multisite.xml — run `make test:multisite` first.\n\n'; exit 1; }
 	XDEBUG_MODE=off php tests/merge-clover.php tests/coverage/clover.xml tests/coverage/multisite.xml tests/coverage/merged.xml
@@ -154,9 +160,13 @@ test\:integration: env-check ## Run only the Integration suite inside wp-env
 # constants multisite-convert appended — and a converted database with a single-site
 # config strands the whole instance. The `wp config set` lines re-assert them
 # idempotently on every run, whichever half survived.
+# WP_ENV_PORT is pinned to 8892 here because the environment variable overrides
+# .wp-env.json's own "port" — a WP_ENV_PORT exported for the MAIN instance (the
+# usual workaround when 8888 is taken) would otherwise redirect this one onto
+# the main instance's port and fail the bind.
 .PHONY: test\:multisite
 test\:multisite: docker-check ## Run the multisite suite in its own wp-env instance, with coverage
-	cd tests/multisite && npx @wordpress/env start --xdebug=coverage
+	cd tests/multisite && WP_ENV_PORT=8892 npx @wordpress/env start --xdebug=coverage
 	cd tests/multisite && (npx @wordpress/env run cli wp core is-installed --network 2>/dev/null \
 		|| npx @wordpress/env run cli wp core multisite-convert --title='Site Reviews Network')
 	cd tests/multisite && npx @wordpress/env run cli bash -c "\
