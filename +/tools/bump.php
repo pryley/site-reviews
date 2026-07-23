@@ -6,9 +6,12 @@
  * header). readme.txt's Stable tag is the source of truth (the Makefile's
  * VERSION reads it too).
  *
- *     php +/tools/bump.php [patch|minor|major|prerelease] [--dry-run]
+ *     php +/tools/bump.php [patch|minor|major|prerelease|beta] [--dry-run]
  *
  * prerelease follows semver: 8.2.0 -> 8.2.1-0 -> 8.2.1-1 -> …
+ * beta is the named flavour:  8.2.0 -> 8.2.1-beta1 -> 8.2.1-beta2 -> …
+ * (a plain prerelease adopts the beta name at the same version: 8.2.1-0 ->
+ * 8.2.1-beta1). patch finalizes either kind: 8.2.1-beta2 -> 8.2.1.
  */
 
 $root = dirname(__DIR__, 2);
@@ -16,8 +19,8 @@ $args = array_slice($argv, 1);
 $dryRun = in_array('--dry-run', $args, true);
 $args = array_values(array_diff($args, ['--dry-run']));
 $type = $args[0] ?? 'patch';
-if (!in_array($type, ['patch', 'minor', 'major', 'prerelease'], true)) {
-    fwrite(STDERR, "Unknown bump type [{$type}] — use patch, minor, major, or prerelease.\n");
+if (!in_array($type, ['patch', 'minor', 'major', 'prerelease', 'beta'], true)) {
+    fwrite(STDERR, "Unknown bump type [{$type}] — use patch, minor, major, prerelease, or beta.\n");
     exit(1);
 }
 
@@ -27,12 +30,13 @@ if (!preg_match('/^Stable tag:\s*(\S+)/m', (string) $readme, $matches)) {
     exit(1);
 }
 $current = $matches[1];
-if (!preg_match('/^(\d+)\.(\d+)\.(\d+)(?:-(\d+))?$/', $current, $parts)) {
+if (!preg_match('/^(\d+)\.(\d+)\.(\d+)(?:-([a-z]*)(\d+))?$/', $current, $parts)) {
     fwrite(STDERR, "Cannot parse the current version [{$current}].\n");
     exit(1);
 }
 [, $major, $minor, $patch] = $parts;
-$pre = $parts[4] ?? null;
+$preLabel = isset($parts[5]) ? $parts[4] : null; // '' for a plain -N prerelease
+$preNum = isset($parts[5]) ? (int) $parts[5] : null;
 
 switch ($type) {
     case 'major':
@@ -42,12 +46,21 @@ switch ($type) {
         $next = sprintf('%d.%d.0', $major, $minor + 1);
         break;
     case 'prerelease':
-        $next = null === $pre
+        $next = null === $preNum
             ? sprintf('%d.%d.%d-0', $major, $minor, $patch + 1)
-            : sprintf('%d.%d.%d-%d', $major, $minor, $patch, $pre + 1);
+            : sprintf('%d.%d.%d-%s%d', $major, $minor, $patch, $preLabel, $preNum + 1);
         break;
-    default: // patch; a prerelease finalizes to its release version
-        $next = null === $pre
+    case 'beta':
+        if (null === $preNum) {
+            $next = sprintf('%d.%d.%d-beta1', $major, $minor, $patch + 1);
+        } elseif ('beta' === $preLabel) {
+            $next = sprintf('%d.%d.%d-beta%d', $major, $minor, $patch, $preNum + 1);
+        } else { // a plain -N prerelease adopts the beta name at the same version
+            $next = sprintf('%d.%d.%d-beta1', $major, $minor, $patch);
+        }
+        break;
+    default: // patch; a prerelease of either kind finalizes to its release version
+        $next = null === $preNum
             ? sprintf('%d.%d.%d', $major, $minor, $patch + 1)
             : sprintf('%d.%d.%d', $major, $minor, $patch);
         break;

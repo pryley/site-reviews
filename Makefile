@@ -53,7 +53,7 @@ build\:i18n: env-check ## Build the language files: text-domain audit, then pot 
 	$(WPENV) wp i18n make-mo languages/
 
 .PHONY: bump
-bump: ## Bump the version: patch by default (TYPE=minor|major|prerelease, DRY=1 to preview)
+bump: ## Bump the version: patch by default (TYPE=minor|major|prerelease|beta, DRY=1 to preview)
 	XDEBUG_MODE=off php '+/tools/bump.php' $(if $(TYPE),$(TYPE),patch) $(if $(DRY),--dry-run,)
 
 # Both halves always run — a phpcs finding must not hide a wp-since one — and
