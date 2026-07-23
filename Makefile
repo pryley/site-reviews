@@ -3,6 +3,12 @@ PLUGIN ?= $(notdir $(CURDIR))
 VERSION ?= $(shell perl -lne 'm{Stable tag: .*?(.+)} and print $$1' readme.txt)
 WPENV_BIN ?= $(shell test -x node_modules/.bin/wp-env && printf 'node_modules/.bin/wp-env' || printf 'npx @wordpress/env')
 WPENV ?= $(WPENV_BIN) run cli --env-cwd=wp-content/plugins/$(PLUGIN)
+# Every `start` pins the port (8890 here, 8892 for the multisite instance in
+# multisite-env): the WP_ENV_PORT environment variable overrides .wp-env.json's
+# own "port", so a stray export for a sibling checkout would otherwise drag
+# this instance onto the wrong port. Only `start` binds a port — `run cli`
+# never touches one. Sibling checkouts each pin their own (8888 default).
+WPENV_START ?= WP_ENV_PORT=8890 $(WPENV_BIN) start
 
 .PHONY: analyse
 analyse: env-check ## Run the phpstan analyser (inside wp-env)
@@ -53,7 +59,7 @@ compat: ## Check PHP compatibility (8.1, phpcs) and WP compatibility (the declar
 
 .PHONY: coverage
 coverage: env-check ## Run the suite with coverage of the PLUGIN, gated at 80% (restarts wp-env with Xdebug)
-	$(WPENV_BIN) start --xdebug=coverage
+	$(WPENV_START) --xdebug=coverage
 	$(WPENV) env XDEBUG_MODE=coverage composer test:coverage
 
 .PHONY: coverage\:all
@@ -97,7 +103,7 @@ env\:update: docker-check ## Update the WordPress version in .wp-env.json to the
 	test -n "$$latest" || { printf '\nCould not reach wordpress.org to ask what the latest release is.\n\n'; exit 1; }; \
 	printf '\nPinning WordPress to %s\n\n' "$$latest"; \
 	perl -i -pe "s{\"core\": \".*\"}{\"core\": \"https://wordpress.org/wordpress-$$latest.zip\"}" .wp-env.json
-	$(WPENV_BIN) start --update
+	$(WPENV_START) --update
 	@$(MAKE) --no-print-directory env
 	@printf 'Commit .wp-env.json to pin this for everybody.\n\n'
 
@@ -164,7 +170,7 @@ test\:import: env-check ## Run only the Import suite inside wp-env (runs last: i
 .PHONY: test\:install
 test\:install: docker-check ## Start wp-env and install the composer dev dependencies inside it
 	rm -rf vendor
-	$(WPENV_BIN) start
+	$(WPENV_START)
 	$(WPENV) composer update
 
 .PHONY: test\:integration
@@ -248,7 +254,7 @@ env-check: docker-check
 	}
 	@docker ps --format '{{.Names}}' | grep -Eq 'wp-env-$(PLUGIN)-[0-9a-f]+-cli' || { \
 		printf '\nwp-env is not running — starting it…\n\n'; \
-		$(WPENV_BIN) start; \
+		$(WPENV_START); \
 	}
 
 # The multisite suite's OWN wp-env instance (tests/multisite/.wp-env.json:

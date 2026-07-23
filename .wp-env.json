@@ -11,5 +11,6 @@
         ".",
         "https://downloads.wordpress.org/plugin/elementor.zip"
     ],
+    "port": 8890,
     "testsEnvironment": false
 }
