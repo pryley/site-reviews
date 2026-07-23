@@ -69,9 +69,16 @@ test('a post that cannot be saved is logged and the rest carry on', function () 
     expect(glsr(Console::class)->get())->toContain("Failed to migrate Fusion Builder Post {$post}");
 });
 
-// NOTE (ceiling): the `!defined('FUSION_BUILDER_VERSION')` guard cannot return here —
-// tests/stubs/fusion-builder.php defines the constant when the suite boots, and a
-// constant cannot be undefined. Line 17 is unreachable.
+test('a site without avada is not migrated', function () {
+    // tests/stubs/fusion-builder.php defines FUSION_BUILDER_VERSION when the suite boots and
+    // a constant cannot be undefined, so the armed defined() shadow stands in for its absence.
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('defined');
+    try {
+        expect(glsr(MigrateAvadaBuilder::class)->run())->toBeFalse();
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+});
 
 function avadaContent(string $attributes): string
 {

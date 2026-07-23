@@ -21,6 +21,7 @@
  *   Modules\Avatars:  fwrite
  *   Controllers:      function_exists
  *   Helpers:          extension_loaded, preg_replace_callback
+ *   Migrations\Migrate_8_0_0: defined, class_exists
  *   (root):           extension_loaded, class_exists, set_transient, error_get_last
  *   filter_input is armed here too; its shadow lives in filter-input.php.
  *
@@ -143,6 +144,38 @@ if (!function_exists(__NAMESPACE__.'\fwrite')) {
             return 0;
         }
         return null === $length ? \fwrite($stream, $data) : \fwrite($stream, $data, $length);
+    }
+}
+
+namespace GeminiLabs\SiteReviews\Migrations\Migrate_8_0_0;
+
+use function GeminiLabs\SiteReviews\Tests\functionFails;
+
+if (!function_exists(__NAMESPACE__.'\defined')) {
+    /**
+     * Armed, FUSION_BUILDER_VERSION is "not defined" — a site without Avada,
+     * which the stubs otherwise make impossible to be.
+     */
+    function defined(string $constant): bool
+    {
+        if (functionFails('defined')) {
+            return false;
+        }
+        return \defined($constant);
+    }
+}
+
+if (!function_exists(__NAMESPACE__.'\class_exists')) {
+    /**
+     * Armed, Elementor\Plugin is "not loaded" — a site without Elementor,
+     * which the stubs otherwise make impossible to be.
+     */
+    function class_exists(string $class, bool $autoload = true): bool
+    {
+        if (functionFails('class_exists')) {
+            return false;
+        }
+        return \class_exists($class, $autoload);
     }
 }
 
