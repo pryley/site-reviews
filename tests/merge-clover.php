@@ -101,10 +101,17 @@ $project->appendChild($metrics);
 $dom->save($output);
 
 /*
- * The merged table, in the shape of Pest's own coverage report: one row per
- * file (named relative to plugin/), the uncovered lines as ranges, and the
- * percentage — so "covered anywhere" is readable, not just written to disk.
+ * The merged table, in the shape and colours of Pest's own coverage report:
+ * one row per file (named relative to plugin/), the uncovered lines as ranges,
+ * and the percentage — so "covered anywhere" is readable, not just written to
+ * disk. Colours are unconditional, as the Makefile's pest runs force
+ * --colors=always.
  */
+
+function ansi(string $code, string $text): string
+{
+    return "\033[{$code}m{$text}\033[39m";
+}
 
 /**
  * Consecutive line numbers as ranges: [44,45,46,50] => "44..46, 50".
@@ -152,17 +159,22 @@ foreach ($files as $name => $data) {
     $label = preg_replace('{^.*?/plugin/}', '', $name);
     $label = preg_replace('/\.php$/', '', $label);
     $pct = $statements ? 100 * $covered / $statements : 100;
-    $right = empty($uncovered)
-        ? sprintf('%.1f%%', $pct)
-        : sprintf('%s / %.1f%%', formatRanges($uncovered), $pct);
-    $dots = max(1, $width - strlen($label) - strlen($right) - 2);
-    printf("  %s %s %s\n", $label, str_repeat('.', $dots), $right);
+    if (empty($uncovered)) {
+        $plain = sprintf('%.1f%%', $pct);
+        $right = ansi('32', $plain);
+    } else {
+        $ranges = formatRanges($uncovered);
+        $plain = sprintf('%s / %.1f%%', $ranges, $pct);
+        $right = ansi('33', $ranges).' '.ansi('90', '/').ansi('33', sprintf(' %.1f%%', $pct));
+    }
+    $dots = max(1, $width - strlen($label) - strlen($plain) - 2);
+    printf("  %s %s %s\n", $label, ansi('90', str_repeat('.', $dots)), $right);
 }
 $total = sprintf('Total: %.1f %%', $totalStatements ? 100 * $totalCovered / $totalStatements : 0);
 printf(
     "%s\n%s\n\nMerged %d file(s) into %s (%d/%d statements)\n",
-    str_repeat('─', $width + 4),
-    str_pad($total, $width + 2, ' ', STR_PAD_LEFT),
+    ansi('90', str_repeat('─', $width + 4)),
+    str_pad('', max(0, $width + 2 - strlen($total)))."\033[1m{$total}\033[22m",
     count($files),
     $output,
     $totalCovered,
