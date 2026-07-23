@@ -169,6 +169,21 @@ test('an avatar that has already been drawn is not drawn again', function () {
         ->and(file_get_contents($path))->toBe('<svg>touched</svg>');
 });
 
+test('every pixel code paints its colour, including the white and black accents', function () {
+    // setPixelColour() maps the pattern codes: 1 and 2 are the palette pair, 8 is a fixed white
+    // accent and 9 a fixed black one (the eyes, and the skunk-stripe hair). 8 appears in exactly
+    // one hair pattern, so whether a generated avatar exercises it depends on the md5 of the
+    // input — the mapping is asserted directly instead.
+    $method = protectedMethod(PixelAvatar::class, 'setPixelColour');
+    $palette = ['#aabbcc', '#112233'];
+
+    expect($method->invoke(pixelAvatar(), 0, '#existing', $palette))->toBe('#existing')
+        ->and($method->invoke(pixelAvatar(), 1, null, $palette))->toBe('#aabbcc')
+        ->and($method->invoke(pixelAvatar(), 2, null, $palette))->toBe('#112233')
+        ->and($method->invoke(pixelAvatar(), 8, null, $palette))->toBe('#fff')
+        ->and($method->invoke(pixelAvatar(), 9, null, $palette))->toBe('#000');
+});
+
 test('a short write leaves no avatar url rather than a broken image', function () {
     // a full disk writes fewer bytes than asked; the armed fwrite shadow
     // (Support/failable-functions.php) reports exactly that
