@@ -138,3 +138,27 @@ test('name initials period space', function () {
     expect(Text::name('Steve Jobs', 'initials', 'period_space'))->toEqual('S. J.');
     expect(Text::name('Steve Paul Jobs', 'initials', 'period_space'))->toEqual('S. P. J.');
 });
+
+test('without the intl extension the word count falls back to a plain split', function () {
+    // A PHP build without intl (the armed shadow reports exactly that): no break iterator,
+    // so counting and excerpting fall back to regex splitting and still answer.
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('extension_loaded');
+    try {
+        expect(Text::wordCount('Hello wonderful world'))->toBe(3)
+            ->and(Text::words('Hello wonderful world', 2))->toBe('Hello wonderful');
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+});
+
+test('when pcre gives up mid-excerpt the text is left untagged rather than lost', function () {
+    // preg_replace_callback() answers null past the backtrack limit; replaceTags() must hand
+    // back the original text with an empty tag map, not null.
+    $method = GeminiLabs\SiteReviews\Tests\protectedMethod(Text::class, 'replaceTags');
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('preg_replace_callback');
+    try {
+        expect($method->invoke(null, 'text with <b>tags</b>'))->toBe(['text with <b>tags</b>', []]);
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+});
