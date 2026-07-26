@@ -47,14 +47,16 @@ const validators = {
     },
     number: {
         fn: function fn(val) {
-            return !val || !isNaN(parseFloat(val));
+            // isFinite rejects trailing garbage that parseFloat ignores ("5abc")
+            return !val || (!isNaN(parseFloat(val)) && isFinite(val));
         },
         priority: 2,
     },
     pattern: {
         fn: function fn(val, pattern) {
             let m = pattern.match(new RegExp('^/(.*?)/([gimy]*)$'));
-            return !val || (new RegExp(m[1], m[2])).test(val);
+            // an unparseable pattern is an author error; never block the visitor on it
+            return !val || !m || (new RegExp(m[1], m[2])).test(val);
         },
     },
     required: {
@@ -72,15 +74,18 @@ const validators = {
     },
     tel: {
         fn: function fn(val) {
+            if (!val) {
+                return true;
+            }
             let digits = val.replace(/[^0-9]/g, '').length;
             let hasValidLength = 4 <= digits && 15 >= digits;
-            return !val || (hasValidLength && (new RegExp("^[+]?[\\d\\s()-]*$")).test(val));
+            return hasValidLength && (new RegExp("^[+]?[\\d\\s()-]*$")).test(val);
         },
     },
     url: {
         fn: function fn(val) {
             let protocol = '(https?)://';
-            let domain = '([\\p{L}\\p{N}\\p{S}\\-_.])+(.?([\\p{L}\\p{N}]|xn--[\\p{L}\\p{N}\\-]+)+.?)';
+            let domain = '([\\p{L}\\p{N}\\p{S}\\-_.])+(\\.?([\\p{L}\\p{N}]|xn--[\\p{L}\\p{N}\\-]+)+\\.?)';
             let port = '(:[0-9]+)?';
             let path = '(?:/(?:[\\p{L}\\p{N}\\-._~!$&\'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*';
             let query = '(?:\\?(?:[\\p{L}\\p{N}\\-._~!$&\'\\[\\]()*+,;=:@/?]|%[0-9A-Fa-f]{2})*)?';
