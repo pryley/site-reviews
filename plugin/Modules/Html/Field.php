@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Defaults\FieldConditionDefaults;
 use GeminiLabs\SiteReviews\Defaults\FieldDefaults;
 use GeminiLabs\SiteReviews\Defaults\FieldRuleDefaults;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\FieldElements\UnknownElement;
 
 /**
@@ -18,7 +19,7 @@ use GeminiLabs\SiteReviews\Modules\Html\FieldElements\UnknownElement;
  * @property string       $after
  * @property bool         $checked
  * @property string       $class
- * @property string       $conditions
+ * @property string|array $conditions
  * @property string       $description
  * @property array        $errors
  * @property string       $group
@@ -109,14 +110,24 @@ class Field extends \ArrayObject implements FieldContract
 
     public function conditions(): array
     {
-        $conditions = explode('|', $this->conditions);
-        $criteria = array_shift($conditions) ?: 'always';
-        if ('always' === $criteria) {
-            $conditions = [];
+        if (is_array($this->conditions)) {
+            // The structured shape stored since the pipe format was
+            // retired; the string branch below reads fields saved
+            // before that (and the legacy addon's meta storage).
+            $criteria = Cast::toString($this->conditions['criteria'] ?? 'always');
+            $conditions = 'always' === $criteria
+                ? []
+                : array_filter((array) ($this->conditions['conditions'] ?? []), 'is_array');
+        } else {
+            $conditions = explode('|', $this->conditions);
+            $criteria = array_shift($conditions) ?: 'always';
+            if ('always' === $criteria) {
+                $conditions = [];
+            }
+            $conditions = array_map(fn ($val) => explode(':', $val), $conditions);
+            $conditions = array_map(fn ($val) => array_slice(array_pad($val, 3, ''), 0, 3), $conditions);
+            $conditions = array_map(fn ($val) => array_combine(['name', 'operator', 'value'], $val), $conditions);
         }
-        $conditions = array_map(fn ($val) => explode(':', $val), $conditions);
-        $conditions = array_map(fn ($val) => array_slice(array_pad($val, 3, ''), 0, 3), $conditions);
-        $conditions = array_map(fn ($val) => array_combine(['name', 'operator', 'value'], $val), $conditions);
         $conditions = array_map(fn ($val) => glsr(FieldConditionDefaults::class)->restrict($val), $conditions);
         $conditions = array_filter($conditions, fn ($val) => !empty($val['name']));
         return compact('criteria', 'conditions');

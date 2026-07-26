@@ -23,7 +23,7 @@ class FieldDefaults extends DefaultsAbstract
     public array $sanitize = [
         'after' => 'text-html:a,br,code,span',
         'class' => 'attr-class',
-        'conditions' => 'text',
+        'conditions' => 'conditions',
         'description' => 'text-html:a,br,code,em,li,mark,ol,span,strong,ul,dl,dt,dd',
         'group' => 'text',
         'id' => 'attr',

@@ -544,3 +544,20 @@ test('conditions with a criteria but no valid rules add no data-conditions', fun
     $real = makeReviewField(['name' => 'x', 'type' => 'text', 'conditions' => 'all|rating:>:3']);
     expect($real['data-conditions'])->toContain('"criteria":"all"');
 });
+
+test('structured conditions parse identically to the legacy pipe format', function () {
+    $legacy = makeReviewField(['name' => 'x', 'type' => 'text', 'conditions' => 'all|rating:greater:3']);
+    $structured = makeReviewField(['name' => 'x', 'type' => 'text', 'conditions' => [
+        'criteria' => 'all',
+        'conditions' => [['name' => 'rating', 'operator' => 'greater', 'value' => '3']],
+    ]]);
+
+    expect($structured->conditions())->toBe($legacy->conditions())
+        ->and($structured['data-conditions'])->toBe($legacy['data-conditions']);
+
+    $always = makeReviewField(['name' => 'x', 'type' => 'text', 'conditions' => [
+        'criteria' => 'always',
+        'conditions' => [['name' => 'rating', 'operator' => 'greater', 'value' => '3']],
+    ]]);
+    expect($always->conditions())->toBe(['criteria' => 'always', 'conditions' => []]);
+});
