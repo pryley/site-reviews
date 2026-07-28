@@ -41,6 +41,7 @@
 }
 :--namespace form.glsr-form .glsr-description {
     font-size: var(--glsr-description-text);
+    font-weight: var(--glsr-description-weight);
     margin-bottom: var(--glsr-gap-sm);
 }
 :--namespace form.glsr-form select.glsr-select {

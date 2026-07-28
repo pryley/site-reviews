@@ -223,6 +223,7 @@ label.is-selected .glsr-dp-icon {
     border-radius: 2px;
     field-sizing: content;
     font-size: 13px;
+    min-height: 3lh;
     padding: 6px 12px;
     width: 100%;
 }

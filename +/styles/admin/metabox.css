@@ -188,7 +188,7 @@
 }
 .glsr-metabox-field textarea {
   field-sizing: content;
-  min-height: 30px;
+  min-height: 2lh;
 }
 .glsr-metabox-field select {
   padding-right: 20px;

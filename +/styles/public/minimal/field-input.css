@@ -15,5 +15,7 @@
     width: 100%;
 }
 :--namespace form.glsr-form textarea.glsr-textarea {
+    field-sizing: content;
+    min-height: 5lh;
     resize: vertical;
 }

@@ -21,6 +21,7 @@
 }
 :--namespace form.glsr-form .glsr-description {
     font-size: var(--glsr-description-text);
+    font-weight: var(--glsr-description-weight);
 }
 :--namespace form.glsr-form select.glsr-select {
     background: var(--glsr-white);

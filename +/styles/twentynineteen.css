@@ -68,4 +68,5 @@
     color: var(--glsr-gray-400);
     font-family: var(--glsr-font);
     font-size: var(--glsr-description-text);
+    font-weight: var(--glsr-description-weight);
 }

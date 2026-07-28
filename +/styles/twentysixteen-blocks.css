@@ -38,6 +38,7 @@
 :--namespace form.glsr-form .glsr-description {
     font-family: var(--glsr-font);
     font-size: var(--glsr-description-text);
+    font-weight: var(--glsr-description-weight);
 }
 :--namespace form.glsr-form label.glsr-label:not(.glsr-label-toggle) {
     color:  var(--glsr-gray-500);

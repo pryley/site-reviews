@@ -44,7 +44,9 @@
     background-clip: padding-box;
     background-color: var(--glsr-input-bg);
     border-radius: var(--glsr-input-radius);
-    border: var(--glsr-input-b);
+    border-color: var(--glsr-input-border-color);
+    border-style: var(--glsr-input-border-style);
+    border-width: var(--glsr-input-border-width);
     color: var(--glsr-input-color);
     font-size: var(--glsr-text-md);
     line-height: var(--glsr-leading);
@@ -66,7 +68,9 @@
   appearance: none;
   background-color: var(--glsr-input-bg);
   background-origin: border-box;
-  border: var(--glsr-input-b);
+  border-color: var(--glsr-input-border-color);
+  border-style: var(--glsr-input-border-style);
+  border-width: var(--glsr-input-border-width);
   font-size: var(--glsr-text-md);
   min-height: auto;
   min-width: auto;

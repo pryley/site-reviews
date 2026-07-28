@@ -79,6 +79,7 @@
 }
 :--namespace form.glsr-form .glsr-description {
     font-size: var(--glsr-description-text);
+    font-weight: var(--glsr-description-weight);
 }
 /* Pagination */
 :--namespace .glsr-pagination .pagination {

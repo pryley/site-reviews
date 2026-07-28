@@ -53,12 +53,12 @@
 
   /* Form */
     --glsr-description-text: var(--glsr-text-sm);
+    --glsr-description-weight: 400;
     --glsr-form-col-gap: var(--glsr-gap-sm);
     --glsr-form-error: var(--glsr-red);
     --glsr-form-row-gap: var(--glsr-gap-md);
     --glsr-form-star: 2em;
     --glsr-form-success: var(--glsr-green);
-    --glsr-input-b: var(--glsr-input-border-width) var(--glsr-input-border-style) var(--glsr-input-border-color);
     --glsr-input-bg: var(--glsr-white);
     --glsr-input-border-color: var(--glsr-gray-400);
     --glsr-input-border-style: solid;
@@ -71,6 +71,7 @@
     --glsr-input-radius: 3px;
     --glsr-input-transition: border-color var(--glsr-duration-fast) ease-in-out;
     --glsr-label-color: currentColor;
+    --glsr-label-leading: 1.5;
     --glsr-label-text: var(--glsr-text-sm);
     --glsr-label-weight: 600;
     --glsr-subgroup-gap: 0px;

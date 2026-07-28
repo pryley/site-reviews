@@ -24,7 +24,9 @@
 :--namespace form.glsr-form textarea.glsr-textarea {
     background-color: var(--glsr-white);
     border-radius: var(--glsr-input-radius);
-    border: var(--glsr-input-b);
+    border-color: var(--glsr-input-border-color);
+    border-style: var(--glsr-input-border-style);
+    border-width: var(--glsr-input-border-width);
     font-size: var(--glsr-text-md);
     line-height: var(--glsr-leading);
     padding-top: var(--glsr-input-pt);
@@ -34,6 +36,7 @@
 }
 :--namespace form.glsr-form .glsr-description {
     font-size: var(--glsr-description-text);
+    font-weight: var(--glsr-description-weight);
 }
 :--namespace .glsr-pagination .nav-links {
     column-gap: var(--glsr-gap-sm);

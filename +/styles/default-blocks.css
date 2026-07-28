@@ -11,7 +11,7 @@
 :--namespace form.glsr-form  label.glsr-label {
     font-size: var(--glsr-label-text);
     font-weight: var(--glsr-label-weight);
-    line-height: var(--glsr-leading);
+    line-height: var(--glsr-label-leading);
     margin-bottom: var(--glsr-gap-xs);
 }
 :--namespace form.glsr-form .glsr-label + .glsr-description {
@@ -19,6 +19,7 @@
 }
 :--namespace form.glsr-form .glsr-description {
     font-size: var(--glsr-description-text);
+    font-weight: var(--glsr-description-weight);
     opacity: .75;
 }
 :--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
@@ -26,16 +27,19 @@
     appearance: none;
     background-color: var(--glsr-white);
     background-origin: border-box;
-    border: 1px solid var(--glsr-gray-400);
+    border: 1px solid var(--glsr-input-border-color);
     min-height: auto;
     min-width: auto;
     print-color-adjust: exact;
-    color: var(--glsr-blue);
+    /*color: var(--glsr-input-border-color);*/
     height: var(--glsr-choice-h);
     width: var(--glsr-choice-w);
     &::before,
     &::after {
         display: none !important;
+    }
+    &:checked {
+        color: var(--glsr-blue);
     }
 }
 :--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox {
@@ -55,15 +59,20 @@
     background-clip: padding-box;
     background-color: var(--glsr-input-bg);
     border-radius: var(--glsr-input-radius);
-    border: var(--glsr-input-b);
+    border-color: var(--glsr-input-border-color);
+    border-style: var(--glsr-input-border-style);
+    border-width: var(--glsr-input-border-width);
     font-size: var(--glsr-text-md);
     line-height: var(--glsr-leading);
-    min-height: auto !important;
     padding-top: var(--glsr-input-pt) !important;
     padding-right: var(--glsr-input-pr) !important;
     padding-bottom: var(--glsr-input-pb) !important;
     padding-left: var(--glsr-input-pl) !important;
     transition: var(--glsr-input-transition);
+}
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select{
+    min-height: auto !important; /* not textarea!  */
 }
 :--namespace form.glsr-form select.glsr-select {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3e%3cpath d='M7 7l3-3 3 3m0 6l-3 3-3-3' stroke='%239fa6b2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
