@@ -15,9 +15,17 @@ const checks = {
         return String(value) === String(conditionVal)
     },
     greater: (value, conditionVal) => {
+        const [date, conditionDate] = [dateValue(value), dateValue(conditionVal)];
+        if (null !== date && null !== conditionDate) {
+            return date > conditionDate
+        }
         return isNumber(conditionVal) ? intval(value) > +conditionVal : false
     },
     less: (value, conditionVal) => {
+        const [date, conditionDate] = [dateValue(value), dateValue(conditionVal)];
+        if (null !== date && null !== conditionDate) {
+            return date < conditionDate
+        }
         return isNumber(conditionVal) ? intval(value) < +conditionVal : false
     },
     not: (value, conditionVal) => {
@@ -29,7 +37,20 @@ const fieldtype = (el) => String(el.getAttribute('type') || el.nodeName).toLower
 
 const intval = (value) => isNaN(value) ? value.length : +value;
 
-const isNumber = (value) => !isNaN(parseInt(value));
+// Strict: only a whole ISO date, so a bare year ("2026") stays a number
+// and a numeric comparison is never hijacked into a date one.
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2})?)?$/;
+
+const dateValue = (value) => {
+    const text = String(value).trim();
+    return ISO_DATE.test(text) ? Date.parse(text) : null;
+};
+
+// parseInt read the leading digits, so "2026-01-01" and "3px" were
+// taken for numbers and then compared against +value, which is NaN:
+// equals never matched, not even a date against itself, and not always
+// did. This agrees with the comparison that follows it.
+const isNumber = (value) => '' !== String(value).trim() && !isNaN(Number(value));
 
 class Conditions {
     constructor (Form) {
