@@ -3534,6 +3534,7 @@ msgid "If the terms were accepted when the review was submitted."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:256
+#: plugin/Defaults/ReviewTagsDefaults.php:165
 msgctxt "admin-text"
 msgid "The title of the review."
 msgstr ""
@@ -4465,6 +4466,156 @@ msgstr ""
 #: plugin/Defaults/PostTypeLabelDefaults.php:37
 msgctxt "View Posts (admin-text)"
 msgid "View Reviews"
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:22
+msgctxt "admin-text"
+msgid "The assignments as JSON data, under the name it had before assigned_data."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:26
+msgctxt "admin-text"
+msgid "The posts, categories and users the review is assigned to, as JSON data."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:32
+msgctxt "admin-text"
+msgid "Links to the posts the review is assigned to."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:37
+msgctxt "admin-text"
+msgid "The titles of the posts the review is assigned to."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:42
+msgctxt "admin-text"
+msgid "The names of the categories the review is assigned to."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:47
+msgctxt "admin-text"
+msgid "The names of the users the review is assigned to."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:53
+msgctxt "admin-text"
+msgid "The name of the reviewer."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:58
+msgctxt "admin-text"
+msgid "The user ID of the reviewer, or 0 if they were not logged in."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:64
+msgctxt "admin-text"
+msgid "The avatar image of the reviewer."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:70
+msgctxt "admin-text"
+msgid "The body of the review."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:75
+msgctxt "admin-text"
+msgid "The values of every custom field, as data."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:81
+msgctxt "admin-text"
+msgid "The date the review was submitted."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:86
+msgctxt "admin-text"
+msgid "The date the review was submitted, in UTC."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:91
+msgctxt "admin-text"
+msgid "The email address of the reviewer."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:96
+msgctxt "admin-text"
+msgid "The IP address the review was submitted from."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:101
+msgctxt "admin-text"
+msgid "Whether the review has been approved."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:106
+msgctxt "admin-text"
+msgid "Whether the review has been edited since it was submitted."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:111
+msgctxt "admin-text"
+msgid "Whether the review is pinned."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:117
+msgctxt "admin-text"
+msgid "Where the review was submitted from."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:122
+msgctxt "admin-text"
+msgid "The name of the reviewer, under the key it is stored with."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:128
+msgctxt "admin-text"
+msgid "The star rating of the review."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:133
+msgctxt "admin-text"
+msgid "The internal ID of the rating record."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:139
+msgctxt "admin-text"
+msgid "Your response to the review."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:144
+msgctxt "admin-text"
+msgid "The ID of the review."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:149
+msgctxt "admin-text"
+msgid "How many people found the review helpful."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:154
+msgctxt "admin-text"
+msgid "The publication status of the review."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:159
+msgctxt "admin-text"
+msgid "Whether the reviewer accepted the terms."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:170
+msgctxt "admin-text"
+msgid "Where the review came from: your site, or an imported source."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:175
+msgctxt "admin-text"
+msgid "The link the review was imported from."
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:181
+msgctxt "admin-text"
+msgid "Whether the reviewer has been verified."
 msgstr ""
 
 #: plugin/Defaults/RevisionFieldsDefaults.php:17

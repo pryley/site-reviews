@@ -98,6 +98,27 @@ class ReviewController extends AbstractController
     }
 
     /**
+     * Unknown tags are removed before interpolation as a reviewer
+     * may have written braces of their own in the review.
+     *
+     * @filter site-reviews/build/template/review
+     */
+    public function filterReviewTemplateTagsRemoved(string $template, array $data): string
+    {
+        $context = Arr::consolidate(Arr::get($data, 'context'));
+        if (empty($context)) {
+            // Not a review being rendered: the editor builds this same
+            // template with no context to get the skeleton, tags intact.
+            return $template;
+        }
+        return (string) preg_replace_callback(
+            '/\{\{\s*([a-z0-9_]+)\s*\}\}/',
+            fn (array $matches) => array_key_exists($matches[1], $context) ? $matches[0] : '',
+            $template
+        );
+    }
+
+    /**
      * @filter site-reviews/query/sql/clause/operator
      */
     public function filterSqlClauseOperator(string $operator): string

@@ -1,6 +1,6 @@
 <?php
 
-use GeminiLabs\SiteReviews\Defaults\ReviewTagsDefaults;
+use GeminiLabs\SiteReviews\Defaults\ReviewTagDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewTags;
 
 /*
@@ -40,10 +40,13 @@ it('answers for a tag nobody described', function () {
 
     $tags = glsr(ReviewTags::class)->all();
 
+    // The cautious end of every flag: a name to reserve, and nothing
+    // offered anywhere until somebody says what it is for.
     expect($tags)->toHaveKey('undeclared_tag')
-        ->and($tags['undeclared_tag'])->toBe(ReviewTagsDefaults::DESCRIPTOR)
+        ->and($tags['undeclared_tag'])->toBe(glsr(ReviewTagDefaults::class)->defaults())
         ->and(glsr(ReviewTags::class)->names())->toContain('undeclared_tag')
-        ->and(array_keys(glsr(ReviewTags::class)->displayable()))->not->toContain('undeclared_tag');
+        ->and(array_keys(glsr(ReviewTags::class)->displayable()))->not->toContain('undeclared_tag')
+        ->and(array_keys(glsr(ReviewTags::class)->insertable()))->not->toContain('undeclared_tag');
 });
 
 it('fills a partial descriptor from the defaults', function () {
@@ -55,8 +58,9 @@ it('fills a partial descriptor from the defaults', function () {
 
     expect(glsr(ReviewTags::class)->all()['partial_tag'])->toBe([
         'display' => true,
-        'insert' => true,
-        'source' => 'review',
+        'group' => 'other',
+        'insert' => false,
+        'label' => '',
     ]);
 });
 
@@ -77,12 +81,66 @@ it('separates what may be inserted from what may be displayed', function () {
         ->and(array_keys($tags->displayable()))->toContain('author');
 });
 
-it('knows which tags a form supplies instead of the review', function () {
-    $source = array_keys(glsr(ReviewTags::class)->source('form'));
+it('files the tags a template editor offers under a heading', function () {
+    $default = array_keys(glsr(ReviewTags::class)->group('default'));
+    $other = array_keys(glsr(ReviewTags::class)->group('other'));
 
-    expect($source)->toContain('content')
-        ->and($source)->toContain('title')
-        ->and($source)->not->toContain('author');
+    // The handful an author reaches for, and the rest.
+    expect($default)->toContain('author')
+        ->and($default)->toContain('content')
+        ->and($default)->toContain('rating')
+        ->and($other)->toContain('review_id')
+        ->and($other)->toContain('assigned_data')
+        // Grouping is a division of the insertable tags, nothing more.
+        ->and(array_intersect($default, $other))->toBe([])
+        ->and(count($default) + count($other))->toBe(count(glsr(ReviewTags::class)->insertable()));
+});
+
+it('keeps the stored spellings out of the editor', function () {
+    // Reserved so a custom field cannot take the name, never offered as
+    // a tag: each is a value shown elsewhere under a better name.
+    $insertable = array_keys(glsr(ReviewTags::class)->insertable());
+
+    expect($insertable)->not->toContain('date_gmt')
+        ->and($insertable)->not->toContain('ip_address')
+        ->and($insertable)->not->toContain('name')
+        ->and($insertable)->not->toContain('status')
+        ->and(glsr(ReviewTags::class)->names())->toContain('status');
+});
+
+it('renamed assigned to assigned_data and kept the old name working', function () {
+    $context = glsr_get_review(0)->build()->context;
+
+    expect($context)->toHaveKey('assigned_data')
+        ->and($context)->toHaveKey('assigned')
+        ->and($context['assigned'])->toBe($context['assigned_data'])
+        ->and(array_keys(glsr(ReviewTags::class)->insertable()))->toContain('assigned_data')
+        ->and(array_keys(glsr(ReviewTags::class)->insertable()))->not->toContain('assigned');
+});
+
+it('sanitizes what a declaration puts in a descriptor', function () {
+    // Declared by hand, and what it says decides what an editor offers:
+    // a truthy string must not read as "yes, display it", an unknown
+    // heading must not create a group nobody renders, and a label is
+    // shown as text.
+    add_filter('site-reviews/defaults/review-tags/defaults', function (array $tags): array {
+        $tags['sloppy_tag'] = [
+            'display' => 'yes',
+            'group' => 'somewhere-else',
+            'insert' => 1,
+            'label' => '<b>Bold</b> claim',
+            'kind' => 'gone', // no such key
+        ];
+        return $tags;
+    });
+    glsr()->discard('review_tags');
+
+    expect(glsr(ReviewTags::class)->all()['sloppy_tag'])->toBe([
+        'display' => true,
+        'group' => 'other',
+        'insert' => true,
+        'label' => 'Bold claim',
+    ]);
 });
 
 it('survives a filter that asks for the tags while the review is being built', function () {
@@ -96,4 +154,27 @@ it('survives a filter that asks for the tags while the review is being built', f
     glsr()->discard('review_tags');
 
     expect(glsr(ReviewTags::class)->names())->toContain('reentrant_tag');
+});
+
+it('removes a tag the template still holds but nothing produces', function () {
+    // A template written while a feature was active outlives it. The tag
+    // is removed before interpolation rather than after, so a reviewer's
+    // own braces — by then part of the template — survive.
+    add_filter('site-reviews/review/build/after', function (array $tags): array {
+        $tags['live_tag'] = 'I am here';
+        return $tags;
+    });
+    $template = 'a:{{ live_tag }} b:{{ retired_tag }} c:{{ another_one }}';
+    $filtered = glsr()->filterString('build/template/review', $template, [
+        'context' => ['live_tag' => 'I am here'],
+    ]);
+
+    expect($filtered)->toBe('a:{{ live_tag }} b: c:');
+});
+
+it('leaves alone what is not a tag', function () {
+    $template = '{{ data.title }} {{ NOT-A-TAG }} {{ }}';
+
+    expect(glsr()->filterString('build/template/review', $template, ['context' => []]))
+        ->toBe($template);
 });

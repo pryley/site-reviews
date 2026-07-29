@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Defaults\ReviewTagDefaults;
 use GeminiLabs\SiteReviews\Defaults\ReviewTagsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
@@ -21,8 +22,9 @@ class ReviewTags
             return $cached;
         }
         $tags = glsr(ReviewTagsDefaults::class)->defaults();
+        $undescribed = glsr(ReviewTagDefaults::class)->defaults();
         foreach ($this->contextNames() as $name) {
-            $tags[$name] ??= ReviewTagsDefaults::DESCRIPTOR;
+            $tags[$name] ??= $undescribed;
         }
         ksort($tags);
         glsr()->store('review_tags', $tags);
@@ -46,19 +48,20 @@ class ReviewTags
     }
 
     /**
+     * The insertable tags filed under a heading — "default" is the
+     * handful an author reaches for, "other" everything else.
+     */
+    public function group(string $group): array
+    {
+        return array_filter($this->insertable(), fn ($tag) => $group === $tag['group']);
+    }
+
+    /**
      * Every reserved tag name (these cannot be use as custom field names).
      */
     public function names(): array
     {
         return array_keys($this->all());
-    }
-
-    /**
-     * The tags whose value comes from the named source.
-     */
-    public function source(string $source): array
-    {
-        return array_filter($this->all(), fn ($tag) => $source === $tag['source']);
     }
 
     /**
