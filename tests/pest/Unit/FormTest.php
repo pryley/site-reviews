@@ -2,6 +2,7 @@
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Html\Form;
+use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewForm;
 
 uses()->group('plugin');
@@ -229,4 +230,108 @@ test('a custom field implementation without conditions is left alone', function 
     $form = new Form(['id' => 'glsr-conditions-form']);
 
     expect($form['custom_field']->is_hidden)->not->toBeTrue();
+});
+
+/*
+ * Grouped rendering: fields that share a group render inside a fieldset
+ * carrying the group as data-group. Nothing in the plugin sets a group on
+ * a review-form field, so the first of these is the guarantee that
+ * matters — every form that exists renders what it rendered before.
+ */
+
+test('a form that groups nothing renders no fieldset at all', function () {
+    $form = new Form([], [], [
+        'pet_name' => ['type' => 'text'],
+        'pet_age' => ['type' => 'text'],
+    ]);
+
+    expect($form->build())->not->toContain('<fieldset')
+        ->not->toContain('data-group');
+});
+
+test('a run of same-group fields renders inside a fieldset carrying the group', function () {
+    $form = new Form([], [], [
+        'step_one' => ['type' => 'text', 'group' => 'page_1'],
+        'step_two' => ['type' => 'text', 'group' => 'page_1'],
+        'step_three' => ['type' => 'text', 'group' => 'page_2'],
+    ]);
+
+    $html = $form->build();
+
+    expect(substr_count($html, '<fieldset'))->toBe(2)
+        ->and($html)->toContain('data-group="page_1"')
+        ->toContain('data-group="page_2"')
+        // Both fields of the first group are inside the first fieldset.
+        ->toMatch('~data-group="page_1".*step_one.*step_two.*</fieldset>~s')
+        // The groups render in field order.
+        ->toMatch('~data-group="page_1".*data-group="page_2"~s');
+});
+
+test('an ungrouped field between two groups keeps its own place, unwrapped', function () {
+    $form = new Form([], [], [
+        'first' => ['type' => 'text', 'group' => 'page_1'],
+        'loose' => ['type' => 'text'],
+        'last' => ['type' => 'text', 'group' => 'page_2'],
+    ]);
+
+    $html = $form->build();
+
+    expect(substr_count($html, '<fieldset'))->toBe(2)
+        ->and($html)->toMatch('~data-group="page_1".*</fieldset>.*\[loose\].*<fieldset~s');
+});
+
+test('a group interrupted and resumed renders twice, in field order', function () {
+    // A map keyed by group would silently drop the first run; the render
+    // follows the order the author gave.
+    $form = new Form([], [], [
+        'a' => ['type' => 'text', 'group' => 'page_1'],
+        'b' => ['type' => 'text', 'group' => 'page_2'],
+        'c' => ['type' => 'text', 'group' => 'page_1'],
+    ]);
+
+    $html = $form->build();
+
+    expect(substr_count($html, '<fieldset'))->toBe(3)
+        ->and(substr_count($html, 'data-group="page_1"'))->toBe(2)
+        ->and($html)->toMatch('~\[a\].*\[b\].*\[c\]~s');
+});
+
+test('the fieldset wears the style pack class, and drops the attribute without one', function () {
+    $form = new Form([], [], [
+        'field' => ['type' => 'text', 'group' => 'page_1'],
+    ]);
+
+    // The default pack sets no fieldset class, so no empty class attribute.
+    expect($form->build())->toContain('<fieldset data-group="page_1">');
+
+    // A pack that does set one: the Style is a singleton built from the
+    // config, so the config is what a pack changes.
+    $filter = fn (array $config) => array_replace_recursive($config, [
+        'classes' => ['fieldset' => 'form-group'],
+    ]);
+    add_filter('site-reviews/config/styles/default', $filter);
+    glsr()->bind(Style::class, null, true); // singleton() early-returns; bind drops the instance
+    $html = (new Form([], [], ['field' => ['type' => 'text', 'group' => 'page_1']]))->build();
+    remove_filter('site-reviews/config/styles/default', $filter);
+    glsr()->bind(Style::class, null, true);
+
+    expect($html)->toContain('<fieldset class="form-group" data-group="page_1">');
+});
+
+test('the per-group filter receives the group and can add to what it contains', function () {
+    $seen = [];
+    $filter = function (array $args, string $group) use (&$seen) {
+        $seen[] = $group;
+        $args['text'] = "<legend>{$group}</legend>".$args['text'];
+        return $args;
+    };
+    add_filter('site-reviews/form/build/fieldset', $filter, 10, 2);
+    $html = (new Form([], [], [
+        'a' => ['type' => 'text', 'group' => 'page_1'],
+        'b' => ['type' => 'text', 'group' => 'page_2'],
+    ]))->build();
+    remove_filter('site-reviews/form/build/fieldset', $filter, 10);
+
+    expect($seen)->toBe(['page_1', 'page_2'])
+        ->and($html)->toMatch('~<fieldset data-group="page_1"><legend>page_1</legend>~');
 });

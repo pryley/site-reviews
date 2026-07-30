@@ -182,6 +182,28 @@ class Form extends \ArrayObject implements FormContract
         return [];
     }
 
+    /**
+     * The container a run of same-group fields renders inside. The group
+     * travels as a data attribute rather than a class: it is the form's
+     * own value (a page number, a step name) and has no business in the
+     * style pack's vocabulary, while the class is the pack's to set.
+     *
+     * The args are filtered rather than the rendered markup, so what is
+     * added lands inside the fieldset — a legend for the group, or
+     * anything else that belongs to it — without anyone having to cut
+     * open a string.
+     */
+    protected function buildFieldset(string $group, string $fields): string
+    {
+        $args = [
+            'class' => glsr(Style::class)->classes('fieldset'),
+            'data-group' => $group,
+            'text' => $fields,
+        ];
+        $args = $this->app()->filterArray("{$this->formName()}/build/fieldset", $args, $group, $this);
+        return glsr(Builder::class)->fieldset($args);
+    }
+
     protected function buildFields(): string
     {
         $fields = [];
@@ -189,8 +211,12 @@ class Form extends \ArrayObject implements FormContract
             $fields[] = $field->build();
         }
         $fields[] = glsr(Honeypot::class)->build($this->args->id);
-        foreach ($this->visible() as $field) {
-            $fields[] = $field->build();
+        foreach ($this->groupedFields() as $run) {
+            // A run with no group is the ungrouped rendering: no wrapper,
+            // exactly what every form produced before groups existed.
+            $fields[] = '' === $run['group']
+                ? $run['fields']
+                : $this->buildFieldset($run['group'], $run['fields']);
         }
         $rendered = implode("\n", $fields);
         $rendered = $this->app()->filterString("{$this->formName()}/build/fields", $rendered, $this);
@@ -312,6 +338,37 @@ class Form extends \ArrayObject implements FormContract
         }
         $fields = $this->app()->filterArray("{$this->formName()}/fields/visible", $fields, $this);
         return $fields;
+    }
+
+    /**
+     * The visible fields as rendered runs of the group they share. Runs
+     * follow the rendered order rather than the config's, and fields with
+     * no group make runs of their own, so a form that groups nothing
+     * renders exactly what it rendered before: one run, no wrapper.
+     *
+     * A list rather than a map keyed by group, because a group can be
+     * interrupted by another and resume later — that is the honest
+     * rendering of the field order the author gave, and a map would
+     * silently drop the earlier run.
+     *
+     * @return array<array{group: string, fields: string}>
+     */
+    protected function groupedFields(): array
+    {
+        $runs = [];
+        $group = null;
+        foreach ($this->visible() as $field) {
+            $fieldGroup = Cast::toString($field->group);
+            if ($fieldGroup !== $group) {
+                $runs[] = ['group' => $fieldGroup, 'fields' => []];
+                $group = $fieldGroup;
+            }
+            $runs[array_key_last($runs)]['fields'][] = $field->build();
+        }
+        return array_map(fn ($run) => [
+            'group' => $run['group'],
+            'fields' => implode("\n", $run['fields']),
+        ], $runs);
     }
 
     protected function mergeConfig(array $config): array

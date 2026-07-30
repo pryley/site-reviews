@@ -60,6 +60,7 @@
 ## Filters
 
     site-reviews/<form_name>/build/fields                       (string $rendered, Contracts\FormContract $form): string
+    site-reviews/<form_name>/build/fieldset                     (array $args, string $group, Contracts\FormContract $form): array
     site-reviews/<form_name>/build/response                     (string $rendered, Contracts\FormContract $form): string
     site-reviews/<form_name>/build/submit_button                (string $rendered, Contracts\FormContract $form): string
     site-reviews/<form_name>/config                             (array $config, Contracts\FormContract $form): array
