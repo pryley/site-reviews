@@ -1,7 +1,9 @@
 :--namespace button.glsr-button {
     align-items: center !important;
-    display: inline-flex !important;
     cursor: pointer;
+    display: inline-flex !important;
+    justify-content: center;
+    text-align: center;
     white-space: nowrap;
 }
 :--namespace button.glsr-button:not(.wp-block-search__button) {
