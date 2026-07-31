@@ -152,8 +152,11 @@ class EnqueueAdminAssets extends AbstractCommand
         if ('admin' === $screen->base && str_starts_with(filter_input(INPUT_GET, 'import'), glsr()->post_type)) {
             return true;
         }
-        return str_starts_with($screen->post_type, glsr()->post_type)
+        $isCurrentScreen = str_starts_with($screen->post_type, glsr()->post_type)
             || in_array($screen->id, $screenIds)
             || 'post' === $screen->base;
+        // A screen that provides its own editor app (the premium form
+        // editor) opts out of the admin bundle here.
+        return glsr()->filterBool('enqueue/admin/screen', $isCurrentScreen, $screen);
     }
 }
