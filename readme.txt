@@ -213,7 +213,12 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 
 = 8.2.1 (unreleased) =
 
+- Added support for WooCommerce's "Customer review request" feature: reviews submitted from its Review Order page are saved as Site Reviews reviews, and products the customer has already reviewed with Site Reviews are no longer asked for
+- Fixed a PHP warning when importing WooCommerce product reviews
+- Fixed duplicate Reviews sections on block themes using the redesigned WooCommerce Product Details block
+- Fixed imported WooCommerce product reviews losing their author
 - Fixed translatable strings that used multiple unnumbered placeholders — translations can now reorder them (existing translations of these strings will need to be updated)
+- Updated the supported WooCommerce version to 11
 
 = 8.2.0 (2026-07-21) =
 
