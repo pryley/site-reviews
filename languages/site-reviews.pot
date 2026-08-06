@@ -3996,7 +3996,7 @@ msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr ""
 
-#: plugin/Controllers/MainController.php:149
+#: plugin/Controllers/MainController.php:152
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr ""
@@ -4126,26 +4126,26 @@ msgctxt "admin-text"
 msgid "You do not have permission to import settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:348
+#: plugin/Controllers/ToolsController.php:350
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
 #. translators: %s: a link with the text "reload the page"
-#: plugin/Controllers/ToolsController.php:353
+#: plugin/Controllers/ToolsController.php:355
 #, php-format
 msgctxt "admin-text"
 msgid "The permissions have been repaired, please %s for them to take effect."
 msgstr ""
 
 #. translators: %s: plugin name
-#: plugin/Controllers/ToolsController.php:409
+#: plugin/Controllers/ToolsController.php:411
 #, php-format
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:428
+#: plugin/Controllers/ToolsController.php:430
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr ""
@@ -5849,7 +5849,7 @@ msgid "managed by Site Reviews"
 msgstr ""
 
 #. translators: %d: number of reviews
-#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:207
+#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:205
 #, php-format
 msgid "Reviews (%d)"
 msgstr ""

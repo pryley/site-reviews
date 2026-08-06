@@ -17,7 +17,7 @@
  * Text Domain:          site-reviews
  * Domain Path:          languages
  * WC requires at least: 9.6
- * WC tested up to:      10.9
+ * WC tested up to:      11.0
  */
 defined('ABSPATH') || exit;
 

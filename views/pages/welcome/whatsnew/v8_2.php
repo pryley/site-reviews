@@ -9,7 +9,6 @@
     </h3>
     <div id="welcome-v8_2_0" class="inside">
         <p><em>Release Date &mdash; August 6th, 2026</em></p>
-        <p>Site Reviews has a fresh coat of paint!</p>
 
         <h4>✨ New Features</h4>
         <ul>
