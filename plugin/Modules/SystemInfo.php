@@ -176,7 +176,6 @@ class SystemInfo implements \Stringable
             'Display Errors' => $this->ini('display_errors', 'No'),
             'File Uploads' => $this->value('wp-media.file_uploads'),
             'GD version' => $this->value('wp-media.gd_version'),
-            'Ghostscript Version' => $this->value('wp-media.ghostscript_version'),
             'Hosting Provider' => $this->hostingProvider(),
             'ImageMagick Version' => $this->value('wp-media.imagemagick_version'),
             'Intl' => Helper::ifEmpty(phpversion('intl'), 'No'),
@@ -192,11 +191,10 @@ class SystemInfo implements \Stringable
             'PHP Version' => $this->value('wp-server.php_version'),
             'Post Max Size' => $this->value('wp-server.php_post_max_size'),
             'SAPI' => $this->value('wp-server.php_sapi'),
-            'Sendmail' => $this->ini('sendmail_path'),
+            'Sendmail' => $this->maskedHomePath($this->ini('sendmail_path')),
             'Server Architecture' => $this->value('wp-server.server_architecture'),
             'Server IP Address' => Helper::serverIp(),
             'Server Software' => $this->value('wp-server.httpd_software'),
-            'SUHOSIN Installed' => $this->value('wp-server.suhosin'),
             'Upload Max Filesize' => $this->value('wp-server.upload_max_filesize'),
         ];
     }
@@ -303,6 +301,16 @@ class SystemInfo implements \Stringable
             return Helper::ifEmpty(ini_get($name), $fallback);
         }
         return 'ini_get() is disabled.';
+    }
+
+    /**
+     * Local environments (LocalWP, Valet, MAMP) point paths like sendmail_path
+     * into the user's home directory, which puts an OS username into a report
+     * that gets pasted in public. The binary name and flags carry the signal.
+     */
+    protected function maskedHomePath(string $value): string
+    {
+        return (string) preg_replace('#(/Users/|/home/|C:\\\\Users\\\\)[^/\\\\]+#i', '~', $value);
     }
 
     protected function plugins(array $plugins): array
