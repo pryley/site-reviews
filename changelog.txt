@@ -2,19 +2,18 @@
 
 = 8.2.0 (2026-08-06) =
 
-- Added per-addon settings storage: each addon now keeps its settings in its own option, and an addon's existing settings are moved there automatically the first time it runs
-- Added support for addons that are bundled inside another plugin rather than installed on their own
-- Added support for WooCommerce's "Customer review request" emails — submitted reviews are saved in Site Reviews, and customers are not asked to review a product twice
-- Changed integration version checks to warn about untested versions instead of disabling the integration
+- Added per-addon settings storage: each addon now keeps its settings in its own option
+- Added support for the standalone "Site Review Premium" plugin (coming soon)
+- Added support for WooCommerce "Customer review request" emails
 - Fixed a "doing it wrong" notice raised by an integration's version notice
-- Fixed a duplicate Reviews section on product pages using WooCommerce's redesigned Product Details block
+- Fixed a duplicate Reviews section in WooCommerce's redesigned Product Details block
 - Fixed a fatal error on sites running MultilingualPress when it cannot report its version
 - Fixed a PHP error when a review query is built with no arguments
 - Fixed a PHP warning on sites running Loyalty Program for WooCommerce
 - Fixed a PHP warning when importing WooCommerce product reviews
 - Fixed an API request not being retried when the server asked for it to be
 - Fixed an unrecognised admin request failing silently instead of being logged
-- Fixed API request SSL certificate verification being switched off on live sites and switched on for local ones
+- Fixed API request SSL certificate verification
 - Fixed cached API responses never being cleared on sites using a persistent object cache
 - Fixed deleted reviews being left in the review cache
 - Fixed duplicating a review that had not accepted the terms
@@ -26,13 +25,13 @@
 - Fixed reviews being wrongly recorded as having accepted the terms on some sites
 - Fixed stale settings keys not being cleaned after a plugin migration
 - Fixed the "Approve" and "Unapproved" wording not being applied to the Publish metabox on the review editor
-- Fixed the approve link in the notification email using a different capability than the Approve action on the reviews screen
+- Fixed the approve link capability check in the notification email
 - Fixed the author link missing from reviews in the REST API
 - Fixed the category priority cache not being cleared when a category priority is added or changed
 - Fixed the classic widget title not being displayed
 - Fixed the custom schema identifier being ignored unless the schema type was Custom
 - Fixed the Documentation link on the plugins screen
-- Fixed the notification and verification email settings offering template tags that were never replaced in those emails
+- Fixed the notification and verification email settings offering invalid template tags
 - Fixed the plugin rollback tool when JavaScript is unavailable
 - Fixed the plugin's service container being unable to register a factory
 - Fixed the plugins screen load time when the licence server is unreachable
@@ -44,7 +43,9 @@
 - Fixed the Unapprove link publishing the review instead of unapproving it when javascript is disabled
 - Fixed the update details check for inactive addons
 - Fixed translatable strings that used multiple unnumbered placeholders — translations can now reorder them (existing translations of these strings will need to be updated)
+- Improved integration version checks to warn about untested versions instead of disabling the integration
 - Improved the WooCommerce comments compatibility experiment to give plugins and themes more accurate results
+- Updated Action Scheduler to v4.1.0
 - Updated the supported WooCommerce version to 11
 
 = 8.1.0 (2026-07-11) =
