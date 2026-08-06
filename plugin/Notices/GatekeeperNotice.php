@@ -27,16 +27,15 @@ class GatekeeperNotice extends AbstractNotice
         }
         $this->errors = $errors;
         delete_transient($transient);
+        if (empty($this->errors(Gatekeeper::BLOCKING_ERRORS))) {
+            $this->type = 'notice-warning'; // untested versions only: a warning, not a failure
+        }
         return true;
     }
 
     protected function data(): array
     {
-        $externalErrors = $this->errors([
-            Gatekeeper::ERROR_NOT_ACTIVATED,
-            Gatekeeper::ERROR_NOT_INSTALLED,
-            Gatekeeper::ERROR_NOT_SUPPORTED,
-        ]);
+        $externalErrors = $this->errors(Gatekeeper::BLOCKING_ERRORS);
         $internalErrors = $this->errors([Gatekeeper::ERROR_NOT_TESTED]);
         $name = sprintf('<strong>%s</strong>', glsr()->name);
         if (!empty($externalErrors)) {
@@ -53,8 +52,8 @@ class GatekeeperNotice extends AbstractNotice
             ];
         }
         $message = _nx(
-            '%1$s needs an update to work with %2$s.',
-            '%1$s needs an update to work with the following plugins: %2$s',
+            '%1$s has not been tested with the installed version of %2$s and may need an update.',
+            '%1$s has not been tested with the installed versions of the following plugins and may need an update: %2$s',
             count($internalErrors),
             'admin-text',
             'site-reviews'

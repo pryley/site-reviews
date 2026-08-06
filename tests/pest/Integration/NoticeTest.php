@@ -540,7 +540,7 @@ test('the gatekeeper notice offers to activate, install and update the plugins a
         ->and($data['actions'])->toContain('Update');
 });
 
-test('the gatekeeper notice asks only for an update when an integration is merely untested', function () {
+test('the gatekeeper notice only warns when an integration is merely untested', function () {
     set_current_screen('plugins');
     wp_set_current_user(createUser(['role' => 'administrator']));
     set_transient(glsr()->prefix.'gatekeeper',
@@ -550,8 +550,9 @@ test('the gatekeeper notice asks only for an update when an integration is merel
     $notice = new GatekeeperNotice();
     $data = (fn () => $this->data())->call($notice);
 
-    // the "needs an update to work with" wording, and no button — there is no action for "untested"
-    expect($data['message'])->toContain('needs an update')
+    // the factual "has not been tested with" wording, and no button — there is
+    // no action for "untested", because nothing is stopped by it
+    expect($data['message'])->toContain('has not been tested with')
         ->and($data['message'])->toContain('Plugin D')
         ->and($data['actions'])->toBe('');
 });

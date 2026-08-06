@@ -234,6 +234,22 @@ test('the notice is shown once and then forgotten', function () {
     expect(get_transient(glsr()->prefix.'gatekeeper'))->toBeFalse();
 });
 
+test('an untested version draws a warning, a blocked plugin draws an error', function () {
+    // The colour is the tier: an untested version does not stop anything, so it must
+    // not dress like something that did.
+    set_current_screen('plugins');
+
+    (new Gatekeeper(dependencyOnSiteReviews('1.0.0', '1.0.1')))->allows(); // untested only
+    expect(renderNotice(new GatekeeperNotice()))
+        ->toContain('notice-warning')
+        ->toContain('has not been tested with');
+
+    (new Gatekeeper(dependencyOnSiteReviews('99.0.0', '100.0.0')))->allows(); // below the floor
+    expect(renderNotice(new GatekeeperNotice()))
+        ->toContain('notice-error')
+        ->toContain('requires the latest version');
+});
+
 test('there is no notice when nothing is wrong', function () {
     // Nothing set the transient, so the notice never hooks itself onto admin_notices and
     // WordPress never asks it to draw anything.
