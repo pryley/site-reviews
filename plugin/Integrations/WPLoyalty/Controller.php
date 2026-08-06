@@ -92,6 +92,9 @@ class Controller extends AbstractController
 
     protected function maybeEarnPoints(Review $review): void
     {
+        if (defined('WP_IMPORTING')) {
+            return; // an import replays history; it must not mint new rewards
+        }
         if (!$user = $review->user()) {
             return;
         }

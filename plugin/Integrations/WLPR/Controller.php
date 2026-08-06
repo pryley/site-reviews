@@ -65,6 +65,9 @@ class Controller extends AbstractController
 
     protected function maybeEarnPoints(Review $review): void
     {
+        if (defined('WP_IMPORTING')) {
+            return; // an import replays history; it must not mint new rewards
+        }
         foreach ($review->assigned_posts as $postId) {
             if ('product' !== get_post_type($postId)) {
                 continue;
