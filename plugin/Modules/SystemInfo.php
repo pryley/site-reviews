@@ -31,7 +31,7 @@ class SystemInfo implements \Stringable
     {
         $sections = [ // order is intentional
             'plugin' => 'Plugin',
-            'addon' => 'Addon',
+            'addon' => 'Addons',
             'reviews' => 'Reviews',
             'action-scheduler' => 'Action Scheduler',
             'database' => 'Database',
@@ -96,7 +96,15 @@ class SystemInfo implements \Stringable
         $details = [];
         foreach (array_keys(glsr()->retrieveAs('array', 'addons')) as $addonId) {
             if ($addon = glsr($addonId)) {
-                $details[$addon->name] = $addon->version;
+                $version = $addon->version;
+                if (method_exists($addon, 'storageKey')) {
+                    // the same pair the plugin reports for itself: the version
+                    // now, and the version its settings row was upgraded from
+                    // (a hosted addon's storageKey resolves to the host's row)
+                    $stored = Arr::consolidate(get_option($addon->storageKey()));
+                    $version = sprintf('%s (%s)', $version, Arr::getAs('string', $stored, 'version_upgraded_from', '0.0.0'));
+                }
+                $details[$addon->name] = $version;
             }
         }
         return $details;

@@ -192,7 +192,19 @@ test('an installed addon reports its name and version', function () {
     glsr()->alias('glsr-fake-addon', (object) ['name' => 'Fake Addon', 'version' => '1.2.3']);
     glsr()->store('addons', ['glsr-fake-addon' => '1.2.3']);
     try {
+        // no storageKey, no settings row, no history — the version stands alone
         expect(glsr(SystemInfo::class)->sectionAddons())->toBe(['Fake Addon' => '1.2.3']);
+    } finally {
+        glsr()->store('addons', []); // in-memory on the singleton; it does not roll back
+    }
+});
+
+test('an addon with a settings row reports the version it was upgraded from', function () {
+    glsr()->register(GeminiLabs\SiteReviews\TestAddon\Application::class);
+    update_option('site_reviews_test_addon', ['settings' => [], 'version' => '2.3.4', 'version_upgraded_from' => '2.0.0'], true);
+    try {
+        // the same pair the [PLUGIN] section reports for the plugin itself
+        expect(glsr(SystemInfo::class)->sectionAddons())->toHaveKey('Test Addon', '2.3.4 (2.0.0)');
     } finally {
         glsr()->store('addons', []); // in-memory on the singleton; it does not roll back
     }
