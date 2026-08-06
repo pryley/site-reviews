@@ -102,7 +102,7 @@ class SystemInfo implements \Stringable
                     // now, and the version its settings row was upgraded from
                     // (a hosted addon's storageKey resolves to the host's row)
                     $stored = Arr::consolidate(get_option($addon->storageKey()));
-                    $version = sprintf('%s (%s)', $version, Arr::getAs('string', $stored, 'version_upgraded_from', '0.0.0'));
+                    $version = sprintf('%s (%s)', $version, Arr::getAs('string', $stored, 'version_upgraded_from', '0.0.0') ?: '0.0.0');
                 }
                 $details[$addon->name] = $version;
             }
@@ -160,7 +160,7 @@ class SystemInfo implements \Stringable
             'Last Migration Run' => glsr(Date::class)->localized(glsr(Migrate::class)->lastRun(), 'unknown'),
             'Merged Assets' => implode('/', Helper::ifEmpty($merged, ['No'])),
             'Network Activated' => Helper::ifTrue(is_plugin_active_for_network(glsr()->basename), 'Yes', 'No'),
-            'Version' => sprintf('%s (%s)', glsr()->version, glsr(OptionManager::class)->get('version_upgraded_from')),
+            'Version' => sprintf('%s (%s)', glsr()->version, glsr(OptionManager::class)->get('version_upgraded_from') ?: '0.0.0'),
         ];
     }
 

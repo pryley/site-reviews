@@ -244,6 +244,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 - Fixed the classic widget title not being displayed
 - Fixed the custom schema identifier being ignored unless the schema type was Custom
 - Fixed the Documentation link on the plugins screen
+- Fixed an empty version showing in the System Info after some settings imports
 - Fixed the addons section missing from the System Info report
 - Fixed the Import Settings tool losing its notices
 - Fixed the notification and verification email settings offering invalid template tags

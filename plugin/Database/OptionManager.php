@@ -321,7 +321,7 @@ class OptionManager
             $settings = Arr::remove($settings, "settings.{$path}");
         }
         foreach ($writes as $key => $value) {
-            $storedVersion = Arr::getAs('string', $value, 'version', '0.0.0');
+            $storedVersion = Arr::getAs('string', $value, 'version', '0.0.0') ?: '0.0.0';
             if ($versions[$key] !== $storedVersion) {
                 // a write can land between an addon update and updateVersion(),
                 // and stamping the new version here would erase the delta
@@ -337,7 +337,12 @@ class OptionManager
 
     public function updateVersion(): void
     {
-        $version = $this->get('version', '0.0.0');
+        // the fallback only fires on a MISSING key, and the defaults declare
+        // version as an empty string — so a tree without a version (a settings
+        // import without the field) composes to '', which would be recorded
+        // as the upgraded-from version and displayed as nothing; an empty
+        // history means a fresh install
+        $version = $this->get('version', '0.0.0') ?: '0.0.0';
         if (glsr()->version !== $version) {
             $this->set('version', glsr()->version);
             $this->set('version_upgraded_from', $version);
@@ -350,7 +355,7 @@ class OptionManager
             if (!is_array($stored)) {
                 continue; // no row until the first settings write; split() stamps it then
             }
-            $storedVersion = Arr::getAs('string', $stored, 'version', '0.0.0');
+            $storedVersion = Arr::getAs('string', $stored, 'version', '0.0.0') ?: '0.0.0';
             if ($addon->version !== $storedVersion) {
                 $stored['version'] = $addon->version;
                 $stored['version_upgraded_from'] = $storedVersion;

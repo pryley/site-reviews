@@ -303,6 +303,22 @@ test('an imported version number is discarded', function () {
         ->and(glsr(OptionManager::class)->get('version_upgraded_from'))->not->toBe('0.0.1');
 });
 
+test('an import without a version field reads as a fresh install, not an empty one', function () {
+    // The defaults declare version as an empty string, so a settings file
+    // with no version key composes to '' — and get()'s fallback only fires on
+    // a MISSING key. Unhardened, the next updateVersion() recorded '' as the
+    // upgraded-from version: sticky (defaults never overwrite a set key),
+    // rendered as "8.2.0 ()" in the System Info, and neither the Welcome nor
+    // the Upgraded notice matched it.
+    commitsTransaction(); // see above
+    importSettings(['settings' => ['general' => ['require' => ['approval' => 'no']]]]);
+
+    glsr(OptionManager::class)->updateVersion(); // the next boot's init:5
+
+    expect(glsr(OptionManager::class)->get('version'))->toBe(glsr()->version)
+        ->and(glsr(OptionManager::class)->get('version_upgraded_from'))->toBe('0.0.0');
+});
+
 test('a version-crossing import does not re-flag its strings once per migration write', function () {
     // Importing an old-version file runs every migration, and several write the
     // core option with raw update_option(). With the settings-form sanitize
