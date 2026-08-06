@@ -72,9 +72,11 @@ class Controller extends AbstractController
      */
     public function filterSettingsCallback(array $settings, array $input): array
     {
-        $enabled = Arr::get($input, 'settings.integrations.ultimatemember.enabled');
-        if ('yes' === $enabled && !$this->gatekeeper()->allows()) { // this renders any error notices
-            $settings = Arr::set($settings, 'settings.integrations.ultimatemember.enabled', 'no');
+        $path = 'settings.integrations.ultimatemember.enabled';
+        $isEnabling = 'yes' === Arr::get($input, $path)
+            && !glsr_get_option($path, false, 'bool'); // only a fresh enable attempt is gated; an enabled integration is never disabled here
+        if ($isEnabling && !$this->gatekeeper()->allowsEnabling()) { // this renders any error notices
+            $settings = Arr::set($settings, $path, 'no');
         }
         $shortcodes = [
             'account_tab_reviews' => 'site_reviews',

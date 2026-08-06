@@ -1,5 +1,7 @@
 <?php
 
+use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\Controller as WooCommerceController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ExperimentsController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\OrderReviewsController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ProductController;
@@ -102,6 +104,32 @@ test('eligible items pass through when nothing matches a review', function () {
 
     expect(glsr(OrderReviewsController::class)->filterEligibleItems($items, new \WC_Order()))
         ->toBe($items);
+});
+
+/*
+ * The gatekeeper on the settings save. WooCommerce is not installed in this
+ * environment, which is a BLOCKING-grade error — the strongest possible
+ * grounds for refusal — so what these two tests pin is the invariant: a fresh
+ * enable attempt is refused, but an integration that is already enabled is
+ * NEVER disabled by saving settings, whatever the gatekeeper thinks.
+ */
+
+test('enabling the integration without woocommerce is refused', function () {
+    glsr(OptionManager::class)->set('settings.integrations.woocommerce.enabled', 'no');
+    $settings = ['settings' => ['integrations' => ['woocommerce' => ['enabled' => 'yes']]]];
+
+    $result = glsr(WooCommerceController::class)->filterSettingsCallback($settings, $settings);
+
+    expect($result['settings']['integrations']['woocommerce']['enabled'])->toBe('no');
+});
+
+test('saving settings never disables an enabled integration', function () {
+    glsr(OptionManager::class)->set('settings.integrations.woocommerce.enabled', 'yes');
+    $settings = ['settings' => ['integrations' => ['woocommerce' => ['enabled' => 'yes']]]];
+
+    $result = glsr(WooCommerceController::class)->filterSettingsCallback($settings, $settings);
+
+    expect($result['settings']['integrations']['woocommerce']['enabled'])->toBe('yes');
 });
 
 /*

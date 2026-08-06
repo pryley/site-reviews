@@ -5,6 +5,7 @@
 - Added per-addon settings storage: each addon now keeps its settings in its own option, and an addon's existing settings are moved there automatically the first time it runs
 - Added support for addons that are bundled inside another plugin rather than installed on their own
 - Added support for WooCommerce's "Customer review request" emails — submitted reviews are saved in Site Reviews, and customers are not asked to review a product twice
+- Changed integration version checks to warn about untested versions instead of disabling the integration
 - Fixed a "doing it wrong" notice raised by an integration's version notice
 - Fixed a duplicate Reviews section on product pages using WooCommerce's redesigned Product Details block
 - Fixed a fatal error on sites running MultilingualPress when it cannot report its version

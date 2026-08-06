@@ -116,6 +116,34 @@ test('an addon whose plugin is newer than it has been tested against is stopped'
     expect($errors[glsr()->basename]['error'])->toBe(Gatekeeper::ERROR_NOT_TESTED);
 });
 
+test('an untested plugin version warns without refusing to enable', function () {
+    // The untested ceiling trips on EVERY new major of the parent plugin, and actual
+    // breakage is the exception — so it renders its notice but does not stand in the
+    // way of somebody enabling the integration.
+    $gatekeeper = new Gatekeeper(dependencyOnSiteReviews('1.0.0', '1.0.1'));
+
+    expect($gatekeeper->allows())->toBeFalse(); // the addon boot gate is unchanged
+    expect($gatekeeper->allowsEnabling())->toBeTrue();
+    expect(get_transient(glsr()->prefix.'gatekeeper'))->not->toBeFalse(); // the notice still shows
+});
+
+test('a missing plugin refuses to enable', function () {
+    $gatekeeper = new Gatekeeper([
+        'not-a-plugin/not-a-plugin.php' => [
+            'minimum_version' => '1.0.0',
+            'name' => 'Not A Plugin',
+            'plugin_uri' => 'https://example.org/',
+            'untested_version' => '2.0.0',
+        ],
+    ]);
+
+    expect($gatekeeper->allowsEnabling())->toBeFalse();
+});
+
+test('a plugin below the supported version refuses to enable', function () {
+    expect((new Gatekeeper(dependencyOnSiteReviews('99.0.0', '100.0.0')))->allowsEnabling())->toBeFalse();
+});
+
 test('a dependency that does not say what it needs is ignored rather than guessed at', function () {
     // Every one of the four values is required (DependencyDefaults). An addon that
     // declares half a dependency has told the Gatekeeper nothing it can act on, and

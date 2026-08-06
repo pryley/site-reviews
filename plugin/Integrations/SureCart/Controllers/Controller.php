@@ -25,7 +25,9 @@ class Controller extends AbstractController
         $key = 'settings.integrations.surecart';
         $surecart = Arr::get($input, $key);
         $multiFields = ['ownership'];
-        if (Arr::getAs('bool', $surecart, 'enabled') && !$this->gatekeeper()->allows()) { // this renders any error notices
+        $isEnabling = Arr::getAs('bool', $surecart, 'enabled')
+            && !glsr_get_option("{$key}.enabled", false, 'bool'); // only a fresh enable attempt is gated; an enabled integration is never disabled here
+        if ($isEnabling && !$this->gatekeeper()->allowsEnabling()) { // this renders any error notices
             $settings = Arr::set($settings, "{$key}.enabled", 'no');
         }
         foreach ($multiFields as $name) {
