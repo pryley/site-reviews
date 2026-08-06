@@ -222,8 +222,8 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
             foreach ($table_list as $table_name) {
                 if (!in_array($wpdb->prefix.$table_name, $found_tables)) {
                     $this->admin_notices[] = [
-                        'class' => 'error',
                         'message' => _x('It appears one or more database tables were missing. Attempting to re-create the missing table(s).', 'admin-text', 'site-reviews'),
+                        'type' => 'error',
                     ];
                     $this->recreate_tables();
                     parent::display_admin_notices();
@@ -234,7 +234,7 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
         if ($this->runner->has_maximum_concurrent_batches()) {
             $claim_count = $this->store->get_claim_count();
             $this->admin_notices[] = [
-                'class' => 'updated',
+                'type' => 'info',
                 'message' => sprintf(
                     /* translators: %s: amount of claims */
                     _n(
@@ -258,8 +258,8 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
                 $async_request_message = sprintf(_x('The next queue will begin processing in approximately %d seconds.', 'admin-text', 'site-reviews'), $async_request_lock_expiration - time());
             }
             $this->admin_notices[] = [
-                'class' => 'notice notice-info is-dismissible',
                 'message' => $async_request_message,
+                'type' => 'info',
             ];
         }
         $notification = get_transient('action_scheduler_admin_notice');
@@ -293,8 +293,8 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
             }
             $action_message_html = apply_filters('action_scheduler_admin_notice_html', $action_message_html, $action, $notification);
             $this->admin_notices[] = [
-                'class' => sprintf('notice notice-%s is-dismissible', $class),
                 'message' => $action_message_html,
+                'type' => $class, // 'success' or 'error'
             ];
         }
         parent::display_admin_notices();
