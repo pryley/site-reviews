@@ -10,12 +10,12 @@
 *.LICENSE.txt
 *.log
 *.map
+CLAUDE.md
 coverage.xml
 mix-manifest.json
 npm-debug.log*
 
 /*.html
-/*.md
 
 !.github
 coverage
