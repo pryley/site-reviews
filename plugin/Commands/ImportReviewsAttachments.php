@@ -28,6 +28,7 @@ class ImportReviewsAttachments extends AbstractCommand
     {
         return glsr(ImportResultDefaults::class)->restrict(
             wp_parse_args($this->response, [
+                /* translators: %d: number of attachments imported */
                 'message' => _x('Imported %d attachments', 'admin-text', 'site-reviews'),
             ])
         );

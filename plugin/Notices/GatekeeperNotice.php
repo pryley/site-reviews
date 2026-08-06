@@ -39,6 +39,7 @@ class GatekeeperNotice extends AbstractNotice
         $internalErrors = $this->errors([Gatekeeper::ERROR_NOT_TESTED]);
         $name = sprintf('<strong>%s</strong>', glsr()->name);
         if (!empty($externalErrors)) {
+            /* translators: %1$s: this plugin's name, %2$s: link(s) to the required plugin(s) */
             $message = _nx(
                 '%1$s requires the latest version of %2$s to enable the integration.',
                 '%1$s requires the latest version of the following plugins to enable integration: %2$s',
@@ -51,6 +52,7 @@ class GatekeeperNotice extends AbstractNotice
                 'message' => sprintf($message, $name, $this->pluginLinks($externalErrors)),
             ];
         }
+        /* translators: %1$s: this plugin's name, %2$s: link(s) to the untested plugin(s) */
         $message = _nx(
             '%1$s has not been tested with the installed version of %2$s and may need an update.',
             '%1$s has not been tested with the installed versions of the following plugins and may need an update: %2$s',
@@ -108,6 +110,7 @@ class GatekeeperNotice extends AbstractNotice
             'name' => $data['name'],
             'nonce_prefix' => 'activate-plugin_',
             'plugin' => $data['plugin'],
+            /* translators: %s: the plugin name */
             'text' => _x('Activate %s', 'admin-text', 'site-reviews'),
         ]);
     }
@@ -123,6 +126,7 @@ class GatekeeperNotice extends AbstractNotice
             'name' => $data['name'],
             'nonce_prefix' => 'install-plugin_',
             'plugin' => $data['textdomain'],
+            /* translators: %s: the plugin name */
             'text' => _x('Install %s', 'admin-text', 'site-reviews'),
         ]);
     }
@@ -138,6 +142,7 @@ class GatekeeperNotice extends AbstractNotice
             'name' => $data['name'],
             'nonce_prefix' => 'upgrade-plugin_',
             'plugin' => $data['plugin'],
+            /* translators: %s: the plugin name */
             'text' => _x('Update %s', 'admin-text', 'site-reviews'),
         ]);
     }

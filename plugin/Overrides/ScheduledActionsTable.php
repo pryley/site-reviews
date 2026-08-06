@@ -454,6 +454,7 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
         }
         $recurrence = $schedule->get_recurrence();
         if (is_numeric($recurrence)) {
+            /* translators: %s: time interval */
             return sprintf(_x('Every %s', '%s: time interval (admin-text)', 'site-reviews'), glsr(Date::class)->interval($recurrence));
         }
         return $recurrence;

@@ -17,6 +17,7 @@ class ReviewResponseTag extends ReviewContentTag
     protected function value(): string
     {
         $responseBy = glsr()->filterString('review/build/tag/response/by', get_bloginfo('name'), $this->review);
+        /* translators: %s: the name of the site */
         $title = sprintf(__('Response from %s', 'site-reviews'), $responseBy);
         $value = parent::value();
         return glsr(Builder::class)->div([

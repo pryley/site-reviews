@@ -132,6 +132,7 @@ class SettingsController extends AbstractController
         foreach ($errors as $needle => $values) {
             if (!empty($values)) {
                 glsr(Notice::class)->addError(
+                    /* translators: %s: the missing placeholder tag */
                     sprintf(_x('You forgot to include the %s placeholder tags in your Custom Text.', 'admin-text', 'site-reviews'), "<code>$needle</code>"),
                     $values
                 );
@@ -149,12 +150,14 @@ class SettingsController extends AbstractController
         }
         if (!$integration->isActive()) {
             glsr(Notice::class)->addError(sprintf(
+                /* translators: %s: plugin name */
                 _x('Please install/activate the %s plugin to enable the integration.', 'admin-text', 'site-reviews'),
                 $integration->pluginName
             ));
             return false;
         } elseif (!$integration->isSupported()) {
             glsr(Notice::class)->addError(sprintf(
+                /* translators: %1$s: plugin name, %2$s: version number */
                 _x('Please update the %1$s plugin to v%2$s or greater to enable the integration.', 'admin-text', 'site-reviews'),
                 $integration->pluginName,
                 $integration->supportedVersion

@@ -203,6 +203,7 @@ class ProductController implements ControllerContract
             $tabs['reviews'] = [
                 'callback' => [$this, 'renderSingleProductReviews'],
                 'priority' => 30,
+                /* translators: %d: number of reviews */
                 'title' => sprintf(__('Reviews (%d)', 'site-reviews'), $product->get_review_count()),
             ];
         }

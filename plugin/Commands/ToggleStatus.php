@@ -75,6 +75,7 @@ class ToggleStatus extends AbstractCommand
         global $avail_post_stati, $wp_post_statuses;
         $avail_post_stati = get_available_post_statuses(glsr()->post_type);
         if (isset($wp_post_statuses['publish']->label_count)) {
+            /* translators: %s: number of approved reviews */
             $wp_post_statuses['publish']->label_count = _nx_noop(
                 'Approved <span class="count">(%s)</span>',
                 'Approved <span class="count">(%s)</span>',
@@ -83,6 +84,7 @@ class ToggleStatus extends AbstractCommand
             );
         }
         if (isset($wp_post_statuses['pending']->label_count)) {
+            /* translators: %s: number of unapproved reviews */
             $wp_post_statuses['pending']->label_count = _nx_noop(
                 'Unapproved <span class="count">(%s)</span>',
                 'Unapproved <span class="count">(%s)</span>',

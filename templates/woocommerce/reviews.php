@@ -8,6 +8,7 @@
         <h2 class="woocommerce-Reviews-title">
         <?php
             if ($ratings->reviews) {
+                /* translators: %1$s: number of reviews, %2$s: product title */
                 $title = sprintf(esc_html(_n('%1$s review for %2$s', '%1$s reviews for %2$s', $ratings->reviews, 'site-reviews')), esc_html($ratings->reviews), '<span>'.get_the_title().'</span>');
             } else {
                 $title = esc_html__('Reviews', 'site-reviews');

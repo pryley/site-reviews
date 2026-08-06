@@ -87,6 +87,7 @@ class Discord implements WebhookContract
         if (empty($this->args['assigned_links'])) {
             return '';
         }
+        /* translators: %s: links to the posts the review is assigned to */
         return sprintf(__('Review of %s', 'site-reviews'), $this->args['assigned_links']);
     }
 

@@ -196,6 +196,7 @@ class ProfileController extends AbstractController
     protected function shortcodeForm(): string
     {
         if (!is_user_logged_in()) {
+            /* translators: %s: a login link with the text "logged in" */
             $text = sprintf(__('You must be %s to review this person.', 'site-reviews'), glsr(SiteReviewsFormShortcode::class)->loginLink());
             return glsr(Template::class)->build('templates/login-register', [
                 'context' => compact('text'),

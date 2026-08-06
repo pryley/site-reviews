@@ -349,6 +349,7 @@ class ToolsController extends AbstractController
                 'href' => 'javascript:window.location.reload(1)',
             ]);
             glsr(Notice::class)->clear()->addSuccess(
+                /* translators: %s: a link with the text "reload the page" */
                 sprintf(_x('The permissions have been repaired, please %s for them to take effect.', 'admin-text', 'site-reviews'), $reloadLink)
             );
         }
@@ -404,6 +405,7 @@ class ToolsController extends AbstractController
     public function rollbackPlugin(): void
     {
         if (!current_user_can('update_plugins')) {
+            /* translators: %s: plugin name */
             wp_die(sprintf(_x('Sorry, you are not allowed to rollback %s.', 'Site Reviews (admin-text)', 'site-reviews'), glsr()->name));
         }
         // The no-JS fallback of the rollback form, which submits PLAIN fields to

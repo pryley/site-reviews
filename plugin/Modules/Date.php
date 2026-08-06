@@ -13,44 +13,65 @@ class Date
     {
         $this->timePeriods = [
             [
+                /* translators: %s: number of years */
                 'future' => _nx_noop('in %s year', 'in %s years', '%s: amount of time', 'site-reviews'),
+                /* translators: %s: number of years */
                 'name' => _nx_noop('%s year', '%s years', '%s: amount of time', 'site-reviews'),
+                /* translators: %s: number of years */
                 'past' => _nx_noop('%s year ago', '%s years ago', '%s: amount of time', 'site-reviews'),
                 'seconds' => YEAR_IN_SECONDS,
             ],
             [
+                /* translators: %s: number of months */
                 'future' => _nx_noop('in %s month', 'in %s months', '%s: amount of time', 'site-reviews'),
+                /* translators: %s: number of months */
                 'name' => _nx_noop('%s month', '%s months', '%s: amount of time', 'site-reviews'),
+                /* translators: %s: number of months */
                 'past' => _nx_noop('%s month ago', '%s months ago', '%s: amount of time', 'site-reviews'),
                 'seconds' => MONTH_IN_SECONDS,
             ],
             [
+                /* translators: %s: number of weeks */
                 'future' => _nx_noop('in %s week', 'in %s weeks', '%s: amount of time', 'site-reviews'),
+                /* translators: %s: number of weeks */
                 'name' => _nx_noop('%s week', '%s weeks', '%s: amount of time', 'site-reviews'),
+                /* translators: %s: number of weeks */
                 'past' => _nx_noop('%s week ago', '%s weeks ago', '%s: amount of time', 'site-reviews'),
                 'seconds' => WEEK_IN_SECONDS,
             ],
             [
+                /* translators: %s: number of days */
                 'future' => _nx_noop('in %s day', 'in %s days', '%s: amount of time', 'site-reviews'),
+                /* translators: %s: number of days */
                 'name' => _nx_noop('%s day', '%s days', '%s: amount of time', 'site-reviews'),
+                /* translators: %s: number of days */
                 'past' => _nx_noop('%s day ago', '%s days ago', '%s: amount of time', 'site-reviews'),
                 'seconds' => DAY_IN_SECONDS,
             ],
             [
+                /* translators: %s: number of hours */
                 'future' => _nx_noop('in %s hour', 'in %s hours', '%s: amount of time', 'site-reviews'),
+                /* translators: %s: number of hours */
                 'name' => _nx_noop('%s hour', '%s hours', '%s: amount of time', 'site-reviews'),
+                /* translators: %s: number of hours */
                 'past' => _nx_noop('%s hour ago', '%s hours ago', '%s: amount of time', 'site-reviews'),
                 'seconds' => HOUR_IN_SECONDS,
             ],
             [
+                /* translators: %s: number of minutes */
                 'future' => _nx_noop('in %s minute', 'in %s minutes', '%s: amount of time', 'site-reviews'),
+                /* translators: %s: number of minutes */
                 'name' => _nx_noop('%s minute', '%s minutes', '%s: amount of time', 'site-reviews'),
+                /* translators: %s: number of minutes */
                 'past' => _nx_noop('%s minute ago', '%s minutes ago', '%s: amount of time', 'site-reviews'),
                 'seconds' => MINUTE_IN_SECONDS,
             ],
             [
+                /* translators: %s: number of seconds */
                 'future' => _nx_noop('in %s second', 'in %s seconds', '%s: amount of time', 'site-reviews'),
+                /* translators: %s: number of seconds */
                 'name' => _nx_noop('%s second', '%s seconds', '%s: amount of time', 'site-reviews'),
+                /* translators: %s: number of seconds */
                 'past' => _nx_noop('%s second ago', '%s seconds ago', '%s: amount of time', 'site-reviews'),
                 'seconds' => 1,
             ],

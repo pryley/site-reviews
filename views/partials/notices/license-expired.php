@@ -2,6 +2,7 @@
 
 <?php
     printf(
+        /* translators: %s: link with the text "Renew your license" */
         _x('One or more of your licenses have expired. %s to enable plugin updates and priority support.', 'Renew your license (admin-text)', 'site-reviews'),
         glsr_premium_link('license-keys', _x('Renew your license', 'admin-text', 'site-reviews'))
     );

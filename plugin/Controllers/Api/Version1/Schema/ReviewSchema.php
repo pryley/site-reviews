@@ -69,6 +69,7 @@ class ReviewSchema
             [
                 'href' => $href,
                 'rel' => 'https://api.w.org/action-assign-'.glsr()->taxonomy,
+                /* translators: %s: taxonomy name */
                 'title' => sprintf(_x('The current user can assign terms in the %s taxonomy.', 'admin-text', 'site-reviews'), glsr()->taxonomy),
                 'targetSchema' => [
                     'type' => 'object',
@@ -83,6 +84,7 @@ class ReviewSchema
             [
                 'href' => $href,
                 'rel' => 'https://api.w.org/action-create-'.glsr()->taxonomy,
+                /* translators: %s: taxonomy name */
                 'title' => sprintf(_x('The current user can create terms in the %s taxonomy.', 'admin-text', 'site-reviews'), glsr()->taxonomy),
                 'targetSchema' => [
                     'type' => 'object',
@@ -122,6 +124,7 @@ class ReviewSchema
             ],
             'assigned_terms' => [
                 'context' => ['edit', 'view'],
+                /* translators: %s: taxonomy name */
                 'description' => sprintf(_x('The terms assigned to the review in the %s taxonomy.', 'admin-text', 'site-reviews'), glsr()->taxonomy),
                 'items' => [
                     'type' => ['integer', 'string'],

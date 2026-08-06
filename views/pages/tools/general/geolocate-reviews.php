@@ -11,7 +11,7 @@
     <div id="tools-geolocate-reviews" class="inside">
         <div class="glsr-notice-inline components-notice is-info">
             <p class="components-notice__content">
-                <?php printf(
+                <?php /* translators: %s: link to the IP-API website */ printf(
                     _x('This tool uses the free %s Geolocation API service to extract location data from IP Addresses.', 'admin-text', 'site-reviews'),
                     '<a href="https://ip-api.com/">IP-API</a>'
                 ); ?>

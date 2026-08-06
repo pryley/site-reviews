@@ -73,6 +73,7 @@ class GeolocateReviews extends AbstractCommand
         $this->lock();
         glsr(Queue::class)->once(time(), static::QUEUED_ACTION_KEY, ['offset' => 0], true);
         glsr(Notice::class)->addSuccess(sprintf(
+            /* translators: %d: number of IP addresses */
             _x('Successfully queued geolocation processing of %d IP addresses.', 'admin-text', 'site-reviews'),
             $ipsToProcess
         ));

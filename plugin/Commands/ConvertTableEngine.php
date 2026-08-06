@@ -28,6 +28,7 @@ class ConvertTableEngine extends AbstractCommand
         $result = glsr(Tables::class)->convertTableEngine($this->table);
         if (-1 === $result) {
             glsr(Notice::class)->addWarning(
+                /* translators: %s: database table name */
                 sprintf(_x('The <code>%s</code> table was either not found in the database, or does not use the MyISAM engine.', 'admin-text', 'site-reviews'), $this->table)
             );
             $this->fail();
@@ -35,6 +36,7 @@ class ConvertTableEngine extends AbstractCommand
         }
         if (0 === $result) {
             glsr(Notice::class)->addError(
+                /* translators: %s: database table name */
                 sprintf(_x('The <code>%s</code> table could not be converted to InnoDB.', 'admin-text', 'site-reviews'), $this->table)
             );
             $this->fail();
@@ -42,6 +44,7 @@ class ConvertTableEngine extends AbstractCommand
         }
         if (1 === $result) {
             glsr(Notice::class)->addSuccess(
+                /* translators: %s: database table name */
                 sprintf(_x('The <code>%s</code> table was successly converted to InnoDB.', 'admin-text', 'site-reviews'), $this->table)
             );
         }

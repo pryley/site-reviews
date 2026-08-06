@@ -29,6 +29,7 @@ class ImportResultDefaults extends Defaults
         return [
             'attachments' => 0,
             'imported' => 0,
+            /* translators: %1$d: number of records imported, %2$d: total number of records */
             'message' => _x('Imported %1$d of %2$d', 'admin-text', 'site-reviews'),
             'skipped' => 0,
         ];

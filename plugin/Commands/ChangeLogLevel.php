@@ -41,6 +41,7 @@ class ChangeLogLevel extends AbstractCommand
         }
         update_option(Console::LOG_LEVEL_KEY, $this->level);
         glsr(Notice::class)->addSuccess(
+            /* translators: %s: console log level */
             sprintf(_x('Console logging has been set to: Level %s', 'admin-text', 'site-reviews'), $this->level)
         );
     }

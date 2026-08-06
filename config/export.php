@@ -13,6 +13,7 @@ return [ // order is intentional
         'label' => esc_html_x('Assigned Posts', 'admin-text', 'site-reviews'),
         'options' => [
             'id' => esc_html_x('Export as Post IDs', 'admin-text', 'site-reviews'),
+            /* translators: %s: the post_type:slug export format */
             'slug' => sprintf(esc_html_x('Export as %s', 'post_type:slug (admin-text)', 'site-reviews'), 'post_type:slug'),
         ],
         'type' => 'select',

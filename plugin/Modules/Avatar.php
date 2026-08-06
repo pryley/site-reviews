@@ -90,6 +90,7 @@ class Avatar
     public function img(Review $review, int $size = 0): string
     {
         $attributes = [
+            /* translators: %s: the review author's name */
             'alt' => sprintf(__('Avatar for %s', 'site-reviews'), $review->author()),
             'height' => $this->size($size, true),
             'loading' => 'lazy',

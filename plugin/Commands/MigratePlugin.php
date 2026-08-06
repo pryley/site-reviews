@@ -31,12 +31,14 @@ class MigratePlugin extends AbstractCommand
             glsr(Tables::class)->dropForeignConstraints();
             glsr(Migrate::class)->runAll();
             glsr(Notice::class)->clear()->addSuccess(sprintf(
+                /* translators: %s: link to reload the page */
                 _x('All plugin migrations have been run successfully, please %s the page.', 'admin-text', 'site-reviews'),
                 sprintf('<a href="javascript:location.reload()">%s</a>', _x('reload', '(admin-text) e.g. please reload the page', 'site-reviews'))
             ));
         } else {
             glsr(Migrate::class)->run();
             glsr(Notice::class)->clear()->addSuccess(sprintf(
+                /* translators: %s: link to reload the page */
                 _x('The plugin has been migrated sucessfully, please %s the page.', 'admin-text', 'site-reviews'),
                 sprintf('<a href="javascript:location.reload()">%s</a>', _x('reload', '(admin-text) e.g. please reload the page', 'site-reviews'))
             ));

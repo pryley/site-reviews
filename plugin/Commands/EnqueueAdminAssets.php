@@ -94,13 +94,16 @@ class EnqueueAdminAssets extends AbstractCommand
             'text' => [
                 'cancel' => _x('Cancel', 'admin-text', 'site-reviews'),
                 'cancelling' => _x('Cancelling, please wait...', 'admin-text', 'site-reviews'),
+                /* translators: %s: maximum file upload size */
                 'import_error' => sprintf(_x('Your server restricts file uploads to less than %s in size.', 'admin-text', 'site-reviews'),
                     (string) size_format(wp_max_upload_size())
                 ),
                 'rollback_error' => _x('Rollback failed', 'admin-text', 'site-reviews'),
                 'searching' => _x('Searching...', 'admin-text', 'site-reviews'),
+                /* translators: %1$s: HTTP response status code, %2$s: response error message */
                 'system_info_error' => _x('Site Reviews was unable to fetch the System Info because your server threw an error: %1$s %2$s', 'admin-text', 'site-reviews'),
                 'system_info_failed' => _x('Unable to fetch the System Info.', 'admin-text', 'site-reviews'),
+                /* translators: %s: Site Health Info page URL */
                 'system_info_500' => sprintf(_x('Site Reviews was unable to fetch the System Info because WordPress crashed when getting the <a href="%s">Site Health Info</a>.', 'admin-text', 'site-reviews'),
                     admin_url('site-health.php?tab=debug')
                 ),

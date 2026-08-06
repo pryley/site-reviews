@@ -43,6 +43,7 @@ class ImportReviewsCleanup extends AbstractCommand
     protected function notices(): void
     {
         $notice = sprintf(
+            /* translators: %s: number of imported reviews */
             _nx('%s review was imported.', '%s reviews were imported.', $this->imported, 'admin-text', 'site-reviews'),
             number_format_i18n($this->imported)
         );
@@ -51,6 +52,7 @@ class ImportReviewsCleanup extends AbstractCommand
             return;
         }
         $skipped = sprintf(
+            /* translators: %s: number of skipped entries */
             _nx('%s entry was skipped.', '%s entries were skipped.', $this->skipped, 'admin-text', 'site-reviews'),
             number_format_i18n($this->skipped)
         );
@@ -58,6 +60,7 @@ class ImportReviewsCleanup extends AbstractCommand
         $details = [];
         if (!empty($this->errors)) {
             natsort($this->errors);
+            /* translators: %s: list of warning messages */
             $errorDetail = _x('One or more warnings were triggered during import: %s', 'admin-text', 'site-reviews');
             $errors = array_map(fn ($error) => "<mark>{$error}</mark>", $this->errors);
             $errors = sprintf($errorDetail, Str::naturalJoin($errors));

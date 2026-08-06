@@ -70,6 +70,7 @@ class Rating
         $max = static::max();
         if (5 !== $max) {
             $labels = array_map(
+                /* translators: %d: number of stars */
                 fn ($stars) => sprintf(_n('%d star', '%d stars', $stars, 'site-reviews'), $stars),
                 range($max, 1)
             );
@@ -114,6 +115,7 @@ class Rating
     {
         $options = [];
         if (empty($noopedPlural)) {
+            /* translators: %s: number of stars */
             $noopedPlural = _n_noop('%s Star', '%s Stars', 'site-reviews');
         }
         $min = max($minRating, static::min());

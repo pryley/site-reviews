@@ -11,7 +11,7 @@
     <div id="tools-repair-review-relations" class="inside">
         <?php if (!empty($myisam_tables)) { ?>
             <div class="glsr-notice-inline components-notice is-info" style="margin-bottom:1em;">
-                <p class="components-notice__content"><?php echo sprintf(
+                <p class="components-notice__content"><?php /* translators: %s: link with the text "Optimise Your Database Tables" */ echo sprintf(
                     _x('Once you have repaired the review relationships, it is recommended that you run the %s tool to prevent the problem from happening again.', 'Optimise Your Database Tables (admin-text)', 'site-reviews'),
                     glsr_admin_link('tools.general', _x('Optimise Your Database Tables', 'admin-text', 'site-reviews'), '#tools-optimise-db-tables')
                 ); ?></p>

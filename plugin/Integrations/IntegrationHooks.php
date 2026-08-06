@@ -35,6 +35,7 @@ abstract class IntegrationHooks extends AbstractHooks
     {
         $supportedVersion = sanitize_text_field($this->supportedVersion());
         $addWarning = function () use ($name, $supportedVersion) {
+            /* translators: %1$s: plugin name, %2$s: plugin version */
             $notice = _x('Update %1$s to version %2$s or higher to enable the integration with Site Reviews.', 'admin-text', 'site-reviews');
             glsr(Notice::class)->addWarning(sprintf($notice, $name, $supportedVersion));
         };

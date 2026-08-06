@@ -16,6 +16,7 @@ trait Deprecated
         }
         $className = (new \ReflectionClass($this))->getShortName();
         $message = sprintf(
+            /* translators: %1$s: the deprecated method name, %2$s: the replacement method name */
             _x('The [%1$s] method has been deprecated and will be soon be removed, please use the [%2$s] method instead.', 'admin-text', 'site-reviews'),
             sprintf('%s::%s()', $className, $oldMethod),
             sprintf('%s::%s()', $className, $newMethod)

@@ -73,10 +73,12 @@ class SiteReviewsFormShortcode extends Shortcode
 
     public function loginOrRegister(): string
     {
+        /* translators: %s: a login link with the text "logged in" */
         $loginText = sprintf(__('You must be %s to submit a review.', 'site-reviews'), $this->loginLink());
         $registerLink = $this->registerLink();
         $registerText = '';
         if (glsr_get_option('general.require.register', false, 'bool') && !empty($registerLink)) {
+            /* translators: %s: a registration link with the text "register" */
             $registerText = sprintf(__('You may also %s for an account.', 'site-reviews'), $registerLink);
         }
         return glsr(Template::class)->build('templates/login-register', [

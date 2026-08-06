@@ -36,6 +36,7 @@ class ListTableController extends AbstractController
             $name = glsr(Sanitizer::class)->sanitizeUserName($user);
             if (!glsr()->can('edit_post', $postId) && glsr()->can('respond_to_post', $postId)) {
                 $send = [
+                    /* translators: %s: user's name */
                     'text' => sprintf(_x('%s is currently editing', 'admin-text', 'site-reviews'), $name),
                 ];
                 if (get_option('show_avatars')) {
@@ -50,6 +51,7 @@ class ListTableController extends AbstractController
             if (!glsr()->can('respond_to_post', $postId)) {
                 continue;
             }
+            /* translators: %s: user's name */
             $send = ['text' => sprintf(_x('%s is currently editing', 'admin-text', 'site-reviews'), $name)];
             if (get_option('show_avatars')) {
                 $send['avatar_src'] = get_avatar_url($user->ID, ['size' => 18]);
@@ -182,6 +184,7 @@ class ListTableController extends AbstractController
         if (glsr()->can('respond_to_post', $post->ID)) {
             $newActions['respond hide-if-no-js'] = glsr(Builder::class)->button([
                 'aria-expanded' => false,
+                /* translators: %s: review title */
                 'aria-label' => esc_attr(sprintf(_x('Respond inline to &#8220;%s&#8221;', 'admin-text', 'site-reviews'), _draft_or_post_title())),
                 'class' => 'button-link editinline',
                 'text' => _x('Respond', 'admin-text', 'site-reviews'),
@@ -274,6 +277,7 @@ class ListTableController extends AbstractController
             if ($user) {
                 $name = glsr(Sanitizer::class)->sanitizeUserName($user);
             }
+            /* translators: %s: user's name */
             $message = esc_html_x('Saving is disabled: %s is currently editing this review.', 'admin-text', 'site-reviews');
             printf($message, $name);
             wp_die();

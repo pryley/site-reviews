@@ -5,7 +5,7 @@
     <?php echo _x('Hello!', 'admin-text', 'site-reviews'); ?>
 </h3>
 <p>
-    <?php printf(
+    <?php /* translators: %s: plugin name */ printf(
         _x('Thank you for installing %s I really hope you love it! Click me at any time for assistance, I\'m here to help!', 'plugin name (admin-text)', 'site-reviews'),
         glsr()->name
     ); ?>

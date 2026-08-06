@@ -126,6 +126,7 @@ class SiteReviewsSummaryShortcode extends Shortcode
             ],
             'rating_field' => [
                 'description' => glsr_addon_required('site-reviews-forms')
+                    /* translators: %s: link to the Review Forms addon */
                     ? sprintf(_x('Use the %s addon to add custom rating fields.', 'admin-text', 'site-reviews'),
                         glsr_premium_link('site-reviews-forms')
                     )

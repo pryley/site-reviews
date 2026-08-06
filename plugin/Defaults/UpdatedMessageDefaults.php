@@ -11,9 +11,11 @@ class UpdatedMessageDefaults extends DefaultsAbstract
             'draft_updated' => _x('Review draft updated.', 'admin-text', 'site-reviews'),
             'preview' => _x('Preview review', 'admin-text', 'site-reviews'),
             'published' => _x('Review approved and published.', 'admin-text', 'site-reviews'),
+            /* translators: %s: date and time of the revision */
             'restored' => _x('Review restored to revision from %s.', 'admin-text', 'site-reviews'),
             'reverted' => _x('Review has been reverted to its original submission state (title, content, and submission date).', 'admin-text', 'site-reviews'),
             'saved' => _x('Review saved.', 'admin-text', 'site-reviews'),
+            /* translators: %s: scheduled date and time */
             'scheduled' => _x('Review scheduled for: %s.', 'admin-text', 'site-reviews'),
             'submitted' => _x('Review submitted.', 'admin-text', 'site-reviews'),
             'unapproved' => _x('Review has been unapproved and is now pending.', 'admin-text', 'site-reviews'),

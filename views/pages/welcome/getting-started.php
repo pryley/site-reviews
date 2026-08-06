@@ -18,6 +18,7 @@
                     <?php foreach ($videos as $index => $video) { ?>
                         <?php
                             $digits = explode(':', $video['duration']);
+                            /* translators: %1$s: number of minutes, %2$s: number of seconds */
                             $duration = sprintf(_x('%1$s minutes, %2$s seconds', 'admin-text', 'site-reviews'), glsr_get($digits, 0), glsr_get($digits, 1));
                         ?>
                         <li>

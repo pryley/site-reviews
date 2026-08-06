@@ -24,6 +24,7 @@ class ReviewParameters
             ],
             'assigned_terms' => [
                 'default' => [],
+                /* translators: %s: taxonomy name */
                 'description' => sprintf(_x('Limit result set to reviews assigned to specific terms in the %s taxonomy.', 'admin-text', 'site-reviews'), glsr()->taxonomy),
                 'items' => [
                     'type' => ['integer', 'string'],

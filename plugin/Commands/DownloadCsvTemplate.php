@@ -78,16 +78,19 @@ class DownloadCsvTemplate extends AbstractCommand
                 'geolocation_country' => _x('The two-letter country code (ISO 3166-1 alpha-2)', 'admin-text', 'site-reviews'),
                 'geolocation_region' => _x('The region/state short code (FIPS or ISO)', 'admin-text', 'site-reviews'),
                 'ip_address' => _x('The IP address of the reviewer', 'admin-text', 'site-reviews'),
+                /* translators: %1$s: TRUE, %2$s: FALSE */
                 'is_approved' => sprintf(_x('%1$s or %2$s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
                 'is_pinned' => sprintf(_x('%1$s or %2$s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
                 'is_verified' => sprintf(_x('%1$s or %2$s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
                 'name' => _x('The reviewer\'s name', 'admin-text', 'site-reviews'),
+                /* translators: %1$d: minimum rating, %2$d: maximum rating */
                 'rating' => sprintf(_x('A number from %1$d-%2$d', 'admin-text', 'site-reviews'), Rating::min(), Rating::max()),
                 'response' => _x('The review response', 'admin-text', 'site-reviews'),
                 'terms' => sprintf(_x('%1$s or %2$s', 'admin-text', 'site-reviews'), 'TRUE', 'FALSE'),
                 'title' => _x('The title of the review', 'admin-text', 'site-reviews'),
             ],
             'site-reviews-actions' => [
+                /* translators: %s: link to the DeepL supported languages */
                 'language' => sprintf(_x('The ISO 639-1 language code of the review. See %s for a list of all supported languages.', 'admin-text', 'site-reviews'), '<a href="https://developers.deepl.com/docs/getting-started/supported-languages#translation-source-languages" target="_blank">DeepL</a>'),
                 'score' => _x('The number of times the review was upvoted.', 'admin-text', 'site-reviews'),
             ],
@@ -115,6 +118,7 @@ class DownloadCsvTemplate extends AbstractCommand
                     : sprintf('<span class="glsr-tag">%s</span>', _x('No', 'admin-text', 'site-reviews'));
                 $notice = '';
                 if ('default' !== $group && glsr_addon_required($group)) {
+                    /* translators: %s: link to the addon page */
                     $text = _x('%s addon required.', 'link to addon page (admin-text)', 'site-reviews');
                     $notice = sprintf('<div class="glsr-notice-inline components-notice is-warning">%s</div>',
                         sprintf($text, glsr_premium_link($group))

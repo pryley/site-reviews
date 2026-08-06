@@ -128,6 +128,7 @@ class UpdateController extends AbstractController
             return;
         }
         $url = $pluginData['PluginURI'] ?? Updater::DEFAULT_API_URL;
+        /* translators: %s: the plugin website URL */
         $message = _x('A valid <a href="%s">license key</a> is required to update this plugin.', 'admin-text', 'site-reviews');
         echo ' '.wp_kses_post(sprintf($message, esc_url($url)));
     }

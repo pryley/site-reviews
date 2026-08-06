@@ -23,6 +23,7 @@ trait Upload
         }
         if (!$file->hasMimeType($expectedMimeType)) {
             glsr(Notice::class)->addError(
+                /* translators: %s: the expected file extension */
                 sprintf(_x('The file you uploaded is not a valid %s file.', '%s: uploaded file extension (admin-text)', 'site-reviews'),
                     strtoupper($file->getExtensionFromMimeType())
                 )

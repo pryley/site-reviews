@@ -102,56 +102,76 @@ class Triggers
             'site_reviews_gamipress/received/user' => [
                 'label' => __('Get review', 'site-reviews'),
                 'label_any' => _x('getting a review', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %d: star rating */
                 'label_exact' => _x('getting a review with a %d-star rating', 'admin-text', 'site-reviews'),
+                /* translators: %d: minimum star rating */
                 'label_minimum' => _x('getting a review with a minimum %d-star rating', 'admin-text', 'site-reviews'),
             ],
             // Assigned Post: Received review assigned to a post the user authored
             'site_reviews_gamipress/received/post' => [
                 'label' => __('Get review on a post', 'site-reviews'),
                 'label_any' => _x('getting a review on a post', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %d: star rating */
                 'label_exact' => _x('getting a review on a post with a %d-star rating', 'admin-text', 'site-reviews'),
+                /* translators: %d: minimum star rating */
                 'label_minimum' => _x('getting a review on a post with a minimum %d-star rating', 'admin-text', 'site-reviews'),
             ],
             // Assigned Post: Received review assigned to a post of a specific post type that the user authored
             'site_reviews_gamipress/received/post_type' => [
                 'label' => __('Get review on a post of a type', 'site-reviews'),
+                /* translators: %s: post type name */
                 'label_any' => _x('getting a review on a %s', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %1$s: post type name, %2$d: star rating */
                 'label_exact' => _x('getting a review on a %1$s with a %2$d-star rating', 'admin-text', 'site-reviews'),
+                /* translators: %1$s: post type name, %2$d: minimum star rating */
                 'label_minimum' => _x('getting a review on a %1$s with a minimum %2$d-star rating', 'admin-text', 'site-reviews'),
             ],
             // Assigned Post: Received review assigned to a specific post ID the user authored
             'site_reviews_gamipress/received/post_id' => [
                 'label' => __('Get review on a specific post', 'site-reviews'),
+                /* translators: %s: post title */
                 'label_any' => _x('getting a review on "%s"', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %1$s: post title, %2$d: star rating */
                 'label_exact' => _x('getting a review on "%1$s" with a %2$d-star rating', 'admin-text', 'site-reviews'),
+                /* translators: %1$s: post title, %2$d: minimum star rating */
                 'label_minimum' => _x('getting a review on "%1$s" with a minimum %2$d-star rating', 'admin-text', 'site-reviews'),
             ],
             // Logged In User: Submitted review
             'site_reviews_gamipress/reviewed/any' => [
                 'label' => __('Write review', 'site-reviews'),
                 'label_any' => _x('writing a review', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %d: star rating */
                 'label_exact' => _x('writing a review with a %d-star rating', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %d: minimum star rating */
                 'label_minimum' => _x('writing a review with a minimum %d-star rating', '1 point for ... 1 time', 'site-reviews'),
             ],
             // Logged In User (assigned_posts): Submitted review assigned to a post
             'site_reviews_gamipress/reviewed/post' => [
                 'label' => __('Write review of a post', 'site-reviews'),
                 'label_any' => _x('writing a review of a post', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %d: star rating */
                 'label_exact' => _x('writing a review of a post with a %d-star rating', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %d: minimum star rating */
                 'label_minimum' => _x('writing a review of a post with a minimum %d-star rating', '1 point for ... 1 time', 'site-reviews'),
             ],
             // Logged In User (assigned_posts): Submitted review assigned to a post of a specific post type
             'site_reviews_gamipress/reviewed/post_type' => [
                 'label' => __('Write review of a post of a type', 'site-reviews'),
+                /* translators: %s: post type name */
                 'label_any' => _x('writing a review of a %s', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %1$s: post type name, %2$d: star rating */
                 'label_exact' => _x('writing a review of a %1$s with a %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %1$s: post type name, %2$d: minimum star rating */
                 'label_minimum' => _x('writing a review of a %1$s with a minimum %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
             ],
             // Logged In User (assigned_posts): Submitted review assigned to a specific post ID
             'site_reviews_gamipress/reviewed/post_id' => [
                 'label' => __('Write review of a specific post', 'site-reviews'),
+                /* translators: %s: post title */
                 'label_any' => _x('writing a review of "%s"', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %1$s: post title, %2$d: star rating */
                 'label_exact' => _x('writing a review of "%1$s" with a %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %1$s: post title, %2$d: minimum star rating */
                 'label_minimum' => _x('writing a review of "%1$s" with a minimum %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
             ],
             // Logged In User (assigned_terms): Submitted review assigned to a term
@@ -172,21 +192,29 @@ class Triggers
             'site_reviews_gamipress/reviewed/user' => [
                 'label' => __('Write review of a user', 'site-reviews'),
                 'label_any' => _x('writing a review of a user', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %d: star rating */
                 'label_exact' => _x('writing a review of a user with a %d-star rating', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %d: minimum star rating */
                 'label_minimum' => _x('writing a review of a user with a minimum %d-star rating', '1 point for ... 1 time', 'site-reviews'),
             ],
             // Logged In User (assigned_users): Submitted review assigned to a user of a specific role
             'site_reviews_gamipress/reviewed/user_role' => [
                 'label' => __('Write review of a user of a role', 'site-reviews'),
+                /* translators: %s: user role name */
                 'label_any' => _x('writing a review of a user with the %s role', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %1$s: user role name, %2$d: star rating */
                 'label_exact' => _x('writing a review of a user with the %1$s role with a %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %1$s: user role name, %2$d: minimum star rating */
                 'label_minimum' => _x('writing a review of a user with the %1$s role with a minimum %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
             ],
             // Logged In User (assigned_users): Submitted review assigned to a specific user ID
             'site_reviews_gamipress/reviewed/user_id' => [
                 'label' => __('Write review of a specific user', 'site-reviews'),
+                /* translators: %s: user display name */
                 'label_any' => _x('writing a review of %s', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %1$s: user display name, %2$d: star rating */
                 'label_exact' => _x('writing a review of %1$s with a %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
+                /* translators: %1$s: user display name, %2$d: minimum star rating */
                 'label_minimum' => _x('writing a review of %1$s with a minimum %2$d-star rating', '1 point for ... 1 time', 'site-reviews'),
             ],
         ];

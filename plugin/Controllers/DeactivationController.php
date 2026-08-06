@@ -41,7 +41,9 @@ class DeactivationController extends AbstractController
                 'clickHere' => _x('Click here', 'admin-text', 'site-reviews'),
                 'closeDialog' => _x('Close deactivation dialog', 'admin-text', 'site-reviews'),
                 'dialogText' => _x('If you have a moment, please tell me how we can improve.', 'admin-text', 'site-reviews'),
+                /* translators: %s: a link with the text "Click here" */
                 'dialogTextExtra' => _x('%s to see the additional data that will be submitted. This non-sensitive data will help me troubleshoot problems and make improvements to the plugin.', 'Click here (admin-text)', 'site-reviews'),
+                /* translators: %s: plugin name */
                 'dialogTitle' => _x('Deactivating %s', 'Plugin name (admin-text)', 'site-reviews'),
                 'processing' => _x('Processing...', 'admin-text', 'site-reviews'),
             ],

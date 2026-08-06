@@ -104,6 +104,7 @@ class EditorController extends AbstractController
         if (Review::isReview($post) && !Review::isEditable($post)) {
             $review = glsr(ReviewManager::class)->get($post->ID);
             glsr(Notice::class)->addWarning(sprintf(
+                /* translators: %s: the review type */
                 _x('Publicly responding to third-party %s reviews is disabled.', 'admin-text', 'site-reviews'),
                 $review->type()
             ));

@@ -225,6 +225,7 @@ class Router implements ControllerContract
         if (glsr()->prefix.'admin_action' === Helper::filterInput('action')) {
             $message = _x('There was an error', 'admin-text', 'site-reviews');
             $advice = sprintf(
+                /* translators: %s: a button with the text "reloading" */
                 _x('Try %s the page.', 'try reloading the page (admin-text)', 'site-reviews'),
                 sprintf('<button type="button" class="button-link" onclick="location.reload()">%s</button>', _x('reloading', '(admin-text) e.g. try reloading the page', 'site-reviews')),
             );

@@ -33,10 +33,15 @@ class TranslationController implements ControllerContract
     public function filterBulkUpdateMessages(array $messages, array $counts): array
     {
         $messages[glsr()->post_type] = [
+            /* translators: %s: number of reviews */
             'updated' => _nx('%s review updated.', '%s reviews updated.', $counts['updated'], 'admin-text', 'site-reviews'),
+            /* translators: %s: number of reviews */
             'locked' => _nx('%s review not updated, somebody is editing it.', '%s reviews not updated, somebody is editing them.', $counts['locked'], 'admin-text', 'site-reviews'),
+            /* translators: %s: number of reviews */
             'deleted' => _nx('%s review permanently deleted.', '%s reviews permanently deleted.', $counts['deleted'], 'admin-text', 'site-reviews'),
+            /* translators: %s: number of reviews */
             'trashed' => _nx('%s review moved to the Trash.', '%s reviews moved to the Trash.', $counts['trashed'], 'admin-text', 'site-reviews'),
+            /* translators: %s: number of reviews */
             'untrashed' => _nx('%s review restored from the Trash.', '%s reviews restored from the Trash.', $counts['untrashed'], 'admin-text', 'site-reviews'),
         ];
         return $messages;

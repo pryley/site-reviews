@@ -67,9 +67,11 @@ class LicensingController extends AbstractController
 
     protected function renderExpiredLicenseNotice(string $expiryDate): void
     {
+        /* translators: %s: the relative expiry date (e.g. 3 days ago) */
         $error = sprintf(_x('A license you entered has expired: %s.', 'admin-text', 'site-reviews'),
             glsr(Date::class)->relative($expiryDate)
         );
+        /* translators: %s: link to the License Keys page */
         $message = sprintf(_x('To renew your license and enable updates, please visit the %s on your Nifty Plugins account.', 'link to License Keys page (admin-text)', 'site-reviews'),
             glsr_premium_link('license-keys')
         );
@@ -79,6 +81,7 @@ class LicensingController extends AbstractController
     protected function renderGenericLicenseNotice(): void
     {
         $error = _x('A license you entered has not been activated for your website.', 'admin-text', 'site-reviews');
+        /* translators: %s: link to the License Keys page */
         $message = sprintf(_x('To activate your license, please visit the %s page on your Nifty Plugins account and click the "Manage Sites" button to activate it for your website.', 'link to License Keys page (admin-text)', 'site-reviews'),
             glsr_premium_link('license-keys')
         );

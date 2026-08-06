@@ -13,6 +13,7 @@ class SiteReviewsFormTinymce extends TinymceGenerator
             [
                 'label' => esc_html_x('Assign Pages', 'admin-text', 'site-reviews'),
                 'name' => 'assigned_posts',
+                /* translators: %s: the text "post_id" */
                 'tooltip' => sprintf(esc_html_x('Automatically assign reviews to a Post ID. You may also enter %s to use the Post ID of the current page.', 'admin-text', 'site-reviews'), '"post_id"'),
                 'type' => 'textbox',
             ],
@@ -25,6 +26,7 @@ class SiteReviewsFormTinymce extends TinymceGenerator
             [
                 'label' => esc_html_x('Assign Users', 'admin-text', 'site-reviews'),
                 'name' => 'assigned_users',
+                /* translators: %s: the text "user_id" */
                 'tooltip' => sprintf(esc_html_x('Automatically assign reviews to a User ID. You may also enter %s to use the ID of the logged-in user.', 'admin-text', 'site-reviews'), '"user_id"'),
                 'type' => 'textbox',
             ],

@@ -9,7 +9,7 @@
         </button>
     </h3>
     <div id="tools-export-plugin-settings" class="inside">
-        <p><?php echo sprintf(
+        <p><?php /* translators: %s: link with the text "Import Settings" */ echo sprintf(
             _x('Here you can export your Site Reviews settings to a <code>*.json</code> file. You can use the the %s tool to import the settings on another website.', 'Import Settings (admin-text)', 'site-reviews'),
             glsr_admin_link('tools.general', _x('Import Settings', 'admin-text', 'site-reviews'), '#tools-import-plugin-settings')
         ); ?></p>

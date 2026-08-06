@@ -45,6 +45,7 @@ class ApproveReview extends AbstractCommand
             $this->fail();
             return;
         }
+        /* translators: %1$s: opening link tag to edit the review, %2$s: closing link tag */
         $message = sprintf(_x('The %1$sreview%2$s was approved successfully.', 'admin-text', 'site-reviews'),
             sprintf('<a href="%s">', $this->review->editUrl()), '</a>'
         );

@@ -113,10 +113,12 @@ class SendNotification extends AbstractCommand
     protected function subject(bool $withPostAssignment = false): string
     {
         $siteTitle = wp_specialchars_decode(glsr(OptionManager::class)->wp('blogname'), ENT_QUOTES);
+        /* translators: %s: star rating */
         $title = sprintf(__('New %s-star review', 'site-reviews'), $this->review->rating);
         if ($withPostAssignment) {
             $postAssignments = glsr(TemplateTags::class)->tagReviewAssignedPosts($this->review);
             if (!empty($postAssignments)) {
+                /* translators: %1$s: star rating, %2$s: assigned post titles */
                 $title = sprintf(__('New %1$s-star review of %2$s', 'site-reviews'), $this->review->rating, $postAssignments);
             }
         }

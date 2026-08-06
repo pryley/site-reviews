@@ -18,12 +18,12 @@
 </div>
 
 <p>
-    <?php echo sprintf(_x('The schema is used to display rich review snippets in Google\'s search results. If the schema has been enabled, you can use the %s tool to test your pages for valid schema.', 'admin-text', 'site-reviews'),
+    <?php /* translators: %s: link with the text "Google Rich Results" */ echo sprintf(_x('The schema is used to display rich review snippets in Google\'s search results. If the schema has been enabled, you can use the %s tool to test your pages for valid schema.', 'admin-text', 'site-reviews'),
         sprintf('<a href="https://search.google.com/test/rich-results" target="_blank">%s</a>', _x('Google Rich Results', 'admin-text', 'site-reviews'))
     ); ?>
 </p>
 <p>
-    <?php echo sprintf(_x('In some cases it may be useful to link the Site Reviews schema with other schema on your page, this is done by adding the %1$s unique identifier property to each schema that you wish to link. If you are using Woocommerce and have set the Schema Type to "Product", Site Reviews will automatically do this for you. In all other cases, either use the <code>schema_identifier</code> Custom Field name in the %2$s, or use the %3$s hook.', 'admin-text', 'site-reviews'),
+    <?php /* translators: %1$s: link to the @id schema property documentation, %2$s: link with the text "Custom Fields metabox", %3$s: link to the schema filter hook documentation */ echo sprintf(_x('In some cases it may be useful to link the Site Reviews schema with other schema on your page, this is done by adding the %1$s unique identifier property to each schema that you wish to link. If you are using Woocommerce and have set the Schema Type to "Product", Site Reviews will automatically do this for you. In all other cases, either use the <code>schema_identifier</code> Custom Field name in the %2$s, or use the %3$s hook.', 'admin-text', 'site-reviews'),
         '<code><a href="https://rich-snippets.io/how-to-build-complex-structured-data/#b-reference-by-id" target="_blank">@id</a></code>',
         sprintf('<a href="https://wordpress.org/support/article/custom-fields/" target="_blank">%s</a>', _x('Custom Fields metabox', 'admin-text', 'site-reviews')),
         glsr_admin_link('documentation.hooks', 'site-reviews/schema/<schema_type>', '#hooks-filter-schema')

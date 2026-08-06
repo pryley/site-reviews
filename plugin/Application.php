@@ -169,6 +169,7 @@ final class Application extends Container implements PluginContract
                     'default' => '',
                     'label' => $name,
                     'sanitizer' => 'text',
+                    /* translators: %s: link to the License Keys page */
                     'tooltip' => sprintf(_x('Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account.', 'link to License Keys page (admin-text)', 'site-reviews'),
                         glsr_premium_link('license-keys')
                     ),

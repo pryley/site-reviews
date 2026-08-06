@@ -17,14 +17,15 @@ foreach ($addons as $addon) {
         : current_user_can('deactivate_plugin', $plugin);
 ?>
 <p>
-    <?php echo sprintf(_x('The %s addon is included in the Site Reviews Premium plugin. Please deactivate it.', 'admin-text', 'site-reviews'),
+    <?php /* translators: %s: addon name */ echo sprintf(_x('The %s addon is included in the Site Reviews Premium plugin. Please deactivate it.', 'admin-text', 'site-reviews'),
         '<strong>'.$addon::NAME.'</strong>'
     ); ?>
 </p>
 <?php if ($hasAction) { ?>
     <p class="glsr-notice-buttons">
         <a class="button button-primary" href="<?php echo $url; ?>">
-            <?php echo sprintf(_x('Deactivate %s', 'admin-text', 'site-reviews'), $addon::NAME); ?>
+            <?php /* translators: %s: addon name */
+            echo sprintf(_x('Deactivate %s', 'admin-text', 'site-reviews'), $addon::NAME); ?>
         </a>
     </p>
 <?php } ?>

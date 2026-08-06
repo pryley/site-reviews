@@ -199,6 +199,7 @@ abstract class TinymceGenerator
             $alert = $args['required']['alert'];
         } elseif (!empty($args['label'])) {
             $alert = sprintf(
+                /* translators: %s: the option label */
                 _x('The "%s" option is required.', 'the option label (admin-text)', 'site-reviews'),
                 str_replace(':', '', $args['label'])
             );

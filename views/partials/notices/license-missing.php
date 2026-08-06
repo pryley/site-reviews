@@ -2,6 +2,7 @@
 
 <?php
     printf(
+        /* translators: %s: link with the text "Save your license" */
         _x('One or more plugins are not receiving updates. %s in the settings to enable plugin updates and support.', 'Save your license (admin-text)', 'site-reviews'),
         glsr_admin_link('settings.licenses', _x('Save your license', 'admin-text', 'site-reviews'))
     );
