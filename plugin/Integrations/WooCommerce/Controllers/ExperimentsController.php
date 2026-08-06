@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Contracts\ControllerContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\HookProxy;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Reviews;
@@ -36,6 +37,13 @@ class ExperimentsController implements ControllerContract
     }
 
     /**
+     * The contract is: answer faithfully, or leave the query to WordPress.
+     * A comment query is only answered when every query var it carries has a
+     * faithful review-query translation; anything else falls through to the
+     * comments table, exactly as if the experiment were off. Guessing is the
+     * one thing this filter must never do — a confidently wrong result is
+     * worse than no substitution at all.
+     *
      * @param mixed             $data
      * @param \WP_Comment_Query $query
      *
@@ -46,39 +54,115 @@ class ExperimentsController implements ControllerContract
     public function filterProductCommentsQuery($data, $query)
     {
         $vars = glsr()->args($query->query_vars);
-        $isProductQuery = 'review' === $vars->type || ('product' === $vars->post_type || 'product' === get_post_type($vars->post_id));
-        if (!$isProductQuery) {
+        if (!$this->isProductQuery($vars)) {
+            return $data;
+        }
+        if (!$this->canTranslateQuery($vars)) {
+            glsr_log()->debug('The wp_comments experiment left a comment query to WordPress because its query vars have no faithful translation.', $query->query_vars);
             return $data;
         }
         $args = $this->getReviewArgs($vars);
         $count = true === $vars->count;
-        $hash = md5(maybe_serialize(compact('args', 'count')));
-        if (array_key_exists($hash, $this->savedQueries)) {
-            return $this->savedQueries[$hash];
+        $ids = 'ids' === $vars->fields;
+        $hash = md5(maybe_serialize(compact('args', 'count', 'ids')));
+        if (!array_key_exists($hash, $this->savedQueries)) {
+            $reviews = glsr_get_reviews($args);
+            if ($count) {
+                $result = $this->getReviewsCount($reviews);
+            } elseif ($ids) {
+                // when "fields" is "ids", the comments_pre_query contract is an array of ints
+                $result = wp_list_pluck($this->getReviews($reviews), 'comment_ID');
+            } else {
+                $result = $this->getReviews($reviews);
+            }
+            $this->savedQueries[$hash] = $result;
         }
-        $args = $this->getReviewArgs($vars);
-        $reviews = glsr_get_reviews($args);
-        $this->savedQueries[$hash] = $count
-            ? $this->getReviewsCount($reviews)
-            : $this->getReviews($reviews);
         return $this->savedQueries[$hash];
+    }
+
+    /**
+     * The untranslatable vars fall into two groups. Identity-bound vars
+     * (comment IDs, comment hierarchy, comment meta such as WooCommerce's
+     * _review_order_id order ledger) ask about rows in the comments table and
+     * only the comments table can answer them. The rest simply have no
+     * review-query equivalent yet.
+     */
+    protected function canTranslateQuery(Arguments $args): bool
+    {
+        if (!in_array($args->fields, ['', 'ids', null], true)) {
+            return false;
+        }
+        if (!empty($args->author__in) && !empty($args->user_id)) {
+            return false; // two ANDed author constraints cannot be expressed
+        }
+        if (!empty($args->post_id) && !empty($args->post__in)) {
+            return false; // two ANDed post constraints cannot be expressed
+        }
+        if (is_null($this->translatedOrderby($args))) {
+            return false;
+        }
+        if (is_null($this->translatedStatus($args))) {
+            return false;
+        }
+        if (!$this->isTranslatableType($args)) {
+            return false;
+        }
+        $untranslatable = [
+            'author_url',
+            'comment__in',
+            'comment__not_in',
+            'date_query',
+            'include_unapproved',
+            'karma',
+            'meta_key',
+            'meta_query',
+            'meta_value',
+            'parent',
+            'parent__in',
+            'parent__not_in',
+            'post__not_in',
+            'post_author',
+            'post_author__in',
+            'post_author__not_in',
+            'post_name',
+            'post_parent',
+            'post_status',
+            'search',
+        ];
+        foreach ($untranslatable as $key) {
+            if (!empty($args->$key)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     protected function getReviewArgs(Arguments $args): array
     {
-        $statuses = [
-            'all' => 'all',
-            'approve' => 'approved',
-            'hold' => 'unapproved',
-        ];
+        $number = Cast::toInt($args->number);
         $params = [
             'offset' => $args->offset,
-            'page' => $args->paged,
-            'per_page' => $args->get('number', 10),
-            'status' => Arr::get($statuses, $args->status, 'approved'),
+            'order' => strtolower(Cast::toString($args->get('order', 'desc'))),
+            'orderby' => $this->translatedOrderby($args),
+            'page' => $args->get('paged', 1),
+            'per_page' => $number > 0 ? $number : -1, // an empty "number" means all
+            'status' => $this->translatedStatus($args),
         ];
+        if (!empty($args->author_email)) {
+            $params['email'] = $args->author_email;
+        }
+        if ($userIn = Arr::uniqueInt($args->author__in)) {
+            $params['user__in'] = $userIn;
+        } elseif (!empty($args->user_id)) {
+            $params['user__in'] = Arr::uniqueInt([$args->user_id]);
+        }
+        if ($userNotIn = Arr::uniqueInt($args->author__not_in)) {
+            $params['user__not_in'] = $userNotIn;
+        }
         if (!empty($args->post_id)) {
             $params['assigned_posts'] = $args->post_id;
+        } elseif ($postIn = Arr::uniqueInt($args->post__in)) {
+            $params['assigned_posts'] = $postIn;
         } else {
             $params['assigned_posts'] = 'product';
         }
@@ -91,7 +175,7 @@ class ExperimentsController implements ControllerContract
         foreach ($reviews as $review) {
             $comment = new \WP_Comment((object) [ // @phpstan-ignore-line
                 'comment_agent' => '',
-                'comment_approved' => (string) $review->is_approved,
+                'comment_approved' => (string) (int) $review->is_approved, // '0'|'1', the WP convention
                 'comment_author' => $review->name,
                 'comment_author_email' => $review->email,
                 'comment_author_IP' => $review->ip_address,
@@ -115,5 +199,67 @@ class ExperimentsController implements ControllerContract
     protected function getReviewsCount(Reviews $reviews): int
     {
         return (int) $reviews->total;
+    }
+
+    protected function isProductQuery(Arguments $args): bool
+    {
+        return 'review' === $args->type
+            || 'product' === $args->post_type
+            || 'product' === get_post_type($args->post_id);
+    }
+
+    protected function isTranslatableType(Arguments $args): bool
+    {
+        $types = Arr::consolidate($args->type ?: []);
+        if (!empty(array_diff($types, ['review']))) {
+            return false;
+        }
+        $typeIn = Arr::consolidate($args->type__in ?: []);
+        if (!empty(array_diff($typeIn, ['review']))) {
+            return false;
+        }
+        return empty($args->type__not_in);
+    }
+
+    /**
+     * An empty orderby means comment_date_gmt (the WP_Comment_Query default).
+     */
+    protected function translatedOrderby(Arguments $args): ?string
+    {
+        $orderbys = [
+            '' => 'date_gmt',
+            'comment_ID' => 'id',
+            'comment_date' => 'date',
+            'comment_date_gmt' => 'date_gmt',
+            'none' => 'none',
+        ];
+        $orderby = $args->orderby;
+        if (false === $orderby || [] === $orderby) {
+            return 'none'; // both disable the ORDER BY clause
+        }
+        if (!is_scalar($orderby ?? '')) {
+            return null;
+        }
+        return Arr::get($orderbys, Cast::toString($orderby), null);
+    }
+
+    /**
+     * An empty status means all (the WP_Comment_Query default).
+     */
+    protected function translatedStatus(Arguments $args): ?string
+    {
+        $statuses = [
+            '' => 'all',
+            '0' => 'unapproved',
+            '1' => 'approved',
+            'all' => 'all',
+            'approve' => 'approved',
+            'hold' => 'unapproved',
+        ];
+        $status = $args->status;
+        if (!is_scalar($status ?? '')) {
+            return null; // status arrays and comma-separated lists are not translated
+        }
+        return Arr::get($statuses, Cast::toString($status), null);
     }
 }

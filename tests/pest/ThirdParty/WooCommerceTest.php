@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ExperimentsController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\OrderReviewsController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ProductController;
 
@@ -101,4 +102,96 @@ test('eligible items pass through when nothing matches a review', function () {
 
     expect(glsr(OrderReviewsController::class)->filterEligibleItems($items, new \WC_Order()))
         ->toBe($items);
+});
+
+/*
+ * The wp_comments experiment: answer faithfully, or leave the query to
+ * WordPress. The comment queries below never run against the database — the
+ * controller is called directly, as the comments_pre_query filter would call
+ * it — so what is asserted is the translation itself.
+ */
+
+function wooCommentQuery(array $vars): \WP_Comment_Query
+{
+    $query = new \WP_Comment_Query();
+    $query->query_vars = $vars;
+    return $query;
+}
+
+function wooProductReview(int $productId, array $overrides = []): \GeminiLabs\SiteReviews\Review
+{
+    return glsr_create_review(array_merge([
+        'assigned_posts' => $productId,
+        'content' => 'Sturdy, arrived early.',
+        'email' => 'jane@example.org',
+        'is_approved' => true,
+        'name' => 'Jane Doe',
+        'rating' => 5,
+    ], $overrides));
+}
+
+test('a comment query with no faithful translation is left to wordpress', function () {
+    $query = wooCommentQuery([
+        'meta_query' => [['key' => '_review_order_id', 'value' => 123]],
+        'type' => 'review',
+    ]);
+
+    expect(glsr(ExperimentsController::class)->filterProductCommentsQuery(null, $query))->toBeNull();
+});
+
+test('a comment query scoped by author email answers with matching reviews', function () {
+    $productId = createPost(['post_type' => 'product']);
+    wooProductReview($productId);
+    wooProductReview($productId, ['email' => 'sam@example.org', 'name' => 'Sam Doe', 'rating' => 3]);
+
+    $comments = glsr(ExperimentsController::class)->filterProductCommentsQuery(null, wooCommentQuery([
+        'author_email' => 'sam@example.org',
+        'post_id' => $productId,
+        'type' => 'review',
+    ]));
+
+    expect($comments)->toHaveCount(1);
+    expect($comments[0]->comment_author_email)->toBe('sam@example.org');
+});
+
+test('a count comment query answers with an integer', function () {
+    $productId = createPost(['post_type' => 'product']);
+    wooProductReview($productId);
+    wooProductReview($productId, ['email' => 'sam@example.org', 'name' => 'Sam Doe']);
+
+    $count = glsr(ExperimentsController::class)->filterProductCommentsQuery(null, wooCommentQuery([
+        'count' => true,
+        'post_id' => $productId,
+        'type' => 'review',
+    ]));
+
+    expect($count)->toBe(2);
+});
+
+test('an ids comment query answers with review ids', function () {
+    $productId = createPost(['post_type' => 'product']);
+    $review = wooProductReview($productId);
+
+    $ids = glsr(ExperimentsController::class)->filterProductCommentsQuery(null, wooCommentQuery([
+        'fields' => 'ids',
+        'post_id' => $productId,
+        'type' => 'review',
+    ]));
+
+    expect($ids)->toBe([$review->ID]);
+});
+
+test('a hold status comment query answers with unapproved reviews only', function () {
+    $productId = createPost(['post_type' => 'product']);
+    wooProductReview($productId);
+    wooProductReview($productId, ['email' => 'sam@example.org', 'is_approved' => false, 'name' => 'Sam Doe']);
+
+    $comments = glsr(ExperimentsController::class)->filterProductCommentsQuery(null, wooCommentQuery([
+        'post_id' => $productId,
+        'status' => 'hold',
+        'type' => 'review',
+    ]));
+
+    expect($comments)->toHaveCount(1);
+    expect($comments[0]->comment_approved)->toBe('0');
 });
