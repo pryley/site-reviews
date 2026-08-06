@@ -258,6 +258,41 @@ Features are subject to change and are sorted alphabetically, not by priority.
   whatever the superglobals hold — not just untestable, unreachable outside a web
   request. Settle on one way to read input and move everything onto it.
 
+- [ ] **BEFORE THE 8.3 RELEASE: decide the WooCommerce-compatibility nets.** The
+  WooCommerce 11.0.0 audit (2026-08-06, traced against a v11 checkout; gatekeeper
+  ceiling bumped to 12.0) had to be done almost entirely by hand, because the suite
+  only proves the half Site Reviews owns. Six candidate nets came out of it, in
+  value-per-cost order — implement or explicitly reject each:
+
+  1. Commit the audit's touchpoint inventory (~60 items: extended classes and
+     methods, consumed hooks, options, template names, route keys, markup
+     selectors) as a checklist doc. Manual artifact, written once; drives 4 and
+     bounds 6. The inventory exists in the 2026-08-06 audit session.
+  2. `make stubs:update && make analyse` on a weekly CI schedule. Automated.
+     Catches removed symbols and signature drift; already proven — the
+     woocommerce stub regenerated at 11.0.0 and phpstan came back clean.
+  3. A ThirdParty smoke test that class-loads every integration class extending a
+     third-party parent. Automated, every run. Nothing currently loads the
+     WooCommerce `BlocksApi`/`RestApi`/`AdminApi` subclasses, so an incompatible
+     override there can only be caught by phpstan today.
+  4. A `tests/bin` script that greps a real WooCommerce tree for every manifest
+     touchpoint. Automated check, manually triggered per WC release. Hooks live
+     in function BODIES, which the stub generator strips — a removed hook is
+     invisible to 2 and 3; this is the only automated net that sees it.
+  5. Real WooCommerce in wp-env with executed tests for the top paths (REST
+     routes via `rest_do_request`, rating aggregation, tab injection). Automated
+     once written. The machinery exists — Elementor already rides in wp-env with
+     a stub-drop entry in the test mu-plugin — but real WC hooks then run under
+     EVERY existing test, which is why the README says "deliberately not done
+     yet". Decide, don't drift into it.
+  6. The residue stays manual and is irreducible: a changelog read plus semantic
+     trace per WC major. Nets 2–5 only watch touchpoints the plugin already
+     consumes; WooCommerce also breaks the integration by ADDING surfaces. The
+     v11 audit's two forward-looking findings — the `customer_review_request`
+     beta that inserts comment reviews around Site Reviews, and the Product
+     Reviews block's inner-blocks render path that bypasses `comments_template()`
+     — would have passed every one of nets 1–5.
+
 ## Upcoming Add-ons
 
 ### Functionality
