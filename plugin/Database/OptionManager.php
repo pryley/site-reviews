@@ -321,6 +321,12 @@ class OptionManager
             $settings = Arr::remove($settings, "settings.{$path}");
         }
         foreach ($writes as $key => $value) {
+            $storedVersion = Arr::getAs('string', $value, 'version', '0.0.0');
+            if ($versions[$key] !== $storedVersion) {
+                // a write can land between an addon update and updateVersion(),
+                // and stamping the new version here would erase the delta
+                $value['version_upgraded_from'] = $storedVersion;
+            }
             $value['version'] = $versions[$key];
             if (update_option($key, $value, true)) {
                 $changed = true;
@@ -335,6 +341,21 @@ class OptionManager
         if (glsr()->version !== $version) {
             $this->set('version', glsr()->version);
             $this->set('version_upgraded_from', $version);
+        }
+        foreach (static::addons() as $addon) {
+            if ($addon->hostedBy()) {
+                continue; // hosted settings live in the host's row, which tracks them
+            }
+            $stored = get_option($addon->storageKey());
+            if (!is_array($stored)) {
+                continue; // no row until the first settings write; split() stamps it then
+            }
+            $storedVersion = Arr::getAs('string', $stored, 'version', '0.0.0');
+            if ($addon->version !== $storedVersion) {
+                $stored['version'] = $addon->version;
+                $stored['version_upgraded_from'] = $storedVersion;
+                update_option($addon->storageKey(), $stored, true);
+            }
         }
     }
 

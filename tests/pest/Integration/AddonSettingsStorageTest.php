@@ -98,6 +98,55 @@ test('and reading it back goes through the composed view, so nothing downstream 
 });
 
 /*
+ * Version tracking: like the parent's version/version_upgraded_from pair, an
+ * addon's row records both the build that last wrote it AND the build it was
+ * upgraded from — the delta the parent uses for migrations, notices and
+ * support diagnostics. Two writers maintain it: updateVersion() at boot (for
+ * addons whose settings are never saved between updates), and split() at
+ * write time (for saves that land before updateVersion() runs).
+ */
+
+test('an addon row records the version it was upgraded from', function () {
+    update_option('site_reviews_test_addon', ['settings' => ['enabled' => 'own'], 'version' => '2.0.0'], true);
+
+    glsr(OptionManager::class)->updateVersion();
+
+    $own = get_option('site_reviews_test_addon');
+    expect($own['version'])->toBe('2.3.4')
+        ->and($own['version_upgraded_from'])->toBe('2.0.0');
+});
+
+test('a settings write preserves the upgrade delta it interrupts', function () {
+    update_option('site_reviews_test_addon', ['settings' => ['enabled' => 'own'], 'version' => '2.0.0'], true);
+
+    glsr(OptionManager::class)->set('settings.addons.test-addon.enabled', 'yes');
+
+    $own = get_option('site_reviews_test_addon');
+    expect($own['version'])->toBe('2.3.4')
+        ->and($own['version_upgraded_from'])->toBe('2.0.0');
+});
+
+test('a fresh addon row starts its history at 0.0.0', function () {
+    // the parent's convention: 0.0.0 marks a fresh install, and the notices
+    // branch on it (Welcome vs Upgraded)
+    delete_option('site_reviews_test_addon');
+
+    glsr(OptionManager::class)->set('settings.addons.test-addon.enabled', 'yes');
+
+    $own = get_option('site_reviews_test_addon');
+    expect($own['version_upgraded_from'])->toBe('0.0.0');
+});
+
+test('a steady-state boot leaves the recorded upgrade alone', function () {
+    update_option('site_reviews_test_addon', ['settings' => ['enabled' => 'own'], 'version' => '2.3.4', 'version_upgraded_from' => '2.0.0'], true);
+
+    glsr(OptionManager::class)->updateVersion();
+
+    $own = get_option('site_reviews_test_addon');
+    expect($own['version_upgraded_from'])->toBe('2.0.0');
+});
+
+/*
  * Compose on read.
  */
 
