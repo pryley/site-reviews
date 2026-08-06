@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ExperimentsContr
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ImportController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\IntegrationController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\MainController;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\OrderReviewsController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ProductController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\RestApiController;
 
@@ -75,6 +76,10 @@ class Hooks extends IntegrationHooks
             ['renderNotice', 'admin_notices'],
             ['verifyProductOwner', 'site-reviews/review/created', 20],
         ]);
+        $this->hook(OrderReviewsController::class, [
+            ['convertSubmittedReviews', 'woocommerce_review_order_submitted', 10, 2],
+            ['filterEligibleItems', 'woocommerce_review_order_eligible_items', 10, 2],
+        ]);
         $this->hook(ProductController::class, [
             ['filterCommentsTemplate', 'comments_template', 50],
             ['filterGetRatingHtml', 'woocommerce_product_get_rating_html', 20, 3],
@@ -85,6 +90,7 @@ class Hooks extends IntegrationHooks
             ['filterProductPostClauses', 'woocommerce_get_catalog_ordering_args', 20, 2],
             ['filterProductRatingCounts', 'woocommerce_product_get_rating_counts', 10, 2],
             ['filterProductReviewCount', 'woocommerce_product_get_review_count', 10, 2],
+            ['filterProductReviewsBlock', 'render_block_woocommerce/product-reviews', 10, 2],
             ['filterProductTabs', 'woocommerce_product_tabs', 50],
             ['filterProductTaxQuery', 'woocommerce_product_query_tax_query', 20],
             ['filterStructuredData', 'woocommerce_structured_data_product', 10, 2],
