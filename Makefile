@@ -109,14 +109,16 @@ env: env-check ## What the suite is actually running against
 	@printf 'Tested to  %s (readme.txt)\n\n' "$$(perl -lne 'm{Tested up to: *(.+)} and print $$1' readme.txt)"
 
 .PHONY: env\:update
-env\:update: docker-check ## Update the WordPress version in .wp-env.json to the latest production release
+env\:update: docker-check ## Update the pinned WordPress version in both wp-env instances to the latest release
 	@latest="$$(curl -fsS https://api.wordpress.org/core/version-check/1.7/ | perl -lne 'm{"current":"([^"]+)"} and print $$1 and exit')"; \
 	test -n "$$latest" || { printf '\nCould not reach wordpress.org to ask what the latest release is.\n\n'; exit 1; }; \
 	printf '\nPinning WordPress to %s\n\n' "$$latest"; \
-	perl -i -pe "s{\"core\": \".*\"}{\"core\": \"https://wordpress.org/wordpress-$$latest.zip\"}" .wp-env.json
+	perl -i -pe "s{\"core\": \".*\"}{\"core\": \"https://wordpress.org/wordpress-$$latest.zip\"}" .wp-env.json tests/multisite/.wp-env.json
 	$(WPENV_START) --update
+	@cd tests/multisite && env WP_ENV_PORT=8892 npx @wordpress/env start --update
+	@$(MAKE) --no-print-directory multisite-env
 	@$(MAKE) --no-print-directory env
-	@printf 'Commit .wp-env.json to pin this for everybody.\n\n'
+	@printf 'Commit .wp-env.json and tests/multisite/.wp-env.json to pin this for everybody.\n\n'
 
 .PHONY: help
 help: ## Display this help

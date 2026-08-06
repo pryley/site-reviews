@@ -1,5 +1,5 @@
 {
-    "core": "https://wordpress.org/wordpress-7.0.1.zip",
+    "core": "https://wordpress.org/wordpress-7.0.2.zip",
     "config": {
         "EMPTY_TRASH_DAYS": 0
     },
