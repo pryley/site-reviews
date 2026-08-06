@@ -21,9 +21,10 @@ build: ## Build the languages and assets
 
 .PHONY: build\:all
 build\:all: ## Build everything: languages, assets, blocks, and Divi elements
-	make build
+	make build:i18n
 	make build:blocks
 	make build:divi
+	make build:assets
 
 .PHONY: build\:assets
 build\:assets: ## Build the frontend assets with Rollup
