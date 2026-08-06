@@ -2,11 +2,12 @@
 
 = 8.2.1 (unreleased) =
 
-- Added support for WooCommerce's "Customer review request" feature: reviews submitted from its Review Order page are saved as Site Reviews reviews, and products the customer has already reviewed with Site Reviews are no longer asked for
+- Added support for WooCommerce's "Customer review request" emails — submitted reviews are saved in Site Reviews, and customers are not asked to review a product twice
 - Fixed a PHP warning when importing WooCommerce product reviews
-- Fixed duplicate Reviews sections on block themes using the redesigned WooCommerce Product Details block
+- Fixed a duplicate Reviews section on product pages using WooCommerce's redesigned Product Details block
 - Fixed imported WooCommerce product reviews losing their author
 - Fixed translatable strings that used multiple unnumbered placeholders — translations can now reorder them (existing translations of these strings will need to be updated)
+- Improved the WooCommerce comments compatibility experiment to give plugins and themes more accurate results
 - Updated the supported WooCommerce version to 11
 
 = 8.2.0 (2026-07-21) =
