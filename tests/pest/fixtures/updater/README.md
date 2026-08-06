@@ -3,7 +3,7 @@
 Real responses from the EDD Software Licensing endpoint (niftyplugins.com),
 captured live on 2026-07-17 for the `site-reviews-alerts` addon at
 1.0.0-beta1. These are the CONTRACT the update filters are tested against
-(see ROADMAP.md, "addon-update filters").
+(see +/_docs/backlog.md, "addon-update filters").
 
 - `get-version-valid.json` — a valid, activated licence key.
 - `get-version-no-licence.json` — an EMPTY licence key: the server answers the
@@ -11,7 +11,7 @@ captured live on 2026-07-17 for the `site-reviews-alerts` addon at
   provided." — the case the plugin's licence message machinery serves.
 - `get-version-invalid.json` — a WRONG licence key: the version with a phantom
   NON-EMPTY `package` (confirmed live to refuse with HTTP 401 at download
-  time), the refusal only in `msg` — the contract fact the ROADMAP records.
+  time), the refusal only in `msg` — the contract fact the backlog records.
 - `check-license-valid.json` / `check-license-invalid.json` — the licence
   check for the same key states.
 
