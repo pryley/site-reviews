@@ -31,7 +31,7 @@ class SystemInfo implements \Stringable
     {
         $sections = [ // order is intentional
             'plugin' => 'Plugin',
-            'addon' => 'Addons',
+            'addons' => 'Addons',
             'reviews' => 'Reviews',
             'action-scheduler' => 'Action Scheduler',
             'database' => 'Database',
@@ -306,7 +306,7 @@ class SystemInfo implements \Stringable
     /**
      * Local environments (LocalWP, Valet, MAMP) point paths like sendmail_path
      * into the user's home directory, which puts an OS username into a report
-     * that gets pasted in public. The binary name and flags carry the signal.
+     * that gets pasted in public.
      */
     protected function maskedHomePath(string $value): string
     {

@@ -199,6 +199,21 @@ test('an installed addon reports its name and version', function () {
     }
 });
 
+test('the addon section survives the name dispatch', function () {
+    // The failure mode described at the top of this file actually happened
+    // here: the section key was "addon", the method sectionAddons,
+    // and [ADDONS] silently vanished from every report until a support look
+    // at a live site noticed the hole. The direct-call tests below cannot
+    // catch that — only the full dispatch can.
+    glsr()->register(GeminiLabs\SiteReviews\TestAddon\Application::class);
+    try {
+        expect(systemInfo())->toContain('[ADDONS]')
+            ->toContain('Test Addon');
+    } finally {
+        glsr()->store('addons', []); // in-memory on the singleton; it does not roll back
+    }
+});
+
 test('an addon with a settings row reports the version it was upgraded from', function () {
     glsr()->register(GeminiLabs\SiteReviews\TestAddon\Application::class);
     update_option('site_reviews_test_addon', ['settings' => [], 'version' => '2.3.4', 'version_upgraded_from' => '2.0.0'], true);
