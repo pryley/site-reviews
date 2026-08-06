@@ -219,6 +219,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 - Fixed a "doing it wrong" notice raised by an integration's version notice
 - Fixed a duplicate Reviews section in WooCommerce's redesigned Product Details block
 - Fixed a fatal error on sites running MultilingualPress when it cannot report its version
+- Fixed a migration overwriting saved settings when the options cache is stale
 - Fixed a PHP error when a review query is built with no arguments
 - Fixed a PHP warning on sites running Loyalty Program for WooCommerce
 - Fixed a PHP warning when importing WooCommerce product reviews
@@ -227,6 +228,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 - Fixed API request SSL certificate verification
 - Fixed cached API responses never being cleared on sites using a persistent object cache
 - Fixed deleted reviews being left in the review cache
+- Fixed duplicate error notices when importing settings from an older version
 - Fixed duplicating a review that had not accepted the terms
 - Fixed imported reviews with no timestamp in the date being stamped with the time of the import
 - Fixed imported WooCommerce product reviews losing their author
@@ -242,6 +244,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 - Fixed the classic widget title not being displayed
 - Fixed the custom schema identifier being ignored unless the schema type was Custom
 - Fixed the Documentation link on the plugins screen
+- Fixed the Import Settings tool losing its notices
 - Fixed the notification and verification email settings offering invalid template tags
 - Fixed the plugin rollback tool when JavaScript is unavailable
 - Fixed the plugin's service container being unable to register a factory

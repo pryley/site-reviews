@@ -126,6 +126,7 @@ class OptionManager
         $alloptions = wp_load_alloptions(true);
         $flushed = false;
         foreach (array_unique($options) as $option) {
+            wp_cache_delete($option, 'options'); // the single-option cache can hold a stale copy too
             if (isset($alloptions[$option])) {
                 unset($alloptions[$option]);
                 $flushed = true;
@@ -162,6 +163,27 @@ class OptionManager
     public static function isPersisting(): bool
     {
         return static::$persisting;
+    }
+
+    /**
+     * Runs the callback with the persist guard raised, so writes of the core
+     * option inside it skip the settings-form sanitize callback. Migrations
+     * need this: they write transformed settings with raw update_option(),
+     * and an unguarded write would resanitize a half-migrated tree — merging
+     * it with the currently stored settings and re-raising form notices, once
+     * per write.
+     *
+     * @return mixed
+     */
+    public static function whilePersisting(callable $callback)
+    {
+        $wasPersisting = static::$persisting;
+        static::$persisting = true;
+        try {
+            return $callback();
+        } finally {
+            static::$persisting = $wasPersisting;
+        }
     }
 
     /**
@@ -351,6 +373,10 @@ class OptionManager
     protected function persist(array $settings): bool
     {
         $changed = false;
+        // save and restore rather than toggle: persist() can run inside
+        // whilePersisting(), and clearing the flag here would drop the outer
+        // guard mid-callback
+        $wasPersisting = static::$persisting;
         static::$persisting = true;
         try {
             $settings = $this->split($settings, $changed);
@@ -359,7 +385,7 @@ class OptionManager
             // failure, so a successful addon write counts as a persisted change.
             return update_option(static::databaseKey(), $settings, true) || $changed;
         } finally {
-            static::$persisting = false;
+            static::$persisting = $wasPersisting;
         }
     }
 

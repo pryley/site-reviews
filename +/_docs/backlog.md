@@ -314,3 +314,17 @@ Features are subject to change and are sorted alphabetically, not by priority.
 - [x] Tripadvisor Reviews (done, but needs an additional service to make it work consistently)
 - [ ] Trustpilot Reviews
 - [ ] Yelp Reviews
+
+- [ ] **Admin-route notices survive the reload only where somebody remembered to
+  store them.** A notice added during an admin (non-ajax) route dies with the
+  request unless `Notice::store()` runs before the reload — there is no
+  route-level store, only ad-hoc calls (`AdminController::approveReview`, the
+  settings sanitize callback, and now `ToolsController::importSettings`, fixed
+  after an imported-settings success notice was lost while mid-migration error
+  notices survived by accident). The sibling admin routes in ToolsController
+  (convert-table-engine, ip-address-detection, migrate-plugin, repair-*) add
+  notices the same way and likely lose them the same way; each needs its
+  redirect-vs-same-request-render behaviour verified before adding a store,
+  because a route that renders in the same request would double-display a
+  stored notice on the next page load. A Router-level store after the admin
+  dispatch would fix all of them at once, with exactly that caveat to verify.

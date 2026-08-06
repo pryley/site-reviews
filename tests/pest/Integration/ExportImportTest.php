@@ -4,6 +4,8 @@ use GeminiLabs\SiteReviews\Commands\ExportRatings;
 use GeminiLabs\SiteReviews\Commands\ExportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportRatings;
 use GeminiLabs\SiteReviews\Commands\ImportSettings;
+use GeminiLabs\SiteReviews\Controllers\SettingsController;
+use GeminiLabs\SiteReviews\Controllers\ToolsController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\Tables;
@@ -299,6 +301,43 @@ test('an imported version number is discarded', function () {
 
     expect(glsr(OptionManager::class)->get('version'))->toBe($version)
         ->and(glsr(OptionManager::class)->get('version_upgraded_from'))->not->toBe('0.0.1');
+});
+
+test('a version-crossing import does not re-flag its strings once per migration write', function () {
+    // Importing an old-version file runs every migration, and several write the
+    // core option with raw update_option(). With the settings-form sanitize
+    // callback registered (admin_init, on any real site), each of those writes
+    // used to re-sanitize the half-migrated tree and re-raise the "You forgot
+    // to include the %s placeholder tags" error — once per write, five for an
+    // 8.1.1 file. Migration writes now run behind the persist guard, and the
+    // flawed string still imports (kept-with-advisory is the settings-page
+    // behaviour too).
+    commitsTransaction(); // see above
+    glsr(SettingsController::class)->registerSettings(); // the admin_init wiring
+    importSettings([
+        'settings' => [
+            'strings' => [['id' => 'Response from %s', 's1' => 'Response from %s', 's2' => 'Response from staff']],
+        ],
+        'version' => '8.1.1',
+    ]);
+
+    expect(glsr(Notice::class)->get())->not->toContain('placeholder tags');
+    $strings = glsr(OptionManager::class)->get('settings.strings');
+    expect($strings)->toHaveCount(1)
+        ->and($strings[0]['s2'])->toBe('Response from staff');
+});
+
+test('the import-settings route stores its notices for the reload', function () {
+    // The admin route ends in a page reload, so a notice that is not stored
+    // dies with the request. That was the imported-settings success notice's
+    // fate: added after the last store(), never seen — while the errors raised
+    // mid-migration survived via the sanitize callback's own store().
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    delete_transient(glsr()->prefix.'notices');
+
+    glsr(ToolsController::class)->importSettings(); // no upload: the failure path
+
+    expect(get_transient(glsr()->prefix.'notices'))->toBeArray()->not->toBeEmpty();
 });
 
 test('the settings import handles a whole upload, stubbed past the SAPI check', function () {

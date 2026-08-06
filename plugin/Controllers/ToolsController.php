@@ -281,9 +281,11 @@ class ToolsController extends AbstractController
             glsr(Notice::class)->addError(
                 _x('You do not have permission to import settings.', 'admin-text', 'site-reviews')
             );
+            glsr(Notice::class)->store(); // because of the page reload
             return;
         }
         $this->execute(new ImportSettings());
+        glsr(Notice::class)->store(); // because of the page reload
     }
 
     /**

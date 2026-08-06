@@ -76,6 +76,11 @@ class MainController extends AbstractController
      */
     public function onMigrationEnd(): void
     {
+        // The migrations write with raw update_option(), so the options cache
+        // can be stale here — and this method persists what it reads. A stale
+        // read (a persistent object cache is enough) would silently overwrite
+        // the migrated settings with the pre-migration tree.
+        OptionManager::flushSettingsCache();
         $settings = glsr(OptionManager::class)->reset(); // fresh composed view
         $settings = glsr(OptionManager::class)->clean($settings);
         glsr(OptionManager::class)->replace($settings); // persists addon settings to their own options

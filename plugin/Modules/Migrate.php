@@ -132,7 +132,7 @@ class Migrate
                     glsr_log()->debug("[$migration] was skipped");
                     continue;
                 }
-                if ($instance->run()) {
+                if (OptionManager::whilePersisting(fn () => $instance->run())) {
                     $migrations[$migration] = true;
                     glsr_log()->debug("[$migration] has run successfully");
                     continue;
