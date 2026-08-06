@@ -1,23 +1,16 @@
 == Changelog ==
 
-= 8.2.1 (unreleased) =
-
-- Added support for WooCommerce's "Customer review request" emails — submitted reviews are saved in Site Reviews, and customers are not asked to review a product twice
-- Fixed a PHP warning when importing WooCommerce product reviews
-- Fixed a duplicate Reviews section on product pages using WooCommerce's redesigned Product Details block
-- Fixed imported WooCommerce product reviews losing their author
-- Fixed translatable strings that used multiple unnumbered placeholders — translations can now reorder them (existing translations of these strings will need to be updated)
-- Improved the WooCommerce comments compatibility experiment to give plugins and themes more accurate results
-- Updated the supported WooCommerce version to 11
-
-= 8.2.0 (2026-07-21) =
+= 8.2.0 (2026-08-06) =
 
 - Added per-addon settings storage: each addon now keeps its settings in its own option, and an addon's existing settings are moved there automatically the first time it runs
 - Added support for addons that are bundled inside another plugin rather than installed on their own
+- Added support for WooCommerce's "Customer review request" emails — submitted reviews are saved in Site Reviews, and customers are not asked to review a product twice
 - Fixed a "doing it wrong" notice raised by an integration's version notice
+- Fixed a duplicate Reviews section on product pages using WooCommerce's redesigned Product Details block
 - Fixed a fatal error on sites running MultilingualPress when it cannot report its version
 - Fixed a PHP error when a review query is built with no arguments
 - Fixed a PHP warning on sites running Loyalty Program for WooCommerce
+- Fixed a PHP warning when importing WooCommerce product reviews
 - Fixed an API request not being retried when the server asked for it to be
 - Fixed an unrecognised admin request failing silently instead of being logged
 - Fixed API request SSL certificate verification being switched off on live sites and switched on for local ones
@@ -25,6 +18,7 @@
 - Fixed deleted reviews being left in the review cache
 - Fixed duplicating a review that had not accepted the terms
 - Fixed imported reviews with no timestamp in the date being stamped with the time of the import
+- Fixed imported WooCommerce product reviews losing their author
 - Fixed PHP deprecation notices on the review revisions comparison screen
 - Fixed plugin migrations rebuilding database indexes every time instead of only when needed
 - Fixed Polylang translations never being applied to assigned pages, categories or users
@@ -48,6 +42,9 @@
 - Fixed the review submission limit matching too many previous reviews on sites using flexible assignment
 - Fixed the Unapprove link publishing the review instead of unapproving it when javascript is disabled
 - Fixed the update details check for inactive addons
+- Fixed translatable strings that used multiple unnumbered placeholders — translations can now reorder them (existing translations of these strings will need to be updated)
+- Improved the WooCommerce comments compatibility experiment to give plugins and themes more accurate results
+- Updated the supported WooCommerce version to 11
 
 = 8.1.0 (2026-07-11) =
 
