@@ -9,20 +9,14 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Request;
 
 /**
- * WooCommerce's "Customer review request" feature (customer_review_request,
- * WooCommerce 10.8+) emails customers after order completion and collects
- * reviews as comments on its own Review Order page, outside the plugin's
- * pipeline. Each submitted comment is converted into a plugin review, and
- * order items the customer has already reviewed with the plugin are excluded
- * from the feature's eligibility checks.
+ * WooCommerce's "Customer review request" feature (10.8+) collects reviews
+ * as comments on its own Review Order page, outside the plugin's pipeline.
  */
 class OrderReviewsController extends AbstractController
 {
     /**
-     * The comment is kept and marked as imported so that the batch importer
-     * (see ImportProductReviews) will not import it a second time. A comment
-     * that is already marked was converted by an earlier submission and has
-     * only been edited in place by WooCommerce.
+     * WooCommerce keeps the comment as its own record; the "imported" mark
+     * makes the batch importer skip it. A marked comment is an edit.
      *
      * @param \WC_Order $order
      *
@@ -39,9 +33,8 @@ class OrderReviewsController extends AbstractController
     }
 
     /**
-     * WooCommerce applies this filter on all of the feature's entry points
-     * (the email decision, the Review Order page, and the submission handler),
-     * so an excluded item is neither asked for nor accepted.
+     * WooCommerce applies this filter on all of the feature's entry points:
+     * an excluded item is not requested and not accepted.
      *
      * @param mixed     $items
      * @param \WC_Order $order
@@ -86,8 +79,7 @@ class OrderReviewsController extends AbstractController
         $values = array_map('trim', $values);
         $command = new CreateReview(new Request($values));
         if (glsr(ReviewManager::class)->create($command)) {
-            // the "verified" state is recomputed against the real order by
-            // verifyProductOwner on the "review/created" action
+            // verifyProductOwner recomputes "verified" on "review/created"
             update_comment_meta($commentId, 'imported', 1);
         }
     }

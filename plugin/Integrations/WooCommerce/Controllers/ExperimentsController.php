@@ -37,12 +37,9 @@ class ExperimentsController implements ControllerContract
     }
 
     /**
-     * The contract is: answer faithfully, or leave the query to WordPress.
-     * A comment query is only answered when every query var it carries has a
-     * faithful review-query translation; anything else falls through to the
-     * comments table, exactly as if the experiment were off. Guessing is the
-     * one thing this filter must never do — a confidently wrong result is
-     * worse than no substitution at all.
+     * Answer faithfully, or leave the query to WordPress: this filter answers
+     * a query only when every query var has a faithful review-query
+     * translation. All other queries fall through to the comments table.
      *
      * @param mixed             $data
      * @param \WP_Comment_Query $query
@@ -81,11 +78,9 @@ class ExperimentsController implements ControllerContract
     }
 
     /**
-     * The untranslatable vars fall into two groups. Identity-bound vars
-     * (comment IDs, comment hierarchy, comment meta such as WooCommerce's
-     * _review_order_id order ledger) ask about rows in the comments table and
-     * only the comments table can answer them. The rest simply have no
-     * review-query equivalent yet.
+     * Only the comments table can answer identity-bound vars (comment IDs,
+     * hierarchy, comment meta such as the _review_order_id ledger). The other
+     * vars have no review-query equivalent yet.
      */
     protected function canTranslateQuery(Arguments $args): bool
     {

@@ -166,12 +166,9 @@ class OptionManager
     }
 
     /**
-     * Runs the callback with the persist guard raised, so writes of the core
-     * option inside it skip the settings-form sanitize callback. Migrations
-     * need this: they write transformed settings with raw update_option(),
-     * and an unguarded write would resanitize a half-migrated tree — merging
-     * it with the currently stored settings and re-raising form notices, once
-     * per write.
+     * Runs the callback with the persist guard raised: core-option writes
+     * inside it skip the settings-form sanitize callback (migrations write
+     * half-migrated trees that must not be resanitized).
      *
      * @return mixed
      */
@@ -323,8 +320,7 @@ class OptionManager
         foreach ($writes as $key => $value) {
             $storedVersion = Arr::getAs('string', $value, 'version', '0.0.0') ?: '0.0.0';
             if ($versions[$key] !== $storedVersion) {
-                // a write can land between an addon update and updateVersion(),
-                // and stamping the new version here would erase the delta
+                // a write can see the upgrade before updateVersion() does; record it
                 $value['version_upgraded_from'] = $storedVersion;
             }
             $value['version'] = $versions[$key];
@@ -337,11 +333,8 @@ class OptionManager
 
     public function updateVersion(): void
     {
-        // the fallback only fires on a MISSING key, and the defaults declare
-        // version as an empty string — so a tree without a version (a settings
-        // import without the field) composes to '', which would be recorded
-        // as the upgraded-from version and displayed as nothing; an empty
-        // history means a fresh install
+        // An absent version composes to '': the fallback fires only on a
+        // missing key. An empty history means a fresh install.
         $version = $this->get('version', '0.0.0') ?: '0.0.0';
         if (glsr()->version !== $version) {
             $this->set('version', glsr()->version);
@@ -399,9 +392,7 @@ class OptionManager
     protected function persist(array $settings): bool
     {
         $changed = false;
-        // save and restore rather than toggle: persist() can run inside
-        // whilePersisting(), and clearing the flag here would drop the outer
-        // guard mid-callback
+        // save/restore, not toggle: persist() can run inside whilePersisting()
         $wasPersisting = static::$persisting;
         static::$persisting = true;
         try {

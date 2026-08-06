@@ -167,12 +167,10 @@ class ProductController implements ControllerContract
     }
 
     /**
-     * The block's inner-blocks structure renders WooCommerce's own comment-based
-     * reviews UI; the plugin's reviews arrive through the Product Details block's
-     * compatibility layer (see filterProductTabs). Returning an empty string here
-     * makes that block's hide-empty pass drop the native accordion item, leaving
-     * one reviews section. The legacy structure (no inner blocks) defers to
-     * comments_template(), which filterCommentsTemplate already owns.
+     * An empty string makes the Product Details hide-empty pass drop the
+     * native reviews item; the plugin's reviews arrive through that block's
+     * compatibility layer (see filterProductTabs). The legacy structure
+     * routes through comments_template(), which filterCommentsTemplate owns.
      *
      * @param string $blockContent
      * @param array  $parsedBlock

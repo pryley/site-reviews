@@ -58,12 +58,8 @@ class Gatekeeper
     }
 
     /**
-     * Checks if the dependencies allow an integration to be newly enabled.
-     * Every failed check still stores its notice, but only a plugin that is
-     * missing, inactive, or below the supported version refuses the request;
-     * a version newer than the tested one warns without refusing.
-     *
-     * @return bool true unless a blocking-grade error was found
+     * Every failed check still stores its notice, but only a blocking-grade
+     * error refuses enabling — an untested version warns without refusing.
      */
     public function allowsEnabling(): bool
     {

@@ -98,9 +98,7 @@ class SystemInfo implements \Stringable
             if ($addon = glsr($addonId)) {
                 $version = $addon->version;
                 if (method_exists($addon, 'storageKey')) {
-                    // the same pair the plugin reports for itself: the version
-                    // now, and the version its settings row was upgraded from
-                    // (a hosted addon's storageKey resolves to the host's row)
+                    // version (upgraded-from); a hosted storageKey resolves to the host's row
                     $stored = Arr::consolidate(get_option($addon->storageKey()));
                     $version = sprintf('%s (%s)', $version, Arr::getAs('string', $stored, 'version_upgraded_from', '0.0.0') ?: '0.0.0');
                 }
