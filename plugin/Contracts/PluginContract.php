@@ -13,6 +13,9 @@ use GeminiLabs\SiteReviews\Request;
  * @property string $name
  * @property string $post_type
  * @property string $slug
+ * @property string $testedTo
+ * @property string $updateUrl
+ * @property string $uri
  * @property string $version
  *
  * @method array  filterArray($hook, ...$args)

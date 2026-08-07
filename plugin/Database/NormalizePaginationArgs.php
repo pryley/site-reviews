@@ -7,11 +7,11 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Url;
 
 /**
- * @property int    $display;
- * @property int    $page;
- * @property string $pageUrl;
- * @property array  $pageUrlParameters;
- * @property int    $per_page;
+ * @property int    $display
+ * @property int    $page
+ * @property string $pageUrl
+ * @property array  $pageUrlParameters
+ * @property int    $per_page
  */
 class NormalizePaginationArgs extends Arguments
 {

@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 /**
  * @property string $id
  * @property string $name
+ * @property string $post_type
  *
  * @method array  filterArray($hook, ...$args)
  * @method bool   filterBool($hook, ...$args)

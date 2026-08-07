@@ -152,7 +152,7 @@ class EnqueueAdminAssets extends AbstractCommand
             'site-editor',
             'widgets',
         ];
-        if ('admin' === $screen->base && str_starts_with(filter_input(INPUT_GET, 'import'), glsr()->post_type)) {
+        if ('admin' === $screen->base && str_starts_with((string) filter_input(INPUT_GET, 'import'), glsr()->post_type)) {
             return true;
         }
         $isCurrentScreen = str_starts_with($screen->post_type, glsr()->post_type)
