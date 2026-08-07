@@ -47,13 +47,14 @@ class Arr
         $result = [];
         foreach ($array as $key => $value) {
             $newKey = ltrim("{$prefix}.{$key}", '.');
-            if (static::isIndexedAndFlat($value)) {
-                $value = Helper::ifTrue(!$flattenValue, $value,
-                    fn () => '['.implode(', ', $value).']'
-                );
-            } elseif (is_array($value)) {
-                $result = array_merge($result, static::flatten($value, $flattenValue, $newKey));
-                continue;
+            if (is_array($value)) {
+                if (!static::isIndexedAndFlat($value)) {
+                    $result = array_merge($result, static::flatten($value, $flattenValue, $newKey));
+                    continue;
+                }
+                if ($flattenValue) {
+                    $value = '['.implode(', ', $value).']';
+                }
             }
             $result[$newKey] = $value;
         }
@@ -233,7 +234,7 @@ class Arr
      * Search a multidimensional array by key value.
      *
      * @param mixed      $needle
-     * @param array      $haystack
+     * @param mixed      $haystack
      * @param int|string $key
      *
      * @return array|false
@@ -289,9 +290,10 @@ class Arr
 
     public static function unique(array $values): array
     {
-        return Helper::ifTrue(!static::isIndexedAndFlat($values), $values,
-            fn () => array_filter(array_unique($values)) // we do not want to reindex the array!
-        );
+        if (!static::isIndexedAndFlat($values)) {
+            return $values;
+        }
+        return array_filter(array_unique($values)); // we do not want to reindex the array!
     }
 
     /**
