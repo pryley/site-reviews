@@ -2,9 +2,11 @@
 
 use GeminiLabs\SiteReviews\Helper;
 
+use function GeminiLabs\SiteReviews\Tests\armFailingFunction;
 use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createTerm;
 use function GeminiLabs\SiteReviews\Tests\createUser;
+use function GeminiLabs\SiteReviews\Tests\disarmFailingFunctions;
 
 uses()->group('plugin');
 
@@ -127,6 +129,27 @@ test('is local server', function () {
         $_SERVER['HTTP_HOST'] = 'www.example.com';
         expect(Helper::isLocalServer())->toBeFalse(); // public address, public host
     } finally {
+        $_SERVER = $original;
+    }
+});
+
+test('is local server when filter_input() cannot see the request', function () {
+    // The FastCGI quirk (PHP #49184): the SAPI request table is empty while
+    // $_SERVER is populated. Armed, the filter_input() shadow answers as if
+    // the table were empty whatever the superglobal holds — a public site
+    // must still read as public via the $_SERVER fallback, and the local
+    // default must only apply when both sources are empty.
+    $original = $_SERVER;
+    armFailingFunction('filter_input');
+    try {
+        $_SERVER['SERVER_ADDR'] = '203.0.113.5';
+        $_SERVER['HTTP_HOST'] = 'www.example.com';
+        expect(Helper::isLocalServer())->toBeFalse();
+
+        unset($_SERVER['SERVER_ADDR'], $_SERVER['HTTP_HOST']);
+        expect(Helper::isLocalServer())->toBeTrue();
+    } finally {
+        disarmFailingFunctions();
         $_SERVER = $original;
     }
 });

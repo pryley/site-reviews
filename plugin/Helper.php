@@ -317,8 +317,10 @@ class Helper
 
     public static function isLocalServer(): bool
     {
-        $host = static::ifEmpty(filter_input(INPUT_SERVER, 'HTTP_HOST'), 'localhost');
-        $ipAddress = static::ifEmpty(filter_input(INPUT_SERVER, 'SERVER_ADDR'), '::1');
+        // input() falls back to $_SERVER for the FastCGI SAPIs that never
+        // populate the request table filter_input() reads (PHP #49184).
+        $host = static::ifEmpty(static::input(INPUT_SERVER, 'HTTP_HOST'), 'localhost');
+        $ipAddress = static::ifEmpty(static::input(INPUT_SERVER, 'SERVER_ADDR'), '::1');
         $result = false;
         if (static::isLocalIpAddress($ipAddress)
             || !mb_strpos($host, '.')
