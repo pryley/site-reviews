@@ -183,7 +183,7 @@ test('the export filter is only added for a review export', function () {
 /*
  * The CSV export.
  *
- * handle() ends in $writer->output() + exit, which would take the test process
+ * handle() ends in $writer->download() + exit, which would take the test process
  * with it, so what is tested is everything that decides WHAT gets written:
  * fetchReviews() — the generator that yields one record per review — and the two
  * ways handle() refuses to write anything at all.

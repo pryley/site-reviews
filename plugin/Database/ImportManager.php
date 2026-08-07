@@ -103,9 +103,9 @@ class ImportManager
     public function records(int $limit = 1, int $offset = 0): TabularDataReader
     {
         $this->prepare();
-        $reader = Reader::createFromPath($this->tempFilePath());
+        $reader = Reader::from($this->tempFilePath());
         $reader->setHeaderOffset(0);
-        return Statement::create()
+        return (new Statement())
             ->offset(max(0, $offset))
             ->limit(max(1, $limit))
             ->process($reader);

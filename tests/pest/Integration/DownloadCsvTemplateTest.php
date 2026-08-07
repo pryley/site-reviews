@@ -13,7 +13,7 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * pin that the two agree — an offered column the importer rejects, or a documented column missing
  * from the template, is a support ticket.
  *
- * handle() ends in $writer->output() + glsr_exit(), which the suite's shadow turns into a
+ * handle() ends in $writer->download() + glsr_exit(), which the suite's shadow turns into a
  * catchable throw — capturesDownload() hands back the bytes. Everything it writes comes from
  * data(), so most tests pin that directly.
  */

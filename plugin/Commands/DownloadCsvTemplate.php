@@ -42,7 +42,7 @@ class DownloadCsvTemplate extends AbstractCommand
             $writer->insertOne(array_keys($this->data()));
             $writer->insertOne(array_values($this->data()));
             nocache_headers();
-            $writer->output('reviews-template.csv');
+            $writer->download('reviews-template.csv');
             glsr_exit();
         } catch (CannotInsertRecord $e) {
             $this->fail();
@@ -133,8 +133,8 @@ class DownloadCsvTemplate extends AbstractCommand
 
     protected function writer(): Writer
     {
-        $writer = Writer::createFromString('');
-        $writer->addFormatter(new EscapeFormula());
+        $writer = Writer::fromString('');
+        $writer->addFormatter((new EscapeFormula())->escapeRecord(...));
         return $writer;
     }
 }

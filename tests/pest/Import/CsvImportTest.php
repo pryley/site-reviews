@@ -266,7 +266,7 @@ test('a file bigger than one chunk is processed once, not once per chunk', funct
     // ProcessCsvFile once looped over Reader::chunkBy(1000) while process()ing the whole reader
     // inside the loop — which read like a 2,500-row file processed three times and was in fact a
     // single pass (the chunk generator shared the reader's file handle, already at EOF after the
-    // first process()). The chunk loop is gone: staging is one Statement::create()->process()
+    // first process()). The chunk loop is gone: staging is one (new Statement())->process()
     // over the whole file. This test remains as the regression guard — a reintroduced loop that
     // really did re-process would double the total. 1,001 rows is two chunks' worth, the
     // smallest file that would tell.

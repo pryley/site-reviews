@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
+use GeminiLabs\League\Csv\Bom;
 use GeminiLabs\League\Csv\CannotInsertRecord;
 use GeminiLabs\League\Csv\CharsetConverter;
 use GeminiLabs\League\Csv\EscapeFormula;
@@ -120,7 +121,7 @@ class ProcessCsvFile extends AbstractCommand
             $writer = $this->writer($filePath);
             $writer->insertOne($header);
             $writer->addFormatter(fn (array $record) => $this->formatRecord($record));
-            $records = Statement::create()
+            $records = (new Statement())
                 ->where(fn (array $record) => !empty(array_filter($record, 'trim'))) // @phpstan-ignore-line remove empty rows
                 ->where(fn (array $record) => $this->validateRecord($record))
                 ->process($reader, $header);
@@ -156,7 +157,7 @@ class ProcessCsvFile extends AbstractCommand
      */
     protected function reader(string $filepath): Reader
     {
-        $reader = Reader::createFromPath($filepath);
+        $reader = Reader::from($filepath);
         if (empty($this->delimiter)) {
             $delimiters = Info::getDelimiterStats($reader, static::ALLOWED_DELIMITERS);
             $delimiters = array_keys(array_filter($delimiters));
@@ -170,11 +171,11 @@ class ProcessCsvFile extends AbstractCommand
         $reader->skipEmptyRecords();
         $reader->addFormatter(fn (array $record) => array_map('trim', $record));
         if ($reader->supportsStreamFilterOnRead()) {
-            $inputBom = $reader->getInputBOM();
-            if (in_array($inputBom, [Reader::BOM_UTF16_LE, Reader::BOM_UTF16_BE], true)) {
-                return CharsetConverter::addTo($reader, 'utf-16', 'utf-8'); // @phpstan-ignore-line
-            } elseif (in_array($inputBom, [Reader::BOM_UTF32_LE, Reader::BOM_UTF32_BE], true)) {
-                return CharsetConverter::addTo($reader, 'utf-32', 'utf-8'); // @phpstan-ignore-line
+            $bom = Bom::tryFromSequence($reader);
+            // A UTF-8 BOM needs no transcoding, so only UTF-16 and UTF-32 are converted.
+            // addTo() appends the filter to the reader and hands back the same object.
+            if (null !== $bom && ($bom->isUtf16() || $bom->isUtf32())) {
+                CharsetConverter::addTo($reader, $bom->encoding(), 'utf-8');
             }
         }
         return $reader;
@@ -219,8 +220,8 @@ class ProcessCsvFile extends AbstractCommand
 
     protected function writer(string $filePath): Writer
     {
-        $writer = Writer::createFromPath($filePath, 'w+');
-        $writer->addFormatter(new EscapeFormula());
+        $writer = Writer::from($filePath, 'w+');
+        $writer->addFormatter((new EscapeFormula())->escapeRecord(...));
         return $writer;
     }
 }

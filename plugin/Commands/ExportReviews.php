@@ -45,7 +45,7 @@ class ExportReviews extends AbstractCommand
             $writer = $this->writer();
             $writer->insertOne(array_keys($firstRecord));
             $writer->insertAll($records);
-            $writer->output($filename);
+            $writer->download($filename);
             glsr_exit();
         } catch (CannotInsertRecord $e) {
             $this->fail();
@@ -135,8 +135,8 @@ class ExportReviews extends AbstractCommand
 
     protected function writer(): Writer
     {
-        $writer = Writer::createFromString('');
-        $writer->addFormatter(new EscapeFormula());
+        $writer = Writer::fromString('');
+        $writer->addFormatter((new EscapeFormula())->escapeRecord(...));
         return $writer;
     }
 }
