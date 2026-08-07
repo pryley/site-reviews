@@ -4,6 +4,7 @@ filter:
     - vendors/               # the plugin's BUNDLED runtime libraries
     - wp-content/plugins/*   # the third-party plugins below, for class resolution only
     - wp-content/themes/*
+    - wordpress/             # WordPress core, for function and class resolution only
   excluded_paths:
     - assets/
     - languages/
@@ -37,6 +38,8 @@ build:
           - composer config repositories.fusion-builder vcs https://github.com/pryley/fusion-builder
           - composer config repositories.multilingualpress vcs https://github.com/pryley/multilingualpress
           - composer config repositories.wpbakery vcs https://github.com/pryley/wpbakery
+          # WordPress core. The analyser resolves no core function without it.
+          - composer require --dev --no-audit --ignore-platform-reqs johnpbloch/wordpress
           # Third-party plugins/themes, for the analyser's class resolution only.
           - composer require --dev --no-audit --ignore-platform-reqs breakdance/plugin
           - composer require --dev --no-audit --ignore-platform-reqs bricks/theme
