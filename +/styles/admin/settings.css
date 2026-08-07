@@ -5,7 +5,7 @@
 }
 
 .glsr-setting-field textarea.autosized {
-  min-height: 40px;
+  field-sizing: content;
   width: 100%;
 }
 .glsr-setting-field .has-reset-button {

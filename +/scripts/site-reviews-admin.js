@@ -1,7 +1,6 @@
 /** global: GLSR, jQuery, StarRating, wp */
 
 import Ajax from '@/admin/ajax.js';
-import autosize from 'autosize';
 import ColorPicker from '@/admin/color-picker.js';
 import Event from '@/public/event.js';
 import Filter from '@/admin/filter.js';
@@ -27,7 +26,8 @@ import tippy, { followCursor } from 'tippy.js';
 import { debounce, selectText, throttle } from '@/public/helpers.js';
 
 GLSR.ajax = Ajax;
-GLSR.autosize = autosize;
+// Inert shim: Review Forms <= 3.1.1 calls GLSR.autosize. Textareas now grow with CSS field-sizing.
+GLSR.autosize = Object.assign(() => {}, { destroy: () => {}, update: () => {} });
 GLSR.keys = {
     ALT: 18,
     DOWN: 40,
@@ -87,7 +87,6 @@ jQuery(function ($) {
         const btn = $(ev.currentTarget);
         const textarea = btn.prev('textarea.autosized');
         textarea.val(btn.data('default'))
-        GLSR.autosize.update(textarea)
     })
 
     $('.glsr-nav-tab').on('click:tab', (ev, id, $view) => {

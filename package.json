@@ -3,7 +3,6 @@
     "defaults"
   ],
   "dependencies": {
-    "autosize": "^6.0.1",
     "blaze-slider": "^1.9.3",
     "prismjs": "^1.30.0",
     "star-rating.js": "^4.3.1",

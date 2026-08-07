@@ -91,6 +91,7 @@ test('build general request verification message', function () {
                     '<textarea '.
                         'class="autosized code large-text" '.
                         'id="site_reviews-settings-general-request_verification_message" '.
+                        'style="min-height:3lh;" '.
                         'name="site_reviews[settings][general][request_verification_message]" '.
                         'rows="3"'.
                     '></textarea>'.
@@ -386,6 +387,7 @@ test('build general notification message', function () {
                     '<textarea '.
                         'class="autosized code large-text" '.
                         'id="site_reviews-settings-general-notification_message" '.
+                        'style="min-height:3lh;" '.
                         'name="site_reviews[settings][general][notification_message]" '.
                         'rows="3">'.
                     '</textarea>'.
@@ -1038,7 +1040,7 @@ test('build forms limit whitelist email', function () {
                 '<label for="site_reviews-settings-forms-limit_whitelist-email">Email Whitelist</label>'.
             '</th>'.
             '<td>'.
-                '<textarea class="autosized code large-text" id="site_reviews-settings-forms-limit_whitelist-email" name="site_reviews[settings][forms][limit_whitelist][email]" rows="3"></textarea>'.
+                '<textarea class="autosized code large-text" id="site_reviews-settings-forms-limit_whitelist-email" style="min-height:3lh;" name="site_reviews[settings][forms][limit_whitelist][email]" rows="3"></textarea>'.
             '</td>'.
         '</tr>');
 });
@@ -1049,7 +1051,7 @@ test('build forms limit whitelist ip address', function () {
                 '<label for="site_reviews-settings-forms-limit_whitelist-ip_address">IP Address Whitelist</label>'.
             '</th>'.
             '<td>'.
-                '<textarea class="autosized code large-text" id="site_reviews-settings-forms-limit_whitelist-ip_address" name="site_reviews[settings][forms][limit_whitelist][ip_address]" rows="3"></textarea>'.
+                '<textarea class="autosized code large-text" id="site_reviews-settings-forms-limit_whitelist-ip_address" style="min-height:3lh;" name="site_reviews[settings][forms][limit_whitelist][ip_address]" rows="3"></textarea>'.
             '</td>'.
         '</tr>');
 });
@@ -1060,7 +1062,7 @@ test('build forms limit whitelist username', function () {
                 '<label for="site_reviews-settings-forms-limit_whitelist-username">Username Whitelist</label>'.
             '</th>'.
             '<td>'.
-                '<textarea class="autosized code large-text" id="site_reviews-settings-forms-limit_whitelist-username" name="site_reviews[settings][forms][limit_whitelist][username]" rows="3"></textarea>'.
+                '<textarea class="autosized code large-text" id="site_reviews-settings-forms-limit_whitelist-username" style="min-height:3lh;" name="site_reviews[settings][forms][limit_whitelist][username]" rows="3"></textarea>'.
             '</td>'.
         '</tr>');
 });
@@ -1356,7 +1358,7 @@ test('build forms blacklist entries', function () {
                 '<label for="site_reviews-settings-forms-blacklist-entries">Review Blacklist</label>'.
             '</th>'.
             '<td>'.
-                '<textarea class="autosized code large-text" id="site_reviews-settings-forms-blacklist-entries" name="site_reviews[settings][forms][blacklist][entries]" rows="3"></textarea>'.
+                '<textarea class="autosized code large-text" id="site_reviews-settings-forms-blacklist-entries" style="min-height:3lh;" name="site_reviews[settings][forms][blacklist][entries]" rows="3"></textarea>'.
             '</td>'.
         '</tr>');
 });

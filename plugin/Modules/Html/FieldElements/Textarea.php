@@ -23,9 +23,20 @@ class Textarea extends AbstractFieldElement
         $locations = [
             'setting' => $autosize ? 'autosized large-text' : '',
         ];
+        $styles = [
+            'setting' => $autosize ? $this->autosizeStyle() : '',
+        ];
         return [
             'class' => $locations[$this->field->location()] ?? '',
+            'style' => $styles[$this->field->location()] ?? '',
         ];
+    }
+
+    protected function autosizeStyle(): string
+    {
+        // CSS field-sizing ignores the rows attribute. Set the start height from it.
+        $rows = max(2, (int) $this->field->rows);
+        return "min-height:{$rows}lh";
     }
 
     protected function buildSettingField(Arguments $args): string
