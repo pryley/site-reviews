@@ -8,7 +8,8 @@ class RestCategoryController extends \WP_REST_Terms_Controller
     {
         $obj = get_taxonomy(glsr()->taxonomy);
         $this->meta = new \WP_REST_Term_Meta_Fields(glsr()->taxonomy);
-        $this->namespace = !empty($obj->rest_namespace) ? $obj->rest_namespace : glsr()->id.'/v1';
+        $namespace = $obj->rest_namespace ?? null;
+        $this->namespace = is_string($namespace) && '' !== $namespace ? $namespace : glsr()->id.'/v1';
         $this->rest_base = 'categories';
         $this->taxonomy = glsr()->taxonomy;
     }

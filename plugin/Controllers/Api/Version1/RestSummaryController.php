@@ -11,7 +11,8 @@ class RestSummaryController extends \WP_REST_Controller
     public function __construct()
     {
         $obj = get_post_type_object(glsr()->post_type);
-        $this->namespace = !empty($obj->rest_namespace) ? $obj->rest_namespace : glsr()->id.'/v1';
+        $namespace = $obj->rest_namespace ?? null;
+        $this->namespace = is_string($namespace) && '' !== $namespace ? $namespace : glsr()->id.'/v1';
         $this->rest_base = 'summary';
     }
 
