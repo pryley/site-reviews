@@ -89,6 +89,9 @@ class SettingForm extends Form
     protected function normalizeDependencies(): void
     {
         foreach ($this->fields() as $field) {
+            if (!$field instanceof SettingField) {
+                continue; // the fields/all filter can add any field
+            }
             $dependencies = [];
             foreach (Arr::consolidate($field->depends_on) as $path => $value) {
                 if ($triggerField = $this->offsetGet($path)) {
@@ -141,6 +144,9 @@ class SettingForm extends Form
      */
     protected function normalizeFieldIsHidden(FieldContract $field): void
     {
+        if (!$field instanceof SettingField) {
+            return; // only a setting field has dependencies
+        }
         $isHidden = false;
         foreach (Arr::consolidate($field->depends_on) as $path => $expectedValue) {
             $default = Arr::get(glsr()->defaults(), $path);
@@ -164,7 +170,8 @@ class SettingForm extends Form
      */
     protected function normalizeFieldValue(FieldContract $field): void
     {
-        $value = $this->session->values[$field->original_name] ?? $field->default ?? '';
+        $default = $field instanceof SettingField ? $field->default : null;
+        $value = $this->session->values[$field->original_name] ?? $default ?? '';
         $field->value = $value;
     }
 

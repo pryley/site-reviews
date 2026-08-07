@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Html\FieldElements;
 
 use GeminiLabs\SiteReviews\Arguments;
+use GeminiLabs\SiteReviews\Modules\Html\SettingField;
 
 class Code extends AbstractFieldElement
 {
@@ -18,8 +19,9 @@ class Code extends AbstractFieldElement
 
     public function required(): array
     {
+        $autosize = $this->field instanceof SettingField && $this->field->autosize;
         $locations = [
-            'setting' => $this->field->autosize ? 'autosized' : '',
+            'setting' => $autosize ? 'autosized' : '',
         ];
         return [
             'class' => $locations[$this->field->location()] ?? '',

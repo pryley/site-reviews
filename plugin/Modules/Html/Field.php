@@ -21,6 +21,7 @@ use GeminiLabs\SiteReviews\Modules\Html\FieldElements\UnknownElement;
  * @property string       $class
  * @property string|array $conditions
  * @property string       $description
+ * @property bool         $disabled
  * @property array        $errors
  * @property string       $group
  * @property string       $id
@@ -36,6 +37,9 @@ use GeminiLabs\SiteReviews\Modules\Html\FieldElements\UnknownElement;
  * @property string       $original_name
  * @property string       $original_type
  * @property bool         $required
+ * @property bool         $selected
+ * @property string       $style
+ * @property int          $tabindex
  * @property string       $tag
  * @property string       $text
  * @property string       $type
