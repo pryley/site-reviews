@@ -9,8 +9,9 @@ class Color extends AbstractFieldElement
 {
     public function buildSettingField(Arguments $args): string
     {
-        if (empty($args->value) && $this->field instanceof SettingField) {
-            $args->value = $this->field->default; // fallback to the default value
+        $field = $this->field;
+        if (empty($args->value) && $field instanceof SettingField) {
+            $args->value = $field->default; // fallback to the default value
         }
         return $this->field->builder()->build($this->tag(), $args->toArray());
     }

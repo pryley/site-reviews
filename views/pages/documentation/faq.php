@@ -30,7 +30,7 @@ $sections = [ // order is intentional
     trailingslashit(__DIR__).'faq/plugin-templates.php',
     trailingslashit(__DIR__).'faq/ipaddress-incorrect.php',
 ];
-$filename = pathinfo(__FILE__, PATHINFO_FILENAME);
+$filename = basename(__FILE__, '.php');
 $sections = glsr()->filterArrayUnique("documentation/{$filename}", $sections);
 foreach ($sections as $section) {
     include $section;

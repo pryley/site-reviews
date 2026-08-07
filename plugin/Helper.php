@@ -73,7 +73,7 @@ class Helper
     {
         $version1 = implode('.', array_pad(explode('.', $version1), 3, 0));
         $version2 = implode('.', array_pad(explode('.', $version2), 3, 0));
-        return version_compare($version1, $version2, $operator ?: '=');
+        return (bool) version_compare($version1, $version2, $operator ?: '=');
     }
 
     /**

@@ -43,7 +43,10 @@ class SummaryPercentagesTag extends SummaryTag
 
     protected function value(): string
     {
-        $percentages = preg_filter('/$/', '%', glsr(Rating::class)->percentages($this->ratings));
+        $percentages = array_map(
+            fn ($percent) => "{$percent}%",
+            glsr(Rating::class)->percentages($this->ratings)
+        );
         $ratingRange = range(Rating::max(), 1);
         return array_reduce($ratingRange, function ($carry, $level) use ($percentages) {
             $label = $this->ratingLabel($level);

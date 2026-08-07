@@ -1,5 +1,5 @@
 <?php defined('ABSPATH') || exit;
-    $dir = pathinfo(__FILE__, PATHINFO_FILENAME);
+    $dir = basename(__FILE__, '.php');
     $files = [];
     $iterator = new DirectoryIterator(trailingslashit(__DIR__).$dir);
     foreach ($iterator as $fileinfo) {

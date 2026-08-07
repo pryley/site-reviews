@@ -23,8 +23,9 @@ class Migrate_8_1_0 implements MigrateContract
         if (2 !== count($range)) {
             return true; // nothing to migrate
         }
+        [$minDate, $maxDate] = $range;
         $result = true;
-        foreach ($this->offsetPeriods(...$range) as $period) {
+        foreach ($this->offsetPeriods($minDate, $maxDate) as $period) {
             // The INTERVAL value must never be negative: while negative
             // values are valid in MySQL/MariaDB, both translators of the
             // SQLite integration plugin prepend the sign to the value,

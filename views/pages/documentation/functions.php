@@ -14,7 +14,7 @@ $sections = [ // order is intentional
     trailingslashit(__DIR__).'functions/glsr_log.php',
     trailingslashit(__DIR__).'functions/glsr_update_review.php',
 ];
-$filename = pathinfo(__FILE__, PATHINFO_FILENAME);
+$filename = basename(__FILE__, '.php');
 $sections = glsr()->filterArrayUnique("documentation/{$filename}", $sections);
 foreach ($sections as $section) {
     include $section;

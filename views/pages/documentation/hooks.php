@@ -14,7 +14,7 @@ $sections = [ // order is intentional
     trailingslashit(__DIR__).'hooks/modify-request.php',
     trailingslashit(__DIR__).'hooks/filter-optimize.php',
 ];
-$filename = pathinfo(__FILE__, PATHINFO_FILENAME);
+$filename = basename(__FILE__, '.php');
 $sections = glsr()->filterArrayUnique("documentation/{$filename}", $sections);
 foreach ($sections as $section) {
     include $section;

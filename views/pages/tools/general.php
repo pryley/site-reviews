@@ -14,7 +14,7 @@ $sections = [
     trailingslashit(__DIR__).'general/reset-assigned-meta.php',
     trailingslashit(__DIR__).'general/rollback-plugin.php',
 ];
-$filename = pathinfo(__FILE__, PATHINFO_FILENAME);
+$filename = basename(__FILE__, '.php');
 $sections = glsr()->filterArrayUnique("tools/{$filename}", $sections);
 foreach ($sections as $section) {
     include $section;

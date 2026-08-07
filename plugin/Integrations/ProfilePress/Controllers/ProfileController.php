@@ -2,9 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\ProfilePress\Controllers;
 
-use GeminiLabs\SiteReviews\Contracts\TagContract;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewTag;
+use GeminiLabs\SiteReviews\Modules\Html\Tags\SummaryTag;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
@@ -62,9 +63,9 @@ class ProfileController extends AbstractController
      *
      * @filter site-reviews/review/value/author
      */
-    public function filterReviewAuthorValue(string $value, TagContract $tag): string
+    public function filterReviewAuthorValue(string $value, ReviewTag $tag): string
     {
-        if ($user = $tag->review->user()) { // @phpstan-ignore-line
+        if ($user = $tag->review->user()) {
             if ($url = ppress_get_frontend_profile_url($user->ID)) {
                 return sprintf('<a href="%s">%s</a>', $url, $value);
             }
@@ -106,9 +107,9 @@ class ProfileController extends AbstractController
     /**
      * @filter site-reviews/summary/value/percentages
      */
-    public function filterSummaryPercentagesValue(string $value, TagContract $tag): string
+    public function filterSummaryPercentagesValue(string $value, SummaryTag $tag): string
     {
-        if (!empty(array_sum($tag->ratings))) { // @phpstan-ignore-line
+        if (!empty(array_sum($tag->ratings))) {
             return $value;
         }
         return '';
@@ -128,9 +129,9 @@ class ProfileController extends AbstractController
     /**
      * @filter site-reviews/summary/value/rating
      */
-    public function filterSummaryTextValue(string $value, TagContract $tag): string
+    public function filterSummaryTextValue(string $value, SummaryTag $tag): string
     {
-        if (!empty(array_sum($tag->ratings))) { // @phpstan-ignore-line
+        if (!empty(array_sum($tag->ratings))) {
             return $value;
         }
         if (get_current_user_id() === $this->currentProfileId()) {

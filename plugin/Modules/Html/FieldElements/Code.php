@@ -19,7 +19,8 @@ class Code extends AbstractFieldElement
 
     public function required(): array
     {
-        $autosize = $this->field instanceof SettingField && $this->field->autosize;
+        $field = $this->field;
+        $autosize = $field instanceof SettingField && $field->autosize;
         $locations = [
             'setting' => $autosize ? 'autosized' : '',
         ];

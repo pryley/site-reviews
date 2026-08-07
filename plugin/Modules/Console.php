@@ -140,7 +140,7 @@ class Console
         foreach ($once as $entry) {
             $levelName = Arr::get($entry, 'level');
             if (in_array($levelName, $levels)) {
-                $level = Arr::get(array_flip($levels), $levelName);
+                $level = Arr::getAs('int', array_flip($levels), $levelName);
                 $message = Arr::get($entry, 'message');
                 $backtraceLine = Arr::get($entry, 'backtrace');
                 $this->log($level, $message, [], $backtraceLine);

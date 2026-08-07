@@ -182,17 +182,7 @@ class Review extends Arguments
 
     public function custom(): Arguments
     {
-        if (!$this->_custom instanceof Arguments) {
-            $custom = array_filter($this->meta()->toArray(),
-                fn ($key) => str_starts_with($key, '_custom'),
-                \ARRAY_FILTER_USE_KEY
-            );
-            $custom = Arr::unprefixKeys($custom, '_custom_');
-            $custom = Arr::unprefixKeys($custom, '_');
-            $custom = glsr(CustomFieldsDefaults::class)->merge($custom);
-            $this->_custom = glsr()->args($custom);
-        }
-        return $this->_custom;
+        return $this->_custom ??= glsr()->args($this->customValues());
     }
 
     public function date(string $format = ''): string
@@ -240,14 +230,7 @@ class Review extends Arguments
 
     public function meta(): Arguments
     {
-        if (!$this->_meta instanceof Arguments) {
-            $meta = Arr::consolidate(get_post_meta($this->ID));
-            $meta = array_map(fn ($item) => array_shift($item), array_filter($meta));
-            $meta = array_filter($meta, '\GeminiLabs\SiteReviews\Helper::isNotEmpty');
-            $meta = array_map('maybe_unserialize', $meta);
-            $this->_meta = glsr()->args($meta);
-        }
-        return $this->_meta;
+        return $this->_meta ??= glsr()->args($this->metaValues());
     }
 
     /**
@@ -364,6 +347,17 @@ class Review extends Arguments
         return $this->tokenUrl('verify', [$this->ID, trailingslashit($path)], get_home_url());
     }
 
+    protected function customValues(): array
+    {
+        $custom = array_filter($this->meta()->toArray(),
+            fn ($key) => str_starts_with($key, '_custom'),
+            \ARRAY_FILTER_USE_KEY
+        );
+        $custom = Arr::unprefixKeys($custom, '_custom_');
+        $custom = Arr::unprefixKeys($custom, '_');
+        return glsr(CustomFieldsDefaults::class)->merge($custom);
+    }
+
     protected function dateFormat(): string
     {
         return match (glsr_get_option('reviews.date.format', 'default')) {
@@ -388,6 +382,14 @@ class Review extends Arguments
         $this->set('avatar', glsr(Avatar::class)->url($this));
         $this->set('custom', $this->custom());
         $this->set('response', $this->meta()->_response);
+    }
+
+    protected function metaValues(): array
+    {
+        $meta = Arr::consolidate(get_post_meta($this->ID));
+        $meta = array_map(fn ($item) => array_shift($item), array_filter($meta));
+        $meta = array_filter($meta, '\GeminiLabs\SiteReviews\Helper::isNotEmpty');
+        return array_map('maybe_unserialize', $meta);
     }
 
     protected function tokenUrl(string $action, array $args, string $baseUrl): string
