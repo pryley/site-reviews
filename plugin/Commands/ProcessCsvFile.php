@@ -122,7 +122,7 @@ class ProcessCsvFile extends AbstractCommand
             $writer->insertOne($header);
             $writer->addFormatter(fn (array $record) => $this->formatRecord($record));
             $records = (new Statement())
-                ->where(fn (array $record) => !empty(array_filter($record, 'trim'))) // @phpstan-ignore-line remove empty rows
+                ->where(fn (array $record) => !empty(array_filter($record, 'trim'))) // remove empty rows
                 ->where(fn (array $record) => $this->validateRecord($record))
                 ->process($reader, $header);
             $writer->insertAll((function () use ($records) {

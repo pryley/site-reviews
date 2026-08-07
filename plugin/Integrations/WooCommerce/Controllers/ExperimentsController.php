@@ -168,7 +168,7 @@ class ExperimentsController implements ControllerContract
     {
         $data = [];
         foreach ($reviews as $review) {
-            $comment = new \WP_Comment((object) [ // @phpstan-ignore-line
+            $comment = new \WP_Comment((object) [
                 'comment_agent' => '',
                 'comment_approved' => (string) (int) $review->is_approved, // '0'|'1', the WP convention
                 'comment_author' => $review->name,

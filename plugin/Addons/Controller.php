@@ -399,7 +399,7 @@ abstract class Controller extends AbstractController
         $option = glsr()->prefix."activated_{$this->app()->id}";
         if (empty(get_option($option))) {
             update_option($option, true);
-            if ($this->app()->post_type) { // @phpstan-ignore-line
+            if ($this->app()->post_type) {
                 glsr(Role::class)->reset($this->filterRoles([
                     'administrator' => [],
                     'author' => [],

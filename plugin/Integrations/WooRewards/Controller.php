@@ -30,7 +30,7 @@ class Controller extends AbstractController
 
     protected function fakeComment(int $postId, Review $review): \WP_Comment
     {
-        return new \WP_Comment((object) [ // @phpstan-ignore-line
+        return new \WP_Comment((object) [
             'comment_approved' => $review->is_approved,
             'comment_ID' => $review->ID,
             'comment_post_ID' => $postId,

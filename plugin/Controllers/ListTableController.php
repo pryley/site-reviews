@@ -78,7 +78,7 @@ class ListTableController extends AbstractController
                 $value = $columns[$key];
             }
         }
-        return array_filter($postTypeColumns, 'strlen'); // @phpstan-ignore-line
+        return array_filter($postTypeColumns, 'strlen');
     }
 
     /**

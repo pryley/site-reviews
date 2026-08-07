@@ -18,7 +18,7 @@ trait IntegrationShortcode
 
     public function shortcodeInstance(): ShortcodeContract
     {
-        if (!isset($this->shortcode_instance)) { // @phpstan-ignore-line
+        if (!isset($this->shortcode_instance)) {
             $this->shortcode_instance = glsr(static::shortcodeClass());
         }
         return $this->shortcode_instance;
