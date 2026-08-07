@@ -388,10 +388,11 @@ test('an action that is overdue says how long ago it should have run', function 
     expect($table->column_schedule(preparedItems($table)[$id]))->toContain('ago');
 });
 
-test('an action with no date at all shows a zero date rather than nothing', function () {
-    // What a corrupted action's NullSchedule comes back with.
+test('an action with no schedule is labelled async rather than given a zero date', function () {
+    // An async action (Queue::async) is enqueued without a schedule, which Action
+    // Scheduler represents with a NullSchedule. Every review notification is one.
     expect(actionsTable()->column_schedule(['schedule' => new ActionScheduler_NullSchedule()]))
-        ->toBe('0000-00-00 00:00:00');
+        ->toBe('async');
 });
 
 test('a corrupted action is left out of the table rather than breaking it', function () {

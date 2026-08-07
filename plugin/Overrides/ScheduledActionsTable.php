@@ -502,7 +502,11 @@ class ScheduledActionsTable extends \ActionScheduler_Abstract_ListTable
     protected function get_schedule_display_string(\ActionScheduler_Schedule $schedule)
     {
         $schedule_display_string = '';
-        if (!$schedule->get_date()) {
+        if ($schedule instanceof \ActionScheduler_NullSchedule) {
+            return _x('async', 'admin-text', 'site-reviews');
+        }
+        // The ActionScheduler_Schedule interface requires next() and is_recurring() only.
+        if (!method_exists($schedule, 'get_date') || !$schedule->get_date()) {
             return '0000-00-00 00:00:00';
         }
         $next_timestamp = $schedule->get_date()->getTimestamp();
