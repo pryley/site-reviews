@@ -27,6 +27,7 @@ namespace GeminiLabs\SiteReviews\Contracts;
  * @property string       $original_name
  * @property string       $original_type
  * @property bool         $required
+ * @property int          $rows
  * @property bool         $selected
  * @property string       $style
  * @property int          $tabindex
