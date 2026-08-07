@@ -35,7 +35,7 @@ class Cache
         if (!empty($cached)) {
             return Cast::toArray($cached);
         }
-        include_once ABSPATH.'wp-admin/includes/plugin-install.php';
+        include_once \ABSPATH.'wp-admin/includes/plugin-install.php';
         $response = plugins_api('plugin_information', [
             'slug' => glsr()->id,
             'fields' => [
@@ -85,7 +85,7 @@ class Cache
             $test = !is_wp_error($response) && in_array($response['response']['code'], range(200, 299))
                 ? 'Works'
                 : 'Does not work';
-            set_transient(glsr()->prefix.'remote_post_test', $test, WEEK_IN_SECONDS);
+            set_transient(glsr()->prefix.'remote_post_test', $test, \WEEK_IN_SECONDS);
         }
         return Cast::toString($test);
     }
@@ -97,7 +97,7 @@ class Cache
             add_filter('gettext_default', $callback, 10, 2);
             try { // prevent badly made migration plugins from breaking Site Reviews...
                 $data = \WP_Debug_Data::debug_data(); // get the WordPress debug data in English
-                set_transient(glsr()->prefix.'system_info', $data, 12 * HOUR_IN_SECONDS);
+                set_transient(glsr()->prefix.'system_info', $data, 12 * \HOUR_IN_SECONDS);
             } catch (\TypeError $error) {
                 $data = [];
             }

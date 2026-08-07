@@ -72,7 +72,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
             return $review;
         }
         $force = Arr::getAs('bool', $request, 'force', false);
-        $supportsTrash = apply_filters('woocommerce_rest_product_review_trashable', EMPTY_TRASH_DAYS > 0, $review);
+        $supportsTrash = apply_filters('woocommerce_rest_product_review_trashable', \EMPTY_TRASH_DAYS > 0, $review);
         $request->set_param('context', 'edit');
         if ($force) {
             $previous = $this->prepare_item_for_response($review, $request);

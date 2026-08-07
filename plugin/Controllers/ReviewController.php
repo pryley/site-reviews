@@ -67,16 +67,16 @@ class ReviewController extends AbstractController
         if (empty($sanitized['ID']) || empty($sanitized['action']) || glsr()->post_type !== Arr::get($sanitized, 'post_type')) {
             return $data;
         }
-        if (!empty(filter_input(INPUT_GET, 'bulk_edit'))) {
-            if (is_numeric(filter_input(INPUT_GET, 'post_author'))) {
-                $data['post_author'] = filter_input(INPUT_GET, 'post_author');
+        if (!empty(filter_input(\INPUT_GET, 'bulk_edit'))) {
+            if (is_numeric(filter_input(\INPUT_GET, 'post_author'))) {
+                $data['post_author'] = filter_input(\INPUT_GET, 'post_author');
             } else {
                 unset($data['post_author']);
             }
         }
-        if (is_numeric(filter_input(INPUT_POST, 'post_author_override'))) {
+        if (is_numeric(filter_input(\INPUT_POST, 'post_author_override'))) {
             // use the value from the author meta box
-            $data['post_author'] = filter_input(INPUT_POST, 'post_author_override');
+            $data['post_author'] = filter_input(\INPUT_POST, 'post_author_override');
         }
         return $data;
     }
@@ -204,7 +204,7 @@ class ReviewController extends AbstractController
      */
     public function onApprove(): void
     {
-        if (glsr()->id === filter_input(INPUT_GET, 'plugin')) {
+        if (glsr()->id === filter_input(\INPUT_GET, 'plugin')) {
             check_admin_referer('approve-review_'.($postId = $this->getPostId()));
             $this->execute(new ToggleStatus(new Request([
                 'post_id' => $postId,
@@ -295,10 +295,10 @@ class ReviewController extends AbstractController
         $data['is_approved'] = 'publish' === get_post_status($postId);
         if (false === glsr(Database::class)->insert('ratings', $data)) {
             glsr_log()->error('A review could not be created. Here are some things to try which may fix the problem:'.
-                PHP_EOL.'1. First, deactivate Site Reviews and then reactivate it (this should fix any broken database table indexes).'.
-                PHP_EOL.'2. Next, hold down the ALT key (Option key if using a Mac) and run the Migrate Plugin tool.'.
-                PHP_EOL.'3. Finally, run the "Repair Review Relations" tool.'.
-                PHP_EOL.'4. If the problem persists, please use the "Contact Support" section on the Help page.'
+                \PHP_EOL.'1. First, deactivate Site Reviews and then reactivate it (this should fix any broken database table indexes).'.
+                \PHP_EOL.'2. Next, hold down the ALT key (Option key if using a Mac) and run the Migrate Plugin tool.'.
+                \PHP_EOL.'3. Finally, run the "Repair Review Relations" tool.'.
+                \PHP_EOL.'4. If the problem persists, please use the "Contact Support" section on the Help page.'
             );
             glsr_log()->debug($data);
             wp_delete_post($postId, true); // remove post as review was not created
@@ -376,7 +376,7 @@ class ReviewController extends AbstractController
         if (!glsr()->can('edit_posts') || !$this->isEditedReview($post, $oldPost)) {
             return;
         }
-        if (glsr()->id === filter_input(INPUT_GET, 'plugin')) {
+        if (glsr()->id === filter_input(\INPUT_GET, 'plugin')) {
             return; // the fallback approve/unapprove action is being run
         }
         if (!in_array(glsr_current_screen()->base, ['edit', 'post'])) {
@@ -397,7 +397,7 @@ class ReviewController extends AbstractController
      */
     public function onUnapprove(): void
     {
-        if (glsr()->id === filter_input(INPUT_GET, 'plugin')) {
+        if (glsr()->id === filter_input(\INPUT_GET, 'plugin')) {
             $postId = $this->getPostId();
             check_admin_referer("unapprove-review_{$postId}");
             $this->execute(new ToggleStatus(new Request([
@@ -428,10 +428,10 @@ class ReviewController extends AbstractController
 
     protected function bulkUpdateReview(Review $review, \WP_Post $oldPost): void
     {
-        if ($assignedPostIds = filter_input(INPUT_GET, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY)) {
+        if ($assignedPostIds = filter_input(\INPUT_GET, 'post_ids', \FILTER_SANITIZE_NUMBER_INT, \FILTER_FORCE_ARRAY)) {
             glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
         }
-        if ($assignedUserIds = filter_input(INPUT_GET, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY)) {
+        if ($assignedUserIds = filter_input(\INPUT_GET, 'user_ids', \FILTER_SANITIZE_NUMBER_INT, \FILTER_FORCE_ARRAY)) {
             glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
         }
         $review->refresh();
@@ -462,7 +462,7 @@ class ReviewController extends AbstractController
         if (in_array('trash', [$post->post_status, $oldPost->post_status])) {
             return false; // trashed posts cannot be edited
         }
-        $input = 'edit' === glsr_current_screen()->base ? INPUT_GET : INPUT_POST;
+        $input = 'edit' === glsr_current_screen()->base ? \INPUT_GET : \INPUT_POST;
         return filter_input($input, 'action') !== glsr()->prefix.'admin_action'; // abort if not a proper post update (i.e. approve/unapprove)
     }
 
@@ -517,8 +517,8 @@ class ReviewController extends AbstractController
             glsr(ReviewManager::class)->updateRating($review->ID, $data); // values are sanitized here
             $review->refresh();
         }
-        $assignedPostIds = filter_input(INPUT_POST, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
-        $assignedUserIds = filter_input(INPUT_POST, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
+        $assignedPostIds = filter_input(\INPUT_POST, 'post_ids', \FILTER_SANITIZE_NUMBER_INT, \FILTER_FORCE_ARRAY);
+        $assignedUserIds = filter_input(\INPUT_POST, 'user_ids', \FILTER_SANITIZE_NUMBER_INT, \FILTER_FORCE_ARRAY);
         glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
         glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
         glsr(ResponseMetabox::class)->save($review);

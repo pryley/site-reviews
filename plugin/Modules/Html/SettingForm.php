@@ -99,7 +99,7 @@ class SettingForm extends Form
             if (empty($dependencies)) {
                 continue;
             }
-            $field['data-depends'] = wp_json_encode($dependencies, JSON_HEX_APOS | JSON_HEX_QUOT);
+            $field['data-depends'] = wp_json_encode($dependencies, \JSON_HEX_APOS | \JSON_HEX_QUOT);
         }
     }
 

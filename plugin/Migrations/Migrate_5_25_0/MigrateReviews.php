@@ -89,7 +89,7 @@ class MigrateReviews implements MigrateContract
             ";
             $results = glsr(Database::class)->dbGetResults(
                 glsr(Query::class)->sql($sql, $offset, $this->limit),
-                ARRAY_A
+                \ARRAY_A
             );
             if (empty($results)) {
                 break;
@@ -126,7 +126,7 @@ class MigrateReviews implements MigrateContract
             ";
             $results = glsr(Database::class)->dbGetResults(
                 glsr(Query::class)->sql($sql, glsr()->post_type, serialize([]), $offset, $this->limit),
-                OBJECT
+                \OBJECT
             );
             if (empty($results)) {
                 break;
@@ -176,7 +176,7 @@ class MigrateReviews implements MigrateContract
                     WHERE r.review_id = p.ID
                 )
             ");
-            $results = glsr(Database::class)->dbGetResults($sql, OBJECT);
+            $results = glsr(Database::class)->dbGetResults($sql, \OBJECT);
             if (!empty($results)) {
                 $values = $this->parseRatings($results);
                 $fields = array_keys(glsr(RatingDefaults::class)->defaults());
@@ -205,7 +205,7 @@ class MigrateReviews implements MigrateContract
             ";
             $results = glsr(Database::class)->dbGetResults(
                 glsr(Query::class)->sql($sql, $offset, $this->limit),
-                ARRAY_A
+                \ARRAY_A
             );
             if (empty($results)) {
                 break;

@@ -12,14 +12,14 @@ class Rollback
         $parent_file = 'edit.php?post_type='.glsr()->post_type;
         $title = _x('Rollback Site Reviews', 'admin-text', 'site-reviews');
         wp_enqueue_script('updates');
-        require_once ABSPATH.'wp-admin/admin-header.php';
+        require_once \ABSPATH.'wp-admin/admin-header.php';
         $this->upgrader($title)->rollback($version);
-        require_once ABSPATH.'wp-admin/admin-footer.php';
+        require_once \ABSPATH.'wp-admin/admin-footer.php';
     }
 
     public function rollbackData(string $version): array
     {
-        set_transient(glsr()->prefix.'rollback_version', $version, MINUTE_IN_SECONDS);
+        set_transient(glsr()->prefix.'rollback_version', $version, \MINUTE_IN_SECONDS);
         return [
             'data' => [
                 '_ajax_nonce' => wp_create_nonce('updates'),

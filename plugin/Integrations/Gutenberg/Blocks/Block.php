@@ -21,7 +21,7 @@ abstract class Block implements BlockContract
 
     public function render(array $attributes): string
     {
-        if ('edit' === filter_input(INPUT_GET, 'context')) {
+        if ('edit' === filter_input(\INPUT_GET, 'context')) {
             if (!$this->hasVisibleFields($attributes)) {
                 return $this->buildEmptyBlock(
                     _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews')

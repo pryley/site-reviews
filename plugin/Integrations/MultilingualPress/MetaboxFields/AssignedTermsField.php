@@ -25,6 +25,6 @@ class AssignedTermsField
      */
     public static function sanitize($value): string
     {
-        return filter_var($value, FILTER_VALIDATE_BOOLEAN) ? '1' : '';
+        return filter_var($value, \FILTER_VALIDATE_BOOLEAN) ? '1' : '';
     }
 }

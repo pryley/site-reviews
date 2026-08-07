@@ -81,8 +81,8 @@ class MigrateProductRatings extends AbstractCommand
         if (!defined('WC_ABSPATH')) {
             return;
         }
-        if (file_exists(WC_ABSPATH.'includes/wc-update-functions.php')) {
-            include_once WC_ABSPATH.'includes/wc-update-functions.php';
+        if (file_exists(\WC_ABSPATH.'includes/wc-update-functions.php')) {
+            include_once \WC_ABSPATH.'includes/wc-update-functions.php';
             wc_update_500_fix_product_review_count();
         }
     }
@@ -107,7 +107,7 @@ class MigrateProductRatings extends AbstractCommand
         ";
         $rows = glsr(Database::class)->dbGetResults(
             glsr(Query::class)->sql($sql, $metaKey),
-            ARRAY_A
+            \ARRAY_A
         );
         $values = [];
         foreach ($rows as $row) {

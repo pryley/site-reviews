@@ -149,7 +149,7 @@ class DeactivationController extends AbstractController
             'Memory Limit' => ini_get('memory_limit'),
             'Multisite' => is_multisite() ? 'Yes' : 'No',
             'MySQL Version' => $wpdb->get_var('SELECT VERSION()'),
-            'PHP Version' => PHP_VERSION,
+            'PHP Version' => \PHP_VERSION,
             'Site Language' => get_locale(),
             'Timezone' => wp_timezone_string(),
             'Total Users' => glsr_user_count(),

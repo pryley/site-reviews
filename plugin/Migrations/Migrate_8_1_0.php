@@ -74,7 +74,7 @@ class Migrate_8_1_0 implements MigrateContract
             AND post_date <> '0000-00-00 00:00:00'
         ";
         $query = glsr(Query::class)->sql($sql, glsr()->post_type);
-        $row = glsr(Database::class)->dbGetRow($query, ARRAY_A);
+        $row = glsr(Database::class)->dbGetRow($query, \ARRAY_A);
         if (empty($row['min_date']) || empty($row['max_date'])) {
             return [];
         }
@@ -91,8 +91,8 @@ class Migrate_8_1_0 implements MigrateContract
     protected function offsetPeriods(string $minDate, string $maxDate): array
     {
         $timezone = wp_timezone();
-        $begin = (int) strtotime("{$minDate} UTC") - (2 * DAY_IN_SECONDS);
-        $end = (int) strtotime("{$maxDate} UTC") + (2 * DAY_IN_SECONDS);
+        $begin = (int) strtotime("{$minDate} UTC") - (2 * \DAY_IN_SECONDS);
+        $end = (int) strtotime("{$maxDate} UTC") + (2 * \DAY_IN_SECONDS);
         $transitions = $timezone->getTransitions($begin, $end);
         if (empty($transitions)) { // fixed offset timezone
             $transitions = [[

@@ -114,7 +114,7 @@ trait Sql
             // Seeding per hour keeps the ordering stable within the
             // hour (page N always agrees with page 1) while still
             // rotating the "random" order over time.
-            'random' => $this->db->prepare('RAND(%d)', (int) floor(time() / HOUR_IN_SECONDS)),
+            'random' => $this->db->prepare('RAND(%d)', (int) floor(time() / \HOUR_IN_SECONDS)),
         ];
         $order = $this->args['order'];
         $orderby = $this->args['orderby'];

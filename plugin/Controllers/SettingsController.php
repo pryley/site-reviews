@@ -48,7 +48,7 @@ class SettingsController extends AbstractController
         $options = $this->sanitizeStrings($options, $input);
         $options = $this->sanitizeAll($options);
         $options = glsr()->filterArray('settings/sanitize', $options, $input);
-        if (filter_input(INPUT_POST, 'option_page') === glsr()->id) {
+        if (filter_input(\INPUT_POST, 'option_page') === glsr()->id) {
             glsr(Notice::class)->addSuccess(_x('Settings updated.', 'admin-text', 'site-reviews'));
         }
         glsr(Notice::class)->store(); // store the notices before the page reloads

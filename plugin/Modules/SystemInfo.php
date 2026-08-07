@@ -19,7 +19,7 @@ class SystemInfo implements \Stringable
 
     public function __construct()
     {
-        require_once ABSPATH.'wp-admin/includes/plugin.php';
+        require_once \ABSPATH.'wp-admin/includes/plugin.php';
     }
 
     public function __toString()
@@ -280,17 +280,17 @@ class SystemInfo implements \Stringable
     {
         $strings = ['['.strtoupper($title).']'];
         $padding = max(static::PAD, ...array_map(
-            fn ($key) => mb_strlen(html_entity_decode($key, ENT_HTML5), 'UTF-8'),
+            fn ($key) => mb_strlen(html_entity_decode($key, \ENT_HTML5), 'UTF-8'),
             array_keys($details)
         ));
         ksort($details);
         foreach ($details as $key => $value) {
-            $key = html_entity_decode((string) $key, ENT_HTML5);
+            $key = html_entity_decode((string) $key, \ENT_HTML5);
             $pad = $padding - (mb_strlen($key, 'UTF-8') - strlen($key)); // handle unicode character lengths
             $label = str_pad($key, $pad, '.');
             $strings[] = "{$label} : {$value}";
         }
-        return implode(PHP_EOL, $strings).PHP_EOL.PHP_EOL;
+        return implode(\PHP_EOL, $strings).\PHP_EOL.\PHP_EOL;
     }
 
     protected function ini(string $name, string $fallback = ''): string
@@ -324,7 +324,7 @@ class SystemInfo implements \Stringable
         $config = glsr()->settings();
         $config = array_filter($config, function ($field, $key) {
             return str_starts_with($key, 'settings.licenses.') || str_ends_with($key, 'api_key') || 'secret' === ($field['type'] ?? '');
-        }, ARRAY_FILTER_USE_BOTH);
+        }, \ARRAY_FILTER_USE_BOTH);
         $keys = array_keys($config);
         $keys = array_map(fn ($key) => Str::removePrefix($key, 'settings.'), $keys);
         foreach ($settings as $key => &$value) {

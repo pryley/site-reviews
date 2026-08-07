@@ -260,12 +260,12 @@ class ListTableController extends AbstractController
      */
     public function overrideInlineSaveAjax(): void
     {
-        $screen = filter_input(INPUT_POST, 'screen');
+        $screen = filter_input(\INPUT_POST, 'screen');
         if ('edit-'.glsr()->post_type !== $screen) {
             return; // don't override
         }
         check_ajax_referer('inlineeditnonce', '_inline_edit');
-        if (empty($postId = filter_input(INPUT_POST, 'post_ID', FILTER_VALIDATE_INT))) {
+        if (empty($postId = filter_input(\INPUT_POST, 'post_ID', \FILTER_VALIDATE_INT))) {
             wp_die();
         }
         if (!glsr()->can('respond_to_post', $postId)) {
@@ -282,12 +282,12 @@ class ListTableController extends AbstractController
             printf($message, $name);
             wp_die();
         }
-        $response = (string) filter_input(INPUT_POST, '_response');
+        $response = (string) filter_input(\INPUT_POST, '_response');
         glsr(ReviewManager::class)->updateResponse($postId, compact('response'));
         $review = glsr_get_review($postId);
         glsr()->action('cache/flush', "review_{$review->ID}_responded", $review);
         global $mode;
-        $mode = Str::restrictTo(['excerpt', 'list'], (string) filter_input(INPUT_POST, 'post_view'), 'list');
+        $mode = Str::restrictTo(['excerpt', 'list'], (string) filter_input(\INPUT_POST, 'post_view'), 'list');
         $table = new ReviewsListTable(['screen' => convert_to_screen($screen)]);
         $table->display_rows([get_post($postId)], 0);
         wp_die();
@@ -339,7 +339,7 @@ class ListTableController extends AbstractController
             $query->set('meta_key', Str::prefix($orderby, '_'));
             $query->set('orderby', 'meta_value');
         }
-        if ($termId = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_NUMBER_INT)) {
+        if ($termId = filter_input(\INPUT_GET, 'category', \FILTER_SANITIZE_NUMBER_INT)) {
             $taxQuery = ['taxonomy' => glsr()->taxonomy];
             if (-1 === Cast::toInt($termId)) {
                 $taxQuery['operator'] = 'NOT EXISTS';
@@ -353,7 +353,7 @@ class ListTableController extends AbstractController
     protected function filterByValues(): array
     {
         $filterBy = glsr(ColumnFilterbyDefaults::class)->defaults();
-        $filterBy = filter_input_array(INPUT_GET, $filterBy);
+        $filterBy = filter_input_array(\INPUT_GET, $filterBy);
         return Arr::removeEmptyValues(Arr::consolidate($filterBy));
     }
 

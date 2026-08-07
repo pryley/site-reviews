@@ -18,7 +18,7 @@ class WriteReviewNotice extends AbstractNotice
             // The deferInterval is 1 month so we will subtract that (minus 1 week)
             // from the timestamp so that it is triggered again in a week.
             $this->dismiss([
-                'timestamp' => current_time('timestamp') - (MONTH_IN_SECONDS - WEEK_IN_SECONDS),
+                'timestamp' => current_time('timestamp') - (\MONTH_IN_SECONDS - \WEEK_IN_SECONDS),
                 'version' => '',
             ]);
             return false;
@@ -38,7 +38,7 @@ class WriteReviewNotice extends AbstractNotice
 
     protected function deferInterval(): int
     {
-        return MONTH_IN_SECONDS;
+        return \MONTH_IN_SECONDS;
     }
 
     protected function deferVersion(): string

@@ -27,7 +27,7 @@ class Query
     public function export(array $args = []): array
     {
         $this->setArgs($args);
-        return glsr(Database::class)->dbGetResults($this->queryExport(), ARRAY_A);
+        return glsr(Database::class)->dbGetResults($this->queryExport(), \ARRAY_A);
     }
 
     public function hasRevisions(int $postId): bool
@@ -38,13 +38,13 @@ class Query
     public function import(array $args = []): array
     {
         $this->setArgs($args);
-        return glsr(Database::class)->dbGetResults($this->queryImport(), ARRAY_A);
+        return glsr(Database::class)->dbGetResults($this->queryImport(), \ARRAY_A);
     }
 
     public function ratings(array $args = []): array
     {
         $this->setArgs($args, $unset = ['orderby']);
-        $results = glsr(Database::class)->dbGetResults($this->queryRatings(), ARRAY_A);
+        $results = glsr(Database::class)->dbGetResults($this->queryRatings(), \ARRAY_A);
         return $this->normalizeRatings($results);
     }
 
@@ -55,7 +55,7 @@ class Query
             return [];
         }
         $this->setArgs($args, $unset = ['orderby']);
-        $results = glsr(Database::class)->dbGetResults($this->$method(), ARRAY_A);
+        $results = glsr(Database::class)->dbGetResults($this->$method(), \ARRAY_A);
         return $this->normalizeRatingsByAssignedId($results);
     }
 
@@ -66,7 +66,7 @@ class Query
             fn () => glsr(Cache::class)->get($reviewId, 'reviews')
         );
         if (!$review instanceof Review) {
-            $result = glsr(Database::class)->dbGetRow($this->queryReviews($reviewId), ARRAY_A);
+            $result = glsr(Database::class)->dbGetRow($this->queryReviews($reviewId), \ARRAY_A);
             $review = new Review($result);
             glsr()->action('get/review', $review, $reviewId);
             if ($review->isValid()) {
@@ -97,7 +97,7 @@ class Query
         if (empty($reviewIds)) { // if there are no review IDs, return an empty result
             return [];
         }
-        $reviews = glsr(Database::class)->dbGetResults($this->queryReviews($reviewIds), ARRAY_A);
+        $reviews = glsr(Database::class)->dbGetResults($this->queryReviews($reviewIds), \ARRAY_A);
         foreach ($reviews as &$review) {
             $review = new Review($review);
             glsr()->action('get/review', $review, $review->ID);

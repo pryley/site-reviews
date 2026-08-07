@@ -194,7 +194,7 @@ abstract class BricksElement extends \Bricks\Element
         $classes = glsr(Sanitizer::class)->sanitizeAttrClass(implode(' ', $classes));
         $dom = new \DOMDocument();
         $dom->loadHTML('<?xml encoding="utf-8"?>'.$html,
-            LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOERROR | LIBXML_NOWARNING
+            \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD | \LIBXML_NOERROR | \LIBXML_NOWARNING
         );
         $xpath = new \DOMXPath($dom);
         foreach ($xpath->query('//button[contains(concat(" ", normalize-space(@class), " "), " glsr-button ")]') as $button) {

@@ -253,7 +253,7 @@ class AdminController extends AbstractController
         if (!glsr(Migrate::class)->isMigrationNeeded() && !glsr(Database::class)->isMigrationNeeded()) {
             return;
         }
-        glsr(Queue::class)->once(time() + MINUTE_IN_SECONDS, 'queue/migration');
+        glsr(Queue::class)->once(time() + \MINUTE_IN_SECONDS, 'queue/migration');
     }
 
     /**

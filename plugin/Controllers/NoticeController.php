@@ -11,9 +11,9 @@ class NoticeController extends AbstractController
      */
     public function activatePlugin(): void
     {
-        $action = filter_input(INPUT_GET, 'action');
-        $plugin = filter_input(INPUT_GET, 'plugin');
-        $trigger = filter_input(INPUT_GET, 'trigger');
+        $action = filter_input(\INPUT_GET, 'action');
+        $plugin = filter_input(\INPUT_GET, 'plugin');
+        $trigger = filter_input(\INPUT_GET, 'trigger');
         if ('activate' !== $action || 'notice' !== $trigger || empty($plugin)) {
             return;
         }

@@ -59,7 +59,7 @@ class Translation
                     continue;
                 }
                 $entry['domain'] = $domain; // the text-domain of the entry
-                $entries[html_entity_decode($key, ENT_COMPAT, 'UTF-8')] = $entry;
+                $entries[html_entity_decode($key, \ENT_COMPAT, 'UTF-8')] = $entry;
             }
         } catch (\Exception $e) {
             glsr_log()->error($e->getMessage());
@@ -190,7 +190,7 @@ class Translation
                 : $data['s1'];
             $rendered .= $this->render('result', [
                 'domain' => $this->getEntryString($entry, 'domain'),
-                'entry' => wp_json_encode($data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
+                'entry' => wp_json_encode($data, \JSON_HEX_APOS | \JSON_HEX_QUOT | \JSON_HEX_TAG | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE),
                 'text' => wp_strip_all_tags($text),
             ]);
         }

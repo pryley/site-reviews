@@ -85,11 +85,11 @@ class SchemaParser
 
     public function parseShortcodes(string $content, string $name = 'site_reviews'): array
     {
-        $content = wp_specialchars_decode($content, ENT_QUOTES);
+        $content = wp_specialchars_decode($content, \ENT_QUOTES);
         if (false === strpos($content, '[')) {
             return [];
         }
-        preg_match_all('/'.get_shortcode_regex([$name]).'/', $content, $matches, PREG_SET_ORDER);
+        preg_match_all('/'.get_shortcode_regex([$name]).'/', $content, $matches, \PREG_SET_ORDER);
         if (empty($matches)) {
             return [];
         }

@@ -40,7 +40,7 @@ class ExportRatings extends AbstractCommand
 
     protected function cleanup(): void
     {
-        $timestamp = time() + (10 * MINUTE_IN_SECONDS);
+        $timestamp = time() + (10 * \MINUTE_IN_SECONDS);
         glsr(Queue::class)->once($timestamp, 'queue/export/cleanup');
     }
 

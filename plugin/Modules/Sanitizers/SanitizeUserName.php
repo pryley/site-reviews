@@ -49,7 +49,7 @@ class SanitizeUserName extends StringSanitizer
         }
         $name = strstr($value, '@', true) ?: $value; // prevent exposing user email
         $name = $this->kses($name);
-        $name = html_entity_decode($name, ENT_QUOTES, 'UTF-8'); // &amp;lt => &lt;
+        $name = html_entity_decode($name, \ENT_QUOTES, 'UTF-8'); // &amp;lt => &lt;
         $name = wp_specialchars_decode($name); // &lt; => <
         $name = wp_strip_all_tags($name);
         $name = preg_replace('/%([a-fA-F0-9][a-fA-F0-9])/', '', $name); // Remove percent-encoded characters.

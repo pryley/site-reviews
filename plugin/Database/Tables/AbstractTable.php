@@ -17,7 +17,7 @@ abstract class AbstractTable
 
     public function __construct()
     {
-        require_once ABSPATH.'wp-admin/includes/upgrade.php'; // used for dbDelta()
+        require_once \ABSPATH.'wp-admin/includes/upgrade.php'; // used for dbDelta()
         global $wpdb;
         $this->database = $wpdb->dbname ?: \DB_NAME;
         $this->db = $wpdb;

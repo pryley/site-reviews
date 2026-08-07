@@ -41,11 +41,11 @@ class Helper
         if (!empty($proxyHeader)) {
             $ipv4 = array_filter($trustedProxies, function ($range) {
                 [$ip] = explode('/', $range);
-                return !empty(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4));
+                return !empty(filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4));
             });
             $ipv6 = array_filter($trustedProxies, function ($range) {
                 [$ip] = explode('/', $range);
-                return !empty(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6));
+                return !empty(filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6));
             });
             $whitelist[$proxyHeader] = [
                 Whip::IPV4 => $ipv4,
@@ -97,8 +97,8 @@ class Helper
     {
         $pagedQueryVar = glsr()->constant('PAGED_QUERY_VAR');
         $pageNum = empty($fromUrl)
-            ? filter_input(INPUT_GET, $pagedQueryVar, FILTER_VALIDATE_INT)
-            : filter_var(Url::query($fromUrl, $pagedQueryVar), FILTER_VALIDATE_INT);
+            ? filter_input(\INPUT_GET, $pagedQueryVar, \FILTER_VALIDATE_INT)
+            : filter_var(Url::query($fromUrl, $pagedQueryVar), \FILTER_VALIDATE_INT);
         if (empty($pageNum)) {
             $pageNum = (int) $fallback;
         }
@@ -253,7 +253,7 @@ class Helper
      */
     public static function inRange($value, $min, $max): bool
     {
-        $inRange = filter_var($value, FILTER_VALIDATE_INT, ['options' => [
+        $inRange = filter_var($value, \FILTER_VALIDATE_INT, ['options' => [
             'min_range' => intval($min),
             'max_range' => intval($max),
         ]]);
@@ -309,7 +309,7 @@ class Helper
 
     public static function isLocalIpAddress(string $ipAddress): bool
     {
-        if (false !== filter_var($ipAddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6)) {
+        if (false !== filter_var($ipAddress, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4 | \FILTER_FLAG_IPV6)) {
             return in_array($ipAddress, ['127.0.0.1', '::1']);
         }
         return true;
@@ -319,8 +319,8 @@ class Helper
     {
         // input() falls back to $_SERVER for the FastCGI SAPIs that never
         // populate the request table filter_input() reads (PHP #49184).
-        $host = static::ifEmpty(static::input(INPUT_SERVER, 'HTTP_HOST'), 'localhost');
-        $ipAddress = static::ifEmpty(static::input(INPUT_SERVER, 'SERVER_ADDR'), '::1');
+        $host = static::ifEmpty(static::input(\INPUT_SERVER, 'HTTP_HOST'), 'localhost');
+        $ipAddress = static::ifEmpty(static::input(\INPUT_SERVER, 'SERVER_ADDR'), '::1');
         $result = false;
         if (static::isLocalIpAddress($ipAddress)
             || !mb_strpos($host, '.')
@@ -368,7 +368,7 @@ class Helper
     public static function serverIp(): string
     {
         $response = glsr(Api::class, ['url' => 'https://ipecho.net'])->get('plain', [
-            'expiration' => WEEK_IN_SECONDS,
+            'expiration' => \WEEK_IN_SECONDS,
         ]);
         if ($response->successful()) {
             return filter_var($response->response->get_data(), \FILTER_VALIDATE_IP);

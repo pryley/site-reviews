@@ -50,7 +50,7 @@ class EditorController extends AbstractController
     public function filterIsProtectedMeta(bool $protected, string $metaKey, ?string $metaType): bool
     {
         if ('post' === $metaType && Str::startsWith((string) $metaKey, ['_custom_', '_'.glsr()->prefix])) {
-            if ('delete-meta' === filter_input(INPUT_POST, 'action')) {
+            if ('delete-meta' === filter_input(\INPUT_POST, 'action')) {
                 return false; // allow delete but not update
             }
             if (glsr()->post_type === get_post_type()) {
@@ -72,7 +72,7 @@ class EditorController extends AbstractController
             return $messages;
         }
         $strings = glsr(UpdatedMessageDefaults::class)->defaults();
-        $restored = filter_input(INPUT_GET, 'revision');
+        $restored = filter_input(\INPUT_GET, 'revision');
         if ($revisionTitle = wp_post_revision_title(intval($restored), false)) {
             $restored = sprintf($strings['restored'], $revisionTitle);
         }

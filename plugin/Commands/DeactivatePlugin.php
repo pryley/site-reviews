@@ -48,7 +48,7 @@ class DeactivatePlugin extends AbstractCommand
             'memory_limit' => ini_get('memory_limit'),
             'multisite' => is_multisite(),
             'mysql_version' => $wpdb->get_var('SELECT VERSION()'),
-            'php_version' => PHP_VERSION,
+            'php_version' => \PHP_VERSION,
             'theme_name' => (string) $theme->name,
             'theme_slug' => (string) $theme->display('TextDomain'),
             'theme_uri' => (string) $theme->display('AuthorURI'),

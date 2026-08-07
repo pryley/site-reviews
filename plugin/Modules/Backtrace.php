@@ -25,7 +25,7 @@ class Backtrace
     {
         $backtrace = ((interface_exists('Throwable') && $data instanceof \Throwable) || $data instanceof \Exception)
             ? $data->getTrace()
-            : debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+            : debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 1);
         return $this->buildLine($backtrace);
     }
 
@@ -37,15 +37,15 @@ class Backtrace
             glsr()->path('plugin/', false),
             trailingslashit(glsr()->path()),
             trailingslashit(glsr()->path('', false)),
-            WP_CONTENT_DIR,
-            ABSPATH,
+            \WP_CONTENT_DIR,
+            \ABSPATH,
         ]);
         return str_replace('/', '\\', str_replace($search, '', $line));
     }
 
     public function trace(int $limit = 6): array
     {
-        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $limit + 2);
+        $trace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, $limit + 2);
         array_shift($trace); // remove the first entry
         if ('glsr_trace' === ($trace[0]['function'] ?? '')) {
             array_shift($trace); // remove the second entry

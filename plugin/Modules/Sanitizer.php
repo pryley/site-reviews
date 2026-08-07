@@ -57,7 +57,7 @@ class Sanitizer
 
     protected function buildSanitizer(string $sanitizer): array
     {
-        $parts = preg_split('/:/', $sanitizer, 2, PREG_SPLIT_NO_EMPTY);
+        $parts = preg_split('/:/', $sanitizer, 2, \PREG_SPLIT_NO_EMPTY);
         $name = trim(Arr::get($parts, 0));
         $args = trim(Arr::get($parts, 1));
         $args = 'regex' === $name ? [$args] : explode(',', $args);
@@ -75,7 +75,7 @@ class Sanitizer
     protected function buildSanitizers(array $sanitizers): array
     {
         foreach ($sanitizers as $key => $value) {
-            $methods = Arr::consolidate(preg_split('/\|/', $value, -1, PREG_SPLIT_NO_EMPTY));
+            $methods = Arr::consolidate(preg_split('/\|/', $value, -1, \PREG_SPLIT_NO_EMPTY));
             $sanitizers[$key] = [];
             if (empty($methods)) {
                 $sanitizers[$key][] = $this->buildSanitizer('text');

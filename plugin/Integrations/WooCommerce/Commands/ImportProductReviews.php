@@ -120,7 +120,7 @@ class ImportProductReviews extends AbstractCommand
             AND c.comment_ID IN ({$reviewIds})
             AND cm.meta_key = 'rating'
         ");
-        $reviews = glsr(Database::class)->dbGetResults($sql, OBJECT_K);
+        $reviews = glsr(Database::class)->dbGetResults($sql, \OBJECT_K);
         if (empty($reviews)) {
             return [];
         }

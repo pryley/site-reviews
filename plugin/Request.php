@@ -43,7 +43,7 @@ class Request extends Arguments
     public static function inputGet(): Request
     {
         $values = [];
-        if ($token = filter_input(INPUT_GET, glsr()->prefix)) {
+        if ($token = filter_input(\INPUT_GET, glsr()->prefix)) {
             $token = sanitize_text_field($token);
             $values = glsr(Encryption::class)->decryptRequest($token);
         }

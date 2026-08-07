@@ -185,7 +185,7 @@ class Review extends Arguments
         if (!$this->_custom instanceof Arguments) {
             $custom = array_filter($this->meta()->toArray(),
                 fn ($key) => str_starts_with($key, '_custom'),
-                ARRAY_FILTER_USE_KEY
+                \ARRAY_FILTER_USE_KEY
             );
             $custom = Arr::unprefixKeys($custom, '_custom_');
             $custom = Arr::unprefixKeys($custom, '_');

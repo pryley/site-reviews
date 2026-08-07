@@ -50,7 +50,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
         }
         if ($limitToDays > 0) {
             $args['date'] = [
-                'after' => wp_date('Y-m-d H:i:s', time() - (DAY_IN_SECONDS * $limitToDays)),
+                'after' => wp_date('Y-m-d H:i:s', time() - (\DAY_IN_SECONDS * $limitToDays)),
                 'inclusive' => true, // all reviews after and on this exact date
             ];
         }

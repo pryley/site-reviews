@@ -152,9 +152,9 @@ class GatekeeperNotice extends AbstractNotice
         $args = [
             'action' => $data['action'],
             'plugin' => $data['plugin'],
-            'plugin_status' => filter_input(INPUT_GET, 'plugin_status'),
-            'paged' => filter_input(INPUT_GET, 'paged'),
-            's' => filter_input(INPUT_GET, 's'),
+            'plugin_status' => filter_input(\INPUT_GET, 'plugin_status'),
+            'paged' => filter_input(\INPUT_GET, 'paged'),
+            's' => filter_input(\INPUT_GET, 's'),
             'trigger' => 'notice',
         ];
         $url = add_query_arg($args, self_admin_url($data['admin_page']));

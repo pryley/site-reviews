@@ -78,7 +78,7 @@ class Str
 
     public static function hash(string $value, int $maxLength = 32): string
     {
-        require_once ABSPATH.WPINC.'/pluggable.php';
+        require_once \ABSPATH.\WPINC.'/pluggable.php';
         return substr(wp_hash($value, 'nonce'), 0, max(8, $maxLength));
     }
 
@@ -213,7 +213,7 @@ class Str
     public static function titleCase(string $string): string
     {
         $value = str_replace(['-', '_'], ' ', $string);
-        return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
+        return mb_convert_case($value, \MB_CASE_TITLE, 'UTF-8');
     }
 
     public static function truncate(string $value, int $length, string $end = ''): string

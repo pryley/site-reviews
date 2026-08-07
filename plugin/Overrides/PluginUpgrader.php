@@ -14,7 +14,7 @@ class PluginUpgrader extends \Plugin_Upgrader
         $plugin = dirname($this->skin->plugin);
         $this->run([
             'package' => sprintf('https://downloads.wordpress.org/plugin/%s.%s.zip', $plugin, $version),
-            'destination' => WP_PLUGIN_DIR,
+            'destination' => \WP_PLUGIN_DIR,
             'clear_destination' => true,
             'clear_working' => true,
             'hook_extra' => [

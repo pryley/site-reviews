@@ -85,7 +85,7 @@ class ReviewsHtml extends \ArrayObject
     {
         return empty($this->rendered)
             ? $this->fallback
-            : implode(PHP_EOL, $this->rendered);
+            : implode(\PHP_EOL, $this->rendered);
     }
 
     /**

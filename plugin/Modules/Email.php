@@ -202,10 +202,10 @@ class Email implements EmailContract
         $string = preg_replace('@<(li)[^>]*?>@siu', '$0-o-^-o-', $string);
         // strip all remaining HTML tags
         $string = wp_strip_all_tags($string);
-        $string = wp_specialchars_decode($string, ENT_QUOTES);
+        $string = wp_specialchars_decode($string, \ENT_QUOTES);
         $string = preg_replace('/\v(?:[\v\h]+){2,}/u', "\r\n\r\n", $string);
         $string = str_replace('-o-^-o-', ' - ', $string);
-        return html_entity_decode($string, ENT_QUOTES, 'UTF-8');
+        return html_entity_decode($string, \ENT_QUOTES, 'UTF-8');
     }
 
     protected function validate(): bool

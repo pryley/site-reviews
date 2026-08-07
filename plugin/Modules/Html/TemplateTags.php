@@ -178,7 +178,7 @@ class TemplateTags
 
     public function tagSiteTitle(): string
     {
-        return wp_specialchars_decode(Cast::toString(get_bloginfo('name')), ENT_QUOTES);
+        return wp_specialchars_decode(Cast::toString(get_bloginfo('name')), \ENT_QUOTES);
     }
 
     public function tagSiteUrl(): string

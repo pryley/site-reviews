@@ -35,7 +35,7 @@ class Response
         }
         $responseBody = wp_remote_retrieve_body($request);
         $body = json_decode($responseBody, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if (json_last_error() !== \JSON_ERROR_NONE) {
             $body = [
                 'result' => $responseBody,
             ];

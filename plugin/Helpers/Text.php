@@ -16,7 +16,7 @@ class Text
             $excerptLength = mb_strlen($excerpt);
         }
         $paragraphs = static::extractParagraphs($text, $excerptLength);
-        $text = implode(PHP_EOL, $paragraphs);
+        $text = implode(\PHP_EOL, $paragraphs);
         return static::restoreTags($text, $map);
     }
 
@@ -37,7 +37,7 @@ class Text
      */
     public static function name(?string $name, string $nameFormat = '', string $initialType = 'space'): string
     {
-        $names = preg_split('/\W/u', (string) $name, 0, PREG_SPLIT_NO_EMPTY);
+        $names = preg_split('/\W/u', (string) $name, 0, \PREG_SPLIT_NO_EMPTY);
         $firstName = (string) array_shift($names);
         $lastName = (string) array_pop($names);
         $nameFormat = Str::restrictTo('first,first_initial,last_initial,initials', $nameFormat, '');
@@ -69,7 +69,7 @@ class Text
         $text = excerpt_remove_blocks($text); // just in case...
         $text = str_replace(']]>', ']]&gt;', $text);
         $text = normalize_whitespace($text); // normalize EOL characters and strip duplicate whitespace.
-        $text = preg_replace('/\R{1,}/u', PHP_EOL.PHP_EOL, $text); // replace all line-breaks with a double line break
+        $text = preg_replace('/\R{1,}/u', \PHP_EOL.\PHP_EOL, $text); // replace all line-breaks with a double line break
         $text = wptexturize($text); // replace common plain text characters with formatted entities.
         $text = ent2ncr($text); // convert named entities into numbered entities.
         $text = convert_chars($text); // converts lone & characters into &#038;
@@ -84,7 +84,7 @@ class Text
         $text = static::normalize($text);
         if ($paragraphs = preg_split('/\R+/um', $text)) { // split text by line-breaks
             $paragraphs = array_map('trim', $paragraphs); // trim paragraphs
-            $text = implode(PHP_EOL.PHP_EOL, $paragraphs);
+            $text = implode(\PHP_EOL.\PHP_EOL, $paragraphs);
         }
         return wpautop($text);
     }

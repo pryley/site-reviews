@@ -17,7 +17,7 @@ class Wpml implements MultilingualContract
      */
     public function getPost(int $postId): ?\WP_Post
     {
-        return get_post($this->getPostId($postId), OBJECT);
+        return get_post($this->getPostId($postId), \OBJECT);
     }
 
     /**
@@ -89,7 +89,7 @@ class Wpml implements MultilingualContract
      */
     public function getTerm(int $termId): ?\WP_Term
     {
-        $term = get_term($this->getTermId($termId), glsr()->taxonomy, OBJECT);
+        $term = get_term($this->getTermId($termId), glsr()->taxonomy, \OBJECT);
         if (!is_a($term, '\WP_Term')) {
             return null;
         }
@@ -172,6 +172,6 @@ class Wpml implements MultilingualContract
     public function isSupported(): bool
     {
         return $this->isActive()
-            && Helper::isGreaterThanOrEqual(ICL_SITEPRESS_VERSION, $this->supportedVersion);
+            && Helper::isGreaterThanOrEqual(\ICL_SITEPRESS_VERSION, $this->supportedVersion);
     }
 }

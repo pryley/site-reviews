@@ -21,7 +21,7 @@ class ConfigureIpAddressProxy extends AbstractCommand
         $trustedProxies = explode("\n", $this->trustedProxies);
         $trustedProxies = array_filter($trustedProxies, function ($range) {
             [$ip] = explode('/', $range);
-            return !empty(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6));
+            return !empty(filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4 | \FILTER_FLAG_IPV6));
         });
         update_option(glsr()->prefix.'ip_proxy', [
             'proxy_http_header' => $this->proxyHeader,

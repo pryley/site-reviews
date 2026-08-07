@@ -50,6 +50,6 @@ class ColumnFilterAssignedUser extends AbstractColumnFilter
 
     public function value(): string
     {
-        return (string) filter_input(INPUT_GET, $this->name(), FILTER_SANITIZE_NUMBER_INT);
+        return (string) filter_input(\INPUT_GET, $this->name(), \FILTER_SANITIZE_NUMBER_INT);
     }
 }

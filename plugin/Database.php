@@ -51,7 +51,7 @@ class Database
      */
     public function dbGetResults(string $sql, string $output = 'OBJECT')
     {
-        $output = Str::restrictTo(['ARRAY_A', 'ARRAY_N', 'OBJECT', 'OBJECT_K'], $output, OBJECT);
+        $output = Str::restrictTo(['ARRAY_A', 'ARRAY_N', 'OBJECT', 'OBJECT_K'], $output, \OBJECT);
         return $this->logErrors($this->db->get_results($sql, $output));
     }
 
@@ -62,7 +62,7 @@ class Database
      */
     public function dbGetRow(string $sql, string $output)
     {
-        $output = Str::restrictTo(['ARRAY_A', 'ARRAY_N', 'OBJECT'], $output, OBJECT);
+        $output = Str::restrictTo(['ARRAY_A', 'ARRAY_N', 'OBJECT'], $output, \OBJECT);
         return $this->logErrors($this->db->get_row($sql, $output));
     }
 

@@ -113,6 +113,6 @@ abstract class AbstractColumnFilter
 
     public function value(): string
     {
-        return (string) filter_input(INPUT_GET, $this->name());
+        return (string) filter_input(\INPUT_GET, $this->name());
     }
 }

@@ -122,7 +122,7 @@ class EnqueueAdminAssets extends AbstractCommand
     {
         $script = 'window.hasOwnProperty("GLSR")||(window.GLSR={});';
         foreach ($variables as $key => $value) {
-            $script .= sprintf('GLSR.%s=%s;', $key, (string) wp_json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+            $script .= sprintf('GLSR.%s=%s;', $key, (string) wp_json_encode($value, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE));
         }
         $pattern = '/\"([a-zA-Z]+)\"(:[{\[\"])/'; // remove unnecessary quotes surrounding object keys
         $optimizedScript = preg_replace($pattern, '$1$2', $script);
@@ -152,7 +152,7 @@ class EnqueueAdminAssets extends AbstractCommand
             'site-editor',
             'widgets',
         ];
-        if ('admin' === $screen->base && str_starts_with((string) filter_input(INPUT_GET, 'import'), glsr()->post_type)) {
+        if ('admin' === $screen->base && str_starts_with((string) filter_input(\INPUT_GET, 'import'), glsr()->post_type)) {
             return true;
         }
         $isCurrentScreen = str_starts_with($screen->post_type, glsr()->post_type)

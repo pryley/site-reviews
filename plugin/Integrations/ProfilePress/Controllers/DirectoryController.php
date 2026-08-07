@@ -133,7 +133,7 @@ class DirectoryController extends AbstractController
         if (!current_user_can('manage_options')) {
             return;
         }
-        if ('pp-builder-preview' !== filter_input(INPUT_POST, 'action')) {
+        if ('pp-builder-preview' !== filter_input(\INPUT_POST, 'action')) {
             return;
         }
         $css = file_get_contents(glsr()->path('assets/styles/minimal.css'));
@@ -149,7 +149,7 @@ class DirectoryController extends AbstractController
         if (!DragDropBuilder::get_instance()->is_drag_drop_page()) {
             return;
         }
-        $formType = sanitize_text_field(filter_input(INPUT_GET, 'form-type'));
+        $formType = sanitize_text_field(filter_input(\INPUT_GET, 'form-type'));
         if (!in_array($formType, [FormRepository::USER_PROFILE_TYPE, FormRepository::MEMBERS_DIRECTORY_TYPE])) {
             return;
         }

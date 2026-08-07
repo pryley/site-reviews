@@ -40,7 +40,7 @@ class LicensePromotedNotice extends AbstractNotice
 
     protected function deferInterval(): int
     {
-        return 3 * WEEK_IN_SECONDS;
+        return 3 * \WEEK_IN_SECONDS;
     }
 
     protected function deferVersion(): string

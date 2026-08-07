@@ -17,7 +17,7 @@ abstract class AbstractAsset
     public function __construct()
     {
         $this->reset();
-        if ('1' === filter_input(INPUT_GET, 'nocache') || $this->isOptimizationDisabled()) {
+        if ('1' === filter_input(\INPUT_GET, 'nocache') || $this->isOptimizationDisabled()) {
             $this->abort = true;
             delete_transient($this->transient());
         }
@@ -117,7 +117,7 @@ abstract class AbstractAsset
 
     protected function file(): array
     {
-        require_once ABSPATH.WPINC.'/pluggable.php';
+        require_once \ABSPATH.\WPINC.'/pluggable.php';
         $uploads = wp_upload_dir();
         if (!file_exists($uploads['basedir'])) {
             $uploads = wp_upload_dir(null, true, true); // maybe the site has been moved, so refresh the cached uploads path
@@ -141,7 +141,7 @@ abstract class AbstractAsset
     {
         global $wp_filesystem;
         if (empty($wp_filesystem)) {
-            require_once ABSPATH.'wp-admin/includes/file.php';
+            require_once \ABSPATH.'wp-admin/includes/file.php';
             WP_Filesystem();
         }
         return $wp_filesystem;

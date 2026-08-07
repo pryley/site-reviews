@@ -51,7 +51,7 @@ class ApiDefaults extends DefaultsAbstract
             'compress' => false, // Whether to compress the $body when sending the request.
             'cookies' => [],
             'decompress' => true, // Whether to decompress a compressed response.
-            'expiration' => DAY_IN_SECONDS,
+            'expiration' => \DAY_IN_SECONDS,
             'force' => false, // Whether to bypass any previously cached response
             'headers' => [], // Array of headers to send with the request.
             'max_retries' => 0, // The number of times a request can be retried

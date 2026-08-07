@@ -46,7 +46,7 @@ class VerificationController extends AbstractController
     {
         $review = glsr(ReviewManager::class)->get($request->cast('post_id', 'int'));
         $pathPostId = $review->meta()->cast('_submitted._post_id', 'int');
-        $path = wp_parse_url((string) get_permalink($pathPostId), PHP_URL_PATH);
+        $path = wp_parse_url((string) get_permalink($pathPostId), \PHP_URL_PATH);
         $command = $this->execute(new SendVerificationEmail($review, $review->verifyUrl($path)));
         wp_send_json_success($command->response());
     }
@@ -62,7 +62,7 @@ class VerificationController extends AbstractController
         if (!in_array($review->status, ['pending', 'publish'])) {
             return; // this review is likely a draft made in the wp-admin
         }
-        $path = wp_parse_url((string) get_permalink($command->post_id), PHP_URL_PATH);
+        $path = wp_parse_url((string) get_permalink($command->post_id), \PHP_URL_PATH);
         $verifyUrl = $review->verifyUrl($path);
         if (!empty($verifyUrl)) {
             $this->execute(new SendVerificationEmail($review, $verifyUrl));

@@ -56,7 +56,7 @@ class Controller extends AbstractController
      */
     public function filterStarRatingDefaults(array $defaults): array
     {
-        if ('elementor' === filter_input(INPUT_GET, 'action')) {
+        if ('elementor' === filter_input(\INPUT_GET, 'action')) {
             $defaults['prefix'] = 'glsr-';
         }
         return $defaults;

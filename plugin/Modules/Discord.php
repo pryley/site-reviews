@@ -99,7 +99,7 @@ class Discord implements WebhookContract
             $this->review->content,
         ];
         $parts = array_filter($parts);
-        $description = implode(PHP_EOL.PHP_EOL, $parts);
+        $description = implode(\PHP_EOL.\PHP_EOL, $parts);
         // Discord allows a maximum of 2000 characters
         $description = trim(mb_substr($description, 0, 1999));
         if (1999 === mb_strlen($description)) {

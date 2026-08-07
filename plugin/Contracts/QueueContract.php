@@ -157,5 +157,5 @@ interface QueueContract
      *
      * @return array
      */
-    public function search(array $args = [], string $returnFormat = OBJECT);
+    public function search(array $args = [], string $returnFormat = \OBJECT);
 }

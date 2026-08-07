@@ -33,8 +33,8 @@ class Translator
     protected function getTranslationStrings(string $single, string $plural): array
     {
         return array_filter(glsr(Translation::class)->strings(), function ($string) use ($single, $plural) {
-            return $string['s1'] === html_entity_decode($single, ENT_COMPAT, 'UTF-8')
-                && $string['p1'] === html_entity_decode($plural, ENT_COMPAT, 'UTF-8');
+            return $string['s1'] === html_entity_decode($single, \ENT_COMPAT, 'UTF-8')
+                && $string['p1'] === html_entity_decode($plural, \ENT_COMPAT, 'UTF-8');
         });
     }
 

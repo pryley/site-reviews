@@ -140,13 +140,13 @@ class UpdateController extends AbstractController
         if (doing_filter('upgrader_process_complete')) {
             $timeout = 0;
         } elseif (doing_filter('load-update-core.php')) {
-            $timeout = filter_input(INPUT_GET, 'force-check', FILTER_VALIDATE_INT) ? 0 : MINUTE_IN_SECONDS;
+            $timeout = filter_input(\INPUT_GET, 'force-check', \FILTER_VALIDATE_INT) ? 0 : \MINUTE_IN_SECONDS;
         } elseif (doing_filter('load-plugins.php') || doing_filter('load-update.php')) {
-            $timeout = HOUR_IN_SECONDS;
+            $timeout = \HOUR_IN_SECONDS;
         } elseif (wp_doing_cron()) {
-            $timeout = 2 * HOUR_IN_SECONDS;
+            $timeout = 2 * \HOUR_IN_SECONDS;
         } else {
-            $timeout = 12 * HOUR_IN_SECONDS;
+            $timeout = 12 * \HOUR_IN_SECONDS;
         }
         if ($timeout <= (time() - $lastChecked)) {
             update_site_option($optionKey, time());

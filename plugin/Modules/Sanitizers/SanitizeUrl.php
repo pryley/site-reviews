@@ -16,7 +16,7 @@ class SanitizeUrl extends StringSanitizer
         if (mb_strtolower($value) !== mb_strtolower($url)) {
             return '';
         }
-        if (false === filter_var($url, FILTER_VALIDATE_URL)) {
+        if (false === filter_var($url, \FILTER_VALIDATE_URL)) {
             return '';
         }
         if (!empty($this->args[0]) && !$this->matchesHost($url)) {
@@ -28,7 +28,7 @@ class SanitizeUrl extends StringSanitizer
     protected function matchesHost(string $url): bool
     {
         $allowed = mb_strtolower(trim(preg_replace('#^https?://#i', '', (string) $this->args[0]), '/'));
-        $host = mb_strtolower((string) wp_parse_url($url, PHP_URL_HOST));
+        $host = mb_strtolower((string) wp_parse_url($url, \PHP_URL_HOST));
         if ('' === $allowed || '' === $host) {
             return false;
         }

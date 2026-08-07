@@ -123,7 +123,7 @@ trait Plugin
     public function catchFatalError(): void
     {
         $error = error_get_last();
-        if (E_ERROR === Arr::get($error, 'type') && str_contains(Arr::get($error, 'message'), $this->path())) {
+        if (\E_ERROR === Arr::get($error, 'type') && str_contains(Arr::get($error, 'message'), $this->path())) {
             glsr_log()->error($error['message']);
         }
     }
@@ -283,7 +283,7 @@ trait Plugin
     {
         $basedir = plugin_dir_path($this->file);
         if (!$realpath) {
-            $basedir = trailingslashit(WP_PLUGIN_DIR).basename(dirname($this->file));
+            $basedir = trailingslashit(\WP_PLUGIN_DIR).basename(dirname($this->file));
         }
         $basedir = trailingslashit($basedir);
         if (str_starts_with($file, $basedir)) {

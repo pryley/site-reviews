@@ -208,7 +208,7 @@ abstract class ElementorWidget extends Widget_Base
         );
         $dom = new \DOMDocument();
         $dom->loadHTML('<?xml encoding="utf-8"?>'.$html,
-            LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOERROR | LIBXML_NOWARNING
+            \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD | \LIBXML_NOERROR | \LIBXML_NOWARNING
         );
         $xpath = new \DOMXPath($dom);
         $node = $xpath->query('//div[1]')->item(0);

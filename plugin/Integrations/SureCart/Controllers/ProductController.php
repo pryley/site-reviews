@@ -107,7 +107,7 @@ class ProductController implements ControllerContract
         }
         $referer = urldecode((string) wp_get_referer());
         if (str_contains($referer, 'site-editor.php')) {
-            parse_str(parse_url($referer, PHP_URL_QUERY), $params);
+            parse_str(parse_url($referer, \PHP_URL_QUERY), $params);
             $template = $params['p'] ?? '';
             if (!str_ends_with($template, 'surecart//single-sc_product')) {
                 return $link;

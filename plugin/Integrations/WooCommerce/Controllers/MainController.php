@@ -200,8 +200,8 @@ class MainController extends AbstractController
     {
         global $pagenow;
         if ('edit.php' === $pagenow
-            && 'product' === filter_input(INPUT_GET, 'post_type')
-            && 'product-reviews' === filter_input(INPUT_GET, 'page')) {
+            && 'product' === filter_input(\INPUT_GET, 'post_type')
+            && 'product-reviews' === filter_input(\INPUT_GET, 'page')) {
             wp_redirect(add_query_arg('notice', 'product-reviews', glsr_admin_url()), 301);
             glsr_exit();
         }
@@ -250,7 +250,7 @@ class MainController extends AbstractController
         if ('edit' !== $screen->base || 'edit-site-review' !== $screen->id) {
             return;
         }
-        if ('product-reviews' !== filter_input(INPUT_GET, 'notice')) {
+        if ('product-reviews' !== filter_input(\INPUT_GET, 'notice')) {
             return;
         }
         glsr()->render('integrations/woocommerce/notices/reviews');

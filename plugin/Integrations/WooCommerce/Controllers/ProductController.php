@@ -110,7 +110,7 @@ class ProductController implements ControllerContract
     {
         global $wp_query;
         $metaQuery = Arr::consolidate($metaQuery);
-        $orderby = filter_input(INPUT_GET, 'orderby');
+        $orderby = filter_input(\INPUT_GET, 'orderby');
         if (!$orderby && !is_search()) {
             $orderby = apply_filters('woocommerce_default_catalog_orderby', get_option('woocommerce_default_catalog_orderby'));
         }
@@ -477,7 +477,7 @@ class ProductController implements ControllerContract
             'site_reviews_summary',
         ];
         foreach ($shortcodes as $shortcode) {
-            $value = trim(filter_input(INPUT_POST, $shortcode));
+            $value = trim(filter_input(\INPUT_POST, $shortcode));
             $value = glsr(Sanitizer::class)->sanitizeTextHtml($value);
             if (empty($value)) {
                 $product->delete_meta_data($shortcode);

@@ -35,7 +35,7 @@ abstract class AbstractController implements ControllerContract
 
     protected function getPostId(): int
     {
-        return intval(filter_input(INPUT_GET, 'post'));
+        return intval(filter_input(\INPUT_GET, 'post'));
     }
 
     protected function hasQueryPermission(\WP_Query $query, string $postType = ''): bool
@@ -52,7 +52,7 @@ abstract class AbstractController implements ControllerContract
         if (!glsr()->isAdmin()) {
             return false;
         }
-        $getPostType = (string) filter_input(INPUT_GET, 'post_type');
+        $getPostType = (string) filter_input(\INPUT_GET, 'post_type');
         return str_starts_with($getPostType, glsr()->post_type)
             || str_starts_with(get_post_type(), glsr()->post_type);
     }
@@ -84,7 +84,7 @@ abstract class AbstractController implements ControllerContract
     protected function isReviewAdminPage(): bool
     {
         return glsr()->isAdmin() && in_array(glsr()->post_type, [
-            filter_input(INPUT_GET, 'post_type'),
+            filter_input(\INPUT_GET, 'post_type'),
             get_post_type(),
         ]);
     }

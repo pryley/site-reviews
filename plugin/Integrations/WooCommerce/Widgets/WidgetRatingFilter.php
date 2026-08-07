@@ -41,7 +41,7 @@ class WidgetRatingFilter extends \WC_Widget_Rating_Filter
     {
         $averages = $this->productAverages();
         $baseUrl = remove_query_arg('paged', $this->get_current_page_url());
-        $filteredRatings = Cast::toString(wp_unslash(filter_input(INPUT_GET, 'rating_filter')));
+        $filteredRatings = Cast::toString(wp_unslash(filter_input(\INPUT_GET, 'rating_filter')));
         $filteredRatings = explode(',', $filteredRatings);
         $filteredRatings = Arr::uniqueInt($filteredRatings);
         $filters = [];

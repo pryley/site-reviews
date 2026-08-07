@@ -65,9 +65,9 @@ class Controller extends AbstractController
             'assigned_users' => 'assigned_users',
             'review_authors' => 'author',
         ];
-        $option = (string) filter_input(INPUT_POST, 'postType');
+        $option = (string) filter_input(\INPUT_POST, 'postType');
         $option = $pseudoPostTypeMap[$option] ?? Str::removePrefix($option, glsr()->prefix);
-        $search = filter_input(INPUT_POST, 'search');
+        $search = filter_input(\INPUT_POST, 'search');
         $results = glsr(ShortcodeOptionManager::class)->get($option, compact('search'));
         $replacements = [ // the post_chooser control requires integer keys
             'post_id' => -10,
@@ -296,7 +296,7 @@ class Controller extends AbstractController
             'assigned_users',
             'review_authors',
         ];
-        $postType = filter_input(INPUT_POST, 'postType');
+        $postType = filter_input(\INPUT_POST, 'postType');
         if (empty(array_filter($checkFor, fn ($prefix) => str_starts_with($postType, $prefix)))) {
             return false;
         }

@@ -23,10 +23,10 @@ class Controller extends AbstractController
         check_ajax_referer('gamipress_admin', 'nonce');
         global $wpdb;
         $limit = 20;
-        $paged = Helper::ifEmpty(absint(filter_input(INPUT_POST, 'page')), 1, true);
+        $paged = Helper::ifEmpty(absint(filter_input(\INPUT_POST, 'page')), 1, true);
         $offset = $limit * ($paged - 1);
-        $searchId = '%%'.absint(filter_input(INPUT_POST, 'q')).'%%';
-        $searchName = '%%'.$wpdb->esc_like(trim(filter_input(INPUT_POST, 'q'))).'%%';
+        $searchId = '%%'.absint(filter_input(\INPUT_POST, 'q')).'%%';
+        $searchName = '%%'.$wpdb->esc_like(trim(filter_input(\INPUT_POST, 'q'))).'%%';
         $results = $wpdb->get_results($wpdb->prepare("
             SELECT ID, display_name, user_nicename
             FROM {$wpdb->users}
@@ -287,12 +287,12 @@ class Controller extends AbstractController
             $name = glsr(Sanitizer::class)->sanitizeUserName($user);
             $options[$user->ID] = sprintf('%s (#%d)', $name, $user->ID);
         }
-        echo PHP_EOL.glsr(Builder::class)->select([
+        echo \PHP_EOL.glsr(Builder::class)->select([
             'class' => sprintf('%1$s %1$s-%2$s', $this->requirementKey('user_id'), $requirementId),
             'options' => $options,
             'value' => $userId,
         ]);
-        echo PHP_EOL.glsr(Builder::class)->select([
+        echo \PHP_EOL.glsr(Builder::class)->select([
             'class' => $this->requirementKey('rating_condition'),
             'options' => [
                 'any' => _x('Any rating', 'admin-text', 'site-reviews'),
@@ -301,7 +301,7 @@ class Controller extends AbstractController
             ],
             'value' => get_post_meta($requirementId, $this->metaKey('rating_condition'), true),
         ]);
-        echo PHP_EOL.glsr(Builder::class)->input([
+        echo \PHP_EOL.glsr(Builder::class)->input([
             'class' => $this->requirementKey('rating'),
             'min' => 0,
             'placeholder' => 0,
@@ -309,7 +309,7 @@ class Controller extends AbstractController
             'type' => 'number',
             'value' => Helper::ifEmpty($rating, 5), // default to 5 stars
         ]);
-        echo PHP_EOL.glsr(Builder::class)->span([
+        echo \PHP_EOL.glsr(Builder::class)->span([
             'class' => sprintf('%s-text', $this->requirementKey('rating')),
             'text' => _x('star(s)', 'admin-text', 'site-reviews'),
         ]);

@@ -65,7 +65,7 @@ class Cast
      */
     public static function toBool($value): bool
     {
-        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        return filter_var($value, \FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
@@ -73,7 +73,7 @@ class Cast
      */
     public static function toFloat($value): float
     {
-        return (float) filter_var($value, FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND);
+        return (float) filter_var($value, \FILTER_VALIDATE_FLOAT, \FILTER_FLAG_ALLOW_FRACTION | \FILTER_FLAG_ALLOW_THOUSAND);
     }
 
     /**

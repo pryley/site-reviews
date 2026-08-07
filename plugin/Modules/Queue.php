@@ -172,7 +172,7 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
-    public function search(array $args = [], string $returnFormat = OBJECT)
+    public function search(array $args = [], string $returnFormat = \OBJECT)
     {
         if (!function_exists('as_get_scheduled_actions')) {
             return [];

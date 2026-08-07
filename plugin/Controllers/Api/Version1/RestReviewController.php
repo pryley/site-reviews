@@ -66,7 +66,7 @@ class RestReviewController extends \WP_REST_Controller
                 'previous' => $previous->get_data(),
             ]);
         }
-        if (EMPTY_TRASH_DAYS < 1) {
+        if (\EMPTY_TRASH_DAYS < 1) {
             /* translators: %s: force=true */
             $error = sprintf(_x('The review does not support trashing. Set "%s" to delete.', 'admin-text', 'site-reviews'), 'force=true');
             return new \WP_Error('rest_trash_not_supported', $error, ['status' => 501]);

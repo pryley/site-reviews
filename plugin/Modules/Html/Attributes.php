@@ -182,7 +182,7 @@ class Attributes
         foreach (static::GLOBAL_WILDCARD_ATTRIBUTES as $wildcard) {
             $newWildcards = array_filter($this->attributes,
                 fn ($key) => str_starts_with($key, $wildcard),
-                ARRAY_FILTER_USE_KEY
+                \ARRAY_FILTER_USE_KEY
             );
             $wildcards = array_merge($wildcards, $newWildcards);
         }
@@ -210,7 +210,7 @@ class Attributes
 
     protected function normalize(array $args, array $allowedAttributes = []): void
     {
-        $this->attributes = array_change_key_case($args, CASE_LOWER);
+        $this->attributes = array_change_key_case($args, \CASE_LOWER);
         $this->normalizeBooleanAttributes();
         $this->normalizeDataAttributes();
         $this->normalizeStringAttributes();
@@ -247,7 +247,7 @@ class Attributes
                 continue;
             }
             if (is_array($value)) {
-                $value = wp_json_encode($value, JSON_HEX_APOS | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+                $value = wp_json_encode($value, \JSON_HEX_APOS | \JSON_NUMERIC_CHECK | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE);
             }
             $this->attributes[$key] = esc_attr($value);
         }
@@ -308,7 +308,7 @@ class Attributes
     {
         $this->attributes = array_diff_key(
             $this->attributes,
-            array_filter($this->attributes, 'is_numeric', ARRAY_FILTER_USE_KEY)
+            array_filter($this->attributes, 'is_numeric', \ARRAY_FILTER_USE_KEY)
         );
     }
 }

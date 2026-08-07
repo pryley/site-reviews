@@ -282,10 +282,10 @@ class ImageCopier
     {
         if (!\function_exists('wp_generate_attachment_metadata')
             && !\function_exists('MultilingualPress\Vendor\wp_generate_attachment_metadata')) {
-            require_once ABSPATH.'wp-admin/includes/image.php';
+            require_once \ABSPATH.'wp-admin/includes/image.php';
         }
         if (!\function_exists('get_intermediate_image_sizes')) {
-            require_once ABSPATH.'wp-admin/includes/media.php';
+            require_once \ABSPATH.'wp-admin/includes/media.php';
         }
     }
 

@@ -115,11 +115,11 @@ class Avatar
 
     protected function isUrl(string $url): bool
     {
-        $path = parse_url($url, PHP_URL_PATH);
+        $path = parse_url($url, \PHP_URL_PATH);
         $encodedPath = array_map('urlencode', explode('/', $path));
         $encodedPath = implode('/', $encodedPath);
         $url = str_replace($path, $encodedPath, $url);
-        return !empty(filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED));
+        return !empty(filter_var($url, \FILTER_VALIDATE_URL, \FILTER_FLAG_PATH_REQUIRED));
     }
 
     protected function isUrlOnline(string $url): bool
@@ -127,7 +127,7 @@ class Avatar
         $key = md5(strtolower($url));
         $status = glsr(Cache::class)->get($key, 'avatar',
             fn () => Helper::remoteStatusCheck($url),
-            HOUR_IN_SECONDS
+            \HOUR_IN_SECONDS
         );
         return 200 === $status;
     }

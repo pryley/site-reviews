@@ -40,7 +40,7 @@ trait ValidationRules
      */
     public function validateEmail($value): bool
     {
-        return false !== filter_var($value, FILTER_VALIDATE_EMAIL);
+        return false !== filter_var($value, \FILTER_VALIDATE_EMAIL);
     }
 
     /**
