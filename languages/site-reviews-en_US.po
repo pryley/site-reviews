@@ -27,9 +27,9 @@ msgstr[1] "%s stars or less"
 
 #: config/settings.php:438
 #: plugin/Integrations/ProfilePress/Controllers/AccountController.php:55
-#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:82
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:83
 #: plugin/Integrations/UltimateMember/Controllers/AccountController.php:54
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:64
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:65
 #: plugin/Modules/Html/ReviewsHtml.php:113
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
@@ -111,11 +111,11 @@ msgstr "Close Modal"
 msgid "Please verify your review"
 msgstr "Please verify your review"
 
-#: plugin/Controllers/VerificationController.php:95
+#: plugin/Controllers/VerificationController.php:96
 msgid "Thank you, your review has been verified."
 msgstr "Thank you, your review has been verified."
 
-#: plugin/Controllers/VerificationController.php:96
+#: plugin/Controllers/VerificationController.php:97
 msgid "Thank you, your review has been verified and is awaiting approval."
 msgstr "Thank you, your review has been verified and is awaiting approval."
 
@@ -347,8 +347,8 @@ msgid_plural "%s customer reviews"
 msgstr[0] "%s customer review"
 msgstr[1] "%s customer reviews"
 
-#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:55
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:41
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:56
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:42
 #: templates/woocommerce/reviews.php:14
 msgid "Reviews"
 msgstr "Reviews"
@@ -490,39 +490,39 @@ msgstr "by %s"
 msgid "You have not written any reviews."
 msgstr "You have not written any reviews."
 
-#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:86
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:68
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:87
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:69
 msgid "You have not received any reviews."
 msgstr "You have not received any reviews."
 
-#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:87
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:69
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:88
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:70
 msgid "This person has not received any reviews."
 msgstr "This person has not received any reviews."
 
-#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:123
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:93
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:124
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:94
 msgid "Your rating"
 msgstr "Your rating"
 
-#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:124
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:94
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:125
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:95
 msgid "User rating"
 msgstr "User rating"
 
-#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:137
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:107
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:138
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:108
 msgid "No one has reviewed you yet."
 msgstr "No one has reviewed you yet."
 
-#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:139
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:109
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:140
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:110
 msgid "No one has reviewed this person yet."
 msgstr "No one has reviewed this person yet."
 
 #. translators: %s: a login link with the text "logged in"
-#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:200
-#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:163
+#: plugin/Integrations/ProfilePress/Controllers/ProfileController.php:201
+#: plugin/Integrations/UltimateMember/Controllers/ProfileController.php:164
 #, php-format
 msgid "You must be %s to review this person."
 msgstr "You must be %s to review this person."
@@ -2449,13 +2449,13 @@ msgctxt "admin-text"
 msgid "Enabling this option will persist field values entered into the review form until either the review is submitted or the browser tab or window is closed."
 msgstr "Enabling this option will persist field values entered into the review form until either the review is submitted or the browser tab or window is closed."
 
-#: plugin/Database.php:238
+#: plugin/Database.php:237
 msgctxt "admin-text"
 msgid "(no title)"
 msgstr "(no title)"
 
 #: plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:17
-#: plugin/Review.php:348
+#: plugin/Review.php:331
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr "Unknown"
@@ -3301,59 +3301,59 @@ msgctxt "admin-text"
 msgid "All plugin migrations have been run successfully, please %s the page."
 msgstr "All plugin migrations have been run successfully, please %s the page."
 
-#: plugin/Commands/ProcessCsvFile.php:117
+#: plugin/Commands/ProcessCsvFile.php:118
 msgctxt "admin-text"
 msgid "The CSV file could not be imported. Please verify the following details and try again:"
 msgstr "The CSV file could not be imported. Please verify the following details and try again:"
 
-#: plugin/Commands/ProcessCsvFile.php:136
+#: plugin/Commands/ProcessCsvFile.php:137
 msgctxt "admin-text"
 msgid "Unable to process a row in the CSV document:"
 msgstr "Unable to process a row in the CSV document:"
 
-#: plugin/Commands/ProcessCsvFile.php:141
+#: plugin/Commands/ProcessCsvFile.php:142
 msgctxt "admin-text"
 msgid "Does the CSV file include all required columns?"
 msgstr "Does the CSV file include all required columns?"
 
-#: plugin/Commands/ProcessCsvFile.php:142
+#: plugin/Commands/ProcessCsvFile.php:143
 msgctxt "admin-text"
 msgid "Have you named all of the columns in the CSV file?"
 msgstr "Have you named all of the columns in the CSV file?"
 
-#: plugin/Commands/ProcessCsvFile.php:143
+#: plugin/Commands/ProcessCsvFile.php:144
 msgctxt "admin-text"
 msgid "Have you removed all empty columns from the CSV file?"
 msgstr "Have you removed all empty columns from the CSV file?"
 
-#: plugin/Commands/ProcessCsvFile.php:144
+#: plugin/Commands/ProcessCsvFile.php:145
 msgctxt "admin-text"
 msgid "Have you selected the correct delimiter?"
 msgstr "Have you selected the correct delimiter?"
 
-#: plugin/Commands/ProcessCsvFile.php:145
+#: plugin/Commands/ProcessCsvFile.php:146
 msgctxt "admin-text"
 msgid "Is the CSV file encoded as UTF-8?"
 msgstr "Is the CSV file encoded as UTF-8?"
 
-#: plugin/Commands/ProcessCsvFile.php:164
+#: plugin/Commands/ProcessCsvFile.php:165
 msgctxt "admin-text"
 msgid "Cannot detect the delimiter used in the CSV file (supported delimiters are comma and semicolon)."
 msgstr "Cannot detect the delimiter used in the CSV file (supported delimiters are comma and semicolon)."
 
 #. translators: %s: detected mime type
-#: plugin/Commands/ProcessCsvFile.php:192
+#: plugin/Commands/ProcessCsvFile.php:193
 #, php-format
 msgctxt "admin-text"
 msgid "The import file does not look like a valid CSV file (detected: %s). If this is incorrect, make sure that your server is configured to detect mime types."
 msgstr "The import file does not look like a valid CSV file (detected: %s). If this is incorrect, make sure that your server is configured to detect mime types."
 
-#: plugin/Commands/ProcessCsvFile.php:211
+#: plugin/Commands/ProcessCsvFile.php:212
 msgctxt "admin-text"
 msgid "Incorrect date format"
 msgstr "Incorrect date format"
 
-#: plugin/Commands/ProcessCsvFile.php:212
+#: plugin/Commands/ProcessCsvFile.php:213
 msgctxt "admin-text"
 msgid "Empty or invalid rating"
 msgstr "Empty or invalid rating"
@@ -3414,7 +3414,7 @@ msgid "The verification request email was sent."
 msgstr "The verification request email was sent."
 
 #: plugin/Commands/SendVerificationEmail.php:71
-#: plugin/Controllers/VerificationController.php:33
+#: plugin/Controllers/VerificationController.php:34
 msgctxt "admin-text"
 msgid "Resend Verification Request"
 msgstr "Resend Verification Request"
@@ -3943,7 +3943,7 @@ msgctxt "admin-text"
 msgid "A valid <a href=\"%s\">license key</a> is required to update this plugin."
 msgstr "A valid <a href=\"%s\">license key</a> is required to update this plugin."
 
-#: plugin/Controllers/VerificationController.php:34
+#: plugin/Controllers/VerificationController.php:35
 msgctxt "admin-text"
 msgid "Send Verification Request"
 msgstr "Send Verification Request"
@@ -6266,45 +6266,45 @@ msgctxt "admin-text"
 msgid "Max Width"
 msgstr "Max Width"
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:33
+#: plugin/Controllers/Api/Version1/RestReviewController.php:34
 msgctxt "admin-text"
 msgid "Review creation failed, please check the Site Reviews console log for more details."
 msgstr "Review creation failed, please check the Site Reviews console log for more details."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:60
-#: plugin/Controllers/Api/Version1/RestReviewController.php:78
+#: plugin/Controllers/Api/Version1/RestReviewController.php:61
+#: plugin/Controllers/Api/Version1/RestReviewController.php:79
 msgctxt "admin-text"
 msgid "The review cannot be deleted."
 msgstr "The review cannot be deleted."
 
 #. translators: %s: force=true
-#: plugin/Controllers/Api/Version1/RestReviewController.php:70
+#: plugin/Controllers/Api/Version1/RestReviewController.php:71
 #, php-format
 msgctxt "admin-text"
 msgid "The review does not support trashing. Set \"%s\" to delete."
 msgstr "The review does not support trashing. Set \"%s\" to delete."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:74
+#: plugin/Controllers/Api/Version1/RestReviewController.php:75
 msgctxt "admin-text"
 msgid "The review has already been deleted."
 msgstr "The review has already been deleted."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:148
+#: plugin/Controllers/Api/Version1/RestReviewController.php:149
 msgctxt "admin-text"
 msgid "The page number requested is larger than the number of pages available."
 msgstr "The page number requested is larger than the number of pages available."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:203
+#: plugin/Controllers/Api/Version1/RestReviewController.php:204
 msgctxt "admin-text"
 msgid "Unique identifier for the object."
 msgstr "Unique identifier for the object."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:226
+#: plugin/Controllers/Api/Version1/RestReviewController.php:227
 msgctxt "admin-text"
 msgid "Whether to bypass Trash and force deletion."
 msgstr "Whether to bypass Trash and force deletion."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:246
+#: plugin/Controllers/Api/Version1/RestReviewController.php:247
 msgctxt "admin-text"
 msgid "Review update failed, please check the Site Reviews console log for more details."
 msgstr "Review update failed, please check the Site Reviews console log for more details."
@@ -6314,7 +6314,7 @@ msgctxt "admin-text"
 msgid "Sorry, you are not allowed to do that."
 msgstr "Sorry, you are not allowed to do that."
 
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:77
+#: plugin/Controllers/Api/Version1/RestSummaryController.php:78
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to view rating summaries."
 msgstr "Sorry, you are not allowed to view rating summaries."
@@ -6551,8 +6551,8 @@ msgctxt "admin-text"
 msgid "Hide value"
 msgstr "Hide value"
 
-#: plugin/Modules/Html/FieldElements/Textarea.php:45
-#: plugin/Modules/Html/FieldElements/Textarea.php:48
+#: plugin/Modules/Html/FieldElements/Textarea.php:59
+#: plugin/Modules/Html/FieldElements/Textarea.php:62
 msgctxt "admin-text"
 msgid "Reset value to default"
 msgstr "Reset value to default"
@@ -8968,3 +8968,8 @@ msgid "%1$s has not been tested with the installed version of %2$s and may need 
 msgid_plural "%1$s has not been tested with the installed versions of the following plugins and may need an update: %2$s"
 msgstr[0] ""
 msgstr[1] ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:506
+msgctxt "admin-text"
+msgid "async"
+msgstr ""
