@@ -163,8 +163,7 @@ class Database
         } else {
             $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}");
         }
-        $result = $this->dbQuery($sql);
-        return $result;
+        return $this->dbQuery($sql);
     }
 
     /**
