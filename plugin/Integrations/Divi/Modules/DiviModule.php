@@ -14,6 +14,7 @@ use ET\Builder\Packages\Module\Options\Text\TextClassnames;
 use ET\Builder\Packages\ModuleLibrary\ModuleRegistration;
 use GeminiLabs\SiteReviews\Contracts\PluginContract;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleClassnamesDefaults;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleScriptDataDefaults;
 use GeminiLabs\SiteReviews\Integrations\Divi\Defaults\ModuleStylesDefaults;
@@ -43,7 +44,8 @@ abstract class DiviModule implements DependencyInterface
      */
     public static function custom_css(): array
     {
-        return \WP_Block_Type_Registry::get_instance()->get_registered(static::blockName())->customCssFields;
+        $blockType = \WP_Block_Type_Registry::get_instance()->get_registered(static::blockName());
+        return Arr::consolidate($blockType->customCssFields ?? []);
     }
 
     /**

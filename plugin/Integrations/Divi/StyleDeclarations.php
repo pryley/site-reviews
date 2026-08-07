@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Integrations\Divi;
 
 use ET\Builder\Packages\IconLibrary\IconFont\Utils;
 use ET\Builder\Packages\StyleLibrary\Utils\StyleDeclarations as Declarations;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class StyleDeclarations
 {
@@ -22,7 +23,7 @@ class StyleDeclarations
             $alignment = $map[$args['attrValue']['alignment'] ?? ''] ?? 'start';
             $declarations->add('display', 'flex');
             $declarations->add('justify-content', $alignment);
-            return $declarations->value();
+            return Cast::toString($declarations->value());
         };
     }
 
@@ -42,7 +43,7 @@ class StyleDeclarations
             // custom icon disabled
             if ('off' === ($args['attrValue']['enable'] ?? '')) {
                 // $declarations->add('margin-right', '-1em');
-                return $declarations->value();
+                return Cast::toString($declarations->value());
             }
             $icon = $args['attrValue']['icon'] ?? [];
             $placement = $icon['placement'] ?? '';
@@ -72,7 +73,7 @@ class StyleDeclarations
                     $declarations->add('padding', '0 0 0 0.2em');
                 }
             }
-            return $declarations->value();
+            return Cast::toString($declarations->value());
         };
     }
 
@@ -89,7 +90,7 @@ class StyleDeclarations
                     $declarations->add($prop, $color);
                 }
             }
-            return $declarations->value();
+            return Cast::toString($declarations->value());
         };
     }
 
@@ -105,7 +106,7 @@ class StyleDeclarations
                 $declarations->add('display', 'flex');
                 $declarations->add('justify-content', $orientation);
             }
-            return $declarations->value();
+            return Cast::toString($declarations->value());
         };
     }
 }
