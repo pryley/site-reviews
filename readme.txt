@@ -211,6 +211,11 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 
 == Changelog ==
 
+= 8.2.1 (unreleased) =
+
+- Fixed async actions showing a zero date instead of "async" in the Scheduled Actions table
+- Fixed the Scheduled Actions table failing when another plugin registers its own Action Scheduler schedule
+
 = 8.2.0 (2026-08-06) =
 
 - Added per-addon settings storage: each addon now keeps its settings in its own option
