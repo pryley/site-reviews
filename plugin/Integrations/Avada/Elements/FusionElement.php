@@ -13,7 +13,7 @@ abstract class FusionElement extends \Fusion_Element
     {
         $parts = explode('_', $this->shortcodeInstance()->tag);
         $suffix = end($parts);
-        $handle = sprintf('%s-%s-style', glsr()->ID, $suffix);
+        $handle = sprintf('%s-%s-style', glsr()->id, $suffix);
         $path = (string) wp_styles()->get_data($handle, 'path');
         if (file_exists($path)) {
             FusionBuilder()->add_element_css($path);

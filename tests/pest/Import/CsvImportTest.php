@@ -369,7 +369,7 @@ test('an avatar the plugin drew itself is not imported back in', function () {
     $format = protectedMethod(ProcessCsvFile::class, 'formatRecord');
 
     $generated = $format->invoke($command, [
-        'avatar' => 'https://example.org/wp-content/plugins/'.glsr()->ID.'/avatars/AB.svg',
+        'avatar' => 'https://example.org/wp-content/plugins/'.glsr()->id.'/avatars/AB.svg',
     ]);
     $real = $format->invoke($command, [
         'avatar' => 'https://secure.gravatar.com/avatar/1234',

@@ -97,7 +97,7 @@ trait ElementTrait
     {
         $parts = explode('_', static::bdShortcode()->tag);
         $suffix = end($parts);
-        $handle = sprintf('%s-%s-style', glsr()->ID, $suffix);
+        $handle = sprintf('%s-%s-style', glsr()->id, $suffix);
         $path = (string) wp_styles()->get_data($handle, 'path');
         $css = ($path && file_exists($path)) ? file_get_contents($path) : '';
         return glsr()->filterString('breakdance/default_css',

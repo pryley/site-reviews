@@ -49,7 +49,7 @@ abstract class BricksElement extends \Bricks\Element
     {
         $parts = explode('_', $this->shortcodeInstance()->tag);
         $suffix = end($parts);
-        $handle = sprintf('%s-%s-style', glsr()->ID, $suffix);
+        $handle = sprintf('%s-%s-style', glsr()->id, $suffix);
         $styles = [$handle, ...$this->registeredStyleHandles()];
         $styles = glsr()->filterArray('bricks/registered_styles',
             $styles,

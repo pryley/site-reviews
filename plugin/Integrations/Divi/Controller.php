@@ -66,7 +66,7 @@ class Controller extends AbstractController
         ] as $shortcode) {
             $parts = explode('_', $shortcode);
             $suffix = end($parts);
-            $handle = sprintf('%s-%s-style', glsr()->ID, $suffix);
+            $handle = sprintf('%s-%s-style', glsr()->id, $suffix);
             $registered = wp_styles()->registered[$handle] ?? null;
             if ($src = $registered->src ?? '') {
                 \ET\Builder\VisualBuilder\Assets\PackageBuildManager::register_package_build([
