@@ -10,21 +10,19 @@
     </h3>
     <div id="tools-rollback-plugin" class="inside">
         <?php if (empty($rollback_versions)) : ?>
-            <div class="glsr-notice-inline components-notice is-error" style="margin-bottom:1em;">
-                <p class="components-notice__content">
-                    <?php /* translators: %s: link to wordpress.org */ echo sprintf(_x('Unable to connect to %s to get the available plugin versions.', 'wordpress.org (admin-text)', 'site-reviews'),
-                        '<a href="wordpress.org" target="_blank">wordpress.org</a>'
-                    ); ?>
-                </p>
-            </div>
+            <?php /* translators: %s: link to wordpress.org */ echo wp_get_admin_notice(
+                sprintf(_x('Unable to connect to %s to get the available plugin versions.', 'wordpress.org (admin-text)', 'site-reviews'),
+                    '<a href="wordpress.org" target="_blank">wordpress.org</a>'
+                ),
+                ['type' => 'error', 'additional_classes' => ['inline']]
+            ); ?>
         <?php else: ?>
-            <div class="glsr-notice-inline components-notice is-warning">
-                <p class="components-notice__content">
-                    <?php /* translators: %s: link with the text "contact us" */ echo sprintf(_x('If you are using this tool to fix a problem with Site Reviews, please %s so that it can be fixed.', 'submit a support request (admin-text)', 'site-reviews'),
-                        glsr_admin_link('documentation.support', _x('contact us', 'admin-text', 'site-reviews'), '#support-contact-support'),
-                    ); ?>
-                </p>
-            </div>
+            <?php /* translators: %s: link with the text "contact us" */ echo wp_get_admin_notice(
+                sprintf(_x('If you are using this tool to fix a problem with Site Reviews, please %s so that it can be fixed.', 'submit a support request (admin-text)', 'site-reviews'),
+                    glsr_admin_link('documentation.support', _x('contact us', 'admin-text', 'site-reviews'), '#support-contact-support'),
+                ),
+                ['type' => 'warning', 'additional_classes' => ['inline']]
+            ); ?>
             <p>
                 <?php /* translators: %1$s: installed plugin version, %2$s: plugin name */ echo sprintf(_x('You currently have version %1$s installed of %2$s. Run this tool to rollback to a previous release.', 'admin-text', 'site-reviews'),
                     '<strong>'.glsr()->version.'</strong>',

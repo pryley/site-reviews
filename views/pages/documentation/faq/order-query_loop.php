@@ -10,9 +10,10 @@
     </h3>
     <div id="faq-order-query_loop" class="inside">
     <?php if (version_compare($wp_version, '6.1', '<')): ?>
-        <div class="glsr-notice-inline components-notice is-warning">
-            <p class="components-notice__content">WordPress v6.1 or higher is required in order to do this.</p>
-        </div>
+        <?php echo wp_get_admin_notice(
+            'WordPress v6.1 or higher is required in order to do this.',
+            ['type' => 'warning', 'additional_classes' => ['inline']]
+        ); ?>
     <?php else: ?>
         <p>The <a href="https://wordpress.org/support/article/query-loop-block/" target="_blank">Query Loop</a> block was introduced in WordPress v5.8 and allows you to display posts based on specified parameters; like a PHP loop without the code. Unfortunately, this block does not (yet) allow you to sort the posts using meta key values, so here is a workaround.</p>
         <p>Site Reviews provides three meta keys that can be used for sorting pages that have reviews assigned to them.</p>

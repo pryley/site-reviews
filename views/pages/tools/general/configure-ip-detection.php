@@ -20,16 +20,14 @@ $trustedProxies = implode("\n", $trustedProxies);
         </button>
     </h3>
     <div id="tools-ip-detection" class="inside">
-        <div class="glsr-notice-inline components-notice is-warning">
-            <p class="components-notice__content">
-                <?php echo _x('Be careful when enabling a proxy HTTP header if you do not have a front-end proxy configuration because it may allow visitors to spoof their IP address.', 'admin-text', 'site-reviews'); ?>
-            </p>
-        </div>
-        <div class="glsr-notice-inline components-notice is-info">
-            <p class="components-notice__content">
-                <?php echo _x('If you are unsure which proxy HTTP header to use, contact the technical support staff of your hosting provider and read their documentation to determine the correct configuration for your website.', 'admin-text', 'site-reviews'); ?>
-            </p>
-        </div>
+        <?php echo wp_get_admin_notice(
+            _x('Be careful when enabling a proxy HTTP header if you do not have a front-end proxy configuration because it may allow visitors to spoof their IP address.', 'admin-text', 'site-reviews'),
+            ['type' => 'warning', 'additional_classes' => ['inline']]
+        ); ?>
+        <?php echo wp_get_admin_notice(
+            _x('If you are unsure which proxy HTTP header to use, contact the technical support staff of your hosting provider and read their documentation to determine the correct configuration for your website.', 'admin-text', 'site-reviews'),
+            ['type' => 'info', 'additional_classes' => ['inline']]
+        ); ?>
         <p><?php echo _x('When a review is submitted on your website, Site Reviews detects the IP address of the person submitting it and saves it to the review. Site Reviews uses the IP address in the review limits and blacklist settings, and the Akismet and Captcha integrations to catch spam submissions.', 'admin-text', 'site-reviews'); ?></p>
         <p><?php echo _x('If you get incorrect IP address values in your reviews, there might be a reverse proxy, load balancer, cache, Cloudflare, CDN, or any other type of proxy in front of your web server that "proxies" traffic to your website. If so, select the proxy HTTP header that contains the real visitor IP address.', 'admin-text', 'site-reviews'); ?></p>
         <form method="post">

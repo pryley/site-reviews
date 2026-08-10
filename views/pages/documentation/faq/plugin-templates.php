@@ -8,11 +8,10 @@
         </button>
     </h3>
     <div id="faq-plugin-templates" class="inside">
-        <div class="glsr-notice-inline components-notice is-warning">
-            <p class="components-notice__content">
-                Make sure to use these template files in a <a href="https://wpengine.com/resources/create-child-theme-wordpress/#The_Plugin_Method" target="_blank">child theme</a> to prevent changes from being overwritten when your parent theme is updated.
-            </p>
-        </div>
+        <?php echo wp_get_admin_notice(
+            'Make sure to use these template files in a <a href="https://wpengine.com/resources/create-child-theme-wordpress/#The_Plugin_Method" target="_blank">child theme</a> to prevent changes from being overwritten when your parent theme is updated.',
+            ['type' => 'warning', 'additional_classes' => ['inline']]
+        ); ?>
         <p>Site Reviews uses a custom templating system which makes it easy to customize the HTML of the widgets and shortcodes to meet your needs.</p>
         <ol>
             <li>Create a folder in your child theme called "site-reviews".</li>

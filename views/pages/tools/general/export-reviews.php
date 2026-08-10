@@ -11,15 +11,14 @@ $form = new \GeminiLabs\SiteReviews\Modules\Html\Form([], [], glsr()->config('ex
         </button>
     </h3>
     <div id="tools-export-reviews" class="inside">
-        <div class="glsr-notice-inline components-notice is-info">
-            <p class="components-notice__content">
-                <?php /* translators: %1$s: link to the WordPress Export tool, %2$s: link to the WordPress Import tool */ echo sprintf(
-                    _x('You can also use the WordPress %1$s and %2$s tools to export and import your reviews and categories.', 'admin-text', 'site-reviews'),
-                    sprintf('<a href="%s">%s</a>', admin_url('export.php'), _x('Export', 'admin-text', 'site-reviews')),
-                    sprintf('<a href="%s">%s</a>', admin_url('import.php'), _x('Import', 'admin-text', 'site-reviews'))
-                ); ?>
-            </p>
-        </div>
+        <?php /* translators: %1$s: link to the WordPress Export tool, %2$s: link to the WordPress Import tool */ echo wp_get_admin_notice(
+            sprintf(
+                _x('You can also use the WordPress %1$s and %2$s tools to export and import your reviews and categories.', 'admin-text', 'site-reviews'),
+                sprintf('<a href="%s">%s</a>', admin_url('export.php'), _x('Export', 'admin-text', 'site-reviews')),
+                sprintf('<a href="%s">%s</a>', admin_url('import.php'), _x('Import', 'admin-text', 'site-reviews'))
+            ),
+            ['type' => 'info', 'additional_classes' => ['inline']]
+        ); ?>
         <p><?php /* translators: %s: the .csv file extension */ echo sprintf(
             _x('Here you can export your reviews to a %s file. If you are planning to import these reviews into a different website, you may want to export assignment values as slugs\usernames because the IDs on the other website will likely be different.', 'admin-text', 'site-reviews'),
             '<code>*.csv</code>'

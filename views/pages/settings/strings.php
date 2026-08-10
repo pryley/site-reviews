@@ -2,11 +2,12 @@
 
 <h2 class="title"><?php echo _x('Custom Text Settings', 'admin-text', 'site-reviews'); ?></h2>
 
-<div class="components-notice is-info" style="margin-left:0;">
-    <p class="components-notice__content">
-        <?php /* translators: %s: link to the Loco Translate plugin */ echo sprintf(_x('If you have a multilingual website, use the %s plugin instead. When Loco Translate asks for the location of the new translation file, select "Custom".', 'admin-text', 'site-reviews'), '<a href="https://wordpress.org/plugins/loco-translate/" target="_blank">Loco Translate</a>'); ?>
-    </p>
-</div>
+<?php /* translators: %s: link to the Loco Translate plugin */ echo wp_get_admin_notice(
+    sprintf(_x('If you have a multilingual website, use the %s plugin instead. When Loco Translate asks for the location of the new translation file, select "Custom".', 'admin-text', 'site-reviews'),
+        '<a href="https://wordpress.org/plugins/loco-translate/" target="_blank">Loco Translate</a>'
+    ),
+    ['type' => 'info', 'additional_classes' => ['inline']]
+); ?>
 
 <p>
     <?php echo _x('Here you can customise any English text of the plugin that is shown on the frontend of your website, including the field labels and placeholders of the review form.', 'admin-text', 'site-reviews'); ?>

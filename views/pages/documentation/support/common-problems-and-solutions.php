@@ -58,7 +58,7 @@
         <p>Here is a list of possible errors and what they mean:</p>
         <ol>
             <li>
-                <h4 class="components-notice is-error" style="font-size:15px;">
+                <h4 class="glsr-error-message">
                     <?php echo __('The form could not be submitted. Please notify the site administrator.', 'site-reviews'); ?>
                 </h4>
                 <p>This is an Ajax error that is triggered by any of the following reasons:</p>
@@ -73,25 +73,25 @@
                 <p>Alternatively, you may remove the Nonce check as shown on the FAQ page: <?php echo glsr_admin_link('documentation.faq', 'How do I remove the WordPress Nonce check for logged-in users?', '#faq-remove-nonce-check'); ?>.</p>
             </li>
             <li>
-                <h4 class="components-notice is-error" style="font-size:15px;">
+                <h4 class="glsr-error-message">
                     <?php echo __('Your review cannot be submitted at this time.', 'site-reviews'); ?>
                 </h4>
                 <p>This error is shown when the Blacklist validator prevents the review from being submitted.</p>
             </li>
             <li>
-                <h4 class="components-notice is-error" style="font-size:15px;">
+                <h4 class="glsr-error-message">
                     <?php echo __('This review has been flagged as possible spam and cannot be submitted.', 'site-reviews'); ?>
                 </h4>
                 <p>This error is shown when the Akismet or Honeypot validator prevents the review from being submitted.</p>
             </li>
             <li>
-                <h4 class="components-notice is-error" style="font-size:15px;">
+                <h4 class="glsr-error-message">
                     <?php echo __('This review cannot be submitted, please refresh the page and try again.', 'site-reviews'); ?>
                 </h4>
                 <p>This error is shown when the hidden input values in the Form have been modified.</p>
             </li>
             <li>
-                <h4 class="components-notice is-error" style="font-size:15px;">
+                <h4 class="glsr-error-message">
                     <?php echo __('Your review could not be submitted and the error has been logged. Please notify the site administrator.', 'site-reviews'); ?>
                 </h4>
                 <p>This error is triggered when WordPress encounters an error when saving the review to the database.</p>
@@ -103,10 +103,12 @@
                     <li><p>Run the <?php echo glsr_admin_link('tools.general', 'Repair Review Relations', '#tools-repair-review-relations'); ?> tool.</p></li>
                     <li>
                         <p>Finally, there is the "Nuclear" option:</p>
-                        <p class="components-notice is-warning" style="margin-bottom:1em;">
-                            <i class="dashicons dashicons-warning" style="color:#f0b849; margin-right:5px;"></i>
-                            Only use this "Nuclear" option as a last resort because it will delete all your reviews and settings!
-                        </p>
+                        <?php echo wp_get_admin_notice('sssss'); ?>
+
+                        <?php echo wp_get_admin_notice(
+                            '<i class="dashicons dashicons-warning" aria-hidden="true"></i> Only use this "Nuclear" option as a last resort because it will delete all your reviews and settings!',
+                            ['type' => 'warning', 'additional_classes' => ['inline']]
+                        ); ?>
                         <ol>
                             <li>Run the <?php echo glsr_admin_link('tools.general', 'Export Reviews', '#tools-export-reviews'); ?> tool.</li>
                             <li>Run the <?php echo glsr_admin_link('tools.general', 'Export Settings', '#tools-export-plugin-settings'); ?> tool.</li>
@@ -121,13 +123,13 @@
                 <p>If these solutions do not work, please contact support for assistance.</p>
             </li>
             <li>
-                <h4 class="components-notice is-error" style="font-size:15px;">
+                <h4 class="glsr-error-message">
                     <?php echo __('The review submission failed. Please notify the site administrator.', 'site-reviews'); ?>
                 </h4>
                 <p>This error is shown if you have added any custom validation functions which are returning false You can override this error with your own by returning an error message instead of <code>false</code> in your custom validation logic.</p>
             </li>
             <li>
-                <h4 class="components-notice is-error" style="font-size:15px;">
+                <h4 class="glsr-error-message">
                     <?php echo __('Service Unavailable.', 'site-reviews'); ?>
                 </h4>
                 <p>If your website is using Cloudflare and you configured a Firewall rule to block access to <code>wp-admin</code>, then this is likely causing the error. Site Reviews uses the <code>/wp-admin/admin-ajax.php</code> file to submit AJAX requests; this is standard practice for WordPress plugins. To learn how to correctly configure Cloudflare to protect your <code>wp-admin</code> without blocking access to "admin-ajax.php", please see: <a href="https://turbofuture.com/internet/Cloudflare-Firewall-Rules-for-Securing-WordPress" target="_blank">Cloudflare Firewall Rules for Securing WordPress</a></p>

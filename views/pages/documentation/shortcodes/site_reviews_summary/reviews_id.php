@@ -1,8 +1,9 @@
 <p class="glsr-heading">reviews_id</p>
 <?php if (glsr_addon_required('site-reviews-filters')) { ?>
-    <div class="components-notice is-warning">
-        <p class="components-notice__content"><?php echo glsr_premium_link('site-reviews-filters'); ?> addon is required to use this shortcode option.</p>
-    </div>
+    <?php echo wp_get_admin_notice(
+        glsr_premium_link('site-reviews-filters').' addon is required to use this shortcode option.',
+        ['type' => 'warning', 'additional_classes' => ['inline']]
+    ); ?>
 <?php } ?>
 <p>Include the "reviews_id" option to enable filtering the reviews by clicking the rating bars. Accepted values are <code>true</code> and <code>false</code>. Using this option will also enable AJAX filtering.</p>
 <div class="shortcode-example">

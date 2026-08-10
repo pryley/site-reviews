@@ -9,16 +9,14 @@
         </button>
     </h3>
     <div id="tools-import-product-reviews" class="inside">
-        <div class="glsr-notice-inline components-notice is-info">
-            <p class="components-notice__content">
-                <?php echo _x("Reviews are only imported once so it's safe to run this tool multiple times.", 'admin-text', 'site-reviews'); ?>
-            </p>
-        </div>
-        <div class="glsr-notice-inline components-notice is-warning">
-            <p class="components-notice__content">
-                <?php echo _x('If you decide to return to using WooCommerce reviews, you will need to click the "Revert" button to restore the previous product rating counts.', 'admin-text', 'site-reviews'); ?>
-            </p>
-        </div>
+        <?php echo wp_get_admin_notice(
+            _x("Reviews are only imported once so it's safe to run this tool multiple times.", 'admin-text', 'site-reviews'),
+            ['type' => 'info', 'additional_classes' => ['inline']]
+        ); ?>
+        <?php echo wp_get_admin_notice(
+            _x('If you decide to return to using WooCommerce reviews, you will need to click the "Revert" button to restore the previous product rating counts.', 'admin-text', 'site-reviews'),
+            ['type' => 'warning', 'additional_classes' => ['inline']]
+        ); ?>
 
         <p>
             <strong><?php echo _x('Step 1:', 'admin-text', 'site-reviews'); ?></strong>

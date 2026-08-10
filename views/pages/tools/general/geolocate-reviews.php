@@ -9,14 +9,13 @@
         </button>
     </h3>
     <div id="tools-geolocate-reviews" class="inside">
-        <div class="glsr-notice-inline components-notice is-info">
-            <p class="components-notice__content">
-                <?php /* translators: %s: link to the IP-API website */ printf(
-                    _x('This tool uses the free %s Geolocation API service to extract location data from IP Addresses.', 'admin-text', 'site-reviews'),
-                    '<a href="https://ip-api.com/">IP-API</a>'
-                ); ?>
-            </p>
-        </div>
+        <?php /* translators: %s: link to the IP-API website */ echo wp_get_admin_notice(
+            sprintf(
+                _x('This tool uses the free %s Geolocation API service to extract location data from IP Addresses.', 'admin-text', 'site-reviews'),
+                '<a href="https://ip-api.com/">IP-API</a>'
+            ),
+            ['type' => 'info', 'additional_classes' => ['inline']]
+        ); ?>
         <p><?php echo _x('Site Reviews stores the IP address of the reviewer when they submit a review. The IP address is used during review validation and to prevent abuse.', 'admin-text', 'site-reviews'); ?></p>
         <p><?php echo _x('This tool will extract missing geolocation (country, region/state, and city) of reviews that have a valid IP addresses. This location data can be used to display the location in the review (e.g. the flag of the reviewer\'s country).', 'admin-text', 'site-reviews'); ?></p>
         <p><?php echo _x('If you want to remove the geolocation data from all of your reviews, click the <strong>Remove</strong> button.', 'admin-text', 'site-reviews'); ?></p>

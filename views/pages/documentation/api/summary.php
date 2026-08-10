@@ -122,7 +122,7 @@ $schema = (new \GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema\SummarySc
                         <td></td>
                         <td>
                             Use rating values of a custom rating field; use the custom rating Field Name as the value.
-                            <?php if (glsr_addon_required('site-reviews-forms')) { ?><div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-forms'); ?> addon required.</div><?php } ?>
+                            <?php if (glsr_addon_required('site-reviews-forms')) { echo wp_get_admin_notice(glsr_premium_link('site-reviews-forms').' addon required.', ['type' => 'warning', 'additional_classes' => ['inline']]); } ?>
                         </td>
                     </tr>
                     <tr>
@@ -140,7 +140,7 @@ $schema = (new \GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema\SummarySc
                         <td></td>
                         <td>
                             Render the summary rating using a specific custom review theme (ID); only works with the <code>rendered</code> parameter.
-                            <?php if (glsr_addon_required('site-reviews-themes')) { ?><div class="glsr-notice-inline components-notice is-warning"><?php echo glsr_premium_link('site-reviews-themes'); ?> addon required.</div><?php } ?>
+                            <?php if (glsr_addon_required('site-reviews-themes')) { echo wp_get_admin_notice(glsr_premium_link('site-reviews-themes').' addon required.', ['type' => 'warning', 'additional_classes' => ['inline']]); } ?>
                         </td>
                     </tr>
                     <tr>

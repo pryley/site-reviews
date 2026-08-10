@@ -2,20 +2,18 @@
 
 <h2 class="title"><?php echo _x('JSON-LD Schema Settings', 'admin-text', 'site-reviews'); ?></h2>
 
-<div class="components-notice is-info" style="margin-bottom: 12px;margin-left:0;">
-    <p class="components-notice__content">
-        <?php echo _x('<strong>The schema is disabled by default.</strong> Use the schema option in your blocks or shortcodes to enable it.', 'admin-text', 'site-reviews'); ?>
-    </p>
-</div>
+<?php echo wp_get_admin_notice(
+    _x('<strong>The schema is disabled by default.</strong> Use the schema option in your blocks or shortcodes to enable it.', 'admin-text', 'site-reviews'),
+    ['type' => 'info', 'additional_classes' => ['inline']]
+); ?>
 
-<div class="components-notice is-warning" style="background-color:#fff;margin-left:0;">
-    <p class="components-notice__content">
-        <?php echo sprintf(_x('Google limits the schema types that can trigger review rich results in search. To learn more, please %1$sread this%2$s.', 'admin-text', 'site-reviews'),
-            '<a href="https://developers.google.com/search/blog/2019/09/making-review-rich-results-more-helpful" target="_blank">',
-            '</a>'
-        ); ?>
-    </p>
-</div>
+<?php /* translators: %1$s: opening link tag, %2$s: closing link tag */ echo wp_get_admin_notice(
+    sprintf(_x('Google limits the schema types that can trigger review rich results in search. To learn more, please %1$sread this%2$s.', 'admin-text', 'site-reviews'),
+        '<a href="https://developers.google.com/search/blog/2019/09/making-review-rich-results-more-helpful" target="_blank">',
+        '</a>'
+    ),
+    ['type' => 'warning', 'additional_classes' => ['inline']]
+); ?>
 
 <p>
     <?php /* translators: %s: link with the text "Google Rich Results" */ echo sprintf(_x('The schema is used to display rich review snippets in Google\'s search results. If the schema has been enabled, you can use the %s tool to test your pages for valid schema.', 'admin-text', 'site-reviews'),

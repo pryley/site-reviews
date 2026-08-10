@@ -9,9 +9,10 @@
         </button>
     </h3>
     <div id="fn-glsr_update_review" class="inside">
-        <div class="glsr-notice-inline components-notice is-warning">
-            <p class="components-notice__content">This function uses basic validation on the provided values. If validation fails, the function will return false and the validation errors will be logged to the <?php echo glsr_admin_link('tools.console'); ?>.</p>
-        </div>
+        <?php echo wp_get_admin_notice(
+            'This function uses basic validation on the provided values. If validation fails, the function will return false and the validation errors will be logged to the '.glsr_admin_link('tools.console').'.',
+            ['type' => 'warning', 'additional_classes' => ['inline']]
+        ); ?>
         <pre><code class="language-php">/**
  * Default values in the $reviewValues array:
  * - 'assigned_posts' => '',

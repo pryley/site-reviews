@@ -9,9 +9,10 @@
         </button>
     </h3>
     <div id="support-basic-troubleshooting" class="inside">
-        <div class="glsr-notice-inline components-notice is-info">
-            <p class="components-notice__content">If you find an incompatible theme or plugin, please <?php echo glsr_admin_link('documentation.support', 'contact support', '#support-contact-support'); ?> so we can fix it.</p>
-        </div>
+        <?php echo wp_get_admin_notice(
+            'If you find an incompatible theme or plugin, please '.glsr_admin_link('documentation.support', 'contact support', '#support-contact-support').' so we can fix it.',
+            ['type' => 'info', 'additional_classes' => ['inline']]
+        ); ?>
         <h3>1. Make sure you are using the latest version of Site Reviews.</h3>
         <p>Site Reviews is updated frequently with bug patches, security updates, improvements, and new features. If you are experiencing problems, make sure you are using the latest version, as there is a good chance that the problem has already been fixed.</p>
         <h3>2. Deactivate Site Reviews and then reactivate it.</h3>

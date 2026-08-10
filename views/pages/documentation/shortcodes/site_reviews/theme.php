@@ -1,8 +1,9 @@
 <p class="glsr-heading">theme</p>
 <?php if (glsr_addon_required('site-reviews-themes')) { ?>
-    <div class="glsr-notice-inline components-notice is-warning">
-        <p class="components-notice__content">The <?php echo glsr_premium_link('site-reviews-themes'); ?> addon is required to use this shortcode option.</p>
-    </div>
+    <?php echo wp_get_admin_notice(
+        'The '.glsr_premium_link('site-reviews-themes').' addon is required to use this shortcode option.',
+        ['type' => 'warning', 'additional_classes' => ['inline']]
+    ); ?>
 <?php } ?>
 <p>Include the "theme" option to display the reviews using a custom Review Theme. Accepted value is the Post ID of the custom Review Theme.</p>
 <p><span class="required">Important:</span> The custom Review Theme will override the hide option used on this shortcode.</p>

@@ -9,11 +9,10 @@
     </h3>
     <div id="upgrade-v7_0_0" class="inside">
 
-        <div class="glsr-notice-inline components-notice is-warning">
-            <p class="components-notice__content">
-                Site Reviews should automatically migrate itself after updating to v7.0. However, if you are experiencing problems after updating, you may need to manually run the <a href="<?php echo esc_url(glsr_admin_url('tools', 'general')); ?>" data-expand="#tools-migrate-plugin">Migrate Plugin</a> tool.
-            </p>
-        </div>
+        <?php echo wp_get_admin_notice(
+            'Site Reviews should automatically migrate itself after updating to v7.0. However, if you are experiencing problems after updating, you may need to manually run the <a href="'.esc_url(glsr_admin_url('tools', 'general')).'" data-expand="#tools-migrate-plugin">Migrate Plugin</a> tool.',
+            ['type' => 'warning', 'additional_classes' => ['inline']]
+        ); ?>
 
         <h2>Changes to IP Address detection</h2>
         <p><em>Likelihood Of Impact: <span class="impact-high">High</span></em></p>

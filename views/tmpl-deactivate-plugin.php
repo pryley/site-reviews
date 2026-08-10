@@ -25,27 +25,25 @@
                     <# }); #>
                 </ul>
                 <div class="glsr-dp-help" style="display:none;">
-                    <div class="components-notice is-warning">
-                        <p class="components-notice__content">
-                            <?php
-                                /* translators: %s: link with the text "Getting Started" */
-                                printf(_x('Did you read the %s guide?', 'Getting Started (admin-text)', 'site-reviews'),
-                                    glsr_admin_link('welcome', _x('Getting Started', 'admin-text', 'site-reviews'))
-                                );
-                            ?>
-                        </p>
-                    </div>
+                    <?php
+                        /* translators: %s: link with the text "Getting Started" */
+                        echo wp_get_admin_notice(
+                            sprintf(_x('Did you read the %s guide?', 'Getting Started (admin-text)', 'site-reviews'),
+                                glsr_admin_link('welcome', _x('Getting Started', 'admin-text', 'site-reviews'))
+                            ),
+                            ['type' => 'warning', 'additional_classes' => ['inline']]
+                        );
+                    ?>
                     <?php if (!glsr(\GeminiLabs\SiteReviews\License::class)->isPremium()) { ?>
-                        <div class="components-notice is-info">
-                            <p class="components-notice__content">
-                                <?php
-                                    /* translators: %s: link with the text "addons" */
-                                    printf(_x('Maybe one of the %s provide this feature.', 'link to addons page (admin-text)', 'site-reviews'),
-                                        glsr_premium_link('addons', _x('addons', 'admin-text', 'site-reviews'))
-                                    );
-                                ?>
-                            </p>
-                        </div>
+                        <?php
+                            /* translators: %s: link with the text "addons" */
+                            echo wp_get_admin_notice(
+                                sprintf(_x('Maybe one of the %s provide this feature.', 'link to addons page (admin-text)', 'site-reviews'),
+                                    glsr_premium_link('addons', _x('addons', 'admin-text', 'site-reviews'))
+                                ),
+                                ['type' => 'info', 'additional_classes' => ['inline']]
+                            );
+                        ?>
                     <?php } ?>
                 </div>
                 <div class="glsr-dp-details" style="display:none;">

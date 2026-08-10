@@ -120,8 +120,9 @@ class DownloadCsvTemplate extends AbstractCommand
                 if ('default' !== $group && glsr_addon_required($group)) {
                     /* translators: %s: link to the addon page */
                     $text = _x('%s addon required.', 'link to addon page (admin-text)', 'site-reviews');
-                    $notice = sprintf('<div class="glsr-notice-inline components-notice is-warning">%s</div>',
-                        sprintf($text, glsr_premium_link($group))
+                    $notice = wp_get_admin_notice(
+                        sprintf($text, glsr_premium_link($group)),
+                        ['type' => 'warning', 'additional_classes' => ['inline']]
                     );
                 }
                 $data[$name] = compact('description', 'notice', 'required');

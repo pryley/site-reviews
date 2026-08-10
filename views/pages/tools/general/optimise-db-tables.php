@@ -12,12 +12,13 @@
     </h3>
     <div id="tools-optimise-db-tables" class="inside">
         <?php if (!empty($myisam_tables)) { ?>
-            <div class="glsr-notice-inline components-notice is-warning">
-                <p class="components-notice__content"><?php echo sprintf(
+            <?php /* translators: %s: link to the UpdraftPlus plugin */ echo wp_get_admin_notice(
+                sprintf(
                     _x('Please backup your database before running this tool! You can use the %s plugin to do this.', 'admin-text', 'site-reviews'),
                     '<a href="https://wordpress.org/plugins/updraftplus/" target="_blank">UpdraftPlus</a>'
-                ); ?></p>
-            </div>
+                ),
+                ['type' => 'warning', 'additional_classes' => ['inline']]
+            ); ?>
             <p><?php echo _x('The old MyISAM table engine in MySQL was replaced by the InnoDB engine as the default over 10 years ago! If your database tables still use the MyISAM engine, you are missing out on substantial performance and reliability gains that the InnoDB engine provides.', 'admin-text', 'site-reviews'); ?></p>
             <p><?php echo _x('Site Reviews makes use of specific InnoDB engine features in order to perform faster database queries. However, some of your database tables (shown below) are still using the old MyISAM engine. If you convert these tables to use the InnoDB engine, it will make Site Reviews perform faster.', 'admin-text', 'site-reviews'); ?></p>
             <table class="wp-list-table widefat striped" style="margin-bottom:1em;">
@@ -50,9 +51,10 @@
                 </tbody>
             </table>
         <?php } else { ?>
-            <div class="glsr-notice-inline components-notice is-success" style="margin-bottom:1em;">
-                <p class="components-notice__content"><?php echo _x('Optimisation is unnecessary because your database tables already use the InnoDB engine!', 'admin-text', 'site-reviews'); ?> ✨</p>
-            </div>
+            <?php echo wp_get_admin_notice(
+                _x('Optimisation is unnecessary because your database tables already use the InnoDB engine!', 'admin-text', 'site-reviews').' ✨',
+                ['type' => 'success', 'additional_classes' => ['inline']]
+            ); ?>
         <?php } ?>
     </div>
 </div>

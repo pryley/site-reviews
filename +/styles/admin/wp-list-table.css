@@ -285,6 +285,9 @@
 #scheduled.glsr-nav-view {
   margin-top: .5em;
 }
+#scheduled.glsr-nav-view > .notice {
+  margin: 20px 0 2px;
+}
 #scheduled.glsr-nav-view .subsubsub {
   margin-top: 0;
 }
