@@ -4,6 +4,7 @@ class Notices {
     constructor () {
         jQuery('.glsr-notice[data-notice]').on('click.wp-dismiss-notice', this.onDismiss.bind(this))
         this.showBanner()
+        this.showPopup()
     }
 
     add (notices) {
@@ -73,6 +74,15 @@ class Notices {
         if ($el.length) {
             jQuery('#glsr-page-header').prepend($el.detach())
             $el.delay(1000).slideDown()
+        }
+    }
+
+    showPopup () {
+        const $el = jQuery('.glsr-notice-popup');
+        if ($el.length) {
+            $el.addClass('is-closing')
+            jQuery('#glsr-notices').prepend($el.detach())
+            setTimeout(() => $el.removeClass('is-closing'), 1000)
         }
     }
 

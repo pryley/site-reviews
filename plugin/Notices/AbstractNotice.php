@@ -123,10 +123,8 @@ abstract class AbstractNotice
         if ($this->isDismissible()) {
             $classAttr[] = 'is-dismissible';
         }
-        if ('banner' === $this->type) {
-            $classAttr[] = "glsr-notice-banner";
-        } elseif ('popup' === $this->type) {
-            $classAttr[] = 'notice glsr-notice-popup';
+        if (in_array($this->type, ['banner', 'popup'])) {
+            $classAttr[] = "glsr-notice-{$this->type}";
         } else {
             $classAttr[] = "notice {$this->type}";
         }

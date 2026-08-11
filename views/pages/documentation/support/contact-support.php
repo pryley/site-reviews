@@ -16,6 +16,6 @@
             <li><?php echo glsr_admin_link('documentation.support', 'Read the Common Problems and Solutions', '#support-common-problems-and-solutions'); ?> if you are having problems sending emails or submitting reviews.</li>
             <li><?php echo glsr_admin_link('documentation.support', 'Try the Basic Troubleshooting Steps', '#support-basic-troubleshooting'); ?> if you are unsure how to use Site Reviews.</li>
         </ol>
-        <p><a class="components-button is-primary" target="_blank" href="https://wordpress.org/support/plugin/site-reviews">Visit the Support Forum &rarr;</a></p>
+        <p><a class="button button-primary" target="_blank" href="https://wordpress.org/support/plugin/site-reviews">Visit the Support Forum &rarr;</a></p>
     </div>
 </div>
