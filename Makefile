@@ -9,6 +9,11 @@ WPENV ?= $(WPENV_BIN) run cli --env-cwd=wp-content/plugins/$(PLUGIN)
 # this instance onto the wrong port. Only `start` binds a port — `run cli`
 # never touches one. Sibling checkouts each pin their own (8888 default).
 WPENV_START ?= WP_ENV_PORT=8890 $(WPENV_BIN) start
+# Composer kills a script after 300 seconds. The coverage run passed that as the
+# suite grew, and every other suite is on the same path, so the test scripts run
+# with no limit. `composer update` keeps the default: a stalled download is worth
+# hearing about.
+COMPOSER ?= COMPOSER_PROCESS_TIMEOUT=0 composer
 
 .PHONY: analyse
 analyse: env-check ## Run the phpstan analyser (inside wp-env)
@@ -71,7 +76,7 @@ compat: ## Check PHP compatibility (8.1, phpcs) and WP compatibility (the declar
 .PHONY: coverage
 coverage: env-check ## Run the suite with coverage of the PLUGIN, gated at 80% (restarts wp-env with Xdebug)
 	$(WPENV_START) --xdebug=coverage
-	$(WPENV) env XDEBUG_MODE=coverage composer test:coverage
+	$(WPENV) env XDEBUG_MODE=coverage $(COMPOSER) test:coverage
 
 .PHONY: coverage\:all
 coverage\:all: ## The full coverage picture: main suite, multisite suite, then the merged table
@@ -155,7 +160,7 @@ stubs\:update: ## Regenerate the third-party stubs from tests/bin/stubs-manifest
 
 .PHONY: test
 test: env-check ## Run the four main Pest suites inside wp-env (see tests/pest/README.md)
-	$(WPENV) env XDEBUG_MODE=off composer test
+	$(WPENV) env XDEBUG_MODE=off $(COMPOSER) test
 
 .PHONY: test\:all
 test\:all: ## Run the main and multisite suites
@@ -178,7 +183,7 @@ test\:files: env-check ## Run several test files together (FILES="a.php b.php") 
 
 .PHONY: test\:import
 test\:import: env-check ## Run only the Import suite inside wp-env (runs last: it defines WP_IMPORTING)
-	$(WPENV) env XDEBUG_MODE=off composer test:import
+	$(WPENV) env XDEBUG_MODE=off $(COMPOSER) test:import
 
 .PHONY: test\:install
 test\:install: docker-check ## Start wp-env and install the composer dev dependencies inside it
@@ -188,7 +193,7 @@ test\:install: docker-check ## Start wp-env and install the composer dev depende
 
 .PHONY: test\:integration
 test\:integration: env-check ## Run only the Integration suite inside wp-env
-	$(WPENV) env XDEBUG_MODE=off composer test:integration
+	$(WPENV) env XDEBUG_MODE=off $(COMPOSER) test:integration
 
 .PHONY: test\:multisite
 test\:multisite: multisite-env ## Run the multisite suite in its own wp-env instance
@@ -214,11 +219,11 @@ test\:random: env-check ## Run each suite with its tests shuffled, to find tests
 
 .PHONY: test\:thirdparty
 test\:thirdparty: env-check ## Run only the ThirdParty suite inside wp-env (the integrations)
-	$(WPENV) env XDEBUG_MODE=off composer test:thirdparty
+	$(WPENV) env XDEBUG_MODE=off $(COMPOSER) test:thirdparty
 
 .PHONY: test\:unit
 test\:unit: env-check ## Run only the Unit suite inside wp-env (fast feedback loop)
-	$(WPENV) env XDEBUG_MODE=off composer test:unit
+	$(WPENV) env XDEBUG_MODE=off $(COMPOSER) test:unit
 
 .PHONY: update
 update: env-check ## Update the Composer dependencies (inside wp-env) and check the NPM ones
