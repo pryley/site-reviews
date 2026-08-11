@@ -32,7 +32,12 @@ class ImportManager
         foreach ($records as $values) {
             $request = new Request($values);
             $command = new CreateReview($request);
-            if ($review = $this->importedReview($command)) {
+            $submitted = $command->submitted();
+            if (empty($submitted['submitted'])) {
+                ++$result['skipped'];
+                continue;
+            }
+            if ($review = $this->importedReview($submitted['submitted_hash'])) {
                 $result['attachments'] += glsr()->filterInt('import/review/attachments', 0, $request, $review, false);
                 ++$result['skipped'];
                 continue;
@@ -63,12 +68,8 @@ class ImportManager
         return glsr(ImportResultDefaults::class)->restrict($result);
     }
 
-    public function importedReview(CreateReview $command): ?Review
+    public function importedReview(string $submittedHash): ?Review
     {
-        $submittedHash = $command->submitted()['submitted_hash'] ?? '';
-        if (empty($submittedHash)) {
-            return null;
-        }
         $sql = "
             SELECT p.ID
             FROM table|posts AS p

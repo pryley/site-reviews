@@ -620,3 +620,18 @@ test('a row the writer refuses is reported and the import abandoned', function (
     expect($ok)->toBeFalse();
     expect(glsr(Notice::class)->get())->toContain('Unable to process a row in the CSV document');
 });
+
+test('a row that submits nothing is skipped instead of imported', function () {
+    // The duplicate check keys on md5 of the submitted values, so a row that submits nothing
+    // hashes to the same constant as every other empty one and has no identity to dedupe on.
+    // Importing it would add an empty review on every run — the one thing this pass exists to
+    // stop. Empty values are dropped and guarded keys are never submitted values, so a row
+    // holding only an IP address submits nothing.
+    file_put_contents(glsr(ImportManager::class)->tempFilePath(), "date,rating,ip_address\n2024-01-15,5,127.0.0.1\n,,127.0.0.2\n");
+
+    $result = glsr(ImportManager::class)->import(10, 0);
+
+    expect($result['imported'])->toBe(1)
+        ->and($result['skipped'])->toBe(1)
+        ->and(importedReviewCount())->toBe(1);
+});
