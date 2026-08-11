@@ -39,7 +39,7 @@
                                 <?php wp_nonce_field('convert-table-engine'); ?>
                                 <input type="hidden" name="{{ id }}[_action]" value="convert-table-engine">
                                 <input type="hidden" name="{{ id }}[table]" value="<?php echo $table; ?>">
-                                <button type="submit" class="glsr-button button button-small button-secondary"
+                                <button type="submit" class="glsr-button button button-small"
                                     data-ajax-click
                                     data-loading="<?php echo esc_attr_x('Converting, please wait...', 'admin-text', 'site-reviews'); ?>"
                                 ><?php echo _x('Convert table engine to InnoDB', 'admin-text', 'site-reviews'); ?>

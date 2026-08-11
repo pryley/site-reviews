@@ -1,7 +1,7 @@
 const $ = jQuery;
 const dom = (cls) => $('<div/>').addClass(cls);
 const cls = {
-    cancel: 'glsr-button button button-large button-secondary',
+    cancel: 'glsr-button button button-large',
 }
 const events = {
     doc: 'wp-window-resized',

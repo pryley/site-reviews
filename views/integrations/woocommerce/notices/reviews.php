@@ -10,6 +10,6 @@
     ?>
     </p>
     <p>
-        <a class="button button-secondary" href="<?php echo esc_url(glsr_admin_url('tools')); ?>"><?php echo esc_html_x('Import your WooCommerce reviews', 'admin-text', 'site-reviews'); ?></a>
+        <a class="button" href="<?php echo esc_url(glsr_admin_url('tools')); ?>"><?php echo esc_html_x('Import your WooCommerce reviews', 'admin-text', 'site-reviews'); ?></a>
     </p>
 </div>

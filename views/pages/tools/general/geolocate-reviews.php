@@ -30,7 +30,7 @@
                 data-loading="<?php echo esc_attr_x('Queueing geolocation, please wait...', 'admin-text', 'site-reviews'); ?>"
             ><?php echo _x('Geolocate Reviews', 'admin-text', 'site-reviews'); ?>
             </button>
-            <button type="submit" class="glsr-button button button-large button-secondary"
+            <button type="submit" class="glsr-button button button-large"
                 data-ajax-click
                 data-ajax-scroll
                 data-alt

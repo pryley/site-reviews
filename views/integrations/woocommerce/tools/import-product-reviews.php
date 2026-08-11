@@ -50,7 +50,7 @@
                 data-remove-notice="migrate-product-ratings"
             ><?php echo _x('Migrate Product Ratings', 'admin-text', 'site-reviews'); ?>
             </button>
-            <button type="submit" class="glsr-button button button-large button-secondary"
+            <button type="submit" class="glsr-button button button-large"
                 data-ajax-click
                 data-ajax-scroll
                 data-alt

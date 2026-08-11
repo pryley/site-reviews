@@ -117,7 +117,7 @@ class AdminController extends AbstractController
         $submit = get_submit_button(_x('Apply', 'admin-text', 'site-reviews'), 'primary', 'screen-options-apply', false);
         $close = glsr(Builder::class)->button([
             'aria-controls' => 'screen-options-wrap',
-            'class' => 'button button-secondary glsr-screen-meta-toggle',
+            'class' => 'button glsr-screen-meta-toggle',
             'text' => _x('Close Panel', 'admin-text', 'site-reviews'),
             'type' => 'button',
         ]);
