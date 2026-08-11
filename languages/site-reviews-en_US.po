@@ -208,11 +208,11 @@ msgstr "The review could not be submitted because this browser is too old. Pleas
 msgid "and"
 msgstr "and"
 
-#: plugin/Helpers/Text.php:165
+#: plugin/Helpers/Text.php:167
 msgid "Show less"
 msgstr "Show less"
 
-#: plugin/Helpers/Text.php:166
+#: plugin/Helpers/Text.php:168
 msgid "Show more"
 msgstr "Show more"
 
@@ -454,7 +454,7 @@ msgid "The CAPTCHA verification failed, please try again."
 msgstr "The CAPTCHA verification failed, please try again."
 
 #: plugin/Modules/Validator/CustomValidator.php:21
-#: views/pages/documentation/support/common-problems-and-solutions.php:125
+#: views/pages/documentation/support/common-problems-and-solutions.php:127
 msgid "The review submission failed. Please notify the site administrator."
 msgstr "The review submission failed. Please notify the site administrator."
 
@@ -581,7 +581,7 @@ msgstr "No Title"
 msgid "Verified"
 msgstr "Verified"
 
-#: views/pages/documentation/support/common-problems-and-solutions.php:131
+#: views/pages/documentation/support/common-problems-and-solutions.php:133
 msgid "Service Unavailable."
 msgstr "Service Unavailable."
 
@@ -1374,7 +1374,7 @@ msgid "If you are sending notifications to Slack then this template will only be
 msgstr "If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href=\"https://api.slack.com/docs/attachments\" target=\"_blank\">Message Attachments</a> have been disabled."
 
 #: config/settings.php:260
-#: views/pages/tools/general/import-reviews.php:82
+#: views/pages/tools/general/import-reviews.php:83
 msgctxt "admin-text"
 msgid "Date Format"
 msgstr "Date Format"
@@ -1690,7 +1690,7 @@ msgstr "Use the %s tool to extract geolocation from existing reviews."
 
 #: config/settings.php:463
 #: views/pages/tools/general/geolocate-reviews.php:7
-#: views/pages/tools/general/geolocate-reviews.php:30
+#: views/pages/tools/general/geolocate-reviews.php:31
 msgctxt "admin-text"
 msgid "Geolocate Reviews"
 msgstr "Geolocate Reviews"
@@ -2856,7 +2856,7 @@ msgstr "This will completely replace the default WooCommerce review system with 
 #: config/integrations/woocommerce.php:10
 #: views/integrations/woocommerce/tools/import-product-reviews.php:33
 #: views/pages/tools/general/import-reviews.php:6
-#: views/pages/tools/general/import-reviews.php:117
+#: views/pages/tools/general/import-reviews.php:118
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr "Import Reviews"
@@ -3494,8 +3494,8 @@ msgstr "Try Premium"
 
 #: plugin/Controllers/AdminController.php:222
 #: views/integrations/woocommerce/settings.php:7
-#: views/pages/tools/general/export-reviews.php:18
-#: views/pages/tools/general/import-reviews.php:23
+#: views/pages/tools/general/export-reviews.php:19
+#: views/pages/tools/general/import-reviews.php:24
 msgctxt "admin-text"
 msgid "Import"
 msgstr "Import"
@@ -5721,13 +5721,14 @@ msgctxt "admin-text"
 msgid "General Settings"
 msgstr "General Settings"
 
-#: views/pages/settings/licenses.php:8
+#. translators: %s: link with the text "premium addon"
+#: views/pages/settings/licenses.php:9
 #, php-format
 msgctxt "admin-text"
 msgid "You will be able to save your license key here after you install and activate a %s."
 msgstr "You will be able to save your license key here after you install and activate a %s."
 
-#: views/pages/settings/licenses.php:9
+#: views/pages/settings/licenses.php:10
 msgctxt "admin-text"
 msgid "premium addon"
 msgstr "premium addon"
@@ -5930,7 +5931,7 @@ msgctxt "admin-text"
 msgid "Enter a valid license key for automatic updates."
 msgstr "Enter a valid license key for automatic updates."
 
-#: views/partials/addons/support-notice.php:5
+#: views/partials/addons/support-notice.php:6
 msgctxt "admin-text"
 msgid "login"
 msgstr "login"
@@ -6622,7 +6623,7 @@ msgid "Import your WooCommerce product reviews. Review replies and comments will
 msgstr "Import your WooCommerce product reviews. Review replies and comments will be skipped."
 
 #: views/integrations/woocommerce/tools/import-product-reviews.php:31
-#: views/pages/tools/general/import-reviews.php:115
+#: views/pages/tools/general/import-reviews.php:116
 msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
 msgstr "Importing reviews, please wait..."
@@ -6713,13 +6714,13 @@ msgid "Test IP Address Detection"
 msgstr "Test IP Address Detection"
 
 #: views/pages/tools/general/export-reviews.php:9
-#: views/pages/tools/general/export-reviews.php:34
+#: views/pages/tools/general/export-reviews.php:35
 msgctxt "admin-text"
 msgid "Export Reviews"
 msgstr "Export Reviews"
 
-#: views/pages/tools/general/export-reviews.php:17
-#: views/pages/tools/general/import-reviews.php:22
+#: views/pages/tools/general/export-reviews.php:18
+#: views/pages/tools/general/import-reviews.php:23
 msgctxt "admin-text"
 msgid "Export"
 msgstr "Export"
@@ -6738,136 +6739,138 @@ msgctxt "admin-text"
 msgid "Import Settings"
 msgstr "Import Settings"
 
-#: views/pages/tools/general/geolocate-reviews.php:14
+#. translators: %s: link to the IP-API website
+#: views/pages/tools/general/geolocate-reviews.php:15
 #, php-format
 msgctxt "admin-text"
 msgid "This tool uses the free %s Geolocation API service to extract location data from IP Addresses."
 msgstr "This tool uses the free %s Geolocation API service to extract location data from IP Addresses."
 
-#: views/pages/tools/general/geolocate-reviews.php:19
+#: views/pages/tools/general/geolocate-reviews.php:20
 msgctxt "admin-text"
 msgid "Site Reviews stores the IP address of the reviewer when they submit a review. The IP address is used during review validation and to prevent abuse."
 msgstr "Site Reviews stores the IP address of the reviewer when they submit a review. The IP address is used during review validation and to prevent abuse."
 
-#: views/pages/tools/general/geolocate-reviews.php:20
+#: views/pages/tools/general/geolocate-reviews.php:21
 msgctxt "admin-text"
 msgid "This tool will extract missing geolocation (country, region/state, and city) of reviews that have a valid IP addresses. This location data can be used to display the location in the review (e.g. the flag of the reviewer's country)."
 msgstr "This tool will extract missing geolocation (country, region/state, and city) of reviews that have a valid IP addresses. This location data can be used to display the location in the review (e.g. the flag of the reviewer's country)."
 
-#: views/pages/tools/general/geolocate-reviews.php:21
+#: views/pages/tools/general/geolocate-reviews.php:22
 msgctxt "admin-text"
 msgid "If you want to remove the geolocation data from all of your reviews, click the <strong>Remove</strong> button."
 msgstr "If you want to remove the geolocation data from all of your reviews, click the <strong>Remove</strong> button."
 
-#: views/pages/tools/general/geolocate-reviews.php:29
+#: views/pages/tools/general/geolocate-reviews.php:30
 msgctxt "admin-text"
 msgid "Queueing geolocation, please wait..."
 msgstr "Queueing geolocation, please wait..."
 
-#: views/pages/tools/general/geolocate-reviews.php:36
+#: views/pages/tools/general/geolocate-reviews.php:37
 msgctxt "admin-text"
 msgid "Removing all geolocated data, please wait..."
 msgstr "Removing all geolocated data, please wait..."
 
-#: views/pages/tools/general/geolocate-reviews.php:37
+#: views/pages/tools/general/geolocate-reviews.php:38
 msgctxt "admin-text"
 msgid "Remove"
 msgstr "Remove"
 
-#: views/pages/tools/general/import-reviews.php:13
+#. translators: %s: link to the UpdraftPlus plugin
+#: views/pages/tools/general/import-reviews.php:14
 #: views/pages/tools/general/optimise-db-tables.php:17
 #, php-format
 msgctxt "admin-text"
 msgid "Please backup your database before running this tool! You can use the %s plugin to do this."
 msgstr "Please backup your database before running this tool! You can use the %s plugin to do this."
 
-#: views/pages/tools/general/import-reviews.php:15
+#: views/pages/tools/general/import-reviews.php:16
 msgctxt "admin-text"
 msgid "Any entry in the CSV file that does not contain a required column value will be skipped."
 msgstr "Any entry in the CSV file that does not contain a required column value will be skipped."
 
-#: views/pages/tools/general/import-reviews.php:28
+#: views/pages/tools/general/import-reviews.php:29
 msgctxt "admin-text"
 msgid "Step 1: Download the CSV template file"
 msgstr "Step 1: Download the CSV template file"
 
-#: views/pages/tools/general/import-reviews.php:33
+#: views/pages/tools/general/import-reviews.php:34
 msgctxt "admin-text"
 msgid "Download"
 msgstr "Download"
 
-#: views/pages/tools/general/import-reviews.php:37
+#: views/pages/tools/general/import-reviews.php:38
 msgctxt "admin-text"
 msgid "Step 2: Enter reviews into the CSV file"
 msgstr "Step 2: Enter reviews into the CSV file"
 
-#: views/pages/tools/general/import-reviews.php:38
+#: views/pages/tools/general/import-reviews.php:39
 msgctxt "admin-text"
 msgid "Enter the reviews details into the template file and then save it. The CSV file should be encoded as UTF-8 and may contain the following columns:"
 msgstr "Enter the reviews details into the template file and then save it. The CSV file should be encoded as UTF-8 and may contain the following columns:"
 
-#: views/pages/tools/general/import-reviews.php:42
+#: views/pages/tools/general/import-reviews.php:43
 msgctxt "admin-text"
 msgid "Column Name"
 msgstr "Column Name"
 
-#: views/pages/tools/general/import-reviews.php:43
+#: views/pages/tools/general/import-reviews.php:44
 msgctxt "admin-text"
 msgid "Required"
 msgstr "Required"
 
-#: views/pages/tools/general/import-reviews.php:44
+#: views/pages/tools/general/import-reviews.php:45
 msgctxt "admin-text"
 msgid "Description"
 msgstr "Description"
 
-#: views/pages/tools/general/import-reviews.php:65
+#: views/pages/tools/general/import-reviews.php:66
 msgctxt "admin-text"
 msgid "Step 3: Upload the CSV file"
 msgstr "Step 3: Upload the CSV file"
 
-#: views/pages/tools/general/import-reviews.php:74
+#: views/pages/tools/general/import-reviews.php:75
 msgctxt "admin-text"
 msgid "Delimiter"
 msgstr "Delimiter"
 
-#: views/pages/tools/general/import-reviews.php:76
+#: views/pages/tools/general/import-reviews.php:77
 msgctxt "admin-text"
 msgid "Detect automatically"
 msgstr "Detect automatically"
 
-#: views/pages/tools/general/import-reviews.php:77
+#: views/pages/tools/general/import-reviews.php:78
 msgctxt "admin-text"
 msgid "Comma (,)"
 msgstr "Comma (,)"
 
-#: views/pages/tools/general/import-reviews.php:78
+#: views/pages/tools/general/import-reviews.php:79
 msgctxt "admin-text"
 msgid "Semicolon (;)"
 msgstr "Semicolon (;)"
 
-#: views/pages/tools/general/import-reviews.php:84
+#: views/pages/tools/general/import-reviews.php:85
 msgctxt "admin-text"
 msgid "Select the date format used in the reviews"
 msgstr "Select the date format used in the reviews"
 
-#: views/pages/tools/general/import-reviews.php:85
-#: views/pages/tools/general/import-reviews.php:93
-#: views/pages/tools/general/import-reviews.php:101
+#: views/pages/tools/general/import-reviews.php:86
+#: views/pages/tools/general/import-reviews.php:94
+#: views/pages/tools/general/import-reviews.php:102
 msgctxt "admin-text"
 msgid "Year"
 msgstr "Year"
 
-#: views/pages/tools/general/import-reviews.php:85
-#: views/pages/tools/general/import-reviews.php:93
-#: views/pages/tools/general/import-reviews.php:101
+#: views/pages/tools/general/import-reviews.php:86
+#: views/pages/tools/general/import-reviews.php:94
+#: views/pages/tools/general/import-reviews.php:102
 msgctxt "admin-text"
 msgid "Month"
 msgstr "Month"
 
-#: views/pages/tools/general/import-reviews.php:85
-#: views/pages/tools/general/import-reviews.php:93
-#: views/pages/tools/general/import-reviews.php:101
+#: views/pages/tools/general/import-reviews.php:86
+#: views/pages/tools/general/import-reviews.php:94
+#: views/pages/tools/general/import-reviews.php:102
 msgctxt "admin-text"
 msgid "Day"
 msgstr "Day"
@@ -6900,7 +6903,7 @@ msgid "Hard Reset"
 msgstr "Hard Reset"
 
 #: views/pages/tools/general/optimise-db-tables.php:9
-#: views/pages/tools/general/repair-review-relations.php:16
+#: views/pages/tools/general/repair-review-relations.php:17
 msgctxt "admin-text"
 msgid "Optimise Your Database Tables"
 msgstr "Optimise Your Database Tables"
@@ -6967,22 +6970,22 @@ msgctxt "admin-text"
 msgid "Repair Review Relations"
 msgstr "Repair Review Relations"
 
-#: views/pages/tools/general/repair-review-relations.php:21
+#: views/pages/tools/general/repair-review-relations.php:22
 msgctxt "admin-text"
 msgid "Site Reviews stores review details in a custom database table, these entries are linked to the review post type in the WordPress posts table using the review's Post ID."
 msgstr "Site Reviews stores review details in a custom database table, these entries are linked to the review post type in the WordPress posts table using the review's Post ID."
 
-#: views/pages/tools/general/repair-review-relations.php:22
+#: views/pages/tools/general/repair-review-relations.php:23
 msgctxt "admin-text"
 msgid "This tool will repair the review relationships in your database by removing any review details in the custom database table that do not point to a valid review."
 msgstr "This tool will repair the review relationships in your database by removing any review details in the custom database table that do not point to a valid review."
 
-#: views/pages/tools/general/repair-review-relations.php:29
+#: views/pages/tools/general/repair-review-relations.php:30
 msgctxt "admin-text"
 msgid "Repairing relations, please wait..."
 msgstr "Repairing relations, please wait..."
 
-#: views/pages/tools/general/repair-review-relations.php:30
+#: views/pages/tools/general/repair-review-relations.php:31
 msgctxt "admin-text"
 msgid "Repair Relations"
 msgstr "Repair Relations"
@@ -7486,7 +7489,8 @@ msgctxt "link to License Keys page (admin-text)"
 msgid "To activate your license, please visit the %s page on your Nifty Plugins account and click the \"Manage Sites\" button to activate it for your website."
 msgstr "To activate your license, please visit the %s page on your Nifty Plugins account and click the \"Manage Sites\" button to activate it for your website."
 
-#: views/pages/settings/licenses.php:16
+#. translators: %s: link to the License Keys page
+#: views/pages/settings/licenses.php:18
 #, php-format
 msgctxt "link to License Keys page (admin-text)"
 msgid "To change the website associated with your license key, go to the %s page and click the \"Manage Sites\" button."
@@ -7547,12 +7551,14 @@ msgctxt "file error (admin-text)"
 msgid "File upload was stopped by a PHP extension."
 msgstr "File upload was stopped by a PHP extension."
 
+#. translators: %s: link with the text "Getting Started"
 #: views/tmpl-deactivate-plugin.php:31
 #, php-format
 msgctxt "Getting Started (admin-text)"
 msgid "Did you read the %s guide?"
 msgstr "Did you read the %s guide?"
 
+#. translators: %s: link with the text "addons"
 #: views/tmpl-deactivate-plugin.php:41
 #, php-format
 msgctxt "link to addons page (admin-text)"
@@ -8206,7 +8212,7 @@ msgid "%s your existing WooCommerce product reviews."
 msgstr "%s your existing WooCommerce product reviews."
 
 #. translators: %s: link with the text "login"
-#: views/partials/addons/support-notice.php:4
+#: views/partials/addons/support-notice.php:5
 #, php-format
 msgctxt "login (admin-text)"
 msgid "To receive support for this addon, please %s to your Nifty Plugins account."
@@ -8292,7 +8298,8 @@ msgctxt "Export Settings (admin-text)"
 msgid "Here you can import the Site Reviews settings from a <code>*.json</code> file. You can use the the %s tool to export these settings from another website."
 msgstr "Here you can import the Site Reviews settings from a <code>*.json</code> file. You can use the the %s tool to export these settings from another website."
 
-#: views/pages/tools/general/repair-review-relations.php:15
+#. translators: %s: link with the text "Optimise Your Database Tables"
+#: views/pages/tools/general/repair-review-relations.php:16
 #, php-format
 msgctxt "Optimise Your Database Tables (admin-text)"
 msgid "Once you have repaired the review relationships, it is recommended that you run the %s tool to prevent the problem from happening again."
@@ -8348,7 +8355,7 @@ msgid "License Key Settings"
 msgstr ""
 
 #. translators: %s: the .csv file extension
-#: views/pages/tools/general/export-reviews.php:23
+#: views/pages/tools/general/export-reviews.php:24
 #, php-format
 msgctxt "admin-text"
 msgid "Here you can export your reviews to a %s file. If you are planning to import these reviews into a different website, you may want to export assignment values as slugs\\usernames because the IDs on the other website will likely be different."
@@ -8550,7 +8557,6 @@ msgctxt "admin-text"
 msgid "If you would like to keep the pagination links but prevent search engines from indexing them, add the following lines to your %1$s file: %2$s"
 msgstr ""
 
-#. translators: %1$s: opening tag of a link to the Google documentation, %2$s: closing tag
 #. translators: %1$s: opening link tag, %2$s: closing link tag
 #: config/settings.php:539
 #: views/pages/settings/schema.php:11
@@ -8771,8 +8777,9 @@ msgctxt "admin-text"
 msgid "In some cases it may be useful to link the Site Reviews schema with other schema on your page, this is done by adding the %1$s unique identifier property to each schema that you wish to link. If you are using Woocommerce and have set the Schema Type to \"Product\", Site Reviews will automatically do this for you. In all other cases, either use the <code>schema_identifier</code> Custom Field name in the %2$s, or use the %3$s hook."
 msgstr ""
 
-#: views/pages/tools/general/export-reviews.php:16
-#: views/pages/tools/general/import-reviews.php:21
+#. translators: %1$s: link to the WordPress Export tool, %2$s: link to the WordPress Import tool
+#: views/pages/tools/general/export-reviews.php:17
+#: views/pages/tools/general/import-reviews.php:22
 #, php-format
 msgctxt "admin-text"
 msgid "You can also use the WordPress %1$s and %2$s tools to export and import your reviews and categories."

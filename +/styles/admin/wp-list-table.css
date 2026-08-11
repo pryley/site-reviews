@@ -120,7 +120,7 @@
       color: lighten( #d98500, 5 );
     }
   }
-  td.column-is_pinned {
+  .column-is_pinned {
     i.pin-review {
       align-items: center;
       cursor: pointer;
@@ -142,7 +142,7 @@
       display: none;
     }
   }
-  td.column-is_verified {
+  .column-is_verified {
     i.verify-review {
       align-items: center;
       cursor: pointer;
@@ -165,33 +165,11 @@
     }
   }
 
-  :not(.status-pending) + tr.status-pending th.check-column {
-    box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.07), inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+  tbody tr.status-pending > * {
+    background-color: color-mix(in srgb, #d54e21 5%, transparent);
   }
 
-  :not(.status-pending) + tr.status-pending td:nth-child(2) {
-    box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.07);
-  }
-
-  :not(.status-pending) + tr.status-pending:not(.is-expanded) td:nth-child(2) {
-    box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.07), inset 0 -1px 0 rgba(0, 0, 0, 0.07);
-  }
-
-  tr.status-pending th.check-column {
-    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.07);
-  }
-
-  tr.status-pending:not(.is-expanded) td:nth-child(2),
-  tr.status-pending.is-expanded td:last-child {
-    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.07);
-  }
-
-  tr.status-pending th.check-column,
-  tr.status-pending td {
-    background-color: #fef7f1;
-  }
-
-  tr.status-pending th.check-column {
+  tbody tr.status-pending .check-column {
     position: relative;
     border-left: 4px solid #d54e21;
     z-index: 1;
@@ -202,16 +180,10 @@
   }
 }
 
+
+
 @media screen and (min-width: 783px) {
   .post-type-site-review .wp-list-table {
-
-    :not(.status-pending) + tr.status-pending td {
-      box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.07), inset 0 -1px 0 rgba(0, 0, 0, 0.07);
-    }
-
-    tr.status-pending td {
-      box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.07);
-    }
 
     th.column-assigned_posts,
     th.column-assigned_users,

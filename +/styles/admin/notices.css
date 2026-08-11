@@ -11,6 +11,11 @@
   border-radius: 3px;
 }
 
+.glsr-card .notice-info,
+.inside .notice-info {
+  background-color: color-mix(in srgb, #3858e9 5%, transparent);
+}
+
 .glsr-notice.notice-error .dashicons-before::before {
   color: #d63638;
 }
@@ -237,3 +242,5 @@ body:has(#glsr-flyout) .glsr-notice-popup > div {
 .glsr-notice-popup .glsr-notice-buttons {
   justify-content: end;
 }
+
+
