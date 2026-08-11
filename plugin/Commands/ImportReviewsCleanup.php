@@ -24,6 +24,7 @@ class ImportReviewsCleanup extends AbstractCommand
 
     public function handle(): void
     {
+        glsr(ImportManager::class)->unlock(); // release even when nothing was imported
         wp_cache_flush();
         if (0 < $this->imported) {
             glsr(ImportManager::class)->flush(); // drop the temporary table in the database

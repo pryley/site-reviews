@@ -12,6 +12,7 @@ use GeminiLabs\League\Csv\Reader;
 use GeminiLabs\League\Csv\Statement;
 use GeminiLabs\League\Csv\Writer;
 use GeminiLabs\SiteReviews\Database\ImportManager;
+use GeminiLabs\SiteReviews\Defaults\SubmittedFieldsDefaults;
 use GeminiLabs\SiteReviews\Exceptions\FileNotFoundException;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -76,7 +77,16 @@ class ProcessCsvFile extends AbstractCommand
             $this->fail();
             return;
         }
+        if (glsr(ImportManager::class)->locked()) {
+            glsr(Notice::class)->addError(
+                _x('Another import is already running. Please try again in a couple of minutes.', 'admin-text', 'site-reviews')
+            );
+            $this->fail();
+            return;
+        }
+        glsr(ImportManager::class)->lock();
         if (!$this->process($file)) {
+            glsr(ImportManager::class)->unlock();
             $this->fail();
         }
     }
@@ -120,13 +130,26 @@ class ProcessCsvFile extends AbstractCommand
             $filePath = glsr(ImportManager::class)->tempFilePath();
             $writer = $this->writer($filePath);
             $writer->insertOne($header);
-            $writer->addFormatter(fn (array $record) => $this->formatRecord($record));
             $records = (new Statement())
                 ->where(fn (array $record) => !empty(array_filter($record, 'trim'))) // remove empty rows
                 ->where(fn (array $record) => $this->validateRecord($record))
                 ->process($reader, $header);
             $writer->insertAll((function () use ($records) {
+                // Format and escape before hashing: the hash must see the record
+                // as stage 2 reads it back. The writer escapes again; EscapeFormula
+                // is idempotent.
+                $escaper = new EscapeFormula();
+                $staged = [];
                 foreach ($records as $record) {
+                    $record = $this->formatRecord($record);
+                    $record = $escaper->escapeRecord($record);
+                    $hash = $this->submittedHash($record);
+                    if (isset($staged[$hash])) {
+                        $this->errors['duplicate'] = _x('Duplicate row', 'admin-text', 'site-reviews');
+                        ++$this->skipped;
+                        continue;
+                    }
+                    $staged[$hash] = true;
                     ++$this->total; // count them on the way past: they are only read once
                     yield $record;
                 }
@@ -179,6 +202,18 @@ class ProcessCsvFile extends AbstractCommand
             }
         }
         return $reader;
+    }
+
+    /**
+     * The staging copy of CreateReview::submitted()'s hash. It hashes the
+     * request before the review/request action fires, so rows that only a
+     * listener mutation makes identical are left to the stage 2 lookup.
+     */
+    protected function submittedHash(array $record): string
+    {
+        $values = (new Request($record))->toArray();
+        $values = glsr(SubmittedFieldsDefaults::class)->filter($values);
+        return md5(maybe_serialize($values));
     }
 
     protected function validateFile(UploadedFile $file): bool

@@ -3250,7 +3250,7 @@ msgid "Imported %d attachments"
 msgstr "Imported %d attachments"
 
 #. translators: %s: number of imported reviews
-#: plugin/Commands/ImportReviewsCleanup.php:47
+#: plugin/Commands/ImportReviewsCleanup.php:48
 #: plugin/Integrations/WooCommerce/Commands/ImportProductReviewsCleanup.php:44
 #, php-format
 msgctxt "admin-text"
@@ -3260,7 +3260,7 @@ msgstr[0] "%s review was imported."
 msgstr[1] "%s reviews were imported."
 
 #. translators: %s: number of skipped entries
-#: plugin/Commands/ImportReviewsCleanup.php:56
+#: plugin/Commands/ImportReviewsCleanup.php:57
 #: plugin/Integrations/WooCommerce/Commands/ImportProductReviewsCleanup.php:52
 #, php-format
 msgctxt "admin-text"
@@ -3270,7 +3270,7 @@ msgstr[0] "%s entry was skipped."
 msgstr[1] "%s entries were skipped."
 
 #. translators: %s: list of warning messages
-#: plugin/Commands/ImportReviewsCleanup.php:64
+#: plugin/Commands/ImportReviewsCleanup.php:65
 #: plugin/Integrations/WooCommerce/Commands/ImportProductReviewsCleanup.php:59
 #, php-format
 msgctxt "admin-text"
@@ -3301,59 +3301,59 @@ msgctxt "admin-text"
 msgid "All plugin migrations have been run successfully, please %s the page."
 msgstr "All plugin migrations have been run successfully, please %s the page."
 
-#: plugin/Commands/ProcessCsvFile.php:118
+#: plugin/Commands/ProcessCsvFile.php:128
 msgctxt "admin-text"
 msgid "The CSV file could not be imported. Please verify the following details and try again:"
 msgstr "The CSV file could not be imported. Please verify the following details and try again:"
 
-#: plugin/Commands/ProcessCsvFile.php:137
+#: plugin/Commands/ProcessCsvFile.php:160
 msgctxt "admin-text"
 msgid "Unable to process a row in the CSV document:"
 msgstr "Unable to process a row in the CSV document:"
 
-#: plugin/Commands/ProcessCsvFile.php:142
+#: plugin/Commands/ProcessCsvFile.php:165
 msgctxt "admin-text"
 msgid "Does the CSV file include all required columns?"
 msgstr "Does the CSV file include all required columns?"
 
-#: plugin/Commands/ProcessCsvFile.php:143
+#: plugin/Commands/ProcessCsvFile.php:166
 msgctxt "admin-text"
 msgid "Have you named all of the columns in the CSV file?"
 msgstr "Have you named all of the columns in the CSV file?"
 
-#: plugin/Commands/ProcessCsvFile.php:144
+#: plugin/Commands/ProcessCsvFile.php:167
 msgctxt "admin-text"
 msgid "Have you removed all empty columns from the CSV file?"
 msgstr "Have you removed all empty columns from the CSV file?"
 
-#: plugin/Commands/ProcessCsvFile.php:145
+#: plugin/Commands/ProcessCsvFile.php:168
 msgctxt "admin-text"
 msgid "Have you selected the correct delimiter?"
 msgstr "Have you selected the correct delimiter?"
 
-#: plugin/Commands/ProcessCsvFile.php:146
+#: plugin/Commands/ProcessCsvFile.php:169
 msgctxt "admin-text"
 msgid "Is the CSV file encoded as UTF-8?"
 msgstr "Is the CSV file encoded as UTF-8?"
 
-#: plugin/Commands/ProcessCsvFile.php:165
+#: plugin/Commands/ProcessCsvFile.php:188
 msgctxt "admin-text"
 msgid "Cannot detect the delimiter used in the CSV file (supported delimiters are comma and semicolon)."
 msgstr "Cannot detect the delimiter used in the CSV file (supported delimiters are comma and semicolon)."
 
 #. translators: %s: detected mime type
-#: plugin/Commands/ProcessCsvFile.php:193
+#: plugin/Commands/ProcessCsvFile.php:228
 #, php-format
 msgctxt "admin-text"
 msgid "The import file does not look like a valid CSV file (detected: %s). If this is incorrect, make sure that your server is configured to detect mime types."
 msgstr "The import file does not look like a valid CSV file (detected: %s). If this is incorrect, make sure that your server is configured to detect mime types."
 
-#: plugin/Commands/ProcessCsvFile.php:212
+#: plugin/Commands/ProcessCsvFile.php:247
 msgctxt "admin-text"
 msgid "Incorrect date format"
 msgstr "Incorrect date format"
 
-#: plugin/Commands/ProcessCsvFile.php:213
+#: plugin/Commands/ProcessCsvFile.php:248
 msgctxt "admin-text"
 msgid "Empty or invalid rating"
 msgstr "Empty or invalid rating"
@@ -8961,4 +8961,14 @@ msgstr[1] ""
 #: plugin/Overrides/ScheduledActionsTable.php:506
 msgctxt "admin-text"
 msgid "async"
+msgstr ""
+
+#: plugin/Commands/ProcessCsvFile.php:82
+msgctxt "admin-text"
+msgid "Another import is already running. Please try again in a couple of minutes."
+msgstr ""
+
+#: plugin/Commands/ProcessCsvFile.php:148
+msgctxt "admin-text"
+msgid "Duplicate row"
 msgstr ""

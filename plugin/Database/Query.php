@@ -66,7 +66,9 @@ class Query
             fn () => glsr(Cache::class)->get($reviewId, 'reviews')
         );
         if (!$review instanceof Review) {
-            $result = glsr(Database::class)->dbGetRow($this->queryReviews($reviewId), \ARRAY_A);
+            $result = $reviewId > 0
+                ? glsr(Database::class)->dbGetRow($this->queryReviews($reviewId), \ARRAY_A)
+                : [];
             $review = new Review($result);
             glsr()->action('get/review', $review, $reviewId);
             if ($review->isValid()) {

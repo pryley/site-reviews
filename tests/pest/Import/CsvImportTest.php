@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Commands\ImportReviewsCleanup;
 use GeminiLabs\SiteReviews\Commands\ProcessCsvFile;
 use GeminiLabs\SiteReviews\Controllers\ImportController;
 use GeminiLabs\SiteReviews\Database\ImportManager;
+use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Database\Tables\TableTmp;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
@@ -52,12 +53,14 @@ beforeEach(function () {
     glsr(Notice::class)->clear();
     glsr(ImportManager::class)->unlinkTempFile();
     glsr(ImportManager::class)->flush();
+    glsr(ImportManager::class)->unlock(); // the lock transient commits with everything else here
 });
 
 afterEach(function () {
     $_FILES = [];
     glsr(ImportManager::class)->unlinkTempFile();
     glsr(ImportManager::class)->flush();
+    glsr(ImportManager::class)->unlock();
     glsr(Notice::class)->clear();
     purgeEverythingThisSuiteCreates();
 });
@@ -621,6 +624,138 @@ test('a row the writer refuses is reported and the import abandoned', function (
     expect(glsr(Notice::class)->get())->toContain('Unable to process a row in the CSV document');
 });
 
+/*
+ * The dedupe lookup, batched — one query per chunk of a page instead of one per row —
+ * the duplicate-row drop at staging, and the run lock that keeps a second import out
+ * of the first one's temp file and staging table.
+ */
+
+test('two identical rows in one page import once', function () {
+    // The batch lookup answers for the whole chunk before any row in it is created, so a twin
+    // later in the chunk cannot learn about its sibling from the database — the live map in
+    // importRecords() is what catches it. Staging drops these twins now, so the temp file is
+    // written directly: ImportManager must hold on its own for a caller that skips stage 1.
+    file_put_contents(
+        glsr(ImportManager::class)->tempFilePath(),
+        "date,rating,title\n2024-01-15,5,Twin\n2024-01-15,5,Twin\n"
+    );
+
+    $result = glsr(ImportManager::class)->import(10, 0);
+
+    expect($result['imported'])->toBe(1)
+        ->and($result['skipped'])->toBe(1)
+        ->and(importedReviewCount())->toBe(1);
+});
+
+test('a page issues one dedupe query per chunk, not one per row', function () {
+    $rows = ['date,rating,title'];
+    for ($i = 1; $i <= 20; ++$i) {
+        $rows[] = sprintf('2024-01-%02d,5,Review %d', $i, $i);
+    }
+    file_put_contents(glsr(ImportManager::class)->tempFilePath(), implode("\n", $rows)."\n");
+    $dedupeQueries = 0;
+    $filter = function (string $sql) use (&$dedupeQueries): string {
+        // the dedupe lookup is the only _submitted_hash SELECT that joins posts to postmeta
+        if (str_contains($sql, '_submitted_hash') && str_contains($sql, 'INNER JOIN')) {
+            ++$dedupeQueries;
+        }
+        return $sql;
+    };
+    add_filter('query', $filter);
+    $result = glsr(ImportManager::class)->import(50, 0);
+    remove_filter('query', $filter);
+
+    expect($result['imported'])->toBe(20)
+        ->and($dedupeQueries)->toBe(1); // and not 20
+});
+
+test('a hash pointing at a deleted review re-imports it', function () {
+    file_put_contents(
+        glsr(ImportManager::class)->tempFilePath(),
+        "date,rating,title\n2024-01-15,5,Loved it\n"
+    );
+    glsr(ImportManager::class)->import(10, 0);
+    $reviews = get_posts([
+        'fields' => 'ids',
+        'numberposts' => -1,
+        'post_status' => 'any',
+        'post_type' => glsr()->post_type,
+    ]);
+    wp_delete_post($reviews[0], true);
+
+    $result = glsr(ImportManager::class)->import(10, 0);
+
+    expect($result['imported'])->toBe(1)
+        ->and(importedReviewCount())->toBe(1);
+});
+
+test('a duplicate row is dropped at staging, and counted', function () {
+    $csv = "date,rating,title\n2024-01-15,5,Twin\n2024-02-20,3,Single\n2024-01-15,5,Twin\n";
+
+    $command = processCsv($csv);
+
+    expect($command->response()['total'])->toBe(2)
+        ->and($command->response()['skipped'])->toBe(1)
+        ->and($command->response()['errors'])->toHaveKey('duplicate');
+
+    // and stage 2 finds exactly the rows stage 1 counted
+    (new ImportReviews(new Request(['page' => 1, 'per_page' => 10])))->handle();
+    expect(importedReviewCount())->toBe(2);
+});
+
+test('a duplicate split across pages imports once', function () {
+    // Two twins far enough apart to land in different pages: before staging deduped them, two
+    // overlapping page requests could both miss the lookup and both create (the JS runs four
+    // pages at a time, and nothing serialises them). The twin never reaches a page now.
+    $csv = "date,rating,title\n2024-01-15,5,Twin\n2024-02-20,3,Single\n2024-01-15,5,Twin\n";
+    processCsv($csv);
+
+    (new ImportReviews(new Request(['page' => 1, 'per_page' => 1])))->handle();
+    (new ImportReviews(new Request(['page' => 2, 'per_page' => 1])))->handle();
+    (new ImportReviews(new Request(['page' => 3, 'per_page' => 1])))->handle();
+
+    expect(importedReviewCount())->toBe(2);
+});
+
+test('stage 1 refuses while another import runs', function () {
+    glsr(ImportManager::class)->lock();
+
+    $command = processCsvViaHandle(uploadPastSapiWall(csvFixture(), '.csv', 'reviews.csv'));
+
+    expect($command->successful())->toBeFalse();
+    expect(glsr(Notice::class)->get())->toContain('Another import is already running');
+});
+
+test('an import page request re-arms the lock', function () {
+    // The lock expires in LOCK_EXPIRATION seconds; every page request pushes it forward, so it
+    // lapses only when a run dies between requests (a closed tab, a crashed worker).
+    file_put_contents(
+        glsr(ImportManager::class)->tempFilePath(),
+        "date,rating,title\n2024-01-15,5,Loved it\n"
+    );
+    expect(glsr(ImportManager::class)->locked())->toBeFalse();
+
+    glsr(ImportManager::class)->import(10, 0);
+
+    expect(glsr(ImportManager::class)->locked())->toBeTrue();
+});
+
+test('cleanup releases the lock even when nothing was imported', function () {
+    glsr(ImportManager::class)->lock();
+
+    (new ImportReviewsCleanup(new Request(['imported' => 0, 'skipped' => 4])))->handle();
+
+    expect(glsr(ImportManager::class)->locked())->toBeFalse();
+});
+
+test('a failed stage 1 releases the lock', function () {
+    // The required columns are missing, so process() fails after the lock was taken.
+    $command = processCsvViaHandle(uploadPastSapiWall("title,content\nNo dates here,Nope\n", '.csv', 'reviews.csv'));
+
+    expect($command->successful())->toBeFalse();
+    expect(glsr(ImportManager::class)->locked())->toBeFalse();
+});
+
 test('a row that submits nothing is skipped instead of imported', function () {
     // The duplicate check keys on md5 of the submitted values, so a row that submits nothing
     // hashes to the same constant as every other empty one and has no identity to dedupe on.
@@ -634,4 +769,91 @@ test('a row that submits nothing is skipped instead of imported', function () {
     expect($result['imported'])->toBe(1)
         ->and($result['skipped'])->toBe(1)
         ->and(importedReviewCount())->toBe(1);
+});
+
+/*
+ * The lookup itself: the chunk boundary, and the single-hash entry point the
+ * batching left behind.
+ */
+
+test('a page longer than one lookup chunk flushes the buffer as it fills', function () {
+    // LOOKUP_CHUNK bounds how many records are buffered before the batched lookup runs. A page
+    // longer than one chunk has to flush mid-loop; flushing only the remainder at the end would
+    // hold the whole page in memory, which is the thing the chunk exists to prevent. The titles
+    // differ so every row hashes differently and none is skipped as a twin.
+    $rows = ['date,rating,title'];
+    for ($i = 1; $i <= ImportManager::LOOKUP_CHUNK + 5; ++$i) {
+        $rows[] = sprintf('2024-01-15,5,Review %d', $i);
+    }
+    file_put_contents(glsr(ImportManager::class)->tempFilePath(), implode("\n", $rows)."\n");
+    $dedupeQueries = 0;
+    $filter = function (string $sql) use (&$dedupeQueries): string {
+        if (str_contains($sql, '_submitted_hash') && str_contains($sql, 'INNER JOIN')) {
+            ++$dedupeQueries;
+        }
+        return $sql;
+    };
+    add_filter('query', $filter);
+    $result = glsr(ImportManager::class)->import(ImportManager::LOOKUP_CHUNK + 10, 0);
+    remove_filter('query', $filter);
+
+    expect($result['imported'])->toBe(ImportManager::LOOKUP_CHUNK + 5)
+        ->and($dedupeQueries)->toBe(2); // the full chunk, then the remainder
+});
+
+test('the single-hash lookup answers with the review it matches, or with nothing', function () {
+    // importedReview() is the public single-hash entry point. The importer goes through the
+    // batched importedReviewIds() since the batching landed, so nothing in the plugin calls
+    // this any more and it is pinned here instead.
+    file_put_contents(glsr(ImportManager::class)->tempFilePath(), "date,rating,title\n2024-01-15,5,Loved it\n");
+    glsr(ImportManager::class)->import(10, 0);
+    $reviewId = get_posts([
+        'fields' => 'ids',
+        'numberposts' => 1,
+        'post_status' => 'any',
+        'post_type' => glsr()->post_type,
+    ])[0];
+    $hash = get_post_meta($reviewId, '_submitted_hash', true);
+
+    expect(glsr(ImportManager::class)->importedReview($hash)?->ID)->toBe($reviewId)
+        ->and(glsr(ImportManager::class)->importedReview(md5('no review carries this')))->toBeNull();
+});
+
+test('a hash on a post with no review data answers with nothing', function () {
+    // The state the Repair Review Relations tool exists for: the post survived, its row in the
+    // ratings table did not. isValid() fails on the missing rating, so there is no review to
+    // match and the row imports again rather than being skipped as a duplicate of a husk.
+    global $wpdb;
+    file_put_contents(glsr(ImportManager::class)->tempFilePath(), "date,rating,title\n2024-01-15,5,Loved it\n");
+    glsr(ImportManager::class)->import(10, 0);
+    $reviewId = get_posts([
+        'fields' => 'ids',
+        'numberposts' => 1,
+        'post_status' => 'any',
+        'post_type' => glsr()->post_type,
+    ])[0];
+    $hash = get_post_meta($reviewId, '_submitted_hash', true);
+    $ratings = glsr(Tables::class)->table('ratings');
+    $wpdb->query($wpdb->prepare("DELETE FROM {$ratings} WHERE review_id = %d", $reviewId));
+    wp_cache_flush(); // the review is cached from the import that created it
+
+    expect(glsr(ImportManager::class)->importedReview($hash))->toBeNull();
+});
+
+test('the batched lookup asks nothing when there is nothing to look up', function () {
+    // Every record in a chunk can be skipped before the lookup (a row that submits nothing),
+    // which leaves the hash list empty. That must not become an IN () with no values.
+    $queries = 0;
+    $filter = function (string $sql) use (&$queries): string {
+        if (str_contains($sql, '_submitted_hash') && str_contains($sql, 'INNER JOIN')) {
+            ++$queries;
+        }
+        return $sql;
+    };
+    add_filter('query', $filter);
+    $reviewIds = glsr(ImportManager::class)->importedReviewIds([]);
+    remove_filter('query', $filter);
+
+    expect($reviewIds)->toBe([])
+        ->and($queries)->toBe(0);
 });
