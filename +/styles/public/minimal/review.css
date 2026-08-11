@@ -115,7 +115,6 @@
     align-items: center;
     display: inline-flex;
     flex: 1 0;
-    font-style: italic;
     white-space: nowrap;
 }
 :--namespace .glsr-review-location {
