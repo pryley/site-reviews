@@ -535,7 +535,7 @@ return [ // order is intentional
         ],
         'label' => _x('Custom Schema Type', 'admin-text', 'site-reviews'),
         'sanitizer' => 'text',
-        /* translators: %1$s: opening tag of a link to the Google documentation, %2$s: closing tag */
+        /* translators: %1$s: opening link tag, %2$s: closing link tag */
         'tooltip' => sprintf(_x('Google limits the schema types that can trigger review rich results in search. To learn more, please %1$sread this%2$s.', 'admin-text', 'site-reviews'),
             '<a href="https://developers.google.com/search/blog/2019/09/making-review-rich-results-more-helpful" target="_blank">',
             '</a>'

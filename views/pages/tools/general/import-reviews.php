@@ -8,16 +8,17 @@
         </button>
     </h3>
     <div id="tools-import-reviews" class="inside">
-        <?php /* translators: %s: link to the UpdraftPlus plugin */ echo wp_get_admin_notice(
+        <?php echo wp_get_admin_notice(
             sprintf(
+                /* translators: %s: link to the UpdraftPlus plugin */
                 esc_html_x('Please backup your database before running this tool! You can use the %s plugin to do this.', 'admin-text', 'site-reviews'),
                 '<a href="https://wordpress.org/plugins/updraftplus/" target="_blank">UpdraftPlus</a>'
             ).' '.esc_html_x('Any entry in the CSV file that does not contain a required column value will be skipped.', 'admin-text', 'site-reviews'),
             ['type' => 'warning', 'additional_classes' => ['inline']]
         ); ?>
-        <?php /* translators: %1$s: link to the WordPress Export tool, %2$s: link to the WordPress Import tool */
-        echo wp_get_admin_notice(
+        <?php echo wp_get_admin_notice(
             sprintf(
+                /* translators: %1$s: link to the WordPress Export tool, %2$s: link to the WordPress Import tool */
                 esc_html_x('You can also use the WordPress %1$s and %2$s tools to export and import your reviews and categories.', 'admin-text', 'site-reviews'),
                 sprintf('<a href="%s">%s</a>', admin_url('export.php'), esc_html_x('Export', 'admin-text', 'site-reviews')),
                 sprintf('<a href="%s">%s</a>', admin_url('import.php'), esc_html_x('Import', 'admin-text', 'site-reviews'))

@@ -9,8 +9,9 @@
         </button>
     </h3>
     <div id="tools-geolocate-reviews" class="inside">
-        <?php /* translators: %s: link to the IP-API website */ echo wp_get_admin_notice(
+        <?php echo wp_get_admin_notice(
             sprintf(
+                /* translators: %s: link to the IP-API website */
                 _x('This tool uses the free %s Geolocation API service to extract location data from IP Addresses.', 'admin-text', 'site-reviews'),
                 '<a href="https://ip-api.com/">IP-API</a>'
             ),

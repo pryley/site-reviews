@@ -11,8 +11,9 @@ $form = new \GeminiLabs\SiteReviews\Modules\Html\Form([], [], glsr()->config('ex
         </button>
     </h3>
     <div id="tools-export-reviews" class="inside">
-        <?php /* translators: %1$s: link to the WordPress Export tool, %2$s: link to the WordPress Import tool */ echo wp_get_admin_notice(
+        <?php echo wp_get_admin_notice(
             sprintf(
+                /* translators: %1$s: link to the WordPress Export tool, %2$s: link to the WordPress Import tool */
                 _x('You can also use the WordPress %1$s and %2$s tools to export and import your reviews and categories.', 'admin-text', 'site-reviews'),
                 sprintf('<a href="%s">%s</a>', admin_url('export.php'), _x('Export', 'admin-text', 'site-reviews')),
                 sprintf('<a href="%s">%s</a>', admin_url('import.php'), _x('Import', 'admin-text', 'site-reviews'))

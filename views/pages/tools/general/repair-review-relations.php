@@ -10,8 +10,9 @@
     </h3>
     <div id="tools-repair-review-relations" class="inside">
         <?php if (!empty($myisam_tables)) { ?>
-            <?php /* translators: %s: link with the text "Optimise Your Database Tables" */ echo wp_get_admin_notice(
+            <?php echo wp_get_admin_notice(
                 sprintf(
+                    /* translators: %s: link with the text "Optimise Your Database Tables" */
                     _x('Once you have repaired the review relationships, it is recommended that you run the %s tool to prevent the problem from happening again.', 'Optimise Your Database Tables (admin-text)', 'site-reviews'),
                     glsr_admin_link('tools.general', _x('Optimise Your Database Tables', 'admin-text', 'site-reviews'), '#tools-optimise-db-tables')
                 ),

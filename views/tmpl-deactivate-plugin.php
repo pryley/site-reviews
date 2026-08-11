@@ -26,8 +26,8 @@
                 </ul>
                 <div class="glsr-dp-help" style="display:none;">
                     <?php
-                        /* translators: %s: link with the text "Getting Started" */
                         echo wp_get_admin_notice(
+                            /* translators: %s: link with the text "Getting Started" */
                             sprintf(_x('Did you read the %s guide?', 'Getting Started (admin-text)', 'site-reviews'),
                                 glsr_admin_link('welcome', _x('Getting Started', 'admin-text', 'site-reviews'))
                             ),
@@ -36,8 +36,8 @@
                     ?>
                     <?php if (!glsr(\GeminiLabs\SiteReviews\License::class)->isPremium()) { ?>
                         <?php
-                            /* translators: %s: link with the text "addons" */
                             echo wp_get_admin_notice(
+                                /* translators: %s: link with the text "addons" */
                                 sprintf(_x('Maybe one of the %s provide this feature.', 'link to addons page (admin-text)', 'site-reviews'),
                                     glsr_premium_link('addons', _x('addons', 'admin-text', 'site-reviews'))
                                 ),
