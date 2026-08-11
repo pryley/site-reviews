@@ -9,18 +9,23 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
  */
 class SanitizeTextHtml extends StringSanitizer
 {
-    public function run(): string
+    public function allowedHtml(): array
     {
         $allowedKeys = array_filter($this->args) ?: [
             'a', 'em', 'mark', 'strong',
         ];
         $allowedHtml = Arr::restrictKeys(wp_kses_allowed_html('post'), $allowedKeys);
-        $allowedHtml = glsr()->filterArray('sanitize/allowed-html', $allowedHtml, $this);
+        return glsr()->filterArray('sanitize/allowed-html', $allowedHtml, $this);
+    }
+
+    public function run(): string
+    {
+        $allowedHtml = $this->allowedHtml();
         $value = $this->kses($this->value());
         $value = html_entity_decode($value, \ENT_QUOTES, 'UTF-8'); // &amp;lt => &lt;
         $value = addslashes(wp_kses(stripslashes($value), $allowedHtml));
         $value = wp_specialchars_decode($value); // &lt; => <
-        $value = wp_kses(stripslashes($value), $allowedHtml); // do this a second time to catch tags inside <script> tag
+        $value = wp_kses(stripslashes($value), $allowedHtml); // do this a final time to catch tags inside <script> tag
         return $value;
     }
 }

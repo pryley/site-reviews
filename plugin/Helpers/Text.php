@@ -64,7 +64,8 @@ class Text
 
     public static function normalize(?string $text): string
     {
-        $text = (new SanitizeTextHtml($text))->run();
+        $sanitizer = new SanitizeTextHtml($text);
+        $text = $sanitizer->run();
         $text = strip_shortcodes($text);
         $text = excerpt_remove_blocks($text); // just in case...
         $text = str_replace(']]>', ']]&gt;', $text);
@@ -76,6 +77,7 @@ class Text
         $text = convert_invalid_entities($text); // convert invalid Unicode references range to valid range.
         $text = convert_smilies($text); // convert text smilies to emojis.
         $text = wp_specialchars_decode($text);
+        $text = wp_kses($text, $sanitizer->allowedHtml()); // strip any tag the trailing decode re-formed past the sanitizer.
         return $text;
     }
 

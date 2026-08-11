@@ -43,6 +43,36 @@ test('renders reviews', function () {
         ->toContain('id="review-'.$review->ID.'"');
 });
 
+test('a review body of nested html entities cannot smuggle a live tag past the sanitizer', function () {
+    // Regression for the stored-XSS reported against <= 8.2.0. A body of multiply-nested numeric
+    // entities decodes one layer per sanitiser pass. The inner "=" is nested shallower than the
+    // brackets, so it decodes to a literal "=" (as text) while the brackets are still entities —
+    // every wp_kses pass sees "onerror=alert(...)" with no tag around it. Text::normalize()'s final
+    // wp_specialchars_decode() then peels the brackets into "<" ">", assembling a live
+    // <img onerror=...> AFTER the last kses. The render must re-run the allowlist so nothing arms.
+    $tok = fn (string $token, int $depth) => str_repeat('&#38;', $depth).$token;
+    $payloads = [
+        // the exact public disclosure payload, decodes toward <img src=x onerror=alert(document.domain)>
+        '&#38;#38;#38;#38;#38;#38;#38;#38;lt;img src=x onerror&#38;#38;#38;#38;#38;#61;alert(document.domain)&#38;#38;#38;#38;#38;#38;#38;#38;gt;',
+    ];
+    // a spread of bracket/inner depths so the guard is not pinned to one nesting that a refactor could shift past
+    foreach (range(2, 6) as $brackets) {
+        foreach (range(1, 4) as $inner) {
+            $payloads[] = $tok('lt;', $brackets).'img src=x onerror'.$tok('#61;', $inner).'alert(document.domain)'.$tok('gt;', $brackets);
+            $payloads[] = $tok('lt;', $brackets).'svg onload'.$tok('#61;', $inner).'alert(document.domain)'.$tok('gt;', $brackets);
+        }
+    }
+    foreach ($payloads as $payload) {
+        createReview(['content' => $payload]);
+    }
+    $html = do_shortcode('[site_reviews display="'.(count($payloads) + 1).'"]'); // render every seeded review, past the default page size of 5
+
+    // The exploit is a real tag carrying an inline event handler. An inert rendering keeps the
+    // brackets entity-encoded (no literal "<img"), so this pattern matches only a tag that armed.
+    expect($html)->not->toMatch('/<[a-z][a-z0-9]*\b[^>]*\son[a-z]+\s*=/i')
+        ->not->toMatch('/<(?:script|svg|iframe)\b/i');
+});
+
 test('renders no reviews when there are none', function () {
     $html = do_shortcode('[site_reviews]');
     expect($html)->not->toContain('id="review-');
