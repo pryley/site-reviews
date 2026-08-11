@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Modules\Html\Field;
 use GeminiLabs\SiteReviews\Modules\Html\SettingField;
 use GeminiLabs\SiteReviews\Modules\Html\SettingForm;
 use GeminiLabs\SiteReviews\Premium\Host\Application as SettingHostAddon;
@@ -101,4 +102,41 @@ test('a host addon\'s settings display on the addons tab, not under its own slug
     } finally {
         unregisterAddons(SettingHostAddon::ID, SettingHostedAddon::ID);
     }
+});
+
+/*
+ * The two guards that let a foreign field through the setting form.
+ *
+ * Every field the form builds itself is a SettingField — field() constructs
+ * fieldClass(). A field that did not come from field() can be anything: the
+ * fields/all filter hands the form an arbitrary FieldContract, and an addon
+ * form may set its own fieldClass(). Neither has depends_on, so both passes
+ * step over anything that is not a SettingField rather than reading a
+ * property it has no reason to own.
+ */
+
+test('a field the fields/all filter adds is skipped by the dependency pass', function () {
+    $custom = new Field(['name' => 'custom_setting', 'type' => 'text']);
+    $filter = fn (array $fields) => [...$fields, $custom];
+    add_filter('site-reviews/setting-form/fields/all', $filter);
+    try {
+        $form = new SettingForm([]);
+
+        expect($form['custom_setting'])->toBe($custom)
+            ->and($custom->data_depends)->toBeEmpty(); // the pass never wrote one
+    } finally {
+        remove_filter('site-reviews/setting-form/fields/all', $filter);
+    }
+});
+
+test('a field that is not a setting field is left visible', function () {
+    // normalizeFieldIsHidden() reads depends_on, which only a SettingField has. It runs
+    // from field(), so the form's own fields always qualify — this is the guard for a
+    // form that overrides fieldClass().
+    $form = new SettingForm([]);
+    $field = new Field(['name' => 'custom_setting', 'type' => 'text']);
+
+    protectedMethod(SettingForm::class, 'normalizeFieldIsHidden')->invoke($form, $field);
+
+    expect($field->is_hidden)->not->toBeTrue();
 });

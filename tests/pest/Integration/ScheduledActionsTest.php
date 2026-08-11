@@ -395,6 +395,26 @@ test('an action with no schedule is labelled async rather than given a zero date
         ->toBe('async');
 });
 
+test('a schedule that cannot say when it runs falls back to a zero date', function () {
+    // ActionScheduler_Schedule requires next() and is_recurring() and nothing else. get_date()
+    // is an extra that every schedule Action Scheduler ships happens to have, so a third party's
+    // own schedule can arrive without it — the guard reads the interface, not the implementations.
+    $schedule = new class() implements ActionScheduler_Schedule {
+        public function next(?DateTime $after = null)
+        {
+            return null;
+        }
+
+        public function is_recurring()
+        {
+            return false;
+        }
+    };
+
+    expect(actionsTable()->column_schedule(['schedule' => $schedule]))
+        ->toBe('0000-00-00 00:00:00');
+});
+
 test('a corrupted action is left out of the table rather than breaking it', function () {
     // Action Scheduler stores args as JSON; a row whose args no longer decode (a crashed
     // write, a bad migration) comes back from the store as a NullAction, and the table

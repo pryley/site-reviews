@@ -137,6 +137,20 @@ test('a fresh addon row starts its history at 0.0.0', function () {
     expect($own['version_upgraded_from'])->toBe('0.0.0');
 });
 
+test('an addon that upgraded on its own is stamped by the boot that follows', function () {
+    // The parent is already current, so updateVersion() writes nothing of its own and
+    // split() never runs — the addon loop is the only writer left to record the delta.
+    // This is the ordinary case for an addon updated between two parent releases.
+    glsr(OptionManager::class)->set('version', glsr()->version);
+    update_option('site_reviews_test_addon', ['settings' => ['enabled' => 'own'], 'version' => '2.0.0'], true);
+
+    glsr(OptionManager::class)->updateVersion();
+
+    $own = get_option('site_reviews_test_addon');
+    expect($own['version'])->toBe('2.3.4')
+        ->and($own['version_upgraded_from'])->toBe('2.0.0');
+});
+
 test('a steady-state boot leaves the recorded upgrade alone', function () {
     update_option('site_reviews_test_addon', ['settings' => ['enabled' => 'own'], 'version' => '2.3.4', 'version_upgraded_from' => '2.0.0'], true);
 

@@ -127,6 +127,15 @@ test('an untested plugin version warns without refusing to enable', function () 
     expect(get_transient(glsr()->prefix.'gatekeeper'))->not->toBeFalse(); // the notice still shows
 });
 
+test('a satisfied dependency is enabled without weighing the error grades', function () {
+    // allowsEnabling() short-circuits on allows(). With no failed check there is no
+    // error to grade, so the blocking-grade intersection is never reached.
+    $gatekeeper = new Gatekeeper(dependencyOnSiteReviews('1.0.0', '99.0.0'));
+
+    expect($gatekeeper->allowsEnabling())->toBeTrue()
+        ->and($gatekeeper->hasErrors())->toBeFalse();
+});
+
 test('a missing plugin refuses to enable', function () {
     $gatekeeper = new Gatekeeper([
         'not-a-plugin/not-a-plugin.php' => [

@@ -297,6 +297,30 @@ test('a file whose delimiter cannot be worked out is refused', function () {
     expect(glsr(Notice::class)->get())->toContain('Cannot detect the delimiter');
 });
 
+test('a failure the CSV catches do not cover is reported rather than fatal', function () {
+    // Two catches cover League CSV's own failures. The third is the backstop for everything
+    // else the staging run can raise: an SPL exception (CharsetConverter throws
+    // OutOfRangeException on an encoding this build of mbstring does not carry) or a TypeError.
+    // Neither is a \League\Csv\Exception, so without the backstop the admin request fatals.
+    // The failure is injected at the staging step, the last thing the try block does.
+    glsr()->bind(ImportManager::class, fn () => new class() extends ImportManager {
+        public function prepare(): void
+        {
+            throw new \TypeError('the staging table could not be prepared');
+        }
+    }, true);
+    try {
+        $command = new ProcessCsvFile(new Request(['date_format' => 'Y-m-d', 'delimiter' => ',']));
+        $ok = protectedMethod(ProcessCsvFile::class, 'process')->invoke($command, csvUpload(csvFixture()));
+
+        expect($ok)->toBeFalse()
+            ->and(glsr(Notice::class)->get())->toContain('the staging table could not be prepared');
+    } finally {
+        glsr()->bind(ImportManager::class, ImportManager::class, true);
+    }
+    expect(is_file(glsr(ImportManager::class)->tempFilePath()))->toBeFalse(); // and it cleaned up
+});
+
 test('a file missing a required column is refused, with the reasons', function () {
     // date and rating are the two columns a review cannot be built without.
     $command = processCsv("date,title\n2024-01-15,Loved it\n");
