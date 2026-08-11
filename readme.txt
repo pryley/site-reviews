@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 7.0
-Stable tag: 8.2.0
+Stable tag: 8.2.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -211,10 +211,16 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 
 == Changelog ==
 
-= 8.2.1 (unreleased) =
+= 8.2.1 (2026-08-11) =
 
+- Fixed a second import being able to start while one was still running
+- Fixed a stored cross-site scripting vulnerability in review content
 - Fixed async actions showing a zero date instead of "async" in the Scheduled Actions table
+- Fixed CSV rows with no review data creating an empty review on every import
+- Fixed duplicate rows in a CSV file sometimes being imported as separate reviews
 - Fixed the Scheduled Actions table failing when another plugin registers its own Action Scheduler schedule
+- Fixed WordPress 7.1 compatibility
+- Improved the speed of the CSV review import on sites with many reviews
 
 = 8.2.0 (2026-08-06) =
 
