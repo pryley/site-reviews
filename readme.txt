@@ -211,6 +211,10 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 
 == Changelog ==
 
+= 8.3.0 (unreleased) =
+
+- Fixed review text being able to break mid-word when a review is squeezed into a narrow space
+
 = 8.2.2 (2026-08-22) =
 
 - Fixed the Review Notifications addon losing its custom notifications after updating Site Reviews
