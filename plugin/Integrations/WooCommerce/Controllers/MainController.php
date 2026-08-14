@@ -98,15 +98,6 @@ class MainController extends AbstractController
     }
 
     /**
-     * @filter site-reviews/enqueue/public/inline-script/after
-     */
-    public function filterPublicInlineScript(string $script): string
-    {
-        $script .= '"undefined"!==typeof jQuery&&(jQuery(".wc-tabs .reviews_tab a").on("click",function(){setTimeout(function(){GLSR.Event.trigger("site-reviews-themes/swiper/resize")},25)}));';
-        return $script;
-    }
-
-    /**
      * @filter site-reviews/schema/generate
      */
     public function filterRankmathSchemaPreview(array $data, SchemaParser $parser): array
