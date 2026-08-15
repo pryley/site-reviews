@@ -13,13 +13,17 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * The settings page, on its way into the database.
  *
  * One entry point — sanitizeSettingsCallback(), which WordPress calls from register_setting() —
- * reaches everything else. So the tests call it with the array the form would have posted and assert
- * on what would be written. Three kinds of work happen, easy to confuse:
+ * reaches everything else, and it fires for EVERY write of the option, not only form saves. So the
+ * tests call it with the array the form would have posted and assert on what would be written.
+ * Three kinds of work happen, easy to confuse:
  *
- *   the MERGE       the form posts one tab, not the whole option. What it did not post must survive.
- *   the RESTORING   an unticked checkbox is not posted at all, so "nothing ticked" and "tab not
- *                   open" look identical in $_POST. Multi-value fields are forced to [] so a person
- *                   CAN untick the last box.
+ *   the MERGE       the settings form is ONE form posting every tab, but the option is also written
+ *                   by importers and programmatic update_option() calls that carry only part of the
+ *                   tree. What a write did not carry must survive it.
+ *   the RESTORING   an unticked checkbox is not posted at all, so a multi-value key is only
+ *                   overwritten when its SECTION arrived on the write (the sibling fields always
+ *                   post from the form) — carried-but-absent means every box was unticked and
+ *                   stores []; an absent section leaves the stored list untouched.
  *   the SANITIZING  every setting runs through the sanitizer named in config/settings.php.
  *
  * One branch is out of reach: the "Settings updated." notice is behind filter_input(INPUT_POST,
@@ -34,7 +38,8 @@ beforeEach(function () {
 });
 
 /**
- * What the settings form posts: only the tab that was open.
+ * A write of the settings option: the form posts every tab; anything else
+ * (importer, programmatic update) may carry any subset of the tree.
  */
 function postedSettings(array $settings): array
 {
@@ -83,14 +88,17 @@ test('the settings that were not on the page are kept', function () {
 
 /*
  * The restoring. An unticked checkbox is not posted, so without these the last box
- * in a group could be ticked but never unticked.
+ * in a group could be ticked but never unticked — but only a write that carried the
+ * section may empty a group, or a foreign write would wipe every stored selection.
  */
 
 test('a checkbox group that has been emptied is saved as empty', function () {
     glsr(OptionManager::class)->set('settings.forms.required', ['rating', 'title']);
 
     $options = postedSettings([
-        'forms' => [], // every box unticked: the browser posts nothing at all
+        // every box unticked: the browser posts nothing for them, but the
+        // section still arrives because its sibling fields always post
+        'forms' => ['limit' => ''],
     ]);
 
     expect(Arr::get($options, 'settings.forms.required'))->toBe([])
@@ -102,10 +110,66 @@ test('the notification recipients can be emptied', function () {
     glsr(OptionManager::class)->set('settings.general.notifications', ['admin']);
 
     $options = postedSettings([
-        'general' => [], // nobody ticked
+        'general' => ['notification_email' => ''], // nobody ticked, section carried
     ]);
 
     expect(Arr::get($options, 'settings.general.notifications'))->toBe([]);
+});
+
+test('a write that does not carry a section leaves its checkbox groups alone', function () {
+    glsr(OptionManager::class)->set('settings.forms.required', ['rating', 'title']);
+    glsr(OptionManager::class)->set('settings.general.notifications', ['admin']);
+
+    $options = postedSettings([
+        'strings' => [['s1' => 'Read more', 's2' => 'Read on']],
+    ]);
+
+    expect(Arr::get($options, 'settings.forms.required'))->toBe(['rating', 'title'])
+        ->and(Arr::get($options, 'settings.general.notifications'))->toBe(['admin']);
+});
+
+test('a carried checkbox group replaces the stored list instead of index-merging into it', function () {
+    // array_replace_recursive merges indexed arrays BY INDEX: ['content','email','name']
+    // + ['rating'] would otherwise save as ['rating','email','name'].
+    glsr(OptionManager::class)->set('settings.forms.required', ['content', 'email', 'name']);
+
+    $options = postedSettings([
+        'forms' => ['required' => ['rating']],
+    ]);
+
+    expect(Arr::get($options, 'settings.forms.required'))->toBe(['rating']);
+});
+
+test('an integration checkbox group can be emptied', function () {
+    // These never had a force-write, so before the central handling the
+    // index merge made them impossible to empty at all.
+    glsr(OptionManager::class)->set('settings.integrations.profilepress.account_tab_roles', ['administrator']);
+
+    $options = postedSettings([
+        'integrations' => ['profilepress' => ['enabled' => 'no']],
+    ]);
+
+    expect(Arr::get($options, 'settings.integrations.profilepress.account_tab_roles'))->toBe([]);
+});
+
+test('a custom message survives a write that does not carry the general section', function () {
+    glsr(OptionManager::class)->set('settings.general.notification_message', 'my custom template');
+
+    $options = postedSettings([
+        'strings' => [['s1' => 'Read more', 's2' => 'Read on']],
+    ]);
+
+    expect(Arr::get($options, 'settings.general.notification_message'))->toBe('my custom template');
+});
+
+test('the multilingual setting survives a write that does not carry the general section', function () {
+    glsr(OptionManager::class)->set('settings.general.multilingual', 'polylang');
+
+    $options = postedSettings([
+        'strings' => [['s1' => 'Read more', 's2' => 'Read on']],
+    ]);
+
+    expect(Arr::get($options, 'settings.general.multilingual'))->toBe('polylang');
 });
 
 test('an emptied notification template is restored to the default, not saved blank', function () {
