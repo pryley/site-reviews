@@ -140,6 +140,16 @@ test('a carried checkbox group replaces the stored list instead of index-merging
     expect(Arr::get($options, 'settings.forms.required'))->toBe(['rating']);
 });
 
+test('an integration checkbox group survives a write that does not carry its section', function () {
+    glsr(OptionManager::class)->set('settings.integrations.surecart.ownership', ['author']);
+
+    $options = postedSettings([
+        'forms' => ['limit' => ''],
+    ]);
+
+    expect(Arr::get($options, 'settings.integrations.surecart.ownership'))->toBe(['author']);
+});
+
 test('an integration checkbox group can be emptied', function () {
     // These never had a force-write, so before the central handling the
     // index merge made them impossible to empty at all.
