@@ -4,7 +4,7 @@ import { _x } from '@wordpress/i18n';
 import { applyFilters, doAction } from '@wordpress/hooks';
 import { BaseControl, Notice } from '@wordpress/components';
 import { BlockControls, InspectorControls, InspectorAdvancedControls, useBlockProps } from '@wordpress/block-editor';
-import { useMemo } from '@wordpress/element';
+import { useMemo, useRef } from '@wordpress/element';
 import { useRefEffect } from '@wordpress/compose';
 
 const CustomLoadingPlaceholder = ({ children, showLoader }) => {
@@ -74,6 +74,10 @@ const ServerSideBlockRenderer = ({
 
     doAction('site-reviews.blocks.edit', props);
 
+    // The observer mounts once (empty deps), so it must read the CURRENT attributes through a ref.
+    const attributesRef = useRef(attributes);
+    attributesRef.current = attributes;
+
     const ref = useRefEffect((block) => {
         const observer = new MutationObserver((mutations, observer) => {
             for (let mutation of mutations) {
@@ -83,7 +87,7 @@ const ServerSideBlockRenderer = ({
                         const iframe = block?.ownerDocument?.defaultView;
                         el.classList.add('glsr-' + window.getComputedStyle(el, null).getPropertyValue('direction'))
                         if (iframe?.GLSR_init) {
-                            iframe.GLSR_init(`block:${blockName}`, el, attributes)
+                            iframe.GLSR_init(`block:${blockName}`, el, attributesRef.current)
                         }
                     }
                 }
