@@ -205,6 +205,6 @@ class Queue implements QueueContract
 
     protected function hook(string $hook): string
     {
-        return Str::prefix($hook, $this->app()->id.'/');
+        return Str::prefix($hook, $this->app()->hookPrefix().'/');
     }
 }
