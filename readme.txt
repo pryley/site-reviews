@@ -213,6 +213,9 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few p
 
 = 8.3.0 (unreleased) =
 
+- Fixed checkbox settings being emptied by settings updates that did not come from the settings form (WP-CLI, an importer, or another plugin)
+- Fixed custom message templates and the multilingual setting being reset by settings updates that did not come from the settings form
+- Fixed integration role settings (ProfilePress, Ultimate Member) not saving when every checkbox was unchecked
 - Fixed review text being able to break mid-word when a review is squeezed into a narrow space
 
 = 8.2.2 (2026-08-22) =
