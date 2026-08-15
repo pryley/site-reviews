@@ -207,16 +207,18 @@ You can report any security bugs found in the source code of this plugin through
 
 = 8.0.0 =
 
-This update requires a minimum of PHP 8.1.2 and WordPress 6.7. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
+This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
 
 = 8.3.0 (unreleased) =
 
 - Fixed checkbox settings being emptied by settings updates that did not come from the settings form (WP-CLI, an importer, or another plugin)
-- Fixed custom message templates and the multilingual setting being reset by settings updates that did not come from the settings form
+- Fixed custom message templates and the multilingual setting being reset by settings updates
 - Fixed integration role settings (ProfilePress, Ultimate Member) not saving when every checkbox was unchecked
 - Fixed review text being able to break mid-word when a review is squeezed into a narrow space
+- Fixed scheduled background tasks
+- Fixed the block preview in the editor not updating when some settings are changed
 
 = 8.2.2 (2026-08-22) =
 
