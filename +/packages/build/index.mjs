@@ -67,7 +67,24 @@ const getNamespacePlugin = (namespace) => {
 //  Rollup plugin stacks
 // ------------------------------------------------------------------
 
+// Imports a file as a plain string. For markup authored as its own file but
+// shipped inlined — the lightbox's icons, which stay .svg so they remain
+// editable, and are inlined into the chunk rather than fetched. Runs ahead of
+// babel so the module is JavaScript by the time anything else sees it, and is
+// inert unless a build actually imports one.
+const rawText = (extension) => ({
+    name: 'raw-text',
+    transform(code, id) {
+        if (!id.endsWith(extension)) return null;
+        return {
+            code: 'export default ' + JSON.stringify(code.trim()) + ';',
+            map: { mappings: '' },
+        };
+    },
+});
+
 const jsPlugins = (rootDir, { cjs = false, scriptsAlias = '' } = {}) => [
+    rawText('.svg'),
     alias({
         entries: [
             { find: '@', replacement: scriptsAlias || path.resolve(rootDir, '+/scripts') },
