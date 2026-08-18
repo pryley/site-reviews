@@ -11,6 +11,16 @@ import path from 'path';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
+// Shared by the extracting CSS stack (cssPlugins) and the inlining one that
+// chunk() uses for `import css from './foo.css'`, so the two can never drift.
+const cssMinify = isProduction
+    ? {
+        minifyFontValues: false,
+        discardComments: { removeAll: true },
+        zindex: false,
+    }
+    : false;
+
 // ------------------------------------------------------------------
 //  Console methods to strip in production (keep info, warn, error)
 // ------------------------------------------------------------------
@@ -23,10 +33,10 @@ const consolePureFuncs = Object.keys(console)
 //  PostCSS plugins factory
 // ------------------------------------------------------------------
 
-const postcssPlugins = (namespace = '') => [
+const postcssPlugins = (namespace = '', features = {}) => [
     postcssImport(),
     postcssPresetEnv({
-        features: { 'custom-properties': false },
+        features: { 'custom-properties': false, ...features },
         stage: 1,
     }),
     ...(namespace
@@ -129,13 +139,7 @@ const cleanCssJsPlugin = () => ({
 const cssPlugins = (namespace = '') => [
     postcss({
         extract: true,
-        minimize: isProduction
-            ? {
-                minifyFontValues: false,
-                discardComments: { removeAll: true },
-                zindex: false,
-            }
-            : false,
+        minimize: cssMinify,
         plugins: postcssPlugins(namespace),
         sourceMap: !isProduction,
     }),
@@ -270,6 +274,39 @@ export function createConfig(rootDir, { scriptsAlias = '' } = {}) {
             sourcemap: false, // the wrapper invalidates maps; dev uses js() entries
         },
         plugins: [
+            // `import css from './foo.css'` yields the compiled, minified
+            // stylesheet AS A STRING (inject:false + extract:false), for chunks
+            // that adopt a constructable stylesheet into a shadow root at
+            // runtime rather than enqueueing a <link>. Those chunks take NO
+            // `css:` descriptor key — cssChunk() emits a file for the
+            // AssetManager to enqueue, which is the wrong delivery for a shadow
+            // root and would load the stylesheet on every page regardless.
+            // Runs before jsPlugins so the CSS is a JS module by the time babel
+            // and terser see it. A no-op for chunks that import no CSS.
+            postcss({
+                extract: false,
+                inject: false,
+                minimize: cssMinify,
+                // Keep logical properties LOGICAL. preset-env at stage 1
+                // downlevels them to physical equivalents assuming LTR —
+                // inset-inline-start becomes left, padding-inline becomes
+                // padding-left/right, text-align:start becomes left — which
+                // silently destroys RTL support. Every one of these is
+                // natively supported far below this project's browser floor
+                // (inset-inline-start: Chrome 87, Safari 14.1, Firefox 63), so
+                // the transform buys nothing and costs direction-awareness.
+                // Scoped to this inlining path so no existing stylesheet's
+                // output changes.
+                plugins: postcssPlugins('', {
+                    'float-clear-logical-values': false,
+                    'logical-overflow': false,
+                    'logical-overscroll-behavior': false,
+                    'logical-properties-and-values': false,
+                    'logical-resize': false,
+                    'logical-viewport-units': false,
+                }),
+                sourceMap: false,
+            }),
             ...jsPlugins(rootDir, { scriptsAlias }),
             wrapChunkPlugin(id, registry),
         ],
