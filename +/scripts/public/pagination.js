@@ -112,7 +112,9 @@ class Pagination {
         button.loaded()
         const page = Number(button.el.dataset.page) + 1;
         button.el.dataset.page = page;
-        if (response.max_num_pages <= page) {
+        // The dataset page is the NEXT page to fetch, so the button
+        // has work left while that page still exists.
+        if (response.max_num_pages < page) {
             this.paginationEl.innerHTML = '';
         }
         this.reviewsEl.insertAdjacentHTML('beforeend', response.reviews)
