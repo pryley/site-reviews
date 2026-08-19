@@ -11,8 +11,6 @@ import path from 'path';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-// Shared by the extracting CSS stack (cssPlugins) and the inlining one that
-// chunk() uses for `import css from './foo.css'`, so the two can never drift.
 const cssMinify = isProduction
     ? {
         minifyFontValues: false,
@@ -21,17 +19,10 @@ const cssMinify = isProduction
     }
     : false;
 
-// ------------------------------------------------------------------
-//  Console methods to strip in production (keep info, warn, error)
-// ------------------------------------------------------------------
-
+// Dropped by terser in production builds; info, warn and error ship.
 const consolePureFuncs = Object.keys(console)
     .filter((key) => !['info', 'warn', 'error'].includes(key))
     .map((key) => `console.${key}`);
-
-// ------------------------------------------------------------------
-//  PostCSS plugins factory
-// ------------------------------------------------------------------
 
 const postcssPlugins = (namespace = '', features = {}) => [
     postcssImport(),
@@ -63,15 +54,8 @@ const getNamespacePlugin = (namespace) => {
     return _postcssSelectorNamespace({ namespace });
 };
 
-// ------------------------------------------------------------------
-//  Rollup plugin stacks
-// ------------------------------------------------------------------
-
-// Imports a file as a plain string. For markup authored as its own file but
-// shipped inlined — the lightbox's icons, which stay .svg so they remain
-// editable, and are inlined into the chunk rather than fetched. Runs ahead of
-// babel so the module is JavaScript by the time anything else sees it, and is
-// inert unless a build actually imports one.
+// Imports a file as a plain string: markup authored as its own file but
+// shipped inline (SVG icons).
 const rawText = (extension) => ({
     name: 'raw-text',
     transform(code, id) {
@@ -81,6 +65,34 @@ const rawText = (extension) => ({
             map: { mappings: '' },
         };
     },
+});
+
+/**
+ * `import css from './foo.css'` yields the compiled, minified stylesheet as a
+ * string (inject:false + extract:false), for code that adopts it into a shadow
+ * root at runtime. Runs ahead of jsPlugins so the CSS is a JS module before
+ * babel and terser see it.
+ *
+ * The logical-* features are disabled: preset-env at stage 1 downlevels
+ * logical properties to physical LTR equivalents (inset-inline-start becomes
+ * left), which breaks RTL. All of them are supported natively below the
+ * browser floor (inset-inline-start: Chrome 87, Safari 14.1, Firefox 63).
+ * Disabled only for this inlining path so existing stylesheets keep their
+ * current output.
+ */
+const inlineCssPlugin = () => postcss({
+    extract: false,
+    inject: false,
+    minimize: cssMinify,
+    plugins: postcssPlugins('', {
+        'float-clear-logical-values': false,
+        'logical-overflow': false,
+        'logical-overscroll-behavior': false,
+        'logical-properties-and-values': false,
+        'logical-resize': false,
+        'logical-viewport-units': false,
+    }),
+    sourceMap: false,
 });
 
 const jsPlugins = (rootDir, { cjs = false, scriptsAlias = '' } = {}) => [
@@ -114,9 +126,8 @@ const jsPlugins = (rootDir, { cjs = false, scriptsAlias = '' } = {}) => [
                 pure_funcs: consolePureFuncs,
             },
             format: {
-                // Strip comments EXCEPT legal ones (/*! … @license/@preserve):
-                // bundled MIT vendors (e.g. sortablejs in the theme builder)
-                // require their copyright notice to ship with the code.
+                // Bundled MIT vendors require their copyright notice
+                // to ship with the code.
                 comments: /^!|@license|@preserve/i,
             },
         })]
@@ -125,11 +136,10 @@ const jsPlugins = (rootDir, { cjs = false, scriptsAlias = '' } = {}) => [
 ];
 
 // Wraps a compiled bundle in a module-registry registration for the merged
-// premium plugin: the chunk cannot execute without the premium runtime that
-// declares the registry (anti-extraction + composed loading — see the premium
-// repo's .claude/ASSET-STRATEGY.md). Runs AFTER terser (last in the plugin
-// array; renderChunk hooks run in plugin order) so the envelope is never
-// minified away and the registry symbol survives mangling.
+// premium plugin: the chunk cannot execute without the runtime that declares
+// the registry (see the premium repo's .claude/ASSET-STRATEGY.md). Runs after
+// terser (renderChunk hooks run in plugin order) so the envelope is never
+// minified away.
 const wrapChunkPlugin = (chunkId, registry = '__glsrp') => ({
     name: 'wrap-chunk',
     renderChunk(code) {
@@ -163,15 +173,10 @@ const cssPlugins = (namespace = '') => [
     cleanCssJsPlugin(),
 ];
 
-// ------------------------------------------------------------------
-//  Config builders factory
-// ------------------------------------------------------------------
-
 /**
  * @param {string} rootDir
- * @param {{scriptsAlias?: string}} [options]  scriptsAlias overrides what the
- *   `@` import alias resolves to (default `${rootDir}/+/scripts`). The merged
- *   premium plugin keeps each module's scripts in `+/scripts/{slug}/` and
+ * @param {{scriptsAlias?: string}} [options]  scriptsAlias overrides what `@`
+ *   resolves to (default `${rootDir}/+/scripts`); the merged premium plugin
  *   creates one factory per module so `@/` keeps meaning "my own scripts".
  */
 export function createConfig(rootDir, { scriptsAlias = '' } = {}) {
@@ -179,11 +184,14 @@ export function createConfig(rootDir, { scriptsAlias = '' } = {}) {
      * JavaScript bundle (IIFE, no CommonJS transforms).
      *
      * @param {string} source     Path relative to `+/` without extension.
-     * @param {string} [outputDir='assets/scripts']  Output directory.
-     * @param {string} [filename]  Explicit output filename (without extension).
-     *                              When set, uses `output.file`; otherwise `output.dir`.
+     * @param {string} [outputDir='assets/scripts']
+     * @param {string} [filename]  Without extension. When set, output.file
+     *                             names the bundle; otherwise output.dir.
+     * @param {Object} [options]
+     * @param {boolean} [options.inlineCss=false]  Import stylesheets as strings,
+     *                             for a bundle that adopts one into a shadow root.
      */
-    const js = (source, outputDir = 'assets/scripts', filename = '') => ({
+    const js = (source, outputDir = 'assets/scripts', filename = '', { inlineCss = false } = {}) => ({
         input: `+/${source}.js`,
         output: {
             ...(filename
@@ -193,15 +201,19 @@ export function createConfig(rootDir, { scriptsAlias = '' } = {}) {
             format: 'iife',
             sourcemap: !isProduction,
         },
-        plugins: jsPlugins(rootDir, { scriptsAlias }),
+        plugins: [
+            ...(inlineCss ? [inlineCssPlugin()] : []),
+            ...jsPlugins(rootDir, { scriptsAlias }),
+        ],
     });
 
     /**
      * JavaScript bundle (IIFE, with CommonJS transforms).
      *
      * @param {string} source     Path relative to `+/` without extension.
-     * @param {string} [outputDir='assets/scripts']  Output directory.
-     * @param {string} [filename]  Explicit output filename (without extension).
+     * @param {string} [outputDir='assets/scripts']
+     * @param {string} [filename]  Without extension. When set, output.file
+     *                             names the bundle; otherwise output.dir.
      */
     const commonJs = (source, outputDir = 'assets/scripts', filename = '') => ({
         input: `+/${source}.js`,
@@ -219,13 +231,14 @@ export function createConfig(rootDir, { scriptsAlias = '' } = {}) {
     /**
      * CSS bundle with optional PostCSS selector namespacing.
      *
-     * @param {string} source     Filename relative to `+/styles/` without extension.
-     * @param {string} [outputDir='assets/styles']  Output directory.
-     * @param {string} [namespace='']  CSS selector namespace (requires postcss-selector-namespace).
+     * @param {string} source     Path relative to `+/` without extension.
+     * @param {string} [outputDir='assets/styles']
+     * @param {string} [namespace='']  Requires postcss-selector-namespace.
+     * @param {string} [name='']  Names the emitted file {outputDir}/{name}.css
+     *                            instead of the source basename.
      */
     const css = (source, outputDir = 'assets/styles', namespace = '', name = '') => ({
-        // An object input names the rollup chunk, which names the extracted
-        // css file — {outputDir}/{name}.css instead of the source basename.
+        // An object input names the rollup chunk, which names the extracted file.
         input: name ? { [name]: `+/${source}.css` } : `+/${source}.css`,
         output: {
             dir: outputDir,
@@ -238,47 +251,37 @@ export function createConfig(rootDir, { scriptsAlias = '' } = {}) {
         plugins: cssPlugins(namespace),
     });
 
-    /**
-     * CSS bundle with optional PostCSS selector namespacing.
-     *
-     * @param {string} source     Filename relative to `+/styles/` without extension.
-     * @param {string} [outputDir='assets/styles']  Output directory.
-     * @param {string} [namespace='']  CSS selector namespace (requires postcss-selector-namespace).
-     */
     const namespacedCss = (source, namespace, outputDir = 'assets/styles') => css(source, outputDir, namespace);
 
     /**
-     * A CSS registry chunk: the same compiled+minified output as css(), but
-     * named `{outputDir}/{id}.css` so the premium AssetManager can compose
-     * per-context files from the manifest's chunk ids. CSS needs no runtime
-     * registration (no execution coupling) — the id-keyed filename is the
-     * whole contract.
+     * A CSS registry chunk: css() output named `{outputDir}/{id}.css` so the
+     * premium AssetManager can compose per-context files from the manifest's
+     * chunk ids. CSS needs no runtime registration; the id-keyed filename is
+     * the whole contract.
      *
      * @param {string} source  Path relative to `+/` without extension.
      * @param {string} id      Chunk id, e.g. `filters.public`.
-     * @param {string} [outputDir='assets/css/chunks']  Output directory.
+     * @param {string} [outputDir='assets/css/chunks']
      */
     const cssChunk = (source, id, outputDir = 'assets/css/chunks') => css(source, outputDir, '', id);
 
+    const SHARED_PREFIX = '@/public/shared/';
+
     /**
      * A registry chunk: like js() but the output is a `registry.define(id, …)`
-     * registration instead of a self-executing IIFE — it only runs when the
-     * premium runtime boots it. Output file is `{outputDir}/{id}.js`.
+     * registration that only runs when the premium runtime boots it.
      *
-     * Shared modules (`@/public/shared/*`) are NOT inlined: they are linked
-     * as externals against the runtime's `{registry}.lib.{name}` exports, so
-     * the one copy lives in the runtime and every chunk depends on it for
-     * actual functionality — load-bearing coupling, not just the define()
-     * wrapper. (The standalone js() profile still inlines them from the
-     * same sources.) The reference is evaluated when the factory RUNS,
-     * which is always after the runtime has parsed.
+     * Shared modules (`@/public/shared/*`) are not inlined: they resolve as
+     * externals to the runtime's `{registry}.lib.{name}` exports, so the one
+     * copy lives in the runtime. The reference is read when the factory runs,
+     * always after the runtime has parsed. The standalone js() profile inlines
+     * them from the same sources.
      *
      * @param {string} source     Path relative to `+/` without extension.
      * @param {string} id         Chunk id, e.g. 'filters.public'.
-     * @param {string} [outputDir='assets/js/chunks']  Output directory.
+     * @param {string} [outputDir='assets/js/chunks']
      * @param {string} [registry='__glsrp']  Registry symbol (build-rotatable).
      */
-    const SHARED_PREFIX = '@/public/shared/';
     const chunk = (source, id, outputDir = 'assets/js/chunks', registry = '__glsrp') => ({
         input: `+/${source}.js`,
         external: (importId) => importId.startsWith(SHARED_PREFIX),
@@ -291,49 +294,15 @@ export function createConfig(rootDir, { scriptsAlias = '' } = {}) {
             sourcemap: false, // the wrapper invalidates maps; dev uses js() entries
         },
         plugins: [
-            // `import css from './foo.css'` yields the compiled, minified
-            // stylesheet AS A STRING (inject:false + extract:false), for chunks
-            // that adopt a constructable stylesheet into a shadow root at
-            // runtime rather than enqueueing a <link>. Those chunks take NO
-            // `css:` descriptor key — cssChunk() emits a file for the
-            // AssetManager to enqueue, which is the wrong delivery for a shadow
-            // root and would load the stylesheet on every page regardless.
-            // Runs before jsPlugins so the CSS is a JS module by the time babel
-            // and terser see it. A no-op for chunks that import no CSS.
-            postcss({
-                extract: false,
-                inject: false,
-                minimize: cssMinify,
-                // Keep logical properties LOGICAL. preset-env at stage 1
-                // downlevels them to physical equivalents assuming LTR —
-                // inset-inline-start becomes left, padding-inline becomes
-                // padding-left/right, text-align:start becomes left — which
-                // silently destroys RTL support. Every one of these is
-                // natively supported far below this project's browser floor
-                // (inset-inline-start: Chrome 87, Safari 14.1, Firefox 63), so
-                // the transform buys nothing and costs direction-awareness.
-                // Scoped to this inlining path so no existing stylesheet's
-                // output changes.
-                plugins: postcssPlugins('', {
-                    'float-clear-logical-values': false,
-                    'logical-overflow': false,
-                    'logical-overscroll-behavior': false,
-                    'logical-properties-and-values': false,
-                    'logical-resize': false,
-                    'logical-viewport-units': false,
-                }),
-                sourceMap: false,
-            }),
+            inlineCssPlugin(),
             ...jsPlugins(rootDir, { scriptsAlias }),
             wrapChunkPlugin(id, registry),
         ],
     });
 
     /**
-     * Copy a static file to an output directory.
-     *
-     * @param {string} source     Path relative to project root.
-     * @param {string} [outputDir='assets']  Output directory.
+     * @param {string} source  Path relative to `+/`.
+     * @param {string} [outputDir='assets']
      */
     const copy = (source, outputDir = 'assets') => ({
         _copy: true,
