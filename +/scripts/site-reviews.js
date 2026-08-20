@@ -1,5 +1,6 @@
 import Ajax from '@/public/ajax.js';
 import Event from '@/public/event.js';
+import Request from '@/public/request.js';
 import Excerpts from '@/public/excerpts.js';
 import Form from '@/public/form.js';
 import Modal from '@/public/modal.js';
@@ -106,7 +107,7 @@ const initReview = () => {
     const request = Object.fromEntries(requestKeys.filter(k => k in params).map(k => [k, params[k]]));
     requestKeys.forEach(k => url.searchParams.delete(k));
     history.replaceState({}, '', url);
-    GLSR.ajax.post(GLSR.ajax.data(`${action}-review`, request), (response, success) => {
+    Request.review(params.review_id, request).then(({ data: response, success }) => {
         if (!success) {
             return console.error({ request, response })
         }

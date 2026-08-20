@@ -3,6 +3,7 @@
 import Button from '@/public/button.js';
 import Captcha from '@/public/captcha.js';
 import Conditions from '@/public/conditions.js';
+import Request from '@/public/request.js';
 import Session from '@/public/session.js';
 import StarRating from '@/public/starrating.js';
 import Validation from '@/public/validation.js';
@@ -45,7 +46,7 @@ class Form {
 
     submitForm () {
         this.button.loading()
-        GLSR.ajax.post(this._data(), this._handleResponse.bind(this))
+        Request.submit(this._data()).then(result => this._handleResponse(result.data, result.success))
     }
 
     _data () {

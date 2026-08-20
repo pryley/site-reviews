@@ -1,4 +1,5 @@
 import Button from '@/public/button.js';
+import Request from '@/public/request.js';
 
 const classNames = {
     hide: 'glsr-hide',
@@ -70,20 +71,20 @@ class Pagination {
         try {
             const dataset = JSON.parse(JSON.stringify(this.paginationEl.dataset));
             const data = {
+                _action: 'fetch-paged-reviews', // identifies this plugin's history state
+                atts: {},
                 page: el.dataset.page || 1,
                 schema: false,
                 url: el.href || location.href,
             };
             for (var key of Object.keys(dataset)) {
-                let value;
                 try {
-                    value = JSON.parse(dataset[key]);
+                    data.atts[key] = JSON.parse(dataset[key]);
                 } catch(e) {
-                    value = dataset[key];
+                    data.atts[key] = dataset[key];
                 }
-                data[`atts][${key}`] = value;
             }
-            return GLSR.ajax.data('fetch-paged-reviews', data);
+            return data;
         } catch(e) {
             console.error('Invalid pagination config.')
             return false;
@@ -160,7 +161,7 @@ class Pagination {
             const button = Button(el);
             button.loading()
             ev.preventDefault()
-            GLSR.ajax.post(data, this._handleLoadMore.bind(this, button, data))
+            Request.pagedReviews(data).then(result => this._handleLoadMore(button, data, result.data, result.success))
         }
     }
 
@@ -170,13 +171,17 @@ class Pagination {
         if (data) {
             this._loading()
             ev.preventDefault()
-            GLSR.ajax.post(data, this._handlePagination.bind(this, el, data))
+            Request.pagedReviews(data).then(result => this._handlePagination(el, data, result.data, result.success))
         }
     }
 
     _onPopstate (ev) {
         GLSR.Event.trigger('site-reviews/pagination/popstate', ev, this)
-        if (ev.state && ev.state[`${GLSR.nameprefix}[_action]`]) {
+        if (ev.state && 'fetch-paged-reviews' === ev.state._action) {
+            this._loading()
+            Request.pagedReviews(ev.state).then(result => this._handlePopstate(ev.state, result.data, result.success))
+        } else if (ev.state && ev.state[`${GLSR.nameprefix}[_action]`]) {
+            // a history entry written by the previous script version
             this._loading()
             GLSR.ajax.post(ev.state, this._handlePopstate.bind(this, ev.state))
         }
