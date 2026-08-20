@@ -293,6 +293,32 @@ Features are subject to change and are sorted alphabetically, not by priority.
      Reviews block's inner-blocks render path that bypasses `comments_template()`
      — would have passed every one of nets 1–5.
 
+- [ ] **A custom review editor must design its autosave; the REST autosave route was
+  deliberately removed.** 2026-08-20 (REST controller evaluation):
+  `RegisterPostType` now calls `remove_post_type_support('site-review', 'autosave')`,
+  because core implies the feature from `editor` support and the implied REST route
+  was broken — `WP_REST_Autosaves_Controller::create_item` fed the base-class
+  `prepare_item_for_database()` `WP_Error` into the save unchecked, so a POST
+  returned 200 and wrote an EMPTY autosave revision (executed, wp-env WP 7.0.2).
+  Classic-editor autosave is unaffected: its pipeline (heartbeat → `wp_autosave()`
+  → `wp_create_post_autosave()`) never checks the feature.
+
+  Two things for the editor work to know:
+
+  1. Re-adding the support flag is not enough. The core route captures post-table
+     fields only (title/content/excerpt); a review is also a `glsr_ratings` row,
+     assigned data, and Forms-addon custom fields. Either implement
+     `RestReviewController::prepare_item_for_database()` AND decide what an
+     autosave preserves beyond post fields, or give the editor its own plugin-style
+     draft route. The gap is loud, not silent: an editor autosaving against the
+     core route today gets 404 `rest_no_route` on the first attempt.
+  2. Removal declares "do not autosave reviews" (core: "'autosave' support needs to
+     be explicitly removed if not desired") while the classic pipeline keeps
+     autosaving only because it predates the feature and was never retrofitted. If
+     a future WordPress honours the declaration there, classic autosave for
+     reviews stops — mild (lost crash recovery on the edit screen), but worth a
+     dev-note check on major-version bumps.
+
 ## Upcoming Add-ons
 
 ### Functionality
