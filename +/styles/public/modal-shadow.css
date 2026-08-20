@@ -1,0 +1,141 @@
+/**
+ * The modal's shadow-root stylesheet: chrome only (dialog frame, backdrop,
+ * close button, open/close transitions). The header/body/footer regions are
+ * light-DOM children of the host and are styled by public/minimal/modal.css.
+ * Imported as a string by public/modal.js and adopted into the shadow root.
+ * Theme-facing inputs are the --glsr-modal-* custom properties (inherited
+ * through the shadow boundary) and the exported dialog/close parts.
+ */
+
+:host {
+    display: contents;
+    font-size: var(--wp--preset--font-size--normal, 1rem);
+}
+
+dialog {
+    background-color: var(--glsr-modal-bg, #fff);
+    border: 0;
+    border-radius: var(--glsr-modal-radius, 3px);
+    box-shadow: rgb(0 0 0 / 10%) 0 20px 25px -5px, rgb(0 0 0 / 10%) 0 8px 10px -6px;
+    box-sizing: border-box;
+    color: inherit;
+    flex-direction: column;
+    /* The top layer positions the dialog with inset 0 + margin auto; an auto
+       height stretches to fill that constraint, so it must be intrinsic. */
+    height: fit-content;
+    max-height: min(1024px, calc(100vh - 2em));
+    max-width: min(768px, calc(100vw - 2em));
+    min-height: 160px;
+    min-width: 320px;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0;
+    transform: scale(.92);
+    transition:
+        display var(--glsr-duration-fast, .15s) allow-discrete,
+        opacity var(--glsr-duration-fast, .15s) cubic-bezier(0, 0, .2, 1),
+        overlay var(--glsr-duration-fast, .15s) allow-discrete,
+        transform var(--glsr-duration-fast, .15s) cubic-bezier(0, 0, .2, 1);
+    width: 100vw;
+}
+dialog[open] {
+    display: flex;
+    opacity: 1;
+    transform: scale(1);
+    transition-duration: var(--glsr-duration-slow, .3s);
+}
+@starting-style {
+    dialog[open] {
+        opacity: 0;
+        transform: scale(.92);
+    }
+}
+
+dialog::backdrop {
+    background: rgb(0 0 0 / 60%);
+    opacity: 0;
+    transition:
+        display var(--glsr-duration-fast, .15s) allow-discrete,
+        opacity var(--glsr-duration-fast, .15s) cubic-bezier(0, 0, .2, 1),
+        overlay var(--glsr-duration-fast, .15s) allow-discrete;
+}
+dialog[open]::backdrop {
+    opacity: 1;
+    transition-duration: var(--glsr-duration-slow, .3s);
+}
+@starting-style {
+    dialog[open]::backdrop {
+        opacity: 0;
+    }
+}
+
+:host(.glsr-modal-small) dialog {
+    min-height: auto;
+    width: 480px;
+}
+:host(.glsr-modal-fullscreen) dialog {
+    height: 100vh;
+    max-height: calc(100vh - 2em);
+    max-width: calc(100vw - 2em);
+    width: 100vw;
+}
+
+button.close {
+    align-items: center;
+    appearance: none;
+    background: transparent;
+    border: 0;
+    border-radius: 2px;
+    box-shadow: none;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    font-size: 1em;
+    height: 1.5em;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    justify-content: center;
+    line-height: 1;
+    margin: .75em 1em;
+    padding: 0;
+    position: absolute;
+    transform: scale(1);
+    transition: transform var(--glsr-duration-fast, .15s) ease-in;
+    width: 1.5em;
+    z-index: 10;
+}
+button.close:hover {
+    transform: scale(1.1);
+}
+button.close:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+button.close::before {
+    content: "\2715";
+    font-family: arial, sans-serif;
+    font-size: 1.5em;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* The dirty-form guard blocked a cancel; cue the refusal. */
+dialog.is-blocked {
+    animation: glsr-modal-blocked .3s cubic-bezier(.25, .46, .45, .94);
+}
+@keyframes glsr-modal-blocked {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-.375em); }
+    75% { transform: translateX(.375em); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    dialog,
+    dialog::backdrop,
+    button.close {
+        transition-duration: .01ms;
+    }
+    dialog.is-blocked {
+        animation: none;
+    }
+}

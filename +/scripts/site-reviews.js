@@ -68,7 +68,7 @@ const initModal = () => {
                     style: triggerRoot.parentElement.style.cssText,
                 }, baseEl)
                 : baseEl;
-            Modal.dom.content.appendChild(appendEl);
+            Modal.content(appendEl);
         },
     })
 }
@@ -113,8 +113,8 @@ const initReview = () => {
         }
         GLSR.Modal.open(`glsr-modal-${action}`, {
             onOpen: (Modal) => {
-                Modal.content(response.review, response.attributes)
-                Modal.dom.content.querySelectorAll('[data-expanded="false"]').forEach(el => el.dataset.expanded = 'true')
+                const contentEl = Modal.content(response.review, response.attributes);
+                contentEl.querySelectorAll('[data-expanded="false"]').forEach(el => el.dataset.expanded = 'true')
                 if (response.message) {
                     Modal.footer(`<p style="margin:0;padding:0;">${response.message}</p>`);
                 }

@@ -21,7 +21,7 @@ const jsBundles = [
     js('scripts/deactivate-plugin'),
     js('scripts/mce-plugin'),
     js('scripts/rollback'),
-    js('scripts/site-reviews'),
+    js('scripts/site-reviews', 'assets/scripts', '', { inlineCss: true }),
 ];
 
 // ------------------------------------------------------------------

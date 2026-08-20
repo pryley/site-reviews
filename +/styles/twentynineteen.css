@@ -42,9 +42,6 @@
 :--namespace form.glsr-form .glsr-field-error {
     font-family: var(--glsr-font);
 }
-:--namespace .glsr-modal__dialog {
-    --glsr-text-base: 0.88889em;
- }
 :--namespace form.glsr-form select.glsr-select {
     background: var(--glsr-white);
     border: solid 1px var(--glsr-gray-300);

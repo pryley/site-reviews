@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Database\ShortcodeOptionManager;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
-use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\createTerm;
@@ -17,30 +16,14 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
  * The shortcode and database leftovers: option lookups for the block editor,
- * the modal excerpt flag, pagination URL normalization, and the query edges.
+ * pagination URL normalization, and the query edges.
  */
 
 beforeEach(fn () => resetPluginState());
 
-afterEach(function () {
-    glsr()->discard('use_modal');
-});
-
 /*
  * Shortcodes.
  */
-
-test('the modal excerpt setting flags the page for the modal script', function () {
-    glsr(OptionManager::class)->set('settings.reviews.excerpts_action', 'modal');
-    createReview();
-
-    do_shortcode('[site_reviews]');
-    expect(glsr()->retrieveAs('bool', 'use_modal'))->toBeTrue();
-
-    glsr()->discard('use_modal');
-    do_shortcode('[site_review id="'.glsr_get_reviews(['per_page' => 1])->reviews[0]->ID.'"]');
-    expect(glsr()->retrieveAs('bool', 'use_modal'))->toBeTrue();
-});
 
 test('a summary tag whose class is filtered away renders as nothing', function () {
     add_filter('site-reviews/summary/tag/rating', fn () => 'No\Such\TagClass');

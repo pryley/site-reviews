@@ -1,3 +1,14 @@
+/*
+ * The modal regions (header, body, footer) are light-DOM children of the
+ * .glsr-modal host, so page and theme CSS reaches everything injected into
+ * them. The chrome (dialog frame, backdrop, close button) lives in the
+ * host's shadow root and is styled by public/modal-shadow.css; its
+ * theme-facing inputs are the --glsr-modal-* custom properties and the
+ * dialog/close parts.
+ *
+ * The :root prefix drops these rules to global scope (see rollup.config.mjs):
+ * the modal host is appended to <body>, outside the namespaced .glsr wrapper.
+ */
 :root html.glsr-modal-open {
   overflow: hidden;
   scrollbar-gutter: stable;
@@ -9,58 +20,6 @@
 :root .glsr-modal {
   --timing-function: cubic-bezier(0,0,0.2,1);
   --timing-function-2: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  display: none;
-  font-size: var(--wp--preset--font-size--normal, 1rem);
-  pointer-events: none;
-  position: fixed;
-  z-index: -1;
-}
-:root .glsr-modal.is-open {
-  display: block;
-  pointer-events: auto;
-  z-index: 99999; /* the same as wpadminbar and spotlight.js */
-}
-:root .glsr-modal__overlay {
-  align-items: center;
-  background: rgb(0 0 0 / 60%);
-  display: flex;
-  height: 100vh;
-  inset: 0;
-  justify-content: center;
-  position: fixed;
-  width: 100vw;
-}
-:root .glsr-modal__dialog {
-  background-color: var(--glsr-modal-bg);
-  border-radius: var(--glsr-modal-radius);
-  box-shadow: rgb(0 0 0 / 10%) 0 20px 25px -5px, rgb(0 0 0 / 10%) 0 8px 10px -6px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-  max-height: min(1024px, calc(100vh - 2em));
-  max-width: min(768px, calc(100vw - 2em));
-  min-height: 160px;
-  min-width: 320px;
-  width: 100vw;
-  height: auto;
-}
-:root .glsr-modal-small .glsr-modal__dialog {
-  min-height: auto;
-  width: 480px;
-}
-:root .glsr-modal-fullscreen .glsr-modal__dialog {
-  height: 100vh;
-  max-height: calc(100vh - 2em);
-  max-width: calc(100vw - 2em);
-  width: 100vw;
-}
-:root [aria-hidden="false"] .glsr-modal__dialog {
-  animation: gl-zoomIn var(--glsr-duration-slow) var(--timing-function);
-}
-:root [aria-hidden="true"] .glsr-modal__dialog {
-  animation: gl-zoomOut var(--glsr-duration-fast) var(--timing-function);
 }
 :root .glsr-modal__header {
   font-weight: 600;
@@ -108,64 +67,6 @@
 }
 :root .glsr-modal__content {
   padding: var(--glsr-modal-padding);
-}
-/*
-:root .glsr-modal .glsr-button {
-  border: none;
-}
-*/
-:root .glsr-modal button.glsr-modal__close,
-:root .glsr-modal button.glsr-modal__close:hover,
-:root .glsr-modal button.glsr-modal__close:focus {
-  appearance: none;
-  align-items: center;
-  background: transparent !important;
-  border: 0;
-  box-shadow: none;
-  color: currentColor !important;
-  cursor: pointer;
-  display: flex;
-  font-size: 1em;
-  height: 1.5em;
-  justify-content: center;
-  line-height: 1;
-  margin: .75em 1em;
-  outline-offset: 0;
-  padding: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  transform: scale(1);
-  transition: transform var(--glsr-duration-fast) ease-in;
-  width: 1.5em;
-  z-index: 10;
-}
-:root .glsr-modal button.glsr-modal__close:hover {
-  transform: scale(1.1);
-}
-:root .glsr-modal button.glsr-modal__close::before {
-  all: revert;
-  content: "\2715";
-  font-family: arial;
-  font-size: 1.5em;
-  font-weight: 700;
-  line-height: 1;
-}
-:root .glsr-modal button.glsr-modal__close::after,
-:root .glsr-modal[aria-hidden="true"] .glsr-modal__close {
-  display: none !important;
-}
-
-:root .glsr-modal .glsr-modal__overlay {
-  animation-timing-function: var(--timing-function);
-}
-:root .glsr-modal[aria-hidden="false"] .glsr-modal__overlay {
-  animation-duration: var(--glsr-duration-slow);
-  animation-name: gl-fadeIn;
-}
-:root .glsr-modal[aria-hidden="true"] .glsr-modal__overlay {
-  animation-duration: var(--glsr-duration-fast);
-  animation-name: gl-fadeOut;
 }
 
 :root .glsr-modal-error .glsr-modal__content,

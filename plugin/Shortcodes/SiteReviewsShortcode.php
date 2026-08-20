@@ -16,9 +16,6 @@ class SiteReviewsShortcode extends Shortcode
         $reviews = glsr(ReviewManager::class)->reviews($this->args);
         $this->debug((array) $reviews);
         $this->generateSchema($reviews);
-        if ('modal' === glsr_get_option('reviews.excerpts_action')) {
-            glsr()->store('use_modal', true);
-        }
         return new ReviewsHtml($reviews);
     }
 

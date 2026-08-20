@@ -224,6 +224,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed the review form not showing a confirmation message after submission when JavaScript is disabled
 - Fixed the revision links in REST API review responses
 - Improved compatibility with firewalls that block wp-admin requests
+- Improved the review modal: it now uses the browser's native dialog, its frame and close button can no longer be broken by theme styles, and closing it can no longer discard a half-typed form by accident
 - Improved the speed of review submission and pagination requests
 - Removed the broken review autosave endpoints from the REST API
 
