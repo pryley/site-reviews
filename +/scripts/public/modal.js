@@ -36,6 +36,23 @@ const supported = 'undefined' !== typeof HTMLDialogElement
 
 let openCount = 0;
 
+const deprecatedNotices = [];
+const deprecated = (surface, replacement) => {
+    if (deprecatedNotices.includes(surface)) return;
+    deprecatedNotices.push(surface);
+    console.info(`[site-reviews] ${surface} is deprecated; use ${replacement} instead.`)
+};
+
+// A third party's throwing callback degrades to a logged error; it must not
+// abort the open or close sequence.
+const guard = (fn) => {
+    try {
+        fn()
+    } catch (error) {
+        console.error('[site-reviews] a modal callback failed:', error)
+    }
+};
+
 // Constructable-stylesheet handshake; jsdom constructs a CSSStyleSheet but
 // has no replaceSync, so the whole probe stays inside the try and the
 // fallback is an inline <style>. Modelled on the premium lightbox/alerts.
@@ -68,6 +85,21 @@ class Modal {
         this.triggers = [];
         this._config(config)
         this._reset()
+    }
+
+    get dom () { // deprecated: a pre-9.0 addon build reads these references
+        deprecated('Modal.dom', 'the modal instance API (style, hideClose, header/content/footer)')
+        if (!this._dom) {
+            this._dom = {
+                body: this._body,
+                close: this._close,
+                content: this._regions ? this._regions.content : null,
+                dialog: this._dialog,
+                footer: this._regions ? this._regions.footer : null,
+                header: this._regions ? this._regions.header : null,
+            };
+        }
+        return this._dom
     }
 
     get isOpen () {
@@ -154,6 +186,7 @@ class Modal {
         const footer = dom('div', attr('footer', { slot: 'footer' }));
         const body = dom('div', attr('body', { slot: 'body' }), dom('div', attr('inner'), content));
         host.append(header, body, footer)
+        this._body = body;
         this._close = close;
         this._dialog = dialog;
         this._regions = { content, footer, header };
@@ -202,8 +235,8 @@ class Modal {
         if (0 === openCount) {
             document.documentElement.classList.remove('glsr-modal-open')
         }
-        this.config.onClose(this, event)
-        GLSR.Event.trigger('site-reviews/modal/close', this, event)
+        guard(() => this.config.onClose(this, event))
+        guard(() => GLSR.Event.trigger('site-reviews/modal/close', this, event))
         if (this._trigger && this._trigger.focus) {
             this._trigger.focus()
         }
@@ -239,8 +272,8 @@ class Modal {
         this._insertModal()
         openCount++;
         document.documentElement.classList.add('glsr-modal-open')
-        this.config.onOpen(this, event) // triggered before the modal is visible
-        GLSR.Event.trigger('site-reviews/modal/open', this, event)
+        guard(() => this.config.onOpen(this, event)) // triggered before the modal is visible
+        guard(() => GLSR.Event.trigger('site-reviews/modal/open', this, event))
         this._dialog.showModal()
         if (this.config.focus) {
             this._setFocusToFirstNode()
@@ -250,11 +283,11 @@ class Modal {
     _region (name, html, attributes = null) {
         if (!this._regions || !this._regions[name]) return null;
         const el = this._regions[name];
-        if (undefined === html) return el; // getter: no arguments leaves the region untouched
+        if (undefined === html || null === html) return el; // getter: no arguments leaves the region untouched
         el.textContent = '';
         if (html instanceof Node) {
             el.appendChild(dom('div', attributes || {}, html))
-        } else if ('' !== html && null !== html && undefined !== html) {
+        } else if ('' !== html) {
             const div = dom('div', attributes || {});
             div.innerHTML = html;
             el.appendChild(div)
@@ -280,9 +313,11 @@ class Modal {
 
     _reset () {
         this.root = null;
+        this._body = null;
         this._cancelWarned = false;
         this._close = null;
         this._dialog = null;
+        this._dom = null;
         this._regions = null;
         this._trigger = null;
     }
@@ -309,6 +344,14 @@ const close = (id) => {
 }
 
 const get = (id) => modals[id] || null;
+
+const modify = (id, callback) => { // deprecated: a pre-9.0 addon build calls this
+    deprecated('GLSR.Modal.modify()', 'GLSR.Modal.get()')
+    const modal = get(id);
+    if (modal) {
+        callback(modal)
+    }
+};
 
 const init = (id, config) => {
     if (!supported) return;
@@ -345,4 +388,4 @@ const open = (id, config) => {
     modal._openModal()
 }
 
-export default { close, get, init, open }
+export default { close, get, init, modify, open }
