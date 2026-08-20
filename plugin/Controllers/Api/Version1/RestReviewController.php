@@ -2,9 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\Api\Version1;
 
+use GeminiLabs\SiteReviews\Controllers\Api\Version1\Parameters\NormalizesArgs;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\Parameters\ReviewParameters;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\Permissions\ReviewPermissions;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\Response\PrepareReviewData;
+use GeminiLabs\SiteReviews\Controllers\Api\Version1\Response\PrepareReviewLinks;
+use GeminiLabs\SiteReviews\Controllers\Api\Version1\Response\PrepareReviewsResponse;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema\ReviewSchema;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Reviews;
@@ -12,6 +15,7 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
 class RestReviewController extends \WP_REST_Controller
 {
+    use NormalizesArgs;
     use ReviewPermissions;
 
     public function __construct()
@@ -171,9 +175,10 @@ class RestReviewController extends \WP_REST_Controller
         $data = $this->add_additional_fields_to_object($data, $request);
         $data = $this->filter_response_by_context($data, $context);
         $response = rest_ensure_response($data);
-        $response->add_links($this->prepareLinks($review));
+        $links = new PrepareReviewLinks($this->namespace, $this->rest_base);
+        $response->add_links($links->links($review));
         if ('edit' === $context) {
-            $response->add_links($this->prepareLinksForEdit($review));
+            $response->add_links($links->editLinks($review));
         }
         return $response; // @todo filter this, i.e. "rest_prepare_{glsr()->post_type}"
     }
@@ -258,124 +263,13 @@ class RestReviewController extends \WP_REST_Controller
 
     protected function normalizedArgs(\WP_REST_Request $request): array
     {
-        $args = [];
-        $registered = $this->get_collection_params();
-        foreach ($registered as $key => $params) {
-            if (isset($request[$key])) {
-                $args[$key] = $request[$key];
-            }
-        }
-        if (empty($args['date'])) {
-            $args['date'] = [
-                'after' => $args['after'] ?? '',
-                'before' => $args['before'] ?? '',
-            ];
-        }
-        return glsr()->filterArray("rest-api/{$this->rest_base}/args", $args, $request);
-    }
-
-    protected function prepareLinks(Review $review): array
-    {
-        $base = "{$this->namespace}/{$this->rest_base}";
-        $revisions = wp_get_post_revisions($review->ID, ['fields' => 'ids']);
-        $revisionCount = count($revisions);
-        $links = [
-            'self' => [
-                'href' => rest_url(trailingslashit($base).$review->ID),
-            ],
-            'collection' => [
-                'href' => rest_url($base),
-            ],
-            'about' => [
-                'href' => rest_url('wp/v2/types/'.glsr()->post_type),
-            ],
-            'https://api.w.org/attachment' => [
-                'href' => add_query_arg('parent', $review->ID, rest_url('wp/v2/media')),
-            ],
-            'https://api.w.org/term' => [
-                'embeddable' => true,
-                'href' => add_query_arg('post', $review->ID, rest_url('wp/v2/'.glsr()->taxonomy)),
-                'taxonomy' => glsr()->taxonomy,
-            ],
-            'version-history' => [
-                'count' => $revisionCount,
-                'href' => rest_url(trailingslashit($base)."{$review->ID}/revisions"),
-            ],
-        ];
-        if ($revisionCount > 0) {
-            $lastRevision = array_shift($revisions);
-            $links['predecessor-version'] = [
-                'href' => rest_url(trailingslashit($base)."{$review->ID}/revisions/{$lastRevision}"),
-                'id' => $lastRevision,
-            ];
-        }
-        if (!empty($review->user_id)) {
-            $links['author'] = [
-                'embeddable' => true,
-                'href' => rest_url("wp/v2/users/{$review->user_id}"),
-            ];
-        }
-        if (post_type_supports(glsr()->post_type, 'comments')) {
-            $links['replies'] = [
-                'embeddable' => true,
-                'href' => add_query_arg('post', $review->ID, rest_url('wp/v2/comments')),
-            ];
-        }
-        return $links;
-    }
-
-    protected function prepareLinksForEdit(Review $review): array
-    {
-        $links = [];
-        $reviewRestUrl = rest_url(trailingslashit("{$this->namespace}/{$this->rest_base}").$review->ID);
-        $taxonomy = get_taxonomy(glsr()->taxonomy);
-        if (glsr()->can('publish_posts')) {
-            $links['https://api.w.org/action-publish'] = [
-                'href' => $reviewRestUrl,
-            ];
-        }
-        if (glsr()->can('edit_others_posts')) {
-            $links['https://api.w.org/action-assign-author'] = [
-                'href' => $reviewRestUrl,
-            ];
-        }
-        if (current_user_can($taxonomy->cap->edit_terms)) {
-            $links['https://api.w.org/action-create-'.glsr()->taxonomy] = [
-                'href' => $reviewRestUrl,
-            ];
-        }
-        if (current_user_can($taxonomy->cap->assign_terms)) {
-            $links['https://api.w.org/action-assign-'.glsr()->taxonomy] = [
-                'href' => $reviewRestUrl,
-            ];
-        }
-        return $links;
+        return $this->normalizeArgs($request, $this->get_collection_params(), $this->rest_base);
     }
 
     protected function prepareResponse(\WP_REST_Response $response, \WP_REST_Request $request, Reviews $reviews): \WP_REST_Response
     {
-        $page = $reviews->args['page'];
-        $ratings = glsr_get_ratings($this->normalizedArgs($request));
-        $response->header('X-GLSR-Average', (string) $ratings->average);
-        $response->header('X-GLSR-Ranking', (string) $ratings->ranking);
-        $response->header('X-WP-Total', (string) $reviews->total);
-        $response->header('X-WP-TotalPages', (string) $reviews->max_num_pages);
-        $parameters = $request->get_query_params();
-        $base = add_query_arg(urlencode_deep($parameters), rest_url(sprintf('%s/%s', $this->namespace, $this->rest_base)));
-        if ($page > 1) {
-            $prevPage = $page - 1;
-            if ($prevPage > $reviews->max_num_pages) {
-                $prevPage = $reviews->max_num_pages;
-            }
-            $prevLink = add_query_arg('page', $prevPage, $base);
-            $response->link_header('prev', $prevLink);
-        }
-        if ($reviews->max_num_pages > $page) {
-            $nextPage = $page + 1;
-            $nextLink = add_query_arg('page', $nextPage, $base);
-            $response->link_header('next', $nextLink);
-        }
-        return $response;
+        $prepare = new PrepareReviewsResponse($this->namespace, $this->rest_base);
+        return $prepare->response($response, $request, $reviews, $this->normalizedArgs($request));
     }
 
     protected function renderedItem(\WP_REST_Request $request): \WP_REST_Response
