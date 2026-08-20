@@ -23,6 +23,10 @@ class RegisterPostType extends AbstractCommand
     public function handle(): void
     {
         register_post_type(glsr()->post_type, $this->args);
+        // Core implies "autosave" support from "editor" support. The implied REST
+        // autosave routes cannot save a review, so the feature is removed. The
+        // classic editor autosave does not check this feature.
+        remove_post_type_support(glsr()->post_type, 'autosave');
         $this->setColumns();
         $this->setDefaultHiddenColumns();
     }
