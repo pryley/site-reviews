@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestCategoryController;
 use GeminiLabs\SiteReviews\Metaboxes\TaxonomyMetabox;
 
 class TaxonomyDefaults extends DefaultsAbstract
@@ -19,7 +18,8 @@ class TaxonomyDefaults extends DefaultsAbstract
             ],
             'meta_box_cb' => [glsr(TaxonomyMetabox::class), 'render'],
             'public' => false,
-            'rest_controller_class' => RestCategoryController::class,
+            // The default terms controller derives its route base from rest_base.
+            'rest_base' => 'categories',
             'rest_namespace' => glsr()->id.'/v1',
             'show_admin_column' => true,
             'show_in_rest' => true,
