@@ -3,9 +3,11 @@
 namespace GeminiLabs\SiteReviews\Controllers\Api\Version1;
 
 /**
- * Base class for the public frontend routes. It does not extend WP_REST_Controller:
- * these routes return rendered command results, so none of the resource machinery
- * (context/field filtering, collection params) applies.
+ * Base class for the plugin's own REST routes. It does not extend WP_REST_Controller:
+ * these routes return command and query results directly, so the resource machinery
+ * (context/field filtering, additional fields) does not apply. The reviews CRUD
+ * controller stays on WP_REST_Controller because core's rest_controller_class
+ * accepts only that subclass.
  */
 abstract class AbstractRestController
 {

@@ -619,7 +619,7 @@ test('the rendered summary returns html', function () {
 test('the summary declares its schema', function () {
     $controller = new \GeminiLabs\SiteReviews\Controllers\Api\Version1\RestSummaryController();
 
-    $schema = $controller->get_item_schema();
+    $schema = $controller->schema();
     expect($schema)->toHaveKey('properties');
-    expect($controller->get_item_schema())->toBe($schema); // memoised
+    expect($controller->schema())->toBe($schema); // memoised
 });

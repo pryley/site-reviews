@@ -5,39 +5,12 @@ namespace GeminiLabs\SiteReviews\Controllers\Api\Version1;
 use GeminiLabs\SiteReviews\Database\ShortcodeOptionManager;
 use GeminiLabs\SiteReviews\Defaults\ShortcodeApiFetchDefaults;
 
-class RestShortcodeController extends \WP_REST_Controller
+class RestShortcodeController extends AbstractRestController
 {
-    public function __construct()
-    {
-        $this->namespace = glsr()->id.'/v1';
-        $this->rest_base = 'shortcode';
-    }
-
     /**
-     * @param \WP_REST_Request $request
-     *
-     * @return \WP_REST_Response|\WP_Error
-     */
-    public function get_items($request)
-    {
-        $args = glsr(ShortcodeApiFetchDefaults::class)->merge($request->get_params());
-        $results = [];
-        if (!empty($args['option'])) {
-            $manager = glsr(ShortcodeOptionManager::class);
-            $values = call_user_func([$manager, $args['option']], $args);
-            foreach ($values as $id => $title) {
-                $results[] = compact('id', 'title');
-            }
-        }
-        return rest_ensure_response($results);
-    }
-
-    /**
-     * @param \WP_REST_Request $request
-     *
      * @return true|\WP_Error
      */
-    public function get_items_permissions_check($request)
+    public function checkShortcodePermission(\WP_REST_Request $request)
     {
         if (!is_user_logged_in()) {
             $error = _x('Sorry, you are not allowed to do that.', 'admin-text', 'site-reviews');
@@ -53,16 +26,27 @@ class RestShortcodeController extends \WP_REST_Controller
         return true;
     }
 
-    /**
-     * @return void
-     */
-    public function register_routes()
+    public function fetchOptions(\WP_REST_Request $request): \WP_REST_Response
     {
-        register_rest_route($this->namespace, "/{$this->rest_base}/(?P<shortcode>[a-z_]+)", [
+        $args = glsr(ShortcodeApiFetchDefaults::class)->merge($request->get_params());
+        $results = [];
+        if (!empty($args['option'])) {
+            $manager = glsr(ShortcodeOptionManager::class);
+            $values = call_user_func([$manager, $args['option']], $args);
+            foreach ($values as $id => $title) {
+                $results[] = compact('id', 'title');
+            }
+        }
+        return $this->respond($results);
+    }
+
+    public function registerRoutes(): void
+    {
+        register_rest_route($this->restNamespace(), '/shortcode/(?P<shortcode>[a-z_]+)', [
             [
-                'callback' => [$this, 'get_items'],
+                'callback' => [$this, 'fetchOptions'],
                 'methods' => \WP_REST_Server::READABLE,
-                'permission_callback' => [$this, 'get_items_permissions_check'],
+                'permission_callback' => [$this, 'checkShortcodePermission'],
             ],
         ]);
     }

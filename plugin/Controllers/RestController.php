@@ -15,8 +15,8 @@ class RestController
     public function registerRoutes(): void
     {
         (new RestRenderController())->registerRoutes();
-        (new RestShortcodeController())->register_routes();
+        (new RestShortcodeController())->registerRoutes();
         (new RestSubmissionController())->registerRoutes();
-        (new RestSummaryController())->register_routes();
+        (new RestSummaryController())->registerRoutes();
     }
 }
