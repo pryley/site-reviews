@@ -345,8 +345,10 @@ test('a post request aimed at the rest api is left for the rest controllers', fu
     formPost(['_action' => 'test-route']);
     $recorded = recordRoute('route/public/test-route');
     $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+    $permalinks = get_option('permalink_structure');
     try {
         // pretty permalinks: the request path is under the rest url
+        update_option('permalink_structure', '/%postname%/');
         $_SERVER['REQUEST_URI'] = (string) parse_url(rest_url('site-reviews/v1/submissions'), PHP_URL_PATH);
         glsr(Router::class)->routePublicPostRequest();
 
@@ -362,12 +364,22 @@ test('a post request aimed at the rest api is left for the rest controllers', fu
         glsr(Router::class)->routePublicPostRequest();
         expect($recorded)->toHaveCount(1);
 
-        // plain permalinks make the rest path "/": the path test must not match every
-        // request, or the no-JS form fallback dies on every plain-permalink site
-        add_filter('rest_url', fn () => home_url('?rest_route=/'));
+        // plain permalinks: rest_url() is home_url('index.php?rest_route=/') — its
+        // path is /index.php, a prefix of every /index.php request. A form POST on
+        // such a site must still route; only ?rest_route= marks a REST request there.
+        // This is what CI runs: a fresh single-site install is plain (the pretty
+        // default in populate_options() is multisite-only), while wp-env is pretty.
+        update_option('permalink_structure', '');
         glsr(Router::class)->routePublicPostRequest();
         expect($recorded)->toHaveCount(2);
+
+        // a filtered rest_url whose path is bare must not match every request either
+        update_option('permalink_structure', '/%postname%/');
+        add_filter('rest_url', fn () => home_url('?rest_route=/'));
+        glsr(Router::class)->routePublicPostRequest();
+        expect($recorded)->toHaveCount(3);
     } finally {
+        update_option('permalink_structure', $permalinks);
         $_SERVER['REQUEST_URI'] = $requestUri;
         unset($_GET['rest_route']);
         remove_all_filters('rest_url');

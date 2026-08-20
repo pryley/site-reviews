@@ -169,9 +169,15 @@ class Router implements ControllerContract
         if (!empty(filter_input(\INPUT_GET, 'rest_route'))) {
             return true; // plain permalinks
         }
+        // Plain permalinks: the REST API is only addressable with ?rest_route=,
+        // and rest_url() is home_url('index.php?rest_route=/') — its path would
+        // classify every /index.php request as REST.
+        if (!get_option('permalink_structure')) {
+            return false;
+        }
         $restPath = (string) parse_url(rest_url(), \PHP_URL_PATH);
         if (in_array($restPath, ['', '/'])) {
-            return false; // plain permalinks make the path "/": only ?rest_route= reaches the REST API
+            return false; // a filtered rest_url with no path: only ?rest_route= reaches the REST API
         }
         $requestPath = (string) parse_url((string) ($_SERVER['REQUEST_URI'] ?? ''), \PHP_URL_PATH);
         return str_starts_with($requestPath, $restPath);
