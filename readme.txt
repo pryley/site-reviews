@@ -213,12 +213,19 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 
 = 8.3.0 (unreleased) =
 
+- Added REST API endpoints for review submission and pagination; the frontend now uses them with an automatic fallback to admin-ajax
 - Fixed checkbox settings being emptied by settings updates that did not come from the settings form (WP-CLI, an importer, or another plugin)
 - Fixed custom message templates and the multilingual setting being reset by settings updates
 - Fixed integration role settings (ProfilePress, Ultimate Member) not saving when every checkbox was unchecked
+- Fixed review form submissions without JavaScript being ignored on some sites using plain permalinks
 - Fixed review text being able to break mid-word when a review is squeezed into a narrow space
 - Fixed scheduled background tasks
 - Fixed the block preview in the editor not updating when some settings are changed
+- Fixed the review form not showing a confirmation message after submission when JavaScript is disabled
+- Fixed the revision links in REST API review responses
+- Improved compatibility with firewalls that block wp-admin requests
+- Improved the speed of review submission and pagination requests
+- Removed the broken review autosave endpoints from the REST API
 
 = 8.2.2 (2026-08-22) =
 
