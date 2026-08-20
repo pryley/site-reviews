@@ -65,6 +65,7 @@ test('the frontend is handed the configuration it runs on', function () {
     expect($script)
         ->toContain('GLSR.action="'.glsr()->prefix.'public_action"')  // the ajax action
         ->toContain('GLSR.ajax_url="'.admin_url('admin-ajax.php').'"')
+        ->toContain('GLSR.rest_url="'.esc_url_raw(rest_url(glsr()->id.'/v1/')).'"')
         ->toContain('GLSR.nameprefix="'.glsr()->id.'"')
         ->toContain('GLSR.version="'.glsr()->version.'"')
         ->toContain('GLSR.validation_strings=')
@@ -74,6 +75,20 @@ test('the frontend is handed the configuration it runs on', function () {
 
     // it is a script, so it has to parse: the object keys are unquoted deliberately
     expect($script)->toStartWith('window.hasOwnProperty("GLSR")');
+});
+
+test('a rest nonce is only offered to logged-in visitors', function () {
+    // Anonymous pages are cached, and a cached nonce is a stale nonce: the REST API refuses
+    // a stale X-WP-Nonce with a 403 before the permission callback runs. So the anonymous
+    // page carries none — and the logged-in page (which caches exclude) carries one, because
+    // it is what keeps a logged-in submitter's identity on their review.
+    wp_set_current_user(0);
+    expect((new EnqueuePublicAssets())->inlineScript())->toContain('GLSR.rest_nonce=false');
+
+    wp_set_current_user(createUser());
+    expect((new EnqueuePublicAssets())->inlineScript())
+        ->toContain('GLSR.rest_nonce="'.wp_create_nonce('wp_rest').'"');
+    wp_set_current_user(0);
 });
 
 test('the inline script can be filtered before it is printed', function () {

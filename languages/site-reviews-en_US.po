@@ -39,7 +39,8 @@ msgstr "There are no reviews yet. Be the first one to write one."
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: plugin/Router.php:223
+#: plugin/Controllers/Api/Version1/RestSubmissionController.php:21
+#: plugin/Router.php:199
 #: views/pages/documentation/support/common-problems-and-solutions.php:62
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr "The form could not be submitted. Please notify the site administrator."
@@ -98,12 +99,12 @@ msgstr "Your review has been submitted!"
 msgid "Your review has been submitted and is pending approval."
 msgstr "Your review has been submitted and is pending approval."
 
-#: plugin/Commands/EnqueuePublicAssets.php:62
+#: plugin/Commands/EnqueuePublicAssets.php:67
 #: plugin/Modules/Html/FieldElements/Rating.php:14
 msgid "Select a Rating"
 msgstr "Select a Rating"
 
-#: plugin/Commands/EnqueuePublicAssets.php:68
+#: plugin/Commands/EnqueuePublicAssets.php:73
 msgid "Close Modal"
 msgstr "Close Modal"
 
@@ -111,10 +112,12 @@ msgstr "Close Modal"
 msgid "Please verify your review"
 msgstr "Please verify your review"
 
+#: plugin/Controllers/Api/Version1/RestRenderController.php:103
 #: plugin/Controllers/VerificationController.php:96
 msgid "Thank you, your review has been verified."
 msgstr "Thank you, your review has been verified."
 
+#: plugin/Controllers/Api/Version1/RestRenderController.php:104
 #: plugin/Controllers/VerificationController.php:97
 msgid "Thank you, your review has been verified and is awaiting approval."
 msgstr "Thank you, your review has been verified and is awaiting approval."
@@ -536,7 +539,7 @@ msgid "Rating, high to low"
 msgstr "Rating, high to low"
 
 #: plugin/Integrations/SureCart/Controllers/ProductController.php:192
-#: plugin/Integrations/WooCommerce/Controllers/MainController.php:153
+#: plugin/Integrations/WooCommerce/Controllers/MainController.php:144
 msgid "verified owner"
 msgstr "verified owner"
 
@@ -2465,7 +2468,7 @@ msgctxt "admin-text"
 msgid "Rollback Site Reviews"
 msgstr "Rollback Site Reviews"
 
-#: plugin/Router.php:226
+#: plugin/Router.php:202
 msgctxt "admin-text"
 msgid "There was an error"
 msgstr "There was an error"
@@ -3743,20 +3746,20 @@ msgctxt "admin-text"
 msgid "Review Content"
 msgstr "Review Content"
 
-#: plugin/Controllers/SettingsController.php:52
+#: plugin/Controllers/SettingsController.php:54
 msgctxt "admin-text"
 msgid "Settings updated."
 msgstr "Settings updated."
 
 #. translators: %s: the missing placeholder tag
-#: plugin/Controllers/SettingsController.php:136
+#: plugin/Controllers/SettingsController.php:149
 #, php-format
 msgctxt "admin-text"
 msgid "You forgot to include the %s placeholder tags in your Custom Text."
 msgstr "You forgot to include the %s placeholder tags in your Custom Text."
 
 #. translators: %s: plugin name
-#: plugin/Controllers/SettingsController.php:154
+#: plugin/Controllers/SettingsController.php:167
 #, php-format
 msgctxt "admin-text"
 msgid "Please install/activate the %s plugin to enable the integration."
@@ -7497,13 +7500,13 @@ msgid "To change the website associated with your license key, go to the %s page
 msgstr "To change the website associated with your license key, go to the %s page and click the \"Manage Sites\" button."
 
 #. translators: %s: a button with the text "reloading"
-#: plugin/Router.php:229
+#: plugin/Router.php:205
 #, php-format
 msgctxt "try reloading the page (admin-text)"
 msgid "Try %s the page."
 msgstr "Try %s the page."
 
-#: plugin/Router.php:230
+#: plugin/Router.php:206
 msgctxt "(admin-text) e.g. try reloading the page"
 msgid "reloading"
 msgstr "reloading"
@@ -8618,7 +8621,7 @@ msgid "New %1$s-star review of %2$s"
 msgstr ""
 
 #. translators: %1$s: plugin name, %2$s: version number
-#: plugin/Controllers/SettingsController.php:161
+#: plugin/Controllers/SettingsController.php:174
 #, php-format
 msgctxt "admin-text"
 msgid "Please update the %1$s plugin to v%2$s or greater to enable the integration."
@@ -8978,4 +8981,12 @@ msgstr ""
 #: plugin/Commands/ProcessCsvFile.php:148
 msgctxt "admin-text"
 msgid "Duplicate row"
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/RestRenderController.php:80
+msgid "The review verification token is invalid."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/RestRenderController.php:87
+msgid "The review does not exist."
 msgstr ""

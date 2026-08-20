@@ -2,7 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestRenderController;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestShortcodeController;
+use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestSubmissionController;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestSummaryController;
 
 class RestController
@@ -12,7 +14,9 @@ class RestController
      */
     public function registerRoutes(): void
     {
+        (new RestRenderController())->registerRoutes();
         (new RestShortcodeController())->register_routes();
+        (new RestSubmissionController())->registerRoutes();
         (new RestSummaryController())->register_routes();
     }
 }

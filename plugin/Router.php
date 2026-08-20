@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Contracts\ControllerContract;
-use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Mutex;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 class Router implements ControllerContract
@@ -87,6 +87,9 @@ class Router implements ControllerContract
         if (glsr()->isAdmin()) {
             return;
         }
+        if ($this->isRestRequest()) {
+            return; // Api\Version1 owns REST submissions; see isRestRequest()
+        }
         $request = Request::inputPost();
         if (!$this->isValidRequest($request)) {
             return;
@@ -156,25 +159,27 @@ class Router implements ControllerContract
     }
 
     /**
-     * @todo: what happens if the IP address cannot be detected?
+     * Whether the request targets the REST API. This route runs on `init`, which fires
+     * before `parse_request` defines REST_REQUEST, so wp_is_serving_rest_request() cannot
+     * answer yet. A REST review submission carries the form's own _action field; without
+     * this check the no-JS fallback route would consume it before the REST server dispatches.
      */
+    protected function isRestRequest(): bool
+    {
+        if (!empty(filter_input(\INPUT_GET, 'rest_route'))) {
+            return true; // plain permalinks
+        }
+        $restPath = (string) parse_url(rest_url(), \PHP_URL_PATH);
+        if (in_array($restPath, ['', '/'])) {
+            return false; // plain permalinks make the path "/": only ?rest_route= reaches the REST API
+        }
+        $requestPath = (string) parse_url((string) ($_SERVER['REQUEST_URI'] ?? ''), \PHP_URL_PATH);
+        return str_starts_with($requestPath, $restPath);
+    }
+
     protected function isValidMutexRequest(Request $request): bool
     {
-        if (!in_array($request->_action, $this->mutexActions())) {
-            return true;
-        }
-        $ipAddress = Helper::clientIp();
-        $hash = Str::hash($ipAddress, 13);
-        $lock = Str::prefix($hash, glsr()->prefix);
-        if (get_transient($lock)) {
-            return false; // is parallel request
-        }
-        $expiration = glsr()->filterInt('router/mutex/expiration', 5, $ipAddress);
-        $transient = set_transient($lock, 1, $expiration);
-        if (!$transient) {
-            return false; // parallel requests cannot set transient
-        }
-        return true;
+        return glsr(Mutex::class)->isValid((string) $request->_action);
     }
 
     protected function isValidPublicNonce(Request $request): bool
@@ -191,13 +196,6 @@ class Router implements ControllerContract
     protected function isValidRequest(Request $request): bool
     {
         return !empty($request->_action) && empty($request->_ajax_request);
-    }
-
-    protected function mutexActions(): array
-    {
-        return glsr()->filterArray('router/mutex/actions', [
-            'submit-review',
-        ]);
     }
 
     protected function post(string $type, Request $request): void

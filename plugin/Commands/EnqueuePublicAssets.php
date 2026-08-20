@@ -57,6 +57,11 @@ class EnqueuePublicAssets extends AbstractCommand
             'captcha' => glsr(Captcha::class)->config(),
             'modal_wrapped_by' => glsr()->filterarray('modal_wrapped_by', ['block']),
             'nameprefix' => glsr()->id,
+            // A wp_rest nonce is only emitted for logged-in page loads, which page caches
+            // exclude. Anonymous pages stay nonce-free so a cached page cannot serve a stale
+            // nonce, which the REST API rejects with a 403 before the permission callback.
+            'rest_nonce' => is_user_logged_in() ? wp_create_nonce('wp_rest') : false,
+            'rest_url' => esc_url_raw(rest_url(glsr()->id.'/v1/')),
             'stars_config' => [
                 'clearable' => false,
                 'tooltip' => __('Select a Rating', 'site-reviews'),

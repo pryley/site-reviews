@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Commands\FetchPagedReviews;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Encryption;
@@ -127,6 +128,12 @@ test('the pagination it returns is unwrapped, because the page already has the w
     ));
 
     expect($response['data']['pagination'])->not->toContain('glsr-navigation');
+});
+
+test('the paged-reviews command answers empty before it has run', function () {
+    // Both transports call response() after handle(); the guard keeps a not-yet-run
+    // command from a null-property fatal all the same.
+    expect((new FetchPagedReviews(pagedRequest([])))->response())->toBe([]);
 });
 
 test('the browser cannot smuggle an attribute the shortcode does not know', function () {

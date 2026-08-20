@@ -4,12 +4,12 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
+use GeminiLabs\SiteReviews\Commands\FetchPagedReviews;
 use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Request;
-use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
 class PublicController extends AbstractController
 {
@@ -43,16 +43,7 @@ class PublicController extends AbstractController
      */
     public function fetchPagedReviewsAjax(Request $request): void
     {
-        glsr()->store(glsr()->paged_handle, $request->toArray());
-        $html = glsr(SiteReviewsShortcode::class)
-            ->normalize($request->cast('atts', 'array'))
-            ->buildReviewsHtml();
-        $response = [
-            'max_num_pages' => $html->max_num_pages,
-            'pagination' => $html->getPagination($wrap = false),
-            'reviews' => $html->getReviews(),
-        ];
-        wp_send_json_success($response);
+        $this->execute(new FetchPagedReviews($request))->sendJsonResponse();
     }
 
     /**

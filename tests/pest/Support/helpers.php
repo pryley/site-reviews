@@ -610,6 +610,20 @@ function sentJson(\ArrayObject $requests, int $index = 0): array
 }
 
 /**
+ * A REST request driven through rest_do_request() — the same path a real HTTP request
+ * takes, permission callbacks and all. The caller boots its own WP_REST_Server first
+ * (see RestApiTest's beforeEach).
+ */
+function restRequest(string $method, string $route, array $params = []): \WP_REST_Response
+{
+    $request = new \WP_REST_Request($method, $route);
+    foreach ($params as $key => $value) {
+        $request->set_param($key, $value);
+    }
+    return rest_do_request($request);
+}
+
+/**
  * An approved review, created through the plugin's own public API so the ratings/assigned tables
  * are populated exactly as in production.
  */

@@ -5,6 +5,7 @@ use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\createReviews;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\restRequest;
 
 /*
  * The REST API, driven through rest_do_request() — the same path a real HTTP request takes,
@@ -34,15 +35,6 @@ beforeEach(function () {
 afterEach(function () {
     unset($GLOBALS['wp_rest_server']);
 });
-
-function restRequest(string $method, string $route, array $params = []): WP_REST_Response
-{
-    $request = new WP_REST_Request($method, $route);
-    foreach ($params as $key => $value) {
-        $request->set_param($key, $value);
-    }
-    return rest_do_request($request);
-}
 
 function actAsAdmin(): int
 {

@@ -17,12 +17,12 @@
  * SHADOWED NAMES — these calls must stay unqualified in the plugin, or the
  * shadow silently loses its grip (a `\` prefix or `use function` bypasses it):
  *   Modules:          random_bytes, sodium_crypto_secretbox, sodium_crypto_secretbox_open,
- *                     defined, function_exists
+ *                     defined, function_exists, set_transient
  *   Modules\Avatars:  fwrite
  *   Controllers:      function_exists
  *   Helpers:          extension_loaded, preg_replace_callback
  *   Migrations\Migrate_8_0_0: defined, class_exists
- *   (root):           extension_loaded, class_exists, set_transient, error_get_last
+ *   (root):           extension_loaded, class_exists, error_get_last
  *   filter_input is armed here too; its shadow lives in filter-input.php.
  *
  * Armed behaviours that are not a throw: defined/function_exists/class_exists/
@@ -124,6 +124,22 @@ if (!function_exists(__NAMESPACE__.'\sodium_crypto_secretbox_open')) {
             throw new \SodiumException('sodium_crypto_secretbox_open failed (armed by the test suite)');
         }
         return \sodium_crypto_secretbox_open($ciphertext, $nonce, $key);
+    }
+}
+
+if (!function_exists(__NAMESPACE__.'\set_transient')) {
+    /**
+     * Armed, the transient write reports failure — two requests racing for
+     * the Mutex lock, where the loser must be refused.
+     *
+     * @param mixed $value
+     */
+    function set_transient(string $transient, $value, int $expiration = 0): bool
+    {
+        if (functionFails('set_transient')) {
+            return false;
+        }
+        return \set_transient($transient, $value, $expiration);
     }
 }
 
@@ -253,22 +269,6 @@ if (!function_exists(__NAMESPACE__.'\class_exists')) {
             return false;
         }
         return \class_exists($class, $autoload);
-    }
-}
-
-if (!function_exists(__NAMESPACE__.'\set_transient')) {
-    /**
-     * Armed, the transient write reports failure — two requests racing for
-     * the Router's mutex lock, where the loser must be refused.
-     *
-     * @param mixed $value
-     */
-    function set_transient(string $transient, $value, int $expiration = 0): bool
-    {
-        if (functionFails('set_transient')) {
-            return false;
-        }
-        return \set_transient($transient, $value, $expiration);
     }
 }
 

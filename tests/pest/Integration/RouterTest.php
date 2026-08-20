@@ -3,6 +3,7 @@
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Encryption;
+use GeminiLabs\SiteReviews\Modules\Mutex;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Router;
@@ -336,6 +337,43 @@ test('the public router does not run in the admin', function () {
     expect($recorded)->toHaveCount(0);
 });
 
+test('a post request aimed at the rest api is left for the rest controllers', function () {
+    // `init` fires during a REST request too — before parse_request has defined
+    // REST_REQUEST — and a REST review submission carries the form's own _action field.
+    // Without the guard, this route would consume the POST (create the review, then
+    // redirect and exit) before the REST server ever dispatched to Api\Version1.
+    formPost(['_action' => 'test-route']);
+    $recorded = recordRoute('route/public/test-route');
+    $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+    try {
+        // pretty permalinks: the request path is under the rest url
+        $_SERVER['REQUEST_URI'] = (string) parse_url(rest_url('site-reviews/v1/submissions'), PHP_URL_PATH);
+        glsr(Router::class)->routePublicPostRequest();
+
+        // plain permalinks: the rest api is addressed by the rest_route query var
+        $_SERVER['REQUEST_URI'] = '/index.php';
+        $_GET['rest_route'] = '/site-reviews/v1/submissions';
+        glsr(Router::class)->routePublicPostRequest();
+
+        expect($recorded)->toHaveCount(0);
+
+        // and the same request aimed at a page is still routed
+        unset($_GET['rest_route']);
+        glsr(Router::class)->routePublicPostRequest();
+        expect($recorded)->toHaveCount(1);
+
+        // plain permalinks make the rest path "/": the path test must not match every
+        // request, or the no-JS form fallback dies on every plain-permalink site
+        add_filter('rest_url', fn () => home_url('?rest_route=/'));
+        glsr(Router::class)->routePublicPostRequest();
+        expect($recorded)->toHaveCount(2);
+    } finally {
+        $_SERVER['REQUEST_URI'] = $requestUri;
+        unset($_GET['rest_route']);
+        remove_all_filters('rest_url');
+    }
+});
+
 /*
  * The GET routes.
  *
@@ -410,9 +448,7 @@ test('only the review submission is protected against parallel requests', functi
     // Everything else is cheap enough, or read-only. The list is asserted by name because
     // adding to it makes a route slower for every visitor, and removing from it is how the
     // protection below gets switched off by accident.
-    $actions = protectedMethod(Router::class, 'mutexActions')->invoke(glsr(Router::class));
-
-    expect($actions)->toBe(['submit-review']);
+    expect(glsr(Mutex::class)->actions())->toBe(['submit-review']);
 });
 
 test('a second submission arriving in the same moment is refused', function () {
