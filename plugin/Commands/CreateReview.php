@@ -162,6 +162,11 @@ class CreateReview extends AbstractCommand
         ];
     }
 
+    public function review(): Review
+    {
+        return $this->review;
+    }
+
     public function submitted(): array
     {
         $values = glsr(SubmittedFieldsDefaults::class)->filter($this->request->toArray());

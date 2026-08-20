@@ -133,6 +133,7 @@ class Form extends \ArrayObject implements FormContract
             'errors' => [],
             'failed' => false,
             'message' => '',
+            'success' => false,
             'values' => $values,
         ]);
     }
@@ -279,6 +280,9 @@ class Form extends \ArrayObject implements FormContract
         ];
         if (!empty($this->session->errors)) {
             $classes[] = glsr(Style::class)->validation('form_message_failed');
+        }
+        if ($this->session->success) {
+            $classes[] = glsr(Style::class)->validation('form_message_success');
         }
         $classes = implode(' ', $classes);
         $classes = glsr(Sanitizer::class)->sanitizeAttrClass($classes);

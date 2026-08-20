@@ -18,6 +18,7 @@ class ValidateForm
         glsr()->sessionPluck('form_errors');
         glsr()->sessionPluck('form_invalid');
         glsr()->sessionPluck('form_message');
+        glsr()->sessionPluck('form_success');
     }
 
     /**

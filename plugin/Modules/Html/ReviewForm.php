@@ -53,6 +53,7 @@ class ReviewForm extends Form
             'errors' => glsr()->session()->array('form_errors'),
             'failed' => glsr()->session()->cast('form_invalid', 'bool'),
             'message' => glsr()->session()->cast('form_message', 'string'),
+            'success' => glsr()->session()->cast('form_success', 'bool'),
             'values' => $values ?: glsr()->session()->array('form_values'),
         ]);
     }

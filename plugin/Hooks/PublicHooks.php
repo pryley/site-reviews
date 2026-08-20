@@ -16,6 +16,7 @@ class PublicHooks extends AbstractHooks
             ['renderSchema', 'wp_footer'],
             ['submitReview', 'site-reviews/route/public/submit-review'],
             ['submitReviewAjax', 'site-reviews/route/ajax/submit-review'],
+            ['submittedReview', 'site-reviews/route/get/public/submitted'],
         ]);
     }
 }

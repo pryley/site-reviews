@@ -6,6 +6,8 @@ use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
 use GeminiLabs\SiteReviews\Commands\FetchPagedReviews;
 use GeminiLabs\SiteReviews\Contracts\BuilderContract;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\Style;
@@ -69,9 +71,19 @@ class PublicController extends AbstractController
      */
     public function submitReview(Request $request): void
     {
-        $command = $this->execute(new CreateReview($request));
+        $command = new CreateReview($request);
+        $this->execute($command);
         if ($command->successful()) {
-            wp_safe_redirect($command->referer()); // @todo add review ID to referer?
+            $redirect = $command->referer();
+            $review = $command->review();
+            if ($review->isValid()) {
+                // carry the success message across the redirect for the no-JS form
+                $token = glsr(Encryption::class)->encryptRequest('submitted', [$review->ID, time()]);
+                if (!empty($token)) {
+                    $redirect = add_query_arg(glsr()->prefix, $token, $redirect);
+                }
+            }
+            wp_safe_redirect($redirect);
             glsr_exit();
         }
     }
@@ -83,5 +95,28 @@ class PublicController extends AbstractController
     {
         $command = $this->execute(new CreateReview($request));
         $command->sendJsonResponse();
+    }
+
+    /**
+     * A no-JS form submission redirects back with an encrypted token in the URL.
+     * This stores the success message in the session before the form renders.
+     * The token expires so that a shared or cached URL does not replay the message.
+     *
+     * @action site-reviews/route/get/public/submitted
+     */
+    public function submittedReview(Request $request): void
+    {
+        $review = glsr_get_review(Arr::getAs('int', $request->data, 0));
+        if (!$review->isValid()) {
+            return;
+        }
+        if (time() - Arr::getAs('int', $request->data, 1) > 5 * \MINUTE_IN_SECONDS) {
+            return;
+        }
+        $message = $review->is_approved
+            ? __('Your review has been submitted!', 'site-reviews')
+            : __('Your review has been submitted and is pending approval.', 'site-reviews');
+        glsr()->sessionSet('form_message', $message);
+        glsr()->sessionSet('form_success', true);
     }
 }

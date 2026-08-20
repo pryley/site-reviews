@@ -5,6 +5,7 @@ use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Honeypot;
+use GeminiLabs\SiteReviews\Modules\Html\ReviewForm;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 use GeminiLabs\SiteReviews\Tests\InteractsWithAjax;
@@ -19,9 +20,9 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 uses(InteractsWithAjax::class, InteractsWithExits::class, SubmitsReviews::class);
 
 /*
- * The front end: the four routes a VISITOR can reach, and the schema in the footer.
+ * The front end: the routes a VISITOR can reach, and the schema in the footer.
  *
- * Everything runs for logged-out people on someone else's site, and three of the four are unguarded
+ * Everything runs for logged-out people on someone else's site, and most routes are unguarded
  * — no nonce, since a page cache would serve a stale one. So each route decides what it will hand
  * out, and the interesting assertions are about what they REFUSE:
  *
@@ -31,6 +32,9 @@ uses(InteractsWithAjax::class, InteractsWithExits::class, SubmitsReviews::class)
  *                        reason the shortcode's restrict() matters.
  *   submit-review        the form post. Redirects on success; on failure does NOT, because the
  *                        errors must survive to be printed.
+ *   submitted            the page a no-javascript submission redirects back to. The encrypted
+ *                        token in the URL is what carries "your review went through" across the
+ *                        redirect, because the session dies with the request that set it.
  *
  * The schema is the JSON-LD Google reads, printed in the footer unless an SEO plugin owns it —
  * printing two is worse than none.
@@ -194,6 +198,85 @@ test('a review submitted by a plain form post redirects back to the page it came
     );
 
     expect($location)->not->toBeEmpty();
+});
+
+/**
+ * A submission built the way the redirect test above explains: signed, with an
+ * empty honeypot field, so no validator refuses it.
+ */
+function signedSubmission(array $values): Request
+{
+    $values['form_signature'] = glsr(Encryption::class)->encrypt(
+        serialize(['form_id' => $values['form_id']])
+    );
+    $values[glsr(Honeypot::class)->hash($values['form_id'])] = '';
+    return new Request($values);
+}
+
+test('the page the redirect lands on says the review was submitted', function () {
+    // The other half of the no-javascript path, end to end. The success message lives in the
+    // session, and the session is a plain array that dies with the request — so on its own, the
+    // redirect would land on a silent page and the person would not know their review went
+    // through. The redirect therefore carries an encrypted `submitted` token in the URL; the
+    // router decrypts it on the landing request, the route below puts the message back in the
+    // session, and the re-rendered form prints what the javascript would have shown.
+    $request = signedSubmission($this->request([
+        'content' => 'Submitted without javascript.',
+        'email' => 'jane@example.org',
+        'name' => 'Jane',
+        'rating' => 5,
+        'terms' => 1,
+        'title' => 'A lovely stay',
+    ]));
+
+    $location = $this->expectsRedirectAndExit(
+        fn () => glsr(PublicController::class)->submitReview($request)
+    );
+
+    // What the router does with the landing URL: decrypt the token into an action and its data.
+    parse_str((string) parse_url($location, \PHP_URL_QUERY), $query);
+    $decrypted = glsr(Encryption::class)->decryptRequest((string) ($query[glsr()->prefix] ?? ''));
+    expect($decrypted['action'] ?? '')->toBe('submitted');
+
+    glsr(PublicController::class)->submittedReview(new Request($decrypted));
+
+    expect((new ReviewForm())->build())
+        ->toContain('has been submitted')
+        ->toContain('glsr-form-success');
+});
+
+test('a moderated review says it is pending, rather than claiming to be live', function () {
+    // The same distinction the verification email makes: a site that moderates reviews must not
+    // tell somebody their review is published when it is not.
+    $review = createReview(['is_approved' => false]);
+
+    glsr(PublicController::class)->submittedReview(new Request([
+        'data' => [$review->ID, time()],
+    ]));
+
+    expect(glsr()->sessionGet('form_message'))->toContain('pending approval');
+});
+
+test('a stale submitted token does not greet every later visit with the message', function () {
+    // The token rides in the URL, and URLs get bookmarked, shared and page-cached. Five minutes
+    // covers the redirect; after that the token is dead and the page renders as normal.
+    $review = createReview();
+
+    glsr(PublicController::class)->submittedReview(new Request([
+        'data' => [$review->ID, time() - (6 * \MINUTE_IN_SECONDS)],
+    ]));
+
+    expect(glsr()->sessionGet('form_message'))->toBe('');
+});
+
+test('a submitted token for a review that is gone does nothing', function () {
+    // Deleted between the redirect and the landing, or a token forged from nothing — either way
+    // the page renders as normal rather than thanking somebody for a review that is not there.
+    glsr(PublicController::class)->submittedReview(new Request([
+        'data' => [999999, time()],
+    ]));
+
+    expect(glsr()->sessionGet('form_message'))->toBe('');
 });
 
 test('a submission that fails does NOT redirect, because the errors have to survive', function () {
