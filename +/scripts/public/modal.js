@@ -81,6 +81,7 @@ class Modal {
             _closed: this._onClosed.bind(this),
             _dialogClick: this._onDialogClick.bind(this),
             _open: this._openModal.bind(this),
+            _transitionend: this._onTransitionEnd.bind(this),
         };
         this.triggers = [];
         this._config(config)
@@ -152,6 +153,27 @@ class Modal {
         }
     }
 
+    // The dialog's height is fit-content, and a content swap moves it in one
+    // frame. FLIP smooths it: pin the height the dialog last painted at, let
+    // layout resolve the height the new content wants, and let the shadow
+    // sheet's height transition carry it across. The pre-swap height cannot
+    // be measured here — by the time the mutation callback runs, layout
+    // already answers for the new content — so it is the tracked height the
+    // resize observer saw last. Pin and measurements land before paint, so
+    // neither is ever visible; a retarget mid-transition starts from the
+    // tracked height, which follows the transition frame by frame.
+    _animateResize () {
+        const dialog = this._dialog;
+        const from = this._lastHeight;
+        if (!dialog || !dialog.open || null == from) return;
+        dialog.style.height = '';
+        const to = dialog.offsetHeight;
+        if (Math.abs(to - from) < 1) return;
+        dialog.style.height = from + 'px';
+        void dialog.offsetHeight; // commit the pinned height before retargeting
+        dialog.style.height = to + 'px';
+    }
+
     _closeModal (event = null) {
         if (!this._dialog || !this._dialog.open) return;
         this._dialog.close()
@@ -195,7 +217,23 @@ class Modal {
         dialog.addEventListener('cancel', this.events._cancel)
         dialog.addEventListener('click', this.events._dialogClick)
         dialog.addEventListener('close', this.events._closed)
+        dialog.addEventListener('transitionend', this.events._transitionend)
         host.addEventListener('click', this.events._click)
+        // Region mutations are the discrete moments to glide between — hidden
+        // included, because content mounted hidden moves the dialog on the
+        // reveal, not the mount. The ResizeObserver only keeps _lastHeight
+        // current (offsetHeight rather than the bounding rect, which the
+        // entrance scale() would distort); it must not retarget the dialog
+        // itself, or it would chase every frame of a size change already in
+        // transition.
+        this._observer = new MutationObserver(() => this._animateResize());
+        this._observer.observe(host, { attributeFilter: ['hidden'], childList: true, subtree: true })
+        this._resizeObserver = new ResizeObserver(() => {
+            if (this._dialog) {
+                this._lastHeight = this._dialog.offsetHeight;
+            }
+        });
+        this._resizeObserver.observe(dialog)
     }
 
     // A form with unsaved input blocks the first Esc or backdrop close and
@@ -262,6 +300,15 @@ class Modal {
         }
     }
 
+    // Once the glide lands, the pin comes off so the height is intrinsic
+    // again; px to fit-content resolves to the same used value, so nothing
+    // moves. A retargeted transition ends with transitioncancel, not here.
+    _onTransitionEnd (event) {
+        if ('height' === event.propertyName && event.target === this._dialog) {
+            this._dialog.style.height = '';
+        }
+    }
+
     _openModal (event) {
         if (this.root) return;
         this._trigger = document.activeElement;
@@ -312,13 +359,22 @@ class Modal {
     }
 
     _reset () {
+        if (this._observer) {
+            this._observer.disconnect()
+        }
+        if (this._resizeObserver) {
+            this._resizeObserver.disconnect()
+        }
         this.root = null;
         this._body = null;
         this._cancelWarned = false;
         this._close = null;
         this._dialog = null;
         this._dom = null;
+        this._lastHeight = null;
+        this._observer = null;
         this._regions = null;
+        this._resizeObserver = null;
         this._trigger = null;
     }
 

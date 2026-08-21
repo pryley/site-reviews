@@ -33,6 +33,7 @@ dialog {
     transform: scale(.92);
     transition:
         display var(--glsr-duration-fast, .15s) allow-discrete,
+        height var(--glsr-duration-fast, .15s) cubic-bezier(0, 0, .2, 1),
         opacity var(--glsr-duration-fast, .15s) cubic-bezier(0, 0, .2, 1),
         overlay var(--glsr-duration-fast, .15s) allow-discrete,
         transform var(--glsr-duration-fast, .15s) cubic-bezier(0, 0, .2, 1);
@@ -42,7 +43,15 @@ dialog[open] {
     display: flex;
     opacity: 1;
     transform: scale(1);
-    transition-duration: var(--glsr-duration-slow, .3s);
+    /* One duration per property of the transition shorthand above, in the
+       same order: height alone stays fast, so a content glide is quicker
+       than the entrance. */
+    transition-duration:
+        var(--glsr-duration-slow, .3s),
+        var(--glsr-duration-fast, .15s),
+        var(--glsr-duration-slow, .3s),
+        var(--glsr-duration-slow, .3s),
+        var(--glsr-duration-slow, .3s);
 }
 @starting-style {
     dialog[open] {
