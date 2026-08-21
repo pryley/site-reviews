@@ -31,7 +31,7 @@ export const legacyPost = async (formOrData, headers = {}) => {
     }
 }
 
-const pagedReviews = (values) => _send({
+const pagedReviews = (values) => send({
     legacy: () => {
         const legacyValues = { page: values.page, schema: values.schema, url: values.url };
         Object.entries(values.atts || {}).forEach(([key, value]) => legacyValues[`atts][${key}`] = value);
@@ -42,14 +42,14 @@ const pagedReviews = (values) => _send({
     path: 'render/reviews',
 })
 
-const review = (reviewId, values = {}) => _send({
+const review = (reviewId, values = {}) => send({
     legacy: () => legacyData(values.verified ? 'verified-review' : 'approved-review', Object.assign({}, values, { review_id: reviewId })),
     method: 'GET',
     params: values,
     path: `render/reviews/${reviewId}`,
 })
 
-const submit = (formData) => _send({
+const submit = (formData) => send({
     body: formData,
     legacy: () => formData,
     method: 'POST',
@@ -120,7 +120,13 @@ const _restUrl = (path, params = {}) => {
     return url;
 }
 
-const _send = async ({ body, legacy, method, params, path }) => {
+/**
+ * The generic transport: REST first, admin-ajax on any signal that the REST
+ * API itself is unavailable. `legacy` is a thunk building the admin-ajax
+ * body (see legacyData) so the fallback costs nothing on the REST path.
+ * Public surface — addons ride it for their own routes (GLSR.request).
+ */
+const send = async ({ body, legacy, method, params, path }) => {
     try {
         return await _rest(method, path, params, body);
     } catch (e) {
@@ -129,4 +135,4 @@ const _send = async ({ body, legacy, method, params, path }) => {
     }
 }
 
-export default { pagedReviews, review, submit }
+export default { data: legacyData, pagedReviews, review, send, submit }

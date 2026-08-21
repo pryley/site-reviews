@@ -142,6 +142,7 @@ if (!window.hasOwnProperty('GLSR')) {
     window.GLSR = {};
 }
 window.GLSR.ajax = Ajax;
+window.GLSR.request = Request;
 window.GLSR.forms = [];
 window.GLSR.pagination = [];
 window.GLSR.Event = Event;
