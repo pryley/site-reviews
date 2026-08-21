@@ -77,7 +77,7 @@ abstract class Addon implements PluginContract
      */
     public function action(string $hook, ...$args): void
     {
-        if ($this->host instanceof PluginContract) {
+        if ($this->host instanceof PluginContract && $this->hasLegacyHooks()) {
             do_action_deprecated(static::ID."/{$hook}", $args, $this->host->version, $this->hookPrefix()."/{$hook}");
         }
         $this->pluginAction($hook, ...$args);
@@ -300,10 +300,21 @@ abstract class Addon implements PluginContract
      */
     protected function deprecatedHook(string $hook, array $args): array
     {
-        if ($this->host instanceof PluginContract && !empty($args)) {
+        if ($this->host instanceof PluginContract && !empty($args) && $this->hasLegacyHooks()) {
             $args[0] = apply_filters_deprecated(static::ID."/{$hook}", $args, $this->host->version, $this->hookPrefix()."/{$hook}");
         }
         return $args;
+    }
+
+    /**
+     * Whether standalone releases of this addon exist whose {id}/{hook} tags
+     * third-party code may still listen on. An addon that only ever shipped
+     * as a beta overrides this to false: there is no legacy surface to
+     * bridge, so its hooks fire under the hosted prefix alone.
+     */
+    protected function hasLegacyHooks(): bool
+    {
+        return true;
     }
 
     /**

@@ -164,6 +164,40 @@ class VersionStampedModule extends HostedAddon
     public const VERSION = '1.2.3';
 }
 
+/** An addon that only ever shipped as a beta: no legacy hook surface to bridge. */
+class BetaOnlyModule extends HostedAddon
+{
+    protected function hasLegacyHooks(): bool
+    {
+        return false;
+    }
+}
+
+test('a beta-only addon fires no legacy alias at all', function () {
+    [$host] = hostedFixture();
+    $module = new BetaOnlyModule($host);
+    $heard = [];
+    $deprecations = [];
+    add_action('deprecated_hook_run', function ($hook) use (&$deprecations) { $deprecations[] = $hook; });
+    add_filter('site-reviews-hosted-addon/greeting', function ($value) use (&$heard) {
+        $heard[] = 'filter';
+        return $value.' (legacy)';
+    });
+    add_action('site-reviews-hosted-addon/departed', function () use (&$heard) { $heard[] = 'action'; });
+    add_filter('site-reviews-premium-host/hosted-thing/greeting', function ($value) use (&$heard) {
+        $heard[] = 'hosted';
+        return $value.' (hosted)';
+    });
+
+    expect($module->filterString('greeting', 'hello'))->toBe('hello (hosted)');
+    $module->action('departed');
+
+    // The hosted name is the only name: the legacy listeners hear nothing
+    // and nothing deprecates, because no standalone release ever existed.
+    expect($heard)->toBe(['hosted'])
+        ->and($deprecations)->toBe([]);
+});
+
 test('a module with a stamped version reports it instead of the host version', function () {
     [$host] = hostedFixture();
 
