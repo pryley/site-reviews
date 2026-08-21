@@ -33,7 +33,7 @@ function glsr_uninstall_all()
     glsr_uninstall_minimal();
     glsr_uninstall_all_delete_reviews();
     glsr_uninstall_all_delete_tables();
-    glsr_uninstall_all_delete_logs();
+    glsr_uninstall_all_delete_uploads();
     glsr_uninstall_all_cleanup();
 }
 
@@ -56,21 +56,18 @@ function glsr_uninstall_all_cleanup()
     $wpdb->query("OPTIMIZE TABLE {$wpdb->usermeta}");
 }
 
-function glsr_uninstall_all_delete_logs()
-{
-    require_once ABSPATH.'wp-admin/includes/file.php';
-    global $wp_filesystem;
-    // delete the Site Reviews logs directory
-    if (WP_Filesystem()) {
-        $uploads = wp_upload_dir(null, true, true); // do not use the cached path
-        $dirname = trailingslashit($uploads['basedir'].'/site-reviews/logs');
-        $wp_filesystem->rmdir(wp_normalize_path($dirname), true);
-    }
-}
-
 function glsr_uninstall_all_delete_reviews()
 {
     global $wpdb;
+    // delete attached media (e.g. review images) before their parent posts go
+    $attachmentIds = $wpdb->get_col("
+        SELECT ID FROM {$wpdb->posts}
+        WHERE post_type = 'attachment'
+        AND post_parent IN (SELECT ID FROM {$wpdb->posts} WHERE post_type = 'site-review')
+    ");
+    foreach ($attachmentIds as $attachmentId) {
+        wp_delete_attachment((int) $attachmentId, true);
+    }
     // delete all reviews and revisions
     $wpdb->query("
         DELETE p, pr, tr, pm
@@ -105,6 +102,60 @@ function glsr_uninstall_all_delete_tables()
     $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_assigned_terms");
     $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_assigned_posts");
     $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_ratings");
+}
+
+function glsr_uninstall_all_delete_uploads()
+{
+    require_once ABSPATH.'wp-admin/includes/file.php';
+    global $wp_filesystem;
+    if (!WP_Filesystem()) {
+        return;
+    }
+    // delete the Site Reviews uploads directory (logs, review images)
+    $uploads = wp_upload_dir(null, true, true); // do not use the cached path
+    $basedir = realpath($uploads['basedir']);
+    $dirname = trailingslashit($uploads['basedir']).'site-reviews';
+    $realDirname = realpath($dirname);
+    if (false === $basedir || false === $realDirname) {
+        return;
+    }
+    // containment: refuse to delete anything at or outside of the uploads
+    // directory itself — only a path strictly inside it may go
+    if (0 !== strpos($realDirname, $basedir.DIRECTORY_SEPARATOR)) {
+        return;
+    }
+    if (!glsr_uninstall_is_dir_safe_to_delete($dirname)) {
+        return;
+    }
+    $wp_filesystem->rmdir(wp_normalize_path($dirname), true);
+}
+
+/**
+ * Refuses a directory that is, or contains, a symlink: deleting through one
+ * could reach files outside of the uploads directory.
+ */
+function glsr_uninstall_is_dir_safe_to_delete(string $dir): bool
+{
+    if (is_link($dir)) {
+        return false;
+    }
+    $entries = @scandir($dir);
+    if (false === $entries) {
+        return false;
+    }
+    foreach ($entries as $entry) {
+        if ('.' === $entry || '..' === $entry) {
+            continue;
+        }
+        $path = $dir.'/'.$entry;
+        if (is_link($path)) {
+            return false;
+        }
+        if (is_dir($path) && !glsr_uninstall_is_dir_safe_to_delete($path)) {
+            return false;
+        }
+    }
+    return true;
 }
 
 function glsr_uninstall_minimal()
