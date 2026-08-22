@@ -258,9 +258,9 @@ abstract class Addon implements PluginContract
     public function storageKey(): string
     {
         if ($this->host instanceof PluginContract) {
-            return Str::snakeCase($this->host->id);
+            return Database\OptionManager::addonKey($this->host->id);
         }
-        return Str::snakeCase(static::ID);
+        return Database\OptionManager::addonKey(static::ID);
     }
 
     /**

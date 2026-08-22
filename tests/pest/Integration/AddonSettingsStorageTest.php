@@ -216,6 +216,111 @@ test('the legacy subtree is garbage-collected on the next settings save', functi
 });
 
 /*
+ * Foreign rows: the Notifications addon has always kept its custom
+ * notifications list in the option its snake_cased id resolves to — the same
+ * key the storage rework claimed for that addon's settings row. v8.2.0/v8.2.1
+ * stamped version keys and the settings subtree into the list; the mixed row
+ * serialized as a JSON object and collapsed the addon's Backbone UI into one
+ * invalid model, so every save posted an empty list and destroyed the stored
+ * notifications. A row without a top-level "settings" key is now the addon's
+ * own (OptionManager::isAddonRow): it is never stamped, mounted, or claimed,
+ * and the addon's settings stay in the parent's row — pre-rework behaviour —
+ * until the addon vacates the key.
+ */
+
+test('a row an addon keeps under its snake_cased id is never adopted as core storage', function () {
+    update_option('site_reviews_test_addon', [['uid' => 'a1'], ['uid' => 'b2']], true);
+    seedLegacy('legacy');
+
+    glsr(OptionManager::class)->updateVersion();          // does not stamp the foreign row
+    glsr(TestAddonController::class)->migrateOptions();   // does not adopt it
+
+    expect(get_option('site_reviews_test_addon'))->toBe([['uid' => 'a1'], ['uid' => 'b2']])
+        ->and(glsr_get_option('addons.test-addon.enabled'))->toBe('legacy'); // the legacy subtree still serves
+});
+
+test('a settings write declines a foreign row and stays in the parent\'s row', function () {
+    update_option('site_reviews_test_addon', [['uid' => 'a1']], true);
+
+    glsr(OptionManager::class)->set('settings.addons.test-addon.enabled', 'yes');
+
+    // split() left the subtree in the parent's row; nothing garbage-collected.
+    expect(get_option('site_reviews_test_addon'))->toBe([['uid' => 'a1']])
+        ->and(coreRow()['settings']['addons']['test-addon']['enabled'])->toBe('yes')
+        ->and(glsr_get_option('addons.test-addon.enabled'))->toBe('yes');
+});
+
+test('the boot path leaves a foreign row alone and the saved settings keep serving', function () {
+    // v8.2.0/v8.2.1 did the damage here with no user interaction at all:
+    // mergeDefaults() composed [] over the legacy subtree, replace() split the
+    // defaults into the foreign row, and the saved subtree left the parent's
+    // row on the first request after the update.
+    update_option('site_reviews_test_addon', [['uid' => 'a1']], true);
+    $core = coreRow();
+    $core['version'] = '8.1.0';
+    $core['settings']['addons']['test-addon']['enabled'] = 'saved-by-user';
+    update_option(OptionManager::databaseKey(), $core, true);
+    glsr()->discard('settings');
+
+    // MainController::onInit — init:5, every request:
+    glsr(OptionManager::class)->mergeDefaults(glsr()->defaults());
+    glsr(OptionManager::class)->updateVersion();
+
+    expect(get_option('site_reviews_test_addon'))->toBe([['uid' => 'a1']])
+        ->and(glsr_get_option('addons.test-addon.enabled'))->toBe('saved-by-user');
+});
+
+test('an empty row is the addon\'s too: an addon that stored an empty list', function () {
+    update_option('site_reviews_test_addon', [], true);
+
+    glsr(OptionManager::class)->set('settings.addons.test-addon.enabled', 'yes');
+
+    expect(get_option('site_reviews_test_addon'))->toBe([])
+        ->and(coreRow()['settings']['addons']['test-addon']['enabled'])->toBe('yes');
+});
+
+test('migrateOptions strips the stale stamps v8.2.0/v8.2.1 wrote into a foreign row', function () {
+    update_option('site_reviews_test_addon', [['uid' => 'a1'], 'version' => '2.3.4', 'version_upgraded_from' => '0.0.0'], true);
+
+    glsr(TestAddonController::class)->migrateOptions();
+
+    // The stamps are gone and the row serializes as a JSON array again — the
+    // object shape is what broke the Notifications admin UI.
+    expect(get_option('site_reviews_test_addon'))->toBe([['uid' => 'a1']])
+        ->and(json_encode(get_option('site_reviews_test_addon')))->toBe('[{"uid":"a1"}]');
+});
+
+test('a row that held only stale stamps is freed and the legacy migration runs at once', function () {
+    // The addon's list was empty, so the 8.2.x stamps are all the row holds.
+    update_option('site_reviews_test_addon', ['version' => '2.3.4', 'version_upgraded_from' => '0.0.0'], true);
+    seedLegacy('from-legacy');
+
+    glsr(TestAddonController::class)->migrateOptions();
+
+    expect(get_option('site_reviews_test_addon')['settings']['enabled'])->toBe('from-legacy');
+});
+
+test('a mixed row that gained a settings subtree under 8.2.x is core\'s row', function () {
+    // Damage done before the guard existed: a save wrote the subtree into the
+    // shared row. Core owns it now — the settings serve, the stray entries
+    // ride along untouched until the addon's own migration extracts them.
+    update_option('site_reviews_test_addon', [
+        ['uid' => 'a1'],
+        'settings' => ['enabled' => 'saved'],
+        'version' => '2.0.0',
+    ], true);
+
+    glsr(OptionManager::class)->updateVersion();
+    glsr(TestAddonController::class)->migrateOptions();
+
+    $row = get_option('site_reviews_test_addon');
+    expect(glsr_get_option('addons.test-addon.enabled'))->toBe('saved')
+        ->and($row['version'])->toBe('2.3.4')
+        ->and($row['version_upgraded_from'])->toBe('2.0.0')
+        ->and($row[0])->toBe(['uid' => 'a1']);
+});
+
+/*
  * Short config keys.
  */
 

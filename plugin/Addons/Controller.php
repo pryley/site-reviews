@@ -379,7 +379,23 @@ abstract class Controller extends AbstractController
             return; // a host imports its own state
         }
         $key = $addon->storageKey();
-        if (false !== get_option($key)) {
+        $stored = get_option($key);
+        if (is_array($stored) && !OptionManager::isAddonRow($stored)) {
+            // The key holds the addon's own data (see OptionManager::isAddonRow).
+            // Strip the stale stamps v8.2.0/v8.2.1 wrote into it; the addon's
+            // settings stay in the parent's row until the addon vacates the key.
+            $stripped = array_diff_key($stored, array_flip(['version', 'version_upgraded_from']));
+            if ($stripped === $stored) {
+                return; // the addon's own data; the key is taken
+            }
+            if (!empty($stripped)) {
+                update_option($key, $stripped, true);
+                return; // the addon's own data, now clean of the stale stamps
+            }
+            delete_option($key); // only stale stamps held the key; migrate below
+            $stored = false;
+        }
+        if (false !== $stored) {
             return;
         }
         $legacy = Arr::consolidate(glsr(OptionManager::class)->wp(OptionManager::databaseKey(), []));

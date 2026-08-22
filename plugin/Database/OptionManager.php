@@ -155,6 +155,18 @@ class OptionManager
     }
 
     /**
+     * Whether a stored option value is an addon settings row this class wrote.
+     * Every row split() or the addon migration writes has a top-level
+     * "settings" key.
+     *
+     * @param mixed $stored
+     */
+    public static function isAddonRow($stored): bool
+    {
+        return is_array($stored) && array_key_exists('settings', $stored);
+    }
+
+    /**
      * True while persist() is writing its already-split settings. The
      * settings-form sanitize callback (registered with register_setting, so
      * WP fires it on EVERY update_option of the core key) must stand down
@@ -311,7 +323,11 @@ class OptionManager
             }
             $key = $addon->storageKey();
             if (!array_key_exists($key, $writes)) {
-                $writes[$key] = Arr::consolidate(get_option($key));
+                $stored = get_option($key);
+                if (is_array($stored) && !static::isAddonRow($stored)) {
+                    continue; // the addon's own data: the subtree stays in the parent's row
+                }
+                $writes[$key] = Arr::consolidate($stored);
             }
             $writes[$key] = Arr::set($writes[$key], $addon->storagePath(), $values);
             $versions[$key] = $addon->version;
@@ -345,8 +361,8 @@ class OptionManager
                 continue; // hosted settings live in the host's row, which tracks them
             }
             $stored = get_option($addon->storageKey());
-            if (!is_array($stored)) {
-                continue; // no row until the first settings write; split() stamps it then
+            if (!static::isAddonRow($stored)) {
+                continue; // no row until the first settings write, or a row the addon keeps for its own data
             }
             $storedVersion = Arr::getAs('string', $stored, 'version', '0.0.0') ?: '0.0.0';
             if ($addon->version !== $storedVersion) {
@@ -370,8 +386,9 @@ class OptionManager
 
     /**
      * Mounts each registered addon's stored settings into the composed view.
-     * Addons without their own option yet (not migrated) are skipped so any
-     * legacy subtree in the core option remains visible.
+     * Addons without their own row — not migrated yet, or the key holds the
+     * addon's own data — are skipped so any legacy subtree in the core option
+     * remains visible.
      */
     protected function compose(array $settings): array
     {
@@ -380,7 +397,7 @@ class OptionManager
                 continue; // mounted by its host's whole subtree
             }
             $stored = get_option($addon->storageKey());
-            if (false === $stored) {
+            if (!static::isAddonRow($stored)) {
                 continue;
             }
             $values = Arr::getAs('array', Arr::consolidate($stored), $addon->storagePath());
