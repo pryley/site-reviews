@@ -14,6 +14,7 @@ use GeminiLabs\SiteReviews\UploadedFile;
 
 use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
 use function GeminiLabs\SiteReviews\Tests\definesWpImporting;
+use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -190,6 +191,7 @@ test('a csv becomes reviews', function () {
 
     expect($import->response()['imported'])->toBe(2)
         ->and($import->response()['skipped'])->toBe(0)
+        ->and($import->response()['message'])->toBe('Processed %1$d of %2$d reviews') // the progress text counts skipped rows too
         ->and(importedReviewCount())->toBe(2);
 
     // and they are reviews, not just posts: the rating came across too
@@ -202,7 +204,9 @@ test('a csv becomes reviews', function () {
 
     // Move three: the temp file and table are cleared away.
     $cleanup = new ImportReviewsCleanup(new Request([
+        'duplicates' => 0,
         'errors' => ['Incorrect date format'],
+        'failed' => 0,
         'imported' => 2,
         'skipped' => 2,
     ]));
@@ -226,6 +230,8 @@ test('the same csv imported twice does not make the reviews twice', function () 
 
     expect($again->response()['imported'])->toBe(0)
         ->and($again->response()['skipped'])->toBe(2)
+        ->and($again->response()['duplicates'])->toBe(2)
+        ->and($again->response()['failed'])->toBe(0)
         ->and(importedReviewCount())->toBe(2);
 });
 
@@ -602,7 +608,9 @@ test('a staged row whose review cannot be created is skipped, and counted as ski
     $import->handle();
 
     expect($import->response()['imported'])->toBe(0)
-        ->and($import->response()['skipped'])->toBe(2); // both staged rows, neither silently lost
+        ->and($import->response()['skipped'])->toBe(2) // both staged rows, neither silently lost
+        ->and($import->response()['failed'])->toBe(2)
+        ->and($import->response()['duplicates'])->toBe(0);
 });
 
 test('a row the writer refuses is reported and the import abandoned', function () {
@@ -689,6 +697,37 @@ test('a hash pointing at a deleted review re-imports it', function () {
         ->and(importedReviewCount())->toBe(1);
 });
 
+test('a hash pointing at a trashed review is a duplicate, not a re-import', function () {
+    // The support case: the owner trashes the reviews and re-imports the file that made them.
+    // Trashing changes post_status and nothing the lookup reads: importedReviewIds() has no
+    // status clause, Query::queryReviews() has none, and the ratings row lives until the post is
+    // deleted for good (ReviewController::onDeletePost). The trashed review still matches its
+    // hash and is still valid, so the row is skipped, and counted as a duplicate.
+    file_put_contents(
+        glsr(ImportManager::class)->tempFilePath(),
+        "date,rating,title\n2024-01-15,5,Loved it\n"
+    );
+    glsr(ImportManager::class)->import(10, 0);
+    $reviews = get_posts([
+        'fields' => 'ids',
+        'numberposts' => -1,
+        'post_status' => 'any',
+        'post_type' => glsr()->post_type,
+    ]);
+    wp_trash_post($reviews[0]);
+
+    $result = glsr(ImportManager::class)->import(10, 0);
+
+    // 'any' leaves out the Trash (an internal status), so importedReviewCount() cannot see the
+    // review; the Trash is counted directly.
+    expect($result['imported'])->toBe(0)
+        ->and($result['skipped'])->toBe(1)
+        ->and($result['duplicates'])->toBe(1)
+        ->and($result['failed'])->toBe(0)
+        ->and((int) wp_count_posts(glsr()->post_type)->trash)->toBe(1)
+        ->and(importedReviewCount())->toBe(0);
+});
+
 test('a duplicate row is dropped at staging, and counted', function () {
     $csv = "date,rating,title\n2024-01-15,5,Twin\n2024-02-20,3,Single\n2024-01-15,5,Twin\n";
 
@@ -748,6 +787,46 @@ test('cleanup releases the lock even when nothing was imported', function () {
     expect(glsr(ImportManager::class)->locked())->toBeFalse();
 });
 
+test('the cleanup notice says why entries were skipped, and where the Trash is', function () {
+    // The support case from the notice's side: every row matched a review in the Trash, and the
+    // notice said only "0 reviews were imported. 49 entries were skipped." with nothing to
+    // expand. wp_count_posts() reads the posts table only, so a bare trashed post is enough.
+    createPost(['post_status' => 'trash', 'post_type' => glsr()->post_type]);
+
+    $cleanup = new ImportReviewsCleanup(new Request(['duplicates' => 1, 'imported' => 0, 'skipped' => 1]));
+    $cleanup->handle();
+
+    expect($cleanup->response()['notices'])
+        ->toContain('0 reviews were imported')
+        ->toContain('1 entry was skipped')
+        ->toContain('Show more details')
+        ->toContain('1 entry was skipped because a review with the same details already exists.')
+        ->toContain('A review in the Trash also counts as an existing review.')
+        ->toContain('1 review is in the')
+        ->toContain('post_status=trash'); // the builder escapes the &, so never the whole href
+});
+
+test('the Trash count is left out of the notice when the Trash is empty', function () {
+    $cleanup = new ImportReviewsCleanup(new Request(['duplicates' => 2, 'imported' => 0, 'skipped' => 2]));
+    $cleanup->handle();
+
+    expect($cleanup->response()['notices'])
+        ->toContain('2 entries were skipped because a review with the same details already exists.')
+        ->toContain('A review in the Trash also counts as an existing review.')
+        ->not->toContain('post_status=trash');
+});
+
+test('the cleanup notice points a failed entry at the Console', function () {
+    $cleanup = new ImportReviewsCleanup(new Request(['failed' => 3, 'imported' => 1, 'skipped' => 3]));
+    $cleanup->handle();
+
+    expect($cleanup->response()['notices'])
+        ->toContain('3 entries could not be saved as reviews.')
+        ->toContain('Check the')
+        ->toContain('tab=console')
+        ->not->toContain('already exists');
+});
+
 test('a failed stage 1 releases the lock', function () {
     // The required columns are missing, so process() fails after the lock was taken.
     $command = processCsvViaHandle(uploadPastSapiWall("title,content\nNo dates here,Nope\n", '.csv', 'reviews.csv'));
@@ -768,6 +847,8 @@ test('a row that submits nothing is skipped instead of imported', function () {
 
     expect($result['imported'])->toBe(1)
         ->and($result['skipped'])->toBe(1)
+        ->and($result['duplicates'])->toBe(0) // skipped only: it has no hash to be a twin of,
+        ->and($result['failed'])->toBe(0) // and nothing was logged for the Console to explain
         ->and(importedReviewCount())->toBe(1);
 });
 

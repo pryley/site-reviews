@@ -40,7 +40,7 @@ msgid "Anonymous"
 msgstr "Anonymous"
 
 #: plugin/Controllers/Api/Version1/RestSubmissionController.php:21
-#: plugin/Router.php:199
+#: plugin/Router.php:227
 #: views/pages/documentation/support/common-problems-and-solutions.php:62
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr "The form could not be submitted. Please notify the site administrator."
@@ -86,16 +86,18 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
-#: plugin/Commands/CreateReview.php:203
+#: plugin/Commands/CreateReview.php:208
 #: views/pages/documentation/support/common-problems-and-solutions.php:95
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 
-#: plugin/Commands/CreateReview.php:207
+#: plugin/Commands/CreateReview.php:212
+#: plugin/Controllers/PublicController.php:117
 msgid "Your review has been submitted!"
 msgstr "Your review has been submitted!"
 
-#: plugin/Commands/CreateReview.php:208
+#: plugin/Commands/CreateReview.php:213
+#: plugin/Controllers/PublicController.php:118
 msgid "Your review has been submitted and is pending approval."
 msgstr "Your review has been submitted and is pending approval."
 
@@ -265,7 +267,7 @@ msgstr "Edit Review"
 msgid "New %s-star review"
 msgstr "New %s-star review"
 
-#: plugin/Modules/Paginate.php:65
+#: plugin/Modules/Paginate.php:72
 msgid "&hellip;"
 msgstr "&hellip;"
 
@@ -368,10 +370,6 @@ msgstr[1] "%1$s reviews for %2$s"
 #: templates/woocommerce/reviews.php:35
 msgid "Only logged in customers who have purchased this product may leave a review."
 msgstr "Only logged in customers who have purchased this product may leave a review."
-
-#: views/partials/modal.php:6
-msgid "Close modal"
-msgstr "Close modal"
 
 #: views/partials/update-warning.php:4
 msgid "Heads up, please backup before updating!"
@@ -1377,7 +1375,7 @@ msgid "If you are sending notifications to Slack then this template will only be
 msgstr "If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href=\"https://api.slack.com/docs/attachments\" target=\"_blank\">Message Attachments</a> have been disabled."
 
 #: config/settings.php:260
-#: views/pages/tools/general/import-reviews.php:83
+#: views/pages/tools/general/import-reviews.php:84
 msgctxt "admin-text"
 msgid "Date Format"
 msgstr "Date Format"
@@ -2468,7 +2466,7 @@ msgctxt "admin-text"
 msgid "Rollback Site Reviews"
 msgstr "Rollback Site Reviews"
 
-#: plugin/Router.php:202
+#: plugin/Router.php:230
 msgctxt "admin-text"
 msgid "There was an error"
 msgstr "There was an error"
@@ -2859,7 +2857,7 @@ msgstr "This will completely replace the default WooCommerce review system with 
 #: config/integrations/woocommerce.php:10
 #: views/integrations/woocommerce/tools/import-product-reviews.php:33
 #: views/pages/tools/general/import-reviews.php:6
-#: views/pages/tools/general/import-reviews.php:118
+#: views/pages/tools/general/import-reviews.php:119
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr "Import Reviews"
@@ -3253,8 +3251,7 @@ msgid "Imported %d attachments"
 msgstr "Imported %d attachments"
 
 #. translators: %s: number of imported reviews
-#: plugin/Commands/ImportReviewsCleanup.php:48
-#: plugin/Integrations/WooCommerce/Commands/ImportProductReviewsCleanup.php:44
+#: plugin/Commands/ImportReviewsCleanup.php:92
 #, php-format
 msgctxt "admin-text"
 msgid "%s review was imported."
@@ -3263,8 +3260,7 @@ msgstr[0] "%s review was imported."
 msgstr[1] "%s reviews were imported."
 
 #. translators: %s: number of skipped entries
-#: plugin/Commands/ImportReviewsCleanup.php:57
-#: plugin/Integrations/WooCommerce/Commands/ImportProductReviewsCleanup.php:52
+#: plugin/Commands/ImportReviewsCleanup.php:101
 #, php-format
 msgctxt "admin-text"
 msgid "%s entry was skipped."
@@ -3273,8 +3269,7 @@ msgstr[0] "%s entry was skipped."
 msgstr[1] "%s entries were skipped."
 
 #. translators: %s: list of warning messages
-#: plugin/Commands/ImportReviewsCleanup.php:65
-#: plugin/Integrations/WooCommerce/Commands/ImportProductReviewsCleanup.php:59
+#: plugin/Commands/ImportReviewsCleanup.php:109
 #, php-format
 msgctxt "admin-text"
 msgid "One or more warnings were triggered during import: %s"
@@ -3498,7 +3493,7 @@ msgstr "Try Premium"
 #: plugin/Controllers/AdminController.php:222
 #: views/integrations/woocommerce/settings.php:7
 #: views/pages/tools/general/export-reviews.php:19
-#: views/pages/tools/general/import-reviews.php:24
+#: views/pages/tools/general/import-reviews.php:25
 msgctxt "admin-text"
 msgid "Import"
 msgstr "Import"
@@ -3746,20 +3741,20 @@ msgctxt "admin-text"
 msgid "Review Content"
 msgstr "Review Content"
 
-#: plugin/Controllers/SettingsController.php:54
+#: plugin/Controllers/SettingsController.php:52
 msgctxt "admin-text"
 msgid "Settings updated."
 msgstr "Settings updated."
 
 #. translators: %s: the missing placeholder tag
-#: plugin/Controllers/SettingsController.php:149
+#: plugin/Controllers/SettingsController.php:140
 #, php-format
 msgctxt "admin-text"
 msgid "You forgot to include the %s placeholder tags in your Custom Text."
 msgstr "You forgot to include the %s placeholder tags in your Custom Text."
 
 #. translators: %s: plugin name
-#: plugin/Controllers/SettingsController.php:167
+#: plugin/Controllers/SettingsController.php:158
 #, php-format
 msgctxt "admin-text"
 msgid "Please install/activate the %s plugin to enable the integration."
@@ -4099,17 +4094,17 @@ msgctxt "admin-text"
 msgid "Url"
 msgstr "Url"
 
-#: plugin/Defaults/TaxonomyDefaults.php:15
+#: plugin/Defaults/TaxonomyDefaults.php:14
 msgctxt "admin-text"
 msgid "Review Category Link"
 msgstr "Review Category Link"
 
-#: plugin/Defaults/TaxonomyDefaults.php:16
+#: plugin/Defaults/TaxonomyDefaults.php:15
 msgctxt "admin-text"
 msgid "A link to a review category."
 msgstr "A link to a review category."
 
-#: plugin/Defaults/TaxonomyDefaults.php:18
+#: plugin/Defaults/TaxonomyDefaults.php:17
 msgctxt "admin-text"
 msgid "Review Categories"
 msgstr "Review Categories"
@@ -4413,7 +4408,7 @@ msgid "Assign Reviews to Pages"
 msgstr "Assign Reviews to Pages"
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:134
-#: plugin/Shortcodes/SiteReviewsShortcode.php:61
+#: plugin/Shortcodes/SiteReviewsShortcode.php:58
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:73
 msgctxt "admin-text"
 msgid "Select a Page..."
@@ -4427,7 +4422,7 @@ msgid "Assign Reviews to Categories"
 msgstr "Assign Reviews to Categories"
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:141
-#: plugin/Shortcodes/SiteReviewsShortcode.php:68
+#: plugin/Shortcodes/SiteReviewsShortcode.php:65
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:80
 msgctxt "admin-text"
 msgid "Select a Category..."
@@ -4441,8 +4436,8 @@ msgid "Assign Reviews to Users"
 msgstr "Assign Reviews to Users"
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:148
-#: plugin/Shortcodes/SiteReviewsShortcode.php:75
-#: plugin/Shortcodes/SiteReviewsShortcode.php:82
+#: plugin/Shortcodes/SiteReviewsShortcode.php:72
+#: plugin/Shortcodes/SiteReviewsShortcode.php:79
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:87
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:94
 msgctxt "admin-text"
@@ -4474,8 +4469,8 @@ msgid "Rating Summary ID"
 msgstr "Rating Summary ID"
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:169
-#: plugin/Shortcodes/SiteReviewShortcode.php:58
-#: plugin/Shortcodes/SiteReviewsShortcode.php:142
+#: plugin/Shortcodes/SiteReviewShortcode.php:55
+#: plugin/Shortcodes/SiteReviewsShortcode.php:139
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:164
 #: plugin/Tinymce/SiteReviewsFormTinymce.php:56
 #: plugin/Tinymce/SiteReviewsSummaryTinymce.php:91
@@ -4491,8 +4486,8 @@ msgid "This should be a unique value."
 msgstr "This should be a unique value."
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:171
-#: plugin/Shortcodes/SiteReviewShortcode.php:60
-#: plugin/Shortcodes/SiteReviewsShortcode.php:144
+#: plugin/Shortcodes/SiteReviewShortcode.php:57
+#: plugin/Shortcodes/SiteReviewsShortcode.php:141
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:166
 #: plugin/Tinymce/SiteReviewsFormTinymce.php:54
 #: plugin/Tinymce/SiteReviewsSummaryTinymce.php:89
@@ -4508,8 +4503,8 @@ msgid "Custom ID"
 msgstr "Custom ID"
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:175
-#: plugin/Shortcodes/SiteReviewShortcode.php:64
-#: plugin/Shortcodes/SiteReviewsShortcode.php:148
+#: plugin/Shortcodes/SiteReviewShortcode.php:61
+#: plugin/Shortcodes/SiteReviewsShortcode.php:145
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:170
 #: plugin/Tinymce/SiteReviewsFormTinymce.php:62
 #: plugin/Tinymce/SiteReviewsSummaryTinymce.php:97
@@ -4521,8 +4516,8 @@ msgid "Separate multiple classes with spaces."
 msgstr "Separate multiple classes with spaces."
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:177
-#: plugin/Shortcodes/SiteReviewShortcode.php:66
-#: plugin/Shortcodes/SiteReviewsShortcode.php:150
+#: plugin/Shortcodes/SiteReviewShortcode.php:63
+#: plugin/Shortcodes/SiteReviewsShortcode.php:147
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:172
 #: plugin/Tinymce/SiteReviewsFormTinymce.php:60
 #: plugin/Tinymce/SiteReviewsSummaryTinymce.php:95
@@ -4563,17 +4558,17 @@ msgctxt "admin-text"
 msgid "Hide the terms field"
 msgstr "Hide the terms field"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:29
+#: plugin/Shortcodes/SiteReviewShortcode.php:26
 msgctxt "admin-text"
 msgid "Display a single review"
 msgstr "Display a single review"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:39
+#: plugin/Shortcodes/SiteReviewShortcode.php:36
 msgctxt "admin-text"
 msgid "Single Review"
 msgstr "Single Review"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:46
+#: plugin/Shortcodes/SiteReviewShortcode.php:43
 #: plugin/Tinymce/SiteReviewTinymce.php:14
 #: plugin/Widgets/SiteReviewWidget.php:15
 #: assets/blocks/site_review/index.js:1
@@ -4581,82 +4576,82 @@ msgctxt "admin-text"
 msgid "Review Post ID"
 msgstr "Review Post ID"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:47
+#: plugin/Shortcodes/SiteReviewShortcode.php:44
 msgctxt "admin-text"
 msgid "Select the review you want to display."
 msgstr "Select the review you want to display."
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:49
+#: plugin/Shortcodes/SiteReviewShortcode.php:46
 msgctxt "admin-text"
 msgid "Select a review..."
 msgstr "Select a review..."
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:75
-#: plugin/Shortcodes/SiteReviewsShortcode.php:171
+#: plugin/Shortcodes/SiteReviewShortcode.php:72
+#: plugin/Shortcodes/SiteReviewsShortcode.php:168
 msgctxt "admin-text"
 msgid "Hide the title"
 msgstr "Hide the title"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:76
-#: plugin/Shortcodes/SiteReviewsShortcode.php:172
+#: plugin/Shortcodes/SiteReviewShortcode.php:73
+#: plugin/Shortcodes/SiteReviewsShortcode.php:169
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:190
 msgctxt "admin-text"
 msgid "Hide the rating"
 msgstr "Hide the rating"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:77
-#: plugin/Shortcodes/SiteReviewsShortcode.php:173
+#: plugin/Shortcodes/SiteReviewShortcode.php:74
+#: plugin/Shortcodes/SiteReviewsShortcode.php:170
 msgctxt "admin-text"
 msgid "Hide the date"
 msgstr "Hide the date"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:78
-#: plugin/Shortcodes/SiteReviewsShortcode.php:174
+#: plugin/Shortcodes/SiteReviewShortcode.php:75
+#: plugin/Shortcodes/SiteReviewsShortcode.php:171
 msgctxt "admin-text"
 msgid "Hide the assigned links (if shown)"
 msgstr "Hide the assigned links (if shown)"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:79
-#: plugin/Shortcodes/SiteReviewsShortcode.php:175
+#: plugin/Shortcodes/SiteReviewShortcode.php:76
+#: plugin/Shortcodes/SiteReviewsShortcode.php:172
 msgctxt "admin-text"
 msgid "Hide the content"
 msgstr "Hide the content"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:80
-#: plugin/Shortcodes/SiteReviewsShortcode.php:176
+#: plugin/Shortcodes/SiteReviewShortcode.php:77
+#: plugin/Shortcodes/SiteReviewsShortcode.php:173
 msgctxt "admin-text"
 msgid "Hide the avatar (if shown)"
 msgstr "Hide the avatar (if shown)"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:81
-#: plugin/Shortcodes/SiteReviewsShortcode.php:177
+#: plugin/Shortcodes/SiteReviewShortcode.php:78
+#: plugin/Shortcodes/SiteReviewsShortcode.php:174
 msgctxt "admin-text"
 msgid "Hide the author"
 msgstr "Hide the author"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:82
-#: plugin/Shortcodes/SiteReviewsShortcode.php:178
+#: plugin/Shortcodes/SiteReviewShortcode.php:79
+#: plugin/Shortcodes/SiteReviewsShortcode.php:175
 msgctxt "admin-text"
 msgid "Hide the verified badge"
 msgstr "Hide the verified badge"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:83
-#: plugin/Shortcodes/SiteReviewsShortcode.php:179
+#: plugin/Shortcodes/SiteReviewShortcode.php:80
+#: plugin/Shortcodes/SiteReviewsShortcode.php:176
 msgctxt "admin-text"
 msgid "Hide the response"
 msgstr "Hide the response"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:32
+#: plugin/Shortcodes/SiteReviewsShortcode.php:29
 msgctxt "admin-text"
 msgid "Display your reviews"
 msgstr "Display your reviews"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:51
+#: plugin/Shortcodes/SiteReviewsShortcode.php:48
 msgctxt "admin-text"
 msgid "Latest Reviews"
 msgstr "Latest Reviews"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:59
+#: plugin/Shortcodes/SiteReviewsShortcode.php:56
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:71
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:16
 #: plugin/Widgets/SiteReviewsWidget.php:16
@@ -4666,7 +4661,7 @@ msgctxt "admin-text"
 msgid "Limit Reviews by Assigned Pages"
 msgstr "Limit Reviews by Assigned Pages"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:66
+#: plugin/Shortcodes/SiteReviewsShortcode.php:63
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:78
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:21
 #: plugin/Widgets/SiteReviewsWidget.php:21
@@ -4674,7 +4669,7 @@ msgctxt "admin-text"
 msgid "Limit Reviews by Assigned Categories"
 msgstr "Limit Reviews by Assigned Categories"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:73
+#: plugin/Shortcodes/SiteReviewsShortcode.php:70
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:85
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:26
 #: plugin/Widgets/SiteReviewsWidget.php:26
@@ -4684,7 +4679,7 @@ msgctxt "admin-text"
 msgid "Limit Reviews by Assigned Users"
 msgstr "Limit Reviews by Assigned Users"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:80
+#: plugin/Shortcodes/SiteReviewsShortcode.php:77
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:92
 #: assets/blocks/site_reviews/index.js:1
 #: assets/blocks/site_reviews_summary/index.js:1
@@ -4692,7 +4687,7 @@ msgctxt "admin-text"
 msgid "Limit Reviews by Review Author"
 msgstr "Limit Reviews by Review Author"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:87
+#: plugin/Shortcodes/SiteReviewsShortcode.php:84
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:99
 #: plugin/Tinymce/SiteReviewsSummaryTinymce.php:38
 #: plugin/Tinymce/SiteReviewsTinymce.php:36
@@ -4704,7 +4699,7 @@ msgctxt "admin-text"
 msgid "Limit Reviews by Accepted Terms"
 msgstr "Limit Reviews by Accepted Terms"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:89
+#: plugin/Shortcodes/SiteReviewsShortcode.php:86
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:101
 #: assets/blocks/site_reviews/index.js:1
 #: assets/blocks/site_reviews_summary/index.js:1
@@ -4712,7 +4707,7 @@ msgctxt "admin-text"
 msgid "Select Review Terms..."
 msgstr "Select Review Terms..."
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:94
+#: plugin/Shortcodes/SiteReviewsShortcode.php:91
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:106
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:37
 #: plugin/Widgets/SiteReviewsWidget.php:37
@@ -4722,7 +4717,7 @@ msgctxt "admin-text"
 msgid "Limit Reviews by Type"
 msgstr "Limit Reviews by Type"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:96
+#: plugin/Shortcodes/SiteReviewsShortcode.php:93
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:108
 #: assets/blocks/site_reviews/index.js:1
 #: assets/blocks/site_reviews_summary/index.js:1
@@ -4730,7 +4725,7 @@ msgctxt "admin-text"
 msgid "Select a Review Type..."
 msgstr "Select a Review Type..."
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:101
+#: plugin/Shortcodes/SiteReviewsShortcode.php:98
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:113
 #: plugin/Tinymce/SiteReviewsSummaryTinymce.php:52
 #: plugin/Tinymce/SiteReviewsTinymce.php:50
@@ -4740,7 +4735,7 @@ msgctxt "admin-text"
 msgid "Limit Reviews by Verified Status"
 msgstr "Limit Reviews by Verified Status"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:103
+#: plugin/Shortcodes/SiteReviewsShortcode.php:100
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:115
 #: assets/blocks/site_reviews/index.js:1
 #: assets/blocks/site_reviews_summary/index.js:1
@@ -4748,25 +4743,25 @@ msgctxt "admin-text"
 msgid "Select Verified Status..."
 msgstr "Select Verified Status..."
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:108
+#: plugin/Shortcodes/SiteReviewsShortcode.php:105
 #: assets/blocks/site_reviews/index.js:1
 msgctxt "admin-text"
 msgid "Pagination Type"
 msgstr "Pagination Type"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:110
+#: plugin/Shortcodes/SiteReviewsShortcode.php:107
 msgctxt "admin-text"
 msgid "No Pagination"
 msgstr "No Pagination"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:116
+#: plugin/Shortcodes/SiteReviewsShortcode.php:113
 #: plugin/Widgets/SiteReviewsWidget.php:43
 #: assets/blocks/site_reviews/index.js:1
 msgctxt "admin-text"
 msgid "Reviews Per Page"
 msgstr "Reviews Per Page"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:124
+#: plugin/Shortcodes/SiteReviewsShortcode.php:121
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:121
 #: plugin/Tinymce/SiteReviewsSummaryTinymce.php:56
 #: plugin/Tinymce/SiteReviewsTinymce.php:54
@@ -4778,7 +4773,7 @@ msgctxt "admin-text"
 msgid "Minimum Rating"
 msgstr "Minimum Rating"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:131
+#: plugin/Shortcodes/SiteReviewsShortcode.php:128
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:139
 #: assets/blocks/site_reviews/index.js:1
 #: assets/blocks/site_reviews_summary/index.js:1
@@ -4786,7 +4781,7 @@ msgctxt "admin-text"
 msgid "The schema should only be enabled once on your page."
 msgstr "The schema should only be enabled once on your page."
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:133
+#: plugin/Shortcodes/SiteReviewsShortcode.php:130
 #: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:141
 msgctxt "admin-text"
 msgid "Enable the schema?"
@@ -6266,55 +6261,55 @@ msgctxt "admin-text"
 msgid "Max Width"
 msgstr "Max Width"
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:34
+#: plugin/Controllers/Api/Version1/RestReviewController.php:38
 msgctxt "admin-text"
 msgid "Review creation failed, please check the Site Reviews console log for more details."
 msgstr "Review creation failed, please check the Site Reviews console log for more details."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:61
-#: plugin/Controllers/Api/Version1/RestReviewController.php:79
+#: plugin/Controllers/Api/Version1/RestReviewController.php:65
+#: plugin/Controllers/Api/Version1/RestReviewController.php:83
 msgctxt "admin-text"
 msgid "The review cannot be deleted."
 msgstr "The review cannot be deleted."
 
 #. translators: %s: force=true
-#: plugin/Controllers/Api/Version1/RestReviewController.php:71
+#: plugin/Controllers/Api/Version1/RestReviewController.php:75
 #, php-format
 msgctxt "admin-text"
 msgid "The review does not support trashing. Set \"%s\" to delete."
 msgstr "The review does not support trashing. Set \"%s\" to delete."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:75
+#: plugin/Controllers/Api/Version1/RestReviewController.php:79
 msgctxt "admin-text"
 msgid "The review has already been deleted."
 msgstr "The review has already been deleted."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:149
+#: plugin/Controllers/Api/Version1/RestReviewController.php:153
 msgctxt "admin-text"
 msgid "The page number requested is larger than the number of pages available."
 msgstr "The page number requested is larger than the number of pages available."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:204
+#: plugin/Controllers/Api/Version1/RestReviewController.php:209
 msgctxt "admin-text"
 msgid "Unique identifier for the object."
 msgstr "Unique identifier for the object."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:227
+#: plugin/Controllers/Api/Version1/RestReviewController.php:232
 msgctxt "admin-text"
 msgid "Whether to bypass Trash and force deletion."
 msgstr "Whether to bypass Trash and force deletion."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:247
+#: plugin/Controllers/Api/Version1/RestReviewController.php:252
 msgctxt "admin-text"
 msgid "Review update failed, please check the Site Reviews console log for more details."
 msgstr "Review update failed, please check the Site Reviews console log for more details."
 
-#: plugin/Controllers/Api/Version1/RestShortcodeController.php:43
+#: plugin/Controllers/Api/Version1/RestShortcodeController.php:16
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to do that."
 msgstr "Sorry, you are not allowed to do that."
 
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:78
+#: plugin/Controllers/Api/Version1/RestSummaryController.php:22
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to view rating summaries."
 msgstr "Sorry, you are not allowed to view rating summaries."
@@ -6626,7 +6621,7 @@ msgid "Import your WooCommerce product reviews. Review replies and comments will
 msgstr "Import your WooCommerce product reviews. Review replies and comments will be skipped."
 
 #: views/integrations/woocommerce/tools/import-product-reviews.php:31
-#: views/pages/tools/general/import-reviews.php:116
+#: views/pages/tools/general/import-reviews.php:117
 msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
 msgstr "Importing reviews, please wait..."
@@ -6723,7 +6718,7 @@ msgid "Export Reviews"
 msgstr "Export Reviews"
 
 #: views/pages/tools/general/export-reviews.php:18
-#: views/pages/tools/general/import-reviews.php:23
+#: views/pages/tools/general/import-reviews.php:24
 msgctxt "admin-text"
 msgid "Export"
 msgstr "Export"
@@ -6792,88 +6787,88 @@ msgctxt "admin-text"
 msgid "Any entry in the CSV file that does not contain a required column value will be skipped."
 msgstr "Any entry in the CSV file that does not contain a required column value will be skipped."
 
-#: views/pages/tools/general/import-reviews.php:29
+#: views/pages/tools/general/import-reviews.php:30
 msgctxt "admin-text"
 msgid "Step 1: Download the CSV template file"
 msgstr "Step 1: Download the CSV template file"
 
-#: views/pages/tools/general/import-reviews.php:34
+#: views/pages/tools/general/import-reviews.php:35
 msgctxt "admin-text"
 msgid "Download"
 msgstr "Download"
 
-#: views/pages/tools/general/import-reviews.php:38
+#: views/pages/tools/general/import-reviews.php:39
 msgctxt "admin-text"
 msgid "Step 2: Enter reviews into the CSV file"
 msgstr "Step 2: Enter reviews into the CSV file"
 
-#: views/pages/tools/general/import-reviews.php:39
+#: views/pages/tools/general/import-reviews.php:40
 msgctxt "admin-text"
 msgid "Enter the reviews details into the template file and then save it. The CSV file should be encoded as UTF-8 and may contain the following columns:"
 msgstr "Enter the reviews details into the template file and then save it. The CSV file should be encoded as UTF-8 and may contain the following columns:"
 
-#: views/pages/tools/general/import-reviews.php:43
+#: views/pages/tools/general/import-reviews.php:44
 msgctxt "admin-text"
 msgid "Column Name"
 msgstr "Column Name"
 
-#: views/pages/tools/general/import-reviews.php:44
+#: views/pages/tools/general/import-reviews.php:45
 msgctxt "admin-text"
 msgid "Required"
 msgstr "Required"
 
-#: views/pages/tools/general/import-reviews.php:45
+#: views/pages/tools/general/import-reviews.php:46
 msgctxt "admin-text"
 msgid "Description"
 msgstr "Description"
 
-#: views/pages/tools/general/import-reviews.php:66
+#: views/pages/tools/general/import-reviews.php:67
 msgctxt "admin-text"
 msgid "Step 3: Upload the CSV file"
 msgstr "Step 3: Upload the CSV file"
 
-#: views/pages/tools/general/import-reviews.php:75
+#: views/pages/tools/general/import-reviews.php:76
 msgctxt "admin-text"
 msgid "Delimiter"
 msgstr "Delimiter"
 
-#: views/pages/tools/general/import-reviews.php:77
+#: views/pages/tools/general/import-reviews.php:78
 msgctxt "admin-text"
 msgid "Detect automatically"
 msgstr "Detect automatically"
 
-#: views/pages/tools/general/import-reviews.php:78
+#: views/pages/tools/general/import-reviews.php:79
 msgctxt "admin-text"
 msgid "Comma (,)"
 msgstr "Comma (,)"
 
-#: views/pages/tools/general/import-reviews.php:79
+#: views/pages/tools/general/import-reviews.php:80
 msgctxt "admin-text"
 msgid "Semicolon (;)"
 msgstr "Semicolon (;)"
 
-#: views/pages/tools/general/import-reviews.php:85
+#: views/pages/tools/general/import-reviews.php:86
 msgctxt "admin-text"
 msgid "Select the date format used in the reviews"
 msgstr "Select the date format used in the reviews"
 
-#: views/pages/tools/general/import-reviews.php:86
-#: views/pages/tools/general/import-reviews.php:94
-#: views/pages/tools/general/import-reviews.php:102
+#: views/pages/tools/general/import-reviews.php:87
+#: views/pages/tools/general/import-reviews.php:95
+#: views/pages/tools/general/import-reviews.php:103
 msgctxt "admin-text"
 msgid "Year"
 msgstr "Year"
 
-#: views/pages/tools/general/import-reviews.php:86
-#: views/pages/tools/general/import-reviews.php:94
-#: views/pages/tools/general/import-reviews.php:102
+#: views/pages/tools/general/import-reviews.php:87
+#: views/pages/tools/general/import-reviews.php:95
+#: views/pages/tools/general/import-reviews.php:103
 msgctxt "admin-text"
 msgid "Month"
 msgstr "Month"
 
-#: views/pages/tools/general/import-reviews.php:86
-#: views/pages/tools/general/import-reviews.php:94
-#: views/pages/tools/general/import-reviews.php:102
+#: views/pages/tools/general/import-reviews.php:87
+#: views/pages/tools/general/import-reviews.php:95
+#: views/pages/tools/general/import-reviews.php:103
 msgctxt "admin-text"
 msgid "Day"
 msgstr "Day"
@@ -7500,13 +7495,13 @@ msgid "To change the website associated with your license key, go to the %s page
 msgstr "To change the website associated with your license key, go to the %s page and click the \"Manage Sites\" button."
 
 #. translators: %s: a button with the text "reloading"
-#: plugin/Router.php:205
+#: plugin/Router.php:233
 #, php-format
 msgctxt "try reloading the page (admin-text)"
 msgid "Try %s the page."
 msgstr "Try %s the page."
 
-#: plugin/Router.php:206
+#: plugin/Router.php:234
 msgctxt "(admin-text) e.g. try reloading the page"
 msgid "reloading"
 msgstr "reloading"
@@ -7744,7 +7739,7 @@ msgctxt "View Posts (admin-text)"
 msgid "View Reviews"
 msgstr "View Reviews"
 
-#: plugin/Defaults/TaxonomyDefaults.php:17
+#: plugin/Defaults/TaxonomyDefaults.php:16
 msgctxt "Admin menu name (admin-text)"
 msgid "Categories"
 msgstr "Categories"
@@ -8606,14 +8601,6 @@ msgctxt "admin-text"
 msgid "Site Reviews was unable to fetch the System Info because your server threw an error: %1$s %2$s"
 msgstr ""
 
-#. translators: %1$d: number of reviews imported, %2$d: total number of reviews
-#: plugin/Commands/ImportReviews.php:32
-#: plugin/Integrations/WooCommerce/Commands/ImportProductReviews.php:62
-#, php-format
-msgctxt "admin-text"
-msgid "Imported %1$d of %2$d reviews"
-msgstr ""
-
 #. translators: %1$s: star rating, %2$s: assigned post titles
 #: plugin/Commands/SendNotification.php:122
 #, php-format
@@ -8621,14 +8608,14 @@ msgid "New %1$s-star review of %2$s"
 msgstr ""
 
 #. translators: %1$s: plugin name, %2$s: version number
-#: plugin/Controllers/SettingsController.php:174
+#: plugin/Controllers/SettingsController.php:165
 #, php-format
 msgctxt "admin-text"
 msgid "Please update the %1$s plugin to v%2$s or greater to enable the integration."
 msgstr ""
 
 #. translators: %1$d: number of records imported, %2$d: total number of records
-#: plugin/Defaults/ImportResultDefaults.php:33
+#: plugin/Defaults/ImportResultDefaults.php:38
 #, php-format
 msgctxt "admin-text"
 msgid "Imported %1$d of %2$d"
@@ -8782,7 +8769,7 @@ msgstr ""
 
 #. translators: %1$s: link to the WordPress Export tool, %2$s: link to the WordPress Import tool
 #: views/pages/tools/general/export-reviews.php:17
-#: views/pages/tools/general/import-reviews.php:22
+#: views/pages/tools/general/import-reviews.php:23
 #, php-format
 msgctxt "admin-text"
 msgid "You can also use the WordPress %1$s and %2$s tools to export and import your reviews and categories."
@@ -8989,4 +8976,61 @@ msgstr ""
 
 #: plugin/Controllers/Api/Version1/RestRenderController.php:87
 msgid "The review does not exist."
+msgstr ""
+
+#. translators: %1$d: number of reviews processed, %2$d: total number of reviews
+#: plugin/Commands/ImportReviews.php:32
+#: plugin/Integrations/WooCommerce/Commands/ImportProductReviews.php:65
+#, php-format
+msgctxt "admin-text"
+msgid "Processed %1$d of %2$d reviews"
+msgstr ""
+
+#. translators: %s: number of skipped entries
+#: plugin/Commands/ImportReviewsCleanup.php:54
+#, php-format
+msgctxt "admin-text"
+msgid "%s entry was skipped because a review with the same details already exists."
+msgid_plural "%s entries were skipped because a review with the same details already exists."
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Commands/ImportReviewsCleanup.php:57
+msgctxt "admin-text"
+msgid "A review in the Trash also counts as an existing review."
+msgstr ""
+
+#: plugin/Commands/ImportReviewsCleanup.php:62
+msgctxt "admin-text"
+msgid "Trash"
+msgstr ""
+
+#. translators: %1$s: number of reviews, %2$s: link to the Trash
+#: plugin/Commands/ImportReviewsCleanup.php:66
+#, php-format
+msgctxt "admin-text"
+msgid "%1$s review is in the %2$s. Empty the Trash to import it again."
+msgid_plural "%1$s reviews are in the %2$s. Empty the Trash to import them again."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: number of skipped entries
+#: plugin/Commands/ImportReviewsCleanup.php:78
+#, php-format
+msgctxt "admin-text"
+msgid "%s entry could not be saved as a review."
+msgid_plural "%s entries could not be saved as reviews."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: link to the Console page
+#: plugin/Commands/ImportReviewsCleanup.php:83
+#, php-format
+msgctxt "admin-text"
+msgid "Check the %s page for the reason."
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:17
+msgctxt "admin-text"
+msgid "An entry that matches an existing review is also skipped, even when that review is in the Trash."
 msgstr ""

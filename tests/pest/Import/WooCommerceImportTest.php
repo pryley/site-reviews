@@ -1,6 +1,8 @@
 <?php
 
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\ImportProductReviews;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\ImportProductReviewsCleanup;
+use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
@@ -72,4 +74,31 @@ test('the import response counts from zero without a warning', function () {
 
     expect($command->response())->toHaveKey('imported', 1)
         ->toHaveKey('skipped', 0);
+});
+
+test('a product review that cannot be created is counted as failed', function () {
+    [, $commentId] = importableWooCommerceComment();
+    add_filter('wp_insert_post_empty_content', '__return_true'); // every insert now fails
+
+    $command = new ImportProductReviews(new Request(['page' => 1, 'per_page' => 25]));
+    $command->handle();
+
+    expect($command->response())->toHaveKey('imported', 0)
+        ->toHaveKey('skipped', 1)
+        ->toHaveKey('failed', 1)
+        ->toHaveKey('duplicates', 0);
+    expect(get_comment_meta($commentId, 'imported', true))->toBe(''); // so it is tried again next time
+});
+
+test('the product review cleanup notice explains the skipped entries like the CSV one', function () {
+    glsr(Notice::class)->clear(); // the singleton keeps notices across tests, and this file's beforeEach does not clear it
+    $cleanup = new ImportProductReviewsCleanup(new Request(['failed' => 1, 'imported' => 0, 'skipped' => 1]));
+    $cleanup->handle();
+
+    expect($cleanup->response()['notices'])
+        ->toContain('0 reviews were imported')
+        ->toContain('1 entry was skipped')
+        ->toContain('Show more details')
+        ->toContain('1 entry could not be saved as a review.')
+        ->toContain('tab=console');
 });

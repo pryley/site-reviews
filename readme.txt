@@ -221,9 +221,11 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed review text being able to break mid-word when a review is squeezed into a narrow space
 - Fixed scheduled background tasks
 - Fixed the block preview in the editor not updating when some settings are changed
+- Fixed the import progress bar counting skipped entries as imported
 - Fixed the review form not showing a confirmation message after submission when JavaScript is disabled
 - Fixed the revision links in REST API review responses
 - Improved compatibility with firewalls that block wp-admin requests
+- Improved the import result notice, it now says why entries were skipped
 - Improved the review modal: it now uses the browser's native dialog, its frame and close button can no longer be broken by theme styles, and closing it can no longer discard a half-typed form by accident
 - Improved the review modal's compatibility with older addon versions and with plugins whose code fails while it opens
 - Improved the speed of review submission and pagination requests

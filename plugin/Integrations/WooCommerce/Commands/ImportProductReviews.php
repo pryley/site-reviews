@@ -23,6 +23,7 @@ class ImportProductReviews extends AbstractCommand
         $this->limit = max(1, $request->cast('per_page', 'int'));
         $this->offset = $this->limit * (max(1, $request->cast('page', 'int')) - 1);
         $this->response = [
+            'failed' => 0,
             'imported' => 0,
             'skipped' => 0,
         ];
@@ -48,6 +49,7 @@ class ImportProductReviews extends AbstractCommand
                 ++$this->response['imported'];
                 continue;
             }
+            ++$this->response['failed'];
             ++$this->response['skipped'];
         }
         unset($reviews);
@@ -59,7 +61,8 @@ class ImportProductReviews extends AbstractCommand
     {
         return glsr(ImportResultDefaults::class)->restrict(
             wp_parse_args([
-                'message' => _x('Imported %1$d of %2$d reviews', 'admin-text', 'site-reviews'),
+                /* translators: %1$d: number of reviews processed, %2$d: total number of reviews */
+                'message' => _x('Processed %1$d of %2$d reviews', 'admin-text', 'site-reviews'),
             ], $this->response)
         );
     }

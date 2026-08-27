@@ -13,7 +13,8 @@
                 /* translators: %s: link to the UpdraftPlus plugin */
                 esc_html_x('Please backup your database before running this tool! You can use the %s plugin to do this.', 'admin-text', 'site-reviews'),
                 '<a href="https://wordpress.org/plugins/updraftplus/" target="_blank">UpdraftPlus</a>'
-            ).' '.esc_html_x('Any entry in the CSV file that does not contain a required column value will be skipped.', 'admin-text', 'site-reviews'),
+            ).' '.esc_html_x('Any entry in the CSV file that does not contain a required column value will be skipped.', 'admin-text', 'site-reviews')
+            .' '.esc_html_x('An entry that matches an existing review is also skipped, even when that review is in the Trash.', 'admin-text', 'site-reviews'),
             ['type' => 'warning', 'additional_classes' => ['inline']]
         ); ?>
         <?php echo wp_get_admin_notice(

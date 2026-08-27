@@ -166,6 +166,10 @@ class ImportManager
         delete_transient(glsr()->prefix.'import_lock');
     }
 
+    /**
+     * skipped counts every record that is not imported. duplicates and failed
+     * count the reasons inside it. A record that submits nothing is neither.
+     */
     protected function importRecords(array $records, array &$result): void
     {
         $items = [];
@@ -184,6 +188,7 @@ class ImportManager
             $review = empty($reviewIds[$hash]) ? null : glsr_get_review($reviewIds[$hash]);
             if ($review?->isValid()) {
                 $result['attachments'] += glsr()->filterInt('import/review/attachments', 0, $request, $review, false);
+                ++$result['duplicates'];
                 ++$result['skipped'];
                 continue;
             }
@@ -193,6 +198,7 @@ class ImportManager
                 ++$result['imported'];
                 continue;
             }
+            ++$result['failed'];
             ++$result['skipped'];
         }
     }

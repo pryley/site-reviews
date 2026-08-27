@@ -47,7 +47,9 @@ class Import {
         const stage3 = await this.process(3, stage2.attachments, 1); // import 1 attachment per request
         console.info('stage 3 complete', stage3);
         const stage4 = await this.fetch({
+            duplicates: stage2.duplicates,
             errors: this.data.errors || [],
+            failed: stage2.failed,
             imported: stage2.imported,
             skipped: stage2.skipped + (this.data.skipped ?? 0),
             stage: 4,
@@ -146,6 +148,8 @@ class Import {
     results (data) {
         const acc = {
             attachments: 0,
+            duplicates: 0,
+            failed: 0,
             imported: 0,
             skipped: 0,
         };
