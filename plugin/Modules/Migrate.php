@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
@@ -22,6 +23,16 @@ class Migrate
         $this->migrations = $this->allMigrations();
         $this->migrationsKey = glsr()->prefix.'migrations';
         $this->migrationsLastRun = glsr()->prefix.'last_migration_run';
+    }
+
+    public function canQueue(): bool
+    {
+        if (glsr(Queue::class)->isPending('queue/migration')) {
+            return false;
+        }
+        $cooldown = glsr()->filterInt('migration/cooldown', \HOUR_IN_SECONDS);
+        // the same clock that updateMigrationStatus() writes
+        return current_time('timestamp') - $this->lastRun() >= $cooldown;
     }
 
     public function isMigrationNeeded(): bool
@@ -76,6 +87,7 @@ class Migrate
         } else {
             $this->runMigrations();
         }
+        $this->reconcileDbVersion();
     }
 
     public function runAll(): void
@@ -118,6 +130,18 @@ class Migrate
             $storedMigrations = $migrations;
         }
         return array_map('wp_validate_boolean', $storedMigrations);
+    }
+
+    protected function reconcileDbVersion(): void
+    {
+        if (Application::DB_VERSION === get_option(glsr()->prefix.'db_version')) {
+            return;
+        }
+        if (!empty($this->pendingMigrations())) {
+            return; // a pending migration may own the version stamp
+        }
+        // Every migration is recorded as run but the version is wrong (a database restore can do this)
+        $this->runAll();
     }
 
     protected function runMigrations(): void

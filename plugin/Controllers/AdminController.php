@@ -247,7 +247,7 @@ class AdminController extends AbstractController
         if (!$this->isAdminScreen()) {
             return;
         }
-        if (glsr(Queue::class)->isPending('queue/migration')) {
+        if (!glsr(Migrate::class)->canQueue()) {
             return;
         }
         if (!glsr(Migrate::class)->isMigrationNeeded() && !glsr(Database::class)->isMigrationNeeded()) {

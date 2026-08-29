@@ -26,7 +26,9 @@ class MigrationNotice extends AbstractNotice
         if (empty($args)) {
             return false;
         }
-        glsr(Queue::class)->once(time() + 30, 'queue/migration', $args);
+        if (glsr(Migrate::class)->canQueue()) {
+            glsr(Queue::class)->once(time() + 30, 'queue/migration', $args);
+        }
         return true;
     }
 

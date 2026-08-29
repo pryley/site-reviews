@@ -3,14 +3,16 @@
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 
+use GeminiLabs\SiteReviews\Tests\NullQueue;
+
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
  * The migration orchestrator. The real migrations ran once in bootstrap; these
- * tests drive the MACHINERY — discovery, pending bookkeeping, and the two ways
- * a migration class can disappoint — against fixtures, so nothing here touches
- * a real Migrate_* class or its DDL.
+ * tests drive the MACHINERY — discovery, pending bookkeeping, the queueing
+ * guard, and the two ways a migration class can disappoint — against fixtures,
+ * so nothing here touches a real Migrate_* class or its DDL.
  */
 
 beforeEach(function () {
@@ -60,6 +62,58 @@ test('a class that is not a migration is skipped, and one that fails stays pendi
     $stored = get_option($migrate->migrationsKey);
     expect($stored)->toBe(['Migrate_0_0_1' => false, 'Migrate_0_0_2' => false])
         ->and($migrate->lastRun())->toBeGreaterThan(0);
+});
+
+test('a migration cannot be queued while one is pending or too soon after a run', function () {
+    $migrate = new Migrate();
+
+    NullQueue::$isPending = true;
+    expect($migrate->canQueue())->toBeFalse();
+
+    // A run that ended without clearing its trigger has failed; retrying it
+    // immediately cannot succeed. One attempt per cooldown period.
+    NullQueue::$isPending = false;
+    update_option($migrate->migrationsLastRun, current_time('timestamp'));
+    expect($migrate->canQueue())->toBeFalse();
+
+    update_option($migrate->migrationsLastRun, current_time('timestamp') - HOUR_IN_SECONDS - 1);
+    expect($migrate->canQueue())->toBeTrue();
+});
+
+test('a stale db_version with nothing pending re-runs all migrations', function () {
+    // A restore can revert glsr_db_version while the stored bookkeeping still
+    // says every migration ran. Nothing is pending, so no migration re-stamps
+    // the option, and Application::init() queues the migration on every
+    // request, forever. The bookkeeping is what lies: run() must reset it and
+    // re-run. The routing is the test — that the real ladder ends at the
+    // current version is asserted in ToolsControllerTest's Hard Reset test,
+    // which already pays for the transaction commit a real runAll() causes.
+    update_option(glsr()->prefix.'db_version', '1.4');
+    $migrate = new class extends Migrate {
+        public bool $ranAll = false;
+
+        public function runAll(): void
+        {
+            $this->ranAll = true;
+        }
+    };
+    $migrate->migrations = [];
+
+    $migrate->run();
+
+    expect($migrate->ranAll)->toBeTrue();
+});
+
+test('a pending migration owns the version stamp, reconcile stays out', function () {
+    // While a migration is still pending (here: the fixture that always
+    // fails), the version stamp is its job; reconcile must not stamp over it.
+    update_option(glsr()->prefix.'db_version', '1.4');
+    $migrate = new Migrate();
+    $migrate->migrations = ['Migrate_0_0_2'];
+
+    $migrate->run();
+
+    expect(get_option(glsr()->prefix.'db_version'))->toBe('1.4');
 });
 
 test('when the database itself needs migrating, everything is re-run from the start', function () {

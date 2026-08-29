@@ -334,6 +334,7 @@ test('a migration that is needed but not yet queued gets queued by the notice it
     $migrations[array_key_last($migrations)] = false; // one migration now reads as never-run
     update_option(glsr()->prefix.'migrations', $migrations);
     glsr(OptionManager::class)->set('version_upgraded_from', '8.0.0'); // not a fresh install
+    delete_option(glsr()->prefix.'last_migration_run'); // bootstrap just ran the migrations; the cooldown must not block
 
     $notice = new MigrationNotice();
 
@@ -342,6 +343,26 @@ test('a migration that is needed but not yet queued gets queued by the notice it
     expect($queued)->toHaveCount(1)
         ->and($queued[0]['args']['database'] ?? null)->toBeTrue()
         ->and($queued[0]['args']['migrations'] ?? '')->not->toBe('');
+
+    set_current_screen('front');
+});
+
+test('during the cooldown the notice still shows, it just does not schedule', function () {
+    // The cooldown trades retry speed for site stability; the trade is only
+    // safe while the failure stays visible. A needed migration must announce
+    // itself even when scheduling has to wait.
+    set_current_screen('edit-'.glsr()->post_type);
+    NullQueue::$isPending = false;
+    $migrations = GeminiLabs\SiteReviews\Helpers\Arr::consolidate(get_option(glsr()->prefix.'migrations'));
+    $migrations[array_key_last($migrations)] = false;
+    update_option(glsr()->prefix.'migrations', $migrations);
+    glsr(OptionManager::class)->set('version_upgraded_from', '8.0.0');
+    update_option(glsr()->prefix.'last_migration_run', current_time('timestamp')); // a run just failed
+
+    $notice = new MigrationNotice();
+
+    expect(false !== has_action('admin_notices', [$notice, 'render']))->toBeTrue()
+        ->and(NullQueue::calls('once', 'queue/migration'))->toBe([]);
 
     set_current_screen('front');
 });

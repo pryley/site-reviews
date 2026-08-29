@@ -400,7 +400,9 @@ test('the installer does not run again on a site that is already activated', fun
 test('a migration is not scheduled on a site that is up to date', function () {
     // bootstrap.php runs every migration once, so Migrate::isMigrationNeeded() is false and the
     // method returns of its own accord — exactly what it does on a site already up to date.
+    // The cooldown is opened first, so the return being tested is the up-to-date one.
     set_current_screen('edit-'.glsr()->post_type);
+    delete_option(glsr()->prefix.'last_migration_run');
 
     glsr(AdminController::class)->scheduleMigration();
 
@@ -421,6 +423,9 @@ function seedPendingMigration(): void
     $settings = (array) get_option(OptionManager::databaseKey());
     $settings['version_upgraded_from'] = '8.0.0';
     update_option(OptionManager::databaseKey(), $settings);
+    // an upgrade arrives with no recent run; bootstrap's just-ran timestamp
+    // would otherwise hold the migration/cooldown closed
+    delete_option(glsr()->prefix.'last_migration_run');
 }
 
 test('a migration is scheduled on a site that needs one', function () {

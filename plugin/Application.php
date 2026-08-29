@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\PermissionDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Queue;
 
 /**
@@ -118,7 +119,9 @@ final class Application extends Container implements PluginContract
         $args = [];
         // Ensure the custom database tables exist, this is needed in cases
         // where the plugin has been updated instead of activated.
-        if (empty(get_option(static::PREFIX.'db_version'))) {
+        if (empty(get_option(static::PREFIX.'db_version'))
+            && false === get_transient(static::PREFIX.'install_cooldown')) {
+            set_transient(static::PREFIX.'install_cooldown', 1, 15 * \MINUTE_IN_SECONDS);
             $this->make(Install::class)->run();
         }
         // If this is a new major version, copy over the previous version settings
@@ -188,7 +191,7 @@ final class Application extends Container implements PluginContract
      */
     public function queueMigration(): void
     {
-        if (!empty($this->migrationArgs)) {
+        if (!empty($this->migrationArgs) && $this->make(Migrate::class)->canQueue()) {
             $this->make(Queue::class)->once(time() + 15, 'queue/migration', $this->migrationArgs, true);
         }
     }

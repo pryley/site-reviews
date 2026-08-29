@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Controllers\ToolsController;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\CountManager;
@@ -193,7 +194,12 @@ test('migrating the plugin through the admin route re-runs the migrations', func
 
     glsr(ToolsController::class)->migratePlugin(new Request(['alt' => 1]));
 
-    expect((int) get_option(glsr()->prefix.'last_migration_run'))->toBeGreaterThan(0);
+    // The ladder stamps 1.4 (Migrate_7_1_0) before Migrate_8_0_0 overwrites
+    // it, so the final value proves the tail re-stamp without seeding a
+    // stale version — a seed written before the commit point would survive
+    // the teardown rollback and poison later tests.
+    expect((int) get_option(glsr()->prefix.'last_migration_run'))->toBeGreaterThan(0)
+        ->and(get_option(glsr()->prefix.'db_version'))->toBe(Application::DB_VERSION);
 });
 
 test('exporting reviews refuses without permission', function () {

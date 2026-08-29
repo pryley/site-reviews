@@ -299,6 +299,7 @@ test('the defaults are the settings config flattened to values', function () {
 test('a database version bump queues a migration on init, through a removable hook', function () {
     \GeminiLabs\SiteReviews\Tests\NullQueue::$calls = [];
     update_option(glsr()->prefix.'db_version', '0.9-stale'); // non-empty: Install::run() must NOT fire
+    delete_option(glsr()->prefix.'last_migration_run'); // bootstrap just ran the migrations; the cooldown must not block
 
     glsr()->init();
 
@@ -309,6 +310,49 @@ test('a database version bump queues a migration on init, through a removable ho
     $queued = \GeminiLabs\SiteReviews\Tests\NullQueue::calls('once', 'queue/migration');
     expect($queued)->toHaveCount(1)
         ->and($queued[0]['args']['database'] ?? null)->toBeTrue();
+
+    remove_action('init', [glsr(), 'queueMigration']);
+});
+
+test('a failing install is retried on a cooldown, not on every request', function () {
+    // While glsr_db_version stays empty because the tables cannot be created
+    // (an orphaned tablespace after a restore, for example), an ungated
+    // install would repeat Role::resetAll() and network-wide DDL attempts on
+    // every request to the site.
+    $fake = new class extends \GeminiLabs\SiteReviews\Install {
+        public int $runs = 0;
+
+        public function run(): void
+        {
+            ++$this->runs;
+        }
+    };
+    $original = glsr(\GeminiLabs\SiteReviews\Install::class);
+    glsr()->alias(\GeminiLabs\SiteReviews\Install::class, $fake);
+    delete_option(glsr()->prefix.'db_version');
+    try {
+        glsr()->init(); // installs (and the fake leaves the option empty: a failing install)
+        glsr()->init(); // within the cooldown: must not install again
+
+        expect($fake->runs)->toBe(1);
+    } finally {
+        glsr()->alias(\GeminiLabs\SiteReviews\Install::class, $original);
+        remove_action('init', [glsr(), 'queueMigration']);
+    }
+});
+
+test('the init path does not re-queue a migration within the cooldown', function () {
+    // The failure mode behind a 22k-row Action Scheduler table: while
+    // glsr_db_version stayed stale, every request re-queued the migration the
+    // moment the previous run completed, and the runner obliged every minute.
+    \GeminiLabs\SiteReviews\Tests\NullQueue::$calls = [];
+    update_option(glsr()->prefix.'db_version', '0.9-stale');
+    update_option(glsr()->prefix.'last_migration_run', current_time('timestamp') - 30);
+
+    glsr()->init();
+    glsr()->queueMigration(); // what init would do
+
+    expect(\GeminiLabs\SiteReviews\Tests\NullQueue::calls('once', 'queue/migration'))->toHaveCount(0);
 
     remove_action('init', [glsr(), 'queueMigration']);
 });
