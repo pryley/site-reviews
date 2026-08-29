@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 8.2.3 (unreleased) =
+
+- Fixed a database error when a foreign key references a missing table
+- Fixed a failed migration being retried every minute instead of hourly
+- Fixed a failed plugin install being retried on every page load
+- Fixed an endless migration loop causing database deadlocks after restoring a backup
+- Fixed foreign keys being skipped when a database restore changes a table engine
+- Fixed the foreign key check matching same-named constraints on other tables
+
 = 8.2.2 (2026-08-22) =
 
 - Fixed the Review Notifications addon losing its custom notifications after updating Site Reviews

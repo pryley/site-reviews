@@ -2,7 +2,7 @@
 Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
-Tested up to: 7.0
+Tested up to: 7.1
 Stable tag: 8.2.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -230,6 +230,15 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Improved the review modal's compatibility with older addon versions and with plugins whose code fails while it opens
 - Improved the speed of review submission and pagination requests
 - Removed the broken review autosave endpoints from the REST API
+
+= 8.2.3 (unreleased) =
+
+- Fixed a database error when a foreign key references a missing table
+- Fixed a failed migration being retried every minute instead of hourly
+- Fixed a failed plugin install being retried on every page load
+- Fixed an endless migration loop causing database deadlocks after restoring a backup
+- Fixed foreign keys being skipped when a database restore changes a table engine
+- Fixed the foreign key check matching same-named constraints on other tables
 
 = 8.2.2 (2026-08-22) =
 

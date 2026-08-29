@@ -354,3 +354,22 @@ Features are subject to change and are sorted alphabetically, not by priority.
   because a route that renders in the same request would double-display a
   stored notice on the next page load. A Router-level store after the admin
   dispatch would fix all of them at once, with exactly that caveat to verify.
+
+- [ ] **`installOnNewSite()` can fatal in site-creation flows that never load
+  `wp-admin/includes/plugin.php`.** `MainController::installOnNewSite()` (hooked
+  on `wp_initialize_site:999`) calls `is_plugin_active_for_network()` directly;
+  the `require_once` that defines it lives in `Install::run()`, which the
+  `runOnSite()` path bypasses. The network admin loads that file; the
+  `wp-activate.php`, REST and WP-CLI site-creation flows may not. Traced only,
+  not executed — needs a probe in wp-env multisite before any fix.
+
+- [ ] **A restore that empties `glsr_ratings` turns `Database::isMigrationNeeded()`
+  permanently on.** It is pure data inspection (published reviews exist, zero
+  approved rating rows), and on a site whose reviews were created on the 6.x+
+  schema nothing can rebuild the missing rows — `MigrateReviews` only rebuilds
+  from the legacy v4/v5 post meta. Every queued migration run then takes
+  `runAll()`; the `migration/cooldown` filter now bounds that to one run per
+  hour, but the churn has no exit and the admin scheduler keeps re-queuing even
+  after `glsr_db_version` is correct. Needs either a rebuild step for modern
+  reviews or a notice telling the owner the ratings table needs restoring,
+  instead of silent retries.
