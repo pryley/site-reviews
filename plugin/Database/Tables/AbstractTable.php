@@ -27,6 +27,10 @@ abstract class AbstractTable
 
     public function addForeignConstraint(string $column, string $foreignTable, string $foreignColumn): bool
     {
+        if (!glsr(Tables::class)->tableExists($foreignTable)) {
+            glsr_log()->warning("The {$foreignTable} table does not exist, the [{$column}] foreign key was not added to {$this->tablename}.");
+            return false;
+        }
         if (!glsr(Tables::class)->isInnodb($foreignTable)) {
             return false;
         }
@@ -113,6 +117,7 @@ abstract class AbstractTable
             SELECT CONSTRAINT_NAME
             FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
             WHERE CONSTRAINT_SCHEMA = '{$this->database}'
+            AND TABLE_NAME = '{$this->tablename}'
         ");
         return in_array($constraint, $constraints);
     }

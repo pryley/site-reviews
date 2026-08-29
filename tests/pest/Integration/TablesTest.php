@@ -99,6 +99,64 @@ test('a constraint is only added or dropped when its preconditions hold', functi
     } finally {
         glsr()->alias(Tables::class, $originalTables);
     }
+
+    // A restore can drop a table while the cached engine answer survives and
+    // still says innodb; the ALTER must not be attempted against a table that
+    // a real query says is gone.
+    $cachedInnodb = new class extends Tables {
+        public function isInnodb(string $table): bool
+        {
+            return true; // the stale cache
+        }
+
+        public function tableExists(string $table): bool
+        {
+            return false; // reality
+        }
+    };
+    glsr()->alias(Tables::class, $cachedInnodb);
+    try {
+        withDdlFreeDatabase(function ($fake) use ($table) {
+            expect($table->addForeignConstraint('post_id', $table->table('posts'), 'ID'))->toBeFalse()
+                ->and($fake->queries)->toBe([]);
+        });
+    } finally {
+        glsr()->alias(Tables::class, $originalTables);
+    }
+});
+
+test('creating the tables invalidates the cached engine answers', function () {
+    // A restore can change a table's engine under the cache, and the cache
+    // never expires — a wrong answer here silently skips the constraints.
+    $tablename = glsr(Tables::class)->table('ratings');
+    $option = sprintf('%sengine_%s', glsr()->prefix, $tablename);
+    update_option($option, 'myisam');
+
+    $tables = new class extends Tables {
+        public function tables(): array
+        {
+            return []; // nothing to create; the invalidation is the test
+        }
+    };
+    $tables->tables = ['ratings' => $tablename]; // tables() emptied the map too
+    $tables->createTables();
+
+    expect(get_option($option))->toBeFalse();
+});
+
+test('a constraint on another table does not count as existing', function () {
+    // Constraint names are schema-global in MySQL, but existence must be
+    // answered per table: a name that is only taken elsewhere means the ADD
+    // will fail loudly with a duplicate-name error — the honest outcome —
+    // while a schema-wide match here would skip the ADD and leave the table
+    // silently unconstrained. The ratings constraint is real in wp-env; the
+    // assigned_posts table does not have it.
+    $ratings = glsr(\GeminiLabs\SiteReviews\Database\Tables\TableRatings::class);
+    $assignedPosts = glsr(TableAssignedPosts::class);
+    $constraint = $ratings->foreignConstraint('review_id'); // glsr_ratings_review_id_foreign
+
+    expect($ratings->foreignConstraintExists($constraint, $ratings->table('posts')))->toBeTrue()
+        ->and($assignedPosts->foreignConstraintExists($constraint, $ratings->table('posts')))->toBeFalse();
 });
 
 test('a table object knows its own name, prefixed and not', function () {
