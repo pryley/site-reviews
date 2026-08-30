@@ -3933,13 +3933,6 @@ msgctxt "admin-text"
 msgid "Approved on:"
 msgstr "Approved on:"
 
-#. translators: %s: the plugin website URL
-#: plugin/Controllers/UpdateController.php:132
-#, php-format
-msgctxt "admin-text"
-msgid "A valid <a href=\"%s\">license key</a> is required to update this plugin."
-msgstr "A valid <a href=\"%s\">license key</a> is required to update this plugin."
-
 #: plugin/Controllers/VerificationController.php:35
 msgctxt "admin-text"
 msgid "Send Verification Request"
@@ -5256,11 +5249,6 @@ msgstr "Filter by review type"
 msgctxt "admin-text"
 msgid "Any review type"
 msgstr "Any review type"
-
-#: plugin/Defaults/Updater/VersionUpdateDefaults.php:78
-msgctxt "admin-text"
-msgid "A valid license key is required to update this plugin."
-msgstr "A valid license key is required to update this plugin."
 
 #: plugin/Integrations/Avada/Transformer.php:38
 #: plugin/Integrations/Avada/Transformer.php:79
@@ -7467,7 +7455,7 @@ msgid "days"
 msgstr "days"
 
 #. translators: %s: link to the License Keys page
-#: plugin/Application.php:173
+#: plugin/Application.php:176
 #, php-format
 msgctxt "link to License Keys page (admin-text)"
 msgid "Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account."
@@ -9033,4 +9021,85 @@ msgstr ""
 #: views/pages/tools/general/import-reviews.php:17
 msgctxt "admin-text"
 msgid "An entry that matches an existing review is also skipped, even when that review is in the Trash."
+msgstr ""
+
+#: plugin/Addons/UpdateNotice.php:60
+#: plugin/Addons/UpdateNotice.php:90
+msgctxt "admin-text"
+msgid "license key"
+msgstr ""
+
+#. translators: %s: link with the text "license key"
+#: plugin/Addons/UpdateNotice.php:62
+#, php-format
+msgctxt "admin-text"
+msgid "A valid %s is required to update this plugin."
+msgstr ""
+
+#: plugin/Addons/UpdateNotice.php:66
+msgctxt "admin-text"
+msgid "contact support"
+msgstr ""
+
+#. translators: %s: link with the text "contact support"
+#: plugin/Addons/UpdateNotice.php:68
+#, php-format
+msgctxt "admin-text"
+msgid "Your license has been disabled. Please %s to update this plugin."
+msgstr ""
+
+#: plugin/Addons/UpdateNotice.php:72
+msgctxt "admin-text"
+msgid "Renew it"
+msgstr ""
+
+#. translators: %s: link with the text "Renew it"
+#: plugin/Addons/UpdateNotice.php:74
+#, php-format
+msgctxt "admin-text"
+msgid "Your license has expired. %s to update this plugin."
+msgstr ""
+
+#: plugin/Addons/UpdateNotice.php:78
+#: plugin/Addons/UpdateNotice.php:84
+msgctxt "admin-text"
+msgid "Check it"
+msgstr ""
+
+#. translators: %s: link with the text "Check it"
+#: plugin/Addons/UpdateNotice.php:80
+#, php-format
+msgctxt "admin-text"
+msgid "Your license key was not recognized. %s to update this plugin."
+msgstr ""
+
+#. translators: %s: link with the text "Check it"
+#: plugin/Addons/UpdateNotice.php:86
+#, php-format
+msgctxt "admin-text"
+msgid "Your license key is for a different plugin. %s to update this plugin."
+msgstr ""
+
+#. translators: %s: link with the text "license key"
+#: plugin/Addons/UpdateNotice.php:92
+#, php-format
+msgctxt "admin-text"
+msgid "Enter your %s to update this plugin."
+msgstr ""
+
+#: plugin/Addons/UpdateNotice.php:96
+msgctxt "admin-text"
+msgid "Activate it"
+msgstr ""
+
+#. translators: %s: link with the text "Activate it"
+#: plugin/Addons/UpdateNotice.php:98
+#, php-format
+msgctxt "admin-text"
+msgid "Your license is not activated for this site. %s to update this plugin."
+msgstr ""
+
+#: plugin/Controllers/UpdateController.php:32
+msgctxt "admin-text"
+msgid "The following Site Reviews addons did not update because their license does not allow it:"
 msgstr ""

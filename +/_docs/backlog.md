@@ -32,6 +32,18 @@ Features are subject to change and are sorted alphabetically, not by priority.
   installed plugin version then behaves correctly retroactively. Re-capture the
   invalid fixture and flip its contract-pinning test when that lands.
 
+  2026-08-30: the server fix is written (niftyplugins theme, commits d34f78e1 and
+  0ec296a8, NOT yet deployed). An `edd_sl_license_response` filter withholds
+  `package` and `download_link` unless check_license() answers `valid`, and adds
+  `license_status` (check_license()'s vocabulary, or `missing`) plus
+  `license_renewal_url` alongside `expired`. The plugin reads both
+  (`Addons\UpdateNotice`, `VersionUpdateDefaults`, `UpdateController`) and falls
+  back to the generic message when they are absent, which is what the live
+  server still sends. UpdateControllerTest exercises the new contract with
+  responses DERIVED from the captured invalid fixture. Still to do, after the
+  theme deploys: re-capture `get-version-invalid.json`, capture an expired and a
+  site-inactive answer, and replace the derived responses with the captures.
+
 - [ ] **The asset optimizer assumes the plugin folder is named exactly `site-reviews`.**
   `AbstractAsset::combine()` strips a HARD-CODED `strlen('site-reviews/')` off the end of
   `glsr()->path()` to get the filesystem root, and `file()` (the combined-asset target)

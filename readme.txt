@@ -233,12 +233,15 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 
 = 8.2.3 (unreleased) =
 
+- Added the reason to the failed auto-update email when an addon license does not allow the update
 - Fixed a database error when a foreign key references a missing table
 - Fixed a failed migration being retried every minute instead of hourly
 - Fixed a failed plugin install being retried on every page load
 - Fixed an endless migration loop causing database deadlocks after restoring a backup
 - Fixed foreign keys being skipped when a database restore changes a table engine
+- Fixed the addon license notice being hidden by a release upgrade notice on the Updates page
 - Fixed the foreign key check matching same-named constraints on other tables
+- Improved the update notice for addons with an expired, inactive, or invalid license
 
 = 8.2.2 (2026-08-22) =
 

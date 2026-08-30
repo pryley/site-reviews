@@ -293,7 +293,10 @@ test('the captured contract: an invalid licence still answers a package', functi
     // The server refuses only in `msg` (a field the Defaults drop) and the
     // package URL — which refuses at DOWNLOAD time. The plugin's "a valid
     // license key is required" message renders only when the package is empty,
-    // so under this contract it cannot fire (see ROADMAP).
+    // so under this contract it cannot fire. This is what the live server
+    // answers until its edd_sl_license_response filter deploys (see the
+    // backlog); the tests after the no-licence one cover the answer it gives
+    // after that.
     licenseServer(['get_version' => updaterFixture('get-version-invalid')]);
 
     $update = glsr(UpdateController::class)->filterUpdatePlugins(false, [
@@ -331,4 +334,132 @@ test('the captured contract: a missing licence key gets the licence message', fu
         [], (object) ['package' => $update['package']]
     );
     expect(ob_get_clean())->toContain('license key');
+});
+
+/*
+ * The contract after the server-side fix. The server's edd_sl_license_response filter
+ * withholds `package` and `download_link` unless check_license() answers `valid`, and
+ * adds `license_status` — check_license()'s own vocabulary, or `missing` — plus
+ * `license_renewal_url` alongside `expired`.
+ *
+ * These answers are DERIVED from the captured wrong-key one, not captured: the filter
+ * is not deployed yet. Re-capture and replace them when it is (see the backlog).
+ */
+
+function withheldPackage(string $status, array $extra = []): array
+{
+    return array_merge(updaterFixture('get-version-invalid'), [
+        'download_link' => '',
+        'license_status' => $status,
+        'package' => '',
+    ], $extra);
+}
+
+test('a server that withholds the package says why, and the plugin repeats it', function () {
+    licenseServer(['get_version' => withheldPackage('expired', [
+        'license_renewal_url' => 'https://niftyplugins.com/checkout/?edd_license_key=SCRUBBED',
+    ])]);
+
+    $update = glsr(UpdateController::class)->filterUpdatePlugins(false, [
+        'TextDomain' => 'site-reviews-alerts',
+        'UpdateURI' => 'https://niftyplugins.com',
+    ]);
+
+    // the Updates screen: the upgrade notice
+    expect($update['package'])->toBe('')
+        ->and($update['license_status'])->toBe('expired')
+        ->and($update['license_renewal_url'])->toBe('https://niftyplugins.com/checkout/?edd_license_key=SCRUBBED')
+        ->and($update['upgrade_notice'])->toBe('‼️ Your license has expired. Renew it to update this plugin.');
+
+    // the Plugins screen: the row, with the renewal link the server sent
+    ob_start();
+    glsr(UpdateController::class)->renderPluginUpdateMessage([], (object) $update);
+    $row = (string) ob_get_clean();
+
+    expect($row)->toContain('Your license has expired.')
+        ->and($row)->toContain('<a href="https://niftyplugins.com/checkout/?edd_license_key=SCRUBBED">Renew it</a>');
+});
+
+test('a release note no longer hides the licence message', function () {
+    // The Updates screen shows one upgrade notice. Before, a release that carried one
+    // replaced the licence message with it; now the licence comes first and the note follows.
+    licenseServer(['get_version' => withheldPackage('missing', [
+        'upgrade_notice' => '<p>Requires Site Reviews 8.0</p>',
+    ])]);
+
+    $update = glsr(UpdateController::class)->filterUpdatePlugins(false, [
+        'TextDomain' => 'site-reviews-alerts',
+        'UpdateURI' => 'https://niftyplugins.com',
+    ]);
+
+    expect($update['upgrade_notice'])->toBe('‼️ Enter your license key to update this plugin. Requires Site Reviews 8.0');
+});
+
+test('a status the plugin does not know reads as the generic message', function () {
+    licenseServer(['get_version' => withheldPackage('something_new')]);
+
+    $update = glsr(UpdateController::class)->filterUpdatePlugins(false, [
+        'TextDomain' => 'site-reviews-alerts',
+        'UpdateURI' => 'https://niftyplugins.com',
+    ]);
+
+    expect($update['license_status'])->toBe('something_new') // kept, so a newer plugin can read it
+        ->and($update['upgrade_notice'])->toBe('‼️ A valid license key is required to update this plugin.');
+});
+
+test('the failed auto-update email says which licence stopped the update, and where to fix it', function () {
+    // WordPress attempts an automatic update whenever it is enabled for the plugin, and
+    // its failure email names the plugin and the versions but not the reason. The reason
+    // is on the update object the plugin built — the one WordPress hands back as `item`.
+    $controller = glsr(UpdateController::class);
+    $email = [
+        'to' => 'admin@example.org',
+        'subject' => '[Example] Some plugins have failed to update',
+        'body' => "Howdy! Plugins failed to update on your site.\n\nThanks.",
+        'headers' => '',
+    ];
+    $ours = (object) [
+        'item' => (object) [
+            'id' => 'https://niftyplugins.com', // WordPress copies the Update URI header here
+            'license_renewal_url' => 'https://niftyplugins.com/checkout/?edd_license_key=SCRUBBED',
+            'license_status' => 'expired',
+            'package' => '',
+            'plugin' => 'site-reviews-alerts/site-reviews-alerts.php',
+        ],
+        'name' => 'Review Alerts',
+        'result' => new WP_Error('no_package', 'Package not available.'),
+    ];
+    $licensed = (object) [ // one of ours that failed for some other reason
+        'item' => (object) [
+            'id' => 'https://niftyplugins.com',
+            'package' => 'https://niftyplugins.com/edd-sl/package_download/SCRUBBED',
+            'plugin' => 'site-reviews-forms/site-reviews-forms.php',
+        ],
+        'name' => 'Review Forms',
+        'result' => new WP_Error('download_failed', 'Download failed.'),
+    ];
+    $theirs = (object) [ // not ours at all
+        'item' => (object) [
+            'id' => 'w.org/plugins/akismet',
+            'package' => '',
+            'plugin' => 'akismet/akismet.php',
+        ],
+        'name' => 'Akismet',
+        'result' => new WP_Error('no_package', 'Package not available.'),
+    ];
+
+    $sent = $controller->filterAutoUpdateEmail($email, 'fail', [], ['plugin' => [$ours, $licensed, $theirs]]);
+
+    expect($sent['body'])->toStartWith($email['body'])
+        ->and($sent['body'])->toContain('The following Site Reviews addons did not update because their license does not allow it:')
+        ->and($sent['body'])->toContain("\n- Review Alerts: Your license has expired. Renew it to update this plugin. https://niftyplugins.com/checkout/?edd_license_key=SCRUBBED\n")
+        ->and($sent['body'])->not->toContain('Review Forms')
+        ->and($sent['body'])->not->toContain('Akismet')
+        ->and($sent['subject'])->toBe($email['subject']);
+
+    // a successful run, or a failure that is not about a licence, leaves the email alone
+    expect($controller->filterAutoUpdateEmail($email, 'success', ['plugin' => [$ours]], []))->toBe($email)
+        ->and($controller->filterAutoUpdateEmail($email, 'fail', [], ['plugin' => [$licensed, $theirs]]))->toBe($email)
+        // and whatever another filter made of it is handed back untouched
+        ->and($controller->filterAutoUpdateEmail(false, 'fail', [], ['plugin' => [$ours]]))->toBeFalse();
 });

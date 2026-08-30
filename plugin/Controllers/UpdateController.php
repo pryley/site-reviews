@@ -2,11 +2,39 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Addons\UpdateNotice;
 use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class UpdateController extends AbstractController
 {
+    /**
+     * Say why an addon did not update when its update carried no package.
+     *
+     * @param mixed $email
+     *
+     * @return mixed
+     *
+     * @filter auto_plugin_theme_update_email
+     */
+    public function filterAutoUpdateEmail($email, string $type, array $successfulUpdates, array $failedUpdates)
+    {
+        if (!is_array($email) || !in_array($type, ['fail', 'mixed'], true)) {
+            return $email;
+        }
+        $lines = array_filter(array_map(
+            fn ($failed) => $this->licenseFailureLine($failed),
+            $failedUpdates['plugin'] ?? []
+        ));
+        if (empty($lines)) {
+            return $email;
+        }
+        $heading = _x('The following Site Reviews addons did not update because their license does not allow it:', 'admin-text', 'site-reviews');
+        $body = rtrim((string) ($email['body'] ?? ''));
+        $email['body'] = $body."\n\n".$heading."\n".implode("\n", $lines)."\n";
+        return $email;
+    }
+
     /**
      * Get the update information for the plugin modal.
      *
@@ -127,10 +155,8 @@ class UpdateController extends AbstractController
         if (!empty($response->package)) {
             return;
         }
-        $url = $pluginData['PluginURI'] ?? Updater::DEFAULT_API_URL;
-        /* translators: %s: the plugin website URL */
-        $message = _x('A valid <a href="%s">license key</a> is required to update this plugin.', 'admin-text', 'site-reviews');
-        echo ' '.wp_kses_post(sprintf($message, esc_url($url)));
+        $notice = $this->updateNotice($response, (string) ($pluginData['PluginURI'] ?? ''));
+        echo ' '.$notice->html();
     }
 
     protected function hasTimeoutExpired(string $addonId): bool
@@ -171,5 +197,45 @@ class UpdateController extends AbstractController
             $cache[$slug] = trailingslashit(Updater::DEFAULT_API_URL) === trailingslashit($data['update_uri']);
         }
         return $cache[$slug];
+    }
+
+    /**
+     * An update object the plugin built names the update server as its id:
+     * WordPress copies the Update URI header there, and the transient filter sets it.
+     */
+    protected function isAddonUpdate(object $update): bool
+    {
+        $id = (string) ($update->id ?? '');
+        return '' !== $id && trailingslashit($id) === trailingslashit(Updater::DEFAULT_API_URL);
+    }
+
+    /**
+     * The email line for a failed addon update that had no package; '' for any other failure.
+     *
+     * @param mixed $failed
+     */
+    protected function licenseFailureLine($failed): string
+    {
+        $item = $failed->item ?? null;
+        if (!is_object($item) || !empty($item->package) || !$this->isAddonUpdate($item)) {
+            return '';
+        }
+        $notice = $this->updateNotice($item);
+        $name = html_entity_decode((string) ($failed->name ?? $item->plugin));
+        return sprintf('- %s: %s %s', $name, $notice->text(), $notice->url());
+    }
+
+    /**
+     * The notice for an update object that has no package.
+     *
+     * @param mixed $update
+     */
+    protected function updateNotice($update, string $pluginUrl = ''): UpdateNotice
+    {
+        return new UpdateNotice(
+            (string) ($update->license_status ?? ''),
+            (string) ($update->license_renewal_url ?? ''),
+            $pluginUrl
+        );
     }
 }

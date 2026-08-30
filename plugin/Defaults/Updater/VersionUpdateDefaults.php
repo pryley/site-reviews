@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults\Updater;
 
+use GeminiLabs\SiteReviews\Addons\UpdateNotice;
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
 use GeminiLabs\SiteReviews\Helper;
 
@@ -32,6 +33,8 @@ class VersionUpdateDefaults extends DefaultsAbstract
      */
     public array $sanitize = [
         'id' => 'slug',
+        'license_renewal_url' => 'url',
+        'license_status' => 'key',
         'package' => 'url',
         'requires' => 'version',
         'requires_php' => 'version',
@@ -48,6 +51,8 @@ class VersionUpdateDefaults extends DefaultsAbstract
             'banners' => '',
             'icons' => '',
             'id' => '',
+            'license_renewal_url' => '',
+            'license_status' => '',
             'package' => '',
             'requires' => '',
             'requires_php' => '',
@@ -74,9 +79,12 @@ class VersionUpdateDefaults extends DefaultsAbstract
         if (version_compare($tested, $wp, '=')) {
             $values['tested'] = $wp_version;
         }
-        if (empty($values['package']) && empty($values['upgrade_notice'])) {
-            $notice = _x('A valid license key is required to update this plugin.', 'admin-text', 'site-reviews');
-            $values['upgrade_notice'] = sprintf('‼️ %s', $notice);
+        if (empty($values['package'])) {
+            $licenseNotice = (new UpdateNotice($values['license_status']))->text();
+            $values['upgrade_notice'] = trim(sprintf('‼️ %s %s',
+                $licenseNotice,
+                $values['upgrade_notice']
+            ));
         }
         return $values;
     }

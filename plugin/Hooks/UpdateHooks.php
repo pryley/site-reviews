@@ -27,6 +27,7 @@ class UpdateHooks extends AbstractHooks
     public function run(): void
     {
         $this->hook(UpdateController::class, [
+            ['filterAutoUpdateEmail', 'auto_plugin_theme_update_email', 10, 4],
             ['filterPluginsApi', 'plugins_api', 10, 3],
             ['filterUpdatePlugins', 'update_plugins_niftyplugins.com', 10, 2],
             ['filterUpdatePluginsTransient', 'site_transient_update_plugins', 50],
