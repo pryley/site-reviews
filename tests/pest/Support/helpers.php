@@ -665,6 +665,39 @@ function unregisterAddons(string ...$addonIds): void
 }
 
 /**
+ * Runs the callback with $fake standing in for $abstract in the container, then puts the
+ * container back the way it was.
+ *
+ * "Back the way it was" is the point. alias() writes the instance registry, and resolve()
+ * hands a registered instance back on every later call. A class the plugin never binds as
+ * shared (Query, for one) has NO entry there: it is constructed fresh on each glsr() call.
+ * Restoring such a class by aliasing "the original" back does not restore anything; it pins
+ * one instance for the rest of the process, and per-call state (Query::$args) starts leaking
+ * between tests that never touched the fake. So the prior entry is snapshotted before the
+ * swap, and the restore either puts it back or removes the key.
+ */
+function swapInstance(string $abstract, object $fake, callable $callback)
+{
+    $property = new \ReflectionProperty(glsr(), 'instances');
+    $property->setAccessible(true);
+    $instances = $property->getValue(glsr());
+    $hadInstance = array_key_exists($abstract, $instances);
+    $original = $instances[$abstract] ?? null;
+    glsr()->alias($abstract, $fake);
+    try {
+        return $callback($fake);
+    } finally {
+        $instances = $property->getValue(glsr());
+        if ($hadInstance) {
+            $instances[$abstract] = $original;
+        } else {
+            unset($instances[$abstract]);
+        }
+        $property->setValue(glsr(), $instances);
+    }
+}
+
+/**
  * Invoke a protected or private method on an instance.
  */
 function protectedMethod(string $className, string $method): \ReflectionMethod
@@ -713,19 +746,12 @@ function licenseServer(array $responses): \ArrayObject
 }
 
 /**
- * Runs the callback with $fake standing in for the plugin's Database, and puts the real one
- * back afterwards. The container is a registry of instances, so the swap is an alias; the
- * restore has to happen in a finally, since an alias outlives the test that made it.
+ * Runs the callback with $fake standing in for the plugin's Database, and puts the
+ * container back afterwards. See swapInstance() for why the restore is not an alias.
  */
 function withDatabase(\GeminiLabs\SiteReviews\Database $fake, callable $callback)
 {
-    $original = glsr(\GeminiLabs\SiteReviews\Database::class);
-    glsr()->alias(\GeminiLabs\SiteReviews\Database::class, $fake);
-    try {
-        return $callback($fake);
-    } finally {
-        glsr()->alias(\GeminiLabs\SiteReviews\Database::class, $original);
-    }
+    return swapInstance(\GeminiLabs\SiteReviews\Database::class, $fake, $callback);
 }
 
 /**

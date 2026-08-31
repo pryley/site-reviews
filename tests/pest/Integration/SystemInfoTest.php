@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Modules\SystemInfo;
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\swapInstance;
 
 /*
  * The system info, which is what people paste into a support forum.
@@ -293,15 +294,13 @@ test('ratings that did not import as arrays are reported as an error, not a cras
             return ['local' => 'not-an-array']; // the shape bad imports produce
         }
     };
-    $original = glsr(\GeminiLabs\SiteReviews\Database\Query::class);
-    glsr()->alias(\GeminiLabs\SiteReviews\Database\Query::class, $fakeQuery);
-    try {
+    // Query is built fresh on every glsr() call, so the swap must not leave an instance
+    // behind: SqlTest's "sql where" depends on getting one nobody has called setArgs() on.
+    swapInstance(\GeminiLabs\SiteReviews\Database\Query::class, $fakeQuery, function () {
         $section = glsr(SystemInfo::class)->sectionReviews();
 
         expect($section['Type: local'] ?? 'No reviews')->toBe('No reviews');
-    } finally {
-        glsr()->alias(\GeminiLabs\SiteReviews\Database\Query::class, $original);
-    }
+    });
 });
 
 test('a server with ini_get disabled says so instead of guessing', function () {
