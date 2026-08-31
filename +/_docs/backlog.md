@@ -331,6 +331,23 @@ Features are subject to change and are sorted alphabetically, not by priority.
      reviews stops — mild (lost crash recovery on the edit screen), but worth a
      dev-note check on major-version bumps.
 
+- [ ] **Carry the form signature as JSON instead of a serialized payload.** The
+  signature is now read with `unserialize($value, ['allowed_classes' => false])`
+  in `Request::signedValues()`, so a request can no longer restore an object. That
+  closes the injection, but the payload is still PHP-serialized, and the rule
+  worth reaching is that nothing arriving with a request goes near `unserialize()`
+  at all.
+
+  Deferred out of the 8.2.3 security release on purpose: signatures already sit
+  inside rendered and cached pages, so the read path needs a transition that
+  accepts both formats for at least one release before `signForm()` switches to
+  `wp_json_encode()`. Doing that under time pressure is how a cached page starts
+  refusing every submission on it.
+
+  `Form::signForm()` writes the payload; `Request::signedValues()` is the only
+  reader, so the change is two methods plus the transitional branch.
+
+
 ## Upcoming Add-ons
 
 ### Functionality

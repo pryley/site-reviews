@@ -9,9 +9,7 @@ class SignatureValidator extends ValidatorAbstract
     public function isValid(): bool
     {
         $isValid = true;
-        $signature = $this->request->decrypt('form_signature');
-        $values = maybe_unserialize($signature);
-        $values = wp_parse_args($values, ['form_id' => '']);
+        $values = $this->request->signedValues(['form_id' => '']);
         foreach ($values as $key => $value) {
             if (Cast::toString($value) !== $this->request->cast($key, 'string')) {
                 $isValid = false;

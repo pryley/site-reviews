@@ -5,6 +5,7 @@ use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Validator\AkismetValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\SignatureValidator;
 use GeminiLabs\SiteReviews\Request;
+use GeminiLabs\SiteReviews\Tests\UnserializeProbe;
 
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
@@ -231,4 +232,18 @@ test('a site can overrule the signature check', function () {
     add_filter('site-reviews/validate/signature', '__return_true');
 
     expect($validator->isValid())->toBeTrue();
+});
+
+test('a signature holding a serialized object is refused, and the object is never restored', function () {
+    // The second place the signature is read. Even with a key an attacker could compute,
+    // the payload must not come back as an object: unserialize() wakes one before any code
+    // gets to look at it.
+    UnserializeProbe::reset();
+    $validator = new SignatureValidator(new Request([
+        'form_id' => 'a-form-id',
+        'form_signature' => glsr(Encryption::class)->encrypt(serialize(new UnserializeProbe())),
+    ]));
+
+    expect($validator->isValid())->toBeFalse();
+    expect(UnserializeProbe::$awoken)->toBeFalse();
 });

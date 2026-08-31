@@ -77,12 +77,23 @@ class Request extends Arguments
         if (!$this->exists('form_signature') || 'form_signature' === $path) {
             return;
         }
-        $values = $this->decrypt('form_signature');
-        $values = wp_parse_args(maybe_unserialize($values));
+        $values = $this->signedValues();
         if (array_key_exists($path, $values)) {
             $values[$path] = $value;
             $storage['form_signature'] = glsr(Encryption::class)->encrypt(maybe_serialize($values));
             $this->exchangeArray($storage);
         }
+    }
+
+    /**
+     * The signed values a form was rendered with.
+     */
+    public function signedValues(array $defaults = []): array
+    {
+        $decrypted = $this->decrypt('form_signature');
+        $values = is_serialized($decrypted)
+            ? unserialize($decrypted, ['allowed_classes' => false])
+            : null;
+        return wp_parse_args(is_array($values) ? $values : [], $defaults);
     }
 }

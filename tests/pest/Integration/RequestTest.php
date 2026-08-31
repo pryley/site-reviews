@@ -2,6 +2,7 @@
 
 use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Request;
+use GeminiLabs\SiteReviews\Tests\UnserializeProbe;
 
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
@@ -78,4 +79,32 @@ test('a fallback can be lazy', function () {
 
     expect($request->get('present', fn () => 'never-computed'))->toBe('value');
     expect($request->get('absent', fn () => 'computed'))->toBe('computed');
+});
+
+test('a signature holding a serialized object never restores the object', function () {
+    // What somebody who could compute the encryption key would send. set() decrypts and
+    // reads the signature before any validator runs — CreateReview::normalize() reaches it
+    // on the first line of the constructor — so this is the earliest sink in a submission,
+    // ahead of the nonce, the honeypot and every captcha.
+    UnserializeProbe::reset();
+    $request = new Request([
+        'form_signature' => glsr(Encryption::class)->encrypt(serialize(new UnserializeProbe())),
+        'ip_address' => '',
+    ]);
+
+    $request->set('ip_address', '203.0.113.9'); // the first thing normalize() does
+
+    expect(UnserializeProbe::$awoken)->toBeFalse();
+    expect($request->signedValues())->toBe([]); // an object payload yields nothing usable
+});
+
+test('a signature holding an array of values still reads', function () {
+    // The other half: refusing objects must not refuse the real payload.
+    $request = new Request([
+        'form_signature' => glsr(Encryption::class)->encrypt(maybe_serialize(['form_id' => 'abc123'])),
+    ]);
+
+    expect($request->signedValues())->toBe(['form_id' => 'abc123']);
+    expect($request->signedValues(['extra' => 'default']))
+        ->toBe(['extra' => 'default', 'form_id' => 'abc123']);
 });
