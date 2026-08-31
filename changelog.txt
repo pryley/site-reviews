@@ -12,6 +12,7 @@
 - Fixed the foreign key check matching same-named constraints on other tables
 - Improved the encryption key derivation (links in review emails sent before this update will need to be re-sent)
 - Improved the failed auto-update email to include a reason when an addon license does not allow the update
+- Improved the handling of remote API responses (serialized data can no longer create PHP objects)
 - Improved the update notice for addons with an expired, inactive, or invalid license
 
 = 8.2.2 (2026-08-22) =
