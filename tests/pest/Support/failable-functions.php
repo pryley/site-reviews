@@ -17,7 +17,7 @@
  * SHADOWED NAMES — these calls must stay unqualified in the plugin, or the
  * shadow silently loses its grip (a `\` prefix or `use function` bypasses it):
  *   Modules:          random_bytes, sodium_crypto_secretbox, sodium_crypto_secretbox_open,
- *                     defined, function_exists, set_transient
+ *                     function_exists, set_transient
  *   Modules\Avatars:  fwrite
  *   Controllers:      function_exists
  *   Helpers:          extension_loaded, preg_replace_callback
@@ -65,20 +65,6 @@ function functionFails(string $function): bool
 namespace GeminiLabs\SiteReviews\Modules;
 
 use function GeminiLabs\SiteReviews\Tests\functionFails;
-
-if (!function_exists(__NAMESPACE__.'\defined')) {
-    /**
-     * Armed, no constant exists — the state of a wp-config.php with no salts,
-     * which Encryption's key derivation has a fallback for.
-     */
-    function defined(string $constant): bool
-    {
-        if (functionFails('defined')) {
-            return false;
-        }
-        return \defined($constant);
-    }
-}
 
 if (!function_exists(__NAMESPACE__.'\function_exists')) {
     /**

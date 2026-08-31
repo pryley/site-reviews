@@ -2,6 +2,16 @@
 
 use GeminiLabs\SiteReviews\Modules\Encryption;
 
+/*
+ * Encryption protects values that leave the server and come back — the form signature and
+ * the tokenized approve/verify links.
+ *
+ * The key is HKDF-derived from wp_salt('nonce') and from nothing else. WordPress does not
+ * define a salt constant that is missing or still the wp-config-sample.php placeholder; it
+ * generates a unique value and stores it as a site option. wp_salt() is where that judgement
+ * lives, so the plugin asks it rather than reading NONCE_KEY and re-deciding.
+ */
+
 test('encrypt decrypt round trip', function () {
     $message = 'approve-review|123|user@example.com';
     $encrypted = encryption()->encrypt($message);
@@ -10,57 +20,19 @@ test('encrypt decrypt round trip', function () {
     expect($message)->toBe(encryption()->decrypt($encrypted));
 });
 
-test('key is hkdf derived', function () {
+test('the key is hkdf derived from wp_salt', function () {
     $expected = hash_hkdf(
         'sha256',
-        NONCE_KEY,
+        wp_salt('nonce'),
         SODIUM_CRYPTO_SECRETBOX_KEYBYTES,
-        'site-reviews-encryption',
-        NONCE_SALT
+        'site-reviews-encryption'
     );
     expect($expected)->toBe(encryptionMethod('key'));
     expect(strlen(encryptionMethod('key')))->toBe(SODIUM_CRYPTO_SECRETBOX_KEYBYTES);
-    // The HKDF key must differ from the legacy truncate-and-pad key.
-    expect(encryptionMethod('legacyKey'))->not->toBe(encryptionMethod('key'));
+    // Never the pre-8.2.3 truncate-and-pad of NONCE_KEY, which on a site with no
+    // NONCE_KEY was 32 bytes of # — public knowledge.
+    expect(encryptionMethod('key'))->not->toBe(str_repeat('#', SODIUM_CRYPTO_SECRETBOX_KEYBYTES));
 });
-
-test('data encrypted with legacy key still decrypts', function () {
-    // Emulate the pre-HKDF format: random nonce prepended, legacy key.
-    $message = 'legacy-payload|42';
-    $nonce = random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
-    $ciphertext = sodium_crypto_secretbox($message, $nonce, encryptionMethod('legacyKey'));
-    $encrypted = encryption()->encode($nonce.$ciphertext);
-    expect($message)->toBe(encryption()->decrypt($encrypted));
-});
-
-test('legacy nonce format still decrypts', function () {
-    // Emulate the oldest format: NONCE_SALT-derived nonce, legacy key, no prepended nonce.
-    $message = 'oldest-payload|7';
-    $ciphertext = sodium_crypto_secretbox($message, encryptionMethod('legacyNonce'), encryptionMethod('legacyKey'));
-    $encrypted = encryption()->encode($ciphertext);
-    expect($message)->toBe(encryption()->decrypt($encrypted));
-});
-
-/**
- * Invoke a protected method on the Encryption instance.
- *
- * @return mixed
- */
-function encryptionMethod(string $name)
-{
-    $reflection = new \ReflectionMethod(Encryption::class, $name);
-    $reflection->setAccessible(true);
-    return $reflection->invoke(encryption());
-}
-
-/**
- * Encryption derives its key from the WP salts and holds no state, so a fresh instance is
- * equivalent to any other and a message encrypted by one decrypts in another, as in production.
- */
-function encryption(): Encryption
-{
-    return new Encryption();
-}
 
 test('a crypto failure while encrypting is logged and answered with false', function () {
     // random_bytes() throws only when the CSPRNG itself fails — armed here
@@ -86,14 +58,37 @@ test('a crypto failure while decrypting is logged and answered with false', func
     expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())->toContain('secretbox_open failed');
 });
 
-test('without keying material the legacy key is the key', function () {
-    // A wp-config.php with no salts defined: the armed defined() shadow reports every
-    // constant missing, and key() falls back to the legacy derivation — which pads an
-    // empty key out with # so encryption still round-trips rather than fataling.
-    \GeminiLabs\SiteReviews\Tests\armFailingFunction('defined');
-    try {
-        expect(encryptionMethod('key'))->toBe(str_repeat('#', SODIUM_CRYPTO_SECRETBOX_KEYBYTES));
-    } finally {
-        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
-    }
+test('a message sealed with the padded legacy key no longer opens', function () {
+    // The pre-8.2.3 derivation, which is public knowledge on a site with no NONCE_KEY.
+    // Anything sealed with it must now fail to authenticate.
+    $paddedKey = str_repeat('#', SODIUM_CRYPTO_SECRETBOX_KEYBYTES);
+    $nonce = random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
+    $ciphertext = sodium_crypto_secretbox('a:1:{s:7:"form_id";s:3:"abc";}', $nonce, $paddedKey);
+
+    expect(encryption()->decrypt(encryption()->encode($nonce.$ciphertext)))->toBeFalse();
 });
+
+test('a message too short to hold a nonce is refused, not decrypted', function () {
+    expect(encryption()->decrypt(encryption()->encode('short')))->toBeFalse();
+});
+
+/**
+ * Invoke a protected method on the Encryption instance.
+ *
+ * @return mixed
+ */
+function encryptionMethod(string $name)
+{
+    $reflection = new \ReflectionMethod(Encryption::class, $name);
+    $reflection->setAccessible(true);
+    return $reflection->invoke(encryption());
+}
+
+/**
+ * Encryption derives its key from wp_salt() and holds no state, so a fresh instance is
+ * equivalent to any other and a message encrypted by one decrypts in another, as in production.
+ */
+function encryption(): Encryption
+{
+    return new Encryption();
+}

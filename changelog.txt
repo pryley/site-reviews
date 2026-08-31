@@ -10,6 +10,7 @@
 - Fixed foreign keys being skipped when a database restore changes a table engine
 - Fixed the addon license notice being hidden by a release upgrade notice on the Updates page
 - Fixed the foreign key check matching same-named constraints on other tables
+- Improved the encryption key derivation (links in review emails sent before this update will need to be re-sent)
 - Improved the failed auto-update email to include a reason when an addon license does not allow the update
 - Improved the update notice for addons with an expired, inactive, or invalid license
 
