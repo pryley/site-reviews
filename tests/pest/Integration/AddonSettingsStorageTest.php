@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\TestAddon\Application as TestAddon;
 use GeminiLabs\SiteReviews\TestAddon\Controller as TestAddonController;
 
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\unregisterAddons;
 
 require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Application.php');
 require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Hooks.php');
@@ -40,6 +41,13 @@ require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/
 beforeEach(function () {
     resetPluginState();
     glsr()->register(TestAddon::class);
+});
+
+afterEach(function () {
+    // The registry is process state and outlives the transaction. A host and its
+    // hosted addon left behind by registerHostedFixture() would make the "refused
+    // unless a host vouches" test find the addon already registered.
+    unregisterAddons(HostAddon::ID, HostedAddon::ID);
 });
 
 function coreRow(): array
