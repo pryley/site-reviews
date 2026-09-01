@@ -74,14 +74,22 @@ add_action('muplugins_loaded', function () {
     $excludedStubs = [
         'action-scheduler.php',
     ];
+    // A suite may name more, from its bootstrap (defined before wp-load, so before this
+    // runs). The WooCommerce suite does: with a real WooCommerce, an integration whose OWN
+    // plugin is still a stub can reach a real product and then call its stub for a value —
+    // half real and half nothing, which proves nothing and dies on the stub's null.
+    if (defined('GLSR_TEST_EXCLUDED_STUBS')) {
+        $excludedStubs = array_merge($excludedStubs, (array) GLSR_TEST_EXCLUDED_STUBS);
+    }
     /*
-     * A stub for a plugin that is REALLY installed would redeclare it — fatal — so if .wp-env.json
-     * installs one for real, its stub is dropped here. Nothing is installed for real today: the
-     * suite is stubs only, and the integrations are excluded from the coverage gate precisely
-     * because a stub cannot reach the half of an integration that reads a value back from the third
-     * party. If you do install one, elementorpro must ride along with elementor: the pro stub
-     * extends classes the free plugin declares, and a stub built against one Elementor version
-     * cannot be trusted to extend another.
+     * A stub for a plugin that is REALLY installed would redeclare it — fatal — so if a
+     * .wp-env.json installs one for real, its stub is dropped here. Two are: Elementor in the
+     * main instance, and WooCommerce in the WooCommerce instance (tests/woocommerce). The
+     * integrations stay excluded from the coverage gate because a stub cannot reach the half of
+     * an integration that reads a value back from the third party; the WooCommerce suite exists
+     * for that half. elementorpro must ride along with elementor: the pro stub extends classes
+     * the free plugin declares, and a stub built against one Elementor version cannot be trusted
+     * to extend another.
      */
     $realPlugins = [
         'woocommerce' => ['woocommerce.php'],
@@ -95,7 +103,9 @@ add_action('muplugins_loaded', function () {
         if (!file_exists(WP_PLUGIN_DIR.'/'.$activePlugin)) {
             continue;
         }
-        $slug = strtok((string) $activePlugin, '/');
+        // Keyed on the main file, not the directory: wp-env names the directory after the zip it
+        // downloaded (woocommerce.latest-stable), and the directory is not what declares the symbols.
+        $slug = basename((string) $activePlugin, '.php');
         foreach ($realPlugins[$slug] ?? [] as $stub) {
             $excludedStubs[] = $stub;
         }

@@ -291,12 +291,22 @@ Features are subject to change and are sorted alphabetically, not by priority.
      touchpoint. Automated check, manually triggered per WC release. Hooks live
      in function BODIES, which the stub generator strips — a removed hook is
      invisible to 2 and 3; this is the only automated net that sees it.
-  5. Real WooCommerce in wp-env with executed tests for the top paths (REST
-     routes via `rest_do_request`, rating aggregation, tab injection). Automated
-     once written. The machinery exists — Elementor already rides in wp-env with
-     a stub-drop entry in the test mu-plugin — but real WC hooks then run under
-     EVERY existing test, which is why the README says "deliberately not done
-     yet". Decide, don't drift into it.
+  5. **Implemented 2026-09-01.** Real WooCommerce in its OWN wp-env instance
+     (`tests/woocommerce/`, port 8894, `make test:woocommerce`; a per-push CI
+     job uploads its clover under the `woocommerce` Codecov flag). 22 executed
+     tests cover the top paths: rating aggregation through a real `WC_Product`
+     (its meta, the lookup-table row, the filtered getters), the `wc/v3`, Store
+     API and wc-analytics review routes via `rest_do_request()`, the product
+     page's reviews tab, rating template and `comments_template` override, and
+     the verified-owner check against real orders. Its own instance rather than
+     WooCommerce in the main one, so real WC hooks do not run under every
+     existing test. Not covered there: the Gatekeeper — wp-env names the
+     directory `woocommerce.latest-stable`, so `woocommerce/woocommerce.php`
+     does not exist in that instance and the Gatekeeper reports WooCommerce as
+     not installed (CI installs it under `woocommerce/`; no test may depend on
+     either answer). Bears on 3: this suite loads and dispatches the WooCommerce
+     `BlocksApi`/`RestApi`/`AdminApi` subclasses for real; 3 as a smoke test
+     across every integration is still open.
   6. The residue stays manual and is irreducible: a changelog read plus semantic
      trace per WC major. Nets 2–5 only watch touchpoints the plugin already
      consumes; WooCommerce also breaks the integration by ADDING surfaces. The

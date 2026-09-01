@@ -2,20 +2,22 @@
 
 /*
  * Merges clover files into one: line counts are united per file (max count
- * wins — "covered anywhere is covered"). Both wp-env instances mount the
- * plugin at the same container path, so files line up by name.
+ * wins — "covered anywhere is covered"). Every wp-env instance mounts the
+ * plugin at the same container path, so files line up by name; a file that
+ * only one input covers is carried as it is.
  *
  *     php tests/merge-clover.php <in.xml>... <out.xml>
  *
- * Used by `make coverage:merge` to fold the multisite suite's coverage
- * (tests/coverage/multisite.xml) into the main run (tests/coverage/clover.xml),
- * and to print the merged per-file table — the view Pest itself cannot show,
- * since its console report only knows the run it made itself.
+ * Used by `make coverage:merge` to fold the multisite and WooCommerce suites'
+ * coverage (tests/coverage/multisite.xml, tests/coverage/woocommerce.xml) into
+ * the main run (tests/coverage/clover.xml), and to print the merged per-file
+ * table — the view Pest itself cannot show, since its console report only
+ * knows the run it made itself.
  *
- * BOTH inputs must be generated from the SAME code: a clover from before a
+ * ALL inputs must be generated from the SAME code: a clover from before a
  * shipped-code change carries the old line numbering, and merging it with a
  * fresh one produces phantom uncovered lines where the numbers skewed.
- * Regenerate both after changing anything in plugin/.
+ * Regenerate all of them after changing anything in plugin/.
  */
 
 $args = array_slice($argv, 1);

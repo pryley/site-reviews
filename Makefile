@@ -1,19 +1,10 @@
-## v2.0.0
+## v2.1.0
+COMPOSER ?= COMPOSER_PROCESS_TIMEOUT=0 composer
 PLUGIN ?= $(notdir $(CURDIR))
 VERSION ?= $(shell perl -lne 'm{Stable tag: .*?(.+)} and print $$1' readme.txt)
 WPENV_BIN ?= $(shell test -x node_modules/.bin/wp-env && printf 'node_modules/.bin/wp-env' || printf 'npx @wordpress/env')
 WPENV ?= $(WPENV_BIN) run cli --env-cwd=wp-content/plugins/$(PLUGIN)
-# Every `start` pins the port (8890 here, 8892 for the multisite instance in
-# multisite-env): the WP_ENV_PORT environment variable overrides .wp-env.json's
-# own "port", so a stray export for a sibling checkout would otherwise drag
-# this instance onto the wrong port. Only `start` binds a port — `run cli`
-# never touches one. Sibling checkouts each pin their own (8888 default).
 WPENV_START ?= WP_ENV_PORT=8890 $(WPENV_BIN) start
-# Composer kills a script after 300 seconds. The coverage run passed that as the
-# suite grew, and every other suite is on the same path, so the test scripts run
-# with no limit. `composer update` keeps the default: a stalled download is worth
-# hearing about.
-COMPOSER ?= COMPOSER_PROCESS_TIMEOUT=0 composer
 
 .PHONY: analyse
 analyse: env-check ## Run the phpstan analyser (inside wp-env)
@@ -44,9 +35,6 @@ build\:blocks: ## Check the node/npm engines and build the Gutenberg blocks
 build\:divi: ## Build the Divi elements
 	npm run divi
 
-# The POT-Creation-Date header is stripped so an unchanged extraction leaves an
-# unchanged file — the reason the old gulp pipeline set includePOTCreationDate
-# to false.
 .PHONY: build\:i18n
 build\:i18n: env-check ## Build the language files: text-domain audit, then pot -> po -> mo (wp i18n)
 	@test -f '+/tools/wpcs/vendor/bin/phpcs' || composer --working-dir='+/tools/wpcs' update
@@ -62,8 +50,6 @@ build\:i18n: env-check ## Build the language files: text-domain audit, then pot 
 bump: ## Bump the version: patch by default (TYPE=minor|major|beta, DRY=1 to preview)
 	XDEBUG_MODE=off php '+/tools/bump.php' $(if $(TYPE),$(TYPE),patch) $(if $(DRY),--dry-run,)
 
-# Both halves always run — a phpcs finding must not hide a wp-since one — and
-# the exit code reports whether either failed.
 .PHONY: compat
 compat: ## Check PHP compatibility (8.1, phpcs) and WP compatibility (the declared floor, wp-since)
 	@test -f '+/tools/phpcs/vendor/bin/phpcs' || composer --working-dir='+/tools/phpcs' update
@@ -79,24 +65,24 @@ coverage: env-check ## Run the suite with coverage of the PLUGIN, gated at 80% (
 	$(WPENV) env XDEBUG_MODE=coverage $(COMPOSER) test:coverage
 
 .PHONY: coverage\:all
-coverage\:all: ## The full coverage picture: main suite, multisite suite, then the merged table
+coverage\:all: ## The full coverage picture: main, multisite and WooCommerce suites, then the merged table
 	make coverage
 	make coverage:multisite
+	make coverage:woocommerce
 	make coverage:merge
 
-# A clover from before a plugin/ change carries the old line numbering, and the
-# merge then invents phantom uncovered lines — so a snapshot older than plugin/
-# gets a warning. mtime is an approximation (a git checkout touches files), so
-# it warns rather than refuses.
 .PHONY: coverage\:merge
-coverage\:merge: ## Merge the main and multisite clovers into tests/coverage/merged.xml, and print the merged table
+coverage\:merge: ## Merge all clovers into tests/coverage/merged.xml, and print the merged table
 	@test -f tests/coverage/clover.xml || { printf '\nNo tests/coverage/clover.xml — run `make coverage` first.\n\n'; exit 1; }
 	@test -f tests/coverage/multisite.xml || { printf '\nNo tests/coverage/multisite.xml — run `make coverage:multisite` first.\n\n'; exit 1; }
+	@test -f tests/coverage/woocommerce.xml || { printf '\nNo tests/coverage/woocommerce.xml — run `make coverage:woocommerce` first.\n\n'; exit 1; }
 	@find plugin -name '*.php' -newer tests/coverage/clover.xml | head -1 | grep -q . && \
 		printf '\n\033[33mWarning:\033[0m plugin/ has changed since tests/coverage/clover.xml was generated —\nthe merged table may show phantom uncovered lines. Rerun `make coverage`.\n' || true
 	@find plugin -name '*.php' -newer tests/coverage/multisite.xml | head -1 | grep -q . && \
 		printf '\n\033[33mWarning:\033[0m plugin/ has changed since tests/coverage/multisite.xml was generated —\nthe merged table may show phantom uncovered lines. Rerun `make coverage:multisite`.\n' || true
-	XDEBUG_MODE=off php tests/merge-clover.php tests/coverage/clover.xml tests/coverage/multisite.xml tests/coverage/merged.xml
+	@find plugin -name '*.php' -newer tests/coverage/woocommerce.xml | head -1 | grep -q . && \
+		printf '\n\033[33mWarning:\033[0m plugin/ has changed since tests/coverage/woocommerce.xml was generated —\nthe merged table may show phantom uncovered lines. Rerun `make coverage:woocommerce`.\n' || true
+	XDEBUG_MODE=off php tests/merge-clover.php tests/coverage/clover.xml tests/coverage/multisite.xml tests/coverage/woocommerce.xml tests/coverage/merged.xml
 
 .PHONY: coverage\:multisite
 coverage\:multisite: multisite-env ## Run the multisite suite with coverage (its clover feeds coverage:merge)
@@ -104,6 +90,13 @@ coverage\:multisite: multisite-env ## Run the multisite suite with coverage (its
 		env XDEBUG_MODE=coverage php -d memory_limit=-1 vendor/bin/pest \
 		--test-directory=tests/multisite -c tests/multisite/phpunit.xml --colors=always \
 		--coverage-clover=tests/coverage/multisite.xml
+
+.PHONY: coverage\:woocommerce
+coverage\:woocommerce: woocommerce-env ## Run the WooCommerce suite with coverage (its clover feeds coverage:merge)
+	@cd tests/woocommerce && npx @wordpress/env run cli --env-cwd=wp-content/plugins/site-reviews \
+		env XDEBUG_MODE=coverage php -d memory_limit=-1 vendor/bin/pest \
+		--test-directory=tests/woocommerce -c tests/woocommerce/phpunit.xml --colors=always \
+		--coverage-clover=tests/coverage/woocommerce.xml
 
 .PHONY: env
 env: env-check ## What the suite is actually running against
@@ -114,16 +107,18 @@ env: env-check ## What the suite is actually running against
 	@printf 'Tested to  %s (readme.txt)\n\n' "$$(perl -lne 'm{Tested up to: *(.+)} and print $$1' readme.txt)"
 
 .PHONY: env\:update
-env\:update: docker-check ## Update the pinned WordPress version in both wp-env instances to the latest release
+env\:update: docker-check ## Update the pinned WordPress version in all three wp-env instances to the latest release
 	@latest="$$(curl -fsS https://api.wordpress.org/core/version-check/1.7/ | perl -lne 'm{"current":"([^"]+)"} and print $$1 and exit')"; \
 	test -n "$$latest" || { printf '\nCould not reach wordpress.org to ask what the latest release is.\n\n'; exit 1; }; \
 	printf '\nPinning WordPress to %s\n\n' "$$latest"; \
-	perl -i -pe "s{\"core\": \".*\"}{\"core\": \"https://wordpress.org/wordpress-$$latest.zip\"}" .wp-env.json tests/multisite/.wp-env.json
+	perl -i -pe "s{\"core\": \".*\"}{\"core\": \"https://wordpress.org/wordpress-$$latest.zip\"}" .wp-env.json tests/multisite/.wp-env.json tests/woocommerce/.wp-env.json
 	$(WPENV_START) --update
 	@cd tests/multisite && env WP_ENV_PORT=8892 npx @wordpress/env start --update
+	@cd tests/woocommerce && env WP_ENV_PORT=8894 npx @wordpress/env start --update
 	@$(MAKE) --no-print-directory multisite-env
+	@$(MAKE) --no-print-directory woocommerce-env
 	@$(MAKE) --no-print-directory env
-	@printf 'Commit .wp-env.json and tests/multisite/.wp-env.json to pin this for everybody.\n\n'
+	@printf 'Commit .wp-env.json, tests/multisite/.wp-env.json and tests/woocommerce/.wp-env.json to pin this for everybody; CI reads the pin from them.\n\n'
 
 .PHONY: help
 help: ## Display this help
@@ -163,9 +158,10 @@ test: env-check ## Run the four main Pest suites inside wp-env (see tests/pest/R
 	$(WPENV) env XDEBUG_MODE=off $(COMPOSER) test
 
 .PHONY: test\:all
-test\:all: ## Run the main and multisite suites
+test\:all: ## Run the main, multisite and WooCommerce suites
 	make test
 	make test:multisite
+	make test:woocommerce
 
 # Run one test file.  Make sure to run `make test` before committing.
 #   make test:file FILE=tests/pest/Integration/EmailTest.php [NAME='plain text']
@@ -225,6 +221,12 @@ test\:thirdparty: env-check ## Run only the ThirdParty suite inside wp-env (the 
 test\:unit: env-check ## Run only the Unit suite inside wp-env (fast feedback loop)
 	$(WPENV) env XDEBUG_MODE=off $(COMPOSER) test:unit
 
+.PHONY: test\:woocommerce
+test\:woocommerce: woocommerce-env ## Run the WooCommerce suite in its own wp-env instance (a real WooCommerce)
+	@cd tests/woocommerce && npx @wordpress/env run cli --env-cwd=wp-content/plugins/site-reviews \
+		env XDEBUG_MODE=off php -d memory_limit=-1 vendor/bin/pest \
+		--test-directory=tests/woocommerce -c tests/woocommerce/phpunit.xml --colors=always
+
 .PHONY: update
 update: env-check ## Update the Composer dependencies (inside wp-env) and check the NPM ones
 	$(WPENV) composer update
@@ -259,10 +261,6 @@ docker-check:
 		exit 1; \
 	}
 
-# Ensure the test env is installed and wp-env is running (start is idempotent).
-# The grep pins THIS instance's name shape (wp-env-<plugin>-<hash>-cli): a loose
-# '$(PLUGIN).*cli' also matches a sibling checkout's containers (site-reviews
-# matches site-reviews-premium-…-cli) and skips the start while this env is down.
 .PHONY: env-check
 env-check: docker-check
 	@test -f vendor/bin/pest || { \
@@ -275,23 +273,6 @@ env-check: docker-check
 		$(WPENV_START); \
 	}
 
-# The multisite suite's OWN wp-env instance (tests/multisite/.wp-env.json:
-# port 8892, EMPTY_TRASH_DAYS=0), converted to a network on first run. wp-env
-# picks the instance from the CWD, hence the cd; npx resolves the local wp-env
-# from any subdir. Started with Xdebug so coverage:multisite can measure;
-# test:multisite runs with XDEBUG_MODE=off regardless.
-# wp-env regenerates wp-config.php whenever start re-provisions, which erases
-# the constants multisite-convert appended — and a converted database with a
-# single-site config strands the whole instance. The `wp config set` lines
-# re-assert them idempotently on every run, whichever half survived.
-# WP_ENV_PORT is pinned to 8892 here because the environment variable overrides
-# .wp-env.json's own "port" — a WP_ENV_PORT exported for the MAIN instance (the
-# usual workaround when 8888 is taken) would otherwise redirect this one onto
-# the main instance's port and fail the bind.
-# The setup chatter (wp-env progress, six wp config confirmations — wp-env logs
-# to STDERR, so a plain redirect cannot separate it from real errors) is
-# captured and replayed only when a step fails: a suite run reads as the tests,
-# and a failed start or convert is still loud, in full.
 .PHONY: multisite-env
 multisite-env: docker-check
 	@printf 'Preparing the multisite wp-env instance (port 8892)…\n'
@@ -308,3 +289,14 @@ multisite-env: docker-check
 		wp config set PATH_CURRENT_SITE / --type=constant && \
 		wp config set SITE_ID_CURRENT_SITE 1 --raw --type=constant && \
 		wp config set BLOG_ID_CURRENT_SITE 1 --raw --type=constant"
+
+.PHONY: woocommerce-env
+woocommerce-env: docker-check
+	@printf 'Preparing the WooCommerce wp-env instance (port 8894)…\n'
+	@log=$$(mktemp); trap 'rm -f "$$log"' EXIT; \
+	quietly() { "$$@" >"$$log" 2>&1 || { cat "$$log"; exit 1; }; }; \
+	cd tests/woocommerce; \
+	quietly env WP_ENV_PORT=8894 npx @wordpress/env start --xdebug=coverage; \
+	quietly npx @wordpress/env run cli --env-cwd=wp-content/plugins/site-reviews wp eval \
+		'glsr(GeminiLabs\SiteReviews\Database\OptionManager::class)->set("settings.integrations.woocommerce.enabled", "yes");'; \
+	quietly npx @wordpress/env run cli wp option update woocommerce_enable_reviews yes

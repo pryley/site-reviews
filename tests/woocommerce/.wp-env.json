@@ -1,0 +1,13 @@
+{
+    "core": "https://wordpress.org/wordpress-7.1.zip",
+    "mappings": {
+        "wp-content/mu-plugins": "../pest/mu-plugins"
+    },
+    "phpVersion": "8.3",
+    "plugins": [
+        "../..",
+        "https://downloads.wordpress.org/plugin/woocommerce.latest-stable.zip"
+    ],
+    "port": 8894,
+    "testsEnvironment": false
+}

@@ -43,6 +43,8 @@ packages, so it installs cleanly inside the container.
 - `Support/` — autoloaded by composer (`autoload-dev`): `helpers.php` (the
   factories plus `resetPluginState()`), `InteractsWithAjax` (the admin-ajax
   harness), `SubmitsReviews` (the review-submission harness) and `MockClass`.
+  `isolation.php` is not autoloaded: it returns the per-test `beforeEach` /
+  `afterEach` closures, and each suite's `Pest.php` requires it.
 - `mu-plugins/` — loads the integration stubs and disables the deprecated
   v5–v8 fallbacks. It has to be an mu-plugin: `deprecated.php` registers those
   fallbacks on `plugins_loaded`, which is already too late for `bootstrap.php`.
@@ -98,6 +100,9 @@ dependencies are installed in the container (PHP 8.3, see `.wp-env.json`).
     make test:integration
     make test:thirdparty    # the integrations
     make test:import        # the CSV import (runs last: it defines WP_IMPORTING)
+    make test:multisite     # the multisite suite, in its own wp-env instance (see Coverage)
+    make test:woocommerce   # the WooCommerce suite, in its own wp-env instance (see Coverage)
+    make test:all           # the four suites, then multisite, then WooCommerce
     make coverage           # the PLUGIN, gated at 80% (restarts wp-env with Xdebug)
 
 Pest needs `--test-directory=tests/pest` (it is where it looks for `Pest.php`);
@@ -148,8 +153,9 @@ integration — the half Site Reviews owns:
   integration's purge dispatch, which is guarded by `function_exists`.
 - **No:** anything that consumes a *return value* from the third party.
   `wc_get_product()` returns `null` from a stub, so `WooCommerce\ProductController::rating()`
-  has nothing to read. Those paths need the real plugin installed in wp-env
-  (`"plugins": ["woocommerce"]` in `.wp-env.json`) — deliberately not done yet.
+  has nothing to read. Those paths need the real plugin installed in wp-env —
+  which is what the WooCommerce suite is (see below): its own instance with a
+  real WooCommerce, for the half of that one integration the stubs cannot reach.
 
 When writing integration tests, say which of the two a test is, and do not fake
 a return value into a stub to reach the second kind: a test that asserts against
@@ -218,6 +224,54 @@ itself, since its console report only knows the run it made. `make coverage:all`
 runs both suites and then the merge; both clovers must come from the same code,
 or the merge invents phantom uncovered lines where the numbering skewed. The
 coverage GATE stays on the main suite alone.
+
+### The WooCommerce suite
+
+`tests/woocommerce/` runs the half of the WooCommerce integration the stubs
+cannot reach — the paths that read a WooCommerce RETURN VALUE: rating
+aggregation through a real `WC_Product`, the `wc/v3`, Store API and
+wc-analytics review routes through `rest_do_request()`, the product page's
+reviews tab, and `wc_customer_bought_product()` against real orders. It runs
+in its OWN wp-env instance (`tests/woocommerce/.wp-env.json`, port 8894) with
+WooCommerce installed from wordpress.org's `latest-stable` zip, so a new
+WooCommerce release is what the suite meets next; `make test:woocommerce`
+starts it and stores the setting that enables the integration (the hooks are
+bound when the plugin loads, from the stored setting — too late for a test to
+flip). `make coverage:woocommerce` writes `tests/coverage/woocommerce.xml`,
+the third input to `make coverage:merge`.
+
+Unlike multisite, it is the main suite in every other respect: the same
+`bootstrap.php` (required, not copied), the same mu-plugin, the same per-test
+transaction from `Support/isolation.php` — real WooCommerce writes, products
+and orders included, roll back with everything else. Two things differ, both in
+`tests/woocommerce/bootstrap.php`:
+
+- The mu-plugin drops the WooCommerce stub because the real plugin is active
+  (it keys on the plugin's main file, since wp-env names the directory after
+  the zip: `woocommerce.latest-stable`).
+- `GLSR_TEST_EXCLUDED_STUBS` names the stubs of the integrations whose own
+  plugin is still a stub but which act on WooCommerce products (the loyalty
+  and points plugins). With a real product in hand they proceed into their
+  stub, which answers `null`, and die — half real and half nothing proves
+  nothing about them, so they are not loaded here. The main suite still
+  covers the half of each that it can.
+
+Two things the instance decides, and no test may lean on:
+
+- The Gatekeeper does not see WooCommerce there. wp-env names the plugin
+  directory after the zip (`woocommerce.latest-stable`); the Gatekeeper keys on
+  `woocommerce/woocommerce.php`, which does not exist, so it reports WooCommerce
+  as not installed. CI installs it under `woocommerce/`, where the Gatekeeper
+  does see it. The gatekeeper on the settings save is covered by the main
+  suite's `ThirdParty/WooCommerceTest`.
+- HPOS is off in this instance (`woocommerce_custom_orders_table_enabled` is
+  `no`; there are no `wc_orders` tables), so orders are on the posts table.
+  The factories go through `wc_create_order()` / `wc_get_order()` and do not
+  care which.
+
+`Helpers.php` beside the tests holds the suite's own factories (a product, a
+completed order, the `$post`/`$product` globals a product page has); Pest
+loads it itself.
 
 ## Conventions
 
