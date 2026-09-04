@@ -60,7 +60,7 @@ GLSR.Event.on('site-reviews/modal/init', () => {
 
 **`site-reviews/modal/open`**
 
-This event is fired after a modal is opened.
+This event is fired when a modal opens, just before the dialog is shown.
 
 ```js
 GLSR.Event.on('site-reviews/modal/open', (Modal, event) => {
