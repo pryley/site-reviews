@@ -2,7 +2,7 @@
 # This file is distributed under the GPL3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Site Reviews 8.2.2\n"
+"Project-Id-Version: Site Reviews 8.3.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/site-reviews\n"
 "Last-Translator: Paul Ryley <paul@geminilabs.io>\n"
 "Language-Team: Gemini Labs <support@geminilabs.io>\n"
@@ -6382,7 +6382,7 @@ msgstr ""
 msgid "Rated %1$s out of %2$s stars"
 msgstr ""
 
-#: plugin/Modules/Html/ReviewForm.php:15
+#: plugin/Modules/Html/ReviewForm.php:14
 msgid "Submit Review"
 msgstr ""
 
@@ -6514,7 +6514,7 @@ msgstr ""
 msgid "You have already submitted a review."
 msgstr ""
 
-#: plugin/Modules/Validator/SignatureValidator.php:29
+#: plugin/Modules/Validator/SignatureValidator.php:27
 #: views/pages/documentation/support/common-problems-and-solutions.php:89
 msgid "This review cannot be submitted, please refresh the page and try again."
 msgstr ""

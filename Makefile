@@ -39,7 +39,7 @@ build\:divi: ## Build the Divi elements
 build\:i18n: env-check ## Build the language files: text-domain audit, then pot -> po -> mo (wp i18n)
 	@test -f '+/tools/wpcs/vendor/bin/phpcs' || composer --working-dir='+/tools/wpcs' update
 	XDEBUG_MODE=off '+/tools/wpcs/vendor/bin/phpcs' --standard=phpcs-i18n.xml
-	$(WPENV) wp i18n make-pot . languages/site-reviews.pot --slug=site-reviews --domain=site-reviews \
+	$(WPENV) wp --require='+/tools/i18n-schema.php' i18n make-pot . languages/site-reviews.pot --slug=site-reviews --domain=site-reviews \
 		--exclude=+,node_modules,tests,vendor,vendors \
 		--headers='{"Last-Translator":"Paul Ryley <paul@geminilabs.io>","Language-Team":"Gemini Labs <support@geminilabs.io>"}'
 	@perl -i -ne 'print unless /^"POT-Creation-Date:/' languages/site-reviews.pot
