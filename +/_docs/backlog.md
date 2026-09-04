@@ -270,27 +270,31 @@ Features are subject to change and are sorted alphabetically, not by priority.
   whatever the superglobals hold — not just untestable, unreachable outside a web
   request. Settle on one way to read input and move everything onto it.
 
-- [ ] **BEFORE THE 8.3 RELEASE: decide the WooCommerce-compatibility nets.** The
-  WooCommerce 11.0.0 audit (2026-08-06, traced against a v11 checkout; gatekeeper
-  ceiling bumped to 12.0) had to be done almost entirely by hand, because the suite
-  only proves the half Site Reviews owns. Six candidate nets came out of it, in
-  value-per-cost order — implement or explicitly reject each:
+- [x] **The WooCommerce-compatibility nets: decided 2026-09-02.** The WooCommerce
+  11.0.0 audit (2026-08-06, traced against a v11 checkout; gatekeeper ceiling bumped
+  to 12.0) had to be done almost entirely by hand, because the suite only proves the
+  half Site Reviews owns. Six candidate nets came out of it, in value-per-cost order.
+  The decision per net:
 
-  1. Commit the audit's touchpoint inventory (~60 items: extended classes and
-     methods, consumed hooks, options, template names, route keys, markup
-     selectors) as a checklist doc. Manual artifact, written once; drives 4 and
-     bounds 6. The inventory exists in the 2026-08-06 audit session.
-  2. `make stubs:update && make analyse` on a weekly CI schedule. Automated.
-     Catches removed symbols and signature drift; already proven — the
-     woocommerce stub regenerated at 11.0.0 and phpstan came back clean.
-  3. A ThirdParty smoke test that class-loads every integration class extending a
-     third-party parent. Automated, every run. Nothing currently loads the
-     WooCommerce `BlocksApi`/`RestApi`/`AdminApi` subclasses, so an incompatible
-     override there can only be caught by phpstan today.
-  4. A `tests/bin` script that greps a real WooCommerce tree for every manifest
-     touchpoint. Automated check, manually triggered per WC release. Hooks live
-     in function BODIES, which the stub generator strips — a removed hook is
-     invisible to 2 and 3; this is the only automated net that sees it.
+  1. **Accepted with 4, post-release, as one task** (its own item below). The
+     touchpoint inventory (~60 items: extended classes and methods, consumed hooks,
+     options, template names, route keys, markup selectors) is written as the
+     manifest that the net-4 script reads, so the doc cannot age separately from
+     the check that uses it.
+  2. **Accepted, post-release** (its own item below). `make stubs:update` for the
+     free upstreams, then `make analyse`, on a weekly CI schedule. Already proven:
+     the woocommerce stub regenerated at 11.0.0 and phpstan came back clean.
+  3. **Rejected.** A ThirdParty smoke test that class-loads every integration class
+     extending a third-party parent checks the boundary phpstan already checks on
+     regenerated stubs (net 2), and the real-WooCommerce suite (net 5) loads and
+     dispatches the `BlocksApi`/`RestApi`/`AdminApi` subclasses for real. The other
+     extenders (the Bricks elements, the ProfilePress field and directory themes,
+     the Elementor product-rating widget, the Gutenberg blocks) are phpstan-covered
+     through their stubs.
+  4. **Accepted with 1** (see above). A `tests/bin` script greps a real WooCommerce
+     tree for every manifest touchpoint; manually triggered per WC release. Hooks
+     live in function BODIES, which the stub generator strips — a removed hook is
+     invisible to 2 and 5; this is the only automated net that sees it.
   5. **Implemented 2026-09-01.** Real WooCommerce in its OWN wp-env instance
      (`tests/woocommerce/`, port 8894, `make test:woocommerce`; a per-push CI
      job uploads its clover under the `woocommerce` Codecov flag). 22 executed
@@ -305,15 +309,26 @@ Features are subject to change and are sorted alphabetically, not by priority.
      does not exist in that instance and the Gatekeeper reports WooCommerce as
      not installed (CI installs it under `woocommerce/`; no test may depend on
      either answer). Bears on 3: this suite loads and dispatches the WooCommerce
-     `BlocksApi`/`RestApi`/`AdminApi` subclasses for real; 3 as a smoke test
-     across every integration is still open.
-  6. The residue stays manual and is irreducible: a changelog read plus semantic
-     trace per WC major. Nets 2–5 only watch touchpoints the plugin already
-     consumes; WooCommerce also breaks the integration by ADDING surfaces. The
-     v11 audit's two forward-looking findings — the `customer_review_request`
-     beta that inserts comment reviews around Site Reviews, and the Product
-     Reviews block's inner-blocks render path that bypasses `comments_template()`
-     — would have passed every one of nets 1–5.
+     `BlocksApi`/`RestApi`/`AdminApi` subclasses for real, which is part of why 3
+     is rejected.
+  6. **Accepted as the standing process, per WooCommerce major:** a changelog and
+     dev-notes read plus a semantic trace. Nets 2–5 only watch touchpoints the plugin
+     already consumes; WooCommerce also breaks the integration by ADDING surfaces.
+     The v11 audit's two forward-looking findings — the `customer_review_request`
+     beta that inserts comment reviews around Site Reviews, and the Product Reviews
+     block's inner-blocks render path that bypasses `comments_template()` — would
+     have passed every one of nets 1–5.
+
+- [ ] **WooCommerce touchpoint manifest and grep script (nets 1 and 4).** Write the
+  inventory from `plugin/Integrations/WooCommerce`: extended classes and overridden
+  methods, consumed `woocommerce_*` hooks, options, template names, route keys,
+  markup selectors. A `tests/bin` script greps a WooCommerce checkout for every entry
+  and reports the ones that are gone. Run it per WooCommerce release.
+
+- [ ] **Weekly stubs and phpstan CI job (net 2).** A scheduled workflow: `make
+  stubs:update` for the free upstreams (premium sources are local zips and are
+  skipped), then `make analyse`. Catches removed symbols and signature drift between
+  audits.
 
 - [ ] **A custom review editor must design its autosave; the REST autosave route was
   deliberately removed.** 2026-08-20 (REST controller evaluation):
@@ -348,7 +363,7 @@ Features are subject to change and are sorted alphabetically, not by priority.
   worth reaching is that nothing arriving with a request goes near `unserialize()`
   at all.
 
-  Deferred out of the 8.2.3 security release on purpose: signatures already sit
+  Deferred out of the 8.3.0 security release on purpose: signatures already sit
   inside rendered and cached pages, so the read path needs a transition that
   accepts both formats for at least one release before `signForm()` switches to
   `wp_json_encode()`. Doing that under time pressure is how a cached page starts

@@ -88,7 +88,7 @@ class Modal {
         this._reset()
     }
 
-    get dom () { // deprecated: a pre-9.0 addon build reads these references
+    get dom () { // @deprecated v8.3
         deprecated('Modal.dom', 'the modal instance API (style, hideClose, header/content/footer)')
         if (!this._dom) {
             this._dom = {
@@ -370,7 +370,7 @@ class Modal {
         this._cancelWarned = false;
         this._close = null;
         this._dialog = null;
-        this._dom = null;
+        this._dom = null; // @deprecated v8.3
         this._lastHeight = null;
         this._observer = null;
         this._regions = null;
@@ -401,7 +401,7 @@ const close = (id) => {
 
 const get = (id) => modals[id] || null;
 
-const modify = (id, callback) => { // deprecated: a pre-9.0 addon build calls this
+const modify = (id, callback) => { // @deprecated v8.3
     deprecated('GLSR.Modal.modify()', 'GLSR.Modal.get()')
     const modal = get(id);
     if (modal) {
