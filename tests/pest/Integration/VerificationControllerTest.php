@@ -25,7 +25,7 @@ uses(InteractsWithAjax::class, InteractsWithExits::class);
  * id is the token in that link.
  *
  * The token is the review's id, encrypted (Modules\Encryption, sodium secretbox, keyed off
- * NONCE_KEY). Two places check it, differently, and the difference is the point:
+ * wp_salt('nonce')). Two places check it:
  *
  *   verifyReview()        the GET the mail client opens. The token IS the route — the router has
  *                         already decrypted and validated it, which is why this takes a plain review

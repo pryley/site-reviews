@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Contracts\FieldContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
-use GeminiLabs\SiteReviews\Modules\Encryption;
 
 class ReviewForm extends Form
 {
