@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 7.1
-Stable tag: 8.2.2
+Stable tag: 8.3.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -211,7 +211,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 
 == Changelog ==
 
-= 8.3.0 (unreleased) =
+= 8.3.0 (2026-09-02) =
 
 - Added REST API endpoints for review submission and pagination; the frontend now uses them with an automatic fallback to admin-ajax
 - Fixed a database error when a foreign key references a missing table
@@ -227,13 +227,15 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed review text being able to break mid-word when a review is squeezed into a narrow space
 - Fixed scheduled background tasks
 - Fixed the addon license notice being hidden by a release upgrade notice on the Updates page
+- Fixed the "all" data-removal option on uninstall leaving review images and the uploads folder behind
 - Fixed the block preview in the editor not updating when some settings are changed
 - Fixed the foreign key check matching same-named constraints on other tables
 - Fixed the import progress bar counting skipped entries as imported
+- Fixed the "Load more" pagination stopping one page early
 - Fixed the review form not showing a confirmation message after submission when JavaScript is disabled
 - Fixed the revision links in REST API review responses
 - Improved compatibility with firewalls that block wp-admin requests
-- Improved the encryption key derivation (links in review emails sent before this update will need to be re-sent)
+- Improved the encryption key derivation; on sites without unique security keys in wp-config.php, links in emails sent before this update must be re-sent
 - Improved the failed auto-update email to include a reason when an addon license does not allow the update
 - Improved the handling of remote API responses (serialized data can no longer create PHP objects)
 - Improved the import result notice, it now says why entries were skipped
