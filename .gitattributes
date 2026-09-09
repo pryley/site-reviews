@@ -11,6 +11,7 @@
 /*.paw          export-ignore
 /*.sh           export-ignore
 /Makefile       export-ignore
+/docs           export-ignore
 /node_modules   export-ignore
 /phpcs.xml      export-ignore
 /phpcs-i18n.xml export-ignore

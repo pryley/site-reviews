@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 8.3.1 (2026-09-09) =
+
+- Fixed the Yoast SEO integration
+
 = 8.3.0 (2026-09-06) =
 
 - Added REST API endpoints for review submission and pagination; the frontend now uses them with an automatic fallback to admin-ajax
