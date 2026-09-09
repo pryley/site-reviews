@@ -1820,11 +1820,6 @@ msgctxt "admin-text"
 msgid "Default Name"
 msgstr "Default Name"
 
-#: config/settings.php:553
-msgctxt "admin-text"
-msgid "Use the assigned or current page title"
-msgstr "Use the assigned or current page title"
-
 #: config/settings.php:554
 #: config/settings.php:570
 msgctxt "admin-text"
@@ -1840,11 +1835,6 @@ msgstr "Custom Name"
 msgctxt "admin-text"
 msgid "Default Description"
 msgstr "Default Description"
-
-#: config/settings.php:581
-msgctxt "admin-text"
-msgid "Use the assigned or current page excerpt"
-msgstr "Use the assigned or current page excerpt"
 
 #: config/settings.php:582
 #: config/settings.php:598
@@ -1862,11 +1852,6 @@ msgctxt "admin-text"
 msgid "Default URL"
 msgstr "Default URL"
 
-#: config/settings.php:609
-msgctxt "admin-text"
-msgid "Use the assigned or current page URL"
-msgstr "Use the assigned or current page URL"
-
 #: config/settings.php:610
 #: config/settings.php:626
 msgctxt "admin-text"
@@ -1882,11 +1867,6 @@ msgstr "Custom URL"
 msgctxt "admin-text"
 msgid "Default Image"
 msgstr "Default Image"
-
-#: config/settings.php:637
-msgctxt "admin-text"
-msgid "Use the featured image of the assigned or current page"
-msgstr "Use the featured image of the assigned or current page"
 
 #: config/settings.php:638
 #: config/settings.php:654
@@ -9102,4 +9082,24 @@ msgstr ""
 #: plugin/Controllers/UpdateController.php:32
 msgctxt "admin-text"
 msgid "The following Site Reviews addons did not update because their license does not allow it:"
+msgstr ""
+
+#: config/settings.php:553
+msgctxt "admin-text"
+msgid "Use the current page title"
+msgstr ""
+
+#: config/settings.php:581
+msgctxt "admin-text"
+msgid "Use the current page excerpt"
+msgstr ""
+
+#: config/settings.php:609
+msgctxt "admin-text"
+msgid "Use the current page URL"
+msgstr ""
+
+#: config/settings.php:637
+msgctxt "admin-text"
+msgid "Use the featured image of the current page"
 msgstr ""

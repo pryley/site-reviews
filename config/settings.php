@@ -550,7 +550,7 @@ return [ // order is intentional
         ],
         'label' => _x('Default Name', 'admin-text', 'site-reviews'),
         'options' => [
-            'post' => _x('Use the assigned or current page title', 'admin-text', 'site-reviews'),
+            'post' => _x('Use the current page title', 'admin-text', 'site-reviews'),
             'custom' => _x('Enter a custom title', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'text',
@@ -578,7 +578,7 @@ return [ // order is intentional
         ],
         'label' => _x('Default Description', 'admin-text', 'site-reviews'),
         'options' => [
-            'post' => _x('Use the assigned or current page excerpt', 'admin-text', 'site-reviews'),
+            'post' => _x('Use the current page excerpt', 'admin-text', 'site-reviews'),
             'custom' => _x('Enter a custom description', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'text',
@@ -606,7 +606,7 @@ return [ // order is intentional
         ],
         'label' => _x('Default URL', 'admin-text', 'site-reviews'),
         'options' => [
-            'post' => _x('Use the assigned or current page URL', 'admin-text', 'site-reviews'),
+            'post' => _x('Use the current page URL', 'admin-text', 'site-reviews'),
             'custom' => _x('Enter a custom URL', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'text',
@@ -634,7 +634,7 @@ return [ // order is intentional
         ],
         'label' => _x('Default Image', 'admin-text', 'site-reviews'),
         'options' => [
-            'post' => _x('Use the featured image of the assigned or current page', 'admin-text', 'site-reviews'),
+            'post' => _x('Use the featured image of the current page', 'admin-text', 'site-reviews'),
             'custom' => _x('Enter a custom image URL', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'text',

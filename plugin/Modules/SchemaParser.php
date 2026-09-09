@@ -14,6 +14,7 @@ class SchemaParser
     {
         $shortcode = glsr(SiteReviewsShortcode::class)->normalize($args);
         $reviews = glsr(ReviewManager::class)->reviews($shortcode->args);
+        $this->storeArgs($shortcode->args);
         return glsr(Schema::class)->build($shortcode->args, $reviews);
     }
 
@@ -21,6 +22,7 @@ class SchemaParser
     {
         $shortcode = glsr(SiteReviewsSummaryShortcode::class)->normalize($args);
         $ratings = glsr(RatingManager::class)->ratings($shortcode->args);
+        $this->storeArgs($shortcode->args);
         return glsr(Schema::class)->buildSummary($shortcode->args, $ratings);
     }
 
@@ -95,5 +97,10 @@ class SchemaParser
         }
         $attributes = $matches[0][3] ?? '';
         return shortcode_parse_atts($attributes); // always an array at the plugin's WP floor (6.8)
+    }
+
+    protected function storeArgs(array $args): void
+    {
+        glsr()->store('schema_args', $args);
     }
 }

@@ -16,10 +16,18 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * A site that runs an SEO plugin ends up with two competing JSON-LD graphs, so
  * when one of them is nominated in settings (schema.integration.plugin) the
  * plugin stops printing its own schema and injects the rating into the SEO
- * plugin's graph instead. Each of these three controllers is that injection, and
- * all three do the same thing: generate the plugin's schema, then walk the SEO
- * plugin's graph and attach aggregateRating and review to any node whose @type is
- * one Google will show a rating for (RatingSchemaTypeDefaults).
+ * plugin's graph instead.
+ *
+ * RankMath and SEOPress are handed only the schemas the site owner configured,
+ * so every one of them is a candidate and the type gate (RatingSchemaTypeDefaults)
+ * is the whole decision.
+ *
+ * Yoast is different: wpseo_schema_graph is the entire page graph, most of which
+ * Yoast generates on its own — the featured image, the publisher, the website.
+ * A type gate alone rates the featured image, which has no name, and Google then
+ * reports "Missing field 'name' (in '<parent_node>')". So the Yoast controller
+ * picks ONE node by its role: the publisher for a rating of the site, the
+ * primary content for a rating of an assigned post, term or user.
  *
  * The controllers are called directly here — the same way the filter would call
  * them — because none of the three SEO plugins is stubbed. Their Hooks classes
@@ -34,6 +42,7 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 beforeEach(function () {
     resetPluginState();
     glsr()->discard('schemas'); // Schema::store() keeps them on the process-wide container
+    glsr()->discard('schema_args'); // and SchemaParser::storeArgs() keeps these
 
     /*
      * Elementor has to be unhooked from the schema, and only a stub makes that necessary.
@@ -60,6 +69,7 @@ beforeEach(function () {
 
 afterEach(function () {
     glsr()->discard('schemas');
+    glsr()->discard('schema_args');
     unset($GLOBALS['post']);
 });
 
@@ -71,6 +81,112 @@ afterEach(function () {
 function schemaPost(string $shortcode = '[site_reviews schema=true]'): void
 {
     $GLOBALS['post'] = get_post(createPost(['post_content' => $shortcode]));
+}
+
+/**
+ * The shape Yoast emits for a post with a featured image, which is the graph in
+ * the report this behaviour comes from. The Article and the WebPage are not
+ * types Google rates. The ImageObject is (MediaObject is on Google's list) but
+ * it carries a caption instead of a name, and the Organization is the publisher.
+ *
+ * Yoast emits that Organization only when "Site represents" is a company with a
+ * name and a logo. yoastPersonGraph() is the graph without it.
+ */
+function yoastGraph(array $nodes = []): array
+{
+    $url = 'https://example.org/a-course/';
+    return array_merge([
+        [
+            '@type' => 'Article',
+            '@id' => "{$url}#article",
+            'headline' => 'A course',
+            'image' => ['@id' => "{$url}#primaryimage"],
+            'isPartOf' => ['@id' => $url],
+            'mainEntityOfPage' => ['@id' => $url],
+            'publisher' => ['@id' => 'https://example.org/#organization'],
+        ],
+        [
+            '@type' => 'WebPage',
+            '@id' => $url,
+            'name' => 'A course',
+            'primaryImageOfPage' => ['@id' => "{$url}#primaryimage"],
+        ],
+        [
+            '@type' => 'ImageObject',
+            '@id' => "{$url}#primaryimage",
+            'caption' => 'A course',
+            'contentUrl' => 'https://example.org/image.webp',
+            'url' => 'https://example.org/image.webp',
+        ],
+        [
+            '@type' => 'WebSite',
+            '@id' => 'https://example.org/#website',
+            'publisher' => ['@id' => 'https://example.org/#organization'],
+        ],
+        [
+            '@type' => 'Organization',
+            '@id' => 'https://example.org/#organization',
+            'name' => 'Example Company',
+        ],
+    ], $nodes);
+}
+
+/**
+ * A node of a Yoast graph, by the fragment of its @id.
+ */
+function yoastNode(array $graph, string $fragment): array
+{
+    foreach ($graph as $node) {
+        if (str_ends_with((string) ($node['@id'] ?? ''), $fragment)) {
+            return $node;
+        }
+    }
+    return [];
+}
+
+/**
+ * A Course is a type Google rates, and Yoast connects a piece like this to the
+ * page with mainEntityOfPage.
+ */
+function yoastCourseNode(array $values = []): array
+{
+    return array_replace([
+        '@type' => 'Course',
+        '@id' => 'https://example.org/a-course/#course',
+        'mainEntityOfPage' => ['@id' => 'https://example.org/a-course/'],
+        'name' => 'A course',
+    ], $values);
+}
+
+/**
+ * Yoast emits an Organization piece only when its "Site represents" setting is a
+ * company that has both a name and a logo. A site that represents a person gets
+ * a Person piece instead, and Person is not a type Google rates.
+ *
+ * @see Yoast\WP\SEO\Generators\Schema\Organization::is_needed()
+ * @see Yoast\WP\SEO\Context\Meta_Tags_Context::generate_site_represents()
+ */
+function yoastPersonGraph(): array
+{
+    $url = 'https://example.org/a-course/';
+    $personId = 'https://example.org/#/schema/person/9a8b7c6d5e';
+    return [
+        [
+            '@type' => 'WebPage',
+            '@id' => $url,
+            'name' => 'A course',
+        ],
+        [
+            '@type' => 'WebSite',
+            '@id' => 'https://example.org/#website',
+            'publisher' => ['@id' => $personId],
+        ],
+        [
+            '@type' => 'Person',
+            '@id' => $personId,
+            'name' => 'Jane Doe',
+        ],
+    ];
 }
 
 test('the generated schema is what gets injected', function () {
@@ -133,38 +249,117 @@ test('rankmath leaves a node alone when its type cannot show a rating', function
     ]);
 });
 
-test('yoast receives the rating on a rated node of its graph', function () {
-    schemaPost();
+test('yoast rates the publisher when the summary covers the whole site', function () {
+    schemaPost(); // no assignment, so the rating is a rating of the site
     createReview(['rating' => 5]);
 
-    // Yoast's graph is a flat list of nodes, each with an @type that may be an
-    // array.
-    //
-    // The filter opens with a WooCommerce escape hatch — function_exists('is_product')
-    // && is_product() — which is NOT under test: the woocommerce stub declares
-    // is_product_taxonomy() but not is_product(), so function_exists() is false
-    // and the hatch is never even evaluated. Covering that branch needs the real
-    // WooCommerce, since a stubbed is_product() would only ever return null.
-    $graph = glsr(YoastController::class)->filterSchema([
-        ['@type' => 'LocalBusiness'],
-        ['@type' => 'WebPage'], // not a rated type
-    ]);
+    $graph = glsr(YoastController::class)->filterSchema(yoastGraph());
 
-    expect($graph[0]['aggregateRating']['ratingValue'])->toBe(5.0)
-        ->and($graph[0]['review'])->toHaveCount(1)
-        ->and($graph[1])->toBe(['@type' => 'WebPage']);
+    expect(yoastNode($graph, '#organization')['aggregateRating']['ratingValue'])->toBe(5.0)
+        ->and(yoastNode($graph, '#organization')['review'])->toHaveCount(1)
+        ->and(yoastNode($graph, '#primaryimage'))->toBe(yoastNode(yoastGraph(), '#primaryimage'));
+});
+
+test('yoast rates nothing when the page has no node the rating can belong to', function () {
+    // The report this comes from: a summary assigned to a post, on a page whose
+    // only rated types are the publisher and the featured image. The rating is
+    // not a rating of the site, so the publisher is out; the primary content is
+    // an Article, which Google does not rate. Nothing carries it.
+    $postId = createPost();
+    schemaPost("[site_reviews_summary assigned_posts={$postId} schema=true]");
+    createReview(['assigned_posts' => $postId, 'rating' => 5]);
+
+    $graph = glsr(YoastController::class)->filterSchema(yoastGraph());
+
+    expect($graph)->toBe(yoastGraph());
+});
+
+test('yoast rates the primary content when the summary is assigned', function () {
+    $postId = createPost();
+    schemaPost("[site_reviews_summary assigned_posts={$postId} schema=true]");
+    createReview(['assigned_posts' => $postId, 'rating' => 4]);
+
+    // The Article carries mainEntityOfPage too, so this also asserts that a
+    // primary node of an unrated type does not end the search.
+    $graph = glsr(YoastController::class)->filterSchema(yoastGraph([yoastCourseNode()]));
+
+    expect(yoastNode($graph, '#course')['aggregateRating']['ratingValue'])->toBe(4.0)
+        ->and(yoastNode($graph, '#organization'))->not->toHaveKey('aggregateRating')
+        ->and(yoastNode($graph, '#primaryimage'))->not->toHaveKey('aggregateRating');
+});
+
+test('yoast rates the publisher and not the page content when the summary is not assigned', function () {
+    schemaPost('[site_reviews_summary schema=true]');
+    createReview(['rating' => 5]);
+
+    $graph = glsr(YoastController::class)->filterSchema(yoastGraph([yoastCourseNode()]));
+
+    expect(yoastNode($graph, '#organization'))->toHaveKey('aggregateRating')
+        ->and(yoastNode($graph, '#course'))->not->toHaveKey('aggregateRating');
+});
+
+test('yoast rates nothing when the site represents a person', function () {
+    // publisherKey() does find the Person node through the WebSite publisher
+    // reference. The type gate is what rejects it.
+    schemaPost(); // no assignment, so the rating is a rating of the site
+    createReview(['rating' => 5]);
+
+    $graph = glsr(YoastController::class)->filterSchema(yoastPersonGraph());
+
+    expect($graph)->toBe(yoastPersonGraph());
+});
+
+test('yoast rates nothing when the node it would choose has no name', function () {
+    // Google needs a name on the thing the rating describes. Without one the
+    // rating can only produce a Search Console error, so it is not attached.
+    $postId = createPost();
+    schemaPost("[site_reviews_summary assigned_posts={$postId} schema=true]");
+    createReview(['assigned_posts' => $postId, 'rating' => 5]);
+
+    $nameless = [yoastCourseNode(['name' => ''])];
+
+    $graph = glsr(YoastController::class)->filterSchema(yoastGraph($nameless));
+
+    expect($graph)->toBe(yoastGraph($nameless));
+});
+
+test('yoast treats a schema built without shortcode args as a rating of the site', function () {
+    // A third party can supply the schema through this filter, in which case
+    // SchemaParser::storeArgs() never runs. Nothing narrowed such a rating.
+    $callback = fn () => [
+        '@type' => 'LocalBusiness',
+        'aggregateRating' => [
+            '@type' => 'AggregateRating',
+            'ratingValue' => 4.0,
+            'reviewCount' => 2,
+        ],
+        'name' => 'Example Company',
+    ];
+    add_filter('site-reviews/schema/generate', $callback);
+
+    $graph = glsr(YoastController::class)->filterSchema(yoastGraph());
+
+    remove_filter('site-reviews/schema/generate', $callback);
+
+    expect(yoastNode($graph, '#organization'))->toHaveKey('aggregateRating')
+        ->and(yoastNode($graph, '#primaryimage'))->not->toHaveKey('aggregateRating');
 });
 
 test('yoast puts the rating under itemReviewed on a node that is itself a review', function () {
-    schemaPost();
-    createReview(['rating' => 5]);
+    $postId = createPost();
+    schemaPost("[site_reviews assigned_posts={$postId} schema=true]");
+    createReview(['assigned_posts' => $postId, 'rating' => 5]);
 
     // A rating cannot hang off a Review node — it belongs to the thing reviewed —
     // so the controller nests it. Note the node has to carry a rated type as well:
     // Review is not in RatingSchemaTypeDefaults, so a node typed only "Review"
-    // never reaches this branch at all.
+    // is never chosen in the first place.
     $graph = glsr(YoastController::class)->filterSchema([
-        ['@type' => ['Product', 'Review']],
+        [
+            '@type' => ['Product', 'Review'],
+            'mainEntityOfPage' => ['@id' => 'https://example.org/a-product/'],
+            'name' => 'A product',
+        ],
     ]);
 
     expect($graph[0]['itemReviewed']['aggregateRating']['ratingValue'])->toBe(5.0)
@@ -202,7 +397,7 @@ test('no reviews means no injection at all', function () {
     schemaPost();
     // no reviews: Schema::buildSummary() returns [] when the rating count is zero
 
-    $node = ['@type' => 'LocalBusiness'];
+    $node = ['@type' => 'LocalBusiness', 'name' => 'Example Company'];
 
     expect(glsr(RankMathController::class)->filterSchema(['richSnippet' => $node]))
         ->toBe(['richSnippet' => $node]);

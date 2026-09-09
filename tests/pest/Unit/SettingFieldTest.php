@@ -754,7 +754,7 @@ test('build schema name default', function () {
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-schema-name-default" name="site_reviews[settings][schema][name][default]">'.
-                    '<option value="post">Use the assigned or current page title</option>'.
+                    '<option value="post">Use the current page title</option>'.
                     '<option value="custom">Enter a custom title</option>'.
                 '</select>'.
             '</td>'.
@@ -779,7 +779,7 @@ test('build schema description default', function () {
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-schema-description-default" name="site_reviews[settings][schema][description][default]">'.
-                    '<option value="post">Use the assigned or current page excerpt</option>'.
+                    '<option value="post">Use the current page excerpt</option>'.
                     '<option value="custom">Enter a custom description</option>'.
                 '</select>'.
             '</td>'.
@@ -804,7 +804,7 @@ test('build schema url default', function () {
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-schema-url-default" name="site_reviews[settings][schema][url][default]">'.
-                    '<option value="post">Use the assigned or current page URL</option>'.
+                    '<option value="post">Use the current page URL</option>'.
                     '<option value="custom">Enter a custom URL</option>'.
                 '</select>'.
             '</td>'.
@@ -829,7 +829,7 @@ test('build schema image default', function () {
             '</th>'.
             '<td>'.
                 '<select class="regular-text" id="site_reviews-settings-schema-image-default" name="site_reviews[settings][schema][image][default]">'.
-                    '<option value="post">Use the featured image of the assigned or current page</option>'.
+                    '<option value="post">Use the featured image of the current page</option>'.
                     '<option value="custom">Enter a custom image URL</option>'.
                 '</select>'.
             '</td>'.
