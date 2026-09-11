@@ -55,14 +55,18 @@ const AjaxFormTokenField = (props: ControlProps) => {
 
     const initValues = async () => {
         if (hasFetchedData.current) return;
-        if (suggestedValues.length || (!value.length && !prefetch)) {
+        // Cached suggestions resolve the selection only when they hold
+        // every selected id: a search or another field's page may have
+        // replaced the list, and an id left unresolved would be dropped
+        // from the value on the next change.
+        const cachedSelection = suggestedValues.filter(
+            (suggestion) => value.includes(suggestion.id)
+        );
+        const isResolvedFromCache = suggestedValues.length > 0 && cachedSelection.length === value.length;
+        if (isResolvedFromCache || (!value.length && !prefetch)) {
             hasFetchedData.current = true; // Mark that we've fetched the data
-            // If we already have suggestions, resolve selected values from them
-            if (suggestedValues.length && value.length) {
-                const initialValues = suggestedValues.filter(
-                    (suggestion) => value.includes(suggestion.id)
-                );
-                setSelectedValues(initialValues);
+            if (cachedSelection.length) {
+                setSelectedValues(cachedSelection);
             }
             return;
         }
