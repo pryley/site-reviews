@@ -220,6 +220,16 @@ test('a hidden summary rating renders nothing', function () {
     expect($tag->handleFor('summary', '', [0, 0, 1, 2, 5]))->toBe('');
 });
 
+test('a tag with no class of its own is escaped', function () {
+    // {{ custom }} is every custom field, serialized, and has no tag class. The serialized
+    // string always holds double quotes, which end an attribute if they are not escaped.
+    $review = createReview(['xyz' => 'value']);
+    add_filter('site-reviews/build/template/review', fn ($template) => $template.'<i data-custom="{{ custom }}"></i>');
+
+    expect((string) $review->build())
+        ->toContain('data-custom="a:1:{s:3:&quot;xyz&quot;;s:5:&quot;value&quot;;}"');
+});
+
 test('a tag written in the review content stays text', function () {
     $review = createReview([
         'content' => 'Before {custom} and {{ email }} after.',

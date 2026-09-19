@@ -70,7 +70,7 @@ class ReviewHtml extends \ArrayObject
         $className = glsr()->filterString("review/tag/{$tag}", $className, $this);
         $field = class_exists($className)
             ? glsr($className, compact('tag', 'args'))->handleFor('review', $value, $review)
-            : Cast::toString($value, false);
+            : esc_html(Cast::toString($value, false));
         return glsr()->filterString("review/build/tag/{$tag}", $field, $value, $review, $this);
     }
 
