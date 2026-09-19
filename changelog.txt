@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 8.3.2 (2026-09-18) =
+
+- Fixed a security issue with custom field names in submitted reviews
+
 = 8.3.1 (2026-09-09) =
 
 - Fixed the Yoast SEO integration
