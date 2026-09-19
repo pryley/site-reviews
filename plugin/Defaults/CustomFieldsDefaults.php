@@ -58,6 +58,18 @@ class CustomFieldsDefaults extends DefaultsAbstract
     ];
 
     /**
+     * Finalize provided values, this always runs last.
+     * A custom field name becomes a meta key. A name that sanitize_key() changes is refused.
+     */
+    protected function finalize(array $values = []): array
+    {
+        return array_filter($values,
+            fn ($name) => '' !== (string) $name && sanitize_key($name) === (string) $name,
+            \ARRAY_FILTER_USE_KEY
+        );
+    }
+
+    /**
      * Normalize provided values, this always runs first.
      */
     protected function normalize(array $values = []): array

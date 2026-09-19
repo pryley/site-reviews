@@ -35,7 +35,7 @@
  */
 glsr_create_review(array $reviewValues = []);</code></pre>
         <p><strong>Example Usage:</strong></p>
-        <p>Any custom keys that are added to the $reviewValues array will be saved into the <code>$review->custom</code> array of the created review.</p>
+        <p>Any custom keys that are added to the $reviewValues array will be saved into the <code>$review->custom</code> array of the created review. A custom key may only contain lowercase letters (a-z), numbers, underscores, and dashes; any other custom key is ignored.</p>
         <pre><code class="language-php">$review = glsr_create_review([
     'assigned_posts' => $post->ID,
     'content' => 'This is my review.',

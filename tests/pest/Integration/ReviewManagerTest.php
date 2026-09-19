@@ -560,3 +560,39 @@ function reviewRequest(array $overrides = [])
     $request->merge($overrides);
     return $request;
 }
+
+test('a custom field with an invalid name is refused', function () {
+    // The name comes from the request and becomes a meta key. A name that sanitize_key()
+    // changes is refused, not renamed: only a-z, 0-9, underscores and dashes are valid.
+    $review = glsr_create_review(reviewRequest([
+        'custom_<img src=x onerror=alert(1)>' => 'markup',
+        'Phone Number' => 'spaces',
+        "trailing_newline\n" => 'newline',
+        'custom_myField' => 'uppercase',
+        '<>' => 'nothing left',
+        'custom_field' => 'kept',
+        'my-field_2' => 'kept',
+    ])->toArray());
+
+    expect($review->custom()->toArray())->toEqual(['field' => 'kept', 'my-field_2' => 'kept']);
+
+    glsr(ReviewManager::class)->updateCustom($review->ID, [
+        '<b>name</b>' => 'value',
+        'field' => 'changed',
+    ]);
+
+    // the cached review has already read its meta
+    expect(glsr(ReviewManager::class)->get($review->ID, true)->custom()->toArray())
+        ->toEqual(['field' => 'changed', 'my-field_2' => 'kept']);
+});
+
+test('a custom field stored with an invalid name is not read', function () {
+    // finalize() also runs when a review reads its meta. The meta itself is left alone.
+    $review = glsr_create_review(reviewRequest(['custom_field' => 'kept'])->toArray());
+    update_post_meta($review->ID, '_custom_<img src=x onerror=alert(1)>', 'value');
+
+    $fresh = glsr(ReviewManager::class)->get($review->ID, true); // the cached review has already read its meta
+
+    expect($fresh->custom()->toArray())->toEqual(['field' => 'kept'])
+        ->and(get_post_meta($review->ID, '_custom_<img src=x onerror=alert(1)>', true))->toBe('value');
+});
