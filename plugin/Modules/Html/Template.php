@@ -40,13 +40,12 @@ class Template implements TemplateContract
         if (empty(trim($text))) {
             return '';
         }
+        $replacements = [];
         foreach ($context as $key => $value) {
-            $text = strtr(
-                $text,
-                array_fill_keys(['{'.$key.'}', '{{ '.$key.' }}'], $value)
-            );
+            $replacements['{'.$key.'}'] = $value;
+            $replacements['{{ '.$key.' }}'] = $value;
         }
-        return trim($text);
+        return trim(strtr($text, $replacements));
     }
 
     /**

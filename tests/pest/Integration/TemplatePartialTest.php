@@ -63,3 +63,14 @@ test('template data that is not an array is discarded, not fatal', function () {
 
     expect($html)->toContain('data-field'); // rendered, with nothing interpolated
 });
+
+test('a substituted value is not scanned for tags', function () {
+    // Review content is a visitor's text. A tag written in it must stay text, in
+    // either grammar, whatever the order of the context keys.
+    $text = glsr(Template::class)->interpolateContext('{{ content }} / {secret}', [
+        'content' => '{secret} and {{ secret }}',
+        'secret' => 'expanded',
+    ]);
+
+    expect($text)->toBe('{secret} and {{ secret }} / expanded');
+});

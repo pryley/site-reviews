@@ -219,3 +219,12 @@ test('a hidden summary rating renders nothing', function () {
 
     expect($tag->handleFor('summary', '', [0, 0, 1, 2, 5]))->toBe('');
 });
+
+test('a tag written in the review content stays text', function () {
+    $review = createReview([
+        'content' => 'Before {custom} and {{ email }} after.',
+        'secret' => 'value',
+    ]);
+
+    expect((string) $review->build())->toContain('Before {custom} and {{ email }} after.');
+});
