@@ -1,11 +1,13 @@
 import { default as ServerSideRender } from '@wordpress/server-side-render';
-import { __experimentalToolsPanel as ToolsPanel, Disabled, PanelBody, Spinner } from '@wordpress/components';
+import { Disabled, Spinner } from '@wordpress/components';
 import { _x } from '@wordpress/i18n';
 import { applyFilters, doAction } from '@wordpress/hooks';
-import { BaseControl, Notice } from '@wordpress/components';
-import { BlockControls, InspectorControls, InspectorAdvancedControls, useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps } from '@wordpress/block-editor';
 import { useMemo, useRef } from '@wordpress/element';
 import { useRefEffect } from '@wordpress/compose';
+import BlockPanels from './block-panels.jsx';
+
+export { BlockPanels };
 
 const CustomLoadingPlaceholder = ({ children, showLoader }) => {
     return (
@@ -37,30 +39,6 @@ const CustomLoadingPlaceholder = ({ children, showLoader }) => {
     )
 };
 
-const defaultPanelTitles = {
-    display: _x('Display', 'admin-text', 'site-reviews'),
-    hide: _x('Hide', 'admin-text', 'site-reviews'),
-    settings: _x('Settings', 'admin-text', 'site-reviews'),
-    text: _x('Text', 'admin-text', 'site-reviews'),
-};
-
-const allowedInspectorGroups = [
-    'advanced',
-    'background',
-    'bindings',
-    'block', // special group for block toolbar controls
-    'border',
-    'color',
-    'default',
-    'dimensions',
-    'effects',
-    'filter',
-    'list',
-    'position',
-    'styles',
-    'typography',
-];
-
 const ServerSideBlockRenderer = ({
     className = 'ssr',
     controls = {},
@@ -70,7 +48,6 @@ const ServerSideBlockRenderer = ({
     styleClassNames = [],
 }) => {
     const { attributes, name: blockName } = props;
-    const hookPrefix = blockName.replace('/', '.');
 
     doAction('site-reviews.blocks.edit', props);
 
@@ -114,45 +91,14 @@ const ServerSideBlockRenderer = ({
         )
     }, [attributes]);
 
-    const filteredControls = useMemo(
-        () => applyFilters('site-reviews.blocks.controls', controls, props),
-        [controls, props, hookPrefix]
-    );
-    const filteredPanels = useMemo(
-        () => applyFilters('site-reviews.blocks.panels', panels, props),
-        [panels, props, hookPrefix]
-    );
     const filteredStyle = useMemo(
         () => applyFilters('site-reviews.blocks.style', style, props),
-        [style, props, hookPrefix]
+        [style, props]
     );
     const filteredStyleClassNames = useMemo(
         () => applyFilters('site-reviews.blocks.style_classnames', styleClassNames, props),
-        [styleClassNames, props, hookPrefix]
+        [styleClassNames, props]
     );
-
-    const normalizedPanels = Object.entries(filteredPanels).reduce((acc, [panelKey, panel]) => {
-        const group = allowedInspectorGroups.includes(panel.group || panelKey)
-            ? (panel.group || panelKey)
-            : 'default';
-        const normalizedPanel = {
-            ...panel,
-            controls: Array.isArray(panel.controls) ? panel.controls : [],
-            title: panel.title || defaultPanelTitles[panelKey] || null,
-        };
-        if (0 === normalizedPanel.controls.length) {
-            return acc;
-        }
-        acc[group] = acc[group] || {};
-        acc[group][panelKey] = normalizedPanel;
-        return acc;
-    }, {});
-
-    const renderControls = (controlsArray) => {
-        return controlsArray
-            .filter((controlKey) => controlKey in filteredControls)
-            .map((controlKey) => filteredControls[controlKey]);
-    }
 
     const blockProps = useBlockProps({
         className: filteredStyleClassNames.join(' '),
@@ -181,38 +127,7 @@ const ServerSideBlockRenderer = ({
 
     return (
         <>
-            {Object.entries(normalizedPanels).map(([group, panels]) => {
-                if ('block' === group) {
-                    return (
-                        <BlockControls group={group}>
-                            {Object.entries(panels).map(([panelKey, panel]) => renderControls(panel.controls))}
-                        </BlockControls>
-                    )
-                }
-                return (
-                    <InspectorControls group={group}>
-                        {Object.entries(panels).map(([panelKey, panel]) => {
-                            const { controls, ...panelProps } = panel; // Exclude controls
-                            if (group === panelKey) {
-                                return renderControls(controls);
-                            }
-                            if (panelProps.resetAll) {
-                                const { title: label, ...toolsPanelProps } = panelProps;
-                                return (
-                                    <ToolsPanel label={label} {...toolsPanelProps}>
-                                        {renderControls(controls)}
-                                    </ToolsPanel>
-                                )
-                            }
-                            return (
-                                <PanelBody {...panelProps}>
-                                    {renderControls(controls)}
-                                </PanelBody>
-                            )
-                        })}
-                    </InspectorControls>
-                )
-            })}
+            <BlockPanels controls={controls} panels={panels} props={props} />
             <div {...blockProps}>
                 <Disabled isDisabled>
                     {memoizedSSR}
