@@ -3,6 +3,9 @@ import Ajax from '@/admin/ajax.js';
 class Notices {
     constructor () {
         jQuery('.glsr-notice[data-notice]').on('click.wp-dismiss-notice', this.onDismiss.bind(this))
+        // Delegated: the notices added later (add) and the ones the page
+        // rendered, flash or persistent, all expand the same way.
+        jQuery(document).on('click', '.bulk-action-notice button.button-link', this.onToggleDetails)
         this.showBanner()
         this.showPopup()
     }
@@ -16,7 +19,6 @@ class Notices {
         jQuery('#glsr-notices').html(notices)
         jQuery(document).trigger('wp-updates-notice-added')
         jQuery('html').animate({ scrollTop: 0 }, 500)
-        this.initBulkActions();
     }
 
     dismissNotice ($el, $notice) {
@@ -41,15 +43,6 @@ class Notices {
         }
     }
 
-    initBulkActions () {
-        const $notice = jQuery('#glsr-notices .bulk-action-notice').on('click', 'button.button-link', function () {
-            jQuery(this)
-                .toggleClass('bulk-action-errors-collapsed')
-                .attr('aria-expanded', !jQuery(this).hasClass('bulk-action-errors-collapsed'))
-            $notice.find('.bulk-action-errors').toggleClass('hidden')
-        });
-    }
-
     notice (level, message) {
         this.add(`<div class="notice notice-${level} inline is-dismissible"><p>${message}</p></div>`)
     }
@@ -58,6 +51,13 @@ class Notices {
         const $el = jQuery(ev.target);
         const $notice = jQuery(ev.currentTarget);
         this.dismissNotice($el, $notice)
+    }
+
+    onToggleDetails (ev) {
+        const $button = jQuery(ev.currentTarget)
+            .toggleClass('bulk-action-errors-collapsed');
+        $button.attr('aria-expanded', !$button.hasClass('bulk-action-errors-collapsed'))
+        $button.closest('.bulk-action-notice').find('.bulk-action-errors').toggleClass('hidden')
     }
 
     removeNotice ($notice) {

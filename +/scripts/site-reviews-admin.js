@@ -253,13 +253,6 @@ jQuery(function ($) {
         }, 50);
     }
 
-    const $bulkActionNotice = $('#glsr-notices .bulk-action-notice').on('click', 'button.button-link', function() {
-        $(this)
-            .toggleClass('bulk-action-errors-collapsed')
-            .attr('aria-expanded', !$(this).hasClass('bulk-action-errors-collapsed'));
-        $bulkActionNotice.find('.bulk-action-errors').toggleClass('hidden');
-    });
-
     site_reviews_footer_notice();
 
     $('.glsr-videos__playlist a').on('click', function () {
