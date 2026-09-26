@@ -30,8 +30,7 @@ abstract class DiviModule implements DependencyInterface
     {
         $shortcodeTag = static::shortcodeInstance()->tag();
         add_action('init', function () use ($shortcodeTag) {
-            $modulePath = $this->app()->path("assets/divi/modules-json/{$shortcodeTag}/");
-            ModuleRegistration::register_module($modulePath, [
+            ModuleRegistration::register_module($this->modulePath($shortcodeTag), [
                 'render_callback' => [static::class, 'render_callback'],
             ]);
         });
@@ -181,6 +180,16 @@ abstract class DiviModule implements DependencyInterface
     }
 
     abstract public static function shortcodeInstance(): ShortcodeContract;
+
+    /**
+     * The directory holding the module's json (module.json beside its
+     * settings and styles), under the plugin's own Divi tree; an addon's
+     * tree lives elsewhere and overrides this.
+     */
+    protected function modulePath(string $shortcodeTag): string
+    {
+        return $this->app()->path("assets/divi/modules-json/{$shortcodeTag}/");
+    }
 
     protected static function parseAttributes(array $attrs): array
     {
