@@ -61,6 +61,7 @@ abstract class Hooks extends AbstractHooks
             ['migrateOptions', 'admin_init', 5],
             ['onActivation', 'admin_init'],
             ['onDeactivation', "deactivate_{$this->basename()}"],
+            ['onUpgrade', 'admin_init', 11],
             ['registerLanguages', 'after_setup_theme'],
             ['registerShortcodes', 'init'],
             ['registerTinymcePopups', 'admin_init'],

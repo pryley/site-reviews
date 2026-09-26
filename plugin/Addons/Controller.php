@@ -415,6 +415,7 @@ abstract class Controller extends AbstractController
         $option = glsr()->prefix."activated_{$this->app()->id}";
         if (empty(get_option($option))) {
             update_option($option, true);
+            update_option($this->versionOption(), $this->app()->version, true); // a fresh install is no upgrade
             if ($this->app()->post_type) {
                 glsr(Role::class)->reset($this->filterRoles([
                     'administrator' => [],
@@ -444,6 +445,25 @@ abstract class Controller extends AbstractController
             $this->app()->action('deactivated');
             restore_current_blog();
         }
+    }
+
+    /**
+     * Fires `{addon}/upgraded` (the version the site held, the plugin's)
+     * once when the stored version differs from the plugin's, and stamps
+     * the plugin's. A site that predates the stamp upgrades from ''. The
+     * activation flag survives an in-place plugin upgrade, so this is the
+     * one seam an addon has for a routine that must follow every version.
+     *
+     * @action admin_init:11
+     */
+    public function onUpgrade(): void
+    {
+        $stored = Cast::toString(get_option($this->versionOption(), ''));
+        if ($stored === $this->app()->version) {
+            return;
+        }
+        update_option($this->versionOption(), $this->app()->version, true);
+        $this->app()->action('upgraded', $stored, $this->app()->version);
     }
 
     /**
@@ -546,5 +566,10 @@ abstract class Controller extends AbstractController
                 wp_script_add_data($args[0], 'strategy', 'defer');
             }
         }
+    }
+
+    protected function versionOption(): string
+    {
+        return glsr()->prefix."version_{$this->app()->id}";
     }
 }

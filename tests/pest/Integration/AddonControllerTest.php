@@ -225,6 +225,35 @@ test('activating an addon happens once, and grants the roles their capabilities'
     expect($activated)->toHaveCount(1);
 });
 
+test('upgrading an addon fires once, from the version the site held to the plugin\'s', function () {
+    $option = glsr()->prefix.'version_site-reviews-test-addon';
+    delete_option($option);
+    $upgrades = [];
+    add_action('site-reviews-test-addon/upgraded', function ($from, $to) use (&$upgrades) {
+        $upgrades[] = [$from, $to];
+    }, 10, 2);
+
+    // A site that predates the stamp upgrades from '', once.
+    $this->controller->onUpgrade();
+    $this->controller->onUpgrade();
+    expect($upgrades)->toBe([['', $this->addon->version]])
+        ->and(get_option($option))->toBe($this->addon->version);
+
+    // A stored version behind the plugin's fires with both.
+    update_option($option, '0.9.0');
+    $this->controller->onUpgrade();
+    expect($upgrades)->toHaveCount(2)
+        ->and($upgrades[1])->toBe(['0.9.0', $this->addon->version]);
+
+    // A fresh activation stamps the version, so the request that activates never also upgrades.
+    delete_option($option);
+    delete_option(glsr()->prefix.'activated_site-reviews-test-addon');
+    $this->controller->onActivation();
+    $this->controller->onUpgrade();
+    expect($upgrades)->toHaveCount(2)
+        ->and(get_option($option))->toBe($this->addon->version);
+});
+
 test('deactivating an addon forgets it, so that it activates again if it comes back', function () {
     $option = glsr()->prefix.'activated_site-reviews-test-addon';
     update_option($option, true);
