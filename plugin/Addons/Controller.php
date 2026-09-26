@@ -96,9 +96,12 @@ abstract class Controller extends AbstractController
      */
     public function filterDocumentation(array $documentation): array
     {
-        $notice = glsr()->build('views/partials/addons/support-notice', [
-            'addon_id' => $this->app()->id,
-        ]);
+        $isHosted = $this->app() instanceof Addon && null !== $this->app()->hostedBy();
+        $notice = $isHosted
+            ? '' // the host shows one notice for all its modules
+            : glsr()->build('views/partials/addons/support-notice', [
+                'addon_id' => $this->app()->id,
+            ]);
         $support = $this->app()->build('views/documentation');
         $documentation[$this->app()->id] = $notice.$support;
         return $documentation;

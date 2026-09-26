@@ -299,7 +299,8 @@ test('the addon documentation is added under the addon\'s own id', function () {
     $documentation = $this->controller->filterDocumentation([]);
 
     expect($documentation)->toHaveKey('site-reviews-test-addon')
-        ->and($documentation['site-reviews-test-addon'])->toContain('Test addon documentation.');
+        ->and($documentation['site-reviews-test-addon'])->toContain('Test addon documentation.')
+        ->and($documentation['site-reviews-test-addon'])->toContain('Nifty Plugins'); // the support notice
 });
 
 /*
@@ -496,6 +497,30 @@ test('a hosted addon leaves translations and migration to its host', function ()
         delete_option('site_reviews_premium_host');
         $host->migrateOptions();
         expect(get_option('site_reviews_premium_host'))->toBeFalse();
+    } finally {
+        GeminiLabs\SiteReviews\Tests\unregisterAddons(
+            GeminiLabs\SiteReviews\Premium\Host\Application::ID,
+            GeminiLabs\SiteReviews\Premium\HostedThing\Application::ID
+        );
+    }
+});
+
+test('a hosted addon\'s documentation carries no support notice of its own', function () {
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Application.php');
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Hooks.php');
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/Application.php');
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/Hooks.php');
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/Controller.php');
+    glsr()->register(GeminiLabs\SiteReviews\Premium\Host\Application::class);
+    glsr()->register(
+        GeminiLabs\SiteReviews\Premium\HostedThing\Application::class,
+        glsr(GeminiLabs\SiteReviews\Premium\Host\Application::class)
+    );
+    try {
+        $documentation = glsr(GeminiLabs\SiteReviews\Premium\HostedThing\Controller::class)->filterDocumentation([]);
+
+        expect($documentation)->toHaveKey('site-reviews-hosted-addon')
+            ->and($documentation['site-reviews-hosted-addon'])->not->toContain('Nifty Plugins');
     } finally {
         GeminiLabs\SiteReviews\Tests\unregisterAddons(
             GeminiLabs\SiteReviews\Premium\Host\Application::ID,
