@@ -320,14 +320,6 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * @filter site-reviews/addon/subsubsub
-     */
-    public function filterSubsubsub(array $subsubsub): array
-    {
-        return $subsubsub;
-    }
-
-    /**
      * @filter site-reviews/translation/entries
      */
     public function filterTranslationEntries(array $entries): array

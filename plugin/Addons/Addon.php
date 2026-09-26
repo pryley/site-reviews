@@ -165,6 +165,11 @@ abstract class Addon implements PluginContract
         return $this->isHost;
     }
 
+    public function label(): string
+    {
+        return ucfirst(static::SLUG);
+    }
+
     public function make(string $class, array $parameters = [])
     {
         $class = Str::camelCase($class);

@@ -54,7 +54,6 @@ abstract class Hooks extends AbstractHooks
             ['filterRoles', 'site-reviews/roles'],
             ['filterRowMeta', 'plugin_row_meta', 10, 2],
             ['filterSettings', 'site-reviews/settings'],
-            ['filterSubsubsub', 'site-reviews/addon/subsubsub'],
             ['filterTranslationEntries', 'site-reviews/translation/entries'],
             ['filterTranslatorDomains', 'site-reviews/translator/domains'],
             ['install', "{$this->hookPrefix()}/activated"],

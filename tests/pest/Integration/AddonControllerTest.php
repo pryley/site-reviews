@@ -399,7 +399,7 @@ test('the addon translation filters return the string untouched when nothing ove
 });
 
 /*
- * Paths, the subsubsub links, and the no-op lifecycle hooks.
+ * Paths and the no-op lifecycle hooks.
  */
 
 test('the addon config path is normalized only when it points inside the addon', function () {
@@ -409,12 +409,6 @@ test('the addon config path is normalized only when it points inside the addon',
         ->toBe('site-reviews-test-addon/config/settings.php') // carries the prefix, comes back carrying it
         ->and($c->filterConfigPath('config/settings.php'))
         ->toBe('config/settings.php'); // not the addon's, left alone
-});
-
-test('the addon leaves the review status links untouched by default', function () {
-    // filterSubsubsub is a seam an addon can override; the base returns what it was given.
-    expect($this->controller->filterSubsubsub(['all' => '<a>All</a>']))
-        ->toBe(['all' => '<a>All</a>']);
 });
 
 test('the base lifecycle hooks are safe no-ops', function () {

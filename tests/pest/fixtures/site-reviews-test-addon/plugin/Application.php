@@ -11,4 +11,9 @@ class Application extends Addon
     public const NAME = 'Test Addon';
     public const POST_TYPE = 'test-addon-thing';
     public const SLUG = 'test-addon';
+
+    public function label(): string
+    {
+        return 'Gadgets';
+    }
 }

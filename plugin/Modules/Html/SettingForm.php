@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Addons\Addon;
 use GeminiLabs\SiteReviews\Contracts\FieldContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
@@ -196,9 +197,16 @@ class SettingForm extends Form
             $results[$addon] ??= '';
             $results[$addon] .= $field->build();
         }
-        ksort($results);
-        $subsubsub = array_map('ucfirst', array_keys($results));
-        $subsubsub = glsr()->filterArray('addon/subsubsub', $subsubsub);
+        $labels = [];
+        foreach (array_keys(glsr()->retrieveAs('array', 'addons')) as $addonId) {
+            $instance = glsr($addonId);
+            if ($instance instanceof Addon) {
+                $labels[$instance::SLUG] = $instance->label();
+            }
+        }
+        $label = fn (string $slug) => $labels[$slug] ?? ucfirst($slug);
+        uksort($results, fn ($a, $b) => strnatcasecmp($label($a), $label($b)));
+        $subsubsub = array_combine(array_keys($results), array_map($label, array_keys($results)));
         return [
             'settings' => $results,
             'subsubsub' => $subsubsub,

@@ -16,7 +16,6 @@ site-reviews/addon/documentation                            (array $documentatio
 site-reviews/addon/documentation/tabs                       (array $tabs): array
 site-reviews/addon/submenu/callback                         (callable $callable, string $slug): callable
 site-reviews/addon/submenu/pages                            (array $args): array
-site-reviews/addon/subsubsub                                (array $subsubsub): array
 site-reviews/addon/sync/enable                              (bool $enable): bool
 site-reviews/addon/sync/services                            (array $services): array
 site-reviews/addon/tools/tabs                               (array $tabs): array

@@ -5,6 +5,7 @@ use GeminiLabs\SiteReviews\Modules\Html\SettingField;
 use GeminiLabs\SiteReviews\Modules\Html\SettingForm;
 use GeminiLabs\SiteReviews\Premium\Host\Application as SettingHostAddon;
 use GeminiLabs\SiteReviews\Premium\HostedThing\Application as SettingHostedAddon;
+use GeminiLabs\SiteReviews\TestAddon\Application as TestAddon;
 
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -53,10 +54,32 @@ test('addon settings are grouped into one sub-tab per addon, alphabetically', fu
         $data = protectedMethod(SettingForm::class, 'templateDataForAddons')->invoke($form, 'addons');
 
         expect(array_keys($data['settings']))->toBe(['alpha', 'zeta'])
-            ->and($data['subsubsub'])->toBe(['Alpha', 'Zeta'])
+            ->and($data['subsubsub'])->toBe(['alpha' => 'Alpha', 'zeta' => 'Zeta'])
             ->and($data['settings']['alpha'])->toContain('settings.addons.alpha.enabled');
     } finally {
         $restore();
+    }
+});
+
+test('an addon sub-tab is named by its addon\'s label and sorted by it', function () {
+    // The fixture's slug is test-addon and its label Gadgets: sorted by slug the
+    // sub-tabs would read Beta, Mu, Gadgets; a slug no registered addon owns
+    // keeps its capitalised slug.
+    glsr()->register(TestAddon::class);
+    $restore = withInjectedSettings([
+        'settings.addons.beta.enabled' => ['label' => 'Enabled', 'type' => 'text'],
+        'settings.addons.mu.enabled' => ['label' => 'Enabled', 'type' => 'text'],
+        'settings.addons.test-addon.enabled' => ['label' => 'Enabled', 'type' => 'text'],
+    ]);
+    try {
+        $form = new SettingForm(['addons' => 'Addons']);
+        $data = protectedMethod(SettingForm::class, 'templateDataForAddons')->invoke($form, 'addons');
+
+        expect(array_keys($data['settings']))->toBe(['beta', 'test-addon', 'mu'])
+            ->and($data['subsubsub'])->toBe(['beta' => 'Beta', 'test-addon' => 'Gadgets', 'mu' => 'Mu']);
+    } finally {
+        $restore();
+        unregisterAddons(TestAddon::ID);
     }
 });
 
