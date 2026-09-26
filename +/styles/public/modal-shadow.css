@@ -113,6 +113,9 @@ button.close {
     width: 1.5em;
     z-index: 10;
 }
+button.close[hidden] {
+    display: none; /* hideClose(): the display above would beat the attribute */
+}
 button.close:hover {
     transform: scale(1.1);
 }
