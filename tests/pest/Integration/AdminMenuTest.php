@@ -154,37 +154,27 @@ test('the settings page renders every tab, with its fields', function () {
         ->toContain('name="site_reviews[settings][forms][required]');
 });
 
-test('the addons settings tab needs addon settings or the premium plugin', function () {
-    // No addon registered any settings, no premium plugin: no tab.
-    expect(renderedPage('renderSettingsMenuCallback'))->not->toContain('data-id="addons"');
+test('the premium settings tab needs the premium plugin, the addons tab addon settings', function () {
+    expect(renderedPage('renderSettingsMenuCallback'))->not->toContain('data-id="premium"');
 
-    // The installed premium plugin keeps the tab even when every feature is
-    // toggled off (no addon settings at all), and renames it through the
-    // addon/settings/tabs filter — the same way it relabels the submenu.
-    // Registration lands on the Application singleton's $addons property,
-    // which no teardown resets — so it is backed up and restored by hand.
+    // The installed premium plugin keeps its tab even when every feature is
+    // toggled off (no settings at all). Registration lands on the Application
+    // singleton's $addons property, which no teardown resets — so it is backed
+    // up and restored by hand.
     require_once glsr()->path('tests/pest/fixtures/site-reviews-premium/plugin/Application.php');
     require_once glsr()->path('tests/pest/fixtures/site-reviews-premium/plugin/Hooks.php');
     $registry = new ReflectionProperty(get_class(glsr()), 'addons');
     $registry->setAccessible(true);
     $registered = $registry->getValue(glsr());
-    $relabel = function (array $tabs) {
-        if (array_key_exists('addons', $tabs)) {
-            $tabs['addons'] = 'Premium';
-        }
-
-        return $tabs;
-    };
-    add_filter('site-reviews/addon/settings/tabs', $relabel);
     try {
         glsr()->register(GeminiLabs\SiteReviews\Premium\Shell\Application::class);
         $html = renderedPage('renderSettingsMenuCallback');
     } finally {
-        remove_filter('site-reviews/addon/settings/tabs', $relabel);
         $registry->setValue(glsr(), $registered);
     }
 
-    expect($html)->toContain('data-id="addons"')->toContain('>Premium</a>');
+    expect($html)->toContain('data-id="premium"')->toContain('>Premium</a>')
+        ->not->toContain('data-id="addons"');
 });
 
 test('a settings tab is not rendered for somebody who may not see it', function () {
@@ -260,7 +250,44 @@ test('the premium page renders for a site that has not bought it', function () {
 
 test('the addons tab is only offered when there is an addon to configure', function () {
     // An empty tab is worse than no tab.
-    expect(renderedPage('renderSettingsMenuCallback'))->not->toContain('id="addons"');
+    expect(renderedPage('renderSettingsMenuCallback'))->not->toContain('id="addons"')
+        ->and(renderedPage('renderSettingsMenuCallback'))->not->toContain('id="premium"');
+});
+
+test('the help page puts hosted sections on the premium tab under one support notice', function () {
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Application.php');
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-premium-host/plugin/Hooks.php');
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/Application.php');
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-hosted-addon/plugin/Hooks.php');
+    glsr()->register(GeminiLabs\SiteReviews\TestAddon\Application::class);
+    glsr()->register(GeminiLabs\SiteReviews\Premium\Host\Application::class);
+    glsr()->register(
+        GeminiLabs\SiteReviews\Premium\HostedThing\Application::class,
+        glsr(GeminiLabs\SiteReviews\Premium\Host\Application::class)
+    );
+    $sections = fn (array $documentation) => array_merge($documentation, [
+        'site-reviews-hosted-addon' => '<p>Hosted documentation.</p>',
+        'site-reviews-test-addon' => '<p>Standalone documentation.</p>',
+    ]);
+    add_filter('site-reviews/addon/documentation', $sections, 99);
+    try {
+        $html = renderedPage('renderDocumentationMenuCallback');
+        $addonsTab = strpos($html, 'class="glsr-nav-view ui-tabs-hide" id="addons"');
+        $premiumTab = strpos($html, 'class="glsr-nav-view ui-tabs-hide" id="premium"');
+
+        expect($addonsTab)->toBeInt()
+            ->and($premiumTab)->toBeInt()
+            ->and(strpos($html, 'Standalone documentation.'))->toBeGreaterThan($addonsTab)->toBeLessThan($premiumTab)
+            ->and(strpos($html, 'Hosted documentation.'))->toBeGreaterThan($premiumTab)
+            ->and(substr_count(substr($html, $premiumTab), 'To receive support for Site Reviews Premium'))->toBe(1);
+    } finally {
+        remove_filter('site-reviews/addon/documentation', $sections, 99);
+        GeminiLabs\SiteReviews\Tests\unregisterAddons(
+            GeminiLabs\SiteReviews\TestAddon\Application::ID,
+            GeminiLabs\SiteReviews\Premium\Host\Application::ID,
+            GeminiLabs\SiteReviews\Premium\HostedThing\Application::ID
+        );
+    }
 });
 
 test('the menu count walks past everybody else\'s menu entries', function () {

@@ -48,7 +48,7 @@ abstract class Controller extends AbstractController
     {
         $actions = [];
         if (glsr()->hasPermission('settings') && !empty($this->app()->config('settings'))) {
-            $actions['settings'] = glsr_admin_link("settings.addons.{$this->app()->slug}", _x('Settings', 'admin-text', 'site-reviews'));
+            $actions['settings'] = glsr_admin_link("settings.{$this->app()->settingsPath()}", _x('Settings', 'admin-text', 'site-reviews'));
         }
         return array_merge($actions, $links);
     }
@@ -96,9 +96,10 @@ abstract class Controller extends AbstractController
      */
     public function filterDocumentation(array $documentation): array
     {
-        $isHosted = $this->app() instanceof Addon && null !== $this->app()->hostedBy();
-        $notice = $isHosted
-            ? '' // the host shows one notice for all its modules
+        $app = $this->app();
+        $isPremium = $app instanceof Addon && ($app->isHost() || null !== $app->hostedBy());
+        $notice = $isPremium
+            ? '' // the Premium tab shows one notice for all its sections
             : glsr()->build('views/partials/addons/support-notice', [
                 'addon_id' => $this->app()->id,
             ]);
@@ -277,7 +278,8 @@ abstract class Controller extends AbstractController
         }
         $actions = [];
         if (glsr()->hasPermission('documentation')) {
-            $actions['documentation'] = glsr_admin_link('documentation.addons', [
+            $tab = strtok($this->app()->settingsPath(), '.');
+            $actions['documentation'] = glsr_admin_link("documentation.{$tab}", [
                 'data-expand' => "#addon-{$this->app()->id}",
                 'text' => _x('Documentation', 'admin-text', 'site-reviews'),
             ]);

@@ -116,6 +116,7 @@ function glsr_admin_link(string $path = '', $attrs = [], string $expand = ''): s
             'hooks' => _x('Hooks', 'admin-text', 'site-reviews'),
             'integrations' => _x('Integrations', 'admin-text', 'site-reviews'),
             'licenses' => _x('Licenses', 'admin-text', 'site-reviews'),
+            'premium' => _x('Premium', 'admin-text', 'site-reviews'),
             'profilepress' => 'ProfilePress',
             'reviews' => _x('Reviews', 'admin-text', 'site-reviews'),
             'scheduled' => _x('Scheduled Actions', 'admin-text', 'site-reviews'),

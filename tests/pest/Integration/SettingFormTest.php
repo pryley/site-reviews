@@ -3,6 +3,7 @@
 use GeminiLabs\SiteReviews\Modules\Html\Field;
 use GeminiLabs\SiteReviews\Modules\Html\SettingField;
 use GeminiLabs\SiteReviews\Modules\Html\SettingForm;
+use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Premium\Host\Application as SettingHostAddon;
 use GeminiLabs\SiteReviews\Premium\HostedThing\Application as SettingHostedAddon;
 use GeminiLabs\SiteReviews\TestAddon\Application as TestAddon;
@@ -83,6 +84,34 @@ test('an addon sub-tab is named by its addon\'s label and sorted by it', functio
     }
 });
 
+test('premium settings are grouped into sub-tabs as addon settings are', function () {
+    $restore = withInjectedSettings([
+        'settings.premium.gamma.enabled' => ['label' => 'Enabled', 'type' => 'text'],
+        'settings.premium.delta.enabled' => ['label' => 'Enabled', 'type' => 'text'],
+    ]);
+    try {
+        $form = new SettingForm(['premium' => 'Premium']);
+        $data = protectedMethod(SettingForm::class, 'templateDataForPremium')->invoke($form, 'premium');
+
+        expect(array_keys($data['settings']))->toBe(['delta', 'gamma'])
+            ->and($data['tab'])->toBe('premium');
+    } finally {
+        $restore();
+    }
+});
+
+test('the premium settings tab links its sub-tabs under the premium tab', function () {
+    $html = glsr(Template::class)->build('pages/settings/premium', [
+        'settings' => ['emails' => '', 'images' => ''],
+        'subsubsub' => ['emails' => 'Emails', 'images' => 'Images'],
+        'tab' => 'premium',
+    ]);
+
+    expect($html)->toContain('tab=premium&#038;sub=emails')
+        ->and($html)->toContain('tab=premium&#038;sub=images')
+        ->and($html)->toContain('id="images"');
+});
+
 test('integration settings are grouped the same way', function () {
     $restore = withInjectedSettings([
         'settings.integrations.myintegration.enabled' => ['label' => 'Enabled', 'type' => 'text'],
@@ -111,17 +140,14 @@ test('a raw field keeps its own id instead of the hashed one', function () {
     expect($field->id)->toBe('my-verbatim-id');
 });
 
-test('a host addon\'s settings display on the addons tab, not under its own slug', function () {
-    // A host mounts its settings under its own slug (settings.{hostSlug}.*), but the settings
-    // page has no tab named after the host — its fields belong on the addons tab, which the
-    // installed premium plugin relabels.
+test('a host addon\'s settings display on the tab named by its slug', function () {
     glsr()->register(SettingHostAddon::class);
     glsr()->register(SettingHostedAddon::class, glsr(SettingHostAddon::class));
     try {
         $form = new SettingForm([]);
         $field = $form->field('settings.premium-host.hosted-thing.color', ['type' => 'text']);
 
-        expect($field->group)->toBe('addons');
+        expect($field->group)->toBe('premium-host');
     } finally {
         unregisterAddons(SettingHostAddon::ID, SettingHostedAddon::ID);
     }

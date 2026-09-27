@@ -1,0 +1,15 @@
+<?php defined('ABSPATH') || exit; ?>
+
+<?php if (count($settings) > 1) { ?>
+    <ul class="glsr-subsubsub subsubsub">
+    <?php foreach ($settings as $key => $rows) { ?>
+        <li><a href="<?php echo esc_url(glsr_admin_url('settings', $tab, $key)); ?>" tabindex="0"><?php echo esc_html($subsubsub[$key]); ?></a><span>|</span></li>
+    <?php } ?>
+    </ul>
+<?php } ?>
+
+<?php foreach ($settings as $key => $rows) { ?>
+    <div class="glsr-nav-view-section" id="<?php echo esc_attr($key); ?>">
+        <?php glsr()->action("settings/{$key}", $rows); ?>
+    </div>
+<?php } ?>

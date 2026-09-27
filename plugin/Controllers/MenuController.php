@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Addons\Addon;
 use GeminiLabs\SiteReviews\Api;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\Tables;
@@ -118,14 +119,29 @@ class MenuController extends AbstractController
             'api' => _x('API', 'admin-text', 'site-reviews'),
             'integrations' => _x('Integrations', 'admin-text', 'site-reviews'),
             'addons' => _x('Addons', 'admin-text', 'site-reviews'),
+            'premium' => _x('Premium', 'admin-text', 'site-reviews'),
         ]);
-        $addons = glsr()->filterArray('addon/documentation', []);
+        $addons = [];
+        $premium = [];
+        foreach (glsr()->filterArray('addon/documentation', []) as $addonId => $section) {
+            $addon = glsr($addonId);
+            if ($addon instanceof Addon && ($addon->isHost() || null !== $addon->hostedBy())) {
+                $premium[$addonId] = $section;
+            } else {
+                $addons[$addonId] = $section;
+            }
+        }
         uksort($addons, fn ($a, $b) => strnatcasecmp(glsr($a)->name, glsr($b)->name));
+        uksort($premium, fn ($a, $b) => strnatcasecmp(glsr($a)->name, glsr($b)->name));
         if (empty($addons)) {
             unset($tabs['addons']);
         }
+        if (empty($premium)) {
+            unset($tabs['premium']);
+        }
         $this->renderPage('documentation', [
             'addons' => $addons,
+            'premium' => $premium,
             'tabs' => $tabs,
         ]);
     }
@@ -165,15 +181,15 @@ class MenuController extends AbstractController
             'strings' => _x('Strings', 'admin-text', 'site-reviews'),
             'integrations' => _x('Integrations', 'admin-text', 'site-reviews'),
             'addons' => _x('Addons', 'admin-text', 'site-reviews'),
+            'premium' => _x('Premium', 'admin-text', 'site-reviews'),
             'licenses' => _x('Licenses', 'admin-text', 'site-reviews'),
         ]);
-        // The installed premium plugin keeps the tab (renamed "Premium"
-        // through the addon/settings/tabs filter) even when every feature is
-        // toggled off; otherwise the tab exists only if an addon registered
-        // settings under it.
-        if (is_null(glsr()->addon('site-reviews-premium'))
-            && empty(Arr::get(glsr()->defaults(), 'settings.addons'))) {
+        if (empty(Arr::get(glsr()->defaults(), 'settings.addons'))) {
             unset($tabs['addons']);
+        }
+        // Kept while premium is installed, even with every feature toggled off.
+        if (is_null(glsr()->addon('site-reviews-premium'))) {
+            unset($tabs['premium']);
         }
         $this->renderPage('settings', [
             'fields' => glsr(SettingForm::class, ['groups' => $tabs])->build(),
