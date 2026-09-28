@@ -32,6 +32,7 @@ class ReviewTagDefaults extends DefaultsAbstract
      * This is done after $casts and before $enums.
      */
     public array $sanitize = [
+        'description' => 'text',
         'group' => 'text',
         'label' => 'text',
     ];
@@ -39,10 +40,11 @@ class ReviewTagDefaults extends DefaultsAbstract
     protected function defaults(): array
     {
         return [
+            'description' => '', // What the tag puts on the page, one line (an editor's tooltip)
             'display' => false, // If the tag can be used in a review builder (i.e. Review Themes)
             'group' => 'other',
             'insert' => false, // If the tag can be used in review template editor (i.e. Review Forms)
-            'label' => '',
+            'label' => '', // The tag's name in a review builder; only a displayable tag needs one
         ];
     }
 }

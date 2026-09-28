@@ -57,6 +57,7 @@ it('fills a partial descriptor from the defaults', function () {
     glsr()->discard('review_tags');
 
     expect(glsr(ReviewTags::class)->all()['partial_tag'])->toBe([
+        'description' => '',
         'display' => true,
         'group' => 'other',
         'insert' => false,
@@ -121,10 +122,11 @@ it('renamed assigned to assigned_data and kept the old name working', function (
 it('sanitizes what a declaration puts in a descriptor', function () {
     // Declared by hand, and what it says decides what an editor offers:
     // a truthy string must not read as "yes, display it", an unknown
-    // heading must not create a group nobody renders, and a label is
-    // shown as text.
+    // heading must not create a group nobody renders, and a label and a
+    // description are shown as text.
     add_filter('site-reviews/defaults/review-tags/defaults', function (array $tags): array {
         $tags['sloppy_tag'] = [
+            'description' => 'Says <i>what</i> it does',
             'display' => 'yes',
             'group' => 'somewhere-else',
             'insert' => 1,
@@ -136,6 +138,7 @@ it('sanitizes what a declaration puts in a descriptor', function () {
     glsr()->discard('review_tags');
 
     expect(glsr(ReviewTags::class)->all()['sloppy_tag'])->toBe([
+        'description' => 'Says what it does',
         'display' => true,
         'group' => 'other',
         'insert' => true,
@@ -177,4 +180,16 @@ it('leaves alone what is not a tag', function () {
 
     expect(glsr()->filterString('build/template/review', $template, ['context' => []]))
         ->toBe($template);
+});
+
+it('names every displayable tag and describes every insertable one', function () {
+    // A review builder shows a displayable tag by its label; an editor's
+    // tooltip is the description.
+    $tags = glsr(ReviewTags::class);
+    $unnamed = array_keys(array_filter($tags->displayable(), fn ($tag) => '' === $tag['label']));
+    $undescribed = array_keys(array_filter($tags->insertable(), fn ($tag) => '' === $tag['description']));
+
+    expect($unnamed)->toBe([])
+        ->and($undescribed)->toBe([])
+        ->and($tags->all()['author']['label'])->toBe('Author Name');
 });
