@@ -127,6 +127,19 @@ test('asking whether a job is pending is asking about our own', function () {
     expect(queue()->isPending('queue/notification'))->toBeTrue();
 });
 
+test('an addon\'s queue sees its own pending job without args', function () {
+    $addonQueue = new class() extends Queue {
+        protected function hook(string $hook): string
+        {
+            return \GeminiLabs\SiteReviews\Helpers\Str::prefix($hook, 'site-reviews-addon/');
+        }
+    };
+    $addonQueue->once(time() + HOUR_IN_SECONDS, 'queue/send');
+
+    expect($addonQueue->isPending('queue/send'))->toBeTrue()
+        ->and(queue()->isPending('queue/send'))->toBeFalse();
+});
+
 test('when a job will next run', function () {
     $when = time() + 2 * HOUR_IN_SECONDS;
     queue()->once($when, 'queue/geolocation');

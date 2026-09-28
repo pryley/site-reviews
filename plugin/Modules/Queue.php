@@ -125,8 +125,8 @@ class Queue implements QueueContract
             return (bool) as_has_scheduled_action($this->hook($hook), $args, glsr()->id);
         }
         return !empty(
-            glsr(Queue::class)->search([
-                'hook' => $this->hook($hook),
+            $this->search([
+                'hook' => $hook,
                 'status' => static::STATUS_PENDING,
             ])
         );
