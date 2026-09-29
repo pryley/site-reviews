@@ -228,8 +228,7 @@ class CreateReview extends AbstractCommand
     protected function normalize(Request $request): Request
     {
         $isFormSubmission = !defined('WP_IMPORTING')
-            && !glsr()->retrieve('glsr_create_review', false)
-            && !empty($request->form_id);
+            && !glsr()->retrieve('glsr_create_review', false);
         if ($isFormSubmission || empty($request->ip_address)) {
             $request->set('ip_address', Helper::clientIp()); // required for Akismet and Blacklist validation
         }

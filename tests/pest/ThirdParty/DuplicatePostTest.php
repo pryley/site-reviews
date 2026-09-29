@@ -57,6 +57,25 @@ test('a copied review gets its review row back', function () {
         ->and($copy->content)->toBe($review->content);
 });
 
+test('a copied review keeps its pin, its verification and its ip address', function () {
+    // CreateReview::normalize() resets these three for a public submission, and the
+    // review row is written from the command. The copy is made from an existing review
+    // in the admin, so it must carry the original's values, not the copier's.
+    $review = createReview([
+        'ip_address' => '203.0.113.5',
+        'is_pinned' => true,
+        'is_verified' => true,
+    ]);
+    $copyId = copiedReviewPost($review->ID);
+
+    do_action('duplicate_post_post_copy', $copyId, get_post($review->ID));
+
+    $copy = glsr_get_review($copyId);
+    expect($copy->ip_address)->toBe('203.0.113.5')
+        ->and($copy->is_pinned)->toBeTrue()
+        ->and($copy->is_verified)->toBeTrue();
+});
+
 test('a copied review remembers what it was copied from', function () {
     $review = createReview();
     $copyId = copiedReviewPost($review->ID);

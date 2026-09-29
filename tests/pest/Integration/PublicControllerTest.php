@@ -15,6 +15,7 @@ use GeminiLabs\SiteReviews\Tests\SubmitsReviews;
 use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\createReviews;
+use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 uses(InteractsWithAjax::class, InteractsWithExits::class, SubmitsReviews::class);
@@ -198,6 +199,39 @@ test('a review submitted by a plain form post redirects back to the page it came
     );
 
     expect($location)->not->toBeEmpty();
+});
+
+test('a visitor cannot choose who wrote the review or answer it as the owner over admin-ajax', function () {
+    // The same request as the REST test in RestPublicApiTest, through the other door. The
+    // router asks a logged-out visitor for no nonce, so only CreateReview::normalize() stands
+    // between this request and the protected fields.
+    wp_set_current_user(0);
+    $ownerId = createUser(['role' => 'administrator']);
+    $values = $this->request([
+        'author_id' => $ownerId,
+        'content' => 'Submitted without a form.',
+        'email' => 'jane@example.org',
+        'is_pinned' => 1,
+        'is_verified' => 1,
+        'name' => 'Jane',
+        'rating' => 5,
+        'response' => 'Thank you! <a href="https://example.org/offer">Claim your reward</a>',
+        'response_by' => $ownerId,
+        'terms' => 1,
+        'title' => 'A lovely stay',
+    ]);
+    unset($values['form_id']);
+    $values[glsr(Honeypot::class)->hash('')] = '';
+
+    $response = $this->assertJsonSuccess($values);
+
+    $reviewId = (int) $response->data->review->ID;
+    $review = glsr_get_review($reviewId);
+    expect((int) get_post_field('post_author', $reviewId))->toBe(0)
+        ->and(get_post_meta($reviewId, '_response', true))->toBe('')
+        ->and(get_post_meta($reviewId, '_response_by', true))->toBe('')
+        ->and($review->is_pinned)->toBeFalse()
+        ->and($review->is_verified)->toBeFalse();
 });
 
 /**

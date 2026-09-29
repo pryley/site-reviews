@@ -134,6 +134,41 @@ test('a logged-in submitter keeps their identity', function () {
     expect($review->author_id)->toBe($userId);
 });
 
+test('a visitor cannot choose who wrote the review or answer it as the owner', function () {
+    // CreateReview::normalize() forces the fields a submitter must never set: the author,
+    // the owner's response, the pin and the verified badge. A request that leaves out form_id
+    // also leaves out the form signature, and its honeypot is the hash of an empty form_id, so
+    // every validator still accepts it. The overrides must hold for that request as well.
+    releaseMutexLock();
+    $ownerId = createUser(['role' => 'administrator']);
+    $values = $this->request([
+        'author_id' => $ownerId,
+        'content' => 'Submitted without a form.',
+        'email' => 'jane@example.org',
+        'is_pinned' => 1,
+        'is_verified' => 1,
+        'name' => 'Jane',
+        'rating' => 5,
+        'response' => 'Thank you! <a href="https://example.org/offer">Claim your reward</a>',
+        'response_by' => $ownerId,
+        'terms' => 1,
+        'title' => 'A lovely stay',
+    ]);
+    unset($values['form_id']);
+    $values[glsr(Honeypot::class)->hash('')] = '';
+
+    $response = restRequest('POST', '/site-reviews/v1/submissions', [glsr()->id => $values]);
+
+    expect($response->get_status())->toBe(201);
+    $reviewId = $response->get_data()['review']['ID'];
+    $review = glsr_get_review($reviewId);
+    expect((int) get_post_field('post_author', $reviewId))->toBe(0)
+        ->and(get_post_meta($reviewId, '_response', true))->toBe('')
+        ->and(get_post_meta($reviewId, '_response_by', true))->toBe('')
+        ->and($review->is_pinned)->toBeFalse()
+        ->and($review->is_verified)->toBeFalse();
+});
+
 test('the captcha token rides the submission, exactly as it does over admin-ajax', function () {
     // Request::inputPost() copies the widget's top-level token field into _captcha; the
     // REST controller must do the same, or every captcha-protected submission is refused.
