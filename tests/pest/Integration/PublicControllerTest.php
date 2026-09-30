@@ -3,6 +3,7 @@
 use GeminiLabs\SiteReviews\Commands\FetchPagedReviews;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Honeypot;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewForm;
@@ -49,10 +50,8 @@ beforeEach(function () {
 /**
  * The paged-reviews request the browser actually sends.
  *
- * `url` is not optional, and it is not defaulted: NormalizePaginationArgs does
- * `Url::path($args->url)` on whatever is in the store, and Arguments returns NULL for a key that
- * is not there — which is a TypeError, on a PUBLIC unguarded route, from browser-controlled input.
- * The javascript always sends it, so nobody has hit this; a crafted request would.
+ * `url` is the page the reviews are on, and the pagination links are built from it. The
+ * javascript always sends it; a request without it is covered by its own test below.
  */
 function pagedRequest(array $atts, int $page = 1): Request
 {
@@ -121,6 +120,21 @@ test('the second page of reviews is fetched without reloading the page', functio
         ->and($response['data'])->toHaveKeys(['max_num_pages', 'pagination', 'reviews'])
         ->and($response['data']['max_num_pages'])->toBeGreaterThan(1)
         ->and($response['data']['reviews'])->not->toBeEmpty();
+});
+
+test('a paged request without a url still answers, with links to the home page', function () {
+    // Arguments returns NULL for a key that is not there, and Url::path() takes a string. The
+    // route is public and takes no nonce, so the missing url came from a crafted request; it
+    // used to throw a TypeError that HookProxy logged, and the sender got a bare "0".
+    createReviews(6);
+
+    $response = $this->jsonSentBy(fn () => glsr(PublicController::class)->fetchPagedReviewsAjax(
+        new Request(['atts' => ['display' => 2], 'page' => 2])
+    ));
+
+    expect($response['success'])->toBeTrue()
+        ->and($response['data']['reviews'])->not->toBeEmpty()
+        ->and($response['data']['pagination'])->toContain(Url::home());
 });
 
 test('the pagination it returns is unwrapped, because the page already has the wrapper', function () {

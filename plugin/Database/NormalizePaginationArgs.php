@@ -41,7 +41,7 @@ class NormalizePaginationArgs extends Arguments
     {
         $args = glsr()->args(glsr()->retrieve(glsr()->paged_handle));
         if (!$args->isEmpty()) {
-            $urlPath = Url::path($args->url);
+            $urlPath = Url::path((string) $args->url); // url comes from the request and can be missing
             if (Url::path(Url::home()) === $urlPath) {
                 $urlPath = ''; // the home page: Url::home('') is Url::home()
             }
