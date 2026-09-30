@@ -252,6 +252,15 @@ test('upgrading an addon fires once, from the version the site held to the plugi
     $this->controller->onUpgrade();
     expect($upgrades)->toHaveCount(2)
         ->and(get_option($option))->toBe($this->addon->version);
+
+    // A reactivation keeps the version stored before deactivation, so an addon replaced while
+    // it was deactivated still upgrades from that version.
+    update_option($option, '0.8.0');
+    delete_option(glsr()->prefix.'activated_site-reviews-test-addon');
+    $this->controller->onActivation();
+    $this->controller->onUpgrade();
+    expect($upgrades)->toHaveCount(3)
+        ->and($upgrades[2])->toBe(['0.8.0', $this->addon->version]);
 });
 
 test('deactivating an addon forgets it, so that it activates again if it comes back', function () {

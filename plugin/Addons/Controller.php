@@ -412,7 +412,7 @@ abstract class Controller extends AbstractController
         $option = glsr()->prefix."activated_{$this->app()->id}";
         if (empty(get_option($option))) {
             update_option($option, true);
-            update_option($this->versionOption(), $this->app()->version, true); // a fresh install is no upgrade
+            add_option($this->versionOption(), $this->app()->version, '', true); // This is a fresh install
             if ($this->app()->post_type) {
                 glsr(Role::class)->reset($this->filterRoles([
                     'administrator' => [],
