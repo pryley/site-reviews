@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 7.1
-Stable tag: 8.3.2
+Stable tag: 8.3.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -213,11 +213,17 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 
 = 8.3.3 (2026-09-29) =
 
+- Fixed a modal close button staying visible when it should be hidden
 - Fixed a security issue where submitted form data could set a review's author or response fields
+- Fixed addons not finding their own scheduled background tasks
 - Fixed an error when a request to load more reviews has no page URL
 - Fixed combined stylesheets and scripts when the plugin folder is renamed
 - Fixed deleting a site in a multisite network leaving database tables behind
+- Fixed the details button in bulk action notices that appear without a page reload
+- Fixed the status border on pending reviews and scheduled actions in the admin lists
 - Fixed uninstalling with all data deleted leaving two database tables behind
+- Improved the Addons settings tab to show each addon's name
+- Improved the look of toggle switches in the admin
 - Improved the security of dismissing admin notices
 
 = 8.3.2 (2026-09-18) =

@@ -360,6 +360,17 @@ Features are subject to change and are sorted alphabetically, not by priority.
   skipped), then `make analyse`. Catches removed symbols and signature drift between
   audits.
 
+- [x] **`Addon::posts()` has no status argument, so premium's Emails repeats its query.**
+  From premium `.claude/TASKS.md` E47. `Addon::posts()` (`plugin/Addons/Addon.php:221`)
+  hard-codes `'post_status' => 'publish'`. `EmailForm::options()` in premium
+  (`plugin/Features/Forms/Emails/EmailForm.php`) runs the same `Database::posts()` query with
+  `draft`, `future`, `pending`, `private` and `publish`, so it cannot call the core method.
+  A status argument on `Addon::posts()`, defaulting to `publish`, lets premium share it.
+
+  CLOSED 2026-09-29: no change. The shared query is `Database::posts()`, which premium already
+  calls; `Addon::posts()` is the publish-only shortcut for dropdowns. A new public parameter
+  every addon inherits would buy about four lines in premium.
+
 - [ ] **A custom review editor must design its autosave; the REST autosave route was
   deliberately removed.** 2026-08-20 (REST controller evaluation):
   `RegisterPostType` now calls `remove_post_type_support('site-review', 'autosave')`,

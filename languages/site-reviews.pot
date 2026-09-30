@@ -2,7 +2,7 @@
 # This file is distributed under the GPL3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Site Reviews 8.3.2\n"
+"Project-Id-Version: Site Reviews 8.3.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/site-reviews\n"
 "Last-Translator: Paul Ryley <paul@geminilabs.io>\n"
 "Language-Team: Gemini Labs <support@geminilabs.io>\n"
@@ -218,6 +218,7 @@ msgstr ""
 #: config/export.php:13
 #: config/settings.php:837
 #: plugin/Defaults/PostTypeColumnDefaults.php:13
+#: plugin/Defaults/ReviewTagsDefaults.php:39
 #: plugin/Metaboxes/AssignedPostsMetabox.php:19
 #: views/partials/screen/inline-edit.php:107
 msgctxt "admin-text"
@@ -239,6 +240,7 @@ msgstr ""
 #: config/export.php:22
 #: config/settings.php:839
 #: plugin/Defaults/PostTypeColumnDefaults.php:14
+#: plugin/Defaults/ReviewTagsDefaults.php:51
 #: plugin/Metaboxes/AssignedUsersMetabox.php:19
 #: plugin/Tinymce/SiteReviewsSummaryTinymce.php:28
 #: plugin/Tinymce/SiteReviewsTinymce.php:27
@@ -316,6 +318,7 @@ msgstr ""
 #: config/settings.php:793
 #: plugin/Controllers/ListTableColumns/ColumnFilterRating.php:37
 #: plugin/Defaults/PostTypeColumnDefaults.php:20
+#: plugin/Defaults/ReviewTagsDefaults.php:138
 #: plugin/Defaults/RevisionFieldsDefaults.php:11
 #: plugin/Integrations/Bricks/Elements/BricksSiteReviewsSummary.php:42
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:98
@@ -359,6 +362,7 @@ msgid "IP Address"
 msgstr ""
 
 #: config/forms/metabox-fields.php:30
+#: plugin/Defaults/ReviewTagsDefaults.php:70
 #: plugin/Defaults/RevisionFieldsDefaults.php:16
 msgctxt "admin-text"
 msgid "Avatar"
@@ -1490,8 +1494,8 @@ msgid "Display the fallback text when there are no reviews to display. This can 
 msgstr ""
 
 #: config/settings.php:444
-#: helpers.php:125
-#: plugin/Controllers/MenuController.php:165
+#: helpers.php:126
+#: plugin/Controllers/MenuController.php:181
 msgctxt "admin-text"
 msgid "Strings"
 msgstr ""
@@ -1851,6 +1855,7 @@ msgid "Required Fields"
 msgstr ""
 
 #: config/settings.php:794
+#: plugin/Defaults/ReviewTagsDefaults.php:177
 #: plugin/Integrations/ProfilePress/RatingField.php:32
 msgctxt "admin-text"
 msgid "Title"
@@ -1915,6 +1920,7 @@ msgid "Restrict Limits To"
 msgstr ""
 
 #: config/settings.php:838
+#: plugin/Defaults/ReviewTagsDefaults.php:45
 msgctxt "admin-text"
 msgid "Assigned Terms"
 msgstr ""
@@ -2275,52 +2281,52 @@ msgid "Enabling this option will persist field values entered into the review fo
 msgstr ""
 
 #: helpers.php:108
-#: plugin/Controllers/MenuController.php:120
-#: plugin/Controllers/MenuController.php:167
+#: plugin/Controllers/MenuController.php:121
+#: plugin/Controllers/MenuController.php:183
 msgctxt "admin-text"
 msgid "Addons"
 msgstr ""
 
 #: helpers.php:109
-#: plugin/Controllers/MenuController.php:118
+#: plugin/Controllers/MenuController.php:119
 msgctxt "admin-text"
 msgid "API"
 msgstr ""
 
 #: helpers.php:110
-#: plugin/Controllers/MenuController.php:193
+#: plugin/Controllers/MenuController.php:209
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
 
 #: helpers.php:111
-#: plugin/Controllers/MenuController.php:65
+#: plugin/Controllers/MenuController.php:66
 msgctxt "admin-text"
 msgid "Help & Support"
 msgstr ""
 
 #: helpers.php:112
 #: plugin/Commands/DetectIpAddress.php:13
-#: plugin/Controllers/MenuController.php:114
+#: plugin/Controllers/MenuController.php:115
 msgctxt "admin-text"
 msgid "FAQ"
 msgstr ""
 
 #: helpers.php:113
-#: plugin/Controllers/MenuController.php:163
+#: plugin/Controllers/MenuController.php:179
 msgctxt "admin-text"
 msgid "Forms"
 msgstr ""
 
 #: helpers.php:114
-#: plugin/Controllers/MenuController.php:117
+#: plugin/Controllers/MenuController.php:118
 msgctxt "admin-text"
 msgid "Functions"
 msgstr ""
 
 #: helpers.php:115
-#: plugin/Controllers/MenuController.php:161
-#: plugin/Controllers/MenuController.php:190
+#: plugin/Controllers/MenuController.php:177
+#: plugin/Controllers/MenuController.php:206
 #: plugin/Integrations/Avada/Defaults/ControlDefaults.php:46
 #: plugin/Integrations/Breakdance/Transformer.php:141
 #: plugin/Integrations/Bricks/BricksElement.php:127
@@ -2332,26 +2338,34 @@ msgid "General"
 msgstr ""
 
 #: helpers.php:116
-#: plugin/Controllers/MenuController.php:116
+#: plugin/Controllers/MenuController.php:117
 msgctxt "admin-text"
 msgid "Hooks"
 msgstr ""
 
 #: helpers.php:117
-#: plugin/Controllers/MenuController.php:119
-#: plugin/Controllers/MenuController.php:166
+#: plugin/Controllers/MenuController.php:120
+#: plugin/Controllers/MenuController.php:182
 msgctxt "admin-text"
 msgid "Integrations"
 msgstr ""
 
 #: helpers.php:118
-#: plugin/Controllers/MenuController.php:168
+#: plugin/Controllers/MenuController.php:185
 msgctxt "admin-text"
 msgid "Licenses"
 msgstr ""
 
-#: helpers.php:120
-#: plugin/Controllers/MenuController.php:162
+#: helpers.php:119
+#: plugin/Controllers/MenuController.php:122
+#: plugin/Controllers/MenuController.php:184
+#: views/pages/premium/index.php:33
+msgctxt "admin-text"
+msgid "Premium"
+msgstr ""
+
+#: helpers.php:121
+#: plugin/Controllers/MenuController.php:178
 #: plugin/Controllers/PrivacyController.php:136
 #: plugin/Defaults/PostTypeLabelDefaults.php:29
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:95
@@ -2364,14 +2378,14 @@ msgctxt "admin-text"
 msgid "Reviews"
 msgstr ""
 
-#: helpers.php:121
-#: plugin/Controllers/MenuController.php:191
+#: helpers.php:122
+#: plugin/Controllers/MenuController.php:207
 msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr ""
 
-#: helpers.php:122
-#: plugin/Controllers/MenuController.php:164
+#: helpers.php:123
+#: plugin/Controllers/MenuController.php:180
 #: plugin/Integrations/Breakdance/Transformer.php:132
 #: plugin/Integrations/Bricks/Controller.php:37
 #: plugin/Integrations/Elementor/Widgets/ElementorWidget.php:82
@@ -2382,10 +2396,10 @@ msgctxt "admin-text"
 msgid "Schema"
 msgstr ""
 
-#: helpers.php:123
+#: helpers.php:124
 #: plugin/Addons/Controller.php:51
 #: plugin/Controllers/AdminController.php:72
-#: plugin/Controllers/MenuController.php:63
+#: plugin/Controllers/MenuController.php:64
 #: views/pages/tools/sync.php:23
 #: assets/blocks/site_review/index.js:1
 #: assets/blocks/site_reviews/index.js:1
@@ -2395,88 +2409,88 @@ msgctxt "admin-text"
 msgid "Settings"
 msgstr ""
 
-#: helpers.php:124
-#: plugin/Controllers/MenuController.php:115
+#: helpers.php:125
+#: plugin/Controllers/MenuController.php:116
 msgctxt "admin-text"
 msgid "Shortcodes"
 msgstr ""
 
-#: helpers.php:126
-#: plugin/Addons/Controller.php:284
-#: plugin/Controllers/MenuController.php:113
+#: helpers.php:127
+#: plugin/Addons/Controller.php:289
+#: plugin/Controllers/MenuController.php:114
 #: plugin/Controllers/WelcomeController.php:66
 msgctxt "admin-text"
 msgid "Support"
 msgstr ""
 
-#: helpers.php:128
-#: plugin/Controllers/MenuController.php:194
+#: helpers.php:129
+#: plugin/Controllers/MenuController.php:210
 msgctxt "admin-text"
 msgid "System Info"
 msgstr ""
 
-#: helpers.php:129
-#: plugin/Controllers/MenuController.php:64
+#: helpers.php:130
+#: plugin/Controllers/MenuController.php:65
 msgctxt "admin-text"
 msgid "Tools"
 msgstr ""
 
-#: helpers.php:143
+#: helpers.php:144
 msgctxt "admin-text"
 msgid "All Reviews"
 msgstr ""
 
-#: helpers.php:271
+#: helpers.php:272
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr ""
 
-#: helpers.php:272
+#: helpers.php:273
 msgctxt "admin-text"
 msgid "Review Actions"
 msgstr ""
 
-#: helpers.php:273
+#: helpers.php:274
 msgctxt "admin-text"
 msgid "Review Alerts"
 msgstr ""
 
-#: helpers.php:274
+#: helpers.php:275
 msgctxt "admin-text"
 msgid "Review Authors"
 msgstr ""
 
-#: helpers.php:275
+#: helpers.php:276
 msgctxt "admin-text"
 msgid "Review Filters"
 msgstr ""
 
-#: helpers.php:276
+#: helpers.php:277
 msgctxt "admin-text"
 msgid "Review Forms"
 msgstr ""
 
-#: helpers.php:277
+#: helpers.php:278
 msgctxt "admin-text"
 msgid "Review Images"
 msgstr ""
 
-#: helpers.php:278
+#: helpers.php:279
 msgctxt "admin-text"
 msgid "Review Notifications"
 msgstr ""
 
-#: helpers.php:279
+#: helpers.php:280
 msgctxt "admin-text"
 msgid "Site Reviews Premium"
 msgstr ""
 
-#: helpers.php:280
+#: helpers.php:281
 msgctxt "admin-text"
 msgid "Review Themes"
 msgstr ""
 
-#: plugin/Addons/Controller.php:279
+#: plugin/Addons/Controller.php:284
 #: plugin/Controllers/AdminController.php:98
 #: views/pages/tools/sync.php:25
 #: views/partials/notices/welcome.php:19
@@ -2484,7 +2498,7 @@ msgctxt "admin-text"
 msgid "Documentation"
 msgstr ""
 
-#: plugin/Addons/Controller.php:283
+#: plugin/Addons/Controller.php:288
 msgctxt "admin-text"
 msgid "Visit premium customer support"
 msgstr ""
@@ -3731,7 +3745,7 @@ msgid "If the terms were accepted when the review was submitted."
 msgstr ""
 
 #: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:259
-#: plugin/Defaults/ReviewTagsDefaults.php:165
+#: plugin/Defaults/ReviewTagsDefaults.php:173
 msgctxt "admin-text"
 msgid "The title of the review."
 msgstr ""
@@ -3884,7 +3898,7 @@ msgid "Publicly responding to third-party %s reviews is disabled."
 msgstr ""
 
 #: plugin/Controllers/FlyoutController.php:36
-#: plugin/Controllers/MenuController.php:66
+#: plugin/Controllers/MenuController.php:67
 msgctxt "admin-text"
 msgid "Upgrade to Premium"
 msgstr ""
@@ -4148,12 +4162,12 @@ msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr ""
 
-#: plugin/Controllers/MainController.php:152
+#: plugin/Controllers/MainController.php:172
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:192
+#: plugin/Controllers/MenuController.php:208
 #: views/pages/tools/sync.php:58
 msgctxt "admin-text"
 msgid "Sync Reviews"
@@ -4538,6 +4552,7 @@ msgid "Categories"
 msgstr ""
 
 #: plugin/Defaults/PostTypeColumnDefaults.php:18
+#: plugin/Defaults/ReviewTagsDefaults.php:150
 #: plugin/Defaults/RevisionFieldsDefaults.php:10
 msgctxt "admin-text"
 msgid "Response"
@@ -4550,6 +4565,7 @@ msgid "Pinned"
 msgstr ""
 
 #: plugin/Defaults/PostTypeColumnDefaults.php:22
+#: plugin/Defaults/ReviewTagsDefaults.php:195
 #: plugin/Tinymce/SiteReviewsSummaryTinymce.php:49
 #: plugin/Tinymce/SiteReviewsTinymce.php:47
 #: views/partials/editor/verified.php:5
@@ -4678,22 +4694,27 @@ msgctxt "View Posts (admin-text)"
 msgid "View Reviews"
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:22
+#: plugin/Defaults/ReviewTagsDefaults.php:21
 msgctxt "admin-text"
 msgid "The assignments as JSON data, under the name it had before assigned_data."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:26
+#: plugin/Defaults/ReviewTagsDefaults.php:25
 msgctxt "admin-text"
 msgid "The posts, categories and users the review is assigned to, as JSON data."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:32
+#: plugin/Defaults/ReviewTagsDefaults.php:29
 msgctxt "admin-text"
 msgid "Links to the posts the review is assigned to."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:37
+#: plugin/Defaults/ReviewTagsDefaults.php:33
+msgctxt "admin-text"
+msgid "Assigned Links"
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:36
 msgctxt "admin-text"
 msgid "The titles of the posts the review is assigned to."
 msgstr ""
@@ -4703,127 +4724,154 @@ msgctxt "admin-text"
 msgid "The names of the categories the review is assigned to."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:47
+#: plugin/Defaults/ReviewTagsDefaults.php:48
 msgctxt "admin-text"
 msgid "The names of the users the review is assigned to."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:53
+#: plugin/Defaults/ReviewTagsDefaults.php:54
 msgctxt "admin-text"
 msgid "The name of the reviewer."
 msgstr ""
 
 #: plugin/Defaults/ReviewTagsDefaults.php:58
 msgctxt "admin-text"
+msgid "Author Name"
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:61
+msgctxt "admin-text"
 msgid "The user ID of the reviewer, or 0 if they were not logged in."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:64
+#: plugin/Defaults/ReviewTagsDefaults.php:66
 msgctxt "admin-text"
 msgid "The avatar image of the reviewer."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:70
+#: plugin/Defaults/ReviewTagsDefaults.php:73
 msgctxt "admin-text"
 msgid "The body of the review."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:75
+#: plugin/Defaults/ReviewTagsDefaults.php:77
+msgctxt "admin-text"
+msgid "Content"
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:80
 msgctxt "admin-text"
 msgid "The values of every custom field, as data."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:81
+#: plugin/Defaults/ReviewTagsDefaults.php:85
 msgctxt "admin-text"
 msgid "The date the review was submitted."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:86
+#: plugin/Defaults/ReviewTagsDefaults.php:89
+msgctxt "admin-text"
+msgid "Date"
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:92
 msgctxt "admin-text"
 msgid "The date the review was submitted, in UTC."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:91
+#: plugin/Defaults/ReviewTagsDefaults.php:97
 msgctxt "admin-text"
 msgid "The email address of the reviewer."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:96
+#: plugin/Defaults/ReviewTagsDefaults.php:102
 msgctxt "admin-text"
 msgid "The IP address the review was submitted from."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:101
+#: plugin/Defaults/ReviewTagsDefaults.php:107
 msgctxt "admin-text"
 msgid "Whether the review has been approved."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:106
+#: plugin/Defaults/ReviewTagsDefaults.php:112
 msgctxt "admin-text"
 msgid "Whether the review has been edited since it was submitted."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:111
+#: plugin/Defaults/ReviewTagsDefaults.php:117
 msgctxt "admin-text"
 msgid "Whether the review is pinned."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:117
+#: plugin/Defaults/ReviewTagsDefaults.php:122
 msgctxt "admin-text"
 msgid "Where the review was submitted from."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:122
+#: plugin/Defaults/ReviewTagsDefaults.php:126
+msgctxt "admin-text"
+msgid "Location"
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:129
 msgctxt "admin-text"
 msgid "The name of the reviewer, under the key it is stored with."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:128
+#: plugin/Defaults/ReviewTagsDefaults.php:134
 msgctxt "admin-text"
 msgid "The star rating of the review."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:133
+#: plugin/Defaults/ReviewTagsDefaults.php:141
 msgctxt "admin-text"
 msgid "The internal ID of the rating record."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:139
+#: plugin/Defaults/ReviewTagsDefaults.php:146
 msgctxt "admin-text"
 msgid "Your response to the review."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:144
+#: plugin/Defaults/ReviewTagsDefaults.php:153
 msgctxt "admin-text"
 msgid "The ID of the review."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:149
+#: plugin/Defaults/ReviewTagsDefaults.php:158
 msgctxt "admin-text"
 msgid "How many people found the review helpful."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:154
+#: plugin/Defaults/ReviewTagsDefaults.php:163
 msgctxt "admin-text"
 msgid "The publication status of the review."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:159
+#: plugin/Defaults/ReviewTagsDefaults.php:168
 msgctxt "admin-text"
 msgid "Whether the reviewer accepted the terms."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:170
+#: plugin/Defaults/ReviewTagsDefaults.php:180
 msgctxt "admin-text"
 msgid "Where the review came from: your site, or an imported source."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:175
+#: plugin/Defaults/ReviewTagsDefaults.php:183
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:42
+#: plugin/Tinymce/SiteReviewsTinymce.php:40
+msgctxt "admin-text"
+msgid "Review Type"
+msgstr ""
+
+#: plugin/Defaults/ReviewTagsDefaults.php:186
 msgctxt "admin-text"
 msgid "The link the review was imported from."
 msgstr ""
 
-#: plugin/Defaults/ReviewTagsDefaults.php:181
+#: plugin/Defaults/ReviewTagsDefaults.php:191
 msgctxt "admin-text"
 msgid "Whether the reviewer has been verified."
 msgstr ""
@@ -6464,12 +6512,12 @@ msgid_plural "%s Stars"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Translation.php:154
+#: plugin/Modules/Translation.php:156
 msgctxt "admin-text"
 msgid "This custom text is invalid because the original text has been changed or removed."
 msgstr ""
 
-#: plugin/Modules/Translation.php:157
+#: plugin/Modules/Translation.php:159
 msgctxt "admin-text"
 msgid "The placeholder tags are missing in your custom text."
 msgstr ""
@@ -7299,12 +7347,6 @@ msgctxt "admin-text"
 msgid "Limit reviews to those assigned to a User ID. You may also enter %s to use the ID of the logged-in user."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:42
-#: plugin/Tinymce/SiteReviewsTinymce.php:40
-msgctxt "admin-text"
-msgid "Review Type"
-msgstr ""
-
 #: plugin/Tinymce/SiteReviewsSummaryTinymce.php:45
 #: plugin/Tinymce/SiteReviewsTinymce.php:43
 msgctxt "admin-text"
@@ -7807,6 +7849,19 @@ msgctxt "admin-text"
 msgid "Click an active tab to expand/collapse all sections."
 msgstr ""
 
+#. translators: %s: link with the text "login"
+#: views/pages/documentation/premium.php:5
+#, php-format
+msgctxt "login (admin-text)"
+msgid "To receive support for Site Reviews Premium, please %s to your Nifty Plugins account."
+msgstr ""
+
+#: views/pages/documentation/premium.php:6
+#: views/partials/addons/support-notice.php:6
+msgctxt "admin-text"
+msgid "login"
+msgstr ""
+
 #: views/pages/documentation/support/common-problems-and-solutions.php:133
 msgid "Service Unavailable."
 msgstr ""
@@ -7829,11 +7884,6 @@ msgstr ""
 #: views/pages/premium/index.php:28
 msgctxt "admin-text"
 msgid "Free"
-msgstr ""
-
-#: views/pages/premium/index.php:33
-msgctxt "admin-text"
-msgid "Premium"
 msgstr ""
 
 #: views/pages/premium/index.php:68
@@ -8540,11 +8590,6 @@ msgstr ""
 #, php-format
 msgctxt "login (admin-text)"
 msgid "To receive support for this addon, please %s to your Nifty Plugins account."
-msgstr ""
-
-#: views/partials/addons/support-notice.php:6
-msgctxt "admin-text"
-msgid "login"
 msgstr ""
 
 #. translators: %s: number of reviews
