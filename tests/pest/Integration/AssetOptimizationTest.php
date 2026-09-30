@@ -273,9 +273,13 @@ test('on an https site the combined file is served over https', function () {
     optimizationOn();
     $_SERVER['HTTPS'] = 'on';
     try {
+        freshPageLoad(); // registered over https, as a page on an https site registers it
         css()->optimize();
 
-        expect(css()->url())->toStartWith('https://');
+        // The plugin's own URL is https here too, so the URL must also be the combined file.
+        expect(css()->url())->toStartWith('https://')
+            ->and(css()->url())->toEndWith('site-reviews/assets/site-reviews.css')
+            ->and(css()->url())->toContain('uploads');
     } finally {
         unset($_SERVER['HTTPS']);
     }

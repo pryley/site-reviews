@@ -99,7 +99,8 @@ test('every filter renders something to click on', function (string $class) {
 })->with('filters');
 
 test('a filter nobody has used shows its placeholder, not a blank box', function (string $class) {
-    expect(columnFilter($class)->selected())->toBe(columnFilter($class)->placeholder());
+    expect(columnFilter($class)->placeholder())->not->toBe('') // otherwise the box is blank
+        ->and(columnFilter($class)->selected())->toBe(columnFilter($class)->placeholder());
 })->with('filters');
 
 /*

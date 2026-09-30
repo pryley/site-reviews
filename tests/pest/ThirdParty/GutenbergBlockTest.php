@@ -100,7 +100,12 @@ test('a block renders the shortcode it wraps, inside a div', function () {
 test('the summary block renders a summary', function () {
     createReview(['rating' => 5]);
 
-    expect(renderBlock('site-reviews/summary'))->toContain('data-shortcode="site_reviews_summary"');
+    $html = renderBlock('site-reviews/summary');
+
+    // The block wraps the shortcode's output in the div WordPress expects, with its block class.
+    expect($html)->toStartWith('<div class="')
+        ->and($html)->toContain('wp-block-site-reviews-summary')
+        ->and($html)->toContain('data-shortcode="site_reviews_summary"');
 });
 
 test('the form block renders a form to somebody who may write a review', function () {

@@ -461,6 +461,13 @@ test('only the review submission is protected against parallel requests', functi
     // adding to it makes a route slower for every visitor, and removing from it is how the
     // protection below gets switched off by accident.
     expect(glsr(Mutex::class)->actions())->toBe(['submit-review']);
+
+    // And an action outside the list is never locked, even while a submission holds the lock.
+    releaseMutexLock();
+    expect(glsr(Mutex::class)->isValid('submit-review'))->toBeTrue() // takes the lock
+        ->and(glsr(Mutex::class)->isValid('submit-review'))->toBeFalse() // the lock is held
+        ->and(glsr(Mutex::class)->isValid('fetch-paged-reviews'))->toBeTrue();
+    releaseMutexLock();
 });
 
 test('a second submission arriving in the same moment is refused', function () {

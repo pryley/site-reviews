@@ -522,6 +522,11 @@ test('errors, hidden and required each mark the field wrapper', function () {
 
     $hidden = buildReviewField(['name' => 'x', 'type' => 'text', 'is_hidden' => true]);
     expect($hidden)->toContain('glsr-hidden');
+
+    $required = buildReviewField(['name' => 'x', 'type' => 'text', 'required' => true]);
+    $optional = buildReviewField(['name' => 'x', 'type' => 'text']);
+    expect($required)->toContain('glsr-required')
+        ->and($optional)->not->toContain('glsr-required');
 });
 
 test('a custom field is not forced required by the form settings', function () {

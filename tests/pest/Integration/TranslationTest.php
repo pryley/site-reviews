@@ -178,11 +178,14 @@ test('the results can be narrowed to the saved strings, or purged of them', func
 });
 
 test('filtering with no arguments filters the last search against the saved strings', function () {
-    $translation = translationWithStrings([customString('Anonymous', 'A guest')]);
+    // "submit" matches several strings in the .pot; only one of them has been customised.
+    $translation = translationWithStrings([customString('Submit Review', 'Send it')]);
 
-    $results = $translation->search('anonymous')->filter()->results();
+    $searched = $translation->search('submit')->results(); // results() also clears them
+    $results = $translation->search('submit')->filter()->results();
 
-    expect(array_keys($results))->toBe(['Anonymous']);
+    expect(count($searched))->toBeGreaterThan(1)
+        ->and(array_keys($results))->toBe(['Submit Review']);
 });
 
 /*

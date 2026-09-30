@@ -155,6 +155,11 @@ test('pins and unpins a review', function () {
     $command->handle();
     expect($command->successful())->toBeTrue();
     expect(glsr_get_review($review->ID)->is_pinned)->toBeFalse();
+
+    // The value is the state asked for, not a toggle: asking again changes nothing.
+    $command = new TogglePinned(new Request(['post_id' => $review->ID, 'pinned' => 0]));
+    $command->handle();
+    expect(glsr_get_review($review->ID)->is_pinned)->toBeFalse();
 });
 
 test('toggles the pinned state when no value is given', function () {
