@@ -203,24 +203,43 @@ test('the legacy widgets are registered, and a site can refuse them', function (
  */
 
 test('the plugin\'s tables are dropped BEFORE the tables they point at', function () {
-    // wpmu_drop_tables, at priority 999, when somebody deletes a site from a network. The plugin's
-    // tables carry foreign keys into wp_posts — so if WordPress dropped its own tables first, the
-    // constraint would refuse and the site would be left half-deleted.
+    // wpmu_drop_tables, at priority 999, when somebody deletes a site from a network. Core
+    // drops the tables in array order, and MySQL refuses to drop a table that a foreign key
+    // still points at. The assigned_* and stats tables point at ratings, and ratings points
+    // at wp_posts. So ratings goes after every other custom table and before core's own.
     //
-    // Arr::prepend, not append. The order of this array IS the order of the DROPs — each of the
-    // six is prepended in registry order, so they come out reversed, all before WordPress's own.
+    // Until 8.3.3 the tables came out in reverse registry order, which put ratings before the
+    // assigned_* tables. The DROP of ratings failed, which left wp_posts undroppable too, and
+    // core ignores a failed DROP: every deleted site left both tables behind.
     global $wpdb;
-    $tables = glsr(MainController::class)->filterDropTables(['wp_1_posts']);
+    $tables = glsr(MainController::class)->filterDropTables(['posts' => 'wp_1_posts']);
 
     expect(array_values($tables))->toBe([
-        "{$wpdb->prefix}glsr_tmp",
-        "{$wpdb->prefix}glsr_stats",
-        "{$wpdb->prefix}glsr_ratings",
-        "{$wpdb->prefix}glsr_assigned_users",
-        "{$wpdb->prefix}glsr_assigned_terms",
         "{$wpdb->prefix}glsr_assigned_posts",
+        "{$wpdb->prefix}glsr_assigned_terms",
+        "{$wpdb->prefix}glsr_assigned_users",
+        "{$wpdb->prefix}glsr_stats",
+        "{$wpdb->prefix}glsr_tmp",
+        "{$wpdb->prefix}glsr_ratings",
         'wp_1_posts',
     ]);
+});
+
+test('an addon table that points at ratings is dropped before ratings too', function () {
+    // Premium and the actions addon register an actions_log table through database/tables,
+    // with a foreign key onto ratings. It is appended to the registry, after ratings.
+    $addonTable = new class extends \GeminiLabs\SiteReviews\Database\Tables\TableTmp {
+        public string $name = 'actions_log';
+    };
+    $register = fn (array $tables) => [...$tables, get_class($addonTable)];
+    add_filter('site-reviews/database/tables', $register);
+    try {
+        $names = array_keys(glsr(MainController::class)->filterDropTables([]));
+    } finally {
+        remove_filter('site-reviews/database/tables', $register);
+    }
+
+    expect(array_search('glsr_actions_log', $names))->toBeLessThan(array_search('glsr_ratings', $names));
 });
 
 /*

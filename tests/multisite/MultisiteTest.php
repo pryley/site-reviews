@@ -69,6 +69,43 @@ test('a new site gets the plugin installed on arrival', function () {
     }
 });
 
+test('deleting a site drops its tables, the plugin\'s and its own', function () {
+    // wp_delete_site() fires wp_uninitialize_site, and core's callback at priority 10 drops
+    // the site's tables in the order wpmu_drop_tables returns them. A foreign key that still
+    // points at a table makes MySQL refuse that DROP, and core ignores the failure. Until
+    // 8.3.3 every deleted site left wp_N_glsr_ratings and wp_N_posts behind.
+    global $wpdb;
+    $siteId = wp_insert_site(['domain' => get_network()->domain, 'path' => '/deleted-site/']);
+    expect($siteId)->toBeInt();
+    $prefix = $wpdb->get_blog_prefix($siteId);
+    $leftovers = fn () => $wpdb->get_col($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($prefix).'%'));
+    try {
+        glsr(Install::class)->runOnSite($siteId); // tables and constraints, whether or not network-active
+        switch_to_blog($siteId);
+        wp_upload_dir(); // a real site has an uploads directory for core to delete
+        restore_current_blog();
+        $constraints = (int) $wpdb->get_var($wpdb->prepare(
+            'SELECT COUNT(*) FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = %s AND TABLE_NAME LIKE %s',
+            DB_NAME,
+            $wpdb->esc_like($prefix.glsr()->prefix).'%'
+        ));
+        expect($constraints)->toBeGreaterThan(0); // otherwise the drop order would not matter
+
+        wp_delete_site($siteId);
+
+        expect($leftovers())->toBe([]);
+    } finally {
+        if (get_site($siteId)) {
+            wp_delete_site($siteId);
+        }
+        $wpdb->query('SET FOREIGN_KEY_CHECKS = 0');
+        foreach ($leftovers() as $table) {
+            $wpdb->query("DROP TABLE IF EXISTS `{$table}`");
+        }
+        $wpdb->query('SET FOREIGN_KEY_CHECKS = 1');
+    }
+});
+
 test('the 5.25 database repair visits every site on a network', function () {
     // repairDatabase() branches on is_plugin_active_for_network() and reinstalls per site —
     // the loop the main suite structurally cannot reach. The migration is an idempotent

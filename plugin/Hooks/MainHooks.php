@@ -9,6 +9,7 @@ class MainHooks extends AbstractHooks
     public function run(): void
     {
         $this->hook(MainController::class, [
+            ['dropSiteForeignConstraints', 'wp_uninitialize_site', 5], // run before core drops the tables
             ['filterDropTables', 'wpmu_drop_tables', 999], // run last
             ['installOnNewSite', 'wp_initialize_site', 999], // run last
             ['logOnce', 'admin_footer'],

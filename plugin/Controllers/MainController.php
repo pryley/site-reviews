@@ -10,11 +10,24 @@ use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
 use GeminiLabs\SiteReviews\Commands\RegisterWidgets;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Tables;
-use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Database\Tables\TableRatings;
 use GeminiLabs\SiteReviews\Install;
 
 class MainController extends AbstractController
 {
+    /**
+     * Core drops the site tables in wp_uninitialize_site() at priority 10.
+     * A foreign key on a custom table would make MySQL refuse to drop the table it points at.
+     *
+     * @action wp_uninitialize_site:5
+     */
+    public function dropSiteForeignConstraints(\WP_Site $site): void
+    {
+        switch_to_blog((int) $site->blog_id);
+        glsr(Tables::class)->dropForeignConstraints();
+        restore_current_blog();
+    }
+
     /**
      * switch_to_blog() has run before this hook is triggered.
      *
@@ -28,12 +41,19 @@ class MainController extends AbstractController
      */
     public function filterDropTables(array $tables): array
     {
-        // Custom tables have foreign indexes so they must be removed first!
+        // Tables are dropped in array order.
+        // The other custom tables point at the ratings table, and the ratings table points at the posts table.
+        $customTables = [];
+        $ratingsTable = [];
         foreach (glsr(Tables::class)->tables() as $classname) {
             $table = glsr($classname);
-            $tables = Arr::prepend($tables, $table->tablename, $table->name($prefixName = true));
+            if ($table instanceof TableRatings) {
+                $ratingsTable[$table->name($prefixName = true)] = $table->tablename;
+                continue;
+            }
+            $customTables[$table->name($prefixName = true)] = $table->tablename;
         }
-        return $tables;
+        return $customTables + $ratingsTable + $tables;
     }
 
     /**

@@ -216,6 +216,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed a security issue where submitted form data could set a review's author or response fields
 - Fixed an error when a request to load more reviews has no page URL
 - Fixed combined stylesheets and scripts when the plugin folder is renamed
+- Fixed deleting a site in a multisite network leaving database tables behind
 - Improved the security of dismissing admin notices
 
 = 8.3.2 (2026-09-18) =
