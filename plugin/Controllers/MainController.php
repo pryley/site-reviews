@@ -24,8 +24,11 @@ class MainController extends AbstractController
     public function dropSiteForeignConstraints(\WP_Site $site): void
     {
         switch_to_blog((int) $site->blog_id);
-        glsr(Tables::class)->dropForeignConstraints();
-        restore_current_blog();
+        try {
+            glsr(Tables::class)->dropForeignConstraints();
+        } finally {
+            restore_current_blog(); // core deletes the site in the context it started in
+        }
     }
 
     /**
