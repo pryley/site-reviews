@@ -220,6 +220,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed an error when a request to load more reviews has no page URL
 - Fixed combined stylesheets and scripts when the plugin folder is renamed
 - Fixed deleting a site in a multisite network leaving database tables behind
+- Fixed the plugin setting up only the first 100 sites of a large multisite network
 - Fixed the details button in bulk action notices that appear without a page reload
 - Fixed the status border on pending reviews and scheduled actions in the admin lists
 - Fixed uninstalling with all data deleted leaving two database tables behind

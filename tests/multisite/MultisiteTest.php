@@ -54,6 +54,24 @@ test('the foreign constraint names carry the blog id on a subsite', function () 
     }
 });
 
+test('the network loops reach every site, not the first 100', function () {
+    // get_sites() applies LIMIT 100 unless number is 0 (WP_Site_Query::get_site_ids()).
+    // Install::sites() feeds network activation, deactivation and the table drops.
+    $numbers = [];
+    $capture = function ($sites, $query) use (&$numbers) {
+        $numbers[] = $query->query_vars['number'];
+        return $sites;
+    };
+    add_filter('sites_pre_query', $capture, 10, 2);
+    try {
+        glsr(Install::class)->sites();
+    } finally {
+        remove_filter('sites_pre_query', $capture, 10);
+    }
+
+    expect($numbers)->toBe([0]);
+});
+
 test('a new site gets the plugin installed on arrival', function () {
     switch_to_blog(secondSiteId());
     delete_option(glsr()->prefix.'db_version');

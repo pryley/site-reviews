@@ -24,6 +24,7 @@ class SettingsCopier
             'count' => false, // this ensures we return an array
             'fields' => 'ids',
             'network_id' => get_current_network_id(),
+            'number' => 0, // every site; get_sites() stops at 100 by default
             'site__not_in' => [$this->sourceSiteId],
         ]);
         foreach ($sites as $remoteSiteId) {

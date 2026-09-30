@@ -223,7 +223,7 @@ if (!function_exists('get_sites')) {
     global $wpdb;
     $siteIds = $wpdb->get_col("SELECT blog_id FROM {$wpdb->blogs}");
 } else {
-    $siteIds = get_sites(['count' => false, 'fields' => 'ids']);
+    $siteIds = get_sites(['count' => false, 'fields' => 'ids', 'number' => 0]); // every site, not the default 100
 }
 foreach ($siteIds as $siteId) {
     switch_to_blog($siteId);
