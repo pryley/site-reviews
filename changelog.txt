@@ -1,14 +1,17 @@
 == Changelog ==
 
-= 8.3.3 (2026-09-29) =
+= 8.3.3 (2026-09-30) =
 
+- Fixed a failed addon update check being treated as an available update
 - Fixed a license key being removed when the license server could not be reached
 - Fixed a modal close button staying visible when it should be hidden
+- Fixed a rating bar sometimes showing one percent too many or too few
 - Fixed a security issue where submitted form data could set a review's author or response fields
 - Fixed addons not finding their own scheduled background tasks
 - Fixed an error when a request to load more reviews has no page URL
 - Fixed combined stylesheets and scripts when the plugin folder is renamed
 - Fixed deleting a site in a multisite network leaving database tables behind
+- Fixed out-of-memory errors inside the plugin not being logged to the Console
 - Fixed the plugin setting up only the first 100 sites of a large multisite network
 - Fixed the details button in bulk action notices that appear without a page reload
 - Fixed the status border on pending reviews and scheduled actions in the admin lists
