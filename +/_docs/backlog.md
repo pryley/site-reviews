@@ -467,6 +467,21 @@ Features are subject to change and are sorted alphabetically, not by priority.
   `glsr_` table; it fails against the old list. Addon tables stay each addon's own
   uninstall job, since `uninstall.php` runs without the plugin loaded.
 
+- [ ] **REST `author` means three different things.** Executed 2026-09-30 with a probe
+  through the REST routes as an administrator. The schema declares `author` as the user ID
+  (`ReviewSchema.php`, `'type' => 'integer'`), and a GET returns `user_id` under `author`
+  (`PrepareReviewData.php:63`). But:
+  - create with `author` and a `name`: the name is kept, `author` is ignored, and `author_id`
+    becomes the requesting user;
+  - create with `author` and no `name`: `CreateReviewDefaults` maps `author` to `name`, so the
+    reviewer's name is stored as the user ID (`"238439"`);
+  - update with `author`: nothing changes, and the response is 200.
+
+  `ReviewPermissions.php:163` checks permission for `author`, so reattribution looks intended.
+  `RestApiTest` "an editor of others' posts may reattribute a review" asserts only the 200.
+  Options when this is picked up: map REST `author` to `author_id` and `post_author` behind
+  the edit-others check, or make `author` read-only on write.
+
 ## Upcoming Add-ons
 
 ### Functionality
