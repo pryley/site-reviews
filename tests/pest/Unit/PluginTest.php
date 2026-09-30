@@ -44,12 +44,13 @@ test('catching a fatal error logs nothing for somebody else\'s fatal', function 
         \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
     }
     expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())
-        ->not->toContain('another-plugin');
+        ->not->toContain('Allowed memory size');
 });
 
 test('catching a fatal error logs one that died inside the plugin', function () {
     // The ours path: a real E_ERROR cannot be staged, so the armed error_get_last shadow
     // (Support/failable-functions.php) answers with one whose file is the plugin's own.
+    // PHP's memory message names no path, so the file is what marks it as the plugin's.
     \GeminiLabs\SiteReviews\Tests\armFailingFunction('error_get_last');
     try {
         glsr()->catchFatalError();
@@ -57,9 +58,9 @@ test('catching a fatal error logs one that died inside the plugin', function () 
         \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
     }
     expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())
-        ->toContain('Allowed memory size exhausted');
+        ->toContain('Allowed memory size of 134217728 bytes exhausted');
 
-    // The plugin path is looked for in the message, not the file. An uncaught exception
+    // The plugin path is also looked for in the message. An uncaught exception
     // thrown in another plugin, from a call inside this one, names this plugin only in the
     // stack trace that PHP appends to the message.
     \GeminiLabs\SiteReviews\Tests\armFailingFunction('error_get_last_trace');

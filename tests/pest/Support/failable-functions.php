@@ -272,7 +272,7 @@ if (!function_exists(__NAMESPACE__.'\error_get_last')) {
         if (functionFails('error_get_last')) {
             return [
                 'type' => E_ERROR,
-                'message' => 'Allowed memory size exhausted in '.glsr()->path('plugin/Application.php'),
+                'message' => 'Allowed memory size of 134217728 bytes exhausted (tried to allocate 20480 bytes)',
                 'file' => glsr()->path('plugin/Application.php'),
                 'line' => 1,
             ];
@@ -290,7 +290,7 @@ if (!function_exists(__NAMESPACE__.'\error_get_last')) {
             $file = trailingslashit(WP_PLUGIN_DIR).'another-plugin/another-plugin.php';
             return [
                 'type' => E_ERROR,
-                'message' => 'Allowed memory size exhausted in '.$file,
+                'message' => 'Allowed memory size of 134217728 bytes exhausted (tried to allocate 20480 bytes)',
                 'file' => $file,
                 'line' => 1,
             ];

@@ -123,7 +123,12 @@ trait Plugin
     public function catchFatalError(): void
     {
         $error = error_get_last();
-        if (\E_ERROR === Arr::get($error, 'type') && str_contains(Arr::get($error, 'message'), $this->path())) {
+        if (\E_ERROR !== Arr::get($error, 'type')) {
+            return;
+        }
+        // PHP's memory and time-limit messages name no path, so the file is checked too.
+        $path = $this->path();
+        if (str_contains(Arr::get($error, 'file'), $path) || str_contains(Arr::get($error, 'message'), $path)) {
             glsr_log()->error($error['message']);
         }
     }
