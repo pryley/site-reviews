@@ -172,6 +172,34 @@ test('an uninstall drops the tables of every site, and an install rebuilds them'
     }
 });
 
+test('an uninstall that deletes all data drops every table the plugin created', function () {
+    // uninstall.php runs with the plugin NOT loaded, so it names the tables itself instead of
+    // asking Tables::tables(). It also runs its loop over every site as soon as it is
+    // included, so only its function definitions are evaluated here, and the real function
+    // runs against one throwaway site. Until 8.3.3 it left glsr_stats and glsr_tmp behind.
+    global $wpdb;
+    if (!function_exists('glsr_uninstall_all_delete_tables')) {
+        $source = file_get_contents(glsr()->path('uninstall.php'));
+        $source = substr($source, 0, strpos($source, 'if (!is_multisite())'));
+        eval(str_replace(['<?php', "defined('WP_UNINSTALL_PLUGIN') || exit;"], '', $source));
+    }
+    $siteId = wp_insert_site(['domain' => get_network()->domain, 'path' => '/uninstalled-site/']);
+    try {
+        glsr(Install::class)->runOnSite($siteId);
+        switch_to_blog($siteId);
+        wp_upload_dir(); // a real site has an uploads directory for core to delete
+        glsr(Tables::class)->dropForeignConstraints(); // deactivation runs before an uninstall
+
+        glsr_uninstall_all_delete_tables();
+
+        expect($wpdb->get_col($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($wpdb->prefix.glsr()->prefix).'%')))
+            ->toBe([]);
+    } finally {
+        restore_current_blog();
+        wp_delete_site($siteId);
+    }
+});
+
 test('the network admin bar links each of your sites to its reviews', function () {
     require_once ABSPATH.WPINC.'/class-wp-admin-bar.php';
 

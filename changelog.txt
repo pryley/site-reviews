@@ -6,6 +6,7 @@
 - Fixed an error when a request to load more reviews has no page URL
 - Fixed combined stylesheets and scripts when the plugin folder is renamed
 - Fixed deleting a site in a multisite network leaving database tables behind
+- Fixed uninstalling with all data deleted leaving two database tables behind
 - Improved the security of dismissing admin notices
 
 = 8.3.2 (2026-09-18) =

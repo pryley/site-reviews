@@ -101,7 +101,9 @@ function glsr_uninstall_all_delete_tables()
     $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_assigned_users");
     $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_assigned_terms");
     $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_assigned_posts");
+    $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_stats");
     $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_ratings");
+    $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_tmp");
 }
 
 function glsr_uninstall_all_delete_uploads()
