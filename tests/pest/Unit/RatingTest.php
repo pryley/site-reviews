@@ -66,6 +66,17 @@ test('rounded percentages always sum to exactly 100', function () {
     $percentages = glsr(Rating::class)->percentages([1 => 2, 2 => 1, 3 => 4]);
 
     expect($percentages)->toEqual([3 => 57, 2 => 14, 1 => 29]);
+
+    // Remainders carry float noise. 21/75 is 28.000000000000004%: its remainder is really 0,
+    // and written as a string ("3.5527136788005E-15") it would sort above 0.67.
+    $percentages = glsr(Rating::class)->percentages([1 => 1, 2 => 21, 3 => 53]);
+
+    expect($percentages)->toEqual([3 => 71, 2 => 28, 1 => 1]);
+
+    // Equal remainders stay equal, so the tie still goes to the highest rating. 10/15 and 1/15
+    // both leave .67, and 4/6 leaves .67 beside two .67s from 1/6; noise must not decide.
+    expect(glsr(Rating::class)->percentages([3 => 1, 4 => 4, 5 => 10]))->toEqual([5 => 67, 4 => 27, 3 => 6])
+        ->and(glsr(Rating::class)->percentages([3 => 1, 4 => 1, 5 => 4]))->toEqual([5 => 67, 4 => 17, 3 => 16]);
 });
 
 test('the wilson lower bound ranks up/down votes conservatively', function () {

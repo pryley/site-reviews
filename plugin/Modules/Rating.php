@@ -233,12 +233,11 @@ class Rating
             $percent = [
                 'index' => $index,
                 'percent' => floor($percent),
-                'remainder' => fmod($percent, 1),
+                'remainder' => round(fmod($percent, 1), 10),
             ];
         });
-        $indexes = wp_list_pluck($percentages, 'index');
-        $remainders = wp_list_pluck($percentages, 'remainder');
-        array_multisort($remainders, \SORT_DESC, \SORT_STRING, $indexes, \SORT_DESC, $percentages);
+        // The largest remainder first; an equal remainder goes to the higher rating.
+        usort($percentages, fn ($a, $b) => [$b['remainder'], $b['index']] <=> [$a['remainder'], $a['index']]);
         $i = 0;
         if (array_sum(wp_list_pluck($percentages, 'percent')) > 0) {
             while (array_sum(wp_list_pluck($percentages, 'percent')) < $totalPercent) {
@@ -246,8 +245,8 @@ class Rating
                 ++$i;
             }
         }
-        array_multisort($indexes, \SORT_DESC, $percentages);
-        return array_combine($indexes, wp_list_pluck($percentages, 'percent'));
+        usort($percentages, fn ($a, $b) => $b['index'] <=> $a['index']);
+        return array_combine(wp_list_pluck($percentages, 'index'), wp_list_pluck($percentages, 'percent'));
     }
 
     /**
