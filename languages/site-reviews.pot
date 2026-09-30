@@ -3930,34 +3930,44 @@ msgid "Rate Site Reviews ★★★★★ on Wordpress"
 msgstr ""
 
 #. translators: %s: the relative expiry date (e.g. 3 days ago)
-#: plugin/Controllers/LicensingController.php:71
+#: plugin/Controllers/LicensingController.php:79
 #, php-format
 msgctxt "admin-text"
 msgid "A license you entered has expired: %s."
 msgstr ""
 
 #. translators: %s: link to the License Keys page
-#: plugin/Controllers/LicensingController.php:75
+#: plugin/Controllers/LicensingController.php:83
 #, php-format
 msgctxt "link to License Keys page (admin-text)"
 msgid "To renew your license and enable updates, please visit the %s on your Nifty Plugins account."
 msgstr ""
 
-#: plugin/Controllers/LicensingController.php:83
+#: plugin/Controllers/LicensingController.php:91
 msgctxt "admin-text"
 msgid "A license you entered has not been activated for your website."
 msgstr ""
 
 #. translators: %s: link to the License Keys page
-#: plugin/Controllers/LicensingController.php:85
+#: plugin/Controllers/LicensingController.php:93
 #, php-format
 msgctxt "link to License Keys page (admin-text)"
 msgid "To activate your license, please visit the %s page on your Nifty Plugins account and click the \"Manage Sites\" button to activate it for your website."
 msgstr ""
 
-#: plugin/Controllers/LicensingController.php:94
+#: plugin/Controllers/LicensingController.php:102
 msgctxt "admin-text"
 msgid "A license you entered is either invalid or has been revoked."
+msgstr ""
+
+#: plugin/Controllers/LicensingController.php:109
+msgctxt "admin-text"
+msgid "The license server could not be reached, so a saved license was kept without being checked."
+msgstr ""
+
+#: plugin/Controllers/LicensingController.php:110
+msgctxt "admin-text"
+msgid "The license server could not be reached, so a license you entered was not saved. Please try again later."
 msgstr ""
 
 #: plugin/Controllers/ListTableColumns/ColumnFilterAssignedPost.php:12
@@ -4162,7 +4172,7 @@ msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr ""
 
-#: plugin/Controllers/MainController.php:172
+#: plugin/Controllers/MainController.php:175
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr ""

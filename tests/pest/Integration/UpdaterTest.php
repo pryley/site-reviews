@@ -138,11 +138,23 @@ test('an unlicensed check comes back invalid rather than empty', function () {
     // CheckLicenseDefaults defaults `license` to 'invalid', not to ''. Everything that reads
     // it is asking "is this licensed", and an empty string that is treated as "not yet
     // checked" is how an unlicensed site ends up being offered a premium download.
-    interceptHttp(['body' => (string) wp_json_encode([])]);
+    interceptHttp(['body' => (string) wp_json_encode(['success' => false])]);
 
     $result = updater()->checkLicense();
 
     expect($result['license'])->toBe('invalid')
+        ->and($result['success'])->toBeFalse()
+        ->and($result['is_premium_license'])->toBeFalse();
+});
+
+test('a check with no answer comes back unknown, and still unlicensed', function () {
+    // An empty body is no answer. 'unknown' tells the settings page to keep a saved key,
+    // and it grants nothing: success and is_premium_license stay false.
+    interceptHttp(['body' => (string) wp_json_encode([])]);
+
+    $result = updater()->checkLicense();
+
+    expect($result['license'])->toBe('unknown')
         ->and($result['success'])->toBeFalse()
         ->and($result['is_premium_license'])->toBeFalse();
 });

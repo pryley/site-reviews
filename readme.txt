@@ -213,6 +213,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 
 = 8.3.3 (2026-09-29) =
 
+- Fixed a license key being removed when the license server could not be reached
 - Fixed a modal close button staying visible when it should be hidden
 - Fixed a security issue where submitted form data could set a review's author or response fields
 - Fixed addons not finding their own scheduled background tasks

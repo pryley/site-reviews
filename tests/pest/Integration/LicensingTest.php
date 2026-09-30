@@ -2,11 +2,13 @@
 
 use GeminiLabs\SiteReviews\Controllers\LicensingController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\License;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Notices\LicenseExpiredNotice;
 use GeminiLabs\SiteReviews\Notices\LicenseMissingNotice;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
+use function GeminiLabs\SiteReviews\Tests\interceptHttp;
 use function GeminiLabs\SiteReviews\Tests\licenseServer;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
@@ -194,6 +196,59 @@ test('a licence that has been disabled is thrown away too', function () {
     ]);
 
     expect($options['settings']['licenses'][addonId()])->toBe('');
+});
+
+test('a saved licence is kept when the licence server gives no answer', function () {
+    // An outage is not a verdict. Throwing the key away would lose it for good, and the
+    // person would have to find it again before updates came back.
+    add_filter('site-reviews/api/args', fn ($args) => array_replace($args, ['max_retries' => 1]));
+    licensedAddon('a-saved-key');
+    interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
+
+    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+        'settings' => ['licenses' => [addonId() => 'a-saved-key']],
+    ]);
+
+    expect($options['settings']['licenses'][addonId()])->toBe('a-saved-key')
+        ->and(glsr(Notice::class)->get())->toContain('a saved license was kept')
+        ->and(glsr(Notice::class)->get())->not->toContain('invalid or has been revoked');
+});
+
+test('a new licence is not saved when the licence server gives no answer', function () {
+    // A key is only saved once the server has said it is valid.
+    add_filter('site-reviews/api/args', fn ($args) => array_replace($args, ['max_retries' => 1]));
+    interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
+
+    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+        'settings' => ['licenses' => [addonId() => 'a-new-key']],
+    ]);
+
+    expect($options['settings']['licenses'][addonId()])->toBe('')
+        ->and(glsr(Notice::class)->get())->toContain('was not saved');
+});
+
+test('a changed licence keeps the saved one when the licence server gives no answer', function () {
+    // The new key is not saved, and not saving it must not delete the key that was.
+    add_filter('site-reviews/api/args', fn ($args) => array_replace($args, ['max_retries' => 1]));
+    licensedAddon('a-saved-key');
+    interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
+
+    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+        'settings' => ['licenses' => [addonId() => 'a-new-key']],
+    ]);
+
+    expect($options['settings']['licenses'][addonId()])->toBe('a-saved-key')
+        ->and(glsr(Notice::class)->get())->toContain('was not saved');
+});
+
+test('a licence that could not be checked is not reported as invalid', function () {
+    // The status feeds the licence banners on every admin page. No answer says nothing
+    // about the licence either way.
+    add_filter('site-reviews/api/args', fn ($args) => array_replace($args, ['max_retries' => 1]));
+    licensedAddon('a-licence-key');
+    interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
+
+    expect(glsr(License::class)->status()['invalid'])->toBeFalse();
 });
 
 test('an EXPIRED licence is kept, and the person is told to renew it', function () {

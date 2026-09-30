@@ -48,7 +48,11 @@ class Updater
     {
         $this->flushCachedVersion();
         $results = $this->request('check_license');
-        return glsr(CheckLicenseDefaults::class)->restrict($results);
+        $check = glsr(CheckLicenseDefaults::class)->restrict($results);
+        if (empty($results)) {
+            $check['license'] = 'unknown'; // no answer is not an invalid license
+        }
+        return $check;
     }
 
     public function deactivateLicense(): array

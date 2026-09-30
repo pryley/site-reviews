@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Addons\Updater;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -24,7 +25,14 @@ class LicensingController extends AbstractController
                 'force' => true,
                 'license' => $license,
             ]);
-            if (!$this->isLicenseValid($updater)) {
+            $check = $updater->checkLicense();
+            if ('unknown' === $check['license']) {
+                $this->renderUnreachableLicenseNotice();
+                $saved = glsr(OptionManager::class)->get("settings.licenses.{$addonId}", '', 'string');
+                $licenses[$addonId] = $saved;
+                continue;
+            }
+            if (!$this->isLicenseValid($updater, $check)) {
                 $licenses[$addonId] = '';
             }
         }
@@ -43,9 +51,8 @@ class LicensingController extends AbstractController
         return true;
     }
 
-    protected function isLicenseValid(Updater $updater): bool
+    protected function isLicenseValid(Updater $updater, array $check): bool
     {
-        $check = $updater->checkLicense();
         if (true !== $check['success'] || 'disabled' === $check['license']) {
             glsr_log()->error("Invalid license: {$updater->license} ({$updater->addonId})");
             $this->renderInvalidLicenseNotice();
@@ -92,6 +99,13 @@ class LicensingController extends AbstractController
     {
         glsr(Notice::class)->addError(
             _x('A license you entered is either invalid or has been revoked.', 'admin-text', 'site-reviews')
+        );
+    }
+
+    protected function renderUnreachableLicenseNotice(): void
+    {
+        glsr(Notice::class)->addWarning(
+            _x('The license server could not be reached. Please try again later.', 'admin-text', 'site-reviews')
         );
     }
 }

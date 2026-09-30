@@ -33,8 +33,8 @@ class License
             if ('expired' === $check['license']) {
                 $status['expired'] = true;
             }
-            if ('valid' !== $check['license']) {
-                $status['invalid'] = true;
+            if (!in_array($check['license'], ['unknown', 'valid'], true)) {
+                $status['invalid'] = true; // an unknown license is no answer, not an invalid one
             }
             if ($check['is_premium_license']) {
                 $status['premium'] = true;
