@@ -208,6 +208,30 @@ test('turning the filter off mid-request stops optimization even for an asset bu
         ->and($asset->url())->not->toContain('uploads');
 });
 
+test('a plugin folder with a different name still combines', function () {
+    // A GitHub zip unpacks as site-reviews-main or site-reviews-8.1.1, not site-reviews.
+    // combine() maps each source URL under the plugins URL to the same path under the
+    // plugins directory, so the plugins directory must come from the real folder, not
+    // from the plugin id. The symlink gives the plugin a second folder name to run from.
+    optimizationOn();
+    $renamed = trailingslashit(WP_PLUGIN_DIR).'site-reviews-renamed';
+    $file = new \ReflectionProperty(glsr(), 'file');
+    $original = $file->getValue(glsr());
+    symlink(untrailingslashit(glsr()->path()), $renamed);
+    try {
+        $file->setValue(glsr(), $renamed.'/site-reviews.php');
+        freshPageLoad(); // registered from the renamed folder's URL
+
+        css()->optimize();
+
+        expect(file_exists(combinedFile()))->toBeTrue()
+            ->and(file_get_contents(combinedFile()))->not->toBeEmpty();
+    } finally {
+        $file->setValue(glsr(), $original);
+        unlink($renamed);
+    }
+});
+
 test('a source that cannot be read back from disk aborts the whole combine', function () {
     // A deregistered-and-rewritten registration, a CDN plugin, anything whose URL
     // does not map into the plugins directory: better to serve the originals than

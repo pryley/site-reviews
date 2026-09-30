@@ -98,7 +98,7 @@ abstract class AbstractAsset
     protected function combine(): void
     {
         $pluginDirUrl = plugin_dir_url('');
-        $pluginDirPath = substr(glsr()->path(), 0, -1 * strlen(glsr()->id.'/'));
+        $pluginDirPath = trailingslashit(dirname(glsr()->path())); // the folder name can differ from glsr()->id
         $sources = array_filter($this->sources);
         foreach ($sources as $url) {
             $path = str_replace($pluginDirUrl, $pluginDirPath, $url);
