@@ -154,8 +154,13 @@ test('a server that is down does not become an update', function () {
     //
     // max_retries is turned down to one attempt, because a 5xx is now retried in earnest and
     // the backoff really does sleep. What is under test is the payload, not the retrying.
+    // The failed response still carries a version payload, as a proxy serving a stale body with
+    // an error status would: the status decides, not the body.
     add_filter('site-reviews/api/args', fn ($args) => array_replace($args, ['max_retries' => 1]));
-    interceptHttp(['response' => ['code' => 500, 'message' => 'Internal Server Error']]);
+    interceptHttp([
+        'body' => (string) wp_json_encode(['new_version' => '9.9.9', 'package' => 'https://example.org/addon.zip', 'slug' => 'addon']),
+        'response' => ['code' => 500, 'message' => 'Internal Server Error'],
+    ]);
 
     $version = updater()->versionUpdate();
 
