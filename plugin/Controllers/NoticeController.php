@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Notices\AbstractNotice;
 use GeminiLabs\SiteReviews\Request;
 
 class NoticeController extends AbstractController
@@ -60,8 +61,8 @@ class NoticeController extends AbstractController
     public function dismissNotice(Request $request): void
     {
         $notice = $request->sanitize('notice', 'text');
-        if (!class_exists($notice)) {
-            return;
+        if (!is_subclass_of($notice, AbstractNotice::class)) {
+            return; // the class name comes from the request
         }
         if ('interval' === $request->dismiss) {
             glsr($notice)->dismiss(['version' => '']);

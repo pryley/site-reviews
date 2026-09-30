@@ -17,6 +17,8 @@ use GeminiLabs\SiteReviews\Notices\WelcomeNotice;
 use GeminiLabs\SiteReviews\Notices\WriteReviewNotice;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\TestAddon\Application as TestAddon;
+use GeminiLabs\SiteReviews\Tests\AddonNotice;
+use GeminiLabs\SiteReviews\Tests\ConstructorProbe;
 use GeminiLabs\SiteReviews\Tests\InteractsWithAjax;
 use GeminiLabs\SiteReviews\Tests\NullQueue;
 
@@ -325,18 +327,29 @@ test('the write-review popup carries its icon and cannot be closed by the X', fu
 });
 
 test('a dismissal for something that is not a notice dismisses nothing', function () {
-    // Nothing is recorded, which is the behaviour that matters here — but note HOW.
-    // dismissNotice() guards on class_exists() alone, so a class name the browser made up
-    // is refused, while a class name that happens to exist is CONSTRUCTED, through the
-    // container, by reflection. WP_Query survives it only because WP_Query has a __call()
-    // that shrugs at an unknown method; another class would raise an Error.
-    //
-    // See the note in ROADMAP.md: this route is in Router::unguardedAdminActions(), so it
-    // takes no nonce, and any logged-in user can reach it.
+    // The class name comes straight from the request, and this route takes no nonce: it is in
+    // Router::unguardedAdminActions(), so any logged-in user can reach it. dismissNotice()
+    // resolves the class through the container, which constructs it by reflection. So the
+    // guard must refuse a class before anything builds it, not merely record nothing.
+    ConstructorProbe::reset();
+
     glsr(NoticeController::class)->dismissNotice(new Request(['notice' => 'NotAClass']));
     glsr(NoticeController::class)->dismissNotice(new Request(['notice' => 'WP_Query']));
+    glsr(NoticeController::class)->dismissNotice(new Request(['notice' => ConstructorProbe::class]));
+    glsr(NoticeController::class)->dismissNotice(new Request(['notice' => AbstractNotice::class]));
 
-    expect(dismissedNotices())->toBe([]);
+    expect(ConstructorProbe::$constructed)->toBeFalse()
+        ->and(dismissedNotices())->toBe([]);
+});
+
+test('an addon notice is dismissed through the same route', function () {
+    // Premium and the addons ship notices that extend AbstractNotice and post to this route.
+    // A subclass defined outside the plugin's own namespace must still get through.
+    glsr(OptionManager::class)->set('version_upgraded_from', '0.0.0');
+
+    glsr(NoticeController::class)->dismissNotice(new Request(['notice' => AddonNotice::class]));
+
+    expect(dismissedNotices())->toHaveKey('addon');
 });
 
 test('the notices on a review screen are caught before wordpress moves them', function () {

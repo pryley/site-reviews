@@ -214,6 +214,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 = 8.3.3 (2026-09-29) =
 
 - Fixed a security issue where submitted form data could set a review's author or response fields
+- Improved the security of dismissing admin notices
 
 = 8.3.2 (2026-09-18) =
 
