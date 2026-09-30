@@ -239,7 +239,8 @@ test('an addon table that points at ratings is dropped before ratings too', func
         remove_filter('site-reviews/database/tables', $register);
     }
 
-    expect(array_search('glsr_actions_log', $names))->toBeLessThan(array_search('glsr_ratings', $names));
+    expect($names)->toContain('glsr_actions_log')
+        ->and(array_search('glsr_actions_log', $names))->toBeLessThan(array_search('glsr_ratings', $names));
 });
 
 /*
