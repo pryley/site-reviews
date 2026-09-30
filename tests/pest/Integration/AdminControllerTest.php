@@ -507,13 +507,21 @@ test('deactivation drops the constraints and forgets the activation flag', funct
 });
 
 test('the wordpress importer hands over to the ratings importer when it finishes', function () {
-    glsr(AdminController::class)->onImportEnd(); // nothing staged: the command is a safe no-op
+    // ExportImportTest covers what ImportRatings imports. Here the handover is what matters, and
+    // the command's cleanup leaves a mark: Migrate::reset() deletes the stored migration list,
+    // so every migration runs again over the imported rows.
+    $migrationsKey = glsr()->prefix.'migrations';
+    expect(get_option($migrationsKey))->not->toBeFalse(); // bootstrap ran the migrations
 
-    expect(true)->toBeTrue();
+    glsr(AdminController::class)->onImportEnd(); // nothing staged, so nothing is imported
+
+    expect(get_option($migrationsKey))->toBeFalse();
 });
 
 test('no migration is scheduled from the front of the site', function () {
+    // A migration is pending, so the screen check is the only thing that stops the queueing.
     set_current_screen('front');
+    seedPendingMigration();
     NullQueue::$calls = [];
 
     glsr(AdminController::class)->scheduleMigration();

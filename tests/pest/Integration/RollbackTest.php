@@ -172,21 +172,19 @@ test('a class that does not exist is not an addon', function () {
 test('a retired addon is remembered as retired, and nothing else', function () {
     // Two addons were folded into the plugin. They are still installed on people's sites, and
     // they must not be treated as licensed or as needing updates — they need REMOVING, and the
-    // list is what the notice that says so is built from.
-    $retired = new class() extends \GeminiLabs\SiteReviews\Addons\Addon {
-        public const ID = 'site-reviews-woocommerce';
-        public const LICENSED = true;
-        public const NAME = 'Retired';
-        public const SLUG = 'woocommerce';
-    };
-    glsr()->store('retired', []);
+    // list is what the notice that says so is built from. The fixture is a licensed addon laid
+    // out on disk as Compat::register() expects, with no Update URI.
+    require_once glsr()->path('tests/pest/fixtures/site-reviews-gamipress/plugin/Application.php');
+    $retired = \GeminiLabs\SiteReviews\Tests\Fixtures\Gamipress\Application::class;
+    glsr()->store('compat', []);
     glsr()->store('licensed', []);
+    glsr()->store('retired', []);
 
-    glsr(Compat::class)->register(get_class($retired));
+    glsr(Compat::class)->register($retired);
 
-    // It has no plugin file on disk, so it stops at the file_exists() check — which is itself
-    // the point: an addon that is not installed is not registered as anything at all.
-    expect(glsr()->retrieveAs('array', 'licensed'))->toBe([]);
+    expect(glsr()->retrieveAs('array', 'retired'))->toBe([$retired])
+        ->and(glsr()->retrieveAs('array', 'compat'))->toBe([])
+        ->and(glsr()->retrieveAs('array', 'licensed'))->toBe([]);
 });
 
 test('a rollback that downloads and unpacks cleanly reports success and clears the plugin cache', function () {

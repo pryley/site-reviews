@@ -89,16 +89,27 @@ test('the sqlite phrasing degrades on mysql to logged errors, not data changes',
 
 test('finishing a transaction commits, in every engine dialect', function () {
     // COMMIT (sqlite/innodb) and SET autocommit = 1 (myisam) both commit the test's own
-    // transaction — declared, and Pest.php purges what stuck.
+    // transaction — declared, and Pest.php purges what stuck. The statements are read from
+    // wpdb's query filter, which every query passes through.
     commitsTransaction();
-    withFakeTables('myisam', function () {
-        glsr(Database::class)->beginTransaction('ratings');  // SET autocommit = 0;
-        glsr(Database::class)->finishTransaction('ratings'); // SET autocommit = 1; (commits)
-    });
-    withFakeTables('sqlite', function () {
-        glsr(Database::class)->finishTransaction('ratings'); // COMMIT; (nothing pending now)
-    });
-    expect(true)->toBeTrue();
+    $queries = [];
+    $capture = function (string $query) use (&$queries) {
+        $queries[] = $query;
+        return $query;
+    };
+    add_filter('query', $capture);
+    try {
+        withFakeTables('myisam', function () {
+            glsr(Database::class)->beginTransaction('ratings');
+            glsr(Database::class)->finishTransaction('ratings');
+        });
+        withFakeTables('sqlite', fn () => glsr(Database::class)->finishTransaction('ratings'));
+        withFakeTables('innodb', fn () => glsr(Database::class)->finishTransaction('ratings'));
+    } finally {
+        remove_filter('query', $capture);
+    }
+
+    expect($queries)->toBe(['SET autocommit = 0;', 'SET autocommit = 1;', 'COMMIT;', 'COMMIT;']);
 });
 
 test('migration is needed when published reviews have no approved ratings', function () {

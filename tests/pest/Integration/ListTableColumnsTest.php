@@ -87,12 +87,16 @@ test('the assigned users are linked by name', function () {
 });
 
 test('an assigned user who has since been deleted is skipped, not fatal', function () {
-    $userId = createUser();
-    $review = createReview(['assigned_users' => $userId]);
-    wp_delete_user($userId);
-    $review->refresh();
+    // Deleting a user removes their assigned_users rows, so a freshly loaded review never lists
+    // them. The review here was loaded before the deletion, as a list table or a cache holds it.
+    $kept = createUser(['display_name' => 'Jane Doe']);
+    $deleted = createUser();
+    $review = createReview(['assigned_users' => [$kept, $deleted]]);
+    wp_delete_user($deleted);
 
-    expect(glsr(ColumnValueAssignedUsers::class)->handle($review))->toBe('');
+    expect($review->assigned_users)->toContain($deleted)
+        ->and(glsr(ColumnValueAssignedUsers::class)->handle($review))->toContain('Jane Doe')
+        ->and(glsr(ColumnValueAssignedUsers::class)->handle($review))->not->toContain(', ');
 });
 
 test('the author name links to the user when the review belongs to one', function () {

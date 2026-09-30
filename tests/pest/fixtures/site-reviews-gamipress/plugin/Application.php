@@ -10,4 +10,5 @@ namespace GeminiLabs\SiteReviews\Tests\Fixtures\Gamipress;
 class Application
 {
     public const ID = 'site-reviews-gamipress';
+    public const LICENSED = true; // a retired addon must not be recorded as licensed
 }

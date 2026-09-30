@@ -505,8 +505,11 @@ test('the inline save writes the response and redraws the row', function () {
 
 test('the heartbeat check ignores a review nobody is editing', function () {
     // heartbeat_received is asked, every fifteen seconds, who is editing what. A review with no
-    // lock on it is not somebody else's to warn about, so nothing is added to the response.
-    $review = createReview();
+    // lock on it is not somebody else's to warn about, so nothing is added to the response. The
+    // viewer is the page author, who may respond but not edit: the one person a lock would warn.
+    $pageAuthor = createUser(['role' => 'author']);
+    $review = createReview(['assigned_posts' => createPost(['post_author' => $pageAuthor])]);
+    wp_set_current_user($pageAuthor);
     $data = ['wp-check-locked-posts' => ['post-'.$review->ID]];
 
     $response = glsr(ListTableController::class)->filterCheckLockedReviews(['other' => 'kept'], $data);

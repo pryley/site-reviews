@@ -278,10 +278,16 @@ test('a classic summary shortcode in the content gets a schema too', function ()
 });
 
 test('content that asks for nothing gets nothing', function () {
-    pageWithContent('Just some prose without a single bracket.');
-    expect(glsr(\GeminiLabs\SiteReviews\Modules\SchemaParser::class)->generate())->toBe([]);
+    // A review exists, so a block or shortcode that ignored its schema flag would build one.
+    createReview(['rating' => 4]);
+    $parser = glsr(\GeminiLabs\SiteReviews\Modules\SchemaParser::class);
 
-    // a block present but not asking for schema
-    pageWithContent('<!-- wp:site-reviews/reviews /-->');
-    expect(glsr(\GeminiLabs\SiteReviews\Modules\SchemaParser::class)->generate())->toBe([]);
+    pageWithContent('Just some prose without a single bracket.');
+    expect($parser->generate())->toBe([]);
+
+    pageWithContent('<!-- wp:site-reviews/reviews /--><!-- wp:site-reviews/summary /-->');
+    expect($parser->generate())->toBe([]);
+
+    pageWithContent('[site_reviews][site_reviews_summary]');
+    expect($parser->generate())->toBe([]);
 });

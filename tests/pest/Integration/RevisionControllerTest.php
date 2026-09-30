@@ -235,11 +235,21 @@ test('comparing against nothing at all does not fill the log with deprecations',
     $revisionId = revisionOf($review->ID);
     glsr(RevisionController::class)->saveRevision($revisionId);
 
-    $diff = glsr(RevisionController::class)->filterRevisionUiDiff(
-        [], false, get_post($revisionId) // false: there is nothing on the left-hand side
-    );
+    $deprecations = [];
+    set_error_handler(function (int $errno, string $message) use (&$deprecations) {
+        $deprecations[] = $message;
+        return true;
+    }, \E_DEPRECATED | \E_USER_DEPRECATED);
+    try {
+        $diff = glsr(RevisionController::class)->filterRevisionUiDiff(
+            [], false, get_post($revisionId) // false: there is nothing on the left-hand side
+        );
+    } finally {
+        restore_error_handler();
+    }
 
-    expect($diff)->toBeArray();
+    expect($deprecations)->toBe([])
+        ->and(array_column($diff, 'id'))->toContain('rating'); // the right-hand side is still compared
 });
 
 test('a diff for somebody else\'s post is handed straight back', function () {
