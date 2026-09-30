@@ -83,10 +83,18 @@ test('a serialized meta value is not mistaken for a rating field', function () {
         '_custom' => ['colour' => 'blue'],
         '_rating' => '5',
     ]);
+    // A rating field that holds an array is skipped too. Cast::toString() would join a flat
+    // list into "jane@example.org", so the skip is what keeps the column empty.
+    $arrayEmail = legacyReview([
+        '_author' => 'Jane Doe',
+        '_email' => ['jane@example.org'],
+        '_rating' => '4',
+    ]);
 
     expect(glsr(MigrateReviews::class)->run())->toBeTrue();
 
-    expect(ratingRow($review))->toMatchArray(['name' => 'Jane Doe', 'rating' => '5']);
+    expect(ratingRow($review))->toMatchArray(['name' => 'Jane Doe', 'rating' => '5'])
+        ->and(ratingRow($arrayEmail))->toMatchArray(['email' => '', 'name' => 'Jane Doe', 'rating' => '4']);
 });
 
 test('the post a review was assigned to becomes an assignment row', function () {
@@ -142,8 +150,9 @@ test('a custom field value that is not an array is left where it is', function (
     expect(glsr(MigrateReviews::class)->run())->toBeTrue();
 
     wp_cache_delete($review, 'post_meta');
+    $split = array_filter(array_keys(get_post_meta($review)), fn ($key) => str_starts_with($key, '_custom_'));
     expect(get_post_meta($review, '_custom', true))->toBe('not-an-array')
-        ->and(get_post_meta($review, '_custom_not-an-array', true))->toBe('');
+        ->and($split)->toBe([]); // nothing was split out of it, under any key
 });
 
 test('an empty custom field array is not even looked at', function () {

@@ -265,6 +265,9 @@ test('a limit keyed on a value the visitor left blank lets the review through', 
     // limit on. (The field is always PRESENT in a form submission — a request
     // without it at all would be a hand-crafted one.)
     glsr(OptionManager::class)->set('settings.forms.limit', 'email');
+    // An earlier visitor also left the email blank. A blank value is not an identity, so that
+    // review does not count against this one.
+    \GeminiLabs\SiteReviews\Tests\createReview(['email' => '']);
 
     expect((new ReviewLimitsValidator(new Request(['email' => ''])))->isValid())->toBeTrue();
 });

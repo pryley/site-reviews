@@ -210,6 +210,9 @@ test('a string the site owner has not customised comes back untouched', function
 
     expect($controller->filterGettext('Submit your review', 'Submit your review'))
         ->toBe('Submit your review');
+    // A language pack has already translated it. That translation is what comes back.
+    expect($controller->filterGettext('Envoyez votre avis', 'Submit your review'))
+        ->toBe('Envoyez votre avis');
     expect($controller->filterNgettext('1 review', '%s review', '%s reviews', 2))
         ->toBe('1 review');
 });

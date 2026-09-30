@@ -84,6 +84,9 @@ test('the gate is open on the exact supported version and above', function () {
     expect(versionGateIsOpen('3.12.0', '3.12.0'))->toBeTrue();
     expect(versionGateIsOpen('3.12.1', '3.12.0'))->toBeTrue();
     expect(versionGateIsOpen('4.0', '3.12.0'))->toBeTrue();
+    // Versions compare by segment, not as text: 3.12 is above 3.9, and 10.1 is above 9.8.
+    expect(versionGateIsOpen('3.12.0', '3.9.0'))->toBeTrue();
+    expect(versionGateIsOpen('10.1.0', '9.8.0'))->toBeTrue();
 });
 
 test('the gate is closed below the supported version', function () {

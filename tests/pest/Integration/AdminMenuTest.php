@@ -126,14 +126,23 @@ test('the submenu is reordered so that the reviews stay at the top', function ()
     ]);
 });
 
-test('nobody may add a review from the menu', function () {
-    // Reviews are written by visitors, not by administrators using "Add New" — and the
-    // capability is stripped from every role, not just hidden from the menu.
+test('the old singular create capability is stripped from every role, and admins can still add reviews', function () {
+    // The post type maps create_posts to the plural create_site-reviews (Role::capability()).
+    // setCustomPermissions() removes the singular create_site-review, which nothing checks, from
+    // every role. WP_Roles::add_cap() and remove_cap() change the stored roles array, not the
+    // WP_Role objects that get_role() returns, so the array is what the test seeds and reads.
+    $singular = 'create_'.glsr()->post_type;
+    $plural = glsr(\GeminiLabs\SiteReviews\Role::class)->capability('create_posts');
+    foreach (array_keys(wp_roles()->roles) as $role) {
+        wp_roles()->add_cap($role, $singular);
+    }
+
     glsr(MenuController::class)->setCustomPermissions();
 
-    foreach (array_keys(wp_roles()->roles) as $role) {
-        expect(get_role($role)->has_cap('create_'.glsr()->post_type))->toBeFalse();
+    foreach (wp_roles()->roles as $role) {
+        expect($role['capabilities'])->not->toHaveKey($singular);
     }
+    expect(wp_roles()->roles['administrator']['capabilities'][$plural] ?? false)->toBeTrue();
 });
 
 /*

@@ -35,10 +35,16 @@ test('isset() sees the constants too', function () {
 
 test('catching a fatal error logs nothing for somebody else\'s fatal', function () {
     // error_get_last() is whatever PHP saw most recently; only an E_ERROR inside the
-    // plugin's own path is the plugin's to log. (A real E_ERROR cannot be staged in a
-    // test — this drives the not-ours path.)
-    glsr()->catchFatalError();
-    expect(true)->toBeTrue();
+    // plugin's own path is the plugin's to log. A real E_ERROR cannot be staged, so the
+    // armed shadow (Support/failable-functions.php) answers one from another plugin.
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('error_get_last_foreign');
+    try {
+        glsr()->catchFatalError();
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+    expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())
+        ->not->toContain('another-plugin');
 });
 
 test('catching a fatal error logs one that died inside the plugin', function () {
@@ -52,6 +58,18 @@ test('catching a fatal error logs one that died inside the plugin', function () 
     }
     expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())
         ->toContain('Allowed memory size exhausted');
+
+    // The plugin path is looked for in the message, not the file. An uncaught exception
+    // thrown in another plugin, from a call inside this one, names this plugin only in the
+    // stack trace that PHP appends to the message.
+    \GeminiLabs\SiteReviews\Tests\armFailingFunction('error_get_last_trace');
+    try {
+        glsr()->catchFatalError();
+    } finally {
+        \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
+    }
+    expect(glsr(\GeminiLabs\SiteReviews\Modules\Console::class)->get())
+        ->toContain('Uncaught Exception: boom');
 });
 
 test('load() creates the singleton once, and only once', function () {
@@ -72,7 +90,11 @@ test('load() creates the singleton once, and only once', function () {
 });
 
 test('option() reads through the settings helper', function () {
-    expect(glsr()->option('reviews.date.format', 'default'))->toBeString();
+    // The path is relative to "settings", as it is for glsr_get_option().
+    glsr(\GeminiLabs\SiteReviews\Database\OptionManager::class)->set('settings.reviews.date.format', 'relative');
+
+    expect(glsr()->option('reviews.date.format', 'default'))->toBe('relative')
+        ->and(glsr()->option('reviews.no_such_setting', 'default'))->toBe('default');
 });
 
 test('a view that does not exist is logged, not a broken include', function () {

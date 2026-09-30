@@ -35,15 +35,19 @@ afterEach(function () {
  */
 
 test('a get request with an action is routed, admin and public alike', function () {
-    // GET routing rides the encrypted request token, never a bare action param;
-    // an unrecognised action ends in the unknown-request log — the ROUTING happened
+    // GET routing rides the encrypted request token, never a bare action param. An
+    // unrecognised action reaches the router, fires route/request, and is logged as unknown.
     $_GET[glsr()->prefix] = glsr(\GeminiLabs\SiteReviews\Modules\Encryption::class)
         ->encryptRequest('no-such-action', []);
+    $routed = new ArrayObject();
+    add_action('site-reviews/route/request', fn ($request, $hook) => $routed->append($hook), 10, 2);
 
     glsr(Router::class)->routeAdminGetRequest();
     glsr(Router::class)->routePublicGetRequest();
 
-    expect(true)->toBeTrue(); // routed, logged, nothing fatal
+    expect($routed->getArrayCopy())->toBe(['route/get/admin/no-such-action', 'route/get/public/no-such-action'])
+        ->and(glsr(Console::class)->get())->toContain('Unknown admin router GET request: no-such-action')
+        ->and(glsr(Console::class)->get())->toContain('Unknown public router GET request: no-such-action');
 });
 
 test('a post request that loses the mutex race goes nowhere', function () {
@@ -87,11 +91,17 @@ test('a parallel request is refused by the mutex, both ways it can lose the race
 });
 
 test('a public post request without a valid action is dropped quietly', function () {
+    // No _action means no route: the request never reaches post(), so no route/request
+    // fires and nothing is logged as an unknown request.
+    wp_set_current_user(0);
     $_POST = [];
+    $routed = new ArrayObject();
+    add_action('site-reviews/route/request', fn () => $routed->append(1));
 
     glsr(Router::class)->routePublicPostRequest();
 
-    expect(true)->toBeTrue();
+    expect($routed)->toHaveCount(0)
+        ->and(glsr(Console::class)->get())->not->toContain('router POST request');
 });
 
 /*
@@ -110,8 +120,15 @@ test('capabilities are only granted to roles that exist and are known', function
  */
 
 test('a plugin path that fails validation has no headers to read', function () {
-    expect(protectedMethod(Gatekeeper::class, 'pluginHeaders')
-        ->invoke(new Gatekeeper([]), '../../evil.php'))->toBe([]);
+    $headers = fn (string $plugin) => protectedMethod(Gatekeeper::class, 'pluginHeaders')
+        ->invoke(new Gatekeeper([]), $plugin);
+
+    // validate_file() refuses any "../" that is not at the end of the path, even when the file
+    // is there: the site config two levels up, or this plugin's own main file reached sideways.
+    expect($headers('../../evil.php'))->toBe([])
+        ->and($headers('../../wp-config.php'))->toBe([])
+        ->and($headers('site-reviews/../site-reviews/site-reviews.php'))->toBe([])
+        ->and($headers('site-reviews/site-reviews.php'))->toHaveKey('name', 'Site Reviews');
 });
 
 test('the hook search skips callbacks that are not object-method pairs', function () {

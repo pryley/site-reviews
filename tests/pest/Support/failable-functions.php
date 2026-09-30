@@ -30,7 +30,10 @@
  * answers false (the write raced and lost), preg_replace_callback answers null
  * (PCRE giving up), error_get_last answers a fatal error inside the plugin
  * (the one state catchFatalError() exists for, and one nothing in-process can
- * put into the real error_get_last()).
+ * put into the real error_get_last()), error_get_last_foreign makes it
+ * answer a fatal error inside another plugin, and error_get_last_trace makes
+ * it answer an uncaught exception thrown in another plugin whose stack trace
+ * passes through this one.
  */
 
 namespace GeminiLabs\SiteReviews\Tests;
@@ -271,6 +274,24 @@ if (!function_exists(__NAMESPACE__.'\error_get_last')) {
                 'type' => E_ERROR,
                 'message' => 'Allowed memory size exhausted in '.glsr()->path('plugin/Application.php'),
                 'file' => glsr()->path('plugin/Application.php'),
+                'line' => 1,
+            ];
+        }
+        if (functionFails('error_get_last_trace')) {
+            $file = trailingslashit(WP_PLUGIN_DIR).'another-plugin/another-plugin.php';
+            return [
+                'type' => E_ERROR,
+                'message' => "Uncaught Exception: boom in {$file}:1\nStack trace:\n#0 ".glsr()->path('plugin/Application.php')."(1): thrower()\n#1 {main}\n  thrown",
+                'file' => $file,
+                'line' => 1,
+            ];
+        }
+        if (functionFails('error_get_last_foreign')) {
+            $file = trailingslashit(WP_PLUGIN_DIR).'another-plugin/another-plugin.php';
+            return [
+                'type' => E_ERROR,
+                'message' => 'Allowed memory size exhausted in '.$file,
+                'file' => $file,
                 'line' => 1,
             ];
         }

@@ -198,8 +198,10 @@ test('migrating the plugin through the admin route re-runs the migrations', func
     // it, so the final value proves the tail re-stamp without seeding a
     // stale version — a seed written before the commit point would survive
     // the teardown rollback and poison later tests.
+    // The runAll branch says so. The plain run() branch has its own notice.
     expect((int) get_option(glsr()->prefix.'last_migration_run'))->toBeGreaterThan(0)
-        ->and(get_option(glsr()->prefix.'db_version'))->toBe(Application::DB_VERSION);
+        ->and(get_option(glsr()->prefix.'db_version'))->toBe(Application::DB_VERSION)
+        ->and(glsr(Notice::class)->get())->toContain('All plugin migrations have been run successfully');
 });
 
 test('exporting reviews refuses without permission', function () {

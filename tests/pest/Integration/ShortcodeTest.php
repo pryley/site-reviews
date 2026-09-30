@@ -76,6 +76,11 @@ test('a review body of nested html entities cannot smuggle a live tag past the s
 test('renders no reviews when there are none', function () {
     $html = do_shortcode('[site_reviews]');
     expect($html)->not->toContain('id="review-');
+
+    // The shortcode still renders its wrapper, with the fallback text in place of the reviews.
+    $html = do_shortcode('[site_reviews fallback="Nothing to read yet."]');
+    expect($html)->toContain('glsr-reviews-wrap')
+        ->toContain('<p class="glsr-no-margins">Nothing to read yet.</p>');
 });
 
 test('limits the number of reviews rendered', function () {
@@ -303,6 +308,11 @@ test('the summary writes the aggregate rating into the page schema, but only whe
     createReview(['rating' => 4]);
 
     expect(schemaOnThePage())->toBe(''); // nothing asked for it
+
+    do_shortcode('[site_reviews_summary]');
+    do_shortcode('[site_reviews_summary schema=false]');
+
+    expect(schemaOnThePage())->toBe(''); // a summary that did not ask for it stores nothing
 
     do_shortcode('[site_reviews_summary schema=true]');
 

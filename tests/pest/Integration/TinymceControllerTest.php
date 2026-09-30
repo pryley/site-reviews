@@ -132,9 +132,14 @@ test('opening a dialog returns the fields it should show', function () {
         new Request(['shortcode' => 'site_reviews'])
     ));
 
+    // The body is the field list the register stored for the shortcode, as JSON.
+    $fields = glsr()->retrieve('mce.site_reviews')['fields'];
+
     expect($response['success'])->toBeTrue()
         ->and($response['data']['shortcode'])->toBe('site_reviews')
-        ->and($response['data'])->toHaveKeys(['body', 'close', 'hideOptions', 'ok', 'title']);
+        ->and($response['data'])->toHaveKeys(['body', 'close', 'hideOptions', 'ok', 'title'])
+        ->and($fields)->not->toBeEmpty()
+        ->and($response['data']['body'])->toBe(json_decode((string) wp_json_encode($fields), true));
 });
 
 test('a shortcode nobody registered opens nothing', function () {

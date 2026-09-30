@@ -410,8 +410,10 @@ test('the webhooks are composed for the review they are about, and not the one b
     $two = createReview(['title' => 'The second']);
     $http = interceptHttp();
 
-    glsr(Discord::class)->compose($one, ['header' => 'a'])->send();
-    glsr(Discord::class)->compose($two, ['header' => 'b'])->send();
+    // One instance composes both, so the second compose() must replace the first review.
+    $discord = glsr(Discord::class);
+    $discord->compose($one, ['header' => 'a'])->send();
+    $discord->compose($two, ['header' => 'b'])->send();
 
     expect(sentJson($http, 0)['embeds'][0]['title'])->toBe('The first');
     expect(sentJson($http, 1)['embeds'][0]['title'])->toBe('The second');

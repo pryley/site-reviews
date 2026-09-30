@@ -545,8 +545,9 @@ test('a bulk edit on the reviews screen recounts what the review was reassigned 
         $review->ID, get_post($review->ID), get_post($review->ID)
     );
 
-    expect($posts)->toHaveCount(2)   // both assigned posts, for the recount
-        ->and($users)->toHaveCount(1);
+    // The recount receives the ids from the request, sanitized to digits but still strings.
+    expect($posts)->toBe(['5', '6'])
+        ->and($users)->toBe(['7']);
 });
 
 test('onEditReview stands aside for the fallback approve action, and for bad-actor nulls', function () {

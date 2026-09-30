@@ -315,7 +315,9 @@ test('the addon adds its text domain to the translator', function () {
 test('the addon adds the strings from its own pot file', function () {
     $entries = $this->controller->filterTranslationEntries([]);
 
-    expect($entries)->not->toBeEmpty();
+    // Each entry carries the addon's text domain, so the translator applies it to the addon's strings.
+    expect(array_column($entries, 'msgid'))->toContain('A test addon string')
+        ->and(array_values(array_unique(array_column($entries, 'domain'))))->toBe(['site-reviews-test-addon']);
 });
 
 test('the addon announces itself to the public javascript', function () {
@@ -424,10 +426,24 @@ test('the base lifecycle hooks are safe no-ops', function () {
     })->not->toThrow(\Throwable::class);
 });
 
-test('registering the addon languages loads its text domain without error', function () {
-    // load_plugin_textdomain from the addon's own path; its effect is not observable offline (no
-    // .mo ships), so what is pinned is that the path it builds is well-formed and the call runs clean.
-    expect(fn () => $this->controller->registerLanguages())->not->toThrow(\Throwable::class);
+test('registering the addon languages points its text domain at its own languages folder', function () {
+    // load_plugin_textdomain() records the folder for just-in-time loading with
+    // WP_Textdomain_Registry::set_custom_path(). No .mo ships, so the recorded folder is what
+    // the test reads. The expected path comes from the fixture's location and its Domain Path.
+    global $wp_textdomain_registry;
+    $paths = new \ReflectionProperty($wp_textdomain_registry, 'custom_paths');
+    $before = $paths->getValue($wp_textdomain_registry);
+    try {
+        $this->controller->registerLanguages();
+
+        // The Domain Path header starts with a slash, so the joined path carries "//";
+        // wp_normalize_path() collapses it, which is how the filesystem reads it too.
+        expect($paths->getValue($wp_textdomain_registry))->toHaveKey(TestAddon::ID)
+            ->and(wp_normalize_path($paths->getValue($wp_textdomain_registry)[TestAddon::ID]))
+            ->toBe(WP_PLUGIN_DIR.'/site-reviews/tests/pest/fixtures/site-reviews-test-addon/languages');
+    } finally {
+        $paths->setValue($wp_textdomain_registry, $before);
+    }
 });
 
 test('the addon settings view wraps the rows it is handed', function () {

@@ -118,8 +118,10 @@ test('the flag and the country are shown together when that is what was asked fo
 
     $rendered = locationTag($review, 'flag_country');
 
+    // The value is the flag and the country code, joined by a non-breaking space.
     expect($rendered)->toContain('US.svg')
-        ->toContain('&nbsp;');
+        ->toContain('&nbsp;US')
+        ->not->toContain('San Francisco');
 });
 
 test('the flag, the city and the region are shown together when that is what was asked for', function () {
@@ -191,9 +193,15 @@ test('a review tag given anything but a review renders nothing', function () {
 test('a raw tag ignores the hide options and the display settings', function () {
     $review = createReview(['rating' => 5]);
     $tag = new \GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewRatingTag('rating', ['hide' => ['rating'], 'raw' => true]);
+    $cooked = new \GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewRatingTag('rating');
+    // A declared display setting that is switched off. The cooked tag obeys it; the raw tag does not.
+    glsr(OptionManager::class)->set('settings.reviews.geolocation', 'no');
 
     expect($tag->isEnabled('reviews.rating'))->toBeTrue()
-        ->and($tag->isHidden())->toBeFalse();
+        ->and($tag->isHidden())->toBeFalse()
+        ->and($cooked->isEnabled('reviews.geolocation'))->toBeFalse()
+        ->and($tag->isEnabled('reviews.geolocation'))->toBeTrue()
+        ->and($tag->isHidden('reviews.geolocation'))->toBeFalse();
 });
 
 test('a tag with no handler of its own hands back its trimmed value', function () {

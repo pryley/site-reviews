@@ -3,6 +3,7 @@
 use GeminiLabs\SiteReviews\Commands\ConvertTableEngine;
 use GeminiLabs\SiteReviews\Commands\ImportSettings;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Notices\MigrationNotice;
 use GeminiLabs\SiteReviews\Request;
@@ -14,6 +15,7 @@ use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\swapInstance;
 
 /*
  * The tools somebody reaches for when the plugin has gone wrong.
@@ -164,16 +166,29 @@ test('importing settings replaces what was there', function () {
     // This is a restore, not a merge: the file is the source of truth, and a setting the person
     // removed before exporting must not come back from the settings they are restoring over.
     //
-    // It runs the migrations afterwards, which is DDL, so it commits.
-    commitsTransaction();
+    // import() runs the migrations afterwards. They are DDL, and DDL commits the settings that
+    // were written before it. A Migrate that only counts the call stands in for them, so the
+    // test rolls back whether the restore works or not.
     glsr(OptionManager::class)->set('settings.general.require.approval', 'yes');
+    glsr(OptionManager::class)->set('settings.forms.limit', 'email'); // not in the file
+    $migrate = new class extends Migrate {
+        public int $runs = 0;
 
-    protectedMethod(ImportSettings::class, 'import')->invoke(
+        public function runAll(): void
+        {
+            ++$this->runs;
+        }
+    };
+
+    swapInstance(Migrate::class, $migrate, fn () => protectedMethod(ImportSettings::class, 'import')->invoke(
         glsr(ImportSettings::class),
         ['settings' => ['general' => ['require' => ['approval' => 'no']]]]
-    );
+    ));
 
-    expect(glsr_get_option('general.require.approval'))->toBe('no');
+    // A setting the file does not hold goes back to its default (''), not to the value it had.
+    expect(glsr_get_option('general.require.approval'))->toBe('no')
+        ->and(glsr_get_option('forms.limit'))->toBe('')
+        ->and($migrate->runs)->toBe(1);
 });
 
 test('and it does not import the version, because the version is not a setting', function () {

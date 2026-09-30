@@ -76,9 +76,16 @@ test('a fallback can be lazy', function () {
     // get() runs closures given as fallbacks — Arguments::get() does not — so an expensive
     // default is only computed when the key is actually missing.
     $request = new Request(['present' => 'value']);
+    $calls = 0;
+    $fallback = function () use (&$calls) {
+        ++$calls;
+        return 'computed';
+    };
 
-    expect($request->get('present', fn () => 'never-computed'))->toBe('value');
-    expect($request->get('absent', fn () => 'computed'))->toBe('computed');
+    expect($request->get('present', $fallback))->toBe('value')
+        ->and($calls)->toBe(0); // the key is there, so the closure never runs
+    expect($request->get('absent', $fallback))->toBe('computed')
+        ->and($calls)->toBe(1);
 });
 
 test('a signature holding a serialized object never restores the object', function () {

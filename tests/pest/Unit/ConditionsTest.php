@@ -110,6 +110,8 @@ test('condition greater', function () {
         '' => true,
         '0' => true,
         '1' => true,
+        '2' => true,
+        '3' => false, // equal is not greater
         '4' => false,
         '5' => false,
         0 => true,

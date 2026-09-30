@@ -233,6 +233,8 @@ test('without action scheduler every queue method declines instead of fataling',
     // or ancient copy from another plugin (AS resolves one winner at runtime). The armed
     // shadow makes every as_*() function "missing"; each method's guard answers its
     // documented nothing rather than calling into the void.
+    // A real pending action shows that cancel() and cancelAll() stop at their guards.
+    $actionId = queue()->once(time() + HOUR_IN_SECONDS, 'a-job');
     \GeminiLabs\SiteReviews\Tests\armFailingFunction('function_exists');
     try {
         expect(queue()->async('a-job'))->toBe(0)
@@ -247,4 +249,7 @@ test('without action scheduler every queue method declines instead of fataling',
     } finally {
         \GeminiLabs\SiteReviews\Tests\disarmFailingFunctions();
     }
+
+    expect($actionId)->toBeGreaterThan(0)
+        ->and(ActionScheduler::store()->get_status((string) $actionId))->toBe(Queue::STATUS_PENDING);
 });

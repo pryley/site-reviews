@@ -701,7 +701,8 @@ test('an activation link for a plugin that is not there dies with the reason', f
         unset($_REQUEST['_wpnonce']);
     }
 
-    expect($outcome)->toStartWith('died|');
+    // validate_plugin() refuses a plugin file that is not on disk, and wp_die() shows its message.
+    expect($outcome)->toBe('died|Plugin file does not exist.');
 });
 
 test('a link that is not the activation link is nobody\'s business', function () {

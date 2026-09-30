@@ -5,7 +5,10 @@ use GeminiLabs\SiteReviews\Commands\ImportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportReviewsCleanup;
 use GeminiLabs\SiteReviews\Commands\ProcessCsvFile;
 use GeminiLabs\SiteReviews\Controllers\ImportController;
+use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\ImportManager;
+use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Database\Tables\TableTmp;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -695,6 +698,25 @@ test('a hash pointing at a deleted review re-imports it', function () {
 
     expect($result['imported'])->toBe(1)
         ->and(importedReviewCount())->toBe(1);
+
+    // The lookup joins posts, so a force-deleted review is never found. A review post whose
+    // ratings row is gone IS found, and Review::isValid() rejects it, so the row imports again.
+    $reviews = get_posts([
+        'fields' => 'ids',
+        'numberposts' => -1,
+        'post_status' => 'any',
+        'post_type' => glsr()->post_type,
+    ]);
+    glsr(Database::class)->dbQuery(
+        glsr(Query::class)->sql('DELETE FROM table|ratings WHERE review_id = %d', $reviews[0])
+    );
+    glsr(Cache::class)->delete((string) $reviews[0], 'reviews'); // a new request starts with no cached review
+
+    $result = glsr(ImportManager::class)->import(10, 0);
+
+    expect($result['imported'])->toBe(1)
+        ->and($result['duplicates'])->toBe(0)
+        ->and(importedReviewCount())->toBe(2);
 });
 
 test('a hash pointing at a trashed review is a duplicate, not a re-import', function () {

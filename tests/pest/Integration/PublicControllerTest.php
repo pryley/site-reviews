@@ -111,15 +111,25 @@ test('an id that is not a review at all is refused', function () {
 
 test('the second page of reviews is fetched without reloading the page', function () {
     createReviews(6);
+    $reviewIds = function (string $html): array {
+        preg_match_all('/id="review-(\d+)"/', $html, $matches);
+        return $matches[1];
+    };
 
+    $firstPage = $this->jsonSentBy(fn () => glsr(PublicController::class)->fetchPagedReviewsAjax(
+        pagedRequest(['display' => 2], 1)
+    ));
     $response = $this->jsonSentBy(fn () => glsr(PublicController::class)->fetchPagedReviewsAjax(
         pagedRequest(['display' => 2], 2)
     ));
 
+    // The requested page number reaches the query, so page 2 holds two reviews that page 1 does not.
+    $secondPageIds = $reviewIds($response['data']['reviews']);
     expect($response['success'])->toBeTrue()
         ->and($response['data'])->toHaveKeys(['max_num_pages', 'pagination', 'reviews'])
         ->and($response['data']['max_num_pages'])->toBeGreaterThan(1)
-        ->and($response['data']['reviews'])->not->toBeEmpty();
+        ->and($secondPageIds)->toHaveCount(2)
+        ->and(array_intersect($secondPageIds, $reviewIds($firstPage['data']['reviews'])))->toBe([]);
 });
 
 test('a paged request without a url still answers, with links to the home page', function () {

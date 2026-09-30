@@ -175,7 +175,9 @@ test('remote status check', function () {
 test('server ip', function () {
     // The ipecho.net response, faked at the HTTP layer. Api caches into a site transient,
     // which the test transaction rolls back.
-    $fake = function () {
+    $urls = [];
+    $fake = function ($pre, $args, $url) use (&$urls) {
+        $urls[] = $url;
         $requestsResponse = new \WpOrg\Requests\Response();
         $requestsResponse->body = '203.0.113.7';
         $requestsResponse->status_code = 200;
@@ -189,11 +191,12 @@ test('server ip', function () {
             'response' => ['code' => 200, 'message' => 'OK'],
         ];
     };
-    add_filter('pre_http_request', $fake);
+    add_filter('pre_http_request', $fake, 10, 3);
     try {
-        expect(Helper::serverIp())->toBe('203.0.113.7');
+        expect(Helper::serverIp())->toBe('203.0.113.7')
+            ->and($urls)->toBe(['https://ipecho.net/plain']);
     } finally {
-        remove_filter('pre_http_request', $fake);
+        remove_filter('pre_http_request', $fake, 10);
     }
 });
 

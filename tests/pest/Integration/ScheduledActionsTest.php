@@ -370,7 +370,18 @@ test('the table can be narrowed to one status', function () {
 });
 
 test('there is no search box, because there is nothing worth searching', function () {
-    expect(actionsTable()->search_box('Search', 'plugin'))->toBeNull();
+    // WP_List_Table::search_box() prints the box whenever a search term is present,
+    // so the term is set here and the printed output is what gets checked.
+    $_REQUEST['s'] = 'anything';
+    ob_start();
+    try {
+        actionsTable()->search_box('Search', 'plugin');
+    } finally {
+        $output = ob_get_clean();
+        unset($_REQUEST['s']);
+    }
+
+    expect($output)->toBe('');
 });
 
 test('an action on a cron schedule shows its cron expression as the recurrence', function () {
@@ -563,10 +574,15 @@ test('when every queue slot is already claimed, the table says no more will star
 
 test('when a queue is due but the runner lock is held, the notice says how long until it starts', function () {
     scheduleAction('queue/notification', [], time() - HOUR_IN_SECONDS); // due, and waiting
+    // The lock expires 300 seconds after it is set, so the notice counts down from 300.
+    add_filter('action_scheduler_lock_duration', fn () => 300);
     ActionScheduler::lock()->set('async-request-runner');
 
-    expect(displayedNotices(actionsTable()))
-        ->toContain('The next queue will begin processing in approximately');
+    $html = displayedNotices(actionsTable());
+    preg_match('/in approximately (\d+) seconds/', $html, $matches);
+
+    expect($html)->toContain('The next queue will begin processing in approximately')
+        ->and((int) ($matches[1] ?? -1))->toBeGreaterThanOrEqual(290)->toBeLessThanOrEqual(300);
 });
 
 test('a missing database table is recreated, with a notice to say so', function () {

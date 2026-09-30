@@ -1,9 +1,12 @@
 <?php
 
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\HookProxy;
 use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
+use GeminiLabs\SiteReviews\Modules\Translation;
 
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\swapInstance;
 
 /*
  * The wiring.
@@ -55,6 +58,14 @@ test('a hooks class registers hooks, and every one of them points at a method th
     glsr()->singleton($hooks);
     glsr($hooks)->runDeferred();
     glsr($hooks)->run();
+    if ('TranslationHooks' === $class) {
+        // The gettext table is registered on after_setup_theme, and only when the site has a
+        // custom string. A fresh Translation reads the string set here.
+        glsr(OptionManager::class)->set('settings.strings', [
+            ['id' => 'a-string', 's1' => 'Submit your review', 's2' => 'Send your review'],
+        ]);
+        swapInstance(Translation::class, new Translation(), fn () => glsr($hooks)->translatePlugin());
+    }
 
     $registered = registeredHooks();
     expect($registered)->not->toBeEmpty(); // a hooks class that hooks nothing is dead code

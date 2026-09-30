@@ -85,7 +85,14 @@ test('an empty search term matches nobody rather than everybody', function () {
 test('the assigned-user search renders nothing of its own', function () {
     // It feeds an autocomplete through ->users(); it has no HTML form, so it inherits the base
     // render() that returns an empty string (unlike SearchUsers, which does render).
-    expect(glsr(Database::class)->searchAssignedUsers('anything')->render())->toBe('');
+    // A matching user is seeded, so a render() that printed its results would not be empty.
+    $userId = createUser(['display_name' => 'Jane Doe']);
+    createReview(['assigned_users' => $userId]);
+
+    $search = glsr(Database::class)->searchAssignedUsers('Jane');
+
+    expect($search->results())->not->toBe([])
+        ->and($search->render())->toBe('');
 });
 
 /*
@@ -94,11 +101,14 @@ test('the assigned-user search renders nothing of its own', function () {
 
 test('the user search finds any user by name, assigned a review or not', function () {
     $userId = createUser(['display_name' => 'Searchable Sam', 'user_login' => 'sams']);
+    $otherId = createUser(['display_name' => 'Jane Doe', 'user_login' => 'janedoe']);
 
     $found = glsr(Database::class)->searchUsers('Searchable')->users();
     $ids = array_map(fn ($user) => $user->ID, $found);
 
-    expect($ids)->toContain($userId);
+    // A user whose login, display name and nicename all miss the term is not a result.
+    expect($ids)->toContain($userId)
+        ->and($ids)->not->toContain($otherId);
 });
 
 test('the user search finds any user by their id', function () {

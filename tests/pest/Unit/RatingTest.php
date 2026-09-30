@@ -60,6 +60,12 @@ test('rounded percentages always sum to exactly 100', function () {
 
     expect(array_sum($percentages))->toEqual(100);
     expect($percentages)->toEqual([3 => 34, 2 => 33, 1 => 33]);
+
+    // Distinct remainders: 2/7, 1/7 and 4/7 are 28.57%, 14.29% and 57.14%, which floor to 99.
+    // The point goes to the largest remainder (1 star, .57), not to the highest rating.
+    $percentages = glsr(Rating::class)->percentages([1 => 2, 2 => 1, 3 => 4]);
+
+    expect($percentages)->toEqual([3 => 57, 2 => 14, 1 => 29]);
 });
 
 test('the wilson lower bound ranks up/down votes conservatively', function () {
