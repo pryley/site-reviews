@@ -16,6 +16,8 @@ class Translation
 
     protected array $results = [];
 
+    protected array $strings = [];
+
     /**
      * Returns all saved custom strings with translation context.
      */
@@ -238,14 +240,13 @@ class Translation
      */
     public function strings(): array
     {
-        static $strings;
-        if (empty($strings)) {
+        if (empty($this->strings)) {
             // we need to bypass the filter hooks because this is run before the settings are initiated
             $settings = get_option(OptionManager::databaseKey());
             $strings = Arr::getAs('array', $settings, 'settings.strings');
-            $strings = $this->normalizeStrings($strings);
+            $this->strings = $this->normalizeStrings($strings);
         }
-        return $strings;
+        return $this->strings;
     }
 
     protected function getEntryString(array $entry, string $key): string

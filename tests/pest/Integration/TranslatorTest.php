@@ -1,6 +1,7 @@
 <?php
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Modules\Translator;
 
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -16,21 +17,15 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * So the assertions that matter are cheap: an uncustomised string comes back untouched, and a string
  * from someone else's text domain is not ours to rewrite.
  *
- * TWO THINGS ABOUT THE FIXTURE, both properties of the code under test:
- *
- * 1. Translation::strings() memoises into a function-level `static $strings` that nothing resets —
- *    not the transaction, not resetGlobalState(). Once non-empty it holds for the rest of the
- *    process. So the custom strings are defined ONCE, identically, in beforeEach: the first test
- *    fills the cache and every later one reads it. A test needing different strings would silently
- *    get these.
- *
- * 2. That cache outlives this file, so the phrases below appear NOWHERE else in the plugin — the
- *    lookup matches the exact original string, so a phrase nothing else translates cannot change
- *    anything else's behaviour, whatever the run order.
+ * Translation::strings() caches the custom strings for the request, on the Translation
+ * singleton. Each test here swaps in a fresh instance, so each test reads the strings it set,
+ * and the original instance goes back afterwards for the files that run next.
  */
 
 beforeEach(function () {
     resetPluginState();
+    $this->translation = glsr(Translation::class);
+    glsr()->alias(Translation::class, new Translation());
 
     // As the Translations settings screen saves them. `type` is not stored — normalizeStrings()
     // derives it from whether a `p1` key is PRESENT, and drops any string without an `id`.
@@ -50,6 +45,8 @@ beforeEach(function () {
     ]);
 });
 
+afterEach(fn () => glsr()->alias(Translation::class, $this->translation));
+
 test('a string nobody has customised is handed back exactly as it was', function () {
     // The common case, and it is the whole plugin: this filter runs on every string on every page.
     // Anything other than "return the original" here is a bug on every site that ever renders a
@@ -63,6 +60,22 @@ test('a customised string is replaced with the words the site owner chose', func
     expect(glsr(Translator::class)->translate('A phrase used nowhere else in the plugin', 'site-reviews', [
         'single' => 'A phrase used nowhere else in the plugin',
     ]))->toBe('The words the site owner wanted instead');
+});
+
+test('a site owner who changes their words is heard', function () {
+    // The strings are read once per request. A test, like a page load, starts with none cached,
+    // so a set saved here replaces the one from beforeEach.
+    glsr(OptionManager::class)->set('settings.strings', [
+        [
+            'id' => 'a-single-string',
+            's1' => 'A phrase used nowhere else in the plugin',
+            's2' => 'Their second thoughts',
+        ],
+    ]);
+
+    expect(glsr(Translator::class)->translate('A phrase used nowhere else in the plugin', 'site-reviews', [
+        'single' => 'A phrase used nowhere else in the plugin',
+    ]))->toBe('Their second thoughts');
 });
 
 test('a customised plural is replaced in both its forms, and the number still picks between them', function () {
