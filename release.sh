@@ -27,7 +27,7 @@ TESTED_UP_TO_VERSION=`perl -lne 'm{Tested up to:?\s+(.+)} and print $1' ${ROOT_P
 CHANGELOG_DATE=`grep -e "^= ${PLUGIN_VERSION} (.*) =" ${ROOT_PATH}readme.txt | grep -o '....-..-..' | awk -F' ' '{print $NF}' | tr -d '\r'`
 
 # CHECK GIT STATUS
-make build
+make build:all
 clear
 if [[ ! -z $(git status --porcelain=v2 2>/dev/null) ]]; then
 	echo "\n❌ \033[0;31mYou forgot to commit changes.\033[0m\n"

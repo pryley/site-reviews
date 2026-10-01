@@ -445,12 +445,6 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * Fires `{addon}/upgraded` (the version the site held, the plugin's)
-     * once when the stored version differs from the plugin's, and stamps
-     * the plugin's. A site that predates the stamp upgrades from ''. The
-     * activation flag survives an in-place plugin upgrade, so this is the
-     * one seam an addon has for a routine that must follow every version.
-     *
      * @action admin_init:11
      */
     public function onUpgrade(): void

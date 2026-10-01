@@ -210,7 +210,7 @@ test('a saved licence is kept when the licence server gives no answer', function
     ]);
 
     expect($options['settings']['licenses'][addonId()])->toBe('a-saved-key')
-        ->and(glsr(Notice::class)->get())->toContain('a saved license was kept')
+        ->and(glsr(Notice::class)->get())->toContain('could not be reached')
         ->and(glsr(Notice::class)->get())->not->toContain('invalid or has been revoked');
 });
 
@@ -224,7 +224,7 @@ test('a new licence is not saved when the licence server gives no answer', funct
     ]);
 
     expect($options['settings']['licenses'][addonId()])->toBe('')
-        ->and(glsr(Notice::class)->get())->toContain('was not saved');
+        ->and(glsr(Notice::class)->get())->toContain('could not be reached');
 });
 
 test('a changed licence keeps the saved one when the licence server gives no answer', function () {
@@ -238,7 +238,7 @@ test('a changed licence keeps the saved one when the licence server gives no ans
     ]);
 
     expect($options['settings']['licenses'][addonId()])->toBe('a-saved-key')
-        ->and(glsr(Notice::class)->get())->toContain('was not saved');
+        ->and(glsr(Notice::class)->get())->toContain('could not be reached');
 });
 
 test('a licence that could not be checked is not reported as invalid', function () {

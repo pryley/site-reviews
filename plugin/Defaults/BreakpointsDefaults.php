@@ -3,13 +3,7 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 /**
- * The responsive scale the addons share: each value is the width, in
- * pixels, at which that device STARTS. Core's theme.json
- * settings.viewport values are the opposite (the width a device ends
- * at), so they cannot be copied across.
- *
- * Unused by the plugin itself; the addons read it, so that one filter
- * sets the scale for all of them.
+ * The responsive scale for the addons
  */
 class BreakpointsDefaults extends DefaultsAbstract
 {
@@ -33,10 +27,8 @@ class BreakpointsDefaults extends DefaultsAbstract
     }
 
     /**
-     * A filter may add keys, drop keys, or return the widths out of
-     * order; the scale is repaired rather than rejected: the three keys
-     * in device order, the smallest device starting at 0, and the
-     * widths ascending.
+     * Finalize provided values, this always runs last.
+     * A custom field name becomes a meta key. A name that sanitize_key() changes is refused.
      */
     protected function finalize(array $values = []): array
     {

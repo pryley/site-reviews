@@ -18,7 +18,7 @@ class ReviewTagsDefaults extends DefaultsAbstract
     {
         return [
             'assigned' => [ // @compat v8.1 - renamed to assigned_data
-                'description' => _x('The assignments as JSON data, under the name it had before assigned_data.', 'admin-text', 'site-reviews'),
+                'description' => _x('The assignments as JSON data (same as assigned_data).', 'admin-text', 'site-reviews'),
                 'insert' => false,
             ],
             'assigned_data' => [
@@ -126,7 +126,7 @@ class ReviewTagsDefaults extends DefaultsAbstract
                 'label' => _x('Location', 'admin-text', 'site-reviews'),
             ],
             'name' => [
-                'description' => _x('The name of the reviewer, under the key it is stored with.', 'admin-text', 'site-reviews'),
+                'description' => _x('The name of the reviewer (same as author).', 'admin-text', 'site-reviews'),
                 'display' => false,
                 'insert' => false,
             ],
@@ -160,7 +160,7 @@ class ReviewTagsDefaults extends DefaultsAbstract
                 'insert' => true,
             ],
             'status' => [
-                'description' => _x('The publication status of the review.', 'admin-text', 'site-reviews'),
+                'description' => _x('The status of the review.', 'admin-text', 'site-reviews'),
                 'display' => false,
                 'insert' => false,
             ],
@@ -177,7 +177,7 @@ class ReviewTagsDefaults extends DefaultsAbstract
                 'label' => _x('Title', 'admin-text', 'site-reviews'),
             ],
             'type' => [
-                'description' => _x('Where the review came from: your site, or an imported source.', 'admin-text', 'site-reviews'),
+                'description' => _x('The review type (local or from an imported source).', 'admin-text', 'site-reviews'),
                 'display' => true,
                 'insert' => true,
                 'label' => _x('Review Type', 'admin-text', 'site-reviews'),

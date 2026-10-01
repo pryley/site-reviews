@@ -3930,44 +3930,39 @@ msgid "Rate Site Reviews ★★★★★ on Wordpress"
 msgstr ""
 
 #. translators: %s: the relative expiry date (e.g. 3 days ago)
-#: plugin/Controllers/LicensingController.php:79
+#: plugin/Controllers/LicensingController.php:78
 #, php-format
 msgctxt "admin-text"
 msgid "A license you entered has expired: %s."
 msgstr ""
 
 #. translators: %s: link to the License Keys page
-#: plugin/Controllers/LicensingController.php:83
+#: plugin/Controllers/LicensingController.php:82
 #, php-format
 msgctxt "link to License Keys page (admin-text)"
 msgid "To renew your license and enable updates, please visit the %s on your Nifty Plugins account."
 msgstr ""
 
-#: plugin/Controllers/LicensingController.php:91
+#: plugin/Controllers/LicensingController.php:90
 msgctxt "admin-text"
 msgid "A license you entered has not been activated for your website."
 msgstr ""
 
 #. translators: %s: link to the License Keys page
-#: plugin/Controllers/LicensingController.php:93
+#: plugin/Controllers/LicensingController.php:92
 #, php-format
 msgctxt "link to License Keys page (admin-text)"
 msgid "To activate your license, please visit the %s page on your Nifty Plugins account and click the \"Manage Sites\" button to activate it for your website."
 msgstr ""
 
-#: plugin/Controllers/LicensingController.php:102
+#: plugin/Controllers/LicensingController.php:101
 msgctxt "admin-text"
 msgid "A license you entered is either invalid or has been revoked."
 msgstr ""
 
-#: plugin/Controllers/LicensingController.php:109
+#: plugin/Controllers/LicensingController.php:108
 msgctxt "admin-text"
-msgid "The license server could not be reached, so a saved license was kept without being checked."
-msgstr ""
-
-#: plugin/Controllers/LicensingController.php:110
-msgctxt "admin-text"
-msgid "The license server could not be reached, so a license you entered was not saved. Please try again later."
+msgid "The license server could not be reached. Please try again later."
 msgstr ""
 
 #: plugin/Controllers/ListTableColumns/ColumnFilterAssignedPost.php:12
@@ -4706,7 +4701,7 @@ msgstr ""
 
 #: plugin/Defaults/ReviewTagsDefaults.php:21
 msgctxt "admin-text"
-msgid "The assignments as JSON data, under the name it had before assigned_data."
+msgid "The assignments as JSON data (same as assigned_data)."
 msgstr ""
 
 #: plugin/Defaults/ReviewTagsDefaults.php:25
@@ -4826,7 +4821,7 @@ msgstr ""
 
 #: plugin/Defaults/ReviewTagsDefaults.php:129
 msgctxt "admin-text"
-msgid "The name of the reviewer, under the key it is stored with."
+msgid "The name of the reviewer (same as author)."
 msgstr ""
 
 #: plugin/Defaults/ReviewTagsDefaults.php:134
@@ -4856,7 +4851,7 @@ msgstr ""
 
 #: plugin/Defaults/ReviewTagsDefaults.php:163
 msgctxt "admin-text"
-msgid "The publication status of the review."
+msgid "The status of the review."
 msgstr ""
 
 #: plugin/Defaults/ReviewTagsDefaults.php:168
@@ -4866,7 +4861,7 @@ msgstr ""
 
 #: plugin/Defaults/ReviewTagsDefaults.php:180
 msgctxt "admin-text"
-msgid "Where the review came from: your site, or an imported source."
+msgid "The review type (local or from an imported source)."
 msgstr ""
 
 #: plugin/Defaults/ReviewTagsDefaults.php:183

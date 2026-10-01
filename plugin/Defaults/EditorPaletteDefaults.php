@@ -5,11 +5,8 @@ namespace GeminiLabs\SiteReviews\Defaults;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
 /**
- * The colour groups the addons' editors offer beside the theme's palette,
- * each {name, colors: [{color, name, slug}]}.
- *
- * Unused by the plugin itself; the addons read it, so that one filter
- * reaches every addon's editors.
+ * The colour groups the addons' editors offer beside the theme's palette
+ * {name, colors: [{color, name, slug}]}.
  */
 class EditorPaletteDefaults extends DefaultsAbstract
 {
@@ -18,10 +15,6 @@ class EditorPaletteDefaults extends DefaultsAbstract
         return [];
     }
 
-    /**
-     * A group needs a name and at least one colour; a colour needs a value,
-     * a name and a slug.
-     */
     protected function finalize(array $values = []): array
     {
         $groups = [];

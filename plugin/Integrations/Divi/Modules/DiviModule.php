@@ -182,9 +182,7 @@ abstract class DiviModule implements DependencyInterface
     abstract public static function shortcodeInstance(): ShortcodeContract;
 
     /**
-     * The directory holding the module's json (module.json beside its
-     * settings and styles), under the plugin's own Divi tree; an addon's
-     * tree lives elsewhere and overrides this.
+     * The directory holding the module's json.
      */
     protected function modulePath(string $shortcodeTag): string
     {
