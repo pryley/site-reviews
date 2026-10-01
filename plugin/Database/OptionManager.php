@@ -227,10 +227,10 @@ class OptionManager
             return;
         }
         $settings = shortcode_atts($defaults, $settings);
-        $settings = Arr::unflatten($settings);
-        $settings['strings'] = Arr::consolidate(Arr::get($saved, 'settings.strings'));
-        $saved['settings'] = $settings;
-        $this->replace($saved);
+        $merged = $saved;
+        $merged['settings'] = Arr::unflatten($settings);
+        $merged = $this->restoreOrphanedSettings($merged, $saved);
+        $this->replace($merged);
     }
 
     public function normalize(array $data = []): array

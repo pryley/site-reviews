@@ -75,6 +75,27 @@ test('mergeDefaults folds a newly introduced setting into what is already saved'
     expect(glsr_get_option('general.a_brand_new_setting'))->toBe('a-default-value');
 });
 
+test('mergeDefaults keeps the settings and the licence of an addon that is not registered', function () {
+    // The defaults do not know the keys of a deactivated or shelved addon.
+    $key = OptionManager::databaseKey();
+    $saved = (array) get_option($key);
+    $saved['settings']['addons']['a-deactivated-addon'] = ['enabled' => 'yes'];
+    $saved['settings']['integrations']['a-dead-integration'] = ['on' => 'yes'];
+    $saved['settings']['licenses']['a-dead-addon'] = 'a-licence-key';
+    update_option($key, $saved);
+    OptionManager::flushSettingsCache();
+    $defaults = glsr()->defaults();
+    $defaults['settings']['general']['a_brand_new_setting'] = 'a-default-value';
+
+    glsr(OptionManager::class)->mergeDefaults($defaults);
+
+    $stored = (array) get_option($key);
+    expect($stored['settings']['general']['a_brand_new_setting'] ?? null)->toBe('a-default-value')
+        ->and($stored['settings']['addons']['a-deactivated-addon'] ?? null)->toBe(['enabled' => 'yes'])
+        ->and($stored['settings']['integrations']['a-dead-integration'] ?? null)->toBe(['on' => 'yes'])
+        ->and($stored['settings']['licenses']['a-dead-addon'] ?? null)->toBe('a-licence-key');
+});
+
 test('clean() keeps the settings of an addon whose defaults are not currently loaded', function () {
     // clean() flattens the submitted settings against the defaults, which would drop anything the
     // defaults do not know about — so restoreOrphanedSettings puts the addon/integration/licence
