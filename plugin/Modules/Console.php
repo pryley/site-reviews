@@ -28,11 +28,17 @@ class Console
     public const ALERT = 32;     // Action must be taken immediately
     public const EMERGENCY = 64; // System is unusable
 
+    /** The tag on an entry that the site owner's own code caused (CodeOrigin). */
+    public const CODE_SNIPPET = 'CODE SNIPPET';
+
     public const LOG_LEVEL_KEY = 'glsr_console_level';
     public const LOG_ONCE_KEY = 'glsr_log_once';
 
     protected $file;
     protected $log;
+
+    /** @var array{file: string, line: int}|array{} */
+    protected array $origin = [];
 
     public function __construct()
     {
@@ -114,13 +120,27 @@ class Console
         if (empty($backtraceLine)) {
             $backtraceLine = glsr(Backtrace::class)->line();
         }
+        $origin = $this->origin;
+        $this->origin = [];
         if (!$this->canLogEntry($level, $backtraceLine)) {
             return $this;
         }
         if (is_string($message)) {
             $message = $this->interpolate($message, $context);
         }
+        $frames = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 50);
+        if (empty($origin)) {
+            $origin = glsr(CodeOrigin::class)->fromBacktrace($frames);
+        }
         $backtraceLine = glsr(Backtrace::class)->normalizeLine($backtraceLine);
+        if (!empty($origin)) {
+            $places = [static::CODE_SNIPPET, "{$origin['file']}:{$origin['line']}"];
+            $caller = $this->caller($frames);
+            if (!empty($caller) && $caller['file'] !== $origin['file']) {
+                $places[] = "{$caller['file']}:{$caller['line']}";
+            }
+            $backtraceLine = implode('] [', array_map([glsr(Backtrace::class), 'normalizeLine'], $places));
+        }
         $levelName = Arr::get($this->getLevels(), $level, 'unknown');
         $entry = $this->buildLogEntry(
             $levelName,
@@ -170,6 +190,22 @@ class Console
         }
     }
 
+    /**
+     * Gives the next entry its origin when the call chain does not hold it:
+     * an exception that was caught, or a callback on a hook.
+     *
+     * @param \Throwable|callable|mixed $source
+     *
+     * @return static
+     */
+    public function origin($source)
+    {
+        $this->origin = $source instanceof \Throwable
+            ? glsr(CodeOrigin::class)->fromThrowable($source)
+            : glsr(CodeOrigin::class)->fromCallback($source);
+        return $this;
+    }
+
     public function size(): int
     {
         return file_exists($this->file)
@@ -185,6 +221,26 @@ class Console
             $backtraceLine,
             esc_html($message)
         );
+    }
+
+    /**
+     * The file and line that asked for the entry: the first frame outside
+     * the classes that only pass a log call on.
+     *
+     * @param array<int, array<string, mixed>> $frames
+     *
+     * @return array{file: string, line: int}|array{}
+     */
+    protected function caller(array $frames): array
+    {
+        foreach ($frames as $frame) {
+            $file = Cast::toString($frame['file'] ?? '');
+            if ('' === $file || Str::endsWith($file, ['BlackHole.php', 'Console.php', 'HookProxy.php', 'helpers.php'])) {
+                continue;
+            }
+            return ['file' => $file, 'line' => Cast::toInt($frame['line'] ?? 0)];
+        }
+        return [];
     }
 
     protected function canLogEntry(int $level, string $backtraceLine): bool

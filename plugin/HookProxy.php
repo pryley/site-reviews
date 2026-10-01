@@ -32,7 +32,7 @@ trait HookProxy
                 if (glsr()->filterBool('hook/rethrow', false, $error, $method)) {
                     throw $error; // and do not log it: it is about to surface on its own
                 }
-                glsr_log()->error($error->getMessage())->debug($error);
+                glsr_log()->origin($error)->error($error->getMessage())->debug($error);
             }
             if (str_starts_with($method, 'filter')) {
                 // A throwable error was caught so just return the unfiltered first argument.
