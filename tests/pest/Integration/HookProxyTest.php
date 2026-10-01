@@ -64,3 +64,26 @@ test('with rethrow on, the throwable is let out instead of swallowed', function 
 
     expect(fn () => $proxied('anything'))->toThrow(\RuntimeException::class);
 });
+
+test('the logged line is tagged when the throwable came out of the site owner\'s own code', function () {
+    // The proxy catches it in the plugin's file, so the Console is given the exception to find the origin.
+    glsr(GeminiLabs\SiteReviews\Modules\Console::class)->clear();
+    $snippets = require WPMU_PLUGIN_DIR.'/fixtures/code-origin.php';
+    add_filter('glsr_test_proxied_filter', $snippets['throw']);
+    $subject = new class() {
+        use HookProxy;
+
+        public function filterSomething($value)
+        {
+            return apply_filters('glsr_test_proxied_filter', $value);
+        }
+    };
+
+    $result = $subject->proxy('filterSomething')('the original value');
+    remove_all_filters('glsr_test_proxied_filter');
+
+    $lines = array_values(array_filter(explode("\n", glsr(GeminiLabs\SiteReviews\Modules\Console::class)->getRaw())));
+    expect($result)->toBe('the original value')
+        ->and($lines[0] ?? '')->toContain('ERROR [CODE SNIPPET] [\mu-plugins\fixtures\code-origin.php:')
+        ->and($lines[0] ?? '')->toEndWith('thrown in a snippet');
+});
