@@ -92,6 +92,25 @@ test('a page is only added for somebody who may open it', function () {
     expect($capabilities['glsr-settings'])->toBe('manage_options');
 });
 
+test('somebody who may open none of the pages gets no menu and no warning', function () {
+    // add_submenu_page() refuses every page, so WordPress never creates the plugin's entry in $submenu
+    global $submenu;
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+    $warnings = [];
+    set_error_handler(function (int $level, string $message) use (&$warnings) {
+        $warnings[] = $message;
+        return true;
+    }, E_WARNING | E_NOTICE);
+    try {
+        glsr(MenuController::class)->registerSubMenus();
+    } finally {
+        restore_error_handler();
+    }
+
+    expect($warnings)->toBe([])
+        ->and($submenu)->not->toHaveKey(parentSlug());
+});
+
 test('the menu says how many reviews are waiting to be approved', function () {
     // The bubble beside "Reviews" in the admin menu. It is the only way anybody knows
     // there is something to moderate without going and looking.

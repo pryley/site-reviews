@@ -79,7 +79,7 @@ class MenuController extends AbstractController
             }
             add_submenu_page($parentSlug, $title, $title, glsr()->getPermission($slug), $slugPrefix.$slug, $callback);
         }
-        foreach ($submenu[$parentSlug] as $index => $menu) {
+        foreach ($submenu[$parentSlug] ?? [] as $index => $menu) {
             $slug = $menu[2] ?? '';
             if (!str_starts_with($slug, $slugPrefix)) {
                 continue;
