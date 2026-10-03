@@ -1,9 +1,9 @@
 <?php
 
-use GeminiLabs\SiteReviews\Compatibility;
 use GeminiLabs\SiteReviews\Gatekeeper;
 use GeminiLabs\SiteReviews\Geolocation;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Hook;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Console;
@@ -116,7 +116,7 @@ test('capabilities are only granted to roles that exist and are known', function
 });
 
 /*
- * Gatekeeper, Compatibility.
+ * Gatekeeper, Hook.
  */
 
 test('a plugin path that fails validation has no headers to read', function () {
@@ -135,7 +135,7 @@ test('the hook search skips callbacks that are not object-method pairs', functio
     add_filter('glsr-compat-probe', '__return_true'); // a plain function: not a pair
     add_filter('glsr-compat-probe', [glsr(Role::class), 'roles']); // a pair, wrong class
 
-    $found = (new Compatibility())->findCallback('glsr-compat-probe', 'roles', Router::class);
+    $found = Hook::find('glsr-compat-probe', 'roles', Router::class);
 
     expect($found)->toBe([]);
 });

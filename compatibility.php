@@ -1,9 +1,9 @@
 <?php
 
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Compatibility;
 use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Helpers\Hook;
 use GeminiLabs\SiteReviews\Modules\Paginate;
 use GeminiLabs\SiteReviews\Review;
 
@@ -321,7 +321,7 @@ function glsr_remove_optimizepress()
     if (!str_starts_with(glsr_current_screen()->post_type, glsr()->post_type)) {
         return;
     }
-    glsr(Compatibility::class)->removeHook('admin_enqueue_scripts', 'print_scripts', '\OptimizePress_Admin_Init');
+    Hook::remove('admin_enqueue_scripts', 'print_scripts', '\OptimizePress_Admin_Init');
     remove_action('admin_notices', 'checkApiKeyValidity');
     remove_action('admin_notices', 'checkEligibility');
     remove_action('admin_notices', 'compatibilityCheck');
