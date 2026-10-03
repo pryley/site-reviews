@@ -179,11 +179,14 @@ const cssPlugins = (namespace = '') => [
 
 /**
  * @param {string} rootDir
- * @param {{scriptsAlias?: string}} [options]  scriptsAlias overrides what `@`
- *   resolves to (default `${rootDir}/+/scripts`); the merged premium plugin
- *   creates one factory per module so `@/` keeps meaning "my own scripts".
+ * @param {{scriptsAlias?: string, sharedPrefix?: string}} [options]
+ *   scriptsAlias overrides what `@` resolves to (default
+ *   `${rootDir}/+/scripts`); the merged premium plugin creates one factory
+ *   per module so `@/` keeps meaning "my own scripts". sharedPrefix is the
+ *   import prefix of the modules a chunk() links against the runtime
+ *   instead of inlining (default `@/public/shared/`).
  */
-export function createConfig(rootDir, { scriptsAlias = '' } = {}) {
+export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/public/shared/' } = {}) {
     /**
      * JavaScript bundle (IIFE, no CommonJS transforms).
      *
@@ -269,17 +272,15 @@ export function createConfig(rootDir, { scriptsAlias = '' } = {}) {
      */
     const cssChunk = (source, id, outputDir = 'assets/css/chunks') => css(source, outputDir, '', id);
 
-    const SHARED_PREFIX = '@/public/shared/';
-
     /**
      * A registry chunk: like js() but the output is a `registry.define(id, …)`
      * registration that only runs when the premium runtime boots it.
      *
-     * Shared modules (`@/public/shared/*`) are not inlined: they resolve as
-     * externals to the runtime's `{registry}.lib.{name}` exports, so the one
-     * copy lives in the runtime. The reference is read when the factory runs,
-     * always after the runtime has parsed. The standalone js() profile inlines
-     * them from the same sources.
+     * Shared modules (the sharedPrefix imports) are not inlined: they resolve
+     * as externals to the runtime's `{registry}.lib.{name}` exports, so the
+     * one copy lives in the runtime. The reference is read when the factory
+     * runs, always after the runtime has parsed. The standalone js() profile
+     * inlines them from the same sources.
      *
      * @param {string} source     Path relative to `+/` without extension.
      * @param {string} id         Chunk id, e.g. 'filters.public'.
@@ -288,12 +289,12 @@ export function createConfig(rootDir, { scriptsAlias = '' } = {}) {
      */
     const chunk = (source, id, outputDir = 'assets/js/chunks', registry = '__glsrp') => ({
         input: `+/${source}.js`,
-        external: (importId) => importId.startsWith(SHARED_PREFIX),
+        external: (importId) => importId.startsWith(sharedPrefix),
         output: {
             file: `${outputDir}/${id}.js`,
             format: 'iife',
-            globals: (importId) => importId.startsWith(SHARED_PREFIX)
-                ? `${registry}.lib.${importId.slice(SHARED_PREFIX.length).replace(/\.js$/, '')}`
+            globals: (importId) => importId.startsWith(sharedPrefix)
+                ? `${registry}.lib.${importId.slice(sharedPrefix.length).replace(/\.js$/, '')}`
                 : importId,
             sourcemap: false, // the wrapper invalidates maps; dev uses js() entries
         },
