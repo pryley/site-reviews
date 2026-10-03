@@ -1,6 +1,5 @@
 <?php
 
-use GeminiLabs\SiteReviews\Compatibility;
 use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;

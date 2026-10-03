@@ -1,12 +1,10 @@
 <?php
 
-namespace GeminiLabs\SiteReviews;
+namespace GeminiLabs\SiteReviews\Helpers;
 
-use GeminiLabs\SiteReviews\Helpers\Arr;
-
-class Compatibility
+class Hook
 {
-    public function findCallback(string $hook, string $fn, string $className, int $priority = 10): array
+    public static function find(string $hook, string $fn, string $className, int $priority = 10): array
     {
         global $wp_filter;
         if (!isset($wp_filter[$hook])) {
@@ -36,9 +34,9 @@ class Compatibility
         return [];
     }
 
-    public function removeHook(string $hook, string $fn, string $className, int $priority = 10): bool
+    public static function remove(string $hook, string $fn, string $className, int $priority = 10): bool
     {
-        $callback = $this->findCallback($hook, $fn, $className, $priority);
+        $callback = static::find($hook, $fn, $className, $priority);
         if (!empty($callback['function'])) {
             remove_filter($hook, $callback['function'], $priority);
             return true;

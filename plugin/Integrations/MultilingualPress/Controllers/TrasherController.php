@@ -2,8 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers;
 
-use GeminiLabs\SiteReviews\Compatibility;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
+use GeminiLabs\SiteReviews\Helpers\Hook;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\ReviewCopier;
 use Inpsyde\MultilingualPress\Framework\Api\ContentRelations;
 use Inpsyde\MultilingualPress\Module\Trasher\Trasher;
@@ -66,17 +66,17 @@ class TrasherController extends AbstractController
         if (!str_starts_with(glsr_current_screen()->post_type, glsr()->post_type)) {
             return;
         }
-        glsr(Compatibility::class)->removeHook(
+        Hook::remove(
             'wp_trash_post',
             'trashRelatedPosts',
             Trasher::class
         );
-        glsr(Compatibility::class)->removeHook(
+        Hook::remove(
             'save_post',
             'update',
             TrasherSettingUpdater::class
         );
-        glsr(Compatibility::class)->removeHook(
+        Hook::remove(
             'post_submitbox_misc_actions',
             'render',
             TrasherSettingView::class
