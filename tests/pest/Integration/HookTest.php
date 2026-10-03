@@ -1,24 +1,15 @@
 <?php
 
-use GeminiLabs\SiteReviews\Compatibility;
 use GeminiLabs\SiteReviews\Controllers\NetworkController;
+use GeminiLabs\SiteReviews\Helpers\Hook;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * Getting somebody else's hook off a hook.
- *
- * Thirty-odd page builders and SEO plugins hook the same filters this plugin does, and some do
- * things a review cannot survive — wrapping the content, stripping the schema, rewriting the
- * excerpt. Sometimes the only fix is to remove their callback.
- *
- * remove_filter() cannot: it needs the SAME callable that was added, and the other plugin's object
- * is buried in $wp_filter out of reach — and half of them add closures, which cannot be compared or
- * reconstructed. So Compatibility walks $wp_filter for the hook and priority, matches on CLASS and
- * METHOD name rather than identity, and for a closure reaches inside it with reflection for the
- * `callback` it closed over. That last part is the only way to remove a closure someone else added,
- * and worth a test because it depends on the shape of code this plugin does not own.
+ * Removing another plugin's callback: remove_filter() needs the identical callable, so
+ * Hook::find() matches on class and method name, and reaches inside a closure for the
+ * `callback` it closed over.
  */
 
 beforeEach(function () {
@@ -53,7 +44,7 @@ test('a callback added as an array is found by its class and method', function (
     $them = new SomebodyElsesPlugin();
     add_filter('some_hook', [$them, 'theirCallback']);
 
-    $found = glsr(Compatibility::class)->findCallback('some_hook', 'theirCallback', SomebodyElsesPlugin::class);
+    $found = Hook::find('some_hook', 'theirCallback', SomebodyElsesPlugin::class);
 
     expect($found)->not->toBeEmpty()
         ->and($found['function'][1])->toBe('theirCallback');
@@ -71,7 +62,7 @@ test('a callback added as a CLOSURE is found by reaching inside it', function ()
         return call_user_func($callback, $value);
     });
 
-    $found = glsr(Compatibility::class)->findCallback('some_hook', 'theirCallback', SomebodyElsesPlugin::class);
+    $found = Hook::find('some_hook', 'theirCallback', SomebodyElsesPlugin::class);
 
     expect($found)->not->toBeEmpty();
 });
@@ -81,12 +72,11 @@ test('the wrong hook, the wrong priority, the wrong class or the wrong method fi
     // is called on every page load of every site running one of thirty integrations.
     $them = new SomebodyElsesPlugin();
     add_filter('some_hook', [$them, 'theirCallback'], 10);
-    $compat = glsr(Compatibility::class);
 
-    expect($compat->findCallback('a_hook_nobody_added', 'theirCallback', SomebodyElsesPlugin::class))->toBe([])
-        ->and($compat->findCallback('some_hook', 'theirCallback', SomebodyElsesPlugin::class, 20))->toBe([])
-        ->and($compat->findCallback('some_hook', 'theirCallback', self::class))->toBe([])
-        ->and($compat->findCallback('some_hook', 'somethingElse', SomebodyElsesPlugin::class))->toBe([]);
+    expect(Hook::find('a_hook_nobody_added', 'theirCallback', SomebodyElsesPlugin::class))->toBe([])
+        ->and(Hook::find('some_hook', 'theirCallback', SomebodyElsesPlugin::class, 20))->toBe([])
+        ->and(Hook::find('some_hook', 'theirCallback', self::class))->toBe([])
+        ->and(Hook::find('some_hook', 'somethingElse', SomebodyElsesPlugin::class))->toBe([]);
 });
 
 /*
@@ -100,14 +90,14 @@ test('their callback is taken off the hook, and stops running', function () {
     expect(apply_filters('some_hook', 'ours'))->toBe('they changed it');
     expect($them->ran)->toBeTrue();
 
-    $removed = glsr(Compatibility::class)->removeHook('some_hook', 'theirCallback', SomebodyElsesPlugin::class);
+    $removed = Hook::remove('some_hook', 'theirCallback', SomebodyElsesPlugin::class);
 
     expect($removed)->toBeTrue();
     expect(apply_filters('some_hook', 'ours'))->toBe('ours'); // and ours survives untouched
 });
 
 test('removing a callback that is not there says so, rather than pretending', function () {
-    expect(glsr(Compatibility::class)->removeHook('some_hook', 'nope', SomebodyElsesPlugin::class))
+    expect(Hook::remove('some_hook', 'nope', SomebodyElsesPlugin::class))
         ->toBeFalse();
 });
 
