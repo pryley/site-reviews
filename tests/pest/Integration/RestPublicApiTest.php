@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Controllers\Api\Version1\AbstractRestController;
 use GeminiLabs\SiteReviews\Controllers\RestController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Encryption;
@@ -237,6 +238,90 @@ test('a second submission arriving in the same moment is refused with a 429', fu
     expect($second->get_data()['code'])->toBe('glsr_too_many_requests');
     // and the visitor-facing message stays a visitor's message
     expect($second->get_data()['message'])->toContain('could not be submitted');
+});
+
+/*
+ * A route of an addon's form, built on the base controller.
+ */
+
+/**
+ * The route an addon registers for a form action of its own.
+ */
+function registerAddonFormRoute(): void
+{
+    (new class extends AbstractRestController {
+        public function registerRoutes(): void
+        {
+            register_rest_route($this->restNamespace(), '/addon/update-thing', [
+                'callback' => fn (WP_REST_Request $request) => $this->respond(
+                    $this->formRequest($request, 'update-thing')->toArray()
+                ),
+                'methods' => WP_REST_Server::CREATABLE,
+                'permission_callback' => function () {
+                    if (!is_user_logged_in()) {
+                        return $this->refuse('forbidden', 'You cannot update this.');
+                    }
+                    return $this->lock('update-thing');
+                },
+            ]);
+        }
+    })->registerRoutes();
+}
+
+test('a refusal of an addon route carries a glsr_ code, which the script reads as final', function () {
+    registerAddonFormRoute();
+
+    $response = restRequest('POST', '/site-reviews/v1/addon/update-thing');
+
+    // rest_forbidden would make the script retry over admin-ajax (FALLBACK_CODES in request.js)
+    expect($response->get_status())->toBe(403);
+    expect($response->get_data()['code'])->toBe('glsr_forbidden');
+    expect($response->get_data()['message'])->toBe('You cannot update this.');
+});
+
+test('the route names the action of the form it receives, whatever the form says', function () {
+    registerAddonFormRoute();
+    wp_set_current_user(createUser());
+    glsr(OptionManager::class)->set('settings.forms.captcha.integration', 'turnstile');
+    glsr(OptionManager::class)->set('settings.forms.captcha.usage', 'all');
+    glsr(OptionManager::class)->set('settings.forms.turnstile.key', 'a-key');
+    glsr(OptionManager::class)->set('settings.forms.turnstile.secret', 'a-secret');
+
+    $response = restRequest('POST', '/site-reviews/v1/addon/update-thing', [
+        glsr()->id => ['_action' => 'submit-review', 'title' => 'Changed'],
+        'cf-turnstile-response' => 'a-token-from-the-browser',
+    ]);
+
+    expect($response->get_status())->toBe(200);
+    expect($response->get_data()['_action'])->toBe('update-thing');
+    expect($response->get_data()['title'])->toBe('Changed');
+    // the token is only read for an action that the captcha protects
+    expect($response->get_data())->not->toHaveKey('_captcha');
+
+    add_filter('site-reviews/captcha/actions', fn (array $actions) => [...$actions, 'update-thing']);
+    $response = restRequest('POST', '/site-reviews/v1/addon/update-thing', [
+        glsr()->id => ['title' => 'Changed'],
+        'cf-turnstile-response' => 'a-token-from-the-browser',
+    ]);
+
+    expect($response->get_data()['_captcha'])->toBe('a-token-from-the-browser');
+});
+
+test('an addon route takes the lock of its action when the action is locked', function () {
+    registerAddonFormRoute();
+    wp_set_current_user(createUser());
+    releaseMutexLock();
+
+    restRequest('POST', '/site-reviews/v1/addon/update-thing', [glsr()->id => []]);
+    expect(get_transient(mutexLock()))->toBeFalse(); // only the actions of router/mutex/actions lock
+
+    add_filter('site-reviews/router/mutex/actions', fn (array $actions) => [...$actions, 'update-thing']);
+    $first = restRequest('POST', '/site-reviews/v1/addon/update-thing', [glsr()->id => []]);
+    $second = restRequest('POST', '/site-reviews/v1/addon/update-thing', [glsr()->id => []]);
+
+    expect($first->get_status())->toBe(200);
+    expect($second->get_status())->toBe(429);
+    expect($second->get_data()['code'])->toBe('glsr_too_many_requests');
 });
 
 /*

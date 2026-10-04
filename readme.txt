@@ -219,6 +219,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Added a Javascript API for developers (the `GLSR` object), see the Upgrade Guide for what has changed
 - Added an "Advanced" tab to the settings
 - Added the `site-reviews/assets/config` filter hook to change the values that are passed to the plugin scripts
+- Added the `site-reviews/rest-api/routes` filter hook to name the REST API route that a form is submitted to
 - Changed the names of the Javascript events, the previous names keep working while Compatibility Mode is enabled
 - Fixed "unique key" warnings in the browser console of the block editor
 - Fixed PHP warnings on admin pages for users without access to Site Reviews

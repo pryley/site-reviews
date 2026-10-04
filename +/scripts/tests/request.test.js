@@ -158,6 +158,73 @@ test('pagedReviews, review and submit are the requests of the plugin', async () 
     assert.equal(calls[2].options.method, 'POST')
 });
 
+const formOf = (window, action) => {
+    const formData = new window.FormData();
+    formData.append('site-reviews[_action]', action)
+    formData.append('site-reviews[title]', 'A lovely stay')
+    return formData;
+};
+
+test('a form is posted to the route of its action', async () => {
+    const routes = { 'submit-review': 'submissions', 'update-review': 'authors/update-review' };
+    const { window } = loadPublic({ config: { request: request({ routes }) } });
+    const calls = fakeFetch(window, [{ json: {} }, { json: {} }]);
+    await window.GLSR.Request.submit(formOf(window, 'update-review'))
+    await window.GLSR.Request.submit(formOf(window, 'submit-review'))
+    assert.equal(calls[0].url, `${REST_URL}authors/update-review`)
+    assert.equal(calls[0].options.method, 'POST')
+    assert.equal(calls[1].url, `${REST_URL}submissions`)
+});
+
+test('a config without routes still posts the review form to submissions', async () => {
+    const { routes, ...withoutRoutes } = request();
+    const { window } = loadPublic({ config: { request: withoutRoutes } });
+    const calls = fakeFetch(window, [{ json: {} }]);
+    await window.GLSR.Request.submit(formOf(window, 'submit-review'))
+    assert.equal(calls[0].url, `${REST_URL}submissions`)
+});
+
+test('with compat mode, a form whose action has no route is posted to admin-ajax, and debug mode says so', async () => {
+    const { warnings, window } = loadPublic({ debug: true });
+    const calls = fakeFetch(window, [{ json: { data: { message: 'Saved.' }, success: true } }]);
+    const formData = formOf(window, 'update-review');
+    const result = await window.GLSR.Request.submit(formData);
+    assert.equal(calls.length, 1)
+    assert.equal(calls[0].url, AJAX_URL)
+    assert.deepEqual(fields(calls[0]), {
+        _ajax_request: 'true',
+        action: 'glsr_public_action',
+        'site-reviews[_action]': 'update-review',
+        'site-reviews[title]': 'A lovely stay',
+    })
+    assert.equal(formData.has('action'), false)
+    assert.deepEqual(plain(result), { data: { message: 'Saved.' }, status: 200, success: true })
+    assert.equal(warnings.filter(text => text.includes('The form action "update-review" over admin-ajax is deprecated')).length, 1)
+});
+
+test('without compat mode, a form whose action has no route is not sent', async () => {
+    const { window } = loadPublic({ compat: false });
+    const errors = [];
+    window.console.error = (...args) => errors.push(args.join(' '));
+    const calls = fakeFetch(window, []);
+    const result = await window.GLSR.Request.submit(formOf(window, 'update-review'));
+    assert.equal(calls.length, 0)
+    assert.deepEqual(plain(result), { data: { message: 'No route is registered for the form action "update-review".' }, status: 0, success: false })
+    assert.equal(errors.length, 1)
+});
+
+for (const status of [401, 403, 404]) {
+    test(`a ${status} with a glsr_ code is the answer of the route, and is not sent again`, async () => {
+        const { infos, window } = loadPublic();
+        const refusal = { code: 'glsr_forbidden', message: 'You cannot edit this review.' };
+        const calls = fakeFetch(window, [{ status, json: refusal }]);
+        const result = await window.GLSR.Request.send({ method: 'POST', path: 'authors/update-review' });
+        assert.equal(calls.length, 1)
+        assert.deepEqual(plain(result), { data: refusal, status, success: false })
+        assert.deepEqual(infos, [])
+    });
+}
+
 test('debug mode logs each request with its transport, status and time', async () => {
     const { infos, window } = loadPublic({ debug: true });
     fakeFetch(window, [{ json: {} }]);

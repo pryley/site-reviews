@@ -7,7 +7,7 @@ import lib from '@/public/lib.js';
 import Modal, { Instance as ModalInstance, hooks as modalHooks } from '@/public/modal.js';
 import registry, { defined, host } from '@/public/registry.js';
 import report, { attach, expect } from '@/public/report.js';
-import Request from '@/public/request.js';
+import Request, { submitUnrouted } from '@/public/request.js';
 import Review, { initModal as initReviewModal } from '@/public/review.js';
 import Summary from '@/public/summary.js';
 import { debounce, fadeIn, fadeOut, isEmpty, parseJson, selectText, throttle } from '@/public/helpers.js';
@@ -57,7 +57,7 @@ window.GLSR.Review = Review;
 window.GLSR.Summary = Summary;
 window.GLSR.lib = lib;
 window.GLSR.registry = registry;
-host('compat.public', { FormInstance, ModalInstance, initReviewModal, listen, modalHooks, report, retainForms })
+host('compat.public', { FormInstance, ModalInstance, initReviewModal, listen, modalHooks, report, retainForms, submitUnrouted })
 host('debug.public', { attach, defined, listeners })
 // debug mode for one page view
 if (config.debug?.url && new URLSearchParams(location.search).has('glsr-debug')) {
