@@ -8,11 +8,14 @@ use GeminiLabs\SiteReviews\Defaults\ShortcodeApiFetchDefaults;
 class RestShortcodeController extends AbstractRestController
 {
     /**
+     * The options include the users of the site, so the route asks for the capability
+     * that shows the reviews in the admin.
+     *
      * @return true|\WP_Error
      */
     public function checkShortcodePermission(\WP_REST_Request $request)
     {
-        if (!is_user_logged_in()) {
+        if (!glsr()->can('edit_posts')) {
             $error = _x('Sorry, you are not allowed to do that.', 'admin-text', 'site-reviews');
             return new \WP_Error('rest_forbidden_context', $error, [
                 'status' => rest_authorization_required_code(),

@@ -203,6 +203,23 @@ test('refuses to render a shortcode for a logged out visitor', function () {
     expect($response->get_status())->toBe(401);
 });
 
+test('the option lists, which include the users of the site, are refused to a user who cannot see the reviews', function () {
+    createUser(['display_name' => 'Somebody Searchable', 'role' => 'subscriber']);
+    $search = ['option' => 'assigned_users', 'search' => 'Searchable'];
+
+    wp_set_current_user(createUser(['role' => 'subscriber']));
+    foreach (['assigned_posts', 'assigned_users', 'author'] as $option) {
+        $response = restRequest('GET', '/'.REST_NS.'/shortcode/site_reviews', ['option' => $option]);
+        expect($response->get_status())->toBe(403);
+        expect($response->get_data()['code'])->toBe('rest_forbidden_context');
+    }
+
+    wp_set_current_user(createUser(['role' => 'contributor']));
+    $response = restRequest('GET', '/'.REST_NS.'/shortcode/site_reviews', $search);
+    expect($response->get_status())->toBe(200);
+    expect(array_column($response->get_data(), 'title'))->toContain('Somebody Searchable');
+});
+
 /*
  * =============================================================================
  * WHO MAY DO WHAT
