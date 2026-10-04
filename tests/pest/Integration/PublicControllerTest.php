@@ -1,6 +1,7 @@
 <?php
 
 use GeminiLabs\SiteReviews\Commands\FetchPagedReviews;
+use GeminiLabs\SiteReviews\Compat\Controllers\AjaxController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Url;
@@ -73,7 +74,7 @@ test('a visitor can fetch an approved review', function () {
     // page without a reload.
     $review = createReview(['content' => 'The room was lovely.']);
 
-    $response = $this->jsonSentBy(fn () => glsr(PublicController::class)->approvedReviewAjax(
+    $response = $this->jsonSentBy(fn () => glsr(AjaxController::class)->approvedReviewAjax(
         new Request(['review_id' => $review->ID])
     ));
 
@@ -88,7 +89,7 @@ test('a review awaiting moderation is not handed to anybody who asks for it', fu
     // the reviews the owner is holding back precisely because they do not want them seen.
     $pending = createReview(['content' => 'Held back for a reason.', 'is_approved' => false]);
 
-    $response = $this->jsonSentBy(fn () => glsr(PublicController::class)->approvedReviewAjax(
+    $response = $this->jsonSentBy(fn () => glsr(AjaxController::class)->approvedReviewAjax(
         new Request(['review_id' => $pending->ID])
     ));
 
@@ -98,7 +99,7 @@ test('a review awaiting moderation is not handed to anybody who asks for it', fu
 
 test('an id that is not a review at all is refused', function () {
     // A page, a post, an attachment, or nothing — the id comes from the browser.
-    $response = $this->jsonSentBy(fn () => glsr(PublicController::class)->approvedReviewAjax(
+    $response = $this->jsonSentBy(fn () => glsr(AjaxController::class)->approvedReviewAjax(
         new Request(['review_id' => createPost()])
     ));
 
@@ -116,10 +117,10 @@ test('the second page of reviews is fetched without reloading the page', functio
         return $matches[1];
     };
 
-    $firstPage = $this->jsonSentBy(fn () => glsr(PublicController::class)->fetchPagedReviewsAjax(
+    $firstPage = $this->jsonSentBy(fn () => glsr(AjaxController::class)->fetchPagedReviewsAjax(
         pagedRequest(['display' => 2], 1)
     ));
-    $response = $this->jsonSentBy(fn () => glsr(PublicController::class)->fetchPagedReviewsAjax(
+    $response = $this->jsonSentBy(fn () => glsr(AjaxController::class)->fetchPagedReviewsAjax(
         pagedRequest(['display' => 2], 2)
     ));
 
@@ -138,7 +139,7 @@ test('a paged request without a url still answers, with links to the home page',
     // used to throw a TypeError that HookProxy logged, and the sender got a bare "0".
     createReviews(6);
 
-    $response = $this->jsonSentBy(fn () => glsr(PublicController::class)->fetchPagedReviewsAjax(
+    $response = $this->jsonSentBy(fn () => glsr(AjaxController::class)->fetchPagedReviewsAjax(
         new Request(['atts' => ['display' => 2], 'page' => 2])
     ));
 
@@ -152,7 +153,7 @@ test('the pagination it returns is unwrapped, because the page already has the w
     // sending the wrapper back would nest a second one inside it on every page change.
     createReviews(6);
 
-    $response = $this->jsonSentBy(fn () => glsr(PublicController::class)->fetchPagedReviewsAjax(
+    $response = $this->jsonSentBy(fn () => glsr(AjaxController::class)->fetchPagedReviewsAjax(
         pagedRequest(['display' => 2], 2)
     ));
 
@@ -175,7 +176,7 @@ test('the browser cannot smuggle an attribute the shortcode does not know', func
     // junk is ignored and the request renders normally.
     createReviews(3);
 
-    $response = $this->jsonSentBy(fn () => glsr(PublicController::class)->fetchPagedReviewsAjax(
+    $response = $this->jsonSentBy(fn () => glsr(AjaxController::class)->fetchPagedReviewsAjax(
         pagedRequest(['display' => 2, 'a_key_nobody_declared' => '<script>alert(1)</script>'])
     ));
 

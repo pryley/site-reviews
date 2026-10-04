@@ -1,6 +1,7 @@
 /** global: GLSR, jQuery */
 /* jshint -W014 */
 
+import config from '@/public/config.js';
 import Ajax from '@/admin/ajax.js';
 
 const Sync = function () {
@@ -22,7 +23,7 @@ Sync.prototype = {
 
     onSync_: function (ev) {
         ev.preventDefault();
-        this.service = jQuery('[name="'+GLSR.nameprefix+'[service]"]').val();
+        this.service = jQuery('[name="'+config.nameprefix+'[service]"]').val();
         if (this.service) {
             this.watchSyncStatus_(true);
             this.syncFetch_();

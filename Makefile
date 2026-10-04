@@ -154,7 +154,8 @@ stubs\:update: ## Regenerate the third-party stubs from tests/bin/stubs-manifest
 	XDEBUG_MODE=off php -d memory_limit=4G tests/bin/generate-stubs.php $(SLUGS)
 
 .PHONY: test
-test: env-check ## Run the four main Pest suites inside wp-env (see tests/pest/README.md)
+test: env-check ## Run the JavaScript suite, then the four main Pest suites inside wp-env (see tests/pest/README.md)
+	npm run test:js
 	$(WPENV) env XDEBUG_MODE=off $(COMPOSER) test
 
 .PHONY: test\:all
