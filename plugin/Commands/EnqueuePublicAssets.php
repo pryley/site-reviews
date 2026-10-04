@@ -6,11 +6,63 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
 use GeminiLabs\SiteReviews\Modules\Assets\AssetCss;
 use GeminiLabs\SiteReviews\Modules\Assets\AssetJs;
+use GeminiLabs\SiteReviews\Modules\Assets\CompatScript;
+use GeminiLabs\SiteReviews\Modules\Assets\InlineScript;
 use GeminiLabs\SiteReviews\Modules\Captcha;
 use GeminiLabs\SiteReviews\Modules\Style;
 
 class EnqueuePublicAssets extends AbstractCommand
 {
+    public function config(): array
+    {
+        $style = glsr(Style::class);
+        return [
+            'captcha' => $this->captcha(),
+            'modal' => [
+                'wrappedBy' => glsr()->filterArray('modal_wrapped_by', ['block']),
+            ],
+            'nameprefix' => glsr()->id,
+            'pagination' => [
+                'fixed' => $this->getFixedSelectorsForPagination(),
+                'urlParameter' => glsr(OptionManager::class)->getBool('settings.reviews.pagination.url_parameter')
+                    ? glsr()->constant('PAGED_QUERY_VAR')
+                    : false,
+            ],
+            'rating' => [
+                'clearable' => false,
+                'tooltip' => __('Select a Rating', 'site-reviews'),
+            ],
+            'request' => [
+                'ajax' => [
+                    'action' => glsr()->prefix.'public_action',
+                    'rest' => glsr()->prefix.'rest_request',
+                    'url' => admin_url('admin-ajax.php'),
+                ],
+                'nonce' => is_user_logged_in() ? wp_create_nonce('wp_rest') : false,
+                'url' => esc_url_raw(rest_url(glsr()->id.'/v1/')),
+            ],
+            'text' => [
+                'closeModal' => __('Close Modal', 'site-reviews'),
+            ],
+            'validation' => [
+                'field' => $style->defaultClasses('field'),
+                'fieldError' => $style->validation('field_error'),
+                'fieldHidden' => $style->validation('field_hidden'),
+                'fieldMessage' => $style->validation('field_message'),
+                'fieldRequired' => $style->validation('field_required'),
+                'fieldValid' => $style->validation('field_valid'),
+                'form' => $style->defaultClasses('form'),
+                'formError' => $style->validation('form_error'),
+                'formMessage' => $style->validation('form_message'),
+                'formMessageFailed' => $style->validation('form_message_failed'),
+                'formMessageSuccess' => $style->validation('form_message_success'),
+                'inputError' => $style->validation('input_error'),
+                'inputValid' => $style->validation('input_valid'),
+                'strings' => glsr(ValidationStringsDefaults::class)->defaults(),
+            ],
+        ];
+    }
+
     public function enqueueScripts(): void
     {
         if (!glsr()->filterBool('assets/js', true)) {
@@ -23,7 +75,19 @@ class EnqueuePublicAssets extends AbstractCommand
         ]);
         wp_enqueue_script(glsr()->id);
         wp_add_inline_script(glsr()->id, $this->inlineScript(), 'before');
-        wp_add_inline_script(glsr()->id, glsr()->filterString('enqueue/public/inline-script/after', ''));
+        $compat = glsr(CompatScript::class);
+        $args = [
+            'in_footer' => true,
+            'strategy' => 'defer',
+        ];
+        $last = glsr()->id;
+        // the optimized script holds the compat script
+        if ($compat->isEnabled('public') && !(glsr(AssetJs::class)->canOptimize() && glsr(AssetJs::class)->isOptimized())) {
+            $last = $compat->scriptHandle('public');
+            wp_enqueue_script($last, $compat->url('public'), [glsr()->id], glsr()->version, $args);
+        }
+        // a script added with this filter can read a deprecated key as it is parsed
+        wp_add_inline_script($last, glsr()->filterString('enqueue/public/inline-script/after', ''));
         glsr(AssetJs::class)->optimize();
     }
 
@@ -46,45 +110,7 @@ class EnqueuePublicAssets extends AbstractCommand
 
     public function inlineScript(): string
     {
-        $urlparameter = glsr(OptionManager::class)->getBool('settings.reviews.pagination.url_parameter')
-            ? glsr()->constant('PAGED_QUERY_VAR')
-            : false;
-        $variables = [
-            'action' => glsr()->prefix.'public_action',
-            'addons' => [],
-            'ajax_pagination' => $this->getFixedSelectorsForPagination(),
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'captcha' => glsr(Captcha::class)->config(),
-            'modal_wrapped_by' => glsr()->filterarray('modal_wrapped_by', ['block']),
-            'nameprefix' => glsr()->id,
-            // A wp_rest nonce is only emitted for logged-in page loads, which page caches
-            // exclude. Anonymous pages stay nonce-free so a cached page cannot serve a stale
-            // nonce, which the REST API rejects with a 403 before the permission callback.
-            'rest_nonce' => is_user_logged_in() ? wp_create_nonce('wp_rest') : false,
-            'rest_url' => esc_url_raw(rest_url(glsr()->id.'/v1/')),
-            'stars_config' => [
-                'clearable' => false,
-                'tooltip' => __('Select a Rating', 'site-reviews'),
-            ],
-            'state' => [
-                'popstate' => false,
-            ],
-            'text' => [
-                'close_modal' => __('Close Modal', 'site-reviews'),
-            ],
-            'url_parameter' => $urlparameter,
-            'validation_config' => array_merge(
-                [
-                    'field' => glsr(Style::class)->defaultClasses('field'),
-                    'form' => glsr(Style::class)->defaultClasses('form'),
-                ],
-                glsr(Style::class)->validation
-            ),
-            'validation_strings' => glsr(ValidationStringsDefaults::class)->defaults(),
-            'version' => glsr()->version,
-        ];
-        $variables = glsr()->filterArray('enqueue/public/localize', $variables);
-        return $this->buildInlineScript($variables);
+        return glsr(InlineScript::class)->build('public', $this->config());
     }
 
     public function inlineStyles(): string
@@ -103,15 +129,16 @@ class EnqueuePublicAssets extends AbstractCommand
         return glsr()->filterString('enqueue/public/inline-styles', $inlineCss, $inlineConfig);
     }
 
-    protected function buildInlineScript(array $variables): string
+    protected function captcha(): array
     {
-        $script = 'window.hasOwnProperty("GLSR")||(window.GLSR={Event:{on:()=>{}}});';
-        foreach ($variables as $key => $value) {
-            $script .= sprintf('GLSR.%s=%s;', $key, (string) wp_json_encode($value, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE));
+        $config = glsr(Captcha::class)->config();
+        foreach (['captcha_type' => 'captchaType', 'token_field' => 'tokenField'] as $key => $name) {
+            if (array_key_exists($key, $config)) {
+                $config[$name] = $config[$key];
+                unset($config[$key]);
+            }
         }
-        $pattern = '/\"([a-zA-Z]+)\"(:[{\[\"])/'; // remove unnecessary quotes surrounding object keys
-        $optimizedScript = preg_replace($pattern, '$1$2', $script);
-        return glsr()->filterString('enqueue/public/inline-script', $optimizedScript, $script, $variables);
+        return $config;
     }
 
     protected function getFixedSelectorsForPagination(): array

@@ -1,5 +1,6 @@
 /** global: editor, GLSR, jQuery, tinymce, tinyMCEPreInit */
 
+import config from '@/public/config.js';
 import Ajax from '@/admin/ajax.js';
 
 const Shortcode = function (selector) {
@@ -51,7 +52,7 @@ Shortcode.prototype = {
         jQuery('body').append('<textarea id="scTemp" style="display:none!important;"/>');
         tinymce.init({
             elements: 'scTemp',
-            external_plugins: GLSR.tinymce,
+            external_plugins: config.tinymce.plugins,
             mode: 'exact',
             plugins: ['glsr_shortcode', 'wplink'],
         });
@@ -220,7 +221,7 @@ Shortcode.prototype = {
     validateAttributes_: function (currentWindow) {
         var field;
         var is_valid = true;
-        var requiredAttributes = GLSR.shortcodes[this.current] ?? {};
+        var requiredAttributes = config.tinymce.required[this.current] ?? {};
         for (var id in requiredAttributes) {
             if (!requiredAttributes.hasOwnProperty(id)) continue;
             field = currentWindow.find('#' + id)[0];

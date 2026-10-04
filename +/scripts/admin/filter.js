@@ -1,5 +1,7 @@
 /** global: GLSR, jQuery */
 
+import config from '@/public/config.js';
+
 const aria = (el, prop, bool) => el.attr(`aria-${prop}`, bool ? 'true' : 'false');
 
 const defaults = {
@@ -46,7 +48,7 @@ export class Filter {
     }
 
     defaults() {
-        return _.sortBy(_.map(GLSR.filters[this.valueEl.attr('name')], (name, id) => ({ id, name })), 'name');
+        return _.sortBy(_.map(config.filters[this.valueEl.attr('name')], (name, id) => ({ id, name })), 'name');
     }
 
     init() {
@@ -105,20 +107,20 @@ export class Filter {
     }
 
     onSearchKeydown(ev) {
-        if (GLSR.keys.ENTER === ev.which) {
+        if ('Enter' === ev.key) {
             ev.preventDefault()
             const selectedEl = this.resultsEl.find(`.${this.options.classes.selected}`);
             if (selectedEl) {
                 selectedEl.trigger('mousedown')
             }
-        } else if (GLSR.keys.ESC === ev.which) {
+        } else if ('Escape' === ev.key) {
             this.resultsHide()
             _.debounce(() => this.selectedEl.focus(), 10)()
-        } else if (GLSR.keys.DOWN === ev.which) {
+        } else if ('ArrowDown' === ev.key) {
             this.resultsNavigate(1)
-        } else if (GLSR.keys.UP === ev.which) {
+        } else if ('ArrowUp' === ev.key) {
             this.resultsNavigate(-1)
-        } else if (GLSR.keys.TAB === ev.which) {
+        } else if ('Tab' === ev.key) {
             ev.preventDefault()
         }
     }
@@ -141,23 +143,23 @@ export class Filter {
     }
 
     onSelectedKeydown(ev) {
-        if (~[GLSR.keys.DOWN, GLSR.keys.SPACE, GLSR.keys.UP].indexOf(ev.which)) {
+        if (['ArrowDown', ' ', 'ArrowUp'].includes(ev.key)) {
             ev.preventDefault()
             this.resultsShow()
-        } else if (GLSR.keys.ESC === ev.which) {
+        } else if ('Escape' === ev.key) {
             this.selectedEl.blur()
         }
     }
 
     request() {
         const data = {};
-        data[GLSR.nameprefix] = {
+        data[config.nameprefix] = {
             _action: this.action,
-            _nonce: GLSR.nonce[this.action],
+            _nonce: config.nonce[this.action],
             exclude: this.options.exclude,
             search: this.searchEl.val(),
         };
-        return wp.ajax.post(GLSR.action, data).always(() => (delete this.xhr))
+        return wp.ajax.post(config.request.ajax.action, data).always(() => (delete this.xhr))
     }
 
     requestAbort() {
@@ -244,7 +246,7 @@ export class Filter {
 
     templateSearching() {
         const template = _.template('<span data-searching><span><%= text %></span><span class="spinner"></span></span>');
-        return jQuery(template({ text: GLSR.text.searching }));
+        return jQuery(template({ text: config.text.searching }));
     }
 };
 

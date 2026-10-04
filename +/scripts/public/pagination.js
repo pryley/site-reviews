@@ -1,14 +1,16 @@
 import Button from '@/public/button.js';
-import Request from '@/public/request.js';
+import config from '@/public/config.js';
 import { historyState } from '@/public/helpers.js';
+import report from '@/public/report.js';
+import Request from '@/public/request.js';
 
 const classNames = {
     hide: 'glsr-hide',
 }
 
-const config = {
-    scrollOffset: 16,
-    scrollTime: 468,
+const scroll = {
+    offset: 16,
+    time: 468,
 }
 
 const loader = (el) => {
@@ -35,7 +37,7 @@ const selectors = {
 }
 
 class Pagination {
-    constructor (wrapperEl, paginationEl) {
+    constructor (wrapperEl, paginationEl, onPaginated = () => {}) {
         this.events = {
             button: {
                 click: this._onLoadMore.bind(this),
@@ -47,6 +49,7 @@ class Pagination {
                 popstate: this._onPopstate.bind(this),
             },
         };
+        this.onPaginated = onPaginated;
         this.paginationEl = paginationEl;
         this.reviewsEl = wrapperEl.querySelector(selectors.reviews);
         this.wrapperEl = wrapperEl;
@@ -62,7 +65,7 @@ class Pagination {
         if (current) {
             const data = this._data(current);
             const nextLink = current.nextElementSibling;
-            if (data && nextLink && 2 === +nextLink.dataset.page && GLSR.url_parameter) { // window loaded page 1
+            if (data && nextLink && 2 === +nextLink.dataset.page && config.pagination.urlParameter) { // window loaded page 1
                 window.history.replaceState(historyState(data), '', window.location)
             }
         }
@@ -120,7 +123,8 @@ class Pagination {
             this.paginationEl.innerHTML = '';
         }
         this.reviewsEl.insertAdjacentHTML('beforeend', response.reviews)
-        GLSR.Event.trigger('site-reviews/pagination/handle', response, this)
+        report('pagination', { id: this.wrapperEl.id, page: request.page, url: request.url })
+        this.onPaginated(response)
     }
 
     _handlePagination (linkEl, request, response, success) {
@@ -129,7 +133,8 @@ class Pagination {
             return
         }
         this._paginate(response)
-        if (GLSR.url_parameter) {
+        report('pagination', { id: this.wrapperEl.id, page: request.page, url: request.url })
+        if (config.pagination.urlParameter) {
             window.history.pushState(historyState(request), '', linkEl.href) // add a new entry to browser History
         }
     }
@@ -177,14 +182,9 @@ class Pagination {
     }
 
     _onPopstate (ev) {
-        GLSR.Event.trigger('site-reviews/pagination/popstate', ev, this)
         if (ev.state && 'fetch-paged-reviews' === ev.state._action) {
             this._loading()
             Request.pagedReviews(ev.state).then(result => this._handlePopstate(ev.state, result.data, result.success))
-        } else if (ev.state && ev.state[`${GLSR.nameprefix}[_action]`]) {
-            // a history entry written by the previous script version
-            this._loading()
-            GLSR.ajax.post(ev.state, this._handlePopstate.bind(this, ev.state))
         }
     }
 
@@ -195,11 +195,11 @@ class Pagination {
         this.init()
         this._scrollToTop()
         this._loaded()
-        GLSR.Event.trigger('site-reviews/pagination/handle', response, this)
+        this.onPaginated(response)
     }
 
     _scrollStep (context) {
-        const elapsed = Math.min(1, (window.performance.now() - context.startTime) / config.scrollTime);
+        const elapsed = Math.min(1, (window.performance.now() - context.startTime) / scroll.time);
         const easedValue = 0.5 * (1 - Math.cos(Math.PI * elapsed));
         const currentY = context.startY + (context.endY - context.startY) * easedValue;
         window.scroll(0, context.offset + currentY) // set the starting scoll position
@@ -209,8 +209,8 @@ class Pagination {
     }
 
     _scrollToTop () {
-        let offset = config.scrollOffset;
-        [].forEach.call(GLSR.ajax_pagination, selector => {
+        let offset = scroll.offset;
+        [].forEach.call(config.pagination.fixed, selector => {
             const fixedEl = document.querySelector(selector);
             if (fixedEl && 'fixed' === window.getComputedStyle(fixedEl).getPropertyValue('position')) {
                 offset = offset + fixedEl.clientHeight;

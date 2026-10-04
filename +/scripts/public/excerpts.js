@@ -13,13 +13,17 @@ const selectors = {
 
 class Excerpts {
     constructor (el) {
+        this.el = el || document;
         this.events = {
             click: this._onClick.bind(this),
         };
-        (el || document).querySelectorAll(selectors.hiddenText).forEach(el => this.init(el));
     }
 
-    init (el) {
+    init () {
+        this.el.querySelectorAll(selectors.hiddenText).forEach(el => this._init(el));
+    }
+
+    _init (el) {
         const readMoreLink = this._insertLink(el)
         if (!readMoreLink) return;
         if ('expand' === el.dataset.trigger) {

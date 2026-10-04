@@ -1,13 +1,15 @@
-/** global: FormData, GLSR */
+/** global: FormData */
 
+import config from '@/public/config.js';
+import report from '@/public/report.js';
 import xhr from '@/public/xhr.js';
-
-// codes that send only this request to admin-ajax (a stale nonce, a removed route)
-const FALLBACK_CODES = ['rest_cookie_invalid_nonce', 'rest_no_route'];
 
 // codes that say the REST API is unavailable (security plugin, login requirement, etc.)
 const REST_UNAVAILABLE_CODES = ['rest_disabled', 'rest_forbidden', 'rest_not_logged_in'];
 
+const HEADERS = { 'X-Requested-With': 'XMLHttpRequest' };
+
+let nonce = config.request?.nonce;
 let noticeShown = false;
 let restUnavailable = null;
 
@@ -17,74 +19,25 @@ class FallbackError extends Error {}
 // this request and the rest of the page go to admin-ajax
 class RestUnavailableError extends FallbackError {}
 
-export const legacyData = (action, values = {}) => {
-    let data = {};
-    values._action = action;
-    for (let key of Object.keys(values)) {
-        data[`${GLSR.nameprefix}[${key}]`] = values[key];
-    }
-    return data;
-}
-
-export const legacyPost = async (formOrData, headers = {}) => {
-    try {
-        const { text } = await xhr(GLSR.ajax_url, { body: _legacyBody(formOrData), headers });
-        const json = JSON.parse(text);
-        return { data: json.data, success: json.success };
-    } catch (e) {
-        return { data: { message: e.message }, success: false };
-    }
-}
+const isInvalidNonce = (json) => 'rest_cookie_invalid_nonce' === json?.code;
 
 const pagedReviews = (values) => send({
-    legacy: () => {
-        const legacyValues = { page: values.page, schema: values.schema, url: values.url };
-        Object.entries(values.atts || {}).forEach(([key, value]) => legacyValues[`atts][${key}`] = value);
-        return legacyData('fetch-paged-reviews', legacyValues);
-    },
     method: 'GET',
     params: { atts: values.atts, page: values.page, schema: values.schema, url: values.url },
     path: 'render/reviews',
 })
 
 const review = (reviewId, values = {}) => send({
-    legacy: () => legacyData(values.verified ? 'verified-review' : 'approved-review', Object.assign({}, values, { review_id: reviewId })),
     method: 'GET',
     params: values,
     path: `render/reviews/${reviewId}`,
 })
 
-// The submissions route creates a review. A form with another action is
-// an addon's, and its action is routed by admin-ajax.
-const submit = (formData) => {
-    const action = formData.get(`${GLSR.nameprefix}[_action]`);
-    if (action && 'submit-review' !== action) {
-        return legacyPost(formData);
-    }
-    return send({
-        body: formData,
-        legacy: () => formData,
-        method: 'POST',
-        path: 'submissions',
-    });
-}
-
-const _legacyBody = (data) => {
-    let formData = new FormData();
-    const objectType = Object.prototype.toString.call(data);
-    if ('[object FormData]' === objectType) {
-        formData = data;
-    }
-    if ('[object HTMLFormElement]' === objectType) {
-        formData = new FormData(data);
-    }
-    if ('[object Object]' === objectType) {
-        Object.keys(data).forEach(key => formData.append(key, data[key]));
-    }
-    formData.append('action', GLSR.action);
-    formData.append('_ajax_request', true);
-    return formData;
-}
+const submit = (formData) => send({
+    body: formData,
+    method: 'POST',
+    path: 'submissions',
+})
 
 const _notice = (reason) => {
     if (!noticeShown) {
@@ -93,17 +46,38 @@ const _notice = (reason) => {
     }
 }
 
-const _rest = async (method, path, params, body) => {
+const _query = (params, search = new URLSearchParams()) => {
+    Object.entries(params || {}).forEach(([key, value]) => {
+        if (undefined === value || null === value) return;
+        if ('[object Object]' === Object.prototype.toString.call(value)) {
+            Object.entries(value).forEach(([k, v]) => search.append(`${key}[${k}]`, v));
+        } else {
+            search.append(key, value);
+        }
+    });
+    return search;
+}
+
+// as wp.apiFetch does when a nonce has expired; a visitor whose login has ended gets none
+const _refreshNonce = async () => {
+    try {
+        const url = new URL(config.request.ajax.url);
+        url.searchParams.set('action', 'rest-nonce');
+        const response = await fetch(url);
+        nonce = response.ok ? await response.text() : false;
+    } catch (e) {
+        nonce = false;
+    }
+}
+
+const _rest = async (method, path, params, body, isRetry = false) => {
     if (restUnavailable) {
         throw restUnavailable;
     }
-    if (!GLSR.rest_url) {
+    if (!config.request?.url) {
         throw new RestUnavailableError('no REST URL');
     }
-    const headers = { 'X-Requested-With': 'XMLHttpRequest' };
-    if (GLSR.rest_nonce) {
-        headers['X-WP-Nonce'] = GLSR.rest_nonce;
-    }
+    const headers = nonce ? { ...HEADERS, 'X-WP-Nonce': nonce } : HEADERS;
     const response = await fetch(_restUrl(path, params), { body, headers, method });
     if ('function' !== typeof response?.json) {
         throw new RestUnavailableError('window.fetch has been replaced by another script and returned no Response');
@@ -112,52 +86,77 @@ const _rest = async (method, path, params, body) => {
         throw new FallbackError(`unexpected response: HTTP ${response.status}`);
     }
     const json = await response.json();
-    if (response.ok) {
-        return { data: json, success: true };
+    if (isInvalidNonce(json) && !isRetry) {
+        await _refreshNonce()
+        return _rest(method, path, params, body, true);
     }
-    if (FALLBACK_CODES.includes(json.code)) {
-        throw new FallbackError(json.code);
+    if (!response.ok) {
+        if ('rest_no_route' === json.code) {
+            throw new FallbackError(json.code); // a removed route says nothing about the others
+        }
+        if ([401, 403].includes(response.status) || REST_UNAVAILABLE_CODES.includes(json.code)) {
+            throw new RestUnavailableError(json.code || `HTTP ${response.status}`);
+        }
     }
-    if ([401, 403].includes(response.status) || REST_UNAVAILABLE_CODES.includes(json.code)) {
-        throw new RestUnavailableError(json.code || `HTTP ${response.status}`);
-    }
-    return { data: json, success: false }; // a final error from a Site Reviews route
+    return { data: json, status: response.status, success: response.ok }; // a 4xx here is the final answer of a route
 }
 
-const _restUrl = (path, params = {}) => {
-    const url = new URL(GLSR.rest_url);
+const _restUrl = (path, params) => {
+    const url = new URL(config.request.url);
     if (url.searchParams.has('rest_route')) { // plain permalinks
         url.searchParams.set('rest_route', url.searchParams.get('rest_route').replace(/\/$/, '') + '/' + path);
     } else {
         url.pathname = url.pathname.replace(/\/$/, '') + '/' + path;
     }
-    Object.entries(params || {}).forEach(([key, value]) => {
-        if (undefined === value || null === value) return;
-        if ('[object Object]' === Object.prototype.toString.call(value)) {
-            Object.entries(value).forEach(([k, v]) => url.searchParams.append(`${key}[${k}]`, v));
-        } else {
-            url.searchParams.append(key, value);
-        }
-    });
+    _query(params, url.searchParams)
     return url;
 }
 
-/**
- * The generic transport: REST first, admin-ajax on any signal that the REST
- * API itself is unavailable. `legacy` is a thunk building the admin-ajax
- * body (see legacyData) so the fallback costs nothing on the REST path.
- * Public surface — addons ride it for their own routes (GLSR.request).
- */
-const send = async ({ body, legacy, method, params, path }) => {
+// the same request over admin-ajax (RestController::ajaxResponse)
+const _tunnel = async (method, path, params, body, isRetry = false) => {
+    const data = new FormData();
+    if (body instanceof FormData) {
+        body.forEach((value, key) => data.append(key, value))
+    } else {
+        Object.entries(body || {}).forEach(([key, value]) => data.append(key, value))
+    }
+    data.append('action', config.request.ajax.rest)
+    data.append('_rest_method', method)
+    data.append('_rest_path', path)
+    data.append('_rest_query', _query(params).toString())
+    if (nonce) {
+        data.append('_rest_nonce', nonce)
+    }
     try {
-        return await _rest(method, path, params, body);
+        const { ok, status, text } = await xhr(config.request.ajax.url, { body: data });
+        const json = JSON.parse(text);
+        if (isInvalidNonce(json) && !isRetry) {
+            await _refreshNonce()
+            return _tunnel(method, path, params, body, true);
+        }
+        return { data: json, status, success: ok };
+    } catch (e) {
+        return { data: { message: e.message }, status: 0, success: false };
+    }
+}
+
+// REST first, admin-ajax on any sign that the REST API itself is unavailable
+const send = async ({ body, method = 'GET', params, path }) => {
+    const start = Date.now();
+    let result;
+    let transport = 'REST';
+    try {
+        result = await _rest(method, path, params, body);
     } catch (e) {
         _notice(e.message);
         if (e instanceof RestUnavailableError) {
             restUnavailable = e;
         }
-        return legacyPost(legacy());
+        transport = 'admin-ajax';
+        result = await _tunnel(method, path, params, body);
     }
+    report('request', { method, ms: Date.now() - start, path, status: result.status, transport })
+    return result;
 }
 
-export default { data: legacyData, pagedReviews, review, send, submit }
+export default { pagedReviews, review, send, submit }

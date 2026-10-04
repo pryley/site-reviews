@@ -1,3 +1,5 @@
+import config from '@/public/config.js';
+
 jQuery($ => {
     const __ = wp.i18n.__;
     const form = document.querySelector('#rollback-plugin');
@@ -23,7 +25,7 @@ jQuery($ => {
     }
     const onError = (response) => {
         loaded();
-        GLSR.notices.error(response.error ?? GLSR.text.rollback_error);
+        GLSR.Notice.error(response.error ?? config.text.rollbackError);
         console.error(response);
     }
     const onRollbackError = (response) => {
@@ -42,7 +44,7 @@ jQuery($ => {
             error = response.statusText;
         }
         error = error.replace( /<[\/a-z][^<>]*>/gi, '' );
-        GLSR.notices.error((response.error ?? GLSR.text.rollback_error) + ': ' + error);
+        GLSR.Notice.error((response.error ?? config.text.rollbackError) + ': ' + error);
     }
     const onSuccess = (response) => {
         wp.ajax.send({
@@ -58,13 +60,13 @@ jQuery($ => {
     }
     $(form).on('submit', (ev) => {
         ev.preventDefault();
-        let data = { _ajax_request: true, action: GLSR.action };
+        let data = { _ajax_request: true, action: config.request.ajax.action };
         let request = {
             _action: form.action.value,
             _nonce: form._wpnonce.value,
             version: form.version.value,
         };
-        data[GLSR.nameprefix] = request;
+        data[config.nameprefix] = request;
         loading();
         wp.ajax.send({
             data,

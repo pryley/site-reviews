@@ -1,3 +1,4 @@
+import config from '@/public/config.js';
 import { classListSelector, parseJson } from '@/public/helpers.js';
 
 const checks = {
@@ -54,8 +55,8 @@ const isNumber = (value) => '' !== String(value).trim() && !isNaN(Number(value))
 
 class Conditions {
     constructor (Form) {
-        this.config = GLSR.validation_config;
-        this.elements = Array.from(Form.form.elements);
+        this.config = config.validation;
+        this.elements = Array.from(Form.el.elements);
         this.event = this.onChange.bind(this);
         this.Form = Form;
     }
@@ -96,14 +97,14 @@ class Conditions {
             const isAny = results.length && 'any' === el.conditions.criteria;
             const field = el.closest(classListSelector(this.config.field));
             if (isAll || isAny) {
-                field.classList.remove(this.config.field_hidden);
+                field.classList.remove(this.config.fieldHidden);
                 this.Form.validation.initField(el) // add validation to the field
             } else {
                 if (el.validation) {
                     this.Form.validation.destroyField(el.validation) // remove validation from the hidden field
                 }
                 this.resetValue(el);
-                field.classList.add(this.config.field_hidden)
+                field.classList.add(this.config.fieldHidden)
             }
         })
     }
@@ -113,7 +114,7 @@ class Conditions {
         if ('select' === type) {
             Array.from(el.options).forEach(o => (o.selected = o.defaultSelected))
         } else if (['checkbox', 'radio'].includes(type)) {
-            let elements = this.Form.form.elements[el.name];
+            let elements = this.Form.el.elements[el.name];
             Array.from(elements.length ? elements : [elements]).forEach(e => (e.checked = e.defaultChecked))
         } else {
             el.value = el.defaultValue || '';
@@ -131,7 +132,7 @@ class Conditions {
     value (el) {
         const name = el.getAttribute('name');
         const type = fieldtype(el);
-        const elements = this.Form.form.elements[name];
+        const elements = this.Form.el.elements[name];
         if ('radio' === type) {
             return elements.value
         }

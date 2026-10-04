@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Compat\Controllers\AjaxController;
 use GeminiLabs\SiteReviews\Controllers\DeactivationController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\AbstractColumnFilter;
@@ -88,7 +89,7 @@ test('a verification landing whose review has vanished answers with an error', f
     // the token is genuine — it names the review — but the review is gone
     $token = glsr(\GeminiLabs\SiteReviews\Modules\Encryption::class)->encrypt('999999001');
 
-    $response = $this->jsonSentBy(fn () => glsr(VerificationController::class)->verifiedReviewAjax(
+    $response = $this->jsonSentBy(fn () => glsr(AjaxController::class)->verifiedReviewAjax(
         new Request(['review_id' => 999999001, 'verified' => $token])
     ));
 

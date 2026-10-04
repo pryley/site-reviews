@@ -1,17 +1,22 @@
 /** global: GLSR, jQuery, StarRating, wp */
 
+import config from '@/public/config.js';
 import Ajax from '@/admin/ajax.js';
 import ColorPicker from '@/admin/color-picker.js';
-import Event from '@/public/event.js';
+import { adopt, listeners } from '@/public/event.js';
 import Filter from '@/admin/filter.js';
 import Filters from '@/admin/filters.js';
 import Flyoutmenu from '@/admin/flyoutmenu.js';
 import Forms from '@/admin/forms.js';
 import Import from '@/admin/import.js';
+import lib from '@/public/lib.js';
 import Metabox from '@/admin/metabox.js';
-import Notices from '@/admin/notices.js';
+import Notice, { instance as notices } from '@/admin/notice.js';
 import Prism from 'prismjs';
 import PublishAction from '@/admin/publish-action.js';
+import registry, { defined, host } from '@/public/registry.js';
+import report, { attach } from '@/public/report.js';
+import Request from '@/public/request.js';
 import Search from '@/admin/search.js';
 import Sections from '@/admin/sections.js';
 import Shortcode from '@/admin/shortcode.js';
@@ -23,25 +28,20 @@ import TogglePinned from '@/admin/toggle-pinned.js';
 import ToggleVerified from '@/admin/toggle-verified.js';
 import Tools from '@/admin/tools.js';
 import tippy, { followCursor } from 'tippy.js';
-import { debounce, selectText, throttle } from '@/public/helpers.js';
+import dom from '@/public/dom.js';
+import { debounce, fadeIn, fadeOut, isEmpty, parseJson, selectText, throttle } from '@/public/helpers.js';
 
-GLSR.ajax = Ajax;
-// Inert shim: Review Forms <= 3.1.1 calls GLSR.autosize. Textareas now grow with CSS field-sizing.
-GLSR.autosize = Object.assign(() => {}, { destroy: () => {}, update: () => {} });
-GLSR.keys = {
-    ALT: 18,
-    DOWN: 40,
-    ENTER: 13,
-    ESC: 27,
-    SPACE: 32,
-    TAB: 9,
-    UP: 38,
-};
-
-GLSR.Event = Event;
-GLSR.stars = StarRating();
-GLSR.Tippy = { tippy, plugins: { followCursor }}
-GLSR.Utils = { debounce, selectText, throttle };
+GLSR.Event = adopt(GLSR.Event);
+GLSR.lib = lib;
+GLSR.registry = registry;
+host('compat.admin', { Ajax, notices, report, shortcode: () => shortcode })
+host('debug.admin', { attach, defined, listeners })
+GLSR.Request = Request;
+GLSR.Notice = Notice;
+GLSR.Rating = StarRating();
+GLSR.Tinymce = { create: (editorId) => shortcode?.create(editorId) };
+lib.register('tippy', { tippy, plugins: { followCursor } })
+GLSR.Util = { debounce, dom, fadeIn, fadeOut, isEmpty, parseJson, selectText, throttle };
 
 Prism.languages.shortcode = {
     tag: {
@@ -60,6 +60,8 @@ Prism.languages.shortcode = {
     },
 }
 
+let shortcode = null;
+
 function site_reviews_footer_notice () {
     if (jQuery('.glsr-notice-footer').length) {
         jQuery('#wpbody-content').addClass('has-footer-notice');
@@ -68,12 +70,12 @@ function site_reviews_footer_notice () {
 
 jQuery(function ($) {
     Prism.highlightAll();
-    GLSR.notices = new Notices();
-    GLSR.shortcode = new Shortcode('.glsr-mce');
-    GLSR.stars.init('.glsr-field-rating select', { clearable: true });
+    notices()
+    shortcode = new Shortcode('.glsr-mce');
+    GLSR.Rating.init('.glsr-field-rating select', { clearable: true });
 
-    GLSR.Tippy.tippy('.glsr-tooltip', {appendTo: () => document.body});
-    GLSR.Tippy.tippy('.glsr-setting-field button[data-tippy-content]', {appendTo: () => document.body});
+    tippy('.glsr-tooltip', {appendTo: () => document.body});
+    tippy('.glsr-setting-field button[data-tippy-content]', {appendTo: () => document.body});
 
     $('.glsr-tooltip').each((i, el) => {
         const content = el.dataset.tippyContent;
@@ -91,23 +93,23 @@ jQuery(function ($) {
 
     $('.glsr-nav-tab').on('click:tab', (ev, id, $view) => {
         if ('system-info' !== id || 1 === $view.data('isLoaded')) return;
-        const request = wp.ajax.post(GLSR.action, {
-            [GLSR.nameprefix]: {
+        const request = wp.ajax.post(config.request.ajax.action, {
+            [config.nameprefix]: {
                 _action: id,
-                _nonce: GLSR.nonce[id],
+                _nonce: config.nonce[id],
             },
         }).done(response => {
             $view.data('isLoaded', 1)
             $view.find('textarea').val(response.data);
             $view.find('button').removeAttr('disabled');
         }).fail((response, textStatus, errorThrown) => {
-            $view.find('textarea').val(GLSR.text.system_info_failed);
+            $view.find('textarea').val(config.text.systemInfoFailed);
             if (response?.notices) {
-                GLSR.notices.error(response.notices);
+                GLSR.Notice.error(response.notices);
                 return;
             }
-            const error = (500 === response.status) ? GLSR.text.system_info_500 : wp.i18n.sprintf(GLSR.text.system_info_error, response.status, response.responseText);
-            GLSR.notices.error(error);
+            const error = (500 === response.status) ? config.text.systemInfo500 : wp.i18n.sprintf(config.text.systemInfoError, response.status, response.responseText);
+            GLSR.Notice.error(error);
             console.error({ response, textStatus, errorThrown });
         })
     })
@@ -327,7 +329,7 @@ jQuery(function ($) {
             const $icon = $btn.find('.dashicons');
             const label = $icon.hasClass('dashicons-visibility') ? $btn.data('hide') : $btn.data('show');
             $btn.attr('aria-label', label)
-            GLSR.Tippy.tippy($btn.get(0)).setContent(label);
+            tippy($btn.get(0)).setContent(label);
             $icon.toggleClass('dashicons-hidden').toggleClass('dashicons-visibility')
         })
     })
