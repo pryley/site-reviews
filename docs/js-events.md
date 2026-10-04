@@ -1,135 +1,148 @@
 # Javascript Events
 
-Site Reviews use a custom Event Emitting system which can be accessed globally using `GLSR.Event`.
-
-## Available Triggers
-
-**`site-reviews/init`**
-
-This event is fired on DOMContentLoaded to initialise Site Reviews. You can manually trigger this if you need to initialise Site Reviews after DOMContentLoaded.
+Site Reviews has its own events, which any script can listen to with `GLSR.Event`.
 
 ```js
-GLSR.Event.trigger('site-reviews/init') // initialise Site Reviews
+GLSR.Event.on(name, callback, context)     // listens to an event
+GLSR.Event.once(name, callback, context)   // listens to the next time it fires
+GLSR.Event.off(name, callback)             // removes a listener
+GLSR.Event.trigger(name, ...args)          // fires an event of your own
+```
+
+`GLSR.Event.on` can be called before the Site Reviews script has run: the listener is kept and added when it runs.
+
+## Names
+
+An event is named `site-reviews/{module}/{what happened}`, with the module in lower case (`form` for `GLSR.Form`). It states something that has happened; it is never an instruction. To make something happen, call the module (`GLSR.Form.init(root)`) or `GLSR_init(root)`; see [js-api.md](js-api.md).
+
+Every event passes one object with named members.
+
+## Events
+
+**`site-reviews/initialized`**
+
+Site Reviews has set up the reviews, forms and summaries inside a root: the whole page when it loads, or the element given to `GLSR_init(root)`.
+
+```js
+GLSR.Event.on('site-reviews/initialized', ({ root }) => {
+    // root is document, or the element that was set up
+})
+```
+
+**`site-reviews/review/initialized`**
+
+Reviews have been set up: when the page loads, after `GLSR.Review.init(root)`, after a submitted review replaced a list, and after a page change. Use it to do something with reviews that have just appeared.
+
+```js
+GLSR.Event.on('site-reviews/review/initialized', ({ root, instances }) => {
+    // root is document, or the element whose reviews were set up
+    // instances are the lists and single reviews (GLSR.Review) that were set up
+})
+```
+
+**`site-reviews/review/paginated`**
+
+A pagination link or a "load more" button has put new reviews in a list. `site-reviews/review/initialized` follows it for that list.
+
+```js
+GLSR.Event.on('site-reviews/review/paginated', ({ review, response }) => {
+    // review is the list; review.el is its element, review.pagination its pagination
+})
+```
+
+**`site-reviews/form/initialized`**
+
+Forms have been set up.
+
+```js
+GLSR.Event.on('site-reviews/form/initialized', ({ root, instances }) => {
+    // instances are the forms (GLSR.Form) that were set up
+})
+```
+
+**`site-reviews/form/submitted`**
+
+A form was submitted and the server has answered. It fires once for each submission, whether the review was accepted or refused: read `success`. The form already shows its message or its errors. The page has not been updated yet, and a form that redirects has not redirected yet.
+
+```js
+GLSR.Event.on('site-reviews/form/submitted', ({ form, response, success }) => {
+    // form.el is the <form> element
+    // response.message, response.errors, response.review, …
+})
+```
+
+After an accepted review, the list and the summary that the form updates are announced by `site-reviews/review/initialized` and `site-reviews/summary/updated`.
+
+**`site-reviews/summary/updated`**
+
+The content of a rating summary was replaced, which a submitted review does.
+
+```js
+GLSR.Event.on('site-reviews/summary/updated', ({ summary }) => {
+    // summary.el is the element of the summary
+})
+```
+
+**`site-reviews/modal/opened`**
+
+A modal has opened. The event fires directly after the dialog is shown, before the browser draws it, so content that the listener adds at once is there from the first frame.
+
+```js
+GLSR.Event.on('site-reviews/modal/opened', ({ modal, event }) => {
+    // event is the click that opened the modal, if one did
+})
+```
+
+**`site-reviews/modal/closed`**
+
+A modal has closed.
+
+```js
+GLSR.Event.on('site-reviews/modal/closed', ({ modal, event }) => {
+    // do something here...
+})
+```
+
+## `site-reviews/init`
+
+This is the one event that is also an instruction. Triggering it sets up the whole page, as `GLSR_init()` does. A listener that was added before the page was ready runs before the page is set up.
+
+```js
+GLSR.Event.trigger('site-reviews/init') // sets up the whole page
 ```
 
 ```js
 GLSR.Event.on('site-reviews/init', () => {
-    // do something here...
+    // the page is about to be set up
 })
 ```
 
-**`site-reviews/loaded`**
+It does not fire after a review is submitted: the form only sets up the list and the summary that it updates.
 
-This event is fired after Site Reviews is initialised.
+## Deprecated names
 
-```js
-GLSR.Event.on('site-reviews/loaded', () => {
-    // do something here...
-})
-```
+Site Reviews 8.4.0 renamed its events. The old names are deprecated: use the new ones in anything you write. They keep firing, with the arguments they had, through compat mode, which is on by default (see [js-api.md](js-api.md#deprecated-keys)). In debug mode, a script that listens to an old name logs a warning that names its replacement.
 
-**`site-reviews/excerpts/init`**
+| Deprecated | Arguments | Use instead |
+| --- | --- | --- |
+| `site-reviews/loaded` | none | `site-reviews/initialized` |
+| `site-reviews/excerpts/init` | `(reviewsEl)` | `site-reviews/review/initialized` |
+| `site-reviews/modal/init` | none | `site-reviews/review/initialized` |
+| `site-reviews/pagination/init` | none | `site-reviews/review/initialized` |
+| `site-reviews/pagination/handle` | `(response, pagination)` | `site-reviews/review/paginated` |
+| `site-reviews/forms/init` | none | `site-reviews/form/initialized` |
+| `site-reviews/form/handle` | `(response, formEl)` | `site-reviews/form/submitted` |
+| `site-reviews/modal/open` | `(modal, event)` | `site-reviews/modal/opened` |
+| `site-reviews/modal/close` | `(modal, event)` | `site-reviews/modal/closed` |
+| `block:site-reviews/form`, `…/review`, `…/reviews`, `…/summary` | `(el, attributes)` | `site-reviews/initialized` |
 
-This event is fired immediately after Site Reviews is initialised and after every time AJAX pagination is used to initialise the review excerpts.
+- `site-reviews/modal/open` still fires before the dialog is shown; `site-reviews/modal/opened` fires after.
+- Triggering `site-reviews/excerpts/init`, `site-reviews/modal/init`, `site-reviews/pagination/init`, `site-reviews/forms/init` or a `block:` name still starts that work. Call `GLSR.Review.init(root)`, `GLSR.Form.init(root)` or `GLSR_init(root)` instead.
 
-```js
-GLSR.Event.on('site-reviews/excerpts/init', (reviewsEl) => {
-    // do something here...
-})
-```
-
-**`site-reviews/form/handle`**
-
-This event is fired after a review is submitted and the response returned from the server.
-
-```js
-GLSR.Event.on('site-reviews/form/handle', (response, formEl) => {
-    // do something here...
-})
-```
-
-**`site-reviews/modal/init`**
-
-This event is fired immediately after Site Reviews is initialised and after every time AJAX pagination is used to initialise the review modals.
+One event is removed: `site-reviews/pagination/popstate`. It repeated the browser's own event, which you can listen to directly:
 
 ```js
-GLSR.Event.on('site-reviews/modal/init', () => {
-    // do something here...
-})
-```
-
-**`site-reviews/modal/open`**
-
-This event is fired when a modal opens, just before the dialog is shown.
-
-```js
-GLSR.Event.on('site-reviews/modal/open', (Modal, event) => {
-    // do something here...
-})
-```
-
-**`site-reviews/modal/close`**
-
-This event is fired after a modal is closed.
-
-```js
-GLSR.Event.on('site-reviews/modal/close', (Modal, event) => {
-    // do something here...
-})
-```
-
-**`site-reviews/pagination/init`**
-
-This event is fired immediately after Site Reviews is initialised to initialise the AJAX pagination.
-
-```js
-GLSR.Event.on('site-reviews/pagination/init', () => {
-    // do something here...
-})
-```
-
-**`site-reviews/pagination/handle`**
-
-This event is fired after a pagination link or button has been clicked and the response returned from the server. Site Reviews uses this event to initialise the excerpts and modals of the reviews returned in the response.
-
-```js
-GLSR.Event.on('site-reviews/pagination/handle', (response) => {
-    // do something here...
-})
-```
-
-**`site-reviews/pagination/popstate`**
-
-This event is fired after the previous/next browser buttons are used to navigate the pagination browser history.
-
-```js
-GLSR.Event.on('site-reviews/pagination/popstate', (event) => {
+window.addEventListener('popstate', (event) => {
     // event.state holds the saved history state for the page
 })
-```
-
-## Methods
-
-**Create a custom event**
-
-```js
-GLSR.Event.on(name, callback, context)
-```
-
-**Create a custom event that can be triggered only once**
-
-```js
-GLSR.Event.once(name, callback, context)
-```
-
-**Trigger a custom event**
-
-```js
-GLSR.Event.trigger(name, ...args)
-```
-
-**Remove a custom event**
-
-```js
-GLSR.Event.off(name, callback)
 ```

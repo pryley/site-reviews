@@ -11,7 +11,7 @@ use function GeminiLabs\SiteReviews\Tests\swapInstance;
 /*
  * The wiring.
  *
- * Thirty classes under plugin/Hooks, each a table of "this controller method answers this WordPress
+ * Thirty-one classes under plugin/Hooks, each a table of "this controller method answers this WordPress
  * hook" — between them the entire surface the plugin presents to WordPress. They run during
  * bootstrap.php, so they are the most-executed code in the plugin.
  *
@@ -78,13 +78,29 @@ test('a hooks class registers hooks, and every one of them points at a method th
         }
     }
 })->with([
-    'AdminHooks', 'DashboardHooks', 'DeactivationHooks', 'EditorHooks', 'FlyoutHooks',
+    'AdminHooks', 'DashboardHooks', 'DeactivationHooks', 'DebugHooks', 'EditorHooks', 'FlyoutHooks',
     'GeolocationHooks', 'ImportHooks', 'LicensingHooks', 'ListTableHooks', 'MainHooks',
     'MenuHooks', 'MetaboxHooks', 'NetworkHooks', 'NoticeHooks', 'PrivacyHooks',
     'PublicHooks', 'QueueHooks', 'RestHooks', 'ReviewHooks', 'RevisionHooks',
     'RouterHooks', 'SettingsHooks', 'TaxonomyHooks', 'TinymceHooks', 'ToolsHooks',
     'TranslationHooks', 'UpdateHooks', 'UserHooks', 'VerificationHooks', 'WelcomeHooks',
 ]);
+
+test('the compat hooks are registered apart from those of plugin/Hooks, and point at methods that exist', function () {
+    $GLOBALS['wp_filter'] = [];
+
+    glsr(GeminiLabs\SiteReviews\Hooks::class)->runCompat();
+
+    $registered = registeredHooks();
+    expect(array_column($registered, 0))->toContain('site-reviews/route/ajax/submit-review');
+    foreach ($registered as [$hookName, $callback, $priority]) {
+        if (is_array($callback)) {
+            expect(method_exists($callback[0], $callback[1]))->toBeTrue();
+        } else {
+            expect(is_callable($callback))->toBeTrue();
+        }
+    }
+});
 
 test('the review post type is registered on init, and the routes on the ajax actions', function () {
     // A spot check that the tables say what they are supposed to say — the two hooks

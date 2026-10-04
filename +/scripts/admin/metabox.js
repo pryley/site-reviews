@@ -30,7 +30,7 @@ Metabox.prototype = {
             }
         }.bind(this));
         jQuery('.glsr-input-value').prop('disabled', !isChecked);
-        GLSR.stars.rebuild();
+        GLSR.Rating.rebuild();
     },
 
     /** @return void */

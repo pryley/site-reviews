@@ -81,8 +81,8 @@ const Edit = (props) => {
             __nextHasNoMarginBottom
             key='rating'
             label={ _x('Minimum Rating', 'admin-text', 'site-reviews') }
-            min={ GLSR.minrating }
-            max={ GLSR.maxrating }
+            min={ GLSR.config.rating.min }
+            max={ GLSR.config.rating.max }
             onChange={ (rating) => setAttributes({ rating }) }
             value={ attributes.rating }
         />,

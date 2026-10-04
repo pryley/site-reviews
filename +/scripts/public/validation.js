@@ -1,5 +1,7 @@
 // Inspired by https://github.com/sha256/Pristine/
 
+import config from '@/public/config.js';
+import report from '@/public/report.js';
 import { addRemoveClass, classListSelector } from '@/public/helpers.js';
 
 const allowedAttributes = [
@@ -97,12 +99,12 @@ const validators = {
 
 class Validation {
     constructor (formEl) {
-        this.config = GLSR.validation_config;
+        this.config = config.validation;
         this.event = this._onChange.bind(this);
         this.fields = [];
         this.form = formEl;
         this.form.setAttribute('novalidate', '');
-        this.strings = GLSR.validation_strings;
+        this.strings = config.validation.strings;
     }
 
     destroy () {
@@ -137,11 +139,11 @@ class Validation {
 
     resetField (field) {
         let fieldEl = field.input.closest(classListSelector(this.config.field));
-        addRemoveClass(field.input, this.config.input_error, false)
-        addRemoveClass(field.input, this.config.input_valid, false)
+        addRemoveClass(field.input, this.config.inputError, false)
+        addRemoveClass(field.input, this.config.inputValid, false)
         if (fieldEl) {
-            addRemoveClass(fieldEl, this.config.field_error, false)
-            addRemoveClass(fieldEl, this.config.field_valid, false)
+            addRemoveClass(fieldEl, this.config.fieldError, false)
+            addRemoveClass(fieldEl, this.config.fieldValid, false)
         }
         field.errors = [];
     }
@@ -168,14 +170,14 @@ class Validation {
             inputs = field.input.form.querySelectorAll(`[name="${field.input.name}"]`);
         }
         inputs.forEach(input => { // support radio/checkbox fields
-            addRemoveClass(input, this.config.input_error, hasError)
-            addRemoveClass(input, this.config.input_valid, !hasError)
+            addRemoveClass(input, this.config.inputError, hasError)
+            addRemoveClass(input, this.config.inputValid, !hasError)
         })
         if (fieldEl) {
-            addRemoveClass(fieldEl, this.config.field_error, hasError)
-            addRemoveClass(fieldEl, this.config.field_valid, !hasError)
+            addRemoveClass(fieldEl, this.config.fieldError, hasError)
+            addRemoveClass(fieldEl, this.config.fieldValid, !hasError)
             // display the form's error message
-            let errorEl = fieldEl.querySelector(classListSelector(this.config.field_message));
+            let errorEl = fieldEl.querySelector(classListSelector(this.config.fieldMessage));
             if (errorEl) {
                 errorEl.innerHTML = (hasError ? field.errors.join('<br>') : ''); // because <br> is used in Field.php
                 errorEl.style.display = (!hasError ? 'none' : '');
@@ -265,7 +267,9 @@ class Validation {
                 ? field.params[validator.name]
                 : [];
             params[0] = field.input.value;
-            if (!validator.fn.apply(field.input, params)) {
+            const isRuleValid = validator.fn.apply(field.input, params);
+            report('validation', { isValid: isRuleValid, name: field.input.name, rule: validator.name, value: field.input.value })
+            if (!isRuleValid) {
                 isValid = false;
                 let error = this.strings[validator.name];
                 errors.push(error.replace(/(\%s)/g, params[1]))

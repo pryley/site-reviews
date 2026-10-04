@@ -13,7 +13,6 @@ class VerificationHooks extends AbstractHooks
             ['resendVerificationEmailAjax', 'site-reviews/route/ajax/request-verification'],
             ['sendVerificationEmail', 'site-reviews/review/created', 10, 2],
             ['toggleVerifiedAjax', 'site-reviews/route/ajax/toggle-verified'],
-            ['verifiedReviewAjax', 'site-reviews/route/ajax/verified-review'],
             ['verifyReview', 'site-reviews/route/get/public/verify'],
         ]);
     }

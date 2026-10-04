@@ -201,6 +201,9 @@ class Router implements ControllerContract
 
     protected function isValidRequest(Request $request): bool
     {
+        if (glsr()->prefix.'rest_request' === Helper::filterInput('action')) {
+            return false;
+        }
         return !empty($request->_action) && empty($request->_ajax_request);
     }
 

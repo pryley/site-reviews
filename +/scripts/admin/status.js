@@ -1,5 +1,6 @@
 /** global: GLSR, jQuery */
 
+import config from '@/public/config.js';
 import Ajax from '@/admin/ajax.js';
 
 const Status = function (selector) {
@@ -18,7 +19,7 @@ Status.prototype = {
         if (post_id === null || status === null) return;
         var request = {
             _action: 'toggle-status',
-            _nonce: GLSR.nonce['toggle-status'],
+            _nonce: config.nonce['toggle-status'],
             post_id: post_id[1],
             status: status[1],
         };

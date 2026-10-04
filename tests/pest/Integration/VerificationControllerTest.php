@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Compat\Controllers\AjaxController;
 use GeminiLabs\SiteReviews\Controllers\VerificationController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\PostMeta;
@@ -30,9 +31,9 @@ uses(InteractsWithAjax::class, InteractsWithExits::class);
  *   verifyReview()        the GET the mail client opens. The token IS the route — the router has
  *                         already decrypted and validated it, which is why this takes a plain review
  *                         id and checks nothing. It verifies, then redirects back to the review's page.
- *   verifiedReviewAjax()  the JS on the page they land on, swapping the review in without a reload. A
- *                         PUBLIC, unguarded route, so it re-checks: the `verified` token must decrypt
- *                         to the very review id asked for. Without that, anyone could ask for anyone's.
+ *   verifiedReviewAjax()  the admin-ajax route used before 8.4.0 (Compat\Controllers\AjaxController).
+ *                         Public and unguarded, so the `verified` token must decrypt to the review
+ *                         id asked for.
  *
  * The rest is the admin's side: a button in the editor that sends (or re-sends) the email, and a
  * toggle that marks a review verified by hand.
@@ -117,7 +118,7 @@ test('the review is handed back to the page, with a message that says whether it
     // moderates reviews must not tell somebody their review is published when it is not.
     $review = createReview();
 
-    $response = $this->jsonSentBy(fn () => glsr(VerificationController::class)->verifiedReviewAjax(
+    $response = $this->jsonSentBy(fn () => glsr(AjaxController::class)->verifiedReviewAjax(
         new Request([
             'review_id' => $review->ID,
             'verified' => verificationToken($review->ID),
@@ -132,7 +133,7 @@ test('the review is handed back to the page, with a message that says whether it
 test('a review awaiting approval says so, rather than claiming to be published', function () {
     $review = createReview(['is_approved' => false]);
 
-    $response = $this->jsonSentBy(fn () => glsr(VerificationController::class)->verifiedReviewAjax(
+    $response = $this->jsonSentBy(fn () => glsr(AjaxController::class)->verifiedReviewAjax(
         new Request([
             'review_id' => $review->ID,
             'verified' => verificationToken($review->ID),
@@ -149,7 +150,7 @@ test('a token for somebody else\'s review will not fetch this one', function () 
     $mine = createReview(['content' => 'My review.']);
     $theirs = createReview(['content' => 'Somebody else\'s review.']);
 
-    $response = $this->jsonSentBy(fn () => glsr(VerificationController::class)->verifiedReviewAjax(
+    $response = $this->jsonSentBy(fn () => glsr(AjaxController::class)->verifiedReviewAjax(
         new Request([
             'review_id' => $theirs->ID,
             'verified' => verificationToken($mine->ID), // a token that is perfectly valid, for MY review
@@ -162,7 +163,7 @@ test('a token for somebody else\'s review will not fetch this one', function () 
 test('a token that is not a token at all is refused', function () {
     $review = createReview();
 
-    $response = $this->jsonSentBy(fn () => glsr(VerificationController::class)->verifiedReviewAjax(
+    $response = $this->jsonSentBy(fn () => glsr(AjaxController::class)->verifiedReviewAjax(
         new Request(['review_id' => $review->ID, 'verified' => 'not-a-token'])
     ));
 
@@ -170,7 +171,7 @@ test('a token that is not a token at all is refused', function () {
 });
 
 test('a request with no review id is refused before anything is decrypted', function () {
-    $response = $this->jsonSentBy(fn () => glsr(VerificationController::class)->verifiedReviewAjax(
+    $response = $this->jsonSentBy(fn () => glsr(AjaxController::class)->verifiedReviewAjax(
         new Request(['review_id' => 0, 'verified' => ''])
     ));
 

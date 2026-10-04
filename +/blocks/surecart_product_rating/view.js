@@ -36,7 +36,8 @@ store('site-reviews/surecart-product-rating', {
       isListenerRegistered = true;
       const context = getContext();
       const { ref } = getElement();
-      GLSR.Event.on('site-reviews/form/handle', ({ summary }) => {
+      GLSR.Event.on('site-reviews/form/submitted', ({ response }) => {
+        const summary = response?.summary;
         if (!summary || !ref) return;
         const newStars = new DOMParser()
           .parseFromString(summary, 'text/html')

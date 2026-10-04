@@ -12,7 +12,7 @@ class TinymceHooks extends AbstractHooks
             return;
         }
         $this->hook(TinymceController::class, [
-            ['filterAdminVariables', 'site-reviews/enqueue/admin/localize'],
+            ['filterConfig', 'site-reviews/assets/config', 10, 2],
             ['mceShortcodeAjax', 'site-reviews/route/ajax/mce-shortcode'],
             ['registerTinymcePopups', 'admin_init'],
             ['renderTinymceButton', 'media_buttons', 11],
