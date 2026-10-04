@@ -4,7 +4,7 @@
  * Plugin Name: Site Reviews Test Environment
  * Description: Loads the integration stubs and disables the deprecated fallbacks for the Pest suite.
  *
- * Must be an mu-plugin: deprecated.php registers its fallbacks on `plugins_loaded`, so the filters
+ * Must be an mu-plugin: Compat\Hooks registers the fallbacks on `plugins_loaded`, so the filters
  * that disable them must exist before the plugins load — too early for bootstrap.php, which only
  * gets control once wp-load.php returns. GLSR_UNIT_TESTS (defined by bootstrap.php before it
  * requires wp-load) keeps this inert for ordinary web requests; only the Pest process gets the stubs.
