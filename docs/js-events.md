@@ -17,6 +17,24 @@ An event is named `site-reviews/{module}/{what happened}`, with the module in lo
 
 Every event passes one object with named members.
 
+### Event words
+
+The last part of a name is one of these words. Each has one meaning and one shape of object, whichever module uses it.
+
+| Word | What happened | The object | Used by |
+| --- | --- | --- | --- |
+| `initialized` | Elements were set up inside a root | `{ root, instances }` | `review`, `form` |
+| `updated` | The content of an instance was replaced | the instance, under the name of its module (`{ summary }`) | `summary` |
+| `submitted` | The server answered a submission, accepted or refused | `{ form, response, success }` | `form` |
+| `paginated` | New items were put in a list | the instance and the response (`{ review, response }`) | `review` |
+| `opened` | A modal opened | `{ modal, event }` | `modal` |
+| `closed` | A modal closed | `{ modal, event }` | `modal` |
+
+- An event that concerns one instance passes it under the singular name of its module: `review`, `form`, `summary`, `modal`.
+- A new event uses a word from this table when its meaning fits. A word is added to the table only when none fits.
+- `site-reviews/initialized` has no module: it is for everything inside a root, and its object is `{ root }`.
+- `site-reviews/init` is the one name that is an instruction (see below).
+
 ## Events
 
 **`site-reviews/initialized`**
