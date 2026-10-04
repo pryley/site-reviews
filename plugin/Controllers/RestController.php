@@ -75,7 +75,7 @@ class RestController
             return null;
         }
         if (!wp_verify_nonce($nonce, 'wp_rest')) {
-            return new \WP_Error('rest_cookie_invalid_nonce', __('Cookie check failed'), ['status' => 403]);
+            return new \WP_Error('rest_cookie_invalid_nonce', __('Cookie check failed'), ['status' => 403]); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain
         }
         return null;
     }
