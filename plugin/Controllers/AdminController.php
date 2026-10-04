@@ -257,48 +257,6 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @action site-reviews/route/ajax/filter-assigned_post
-     */
-    public function searchAssignedPostsAjax(Request $request): void
-    {
-        $search = glsr(Sanitizer::class)->sanitizeText($request->search);
-        $results = glsr(Database::class)->searchAssignedPosts($search)->results();
-        wp_send_json_success([
-            'items' => $results,
-        ]);
-    }
-
-    /**
-     * @action site-reviews/route/ajax/filter-assigned_user
-     */
-    public function searchAssignedUsersAjax(Request $request): void
-    {
-        $search = glsr(Sanitizer::class)->sanitizeText($request->search);
-        $results = glsr(Database::class)->searchAssignedUsers($search)->results();
-        array_walk($results, function ($user) {
-            $user->name = glsr(Sanitizer::class)->sanitizeUserName($user->name, $user->nickname);
-        });
-        wp_send_json_success([
-            'items' => $results,
-        ]);
-    }
-
-    /**
-     * @action site-reviews/route/ajax/filter-author
-     */
-    public function searchAuthorsAjax(Request $request): void
-    {
-        $search = glsr(Sanitizer::class)->sanitizeText($request->search);
-        $results = glsr(Database::class)->searchUsers($search)->results();
-        array_walk($results, function ($user) {
-            $user->name = glsr(Sanitizer::class)->sanitizeUserName($user->name, $user->nickname);
-        });
-        wp_send_json_success([
-            'items' => $results,
-        ]);
-    }
-
-    /**
      * @action site-reviews/route/ajax/search-posts
      */
     public function searchPostsAjax(Request $request): void

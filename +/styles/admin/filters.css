@@ -140,6 +140,9 @@
   overflow-y: scroll;
   width: 100%;
 }
+.glsr-filter .glsr-filter__results:focus {
+  outline: 2px solid transparent;
+}
 
 /* entries */
 .glsr-filter .glsr-filter__results > span {

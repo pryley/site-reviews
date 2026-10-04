@@ -35,7 +35,6 @@ test('each key that 8.3 printed is a hidden getter onto the config', () => {
     assert.equal(GLSR.Utils, GLSR.Util)
     assert.equal(GLSR.action, config.request.ajax.action)
     assert.equal(GLSR.addonsurl, config.urls.addons)
-    assert.equal(GLSR.filters, config.filters)
     assert.equal(GLSR.maxrating, 5)
     assert.equal(GLSR.minrating, 0)
     assert.equal(GLSR.nameprefix, config.nameprefix)
