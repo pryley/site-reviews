@@ -3,8 +3,6 @@ import Ajax from '@/admin/ajax.js';
 class Notices {
     constructor () {
         jQuery('.glsr-notice[data-notice]').on('click.wp-dismiss-notice', this.onDismiss.bind(this))
-        // Delegated: the notices added later (add) and the ones the page
-        // rendered, flash or persistent, all expand the same way.
         jQuery(document).on('click', '.bulk-action-notice button.button-link', this.onToggleDetails)
         this.showBanner()
         this.showPopup()
@@ -95,4 +93,12 @@ class Notices {
     }
 }
 
-export default Notices;
+let notices = null;
+
+export const instance = () => (notices = notices || new Notices());
+
+export default {
+    add: (html) => instance().add(html),
+    error: (message) => instance().error(message),
+    notice: (level, message) => instance().notice(level, message),
+}

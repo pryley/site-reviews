@@ -19,9 +19,14 @@ const jsBundles = [
     js('integrations/wpbakery/wpbakery-editor', 'assets/scripts/integrations'),
     js('integrations/wpbakery/wpbakery-inline', 'assets/scripts/integrations'),
     js('scripts/deactivate-plugin'),
+    js('scripts/inline-script'),
     js('scripts/mce-plugin'),
     js('scripts/rollback'),
     js('scripts/site-reviews', 'assets/scripts', '', { inlineCss: true }),
+    js('scripts/site-reviews-admin-compat'),
+    js('scripts/site-reviews-admin-debug'),
+    js('scripts/site-reviews-compat'),
+    js('scripts/site-reviews-debug'),
 ];
 
 // ------------------------------------------------------------------

@@ -1,5 +1,7 @@
 /** global: GLSR, jQuery, _, wp */
 
+import config from '@/public/config.js';
+
 const Search = function (selector, options) {
     this.el = jQuery(selector);
     this.options = options;
@@ -43,7 +45,7 @@ Search.prototype = {
         this.options.searchEl.on('input', _.debounce(this.onSearchInput_.bind(this), 500));
         this.options.searchEl.on('keyup', this.onSearchKeyup_.bind(this));
         this.options.searchEl.on('keydown keypress', function (ev) {
-            if (GLSR.keys.ENTER !== ev.which) return;
+            if ('Enter' !== ev.key) return;
             ev.preventDefault();
         });
         jQuery(document).on('click', this.onDocumentClick_.bind(this));
@@ -133,20 +135,20 @@ Search.prototype = {
     /** @return void */
     onDocumentKeydown_: function (ev) {
         if (jQuery.isEmptyObject(this.options.results)) return;
-        if (GLSR.keys.ESC === ev.which) {
+        if ('Escape' === ev.key) {
             this.clearResults_();
         }
-        if (GLSR.keys.ENTER === ev.which || GLSR.keys.SPACE === ev.which) {
+        if ('Enter' === ev.key || ' ' === ev.key) {
             var selected = this.options.resultsEl.find('.' + this.options.selectedClass);
             if (selected) {
                 selected.trigger('click');
             }
         }
-        if (GLSR.keys.UP === ev.which) {
+        if ('ArrowUp' === ev.key) {
             ev.preventDefault();
             this.navigateResults_(-1);
         }
-        if (GLSR.keys.DOWN === ev.which) {
+        if ('ArrowDown' === ev.key) {
             ev.preventDefault();
             this.navigateResults_(1);
         }
@@ -181,13 +183,13 @@ Search.prototype = {
         }
         this.el.addClass('is-active');
         var data = {};
-        data[GLSR.nameprefix] = {
+        data[config.nameprefix] = {
             _action: this.options.action,
-            _nonce: GLSR.nonce[this.options.action],
+            _nonce: config.nonce[this.options.action],
             exclude: this.options.exclude,
             search: this.searchTerm,
         };
-        this.searchRequest = wp.ajax.post(GLSR.action, data).done(function (response) {
+        this.searchRequest = wp.ajax.post(config.request.ajax.action, data).done(function (response) {
             this.el.removeClass('is-active');
             this.displayResults_(response.items ? response.items : response.empty);
             this.options.results = this.options.resultsEl.children();
@@ -198,10 +200,10 @@ Search.prototype = {
 
     /** @return void */
     onSearchKeyup_: function (ev) {
-        if (GLSR.keys.ESC === ev.which) {
+        if ('Escape' === ev.key) {
             this.reset_();
         }
-        if (GLSR.keys.ENTER === ev.which) {
+        if ('Enter' === ev.key) {
             this.onSearchInput_(ev);
             ev.preventDefault();
         }

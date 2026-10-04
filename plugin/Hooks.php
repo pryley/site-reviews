@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Compat\Hooks as CompatHooks;
 use GeminiLabs\SiteReviews\Contracts\HooksContract;
 
 class Hooks implements HooksContract
@@ -29,7 +30,15 @@ class Hooks implements HooksContract
                 glsr_log()->error($e->getMessage());
             }
         }
+        $this->runCompat();
         $this->runIntegrations();
+    }
+
+    public function runCompat(): void
+    {
+        glsr()->singleton(CompatHooks::class);
+        glsr(CompatHooks::class)->runDeferred();
+        glsr(CompatHooks::class)->run();
     }
 
     public function runIntegrations(): void
