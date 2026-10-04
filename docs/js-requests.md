@@ -20,6 +20,17 @@ const { data, status, success } = await GLSR.Request.send({
 
 An error that the route itself returns, such as a 400 for an invalid form, is the final answer: `success` is `false` and `data` holds the error.
 
+A 401 or a 403 is read as a blocked REST API, and the request is sent again over admin-ajax, unless the error code begins with `glsr_`. A route that refuses a request must therefore answer with such a code. A `permission_callback` that returns `false` is answered by WordPress with `rest_forbidden`, which is sent again; return a `WP_Error` instead:
+
+```php
+'permission_callback' => function () {
+    if (!current_user_can('edit_posts')) {
+        return new WP_Error('glsr_forbidden', 'You cannot do this.', ['status' => 403]);
+    }
+    return true;
+},
+```
+
 The route must be registered in the `site-reviews/v1` namespace:
 
 ```php
@@ -35,10 +46,29 @@ add_action('rest_api_init', function () {
 ## The requests of Site Reviews
 
 ```js
-GLSR.Request.submit(formData)             // submits a review form
+GLSR.Request.submit(formData)             // submits a form to the route of its action
 GLSR.Request.review(id, values)           // fetches a review to show in the modal
 GLSR.Request.pagedReviews(values)         // fetches a page of reviews: { atts, page, schema, url }
 ```
+
+## The route of a form
+
+A form that Site Reviews sets up (`GLSR.Form`) is submitted by Site Reviews. `GLSR.Request.submit` reads the form's `site-reviews[_action]` field and posts the form to the route that `GLSR.config.request.routes` names for that action. The review form's action is `submit-review`, and its route is `submissions`.
+
+`GLSR.config.request.routes` only holds the actions that Site Reviews sends by their name, which are those of forms. A request that your own script sends with `GLSR.Request.send` names its path and is not in it.
+
+To submit a form of your own, register its route and name it for the action:
+
+```php
+add_filter('site-reviews/rest-api/routes', function (array $routes) {
+    $routes['my-action'] = 'my-addon/my-action'; // POST site-reviews/v1/my-addon/my-action
+    return $routes;
+});
+```
+
+The route receives the form's fields in the `site-reviews` parameter. A controller that extends `Controllers\Api\Version1\AbstractRestController` has three helpers for it: `formRequest($request, $action)` returns the fields as the plugin's `Request`, with the action of the route and the captcha token; `lock($action)` takes the lock that prevents parallel submissions; `refuse($code, $message, $status)` returns the error of a refused request, with a `glsr_` code.
+
+An action without a route is deprecated. While compat mode is on, its form is posted to admin-ajax as it was before 8.4.0, and debug mode logs a warning. With compat mode off the form is not sent.
 
 ## The searchable dropdowns of the admin
 
