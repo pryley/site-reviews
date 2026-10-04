@@ -1,6 +1,7 @@
 /** global: GLSR, jQuery */
 
 import config from '@/public/config.js';
+import Request from '@/public/request.js';
 
 const aria = (el, prop, bool) => el.attr(`aria-${prop}`, bool ? 'true' : 'false');
 
@@ -20,24 +21,32 @@ const defaults = {
     },
 }
 
+/**
+ * The list table dropdown (views/partials/listtable/filter.php).
+ */
 export class Filter {
     constructor(selector, options) {
         this.el = jQuery(selector);
-        this.options = jQuery.extend(true, defaults, options || {}); // deep extend
+        this.options = jQuery.extend(true, {}, defaults, options || {});
         this.resultsEl = this.el.find(this.options.selectors.results);
         this.selectedEl = this.el.find(this.options.selectors.selected);
         this.searchEl = this.el.find(this.options.selectors.search);
         this.valueEl = this.el.find(this.options.selectors.value);
-        if (!this.el.length || !this.searchEl.length || !this.selectedEl.length || !this.valueEl.length || !this.resultsEl.length) return;
-        this.action = this.el.data('action');
+        if (!this.el.length || !this.selectedEl.length || !this.valueEl.length || !this.resultsEl.length) return;
+        this.choices = this.parseChoices();
+        this.route = this.el.attr('data-search') || '';
+        this.search = 0; // counts the searches: only the answer to the latest one is shown
+        this.keysEl = this.searchEl.length ? this.searchEl : this.resultsEl.attr('tabindex', -1);
         this.events = {
             document: {
                 mousedown: this.onDocumentClick.bind(this),
             },
+            keys: {
+                blur: _.debounce(this.onBlur.bind(this), 10),
+                keydown: this.onKeydown.bind(this),
+            },
             search: {
-                blur: _.debounce(this.onSearchBlur.bind(this), 10),
                 input: _.debounce(this.onSearchInput.bind(this), 200),
-                keydown: this.onSearchKeydown.bind(this),
             },
             selected: {
                 keydown: this.onSelectedKeydown.bind(this),
@@ -45,10 +54,6 @@ export class Filter {
             },
         };
         this.init()
-    }
-
-    defaults() {
-        return _.sortBy(_.map(config.filters[this.valueEl.attr('name')], (name, id) => ({ id, name })), 'name');
     }
 
     init() {
@@ -69,6 +74,7 @@ export class Filter {
 
     eventHandler(action) {
         this.eventListener(document, action, this.events.document)
+        this.eventListener(this.keysEl, action, this.events.keys)
         this.eventListener(this.searchEl, action, this.events.search)
         this.eventListener(this.selectedEl, action, this.events.selected)
     }
@@ -79,7 +85,7 @@ export class Filter {
 
     onDocumentClick(ev) {
         if (jQuery(ev.target).find(this.el).length) {
-            this.requestAbort()
+            this.search++
             if (this.el.hasClass(this.options.classes.active)) {
                 this.resultsHide()
                 _.debounce(() => this.selectedEl.focus(), 10)()
@@ -87,26 +93,27 @@ export class Filter {
         }
     }
 
-    onSearchBlur() {
+    onBlur() {
         if (!this.el.find(document.activeElement).length) {
             this.resultsHide()
         }
     }
 
     onSearchInput() {
-        this.requestAbort()
+        const search = ++this.search;
         if ('' === this.searchEl.val()) {
             this.resultsShow();
             return;
         }
         this.resultsEl.html(this.templateSearching());
-        this.xhr = this.request().done(response => {
-            this.data = response.items;
+        Request.send({ params: { search: this.searchEl.val() }, path: this.route }).then(({ data, success }) => {
+            if (search !== this.search) return;
+            this.data = success && Array.isArray(data) ? data : [];
             this.resultsShow()
         })
     }
 
-    onSearchKeydown(ev) {
+    onKeydown(ev) {
         if ('Enter' === ev.key) {
             ev.preventDefault()
             const selectedEl = this.resultsEl.find(`.${this.options.classes.selected}`);
@@ -117,8 +124,10 @@ export class Filter {
             this.resultsHide()
             _.debounce(() => this.selectedEl.focus(), 10)()
         } else if ('ArrowDown' === ev.key) {
+            ev.preventDefault()
             this.resultsNavigate(1)
         } else if ('ArrowUp' === ev.key) {
+            ev.preventDefault()
             this.resultsNavigate(-1)
         } else if ('Tab' === ev.key) {
             ev.preventDefault()
@@ -129,11 +138,9 @@ export class Filter {
         if ('function' === typeof this.options.onSelect) {
             this.options.onSelect.call(this, ev)
         }
-        const selectedEl = jQuery(ev.currentTarget);
-        const value = selectedEl.data('id');
-        this.selectedEl.attr('title', !~["","0",0].indexOf(value) ? 'ID: ' + value : selectedEl.data('name'));
-        this.selectedEl.text(selectedEl.data('name'));
-        this.valueEl.val(value)
+        const chosenEl = jQuery(ev.currentTarget);
+        this.selectedEl.attr('title', chosenEl.attr('title')).text(chosenEl.text());
+        this.valueEl.val(chosenEl.attr('data-id'))
         this.resultsHide()
         _.debounce(() => this.selectedEl.focus(), 10)()
     }
@@ -151,34 +158,26 @@ export class Filter {
         }
     }
 
-    request() {
-        const data = {};
-        data[config.nameprefix] = {
-            _action: this.action,
-            _nonce: config.nonce[this.action],
-            exclude: this.options.exclude,
-            search: this.searchEl.val(),
-        };
-        return wp.ajax.post(config.request.ajax.action, data).always(() => (delete this.xhr))
-    }
-
-    requestAbort() {
-        if ('undefined' === typeof this.xhr) return;
-        this.xhr.abort()
+    parseChoices() {
+        try {
+            return JSON.parse(this.el.attr('data-options') || '[]');
+        } catch (error) {
+            return [];
+        }
     }
 
     results() {
-        let results = jQuery.merge(this.defaults(), this.data);
-        let id = this.valueEl.val();
-        let name = this.selectedEl.text();
-        if (-1 === _.findIndex(results, { id }) && -1 === _.findIndex(results, { name })) {
-            return jQuery.merge(results, [{ id, name }])
+        const results = [...this.choices, ...this.data].map(({ id, title }) => ({ id: String(id), title }));
+        const id = String(this.valueEl.val());
+        const title = this.selectedEl.text();
+        if (!results.some(result => id === result.id || title === result.title)) {
+            results.push({ id, title })
         }
         return results;
     }
 
     resultsHide() {
-        this.requestAbort()
+        this.search++
         this.el.removeClass(this.options.classes.active)
         this.searchEl.val('')
         this.selected = -1;
@@ -235,18 +234,20 @@ export class Filter {
         aria(this.resultsEl, 'hidden', 0)
         _.debounce(() => {
             this.resultsEl.scrollTop(0)
-            this.searchEl.focus()
+            this.keysEl.focus()
         }, 10)()
     }
 
-    templateResult(data) {
-        const template = _.template('<span aria-selected="false" data-id="<%= id %>" data-name="<%= name %>" title="<% if (!~["","0",0].indexOf(id)) { %>ID: <%= id %><% } else { %><%= name %><% } %>"><span><%= name %></span></span>');
-        return jQuery(template(data));
+    templateResult({ id, title }) {
+        return jQuery('<span aria-selected="false"/>')
+            .attr({ 'data-id': id, title: ['', '0'].includes(id) ? title : `ID: ${id}` })
+            .append(jQuery('<span/>').text(title));
     }
 
     templateSearching() {
-        const template = _.template('<span data-searching><span><%= text %></span><span class="spinner"></span></span>');
-        return jQuery(template({ text: config.text.searching }));
+        return jQuery('<span data-searching/>')
+            .append(jQuery('<span/>').text(config.text.searching))
+            .append('<span class="spinner"/>');
     }
 };
 

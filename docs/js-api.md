@@ -327,4 +327,4 @@ Three keys are removed in 8.4.0 with no replacement:
 
 - `GLSR.state`, which nothing read.
 - `GLSR.Event.events`, which was never meant to be public (use `GLSR.Event.listeners()` in debug mode).
-- `GLSR.filters` in the admin script. The choices of a searchable dropdown are now the options of its `<select>`.
+- `GLSR.filters` in the admin script. The fixed choices of a searchable dropdown are now on its element, in `data-options`.

@@ -187,13 +187,40 @@ test('a filter is drawn hidden until it is switched on', function () {
     expect($filter->handle(['rating']))->not->toContain('is-hidden');
 });
 
-test('a filter knows its own name, id and action', function () {
-    // All three are derived from the class name, and the JS binds to them.
+test('a filter knows its own name and id, and the route that it searches', function () {
+    // The name and the id are derived from the class name, and the JS binds to them.
     $filter = glsr(ColumnFilterAssignedPost::class);
 
     expect($filter->name())->toBe('assigned_post')
         ->and($filter->id())->toBe('glsr-filter-by-assigned_post')
-        ->and($filter->action())->toBe('filter-assigned_post');
+        ->and($filter->searchRoute())->toBe('search/assigned-posts');
+});
+
+test('a searchable filter carries its route and its fixed choices on the element', function () {
+    $html = glsr(ColumnFilterAssignedPost::class)->handle(['assigned_post']);
+
+    expect($html)->toContain('data-search="search/assigned-posts"');
+    expect($html)->toContain('class="glsr-filter__search"');
+    preg_match('/data-options="([^"]*)"/', $html, $matches);
+    expect(json_decode(html_entity_decode($matches[1]), true))->toBe([
+        ['id' => '', 'title' => 'Any assigned post'],
+        ['id' => '0', 'title' => 'No assigned post'],
+    ]);
+});
+
+test('a filter that names no route offers its choices without a search box', function () {
+    // What the filter of an addon released before 8.4.0 becomes: it never named a route.
+    $filter = new class() extends ColumnFilterAssignedPost {
+        public function searchRoute(): string
+        {
+            return '';
+        }
+    };
+    $html = $filter->handle(['assigned_post']);
+
+    expect($html)->toContain('data-search=""');
+    expect($html)->toContain('Any assigned post');
+    expect($html)->not->toContain('glsr-filter__search');
 });
 
 test('the rating filter offers every rating on the scale', function () {

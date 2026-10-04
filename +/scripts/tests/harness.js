@@ -12,7 +12,6 @@ const ASSETS = path.resolve(__dirname, '../../../assets/scripts');
 const adminConfig = () => ({
     compat: true,
     debug: { enabled: false },
-    filters: { assigned_post: { '': 'Any assigned post', 0: 'No assigned post' } },
     nameprefix: 'site-reviews',
     nonce: { 'toggle-filters': 'abc123' },
     rating: { max: 5, min: 0 },
