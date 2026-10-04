@@ -23,6 +23,7 @@ import Shortcode from '@/admin/shortcode.js';
 import StarRating from '@/public/starrating.js';
 import Status from '@/admin/status.js';
 import Tabs from '@/admin/tabs.js';
+import watchTabs from '@/admin/tabs-wrap.js';
 import TextareaResize from '@/admin/textarea-resize.js';
 import TogglePinned from '@/admin/toggle-pinned.js';
 import ToggleVerified from '@/admin/toggle-verified.js';
@@ -70,6 +71,7 @@ function site_reviews_footer_notice () {
 
 jQuery(function ($) {
     Prism.highlightAll();
+    watchTabs()
     notices()
     shortcode = new Shortcode('.glsr-mce');
     GLSR.Rating.init('.glsr-field-rating select', { clearable: true });

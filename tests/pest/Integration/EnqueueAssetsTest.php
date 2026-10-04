@@ -226,6 +226,24 @@ test('debug mode is off, whatever WP_DEBUG says, until the filter turns it on fo
     expect(wp_scripts()->registered[glsr()->id.'/admin/debug']->deps)->toBe([glsr()->id.'/admin']);
 });
 
+test('each mode follows its setting, and its filter has the last word', function () {
+    $compat = glsr(CompatScript::class);
+    $debug = glsr(DebugScript::class);
+    expect([$compat->isEnabled('public'), $compat->isEnabled('admin')])->toBe([true, true]);
+    expect([$debug->isEnabled('public'), $debug->isEnabled('admin')])->toBe([false, false]);
+
+    glsr(OptionManager::class)->set('settings.advanced.compat', 'no');
+    glsr(OptionManager::class)->set('settings.advanced.debug', 'yes');
+    expect([$compat->isEnabled('public'), $compat->isEnabled('admin')])->toBe([false, false]);
+    expect([$debug->isEnabled('public'), $debug->isEnabled('admin')])->toBe([true, true]);
+    expect(printedConfig('public'))->toMatchArray(['compat' => false, 'debug' => ['enabled' => true]]);
+
+    add_filter('site-reviews/compat/assets', fn ($compat, $bundle) => 'admin' === $bundle ? true : $compat, 10, 2);
+    add_filter('site-reviews/debug/assets', '__return_false');
+    expect([$compat->isEnabled('public'), $compat->isEnabled('admin')])->toBe([false, true]);
+    expect([$debug->isEnabled('public'), $debug->isEnabled('admin')])->toBe([false, false]);
+});
+
 test('the public script is given the address of the debug script, unless debug on request is forbidden', function () {
     $url = glsr()->url('assets/scripts/site-reviews-debug.js').'?ver='.glsr()->version;
     expect(printedConfig('public')['debug'])->toBe(['enabled' => false, 'url' => $url]);

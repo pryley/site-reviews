@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Assets;
 
+use GeminiLabs\SiteReviews\Database\OptionManager;
+
 class DebugScript
 {
     /**
@@ -17,7 +19,8 @@ class DebugScript
      */
     public function isEnabled(string $bundle): bool
     {
-        return glsr()->filterBool('debug/assets', false, $bundle);
+        $isEnabled = glsr(OptionManager::class)->get('settings.advanced.debug', 'no', 'bool');
+        return glsr()->filterBool('debug/assets', $isEnabled, $bundle);
     }
 
     /**
