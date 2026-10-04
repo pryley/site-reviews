@@ -1200,4 +1200,18 @@ return [ // order is intentional
         'tooltip' => _x('Enabling this option will persist field values entered into the review form until either the review is submitted or the browser tab or window is closed.', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',
     ],
+    'settings.advanced.compat' => [
+        'default' => 'yes',
+        'label' => _x('Compatibility Mode', 'admin-text', 'site-reviews'),
+        'sanitizer' => 'text',
+        'tooltip' => _x('Keeps code written for earlier versions of Site Reviews working: add-ons, and code snippets that use older Javascript names. Turn this off to check that your site no longer needs it.', 'admin-text', 'site-reviews'),
+        'type' => 'yes_no',
+    ],
+    'settings.advanced.debug' => [
+        'default' => 'no',
+        'label' => _x('Debug Mode', 'admin-text', 'site-reviews'),
+        'sanitizer' => 'text',
+        'tooltip' => _x('Writes information about Site Reviews to the browser console, and warns when a code snippet uses an older Javascript name. Turn this on when you troubleshoot a problem, then turn it off again.', 'admin-text', 'site-reviews'),
+        'type' => 'yes_no',
+    ],
 ];

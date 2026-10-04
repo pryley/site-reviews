@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Assets;
 
+use GeminiLabs\SiteReviews\Database\OptionManager;
+
 class CompatScript
 {
     /**
@@ -29,7 +31,8 @@ class CompatScript
      */
     public function isEnabled(string $bundle): bool
     {
-        return glsr()->filterBool('compat/assets', true, $bundle);
+        $isEnabled = glsr(OptionManager::class)->get('settings.advanced.compat', 'yes', 'bool');
+        return glsr()->filterBool('compat/assets', $isEnabled, $bundle);
     }
 
     /**

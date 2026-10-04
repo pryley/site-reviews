@@ -231,10 +231,10 @@ GLSR.registry.load('themes.swiper').then(() => {
 
 Debug mode writes information to the browser console. It never changes what the scripts do. It is a script of its own (`site-reviews-debug.js`, and `site-reviews-admin-debug.js` in the admin) that is on the page only when debug mode is on.
 
-Debug mode is off unless this filter turns it on. `$bundle` is `public` or `admin`.
+Debug mode is off by default. Turn it on with the "Debug Mode" setting on the Advanced tab of the settings. `WP_DEBUG` does not turn it on. The filter receives the setting and has the last word; `$bundle` is `public` or `admin`.
 
 ```php
-add_filter('site-reviews/debug/assets', '__return_true');
+add_filter('site-reviews/debug/assets', fn ($debug, $bundle) => 'public' === $bundle, 10, 2);
 ```
 
 To see it for one page view on any site, add `?glsr-debug` to the address of a public page. The public script then loads the debug script itself, so this also works on a cached page.
@@ -243,7 +243,7 @@ To see it for one page view on any site, add `?glsr-debug` to the address of a p
 - PHP does not read the parameter: the page is the same with and without it.
 - The debug script only writes to the console. It sends no request, stores nothing and changes nothing on the page.
 - Nothing is remembered: the next page view has no debug mode unless its address has the parameter too.
-- It applies to public pages only. The admin follows the filter.
+- It applies to public pages only. The admin follows the setting and the filter.
 
 To forbid it:
 
@@ -263,9 +263,9 @@ In debug mode:
 
 ## Deprecated keys
 
-Site Reviews 8.4.0 renamed the keys below. The old keys are deprecated: use the new ones in anything you write. They keep working through compat mode, which is on by default. In debug mode, the first use of an old key logs a warning that names its replacement.
+Site Reviews 8.4.0 renamed the keys below. The old keys are deprecated: use the new ones in anything you write. They keep working through compat mode, which is on by default: the "Compatibility Mode" setting on the Advanced tab of the settings. In debug mode, the first use of an old key logs a warning that names its replacement.
 
-Compat mode is a script of its own (`site-reviews-compat.js`, and `site-reviews-admin-compat.js` in the admin), printed directly after the script and before any script that depends on it. With compat mode off, the old keys do not exist. To check that a site no longer uses one, turn it off. `$bundle` is `public` or `admin`.
+Compat mode is a script of its own (`site-reviews-compat.js`, and `site-reviews-admin-compat.js` in the admin), printed directly after the script and before any script that depends on it. With compat mode off, the old keys do not exist. To check that a site no longer uses one, turn the setting off. The filter receives the setting and has the last word; `$bundle` is `public` or `admin`.
 
 ```php
 add_filter('site-reviews/compat/assets', '__return_false');

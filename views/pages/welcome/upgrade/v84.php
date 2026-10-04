@@ -82,8 +82,8 @@ GLSR.Event.on('site-reviews/summary/updated', ({ summary }) => {
             <li>
                 <p><strong>Some keys of the <code>GLSR</code> object have been renamed.</strong></p>
                 <p>For example, <code>GLSR.Utils</code> is now <code>GLSR.Util</code>, <code>GLSR.request</code> is now <code>GLSR.Request</code>, and <code>GLSR.forms</code> is now <code>GLSR.Form.instances</code>. The previous keys still work.</p>
-                <p>To see if your site uses a previous key, add this code snippet and look for warnings in the browser console:</p>
-                <pre><code class="language-php">add_filter('site-reviews/debug/assets', '__return_true');</code></pre>
+                <p>To see if your site uses a previous key or a previous event name, turn on <strong>Debug Mode</strong> on the <?php echo glsr_admin_link('settings.advanced'); ?> page and look for warnings in the browser console. To see them for a single page view instead, add <code>?glsr-debug</code> to the address of the page.</p>
+                <p>When no warning is left, you can turn off <strong>Compatibility Mode</strong> on the same page.</p>
             </li>
         </ol>
 
