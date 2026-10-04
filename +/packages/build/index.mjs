@@ -139,12 +139,8 @@ const jsPlugins = (rootDir, { cjs = false, scriptsAlias = '' } = {}) => [
     ),
 ];
 
-// Wraps a compiled bundle in a module-registry registration for the merged
-// premium plugin: the chunk cannot execute without the runtime that declares
-// the registry (see the premium repo's .claude/ASSET-STRATEGY.md). Runs after
-// terser (renderChunk hooks run in plugin order) so the envelope is never
-// minified away.
-const wrapChunkPlugin = (chunkId, registry = '__glsrp') => ({
+// Runs after terser (renderChunk hooks run in plugin order) so the wrapper is not minified away.
+const wrapChunkPlugin = (chunkId, registry) => ({
     name: 'wrap-chunk',
     renderChunk(code) {
         return {
@@ -180,11 +176,8 @@ const cssPlugins = (namespace = '') => [
 /**
  * @param {string} rootDir
  * @param {{scriptsAlias?: string, sharedPrefix?: string}} [options]
- *   scriptsAlias overrides what `@` resolves to (default
- *   `${rootDir}/+/scripts`); the merged premium plugin creates one factory
- *   per module so `@/` keeps meaning "my own scripts". sharedPrefix is the
- *   import prefix of the modules a chunk() links against the runtime
- *   instead of inlining (default `@/public/shared/`).
+ *   scriptsAlias: what `@` resolves to (default `${rootDir}/+/scripts`).
+ *   sharedPrefix: the imports a chunk() reads from `GLSR.lib` instead of inlining (default `@/public/shared/`).
  */
 export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/public/shared/' } = {}) {
     /**
@@ -273,28 +266,24 @@ export function createConfig(rootDir, { scriptsAlias = '', sharedPrefix = '@/pub
     const cssChunk = (source, id, outputDir = 'assets/css/chunks') => css(source, outputDir, '', id);
 
     /**
-     * A registry chunk: like js() but the output is a `registry.define(id, …)`
-     * registration that only runs when the premium runtime boots it.
-     *
-     * Shared modules (the sharedPrefix imports) are not inlined: they resolve
-     * as externals to the runtime's `{registry}.lib.{name}` exports, so the
-     * one copy lives in the runtime. The reference is read when the factory
-     * runs, always after the runtime has parsed. The standalone js() profile
-     * inlines them from the same sources.
+     * A registry chunk: like js(), but the output is a `GLSR.registry.define(id, …)`
+     * definition, and the sharedPrefix imports resolve to `GLSR.lib.{name}` instead of being inlined.
      *
      * @param {string} source     Path relative to `+/` without extension.
      * @param {string} id         Chunk id, e.g. 'filters.public'.
      * @param {string} [outputDir='assets/js/chunks']
-     * @param {string} [registry='__glsrp']  Registry symbol (build-rotatable).
+     * @param {Object} [options]
+     * @param {string} [options.lib='GLSR.lib']  Where the shared modules are read.
+     * @param {string} [options.registry='GLSR.registry']  Where the chunk is defined.
      */
-    const chunk = (source, id, outputDir = 'assets/js/chunks', registry = '__glsrp') => ({
+    const chunk = (source, id, outputDir = 'assets/js/chunks', { lib = 'GLSR.lib', registry = 'GLSR.registry' } = {}) => ({
         input: `+/${source}.js`,
         external: (importId) => importId.startsWith(sharedPrefix),
         output: {
             file: `${outputDir}/${id}.js`,
             format: 'iife',
             globals: (importId) => importId.startsWith(sharedPrefix)
-                ? `${registry}.lib.${importId.slice(sharedPrefix.length).replace(/\.js$/, '')}`
+                ? `${lib}.${importId.slice(sharedPrefix.length).replace(/\.js$/, '')}`
                 : importId,
             sourcemap: false, // the wrapper invalidates maps; dev uses js() entries
         },
