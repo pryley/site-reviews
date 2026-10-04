@@ -2,7 +2,7 @@ import { __experimentalToolsPanel as ToolsPanel, PanelBody } from '@wordpress/co
 import { _x } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import { BlockControls, InspectorControls } from '@wordpress/block-editor';
-import { useMemo } from '@wordpress/element';
+import { Fragment, useMemo } from '@wordpress/element';
 
 const defaultPanelTitles = {
     display: _x('Display', 'admin-text', 'site-reviews'),
@@ -70,7 +70,7 @@ const BlockPanels = ({
     const renderControls = (controlsArray) => {
         return controlsArray
             .filter((controlKey) => controlKey in filteredControls)
-            .map((controlKey) => filteredControls[controlKey]);
+            .map((controlKey) => <Fragment key={controlKey}>{filteredControls[controlKey]}</Fragment>);
     }
 
     return (
