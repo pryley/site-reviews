@@ -7,6 +7,16 @@ nav.glsr-nav-tab-wrapper a.glsr-nav-tab:focus {
   outline-offset: -1px;
   outline: 2px solid #0071a1;
 }
+/* The same buttons as on a narrow screen (settings.css), for a row that wraps at any width: tabs-wrap.js */
+.wrap nav.glsr-nav-tab-wrapper.is-wrapped {
+  border-bottom: 0;
+}
+nav.glsr-nav-tab-wrapper.is-wrapped a.glsr-nav-tab,
+nav.glsr-nav-tab-wrapper.is-wrapped a.glsr-nav-tab.nav-tab-active:hover {
+  transition-property: background, color;
+  border-bottom: 1px solid #ccc !important;
+  margin: 10px 10px 0 0;
+}
 .wrap > .glsr-nav-view {
   margin-top: 20px;
 }
