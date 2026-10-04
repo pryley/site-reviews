@@ -173,7 +173,7 @@ GLSR.config
 ├── nameprefix   'site-reviews'
 ├── debug        { enabled, url } (see Debug)
 ├── compat       true when PHP printed the compat script (see Deprecated keys)
-├── request      { url, nonce, ajax: { url, action, rest } }
+├── request      { url, nonce, routes, ajax: { url, action, rest } }
 ├── captcha      { type, class, sitekey, theme, language, tokenField, urls: { module, nomodule }, … }
 ├── modal        { wrappedBy }
 ├── pagination   { fixed, urlParameter }
@@ -184,7 +184,7 @@ GLSR.config
 ```
 
 - `debug.enabled` is `true` when PHP printed the debug script. `debug.url` is the address of the debug script, present only when it can be loaded with `?glsr-debug`.
-- `request.url` is the REST API root of Site Reviews; `request.nonce` is `false` for a visitor who is not logged in. `request.ajax` is admin-ajax: its `url`, the `action` of the routes that only admin-ajax has, and the `rest` action that carries a REST request when the REST API is unavailable.
+- `request.url` is the REST API root of Site Reviews; `request.nonce` is `false` for a visitor who is not logged in. `request.routes` names the route that a form is posted to, by the form's action (see [js-requests.md](js-requests.md#the-route-of-a-form)). `request.ajax` is admin-ajax: its `url`, the `action` of the routes that only admin-ajax has, and the `rest` action that carries a REST request when the REST API is unavailable.
 - `captcha` holds the settings of the selected captcha service. It is empty when no captcha is used. `type` is the service; a service can add its own keys, such as Procaptcha's `captchaType`.
 - `pagination.fixed` lists the selectors of the fixed elements that the scroll to the top of the reviews must clear. `pagination.urlParameter` is `false` when the pagination does not change the URL.
 - `validation` holds the CSS classes of the selected plugin style, and `validation.strings` holds the validation messages.

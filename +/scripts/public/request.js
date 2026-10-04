@@ -10,8 +10,17 @@ const HEADERS = { 'X-Requested-With': 'XMLHttpRequest' };
 
 let nonce = config.request?.nonce;
 let noticeShown = false;
+let unrouted = null;
 
 class FallbackError extends Error {}
+
+// the compat script submits a form whose action has no route
+export const submitUnrouted = (fn) => {
+    unrouted = fn;
+}
+
+// the answer of a Site Reviews route is final, whatever the status
+const isFinal = (json) => 'string' === typeof json?.code && json.code.startsWith('glsr_');
 
 const isInvalidNonce = (json) => 'rest_cookie_invalid_nonce' === json?.code;
 
@@ -27,11 +36,21 @@ const review = (reviewId, values = {}) => send({
     path: `render/reviews/${reviewId}`,
 })
 
-const submit = (formData) => send({
-    body: formData,
-    method: 'POST',
-    path: 'submissions',
-})
+// for a config without routes: the admin script, and a page cached before 8.4.0
+const ROUTES = { 'submit-review': 'submissions' };
+
+const submit = (formData) => {
+    const action = formData.get(`${config.nameprefix}[_action]`) || 'submit-review';
+    const path = (config.request?.routes || ROUTES)[action];
+    if (path) {
+        return send({ body: formData, method: 'POST', path });
+    }
+    if (unrouted) {
+        return unrouted(formData, action);
+    }
+    console.error(`Site Reviews: the form action "${action}" has no REST route.`)
+    return Promise.resolve({ data: { message: `No route is registered for the form action "${action}".` }, status: 0, success: false });
+}
 
 const _notice = (reason) => {
     if (!noticeShown) {
@@ -78,7 +97,7 @@ const _rest = async (method, path, params, body, isRetry = false) => {
         await _refreshNonce()
         return _rest(method, path, params, body, true);
     }
-    if (!response.ok && ([401, 403].includes(response.status) || FALLBACK_CODES.includes(json.code))) {
+    if (!response.ok && !isFinal(json) && ([401, 403].includes(response.status) || FALLBACK_CODES.includes(json.code))) {
         throw new FallbackError(json.code || `HTTP ${response.status}`);
     }
     return { data: json, status: response.status, success: response.ok }; // a 4xx here is the final answer of a route

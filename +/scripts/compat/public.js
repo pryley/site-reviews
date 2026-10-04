@@ -1,9 +1,9 @@
-/** global: GLSR */
+/** global: FormData, GLSR */
 
 import Ajax from '@/public/ajax.js';
 import events from '@/compat/events.js';
 import { KEYS, PATHS } from '@/compat/keys.js';
-import { alias, aliasPaths, reportTo } from '@/compat/deprecated.js';
+import deprecated, { alias, aliasPaths, reportTo } from '@/compat/deprecated.js';
 
 // A key before 8.0.1 => its path in the config. 8.0.1 renamed these without an alias.
 const PATHS_80 = {
@@ -45,13 +45,31 @@ export const aliasAddons = () => {
     })
 }
 
+// The form of an 8.x addon: only the admin-ajax Router knows its action.
+const postToRouter = async (formData, action) => {
+    const { ajax } = window.GLSR.config.request;
+    deprecated(`The form action "${action}" over admin-ajax`, 'a REST route, named for the action with the site-reviews/rest-api/routes filter')
+    const body = new FormData();
+    formData.forEach((value, key) => body.append(key, value))
+    body.append('action', ajax.action)
+    body.append('_ajax_request', true)
+    try {
+        const response = await fetch(ajax.url, { body, headers: { 'X-Requested-With': 'XMLHttpRequest' }, method: 'POST' });
+        const json = await response.json();
+        return { data: json.data, status: response.status, success: true === json.success };
+    } catch (e) {
+        return { data: { message: e.message }, status: 0, success: false };
+    }
+}
+
 const withoutStrings = ({ strings, ...classes }) => classes;
 
-export default ({ FormInstance, ModalInstance, report, retainForms, ...pieces }) => {
+export default ({ FormInstance, ModalInstance, report, retainForms, submitUnrouted, ...pieces }) => {
     const { Form, Modal, Request, Review } = window.GLSR;
     reportTo(report)
     events(pieces)
     aliasAddons()
+    submitUnrouted(postToRouter)
     alias(window.GLSR, 'forms', 'GLSR.forms', 'GLSR.Form.instances', () => Form.instances, (forms) => {
         retainForms(forms) // an 8.x addon assigns the forms that are still on the page
     })
