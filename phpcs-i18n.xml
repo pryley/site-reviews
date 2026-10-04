@@ -13,7 +13,6 @@
     <file>./views</file>
     <file>./autoload.php</file>
     <file>./compatibility.php</file>
-    <file>./deprecated.php</file>
     <file>./helpers.php</file>
     <file>./migration.php</file>
     <file>./site-reviews.php</file>

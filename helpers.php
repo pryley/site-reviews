@@ -359,3 +359,22 @@ function glsr_user_count(): int
     }
     return Arr::getAs('int', count_users(), 'total_users');
 }
+
+/**
+ * @deprecated 5.0.0
+ * @todo remove in 9.0.0
+ */
+function glsr_calculate_ratings()
+{
+    _deprecated_function('glsr_calculate_ratings', '5.0');
+}
+
+/**
+ * @deprecated 5.0.0
+ * @todo remove in 9.0.0
+ */
+function glsr_get_rating($args = [])
+{
+    _deprecated_function('glsr_get_rating', '5.0', 'glsr_get_ratings');
+    return new Arguments($args);
+}

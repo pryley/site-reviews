@@ -46,7 +46,7 @@ packages, so it installs cleanly inside the container.
   `isolation.php` is not autoloaded: it returns the per-test `beforeEach` /
   `afterEach` closures, and each suite's `Pest.php` requires it.
 - `mu-plugins/` — loads the integration stubs and disables the deprecated
-  v5–v8 fallbacks. It has to be an mu-plugin: `deprecated.php` registers those
+  v5–v8 fallbacks. It has to be an mu-plugin: `Compat\Hooks` registers those
   fallbacks on `plugins_loaded`, which is already too late for `bootstrap.php`.
   It is inert unless `GLSR_UNIT_TESTS` is defined, so it does not affect
   ordinary web requests to the same install.
