@@ -65,6 +65,16 @@ const [form] = GLSR.Form.init(container)
 
 Every instance names its element `el`.
 
+`GLSR.Util.feature` builds a module with these four members. Site Reviews builds its own three with it, and a script that adds a module of its own can do the same:
+
+```js
+const { module } = GLSR.Util.feature(
+    (root) => root.querySelectorAll('.my-widget'),   // the elements inside a root
+    (el) => ({ el, init () {}, destroy () {} })      // the instance of an element
+)
+GLSR.MyWidgets = module
+```
+
 **`GLSR.Review`**
 
 A list of reviews, or a single review.
@@ -117,13 +127,13 @@ summary.update(html)  // replaces the content and triggers site-reviews/summary/
 GLSR.Modal    // { init, open, close, get }
 GLSR.Event    // { on, off, once, trigger }
 GLSR.Request  // { send, submit, review, pagedReviews }
-GLSR.Util     // { debounce, dom, fadeIn, fadeOut, isEmpty, parseJson, selectText, throttle }
+GLSR.Util     // { debounce, dom, fadeIn, fadeOut, feature, isEmpty, parseJson, selectText, throttle }
 ```
 
 - `GLSR.Modal` is described in [js-modal.md](js-modal.md).
 - `GLSR.Event` and the events Site Reviews triggers are described in [js-events.md](js-events.md).
 - `GLSR.Request` is described in [js-requests.md](js-requests.md). `send` uses the REST API, and sends the same request over admin-ajax when the REST API is unavailable; `submit`, `review` and `pagedReviews` are the requests Site Reviews makes with it.
-- `GLSR.Util` holds helper functions that know nothing about Site Reviews. Both scripts carry the same eight.
+- `GLSR.Util` holds helper functions that know nothing about Site Reviews. Both scripts carry the same nine. `GLSR.Util.feature` is described under [Reviews, forms and summaries](#reviews-forms-and-summaries).
 
 ## The admin script
 
