@@ -31,6 +31,7 @@ class PermissionDefaults extends DefaultsAbstract
             ],
             'settings' => [
                 'addons' => 'manage_options',
+                'advanced' => 'manage_options',
                 'forms' => 'manage_options',
                 'general' => 'manage_options',
                 'index' => 'manage_options',
