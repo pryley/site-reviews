@@ -49,6 +49,7 @@ const publicConfig = () => ({
     request: {
         ajax: { action: 'glsr_public_action', rest: 'glsr_rest_request', url: 'https://example.org/wp-admin/admin-ajax.php' },
         nonce: false,
+        routes: { 'submit-review': 'submissions' },
         url: 'https://example.org/wp-json/site-reviews/v1/',
     },
     text: { closeModal: 'Close Modal' },

@@ -98,6 +98,7 @@ test('the frontend is handed the configuration it runs on', function () {
             'url' => admin_url('admin-ajax.php'),
         ],
         'nonce' => false,
+        'routes' => ['submit-review' => 'submissions'],
         'url' => esc_url_raw(rest_url(glsr()->id.'/v1/')),
     ]);
     expect($config['nameprefix'])->toBe(glsr()->id);
@@ -171,6 +172,19 @@ test('a rest nonce is only offered to logged-in visitors', function () {
     wp_set_current_user(createUser());
     expect((new EnqueuePublicAssets())->config()['request']['nonce'])->toBe(wp_create_nonce('wp_rest'));
     wp_set_current_user(0);
+});
+
+test('an addon names the route of its form action', function () {
+    // rest_api_init does not fire on the page that prints the config, so this filter is the map's only source.
+    add_filter('site-reviews/rest-api/routes', function (array $routes) {
+        $routes['update-review'] = 'authors/update-review';
+        return $routes;
+    });
+
+    expect((new EnqueuePublicAssets())->config()['request']['routes'])->toBe([
+        'submit-review' => 'submissions',
+        'update-review' => 'authors/update-review',
+    ]);
 });
 
 test('the config can be filtered before it is printed', function () {
