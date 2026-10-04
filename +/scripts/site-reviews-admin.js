@@ -4,6 +4,7 @@ import config from '@/public/config.js';
 import Ajax from '@/admin/ajax.js';
 import ColorPicker from '@/admin/color-picker.js';
 import { adopt, listeners } from '@/public/event.js';
+import feature from '@/public/feature.js';
 import Filter from '@/admin/filter.js';
 import Filters from '@/admin/filters.js';
 import Flyoutmenu from '@/admin/flyoutmenu.js';
@@ -42,7 +43,7 @@ GLSR.Notice = Notice;
 GLSR.Rating = StarRating();
 GLSR.Tinymce = { create: (editorId) => shortcode?.create(editorId) };
 lib.register('tippy', { tippy, plugins: { followCursor } })
-GLSR.Util = { debounce, dom, fadeIn, fadeOut, isEmpty, parseJson, selectText, throttle };
+GLSR.Util = { debounce, dom, fadeIn, fadeOut, feature, isEmpty, parseJson, selectText, throttle };
 
 Prism.languages.shortcode = {
     tag: {
