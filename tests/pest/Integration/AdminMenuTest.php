@@ -172,9 +172,14 @@ test('the settings page renders every tab, with its fields', function () {
     $html = renderedPage('renderSettingsMenuCallback');
 
     // the tabs
-    foreach (['general', 'reviews', 'forms', 'schema', 'strings', 'integrations', 'licenses'] as $tab) {
+    foreach (['general', 'reviews', 'forms', 'schema', 'strings', 'integrations', 'advanced', 'licenses'] as $tab) {
         expect($html)->toContain('id="'.$tab.'"');
     }
+    // Advanced closes the plugin's own tabs: after Integrations, before those of the products
+    expect(strpos($html, 'data-id="integrations"'))->toBeLessThan(strpos($html, 'data-id="advanced"'));
+    expect(strpos($html, 'data-id="advanced"'))->toBeLessThan(strpos($html, 'data-id="licenses"'));
+    expect($html)->toContain('name="site_reviews[settings][advanced][compat]')
+        ->toContain('name="site_reviews[settings][advanced][debug]');
     // and a field out of three of them, named the way the form posts it — the name is the
     // setting's own path, which is what SettingsController reads back out of $_POST
     expect($html)->toContain('name="site_reviews[settings][general][notifications]')

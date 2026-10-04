@@ -180,6 +180,7 @@ class MenuController extends AbstractController
             'schema' => _x('Schema', 'admin-text', 'site-reviews'),
             'strings' => _x('Strings', 'admin-text', 'site-reviews'),
             'integrations' => _x('Integrations', 'admin-text', 'site-reviews'),
+            'advanced' => _x('Advanced', 'admin-text', 'site-reviews'),
             'addons' => _x('Addons', 'admin-text', 'site-reviews'),
             'premium' => _x('Premium', 'admin-text', 'site-reviews'),
             'licenses' => _x('Licenses', 'admin-text', 'site-reviews'),
