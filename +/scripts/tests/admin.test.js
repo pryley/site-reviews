@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const { test } = require('node:test');
 const { adminConfig, loadAdmin } = require('./harness.js');
 
-const UTIL = ['debounce', 'dom', 'fadeIn', 'fadeOut', 'isEmpty', 'parseJson', 'selectText', 'throttle'];
+const UTIL = ['debounce', 'dom', 'fadeIn', 'fadeOut', 'feature', 'isEmpty', 'parseJson', 'selectText', 'throttle'];
 
 // Values that cross the jsdom realm are compared as JSON.
 const plain = (value) => JSON.parse(JSON.stringify(value));
@@ -23,7 +23,7 @@ test('the config is the one PHP printed, deep-frozen', () => {
     assert.equal(Object.isFrozen(window.GLSR.config.tinymce.required.site_review), true)
 });
 
-test('Util has the same eight helpers as the public script', () => {
+test('Util has the same nine helpers as the public script', () => {
     const { window } = loadAdmin();
     assert.deepEqual(Object.keys(window.GLSR.Util).sort(), UTIL)
 });
