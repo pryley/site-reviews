@@ -123,6 +123,9 @@ jobs:
           mkdir -p "$WP_ROOT/wp-content/mu-plugins"
           ln -s "$GITHUB_WORKSPACE/tests/pest/mu-plugins/site-reviews-tests.php" \
             "$WP_ROOT/wp-content/mu-plugins/site-reviews-tests.php"
+          # Copied, not linked: PHP reports a required file by its real path, and the
+          # fixtures stand for code outside the plugin, which the workspace is not.
+          cp -R "$GITHUB_WORKSPACE/tests/pest/mu-plugins/fixtures" "$WP_ROOT/wp-content/mu-plugins/fixtures"
 
       - name: Run the suite with coverage
         run: composer test:coverage
