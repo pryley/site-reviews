@@ -31,6 +31,11 @@ class ColumnFilterAssignedUser extends AbstractColumnFilter
         return $this->filterDynamic();
     }
 
+    public function searchRoute(): string
+    {
+        return 'search/assigned-users';
+    }
+
     public function selected(): string
     {
         $value = $this->value();

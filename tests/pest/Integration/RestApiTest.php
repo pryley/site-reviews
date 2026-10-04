@@ -49,7 +49,10 @@ test('registers its routes', function () {
         ->toHaveKey('/'.REST_NS.'/reviews/(?P<id>[\d]+)')
         ->toHaveKey('/'.REST_NS.'/summary')
         ->toHaveKey('/'.REST_NS.'/summary/rating')
-        ->toHaveKey('/'.REST_NS.'/shortcode/(?P<shortcode>[a-z_]+)');
+        ->toHaveKey('/'.REST_NS.'/shortcode/(?P<shortcode>[a-z_]+)')
+        ->toHaveKey('/'.REST_NS.'/search/assigned-posts')
+        ->toHaveKey('/'.REST_NS.'/search/assigned-users')
+        ->toHaveKey('/'.REST_NS.'/search/users');
 });
 
 test('refuses to list reviews for a logged out visitor', function () {
@@ -218,6 +221,60 @@ test('the option lists, which include the users of the site, are refused to a us
     $response = restRequest('GET', '/'.REST_NS.'/shortcode/site_reviews', $search);
     expect($response->get_status())->toBe(200);
     expect(array_column($response->get_data(), 'title'))->toContain('Somebody Searchable');
+});
+
+/*
+ * The searches of the dropdowns in the admin: site-reviews/v1/search/<subject>.
+ */
+
+test('the admin searches are refused to a visitor and to a user who cannot see the reviews', function () {
+    foreach (['assigned-posts', 'assigned-users', 'users'] as $subject) {
+        $route = '/'.REST_NS.'/search/'.$subject;
+        wp_set_current_user(0);
+        expect(restRequest('GET', $route, ['search' => 'a'])->get_status())->toBe(401);
+        wp_set_current_user(createUser(['role' => 'subscriber']));
+        expect(restRequest('GET', $route, ['search' => 'a'])->get_status())->toBe(403);
+        wp_set_current_user(createUser(['role' => 'contributor']));
+        expect(restRequest('GET', $route, ['search' => 'a'])->get_status())->toBe(200);
+    }
+});
+
+test('the assigned posts search only offers posts that have a review', function () {
+    // Offering a page with no review on it would be offering a filter that can only return nothing.
+    actAsAdmin();
+    $assigned = createPost(['post_title' => 'Reviewed Page']);
+    createPost(['post_title' => 'Unreviewed Page']);
+    createReview(['assigned_posts' => $assigned]);
+
+    $response = restRequest('GET', '/'.REST_NS.'/search/assigned-posts', ['search' => 'Page']);
+
+    expect($response->get_data())->toBe([['id' => $assigned, 'title' => 'Reviewed Page']]);
+    expect(restRequest('GET', '/'.REST_NS.'/search/assigned-posts', ['search' => (string) $assigned])->get_data())
+        ->toBe([['id' => $assigned, 'title' => 'Reviewed Page']]); // a number is searched as an ID
+    expect(restRequest('GET', '/'.REST_NS.'/search/assigned-posts')->get_data())->toBe([]);
+});
+
+test('the assigned users search only offers users that have a review', function () {
+    actAsAdmin();
+    $assigned = createUser(['display_name' => 'Reviewed Person']);
+    createUser(['display_name' => 'Unreviewed Person']);
+    createReview(['assigned_users' => $assigned]);
+
+    $response = restRequest('GET', '/'.REST_NS.'/search/assigned-users', ['search' => 'Person']);
+
+    expect($response->get_data())->toBe([['id' => $assigned, 'title' => 'Reviewed Person']]);
+});
+
+test('the users search offers every user, by name or by ID', function () {
+    // The author of a review may have no review assigned to them.
+    actAsAdmin();
+    $userId = createUser(['display_name' => 'Jane Author']);
+
+    $byName = restRequest('GET', '/'.REST_NS.'/search/users', ['search' => 'Jane Author'])->get_data();
+    $byId = restRequest('GET', '/'.REST_NS.'/search/users', ['search' => (string) $userId])->get_data();
+
+    expect($byName)->toContain(['id' => $userId, 'title' => 'Jane Author']);
+    expect($byId)->toBe([['id' => $userId, 'title' => 'Jane Author']]);
 });
 
 /*
