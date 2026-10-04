@@ -95,4 +95,12 @@ class Notices {
     }
 }
 
-export default Notices;
+let notices = null;
+
+export const instance = () => (notices = notices || new Notices());
+
+export default {
+    add: (html) => instance().add(html),
+    error: (message) => instance().error(message),
+    notice: (level, message) => instance().notice(level, message),
+}

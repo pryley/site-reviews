@@ -1,3 +1,4 @@
+import config from '@/public/config.js';
 import dom from '@/public/dom.js'
 import css from '../../styles/public/modal-shadow.css'
 
@@ -35,13 +36,6 @@ const supported = 'undefined' !== typeof HTMLDialogElement
     && !!Element.prototype.attachShadow;
 
 let openCount = 0;
-
-const deprecatedNotices = [];
-const deprecated = (surface, replacement) => {
-    if (deprecatedNotices.includes(surface)) return;
-    deprecatedNotices.push(surface);
-    console.info(`[site-reviews] ${surface} is deprecated; use ${replacement} instead.`)
-};
 
 // A third party's throwing callback degrades to a logged error; it must not
 // abort the open or close sequence.
@@ -86,21 +80,6 @@ class Modal {
         this.triggers = [];
         this._config(config)
         this._reset()
-    }
-
-    get dom () { // @deprecated v8.3
-        deprecated('Modal.dom', 'the modal instance API (style, hideClose, header/content/footer)')
-        if (!this._dom) {
-            this._dom = {
-                body: this._body,
-                close: this._close,
-                content: this._regions ? this._regions.content : null,
-                dialog: this._dialog,
-                footer: this._regions ? this._regions.footer : null,
-                header: this._regions ? this._regions.header : null,
-            };
-        }
-        return this._dom
     }
 
     get isOpen () {
@@ -188,7 +167,7 @@ class Modal {
         const host = dom('div', { class: modalClass, id: this.id });
         const root = host.attachShadow({ mode: 'open' });
         const close = dom('button', {
-            'aria-label': GLSR.text.close_modal,
+            'aria-label': config.text.closeModal,
             class: 'close',
             part: 'close',
             type: 'button',
@@ -274,7 +253,7 @@ class Modal {
             document.documentElement.classList.remove('glsr-modal-open')
         }
         guard(() => this.config.onClose(this, event))
-        guard(() => GLSR.Event.trigger('site-reviews/modal/close', this, event))
+        guard(() => GLSR.Event.trigger('site-reviews/modal/closed', { event, modal: this }))
         if (this._trigger && this._trigger.focus) {
             this._trigger.focus()
         }
@@ -320,8 +299,10 @@ class Modal {
         openCount++;
         document.documentElement.classList.add('glsr-modal-open')
         guard(() => this.config.onOpen(this, event)) // triggered before the modal is visible
-        guard(() => GLSR.Event.trigger('site-reviews/modal/open', this, event))
+        guard(() => hooks.beforeOpen?.(this, event))
         this._dialog.showModal()
+        // In the same task as showModal(): what a listener adds is there before the first paint.
+        guard(() => GLSR.Event.trigger('site-reviews/modal/opened', { event, modal: this }))
         if (this.config.focus) {
             this._setFocusToFirstNode()
         }
@@ -370,7 +351,6 @@ class Modal {
         this._cancelWarned = false;
         this._close = null;
         this._dialog = null;
-        this._dom = null; // @deprecated v8.3
         this._lastHeight = null;
         this._observer = null;
         this._regions = null;
@@ -400,14 +380,6 @@ const close = (id) => {
 }
 
 const get = (id) => modals[id] || null;
-
-const modify = (id, callback) => { // @deprecated v8.3
-    deprecated('GLSR.Modal.modify()', 'GLSR.Modal.get()')
-    const modal = get(id);
-    if (modal) {
-        callback(modal)
-    }
-};
 
 const init = (id, config) => {
     if (!supported) return;
@@ -444,4 +416,9 @@ const open = (id, config) => {
     modal._openModal()
 }
 
-export default { close, get, init, modify, open }
+// set by the compat script
+export const hooks = { beforeOpen: null };
+
+export { Modal as Instance }
+
+export default { close, get, init, open }

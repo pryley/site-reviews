@@ -1,5 +1,6 @@
 /** global: GLSR */
 
+import config from '@/public/config.js';
 import Button from '@/admin/button.js';
 import Serializer from '@/admin/serializer.js';
 
@@ -21,24 +22,24 @@ Ajax.prototype = {
 
     buildData_: function (el) { // HTMLElement|null
         var data = {
-            action: GLSR.action,
+            action: config.request.ajax.action,
             _ajax_request: true,
         };
         if (this.form) {
             var formdata = new Serializer(this.form);
-            if (formdata[GLSR.nameprefix]) {
-                this.request = formdata[GLSR.nameprefix];
+            if (formdata[config.nameprefix]) {
+                this.request = formdata[config.nameprefix];
             }
         }
         this.buildNonce_(el);
-        data[GLSR.nameprefix] = this.request;
+        data[config.nameprefix] = this.request;
         return data;
     },
 
     buildNonce_: function (el) { // HTMLElement|null
         if (this.request._nonce) return;
-        if (GLSR.nonce[this.request._action]) {
-            this.request._nonce = GLSR.nonce[this.request._action];
+        if (config.nonce[this.request._action]) {
+            this.request._nonce = config.nonce[this.request._action];
             return;
         }
         if (!el) return;
@@ -49,16 +50,16 @@ Ajax.prototype = {
         if (el) {
             Button(el).loading()
         }
-        // wp.ajax.post(GLSR.action, this.buildData_(el)).done(response => {
+        // wp.ajax.post(config.request.ajax.action, this.buildData_(el)).done(response => {
         jQuery.post(ajaxurl, this.buildData_(el)).done(response => {
             if (typeof callback === 'function') {
                 callback(response.data, response.success);
             }
         }).always(response => {
             if (response?.data?.notices) {
-                GLSR.notices.add(response.data.notices); // triggers scroll
+                GLSR.Notice.add(response.data.notices); // triggers scroll
             } else if (!response.success) {
-                GLSR.notices.error('Unknown error.'); // triggers scroll
+                GLSR.Notice.error('Unknown error.'); // triggers scroll
             }
             if (el) {
                 Button(el).loaded()

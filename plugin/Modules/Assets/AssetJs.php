@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Assets;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
+
 class AssetJs extends AbstractAsset
 {
     protected function enqueue(string $url, string $hash): void
@@ -38,5 +40,18 @@ class AssetJs extends AbstractAsset
     protected function type(): string
     {
         return 'js';
+    }
+
+    /**
+     * The compat script goes directly after the script, before those of the addons.
+     */
+    protected function versions(): array
+    {
+        $versions = parent::versions();
+        $compat = glsr(CompatScript::class);
+        if ($compat->isEnabled('public')) {
+            $versions = Arr::insertAfter(glsr()->id, $versions, [$compat->scriptHandle('public') => glsr()->version]);
+        }
+        return $versions;
     }
 }

@@ -10,24 +10,29 @@ use GeminiLabs\SiteReviews\Request;
 class TinymceController extends AbstractController
 {
     /**
-     * @filter site-reviews/enqueue/admin/localize
+     * @filter site-reviews/assets/config
      */
-    public function filterAdminVariables(array $variables): array
+    public function filterConfig(array $config, string $bundle): array
     {
-        $variables['shortcodes'] = [];
-        $variables['tinymce'] = [
-            'glsr_shortcode' => glsr()->url('assets/scripts/mce-plugin.js'),
+        if ('admin' !== $bundle) {
+            return $config;
+        }
+        $config['tinymce'] = [
+            'plugins' => [
+                'glsr_shortcode' => glsr()->url('assets/scripts/mce-plugin.js'),
+            ],
+            'required' => [],
         ];
         if (!user_can_richedit()) { // @todo why are we checking this?
-            return $variables;
+            return $config;
         }
         foreach (glsr()->retrieveAs('array', 'mce', []) as $tag => $args) {
             if (empty($args['required'])) {
                 continue;
             }
-            $variables['shortcodes'][$tag] = $args['required'];
+            $config['tinymce']['required'][$tag] = $args['required'];
         }
-        return $variables;
+        return $config;
     }
 
     /**

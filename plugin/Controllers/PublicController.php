@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
-use GeminiLabs\SiteReviews\Commands\FetchPagedReviews;
 use GeminiLabs\SiteReviews\Contracts\BuilderContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Encryption;
@@ -16,36 +15,11 @@ use GeminiLabs\SiteReviews\Request;
 class PublicController extends AbstractController
 {
     /**
-     * @action site-reviews/route/ajax/approved-review
-     */
-    public function approvedReviewAjax(Request $request): void
-    {
-        $reviewId = $request->cast('review_id', 'int');
-        $review = glsr_get_review($reviewId);
-        if (!$review->isValid() || !$review->is_approved) {
-            wp_send_json_error();
-        }
-        $html = $review->build($request->toArray());
-        wp_send_json_success([
-            'attributes' => $html->attributes(),
-            'review' => (string) $html,
-        ]);
-    }
-
-    /**
      * @action wp_enqueue_scripts
      */
     public function enqueueAssets(): void
     {
         $this->execute(new EnqueuePublicAssets());
-    }
-
-    /**
-     * @action site-reviews/route/ajax/fetch-paged-reviews
-     */
-    public function fetchPagedReviewsAjax(Request $request): void
-    {
-        $this->execute(new FetchPagedReviews($request))->sendJsonResponse();
     }
 
     /**
@@ -86,15 +60,6 @@ class PublicController extends AbstractController
             wp_safe_redirect($redirect);
             glsr_exit();
         }
-    }
-
-    /**
-     * @action site-reviews/route/ajax/submit-review
-     */
-    public function submitReviewAjax(Request $request): void
-    {
-        $command = $this->execute(new CreateReview($request));
-        $command->sendJsonResponse();
     }
 
     /**

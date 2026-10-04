@@ -277,6 +277,11 @@ test('admin_init ignores a request that is not the plugin\'s', function () {
     ajaxPost(['_action' => 'test-route'], 'admin'); // ours, but it is an ajax request
     glsr(Router::class)->routeAdminPostRequest();
 
+    // a REST request that admin-ajax carries: admin_init fires in admin-ajax too
+    formPost(['_action' => 'test-route']);
+    $_POST['action'] = glsr()->prefix.'rest_request';
+    glsr(Router::class)->routeAdminPostRequest();
+
     expect($recorded)->toHaveCount(0);
 });
 
@@ -357,10 +362,16 @@ test('a post request aimed at the rest api is left for the rest controllers', fu
         $_GET['rest_route'] = '/site-reviews/v1/submissions';
         glsr(Router::class)->routePublicPostRequest();
 
+        // the REST API is unreachable: the script sends the same request to admin-ajax
+        unset($_GET['rest_route']);
+        $_SERVER['REQUEST_URI'] = '/wp-admin/admin-ajax.php';
+        $_POST['action'] = glsr()->prefix.'rest_request';
+        glsr(Router::class)->routePublicPostRequest();
+
         expect($recorded)->toHaveCount(0);
 
         // and the same request aimed at a page is still routed
-        unset($_GET['rest_route']);
+        unset($_POST['action']);
         glsr(Router::class)->routePublicPostRequest();
         expect($recorded)->toHaveCount(1);
 

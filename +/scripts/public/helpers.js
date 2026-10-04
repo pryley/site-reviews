@@ -43,19 +43,6 @@ export const fadeOut = async (el, durationInMs, config) => {
   return fade('out', el, durationInMs, config);
 };
 
-export const extend = () => {
-  let args = [].slice.call(arguments);
-  let result = args[0];
-  let extenders = args.slice(1);
-  Object.keys(extenders).forEach(i => {
-    for (let key in extenders[i]) {
-      if (!extenders[i].hasOwnProperty(key)) continue;
-      result[key] = extenders[i][key];
-    }
-  })
-  return result
-};
-
 export const isEmpty = (obj) => {
   return [Object, Array].includes((obj || {}).constructor) && !Object.entries((obj || {})).length;
 };

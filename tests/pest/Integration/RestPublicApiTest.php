@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Controllers\RestController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Encryption;
 use GeminiLabs\SiteReviews\Modules\Honeypot;
@@ -362,4 +363,155 @@ test('a tampered token opens nothing', function () {
 
     expect($response->get_status())->toBe(400);
     expect($response->get_data()['code'])->toBe('glsr_invalid_token');
+});
+
+/*
+ * The same routes over admin-ajax (RestController::ajaxResponse), for a site where the
+ * REST API cannot be reached.
+ */
+
+function restOverAjax(array $post): \WP_REST_Response
+{
+    return glsr(RestController::class)->ajaxResponse($post + [
+        'action' => glsr()->prefix.'rest_request',
+    ]);
+}
+
+test('the next page of reviews is the same over admin-ajax as over the REST API', function () {
+    createReviews(6);
+    $params = [
+        'atts' => ['display' => 2],
+        'page' => 2,
+        'url' => get_permalink(createPost()),
+    ];
+
+    $rest = restRequest('GET', '/site-reviews/v1/render/reviews', $params);
+    $ajax = restOverAjax([
+        '_rest_method' => 'GET',
+        '_rest_path' => 'render/reviews',
+        '_rest_query' => http_build_query($params), // what the script reads from the REST URL it built
+    ]);
+
+    expect($ajax->get_status())->toBe(200);
+    expect($ajax->get_data())->toBe($rest->get_data());
+    expect($ajax->get_data()['max_num_pages'])->toBeGreaterThan(1);
+});
+
+test('a site that refuses the REST API to visitors still answers over admin-ajax', function () {
+    // Most plugins that disable the REST API do it on rest_authentication_errors, which
+    // WordPress asks only when it serves /wp-json, not when a route is dispatched in PHP.
+    createReviews(2);
+    add_filter('rest_authentication_errors', fn () => new WP_Error('rest_disabled', 'No.', ['status' => 403]));
+
+    expect(is_wp_error(rest_get_server()->check_authentication()))->toBeTrue();
+    expect(restOverAjax(['_rest_path' => 'render/reviews'])->get_status())->toBe(200);
+});
+
+test('a visitor can submit a review over admin-ajax', function () {
+    releaseMutexLock();
+
+    $response = restOverAjax([
+        '_rest_method' => 'POST',
+        '_rest_path' => 'submissions',
+        glsr()->id => restSubmission($this->request([
+            'content' => 'Submitted over admin-ajax.',
+            'email' => 'jane@example.org',
+            'name' => 'Jane',
+            'rating' => 5,
+            'terms' => 1,
+            'title' => 'A lovely stay',
+        ])),
+    ]);
+
+    expect($response->get_status())->toBe(201);
+    expect($response->get_data()['success'])->toBeTrue();
+    // the fields that describe the request are not handed to the route
+    expect(glsr_get_review($response->get_data()['review']['ID'])->title)->toBe('A lovely stay');
+});
+
+test('over admin-ajax the login cookie alone does not sign the review', function () {
+    // admin-ajax trusts the cookie; the REST API also asks for the wp_rest nonce.
+    releaseMutexLock();
+    wp_set_current_user(createUser());
+
+    $response = restOverAjax([
+        '_rest_method' => 'POST',
+        '_rest_path' => 'submissions',
+        glsr()->id => restSubmission($this->request([
+            'content' => 'No nonce.',
+            'email' => 'jane@example.org',
+            'name' => 'Jane',
+            'rating' => 4,
+            'terms' => 1,
+            'title' => 'Anonymous',
+        ])),
+    ]);
+
+    expect($response->get_status())->toBe(201);
+    expect(glsr_get_review($response->get_data()['review']['ID'])->author_id)->toBe(0);
+});
+
+test('over admin-ajax a logged-in submitter with the nonce keeps their identity', function () {
+    releaseMutexLock();
+    wp_set_current_user($userId = createUser());
+
+    $response = restOverAjax([
+        '_rest_method' => 'POST',
+        '_rest_nonce' => wp_create_nonce('wp_rest'),
+        '_rest_path' => 'submissions',
+        glsr()->id => restSubmission($this->request([
+            'content' => 'With the nonce.',
+            'email' => 'jane@example.org',
+            'name' => 'Jane',
+            'rating' => 4,
+            'terms' => 1,
+            'title' => 'Attributed',
+        ])),
+    ]);
+
+    expect($response->get_status())->toBe(201);
+    expect(glsr_get_review($response->get_data()['review']['ID'])->author_id)->toBe($userId);
+});
+
+test('over admin-ajax a wrong nonce is refused with the code the script refreshes on', function () {
+    wp_set_current_user(createUser());
+
+    $response = restOverAjax([
+        '_rest_nonce' => 'expired',
+        '_rest_path' => 'render/reviews',
+    ]);
+
+    expect($response->get_status())->toBe(403);
+    expect($response->get_data()['code'])->toBe('rest_cookie_invalid_nonce');
+});
+
+test('admin-ajax reaches no route outside the plugin', function () {
+    // The route is matched as a string inside site-reviews/v1, so a path that climbs out of it matches nothing.
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    $nonce = wp_create_nonce('wp_rest');
+
+    foreach (['../../wp/v2/users', '/wp/v2/users', '..%2F..%2Fwp%2Fv2%2Fusers', ''] as $path) {
+        $response = restOverAjax([
+            '_rest_nonce' => $nonce,
+            '_rest_path' => $path,
+        ]);
+        expect($response->get_status())->toBe(404);
+        expect($response->get_data()['code'])->toBe('rest_no_route');
+    }
+});
+
+test('the admin-ajax action sends the body and the status of the route', function () {
+    $review = createReview();
+    $_POST = [
+        'action' => glsr()->prefix.'rest_request',
+        '_rest_method' => 'GET',
+        '_rest_path' => "render/reviews/{$review->ID}",
+    ];
+
+    $json = $this->jsonSentBy(fn () => glsr(RestController::class)->dispatchAjaxRequest());
+
+    expect($json)->toHaveKeys(['attributes', 'review']);
+    expect(has_action('wp_ajax_'.glsr()->prefix.'rest_request'))->toBeTrue()
+        ->and(has_action('wp_ajax_nopriv_'.glsr()->prefix.'rest_request'))->toBeTrue();
+    $_POST = [];
 });

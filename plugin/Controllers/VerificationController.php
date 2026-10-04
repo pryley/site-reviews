@@ -79,32 +79,6 @@ class VerificationController extends AbstractController
     }
 
     /**
-     * @action site-reviews/route/ajax/verified-review
-     */
-    public function verifiedReviewAjax(Request $request): void
-    {
-        $reviewId = $request->cast('review_id', 'int');
-        $token = sanitize_text_field($request->get('verified'));
-        $token = (int) glsr(Encryption::class)->decrypt($token);
-        if (empty($reviewId) || $reviewId !== $token) {
-            wp_send_json_error();
-        }
-        $review = glsr_get_review($reviewId);
-        if ($review->isValid()) {
-            $html = $review->build($request->toArray());
-            $message = $review->is_approved
-                ? __('Thank you, your review has been verified.', 'site-reviews')
-                : __('Thank you, your review has been verified and is awaiting approval.', 'site-reviews');
-            wp_send_json_success([
-                'attributes' => $html->attributes(),
-                'message' => $message,
-                'review' => (string) $html,
-            ]);
-        }
-        wp_send_json_error();
-    }
-
-    /**
      * @action site-reviews/route/get/public/verify
      */
     public function verifyReview(Request $request): void

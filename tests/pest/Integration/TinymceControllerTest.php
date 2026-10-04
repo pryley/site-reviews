@@ -175,10 +175,10 @@ test('the javascript is given the shortcode plugin, and no required fields — b
     add_filter('user_can_richedit', '__return_true');
     glsr(TinymceController::class)->registerTinymcePopups();
 
-    $variables = glsr(TinymceController::class)->filterAdminVariables([]);
+    $config = glsr(TinymceController::class)->filterConfig([], 'admin');
 
-    expect($variables['tinymce']['glsr_shortcode'])->toContain('mce-plugin.js');
-    expect($variables['shortcodes'])->toBe([]);
+    expect($config['tinymce']['plugins']['glsr_shortcode'])->toContain('mce-plugin.js');
+    expect($config['tinymce']['required'])->toBe([]);
 });
 
 test('and an addon whose shortcode DOES require a field has it validated', function () {
@@ -196,10 +196,10 @@ test('and an addon whose shortcode DOES require a field has it validated', funct
         'required' => ['id' => 'The review ID is required.'],
     ], 'an_addon_shortcode');
 
-    $variables = glsr(TinymceController::class)->filterAdminVariables([]);
+    $config = glsr(TinymceController::class)->filterConfig([], 'admin');
 
-    expect($variables['shortcodes'])->toHaveKey('an_addon_shortcode')
-        ->and($variables['shortcodes']['an_addon_shortcode'])->toHaveKey('id');
+    expect($config['tinymce']['required'])->toHaveKey('an_addon_shortcode')
+        ->and($config['tinymce']['required']['an_addon_shortcode'])->toHaveKey('id');
 });
 
 test('and a person who cannot use the rich editor is given no shortcodes at all', function () {
@@ -215,14 +215,17 @@ test('and a person who cannot use the rich editor is given no shortcodes at all'
     ], 'an_addon_shortcode');
 
     add_filter('user_can_richedit', '__return_true');
-    expect(glsr(TinymceController::class)->filterAdminVariables([])['shortcodes'])
+    expect(glsr(TinymceController::class)->filterConfig([], 'admin')['tinymce']['required'])
         ->toHaveKey('an_addon_shortcode');
 
     remove_filter('user_can_richedit', '__return_true');
     add_filter('user_can_richedit', '__return_false');
 
-    $variables = glsr(TinymceController::class)->filterAdminVariables([]);
+    $config = glsr(TinymceController::class)->filterConfig([], 'admin');
 
-    expect($variables['shortcodes'])->toBe([])
-        ->and($variables['tinymce'])->not->toBeEmpty(); // …though the plugin script is still named
+    expect($config['tinymce']['required'])->toBe([])
+        ->and($config['tinymce']['plugins'])->not->toBeEmpty(); // …though the plugin script is still named
+
+    // the public script gets none of it
+    expect(glsr(TinymceController::class)->filterConfig([], 'public'))->toBe([]);
 });

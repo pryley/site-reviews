@@ -1,3 +1,4 @@
+import config from '@/public/config.js';
 import dom from '@/public/dom.js';
 
 class Captcha {
@@ -11,9 +12,9 @@ class Captcha {
             recaptcha_v2_invisible: 'grecaptcha',
             recaptcha_v3: 'grecaptcha',
             turnstile: 'turnstile',
-        }[GLSR.captcha.type];
+        }[config.captcha.type];
         this.captchaEl = false;
-        this.containerEl = this.Form.form.querySelector('.glsr-captcha-holder');
+        this.containerEl = this.Form.el.querySelector('.glsr-captcha-holder');
         this.loaded = false;
         this.token = null;
         this.widget = -1;
@@ -22,13 +23,13 @@ class Captcha {
 
     execute () {
         if (!this.captchaEl || !this.isWidgetLoaded()) {
-            this.Form.submitForm();
+            this.Form.submit();
         } else {
             try {
-                this['execute_' + GLSR.captcha.type]();
+                this['execute_' + config.captcha.type]();
             } catch (error) {
                 console.error(error);
-                this.Form.submitForm();
+                this.Form.submit();
             }
         }
     }
@@ -37,7 +38,7 @@ class Captcha {
         if (1 === +this.captchaEl.dataset.error) {
             this._submitFormWithToken('sitekey_invalid')
         } else if (this.token) {
-            this.Form.submitForm();
+            this.Form.submit();
         } else {
             this._retry_execute((t) => this.execute_friendlycaptcha(t), timeout)
         }
@@ -68,7 +69,7 @@ class Captcha {
         if (1 === +this.captchaEl.dataset.error) {
             this._submitFormWithToken('sitekey_invalid')
         } else {
-            this.Form.submitForm();
+            this.Form.submit();
         }
     }
 
@@ -89,7 +90,7 @@ class Captcha {
         // @see: https://github.com/cloudflare/cloudflare-docs/issues/6070
         let token = window[this.captcha].getResponse(this.widget);
         if (1 === +this.captchaEl.dataset.error || this.token || 'undefined' === typeof token) {
-            this.Form.submitForm();
+            this.Form.submit();
         } else {
             this._retry_execute((t) => this.execute_turnstile(t), timeout)
         }
@@ -97,7 +98,7 @@ class Captcha {
 
     fixCompatibility () {
         // This checks to see if the hCaptcha plugin is being used on the page
-        if ('hcaptcha' === GLSR.captcha.type && 'undefined' !== typeof window.hCaptchaOnLoad) {
+        if ('hcaptcha' === config.captcha.type && 'undefined' !== typeof window.hCaptchaOnLoad) {
             document.body.click() // @hack immediately load the hcaptcha script on the page
         }
     }
@@ -129,7 +130,7 @@ class Captcha {
             script.onerror = reject;
             script.src = src;
             script.type = 'module' === type ? 'module' : 'text/javascript';
-            if ('module' !== type && 'undefined' !== typeof GLSR.captcha.urls['module']) {
+            if ('module' !== type && 'undefined' !== typeof config.captcha.urls['module']) {
                 script.setAttribute('nomodule', '')
             }
             script.setAttribute('async', '')
@@ -140,13 +141,13 @@ class Captcha {
     }
 
     render (timeout) {
-        this.Form.form.onsubmit = null; // remove any inline onsubmit handler that may interfere with captcha
+        this.Form.el.onsubmit = null; // remove any inline onsubmit handler that may interfere with captcha
         if (!this.containerEl || this.isWidgetLoaded()) return;
         if ('undefined' === typeof window[this.captcha]) {
             if (!this.loaded) {
-                this.load(GLSR.captcha.urls['module'], 'module')
+                this.load(config.captcha.urls['module'], 'module')
                     .then(() => {
-                        this.load(GLSR.captcha.urls['nomodule'], 'nomodule') // don't wait for nomodule scripts
+                        this.load(config.captcha.urls['nomodule'], 'nomodule') // don't wait for nomodule scripts
                     })
                     .then(() => this.loaded = true)
                     .then(() => this._retry_render((t) => this.render(t), timeout))
@@ -158,7 +159,7 @@ class Captcha {
             this.reset()
             this._buildContainer()
             try {
-                this['render_' + GLSR.captcha.type]();
+                this['render_' + config.captcha.type]();
             } catch (error) {
                 this.captchaEl.dataset.error = 1;
                 console.error(error)
@@ -180,9 +181,9 @@ class Captcha {
         // data-attributes on this.captchaEl do not work when the widget is manually created
         this.widget = window[this.captcha].createWidget({
             element: this.captchaEl,
-            sitekey: GLSR.captcha.sitekey,
+            sitekey: config.captcha.sitekey,
             startMode: 'focus',
-            theme: GLSR.captcha.theme,
+            theme: config.captcha.theme,
         });
         this.captchaEl.addEventListener('frc:widget.complete', event => {
             this.token = event?.detail?.response;
@@ -210,10 +211,10 @@ class Captcha {
     render_procaptcha () {
         this.widget = window[this.captcha].render(this.captchaEl, {
             'callback': (token) => (this.token = token),
-            'captchaType': GLSR.captcha.captcha_type,
-            'language': GLSR.captcha.language,
-            'siteKey': GLSR.captcha.sitekey, // data-attributes are not working with the render fn
-            'theme': GLSR.captcha.theme, // data-attributes are not working with the render fn
+            'captchaType': config.captcha.captchaType,
+            'language': config.captcha.language,
+            'siteKey': config.captcha.sitekey, // data-attributes are not working with the render fn
+            'theme': config.captcha.theme, // data-attributes are not working with the render fn
             'chalexpired-callback': () => this.reset(),
             'close-callback': () => this.Form.button.loaded(),
             'error-callback': () => (this.captchaEl.dataset.error = 1),
@@ -246,9 +247,9 @@ class Captcha {
             'callback': (token) => (this.token = token),
             'error-callback': () => (this.captchaEl.dataset.error = 1), // site key is probably invalid
             'expired-callback': () => this.reset(),
-            'language': GLSR.captcha.language,
-            'sitekey': GLSR.captcha.sitekey, // data-attributes are not working with the render fn
-            'theme': GLSR.captcha.theme, // data-attributes are not working with the render fn
+            'language': config.captcha.language,
+            'sitekey': config.captcha.sitekey, // data-attributes are not working with the render fn
+            'theme': config.captcha.theme, // data-attributes are not working with the render fn
         });
     }
 
@@ -258,7 +259,7 @@ class Captcha {
             this.captchaEl.dataset.error = 0;
         }
         if (this.isWidgetLoaded()) {
-            if (['friendlycaptcha', 'friendlycaptcha_v2'].includes(GLSR.captcha.type)) {
+            if (['friendlycaptcha', 'friendlycaptcha_v2'].includes(config.captcha.type)) {
                 this.widget.reset()
             } else {
                 window[this.captcha].reset(this.widget)
@@ -267,20 +268,20 @@ class Captcha {
     }
 
     _buildContainer () {
-        if (['friendlycaptcha', 'friendlycaptcha_v2'].includes(GLSR.captcha.type) && this.isWidgetLoaded()) {
+        if (['friendlycaptcha', 'friendlycaptcha_v2'].includes(config.captcha.type) && this.isWidgetLoaded()) {
             this.widget.destroy()
         }
-        Array.from(this.containerEl.getElementsByClassName(GLSR.captcha.class)).forEach(el => el.remove());
+        Array.from(this.containerEl.getElementsByClassName(config.captcha.class)).forEach(el => el.remove());
         this.captchaEl = dom('div', {
-            'class': GLSR.captcha.class,
-            'data-badge': GLSR.captcha.badge,
-            'data-captcha-type': GLSR.captcha.captcha_type,
-            'data-lang': GLSR.captcha.language,
+            'class': config.captcha.class,
+            'data-badge': config.captcha.badge,
+            'data-captcha-type': config.captcha.captchaType,
+            'data-lang': config.captcha.language,
             'data-isolated': true,
-            'data-sitekey': GLSR.captcha.sitekey,
-            'data-size': GLSR.captcha.size,
-            'data-theme': GLSR.captcha.theme,
-            'data-type': GLSR.captcha.type,
+            'data-sitekey': config.captcha.sitekey,
+            'data-size': config.captcha.size,
+            'data-theme': config.captcha.theme,
+            'data-type': config.captcha.type,
         });
         this.containerEl.appendChild(this.captchaEl);
     }
@@ -294,7 +295,7 @@ class Captcha {
             if (this.captchaEl) {
                 this.captchaEl.dataset.error = 1;
             }
-            this.Form.submitForm();
+            this.Form.submit();
             return;
         }
         setTimeout(() => callback(timeout - 100), 100);
@@ -312,10 +313,10 @@ class Captcha {
     }
 
     _submitFormWithToken (token) {
-        if (this.Form.form[GLSR.captcha.token_field] && token) {
-            this.Form.form[GLSR.captcha.token_field].value = token;
+        if (this.Form.el[config.captcha.tokenField] && token) {
+            this.Form.el[config.captcha.tokenField].value = token;
         }
-        this.Form.submitForm()
+        this.Form.submit()
     }
 }
 

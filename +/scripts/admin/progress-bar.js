@@ -1,3 +1,5 @@
+import config from '@/public/config.js';
+
 const $ = jQuery;
 const dom = (cls) => $('<div/>').addClass(cls);
 const cls = {
@@ -18,7 +20,7 @@ export default (el) => {
     const bar2 = dom(selectors.bar);
     const cancel = $('<button type="button" data-ajax-cancel disabled>')
         .addClass(cls.cancel)
-        .text(GLSR.text.cancel);
+        .text(config.text.cancel);
     const status = dom(selectors.status);
 
     const init = (cb) => {
@@ -60,7 +62,7 @@ export default (el) => {
         ev.preventDefault()
         el.closest('form').trigger('glsr-cancel-import')
         cancel.prop('disabled', true).off('click')
-        text(GLSR.text.cancelling)
+        text(config.text.cancelling)
     };
 
     const percent = (value = 0, barNum = 1) => {

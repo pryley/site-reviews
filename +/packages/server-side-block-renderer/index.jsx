@@ -3,7 +3,7 @@ import { Disabled, Spinner } from '@wordpress/components';
 import { _x } from '@wordpress/i18n';
 import { applyFilters, doAction } from '@wordpress/hooks';
 import { useBlockProps } from '@wordpress/block-editor';
-import { useMemo, useRef } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 import { useRefEffect } from '@wordpress/compose';
 import BlockPanels from './block-panels.jsx';
 
@@ -51,10 +51,6 @@ const ServerSideBlockRenderer = ({
 
     doAction('site-reviews.blocks.edit', props);
 
-    // The observer mounts once (empty deps), so it must read the CURRENT attributes through a ref.
-    const attributesRef = useRef(attributes);
-    attributesRef.current = attributes;
-
     const ref = useRefEffect((block) => {
         const observer = new MutationObserver((mutations, observer) => {
             for (let mutation of mutations) {
@@ -64,7 +60,7 @@ const ServerSideBlockRenderer = ({
                         const iframe = block?.ownerDocument?.defaultView;
                         el.classList.add('glsr-' + window.getComputedStyle(el, null).getPropertyValue('direction'))
                         if (iframe?.GLSR_init) {
-                            iframe.GLSR_init(`block:${blockName}`, el, attributesRef.current)
+                            iframe.GLSR_init(el)
                         }
                     }
                 }
