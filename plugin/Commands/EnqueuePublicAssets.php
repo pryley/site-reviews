@@ -39,6 +39,9 @@ class EnqueuePublicAssets extends AbstractCommand
                     'url' => admin_url('admin-ajax.php'),
                 ],
                 'nonce' => is_user_logged_in() ? wp_create_nonce('wp_rest') : false,
+                'routes' => glsr()->filterArray('rest-api/routes', [
+                    'submit-review' => 'submissions',
+                ]),
                 'url' => esc_url_raw(rest_url(glsr()->id.'/v1/')),
             ],
             'text' => [
