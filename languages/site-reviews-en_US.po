@@ -6285,7 +6285,7 @@ msgctxt "admin-text"
 msgid "Review update failed, please check the Site Reviews console log for more details."
 msgstr "Review update failed, please check the Site Reviews console log for more details."
 
-#: plugin/Controllers/Api/Version1/RestShortcodeController.php:16
+#: plugin/Controllers/Api/Version1/RestShortcodeController.php:19
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to do that."
 msgstr "Sorry, you are not allowed to do that."

@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 8.3.4 (2026-10-04) =
+
+- Fixed a security issue where a logged-in user could look up user names regardless of role
+- Fixed an issue which prevented the Review Authors addon from managing reviews on the frontend
+
 = 8.3.3 (2026-09-30) =
 
 - Fixed a failed addon update check being treated as an available update
