@@ -2,9 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedPost;
-use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedUser;
-use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAuthor;
 use GeminiLabs\SiteReviews\Defaults\PointerDefaults;
 use GeminiLabs\SiteReviews\Modules\Assets\CompatScript;
 use GeminiLabs\SiteReviews\Modules\Assets\InlineScript;
@@ -19,26 +16,11 @@ class EnqueueAdminAssets extends AbstractCommand
     public function config(): array
     {
         return [
-            'filters' => [
-                'assigned_post' => glsr(ColumnFilterAssignedPost::class)->options(),
-                'assigned_user' => glsr(ColumnFilterAssignedUser::class)->options(),
-                'author' => glsr(ColumnFilterAuthor::class)->options(),
-                'post_author' => (object) [
-                    '' => sprintf('&mdash; %s &mdash;', _x('No Change', 'admin-text', 'site-reviews')),
-                    0 => _x('No Author', 'admin-text', 'site-reviews'),
-                ],
-                'post_author_override' => (object) [
-                    0 => _x('Author Unknown', 'admin-text', 'site-reviews'),
-                ],
-            ],
             'nameprefix' => glsr()->id,
             'nonce' => [
                 'clear-console' => wp_create_nonce('clear-console'),
                 'console-level' => wp_create_nonce('console-level'),
                 'fetch-console' => wp_create_nonce('fetch-console'),
-                'filter-assigned_post' => wp_create_nonce('filter-assigned_post'),
-                'filter-assigned_user' => wp_create_nonce('filter-assigned_user'),
-                'filter-author' => wp_create_nonce('filter-author'),
                 'geolocate-reviews' => wp_create_nonce('geolocate-reviews'),
                 'mce-shortcode' => wp_create_nonce('mce-shortcode'),
                 'search-posts' => wp_create_nonce('search-posts'),

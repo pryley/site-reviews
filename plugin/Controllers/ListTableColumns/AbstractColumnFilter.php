@@ -10,11 +10,6 @@ abstract class AbstractColumnFilter
     protected $enabledFilters = [];
     protected $name;
 
-    public function action(): string
-    {
-        return sprintf('filter-%s', $this->name());
-    }
-
     public function data(): array
     {
         return [
@@ -42,7 +37,7 @@ abstract class AbstractColumnFilter
     public function filterDynamic(): string
     {
         $data = wp_parse_args($this->data(), [
-            'action' => $this->action(),
+            'search' => $this->searchRoute(),
             'selected' => $this->selected(),
         ]);
         $filter = glsr()->build('partials/listtable/filter', $data);
@@ -99,6 +94,14 @@ abstract class AbstractColumnFilter
     public function render(): string
     {
         return $this->filter();
+    }
+
+    /**
+     * The REST route that the dropdown searches.
+     */
+    public function searchRoute(): string
+    {
+        return '';
     }
 
     public function selected(): string

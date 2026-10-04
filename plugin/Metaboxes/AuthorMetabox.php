@@ -39,10 +39,13 @@ class AuthorMetabox implements MetaboxContract
             'text' => esc_html_x('Author', 'admin-text', 'site-reviews'),
         ]);
         echo glsr()->build('partials/listtable/filter', [
-            'action' => 'filter-author',
             'class' => '',
             'id' => 'post_author_override',
             'name' => 'post_author_override',
+            'options' => [
+                0 => _x('Author Unknown', 'admin-text', 'site-reviews'),
+            ],
+            'search' => 'search/users',
             'selected' => $selected,
             'value' => Cast::toInt($value),
         ]);

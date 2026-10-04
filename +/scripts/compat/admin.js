@@ -18,7 +18,6 @@ const KEYS = {
 const PATHS = {
     action: 'request.ajax.action',
     addonsurl: 'urls.addons',
-    filters: 'filters',
     maxrating: 'rating.max',
     minrating: 'rating.min',
     nameprefix: 'nameprefix',
