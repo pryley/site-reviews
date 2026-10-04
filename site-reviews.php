@@ -23,7 +23,6 @@ defined('ABSPATH') || exit;
 
 require_once __DIR__.'/autoload.php';
 require_once __DIR__.'/compatibility.php';
-require_once __DIR__.'/deprecated.php';
 require_once __DIR__.'/helpers.php';
 require_once __DIR__.'/migration.php';
 
