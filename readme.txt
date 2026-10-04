@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 7.1
-Stable tag: 8.3.4
+Stable tag: 8.4.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -210,6 +210,23 @@ You can report any security bugs found in the source code of this plugin through
 This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
+
+= 8.4.0 (unreleased) =
+
+- Added a "Compatibility Mode" setting that keeps add-ons and code snippets written for earlier versions of Site Reviews working (enabled by default)
+- Added a "Debug Mode" setting that writes information about Site Reviews to the browser console, and warns when custom code uses an older Javascript name
+- Added a [CODE SNIPPET] label to Console entries caused by custom code in the theme or a code snippet plugin
+- Added a Javascript API for developers (the `GLSR` object), see the Upgrade Guide for what has changed
+- Added an "Advanced" tab to the settings
+- Added the `site-reviews/assets/config` filter hook to change the values that are passed to the plugin scripts
+- Changed the names of the Javascript events, the previous names keep working while Compatibility Mode is enabled
+- Fixed "unique key" warnings in the browser console of the block editor
+- Fixed PHP warnings on admin pages for users without access to Site Reviews
+- Fixed the settings and license key of a deactivated addon being removed when the plugin adds a new setting
+- Improved the searchable dropdowns in the admin, they now search using the REST API
+- Improved the tabs on the settings pages, they are shown as buttons when they do not fit on one line
+- Removed the `site-reviews/pagination/popstate` Javascript event, use the `popstate` event of the browser instead
+- Renamed the `Compatibility` PHP class to `Helpers\Hook`
 
 = 8.3.4 (2026-10-04) =
 
