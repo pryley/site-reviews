@@ -1,6 +1,7 @@
 import dom from '@/public/dom.js';
 import Event, { adopt, listen, listeners } from '@/public/event.js';
 import config from '@/public/config.js';
+import feature from '@/public/feature.js';
 import Form, { Instance as FormInstance, retain as retainForms } from '@/public/form.js';
 import lib from '@/public/lib.js';
 import Modal, { Instance as ModalInstance, hooks as modalHooks } from '@/public/modal.js';
@@ -64,7 +65,7 @@ if (config.debug?.url && new URLSearchParams(location.search).has('glsr-debug'))
     registry.register({ 'debug.public': config.debug.url })
     registry.load('debug.public').catch(() => {})
 }
-window.GLSR.Util = { debounce, dom, fadeIn, fadeOut, isEmpty, parseJson, selectText, throttle };
+window.GLSR.Util = { debounce, dom, fadeIn, fadeOut, feature, isEmpty, parseJson, selectText, throttle };
 
 window.GLSR_init = (first, ...args) => {
     initEvents()

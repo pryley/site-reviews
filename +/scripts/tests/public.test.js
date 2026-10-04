@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const { test } = require('node:test');
 const { PUBLIC_INLINE_83, loadPublic, publicConfig } = require('./harness.js');
 
-const UTIL = ['debounce', 'dom', 'fadeIn', 'fadeOut', 'isEmpty', 'parseJson', 'selectText', 'throttle'];
+const UTIL = ['debounce', 'dom', 'fadeIn', 'fadeOut', 'feature', 'isEmpty', 'parseJson', 'selectText', 'throttle'];
 
 // Values that cross the jsdom realm are compared as JSON.
 const plain = (value) => JSON.parse(JSON.stringify(value));
@@ -70,9 +70,33 @@ test('the built inline script names each value that PHP supplies once, so that n
     }
 });
 
-test('Util has the eight helpers', () => {
+test('Util has the nine helpers', () => {
     const { window } = loadPublic();
     assert.deepEqual(Object.keys(window.GLSR.Util).sort(), UTIL)
+});
+
+test('Util.feature builds a module with the four members of Review, Form and Summary', () => {
+    const { window } = loadPublic({ html: '<div id="a" class="thing"></div><div id="b"><div id="c" class="thing"></div></div>' });
+    const { document } = window;
+    const calls = [];
+    const { module } = window.GLSR.Util.feature(
+        (root) => root.querySelectorAll('.thing'),
+        (el) => ({ el, destroy: () => calls.push(`destroy ${el.id}`), init: () => calls.push(`init ${el.id}`) })
+    );
+    assert.deepEqual(Object.keys(module).sort(), ['destroy', 'find', 'init', 'instances'])
+    assert.deepEqual([...module.init()].map(instance => instance.el.id), ['a', 'c'])
+    assert.equal(module.find(document.getElementById('c')).el.id, 'c')
+    assert.equal(module.find(document.getElementById('b')), null)
+    assert.equal(Object.isFrozen(module.instances), true)
+    assert.deepEqual([...module.init(document.getElementById('b'))].map(instance => instance.el.id), ['c'])
+    assert.equal(module.instances.length, 2)
+    // with no root: the instances whose element has left the page
+    document.getElementById('a').remove()
+    module.destroy()
+    assert.deepEqual([...module.instances].map(instance => instance.el.id), ['c'])
+    module.destroy(document.getElementById('b'))
+    assert.equal(module.instances.length, 0)
+    assert.deepEqual(calls, ['init a', 'init c', 'destroy c', 'init c', 'destroy a', 'destroy c'])
 });
 
 test('Modal has four members', () => {
