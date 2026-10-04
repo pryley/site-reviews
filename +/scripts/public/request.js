@@ -49,12 +49,20 @@ const review = (reviewId, values = {}) => send({
     path: `render/reviews/${reviewId}`,
 })
 
-const submit = (formData) => send({
-    body: formData,
-    legacy: () => formData,
-    method: 'POST',
-    path: 'submissions',
-})
+// The submissions route creates a review. A form with another action is
+// an addon's, and its action is routed by admin-ajax.
+const submit = (formData) => {
+    const action = formData.get(`${GLSR.nameprefix}[_action]`);
+    if (action && 'submit-review' !== action) {
+        return legacyPost(formData);
+    }
+    return send({
+        body: formData,
+        legacy: () => formData,
+        method: 'POST',
+        path: 'submissions',
+    });
+}
 
 const _legacyBody = (data) => {
     let formData = new FormData();
