@@ -517,7 +517,8 @@ test('the admin script carries the admin ajax action', function () {
 
     $config = (new EnqueueAdminAssets())->config();
 
-    expect(array_keys($config))->toBe(['filters', 'nameprefix', 'nonce', 'rating', 'request', 'text', 'urls']);
+    expect(array_keys($config))->toBe(['nameprefix', 'nonce', 'rating', 'request', 'text', 'urls']);
+    expect(array_filter(array_keys($config['nonce']), fn ($action) => str_starts_with($action, 'filter-')))->toBe([]);
     expect($config['request'])->toBe([
         'ajax' => [
             'action' => glsr()->prefix.'admin_action',

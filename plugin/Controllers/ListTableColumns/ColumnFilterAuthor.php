@@ -17,6 +17,11 @@ class ColumnFilterAuthor extends ColumnFilterAssignedUser
         ];
     }
 
+    public function searchRoute(): string
+    {
+        return 'search/users';
+    }
+
     public function title(): string
     {
         return _x('Author', 'admin-text', 'site-reviews');

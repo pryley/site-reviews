@@ -80,7 +80,6 @@ class ReviewsListTable extends \WP_Posts_List_Table
         }
         $noChange = sprintf('&mdash; %s &mdash;', _x('No Change', 'admin-text', 'site-reviews'));
         return glsr()->build('partials/listtable/filter', [
-            'action' => 'filter-author',
             'class' => 'authors',
             'id' => 'post_author',
             'name' => 'post_author',
@@ -89,6 +88,7 @@ class ReviewsListTable extends \WP_Posts_List_Table
                 0 => _x('No Author', 'admin-text', 'site-reviews'),
             ],
             'placeholder' => $noChange,
+            'search' => 'search/users',
             'selected' => $noChange,
             'value' => '',
         ]);

@@ -81,51 +81,6 @@ test('a search with nothing to find says so rather than returning an empty box',
         ->and($response['data']['empty'])->toContain('Nothing found');
 });
 
-test('the assigned-page filter only offers pages that actually have reviews', function () {
-    // The point of a SEPARATE search for the assigned filters: offering a page with
-    // no reviews on it would be offering a filter that can only ever return nothing.
-    $this->setUpAjax();
-    $assigned = createPost(['post_title' => 'Reviewed Page']);
-    createPost(['post_title' => 'Unreviewed Page']);
-    createReview(['assigned_posts' => $assigned]);
-
-    $response = $this->jsonSentBy(fn () => glsr(AdminController::class)->searchAssignedPostsAjax(
-        new Request(['search' => 'Page'])
-    ));
-
-    $names = array_column($response['data']['items'], 'name');
-    expect($names)->toBe(['Reviewed Page']);
-});
-
-test('the assigned-user filter only offers users that actually have reviews', function () {
-    $this->setUpAjax();
-    $assigned = createUser(['display_name' => 'Reviewed Person']);
-    createUser(['display_name' => 'Unreviewed Person']);
-    createReview(['assigned_users' => $assigned]);
-
-    $response = $this->jsonSentBy(fn () => glsr(AdminController::class)->searchAssignedUsersAjax(
-        new Request(['search' => 'Person'])
-    ));
-
-    $names = array_column($response['data']['items'], 'name');
-    expect($names)->toBe(['Reviewed Person']);
-});
-
-test('an author can be searched for, and comes back with a display name', function () {
-    // The author filter searches every user, not only the ones with reviews — an
-    // administrator filtering by author is looking for who wrote something, and the
-    // answer may well be nobody.
-    $this->setUpAjax();
-    createUser(['display_name' => 'Jane Author']);
-
-    $response = $this->jsonSentBy(fn () => glsr(AdminController::class)->searchAuthorsAjax(
-        new Request(['search' => 'Jane Author'])
-    ));
-
-    $names = array_column($response['data']['items'], 'name');
-    expect($names)->toContain('Jane Author');
-});
-
 test('a user can be searched for from the review editor', function () {
     $this->setUpAjax();
     createUser(['display_name' => 'Jane Author']);

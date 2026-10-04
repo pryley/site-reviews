@@ -40,6 +40,20 @@ GLSR.Request.review(id, values)           // fetches a review to show in the mod
 GLSR.Request.pagedReviews(values)         // fetches a page of reviews: { atts, page, schema, url }
 ```
 
+## The searchable dropdowns of the admin
+
+A dropdown that is rendered with `views/partials/listtable/filter.php` searches the route that its `data-search` attribute names, after `site-reviews/v1/`, and offers the fixed choices in its `data-options` attribute. Without a route it has no search box.
+
+```text
+GET site-reviews/v1/search/assigned-posts?search=…   posts that have a review assigned
+GET site-reviews/v1/search/assigned-users?search=…   users that have a review assigned
+GET site-reviews/v1/search/users?search=…            every user
+```
+
+- Each answers with `[{ id, title }]`, and searches a number as an ID.
+- Each requires the capability that shows the reviews in the admin.
+- A filter of the reviews table names its route in `searchRoute()`.
+
 ## Debug
 
 In debug mode, each request logs its method, path, transport (REST or admin-ajax), status and time to the browser console. See [js-api.md](js-api.md#debug).
