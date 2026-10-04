@@ -20,11 +20,11 @@ class ProfileController extends AbstractController
             return $javascript;
         }
         return $javascript.'document.addEventListener("DOMContentLoaded", () => {'.
-            'GLSR.Event.on("site-reviews/form/handle", (response, form) => {'.
-                'if (true !== response.success || "undefined" === typeof response.html) return;'.
-                'form.classList.add("glsr-hide-form");'.
-                'form.insertAdjacentHTML("afterend", "<p class=\"glsr-no-margins glsr-form-success\">"+response.message+"</p>");'.
-                'form.remove()'.
+            'GLSR.Event.on("site-reviews/form/submitted", ({ form, response, success }) => {'.
+                'if (!success || "undefined" === typeof response.html) return;'.
+                'form.el.classList.add("glsr-hide-form");'.
+                'form.el.insertAdjacentHTML("afterend", "<p class=\"glsr-no-margins glsr-form-success\">"+response.message+"</p>");'.
+                'form.el.remove()'.
             '})'.
         '})';
     }

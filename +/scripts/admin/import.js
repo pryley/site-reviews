@@ -1,3 +1,4 @@
+import config from '@/public/config.js';
 import Button from '@/admin/button.js';
 import ProgressBar from '@/admin/progress-bar.js';
 import pLimit from 'p-limit';
@@ -31,7 +32,7 @@ class Import {
             stage1 = await this.fetch({ stage: 1 });
         } catch(error) {
             console.error(error)
-            GLSR.notices.error(GLSR.text.import_error)
+            GLSR.Notice.error(config.text.importError)
             return {}
         }
         console.info('stage 1 complete', stage1);
@@ -74,14 +75,14 @@ class Import {
         }
         for (let key in data) {
             if (data[key] !== Object(data[key])) {
-                fd.set(`${GLSR.nameprefix}[${key}]`, data[key]);
+                fd.set(`${config.nameprefix}[${key}]`, data[key]);
                 continue;
             }
             for (let subkey in data[key]) {
-                fd.set(`${GLSR.nameprefix}[${key}][${subkey}]`, data[key][subkey]);
+                fd.set(`${config.nameprefix}[${key}][${subkey}]`, data[key][subkey]);
             }
         }
-        fd.set('action', GLSR.action);
+        fd.set('action', config.request.ajax.action);
         return fd;
     }
 
@@ -102,7 +103,7 @@ class Import {
         this.import(this.$el.data('per_page')).then(data => {
             setTimeout(() => {
                 if (data?.notices) {
-                    GLSR.notices.add(data.notices)
+                    GLSR.Notice.add(data.notices)
                 }
                 this.$form.get(0).reset()
                 this.isIdle()

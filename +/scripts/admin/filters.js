@@ -1,5 +1,6 @@
 /** global: GLSR, jQuery */
 
+import config from '@/public/config.js';
 import Ajax from '@/admin/ajax.js';
 
 const Filters = function () {
@@ -27,12 +28,12 @@ Filters.prototype = {
         const data = {
             _ajax_request: true,
         };
-        data[GLSR.nameprefix] = {
+        data[config.nameprefix] = {
             _action: 'toggle-filters',
-            _nonce: GLSR.nonce['toggle-filters'],
+            _nonce: config.nonce['toggle-filters'],
             enabled: this.enabled_(),
         };
-        this.request = wp.ajax.post(GLSR.action, data);
+        this.request = wp.ajax.post(config.request.ajax.action, data);
         this.request.always(function () {
             this.request = null
         }.bind(this));

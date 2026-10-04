@@ -21,6 +21,7 @@ site-reviews/addon/sync/services                            (array $services): a
 site-reviews/addon/tools/tabs                               (array $tabs): array
 site-reviews/addon/welcome/tabs                             (array $tabs): array
 site-reviews/api/args                                       (array $args, string $baseUrl): array
+site-reviews/assets/config                                  (array $config, string $bundle): array
 site-reviews/assets/css                                     (bool $loadCss): bool
 site-reviews/assets/js                                      (bool $loadJs): bool
 site-reviews/assigned_posts/parent_id                       (int $postId): int
@@ -69,6 +70,7 @@ site-reviews/captcha/language                               (string $locale): st
 site-reviews/column/<column>                                (string $className): string
 site-reviews/columns/<column_slug>                          (string $value, int $postId): string
 site-reviews/columns/orderby-is-null                        (array $columns): array
+site-reviews/compat/assets                                  (bool $compat, string $bundle): bool
 site-reviews/config                                         (string $path): string
 site-reviews/config/<config_id>                             (array $config): array
 site-reviews/console/depth                                  (int $depth): int
@@ -82,6 +84,8 @@ site-reviews/deactivate/insight                             (array $insight): ar
 site-reviews/deactivate/insight/display                     (array $insight): array
 site-reviews/deactivate/plugins                             (array $plugins): array
 site-reviews/deactivate/reasons                             (array $reasons): array
+site-reviews/debug/assets                                   (bool $debug, string $bundle): bool
+site-reviews/debug/on-request                               (bool $isAllowed): bool
 site-reviews/defaults/<defaults_name>                       (array $defaults, string $method, array $args, string $defaultsName): array
 site-reviews/defaults/<defaults_name>/casts                 (array $casts, string $method, string $defaultsName): array
 site-reviews/defaults/<defaults_name>/concatenated          (array $concatenated, string $method, string $defaultsName): array
@@ -108,12 +112,12 @@ site-reviews/email/compose                                  (array $email, Modul
 site-reviews/email/headers                                  (array $headers, Modules\Email $mailer): array
 site-reviews/email/message                                  (string $message, string $type, Modules\Email $mailer): string
 site-reviews/enqueue/admin/dependencies                     (array $dependencies): array
-site-reviews/enqueue/admin/inline-script                    (string $optimizedScript, string $script, array $variables): string
+site-reviews/enqueue/admin/inline-script                    (string $optimizedScript, string $script, array $config): string
 site-reviews/enqueue/admin/inline-script/after              (string $javascript): string
 site-reviews/enqueue/admin/inline-styles                    (string $css): string
 site-reviews/enqueue/admin/localize                         (array $variables): array
 site-reviews/enqueue/public/dependencies                    (array $dependencies): array
-site-reviews/enqueue/public/inline-script                   (string $optimizedScript, string $script, array $variables): string
+site-reviews/enqueue/public/inline-script                   (string $optimizedScript, string $script, array $config): string
 site-reviews/enqueue/public/inline-script/after             (string $javascript): string
 site-reviews/enqueue/public/inline-styles                   (string $inlineCss, array $inlineConfig): string
 site-reviews/enqueue/public/localize                        (array $variables): array

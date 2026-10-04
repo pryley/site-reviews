@@ -12,6 +12,8 @@ class RestHooks extends AbstractHooks
             return;
         }
         $this->hook(RestController::class, [
+            ['dispatchAjaxRequest', "wp_ajax_{$this->prefix}rest_request"],
+            ['dispatchAjaxRequest', "wp_ajax_nopriv_{$this->prefix}rest_request"],
             ['registerRoutes', 'rest_api_init'],
         ]);
     }
