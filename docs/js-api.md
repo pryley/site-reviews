@@ -20,6 +20,7 @@ The public script (`site-reviews.js`) and the admin script (`site-reviews-admin.
 - A module is PascalCase (`GLSR.Form`). Its members are camelCase (`GLSR.Form.instances`).
 - A singular module belongs to Site Reviews: `Review`, `Form`, `Summary`, `Modal`, `Event`, `Request`, `Util`.
 - A plural module belongs to a Site Reviews Premium feature: `Filters`, `Images`, `Themes`. It exists only on a page that loads that feature's script.
+- `Editor` is the editor of an [editor screen](#an-editor-screen), whichever plugin provides it. Only one is ever on a page.
 - The only lowercase keys are `version`, `config`, `lib` and `registry`.
 
 ## Before the script runs
@@ -148,6 +149,18 @@ GLSR.lib.tippy   // { tippy, plugins: { followCursor } }
 ```
 
 `GLSR.Tinymce` is the shortcode button of the classic editor. Site Reviews 9.0 removes the button, and `GLSR.Tinymce` and `GLSR.config.tinymce` with it.
+
+## An editor screen
+
+```js
+GLSR.Editor      // { init(config) }
+```
+
+A screen that is one full-page editor has an editor script, which defines `GLSR.Editor` and starts nothing. PHP prints one call directly after it, `GLSR.Editor.init(config)`, which starts the editor with the config PHP composed for it. On a screen that loads neither of the scripts above, `GLSR` holds `Editor` and nothing else.
+
+`init` keeps the config in a `@wordpress/data` store, `site-reviews/editor`. `wp.data.select('site-reviews/editor').getConfig()` returns it: one frozen object, the same on every read. A script that runs beside the editor reads the editor's config there.
+
+The Site Reviews Premium editors of forms, themes, alerts and emails are started this way.
 
 ## Config
 
