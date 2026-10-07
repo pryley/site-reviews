@@ -33,6 +33,8 @@ abstract class AbstractNotice
             'type' => str_starts_with('notice', $this->type) ? 'notice' : $this->type,
         ], $this->key);
         add_action('admin_notices', [$this, 'render'], $this->priority);
+        // admin_notices does not fire in the network admin
+        add_action('network_admin_notices', [$this, 'render'], $this->priority);
     }
 
     public function app(): PluginContract

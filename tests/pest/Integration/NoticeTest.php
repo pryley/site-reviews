@@ -867,3 +867,23 @@ test('the plugin-health notices show in the network admin too', function () {
         set_current_screen('front');
     }
 });
+
+test('and a notice that loads in the network admin is drawn there', function () {
+    // admin-header.php fires network_admin_notices in the network admin, not admin_notices.
+    retiredAddon();
+    wp_set_current_user(createUser(['role' => 'administrator']));
+    set_current_screen('plugins-network');
+    try {
+        $notice = new RetiredFreeNotice();
+        ob_start();
+        do_action('network_admin_notices');
+        $networkAdmin = (string) ob_get_clean();
+
+        expect(noticeLoaded($notice))->toBeTrue();
+        expect($networkAdmin)
+            ->toContain(TestAddon::NAME)
+            ->toContain('has been merged into Site Reviews');
+    } finally {
+        set_current_screen('front');
+    }
+});
