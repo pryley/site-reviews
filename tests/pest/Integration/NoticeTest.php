@@ -11,7 +11,6 @@ use GeminiLabs\SiteReviews\Notices\LicenseMissingNotice;
 use GeminiLabs\SiteReviews\Notices\LicensePromotedNotice;
 use GeminiLabs\SiteReviews\Notices\MigrationNotice;
 use GeminiLabs\SiteReviews\Notices\RetiredFreeNotice;
-use GeminiLabs\SiteReviews\Notices\RetiredPremiumNotice;
 use GeminiLabs\SiteReviews\Notices\UpgradedNotice;
 use GeminiLabs\SiteReviews\Notices\WelcomeNotice;
 use GeminiLabs\SiteReviews\Notices\WriteReviewNotice;
@@ -374,22 +373,23 @@ test('the notices on a review screen are caught before wordpress moves them', fu
 });
 
 /*
- * The three notices about addons: two that warn, and one that sells.
+ * The two notices about addons: one that warns, and one that sells.
  *
- * All three are driven by a register in the container rather than by a setting, and each register
+ * Both are driven by a register in the container rather than by a setting, and each register
  * is filled at boot by Application::register() as the addons announce themselves:
  *
  *   retired                an addon that has been RETIRED — its features are now in the free
  *                          plugin, and leaving it active will conflict with them.
- *   site-reviews-premium   the old separately-sold premium addons, superseded by the bundled
- *                          Premium plugin. Registered, then turned away.
  *   licensed               the paid addons that are installed. If it is EMPTY, this is a free
  *                          site, and the promotion banner is the one thing that shows.
  *
- * The two retirement notices are the only notices in the plugin that are NOT dismissible and that
- * appear OUTSIDE the review screens — on the dashboard, the plugins page and the updates page. Both
+ * The retirement notice is the only notice in the plugin that is NOT dismissible and that
+ * appears OUTSIDE the review screens — on the dashboard, the plugins page and the updates page. Both
  * are deliberate: a retired addon actively breaks the site it is installed on, and the person who
  * needs to hear that may have no reason to open the reviews screen for weeks.
+ *
+ * A standalone addon that the Premium plugin replaces is a third register (site-reviews-premium):
+ * core turns it away and says nothing, and the Premium plugin deactivates it.
  */
 
 /**
@@ -397,11 +397,9 @@ test('the notices on a review screen are caught before wordpress moves them', fu
  * view reads ::ID and ::NAME off it. Optionally active, which is the only state it can be nagged
  * about, because the nag is a button that deactivates it.
  */
-function retiredAddon(string $register, bool $isActive = true): void
+function retiredAddon(bool $isActive = true): void
 {
-    'retired' === $register
-        ? glsr()->store('retired', [TestAddon::ID => TestAddon::class])
-        : glsr()->store('site-reviews-premium', [TestAddon::class]);
+    glsr()->store('retired', [TestAddon::ID => TestAddon::class]);
     if ($isActive) {
         update_option('active_plugins', [sprintf('%1$s/%1$s.php', TestAddon::ID)]);
     }
@@ -411,7 +409,7 @@ test('a retired free addon is reported, wherever the person happens to be', func
     // On the plugins screen — where they are about to be, because that is where you go to
     // deactivate the thing you have just been told to deactivate. And it is named, with a button
     // that does it for them: "an addon has been merged" is not an instruction anybody can act on.
-    retiredAddon('retired');
+    retiredAddon();
     set_current_screen('plugins');
 
     $notice = new RetiredFreeNotice();
@@ -426,7 +424,7 @@ test('a retired free addon is reported, wherever the person happens to be', func
 test('a retired addon that is already deactivated is not nagged about', function () {
     // Registered but not active — which is the state of somebody who has already done what they
     // were told. The notice loads (the register still holds it) and then has nothing to say.
-    retiredAddon('retired', isActive: false);
+    retiredAddon(isActive: false);
 
     expect(renderedNotice(new RetiredFreeNotice()))
         ->not->toContain('has been merged into Site Reviews');
@@ -435,7 +433,7 @@ test('a retired addon that is already deactivated is not nagged about', function
 test('a retirement notice cannot be dismissed, because the problem does not go away', function () {
     // Every other notice in the plugin is dismissible. This one is not: dismissing it would hide
     // a live conflict, and the site would keep misbehaving with nothing on screen to say why.
-    retiredAddon('retired');
+    retiredAddon();
 
     expect(renderedNotice(new RetiredFreeNotice()))
         ->not->toContain('is-dismissible')
@@ -448,25 +446,6 @@ test('a site with no retired addons — which is nearly all of them — sees not
     expect(glsr()->retrieveAs('array', 'retired'))->toBe([]);
 
     expect(noticeLoaded(new RetiredFreeNotice()))->toBeFalse();
-});
-
-test('an old separately-sold premium addon is reported too, and as a warning rather than an error', function () {
-    // A different register and a different severity: the old premium addons are superseded, not
-    // broken, so this is a warning where the retired-free one is an error. It is also shown on
-    // the dashboard — the one screen every administrator does open.
-    retiredAddon('site-reviews-premium');
-    set_current_screen('dashboard');
-
-    $notice = new RetiredPremiumNotice();
-
-    expect(noticeLoaded($notice))->toBeTrue();
-    expect(renderedNotice($notice))
-        ->toContain('notice-warning')
-        ->toContain(TestAddon::NAME);
-});
-
-test('and a site with none of those sees nothing either', function () {
-    expect(noticeLoaded(new RetiredPremiumNotice()))->toBeFalse();
 });
 
 /*
@@ -632,16 +611,15 @@ test('each version-deferred notice defers to the right granularity', function ()
 });
 
 /*
- * The retired-addon notices, and the migration notice.
+ * The retired-addon notice, and the migration notice.
  */
 
-test('the retired-addon notices fall back to the plugin screens when off the admin dashboard', function () {
+test('the retired-addon notice falls back to the plugin screens when off the admin dashboard', function () {
     // isNoticeScreen short-circuits to true on the dashboard/plugins/update-core screens; on the
     // plugin's own screens it defers to the base rule (which is also true there).
     onAReviewScreen();
 
-    expect((fn () => $this->isNoticeScreen())->call(new RetiredFreeNotice()))->toBeTrue()
-        ->and((fn () => $this->isNoticeScreen())->call(new RetiredPremiumNotice()))->toBeTrue();
+    expect((fn () => $this->isNoticeScreen())->call(new RetiredFreeNotice()))->toBeTrue();
 });
 
 test('the migration notice stays down when nothing needs migrating', function () {
@@ -884,8 +862,7 @@ test('the plugin-health notices show in the network admin too', function () {
         $screenAllowed = fn ($notice) => (fn () => $this->isNoticeScreen())->call($notice);
 
         expect($screenAllowed(new GatekeeperNotice()))->toBeTrue()
-            ->and($screenAllowed(new RetiredFreeNotice()))->toBeTrue()
-            ->and($screenAllowed(new RetiredPremiumNotice()))->toBeTrue();
+            ->and($screenAllowed(new RetiredFreeNotice()))->toBeTrue();
     } finally {
         set_current_screen('front');
     }
