@@ -33,6 +33,7 @@ abstract class AbstractNotice
             'type' => str_starts_with('notice', $this->type) ? 'notice' : $this->type,
         ], $this->key);
         add_action('admin_notices', [$this, 'render'], $this->priority);
+        add_action('network_admin_notices', [$this, 'render'], $this->priority);
     }
 
     public function app(): PluginContract
