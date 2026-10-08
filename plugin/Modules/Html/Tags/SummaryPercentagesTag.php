@@ -54,7 +54,7 @@ class SummaryPercentagesTag extends SummaryTag
             $info = $this->ratingInfo($level, $percentages);
             $value = $label.$bar.$info;
             $value = glsr()->filterString('summary/wrap/bar', $value, $this->args, [
-                'info' => wp_strip_all_tags($info, true),
+                'info' => wp_strip_all_tags($info, true), // @deprecated v8.0.0
                 'rating' => $level,
             ]);
             return $carry.glsr(Builder::class)->div([
