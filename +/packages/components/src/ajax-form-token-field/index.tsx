@@ -195,6 +195,7 @@ const AjaxFormTokenField = (props: ControlProps) => {
                         __nextHasNoMarginBottom
                         className={className}
                         disabled={isLoading}
+                        help=""
                         label={label || ''}
                         onChange={handleValueChange}
                         onInputChange={setSearch}
