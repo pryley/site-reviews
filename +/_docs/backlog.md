@@ -482,6 +482,16 @@ Features are subject to change and are sorted alphabetically, not by priority.
   Options when this is picked up: map REST `author` to `author_id` and `post_author` behind
   the edit-others check, or make `author` read-only on write.
 
+- [ ] **`release.sh` creates the wordpress.org SVN tag and no git tag.** Raised 2026-10-08
+  (Paul: "I normally manually add the tag but sometimes I forget so it should be done
+  automatically in the release script"). The script copies trunk to `tags/{version}` and
+  commits to SVN (`release.sh:128`, `:143`); it runs no `git tag` and no `git push`. `origin`
+  has no `v8.3.0` and no `v8.3.1` (`git ls-remote --tags origin`, 2026-10-08).
+
+  To build: after the SVN commit succeeds, create `v{version}` on the commit the release was
+  built from and push it, only when that tag exists neither locally nor on `origin`. The tags
+  from `v8.3.2` on are annotated.
+
 ## Upcoming Add-ons
 
 ### Functionality
