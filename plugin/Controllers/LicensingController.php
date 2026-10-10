@@ -16,8 +16,10 @@ class LicensingController extends AbstractController
     public function sanitizeLicenses(array $options, array $input): array
     {
         $key = 'settings.licenses';
-        $licenses = Arr::consolidate(Arr::get($input, $key));
-        foreach ($licenses as $addonId => $license) {
+        // A saved key without a field in the form (i.e. premium's before it is installed) is kept.
+        $posted = Arr::consolidate(Arr::get($input, $key));
+        $licenses = array_replace(Arr::consolidate(Arr::get($options, $key)), $posted);
+        foreach ($posted as $addonId => $license) {
             if (empty($license)) {
                 continue;
             }
