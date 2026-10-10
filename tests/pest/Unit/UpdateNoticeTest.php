@@ -54,7 +54,7 @@ test('no status, or one the plugin does not know, is the generic sentence linked
     $generic = 'A valid license key is required to update this plugin.';
 
     expect((new UpdateNotice())->text())->toBe($generic)
-        ->and((new UpdateNotice())->url())->toBe(Updater::DEFAULT_API_URL)
+        ->and((new UpdateNotice())->url())->toBe(Updater::BASE_URL)
         ->and((new UpdateNotice('something_new'))->text())->toBe($generic)
         // the plugin's own page on the store, when the row knows it
         ->and((new UpdateNotice('', '', 'https://niftyplugins.com/plugins/site-reviews-alerts/'))->url())
