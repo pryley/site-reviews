@@ -214,6 +214,9 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 = 8.4.0 (unreleased) =
 
 - Added a "Compatibility Mode" setting that keeps add-ons and code snippets written for earlier versions of Site Reviews working (enabled by default)
+- Added a "License Key" setting at the top of the General tab: a license that includes Site Reviews Premium is verified and activated there, and the plugin is then installed from our website with one click
+- Added a notice and an "Install Premium" menu label for a site whose saved license includes Site Reviews Premium
+- Changed the Licenses tab: it is shown only while a standalone addon is active
 - Added a "Debug Mode" setting that writes information about Site Reviews to the browser console, and warns when custom code uses an older Javascript name
 - Added a [CODE SNIPPET] label to Console entries caused by custom code in the theme or a code snippet plugin
 - Added a Javascript API for developers (the `GLSR` object), see the Upgrade Guide for what has changed
@@ -221,9 +224,14 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Added the `site-reviews/assets/config` filter hook to change the values that are passed to the plugin scripts
 - Added the `site-reviews/rest-api/routes` filter hook to name the REST API route that a form is submitted to
 - Changed the names of the Javascript events, the previous names keep working while Compatibility Mode is enabled
+- Changed the website address sent to the license server by a sub-site of a network with its own domain: it is now the sub-site's address instead of the network's, and its saved licenses are activated for it once
 - Fixed "unique key" warnings in the browser console of the block editor
 - Fixed PHP warnings on admin pages for users without access to Site Reviews
 - Fixed the settings and license key of a deactivated addon being removed when the plugin adds a new setting
+- Fixed a license key entered in the field of another addon being reported as "not activated for your website" instead of as a key for a different product
+- Fixed a license with unlimited site activations being refused when it was not yet activated for the website
+- Fixed the license key of a deactivated addon being removed when the settings are saved
+- Fixed the Rollback Plugin tool not warning which addons will stop working after the rollback
 - Improved the searchable dropdowns in the admin, they now search using the REST API
 - Improved the tabs on the settings pages, they are shown as buttons when they do not fit on one line
 - Removed the `site-reviews/pagination/popstate` Javascript event, use the `popstate` event of the browser instead
