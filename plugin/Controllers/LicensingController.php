@@ -71,7 +71,8 @@ class LicensingController extends AbstractController
             $this->renderExpiredLicenseNotice($check['expires']);
             return true; // don't remove expired licenses from the settings
         }
-        if (in_array($check['license'], ['inactive', 'site_inactive']) && $check['activations_left'] > 0) {
+        // A license_limit of 0 is unlimited (activations_left is then the string 'unlimited')
+        if (in_array($check['license'], ['inactive', 'site_inactive']) && ($check['activations_left'] > 0 || 0 === $check['license_limit'])) {
             return $this->activateLicense($updater);
         }
         $this->renderGenericLicenseNotice();
