@@ -113,6 +113,19 @@ test('a key the server does not recognise is refused and not saved', function ()
         ->and(savedPremiumKey())->toBe('');
 });
 
+test('a disabled key is told apart from an unknown one', function () {
+    // The server answers disabled, with success true, for a key that exists but was revoked.
+    licenseServer(['check_license' => ['success' => true, 'license' => 'disabled']]);
+
+    $response = verifyPremium('a-disabled-key');
+
+    expect($response->get_status())->toBe(400)
+        ->and($response->get_data()['code'])->toBe('glsr_license_disabled')
+        ->and($response->get_data()['message'])->toContain('has been disabled')
+        ->and($response->get_data()['link']['url'])->toContain('account/support/')
+        ->and(savedPremiumKey())->toBe('');
+});
+
 test('a key for an addon is told apart from an invalid one', function () {
     // The server answers item_name_mismatch with success true.
     licenseServer(['check_license' => ['success' => true, 'license' => 'item_name_mismatch']]);

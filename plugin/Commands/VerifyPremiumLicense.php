@@ -41,10 +41,17 @@ class VerifyPremiumLicense extends AbstractPremiumCommand
             );
             return;
         }
-        if (true !== $this->check['success'] || 'disabled' === $this->check['license']) {
+        if (true !== $this->check['success']) {
             $this->refuse('license_invalid',
-                _x('The license key you entered is either invalid or has been revoked.', 'admin-text', 'site-reviews'),
+                _x('This appears to be an invalid license key for Site Reviews Premium.', 'admin-text', 'site-reviews'),
                 $this->licenseKeysLink()
+            );
+            return;
+        }
+        if ('disabled' === $this->check['license']) {
+            $this->refuse('license_disabled',
+                _x('Your license key has been disabled. Please contact support for more information.', 'admin-text', 'site-reviews'),
+                $this->supportLink()
             );
             return;
         }
