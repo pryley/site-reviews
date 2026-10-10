@@ -13,6 +13,7 @@ class ActivateLicenseDefaults extends DefaultsAbstract
     public array $casts = [
         'activations_left' => 'int',
         'license_limit' => 'int',
+        'lifetime' => 'bool',
         'site_count' => 'int',
         'success' => 'bool',
     ];
@@ -39,6 +40,7 @@ class ActivateLicenseDefaults extends DefaultsAbstract
             'item_name' => '',
             'license' => '',
             'license_limit' => 0,
+            'lifetime' => false,
             'site_count' => 0,
             'success' => false,
         ];
@@ -54,6 +56,7 @@ class ActivateLicenseDefaults extends DefaultsAbstract
         }
         if ('lifetime' === $values['expires']) {
             $values['expires'] = date('Y-m-d H:i:s', strtotime('+10 years'));
+            $values['lifetime'] = true;
         }
         return $values;
     }

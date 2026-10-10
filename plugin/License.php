@@ -11,10 +11,6 @@ class License
         return $this->status()['premium'];
     }
 
-    /**
-     * The first saved key the licence server flags as a premium licence and calls
-     * valid: what the "Upgrade to Premium" page offers to install premium with.
-     */
     public function premiumKey(): string
     {
         return $this->status()['premium_key'];
@@ -29,7 +25,7 @@ class License
         // before a license is entered; the license notices still apply.
         $status['premium'] = !is_null(glsr()->addon('site-reviews-premium'));
         if (!$status['premium'] && !empty(glsr_get_option('licenses.site-reviews-premium'))) {
-            // The key the "Upgrade to Premium" page saved before premium was installed.
+            // The key the License Key row saved before premium was installed.
             $licensed['site-reviews-premium'] = ['name' => 'site-reviews-premium'];
         }
         foreach ($licensed as $addonId => $addon) {
