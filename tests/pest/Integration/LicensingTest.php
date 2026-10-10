@@ -24,7 +24,8 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  *
  *   missing   installed, no key entered.               → the "missing" banner
  *   expired   a key entered, licence run out.          → the "expired" banner
- *   invalid   key wrong, revoked, or another site's.   → an error on save
+ *   invalid   key wrong or another site's.            → an error on save
+ *   disabled  key revoked in the store.                → its own error on save
  *
  * Both banners are type `banner`, and AbstractNotice::canRender() lets only ONE banner render per
  * page — so an addon both missing a key and holding an expired one does not stack two.
@@ -174,9 +175,6 @@ test('a licence the server calls valid is kept', function () {
 });
 
 test('a licence the server does not recognise is thrown away, not saved', function () {
-    // The whole point of checking on save. A key that is wrong, revoked, or belongs to somebody
-    // else must not sit in the settings looking like it works — the person would never find out
-    // why they were not getting updates.
     licenseServer(['check_license' => ['success' => false]]);
 
     $options = glsr(LicensingController::class)->sanitizeLicenses([], [
@@ -184,7 +182,7 @@ test('a licence the server does not recognise is thrown away, not saved', functi
     ]);
 
     expect($options['settings']['licenses'][addonId()])->toBe('');
-    expect(glsr(Notice::class)->get())->toContain('invalid or has been revoked');
+    expect(glsr(Notice::class)->get())->toContain('A license you entered is invalid.');
 });
 
 test('a licence that has been disabled is thrown away too', function () {
@@ -195,7 +193,10 @@ test('a licence that has been disabled is thrown away too', function () {
         'settings' => ['licenses' => [addonId() => 'a-disabled-key']],
     ]);
 
-    expect($options['settings']['licenses'][addonId()])->toBe('');
+    expect($options['settings']['licenses'][addonId()])->toBe('')
+        ->and(glsr(Notice::class)->get())->toContain('has been disabled')
+        ->and(glsr(Notice::class)->get())->toContain('account/support/')
+        ->and(glsr(Notice::class)->get())->not->toContain('is invalid');
 });
 
 test('a saved licence is kept when the licence server gives no answer', function () {
@@ -211,7 +212,7 @@ test('a saved licence is kept when the licence server gives no answer', function
 
     expect($options['settings']['licenses'][addonId()])->toBe('a-saved-key')
         ->and(glsr(Notice::class)->get())->toContain('could not be reached')
-        ->and(glsr(Notice::class)->get())->not->toContain('invalid or has been revoked');
+        ->and(glsr(Notice::class)->get())->not->toContain('is invalid');
 });
 
 test('a new licence is not saved when the licence server gives no answer', function () {
