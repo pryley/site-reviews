@@ -3961,37 +3961,47 @@ msgid "Rate Site Reviews ★★★★★ on Wordpress"
 msgstr ""
 
 #. translators: %s: the relative expiry date (e.g. 3 days ago)
-#: plugin/Controllers/LicensingController.php:78
+#: plugin/Controllers/LicensingController.php:82
 #, php-format
 msgctxt "admin-text"
 msgid "A license you entered has expired: %s."
 msgstr ""
 
 #. translators: %s: link to the License Keys page
-#: plugin/Controllers/LicensingController.php:82
+#: plugin/Controllers/LicensingController.php:86
 #, php-format
 msgctxt "link to License Keys page (admin-text)"
 msgid "To renew your license and enable updates, please visit the %s on your Nifty Plugins account."
 msgstr ""
 
-#: plugin/Controllers/LicensingController.php:90
+#: plugin/Controllers/LicensingController.php:94
 msgctxt "admin-text"
 msgid "A license you entered has not been activated for your website."
 msgstr ""
 
 #. translators: %s: link to the License Keys page
-#: plugin/Controllers/LicensingController.php:92
+#: plugin/Controllers/LicensingController.php:96
 #, php-format
 msgctxt "link to License Keys page (admin-text)"
 msgid "To activate your license, please visit the %s page on your Nifty Plugins account and click the \"Manage Sites\" button to activate it for your website."
 msgstr ""
 
-#: plugin/Controllers/LicensingController.php:101
+#: plugin/Controllers/LicensingController.php:105
 msgctxt "admin-text"
 msgid "A license you entered is either invalid or has been revoked."
 msgstr ""
 
-#: plugin/Controllers/LicensingController.php:108
+#: plugin/Controllers/LicensingController.php:111
+msgctxt "admin-text"
+msgid "A license you entered is for a different product."
+msgstr ""
+
+#: plugin/Controllers/LicensingController.php:112
+msgctxt "admin-text"
+msgid "Please enter each license key in the field of the addon it was purchased for."
+msgstr ""
+
+#: plugin/Controllers/LicensingController.php:119
 msgctxt "admin-text"
 msgid "The license server could not be reached. Please try again later."
 msgstr ""

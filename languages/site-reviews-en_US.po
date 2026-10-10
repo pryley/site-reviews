@@ -3618,18 +3618,18 @@ msgid "Rate Site Reviews ★★★★★ on Wordpress"
 msgstr "Rate Site Reviews ★★★★★ on Wordpress"
 
 #. translators: %s: the relative expiry date (e.g. 3 days ago)
-#: plugin/Controllers/LicensingController.php:78
+#: plugin/Controllers/LicensingController.php:82
 #, php-format
 msgctxt "admin-text"
 msgid "A license you entered has expired: %s."
 msgstr "A license you entered has expired: %s."
 
-#: plugin/Controllers/LicensingController.php:90
+#: plugin/Controllers/LicensingController.php:94
 msgctxt "admin-text"
 msgid "A license you entered has not been activated for your website."
 msgstr "A license you entered has not been activated for your website."
 
-#: plugin/Controllers/LicensingController.php:101
+#: plugin/Controllers/LicensingController.php:105
 msgctxt "admin-text"
 msgid "A license you entered is either invalid or has been revoked."
 msgstr "A license you entered is either invalid or has been revoked."
@@ -7428,14 +7428,14 @@ msgid "Enter the license key here. Your license can be found on the %s page of y
 msgstr "Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account."
 
 #. translators: %s: link to the License Keys page
-#: plugin/Controllers/LicensingController.php:82
+#: plugin/Controllers/LicensingController.php:86
 #, php-format
 msgctxt "link to License Keys page (admin-text)"
 msgid "To renew your license and enable updates, please visit the %s on your Nifty Plugins account."
 msgstr "To renew your license and enable updates, please visit the %s on your Nifty Plugins account."
 
 #. translators: %s: link to the License Keys page
-#: plugin/Controllers/LicensingController.php:92
+#: plugin/Controllers/LicensingController.php:96
 #, php-format
 msgctxt "link to License Keys page (admin-text)"
 msgid "To activate your license, please visit the %s page on your Nifty Plugins account and click the \"Manage Sites\" button to activate it for your website."
@@ -9095,7 +9095,7 @@ msgctxt "login (admin-text)"
 msgid "To receive support for Site Reviews Premium, please %s to your Nifty Plugins account."
 msgstr ""
 
-#: plugin/Controllers/LicensingController.php:108
+#: plugin/Controllers/LicensingController.php:119
 msgctxt "admin-text"
 msgid "The license server could not be reached. Please try again later."
 msgstr ""
@@ -9222,4 +9222,14 @@ msgstr ""
 #, php-format
 msgctxt "admin-text"
 msgid "Site Reviews is ignoring the %1$s proxy HTTP header because no trusted proxies have been entered. Enter your trusted proxies in the %2$s tool, or set the Proxy HTTP Header to None."
+msgstr ""
+
+#: plugin/Controllers/LicensingController.php:111
+msgctxt "admin-text"
+msgid "A license you entered is for a different product."
+msgstr ""
+
+#: plugin/Controllers/LicensingController.php:112
+msgctxt "admin-text"
+msgid "Please enter each license key in the field of the addon it was purchased for."
 msgstr ""

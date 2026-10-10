@@ -58,6 +58,10 @@ class LicensingController extends AbstractController
             $this->renderInvalidLicenseNotice();
             return false;
         }
+        if (in_array($check['license'], ['invalid_item_id', 'item_name_mismatch'], true)) {
+            $this->renderMismatchedLicenseNotice();
+            return false;
+        }
         if ('valid' === $check['license']) {
             return true;
         }
@@ -100,6 +104,13 @@ class LicensingController extends AbstractController
         glsr(Notice::class)->addError(
             _x('A license you entered is either invalid or has been revoked.', 'admin-text', 'site-reviews')
         );
+    }
+
+    protected function renderMismatchedLicenseNotice(): void
+    {
+        $error = _x('A license you entered is for a different product.', 'admin-text', 'site-reviews');
+        $message = _x('Please enter each license key in the field of the addon it was purchased for.', 'admin-text', 'site-reviews');
+        glsr(Notice::class)->addError(sprintf('<strong>%s</strong><br>%s', $error, $message));
     }
 
     protected function renderUnreachableLicenseNotice(): void

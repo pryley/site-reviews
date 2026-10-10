@@ -305,6 +305,19 @@ test('a licence with no activations left is not silently kept', function () {
     expect(glsr(Notice::class)->get())->toContain('Manage Sites');
 });
 
+test('a licence for another product is thrown away, and the person is told which mistake it was', function () {
+    // The server answers item_name_mismatch with success true (Requests/Check.php).
+    licenseServer(['check_license' => ['success' => true, 'license' => 'item_name_mismatch']]);
+
+    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+        'settings' => ['licenses' => [addonId() => 'another-addons-key']],
+    ]);
+
+    expect($options['settings']['licenses'][addonId()])->toBe('');
+    expect(glsr(Notice::class)->get())->toContain('different product');
+    expect(glsr(Notice::class)->get())->not->toContain('Manage Sites');
+});
+
 test('an activation the server then refuses does not leave the key behind', function () {
     // The check said "inactive, activations left", the activation said no. Whatever the server is
     // doing, the key does not work here, so it is not saved.
