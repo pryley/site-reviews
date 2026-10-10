@@ -441,6 +441,10 @@ test('an expired flagged key is not offered for the install', function () {
         ->and(glsr(License::class)->premiumKey())->toBe('');
 });
 
+test('on a single site the licence URL is the home URL', function () {
+    expect(GeminiLabs\SiteReviews\Helpers\Url::license())->toBe(GeminiLabs\SiteReviews\Helpers\Url::home());
+});
+
 test('an installed premium plugin is premium before any licence is entered', function () {
     // The merged premium plugin hides every "Upgrade to Premium" pitch the moment it is
     // installed — a paying customer should never be sold what they already bought. The licence
