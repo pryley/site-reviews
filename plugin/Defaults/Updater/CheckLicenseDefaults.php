@@ -14,6 +14,7 @@ class CheckLicenseDefaults extends DefaultsAbstract
         'activations_left' => 'int',
         'is_premium_license' => 'bool',
         'license_limit' => 'int',
+        'lifetime' => 'bool',
         'site_count' => 'int',
         'success' => 'bool',
     ];
@@ -40,9 +41,12 @@ class CheckLicenseDefaults extends DefaultsAbstract
      */
     public array $sanitize = [
         'checksum' => 'text',
+        'connect_url' => 'url',
         'expires' => 'date',
         'item_name' => 'slug',
         'license' => 'slug',
+        'renewal_url' => 'url',
+        'subscription' => 'slug',
     ];
 
     protected function defaults(): array
@@ -50,12 +54,16 @@ class CheckLicenseDefaults extends DefaultsAbstract
         return [
             'activations_left' => 0,
             'checksum' => '',
+            'connect_url' => '',
             'expires' => '',
             'item_name' => '',
             'is_premium_license' => false,
             'license' => 'invalid',
             'license_limit' => 0,
+            'lifetime' => false,
+            'renewal_url' => '',
             'site_count' => 0,
+            'subscription' => '',
             'success' => false,
         ];
     }
@@ -70,6 +78,7 @@ class CheckLicenseDefaults extends DefaultsAbstract
         }
         if ('lifetime' === $values['expires']) {
             $values['expires'] = date('Y-m-d H:i:s', strtotime('+10 years'));
+            $values['lifetime'] = true;
         }
         return $values;
     }
