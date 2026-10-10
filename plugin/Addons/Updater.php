@@ -14,7 +14,7 @@ use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Updater
 {
-    public const DEFAULT_API_URL = 'https://niftyplugins.com';
+    public const BASE_URL = 'https://niftyplugins.com';
 
     public string $addonId;
     public string $apiUrl;
@@ -42,6 +42,12 @@ class Updater
         $this->flushCachedVersion();
         $results = $this->request('activate_license');
         return glsr(ActivateLicenseDefaults::class)->restrict($results);
+    }
+
+    public static function baseUrl(): string
+    {
+        $url = glsr()->filterString('updater/base-url', static::BASE_URL);
+        return untrailingslashit(glsr(Sanitizer::class)->sanitizeUrl($url)) ?: static::BASE_URL;
     }
 
     public function checkLicense(): array
@@ -121,7 +127,10 @@ class Updater
             $plugins = get_plugins();
             $plugins = array_filter($plugins, fn ($plugin) => str_contains($plugin, "/{$addonId}.php"), \ARRAY_FILTER_USE_KEY);
             $plugin = array_shift($plugins) ?? [];
-            $url = ($plugin['UpdateURI'] ?? '') ?: static::DEFAULT_API_URL;
+            $url = ($plugin['UpdateURI'] ?? '') ?: static::BASE_URL;
+        }
+        if (trailingslashit($url) === trailingslashit(static::BASE_URL)) {
+            return static::baseUrl();
         }
         return glsr(Sanitizer::class)->sanitizeUrl($url);
     }
