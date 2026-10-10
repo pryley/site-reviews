@@ -773,6 +773,40 @@ tr.glsr-setting-field td .inline label::after {
       url(text-security-disc-compat.ttf) format('truetype');
   }
 }
+.glsr-premium-license__control {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.glsr-premium-license td .notice.inline {
+  margin: 0.75rem 0 0;
+}
+.glsr-premium-license__connecting {
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: fixed;
+  z-index: 100000;
+}
+.glsr-premium-license__connecting p {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #949494;
+  border-radius: 4px;
+  display: flex;
+  font-size: 14px;
+  gap: 0.5em;
+  margin: 0;
+  max-width: 32em;
+  padding: 2em;
+}
+.glsr-premium-license__connecting .spinner {
+  float: none;
+  margin: 0;
+}
 .glsr-setting-field .wp-pwd {
   display: inline-flex;
   margin-top: 0;

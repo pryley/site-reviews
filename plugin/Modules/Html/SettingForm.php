@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\PremiumLicense;
 use GeminiLabs\SiteReviews\Modules\Translation;
 
 class SettingForm extends Form
@@ -200,6 +201,16 @@ class SettingForm extends Form
         ];
     }
 
+    /**
+     * The License Key row of the premium key opens the tab, above the general rows.
+     */
+    protected function templateDataForGeneral(string $group): array
+    {
+        $data = $this->templateData($group);
+        $data['context']['premium'] = glsr(PremiumLicense::class)->render();
+        return $data;
+    }
+
     protected function templateDataForIntegrations(string $group): array
     {
         $fields = $this->fieldsFor($group);
@@ -221,7 +232,8 @@ class SettingForm extends Form
 
     protected function templateDataForLicenses(string $group): array
     {
-        $fields = $this->fieldsFor($group);
+        // Premium's key has its row on the General tab.
+        $fields = array_filter($this->fieldsFor($group), fn ($field) => 'settings.licenses.'.PremiumLicense::ADDON_ID !== $field->original_name);
         usort($fields, fn ($a, $b) => strnatcasecmp($a->name, $b->name));
         $rows = array_reduce($fields, fn ($carry, $field) => $carry.$field->build(), '');
         return [
