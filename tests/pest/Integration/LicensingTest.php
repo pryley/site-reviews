@@ -305,6 +305,27 @@ test('a licence with no activations left is not silently kept', function () {
     expect(glsr(Notice::class)->get())->toContain('Manage Sites');
 });
 
+test('a saved key with no field on the form survives the save', function () {
+    // The settings form posts a field for each registered addon only.
+    $asked = licenseServer([]);
+    $saved = ['settings' => ['licenses' => [
+        'site-reviews-premium' => 'a-premium-key',
+        'site-reviews-forms' => 'a-deactivated-addons-key',
+        addonId() => 'an-old-key',
+    ]]];
+
+    $options = glsr(LicensingController::class)->sanitizeLicenses($saved, [
+        'settings' => ['licenses' => [addonId() => '']], // cleared
+    ]);
+
+    expect($options['settings']['licenses'])->toBe([
+        'site-reviews-premium' => 'a-premium-key',
+        'site-reviews-forms' => 'a-deactivated-addons-key',
+        addonId() => '',
+    ]);
+    expect($asked)->toHaveCount(0); // the unposted keys were not re-checked
+});
+
 test('an activation the server then refuses does not leave the key behind', function () {
     // The check said "inactive, activations left", the activation said no. Whatever the server is
     // doing, the key does not work here, so it is not saved.
@@ -345,6 +366,45 @@ test('a premium licence marks the whole status premium', function () {
     expect($status['licensed'])->toBeTrue()
         ->and($status['premium'])->toBeTrue()
         ->and($status['expired'])->toBeFalse();
+});
+
+test('the key the upgrade page saved counts as premium before premium is installed', function () {
+    // No premium addon is registered, so the loop over licensed addons never sees this key.
+    glsr(OptionManager::class)->set('settings.licenses.site-reviews-premium', 'a-premium-key');
+    $asked = licenseServer([
+        'check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true],
+    ]);
+
+    $status = glsr(License::class)->status();
+
+    expect($status['licensed'])->toBeTrue()
+        ->and($status['missing'])->toBeFalse()
+        ->and($status['premium'])->toBeTrue()
+        ->and(glsr(License::class)->premiumKey())->toBe('a-premium-key')
+        ->and($asked->getArrayCopy())->toBe(['check_license']); // status() ran twice; the second read the day's cache
+});
+
+test('a flagged key of an addon is the premium key too', function () {
+    // An All Access key is flagged for every item it is checked against.
+    licensedAddon('an-all-access-key');
+    licenseServer([
+        'check_license' => ['success' => true, 'license' => 'valid', 'is_premium_license' => true],
+    ]);
+
+    expect(glsr(License::class)->premiumKey())->toBe('an-all-access-key');
+});
+
+test('an expired flagged key is not offered for the install', function () {
+    licensedAddon('an-expired-all-access-key');
+    licenseServer([
+        'check_license' => ['success' => true, 'license' => 'expired', 'expires' => '2020-01-01 23:59:59', 'is_premium_license' => true],
+    ]);
+
+    $status = glsr(License::class)->status();
+
+    expect($status['premium'])->toBeTrue() // as before: the pitch is hidden
+        ->and($status['expired'])->toBeTrue()
+        ->and(glsr(License::class)->premiumKey())->toBe('');
 });
 
 test('an installed premium plugin is premium before any licence is entered', function () {
