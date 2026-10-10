@@ -393,6 +393,16 @@ test('a connect page the server did not name, or named elsewhere, is refused', f
     'a lookalike' => 'https://niftyplugins.com.example.org/connect/',
 ]);
 
+test('a connect page on a host the connect-hosts filter allows is accepted', function () {
+    // A development store names its own connect page; the filter is how a test site allows it.
+    add_filter('site-reviews/premium/connect-hosts', fn (array $hosts) => array_merge($hosts, ['site-reviews.test']));
+    savedKeyForInstall(['connect_url' => 'https://site-reviews.test/connect/']);
+
+    $response = connectPremium();
+
+    expect($response->get_data()['url'])->toBe('https://site-reviews.test/connect/');
+});
+
 test('a site whose admin address is on another host than its home is stopped on the page', function () {
     // The store would refuse a return address on another host than the licence URL's.
     add_filter('admin_url', fn ($url) => str_replace(wp_parse_url($url, PHP_URL_HOST), 'wp.example.org', $url));
