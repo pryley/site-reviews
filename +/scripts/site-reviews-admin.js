@@ -13,6 +13,7 @@ import Import from '@/admin/import.js';
 import lib from '@/public/lib.js';
 import Metabox from '@/admin/metabox.js';
 import Notice, { instance as notices } from '@/admin/notice.js';
+import PremiumLicense from '@/admin/premium-license.js';
 import Prism from 'prismjs';
 import PublishAction from '@/admin/publish-action.js';
 import registry, { defined, host } from '@/public/registry.js';
@@ -195,6 +196,7 @@ jQuery(function ($) {
         },
     });
     new Status('a.glsr-toggle-status');
+    new PremiumLicense();
     new Sections(); // this goes before Tabs
     new Tabs();
     new TextareaResize();
@@ -326,15 +328,14 @@ jQuery(function ($) {
         textarea.scrollTop = scrollPos;
     })
 
-    $('.glsr-setting-field .wp-pwd button').each((index, el) => {
-        const $btn = $(el);
-        $btn.on('click', () => {
-            const $icon = $btn.find('.dashicons');
-            const label = $icon.hasClass('dashicons-visibility') ? $btn.data('hide') : $btn.data('show');
-            $btn.attr('aria-label', label)
-            tippy($btn.get(0)).setContent(label);
-            $icon.toggleClass('dashicons-hidden').toggleClass('dashicons-visibility')
-        })
+    // Delegated: the License Key row is redrawn by its routes.
+    $(document).on('click', '.glsr-setting-field .wp-pwd button', (ev) => {
+        const $btn = $(ev.currentTarget);
+        const $icon = $btn.find('.dashicons');
+        const label = $icon.hasClass('dashicons-visibility') ? $btn.data('hide') : $btn.data('show');
+        $btn.attr('aria-label', label)
+        tippy($btn.get(0)).setContent(label);
+        $icon.toggleClass('dashicons-hidden').toggleClass('dashicons-visibility')
     })
 });
 
