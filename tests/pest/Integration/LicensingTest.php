@@ -441,6 +441,15 @@ test('an expired flagged key is not offered for the install', function () {
         ->and(glsr(License::class)->premiumKey())->toBe('');
 });
 
+test('the connect page address of the licence check is kept, and only as a URL', function () {
+    $defaults = glsr(GeminiLabs\SiteReviews\Defaults\Updater\CheckLicenseDefaults::class);
+
+    expect($defaults->restrict(['connect_url' => 'https://niftyplugins.com/connect/'])['connect_url'])
+        ->toBe('https://niftyplugins.com/connect/')
+        ->and($defaults->restrict([])['connect_url'])->toBe('')
+        ->and($defaults->restrict(['license' => 'item_name_mismatch'])['license'])->toBe('item_name_mismatch');
+});
+
 test('on a single site the licence URL is the home URL', function () {
     expect(GeminiLabs\SiteReviews\Helpers\Url::license())->toBe(GeminiLabs\SiteReviews\Helpers\Url::home());
 });
