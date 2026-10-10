@@ -388,3 +388,29 @@ test('the Settings page says once that premium is installed, from the mark the i
         expect(glsr(Notice::class)->get())->not->toContain('installed and active');
     });
 });
+
+test('the rollback card warns which registered addons a version would stop', function () {
+    $registry = new ReflectionProperty(get_class(glsr()), 'addons');
+    $registry->setAccessible(true);
+    $registered = $registry->getValue(glsr());
+    try {
+        glsr()->register(GeminiLabs\SiteReviews\TestAddon\Application::class); // GLSR requires at least: 8.0.0
+        $warnings = protectedMethod(MenuController::class, 'rollbackWarnings')
+            ->invoke(glsr(MenuController::class), ['8.4.0', '8.0.0', '7.9.0']);
+
+        expect(array_keys($warnings))->toBe(['7.9.0'])
+            ->and($warnings['7.9.0'])->toContain('After the rollback to 7.9.0, Test Addon will stop working')
+            ->and($warnings['7.9.0'])->not->toContain('deactivated stay inactive');
+
+        $page = glsr()->build('pages/tools/general/rollback-plugin', [
+            'rollback_script' => '',
+            'rollback_versions' => ['8.4.0', '7.9.0'],
+            'rollback_warnings' => $warnings,
+        ]);
+        expect($page)->toContain('value="7.9.0" data-warning="After the rollback to 7.9.0, Test Addon will stop working')
+            ->and($page)->toContain('value="8.4.0" data-warning=""')
+            ->and($page)->toContain('id="rollback-warning"');
+    } finally {
+        $registry->setValue(glsr(), $registered);
+    }
+});

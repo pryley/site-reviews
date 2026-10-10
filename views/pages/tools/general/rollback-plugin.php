@@ -37,10 +37,11 @@
                     <label for="rollback_version"><strong><?php echo _x('Rollback Version To', 'admin-text', 'site-reviews'); ?></strong></label><br>
                     <select name="version" id="rollback_version">
                         <?php foreach ($rollback_versions as $version) : ?>
-                            <option value="<?php echo $version; ?>"><?php echo glsr()->name; ?> <?php echo $version; ?></option>
+                            <option value="<?php echo $version; ?>" data-warning="<?php echo esc_attr($rollback_warnings[$version] ?? ''); ?>"><?php echo glsr()->name; ?> <?php echo $version; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </p>
+                <div id="rollback-warning" class="notice notice-warning inline" hidden><p></p></div>
                 <button type="submit" class="glsr-button button button-large button-primary"
                     data-loading="<?php /* translators: %s: the selected plugin version */ echo esc_attr_x('Rolling back to %s, please wait...', 'admin-text', 'site-reviews'); ?>"
                 ><?php echo _x('Rollback Plugin', 'admin-text', 'site-reviews'); ?>
