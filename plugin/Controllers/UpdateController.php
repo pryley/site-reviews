@@ -70,7 +70,7 @@ class UpdateController extends AbstractController
      *
      * @return array|false
      *
-     * @filter update_plugins_niftyplugins.com
+     * @filter update_plugins_<host>
      */
     public function filterUpdatePlugins($pluginUpdate, array $pluginData)
     {
@@ -108,13 +108,13 @@ class UpdateController extends AbstractController
             $currentVersion = $pluginData['version'];
             $updater = new Updater($addonId, [
                 'force' => $this->hasTimeoutExpired($addonId),
-                'url' => Updater::DEFAULT_API_URL,
+                'url' => Updater::BASE_URL,
             ]);
             $update = (object) $updater->versionUpdate();
             if (empty($update->version)) {
                 continue;
             }
-            $update->id = Updater::DEFAULT_API_URL;
+            $update->id = Updater::BASE_URL;
             $update->plugin = $plugin;
             $update->new_version = $update->version;
             unset($updates->no_update[$plugin], $updates->response[$plugin]);
@@ -194,7 +194,7 @@ class UpdateController extends AbstractController
         $file = \WP_PLUGIN_DIR."/{$slug}/{$slug}.php";
         if (is_readable($file)) {
             $data = get_file_data($file, ['update_uri' => 'Update URI']);
-            $cache[$slug] = trailingslashit(Updater::DEFAULT_API_URL) === trailingslashit($data['update_uri']);
+            $cache[$slug] = trailingslashit(Updater::BASE_URL) === trailingslashit($data['update_uri']);
         }
         return $cache[$slug];
     }
@@ -206,7 +206,7 @@ class UpdateController extends AbstractController
     protected function isAddonUpdate(object $update): bool
     {
         $id = (string) ($update->id ?? '');
-        return '' !== $id && trailingslashit($id) === trailingslashit(Updater::DEFAULT_API_URL);
+        return '' !== $id && trailingslashit($id) === trailingslashit(Updater::BASE_URL);
     }
 
     /**
