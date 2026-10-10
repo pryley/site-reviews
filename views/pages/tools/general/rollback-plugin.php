@@ -33,6 +33,7 @@
             <form id="rollback-plugin" method="get" action="<?php echo admin_url('update.php'); ?>">
                 <input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce('rollback-'.glsr()->id); ?>">
                 <input type="hidden" name="action" value="<?php echo 'rollback-'.glsr()->id; ?>">
+                <div id="rollback-warning" class="notice notice-warning inline" hidden><p></p></div>
                 <fieldset>
                     <div>
                         <label for="rollback_version">
@@ -40,7 +41,7 @@
                         </label>
                         <select id="rollback_version" name="version">
                             <?php foreach ($rollback_versions as $version) : ?>
-                                <option value="<?php echo $version; ?>"><?php echo glsr()->name; ?> <?php echo $version; ?></option>
+                                <option value="<?php echo $version; ?>" data-warning="<?php echo esc_attr($rollback_warnings[$version] ?? ''); ?>"><?php echo glsr()->name; ?> <?php echo $version; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
