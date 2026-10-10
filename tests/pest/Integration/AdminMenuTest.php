@@ -171,13 +171,16 @@ test('the old singular create capability is stripped from every role, and admins
 test('the settings page renders every tab, with its fields', function () {
     $html = renderedPage('renderSettingsMenuCallback');
 
-    // the tabs
-    foreach (['general', 'reviews', 'forms', 'schema', 'strings', 'integrations', 'advanced', 'licenses'] as $tab) {
+    // the tabs; Licenses is for the standalone addons and is absent until one is registered
+    foreach (['general', 'reviews', 'forms', 'schema', 'strings', 'integrations', 'advanced'] as $tab) {
         expect($html)->toContain('id="'.$tab.'"');
     }
+    expect($html)->not->toContain('data-id="licenses"');
     // Advanced closes the plugin's own tabs: after Integrations, before those of the products
     expect(strpos($html, 'data-id="integrations"'))->toBeLessThan(strpos($html, 'data-id="advanced"'));
-    expect(strpos($html, 'data-id="advanced"'))->toBeLessThan(strpos($html, 'data-id="licenses"'));
+    glsr()->append('licensed', ['name' => 'site-reviews-images'], 'site-reviews-images');
+    $withAddon = renderedPage('renderSettingsMenuCallback');
+    expect(strpos($withAddon, 'data-id="advanced"'))->toBeLessThan(strpos($withAddon, 'data-id="licenses"'));
     expect($html)->toContain('name="site_reviews[settings][advanced][compat]')
         ->toContain('name="site_reviews[settings][advanced][debug]');
     // and a field out of three of them, named the way the form posts it — the name is the
