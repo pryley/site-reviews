@@ -358,6 +358,7 @@ test('a licence with no activations left is not silently kept', function () {
     licenseServer(['check_license' => [
         'success' => true,
         'license' => 'site_inactive',
+        'license_limit' => 3,
         'activations_left' => 0,
     ]]);
 
@@ -367,6 +368,26 @@ test('a licence with no activations left is not silently kept', function () {
 
     expect($options['settings']['licenses'][addonId()])->toBe('');
     expect(glsr(Notice::class)->get())->toContain('Manage Sites');
+});
+
+test('an unlimited licence not yet activated here is activated like any other', function () {
+    // An unlimited licence: license_limit 0 and activations_left 'unlimited', which the int cast turns into 0.
+    $asked = licenseServer([
+        'check_license' => [
+            'success' => true,
+            'license' => 'site_inactive',
+            'license_limit' => 0,
+            'activations_left' => 'unlimited',
+        ],
+        'activate_license' => ['success' => true, 'license' => 'valid'],
+    ]);
+
+    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+        'settings' => ['licenses' => [addonId() => 'an-unlimited-key']],
+    ]);
+
+    expect($asked->getArrayCopy())->toBe(['check_license', 'activate_license']);
+    expect($options['settings']['licenses'][addonId()])->toBe('an-unlimited-key');
 });
 
 test('a licence for another product is thrown away, and the person is told which mistake it was', function () {
