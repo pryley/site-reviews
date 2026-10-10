@@ -11,7 +11,6 @@ site-reviews/<form_name>/fields/hidden                      (Contracts\FieldCont
 site-reviews/<form_name>/fields/order                       (string[] $order, Contracts\FormContract $form): string[]
 site-reviews/<form_name>/fields/visible                     (Contracts\FieldContract[] $fields, Contracts\FormContract $form): array
 site-reviews/<form_name>/signature/values                   (array $values, Contracts\FormContract $form): array
-site-reviews/addon/api-url                                  (string $apiUrl): string
 site-reviews/addon/documentation                            (array $documentation): array
 site-reviews/addon/documentation/tabs                       (array $tabs): array
 site-reviews/addon/submenu/callback                         (callable $callable, string $slug): callable
@@ -252,6 +251,7 @@ site-reviews/tinymce/fields/<shortcode>                     (array $fields): arr
 site-reviews/tools/general                                  (array $paths): array
 site-reviews/translation/entries                            (array $entries): array
 site-reviews/translator/domains                             (array $domains): array
+site-reviews/updater/base-url                               (string $url): string
 site-reviews/updater/force-check                            (bool $force): bool
 site-reviews/url                                            (string $url, string $path): string
 site-reviews/validate/akismet                               (bool $isValid, array $submission, array $response): bool

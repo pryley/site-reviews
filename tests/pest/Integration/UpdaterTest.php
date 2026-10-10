@@ -58,7 +58,24 @@ test('the licence comes from the settings when it is not passed in', function ()
 test('an addon that is not installed is asked about at the default api', function () {
     // updateUri() reads the Update URI header of the addon's plugin file. An addon that is
     // not installed has no header to read, and niftyplugins.com is where the rest live.
-    expect((new Updater('site-reviews-not-installed'))->apiUrl)->toBe(Updater::DEFAULT_API_URL);
+    expect((new Updater('site-reviews-not-installed'))->apiUrl)->toBe(Updater::BASE_URL);
+});
+
+test('the filtered server address replaces niftyplugins.com wherever a header or a caller names it, and nothing else', function () {
+    // The filter is how a development store gets the requests; a header naming another server is left alone.
+    add_filter('site-reviews/updater/base-url', fn () => 'https://niftyplugins.test/');
+
+    expect(Updater::baseUrl())->toBe('https://niftyplugins.test')
+        ->and(updater(['url' => 'https://niftyplugins.com/'])->apiUrl)->toBe('https://niftyplugins.test')
+        ->and((new Updater('site-reviews-not-installed'))->apiUrl)->toBe('https://niftyplugins.test')
+        ->and(updater(['url' => 'https://updates.example.org'])->apiUrl)->toBe('https://updates.example.org')
+        ->and(glsr_premium_url('license-keys'))->toBe('https://niftyplugins.test/account/license-keys/');
+});
+
+test('a filtered server address that is not a URL is ignored', function () {
+    add_filter('site-reviews/updater/base-url', fn () => 'not a url');
+
+    expect(Updater::baseUrl())->toBe(Updater::BASE_URL);
 });
 
 test('activating a licence says which addon, which key, and which site', function () {
