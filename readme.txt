@@ -217,6 +217,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Added a "License Key" setting at the top of the General tab: a license that includes Site Reviews Premium is verified and activated there, and the plugin is then installed from our website with one click
 - Added a notice and an "Install Premium" menu label for a site whose saved license includes Site Reviews Premium
 - Changed the Licenses tab: it is shown only while a standalone addon is active
+- Changed the Licenses tab: a license key that has been disabled is reported as disabled, with a link to support, instead of as invalid
 - Added a "Debug Mode" setting that writes information about Site Reviews to the browser console, and warns when custom code uses an older Javascript name
 - Added a [CODE SNIPPET] label to Console entries caused by custom code in the theme or a code snippet plugin
 - Added a Javascript API for developers (the `GLSR` object), see the Upgrade Guide for what has changed

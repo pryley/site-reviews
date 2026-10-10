@@ -172,6 +172,13 @@ class PremiumLicense
                 glsr_premium_link('license-keys')
             ), 'warning');
         }
+        if ('disabled' === $status) {
+            return $this->text(sprintf(
+                /* translators: %s: link with the text "contact support" */
+                _x('Your license key has been disabled. Please %s for more information.', 'admin-text', 'site-reviews'),
+                glsr_premium_link('support', _x('contact support', 'admin-text', 'site-reviews'))
+            ), 'error');
+        }
         if ('valid' !== $status) {
             return $this->text(_x('This appears to be an invalid license key for Site Reviews Premium.', 'admin-text', 'site-reviews'), 'error');
         }
