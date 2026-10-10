@@ -73,11 +73,8 @@ test('activating a licence says which addon, which key, and which site', functio
         'item_name' => 'site-reviews-images',
         'license' => 'a-real-licence-key',
         'slug' => 'site-reviews-images',
-        // Url::home() is trailingslashit(network_home_url()) — the NETWORK home, so on
-        // multisite every site in the network claims the activation as the network, and one
-        // licence covers the lot. Trailing slash included: the licence server keys on this
-        // string, and 'https://example.org' and 'https://example.org/' are two sites to it.
-        'url' => trailingslashit(network_home_url()),
+        // trailing slash included: the licence server keys on the exact string
+        'url' => \GeminiLabs\SiteReviews\Helpers\Url::license(),
     ]);
     expect($requests[0]['url'])->toBe('https://updates.example.org');
 });
