@@ -717,6 +717,16 @@ function unconstructed(string $className): object
 }
 
 /**
+ * Empties the plugin's own queue, whose rows the two queue suites count.
+ */
+function emptyQueue(): void
+{
+    foreach (as_get_scheduled_actions(['group' => glsr()->id, 'per_page' => -1, 'status' => ''], 'ids') as $id) {
+        \ActionScheduler::store()->delete_action((string) $id);
+    }
+}
+
+/**
  * The licence/update server, answering each edd_action differently — which a single canned
  * response cannot do, and activation needs: the check says "inactive", and the activation that
  * follows it says "valid". The captured real payloads live in tests/pest/fixtures/updater/.
