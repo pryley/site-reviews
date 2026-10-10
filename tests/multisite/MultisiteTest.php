@@ -5,7 +5,9 @@ use GeminiLabs\SiteReviews\Controllers\MainController;
 use GeminiLabs\SiteReviews\Controllers\NetworkController;
 use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Database\Tables\TableRatings;
+use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Install;
+use GeminiLabs\SiteReviews\Migrations\Migrate_8_4_0;
 
 /*
  * The is_multisite() branches, exercised on a real network (see bootstrap.php).
@@ -292,5 +294,64 @@ test('an addon network deactivation cleans every site', function () {
         switch_to_blog($siteId);
         expect(get_option($option))->toBeFalse();
         restore_current_blog();
+    }
+});
+
+test('the licence URL is the network\'s under its domain and the site\'s own on a mapped domain', function () {
+    // One seat per network under its domain; a site on another domain is a seat of its own.
+    switch_to_blog(secondSiteId()); // a subdirectory site: localhost:8892/second/
+    try {
+        expect(Url::license())->toBe(Url::home());
+    } finally {
+        restore_current_blog();
+    }
+
+    $mapped = wp_insert_site(['domain' => 'shop-other.com', 'path' => '/']);
+    expect($mapped)->toBeInt();
+    switch_to_blog($mapped);
+    try {
+        wp_upload_dir(); // a real site has an uploads directory for core to delete
+        expect(Url::license())->toBe(trailingslashit(home_url()))
+            ->and(Url::license())->not->toBe(Url::home())
+            ->and(Url::license())->toContain('shop-other.com');
+    } finally {
+        restore_current_blog();
+        wp_delete_site($mapped);
+    }
+});
+
+test('the 8.4.0 migration activates a mapped site\'s saved keys for the URL it now sends', function () {
+    // Before 8.4.0 every site sent the network's URL, so a mapped site's key was activated for that.
+    $mapped = wp_insert_site(['domain' => 'shop-other.com', 'path' => '/']);
+    expect($mapped)->toBeInt();
+    switch_to_blog($mapped);
+    $asked = [];
+    $server = function ($pre, $args) use (&$asked) {
+        $asked[] = [$args['body']['edd_action'], $args['body']['url']];
+        $license = 'activate_license' === $args['body']['edd_action'] ? 'valid' : 'site_inactive';
+        return [
+            'body' => (string) wp_json_encode(['success' => true, 'license' => $license, 'license_limit' => 0, 'activations_left' => 'unlimited']),
+            'cookies' => [],
+            'filename' => null,
+            'headers' => [],
+            'http_response' => null,
+            'response' => ['code' => 200, 'message' => 'OK'],
+        ];
+    };
+    add_filter('pre_http_request', $server, 10, 2);
+    try {
+        wp_upload_dir(); // a real site has an uploads directory for core to delete
+        glsr(GeminiLabs\SiteReviews\Database\OptionManager::class)->set('settings.licenses.site-reviews-images', 'a-saved-key');
+
+        expect((new Migrate_8_4_0())->run())->toBeTrue()
+            ->and($asked)->toBe([
+                ['check_license', 'http://shop-other.com/'],
+                ['activate_license', 'http://shop-other.com/'],
+            ])
+            ->and(glsr_get_option('licenses.site-reviews-images'))->toBe('a-saved-key');
+    } finally {
+        remove_filter('pre_http_request', $server, 10);
+        restore_current_blog();
+        wp_delete_site($mapped);
     }
 });
