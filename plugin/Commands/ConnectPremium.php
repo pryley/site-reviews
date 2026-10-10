@@ -127,7 +127,8 @@ class ConnectPremium extends AbstractPremiumCommand
     {
         $host = strtolower((string) wp_parse_url($url, \PHP_URL_HOST));
         $host = (string) preg_replace('|^www\.|', '', $host);
-        if ('https' !== wp_parse_url($url, \PHP_URL_SCHEME) || !in_array($host, static::CONNECT_HOSTS, true)) {
+        $hosts = glsr()->filterArrayUnique('premium/connect-hosts', static::CONNECT_HOSTS);
+        if ('https' !== wp_parse_url($url, \PHP_URL_SCHEME) || !in_array($host, $hosts, true)) {
             return $this->refuse('connect_page',
                 _x('The license server did not name a page to install from. Please install Site Reviews Premium manually.', 'admin-text', 'site-reviews'),
                 $this->manualInstallLink()
