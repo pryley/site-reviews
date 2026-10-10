@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\BlackHole;
@@ -291,7 +292,6 @@ function glsr_premium_link(string $path, $attrs = []): string
 
 function glsr_premium_url(string $path = '/'): string
 {
-    $baseUrl = 'https://niftyplugins.com';
     $paths = [
         'account' => '/account/',
         'addons' => '/plugins/',
@@ -311,7 +311,7 @@ function glsr_premium_url(string $path = '/'): string
         return esc_url($urlPath);
     }
     $urlPath = trailingslashit(ltrim($urlPath, '/'));
-    return esc_url(trailingslashit($baseUrl).$urlPath);
+    return esc_url(trailingslashit(Updater::baseUrl()).$urlPath);
 }
 
 /**

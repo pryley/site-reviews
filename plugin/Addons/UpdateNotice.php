@@ -11,7 +11,7 @@ class UpdateNotice
 
     public function __construct(string $status = '', string $renewalUrl = '', string $pluginUrl = '')
     {
-        $this->pluginUrl = $pluginUrl ?: Updater::DEFAULT_API_URL;
+        $this->pluginUrl = $pluginUrl ?: Updater::baseUrl();
         $this->renewalUrl = $renewalUrl;
         $this->status = $status;
     }
