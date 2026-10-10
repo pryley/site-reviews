@@ -58,6 +58,14 @@ jQuery($ => {
             }
         })
     }
+    const warning = form.querySelector('#rollback-warning');
+    const onVersionChange = () => {
+        const text = form.version.selectedOptions[0]?.dataset.warning || '';
+        warning.querySelector('p').textContent = text;
+        warning.hidden = '' === text;
+    }
+    $(form.version).on('change', onVersionChange);
+    onVersionChange();
     $(form).on('submit', (ev) => {
         ev.preventDefault();
         let data = { _ajax_request: true, action: config.request.ajax.action };
