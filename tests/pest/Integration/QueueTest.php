@@ -3,6 +3,7 @@
 use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Tests\NullQueue;
 
+use function GeminiLabs\SiteReviews\Tests\emptyQueue;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
@@ -28,6 +29,7 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 beforeEach(function () {
     resetPluginState();
+    emptyQueue();
     // The real thing, for this file only.
     glsr()->bind(Queue::class, Queue::class, $shared = true);
 });
