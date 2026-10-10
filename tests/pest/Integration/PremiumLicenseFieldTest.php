@@ -106,6 +106,7 @@ test('a saved key the server refuses stays in the field with Delete, the reason,
         ->and($row)->not->toContain('Already purchased?');
 })->with([
     'invalid' => [['success' => false, 'license' => 'invalid'], 'error', 'invalid license key for Site Reviews Premium'],
+    'disabled' => [['success' => true, 'license' => 'disabled'], 'error', 'has been disabled. Please <a href="https://niftyplugins.com/account/support/" target="_blank">contact support</a> for more information.'],
     'expired, renewal link from the server' => [['success' => true, 'license' => 'expired', 'expires' => '2020-01-01 23:59:59', 'renewal_url' => 'https://niftyplugins.com/checkout/?edd_license_key=a-saved-key'], 'error', 'expired on January 1, 2020. Please <a href="https://niftyplugins.com/checkout/?edd_license_key=a-saved-key" target="_blank">renew it</a>.'],
     'expired, no renewal link' => [['success' => true, 'license' => 'expired', 'expires' => '2020-01-01 23:59:59'], 'error', 'license-keys'],
     'not active here, activations left' => [['success' => true, 'license' => 'site_inactive', 'license_limit' => 2, 'activations_left' => 1], 'warning', 'Click Verify License Key to activate it.'],
