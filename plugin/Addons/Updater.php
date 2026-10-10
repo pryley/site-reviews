@@ -96,7 +96,7 @@ class Updater
             'item_name' => $this->addonId,
             'license' => $this->license,
             'slug' => $this->addonId,
-            'url' => Url::home(),
+            'url' => Url::license(),
         ];
         $response = glsr(Api::class, ['url' => $this->apiUrl])->post('/', [
             'body' => $body,
