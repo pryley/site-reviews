@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Html\SettingForm;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\PremiumLicense;
+use GeminiLabs\SiteReviews\Notices\LicensePremiumNotice;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\licenseServer;
@@ -324,6 +325,52 @@ test('the submenu reads "Install Premium" for a flagged key with no premium on d
     expect($title->invoke($controller))->toBe('Install Premium');
 
     withPremiumOnDisk(fn () => expect($title->invoke($controller))->toBe('Upgrade to Premium'));
+});
+
+test('a flagged key with no premium on disk gets the install notice, linking to the row', function () {
+    set_current_screen('edit-'.glsr()->post_type);
+    glsr()->store('notices', []);
+    savedValidPremiumKey();
+    try {
+        ob_start();
+        (new LicensePremiumNotice())->render();
+        $notice = (string) ob_get_clean();
+
+        expect($notice)->toContain('glsr-notice-banner')
+            ->toContain('Your license includes Site Reviews Premium')
+            ->toContain('page=glsr-settings')
+            ->toContain('data-glsr-premium-install');
+
+        // an editor cannot act on it
+        wp_set_current_user(createUser(['role' => 'editor']));
+        $notice = new LicensePremiumNotice();
+        expect(has_action('admin_notices', [$notice, 'render']))->toBeFalse();
+    } finally {
+        set_current_screen('front');
+    }
+});
+
+test('the install notice is silent with no flagged key, on the Settings page, and once premium is on disk', function () {
+    set_current_screen('edit-'.glsr()->post_type);
+    glsr()->store('notices', []);
+    try {
+        ob_start();
+        (new LicensePremiumNotice())->render();
+        expect((string) ob_get_clean())->toBe('');
+
+        savedValidPremiumKey();
+        withPremiumOnDisk(function () {
+            ob_start();
+            (new LicensePremiumNotice())->render();
+            expect((string) ob_get_clean())->toBe('');
+        });
+
+        set_current_screen(glsr()->post_type.'_page_glsr-settings');
+        $notice = new LicensePremiumNotice();
+        expect(has_action('admin_notices', [$notice, 'render']))->toBeFalse();
+    } finally {
+        set_current_screen('front');
+    }
 });
 
 test('the Settings page says once that premium is installed, from the mark the install left', function () {
