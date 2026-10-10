@@ -55,9 +55,14 @@ class LicensingController extends AbstractController
 
     protected function isLicenseValid(Updater $updater, array $check): bool
     {
-        if (true !== $check['success'] || 'disabled' === $check['license']) {
+        if (true !== $check['success']) {
             glsr_log()->error("Invalid license: {$updater->license} ({$updater->addonId})");
             $this->renderInvalidLicenseNotice();
+            return false;
+        }
+        if ('disabled' === $check['license']) {
+            glsr_log()->error("Disabled license: {$updater->license} ({$updater->addonId})");
+            $this->renderDisabledLicenseNotice();
             return false;
         }
         if (in_array($check['license'], ['invalid_item_id', 'item_name_mismatch'], true)) {
@@ -77,6 +82,16 @@ class LicensingController extends AbstractController
         }
         $this->renderGenericLicenseNotice();
         return false;
+    }
+
+    protected function renderDisabledLicenseNotice(): void
+    {
+        $error = _x('A license you entered has been disabled.', 'admin-text', 'site-reviews');
+        /* translators: %s: link with the text "contact support" */
+        $message = sprintf(_x('Please %s for more information.', 'admin-text', 'site-reviews'),
+            glsr_premium_link('support', _x('contact support', 'admin-text', 'site-reviews'))
+        );
+        glsr(Notice::class)->addError(sprintf('<strong>%s</strong><br>%s', $error, $message));
     }
 
     protected function renderExpiredLicenseNotice(string $expiryDate): void
@@ -105,7 +120,7 @@ class LicensingController extends AbstractController
     protected function renderInvalidLicenseNotice(): void
     {
         glsr(Notice::class)->addError(
-            _x('A license you entered is either invalid or has been revoked.', 'admin-text', 'site-reviews')
+            _x('A license you entered is invalid.', 'admin-text', 'site-reviews')
         );
     }
 

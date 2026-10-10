@@ -67,4 +67,9 @@ abstract class AbstractPremiumCommand extends AbstractCommand
         $this->fail();
         return false;
     }
+
+    protected function supportLink(): array
+    {
+        return $this->link(glsr_premium_url('support'), _x('Contact support', 'admin-text', 'site-reviews'));
+    }
 }
