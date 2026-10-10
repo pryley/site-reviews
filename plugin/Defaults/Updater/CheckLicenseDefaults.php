@@ -27,6 +27,8 @@ class CheckLicenseDefaults extends DefaultsAbstract
             'disabled',
             'expired',
             'inactive',
+            'invalid_item_id',
+            'item_name_mismatch',
             'site_inactive',
             'valid',
         ],
