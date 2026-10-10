@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Tests\InteractsWithExits;
 
 use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
 use function GeminiLabs\SiteReviews\Tests\createUser;
+use function GeminiLabs\SiteReviews\Tests\emptyQueue;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
@@ -32,6 +33,7 @@ uses(InteractsWithExits::class);
 
 beforeEach(function () {
     resetPluginState();
+    emptyQueue();
     wp_set_current_user(createUser(['role' => 'administrator']));
     set_current_screen('edit-'.glsr()->post_type);
     $_GET = [];
