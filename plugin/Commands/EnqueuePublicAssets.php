@@ -4,8 +4,6 @@ namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
-use GeminiLabs\SiteReviews\Modules\Assets\AssetCss;
-use GeminiLabs\SiteReviews\Modules\Assets\AssetJs;
 use GeminiLabs\SiteReviews\Modules\Assets\CompatScript;
 use GeminiLabs\SiteReviews\Modules\Assets\InlineScript;
 use GeminiLabs\SiteReviews\Modules\Captcha;
@@ -72,26 +70,21 @@ class EnqueuePublicAssets extends AbstractCommand
             return;
         }
         $dependencies = glsr()->filterArray('enqueue/public/dependencies', []);
-        wp_register_script(glsr()->id, glsr(AssetJs::class)->url(), $dependencies, glsr(AssetJs::class)->version(), [
-            'in_footer' => true,
-            'strategy' => 'defer',
-        ]);
-        wp_enqueue_script(glsr()->id);
-        wp_add_inline_script(glsr()->id, $this->inlineScript(), 'before');
-        $compat = glsr(CompatScript::class);
         $args = [
             'in_footer' => true,
             'strategy' => 'defer',
         ];
+        wp_register_script(glsr()->id, glsr()->url(sprintf('assets/scripts/%s.js', glsr()->id)), $dependencies, glsr()->version, $args);
+        wp_enqueue_script(glsr()->id);
+        wp_add_inline_script(glsr()->id, $this->inlineScript(), 'before');
+        $compat = glsr(CompatScript::class);
         $last = glsr()->id;
-        // the optimized script holds the compat script
-        if ($compat->isEnabled('public') && !(glsr(AssetJs::class)->canOptimize() && glsr(AssetJs::class)->isOptimized())) {
+        if ($compat->isEnabled('public')) {
             $last = $compat->scriptHandle('public');
             wp_enqueue_script($last, $compat->url('public'), [glsr()->id], glsr()->version, $args);
         }
         // a script added with this filter can read a deprecated key as it is parsed
         wp_add_inline_script($last, glsr()->filterString('enqueue/public/inline-script/after', ''));
-        glsr(AssetJs::class)->optimize();
     }
 
     public function enqueueStyles(): void
@@ -99,10 +92,9 @@ class EnqueuePublicAssets extends AbstractCommand
         if (!glsr()->filterBool('assets/css', true)) {
             return;
         }
-        wp_register_style(glsr()->id, glsr(AssetCss::class)->url(), [], glsr(AssetCss::class)->version());
+        wp_register_style(glsr()->id, glsr(Style::class)->stylesheetUrl(), [], glsr()->version);
         wp_enqueue_style(glsr()->id);
         wp_add_inline_style(glsr()->id, $this->inlineStyles());
-        glsr(AssetCss::class)->optimize();
     }
 
     public function handle(): void
