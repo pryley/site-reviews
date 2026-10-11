@@ -645,8 +645,7 @@ test('the where clause knows ratings, and reviews by nobody', function () {
     // author=0 filters for guest reviews — WordPress only handles a NON-zero author itself.
     $_GET = ['rating' => '4', 'author' => '0'];
 
-    $clause = GeminiLabs\SiteReviews\Tests\protectedMethod(ListTableController::class, 'modifyClauseWhere')
-        ->invoke(glsr(ListTableController::class), '', new WP_Query());
+    $clause = (new GeminiLabs\SiteReviews\Database\ListTableClauses(new WP_Query()))->where('');
     $_GET = [];
 
     $clauses = implode(' ', $clause['clauses']);
