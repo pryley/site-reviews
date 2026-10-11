@@ -4,6 +4,19 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 uses()->group('plugin');
 
+test('added and removed', function () {
+    // The two directions of a diff between what a review was assigned to and what the
+    // form now says. Saving an unchanged list must change nothing, in any order: a token
+    // field hands the ids back in whatever order they were dragged into.
+    expect(Arr::added([1, 2, 3], [1, 2, 3]))->toBe([]);
+    expect(Arr::removed([3, 1, 2], [1, 2, 3]))->toBe([]);
+    expect(Arr::added([1, 2, 3], [2, 3, 4]))->toBe([4]);
+    expect(Arr::removed([1, 2, 3], [2, 3, 4]))->toBe([1]);
+    expect(Arr::added([1, 2], []))->toBe([]);
+    expect(Arr::removed([1, 2], []))->toBe([1, 2]);
+    expect(Arr::added([], ['a', 'b']))->toBe(['a', 'b']);
+});
+
 test('compare', function () {
     expect(Arr::compare(['one' => ['two']], ['one' => ['two']]))->toBeTrue();
     expect(Arr::compare(['one' => ['two']], ['one' => 'two']))->toBeFalse();

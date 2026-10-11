@@ -7,6 +7,14 @@ use GeminiLabs\SiteReviews\Helper;
 
 class Arr
 {
+    /**
+     * The values the replacements have that the existing list did not.
+     */
+    public static function added(array $existing, array $replacements): array
+    {
+        return array_values(array_diff($replacements, $existing));
+    }
+
     public static function compare(array $arr1, array $arr2): bool
     {
         sort($arr1);
@@ -196,6 +204,14 @@ class Arr
         }
         unset($pointer[$last]);
         return $data;
+    }
+
+    /**
+     * The values the existing list had that the replacements no longer do.
+     */
+    public static function removed(array $existing, array $replacements): array
+    {
+        return array_values(array_diff($existing, $replacements));
     }
 
     public static function removeEmptyValues(array $array): array

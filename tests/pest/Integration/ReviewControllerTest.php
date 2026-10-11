@@ -50,45 +50,10 @@ afterEach(function () {
 });
 
 /*
- * The diff. Everything that assigns or unassigns anything goes through it, and it is
- * the difference between "add this page" and "replace every page with this one".
- */
-
-function assignedDiff(array $existing, array $replacements): array
-{
-    return protectedMethod(ReviewController::class, 'getAssignedDiffs')
-        ->invoke(glsr(ReviewController::class), $existing, $replacements);
-}
-
-test('what a review is already assigned to is left alone', function () {
-    // The whole point. Without this, saving a review that is assigned to three pages
-    // would unassign all three and reassign all three — three deletes, three inserts,
-    // and three cache flushes, for no change at all.
-    expect(assignedDiff([1, 2, 3], [1, 2, 3]))->toBe(['new' => [], 'old' => []]);
-});
-
-test('the order they arrive in is not a change', function () {
-    // A token field hands them back in whatever order they were dragged into. Both
-    // lists are sorted before they are compared, so that is not an edit.
-    expect(assignedDiff([3, 1, 2], [1, 2, 3]))->toBe(['new' => [], 'old' => []]);
-});
-
-test('only what was added is added, and only what was removed is removed', function () {
-    $diff = assignedDiff([1, 2, 3], [2, 3, 4]);
-
-    expect(array_values($diff['new']))->toBe([4]);
-    expect(array_values($diff['old']))->toBe([1]);
-});
-
-test('assigning to nothing unassigns everything', function () {
-    $diff = assignedDiff([1, 2], []);
-
-    expect(array_values($diff['old']))->toBe([1, 2]);
-    expect($diff['new'])->toBe([]);
-});
-
-/*
- * The assignments, driven the way the plugin drives them.
+ * The assignments, driven the way the plugin drives them. Everything that assigns or
+ * unassigns anything goes through Arr::added() and Arr::removed() (see ArrTest), which is
+ * the difference between "add this page" and "replace every page with this one": saving
+ * a review assigned to three pages must not unassign and reassign all three.
  */
 
 test('changing the assigned pages assigns the new ones and unassigns the old', function () {
