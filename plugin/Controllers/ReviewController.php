@@ -5,11 +5,13 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Commands\AssignPosts;
 use GeminiLabs\SiteReviews\Commands\AssignTerms;
 use GeminiLabs\SiteReviews\Commands\AssignUsers;
+use GeminiLabs\SiteReviews\Commands\BulkUpdateReview;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Commands\UnassignPosts;
 use GeminiLabs\SiteReviews\Commands\UnassignTerms;
 use GeminiLabs\SiteReviews\Commands\UnassignUsers;
+use GeminiLabs\SiteReviews\Commands\UpdateReview;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\CountManager;
@@ -17,11 +19,8 @@ use GeminiLabs\SiteReviews\Database\PostMeta;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
-use GeminiLabs\SiteReviews\Metaboxes\ResponseMetabox;
-use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Html\Attributes;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 use GeminiLabs\SiteReviews\Modules\Queue;
@@ -181,7 +180,7 @@ class ReviewController extends AbstractController
             glsr(CountManager::class)->recalculate();
             $review = glsr_get_review($post->ID);
             if ($isAutoDraft) {
-                $this->updateReview($review, $post);
+                $this->execute(new UpdateReview($review, $post));
                 return; // transition hooks should only fire on existing reviews
             }
             if ('publish' === $new) {
@@ -383,11 +382,10 @@ class ReviewController extends AbstractController
             return; // only trigger this action from the Site Reviews edit/post screens
         }
         $review = glsr(ReviewManager::class)->get($postId);
-        if ('edit' === glsr_current_screen()->base) {
-            $this->bulkUpdateReview($review, $oldPost);
-        } else {
-            $this->updateReview($review, $oldPost);
-        }
+        $command = 'edit' === glsr_current_screen()->base
+            ? new BulkUpdateReview($review, $oldPost)
+            : new UpdateReview($review, $oldPost);
+        $this->execute($command);
     }
 
     /**
@@ -424,18 +422,6 @@ class ReviewController extends AbstractController
             return; // this review is likely a draft made in the wp-admin
         }
         glsr(Queue::class)->async('queue/notification', ['review_id' => $review->ID]);
-    }
-
-    protected function bulkUpdateReview(Review $review, \WP_Post $oldPost): void
-    {
-        if ($assignedPostIds = filter_input(\INPUT_GET, 'post_ids', \FILTER_SANITIZE_NUMBER_INT, \FILTER_FORCE_ARRAY)) {
-            glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
-        }
-        if ($assignedUserIds = filter_input(\INPUT_GET, 'user_ids', \FILTER_SANITIZE_NUMBER_INT, \FILTER_FORCE_ARRAY)) {
-            glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
-        }
-        $review->refresh();
-        glsr()->action('review/updated', $review, [], $oldPost); // pass an empty array since review values are unchanged
     }
 
     protected function getAssignedDiffs(array $existing, array $replacements): array
@@ -478,51 +464,4 @@ class ReviewController extends AbstractController
         });
     }
 
-    protected function refreshAvatar(array $data, Review $review): string
-    {
-        $avatarUrl = Cast::toString($data['avatar'] ?? '');
-        if ($review->author === ($data['name'] ?? false)) {
-            return $avatarUrl;
-        }
-        $url = preg_replace('/(.*)\/site-reviews\/avatars\/[\p{L&}]+\.svg$/u', '', $avatarUrl);
-        if (empty($url)) { // only update the initials fallback avatar
-            $review->set('author', $data['name'] ?? '');
-            $avatarUrl = glsr(Avatar::class)->generateInitials($review);
-        }
-        return $avatarUrl;
-    }
-
-    /**
-     * This is run after editing a review in the admin.
-     */
-    protected function updateReview(Review $review, \WP_Post $oldPost): void
-    {
-        $customDefaults = array_fill_keys(array_keys($review->custom()->toArray()), '');
-        $data = Helper::filterInputArray(glsr()->id);
-        $data = wp_parse_args($data, $customDefaults); // this ensures we save all empty custom values
-        if (Arr::get($data, 'is_editing_review')) {
-            $data['avatar'] = $this->refreshAvatar($data, $review);
-            $data['rating'] ??= '';
-            $data['terms'] ??= 0;
-        }
-        if (Arr::getAs('bool', $data, 'is_pinned') === $review->is_pinned) {
-            unset($data['is_pinned']);
-        }
-        if (Arr::getAs('bool', $data, 'is_verified') === $review->is_verified || !glsr()->filterBool('verification/enabled', false)) {
-            unset($data['is_verified']);
-        }
-        if (!empty($data)) {
-            glsr(ReviewManager::class)->updateCustom($review->ID, $data); // values are sanitized here
-            glsr(ReviewManager::class)->updateGeolocation($review->ID, $data); // queues new geolocation request if needed
-            glsr(ReviewManager::class)->updateRating($review->ID, $data); // values are sanitized here
-            $review->refresh();
-        }
-        $assignedPostIds = filter_input(\INPUT_POST, 'post_ids', \FILTER_SANITIZE_NUMBER_INT, \FILTER_FORCE_ARRAY);
-        $assignedUserIds = filter_input(\INPUT_POST, 'user_ids', \FILTER_SANITIZE_NUMBER_INT, \FILTER_FORCE_ARRAY);
-        glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
-        glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
-        glsr(ResponseMetabox::class)->save($review);
-        $review->refresh();
-        glsr()->action('review/updated', $review, $data, $oldPost);
-    }
 }
