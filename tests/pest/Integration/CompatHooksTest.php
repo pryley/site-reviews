@@ -5,6 +5,7 @@ use GeminiLabs\SiteReviews\Compat\Controllers\DeprecationController;
 use GeminiLabs\SiteReviews\Compat\Hooks;
 use GeminiLabs\SiteReviews\Modules\Console;
 
+use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
@@ -52,12 +53,13 @@ test('a listener of an old action name receives every argument', function () {
     add_action('site-reviews/review/saved', function (...$args) use (&$heard) { $heard['saved'] = $args; }, 10, 2);
     add_action('site-reviews/review/response', function (...$args) use (&$heard) { $heard['response'] = $args; }, 10, 2);
 
-    do_action('site-reviews/review/updated', 'review', ['title' => 'x']);
-    do_action('site-reviews/review/responded', 'review', 'thanks');
+    $review = createReview();
+    do_action('site-reviews/review/updated', $review, ['title' => 'x']);
+    do_action('site-reviews/review/responded', $review, 'thanks');
 
     expect($heard)->toBe([
-        'saved' => ['review', ['title' => 'x']],
-        'response' => ['review', 'thanks'],
+        'saved' => [$review, ['title' => 'x']],
+        'response' => [$review, 'thanks'],
     ]);
 });
 
