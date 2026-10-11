@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Defaults\FlyoutItemDefaults;
-use GeminiLabs\SiteReviews\License;
+use GeminiLabs\SiteReviews\Licensing\License;
 
 class FlyoutController extends AbstractController
 {

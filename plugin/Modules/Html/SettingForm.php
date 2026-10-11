@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\PremiumLicense;
+use GeminiLabs\SiteReviews\Licensing\LicenseRow;
 use GeminiLabs\SiteReviews\Modules\Translation;
 
 class SettingForm extends Form
@@ -204,7 +204,7 @@ class SettingForm extends Form
     protected function templateDataForGeneral(string $group): array
     {
         $data = $this->templateData($group);
-        $data['context']['premium'] = glsr(PremiumLicense::class)->render();
+        $data['context']['premium'] = glsr(LicenseRow::class)->render();
         return $data;
     }
 
@@ -229,7 +229,7 @@ class SettingForm extends Form
 
     protected function templateDataForLicenses(string $group): array
     {
-        $fields = array_filter($this->fieldsFor($group), fn ($field) => 'settings.licenses.'.PremiumLicense::ADDON_ID !== $field->original_name);
+        $fields = array_filter($this->fieldsFor($group), fn ($field) => 'settings.licenses.'.LicenseRow::ADDON_ID !== $field->original_name);
         usort($fields, fn ($a, $b) => strnatcasecmp($a->name, $b->name));
         $rows = array_reduce($fields, fn ($carry, $field) => $carry.$field->build(), '');
         return [

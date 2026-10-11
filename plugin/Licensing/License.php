@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews;
+namespace GeminiLabs\SiteReviews\Licensing;
 
 use GeminiLabs\SiteReviews\Addons\Updater;
 
