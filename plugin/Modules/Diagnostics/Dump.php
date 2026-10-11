@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules;
+namespace GeminiLabs\SiteReviews\Modules\Diagnostics;
 
 use GeminiLabs\SiteReviews\Helpers\Cast;
 

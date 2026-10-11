@@ -1,16 +1,12 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules;
+namespace GeminiLabs\SiteReviews\Modules\Diagnostics;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
 /**
- * Finds the code of the site owner that caused a log entry: the first
- * file outside Site Reviews on the call chain, when that file is user code.
- * User code is the theme, a must-use plugin, or a snippet that a snippet
- * plugin runs. Code that reaches Site Reviews only through WordPress is not
- * the caller: a theme template that renders a shortcode has core between.
+ * Finds the origin of the code that caused a log entry.
  */
 class CodeOrigin
 {
@@ -53,9 +49,13 @@ class CodeOrigin
             return [];
         }
         $file = Cast::toString($reflection->getFileName());
-        return $this->isUserCode($file)
-            ? ['file' => $file, 'line' => Cast::toInt($reflection->getStartLine())]
-            : [];
+        if ($this->isUserCode($file)) {
+            return [
+                'file' => $file,
+                'line' => Cast::toInt($reflection->getStartLine()),
+            ];
+        }
+        return [];
     }
 
     /**
@@ -64,7 +64,10 @@ class CodeOrigin
     public function fromThrowable(\Throwable $error): array
     {
         $frames = $error->getTrace();
-        array_unshift($frames, ['file' => $error->getFile(), 'line' => $error->getLine()]);
+        array_unshift($frames, [
+            'file' => $error->getFile(),
+            'line' => $error->getLine(),
+        ]);
         return $this->fromBacktrace($frames);
     }
 
