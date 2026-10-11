@@ -3,9 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Database\ReviewManager;
-use GeminiLabs\SiteReviews\Database\Tables;
-use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
-use GeminiLabs\SiteReviews\Defaults\ColumnOrderbyDefaults;
+use GeminiLabs\SiteReviews\Database\ListTableClauses;
 use GeminiLabs\SiteReviews\Defaults\ListtableFiltersDefaults;
 use GeminiLabs\SiteReviews\Defaults\SqlClauseDefaults;
 use GeminiLabs\SiteReviews\Helper;
@@ -130,11 +128,11 @@ class ListTableController extends AbstractController
             return $postClauses;
         }
         $clauses = array_fill_keys(array_keys($postClauses), []);
-        if ($this->isListFiltered() || $this->isListOrdered()) {
+        $table = new ListTableClauses($query);
+        if ($table->isFiltered() || $table->isOrdered()) {
             foreach ($postClauses as $key => $clause) {
-                $method = Helper::buildMethodName('modifyClause', $key);
-                if (method_exists($this, $method)) {
-                    $clauses[$key] = call_user_func([$this, $method], $clause, $query);
+                if (method_exists($table, $key)) {
+                    $clauses[$key] = $table->$key($clause);
                 }
             }
         }
@@ -348,106 +346,5 @@ class ListTableController extends AbstractController
             }
             $query->set('tax_query', [$taxQuery]);
         }
-    }
-
-    protected function filterByValues(): array
-    {
-        $filterBy = glsr(ColumnFilterbyDefaults::class)->defaults();
-        $filterBy = filter_input_array(\INPUT_GET, $filterBy);
-        return Arr::removeEmptyValues(Arr::consolidate($filterBy));
-    }
-
-    protected function isListFiltered(): bool
-    {
-        return !empty($this->filterByValues());
-    }
-
-    protected function isListOrdered(): bool
-    {
-        $columns = glsr(ColumnOrderbyDefaults::class)->defaults();
-        $column = Cast::toString(get_query_var('orderby')); // get_query_var output is unpredictable
-        return array_key_exists($column, $columns);
-    }
-
-    protected function isOrderbyWithIsNull(string $column): bool
-    {
-        $columns = [
-            'email', 'name', 'ip_address', 'type',
-        ];
-        $columns = glsr()->filterArray('columns/orderby-is-null', $columns);
-        return in_array($column, $columns);
-    }
-
-    protected function modifyClauseJoin(string $join, \WP_Query $query): array
-    {
-        $clause = glsr(SqlClauseDefaults::class)->restrict([
-            'clauses' => [],
-            'replace' => false,
-        ]);
-        $posts = glsr(Tables::class)->table('posts');
-        $ratings = glsr(Tables::class)->table('ratings');
-        $clause['clauses'][] = "INNER JOIN {$ratings} ON ({$ratings}.review_id = {$posts}.ID)";
-        foreach ($this->filterByValues() as $key => $value) {
-            if (!in_array($key, ['assigned_post', 'assigned_user'])) {
-                continue;
-            }
-            $assignedTable = glsr(Tables::class)->table($key.'s');
-            $value = Cast::toInt($value);
-            if (0 === $value) {
-                $clause['clauses'][] = "LEFT JOIN {$assignedTable} ON ({$assignedTable}.rating_id = {$ratings}.ID)";
-            } else {
-                $clause['clauses'][] = "INNER JOIN {$assignedTable} ON ({$assignedTable}.rating_id = {$ratings}.ID)";
-            }
-        }
-        return $clause;
-    }
-
-    protected function modifyClauseOrderby(string $orderby, \WP_Query $query): array
-    {
-        $clause = glsr(SqlClauseDefaults::class)->restrict([
-            'clauses' => [],
-            'replace' => true,
-        ]);
-        $columns = glsr(ColumnOrderbyDefaults::class)->defaults();
-        $column = Arr::get($columns, $query->get('orderby'));
-        if (empty($column)) {
-            return $clause;
-        }
-        $ratings = glsr(Tables::class)->table('ratings');
-        if ($this->isOrderbyWithIsNull($column)) {
-            $clause['clauses'][] = "NULLIF({$ratings}.{$column}, '') IS NULL, {$orderby}";
-        } else {
-            $clause['clauses'][] = "{$ratings}.{$column} {$query->get('order')}";
-        }
-        return $clause;
-    }
-
-    protected function modifyClauseWhere(string $where, \WP_Query $query): array
-    {
-        $clause = glsr(SqlClauseDefaults::class)->restrict([
-            'clauses' => [],
-            'replace' => false,
-        ]);
-        $ratings = glsr(Tables::class)->table('ratings');
-        $posts = glsr(Tables::class)->table('posts');
-        foreach ($this->filterByValues() as $key => $value) {
-            if (in_array($key, ['assigned_post', 'assigned_user'])) {
-                $assignedTable = glsr(Tables::class)->table($key.'s');
-                $column = Str::suffix(Str::removePrefix($key, 'assigned_'), '_id');
-                $value = Cast::toInt($value);
-                if (0 === $value) {
-                    $clause['clauses'][] = "AND {$assignedTable}.{$column} IS NULL";
-                } else {
-                    $clause['clauses'][] = "AND {$assignedTable}.{$column} = {$value}";
-                }
-            } elseif (in_array($key, ['rating', 'terms', 'type'])) {
-                $clause['clauses'][] = "AND {$ratings}.{$key} = '{$value}'";
-            } elseif ('author' === $key && '0' === $value) {
-                // Filtering by the "author" URL parameter is automatically done
-                // by WordPress when the value is not empty
-                $clause['clauses'][] = "AND {$posts}.post_author IN (0)";
-            }
-        }
-        return $clause;
     }
 }
