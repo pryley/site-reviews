@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Addons\UpdateNotice;
 use GeminiLabs\SiteReviews\Addons\Updater;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class UpdateController extends AbstractController
 {
@@ -50,11 +49,11 @@ class UpdateController extends AbstractController
         if ('plugin_information' !== $action || empty($args->slug)) {
             return $data;
         }
-        if (!$this->isAddon($args->slug)) {
+        if (!Updater::isAddon($args->slug)) {
             return $data;
         }
         $updater = new Updater($args->slug, [
-            'force' => $this->hasTimeoutExpired($args->slug),
+            'force' => Updater::isDue($args->slug),
         ]);
         $details = $updater->versionDetails();
         if (empty($details['version'])) {
@@ -77,7 +76,7 @@ class UpdateController extends AbstractController
         $addonId = $pluginData['TextDomain'] ?? '';
         $url = $pluginData['UpdateURI'] ?? '';
         $updater = new Updater($addonId, [
-            'force' => $this->hasTimeoutExpired($addonId),
+            'force' => Updater::isDue($addonId),
             'url' => $url,
         ]);
         $update = $updater->versionUpdate();
@@ -107,7 +106,7 @@ class UpdateController extends AbstractController
             $pluginData = get_file_data($file, ['version' => 'Version'], 'plugin');
             $currentVersion = $pluginData['version'];
             $updater = new Updater($addonId, [
-                'force' => $this->hasTimeoutExpired($addonId),
+                'force' => Updater::isDue($addonId),
                 'url' => Updater::BASE_URL,
             ]);
             $update = (object) $updater->versionUpdate();
@@ -129,22 +128,6 @@ class UpdateController extends AbstractController
     }
 
     /**
-     * Delete API transient here.
-     *
-     * @action delete_site_transient_update_plugins
-     */
-    // public function onDeleteUpdatePluginsTransient(): void
-    // {
-    // }
-
-    /**
-     * @action upgrader_process_complete
-     */
-    // public function onUpgraderProcessComplete(): void
-    // {
-    // }
-
-    /**
      * @param array  $pluginData
      * @param object $response
      *
@@ -159,56 +142,6 @@ class UpdateController extends AbstractController
         echo ' '.$notice->html();
     }
 
-    protected function hasTimeoutExpired(string $addonId): bool
-    {
-        $optionKey = glsr()->prefix.'last_checked_'.$addonId;
-        $lastChecked = Cast::toInt(get_site_option($optionKey, 0));
-        if (doing_filter('upgrader_process_complete')) {
-            $timeout = 0;
-        } elseif (doing_filter('load-update-core.php')) {
-            $timeout = filter_input(\INPUT_GET, 'force-check', \FILTER_VALIDATE_INT) ? 0 : \MINUTE_IN_SECONDS;
-        } elseif (doing_filter('load-plugins.php') || doing_filter('load-update.php')) {
-            $timeout = \HOUR_IN_SECONDS;
-        } elseif (wp_doing_cron()) {
-            $timeout = 2 * \HOUR_IN_SECONDS;
-        } else {
-            $timeout = 12 * \HOUR_IN_SECONDS;
-        }
-        if ($timeout <= (time() - $lastChecked)) {
-            update_site_option($optionKey, time());
-            return true;
-        }
-        return false;
-    }
-
-    protected function isAddon(string $slug): bool
-    {
-        static $cache = [];
-        if (isset($cache[$slug])) {
-            return $cache[$slug];
-        }
-        $cache[$slug] = false;
-        if (!preg_match('/^'.glsr()->id.'-[a-z-]+$/D', $slug)) {
-            return $cache[$slug];
-        }
-        $file = \WP_PLUGIN_DIR."/{$slug}/{$slug}.php";
-        if (is_readable($file)) {
-            $data = get_file_data($file, ['update_uri' => 'Update URI']);
-            $cache[$slug] = trailingslashit(Updater::BASE_URL) === trailingslashit($data['update_uri']);
-        }
-        return $cache[$slug];
-    }
-
-    /**
-     * An update object the plugin built names the update server as its id:
-     * WordPress copies the Update URI header there, and the transient filter sets it.
-     */
-    protected function isAddonUpdate(object $update): bool
-    {
-        $id = (string) ($update->id ?? '');
-        return '' !== $id && trailingslashit($id) === trailingslashit(Updater::BASE_URL);
-    }
-
     /**
      * The email line for a failed addon update that had no package; '' for any other failure.
      *
@@ -217,7 +150,7 @@ class UpdateController extends AbstractController
     protected function licenseFailureLine($failed): string
     {
         $item = $failed->item ?? null;
-        if (!is_object($item) || !empty($item->package) || !$this->isAddonUpdate($item)) {
+        if (!is_object($item) || !empty($item->package) || !Updater::isAddonUpdate($item)) {
             return '';
         }
         $notice = $this->updateNotice($item);

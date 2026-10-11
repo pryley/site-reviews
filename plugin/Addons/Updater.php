@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Defaults\Updater\DeactivateLicenseDefaults;
 use GeminiLabs\SiteReviews\Defaults\Updater\VersionDefaults;
 use GeminiLabs\SiteReviews\Defaults\Updater\VersionDetailsDefaults;
 use GeminiLabs\SiteReviews\Defaults\Updater\VersionUpdateDefaults;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
@@ -73,6 +74,52 @@ class Updater
         glsr(Api::class, ['url' => $this->apiUrl])->flushAll('get_version');
     }
 
+    /**
+     * An installed plugin whose Update URI header names the licence server.
+     */
+    public static function isAddon(string $slug): bool
+    {
+        static $cache = [];
+        if (isset($cache[$slug])) {
+            return $cache[$slug];
+        }
+        $cache[$slug] = false;
+        if (!preg_match('/^'.glsr()->id.'-[a-z-]+$/D', $slug)) {
+            return $cache[$slug];
+        }
+        $file = \WP_PLUGIN_DIR."/{$slug}/{$slug}.php";
+        if (is_readable($file)) {
+            $data = get_file_data($file, ['update_uri' => 'Update URI']);
+            $cache[$slug] = trailingslashit(static::BASE_URL) === trailingslashit($data['update_uri']);
+        }
+        return $cache[$slug];
+    }
+
+    /**
+     * An update object the plugin built names the licence server as its id:
+     * WordPress copies the Update URI header there, and the transient filter sets it.
+     */
+    public static function isAddonUpdate(object $update): bool
+    {
+        $id = (string) ($update->id ?? '');
+        return '' !== $id && trailingslashit($id) === trailingslashit(static::BASE_URL);
+    }
+
+    /**
+     * Whether the licence server should be asked again for this addon, on the schedule
+     * WordPress keeps for wordpress.org in wp_update_plugins(). A yes is recorded as the asking.
+     */
+    public static function isDue(string $addonId): bool
+    {
+        $optionKey = glsr()->prefix.'last_checked_'.$addonId;
+        $lastChecked = Cast::toInt(get_site_option($optionKey, 0));
+        if (static::timeout() > time() - $lastChecked) {
+            return false;
+        }
+        update_site_option($optionKey, time());
+        return true;
+    }
+
     public function version(): array
     {
         $results = $this->request('get_version');
@@ -119,6 +166,25 @@ class Updater
             glsr_log()->debug($body);
         }
         return $response->body();
+    }
+
+    protected static function timeout(): int
+    {
+        if (doing_filter('load-update-core.php') && filter_input(\INPUT_GET, 'force-check', \FILTER_VALIDATE_INT)) {
+            return 0;
+        }
+        $timeouts = [
+            'upgrader_process_complete' => 0,
+            'load-update-core.php' => \MINUTE_IN_SECONDS,
+            'load-plugins.php' => \HOUR_IN_SECONDS,
+            'load-update.php' => \HOUR_IN_SECONDS,
+        ];
+        foreach ($timeouts as $hook => $timeout) {
+            if (doing_filter($hook)) {
+                return $timeout;
+            }
+        }
+        return wp_doing_cron() ? 2 * \HOUR_IN_SECONDS : 12 * \HOUR_IN_SECONDS;
     }
 
     protected function updateUri(string $addonId, string $url = ''): string

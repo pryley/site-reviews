@@ -103,6 +103,15 @@ if (!function_exists(__NAMESPACE__.'\filter_input')) {
     }
 }
 
+namespace GeminiLabs\SiteReviews\Addons;
+
+if (!function_exists(__NAMESPACE__.'\filter_input')) {
+    function filter_input(int $type, string $key, int $filter = FILTER_DEFAULT, $options = 0)
+    {
+        return \GeminiLabs\SiteReviews\Tests\filterInputShadow($type, $key, $filter, $options);
+    }
+}
+
 namespace GeminiLabs\SiteReviews\Commands;
 
 if (!function_exists(__NAMESPACE__.'\filter_input')) {
