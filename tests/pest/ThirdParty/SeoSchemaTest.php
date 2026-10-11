@@ -27,8 +27,8 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * Yoast is different: wpseo_schema_graph is the entire page graph, most of which
  * Yoast generates on its own — the featured image, the publisher, the website.
  * A type gate alone rates the featured image, which has no name, and Google then
- * reports "Missing field 'name' (in '<parent_node>')". So the Yoast controller
- * picks ONE node by its role: the publisher for a rating of the site, the
+ * reports "Missing field 'name' (in '<parent_node>')". So the Yoast integration
+ * (YoastSEO\Graph) picks ONE node by its role: the publisher for a rating of the site, the
  * primary content for a rating of an assigned post, term or user.
  *
  * SASWP hands over its own reviews schema, one node, and Schema Pro one schema
@@ -357,7 +357,7 @@ test('yoast puts the rating under itemReviewed on a node that is itself a review
     createReview(['assigned_posts' => $postId, 'rating' => 5]);
 
     // A rating cannot hang off a Review node — it belongs to the thing reviewed —
-    // so the controller nests it. Note the node has to carry a rated type as well:
+    // so Schema::rate() nests it. Note the node has to carry a rated type as well:
     // Review is not in RatingSchemaTypeDefaults, so a node typed only "Review"
     // is never chosen in the first place.
     $graph = glsr(YoastController::class)->filterSchema([
