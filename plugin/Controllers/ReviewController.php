@@ -150,9 +150,8 @@ class ReviewController extends AbstractController
     ): void {
         if (Review::isReview($postId)) {
             $review = glsr(ReviewManager::class)->get($postId);
-            $diff = $this->getAssignedDiffs($oldTTIds, $newTTIds);
-            $this->execute(new UnassignTerms($review, $diff['old']));
-            $this->execute(new AssignTerms($review, $diff['new']));
+            $this->execute(new UnassignTerms($review, Arr::removed($oldTTIds, $newTTIds)));
+            $this->execute(new AssignTerms($review, Arr::added($oldTTIds, $newTTIds)));
         }
     }
 
@@ -253,9 +252,8 @@ class ReviewController extends AbstractController
      */
     public function onChangeAssignedPosts(Review $review, array $postIds = []): void
     {
-        $diff = $this->getAssignedDiffs($review->assigned_posts, $postIds);
-        $this->execute(new UnassignPosts($review, $diff['old']));
-        $this->execute(new AssignPosts($review, $diff['new']));
+        $this->execute(new UnassignPosts($review, Arr::removed($review->assigned_posts, $postIds)));
+        $this->execute(new AssignPosts($review, Arr::added($review->assigned_posts, $postIds)));
     }
 
     /**
@@ -265,9 +263,8 @@ class ReviewController extends AbstractController
      */
     public function onChangeAssignedUsers(Review $review, array $userIds = []): void
     {
-        $diff = $this->getAssignedDiffs($review->assigned_users, $userIds);
-        $this->execute(new UnassignUsers($review, $diff['old']));
-        $this->execute(new AssignUsers($review, $diff['new']));
+        $this->execute(new UnassignUsers($review, Arr::removed($review->assigned_users, $userIds)));
+        $this->execute(new AssignUsers($review, Arr::added($review->assigned_users, $userIds)));
     }
 
     /**
@@ -422,22 +419,6 @@ class ReviewController extends AbstractController
             return; // this review is likely a draft made in the wp-admin
         }
         glsr(Queue::class)->async('queue/notification', ['review_id' => $review->ID]);
-    }
-
-    protected function getAssignedDiffs(array $existing, array $replacements): array
-    {
-        sort($existing);
-        sort($replacements);
-        $new = $old = [];
-        if ($existing !== $replacements) {
-            $ignored = array_intersect($existing, $replacements);
-            $new = array_diff($replacements, $ignored);
-            $old = array_diff($existing, $ignored);
-        }
-        return [
-            'new' => $new,
-            'old' => $old,
-        ];
     }
 
     protected function isEditedReview(\WP_Post $post, \WP_Post $oldPost): bool
