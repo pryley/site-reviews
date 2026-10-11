@@ -3,29 +3,25 @@
 namespace GeminiLabs\SiteReviews\Compat\Controllers;
 
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
+use GeminiLabs\SiteReviews\Modules\Html\Form;
+use GeminiLabs\SiteReviews\Review;
 
 class HookController extends AbstractController
 {
     /**
-     * @param mixed $template
-     *
-     * @return mixed
-     *
      * @filter site-reviews/build/template/review
      */
-    public function filterAssignedToTag($template)
+    public function filterAssignedToTag(string $template): string
     {
         return str_replace('{{ assigned_to }}', '{{ assigned_links }}', $template);
     }
 
     /**
-     * @param mixed $properties
-     *
      * @return mixed
      *
      * @filter site-reviews/rest-api/reviews/schema/properties
      */
-    public function filterRestApiReviewsProperties($properties)
+    public function filterRestApiReviewsProperties(array $properties)
     {
         return apply_filters_deprecated('site-reviews/rest-api/reviews/properties',
             [$properties],
@@ -35,13 +31,11 @@ class HookController extends AbstractController
     }
 
     /**
-     * @param mixed $properties
-     *
      * @return mixed
      *
      * @filter site-reviews/rest-api/summary/schema/properties
      */
-    public function filterRestApiSummaryProperties($properties)
+    public function filterRestApiSummaryProperties(array $properties)
     {
         return apply_filters_deprecated('site-reviews/rest-api/summary/properties',
             [$properties],
@@ -51,30 +45,25 @@ class HookController extends AbstractController
     }
 
     /**
-     * @param mixed $fields
-     * @param mixed $args
-     *
      * @return mixed
      *
      * @filter site-reviews/review-form/fields/all
      */
-    public function filterReviewFormFieldsNormalized($fields, $args)
+    public function filterReviewFormFieldsNormalized(array $fields, Form $form)
     {
         return apply_filters_deprecated('site-reviews/review-form/fields/normalized',
-            [$fields, $args],
+            [$fields, $form],
             '7.0',
             'site-reviews/review-form/fields/all'
         );
     }
 
     /**
-     * @param mixed $order
-     *
      * @return mixed
      *
      * @filter site-reviews/review-form/fields/order
      */
-    public function filterReviewFormOrder($order)
+    public function filterReviewFormOrder(array $order)
     {
         return apply_filters_deprecated('site-reviews/review-form/order',
             [$order],
@@ -84,25 +73,19 @@ class HookController extends AbstractController
     }
 
     /**
-     * @param mixed $template
-     *
-     * @return mixed
-     *
      * @filter site-reviews/build/template/review
      */
-    public function filterReviewIdTag($template)
+    public function filterReviewIdTag(string $template): string
     {
         return str_replace('id="{{ review_id }}"', 'id="review-{{ review_id }}"', $template);
     }
 
     /**
-     * @param mixed $defaults
-     *
      * @return mixed
      *
      * @filter site-reviews/defaults/review-table-filters
      */
-    public function filterReviewTableFilter($defaults)
+    public function filterReviewTableFilter(array $defaults)
     {
         return apply_filters_deprecated('site-reviews/review-table/filter',
             [$defaults],
@@ -112,13 +95,11 @@ class HookController extends AbstractController
     }
 
     /**
-     * @param mixed $html
-     *
      * @return mixed
      *
      * @filter site-reviews/rendered/template/reviews
      */
-    public function filterReviewsWrapper($html)
+    public function filterReviewsWrapper(string $html)
     {
         return apply_filters_deprecated('site-reviews/reviews/reviews-wrapper',
             [$html],
@@ -129,13 +110,11 @@ class HookController extends AbstractController
     }
 
     /**
-     * @param mixed $notification
-     *
      * @return mixed
      *
      * @filter site-reviews/slack/notification
      */
-    public function filterSlackCompose($notification)
+    public function filterSlackCompose(array $notification)
     {
         return apply_filters_deprecated('site-reviews/slack/compose',
             [$notification],
@@ -145,13 +124,11 @@ class HookController extends AbstractController
     }
 
     /**
-     * @param mixed $config
-     *
      * @return mixed
      *
      * @filter site-reviews/config/forms/review-form
      */
-    public function filterSubmissionFormConfig($config)
+    public function filterSubmissionFormConfig(array $config)
     {
         return apply_filters_deprecated('site-reviews/config/forms/submission-form',
             [$config],
@@ -161,13 +138,11 @@ class HookController extends AbstractController
     }
 
     /**
-     * @param mixed $order
-     *
      * @return mixed
      *
      * @filter site-reviews/review-form/fields/order
      */
-    public function filterSubmissionFormOrder($order)
+    public function filterSubmissionFormOrder(array $order)
     {
         return apply_filters_deprecated('site-reviews/submission-form/order',
             [$order],
@@ -177,12 +152,9 @@ class HookController extends AbstractController
     }
 
     /**
-     * @param mixed $review
-     * @param mixed $response
-     *
      * @action site-reviews/review/responded
      */
-    public function reviewResponse($review, $response): void
+    public function reviewResponse(Review $review, string $response): void
     {
         do_action_deprecated('site-reviews/review/response',
             [$review, $response],
@@ -193,12 +165,9 @@ class HookController extends AbstractController
     }
 
     /**
-     * @param mixed $review
-     * @param mixed $data
-     *
      * @action site-reviews/review/updated
      */
-    public function reviewSaved($review, $data): void
+    public function reviewSaved(Review $review, array $data): void
     {
         do_action_deprecated('site-reviews/review/saved',
             [$review, $data],
