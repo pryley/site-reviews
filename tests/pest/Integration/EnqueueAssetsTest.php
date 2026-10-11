@@ -72,6 +72,16 @@ test('the public script and stylesheet are enqueued', function () {
     expect(implode('', (array) $inline))->toContain('nameprefix:"site-reviews"');
 });
 
+test('the optimize filters no longer change what is enqueued', function () {
+    // 8.4.0 removed the combiner that wrote one file of the plugin's and its addons' assets
+    // into uploads; the deprecation a snippet hears is CompatHooksTest's.
+    add_filter('site-reviews/optimize/js', '__return_true');
+    add_filter('site-reviews/optimize/css', '__return_true');
+    (new EnqueuePublicAssets())->handle();
+    expect(wp_scripts()->registered[glsr()->id]->src)->toContain('/assets/scripts/site-reviews.js')
+        ->and(wp_styles()->registered[glsr()->id]->src)->not->toContain('/uploads/');
+});
+
 test('a site can turn the assets off', function () {
     // Some sites bundle their own build of the plugin's JS and CSS.
     add_filter('site-reviews/assets/js', '__return_false');

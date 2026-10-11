@@ -17,6 +17,8 @@ function glsr_uninstall()
     }
     delete_option('glsr_activated');
     delete_transient('glsr_cloudflare_ips');
+    delete_transient('glsr_optimized_css'); // written by the asset optimiser removed in 8.4.0
+    delete_transient('glsr_optimized_js');
     delete_transient('glsr_remote_post_test');
     delete_transient('glsr_system_info');
     // finally, flush the cache

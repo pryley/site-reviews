@@ -231,6 +231,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed the Rollback Plugin tool not warning which addons will stop working after the rollback
 - Improved the searchable dropdowns in the admin, they now search using the REST API
 - Improved the tabs on the settings pages, they are shown as buttons when they do not fit on one line
+- Removed the option to combine the plugin's stylesheets and scripts with its addons' into one file; the `site-reviews/optimize/css` and `site-reviews/optimize/js` filter hooks are deprecated and do nothing
 - Removed the `site-reviews/pagination/popstate` Javascript event, use the `popstate` event of the browser instead
 - Renamed the `Compatibility` PHP class to `Helpers\Hook`
 

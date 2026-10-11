@@ -143,10 +143,6 @@ site-reviews/notices                                        (array $notices): ar
 site-reviews/notification/emails                            (array $emails, Review $review): array
 site-reviews/notification/tag/<tag>                         (string $value, Review $review): string
 site-reviews/notification/title                             (string $title, Review $review): string
-site-reviews/optimize/css                                   (bool $bool): bool
-site-reviews/optimize/js                                    (bool $bool): bool
-site-reviews/optimized/scripts                              (array $handles): array
-site-reviews/optimized/styles                               (array $handles): array
 site-reviews/option/<path>                                  (mixed $value, array $settings, string $path): mixed
 site-reviews/page-header/buttons                            (array $buttons): array
 site-reviews/paginate_link                                  (array $link, array $args, Contracts\BuilderContract $builder, Modules\Paginate $paginate): array

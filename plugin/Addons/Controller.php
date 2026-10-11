@@ -8,8 +8,6 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Install;
-use GeminiLabs\SiteReviews\Modules\Assets\AssetCss;
-use GeminiLabs\SiteReviews\Modules\Assets\AssetJs;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Modules\Translator;
@@ -33,12 +31,8 @@ abstract class Controller extends AbstractController
      */
     public function enqueuePublicAssets(): void
     {
-        if (!glsr(AssetCss::class)->canOptimize() || !glsr(AssetCss::class)->isOptimized()) {
-            $this->enqueueAsset('css');
-        }
-        if (!glsr(AssetJs::class)->canOptimize() || !glsr(AssetJs::class)->isOptimized()) {
-            $this->enqueueAsset('js', ['in_footer' => true]);
-        }
+        $this->enqueueAsset('css');
+        $this->enqueueAsset('js', ['in_footer' => true]);
     }
 
     /**
