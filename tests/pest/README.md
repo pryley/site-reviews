@@ -150,7 +150,7 @@ integration — the half Site Reviews owns:
   its notice; the pure transformers (`Divi`, `Elementor`, `Flatsome`,
   `WPBakery`, `Avada` — array in, array out); the SEO schema controllers
   (`RankMath`, `YoastSEO`, `SEOPress`) which filter schema arrays; the `Cache`
-  integration's purge dispatch, which is guarded by `function_exists`.
+  integration's purge dispatch and the purge calls of the cache plugins that have a stub.
 - **No:** anything that consumes a *return value* from the third party.
   `wc_get_product()` returns `null` from a stub, so `WooCommerce\ProductController::rating()`
   has nothing to read. Those paths need the real plugin installed in wp-env —
