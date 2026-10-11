@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Database\Tables\TableRatings;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Install;
+use GeminiLabs\SiteReviews\Licensing\License;
 use GeminiLabs\SiteReviews\Migrations\Migrate_8_4_0;
 
 /*
@@ -301,7 +302,7 @@ test('the licence URL is the network\'s under its domain and the site\'s own on 
     // One seat per network under its domain; a site on another domain is a seat of its own.
     switch_to_blog(secondSiteId()); // a subdirectory site: localhost:8892/second/
     try {
-        expect(Url::license())->toBe(Url::home());
+        expect(glsr(License::class)->siteUrl())->toBe(Url::home());
     } finally {
         restore_current_blog();
     }
@@ -311,9 +312,9 @@ test('the licence URL is the network\'s under its domain and the site\'s own on 
     switch_to_blog($mapped);
     try {
         wp_upload_dir(); // a real site has an uploads directory for core to delete
-        expect(Url::license())->toBe(trailingslashit(home_url()))
-            ->and(Url::license())->not->toBe(Url::home())
-            ->and(Url::license())->toContain('shop-other.com');
+        expect(glsr(License::class)->siteUrl())->toBe(trailingslashit(home_url()))
+            ->and(glsr(License::class)->siteUrl())->not->toBe(Url::home())
+            ->and(glsr(License::class)->siteUrl())->toContain('shop-other.com');
     } finally {
         restore_current_blog();
         wp_delete_site($mapped);

@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Url;
+use GeminiLabs\SiteReviews\Licensing\License;
 
 class Migrate_8_4_0 implements MigrateContract
 {
@@ -16,7 +17,7 @@ class Migrate_8_4_0 implements MigrateContract
 
     public function activateLicensesForMappedSite(): bool
     {
-        if (Url::license() === Url::home()) {
+        if (glsr(License::class)->siteUrl() === Url::home()) {
             return true;
         }
         $licenses = array_filter(Arr::consolidate(glsr_get_option('licenses')));

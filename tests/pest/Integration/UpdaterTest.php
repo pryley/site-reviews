@@ -91,7 +91,7 @@ test('activating a licence says which addon, which key, and which site', functio
         'license' => 'a-real-licence-key',
         'slug' => 'site-reviews-images',
         // trailing slash included: the licence server keys on the exact string
-        'url' => \GeminiLabs\SiteReviews\Helpers\Url::license(),
+        'url' => glsr(\GeminiLabs\SiteReviews\Licensing\License::class)->siteUrl(),
     ]);
     expect($requests[0]['url'])->toBe('https://updates.example.org');
 });
