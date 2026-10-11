@@ -20,24 +20,16 @@ class Controller extends AbstractController
             return $data;
         }
         $allowedTypes = glsr(RatingSchemaTypeDefaults::class)->defaults();
-        $aggregateRatingSchema = Arr::get($schema, 'aggregateRating');
-        $reviewSchema = Arr::get($schema, 'review');
         foreach ($data as $key => $values) {
             if ('richSnippet' !== $key
                 && !str_starts_with($key, 'new-') // used in preview
                 && !str_starts_with($key, 'schema-')) {
                 continue;
             }
-            $type = $values['@type'] ?? '';
-            if (!in_array($type, $allowedTypes)) {
+            if (!in_array($values['@type'] ?? '', $allowedTypes)) {
                 continue;
             }
-            if ($aggregateRatingSchema) {
-                $data[$key]['aggregateRating'] = $aggregateRatingSchema;
-            }
-            if ($reviewSchema) {
-                $data[$key]['review'] = $reviewSchema;
-            }
+            $data[$key] = glsr(Schema::class)->rate($values, $schema);
         }
         return $data;
     }
