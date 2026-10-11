@@ -65,6 +65,9 @@ class Hooks extends AbstractHooks
             ['requireCompatScript', 'wp_print_footer_scripts', 0],
             ['requireCompatScript', 'wp_print_scripts', 0],
         ]);
+        $this->hook(HookController::class, [
+            ['filterOptimizeAsset', 'wp_enqueue_scripts'],
+        ]);
         $this->hook(DeprecationController::class, [
             ['logNotices', 'admin_footer'],
             ['logNotices', 'wp_footer'],

@@ -147,16 +147,11 @@ class SystemInfo implements \Stringable
 
     public function sectionPlugin(): array
     {
-        $merged = array_keys(array_filter([
-            'css' => glsr()->filterBool('optimize/css', false),
-            'js' => glsr()->filterBool('optimize/js', false),
-        ]));
         return [
             'Console Level' => glsr(Console::class)->humanLevel(),
             'Console Size' => glsr(Console::class)->humanSize(),
             'Database Version' => (string) get_option(glsr()->prefix.'db_version'),
             'Last Migration Run' => glsr(Date::class)->localized(glsr(Migrate::class)->lastRun(), 'unknown'),
-            'Merged Assets' => implode('/', Helper::ifEmpty($merged, ['No'])),
             'Network Activated' => Helper::ifTrue(is_plugin_active_for_network(glsr()->basename), 'Yes', 'No'),
             'Version' => sprintf('%s (%s)', glsr()->version, glsr(OptionManager::class)->get('version_upgraded_from') ?: '0.0.0'),
         ];
