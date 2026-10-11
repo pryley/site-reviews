@@ -452,7 +452,7 @@ test('the connect page address of the licence check is kept, and only as a URL',
 });
 
 test('on a single site the licence URL is the home URL', function () {
-    expect(GeminiLabs\SiteReviews\Helpers\Url::license())->toBe(GeminiLabs\SiteReviews\Helpers\Url::home());
+    expect(glsr(License::class)->siteUrl())->toBe(GeminiLabs\SiteReviews\Helpers\Url::home());
 });
 
 test('an installed premium plugin is premium before any licence is entered', function () {

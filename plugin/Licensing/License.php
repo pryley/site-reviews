@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Licensing;
 
 use GeminiLabs\SiteReviews\Addons\Updater;
+use GeminiLabs\SiteReviews\Helpers\Url;
 
 class License
 {
@@ -16,13 +17,28 @@ class License
         return $this->status()['premium_key'];
     }
 
+    /**
+     * The URL a licence is activated for.
+     */
+    public function siteUrl(): string
+    {
+        if (!is_multisite()) {
+            return Url::home();
+        }
+        $network = strtolower((string) preg_replace('|^www\.|', '', (string) get_network()->domain));
+        $site = strtolower((string) get_site()->domain);
+        if ($site === $network || str_ends_with($site, '.'.$network)) {
+            return Url::home();
+        }
+        return trailingslashit(home_url());
+    }
+
     public function status(): array
     {
         $licensed = glsr()->retrieveAs('array', 'licensed', []);
         $status = array_fill_keys(['expired', 'invalid', 'licensed', 'missing', 'premium'], false);
         $status['premium_key'] = '';
-        // An installed and registered premium plugin counts as premium even
-        // before a license is entered; the license notices still apply.
+        // An installed and registered premium plugin counts as premium.
         $status['premium'] = !is_null(glsr()->addon('site-reviews-premium'));
         if (!$status['premium'] && !empty(glsr_get_option('licenses.site-reviews-premium'))) {
             // The key the License Key row saved before premium was installed.
