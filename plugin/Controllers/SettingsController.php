@@ -2,13 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Addons\Updater;
+use GeminiLabs\SiteReviews\Commands\ValidateSettings;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Exceptions\LicenseException;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Notice;
-use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class SettingsController extends AbstractController
 {
@@ -43,131 +40,14 @@ class SettingsController extends AbstractController
         $options = array_replace_recursive(glsr(OptionManager::class)->all(), [
             'settings' => $input['settings'],
         ]);
-        $options = $this->sanitizeMultiValue($options, $input);
-        $options = $this->sanitizeGeneral($options, $input);
-        $options = $this->sanitizeStrings($options, $input);
-        $options = $this->sanitizeAll($options);
-        $options = glsr()->filterArray('settings/sanitize', $options, $input); // fires for every write of the option, not only saves
+        $command = new ValidateSettings($options, $input);
+        $this->execute($command);
+        $options = glsr()->filterArray('settings/sanitize', $command->options, $input); // fires for every write of the option, not only saves
         if (filter_input(\INPUT_POST, 'option_page') === glsr()->id) {
             glsr(Notice::class)->addSuccess(_x('Settings updated.', 'admin-text', 'site-reviews'));
         }
         glsr(Notice::class)->store(); // store the notices before the page reloads
         glsr()->action('settings/updated', $options, $input);
         return glsr(OptionManager::class)->split($options); // splits addon settings out to their own options
-    }
-
-    protected function sanitizeAll(array $options): array
-    {
-        $values = Arr::flatten($options);
-        $sanitizers = wp_list_pluck(glsr()->settings(), 'sanitizer');
-        $options = (new Sanitizer($values, $sanitizers))->run();
-        return Arr::unflatten($options);
-    }
-
-    protected function sanitizeGeneral(array $options, array $input): array
-    {
-        $key = 'settings.general';
-        $inputForm = Arr::consolidate(Arr::get($input, $key));
-        if (empty($inputForm)) {
-            return $options;
-        }
-        if (!$this->hasMultilingualIntegration(Arr::getAs('string', $inputForm, 'multilingual'))) {
-            $options = Arr::set($options, $key.'.multilingual', '');
-        }
-        if ('' === trim(Arr::get($inputForm, 'notification_message'))) {
-            $defaultValue = Arr::get(glsr()->defaults(), $key.'.notification_message');
-            $options = Arr::set($options, $key.'.notification_message', $defaultValue);
-        }
-        if ('' === trim(Arr::get($inputForm, 'request_verification_message'))) {
-            $defaultValue = Arr::get(glsr()->defaults(), $key.'.request_verification_message');
-            $options = Arr::set($options, $key.'.request_verification_message', $defaultValue);
-        }
-        return $options;
-    }
-
-    protected function sanitizeMultiValue(array $options, array $input): array
-    {
-        foreach (glsr()->settings() as $key => $field) {
-            if ('checkbox' !== ($field['type'] ?? '') && !str_starts_with($field['sanitizer'], 'array-')) {
-                continue;
-            }
-            $section = substr($key, 0, (int) strrpos($key, '.'));
-            if (empty(Arr::consolidate(Arr::get($input, $section)))) {
-                continue;
-            }
-            $options = Arr::set($options, $key, Arr::get($input, $key, []));
-        }
-        return $options;
-    }
-
-    protected function sanitizeStrings(array $options, array $input): array
-    {
-        $strings = Arr::consolidate($input['settings']['strings'] ?? []);
-        if (empty($strings)) {
-            return $options;
-        }
-        $allowedTags = [
-            'a' => ['class' => [], 'href' => [], 'target' => []],
-            'span' => ['class' => []],
-        ];
-        $errors = [
-            '%d' => [],
-            '%s' => [],
-        ];
-        $sanitizedStrings = [];
-        foreach ($strings as $string) {
-            if (!isset($string['s1'])) {
-                continue; // all entries should have this key
-            }
-            $string['s2'] = wp_kses($string['s2'] ?? '', $allowedTags);
-            if (isset($string['p1'])) {
-                $string['p2'] = wp_kses($string['p2'] ?? '', $allowedTags);
-            }
-            foreach ($errors as $needle => $values) {
-                if (str_contains($string['s1'], $needle) && !str_contains($string['s2'], $needle)) {
-                    $errors[$needle][] = $string['s2'];
-                }
-                if (isset($string['p1']) && str_contains($string['p1'], $needle) && !str_contains($string['p2'], $needle)) {
-                    $errors[$needle][] = $string['p2'];
-                }
-            }
-            $sanitizedStrings[] = $string;
-        }
-        foreach ($errors as $needle => $values) {
-            if (!empty($values)) {
-                glsr(Notice::class)->addError(
-                    /* translators: %s: the missing placeholder tag */
-                    sprintf(_x('You forgot to include the %s placeholder tags in your Custom Text.', 'admin-text', 'site-reviews'), "<code>$needle</code>"),
-                    $values
-                );
-            }
-        }
-        $options['settings']['strings'] = $sanitizedStrings;
-        return $options;
-    }
-
-    protected function hasMultilingualIntegration(string $option): bool
-    {
-        $integration = glsr(Multilingual::class)->getIntegration($option);
-        if (!$integration) {
-            return false;
-        }
-        if (!$integration->isActive()) {
-            glsr(Notice::class)->addError(sprintf(
-                /* translators: %s: plugin name */
-                _x('Please install/activate the %s plugin to enable the integration.', 'admin-text', 'site-reviews'),
-                $integration->pluginName
-            ));
-            return false;
-        } elseif (!$integration->isSupported()) {
-            glsr(Notice::class)->addError(sprintf(
-                /* translators: %1$s: plugin name, %2$s: version number */
-                _x('Please update the %1$s plugin to v%2$s or greater to enable the integration.', 'admin-text', 'site-reviews'),
-                $integration->pluginName,
-                $integration->supportedVersion
-            ));
-            return false;
-        }
-        return true;
     }
 }
