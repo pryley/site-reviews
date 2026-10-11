@@ -17,6 +17,18 @@ class UpdateNotice
     }
 
     /**
+     * The notice for an update object that has no package.
+     */
+    public static function fromUpdate(object $update, string $pluginUrl = ''): self
+    {
+        return new static(
+            (string) ($update->license_status ?? ''),
+            (string) ($update->license_renewal_url ?? ''),
+            $pluginUrl
+        );
+    }
+
+    /**
      * For the plugin row on the Plugins screen.
      */
     public function html(): string
