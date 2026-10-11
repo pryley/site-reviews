@@ -12,7 +12,7 @@ use GeminiLabs\SiteReviews\Exceptions\BindingResolutionException;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\License;
+use GeminiLabs\SiteReviews\Licensing\License;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Diagnostics\Backtrace;
 use GeminiLabs\SiteReviews\Modules\Diagnostics\Dump;

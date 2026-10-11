@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Notices;
 
-use GeminiLabs\SiteReviews\License;
+use GeminiLabs\SiteReviews\Licensing\License;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class LicensePromotedNotice extends AbstractNotice

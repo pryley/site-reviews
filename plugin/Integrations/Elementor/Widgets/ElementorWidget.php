@@ -7,7 +7,7 @@ use Elementor\Widget_Base;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Integrations\Elementor\Defaults\ControlDefaults;
 use GeminiLabs\SiteReviews\Integrations\IntegrationShortcode;
-use GeminiLabs\SiteReviews\License;
+use GeminiLabs\SiteReviews\Licensing\License;
 
 abstract class ElementorWidget extends Widget_Base
 {

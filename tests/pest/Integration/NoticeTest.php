@@ -4,7 +4,7 @@ use GeminiLabs\SiteReviews\Commands\ConfigureIpAddressProxy;
 use GeminiLabs\SiteReviews\Controllers\NoticeController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Gatekeeper;
-use GeminiLabs\SiteReviews\License;
+use GeminiLabs\SiteReviews\Licensing\License;
 use GeminiLabs\SiteReviews\Notices\AbstractNotice;
 use GeminiLabs\SiteReviews\Notices\GatekeeperNotice;
 use GeminiLabs\SiteReviews\Notices\LicenseExpiredNotice;
