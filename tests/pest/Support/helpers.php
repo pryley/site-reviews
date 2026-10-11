@@ -479,7 +479,7 @@ function resetGlobalState(): void
     // The container. A binding made in a test outlives it, so the suite's own bindings are put
     // back and anything else a test bound is overwritten.
     glsr()->bind(\GeminiLabs\SiteReviews\Modules\Queue::class, NullQueue::class, true);
-    glsr()->bind(\GeminiLabs\SiteReviews\License::class, \GeminiLabs\SiteReviews\License::class, true);
+    glsr()->bind(\GeminiLabs\SiteReviews\Licensing\License::class, \GeminiLabs\SiteReviews\Licensing\License::class, true);
 
     // The Application's whole STORAGE, back to a freshly booted request. See snapshotStorage().
     restoreStorage();

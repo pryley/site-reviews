@@ -1,8 +1,8 @@
 <?php
 
-use GeminiLabs\SiteReviews\Controllers\LicensingController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\License;
+use GeminiLabs\SiteReviews\Licensing\Controllers\Controller;
+use GeminiLabs\SiteReviews\Licensing\License;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Notices\LicenseExpiredNotice;
 use GeminiLabs\SiteReviews\Notices\LicenseMissingNotice;
@@ -166,7 +166,7 @@ test('only one banner is shown at a time, however many are true', function () {
 test('a licence the server calls valid is kept', function () {
     $asked = licenseServer(['check_license' => ['success' => true, 'license' => 'valid']]);
 
-    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+    $options = glsr(Controller::class)->sanitizeLicenses([], [
         'settings' => ['licenses' => [addonId() => 'a-good-key']],
     ]);
 
@@ -177,7 +177,7 @@ test('a licence the server calls valid is kept', function () {
 test('a licence the server does not recognise is thrown away, not saved', function () {
     licenseServer(['check_license' => ['success' => false]]);
 
-    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+    $options = glsr(Controller::class)->sanitizeLicenses([], [
         'settings' => ['licenses' => [addonId() => 'a-bad-key']],
     ]);
 
@@ -189,7 +189,7 @@ test('a licence that has been disabled is thrown away too', function () {
     // `success` is true — the server answered perfectly well. It is the ANSWER that is no.
     licenseServer(['check_license' => ['success' => true, 'license' => 'disabled']]);
 
-    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+    $options = glsr(Controller::class)->sanitizeLicenses([], [
         'settings' => ['licenses' => [addonId() => 'a-disabled-key']],
     ]);
 
@@ -206,7 +206,7 @@ test('a saved licence is kept when the licence server gives no answer', function
     licensedAddon('a-saved-key');
     interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
 
-    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+    $options = glsr(Controller::class)->sanitizeLicenses([], [
         'settings' => ['licenses' => [addonId() => 'a-saved-key']],
     ]);
 
@@ -220,7 +220,7 @@ test('a new licence is not saved when the licence server gives no answer', funct
     add_filter('site-reviews/api/args', fn ($args) => array_replace($args, ['max_retries' => 1]));
     interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
 
-    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+    $options = glsr(Controller::class)->sanitizeLicenses([], [
         'settings' => ['licenses' => [addonId() => 'a-new-key']],
     ]);
 
@@ -234,7 +234,7 @@ test('a changed licence keeps the saved one when the licence server gives no ans
     licensedAddon('a-saved-key');
     interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
 
-    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+    $options = glsr(Controller::class)->sanitizeLicenses([], [
         'settings' => ['licenses' => [addonId() => 'a-new-key']],
     ]);
 
@@ -326,7 +326,7 @@ test('an EXPIRED licence is kept, and the person is told to renew it', function 
         'expires' => '2020-01-01 23:59:59',
     ]]);
 
-    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+    $options = glsr(Controller::class)->sanitizeLicenses([], [
         'settings' => ['licenses' => [addonId() => 'an-expired-key']],
     ]);
 
@@ -344,7 +344,7 @@ test('a licence that is simply not activated here yet is activated, and kept', f
         'activate_license' => ['success' => true, 'license' => 'valid'],
     ]);
 
-    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+    $options = glsr(Controller::class)->sanitizeLicenses([], [
         'settings' => ['licenses' => [addonId() => 'a-new-key']],
     ]);
 
@@ -363,7 +363,7 @@ test('a licence with no activations left is not silently kept', function () {
         'activations_left' => 0,
     ]]);
 
-    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+    $options = glsr(Controller::class)->sanitizeLicenses([], [
         'settings' => ['licenses' => [addonId() => 'a-used-up-key']],
     ]);
 
@@ -383,7 +383,7 @@ test('an unlimited licence not yet activated here is activated like any other', 
         'activate_license' => ['success' => true, 'license' => 'valid'],
     ]);
 
-    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+    $options = glsr(Controller::class)->sanitizeLicenses([], [
         'settings' => ['licenses' => [addonId() => 'an-unlimited-key']],
     ]);
 
@@ -395,7 +395,7 @@ test('a licence for another product is thrown away, and the person is told which
     // The server answers item_name_mismatch with success true (Requests/Check.php).
     licenseServer(['check_license' => ['success' => true, 'license' => 'item_name_mismatch']]);
 
-    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+    $options = glsr(Controller::class)->sanitizeLicenses([], [
         'settings' => ['licenses' => [addonId() => 'another-addons-key']],
     ]);
 
@@ -413,7 +413,7 @@ test('a saved key with no field on the form survives the save', function () {
         addonId() => 'an-old-key',
     ]]];
 
-    $options = glsr(LicensingController::class)->sanitizeLicenses($saved, [
+    $options = glsr(Controller::class)->sanitizeLicenses($saved, [
         'settings' => ['licenses' => [addonId() => '']], // cleared
     ]);
 
@@ -433,7 +433,7 @@ test('an activation the server then refuses does not leave the key behind', func
         'activate_license' => ['success' => true, 'license' => 'invalid'],
     ]);
 
-    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+    $options = glsr(Controller::class)->sanitizeLicenses([], [
         'settings' => ['licenses' => [addonId() => 'a-key']],
     ]);
 
@@ -446,7 +446,7 @@ test('an empty licence field is not sent to the server at all', function () {
     // field, on every settings save, would be a slow settings page and a puzzled server.
     $asked = licenseServer([]);
 
-    $options = glsr(LicensingController::class)->sanitizeLicenses([], [
+    $options = glsr(Controller::class)->sanitizeLicenses([], [
         'settings' => ['licenses' => [addonId() => '']],
     ]);
 

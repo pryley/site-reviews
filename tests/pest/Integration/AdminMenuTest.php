@@ -412,7 +412,7 @@ test('a premium licence alone does not relabel the upgrade pitch', function () {
     // premium licence holder with standalone addons. Only the installed
     // premium plugin renames it, through the addon/submenu/pages filter,
     // because only then is the page a control panel instead of a pitch.
-    glsr()->bind(GeminiLabs\SiteReviews\License::class, GeminiLabs\SiteReviews\Tests\FakeLicense::class, true);
+    glsr()->bind(GeminiLabs\SiteReviews\Licensing\License::class, GeminiLabs\SiteReviews\Tests\FakeLicense::class, true);
     GeminiLabs\SiteReviews\Tests\FakeLicense::$isPremium = true;
     try {
         global $submenu;

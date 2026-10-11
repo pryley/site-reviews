@@ -1,15 +1,44 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Controllers;
+namespace GeminiLabs\SiteReviews\Licensing\Controllers;
 
 use GeminiLabs\SiteReviews\Addons\Updater;
+use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Licensing\Commands\Install;
+use GeminiLabs\SiteReviews\Licensing\License;
+use GeminiLabs\SiteReviews\Licensing\LicenseRow;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
-class LicensingController extends AbstractController
+class Controller extends AbstractController
 {
+    /**
+     * @filter site-reviews/addon/submenu/pages
+     */
+    public function filterSubmenuPages(array $pages): array
+    {
+        if (isset($pages['premium']) && '' !== glsr(License::class)->premiumKey() && !glsr(LicenseRow::class)->isOnDisk()) {
+            $pages['premium'] = _x('Install Premium', 'admin-text', 'site-reviews');
+        }
+        return $pages;
+    }
+
+    /**
+     * @action load-site-review_page_glsr-settings
+     */
+    public function noticeInstalled(): void
+    {
+        if (false === get_transient(Install::INSTALLED_KEY)) {
+            return;
+        }
+        delete_transient(Install::INSTALLED_KEY);
+        if (glsr(LicenseRow::class)->isInstalled()) {
+            glsr(Notice::class)->addSuccess(_x('Site Reviews Premium is installed and active.', 'admin-text', 'site-reviews'));
+        }
+    }
+
     /**
      * @filter site-reviews/settings/sanitize
      */
