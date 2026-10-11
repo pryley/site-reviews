@@ -18,14 +18,21 @@ parameters:
     - tests/stubs/lpfw.php
     - tests/stubs/mycred.php
     - tests/stubs/multilingualpress.php
+    - tests/stubs/nitropack.php
     - tests/stubs/polylang.php
     - tests/stubs/profilepress.php
+    - tests/stubs/sg-cachepress.php
     - tests/stubs/surecart.php
+    - tests/stubs/swift-performance-lite.php
     - tests/stubs/ultimate-member.php
+    - tests/stubs/w3-total-cache.php
     - tests/stubs/wlpr.php
     - tests/stubs/woocommerce.php
     - tests/stubs/woorewards.php
     - tests/stubs/wp-loyalty-rules.php
+    - tests/stubs/wp-optimize.php
+    - tests/stubs/wp-rocket.php
+    - tests/stubs/wp-super-cache.php
     - tests/stubs/wpbakery.php
     - helpers.php
     - autoload.php
