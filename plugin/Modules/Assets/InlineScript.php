@@ -13,9 +13,9 @@ class InlineScript
     {
         $compat = glsr(CompatScript::class)->isEnabled($bundle);
         $debug = ['enabled' => glsr(DebugScript::class)->isEnabled($bundle)];
-        // the block editor prints the public script too
-        if ('public' === $bundle && !is_admin() && !$debug['enabled'] && glsr(DebugScript::class)->isAllowedOnRequest()) {
-            $debug['url'] = add_query_arg('ver', glsr()->version, glsr(DebugScript::class)->url($bundle));
+        $url = glsr(DebugScript::class)->urlOnRequest($bundle);
+        if ('' !== $url) {
+            $debug['url'] = $url;
         }
         $deprecated = [];
         if ($compat) {
