@@ -1,15 +1,15 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Commands;
+namespace GeminiLabs\SiteReviews\Connect\Commands;
 
+use GeminiLabs\SiteReviews\Connect\LicenseRow;
 use GeminiLabs\SiteReviews\Helpers\Url;
-use GeminiLabs\SiteReviews\Modules\PremiumLicense;
 use GeminiLabs\SiteReviews\Request;
 
 /**
  * The "Install Site Reviews Premium" button of the License Key row.
  */
-class ConnectPremium extends AbstractPremiumCommand
+class Authorize extends AbstractLicenseCommand
 {
     public const CONNECT_HOSTS = ['niftyplugins.com', 'site-reviews.com'];
     public const TOKEN_LIFETIME = 15 * MINUTE_IN_SECONDS;
@@ -26,7 +26,7 @@ class ConnectPremium extends AbstractPremiumCommand
     public function __construct(array $check = [])
     {
         $this->check = $check;
-        $this->license = glsr(PremiumLicense::class)->savedKey();
+        $this->license = glsr(LicenseRow::class)->savedKey();
     }
 
     public function handle(): void
@@ -35,11 +35,11 @@ class ConnectPremium extends AbstractPremiumCommand
             return;
         }
         if (empty($this->check)) {
-            $verify = new VerifyPremiumLicense(new Request(['connect' => false, 'license' => $this->license]));
+            $verify = new Verify(new Request(['connect' => false, 'license' => $this->license]));
             $verify->handle();
             if (!$verify->successful()) {
                 if ('license_server' !== substr($verify->code, strlen(glsr()->prefix))) {
-                    glsr(PremiumLicense::class)->flush(); // the row is redrawn with what the server said now
+                    glsr(LicenseRow::class)->flush(); // the row is redrawn with what the server said now
                     $this->redraw = true;
                 }
                 $this->refuse(substr($verify->code, strlen(glsr()->prefix)), $verify->message, $verify->link, $verify->status, $verify->type);
@@ -47,7 +47,7 @@ class ConnectPremium extends AbstractPremiumCommand
             }
             $this->check = $verify->check;
         }
-        $updater = glsr(PremiumLicense::class)->updater($this->license, true);
+        $updater = glsr(LicenseRow::class)->updater($this->license, true);
         if (!$this->checkConnectUrl($this->check['connect_url'])
             || !$this->checkVersions($updater->version())
             || !$this->checkFilesystem()

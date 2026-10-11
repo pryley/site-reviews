@@ -4,19 +4,17 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Addons\Addon;
 use GeminiLabs\SiteReviews\Api;
+use GeminiLabs\SiteReviews\Connect\LicenseRow;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\Tables;
-use GeminiLabs\SiteReviews\Commands\InstallPremium;
 use GeminiLabs\SiteReviews\Defaults\FeatureDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\License;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\SettingForm;
 use GeminiLabs\SiteReviews\Modules\Notice;
-use GeminiLabs\SiteReviews\Modules\PremiumLicense;
 use GeminiLabs\SiteReviews\Overrides\ScheduledActionsTable;
 
 class MenuController extends AbstractController
@@ -67,7 +65,7 @@ class MenuController extends AbstractController
             'settings' => _x('Settings', 'admin-text', 'site-reviews'),
             'tools' => _x('Tools', 'admin-text', 'site-reviews'),
             'documentation' => _x('Help & Support', 'admin-text', 'site-reviews'),
-            'premium' => $this->premiumMenuTitle(),
+            'premium' => _x('Upgrade to Premium', 'admin-text', 'site-reviews'),
         ]);
         $parentSlug = 'edit.php?post_type='.glsr()->post_type;
         $slugPrefix = Str::dashCase(glsr()->prefix);
@@ -196,10 +194,9 @@ class MenuController extends AbstractController
             unset($tabs['premium']);
         }
         // Premium's key has its row on the General tab; the tab is for the standalone addons.
-        if (empty(array_diff_key(glsr()->retrieveAs('array', 'licensed', []), [PremiumLicense::ADDON_ID => true]))) {
+        if (empty(array_diff_key(glsr()->retrieveAs('array', 'licensed', []), [LicenseRow::ADDON_ID => true]))) {
             unset($tabs['licenses']);
         }
-        $this->noticePremiumInstalled();
         $this->renderPage('settings', [
             'fields' => glsr(SettingForm::class, ['groups' => $tabs])->build(),
             'tabs' => $tabs,
@@ -287,17 +284,6 @@ class MenuController extends AbstractController
         ]);
     }
 
-    protected function noticePremiumInstalled(): void
-    {
-        if (false === get_transient(InstallPremium::INSTALLED_KEY)) {
-            return;
-        }
-        delete_transient(InstallPremium::INSTALLED_KEY);
-        if (glsr(PremiumLicense::class)->isInstalled()) {
-            glsr(Notice::class)->addSuccess(_x('Site Reviews Premium is installed and active.', 'admin-text', 'site-reviews'));
-        }
-    }
-
     protected function parseWithFilter(string $hookSuffix, array $args = []): array
     {
         if (str_ends_with($hookSuffix, '/tabs')) {
@@ -312,14 +298,6 @@ class MenuController extends AbstractController
         // unless the premium plugin is installed — it renames the page via
         // the filter below and renders its own feature control panel.
         return glsr()->filterArray("addon/{$hookSuffix}", $args);
-    }
-
-    protected function premiumMenuTitle(): string
-    {
-        if ('' !== glsr(License::class)->premiumKey() && !glsr(PremiumLicense::class)->isOnDisk()) {
-            return _x('Install Premium', 'admin-text', 'site-reviews');
-        }
-        return _x('Upgrade to Premium', 'admin-text', 'site-reviews');
     }
 
     protected function renderPage(string $page, array $data = []): void
@@ -356,7 +334,7 @@ class MenuController extends AbstractController
                 $version,
                 wp_sprintf_l('%l', array_column($stopped, 'name'))
             );
-            if (array_key_exists(PremiumLicense::ADDON_ID, $stopped)) {
+            if (array_key_exists(LicenseRow::ADDON_ID, $stopped)) {
                 $warning .= ' '._x('The addons that Site Reviews Premium deactivated stay inactive until you activate them yourself.', 'admin-text', 'site-reviews');
             }
             $warnings[$version] = $warning;

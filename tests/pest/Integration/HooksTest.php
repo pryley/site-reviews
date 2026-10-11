@@ -102,6 +102,22 @@ test('the compat hooks are registered apart from those of plugin/Hooks, and poin
     }
 });
 
+test('the connect hooks are registered apart from those of plugin/Hooks, and point at methods that exist', function () {
+    $GLOBALS['wp_filter'] = [];
+
+    glsr(GeminiLabs\SiteReviews\Hooks::class)->runConnect();
+
+    $registered = registeredHooks();
+    expect(array_column($registered, 0))->toContain('site-reviews/addon/submenu/pages', 'rest_api_init');
+    foreach ($registered as [$hookName, $callback, $priority]) {
+        if (is_array($callback)) {
+            expect(method_exists($callback[0], $callback[1]))->toBeTrue();
+        } else {
+            expect(is_callable($callback))->toBeTrue();
+        }
+    }
+});
+
 test('the review post type is registered on init, and the routes on the ajax actions', function () {
     // A spot check that the tables say what they are supposed to say — the two hooks
     // the whole plugin hangs off. MainHooks' entries go through HookProxy (init is

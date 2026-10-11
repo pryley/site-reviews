@@ -1,17 +1,18 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Commands;
+namespace GeminiLabs\SiteReviews\Connect\Commands;
 
 use GeminiLabs\SiteReviews\Addons\Updater;
-use GeminiLabs\SiteReviews\Modules\PremiumLicense;
+use GeminiLabs\SiteReviews\Commands\AbstractCommand;
+use GeminiLabs\SiteReviews\Connect\LicenseRow;
 use GeminiLabs\SiteReviews\Request;
 
 /**
  * The store's call to premium/install, authorised by the token that premium/connect made.
  */
-class InstallPremium extends AbstractCommand
+class Install extends AbstractCommand
 {
-    public const PLUGIN_FILE = PremiumLicense::PLUGIN_FILE;
+    public const PLUGIN_FILE = LicenseRow::PLUGIN_FILE;
 
     /**
      * Premium reads and deletes this to say once that it was installed from here.
@@ -48,7 +49,7 @@ class InstallPremium extends AbstractCommand
         require_once ABSPATH.'wp-admin/includes/file.php';
         require_once ABSPATH.'wp-admin/includes/plugin.php';
         require_once ABSPATH.'wp-admin/includes/class-wp-upgrader.php';
-        if (!glsr(PremiumLicense::class)->isOnDisk() && !$this->install()) {
+        if (!glsr(LicenseRow::class)->isOnDisk() && !$this->install()) {
             return;
         }
         if ($this->activate()) {
@@ -91,7 +92,7 @@ class InstallPremium extends AbstractCommand
         if ('' === $this->token) {
             return false;
         }
-        $key = ConnectPremium::tokenKey($this->token);
+        $key = Authorize::tokenKey($this->token);
         $record = get_transient($key);
         if (!is_array($record) || !delete_transient($key)) {
             return false;
@@ -154,7 +155,7 @@ class InstallPremium extends AbstractCommand
 
     protected function package(): string
     {
-        $updater = new Updater(ConnectPremium::ADDON_ID, ['force' => true]);
+        $updater = new Updater(Authorize::ADDON_ID, ['force' => true]);
         $version = $updater->version();
         $host = strtolower((string) wp_parse_url($version['package'], \PHP_URL_HOST));
         if ('' !== $host && $host === strtolower((string) wp_parse_url($updater->apiUrl, \PHP_URL_HOST))) {

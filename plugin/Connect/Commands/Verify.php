@@ -1,15 +1,15 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Commands;
+namespace GeminiLabs\SiteReviews\Connect\Commands;
 
+use GeminiLabs\SiteReviews\Connect\LicenseRow;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Modules\PremiumLicense;
 use GeminiLabs\SiteReviews\Request;
 
 /**
  * The "Verify License Key" button of the License Key row.
  */
-class VerifyPremiumLicense extends AbstractPremiumCommand
+class Verify extends AbstractLicenseCommand
 {
     public array $check = [];
     public array $connect = [];
@@ -32,7 +32,7 @@ class VerifyPremiumLicense extends AbstractPremiumCommand
             $this->refuse('license_missing', _x('Please enter your license key.', 'admin-text', 'site-reviews'), [], 400, 'warning');
             return;
         }
-        $updater = glsr(PremiumLicense::class)->updater($this->license, true);
+        $updater = glsr(LicenseRow::class)->updater($this->license, true);
         $this->check = $updater->checkLicense();
         if ('unknown' === $this->check['license']) {
             $this->refuse('license_server',
@@ -64,7 +64,7 @@ class VerifyPremiumLicense extends AbstractPremiumCommand
         }
         if ('expired' === $this->check['license']) {
             $this->save();
-            glsr(PremiumLicense::class)->flush();
+            glsr(LicenseRow::class)->flush();
             $this->redraw = true;
             $this->refuse('license_expired',
                 _x('Your license has expired. Please renew it to use Site Reviews Premium.', 'admin-text', 'site-reviews'),
@@ -77,12 +77,12 @@ class VerifyPremiumLicense extends AbstractPremiumCommand
             $this->connect();
             return;
         }
-        if (in_array($this->check['license'], ['inactive', 'site_inactive'], true) && PremiumLicense::hasActivationsLeft($this->check)) {
+        if (in_array($this->check['license'], ['inactive', 'site_inactive'], true) && LicenseRow::hasActivationsLeft($this->check)) {
             $activation = $updater->activateLicense();
             if ('valid' === $activation['license']) {
                 $this->check = array_replace($this->check, $activation, ['license' => 'valid']);
                 $this->save();
-                glsr(PremiumLicense::class)->flush(); // the cached check still says the site is inactive
+                glsr(LicenseRow::class)->flush(); // the cached check still says the site is inactive
                 $this->connect();
                 return;
             }
@@ -104,11 +104,11 @@ class VerifyPremiumLicense extends AbstractPremiumCommand
 
     protected function connect(): void
     {
-        $license = glsr(PremiumLicense::class);
-        if (!$this->connects || PremiumLicense::STATE_ACTIVE !== $license->state() || !$license->canInstall()) {
+        $license = glsr(LicenseRow::class);
+        if (!$this->connects || LicenseRow::STATE_ACTIVE !== $license->state() || !$license->canInstall()) {
             return;
         }
-        $connect = new ConnectPremium($this->check);
+        $connect = new Authorize($this->check);
         $connect->handle();
         if ($connect->successful()) {
             $this->connect = $connect->response();

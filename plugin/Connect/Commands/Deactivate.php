@@ -1,15 +1,15 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Commands;
+namespace GeminiLabs\SiteReviews\Connect\Commands;
 
+use GeminiLabs\SiteReviews\Connect\LicenseRow;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Modules\PremiumLicense;
 use GeminiLabs\SiteReviews\Request;
 
 /**
  * The "Deactivate" and "Delete" buttons of the License Key row.
  */
-class DeactivatePremiumLicense extends AbstractPremiumCommand
+class Deactivate extends AbstractLicenseCommand
 {
     public bool $delete;
 
@@ -23,7 +23,7 @@ class DeactivatePremiumLicense extends AbstractPremiumCommand
         if (!$this->canManage()) {
             return;
         }
-        $license = glsr(PremiumLicense::class);
+        $license = glsr(LicenseRow::class);
         $key = $license->savedKey();
         if ('' === $key) {
             $this->refuse('license_missing', _x('No license key is saved.', 'admin-text', 'site-reviews'), [], 400, 'warning');

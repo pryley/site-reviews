@@ -1,12 +1,12 @@
 <?php
 
-use GeminiLabs\SiteReviews\Commands\InstallPremium;
+use GeminiLabs\SiteReviews\Connect\Commands\Install;
+use GeminiLabs\SiteReviews\Connect\LicenseRow;
 use GeminiLabs\SiteReviews\Controllers\MenuController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Html\SettingForm;
 use GeminiLabs\SiteReviews\Modules\Notice;
-use GeminiLabs\SiteReviews\Modules\PremiumLicense;
 use GeminiLabs\SiteReviews\Notices\LicensePremiumNotice;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
@@ -27,7 +27,7 @@ beforeEach(function () {
 
 function premiumRow(): string
 {
-    return glsr(PremiumLicense::class)->render();
+    return glsr(LicenseRow::class)->render();
 }
 
 function savedValidPremiumKey(array $check = [], string $key = 'a-premium-key'): void
@@ -76,7 +76,7 @@ function withPremiumRegistered(callable $callback): void
 test('with no key the row offers Verify under the upgrade notice', function () {
     $row = premiumRow();
 
-    expect(glsr(PremiumLicense::class)->state())->toBe(PremiumLicense::STATE_INACTIVE)
+    expect(glsr(LicenseRow::class)->state())->toBe(LicenseRow::STATE_INACTIVE)
         ->and($row)->toContain('data-state="1"')
         ->and($row)->toContain('notice-info')
         ->and($row)->toContain('You are using the free Site Reviews plugin')
@@ -94,7 +94,7 @@ test('a saved key the server refuses stays in the field with Delete, the reason,
 
     $row = premiumRow();
 
-    expect(glsr(PremiumLicense::class)->state())->toBe(PremiumLicense::STATE_INACTIVE)
+    expect(glsr(LicenseRow::class)->state())->toBe(LicenseRow::STATE_INACTIVE)
         ->and($row)->toContain('value="a-saved-key"')
         ->and($row)->toContain('data-action="verify"')
         ->and($row)->toContain('data-action="delete"')
@@ -119,7 +119,7 @@ test('a valid key is masked and read-only, with Deactivate, Install and the expi
 
     $row = premiumRow();
 
-    expect(glsr(PremiumLicense::class)->state())->toBe(PremiumLicense::STATE_ACTIVE)
+    expect(glsr(LicenseRow::class)->state())->toBe(LicenseRow::STATE_ACTIVE)
         ->and($row)->toContain('data-state="2"')
         ->and($row)->toContain('notice-info inline"')
         ->and($row)->toContain('Your license is active. Install Site Reviews Premium to unlock all features.')
@@ -157,7 +157,7 @@ test('one drawing of the row asks the licence server once, and says nothing of u
     expect($asked->getArrayCopy())->toBe(['check_license']);
 
     add_filter('site-reviews/api/args', fn ($args) => array_replace($args, ['max_retries' => 1]));
-    glsr(PremiumLicense::class)->flush();
+    glsr(LicenseRow::class)->flush();
     GeminiLabs\SiteReviews\Tests\interceptHttp(['response' => ['code' => 503, 'message' => 'Service Unavailable']]);
     $row = premiumRow();
 
@@ -185,7 +185,7 @@ test('premium on disk gets the activation link, which is the Plugins screen\'s o
     withPremiumOnDisk(function () {
         $row = premiumRow();
 
-        expect(glsr(PremiumLicense::class)->state())->toBe(PremiumLicense::STATE_ON_DISK)
+        expect(glsr(LicenseRow::class)->state())->toBe(LicenseRow::STATE_ON_DISK)
             ->and($row)->toContain('Activate Site Reviews Premium')
             ->and($row)->toContain('plugins.php?action=activate&amp;plugin=site-reviews-premium%2Fsite-reviews-premium.php')
             ->and($row)->not->toContain('trigger=notice') // core's NoticeController would intercept it and activate silently
@@ -210,7 +210,7 @@ test('premium registered gets Features, and says so when it has no key', functio
 
         savedValidPremiumKey();
         $row = premiumRow();
-        expect(glsr(PremiumLicense::class)->state())->toBe(PremiumLicense::STATE_INSTALLED)
+        expect(glsr(LicenseRow::class)->state())->toBe(LicenseRow::STATE_INSTALLED)
             ->and($row)->toContain('data-state="4"')
             ->and($row)->not->toContain('notice-info inline"')
             ->and($row)->not->toContain('notice-warning inline"')
@@ -228,8 +228,8 @@ test('a flagged addon key is the prefill until a key is saved under premium', fu
 
     $row = premiumRow();
 
-    expect(glsr(PremiumLicense::class)->key())->toBe('an-all-access-key')
-        ->and(glsr(PremiumLicense::class)->state())->toBe(PremiumLicense::STATE_INACTIVE) // not saved under premium yet
+    expect(glsr(LicenseRow::class)->key())->toBe('an-all-access-key')
+        ->and(glsr(LicenseRow::class)->state())->toBe(LicenseRow::STATE_INACTIVE) // not saved under premium yet
         ->and($row)->toContain('value="an-all-access-key"')
         ->and($row)->not->toContain('data-action="delete"')
         ->and($row)->not->toContain('Already purchased?')
@@ -243,7 +243,7 @@ test('the notices name the active addons premium replaces', function () {
     try {
         glsr()->register(GeminiLabs\SiteReviews\TestAddon\Application::class);
 
-        expect(glsr(PremiumLicense::class)->addonNames())->toBe(['Test Addon'])
+        expect(glsr(LicenseRow::class)->addonNames())->toBe(['Test Addon'])
             ->and(premiumRow())->toContain('You are using Test Addon. Site Reviews Premium replaces it and adds more features');
 
         glsr(OptionManager::class)->set('settings.licenses.site-reviews-test-addon', 'an-all-access-key');
@@ -313,15 +313,14 @@ test('a key posted from the row is saved by the settings form while premium is n
  */
 
 test('the submenu reads "Install Premium" for a flagged key with no premium on disk, and the pitch otherwise', function () {
-    $title = protectedMethod(MenuController::class, 'premiumMenuTitle');
-    $controller = glsr(MenuController::class);
+    $title = fn () => apply_filters('site-reviews/addon/submenu/pages', ['premium' => 'Upgrade to Premium'])['premium'];
 
-    expect($title->invoke($controller))->toBe('Upgrade to Premium');
+    expect($title())->toBe('Upgrade to Premium');
 
     savedValidPremiumKey();
-    expect($title->invoke($controller))->toBe('Install Premium');
+    expect($title())->toBe('Install Premium');
 
-    withPremiumOnDisk(fn () => expect($title->invoke($controller))->toBe('Upgrade to Premium'));
+    withPremiumOnDisk(fn () => expect($title())->toBe('Upgrade to Premium'));
 });
 
 test('a flagged key with no premium on disk gets the install notice, linking to the row', function () {
@@ -372,20 +371,20 @@ test('the install notice is silent with no flagged key, on the Settings page, an
 
 test('the Settings page says once that premium is installed, from the mark the install left', function () {
     glsr(Notice::class)->clear();
-    set_transient(InstallPremium::INSTALLED_KEY, time(), MINUTE_IN_SECONDS);
-    $notice = protectedMethod(MenuController::class, 'noticePremiumInstalled');
+    set_transient(Install::INSTALLED_KEY, time(), MINUTE_IN_SECONDS);
+    $controller = glsr(\GeminiLabs\SiteReviews\Connect\Controller::class);
 
-    $notice->invoke(glsr(MenuController::class)); // premium not registered: the mark is consumed, nothing said
+    $controller->noticeInstalled(); // premium not registered: the mark is consumed, nothing said
     expect(glsr(Notice::class)->get())->not->toContain('installed and active')
-        ->and(get_transient(InstallPremium::INSTALLED_KEY))->toBeFalse();
+        ->and(get_transient(Install::INSTALLED_KEY))->toBeFalse();
 
-    set_transient(InstallPremium::INSTALLED_KEY, time(), MINUTE_IN_SECONDS);
-    withPremiumRegistered(function () use ($notice) {
-        $notice->invoke(glsr(MenuController::class));
+    set_transient(Install::INSTALLED_KEY, time(), MINUTE_IN_SECONDS);
+    withPremiumRegistered(function () use ($controller) {
+        $controller->noticeInstalled();
         expect(glsr(Notice::class)->get())->toContain('Site Reviews Premium is installed and active.')
-            ->and(get_transient(InstallPremium::INSTALLED_KEY))->toBeFalse();
+            ->and(get_transient(Install::INSTALLED_KEY))->toBeFalse();
         glsr(Notice::class)->clear();
-        $notice->invoke(glsr(MenuController::class));
+        $controller->noticeInstalled();
         expect(glsr(Notice::class)->get())->not->toContain('installed and active');
     });
 });

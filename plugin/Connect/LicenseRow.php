@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules;
+namespace GeminiLabs\SiteReviews\Connect;
 
 use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Api;
@@ -10,7 +10,7 @@ use GeminiLabs\SiteReviews\Modules\Html\SettingField;
 /**
  * The "License Key" row at the top of Settings > General.
  */
-class PremiumLicense
+class LicenseRow
 {
     public const ADDON_ID = 'site-reviews-premium';
     public const PLUGIN_FILE = 'site-reviews-premium/site-reviews-premium.php';

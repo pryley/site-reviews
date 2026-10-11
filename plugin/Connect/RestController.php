@@ -1,14 +1,15 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Controllers\Api\Version1;
+namespace GeminiLabs\SiteReviews\Connect;
 
-use GeminiLabs\SiteReviews\Commands\ConnectPremium;
-use GeminiLabs\SiteReviews\Commands\DeactivatePremiumLicense;
-use GeminiLabs\SiteReviews\Commands\InstallPremium;
-use GeminiLabs\SiteReviews\Commands\VerifyPremiumLicense;
+use GeminiLabs\SiteReviews\Connect\Commands\Authorize;
+use GeminiLabs\SiteReviews\Connect\Commands\Deactivate;
+use GeminiLabs\SiteReviews\Connect\Commands\Install;
+use GeminiLabs\SiteReviews\Connect\Commands\Verify;
+use GeminiLabs\SiteReviews\Controllers\Api\Version1\AbstractRestController;
 use GeminiLabs\SiteReviews\Request;
 
-class RestPremiumController extends AbstractRestController
+class RestController extends AbstractRestController
 {
     /**
      * @return true|\WP_Error
@@ -48,14 +49,14 @@ class RestPremiumController extends AbstractRestController
 
     public function connect(\WP_REST_Request $request): \WP_REST_Response
     {
-        $command = new ConnectPremium();
+        $command = new Authorize();
         $command->handle();
         return $this->respond($command->response(), $command->status);
     }
 
     public function deactivate(\WP_REST_Request $request): \WP_REST_Response
     {
-        $command = new DeactivatePremiumLicense(new Request([
+        $command = new Deactivate(new Request([
             'delete' => $request->get_param('delete'),
         ]));
         $command->handle();
@@ -64,7 +65,7 @@ class RestPremiumController extends AbstractRestController
 
     public function install(\WP_REST_Request $request): \WP_REST_Response
     {
-        $command = new InstallPremium(new Request([
+        $command = new Install(new Request([
             'token' => $request->get_param('token'),
         ]));
         $command->handle();
@@ -124,7 +125,7 @@ class RestPremiumController extends AbstractRestController
 
     public function verify(\WP_REST_Request $request): \WP_REST_Response
     {
-        $command = new VerifyPremiumLicense(new Request([
+        $command = new Verify(new Request([
             'license' => $request->get_param('license'),
         ]));
         $command->handle();

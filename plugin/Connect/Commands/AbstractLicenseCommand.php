@@ -1,12 +1,13 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Commands;
+namespace GeminiLabs\SiteReviews\Connect\Commands;
 
-use GeminiLabs\SiteReviews\Modules\PremiumLicense;
+use GeminiLabs\SiteReviews\Commands\AbstractCommand;
+use GeminiLabs\SiteReviews\Connect\LicenseRow;
 
-abstract class AbstractPremiumCommand extends AbstractCommand
+abstract class AbstractLicenseCommand extends AbstractCommand
 {
-    public const ADDON_ID = PremiumLicense::ADDON_ID;
+    public const ADDON_ID = LicenseRow::ADDON_ID;
 
     public string $code = '';
     public array $link = [];
@@ -20,15 +21,15 @@ abstract class AbstractPremiumCommand extends AbstractCommand
         if (!$this->successful()) {
             return array_filter([
                 'code' => $this->code,
-                'html' => $this->redraw ? glsr(PremiumLicense::class)->render() : '',
+                'html' => $this->redraw ? glsr(LicenseRow::class)->render() : '',
                 'link' => $this->link,
                 'message' => $this->message,
                 'type' => $this->type,
             ]);
         }
         return [
-            'html' => glsr(PremiumLicense::class)->render(),
-            'state' => glsr(PremiumLicense::class)->state(),
+            'html' => glsr(LicenseRow::class)->render(),
+            'state' => glsr(LicenseRow::class)->state(),
         ];
     }
 

@@ -1,8 +1,8 @@
 <?php
 
-use GeminiLabs\SiteReviews\Commands\ConnectPremium;
+use GeminiLabs\SiteReviews\Connect\Commands\Authorize;
+use GeminiLabs\SiteReviews\Connect\LicenseRow;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Modules\PremiumLicense;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\interceptHttp;
@@ -147,7 +147,7 @@ test('an expired key is saved, as the Licenses tab saves one, and still refused'
         ->and($response->get_data()['link']['url'])->toContain('license-keys')
         ->and($response->get_data()['html'])->toContain('expired on January 1, 2020') // the row is redrawn with the saved key
         ->and(savedPremiumKey())->toBe('an-expired-key')
-        ->and(glsr(PremiumLicense::class)->state())->toBe(PremiumLicense::STATE_INACTIVE);
+        ->and(glsr(LicenseRow::class)->state())->toBe(LicenseRow::STATE_INACTIVE);
 });
 
 test('a key with no activations left is refused with the Manage Sites instruction', function () {
@@ -180,7 +180,7 @@ test('a key not yet activated here is activated, saved, and the row redrawn as a
     expect($response->get_status())->toBe(200)
         ->and(array_slice($asked->getArrayCopy(), 0, 2))->toBe(['check_license', 'activate_license'])
         ->and(savedPremiumKey())->toBe('a-new-key')
-        ->and($response->get_data()['state'])->toBe(PremiumLicense::STATE_ACTIVE)
+        ->and($response->get_data()['state'])->toBe(LicenseRow::STATE_ACTIVE)
         ->and($response->get_data()['html'])->toContain('data-action="install"')
         ->and($response->get_data())->not->toHaveKey('connect'); // the server named no connect page
 });
@@ -206,14 +206,14 @@ test('a valid key is saved, the row comes back active, and the same click goes o
     expect($response->get_status())->toBe(200)
         ->and($asked->getArrayCopy())->toBe(['check_license', 'get_version']) // one check: Install's own route checks again
         ->and(savedPremiumKey())->toBe('a-premium-key')
-        ->and($data['state'])->toBe(PremiumLicense::STATE_ACTIVE)
+        ->and($data['state'])->toBe(LicenseRow::STATE_ACTIVE)
         ->and($data['html'])->toContain('readonly')
         ->and($data['html'])->toContain('data-action="deactivate"')
         ->and($data['html'])->toContain('data-action="install"')
         ->and($data['html'])->toContain('expires on June 15, 2030')
         ->and($data['connect']['url'])->toBe('https://niftyplugins.com/connect/')
         ->and(array_keys($data['connect']['fields']))->toBe(['ajax', 'endpoint', 'license', 'return', 'site', 'token'])
-        ->and(get_transient(ConnectPremium::tokenKey($data['connect']['fields']['token'])))->toBeArray()
+        ->and(get_transient(Authorize::tokenKey($data['connect']['fields']['token'])))->toBeArray()
         ->and($data)->not->toHaveKey('notice');
 });
 
@@ -221,7 +221,7 @@ test('a valid key on a site that cannot install stays on the row, and a refused 
     add_filter('file_mod_allowed', '__return_false');
     validPremiumServer();
     $data = verifyPremium()->get_data();
-    expect($data['state'])->toBe(PremiumLicense::STATE_ACTIVE)
+    expect($data['state'])->toBe(LicenseRow::STATE_ACTIVE)
         ->and($data)->not->toHaveKey('connect')
         ->and($data)->not->toHaveKey('notice');
 
@@ -231,7 +231,7 @@ test('a valid key on a site that cannot install stays on the row, and a refused 
     validPremiumServer([], ['requires' => '99.0']);
     $data = verifyPremium('another-key')->get_data();
     expect(savedPremiumKey())->toBe('another-key')
-        ->and($data['state'])->toBe(PremiumLicense::STATE_ACTIVE)
+        ->and($data['state'])->toBe(LicenseRow::STATE_ACTIVE)
         ->and($data)->not->toHaveKey('connect')
         ->and($data['notice']['code'])->toBe('glsr_wordpress_version')
         ->and($data['notice']['type'])->toBe('error');
@@ -244,7 +244,7 @@ test('a valid key on a site that cannot install stays on the row, and a refused 
 test('Deactivate frees the seat, keeps the key, and the row is inactive on the next load too', function () {
     glsr(OptionManager::class)->set('settings.licenses.site-reviews-premium', 'a-premium-key');
     $asked = validPremiumServer();
-    expect(glsr(PremiumLicense::class)->state())->toBe(PremiumLicense::STATE_ACTIVE); // cached for the day
+    expect(glsr(LicenseRow::class)->state())->toBe(LicenseRow::STATE_ACTIVE); // cached for the day
     // Once deactivated the server calls the site inactive.
     add_filter('pre_http_request', function ($pre, $args) use ($asked) {
         if ('check_license' === ($args['body']['edd_action'] ?? '') && in_array('deactivate_license', $asked->getArrayCopy(), true)) {
@@ -258,9 +258,9 @@ test('Deactivate frees the seat, keeps the key, and the row is inactive on the n
     expect($response->get_status())->toBe(200)
         ->and($asked->getArrayCopy())->toContain('deactivate_license')
         ->and(savedPremiumKey())->toBe('a-premium-key')
-        ->and($response->get_data()['state'])->toBe(PremiumLicense::STATE_INACTIVE)
+        ->and($response->get_data()['state'])->toBe(LicenseRow::STATE_INACTIVE)
         ->and($response->get_data()['html'])->toContain('data-action="delete"')
-        ->and(glsr(PremiumLicense::class)->state())->toBe(PremiumLicense::STATE_INACTIVE); // not the day's cache
+        ->and(glsr(LicenseRow::class)->state())->toBe(LicenseRow::STATE_INACTIVE); // not the day's cache
 });
 
 test('Delete clears the key without asking the server', function () {
@@ -442,11 +442,11 @@ test('the token is kept as its hash, for the user who made it, and for a quarter
     savedKeyForInstall();
 
     $token = connectPremium()->get_data()['fields']['token'];
-    $record = get_transient(ConnectPremium::tokenKey($token));
+    $record = get_transient(Authorize::tokenKey($token));
 
     expect($record['user_id'])->toBe(get_current_user_id())
         ->and($record['created'])->toBeGreaterThan(time() - 5)
-        ->and(get_option('_transient_timeout_'.ConnectPremium::tokenKey($token)))->toBeGreaterThan(time() + 14 * MINUTE_IN_SECONDS)
+        ->and(get_option('_transient_timeout_'.Authorize::tokenKey($token)))->toBeGreaterThan(time() + 14 * MINUTE_IN_SECONDS)
         ->and(get_option('_transient_'.glsr()->prefix.'premium_token_'.$token))->toBeFalse(); // never the token itself
 });
 
@@ -457,7 +457,7 @@ test('the token is kept as its hash, for the user who made it, and for a quarter
 function premiumToken(): string
 {
     $token = wp_generate_password(32, false);
-    set_transient(ConnectPremium::tokenKey($token), ['created' => time(), 'user_id' => get_current_user_id()], MINUTE_IN_SECONDS);
+    set_transient(Authorize::tokenKey($token), ['created' => time(), 'user_id' => get_current_user_id()], MINUTE_IN_SECONDS);
     return $token;
 }
 
@@ -515,7 +515,7 @@ function premiumPackageServer(string $package = 'https://niftyplugins.com/edd-sl
 
 function removePremiumStub(): void
 {
-    deactivate_plugins(GeminiLabs\SiteReviews\Commands\InstallPremium::PLUGIN_FILE, true);
+    deactivate_plugins(GeminiLabs\SiteReviews\Connect\Commands\Install::PLUGIN_FILE, true);
     $dir = WP_PLUGIN_DIR.'/site-reviews-premium';
     if (is_dir($dir)) {
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $file) {
@@ -548,7 +548,7 @@ test('a token is good for one call', function () {
     expect($first->get_data()['code'])->toBe('glsr_cannot_install')
         ->and($second->get_status())->toBe(403)
         ->and($second->get_data()['code'])->toBe('glsr_token')
-        ->and(get_transient(ConnectPremium::tokenKey($token)))->toBeFalse();
+        ->and(get_transient(Authorize::tokenKey($token)))->toBeFalse();
 });
 
 test('a package the server withholds is reported with the server\'s reason', function () {
@@ -614,9 +614,9 @@ test('the package is installed and premium activated for this site, as the token
 
         expect($response->get_status())->toBe(200)
             ->and($response->get_data()['installed'])->toBeTrue()
-            ->and(get_transient(GeminiLabs\SiteReviews\Commands\InstallPremium::INSTALLED_KEY))->toBeInt() // premium's landing page reads it once
+            ->and(get_transient(GeminiLabs\SiteReviews\Connect\Commands\Install::INSTALLED_KEY))->toBeInt() // premium's landing page reads it once
             ->and(array_values(array_filter($asked->getArrayCopy())))->toBe(['get_version']) // the update checks after the install ask api.wordpress.org, with no edd_action
-            ->and(is_plugin_active(GeminiLabs\SiteReviews\Commands\InstallPremium::PLUGIN_FILE))->toBeTrue()
+            ->and(is_plugin_active(GeminiLabs\SiteReviews\Connect\Commands\Install::PLUGIN_FILE))->toBeTrue()
             ->and(get_current_user_id())->toBe($userId);
     } finally {
         removePremiumStub();
@@ -657,7 +657,7 @@ test('premium already on disk is activated without a download', function () {
 
         expect($response->get_status())->toBe(200)
             ->and($asked)->toHaveCount(0)
-            ->and(is_plugin_active(GeminiLabs\SiteReviews\Commands\InstallPremium::PLUGIN_FILE))->toBeTrue();
+            ->and(is_plugin_active(GeminiLabs\SiteReviews\Connect\Commands\Install::PLUGIN_FILE))->toBeTrue();
     } finally {
         removePremiumStub();
     }
@@ -698,7 +698,7 @@ test('the same call arrives over admin-ajax when the REST API refused it', funct
 
         expect($response->get_status())->toBe(200)
             ->and($response->get_data()['installed'])->toBeTrue()
-            ->and(is_plugin_active(GeminiLabs\SiteReviews\Commands\InstallPremium::PLUGIN_FILE))->toBeTrue();
+            ->and(is_plugin_active(GeminiLabs\SiteReviews\Connect\Commands\Install::PLUGIN_FILE))->toBeTrue();
     } finally {
         removePremiumStub();
         if (file_exists($package)) {

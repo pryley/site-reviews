@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Compat\Hooks as CompatHooks;
+use GeminiLabs\SiteReviews\Connect\Hooks as ConnectHooks;
 use GeminiLabs\SiteReviews\Contracts\HooksContract;
 
 class Hooks implements HooksContract
@@ -31,6 +32,7 @@ class Hooks implements HooksContract
             }
         }
         $this->runCompat();
+        $this->runConnect();
         $this->runIntegrations();
     }
 
@@ -39,6 +41,13 @@ class Hooks implements HooksContract
         glsr()->singleton(CompatHooks::class);
         glsr(CompatHooks::class)->runDeferred();
         glsr(CompatHooks::class)->run();
+    }
+
+    public function runConnect(): void
+    {
+        glsr()->singleton(ConnectHooks::class);
+        glsr(ConnectHooks::class)->runDeferred();
+        glsr(ConnectHooks::class)->run();
     }
 
     public function runIntegrations(): void
