@@ -2,8 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Notices;
 
-use GeminiLabs\SiteReviews\License;
-use GeminiLabs\SiteReviews\Modules\PremiumLicense;
+use GeminiLabs\SiteReviews\Licensing\License;
+use GeminiLabs\SiteReviews\Licensing\LicenseRow;
 
 /**
  * Shown for a saved premium key when premium is not installed.
@@ -17,7 +17,7 @@ class LicensePremiumNotice extends AbstractNotice
         if ('' === glsr(License::class)->premiumKey()) { // cached daily
             return;
         }
-        if (glsr(PremiumLicense::class)->isOnDisk()) {
+        if (glsr(LicenseRow::class)->isOnDisk()) {
             return;
         }
         parent::render();
