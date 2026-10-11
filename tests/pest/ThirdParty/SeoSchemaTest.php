@@ -2,6 +2,8 @@
 
 use GeminiLabs\SiteReviews\Integrations\Elementor\Controller as ElementorController;
 use GeminiLabs\SiteReviews\Integrations\RankMath\Controller as RankMathController;
+use GeminiLabs\SiteReviews\Integrations\SASWP\Controller as SASWPController;
+use GeminiLabs\SiteReviews\Integrations\SchemaPro\Controller as SchemaProController;
 use GeminiLabs\SiteReviews\Integrations\SEOPress\Controller as SEOPressController;
 use GeminiLabs\SiteReviews\Integrations\YoastSEO\Controller as YoastController;
 use GeminiLabs\SiteReviews\Modules\Schema;
@@ -11,7 +13,7 @@ use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
 /*
- * The SEO integrations: RankMath, Yoast and SEOPress.
+ * The SEO integrations: RankMath, Yoast, SEOPress, SASWP and Schema Pro.
  *
  * A site that runs an SEO plugin ends up with two competing JSON-LD graphs, so
  * when one of them is nominated in settings (schema.integration.plugin) the
@@ -29,8 +31,12 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * picks ONE node by its role: the publisher for a rating of the site, the
  * primary content for a rating of an assigned post, term or user.
  *
+ * SASWP hands over its own reviews schema, one node, and Schema Pro one schema
+ * per filter; neither gates on a type, so the only decision is where the rating
+ * goes on the node.
+ *
  * The controllers are called directly here — the same way the filter would call
- * them — because none of the three SEO plugins is stubbed. Their Hooks classes
+ * them — because none of the five SEO plugins is stubbed. Their Hooks classes
  * gate on the setting, not on the plugin being installed (RankMath and SEOPress
  * do not check at all), so what is under test is entirely the plugin's own code.
  *
@@ -391,6 +397,38 @@ test('seopress receives the rating on a list of schemas', function () {
 
     expect($schemas[0])->toHaveKey('aggregateRating')
         ->and($schemas[1])->toBe(['@type' => 'WebPage']);
+});
+
+test('saswp puts the rating under itemReviewed on its reviews schema', function () {
+    schemaPost();
+    createReview(['rating' => 5]);
+
+    // saswp_modify_reviews_schema hands over SASWP's own Review node, so the
+    // rating belongs to the thing reviewed, not to the node.
+    $data = glsr(SASWPController::class)->filterSchema([
+        '@type' => 'Review',
+        'itemReviewed' => ['@type' => 'LocalBusiness', 'name' => 'Example Company'],
+    ]);
+
+    expect($data['itemReviewed']['aggregateRating']['ratingValue'])->toBe(5.0)
+        ->and($data['itemReviewed']['review'])->toHaveCount(1)
+        ->and($data['itemReviewed']['name'])->toBe('Example Company')
+        ->and($data)->not->toHaveKey('aggregateRating');
+});
+
+test('schema pro receives the rating unless the schema is custom markup', function () {
+    schemaPost();
+    createReview(['rating' => 5]);
+
+    $data = glsr(SchemaProController::class)->filterSchema(['@type' => 'Product']);
+    $custom = glsr(SchemaProController::class)->filterSchema([
+        '@type' => 'Product',
+        'custom-markup' => '{"@type":"Product"}',
+    ]);
+
+    expect($data['aggregateRating']['ratingValue'])->toBe(5.0)
+        ->and($data['review'])->toHaveCount(1)
+        ->and($custom)->not->toHaveKey('aggregateRating');
 });
 
 test('no reviews means no injection at all', function () {
