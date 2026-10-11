@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Commands\UpdateReview;
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\OptionManager;
@@ -26,8 +27,8 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * are registered at boot and Pest.php restores them per test, so they fire.
  *
  * The controller reads the request through filter_input(), which Support/filter-input.php shadows
- * for the Controllers namespace — so $_GET/$_POST planted by a test ARE visible to it, including
- * the onApprove()/onUnapprove() fallbacks and updateReview()'s assigned post/user ids.
+ * for the Controllers and Commands namespaces — so $_GET/$_POST planted by a test ARE visible to it, including
+ * the onApprove()/onUnapprove() fallbacks and UpdateReview's assigned post/user ids.
  */
 
 uses(InteractsWithExits::class);
@@ -37,7 +38,7 @@ beforeEach(function () {
     wp_set_current_user(createUser(['role' => 'administrator']));
     // onEditReview() branches on the current screen, and post_updated fires in every
     // test in this file. A screen left behind by another file would put half of them
-    // through bulkUpdateReview().
+    // through BulkUpdateReview.
     set_current_screen('front');
 });
 
@@ -525,7 +526,7 @@ test('a response without its own nonce is not saved', function () {
 });
 
 test('a bulk edit on the reviews screen recounts what the review was reassigned to', function () {
-    // The `edit` screen (the list table) goes down bulkUpdateReview, not updateReview: the review's
+    // The `edit` screen (the list table) runs BulkUpdateReview, not UpdateReview: the review's
     // own values did not change, but the posts/users it is assigned to may have, and both need a
     // recount. The ids come from the request as bare arrays.
     $review = createReview();
@@ -594,8 +595,8 @@ test('a status transition with no post is ignored rather than fatal', function (
 
 function refreshedAvatar(array $data, Review $review): string
 {
-    return protectedMethod(ReviewController::class, 'refreshAvatar')
-        ->invoke(glsr(ReviewController::class), $data, $review);
+    $command = new UpdateReview($review, get_post($review->ID));
+    return protectedMethod(UpdateReview::class, 'refreshAvatar')->invoke($command, $data);
 }
 
 test('an avatar somebody uploaded is not thrown away when the name changes', function () {
