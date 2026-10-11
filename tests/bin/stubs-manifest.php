@@ -215,6 +215,13 @@ return [
             'mycred_update_user_meta',
         ],
     ],
+    'nitropack' => [
+        'source' => 'https://downloads.wordpress.org/plugin/nitropack.latest-stable.zip',
+        'symbols' => [
+            'NitroPack\WordPress\Settings\CPTOptimization',
+            'nitropack_invalidate',
+        ],
+    ],
     'profilepress' => [
         'source' => 'https://downloads.wordpress.org/plugin/wp-user-avatar.latest-stable.zip',
         // ElementorDisplayCondition extends an Elementor Pro class, and the
@@ -222,6 +229,13 @@ return [
         // the parent does not exist yet when this stub loads.
         'exclude' => ['vendor', 'node_modules', 'tests', 'third-party',
             'src/ContentProtection/ElementorDisplayCondition.php'],
+    ],
+    'sg-cachepress' => [
+        'source' => 'https://downloads.wordpress.org/plugin/sg-cachepress.latest-stable.zip',
+        'symbols' => [
+            'sg_cachepress_purge_cache',
+            'sg_cachepress_purge_everything',
+        ],
     ],
     'surecart' => [
         'source' => 'https://downloads.wordpress.org/plugin/surecart.latest-stable.zip',
@@ -240,6 +254,12 @@ return [
             'app/src/Models/GalleryItemMedia.php',
             'app/src/Integrations/Elementor'],
     ],
+    'swift-performance-lite' => [
+        'source' => 'https://downloads.wordpress.org/plugin/swift-performance-lite.latest-stable.zip',
+        'symbols' => [
+            'Swift_Performance_Cache',
+        ],
+    ],
     'ultimate-member' => [
         'source' => 'https://downloads.wordpress.org/plugin/ultimate-member.latest-stable.zip',
         'symbols' => [
@@ -252,6 +272,13 @@ return [
             'um_get_requested_user',
             'um_is_core_page',
             'um_user_profile_url',
+        ],
+    ],
+    'w3-total-cache' => [
+        'source' => 'https://downloads.wordpress.org/plugin/w3-total-cache.latest-stable.zip',
+        'symbols' => [
+            'w3tc_flush_all',
+            'w3tc_flush_post',
         ],
     ],
     'wlpr' => [
@@ -358,6 +385,27 @@ return [
             'Wlr\App\Helpers\Woocommerce',
             'Wlr\App\Premium\Helpers\ProductReview',
             'Wlr\App\Premium\Helpers\Referral',
+        ],
+    ],
+    'wp-optimize' => [
+        'source' => 'https://downloads.wordpress.org/plugin/wp-optimize.latest-stable.zip',
+        'symbols' => [
+            'WP_Optimize', // the class and the function
+            'WPO_Page_Cache',
+        ],
+    ],
+    'wp-rocket' => [
+        'source' => 'github:wp-media/wp-rocket',
+        'symbols' => [
+            'rocket_clean_home',
+            'rocket_clean_post',
+        ],
+    ],
+    'wp-super-cache' => [
+        'source' => 'https://downloads.wordpress.org/plugin/wp-super-cache.latest-stable.zip',
+        'symbols' => [
+            'wp_cache_clear_cache',
+            'wp_cache_post_change',
         ],
     ],
     'wpbakery' => [

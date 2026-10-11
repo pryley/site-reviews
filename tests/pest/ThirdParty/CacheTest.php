@@ -1,6 +1,8 @@
 <?php
 
 use GeminiLabs\SiteReviews\Commands\ApproveReview;
+use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Integrations\Cache\Plugins\AbstractPlugin;
 
 use function GeminiLabs\SiteReviews\Tests\createPost;
 use function GeminiLabs\SiteReviews\Tests\createReview;
@@ -14,11 +16,11 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * the page caches must be told. No third party to detect — it registers on every site — and fans one
  * flush out to thirteen cache plugins, skipping the ones not installed.
  *
- * Four of the thirteen are reachable here: the four that dispatch by firing the cache plugin's own
- * action (Endurance, Hummingbird, LiteSpeed, WP Fastest Cache) — a do_action() fires whether or not
- * anyone listens, so a test can. The other nine call a function or class the cache plugin declares,
- * so their bodies are guarded by function_exists()/class_exists() and cannot run against a stub;
- * what IS tested there is that the guard holds and the dispatcher does not fall over.
+ * Four of the thirteen dispatch by firing the cache plugin's own action (Endurance, Hummingbird,
+ * LiteSpeed, WP Fastest Cache) — a do_action() fires whether or not anyone listens, so a test can
+ * record it. Seven call a function or class the cache plugin declares and run here against its stub
+ * (tests/stubs), which proves the call is well-formed and nothing more. Cloudflare and FlyingPress
+ * have no stub, so their isActive() keeps them dark; what IS tested there is that the guard holds.
  *
  * Every test drives a real entry point: the review is genuinely created or approved, and the flush
  * is whatever the plugin's own hooks do in response.
@@ -157,9 +159,9 @@ test('a flush for one review purges the pages that review is assigned to', funct
 test('the fan-out reaches every cache plugin that dispatches by action', function () {
     // No filter here: the default list of all thirteen. The four below are the
     // ones whose purge is a do_action, so they fire whether or not the cache
-    // plugin is present. The other nine are guarded by function_exists() or
-    // class_exists() and quietly do nothing — which is the assertion that matters:
-    // the dispatcher walks all thirteen without a fatal.
+    // plugin is present. The other nine run against their stub or, with no stub,
+    // stay behind isActive() — which is the assertion that matters: the
+    // dispatcher walks all thirteen without a fatal.
     $endurance = recordedAction('epc_purge');
     $hummingbird = recordedAction('wphb_clear_page_cache');
     $litespeed = recordedAction('litespeed_purge_all');
@@ -174,7 +176,7 @@ test('the fan-out reaches every cache plugin that dispatches by action', functio
 });
 
 test('an unknown cache plugin in the list is skipped', function () {
-    // Helper::buildMethodName turns the slug into purgeSomethingElse, which does
+    // Helper::buildClassName turns the slug into Plugins\SomethingElse, which does
     // not exist, so the dispatcher skips it rather than erroring.
     add_filter('site-reviews/cache/integrations', fn () => [
         'something_else' => true,
@@ -185,6 +187,27 @@ test('an unknown cache plugin in the list is skipped', function () {
     createReview();
 
     expect($purgedAll)->toHaveCount(1); // the real one still ran
+});
+
+test('every cache plugin in the default list has a class', function () {
+    // The slug is the only link between the filter's list and the class that
+    // purges, so a renamed file would silently drop a cache plugin from the fan-out.
+    $slugs = [];
+    add_filter('site-reviews/cache/integrations', function (array $integrations) use (&$slugs) {
+        $slugs = array_keys($integrations);
+        return [];
+    });
+
+    createReview();
+
+    $files = glob(glsr()->path('plugin/Integrations/Cache/Plugins/*.php'));
+    expect($slugs)->toHaveCount(13)
+        ->and($files)->toHaveCount(14); // the thirteen and AbstractPlugin
+    foreach ($slugs as $slug) {
+        $className = Helper::buildClassName($slug, 'Integrations\Cache\Plugins');
+        expect(class_exists($className))->toBeTrue($slug)
+            ->and(is_subclass_of($className, AbstractPlugin::class))->toBeTrue($slug);
+    }
 });
 
 test('a cache plugin switched off in the list is not purged', function () {
@@ -202,7 +225,7 @@ test('a cache plugin switched off in the list is not purged', function () {
 });
 
 test('the cloudflare integration advertises the plugin purge actions', function () {
-    // The companion to purgeCloudflare(): the official Cloudflare plugin purges
+    // The companion to Plugins\Cloudflare: the official Cloudflare plugin purges
     // when one of the actions on these two lists fires, so the integration adds
     // the actions Site Reviews will fire. Both are plain filters — the Cloudflare
     // plugin does not have to be installed for the integration to register them.
