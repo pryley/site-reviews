@@ -241,7 +241,7 @@ class UpdateController extends AbstractController
         if (!empty($response->package)) {
             return;
         }
-        $notice = $this->updateNotice($response, (string) ($pluginData['PluginURI'] ?? ''));
+        $notice = UpdateNotice::fromUpdate($response, (string) ($pluginData['PluginURI'] ?? ''));
         echo ' '.$notice->html();
     }
 
@@ -265,22 +265,8 @@ class UpdateController extends AbstractController
         if (!is_object($item) || !empty($item->package) || !Updater::isAddonUpdate($item)) {
             return '';
         }
-        $notice = $this->updateNotice($item);
+        $notice = UpdateNotice::fromUpdate($item);
         $name = html_entity_decode((string) ($failed->name ?? $item->plugin));
         return sprintf('- %s: %s %s', $name, $notice->text(), $notice->url());
-    }
-
-    /**
-     * The notice for an update object that has no package.
-     *
-     * @param mixed $update
-     */
-    protected function updateNotice($update, string $pluginUrl = ''): UpdateNotice
-    {
-        return new UpdateNotice(
-            (string) ($update->license_status ?? ''),
-            (string) ($update->license_renewal_url ?? ''),
-            $pluginUrl
-        );
     }
 }

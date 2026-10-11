@@ -42,6 +42,21 @@ test('each licence status has its own sentence and its own remedy', function (st
     'wrong item name' => ['item_name_mismatch', 'Your license key is for a different plugin. Check it to update this plugin.', 'settings'],
 ]);
 
+test('the notice reads the status and the renewal link off the update object', function () {
+    // The shape the update server sends and WordPress carries in its update transient.
+    $update = (object) [
+        'license_status' => 'expired',
+        'license_renewal_url' => 'https://niftyplugins.com/checkout/?edd_license_key=SCRUBBED',
+        'package' => '',
+    ];
+
+    expect(UpdateNotice::fromUpdate($update)->url())->toBe($update->license_renewal_url)
+        ->and(UpdateNotice::fromUpdate($update)->status)->toBe('expired')
+        // an object without the fields, from a server that predates them, is the generic notice
+        ->and(UpdateNotice::fromUpdate((object) [])->text())->toBe('A valid license key is required to update this plugin.')
+        ->and(UpdateNotice::fromUpdate((object) [], 'https://niftyplugins.com/plugins/x/')->url())->toBe('https://niftyplugins.com/plugins/x/');
+});
+
 test('an expired licence renews at the link the server sent', function () {
     $renewal = 'https://niftyplugins.com/checkout/?edd_license_key=SCRUBBED';
 
