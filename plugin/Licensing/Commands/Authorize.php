@@ -48,10 +48,16 @@ class Authorize extends AbstractCommand
             $this->check = $verify->check;
         }
         $updater = glsr(LicenseRow::class)->updater($this->license, true);
-        if (!$this->checkConnectUrl($this->check['connect_url'])
-            || !$this->checkVersions($updater->version())
-            || !$this->checkFilesystem()
-            || !$this->checkAddresses()) {
+        if (!$this->checkConnectUrl($this->check['connect_url'])) {
+            return;
+        }
+        if (!$this->checkVersions($updater->version())) {
+            return;
+        }
+        if (!$this->checkFilesystem()) {
+            return;
+        }
+        if (!$this->checkAddresses()) {
             return;
         }
         $this->token = $this->createToken();
@@ -113,7 +119,7 @@ class Authorize extends AbstractCommand
         $host = strtolower((string) wp_parse_url(Url::license(), \PHP_URL_HOST));
         foreach ([rest_url(), admin_url()] as $url) {
             $other = strtolower((string) wp_parse_url($url, \PHP_URL_HOST));
-            if ('' === $host || ($host !== $other && !str_ends_with($other, '.'.$host))) {
+            if ('' === $host || !$this->isSameHost($host, $other)) {
                 return $this->refuse('site_addresses',
                     _x('This site\'s addresses are on different hosts, so the store cannot send you back to it.', 'admin-text', 'site-reviews'),
                     $this->manualInstallLink()
@@ -179,5 +185,13 @@ class Authorize extends AbstractCommand
             'user_id' => get_current_user_id(),
         ], static::TOKEN_LIFETIME);
         return $token;
+    }
+
+    /**
+     * The same host, or a subdomain of it.
+     */
+    protected function isSameHost(string $host, string $other): bool
+    {
+        return $host === $other || str_ends_with($other, '.'.$host);
     }
 }

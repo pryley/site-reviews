@@ -19,7 +19,10 @@ class Controller extends AbstractController
      */
     public function filterSubmenuPages(array $pages): array
     {
-        if (isset($pages['premium']) && '' !== glsr(License::class)->premiumKey() && !glsr(LicenseRow::class)->isOnDisk()) {
+        if (!isset($pages['premium']) || glsr(LicenseRow::class)->isOnDisk()) {
+            return $pages;
+        }
+        if ('' !== glsr(License::class)->premiumKey()) {
             $pages['premium'] = _x('Install Premium', 'admin-text', 'site-reviews');
         }
         return $pages;
