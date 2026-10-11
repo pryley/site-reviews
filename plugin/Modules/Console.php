@@ -230,9 +230,15 @@ class Console
      */
     protected function caller(array $frames): array
     {
+        $passThrough = [ // the files that only pass a log call on
+            __FILE__,
+            dirname(__DIR__).'/BlackHole.php',
+            dirname(__DIR__).'/HookProxy.php',
+            dirname(__DIR__, 2).'/helpers.php',
+        ];
         foreach ($frames as $frame) {
             $file = Cast::toString($frame['file'] ?? '');
-            if ('' === $file || Str::endsWith($file, ['BlackHole.php', 'Console.php', 'HookProxy.php', 'helpers.php'])) {
+            if ('' === $file || in_array($file, $passThrough, true)) {
                 continue;
             }
             return [
