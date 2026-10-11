@@ -1,6 +1,6 @@
 <?php
 
-use GeminiLabs\SiteReviews\Modules\Backtrace;
+use GeminiLabs\SiteReviews\Modules\Diagnostics\Backtrace;
 
 /*
  * Backtrace turns a debug_backtrace into the "Class:line" prefix on every log

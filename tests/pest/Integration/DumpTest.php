@@ -1,6 +1,6 @@
 <?php
 
-use GeminiLabs\SiteReviews\Modules\Dump;
+use GeminiLabs\SiteReviews\Modules\Diagnostics\Dump;
 
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
