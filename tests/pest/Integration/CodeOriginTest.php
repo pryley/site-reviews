@@ -1,6 +1,6 @@
 <?php
 
-use GeminiLabs\SiteReviews\Modules\CodeOrigin;
+use GeminiLabs\SiteReviews\Modules\Diagnostics\CodeOrigin;
 use GeminiLabs\SiteReviews\Modules\Console;
 
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;

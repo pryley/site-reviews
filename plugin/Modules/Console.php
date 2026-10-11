@@ -6,6 +6,9 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Diagnostics\Backtrace;
+use GeminiLabs\SiteReviews\Modules\Diagnostics\CodeOrigin;
+use GeminiLabs\SiteReviews\Modules\Diagnostics\Dump;
 
 /**
  * @method static debug($message, $context = [])
@@ -191,9 +194,6 @@ class Console
     }
 
     /**
-     * Gives the next entry its origin when the call chain does not hold it:
-     * an exception that was caught, or a callback on a hook.
-     *
      * @param \Throwable|callable|mixed $source
      *
      * @return static
@@ -224,9 +224,6 @@ class Console
     }
 
     /**
-     * The file and line that asked for the entry: the first frame outside
-     * the classes that only pass a log call on.
-     *
      * @param array<int, array<string, mixed>> $frames
      *
      * @return array{file: string, line: int}|array{}
@@ -238,7 +235,10 @@ class Console
             if ('' === $file || Str::endsWith($file, ['BlackHole.php', 'Console.php', 'HookProxy.php', 'helpers.php'])) {
                 continue;
             }
-            return ['file' => $file, 'line' => Cast::toInt($frame['line'] ?? 0)];
+            return [
+                'file' => $file,
+                'line' => Cast::toInt($frame['line'] ?? 0),
+            ];
         }
         return [];
     }
