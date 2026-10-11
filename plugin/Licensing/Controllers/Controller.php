@@ -87,29 +87,29 @@ class Controller extends AbstractController
 
     protected function isLicenseValid(Updater $updater, array $check): bool
     {
-        if (true !== $check['success']) {
+        $status = LicenseStatus::of($check);
+        if (LicenseStatus::INVALID === $status) {
             glsr_log()->error("Invalid license: {$updater->license} ({$updater->addonId})");
             $this->renderInvalidLicenseNotice();
             return false;
         }
-        if ('disabled' === $check['license']) {
+        if (LicenseStatus::DISABLED === $status) {
             glsr_log()->error("Disabled license: {$updater->license} ({$updater->addonId})");
             $this->renderDisabledLicenseNotice();
             return false;
         }
-        if (in_array($check['license'], ['invalid_item_id', 'item_name_mismatch'], true)) {
+        if (LicenseStatus::MISMATCH === $status) {
             $this->renderMismatchedLicenseNotice();
             return false;
         }
-        if ('valid' === $check['license']) {
+        if (LicenseStatus::VALID === $status) {
             return true;
         }
-        if ('expired' === $check['license']) {
+        if (LicenseStatus::EXPIRED === $status) {
             $this->renderExpiredLicenseNotice($check['expires']);
             return true; // don't remove expired licenses from the settings
         }
-        // A license_limit of 0 is unlimited (activations_left is then the string 'unlimited')
-        if (in_array($check['license'], ['inactive', 'site_inactive']) && ($check['activations_left'] > 0 || 0 === $check['license_limit'])) {
+        if (LicenseStatus::INACTIVE === $status) {
             return $this->activateLicense($updater);
         }
         $this->renderGenericLicenseNotice();
