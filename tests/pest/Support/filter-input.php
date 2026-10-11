@@ -119,7 +119,11 @@ if (!function_exists(__NAMESPACE__.'\filter_input')) {
     {
         return \GeminiLabs\SiteReviews\Tests\filterInputShadow($type, $key, $filter, $options);
     }
+}
 
+namespace GeminiLabs\SiteReviews\Database;
+
+if (!function_exists(__NAMESPACE__.'\filter_input_array')) {
     function filter_input_array(int $type, $options = FILTER_DEFAULT, bool $addEmpty = true)
     {
         return \GeminiLabs\SiteReviews\Tests\filterInputArrayShadow($type, $options, $addEmpty);
