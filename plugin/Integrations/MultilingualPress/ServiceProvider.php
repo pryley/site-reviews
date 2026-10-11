@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers\Controller;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers\RelationController;
 use GeminiLabs\SiteReviews\Integrations\MultilingualPress\Controllers\TrasherController;
@@ -126,7 +127,7 @@ class ServiceProvider implements ModuleServiceProvider
                 if (!empty($reviewAttachmentIds)) {
                     $attachmentIds = $this->container->get(ImageCopier::class)->copyById($sourceSiteId, $remoteSiteId, $reviewAttachmentIds);
                 }
-                if ($otherAttachmentIds = array_diff($sourceAttachmentIds, $reviewAttachmentIds)) {
+                if ($otherAttachmentIds = Arr::added($reviewAttachmentIds, $sourceAttachmentIds)) {
                     $copiedAttachmentIds = $this->copier->copyById($sourceSiteId, $remoteSiteId, $otherAttachmentIds);
                     return array_merge($attachmentIds, $copiedAttachmentIds);
                 }
