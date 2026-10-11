@@ -2,7 +2,9 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Compat\Hooks as CompatHooks;
 use GeminiLabs\SiteReviews\Contracts\ProviderContract;
+use GeminiLabs\SiteReviews\Licensing\Hooks as LicensingHooks;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Modules\Style;
@@ -15,7 +17,9 @@ class Provider implements ProviderContract
     public function register(Application $app): void
     {
         $app->bind(Application::class, fn () => $app);
+        $app->singleton(CompatHooks::class);
         $app->singleton(Hooks::class);
+        $app->singleton(LicensingHooks::class);
         $app->singleton(Notice::class);
         $app->singleton(Queue::class);
         $app->singleton(Router::class);
