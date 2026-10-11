@@ -46,8 +46,6 @@ class UpdateHooks extends AbstractHooks
             ['filterLockedSourceSelection', 'upgrader_source_selection', 10, 4],
             ['filterPluginsApi', 'plugins_api', 10, 3],
             ['filterUpdatePluginsTransient', 'site_transient_update_plugins', 50],
-            // ['onDeleteUpdatePluginsTransient', 'delete_site_transient_update_plugins'],
-            // ['onUpgraderProcessComplete', 'upgrader_process_complete'],
         ]);
         // WordPress names the hook after the host in the addon's Update URI header
         $hosts = array_unique(array_map(
