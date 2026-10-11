@@ -201,7 +201,7 @@ class Controller extends AbstractController
      */
     protected function purgeNitropack(array $postIds = []): void
     {
-        if (!function_exists('nitropack_invalidate') || !function_exists('nitropack_get_cacheable_object_types')) {
+        if (!function_exists('nitropack_invalidate') || !class_exists('NitroPack\WordPress\Settings\CPTOptimization')) {
             return;
         }
         if (!get_option('nitropack-autoCachePurge', 1)) {
@@ -211,8 +211,8 @@ class Controller extends AbstractController
             nitropack_invalidate(null, null, 'Invalidating all pages after creating/updating/deleting one or more unassigned reviews');
             return;
         }
+        $cacheableTypes = \NitroPack\WordPress\Settings\CPTOptimization::getInstance()->nitropack_get_cacheable_object_types();
         foreach ($postIds as $postId) {
-            $cacheableTypes = nitropack_get_cacheable_object_types();
             $post = get_post($postId);
             $postType = $post->post_type ?? 'post';
             $postTitle = $post->post_title ?? '';

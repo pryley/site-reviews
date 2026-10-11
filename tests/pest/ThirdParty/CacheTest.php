@@ -14,11 +14,12 @@ use function GeminiLabs\SiteReviews\Tests\resetPluginState;
  * the page caches must be told. No third party to detect — it registers on every site — and fans one
  * flush out to thirteen cache plugins, skipping the ones not installed.
  *
- * Four of the thirteen are reachable here: the four that dispatch by firing the cache plugin's own
- * action (Endurance, Hummingbird, LiteSpeed, WP Fastest Cache) — a do_action() fires whether or not
- * anyone listens, so a test can. The other nine call a function or class the cache plugin declares,
- * so their bodies are guarded by function_exists()/class_exists() and cannot run against a stub;
- * what IS tested there is that the guard holds and the dispatcher does not fall over.
+ * Five of the thirteen are reachable here. Four dispatch by firing the cache plugin's own action
+ * (Endurance, Hummingbird, LiteSpeed, WP Fastest Cache) — a do_action() fires whether or not anyone
+ * listens, so a test can. NitroPack runs against a fixture of the two parts of it the purge calls.
+ * The other eight call a function or class the cache plugin declares, so their bodies are guarded by
+ * function_exists()/class_exists() and cannot run against a stub; what IS tested there is that the
+ * guard holds and the dispatcher does not fall over.
  *
  * Every test drives a real entry point: the review is genuinely created or approved, and the flush
  * is whatever the plugin's own hooks do in response.
@@ -171,6 +172,19 @@ test('the fan-out reaches every cache plugin that dispatches by action', functio
         ->and($hummingbird)->toHaveCount(1)
         ->and($litespeed)->toHaveCount(1)
         ->and($wpFastestCache)->toHaveCount(1);
+});
+
+test('nitropack purges the pages a review is assigned to', function () {
+    // NitroPack 1.19.0 moved nitropack_get_cacheable_object_types() onto its CPTOptimization class.
+    require_once dirname(__DIR__).'/fixtures/cache/nitropack.php';
+    onlyCacheIntegration('nitropack');
+    $GLOBALS['nitropack_invalidated'] = [];
+    $postId = createPost();
+
+    createReview(['assigned_posts' => $postId]);
+
+    expect($GLOBALS['nitropack_invalidated'])->toHaveCount(1)
+        ->and($GLOBALS['nitropack_invalidated'][0][1])->toBe("single:{$postId}");
 });
 
 test('an unknown cache plugin in the list is skipped', function () {
