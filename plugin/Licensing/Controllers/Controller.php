@@ -2,14 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Licensing\Controllers;
 
-use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
-use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Licensing\Commands\Install;
+use GeminiLabs\SiteReviews\Licensing\Commands\ValidateLicenseKeys;
 use GeminiLabs\SiteReviews\Licensing\License;
 use GeminiLabs\SiteReviews\Licensing\LicenseRow;
-use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 class Controller extends AbstractController
@@ -48,125 +46,11 @@ class Controller extends AbstractController
     public function sanitizeLicenses(array $options, array $input): array
     {
         $key = 'settings.licenses';
-        // A saved key without a field in the form (i.e. premium's before it is installed) is kept.
-        $posted = Arr::consolidate(Arr::get($input, $key));
-        $licenses = array_replace(Arr::consolidate(Arr::get($options, $key)), $posted);
-        foreach ($posted as $addonId => $license) {
-            if (empty($license)) {
-                continue;
-            }
-            $updater = new Updater($addonId, [
-                'force' => true,
-                'license' => $license,
-            ]);
-            $check = $updater->checkLicense();
-            if ('unknown' === $check['license']) {
-                $this->renderUnreachableLicenseNotice();
-                $saved = glsr(OptionManager::class)->get("settings.licenses.{$addonId}", '', 'string');
-                $licenses[$addonId] = $saved;
-                continue;
-            }
-            if (!$this->isLicenseValid($updater, $check)) {
-                $licenses[$addonId] = '';
-            }
-        }
-        $options = Arr::set($options, $key, $licenses);
-        return $options;
-    }
-
-    protected function activateLicense(Updater $updater): bool
-    {
-        $check = $updater->activateLicense();
-        if ('valid' !== $check['license']) {
-            glsr_log($check);
-            return false;
-        }
-        glsr(Notice::class)->addSuccess('A license you entered has been activated for this website.');
-        return true;
-    }
-
-    protected function isLicenseValid(Updater $updater, array $check): bool
-    {
-        $status = LicenseStatus::of($check);
-        if (LicenseStatus::INVALID === $status) {
-            glsr_log()->error("Invalid license: {$updater->license} ({$updater->addonId})");
-            $this->renderInvalidLicenseNotice();
-            return false;
-        }
-        if (LicenseStatus::DISABLED === $status) {
-            glsr_log()->error("Disabled license: {$updater->license} ({$updater->addonId})");
-            $this->renderDisabledLicenseNotice();
-            return false;
-        }
-        if (LicenseStatus::MISMATCH === $status) {
-            $this->renderMismatchedLicenseNotice();
-            return false;
-        }
-        if (LicenseStatus::VALID === $status) {
-            return true;
-        }
-        if (LicenseStatus::EXPIRED === $status) {
-            $this->renderExpiredLicenseNotice($check['expires']);
-            return true; // don't remove expired licenses from the settings
-        }
-        if (LicenseStatus::INACTIVE === $status) {
-            return $this->activateLicense($updater);
-        }
-        $this->renderGenericLicenseNotice();
-        return false;
-    }
-
-    protected function renderDisabledLicenseNotice(): void
-    {
-        $error = _x('A license you entered has been disabled.', 'admin-text', 'site-reviews');
-        /* translators: %s: link with the text "contact support" */
-        $message = sprintf(_x('Please %s for more information.', 'admin-text', 'site-reviews'),
-            glsr_premium_link('support', _x('contact support', 'admin-text', 'site-reviews'))
+        $command = new ValidateLicenseKeys(
+            Arr::consolidate(Arr::get($options, $key)),
+            Arr::consolidate(Arr::get($input, $key))
         );
-        glsr(Notice::class)->addError(sprintf('<strong>%s</strong><br>%s', $error, $message));
-    }
-
-    protected function renderExpiredLicenseNotice(string $expiryDate): void
-    {
-        /* translators: %s: the relative expiry date (e.g. 3 days ago) */
-        $error = sprintf(_x('A license you entered has expired: %s.', 'admin-text', 'site-reviews'),
-            glsr(Date::class)->relative($expiryDate)
-        );
-        /* translators: %s: link to the License Keys page */
-        $message = sprintf(_x('To renew your license and enable updates, please visit the %s on your Nifty Plugins account.', 'link to License Keys page (admin-text)', 'site-reviews'),
-            glsr_premium_link('license-keys')
-        );
-        glsr(Notice::class)->addError(sprintf('<strong>%s</strong><br>%s', $error, $message));
-    }
-
-    protected function renderGenericLicenseNotice(): void
-    {
-        $error = _x('A license you entered has not been activated for your website.', 'admin-text', 'site-reviews');
-        /* translators: %s: link to the License Keys page */
-        $message = sprintf(_x('To activate your license, please visit the %s page on your Nifty Plugins account and click the "Manage Sites" button to activate it for your website.', 'link to License Keys page (admin-text)', 'site-reviews'),
-            glsr_premium_link('license-keys')
-        );
-        glsr(Notice::class)->addError(sprintf('<strong>%s</strong><br>%s', $error, $message));
-    }
-
-    protected function renderInvalidLicenseNotice(): void
-    {
-        glsr(Notice::class)->addError(
-            _x('A license you entered is invalid.', 'admin-text', 'site-reviews')
-        );
-    }
-
-    protected function renderMismatchedLicenseNotice(): void
-    {
-        $error = _x('A license you entered is for a different product.', 'admin-text', 'site-reviews');
-        $message = _x('Please enter each license key in the field of the addon it was purchased for.', 'admin-text', 'site-reviews');
-        glsr(Notice::class)->addError(sprintf('<strong>%s</strong><br>%s', $error, $message));
-    }
-
-    protected function renderUnreachableLicenseNotice(): void
-    {
-        glsr(Notice::class)->addWarning(
-            _x('The license server could not be reached. Please try again later.', 'admin-text', 'site-reviews')
-        );
+        $this->execute($command);
+        return Arr::set($options, $key, $command->licenses);
     }
 }

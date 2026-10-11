@@ -40,15 +40,16 @@ class License
                 'license' => $license,
             ]);
             $check = $updater->checkLicense();
-            if ('expired' === $check['license']) {
+            $verdict = LicenseStatus::of($check);
+            if (LicenseStatus::EXPIRED === $verdict) {
                 $status['expired'] = true;
             }
-            if (!in_array($check['license'], ['unknown', 'valid'], true)) {
-                $status['invalid'] = true; // an unknown license is no answer, not an invalid one
+            if (!in_array($verdict, [LicenseStatus::UNREACHABLE, LicenseStatus::VALID], true)) {
+                $status['invalid'] = true; // no answer is no verdict
             }
             if ($check['is_premium_license']) {
                 $status['premium'] = true;
-                if ('valid' === $check['license'] && '' === $status['premium_key']) {
+                if (LicenseStatus::VALID === $verdict && '' === $status['premium_key']) {
                     $status['premium_key'] = $license;
                 }
             }
