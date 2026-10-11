@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Integrations\MultilingualPress;
 
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use Inpsyde\MultilingualPress\Editor\Notices\ExistingAttachmentsNotice;
@@ -94,7 +95,7 @@ class ImageCopier
                 glsr('Addon\Images\Uploader')->resetUploadPath();
             }
         }
-        if ($otherAttachmentIds = array_diff($sourceAttachmentIds, $reviewAttachmentIds)) {
+        if ($otherAttachmentIds = Arr::added($reviewAttachmentIds, $sourceAttachmentIds)) {
             $copiedAttachmentIds = $this->copyAttachmentIds($otherAttachmentIds);
             return array_merge($attachmentIds, $copiedAttachmentIds);
         }
