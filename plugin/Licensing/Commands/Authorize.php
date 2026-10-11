@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Licensing\Commands;
 
-use GeminiLabs\SiteReviews\Helpers\Url;
+use GeminiLabs\SiteReviews\Licensing\License;
 use GeminiLabs\SiteReviews\Licensing\LicenseRow;
 use GeminiLabs\SiteReviews\Request;
 
@@ -74,7 +74,7 @@ class Authorize extends AbstractCommand
                 'endpoint' => rest_url(glsr()->id.'/v1/premium/install'),
                 'license' => $this->license,
                 'return' => glsr_admin_url('settings', 'general'),
-                'site' => Url::license(),
+                'site' => glsr(License::class)->siteUrl(),
                 'token' => $this->token,
             ],
             'url' => $this->connectUrl,
@@ -116,7 +116,7 @@ class Authorize extends AbstractCommand
      */
     protected function checkAddresses(): bool
     {
-        $host = strtolower((string) wp_parse_url(Url::license(), \PHP_URL_HOST));
+        $host = strtolower((string) wp_parse_url(glsr(License::class)->siteUrl(), \PHP_URL_HOST));
         foreach ([rest_url(), admin_url()] as $url) {
             $other = strtolower((string) wp_parse_url($url, \PHP_URL_HOST));
             if ('' === $host || !$this->isSameHost($host, $other)) {
