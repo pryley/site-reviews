@@ -10,7 +10,7 @@ use GeminiLabs\SiteReviews\Defaults\Updater\VersionDefaults;
 use GeminiLabs\SiteReviews\Defaults\Updater\VersionDetailsDefaults;
 use GeminiLabs\SiteReviews\Defaults\Updater\VersionUpdateDefaults;
 use GeminiLabs\SiteReviews\Helpers\Cast;
-use GeminiLabs\SiteReviews\Helpers\Url;
+use GeminiLabs\SiteReviews\Licensing\License;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Updater
@@ -149,7 +149,7 @@ class Updater
             'item_name' => $this->addonId,
             'license' => $this->license,
             'slug' => $this->addonId,
-            'url' => Url::license(),
+            'url' => glsr(License::class)->siteUrl(),
         ];
         $response = glsr(Api::class, ['url' => $this->apiUrl])->post('/', [
             'body' => $body,

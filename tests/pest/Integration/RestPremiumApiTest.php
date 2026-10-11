@@ -429,7 +429,7 @@ test('a verified key answers with the store page and the six fields the row post
         ->and($data['url'])->toBe('https://niftyplugins.com/connect/')
         ->and(array_keys($data['fields']))->toBe(['ajax', 'endpoint', 'license', 'return', 'site', 'token'])
         ->and($data['fields']['license'])->toBe('a-premium-key')
-        ->and($data['fields']['site'])->toBe(GeminiLabs\SiteReviews\Helpers\Url::license())
+        ->and($data['fields']['site'])->toBe(glsr(GeminiLabs\SiteReviews\Licensing\License::class)->siteUrl())
         ->and($data['fields']['endpoint'])->toEndWith('/site-reviews/v1/premium/install')
         ->and($data['fields']['ajax'])->toEndWith('/wp-admin/admin-ajax.php')
         ->and($data['fields']['return'])->toContain('page=glsr-settings')
