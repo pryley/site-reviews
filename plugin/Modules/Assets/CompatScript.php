@@ -13,14 +13,8 @@ class CompatScript
     {
         foreach (['admin', 'public'] as $bundle) {
             $compat = $this->scriptHandle($bundle);
-            if (!wp_script_is($compat, 'registered')) {
-                continue;
-            }
-            $script = 'admin' === $bundle ? glsr()->id.'/admin' : glsr()->id;
-            foreach (wp_scripts()->registered as $handle => $dependent) {
-                if ($handle !== $compat && in_array($script, $dependent->deps, true) && !in_array($compat, $dependent->deps, true)) {
-                    $dependent->deps[] = $compat;
-                }
+            if (wp_script_is($compat, 'registered')) {
+                $this->addDependency($compat, 'admin' === $bundle ? glsr()->id.'/admin' : glsr()->id);
             }
         }
     }
@@ -49,5 +43,17 @@ class CompatScript
     {
         $name = str_replace('/', '-', $this->scriptHandle($bundle));
         return glsr()->url("assets/scripts/{$name}.js");
+    }
+
+    protected function addDependency(string $compat, string $script): void
+    {
+        foreach (wp_scripts()->registered as $handle => $dependent) {
+            if ($handle === $compat || !in_array($script, $dependent->deps, true)) {
+                continue;
+            }
+            if (!in_array($compat, $dependent->deps, true)) {
+                $dependent->deps[] = $compat;
+            }
+        }
     }
 }
