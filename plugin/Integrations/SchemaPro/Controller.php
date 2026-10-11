@@ -36,13 +36,7 @@ class Controller extends AbstractController
         if (empty($schema)) {
             return $data;
         }
-        if ($rating = Arr::get($schema, 'aggregateRating')) {
-            $data['aggregateRating'] = $rating;
-        }
-        if ($review = Arr::get($schema, 'review')) {
-            $data['review'] = $review;
-        }
-        return $data;
+        return glsr(Schema::class)->rate($data, $schema);
     }
 
     /**
