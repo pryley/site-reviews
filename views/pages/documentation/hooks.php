@@ -12,7 +12,6 @@ $sections = [ // order is intentional
     trailingslashit(__DIR__).'hooks/filter-schema.php',
     trailingslashit(__DIR__).'hooks/filter-submitted-review-values.php',
     trailingslashit(__DIR__).'hooks/modify-request.php',
-    trailingslashit(__DIR__).'hooks/filter-optimize.php',
 ];
 $filename = basename(__FILE__, '.php');
 $sections = glsr()->filterArrayUnique("documentation/{$filename}", $sections);

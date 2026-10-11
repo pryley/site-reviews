@@ -2,6 +2,7 @@
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Compat\Controllers\DeprecationController;
+use GeminiLabs\SiteReviews\Compat\Controllers\HookController;
 use GeminiLabs\SiteReviews\Compat\Hooks;
 use GeminiLabs\SiteReviews\Modules\Console;
 
@@ -88,6 +89,19 @@ test('the 5.x template tags still work', function () {
 
     expect(glsr()->filterString('build/template/review', $template))
         ->toBe('<div id="review-{{ review_id }}">{{ assigned_links }}</div>');
+});
+
+test('a snippet that still turns the 8.4.0 asset optimiser on is told once, and a site without one hears nothing', function () {
+    // The filters stay declared so the snippet that hooks one is named, not ignored;
+    // apply_filters_deprecated returns early while nothing hooks the filter.
+    glsr(HookController::class)->filterOptimizeAsset();
+    expect(glsr()->retrieveAs('array', 'deprecated'))->toBe([]);
+
+    add_filter('site-reviews/optimize/css', '__return_true');
+    add_filter('site-reviews/optimize/js', '__return_true');
+    glsr(HookController::class)->filterOptimizeAsset();
+    $notices = implode(' ', glsr()->retrieveAs('array', 'deprecated'));
+    expect($notices)->toContain('Hook site-reviews/optimize/css is', 'Hook site-reviews/optimize/js is', 'no longer combines');
 });
 
 test('the two functions that 5.0 deprecated still exist, and each use is noted', function () {
