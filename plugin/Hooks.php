@@ -38,7 +38,6 @@ class Hooks implements HooksContract
 
     public function runCompat(): void
     {
-        glsr()->singleton(CompatHooks::class);
         glsr(CompatHooks::class)->runDeferred();
         glsr(CompatHooks::class)->run();
     }
@@ -71,7 +70,6 @@ class Hooks implements HooksContract
 
     public function runLicensing(): void
     {
-        glsr()->singleton(LicensingHooks::class);
         glsr(LicensingHooks::class)->runDeferred();
         glsr(LicensingHooks::class)->run();
     }
