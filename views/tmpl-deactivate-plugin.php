@@ -34,7 +34,7 @@
                             ['type' => 'warning', 'additional_classes' => ['inline']]
                         );
                     ?>
-                    <?php if (!glsr(\GeminiLabs\SiteReviews\License::class)->isPremium()) { ?>
+                    <?php if (!glsr(\GeminiLabs\SiteReviews\Licensing\License::class)->isPremium()) { ?>
                         <?php
                             echo wp_get_admin_notice(
                                 /* translators: %s: link with the text "addons" */

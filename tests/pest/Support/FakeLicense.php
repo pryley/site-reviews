@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Tests;
 
-use GeminiLabs\SiteReviews\License;
+use GeminiLabs\SiteReviews\Licensing\License;
 
 /**
  * A licence that answers without asking anybody.
