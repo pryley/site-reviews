@@ -30,24 +30,7 @@ class Controller extends AbstractController
         if (null === $key) {
             return $graph;
         }
-        $aggregateRatingSchema = Arr::get($schema, 'aggregateRating');
-        $reviewSchema = Arr::get($schema, 'review');
-        $types = Arr::getAs('array', $graph[$key], '@type');
-        $isReviewType = !empty(array_intersect($types, ['Review', 'ReviewNewsArticle']));
-        if (!empty($aggregateRatingSchema)) {
-            if ($isReviewType) {
-                $graph[$key]['itemReviewed']['aggregateRating'] = $aggregateRatingSchema;
-            } else {
-                $graph[$key]['aggregateRating'] = $aggregateRatingSchema;
-            }
-        }
-        if (!empty($reviewSchema)) {
-            if ($isReviewType) {
-                $graph[$key]['itemReviewed']['review'] = $reviewSchema;
-            } else {
-                $graph[$key]['review'] = $reviewSchema;
-            }
-        }
+        $graph[$key] = glsr(Schema::class)->rate(Arr::consolidate($graph[$key]), $schema);
         return $graph;
     }
 
@@ -72,15 +55,6 @@ class Controller extends AbstractController
             return false;
         }
         return '' !== trim(Arr::getAs('string', $node, 'name'));
-    }
-
-    protected function isRatedSiteWide(): bool
-    {
-        $args = glsr()->retrieveAs('array', 'schema_args', []);
-        $assigned = Arr::restrictKeys($args, [
-            'assigned_posts', 'assigned_terms', 'assigned_users',
-        ]);
-        return empty(array_filter($assigned));
     }
 
     /**
@@ -127,7 +101,7 @@ class Controller extends AbstractController
      */
     protected function ratedNodeKey(array $graph)
     {
-        return $this->isRatedSiteWide()
+        return glsr(Schema::class)->isSiteWide()
             ? $this->publisherKey($graph)
             : $this->primaryContentKey($graph);
     }

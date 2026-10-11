@@ -110,6 +110,35 @@ class Schema
         return $schema;
     }
 
+    /**
+     * A summary assigned to nothing is a rating of the site.
+     */
+    public function isSiteWide(): bool
+    {
+        $args = glsr()->retrieveAs('array', 'schema_args', []);
+        $assigned = Arr::restrictKeys($args, [
+            'assigned_posts', 'assigned_terms', 'assigned_users',
+        ]);
+        return empty(array_filter($assigned));
+    }
+
+    /**
+     * Attaches the rating and the reviews of a generated schema to a schema.org node.
+     */
+    public function rate(array $node, array $schema): array
+    {
+        $types = Arr::getAs('array', $node, '@type');
+        $isReview = !empty(array_intersect($types, ['Review', 'ReviewNewsArticle']));
+        $prefix = $isReview ? 'itemReviewed.' : '';
+        foreach (['aggregateRating', 'review'] as $key) {
+            $value = Arr::get($schema, $key);
+            if (!empty($value)) {
+                $node = Arr::set($node, $prefix.$key, $value);
+            }
+        }
+        return $node;
+    }
+
     public function render(): void
     {
         if ($schema = $this->retrieve()) {
