@@ -224,6 +224,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Added an "Advanced" tab to the settings
 - Added the `site-reviews/assets/config` filter hook to change the values that are passed to the plugin scripts
 - Added the `site-reviews/rest-api/routes` filter hook to name the REST API route that a form is submitted to
+- Added a `source()` method to the plugin object for developers: the text of the plugin's template for a view, the plugin style's where it has one
 - Changed the names of the Javascript events, the previous names keep working while Compatibility Mode is enabled
 - Changed the Contact Form 7 style's field template to use the `{{ field_id }}` and `{{ field_label }}` template tags instead of PHP
 - Changed the website address sent to the license server by a sub-site of a network with its own domain: it is now the sub-site's address instead of the network's, and its saved licenses are activated for it once
