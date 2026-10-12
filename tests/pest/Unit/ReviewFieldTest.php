@@ -1,7 +1,9 @@
 <?php
 
 use GeminiLabs\SiteReviews\Contracts\FieldContract;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewField;
+use GeminiLabs\SiteReviews\Modules\Style;
 
 uses()->group('plugin');
 
@@ -565,4 +567,23 @@ test('structured conditions parse identically to the legacy pipe format', functi
         'conditions' => [['name' => 'rating', 'operator' => 'greater', 'value' => '3']],
     ]]);
     expect($always->conditions())->toBe(['criteria' => 'always', 'conditions' => []]);
+});
+
+test('the Contact Form 7 field template takes its label and id from the context', function () {
+    // The style's wrapper puts the control inside its label (Contact Form 7's own
+    // markup), so the label text and the id are template tags of the wrapper, not
+    // a nested label template. Every form template is a plain {{ tag }} string a
+    // consumer may fill outside render(); this was the one that ran PHP.
+    glsr(OptionManager::class)->set('settings.general.style', 'contact_form_7');
+    glsr()->bind(Style::class, null, true); // the style is read once per request: a fresh instance reads the option
+    $filter = fn (string $view) => glsr(Style::class)->view($view); // PublicController's render/view filter
+    add_filter('site-reviews/render/view', $filter);
+    $html = buildReviewField(['label' => 'Your "name" & title', 'name' => 'alpha', 'type' => 'text']);
+    remove_filter('site-reviews/render/view', $filter);
+    glsr(OptionManager::class)->set('settings.general.style', 'default');
+    glsr()->bind(Style::class, null, true);
+
+    expect($html)->toContain('<label for="site-reviews-alpha">Your &quot;name&quot; &amp; title<br><span class="wpcf7-form-control-wrap">')
+        ->and($html)->toContain('id="site-reviews-alpha"')
+        ->and($html)->not->toContain('<?php');
 });
