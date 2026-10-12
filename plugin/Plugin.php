@@ -330,6 +330,20 @@ trait Plugin
             : false;
     }
 
+    /**
+     * The HTML source of a template view (before any theme override).
+     */
+    public function source(string $view, array $data = []): string
+    {
+        $view = $this->filterString('render/view', $view, $data);
+        foreach ([$this->path("{$view}.php"), $this->path("views/{$view}.php")] as $file) {
+            if (file_exists($file)) {
+                return (string) file_get_contents($file);
+            }
+        }
+        return '';
+    }
+
     public function themePath(string $file = ''): string
     {
         return get_stylesheet_directory().'/'.$this->id.'/'.ltrim(trim($file), '/');
