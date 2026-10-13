@@ -492,6 +492,13 @@ function resetGlobalState(): void
         (new \ReflectionProperty(glsr(), $memo))->setValue(glsr(), []);
     }
 
+    // Whip keeps its custom headers in a STATIC array shared by every instance, so a proxy header
+    // one test adds would be read by every client IP lookup after it.
+    $whipHeaders = new \ReflectionProperty(\GeminiLabs\Vectorface\Whip\Whip::class, 'headers');
+    $whipHeaders->setValue(null, array_replace($whipHeaders->getValue(), [
+        \GeminiLabs\Vectorface\Whip\Whip::CUSTOM_HEADERS => [],
+    ]));
+
     // The fakes' own static state.
     NullQueue::$isPending = false;
     NullQueue::$calls = [];

@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Url;
-use GeminiLabs\Vectorface\Whip\Whip;
+use GeminiLabs\SiteReviews\Modules\ClientIp;
 
 class Helper
 {
@@ -33,36 +33,7 @@ class Helper
 
     public static function clientIp(): string
     {
-        $setting = glsr()->args(get_option(glsr()->prefix.'ip_proxy'));
-        $proxyHeader = $setting->sanitize('proxy_http_header', 'id');
-        $trustedProxies = $setting->sanitize('trusted_proxies', 'text-multiline');
-        $trustedProxies = explode("\n", $trustedProxies);
-        $whitelist = [];
-        if (!empty($proxyHeader)) {
-            $ipv4 = array_filter($trustedProxies, function ($range) {
-                [$ip] = explode('/', $range);
-                return !empty(filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4));
-            });
-            $ipv6 = array_filter($trustedProxies, function ($range) {
-                [$ip] = explode('/', $range);
-                return !empty(filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6));
-            });
-            $whitelist[$proxyHeader] = [
-                Whip::IPV4 => $ipv4,
-                Whip::IPV6 => $ipv6,
-            ];
-        }
-        $whitelist = glsr()->filterArray('whip/whitelist', $whitelist);
-        $whip = new Whip(Whip::REMOTE_ADDR | Whip::CUSTOM_HEADERS, $whitelist);
-        if (!empty($proxyHeader)) {
-            $whip->addCustomHeader($proxyHeader);
-        }
-        glsr()->action('whip', $whip);
-        if (false !== ($clientAddress = $whip->getValidIpAddress())) {
-            return (string) $clientAddress;
-        }
-        glsr_log()->error('Unable to detect IP address, please see the FAQ page for a possible solution.');
-        return 'unknown';
+        return glsr(ClientIp::class)->address();
     }
 
     /**
