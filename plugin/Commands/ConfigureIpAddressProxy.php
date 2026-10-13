@@ -19,7 +19,8 @@ class ConfigureIpAddressProxy extends AbstractCommand
 
     public function handle(): void
     {
-        $trustedProxies = glsr(ClientIp::class)->ranges($this->trustedProxies);
+        $clientIp = glsr(ClientIp::class);
+        $trustedProxies = $clientIp->ranges($this->trustedProxies);
         update_option(glsr()->prefix.'ip_proxy', [
             'proxy_http_header' => $this->proxyHeader,
             'trusted_proxies' => implode("\n", $trustedProxies),
@@ -27,6 +28,14 @@ class ConfigureIpAddressProxy extends AbstractCommand
         glsr(Notice::class)->clear()->addSuccess(
             _x('The proxy HTTP header has been saved.', 'admin-text', 'site-reviews')
         );
+        $removed = count($clientIp->lines($this->trustedProxies)) - count($trustedProxies);
+        if ($removed > 0) {
+            glsr(Notice::class)->addWarning(sprintf(
+                /* translators: %s: number of lines */
+                _nx('%s line was removed from Trusted Proxies because it is not a valid IP address or CIDR range.', '%s lines were removed from Trusted Proxies because they are not valid IP addresses or CIDR ranges.', $removed, 'admin-text', 'site-reviews'),
+                number_format_i18n($removed)
+            ));
+        }
     }
 
     public function response(): array

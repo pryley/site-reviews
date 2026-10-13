@@ -115,3 +115,42 @@ test('a trusted proxies list saved with a stray carriage return is read without 
 
     expect($ranges)->toBe(['10.0.0.0/8', '10.0.0.3']);
 });
+
+test('a trusted proxies list keeps a range whose mask fits the address', function (string $range) {
+    expect(glsr(ClientIp::class)->ranges($range))->toBe([$range]);
+})->with([
+    '10.0.0.0/8',
+    '10.0.0.1/32',
+    '0.0.0.0/0', // every IPv4 address, when that is what the site owner means
+    '2001:db8::/32',
+    '2001:db8::1/128',
+    '::/0',
+]);
+
+test('a trusted proxies list drops a range whose mask is not usable', function (string $range) {
+    // Whip casts the mask to an integer without checking it. "abc" and "" become 0, which is
+    // every address; an IPv4 mask above 32 is a negative bit shift, which throws.
+    expect(glsr(ClientIp::class)->ranges($range))->toBe([]);
+})->with([
+    '10.0.0.1/abc',
+    '10.0.0.1/',
+    '10.0.0.1/33',
+    '10.0.0.1/-1',
+    '10.0.0.1/8/8',
+    '10.0.0.1/ 8',
+    '2001:db8::1/abc',
+    '2001:db8::1/',
+    '2001:db8::/129',
+]);
+
+test('a saved range with an IPv4 mask above 32 does not stop the address being worked out', function () {
+    // Whip builds its range objects when it is constructed, so this line threw on every lookup,
+    // and with it every review submission, on a site that had saved it.
+    $address = clientIpFor(['REMOTE_ADDR' => '203.0.113.9'], [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => "10.0.0.1/33\n10.0.0.2",
+    ]);
+
+    expect($address)->toBe('203.0.113.9');
+});
+

@@ -169,6 +169,27 @@ test('every line of a multi-line trusted proxies list is saved', function () {
     ]);
 });
 
+test('saving trusted proxies removes the lines that are not valid, and says how many', function () {
+    glsr(ToolsController::class)->ipAddressDetection(new Request([
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => "10.0.0.1\r\n10.0.0.1/33\r\nnot-an-address\r\n\r\n10.0.0.0/8",
+    ]));
+
+    expect(get_option(glsr()->prefix.'ip_proxy')['trusted_proxies'])->toBe("10.0.0.1\n10.0.0.0/8")
+        ->and(glsr(Notice::class)->get())
+        ->toContain('The proxy HTTP header has been saved.')
+        ->toContain('2 lines were removed from Trusted Proxies');
+});
+
+test('saving trusted proxies says nothing about removed lines when every line is valid', function () {
+    glsr(ToolsController::class)->ipAddressDetection(new Request([
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => "10.0.0.1\r\n\r\n10.0.0.0/8\r\n",
+    ]));
+
+    expect(glsr(Notice::class)->get())->not->toContain('removed from Trusted Proxies');
+});
+
 test('the ip detection tool shows a saved trusted proxies list one range to a line', function () {
     // A list saved by 8.3.4 or earlier can hold a carriage return after a CIDR range.
     update_option(glsr()->prefix.'ip_proxy', [
