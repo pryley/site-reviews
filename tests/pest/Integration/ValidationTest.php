@@ -315,3 +315,86 @@ test('the assignment limits combine with AND even on a loose-assignment site', f
 
     expect($seen->getArrayCopy())->toContain('AND');
 });
+
+/*
+ * A forged proxy header against the controls that are keyed on the IP address.
+ *
+ * The site selected X-Forwarded-For and trusts the proxy at 10.0.0.1. A visitor at 203.0.113.9
+ * sends a different address in the header with each review. Up to 8.3.4 the header was believed
+ * from any sender and read from the left, so each review had a new address and neither the per-IP
+ * limit nor the IP blacklist saw the visitor.
+ */
+
+/**
+ * One review from $peer, the address that connected to the web server, with $header as the
+ * X-Forwarded-For header. The other fields are new each time, so only the IP address repeats.
+ */
+function submitWithProxyHeader($test, string $peer, string $header): object
+{
+    update_option(glsr()->prefix.'ip_proxy', [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => '10.0.0.1',
+    ]);
+    $original = $_SERVER;
+    $_SERVER['REMOTE_ADDR'] = $peer;
+    $_SERVER['HTTP_X_FORWARDED_FOR'] = $header;
+    try {
+        return (fn () => $this->performAjaxRequest($this->request([
+            'content' => $this->faker->sentence(12),
+            'email' => $this->faker->email(),
+            'name' => $this->faker->name(),
+            'rating' => 5,
+            'terms' => 1,
+            'title' => $this->faker->sentence(4),
+        ])))->call($test);
+    } finally {
+        $_SERVER = $original;
+    }
+}
+
+test('a forged proxy header does not get a visitor past the per-ip review limit', function () {
+    add_filter('site-reviews/validators', fn () => [
+        ReviewLimitsValidator::class,
+    ]);
+    glsr(OptionManager::class)->set('settings.forms.limit', 'ip_address');
+
+    // The visitor connects to the web server directly, which is not a trusted proxy.
+    $first = submitWithProxyHeader($this, '203.0.113.9', '198.51.100.1');
+    $second = submitWithProxyHeader($this, '203.0.113.9', '198.51.100.2');
+
+    expect($first->success)->toBeTrue()
+        ->and(glsr_get_review($first->data->review->ID)->ip_address)->toBe('203.0.113.9')
+        ->and($second->success)->toBeFalse()
+        ->and($second->data->message)->toEqual($this->messageFailedReviewLimits);
+});
+
+test('a forged first entry does not get a visitor past the per-ip review limit through a trusted proxy', function () {
+    add_filter('site-reviews/validators', fn () => [
+        ReviewLimitsValidator::class,
+    ]);
+    glsr(OptionManager::class)->set('settings.forms.limit', 'ip_address');
+
+    // The proxy adds the visitor to the end of the header and keeps what the visitor sent.
+    $first = submitWithProxyHeader($this, '10.0.0.1', '198.51.100.1, 203.0.113.9');
+    $second = submitWithProxyHeader($this, '10.0.0.1', '198.51.100.2, 203.0.113.9');
+
+    expect($first->success)->toBeTrue()
+        ->and(glsr_get_review($first->data->review->ID)->ip_address)->toBe('203.0.113.9')
+        ->and($second->success)->toBeFalse()
+        ->and($second->data->message)->toEqual($this->messageFailedReviewLimits);
+});
+
+test('a forged proxy header does not get a blacklisted visitor past the ip blacklist', function () {
+    add_filter('site-reviews/validators', fn () => [
+        BlacklistValidator::class,
+    ]);
+    glsr(OptionManager::class)->set('settings.forms.blacklist.action', 'reject');
+    glsr(OptionManager::class)->set('settings.forms.blacklist.entries', '203.0.113.9');
+    glsr(OptionManager::class)->set('settings.forms.blacklist.integration', '');
+
+    $response = submitWithProxyHeader($this, '203.0.113.9', '198.51.100.1');
+
+    expect($response->success)->toBeFalse()
+        ->and($response->data->message)->toEqual($this->messageFailedBlacklist);
+});
+
