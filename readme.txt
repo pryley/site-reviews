@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, product reviews, business reviews
 Tested up to: 7.1
-Stable tag: 8.3.4
+Stable tag: 8.3.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -210,6 +210,15 @@ You can report any security bugs found in the source code of this plugin through
 This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after updating.
 
 == Changelog ==
+
+= 8.3.5 (2026-10-13) =
+
+- Fixed a security issue where a visitor could fake their IP address when a proxy HTTP header was selected
+- Fixed an invalid IP range in Trusted Proxies preventing reviews from being submitted
+- Fixed IP address detection with the Forwarded proxy HTTP header and with IP addresses that include a port
+- Fixed the IP address detection tool not saving all trusted proxy entries
+- Fixed the proxy HTTP header being used when no trusted proxies were entered
+- Improved the IP address detection tool to accept a custom proxy HTTP header
 
 = 8.3.4 (2026-10-04) =
 

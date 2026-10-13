@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 8.3.5 (2026-10-13) =
+
+- Fixed a security issue where a visitor could fake their IP address when a proxy HTTP header was selected
+- Fixed an invalid IP range in Trusted Proxies preventing reviews from being submitted
+- Fixed IP address detection with the Forwarded proxy HTTP header and with IP addresses that include a port
+- Fixed the IP address detection tool not saving all trusted proxy entries
+- Fixed the proxy HTTP header being used when no trusted proxies were entered
+- Improved the IP address detection tool to accept a custom proxy HTTP header
+
 = 8.3.4 (2026-10-04) =
 
 - Fixed a security issue where a logged-in user could look up user names regardless of role

@@ -743,7 +743,7 @@ msgid "Help & Support"
 msgstr "Help & Support"
 
 #: helpers.php:112
-#: plugin/Commands/DetectIpAddress.php:13
+#: plugin/Commands/DetectIpAddress.php:14
 #: plugin/Controllers/MenuController.php:115
 msgctxt "admin-text"
 msgid "FAQ"
@@ -1377,7 +1377,7 @@ msgid "If you are sending notifications to Slack then this template will only be
 msgstr "If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href=\"https://api.slack.com/docs/attachments\" target=\"_blank\">Message Attachments</a> have been disabled."
 
 #: config/settings.php:260
-#: views/pages/tools/general/import-reviews.php:84
+#: views/pages/tools/general/import-reviews.php:92
 msgctxt "admin-text"
 msgid "Date Format"
 msgstr "Date Format"
@@ -1693,7 +1693,7 @@ msgstr "Use the %s tool to extract geolocation from existing reviews."
 
 #: config/settings.php:463
 #: views/pages/tools/general/geolocate-reviews.php:7
-#: views/pages/tools/general/geolocate-reviews.php:31
+#: views/pages/tools/general/geolocate-reviews.php:32
 msgctxt "admin-text"
 msgid "Geolocate Reviews"
 msgstr "Geolocate Reviews"
@@ -1771,6 +1771,7 @@ msgid "Product"
 msgstr "Product"
 
 #: config/settings.php:521
+#: views/pages/tools/general/configure-ip-detection.php:48
 msgctxt "admin-text"
 msgid "Custom"
 msgstr "Custom"
@@ -2843,7 +2844,7 @@ msgstr "This will completely replace the default WooCommerce review system with 
 #: config/integrations/woocommerce.php:10
 #: views/integrations/woocommerce/tools/import-product-reviews.php:33
 #: views/pages/tools/general/import-reviews.php:6
-#: views/pages/tools/general/import-reviews.php:119
+#: views/pages/tools/general/import-reviews.php:128
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr "Import Reviews"
@@ -2938,7 +2939,7 @@ msgctxt "admin-text"
 msgid "Console cleared."
 msgstr "Console cleared."
 
-#: plugin/Commands/ConfigureIpAddressProxy.php:31
+#: plugin/Commands/ConfigureIpAddressProxy.php:35
 msgctxt "admin-text"
 msgid "The proxy HTTP header has been saved."
 msgstr "The proxy HTTP header has been saved."
@@ -2970,7 +2971,7 @@ msgid "The <code>%s</code> table was successly converted to InnoDB."
 msgstr "The <code>%s</code> table was successly converted to InnoDB."
 
 #. translators: %s: link to the FAQ page
-#: plugin/Commands/DetectIpAddress.php:17
+#: plugin/Commands/DetectIpAddress.php:18
 #, php-format
 msgctxt "admin-text"
 msgid "Site Reviews was unable to detect an IP address. To fix this, please see the %s."
@@ -6022,9 +6023,9 @@ msgctxt "admin-text"
 msgid "Common Problems and Solutions"
 msgstr "Common Problems and Solutions"
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:49
-#: views/pages/tools/general/migrate-plugin.php:21
-#: views/pages/tools/general/migrate-plugin.php:29
+#: views/integrations/woocommerce/tools/import-product-reviews.php:50
+#: views/pages/tools/general/migrate-plugin.php:22
+#: views/pages/tools/general/migrate-plugin.php:30
 #: views/partials/notices/migration.php:18
 msgctxt "admin-text"
 msgid "Migrating, please wait..."
@@ -6602,7 +6603,7 @@ msgid "Import your WooCommerce product reviews. Review replies and comments will
 msgstr "Import your WooCommerce product reviews. Review replies and comments will be skipped."
 
 #: views/integrations/woocommerce/tools/import-product-reviews.php:31
-#: views/pages/tools/general/import-reviews.php:117
+#: views/pages/tools/general/import-reviews.php:126
 msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
 msgstr "Importing reviews, please wait..."
@@ -6617,77 +6618,54 @@ msgctxt "admin-text"
 msgid "Migrate the product rating counts. This allows third-party plugins to filter your products by rating."
 msgstr "Migrate the product rating counts. This allows third-party plugins to filter your products by rating."
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:51
+#: views/integrations/woocommerce/tools/import-product-reviews.php:52
 msgctxt "admin-text"
 msgid "Migrate Product Ratings"
 msgstr "Migrate Product Ratings"
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:57
+#: views/integrations/woocommerce/tools/import-product-reviews.php:58
 msgctxt "admin-text"
 msgid "Reverting, please wait..."
 msgstr "Reverting, please wait..."
 
-#: views/integrations/woocommerce/tools/import-product-reviews.php:59
+#: views/integrations/woocommerce/tools/import-product-reviews.php:60
 msgctxt "admin-text"
 msgid "Revert"
 msgstr "Revert"
 
 #: views/pages/tools/general/configure-ip-detection.php:18
+#: views/partials/notices/proxy-list.php:6
+#: views/partials/notices/proxy.php:3
 msgctxt "admin-text"
 msgid "Configure IP Address Detection"
 msgstr "Configure IP Address Detection"
 
-#: views/pages/tools/general/configure-ip-detection.php:24
-msgctxt "admin-text"
-msgid "Be careful when enabling a proxy HTTP header if you do not have a front-end proxy configuration because it may allow visitors to spoof their IP address."
-msgstr "Be careful when enabling a proxy HTTP header if you do not have a front-end proxy configuration because it may allow visitors to spoof their IP address."
-
-#: views/pages/tools/general/configure-ip-detection.php:28
-msgctxt "admin-text"
-msgid "If you are unsure which proxy HTTP header to use, contact the technical support staff of your hosting provider and read their documentation to determine the correct configuration for your website."
-msgstr "If you are unsure which proxy HTTP header to use, contact the technical support staff of your hosting provider and read their documentation to determine the correct configuration for your website."
-
-#: views/pages/tools/general/configure-ip-detection.php:31
-msgctxt "admin-text"
-msgid "When a review is submitted on your website, Site Reviews detects the IP address of the person submitting it and saves it to the review. Site Reviews uses the IP address in the review limits and blacklist settings, and the Akismet and Captcha integrations to catch spam submissions."
-msgstr "When a review is submitted on your website, Site Reviews detects the IP address of the person submitting it and saves it to the review. Site Reviews uses the IP address in the review limits and blacklist settings, and the Akismet and Captcha integrations to catch spam submissions."
-
-#: views/pages/tools/general/configure-ip-detection.php:32
-msgctxt "admin-text"
-msgid "If you get incorrect IP address values in your reviews, there might be a reverse proxy, load balancer, cache, Cloudflare, CDN, or any other type of proxy in front of your web server that \"proxies\" traffic to your website. If so, select the proxy HTTP header that contains the real visitor IP address."
-msgstr "If you get incorrect IP address values in your reviews, there might be a reverse proxy, load balancer, cache, Cloudflare, CDN, or any other type of proxy in front of your web server that \"proxies\" traffic to your website. If so, select the proxy HTTP header that contains the real visitor IP address."
-
-#: views/pages/tools/general/configure-ip-detection.php:40
+#: views/pages/tools/general/configure-ip-detection.php:41
 msgctxt "admin-text"
 msgid "Proxy HTTP Header"
 msgstr "Proxy HTTP Header"
 
-#: views/pages/tools/general/configure-ip-detection.php:58
+#: views/pages/tools/general/configure-ip-detection.php:59
 msgctxt "admin-text"
 msgid "Trusted Proxies"
 msgstr "Trusted Proxies"
 
-#: views/pages/tools/general/configure-ip-detection.php:63
-msgctxt "admin-text"
-msgid "These IPs (or CIDR ranges) will be ignored when determining the requesting IP via the selected proxy HTTP header. Enter one IP or CIDR range per line."
-msgstr "These IPs (or CIDR ranges) will be ignored when determining the requesting IP via the selected proxy HTTP header. Enter one IP or CIDR range per line."
-
-#: views/pages/tools/general/configure-ip-detection.php:71
+#: views/pages/tools/general/configure-ip-detection.php:69
 msgctxt "admin-text"
 msgid "Saving, please wait..."
 msgstr "Saving, please wait..."
 
-#: views/pages/tools/general/configure-ip-detection.php:72
+#: views/pages/tools/general/configure-ip-detection.php:70
 msgctxt "admin-text"
 msgid "Save"
 msgstr "Save"
 
-#: views/pages/tools/general/configure-ip-detection.php:78
+#: views/pages/tools/general/configure-ip-detection.php:76
 msgctxt "admin-text"
 msgid "Testing, please wait..."
 msgstr "Testing, please wait..."
 
-#: views/pages/tools/general/configure-ip-detection.php:79
+#: views/pages/tools/general/configure-ip-detection.php:77
 msgctxt "admin-text"
 msgid "Test IP Address Detection"
 msgstr "Test IP Address Detection"
@@ -6705,7 +6683,7 @@ msgid "Export"
 msgstr "Export"
 
 #: views/pages/tools/general/export-settings.php:7
-#: views/pages/tools/general/export-settings.php:20
+#: views/pages/tools/general/export-settings.php:21
 #: views/pages/tools/general/import-settings.php:14
 msgctxt "admin-text"
 msgid "Export Settings"
@@ -6713,7 +6691,7 @@ msgstr "Export Settings"
 
 #: views/pages/tools/general/export-settings.php:14
 #: views/pages/tools/general/import-settings.php:7
-#: views/pages/tools/general/import-settings.php:25
+#: views/pages/tools/general/import-settings.php:31
 msgctxt "admin-text"
 msgid "Import Settings"
 msgstr "Import Settings"
@@ -6740,17 +6718,17 @@ msgctxt "admin-text"
 msgid "If you want to remove the geolocation data from all of your reviews, click the <strong>Remove</strong> button."
 msgstr "If you want to remove the geolocation data from all of your reviews, click the <strong>Remove</strong> button."
 
-#: views/pages/tools/general/geolocate-reviews.php:30
+#: views/pages/tools/general/geolocate-reviews.php:31
 msgctxt "admin-text"
 msgid "Queueing geolocation, please wait..."
 msgstr "Queueing geolocation, please wait..."
 
-#: views/pages/tools/general/geolocate-reviews.php:37
+#: views/pages/tools/general/geolocate-reviews.php:38
 msgctxt "admin-text"
 msgid "Removing all geolocated data, please wait..."
 msgstr "Removing all geolocated data, please wait..."
 
-#: views/pages/tools/general/geolocate-reviews.php:38
+#: views/pages/tools/general/geolocate-reviews.php:39
 msgctxt "admin-text"
 msgid "Remove"
 msgstr "Remove"
@@ -6773,94 +6751,89 @@ msgctxt "admin-text"
 msgid "Step 1: Download the CSV template file"
 msgstr "Step 1: Download the CSV template file"
 
-#: views/pages/tools/general/import-reviews.php:35
+#: views/pages/tools/general/import-reviews.php:36
 msgctxt "admin-text"
 msgid "Download"
 msgstr "Download"
 
-#: views/pages/tools/general/import-reviews.php:39
+#: views/pages/tools/general/import-reviews.php:41
 msgctxt "admin-text"
 msgid "Step 2: Enter reviews into the CSV file"
 msgstr "Step 2: Enter reviews into the CSV file"
 
-#: views/pages/tools/general/import-reviews.php:40
+#: views/pages/tools/general/import-reviews.php:42
 msgctxt "admin-text"
 msgid "Enter the reviews details into the template file and then save it. The CSV file should be encoded as UTF-8 and may contain the following columns:"
 msgstr "Enter the reviews details into the template file and then save it. The CSV file should be encoded as UTF-8 and may contain the following columns:"
 
-#: views/pages/tools/general/import-reviews.php:44
+#: views/pages/tools/general/import-reviews.php:46
 msgctxt "admin-text"
 msgid "Column Name"
 msgstr "Column Name"
 
-#: views/pages/tools/general/import-reviews.php:45
+#: views/pages/tools/general/import-reviews.php:47
 msgctxt "admin-text"
 msgid "Required"
 msgstr "Required"
 
-#: views/pages/tools/general/import-reviews.php:46
+#: views/pages/tools/general/import-reviews.php:48
 msgctxt "admin-text"
 msgid "Description"
 msgstr "Description"
 
-#: views/pages/tools/general/import-reviews.php:67
+#: views/pages/tools/general/import-reviews.php:69
 msgctxt "admin-text"
 msgid "Step 3: Upload the CSV file"
 msgstr "Step 3: Upload the CSV file"
 
-#: views/pages/tools/general/import-reviews.php:76
+#: views/pages/tools/general/import-reviews.php:82
 msgctxt "admin-text"
 msgid "Delimiter"
 msgstr "Delimiter"
 
-#: views/pages/tools/general/import-reviews.php:78
+#: views/pages/tools/general/import-reviews.php:85
 msgctxt "admin-text"
 msgid "Detect automatically"
 msgstr "Detect automatically"
 
-#: views/pages/tools/general/import-reviews.php:79
+#: views/pages/tools/general/import-reviews.php:86
 msgctxt "admin-text"
 msgid "Comma (,)"
 msgstr "Comma (,)"
 
-#: views/pages/tools/general/import-reviews.php:80
+#: views/pages/tools/general/import-reviews.php:87
 msgctxt "admin-text"
 msgid "Semicolon (;)"
 msgstr "Semicolon (;)"
 
-#: views/pages/tools/general/import-reviews.php:86
-msgctxt "admin-text"
-msgid "Select the date format used in the reviews"
-msgstr "Select the date format used in the reviews"
-
-#: views/pages/tools/general/import-reviews.php:87
-#: views/pages/tools/general/import-reviews.php:95
-#: views/pages/tools/general/import-reviews.php:103
+#: views/pages/tools/general/import-reviews.php:96
+#: views/pages/tools/general/import-reviews.php:104
+#: views/pages/tools/general/import-reviews.php:112
 msgctxt "admin-text"
 msgid "Year"
 msgstr "Year"
 
-#: views/pages/tools/general/import-reviews.php:87
-#: views/pages/tools/general/import-reviews.php:95
-#: views/pages/tools/general/import-reviews.php:103
+#: views/pages/tools/general/import-reviews.php:96
+#: views/pages/tools/general/import-reviews.php:104
+#: views/pages/tools/general/import-reviews.php:112
 msgctxt "admin-text"
 msgid "Month"
 msgstr "Month"
 
-#: views/pages/tools/general/import-reviews.php:87
-#: views/pages/tools/general/import-reviews.php:95
-#: views/pages/tools/general/import-reviews.php:103
+#: views/pages/tools/general/import-reviews.php:96
+#: views/pages/tools/general/import-reviews.php:104
+#: views/pages/tools/general/import-reviews.php:112
 msgctxt "admin-text"
 msgid "Day"
 msgstr "Day"
 
-#: views/pages/tools/general/import-settings.php:24
+#: views/pages/tools/general/import-settings.php:30
 msgctxt "admin-text"
 msgid "Importing settings, please wait..."
 msgstr "Importing settings, please wait..."
 
 #: views/pages/tools/general/migrate-plugin.php:7
-#: views/pages/tools/general/migrate-plugin.php:23
+#: views/pages/tools/general/migrate-plugin.php:24
 msgctxt "admin-text"
 msgid "Migrate Plugin"
 msgstr "Migrate Plugin"
@@ -6875,8 +6848,8 @@ msgctxt "admin-text"
 msgid "If Site Reviews stopped working after cloning your website or after restoring your website from a backup, click the <strong>Hard Reset</strong> button."
 msgstr "If Site Reviews stopped working after cloning your website or after restoring your website from a backup, click the <strong>Hard Reset</strong> button."
 
-#: views/pages/tools/general/migrate-plugin.php:31
-#: views/pages/tools/general/repair-permissions.php:29
+#: views/pages/tools/general/migrate-plugin.php:32
+#: views/pages/tools/general/repair-permissions.php:30
 msgctxt "admin-text"
 msgid "Hard Reset"
 msgstr "Hard Reset"
@@ -6887,7 +6860,7 @@ msgctxt "admin-text"
 msgid "Optimise Your Database Tables"
 msgstr "Optimise Your Database Tables"
 
-#: views/pages/tools/general/optimise-db-tables.php:55
+#: views/pages/tools/general/optimise-db-tables.php:57
 msgctxt "admin-text"
 msgid "Optimisation is unnecessary because your database tables already use the InnoDB engine!"
 msgstr "Optimisation is unnecessary because your database tables already use the InnoDB engine!"
@@ -6912,18 +6885,18 @@ msgctxt "admin-text"
 msgid "Engine"
 msgstr "Engine"
 
-#: views/pages/tools/general/optimise-db-tables.php:44
+#: views/pages/tools/general/optimise-db-tables.php:45
 msgctxt "admin-text"
 msgid "Converting, please wait..."
 msgstr "Converting, please wait..."
 
-#: views/pages/tools/general/optimise-db-tables.php:45
+#: views/pages/tools/general/optimise-db-tables.php:46
 msgctxt "admin-text"
 msgid "Convert table engine to InnoDB"
 msgstr "Convert table engine to InnoDB"
 
 #: views/pages/tools/general/repair-permissions.php:7
-#: views/pages/tools/general/repair-permissions.php:22
+#: views/pages/tools/general/repair-permissions.php:23
 msgctxt "admin-text"
 msgid "Repair Permissions"
 msgstr "Repair Permissions"
@@ -6938,8 +6911,8 @@ msgctxt "admin-text"
 msgid "If you have changed the capabilities of your user roles (Administrator, Editor, Author, and Contributor) and you suspect that Site Reviews is not working correctly due to your changes, click the <strong>Hard Reset</strong> button."
 msgstr "If you have changed the capabilities of your user roles (Administrator, Editor, Author, and Contributor) and you suspect that Site Reviews is not working correctly due to your changes, click the <strong>Hard Reset</strong> button."
 
-#: views/pages/tools/general/repair-permissions.php:21
-#: views/pages/tools/general/repair-permissions.php:28
+#: views/pages/tools/general/repair-permissions.php:22
+#: views/pages/tools/general/repair-permissions.php:29
 msgctxt "admin-text"
 msgid "Repairing, please wait..."
 msgstr "Repairing, please wait..."
@@ -6959,12 +6932,12 @@ msgctxt "admin-text"
 msgid "This tool will repair the review relationships in your database by removing any review details in the custom database table that do not point to a valid review."
 msgstr "This tool will repair the review relationships in your database by removing any review details in the custom database table that do not point to a valid review."
 
-#: views/pages/tools/general/repair-review-relations.php:30
+#: views/pages/tools/general/repair-review-relations.php:31
 msgctxt "admin-text"
 msgid "Repairing relations, please wait..."
 msgstr "Repairing relations, please wait..."
 
-#: views/pages/tools/general/repair-review-relations.php:31
+#: views/pages/tools/general/repair-review-relations.php:32
 msgctxt "admin-text"
 msgid "Repair Relations"
 msgstr "Repair Relations"
@@ -6979,19 +6952,19 @@ msgctxt "admin-text"
 msgid "Site Reviews stores the individual review count, average rating, and ranking for each assigned post, category, and user. If you suspect that these meta values are incorrect (perhaps you cloned a page that had reviews assigned to it), you may use this tool to recalculate them."
 msgstr "Site Reviews stores the individual review count, average rating, and ranking for each assigned post, category, and user. If you suspect that these meta values are incorrect (perhaps you cloned a page that had reviews assigned to it), you may use this tool to recalculate them."
 
-#: views/pages/tools/general/reset-assigned-meta.php:19
+#: views/pages/tools/general/reset-assigned-meta.php:20
 msgctxt "admin-text"
 msgid "Resetting values, please wait..."
 msgstr "Resetting values, please wait..."
 
-#: views/pages/tools/general/reset-assigned-meta.php:20
+#: views/pages/tools/general/reset-assigned-meta.php:21
 msgctxt "admin-text"
 msgid "Reset Meta Values"
 msgstr "Reset Meta Values"
 
 #. translators: %s: the selected plugin version
 #: views/pages/tools/general/rollback-plugin.php:7
-#: views/pages/tools/general/rollback-plugin.php:46
+#: views/pages/tools/general/rollback-plugin.php:51
 msgctxt "admin-text"
 msgid "Rollback Plugin"
 msgstr "Rollback Plugin"
@@ -7001,13 +6974,13 @@ msgctxt "admin-text"
 msgid "contact us"
 msgstr "contact us"
 
-#: views/pages/tools/general/rollback-plugin.php:37
+#: views/pages/tools/general/rollback-plugin.php:39
 msgctxt "admin-text"
 msgid "Rollback Version To"
 msgstr "Rollback Version To"
 
 #. translators: %s: the selected plugin version
-#: views/pages/tools/general/rollback-plugin.php:45
+#: views/pages/tools/general/rollback-plugin.php:50
 #, php-format
 msgctxt "admin-text"
 msgid "Rolling back to %s, please wait..."
@@ -7557,13 +7530,6 @@ msgstr "Something went wrong, check the %s page for errors."
 msgctxt "link to Console page (admin-text)"
 msgid "The email could not be sent, check the %s page for errors."
 msgstr "The email could not be sent, check the %s page for errors."
-
-#. translators: %s: link to the addon page
-#: plugin/Commands/DownloadCsvTemplate.php:122
-#, php-format
-msgctxt "link to addon page (admin-text)"
-msgid "%s addon required."
-msgstr "%s addon required."
 
 #: plugin/Commands/MigratePlugin.php:36
 #: plugin/Commands/MigratePlugin.php:43
@@ -8552,7 +8518,7 @@ msgid "The %1$sreview%2$s was approved successfully."
 msgstr ""
 
 #. translators: %1$s: detected IP address, %2$s: link to the FAQ page
-#: plugin/Commands/DetectIpAddress.php:24
+#: plugin/Commands/DetectIpAddress.php:25
 #, php-format
 msgctxt "admin-text"
 msgid "Your detected IP address is %1$s. If this looks incorrect, please see the %2$s."
@@ -9152,4 +9118,108 @@ msgstr ""
 #: plugin/Defaults/ReviewTagsDefaults.php:180
 msgctxt "admin-text"
 msgid "The review type (local or from an imported source)."
+msgstr ""
+
+#. translators: %s: number of lines
+#: plugin/Commands/ConfigureIpAddressProxy.php:41
+#, php-format
+msgctxt "admin-text"
+msgid "%s line was removed from Trusted Proxies because it is not a valid IP address or CIDR range."
+msgid_plural "%s lines were removed from Trusted Proxies because they are not valid IP addresses or CIDR ranges."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %1$s: the name of the HTTP header, %2$s: IP address
+#: plugin/Commands/DetectIpAddress.php:57
+#, php-format
+msgctxt "admin-text"
+msgid "The %1$s header was not sent with this request which came from %2$s."
+msgstr ""
+
+#. translators: %1$s: the name of the HTTP header, %2$s: IP address
+#: plugin/Commands/DetectIpAddress.php:65
+#, php-format
+msgctxt "admin-text"
+msgid "The %1$s header is ignored because Trusted Proxies is empty. This request came from %2$s."
+msgstr ""
+
+#. translators: %1$s: the name of the HTTP header, %2$s: IP address
+#: plugin/Commands/DetectIpAddress.php:72
+#, php-format
+msgctxt "admin-text"
+msgid "The %1$s header is ignored because this request came from %2$s which is not in Trusted Proxies."
+msgstr ""
+
+#. translators: %s: link to the addon page
+#: plugin/Commands/DownloadCsvTemplate.php:122
+#, php-format
+msgctxt "link to addon page (admin-text)"
+msgid "%s required."
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:24
+msgctxt "admin-text"
+msgid "A proxy HTTP header will only be used when a request comes from one of your trusted proxies."
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:28
+msgctxt "admin-text"
+msgid "If you are unsure which proxy HTTP header to use, contact the technical support staff of your hosting provider or read their documentation to determine the correct configuration for your website."
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:31
+msgctxt "admin-text"
+msgid "When a review is submitted on your website, Site Reviews detects the IP address of the person submitting it and saves it to the review. Site Reviews uses the IP address for the Review Limits and Blacklist features; it is also used by the Akismet and Captcha integrations to handle SPAM reviews."
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:32
+msgctxt "admin-text"
+msgid "If your reviews are being submitted with an incorrect IP address, your web server likely has a reverse proxy, load balancer, cache, Cloudflare, CDN, or some other type of proxy service that handles traffic to your website."
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:33
+msgctxt "admin-text"
+msgid "Here you can select the Proxy HTTP header that contains the real visitor IP address and the list of trusted IP addresses used by the proxy service."
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:53
+msgctxt "admin-text"
+msgid "Custom HTTP Header"
+msgstr ""
+
+#: views/pages/tools/general/configure-ip-detection.php:62
+msgctxt "admin-text"
+msgid "Enter the IP addresses (or CIDR ranges) of your proxy servers, one per line. The proxy HTTP header is only used when a request comes from one of these addresses."
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:76
+#: views/pages/tools/general/import-settings.php:22
+msgctxt "admin-text"
+msgid "Import File"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:95
+msgctxt "admin-text"
+msgid "Select the date format"
+msgstr ""
+
+#. translators: %s: link with the text "Configure IP Address Detection"
+#: views/partials/notices/proxy-list.php:5
+#, php-format
+msgctxt "admin-text"
+msgid "A previous version of Site Reviews did not save every line of the Trusted Proxies list. Please check your trusted proxies in the %s tool and save them again."
+msgstr ""
+
+#. translators: %s: link with the text "Configure IP Address Detection"
+#: views/partials/notices/proxy.php:10
+#, php-format
+msgctxt "admin-text"
+msgid "Site Reviews is ignoring the proxy HTTP header added by a code snippet because no trusted proxies have been entered. To fix it, remove the code snippet, then select the Proxy HTTP Header and enter your trusted proxies in the %s tool."
+msgstr ""
+
+#. translators: %1$s: the name of the HTTP header, %2$s: link with the text "Configure IP Address Detection"
+#: views/partials/notices/proxy.php:15
+#, php-format
+msgctxt "admin-text"
+msgid "Site Reviews is ignoring the %1$s proxy HTTP header because no trusted proxies have been entered. Enter your trusted proxies in the %2$s tool, or set the Proxy HTTP Header to None."
 msgstr ""
