@@ -30,6 +30,12 @@ class ClientIp
         return 'unknown';
     }
 
+    public function hasTrustedProxies(): bool
+    {
+        $trustedProxies = $this->trustedProxies();
+        return !empty($trustedProxies[Whip::IPV4]) || !empty($trustedProxies[Whip::IPV6]);
+    }
+
     /**
      * @return array<string, string> the proxy headers the tool lists, as name => label
      */

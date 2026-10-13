@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Notices\LicenseExpiredNotice;
 use GeminiLabs\SiteReviews\Notices\LicenseMissingNotice;
 use GeminiLabs\SiteReviews\Notices\LicensePromotedNotice;
 use GeminiLabs\SiteReviews\Notices\MigrationNotice;
+use GeminiLabs\SiteReviews\Notices\ProxyNotice;
 use GeminiLabs\SiteReviews\Notices\RetiredFreeNotice;
 use GeminiLabs\SiteReviews\Notices\RetiredPremiumNotice;
 use GeminiLabs\SiteReviews\Notices\UpgradedNotice;
@@ -21,6 +22,7 @@ use GeminiLabs\SiteReviews\Tests\AddonNotice;
 use GeminiLabs\SiteReviews\Tests\ConstructorProbe;
 use GeminiLabs\SiteReviews\Tests\InteractsWithAjax;
 use GeminiLabs\SiteReviews\Tests\NullQueue;
+use GeminiLabs\Vectorface\Whip\Whip;
 
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\protectedMethod;
@@ -889,4 +891,106 @@ test('the plugin-health notices show in the network admin too', function () {
     } finally {
         set_current_screen('front');
     }
+});
+
+/*
+ * The proxy header that is ignored.
+ *
+ * ClientIp reads a proxy header only from a trusted proxy, so a site that selected a header and
+ * entered no proxies gets the address that connected to the web server. Nothing on a review says
+ * so; this notice is the only place the admin finds out.
+ */
+
+function savedIpProxy(string $header, string $trustedProxies = ''): void
+{
+    update_option(glsr()->prefix.'ip_proxy', [
+        'proxy_http_header' => $header,
+        'trusted_proxies' => $trustedProxies,
+    ]);
+}
+
+test('a site with a proxy header and no trusted proxies is told that the header is ignored', function () {
+    savedIpProxy('x-forwarded-for');
+
+    $notice = new ProxyNotice();
+
+    expect(noticeLoaded($notice))->toBeTrue();
+    expect(renderedNotice($notice))
+        ->toContain('notice-warning')
+        ->toContain('ignoring the <code>X-Forwarded-For</code> proxy HTTP header')
+        ->toContain('data-expand="#tools-ip-detection"')
+        ->toContain('>Configure IP Address Detection</a> tool, or set the Proxy HTTP Header to None.');
+});
+
+test('a custom proxy header is named in the notice as it was saved', function () {
+    savedIpProxy('x-sucuri-clientip');
+
+    expect(renderedNotice(new ProxyNotice()))
+        ->toContain('ignoring the <code>x-sucuri-clientip</code> proxy HTTP header');
+});
+
+test('a trusted proxies list with no valid line is no trusted proxies', function () {
+    // The tool drops an invalid line when it saves, but the option can be written another way.
+    savedIpProxy('x-forwarded-for', '10.0.0.1/33');
+
+    expect(noticeLoaded(new ProxyNotice()))->toBeTrue();
+});
+
+test('a site that entered its trusted proxies is not told anything', function () {
+    savedIpProxy('x-forwarded-for', '10.0.0.1');
+
+    expect(noticeLoaded(new ProxyNotice()))->toBeFalse();
+});
+
+test('a site with no proxy header is not told anything', function () {
+    // Nearly every site: the option does not exist, or the header is None.
+    expect(noticeLoaded(new ProxyNotice()))->toBeFalse();
+
+    savedIpProxy('');
+
+    expect(noticeLoaded(new ProxyNotice()))->toBeFalse();
+});
+
+test('a proxy header added by a code snippet is reported, and the notice says to remove the snippet', function () {
+    // The snippet from the FAQ of 8.3 and earlier. It saves nothing in the tool, so the tool
+    // shows no Trusted Proxies field until a header is selected there.
+    add_action('site-reviews/whip', fn ($whip) => $whip->addCustomHeader('X-Sucuri-ClientIP'));
+
+    $notice = new ProxyNotice();
+
+    expect(noticeLoaded($notice))->toBeTrue();
+    expect(renderedNotice($notice))
+        ->toContain('ignoring the proxy HTTP header added by a code snippet')
+        ->toContain('To fix it, remove the code snippet')
+        ->toContain('data-expand="#tools-ip-detection"');
+});
+
+test('a code snippet that also supplies the trusted proxies is not reported', function () {
+    add_action('site-reviews/whip', fn ($whip) => $whip->addCustomHeader('X-Sucuri-ClientIP'));
+    add_filter('site-reviews/whip/whitelist', fn () => [
+        Whip::CUSTOM_HEADERS => [
+            Whip::IPV4 => ['10.0.0.1'],
+            Whip::IPV6 => [],
+        ],
+    ]);
+
+    expect(noticeLoaded(new ProxyNotice()))->toBeFalse();
+});
+
+test('the proxy notice cannot be dismissed, because the header stays ignored', function () {
+    savedIpProxy('x-forwarded-for');
+
+    expect(renderedNotice(new ProxyNotice()))
+        ->not->toContain('is-dismissible')
+        ->not->toContain('notice-dismiss');
+});
+
+test('the proxy notice is shown to somebody who can open the tool it links to', function () {
+    savedIpProxy('x-forwarded-for');
+
+    wp_set_current_user(createUser(['role' => 'author']));
+    expect(noticeLoaded(new ProxyNotice()))->toBeFalse();
+
+    wp_set_current_user(createUser(['role' => 'editor']));
+    expect(noticeLoaded(new ProxyNotice()))->toBeTrue();
 });
