@@ -20,5 +20,18 @@ add_action('site-reviews/whip', function ($whip) {
     $customHeader = 'HTTP_X_SUCURI_CLIENTIP'; // change the header as needed
     $whip->addCustomHeader($customHeader);
 });</code></pre>
+        <p>Site Reviews only uses the HTTP request header when a request comes from one of your trusted proxy servers. If you added a custom header with the code snippet above, use the following code snippet to add the IP addresses (or CIDR ranges) of your proxy servers.</p>
+        <pre><code class="language-php">/**
+ * Add the proxy servers that are trusted to send the HTTP request header
+ * @param array $whitelist
+ * @return array
+ */
+add_filter('site-reviews/whip/whitelist', function ($whitelist) {
+    $method = \GeminiLabs\Vectorface\Whip\Whip::CUSTOM_HEADERS;
+    $whitelist[$method]['ipv4'][] = '192.0.2.10'; // change the IP addresses as needed
+    $whitelist[$method]['ipv4'][] = '198.51.100.0/24';
+    $whitelist[$method]['ipv6'][] = '2001:db8::/32';
+    return $whitelist;
+});</code></pre>
     </div>
 </div>

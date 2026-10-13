@@ -17,7 +17,7 @@ $trustedProxies = implode("\n", $trustedProxies);
     </h3>
     <div id="tools-ip-detection" class="inside">
         <?php echo wp_get_admin_notice(
-            _x('Be careful when enabling a proxy HTTP header if you do not have a front-end proxy configuration because it may allow visitors to spoof their IP address.', 'admin-text', 'site-reviews'),
+            _x('A proxy HTTP header is only used when a request comes from one of your trusted proxies. Until you enter them, Site Reviews uses the IP address that connected to your web server.', 'admin-text', 'site-reviews'),
             ['type' => 'warning', 'additional_classes' => ['inline']]
         ); ?>
         <?php echo wp_get_admin_notice(
@@ -56,7 +56,7 @@ $trustedProxies = implode("\n", $trustedProxies);
                     <br />
                     <textarea id="trusted_proxies" name="{{ id }}[trusted_proxies]" class="large-text code" rows="5"><?php echo $trustedProxies; ?></textarea>
                     <br />
-                    <span class="description"><?php echo _x('These IPs (or CIDR ranges) will be ignored when determining the requesting IP via the selected proxy HTTP header. Enter one IP or CIDR range per line.', 'admin-text', 'site-reviews'); ?></span>
+                    <span class="description"><?php echo _x('Enter the IP addresses (or CIDR ranges) of your proxy servers, one per line. The proxy HTTP header is only used when a request comes from one of these addresses.', 'admin-text', 'site-reviews'); ?></span>
                 </p>
             </div>
             <div>

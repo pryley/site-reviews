@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Arguments;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\Vectorface\Whip\Whip;
 
 /**
@@ -12,14 +13,16 @@ class ClientIp
 {
     public function address(): string
     {
+        $whip = new Whip(Whip::REMOTE_ADDR | Whip::CUSTOM_HEADERS, [
+            Whip::CUSTOM_HEADERS => $this->trustedProxies(),
+        ]);
         $proxyHeader = $this->proxyHeader();
-        $whitelist = glsr()->filterArray('whip/whitelist', $this->whitelist($proxyHeader));
-        $whip = new Whip(Whip::REMOTE_ADDR | Whip::CUSTOM_HEADERS, $whitelist);
         if (!empty($proxyHeader)) {
             $whip->addCustomHeader($proxyHeader);
         }
         glsr()->action('whip', $whip);
-        if (false !== ($clientAddress = $whip->getValidIpAddress())) {
+        // Whip throws when it checks a missing address against the trusted proxies.
+        if ($this->hasPeer() && false !== ($clientAddress = $whip->getValidIpAddress())) {
             return (string) $clientAddress;
         }
         glsr_log()->error('Unable to detect IP address, please see the FAQ page for a possible solution.');
@@ -41,6 +44,32 @@ class ClientIp
     public function ranges(string $text): array
     {
         return array_values(array_filter($this->lines($text), [$this, 'isRange']));
+    }
+
+    /**
+     * @param string[] $ranges
+     *
+     * @return array{ipv4: string[], ipv6: string[]}
+     */
+    protected function groupRanges(array $ranges): array
+    {
+        $ipv4 = array_filter($ranges, function (string $range): bool {
+            [$ip] = explode('/', $range);
+            return false !== filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4);
+        });
+        return [
+            Whip::IPV4 => array_values($ipv4),
+            Whip::IPV6 => array_values(array_diff($ranges, $ipv4)),
+        ];
+    }
+
+    /**
+     * The peer is the address that connected to the web server. A command line
+     * request has none.
+     */
+    protected function hasPeer(): bool
+    {
+        return false !== filter_var($_SERVER['REMOTE_ADDR'] ?? '', \FILTER_VALIDATE_IP);
     }
 
     /**
@@ -73,23 +102,24 @@ class ClientIp
         return glsr()->args(get_option(glsr()->prefix.'ip_proxy'));
     }
 
-    protected function whitelist(string $proxyHeader): array
+    /**
+     * The proxy servers that can send a proxy header.
+     * Whip ignores every proxy header when both lists are empty.
+     *
+     * @return array{ipv4: string[], ipv6: string[]}
+     */
+    protected function trustedProxies(): array
     {
-        if (empty($proxyHeader)) {
-            return [];
-        }
         $ranges = $this->ranges($this->setting()->sanitize('trusted_proxies', 'text-multiline'));
-        $isIpv4 = function (string $range): bool {
-            [$ip] = explode('/', $range);
-            return false !== filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4);
-        };
-        $ipv4 = array_values(array_filter($ranges, $isIpv4));
-        $ipv6 = array_values(array_diff($ranges, $ipv4));
-        return [
-            $proxyHeader => [
-                Whip::IPV4 => $ipv4,
-                Whip::IPV6 => $ipv6,
-            ],
-        ];
+        $whitelist = glsr()->filterArray('whip/whitelist', [
+            Whip::CUSTOM_HEADERS => $this->groupRanges($ranges),
+        ]);
+        $filtered = Arr::consolidate($whitelist[Whip::CUSTOM_HEADERS] ?? []);
+        $ranges = array_merge(
+            Arr::consolidate($filtered[Whip::IPV4] ?? []),
+            Arr::consolidate($filtered[Whip::IPV6] ?? [])
+        );
+        $ranges = array_map('trim', array_filter($ranges, 'is_string'));
+        return $this->groupRanges(array_filter($ranges, [$this, 'isRange']));
     }
 }

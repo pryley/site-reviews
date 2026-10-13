@@ -78,7 +78,28 @@ test('the whip action receives the Whip instance', function () {
     expect($received)->toBeInstanceOf(Whip::class);
 });
 
-test('the whitelist filter is applied on every lookup', function () {
+test('the whitelist filter receives the saved trusted proxies in the format Whip reads', function () {
+    // Whip looks a list up by the method it belongs to, and the tool's header is a custom header.
+    $received = null;
+    add_filter('site-reviews/whip/whitelist', function ($whitelist) use (&$received) {
+        $received = $whitelist;
+        return $whitelist;
+    });
+
+    clientIpFor(['REMOTE_ADDR' => '203.0.113.9'], [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => "10.0.0.1\n2001:db8::/32\n10.0.0.0/8",
+    ]);
+
+    expect($received)->toBe([
+        Whip::CUSTOM_HEADERS => [
+            Whip::IPV4 => ['10.0.0.1', '10.0.0.0/8'],
+            Whip::IPV6 => ['2001:db8::/32'],
+        ],
+    ]);
+});
+
+test('the whitelist filter receives two empty lists when no trusted proxies are saved', function () {
     $received = null;
     add_filter('site-reviews/whip/whitelist', function ($whitelist) use (&$received) {
         $received = $whitelist;
@@ -87,7 +108,151 @@ test('the whitelist filter is applied on every lookup', function () {
 
     clientIpFor(['REMOTE_ADDR' => '203.0.113.9']);
 
-    expect($received)->toBeArray();
+    expect($received)->toBe([
+        Whip::CUSTOM_HEADERS => [
+            Whip::IPV4 => [],
+            Whip::IPV6 => [],
+        ],
+    ]);
+});
+
+test('the proxy header is not read when the request comes from an address that is not a trusted proxy', function () {
+    // The reported defect: the list was passed to Whip under the header's name, Whip looked it up
+    // by method, found nothing, and read the header from anyone. A visitor who reached the web
+    // server with the header set chose their own address.
+    $address = clientIpFor([
+        'HTTP_X_FORWARDED_FOR' => '1.2.3.4',
+        'REMOTE_ADDR' => '203.0.113.9',
+    ], [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => '10.0.0.1',
+    ]);
+
+    expect($address)->toBe('203.0.113.9');
+});
+
+test('the proxy header is not read when no trusted proxies are saved', function () {
+    $address = clientIpFor([
+        'HTTP_X_FORWARDED_FOR' => '1.2.3.4',
+        'REMOTE_ADDR' => '203.0.113.9',
+    ], [
+        'proxy_http_header' => 'x-forwarded-for',
+    ]);
+
+    expect($address)->toBe('203.0.113.9');
+});
+
+test('the proxy header is read when the request comes from inside a trusted range', function (string $peer, string $trusted) {
+    $address = clientIpFor([
+        'HTTP_X_FORWARDED_FOR' => '198.51.100.7',
+        'REMOTE_ADDR' => $peer,
+    ], [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => $trusted,
+    ]);
+
+    expect($address)->toBe('198.51.100.7');
+})->with([
+    'an IPv4 range' => ['10.2.3.4', '10.0.0.0/8'],
+    'an IPv6 address' => ['2001:db8::5', '2001:db8::5'],
+    'an IPv6 range' => ['2001:db8::5', "10.0.0.1\n2001:db8::/32"],
+    'every IPv4 address' => ['203.0.113.9', '0.0.0.0/0'],
+]);
+
+test('the address is unknown when a proxy is trusted and the request has no connecting address', function () {
+    // Whip passes the missing address to IpWhitelist::isIpWhitelisted(string), which throws a
+    // TypeError. `wp site-reviews ip-address` is such a request.
+    $address = clientIpFor(['REMOTE_ADDR' => null], [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => '10.0.0.1',
+    ]);
+
+    expect($address)->toBe('unknown');
+});
+
+test('the address is unknown when the connecting address is not an IP address', function () {
+    // nginx reports "unix:" for a connection it accepted on a unix socket.
+    $address = clientIpFor(['REMOTE_ADDR' => 'unix:'], [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => '2001:db8::/32',
+    ]);
+
+    expect($address)->toBe('unknown');
+});
+
+test('a header added through the whip action is not read when no trusted proxies are saved', function () {
+    // The FAQ's snippet. Whip keeps one list for all custom headers.
+    add_action('site-reviews/whip', fn ($whip) => $whip->addCustomHeader('HTTP_X_SUCURI_CLIENTIP'));
+
+    $address = clientIpFor([
+        'HTTP_X_SUCURI_CLIENTIP' => '198.51.100.7',
+        'REMOTE_ADDR' => '203.0.113.9',
+    ]);
+
+    expect($address)->toBe('203.0.113.9');
+});
+
+test('a header added through the whip action is read from a proxy the whitelist filter adds', function () {
+    add_action('site-reviews/whip', fn ($whip) => $whip->addCustomHeader('HTTP_X_SUCURI_CLIENTIP'));
+    add_filter('site-reviews/whip/whitelist', function ($whitelist) {
+        $whitelist[Whip::CUSTOM_HEADERS][Whip::IPV4][] = '203.0.113.0/24';
+        return $whitelist;
+    });
+
+    $address = clientIpFor([
+        'HTTP_X_SUCURI_CLIENTIP' => '198.51.100.7',
+        'REMOTE_ADDR' => '203.0.113.9',
+    ]);
+
+    expect($address)->toBe('198.51.100.7');
+});
+
+test('a header added through the whip action is read from a proxy saved in the tool', function () {
+    // The dropdown stays on None for a header it does not list. The saved list still applies.
+    add_action('site-reviews/whip', fn ($whip) => $whip->addCustomHeader('HTTP_X_SUCURI_CLIENTIP'));
+
+    $address = clientIpFor([
+        'HTTP_X_SUCURI_CLIENTIP' => '198.51.100.7',
+        'REMOTE_ADDR' => '203.0.113.9',
+    ], [
+        'trusted_proxies' => '203.0.113.0/24',
+    ]);
+
+    expect($address)->toBe('198.51.100.7');
+});
+
+test('ranges the whitelist filter returns are checked before Whip is given them', function () {
+    // A callback can return anything. An IPv4 mask above 32 throws inside Whip, and Whip reads
+    // an IPv6 range in the IPv4 list as an IPv4 range.
+    add_filter('site-reviews/whip/whitelist', fn () => [
+        Whip::CUSTOM_HEADERS => [
+            Whip::IPV4 => ['10.0.0.1/33', ['not-a-string'], ' 2001:db8::/32 '],
+            Whip::IPV6 => 'not-a-list',
+        ],
+    ]);
+
+    $address = clientIpFor([
+        'HTTP_X_FORWARDED_FOR' => '198.51.100.7',
+        'REMOTE_ADDR' => '2001:db8::5',
+    ], [
+        'proxy_http_header' => 'x-forwarded-for',
+    ]);
+
+    expect($address)->toBe('198.51.100.7');
+});
+
+test('a whitelist filter that returns no custom header list leaves no trusted proxies', function () {
+    add_filter('site-reviews/whip/whitelist', fn () => ['x-forwarded-for' => [Whip::IPV4 => ['203.0.113.9']]]);
+
+    $address = clientIpFor([
+        'HTTP_X_FORWARDED_FOR' => '198.51.100.7',
+        'REMOTE_ADDR' => '203.0.113.9',
+    ], [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => '203.0.113.9',
+    ]);
+
+    expect($address)->toBe('203.0.113.9');
 });
 
 test('a trusted proxies list is read one line at a time, whatever ends the lines', function () {
