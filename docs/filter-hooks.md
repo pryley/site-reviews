@@ -265,9 +265,7 @@ site-reviews/verification/enabled                           (bool $bool): bool
 site-reviews/views/data                                     (array $data, string $view, string $file): array
 site-reviews/views/data/<view_path>                         (array $data, string $file): array
 site-reviews/views/file                                     (string $filePath, string $view, array $data): string
-site-reviews/whip/methods                                   (int $bitwiseSeparatedConstants): int
 site-reviews/whip/whitelist                                 (array $whitelist): array
-site-reviews/whip/whitelist/cloudflare                      (bool $isUsingCloudflare): bool
 site-reviews/widget/args                                    (array $args, string $shortcodeName): array
 site-reviews/woocommerce/rest-api/prepare_product_review    (\WP_REST_Response $response, Review $review, \WP_REST_Request $request)
 site-reviews/wpbakery/controls                              (array $controls, Contracts\ShortcodeContract $shortcode): array

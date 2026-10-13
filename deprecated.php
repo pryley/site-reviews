@@ -32,6 +32,12 @@ add_action('plugins_loaded', function () {
             'site-reviews/review-form/fields/all'
         );
     }, 10, 2);
+    add_filter('site-reviews/whip/whitelist', function ($whitelist) {
+        $message = 'Use the Configure IP Address Detection tool to select the proxy HTTP header and enter its trusted proxies.';
+        apply_filters_deprecated('site-reviews/whip/methods', [GeminiLabs\Vectorface\Whip\Whip::ALL_METHODS], '7.0.6', '', $message);
+        apply_filters_deprecated('site-reviews/whip/whitelist/cloudflare', [false], '7.0.6', '', $message);
+        return $whitelist;
+    });
 });
 
 /*
