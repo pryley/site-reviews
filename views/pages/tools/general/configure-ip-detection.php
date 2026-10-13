@@ -17,11 +17,11 @@ $trustedProxies = implode("\n", $trustedProxies);
     </h3>
     <div id="tools-ip-detection" class="inside">
         <?php echo wp_get_admin_notice(
-            _x('A proxy HTTP header is only used when a request comes from one of your trusted proxies. Until you enter them, Site Reviews uses the IP address that connected to your web server.', 'admin-text', 'site-reviews'),
+            _x('A proxy HTTP header will only be used when a request comes from one of your trusted proxies.', 'admin-text', 'site-reviews'),
             ['type' => 'warning', 'additional_classes' => ['inline']]
         ); ?>
         <?php echo wp_get_admin_notice(
-            _x('If you are unsure which proxy HTTP header to use, contact the technical support staff of your hosting provider and read their documentation to determine the correct configuration for your website.', 'admin-text', 'site-reviews'),
+            _x('If you are unsure which proxy HTTP header to use, contact the technical support staff of your hosting provider or read their documentation to determine the correct configuration for your website.', 'admin-text', 'site-reviews'),
             ['type' => 'info', 'additional_classes' => ['inline']]
         ); ?>
         <p><?php echo _x('When a review is submitted on your website, Site Reviews detects the IP address of the person submitting it and saves it to the review. Site Reviews uses the IP address in the review limits and blacklist settings, and the Akismet and Captcha integrations to catch spam submissions.', 'admin-text', 'site-reviews'); ?></p>
@@ -30,12 +30,11 @@ $trustedProxies = implode("\n", $trustedProxies);
             <?php wp_nonce_field('ip-address-detection'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="ip-address-detection">
             <input type="hidden" name="{{ id }}[alt]" value="0" data-alt>
-            <div>
-                <p>
+            <fieldset>
+                <div>
                     <label for="proxy_http_header">
-                        <strong><?php echo _x('Proxy HTTP Header', 'admin-text', 'site-reviews'); ?></strong>
+                        <?php echo _x('Proxy HTTP Header', 'admin-text', 'site-reviews'); ?>
                     </label>
-                    <br />
                     <select id="proxy_http_header" name="{{ id }}[proxy_http_header]">
                         <option value=""<?php selected('', $proxyHeader); ?>'>None</option>
                         <option value="cf-connecting-ip"<?php selected('cf-connecting-ip', $proxyHeader); ?>'>CF-Connecting-IP</option>
@@ -48,33 +47,29 @@ $trustedProxies = implode("\n", $trustedProxies);
                         <option value="x-forwarded-for"<?php selected('x-forwarded-for', $proxyHeader); ?>'>X-Forwarded-For</option>
                         <option value="x-real-ip"<?php selected('x-real-ip', $proxyHeader); ?>'>X-Real-IP</option>
                     </select>
-                </p>
-                <p class="<?php echo empty($proxyHeader) ? 'hidden' : ''; ?>">
+                </div>
+                <div class="full-width<?php echo empty($proxyHeader) ? ' hidden' : ''; ?>">
                     <label for="trusted_proxies">
-                        <strong><?php echo _x('Trusted Proxies', 'admin-text', 'site-reviews'); ?></strong>
+                        <?php echo _x('Trusted Proxies', 'admin-text', 'site-reviews'); ?>
                     </label>
-                    <br />
-                    <textarea id="trusted_proxies" name="{{ id }}[trusted_proxies]" class="large-text code" rows="5"><?php echo $trustedProxies; ?></textarea>
-                    <br />
+                    <textarea id="trusted_proxies" name="{{ id }}[trusted_proxies]" class="code" rows="5"><?php echo $trustedProxies; ?></textarea>
                     <span class="description"><?php echo _x('Enter the IP addresses (or CIDR ranges) of your proxy servers, one per line. The proxy HTTP header is only used when a request comes from one of these addresses.', 'admin-text', 'site-reviews'); ?></span>
-                </p>
-            </div>
+                </div>
+            </fieldset>
             <div>
-                <p>
-                    <button type="submit" class="glsr-button button button-large button-primary"
-                        data-ajax-click
-                        data-ajax-scroll
-                        data-loading="<?php echo esc_attr_x('Saving, please wait...', 'admin-text', 'site-reviews'); ?>"
-                    ><?php echo _x('Save', 'admin-text', 'site-reviews'); ?>
-                    </button>
-                    <button type="submit" class="glsr-button button button-large"
-                        data-ajax-click
-                        data-ajax-scroll
-                        data-alt
-                        data-loading="<?php echo esc_attr_x('Testing, please wait...', 'admin-text', 'site-reviews'); ?>"
-                    ><?php echo _x('Test IP Address Detection', 'admin-text', 'site-reviews'); ?>
-                    </button>
-                </p>
+                <button type="submit" class="glsr-button button button-large button-primary"
+                    data-ajax-click
+                    data-ajax-scroll
+                    data-loading="<?php echo esc_attr_x('Saving, please wait...', 'admin-text', 'site-reviews'); ?>"
+                ><?php echo _x('Save', 'admin-text', 'site-reviews'); ?>
+                </button>
+                <button type="submit" class="glsr-button button button-large"
+                    data-ajax-click
+                    data-ajax-scroll
+                    data-alt
+                    data-loading="<?php echo esc_attr_x('Testing, please wait...', 'admin-text', 'site-reviews'); ?>"
+                ><?php echo _x('Test IP Address Detection', 'admin-text', 'site-reviews'); ?>
+                </button>
             </div>
         </form>
     </div>

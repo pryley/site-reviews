@@ -24,19 +24,21 @@
             <?php wp_nonce_field('geolocate-reviews', '{{ id }}[_nonce]'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="geolocate-reviews">
             <input type="hidden" name="{{ id }}[alt]" value="0" data-alt>
-            <button type="submit" class="glsr-button button button-large button-primary"
-                data-ajax-click
-                data-ajax-scroll
-                data-loading="<?php echo esc_attr_x('Queueing geolocation, please wait...', 'admin-text', 'site-reviews'); ?>"
-            ><?php echo _x('Geolocate Reviews', 'admin-text', 'site-reviews'); ?>
-            </button>
-            <button type="submit" class="glsr-button button button-large"
-                data-ajax-click
-                data-ajax-scroll
-                data-alt
-                data-loading="<?php echo esc_attr_x('Removing all geolocated data, please wait...', 'admin-text', 'site-reviews'); ?>"
-            ><?php echo _x('Remove', 'admin-text', 'site-reviews'); ?>
-            </button>
+            <div>
+                <button type="submit" class="glsr-button button button-large button-primary"
+                    data-ajax-click
+                    data-ajax-scroll
+                    data-loading="<?php echo esc_attr_x('Queueing geolocation, please wait...', 'admin-text', 'site-reviews'); ?>"
+                ><?php echo _x('Geolocate Reviews', 'admin-text', 'site-reviews'); ?>
+                </button>
+                <button type="submit" class="glsr-button button button-large"
+                    data-ajax-click
+                    data-ajax-scroll
+                    data-alt
+                    data-loading="<?php echo esc_attr_x('Removing all geolocated data, please wait...', 'admin-text', 'site-reviews'); ?>"
+                ><?php echo _x('Remove', 'admin-text', 'site-reviews'); ?>
+                </button>
+            </div>
         </form>
     </div>
 </div>

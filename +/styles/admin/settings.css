@@ -272,7 +272,6 @@ td.glsr-string-td1 .row-actions.visible {
   margin-top: 0;
   text-align: left;
 }
-
 .glsr-heading {
   color: #000;
   font-size: 14px;
@@ -291,16 +290,6 @@ td.glsr-string-td1 .row-actions.visible {
   border-bottom: 1px solid #ccd0d4;
 }
 
-.glsr-card form > div {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1em;
-  margin-top: 1em;
-}
-.glsr-card form > div > p {
-  margin: 0;
-}
 
 
 

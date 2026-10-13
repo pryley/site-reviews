@@ -43,21 +43,23 @@
             <?php wp_nonce_field('migrate-product-ratings'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="migrate-product-ratings">
             <input type="hidden" name="{{ id }}[alt]" value="0" data-alt>
-            <button type="submit" class="glsr-button button button-large button-primary"
-                data-ajax-click
-                data-ajax-scroll
-                data-loading="<?php echo esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"
-                data-remove-notice="migrate-product-ratings"
-            ><?php echo _x('Migrate Product Ratings', 'admin-text', 'site-reviews'); ?>
-            </button>
-            <button type="submit" class="glsr-button button button-large"
-                data-ajax-click
-                data-ajax-scroll
-                data-alt
-                data-loading="<?php echo esc_attr_x('Reverting, please wait...', 'admin-text', 'site-reviews'); ?>"
-                data-remove-notice="migrate-product-ratings"
-            ><?php echo _x('Revert', 'admin-text', 'site-reviews'); ?>
-            </button>
+            <div>
+                <button type="submit" class="glsr-button button button-large button-primary"
+                    data-ajax-click
+                    data-ajax-scroll
+                    data-loading="<?php echo esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"
+                    data-remove-notice="migrate-product-ratings"
+                ><?php echo _x('Migrate Product Ratings', 'admin-text', 'site-reviews'); ?>
+                </button>
+                <button type="submit" class="glsr-button button button-large"
+                    data-ajax-click
+                    data-ajax-scroll
+                    data-alt
+                    data-loading="<?php echo esc_attr_x('Reverting, please wait...', 'admin-text', 'site-reviews'); ?>"
+                    data-remove-notice="migrate-product-ratings"
+                ><?php echo _x('Revert', 'admin-text', 'site-reviews'); ?>
+                </button>
+            </div>
         </form>
 
     </div>

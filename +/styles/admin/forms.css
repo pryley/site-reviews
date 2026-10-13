@@ -1,11 +1,27 @@
-#tools-export-reviews fieldset {
+.glsr-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.glsr-card fieldset {
   display: grid;
   gap: 1em;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
-#tools-export-reviews fieldset label {
-  font-weight: 600;
+.glsr-card fieldset > .full-width {
+  grid-column: 1 / -1;
 }
-#tools-export-reviews fieldset :is(input, select) {
+.glsr-card fieldset textarea {
+  field-sizing: content;
+  margin: 0;
+  min-height: 5lh;
   width: 100%;
+}
+.glsr-card fieldset :is(input, select) {
+  line-height: 2.5;
+  margin: 0;
+  width: 100%;
+}
+.glsr-card fieldset label {
+  font-weight: 600;
 }

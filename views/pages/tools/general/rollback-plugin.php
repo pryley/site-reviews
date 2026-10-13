@@ -33,18 +33,24 @@
             <form id="rollback-plugin" method="get" action="<?php echo admin_url('update.php'); ?>">
                 <input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce('rollback-'.glsr()->id); ?>">
                 <input type="hidden" name="action" value="<?php echo 'rollback-'.glsr()->id; ?>">
-                <p>
-                    <label for="rollback_version"><strong><?php echo _x('Rollback Version To', 'admin-text', 'site-reviews'); ?></strong></label><br>
-                    <select name="version" id="rollback_version">
-                        <?php foreach ($rollback_versions as $version) : ?>
-                            <option value="<?php echo $version; ?>"><?php echo glsr()->name; ?> <?php echo $version; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </p>
-                <button type="submit" class="glsr-button button button-large button-primary"
-                    data-loading="<?php /* translators: %s: the selected plugin version */ echo esc_attr_x('Rolling back to %s, please wait...', 'admin-text', 'site-reviews'); ?>"
-                ><?php echo _x('Rollback Plugin', 'admin-text', 'site-reviews'); ?>
-                </button>
+                <fieldset>
+                    <div>
+                        <label for="rollback_version">
+                            <?php echo _x('Rollback Version To', 'admin-text', 'site-reviews'); ?>
+                        </label>
+                        <select id="rollback_version" name="version">
+                            <?php foreach ($rollback_versions as $version) : ?>
+                                <option value="<?php echo $version; ?>"><?php echo glsr()->name; ?> <?php echo $version; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </fieldset>
+                <div>
+                    <button type="submit" class="glsr-button button button-large button-primary"
+                        data-loading="<?php /* translators: %s: the selected plugin version */ echo esc_attr_x('Rolling back to %s, please wait...', 'admin-text', 'site-reviews'); ?>"
+                    ><?php echo _x('Rollback Plugin', 'admin-text', 'site-reviews'); ?>
+                    </button>
+                </div>
             </form>
         <?php endif; ?>
     </div>

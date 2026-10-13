@@ -27,16 +27,18 @@
             ['type' => 'info', 'additional_classes' => ['inline']]
         ); ?>
 
-        <h4><?php echo esc_html_x('Step 1: Download the CSV template file', 'admin-text', 'site-reviews'); ?></h4>
+        <h3><?php echo esc_html_x('Step 1: Download the CSV template file', 'admin-text', 'site-reviews'); ?></h3>
         <form method="post">
             <?php wp_nonce_field('download-csv-template'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="download-csv-template">
-            <button type="submit" class="glsr-button button button-large">
-                <?php echo esc_html_x('Download', 'admin-text', 'site-reviews'); ?>
-            </button>
+            <div>
+                <button type="submit" class="glsr-button button button-large">
+                    <?php echo esc_html_x('Download', 'admin-text', 'site-reviews'); ?>
+                </button>
+            </div>
         </form>
 
-        <h4><?php echo esc_html_x('Step 2: Enter reviews into the CSV file', 'admin-text', 'site-reviews'); ?></h4>
+        <h3><?php echo esc_html_x('Step 2: Enter reviews into the CSV file', 'admin-text', 'site-reviews'); ?></h3>
         <p><?php echo esc_html_x('Enter the reviews details into the template file and then save it. The CSV file should be encoded as UTF-8 and may contain the following columns:', 'admin-text', 'site-reviews'); ?></p>
         <table class="glsr-table wp-list-table widefat striped">
             <thead>
@@ -64,26 +66,33 @@
             </tbody>
         </table>
 
-        <h4><?php echo esc_html_x('Step 3: Upload the CSV file', 'admin-text', 'site-reviews'); ?></h4>
+        <h3><?php echo esc_html_x('Step 3: Upload the CSV file', 'admin-text', 'site-reviews'); ?></h3>
         <form method="post" class="wp-upload-form" enctype="multipart/form-data" onsubmit="submit.classList.add('is-busy'); submit.disabled = true;">
             <?php wp_nonce_field('import-reviews', '{{ id }}[_nonce]'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="import-reviews">
-            <p>
-                <input type="file" name="import-files" accept="text/csv">
-            </p>
-            <div>
-                <p>
-                    <label for="csv_delimiter"><strong><?php echo esc_html_x('Delimiter', 'admin-text', 'site-reviews'); ?></strong></label><br>
-                    <select name="{{ id }}[delimiter]" id="csv_delimiter">
+            <fieldset>
+                <div class="full-width">
+                    <label for="csv_import_file">
+                        <?php echo esc_html_x('Import File', 'admin-text', 'site-reviews'); ?>
+                    </label>
+                    <input type="file" id="csv_import_file" name="import-files" accept="text/csv">
+                </div>
+                <div>
+                    <label for="csv_delimiter">
+                        <?php echo esc_html_x('Delimiter', 'admin-text', 'site-reviews'); ?>
+                    </label>
+                    <select id="csv_delimiter" name="{{ id }}[delimiter]">
                         <option value=""><?php echo _x('Detect automatically', 'admin-text', 'site-reviews'); ?></option>
                         <option value=","><?php echo _x('Comma (,)', 'admin-text', 'site-reviews'); ?></option>
                         <option value=";"><?php echo _x('Semicolon (;)', 'admin-text', 'site-reviews'); ?></option>
                     </select>
-                </p>
-                <p>
-                    <label for="csv_date_format"><strong><?php echo esc_html_x('Date Format', 'admin-text', 'site-reviews'); ?></strong></label><br>
-                    <select name="{{ id }}[date_format]" id="csv_date_format" required>
-                        <option value=""><?php echo _x('Select the date format used in the reviews', 'admin-text', 'site-reviews'); ?></option>
+                </div>
+                <div>
+                    <label for="csv_date_format">
+                        <?php echo esc_html_x('Date Format', 'admin-text', 'site-reviews'); ?>
+                    </label>
+                    <select id="csv_date_format" name="{{ id }}[date_format]" required>
+                        <option value=""><?php echo _x('Select the date format', 'admin-text', 'site-reviews'); ?></option>
                         <optgroup label="<?php echo sprintf('%s %s %s', _x('Year', 'admin-text', 'site-reviews'), _x('Month', 'admin-text', 'site-reviews'), _x('Day', 'admin-text', 'site-reviews')); ?>">
                             <option value="Y-m-d">2021-01-13</option>
                             <option value="Y-m-d H:i">2021-01-13 12:00</option>
@@ -109,8 +118,8 @@
                             <option value="d/m/Y H:i:s">13/01/2021 12:00:00</option>
                         </optgroup>
                     </select>
-                </p>
-            </div>
+                </div>
+            </fieldset>
             <div>
                 <button type="submit" class="glsr-button button button-large button-primary"
                     data-ajax-import

@@ -16,14 +16,21 @@
         <form method="post" class="wp-upload-form" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
             <?php wp_nonce_field('import-settings'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="import-settings">
-            <p>
-                <input type="file" name="import-files" accept="application/json">
-            </p>
-            <button type="submit" class="glsr-button button button-large button-primary"
-                data-expand="#tools-import-plugin-settings"
-                data-loading="<?php echo esc_attr_x('Importing settings, please wait...', 'admin-text', 'site-reviews'); ?>"
-            ><?php echo _x('Import Settings', 'admin-text', 'site-reviews'); ?>
-            </button>
+            <fieldset>
+                <div>
+                    <label for="settings_import_file">
+                        <?php echo esc_html_x('Import File', 'admin-text', 'site-reviews'); ?>
+                    </label>
+                    <input type="file" id="settings_import_file" name="import-files" accept="application/json">
+                </div>
+            </fieldset>
+            <div>
+                <button type="submit" class="glsr-button button button-large button-primary"
+                    data-expand="#tools-import-plugin-settings"
+                    data-loading="<?php echo esc_attr_x('Importing settings, please wait...', 'admin-text', 'site-reviews'); ?>"
+                ><?php echo _x('Import Settings', 'admin-text', 'site-reviews'); ?>
+                </button>
+            </div>
         </form>
     </div>
 </div>

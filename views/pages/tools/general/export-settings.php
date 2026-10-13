@@ -16,9 +16,11 @@
         <form method="post">
             <?php wp_nonce_field('export-settings'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="export-settings">
-            <button type="submit" class="glsr-button button button-large button-primary">
-                <?php echo _x('Export Settings', 'admin-text', 'site-reviews'); ?>
-            </button>
+            <div>
+                <button type="submit" class="glsr-button button button-large button-primary">
+                    <?php echo _x('Export Settings', 'admin-text', 'site-reviews'); ?>
+                </button>
+            </div>
         </form>
     </div>
 </div>
