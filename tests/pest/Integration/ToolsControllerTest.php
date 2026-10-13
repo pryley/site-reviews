@@ -155,6 +155,32 @@ test('the ip proxy header is saved through the admin route', function () {
         ->toHaveKey('proxy_http_header');
 });
 
+test('every line of a multi-line trusted proxies list is saved', function () {
+    // The Tools page posts the form through jQuery's serializeArray(), which sends the lines of a
+    // textarea separated by CRLF.
+    glsr(ToolsController::class)->ipAddressDetection(new Request([
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => "10.0.0.1\r\n10.0.0.2\r\n10.0.0.0/8\r\n2001:db8::1\r\n10.0.0.3",
+    ]));
+
+    expect(get_option(glsr()->prefix.'ip_proxy'))->toBe([
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => "10.0.0.1\n10.0.0.2\n10.0.0.0/8\n2001:db8::1\n10.0.0.3",
+    ]);
+});
+
+test('the ip detection tool shows a saved trusted proxies list one range to a line', function () {
+    // A list saved by 8.3.4 or earlier can hold a carriage return after a CIDR range.
+    update_option(glsr()->prefix.'ip_proxy', [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => "10.0.0.0/8\r\n10.0.0.3",
+    ]);
+
+    $html = glsr()->build('pages/tools/general/configure-ip-detection');
+
+    expect($html)->toContain(">10.0.0.0/8\n10.0.0.3</textarea>");
+});
+
 test('the alt flag detects the ip address instead of configuring the proxy', function () {
     // "alt" switches the same route from saving a header to detecting the address from $_SERVER.
     // Whichever way it goes — a detected address, or the "unable to detect" warning if Whip rejects

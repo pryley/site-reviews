@@ -89,3 +89,29 @@ test('the whitelist filter is applied on every lookup', function () {
 
     expect($received)->toBeArray();
 });
+
+test('a trusted proxies list is read one line at a time, whatever ends the lines', function () {
+    // A browser posts a textarea with CRLF line endings; a list typed into the database or passed
+    // to the filter may use LF, or a lone CR.
+    $clientIp = glsr(ClientIp::class);
+
+    expect($clientIp->ranges("10.0.0.1\r\n10.0.0.2\r\n10.0.0.0/8\r\n2001:db8::1\r\n10.0.0.3"))
+        ->toBe(['10.0.0.1', '10.0.0.2', '10.0.0.0/8', '2001:db8::1', '10.0.0.3'])
+        ->and($clientIp->ranges("10.0.0.1\n10.0.0.0/8\r2001:db8::/32"))
+        ->toBe(['10.0.0.1', '10.0.0.0/8', '2001:db8::/32']);
+});
+
+test('a trusted proxies list drops blank lines, padding, and lines that are not an address', function () {
+    $ranges = glsr(ClientIp::class)->ranges(" 10.0.0.1 \n\nnot-an-address\n10.0.0.0/8\n");
+
+    expect($ranges)->toBe(['10.0.0.1', '10.0.0.0/8']);
+});
+
+test('a trusted proxies list saved with a stray carriage return is read without it', function () {
+    // Up to 8.3.4 the tool split the posted list on LF only, so every line but the last kept its
+    // CR. A plain address with a CR failed validation and was dropped; a CIDR range passed,
+    // because only the part before the slash was validated, and was saved with the CR attached.
+    $ranges = glsr(ClientIp::class)->ranges("10.0.0.0/8\r\n10.0.0.3");
+
+    expect($ranges)->toBe(['10.0.0.0/8', '10.0.0.3']);
+});

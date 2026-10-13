@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
+use GeminiLabs\SiteReviews\Modules\ClientIp;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
 
@@ -18,11 +19,7 @@ class ConfigureIpAddressProxy extends AbstractCommand
 
     public function handle(): void
     {
-        $trustedProxies = explode("\n", $this->trustedProxies);
-        $trustedProxies = array_filter($trustedProxies, function ($range) {
-            [$ip] = explode('/', $range);
-            return !empty(filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4 | \FILTER_FLAG_IPV6));
-        });
+        $trustedProxies = glsr(ClientIp::class)->ranges($this->trustedProxies);
         update_option(glsr()->prefix.'ip_proxy', [
             'proxy_http_header' => $this->proxyHeader,
             'trusted_proxies' => implode("\n", $trustedProxies),

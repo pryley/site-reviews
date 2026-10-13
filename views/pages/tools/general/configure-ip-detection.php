@@ -3,11 +3,7 @@
 $setting = glsr()->args(get_option(glsr()->prefix.'ip_proxy'));
 $proxyHeader = $setting->sanitize('proxy_http_header', 'id');
 $trustedProxies = $setting->sanitize('trusted_proxies', 'text-multiline');
-$trustedProxies = explode("\n", $trustedProxies);
-$trustedProxies = array_filter($trustedProxies, function ($range) {
-    [$ip] = explode('/', $range);
-    return !empty(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6));
-});
+$trustedProxies = glsr(\GeminiLabs\SiteReviews\Modules\ClientIp::class)->ranges($trustedProxies);
 $trustedProxies = implode("\n", $trustedProxies);
 
 ?>

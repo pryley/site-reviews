@@ -26,6 +26,21 @@ class ClientIp
         return 'unknown';
     }
 
+    /**
+     * @return string[] the valid lines of a Trusted Proxies list
+     */
+    public function ranges(string $text): array
+    {
+        $lines = array_map('trim', (array) preg_split('/\R/', $text));
+        return array_values(array_filter($lines, [$this, 'isRange']));
+    }
+
+    protected function isRange(string $range): bool
+    {
+        [$ip] = explode('/', $range);
+        return false !== filter_var($ip, \FILTER_VALIDATE_IP);
+    }
+
     protected function proxyHeader(): string
     {
         return $this->setting()->sanitize('proxy_http_header', 'id');
@@ -41,16 +56,13 @@ class ClientIp
         if (empty($proxyHeader)) {
             return [];
         }
-        $trustedProxies = $this->setting()->sanitize('trusted_proxies', 'text-multiline');
-        $trustedProxies = explode("\n", $trustedProxies);
-        $ipv4 = array_filter($trustedProxies, function ($range) {
+        $ranges = $this->ranges($this->setting()->sanitize('trusted_proxies', 'text-multiline'));
+        $isIpv4 = function (string $range): bool {
             [$ip] = explode('/', $range);
-            return !empty(filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4));
-        });
-        $ipv6 = array_filter($trustedProxies, function ($range) {
-            [$ip] = explode('/', $range);
-            return !empty(filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6));
-        });
+            return false !== filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4);
+        };
+        $ipv4 = array_values(array_filter($ranges, $isIpv4));
+        $ipv6 = array_values(array_diff($ranges, $ipv4));
         return [
             $proxyHeader => [
                 Whip::IPV4 => $ipv4,
