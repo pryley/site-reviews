@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Modules\ClientIp;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 class DetectIpAddress extends AbstractCommand
@@ -25,6 +26,9 @@ class DetectIpAddress extends AbstractCommand
             "<code>{$ipAddress}</code>",
             $link
         ));
+        foreach ($this->warnings() as $warning) {
+            glsr(Notice::class)->addWarning($warning);
+        }
     }
 
     public function response(): array
@@ -32,5 +36,44 @@ class DetectIpAddress extends AbstractCommand
         return [
             'notices' => glsr(Notice::class)->get(),
         ];
+    }
+
+    /**
+     * @return string[] the reasons that the selected proxy header was not used
+     */
+    protected function warnings(): array
+    {
+        $clientIp = glsr(ClientIp::class);
+        $header = $clientIp->proxyHeader();
+        if (empty($header)) {
+            return [];
+        }
+        $header = sprintf('<code>%s</code>', esc_html($clientIp->headers()[$header] ?? $header));
+        $peer = sprintf('<code>%s</code>', esc_html($clientIp->peer()));
+        $warnings = [];
+        if (!$clientIp->isProxyHeaderSent()) {
+            $warnings[] = sprintf(
+                /* translators: %1$s: the name of the HTTP header, %2$s: IP address */
+                _x('The %1$s header was not sent with this request which came from %2$s.', 'admin-text', 'site-reviews'),
+                $header,
+                $peer
+            );
+        }
+        if (!$clientIp->hasTrustedProxies()) {
+            $warnings[] = sprintf(
+                /* translators: %1$s: the name of the HTTP header, %2$s: IP address */
+                _x('The %1$s header is ignored because Trusted Proxies is empty. This request came from %2$s.', 'admin-text', 'site-reviews'),
+                $header,
+                $peer
+            );
+        } elseif (!$clientIp->isTrustedProxy($clientIp->peer())) {
+            $warnings[] = sprintf(
+                /* translators: %1$s: the name of the HTTP header, %2$s: IP address */
+                _x('The %1$s header is ignored because this request came from %2$s which is not in Trusted Proxies.', 'admin-text', 'site-reviews'),
+                $header,
+                $peer
+            );
+        }
+        return $warnings;
     }
 }

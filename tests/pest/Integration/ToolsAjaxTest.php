@@ -118,12 +118,12 @@ test('the ip address proxy can be configured, and detected', function () {
     // Two tools behind one route: "alt" asks the plugin to work the header out for
     // itself rather than being told.
     $configured = $this->jsonSentBy(fn () => glsr(ToolsController::class)->ipAddressDetectionAjax(
-        new Request(['proxy_http_header' => 'HTTP_X_FORWARDED_FOR', 'trusted_proxies' => '10.0.0.1'])
+        new Request(['proxy_http_header' => 'x-forwarded-for', 'trusted_proxies' => '10.0.0.1'])
     ));
     expect($configured['success'])->toBeTrue();
     expect($configured['data']['notices'])->toContain('The proxy HTTP header has been saved.');
     expect(get_option(glsr()->prefix.'ip_proxy'))->toBe([
-        'proxy_http_header' => 'http_x_forwarded_for', // sanitize_key() lowercases it
+        'proxy_http_header' => 'x-forwarded-for',
         'trusted_proxies' => '10.0.0.1',
         'version' => glsr()->version,
     ]);

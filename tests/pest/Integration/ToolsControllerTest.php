@@ -147,12 +147,10 @@ test('changing the console level through the admin route updates the option', fu
 
 test('the ip proxy header is saved through the admin route', function () {
     glsr(ToolsController::class)->ipAddressDetection(
-        new Request(['proxy_http_header' => 'HTTP_X_FORWARDED_FOR', 'trusted_proxies' => '10.0.0.1'])
+        new Request(['proxy_http_header' => 'x-forwarded-for', 'trusted_proxies' => '10.0.0.1'])
     );
 
-    expect(get_option(glsr()->prefix.'ip_proxy'))
-        ->toBeArray()
-        ->toHaveKey('proxy_http_header');
+    expect(get_option(glsr()->prefix.'ip_proxy')['proxy_http_header'])->toBe('x-forwarded-for');
 });
 
 test('every line of a multi-line trusted proxies list is saved', function () {
@@ -306,6 +304,121 @@ test('ip detection warns plainly when no address can be worked out', function ()
             $_SERVER['REMOTE_ADDR'] = $original;
         }
     }
+});
+
+/*
+ * Why the test ignored the proxy header.
+ *
+ * The test request reaches the server the way a visitor does, so the address it came from is the
+ * address the admin has to enter in Trusted Proxies. Each warning names it.
+ */
+
+/**
+ * The notices of the Test IP Address Detection button. $server is merged over $_SERVER for the
+ * call (a null value removes the key); $setting is the saved tool.
+ */
+function ipDetectionNotices(array $server, array $setting): string
+{
+    update_option(glsr()->prefix.'ip_proxy', wp_parse_args($setting, [
+        'proxy_http_header' => '',
+        'trusted_proxies' => '',
+    ]));
+    $original = $_SERVER;
+    $_SERVER = array_filter(array_merge($_SERVER, $server), fn ($value) => !is_null($value));
+    glsr(Notice::class)->clear();
+    try {
+        (new DetectIpAddress())->handle();
+        return glsr(Notice::class)->get();
+    } finally {
+        $_SERVER = $original;
+    }
+}
+
+test('the ip detection test says nothing more when the proxy header was used', function () {
+    $notices = ipDetectionNotices([
+        'HTTP_X_FORWARDED_FOR' => '203.0.113.5',
+        'REMOTE_ADDR' => '10.0.0.1',
+    ], [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => '10.0.0.1',
+    ]);
+
+    expect($notices)
+        ->toContain('Your detected IP address is <code>203.0.113.5</code>')
+        ->not->toContain('X-Forwarded-For');
+});
+
+test('the ip detection test says nothing more when no proxy header is selected', function () {
+    $notices = ipDetectionNotices(['REMOTE_ADDR' => '203.0.113.9'], []);
+
+    expect($notices)
+        ->toContain('Your detected IP address is <code>203.0.113.9</code>')
+        ->not->toContain('header');
+});
+
+test('the ip detection test says the header is ignored while no trusted proxies are entered', function () {
+    $notices = ipDetectionNotices([
+        'HTTP_X_FORWARDED_FOR' => '203.0.113.5',
+        'REMOTE_ADDR' => '10.0.0.1',
+    ], [
+        'proxy_http_header' => 'x-forwarded-for',
+    ]);
+
+    expect($notices)
+        ->toContain('Your detected IP address is <code>10.0.0.1</code>')
+        ->toContain('The <code>X-Forwarded-For</code> header is ignored because Trusted Proxies is empty. This request came from <code>10.0.0.1</code>.');
+});
+
+test('the ip detection test says the header is ignored when the request did not come from a trusted proxy', function () {
+    $notices = ipDetectionNotices([
+        'HTTP_X_FORWARDED_FOR' => '203.0.113.5',
+        'REMOTE_ADDR' => '10.0.0.1',
+    ], [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => '10.0.0.2',
+    ]);
+
+    expect($notices)
+        ->toContain('Your detected IP address is <code>10.0.0.1</code>')
+        ->toContain('The <code>X-Forwarded-For</code> header is ignored because this request came from <code>10.0.0.1</code> which is not in Trusted Proxies.')
+        ->not->toContain('was not sent');
+});
+
+test('the ip detection test says when the selected header was not sent', function () {
+    $notices = ipDetectionNotices([
+        'HTTP_X_FORWARDED_FOR' => null,
+        'REMOTE_ADDR' => '10.0.0.1',
+    ], [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => '10.0.0.1',
+    ]);
+
+    expect($notices)
+        ->toContain('Your detected IP address is <code>10.0.0.1</code>')
+        ->toContain('The <code>X-Forwarded-For</code> header was not sent with this request which came from <code>10.0.0.1</code>.')
+        ->not->toContain('is ignored');
+});
+
+test('the ip detection test gives both reasons when both apply', function () {
+    $notices = ipDetectionNotices([
+        'HTTP_X_FORWARDED_FOR' => null,
+        'REMOTE_ADDR' => '10.0.0.1',
+    ], [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => '10.0.0.2',
+    ]);
+
+    expect($notices)
+        ->toContain('header was not sent with this request')
+        ->toContain('which is not in Trusted Proxies');
+});
+
+test('the ip detection test names a custom header as it was saved', function () {
+    $notices = ipDetectionNotices(['REMOTE_ADDR' => '10.0.0.1'], [
+        'proxy_http_header' => 'x-sucuri-clientip',
+    ]);
+
+    expect($notices)->toContain('The <code>x-sucuri-clientip</code> header was not sent');
 });
 
 test('migrating the plugin through the admin route re-runs the migrations', function () {

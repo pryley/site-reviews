@@ -70,6 +70,23 @@ class ClientIp
     }
 
     /**
+     * Checks that the request has the selected proxy header.
+     */
+    public function isProxyHeaderSent(): bool
+    {
+        $value = $_SERVER[$this->serverKey()] ?? '';
+        return is_string($value) && '' !== trim($value);
+    }
+
+    public function isTrustedProxy(string $address): bool
+    {
+        if (false === filter_var($address, \FILTER_VALIDATE_IP)) {
+            return false;
+        }
+        return (new IpWhitelist($this->trustedProxies()))->isIpWhitelisted($address);
+    }
+
+    /**
      * @return string[] the lines of a Trusted Proxies list that are not blank
      */
     public function lines(string $text): array
@@ -85,6 +102,15 @@ class ClientIp
     {
         $header = Str::removePrefix(strtolower(trim($header)), 'http_');
         return glsr(Sanitizer::class)->sanitizeId(str_replace('_', '-', $header));
+    }
+
+    /**
+     * Returns the IP address that connected to the web server, or an empty string.
+     */
+    public function peer(): string
+    {
+        $address = $_SERVER['REMOTE_ADDR'] ?? '';
+        return false !== filter_var($address, \FILTER_VALIDATE_IP) ? $address : '';
     }
 
     public function proxyHeader(): string
@@ -140,7 +166,7 @@ class ClientIp
      */
     protected function hasPeer(): bool
     {
-        return false !== filter_var($_SERVER['REMOTE_ADDR'] ?? '', \FILTER_VALIDATE_IP);
+        return '' !== $this->peer();
     }
 
     /**
@@ -173,7 +199,7 @@ class ClientIp
     protected function server(array $trustedProxies): array
     {
         $server = $_SERVER;
-        $key = 'HTTP_'.strtoupper(str_replace('-', '_', $this->proxyHeader()));
+        $key = $this->serverKey();
         if (!is_string($server[$key] ?? null) || !$this->hasPeer()) {
             return $server;
         }
@@ -182,6 +208,14 @@ class ClientIp
             $server[$key] = $this->visitorAddress($server[$key], $proxies);
         }
         return $server;
+    }
+
+    /**
+     * Returns the $_SERVER key of the selected proxy header: "x-real-ip" is "HTTP_X_REAL_IP".
+     */
+    protected function serverKey(): string
+    {
+        return 'HTTP_'.strtoupper(str_replace('-', '_', $this->proxyHeader()));
     }
 
     protected function setting(): Arguments
