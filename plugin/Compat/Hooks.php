@@ -28,6 +28,7 @@ class Hooks extends AbstractHooks
         if (glsr()->filterBool('support/deprecated/v7', true)) {
             $this->hook(HookController::class, [
                 ['filterReviewFormFieldsNormalized', 'site-reviews/review-form/fields/all', 10, 2],
+                ['filterWhipWhitelist', 'site-reviews/whip/whitelist'],
             ]);
         }
         if (glsr()->filterBool('support/deprecated/v6', true)) {
