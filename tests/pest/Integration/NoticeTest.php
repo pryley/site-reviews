@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Commands\ConfigureIpAddressProxy;
 use GeminiLabs\SiteReviews\Controllers\NoticeController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Gatekeeper;
@@ -10,6 +11,7 @@ use GeminiLabs\SiteReviews\Notices\LicenseExpiredNotice;
 use GeminiLabs\SiteReviews\Notices\LicenseMissingNotice;
 use GeminiLabs\SiteReviews\Notices\LicensePromotedNotice;
 use GeminiLabs\SiteReviews\Notices\MigrationNotice;
+use GeminiLabs\SiteReviews\Notices\ProxyListNotice;
 use GeminiLabs\SiteReviews\Notices\ProxyNotice;
 use GeminiLabs\SiteReviews\Notices\RetiredFreeNotice;
 use GeminiLabs\SiteReviews\Notices\RetiredPremiumNotice;
@@ -993,4 +995,63 @@ test('the proxy notice is shown to somebody who can open the tool it links to', 
 
     wp_set_current_user(createUser(['role' => 'editor']));
     expect(noticeLoaded(new ProxyNotice()))->toBeTrue();
+});
+
+/*
+ * The trusted proxies list that an earlier version saved.
+ *
+ * The tool of 8.3.4 and earlier dropped every plain address of a multi-line list but the last, so
+ * a list from then can be shorter than the admin entered. The list had no effect then. It does
+ * now, and a proxy that is missing from it has its header ignored. A list the tool saves now
+ * carries the version that saved it; savedIpProxy() writes none, as the earlier tool did.
+ */
+
+test('a site with a trusted proxies list from an earlier version is asked to check it', function () {
+    savedIpProxy('x-forwarded-for', '10.0.0.3');
+
+    $notice = new ProxyListNotice();
+
+    expect(noticeLoaded($notice))->toBeTrue();
+    expect(renderedNotice($notice))
+        ->toContain('notice-warning')
+        ->toContain('did not save every line of the Trusted Proxies list')
+        ->toContain('data-expand="#tools-ip-detection"')
+        ->not->toContain('is-dismissible');
+});
+
+test('saving the tool again answers the request to check the list', function () {
+    savedIpProxy('x-forwarded-for', '10.0.0.3');
+
+    (new ConfigureIpAddressProxy(new Request([
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => "10.0.0.1\r\n10.0.0.3",
+    ])))->handle();
+
+    expect(noticeLoaded(new ProxyListNotice()))->toBeFalse();
+});
+
+test('a list that is not in use is not asked about', function () {
+    // No header selected: nothing reads the list.
+    savedIpProxy('', '10.0.0.3');
+
+    expect(noticeLoaded(new ProxyListNotice()))->toBeFalse();
+});
+
+test('a list with nothing usable in it is left to the proxy notice', function () {
+    savedIpProxy('x-forwarded-for');
+    expect(noticeLoaded(new ProxyListNotice()))->toBeFalse();
+
+    savedIpProxy('x-forwarded-for', '10.0.0.1/33');
+    expect(noticeLoaded(new ProxyListNotice()))->toBeFalse()
+        ->and(noticeLoaded(new ProxyNotice()))->toBeTrue();
+});
+
+test('the request to check the list is shown to somebody who can open the tool', function () {
+    savedIpProxy('x-forwarded-for', '10.0.0.3');
+
+    wp_set_current_user(createUser(['role' => 'author']));
+    expect(noticeLoaded(new ProxyListNotice()))->toBeFalse();
+
+    wp_set_current_user(createUser(['role' => 'editor']));
+    expect(noticeLoaded(new ProxyListNotice()))->toBeTrue();
 });

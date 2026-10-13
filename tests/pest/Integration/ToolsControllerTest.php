@@ -166,6 +166,7 @@ test('every line of a multi-line trusted proxies list is saved', function () {
     expect(get_option(glsr()->prefix.'ip_proxy'))->toBe([
         'proxy_http_header' => 'x-forwarded-for',
         'trusted_proxies' => "10.0.0.1\n10.0.0.2\n10.0.0.0/8\n2001:db8::1\n10.0.0.3",
+        'version' => glsr()->version,
     ]);
 });
 
@@ -212,6 +213,7 @@ test('the custom option saves the header name that was entered', function () {
     expect(get_option(glsr()->prefix.'ip_proxy'))->toBe([
         'proxy_http_header' => 'x-sucuri-clientip',
         'trusted_proxies' => '10.0.0.1',
+        'version' => glsr()->version,
     ]);
 });
 

@@ -29,6 +29,7 @@ class ConfigureIpAddressProxy extends AbstractCommand
         update_option(glsr()->prefix.'ip_proxy', [
             'proxy_http_header' => $this->proxyHeader,
             'trusted_proxies' => implode("\n", $trustedProxies),
+            'version' => glsr()->version,
         ]);
         glsr(Notice::class)->clear()->addSuccess(
             _x('The proxy HTTP header has been saved.', 'admin-text', 'site-reviews')

@@ -37,6 +37,19 @@ class ClientIp
     }
 
     /**
+     * Version 8.3.4 and earlier can lose lines of the list when the tool saves it.
+     * A later version saves its version number with the list.
+     */
+    public function hasUnverifiedProxies(): bool
+    {
+        $setting = $this->setting();
+        if (empty($this->lines($setting->sanitize('trusted_proxies', 'text-multiline')))) {
+            return false;
+        }
+        return empty($setting->sanitize('version', 'version'));
+    }
+
+    /**
      * @return array<string, string> the proxy headers the tool lists, as name => label
      */
     public function headers(): array

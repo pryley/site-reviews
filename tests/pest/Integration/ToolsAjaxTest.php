@@ -125,6 +125,7 @@ test('the ip address proxy can be configured, and detected', function () {
     expect(get_option(glsr()->prefix.'ip_proxy'))->toBe([
         'proxy_http_header' => 'http_x_forwarded_for', // sanitize_key() lowercases it
         'trusted_proxies' => '10.0.0.1',
+        'version' => glsr()->version,
     ]);
 
     $detected = $this->jsonSentBy(fn () => glsr(ToolsController::class)->ipAddressDetectionAjax(
