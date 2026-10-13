@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\Vectorface\Whip\IpRange\IpWhitelist;
 use GeminiLabs\Vectorface\Whip\Whip;
 
 /**
@@ -14,9 +15,10 @@ class ClientIp
 {
     public function address(): string
     {
+        $trustedProxies = $this->trustedProxies();
         $whip = new Whip(Whip::REMOTE_ADDR | Whip::CUSTOM_HEADERS, [
-            Whip::CUSTOM_HEADERS => $this->trustedProxies(),
-        ]);
+            Whip::CUSTOM_HEADERS => $trustedProxies,
+        ], $this->server($trustedProxies));
         $proxyHeader = $this->proxyHeader();
         if (!empty($proxyHeader)) {
             $whip->addCustomHeader($proxyHeader);
@@ -37,7 +39,7 @@ class ClientIp
     }
 
     /**
-     * Version 8.3.4 and earlier can lose lines of the list when the tool saves it.
+     * Checks if the Trusted Proxies list was saved by version 8.3.4 or earlier.
      * A later version saves its version number with the list.
      */
     public function hasUnverifiedProxies(): bool
@@ -77,7 +79,7 @@ class ClientIp
     }
 
     /**
-     * The name in the form the tool saves it: "HTTP_X_REAL_IP" is "x-real-ip".
+     * E.g. "HTTP_X_REAL_IP" is "x-real-ip".
      */
     public function normalizeHeader(string $header): string
     {
@@ -98,6 +100,24 @@ class ClientIp
         return array_values(array_filter($this->lines($text), [$this, 'isRange']));
     }
 
+    protected function entryAddress(string $entry): string
+    {
+        $entry = trim($entry);
+        // The "for" parameter of a Forwarded entry, with or without quotes: for="203.0.113.5"
+        if (1 === preg_match('/(?:^|;)\s*for\s*=\s*"?([^";]*)/i', $entry, $matches)) {
+            $entry = trim($matches[1]);
+        }
+        // An address in brackets, with or without a port: [2001:db8::7]:4711
+        if (1 === preg_match('/^\[([^\]]*)\](?::\d+)?$/', $entry, $matches)) {
+            return $matches[1];
+        }
+        // An IPv4 address with a port: 203.0.113.5:4711
+        if (1 === preg_match('/^(\d{1,3}(?:\.\d{1,3}){3}):\d+$/', $entry, $matches)) {
+            return $matches[1];
+        }
+        return $entry;
+    }
+
     /**
      * @param string[] $ranges
      *
@@ -116,8 +136,7 @@ class ClientIp
     }
 
     /**
-     * The peer is the address that connected to the web server. A command line
-     * request has none.
+     * Checks that an IP address connected to the web server (WP-CLI will return false).
      */
     protected function hasPeer(): bool
     {
@@ -125,8 +144,8 @@ class ClientIp
     }
 
     /**
-     * Whip casts the mask to an integer and does not check it. A mask that is
-     * not a number matches every address. An IPv4 mask above 32 throws.
+     * Checks that a range is an IP address or CIDR range with a valid mask.
+     * Whip does not validate the mask.
      */
     protected function isRange(string $range): bool
     {
@@ -144,14 +163,34 @@ class ClientIp
         return ctype_digit($mask) && (int) $mask <= $bits;
     }
 
+    /**
+     * Returns a copy of $_SERVER with the proxy header changed to hold only the address
+     * of the visitor. Whip uses the first address in a proxy header which is not always
+     * the visitor.
+     *
+     * @param array{ipv4: string[], ipv6: string[]} $trustedProxies
+     */
+    protected function server(array $trustedProxies): array
+    {
+        $server = $_SERVER;
+        $key = 'HTTP_'.strtoupper(str_replace('-', '_', $this->proxyHeader()));
+        if (!is_string($server[$key] ?? null) || !$this->hasPeer()) {
+            return $server;
+        }
+        $proxies = new IpWhitelist($trustedProxies);
+        if ($proxies->isIpWhitelisted($server['REMOTE_ADDR'])) {
+            $server[$key] = $this->visitorAddress($server[$key], $proxies);
+        }
+        return $server;
+    }
+
     protected function setting(): Arguments
     {
         return glsr()->args(get_option(glsr()->prefix.'ip_proxy'));
     }
 
     /**
-     * The proxy servers that can send a proxy header.
-     * Whip ignores every proxy header when both lists are empty.
+     * Returns the proxy servers that a HTTP header can be read from.
      *
      * @return array{ipv4: string[], ipv6: string[]}
      */
@@ -168,5 +207,20 @@ class ClientIp
         );
         $ranges = array_map('trim', array_filter($ranges, 'is_string'));
         return $this->groupRanges(array_filter($ranges, [$this, 'isRange']));
+    }
+
+    /**
+     * Returns the visitor address from the header.
+     */
+    protected function visitorAddress(string $header, IpWhitelist $proxies): string
+    {
+        $entries = array_map([$this, 'entryAddress'], explode(',', $header));
+        $entries = array_values(array_filter($entries, 'strlen'));
+        foreach (array_reverse($entries) as $entry) {
+            if (false === filter_var($entry, \FILTER_VALIDATE_IP) || !$proxies->isIpWhitelisted($entry)) {
+                return $entry;
+            }
+        }
+        return $entries[0] ?? '';
     }
 }

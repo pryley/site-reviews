@@ -159,6 +159,124 @@ test('the proxy header is read when the request comes from inside a trusted rang
     'every IPv4 address' => ['203.0.113.9', '0.0.0.0/0'],
 ]);
 
+/*
+ * Which address of the header is the visitor.
+ *
+ * A proxy adds the address that connected to it to the end of the header and keeps what was there.
+ * So whatever the visitor sent is on the left, and only the entries that trusted proxies added, on
+ * the right, can be believed.
+ */
+
+test('an address the visitor put in the header is not read', function () {
+    // The visitor at 203.0.113.5 sends "X-Forwarded-For: 198.51.100.7". The proxy adds the visitor.
+    $address = clientIpFor([
+        'HTTP_X_FORWARDED_FOR' => '198.51.100.7, 203.0.113.5',
+        'REMOTE_ADDR' => '10.0.0.1',
+    ], [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => '10.0.0.1',
+    ]);
+
+    expect($address)->toBe('203.0.113.5');
+});
+
+test('the trusted proxies in the header are skipped to reach the visitor', function () {
+    // Two proxies in a chain: 10.0.0.2 received the visitor and 10.0.0.1 connected to the server.
+    $address = clientIpFor([
+        'HTTP_X_FORWARDED_FOR' => '198.51.100.7, 203.0.113.5, 10.0.0.2',
+        'REMOTE_ADDR' => '10.0.0.1',
+    ], [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => '10.0.0.0/8',
+    ]);
+
+    expect($address)->toBe('203.0.113.5');
+});
+
+test('the first address is read when every address in the header is a trusted proxy', function () {
+    $address = clientIpFor([
+        'HTTP_X_FORWARDED_FOR' => '10.0.0.5, 10.0.0.2',
+        'REMOTE_ADDR' => '10.0.0.1',
+    ], [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => '10.0.0.0/8',
+    ]);
+
+    expect($address)->toBe('10.0.0.5');
+});
+
+test('an address in the header is read without its port and brackets', function (string $header, string $expected) {
+    $address = clientIpFor([
+        'HTTP_X_FORWARDED_FOR' => $header,
+        'REMOTE_ADDR' => '10.0.0.1',
+    ], [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => '10.0.0.0/8',
+    ]);
+
+    expect($address)->toBe($expected);
+})->with([
+    'IPv4 with a port' => ['203.0.113.5:4711', '203.0.113.5'],
+    'IPv6 in brackets with a port' => ['[2001:db8::7]:4711', '2001:db8::7'],
+    'IPv6 in brackets' => ['[2001:db8::7]', '2001:db8::7'],
+    'IPv6 as it is' => ['2001:db8::7', '2001:db8::7'],
+    'a trusted proxy with a port is still skipped' => ['203.0.113.5, 10.0.0.2:4711', '203.0.113.5'],
+    'an empty entry is skipped' => ['203.0.113.5, ', '203.0.113.5'],
+]);
+
+test('the address is read from the for parameter of the Forwarded header', function (string $header, string $expected) {
+    $address = clientIpFor([
+        'HTTP_FORWARDED' => $header,
+        'REMOTE_ADDR' => '10.0.0.1',
+    ], [
+        'proxy_http_header' => 'forwarded',
+        'trusted_proxies' => '10.0.0.0/8',
+    ]);
+
+    expect($address)->toBe($expected);
+})->with([
+    'a token' => ['for=203.0.113.5', '203.0.113.5'],
+    'with other parameters' => ['for=203.0.113.5;proto=https;by=10.0.0.1', '203.0.113.5'],
+    'after other parameters' => ['proto=https;For=203.0.113.5', '203.0.113.5'],
+    'a quoted IPv6 address with a port' => ['for="[2001:db8::7]:4711";proto=https', '2001:db8::7'],
+    'the last element that is not a trusted proxy' => ['for=198.51.100.7, for=203.0.113.5, for=10.0.0.2', '203.0.113.5'],
+    'an address with no parameter name' => ['203.0.113.5', '203.0.113.5'],
+]);
+
+test('the address is unknown when the entry of the visitor is not an address', function (string $header, string $value) {
+    // RFC 7239 lets a proxy hide the visitor behind "unknown" or an obfuscated name. Whatever is
+    // left of that entry was sent by the visitor.
+    $address = clientIpFor([
+        $header => $value,
+        'REMOTE_ADDR' => '10.0.0.1',
+    ], [
+        'proxy_http_header' => strtolower(str_replace('_', '-', substr($header, 5))),
+        'trusted_proxies' => '10.0.0.0/8',
+    ]);
+
+    expect($address)->toBe('unknown')
+        ->and(glsr_log()->get())->toContain('Unable to detect IP address');
+})->with([
+    'an obfuscated name' => ['HTTP_FORWARDED', 'for=198.51.100.7, for=_hidden'],
+    'an element with no for parameter' => ['HTTP_FORWARDED', 'for=198.51.100.7, proto=https;by=10.0.0.2'],
+    'a name in X-Forwarded-For' => ['HTTP_X_FORWARDED_FOR', '198.51.100.7, proxy.example.org'],
+]);
+
+test('a header added through the whip action is read from the left', function () {
+    // Whip keeps its header list private, so ClientIp cannot find the visitor in a header a code
+    // snippet adds. The Custom option of the tool is the way to have such a header read correctly.
+    add_action('site-reviews/whip', fn ($whip) => $whip->addCustomHeader('HTTP_X_SUCURI_CLIENTIP'));
+
+    $address = clientIpFor([
+        'HTTP_X_SUCURI_CLIENTIP' => '198.51.100.7, 203.0.113.5',
+        'REMOTE_ADDR' => '10.0.0.1',
+    ], [
+        'trusted_proxies' => '10.0.0.1',
+    ]);
+
+    expect($address)->toBe('198.51.100.7');
+});
+
 test('the address is unknown when a proxy is trusted and the request has no connecting address', function () {
     // Whip passes the missing address to IpWhitelist::isIpWhitelisted(string), which throws a
     // TypeError. `wp site-reviews ip-address` is such a request.
