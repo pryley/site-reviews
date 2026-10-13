@@ -74,7 +74,7 @@ test('the documentation says which columns are required and which addon they nee
 
     // a column that only exists with an addon says so, and a core column does not
     expect($table['date']['notice'])->toBe('')
-        ->and($table['images']['notice'])->toContain('addon required');
+        ->and($table['images']['notice'])->toContain('Review Images</a> required.');
 });
 
 test('the documented columns are listed in an order somebody could read', function () {
