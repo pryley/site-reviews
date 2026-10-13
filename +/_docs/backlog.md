@@ -5,6 +5,21 @@ Features are subject to change and are sorted alphabetically, not by priority.
 ## Proposed features
 
 - [ ] Add "More Details" modal to addons (ref: Plugins > Add New)
+- [ ] Confirm a rollback in a popup before it runs (ref: the popup of the Deactivate link on the
+  Plugins page). A rollback deletes the plugin files and replaces them, and one click on
+  "Rollback Plugin" starts it. The popup is also the place to say that the rollback will stop an
+  active addon from working, when it will; the tool shows that warning under the version
+  dropdown today (`MenuController::rollbackWarnings()`).
+
+  Also refuse the rollback when the plugin folder is a symlink or contains `.git`. Raised
+  2026-10-13: a rollback on a site that symlinks the plugin to a development checkout deleted the
+  checkout twice. WordPress moves the plugin folder to `wp-content/upgrade-temp-backup/plugins`
+  before the update, and for a symlinked folder it moves the link (seen on disk). The update
+  then deletes the old plugin through the link, and `_wp_delete_all_temp_backups()`
+  (`wp-includes/update.php`) later deletes everything in `upgrade-temp-backup` recursively, which
+  reaches the checkout again (read in the source, not run). The form also submits with GET to
+  `update.php` (`views/pages/tools/general/rollback-plugin.php`), so a reloaded or restored
+  browser tab repeats the rollback while the nonce is valid; submit it with POST.
 - [ ] Integrate with [Antispam Bee](https://wordpress.org/plugins/antispam-bee/)
 - [ ] Rating "0.1" increments?
 - [ ] Restrict displayed reviews by empty content (setting only?)
