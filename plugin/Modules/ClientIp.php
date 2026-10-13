@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\Vectorface\Whip\Whip;
 
 /**
@@ -30,12 +31,44 @@ class ClientIp
     }
 
     /**
+     * @return array<string, string> the proxy headers the tool lists, as name => label
+     */
+    public function headers(): array
+    {
+        return [
+            'cf-connecting-ip' => 'CF-Connecting-IP',
+            'client-ip' => 'Client-IP',
+            'forwarded' => 'Forwarded',
+            'forwarded-for' => 'Forwarded-For',
+            'incap-client-ip' => 'Incap-Client-IP',
+            'x-cluster-client-ip' => 'X-Cluster-Client-IP',
+            'x-forwarded' => 'X-Forwarded',
+            'x-forwarded-for' => 'X-Forwarded-For',
+            'x-real-ip' => 'X-Real-IP',
+        ];
+    }
+
+    /**
      * @return string[] the lines of a Trusted Proxies list that are not blank
      */
     public function lines(string $text): array
     {
         $lines = array_map('trim', (array) preg_split('/\R/', $text));
         return array_values(array_filter($lines, 'strlen'));
+    }
+
+    /**
+     * The name in the form the tool saves it: "HTTP_X_REAL_IP" is "x-real-ip".
+     */
+    public function normalizeHeader(string $header): string
+    {
+        $header = Str::removePrefix(strtolower(trim($header)), 'http_');
+        return glsr(Sanitizer::class)->sanitizeId(str_replace('_', '-', $header));
+    }
+
+    public function proxyHeader(): string
+    {
+        return $this->setting()->sanitize('proxy_http_header', 'id');
     }
 
     /**
@@ -90,11 +123,6 @@ class ClientIp
             return true;
         }
         return ctype_digit($mask) && (int) $mask <= $bits;
-    }
-
-    protected function proxyHeader(): string
-    {
-        return $this->setting()->sanitize('proxy_http_header', 'id');
     }
 
     protected function setting(): Arguments

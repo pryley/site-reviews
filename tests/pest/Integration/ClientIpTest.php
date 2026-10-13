@@ -255,6 +255,42 @@ test('a whitelist filter that returns no custom header list leaves no trusted pr
     expect($address)->toBe('203.0.113.9');
 });
 
+test('the tool lists the proxy headers a reverse proxy commonly sends', function () {
+    expect(array_keys(glsr(ClientIp::class)->headers()))->toBe([
+        'cf-connecting-ip',
+        'client-ip',
+        'forwarded',
+        'forwarded-for',
+        'incap-client-ip',
+        'x-cluster-client-ip',
+        'x-forwarded',
+        'x-forwarded-for',
+        'x-real-ip',
+    ]);
+});
+
+test('a custom header name is saved in the form the listed headers have', function (string $entered, string $saved) {
+    expect(glsr(ClientIp::class)->normalizeHeader($entered))->toBe($saved);
+})->with([
+    'as the proxy documents it' => ['X-Sucuri-ClientIP', 'x-sucuri-clientip'],
+    'as PHP shows it in $_SERVER' => ['HTTP_X_SUCURI_CLIENTIP', 'x-sucuri-clientip'],
+    'with underscores and padding' => [' x_real_ip ', 'x-real-ip'],
+    'with characters a header name cannot have' => ['X Client: IP', 'xclientip'],
+    'empty' => ['', ''],
+]);
+
+test('a custom header saved in the tool is read from a trusted proxy', function () {
+    $address = clientIpFor([
+        'HTTP_X_SUCURI_CLIENTIP' => '198.51.100.7',
+        'REMOTE_ADDR' => '10.0.0.1',
+    ], [
+        'proxy_http_header' => 'x-sucuri-clientip',
+        'trusted_proxies' => '10.0.0.1',
+    ]);
+
+    expect($address)->toBe('198.51.100.7');
+});
+
 test('a trusted proxies list is read one line at a time, whatever ends the lines', function () {
     // A browser posts a textarea with CRLF line endings; a list typed into the database or passed
     // to the filter may use LF, or a lone CR.

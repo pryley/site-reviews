@@ -12,6 +12,7 @@ const Tools = function () {
     })
     jQuery('#proxy_http_header').on('change', function (ev) {
         const val = jQuery(this).val();
+        jQuery('#custom_http_header').parent()['custom' === val ? 'removeClass' : 'addClass']('hidden')
         jQuery('#trusted_proxies').parent()['' === val ? 'addClass' : 'removeClass']('hidden')
     })
 };

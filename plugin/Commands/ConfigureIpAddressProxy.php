@@ -14,6 +14,11 @@ class ConfigureIpAddressProxy extends AbstractCommand
     public function __construct(Request $request)
     {
         $this->proxyHeader = $request->sanitize('proxy_http_header', 'id');
+        if ('custom' === $this->proxyHeader) {
+            $this->proxyHeader = glsr(ClientIp::class)->normalizeHeader(
+                $request->sanitize('custom_http_header', 'text')
+            );
+        }
         $this->trustedProxies = $request->sanitize('trusted_proxies', 'text-multiline');
     }
 

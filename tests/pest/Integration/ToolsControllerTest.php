@@ -202,6 +202,80 @@ test('the ip detection tool shows a saved trusted proxies list one range to a li
     expect($html)->toContain(">10.0.0.0/8\n10.0.0.3</textarea>");
 });
 
+test('the custom option saves the header name that was entered', function () {
+    glsr(ToolsController::class)->ipAddressDetection(new Request([
+        'custom_http_header' => 'X-Sucuri-ClientIP',
+        'proxy_http_header' => 'custom',
+        'trusted_proxies' => '10.0.0.1',
+    ]));
+
+    expect(get_option(glsr()->prefix.'ip_proxy'))->toBe([
+        'proxy_http_header' => 'x-sucuri-clientip',
+        'trusted_proxies' => '10.0.0.1',
+    ]);
+});
+
+test('the custom option saves no header when no name was entered', function () {
+    glsr(ToolsController::class)->ipAddressDetection(new Request([
+        'custom_http_header' => '',
+        'proxy_http_header' => 'custom',
+    ]));
+
+    expect(get_option(glsr()->prefix.'ip_proxy')['proxy_http_header'])->toBe('');
+});
+
+test('a listed header is saved as selected, whatever the custom field holds', function () {
+    // The custom field is hidden, not removed, when another option is selected, so the browser
+    // still posts what was typed into it.
+    glsr(ToolsController::class)->ipAddressDetection(new Request([
+        'custom_http_header' => 'X-Sucuri-ClientIP',
+        'proxy_http_header' => 'x-forwarded-for',
+    ]));
+
+    expect(get_option(glsr()->prefix.'ip_proxy')['proxy_http_header'])->toBe('x-forwarded-for');
+});
+
+test('the ip detection tool hides the custom header and trusted proxies while no header is selected', function () {
+    $html = glsr()->build('pages/tools/general/configure-ip-detection');
+
+    expect($html)
+        ->toContain('<option value="" selected=\'selected\'>None</option>')
+        ->toContain('<option value="custom">Custom</option>')
+        ->toMatch('/<div class="hidden">\s*<label for="custom_http_header">/')
+        ->toMatch('/<div class="full-width hidden">\s*<label for="trusted_proxies">/');
+});
+
+test('the ip detection tool shows trusted proxies, and not the custom header, for a listed header', function () {
+    update_option(glsr()->prefix.'ip_proxy', [
+        'proxy_http_header' => 'x-forwarded-for',
+        'trusted_proxies' => '10.0.0.1',
+    ]);
+
+    $html = glsr()->build('pages/tools/general/configure-ip-detection');
+
+    expect($html)
+        ->toContain('<option value="x-forwarded-for" selected=\'selected\'>X-Forwarded-For</option>')
+        ->toContain('<option value="custom">Custom</option>')
+        ->toContain('name="{{ id }}[custom_http_header]" value=""')
+        ->toMatch('/<div class="hidden">\s*<label for="custom_http_header">/')
+        ->toMatch('/<div class="full-width">\s*<label for="trusted_proxies">/');
+});
+
+test('the ip detection tool selects custom and shows the name for a saved header it does not list', function () {
+    update_option(glsr()->prefix.'ip_proxy', [
+        'proxy_http_header' => 'x-sucuri-clientip',
+        'trusted_proxies' => '10.0.0.1',
+    ]);
+
+    $html = glsr()->build('pages/tools/general/configure-ip-detection');
+
+    expect($html)
+        ->toContain('<option value="custom" selected=\'selected\'>Custom</option>')
+        ->toContain('name="{{ id }}[custom_http_header]" value="x-sucuri-clientip"')
+        ->toMatch('/<div class="">\s*<label for="custom_http_header">/')
+        ->toMatch('/<div class="full-width">\s*<label for="trusted_proxies">/');
+});
+
 test('the alt flag detects the ip address instead of configuring the proxy', function () {
     // "alt" switches the same route from saving a header to detecting the address from $_SERVER.
     // Whichever way it goes — a detected address, or the "unable to detect" warning if Whip rejects
