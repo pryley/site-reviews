@@ -5,6 +5,7 @@ use GeminiLabs\SiteReviews\Compat\Controllers\DeprecationController;
 use GeminiLabs\SiteReviews\Compat\Controllers\HookController;
 use GeminiLabs\SiteReviews\Compat\Hooks;
 use GeminiLabs\SiteReviews\Modules\Console;
+use GeminiLabs\Vectorface\Whip\Whip;
 
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
@@ -102,6 +103,36 @@ test('a snippet that still turns the 8.4.0 asset optimiser on is told once, and 
     glsr(HookController::class)->filterOptimizeAsset();
     $notices = implode(' ', glsr()->retrieveAs('array', 'deprecated'));
     expect($notices)->toContain('Hook site-reviews/optimize/css is', 'Hook site-reviews/optimize/js is', 'no longer combines');
+});
+
+test('a snippet that still hooks one of the two 7.0.6 IP detection filters is told, and its answer is not used', function () {
+    // Neither filter has been applied since 7.0.6. They are declared on the filter that replaced
+    // them so the snippet is named; what it returns changes nothing.
+    registerOldHooks([7]);
+    $trusted = [Whip::CUSTOM_HEADERS => [Whip::IPV4 => ['10.0.0.1'], Whip::IPV6 => []]];
+
+    expect(glsr()->filterArray('whip/whitelist', $trusted))->toBe($trusted)
+        ->and(glsr()->retrieveAs('array', 'deprecated'))->toBe([]);
+
+    add_filter('site-reviews/whip/methods', fn () => Whip::REMOTE_ADDR);
+    add_filter('site-reviews/whip/whitelist/cloudflare', '__return_true');
+
+    expect(glsr()->filterArray('whip/whitelist', $trusted))->toBe($trusted);
+    $notices = implode(' ', glsr()->retrieveAs('array', 'deprecated'));
+    expect($notices)->toContain(
+        'Hook site-reviews/whip/methods is',
+        'Hook site-reviews/whip/whitelist/cloudflare is',
+        'Configure IP Address Detection tool'
+    );
+});
+
+test('the 7.0.6 IP detection filters are not declared when the old hooks of version 7 are off', function () {
+    registerOldHooks([]);
+    add_filter('site-reviews/whip/methods', fn () => Whip::REMOTE_ADDR);
+
+    glsr()->filterArray('whip/whitelist', []);
+
+    expect(glsr()->retrieveAs('array', 'deprecated'))->toBe([]);
 });
 
 test('the two functions that 5.0 deprecated still exist, and each use is noted', function () {

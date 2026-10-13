@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Compat\Controllers;
 use GeminiLabs\SiteReviews\Controllers\AbstractController;
 use GeminiLabs\SiteReviews\Modules\Html\Form;
 use GeminiLabs\SiteReviews\Review;
+use GeminiLabs\Vectorface\Whip\Whip;
 
 class HookController extends AbstractController
 {
@@ -161,6 +162,17 @@ class HookController extends AbstractController
             '5.0',
             'site-reviews/review-form/fields/order'
         );
+    }
+
+    /**
+     * @filter site-reviews/whip/whitelist
+     */
+    public function filterWhipWhitelist(array $whitelist): array
+    {
+        $message = 'Use the Configure IP Address Detection tool to select the proxy HTTP header and enter its trusted proxies.';
+        apply_filters_deprecated('site-reviews/whip/methods', [Whip::ALL_METHODS], '7.0.6', '', $message);
+        apply_filters_deprecated('site-reviews/whip/whitelist/cloudflare', [false], '7.0.6', '', $message);
+        return $whitelist;
     }
 
     /**
