@@ -233,6 +233,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Fixed "unique key" warnings in the browser console of the block editor
 - Fixed IP address detection with a Forwarded proxy HTTP header that puts the address in quotes
 - Fixed PHP warnings on admin pages for users without access to Site Reviews
+- Fixed MultilingualPress copying review images outside of the "site-reviews" uploads folder
 - Fixed the settings and license key of a deactivated addon being removed when the plugin adds a new setting
 - Fixed a license key entered in the field of another addon being reported as "not activated for your website" instead of as a key for a different product
 - Fixed a license with unlimited site activations being refused when it was not yet activated for the website
