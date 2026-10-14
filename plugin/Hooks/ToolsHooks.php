@@ -13,6 +13,7 @@ class ToolsHooks extends AbstractHooks
             ['changeConsoleLevelAjax', 'site-reviews/route/ajax/console-level'],
             ['clearConsole', 'site-reviews/route/admin/clear-console'],
             ['clearConsoleAjax', 'site-reviews/route/ajax/clear-console'],
+            ['clearRollbackVersion', 'upgrader_process_complete', 1, 2],
             ['convertTableEngine', 'site-reviews/route/admin/convert-table-engine'],
             ['convertTableEngineAjax', 'site-reviews/route/ajax/convert-table-engine'],
             ['downloadConsole', 'site-reviews/route/admin/download-console'],

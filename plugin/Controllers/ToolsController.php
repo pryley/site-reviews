@@ -73,6 +73,21 @@ class ToolsController extends AbstractController
     }
 
     /**
+     * Forget the stored rollback version once WordPress has processed this plugin.
+     *
+     * @param mixed $upgrader
+     *
+     * @action upgrader_process_complete:1
+     */
+    public function clearRollbackVersion($upgrader, array $options): void
+    {
+        $plugins = (array) ($options['plugins'] ?? []);
+        if ('plugin' === ($options['type'] ?? '') && in_array(glsr()->basename, $plugins, true)) {
+            delete_transient(glsr()->prefix.'rollback_version');
+        }
+    }
+
+    /**
      * @action site-reviews/route/admin/convert-table-engine
      */
     public function convertTableEngine(Request $request): void
@@ -209,15 +224,15 @@ class ToolsController extends AbstractController
      */
     public function filterUpdatePluginsTransient($value)
     {
+        if (!is_object($value) || !glsr(Rollback::class)->isUpdateRequest()) {
+            return $value;
+        }
         if ($version = get_transient(glsr()->prefix.'rollback_version')) {
-            $update = (object) [
+            $value->response[glsr()->basename] = (object) [
                 'new_version' => $version,
                 'package' => sprintf('https://downloads.wordpress.org/plugin/%s.%s.zip', glsr()->id, $version),
                 'slug' => glsr()->id,
             ];
-            if (is_object($value)) {
-                $value->response[glsr()->basename] = $update;
-            }
         }
         return $value;
     }
