@@ -35,7 +35,13 @@
                 ); ?>
             </p>
             <script><?php echo $rollback_script; ?></script>
-            <form id="rollback-plugin" method="get" action="<?php echo admin_url('update.php'); ?>">
+            <div class="hide-if-js">
+                <?php echo wp_get_admin_notice(
+                    _x('The Rollback Plugin tool needs JavaScript.', 'admin-text', 'site-reviews'),
+                    ['type' => 'warning', 'additional_classes' => ['inline']]
+                ); ?>
+            </div>
+            <form id="rollback-plugin" class="hide-if-no-js">
                 <input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce('rollback-'.glsr()->id); ?>">
                 <input type="hidden" name="action" value="<?php echo 'rollback-'.glsr()->id; ?>">
                 <div id="rollback-warning" class="notice notice-warning inline" hidden><p></p></div>
