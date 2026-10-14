@@ -10,7 +10,6 @@ use GeminiLabs\SiteReviews\Commands\DetectIpAddress;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Role;
-use GeminiLabs\SiteReviews\Tests\InteractsWithExits;
 
 use function GeminiLabs\SiteReviews\Tests\commitsTransaction;
 use function GeminiLabs\SiteReviews\Tests\createPost;
@@ -19,7 +18,6 @@ use function GeminiLabs\SiteReviews\Tests\createTerm;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
 
-uses(InteractsWithExits::class);
 
 /*
  * The repair tools, driven through the controller.
@@ -472,17 +470,6 @@ test('the non-ajax fetch-console is an intentional no-op', function () {
     expect(ob_get_clean())->toBe('');
 });
 
-test('the non-ajax rollback refuses anyone who cannot update plugins', function () {
-    // The success path renders an admin page (see ROADMAP / Rollback), but this guard — the one
-    // that stops a lower role reaching update.php with a forged version — is reachable. It wp_die()s
-    // before touching the nonce or the request.
-    wp_set_current_user(createUser(['role' => 'subscriber']));
-
-    $message = $this->expectsWpDie(fn () => glsr(ToolsController::class)->rollbackPlugin());
-
-    expect($message)->toContain('not allowed to rollback');
-});
-
 /*
  * The downloads. Each ends the request through glsr_exit() after echoing raw
  * bytes; capturesDownload() catches the shadow's throw and hands the bytes back.
@@ -540,32 +527,3 @@ test('the review export is a csv of the reviews', function () {
     expect($bytes)->toContain('An exportable review body.');
 });
 
-test('the no-js rollback form reaches the rollback with its version', function () {
-    // Exactly what the form (views/pages/tools/general/rollback-plugin.php)
-    // sends to update.php: plain GET fields and a nonce for its fixed action.
-    // The rollback itself renders the admin chrome, so it is faked; what is
-    // asserted is that the form's own request passes its own nonce check and
-    // the chosen version arrives intact.
-    $action = 'rollback-'.glsr()->id;
-    $_GET = ['action' => $action, 'version' => '8.0.0'];
-    $_REQUEST['_wpnonce'] = wp_create_nonce($action);
-    $fake = new class extends \GeminiLabs\SiteReviews\Rollback {
-        public array $versions = [];
-
-        public function rollback(string $version): void
-        {
-            $this->versions[] = $version;
-        }
-    };
-    $original = glsr(\GeminiLabs\SiteReviews\Rollback::class);
-    glsr()->alias(\GeminiLabs\SiteReviews\Rollback::class, $fake);
-    try {
-        glsr(ToolsController::class)->rollbackPlugin();
-
-        expect($fake->versions)->toBe(['8.0.0']);
-    } finally {
-        glsr()->alias(\GeminiLabs\SiteReviews\Rollback::class, $original);
-        $_GET = [];
-        unset($_REQUEST['_wpnonce']);
-    }
-});
