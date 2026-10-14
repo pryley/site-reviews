@@ -15,6 +15,7 @@ use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\SettingForm;
 use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Modules\UpdateLock;
 use GeminiLabs\SiteReviews\Overrides\ScheduledActionsTable;
 
 class MenuController extends AbstractController
@@ -227,6 +228,7 @@ class MenuController extends AbstractController
                     'id' => glsr()->id,
                 ],
                 'myisam_tables' => Arr::get(glsr(Tables::class)->tableEngines(), 'MyISAM', []),
+                'rollback_locked' => glsr(UpdateLock::class)->isLocked(glsr()->basename),
                 'rollback_script' => file_get_contents(glsr()->path('assets/scripts/rollback.js')),
                 'rollback_versions' => glsr(Cache::class)->getPluginVersions(),
                 'rollback_warnings' => $this->rollbackWarnings(glsr(Cache::class)->getPluginVersions()),

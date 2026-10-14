@@ -226,6 +226,7 @@ This update requires a minimum of PHP 8.1.2 and WordPress 6.8. There are a few p
 - Added the `site-reviews/rest-api/routes` filter hook to name the REST API route that a form is submitted to
 - Added a `source()` method to the plugin object for developers: the text of the plugin's template for a view, the plugin style's where it has one
 - Changed the names of the Javascript events, the previous names keep working while Compatibility Mode is enabled
+- Changed updates and rollbacks to be turned off when the plugin folder is a git repository
 - Changed the Contact Form 7 style's field template to use the `{{ field_id }}` and `{{ field_label }}` template tags instead of PHP
 - Changed the website address sent to the license server by a sub-site of a network with its own domain: it is now the sub-site's address instead of the network's, and its saved licenses are activated for it once
 - Fixed "unique key" warnings in the browser console of the block editor

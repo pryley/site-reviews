@@ -27,6 +27,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\SystemInfo;
+use GeminiLabs\SiteReviews\Modules\UpdateLock;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Rollback;
 
@@ -428,6 +429,11 @@ class ToolsController extends AbstractController
         if (!current_user_can('update_plugins')) {
             wp_send_json_error([
                 'error' => _x('You do not have permission to rollback the plugin.', 'admin-text', 'site-reviews'),
+            ]);
+        }
+        if (glsr(UpdateLock::class)->isLocked(glsr()->basename)) {
+            wp_send_json_error([
+                'error' => _x('Rollback is unavailable because the Site Reviews folder is a git repository.', 'admin-text', 'site-reviews'),
             ]);
         }
         wp_send_json_success(

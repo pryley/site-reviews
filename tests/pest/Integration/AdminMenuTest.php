@@ -3,10 +3,12 @@
 use GeminiLabs\SiteReviews\Controllers\MenuController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Html\SettingForm;
+use GeminiLabs\SiteReviews\Modules\UpdateLock;
 
 use function GeminiLabs\SiteReviews\Tests\createReview;
 use function GeminiLabs\SiteReviews\Tests\createUser;
 use function GeminiLabs\SiteReviews\Tests\resetPluginState;
+use function GeminiLabs\SiteReviews\Tests\swapInstance;
 
 /*
  * The plugin's admin menu, and the pages behind it.
@@ -51,6 +53,16 @@ function renderedPage(string $method): string
     glsr(MenuController::class)->$method();
 
     return (string) ob_get_clean();
+}
+
+function unlockedForMenu(): UpdateLock
+{
+    return new class extends UpdateLock {
+        public function isLocked(string $basename): bool
+        {
+            return false;
+        }
+    };
 }
 
 /*
@@ -256,7 +268,9 @@ test('the tools page renders', function () {
         'versions' => ['7.2.0' => '', '8.0.0' => '', 'trunk' => ''],
     ], 10, 3);
 
-    $html = renderedPage('renderToolsMenuCallback');
+    // wp-env mounts this repository as the plugin, which locks the rollback tool; the fake
+    // unlocks it so the page renders the form a site without a repository gets.
+    $html = swapInstance(UpdateLock::class, unlockedForMenu(), fn () => renderedPage('renderToolsMenuCallback'));
 
     expect($html)->toContain('8.0.0'); // a version to roll back to
 

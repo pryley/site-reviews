@@ -403,6 +403,7 @@ test('the rollback card warns which registered addons a version would stop', fun
             ->and($warnings['7.9.0'])->not->toContain('deactivated stay inactive');
 
         $page = glsr()->build('pages/tools/general/rollback-plugin', [
+            'rollback_locked' => false,
             'rollback_script' => '',
             'rollback_versions' => ['8.4.0', '7.9.0'],
             'rollback_warnings' => $warnings,

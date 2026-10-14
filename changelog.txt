@@ -10,6 +10,7 @@
 - Added the `site-reviews/assets/config` filter hook to change the values that are passed to the plugin scripts
 - Added the `site-reviews/rest-api/routes` filter hook to name the REST API route that a form is submitted to
 - Changed the names of the Javascript events, the previous names keep working while Compatibility Mode is enabled
+- Changed updates and rollbacks to be turned off when the plugin folder is a git repository
 - Fixed "unique key" warnings in the browser console of the block editor
 - Fixed PHP warnings on admin pages for users without access to Site Reviews
 - Fixed the settings and license key of a deactivated addon being removed when the plugin adds a new setting
